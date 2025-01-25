@@ -14,7 +14,7 @@ use Prometheus\Storage\InMemory;
 use Prometheus\Storage\Redis;
 use Psr\Cache\CacheItemInterface;
 
-final class MetricCollector
+class MetricCollector
 {
     private ?CollectorRegistry $collectorRegistry = null;
     private ?Adapter $storageAdapter = null;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Controller\ContentManagement;
 
 use EMS\CoreBundle\Entity\ManagedAlias;
@@ -92,7 +94,7 @@ class ManagedAliasController extends AbstractController
     }
 
     /**
-     * @param FormInterface<FormInterface> $form
+     * @param FormInterface<mixed> $form
      *
      * @return array<mixed>
      */

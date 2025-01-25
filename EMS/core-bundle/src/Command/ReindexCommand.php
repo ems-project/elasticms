@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Command;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
@@ -134,8 +136,6 @@ class ReindexCommand extends AbstractCommand
 
         /** @var EntityManager $em */
         $em = $this->doctrine->getManager();
-
-        $em->getConnection()->getConfiguration()->setSQLLogger(null);
 
         /** @var EnvironmentRepository $envRepo */
         $envRepo = $em->getRepository(Environment::class);

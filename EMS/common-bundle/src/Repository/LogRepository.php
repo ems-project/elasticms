@@ -49,15 +49,15 @@ class LogRepository extends ServiceEntityRepository
     public function insertRecord(array $record): void
     {
         $query = <<<QUERY
-            INSERT INTO log_message (
-                id, created, modified, message, context,
-                level, level_name, channel, extra, formatted,
-                username, impersonator, ouuid
-            ) VALUES (
-                :id, :created, :modified, :message, :context,
-                :level, :level_name, :channel, :extra, :formatted,
-                :username, :impersonator, :ouuid);
-QUERY;
+                        INSERT INTO log_message (
+                            id, created, modified, message, context,
+                            level, level_name, channel, extra, formatted,
+                            username, impersonator, ouuid
+                        ) VALUES (
+                            :id, :created, :modified, :message, :context,
+                            :level, :level_name, :channel, :extra, :formatted,
+                            :username, :impersonator, :ouuid);
+            QUERY;
 
         $record['id'] = Uuid::uuid1()->toString();
         $record['created'] = $record['datetime'];

@@ -20,8 +20,9 @@ class LoginCommand extends AbstractCommand
     private const string OPTION_USERNAME = 'username';
     private const string OPTION_PASSWORD = 'password';
     private string $username;
+    private ?string $backendUrl = null;
 
-    public function __construct(private readonly AdminHelper $adminHelper, private ?string $backendUrl)
+    public function __construct(private readonly AdminHelper $adminHelper)
     {
         parent::__construct();
     }
@@ -41,7 +42,8 @@ class LoginCommand extends AbstractCommand
     protected function interact(InputInterface $input, OutputInterface $output): void
     {
         if (null === $this->backendUrl) {
-            $this->backendUrl = \strval($this->io->askQuestion(new Question('Elasticm\'s URL')));
+            $defaultBaseUrl = $this->adminHelper->getDefaultBaseUrl();
+            $this->backendUrl = $defaultBaseUrl ?? (string) $this->io->askQuestion(new Question('Elasticms URL'));
         }
 
         if (null === $input->getOption(self::OPTION_USERNAME)) {
@@ -59,10 +61,7 @@ class LoginCommand extends AbstractCommand
     {
         parent::initialize($input, $output);
         $this->adminHelper->setLogger(new ConsoleLogger($output));
-        $baseUrl = $this->getArgumentStringNull(self::ARG_BASE_URL);
-        if (null !== $baseUrl) {
-            $this->backendUrl = $baseUrl;
-        }
+        $this->backendUrl = $this->getArgumentStringNull(self::ARG_BASE_URL);
     }
 
     #[\Override]

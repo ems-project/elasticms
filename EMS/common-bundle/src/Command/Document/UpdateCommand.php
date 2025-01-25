@@ -15,7 +15,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\SplFileInfo;
 
 class UpdateCommand extends AbstractCommand
 {
@@ -83,9 +82,6 @@ class UpdateCommand extends AbstractCommand
         $jsonFiles = $finder->in($directory)->files()->name('*.json');
         $this->io->progressStart($jsonFiles->count());
         foreach ($jsonFiles as $file) {
-            if (!$file instanceof SplFileInfo) {
-                throw new \RuntimeException('Unexpected SplFileInfo object');
-            }
             $ouuid = $file->getBasename('.json');
             if ($this->onlyMissing && $dataApi->head($ouuid)) {
                 $this->io->progressAdvance();

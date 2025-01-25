@@ -33,8 +33,8 @@ final class JsonMenuNestedController extends AbstractController
         private readonly RevisionService $revisionService,
         private readonly DataService $dataService,
         private readonly UserService $userService,
-        private readonly string $templateNamespace)
-    {
+        private readonly string $templateNamespace
+    ) {
     }
 
     public function modal(Request $request, Revision $revision, FieldType $fieldType): JsonResponse
@@ -72,7 +72,9 @@ final class JsonMenuNestedController extends AbstractController
             $isValid = $this->dataService->isValid($formDataField, null, $objectArray);
 
             if ($isValid || $form->isValid()) {
-                $this->dataService->getPostProcessing()->jsonMenuNested($formDataField, $revision->giveContentType(), $objectArray);
+                if (\is_array($objectArray)) {
+                    $this->dataService->getPostProcessing()->jsonMenuNested($formDataField, $revision->giveContentType(), $objectArray);
+                }
 
                 return $this->getAjaxModal()->getSuccessResponse([
                     'html' => $this->jsonMenuRenderer->generateNestedItem($requestData['config'], [
@@ -195,7 +197,7 @@ final class JsonMenuNestedController extends AbstractController
      */
     private function getRequestData(Request $request): array
     {
-        if ('json' === $request->getContentType()) {
+        if ('json' === $request->getContentTypeFormat()) {
             $requestContent = $request->getContent();
             $decoded = \is_string($requestContent) && \strlen($requestContent) > 0 ? Json::decode($requestContent) : [];
 

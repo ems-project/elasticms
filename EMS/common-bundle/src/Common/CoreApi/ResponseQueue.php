@@ -21,7 +21,7 @@ class ResponseQueue implements \Countable
     #[\Override]
     public function count(): int
     {
-        return $this->count;
+        return \max($this->count, 0);
     }
 
     public function addFlushCallback(callable $callback): self

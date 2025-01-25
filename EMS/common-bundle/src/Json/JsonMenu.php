@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CommonBundle\Json;
 
 use EMS\Helpers\ArrayHelper\ArrayHelper;

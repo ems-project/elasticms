@@ -13,6 +13,9 @@ interface DataInterface
     public const MODE_UPDATE = 1;
     public const MODE_REPLACE = 2;
 
+    /** @param array<string, mixed> $data */
+    public function autoSave(int $revisionId, array $data): bool;
+
     /**
      * @param array<string, mixed> $rawData
      *
@@ -34,6 +37,9 @@ interface DataInterface
      * @throws CoreApiExceptionInterface
      */
     public function finalize(int $revisionId): string;
+
+    /** @return array{'id': int, 'data': array<string, mixed>} */
+    public function getDraft(int $revisionId): array;
 
     /**
      * @param array<string, mixed> $rawData

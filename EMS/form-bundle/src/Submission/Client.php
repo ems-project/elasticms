@@ -22,7 +22,7 @@ class Client
     }
 
     /**
-     * @param FormInterface<FormInterface> $form
+     * @param FormInterface<mixed> $form
      *
      * @return array<string, array<array<string, string>>|string>
      */

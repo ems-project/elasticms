@@ -9,7 +9,7 @@
     "authors": [
         {
             "name": "EMS Community",
-            "homepage": "https://github.com/ems-project/EMSCommonBundle/contributors"
+            "homepage": "https://github.com/ems-project/elasticms/contributors"
         }
     ],
     "require": {
@@ -25,14 +25,14 @@
         "cebe/markdown": "^1.2",
         "doctrine/doctrine-bundle": "^2.11",
         "doctrine/orm": "^2.17",
-        "dompdf/dompdf": "^v2.0",
+        "dompdf/dompdf": "^v3.1",
         "elasticms/helpers": "6.0.*",
         "guzzlehttp/guzzle": "^7.8",
         "maennchen/zipstream-php": "^3.0",
-        "phpoffice/phpspreadsheet": "^1.29",
+        "phpoffice/phpspreadsheet": "^3.8",
         "promphp/prometheus_client_php": "^2.9",
-        "psr/simple-cache": "^2.0",
-        "ramsey/uuid-doctrine": "^1.8",
+        "psr/simple-cache": "^3.0",
+        "ramsey/uuid-doctrine": "^2.1",
         "ruflin/elastica": "^7.3",
         "symfony/console": "6.4.*",
         "symfony/dom-crawler": "6.4.*",
@@ -60,25 +60,13 @@
         "twig/string-extra": "^3.8",
         "twig/twig": "^3.8"
     },
-    "require-dev": {
-        "symfony/test-pack": "^1.0",
-        "symfony/yaml": "6.4.*"
-    },
     "autoload": {
         "psr-4": {
             "EMS\\CommonBundle\\": "src/"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "EMS\\CommonBundle\\Tests\\": "tests/"
-        }
-    },
     "config": {
         "lock": false,
         "sort-packages": true
-    },
-    "scripts": {
-        "phpunit": "phpunit"
     }
 }

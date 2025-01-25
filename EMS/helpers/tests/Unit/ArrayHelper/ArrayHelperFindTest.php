@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace EMS\Helpers\Tests\Unit\ArrayHelper;
 
 use EMS\Helpers\ArrayHelper\ArrayHelper;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class ArrayHelperFindTest extends TestCase
 {
-    public function provider(): array
+    public static function provider(): array
     {
         return [
             'test simple find' => ['find', ['a' => 1, 'b' => 2, 'find' => 'test'], ['test']],
@@ -20,9 +21,7 @@ class ArrayHelperFindTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provider
-     */
+    #[DataProvider('provider')]
     public function testFind($searchValue, array $data, array $expectedResult): void
     {
         $this->assertSame($expectedResult, ArrayHelper::find($searchValue, $data));

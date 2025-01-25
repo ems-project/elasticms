@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CommonBundle\Common\CoreApi\Search;
 
 use EMS\CommonBundle\Common\CoreApi\Client;

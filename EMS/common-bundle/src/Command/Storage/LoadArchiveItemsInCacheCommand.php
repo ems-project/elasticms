@@ -12,6 +12,7 @@ use EMS\CommonBundle\Storage\StorageManager;
 use EMS\Helpers\File\TempDirectory;
 use EMS\Helpers\File\TempFile;
 use EMS\Helpers\Html\MimeTypes;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -19,11 +20,15 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
+#[AsCommand(
+    name: Commands::LOAD_ARCHIVE_IN_CACHE,
+    description: 'Load archive\'s items in cache',
+    hidden: false
+)]
 class LoadArchiveItemsInCacheCommand extends AbstractCommand
 {
     public const ARGUMENT_ARCHIVE_HASH = 'archive-hash';
     public const OPTION_CONTINUE = 'continue';
-    protected static $defaultName = Commands::LOAD_ARCHIVE_IN_CACHE;
     private string $archiveHash;
     private int $continue;
 
@@ -37,7 +42,6 @@ class LoadArchiveItemsInCacheCommand extends AbstractCommand
     {
         parent::configure();
         $this
-            ->setDescription('Load archive\'s items in cache')
             ->addArgument(self::ARGUMENT_ARCHIVE_HASH, InputArgument::REQUIRED, 'Hash of the archive file')
             ->addOption(self::OPTION_CONTINUE, null, InputOption::VALUE_OPTIONAL, 'Restart the load in cache from the specified item in the archive', 0)
         ;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Form\DataField;
 
 use EMS\CoreBundle\Entity\DataField;
@@ -32,8 +34,8 @@ class CollectionFieldType extends DataFieldType
         FormRegistryInterface $formRegistry,
         ElasticsearchService $elasticsearchService,
         private readonly DataService $dataService,
-        private readonly LoggerInterface $logger)
-    {
+        private readonly LoggerInterface $logger
+    ) {
         parent::__construct($authorizationChecker, $formRegistry, $elasticsearchService);
     }
 
@@ -99,8 +101,8 @@ class CollectionFieldType extends DataFieldType
     }
 
     /**
-     * @param FormInterface<FormInterface> $form
-     * @param array<string, mixed>         $options
+     * @param FormInterface<mixed> $form
+     * @param array<string, mixed> $options
      */
     #[\Override]
     public function buildView(FormView $view, FormInterface $form, array $options): void
@@ -186,8 +188,7 @@ class CollectionFieldType extends DataFieldType
                 ->add('renumbering', CheckboxType::class, [
                     'required' => false,
                     'label' => 'Items will be renumbered',
-                ])
-                ->remove('index');
+                ]);
         }
 
         // an optional icon can't be specified ritgh to the container label

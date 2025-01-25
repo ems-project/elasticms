@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CommonBundle\Search;
 
 use Elastica\Aggregation\AbstractAggregation;
@@ -80,11 +82,11 @@ class Search
     }
 
     /**
-     * @return string[]
+     * @return list<string>
      */
     public function getContentTypes(): array
     {
-        return $this->contentTypes;
+        return \array_values($this->contentTypes);
     }
 
     /**
@@ -356,7 +358,7 @@ class Search
             $subAggregations = self::parseAggs($agg['aggs']);
             unset($agg['aggs']);
         }
-        if (!\is_array($agg) || 1 !== \count($agg)) {
+        if (1 !== \count($agg)) {
             throw new \RuntimeException('Unexpected aggregation basename');
         }
         $aggregation = new ElasticaAggregation($name);

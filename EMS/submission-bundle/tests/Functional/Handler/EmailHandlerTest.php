@@ -9,7 +9,7 @@ use Symfony\Component\Mailer\EventListener\MessageLoggerListener;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 
-final class EmailHandlerTest extends AbstractHandlerTest
+final class EmailHandlerTest extends AbstractHandlerTestCase
 {
     private MessageLoggerListener $messageLogger;
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Controller;
 
 use Elasticsearch\Common\Exceptions\ElasticsearchException;
@@ -74,8 +76,8 @@ class ElasticsearchController extends AbstractController
         private readonly int $pagingSize,
         private readonly ?string $healthCheckAllowOrigin,
         private readonly array $elasticsearchCluster,
-        private readonly string $templateNamespace)
-    {
+        private readonly string $templateNamespace
+    ) {
     }
 
     public function addAlias(string $name, Request $request): Response

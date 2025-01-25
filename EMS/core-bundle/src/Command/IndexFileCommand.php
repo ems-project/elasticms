@@ -1,9 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Command;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Platforms\MySQLPlatform;
+use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\ORM\EntityManager;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Helper\EmsFields;
@@ -13,6 +17,7 @@ use EMS\CoreBundle\Repository\RevisionRepository;
 use EMS\CoreBundle\Service\AssetExtractorService;
 use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\FileService;
+use EMS\Helpers\File\File;
 use EMS\Helpers\File\TempFile;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -211,7 +216,7 @@ class IndexFileCommand extends AbstractCommand
                     if (\sha1($fileContent) === $rawData[EmsFields::CONTENT_FILE_HASH_FIELD]) {
                         $tempFile = TempFile::create();
                         $file = $tempFile->path;
-                        \file_put_contents($file, $fileContent);
+                        File::putContents($file, $fileContent);
                         try {
                             $this->fileService->uploadFile($rawData[EmsFields::CONTENT_FILE_NAME_FIELD] ?? 'filename.bin', $rawData[EmsFields::CONTENT_MIME_TYPE_FIELD] ?? 'application/bin', $file, self::SYSTEM_USERNAME);
                             $output->writeln(\sprintf('File restored from DB: %s', $rawData[EmsFields::CONTENT_FILE_HASH_FIELD]));
@@ -277,9 +282,11 @@ class IndexFileCommand extends AbstractCommand
         }
         $dbName = $connection->getDatabase();
 
-        if (\in_array($connection->getDriver()->getDatabasePlatform()->getName(), ['postgresql'])) {
+        $platform = $connection->getDatabasePlatform();
+
+        if ($platform instanceof PostgreSQLPlatform) {
             $query = "SELECT pg_size_pretty(pg_database_size('$dbName')) AS size";
-        } elseif (\in_array($connection->getDriver()->getDatabasePlatform()->getName(), ['mysql'])) {
+        } elseif ($platform instanceof MySQLPlatform) {
             $query = "SELECT SUM(data_length + index_length)/1024/1024 AS size FROM information_schema.TABLES WHERE table_schema='$dbName' GROUP BY table_schema";
         } else {
             throw new \RuntimeException('Not supported driver');

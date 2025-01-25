@@ -38,7 +38,7 @@ final readonly class ApiController
 
     public function getSubmissionFile(string $apiName, string $submissionId, string $submissionFileId): Response
     {
-        $coreApi = $this->service->getApiClient($apiName)->coreApi;
+        $coreApi = $this->service->getApiClient($apiName)->getCoreApi();
 
         try {
             return $coreApi->form()->getSubmissionFileAsStreamResponse($submissionId, $submissionFileId);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Entity\Form;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -191,11 +193,11 @@ class Search implements \JsonSerializable
     }
 
     /**
-     * @return string[]
+     * @return list<string>
      */
     public function getContentTypes(): array
     {
-        return $this->contentTypes;
+        return \array_values($this->contentTypes);
     }
 
     /**

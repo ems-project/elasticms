@@ -33,8 +33,8 @@ class ImporterViewType extends ViewType
         private readonly JobService $jobService,
         private readonly TokenStorageInterface $security,
         private readonly RouterInterface $router,
-        private readonly string $templateNamespace)
-    {
+        private readonly string $templateNamespace
+    ) {
         parent::__construct($formFactory, $twig, $logger, $templateNamespace);
     }
 
@@ -51,8 +51,8 @@ class ImporterViewType extends ViewType
     }
 
     /**
-     * @param FormBuilderInterface<FormBuilderInterface> $builder
-     * @param array<string, mixed>                       $options
+     * @param FormBuilderInterface<mixed> $builder
+     * @param array<string, mixed>        $options
      */
     #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void

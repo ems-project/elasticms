@@ -7,7 +7,7 @@ namespace EMS\CoreBundle\Tests\Unit\Core\ContentType\Transformer;
 use EMS\CoreBundle\Core\ContentType\Transformer\ContentTransformerInterface;
 use EMS\CoreBundle\Core\ContentType\Transformer\HtmlRemoveNodeTransformer;
 
-final class HtmlRemoveNodeTransformerTest extends AbstractTransformerTest
+final class HtmlRemoveNodeTransformerTest extends AbstractTransformerTestCase
 {
     #[\Override]
     protected function getTransformer(): ContentTransformerInterface
@@ -28,41 +28,41 @@ final class HtmlRemoveNodeTransformerTest extends AbstractTransformerTest
     public function testRemoveEmptyHtml(): void
     {
         $input = <<<HTML
-<!DOCTYPE html>
-<html lang="en">
-    <body class="page">
-        <h1>Test</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        <div class="deletedContent">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        </div>
-        <p>Donec scelerisque vulputate congue. Ut tortor libero, pellentesque at porttitor sollicitudin, aliquam vel tortor.</p>
-        <div class="test-wrapper">
-            <div class="deletedContent">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            </div>
-        </div>
-    </body>
-</html>
-HTML;
+            <!DOCTYPE html>
+            <html lang="en">
+                <body class="page">
+                    <h1>Test</h1>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <div class="deletedContent">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    </div>
+                    <p>Donec scelerisque vulputate congue. Ut tortor libero, pellentesque at porttitor sollicitudin, aliquam vel tortor.</p>
+                    <div class="test-wrapper">
+                        <div class="deletedContent">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        </div>
+                    </div>
+                </body>
+            </html>
+            HTML;
 
         $output = <<<HTML
-<!DOCTYPE html>
-<html lang="en"><body class="page">
-        <h1>Test</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        
-        <p>Donec scelerisque vulputate congue. Ut tortor libero, pellentesque at porttitor sollicitudin, aliquam vel tortor.</p>
-        <div class="test-wrapper">
-            
-        </div>
-    </body>
-</html>
-HTML;
+            <!DOCTYPE html>
+            <html lang="en"><body class="page">
+                    <h1>Test</h1>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    
+                    <p>Donec scelerisque vulputate congue. Ut tortor libero, pellentesque at porttitor sollicitudin, aliquam vel tortor.</p>
+                    <div class="test-wrapper">
+                        
+                    </div>
+                </body>
+            </html>
+            HTML;
 
         $this->assertEqualsInputOutPut($input, $output, [
             'element' => 'div',

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CommonBundle\Elasticsearch\Aggregation;
 
 class Bucket
@@ -21,7 +23,7 @@ class Bucket
     }
 
     /**
-     * @return \Traversable<Bucket>|Bucket[]
+     * @return \Traversable<Bucket>
      */
     public function getSubBucket(string $name): \Traversable
     {

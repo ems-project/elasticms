@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Form\DataField;
 
 use EMS\CoreBundle\Entity\DataField;
@@ -28,8 +30,8 @@ class IconFieldType extends DataFieldType
     }
 
     /**
-     * @param FormBuilderInterface<FormBuilderInterface> $builder
-     * @param array<string, mixed>                       $options
+     * @param FormBuilderInterface<mixed> $builder
+     * @param array<string, mixed>        $options
      */
     #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -48,7 +50,7 @@ class IconFieldType extends DataFieldType
     {
         $out = parent::getDefaultOptions($name);
 
-        $out['mappingOptions']['index'] = 'not_analyzed';
+        $out['mappingOptions']['analyzer'] = 'keyword';
 
         return $out;
     }

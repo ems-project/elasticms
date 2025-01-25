@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\Xliff\Xliff;
 
 use EMS\Xliff\XML\DomHelper;

@@ -9,8 +9,8 @@ class SubmissionConfig implements \JsonSerializable
     public function __construct(
         private readonly string $class,
         private readonly string $endpoint,
-        private readonly string $message)
-    {
+        private readonly string $message
+    ) {
     }
 
     /**

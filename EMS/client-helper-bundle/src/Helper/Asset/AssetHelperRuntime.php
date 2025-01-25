@@ -115,7 +115,7 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
         return $this->versionHash;
     }
 
-    public function getVersionSaveDir(): ?string
+    public function getVersionSaveDir(): string
     {
         if (null === $this->versionSaveDir) {
             throw new \RuntimeException('Asset version has not been set');

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\Helpers\Tests\Unit\Standard;
 
 use EMS\Helpers\Standard\Json;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class JsonTest extends TestCase
@@ -39,7 +40,7 @@ class JsonTest extends TestCase
         self::assertSame('null', Json::prettyPrint('null'));
     }
 
-    public function normalizeProvider(): array
+    public static function normalizeProvider(): array
     {
         return [
             'shouldReturn0' => [
@@ -61,9 +62,7 @@ class JsonTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider normalizeProvider
-     */
+    #[DataProvider('normalizeProvider')]
     public function testNormalize(array $provided, array $expected): void
     {
         Json::normalize($provided);
@@ -75,7 +74,7 @@ class JsonTest extends TestCase
      *
      * @return array
      */
-    public function jsonProvider()
+    public static function jsonProvider()
     {
         return [
             'json' => [
@@ -85,9 +84,7 @@ class JsonTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider jsonProvider
-     */
+    #[DataProvider('jsonProvider')]
     public function testNormalizeAndSerializeArray(array $provided, string $expected): void
     {
         Json::normalize($provided);

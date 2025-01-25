@@ -37,7 +37,7 @@ class StoreDataS3Service implements StoreDataServiceInterface
     #[\Override]
     public function read(string $key): ?StoreDataHelper
     {
-        if (!$this->getS3Client()->doesObjectExist($this->bucket, $key)) {
+        if (!$this->getS3Client()->doesObjectExistV2($this->bucket, $key)) {
             return null;
         }
 
@@ -56,7 +56,7 @@ class StoreDataS3Service implements StoreDataServiceInterface
     #[\Override]
     public function delete(string $key): void
     {
-        if (!$this->getS3Client()->doesObjectExist($this->bucket, $key)) {
+        if (!$this->getS3Client()->doesObjectExistV2($this->bucket, $key)) {
             return;
         }
         $this->getS3Client()->deleteObject([

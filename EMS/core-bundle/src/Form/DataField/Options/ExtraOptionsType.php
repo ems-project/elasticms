@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Form\DataField\Options;
 
 use EMS\CoreBundle\Form\Field\CodeEditorType;
@@ -9,13 +11,13 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * It's a coumpound field for field specific extra option.
+ * @extends AbstractType<mixed>
  */
 class ExtraOptionsType extends AbstractType
 {
     /**
-     * @param FormBuilderInterface<FormBuilderInterface> $builder
-     * @param array<string, mixed>                       $options
+     * @param FormBuilderInterface<mixed> $builder
+     * @param array<string, mixed>        $options
      */
     #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void

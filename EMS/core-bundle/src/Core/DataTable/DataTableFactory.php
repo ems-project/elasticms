@@ -16,13 +16,13 @@ use EMS\CoreBundle\Form\Data\TableAbstract;
 use EMS\CoreBundle\Routes;
 use EMS\Helpers\Standard\Hash;
 use Psr\Cache\CacheItemPoolInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\Security\Core\Security;
 
 class DataTableFactory
 {
@@ -138,6 +138,9 @@ class DataTableFactory
         return $table;
     }
 
+    /**
+     * @return ?FormInterface<mixed>
+     */
     private function buildFilterForm(DataTableTypeInterface $type, mixed $context): ?FormInterface
     {
         if (!$type instanceof DataTableFilterFormInterface) {
@@ -151,6 +154,9 @@ class DataTableFactory
         return $filterForm;
     }
 
+    /**
+     * @param ?FormInterface<mixed> $filterForm
+     */
     private function addFilterFormToContext(DataTableTypeInterface $type, mixed $context, ?FormInterface $filterForm = null): mixed
     {
         if (!$type instanceof DataTableFilterFormInterface || null === $filterForm) {
@@ -187,6 +193,8 @@ class DataTableFactory
     }
 
     /**
+     * @param ?FormInterface<mixed> $filterForm
+     *
      * @return array<string, mixed>
      */
     private function generateUrlParams(DataTableTypeInterface $type, ?string $optionsCacheKey, ?FormInterface $filterForm): array

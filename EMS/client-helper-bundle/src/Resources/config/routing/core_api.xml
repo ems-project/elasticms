@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<routes xmlns="http://symfony.com/schema/routing"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://symfony.com/schema/routing https://symfony.com/schema/routing/routing-1.0.xsd">
+
+    <route id="emsch_api" path="/emsch/api"
+           controller="EMS\ClientHelperBundle\Controller\CoreApi\CoreApiController::api"
+           methods="HEAD">
+    </route>
+    <route id="emsch_api_version" path="/emsch/api/versions"
+           controller="EMS\ClientHelperBundle\Controller\CoreApi\CoreApiController::getVersions"
+           methods="GET">
+    </route>
+    <route id="emsch_api_auto_save" path="/emsch/api/autosave/{contentType}/{revisionId}"
+           controller="EMS\ClientHelperBundle\Controller\CoreApi\CoreApiController::autoSave"
+           methods="POST">
+    </route>
+</routes>

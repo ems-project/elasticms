@@ -8,8 +8,6 @@ use EMS\CommonBundle\Contracts\File\FileReaderInterface;
 use EMS\Helpers\File\CsvFile;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Reader\Csv;
-use PhpOffice\PhpSpreadsheet\Reader\Html;
-use PhpOffice\PhpSpreadsheet\Reader\Slk;
 
 use function Symfony\Component\String\u;
 
@@ -21,7 +19,7 @@ final class FileReader implements FileReaderInterface
         $reader = IOFactory::createReaderForFile($filename);
 
         $encoding = $options['encoding'] ?? null;
-        if (($reader instanceof Csv || $reader instanceof Html || $reader instanceof Slk) && null !== $encoding) {
+        if ($reader instanceof Csv && null !== $encoding) {
             $reader->setInputEncoding($encoding);
         }
 

@@ -13,15 +13,27 @@
             <tag name="monolog.logger" channel="elastica" />
         </service>
 
+        <service id="ems.core_bridge.api" class="EMS\CommonBundle\Common\Bridge\Core\CoreApiBridge">
+            <argument type="service" id="ems_common.core_api" />
+        </service>
+
         <service id="ems_common.core_api.token_store" class="EMS\CommonBundle\Common\CoreApi\TokenStore">
             <argument type="service" id="Psr\Cache\CacheItemPoolInterface" />
             <argument type="string">%ems_common.backend_url%</argument>
             <argument type="string">%ems_common.backend_api_key%</argument>
         </service>
 
+        <service id="ems_common.core_api" class="EMS\CommonBundle\Common\CoreApi\CoreApi">
+            <factory service="ems_common.core_api.factory" method="create" />
+        </service>
+
         <service id="ems_common.core_api.factory" class="EMS\CommonBundle\Common\CoreApi\CoreApiFactory">
+            <argument type="service" id="http_client" />
             <argument type="service" id="logger" />
             <argument type="service" id="ems_common.storage.manager" />
+            <argument>%ems_common.core_api.options%</argument>
+            <argument type="string">%ems_common.backend_url%</argument>
+            <argument type="string">%ems_common.backend_api_key%</argument>
         </service>
 
         <!-- use this factory services, it will set the tracer to common.ems.logger -->
@@ -56,8 +68,8 @@
             <tag name="doctrine.event_listener" event="postGenerateSchema"/>
         </service>
         <service id="ems.event_listener.ip_address_listener" class="EMS\CommonBundle\EventListener\IpAddressListener">
-            <argument type="service" id="ems.request_matcher.trusted_ips"/>
             <argument>%ems.metric.enabled%</argument>
+            <argument key="$trustedIps">%ems_common.request.trusted_ips%</argument>
             <tag name="kernel.event_subscriber" />
         </service>
 
@@ -85,13 +97,9 @@
             <argument type="string">%ems_common.elasticsearch_proxy_api%</argument>
         </service>
         <service id="ems.helper.admin_api" class="EMS\CommonBundle\Common\Admin\AdminHelper">
-            <argument type="service" id="ems_common.core_api.factory" />
+            <argument type="service" id="ems_common.core_api" />
             <argument type="service" id="ems_common.core_api.token_store" />
             <argument type="service" id="logger" />
-        </service>
-
-        <service id="ems.request_matcher.trusted_ips" class="Symfony\Component\HttpFoundation\RequestMatcher">
-            <argument key="$ips">%ems_common.request.trusted_ips%</argument>
         </service>
 
         <!-- twig -->
@@ -105,6 +113,9 @@
         <service id="ems_common.twig.runtime.search" class="EMS\CommonBundle\Twig\SearchRuntime">
             <argument type="service" id="ems_common.service.elastica" />
             <tag name="twig.runtime" />
+        </service>
+        <service id="ems.common.twig.template_factory" class="EMS\CommonBundle\Common\Twig\TemplateFactory">
+            <argument type="service" id="twig"/>
         </service>
 
         <service id="ems_common.file.reader" class="EMS\CommonBundle\Common\File\FileReader" />

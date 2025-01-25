@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -105,6 +107,22 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
     public function __toString(): string
     {
         return $this->name;
+    }
+
+    public function validate(): self
+    {
+        $invalidReason = match (true) {
+            $this->getDeleted() => 'deleted',
+            !$this->isActive() => 'inactive',
+            !$this->giveEnvironment()->getManaged() => 'unmanaged',
+            default => null
+        };
+
+        if ($invalidReason) {
+            throw new \RuntimeException(\sprintf('Content type "%s" is invalid (%s)', $this->getName(), $invalidReason));
+        }
+
+        return $this;
     }
 
     /**

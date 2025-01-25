@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\CLI\Helper;
 
 use App\CLI\Client\Audit\Report;

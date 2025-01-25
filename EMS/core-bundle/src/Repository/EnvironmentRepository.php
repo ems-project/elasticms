@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Repository;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -13,7 +15,7 @@ use EMS\CoreBundle\Entity\Revision;
  * @extends EntityRepository<Environment>
  *
  * @method Environment|null find($id, $lockMode = null, $lockVersion = null)
- * @method Environment|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Environment|null findOneBy(mixed[] $criteria, mixed[] $orderBy = null)
  */
 class EnvironmentRepository extends EntityRepository
 {

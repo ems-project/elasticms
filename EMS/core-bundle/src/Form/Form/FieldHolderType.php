@@ -16,18 +16,21 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
+/**
+ * @extends AbstractType<mixed>
+ */
 class FieldHolderType extends AbstractType
 {
     public function __construct(
         private readonly FormManager $formManager,
         protected FormRegistryInterface $formRegistry,
-        protected DataService $dataService)
-    {
+        protected DataService $dataService
+    ) {
     }
 
     /**
-     * @param FormBuilderInterface<FormBuilderInterface> $builder
-     * @param array<string, mixed>                       $options
+     * @param FormBuilderInterface<mixed> $builder
+     * @param array<string, mixed>        $options
      */
     #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void

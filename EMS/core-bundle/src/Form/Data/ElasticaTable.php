@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Form\Data;
 
 use EMS\CommonBundle\Elasticsearch\Document\Document;
@@ -36,7 +38,7 @@ class ElasticaTable extends TableAbstract
 
     /**
      * @param string[]              $aliases
-     * @param string[]              $contentTypeNames
+     * @param list<string>          $contentTypeNames
      * @param array<string, string> $defaultSort
      */
     public function __construct(
@@ -66,7 +68,7 @@ class ElasticaTable extends TableAbstract
 
     /**
      * @param string[]             $aliases
-     * @param string[]             $contentTypeNames
+     * @param list<string>         $contentTypeNames
      * @param array<string, mixed> $options
      */
     public static function fromConfig(string $templateNamespace, ElasticaService $elasticaService, string $ajaxUrl, array $aliases, array $contentTypeNames, array $options): ElasticaTable
@@ -147,7 +149,7 @@ class ElasticaTable extends TableAbstract
             $this->count = Response::fromResultSet($resultSet)->getTotal();
         }
 
-        return $this->count;
+        return $this->count > 0 ? $this->count : 0;
     }
 
     #[\Override]

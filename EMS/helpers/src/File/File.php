@@ -29,7 +29,18 @@ class File
 
     public static function fromFilename(string $filename): self
     {
+        if (!\file_exists($filename)) {
+            throw new \RuntimeException(\sprintf('File "%s" does not exits', $filename));
+        }
+
         return new self(new \SplFileInfo($filename));
+    }
+
+    public static function putContents(string $filename, string $contents): void
+    {
+        if (false === \file_put_contents($filename, $contents)) {
+            throw new \RuntimeException(\sprintf('Unexpected false result on file_put_contents for file %s', $filename));
+        }
     }
 
     public function getContents(): string

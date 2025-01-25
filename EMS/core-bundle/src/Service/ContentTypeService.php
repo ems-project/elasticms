@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Service;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
@@ -60,8 +62,8 @@ class ContentTypeService implements EntityServiceInterface
         private readonly TokenStorageInterface $tokenStorage,
         private readonly TranslatorInterface $translator,
         private readonly RouterInterface $router,
-        private readonly ?string $circleContentTypeName)
-    {
+        private readonly ?string $circleContentTypeName
+    ) {
     }
 
     public function getChildByPath(FieldType $fieldType, string $path, bool $skipVirtualFields = false): FieldType|false
@@ -225,11 +227,10 @@ class ContentTypeService implements EntityServiceInterface
     public function giveByName(string $name): ContentType
     {
         $this->loadEnvironment();
+        $contentType = $this->contentTypeArrayByName[$name] ?? null;
 
-        $contentType = $this->contentTypeArrayByName[$name] ?? false;
-
-        if (!$contentType) {
-            throw new \RuntimeException(\sprintf('Could not find contentType with name %s', $name));
+        if (null === $contentType) {
+            throw new \RuntimeException(\sprintf('Could not find contentType with the name %s', $name));
         }
 
         return $contentType;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\FormBundle\Components\Constraint;
 
 use EMS\CommonBundle\Contracts\ExpressionServiceInterface;
@@ -36,7 +38,7 @@ class IsExpressionValidator extends ConstraintValidator
             return true;
         }
 
-        /** @var FormInterface<FormInterface> $form */
+        /** @var FormInterface<mixed> $form */
         $form = $this->context->getRoot();
 
         return $this->expressionService->evaluateToBool($expression, [

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Common\CoreApi\Endpoint\Data;
 
 use EMS\CommonBundle\Common\CoreApi\Client;
-use EMS\CommonBundle\Contracts\CoreApi\CoreApiExceptionInterface;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Data\DataInterface;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Data\DraftInterface;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Data\RevisionInterface;
@@ -17,9 +16,17 @@ final readonly class Data implements DataInterface
     /** @var string[] */
     private array $endPoint;
 
-    public function __construct(private Client $client, string $contentType, private string $version)
+    public function __construct(private Client $client, string $contentType)
     {
         $this->endPoint = ['api', 'data', $contentType];
+    }
+
+    #[\Override]
+    public function autoSave(int $revisionId, array $data): bool
+    {
+        $resource = $this->makeResource('auto-save', (string) $revisionId);
+
+        return $this->client->post($resource, $data)->isSuccess();
     }
 
     /**
@@ -67,6 +74,18 @@ final readonly class Data implements DataInterface
         return new Revision($this->client->get($resource));
     }
 
+    #[\Override]
+    public function getDraft(int $revisionId): array
+    {
+        $resource = $this->makeResource('draft', (string) $revisionId);
+        $response = $this->client->get($resource)->getData();
+
+        return [
+            'id' => $response['id'],
+            'data' => $response['data'],
+        ];
+    }
+
     /**
      * @param array<string, mixed> $rawData
      */
@@ -103,30 +122,7 @@ final readonly class Data implements DataInterface
     #[\Override]
     public function save(string $ouuid, array $rawData, int $mode = self::MODE_UPDATE, bool $discardDraft = true): int
     {
-        if (\version_compare($this->version, '5.9.2') >= 0) {
-            return $this->index($ouuid, $rawData, self::MODE_UPDATE === $mode)->getRevisionId();
-        }
-
-        if (!$this->head($ouuid)) {
-            $draft = $this->create($rawData, $ouuid);
-        } elseif (self::MODE_UPDATE === $mode) {
-            $draft = $this->update($ouuid, $rawData);
-        } elseif (self::MODE_REPLACE === $mode) {
-            $draft = $this->replace($ouuid, $rawData);
-        } else {
-            throw new \RuntimeException(\sprintf('Update mode unknown: %d', $mode));
-        }
-
-        try {
-            $this->finalize($draft->getRevisionId());
-        } catch (CoreApiExceptionInterface $e) {
-            if ($discardDraft) {
-                $this->discard($draft->getRevisionId());
-            }
-            throw $e;
-        }
-
-        return $draft->getRevisionId();
+        return $this->index($ouuid, $rawData, self::MODE_UPDATE === $mode)->getRevisionId();
     }
 
     /**
@@ -156,11 +152,6 @@ final readonly class Data implements DataInterface
         return $this->client->asyncRequest(Request::METHOD_POST, $resource, ['json' => $rawData]);
     }
 
-    private function makeResource(?string ...$path): string
-    {
-        return \implode('/', \array_merge($this->endPoint, \array_filter($path)));
-    }
-
     #[\Override]
     public function publish(string $ouuid, string $environment, ?string $revisionId = null): bool
     {
@@ -171,5 +162,10 @@ final readonly class Data implements DataInterface
         }
 
         return $success;
+    }
+
+    private function makeResource(?string ...$path): string
+    {
+        return \implode('/', \array_merge($this->endPoint, \array_filter($path)));
     }
 }

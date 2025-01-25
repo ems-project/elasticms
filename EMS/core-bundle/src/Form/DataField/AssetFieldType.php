@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Form\DataField;
 
 use EMS\CommonBundle\Helper\EmsFields;
@@ -132,8 +134,8 @@ class AssetFieldType extends DataFieldType
     }
 
     /**
-     * @param FormInterface<FormInterface> $form
-     * @param array<string, mixed>         $options
+     * @param FormInterface<mixed> $form
+     * @param array<string, mixed> $options
      */
     #[\Override]
     public function buildView(FormView $view, FormInterface $form, array $options): void
@@ -172,7 +174,7 @@ class AssetFieldType extends DataFieldType
         $multiple = true === $fieldType->getDisplayOption('multiple', false);
         if (\is_array($data) && $multiple) {
             foreach ($data as &$file) {
-                if (!\is_array($data)) {
+                if (!\is_array($file)) {
                     throw new \RuntimeException('Unexpected non array item');
                 }
                 self::loadFromForm($file, $this->fileService->getAlgo());
@@ -189,7 +191,7 @@ class AssetFieldType extends DataFieldType
     private function testDataField(DataField $dataField): void
     {
         $fieldType = $dataField->getFieldType();
-        if (null === $fieldType || !$fieldType instanceof FieldType) {
+        if (null === $fieldType) {
             throw new \RuntimeException('Unexpected fieldType type');
         }
 
@@ -243,7 +245,7 @@ class AssetFieldType extends DataFieldType
     public function viewTransform(DataField $dataField)
     {
         $fieldType = $dataField->getFieldType();
-        if (null === $fieldType || !$fieldType instanceof FieldType) {
+        if (null === $fieldType) {
             throw new \RuntimeException('Unexpected fieldType type');
         }
 

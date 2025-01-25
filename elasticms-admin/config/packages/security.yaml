@@ -77,6 +77,7 @@ security:
         - { path: ^/resetting, role: PUBLIC_ACCESS }
         - { path: ^/data/file, role: PUBLIC_ACCESS }
         - { path: ^/data/asset, role: PUBLIC_ACCESS }
+        - { path: ^/channel/.*/emsch/api, role: ROLE_USER }
         - { path: ^/channel/, role: PUBLIC_ACCESS }
         - { path: ^/bundles, role: PUBLIC_ACCESS }
         - { path: ^/api/user-profile, roles: IS_AUTHENTICATED_FULLY }

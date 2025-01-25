@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Tests\Twig;
 
 use EMS\CoreBundle\Core\User\UserManager;
@@ -10,15 +12,15 @@ use PHPUnit\Framework\TestCase;
 
 class I18nRuntimeTest extends TestCase
 {
-    private readonly UserManager $service;
+    private readonly I18nService $i18nService;
     private I18nRuntime $i18nRuntime;
 
     #[\Override]
     public function setUp(): void
     {
         $this->i18nService = $this->createMock(I18nService::class);
-        $this->userManager = $this->createMock(UserManager::class);
-        $this->i18nRuntime = new I18nRuntime($this->i18nService, $this->userManager);
+        $userManager = $this->createMock(UserManager::class);
+        $this->i18nRuntime = new I18nRuntime($this->i18nService, $userManager);
     }
 
     public function testFindAllI18nIsNull()
@@ -82,7 +84,7 @@ class I18nRuntimeTest extends TestCase
     private function getResults(?string $name = null)
     {
         $dbResults = [
-            ['id' => 8, 'created' => '2022-03-02 14:44:56', 'modified' => '2022-03-02 14:44:56', 'identifier' => 'invalid', 'content' => [['locale' => 0, 'text' => '{"locales": ["en", "fr","nl","de"]}']]],
+            ['id' => 8, 'created' => '2022-03-02 14:44:56', 'modified' => '2022-03-02 14:44:56', 'identifier' => 'invalid', 'content' => [['locale' => '', 'text' => '{"locales": ["en", "fr","nl","de"]}']]],
             ['id' => 8, 'created' => '2022-03-02 14:44:56', 'modified' => '2022-03-02 14:44:56', 'identifier' => 'config', 'content' => [['locale' => 'en', 'text' => '{"locales": ["en", "fr","nl","de"]}']]],
         ];
 

@@ -8,39 +8,49 @@ use EMS\CommonBundle\Contracts\CoreApi\CoreApiFactoryInterface;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
 use EMS\CommonBundle\Storage\StorageManager;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\HttpClient\CurlHttpClient;
+use Symfony\Component\HttpClient\HttpOptions;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 final readonly class CoreApiFactory implements CoreApiFactoryInterface
 {
     /**
-     * @param array{ headers: array<string, string>, max_connections: int, verify: bool, timeout: int } $options
+     * @param array{ headers: array<string, string>, verify: bool, timeout: int } $options
      */
     public function __construct(
+        private HttpClientInterface $httpClient,
         private LoggerInterface $logger,
         private StorageManager $storageManager,
         private array $options,
+        private ?string $defaultUrl = null,
+        private ?string $defaultToken = null,
     ) {
     }
 
     #[\Override]
-    public function create(string $baseUrl): CoreApiInterface
+    public function create(?string $baseUrl = null): CoreApiInterface
     {
-        $httpClient = new CurlHttpClient(
-            defaultOptions: [
-                'base_uri' => $baseUrl,
-                'headers' => [
+        $httpClient = $this->httpClient->withOptions(
+            new HttpOptions()
+                ->setHeaders([
                     ...$this->options['headers'],
                     ...['Content-Type' => 'application/json'],
-                ],
-                'verify_host' => $this->options['verify'],
-                'verify_peer' => $this->options['verify'],
-                'timeout' => $this->options['timeout'],
-            ],
-            maxHostConnections: $this->options['max_connections']
+                ])
+                ->verifyHost($this->options['verify'])
+                ->verifyPeer($this->options['verify'])
+                ->setTimeout($this->options['timeout'])
+                ->toArray()
         );
 
-        $coreApiClient = new Client($httpClient, $baseUrl, $this->logger);
+        $coreApi = new CoreApi(
+            client: new Client($httpClient, $this->logger),
+            storageManager: $this->storageManager
+        );
+        $coreApi->setBaseUrl($baseUrl ?? $this->defaultUrl);
 
-        return new CoreApi($coreApiClient, $this->storageManager);
+        if (null !== $this->defaultToken && '' !== $this->defaultToken) {
+            $coreApi->setToken($this->defaultToken);
+        }
+
+        return $coreApi;
     }
 }

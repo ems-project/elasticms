@@ -74,7 +74,7 @@ class EditController extends AbstractController
         ]);
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
-            $revision->setAutoSave(null);
+            $revision->autoSaveClear();
             $objectArray = Json::decode($form->get('json')->getData());
             $this->revisionService->save($revision, $objectArray);
 
@@ -108,8 +108,8 @@ class EditController extends AbstractController
             throw new \RuntimeException('Only a draft is allowed for editing the revision!');
         }
 
-        if ($request->isMethod('GET') && null != $revision->getAutoSave()) {
-            $revision->setRawData($revision->getAutoSave());
+        if ($request->isMethod('GET') && null !== $revision->getAutoSave()) {
+            $revision->autoSaveToRawData();
             $this->logger->notice('log.data.revision.load_from_auto_save', LogRevisionContext::read($revision));
         }
 
@@ -143,7 +143,6 @@ class EditController extends AbstractController
                 ]);
             }
 
-            $revision->setAutoSave(null);
             if (!isset($requestRevision['discard'])) {// Save, Copy, Paste or Finalize
                 // Save anyway
                 /** @var Revision $revision */
@@ -180,7 +179,7 @@ class EditController extends AbstractController
                 if (isset($requestRevision['publish'])) {// Finalize
                     $revision = $this->dataService->finalizeDraft($revision, $form);
 
-                    if (0 === (\is_countable($form->getErrors(true)) ? \count($form->getErrors(true)) : 0)) {
+                    if (0 === $form->getErrors(true)->count()) {
                         if ($revision->getOuuid()) {
                             return $this->redirectToRoute(Routes::VIEW_REVISIONS, [
                                 'ouuid' => $revision->getOuuid(),
@@ -202,7 +201,7 @@ class EditController extends AbstractController
             // if Save or Discard
             if (!isset($requestRevision['publish'])) {
                 if (null != $revision->getOuuid()) {
-                    if (0 === (\is_countable($form->getErrors()) ? \count($form->getErrors()) : 0) && $contentType->isAutoPublish()) {
+                    if (0 === $form->getErrors()->count() && $contentType->isAutoPublish()) {
                         $this->publishService->silentPublish($revision);
                     }
 

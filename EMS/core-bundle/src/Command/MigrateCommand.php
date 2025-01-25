@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Command;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
@@ -65,8 +67,8 @@ class MigrateCommand extends AbstractCommand
     public function __construct(
         protected Registry $doctrine,
         private readonly ElasticaService $elasticaService,
-        private readonly DocumentService $documentService)
-    {
+        private readonly DocumentService $documentService
+    ) {
         $em = $this->doctrine->getManager();
         $contentTypeRepository = $em->getRepository(ContentType::class);
         if (!$contentTypeRepository instanceof ContentTypeRepository) {
@@ -204,7 +206,7 @@ class MigrateCommand extends AbstractCommand
         $this->onlyChanged = (bool) $input->getOption(self::OPTION_CHANGED);
 
         $contentTypeTo = $this->contentTypeRepository->findByName($this->contentTypeNameTo);
-        if (null === $contentTypeTo || !$contentTypeTo instanceof ContentType) {
+        if (null === $contentTypeTo) {
             $this->io->error(\sprintf('Content type "%s" not found', $this->contentTypeNameTo));
 
             return -1;
@@ -265,7 +267,7 @@ class MigrateCommand extends AbstractCommand
                 try {
                     $this->documentService->importDocument($importerContext, $result->getId(), $result->getSource());
                 } catch (NotLockedException|CantBeFinalizedException $e) {
-                    $this->io->error($e);
+                    $this->io->error($e->getMessage());
                 }
                 $progress->advance();
             }

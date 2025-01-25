@@ -1,0 +1,38 @@
+parameters:
+    locale: 'en'
+
+framework:
+    http_method_override: false
+    handle_all_throwables: true
+    secret: 1621180219f163d89dc399e88cfc1807ab6448cf
+    session:
+        cookie_samesite: strict
+        cookie_secure: auto
+        handler_id: ~
+        storage_factory_id: session.storage.factory.native
+    router:
+        resource: ~
+        utf8: true
+        strict_requirements: ~
+    php_errors:
+        log: true
+    validation:
+        email_validation_mode: html5
+
+doctrine:
+    dbal:
+        url: 'sqlite:///%kernel.project_dir%/test.db'
+    orm:
+        auto_generate_proxy_classes: '%kernel.debug%'
+        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+        auto_mapping: true
+        enable_lazy_ghost_objects: true
+        controller_resolver:
+            auto_mapping: false
+
+ems_common:
+    backend_url: 'https://localhost'
+
+services:
+    _defaults:
+        public: true

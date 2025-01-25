@@ -168,7 +168,7 @@ class Archive implements \JsonSerializable
         }
         $newArchive = new self($this->hashAlgo);
         foreach ($this->files as $file) {
-            if (null !== $otherArchive && $otherArchive->containsByHash($file->hash)) {
+            if ($otherArchive->containsByHash($file->hash)) {
                 continue;
             }
             $newArchive->addArchiveItem($file);

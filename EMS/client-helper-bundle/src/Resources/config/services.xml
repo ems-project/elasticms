@@ -31,9 +31,6 @@
                 <argument type="service" id="emsch.helper.local_environment_factory" on-invalid="null"/>
             </call>
         </service>
-        <service id="emsch.helper.environment.api" class="EMS\ClientHelperBundle\Helper\Environment\EnvironmentApi">
-            <argument type="service" id="EMS\CommonBundle\Contracts\CoreApi\CoreApiFactoryInterface" />
-        </service>
 
         <service id="emsch.helper.request.emsch_request_resolver" class="EMS\ClientHelperBundle\Helper\Request\EmschRequestResolver">
             <tag name="controller.argument_value_resolver" priority="100"/>
@@ -45,6 +42,7 @@
         <service id="emsch.helper_exception" class="EMS\ClientHelperBundle\Helper\Request\ExceptionHelper">
             <argument type="service" id="twig" />
             <argument type="service" id="emsch.manager.client_request" />
+            <argument type="service" id="request_stack" />
             <argument>%emsch.handle_exceptions%</argument>
             <argument>%kernel.debug%</argument>
             <argument><!-- template injection --></argument>
@@ -68,10 +66,11 @@
         </service>
 
         <!-- event listeners -->
-        <service id="emsch.event_listener.authenticated" class="EMS\ClientHelperBundle\EventListener\AuthenticatedListener">
+        <service id="emsch.event_listener.security" class="EMS\ClientHelperBundle\EventListener\SecurityListener">
             <argument type="service" id="security.authorization_checker" />
             <argument type="service" id="security.token_storage" />
             <argument type="service" id="emsch.security.sso.oauth2" />
+            <argument type="service" id="ems_common.core_api" />
             <tag name="kernel.event_subscriber" />
         </service>
 
@@ -122,10 +121,13 @@
         </service>
 
         <!-- controllers -->
+        <service id="EMS\ClientHelperBundle\Controller\CoreApi\CoreApiController" public="true">
+            <argument type="service" id="EMS\CommonBundle\Contracts\Bridge\Core\CoreBridgeInterface"/>
+        </service>
+
         <service id="emsch.controller.search" class="EMS\ClientHelperBundle\Controller\SearchController" public="true">
             <argument type="service" id="emsch.search.manager" />
             <argument type="service" id="emsch.routing.handler" />
-            <argument type="service" id="twig" />
             <argument type="service" id="emsch.helper_cache"/>
         </service>
         <service id="emsch.controller.embed" class="EMS\ClientHelperBundle\Controller\EmbedController" public="true">

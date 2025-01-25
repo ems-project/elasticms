@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Security\CoreApi\User;
 
-use EMS\ClientHelperBundle\Security\CoreApi\CoreApiFactory;
+use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -14,11 +14,11 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 /**
  * @implements UserProviderInterface<CoreApiUser>
  */
-class CoreApiUserProvider implements UserProviderInterface
+readonly class CoreApiUserProvider implements UserProviderInterface
 {
     public function __construct(
-        private readonly CoreApiFactory $coreApiFactory,
-        private readonly LoggerInterface $logger,
+        private CoreApiInterface $coreApi,
+        private LoggerInterface $logger,
     ) {
     }
 
@@ -46,11 +46,9 @@ class CoreApiUserProvider implements UserProviderInterface
     #[\Override]
     public function loadUserByIdentifier(string $identifier): UserInterface
     {
-        $coreApi = $this->coreApiFactory->create();
-        $coreApi->setToken($identifier);
-
         try {
-            $profile = $coreApi->user()->getProfileAuthenticated();
+            $this->coreApi->setToken($identifier);
+            $profile = $this->coreApi->user()->getProfileAuthenticated();
 
             return new CoreApiUser($profile, $identifier);
         } catch (\Throwable $e) {

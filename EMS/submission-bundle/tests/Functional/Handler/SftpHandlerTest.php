@@ -8,7 +8,7 @@ use EMS\FormBundle\Submission\AbstractHandler;
 use EMS\SubmissionBundle\Response\SftpHandleResponse;
 use EMS\SubmissionBundle\Tests\Functional\App\FilesystemFactory;
 
-final class SftpHandlerTest extends AbstractHandlerTest
+final class SftpHandlerTest extends AbstractHandlerTestCase
 {
     /** @var FilesystemFactory */
     private $filesystemFactory;

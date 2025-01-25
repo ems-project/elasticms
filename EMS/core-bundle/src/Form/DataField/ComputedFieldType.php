@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Form\DataField;
 
 use EMS\CoreBundle\Entity\DataField;
@@ -73,7 +75,7 @@ class ComputedFieldType extends DataFieldType
 
         if ($optionsForm->has('mappingOptions')) {
             $optionsForm
-                ->get('mappingOptions')->remove('index')->remove('analyzer')->add('mappingOptions', CodeEditorType::class, [
+                ->get('mappingOptions')->remove('analyzer')->add('mappingOptions', CodeEditorType::class, [
                     'required' => false,
                     'language' => 'ace/mode/json',
                 ])
@@ -87,8 +89,8 @@ class ComputedFieldType extends DataFieldType
     }
 
     /**
-     * @param FormBuilderInterface<FormBuilderInterface> $builder
-     * @param array<string, mixed>                       $options
+     * @param FormBuilderInterface<mixed> $builder
+     * @param array<string, mixed>        $options
      */
     #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void

@@ -25,7 +25,7 @@ interface CoreApiInterface
      * @throws CoreApiExceptionInterface
      * @throws NotAuthenticatedExceptionInterface
      */
-    public function authenticate(string $username, string $password): CoreApiInterface;
+    public function authenticate(string $username, string $password, ?string $baseUrl = null): CoreApiInterface;
 
     public function queue(int $flushSize): ResponseQueue;
 
@@ -42,13 +42,15 @@ interface CoreApiInterface
      */
     public function getBaseUrl(): string;
 
+    public function setBaseUrl(?string $baseUrl = null): self;
+
     public function getToken(): string;
 
     public function isAuthenticated(): bool;
 
-    public function setLogger(LoggerInterface $logger): void;
+    public function setLogger(LoggerInterface $logger): self;
 
-    public function setToken(string $token): void;
+    public function setToken(string $token): self;
 
     /**
      * @throws BaseUrlNotDefinedExceptionInterface

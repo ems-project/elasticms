@@ -9,10 +9,14 @@ use EMS\ClientHelperBundle\Helper\ContentType\ContentType;
 use EMS\ClientHelperBundle\Helper\Environment\Environment;
 use EMS\ClientHelperBundle\Helper\Templating\TemplateFiles;
 use EMS\CommonBundle\Search\Search;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Routing\Loader\XmlFileLoader;
 use Symfony\Component\Routing\RouteCollection;
 
 final class RoutingBuilder extends AbstractBuilder
 {
+    private const string CONFIG_PATH = __DIR__.'/../../Resources/config/routing/';
+
     public function buildRouteCollection(Environment $environment): RouteCollection
     {
         $settings = $this->settings($environment);
@@ -35,7 +39,7 @@ final class RoutingBuilder extends AbstractBuilder
             $route->addToCollection($routeCollection, $this->locales, $routePrefix);
         }
 
-        return $routeCollection;
+        return $this->addEmschRoutes($routeCollection, $routePrefix);
     }
 
     public function buildFiles(Environment $environment, TemplateFiles $templateFiles, string $directory): void
@@ -93,5 +97,25 @@ final class RoutingBuilder extends AbstractBuilder
         }
 
         return $documents;
+    }
+
+    private function addEmschRoutes(RouteCollection $routes, ?string $routePrefix): RouteCollection
+    {
+        $routes->addCollection($this->getEmschRoutesFromFile(self::CONFIG_PATH.'core_api.xml', $routePrefix));
+
+        return $routes;
+    }
+
+    private function getEmschRoutesFromFile(string $file, ?string $routePrefix = null): RouteCollection
+    {
+        $routes = new RouteCollection();
+        $configRoutes = new XmlFileLoader(new FileLocator())->load($file);
+
+        foreach ($configRoutes as $name => $route) {
+            $prefixedRoute = $route->setPath($routePrefix.$route->getPath());
+            $routes->add($name, $prefixedRoute);
+        }
+
+        return $routes;
     }
 }

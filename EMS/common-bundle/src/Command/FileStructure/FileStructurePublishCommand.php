@@ -14,14 +14,19 @@ use EMS\CommonBundle\Exception\FileStructureNotSyncException;
 use EMS\CommonBundle\Storage\Archive;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\Helpers\Standard\Json;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(
+    name: Commands::FILE_STRUCTURE_PUBLISH,
+    description: 'Publish the file structure of an ElasticMS archive into a S3 bucket',
+    hidden: false
+)]
 class FileStructurePublishCommand extends AbstractCommand
 {
-    protected static $defaultName = Commands::FILE_STRUCTURE_PUBLISH;
     public const ARGUMENT_ARCHIVE_HASH = 'hash';
     public const ARGUMENT_TARGET = 'target';
     public const OPTION_S3_CREDENTIAL = 's3-credential';
@@ -45,7 +50,6 @@ class FileStructurePublishCommand extends AbstractCommand
     {
         parent::configure();
         $this
-            ->setDescription('Publish the file structure of an ElasticMS archive into a S3 bucket')
             ->addArgument(self::ARGUMENT_ARCHIVE_HASH, InputArgument::REQUIRED, 'Elasticsearch index')
             ->addArgument(self::ARGUMENT_TARGET, InputArgument::REQUIRED, 'Target (S3 bucket)')
             ->addOption(self::OPTION_S3_CREDENTIAL, null, InputOption::VALUE_OPTIONAL, 'S3 credential in a JSON format')

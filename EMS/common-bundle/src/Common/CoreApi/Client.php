@@ -23,11 +23,11 @@ class Client
 {
     /** @var array<string, string> */
     private array $headers = [];
+    private ?string $baseUrl = null;
     private LoggerInterface $logger;
 
     public function __construct(
         private readonly HttpClientInterface $httpClient,
-        private readonly string $baseUrl,
         LoggerInterface $logger,
     ) {
         $this->setLogger($logger);
@@ -43,9 +43,14 @@ class Client
         return isset($this->headers[$name]);
     }
 
+    public function setBaseUrl(string $baseUrl): void
+    {
+        $this->baseUrl = $baseUrl;
+    }
+
     public function getBaseUrl(): string
     {
-        if ('' === $this->baseUrl) {
+        if ('' === $this->baseUrl || null === $this->baseUrl) {
             throw new BaseUrlNotDefinedException();
         }
 
@@ -63,7 +68,7 @@ class Client
     public function asyncRequest(string $method, string $resource, array $options = []): ResponseInterface
     {
         return $this->httpClient->request($method, $resource, [
-            ...['headers' => $this->headers],
+            ...['headers' => $this->headers, 'base_uri' => $this->getBaseUrl()],
             ...$options,
         ]);
     }
@@ -73,10 +78,7 @@ class Client
      */
     public function get(string $resource, array $query = []): Result
     {
-        return $this->getResult(Request::METHOD_GET, $resource, [
-            'headers' => $this->headers,
-            'query' => $query,
-        ]);
+        return $this->getResult(Request::METHOD_GET, $resource, ['query' => $query]);
     }
 
     /**
@@ -84,10 +86,7 @@ class Client
      */
     public function download(string $resource, array $query = []): StreamInterface
     {
-        $response = $this->request(Request::METHOD_GET, $resource, [
-            'headers' => $this->headers,
-            'query' => $query,
-        ]);
+        $response = $this->request(Request::METHOD_GET, $resource, ['query' => $query]);
 
         if (!$response instanceof StreamableInterface) {
             throw new \RuntimeException('no stream response');
@@ -101,12 +100,7 @@ class Client
      */
     public function getResponse(string $resource, array $query = []): ResponseInterface
     {
-        $response = $this->request(Request::METHOD_GET, $resource, [
-            'headers' => $this->headers,
-            'query' => $query,
-        ]);
-
-        return $response;
+        return $this->request(Request::METHOD_GET, $resource, ['query' => $query]);
     }
 
     /**
@@ -142,34 +136,22 @@ class Client
      */
     public function post(string $resource, array $body = [], array $options = []): Result
     {
-        return $this->getResult(Request::METHOD_POST, $resource, \array_merge($options, [
-            'headers' => $this->headers,
-            'json' => $body,
-        ]));
+        return $this->getResult(Request::METHOD_POST, $resource, [...$options, ...['json' => $body]]);
     }
 
     public function delete(string $resource): Result
     {
-        return $this->getResult(Request::METHOD_DELETE, $resource, [
-            'headers' => $this->headers,
-        ]);
+        return $this->getResult(Request::METHOD_DELETE, $resource);
     }
 
     public function head(string $resource): bool
     {
-        $response = $this->httpClient->request(Request::METHOD_HEAD, $resource, [
-            'headers' => $this->headers,
-        ]);
-
-        return 200 === $response->getStatusCode();
+        return 200 === $this->asyncRequest(Request::METHOD_HEAD, $resource)->getStatusCode();
     }
 
     public function postBody(string $resource, string $body): Result
     {
-        return $this->getResult(Request::METHOD_POST, $resource, [
-            'headers' => $this->headers,
-            'body' => $body,
-        ]);
+        return $this->getResult(Request::METHOD_POST, $resource, ['body' => $body]);
     }
 
     public function setLogger(LoggerInterface $logger): void
@@ -186,11 +168,7 @@ class Client
      */
     private function request(string $method, string $resource, array $options): ResponseInterface
     {
-        if ('' === $this->baseUrl) {
-            throw new BaseUrlNotDefinedException();
-        }
-
-        $response = $this->httpClient->request($method, $resource, $options);
+        $response = $this->asyncRequest($method, $resource, $options);
 
         if (Response::HTTP_UNAUTHORIZED === $response->getStatusCode()) {
             throw new NotAuthenticatedException($response);
@@ -202,7 +180,7 @@ class Client
     /**
      * @param array<string, mixed> $options
      */
-    private function getResult(string $method, string $resource, array $options): Result
+    private function getResult(string $method, string $resource, array $options = []): Result
     {
         $response = $this->request($method, $resource, $options);
         $result = new Result($response, $this->logger);

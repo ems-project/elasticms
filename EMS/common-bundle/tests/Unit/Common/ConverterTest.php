@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Tests\Unit\Common;
 
 use EMS\CommonBundle\Common\Converter;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class ConverterTest extends TestCase
@@ -23,7 +24,7 @@ class ConverterTest extends TestCase
      *
      * @return array<array<string>>
      */
-    public function strProvider(): array
+    public static function strProvider(): array
     {
         return [
             ['test', 'test'],
@@ -34,9 +35,7 @@ class ConverterTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider strProvider
-     */
+    #[DataProvider('strProvider')]
     public function testToAscii(string $str, string $expected): void
     {
         self::assertSame($expected, $this->converter->toAscii($str));
@@ -47,7 +46,7 @@ class ConverterTest extends TestCase
      *
      * @return array<array<int|string>>
      */
-    public function byteProvider(): array
+    public static function byteProvider(): array
     {
         return [
             [243, '243 B', '243 B', '243 B'],
@@ -58,9 +57,7 @@ class ConverterTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider byteProvider
-     */
+    #[DataProvider('byteProvider')]
     public function testBytes(int $byte, string $expected, string $expected2, string $expected3): void
     {
         self::assertSame($expected, $this->converter->formatBytes($byte));

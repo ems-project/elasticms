@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Controller;
 
 use EMS\CommonBundle\Service\ElasticaService;
@@ -27,8 +29,8 @@ class TwigElementsController extends AbstractController
         private readonly JobService $jobService,
         private readonly DashboardManager $dashboardManager,
         private readonly ContentTypeService $contentTypeService,
-        private readonly string $templateNamespace)
-    {
+        private readonly string $templateNamespace
+    ) {
     }
 
     public function sideMenu(): Response

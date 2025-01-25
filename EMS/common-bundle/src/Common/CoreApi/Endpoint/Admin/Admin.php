@@ -12,7 +12,7 @@ use EMS\CoreBundle\Entity\Job as JobEntity;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpClient\Exception\TransportException;
 
-final readonly class Admin implements AdminInterface
+class Admin implements AdminInterface
 {
     public function __construct(private Client $client)
     {

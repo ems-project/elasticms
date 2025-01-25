@@ -7,7 +7,7 @@ namespace EMS\ClientHelperBundle\Controller\Security\Sso;
 use EMS\ClientHelperBundle\Security\Sso\Saml\SamlService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Http\SecurityRequestAttributes;
 
 class SamlController
 {
@@ -29,7 +29,7 @@ class SamlController
     public function login(Request $request): void
     {
         $session = $request->getSession();
-        $authErrorKey = Security::AUTHENTICATION_ERROR;
+        $authErrorKey = SecurityRequestAttributes::AUTHENTICATION_ERROR;
 
         $error = null;
 

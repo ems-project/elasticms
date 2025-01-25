@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
@@ -10,7 +12,7 @@ use EMS\CoreBundle\Entity\UploadedAsset;
 /**
  * @extends EntityRepository<UploadedAsset>
  *
- * @method UploadedAsset findOneBy(array $criteria, array $orderBy = null)
+ * @method UploadedAsset findOneBy(mixed[] $criteria, mixed[] $orderBy = null)
  */
 class UploadedAssetRepository extends EntityRepository
 {

@@ -26,7 +26,8 @@ final readonly class FormSubmissionService implements EntityServiceInterface
 {
     public function __construct(
         private FormSubmissionRepository $formSubmissionRepository,
-        private FormSubmissionFileRepository $formSubmissionFileRepository, private Environment $twig,
+        private FormSubmissionFileRepository $formSubmissionFileRepository,
+        private Environment $twig,
         private RequestStack $requestStack,
         private TranslatorInterface $translator,
         private string $templateNamespace,
@@ -88,17 +89,17 @@ final readonly class FormSubmissionService implements EntityServiceInterface
      */
     public function createDownloadForMultiple(array $formSubmissionIds): StreamedResponse
     {
-        $response = new StreamedResponse(function () use ($formSubmissionIds) {
+        return new StreamedResponse(function () use ($formSubmissionIds) {
             $zip = new ZipStream(outputName: 'submissionData.zip');
 
             foreach ($formSubmissionIds as $formSubmissionId) {
                 $formSubmission = $this->getById($formSubmissionId);
                 $data = $formSubmission->getData();
 
-                $rawJson = Json::encode($data, false, true);
-                if (\is_string($rawJson)) {
-                    $zip->addFile($formSubmissionId.'/data.json', $rawJson);
-                }
+                $zip->addFile(
+                    fileName: $formSubmissionId.'/data.json',
+                    data: Json::encode($data, false, true)
+                );
 
                 foreach ($formSubmission->getFiles() as $file) {
                     if ($streamRead = $file->getFile()) {
@@ -111,8 +112,6 @@ final readonly class FormSubmissionService implements EntityServiceInterface
 
             $zip->finish();
         });
-
-        return $response;
     }
 
     /**

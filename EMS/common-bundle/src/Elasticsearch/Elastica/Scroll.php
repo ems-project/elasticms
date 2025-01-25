@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CommonBundle\Elasticsearch\Elastica;
 
 use Elastica\ResultSet as ElasticaResultSet;

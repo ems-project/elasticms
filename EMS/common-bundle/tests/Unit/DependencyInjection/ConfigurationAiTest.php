@@ -38,7 +38,6 @@ final class ConfigurationAiTest extends TestCase
             'excluded_content_types' => [],
             'core_api' => [
                 'headers' => [],
-                'max_connections' => 6,
                 'verify' => true,
                 'timeout' => 30,
             ],

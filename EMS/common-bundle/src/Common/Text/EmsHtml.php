@@ -44,7 +44,7 @@ final class EmsHtml extends Markup implements \Stringable
     }
 
     /**
-     * @param array<array<string, string>> $replacements
+     * @param array<string, string> $replacements
      */
     public function replace(array $replacements): self
     {

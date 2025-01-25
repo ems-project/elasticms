@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CommonBundle\Entity;
 
 use EMS\Helpers\Standard\DateTime;
@@ -10,7 +12,10 @@ class AssetStorage implements EntityInterface
     use IdentifierIntegerTrait;
 
     private ?string $hash = null;
-    /** @var string|resource */
+    /**
+     * @var string|resource
+     * @phpstan-ignore-next-line
+     */
     private $contents;
     private ?string $size = null;
     private ?bool $confirmed = null;

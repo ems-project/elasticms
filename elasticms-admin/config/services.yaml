@@ -32,6 +32,7 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
+    EMS\CommonBundle\Contracts\Bridge\Core\CoreBridgeInterface: '@emsco.core_bridge.service'
 
     Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler:
         arguments:

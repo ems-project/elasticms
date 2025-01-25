@@ -1,28 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.5/phpunit.xsd"
          colors="true"
-         bootstrap="vendor/autoload.php"
+         bootstrap="tests/bootstrap.php"
+         cacheDirectory="../.cache/.phpunit.cache/cli"
+         failOnPhpunitDeprecation="true"
+         failOnNotice="true"
          failOnRisky="true"
-         failOnWarning="true"
->
+         failOnWarning="true">
+
     <php>
         <ini name="error_reporting" value="-1"/>
         <ini name="intl.default_locale" value="en"/>
         <ini name="intl.error_level" value="0"/>
-        <ini name="memory_limit" value="256"/>
-        <env name="SYMFONY_PHPUNIT_VERSION" value="9.5"/>
-        <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[self]=0"/>
+        <ini name="memory_limit" value="-1"/>
     </php>
+
+    <source ignoreSuppressionOfDeprecations="true">
+        <include>
+            <directory>./src/</directory>
+        </include>
+
+        <deprecationTrigger>
+            <function>trigger_deprecation</function>
+            <method>Doctrine\Deprecations\Deprecation::trigger</method>
+            <method>Doctrine\Deprecations\Deprecation::delegateTriggerToBackend</method>
+        </deprecationTrigger>
+    </source>
+
     <testsuites>
-        <testsuite name="Unit suite">
-            <directory>./tests</directory>
+        <testsuite name="EMS - CLI">
+            <directory>tests/</directory>
         </testsuite>
     </testsuites>
-    <filter>
-        <whitelist>
-            <directory>src</directory>
-        </whitelist>
-    </filter>
 </phpunit>

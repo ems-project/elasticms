@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Controller;
 
 use Doctrine\Persistence\ManagerRegistry;
@@ -41,8 +43,8 @@ class NotificationController extends AbstractController
         private readonly NotificationRepository $notificationRepository,
         private readonly FlashMessageLogger $flashMessageLogger,
         private readonly int $pagingSize,
-        private readonly string $templateNamespace)
-    {
+        private readonly string $templateNamespace
+    ) {
     }
 
     public function ajaxNotification(Request $request): Response

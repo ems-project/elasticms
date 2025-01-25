@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Controller;
 
 use EMS\CoreBundle\DependencyInjection\EMSCoreExtension;
@@ -28,8 +30,8 @@ class SearchController extends AbstractController
         private readonly AggregateOptionService $aggregateOptionService,
         private readonly SearchFieldOptionService $searchFieldOptionService,
         private readonly TranslatorInterface $translator,
-        private readonly string $templateNamespace)
-    {
+        private readonly string $templateNamespace
+    ) {
     }
 
     public function index(Request $request): Response

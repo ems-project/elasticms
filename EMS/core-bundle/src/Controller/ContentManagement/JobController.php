@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Controller\ContentManagement;
 
 use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
@@ -73,7 +75,7 @@ class JobController extends AbstractController
         $encoder = new Encoder();
         $converter = new AnsiToHtmlConverter(new Theme());
 
-        if ('json' === $request->getRequestFormat() || 'json' === $request->getContentType()) {
+        if ('json' === $request->getRequestFormat() || 'json' === $request->getContentTypeFormat()) {
             $output = $request->query->getBoolean('output');
 
             return new JsonResponse([

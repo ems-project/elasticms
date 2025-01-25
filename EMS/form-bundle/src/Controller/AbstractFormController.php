@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\FormBundle\Controller;
 
 use EMS\FormBundle\FormConfig\FormConfig;
@@ -9,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 abstract class AbstractFormController
 {
     /**
-     * @param FormInterface<FormInterface> $form
+     * @param FormInterface<mixed> $form
      */
     protected function getFormConfig(FormInterface $form, Request $request): FormConfig
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -19,6 +21,7 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
     use IdentifierIntegerTrait;
 
     final public const string DISPLAY_OPTIONS = 'displayOptions';
+    final public const string MAPPING_OPTIONS = 'mappingOptions';
 
     /** @var class-string<DataFieldType> */
     protected string $type;
@@ -340,10 +343,7 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
 
     public function isContainer(): bool
     {
-        /** @var DataFieldType $type */
-        $type = $this->getType();
-
-        return $type::isContainer();
+        return $this->getType()::isContainer();
     }
 
     public function isJsonMenuNestedEditor(): bool

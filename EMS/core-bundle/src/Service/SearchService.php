@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Service;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
@@ -24,8 +26,8 @@ class SearchService
         private readonly ElasticaService $elasticaService,
         private readonly EnvironmentService $environmentService,
         private readonly ContentTypeService $contentTypeService,
-        private readonly SearchRepository $searchRepository)
-    {
+        private readonly SearchRepository $searchRepository
+    ) {
     }
 
     /**

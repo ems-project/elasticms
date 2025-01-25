@@ -11,7 +11,7 @@
     "authors": [
         {
             "name": "EMS Community",
-            "homepage": "https://github.com/ems-project/helpers/contributors"
+            "homepage": "https://github.com/ems-project/elasticms/contributors"
         }
     ],
     "require": {
@@ -21,34 +21,15 @@
         "symfony/html-sanitizer": "6.4.*",
         "symfony/options-resolver": "6.4.*",
         "symfony/mime": "6.4.*",
-        "symfony/string": "^5.4"
-    },
-    "require-dev": {
-        "mockery/mockery": "^1.6"
+        "symfony/string": "6.4.*"
     },
     "autoload": {
         "psr-4": {
             "EMS\\Helpers\\": "src/"
-        },
-        "exclude-from-classmap": [
-            "tests/"
-        ]
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "EMS\\Helpers\\Tests\\": "tests/"
         }
     },
     "config": {
         "lock": false,
         "sort-packages": true
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "0.1-dev"
-        }
-    },
-    "scripts": {
-        "phpunit": "phpunit"
     }
 }

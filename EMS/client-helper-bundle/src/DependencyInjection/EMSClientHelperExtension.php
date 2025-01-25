@@ -7,7 +7,6 @@ namespace EMS\ClientHelperBundle\DependencyInjection;
 use EMS\ClientHelperBundle\Helper\Api\Client as ApiClient;
 use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequest;
 use EMS\ClientHelperBundle\Helper\Templating\TemplateLoader;
-use EMS\CommonBundle\Common\CoreApi\CoreApi;
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -43,7 +42,7 @@ final class EMSClientHelperExtension extends Extension
         $container->setParameter('emsch.security.route_login', $config['security']['route_login']);
 
         $templates = $config['templates'];
-        $container->getDefinition('emsch.helper_exception')->replaceArgument(4, $templates['error']);
+        $container->getDefinition('emsch.helper_exception')->replaceArgument(5, $templates['error']);
         $container->getDefinition('emsch.routing.url.transformer')->replaceArgument(5, $templates['ems_link']);
 
         $this->processElasticms($container, $loader, $config['elasticms']);
@@ -82,19 +81,11 @@ final class EMSClientHelperExtension extends Extension
     private function processApi(ContainerBuilder $container, array $config): void
     {
         foreach ($config as $name => $options) {
-            $defCoreApi = new Definition(CoreApi::class);
-            $defCoreApi
-                ->setFactory([new Reference('ems_common.core_api.factory'), 'create'])
-                ->addArgument($options['url'])
-                ->addMethodCall('setToken', [$options['key']]);
-
-            $container->setDefinition(\sprintf('emsch.core.api_client.%s', $name), $defCoreApi);
-
             $definition = new Definition(ApiClient::class);
             $definition->setArgument(0, $name);
             $definition->setArgument(1, $options['url']);
             $definition->setArgument(2, $options['key']);
-            $definition->setArgument(3, new Reference(\sprintf('emsch.core.api_client.%s', $name)));
+            $definition->setArgument(3, new Reference('ems_common.core_api'));
             $definition->addTag('emsch.api_client');
 
             $container->setDefinition(\sprintf('emsch.api_client.%s', $name), $definition);

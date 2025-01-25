@@ -23,12 +23,14 @@ class FormRuntime
         protected DataService $dataService,
         protected RevisionService $revisionService,
         protected FormFactoryInterface $formFactory,
-        private readonly RequestStack $requestStack)
-    {
+        private readonly RequestStack $requestStack
+    ) {
     }
 
     /**
      * @param mixed[] $rawData
+     *
+     * @return ?FormInterface<mixed>
      */
     public function getFormByName(string $name, array $rawData = []): ?FormInterface
     {
@@ -50,6 +52,9 @@ class FormRuntime
         return $form->get('data');
     }
 
+    /**
+     * @param FormInterface<mixed> $form
+     */
     public function getDataField(FormInterface $form): DataField
     {
         return $this->dataService->getDataFieldsStructure($form);
@@ -58,6 +63,8 @@ class FormRuntime
     /**
      * @param mixed[] $data
      * @param mixed[] $options
+     *
+     * @return FormInterface<mixed>
      */
     public function handleForm(string $name, array $data = [], $options = []): FormInterface
     {

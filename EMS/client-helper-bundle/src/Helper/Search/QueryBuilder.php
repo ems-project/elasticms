@@ -27,7 +27,7 @@ final readonly class QueryBuilder
     }
 
     /**
-     * @param string[] $types
+     * @param list<string> $types
      */
     public function buildSearch(array $types): CommonSearch
     {
@@ -196,7 +196,7 @@ final readonly class QueryBuilder
             $aggs[$filter->getName()] = $aggregation;
         }
 
-        return \array_filter($aggs);
+        return $aggs;
     }
 
     private function getAgg(Filter $filter): AbstractAggregation

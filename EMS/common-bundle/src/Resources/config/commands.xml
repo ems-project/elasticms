@@ -28,7 +28,6 @@
         </service>
         <service id="ems.command.admin.login" class="EMS\CommonBundle\Command\Admin\LoginCommand">
             <argument type="service" id="ems.helper.admin_api"/>
-            <argument type="string">%ems_common.backend_url%</argument>
             <tag name="console.command" command="ems:admin:login"/>
         </service>
         <service id="ems.command.admin.get" class="EMS\CommonBundle\Command\Admin\GetCommand">

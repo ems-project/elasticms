@@ -75,13 +75,22 @@ class SmartCrop
         if ($this->prescale) {
             $preScale = 1 / $scale / $this->minScale;
             if ($preScale < 1) {
-                $this->canvasImageResample((int) \ceil($imageOriginalWidth * $preScale), (int) \ceil($imageOriginalHeight * $preScale));
+                /** @var int<1, max> $resampleWidth */
+                $resampleWidth = (int) \ceil($imageOriginalWidth * $preScale);
+                /** @var int<1, max> $resampleHeight */
+                $resampleHeight = (int) \ceil($imageOriginalHeight * $preScale);
+
+                $this->canvasImageResample($resampleWidth, $resampleHeight);
                 $this->cropWidth = (int) \ceil($this->cropWidth * $preScale);
                 $this->cropHeight = (int) \ceil($this->cropHeight * $preScale);
             }
         }
     }
 
+    /**
+     * @param int<1, max> $width
+     * @param int<1, max> $height
+     */
     private function canvasImageResample(int $width, int $height): void
     {
         $canvas = Type::gdImage(\imagecreatetruecolor($width, $height));
@@ -390,6 +399,10 @@ class SmartCrop
         return $l > 0.5 ? $d / (2 - $maximum - $minimum) : $d / ($maximum + $minimum);
     }
 
+    /**
+     * @param int<1, max> $width
+     * @param int<1, max> $height
+     */
     public function crop(int $x, int $y, int $width, int $height): self
     {
         $canvas = Type::gdImage(\imagecreatetruecolor($width, $height));

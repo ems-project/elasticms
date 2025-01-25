@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
@@ -12,7 +14,7 @@ use EMS\CoreBundle\Entity\Template;
 /**
  * @extends ServiceEntityRepository<Template>
  *
- * @method Template[] findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Template[] findBy(mixed[] $criteria, mixed[] $orderBy = null, $limit = null, $offset = null)
  */
 class TemplateRepository extends ServiceEntityRepository
 {

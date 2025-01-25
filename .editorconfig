@@ -19,5 +19,8 @@ indent_size = 4
 [*.{js}]
 indent_size = 2
 
+[*.php]
+trim_trailing_whitespace = false
+
 [COMMIT_EDITMSG]
 max_line_length = 0

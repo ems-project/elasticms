@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Controller\Views;
 
 use EMS\CommonBundle\Elasticsearch\Document\Document;
@@ -52,8 +54,8 @@ class CriteriaController extends AbstractController
         private readonly FieldTypeRepository $fieldTypeRepository,
         private readonly RevisionRepository $revisionRepository,
         private readonly FlashMessageLogger $flashMessageLogger,
-        private readonly string $templateNamespace)
-    {
+        private readonly string $templateNamespace
+    ) {
     }
 
     public function align(View $view, Request $request): Response
@@ -111,7 +113,6 @@ class CriteriaController extends AbstractController
                                     $type = $structuredTarget[0];
                                     $ouuid = $structuredTarget[1];
 
-                                    /** @var Revision $revision */
                                     $revision = $this->dataService->getNewestRevision($type, $ouuid);
                                 }
 
@@ -165,7 +166,6 @@ class CriteriaController extends AbstractController
                                     $type = $structuredTarget[0];
                                     $ouuid = $structuredTarget[1];
 
-                                    /** @var Revision $revision */
                                     $revision = $this->dataService->getNewestRevision($type, $ouuid);
                                 }
 
@@ -503,9 +503,6 @@ class CriteriaController extends AbstractController
             $ouuid = $structuredTarget[1];
 
             $revision = $this->dataService->getNewestRevision($type, $ouuid);
-            if (!$revision instanceof Revision) {
-                throw new \RuntimeException('Unexpected revision type');
-            }
 
             $authorized = $this->authorizationChecker->isGranted($view->getContentType()->role(ContentTypeRoles::EDIT));
             if (!$authorized) {
@@ -538,10 +535,6 @@ class CriteriaController extends AbstractController
                     $this->dataService->finalizeDraft($revision);
                 }
             } catch (LockedException) {
-                if (!$revision instanceof Revision) {
-                    throw new \RuntimeException('Unexpected revision type');
-                }
-
                 $this->logger->warning('log.view.criteria.locked_revision', [
                     EmsFields::LOG_CONTENTTYPE_FIELD => $revision->giveContentType()->getName(),
                     EmsFields::LOG_OUUID_FIELD => $revision->getOuuid(),
@@ -648,7 +641,6 @@ class CriteriaController extends AbstractController
 
             return $revision;
         } elseif (1 == $response->getTotal()) {
-            /** @var Revision $revision */
             $revision = null;
             /** @var Document $document */
             foreach ($response->getDocuments() as $document) {
@@ -899,7 +891,6 @@ class CriteriaController extends AbstractController
                 'field_name' => $targetFieldName,
             ]);
         } elseif (1 == $response->getTotal()) {
-            /** @var Revision $revision */
             $revision = null;
             $queryDocument = null;
             /** @var Document $document */

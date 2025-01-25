@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\CLI\Helper\Tika;
 
+use EMS\Helpers\File\File;
 use EMS\Helpers\Standard\Json;
 use Psr\Http\Message\StreamInterface;
 
@@ -116,8 +117,8 @@ class TikaCachePromise implements TikaPromiseInterface
         $filename = $this->filename($type);
         $dirname = \dirname($filename);
         if (!\file_exists($dirname)) {
-            \mkdir($dirname, 0755, true);
+            \mkdir($dirname, 0o755, true);
         }
-        \file_put_contents($filename, $contents);
+        File::putContents($filename, $contents);
     }
 }

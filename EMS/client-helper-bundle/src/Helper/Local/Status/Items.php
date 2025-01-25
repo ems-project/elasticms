@@ -30,7 +30,7 @@ final class Items implements \IteratorAggregate, \Countable
     }
 
     /**
-     * @return \ArrayIterator<int, Item>|Item[]
+     * @return \ArrayIterator<int, Item>
      */
     #[\Override]
     public function getIterator(): \ArrayIterator

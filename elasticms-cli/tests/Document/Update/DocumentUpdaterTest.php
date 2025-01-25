@@ -35,7 +35,7 @@ final class DocumentUpdaterTest extends TestCase
 
         $mockColumn = $this->createMock(DataColumn::class);
         $mockColumn
-            ->expects($this->exactly(1))
+            ->expects($this->once())
             ->method('transform')
             ->with(
                 $this->equalTo($data),
@@ -45,7 +45,7 @@ final class DocumentUpdaterTest extends TestCase
         $config = new DocumentUpdateConfig(['update' => ['contentType' => 'test', 'indexEmsId' => 0]]);
         $config->dataColumns = [$mockColumn];
 
-        (new DocumentUpdater($data, $config, $this->coreApi, $this->io, false))->executeColumnTransformers();
+        new DocumentUpdater($data, $config, $this->coreApi, $this->io, false)->executeColumnTransformers();
     }
 
     public function testExecute()
@@ -55,7 +55,7 @@ final class DocumentUpdaterTest extends TestCase
         $this->io
             ->expects($this->once())
             ->method('createProgressBar')
-            ->will($this->returnValue(new ProgressBar(new NullOutput(), 0)));
+            ->willReturn(new ProgressBar(new NullOutput(), 0));
 
         $this->io->expects($this->never())->method('error');
 
@@ -63,10 +63,20 @@ final class DocumentUpdaterTest extends TestCase
         $dataEndpoint
             ->expects($this->exactly(2))
             ->method('save')
-            ->withConsecutive(
-                [$this->equalTo('id1'), $this->equalTo(['title' => 'title 111'])],
-                [$this->equalTo('id2'), $this->equalTo(['title' => 'title 222'])]
-            );
+            ->willReturnCallback(function ($id, $data) {
+                static $expectedCalls = [
+                    ['id1', ['title' => 'title 111']],
+                    ['id2', ['title' => 'title 222']],
+                ];
+
+                $expectedCall = \array_shift($expectedCalls);
+
+                $this->assertSame($expectedCall[0], $id);
+                $this->assertSame($expectedCall[1], $data);
+
+                return 0;
+            })
+        ;
 
         $this->coreApi
             ->expects($this->once())->method('data')->willReturn($dataEndpoint);
@@ -80,7 +90,7 @@ final class DocumentUpdaterTest extends TestCase
                 ],
             ], ]);
 
-        (new DocumentUpdater($data, $config, $this->coreApi, $this->io, false))->execute();
+        new DocumentUpdater($data, $config, $this->coreApi, $this->io, false)->execute();
     }
 
     public function testExecuteGrouped()
@@ -90,18 +100,28 @@ final class DocumentUpdaterTest extends TestCase
         $this->io
             ->expects($this->once())
             ->method('createProgressBar')
-            ->will($this->returnValue(new ProgressBar(new NullOutput(), 0)));
+            ->willReturn(new ProgressBar(new NullOutput(), 0));
 
         $this->io->expects($this->never())->method('error');
 
         $dataEndpoint = $this->createMock(DataInterface::class);
+
         $dataEndpoint
             ->expects($this->exactly(2))
             ->method('save')
-            ->withConsecutive(
-                [$this->equalTo('id1'), $this->equalTo(['collection' => [['title' => 'title 111'], ['title' => 'title 111 bis']]])],
-                [$this->equalTo('id2'), $this->equalTo(['collection' => [['title' => 'title 222']]])]
-            );
+            ->willReturnCallback(function ($id, $data) {
+                static $expectedCalls = [
+                    ['id1', ['collection' => [['title' => 'title 111'], ['title' => 'title 111 bis']]]],
+                    ['id2', ['collection' => [['title' => 'title 222']]]],
+                ];
+
+                $expectedCall = \array_shift($expectedCalls);
+
+                $this->assertSame($expectedCall[0], $id);
+                $this->assertSame($expectedCall[1], $data);
+
+                return 0;
+            });
 
         $this->coreApi
             ->expects($this->once())->method('data')->willReturn($dataEndpoint);
@@ -116,6 +136,6 @@ final class DocumentUpdaterTest extends TestCase
                 ],
             ], ]);
 
-        (new DocumentUpdater($data, $config, $this->coreApi, $this->io, false))->execute();
+        new DocumentUpdater($data, $config, $this->coreApi, $this->io, false)->execute();
     }
 }

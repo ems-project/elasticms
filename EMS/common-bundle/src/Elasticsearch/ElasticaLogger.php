@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Elasticsearch;
 
-use Elastica\Exception\ResponseException;
 use Elastica\Request;
 use Elastica\Response;
 use EMS\CommonBundle\Contracts\Elasticsearch\QueryLoggerInterface;
@@ -63,7 +62,7 @@ class ElasticaLogger extends AbstractLogger implements QueryLoggerInterface
         }
     }
 
-    public function logResponse(Response $response, Request $request, ?ResponseException $responseException = null): void
+    public function logResponse(Response $response, Request $request): void
     {
         $responseData = $response->getData();
         $queryTime = $response->getQueryTime();
@@ -86,7 +85,7 @@ class ElasticaLogger extends AbstractLogger implements QueryLoggerInterface
                 'data' => $data,
                 'executionMS' => $executionMS,
                 'engineMS' => $responseData['took'] ?? 0,
-                'exception' => $responseException,
+                'error' => $response->getFullError(),
                 'connection' => [
                     'host' => $connection->getHost(),
                     'port' => $connection->getPort(),

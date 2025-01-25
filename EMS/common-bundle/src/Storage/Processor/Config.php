@@ -20,7 +20,7 @@ use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-final class Config
+class Config
 {
     /** @var array<string, mixed> */
     private array $options;
@@ -260,7 +260,7 @@ final class Config
 
     public function getImageFormat(): ?string
     {
-        if (isset($this->options[EmsFields::ASSET_CONFIG_IMAGE_FORMAT]) && null !== $this->options[EmsFields::ASSET_CONFIG_IMAGE_FORMAT]) {
+        if (isset($this->options[EmsFields::ASSET_CONFIG_IMAGE_FORMAT])) {
             return (string) $this->options[EmsFields::ASSET_CONFIG_IMAGE_FORMAT];
         }
 

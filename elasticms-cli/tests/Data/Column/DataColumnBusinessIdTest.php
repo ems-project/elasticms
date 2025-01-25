@@ -105,7 +105,7 @@ final class DataColumnBusinessIdTest extends TestCase
         $io
             ->expects($this->once())
             ->method('createProgressBar')
-            ->will($this->returnValue(new ProgressBar(new NullOutput(), 0)));
+            ->willReturn(new ProgressBar(new NullOutput(), 0));
 
         $context = $this->getMockBuilder(TransformContext::class)
             ->setConstructorArgs([$api, $io])

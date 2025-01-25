@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -138,7 +140,7 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
     }
 
     #[\Override]
-    public function setCircles(array $circles): self
+    public function setCircles(?array $circles): self
     {
         $this->circles = $circles;
 

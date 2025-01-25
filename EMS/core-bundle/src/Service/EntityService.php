@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Service;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
@@ -24,7 +26,7 @@ abstract class EntityService
     abstract protected function getEntityName(): string;
 
     /**
-     * @param FormInterface<FormInterface> $reorderForm
+     * @param FormInterface<mixed> $reorderForm
      */
     public function reorder(FormInterface $reorderForm): void
     {

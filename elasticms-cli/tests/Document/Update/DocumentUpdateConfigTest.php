@@ -31,7 +31,7 @@ final class DocumentUpdateConfigTest extends TestCase
     public function testInvalidFile()
     {
         $path = __DIR__.'/test.json';
-        $this->expectExceptionMessage('Could not read config file from '.$path);
+        $this->expectExceptionMessage(\sprintf('File "%s" does not exits', $path));
         DocumentUpdateConfig::fromFile($path);
     }
 

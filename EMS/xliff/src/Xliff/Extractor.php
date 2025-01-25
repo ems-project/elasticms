@@ -226,9 +226,6 @@ class Extractor
     {
         $currentSegment = null;
         foreach ($sourceNode->childNodes as $domNode) {
-            if (!$domNode instanceof \DOMNode) {
-                continue;
-            }
             if ($domNode instanceof \DOMText && $this->isEmpty($domNode)) {
                 continue;
             }
@@ -295,7 +292,7 @@ class Extractor
             $sourceAttributes = [
                 'xml:lang' => $this->sourceLocale,
             ];
-            if (null !== $sourceNode && $sourceNode instanceof \DOMElement && !\in_array($sourceNode->nodeName, self::INTERNAL_TAGS)) {
+            if ($sourceNode instanceof \DOMElement && !\in_array($sourceNode->nodeName, self::INTERNAL_TAGS)) {
                 $attributes = [
                     'restype' => static::getRestype($sourceNode->nodeName),
                 ];
@@ -427,9 +424,6 @@ class Extractor
     {
         if (!$sourceNode->hasChildNodes()) {
             return true;
-        }
-        if (!$sourceNode->childNodes instanceof \DOMNodeList) {
-            throw new \RuntimeException(\sprintf('Unexpected %s object, expected \\DOMNodeList', $sourceNode->childNodes::class));
         }
         for ($i = 0; $i < $sourceNode->childNodes->length; ++$i) {
             $child = $sourceNode->childNodes->item($i);

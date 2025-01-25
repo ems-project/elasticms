@@ -38,7 +38,7 @@ class ReleaseCommand extends AbstractCommand
         $this->packagist = new PackagistService();
 
         $version = $input->getArgument('version');
-        $version = $version ?? (string) $this->question->ask($input, $output, new Question('Version: '));
+        $version ??= (string) $this->question->ask($input, $output, new Question('Version: '));
         $this->version = Version::fromTag($version);
     }
 
@@ -128,7 +128,7 @@ class ReleaseCommand extends AbstractCommand
         }
 
         $table = $this->io->createTable();
-        $table->setHeaders(\array_filter(['repository', 'release', 'sha', 'url']));
+        $table->setHeaders(['repository', 'release', 'sha', 'url']);
         $table->setRows(\array_map(static function (GithubRelease $release) {
             return \array_filter([$release->repository, $release->status, $release->sha, $release->url]);
         }, $releases));
@@ -161,7 +161,7 @@ class ReleaseCommand extends AbstractCommand
         }
 
         $table = $this->io->createTable();
-        $table->setHeaders(\array_filter(['repository', 'status']));
+        $table->setHeaders(['repository', 'status']);
         $table->setRows(\array_map(static function (GithubRelease $release) {
             if (null === $release->packagistSha) {
                 return [$release->repository, '<error>not published</error>'];
@@ -206,7 +206,7 @@ class ReleaseCommand extends AbstractCommand
             $afterLock = ComposerLockFile::create($directory);
 
             $table = $this->io->createTable();
-            $table->setHeaders(\array_filter(['repository', 'before', 'now', 'sha']));
+            $table->setHeaders(['repository', 'before', 'now', 'sha']);
 
             foreach (Config::COMPOSER_PACKAGES as $repository => $name) {
                 if (null === $package = $afterLock->getPackage($name)) {

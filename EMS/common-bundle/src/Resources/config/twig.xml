@@ -10,6 +10,10 @@
         <service id="ems_common.twig.extension.common" class="EMS\CommonBundle\Twig\CommonExtension">
             <tag name="twig.extension" />
         </service>
+        <service id="ems.twig.extension.core_bridge" class="EMS\CommonBundle\Twig\CoreBridgeRuntime">
+            <argument type="service" id="EMS\CommonBundle\Contracts\Bridge\Core\CoreBridgeInterface" />
+            <tag name="twig.runtime" />
+        </service>
         <service id="ems.twig.extension.http_client" class="EMS\CommonBundle\Twig\HttpClientRuntime">
             <argument type="service" id="http_client"/>
             <tag name="twig.runtime" />

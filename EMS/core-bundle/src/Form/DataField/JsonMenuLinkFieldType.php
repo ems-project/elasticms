@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Form\DataField;
 
 use EMS\CommonBundle\Json\Decoder;
@@ -50,8 +52,8 @@ class JsonMenuLinkFieldType extends DataFieldType
     }
 
     /**
-     * @param FormBuilderInterface<FormBuilderInterface> $builder
-     * @param array<string, mixed>                       $options
+     * @param FormBuilderInterface<mixed> $builder
+     * @param array<string, mixed>        $options
      */
     #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -110,8 +112,8 @@ class JsonMenuLinkFieldType extends DataFieldType
     }
 
     /**
-     * @param FormInterface<FormInterface> $form
-     * @param array<string, mixed>         $options
+     * @param FormInterface<mixed> $form
+     * @param array<string, mixed> $options
      */
     #[\Override]
     public function buildView(FormView $view, FormInterface $form, array $options): void
@@ -162,15 +164,6 @@ class JsonMenuLinkFieldType extends DataFieldType
                     'required' => false,
                 ]);
         }
-    }
-
-    #[\Override]
-    public function getDefaultOptions(string $name): array
-    {
-        $out = parent::getDefaultOptions($name);
-        $out['mappingOptions']['index'] = 'not_analyzed';
-
-        return $out;
     }
 
     #[\Override]

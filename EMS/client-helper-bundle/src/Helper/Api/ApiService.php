@@ -10,12 +10,12 @@ use EMS\CommonBundle\Common\CoreApi\Exception\NotSuccessfulException;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\Helpers\Standard\Json;
 use Ramsey\Uuid\Uuid;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\FileBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Security\Core\Security;
 use Twig\Environment;
 
 /**
@@ -41,7 +41,7 @@ final readonly class ApiService
      */
     public function index(string $apiName, string $contentType, ?string $ouuid, array $rawData, bool $merge = false): string
     {
-        $dataEndpoint = $this->getApiClient($apiName)->coreApi->data($contentType);
+        $dataEndpoint = $this->getApiClient($apiName)->getCoreApi()->data($contentType);
 
         try {
             $ouuid ??= Uuid::uuid4()->toString();
@@ -236,7 +236,7 @@ final readonly class ApiService
 
         $user = $this->security->getUser();
         if ($user instanceof CoreApiUser) {
-            $client->coreApi->setToken($user->getToken());
+            $client->getCoreApi()->setToken($user->getToken());
         }
 
         return $client;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CommonBundle\Tests\Entity;
 
 use EMS\CommonBundle\Entity\AssetStorage;

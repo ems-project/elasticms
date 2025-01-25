@@ -35,8 +35,10 @@ final readonly class CoreApi implements CoreApiInterface
     }
 
     #[\Override]
-    public function authenticate(string $username, string $password): CoreApiInterface
+    public function authenticate(string $username, string $password, ?string $baseUrl = null): CoreApiInterface
     {
+        $this->setBaseUrl($baseUrl);
+
         $response = $this->client->post('/auth-token', [
             'username' => $username,
             'password' => $password,
@@ -60,9 +62,7 @@ final readonly class CoreApi implements CoreApiInterface
     #[\Override]
     public function data(string $contentType): DataInterface
     {
-        $versions = $this->admin()->getVersions();
-
-        return new Data($this->client, $contentType, $versions['core'] ?? '1.0.0');
+        return new Data($this->client, $contentType);
     }
 
     #[\Override]
@@ -90,6 +90,16 @@ final readonly class CoreApi implements CoreApiInterface
     }
 
     #[\Override]
+    public function setBaseUrl(?string $baseUrl = null): self
+    {
+        if (null !== $baseUrl) {
+            $this->client->setBaseUrl($baseUrl);
+        }
+
+        return $this;
+    }
+
+    #[\Override]
     public function getToken(): string
     {
         return $this->client->getHeader(self::HEADER_TOKEN);
@@ -102,15 +112,19 @@ final readonly class CoreApi implements CoreApiInterface
     }
 
     #[\Override]
-    public function setLogger(LoggerInterface $logger): void
+    public function setLogger(LoggerInterface $logger): self
     {
         $this->client->setLogger($logger);
+
+        return $this;
     }
 
     #[\Override]
-    public function setToken(string $token): void
+    public function setToken(string $token): self
     {
         $this->client->addHeader(self::HEADER_TOKEN, $token);
+
+        return $this;
     }
 
     #[\Override]

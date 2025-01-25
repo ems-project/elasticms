@@ -26,7 +26,7 @@ class IsVerificationCodeValidator extends ConstraintValidator
             return;
         }
 
-        /** @var FormInterface<FormInterface> $field */
+        /** @var FormInterface<mixed> $field */
         $field = $this->context->getObject();
         $verificationCode = $this->confirmationService->getVerificationCode($field->getName(), $confirmValue);
 
@@ -43,7 +43,7 @@ class IsVerificationCodeValidator extends ConstraintValidator
 
     private function getConfirmValue(IsVerificationCode $constraint): ?string
     {
-        /** @var FormInterface<FormInterface> $form */
+        /** @var FormInterface<mixed> $form */
         $form = $this->context->getRoot();
 
         if (!$form instanceof FormInterface) {

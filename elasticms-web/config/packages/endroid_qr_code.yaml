@@ -3,5 +3,5 @@ endroid_qr_code:
         writer: Endroid\QrCode\Writer\PngWriter
         size: 300
         margin: 10
-        errorCorrectionLevel: 'low'
-        validateResult: false
+        error_correction_level: 'low'
+        validate_result: false

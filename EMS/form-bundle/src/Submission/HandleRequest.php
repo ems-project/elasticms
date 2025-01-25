@@ -11,7 +11,7 @@ use Symfony\Component\Form\FormInterface;
 final readonly class HandleRequest implements HandleRequestInterface
 {
     /**
-     * @param FormInterface<FormInterface> $form
+     * @param FormInterface<mixed> $form
      */
     public function __construct(
         private FormInterface $form,
@@ -34,7 +34,7 @@ final readonly class HandleRequest implements HandleRequestInterface
         return $this->submissionConfig->getClass();
     }
 
-    /** @return FormInterface<FormInterface> */
+    /** @return FormInterface<mixed> */
     #[\Override]
     public function getForm(): FormInterface
     {

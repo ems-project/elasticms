@@ -6,7 +6,7 @@ on:
 
 env:
   PHP_VERSION: 8.4
-  PHPUNIT_FLAGS: "-v"
+  PHPUNIT_FLAGS: "--stop-on-defect"
 
 jobs:
   code-quality:

@@ -54,6 +54,10 @@ class Image
         $rotatedWidth = Type::integer(\imagesx($image));
         $rotatedHeight = Type::integer(\imagesy($image));
 
+        /**
+         * @var int<1, max> $width
+         * @var int<1, max> $height
+         */
         [$width, $height] = $this->getWidthHeight($rotatedWidth, $rotatedHeight);
         $this->applyColor($image);
 
@@ -132,6 +136,10 @@ class Image
         \imagefill($temp, 0, 0, $solidColour);
     }
 
+    /**
+     * @param int<1, max> $width
+     * @param int<1, max> $height
+     */
     private function applyResizeAndBackground(\GdImage $image, int $width, int $height, int $originalWidth, int $originalHeight): \GdImage
     {
         $resize = $this->config->getResize();
@@ -141,7 +149,19 @@ class Image
             if (null === $res['topCrop']) {
                 $resize = 'fillArea';
             } else {
-                $smartCrop->crop($res['topCrop']['x'], $res['topCrop']['y'], $res['topCrop']['width'], $res['topCrop']['height']);
+                /**
+                 * @var int<1, max> $x
+                 * @var int<1, max> $y
+                 * @var int<1, max> $cropWidth
+                 * @var int<1, max> $cropHeight
+                 */
+                [$x, $y, $cropWidth, $cropHeight] = [
+                    $res['topCrop']['x'],
+                    $res['topCrop']['y'],
+                    $res['topCrop']['width'],
+                    $res['topCrop']['height'],
+                ];
+                $smartCrop->crop($x, $y, $cropWidth, $cropHeight);
 
                 return $smartCrop->get();
             }
@@ -188,6 +208,10 @@ class Image
         return $temp;
     }
 
+    /**
+     * @param int<1, max> $width
+     * @param int<1, max> $height
+     */
     private function applyBackground(\GdImage $image, int $width, int $height): \GdImage
     {
         $temp = $this->imageCreate($width, $height);
@@ -295,10 +319,10 @@ class Image
         $parsedColor = new Color($background);
         $solidColour = \imagecolorallocatealpha(
             $temp,
-            $parsedColor->getRed(),
-            $parsedColor->getGreen(),
-            $parsedColor->getBlue(),
-            $parsedColor->getAlpha(),
+            $parsedColor->red,
+            $parsedColor->green,
+            $parsedColor->blue,
+            $parsedColor->alpha,
         );
         if (false === $solidColour) {
             throw new \RuntimeException('Unexpected false imagecolorallocatealpha');
@@ -369,6 +393,10 @@ class Image
         return $image;
     }
 
+    /**
+     * @param int<1, max> $width
+     * @param int<1, max> $height
+     */
     private function imageCreate(int $width, int $height): \GdImage
     {
         if (!\function_exists('imagecreatetruecolor') || false === ($image = \imagecreatetruecolor($width, $height))) {
@@ -405,7 +433,7 @@ class Image
         $color = new Color($colorString);
         $colors = [];
         for ($i = 0; $i < 128; ++$i) {
-            $color->setAlpha($i);
+            $color->alpha = $i;
             $colors[$i] = $color->getColorId($image);
         }
         for ($x = 0; $x < $width; ++$x) {

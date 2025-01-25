@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Command;
 
 use EMS\CommonBundle\Common\Command\AbstractCommand;
@@ -65,8 +67,8 @@ class ExportDocumentsCommand extends AbstractCommand
         protected readonly AssetRuntime $runtime,
         private readonly ElasticaService $elasticaService,
         private readonly StorageManager $storageManager,
-        protected readonly string $instanceId)
-    {
+        protected readonly string $instanceId
+    ) {
         parent::__construct();
     }
 

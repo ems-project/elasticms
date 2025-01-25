@@ -11,7 +11,7 @@
     "authors": [
         {
             "name": "EMS Community",
-            "homepage": "https://github.com/ems-project/xliff/contributors"
+            "homepage": "https://github.com/ems-project/elasticms/contributors"
         }
     ],
     "require": {
@@ -21,33 +21,13 @@
         "symfony/dom-crawler": "6.4.*",
         "symfony/property-access": "6.4.*"
     },
-    "require-dev": {
-        "mockery/mockery": "^1.6",
-        "phpunit/phpunit": "^9.5"
-    },
     "autoload": {
         "psr-4": {
             "EMS\\Xliff\\": "src/"
-        },
-        "exclude-from-classmap": [
-            "tests/"
-        ]
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "EMS\\Xliff\\Tests\\": "tests/"
         }
     },
     "config": {
         "lock": false,
         "sort-packages": true
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "0.1-dev"
-        }
-    },
-    "scripts": {
-        "phpunit": "phpunit"
     }
 }

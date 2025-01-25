@@ -4,7 +4,7 @@
     "authors": [
         {
             "name": "EMS Community",
-            "homepage": "https://github.com/ems-project/EMSClientHelperBundle/contributors"
+            "homepage": "https://github.com/ems-project/elasticms/contributors"
         }
     ],
     "type": "project",
@@ -21,7 +21,7 @@
         "ext-sqlite3": "*",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "elasticms/common-bundle": "6.0.*",
-        "kevinrob/guzzle-cache-middleware": "^4.1",
+        "kevinrob/guzzle-cache-middleware": "^6.0",
         "symfony/console": "6.4.*",
         "symfony/css-selector": "6.4.*",
         "symfony/dotenv": "6.4.*",
@@ -36,8 +36,8 @@
         "symfony/yaml": "6.4.*"
     },
     "require-dev": {
-        "phpdocumentor/reflection-docblock": "^5.3",
-        "phpunit/phpunit": "^9.5"
+        "symfony/debug-bundle": "6.4.*",
+        "symfony/web-profiler-bundle": "6.4.*"
     },
     "config": {
         "allow-plugins": {
@@ -87,10 +87,7 @@
         "post-update-cmd": [
             "@auto-scripts"
         ],
-        "phpcs": "php-cs-fixer fix",
-        "phpstan": "phpstan analyse",
-        "phpunit": "phpunit",
-        "phpall": "phpunit && php-cs-fixer fix && phpstan analyse"
+        "phpunit": "phpunit"
     },
     "conflict": {
         "symfony/symfony": "*"

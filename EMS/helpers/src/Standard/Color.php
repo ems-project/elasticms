@@ -170,10 +170,14 @@ class Color
         'yellow' => 'FFFF00',
         'yellowgreen' => '9ACD32'];
 
-    private int $red;
-    private int $green;
-    private int $blue;
-    private int $alpha;
+    /** @var int<0,255> */
+    public int $red;
+    /** @var int<0,255> */
+    public int $green;
+    /** @var int<0,255> */
+    public int $blue;
+    /** @var int<0,127> */
+    public int $alpha;
 
     public function __construct(string $color)
     {
@@ -190,49 +194,18 @@ class Color
                 $color = $color[0].$color[0].$color[1].$color[1].$color[2].$color[2].$color[3].$color[3];
             }
         }
-        $this->red = (int) \hexdec(\substr($color, 0, 2));
-        $this->green = (int) \hexdec(\substr($color, 2, 2));
-        $this->blue = (int) \hexdec(\substr($color, 4, 2));
-        $this->alpha = \intval(\hexdec(\substr($color, 6, 2)) / 2);
-    }
+        /** @var int<0,255> $red */
+        $red = (int) \hexdec(\substr($color, 0, 2));
+        /** @var int<0,255> $green */
+        $green = (int) \hexdec(\substr($color, 2, 2));
+        /** @var int<0,255> $blue */
+        $blue = (int) \hexdec(\substr($color, 4, 2));
+        /** @var int<0,127> $alpha */
+        $alpha = \intval(\hexdec(\substr($color, 6, 2)) / 2);
 
-    public function getRed(): int
-    {
-        return $this->red;
-    }
-
-    public function setRed(int $red): void
-    {
         $this->red = $red;
-    }
-
-    public function getGreen(): int
-    {
-        return $this->green;
-    }
-
-    public function setGreen(int $green): void
-    {
         $this->green = $green;
-    }
-
-    public function getBlue(): int
-    {
-        return $this->blue;
-    }
-
-    public function setBlue(int $blue): void
-    {
         $this->blue = $blue;
-    }
-
-    public function getAlpha(): int
-    {
-        return $this->alpha;
-    }
-
-    public function setAlpha(int $alpha): void
-    {
         $this->alpha = $alpha;
     }
 
@@ -240,10 +213,10 @@ class Color
     {
         $identifier = \imagecolorallocatealpha(
             $image,
-            $this->getRed(),
-            $this->getGreen(),
-            $this->getBlue(),
-            $this->getAlpha(),
+            $this->red,
+            $this->green,
+            $this->blue,
+            $this->alpha,
         );
         if (false === $identifier) {
             throw new \RuntimeException('Unexpected false image color identifier');
@@ -255,9 +228,9 @@ class Color
     public function relativeLuminance(): float
     {
         $components = [
-            'r' => $this->getRed() / 255.0,
-            'g' => $this->getGreen() / 255.0,
-            'b' => $this->getBlue() / 255.0,
+            'r' => $this->red / 255.0,
+            'g' => $this->green / 255.0,
+            'b' => $this->blue / 255.0,
         ];
         foreach ($components as $c => $v) {
             if ($v <= 0.03928) {
@@ -284,9 +257,9 @@ class Color
     public function getComplementary(): Color
     {
         $complementary = clone $this;
-        $complementary->setRed(255 - $this->red);
-        $complementary->setGreen(255 - $this->green);
-        $complementary->setBlue(255 - $this->blue);
+        $complementary->red = 255 - $this->red;
+        $complementary->green = 255 - $this->green;
+        $complementary->blue = 255 - $this->blue;
 
         return $complementary;
     }

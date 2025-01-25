@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class Synonym
 {
-    /** @var string[] */
+    /** @var list<string> */
     private readonly array $types;
     private ?string $field = null;
     private ?string $searchField = null;
@@ -25,7 +25,7 @@ final class Synonym
      */
     public function __construct(Request $request, array $data)
     {
-        $this->types = $data['types'] ?? [];
+        $this->types = \array_values($data['types'] ?? []);
         $this->filter = $data['filter'] ?? [];
 
         if (isset($data['field'])) {
@@ -42,7 +42,7 @@ final class Synonym
         return $this->searchField ?? '_all';
     }
 
-    public function getField(): ?string
+    public function getField(): string
     {
         return $this->field ?? '_all';
     }

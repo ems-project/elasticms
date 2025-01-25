@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Form\View;
 
 use EMS\CommonBundle\Helper\EmsFields;
@@ -39,8 +41,8 @@ class HierarchicalViewType extends ViewType
         protected DataService $dataService,
         protected RouterInterface $router,
         protected ContentTypeService $contentTypeService,
-        private readonly string $templateNamespace)
-    {
+        private readonly string $templateNamespace
+    ) {
         parent::__construct($formFactory, $twig, $logger, $templateNamespace);
     }
 
@@ -57,8 +59,8 @@ class HierarchicalViewType extends ViewType
     }
 
     /**
-     * @param FormBuilderInterface<FormBuilderInterface> $builder
-     * @param array<string, mixed>                       $options
+     * @param FormBuilderInterface<mixed> $builder
+     * @param array<string, mixed>        $options
      */
     #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void

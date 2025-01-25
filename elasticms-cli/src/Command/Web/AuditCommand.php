@@ -22,6 +22,7 @@ use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
 use EMS\CommonBundle\Exception\NotParsableUrlException;
 use EMS\CommonBundle\Helper\Url;
 use EMS\CommonBundle\Search\Search;
+use EMS\Helpers\File\File;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -352,7 +353,7 @@ class AuditCommand extends AbstractCommand
 
         $this->audited[] = $urlHash;
         if (null != $this->saveFolder) {
-            \file_put_contents(\sprintf('%s/%s.json', $this->saveFolder, $this->auditCache->getUrlHash($auditResult->getUrl())), Json::encode($auditResult->getRawData(), true));
+            File::putContents(\sprintf('%s/%s.json', $this->saveFolder, $this->auditCache->getUrlHash($auditResult->getUrl())), Json::encode($auditResult->getRawData(), true));
         }
         $this->auditCache->setReport($report);
         $this->auditCache->save($this->jsonPath);

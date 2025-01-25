@@ -24,8 +24,8 @@ final class EntityTable extends TableAbstract
         private readonly EntityServiceInterface $entityService,
         string $ajaxUrl,
         private $context = null,
-        int $loadAllMaxRow = 400)
-    {
+        int $loadAllMaxRow = 400
+    ) {
         if ($this->count() > $loadAllMaxRow) {
             parent::__construct($ajaxUrl, 0, 0);
             $this->loadAll = false;
@@ -96,7 +96,7 @@ final class EntityTable extends TableAbstract
             $this->count = $this->entityService->count($this->getSearchValue(), $this->context);
         }
 
-        return $this->count;
+        return $this->count > 0 ? $this->count : 0;
     }
 
     #[\Override]

@@ -15,7 +15,11 @@
   * [version 4.x](#version-4x)
   * [Tips and tricks](#tips-and-tricks)
 
-## Switch to CK Editor 5
+## General remarks
+
+ * It's always a good idea to rebuild indexes on upgrade: `emsco:environment:rebuild --all`
+
+## Switch to CK Editor 5 (still in beta)
 
 Require ElasticMS version >= 6.0.0
 
@@ -93,6 +97,12 @@ Here is an example.
 ```
 
 ## version 6.0.x
+
+### Postgres 17
+
+The `demo/docker-compose.yml` and the `docker/docker-compose.yml` files have been upgraded to use Postgres 17 insterad of Postgres 12.
+Unfortunately, you will have to dump your schemas, delete the Postgres's docker volume with the command `docker volume rm ems-mono_postgres`.
+And finally, recreate Postgres schemas and reload you dumps.
 
 ### Symfony request inputBag
 
@@ -260,7 +270,7 @@ It's not required, but warmly recommended to re-upload your assets and update th
 ## version 5.19.x
 
 * The core command ```emsco:release:publish``` has been removed, ```emsco:job:run``` will now publish releases
-* All indexes must be rebuilt (as a new field `_image_resized_hash` as been defined in file fields)
+* All indexes must be rebuilt (as a new field `_image_resized_hash` as been defined in file field's mapping): `emsco:environment:rebuild --all`
 * The function `emsch_unzip` is deprecated and should not be used anymore. use the function ems_file_from_archive or the route EMS\CommonBundle\Controller\FileController::assetInArchive instead
   * If the `emsch_unzip` function is used to serve assets via the web server you should use the route [EMS\CommonBundle\Controller\FileController::assetInArchive](dev/client-helper-bundle/routing.md#route-to-assets-in-archive)
   * If the `emsch_unzip` function is used to get local path to an asset you should use the [`ems_file_from_archive`](dev/common-bundle/twig.md#emsfilefromarchive) function

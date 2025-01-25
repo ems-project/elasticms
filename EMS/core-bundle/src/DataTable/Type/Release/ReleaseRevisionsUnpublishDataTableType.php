@@ -90,7 +90,8 @@ class ReleaseRevisionsUnpublishDataTableType extends AbstractTableType implement
                 'release' => (string) $context['release']->getId(),
                 'type' => 'unpublish',
                 'emsLinkToAdd' => 'documentEmsId',
-            ]);
+            ]
+        );
     }
 
     #[\Override]
@@ -177,11 +178,11 @@ class ReleaseRevisionsUnpublishDataTableType extends AbstractTableType implement
         $query = new BoolQuery();
         $query->addMust(new Terms(
             field: Mapping::CONTENT_TYPE_FIELD,
-            terms: \array_map(static fn (ContentType $contentType) => $contentType->getName(), $contentTypesGrantedPublication)
+            terms: \array_values(\array_map(static fn (ContentType $contentType) => $contentType->getName(), $contentTypesGrantedPublication))
         ));
 
         if (\count($ouuids) > 0) {
-            $query->addMustNot(new Terms('_id', $ouuids));
+            $query->addMustNot(new Terms('_id', \array_values($ouuids)));
         }
 
         if ('' !== $searchValue) {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Twig;
 
 use Caxy\HtmlDiff\HtmlDiff;
@@ -823,7 +825,7 @@ class AppExtension extends AbstractExtension
     /**
      * @param string|string[]     $indexes
      * @param string|array<mixed> $body
-     * @param string|string[]     $contentTypes
+     * @param string|list<string> $contentTypes
      * @param array<mixed>|null   $sort
      * @param string[]|null       $sources
      */
@@ -917,17 +919,20 @@ class AppExtension extends AbstractExtension
                 $query = \html_entity_decode($matches['query'] ?? '');
                 \parse_str($query, $parameters);
                 if (\is_string($parameters['name'] ?? null) && \is_string($parameters['type'] ?? null)) {
-                    return $this->assetRuntime->assetPath([
-                        EmsFields::CONTENT_FILE_HASH_FIELD => $matches['hash'],
-                        EmsFields::CONTENT_FILE_NAME_FIELD => $parameters['name'],
-                        EmsFields::CONTENT_MIME_TYPE_FIELD => $parameters['type'],
-                    ], [
-                    ],
+                    return $this->assetRuntime->assetPath(
+                        [
+                            EmsFields::CONTENT_FILE_HASH_FIELD => $matches['hash'],
+                            EmsFields::CONTENT_FILE_NAME_FIELD => $parameters['name'],
+                            EmsFields::CONTENT_MIME_TYPE_FIELD => $parameters['type'],
+                        ],
+                        [
+                        ],
                         'ems_asset',
                         EmsFields::CONTENT_FILE_HASH_FIELD,
                         EmsFields::CONTENT_FILE_NAME_FIELD,
                         EmsFields::CONTENT_MIME_TYPE_FIELD,
-                        UrlGeneratorInterface::ABSOLUTE_PATH);
+                        UrlGeneratorInterface::ABSOLUTE_PATH
+                    );
                 }
 
                 return $path.$matches['hash'];
@@ -1046,7 +1051,7 @@ class AppExtension extends AbstractExtension
             $document = $this->searchService->getDocument($contentType, $emsLink->getOuuid());
             $emsLink = $document->getEmsLink(); // versioned documents
             $emsSource = $document->getEMSSource();
-            $label .= \sprintf('<span>%s</span>', $this->revisionService->display($document));
+            $label .= \sprintf('<span>%s</span>', \htmlentities($this->revisionService->display($document)));
         } catch (NotFoundException) {
             $label .= \sprintf('<span>%s</span>', $emsLink->getEmsId());
         }
@@ -1196,14 +1201,7 @@ class AppExtension extends AbstractExtension
      */
     public function soapRequest(mixed $wsdl, array $arguments)
     {
-        /** @var \SoapClient $soapClient */
-        $soapClient = null;
-        if (\array_key_exists('options', $arguments)) {
-            $soapClient = new \SoapClient($wsdl, $arguments['options']);
-        } else {
-            $soapClient = new \SoapClient($wsdl);
-        }
-
+        $soapClient = new \SoapClient($wsdl, $arguments['options'] ?? []);
         $function = $arguments['function'];
 
         if (\array_key_exists('parameters', $arguments)) {

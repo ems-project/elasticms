@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Repository;
 
 use Doctrine\DBAL\ArrayParameterType;
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Query\QueryBuilder as DBALQueryBuilder;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityRepository;
@@ -21,8 +23,8 @@ use Ramsey\Uuid\UuidInterface;
 /**
  * @extends EntityRepository<Revision>
  *
- * @method Revision|null findOneBy(array $criteria, array $orderBy = null)
- * @method Revision[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Revision|null findOneBy(mixed[] $criteria, mixed[] $orderBy = null)
+ * @method Revision[]    findBy(mixed[] $criteria, mixed[] $orderBy = null, $limit = null, $offset = null)
  */
 class RevisionRepository extends EntityRepository
 {
@@ -177,7 +179,7 @@ class RevisionRepository extends EntityRepository
     {
         $connection = $this->getEntityManager()->getConnection();
 
-        if ('postgresql' === $connection->getDatabasePlatform()->getName()) {
+        if ($connection->getDatabasePlatform() instanceof PostgreSQLPlatform) {
             $result = $this->getEntityManager()->getConnection()->fetchAllAssociative("select count(*) as counter FROM public.revision where raw_data::text like '%$hash%'");
 
             return \intval($result[0]['counter']);
@@ -547,7 +549,7 @@ class RevisionRepository extends EntityRepository
         $qb
             ->from('revision', 'r')
             ->andWhere($qb->expr()->in('r.ouuid', ':ouuids'))
-            ->setParameter('ouuids', $ouuids, Connection::PARAM_STR_ARRAY);
+            ->setParameter('ouuids', $ouuids, ArrayParameterType::STRING);
 
         return $this->deleteByQueryBuilder($qb);
     }

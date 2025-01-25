@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
@@ -10,8 +12,8 @@ use EMS\CoreBundle\Entity\ContentType;
 /**
  * @extends EntityRepository<ContentType>
  *
- * @method ContentType|null findOneBy(array $criteria, array $orderBy = null)
- * @method ContentType[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method ContentType|null findOneBy(mixed[] $criteria, mixed[] $orderBy = null)
+ * @method ContentType[]    findBy(mixed[] $criteria, mixed[] $orderBy = null, $limit = null, $offset = null)
  */
 class ContentTypeRepository extends EntityRepository
 {

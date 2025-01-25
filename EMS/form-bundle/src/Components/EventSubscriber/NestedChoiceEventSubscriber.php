@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\FormBundle\Components\EventSubscriber;
 
 use EMS\FormBundle\Components\Field\FieldInterface;
@@ -73,7 +75,7 @@ class NestedChoiceEventSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @param FormInterface<FormInterface> $form
+     * @param FormInterface<mixed> $form
      */
     private function initialFieldName(FormInterface $form): string
     {
@@ -88,7 +90,7 @@ class NestedChoiceEventSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @param FormInterface<FormInterface> $form
+     * @param FormInterface<mixed> $form
      */
     private function addField(string $fieldName, string $choice, FormInterface $form, ?string $defaultData = null): void
     {

@@ -29,7 +29,7 @@ class ChangelogCommand extends AbstractCommand
         parent::initialize($input, $output);
 
         $version = $input->getArgument('version');
-        $version = $version ?? (string) $this->question->ask($input, $output, new Question('Version: '));
+        $version ??= (string) $this->question->ask($input, $output, new Question('Version: '));
         $this->version = Version::fromTag($version);
     }
 

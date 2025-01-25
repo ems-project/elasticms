@@ -30,7 +30,7 @@ abstract class AbstractUrlStorage implements StorageInterface, \Stringable
         $directoryName = \dirname($filename);
         if (!\file_exists($directoryName)) {
             try {
-                \mkdir($directoryName, 0777, true);
+                \mkdir($directoryName, 0o777, true);
             } catch (\Throwable) {
                 $this->logger->warning('Not able to create a {directoryName} folder', ['directoryName' => $directoryName]);
             }

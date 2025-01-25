@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Form\View;
 
 use EMS\CoreBundle\Entity\View;
@@ -12,14 +14,17 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Twig\Environment;
 
+/**
+ * @extends AbstractType<mixed>
+ */
 abstract class ViewType extends AbstractType
 {
     public function __construct(
         protected FormFactory $formFactory,
         protected Environment $twig,
         protected LoggerInterface $logger,
-        private readonly string $templateNamespace)
-    {
+        private readonly string $templateNamespace
+    ) {
     }
 
     abstract public function getLabel(): string;

@@ -93,7 +93,7 @@ class PropertyPath implements \Iterator, \Countable
     #[\Override]
     public function count(): int
     {
-        return $this->length;
+        return \max($this->length, 0);
     }
 
     public function last(): bool

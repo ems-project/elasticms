@@ -135,11 +135,11 @@ final class Search
     }
 
     /**
-     * @return string[]
+     * @return list<string>
      */
     public function getTypes(): array
     {
-        return $this->types;
+        return \array_values($this->types);
     }
 
     /**
@@ -406,7 +406,7 @@ final class Search
      */
     private function setHighlight(array $data): void
     {
-        if (\is_array($data) && isset($data['fields'])) {
+        if (isset($data['fields'])) {
             foreach ($data['fields'] as $key => $options) {
                 $replacedKey = RequestHelper::replace($this->request, $key);
                 if ($replacedKey !== $key) {

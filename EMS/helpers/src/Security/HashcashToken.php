@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\Helpers\Security;
 
 use Symfony\Component\String\ByteString;

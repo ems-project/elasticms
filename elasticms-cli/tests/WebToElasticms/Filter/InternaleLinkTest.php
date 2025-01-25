@@ -37,7 +37,8 @@ class InternaleLinkTest extends TestCase
 <div style="padding: inherit;"><a href="../../toto/link">Absolute link</a></div>
 <div style="padding: inherit;"><img src="../asset/images/test.png"></div>
 <div style="padding: inherit;"><a href="https://www.google.com">Google</a></div>
-<div style="padding: inherit;"><a href="//www.google.com">Google</a></div>');
+<div style="padding: inherit;"><a href="//www.google.com">Google</a></div>'
+        );
 
         $internalLink->process($webResource, $crawler->filter('body'));
         $this->assertEquals(
@@ -47,7 +48,9 @@ class InternaleLinkTest extends TestCase
 <div style="padding: inherit;"><a href="ems://object:page:ouuid">Absolute link</a></div>
 <div style="padding: inherit;"><img src="ems://object:page:ouuid"></div>
 <div style="padding: inherit;"><a href="https://www.google.com">Google</a></div>
-<div style="padding: inherit;"><a href="//www.google.com">Google</a></div>', $crawler->filter('body')->html());
+<div style="padding: inherit;"><a href="//www.google.com">Google</a></div>',
+            $crawler->filter('body')->html()
+        );
     }
 
     public function testLinkToClean(): void
@@ -67,7 +70,8 @@ class InternaleLinkTest extends TestCase
             '<div style="padding: inherit;"><a href="//demo.com/fr/glossaire?totot">Url</a></div>
 <div style="padding: inherit;"><a href="../fr/glossaire">link</a></div>
 <div style="padding: inherit;"><a href="/fr/glossaire">link</a></div>
-<div style="padding: inherit;"><a href="/autre">link</a> toto <a href="/fr/glossaire">link</a> totot</div>');
+<div style="padding: inherit;"><a href="/autre">link</a> toto <a href="/fr/glossaire">link</a> totot</div>'
+        );
         $internalLink = new InternalLink($config, $rapport, 'https://demo.com/a/b');
 
         $internalLink->process($webResource, $crawler->filter('body'));

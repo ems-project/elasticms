@@ -1,4 +1,4 @@
-import { Plugin } from 'ckeditor5';
+import { Plugin } from 'ckeditor5'
 
 export class LinkTarget extends Plugin {
   init() {

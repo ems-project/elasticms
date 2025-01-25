@@ -46,8 +46,8 @@ import { EditorRevisionOptions } from './editorRevisionOptions.ts'
 // import { Link } from './ckeditor5-link/src/index'
 // import { AssetManager } from './ckeditor5-assetmanager/src/index'
 // import { UploadAdapter } from './ck5/uploadAdapter'
-import { PasteAjax } from './ck5/pasteAjax'
-import { LinkTarget } from './ck5/linkTarget'
+// import { PasteAjax } from './ck5/pasteAjax'
+// import { LinkTarget } from './ck5/linkTarget'
 
 import ChangeEvent from '../events/changeEvent'
 
@@ -145,11 +145,11 @@ export default class Editor {
         Indent,
         Italic,
         Link,
-        LinkTarget,
+        // LinkTarget,
         List,
         MediaEmbed,
         Paragraph,
-        PasteAjax,
+        // PasteAjax,
         PictureEditing,
         RemoveFormat,
         SourceEditing,

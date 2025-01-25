@@ -1,6 +1,4 @@
 security:
-  enable_authenticator_manager: true
-
   password_hashers:
     EMS\CoreBundle\Entity\UserInterface: bcrypt
 
@@ -22,6 +20,11 @@ security:
       id: emsco.security.provider.user
     emsco_user_api:
       id: emsco.security.provider.user_api
+    emsco_user_ldap:
+      id: emsco.security.provider.user_ldap
+    chain_providers:
+      chain:
+        providers: [ 'emsco_user', 'emsco_user_ldap' ]
 
   firewalls:
     dev:
@@ -35,10 +38,14 @@ security:
         - emsco.security.authenticator.auth_token
     ems_core:
       lazy: true
-      provider: emsco_user
+      provider: chain_providers
+      entry_point: emsco.security.authenticator.form_login
       custom_authenticators:
-        - emsco.security.authenticator.form_login
         - emsco.security.authenticator.auth_token_login
+        - emsco.security.authenticator.auth_token_ldap
+        - emsco.security.authenticator.form_login
+        - emsco.security.authenticator.form_login_ldap
+      form_login_ldap: ~
       logout:
         path: emsco_user_logout
       remember_me:

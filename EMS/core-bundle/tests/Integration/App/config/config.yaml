@@ -53,3 +53,14 @@ ems_core:
 services:
   _defaults:
     public: true
+
+  Symfony\Component\Ldap\Ldap:
+    arguments: [ '@Symfony\Component\Ldap\Adapter\ExtLdap\Adapter' ]
+    tags: ['ldap']
+  Symfony\Component\Ldap\Adapter\ExtLdap\Adapter:
+    arguments:
+      - host: '%env(string:APP_LDAP_SERVER)%'
+        port: '%env(int:APP_LDAP_PORT)%'
+        encryption: '%env(string:APP_LDAP_ENCRYPTION)%'
+        options:
+          protocol_version: '%env(int:APP_LDAP_PROTOCOLE_VERSION)%'

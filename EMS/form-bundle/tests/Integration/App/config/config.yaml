@@ -6,7 +6,6 @@ parameters:
 framework:
     http_method_override: false
     handle_all_throwables: true
-    test: true
     secret: 1621180219f163d89dc399e88cfc1807ab6448cf
     csrf_protection: ~
     session:
@@ -15,7 +14,7 @@ framework:
         handler_id: ~
         storage_factory_id: session.storage.factory.native
     router:
-        resource: '%kernel.project_dir%/config/routes.yaml'
+        resource: 'config/routes.yml'
         utf8: true
         strict_requirements: ~
     php_errors:
@@ -23,9 +22,14 @@ framework:
     validation:
         email_validation_mode: html5
 
+security:
+    firewalls:
+        main:
+            security: false
+
 doctrine:
     dbal:
-        url: 'sqlite:///%kernel.cache_dir%/test.db'
+        url: 'sqlite:///%kernel.project_dir%/tmp/test.db'
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
@@ -47,22 +51,9 @@ ems_client_helper:
             api: { "enable": true, "name": "backend" }
             hosts: '["http://localhost:9200"]'
 
-ems_core:
-    private_key: ''
-    public_key: ''
-    tika_server: '["http://localhost:9998"]'
+ems_common:
+    backend_url: 'https://localhost'
 
 services:
     _defaults:
         public: true
-
-    Symfony\Component\Ldap\Ldap:
-        arguments: [ '@Symfony\Component\Ldap\Adapter\ExtLdap\Adapter' ]
-        tags: [ 'ldap' ]
-    Symfony\Component\Ldap\Adapter\ExtLdap\Adapter:
-        arguments:
-            -   host: '%env(string:APP_LDAP_SERVER)%'
-                port: '%env(int:APP_LDAP_PORT)%'
-                encryption: '%env(string:APP_LDAP_ENCRYPTION)%'
-                options:
-                    protocol_version: '%env(int:APP_LDAP_PROTOCOLE_VERSION)%'

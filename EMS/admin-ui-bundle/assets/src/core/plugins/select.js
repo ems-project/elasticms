@@ -27,15 +27,15 @@ class Select {
       select2.default()
     }
     const formatFn = (state) => {
-        const text = state.text
-        const element = state.element
-        const dataset = element ? element.dataset : false
+      const text = state.text
+      const element = state.element
+      const dataset = element ? element.dataset : false
 
-        if (dataset && Object.hasOwn(dataset, 'icon')) {
-            return `<i class="${dataset.icon}"></i> ${text}`
-        }
+      if (dataset && Object.hasOwn(dataset, 'icon')) {
+        return `<i class="${dataset.icon}"></i> ${text}`
+      }
 
-        return text
+      return text
     }
     targetQuery.find('select.select2').select2({
       theme: 'bootstrap-5',
@@ -46,8 +46,8 @@ class Select {
       },
       width: '100%',
       dropdownParent: target === document ? $(target.body) : targetQuery,
-        templateSelection: formatFn,
-        templateResult: formatFn,
+      templateSelection: formatFn,
+      templateResult: formatFn
     })
   }
 }

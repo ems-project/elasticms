@@ -722,6 +722,7 @@ export default class EmsListeners {
         jquery(this.target).find(".select2").select2({
             allowClear: true,
             placeholder: "",
+            width: '100%',
             escapeMarkup: function (markup) { return markup; },
             templateSelection: formatFn,
             templateResult: formatFn,

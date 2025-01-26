@@ -209,6 +209,11 @@ class Color
         $this->alpha = $alpha;
     }
 
+    public static function fromString(string $string): self
+    {
+        return new self($string);
+    }
+
     public function getColorId(\GdImage $image): int
     {
         $identifier = \imagecolorallocatealpha(
@@ -254,7 +259,7 @@ class Color
         return ($y1 + 0.05) / ($y2 + 0.05);
     }
 
-    public function getComplementary(): Color
+    public function getComplementary(): self
     {
         $complementary = clone $this;
         $complementary->red = 255 - $this->red;
@@ -272,5 +277,36 @@ class Color
     public function getRGBA(): string
     {
         return \sprintf('#%\'.02X%\'.02X%\'.02X%\'.02X', $this->red, $this->green, $this->blue, $this->alpha);
+    }
+
+    public function bestContrast(string|Color ...$colors): self
+    {
+        if (empty($colors)) {
+            throw new \RuntimeException('Empty color list');
+        }
+
+        $bestColor = \reset($colors);
+        $bestColor = \is_string($bestColor) ? new Color($bestColor) : $bestColor;
+        if (1 === \count($colors)) {
+            $colors[] = $bestColor->getComplementary();
+        }
+        foreach ($colors as $color) {
+            $color = \is_string($color) ? new Color($color) : $color;
+            $bestColor = $this->contrastRatio($bestColor) >= $this->contrastRatio($color) ? $bestColor : $color;
+        }
+
+        return $bestColor;
+    }
+
+    public function html(): string
+    {
+        $rgb = $this->getRGB();
+        foreach (self::STANDARD_HTML_COLORS as $name => $color) {
+            if (\join('', ['#', $color]) === $rgb) {
+                return $name;
+            }
+        }
+
+        return $rgb;
     }
 }

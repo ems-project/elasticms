@@ -53,4 +53,16 @@ final class Type
 
         return $value;
     }
+
+    public static function getAsNullableString(mixed $value): ?string
+    {
+        if (null === $value) {
+            return null;
+        }
+        if (!\is_scalar($value)) {
+            throw new \RuntimeException(\sprintf("Expect a scalar variable got '%s'", \gettype($value)));
+        }
+
+        return (string) $value;
+    }
 }

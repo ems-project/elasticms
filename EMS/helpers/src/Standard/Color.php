@@ -176,7 +176,7 @@ class Color
     public int $green;
     /** @var int<0,255> */
     public int $blue;
-    /** @var int<0,127> */
+    /** @var int<0,255> */
     public int $alpha;
 
     public function __construct(string $color)
@@ -200,12 +200,18 @@ class Color
         $green = (int) \hexdec(\substr($color, 2, 2));
         /** @var int<0,255> $blue */
         $blue = (int) \hexdec(\substr($color, 4, 2));
-        /** @var int<0,127> $alpha */
-        $alpha = \intval(\hexdec(\substr($color, 6, 2)) / 2);
-
         $this->red = $red;
         $this->green = $green;
         $this->blue = $blue;
+
+        $alphaStr = \substr($color, 6, 2);
+        if ('' === $alphaStr) {
+            $this->alpha = 255;
+
+            return;
+        }
+        /** @var int<0,255> $alpha */
+        $alpha = \hexdec($alphaStr);
         $this->alpha = $alpha;
     }
 
@@ -216,12 +222,14 @@ class Color
 
     public function getColorId(\GdImage $image): int
     {
+        /** @var int<0,127> $alpha */
+        $alpha = (int) ($this->alpha / 2);
         $identifier = \imagecolorallocatealpha(
             $image,
             $this->red,
             $this->green,
             $this->blue,
-            $this->alpha,
+            $alpha,
         );
         if (false === $identifier) {
             throw new \RuntimeException('Unexpected false image color identifier');
@@ -300,6 +308,9 @@ class Color
 
     public function html(): string
     {
+        if (255 !== $this->alpha) {
+            return $this->getRGBA();
+        }
         $rgb = $this->getRGB();
         foreach (self::STANDARD_HTML_COLORS as $name => $color) {
             if (\join('', ['#', $color]) === $rgb) {

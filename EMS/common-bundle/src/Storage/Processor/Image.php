@@ -317,18 +317,8 @@ class Image
     {
         $background = $this->config->getBackground();
         $parsedColor = new Color($background);
-        $solidColour = \imagecolorallocatealpha(
-            $temp,
-            $parsedColor->red,
-            $parsedColor->green,
-            $parsedColor->blue,
-            $parsedColor->alpha,
-        );
-        if (false === $solidColour) {
-            throw new \RuntimeException('Unexpected false imagecolorallocatealpha');
-        }
 
-        return $solidColour;
+        return $parsedColor->getColorId($temp);
     }
 
     /**

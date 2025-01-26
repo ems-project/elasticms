@@ -293,9 +293,9 @@ class Color
             throw new \RuntimeException('Empty color list');
         }
 
-        $bestColor = \reset($colors);
+        $bestColor = \array_shift($colors);
         $bestColor = \is_string($bestColor) ? new Color($bestColor) : $bestColor;
-        if (1 === \count($colors)) {
+        if (empty($colors)) {
             $colors[] = $bestColor->getComplementary();
         }
         foreach ($colors as $color) {

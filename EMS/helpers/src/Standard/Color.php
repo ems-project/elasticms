@@ -290,16 +290,16 @@ class Color
     public function bestContrast(string|Color ...$colors): self
     {
         if (empty($colors)) {
-            throw new \RuntimeException('Empty color list');
+            throw new \InvalidArgumentException('Empty color list');
         }
 
+        $colors = \array_map(fn ($color) => \is_string($color) ? new Color($color) : $color, $colors);
         $bestColor = \array_shift($colors);
-        $bestColor = \is_string($bestColor) ? new Color($bestColor) : $bestColor;
         if (empty($colors)) {
             $colors[] = $bestColor->getComplementary();
         }
+
         foreach ($colors as $color) {
-            $color = \is_string($color) ? new Color($color) : $color;
             $bestColor = $this->contrastRatio($bestColor) >= $this->contrastRatio($color) ? $bestColor : $color;
         }
 

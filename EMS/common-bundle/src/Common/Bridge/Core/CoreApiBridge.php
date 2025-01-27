@@ -22,11 +22,11 @@ readonly class CoreApiBridge implements CoreBridgeInterface
 
     public function data(string $contentType): CoreDataBridgeInterface
     {
-        return new CoreDataApiBridge($this->coreApi, $contentType);
+        return new CoreDataApiBridge($this->coreApi->data($contentType));
     }
 
     public function info(): CoreInfoBridgeInterface
     {
-        return new CoreInfoApiBridge();
+        return new CoreInfoApiBridge($this->coreApi->meta());
     }
 }

@@ -41,6 +41,6 @@ readonly class CoreServiceBridge implements CoreBridgeInterface
     #[\Override]
     public function info(): CoreInfoBridgeInterface
     {
-        return new CoreInfoServiceBridge();
+        return new CoreInfoServiceBridge($this->revisionService);
     }
 }

@@ -4,13 +4,22 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Common\Bridge\Core;
 
+use EMS\CommonBundle\Common\EMSLink;
 use EMS\CommonBundle\Contracts\Bridge\Core\CoreInfoBridgeInterface;
+use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Admin\MetaInterface;
 
-class CoreInfoApiBridge implements CoreInfoBridgeInterface
+readonly class CoreInfoApiBridge implements CoreInfoBridgeInterface
 {
-    #[\Override]
-    public function documents(array $ouuids, array $environments = []): array
+    public function __construct(private MetaInterface $metaApi)
     {
-        return $ouuids;
+    }
+
+    #[\Override]
+    public function documents(array $environments, EMSLink ...$emsLinks): array
+    {
+        return $this->metaApi->getInfoDocuments(
+            environments: $environments,
+            emsLinks: \array_values(\array_map(static fn (EMSLink $link) => $link->getEmsId(), $emsLinks))
+        );
     }
 }

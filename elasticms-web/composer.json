@@ -20,7 +20,7 @@
         "ext-mbstring": "*",
         "doctrine/doctrine-bundle": "^2.11",
         "doctrine/doctrine-migrations-bundle": "^3.2",
-        "doctrine/orm": "^2.17",
+        "doctrine/orm": "^3.3",
         "elasticms/client-helper-bundle": "6.0.*",
         "elasticms/form-bundle": "6.0.*",
         "elasticms/submission-bundle": "6.0.*",

@@ -6,6 +6,8 @@ namespace EMS\CommonBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Query\Parameter;
 use EMS\CommonBundle\Entity\StoreData;
 
 /**
@@ -44,9 +46,9 @@ class StoreDataRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('store_data')->delete();
         $qb->where($qb->expr()->isNotNull('store_data.expiresAt'));
         $qb->andWhere($qb->expr()->lt('store_data.expiresAt', ':now'));
-        $qb->setParameters([
-            ':now' => new \DateTimeImmutable(),
-        ]);
+        $qb->setParameters(new ArrayCollection([
+            new Parameter('now', new \DateTimeImmutable()),
+        ]));
 
         return \intval($qb->getQuery()->execute());
     }

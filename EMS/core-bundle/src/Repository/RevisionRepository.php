@@ -138,7 +138,7 @@ class RevisionRepository extends EntityRepository
         $stmt->bindValue('envId', $environment->getId());
         $stmt->bindValue('revId', $revision->getId());
 
-        return $stmt->executeStatement();
+        return (int) $stmt->executeStatement();
     }
 
     public function removeEnvironment(Revision $revision, Environment $environment): int
@@ -148,7 +148,7 @@ class RevisionRepository extends EntityRepository
         $stmt->bindValue('envId', $environment->getId());
         $stmt->bindValue('revId', $revision->getId());
 
-        return $stmt->executeStatement();
+        return (int) $stmt->executeStatement();
     }
 
     /**
@@ -967,7 +967,7 @@ class RevisionRepository extends EntityRepository
             ->andWhere($qbDelete->expr()->in('id', $revisionIds));
         $this->copyParameters($qbDelete, $queryBuilder);
 
-        return $qbDelete->executeStatement();
+        return (int) $qbDelete->executeStatement();
     }
 
     public function switchEnvironments(ContentType $contentType, Environment $target, string $username, int $batchSize = 500): void

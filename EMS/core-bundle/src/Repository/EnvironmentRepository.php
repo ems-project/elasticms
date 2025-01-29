@@ -84,7 +84,7 @@ class EnvironmentRepository extends EntityRepository
         if ($deleted) {
             $qb
                 ->andWhere($qb->expr()->eq('r.deleted', ':deleted'))
-                ->setParameter('deleted', true,ParameterType::BOOLEAN);
+                ->setParameter('deleted', true, ParameterType::BOOLEAN);
         }
 
         /** @var array<int, int> $result */

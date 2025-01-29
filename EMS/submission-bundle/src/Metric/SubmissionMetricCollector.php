@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\SubmissionBundle\Metric;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception\ConnectionException;
 use EMS\CommonBundle\Common\Metric\MetricCollectorInterface;
 use EMS\Helpers\Standard\DateTime;
 use EMS\SubmissionBundle\Repository\FormSubmissionRepository;
@@ -38,20 +39,24 @@ final readonly class SubmissionMetricCollector implements MetricCollectorInterfa
     #[\Override]
     public function collect(CollectorRegistry $collectorRegistry): void
     {
-        $metrics = $this->formSubmissionRepository->getMetrics();
-        $namespace = $this->getName();
+        try {
+            $metrics = $this->formSubmissionRepository->getMetrics();
+            $namespace = $this->getName();
 
-        foreach (self::GAUGES as $gaugeName => $gaugeHelp) {
-            $gauge = $collectorRegistry->getOrRegisterGauge(
-                $namespace,
-                $gaugeName,
-                $gaugeHelp,
-                ['form_instance', 'form_name']
-            );
+            foreach (self::GAUGES as $gaugeName => $gaugeHelp) {
+                $gauge = $collectorRegistry->getOrRegisterGauge(
+                    $namespace,
+                    $gaugeName,
+                    $gaugeHelp,
+                    ['form_instance', 'form_name']
+                );
 
-            foreach ($metrics as $data) {
-                $gauge->set($data[$gaugeName], [$data['instance'], $data['name']]);
+                foreach ($metrics as $data) {
+                    $gauge->set($data[$gaugeName], [$data['instance'], $data['name']]);
+                }
             }
+        } catch (ConnectionException) {
+            return;
         }
     }
 }

@@ -62,7 +62,7 @@ final readonly class SubmissionMetricCollector implements MetricCollectorInterfa
     private function hasDatabaseConnection(): bool
     {
         try {
-            $this->connection->connect();
+            $this->connection->getNativeConnection()->connect();
 
             return $this->connection->isConnected();
         } catch (\Throwable) {

@@ -20,8 +20,8 @@ class Schedule extends JsonDeserializer implements \JsonSerializable, EntityInte
     /** @EMSAssert\Cron() */
     protected string $cron = '';
     protected ?string $command = null;
-    private ?\Datetime $previousRun = null;
-    private \Datetime $nextRun;
+    private ?\DateTime $previousRun = null;
+    private \DateTime $nextRun;
     protected int $orderKey = 0;
     protected ?string $tag = null;
 
@@ -97,22 +97,22 @@ class Schedule extends JsonDeserializer implements \JsonSerializable, EntityInte
         return $this->previousRun;
     }
 
-    public function getPreviousRun(): ?\Datetime
+    public function getPreviousRun(): ?\DateTime
     {
         return $this->previousRun;
     }
 
-    public function setPreviousRun(?\Datetime $previousRun): void
+    public function setPreviousRun(?\DateTime $previousRun): void
     {
         $this->previousRun = $previousRun;
     }
 
-    public function getNextRun(): \Datetime
+    public function getNextRun(): \DateTime
     {
         return $this->nextRun;
     }
 
-    public function setNextRun(\Datetime $nextRun): void
+    public function setNextRun(\DateTime $nextRun): void
     {
         $this->nextRun = $nextRun;
     }

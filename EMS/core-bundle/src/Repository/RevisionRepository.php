@@ -795,8 +795,8 @@ class RevisionRepository extends EntityRepository
     {
         $qb = $this->makeQueryBuilder(
             contentTypeName: $contentType->getName(),
-            isDeleted: true,
-            isCurrent: null
+            isCurrent: null,
+            isDeleted: true
         );
 
         $qb

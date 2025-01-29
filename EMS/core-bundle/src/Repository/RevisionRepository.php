@@ -287,7 +287,7 @@ class RevisionRepository extends EntityRepository
         ]);
 
         if (\count($ouuids) > 0) {
-            $qb->andWhere($qb->expr()->notin('r.ouuid', $ouuids));
+            $qb->andWhere($qb->expr()->notIn('r.ouuid', $ouuids));
         }
 
         if (\strlen($searchValue) > 0) {

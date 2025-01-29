@@ -33,8 +33,8 @@ class Task implements EntityInterface
     {
         $this->id = Uuid::uuid4();
         $this->revisionOuuid = $revision->giveOuuid();
-        $this->created = DateTime::create('now');
-        $this->modified = DateTime::create('now');
+        $this->created = new \DateTime();
+        $this->modified = new \DateTime();
         $this->status = TaskStatus::PLANNED->value;
     }
 
@@ -93,7 +93,7 @@ class Task implements EntityInterface
         $this->status = $status;
 
         if ($this->isStatus(TaskStatus::PROGRESS)) {
-            $this->deadline = DateTime::create('now')->add(new \DateInterval(\sprintf('P%dD', $this->delay)));
+            $this->deadline = new \DateTime()->add(new \DateInterval(\sprintf('P%dD', $this->delay)));
         }
     }
 

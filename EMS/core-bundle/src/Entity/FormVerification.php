@@ -12,18 +12,16 @@ class FormVerification
     private readonly UuidInterface $id;
 
     private readonly string $code;
-    private readonly \DateTimeImmutable $created;
-    private \DateTimeImmutable $expirationDate;
+    private readonly \DateTime $created;
+    private \DateTime $expirationDate;
 
     private const string EXPIRATION_TIME = '+3 hours';
 
     public function __construct(private readonly string $value)
     {
-        $now = new \DateTimeImmutable();
-
         $this->id = Uuid::uuid4();
-        $this->created = $now;
-        $this->expirationDate = $now->modify(self::EXPIRATION_TIME);
+        $this->created = new \DateTime();
+        $this->expirationDate = new \DateTime()->modify(self::EXPIRATION_TIME);
         $this->code = \sprintf('%06d', \random_int(1, 999999));
     }
 
@@ -44,16 +42,15 @@ class FormVerification
 
     public function updateExpirationDate(): void
     {
-        $now = new \DateTimeImmutable();
-        $this->expirationDate = $now->modify(self::EXPIRATION_TIME);
+        $this->expirationDate = new \DateTime()->modify(self::EXPIRATION_TIME);
     }
 
-    public function getCreated(): \DateTimeImmutable
+    public function getCreated(): \DateTime
     {
         return $this->created;
     }
 
-    public function getExpirationDate(): \DateTimeImmutable
+    public function getExpirationDate(): \DateTime
     {
         return $this->expirationDate;
     }

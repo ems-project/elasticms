@@ -8,6 +8,7 @@ use EMS\CommonBundle\Entity\CreatedModifiedTrait;
 use EMS\CoreBundle\Core\Revision\Task\TaskDTO;
 use EMS\CoreBundle\Core\Revision\Task\TaskLog;
 use EMS\CoreBundle\Core\Revision\Task\TaskStatus;
+use EMS\Helpers\Standard\DateTime;
 use EMS\Helpers\Standard\Type;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
@@ -92,7 +93,7 @@ class Task implements EntityInterface
         $this->status = $status;
 
         if ($this->isStatus(TaskStatus::PROGRESS)) {
-            $this->deadline = new \DateTime()->add(new \DateInterval(\sprintf('P%dD', $this->delay)));
+            $this->deadline = DateTime::create('now')->add(new \DateInterval(\sprintf('P%dD', $this->delay)));
         }
     }
 

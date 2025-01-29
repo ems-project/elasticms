@@ -6,6 +6,7 @@ namespace EMS\CoreBundle\Repository;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\ReadableCollection;
+use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use EMS\CoreBundle\Entity\Environment;
@@ -76,11 +77,14 @@ class EnvironmentRepository extends EntityRepository
             ->from('environment', 'e')
             ->leftJoin('e', 'environment_revision', 'er', 'e.id = er.environment_id')
             ->join('er', 'revision', 'r', 'r.id = er.revision_id')
-            ->andWhere($qb->expr()->eq('e.managed', $qb->expr()->literal(true)))
+            ->andWhere($qb->expr()->eq('e.managed', ':managed'))
+            ->setParameter('managed', true, ParameterType::BOOLEAN)
             ->groupBy('e.id');
 
         if ($deleted) {
-            $qb->andWhere($qb->expr()->eq('r.deleted', $qb->expr()->literal(true)));
+            $qb
+                ->andWhere($qb->expr()->eq('r.deleted', ':deleted'))
+                ->setParameter('deleted', true,ParameterType::BOOLEAN);
         }
 
         /** @var array<int, int> $result */

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace DoctrineMigrations;
 
+use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 
 final class Version20200804114045 extends AbstractMigration
 {

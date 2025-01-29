@@ -20,8 +20,8 @@ final class Version20241031110947 extends AbstractMigration
     public function up(Schema $schema): void
     {
         $this->abortIf(
-            !$this->connection->getDatabasePlatform() instanceof MySQLPlatform &&
-            !$this->connection->getDatabasePlatform() instanceof MariaDBPlatform,
+            !$this->connection->getDatabasePlatform() instanceof MySQLPlatform
+            && !$this->connection->getDatabasePlatform() instanceof MariaDBPlatform,
             "Migration can only be executed safely on '\Doctrine\DBAL\Platforms\MySQLPlatform'."
         );
         $this->addSql('CREATE INDEX channel_ouuid_idx ON log_message (channel, ouuid)');
@@ -31,8 +31,8 @@ final class Version20241031110947 extends AbstractMigration
     public function down(Schema $schema): void
     {
         $this->abortIf(
-            !$this->connection->getDatabasePlatform() instanceof MySQLPlatform &&
-            !$this->connection->getDatabasePlatform() instanceof MariaDBPlatform,
+            !$this->connection->getDatabasePlatform() instanceof MySQLPlatform
+            && !$this->connection->getDatabasePlatform() instanceof MariaDBPlatform,
             "Migration can only be executed safely on '\Doctrine\DBAL\Platforms\MySQLPlatform'."
         );
         $this->addSql('DROP INDEX channel_ouuid_idx');

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Application\Migrations;
+namespace DoctrineMigrations;
 
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Schema\Schema;

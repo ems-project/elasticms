@@ -42,7 +42,7 @@ class ContentTypeRepository extends EntityRepository
      * @return ContentType[]
      */
     #[\Override]
-    public function findAll()
+    public function findAll(): array
     {
         return parent::findBy(['deleted' => false], ['orderKey' => 'ASC']);
     }

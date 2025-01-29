@@ -112,8 +112,8 @@ class UploadedAssetRepository extends EntityRepository
 
     public function remove(UploadedAsset $uploadedAsset): void
     {
-        $this->_em->remove($uploadedAsset);
-        $this->_em->flush();
+        $this->getEntityManager()->remove($uploadedAsset);
+        $this->getEntityManager()->flush();
     }
 
     public function getLastUploadedByHash(string $hash): ?UploadedAsset

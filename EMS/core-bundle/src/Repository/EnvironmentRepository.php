@@ -70,7 +70,7 @@ class EnvironmentRepository extends EntityRepository
      */
     public function countRevisionsById(?bool $deleted = null): array
     {
-        $qb = $this->_em->getConnection()->createQueryBuilder();
+        $qb = $this->getEntityManager()->getConnection()->createQueryBuilder();
         $qb
             ->select('e.id', 'count(er.revision_id)')
             ->from('environment', 'e')
@@ -189,8 +189,8 @@ class EnvironmentRepository extends EntityRepository
 
     public function save(Environment $environment): void
     {
-        $this->_em->persist($environment);
-        $this->_em->flush();
+        $this->getEntityManager()->persist($environment);
+        $this->getEntityManager()->flush();
     }
 
     public function makeQueryBuilder(?bool $isManaged = false, string $searchValue = ''): QueryBuilder

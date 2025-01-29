@@ -68,8 +68,8 @@ final class TaskRepository extends ServiceEntityRepository
 
     public function delete(Task $task): void
     {
-        $this->_em->remove($task);
-        $this->_em->flush();
+        $this->getEntityManager()->remove($task);
+        $this->getEntityManager()->flush();
     }
 
     /**
@@ -77,21 +77,21 @@ final class TaskRepository extends ServiceEntityRepository
      */
     public function update(Task $task): array
     {
-        $uow = $this->_em->getUnitOfWork();
+        $uow = $this->getEntityManager()->getUnitOfWork();
         $uow->computeChangeSets();
 
         $changeSet = $uow->getEntityChangeSet($task);
 
-        $this->_em->persist($task);
-        $this->_em->flush();
+        $this->getEntityManager()->persist($task);
+        $this->getEntityManager()->flush();
 
         return $changeSet;
     }
 
     public function save(Task $task): void
     {
-        $this->_em->persist($task);
-        $this->_em->flush();
+        $this->getEntityManager()->persist($task);
+        $this->getEntityManager()->flush();
     }
 
     /**
@@ -99,7 +99,7 @@ final class TaskRepository extends ServiceEntityRepository
      */
     private function findTaskContentTypes(): array
     {
-        $subQuery = $this->_em->createQueryBuilder();
+        $subQuery = $this->getEntityManager()->createQueryBuilder();
         $subQuery
             ->select('rc.id')
             ->from(Revision::class, 'r')
@@ -108,7 +108,7 @@ final class TaskRepository extends ServiceEntityRepository
             ->andWhere($subQuery->expr()->eq('r.deleted', ':false'))
             ->andWhere($subQuery->expr()->isNotNull('r.taskCurrent'));
 
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('c')->from(ContentType::class, 'c')
             ->andWhere($qb->expr()->in('c.id', $subQuery->getDQL()));
         $qb->setParameter(':false', false);

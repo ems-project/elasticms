@@ -133,7 +133,7 @@ class TemplateRepository extends ServiceEntityRepository
 
     public function save(Template $action): void
     {
-        $this->_em->persist($action);
-        $this->_em->flush();
+        $this->getEntityManager()->persist($action);
+        $this->getEntityManager()->flush();
     }
 }

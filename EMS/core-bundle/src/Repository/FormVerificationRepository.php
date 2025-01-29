@@ -26,8 +26,8 @@ class FormVerificationRepository extends ServiceEntityRepository
             return $exists;
         }
 
-        $this->_em->persist($verification);
-        $this->_em->flush();
+        $this->getEntityManager()->persist($verification);
+        $this->getEntityManager()->flush();
 
         return $verification;
     }
@@ -58,7 +58,7 @@ class FormVerificationRepository extends ServiceEntityRepository
     private function updateExpirationDate(FormVerification $formVerification): void
     {
         $formVerification->updateExpirationDate();
-        $this->_em->persist($formVerification);
-        $this->_em->flush();
+        $this->getEntityManager()->persist($formVerification);
+        $this->getEntityManager()->flush();
     }
 }

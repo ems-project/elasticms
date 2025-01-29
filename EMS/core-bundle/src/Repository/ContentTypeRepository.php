@@ -198,7 +198,7 @@ class ContentTypeRepository extends EntityRepository
 
     public function save(ContentType $contentType): void
     {
-        $this->_em->persist($contentType);
-        $this->_em->flush();
+        $this->getEntityManager()->persist($contentType);
+        $this->getEntityManager()->flush();
     }
 }

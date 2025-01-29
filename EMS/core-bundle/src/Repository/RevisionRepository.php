@@ -125,8 +125,8 @@ class RevisionRepository extends EntityRepository
 
     public function save(Revision $revision): void
     {
-        $this->_em->persist($revision);
-        $this->_em->flush();
+        $this->getEntityManager()->persist($revision);
+        $this->getEntityManager()->flush();
     }
 
     public function addEnvironment(Revision $revision, Environment $environment): int
@@ -501,7 +501,7 @@ class RevisionRepository extends EntityRepository
 
     public function deleteOldest(ContentType $contentType, ?string $ouuid): int
     {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
 
         $qbSub = $conn->createQueryBuilder();
         $qbSub
@@ -528,7 +528,7 @@ class RevisionRepository extends EntityRepository
 
     public function deleteByContentType(ContentType $contentType): int
     {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $qb = $conn->createQueryBuilder();
         $qb
             ->from('revision', 'r')
@@ -544,7 +544,7 @@ class RevisionRepository extends EntityRepository
      */
     public function deleteByOuuids(array $ouuids): int
     {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $qb = $conn->createQueryBuilder();
         $qb
             ->from('revision', 'r')
@@ -764,7 +764,7 @@ class RevisionRepository extends EntityRepository
      */
     public function findAllOuuidsByContentTypeAndEnvironment(ContentType $contentType, Environment $environment): \Traversable
     {
-        $connection = $this->_em->getConnection();
+        $connection = $this->getEntityManager()->getConnection();
 
         $qb = $connection->createQueryBuilder();
         $qb->select('r.ouuid')
@@ -912,7 +912,7 @@ class RevisionRepository extends EntityRepository
 
     private function deleteByQueryBuilder(DBALQueryBuilder $queryBuilder): int
     {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $revisionIds = $queryBuilder->select('r.id')->getSQL();
         $revisionOuuids = $queryBuilder->select('r.ouuid')->getSQL();
 
@@ -977,16 +977,16 @@ class RevisionRepository extends EntityRepository
             }
             $detachableEntities[] = $revision;
             if ((\count($detachableEntities) % $batchSize) === 0) {
-                $this->_em->flush();
+                $this->getEntityManager()->flush();
                 foreach ($detachableEntities as $detachableEntity) {
-                    $this->_em->detach($detachableEntity);
+                    $this->getEntityManager()->detach($detachableEntity);
                 }
                 $detachableEntities = [];
             }
         }
-        $this->_em->flush();
+        $this->getEntityManager()->flush();
         foreach ($detachableEntities as $detachableEntity) {
-            $this->_em->detach($detachableEntity);
+            $this->getEntityManager()->detach($detachableEntity);
         }
         $this->unlockRevisions($contentType, $username, false);
     }

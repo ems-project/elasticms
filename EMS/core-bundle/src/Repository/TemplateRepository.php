@@ -6,7 +6,9 @@ namespace EMS\CoreBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\Query\Parameter;
 use Doctrine\ORM\QueryBuilder;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Template;
@@ -36,7 +38,10 @@ class TemplateRepository extends ServiceEntityRepository
 
         if (null != $contentTypes) {
             $qb->andWhere('t.contentType IN (:cts)')
-            ->setParameters(['option' => $option, 'cts' => $contentTypes]);
+            ->setParameters(new ArrayCollection([
+                new Parameter('option', $option),
+                new Parameter('cts', $contentTypes),
+            ]));
         } else {
             $qb->setParameter('option', $option);
         }

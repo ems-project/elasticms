@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EMS\SubmissionBundle\Metric;
 
-use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception\ConnectionException;
 use EMS\CommonBundle\Common\Metric\MetricCollectorInterface;
 use EMS\Helpers\Standard\DateTime;

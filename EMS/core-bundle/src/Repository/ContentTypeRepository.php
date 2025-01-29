@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Repository;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\Query\Parameter;
 use Doctrine\ORM\QueryBuilder;
 use EMS\CoreBundle\Entity\ContentType;
 
@@ -24,9 +26,9 @@ class ContentTypeRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('ct');
         $qb->where($qb->expr()->eq('ct.deleted', ':false'));
-        $qb->setParameters([
-            'false' => false,
-        ]);
+        $qb->setParameters(new ArrayCollection([
+            new Parameter('false', false),
+        ]));
 
         $out = [];
         $result = $qb->getQuery()->getResult();

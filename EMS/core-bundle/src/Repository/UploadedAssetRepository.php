@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Repository;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\Query\Parameter;
 use Doctrine\ORM\QueryBuilder;
 use EMS\CoreBundle\Entity\UploadedAsset;
 
@@ -26,9 +28,9 @@ class UploadedAssetRepository extends EntityRepository
         $qb = $this->createQueryBuilder('ua');
         $qb->select('count(DISTINCT ua.sha1)')
             ->where($qb->expr()->eq('ua.available', ':true'));
-        $qb->setParameters([
-            ':true' => true,
-        ]);
+        $qb->setParameters(new ArrayCollection([
+            new Parameter('true', true),
+        ]));
 
         try {
             return \intval($qb->getQuery()->getSingleScalarResult());
@@ -49,9 +51,9 @@ class UploadedAssetRepository extends EntityRepository
             ->groupBy('ua.sha1')
             ->setFirstResult(UploadedAssetRepository::PAGE_SIZE * $page)
             ->setMaxResults(UploadedAssetRepository::PAGE_SIZE);
-        $qb->setParameters([
-            ':true' => true,
-        ]);
+        $qb->setParameters(new ArrayCollection([
+            new Parameter('true', true),
+        ]));
 
         $out = [];
         foreach ($qb->getQuery()->getArrayResult() as $record) {
@@ -76,12 +78,12 @@ class UploadedAssetRepository extends EntityRepository
             ->set('ua.status', ':status')
             ->where($qb->expr()->eq('ua.available', ':true'))
             ->andWhere($qb->expr()->eq('ua.sha1', ':hash'));
-        $qb->setParameters([
-            ':true' => true,
-            ':false' => false,
-            ':hash' => $hash,
-            ':status' => 'cleaned',
-        ]);
+        $qb->setParameters(new ArrayCollection([
+            new Parameter('true', true),
+            new Parameter('false', false),
+            new Parameter('hash', $hash),
+            new Parameter('status', 'cleaned'),
+        ]));
 
         return $qb->getQuery()->execute();
     }
@@ -121,10 +123,10 @@ class UploadedAssetRepository extends EntityRepository
         $qb = $this->createQueryBuilder('ua');
         $qb->where($qb->expr()->eq('ua.available', ':true'));
         $qb->andWhere($qb->expr()->eq('ua.sha1', ':hash'));
-        $qb->setParameters([
-            ':true' => true,
-            ':hash' => $hash,
-        ]);
+        $qb->setParameters(new ArrayCollection([
+            new Parameter('true', true),
+            new Parameter('hash', $hash),
+        ]));
         $qb->orderBy('ua.modified', 'DESC');
         $qb->setMaxResults(1);
         $uploadedAsset = $qb->getQuery()->getOneOrNullResult();
@@ -161,10 +163,10 @@ class UploadedAssetRepository extends EntityRepository
         $qb = $this->createQueryBuilder('ua')->update()
             ->set('ua.hidden', ':true')
             ->where('ua.sha1 IN (:hashes)')
-            ->setParameters([
-                ':hashes' => $hashes,
-                ':true' => true,
-            ]);
+            ->setParameters(new ArrayCollection([
+                new Parameter('hashes', $hashes),
+                new Parameter('true', true),
+            ]));
 
         return \intval($qb->getQuery()->execute());
     }
@@ -181,11 +183,11 @@ class UploadedAssetRepository extends EntityRepository
         $qb->where('ua.sha1 IN (:hashes)');
         $qb->andWhere($qb->expr()->eq('ua.hidden', ':false'));
         $qb->andWhere($qb->expr()->eq('ua.available', ':true'));
-        $qb->setParameters([
-            ':false' => false,
-            ':true' => true,
-            ':hashes' => $hashes,
-        ]);
+        $qb->setParameters(new ArrayCollection([
+            new Parameter('false', false),
+            new Parameter('true', true),
+            new Parameter('hashes', $hashes),
+        ]));
 
         $qb->groupBy('ua.sha1');
 

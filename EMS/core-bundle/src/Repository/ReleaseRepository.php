@@ -6,6 +6,8 @@ namespace EMS\CoreBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Query\Parameter;
 use Doctrine\ORM\QueryBuilder;
 use EMS\CoreBundle\Entity\Release;
 
@@ -93,13 +95,14 @@ final class ReleaseRepository extends ServiceEntityRepository
      */
     public function getInWip(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue): array
     {
-        $qb = $this->createQueryBuilder('r')
+        $qb = $this->createQueryBuilder('r');
+        $qb
             ->setFirstResult($from)
-            ->setMaxResults($size);
-        $qb->where('r.status = :status')
-            ->setParameters([
-                'status' => Release::WIP_STATUS,
-            ]);
+            ->setMaxResults($size)
+            ->where('r.status = :status')
+            ->setParameters(new ArrayCollection([
+                new Parameter('status', Release::WIP_STATUS),
+            ]));
         $this->addSearchFilters($qb, $searchValue);
 
         if (\in_array($orderField, ['name', 'executionDate', 'created'])) {
@@ -120,10 +123,10 @@ final class ReleaseRepository extends ServiceEntityRepository
         $qb
             ->andWhere($qb->expr()->eq('r.status', ':status'))
             ->andWhere($qb->expr()->lte('r.executionDate', ':dateTime'))
-            ->setParameters([
-                'status' => Release::READY_STATUS,
-                'dateTime' => new \DateTime(),
-            ]);
+            ->setParameters(new ArrayCollection([
+                new Parameter('status', Release::READY_STATUS),
+                new Parameter('dateTime', new \DateTime()),
+            ]));
 
         return $qb->getQuery()->execute();
     }
@@ -142,11 +145,12 @@ final class ReleaseRepository extends ServiceEntityRepository
     public function countWipReleases(): int
     {
         $qb = $this->createQueryBuilder('r');
-        $qb->select('count(r.id)');
-        $qb->where('r.status = :status')
-            ->setParameters([
-                'status' => Release::WIP_STATUS,
-            ]);
+        $qb
+            ->select('count(r.id)')
+            ->where('r.status = :status')
+            ->setParameters(new ArrayCollection([
+                new Parameter('status', Release::WIP_STATUS),
+            ]));
 
         return (int) $qb->getQuery()->getSingleScalarResult();
     }

@@ -19,7 +19,7 @@ final readonly class SubmissionMetricCollector implements MetricCollectorInterfa
         'errors_total' => 'Total count error submissions',
     ];
 
-    public function __construct(private FormSubmissionRepository $formSubmissionRepository, private Connection $connection)
+    public function __construct(private FormSubmissionRepository $formSubmissionRepository)
     {
     }
 
@@ -38,10 +38,6 @@ final readonly class SubmissionMetricCollector implements MetricCollectorInterfa
     #[\Override]
     public function collect(CollectorRegistry $collectorRegistry): void
     {
-        if (!$this->hasDatabaseConnection()) {
-            return;
-        }
-
         $metrics = $this->formSubmissionRepository->getMetrics();
         $namespace = $this->getName();
 
@@ -56,17 +52,6 @@ final readonly class SubmissionMetricCollector implements MetricCollectorInterfa
             foreach ($metrics as $data) {
                 $gauge->set($data[$gaugeName], [$data['instance'], $data['name']]);
             }
-        }
-    }
-
-    private function hasDatabaseConnection(): bool
-    {
-        try {
-            $this->connection->getNativeConnection()->connect();
-
-            return $this->connection->isConnected();
-        } catch (\Throwable) {
-            return false;
         }
     }
 }

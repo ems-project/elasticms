@@ -38,7 +38,6 @@
 
         <service id="emss.metric.submission_metric_collector" class="EMS\SubmissionBundle\Metric\SubmissionMetricCollector">
             <argument type="service" id="emss.repository.form_submission"/>
-            <argument type="service" id="doctrine.dbal.default_connection"/>
             <tag name="ems.metric_collector"/>
         </service>
     </services>

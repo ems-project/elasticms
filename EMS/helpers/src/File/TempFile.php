@@ -9,10 +9,12 @@ use Psr\Http\Message\StreamInterface;
 
 class TempFile
 {
+    public static ?self $preventDestruct = null;
     private const string PREFIX = 'EMS_temp_file_';
 
     private function __construct(public readonly string $path)
     {
+        self::$preventDestruct = $this;
     }
 
     public function __destruct()

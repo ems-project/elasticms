@@ -116,10 +116,10 @@ class RevisionRepository extends EntityRepository
             ->join('c.environment', 'ce')
             ->join('r.environments', 're')
             ->andWhere($qb->expr()->in('r.ouuid', ':ouuids'))
-            ->andWhere($qb->expr()->in('re.id', ':environment_id'))
+            ->andWhere($qb->expr()->eq('re.id', ':environment_id'))
             ->setParameters(new ArrayCollection([
                 new Parameter('environment_id', $environment->getId()),
-                new Parameter('ouuids', $ouuids),
+                new Parameter('ouuids', $ouuids, ArrayParameterType::STRING),
             ]));
 
         return $qb;
@@ -618,7 +618,7 @@ class RevisionRepository extends EntityRepository
             ->set('r.lockUntil', ':until')
             ->andWhere($qbUpdate->expr()->in('r.id', ':ids'))
             ->setParameters(new ArrayCollection([
-                new Parameter('ids', $ids),
+                new Parameter('ids', $ids, ArrayParameterType::INTEGER),
                 new Parameter('by', $by),
                 new Parameter('until', $until),
             ]));
@@ -677,7 +677,8 @@ class RevisionRepository extends EntityRepository
             ->set('r.lockUntil', ':null')
             ->andWhere($qbUpdate->expr()->in('r.id', ':ids'))
             ->setParameters(new ArrayCollection([
-                new Parameter('ids', 'null'),
+                new Parameter('null', null),
+                new Parameter('ids', $ids, ArrayParameterType::INTEGER),
             ]));
 
         return $qbUpdate->getQuery()->execute();
@@ -977,7 +978,7 @@ class RevisionRepository extends EntityRepository
             ->join('r.environments', 'e')
             ->where('r.contentType = :ct')
             ->andWhere('e.id IN (:ids)')
-            ->setParameter('ids', [$contentType->giveEnvironment()->getId(), $target->getId()])
+            ->setParameter('ids', [$contentType->giveEnvironment()->getId(), $target->getId()], ArrayParameterType::INTEGER)
             ->setParameter('ct', $contentType);
         $detachableEntities = [];
         foreach ($qb->getQuery()->execute() as $revision) {

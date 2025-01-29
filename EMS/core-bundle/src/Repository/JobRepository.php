@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Repository;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Parameter;
 use Doctrine\ORM\QueryBuilder;
@@ -55,7 +56,7 @@ class JobRepository extends EntityRepository
         $qb = $this->createQueryBuilder('j');
         $qb
             ->andWhere($qb->expr()->in('j.id', ':ids'))
-            ->setParameter('ids', $ids);
+            ->setParameter('ids', $ids, ArrayParameterType::INTEGER);
 
         return $qb->getQuery()->getResult();
     }

@@ -7,6 +7,7 @@ namespace EMS\CoreBundle\Repository;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\ORM\Query\Parameter;
 use Doctrine\ORM\QueryBuilder;
 use EMS\CoreBundle\Entity\ContentType;
@@ -86,7 +87,7 @@ class NotificationRepository extends ServiceEntityRepository
         ->andWhere('n.template IN (:ids)');
         $params = new ArrayCollection([
             new Parameter('status', 'pending'),
-            new Parameter('ids', $templateIds),
+            new Parameter('ids', $templateIds, ArrayParameterType::INTEGER),
         ]);
 
         if (null != $environments) {

@@ -6,6 +6,7 @@ namespace EMS\CoreBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\ArrayParameterType;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Entity\Task;
@@ -26,7 +27,7 @@ final class TaskRepository extends ServiceEntityRepository
         $qb
             ->select('count(t.id)')
             ->andWhere($qb->expr()->in('t.id', ':approved_ids'))
-            ->setParameter('approved_ids', $revision->getTaskApprovedIds());
+            ->setParameter('approved_ids', $revision->getTaskApprovedIds(), ArrayParameterType::STRING);
 
         return \intval($qb->getQuery()->getSingleScalarResult());
     }
@@ -54,7 +55,7 @@ final class TaskRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('t');
         $qb
             ->andWhere($qb->expr()->in('t.id', ':ids'))
-            ->setParameter('ids', \array_values($ids));
+            ->setParameter('ids', \array_values($ids), ArrayParameterType::STRING);
 
         $tasks = \array_fill_keys($ids, null);
         foreach ($qb->getQuery()->getResult() as $task) {

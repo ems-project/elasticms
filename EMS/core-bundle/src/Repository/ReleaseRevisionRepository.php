@@ -7,6 +7,7 @@ namespace EMS\CoreBundle\Repository;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\ORM\Query\Parameter;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Release;
@@ -77,7 +78,7 @@ final class ReleaseRevisionRepository extends ServiceEntityRepository
         ->setParameters(new ArrayCollection([
             new Parameter('ouuid', $ouuid),
             new Parameter('contentType', $contentType),
-            new Parameter('status', [Release::WIP_STATUS, Release::READY_STATUS]),
+            new Parameter('status', [Release::WIP_STATUS, Release::READY_STATUS], ArrayParameterType::STRING),
         ]));
 
         return $qb->getQuery()->execute();
@@ -127,7 +128,7 @@ final class ReleaseRevisionRepository extends ServiceEntityRepository
     {
         $queryBuilder = $this->createQueryBuilder('rr');
         $queryBuilder->where('rr.id IN (:ids)')
-            ->setParameter('ids', $ids);
+            ->setParameter('ids', $ids, ArrayParameterType::INTEGER);
 
         return $queryBuilder->getQuery()->getResult();
     }

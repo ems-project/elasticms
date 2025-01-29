@@ -7,6 +7,7 @@ namespace EMS\CoreBundle\Repository;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\Query\Parameter;
 use Doctrine\ORM\QueryBuilder;
@@ -88,7 +89,7 @@ class TemplateRepository extends ServiceEntityRepository
     public function getByIds(string ...$ids): array
     {
         $qb = $this->createQueryBuilder('a');
-        $qb->andWhere('a.id IN (:ids)')->setParameter('ids', $ids);
+        $qb->andWhere('a.id IN (:ids)')->setParameter('ids', $ids, ArrayParameterType::INTEGER);
 
         return $qb->getQuery()->getResult();
     }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Repository;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\Query\Parameter;
@@ -164,7 +165,7 @@ class UploadedAssetRepository extends EntityRepository
             ->set('ua.hidden', ':true')
             ->where('ua.sha1 IN (:hashes)')
             ->setParameters(new ArrayCollection([
-                new Parameter('hashes', $hashes),
+                new Parameter('hashes', $hashes, ArrayParameterType::STRING),
                 new Parameter('true', true),
             ]));
 
@@ -186,7 +187,7 @@ class UploadedAssetRepository extends EntityRepository
         $qb->setParameters(new ArrayCollection([
             new Parameter('false', false),
             new Parameter('true', true),
-            new Parameter('hashes', $hashes),
+            new Parameter('hashes', $hashes, ArrayParameterType::STRING),
         ]));
 
         $qb->groupBy('ua.sha1');

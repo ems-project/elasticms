@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Repository;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\Query\Parameter;
@@ -87,7 +88,7 @@ class ContentTypeRepository extends EntityRepository
         $qb = $this->createQueryBuilder('c');
         $qb
             ->andWhere($qb->expr()->in('c.id', ':ids'))
-            ->setParameter('ids', $ids);
+            ->setParameter('ids', $ids, ArrayParameterType::INTEGER);
 
         return $qb->getQuery()->getResult();
     }

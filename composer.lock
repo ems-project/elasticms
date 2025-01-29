@@ -13987,16 +13987,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "11.5.4",
+            "version": "11.5.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "e0da3559ec50a91f6a6a201473b607b5ccfd9a1b"
+                "reference": "b9a975972f580c0491f834eb0818ad2b32fd8bba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/e0da3559ec50a91f6a6a201473b607b5ccfd9a1b",
-                "reference": "e0da3559ec50a91f6a6a201473b607b5ccfd9a1b",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/b9a975972f580c0491f834eb0818ad2b32fd8bba",
+                "reference": "b9a975972f580c0491f834eb0818ad2b32fd8bba",
                 "shasum": ""
             },
             "require": {
@@ -14068,7 +14068,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/11.5.4"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/11.5.5"
             },
             "funding": [
                 {
@@ -14084,7 +14084,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-01-28T15:03:46+00:00"
+            "time": "2025-01-29T14:01:11+00:00"
         },
         {
             "name": "react/cache",
@@ -14604,12 +14604,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "c0102498368c2aafed1ce653c809ce5f516f7d48"
+                "reference": "a7ff994231a15b404f72f116562bc3dff73641d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/c0102498368c2aafed1ce653c809ce5f516f7d48",
-                "reference": "c0102498368c2aafed1ce653c809ce5f516f7d48",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/a7ff994231a15b404f72f116562bc3dff73641d1",
+                "reference": "a7ff994231a15b404f72f116562bc3dff73641d1",
                 "shasum": ""
             },
             "conflict": {
@@ -15102,7 +15102,7 @@
                 "pimcore/demo": "<10.3",
                 "pimcore/ecommerce-framework-bundle": "<1.0.10",
                 "pimcore/perspective-editor": "<1.5.1",
-                "pimcore/pimcore": "<11.2.4|==11.4.2",
+                "pimcore/pimcore": "<11.2.4|>=11.4.2,<11.5.3",
                 "pixelfed/pixelfed": "<0.11.11",
                 "plotly/plotly.js": "<2.25.2",
                 "pocketmine/bedrock-protocol": "<8.0.2",
@@ -15466,7 +15466,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-01-29T09:05:14+00:00"
+            "time": "2025-01-29T17:04:30+00:00"
         },
         {
             "name": "sebastian/cli-parser",

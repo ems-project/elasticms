@@ -1,38 +1,35 @@
-{% apply spaceless %}
-    {% trans_default_domain trans_default_domain %}
+{%- trans_default_domain trans_default_domain -%}
 
-    {% set locale = app.request.locale %}
-    {% set locales = app.request.server.all['EMSCH_LOCALES']|default('[]')|ems_json_decode %}
-    {% set wyiwygReplaces = {
-        'src="https://www.youtube.com/': 'allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen src="https://www.youtube-nocookie.com/',
-    } %}
-    {% do emsch_assets_version(ems_template_exists('@EMSCH/template/asset_hash.twig') ? include('@EMSCH/template/asset_hash.twig') : 'demo', null) %}
-    {% set baseUrl = '/' %}
-    {% if app.user %}
-        {% set baseUrl = "/channel/#{trans_default_domain}" %}
-    {% endif %}
+{%- set locale = app.request.locale -%}
+{%- set locales = app.request.server.all['EMSCH_LOCALES']|default('[]')|ems_json_decode -%}
+{%- set wyiwygReplaces = {
+    'src="https://www.youtube.com/': 'allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen src="https://www.youtube-nocookie.com/',
+} -%}
+{%- do emsch_assets_version(ems_template_exists('@EMSCH/template/asset_hash.twig') ? include('@EMSCH/template/asset_hash.twig') : 'demo', null) -%}
+{%- set baseUrl = '/' -%}
+{%- if app.user -%}
+    {%- set baseUrl = "/channel/#{trans_default_domain}" -%}
+{%- endif -%}
 
-    {% set footer_menu = 'section:39d3ffdd-6ac3-4828-a1f6-970b1b884ce1' %}
-    {% set header_menu = 'section:1e617cf9-6b19-4c33-90ba-5a4c8feff062' %}
+{%- set footer_menu = 'section:39d3ffdd-6ac3-4828-a1f6-970b1b884ce1' -%}
+{%- set header_menu = 'section:1e617cf9-6b19-4c33-90ba-5a4c8feff062' -%}
 
-    {% set news_page = 'page:af70fcc8-e4b3-4e20-97fc-fd91fad751d9' %}
+{%- set news_page = 'page:af70fcc8-e4b3-4e20-97fc-fd91fad751d9' -%}
 
-    {% set monthsTrans = {
-        '%January%': 'month.January'|trans,
-        '%February%': 'month.February'|trans,
-        '%March%': 'month.March'|trans,
-        '%April%': 'month.April'|trans,
-        '%May%': 'month.May'|trans,
-        '%June%': 'month.June'|trans,
-        '%July%': 'month.July'|trans,
-        '%August%': 'month.August'|trans,
-        '%September%': 'month.September'|trans,
-        '%October%': 'month.October'|trans,
-        '%November%': 'month.November'|trans,
-        '%December%': 'month.December'|trans,
-    } %}
-    {% set isProdLive = app.request.server.all['IS_PROD']|default(false)|lower in ['true', '1', 'yes', 'y', 'live'] %}
+{%- set monthsTrans = {
+    '%January%': 'month.January'|trans,
+    '%February%': 'month.February'|trans,
+    '%March%': 'month.March'|trans,
+    '%April%': 'month.April'|trans,
+    '%May%': 'month.May'|trans,
+    '%June%': 'month.June'|trans,
+    '%July%': 'month.July'|trans,
+    '%August%': 'month.August'|trans,
+    '%September%': 'month.September'|trans,
+    '%October%': 'month.October'|trans,
+    '%November%': 'month.November'|trans,
+    '%December%': 'month.December'|trans,
+} -%}
+{%- set isProdLive = app.request.server.all['IS_PROD']|default(false)|lower in ['true', '1', 'yes', 'y', 'live'] -%}
 
-    {%- block request %}{% endblock request -%}
-
-{% endapply %}
+{%- block request -%}{%- endblock request -%}

@@ -20,13 +20,11 @@
 {%- trans_default_domain trans_default_domain -%}
 {%- if lastPage > 0 -%}   
     {% set loadMoreButton %}
-        {% apply spaceless %}
-            {% if searchRouteAjax|default(false) %}
-                <div class="col-md-8 col-lg-6 offset-md-2 offset-lg-3 data-ajax-search-loading-hide" {% if lastPage == 0 %}style="display: none;"{% endif %}>
-                    <button data-ajax-search-load-more-url="{{ path(searchRouteAjax, currentFilters|merge({(pageParameter): currentPage+1})) }}" type="button" class="btn btn-secondary btn-lg btn-block"><i class="fas fa-chevron-down"></i> {{ 'ajax-search.load-more'|trans }}</button>
-                </div>
-            {% endif %}
-        {% endapply %}
+        {% if searchRouteAjax|default(false) %}
+            <div class="col-md-8 col-lg-6 offset-md-2 offset-lg-3 data-ajax-search-loading-hide" {% if lastPage == 0 %}style="display: none;"{% endif %}>
+                <button data-ajax-search-load-more-url="{{ path(searchRouteAjax, currentFilters|merge({(pageParameter): currentPage+1})) }}" type="button" class="btn btn-secondary btn-lg btn-block"><i class="fas fa-chevron-down"></i> {{ 'ajax-search.load-more'|trans }}</button>
+            </div>
+        {% endif %}
     {% endset %}
 
     <div {% if searchRouteAjax|default(false) %}data-ajax-search-replace="{{ loadMoreButton|e('html_attr') }}"{% endif %}>

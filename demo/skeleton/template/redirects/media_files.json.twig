@@ -1,18 +1,16 @@
-{%- block request %}
-    {% apply spaceless %}
-        {% set config = {
-            _disposition: source.disposition|default(false),
-            _username: source.username|default(false),
-            _password: source.password|default(false),
-            _before: source.before|default(false),
-            _after: source.after|default(false)
-        }|filter(v => v != false) %}
-        {{ {
-            controller: 'EMS\\CommonBundle\\Controller\\FileController::resolveAsset',
-            path: {
-               fileField: source.media_file,
-               configArray: config
-            },
-        }|json_encode|raw }}
-    {% endapply %}
-{% endblock request -%}
+{%- block request -%}
+    {%- set config = {
+        _disposition: source.disposition|default(false),
+        _username: source.username|default(false),
+        _password: source.password|default(false),
+        _before: source.before|default(false),
+        _after: source.after|default(false)
+    }|filter(v => v != false) -%}
+    {{- {
+        controller: 'EMS\\CommonBundle\\Controller\\FileController::resolveAsset',
+        path: {
+           fileField: source.media_file,
+           configArray: config
+        },
+    }|json_encode|raw -}}
+{%- endblock request -%}

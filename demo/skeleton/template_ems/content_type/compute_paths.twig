@@ -1,67 +1,65 @@
-{%  block ems_post_processing %}
-{%- apply spaceless %}
-    {% if finalize %}
-        {% set paths = {} %}
-        {% set config = 'config'|emsco_i18n('en')|ems_json_decode %}
-        {% set locales = config.locales|default([]) %}
-        {% set baseUrl = {} %}
-        {% for locale in locales %}
-            {% set baseUrl = baseUrl|merge({(locale): ''}) %}
-        {%  endfor %}
-        {% set structure = _source.structure|default('{}')|ems_json_menu_nested_decode %}
-        {% set homeAttached = false %}
-        {% for item in structure %}
-            {% set path = [] %}
-            {% for p in item.path %}
-                {% for locale in locales %}
+{%-  block ems_post_processing -%}
+    {%- if finalize -%}
+        {%- set paths = {} -%}
+        {%- set config = 'config'|emsco_i18n('en')|ems_json_decode -%}
+        {%- set locales = config.locales|default([]) -%}
+        {%- set baseUrl = {} -%}
+        {%- for locale in locales -%}
+            {%- set baseUrl = baseUrl|merge({(locale): ''}) -%}
+        {%-  endfor -%}
+        {%- set structure = _source.structure|default('{}')|ems_json_menu_nested_decode -%}
+        {%- set homeAttached = false -%}
+        {%- for item in structure -%}
+            {%- set path = [] -%}
+            {%- for p in item.path -%}
+                {%- for locale in locales -%}
                     {%- set path = path|merge({(locale): attribute(path, locale)|default([])|merge([attribute(p.object, locale).title|default(null)])}) -%}
-                {% endfor %}
-            {% endfor %}
+                {%- endfor -%}
+            {%- endfor -%}
 
-            {% for locale in locales|filter(locale => attribute(path, locale)|length > 0 and null not in attribute(path, locale)) %}
-                {% if homeAttached == false and _source.is_main|default(false) == true and attribute(item.object, locale).title|default|ems_slug != 'home' %}
-                    {% set paths = paths|merge([{
+            {%- for locale in locales|filter(locale => attribute(path, locale)|length > 0 and null not in attribute(path, locale)) -%}
+                {%- if homeAttached == false and _source.is_main|default(false) == true and attribute(item.object, locale).title|default|ems_slug != 'home' -%}
+                    {%- set paths = paths|merge([{
                         'uid': (item.id),
                         'path' : "home",
                         'locale' : locale,
-                    }]) %}
-                {% endif %}
+                    }]) -%}
+                {%- endif -%}
 
-                {% set paths = paths|merge([{
+                {%- set paths = paths|merge([{
                     'uid': (item.id),
                     'path' : attribute(baseUrl, locale) ~ (attribute(path, locale)|map(p => p|ems_slug)|join('/')|default('/')),
                     'locale' : locale,
-                }]) %}
-            {% endfor %}
-            {% set homeAttached = true %}
-        {% endfor %}
+                }]) -%}
+            {%- endfor -%}
+            {%- set homeAttached = true -%}
+        {%- endfor -%}
         {{ paths|default([])|json_encode|raw }}
-    {% endif %}
-{% endapply -%}
-{% endblock %}
+    {%- endif -%}
+{%- endblock -%}
 
-{%  block ems_value %}
+{%-  block ems_value -%}
     {%- if _source.paths|default(false) -%}
         {{- _source.paths|json_encode|raw -}}
     {%- endif -%}
-{% endblock %}
+{%- endblock -%}
 
-{%  block ems_display %}
-    {% set config = 'config'|emsco_i18n('en')|ems_json_decode %}
-    {% set locales = config.locales|default([]) %}
+{%-  block ems_display -%}
+    {%- set config = 'config'|emsco_i18n('en')|ems_json_decode -%}
+    {%- set locales = config.locales|default([]) -%}
     <ul>
-        {% for locale in locales %}
-            {% if data|default([])|filter(item => locale == item.locale)|length > 0 %}
+        {%- for locale in locales -%}
+            {%- if data|default([])|filter(item => locale == item.locale)|length > 0 -%}
                 <li> {{ ('locale.'~locale)|emsco_i18n }}:
                     <ul>
-                        {% for item in data|filter(item => locale == item.locale) %}
+                        {%- for item in data|filter(item => locale == item.locale) -%}
                             <li>
                                 {{ item.path }}
                             </li>
-                        {% endfor %}
+                        {%- endfor -%}
                     </ul>
                 </li>
-            {% endif %}
-        {% endfor %}
+            {%- endif -%}
+        {%- endfor -%}
     </ul>
-{% endblock %}
+{%- endblock -%}

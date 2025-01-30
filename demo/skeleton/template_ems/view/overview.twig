@@ -1,7 +1,7 @@
 {% extends "@EMSCH/template_ems/view/base_overview.twig" %}
 
 {% block template %}
-    {% set infoEnv = 'overview.legend'|i18n('en') %}
+    {% set infoEnv = 'overview.legend'|emsco_i18n('en') %}
     <div class="mb-3">
         <h4>Legend for Live</h4>
         {% for info in infoEnv|ems_json_decode %}

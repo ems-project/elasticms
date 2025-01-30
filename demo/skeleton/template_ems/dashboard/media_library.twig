@@ -28,7 +28,7 @@
     <div>{{- mediaFile.file.mimetype|trans({}, 'emsco-mimetypes') -}}</div>
     <div><a href="{{ path('emsco_view_revisions', { 'type': mediaFile.document.contentType, 'ouuid': mediaFile.id  }) }}">show revision</a></div>
     <div>{{ mediaFile.document.getValue('date_creation')|date(date_time_format) }}</div>
-    <div class="text-right">{{- mediaFile.file.filesize|default(0)|format_bytes -}}</div>
+    <div class="text-right">{{- mediaFile.file.filesize|default(0)|ems_format_bytes -}}</div>
 {%- endblock media_lib_file -%}
 
 

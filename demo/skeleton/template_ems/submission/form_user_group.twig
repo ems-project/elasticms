@@ -1,83 +1,77 @@
-{% block http_admin_api_form_endpoint %}
-    {% apply spaceless %}
-        {% set url = app.request.getSchemeAndHttpHost() %}
-        {% set token = app.request.server.all['EMSF_AUTHKEY'] %}
-        {% set config = {
-            "method": "POST",
-            "url": ("#{url}/api/forms/submissions"),
-            "headers": {
-                "Content-Type": "application/json",
-                "X-Auth-Token": ("#{token}")
-            },
-            "timeout": 30
-        } %}
-    {% endapply %}
+{%- block http_admin_api_form_endpoint -%}
+    {%- set url = app.request.getSchemeAndHttpHost() -%}
+    {%- set token = app.request.server.all['EMSF_AUTHKEY'] -%}
+    {%- set config = {
+        "method": "POST",
+        "url": ("#{url}/api/forms/submissions"),
+        "headers": {
+            "Content-Type": "application/json",
+            "X-Auth-Token": ("#{token}")
+        },
+        "timeout": 30
+    } -%}
     {{- config|json_encode|raw -}}
-{% endblock http_admin_api_form_endpoint %}
+{%- endblock http_admin_api_form_endpoint -%}
 
-{% block http_admin_api_form_request_body %}
-    {% apply spaceless %}
-        {% set files = formData.allFiles|default([])|map(v => v.toArray|merge({ 'base64': v.base64() }) )|map(f => {
-            'filename': ('attachment '~f.filename)|ems_webalize,
-            'mimeType': f.mimeType,
-            'size': f.size,
-            'form_field': f.form_field,
-            'base64': f.base64
-        })|filter(v => v.size > 0) %}
+{%- block http_admin_api_form_request_body -%}
+    {%- set files = formData.allFiles|default([])|map(v => v.toArray|merge({ 'base64': v.base64() }) )|map(f => {
+        'filename': ('attachment '~f.filename)|ems_slug,
+        'mimeType': f.mimeType,
+        'size': f.size,
+        'form_field': f.form_field,
+        'base64': f.base64
+    })|filter(v => v.size > 0) -%}
 
-        {% set message = {
-            'form_name': config.name,
-            'instance': config.translationDomain,
-            'locale': config.locale,
-            'data': formData.raw,
-            'files': files,
-            'label': "User group",
-            'expire_date': '+1 month'|date('Y-m-d')
-        } %}
-    {% endapply %}
+    {%- set message = {
+        'form_name': config.name,
+        'instance': config.translationDomain,
+        'locale': config.locale,
+        'data': formData.raw,
+        'files': files,
+        'label': "User group",
+        'expire_date': '+1 month'|date('Y-m-d')
+    } -%}
     {{- message|json_encode|raw -}}
-{% endblock http_admin_api_form_request_body %}
+{%- endblock http_admin_api_form_request_body -%}
 
-{% block http_admin_api_form_handle_response_extra %}
+{%- block http_admin_api_form_handle_response_extra -%}
     {%- set extra = {
         'uid': (response.getHttpResponseContentJSON.submission_id)
     } -%}
     {{- extra|json_encode|raw -}}
-{% endblock http_admin_api_form_handle_response_extra %}
+{%- endblock http_admin_api_form_handle_response_extra -%}
 
-{% block email_endpoint %}
+{%- block email_endpoint -%}
 {{- "no-reply@elasticms.be" -}}
-{% endblock email_endpoint %}
+{%- endblock email_endpoint -%}
 
-{% block email_message %}
-    {% apply spaceless %}
-        {% set fields = [] %}
-        {% set elements = config.elements %}
-        {% for name, value in formData.raw %}
-            {% set element = elements|filter(v => v.name == name)|first %}
-            {% set fields = fields|merge({
-                (element.label|default(name)): value
-            }) %}
-        {% endfor %}
+{%- block email_message -%}
+    {%- set fields = [] -%}
+    {%- set elements = config.elements -%}
+    {%- for name, value in formData.raw -%}
+        {%- set element = elements|filter(v => v.name == name)|first -%}
+        {%- set fields = fields|merge({
+            (element.label|default(name)): value
+        }) -%}
+    {%- endfor -%}
 
-        {% set body %}
-        <body>
-            <ul>
-                {% for label, value in fields %}
-                    <li>{{ label }}: {{ value }}</li>
-                {% endfor %}
-            </ul>
-            <p>
-                Kind regards.
-            </p>
-        </body>
-        {% endset %}
+    {%- set body -%}
+    <body>
+        <ul>
+            {%- for label, value in fields -%}
+                <li>{{ label }}: {{ value }}</li>
+            {%- endfor -%}
+        </ul>
+        <p>
+            Kind regards.
+        </p>
+    </body>
+    {%- endset -%}
 
-        {% set mail = {
-            "from": "no-reply@elasticms.be",
-            "subject": "Form submission from user group form",
-            "body": body
-        } %}
-    {% endapply %}
+    {%- set mail = {
+        "from": "no-reply@elasticms.be",
+        "subject": "Form submission from user group form",
+        "body": body
+    } -%}
     {{- mail|json_encode|raw -}}
-{% endblock email_message %}
+{%- endblock email_message -%}

@@ -38,6 +38,7 @@ final class DatabaseStatsCommandTest extends KernelTestCase
         $this->messageLogger = $messageLogger;
     }
 
+    #[\Override]
     protected static function getKernelClass(): string
     {
         return Kernel::class;

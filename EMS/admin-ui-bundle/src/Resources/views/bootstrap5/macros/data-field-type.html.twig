@@ -1023,7 +1023,7 @@
         {% else %}
             {% set index = dataField.fieldType.contentType.environment.alias %}
         {% endif %}
-        {%- set jmnQuery = jmnQuery|json_decode -%}
+        {%- set jmnQuery = jmnQuery|ems_json_decode -%}
         {%-  set hits = emsco_search(
             index,
             jmnQuery.query|default({}),

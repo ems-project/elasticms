@@ -838,7 +838,7 @@
 			<div class="panel panel-default">
 				<div class="panel-body {{ color }}">
 					{% if doCompare  %}
-						<pre class="ems-code-editor col-md-6" data-language="ace/mode/json" data-them="ace/theme/chrome">{{ compareRawData|get_string(dataField.fieldType.name)|default('null')|ems_json_decode|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+						<pre class="ems-code-editor col-md-6" data-language="ace/mode/json" data-them="ace/theme/chrome">{{ compareRawData|emsco_get_string(dataField.fieldType.name)|default('null')|ems_json_decode|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
 						<pre class="ems-code-editor col-md-6" data-language="ace/mode/json" data-them="ace/theme/chrome">{{ dataField.rawData|default('null')|ems_json_decode|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
 					{% else %}
 						{{ emsco_json_menu_nested({
@@ -1224,13 +1224,13 @@
                 {% if dateFrom %}
 					<li>
 						<b>From </b>
-                        {{ emsco_diff_date(dateFrom, compare, dataField.fieldType.mappingOptions.fromDateMachineName, child, dataField.fieldType.displayOptions.locale.format|emsco_convert_javascript_date_range_format, false, constant('\\DateTimeInterface::ATOM')) }}
+                        {{ emsco_diff_date(dateFrom, compare, dataField.fieldType.mappingOptions.fromDateMachineName, child, dataField.fieldType.displayOptions.locale.format|emsco_convert_javascript_date_range_format, false, constant('DateTimeInterface::ATOM')) }}
 					</li>
 				{% endif %}
 				{% if dateTo %}
 					<li>
 						<b>To </b>
-                        {{ emsco_diff_date(dateTo, compare, dataField.fieldType.mappingOptions.toDateMachineName, child, dataField.fieldType.displayOptions.locale.format|emsco_convert_javascript_date_range_format, false, constant('\DateTimeInterface::ATOM')) }}
+                        {{ emsco_diff_date(dateTo, compare, dataField.fieldType.mappingOptions.toDateMachineName, child, dataField.fieldType.displayOptions.locale.format|emsco_convert_javascript_date_range_format, false, constant('DateTimeInterface::ATOM')) }}
 					</li>
 				{% endif %}
 				{% if dateFrom and dateTo %}

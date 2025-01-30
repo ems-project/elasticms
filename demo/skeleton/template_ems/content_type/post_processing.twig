@@ -55,7 +55,7 @@
 {%- block section_menu -%}
     {% if finalize and not _id|default(false) and _source.menu|default(false) %}
         {% set foundOne = {
-            index: 'preview'|get_environment.alias,
+            index: 'preview'|emsco_get_environment.alias,
             body: {
                 query: {
                     terms: {

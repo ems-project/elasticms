@@ -989,11 +989,12 @@
 				{% set choices = {} %}
 				{% set labels = {} %}
 				{% if contentType %}
-					{%  set hits = {
-						index: contentType.environment.alias,
-						type: contentType.name,
-						body: dataField.fieldType.displayOptions.query|default('{}')
-					}|search.hits.hits %}
+					{% set hits = emsco_search(
+						contentType.environment.alias,
+						dataField.fieldType.displayOptions.query|default('{}'),
+						contentType.name,
+						20,
+					).response.data.hits.hits %}
 					{%  for hit in hits %}
 						{% set label = attribute(hit._source, contentType.labelField|default(false))|default(hit._id) ~ ' /'  %}
 						{% set choices = choices|merge([hit._id]) %}
@@ -1026,7 +1027,15 @@
         {% else %}
             {% set index = dataField.fieldType.contentType.environment.alias %}
         {% endif %}
-		{%- set hits = { index: index, body: jmnQuery}|search.hits.hits -%}
+		{%-  set hits = emsco_search(
+			index,
+			jmnQuery.query|default({}),
+			[],
+			20,
+			jmnQuery.from|default(0),
+			jmnQuery.sort|default(null),
+			jmnQuery._source|default(null)
+		).response.data.hits.hits -%}
 		{%- set structures = [] -%}
 		{%- for h in hits -%}
 			{% set structures = structures|merge([{
@@ -1238,7 +1247,7 @@
 						<b>Duration </b>
 						{% if compare %}
 							{% if attribute(child, dataField.fieldType.mappingOptions.fromDateMachineName) is defined and attribute(child, dataField.fieldType.mappingOptions.toDateMachineName) is defined %}
-                                {{ emsco_diff(dateFrom|emsco_date_difference(dateTo, dataField.fieldType.displayOptions.timePicker), attribute(child, dataField.fieldType.mappingOptions.fromDateMachineName)|date_difference(attribute(child, dataField.fieldType.mappingOptions.toDateMachineName), dataField.fieldType.displayOptions.timePicker), compare, true) }}
+                                {{ emsco_diff(dateFrom|emsco_date_difference(dateTo, dataField.fieldType.displayOptions.timePicker), attribute(child, dataField.fieldType.mappingOptions.fromDateMachineName)|emsco_date_difference(attribute(child, dataField.fieldType.mappingOptions.toDateMachineName), dataField.fieldType.displayOptions.timePicker), compare, true) }}
 							{% else %}
 								<span class="text-green"><ins class="diffmod">{{ dateFrom|emsco_date_difference(dateTo, dataField.fieldType.displayOptions.timePicker) }}</ins></span>
 							{% endif %}

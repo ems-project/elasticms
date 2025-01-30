@@ -533,7 +533,7 @@
                                 "extraOptions": {
                                     "extra": null,
                                     "clear_on_copy": false,
-                                    "postProcessing": "{% if attribute(_source, 'date_creation') is not defined %}\r\n{{ 'now'|date(constant('\\DateTime::ATOM'))|json_encode|raw }}\r\n{% endif %}"
+                                    "postProcessing": "{{ block(\"media_file_date_creation\", \"@EMSCH/template_ems/content_type/post_processing.twig\") }}"
                                 },
                                 "raw_data": [],
                                 "migrationOptions": {

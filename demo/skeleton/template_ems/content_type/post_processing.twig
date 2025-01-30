@@ -5,20 +5,20 @@
 {% endblock news_slug%}
 
 {%- block feature_title -%}
-    {% if finalize and rootObject._sync_metadata["title_#{form.parent.name}"] is defined %}
-        {{ rootObject._sync_metadata["title_#{form.parent.name}"]|json_encode|raw }}
+    {% if finalize and rootObject._sync_metadata['title_#{form.parent.name}'] is defined %}
+        {{ rootObject._sync_metadata['title_#{form.parent.name}']|json_encode|raw }}
     {% endif %}
 {%- endblock feature_title -%}
 
 {%- block feature_version -%}
-    {% if finalize and rootObject._sync_metadata["release"] is defined %}
-        {{ rootObject._sync_metadata["release"]|json_encode|raw }}
+    {% if finalize and rootObject._sync_metadata['release'] is defined %}
+        {{ rootObject._sync_metadata['release']|json_encode|raw }}
     {% endif %}
 {%- endblock feature_version -%}
 
 {%- block feature_category -%}
-    {% if finalize and rootObject._sync_metadata["category"] is defined %}
-        {{ rootObject._sync_metadata["category"]|json_encode|raw }}
+    {% if finalize and rootObject._sync_metadata['category'] is defined %}
+        {{ rootObject._sync_metadata['category']|json_encode|raw }}
     {% endif %}
 {%- endblock feature_category -%}
 
@@ -63,7 +63,7 @@
                     },
                 },
             },
-        }|search.hits.hits|default([]) %}
+        }|emsco_search_query.hits.hits|default([]) %}
         {% if foundOne|length > 0 %}
             {{ emsco_cant_be_finalized('Another menu has been already created for this entry. Please delete this draft.') }}
         {% endif %}
@@ -85,7 +85,7 @@
             'body': '{"query":{"bool":{"should":[{"term":{"de.slug":{"value":"' ~ slug ~ '"}}},{"term":{"en.slug":{"value":"' ~ slug ~ '"}}},{"term":{"fr.slug":{"value":"' ~ slug ~ '"}}},{"term":{"nl.slug":{"value":"' ~ slug ~ '"}}}],"must_not":[{"term":{"_id":{"value":"' ~ _id ~ '"}}}]}}}'
         }%}
 
-        {% set searchResult = query|search %}
+        {% set searchResult = query|emsco_search_query %}
 
         {% if finalize|default(false) and searchResult.hits.hits|length > 0 %}
             {{ emsco_cant_be_finalized('The slug: ' ~ slug ~ ' already exists.') }}

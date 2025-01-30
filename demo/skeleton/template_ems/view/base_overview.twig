@@ -66,7 +66,7 @@
         } %}
         {% if f.search_sort is defined %}{% set query = query|merge({ 'sort': [ { (f.search_sort) :{'order':'asc'} } ] }) %}{% endif %}
 
-        {% set search = query|search.hits.hits %}
+        {% set search = query|emsco_search_query.hits.hits %}
         {% set options = {} %}
         {% for h in search %}
             {% set options = options|merge({ (attribute(h._source, f.search_field)): ("#{h._source._contenttype}:#{h._id}") })  %}
@@ -93,7 +93,7 @@
                 'query': {  'bool': { 'must' : (aggsMust) } },
                 'aggs': {  'count': { 'terms': { 'field': (f.agg), 'size': 500, 'order': (aggOrder) } } }
             }
-        }|search.aggregations.count.buckets|default([]) %}
+        }|emsco_search_query.aggregations.count.buckets|default([]) %}
 
         {% set aggOptions = {} %}
 

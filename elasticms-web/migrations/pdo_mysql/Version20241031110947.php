@@ -11,6 +11,7 @@ use Doctrine\Migrations\AbstractMigration;
 
 final class Version20241031110947 extends AbstractMigration
 {
+    #[\Override]
     public function getDescription(): string
     {
         return 'Add a non-unique channel/ouuid index in logs table';

@@ -9,6 +9,7 @@ use Doctrine\Migrations\AbstractMigration;
 
 final class Version20220508102103 extends AbstractMigration
 {
+    #[\Override]
     public function getDescription(): string
     {
         return 'Scripts to create common bundle\'s entities (AssetStorage and LogMessage)';
@@ -24,6 +25,7 @@ final class Version20220508102103 extends AbstractMigration
         , formatted CLOB NOT NULL, username VARCHAR(255) DEFAULT NULL, impersonator VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id))');
     }
 
+    #[\Override]
     public function down(Schema $schema): void
     {
         $this->addSql('DROP TABLE asset_storage');

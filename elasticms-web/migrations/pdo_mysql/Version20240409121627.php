@@ -11,6 +11,7 @@ use Doctrine\Migrations\AbstractMigration;
 
 final class Version20240409121627 extends AbstractMigration
 {
+    #[\Override]
     public function getDescription(): string
     {
         return 'Form submission change expire_date from date to datetime';

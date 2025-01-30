@@ -11,6 +11,7 @@ use Doctrine\Migrations\AbstractMigration;
 
 final class Version20231222192729 extends AbstractMigration
 {
+    #[\Override]
     public function getDescription(): string
     {
         return 'upgrade mysql use json types';

@@ -11,6 +11,7 @@ use Doctrine\Migrations\AbstractMigration;
 
 final class Version20240226165436 extends AbstractMigration
 {
+    #[\Override]
     public function getDescription(): string
     {
         return 'Add an expires_at field to StoreData entity';

@@ -24,7 +24,7 @@
 
 {%- block form_instance_field_label -%}
     {{- (_source.name|default(''))|json_encode|raw -}}
-{%- endblock form_instance_label -%}
+{%- endblock form_instance_field_label -%}
 
 {%- block form_instance_validation_label -%}
     {{- (_source.classname|replace({'EMS\\FormBundle\\Components\\Validation\\': '', 'App\\Form\\Components\\Validation\\': ''})|default(''))|json_encode|raw -}}

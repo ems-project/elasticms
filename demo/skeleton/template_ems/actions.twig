@@ -40,7 +40,7 @@
                 },
             },
         }
-    }|search %}
+    }|emsco_search_query %}
         {% set path = search.hits.hits|first._source.paths|default([])|filter(p => p.uid == source.menu and p.locale == locale) %}
         {% if path is defined and path|length > 0 %}
             {% set slug = path|first.path %}

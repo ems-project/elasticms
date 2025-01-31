@@ -7,6 +7,7 @@ namespace EMS\CoreBundle\Repository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\ReadableCollection;
 use Doctrine\DBAL\ArrayParameterType;
+use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use EMS\CoreBundle\Entity\Environment;
@@ -71,17 +72,20 @@ class EnvironmentRepository extends EntityRepository
      */
     public function countRevisionsById(?bool $deleted = null): array
     {
-        $qb = $this->_em->getConnection()->createQueryBuilder();
+        $qb = $this->getEntityManager()->getConnection()->createQueryBuilder();
         $qb
             ->select('e.id', 'count(er.revision_id)')
             ->from('environment', 'e')
             ->leftJoin('e', 'environment_revision', 'er', 'e.id = er.environment_id')
             ->join('er', 'revision', 'r', 'r.id = er.revision_id')
-            ->andWhere($qb->expr()->eq('e.managed', $qb->expr()->literal(true)))
+            ->andWhere($qb->expr()->eq('e.managed', ':managed'))
+            ->setParameter('managed', true, ParameterType::BOOLEAN)
             ->groupBy('e.id');
 
         if ($deleted) {
-            $qb->andWhere($qb->expr()->eq('r.deleted', $qb->expr()->literal(true)));
+            $qb
+                ->andWhere($qb->expr()->eq('r.deleted', ':deleted'))
+                ->setParameter('deleted', true, ParameterType::BOOLEAN);
         }
 
         /** @var array<int, int> $result */
@@ -98,7 +102,7 @@ class EnvironmentRepository extends EntityRepository
         $queryBuilder = $this->createQueryBuilder('environment');
         $queryBuilder
             ->andWhere('environment.id IN (:ids)')
-            ->setParameter('ids', $ids);
+            ->setParameter('ids', $ids, ArrayParameterType::STRING);
 
         return $queryBuilder->getQuery()->getResult();
     }
@@ -190,8 +194,8 @@ class EnvironmentRepository extends EntityRepository
 
     public function save(Environment $environment): void
     {
-        $this->_em->persist($environment);
-        $this->_em->flush();
+        $this->getEntityManager()->persist($environment);
+        $this->getEntityManager()->flush();
     }
 
     public function makeQueryBuilder(?bool $isManaged = false, string $searchValue = ''): QueryBuilder

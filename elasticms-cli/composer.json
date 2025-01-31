@@ -36,8 +36,7 @@
         "symfony/yaml": "6.4.*"
     },
     "require-dev": {
-        "symfony/debug-bundle": "6.4.*",
-        "symfony/web-profiler-bundle": "6.4.*"
+        "symfony/debug-bundle": "6.4.*"
     },
     "config": {
         "allow-plugins": {

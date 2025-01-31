@@ -1,52 +1,50 @@
-{% block slug_value %}
+{%- block slug_value -%}
     {%- if _source.title|default(false) -%}
         {{ _source.title|ems_slug|json_encode|raw }}
     {%- endif -%}
-{% endblock slug_value %}
+{%- endblock slug_value -%}
 
-{% block menu_choice_template %}
-    {% apply spaceless %}
-        {% set choices = [] %}
-        {% for item in items %}
-            {% set path = [] %}
+{%- block menu_choice_template -%}
+    {%- set choices = [] -%}
+    {%- for item in items -%}
+        {%- set path = [] -%}
 
-            {% for i in item.path %}
-                {% if i.type == 'section' %}
-                    {% set path = path|merge([i.object.label]) %}
-                {% else %}
-                    {% set path = path|merge([i]) %}
-                {% endif %}
-            {% endfor %}
+        {%- for i in item.path -%}
+            {%- if i.type == 'section' -%}
+                {%- set path = path|merge([i.object.label]) -%}
+            {%- else -%}
+                {%- set path = path|merge([i]) -%}
+            {%- endif -%}
+        {%- endfor -%}
 
-            {% set label = path|join(' > ') %}
-            {% set choices = choices|merge({ (label) : (item.id) }) %}
-        {% endfor %}
-    {% endapply %}
+        {%- set label = path|join(' > ') -%}
+        {%- set choices = choices|merge({ (label) : (item.id) }) -%}
+    {%- endfor -%}
     {{ choices|json_encode|raw }}
-{% endblock menu_choice_template %}
+{%- endblock menu_choice_template -%}
 
-{% block menu_choice_display %}
-    {% set locales = app.request.server.all['EMSCH_LOCALES']|default('[]')|ems_json_decode %}
-    {% if app.user.localePreferred|default(null) and app.user.localePreferred[0:2] in locales %}
-        {% set locales = [app.user.localePreferred[0:2]]|merge(locales)|reduce((carry,p) => p in carry ? carry : carry|merge([p]), []) %}
-    {% endif %}
+{%- block menu_choice_display -%}
+    {%- set locales = app.request.server.all['EMSCH_LOCALES']|default('[]')|ems_json_decode -%}
+    {%- if app.user.localePreferred|default(null) and app.user.localePreferred[0:2] in locales -%}
+        {%- set locales = [app.user.localePreferred[0:2]]|merge(locales)|reduce((carry,p) => p in carry ? carry : carry|merge([p]), []) -%}
+    {%- endif -%}
     <ul>
-        {% for l in locales %}
-            {% for item in items %}
-                {% set itemLabel = item.path[1:]|map(i => attribute(i.object, l).title|default(i.label))|join(' > ')  %}
+        {%- for l in locales -%}
+            {%- for item in items -%}
+                {%- set itemLabel = item.path[1:]|map(i => attribute(i.object, l).title|default(i.label))|join(' > ')  -%}
                 <li>
                     <a href="{{ path('emsco_dashboard', {'name': 'sitemap', 'activeItemId': item.id, 'locale': l }) }}">
                         {{ l|upper }}: {{ itemLabel }}
                     </a>
                 </li>
-            {% endfor %}
-        {% endfor %}
+            {%- endfor -%}
+        {%- endfor -%}
     </ul>
-{% endblock menu_choice_display %}
+{%- endblock menu_choice_display -%}
 
-{% block menu_post_processing %}
-    {% if finalize and _source.menu|default(false) %}
-        {% set found = {
+{%- block menu_post_processing -%}
+    {%- if finalize and _source.menu|default(false) -%}
+        {%- set found = {
             "index": 'preview'|emsco_get_environment.alias,
             "body": {
                 "query": {
@@ -56,9 +54,9 @@
                     }
                 }
             },
-        }|search.hits.hits|default([]) %}
-        {% if found|length > 0 %}
+        }|emsco_search_query.hits.hits|default([]) -%}
+        {%- if found|length > 0 -%}
             {{ emsco_cant_be_finalized('Another page has been already created for this entry. Please delete this draft.') }}
-        {% endif %}
-    {% endif %}
-{% endblock menu_post_processing %}
+        {%- endif -%}
+    {%- endif -%}
+{%- endblock menu_post_processing -%}

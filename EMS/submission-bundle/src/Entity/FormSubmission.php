@@ -8,7 +8,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use EMS\CommonBundle\Entity\CreatedModifiedTrait;
 use EMS\CommonBundle\Entity\EntityInterface;
-use EMS\Helpers\Standard\DateTime;
 use EMS\SubmissionBundle\Request\DatabaseRequest;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
@@ -36,8 +35,8 @@ class FormSubmission implements EntityInterface, \JsonSerializable
     public function __construct(DatabaseRequest $databaseRequest)
     {
         $this->id = Uuid::uuid4();
-        $this->created = DateTime::create('now');
-        $this->modified = DateTime::create('now');
+        $this->created = new \DateTime();
+        $this->modified = new \DateTime();
 
         $this->name = $databaseRequest->getFormName();
         $this->instance = $databaseRequest->getInstance();

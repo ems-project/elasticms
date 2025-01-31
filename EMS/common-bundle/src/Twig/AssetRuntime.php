@@ -96,7 +96,7 @@ class AssetRuntime
         }
 
         if (!($config[EmsFields::ASSET_CONFIG_GET_FILE_PATH] ?? false)) {
-            $basename = (new Encoder())->webalizeForUsers(\basename($filename));
+            $basename = (new Encoder())->slug(\basename($filename));
 
             return $this->urlGenerator->generate($route, [
                 'hash_config' => $hashConfig,

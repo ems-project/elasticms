@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 if (!file_exists(__DIR__.'/elasticms-cli/src')) {
     exit(0);
 }
@@ -8,6 +10,7 @@ $finder = PhpCsFixer\Finder::create()
     ->in(__DIR__.'/build')
     ->in(__DIR__.'/elasticms-*/src')
     ->in(__DIR__.'/elasticms-*/tests')
+    ->in(__DIR__.'/elasticms-*/migrations')
     ->in(__DIR__.'/EMS/*/src')
     ->in(__DIR__.'/EMS/*/tests')
     ->exclude('/EMS/helpers/tmp')

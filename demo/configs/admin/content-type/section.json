@@ -108,7 +108,7 @@
                                 "extraOptions": {
                                     "extra": null,
                                     "clear_on_copy": false,
-                                    "postProcessing": "{% if finalize and not _id|default(false) and _source.menu|default(false) %}\r\n    {% set foundOne = {\r\n        index: 'preview'|get_environment.alias,\r\n        body: {\r\n            query: {\r\n                terms: {\r\n                    menu: [_source.menu],\r\n                },\r\n            },\r\n        },\r\n    }|search.hits.hits|default([]) %}\r\n    {% if foundOne|length > 0 %}\r\n        {{ emsco_cant_be_finalized('Another menu has been already created for this entry. Please delete this draft.') }}\r\n    {% endif %}\r\n{% endif %}"
+                                    "postProcessing": "{{ block(\"section_menu\", \"@EMSCH/template_ems/content_type/post_processing.twig\") }}"
                                 },
                                 "raw_data": [],
                                 "migrationOptions": {

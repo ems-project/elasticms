@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Repository;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\Query\Parameter;
 use Doctrine\ORM\QueryBuilder;
 use EMS\CommonBundle\Entity\AssetStorage;
 
@@ -20,10 +22,10 @@ class AssetStorageRepository extends EntityRepository
         $qb = $this->createQueryBuilder('a');
         $qb->where($qb->expr()->eq('a.hash', ':hash'));
         $qb->andWhere($qb->expr()->eq('a.confirmed', ':confirmed'));
-        $qb->setParameters([
-            ':hash' => $hash,
-            ':confirmed' => $confirmed,
-        ]);
+        $qb->setParameters(new ArrayCollection([
+            new Parameter('hash', $hash),
+            new Parameter('confirmed', $confirmed),
+        ]));
 
         return $qb;
     }

@@ -1,28 +1,26 @@
-{% extends '@EMSCH/template/base/base.html.twig' %}
-{% trans_default_domain trans_default_domain %}
+{%- extends '@EMSCH/template/base/base.html.twig' -%}
+{%- trans_default_domain trans_default_domain -%}
 
-{% block body_attr %}id="languages-page"{% endblock %}
+{%- block body_attr -%}id="languages-page"{%- endblock -%}
 
-{% block metatitle %}{% block title %}Select language{% endblock %}{% endblock %}
+{%- block metatitle -%}{%- block title -%}Select language{%- endblock -%}{%- endblock -%}
 
 {%- block body -%}
-    {% apply spaceless %}
-        <div id="wrapper" class="vertical-center">
-            <div class="container">
-                <div class="brand text-center">
-                    <div class="d-block brand-logo mb-5">
-                        <img src="{{ asset("img/logos/full-logo.svg", 'emsch') }}" width="280" class="d-inline-block align-middle" alt="{{ 'site.short_name'|trans }}">
-                    </div>
-                    {% block main %}{% endblock main %}
-                    <div class="choice-btn">
-                        {% for locale in locales %}
-                            <div class="d-inline-block text-uppercase p-3" lang="{{ locale }}">
-                                <a class="btn btn-primary" href="{{ path("emsch_path.#{locale}") }}"><span>{{ 'locale'|trans({}, trans_default_domain, locale) }}</span></a>
-                            </div>
-                        {% endfor %}
-                    </div>
+    <div id="wrapper" class="vertical-center">
+        <div class="container">
+            <div class="brand text-center">
+                <div class="d-block brand-logo mb-5">
+                    <img src="{{- asset("img/logos/full-logo.svg", 'emsch') -}}" width="280" class="d-inline-block align-middle" alt="{{- 'site.short_name'|trans -}}">
+                </div>
+                {%- block main -%}{%- endblock main -%}
+                <div class="choice-btn">
+                    {%- for locale in locales -%}
+                        <div class="d-inline-block text-uppercase p-3" lang="{{- locale -}}">
+                            <a class="btn btn-primary" href="{{- path("emsch_path.#{locale}") -}}"><span>{{- 'locale'|trans({}, trans_default_domain, locale) -}}</span></a>
+                        </div>
+                    {%- endfor -%}
                 </div>
             </div>
         </div>
-    {% endapply %}
+    </div>
 {%- endblock -%}

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Entity;
 
-use EMS\Helpers\Standard\DateTime;
-
 class AssetStorage implements EntityInterface
 {
     use CreatedModifiedTrait;
@@ -22,8 +20,8 @@ class AssetStorage implements EntityInterface
 
     public function __construct()
     {
-        $this->created = DateTime::create('now');
-        $this->modified = DateTime::create('now');
+        $this->created = new \DateTime();
+        $this->modified = new \DateTime();
     }
 
     public function getHash(): string

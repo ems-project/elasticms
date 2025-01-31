@@ -4,17 +4,20 @@ declare(strict_types=1);
 
 namespace DoctrineMigrations;
 
+use Doctrine\DBAL\Platforms\MariaDBPlatform;
+use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use Doctrine\DBAL\Platforms\MySQLPlatform;
 
 final class Version20220502132104 extends AbstractMigration
 {
+    #[\Override]
     public function up(Schema $schema): void
     {
         $this->abortIf(
-            !$this->connection->getDatabasePlatform() instanceof MySQLPlatform,
-            "Migration can only be executed safely on 'MySQLPlatform'."
+            !$this->connection->getDatabasePlatform() instanceof MySQLPlatform
+            && !$this->connection->getDatabasePlatform() instanceof MariaDBPlatform,
+            "Migration can only be executed safely on '\Doctrine\DBAL\Platforms\MySQLPlatform'."
         );
 
         $this->addSql('CREATE TABLE asset_storage (id INT AUTO_INCREMENT NOT NULL, created DATETIME NOT NULL, modified DATETIME NOT NULL, hash VARCHAR(1024) NOT NULL, contents LONGBLOB NOT NULL, size BIGINT NOT NULL, confirmed TINYINT(1) DEFAULT \'0\' NOT NULL, UNIQUE INDEX UNIQ_37945A62D1B862B8 (hash), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB');
@@ -24,11 +27,13 @@ final class Version20220502132104 extends AbstractMigration
         $this->addSql('ALTER TABLE form_submission_file ADD CONSTRAINT FK_AEFF00A6422B0E0C FOREIGN KEY (form_submission_id) REFERENCES form_submission (id)');
     }
 
+    #[\Override]
     public function down(Schema $schema): void
     {
         $this->abortIf(
-            !$this->connection->getDatabasePlatform() instanceof MySQLPlatform,
-            "Migration can only be executed safely on 'MySQLPlatform'."
+            !$this->connection->getDatabasePlatform() instanceof MySQLPlatform
+            && !$this->connection->getDatabasePlatform() instanceof MariaDBPlatform,
+            "Migration can only be executed safely on '\Doctrine\DBAL\Platforms\MySQLPlatform'."
         );
 
         $this->addSql('ALTER TABLE form_submission_file DROP FOREIGN KEY FK_AEFF00A6422B0E0C');

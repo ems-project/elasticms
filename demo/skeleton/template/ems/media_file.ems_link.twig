@@ -1,3 +1,1 @@
-{% apply spaceless %}
-    {{ path('emsch_media_file', {path: source.media_path}) }}
-{%  endapply %}
+{{- path('emsch_media_file', {path: source.media_path}) -}}

@@ -1,50 +1,44 @@
-{% block render %}
-    {% apply spaceless %}
-        {% set childrenHaveBeenGenerated = false %}
-        {% set currentBlockLevel = 1 %}
-        {% set headerBlockLevel = 2 %}
-        {% for item in structure|default([]) %}
-            {% with {
-                'item': item,
-                'currentBlockLevel': currentBlockLevel,
-                'headerBlockLevel': headerBlockLevel,
-                'headerBlockLevel': headerBlockLevel,
-                'trans_default_domain': trans_default_domain,
-            } %}
-                {{ block("row", "@EMSCH/template/slideshow/blocks/"~item.type~".html.twig") }}
-            {% endwith %}
-        {%  endfor %}
-    {% endapply %}
-{% endblock render %}
+{%- block render -%}
+    {%- set childrenHaveBeenGenerated = false -%}
+    {%- set currentBlockLevel = 1 -%}
+    {%- set headerBlockLevel = 2 -%}
+    {%- for item in structure|default([]) -%}
+        {%- with {
+            'item': item,
+            'currentBlockLevel': currentBlockLevel,
+            'headerBlockLevel': headerBlockLevel,
+            'headerBlockLevel': headerBlockLevel,
+            'trans_default_domain': trans_default_domain,
+        } -%}
+            {{- block("row", "@EMSCH/template/slideshow/blocks/"~item.type~".html.twig") -}}
+        {%- endwith -%}
+    {%-  endfor -%}
+{%- endblock render -%}
 
-{% block row %}
-    {% apply spaceless %}
-            {%  if item.children|default([])|length > 0 %}
-                <section id="section-group-{{ item.id }}">
-                    {{ block('widget', "@EMSCH/template/slideshow/blocks/"~item.type~".html.twig") }}
-                    {{ block('children', "@EMSCH/template/slideshow/blocks/"~item.type~".html.twig") }}
-                </section>
-            {% else %}
-                {{ block('widget', "@EMSCH/template/slideshow/blocks/"~item.type~".html.twig") }}
-            {% endif %}
-    {% endapply %}
-{% endblock row %}
+{%- block row -%}
+    {%-  if item.children|default([])|length > 0 -%}
+        <section id="section-group-{{- item.id -}}">
+            {{- block('widget', "@EMSCH/template/slideshow/blocks/"~item.type~".html.twig") -}}
+            {{- block('children', "@EMSCH/template/slideshow/blocks/"~item.type~".html.twig") -}}
+        </section>
+    {%- else -%}
+        {{- block('widget', "@EMSCH/template/slideshow/blocks/"~item.type~".html.twig") -}}
+    {%- endif -%}
+{%- endblock row -%}
 
-{% block widget %}
-    <section id="section-{{ item.id }}">
-        {% block section %}{{ ('Block `section` must be overridden for. `' ~ item.type ~ '`')|ems_markdown }}{% endblock %}
+{%- block widget -%}
+    <section id="section-{{- item.id -}}">
+        {%- block section -%}{{- ('Block `section` must be overridden for. `' ~ item.type ~ '`')|ems_markdown -}}{%- endblock -%}
     </section>
-{% endblock widget %}
+{%- endblock widget -%}
 
-{% block children %}
-    {% apply spaceless %}
-        {% if not childrenHaveBeenGenerated %}
-            {% set currentBlockLevel = currentBlockLevel + 1 %}
-            {% set headerBlockLevel = headerBlockLevel + (item.object.label is defined ? 1 : 0) %}
-            {% for item in item.children|default([]) %}
-                {{ block("row", "@EMSCH/template/slideshow/blocks/"~item.type~".html.twig") }}
-            {% endfor %}
-            {% set childrenHaveBeenGenerated = true %}
-        {% endif %}
-    {% endapply %}
-{% endblock %}
+{%- block children -%}
+    {%- if not childrenHaveBeenGenerated -%}
+        {%- set currentBlockLevel = currentBlockLevel + 1 -%}
+        {%- set headerBlockLevel = headerBlockLevel + (item.object.label is defined ? 1 : 0) -%}
+        {%- for item in item.children|default([]) -%}
+            {{- block("row", "@EMSCH/template/slideshow/blocks/"~item.type~".html.twig") -}}
+        {%- endfor -%}
+        {%- set childrenHaveBeenGenerated = true -%}
+    {%- endif -%}
+{%- endblock -%}

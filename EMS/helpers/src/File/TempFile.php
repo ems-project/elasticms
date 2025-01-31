@@ -13,6 +13,7 @@ class TempFile
 
     private function __construct(public readonly string $path)
     {
+        TempDestructCollector::add($this);
     }
 
     public function __destruct()

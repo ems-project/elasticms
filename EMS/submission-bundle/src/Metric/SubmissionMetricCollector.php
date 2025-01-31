@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\SubmissionBundle\Metric;
 
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception\ConnectionException;
 use EMS\CommonBundle\Common\Metric\MetricCollectorInterface;
 use EMS\Helpers\Standard\DateTime;
 use EMS\SubmissionBundle\Repository\FormSubmissionRepository;
@@ -19,7 +19,7 @@ final readonly class SubmissionMetricCollector implements MetricCollectorInterfa
         'errors_total' => 'Total count error submissions',
     ];
 
-    public function __construct(private FormSubmissionRepository $formSubmissionRepository, private Connection $connection)
+    public function __construct(private FormSubmissionRepository $formSubmissionRepository)
     {
     }
 
@@ -38,35 +38,24 @@ final readonly class SubmissionMetricCollector implements MetricCollectorInterfa
     #[\Override]
     public function collect(CollectorRegistry $collectorRegistry): void
     {
-        if (!$this->hasDatabaseConnection()) {
-            return;
-        }
-
-        $metrics = $this->formSubmissionRepository->getMetrics();
-        $namespace = $this->getName();
-
-        foreach (self::GAUGES as $gaugeName => $gaugeHelp) {
-            $gauge = $collectorRegistry->getOrRegisterGauge(
-                $namespace,
-                $gaugeName,
-                $gaugeHelp,
-                ['form_instance', 'form_name']
-            );
-
-            foreach ($metrics as $data) {
-                $gauge->set($data[$gaugeName], [$data['instance'], $data['name']]);
-            }
-        }
-    }
-
-    private function hasDatabaseConnection(): bool
-    {
         try {
-            $this->connection->connect();
+            $metrics = $this->formSubmissionRepository->getMetrics();
+            $namespace = $this->getName();
 
-            return $this->connection->isConnected();
-        } catch (\Throwable) {
-            return false;
+            foreach (self::GAUGES as $gaugeName => $gaugeHelp) {
+                $gauge = $collectorRegistry->getOrRegisterGauge(
+                    $namespace,
+                    $gaugeName,
+                    $gaugeHelp,
+                    ['form_instance', 'form_name']
+                );
+
+                foreach ($metrics as $data) {
+                    $gauge->set($data[$gaugeName], [$data['instance'], $data['name']]);
+                }
+            }
+        } catch (ConnectionException) {
+            return;
         }
     }
 }

@@ -10,7 +10,6 @@ use EMS\CommonBundle\Entity\CreatedModifiedTrait;
 use EMS\CommonBundle\Helper\Text\Encoder;
 use EMS\CoreBundle\Entity\Helper\JsonClass;
 use EMS\CoreBundle\Entity\Helper\JsonDeserializer;
-use EMS\Helpers\Standard\DateTime;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
@@ -30,8 +29,8 @@ class QuerySearch extends JsonDeserializer implements \JsonSerializable, EntityI
     public function __construct()
     {
         $this->id = Uuid::uuid4();
-        $this->created = DateTime::create('now');
-        $this->modified = DateTime::create('now');
+        $this->created = new \DateTime();
+        $this->modified = new \DateTime();
         $this->environments = new ArrayCollection();
     }
 
@@ -70,8 +69,7 @@ class QuerySearch extends JsonDeserializer implements \JsonSerializable, EntityI
 
     public function setName(string $name): void
     {
-        $webalizedName = Encoder::webalize($name);
-        $this->name = $webalizedName;
+        $this->name = new Encoder()->slug($name)->toString();
     }
 
     public function addEnvironment(Environment $environment): QuerySearch

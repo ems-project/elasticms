@@ -24,10 +24,12 @@ return RectorConfig::configure()
         __DIR__ . '/EMS/xliff/src',
         __DIR__ . '/EMS/xliff/tests',
         __DIR__ . '/elasticms-admin/src',
-        __DIR__ . '/elasticms-cli/src',
-        __DIR__ . '/elasticms-web/src',
         __DIR__ . '/elasticms-admin/tests',
+        __DIR__ . '/elasticms-cli/src',
+        __DIR__ . '/elasticms-cli/migrations',
         __DIR__ . '/elasticms-cli/tests',
+        __DIR__ . '/elasticms-web/src',
+        __DIR__ . '/elasticms-web/migrations',
         __DIR__ . '/elasticms-web/tests',
     ])
     ->withRules([

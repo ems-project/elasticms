@@ -4,4 +4,106 @@
     {% endif %}
 {% endblock news_slug%}
 
+{%- block feature_title -%}
+    {% if finalize and rootObject._sync_metadata['title_#{form.parent.name}'] is defined %}
+        {{ rootObject._sync_metadata['title_#{form.parent.name}']|json_encode|raw }}
+    {% endif %}
+{%- endblock feature_title -%}
+
+{%- block feature_version -%}
+    {% if finalize and rootObject._sync_metadata['release'] is defined %}
+        {{ rootObject._sync_metadata['release']|json_encode|raw }}
+    {% endif %}
+{%- endblock feature_version -%}
+
+{%- block feature_category -%}
+    {% if finalize and rootObject._sync_metadata['category'] is defined %}
+        {{ rootObject._sync_metadata['category']|json_encode|raw }}
+    {% endif %}
+{%- endblock feature_category -%}
+
+{%- block form_instance_field_label -%}
+    {{- (_source.name|default(''))|json_encode|raw -}}
+{%- endblock form_instance_field_label -%}
+
+{%- block form_instance_validation_label -%}
+    {{- (_source.classname|replace({'EMS\\FormBundle\\Components\\Validation\\': '', 'App\\Form\\Components\\Validation\\': ''})|default(''))|json_encode|raw -}}
+{%- endblock form_instance_validation_label -%}
+
+{%- block form_instance_submission_label -%}
+    {{- (_source.name|default('') ~ ' (' ~ _source.type ~ ')')|replace({'EMS\\SubmissionBundle\\Handler\\': ''})|json_encode|raw -}}
+{%- endblock form_instance_submission_label -%}
+
+{%- block media_file_date_creation -%}
+    {% if attribute(_source, 'date_creation') is not defined %}
+        {{ 'now'|date(constant('DateTimeInterface::ATOM'))|json_encode|raw }}
+    {% endif %}
+{%- endblock media_file_date_creation -%}
+
+{%- block route_config -%}
+    {% if _source.body is defined and _source.body != null %}
+        {{ _source.body|json_encode|raw }}
+    {% endif %}
+{%- endblock route_config -%}
+
+{%- block route_query -%}
+    {% if _source.query is defined and _source.query != null %}
+        {{ _source.query|json_encode|raw }}
+    {% endif %}
+{%- endblock route_query -%}
+
+{%- block section_menu -%}
+    {% if finalize and not _id|default(false) and _source.menu|default(false) %}
+        {% set foundOne = {
+            index: 'preview'|emsco_get_environment.alias,
+            body: {
+                query: {
+                    terms: {
+                        menu: [_source.menu],
+                    },
+                },
+            },
+        }|emsco_search_query.hits.hits|default([]) %}
+        {% if foundOne|length > 0 %}
+            {{ emsco_cant_be_finalized('Another menu has been already created for this entry. Please delete this draft.') }}
+        {% endif %}
+    {% endif %}
+{%- endblock section_menu -%}
+
+{%- block slideshow_slug -%}
+    {% if _source.slug is not defined and _source.title is defined %}
+        {% set slug = _source.title|ems_slug %}
+    {% elseif _source.slug is defined %}
+        {% set slug = _source.slug %}
+    {% endif %}
+
+    {% if slug|default(false) %}
+        {% set query = {
+            'index': ('preview'|emsco_get_environment.alias),
+            'size': 1,
+            'type': 'page',
+            'body': '{"query":{"bool":{"should":[{"term":{"de.slug":{"value":"' ~ slug ~ '"}}},{"term":{"en.slug":{"value":"' ~ slug ~ '"}}},{"term":{"fr.slug":{"value":"' ~ slug ~ '"}}},{"term":{"nl.slug":{"value":"' ~ slug ~ '"}}}],"must_not":[{"term":{"_id":{"value":"' ~ _id ~ '"}}}]}}}'
+        }%}
+
+        {% set searchResult = query|emsco_search_query %}
+
+        {% if finalize|default(false) and searchResult.hits.hits|length > 0 %}
+            {{ emsco_cant_be_finalized('The slug: ' ~ slug ~ ' already exists.') }}
+        {% endif %}
+
+        {{ slug|json_encode|raw }}
+    {% endif %}
+{%- endblock slideshow_slug -%}
+
+{%- block slideshow_publication_date -%}
+    {%- if _source.publication_date is not defined -%}
+        {{- 'now'|date('Y/m/d')|json_encode|raw }}
+    {%- endif -%}
+{%- endblock slideshow_publication_date -%}
+
+
+
+
+
+
 

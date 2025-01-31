@@ -11,8 +11,11 @@ use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 
 final readonly class Translator implements CacheWarmerInterface
 {
-    public function __construct(private EnvironmentHelper $environmentHelper, private TranslationBuilder $builder, private SymfonyTranslator $translator)
-    {
+    public function __construct(
+        private EnvironmentHelper $environmentHelper,
+        private TranslationBuilder $builder,
+        private SymfonyTranslator $translator
+    ) {
     }
 
     public function addCatalogues(): void
@@ -30,13 +33,8 @@ final readonly class Translator implements CacheWarmerInterface
         return false;
     }
 
-    /**
-     * @param string $cacheDir
-     *
-     * @return string[]
-     */
     #[\Override]
-    public function warmUp($cacheDir)
+    public function warmUp($cacheDir, ?string $buildDir = null): array
     {
         try {
             foreach ($this->environmentHelper->getEnvironments() as $environment) {

@@ -1,8 +1,6 @@
-{% apply spaceless %}
-    {{ path('emsch_news_details', {
-        slug: attribute(source, locale).slug,
-        month: source.publication_date|date('m'),
-        year: source.publication_date|date('Y'),
-        day: source.publication_date|date('d'),
-    })}}
-{%  endapply %}
+{{- path('emsch_news_details', {
+    slug: attribute(source, locale).slug,
+    month: source.publication_date|date('m'),
+    year: source.publication_date|date('Y'),
+    day: source.publication_date|date('d'),
+}) -}}

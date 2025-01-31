@@ -64,9 +64,6 @@
         <service id="ems.event_listener.command" class="EMS\CommonBundle\EventListener\CommandListener">
             <tag name="kernel.event_subscriber" />
         </service>
-        <service id="ems.event_listener.doctrine_migration" class="EMS\CommonBundle\EventListener\DoctrineMigrationListener">
-            <tag name="doctrine.event_listener" event="postGenerateSchema"/>
-        </service>
         <service id="ems.event_listener.ip_address_listener" class="EMS\CommonBundle\EventListener\IpAddressListener">
             <argument>%ems.metric.enabled%</argument>
             <argument key="$trustedIps">%ems_common.request.trusted_ips%</argument>

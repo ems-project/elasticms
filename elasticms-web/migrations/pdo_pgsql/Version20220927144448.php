@@ -21,6 +21,7 @@ final class Version20220927144448 extends AbstractMigration
         $this->addSql('COMMENT ON COLUMN form_submission.data IS \'(DC2Type:json)\'');
     }
 
+    #[\Override]
     public function down(Schema $schema): void
     {
         $this->abortIf(

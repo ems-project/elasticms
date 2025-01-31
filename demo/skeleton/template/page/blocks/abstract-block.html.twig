@@ -1,49 +1,43 @@
-{% block render %}
-    {% apply spaceless %}
-        {% set childrenHaveBeenGenerated = false %}
-        {% set currentBlockLevel = 1 %}
-        {% for item in structure|default([]) %}
-            {% with {
-                'item': item,
-                'currentBlockLevel': currentBlockLevel,
-                'trans_default_domain': trans_default_domain,
-                } %}
-                {{ block("row", "@EMSCH/template/page/blocks/"~(item.object.layout|default(item.type))~".html.twig") }}
-            {% endwith %}
-        {%  endfor %}
-    {% endapply %}
-{% endblock render %}
+{%- block render -%}
+    {%- set childrenHaveBeenGenerated = false -%}
+    {%- set currentBlockLevel = 1 -%}
+    {%- for item in structure|default([]) -%}
+        {%- with {
+            'item': item,
+            'currentBlockLevel': currentBlockLevel,
+            'trans_default_domain': trans_default_domain,
+            } -%}
+            {{- block("row", "@EMSCH/template/page/blocks/"~(item.object.layout|default(item.type))~".html.twig") -}}
+        {%- endwith -%}
+    {%-  endfor -%}
+{%- endblock render -%}
 
-{% block row %}
-    {% apply spaceless %}
-        {{ block('body', "@EMSCH/template/page/blocks/"~(item.object.layout|default(item.type))~".html.twig") }}
-    {% endapply %}
-{% endblock row %}
+{%- block row -%}
+    {{- block('body', "@EMSCH/template/page/blocks/"~(item.object.layout|default(item.type))~".html.twig") -}}
+{%- endblock row -%}
 
-{% block body %}
-    {{ block('widget', "@EMSCH/template/page/blocks/"~(item.object.layout|default(item.type))~".html.twig") }}
-    {% if item.children|default([])|length > 0 %}
-        {{ block('children', "@EMSCH/template/page/blocks/"~(item.object.layout|default(item.type))~".html.twig") }}
-    {% endif %}
-{% endblock body %}
+{%- block body -%}
+    {{- block('widget', "@EMSCH/template/page/blocks/"~(item.object.layout|default(item.type))~".html.twig") -}}
+    {%- if item.children|default([])|length > 0 -%}
+        {{- block('children', "@EMSCH/template/page/blocks/"~(item.object.layout|default(item.type))~".html.twig") -}}
+    {%- endif -%}
+{%- endblock body -%}
 
-{% block widget %}
-    <p>{{ ('Block `widget` must be overridden for `' ~ item.type ~ '`')|ems_markdown }}</p>
-{% endblock widget %}
+{%- block widget -%}
+    <p>{{- ('Block `widget` must be overridden for `' ~ item.type ~ '`')|ems_markdown -}}</p>
+{%- endblock widget -%}
 
-{% block children %}
-    {% apply spaceless %}
-        {% if not childrenHaveBeenGenerated %}
-            {% set currentBlockLevel = currentBlockLevel + 1 %}
-            {% set parent = item %}
-            {% for item in item.children|default([]) %}
-                {{ block("child", "@EMSCH/template/page/blocks/"~(parent.object.layout|default(parent.type))~".html.twig") }}
-            {% endfor %}
-            {% set childrenHaveBeenGenerated = true %}
-        {% endif %}
-    {% endapply %}
-{% endblock %}
+{%- block children -%}
+    {%- if not childrenHaveBeenGenerated -%}
+        {%- set currentBlockLevel = currentBlockLevel + 1 -%}
+        {%- set parent = item -%}
+        {%- for item in item.children|default([]) -%}
+            {{- block("child", "@EMSCH/template/page/blocks/"~(parent.object.layout|default(parent.type))~".html.twig") -}}
+        {%- endfor -%}
+        {%- set childrenHaveBeenGenerated = true -%}
+    {%- endif -%}
+{%- endblock -%}
 
-{% block child %}
-    {{ block("row", "@EMSCH/template/page/blocks/"~(item.object.layout|default(item.type))~".html.twig") }}
-{% endblock child %}
+{%- block child -%}
+    {{- block("row", "@EMSCH/template/page/blocks/"~(item.object.layout|default(item.type))~".html.twig") -}}
+{%- endblock child -%}

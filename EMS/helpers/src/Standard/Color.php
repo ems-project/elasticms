@@ -326,6 +326,6 @@ class Color
      */
     public function setAlphaGdValue(int $i): void
     {
-        $this->alpha = 2 * $i;
+        $this->alpha = 2 * $i + (127 === $i ? 1 : 0);
     }
 }

@@ -84,7 +84,7 @@ class MigrationCommand extends AbstractCommand
         $this->jsonPath = $this->getArgumentString(self::ARG_CONFIG_FILE_PATH);
         $ouuid = $input->getArgument(self::ARG_OUUID);
         if (null !== $ouuid) {
-            $ouuid = \strval($ouuid);
+            $ouuid = (string) $ouuid;
         }
         $this->ouuid = $ouuid;
         $this->force = $this->getOptionBool(self::OPTION_FORCE);

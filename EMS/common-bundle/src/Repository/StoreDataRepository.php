@@ -50,6 +50,6 @@ class StoreDataRepository extends ServiceEntityRepository
             new Parameter('now', new \DateTimeImmutable()),
         ]));
 
-        return \intval($qb->getQuery()->execute());
+        return (int) $qb->getQuery()->execute();
     }
 }

@@ -54,7 +54,7 @@ class Scroll implements \Iterator
     {
         $this->index = 0;
         $count = $this->currentResponse->getTotal();
-        $totalPages = \intval($this->search->getSize() > 0 ? \floor($count / $this->search->getSize()) : 0);
+        $totalPages = (int) ($this->search->getSize() > 0 ? \floor($count / $this->search->getSize()) : 0);
         $this->nextScrollId = $this->currentPage <= $totalPages ? $this->currentResponse->getScrollId() : null;
     }
 

@@ -98,7 +98,7 @@ class FileSystemStorage extends AbstractUrlStorage
         }
         $mimeTypeHelper = MimeTypeHelper::getInstance();
 
-        return new StreamWrapper(new Stream($resource), $mimeTypeHelper->guessMimeType($filename), \intval(\filesize($filename)));
+        return new StreamWrapper(new Stream($resource), $mimeTypeHelper->guessMimeType($filename), (int) \filesize($filename));
     }
 
     #[\Override]

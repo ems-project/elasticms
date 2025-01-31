@@ -43,7 +43,7 @@ final readonly class Data implements DataInterface
     #[\Override]
     public function discard(int $revisionId): bool
     {
-        $resource = $this->makeResource('discard', \strval($revisionId));
+        $resource = $this->makeResource('discard', (string) $revisionId);
 
         return $this->client->post($resource)->isSuccess();
     }
@@ -59,7 +59,7 @@ final readonly class Data implements DataInterface
     #[\Override]
     public function finalize(int $revisionId): string
     {
-        $resource = $this->makeResource('finalize', \strval($revisionId));
+        $resource = $this->makeResource('finalize', (string) $revisionId);
 
         $data = $this->client->post($resource)->getData();
 

@@ -333,10 +333,10 @@ class S3Storage extends AbstractUrlStorage
                 'Key' => $this->key($hash),
             ]);
             $stream = $masterResponse['Body'] ?? null;
-            $size = \intval($masterResponse['ContentLength']);
+            $size = (int) $masterResponse['ContentLength'];
         } else {
             $stream = $response['Body'] ?? null;
-            $size = \intval($response['ContentLength']);
+            $size = (int) $response['ContentLength'];
         }
 
         if (!$stream instanceof StreamInterface) {

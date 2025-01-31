@@ -462,25 +462,25 @@ class ConfigManager
 
         $this->expressionLanguage->register(
             'datalinks',
-            fn ($value, $type) => \sprintf('((null === %1$s || null === %2$s) ? null : (is_array($value) ? \\$this->findDataLinksArray(%1$s, %2$s): $this->findDataLinkString(%1$s, %2$s)))', \strval($value), $type),
+            fn ($value, $type) => \sprintf('((null === %1$s || null === %2$s) ? null : (is_array($value) ? \\$this->findDataLinksArray(%1$s, %2$s): $this->findDataLinkString(%1$s, %2$s)))', (string) $value, $type),
             fn ($arguments, $value, $type) => (null === $value || null === $type) ? null : (\is_array($value) ? $this->findDataLinksArray($value, $type) : $this->findDataLinkString($value, $type))
         );
 
         $this->expressionLanguage->register(
             'list_to_json_menu_nested',
-            fn ($values, $fieldName, $typeName, $labels = null, $labelField = null, $multiplex = false) => \sprintf('((null === %1$s || null === %2$s || null === %3$s) ? null : \\App\\ExpressionLanguage\\Functions::listToJsonMenuNested(%1$s, %2$s, %3$s, %4$s, %5$s, %6$s))', \strval($values), $fieldName, $typeName, \strval($labels), $labelField, \strval($multiplex)),
+            fn ($values, $fieldName, $typeName, $labels = null, $labelField = null, $multiplex = false) => \sprintf('((null === %1$s || null === %2$s || null === %3$s) ? null : \\App\\ExpressionLanguage\\Functions::listToJsonMenuNested(%1$s, %2$s, %3$s, %4$s, %5$s, %6$s))', (string) $values, $fieldName, $typeName, (string) $labels, $labelField, (string) $multiplex),
             fn ($arguments, $values, $fieldName, $typeName, $labels = null, $labelField = null, $multiplex = false) => (null === $values || null === $fieldName || null === $typeName) ? null : Functions::listToJsonMenuNested($values, $fieldName, $typeName, $labels, $labelField, $multiplex)
         );
 
         $this->expressionLanguage->register(
             'array_to_json_menu_nested',
-            fn ($values, $keys) => \sprintf('((null === %1$s || null === %2$s)) ? null : \\App\\ExpressionLanguage\\Functions::arrayToJsonMenuNested(%1$s, %2$s))', \strval($values), \strval($keys)),
+            fn ($values, $keys) => \sprintf('((null === %1$s || null === %2$s)) ? null : \\App\\ExpressionLanguage\\Functions::arrayToJsonMenuNested(%1$s, %2$s))', (string) $values, (string) $keys),
             fn ($arguments, $values, $keys) => (null === $values || null === $keys) ? null : Functions::arrayToJsonMenuNested($values, $keys)
         );
 
         $this->expressionLanguage->register(
             'merge',
-            fn ($arr1, $arr2) => \sprintf('((null === %1$s || null === %2$s) ? null : \\array_merge(%1$s, %2$s))', \strval($arr1), \strval($arr2)),
+            fn ($arr1, $arr2) => \sprintf('((null === %1$s || null === %2$s) ? null : \\array_merge(%1$s, %2$s))', (string) $arr1, (string) $arr2),
             fn ($arguments, $arr1, $arr2) => (null === $arr1 || null === $arr2) ? null : \array_values(\array_unique(\array_merge($arr1, $arr2)))
         );
 

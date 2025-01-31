@@ -29,7 +29,7 @@ final readonly class ApiController
     public function contentType(Request $request, string $apiName, string $contentType): JsonResponse
     {
         $scrollId = $request->query->get('scroll');
-        $size = \intval($request->query->get('size'));
+        $size = (int) $request->query->get('size');
         /** @var string[] $filter */
         $filter = $request->query->all('filter');
 

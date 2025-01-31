@@ -22,7 +22,7 @@ class ApplePhotosLibrary implements PhotosLibraryInterface
     #[\Override]
     public function photosCount(): int
     {
-        return \intval($this->photosDatabase->querySingle('select count(*) from ZASSET'));
+        return (int) $this->photosDatabase->querySingle('select count(*) from ZASSET');
     }
 
     /**

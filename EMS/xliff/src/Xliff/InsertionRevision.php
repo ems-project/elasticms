@@ -179,7 +179,7 @@ class InsertionRevision
             $attribute = $field->getAttributeNS($this->nameSpaces[$nameSpace], $tag);
         }
 
-        return \strval($attribute);
+        return (string) $attribute;
     }
 
     public function getTargetLocale(): string

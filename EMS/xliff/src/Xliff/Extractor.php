@@ -396,7 +396,7 @@ class Extractor
     {
         $id = $domNode->getNodePath();
         if (null === $id) {
-            $id = \strval($this->nextId++);
+            $id = (string) ($this->nextId++);
         }
         if (null !== $attributeName) {
             $id = \sprintf('%s[@%s]', $id, $attributeName);

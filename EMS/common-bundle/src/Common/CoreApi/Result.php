@@ -21,8 +21,8 @@ class Result
     ) {
         $data = Json::decode($response->getContent());
         $this->data = $data;
-        $this->acknowledged = isset($data['acknowledged']) ? \boolval($data['acknowledged']) : null;
-        $this->success = isset($data['success']) ? \boolval($data['success']) : null;
+        $this->acknowledged = isset($data['acknowledged']) ? (bool) ($data['acknowledged']) : null;
+        $this->success = isset($data['success']) ? (bool) ($data['success']) : null;
 
         foreach (['error', 'warning', 'notice'] as $logLevel) {
             foreach ($data[$logLevel] ?? [] as $message) {

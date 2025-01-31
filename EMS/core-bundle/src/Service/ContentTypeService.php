@@ -565,7 +565,7 @@ class ContentTypeService implements EntityServiceInterface
                 color: $contentType->getColor()
             );
             if (isset($counters[$contentType->getId()])) {
-                $menuEntry->setBadge(\strval($counters[$contentType->getId()]));
+                $menuEntry->setBadge((string) $counters[$contentType->getId()]);
             }
             $this->addMenuSearchLinks($contentType, $menuEntry, $circleContentType, $user);
             $this->addMenuViewLinks($contentType, $menuEntry);
@@ -837,7 +837,7 @@ class ContentTypeService implements EntityServiceInterface
         $id = $contentType->getId();
         $contentTypeRepository->delete($contentType);
 
-        return \strval($id);
+        return (string) $id;
     }
 
     public function switchDefaultEnvironment(ContentType $contentType, Environment $target, string $username): void

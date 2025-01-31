@@ -212,7 +212,7 @@ class PropertyAccessor
             if (!isset($value['id'])) {
                 throw new \RuntimeException(\sprintf('Property id is missing in item %d', $key));
             }
-            $withIdAskey[\strval($value['id'])] = $value;
+            $withIdAskey[(string) $value['id']] = $value;
         }
 
         return $withIdAskey;

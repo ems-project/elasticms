@@ -107,7 +107,7 @@ class Image
 
         if (0 === $width && 0 === $height) {
             // unable to calculate ratio, silently return original size (backward compatibility)
-            return [\intval($originalWidth), \intval($originalHeight)];
+            return [(int) $originalWidth, (int) $originalHeight];
         }
 
         if (0 === $width || 0 === $height) {
@@ -126,7 +126,7 @@ class Image
             }
         }
 
-        return [\intval($width), \intval($height)];
+        return [(int) $width, (int) $height];
     }
 
     private function fillBackgroundColor(\GdImage $temp): void
@@ -173,31 +173,31 @@ class Image
 
         if ('fillArea' == $resize) {
             if (($originalHeight / $height) < ($originalWidth / $width)) {
-                $cal_width = \intval($originalHeight * $width / $height);
+                $cal_width = (int) ($originalHeight * $width / $height);
                 if (false !== \stripos($gravity, 'west')) {
                     $this->imageCopyResized($temp, $image, 0, 0, 0, 0, $width, $height, $cal_width, $originalHeight);
                 } elseif (false !== \stripos($gravity, 'east')) {
                     $this->imageCopyResized($temp, $image, 0, 0, $originalWidth - $cal_width, 0, $width, $height, $cal_width, $originalHeight);
                 } else {
-                    $this->imageCopyResized($temp, $image, 0, 0, \intval(($originalWidth - $cal_width) / 2), 0, $width, $height, $cal_width, $originalHeight);
+                    $this->imageCopyResized($temp, $image, 0, 0, (int) (($originalWidth - $cal_width) / 2), 0, $width, $height, $cal_width, $originalHeight);
                 }
             } else {
-                $cal_height = \intval($originalWidth / $width * $height);
+                $cal_height = (int) ($originalWidth / $width * $height);
                 if (false !== \stripos($gravity, 'north')) {
                     $this->imageCopyResized($temp, $image, 0, 0, 0, 0, $width, $height, $originalWidth, $cal_height);
                 } elseif (false !== \stripos($gravity, 'south')) {
                     $this->imageCopyResized($temp, $image, 0, 0, 0, $originalHeight - $cal_height, $width, $height, $originalWidth, $cal_height);
                 } else {
-                    $this->imageCopyResized($temp, $image, 0, 0, 0, \intval(($originalHeight - $cal_height) / 2), $width, $height, $originalWidth, $cal_height);
+                    $this->imageCopyResized($temp, $image, 0, 0, 0, (int) (($originalHeight - $cal_height) / 2), $width, $height, $originalWidth, $cal_height);
                 }
             }
         } elseif ('fill' == $resize) {
             if (($originalHeight / $height) < ($originalWidth / $width)) {
-                $thumb_height = \intval($width * $originalHeight / $originalWidth);
-                $this->imageCopyResized($temp, $image, 0, \intval(($height - $thumb_height) / 2), 0, 0, $width, $thumb_height, $originalWidth, $originalHeight);
+                $thumb_height = (int) ($width * $originalHeight / $originalWidth);
+                $this->imageCopyResized($temp, $image, 0, (int) (($height - $thumb_height) / 2), 0, 0, $width, $thumb_height, $originalWidth, $originalHeight);
             } else {
-                $thumb_width = \intval(($originalWidth * $height) / $originalHeight);
-                $this->imageCopyResized($temp, $image, \intval(($width - $thumb_width) / 2), 0, 0, 0, $thumb_width, $height, $originalWidth, $originalHeight);
+                $thumb_width = (int) (($originalWidth * $height) / $originalHeight);
+                $this->imageCopyResized($temp, $image, (int) (($width - $thumb_width) / 2), 0, 0, 0, $thumb_width, $height, $originalWidth, $originalHeight);
             }
         } elseif ('crop' == $resize) {
             $this->imageCopyResized($temp, $image, 0, 0, $this->config->getX(), $this->config->getY(), $width, $height, $width, $height);
@@ -282,7 +282,7 @@ class Image
         }
         $sx = Type::integer(\imagesx($stamp));
         $sy = Type::integer(\imagesy($stamp));
-        \imagecopy($image, $stamp, \intval(($width - $sx) / 2), \intval(($height - $sy) / 2), 0, 0, $sx, $sy);
+        \imagecopy($image, $stamp, (int) (($width - $sx) / 2), (int) (($height - $sy) / 2), 0, 0, $sx, $sy);
 
         return $image;
     }

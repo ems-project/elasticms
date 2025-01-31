@@ -61,7 +61,7 @@ final readonly class ExceptionHelper
             '{code}',
             '{_format}',
         ], [
-            \strval($code),
+            (string) $code,
             $format,
         ], $this->template);
 

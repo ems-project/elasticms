@@ -88,8 +88,8 @@ final class EmschRequest extends Request
         }
 
         return [
-            'key' => \strval($emschCache['key']),
-            'limit' => isset($emschCache['limit']) ? \intval($emschCache['limit']) : 300,
+            'key' => (string) $emschCache['key'],
+            'limit' => isset($emschCache['limit']) ? (int) ($emschCache['limit']) : 300,
         ];
     }
 }

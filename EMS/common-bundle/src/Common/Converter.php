@@ -44,7 +44,7 @@ class Converter
     public static function stringify(mixed $var, string $defaultValue = ''): string
     {
         if (!\is_array($var) && !\is_object($var)) {
-            return \strval($var);
+            return (string) $var;
         }
         if (\is_object($var) && \method_exists($var, 'toString')) {
             return $var->toString();

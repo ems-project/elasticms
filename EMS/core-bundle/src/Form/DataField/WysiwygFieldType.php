@@ -150,12 +150,19 @@ class WysiwygFieldType extends DataFieldType
         if (!\is_string($out)) {
             return '';
         }
-
+        $runtime = $this->assetRuntime;
         $path = $this->router->generate('ems_file_view', ['sha1' => '__SHA1__'], UrlGeneratorInterface::ABSOLUTE_PATH);
         $path = \substr($path, 0, \strlen($path) - 8);
         $out = \preg_replace_callback(
-            '/(ems:\/\/asset:)([^\n\r"\'\?]*)/i',
-            fn ($matches) => $path.$matches[2],
+            '/(ems:\/\/asset:)([^\n\r"\'\?]*)(\?[^\n\r"\']*)?/i',
+            function ($matches) use ($path, $runtime, $dataField) {
+                if (!$runtime->head($matches[2])) {
+                    \parse_str(\substr($matches[3] ?? '', 1), $result);
+                    $dataField->addMessage(\sprintf('File "%s" missing, please try to upload it again.', Type::string($result['name'] ?? $matches[2])));
+                }
+
+                return $path.$matches[2].($matches[3] ?? '');
+            },
             $out
         );
         $path = $this->router->generate(Routes::DATA_LINK, ['key' => '__KEY__'], UrlGeneratorInterface::ABSOLUTE_PATH);

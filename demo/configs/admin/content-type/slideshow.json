@@ -5,7 +5,7 @@
         "name": "slideshow",
         "pluralName": "Slideshows",
         "singularName": "Slideshow",
-        "icon": "fab fa-slideshare",
+        "icon": "fa fa-slideshare",
         "description": null,
         "indexTwig": null,
         "extra": null,
@@ -632,7 +632,8 @@
         "versionTags": [],
         "versionOptions": {
             "dates_read_only": true,
-            "dates_interval_one_day": false
+            "dates_interval_one_day": false,
+            "not_blank_new_version": false
         },
         "versionFields": {
             "date_from": null,

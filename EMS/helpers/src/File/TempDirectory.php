@@ -12,28 +12,18 @@ class TempDirectory
 {
     private const string PREFIX = 'EMS_temp_dir_';
     private readonly Filesystem $filesystem;
-    /** @var self[] */
-    private static array $collector = [];
 
     private function __construct(public readonly string $path)
     {
         $this->filesystem = new Filesystem();
         $this->filesystem->remove($this->path);
         $this->filesystem->mkdir($this->path);
-        self::$collector[] = $this;
+        TempDestructCollector::add($this);
     }
 
     public function __destruct()
     {
         $this->filesystem->remove($this->path);
-    }
-
-    /**
-     * @return self[]
-     */
-    public static function getIterator(): array
-    {
-        return self::$collector;
     }
 
     public static function create(): self

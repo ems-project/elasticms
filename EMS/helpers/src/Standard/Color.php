@@ -328,4 +328,36 @@ class Color
     {
         $this->alpha = 2 * $i + (127 === $i ? 1 : 0);
     }
+
+    /**
+     * @return int<0, 255>
+     */
+    public function getRed(): int
+    {
+        return $this->red;
+    }
+
+    /**
+     * @return int<0, 255>
+     */
+    public function getGreen(): int
+    {
+        return $this->green;
+    }
+
+    /**
+     * @return int<0, 255>
+     */
+    public function getBlue(): int
+    {
+        return $this->blue;
+    }
+
+    /**
+     * @return int<0, 255>
+     */
+    public function getAlpha(): int
+    {
+        return $this->alpha;
+    }
 }

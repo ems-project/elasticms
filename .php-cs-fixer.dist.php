@@ -27,6 +27,7 @@ return new PhpCsFixer\Config()
         'native_function_invocation' => ['include' => ['@all']],
         'no_unused_imports' => true,
         'no_superfluous_phpdoc_tags' => ['allow_mixed' => true, 'remove_inheritdoc' => true],
+        'modernize_types_casting' => true
     ])
     ->setRiskyAllowed(true)
     ->setCacheFile(__DIR__.'/.cache/.php-cs-fixer.cache')

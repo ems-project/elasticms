@@ -158,6 +158,11 @@ class AssetRuntime
         return $this->storageManager->getContents($hash);
     }
 
+    public function head(string $hash): bool
+    {
+        return $this->storageManager->head($hash);
+    }
+
     /**
      * @return array<string, int|string>|null
      */

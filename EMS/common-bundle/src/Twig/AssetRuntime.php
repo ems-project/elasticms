@@ -164,6 +164,14 @@ class AssetRuntime
     }
 
     /**
+     * @return \Traversable<int, string|true>
+     */
+    public function heads(string ...$fileHashes): \Traversable
+    {
+        return $this->storageManager->heads(...$fileHashes);
+    }
+
+    /**
      * @return array<string, int|string>|null
      */
     public function imageInfo(string $hash): ?array

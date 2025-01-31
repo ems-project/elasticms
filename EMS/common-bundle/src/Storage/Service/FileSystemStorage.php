@@ -71,7 +71,7 @@ class FileSystemStorage extends AbstractUrlStorage
     public function clearCache(): bool
     {
         $filesystem = new Filesystem();
-        $filesystem->remove(\join(DIRECTORY_SEPARATOR, [
+        $filesystem->remove(\implode(DIRECTORY_SEPARATOR, [
             $this->getBaseUrl(),
             'cache',
         ]));
@@ -82,7 +82,7 @@ class FileSystemStorage extends AbstractUrlStorage
     #[\Override]
     public function readFromArchiveInCache(string $hash, string $path): ?StreamWrapper
     {
-        $filename = \join(DIRECTORY_SEPARATOR, [
+        $filename = \implode(DIRECTORY_SEPARATOR, [
             $this->getBaseUrl(),
             'cache',
             \substr($hash, 0, 3),
@@ -125,7 +125,7 @@ class FileSystemStorage extends AbstractUrlStorage
 
     protected function getCachePath(Config $config): string
     {
-        return \join(DIRECTORY_SEPARATOR, [
+        return \implode(DIRECTORY_SEPARATOR, [
             $this->getBaseUrl(),
             'cache',
             \substr($config->getAssetHash(), 0, 3),

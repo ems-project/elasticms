@@ -40,7 +40,7 @@ class FunctionsTest extends TestCase
 
     public function testLongDomToJsonMenu()
     {
-        $html = \file_get_contents(\join(DIRECTORY_SEPARATOR, [__DIR__, 'div_dom_to_json.html']));
+        $html = \file_get_contents(\implode(DIRECTORY_SEPARATOR, [__DIR__, 'div_dom_to_json.html']));
         $splitted = Functions::domToJsonMenu($html, 'h2', 'body', 'paragraph', 'title');
         $json = Json::decode($splitted);
         $this->assertEquals(9, \count($json));

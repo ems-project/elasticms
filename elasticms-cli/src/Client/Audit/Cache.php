@@ -151,7 +151,7 @@ class Cache
 
     public function getUrlHash(Url $url, bool $withQuery = false): string
     {
-        return \sha1(\join('$', [self::HASH_SEED, $url->getUrl(null, false, false, $withQuery)]));
+        return \sha1(\implode('$', [self::HASH_SEED, $url->getUrl(null, false, false, $withQuery)]));
     }
 
     public function progress(OutputInterface $output): void

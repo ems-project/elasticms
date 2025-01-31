@@ -12,7 +12,7 @@ class InsertionRevisionTest extends TestCase
 {
     public function testAttributeGetter(): void
     {
-        $sourceFile = \join(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'ImporterRevision', 'testAttributes_1.2.xlf']);
+        $sourceFile = \implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'ImporterRevision', 'testAttributes_1.2.xlf']);
 
         $document = new \DOMDocument();
         $document->loadXML(\file_get_contents($sourceFile));
@@ -20,7 +20,7 @@ class InsertionRevisionTest extends TestCase
             $this->forDocument($document, '1.2');
         }
 
-        $sourceFile = \join(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'ImporterRevision', 'testAttributes_2.0.xlf']);
+        $sourceFile = \implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'ImporterRevision', 'testAttributes_2.0.xlf']);
 
         $document = new \DOMDocument();
         $document->loadXML(\file_get_contents($sourceFile));

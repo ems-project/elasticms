@@ -19,14 +19,14 @@ class IntegratedTest extends TestCase
     public function testExtractInsert(): void
     {
         $finder = new Finder();
-        $resourcesPath = \join(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'Integrated']);
+        $resourcesPath = \implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'Integrated']);
         $finder->name('*.json')->in($resourcesPath.DIRECTORY_SEPARATOR.'sources');
 
         foreach ($finder as $file) {
             $basename = $file->getBasename('.json');
             [$ouuid, $revisionId] = \explode('_', $basename);
             $source = Json::decode(\file_get_contents($file->getPathname()));
-            $target = Json::decode(\file_get_contents(\join(DIRECTORY_SEPARATOR, [$resourcesPath, 'targets', $file->getBasename()])));
+            $target = Json::decode(\file_get_contents(\implode(DIRECTORY_SEPARATOR, [$resourcesPath, 'targets', $file->getBasename()])));
             $xliff = $this->generateXliff($ouuid, $revisionId, $source, $target);
 
             $xliffFilename = $this->saveAndCompare($file->getPath(), $xliff, $basename);
@@ -55,7 +55,7 @@ class IntegratedTest extends TestCase
 
     public function saveAndCompare(string $absoluteFilePath, Extractor $xliffParser, string $baseName): string
     {
-        $expectedFilename = \join(DIRECTORY_SEPARATOR, [$absoluteFilePath, '..', 'xliffs', $baseName.'.xlf']);
+        $expectedFilename = \implode(DIRECTORY_SEPARATOR, [$absoluteFilePath, '..', 'xliffs', $baseName.'.xlf']);
         if (!\file_exists($expectedFilename)) {
             $xliffParser->saveXML($expectedFilename);
         }
@@ -90,7 +90,7 @@ class IntegratedTest extends TestCase
 
     public function testImportOnliner(): void
     {
-        $inserter = Inserter::fromFile(\join(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'new_extract.xlf']));
+        $inserter = Inserter::fromFile(\implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'new_extract.xlf']));
         $this->assertEquals(30, $inserter->count(), 'Only one document is expected');
         foreach ($inserter->getDocuments() as $document) {
             $this->saveJson($document);
@@ -99,7 +99,7 @@ class IntegratedTest extends TestCase
 
     private function saveJson(InsertionRevision $document)
     {
-        $source = Json::decode(\file_get_contents(\join(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'TestRevision', \sprintf('%s_%s.json', $document->getOuuid(), $document->getRevisionId())])));
+        $source = Json::decode(\file_get_contents(\implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'TestRevision', \sprintf('%s_%s.json', $document->getOuuid(), $document->getRevisionId())])));
         $insertReport = new InsertReport();
         $inserted = $source;
         $document->extractTranslations($insertReport, $source, $inserted);
@@ -108,7 +108,7 @@ class IntegratedTest extends TestCase
         unset($inserted['_sha1']);
         unset($inserted['_published_datetime']);
         $inserted['locale'] = 'de';
-        $filename = \join(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'TestRevisionOut', \sprintf('%s_%s.json', $document->getOuuid(), $document->getRevisionId())]);
+        $filename = \implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'TestRevisionOut', \sprintf('%s_%s.json', $document->getOuuid(), $document->getRevisionId())]);
         if (!\file_exists($filename)) {
             \file_put_contents($filename, Json::encode($inserted, true));
         }

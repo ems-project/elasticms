@@ -39,6 +39,6 @@ class BelgiumCompanyNumberMultiple
     {
         $numbers = \str_split($this->number->getDigits(), 10);
 
-        return \join(' ', $numbers);
+        return \implode(' ', $numbers);
     }
 }

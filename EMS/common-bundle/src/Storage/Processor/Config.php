@@ -42,7 +42,7 @@ class Config
 
     private function makeCacheKey(string $configHash, string $assetHash): string
     {
-        return \join(DIRECTORY_SEPARATOR, [
+        return \implode(DIRECTORY_SEPARATOR, [
             \substr($configHash, 0, 3),
             \substr($configHash, 3),
             \substr($assetHash, 0, 3),

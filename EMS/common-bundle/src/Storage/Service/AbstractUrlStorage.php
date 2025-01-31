@@ -39,7 +39,7 @@ abstract class AbstractUrlStorage implements StorageInterface, \Stringable
 
     protected function getUploadPath(string $hash, string $ds = '/'): string
     {
-        return \join($ds, [
+        return \implode($ds, [
             $this->getBaseUrl(),
             'uploads',
             $hash,
@@ -48,7 +48,7 @@ abstract class AbstractUrlStorage implements StorageInterface, \Stringable
 
     protected function getPath(string $hash, string $ds = '/'): string
     {
-        return \join($ds, [
+        return \implode($ds, [
             $this->getBaseUrl(),
             \substr($hash, 0, 3),
             $hash,

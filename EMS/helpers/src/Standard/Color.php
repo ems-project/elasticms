@@ -313,7 +313,7 @@ class Color
         }
         $rgb = $this->getRGB();
         foreach (self::STANDARD_HTML_COLORS as $name => $color) {
-            if (\join('', ['#', $color]) === $rgb) {
+            if (\implode('', ['#', $color]) === $rgb) {
                 return $name;
             }
         }

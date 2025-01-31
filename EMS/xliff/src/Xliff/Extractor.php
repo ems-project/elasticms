@@ -97,7 +97,7 @@ class Extractor
     public function __construct(private readonly string $sourceLocale, private readonly ?string $targetLocale = null, string $xliffVersion = self::XLIFF_1_2)
     {
         if (!\in_array($xliffVersion, self::XLIFF_VERSIONS)) {
-            throw new \RuntimeException(\sprintf('Unsupported XLIFF version "%s", use one of the supported one: %s', $xliffVersion, \join(', ', self::XLIFF_VERSIONS)));
+            throw new \RuntimeException(\sprintf('Unsupported XLIFF version "%s", use one of the supported one: %s', $xliffVersion, \implode(', ', self::XLIFF_VERSIONS)));
         }
 
         $this->nextId = 1;
@@ -140,7 +140,7 @@ class Extractor
 
     public function addDocument(string $contentType, string $ouuid, string $revisionId): \DOMElement
     {
-        $id = \join(':', [$contentType, $ouuid, $revisionId]);
+        $id = \implode(':', [$contentType, $ouuid, $revisionId]);
         if (\version_compare($this->xliffVersion, '2.0') < 0) {
             $subNode = 'body';
             $documentAttributes = [

@@ -1,27 +1,25 @@
-{% apply spaceless %}
-    {% set url = null %}
-    {% if source.menu is defined %}
-        {% set path = emsch_search('section', {
-            "query": {
-                "nested": {
-                    "path": "paths",
-                    "query": {
-                        "bool": {
-                            "must": [
-                                { "term": { "paths.locale": locale } },
-                                { "term": { "paths.uid": source.menu } }
-                            ]
-                        }
+{%- set url = null -%}
+{%- if source.menu is defined -%}
+    {%- set path = emsch_search('section', {
+        "query": {
+            "nested": {
+                "path": "paths",
+                "query": {
+                    "bool": {
+                        "must": [
+                            { "term": { "paths.locale": locale } },
+                            { "term": { "paths.uid": source.menu } }
+                        ]
                     }
                 }
-            },
-            "_source": ["paths"]
-        }).hits.hits|first._source.paths|filter(p => p.uid == source.menu and p.locale == locale)|first.path|default(null) %}
-        {% set url = path ? path('emsch_path', {path: path}) : null %}
-    {% endif %}
-    {% if url %}
-        {{ url }}
-    {% else %}
-        {{ path('emsch_missing_translation', {contentType: 'page', ouuid: id, _locale: locale}) }}
-    {% endif %}
-{%  endapply %}
+            }
+        },
+        "_source": ["paths"]
+    }).hits.hits|first._source.paths|filter(p => p.uid == source.menu and p.locale == locale)|first.path|default(null) -%}
+    {%- set url = path ? path('emsch_path', {path: path}) : null -%}
+{%- endif -%}
+{%- if url -%}
+    {{- url -}}
+{%- else -%}
+    {{- path('emsch_missing_translation', {contentType: 'page', ouuid: id, _locale: locale}) -}}
+{%- endif -%}

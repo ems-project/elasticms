@@ -7,7 +7,6 @@ namespace EMS\SubmissionBundle\Entity;
 use EMS\CommonBundle\Entity\CreatedModifiedTrait;
 use EMS\CommonBundle\Entity\EntityInterface;
 use EMS\Helpers\Standard\Base64;
-use EMS\Helpers\Standard\DateTime;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
@@ -35,8 +34,8 @@ class FormSubmissionFile implements EntityInterface, \JsonSerializable
         array $file,
     ) {
         $this->id = Uuid::uuid4();
-        $this->created = DateTime::create('now');
-        $this->modified = DateTime::create('now');
+        $this->created = new \DateTime();
+        $this->modified = new \DateTime();
 
         $this->file = Base64::decode($file['base64']);
         $this->filename = $file['filename'];

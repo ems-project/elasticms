@@ -26,6 +26,17 @@ class Select {
       console.warn('Select 2 is not yet available, probably because you are in vite dev mode')
       select2.default()
     }
+    const formatFn = (state) => {
+      const text = state.text
+      const element = state.element
+      const dataset = element ? element.dataset : false
+
+      if (dataset && Object.hasOwn(dataset, 'icon')) {
+        return `<i class="${dataset.icon}"></i> ${text}`
+      }
+
+      return text
+    }
     targetQuery.find('select.select2').select2({
       theme: 'bootstrap-5',
       allowClear: true,
@@ -33,18 +44,10 @@ class Select {
       escapeMarkup: function (markup) {
         return markup
       },
+      width: '100%',
       dropdownParent: target === document ? $(target.body) : targetQuery,
-      templateResult: (state) => {
-        const text = state.text
-        const element = state.element
-        const dataset = element ? element.dataset : false
-
-        if (dataset && Object.hasOwn(dataset, 'icon')) {
-          return `<i class="${dataset.icon}"></i> ${text}`
-        }
-
-        return text
-      }
+      templateSelection: formatFn,
+      templateResult: formatFn
     })
   }
 }

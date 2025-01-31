@@ -1,97 +1,91 @@
-{% block http_admin_api_form_endpoint %}
-    {% apply spaceless %}
-        {% set url = app.request.getSchemeAndHttpHost() %}
-        {% set token = app.request.server.all['EMSF_AUTHKEY'] %}
-        {% set config = {
-            "method": "POST",
-            "url": ("#{url}/api/forms/submissions"),
-            "headers": {
-                "Content-Type": "application/json",
-                "X-Auth-Token": ("#{token}")
-            },
-            "timeout": 30
-        } %}
-    {% endapply %}
+{%- block http_admin_api_form_endpoint -%}
+    {%- set url = app.request.getSchemeAndHttpHost() -%}
+    {%- set token = app.request.server.all['EMSF_AUTHKEY'] -%}
+    {%- set config = {
+        "method": "POST",
+        "url": ("#{url}/api/forms/submissions"),
+        "headers": {
+            "Content-Type": "application/json",
+            "X-Auth-Token": ("#{token}")
+        },
+        "timeout": 30
+    } -%}
     {{- config|json_encode|raw -}}
-{% endblock http_admin_api_form_endpoint %}
+{%- endblock http_admin_api_form_endpoint -%}
 
-{% block http_admin_api_form_request_body %}
-    {% apply spaceless %}
-        {% set files = formData.allFiles|default([])|map(v => v.toArray|merge({ 'base64': v.base64() }) )|map(f => {
-            'filename': ('attachment '~f.filename)|ems_slug,
-            'mimeType': f.mimeType,
-            'size': f.size,
-            'form_field': f.form_field,
-            'base64': f.base64
-        })|filter(v => v.size > 0) %}
+{%- block http_admin_api_form_request_body -%}
+    {%- set files = formData.allFiles|default([])|map(v => v.toArray|merge({ 'base64': v.base64() }) )|map(f => {
+        'filename': ('attachment '~f.filename)|ems_slug,
+        'mimeType': f.mimeType,
+        'size': f.size,
+        'form_field': f.form_field,
+        'base64': f.base64
+    })|filter(v => v.size > 0) -%}
 
-        {% set message = {
-            'form_name': config.name,
-            'instance': config.translationDomain,
-            'locale': config.locale,
-            'data': formData.raw|filter((v, k) => k != 'files'),
-            'files': files,
-            'label': "Example files",
-            'expire_date': '+1 month'|date('Y-m-d')
-        } %}
-    {% endapply %}
+    {%- set message = {
+        'form_name': config.name,
+        'instance': config.translationDomain,
+        'locale': config.locale,
+        'data': formData.raw|filter((v, k) => k != 'files'),
+        'files': files,
+        'label': "Example files",
+        'expire_date': '+1 month'|date('Y-m-d')
+    } -%}
     {{- message|json_encode|raw -}}
-{% endblock http_admin_api_form_request_body %}
+{%- endblock http_admin_api_form_request_body -%}
 
-{% block email_endpoint %}
+{%- block email_endpoint -%}
 {{- "no-reply@elasticms.be" -}}
-{% endblock email_endpoint %}
+{%- endblock email_endpoint -%}
 
-{% block email_message %}
-    {% apply spaceless %}
-        {% set skeletonUrl = app.request.server.all['SKELETON_URL']|default('https://demo-admin.elasticms.eu') %}
-        {% set submission = responses[0].getHttpResponseContentJSON.submission %}
+{%- block email_message -%}
+    {%- set skeletonUrl = app.request.server.all['SKELETON_URL']|default('https://demo-admin.elasticms.eu') -%}
+    {%- set submission = responses[0].getHttpResponseContentJSON.submission -%}
 
-        {% set data = [] %}
-        {% set elements = config.elements %}
-        {% for name, value in formData.raw|filter((v, k) => k != 'files') %}
-            {% set element = elements|filter(v => v.name == name)|first %}
-            {% set data = data|merge({ (element.label): value }) %}
-        {% endfor %}
+    {%- set data = [] -%}
+    {%- set elements = config.elements -%}
+    {%- for name, value in formData.raw|filter((v, k) => k != 'files') -%}
+        {%- set element = elements|filter(v => v.name == name)|first -%}
+        {%- set data = data|merge({ (element.label): value }) -%}
+    {%- endfor -%}
 
-        {% set files = formData.allFiles|map(v => v.toArray) %}
+    {%- set files = formData.allFiles|map(v => v.toArray) -%}
 
-        {% set body %}
-        <body>
+    {%- set body -%}
+    <body>
+        <ul>
+            {%- for label, value in data -%}
+                <li>{{ label }}: {{ value }}</li>
+            {%- endfor -%}
+        </ul>
+        {%- if files|length > 0 -%}
+            <p>Files:</p>
             <ul>
-                {% for label, value in data %}
-                    <li>{{ label }}: {{ value }}</li>
-                {% endfor %}
+                {%- for index, file in files -%}
+                    {%- set submissionFile = submission.files[index] -%}
+                    <li>
+                        <a href="{{ "#{skeletonUrl}/form/#{submission.id}/attachment/#{submissionFile.id}" }}">
+                            {{ file.originalName }}
+                        </a>
+                    </li>
+                {%- endfor -%}
             </ul>
-            {% if files|length > 0 %}
-                <p>Files:</p>
-                <ul>
-                    {% for index, file in files %}
-                        {% set submissionFile = submission.files[index] %}
-                        <li>
-                            <a href="{{ "#{skeletonUrl}/form/#{submission.id}/attachment/#{submissionFile.id}" }}">
-                                {{ file.originalName }}
-                            </a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-            <p>
-                Kind regards.
-            </p>
-        </body>
-        {% endset %}
+        {%- endif -%}
+        <p>
+            Kind regards.
+        </p>
+    </body>
+    {%- endset -%}
 
-        {% set mail = {
-            "from": "no-reply@elasticms.be",
-            "subject": "Form example files",
-            "body": body,
-            "attachments": files|map(f => {
-                filename: f.originalName|ems_slug,
-                mimeType: f.mimeType,
-                pathname: f.pathname,
-            })
-        } %}
-    {% endapply %}
+    {%- set mail = {
+        "from": "no-reply@elasticms.be",
+        "subject": "Form example files",
+        "body": body,
+        "attachments": files|map(f => {
+            filename: f.originalName|ems_slug,
+            mimeType: f.mimeType,
+            pathname: f.pathname,
+        })
+    } -%}
     {{- mail|json_encode|raw -}}
-{% endblock email_message %}
+{%- endblock email_message -%}

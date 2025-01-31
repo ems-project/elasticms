@@ -17,7 +17,7 @@
             "query": {"term": { "_contenttype": {"value":"section"} } },
             "sort": { "order": { "order": "asc", "missing": "_last", "unmapped_type": "long" } }
         }
-    }|search.hits.hits %}
+    }|emsco_search_query.hits.hits %}
     <div class="card card-primary card-outline card-outline-tabs">
         <div class="card-header p-0 pt-1 border-bottom-0">
             <ul class="nav nav-tabs">

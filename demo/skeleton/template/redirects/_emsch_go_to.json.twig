@@ -1,18 +1,16 @@
-{% extends '@EMSCH/template/variables.twig' %}
+{%- extends '@EMSCH/template/variables.twig' -%}
 
-{% block request -%}
-{% apply spaceless %}
-    {#    {% if app.user %}#}
-    {% set contentType = app.request.get('contentType') %}
-    {% set ouuid = app.request.get('ouuid') %}
-    {% set emsLink = "ems://object:#{contentType}:#{ouuid}" %}
-
-    {% set routingUrl = emsLink|emsch_routing_config({
-        'context': { '_emsch_go_to': true  }
-    }) %}
-
-    {% set url = (routingUrl != emsLink) ? routingUrl : path('emsch_path') %}
-    {#    {% endif %}#}
-    {{ {'url': url}|json_encode|raw }}
-{% endapply %}
-{% endblock -%}
+{%- block request -%}
+    {%- if app.user -%}
+        {%- set contentType = app.request.get('contentType') -%}
+        {%- set ouuid = app.request.get('ouuid') -%}
+        {%- set emsLink = "ems://object:#{contentType}:#{ouuid}" -%}
+        
+        {%- set routingUrl = emsLink|emsch_routing_config({
+            'context': { '_emsch_go_to': true  }
+        }) -%}
+        
+        {%- set url = (routingUrl != emsLink) ? routingUrl : path('emsch_path') -%}
+    {%- endif -%}
+    {{- {'url': url}|json_encode|raw -}}
+{%- endblock -%}

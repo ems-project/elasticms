@@ -216,7 +216,7 @@
                                 },
                                 "extraOptions": {
                                     "extra": null,
-                                    "postProcessing": "{% if _source.body is defined and _source.body != null %}\r\n{{ _source.body|json_encode|raw }}\r\n{% endif %}",
+                                    "postProcessing": "{{ block(\"route_config\", \"@EMSCH/template_ems/content_type/post_processing.twig\") }}",
                                     "clear_on_copy": false
                                 },
                                 "raw_data": [],
@@ -261,7 +261,7 @@
                                 },
                                 "extraOptions": {
                                     "extra": null,
-                                    "postProcessing": "{% if _source.query is defined and _source.query != null %}\r\n{{ _source.query|json_encode|raw }}\r\n{% endif %}",
+                                    "postProcessing": "{{ block(\"route_query\", \"@EMSCH/template_ems/content_type/post_processing.twig\") }}",
                                     "clear_on_copy": false
                                 },
                                 "raw_data": [],

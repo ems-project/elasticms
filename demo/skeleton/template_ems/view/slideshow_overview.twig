@@ -1,0 +1,91 @@
+{%- block body -%}
+    {% set must = {} %}
+
+    {% set filterQuery = [ {
+        "multi_match": {
+            "fields": [
+                "live_search",
+                "live_search._2gram",
+                "live_search._3gram"
+            ],
+            "query": "%query%",
+            "operator": "and",
+            "type": "bool_prefix"
+
+        } } ] %}
+
+    {% set columnLastUpdate %}{% verbatim %}{{ data.source._finalization_datetime|default('now')|date("d/m/Y (H:i)") }}{% endverbatim %}{% endset %}
+    {% set columnCreation %}{% verbatim %}{{ data.source.publication_date|date("d/m/Y (H:i)") }}{% endverbatim %}{% endset %}
+
+    {{ emsco_datatable(['preview'],[contentType.name], {
+        "frontendOptions": {
+            "pageLength": 100,
+            "order": [[0, 'asc']]
+        },
+        "query": {
+            "bool": {
+                "must": must|merge(filterQuery)
+            }
+        },
+        "row_context": "{% set docInfo = [line.data.contentType, line.data.id]|join(':')|emsco_document_info %}{% set revisionId = emsco_get_revision_id(line.data.id, line.data.contentType) %}{% set liveId = 2 %}{% set previewId = 1 %}",
+        "columns": [
+            {
+                "label": "Label",
+                "template": '<a href="' ~ "{{path('data.revisions', {ouuid: data.id, type: data.contentType} ) }}"~'">' ~"{{ data.source.label }}</a>",
+                "orderField": "label.alpha_order"
+            },
+            {
+                "label": "Title EN",
+                "template": '{{ data.source.en.title|default("") }}'
+            },
+            {
+                "label": "Title FR",
+                "template": '{{ data.source.fr.title|default("") }}'
+            },
+            {
+                "label": "Title NL",
+                "template": '{{ data.source.nl.title|default("") }}'
+            },
+            {
+                "label": "Last Update",
+                "template": columnLastUpdate|format,
+                "orderField": "_finalization_datetime"
+            },
+            {
+                "label": "Creation",
+                "template": columnCreation|format,
+                "orderField": "publication_date"
+            },
+            {
+                "label": "Live",
+                "template": '<i style="color:{{ docInfo.published("live") and docInfo.aligned("live") ? "green" : "red" }};" class="{{ docInfo.published("live") and docInfo.aligned("live") ? "fa fa-check" : "fa fa-eye-slash" }}"></i>',
+            },
+            {
+                "label": "Action",
+                "template": '
+                <div class="btn-group btn-group-sm" style="width: 130px;">
+                  <a href="{{ docInfo.draft ? path("ems_revision_edit", {revisionId: revisionId}) : docInfo.aligned("live") ? path("revision.new-draft", {type: data.contentType, ouuid: data.id }) : path("revision.publish_to", {revisionId: revisionId, envId: liveId, redirectToUrl: path("data.customindexview", {viewId: '~view.id~'})}) }}" class="btn btn-default" style="width: 100px;">
+                    {{ docInfo.draft ? "Edit draft" : docInfo.aligned("live") ? "Edit" : "Publish in live" }}
+                  </a>
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <span class="caret">
+                    </span>
+                    <span class="sr-only">Toggle Dropdown
+                    </span>
+                  </button>
+                  <ul class="dropdown-menu" role="menu">
+                    <li>
+                      <a href="{{ path("data.revisions", {ouuid: data.id, type: data.contentType} ) }}">Revision</a>
+                    </li>
+                    {% if docInfo.draft %}
+                        <li><a href="{{ path("revision.publish_to", {revisionId: revisionId, envId: previewId}) }}">Publish in preview</a></li>
+                    {% elseif not docInfo.aligned(\'live\') %}
+                        <li><a href="{{ path("revision.new-draft", {type: data.contentType, ouuid: data.id }) }}">Edit</a></li>
+                    {% endif %}
+                  </ul>
+                </div>
+            '
+            }
+        ]
+    }) }}
+{%- endblock body -%}

@@ -536,7 +536,7 @@ export default class CodeEditor {
         maxLines,
         minLines,
         theme,
-        useWorker: false,
+        useWorker: false
       })
 
       editor.on('change', function () {

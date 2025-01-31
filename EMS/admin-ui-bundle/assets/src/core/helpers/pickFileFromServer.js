@@ -43,11 +43,11 @@ export default class PickFileFromServer {
         const linkList = modal.querySelectorAll('div[data-json] > a')
         addClickCallbacks(linkList)
         const observer = observeDom(modal, function (mutationList) {
-          [].forEach.call(mutationList, function (mutation) {
+          ;[].forEach.call(mutationList, function (mutation) {
             if (mutation.addedNodes.length < 1) {
               return
             }
-            [].forEach.call(mutation.addedNodes, function (node) {
+            ;[].forEach.call(mutation.addedNodes, function (node) {
               addClickCallbacks(node.querySelectorAll('div[data-json] > a'))
             })
           })

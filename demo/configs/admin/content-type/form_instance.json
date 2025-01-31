@@ -320,7 +320,7 @@
                                                         "extraOptions": {
                                                             "extra": null,
                                                             "clear_on_copy": false,
-                                                            "postProcessing": "{{- \r\n    (_source.name\r\n        |default(''))\r\n        |json_encode\r\n        |raw\r\n-}}"
+                                                            "postProcessing": "{{ block(\"form_instance_field_label\", \"@EMSCH/template_ems/content_type/post_processing.twig\") }}"
                                                         },
                                                         "raw_data": [],
                                                         "migrationOptions": {
@@ -1139,7 +1139,7 @@
                                                         "extraOptions": {
                                                             "extra": null,
                                                             "clear_on_copy": false,
-                                                            "postProcessing": "{{- \r\n    (_source.classname\r\n        |replace({'EMS\\\\FormBundle\\\\Components\\\\Validation\\\\': '', 'App\\\\Form\\\\Components\\\\Validation\\\\': ''})\r\n        |default(''))\r\n        |json_encode\r\n        |raw\r\n-}}"
+                                                            "postProcessing": "{{ block(\"form_instance_validation_label\", \"@EMSCH/template_ems/content_type/post_processing.twig\") }}"
                                                         },
                                                         "raw_data": [],
                                                         "migrationOptions": {
@@ -2090,7 +2090,7 @@
                                                         "extraOptions": {
                                                             "extra": null,
                                                             "clear_on_copy": false,
-                                                            "postProcessing": "{{- (_source.name|default('') ~ ' (' ~ _source.type ~ ')')\r\n        |replace({'EMS\\\\SubmissionBundle\\\\Handler\\\\': ''})\r\n        |json_encode\r\n        |raw\r\n-}}"
+                                                            "postProcessing": "{{ block(\"form_instance_submission_label\", \"@EMSCH/template_ems/content_type/post_processing.twig\") }}"
                                                         },
                                                         "raw_data": [],
                                                         "migrationOptions": {

@@ -27,6 +27,7 @@ final class Version20220502131453 extends AbstractMigration
         $this->addSql('ALTER TABLE form_submission ALTER data DROP NOT NULL');
     }
 
+    #[\Override]
     public function down(Schema $schema): void
     {
         $this->abortIf(

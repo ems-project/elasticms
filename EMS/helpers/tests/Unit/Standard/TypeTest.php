@@ -71,4 +71,14 @@ class TypeTest extends TestCase
 
         $this->assertEquals($value, Type::integer($value));
     }
+
+    public function testGetAsNullableString(): void
+    {
+        $this->assertEquals(null, Type::getAsNullableString(null));
+        $this->assertEquals('foobar', Type::getAsNullableString('foobar'));
+        $this->assertEquals('42', Type::getAsNullableString(42));
+        $this->assertEquals('42.123', Type::getAsNullableString(42.123));
+        $this->assertEquals('1', Type::getAsNullableString(true));
+        $this->assertEquals('', Type::getAsNullableString(false));
+    }
 }

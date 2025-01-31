@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Entity;
 
-use EMS\Helpers\Standard\DateTime;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
@@ -22,8 +21,8 @@ class StoreData
     public function __construct()
     {
         $this->id = Uuid::uuid4();
-        $this->created = DateTime::create('now');
-        $this->modified = DateTime::create('now');
+        $this->created = new \DateTime('now');
+        $this->modified = new \DateTime('now');
     }
 
     public function getId(): UuidInterface
@@ -57,18 +56,18 @@ class StoreData
         $this->data = $data;
     }
 
-    public function expiresAt(\DateTimeInterface $expiresAt): void
+    public function expiresAt(\DateTime $expiresAt): void
     {
         $this->expiresAt = $expiresAt;
     }
 
     public function expiresAfter(int $ttl): void
     {
-        $this->expiresAt = new \DateTimeImmutable(\sprintf('%d seconds', $ttl));
+        $this->expiresAt = new \DateTime(\sprintf('%d seconds', $ttl));
     }
 
     public function isExpired(): bool
     {
-        return null !== $this->expiresAt && $this->expiresAt < new \DateTimeImmutable();
+        return null !== $this->expiresAt && $this->expiresAt < new \DateTime();
     }
 }

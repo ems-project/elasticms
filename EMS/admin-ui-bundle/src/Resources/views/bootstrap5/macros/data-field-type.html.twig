@@ -1023,7 +1023,7 @@
         {% else %}
             {% set index = dataField.fieldType.contentType.environment.alias %}
         {% endif %}
-        {%- set jmnQuery = jmnQuery|json_decode -%}
+        {%- set jmnQuery = jmnQuery|ems_json_decode -%}
         {%-  set hits = emsco_search(
             index,
             jmnQuery.query|default({}),
@@ -1228,13 +1228,13 @@
                 {% if dateFrom %}
                     <li>
                         <b>From </b>
-                        {{ emsco_diff_date(dateFrom, compare, dataField.fieldType.mappingOptions.fromDateMachineName, child, dataField.fieldType.displayOptions.locale.parseFormat|default(dataField.fieldType.displayOptions.locale.format|emsco_convert_javascript_date_range_format), false, constant('\\DateTime::ATOM')) }}
+                        {{ emsco_diff_date(dateFrom, compare, dataField.fieldType.mappingOptions.fromDateMachineName, child, dataField.fieldType.displayOptions.locale.parseFormat|default(dataField.fieldType.displayOptions.locale.format|emsco_convert_javascript_date_range_format), false, constant('DateTimeInterface::ATOM')) }}
                     </li>
                 {% endif %}
                 {% if dateTo %}
                     <li>
                         <b>To </b>
-                        {{ emsco_diff_date(dateTo, compare, dataField.fieldType.mappingOptions.toDateMachineName, child, dataField.fieldType.displayOptions.locale.parseFormat|default(dataField.fieldType.displayOptions.locale.format|emsco_convert_javascript_date_range_format), false, constant('\\DateTime::ATOM')) }}
+                        {{ emsco_diff_date(dateTo, compare, dataField.fieldType.mappingOptions.toDateMachineName, child, dataField.fieldType.displayOptions.locale.parseFormat|default(dataField.fieldType.displayOptions.locale.format|emsco_convert_javascript_date_range_format), false, constant('DateTimeInterface::ATOM')) }}
                     </li>
                 {% endif %}
                 {% if dateFrom and dateTo %}

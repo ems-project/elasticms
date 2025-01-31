@@ -6,7 +6,7 @@ parameters:
     env(DB_PORT): '5432'
     env(DB_NAME): 'elasticms'
     env(DB_CONNECTION_TIMEOUT): 30
-    env(DB_VERSION): '11'
+    env(DB_VERSION): '12'
     env(DB_URL): '%env(string:DB_DRIVER)%://%env(string:DB_USER)%:%%env(urlencode:DB_PASSWORD)%%@%env(string:DB_HOST)%:%env(string:DB_PORT)%/%env(string:DB_NAME)%'
 
 doctrine:
@@ -23,6 +23,8 @@ doctrine:
         validate_xml_mapping: true
         controller_resolver:
             auto_mapping: false
+        identity_generation_preferences:
+            Doctrine\DBAL\Platforms\PostgreSQLPlatform: sequence
 
 when@prod: &doctrine_prod
     doctrine:

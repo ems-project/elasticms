@@ -14,7 +14,7 @@ use Symfony\Component\HttpClient\Exception\TransportException;
 
 class Admin implements AdminInterface
 {
-    public function __construct(private Client $client)
+    public function __construct(private readonly Client $client)
     {
     }
 

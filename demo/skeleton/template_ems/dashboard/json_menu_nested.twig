@@ -21,7 +21,7 @@
                         { "terms": { "menu": (menuIds) } }
                     ] } }
                 }
-            }|search.hits.hits|map(h => h._source|merge({
+            }|emsco_search_query.hits.hits|map(h => h._source|merge({
                 'id': h._id,
                 'emsId': ("#{h._source._contenttype}:#{h._id}")
             }))|ems_array_key('id') %}

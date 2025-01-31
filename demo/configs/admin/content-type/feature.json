@@ -166,7 +166,7 @@
                                                         "extraOptions": {
                                                             "extra": null,
                                                             "clear_on_copy": false,
-                                                            "postProcessing": "{% if finalize and rootObject._sync_metadata[\"title_#{form.parent.name}\"] is defined %}\r\n    {{ rootObject._sync_metadata[\"title_#{form.parent.name}\"]|json_encode|raw }}\r\n{% endif %}"
+                                                            "postProcessing": "{{ block(\"feature_title\", \"@EMSCH/template_ems/content_type/post_processing.twig\") }}"
                                                         },
                                                         "raw_data": [],
                                                         "migrationOptions": {
@@ -247,7 +247,7 @@
                                                         "extraOptions": {
                                                             "extra": null,
                                                             "clear_on_copy": false,
-                                                            "postProcessing": "{% if finalize and rootObject._sync_metadata[\"release\"] is defined %}\r\n    {{ rootObject._sync_metadata[\"release\"]|json_encode|raw }}\r\n{% endif %}"
+                                                            "postProcessing": "{{ block(\"feature_version\", \"@EMSCH/template_ems/content_type/post_processing.twig\") }}"
                                                         },
                                                         "raw_data": [],
                                                         "migrationOptions": {
@@ -295,7 +295,7 @@
                                                         "extraOptions": {
                                                             "extra": null,
                                                             "clear_on_copy": false,
-                                                            "postProcessing": "{% if finalize and rootObject._sync_metadata[\"category\"] is defined %}\r\n    {{ rootObject._sync_metadata[\"category\"]|json_encode|raw }}\r\n{% endif %}",
+                                                            "postProcessing": "{{ block(\"feature_category\", \"@EMSCH/template_ems/content_type/post_processing.twig\") }}",
                                                             "updateReferersField": null
                                                         },
                                                         "raw_data": [],

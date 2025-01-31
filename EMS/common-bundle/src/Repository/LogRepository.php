@@ -60,8 +60,8 @@ class LogRepository extends ServiceEntityRepository
             QUERY;
 
         $record['id'] = Uuid::uuid1()->toString();
-        $record['created'] = $record['datetime'];
-        $record['modified'] = $record['datetime'];
+        $record['created'] = \DateTime::createFromImmutable($record['datetime']);
+        $record['modified'] = \DateTime::createFromImmutable($record['datetime']);
         $record['ouuid'] = $record['context'][EmsFields::LOG_OUUID_FIELD] ?? null;
 
         $stmt = $this->connection->prepare($query);

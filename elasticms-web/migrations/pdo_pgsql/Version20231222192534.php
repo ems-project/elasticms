@@ -22,6 +22,7 @@ final class Version20231222192534 extends AbstractMigration
         $this->addSql('COMMENT ON COLUMN store_data.id IS \'(DC2Type:uuid)\'');
     }
 
+    #[\Override]
     public function down(Schema $schema): void
     {
         $this->abortIf(

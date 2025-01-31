@@ -5,50 +5,48 @@
 {% block meta_description %}{% endblock %}
 
 {% block request -%}
-    {% apply spaceless %}
-        {{ parent() }}
-        <!doctype html>
-        <html lang="{{ app.request.locale }}" data-trans-domain="{{ trans_default_domain|e('html_attr') }}" data-base-url="{{ baseUrl }}">
-        <head>
-            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-            <meta http-equiv="X-UA-Compatible" content="IE=edge">
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-            <title>{% block headtitle %}{% block metatitle %}{{ block('title') }}{% endblock %} | {{ 'site.name'|trans }}{% endblock %}</title>
-            {% set meta_description = block('meta_description') %}
-            {% if meta_description %}
-                <meta name="description" content="{{meta_description}}">
-            {% endif %}
-            <link rel="icon" type="image/png" sizes="48x48" href="{{ path('favicon.ico') }}">
-            <link rel="apple-touch-icon" sizes="180x180" href="{{ path('apple-touch-icon.png') }}">
-            <link rel="icon" type="image/png" sizes="32x32" href="{{ path('icon.png', {name: 'favicon', width: 32, height: 32}) }}">
-            <link rel="icon" type="image/png" sizes="16x16" href="{{ path('icon.png', {name: 'favicon', width: 16, height: 16}) }}">
-            <link rel="manifest" href="{{ path('emsch_manifest') }}">
-            <link rel="mask-icon" href="{{ asset('img/head/safari-pinned-tab.svg', 'emsch') }}" color="#117bbb">
-            <meta name="msapplication-TileColor" content="#ffffff">
-            <meta name="theme-color" content="#ffffff">
-            {% if attribute(source, locale).noindex|default(false)  %}<meta name="robots" content="noindex">{% endif %}
-            {% block head %}
-                <link rel="stylesheet" href="{{ asset('css/index.css', 'emsch') }}">
-            {% endblock %}
-        </head>
-        <body class="{% block body_class %}{% endblock %}" data-translations="{{ {
-            file_selected: 'js.file_selected'|trans,
-            form_error: 'js.form_error'|trans,
-            form_saved: 'js.form_saved'|trans,
-            form_processed: 'js.form_processed'|trans,
-            form_error_try_later: 'js.form_error_try_later'|trans,
-            back_to_ems: 'ems.back_to_ems'|trans,
-        }|json_encode }}" {% block body_attr %}{% endblock %}>
-            {% block body %}{% endblock %}
+    {{ parent() }}
+    <!doctype html>
+    <html lang="{{ app.request.locale }}" data-trans-domain="{{ trans_default_domain|e('html_attr') }}" data-base-url="{{ baseUrl }}">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block headtitle %}{% block metatitle %}{{ block('title') }}{% endblock %} | {{ 'site.name'|trans }}{% endblock %}</title>
+        {% set meta_description = block('meta_description') %}
+        {% if meta_description %}
+            <meta name="description" content="{{meta_description}}">
+        {% endif %}
+        <link rel="icon" type="image/png" sizes="48x48" href="{{ path('favicon.ico') }}">
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ path('apple-touch-icon.png') }}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{{ path('icon.png', {name: 'favicon', width: 32, height: 32}) }}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{{ path('icon.png', {name: 'favicon', width: 16, height: 16}) }}">
+        <link rel="manifest" href="{{ path('emsch_manifest') }}">
+        <link rel="mask-icon" href="{{ asset('img/head/safari-pinned-tab.svg', 'emsch') }}" color="#117bbb">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="theme-color" content="#ffffff">
+        {% if attribute(source, locale).noindex|default(false)  %}<meta name="robots" content="noindex">{% endif %}
+        {% block head %}
+            <link rel="stylesheet" href="{{ asset('css/index.css', 'emsch') }}">
+        {% endblock %}
+    </head>
+    <body class="{% block body_class %}{% endblock %}" data-translations="{{ {
+        file_selected: 'js.file_selected'|trans,
+        form_error: 'js.form_error'|trans,
+        form_saved: 'js.form_saved'|trans,
+        form_processed: 'js.form_processed'|trans,
+        form_error_try_later: 'js.form_error_try_later'|trans,
+        back_to_ems: 'ems.back_to_ems'|trans,
+    }|json_encode }}" {% block body_attr %}{% endblock %}>
+        {% block body %}{% endblock %}
 
-            {% block javascript -%}
-                <script type="application/javascript" src="{{ asset('form.js', 'emsform') }}"></script>
-                <script src="{{ asset('js/index.js', 'emsch') }}"></script>
-            {%- endblock %}
-            {% if isProdLive %}
-                <script defer data-domain="elasticms.fgov.be" src="https://analytics.onss.be/js/script.js"></script>
-            {% endif %}
-        </body>
-        </html>
-    {% endapply %}
+        {% block javascript -%}
+            <script type="application/javascript" src="{{ asset('form.js', 'emsform') }}"></script>
+            <script src="{{ asset('js/index.js', 'emsch') }}"></script>
+        {%- endblock %}
+        {% if isProdLive %}
+            <script defer data-domain="elasticms.fgov.be" src="https://analytics.onss.be/js/script.js"></script>
+        {% endif %}
+    </body>
+    </html>
 {%- endblock request -%}

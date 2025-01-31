@@ -176,7 +176,7 @@ class Color
     public int $green;
     /** @var int<0,255> */
     public int $blue;
-    /** @var int<0,127> */
+    /** @var int<0,255> */
     public int $alpha;
 
     public function __construct(string $color)
@@ -200,23 +200,36 @@ class Color
         $green = (int) \hexdec(\substr($color, 2, 2));
         /** @var int<0,255> $blue */
         $blue = (int) \hexdec(\substr($color, 4, 2));
-        /** @var int<0,127> $alpha */
-        $alpha = \intval(\hexdec(\substr($color, 6, 2)) / 2);
-
         $this->red = $red;
         $this->green = $green;
         $this->blue = $blue;
+
+        $alphaStr = \substr($color, 6, 2);
+        if ('' === $alphaStr) {
+            $this->alpha = 255;
+
+            return;
+        }
+        /** @var int<0,255> $alpha */
+        $alpha = \hexdec($alphaStr);
         $this->alpha = $alpha;
+    }
+
+    public static function fromString(string $string): self
+    {
+        return new self($string);
     }
 
     public function getColorId(\GdImage $image): int
     {
+        /** @var int<0,127> $alpha */
+        $alpha = (int) ($this->alpha / 2);
         $identifier = \imagecolorallocatealpha(
             $image,
             $this->red,
             $this->green,
             $this->blue,
-            $this->alpha,
+            $alpha,
         );
         if (false === $identifier) {
             throw new \RuntimeException('Unexpected false image color identifier');
@@ -254,7 +267,7 @@ class Color
         return ($y1 + 0.05) / ($y2 + 0.05);
     }
 
-    public function getComplementary(): Color
+    public function getComplementary(): self
     {
         $complementary = clone $this;
         $complementary->red = 255 - $this->red;
@@ -272,5 +285,39 @@ class Color
     public function getRGBA(): string
     {
         return \sprintf('#%\'.02X%\'.02X%\'.02X%\'.02X', $this->red, $this->green, $this->blue, $this->alpha);
+    }
+
+    public function bestContrast(string|Color ...$colors): self
+    {
+        if (empty($colors)) {
+            throw new \InvalidArgumentException('Empty color list');
+        }
+
+        $colors = \array_map(fn ($color) => \is_string($color) ? new Color($color) : $color, $colors);
+        $bestColor = \array_shift($colors);
+        if (empty($colors)) {
+            $colors[] = $bestColor->getComplementary();
+        }
+
+        foreach ($colors as $color) {
+            $bestColor = $this->contrastRatio($bestColor) >= $this->contrastRatio($color) ? $bestColor : $color;
+        }
+
+        return $bestColor;
+    }
+
+    public function html(): string
+    {
+        if (255 !== $this->alpha) {
+            return $this->getRGBA();
+        }
+        $rgb = $this->getRGB();
+        foreach (self::STANDARD_HTML_COLORS as $name => $color) {
+            if (\join('', ['#', $color]) === $rgb) {
+                return $name;
+            }
+        }
+
+        return $rgb;
     }
 }

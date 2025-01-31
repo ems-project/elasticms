@@ -49,8 +49,8 @@ class LogAiTest extends TestCase
         $this->log->updateModified();
         $modified = $this->log->getModified();
 
-        $this->assertInstanceOf(\DateTimeImmutable::class, $modified);
-        $this->assertLessThanOrEqual(new \DateTimeImmutable(), $modified);
+        $this->assertInstanceOf(\DateTime::class, $modified);
+        $this->assertLessThanOrEqual(new \DateTime(), $modified);
     }
 
     public function testOuuid(): void

@@ -423,7 +423,7 @@ class Image
         $color = new Color($colorString);
         $colors = [];
         for ($i = 0; $i < 128; ++$i) {
-            $color->alpha = $i;
+            $color->setAlphaGdValue($i);
             $colors[$i] = $color->getColorId($image);
         }
         for ($x = 0; $x < $width; ++$x) {

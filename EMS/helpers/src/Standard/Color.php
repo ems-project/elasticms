@@ -171,13 +171,13 @@ class Color
         'yellowgreen' => '9ACD32'];
 
     /** @var int<0,255> */
-    public int $red;
+    private int $red;
     /** @var int<0,255> */
-    public int $green;
+    private int $green;
     /** @var int<0,255> */
-    public int $blue;
+    private int $blue;
     /** @var int<0,255> */
-    public int $alpha;
+    private int $alpha;
 
     public function __construct(string $color)
     {
@@ -319,5 +319,13 @@ class Color
         }
 
         return $rgb;
+    }
+
+    /**
+     * @param int<0, 127> $i
+     */
+    public function setAlphaGdValue(int $i): void
+    {
+        $this->alpha = 2 * $i;
     }
 }

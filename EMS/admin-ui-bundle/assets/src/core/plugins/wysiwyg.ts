@@ -49,7 +49,6 @@ class WYSIWYG {
     if (typeof profile.editor !== "string") {
       console.error('Editor is not defined')
     }
-    console.log(profile.editor)
     const Editor = await import(`../helpers/${profile.editor}.ts`)
     this.editors.push(new Editor.default(element, options, profile))
   }

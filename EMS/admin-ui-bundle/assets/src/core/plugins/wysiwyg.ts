@@ -42,8 +42,16 @@ class WYSIWYG {
     element: HTMLElement,
     options: EditorRevisionOptions | null = null
   ): Promise<void> {
-    const Editor = await import('../helpers/editor.ts')
-    this.editors.push(new Editor.default(element, options))
+    if (undefined === document.body.dataset.wysiwygInfo) {
+      console.error('WysiwygInfo is missing')
+    }
+    const profile = JSON.parse(<string>document.body.dataset.wysiwygInfo)
+    if (typeof profile.editor !== "string") {
+      console.error('Editor is not defined')
+    }
+    console.log(profile.editor)
+    const Editor = await import(`../helpers/${profile.editor}.ts`)
+    this.editors.push(new Editor.default(element, options, profile))
   }
 }
 

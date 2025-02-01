@@ -8,7 +8,7 @@ use Doctrine\DBAL\Platforms\MariaDBPlatform;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use EMS\CoreBundle\Resources\DoctrineMigrations\Scripts\ScriptContentTypeVersionFields;
+use Application\Migrations\Scripts\ScriptContentTypeVersionFields;
 
 final class Version20221031134732 extends AbstractMigration
 {

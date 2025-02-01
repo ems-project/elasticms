@@ -8,7 +8,7 @@ use Doctrine\DBAL\Platforms\MariaDBPlatform;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use EMS\CoreBundle\Resources\DoctrineMigrations\Scripts\ScriptContentTypeRoles;
+use Application\Migrations\Scripts\ScriptContentTypeRoles;
 
 final class Version20221020135425 extends AbstractMigration
 {

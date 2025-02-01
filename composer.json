@@ -156,9 +156,10 @@
             "EMS\\Helpers\\": "EMS/helpers/src/",
             "EMS\\SubmissionBundle\\": "EMS/submission-bundle/src/",
             "EMS\\Xliff\\": "EMS/xliff/src/",
+            "Application\\Migrations\\Scripts\\": "EMS/core-bundle/migrations/scripts",
             "Application\\Migrations\\": [
-                "EMS/core-bundle/src/Resources/DoctrineMigrations/pdo_mysql",
-                "EMS/core-bundle/src/Resources/DoctrineMigrations/pdo_pgsql"
+                "EMS/core-bundle/migrations/pdo_mysql",
+                "EMS/core-bundle/migrations/pdo_pgsql"
             ]
         }
     },

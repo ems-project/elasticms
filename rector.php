@@ -13,6 +13,7 @@ return RectorConfig::configure()
         __DIR__ . '/EMS/client-helper-bundle/tests',
         __DIR__ . '/EMS/common-bundle/src',
         __DIR__ . '/EMS/common-bundle/tests',
+        __DIR__ . '/EMS/core-bundle/migrations',
         __DIR__ . '/EMS/core-bundle/src',
         __DIR__ . '/EMS/core-bundle/tests',
         __DIR__ . '/EMS/form-bundle/src',

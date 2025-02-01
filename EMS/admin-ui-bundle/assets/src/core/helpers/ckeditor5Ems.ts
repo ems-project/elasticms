@@ -58,7 +58,7 @@ import ChangeEvent from '../events/changeEvent'
 // }
 import 'ckeditor5/ckeditor5.css'
 
-export default class Ckeditor5 {
+export default class Ckeditor5Ems {
   private options: EditorRevisionOptions
   private editor: ClassicEditor | null
   private element: HTMLElement

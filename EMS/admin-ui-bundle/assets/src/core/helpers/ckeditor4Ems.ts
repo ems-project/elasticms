@@ -2,7 +2,7 @@ import {EditorRevisionOptions} from "./editorRevisionOptions.ts";
 
 import {EditorProfile} from "./editorProfile.ts";
 
-export default class Ckeditor4 {
+export default class Ckeditor4Ems {
 
   private options: EditorRevisionOptions
   private element: HTMLElement

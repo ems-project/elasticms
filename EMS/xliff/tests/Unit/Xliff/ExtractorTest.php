@@ -75,7 +75,7 @@ class ExtractorTest extends TestCase
     public function testXliffExtractions(): void
     {
         $finder = new Finder();
-        $finder->in(\join(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'Extractions']))->directories();
+        $finder->in(\implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'Extractions']))->directories();
 
         foreach ($finder as $file) {
             $absoluteFilePath = $file->getRealPath();

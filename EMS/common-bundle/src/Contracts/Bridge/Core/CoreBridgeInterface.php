@@ -10,4 +10,6 @@ interface CoreBridgeInterface
     public function versions(): array;
 
     public function data(string $contentType): CoreDataBridgeInterface;
+
+    public function info(): CoreInfoBridgeInterface;
 }

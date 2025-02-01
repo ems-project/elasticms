@@ -42,7 +42,7 @@ class SftpFactory extends AbstractFactory implements StorageFactoryInterface
         $publicKeyFile = $config[self::STORAGE_CONFIG_PUBLIC_KEY_FILE];
         $privateKeyFile = $config[self::STORAGE_CONFIG_PRIVATE_KEY_FILE];
         $passwordPhrase = $config[self::STORAGE_CONFIG_PASSWORD_PHRASE];
-        $port = \intval($config[self::STORAGE_CONFIG_PORT]);
+        $port = (int) $config[self::STORAGE_CONFIG_PORT];
 
         return new SftpStorage($this->logger, $host, $path, $username, $publicKeyFile, $privateKeyFile, $config[self::STORAGE_CONFIG_USAGE], $config[self::STORAGE_CONFIG_HOT_SYNCHRONIZE_LIMIT], $passwordPhrase, $port);
     }

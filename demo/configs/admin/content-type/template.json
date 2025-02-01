@@ -5,7 +5,7 @@
         "name": "template",
         "pluralName": "Templates",
         "singularName": "Template",
-        "icon": "fab fa-html5",
+        "icon": "fa fa-html5",
         "description": null,
         "indexTwig": null,
         "extra": null,
@@ -202,7 +202,8 @@
         "versionTags": [],
         "versionOptions": {
             "dates_read_only": true,
-            "dates_interval_one_day": false
+            "dates_interval_one_day": false,
+            "not_blank_new_version": false
         },
         "versionFields": {
             "date_from": null,

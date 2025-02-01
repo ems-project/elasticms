@@ -10,11 +10,11 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 
 interface DataInterface
 {
-    public const MODE_UPDATE = 1;
-    public const MODE_REPLACE = 2;
+    public const int MODE_UPDATE = 1;
+    public const int MODE_REPLACE = 2;
 
-    /** @param array<string, mixed> $data */
-    public function autoSave(int $revisionId, array $data): bool;
+    /** @param array<string, mixed> $rawData */
+    public function autoSave(int $revisionId, array $rawData): bool;
 
     /**
      * @param array<string, mixed> $rawData
@@ -34,9 +34,11 @@ interface DataInterface
     public function discard(int $revisionId): bool;
 
     /**
+     * @param array<string, mixed> $rawData
+     *
      * @throws CoreApiExceptionInterface
      */
-    public function finalize(int $revisionId): string;
+    public function finalize(int $revisionId, array $rawData = []): string;
 
     /** @return array{'id': int, 'data': array<string, mixed>} */
     public function getDraft(int $revisionId): array;

@@ -5,8 +5,7 @@
   <entity name="EMS\SubmissionBundle\Entity\FormSubmission" table="form_submission">
 
     <id name="id" type="uuid" column="id">
-      <generator strategy="CUSTOM"/>
-      <custom-id-generator class="Ramsey\Uuid\Doctrine\UuidGenerator"/>
+      <generator strategy="NONE"/>
     </id>
 
     <field name="name" length="255"/>

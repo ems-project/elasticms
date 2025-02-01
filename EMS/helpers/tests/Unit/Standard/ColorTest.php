@@ -29,7 +29,7 @@ class ColorTest extends TestCase
     public function testAlpha(): void
     {
         $red = Color::fromString('red');
-        $red->alpha = 128;
+        $red->setAlphaGdValue(64);
         $this->assertSame('#FF000080', $red->html());
         $this->assertSame('#FFFFFFFE', Color::fromString('FFFFFFFE')->html());
         $this->assertSame('white', Color::fromString('FFFFFFFF')->html());

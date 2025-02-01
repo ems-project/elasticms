@@ -32,8 +32,8 @@ final class DocumentUpdateConfig
 
         $this->dataColumns = $config['dataColumns'];
 
-        $this->updateContentType = \strval($config['update']['contentType']);
-        $this->updateIndexEmsId = \intval($config['update']['indexEmsId']);
+        $this->updateContentType = (string) $config['update']['contentType'];
+        $this->updateIndexEmsId = (int) $config['update']['indexEmsId'];
         $this->updateMapping = $config['update']['mapping'];
         $this->collectionField = $config['update']['collectionField'];
     }

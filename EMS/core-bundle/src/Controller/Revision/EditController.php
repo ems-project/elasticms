@@ -143,6 +143,7 @@ class EditController extends AbstractController
                 ]);
             }
 
+            $revision->autoSaveClear();
             if (!isset($requestRevision['discard'])) {// Save, Copy, Paste or Finalize
                 // Save anyway
                 /** @var Revision $revision */
@@ -330,7 +331,7 @@ class EditController extends AbstractController
     {
         foreach ($table->getSelected() as $revisionId) {
             try {
-                $revision = $this->dataService->getRevisionById(\intval($revisionId), $contentType);
+                $revision = $this->dataService->getRevisionById((int) $revisionId, $contentType);
                 if (!$revision->getDraft()) {
                     continue;
                 }

@@ -22,11 +22,11 @@ final readonly class Data implements DataInterface
     }
 
     #[\Override]
-    public function autoSave(int $revisionId, array $data): bool
+    public function autoSave(int $revisionId, array $rawData): bool
     {
         $resource = $this->makeResource('auto-save', (string) $revisionId);
 
-        return $this->client->post($resource, $data)->isSuccess();
+        return $this->client->post($resource, $rawData)->isSuccess();
     }
 
     /**
@@ -43,7 +43,7 @@ final readonly class Data implements DataInterface
     #[\Override]
     public function discard(int $revisionId): bool
     {
-        $resource = $this->makeResource('discard', \strval($revisionId));
+        $resource = $this->makeResource('discard', (string) $revisionId);
 
         return $this->client->post($resource)->isSuccess();
     }
@@ -57,11 +57,11 @@ final readonly class Data implements DataInterface
     }
 
     #[\Override]
-    public function finalize(int $revisionId): string
+    public function finalize(int $revisionId, array $rawData = []): string
     {
-        $resource = $this->makeResource('finalize', \strval($revisionId));
+        $resource = $this->makeResource('finalize', (string) $revisionId);
 
-        $data = $this->client->post($resource)->getData();
+        $data = $this->client->post($resource, $rawData)->getData();
 
         return $data['ouuid'];
     }

@@ -186,8 +186,8 @@ class EMSLink implements \Stringable, \JsonSerializable
 
         return [
             EmsFields::CONTENT_FILE_HASH_FIELD => $this->ouuid,
-            EmsFields::CONTENT_FILE_NAME_FIELD => \strval($attributes['name'] ?? 'file.bin'),
-            EmsFields::CONTENT_MIME_TYPE_FIELD => \strval($attributes['type'] ?? 'application/bin'),
+            EmsFields::CONTENT_FILE_NAME_FIELD => (string) ($attributes['name'] ?? 'file.bin'),
+            EmsFields::CONTENT_MIME_TYPE_FIELD => (string) ($attributes['type'] ?? 'application/bin'),
         ];
     }
 }

@@ -42,7 +42,7 @@ class Config
 
     private function makeCacheKey(string $configHash, string $assetHash): string
     {
-        return \join(DIRECTORY_SEPARATOR, [
+        return \implode(DIRECTORY_SEPARATOR, [
             \substr($configHash, 0, 3),
             \substr($configHash, 3),
             \substr($assetHash, 0, 3),
@@ -312,13 +312,13 @@ class Config
             $beforeTime = \strtotime($before);
             $before = false !== $beforeTime ? $beforeTime : $before;
         }
-        $before = \intval($before);
+        $before = (int) $before;
 
         if (\is_string($after)) {
             $afterTime = \strtotime($after);
             $after = false !== $afterTime ? $afterTime : $after;
         }
-        $after = \intval($after);
+        $after = (int) $after;
 
         $time = \time();
         if (0 !== $before && $time > $before) {

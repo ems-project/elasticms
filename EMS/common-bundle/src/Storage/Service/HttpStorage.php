@@ -179,7 +179,7 @@ class HttpStorage extends AbstractUrlStorage
             $metas = \stream_get_meta_data($fd);
             foreach ($metas['wrapper_data'] ?? [] as $meta) {
                 if (\preg_match('/^content\-length: (.*)$/i', (string) $meta, $matches, PREG_OFFSET_CAPTURE)) {
-                    return \intval($matches[1][0]);
+                    return (int) $matches[1][0];
                 }
             }
         } catch (\Throwable) {

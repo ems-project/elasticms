@@ -260,7 +260,7 @@ class ElasticaService
         $response = $this->client->requestEndpoint($endpoint)->getData();
 
         if (isset($response['count'])) {
-            return \intval($response['count']);
+            return (int) $response['count'];
         }
         throw new \RuntimeException('Unexpected count query response structure');
     }

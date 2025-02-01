@@ -41,7 +41,7 @@ Click here</a>
     public function testXliffImports(): void
     {
         $finder = new Finder();
-        $finder->in(\join(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'Imports']))->directories();
+        $finder->in(\implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'Imports']))->directories();
         $insertReport = new InsertReport();
 
         foreach ($finder as $file) {
@@ -50,14 +50,14 @@ Click here</a>
 
             $importer = Inserter::fromFile($absoluteFilePath.DIRECTORY_SEPARATOR.'translated.xlf');
             foreach ($importer->getDocuments() as $document) {
-                $corresponding = \file_get_contents(\join(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'Revisions', $document->getContentType(), $document->getOuuid(), $document->getRevisionId().'.json']));
+                $corresponding = \file_get_contents(\implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'Revisions', $document->getContentType(), $document->getOuuid(), $document->getRevisionId().'.json']));
                 $this->assertNotFalse($corresponding);
                 $correspondingJson = Json::decode($corresponding);
                 $this->assertIsArray($correspondingJson);
                 $target = [];
                 $document->extractTranslations($insertReport, $correspondingJson, $target);
 
-                $expectedFilename = \join(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'Translated', $document->getContentType().'-'.$document->getOuuid().'-'.$document->getRevisionId().'.json']);
+                $expectedFilename = \implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'Translated', $document->getContentType().'-'.$document->getOuuid().'-'.$document->getRevisionId().'.json']);
                 if (!\file_exists($expectedFilename)) {
                     \file_put_contents($expectedFilename, Json::encode($target, true));
                 }

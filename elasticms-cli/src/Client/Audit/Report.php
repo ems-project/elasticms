@@ -23,25 +23,25 @@ class Report extends AbstractReport
 
     public function addAccessibilityError(string $url, int $errorCount, ?float $score): void
     {
-        $this->accessibilityErrors[] = [$url, \strval($errorCount), null === $score ? '' : \strval($score)];
+        $this->accessibilityErrors[] = [$url, (string) $errorCount, null === $score ? '' : (string) $score];
     }
 
     public function addSecurityError(string $url, int $count): void
     {
-        $this->securityErrors[] = [$url, \strval($count)];
+        $this->securityErrors[] = [$url, (string) $count];
     }
 
     public function addBrokenLink(UrlReport $urlReport): void
     {
         $hash = \sha1(\implode(':', [
             $urlReport->getUrl()->getUrl(),
-            \strval($urlReport->getStatusCode()),
+            (string) $urlReport->getStatusCode(),
             $urlReport->getMessage() ?? '',
         ]));
         if (!isset($this->brokenLinks[$hash])) {
             $this->brokenLinks[$hash] = [
                 'url' => $urlReport->getUrl()->getUrl(),
-                'status_code' => \strval($urlReport->getStatusCode()),
+                'status_code' => (string) $urlReport->getStatusCode(),
                 'message' => $urlReport->getMessage() ?? '',
                 'referrers' => $urlReport->getUrl()->getReferer() ?? '',
             ];

@@ -243,6 +243,12 @@ class ContentTypeService implements EntityServiceInterface
         return $this->contentTypeArrayByName[$name] ?? false;
     }
 
+    /** @return ContentType[] */
+    public function getByNames(string ...$names): array
+    {
+        return $this->contentTypeRepository->findBy(['name' => $names]);
+    }
+
     /**
      * @return array<mixed>
      */
@@ -565,7 +571,7 @@ class ContentTypeService implements EntityServiceInterface
                 color: $contentType->getColor()
             );
             if (isset($counters[$contentType->getId()])) {
-                $menuEntry->setBadge(\strval($counters[$contentType->getId()]));
+                $menuEntry->setBadge((string) $counters[$contentType->getId()]);
             }
             $this->addMenuSearchLinks($contentType, $menuEntry, $circleContentType, $user);
             $this->addMenuViewLinks($contentType, $menuEntry);
@@ -837,7 +843,7 @@ class ContentTypeService implements EntityServiceInterface
         $id = $contentType->getId();
         $contentTypeRepository->delete($contentType);
 
-        return \strval($id);
+        return (string) $id;
     }
 
     public function switchDefaultEnvironment(ContentType $contentType, Environment $target, string $username): void

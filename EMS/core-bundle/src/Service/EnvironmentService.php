@@ -197,6 +197,21 @@ class EnvironmentService implements EntityServiceInterface
         return $this->environmentsById;
     }
 
+    /** @return Environment[] */
+    public function getByNames(string ...$names): array
+    {
+        return \count($names) > 0 ? $this->environmentRepository->findBy(['name' => $names]) : [];
+    }
+
+    /** @return array<int|string, mixed> */
+    public function getAllRevisionIdsByEnvironmentAndOuuids(Environment $environment, string ...$ouuids): array
+    {
+        return $this->environmentRepository->findAllRevisionIdsByEnvironmentAndOuuids(
+            environment: $environment,
+            ouuids: $ouuids
+        );
+    }
+
     /**
      * @return array<mixed>
      */
@@ -499,7 +514,7 @@ class EnvironmentService implements EntityServiceInterface
         $id = $environment->getId();
         $this->environmentRepository->delete($environment);
 
-        return \strval($id);
+        return (string) $id;
     }
 
     private function applyStats(Environment ...$environments): void

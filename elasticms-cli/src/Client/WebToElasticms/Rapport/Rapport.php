@@ -102,12 +102,12 @@ class Rapport
     public function addUrlNotFound(Url $url): void
     {
         $urlReport = $this->cacheManager->testUrl($url);
-        $this->missingInternalUrls[$url->getPath()] = [$url->getPath(), $url->getUrl(), \strval($urlReport->getStatusCode()), $urlReport->getMessage() ?? '', $url->getReferer() ?? 'N/A'];
+        $this->missingInternalUrls[$url->getPath()] = [$url->getPath(), $url->getUrl(), (string) $urlReport->getStatusCode(), $urlReport->getMessage() ?? '', $url->getReferer() ?? 'N/A'];
     }
 
     public function addResourceInError(WebResource $resource, Url $url, int $code, string $message, string $type = 'import'): void
     {
-        $this->urlsInError[] = [$resource->getUrl(), $url->getUrl(), \strval($code), $message, $type];
+        $this->urlsInError[] = [$resource->getUrl(), $url->getUrl(), (string) $code, $message, $type];
     }
 
     public function addNothingExtracted(Document $document): void
@@ -125,7 +125,7 @@ class Rapport
 
     public function addExtractError(WebResource $resource, Extractor $extractor, int $count): void
     {
-        $this->extractErrors[] = [$resource->getType(), $resource->getUrl(), $resource->getLocale(), $extractor->getSelector(), $extractor->getStrategy(), $extractor->getProperty(), $extractor->getAttribute() ?? '', \strval($count)];
+        $this->extractErrors[] = [$resource->getType(), $resource->getUrl(), $resource->getLocale(), $extractor->getSelector(), $extractor->getStrategy(), $extractor->getProperty(), $extractor->getAttribute() ?? '', (string) $count];
     }
 
     public function addNewDocument(Document $document): void

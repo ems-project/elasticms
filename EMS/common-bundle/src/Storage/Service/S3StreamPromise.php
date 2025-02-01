@@ -56,7 +56,7 @@ class S3StreamPromise implements StreamInterface
             'Range' => 'bytes=0-0',
         ]);
         $contentRangeExploded = \explode('/', Type::string($result['ContentRange'] ?? null));
-        $this->size = \intval(\end($contentRangeExploded));
+        $this->size = (int) \end($contentRangeExploded);
 
         return $this->size;
     }

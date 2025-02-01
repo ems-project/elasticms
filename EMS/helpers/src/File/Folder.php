@@ -39,6 +39,6 @@ class Folder
         $path = \implode(DIRECTORY_SEPARATOR, $slugs);
         $path = self::getRealPath($path);
 
-        return \join(DIRECTORY_SEPARATOR, [$path, $basename]);
+        return \implode(DIRECTORY_SEPARATOR, [$path, $basename]);
     }
 }

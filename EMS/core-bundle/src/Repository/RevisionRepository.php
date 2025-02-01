@@ -186,7 +186,7 @@ class RevisionRepository extends EntityRepository
         if ($connection->getDatabasePlatform() instanceof PostgreSQLPlatform) {
             $result = $this->getEntityManager()->getConnection()->fetchAllAssociative("select count(*) as counter FROM public.revision where raw_data::text like '%$hash%'");
 
-            return \intval($result[0]['counter']);
+            return (int) $result[0]['counter'];
         }
 
         try {
@@ -196,7 +196,7 @@ class RevisionRepository extends EntityRepository
                 ->setParameter('hash', "%$hash%");
             $query = $qb->getQuery();
 
-            return \intval($query->getSingleScalarResult());
+            return (int) $query->getSingleScalarResult();
         } catch (NonUniqueResultException) {
             throw new \RuntimeException(\sprintf('Revision with hash "%s" has non unique results!', $hash));
         }
@@ -811,6 +811,20 @@ class RevisionRepository extends EntityRepository
     /**
      * @return Revision[]
      */
+    public function findAllByContentTypeAndUuids(ContentType $contentType, string ...$uuids): array
+    {
+        $qb = $this->makeQueryBuilder(contentTypeName: $contentType->getName(), isDraft: null);
+
+        return $qb
+            ->andWhere($qb->expr()->in('r.ouuid', ':uuids'))
+            ->setParameter('uuids', $uuids, ArrayParameterType::STRING)
+            ->getQuery()
+            ->execute();
+    }
+
+    /**
+     * @return Revision[]
+     */
     public function findTrashRevisions(ContentType $contentType, string ...$ouuids): array
     {
         $qb = $this->makeQueryBuilder(
@@ -904,7 +918,7 @@ class RevisionRepository extends EntityRepository
         ]));
         $query = $qb->getQuery();
 
-        return \intval($query->getSingleScalarResult());
+        return (int) $query->getSingleScalarResult();
     }
 
     /**

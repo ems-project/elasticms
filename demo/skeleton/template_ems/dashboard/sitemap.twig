@@ -7,7 +7,7 @@
     {% if app.user.localePreferred|default(null) and app.user.localePreferred[0:2] in locales %}
         {% set locales = [app.user.localePreferred[0:2]]|merge(locales)|reduce((carry,p) => p in carry ? carry : carry|merge([p]), []) %}
     {% endif %}
-    {%  set locale = app.request.query.get('locale', locales|first) %}
+    {% set locale = app.request.query.get('locale', locales|first) %}
 
     {% set sections = {
          "index": 'section'|emsco_get_content_type.environment.alias,
@@ -18,39 +18,35 @@
             "sort": { "order": { "order": "asc", "missing": "_last", "unmapped_type": "long" } }
         }
     }|emsco_search_query.hits.hits %}
-    <div class="card card-primary card-outline card-outline-tabs">
-        <div class="card-header p-0 pt-1 border-bottom-0">
-            <ul class="nav nav-tabs">
-                {% for l in locales %}
-                    <li class="nav-item">
-                        <a href="{{ path(route, routeParams|merge({ 'locale': l }) ) }}" class="{{ html_classes('nav-link', { 'active': l == locale }) }}">{{ "locale.#{l}"|emsco_i18n }}</a>
-                    </li>
+    <div class="nav-tabs-custom">
+        <ul class="nav nav-tabs">
+            {% for l in locales %}
+                <li class="{{ locale == l ? 'active' }}">
+                    <a href="{{ path(route, routeParams|merge({ 'locale': l }) ) }}" class="{{ html_classes('nav-link', { 'active': l == locale }) }}">{{ "locale.#{l}"|emsco_i18n }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+       <div class="tab-content">
+            <div class="tab-pane active" id="tab-{{ locale }}">
+                {% for section in sections %}
+                    {{ component('json_menu_nested', {
+                        'id': "section-#{section._id}",
+                        'ems_link': "ems://object:#{section._source._contenttype}:#{section._id}",
+                        'field_path': '[structure]',
+                        'template': '@EMSCH/template_ems/dashboard/json_menu_nested.twig',
+                        'context_block': 'build_context',
+                        'active_item_id': app.request.get('activeItemId')|default(null),
+                        'context': {
+                            'sectionLabel': section._source.label,
+                            'locale': locale
+                        },
+                        'columns': [
+                            { 'name': 'content', 'width': 200 },
+                            { 'name': 'status', 'width': 200 },
+                            { 'name': 'structure' },
+                        ],
+                    }) }}
                 {% endfor %}
-            </ul>
-        </div>
-        <div class="card-body">
-           <div class="tab-content">
-                <div class="tab-pane active" id="tab-{{ locale }}">
-                    {% for section in sections %}
-                        {{ component('json_menu_nested', {
-                            'id': "section-#{section._id}",
-                            'ems_link': "ems://object:#{section._source._contenttype}:#{section._id}",
-                            'field_path': '[structure]',
-                            'template': '@EMSCH/template_ems/dashboard/json_menu_nested.twig',
-                            'context_block': 'build_context',
-                            'active_item_id': app.request.get('activeItemId')|default(null),
-                            'context': {
-                                'sectionLabel': section._source.label,
-                                'locale': locale
-                            },
-                            'columns': [
-                                { 'name': 'content', 'width': 200 },
-                                { 'name': 'status', 'width': 200 },
-                                { 'name': 'structure' },
-                            ],
-                        }) }}
-                    {% endfor %}
-                </div>
             </div>
         </div>
     </div>

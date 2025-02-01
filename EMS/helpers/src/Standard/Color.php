@@ -171,13 +171,13 @@ class Color
         'yellowgreen' => '9ACD32'];
 
     /** @var int<0,255> */
-    public int $red;
+    private int $red;
     /** @var int<0,255> */
-    public int $green;
+    private int $green;
     /** @var int<0,255> */
-    public int $blue;
+    private int $blue;
     /** @var int<0,255> */
-    public int $alpha;
+    private int $alpha;
 
     public function __construct(string $color)
     {
@@ -313,11 +313,51 @@ class Color
         }
         $rgb = $this->getRGB();
         foreach (self::STANDARD_HTML_COLORS as $name => $color) {
-            if (\join('', ['#', $color]) === $rgb) {
+            if (\implode('', ['#', $color]) === $rgb) {
                 return $name;
             }
         }
 
         return $rgb;
+    }
+
+    /**
+     * @param int<0, 127> $i
+     */
+    public function setAlphaGdValue(int $i): void
+    {
+        $this->alpha = 2 * $i + (127 === $i ? 1 : 0);
+    }
+
+    /**
+     * @return int<0, 255>
+     */
+    public function getRed(): int
+    {
+        return $this->red;
+    }
+
+    /**
+     * @return int<0, 255>
+     */
+    public function getGreen(): int
+    {
+        return $this->green;
+    }
+
+    /**
+     * @return int<0, 255>
+     */
+    public function getBlue(): int
+    {
+        return $this->blue;
+    }
+
+    /**
+     * @return int<0, 255>
+     */
+    public function getAlpha(): int
+    {
+        return $this->alpha;
     }
 }

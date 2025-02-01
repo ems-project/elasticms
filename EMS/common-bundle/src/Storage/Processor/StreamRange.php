@@ -61,7 +61,7 @@ class StreamRange
 
     public function getContentLengthHeader(): string
     {
-        return \strval($this->end - $this->start + 1);
+        return (string) ($this->end - $this->start + 1);
     }
 
     public function getStart(): int

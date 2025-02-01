@@ -21,4 +21,15 @@ final readonly class Meta implements MetaInterface
 
         return $meta['alias'];
     }
+
+    #[\Override]
+    public function getInfoDocuments(array $environments, array $emsLinks): array
+    {
+        $data = $this->client->post(\implode('/', ['api', 'meta', 'info', 'documents']), [
+            'environments' => $environments,
+            'emsLinks' => $emsLinks,
+        ])->getData();
+
+        return $data['info'] ?? [];
+    }
 }

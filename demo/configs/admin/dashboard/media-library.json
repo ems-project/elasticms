@@ -3,7 +3,7 @@
     "arguments": [],
     "properties": {
         "name": "media-library",
-        "icon": "fa fa-book-open",
+        "icon": "fa fa-university",
         "label": "Media library",
         "sidebarMenu": true,
         "notificationMenu": false,

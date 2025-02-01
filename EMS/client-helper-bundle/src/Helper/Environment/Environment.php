@@ -49,8 +49,8 @@ final class Environment
         $this->backend = $config[self::BACKEND_CONFIG] ?? null;
         $this->request = $config[self::REQUEST_CONFIG] ?? [];
         $this->options = $config;
-        $this->default = \boolval($config[self::DEFAULT] ?? false);
-        $this->routerEnabled = \boolval($config[self::ROUTER] ?? true);
+        $this->default = (bool) ($config[self::DEFAULT] ?? false);
+        $this->routerEnabled = (bool) ($config[self::ROUTER] ?? true);
         $this->hash = Hash::array($config, $name);
     }
 

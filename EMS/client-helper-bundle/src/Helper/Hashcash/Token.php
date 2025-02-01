@@ -19,7 +19,7 @@ final readonly class Token
 
     public function getLevel(): int
     {
-        return \intval($this->level);
+        return (int) $this->level;
     }
 
     public function getCsrf(): string

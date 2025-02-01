@@ -80,7 +80,7 @@ class AssetRuntime
     {
         $config = $assetConfig;
 
-        $hash = Config::extractHash($fileField, $fileHashField, \strval($assetConfig[EmsFields::ASSET_CONFIG_TYPE] ?? 'none'));
+        $hash = Config::extractHash($fileField, $fileHashField, (string) ($assetConfig[EmsFields::ASSET_CONFIG_TYPE] ?? 'none'));
         $filename = Config::extractFilename($fileField, $config, $filenameField, $mimeTypeField);
         $mimeType = Config::extractMimetype($fileField, $config, $filename, $mimeTypeField);
         $referenceType = Config::extractUrlType($fileField, $referenceType);
@@ -156,6 +156,19 @@ class AssetRuntime
     public function getContent(string $hash): string
     {
         return $this->storageManager->getContents($hash);
+    }
+
+    public function head(string $hash): bool
+    {
+        return $this->storageManager->head($hash);
+    }
+
+    /**
+     * @return \Traversable<int, string|true>
+     */
+    public function heads(string ...$fileHashes): \Traversable
+    {
+        return $this->storageManager->heads(...$fileHashes);
     }
 
     /**

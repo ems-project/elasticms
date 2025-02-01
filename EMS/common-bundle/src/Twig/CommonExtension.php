@@ -25,6 +25,8 @@ class CommonExtension extends AbstractExtension
             new TwigFunction('ems_asset_path', [AssetRuntime::class, 'assetPath'], ['is_safe' => ['html']]),
             new TwigFunction('ems_json_file', [AssetRuntime::class, 'jsonFromFile']),
             new TwigFunction('ems_asset_get_content', [AssetRuntime::class, 'getContent']),
+            new TwigFunction('ems_asset_head', [AssetRuntime::class, 'head']),
+            new TwigFunction('ems_asset_heads', [AssetRuntime::class, 'heads']),
             new TwigFunction('ems_html', [TextRuntime::class, 'emsHtml'], ['is_safe' => ['all']]),
             new TwigFunction('ems_http', [HttpClientRuntime::class, 'request']),
             new TwigFunction('ems_nested_search', [SearchRuntime::class, 'nestedSearch']),

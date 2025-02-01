@@ -52,7 +52,7 @@ class Template implements TemplateInterface
 
             $render = $this->template->renderBlock($name, $this->context->getRaw());
 
-            return '' !== $render ? $render : null;
+            return '' !== \trim($render) ? $render : null;
         } catch (\Throwable $e) {
             throw $e->getPrevious() instanceof HttpException ? $e->getPrevious() : $e;
         }

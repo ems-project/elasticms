@@ -151,7 +151,7 @@ class Cache
 
     public function getUrlHash(Url $url, bool $withQuery = false): string
     {
-        return \sha1(\join('$', [self::HASH_SEED, $url->getUrl(null, false, false, $withQuery)]));
+        return \sha1(\implode('$', [self::HASH_SEED, $url->getUrl(null, false, false, $withQuery)]));
     }
 
     public function progress(OutputInterface $output): void
@@ -160,8 +160,8 @@ class Cache
         $treated = $this->currentPos() + 1;
         $total = \count($this->urls);
         $now = new \DateTimeImmutable();
-        $counter = \doubleval($treated - $this->startedAt);
-        $duration = \doubleval($now->getTimestamp() - $this->startedDatetime->getTimestamp());
+        $counter = (float) ($treated - $this->startedAt);
+        $duration = (float) ($now->getTimestamp() - $this->startedDatetime->getTimestamp());
         if ($counter < 1 || $duration < 1) {
             $output->write('Starting...');
 

@@ -47,7 +47,7 @@ class Config implements ConfigInterface
         $result = $this->client->post(\implode('/', \array_merge($this->endPoint, [$name])), $data);
         $id = $result->getData()['id'] ?? null;
         if (!\is_string($id)) {
-            throw new \RuntimeException(\sprintf('Unexpected id type: %s', \strval($id)));
+            throw new \RuntimeException(\sprintf('Unexpected id type: %s', (string) $id));
         }
 
         return $id;
@@ -59,7 +59,7 @@ class Config implements ConfigInterface
         $result = $this->client->delete(\implode('/', \array_merge($this->endPoint, [$name])));
         $id = $result->getData()['id'] ?? null;
         if (!\is_string($id)) {
-            throw new \RuntimeException(\sprintf('Unexpected id type: %s', \strval($id)));
+            throw new \RuntimeException(\sprintf('Unexpected id type: %s', (string) $id));
         }
 
         return $id;
@@ -71,7 +71,7 @@ class Config implements ConfigInterface
         $result = $this->client->post(\implode('/', $this->endPoint), $data);
         $id = $result->getData()['id'] ?? null;
         if (!\is_string($id)) {
-            throw new \RuntimeException(\sprintf('Unexpected id type: %s', \strval($id)));
+            throw new \RuntimeException(\sprintf('Unexpected id type: %s', (string) $id));
         }
 
         return $id;

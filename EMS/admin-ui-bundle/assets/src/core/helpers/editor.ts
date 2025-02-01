@@ -300,9 +300,19 @@ export default class Editor {
       const formatTags = JSON.parse(this.options.formatTags)
       options.heading.options = formatTags
     } catch {
-      console.error(
+      console.warn(
         `The format tags option expect an JSON, did you migrated it? Got: ${this.options.formatTags}`
       )
+      const formatTags = []
+      this.options.formatTags.split(';').forEach((tag) => {
+        formatTags.push({
+          model: tag,
+          view: tag,
+          title: tag,
+          class: ''
+        })
+      })
+      options.heading.options = formatTags
     }
 
     return options

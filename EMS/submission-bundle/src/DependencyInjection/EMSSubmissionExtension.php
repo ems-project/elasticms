@@ -16,7 +16,7 @@ final class EMSSubmissionExtension extends Extension implements PrependExtension
     #[\Override]
     public function load(array $configs, ContainerBuilder $container): void
     {
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../../config'));
         $loader->load('services.xml');
         $loader->load('handlers.xml');
 

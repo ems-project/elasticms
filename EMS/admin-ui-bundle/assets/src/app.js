@@ -1,3 +1,5 @@
+const assetPath = document.body.dataset.assetPath
+window.CKEDITOR_BASEPATH = assetPath + 'bundles/emscore/js/ckeditor/';
 import '../css/adminlte.scss'
 import '../css/fontawsome.scss'
 import '../css/plugins.scss'

@@ -14,12 +14,13 @@
 
 ## Start external micro-services
 
-elasticMS comes with multiple micro-services:
+ElasticMS works with multiple micro-services:
 
 * Redis: cache and session
 * elasticsearch: for indexing contents
 * Tika: for extracting data from assets
-* PosgresSQL or MySQL: As authentic source of data
+* PosgresSQL or MariaDB: As authentic source of data
+* S3 like: to store assets
 
 In order to simplify development all those services are available in a docker compose:
 

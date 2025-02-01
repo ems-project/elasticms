@@ -4,10 +4,10 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://symfony.com/schema/routing https://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <import resource="@EMSCoreBundle/Resources/config/routing/user/login.xml"/>
-    <import resource="@EMSCoreBundle/Resources/config/routing/user/profile.xml"/>
-    <import resource="@EMSCoreBundle/Resources/config/routing/user/resetting.xml"/>
-    <import resource="@EMSCoreBundle/Resources/config/routing/user/manage.xml" prefix="/user" />
-    <import resource="@EMSCoreBundle/Resources/config/routing/user/deprecated.xml" prefix="/user"/>
+    <import resource="@EMSCoreBundle/config/routing/user/login.xml"/>
+    <import resource="@EMSCoreBundle/config/routing/user/profile.xml"/>
+    <import resource="@EMSCoreBundle/config/routing/user/resetting.xml"/>
+    <import resource="@EMSCoreBundle/config/routing/user/manage.xml" prefix="/user" />
+    <import resource="@EMSCoreBundle/config/routing/user/deprecated.xml" prefix="/user"/>
 
 </routes>

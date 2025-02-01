@@ -162,7 +162,7 @@ class StorageManager implements FileManagerInterface
 
     public function getPublicImage(string $name): string
     {
-        return $this->fileLocator->locate('@EMSCommonBundle/Resources/public/images/'.$name);
+        return $this->fileLocator->locate('@EMSCommonBundle/public/images/'.$name);
     }
 
     #[\Override]

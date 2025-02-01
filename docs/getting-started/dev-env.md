@@ -209,3 +209,15 @@ zend.assertions = 1
 ```
 
 You can easily locate your php.ini file with the command: `php --info|grep php.ini`
+
+## Works with the bootstrap5 theme
+
+First build the assets (a manifest is needed by the Admin UI bundle)
+```shell
+cd EMS/admin-ui-bundle/assets
+npm install
+npm run build
+cd ../../../elasticms-admin/
+php bin/console a:i --symlink
+```
+

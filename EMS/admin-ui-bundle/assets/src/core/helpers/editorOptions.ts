@@ -1,7 +1,7 @@
 import type { EditorConfig } from 'ckeditor5/src/core.d.ts'
 
 export class EditorOptions implements EditorConfig {
-  licenseKey: string
+  licenseKey: string = ''
   toolbar: any
   style: any
   heading: any

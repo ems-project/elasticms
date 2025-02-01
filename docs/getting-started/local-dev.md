@@ -52,8 +52,7 @@ sudo apt install php${PHP_VERSION} php${PHP_VERSION}-common php${PHP_VERSION}-cu
 ### Instal npm
 
 ```bash
-curl -fsSL https://deb.nodesource.com/setup_19.x | sudo -E bash - &&\
-sudo apt-get install -y nodejs
+sudo apt install -y nodejs npm
 ```
 
 ### Configure git

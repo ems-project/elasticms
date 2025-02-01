@@ -102,7 +102,7 @@ class WysiwygProfile extends JsonDeserializer implements \JsonSerializable, Enti
         return $this->getName();
     }
 
-    public function getEditor(): ?string
+    public function getEditor(): string
     {
         return $this->editor;
     }

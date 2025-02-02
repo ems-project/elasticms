@@ -44,10 +44,12 @@ class WYSIWYG {
   ): Promise<void> {
     if (undefined === document.body.dataset.wysiwygInfo) {
       console.error('WysiwygInfo is missing')
+      return
     }
-    const profile = JSON.parse(<string>document.body.dataset.wysiwygInfo)
+    const profile = JSON.parse(document.body.dataset.wysiwygInfo)
     if (typeof profile.editor !== "string") {
       console.error('Editor is not defined')
+      return
     }
     const Editor = await import(`../helpers/${profile.editor}.ts`)
     this.editors.push(new Editor.default(element, options, profile))

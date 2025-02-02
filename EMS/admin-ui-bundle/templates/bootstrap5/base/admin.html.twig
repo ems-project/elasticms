@@ -1,6 +1,6 @@
 {% extends '@EMSAdminUI/bootstrap5/base/html5.html.twig' %}
 {%- trans_default_domain 'base' -%}
-
+{% set wysiwygInfo = emsco_wysiwyg_info() %}
 {% set body_attr = {
     class: 'hold-transition sidebar-mini sidebar-mini-md layout-fixed layout-navbar-fixed',
     'data-hash-algo': ems_hash_algo,
@@ -15,10 +15,10 @@
     'data-file-view': path('ems.file.view', { sha1: '__file_identifier__', name: '__file_name__' }),
     'data-file-extract': path('ems_file_extract', { sha1: '__file_identifier__', name: '__file_name__' }),
     'data-file-extract-forced': path('ems_file_extract_forced', { sha1: '__file_identifier__', name: '__file_name__' }),
-    'data-wysiwyg-info': emsco_wysiwyg_info(),
+    'data-wysiwyg-info': wysiwygInfo,
     'data-asset-path': asset(''),
 } %}
-{%  set theme_color_contrast = theme_color in ['yellow','lime','white','cyan'] ? 'light' : 'dark' %}
+{% set theme_color_contrast = theme_color in ['yellow','lime','white','cyan'] ? 'light' : 'dark' %}
 {% set breadcrumb = [] %}
 
 {% block breadcrumb %}

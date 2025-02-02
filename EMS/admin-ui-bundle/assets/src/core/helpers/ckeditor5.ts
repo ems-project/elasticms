@@ -58,7 +58,7 @@ import ChangeEvent from '../events/changeEvent'
 // }
 import 'ckeditor5/ckeditor5.css'
 
-export default class Ckeditor5Ems {
+export default class Ckeditor5 {
   private options: EditorRevisionOptions
   private editor: ClassicEditor | null
   private element: HTMLElement
@@ -303,7 +303,7 @@ export default class Ckeditor5Ems {
       console.warn(
         `The format tags option expect an JSON, did you migrated it? Got: ${this.options.formatTags}`
       )
-      const formatTags = []
+      const formatTags: any[] = []
       this.options.formatTags.split(';').forEach((tag) => {
         formatTags.push({
           model: tag,

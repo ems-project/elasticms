@@ -1,8 +1,8 @@
 import {EditorRevisionOptions} from "./editorRevisionOptions.ts";
-
 import {EditorProfile} from "./editorProfile.ts";
+declare var CKEDITOR: { replace: (element: HTMLElement) => void };
 
-export default class Ckeditor4Ems {
+export default class Ckeditor4 {
 
   private options: EditorRevisionOptions
   private element: HTMLElement
@@ -11,10 +11,12 @@ export default class Ckeditor4Ems {
     this.options = options ?? ({} as EditorRevisionOptions)
     this.element = element
     this.profile = profile
-    this.create(element)
+    this.create()
   }
 
-  private create(element: HTMLElement) {
-    console.log('cke4')
+  private create() {
+    CKEDITOR.replace(this.element)
+    console.log(this.options)
+    console.log(this.profile)
   }
 }

@@ -10,7 +10,8 @@ PORT_web 				= 8882
 RUN_ADMIN				= php ${PWD}/elasticms-admin/bin/console --no-debug
 RUN_WEB					= php ${PWD}/elasticms-web/bin/console --no-debug
 RUN_POSTGRES		= docker exec -i -u ${DOCKER_USER}:0 -e PGUSER=postgres -e PGPASSWORD=adminpg ems-mono-postgres
-RUN_DEMO_NPM		= docker run -u ${DOCKER_USER}:0 --rm -it -v ${PWD}/demo:/opt/src --workdir /opt/src elasticms/base-php:8.1-cli-dev npm
+NPM_CMD         = "${NPM_EXTRA_CMD} npm $*"
+RUN_DEMO_NPM		= docker run -u ${DOCKER_USER}:0 --rm -it -v ${PWD}/demo:/opt/src --workdir /opt/src elasticms/base-php:8.1-cli-dev sh -c ${NPM_CMD}
 
 .DEFAULT_GOAL := help
 .PHONY: help demo docs
@@ -18,12 +19,13 @@ RUN_DEMO_NPM		= docker run -u ${DOCKER_USER}:0 --rm -it -v ${PWD}/demo:/opt/src 
 help: # Show help for each of the Makefile recipes.
 	@echo "EMS Monorepo"
 	@echo "---------------------------"
-	@echo "DOCKER_USER: ${DOCKER_USER}"
-	@echo "ADMIN:       http://localhost:8881"
-	@echo "WEB:         http://localhost:8882"
-	@echo "KIBANA:      http://kibana.localhost"
-	@echo "MINIO:       http://minio.localhost"
-	@echo "MAIL:        http://mailhog.localhost"
+	@echo "DOCKER_USER:   ${DOCKER_USER}"
+	@echo "NPM_EXTRA_CMD: ${NPM_EXTRA_CMD}"
+	@echo "ADMIN:         http://localhost:8881"
+	@echo "WEB:           http://localhost:8882"
+	@echo "KIBANA:        http://kibana.localhost"
+	@echo "MINIO:         http://minio.localhost"
+	@echo "MAIL:          http://mailhog.localhost"
 	@echo "---------------------------"
 	@echo ""
 	@echo "Usage: make [target]"

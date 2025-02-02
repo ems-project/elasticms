@@ -15,7 +15,7 @@ use Symfony\Component\Routing\RouteCollection;
 
 final class RoutingBuilder extends AbstractBuilder
 {
-    private const string CONFIG_PATH = __DIR__.'/../../Resources/config/routing/';
+    private const string CONFIG_PATH = __DIR__.'/../../../config/routing/';
 
     public function buildRouteCollection(Environment $environment): RouteCollection
     {

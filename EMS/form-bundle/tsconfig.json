@@ -4,7 +4,7 @@
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "node",
-    "outDir": "src/Resources/public",
+    "outDir": "public",
     "removeComments": true,
     "strict": true,
     "noEmitOnError": true,

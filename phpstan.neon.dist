@@ -12,6 +12,7 @@ parameters:
         - %currentWorkingDirectory%/EMS/admin-ui-bundle/src
         - %currentWorkingDirectory%/EMS/client-helper-bundle/src
         - %currentWorkingDirectory%/EMS/common-bundle/src
+        - %currentWorkingDirectory%/EMS/core-bundle/migrations
         - %currentWorkingDirectory%/EMS/core-bundle/src
         - %currentWorkingDirectory%/EMS/form-bundle/src
         - %currentWorkingDirectory%/EMS/helpers/src
@@ -19,12 +20,6 @@ parameters:
         - %currentWorkingDirectory%/EMS/xliff/src
     excludePaths:
         - %currentWorkingDirectory%/vendor/*
-        - %currentWorkingDirectory%/EMS/admin-ui-bundle/src/Resources/*
-        - %currentWorkingDirectory%/EMS/client-helper-bundle/src/Resources/*
-        - %currentWorkingDirectory%/EMS/common-bundle/src/Resources/*
-        - %currentWorkingDirectory%/EMS/core-bundle/src/Resources/*
-        - %currentWorkingDirectory%/EMS/form-bundle/src/Resources/*
-        - %currentWorkingDirectory%/EMS/submission-bundle/src/Resources/*
     level: 8
     parallel:
         maximumNumberOfProcesses: 2

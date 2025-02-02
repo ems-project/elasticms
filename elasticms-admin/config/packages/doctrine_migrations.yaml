@@ -1,6 +1,6 @@
 doctrine_migrations:
     migrations_paths:
-        Application\Migrations: '%env(string:ELASTICMS_PATH)%/core-bundle/src/Resources/DoctrineMigrations/pdo_%env(resolve:DB_DRIVER)%'
+        Application\Migrations: '%env(string:ELASTICMS_PATH)%/core-bundle/migrations/pdo_%env(resolve:DB_DRIVER)%'
     storage:
         table_storage:
             table_name: 'migration_versions'

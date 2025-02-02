@@ -7,14 +7,11 @@ namespace Application\Migrations;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use EMS\CoreBundle\Entity\WysiwygProfile;
+use Application\Migrations\Scripts\ScriptContentTypeRoles;
 
-final class Version20250125202317 extends AbstractMigration
+final class Version20221020125332 extends AbstractMigration
 {
-    public function getDescription(): string
-    {
-        return 'Add an editor field to the WYSIWYG profile entity';
-    }
+    use ScriptContentTypeRoles;
 
     #[\Override]
     public function up(Schema $schema): void
@@ -23,7 +20,10 @@ final class Version20250125202317 extends AbstractMigration
             !$this->connection->getDatabasePlatform() instanceof PostgreSQLPlatform,
             "Migration can only be executed safely on '\Doctrine\DBAL\Platforms\PostgreSQLPlatform'."
         );
-        $this->addSql(\sprintf('ALTER TABLE wysiwyg_profile ADD editor VARCHAR(255) NOT NULL DEFAULT \'%s\'', WysiwygProfile::CKEDITOR4));
+
+        $this->addSql('ALTER TABLE content_type ADD roles JSON DEFAULT NULL');
+
+        $this->scriptEncodeRoles($this);
     }
 
     #[\Override]
@@ -33,6 +33,7 @@ final class Version20250125202317 extends AbstractMigration
             !$this->connection->getDatabasePlatform() instanceof PostgreSQLPlatform,
             "Migration can only be executed safely on '\Doctrine\DBAL\Platforms\PostgreSQLPlatform'."
         );
-        $this->addSql('ALTER TABLE wysiwyg_profile DROP editor');
+
+        $this->scriptDecodeRoles($this);
     }
 }

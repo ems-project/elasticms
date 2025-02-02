@@ -1,5 +1,5 @@
 import {IMockFile, createMockFileList} from './../mocks/mockFile'
-import {MaxFileSizeValidator} from './../../../src/Resources/assets/js/validation/maxFileSizeValidator'
+import {MaxFileSizeValidator} from './../../../assets/js/validation/maxFileSizeValidator'
 
 describe('Single max-file-size validation', () => {
   const singleFileList: IMockFile[] = createMockFileList([

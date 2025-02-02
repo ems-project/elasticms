@@ -156,9 +156,10 @@
             "EMS\\Helpers\\": "EMS/helpers/src/",
             "EMS\\SubmissionBundle\\": "EMS/submission-bundle/src/",
             "EMS\\Xliff\\": "EMS/xliff/src/",
+            "Application\\Migrations\\Scripts\\": "EMS/core-bundle/migrations/scripts",
             "Application\\Migrations\\": [
-                "EMS/core-bundle/src/Resources/DoctrineMigrations/pdo_mysql",
-                "EMS/core-bundle/src/Resources/DoctrineMigrations/pdo_pgsql"
+                "EMS/core-bundle/migrations/pdo_mysql",
+                "EMS/core-bundle/migrations/pdo_pgsql"
             ]
         }
     },
@@ -226,25 +227,25 @@
             "@lint-twig"
         ],
         "lint-container": [
-            "php elasticms-admin/bin/console lint:container",
-            "php elasticms-cli/bin/console lint:container",
-            "php elasticms-web/bin/console lint:container"
+            "APP_DEBUG=1 php elasticms-admin/bin/console lint:container",
+            "APP_DEBUG=1 php elasticms-cli/bin/console lint:container",
+            "APP_DEBUG=1 php elasticms-web/bin/console lint:container"
         ],
         "lint-twig": [
             "@lint-twig-bundles",
             "@lint-twig-demo"
         ],
         "lint-twig-bundles": [
-            "php elasticms-admin/bin/console lint:twig @EMSAdminUIBundle --show-deprecations --env=dev",
-            "php elasticms-admin/bin/console lint:twig @EMSClientHelperBundle --show-deprecations --env=dev",
-            "php elasticms-admin/bin/console lint:twig @EMSCommonBundle --show-deprecations --env=dev",
-            "php elasticms-admin/bin/console lint:twig @EMSCoreBundle --show-deprecations --env=dev",
-            "php elasticms-admin/bin/console lint:twig @EMSFormBundle --show-deprecations --env=dev",
-            "php elasticms-admin/bin/console lint:twig @EMSSubmissionBundle --show-deprecations --env=dev"
+            "APP_DEBUG=1 php elasticms-admin/bin/console lint:twig @EMSAdminUIBundle --show-deprecations",
+            "APP_DEBUG=1 php elasticms-admin/bin/console lint:twig @EMSClientHelperBundle --show-deprecations",
+            "APP_DEBUG=1 php elasticms-admin/bin/console lint:twig @EMSCommonBundle --show-deprecations",
+            "APP_DEBUG=1 php elasticms-admin/bin/console lint:twig @EMSCoreBundle --show-deprecations",
+            "APP_DEBUG=1 php elasticms-admin/bin/console lint:twig @EMSFormBundle --show-deprecations",
+            "APP_DEBUG=1 php elasticms-admin/bin/console lint:twig @EMSSubmissionBundle --show-deprecations"
         ],
         "lint-twig-demo": [
-            "php elasticms-admin/bin/console lint:twig demo/skeleton/template_ems --show-deprecations --env=dev",
-            "php elasticms-web/bin/console lint:twig demo/skeleton/template --show-deprecations --env=dev"
+            "APP_DEBUG=1 php elasticms-admin/bin/console lint:twig demo/skeleton/template_ems --show-deprecations",
+            "APP_DEBUG=1 php elasticms-web/bin/console lint:twig demo/skeleton/template --show-deprecations"
         ]
     },
     "extra": {

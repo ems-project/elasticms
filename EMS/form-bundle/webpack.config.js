@@ -7,12 +7,12 @@ const TerserPlugin = require('terser-webpack-plugin');
 module.exports = {
     mode: 'production',
     entry: {
-        'form': './src/Resources/assets/js/form.js',
-        'formDebug': './src/Resources/assets/js/formDebug.js',
-        'debug': './src/Resources/assets/js/debug.js',
-        'backend': './src/Resources/assets/js/backend.js',
-        'dynamicFields': './src/Resources/assets/js/dynamicFields.js',
-        'validation': './src/Resources/assets/js/validation.js'
+        'form': './assets/js/form.js',
+        'formDebug': './assets/js/formDebug.js',
+        'debug': './assets/js/debug.js',
+        'backend': './assets/js/backend.js',
+        'dynamicFields': './assets/js/dynamicFields.js',
+        'validation': './assets/js/validation.js'
     },
     optimization: {
         minimizer: [new TerserPlugin({
@@ -30,7 +30,7 @@ module.exports = {
     ],
     output: {
         filename: 'js/[name].js',
-        path: path.resolve(__dirname, 'src/Resources/public')
+        path: path.resolve(__dirname, 'public')
     },
     resolve: {
         fallback: {

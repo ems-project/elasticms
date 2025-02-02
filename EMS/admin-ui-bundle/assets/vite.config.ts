@@ -15,8 +15,8 @@ export default defineConfig({
   },
   base: './',
   plugins: [
-    liveReload('../src/Resources/views/**/*.twig'),
-    liveReload('../../core-bundle/src/Resources/views/**/*.twig'),
+    liveReload('../templates/**/*.twig'),
+    liveReload('../../core-bundle/templates/**/*.twig'),
     inject({
       jQuery: 'jquery',
       $: 'jquery',
@@ -35,7 +35,7 @@ export default defineConfig({
   },
   build: {
     manifest: true,
-    outDir: '../src/Resources/public',
+    outDir: '../public',
     sourcemap: false,
     emptyOutDir: true,
     copyPublicDir: true,

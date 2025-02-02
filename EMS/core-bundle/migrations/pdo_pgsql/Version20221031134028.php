@@ -7,11 +7,11 @@ namespace Application\Migrations;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use EMS\CoreBundle\Resources\DoctrineMigrations\Scripts\ScriptContentTypeRoles;
+use Application\Migrations\Scripts\ScriptContentTypeVersionFields;
 
-final class Version20221020125332 extends AbstractMigration
+final class Version20221031134028 extends AbstractMigration
 {
-    use ScriptContentTypeRoles;
+    use ScriptContentTypeVersionFields;
 
     #[\Override]
     public function up(Schema $schema): void
@@ -21,9 +21,9 @@ final class Version20221020125332 extends AbstractMigration
             "Migration can only be executed safely on '\Doctrine\DBAL\Platforms\PostgreSQLPlatform'."
         );
 
-        $this->addSql('ALTER TABLE content_type ADD roles JSON DEFAULT NULL');
+        $this->addSql('ALTER TABLE content_type ADD version_fields JSON DEFAULT NULL');
 
-        $this->scriptEncodeRoles($this);
+        $this->scriptEncodeVersionFields($this);
     }
 
     #[\Override]
@@ -34,6 +34,6 @@ final class Version20221020125332 extends AbstractMigration
             "Migration can only be executed safely on '\Doctrine\DBAL\Platforms\PostgreSQLPlatform'."
         );
 
-        $this->scriptDecodeRoles($this);
+        $this->scriptDecodeVersionFields($this);
     }
 }

@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Application\Migrations;
 
-use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
+use Doctrine\DBAL\Platforms\MariaDBPlatform;
+use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 use EMS\CommonBundle\Helper\Text\Encoder;
@@ -15,16 +16,17 @@ final class Version20220716091159 extends AbstractMigration
     public function up(Schema $schema): void
     {
         $this->abortIf(
-            !$this->connection->getDatabasePlatform() instanceof PostgreSQLPlatform,
-            "Migration can only be executed safely on '\Doctrine\DBAL\Platforms\PostgreSQLPlatform'."
+            !$this->connection->getDatabasePlatform() instanceof MySQLPlatform
+            && !$this->connection->getDatabasePlatform() instanceof MariaDBPlatform,
+            "Migration can only be executed safely on '\Doctrine\DBAL\Platforms\MySQLPlatform'."
         );
 
         $this->addSql('ALTER TABLE template ADD label VARCHAR(255)');
         $this->addSql('UPDATE template SET label=name');
-        $this->addSql('ALTER TABLE template ALTER label SET NOT NULL');
+        $this->addSql('ALTER TABLE template MODIFY label VARCHAR(255) NOT NULL');
         $this->addSql('ALTER TABLE view ADD label VARCHAR(255)');
         $this->addSql('UPDATE view SET label=name');
-        $this->addSql('ALTER TABLE view ALTER label SET NOT NULL');
+        $this->addSql('ALTER TABLE view MODIFY label VARCHAR(255) NOT NULL');
 
         $this->webalizeName('view');
         $this->webalizeName('template');
@@ -34,8 +36,9 @@ final class Version20220716091159 extends AbstractMigration
     public function down(Schema $schema): void
     {
         $this->abortIf(
-            !$this->connection->getDatabasePlatform() instanceof PostgreSQLPlatform,
-            "Migration can only be executed safely on '\Doctrine\DBAL\Platforms\PostgreSQLPlatform'."
+            !$this->connection->getDatabasePlatform() instanceof MySQLPlatform
+            && !$this->connection->getDatabasePlatform() instanceof MariaDBPlatform,
+            "Migration can only be executed safely on '\Doctrine\DBAL\Platforms\MySQLPlatform'."
         );
 
         $this->addSql('ALTER TABLE view DROP label');
@@ -51,7 +54,7 @@ final class Version20220716091159 extends AbstractMigration
             }
             $this->addSql("UPDATE $table SET name = :name WHERE id = :id", [
                 'id' => $view['id'],
-                'name' => new Encoder()->slug($view['name'])->toString(),
+                'name' => new Encoder()->slug(text: $view['name'], separator: '_')->toString(),
             ]);
         }
     }

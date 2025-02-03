@@ -31,7 +31,8 @@ class Version
     {
         return match ($this->getType()) {
             'minor', 'patch' => \sprintf('%s.%s', $this->major, $this->minor),
-            default => \sprintf('%d.x', $this->major),
+            'major' => \sprintf('%d.0', $this->major),
+            default => throw new \RuntimeException('invalid branch name'),
         };
     }
 

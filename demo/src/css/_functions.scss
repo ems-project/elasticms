@@ -1,9 +1,11 @@
+@use 'sass:math';
+
 //em converter
 @function em($pixels, $context: $browser-context) {
-  @return calc($pixels / $context) * 1em;
+  @return math.div($pixels, $context) * 1em;
 }
 
 //rem converter
 @function rem($pixels) {
-  @return calc($pixels / $browser-context) * 1rem;
+  @return math.div($pixels, $browser-context) * 1rem;
 }

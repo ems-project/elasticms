@@ -1,7 +1,9 @@
+@use 'sass:math';
+
 .with-banner {
   .jumbotron {
     padding-top: 0;
-    padding-bottom: $jumbotron-padding / 2;
+    padding-bottom: math.div($jumbotron-padding, 2);
     background-color: $white;
     background: none;
     figure {
@@ -21,9 +23,9 @@
     .jumbotron {
       display: flex;
       align-items: center;
-      padding-top: $jumbotron-padding / 2 + $header-height;
+      padding-top: math.div($jumbotron-padding, 2) + $header-height;
       background-color: $jumbotron-bg-hp;
-      background-image: url('../img/banners/banner-home.jpg');
+      background-image: url('/img/banners/banner-home.jpg');
       background-repeat: no-repeat;
       background-position: right 40%;
       min-height: 300px;

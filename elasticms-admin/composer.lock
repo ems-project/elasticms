@@ -62,16 +62,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.339.3",
+            "version": "3.339.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "2ceb0a5b4c0dcd3c5ca6ea7480f3da62bd4fd588"
+                "reference": "ea62ad03645ef7a1d3f1cda2de49f0869de3c582"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/2ceb0a5b4c0dcd3c5ca6ea7480f3da62bd4fd588",
-                "reference": "2ceb0a5b4c0dcd3c5ca6ea7480f3da62bd4fd588",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/ea62ad03645ef7a1d3f1cda2de49f0869de3c582",
+                "reference": "ea62ad03645ef7a1d3f1cda2de49f0869de3c582",
                 "shasum": ""
             },
             "require": {
@@ -154,9 +154,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.339.3"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.339.4"
             },
-            "time": "2025-01-30T19:18:55+00:00"
+            "time": "2025-01-31T19:04:39+00:00"
         },
         {
             "name": "brick/math",
@@ -2000,12 +2000,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSAdminUIBundle.git",
-                "reference": "9718bf5a2aec1885316f73d6000cf4ee5c1147a8"
+                "reference": "7493fe477e5a9941a32d00a02204ca25ba66cfae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSAdminUIBundle/zipball/9718bf5a2aec1885316f73d6000cf4ee5c1147a8",
-                "reference": "9718bf5a2aec1885316f73d6000cf4ee5c1147a8",
+                "url": "https://api.github.com/repos/ems-project/EMSAdminUIBundle/zipball/7493fe477e5a9941a32d00a02204ca25ba66cfae",
+                "reference": "7493fe477e5a9941a32d00a02204ca25ba66cfae",
                 "shasum": ""
             },
             "require": {
@@ -2037,7 +2037,7 @@
             "support": {
                 "source": "https://github.com/ems-project/EMSAdminUIBundle/tree/6.0.0"
             },
-            "time": "2025-01-31T09:51:06+00:00"
+            "time": "2025-02-03T08:29:42+00:00"
         },
         {
             "name": "elasticms/client-helper-bundle",
@@ -2045,12 +2045,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSClientHelperBundle.git",
-                "reference": "5ff5fe1483a8540f20ed9328dd91989324e6f23d"
+                "reference": "8dace3da2bf2aafef346ef2a4d817ee523f7818a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSClientHelperBundle/zipball/5ff5fe1483a8540f20ed9328dd91989324e6f23d",
-                "reference": "5ff5fe1483a8540f20ed9328dd91989324e6f23d",
+                "url": "https://api.github.com/repos/ems-project/EMSClientHelperBundle/zipball/8dace3da2bf2aafef346ef2a4d817ee523f7818a",
+                "reference": "8dace3da2bf2aafef346ef2a4d817ee523f7818a",
                 "shasum": ""
             },
             "require": {
@@ -2094,7 +2094,7 @@
             "support": {
                 "source": "https://github.com/ems-project/EMSClientHelperBundle/tree/6.0.0"
             },
-            "time": "2025-01-31T07:09:10+00:00"
+            "time": "2025-02-02T09:28:57+00:00"
         },
         {
             "name": "elasticms/common-bundle",
@@ -2102,12 +2102,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSCommonBundle.git",
-                "reference": "ef3d7a44059a470a727c4ed02332582949e9fdeb"
+                "reference": "15a390f1f95aa3539296fe3bf38474b8a02a948c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSCommonBundle/zipball/ef3d7a44059a470a727c4ed02332582949e9fdeb",
-                "reference": "ef3d7a44059a470a727c4ed02332582949e9fdeb",
+                "url": "https://api.github.com/repos/ems-project/EMSCommonBundle/zipball/15a390f1f95aa3539296fe3bf38474b8a02a948c",
+                "reference": "15a390f1f95aa3539296fe3bf38474b8a02a948c",
                 "shasum": ""
             },
             "require": {
@@ -2181,7 +2181,7 @@
             "support": {
                 "source": "https://github.com/ems-project/EMSCommonBundle/tree/6.0.0"
             },
-            "time": "2025-01-31T07:09:10+00:00"
+            "time": "2025-02-02T09:28:57+00:00"
         },
         {
             "name": "elasticms/core-bundle",
@@ -2189,12 +2189,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSCoreBundle.git",
-                "reference": "3e2f7da83a7028cfc8f1c3f27a343675b84b8968"
+                "reference": "8d4b05fea58fd0b0f9916bb97076eba0b1c05ee0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSCoreBundle/zipball/3e2f7da83a7028cfc8f1c3f27a343675b84b8968",
-                "reference": "3e2f7da83a7028cfc8f1c3f27a343675b84b8968",
+                "url": "https://api.github.com/repos/ems-project/EMSCoreBundle/zipball/8d4b05fea58fd0b0f9916bb97076eba0b1c05ee0",
+                "reference": "8d4b05fea58fd0b0f9916bb97076eba0b1c05ee0",
                 "shasum": ""
             },
             "require": {
@@ -2228,7 +2228,8 @@
             "type": "symfony-bundle",
             "autoload": {
                 "psr-4": {
-                    "EMS\\CoreBundle\\": "src/"
+                    "EMS\\CoreBundle\\": "src/",
+                    "Application\\Migrations\\Scripts\\": "migrations/scripts"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -2248,7 +2249,7 @@
             "support": {
                 "source": "https://github.com/ems-project/EMSCoreBundle/tree/6.0.0"
             },
-            "time": "2025-01-31T07:09:10+00:00"
+            "time": "2025-02-03T15:24:20+00:00"
         },
         {
             "name": "elasticms/form-bundle",
@@ -2256,12 +2257,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSFormBundle.git",
-                "reference": "245828ec56ba643d509368a4f3367c59e6ad6eb8"
+                "reference": "a6f61c684ebdc79d135a2ae69e806d9877a08cba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSFormBundle/zipball/245828ec56ba643d509368a4f3367c59e6ad6eb8",
-                "reference": "245828ec56ba643d509368a4f3367c59e6ad6eb8",
+                "url": "https://api.github.com/repos/ems-project/EMSFormBundle/zipball/a6f61c684ebdc79d135a2ae69e806d9877a08cba",
+                "reference": "a6f61c684ebdc79d135a2ae69e806d9877a08cba",
                 "shasum": ""
             },
             "require": {
@@ -2297,7 +2298,7 @@
             "support": {
                 "source": "https://github.com/ems-project/EMSFormBundle/tree/6.0.0"
             },
-            "time": "2025-01-31T07:09:10+00:00"
+            "time": "2025-02-02T09:28:57+00:00"
         },
         {
             "name": "elasticms/helpers",
@@ -2305,12 +2306,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/helpers.git",
-                "reference": "d784831fafae102e75397a5ba5c0e200a57603b8"
+                "reference": "26843d861a40c7c1bf04f224e8db12c70746c77d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/helpers/zipball/d784831fafae102e75397a5ba5c0e200a57603b8",
-                "reference": "d784831fafae102e75397a5ba5c0e200a57603b8",
+                "url": "https://api.github.com/repos/ems-project/helpers/zipball/26843d861a40c7c1bf04f224e8db12c70746c77d",
+                "reference": "26843d861a40c7c1bf04f224e8db12c70746c77d",
                 "shasum": ""
             },
             "require": {
@@ -2347,7 +2348,7 @@
             "support": {
                 "source": "https://github.com/ems-project/helpers/tree/6.0.0"
             },
-            "time": "2025-01-31T09:21:08+00:00"
+            "time": "2025-02-01T08:54:15+00:00"
         },
         {
             "name": "elasticms/submission-bundle",
@@ -2355,12 +2356,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSSubmissionBundle.git",
-                "reference": "57b5ca1288262ba0bd9bc3ec3f6857761d48b74e"
+                "reference": "d42255118f1921f232fa862f559ec0fdfafae0d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSSubmissionBundle/zipball/57b5ca1288262ba0bd9bc3ec3f6857761d48b74e",
-                "reference": "57b5ca1288262ba0bd9bc3ec3f6857761d48b74e",
+                "url": "https://api.github.com/repos/ems-project/EMSSubmissionBundle/zipball/d42255118f1921f232fa862f559ec0fdfafae0d4",
+                "reference": "d42255118f1921f232fa862f559ec0fdfafae0d4",
                 "shasum": ""
             },
             "require": {
@@ -2399,7 +2400,7 @@
             "support": {
                 "source": "https://github.com/ems-project/EMSSubmissionBundle/tree/6.0.0"
             },
-            "time": "2025-01-31T07:09:10+00:00"
+            "time": "2025-02-02T09:28:57+00:00"
         },
         {
             "name": "elasticms/xliff",
@@ -2407,12 +2408,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/xliff.git",
-                "reference": "5379138435512bbf5c902abbb5ce32b92c0bf3eb"
+                "reference": "a1dbe1fd001f3352b7c73070ec349ba21f3f6c53"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/xliff/zipball/5379138435512bbf5c902abbb5ce32b92c0bf3eb",
-                "reference": "5379138435512bbf5c902abbb5ce32b92c0bf3eb",
+                "url": "https://api.github.com/repos/ems-project/xliff/zipball/a1dbe1fd001f3352b7c73070ec349ba21f3f6c53",
+                "reference": "a1dbe1fd001f3352b7c73070ec349ba21f3f6c53",
                 "shasum": ""
             },
             "require": {
@@ -2447,7 +2448,7 @@
             "support": {
                 "source": "https://github.com/ems-project/xliff/tree/6.0.0"
             },
-            "time": "2025-01-22T09:43:29+00:00"
+            "time": "2025-02-01T08:53:05+00:00"
         },
         {
             "name": "elasticsearch/elasticsearch",
@@ -2752,16 +2753,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "8.13.53",
+            "version": "8.13.54",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "b3362a3c04f87b02c6e712774d20f9e577c3918c"
+                "reference": "42d3a03d4f47fcb784666743f4323a7b87a2b2ba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/b3362a3c04f87b02c6e712774d20f9e577c3918c",
-                "reference": "b3362a3c04f87b02c6e712774d20f9e577c3918c",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/42d3a03d4f47fcb784666743f4323a7b87a2b2ba",
+                "reference": "42d3a03d4f47fcb784666743f4323a7b87a2b2ba",
                 "shasum": ""
             },
             "require": {
@@ -2825,7 +2826,7 @@
                 "issues": "https://github.com/giggsey/libphonenumber-for-php/issues",
                 "source": "https://github.com/giggsey/libphonenumber-for-php"
             },
-            "time": "2025-01-15T17:09:39+00:00"
+            "time": "2025-01-31T14:50:26+00:00"
         },
         {
             "name": "giggsey/locale",
@@ -5807,16 +5808,16 @@
         },
         {
             "name": "scssphp/scssphp",
-            "version": "v2.0.0",
+            "version": "v2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/scssphp/scssphp.git",
-                "reference": "a70358e5e70b6a93f9bcecfcd9d3f1ec1499f7a6"
+                "reference": "024f92cd9782e3033b41c2d1c66ab1c0e5c12c0f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/scssphp/scssphp/zipball/a70358e5e70b6a93f9bcecfcd9d3f1ec1499f7a6",
-                "reference": "a70358e5e70b6a93f9bcecfcd9d3f1ec1499f7a6",
+                "url": "https://api.github.com/repos/scssphp/scssphp/zipball/024f92cd9782e3033b41c2d1c66ab1c0e5c12c0f",
+                "reference": "024f92cd9782e3033b41c2d1c66ab1c0e5c12c0f",
                 "shasum": ""
             },
             "require": {
@@ -5883,9 +5884,9 @@
             ],
             "support": {
                 "issues": "https://github.com/scssphp/scssphp/issues",
-                "source": "https://github.com/scssphp/scssphp/tree/v2.0.0"
+                "source": "https://github.com/scssphp/scssphp/tree/v2.0.1"
             },
-            "time": "2024-12-23T17:11:07+00:00"
+            "time": "2025-01-31T12:28:20+00:00"
         },
         {
             "name": "scssphp/source-span",

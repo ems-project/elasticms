@@ -17,7 +17,6 @@
  *
  */
 export default function ajaxSearch(submitOnKeyStroke = false) {
-    const $ = require('jquery');
     let requestInProgress = false;
     let nextRequest;
     let pushData = null;

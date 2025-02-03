@@ -62,16 +62,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.339.2",
+            "version": "3.339.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "2f4e85dd8466ffe5186887f8f1466a0248c6c094"
+                "reference": "ea62ad03645ef7a1d3f1cda2de49f0869de3c582"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/2f4e85dd8466ffe5186887f8f1466a0248c6c094",
-                "reference": "2f4e85dd8466ffe5186887f8f1466a0248c6c094",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/ea62ad03645ef7a1d3f1cda2de49f0869de3c582",
+                "reference": "ea62ad03645ef7a1d3f1cda2de49f0869de3c582",
                 "shasum": ""
             },
             "require": {
@@ -154,9 +154,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.339.2"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.339.4"
             },
-            "time": "2025-01-29T19:53:29+00:00"
+            "time": "2025-01-31T19:04:39+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -2604,16 +2604,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "8.13.53",
+            "version": "8.13.54",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "b3362a3c04f87b02c6e712774d20f9e577c3918c"
+                "reference": "42d3a03d4f47fcb784666743f4323a7b87a2b2ba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/b3362a3c04f87b02c6e712774d20f9e577c3918c",
-                "reference": "b3362a3c04f87b02c6e712774d20f9e577c3918c",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/42d3a03d4f47fcb784666743f4323a7b87a2b2ba",
+                "reference": "42d3a03d4f47fcb784666743f4323a7b87a2b2ba",
                 "shasum": ""
             },
             "require": {
@@ -2677,7 +2677,7 @@
                 "issues": "https://github.com/giggsey/libphonenumber-for-php/issues",
                 "source": "https://github.com/giggsey/libphonenumber-for-php"
             },
-            "time": "2025-01-15T17:09:39+00:00"
+            "time": "2025-01-31T14:50:26+00:00"
         },
         {
             "name": "giggsey/locale",
@@ -5744,16 +5744,16 @@
         },
         {
             "name": "scssphp/scssphp",
-            "version": "v2.0.0",
+            "version": "v2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/scssphp/scssphp.git",
-                "reference": "a70358e5e70b6a93f9bcecfcd9d3f1ec1499f7a6"
+                "reference": "024f92cd9782e3033b41c2d1c66ab1c0e5c12c0f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/scssphp/scssphp/zipball/a70358e5e70b6a93f9bcecfcd9d3f1ec1499f7a6",
-                "reference": "a70358e5e70b6a93f9bcecfcd9d3f1ec1499f7a6",
+                "url": "https://api.github.com/repos/scssphp/scssphp/zipball/024f92cd9782e3033b41c2d1c66ab1c0e5c12c0f",
+                "reference": "024f92cd9782e3033b41c2d1c66ab1c0e5c12c0f",
                 "shasum": ""
             },
             "require": {
@@ -5820,9 +5820,9 @@
             ],
             "support": {
                 "issues": "https://github.com/scssphp/scssphp/issues",
-                "source": "https://github.com/scssphp/scssphp/tree/v2.0.0"
+                "source": "https://github.com/scssphp/scssphp/tree/v2.0.1"
             },
-            "time": "2024-12-23T17:11:07+00:00"
+            "time": "2025-01-31T12:28:20+00:00"
         },
         {
             "name": "scssphp/source-span",
@@ -11980,16 +11980,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.68.4",
+            "version": "v3.68.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "5c2f466ef3d7eba8af9463bcab829370b975333f"
+                "reference": "7bedb718b633355272428c60736dc97fb96daf27"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/5c2f466ef3d7eba8af9463bcab829370b975333f",
-                "reference": "5c2f466ef3d7eba8af9463bcab829370b975333f",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/7bedb718b633355272428c60736dc97fb96daf27",
+                "reference": "7bedb718b633355272428c60736dc97fb96daf27",
                 "shasum": ""
             },
             "require": {
@@ -12071,7 +12071,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.68.4"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.68.5"
             },
             "funding": [
                 {
@@ -12079,7 +12079,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-01-30T09:14:56+00:00"
+            "time": "2025-01-30T17:00:50+00:00"
         },
         {
             "name": "hamcrest/hamcrest-php",
@@ -13987,16 +13987,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "11.5.5",
+            "version": "11.5.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "b9a975972f580c0491f834eb0818ad2b32fd8bba"
+                "reference": "3c3ae14c90f244cdda95028c3e469028e8d1c02c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/b9a975972f580c0491f834eb0818ad2b32fd8bba",
-                "reference": "b9a975972f580c0491f834eb0818ad2b32fd8bba",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/3c3ae14c90f244cdda95028c3e469028e8d1c02c",
+                "reference": "3c3ae14c90f244cdda95028c3e469028e8d1c02c",
                 "shasum": ""
             },
             "require": {
@@ -14068,7 +14068,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/11.5.5"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/11.5.6"
             },
             "funding": [
                 {
@@ -14084,7 +14084,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-01-29T14:01:11+00:00"
+            "time": "2025-01-31T07:03:30+00:00"
         },
         {
             "name": "react/cache",
@@ -14604,12 +14604,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "a39f409dd81c4cde087ab72b9026c013f09fc492"
+                "reference": "c10bce58e215dabda33ba5dd3f3a153e85684222"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/a39f409dd81c4cde087ab72b9026c013f09fc492",
-                "reference": "a39f409dd81c4cde087ab72b9026c013f09fc492",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/c10bce58e215dabda33ba5dd3f3a153e85684222",
+                "reference": "c10bce58e215dabda33ba5dd3f3a153e85684222",
                 "shasum": ""
             },
             "conflict": {
@@ -14646,6 +14646,7 @@
                 "asymmetricrypt/asymmetricrypt": "<9.9.99",
                 "athlon1600/php-proxy": "<=5.1",
                 "athlon1600/php-proxy-app": "<=3",
+                "athlon1600/youtube-downloader": "<=4",
                 "austintoddj/canvas": "<=3.4.2",
                 "auth0/wordpress": "<=4.6",
                 "automad/automad": "<2.0.0.0-alpha5",
@@ -14707,6 +14708,7 @@
                 "codeigniter4/framework": "<4.5.8",
                 "codeigniter4/shield": "<1.0.0.0-beta8",
                 "codiad/codiad": "<=2.8.4",
+                "components/jquery": ">=1.0.3,<3.5",
                 "composer/composer": "<1.10.27|>=2,<2.2.24|>=2.3,<2.7.7",
                 "concrete5/concrete5": "<9.3.4",
                 "concrete5/core": "<8.5.8|>=9,<9.1",
@@ -15277,7 +15279,7 @@
                 "t3g/svg-sanitizer": "<1.0.3",
                 "t3s/content-consent": "<1.0.3|>=2,<2.0.2",
                 "tastyigniter/tastyigniter": "<3.3",
-                "tcg/voyager": "<=1.4",
+                "tcg/voyager": "<=1.8",
                 "tecnickcom/tc-lib-pdf-font": "<2.6.4",
                 "tecnickcom/tcpdf": "<6.8",
                 "terminal42/contao-tablelookupwizard": "<3.3.5",
@@ -15466,7 +15468,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-01-29T19:04:15+00:00"
+            "time": "2025-01-31T21:04:56+00:00"
         },
         {
             "name": "sebastian/cli-parser",

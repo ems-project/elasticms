@@ -3,8 +3,8 @@
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.5/phpunit.xsd"
          colors="true"
-         bootstrap="vendor/autoload.php"
-         cacheDirectory=".cache/.phpunit.cache"
+         bootstrap="../vendor/autoload.php"
+         cacheDirectory="../.cache/.phpunit.cache"
          failOnDeprecation="true"
          failOnPhpunitDeprecation="true"
          failOnNotice="true"
@@ -26,16 +26,16 @@
 
     <source ignoreSuppressionOfDeprecations="true">
         <include>
-            <directory>./elasticms-admin/src/</directory>
-            <directory>./elasticms-cli/src/</directory>
-            <directory>./elasticms-web/src/</directory>
-            <directory>./EMS/client-helper-bundle/src/</directory>
-            <directory>./EMS/common-bundle/src/</directory>
-            <directory>./EMS/core-bundle/src/</directory>
-            <directory>./EMS/form-bundle/src/</directory>
-            <directory>./EMS/helpers/src/</directory>
-            <directory>./EMS/submission-bundle/src/</directory>
-            <directory>./EMS/xliff/src/</directory>
+            <directory>./../elasticms-admin/src/</directory>
+            <directory>./../elasticms-cli/src/</directory>
+            <directory>./../elasticms-web/src/</directory>
+            <directory>./../EMS/client-helper-bundle/src/</directory>
+            <directory>./../EMS/common-bundle/src/</directory>
+            <directory>./../EMS/core-bundle/src/</directory>
+            <directory>./../EMS/form-bundle/src/</directory>
+            <directory>./../EMS/helpers/src/</directory>
+            <directory>./../EMS/submission-bundle/src/</directory>
+            <directory>./../EMS/xliff/src/</directory>
         </include>
 
         <deprecationTrigger>
@@ -47,13 +47,13 @@
 
     <testsuites>
         <testsuite name="EMS">
-            <directory>./EMS/client-helper-bundle/tests</directory>
-            <directory>./EMS/common-bundle/tests</directory>
-            <directory>./EMS/core-bundle/tests</directory>
-            <directory>./EMS/form-bundle/tests</directory>
-            <directory>./EMS/helpers/tests/Unit</directory>
-            <directory>./EMS/submission-bundle/tests</directory>
-            <directory>./EMS/xliff/tests</directory>
+            <directory>./../EMS/client-helper-bundle/tests</directory>
+            <directory>./../EMS/common-bundle/tests</directory>
+            <directory>./../EMS/core-bundle/tests</directory>
+            <directory>./../EMS/form-bundle/tests</directory>
+            <directory>./../EMS/helpers/tests/Unit</directory>
+            <directory>./../EMS/submission-bundle/tests</directory>
+            <directory>./../EMS/xliff/tests</directory>
         </testsuite>
     </testsuites>
 

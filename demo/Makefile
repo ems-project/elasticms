@@ -122,7 +122,7 @@ npm/%:
 npm-install: ## npm install
 	@$(MAKE) npm/install
 npm-prod: ## npm run prod
-	@$(MAKE) npm/"run prod"
+	@$(MAKE) npm/"run build"
 npm-watch: ## npm run watch
 	@$(MAKE) npm/"run watch"
 npm-dev: ## npm run dev

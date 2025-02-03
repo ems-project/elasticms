@@ -1,6 +1,21 @@
 {% extends '@EMSAdminUI/bootstrap5/base/html5.html.twig' %}
 {%- trans_default_domain 'base' -%}
 {% set wysiwygInfo = emsco_wysiwyg_info() %}
+
+{%- set type_filters = [] -%}
+{%- set all_types = false %}
+{%- if emsco_get_content_types()|length > 0 -%}
+    {%- for contentType in emsco_get_content_types()|filter(contentType => contentType.webContent) -%}
+        {%- if all_types  -%}
+            {% set all_types = all_types~','~contentType.name -%}
+        {%- else %}
+            {% set all_types = contentType.name -%}
+        {%- endif -%}
+        {%- set type_filters = type_filters|merge([[contentType.singularName, contentType.name ]]) -%}
+    {%- endfor -%}
+{%- endif -%}
+{%- set type_filters = [['All content types'|trans, all_types ]]|merge(type_filters) -%}
+
 {% set body_attr = {
     class: 'hold-transition sidebar-mini sidebar-mini-md layout-fixed layout-navbar-fixed',
     'data-hash-algo': ems_hash_algo,
@@ -15,6 +30,7 @@
     'data-file-view': path('ems.file.view', { sha1: '__file_identifier__', name: '__file_name__' }),
     'data-file-extract': path('ems_file_extract', { sha1: '__file_identifier__', name: '__file_name__' }),
     'data-file-extract-forced': path('ems_file_extract_forced', { sha1: '__file_identifier__', name: '__file_name__' }),
+    'data-wysiwyg-type-filters': type_filters|json_encode,
     'data-wysiwyg-info': wysiwygInfo,
     'data-asset-path': asset(''),
 } %}

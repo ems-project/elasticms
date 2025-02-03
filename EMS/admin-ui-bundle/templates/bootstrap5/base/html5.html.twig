@@ -9,6 +9,9 @@
         <meta name="title" content="{{ block('title') }}" />
         <meta name="author" content="https://github.com/ems-project" />
         <link rel="stylesheet" href="{{ asset('src/app.js.css', 'emsadminui') }}">
+        {%- if wysiwygInfo is defined and wysiwygInfo|ems_json_decode.editor == constant('EMS\\CoreBundle\\Entity\\WysiwygProfile::CKEDITOR4') -%}
+            <link rel="stylesheet" href="{{ asset('ckeditor4.css', 'emscore') }}">
+        {%- endif -%}
         {%- block stylesheets %}{% endblock %}
         <link rel="icon" sizes="128x128" type="image/png" href="{{ path('core-favicon') }}" />
         <link rel="apple-touch-icon" sizes="128x128" type="image/png" href="{{ path('core-apple-touch-icon') }}">

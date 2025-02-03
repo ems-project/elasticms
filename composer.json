@@ -203,8 +203,8 @@
         "symfony/polyfill-php84": "*"
     },
     "scripts": {
-        "rector": "rector",
-        "monorepo-validate": "monorepo-builder validate",
+        "rector": "rector --config=./config/rector.php",
+        "monorepo-validate": "monorepo-builder --config=./config/monorepo-builder.php validate",
         "phpcs": "PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix",
         "phpstan": "phpstan analyse --memory-limit 1G",
         "phpunit": "phpunit --display-deprecations",

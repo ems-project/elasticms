@@ -120,6 +120,7 @@ final class UploadAssetsCommand extends AbstractLocalCommand
         foreach ($styleSetNames as $name) {
             $styleSet = $styleSetClient->get($name);
             $styleSet['properties']['assets'] = $archive;
+            $styleSetClient->update($name, $styleSet);
         }
         $this->io->success(\sprintf('%d style sets have been updated', \count($styleSetNames)));
     }

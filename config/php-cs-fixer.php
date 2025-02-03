@@ -2,18 +2,14 @@
 
 declare(strict_types=1);
 
-if (!file_exists(__DIR__.'/elasticms-cli/src')) {
-    exit(0);
-}
-
 $finder = PhpCsFixer\Finder::create()
-    ->in(__DIR__.'/build')
-    ->in(__DIR__.'/elasticms-*/src')
-    ->in(__DIR__.'/elasticms-*/tests')
-    ->in(__DIR__.'/elasticms-*/migrations')
-    ->in(__DIR__.'/EMS/*/src')
-    ->in(__DIR__.'/EMS/*/tests')
-    ->exclude('/EMS/helpers/tmp')
+    ->in(__DIR__.'/../build')
+    ->in(__DIR__.'/../elasticms-*/src')
+    ->in(__DIR__.'/../elasticms-*/tests')
+    ->in(__DIR__.'/../elasticms-*/migrations')
+    ->in(__DIR__.'/../EMS/*/src')
+    ->in(__DIR__.'/../EMS/*/tests')
+    ->exclude(__DIR__.'/../EMS/helpers/tmp')
     ->name(['release', 'translations'])
 ;
 
@@ -31,6 +27,6 @@ return new PhpCsFixer\Config()
         'modernize_types_casting' => true
     ])
     ->setRiskyAllowed(true)
-    ->setCacheFile(__DIR__.'/.cache/.php-cs-fixer.cache')
+    ->setCacheFile(__DIR__.'/../.cache/.php-cs-fixer.cache')
     ->setFinder($finder)
 ;

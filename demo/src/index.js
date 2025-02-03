@@ -1,10 +1,9 @@
 'use strict';
-const $ = require('jquery');
 window.$ = $;
 window.jQuery = $;
 
 import './css/styles.scss';
-require('bootstrap');
+import 'bootstrap';
 
 import adminMenu from '@elasticms/admin-menu';
 import back2top from "./js/back2top";

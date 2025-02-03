@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 .navbar {
   @include media-breakpoint-up(xl) {
     min-height: $header-height-lg;
@@ -65,8 +67,8 @@ header {
       .navbar-collapse {
         z-index: $zindex-popover;
         position: absolute;
-        left: $grid-gutter-width/-2;
-        right: $grid-gutter-width/-2;
+        left: math.div($grid-gutter-width,-2);
+        right: math.div($grid-gutter-width,-2);
         top: 64px;
         background-color: $dark;
         .active .nav-link,

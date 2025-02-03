@@ -1,5 +1,4 @@
 export default function newsFilters() {
-    const $ = require('jquery');
     const $newsfilters = $('.news-filters');
     let activeFilters = [];
     if ($newsfilters.length) {

@@ -2,7 +2,6 @@
  * Back to top JS
  */
 export default function back2top() {
-    const $ = require('jquery');
     const $backToTop = $('#back2top');
     let offsetTop = 60;
     const mainContent = document.getElementById('content');

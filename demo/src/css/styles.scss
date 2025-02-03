@@ -1,19 +1,19 @@
 @import "bootstrap-variables";
 @import "utilities/spacers";
 
-@import "~bootstrap";
-@import "~@fontsource/mulish/latin-300.css";
-@import "~@fontsource/mulish/latin-400.css";
-@import "~@fontsource/mulish/latin-700.css";
-$fa-font-path: "../../node_modules/@fortawesome/fontawesome-free/webfonts" !default;
-@import "~@fortawesome/fontawesome-free/scss/fontawesome";
-@import "~@fortawesome/fontawesome-free/scss/solid";
-@import "~@fortawesome/fontawesome-free/scss/regular";
-@import "~@fortawesome/fontawesome-free/scss/brands";
+@import "bootstrap/scss/bootstrap";
+@import "@fontsource/mulish/latin-300.css";
+@import "@fontsource/mulish/latin-400.css";
+@import "@fontsource/mulish/latin-700.css";
+$fa-font-path: "@fortawesome/fontawesome-free/webfonts";
+@import "@fortawesome/fontawesome-free/scss/fontawesome";
+@import "@fortawesome/fontawesome-free/scss/solid";
+@import "@fortawesome/fontawesome-free/scss/regular";
+@import "@fortawesome/fontawesome-free/scss/brands";
 $admin-menu-icon-fill: 'white';
 $admin-menu-icon-size: 16;
 $admin-menu-font-color: #FFFFFF;
-@import "~@elasticms/admin-menu/css/style";
+@import "@elasticms/admin-menu/css/style";
 
 @import "functions";
 

@@ -536,7 +536,7 @@
 {% endblock tabsfieldtype_widget_tab_panel_per_item %}
 
 {% block tabsfieldtype_widget -%}
-	<div class="card card-{{ theme_color }}">
+	<div class="card card-{{ theme_color }} card-outline card-outline-tabs">
 		<div class="card-header p-0 border-bottom-0">
 			<ul class="nav nav-tabs" role="tablist">
 				{% set counter = 1 %}
@@ -1360,7 +1360,7 @@
 					  	<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'action.close'|trans({}, 'emsco-core') }}"></button>
                       </div>
                       <div class="modal-body">
-                            <div class="card card-{{ theme_color }}">
+                            <div class="card card-{{ theme_color }} card-outline card-outline-tabs">
 								<div class="card-header p-0 border-bottom-0">
 									<ul class="nav nav-tabs" role="tablist">
 										{% set active=' active' %}

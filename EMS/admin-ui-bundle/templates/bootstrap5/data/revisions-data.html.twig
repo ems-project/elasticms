@@ -72,7 +72,7 @@
 {% endblock %}
 
 {% block revisionToolbar %}
-	<div class="card card-{{ theme_color }} card-outline">
+	<div class="card card-{{ theme_color }} card-outline card-outline-tabs">
 		<div class="card-footer">
 			{% include '@EMSAdminUI/bootstrap5/elements/revision-toolbar.html.twig' with {
 				'revisionId' : revision.id,
@@ -119,7 +119,7 @@
 	{% if revision.tasksEnabled %}
 		{% set tabs = tabs|merge([{ name: 'tab_tasks', label: 'task.tab_tasks'|trans }]) %}
 	{% endif %}
-	<div id="revision-tabs" class="card card-{{ theme_color }}">
+	<div id="revision-tabs" class="card card-{{ theme_color }} card-outline card-outline-tabs">
 		<div class="card-header p-0 border-bottom-0">
 			<ul class="nav nav-tabs" role="tablist">
 				{% for tab in tabs|reverse %}
@@ -279,7 +279,7 @@
 {% endblock %}
 
 {% block revisionFooterTabs %}
-	<div class="card card-{{ theme_color }}">
+	<div class="card card-{{ theme_color }} card-outline card-outline-tabs">
 		<div class="card-header p-0 border-bottom-0">
 			<ul class="nav nav-tabs" role="tablist">
 				<li class="nav-item active"><a href="#tab_referrers" data-bs-target="#tab_referrers" data-bs-toggle="pill" class="nav-link active" role="tab" aria-controls="true">{{ 'views.data.revisions-data-html.linked-documents-in'|trans({'%environment%': revision.contentType.environment.label, '%length%': referrerResponse.documents|length, '%total%': referrerResponse.formattedTotal }) }}</a></li>

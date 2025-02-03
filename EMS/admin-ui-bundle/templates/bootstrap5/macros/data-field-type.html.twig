@@ -424,7 +424,7 @@
         {% set values = values|sort((a, b) => a == app.user.language ? -1 : b == app.user.language ? 1 : 0) %}
     {% endif %}
 
-    <div class="card card-{{ theme_color }}">
+    <div class="card card-{{ theme_color }} card-outline card-outline-tabs">
         <div class="card-header p-0 border-bottom-0">
             <ul class="nav nav-tabs" role="tablist">
                 {% for value in values|default([]) %}
@@ -472,7 +472,7 @@
 
 
 {% block EMS_CoreBundle_Form_DataField_TabsFieldType %}
-    <div class="card card-{{ theme_color }}">
+    <div class="card card-{{ theme_color }} card-outline card-outline-tabs">
         <div class="card-header p-0 border-bottom-0">
             <ul class="nav nav-tabs">
                 {% set counter = 1 %}

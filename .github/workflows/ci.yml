@@ -6,7 +6,6 @@ on:
 
 env:
   PHP_VERSION: 8.4
-  PHPUNIT_FLAGS: "--stop-on-defect"
 
 jobs:
   code-quality:
@@ -45,15 +44,15 @@ jobs:
         run: composer install --no-progress
 
       - name: "Run PHPStan"
-        run: vendor/bin/phpstan analyse --error-format=github -vvv
+        run: vendor/bin/phpstan analyse --configuration=./config/phpstan.neon.dist --error-format=github -vvv
 
       - name: "Run PHP-CS-Fixer"
         run: >-
           PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix --diff --dry-run
-          --config=.php-cs-fixer.dist.php
+          --config=./config/php-cs-fixer.php
 
       - name: "Run PHPUnit"
-        run: vendor/bin/phpunit ${{ env.PHPUNIT_FLAGS }}
+        run: vendor/bin/phpunit -c config/phpunit.xml.dist --stop-on-defect
 
       - name: "Save cache results"
         uses: actions/cache/save@v4

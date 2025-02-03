@@ -28,7 +28,7 @@
     {% if attribute(section.object, locale).title is defined %}
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="{{ attribute(urls, section.id) is defined ? attribute(urls, section.id) : '#' }}" id="{{ section.id }}" role="button"
-               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 {{ attribute(section.object, locale).title }}
             </a>
             <ul class="dropdown-menu" aria-labelledby="{{ section.id }}">

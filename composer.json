@@ -203,11 +203,12 @@
         "symfony/polyfill-php84": "*"
     },
     "scripts": {
-        "rector": "rector",
-        "monorepo-validate": "monorepo-builder validate",
-        "phpcs": "PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix",
-        "phpstan": "phpstan analyse --memory-limit 1G",
-        "phpunit": "phpunit --display-deprecations",
+        "rector": "rector --config=./config/rector.php",
+        "monorepo-validate": "monorepo-builder --config=./config/monorepo-builder.php validate",
+        "phpcs": "PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer --config=./config/php-cs-fixer.php fix",
+        "phpstan": "phpstan --configuration=./config/phpstan.neon.dist --memory-limit=1G analyse",
+        "phpstan-baseline": "phpstan --configuration=./config/phpstan.neon.dist --memory-limit=1G --generate-baseline=./config/phpstan-baseline.neon analyse",
+        "phpunit": "phpunit -c config/phpunit.xml.dist --display-deprecations",
         "phpunit-admin": "phpunit -c elasticms-admin/phpunit.xml.dist --display-deprecations",
         "phpunit-cli": "phpunit -c elasticms-cli/phpunit.xml.dist --display-deprecations",
         "phpunit-web": "phpunit -c elasticms-web/phpunit.xml.dist --display-deprecations",

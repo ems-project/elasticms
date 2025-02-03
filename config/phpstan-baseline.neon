@@ -7,49 +7,49 @@ parameters:
 			'''
 			identifier: method.deprecated
 			count: 1
-			path: EMS/common-bundle/src/Controller/FileController.php
+			path: ../EMS/common-bundle/src/Controller/FileController.php
 
 		-
 			message: '#^Call to deprecated method extractData\(\) of class EMS\\CoreBundle\\Service\\AssetExtractorService\.$#'
 			identifier: method.deprecated
 			count: 1
-			path: EMS/core-bundle/src/Command/ExtractAssetCommand.php
+			path: ../EMS/core-bundle/src/Command/ExtractAssetCommand.php
 
 		-
 			message: '#^Call to deprecated method extractData\(\) of class EMS\\CoreBundle\\Service\\AssetExtractorService\.$#'
 			identifier: method.deprecated
 			count: 1
-			path: EMS/core-bundle/src/Command/IndexFileCommand.php
+			path: ../EMS/core-bundle/src/Command/IndexFileCommand.php
 
 		-
 			message: '#^Call to deprecated method extractData\(\) of class EMS\\CoreBundle\\Service\\AssetExtractorService\.$#'
 			identifier: method.deprecated
 			count: 1
-			path: EMS/core-bundle/src/Controller/Api/File/ExtractDataController.php
+			path: ../EMS/core-bundle/src/Controller/Api/File/ExtractDataController.php
 
 		-
 			message: '#^Call to deprecated method isValidName\(\) of class EMS\\CoreBundle\\Controller\\ContentManagement\\ContentTypeController\.$#'
 			identifier: staticMethod.deprecated
 			count: 2
-			path: EMS/core-bundle/src/Controller/ContentManagement/ContentTypeController.php
+			path: ../EMS/core-bundle/src/Controller/ContentManagement/ContentTypeController.php
 
 		-
 			message: '#^Call to deprecated method generateSearchBody\(\) of class EMS\\CoreBundle\\Service\\SearchService\.$#'
 			identifier: method.deprecated
 			count: 2
-			path: EMS/core-bundle/src/Controller/ElasticsearchController.php
+			path: ../EMS/core-bundle/src/Controller/ElasticsearchController.php
 
 		-
 			message: '#^Call to deprecated method deprecatedSearchApi\(\) of class EMS\\CoreBundle\\Controller\\ElasticsearchController\.$#'
 			identifier: method.deprecated
 			count: 1
-			path: EMS/core-bundle/src/Controller/Search/QuerySearchController.php
+			path: ../EMS/core-bundle/src/Controller/Search/QuerySearchController.php
 
 		-
 			message: '#^Call to deprecated method generateSearchBody\(\) of class EMS\\CoreBundle\\Service\\SearchService\.$#'
 			identifier: method.deprecated
 			count: 1
-			path: EMS/core-bundle/src/Controller/Views/CalendarController.php
+			path: ../EMS/core-bundle/src/Controller/Views/CalendarController.php
 
 		-
 			message: '''
@@ -58,13 +58,13 @@ parameters:
 			'''
 			identifier: method.deprecated
 			count: 2
-			path: EMS/core-bundle/src/Controller/Views/CriteriaController.php
+			path: ../EMS/core-bundle/src/Controller/Views/CriteriaController.php
 
 		-
 			message: '#^Call to deprecated method updateDataStructure\(\) of class EMS\\CoreBundle\\Entity\\DataField\.$#'
 			identifier: method.deprecated
 			count: 1
-			path: EMS/core-bundle/src/Entity/DataField.php
+			path: ../EMS/core-bundle/src/Entity/DataField.php
 
 		-
 			message: '''
@@ -73,13 +73,13 @@ parameters:
 			'''
 			identifier: method.deprecated
 			count: 2
-			path: EMS/core-bundle/src/Entity/Form/CriteriaUpdateConfig.php
+			path: ../EMS/core-bundle/src/Entity/Form/CriteriaUpdateConfig.php
 
 		-
 			message: '#^Call to deprecated method updateDataValue\(\) of class EMS\\CoreBundle\\Entity\\DataField\.$#'
 			identifier: method.deprecated
 			count: 1
-			path: EMS/core-bundle/src/Form/DataField/NestedFieldType.php
+			path: ../EMS/core-bundle/src/Form/DataField/NestedFieldType.php
 
 		-
 			message: '''
@@ -88,7 +88,7 @@ parameters:
 			'''
 			identifier: method.deprecated
 			count: 1
-			path: EMS/core-bundle/src/Form/Nature/ReorganizeType.php
+			path: ../EMS/core-bundle/src/Form/Nature/ReorganizeType.php
 
 		-
 			message: '''
@@ -97,7 +97,7 @@ parameters:
 			'''
 			identifier: method.deprecated
 			count: 3
-			path: EMS/core-bundle/src/Form/View/Criteria/CriteriaFilterType.php
+			path: ../EMS/core-bundle/src/Form/View/Criteria/CriteriaFilterType.php
 
 		-
 			message: '''
@@ -106,7 +106,7 @@ parameters:
 			'''
 			identifier: method.deprecated
 			count: 1
-			path: EMS/core-bundle/src/Service/DataService.php
+			path: ../EMS/core-bundle/src/Service/DataService.php
 
 		-
 			message: '''
@@ -115,4 +115,4 @@ parameters:
 			'''
 			identifier: method.deprecated
 			count: 1
-			path: EMS/core-bundle/src/Twig/AppExtension.php
+			path: ../EMS/core-bundle/src/Twig/AppExtension.php

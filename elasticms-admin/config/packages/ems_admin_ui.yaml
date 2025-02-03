@@ -1,6 +1,0 @@
-parameters:
-    env(EMSUI_DEV_SERVER_URL): ~
-
-when@dev:
-    ems_admin_ui:
-        dev_server_url: '%env(resolve:EMSUI_DEV_SERVER_URL)%'

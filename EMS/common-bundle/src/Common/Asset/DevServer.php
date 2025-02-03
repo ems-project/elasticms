@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EMS\AdminUIBundle\Helper\Asset;
+namespace EMS\CommonBundle\Common\Asset;
 
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 

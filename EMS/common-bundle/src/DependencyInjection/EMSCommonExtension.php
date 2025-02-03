@@ -7,9 +7,10 @@ namespace EMS\CommonBundle\DependencyInjection;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 
-class EMSCommonExtension extends Extension
+class EMSCommonExtension extends Extension implements PrependExtensionInterface
 {
     #[\Override]
     public function load(array $configs, ContainerBuilder $container): void
@@ -43,6 +44,7 @@ class EMSCommonExtension extends Extension
         $container->setParameter('ems_common.excluded_content_types', $config['excluded_content_types']);
         $container->setParameter('ems_common.slug_symbol_map', $config['slug_symbol_map']);
         $container->setParameter('ems_common.request.trusted_ips', $config['request']['trusted_ips']);
+        $container->setParameter('ems_common.dev_server_url', $config['dev_server_url']);
 
         $container->setParameter('ems_common.cache_config', $config['cache']);
 
@@ -57,6 +59,19 @@ class EMSCommonExtension extends Extension
             $container->setParameter('ems.metric.host', $config['metric']['host'] ?? null);
             $container->setParameter('ems.metric.port', $config['metric']['port'] ?? null);
             $loader->load('metric.xml');
+        }
+    }
+
+    #[\Override]
+    public function prepend(ContainerBuilder $container): void
+    {
+        $bundles = $container->getParameter('kernel.bundles');
+        if (\is_array($bundles) && isset($bundles['TwigBundle'])) {
+            $container->prependExtensionConfig('twig', [
+                'globals' => [
+                    'devServer' => '@ems.asset.dev_server',
+                ],
+            ]);
         }
     }
 }

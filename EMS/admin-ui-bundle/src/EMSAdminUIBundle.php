@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\AdminUIBundle;
 
-use EMS\AdminUIBundle\DependencyInjection\EMSAdminUIExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
 
 class EMSAdminUIBundle extends AbstractBundle
@@ -17,9 +16,10 @@ class EMSAdminUIBundle extends AbstractBundle
         parent::build($container);
     }
 
+    /** @param array<string, mixed> $config */
     #[\Override]
-    public function getContainerExtension(): ExtensionInterface
+    public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
     {
-        return new EMSAdminUIExtension();
+        $container->import(__DIR__.'/../config/services.xml');
     }
 }

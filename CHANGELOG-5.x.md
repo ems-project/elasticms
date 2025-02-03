@@ -1,5 +1,21 @@
 # Changelog 5.x
 
+## 5.25.2 (2025-02-03)
+### Features
+* feat(docker): Add a NPM_EXTRA_CMD to customize the npm config by @theus77 in https://github.com/ems-project/elasticms/pull/1175
+### Bug Fixes
+* fix(admin/field): add help text support for VersionTagFieldType by @theus77 in https://github.com/ems-project/elasticms/pull/1170
+* fix(admin/submission): export command use ems property accessor  by @theus77 in https://github.com/ems-project/elasticms/pull/1142
+* fix(admin/twig): escape label in data links by @theus77 in https://github.com/ems-project/elasticms/pull/1132
+* fix(common/twig): add ems_asset_head(s) and implement for wysiwyg field by @theus77 in https://github.com/ems-project/elasticms/pull/1171
+* fix(core/twig): html escape special chars in display label by @Davidmattei in https://github.com/ems-project/elasticms/pull/1124
+* fix(file-structure::push): avoid silent error when it's not possible to update the .hash file by @theus77 in https://github.com/ems-project/elasticms/pull/1146
+* fix(twig): deprecate ems function and filters with deprecation_info by @Davidmattei in https://github.com/ems-project/elasticms/pull/1125
+* fix(web): error templates based on request format (json, xml, html, ...) by @theus77 in https://github.com/ems-project/elasticms/pull/1152
+* fix(web): performance issue with getHierarchy function by @theus77 in https://github.com/ems-project/elasticms/pull/1155
+### Chores
+* chore: add POSTGRES_VERSION environment variable for dev docker by @theus77 in https://github.com/ems-project/elasticms/pull/1148
+
 ## 5.25.1 (2025-01-09)
 ### Bug Fixes
 * fix(common/job): escape jobs command by @Davidmattei in https://github.com/ems-project/elasticms/pull/1121
@@ -21,6 +37,13 @@
 * fix(web/twig): ems_template_exists use template builder by @theus77 in https://github.com/ems-project/elasticms/pull/1062
 ### Code Refactoring
 * refactor(common): add ems:submissions:forward from core by @theus77 in https://github.com/ems-project/elasticms/pull/1106
+
+## 5.24.5 (2025-02-03)
+### Bug Fixes
+* fix(admin/twig): escape label in data links by @theus77 in https://github.com/ems-project/elasticms/pull/1132
+* fix(core/twig): html escape special chars in display label by @Davidmattei in https://github.com/ems-project/elasticms/pull/1124
+* fix(twig): deprecate ems function and filters with deprecation_info by @Davidmattei in https://github.com/ems-project/elasticms/pull/1125
+* fix(web): performance issue with getHierarchy function by @theus77 in https://github.com/ems-project/elasticms/pull/1155
 
 ## 5.24.4 (2025-01-09)
 ### Bug Fixes
@@ -75,6 +98,12 @@
 * fix(cli/file-structure): improve push command (save_hash_file, chunk size) by @theus77 in https://github.com/ems-project/elasticms/pull/1076
 ### Code Refactoring
 * refactor(web): routing and templating match the content type name by @theus77 in https://github.com/ems-project/elasticms/pull/1073
+
+## 5.23.7 (2025-02-03)
+### Bug Fixes
+* fix(admin/twig): escape label in data links by @theus77 in https://github.com/ems-project/elasticms/pull/1132
+* fix(core/twig): html escape special chars in display label by @Davidmattei in https://github.com/ems-project/elasticms/pull/1124
+* fix(web): performance issue with getHierarchy function by @theus77 in https://github.com/ems-project/elasticms/pull/1155
 
 ## 5.23.6 (2025-01-09)
 ### Bug Fixes

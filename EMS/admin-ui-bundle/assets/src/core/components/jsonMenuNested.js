@@ -84,7 +84,6 @@ export default class JsonMenuNested {
   }
 
   constructor(target) {
-    const self = this
     this.target = target
 
     this._parseAttributes()

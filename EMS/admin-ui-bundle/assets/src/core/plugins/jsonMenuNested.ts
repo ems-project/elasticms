@@ -8,7 +8,7 @@ class JsonMenuNested {
       window.jsonMenuNestedComponents = {}
     }
 
-    ;[].forEach.call(elements, function (element) {
+    [].forEach.call(elements, function (element) {
       const component = new JsonMenuNestedComponent(element)
       if (component.id in window.jsonMenuNestedComponents) {
         throw new Error(`duplicate id : ${component.id}`)

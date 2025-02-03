@@ -5,15 +5,15 @@
     <a class="skip-to-content" href="#content">{{ 'aria.skip-to-content'|trans }}</a>
     <header>
         <div class="container-fluid container-xl">
-            <nav class="navbar navbar-expand-xl navbar-light" data-active-message="{{ 'aria.navbar.active-item'|trans }}">
+            <nav class="navbar navbar-expand-xl navbar-light d-flex justify-content-between" data-active-message="{{ 'aria.navbar.active-item'|trans }}">
                 <a class="navbar-brand" href="{{ path("emsch_path.#{app.request.locale}") }}" id="logo">
                     <img src="{{ asset("img/logos/full-logo.svg", 'emsch') }}" width="181" height="46" alt="{{ 'site.name'|trans }}">
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-target="#navbarSupportedContent"
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ 'aria.toggle-navbar'|trans }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="collapse navbar-collapse flex-grow-0" id="navbarSupportedContent">
                     <ul class="navbar-nav ml-auto align-items-xl-center">
                     {{ render_esi(controller('emsch.controller.embed::fragment', {
                         template: '@EMSCH/template/fragments/navbar.html.twig',

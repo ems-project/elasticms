@@ -3,36 +3,7 @@ import inject from '@rollup/plugin-inject'
 import liveReload from 'vite-plugin-live-reload'
 
 export default defineConfig({
-  server: {
-    host: '0.0.0.0',
-    origin: 'http://localhost:5173',
-    port: 5173,
-    strictPort: true,
-    hmr: true,
-    watch: {
-      usePolling: true,
-    }
-  },
   base: './',
-  plugins: [
-    liveReload('../templates/**/*.twig'),
-    liveReload('../../core-bundle/templates/**/*.twig'),
-    inject({
-      jQuery: 'jquery',
-      $: 'jquery',
-      exclude: ['**/*.scss', '**/*.css']
-    })
-  ],
-  resolve: {
-    extensions: ['.js', '.ts']
-  },
-  css: {
-    preprocessorOptions: {
-      scss: {
-        api: 'modern-compiler',
-      }
-    }
-  },
   build: {
     manifest: true,
     outDir: '../public',
@@ -51,6 +22,35 @@ export default defineConfig({
         i18n: 'src/i18n.js',
         'managed-alias': 'src/managed-alias.js'
       }
+    }
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern-compiler',
+      }
+    }
+  },
+  plugins: [
+    liveReload('../templates/**/*.twig'),
+    liveReload('../../core-bundle/templates/**/*.twig'),
+    inject({
+      jQuery: 'jquery',
+      $: 'jquery',
+      exclude: ['**/*.scss', '**/*.css']
+    })
+  ],
+  resolve: {
+    extensions: ['.js', '.ts']
+  },
+  server: {
+    host: '0.0.0.0',
+    origin: 'http://localhost:5173',
+    port: 5173,
+    strictPort: true,
+    hmr: true,
+    watch: {
+      usePolling: true,
     }
   }
 })

@@ -25,7 +25,7 @@ class Archive implements \JsonSerializable
     {
         $archive = new self($hashAlgo);
         $finder = new Finder();
-        $finder->files()->in($directory);
+        $finder->files()->in($directory)->ignoreDotFiles(false);
 
         if (!$finder->hasResults()) {
             throw new \RuntimeException('The directory is empty');

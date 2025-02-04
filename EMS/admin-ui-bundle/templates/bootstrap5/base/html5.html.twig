@@ -32,8 +32,8 @@
         {%- if wysiwygInfo is defined and wysiwygInfo|ems_json_decode.editor == constant('EMS\\CoreBundle\\Entity\\WysiwygProfile::CKEDITOR4') -%}
             <script src="{{ asset('ckeditor4.js', 'emscore') }}"></script>
         {%- endif -%}
-        {%- if devServer.isRunning -%}
-            <script type="module" src="{{- devServer.getPath('@vite/client') -}}"></script>
+        {%- if viteService.isDevServerRunning -%}
+            <script type="module" src="{{- viteService.path('@vite/client') -}}"></script>
         {%- endif -%}
         <script src="{{ asset('src/app.js', 'emsadminui') }}" type="module"></script>
         {% block javascripts %}{% endblock %}

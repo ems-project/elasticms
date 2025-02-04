@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace EMS\ClientHelperBundle\Helper\Asset;
 
 use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequestManager;
-use EMS\CommonBundle\Common\Vite\ViteManifest;
+use EMS\CommonBundle\Common\Asset\ViteService;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\CommonBundle\Twig\AssetRuntime;
@@ -23,6 +23,7 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
         private readonly StorageManager $storageManager,
         private readonly ClientRequestManager $manager,
         private readonly AssetRuntime $commonAssetRuntime,
+        private readonly ViteService $viteService,
         string $projectDir,
         private readonly ?string $localFolder
     ) {
@@ -103,12 +104,15 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
 
     public function applyVersion(string $path): string
     {
-        $assetFolder = $this->getAssetFolder();
+        $basePath = $this->getBasePath();
 
-        $viteManifest = ViteManifest::fromDirectory($this->publicDir.\DIRECTORY_SEPARATOR.$assetFolder);
-        $path = $viteManifest?->matchPath($path) ?? $path;
+        if (empty($this->localFolder) && null === $this->versionSaveDir) {
+            $this->viteService->loadManifestFromEmsArchive($this->getVersionHash());
+        } else {
+            $this->viteService->loadManifestFromDirectory($basePath);
+        }
 
-        return $assetFolder.\DIRECTORY_SEPARATOR.$path;
+        return $basePath.\DIRECTORY_SEPARATOR.$this->viteService->path($path);
     }
 
     public function getVersionHash(): string
@@ -129,7 +133,7 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
         return $this->versionSaveDir;
     }
 
-    private function getAssetFolder(): string
+    private function getBasePath(): string
     {
         return match (true) {
             !empty($this->localFolder) => $this->localFolder,

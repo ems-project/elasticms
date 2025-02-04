@@ -1,4 +1,3 @@
-import $ from "jquery";
 import {observeDom} from './observeDom';
 
 export default function dynForms(formId) {

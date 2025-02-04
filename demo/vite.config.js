@@ -38,7 +38,10 @@ export default defineConfig({
         })
     ],
     resolve: {
-        extensions: ['.js']
+        extensions: ['.js'],
+        alias: {
+            '@public': ''
+        },
     },
     css: {
         preprocessorOptions: {

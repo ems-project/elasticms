@@ -25,7 +25,7 @@
       align-items: center;
       padding-top: math.div($jumbotron-padding, 2) + $header-height;
       background-color: $jumbotron-bg-hp;
-      background-image: url('/img/banners/banner-home.jpg');
+      background-image: url('@public/img/banners/banner-home.jpg');
       background-repeat: no-repeat;
       background-position: right 40%;
       min-height: 300px;

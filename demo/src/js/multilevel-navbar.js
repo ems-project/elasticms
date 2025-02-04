@@ -1,5 +1,3 @@
-import $ from "jquery";
-
 export default function multilevelNavbar() {
     $('.dropdown-menu a.dropdown-toggle').on('click', function(e) {
         if (!$(this).next().hasClass('show')) {

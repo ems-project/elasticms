@@ -1,7 +1,3 @@
-'use strict';
-window.$ = $;
-window.jQuery = $;
-
 import './css/styles.scss';
 import 'bootstrap';
 

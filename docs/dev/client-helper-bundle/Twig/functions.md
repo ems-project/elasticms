@@ -61,7 +61,7 @@ E.g. it can be used to generate favicons.
 
 The route will look like any redirect route:
 
-```json
+```yaml
 favicon.ico:
     config:
         path: favicon.ico

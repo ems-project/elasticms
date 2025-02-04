@@ -88,7 +88,7 @@ class ViteService
     private function pingDevServer(): bool
     {
         try {
-            $url = $this->devServerUrl . '/@vite/client';
+            $url = $this->devServerUrl.'/@vite/client';
 
             $response = $this->httpClient->request('GET', $url, ['timeout' => 2]);
             $statusCode = $response->getStatusCode();

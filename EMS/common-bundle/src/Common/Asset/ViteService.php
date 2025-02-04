@@ -81,12 +81,15 @@ class ViteService
         return $this->devServerRunning ??= $this->pingDevServer();
     }
 
+    public function devServerClient(): string
+    {
+        return $this->devServerUrl.'/@vite/client';
+    }
+
     private function pingDevServer(): bool
     {
         try {
-            $url = $this->devServerUrl.'/@vite/client';
-
-            $response = $this->httpClient->request('GET', $url, ['timeout' => 2]);
+            $response = $this->httpClient->request('GET', $this->devServerClient(), ['timeout' => 2]);
             $statusCode = $response->getStatusCode();
 
             return 200 === $statusCode || 404 === $statusCode;

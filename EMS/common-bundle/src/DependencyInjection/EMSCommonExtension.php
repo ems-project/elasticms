@@ -69,7 +69,7 @@ class EMSCommonExtension extends Extension implements PrependExtensionInterface
         if (\is_array($bundles) && isset($bundles['TwigBundle'])) {
             $container->prependExtensionConfig('twig', [
                 'globals' => [
-                    'viteService' => '@ems.vite',
+                    'vite' => '@ems.vite',
                 ],
             ]);
         }

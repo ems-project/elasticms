@@ -41,8 +41,8 @@
         {% block body %}{% endblock %}
 
         {% block javascript -%}
-            {%- if viteService.isDevServerRunning -%}
-                <script type="module" src="{{- viteService.devPath('@vite/client') -}}"></script>
+            {%- if vite.isDevServerRunning -%}
+                <script type="module" src="{{- vite.devServerClient -}}"></script>
             {%- endif -%}
             <script type="application/javascript" src="{{ asset('form.js', 'emsform') }}"></script>
             <script type="module" src="{{ asset('src/index.js', 'emsch') }}"></script>

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace EMS\CommonBundle\Common\Asset;
+namespace EMS\CommonBundle\Common\Vite;
 
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class DevServer
+class ViteDevServer
 {
     private ?bool $running = null;
 

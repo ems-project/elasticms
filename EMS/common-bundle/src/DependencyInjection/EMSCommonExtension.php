@@ -44,7 +44,7 @@ class EMSCommonExtension extends Extension implements PrependExtensionInterface
         $container->setParameter('ems_common.excluded_content_types', $config['excluded_content_types']);
         $container->setParameter('ems_common.slug_symbol_map', $config['slug_symbol_map']);
         $container->setParameter('ems_common.request.trusted_ips', $config['request']['trusted_ips']);
-        $container->setParameter('ems_common.dev_server_url', $config['dev_server_url']);
+        $container->setParameter('ems_common.vite_dev_server', $config['vite_dev_server']);
 
         $container->setParameter('ems_common.cache_config', $config['cache']);
 
@@ -69,7 +69,7 @@ class EMSCommonExtension extends Extension implements PrependExtensionInterface
         if (\is_array($bundles) && isset($bundles['TwigBundle'])) {
             $container->prependExtensionConfig('twig', [
                 'globals' => [
-                    'devServer' => '@ems.asset.dev_server',
+                    'devServer' => '@ems.asset.vite_dev_server',
                 ],
             ]);
         }

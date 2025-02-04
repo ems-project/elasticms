@@ -38,7 +38,7 @@ parameters:
     env(EMS_EXCLUDED_CONTENT_TYPES): '[]'
     env(EMS_SLUG_SYMBOL_MAP): ~
     env(EMS_TRUSTED_IPS): '[]'
-    env(EMS_DEV_SERVER_URL): ~
+    env(EMS_VITE_DEV_SERVER): ~
 
 ems_common:
     hash_algo: '%env(string:EMS_HASH_ALGO)%'
@@ -74,4 +74,4 @@ ems_common:
 when@dev:
     ems_common:
         profiler: true
-        dev_server_url: '%env(resolve:EMS_DEV_SERVER_URL)%'
+        vite_dev_server: '%env(resolve:EMS_VITE_DEV_SERVER)%'

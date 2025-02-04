@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\ClientHelperBundle\Helper\Asset;
 
 use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequestManager;
+use EMS\CommonBundle\Common\Vite\ViteManifest;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\CommonBundle\Twig\AssetRuntime;
@@ -18,8 +19,13 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
     private ?string $versionHash = null;
     private ?string $versionSaveDir = null;
 
-    public function __construct(private readonly StorageManager $storageManager, private readonly ClientRequestManager $manager, private readonly AssetRuntime $commonAssetRuntime, string $projectDir, private readonly ?string $localFolder)
-    {
+    public function __construct(
+        private readonly StorageManager $storageManager,
+        private readonly ClientRequestManager $manager,
+        private readonly AssetRuntime $commonAssetRuntime,
+        string $projectDir,
+        private readonly ?string $localFolder
+    ) {
         $this->publicDir = $projectDir.'/public';
 
         $this->filesystem = new Filesystem();
@@ -34,6 +40,7 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
         if (null === $saveDir) {
             return null;
         }
+
         \trigger_error('Specify a save directory and retrieving a path to the assets are deprecated, use emsch_assets_version with a null saveDir parameter', E_USER_DEPRECATED);
         $this->versionSaveDir = $saveDir;
         if (!empty($this->localFolder)) {
@@ -96,14 +103,12 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
 
     public function applyVersion(string $path): string
     {
-        if (!empty($this->localFolder)) {
-            return \sprintf('%s/%s', $this->localFolder, $path);
-        }
-        if (null === $this->versionSaveDir) {
-            return \sprintf('bundles/%s/%s', $this->getVersionHash(), $path);
-        }
+        $assetFolder = $this->getAssetFolder();
 
-        return \sprintf('%s/%s/%s', $this->getVersionSaveDir(), $this->getVersionHash(), $path);
+        $viteManifest = ViteManifest::fromDirectory($this->publicDir.\DIRECTORY_SEPARATOR.$assetFolder);
+        $path = $viteManifest?->matchPath($path) ?? $path;
+
+        return $assetFolder.\DIRECTORY_SEPARATOR.$path;
     }
 
     public function getVersionHash(): string
@@ -122,5 +127,14 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
         }
 
         return $this->versionSaveDir;
+    }
+
+    private function getAssetFolder(): string
+    {
+        return match (true) {
+            !empty($this->localFolder) => $this->localFolder,
+            null === $this->versionSaveDir => \sprintf('bundles/%s', $this->getVersionHash()),
+            default => \sprintf('%s/%s', $this->getVersionSaveDir(), $this->getVersionHash())
+        };
     }
 }

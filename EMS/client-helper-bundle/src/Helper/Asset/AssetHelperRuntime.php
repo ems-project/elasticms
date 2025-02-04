@@ -6,6 +6,7 @@ namespace EMS\ClientHelperBundle\Helper\Asset;
 
 use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequestManager;
 use EMS\CommonBundle\Common\Asset\ViteService;
+use EMS\CommonBundle\Controller\FileController;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\CommonBundle\Twig\AssetRuntime;
@@ -88,11 +89,7 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
      */
     public function asset(string $path, array $assetConfig = []): string
     {
-        if (empty($this->localFolder)) {
-            $filename = \sprintf('%s:%s', $this->getVersionHash(), $path);
-        } else {
-            $filename = $this->publicDir.DIRECTORY_SEPARATOR.$this->localFolder.DIRECTORY_SEPARATOR.$path;
-        }
+        $filename = $this->getAssetFilename($path);
         $basename = \basename($path);
 
         return $this->commonAssetRuntime->assetPath([
@@ -100,6 +97,29 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
         ], \array_merge([
             EmsFields::ASSET_CONFIG_FILE_NAMES => [$filename],
         ], $assetConfig));
+    }
+
+    /**
+     * @param array<string, mixed> $assetConfig
+     *
+     * @return array{controller: string, path: array{hash_config: string, hash: string, filename: string }}
+     */
+    public function assetRedirect(string $path, array $assetConfig = []): array
+    {
+        $filename = $this->getAssetFilename($path);
+        $basename = \basename($path);
+        $hashConfig = $this->storageManager->saveConfig(\array_merge([
+            EmsFields::ASSET_CONFIG_FILE_NAMES => [$filename],
+        ], $assetConfig));
+
+        return [
+            'controller' => \sprintf('%s::asset', FileController::class),
+            'path' => [
+                'hash_config' => $hashConfig,
+                'hash' => 'processor',
+                'filename' => $basename,
+            ],
+        ];
     }
 
     public function applyVersion(string $path): string
@@ -142,5 +162,16 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
             null === $this->versionSaveDir => \sprintf('bundles/%s', $this->getVersionHash()),
             default => \sprintf('%s/%s', $this->getVersionSaveDir(), $this->getVersionHash())
         };
+    }
+
+    private function getAssetFilename(string $path): string
+    {
+        if (empty($this->localFolder)) {
+            $filename = \sprintf('%s:%s', $this->getVersionHash(), $path);
+        } else {
+            $filename = $this->publicDir.DIRECTORY_SEPARATOR.$this->localFolder.DIRECTORY_SEPARATOR.$path;
+        }
+
+        return $filename;
     }
 }

@@ -69,11 +69,7 @@ class ViteService
             return $this->manifest[$matches['path']]['css'][$matches['index'] ?? 0];
         }
 
-        if (isset($this->manifest[$path]['file'])) {
-            return $this->manifest[$path]['file'];
-        }
-
-        return $path;
+        return $this->manifest[$path]['file'] ?? $path;
     }
 
     public function isDevServerRunning(): bool

@@ -8,12 +8,12 @@ use EMS\CommonBundle\Common\Asset\ViteService;
 use Symfony\Component\Asset\VersionStrategy\VersionStrategyInterface;
 use Symfony\Component\HttpKernel\Config\FileLocator;
 
-final class AssetVersionStrategy implements VersionStrategyInterface
+final readonly class AssetVersionStrategy implements VersionStrategyInterface
 {
     public function __construct(
-        private readonly FileLocator $fileLocator,
-        private readonly ViteService $viteService,
-        private readonly string $basePath = 'bundles/emsadminui/',
+        private FileLocator $fileLocator,
+        private ViteService $viteService,
+        private string $basePath = 'bundles/emsadminui/',
     ) {
     }
 

@@ -96,7 +96,11 @@ class AssetRuntime
         }
 
         if (!($config[EmsFields::ASSET_CONFIG_GET_FILE_PATH] ?? false)) {
-            $basename = (new Encoder())->slug(\basename($filename));
+            $extension = \pathinfo($filename, PATHINFO_EXTENSION);
+            $basename = (new Encoder())->slug(\basename($filename, '.'.$extension));
+            if (\strlen($extension) > 0) {
+                $basename .= '.'.$extension;
+            }
 
             return $this->urlGenerator->generate($route, [
                 'hash_config' => $hashConfig,

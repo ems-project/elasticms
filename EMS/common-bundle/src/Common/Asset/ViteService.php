@@ -14,6 +14,7 @@ class ViteService
 {
     /** @var array<string, array{file: string, name: string, css: ?string[]}> */
     private array $manifest = [];
+    private bool $manifestLoaded = false;
     private ?bool $devServerRunning = null;
 
     public const FILE = '.vite/manifest.json';
@@ -27,26 +28,28 @@ class ViteService
 
     public function loadManifestFromDirectory(string $directory): void
     {
-        $path = $directory.DIRECTORY_SEPARATOR.self::FILE;
-
-        if (!$this->hasManifest() && \file_exists($path)) {
-            $this->manifest = Json::decode(File::fromFilename($path)->getContents());
+        if ($this->manifestLoaded) {
+            return;
         }
+
+        $path = $directory.DIRECTORY_SEPARATOR.self::FILE;
+        $this->manifest = \file_exists($path) ? Json::decode(File::fromFilename($path)->getContents()) : [];
+        $this->manifestLoaded = true;
     }
 
     public function loadManifestFromEmsArchive(string $hash): void
     {
-        if ($this->hasManifest()) {
+        if ($this->manifestLoaded) {
             return;
         }
 
-        $jsonManifest = $this->storageManager->getStreamFromArchive($hash, self::FILE)->getStream()->getContents();
-        $this->manifest = Json::decode($jsonManifest);
-    }
+        try {
+            $jsonManifest = $this->storageManager->getStreamFromArchive($hash, self::FILE)->getStream()->getContents();
+            $this->manifest = Json::decode($jsonManifest);
+        } catch (\Throwable) {
+        }
 
-    public function hasManifest(): bool
-    {
-        return \count($this->manifest) > 0;
+        $this->manifestLoaded = true;
     }
 
     public function devPath(string $path): ?string
@@ -60,7 +63,7 @@ class ViteService
 
     public function path(string $path): string
     {
-        if (!$this->hasManifest()) {
+        if (0 === \count($this->manifest)) {
             return $path;
         }
 

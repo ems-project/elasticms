@@ -27,7 +27,6 @@
         <meta name="theme-color" content="#ffffff">
         {% if attribute(source, locale).noindex|default(false)  %}<meta name="robots" content="noindex">{% endif %}
         {% block head %}
-{#            <link rel="stylesheet" href="{{ asset('css/index.css', 'emsch') }}">#}
             <link rel="stylesheet" href="{{ asset('src/index.js.css', 'emsch') }}">
         {% endblock %}
     </head>
@@ -42,11 +41,12 @@
         {% block body %}{% endblock %}
 
         {% block javascript -%}
-            {%- if devServer.isRunning -%}<script type="module" src="{{- devServer.getPath('@vite/client') -}}"></script>{%- endif -%}
+            {%- if viteService.isDevServerRunning -%}
+                <script type="module" src="{{- viteService.devPath('@vite/client') -}}"></script>
+            {%- endif -%}
             <script type="application/javascript" src="{{ asset('form.js', 'emsform') }}"></script>
-{#             <script src="{{ asset('js/index.js', 'emsch') }}"></script>#}
-            <script src="{{ asset('src/index.js', 'emsch') }}"></script>
-        {%- endblock %}
+            <script type="module" src="{{ asset('src/index.js', 'emsch') }}"></script>
+    {%- endblock %}
         {% if isProdLive %}
             <script defer data-domain="elasticms.fgov.be" src="https://analytics.onss.be/js/script.js"></script>
         {% endif %}

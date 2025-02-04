@@ -49,14 +49,19 @@ class ViteService
         return \count($this->manifest) > 0;
     }
 
+    public function devPath(string $path): ?string
+    {
+        if (!$this->isDevServerRunning() || \str_ends_with($path, '.css')) {
+            return null;
+        }
+
+        return \sprintf('%s/%s', \rtrim(Type::string($this->devServerUrl), '/'), \ltrim($path, '/'));
+    }
+
     public function path(string $path): string
     {
         if (!$this->hasManifest()) {
             return $path;
-        }
-
-        if ($this->isDevServerRunning() && !\str_ends_with($path, '.css')) {
-            return \sprintf('%s/%s', \rtrim(Type::string($this->devServerUrl), '/'), \ltrim($path, '/'));
         }
 
         if (\preg_match('/(?<path>.*\.(js|ts|cjs))(\.(?<index>[0-9]+))?\.css$/', $path, $matches) > 0
@@ -83,7 +88,7 @@ class ViteService
     private function pingDevServer(): bool
     {
         try {
-            $url = $this->path('@vite/client');
+            $url = $this->devServerUrl . '/@vite/client';
 
             $response = $this->httpClient->request('GET', $url, ['timeout' => 2]);
             $statusCode = $response->getStatusCode();

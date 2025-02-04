@@ -26,15 +26,12 @@ final class AssetVersionStrategy implements VersionStrategyInterface
     #[\Override]
     public function applyVersion(string $path): string
     {
-        return $this->getManifestPath($path) ?: $path;
-    }
-
-    private function getManifestPath(string $path): string
-    {
         $this->viteService->loadManifestFromDirectory(
             directory: $this->fileLocator->locate('@EMSAdminUIBundle/public')
         );
 
-        return $this->basePath.$this->viteService->path($path);
+        $devPath = $this->viteService->devPath($path);
+
+        return $devPath ?? $this->basePath.$this->viteService->path($path);
     }
 }

@@ -131,7 +131,7 @@ npm run dev
 npm run dev -- --debug # debug mode
 ```
 
-> Make sure you set **EMSUI_DEV_SERVER_URL**='http://localhost:5173'
+> Make sure you set **EMS_VITE_DEV_SERVER**='http://localhost:5173'
 
 ## Identity provider (IDP) (Keycloak)
 

@@ -112,7 +112,9 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
             $this->viteService->loadManifestFromDirectory($basePath);
         }
 
-        return $basePath.\DIRECTORY_SEPARATOR.$this->viteService->path($path);
+        $devPath = $this->viteService->devPath($path);
+
+        return $devPath ?? $basePath.\DIRECTORY_SEPARATOR.$this->viteService->path($path);
     }
 
     public function getVersionHash(): string

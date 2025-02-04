@@ -124,16 +124,6 @@ REDIS_HOST=localhost
 REDIS_PORT=6379
 ```
 
-## Elasticms Admin Bundle variables
-
-### EMSUI_DEV_SERVER_URL
-
-Only use this variable for local development with vite dev server.
-
-```dotenv 
-EMSUI_DEV_SERVER_URL=http://localhost:5173
-```
-
 ## Elasticms Core Bundle variables
  
 ### EMSCO_TIKA_SERVER
@@ -491,6 +481,16 @@ Important the route `/metrics` is not filtered.
 ### EMS_EXCLUDED_CONTENT_TYPES
 
 Define (JSON format) a list of content type names to exclude from admin backup/restore commands. Example: `["route","template","template_ems","label"]`. Default value `[]`
+
+
+### EMS_VITE_DEV_SERVER
+
+Only use this variable for local development with vite dev server.
+
+```dotenv 
+EMS_VITE_DEV_SERVER=http://localhost:5173 #admin ui bundle
+EMS_VITE_DEV_SERVER=http://localhost:5174 #demo vite
+```
 
 ## Elasticms Form Bundle variables
 

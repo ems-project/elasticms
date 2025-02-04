@@ -33,7 +33,7 @@
             <script src="{{ asset('ckeditor4.js', 'emscore') }}"></script>
         {%- endif -%}
         {%- if viteService.isDevServerRunning -%}
-            <script type="module" src="{{- viteService.path('@vite/client') -}}"></script>
+            <script type="module" src="{{- viteService.devPath('@vite/client') -}}"></script>
         {%- endif -%}
         <script src="{{ asset('src/app.js', 'emsadminui') }}" type="module"></script>
         {% block javascripts %}{% endblock %}

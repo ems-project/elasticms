@@ -89,10 +89,18 @@ class Encoder
         return $clean;
     }
 
-    public function slug(string $text, ?string $locale = null, string $separator = '-', bool $lower = true): AbstractUnicodeString
+    public function slug(string $text, ?string $locale = null, string $separator = '-', bool $lower = true, bool $preserveFileExtension = false): AbstractUnicodeString
     {
+        $extension = null;
+        if ($preserveFileExtension) {
+            $extension = \pathinfo($text, PATHINFO_EXTENSION);
+            $text = \strlen($extension) > 0 ? \substr($text, 0, -\strlen($extension)) : $text;
+        }
         $slugger = $this->getSlugger($locale ?? 'en');
         $slug = $slugger->slug($text, $separator, $locale);
+        if (null !== $extension && \strlen($extension) > 0) {
+            $slug = $slug->append('.'.$extension);
+        }
         if ($lower) {
             $slug = $slug->lower();
         }

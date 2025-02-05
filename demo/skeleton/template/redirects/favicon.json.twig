@@ -1,14 +1,11 @@
 {%- extends '@EMSCH/template/variables.twig' -%}
 
 {%- block request -%}
-    {{- {
-        path: emsch_asset('img/head/icon.png', {
+    {{- emsch_asset_redirect('img/head/icon.png', {
             _config_type: 'image',
             _image_format: 'png',
             _width: 48,
             _height: 48,
-            _get_file_path: true,
-        }),
-    }|json_encode|raw -}}
+        })|json_encode|raw -}}
 {%- endblock request -%}
 

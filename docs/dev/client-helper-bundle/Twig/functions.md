@@ -53,3 +53,33 @@ Instead of generating a regular website asset path it will generate a processed 
 
 Useful in order to avoid managing assets in multiple sizes in your source base.
 
+## emsch_asset_redirect
+
+This function is working like [emsch_asset](#emsch_asset) except that it returns a JSON, compatible with the `emsch.controller.router::redirect` method controller, to directly return an asset from a route.
+
+E.g. it can be used to generate favicons.
+
+The route will look like any redirect route:
+
+```yaml
+favicon.ico:
+    config:
+        path: favicon.ico
+        controller: 'emsch.controller.router::redirect'
+    template_static: template/redirects/favicon.json.twig
+```
+
+The `redirects/favicon.json.twig` template:
+
+```twig
+{%- do emsch_assets_version(include('@EMSCH/template/asset_hash.twig')|trim) -%}
+
+{%- block request -%}
+    {{- emsch_asset_redirect('img/head/icon.png', {
+            _config_type: 'image',
+            _image_format: 'png',
+            _width: 48,
+            _height: 48,
+        })|json_encode|raw -}}
+{%- endblock request -%}
+```

@@ -94,13 +94,8 @@ class AssetRuntime
         } catch (NotSavedException $e) {
             $hashConfig = $e->getHash();
         }
-
         if (!($config[EmsFields::ASSET_CONFIG_GET_FILE_PATH] ?? false)) {
-            $extension = \pathinfo($filename, PATHINFO_EXTENSION);
-            $basename = (new Encoder())->slug(\basename($filename, '.'.$extension));
-            if (\strlen($extension) > 0) {
-                $basename .= '.'.$extension;
-            }
+            $basename = (new Encoder())->slug(text: \basename($filename), preserveFileExtension: true);
 
             return $this->urlGenerator->generate($route, [
                 'hash_config' => $hashConfig,

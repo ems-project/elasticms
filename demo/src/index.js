@@ -12,7 +12,6 @@ import multilevelNavbar from "./js/multilevel-navbar";
 import Cookies from 'js-cookie';
 import cookiesBanner from "./js/cookiesBanner";
 import newsFilters from "./js/news-filters";
-import searchRelease from "./js/search-release";
 
 
 const translations = JSON.parse(document.body.getAttribute('data-translations'));
@@ -24,7 +23,6 @@ toc();
 externalLink();
 form();
 multilevelNavbar();
-searchRelease(translations);
 
 const navBar = new NavBar();
 // navBar.activateBestItem();

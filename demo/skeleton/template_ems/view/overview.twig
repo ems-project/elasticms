@@ -27,11 +27,11 @@
         ] %}
     {% elseif contentType.name in ['template', 'template_ems'] %}
         {% set columns = [ { "label": "Name", "template": (block('columnName')),  "orderField": "name"} ] %}
-    {% elseif contentType.name in ['page', 'news', 'user_group', 'feature', 'release'] %}
+    {% elseif contentType.name in ['page', 'news', 'user_group'] %}
         {% set locales = app.request.server.all['EMSCH_LOCALES']|default('[]')|ems_json_decode %}
         {% set userPreferredLocale = app.user.localePreferred[0:2] %}
         {% set userLocale = userPreferredLocale in locales ? userPreferredLocale : 'fr' %}
-        {% set orderField = contentType.name in ['feature', 'release'] ? 'version': "display_label_#{userLocale}.alpha_order" %}
+        {% set orderField = "display_label_#{userLocale}.alpha_order" %}
         {% set columns = columns|merge([{ "label": "Label", "template": (block('columnDisplay')), "orderField": orderField}]) %}
     {% else %}
         {% set columns = columns|merge([{ "label": "EMS label", "template": (block('columnDisplay')), "orderField": "label.alpha_order"}]) %}

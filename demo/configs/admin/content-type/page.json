@@ -904,8 +904,8 @@
                                                                                     "multiple": false,
                                                                                     "expanded": false,
                                                                                     "select2": false,
-                                                                                    "choices": "accessibility_report\r\nreleases\r\nnews",
-                                                                                    "labels": "Accessibility report\r\nReleases\r\nNews",
+                                                                                    "choices": "accessibility_report\r\nnews",
+                                                                                    "labels": "Accessibility report\r\nNews",
                                                                                     "linked_collection": null,
                                                                                     "collection_label_field": null,
                                                                                     "placeholder": null

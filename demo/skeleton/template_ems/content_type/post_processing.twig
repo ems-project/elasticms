@@ -4,24 +4,6 @@
     {% endif %}
 {% endblock news_slug%}
 
-{%- block feature_title -%}
-    {% if finalize and rootObject._sync_metadata['title_#{form.parent.name}'] is defined %}
-        {{ rootObject._sync_metadata['title_#{form.parent.name}']|json_encode|raw }}
-    {% endif %}
-{%- endblock feature_title -%}
-
-{%- block feature_version -%}
-    {% if finalize and rootObject._sync_metadata['release'] is defined %}
-        {{ rootObject._sync_metadata['release']|json_encode|raw }}
-    {% endif %}
-{%- endblock feature_version -%}
-
-{%- block feature_category -%}
-    {% if finalize and rootObject._sync_metadata['category'] is defined %}
-        {{ rootObject._sync_metadata['category']|json_encode|raw }}
-    {% endif %}
-{%- endblock feature_category -%}
-
 {%- block form_instance_field_label -%}
     {{- (_source.name|default(''))|json_encode|raw -}}
 {%- endblock form_instance_field_label -%}

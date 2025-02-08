@@ -456,7 +456,7 @@
                     "name": "reorder",
                     "type": "ems.view.sorter",
                     "label": "Reorder",
-                    "icon": "glyphicon glyphicon-sort-by-order",
+                    "icon": "fa fa-unsorted",
                     "options": {
                         "body": "{}",
                         "size": 100,

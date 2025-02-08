@@ -56,7 +56,7 @@
                     {% set childPage = child.object.page|emsch_get %}
                     <tr>
                         <td>
-                            <div class="new-page">
+                            <div class="new-content">
                                 <h1><a name="anchor_{{ childPage.ouuid }}">
                                         {{ 'annexe'|trans }} {{ index+1 }}: {{ attribute(childPage.source, locale).title|default(childPage.source.label) }}
                                     </a>

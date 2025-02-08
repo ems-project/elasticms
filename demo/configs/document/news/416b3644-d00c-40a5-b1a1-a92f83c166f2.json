@@ -2,6 +2,8 @@
     "categories": [
         "category:FtgOvogBTbVbdHDCwWhs"
     ],
+    "display_label_fr": "Un rapport d\u2019audit simplifi\u00e9 pour le(s) site(s) web de chaque institution de s\u00e9curit\u00e9 sociale / Voor elke instelling van Sociale Zekerheid een rapport van vereenvoudigde audit voor haar eigen website(s)",
+    "display_label_nl": "Voor elke instelling van Sociale Zekerheid een rapport van vereenvoudigde audit voor haar eigen website(s) / Un rapport d\u2019audit simplifi\u00e9 pour le(s) site(s) web de chaque institution de s\u00e9curit\u00e9 sociale",
     "fr": {
         "body": "<p>Pour d&eacute;terminer si un site web est conforme aux normes d&rsquo;accessibilit&eacute;, nous proc&eacute;dons &agrave; <strong>un audit simplifi&eacute;</strong>. Le r&eacute;sultat est alors visible dans le <strong>rapport d&rsquo;audit simplifi&eacute;</strong>.</p>\r\n\r\n<p>Nous g&eacute;rons un ou plusieurs de vos sites web ? N&rsquo;h&eacute;sitez pas &agrave; <strong>demander le rapport de votre (vos) site(s)</strong> via votre webmaster.</p>\r\n\r\n<h2>Infos suppl&eacute;mentaires</h2>\r\n\r\n<p>Les rapports sont disponibles en 4 langues : fran&ccedil;ais, n&eacute;erlandais, anglais et allemand.</p>\r\n\r\n<p>Ils existent en 2 formats :</p>\r\n\r\n<ul>\r\n\t<li>Bootstrap. Cliquez sur le lien bootstrap pour afficher le rapport en texte lisible.</li>\r\n\t<li>JSON. Cliquez sur le lien json pour afficher le rapport en &lsquo;JavaScript Object Notation&rsquo;.</li>\r\n</ul>",
         "description": "<p>Toute institution de s&eacute;curit&eacute; sociale peut demander un rapport d&rsquo;audit simplifi&eacute; pour son (ses) propre(s) site(s).</p>",

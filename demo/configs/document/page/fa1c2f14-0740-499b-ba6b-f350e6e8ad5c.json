@@ -1,10 +1,13 @@
 {
+    "display_label_fr": "Conditions de r\u00e9utilisation / Voorwaarden voor het hergebruik",
+    "display_label_nl": "Voorwaarden voor het hergebruik / Conditions de r\u00e9utilisation",
     "fr": {
         "body": "<ul>\r\n\t<li>Les informations publi&eacute;es sur ce site internet sont libres de droits, sauf mention contraire. Elles peuvent &ecirc;tre r&eacute;utilis&eacute;es sans condition &agrave; des fins priv&eacute;es, associatives, scientifiques et commerciales. Toutefois, les autorit&eacute;s f&eacute;d&eacute;rales recommandent de mentionner la source et la date des informations r&eacute;utilis&eacute;es.</li>\r\n\t<li>Lorsqu&rsquo;une autorisation pr&eacute;alable est requise ou lorsque des conditions sp&eacute;cifiques sont n&eacute;cessaires, les limites de la r&eacute;utilisation sont explicitement mentionn&eacute;es. La r&eacute;utilisation du mat&eacute;riel multim&eacute;dia (photos, images, sons, vid&eacute;os&hellip;), y compris celui se trouvant dans les documents t&eacute;l&eacute;chargeables (brochures&hellip;), est toujours soumise &agrave; une approbation pr&eacute;alable.</li>\r\n\t<li>Les autorit&eacute;s f&eacute;d&eacute;rales mettent tout en &oelig;uvre pour que ce site soit exact et &agrave; jour. Toutefois, si une erreur est constat&eacute;e, elles s&rsquo;engagent &agrave; faire les corrections n&eacute;cessaires dans les meilleurs d&eacute;lais.</li>\r\n</ul>\r\n\r\n<p>Pour plus d&rsquo;information sur l&rsquo;acc&egrave;s et la r&eacute;utilisation des informations du secteur public, consultez le site&nbsp;<a href=\"https://data.gov.be/fr/aspects-legaux\" target=\"_blank\">Data.gov.be</a>.</p>",
         "components": "[]",
         "description": "<p>Les informations publi&eacute;es sur ce site internet sont libres de droits, sauf mention contraire. Elles peuvent &ecirc;tre r&eacute;utilis&eacute;es sans condition.</p>",
         "meta_title": "Conditions de r\u00e9utilisation | elasticMS",
         "noindex": false,
+        "slug": "conditions-de-reutilisation",
         "title": "Conditions de r\u00e9utilisation"
     },
     "label": "Open data",
@@ -15,6 +18,7 @@
         "description": "<p>Tenzij anders vermeld, is de informatie op deze website vrij van rechten. Ze kan onvoorwaardelijk worden hergebruikt.</p>",
         "meta_title": "Voorwaarden voor het hergebruik | elasticMS",
         "noindex": false,
+        "slug": "voorwaarden-voor-het-hergebruik",
         "title": "Voorwaarden voor het hergebruik"
     },
     "title_fr": "Conditions de r\u00e9utilisation",

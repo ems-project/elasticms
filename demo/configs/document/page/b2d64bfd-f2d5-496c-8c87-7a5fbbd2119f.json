@@ -1,10 +1,13 @@
 {
+    "display_label_fr": "Sp\u00e9cificit\u00e9s techniques pour les d\u00e9veloppeurs / Technische specificaties voor ontwikkelaars",
+    "display_label_nl": "Technische specificaties voor ontwikkelaars / Sp\u00e9cificit\u00e9s techniques pour les d\u00e9veloppeurs",
     "fr": {
         "body": "<h2>Open Source</h2>\r\n\r\n<p>elasticMS est libre d&rsquo;utilisation. Le code source est ouvert aux modifications permettant d&rsquo;ajouter, d&rsquo;optimiser ou de modifier des fonctionnalit&eacute;s selon les besoins.</p>\r\n\r\n<hr />\r\n<h2>Security</h2>\r\n\r\n<p>Pour plus de s&eacute;curit&eacute;, la database n&rsquo;est pas accessible via Internet. Cela permet de prot&eacute;ger les donn&eacute;es des utilisateurs et celles de leurs clients.</p>\r\n\r\n<hr />\r\n<h2>Multi-source</h2>\r\n\r\n<p>Avec elasticMS, il est possible de faire communiquer diff&eacute;rents CMS entre eux pour un m&ecirc;me site web (multi-source). La gestion de contenu d&rsquo;un site est en effet d&eacute;coupl&eacute;e du site web lui-m&ecirc;me.</p>\r\n\r\n<hr />\r\n<h2>Front-end d&eacute;coupl&eacute; du back-end</h2>\r\n\r\n<p>L&rsquo;architecture du site est d&eacute;coupl&eacute;e. Le front-end va chercher les donn&eacute;es sur le back-end pour les afficher, ce qui permet un d&eacute;veloppement plus rapide.</p>\r\n\r\n<hr />\r\n<h2>Cloud oriented &ndash; Dockerized</h2>\r\n\r\n<p>Avec un docker, le d&eacute;veloppement des applications se fait plus efficacement et plus rapidement, tout en utilisant moins de ressources.</p>\r\n\r\n<hr />\r\n<h2>GDPR oriented</h2>\r\n\r\n<p>elasticMS r&eacute;pond aux exigences europ&eacute;ennes de protection des donn&eacute;es des utilisateurs (General Data Protection Regulation).</p>\r\n\r\n<hr />\r\n<h2>WCAG oriented</h2>\r\n\r\n<p>Le CMS r&eacute;pond aux normes visant &agrave; rendre les contenus web plus accessibles aux personnes en situation de handicap (Web Content Accessibility Guidelines).</p>",
         "components": "[]",
         "description": "<p>Open Source, s&eacute;curis&eacute;, multi-source... elasticMS offre de multiples sp&eacute;cificit&eacute;s techniques aux d&eacute;veloppeurs.</p>",
         "meta_title": "Sp\u00e9cificit\u00e9s techniques pour les d\u00e9veloppeurs | elasticMS",
         "noindex": false,
+        "slug": "specificites-techniques-pour-les-developpeurs",
         "subtitle": "Voir les sp\u00e9cificit\u00e9s",
         "title": "Sp\u00e9cificit\u00e9s techniques pour les d\u00e9veloppeurs"
     },
@@ -16,6 +19,7 @@
         "description": "<p>Open-source, veilig, multisource ... elasticMS biedt heel wat technische mogelijkheden voor ontwikkelaars.</p>",
         "meta_title": "Technische specificaties voor ontwikkelaars | elasticMS",
         "noindex": false,
+        "slug": "technische-specificaties-voor-ontwikkelaars",
         "subtitle": "Bekijk meer specificaties",
         "title": "Technische specificaties voor ontwikkelaars"
     },

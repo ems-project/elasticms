@@ -1,20 +1,25 @@
 {
+    "display_label_fr": "D\u00e9tails des releases / Details van de releases",
+    "display_label_nl": "Details van de releases / D\u00e9tails des releases",
     "fr": {
-        "components": "[{\"id\":\"dce9704c-f5e4-44af-8194-7189329847f0\",\"label\":\"Releases\",\"type\":\"hardcoded_block\",\"object\":{\"label\":\"Releases\",\"layout\":\"releases\"},\"children\":[]}]",
+        "body": "<p>Retrouvez le d&eacute;tail de l&#39;ensemble de nos <a href=\"https://github.com/ems-project/elasticms/releases\">releases</a> sur notre compte GitHub.</p>",
+        "components": "[]",
         "description": "<p>Chaque release apporte son lot d&rsquo;am&eacute;liorations et de nouveaut&eacute;s. D&eacute;couvrez les d&eacute;tails des derni&egrave;res releases.</p>",
         "meta_title": "D\u00e9tails des releases | elasticMS",
         "noindex": false,
-        "summary": "<p>Chaque release apporte son lot d&rsquo;am&eacute;liorations et de nouveaut&eacute;s, permettant la lutte contre l&rsquo;<b>obsolescence technologique</b>, favorisant l&rsquo;<b>&eacute;co-responsabilit&eacute;</b> et offrant des <b>fonctionnalit&eacute;s nouvelles</b>. En voici un aper&ccedil;u.</p>",
+        "slug": "details-des-releases",
+        "summary": "<p>Chaque release apporte son lot d&rsquo;am&eacute;liorations et de nouveaut&eacute;s, permettant la lutte contre l&rsquo;<strong>obsolescence technologique</strong>, favorisant l&rsquo;<strong>&eacute;co-responsabilit&eacute;</strong> et offrant des <strong>fonctionnalit&eacute;s nouvelles</strong>. En voici un aper&ccedil;u.</p>",
         "title": "D\u00e9tails des releases"
     },
-    "label": "D\u00e9tails des releases",
     "menu": "878fdaad-39b6-4441-b867-659e184c7f11",
     "nl": {
-        "components": "[{\"id\":\"56aed2e9-25e3-47cd-bf15-c6484296ae69\",\"label\":\"Releases\",\"type\":\"hardcoded_block\",\"object\":{\"label\":\"Releases\",\"layout\":\"releases\"},\"children\":[]}]",
+        "body": "<p>Bekijk de details van al onze <a href=\"https://github.com/ems-project/elasticms/releases\">releases</a> op onze GitHub-account.</p>",
+        "components": "[]",
         "description": "<p>Elke release zorgt voor verbeteringen en nieuwe functionnaliteiten. Lees meer over de laatste releases.</p>",
         "meta_title": "Details van de releases | elasticMS",
         "noindex": false,
-        "summary": "<p>Bij elke release zijn er een aantal verbeteringen en nieuwigheden. Op die manier gaan we&nbsp;<b>technologische veroudering&nbsp;</b>tegen, bevorderen we&nbsp;<b>milieuvriendelijkheid&nbsp;</b>en bieden we&nbsp;<b>nieuwe functionaliteiten&nbsp;</b>aan. Hierna een overzicht.</p>",
+        "slug": "details-van-de-releases",
+        "summary": "<p>Bij elke release zijn er een aantal verbeteringen en nieuwigheden. Op die manier gaan we&nbsp;<strong>technologische veroudering&nbsp;</strong>tegen, bevorderen we&nbsp;<strong>milieuvriendelijkheid&nbsp;</strong>en bieden we&nbsp;<strong>nieuwe functionaliteiten&nbsp;</strong>aan. Hierna een overzicht.</p>",
         "title": "Details van de releases"
     },
     "title_fr": "D\u00e9tails des releases",

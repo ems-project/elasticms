@@ -1,10 +1,13 @@
 {
+    "display_label_fr": "Avantages pour votre site en tant que client / Voordelen voor uw website als klant",
+    "display_label_nl": "Voordelen voor uw website als klant / Avantages pour votre site en tant que client",
     "fr": {
         "body": "<h2>CMS sur mesure</h2>\r\n\r\n<p>elasticMS offre des solutions de gestion de contenu sur mesure en proposant de nombreux templates et th&egrave;mes propres pour chaque client.</p>\r\n\r\n<hr />\r\n<h2>Made in Belgium</h2>\r\n\r\n<p>Ce CMS a &eacute;t&eacute; pens&eacute; et d&eacute;velopp&eacute; en Belgique. En proposant ses produits au service public belge, elasticMS contribue &agrave; am&eacute;liorer la soci&eacute;t&eacute; belge.</p>\r\n\r\n<hr />\r\n<h2>Site-multilingue</h2>\r\n\r\n<p>elasticMS permet la cr&eacute;ation d&rsquo;un site multilingue dont le contenu est propos&eacute; dans plusieurs langues. Il permet de basculer d&rsquo;une langue &agrave; une autre sur une page Web.</p>\r\n\r\n<hr />\r\n<h2>Fonctionnalit&eacute;s &eacute;volutives</h2>\r\n\r\n<p>Des nouveaut&eacute;s et des mises &agrave; jour sont constamment disponibles, s&rsquo;inscrivant dans une &eacute;volution convergente de la soci&eacute;t&eacute; de l&rsquo;information.</p>\r\n\r\n<hr />\r\n<h2>CMS hautement personnalisable</h2>\r\n\r\n<p>De nombreuses extensions et plugs-in sont disponibles afin d&rsquo;offrir des solutions personnalis&eacute;es adapt&eacute;es aux besoins avanc&eacute;s et aux exigences sp&eacute;cifiques.</p>\r\n\r\n<hr />\r\n<h2>Facilit&eacute; et rapidit&eacute; d&rsquo;impl&eacute;mentation</h2>\r\n\r\n<p>Installation rapide et impl&eacute;mentation rapide&nbsp;: elasticMS est facilement et rapidement accessible, quel que soit le type de syst&egrave;me d&rsquo;exploitation, au moyen d&rsquo;un simple navigateur web.</p>\r\n\r\n<hr />\r\n<h2>R&eacute;utilisation de fonctionnalit&eacute;s communes</h2>\r\n\r\n<p>elasticMS exploite des fonctionnalit&eacute;s communes &agrave; d&rsquo;autres CMS (blogs, forums, boutiques en ligne, sites Web institutionnels ou vitrines&hellip;) et permet une int&eacute;gration plus ais&eacute;e.</p>\r\n\r\n<hr />\r\n<h2>Content oriented</h2>\r\n\r\n<p>Principe fondateur de la gestion de contenu. Celui-ci est strictement s&eacute;par&eacute; de la pr&eacute;sentation et est stock&eacute; dans une database. Des solutions responsive sont &eacute;galement propos&eacute;es.</p>\r\n\r\n<hr />\r\n<h2>Search oriented</h2>\r\n\r\n<p>Les r&eacute;glages SEO sp&eacute;cifiques permettent d&rsquo;am&eacute;liorer les r&eacute;sultats dans les moteurs de recherche et le r&eacute;f&eacute;rencement naturel du site web.</p>\r\n\r\n<hr />\r\n<h2>GDPR oriented</h2>\r\n\r\n<p>elasticMS r&eacute;pond aux exigences europ&eacute;ennes de protection des donn&eacute;es des utilisateurs (General Data Protection Regulation).</p>\r\n\r\n<hr />\r\n<h2>WCAG oriented</h2>\r\n\r\n<p>Le CMS r&eacute;pond aux normes visant &agrave; rendre les contenus Web plus accessibles aux personnes en situation de handicap (Web Content Accessibility Guidelines).</p>",
         "components": "[]",
         "description": "<p>Un CMS sur mesure, mais pas uniquement ! Lisez tous les avantages en tant que client qu&#39;elasticMS peut vous offrir.</p>",
         "meta_title": "Avantages pour votre site en tant que client | elasticMS",
         "noindex": false,
+        "slug": "avantages-pour-votre-site-en-tant-que-client",
         "subtitle": "Voir les avantages",
         "title": "Avantages pour votre site en tant que client"
     },
@@ -16,6 +19,7 @@
         "description": "<p>Een CMS op maat, maar dat niet alleen! Ontdek alle voordelen van elasticMS.</p>",
         "meta_title": "Voordelen voor uw website als klant | elasticMS",
         "noindex": false,
+        "slug": "voordelen-voor-uw-website-als-klant",
         "subtitle": "Bekijk de voordelen",
         "title": "Voordelen voor uw website als klant"
     },

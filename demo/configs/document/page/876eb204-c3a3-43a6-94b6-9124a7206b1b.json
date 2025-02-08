@@ -1,12 +1,16 @@
 {
+    "display_label_fr": "D\u00e9claration de protection des donn\u00e9es / D\u00e9claration de protection des donn\u00e9es",
+    "display_label_nl": "D\u00e9claration de protection des donn\u00e9es / D\u00e9claration de protection des donn\u00e9es",
     "fr": {
         "components": "[]",
+        "slug": "declaration-de-protection-des-donnees",
         "title": "D\u00e9claration de protection des donn\u00e9es"
     },
     "label": "Privacy policy",
     "menu": "be5603a3-8414-4751-b70d-573595135e1f",
     "nl": {
         "components": "[]",
+        "slug": "declaration-de-protection-des-donnees",
         "title": "D\u00e9claration de protection des donn\u00e9es"
     },
     "title_fr": "D\u00e9claration de protection des donn\u00e9es",

@@ -300,7 +300,7 @@
                             "options": {
                                 "displayOptions": {
                                     "label": "Live Search",
-                                    "class": "hidden",
+                                    "class": "hidden d-none",
                                     "lastOfRow": false,
                                     "helptext": null,
                                     "valueTemplate": null,

@@ -239,7 +239,7 @@
                                                     "options": {
                                                         "displayOptions": {
                                                             "label": "Slug",
-                                                            "class": "hidden",
+                                                            "class": "hidden d-none",
                                                             "lastOfRow": false,
                                                             "helptext": null,
                                                             "valueTemplate": "{{ block('slug_value', '@EMSCH/template_ems/content_type/page.twig') }}",

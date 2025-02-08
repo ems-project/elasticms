@@ -478,7 +478,7 @@
                             "options": {
                                 "displayOptions": {
                                     "label": "Live Search",
-                                    "class": "col-md-12 hidden",
+                                    "class": "col-md-12 hidden d-none",
                                     "lastOfRow": false,
                                     "helptext": null,
                                     "valueTemplate": null,
@@ -514,7 +514,7 @@
                             "options": {
                                 "displayOptions": {
                                     "label": "Date Creation",
-                                    "class": "col-md-12 hidden",
+                                    "class": "col-md-12 hidden d-none",
                                     "lastOfRow": false,
                                     "helptext": null,
                                     "displayFormat": null,

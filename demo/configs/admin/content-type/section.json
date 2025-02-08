@@ -83,7 +83,7 @@
                             "options": {
                                 "displayOptions": {
                                     "label": "Menu item",
-                                    "class": "col-md-12 hidden",
+                                    "class": "col-md-12 hidden d-none",
                                     "lastOfRow": false,
                                     "helptext": null,
                                     "expanded": false,
@@ -385,7 +385,7 @@
                             "options": {
                                 "displayOptions": {
                                     "label": "Order",
-                                    "class": "hidden",
+                                    "class": "hidden d-none",
                                     "lastOfRow": false,
                                     "helptext": null
                                 },

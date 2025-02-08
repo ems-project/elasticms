@@ -39,7 +39,7 @@
                             "options": {
                                 "displayOptions": {
                                     "label": "Search Fields",
-                                    "class": "col-md-12 hidden",
+                                    "class": "col-md-12 hidden d-none",
                                     "lastOfRow": false,
                                     "helptext": null,
                                     "icon": "fa fa-search"
@@ -291,7 +291,7 @@
                                         "options": {
                                             "displayOptions": {
                                                 "label": "Live Search",
-                                                "class": "col-md-12 hidden",
+                                                "class": "col-md-12 hidden d-none",
                                                 "lastOfRow": false,
                                                 "helptext": null,
                                                 "valueTemplate": null,

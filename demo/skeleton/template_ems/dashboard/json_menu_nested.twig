@@ -88,7 +88,7 @@
 {%- endblock -%}
 
 {%- block button_detach -%}
-    {%- if contentInfo -%}
+    {%- if contentInfo is defined and contentInfo -%}
         <button class="btn-detach-content dropdown-item" data-item-id="{{ item.id }}" data-content-id="{{ contentInfo.id.ouuid }}" data-content-type="{{ item.type }}">Detach content</button>
     {%- endif -%}
 {%- endblock button_detach -%}

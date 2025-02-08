@@ -74,10 +74,10 @@
 
         function onJmnLoad(jmn, event) {
             event.preventDefault();
-            jmn.element.querySelectorAll('.btn-new-page').forEach((button) => {
+            jmn.element.querySelectorAll('.btn-new-content').forEach((button) => {
                 button.addEventListener('click', () => onClickNewPage(jmn, button));
             });
-            jmn.element.querySelectorAll('.btn-detach-page').forEach((button) => {
+            jmn.element.querySelectorAll('.btn-detach-content').forEach((button) => {
                 button.addEventListener('click', () => onClickDetachPage(jmn, button));
             });
             jmn.loading(false);
@@ -101,33 +101,34 @@
         }
         function onClickDetachPage(jmn, button) {
             jmn.loading(true);
-            updatePage(button.dataset.pageId, { menu: null }).then((json) => {
+            updateContent(button.dataset.contentType, button.dataset.contentId, { menu: null }).then((json) => {
                 if (json.hasOwnProperty('success') || json.success) jmn.itemDelete(button.dataset.itemId);
             });
         }
         function onModalExistingPage(jmn, ajaxModal, itemParentId) {
             document.getElementById('jmn-existing-page-table').addEventListener('click', (event) => {
-                if (event.target.classList.contains('btn-add-existing-page')) onChooseExistingPage(jmn, event.target);
+                if (event.target.classList.contains('btn-add-existing-content')) onChooseExistingPage(jmn, event.target);
             });
 
             async function onChooseExistingPage(jmn, button) {
                 jmn.loading(true);
                 ajaxModal.close();
-                let pageId = button.dataset.pageId;
+                let contentId = button.dataset.contentId;
+                let contentType = button.dataset.contentType;
 
-                getPage(pageId)
-                    .then((page) => ({
-                        type: 'page',
+                getContent(contentType, contentId)
+                    .then((content) => ({
+                        type: contentType,
                         object: {
-                            label: page.revision.label,
-                            nl: { title: page.revision['title_nl'] },
-                            fr: { title: page.revision['title_fr'] },
+                            label: content.revision.label,
+                            nl: { title: content.revision['title_nl'] },
+                            fr: { title: content.revision['title_fr'] },
                         }
                     }))
                     .then((item) => jmn.itemAdd(itemParentId, item, null))
                     .then((responseAdd) => {
                         let addedItemId = responseAdd.item.id;
-                        updatePage(pageId, { menu: addedItemId }).then((json) => {
+                        updateContent(contentType, contentId, { menu: addedItemId }).then((json) => {
                             if (json.hasOwnProperty('success') || json.success) jmn.load({ activeItemId: addedItemId });
                         });
                     });
@@ -144,11 +145,11 @@
                 if (json.hasOwnProperty('revision_id')) window.location = `/data/draft/edit/${json.revision_id}`;
             });
         }
-        function getPage(pageId) {
-            return get(`/json/data/page/${pageId}`);
+        function getContent(contentType, contentId) {
+            return get(`/json/data/${contentType}/${contentId}`);
         }
-        function updatePage(pageId, data) {
-            return post(`/json/data/page/update/${pageId}?` + new URLSearchParams({ refresh: 1}), data);
+        function updateContent(contentType, contentId, data) {
+            return post(`/json/data/${contentType}/update/${contentId}?` + new URLSearchParams({ refresh: 1}), data);
         }
         async function get(url) {
             let response = await fetch(url, {

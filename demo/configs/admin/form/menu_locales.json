@@ -2,7 +2,7 @@
     "class": "EMS\\CoreBundle\\Entity\\Form",
     "arguments": [],
     "properties": {
-        "name": "menu-locales",
+        "name": "menu_locales",
         "label": "Menu locales",
         "orderKey": 3,
         "fieldType": {

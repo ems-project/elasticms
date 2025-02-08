@@ -2,7 +2,7 @@
     "class": "EMS\\CoreBundle\\Entity\\Dashboard",
     "arguments": [],
     "properties": {
-        "name": "default-search",
+        "name": "default_search",
         "icon": "fa fa-search",
         "label": "Default search",
         "sidebarMenu": false,

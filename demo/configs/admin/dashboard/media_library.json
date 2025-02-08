@@ -2,7 +2,7 @@
     "class": "EMS\\CoreBundle\\Entity\\Dashboard",
     "arguments": [],
     "properties": {
-        "name": "media-library",
+        "name": "media_library",
         "icon": "fa fa-university",
         "label": "Media library",
         "sidebarMenu": true,

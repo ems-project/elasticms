@@ -244,7 +244,7 @@
                                                     "description": null,
                                                     "options": {
                                                         "displayOptions": {
-                                                            "form": "menu-locales"
+                                                            "form": "menu_locales"
                                                         },
                                                         "mappingOptions": [],
                                                         "restrictionOptions": {

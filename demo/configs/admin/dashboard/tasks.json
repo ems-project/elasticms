@@ -3,7 +3,7 @@
     "arguments": [],
     "properties": {
         "name": "tasks",
-        "icon": "fa fa-sticky-note",
+        "icon": "fa fa-check-square",
         "label": "Tasks",
         "sidebarMenu": true,
         "notificationMenu": false,

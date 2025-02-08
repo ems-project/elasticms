@@ -5,7 +5,7 @@
         "name": "template",
         "pluralName": "Templates",
         "singularName": "Template",
-        "icon": "fa fa-html5",
+        "icon": "fa fa-crop",
         "description": null,
         "indexTwig": null,
         "extra": null,

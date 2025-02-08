@@ -70,37 +70,6 @@
     {% endif %}
 {%- endblock section_menu -%}
 
-{%- block slideshow_slug -%}
-    {% if _source.slug is not defined and _source.title is defined %}
-        {% set slug = _source.title|ems_slug %}
-    {% elseif _source.slug is defined %}
-        {% set slug = _source.slug %}
-    {% endif %}
-
-    {% if slug|default(false) %}
-        {% set query = {
-            'index': ('preview'|emsco_get_environment.alias),
-            'size': 1,
-            'type': 'page',
-            'body': '{"query":{"bool":{"should":[{"term":{"de.slug":{"value":"' ~ slug ~ '"}}},{"term":{"en.slug":{"value":"' ~ slug ~ '"}}},{"term":{"fr.slug":{"value":"' ~ slug ~ '"}}},{"term":{"nl.slug":{"value":"' ~ slug ~ '"}}}],"must_not":[{"term":{"_id":{"value":"' ~ _id ~ '"}}}]}}}'
-        }%}
-
-        {% set searchResult = query|emsco_search_query %}
-
-        {% if finalize|default(false) and searchResult.hits.hits|length > 0 %}
-            {{ emsco_cant_be_finalized('The slug: ' ~ slug ~ ' already exists.') }}
-        {% endif %}
-
-        {{ slug|json_encode|raw }}
-    {% endif %}
-{%- endblock slideshow_slug -%}
-
-{%- block slideshow_publication_date -%}
-    {%- if _source.publication_date is not defined -%}
-        {{- 'now'|date('Y/m/d')|json_encode|raw }}
-    {%- endif -%}
-{%- endblock slideshow_publication_date -%}
-
 
 
 

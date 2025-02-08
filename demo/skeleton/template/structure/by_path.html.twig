@@ -52,9 +52,7 @@
 
 {% set baseTemplate = '@EMSCH/template/structure/target-not-found.html.twig' %}
 
-{% if target.contentType|default(null) == 'slideshow' %}
-    {% set baseTemplate = '@EMSCH/template/slideshow/revealjs.html.twig' %}
-{% elseif target.contentType|default(null) == 'page' %}
+{% if target.contentType|default(null) == 'page' %}
     {% set baseTemplate = '@EMSCH/template/page/by_type.html.twig' %}
 {% endif %}
 {% extends baseTemplate %}

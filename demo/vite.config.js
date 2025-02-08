@@ -13,8 +13,7 @@ export default defineConfig({
         rollupOptions: {
             input: {
                 index: 'src/index.js',
-                admin: 'src/admin.js',
-                reveal: 'src/slideshow.js'
+                admin: 'src/admin.js'
             },
             output: {
                 entryFileNames: 'js/[name].js',

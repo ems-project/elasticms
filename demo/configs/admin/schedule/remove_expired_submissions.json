@@ -2,7 +2,7 @@
     "class": "EMS\\CoreBundle\\Entity\\Schedule",
     "arguments": [],
     "properties": {
-        "name": "remove-expired-submissions",
+        "name": "remove_expired_submissions",
         "cron": "0 3 * * *",
         "command": "ems:submissions:remove-expired",
         "orderKey": 4,

@@ -27,7 +27,7 @@
         ] %}
     {% elseif contentType.name in ['template', 'template_ems'] %}
         {% set columns = [ { "label": "Name", "template": (block('columnName')),  "orderField": "name"} ] %}
-    {% elseif contentType.name in ['page', 'news', 'user_group'] %}
+    {% elseif contentType.name in ['page', 'news'] %}
         {% set locales = app.request.server.all['EMSCH_LOCALES']|default('[]')|ems_json_decode %}
         {% set userPreferredLocale = app.user.localePreferred[0:2] %}
         {% set userLocale = userPreferredLocale in locales ? userPreferredLocale : 'fr' %}

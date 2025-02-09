@@ -1,7 +1,7 @@
 {% extends '@EMSAdminUI/bootstrap5/components/json_menu_nested/template.twig' %}
 
 {% block build_context %}
-    {% set contentTypeNames = ['page'] %}
+    {% set contentTypeNames = ['page','link'] %}
     {% set contentTypes = contentTypeNames|map(ct => ct|emsco_get_content_type) %}
     {% set environments = ['preview', 'live']|map(e => e|emsco_get_environment) %}
     {% do template.context.append({

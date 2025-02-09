@@ -86,7 +86,7 @@
             if (!event.detail.data.hasOwnProperty('success') || !event.detail.data.success) return;
             event.preventDefault();
             jmn.loading(true);
-            createPageForItem(event.detail.data.item);
+            createContentForItem(event.detail.data.item);
         }
         function onJmnModalCustom(jmn, event) {
             let data = event.detail.data;
@@ -97,7 +97,7 @@
         }
         function onClickNewPage(jmn, button) {
             jmn.loading(true);
-            createPageForItem(JSON.parse(button.dataset.item));
+            createContentForItem(JSON.parse(button.dataset.item));
         }
         function onClickDetachPage(jmn, button) {
             jmn.loading(true);
@@ -135,8 +135,8 @@
             }
         }
 
-        function createPageForItem(item) {
-            post('/json/data/page/create?' + new URLSearchParams({ refresh: 1 }), {
+        function createContentForItem(item) {
+            post(`/json/data/${item.type}/create?` + new URLSearchParams({ refresh: 1 }), {
                 label: item.label,
                 menu: item.id,
                 nl: {title: item.object.nl.title},

@@ -53,7 +53,7 @@
 {% endblock %}
 
 {% block request %}
-    {% for section in structure.children|filter(p => p.id in pages)  %}
+    {% for section in structure.children|filter(p => attribute(pages, p.id) is defined)  %}
         {% if section.children|length > 0 and section.object.dropdown|default(false) %}
             {{ block('dropdown') }}
         {% else %}

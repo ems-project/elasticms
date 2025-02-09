@@ -1,14 +1,7 @@
-{%- block slug_value -%}
-    {%- if _source.title|default(false) -%}
-        {{ _source.title|ems_slug|json_encode|raw }}
-    {%- endif -%}
-{%- endblock slug_value -%}
-
 {%- block menu_choice_template -%}
     {%- set choices = [] -%}
     {%- for item in items|default([]) -%}
         {%- set path = [] -%}
-
         {%- for i in item.path -%}
             {%- if i.type == 'section' -%}
                 {%- set path = path|merge([i.object.label]) -%}
@@ -24,7 +17,6 @@
 {%- endblock menu_choice_template -%}
 
 {%- block menu_choice_display -%}
-    {% dump %}
     {%- set locales = app.request.server.all['EMSCH_LOCALES']|default('[]')|ems_json_decode -%}
     {%- if app.user.localePreferred|default(null) and app.user.localePreferred[0:2] in locales -%}
         {%- set locales = [app.user.localePreferred[0:2]]|merge(locales)|reduce((carry,p) => p in carry ? carry : carry|merge([p]), []) -%}

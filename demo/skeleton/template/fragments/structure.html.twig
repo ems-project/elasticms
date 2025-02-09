@@ -28,21 +28,20 @@
 
 
 
-{% set pages = emsch_search('page', {
+{% set pages = emsch_search(['page', 'link'], {
     query: {
-        terms: {
-            _contenttype: ['page'],
+        exists: {
+            field: 'menu',
         },
     },
-    _source: ['menu'],
+    _source: ['menu',"#{locale}.target"],
     size: 1000,
-}).hits.hits|default([])|map(p => p._source.menu|default(false))|filter((v) => v != false) %}
-
+}).hits.hits|default([])|map(p => {menu: p._source.menu, target: attribute(p._source, locale)|default({}).target|default(null)})|ems_array_key('menu') %}
 
 {% for item in structure %}
     {% set pathInfo = attribute(paths, item.id)|default(false) %}
-    {% if pathInfo %}
-        {% set urls = urls|merge({(item.id): path('emsch_path', {path: pathInfo.path})}) %}
+    {% if pathInfo and attribute(pages, item.id) is defined %}
+        {% set urls = urls|merge({(item.id): attribute(pages, item.id).target ? attribute(pages, item.id).target : path('emsch_path', {path: pathInfo.path})}) %}
     {% endif %}
     {% if item.type == 'section' and attribute(sections, item.id) %}
         {% set paths = paths|merge(attribute(sections, item.id).paths|filter(p => p.locale == locale)|ems_array_key('uid')) %}

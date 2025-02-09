@@ -1,5 +1,5 @@
 @mixin faw-icon($fa-icon,$size:16,$weigth: 900) {
-  font-family: 'Font Awesome 5 Free';
+  font-family: 'Font Awesome 6 Free';
   content: fa-content($fa-icon);
   @include fa-icon;
   font-size: em($size);

@@ -2,7 +2,7 @@
     "display_label_fr": "D\u00e9tails des releases / Details van de releases",
     "display_label_nl": "Details van de releases / D\u00e9tails des releases",
     "fr": {
-        "body": "<p>Retrouvez le d&eacute;tail de l&#39;ensemble de nos <a href=\"https://github.com/ems-project/elasticms/releases\">releases</a> sur notre compte GitHub.</p>",
+        "body": "<p>Retrouvez le d&eacute;tail de l&#39;ensemble de nos <a href=\"https://github.com/ems-project/elasticms/releases\">releases</a> sur notre <a href=\"ems://object:link:pFGD6pQB2NpRFHDXWNfa\">compte GitHub</a>.</p>",
         "components": "[]",
         "description": "<p>Chaque release apporte son lot d&rsquo;am&eacute;liorations et de nouveaut&eacute;s. D&eacute;couvrez les d&eacute;tails des derni&egrave;res releases.</p>",
         "meta_title": "D\u00e9tails des releases | elasticMS",
@@ -13,7 +13,7 @@
     },
     "menu": "878fdaad-39b6-4441-b867-659e184c7f11",
     "nl": {
-        "body": "<p>Bekijk de details van al onze <a href=\"https://github.com/ems-project/elasticms/releases\">releases</a> op onze GitHub-account.</p>",
+        "body": "<p>Bekijk de details van al onze <a href=\"https://github.com/ems-project/elasticms/releases\">releases</a> op onze <a href=\"ems://object:link:pFGD6pQB2NpRFHDXWNfa\">GitHub-account</a>.</p>",
         "components": "[]",
         "description": "<p>Elke release zorgt voor verbeteringen en nieuwe functionnaliteiten. Lees meer over de laatste releases.</p>",
         "meta_title": "Details van de releases | elasticMS",

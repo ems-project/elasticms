@@ -29,7 +29,8 @@
                         "class": null,
                         "lastOfRow": false,
                         "helptext": null,
-                        "icon": null
+                        "icon": null,
+                        "language": null
                     },
                     "restrictionOptions": {
                         "minimum_role": null
@@ -66,7 +67,7 @@
                                 },
                                 "raw_data": []
                             },
-                            "orderKey": 1,
+                            "orderKey": 0,
                             "children": []
                         },
                         "replaced": []
@@ -115,7 +116,7 @@
                                     "protected": false
                                 }
                             },
-                            "orderKey": 2,
+                            "orderKey": 1,
                             "children": []
                         },
                         "replaced": []
@@ -158,7 +159,7 @@
                                     "protected": false
                                 }
                             },
-                            "orderKey": 3,
+                            "orderKey": 2,
                             "children": [
                                 {
                                     "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -175,7 +176,8 @@
                                                 "class": "col-md-12",
                                                 "lastOfRow": false,
                                                 "helptext": null,
-                                                "icon": "fa fa-file-text-o"
+                                                "icon": "fa fa-file-text-o",
+                                                "language": null
                                             },
                                             "mappingOptions": [],
                                             "restrictionOptions": {
@@ -190,7 +192,7 @@
                                             },
                                             "raw_data": []
                                         },
-                                        "orderKey": 1,
+                                        "orderKey": 0,
                                         "children": [
                                             {
                                                 "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -228,7 +230,7 @@
                                                             "postProcessing": null
                                                         }
                                                     },
-                                                    "orderKey": 1,
+                                                    "orderKey": 0,
                                                     "children": []
                                                 },
                                                 "replaced": []
@@ -257,7 +259,116 @@
                                                         },
                                                         "raw_data": []
                                                     },
-                                                    "orderKey": 2,
+                                                    "orderKey": 1,
+                                                    "children": []
+                                                },
+                                                "replaced": []
+                                            }
+                                        ]
+                                    },
+                                    "replaced": []
+                                },
+                                {
+                                    "class": "EMS\\CoreBundle\\Entity\\FieldType",
+                                    "arguments": [],
+                                    "properties": {
+                                        "type": "EMS\\CoreBundle\\Form\\DataField\\ContainerFieldType",
+                                        "name": "link",
+                                        "contentType": null,
+                                        "deleted": false,
+                                        "description": null,
+                                        "options": {
+                                            "displayOptions": {
+                                                "label": "Link",
+                                                "class": "col-md-12",
+                                                "lastOfRow": false,
+                                                "helptext": null,
+                                                "icon": "fa fa-link",
+                                                "language": null
+                                            },
+                                            "mappingOptions": [],
+                                            "restrictionOptions": {
+                                                "minimum_role": null,
+                                                "json_nested_deny": [],
+                                                "json_nested_is_leaf": true
+                                            },
+                                            "extraOptions": {
+                                                "extra": null,
+                                                "clear_on_copy": false,
+                                                "postProcessing": null
+                                            },
+                                            "raw_data": []
+                                        },
+                                        "orderKey": 1,
+                                        "children": [
+                                            {
+                                                "class": "EMS\\CoreBundle\\Entity\\FieldType",
+                                                "arguments": [],
+                                                "properties": {
+                                                    "type": "EMS\\CoreBundle\\Form\\DataField\\TextStringFieldType",
+                                                    "name": "label",
+                                                    "contentType": null,
+                                                    "deleted": false,
+                                                    "description": null,
+                                                    "options": {
+                                                        "displayOptions": {
+                                                            "label": "Label",
+                                                            "class": "col-md-12",
+                                                            "lastOfRow": false,
+                                                            "helptext": null,
+                                                            "prefixIcon": null,
+                                                            "prefixText": null,
+                                                            "suffixIcon": null,
+                                                            "suffixText": null,
+                                                            "placeholder": null,
+                                                            "icon": null
+                                                        },
+                                                        "mappingOptions": [],
+                                                        "restrictionOptions": {
+                                                            "mandatory": false,
+                                                            "mandatory_if": null,
+                                                            "minimum_role": null
+                                                        },
+                                                        "extraOptions": {
+                                                            "extra": null,
+                                                            "clear_on_copy": false,
+                                                            "postProcessing": null
+                                                        },
+                                                        "raw_data": [],
+                                                        "migrationOptions": {
+                                                            "protected": false
+                                                        }
+                                                    },
+                                                    "orderKey": 0,
+                                                    "children": []
+                                                },
+                                                "replaced": []
+                                            },
+                                            {
+                                                "class": "EMS\\CoreBundle\\Entity\\FieldType",
+                                                "arguments": [],
+                                                "properties": {
+                                                    "type": "EMS\\CoreBundle\\Form\\DataField\\FormFieldType",
+                                                    "name": "menu_entries",
+                                                    "contentType": null,
+                                                    "deleted": false,
+                                                    "description": null,
+                                                    "options": {
+                                                        "displayOptions": {
+                                                            "form": "menu_locales"
+                                                        },
+                                                        "mappingOptions": [],
+                                                        "restrictionOptions": {
+                                                            "minimum_role": null
+                                                        },
+                                                        "extraOptions": {
+                                                            "extra": null,
+                                                            "clear_on_copy": false,
+                                                            "postProcessing": null
+                                                        },
+                                                        "raw_data": []
+                                                    },
+                                                    "orderKey": 1,
                                                     "children": []
                                                 },
                                                 "replaced": []
@@ -303,7 +414,7 @@
                                     "protected": false
                                 }
                             },
-                            "orderKey": 4,
+                            "orderKey": 3,
                             "children": []
                         },
                         "replaced": []
@@ -339,7 +450,7 @@
                                 },
                                 "raw_data": []
                             },
-                            "orderKey": 5,
+                            "orderKey": 4,
                             "children": []
                         },
                         "replaced": []
@@ -368,7 +479,7 @@
                                 },
                                 "raw_data": []
                             },
-                            "orderKey": 6,
+                            "orderKey": 5,
                             "children": []
                         },
                         "replaced": []
@@ -408,7 +519,7 @@
                                     "protected": false
                                 }
                             },
-                            "orderKey": 7,
+                            "orderKey": 6,
                             "children": []
                         },
                         "replaced": []
@@ -419,7 +530,7 @@
         },
         "refererFieldName": null,
         "sortOrder": null,
-        "orderKey": 6,
+        "orderKey": 4,
         "rootContentType": true,
         "editTwigWithWysiwyg": true,
         "webContent": true,
@@ -474,7 +585,8 @@
         "versionTags": [],
         "versionOptions": {
             "dates_read_only": true,
-            "dates_interval_one_day": false
+            "dates_interval_one_day": false,
+            "not_blank_new_version": false
         },
         "versionFields": {
             "date_from": null,

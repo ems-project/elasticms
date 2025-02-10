@@ -1,0 +1,12 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\Schedule",
+    "arguments": [],
+    "properties": {
+        "name": "publish_releases",
+        "cron": "* * * * *",
+        "command": "emsco:release:pub",
+        "orderKey": 2,
+        "tag": null
+    },
+    "replaced": []
+}

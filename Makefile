@@ -105,7 +105,7 @@ demo: ## make new demo
 	@$(RUN_ADMIN) emsco:user:promote demo ROLE_API
 	@$(RUN_ADMIN) emsco:user:promote demo ROLE_FORM_CRM
 	@$(MAKE) -s demo-npm/"install"
-	@$(MAKE) -s demo-npm/"run prod"
+	@$(MAKE) -s demo-npm/"run build"
 	@$(RUN_ADMIN) assets:install --symlink
 	@$(RUN_WEB) assets:install --symlink
 	@ln -sf ${PWD}/demo/dist ${PWD}/elasticms-web/public/bundles/demo

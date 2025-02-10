@@ -37,17 +37,24 @@ class Select {
 
       return text
     }
-    targetQuery.find('select.select2').select2({
-      theme: 'bootstrap-5',
-      allowClear: true,
-      placeholder: '',
-      escapeMarkup: function (markup) {
-        return markup
-      },
-      width: '100%',
-      dropdownParent: target === document ? $(target.body) : targetQuery,
-      templateSelection: formatFn,
-      templateResult: formatFn
+    targetQuery.find('select.select2').each(function() {
+        const select = $(this)
+        const querySearchLabel = select.data('query-search-label');
+        const modal = select.parents('.modal')
+        select.select2({
+            theme: 'bootstrap-5',
+            allowClear: true,
+            //https://github.com/select2/select2/issues/3781
+            placeholder: querySearchLabel && '' !== querySearchLabel ? querySearchLabel : 'Search',
+            escapeMarkup: function (markup) {
+                return markup
+            },
+            width: '100%',
+            //https://select2.org/troubleshooting/common-problems#select2-does-not-function-properly-when-i-use-it-inside-a-bootst
+            dropdownParent: 0 === modal.length ? $(target.body) : select.parent(),
+            templateSelection: formatFn,
+            templateResult: formatFn
+        })
     })
   }
 }

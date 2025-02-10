@@ -45,6 +45,7 @@ $yellow: #ffc107 !default;
 $green: #28a745 !default;
 $teal: #20c997 !default;
 $cyan: #17a2b8 !default;
+$aqua:    #00c0ef !default;
 
 $colors: () !default;
 $colors: map-merge((
@@ -60,7 +61,8 @@ $colors: map-merge((
   "cyan": $cyan,
   "white": $white,
   "gray": $gray-600,
-  "gray-dark": $gray-800
+  "gray-dark": $gray-800,
+  "aqua": $aqua,
 ), $colors);
 
 // The contrast ratio to reach against white, to determine if color changes from "light" to "dark". Acceptable values for WCAG 2.0 are 3, 4.5 and 7.

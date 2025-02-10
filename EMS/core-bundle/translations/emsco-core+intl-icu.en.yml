@@ -44,7 +44,7 @@ color:
     purple: Purple
     navy: Navy
     black: Black
-    grey: Grey
+    gray: Gray
 core:
     content_type:
         view_define: |-

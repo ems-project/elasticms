@@ -26,7 +26,7 @@ class ColorPickerType extends Select2Type
         'color.purple' => 'purple',
         'color.navy' => 'navy',
         'color.black' => 'black',
-        'color.grey' => 'grey',
+        'color.gray' => 'gray',
     ];
 
     #[\Override]

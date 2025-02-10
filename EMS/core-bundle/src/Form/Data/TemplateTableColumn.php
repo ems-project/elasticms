@@ -58,7 +58,7 @@ class TemplateTableColumn extends TableColumn
      *
      * @return array{label: string, template: string, orderField: string|null, cellType: string, cellClass: string, cellRender: bool, validation:array<mixed>|null}
      */
-    private static function resolveOptions(array $options)
+    private static function resolveOptions(array $options): array
     {
         $resolver = new OptionsResolver();
         $resolver

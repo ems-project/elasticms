@@ -38,7 +38,7 @@ final readonly class SpreadsheetValidation implements SpreadsheetValidationInter
      *
      * @return array{type: string, formula: string, allow_blank: bool, show_input: bool, show_error: bool, prompt_title: string, error_title: string}
      */
-    private static function resolveOptions(array $options)
+    private static function resolveOptions(array $options): array
     {
         $resolver = new OptionsResolver();
         $resolver

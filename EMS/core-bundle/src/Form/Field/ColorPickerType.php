@@ -11,7 +11,6 @@ class ColorPickerType extends Select2Type
 {
     /** @var array<string, ?string> */
     private array $choices = [
-        'not-defined' => null,
         'red' => 'red',
         'maroon' => 'maroon',
         'fuchsia' => 'fuchsia',
@@ -35,6 +34,7 @@ class ColorPickerType extends Select2Type
     {
         $resolver->setDefaults([
             'choices' => $this->choices,
+            'required' => false,
             'choice_translation_domain' => false,
             'attr' => [
                 'data-live-search' => true,

@@ -1,10 +1,13 @@
 {
+    "display_label_fr": "D\u00e9claration d'accessibilit\u00e9 / Toegankelijkheidsverklaring",
+    "display_label_nl": "Toegankelijkheidsverklaring / D\u00e9claration d'accessibilit\u00e9",
     "fr": {
         "body": "<p><b>SMALS</b> s&rsquo;engage &agrave; rendre ce site accessible conform&eacute;ment &agrave; la loi du 19 juillet 2018 relative &agrave; l&rsquo;accessibilit&eacute; des sites internet et des applications mobiles des organismes de service public sur le site du Moniteur belge. Consultez le texte complet de la <a href=\"http://www.ejustice.just.fgov.be/cgi_loi/change_lg.pl?language=fr&amp;la=F&amp;cn=2018071933&amp;table_name=loi\" target=\"_blank\">loi du 19 juillet 2018 sur le site du Moniteur belge</a>.</p>\r\n\r\n<p>La pr&eacute;sente d&eacute;claration d&rsquo;accessibilit&eacute; s&rsquo;applique au site <a href=\"ems://object:page:02c9040f-1368-485c-92a6-a7c71b77224b\">elasticMS</a>.</p>\r\n\r\n<h2>Niveau de conformit&eacute;</h2>\r\n\r\n<p>Un audit simplifi&eacute; de ce site a &eacute;t&eacute; effectu&eacute; et a conclu qu&rsquo;il &eacute;tait partiellement conforme en mati&egrave;re d&rsquo;accessibilit&eacute;. Consultez le <a href=\"https://www.etsi.org/deliver/etsi_en/301500_301599/301549/02.01.02_60/en_301549v020102p.pdf\" target=\"_blank\">pdf avec le texte complet de la norme EN 301 549 (en anglais) sur le site de l&#39;ETSI</a>.&nbsp;</p>\r\n\r\n<p>La conformit&eacute; compl&egrave;te ne peut &ecirc;tre garantie qu&rsquo;apr&egrave;s audit approfondi.</p>\r\n\r\n<p>Pour plus d&rsquo;information, consultez le <a href=\"ems://object:page:a81f28a6-c238-47ef-b06b-4b81c2caed94\">rapport d&rsquo;audit simplifi&eacute;</a>.</p>\r\n\r\n<h2>Pr&eacute;paration de la pr&eacute;sente d&eacute;claration</h2>\r\n\r\n<p>La d&eacute;claration d&rsquo;accessibilit&eacute; a &eacute;t&eacute; r&eacute;alis&eacute;e sur base :</p>\r\n\r\n<ul>\r\n\t<li>Des r&eacute;sultats du Bosa Accessibility Tool&nbsp;</li>\r\n\t<li>D&rsquo;une analyse critique tenant compte des principes WCAG&nbsp;</li>\r\n\t<li>De tests manuels</li>\r\n\t<li>Du rapport d&rsquo;audit</li>\r\n</ul>\r\n\r\n<p>L&rsquo;audit a &eacute;t&eacute; r&eacute;alis&eacute; le 08/05/2023.</p>\r\n\r\n<p>Consultez le <a href=\"ems://object:page:a81f28a6-c238-47ef-b06b-4b81c2caed94\">rapport d&rsquo;audit simplifi&eacute;</a>&nbsp;sur l&rsquo;accessibilit&eacute; de ce site.</p>\r\n\r\n<p>Cette d&eacute;claration a &eacute;t&eacute; pr&eacute;par&eacute;e le 10/05/2023.</p>\r\n\r\n<p>Le dernier examen de la d&eacute;claration a eu lieu le 10/05/2023.&nbsp;</p>\r\n\r\n<h2>Coordonn&eacute;es de contact</h2>\r\n\r\n<p>Vous avez une question ou une remarque relative &agrave; l&rsquo;accessibilit&eacute; de ce site ? Contactez-nous par e-mail &agrave; <a href=\"mailto:webagency@smals.be\">webagency@smals.be</a>.</p>\r\n\r\n<p>Vous nous avez transmis une question ou une remarque, mais vous n&rsquo;avez pas re&ccedil;u de r&eacute;ponse ou celle-ci ne vous satisfait pas ? Adressez-vous au M&eacute;diateur f&eacute;d&eacute;ral via <a href=\"mailto:contact@mediateurfederal.be\">contact@mediateurfederal.be</a>.&nbsp;</p>",
         "components": "[]",
         "description": "<p>D&eacute;couvrez le niveau de conformit&eacute; de ce site par rapport aux r&egrave;gles pour l&rsquo;accessibilit&eacute; des contenus web.</p>",
         "meta_title": "D\u00e9claration d'accessibilit\u00e9 | elasticMS",
         "noindex": false,
+        "slug": "declaration-d-accessibilite",
         "title": "D\u00e9claration d'accessibilit\u00e9"
     },
     "label": "D\u00e9claration d'accessibilit\u00e9",
@@ -15,6 +18,7 @@
         "description": "<p>Ontdek in welke mate deze website voldoet aan de richtlijnen voor de toegankelijkheid van webinhoud.</p>",
         "meta_title": "Toegankelijkheidsverklaring | elasticMS",
         "noindex": false,
+        "slug": "toegankelijkheidsverklaring",
         "title": "Toegankelijkheidsverklaring"
     },
     "title_fr": "D\u00e9claration d'accessibilit\u00e9",

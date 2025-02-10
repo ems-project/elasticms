@@ -286,7 +286,7 @@
                             "options": {
                                 "displayOptions": {
                                     "label": "Order",
-                                    "class": "hidden",
+                                    "class": "hidden d-none",
                                     "lastOfRow": false,
                                     "helptext": null
                                 },

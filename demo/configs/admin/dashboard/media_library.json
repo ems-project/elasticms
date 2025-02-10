@@ -1,0 +1,22 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\Dashboard",
+    "arguments": [],
+    "properties": {
+        "name": "media_library",
+        "icon": "fa fa-university",
+        "label": "Media library",
+        "sidebarMenu": true,
+        "notificationMenu": false,
+        "definition": null,
+        "type": "ems_core.dashboard.template",
+        "role": "ROLE_AUTHOR",
+        "color": null,
+        "options": {
+            "body": "{{ block(\"body\", \"@EMSCH/template_ems/dashboard/media_library.twig\") }}",
+            "header": "{{ block(\"css\", \"@EMSCH/template_ems/dashboard/media_library.twig\") }}",
+            "footer": "{{ block(\"javascript\", \"@EMSCH/template_ems/dashboard/media_library.twig\") }}"
+        },
+        "orderKey": 4
+    },
+    "replaced": []
+}

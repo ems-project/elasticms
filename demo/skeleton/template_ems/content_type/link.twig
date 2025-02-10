@@ -1,0 +1,55 @@
+{%- block menu_choice_template -%}
+    {%- set choices = [] -%}
+    {%- for item in items|default([]) -%}
+        {%- set path = [] -%}
+        {%- for i in item.path -%}
+            {%- if i.type == 'section' -%}
+                {%- set path = path|merge([i.object.label]) -%}
+            {%- else -%}
+                {%- set path = path|merge([i]) -%}
+            {%- endif -%}
+        {%- endfor -%}
+
+        {%- set label = path|join(' > ') -%}
+        {%- set choices = choices|merge({ (label) : (item.id) }) -%}
+    {%- endfor -%}
+    {{ choices|json_encode|raw }}
+{%- endblock menu_choice_template -%}
+
+{%- block menu_choice_display -%}
+    {%- set locales = app.request.server.all['EMSCH_LOCALES']|default('[]')|ems_json_decode -%}
+    {%- if app.user.localePreferred|default(null) and app.user.localePreferred[0:2] in locales -%}
+        {%- set locales = [app.user.localePreferred[0:2]]|merge(locales)|reduce((carry,p) => p in carry ? carry : carry|merge([p]), []) -%}
+    {%- endif -%}
+    <ul>
+        {%- for l in locales -%}
+            {%- for item in items|default([]) -%}
+                {%- set itemLabel = item.path[1:]|map(i => attribute(i.object, l).title|default(i.label))|join(' > ')  -%}
+                <li>
+                    <a href="{{ path('emsco_dashboard', {'name': 'sitemap', 'activeItemId': item.id, 'locale': l }) }}">
+                        {{ l|upper }}: {{ itemLabel }}
+                    </a>
+                </li>
+            {%- endfor -%}
+        {%- endfor -%}
+    </ul>
+{%- endblock menu_choice_display -%}
+
+{%- block menu_post_processing -%}
+    {%- if finalize and _source.menu|default(false) -%}
+        {%- set found = {
+            "index": 'preview'|emsco_get_environment.alias,
+            "body": {
+                "query": {
+                    "bool": {
+                        "must": [ { "terms": { "menu": [_source.menu]} } ],
+                        "must_not": [ { "term": { "_id": (_id) } } ]
+                    }
+                }
+            },
+        }|emsco_search_query.hits.hits|default([]) -%}
+        {%- if found|length > 0 -%}
+            {{ emsco_cant_be_finalized('Another content has been already created for this entry. Please delete this draft.') }}
+        {%- endif -%}
+    {%- endif -%}
+{%- endblock menu_post_processing -%}

@@ -5,7 +5,7 @@
         "name": "media_file",
         "pluralName": "Media library",
         "singularName": "Media",
-        "icon": "fa fa-file",
+        "icon": "fa fa-book",
         "description": null,
         "indexTwig": null,
         "extra": null,
@@ -478,7 +478,7 @@
                             "options": {
                                 "displayOptions": {
                                     "label": "Live Search",
-                                    "class": "col-md-12 hidden",
+                                    "class": "col-md-12 hidden d-none",
                                     "lastOfRow": false,
                                     "helptext": null,
                                     "valueTemplate": null,
@@ -514,7 +514,7 @@
                             "options": {
                                 "displayOptions": {
                                     "label": "Date Creation",
-                                    "class": "col-md-12 hidden",
+                                    "class": "col-md-12 hidden d-none",
                                     "lastOfRow": false,
                                     "helptext": null,
                                     "displayFormat": null,
@@ -586,7 +586,8 @@
         "versionTags": [],
         "versionOptions": {
             "dates_read_only": true,
-            "dates_interval_one_day": false
+            "dates_interval_one_day": false,
+            "not_blank_new_version": false
         },
         "versionFields": {
             "date_from": null,

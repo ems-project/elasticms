@@ -1,7 +1,10 @@
 {
+    "display_label_fr": "Rapport d'audit d'accessibilit\u00e9 / Auditrapport over de toegankelijkheid",
+    "display_label_nl": "Auditrapport over de toegankelijkheid / Rapport d'audit d'accessibilit\u00e9",
     "fr": {
         "components": "[{\"id\":\"b50bbdf5-45d4-4a69-97da-2794b6b003bf\",\"label\":\"Rapport\",\"type\":\"hardcoded_block\",\"object\":{\"label\":\"Rapport\",\"layout\":\"accessibility_report\"},\"children\":[]}]",
         "noindex": true,
+        "slug": "rapport-d-audit-d-accessibilite",
         "title": "Rapport d'audit d'accessibilit\u00e9"
     },
     "label": "Auditrapport over de toegankelijkheid",
@@ -9,6 +12,7 @@
     "nl": {
         "components": "[{\"id\":\"7096a5aa-965f-4712-968b-f078d3be718b\",\"label\":\"Rapport\",\"type\":\"hardcoded_block\",\"object\":{\"label\":\"Rapport\",\"layout\":\"accessibility_report\"},\"children\":[]}]",
         "noindex": true,
+        "slug": "auditrapport-over-de-toegankelijkheid",
         "title": "Auditrapport over de toegankelijkheid"
     },
     "title_fr": "Rapport d'audit d'accessibilit\u00e9",

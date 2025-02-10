@@ -89,7 +89,7 @@
         <service id="ems_common.service.expression_service" class="EMS\CommonBundle\Service\ExpressionService">
             <argument type="service" id="logger" />
         </service>
-        <service id="ems_common.service.spreadsheet_generator_service" class="EMS\CommonBundle\Common\SpreadsheetGeneratorService">
+        <service id="ems_common.service.spreadsheet_generator_service" class="EMS\CommonBundle\Common\Spreadsheet\SpreadsheetGeneratorService">
             <argument type="service" id="logger" />
         </service>
         <service id="EMS\CommonBundle\Service\ElasticaService" alias="ems_common.service.elastica"/>

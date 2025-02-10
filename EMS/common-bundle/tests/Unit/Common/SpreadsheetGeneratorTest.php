@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Tests\Unit\Common;
 
-use EMS\CommonBundle\Common\SpreadsheetGeneratorService;
+use EMS\CommonBundle\Common\Spreadsheet\SpreadsheetGeneratorService;
+use EMS\CommonBundle\Common\Spreadsheet\SpreadsheetValidation;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -26,6 +27,33 @@ class SpreadsheetGeneratorTest extends TestCase
         $this->assertSame('pineapple', $this->callMethod($this->spreadSheetGenerator, 'buildUpSheets', [$config])->getActiveSheet()->getCell('A2')->getValue());
 
         $configColor = \json_decode('{"filename":"export_with_color","writer":"xlsx","active_sheet":0,"sheets":[{"name":"Export form with Color","color":"#FF0000","rows":[[{"data":"apple"},{"data":"banana","style":{"fill":{"fillType":"solid","color":{"rgb":"F9D73F"}}}}],[{"data":"pineapple","style":{"fill":{"fillType":"solid","color":{"rgb":"F9D73F"}}}},{"data":"strawberry","style":{}}]]}]}', true);
+        $this->assertSame('Export form with Color', $this->callMethod($this->spreadSheetGenerator, 'buildUpSheets', [$configColor])->getActiveSheet()->getTitle());
+        $this->assertSame('pineapple', $this->callMethod($this->spreadSheetGenerator, 'buildUpSheets', [$configColor])->getActiveSheet()->getCell('A2')->getValue());
+    }
+
+    public function testConfigWithValidationToExcel(): void
+    {
+        $validation = new SpreadsheetValidation([
+            'type' => 'list',
+            'formula' => 'low,medium,high',
+            'allow_blank' => true,
+            'prompt_title' => 'Chose a level',
+            'error_title' => 'Level wrong',
+            'show_input' => true,
+            'show_error' => true,
+        ]);
+
+        $config = \json_decode('{"filename":"export","writer":"xlsx","active_sheet":0,"sheets":[{"name":"Export form","color":"#FF0000","rows":[["apple","low"],["pineapple",""]]},{"name":"Export form sheet 2","rows":[["a1",""],["b2",""]]}]}', true);
+        foreach ($config['sheets'] as $index => $sheet) {
+            $config['sheets'][$index] = \array_merge($sheet, ['validations' => [null, $validation]]);
+        }
+        $this->assertSame('Export form', $this->callMethod($this->spreadSheetGenerator, 'buildUpSheets', [$config])->getActiveSheet()->getTitle());
+        $this->assertSame('pineapple', $this->callMethod($this->spreadSheetGenerator, 'buildUpSheets', [$config])->getActiveSheet()->getCell('A2')->getValue());
+
+        $configColor = \json_decode('{"filename":"export_with_color","writer":"xlsx","active_sheet":0,"sheets":[{"name":"Export form with Color","color":"#FF0000","rows":[[{"data":"apple"},{"data":"low","style":{"fill":{"fillType":"solid","color":{"rgb":"F9D73F"}}}}],[{"data":"pineapple","style":{"fill":{"fillType":"solid","color":{"rgb":"F9D73F"}}}},{"data":"","style":{}}]]}]}', true);
+        foreach ($configColor['sheets'] as $index => $sheet) {
+            $configColor['sheets'][$index] = \array_merge($sheet, ['validations' => [null, $validation]]);
+        }
         $this->assertSame('Export form with Color', $this->callMethod($this->spreadSheetGenerator, 'buildUpSheets', [$configColor])->getActiveSheet()->getTitle());
         $this->assertSame('pineapple', $this->callMethod($this->spreadSheetGenerator, 'buildUpSheets', [$configColor])->getActiveSheet()->getCell('A2')->getValue());
     }

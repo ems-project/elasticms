@@ -20,7 +20,7 @@
         <service id="EMS\CommonBundle\Contracts\Log\LocalizedLoggerFactoryInterface" alias="ems_common.common_log.localized_logger_factory" />
 
         <service id="EMS\CommonBundle\Contracts\ExpressionServiceInterface" alias="ems_common.service.expression_service" />
-        <service id="EMS\CommonBundle\Contracts\SpreadsheetGeneratorServiceInterface" alias="ems_common.service.spreadsheet_generator_service" />
+        <service id="EMS\CommonBundle\Contracts\Spreadsheet\SpreadsheetGeneratorServiceInterface" alias="ems_common.service.spreadsheet_generator_service" />
 
         <service id="EMS\CommonBundle\Contracts\Twig\TemplateFactoryInterface" alias="ems.common.twig.template_factory" />
     </services>

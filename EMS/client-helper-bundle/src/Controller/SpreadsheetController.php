@@ -6,7 +6,7 @@ namespace EMS\ClientHelperBundle\Controller;
 
 use EMS\ClientHelperBundle\Helper\Request\EmschRequest;
 use EMS\ClientHelperBundle\Helper\Request\Handler;
-use EMS\CommonBundle\Contracts\SpreadsheetGeneratorServiceInterface;
+use EMS\CommonBundle\Contracts\Spreadsheet\SpreadsheetGeneratorServiceInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 final readonly class SpreadsheetController

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\CLI\Client\Report;
 
-use EMS\CommonBundle\Common\SpreadsheetGeneratorService;
-use EMS\CommonBundle\Contracts\SpreadsheetGeneratorServiceInterface;
+use EMS\CommonBundle\Common\Spreadsheet\SpreadsheetGeneratorService;
+use EMS\CommonBundle\Contracts\Spreadsheet\SpreadsheetGeneratorServiceInterface;
 use Symfony\Component\HttpFoundation\HeaderUtils;
 
 abstract class AbstractReport

@@ -259,6 +259,40 @@ I.e.:
 }) }}">Download Excel</a>
 ```
 
+We can extend the columns of [emsco_datatable](#emsco_datatable) to add validation to define dropdown lists to the Excel file via a formula.
+
+- `validation` : to add a validation on all cells in a column
+  - `type`: `list`. Default value `list` for a dropdown list.
+  - `formula`: Set the formule for the column
+  - `allow_blank`: Allow blank for a cell. Default `true`. Need `show_error` set to `true`.
+  - `show_input`: Enable show `prompt_title`. Default `true`.
+  - `show_error`: Enable show `error_title`. Default `true`.
+  - `prompt_title`: Prompt input text, override the default value `Chose a value from the list`. Need `show_input` set to `true`.
+  - `error_title`: Error text, override the default value `This value doesn't match the data validation restrictions defined for this cell`. Need `show_error` set to `true`.
+
+I.e.:
+
+```twig
+<a href="{{ emsco_datatable_excel_path(['default'],['miniature'], {
+    "columns": [{
+        "label": "Name",
+        "template": "{{ data.source.name }}"
+    },{
+        "label": "Level",
+        "validation": {
+            "type" : "list",
+            "formula" : "low,medium,high",
+            "allow_blank": false
+            "prompt_title": "Chose a level",
+            "error_title": "Does not match a level in the list",
+            "show_input": true,
+            "show_error": true,
+        }
+    }]
+}) }}">Download Excel</a>
+```
+
+
 # emsco_datatable_csv_path
 
 This function is generating a path to an CSV generator route. This twig function has the same signature as the [emsco_datatable](#emsco_datatable) twig function.

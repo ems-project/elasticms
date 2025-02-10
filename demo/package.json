@@ -44,7 +44,6 @@
     "js-cookie": "^2.2.1",
     "masonry-layout": "^4.2.2",
     "popper.js": "^1.16.1",
-    "reveal.js": "^4.2.1",
     "swiper": "^6.3.3"
   }
 }

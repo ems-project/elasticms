@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block request %}
-    {% for section in structure.children|filter(p => p.id in pages) %}
+    {% for section in structure.children|filter(p => attribute(pages, p.id) is defined) %}
         {{ block('item') }}
     {% endfor %}
 {% endblock request %}

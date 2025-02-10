@@ -1,10 +1,13 @@
 {
+    "display_label_fr": "Contactez-nous / Contacteer ons",
+    "display_label_nl": "Contacteer ons / Contactez-nous",
     "fr": {
         "body": "<h2>Un projet &agrave; concr&eacute;tiser ?</h2>\r\n\r\n<p>Vous voulez en savoir plus ? Vous avez des questions ?</p>\r\n\r\n<h3>Dites-nous tout !&nbsp;</h3>\r\n\r\n<table border=\"0\" style=\"width:100%;\">\r\n\t<tbody>\r\n\t\t<tr>\r\n\t\t\t<td>\r\n\t\t\t<p><strong>Mathieu De Keyzer</strong></p>\r\n\r\n\t\t\t<p>Responsable technique</p>\r\n\r\n\t\t\t<p><a href=\"mailto:webagency@smals.be\" target=\"_parent\">Par e-mail</a></p>\r\n\r\n\t\t\t<p><a href=\"tel:+3227875909\" target=\"_parent\">Par t&eacute;l&eacute;phone</a></p>\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t<p><strong>David Meert</strong></p>\r\n\r\n\t\t\t<p>Gestion de projet</p>\r\n\r\n\t\t\t<p><a href=\"mailto:webagency@smals.be\" target=\"_parent\">Par e-mail</a></p>\r\n\r\n\t\t\t<p><a href=\"tel:+3227874523\" target=\"_parent\">Par t&eacute;l&eacute;phone</a></p>\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t<p><strong>Tamara Beeckmans</strong></p>\r\n\r\n\t\t\t<p>Conception et r&eacute;alisation</p>\r\n\r\n\t\t\t<p><a href=\"mailto:webagency@smals.be\" target=\"_parent\">Par e-mail</a></p>\r\n\r\n\t\t\t<p><a href=\"tel:+3227875841\" target=\"_parent\">Par t&eacute;l&eacute;phone</a></p>\r\n\t\t\t</td>\r\n\t\t</tr>\r\n\t</tbody>\r\n</table>\r\n\r\n<p>&nbsp;</p>",
         "components": "[]",
         "description": "<p>Vous voulez en savoir plus sur elasticMS ? Vous avez des questions ? Contactez notre &eacute;quipe.</p>",
         "meta_title": "Contactez-nous | elasticMS",
         "noindex": false,
+        "slug": "contactez-nous",
         "title": "Contactez-nous"
     },
     "label": "Contact form",
@@ -15,6 +18,7 @@
         "description": "<p>Meer weten over elasticMS? Nog vragen? Neem contact met ons op.</p>",
         "meta_title": "Contacteer ons | elasticMS",
         "noindex": false,
+        "slug": "contacteer-ons",
         "title": "Contacteer ons"
     },
     "title_fr": "Contactez-nous",

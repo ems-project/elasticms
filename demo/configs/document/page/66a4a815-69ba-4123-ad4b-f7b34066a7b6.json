@@ -1,10 +1,13 @@
 {
+    "display_label_fr": "Facilit\u00e9s pour les utilisateurs / Gebruiksvriendelijkheid",
+    "display_label_nl": "Gebruiksvriendelijkheid / Facilit\u00e9s pour les utilisateurs",
     "fr": {
         "body": "<h2>Prise en main facile du CMS</h2>\r\n\r\n<p>Gr&acirc;ce &agrave; son administration intuitive, elasticMS se caract&eacute;rise par des facilit&eacute;s d&rsquo;utilisation sans besoin de comp&eacute;tences en programmation.</p>\r\n\r\n<hr />\r\n<h2>&Eacute;diteur wysiwyg</h2>\r\n\r\n<p>&quot;What You See Is What You Get&quot;. Son interface de r&eacute;daction est simplifi&eacute;e, permettant de cr&eacute;er, mettre en forme et voir le rendu du contenu sans conna&icirc;tre le langage html.</p>\r\n\r\n<hr />\r\n<h2>Workflow de publication</h2>\r\n\r\n<p>elasticMS propose une mod&eacute;lisation des t&acirc;ches &agrave; accomplir par les utilisateurs sur l&rsquo;ensemble de la cha&icirc;ne de publication, avec un circuit de validation des contenus.</p>\r\n\r\n<hr />\r\n<h2>Gestion de t&acirc;ches</h2>\r\n\r\n<p>Les diff&eacute;rents utilisateurs (administrateur, &eacute;diteur, auteur, contributeur, lecteur&hellip;) ont un niveau d&rsquo;acc&egrave;s diff&eacute;rent leur octroyant des droits d&rsquo;administration propres &agrave; chacun.</p>\r\n\r\n<hr />\r\n<h2>Formations sur mesure</h2>\r\n\r\n<p>Des formations sur mesure dispens&eacute;es par nos experts sont possibles pour les utilisateurs moins &agrave; l&rsquo;aise ou d&eacute;sirant ma&icirc;triser toutes les subtilit&eacute;s d&rsquo;elasticMS.</p>\r\n\r\n<hr />\r\n<h2>Disponibilit&eacute; du front-end</h2>\r\n\r\n<p>Le front-end sera toujours disponible m&ecirc;me si le back-end rencontre des soucis d&rsquo;administration. L&rsquo;utilisateur aura toujours acc&egrave;s au site m&ecirc;me si l&rsquo;administrateur ne r&eacute;pond plus.</p>\r\n\r\n<hr />\r\n<h2>R&eacute;visions</h2>\r\n\r\n<p>Le contr&ocirc;le des r&eacute;visions permet de suivre les modifications apport&eacute;es aux diff&eacute;rents contenus publi&eacute;s par les utilisateurs du CMS et de republier une ancienne version de la page.</p>\r\n\r\n<hr />\r\n<h2>Content oriented</h2>\r\n\r\n<p>Principe fondateur de la gestion de contenu. Celui-ci est strictement s&eacute;par&eacute; de la pr&eacute;sentation et est stock&eacute; dans une database. Des solutions responsive sont &eacute;galement propos&eacute;es.</p>\r\n\r\n<hr />\r\n<h2>GDPR oriented</h2>\r\n\r\n<p>elasticMS r&eacute;pond aux exigences europ&eacute;ennes de protection des donn&eacute;es des utilisateurs (General Data Protection Regulation).</p>\r\n\r\n<hr />\r\n<h2>WCAG oriented</h2>\r\n\r\n<p>Le CMS r&eacute;pond aux normes visant &agrave; rendre les contenus web plus accessibles aux personnes en situation de handicap (Web Content Accessibility Guidelines).</p>",
         "components": "[]",
         "description": "<p>&Agrave; c&ocirc;t&eacute; de sa facilit&eacute; d&#39;utilisation, elasticMS dispose de nombreux atouts qui pourront s&eacute;duire les utilisateurs.</p>",
         "meta_title": "Facilit\u00e9s pour les utilisateurs | elasticMS",
         "noindex": false,
+        "slug": "facilites-pour-les-utilisateurs",
         "subtitle": "Voir les facilit\u00e9s",
         "title": "Facilit\u00e9s pour les utilisateurs"
     },
@@ -16,6 +19,7 @@
         "description": "<p>Naast gebruiksvriendelijkhied heeft elasticMS nog heel wat andere voordelen.</p>",
         "meta_title": "Gebruiksvriendelijkheid | elasticMS",
         "noindex": false,
+        "slug": "gebruiksvriendelijkheid",
         "subtitle": "Lees meer over de gebruiksvriendelijkheid",
         "title": "Gebruiksvriendelijkheid"
     },

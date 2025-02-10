@@ -1,10 +1,13 @@
 {
+    "display_label_fr": "elasticMS / elasticMS",
+    "display_label_nl": "elasticMS / elasticMS",
     "fr": {
         "body": "<p class=\"lead\">Un CMS sur mesure au service du secteur public</p>\r\n\r\n<p>&nbsp;</p>",
         "components": "[{\"id\":\"8f212960-9e46-4c76-98c6-b8c75ea1d927\",\"label\":\"Fonctionnalit\u00e9s\",\"type\":\"grid\",\"object\":{\"label\":\"Fonctionnalit\u00e9s\",\"target\":\"page:1f4217e0-3aeb-45aa-8caf-12a1b2445377\",\"target_label\":\"D\u00e9couvrez toutes les fonctionnalit\u00e9s\"},\"children\":[{\"id\":\"9b75d982-10c9-40f1-a422-bd792d78c6df\",\"label\":\"Personnalisation pouss\u00e9e\",\"type\":\"paragraph\",\"object\":{\"label\":\"Personnalisation pouss\u00e9e\",\"body\":\"<h2>Personnalisation pouss&eacute;e</h2>\\r\\n\\r\\n<p>elasticMS est un CMS&nbsp;<strong>hautement personnalisable</strong>. Il propose de nombreuses extensions&nbsp;afin d&rsquo;offrir des solutions adapt&eacute;es aux besoins avanc&eacute;s et aux exigences sp&eacute;cifiques du client.</p>\"},\"children\":[]},{\"id\":\"d54b2267-6ec2-4140-987d-dd3d443765a6\",\"label\":\"Orient\u00e9 WCAG et RGPD\",\"type\":\"paragraph\",\"object\":{\"label\":\"Orient\u00e9 WCAG et RGPD\",\"body\":\"<h2>Orient&eacute; WCAG et RGPD</h2>\\r\\n\\r\\n<p>elasticMS r&eacute;pond aux normes visant &agrave; rendre les contenus Web plus&nbsp;<strong>accessibles</strong>&nbsp;aux personnes en situation de handicap et r&eacute;pond aussi aux exigences de&nbsp;<strong>protection des donn&eacute;es des utilisateurs</strong>.</p>\"},\"children\":[]},{\"id\":\"d8236ded-2591-4dd6-85d9-c72d34c44ddb\",\"label\":\"\u00c9volution constante\",\"type\":\"paragraph\",\"object\":{\"label\":\"\u00c9volution constante\",\"body\":\"<h2>&Eacute;volution constante</h2>\\r\\n\\r\\n<p>elasticMS est un CMS &eacute;volutif en&nbsp;<strong>recherche constante d&rsquo;am&eacute;liorations</strong>&nbsp;techniques permettant de r&eacute;pondre aux besoins r&eacute;els des services publics et de leur faciliter le travail.</p>\"},\"children\":[]}]},{\"id\":\"debfe69f-6c8a-4a6f-bd37-3befa55a6742\",\"label\":\"News\",\"type\":\"grid\",\"object\":{\"label\":\"News\",\"title\":\"What's new ?\",\"layout\":\"grid-with-dark-background\",\"target\":\"page:af70fcc8-e4b3-4e20-97fc-fd91fad751d9\",\"target_label\":\"Toutes les news\"},\"children\":[{\"id\":\"47208b74-caad-4df1-b52a-bef0cbb821e2\",\"label\":\"Renforcement de la confidentialit\u00e9 en ligne avec Cookie Orejime\",\"type\":\"card\",\"object\":{\"label\":\"Renforcement de la confidentialit\u00e9 en ligne avec Cookie Orejime\",\"target\":\"news:829c348b-3b3c-4d85-bdcb-1e5e3dd0ffa7\"},\"children\":[]},{\"id\":\"68b22422-5d68-4ca0-a696-4f4a1cb6ff7d\",\"label\":\"Monitoring externe : cl\u00e9 de fiabilit\u00e9 des services SaaS\",\"type\":\"card\",\"object\":{\"label\":\"Monitoring externe : cl\u00e9 de fiabilit\u00e9 des services SaaS\",\"target\":\"news:03c29e15-3c62-4ce4-b42e-e3e297c2095c\"},\"children\":[]},{\"id\":\"ecc447ea-4411-415c-b197-cfae128fb01f\",\"label\":\"Mise en place d\u2019une cartographie de pointe\",\"type\":\"card\",\"object\":{\"label\":\"Mise en place d\u2019une cartographie de pointe\",\"target\":\"news:3f13e8d7-61c8-481c-b831-543da21987cc\"},\"children\":[]}]}]",
         "description": "<p>elasticMS est un syst&egrave;me de gestion de contenu web (CMS) d&eacute;velopp&eacute; sur mesure pour le secteur public.</p>",
         "meta_title": "Home | elasticMS",
         "noindex": false,
+        "slug": "elasticms",
         "title": "elasticMS"
     },
     "label": "Home",
@@ -15,6 +18,7 @@
         "description": "<p>elasticMS is een contentmanagementsysteem (CMS) ontwikkeld op maat van de publieke sector.</p>",
         "meta_title": "Home | elasticMS",
         "noindex": false,
+        "slug": "elasticms",
         "title": "elasticMS"
     },
     "template": "with_banner",

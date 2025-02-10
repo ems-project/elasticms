@@ -6,7 +6,7 @@
 
 {%- block menu_choice_template -%}
     {%- set choices = [] -%}
-    {%- for item in items -%}
+    {%- for item in items|default([]) -%}
         {%- set path = [] -%}
 
         {%- for i in item.path -%}
@@ -30,7 +30,7 @@
     {%- endif -%}
     <ul>
         {%- for l in locales -%}
-            {%- for item in items -%}
+            {%- for item in items|default([]) -%}
                 {%- set itemLabel = item.path[1:]|map(i => attribute(i.object, l).title|default(i.label))|join(' > ')  -%}
                 <li>
                     <a href="{{ path('emsco_dashboard', {'name': 'sitemap', 'activeItemId': item.id, 'locale': l }) }}">
@@ -56,7 +56,7 @@
             },
         }|emsco_search_query.hits.hits|default([]) -%}
         {%- if found|length > 0 -%}
-            {{ emsco_cant_be_finalized('Another page has been already created for this entry. Please delete this draft.') }}
+            {{ emsco_cant_be_finalized('Another content has been already created for this entry. Please delete this draft.') }}
         {%- endif -%}
     {%- endif -%}
 {%- endblock menu_post_processing -%}

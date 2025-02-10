@@ -83,7 +83,7 @@
                             "options": {
                                 "displayOptions": {
                                     "label": "Menu item",
-                                    "class": "col-md-12 hidden",
+                                    "class": "col-md-12 hidden d-none",
                                     "lastOfRow": false,
                                     "helptext": null,
                                     "expanded": false,
@@ -244,7 +244,7 @@
                                                     "description": null,
                                                     "options": {
                                                         "displayOptions": {
-                                                            "form": "menu-locales"
+                                                            "form": "menu_locales"
                                                         },
                                                         "mappingOptions": [],
                                                         "restrictionOptions": {
@@ -385,7 +385,7 @@
                             "options": {
                                 "displayOptions": {
                                     "label": "Order",
-                                    "class": "hidden",
+                                    "class": "hidden d-none",
                                     "lastOfRow": false,
                                     "helptext": null
                                 },
@@ -456,7 +456,7 @@
                     "name": "reorder",
                     "type": "ems.view.sorter",
                     "label": "Reorder",
-                    "icon": "glyphicon glyphicon-sort-by-order",
+                    "icon": "fa fa-unsorted",
                     "options": {
                         "body": "{}",
                         "size": 100,

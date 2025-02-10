@@ -4,7 +4,7 @@
     "properties": {
         "name": "preview",
         "label": "Preview",
-        "alias": "ems_promo_v2_preview",
+        "alias": "ems_demo_preview",
         "color": "aqua",
         "baseUrl": null,
         "managed": true,

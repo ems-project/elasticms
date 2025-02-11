@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Contracts\Bridge\Core;
 
+use EMS\CommonBundle\Common\EMSLink;
+
 interface CoreDataBridgeInterface
 {
     /** @param array<string, mixed> $rawData */
@@ -21,4 +23,6 @@ interface CoreDataBridgeInterface
 
     /** @return array{'id': int, 'data': array<string, mixed>} */
     public function getDraft(int $revisionId): array;
+
+    public function publish(EMSLink $emsLink, string $environment): bool;
 }

@@ -207,7 +207,11 @@ class S3Storage extends AbstractUrlStorage
             throw new \RuntimeException('Missing multipart upload');
         }
 
-        $this->getS3Client()->completeMultipartUpload($cache->get());
+        try {
+            $this->getS3Client()->completeMultipartUpload($cache->get());
+        } catch (\Throwable) {
+            // TODO: weird issue in some cases, should be removed when fixed
+        }
         $this->cache->delete($uploadKey);
     }
 

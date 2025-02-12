@@ -219,7 +219,8 @@ final class MultiplexedTabContainerFieldType extends DataFieldType
             }
         }
 
-        if ($locale && isset($choices[$locale])) {
+        $localePreferredFirst = $fieldType->getDisplayBoolOption(self::LOCALE_PREFERRED_FIRST_DISPLAY_OPTION, false);
+        if (!$localePreferredFirst && $locale && isset($choices[$locale])) {
             $choices = [...[$locale => $choices[$locale]], ...\array_filter($choices, static fn ($l) => $l !== $locale)];
         }
 

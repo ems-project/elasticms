@@ -1,5 +1,12 @@
 # Changelog 6.x
 
+## 6.0.1 (2025-02-12)
+### Bug Fixes
+* fix(admin/ui): select2 in bootstrap's modal by @theus77 in https://github.com/ems-project/elasticms/pull/1192
+* fix(common/storage): weird s3 issue on completeMultipartUpload by @theus77 in https://github.com/ems-project/elasticms/pull/1197
+* fix(demo): Font Awesome 5 Free -> Font Awesome 6 Free by @theus77 in https://github.com/ems-project/elasticms/pull/1193
+* fix(emsch/template): rollback exits use template builder by @Davidmattei in https://github.com/ems-project/elasticms/pull/1200
+
 ## 6.0.0 (2025-02-05)
 ### Features
 * feat(admin): cke4 features in bootstrap5 by @theus77 in https://github.com/ems-project/elasticms/pull/1179

@@ -203,7 +203,8 @@ final class MultiplexedTabContainerFieldType extends DataFieldType
     {
         $choices = [];
 
-        if (true === $fieldType->getDisplayOption(self::WITH_LOCALES_VARIABLE_DISPLAY_OPTION)) {
+        $withLocalesVariable = true === $fieldType->getDisplayOption(self::WITH_LOCALES_VARIABLE_DISPLAY_OPTION, false);
+        if ($withLocalesVariable) {
             foreach ($this->locales as $locale) {
                 $choices[$locale] = Locales::getName($locale);
             }
@@ -226,7 +227,7 @@ final class MultiplexedTabContainerFieldType extends DataFieldType
 
         $choices = \array_flip($choices);
 
-        if (true === $fieldType->getDisplayOption(self::WITH_LOCALES_VARIABLE_DISPLAY_OPTION)) {
+        if ($withLocalesVariable) {
             $options = $fieldType->getDisplayOptions();
             $options[self::LABELS_DISPLAY_OPTION] = \implode(PHP_EOL, \array_keys($choices));
             $options[self::VALUES_DISPLAY_OPTION] = \implode(PHP_EOL, $choices);

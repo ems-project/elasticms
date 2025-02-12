@@ -209,11 +209,10 @@ final class MultiplexedTabContainerFieldType extends DataFieldType
             }
         }
 
-        $labels = $fieldType->getDisplayOption(self::LABELS_DISPLAY_OPTION) ?? '';
         $values = $fieldType->getDisplayOption(self::VALUES_DISPLAY_OPTION);
         if (null !== $values) {
             $values = self::textAreaToArray($values);
-            $labels = self::textAreaToArray($labels);
+            $labels = self::textAreaToArray($fieldType->getDisplayOption(self::LABELS_DISPLAY_OPTION));
             $counter = 0;
             foreach ($values as $value) {
                 $choices[$value] = $labels[$counter++] ?? $value;

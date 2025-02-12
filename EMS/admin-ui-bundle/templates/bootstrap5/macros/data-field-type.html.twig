@@ -331,20 +331,20 @@
 
     {% if dataField.fieldType.displayOptions.label is defined and dataField.fieldType.displayOptions.label %}
         <div class="card card-default">
-        {% if parentType not in ['EMS\\CoreBundle\\Form\\DataField\\TabsFieldType', 'EMS\\CoreBundle\\Form\\DataField\\MultiplexedTabContainerFieldType'] %}
-            <div class="card-heading">
-                <h3 class="card-title">
-                    {% if dataField.fieldType.displayOptions.icon is defined %}
-                        <i class="{{ dataField.fieldType.displayOptions.icon }}"></i>
-                    {% endif %}
-                    {% if dataField.fieldType.displayOptions.label is defined and dataField.fieldType.displayOptions.label%}
-                        {{ dataField.fieldType.displayOptions.label }}
-                    {% else %}
-                        {{ dataField.fieldType.name }}
-                    {% endif %}
-                </h3>
-            </div>
-        {% endif %}
+            {% if parentType not in ['EMS\\CoreBundle\\Form\\DataField\\TabsFieldType', 'EMS\\CoreBundle\\Form\\DataField\\MultiplexedTabContainerFieldType'] %}
+                <div class="card-heading">
+                    <h3 class="card-title">
+                        {% if dataField.fieldType.displayOptions.icon is defined %}
+                            <i class="{{ dataField.fieldType.displayOptions.icon }}"></i>
+                        {% endif %}
+                        {% if dataField.fieldType.displayOptions.label is defined and dataField.fieldType.displayOptions.label%}
+                            {{ dataField.fieldType.displayOptions.label }}
+                        {% else %}
+                            {{ dataField.fieldType.name }}
+                        {% endif %}
+                    </h3>
+                </div>
+            {% endif %}
         <div class="card-body container-fluid">
     {% endif %}
 
@@ -409,49 +409,34 @@
 {% endblock %}
 
 {% block EMS_CoreBundle_Form_DataField_MultiplexedTabContainerFieldType %}
-    {% set labels = dataField.fieldType.displayOptions.labels|default('')|replace({"\r":''})|split('\n') %}
-    {% set values = dataField.fieldType.displayOptions.values|default('')|replace({"\r":''})|split('\n') %}
-    {% set choices = [] %}
-    {% for value in values %}
-        {% set choices = choices|merge({(value): attribute(labels, loop.index0)|default(value)}) %}
-    {% endfor %}
-
-    {% if locale != null and locale in values %}
-        {% set values = [locale]|merge(values|filter(v => v != locale))  %}
-    {% endif %}
-
-    {% if dataField.fieldType.displayOptions.localePreferredFirst|default(false) and app.user.language in values %}
-        {% set values = values|sort((a, b) => a == app.user.language ? -1 : b == app.user.language ? 1 : 0) %}
-    {% endif %}
-
-    <div class="card card-{{ theme_color }} card-outline card-outline-tabs">
-        <div class="card-header p-0 border-bottom-0">
-            <ul class="nav nav-tabs" role="tablist">
-                {% for value in values|default([]) %}
-                    <li class="nav-item {% if loop.index == 1%}active{% endif %}">
-                        <a href="#item_{{ path|join('_')~'_'~loop.index0 }}__tab" data-bs-toggle="pill" class="nav-link{% if loop.index == 1%} active{% endif %}" id="{{ path|join('_')~'_'~loop.index0 }}-tab"  data-bs-target="#item_{{ path|join('_')~'_'~loop.index0 }}__tab" role="tab" aria-selected="{% if loop.index == 1%}true{%else%}false{% endif %}">
-                            {{ attribute(choices, value) }}
-                        </a>
-                    </li>
-                {% endfor %}
-            </ul>
+<div class="card card-{{ theme_color }} card-outline card-outline-tabs">
+    <div class="card-header p-0 border-bottom-0">
+        <ul class="nav nav-tabs" role="tablist">
+            {% for key, item in  dataField.getChildren %}
+                <li class="nav-item {% if loop.index == 1%}active{% endif %}">
+                    <a href="#item_{{ path|join('_')~'_'~loop.index0 }}__tab" data-bs-toggle="pill" class="nav-link{% if loop.index == 1%} active{% endif %}" id="{{ path|join('_')~'_'~loop.index0 }}-tab"  data-bs-target="#item_{{ path|join('_')~'_'~loop.index0 }}__tab" role="tab" aria-selected="{% if loop.index == 1%}true{%else%}false{% endif %}">
+                        {{ item.formLabel ?? key }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
     </div>
     <div class="card-body">
         <div class="tab-content">
-            {% for value in values|default([]) %}
+            {% for key, item in  dataField.getChildren %}
                 <div class="tab-pane{% if loop.index == 1%} active{% endif %}" id="item_{{ path|join('_')~'_'~loop.index0 }}__tab">
-                    {% set childData = source[value]|default([]) %}
-                    {% set childCompareData = compareRawData[value]|default([]) %}
+                    {% set childData = source[key]|default([]) %}
+                    {% set childCompareData = compareRawData[key]|default([]) %}
                     <div class="row">
-                            {% for grandchild in dataField.getChildren.get(value).getChildren|default([]) %}
-                                <div class="{% if grandchild.fieldType.displayOptions.class is defined and grandchild.fieldType.displayOptions.class  %}{{ grandchild.fieldType.displayOptions.class }}{%else%}col-md-12{% endif %}">
-                        {{ _self.renderDataFieldBlock(grandchild, childData, compare, childCompareData, '', path|merge([loop.index0]), locale) }}
+                        {% for grandchild in item.getChildren|default([]) %}
+                            <div class="{% if grandchild.fieldType.displayOptions.class is defined and grandchild.fieldType.displayOptions.class  %}{{ grandchild.fieldType.displayOptions.class }}{%else%}col-md-12{% endif %}">
+                                {{ _self.renderDataFieldBlock(grandchild, childData, compare, childCompareData, '', path|merge([loop.index0]), locale) }}
+                            </div>
+                            {% if grandchild.fieldType.displayOptions.lastOfRow is defined and grandchild.fieldType.displayOptions.lastOfRow %}
+                                <div class="clearfix"></div>
+                            {% endif %}
+                        {% endfor %}
                     </div>
-                                {% if grandchild.fieldType.displayOptions.lastOfRow is defined and grandchild.fieldType.displayOptions.lastOfRow %}
-                                    <div class="clearfix"></div>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
                 </div>
             {% endfor %}
         </div>
@@ -477,28 +462,18 @@
             <ul class="nav nav-tabs">
                 {% set counter = 1 %}
                 {% set tabs = dataField.getChildren|filter(child => not child.fieldType.deleted) %}
-                    {% set tabsLocalePreferredFirst = dataField.fieldType.displayOptions.localePreferredFirst|default(false) %}
-            {% if tabsLocalePreferredFirst and app.user.language in tabs|keys %}
-                {% set tabs = tabs|sort((a, b) => a.fieldType.name == app.user.language ? -1 : b.fieldType.name == app.user.language ? 1 : 0) %}
-            {% endif %}
+                {% set tabsLocalePreferredFirst = dataField.fieldType.displayOptions.localePreferredFirst|default(false) %}
+                {% if tabsLocalePreferredFirst and app.user.language in tabs|keys %}
+                    {% set tabs = tabs|sort((a, b) => a.fieldType.name == app.user.language ? -1 : b.fieldType.name == app.user.language ? 1 : 0) %}
+                {% endif %}
 
-            {% for child in tabs %}
-                {%if 'EMS\\CoreBundle\\Form\\DataField\\MultiplexedTabContainerFieldType' == child.fieldType.type|default(null) %}
-                        {% set labels = child.fieldType.displayOptions.labels|default('')|replace({"\r":''})|split('\n') %}
-                        {% set values = child.fieldType.displayOptions.values|default('')|replace({"\r":''})|split('\n')%}
-                        {% set choices = [] %}
-                        {% for value in values %}
-                            {% set choices = choices|merge({(value): attribute(labels, loop.index0)|default(value)}) %}
-                        {% endfor %}
-                        {% if child.fieldType.displayOptions.localePreferredFirst|default(false) and app.user.language in values %}
-                            {% set values = values|sort((a, b) => a == app.user.language ? -1 : b == app.user.language ? 1 : 0) %}
-                        {% endif %}
-
-                        {% for value in values %}
+                {% for child in tabs %}
+                    {%if 'EMS\\CoreBundle\\Form\\DataField\\MultiplexedTabContainerFieldType' == child.fieldType.type|default(null) %}
+                        {% for key, item in  child.getChildren %}
                             {% with {
-                                'child': child.getChildren[value],
+                                'child': item,
                                 'counter': counter,
-                                'label': attribute(choices, value),
+                                'label': item.formLabel ?? key,
                                 'path': path|merge([counter]),
                             }
                             %}
@@ -530,8 +505,7 @@
                             {% with {
                                 'child': item,
                                 'counter': counter,
-                            }
-                            %}
+                            } %}
                                 <div class="tab-pane fade{% if counter == 1%} active show{% endif %}" id="item_{{ path|join('_')~'_'~counter }}__tab" role="tabpanel" aria-labelledby="{{ path|join('_') }}-tab">
                                     {% set childData = source[key]|default([]) %}
                                     {% set childCompareData = compareRawData[key]|default([]) %}

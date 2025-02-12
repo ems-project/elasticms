@@ -430,32 +430,32 @@
                 {% for value in values|default([]) %}
                     <li class="nav-item {% if loop.index == 1%}active{% endif %}">
                         <a href="#item_{{ path|join('_')~'_'~loop.index0 }}__tab" data-bs-toggle="pill" class="nav-link{% if loop.index == 1%} active{% endif %}" id="{{ path|join('_')~'_'~loop.index0 }}-tab"  data-bs-target="#item_{{ path|join('_')~'_'~loop.index0 }}__tab" role="tab" aria-selected="{% if loop.index == 1%}true{%else%}false{% endif %}">
-            {{ attribute(choices, value) }}
-        </a>
-    </li>
-{% endfor %}
-</ul>
-</div>
-<div class="card-body">
-    <div class="tab-content">
-        {% for value in values|default([]) %}
-            <div class="tab-pane{% if loop.index == 1%} active{% endif %}" id="item_{{ path|join('_')~'_'~loop.index0 }}__tab">
-                {% set childData = source[value]|default([]) %}
-                {% set childCompareData = compareRawData[value]|default([]) %}
-                <div class="row">
-                        {% for grandchild in dataField.getChildren.get(value).getChildren|default([]) %}
-                            <div class="{% if grandchild.fieldType.displayOptions.class is defined and grandchild.fieldType.displayOptions.class  %}{{ grandchild.fieldType.displayOptions.class }}{%else%}col-md-12{% endif %}">
-                    {{ _self.renderDataFieldBlock(grandchild, childData, compare, childCompareData, '', path|merge([loop.index0]), locale) }}
-                </div>
-                            {% if grandchild.fieldType.displayOptions.lastOfRow is defined and grandchild.fieldType.displayOptions.lastOfRow %}
-                                <div class="clearfix"></div>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-            </div>
-        {% endfor %}
+                            {{ attribute(choices, value) }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
     </div>
-</div>
+    <div class="card-body">
+        <div class="tab-content">
+            {% for value in values|default([]) %}
+                <div class="tab-pane{% if loop.index == 1%} active{% endif %}" id="item_{{ path|join('_')~'_'~loop.index0 }}__tab">
+                    {% set childData = source[value]|default([]) %}
+                    {% set childCompareData = compareRawData[value]|default([]) %}
+                    <div class="row">
+                            {% for grandchild in dataField.getChildren.get(value).getChildren|default([]) %}
+                                <div class="{% if grandchild.fieldType.displayOptions.class is defined and grandchild.fieldType.displayOptions.class  %}{{ grandchild.fieldType.displayOptions.class }}{%else%}col-md-12{% endif %}">
+                        {{ _self.renderDataFieldBlock(grandchild, childData, compare, childCompareData, '', path|merge([loop.index0]), locale) }}
+                    </div>
+                                {% if grandchild.fieldType.displayOptions.lastOfRow is defined and grandchild.fieldType.displayOptions.lastOfRow %}
+                                    <div class="clearfix"></div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 </div>
 {% endblock %}
 
@@ -538,8 +538,8 @@
                                     <div class="row">
                                     {% for grandchild in child.getChildren|default([]) %}
                                         <div class="{% if grandchild.fieldType.displayOptions.class is defined and grandchild.fieldType.displayOptions.class  %}{{ grandchild.fieldType.displayOptions.class }}{%else%}col-md-12{% endif %}">
-                                        {{ _self.renderDataFieldBlock(grandchild, childData, compare, childCompareData, '', path|merge([counter]), locale) }}
-                                    </div>
+                                            {{ _self.renderDataFieldBlock(grandchild, childData, compare, childCompareData, '', path|merge([counter]), locale) }}
+                                        </div>
                                         {% if grandchild.fieldType.displayOptions.lastOfRow is defined and grandchild.fieldType.displayOptions.lastOfRow %}
                                             <div class="clearfix"></div>
                                         {% endif %}

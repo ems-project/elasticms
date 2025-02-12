@@ -70,15 +70,6 @@ final class Settings
         return $this->templateContentTypes[$contentTypeName];
     }
 
-    public function hasTemplateContentType(string $contentTypeName): bool
-    {
-        if (empty($this->templateContentTypes)) {
-            throw new \RuntimeException('Missing config EMSCH_TEMPLATES');
-        }
-
-        return isset($this->templateContentTypes[$contentTypeName]);
-    }
-
     /**
      * @return ContentType[]
      */

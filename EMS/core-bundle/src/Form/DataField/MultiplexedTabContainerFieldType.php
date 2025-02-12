@@ -226,7 +226,13 @@ final class MultiplexedTabContainerFieldType extends DataFieldType
 
         $choices = \array_flip($choices);
 
-        $localePreferredFirst = $fieldType->getDisplayBoolOption(self::LOCALE_PREFERRED_FIRST_DISPLAY_OPTION, false);
+        if (true === $fieldType->getDisplayOption(self::WITH_LOCALES_VARIABLE_DISPLAY_OPTION)) {
+            $options = $fieldType->getDisplayOptions();
+            $options[self::LABELS_DISPLAY_OPTION] = \implode(PHP_EOL, \array_keys($choices));
+            $options[self::VALUES_DISPLAY_OPTION] = \implode(PHP_EOL, $choices);
+            $fieldType->setDisplayOptions($options);
+        }
+
         if (!$localePreferredFirst) {
             return $choices;
         }

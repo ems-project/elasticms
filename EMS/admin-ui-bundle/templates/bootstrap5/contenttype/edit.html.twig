@@ -17,14 +17,9 @@
     <div class="row">
         <div class="col-12">
             <div class="card card-{{ theme_color }} card-outline card-outline-tabs">
-                <div class="card-header">
-                    <h3 class="card -title"><i class="fa fa-sitemap"></i> {{ contentType.singularName }}'s metas</h3>
-                </div>
-                <!-- /.box-header -->
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-4">
-                            {# 						{{ form_row(form.active) }}#}
                             {{ form_row(form.rootContentType) }}
                             {% if contentType.environment.managed %}
                                 {{ form_row(form.askForOuuid) }}

@@ -2,7 +2,7 @@
 {% trans_default_domain 'EMSCoreBundle' %}
 
 {% block breadcrumb %}
-	<ol class="breadcrumb">
+	<ol class="breadcrumb float-sm-end">
 		<li class="breadcrumb-item"><a href="{{ path('ems_core_query_search_index') }}"><i class="{{ 'view.icon.class.query_search'|trans }}"></i> {{ 'query_search.menu'|trans }}</a></li>
 		<li class="breadcrumb-item">{{ block('title') }}</li>
    	</ol>

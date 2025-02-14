@@ -3,7 +3,7 @@
 {% block title %}{{ 'environment.edit.title'|trans({ '%name%': environment.name }) }}{% endblock %}
 {% block pagetitle %}{{ block('title') }}{% endblock %}
 {% block breadcrumb %}
-	<ol class="breadcrumb">
+	<ol class="breadcrumb float-sm-end">
 		<li class="breadcrumb-item"><i class="fa fa-database"></i> {{ 'environment.plural'|trans }}</li>
 		<li class="breadcrumb-item"><a href={{ path('emsco_admin_environment_index') }}>{{ 'environment.index.title'|trans }}</a></li>
    		<li class="breadcrumb-item active">{{ 'environment.edit.short_title'|trans }}</li>

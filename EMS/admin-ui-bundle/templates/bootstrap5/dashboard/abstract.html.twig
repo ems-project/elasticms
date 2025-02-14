@@ -2,7 +2,7 @@
 {% trans_default_domain 'emsco-twigs' %}
 
 {% block breadcrumb %}
-    <ol class="breadcrumb">
+    <ol class="breadcrumb float-sm-end">
         <li class="breadcrumb-item"><a href="{{ path('emsco_dashboard_admin_index') }}"><i class="{{ 'view.icon.class.dashboard'|trans }}"></i> {{ 'dashboard.menu'|trans }}</a></li>
         {% block breadcrumb_items %}{% endblock breadcrumb_items %}
     </ol>

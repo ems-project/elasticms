@@ -86,7 +86,7 @@
                             {{ form_row(form.extra) }}
 
                             {% if mapping %}
-                                {% embed "@EMSAdminUI/bootstrap5/core/panel.html.twig" with { icon: 'fa fa-sliders', id: 'mapping-info'} %}
+                                {% embed "@EMSAdminUI/bootstrap5/core/panel.html.twig" with { icon: 'fa fa-sliders'} %}
                                     {% block title %}Mapping{% endblock title %}
                                     {% block body %}
                                         <pre class="ems-code-editor" data-language="ace/mode/json"
@@ -95,7 +95,7 @@
                                 {% endembed  %}
                             {% endif %}
 
-                            {% embed "@EMSAdminUI/bootstrap5/core/panel.html.twig" with { icon: 'fa fa-ticket', id: 'tasks'} %}
+                            {% embed "@EMSAdminUI/bootstrap5/core/panel.html.twig" with { icon: 'fa fa-ticket'} %}
                                 {% block title %}Tasks{% endblock title %}
                                 {% block body %}
                                     <div class="row">
@@ -106,7 +106,7 @@
                             {% endembed  %}
 
                             {% if form.versionFields is defined %}
-                                {% embed "@EMSAdminUI/bootstrap5/core/panel.html.twig" with { icon: 'fa fa-tags', id: 'versioning'} %}
+                                {% embed "@EMSAdminUI/bootstrap5/core/panel.html.twig" with { icon: 'fa fa-tags'} %}
                                     {% block title %}Versioning{% endblock title %}
                                     {% block body %}
                                         <div class="row">

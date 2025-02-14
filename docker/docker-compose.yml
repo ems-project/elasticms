@@ -112,6 +112,11 @@ services:
     ports:
       - 9000:9000
 
+  setup_minio:
+      extends:
+          file: ../demo/docker-compose.yml
+          service: setup_minio
+
   redis:
     extends:
       file: ../demo/docker-compose.yml

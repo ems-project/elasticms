@@ -33,6 +33,8 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
     protected $description;
     /** @var array<mixed>|null */
     protected ?array $options = [];
+    /** @var array<mixed> */
+    protected array $displayExtraOptions = [];
     /** @var int */
     protected $orderKey = 0;
     protected ?FieldType $parent = null;
@@ -222,6 +224,14 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
     }
 
     /**
+     * @param array<mixed> $displayOptions
+     */
+    public function setDisplayExtraOptions(array $displayOptions): void
+    {
+        $this->displayExtraOptions = $displayOptions;
+    }
+
+    /**
      * @param ?mixed $default
      *
      * @return mixed
@@ -230,12 +240,12 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
     {
         $options = $this->getDisplayOptions();
 
-        return $options[$key] ?? $default;
+        return $this->displayExtraOptions[$key] ?? $options[$key] ?? $default;
     }
 
     public function getDisplayBoolOption(string $key, bool $default): bool
     {
-        return (bool) ($this->options[self::DISPLAY_OPTIONS][$key] ?? $default);
+        return (bool) ($this->displayExtraOptions[$key] ?? $this->options[self::DISPLAY_OPTIONS][$key] ?? $default);
     }
 
     /**

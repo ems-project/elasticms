@@ -36,6 +36,10 @@
                             {{ form_row(form.pluralName) }}
                             {{ form_row(form.icon) }}
                             {{ form_row(form.color) }}
+                            {% if form.sortOrder is defined %}
+                                {{ form_row(form.sortOrder) }}
+                            {% endif %}
+                            {{ form_row(form.refererFieldName) }}
 
                             <table class="table table-hover">
                                 <thead>
@@ -72,12 +76,6 @@
                                     </tbody>
                                 </table>
                             {% endif %}
-
-                            {% if form.sortOrder is defined %}
-                                {{ form_row(form.sortOrder) }}
-                            {% endif %}
-
-                            {{ form_row(form.refererFieldName) }}
                         </div>
                         <div class="col-md-8">
                             {{ form_row(form.description) }}

@@ -1,114 +1,88 @@
-import $ from 'jquery'
-import { formatRepo, formatRepoSelection } from '../helpers/repo'
+import 'choices.js/public/assets/styles/choices.css'
+import Choices from 'choices.js'
+import { ChangeEvent } from '../events/changeEvent'
 
 export default class ObjectPicker {
   load(target) {
-    const searchApiUrl = $('body').data('search-api')
-    const targetQuery = $(target)
+    const searchApiUrl = document.body.dataset.searchApi
+    const elements = target.querySelectorAll('.objectpicker')
+    for (let i = 0; i < elements.length; ++i) {
+      const element = elements[i]
+      const type = element.dataset.type
+      const searchId = element.dataset.searchId
+      const querySearch = element.dataset.querySearch
+      const querySearchLabel = element.dataset.querySearchLabel
+      const circleOnly = element.dataset.circleOnly
+      const dynamicLoading = element.dataset.dynamicLoading
+      const sortable = element.dataset.sortable
+      const locale = element.dataset.locale
+      const referrerEmsId = element.dataset.referrerEmsId
+      const choices = new Choices(element, {
+        placeholderValue: querySearchLabel ?? 'Search',
+        removeItems: true,
+        removeItemButton: true,
+        allowHTML: true
+      })
 
-    targetQuery.find('.objectpicker').each(function () {
-      const selectItem = $(this)
-
-      const type = selectItem.data('type')
-      const searchId = selectItem.data('search-id')
-      const querySearch = selectItem.data('query-search')
-      const querySearchLabel = selectItem.data('query-search-label')
-      const circleOnly = selectItem.data('circleOnly')
-      const dynamicLoading = selectItem.data('dynamic-loading')
-      const sortable = selectItem.data('sortable')
-      const locale = selectItem.data('locale')
-      const referrerEmsId = selectItem.data('referrer-ems-id')
-
-      const params = {
-        escapeMarkup: function (markup) {
-          return markup
-        }, // let our custom formatter work
-        templateResult: formatRepo, // omitted for brevity, see the source of this page
-        templateSelection: formatRepoSelection, // omitted for brevity, see the source of this page
-        allowClear: true,
-        // https://github.com/select2/select2/issues/3781
-        placeholder: querySearchLabel && querySearchLabel !== '' ? querySearchLabel : 'Search',
-        theme: 'bootstrap-5',
-        dropdownParent: targetQuery
-      }
-
-      if (selectItem.attr('multiple')) {
-        params.closeOnSelect = false
-      }
+      element.addEventListener('change', (event) => {
+        const changeEvent = new ChangeEvent(event.target)
+        changeEvent.dispatch()
+      })
 
       if (dynamicLoading) {
-        params.minimumInputLength = 1
-        params.ajax = {
-          url: searchApiUrl,
-          dataType: 'json',
-          delay: 250,
-          data: function (params) {
-            const data = {
-              q: params.term, // search term
-              page: params.page,
-              type,
-              searchId,
-              querySearch
-            }
+        element.addEventListener('search', async function (event) {
+          const searchValue = event.detail.value.trim()
+          // if (searchValue.length < 2) return;
 
+          try {
+            const params = new URLSearchParams()
+            params.append('q', searchValue)
+            params.append('page', 1)
+            params.append('type', type)
+            params.append('searchId', searchId)
+            params.append('querySearch', querySearch)
             if (locale !== undefined) {
-              data.locale = locale
+              params.append('locale', locale)
             }
             if (referrerEmsId !== undefined) {
-              data.referrerEmsId = referrerEmsId
+              params.append('referrerEmsId', referrerEmsId)
             }
-
             if (circleOnly !== undefined) {
-              data.circle = circleOnly
+              params.append('circle', circleOnly)
             }
-
-            return data
-          },
-          processResults: function (data, params) {
-            // parse the results into the format expected by Select2
-            // since we are using custom formatting functions we do not need to
-            // alter the remote JSON data, except to indicate that infinite
-            // scrolling can be used
-            params.page = params.page || 1
-
-            return {
-              results: data.items,
-              pagination: {
-                more: params.page * 30 < data.total_count
-              }
+            const response = await fetch(`${searchApiUrl}?${params}`)
+            const results = await response.json()
+            choices.clearChoices()
+            if (results.items.length) {
+              const formattedResults = results.items.map((item) => ({
+                value: item.id,
+                label: item.text
+              }))
+              choices.setChoices(formattedResults, 'value', 'label', true)
             }
-          },
-          cache: true
-        }
+          } catch (error) {
+            console.error('Error while retrieving data :', error)
+          }
+        })
       }
-
-      selectItem.select2(params)
-
       if (sortable) {
-        selectItem
-          .parent()
-          .find('ul.select2-selection__rendered')
-          .sortable({
-            stop: function () {
-              // http://stackoverflow.com/questions/45888/what-is-the-most-efficient-way-to-sort-an-html-selects-options-by-value-while
-              const selected = selectItem.val()
-              const options = selectItem.find('option')
-
-              const ul = $(this)
-
-              options.sort(function (a, b) {
-                const indexA = ul.find("li[title='" + a.title.replace(/'/g, "\\'") + "']").index()
-                const indexB = ul.find("li[title='" + b.title.replace(/'/g, "\\'") + "']").index()
-
-                if (indexA > indexB) return 1
-                if (indexA < indexB) return -1
-                return 0
-              })
-              selectItem.empty().append(options)
-              selectItem.val(selected)
-            }
-          })
+        const choicesList = element.parentElement.querySelector('div.choices__list')
+        const spaceship = (a, b) => (a > b) - (a < b)
+        $(choicesList).sortable({
+          stop: function () {
+            const listItems = Array.from(choicesList.querySelectorAll('div.choices__item')).map(
+              (p) => p.dataset.value
+            )
+            const options = Array.from(element.options).sort((a, b) =>
+              spaceship(listItems.indexOf(a.value), listItems.indexOf(b.value))
+            )
+            element.innerHTML = ''
+            options.forEach((option) => element.add(option))
+            const changeEvent = new ChangeEvent(element)
+            changeEvent.dispatch()
+          }
+        })
       }
-    })
+    }
   }
 }

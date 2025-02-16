@@ -1,19 +1,31 @@
-import {EditorRevisionOptions} from "./editorRevisionOptions.ts";
-import {EditorProfile} from "./editorProfile.ts";
-import {CKEditorConfig} from "./ck4/CKEditorConfig.ts";
+import { EditorRevisionOptions } from './editorRevisionOptions.ts'
+import { EditorProfile } from './editorProfile.ts'
+import { CKEditorConfig } from './ck4/CKEditorConfig.ts'
 import { ChangeEvent } from '../events/changeEvent'
 
 declare var CKEDITOR: {
-  replace: (element: HTMLElement, config: CKEditorConfig) => {
-    on: (eventName: string, callback: (event: {
-      editor: {
-        langCode: string
-        lang: any[]
-      }
-    })  => void) => void
+  replace: (
+    element: HTMLElement,
+    config: CKEditorConfig
+  ) => {
+    on: (
+      eventName: string,
+      callback: (event: {
+        editor: {
+          langCode: string
+          lang: any[]
+        }
+      }) => void
+    ) => void
   }
   instances: any
-  on: (event: string, callback: (e: any) => void, scopeObj: null, listenerData: null, priority: number) => void
+  on: (
+    event: string,
+    callback: (e: any) => void,
+    scopeObj: null,
+    listenerData: null,
+    priority: number
+  ) => void
   plugins: {
     addExternal: (name: string, path: string, description: string) => void
   }
@@ -25,7 +37,7 @@ declare var CKEDITOR: {
       i: number
     }
   }
-};
+}
 
 declare class BeforePasteEvent {
   cancel: () => void
@@ -37,11 +49,10 @@ declare class BeforePasteEvent {
 }
 
 export default class Ckeditor4 {
-
   private options: EditorRevisionOptions
   private element: HTMLElement
   private profile: EditorProfile
-  private static config: null|CKEditorConfig = null
+  private static config: null | CKEditorConfig = null
   constructor(element: HTMLElement, options: EditorRevisionOptions | null, profile: EditorProfile) {
     this.options = options ?? ({} as EditorRevisionOptions)
     this.element = element
@@ -51,7 +62,7 @@ export default class Ckeditor4 {
 
   private create(config: CKEditorConfig) {
     const self = this
-    config.height = parseInt(this.element.dataset.height ?? ''+config.height)
+    config.height = parseInt(this.element.dataset.height ?? '' + config.height)
     config.format_tags = this.element.dataset.formatTags ?? config.format_tags
     config.stylesSet = this.element.dataset.stylesSet ?? config.stylesSet
     config.contentsCss = this.element.dataset.contentCss ?? config.contentsCss
@@ -60,34 +71,44 @@ export default class Ckeditor4 {
     config.referrerEmsId = this.element.dataset.referrerEmsId ?? config.referrerEmsId
 
     //http://stackoverflow.com/questions/18250404/ckeditor-strips-i-tag
-    config.allowedContent = true;
-    config.extraAllowedContent = 'p(*)[*]{*};div(*)[*]{*};li(*)[*]{*};ul(*)[*]{*}';
-    CKEDITOR.dtd.$removeEmpty.i = 0;
+    config.allowedContent = true
+    config.extraAllowedContent = 'p(*)[*]{*};div(*)[*]{*};li(*)[*]{*};ul(*)[*]{*}'
+    CKEDITOR.dtd.$removeEmpty.i = 0
 
-    CKEDITOR.on('instanceReady', (event) => {
-      const editor = event.editor;
-      const emsTranslations = self.getDefaultConfig().ems?.translations;
+    CKEDITOR.on(
+      'instanceReady',
+      (event) => {
+        const editor = event.editor
+        const emsTranslations = self.getDefaultConfig().ems?.translations
 
-      if (typeof emsTranslations === 'undefined' || !Object.prototype.hasOwnProperty.call(emsTranslations, editor.langCode)) return;
+        if (
+          typeof emsTranslations === 'undefined' ||
+          !Object.prototype.hasOwnProperty.call(emsTranslations, editor.langCode)
+        )
+          return
 
-        let emsTranslationsLang = emsTranslations[editor.langCode];
-      let ckeditorSections = [
-        ...Object.getOwnPropertyNames(editor.lang),
-        ...Object.getOwnPropertyNames(Object.getPrototypeOf(editor.lang))
-      ];
+        let emsTranslationsLang = emsTranslations[editor.langCode]
+        let ckeditorSections = [
+          ...Object.getOwnPropertyNames(editor.lang),
+          ...Object.getOwnPropertyNames(Object.getPrototypeOf(editor.lang))
+        ]
 
-      ckeditorSections.forEach((section) => {
-        Object.entries(emsTranslationsLang).forEach(([key, value]) => {
-          const splitKey = key.split('.');
-          if (section !== splitKey[0]) return;
-          if (Object.prototype.hasOwnProperty.call(editor.lang[section], splitKey[1])) {
-            editor.lang[section][splitKey[1]] = value;
-          }
-        });
-      });
-    }, null, null, 3)
+        ckeditorSections.forEach((section) => {
+          Object.entries(emsTranslationsLang).forEach(([key, value]) => {
+            const splitKey = key.split('.')
+            if (section !== splitKey[0]) return
+            if (Object.prototype.hasOwnProperty.call(editor.lang[section], splitKey[1])) {
+              editor.lang[section][splitKey[1]] = value
+            }
+          })
+        })
+      },
+      null,
+      null,
+      3
+    )
 
-    const editor = CKEDITOR.replace(this.element, {...config, ...this.profile.config})
+    const editor = CKEDITOR.replace(this.element, { ...config, ...this.profile.config })
     if (!this.element.classList.contains('ignore-ems-update')) {
       editor.on(this.options.onChangeEvent ?? 'key', () => {
         const changeEvent = new ChangeEvent(self.element)
@@ -97,61 +118,73 @@ export default class Ckeditor4 {
 
     const tableDefaultCss = this.element.dataset.tableDefaultCss ?? 'table table-bordered'
     //Set defaults that are compatible with bootstrap for html generated by CKEDITOR (e.g. tables)
-    CKEDITOR.on( 'dialogDefinition', function( ev )
-    {
-      // Take the dialog name and its definition from the event data.
-      const dialogName = ev.data.name;
-      const dialogDefinition = ev.data.definition;
+    CKEDITOR.on(
+      'dialogDefinition',
+      function (ev) {
+        // Take the dialog name and its definition from the event data.
+        const dialogName = ev.data.name
+        const dialogDefinition = ev.data.definition
 
-      // Check if the definition is from the dialog we're interested in (the "Table" dialog).
-      if ( dialogName === 'table' )
-      {
-        // Get a reference to the "Table Info" tab.
-        const infoTab = dialogDefinition.getContents( 'info' );
+        // Check if the definition is from the dialog we're interested in (the "Table" dialog).
+        if (dialogName === 'table') {
+          // Get a reference to the "Table Info" tab.
+          const infoTab = dialogDefinition.getContents('info')
 
-        const txtBorder = infoTab.get( 'txtBorder');
-        txtBorder['default'] = 0;
-        const txtCellPad = infoTab.get( 'txtCellPad');
-        txtCellPad['default'] = "";
-        const txtCellSpace = infoTab.get( 'txtCellSpace');
-        txtCellSpace['default'] = "";
-        const txtWidth = infoTab.get( 'txtWidth' );
-        txtWidth['default'] = "";
+          const txtBorder = infoTab.get('txtBorder')
+          txtBorder['default'] = 0
+          const txtCellPad = infoTab.get('txtCellPad')
+          txtCellPad['default'] = ''
+          const txtCellSpace = infoTab.get('txtCellSpace')
+          txtCellSpace['default'] = ''
+          const txtWidth = infoTab.get('txtWidth')
+          txtWidth['default'] = ''
 
-        // Get a reference to the "Table Advanced" tab.
-        const advancedTab = dialogDefinition.getContents( 'advanced' );
+          // Get a reference to the "Table Advanced" tab.
+          const advancedTab = dialogDefinition.getContents('advanced')
 
-        const advCSSClasses = advancedTab.get( 'advCSSClasses' );
-        advCSSClasses['default'] = tableDefaultCss;
+          const advCSSClasses = advancedTab.get('advCSSClasses')
+          advCSSClasses['default'] = tableDefaultCss
+        }
+      },
+      null,
+      null,
+      3
+    )
 
-      }
-    }, null, null, 3);
-
-    if (config.emsAjaxPaste && Object.prototype.hasOwnProperty.call(CKEDITOR.instances, this.element.id)) {
-      let editor = CKEDITOR.instances[this.element.id];
+    if (
+      config.emsAjaxPaste &&
+      Object.prototype.hasOwnProperty.call(CKEDITOR.instances, this.element.id)
+    ) {
+      let editor = CKEDITOR.instances[this.element.id]
       editor.on('beforePaste', (event: BeforePasteEvent) => {
-        let pastedText = event.data.dataTransfer.getData('text/html');
+        let pastedText = event.data.dataTransfer.getData('text/html')
         if (!pastedText || pastedText === '' || !config.emsAjaxPaste) {
           return
         }
 
-        event.cancel();
+        event.cancel()
         fetch(config.emsAjaxPaste, {
           method: 'POST',
           body: JSON.stringify({ content: pastedText }),
           headers: { 'Content-Type': 'application/json' }
-        }).then((response) => {
-          return response.ok ? response.json().then((json) => {
-            editor.fire( 'paste', { type: 'auto', dataValue: json.content, method: 'paste' } );
-          }): Promise.reject(response)
-        }).catch(() => { console.error('error pasting') })
-      });
+        })
+          .then((response) => {
+            return response.ok
+              ? response.json().then((json) => {
+                  editor.fire('paste', { type: 'auto', dataValue: json.content, method: 'paste' })
+                })
+              : Promise.reject(response)
+          })
+          .catch(() => {
+            console.error('error pasting')
+          })
+      })
     }
   }
 
   private getDefaultConfig(): CKEditorConfig {
     if (null !== Ckeditor4.config) {
-      return Ckeditor4.config;
+      return Ckeditor4.config
     }
 
     Ckeditor4.config = new CKEditorConfig()
@@ -159,13 +192,25 @@ export default class Ckeditor4 {
     if (undefined === assetPath) {
       throw new Error('Attribute data-asset-path not defined')
     }
-    CKEDITOR.plugins.addExternal('adv_link', assetPath+'bundles/emscore/js/cke-plugins/adv_link/plugin.js', '' )
-    CKEDITOR.plugins.addExternal('div', assetPath+'bundles/emscore/js/cke-plugins/div/plugin.js', '' )
-    CKEDITOR.plugins.addExternal('imagebrowser', assetPath+'bundles/emscore/js/cke-plugins/imagebrowser/plugin.js', '' )
+    CKEDITOR.plugins.addExternal(
+      'adv_link',
+      assetPath + 'bundles/emscore/js/cke-plugins/adv_link/plugin.js',
+      ''
+    )
+    CKEDITOR.plugins.addExternal(
+      'div',
+      assetPath + 'bundles/emscore/js/cke-plugins/div/plugin.js',
+      ''
+    )
+    CKEDITOR.plugins.addExternal(
+      'imagebrowser',
+      assetPath + 'bundles/emscore/js/cke-plugins/imagebrowser/plugin.js',
+      ''
+    )
 
     this.profile.styles.forEach(function (item) {
       CKEDITOR.stylesSet.add(item.name, item.config)
-    });
+    })
 
     this.addEmsBrowser()
 
@@ -173,56 +218,77 @@ export default class Ckeditor4 {
   }
 
   private addEmsBrowser() {
-    if (!this.profile.config.emsBrowsers){
+    if (!this.profile.config.emsBrowsers) {
       return
     }
 
     const self = this
 
     if (this.profile.config.emsBrowsers.browser_object) {
-      CKEDITOR.on('dialogDefinition', function (e) {
-        if (e.data.name !== 'link') return
-        let infoTab = e.data.definition.getContents('info')
-        let localPageOptions = infoTab.get('localPageOptions')
-        if (!self.profile.config.emsBrowsers || !self.profile.config.emsBrowsers.browser_object) {
-          return
-        }
-        if (localPageOptions) {
-          localPageOptions.children.push({
-            type: 'button',
-            id: 'objectBrowse',
-            hidden: 'true',
-            filebrowser: { action: 'Browse', url: self.profile.config.emsBrowsers.browser_object.url},
-            label: self.profile.config.emsBrowsers.browser_object.label
-          });
-        }
-      }, null, null, 1)
+      CKEDITOR.on(
+        'dialogDefinition',
+        function (e) {
+          if (e.data.name !== 'link') return
+          let infoTab = e.data.definition.getContents('info')
+          let localPageOptions = infoTab.get('localPageOptions')
+          if (!self.profile.config.emsBrowsers || !self.profile.config.emsBrowsers.browser_object) {
+            return
+          }
+          if (localPageOptions) {
+            localPageOptions.children.push({
+              type: 'button',
+              id: 'objectBrowse',
+              hidden: 'true',
+              filebrowser: {
+                action: 'Browse',
+                url: self.profile.config.emsBrowsers.browser_object.url
+              },
+              label: self.profile.config.emsBrowsers.browser_object.label
+            })
+          }
+        },
+        null,
+        null,
+        1
+      )
     }
 
     if (this.profile.config.emsBrowsers.browser_file) {
-      let browserFile = this.profile.config.emsBrowsers.browser_file;
-      CKEDITOR.on('dialogDefinition', function (e) {
-        if (e.data.name !== 'link') return
-        let infoTab = e.data.definition.getContents('info')
-        let fileBrowseButton = infoTab.get('fileBrowse')
-        if (fileBrowseButton) {
-          fileBrowseButton.label = browserFile.label
-          fileBrowseButton.filebrowser = { action: 'Browse', url: browserFile.url}
-        }
-      }, null, null, 1)
+      let browserFile = this.profile.config.emsBrowsers.browser_file
+      CKEDITOR.on(
+        'dialogDefinition',
+        function (e) {
+          if (e.data.name !== 'link') return
+          let infoTab = e.data.definition.getContents('info')
+          let fileBrowseButton = infoTab.get('fileBrowse')
+          if (fileBrowseButton) {
+            fileBrowseButton.label = browserFile.label
+            fileBrowseButton.filebrowser = { action: 'Browse', url: browserFile.url }
+          }
+        },
+        null,
+        null,
+        1
+      )
     }
 
     if (this.profile.config.emsBrowsers.browser_image) {
-      let browserImage = this.profile.config.emsBrowsers.browser_image;
-      CKEDITOR.on('dialogDefinition', function (e) {
-        if (e.data.name !== 'image2') return
-        let infoTab =  e.data.definition.getContents( 'info' )
-        let imageBrowseButton = infoTab.get('browse')
-        if (imageBrowseButton) {
-          imageBrowseButton.label = browserImage.label
-          imageBrowseButton.filebrowser = { action: 'Browse', url: browserImage.url }
-        }
-      }, null, null, 1);
+      let browserImage = this.profile.config.emsBrowsers.browser_image
+      CKEDITOR.on(
+        'dialogDefinition',
+        function (e) {
+          if (e.data.name !== 'image2') return
+          let infoTab = e.data.definition.getContents('info')
+          let imageBrowseButton = infoTab.get('browse')
+          if (imageBrowseButton) {
+            imageBrowseButton.label = browserImage.label
+            imageBrowseButton.filebrowser = { action: 'Browse', url: browserImage.url }
+          }
+        },
+        null,
+        null,
+        1
+      )
     }
   }
 }

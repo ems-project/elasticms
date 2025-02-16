@@ -5,7 +5,7 @@
 {% block pagetitle %}{{ block('title') }}{% endblock %}
 
 {% block breadcrumb %}
-	<ol class="breadcrumb">
+	<ol class="breadcrumb float-sm-end">
 		<li class="breadcrumb-item"><a href="{{ path('emsco_release_index') }}"><i class="{{ 'view.icon.class.release'|trans }}"></i> {{ 'release.menu'|trans }}</a></li>
 		<li class="breadcrumb-item">{{ block('title') }}</li>
    	</ol>

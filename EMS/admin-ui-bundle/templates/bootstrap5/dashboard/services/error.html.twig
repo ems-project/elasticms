@@ -2,7 +2,7 @@
 {% trans_default_domain 'emsco-twigs' %}
 
 {% block breadcrumb %}
-    <ol class="breadcrumb">
+    <ol class="breadcrumb float-sm-end">
         <li class="breadcrumb-item"><a href="{{ path('emsco_dashboard', {name: dashboard.name}) }}"><i class="{{ dashboard.icon }}"></i> {{ dashboard.label }}</a></li>
     </ol>
 {% endblock %}

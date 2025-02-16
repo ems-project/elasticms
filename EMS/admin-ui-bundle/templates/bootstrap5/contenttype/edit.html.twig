@@ -4,7 +4,7 @@
 {% block pagetitle %}Edit "{{ contentType.singularName }}" content type{% endblock %}
 
 {% block breadcrumb %}
-    <ol class="breadcrumb">
+    <ol class="breadcrumb float-sm-end">
         <li class="breadcrumb-item"><a href="{{ path("emsco_admin_content_type_index") }}"><i class="fa fa-cubes"></i> Content Types</a></li>
         <li class="breadcrumb-item active">edit</li>
     </ol>
@@ -17,124 +17,117 @@
     <div class="row">
         <div class="col-12">
             <div class="card card-{{ theme_color }} card-outline card-outline-tabs">
-                <div class="card-header">
-                    <h3 class="card -title"><i class="fa fa-sitemap"></i> {{ contentType.singularName }}'s metas</h3>
-                </div>
-                <!-- /.box-header -->
                 <div class="card-body">
-                    <div class="col-md-4">
-                        {# 						{{ form_row(form.active) }}#}
-                        {{ form_row(form.rootContentType) }}
-                        {% if contentType.environment.managed %}
-                            {{ form_row(form.askForOuuid) }}
-                            {{ form_row(form.autoPublish) }}
-                        {% endif %}
-                        {{ form_row(form.webContent) }}
-                        {{ form_row(form.editTwigWithWysiwyg) }}
-                        {{ form_row(form.singularName) }}
-                        {{ form_row(form.pluralName) }}
-                        {{ form_row(form.icon) }}
-                        {{ form_row(form.color) }}
+                    <div class="row">
+                        <div class="col-md-4">
+                            {{ form_row(form.rootContentType) }}
+                            {% if contentType.environment.managed %}
+                                {{ form_row(form.askForOuuid) }}
+                                {{ form_row(form.autoPublish) }}
+                            {% endif %}
+                            {{ form_row(form.webContent) }}
+                            {{ form_row(form.editTwigWithWysiwyg) }}
+                            {{ form_row(form.singularName) }}
+                            {{ form_row(form.pluralName) }}
+                            {{ form_row(form.icon) }}
+                            {{ form_row(form.color) }}
+                            {% if form.sortOrder is defined %}
+                                {{ form_row(form.sortOrder) }}
+                            {% endif %}
+                            {{ form_row(form.refererFieldName) }}
 
-                        <table class="table table-hover">
-                            <thead>
+                            <table class="table table-hover">
+                                <thead>
                                 <tr>
                                     <th>Permission</th>
                                     <th>Role</th>
                                 </tr>
-                            </thead>
-                            <tbody>
+                                </thead>
+                                <tbody>
                                 {% for elementRole in form.roles %}
                                     <tr>
                                         <td>{{ form_label(elementRole) }}</td>
                                         <td>{{ form_widget(elementRole) }}</td>
                                     </tr>
                                 {% endfor %}
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
 
-                        {% if form.fields is defined %}
-                            <table class="table table-hover">
-                                <thead>
+                            {% if form.fields is defined %}
+                                <table class="table table-hover">
+                                    <thead>
                                     <tr>
                                         <th>Field</th>
                                         <th>Mapping</th>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                {% for elementField in form.fields %}
-                                    <tr>
-                                        <td>{{ form_label(elementField) }}</td>
-                                        <td>{{ form_widget(elementField) }}</td>
-                                    </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
-                        {% endif %}
+                                    </thead>
+                                    <tbody>
+                                    {% for elementField in form.fields %}
+                                        <tr>
+                                            <td>{{ form_label(elementField) }}</td>
+                                            <td>{{ form_widget(elementField) }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-8">
+                            {{ form_row(form.description) }}
+                            {{ form_row(form.indexTwig) }}
+                            {% if contentType.environment.managed %}
+                                {{ form_row(form.defaultValue) }}
+                            {% endif %}
+                            {{ form_row(form.extra) }}
 
-                        {% if form.sortOrder is defined %}
-                            {{ form_row(form.sortOrder) }}
-                        {% endif %}
+                            {% if mapping %}
+                                {% embed "@EMSAdminUI/bootstrap5/core/panel.html.twig" with { icon: 'fa fa-sliders'} %}
+                                    {% block title %}Mapping{% endblock title %}
+                                    {% block body %}
+                                        <pre class="ems-code-editor" data-language="ace/mode/json"
+                                             data-theme="ace/theme/chrome">{{ mapping|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+                                    {% endblock body %}
+                                {% endembed  %}
+                            {% endif %}
 
-                        {{ form_row(form.refererFieldName) }}
-                    </div>
-
-                    <div class="col-md-8">
-                        {{ form_row(form.description) }}
-                        {{ form_row(form.indexTwig) }}
-                        {% if contentType.environment.managed %}
-                            {{ form_row(form.defaultValue) }}
-                        {% endif %}
-                        {{ form_row(form.extra) }}
-
-                        {% if mapping %}
-                            {% embed "@EMSAdminUI/bootstrap5/core/panel.html.twig" with { icon: 'fa fa-sliders', id: 'mapping-info'} %}
-                                {% block title %}Mapping{% endblock title %}
-                                {% block body %}
-                                    <pre class="ems-code-editor" data-language="ace/mode/json"
-                                         data-theme="ace/theme/chrome">{{ mapping|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
-                                {% endblock body %}
-                            {% endembed  %}
-                        {% endif %}
-
-                        {% embed "@EMSAdminUI/bootstrap5/core/panel.html.twig" with { icon: 'fa fa-ticket', id: 'tasks'} %}
-                            {% block title %}Tasks{% endblock title %}
-                            {% block body %}
-                                <div class="row">
-                                    <div class="col-md-2">{{ form_row(form.settings.tasks_enabled) }}</div>
-                                    <div class="col-md-8">{{ form_row(form.settings.tasks_titles) }}</div>
-                                </div>
-                            {% endblock body %}
-                        {% endembed  %}
-
-                        {% if form.versionFields is defined %}
-                            {% embed "@EMSAdminUI/bootstrap5/core/panel.html.twig" with { icon: 'fa fa-tags', id: 'versioning'} %}
-                                {% block title %}Versioning{% endblock title %}
+                            {% embed "@EMSAdminUI/bootstrap5/core/panel.html.twig" with { icon: 'fa fa-ticket'} %}
+                                {% block title %}Tasks{% endblock title %}
                                 {% block body %}
                                     <div class="row">
-                                        {% for versionField in form.versionFields %}
-                                            <div class="col-md-4">{{ form_row(versionField) }}</div>
-                                        {% endfor %}
-                                        <div class="col-md-4">{{ form_row(form.versionTags) }}</div>
-                                        <div class="col-md-8">{{ form_row(form.versionOptions) }}</div>
+                                        <div class="col-md-2">{{ form_row(form.settings.tasks_enabled) }}</div>
+                                        <div class="col-md-8">{{ form_row(form.settings.tasks_titles) }}</div>
                                     </div>
                                 {% endblock body %}
                             {% endembed  %}
-                        {% endif %}
-                    </div>
-                    <div class="col-md-8">
-                        <table class="table table-hover">
-                            <thead>
-                            <tr>
-                                <th>Settings</th>
-                            </tr>
-                            </thead>
-                            <tbody>
+
+                            {% if form.versionFields is defined %}
+                                {% embed "@EMSAdminUI/bootstrap5/core/panel.html.twig" with { icon: 'fa fa-tags'} %}
+                                    {% block title %}Versioning{% endblock title %}
+                                    {% block body %}
+                                        <div class="row">
+                                            {% for versionField in form.versionFields %}
+                                                <div class="col-md-4">{{ form_row(versionField) }}</div>
+                                            {% endfor %}
+                                            <div class="col-md-4">{{ form_row(form.versionTags) }}</div>
+                                            <div class="col-md-8">{{ form_row(form.versionOptions) }}</div>
+                                        </div>
+                                    {% endblock body %}
+                                {% endembed  %}
+                            {% endif %}
+
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th>Settings</th>
+                                </tr>
+                                </thead>
+                                <tbody>
                                 <tr>
                                     <td>{{ form_widget(form.settings.hide_revision_sidebar) }}</td>
                                 </tr>
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <!-- /.box-body -->

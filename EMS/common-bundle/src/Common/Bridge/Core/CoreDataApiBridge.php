@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Common\Bridge\Core;
 
+use EMS\CommonBundle\Common\EMSLink;
 use EMS\CommonBundle\Contracts\Bridge\Core\CoreDataBridgeInterface;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Data\DataInterface;
 
@@ -47,5 +48,11 @@ readonly class CoreDataApiBridge implements CoreDataBridgeInterface
     public function finalize(int $revisionId, array $rawData = []): string
     {
         return $this->dataApi->finalize($revisionId, $rawData);
+    }
+
+    #[\Override]
+    public function publish(EMSLink $emsLink, string $environment): bool
+    {
+        return $this->dataApi->publish($emsLink->getOuuid(), $environment);
     }
 }

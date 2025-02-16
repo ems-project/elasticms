@@ -1,4 +1,3 @@
-import 'choices.js/public/assets/styles/choices.css'
 import Choices from 'choices.js'
 import { ChangeEvent } from '../events/changeEvent'
 

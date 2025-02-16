@@ -4,7 +4,7 @@
 {% block pagetitle %}Edit "{{ contentType.singularName }}" field: {{ field.name }}{% endblock %}
 
 {% block breadcrumb %}
-	<ol class="breadcrumb">
+	<ol class="breadcrumb float-sm-end">
 		<li class="breadcrumb-item"><a href="{{ path("emsco_admin_content_type_index") }}"><i class="fa fa-cubes"></i> Content Types</a></li>
 		<li class="breadcrumb-item"><a href="{{ path("emsco_admin_content_type_edit", {contentType: contentType.id}) }}"><i class="{{ contentType.icon }}"></i> Edit {{ contentType.singularName }}</a></li>
 		<li class="breadcrumb-item"><a href="{{ path("emsco_admin_content_type_reorder", {contentType: contentType.id}) }}"><i class="{{ contentType.icon }}"></i> Reorder {{ contentType.singularName }}</a></li>

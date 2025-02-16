@@ -1,9 +1,8 @@
-import $ from 'jquery'
-import * as select2 from 'select2'
+import Choices from 'choices.js'
 
 class Select {
   load(target) {
-    this.select2(target)
+    this.choices(target)
     this.checkboxAll(target)
   }
 
@@ -20,42 +19,59 @@ class Select {
     }
   }
 
-  async select2(target) {
-    const targetQuery = $(target)
-    if (undefined === targetQuery.select2) {
-      console.warn('Select 2 is not yet available, probably because you are in vite dev mode')
-      select2.default()
-    }
-    const formatFn = (state) => {
-      const text = state.text
-      const element = state.element
-      const dataset = element ? element.dataset : false
-
-      if (dataset && Object.hasOwn(dataset, 'icon')) {
-        return `<i class="${dataset.icon}"></i> ${text}`
-      }
-
-      return text
-    }
-    targetQuery.find('select.select2').each(function() {
-        const select = $(this)
-        const querySearchLabel = select.data('query-search-label');
-        const modal = select.parents('.modal')
-        select.select2({
-            theme: 'bootstrap-5',
-            allowClear: true,
-            //https://github.com/select2/select2/issues/3781
-            placeholder: querySearchLabel && '' !== querySearchLabel ? querySearchLabel : 'Search',
-            escapeMarkup: function (markup) {
-                return markup
+  choices(target) {
+    const elements = target.querySelectorAll('select.select2')
+    for (let i = 0; i < elements.length; ++i) {
+      const element = elements[i]
+      const querySearchLabel = element.dataset.querySearchLabel
+      new Choices(element, {
+        placeholderValue: querySearchLabel ?? 'Search',
+        removeItemButton: true,
+        allowHTML: true,
+        callbackOnCreateTemplates: function (template, escapeForTemplate, getClassNames) {
+          return {
+            item: ({ classNames }, data) => {
+              let icon = ''
+              if (data.element && data.element.dataset.icon) {
+                icon = `<i class="${data.element.dataset.icon}"></i> `
+              }
+              return template(`
+                          <div class="${getClassNames(classNames.item).join(' ')} ${getClassNames(
+                            data.highlighted
+                              ? classNames.highlightedState
+                              : classNames.itemSelectable
+                          ).join(' ')} ${
+                            data.placeholder ? classNames.placeholder : ''
+                          }" data-item data-id="${data.id}" data-value="${data.value}" ${
+                            data.active ? 'aria-selected="true"' : ''
+                          } ${data.disabled ? 'aria-disabled="true"' : ''}>
+                            ${icon}${data.label}
+                          </div>`)
             },
-            width: '100%',
-            //https://select2.org/troubleshooting/common-problems#select2-does-not-function-properly-when-i-use-it-inside-a-bootst
-            dropdownParent: 0 === modal.length ? $(target.body) : select.parent(),
-            templateSelection: formatFn,
-            templateResult: formatFn
-        })
-    })
+            choice: ({ classNames }, data) => {
+              let icon = ''
+              if (data.element && data.element.dataset.icon) {
+                icon = `<i class="${data.element.dataset.icon}"></i> `
+              }
+              return template(`
+                          <div class="${getClassNames(classNames.item).join(' ')} ${getClassNames(classNames.itemChoice).join(' ')} ${getClassNames(
+                            data.disabled ? classNames.itemDisabled : classNames.itemSelectable
+                          ).join(
+                            ' '
+                          )}" data-select-text="${this.config.itemSelectText}" data-choice ${
+                            data.disabled
+                              ? 'data-choice-disabled aria-disabled="true"'
+                              : 'data-choice-selectable'
+                          } data-id="${data.id}" data-value="${data.value}" ${
+                            data.groupId > 0 ? 'role="treeitem"' : 'role="option"'
+                          }>
+                            ${icon}${data.label}
+                          </div>`)
+            }
+          }
+        }
+      })
+    }
   }
 }
 

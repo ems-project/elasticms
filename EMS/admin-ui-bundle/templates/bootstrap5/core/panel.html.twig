@@ -1,17 +1,17 @@
 {%- trans_default_domain 'elements' -%}
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">
+<div class="card collapsed-card">
+    <div class="card-header">
+        <h3 class="card-title">
             {% if icon is defined %}<i class="{{ icon }}"></i>{% endif %}
             {% block title %}{% endblock title %}
-            <a class="toggle-button pull-right" role="button" data-toggle="collapse"
-               href="#{{ id }}" aria-expanded="false" aria-controls="{{ id }}"
-               data-toggle-contain="{{ 'hide'|trans }} <i class=&quot;fa fa-chevron-down&quot;></i>">
-                {{ 'show'|trans }} <i class="fa fa-chevron-right"></i>
-            </a>
         </h3>
+        <div class="card-tools">
+            <button type="button" class="btn" data-card-widget="collapse" title="Collapse">
+                <i class="fas fa-plus"></i>
+            </button>
+        </div>
     </div>
-    <div class="panel-body collapse" id="{{ id }}">
+    <div class="card-body">
         {% block body %}{% endblock body %}
     </div>
 </div>

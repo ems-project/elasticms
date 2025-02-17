@@ -43,6 +43,15 @@ class ChoicePicker {
                             ${icon}${data.label}
                             <button type="button" class="choices__button" aria-label="Remove item: ${data.label}" data-button="">Remove item</button>
                           </div>`)
+
+                        const button = itemTemplate.querySelector('button')
+                        if (button) {
+                            button.addEventListener('click', () => {
+                                choices.removeChoice(data.value)
+                            })
+                        }
+
+                        return itemTemplate
                     },
                     choice: ({ classNames }, data) => {
                         let icon = ''

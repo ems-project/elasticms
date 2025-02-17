@@ -408,12 +408,12 @@ class CrudController extends AbstractController
 
     public function initDraft(string $uuid, string $name): JsonResponse
     {
-        $contentType = $this->giveContentType($name);
-        if (!$this->isGranted($contentType->role(ContentTypeRoles::EDIT))) {
-            throw $this->createAccessDeniedException('Edit role not granted!');
-        }
-
         try {
+            $contentType = $this->giveContentType($name)->validate();
+            if (!$this->isGranted($contentType->role(ContentTypeRoles::EDIT))) {
+                throw $this->createAccessDeniedException('Edit role not granted!');
+            }
+
             $draftRevision = $this->dataService->initNewDraft($contentType, $uuid);
 
             return $this->flashMessageLogger->buildJsonResponse([
@@ -423,7 +423,7 @@ class CrudController extends AbstractController
             ]);
         } catch (\Throwable $e) {
             $this->logger->error('log.crud.create_error', [
-                EmsFields::LOG_CONTENTTYPE_FIELD => $contentType->getName(),
+                EmsFields::LOG_CONTENTTYPE_FIELD => $name,
                 EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
                 EmsFields::LOG_EXCEPTION_FIELD => $e,
             ]);
@@ -431,7 +431,7 @@ class CrudController extends AbstractController
             return $this->flashMessageLogger->buildJsonResponse([
                 'success' => false,
                 'ouuid' => $uuid,
-                'type' => $contentType->getName(),
+                'type' => $name,
             ]);
         }
     }

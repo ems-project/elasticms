@@ -87,7 +87,7 @@ readonly class CoreDataServiceBridge implements CoreDataBridgeInterface
     public function initDraft(string $uuid): CoreBridgeResponse
     {
         return $this->response(function () use ($uuid) {
-            $draft = $this->dataService->initNewDraft($this->contentType, $uuid);
+            $draft = $this->dataService->initNewDraft($this->contentType->validate(), $uuid);
 
             return ['revisionId' => $draft->getId()];
         });

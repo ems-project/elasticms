@@ -1,3 +1,4 @@
+import $ from 'jquery'
 import Choices from 'choices.js'
 import { ChangeEvent } from '../events/changeEvent'
 import { luma } from './color'

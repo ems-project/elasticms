@@ -1,5 +1,6 @@
 import Choices from "choices.js";
 import { ChangeEvent } from '../events/changeEvent'
+import { luma } from './color'
 
 class ChoicePicker {
     constructor(element, config) {
@@ -24,7 +25,12 @@ class ChoicePicker {
                         if (data.element && data.element.dataset.icon) {
                             icon = `<i class="${data.element.dataset.icon}"></i> `
                         }
-                        return template(`
+                        let style = ''
+                        if (data.element && data.element.dataset.color) {
+                            const blackOrWhite = luma(data.element.dataset.color.replace('#', '')) >= 165 ? 'black' : 'white'
+                            style = ` style="color: ${blackOrWhite};background-color: ${data.element.dataset.color};"`
+                        }
+                        const itemTemplate = template(`
                           <div class="${getClassNames(classNames.item).join(' ')} ${getClassNames(
                             data.highlighted
                                 ? classNames.highlightedState
@@ -33,7 +39,7 @@ class ChoicePicker {
                             data.placeholder ? classNames.placeholder : ''
                         }" data-item data-id="${data.id}" data-value="${data.value}" ${
                             data.active ? 'aria-selected="true"' : ''
-                        } ${data.disabled ? 'aria-disabled="true"' : ''}>
+                        } ${data.disabled ? 'aria-disabled="true"' : ''}${style}>
                             ${icon}${data.label}
                             <button type="button" class="choices__button" aria-label="Remove item: ${data.label}" data-button="">Remove item</button>
                           </div>`)

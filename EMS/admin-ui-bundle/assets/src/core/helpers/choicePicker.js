@@ -2,13 +2,13 @@ import Choices from "choices.js";
 import { ChangeEvent } from '../events/changeEvent'
 
 class ChoicePicker {
-    constructor(element) {
+    constructor(element, config) {
         const querySearchLabel = element.dataset.querySearchLabel
-        const type = element.dataset.type
+        const type = config?.type ?? element.dataset.type
         const searchId = element.dataset.searchId
         const querySearch = element.dataset.querySearch
         const circleOnly = element.dataset.circleOnly
-        const dynamicLoading = element.dataset.dynamicLoading
+        const dynamicLoading = config?.dynamicLoading ?? element.dataset.dynamicLoading
         const sortable = element.dataset.sortable
         const locale = element.dataset.locale
         const referrerEmsId = element.dataset.referrerEmsId
@@ -68,18 +68,18 @@ class ChoicePicker {
         })
 
         if (dynamicLoading) {
-            const searchApiUrl = document.body.dataset.searchApi
+            const searchApiUrl = config?.searchApiUrl ?? document.body.dataset.searchApi
             element.addEventListener('search', async function (event) {
                 const searchValue = event.detail.value.trim()
                 // if (searchValue.length < 2) return;
 
                 try {
-                    const params = new URLSearchParams()
-                    params.append('q', searchValue)
+                    const params = config?.searchParams ?? new URLSearchParams()
+                    params.append('q', searchValue ?? '')
                     params.append('page', 1)
-                    params.append('type', type)
-                    params.append('searchId', searchId)
-                    params.append('querySearch', querySearch)
+                    params.append('type', type ?? '')
+                    params.append('searchId', searchId ?? '')
+                    params.append('querySearch', querySearch ?? '')
                     if (locale !== undefined) {
                         params.append('locale', locale)
                     }

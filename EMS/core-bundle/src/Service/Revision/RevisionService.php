@@ -485,7 +485,7 @@ class RevisionService implements RevisionServiceInterface
     public function updateRawDataByEmsLink(EMSLink $emsLink, array $rawData, bool $merge = true, ?string $username = null): Revision
     {
         $draft = $this->dataService->initNewDraft(
-            type: $emsLink->getContentType(),
+            contentType: $emsLink->getContentType(),
             ouuid: $emsLink->getOuuid(),
             username: $username
         );

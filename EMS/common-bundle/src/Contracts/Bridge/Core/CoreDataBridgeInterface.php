@@ -24,5 +24,7 @@ interface CoreDataBridgeInterface
     /** @return array{'id': int, 'data': array<string, mixed>} */
     public function getDraft(int $revisionId): array;
 
+    public function initDraft(string $ouuid): int;
+
     public function publish(EMSLink $emsLink, string $environment): bool;
 }

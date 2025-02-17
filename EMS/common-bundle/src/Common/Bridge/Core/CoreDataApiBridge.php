@@ -39,15 +39,21 @@ readonly class CoreDataApiBridge implements CoreDataBridgeInterface
     }
 
     #[\Override]
+    public function finalize(int $revisionId, array $rawData = []): string
+    {
+        return $this->dataApi->finalize($revisionId, $rawData);
+    }
+
+    #[\Override]
     public function getDraft(int $revisionId): array
     {
         return $this->dataApi->getDraft($revisionId);
     }
 
     #[\Override]
-    public function finalize(int $revisionId, array $rawData = []): string
+    public function initDraft(string $ouuid): int
     {
-        return $this->dataApi->finalize($revisionId, $rawData);
+        return $this->dataApi->initDraft($ouuid)->getRevisionId();
     }
 
     #[\Override]

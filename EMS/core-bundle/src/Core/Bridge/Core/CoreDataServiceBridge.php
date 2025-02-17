@@ -80,6 +80,12 @@ readonly class CoreDataServiceBridge implements CoreDataBridgeInterface
     }
 
     #[\Override]
+    public function initDraft(string $ouuid): int
+    {
+        throw new \RuntimeException('todo');
+    }
+
+    #[\Override]
     public function publish(EMSLink $emsLink, string $environment): bool
     {
         try {

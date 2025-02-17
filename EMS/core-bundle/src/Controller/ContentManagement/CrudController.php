@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Controller\ContentManagement;
 
 use EMS\CommonBundle\Helper\EmsFields;
+use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Core\UI\FlashMessageLogger;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\User;
@@ -403,6 +404,36 @@ class CrudController extends AbstractController
             'type' => $revision->giveContentType()->getName(),
             'revision_id' => $revision->getId(),
         ]);
+    }
+
+    public function initDraft(string $uuid, string $name): JsonResponse
+    {
+        $contentType = $this->giveContentType($name);
+        if (!$this->isGranted($contentType->role(ContentTypeRoles::EDIT))) {
+            throw $this->createAccessDeniedException('Edit role not granted!');
+        }
+
+        try {
+            $draftRevision = $this->dataService->initNewDraft($contentType, $uuid);
+
+            return $this->flashMessageLogger->buildJsonResponse([
+                'success' => true,
+                'revision_id' => $draftRevision->getId(),
+                'ouuid' => $draftRevision->getOuuid(),
+            ]);
+        } catch (\Throwable $e) {
+            $this->logger->error('log.crud.create_error', [
+                EmsFields::LOG_CONTENTTYPE_FIELD => $contentType->getName(),
+                EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
+                EmsFields::LOG_EXCEPTION_FIELD => $e,
+            ]);
+
+            return $this->flashMessageLogger->buildJsonResponse([
+                'success' => false,
+                'ouuid' => $uuid,
+                'type' => $contentType->getName(),
+            ]);
+        }
     }
 
     private function giveContentType(string $contentTypeName): ContentType

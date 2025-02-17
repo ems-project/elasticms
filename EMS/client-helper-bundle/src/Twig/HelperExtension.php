@@ -31,6 +31,7 @@ final class HelperExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
+            new TwigFunction('emsch_flash', [ClientRequestRuntime::class, 'flash']),
             new TwigFunction('emsch_admin_menu', [AdminMenuRuntime::class, 'showAdminMenu'], ['is_safe' => ['html']]),
             new TwigFunction('emsch_route', [RoutingRuntime::class, 'createUrl']),
             new TwigFunction('emsch_search', [ClientRequestRuntime::class, 'search']),

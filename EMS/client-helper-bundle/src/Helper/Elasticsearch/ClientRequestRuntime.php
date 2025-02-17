@@ -15,6 +15,7 @@ use EMS\CommonBundle\Elasticsearch\Response\Response;
 use EMS\CommonBundle\Service\ElasticaService;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\FlashBagAwareSessionInterface;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Twig\Extension\RuntimeExtensionInterface;
@@ -30,6 +31,17 @@ final class ClientRequestRuntime implements RuntimeExtensionInterface
         private readonly LoggerInterface $logger,
         private readonly ElasticaService $elasticaService,
     ) {
+    }
+
+    public function flash(string $type, string $message): void
+    {
+        $session = $this->requestStack->getSession();
+
+        if (!$session instanceof FlashBagAwareSessionInterface) {
+            return;
+        }
+
+        $session->getFlashBag()->add($type, $message);
     }
 
     /**

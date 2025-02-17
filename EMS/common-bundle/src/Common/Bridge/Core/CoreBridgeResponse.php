@@ -27,7 +27,7 @@ class CoreBridgeResponse
         return null === $this->exception;
     }
 
-    public function getData(): mixed
+    public function response(): mixed
     {
         if (null !== $this->exception) {
             throw $this->exception;

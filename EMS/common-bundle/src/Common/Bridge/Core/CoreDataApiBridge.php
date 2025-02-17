@@ -17,39 +17,43 @@ readonly class CoreDataApiBridge implements CoreDataBridgeInterface
     }
 
     #[\Override]
-    public function autoSave(int $revisionId, array $rawData): bool
+    public function autoSave(int $revisionId, array $rawData): CoreBridgeResponse
     {
-        return $this->dataApi->autoSave($revisionId, $rawData);
+        return $this->response(fn () => $this->dataApi->autoSave($revisionId, $rawData));
     }
 
     #[\Override]
-    public function create(array $rawData = []): int
+    public function create(array $rawData = []): CoreBridgeResponse
     {
-        return $this->dataApi->create($rawData)->getRevisionId();
+        return $this->response(fn () => [
+            'revisionId' => $this->dataApi->create($rawData)->getRevisionId(),
+        ]);
     }
 
     #[\Override]
-    public function delete(string $uuid): bool
+    public function delete(string $uuid): CoreBridgeResponse
     {
-        return $this->dataApi->delete($uuid);
+        return $this->response(fn () => $this->dataApi->delete($uuid));
     }
 
     #[\Override]
-    public function discard(int $revisionId): bool
+    public function discard(int $revisionId): CoreBridgeResponse
     {
-        return $this->dataApi->discard($revisionId);
+        return $this->response(fn () => $this->dataApi->discard($revisionId));
     }
 
     #[\Override]
-    public function finalize(int $revisionId, array $rawData = []): string
+    public function finalize(int $revisionId, array $rawData = []): CoreBridgeResponse
     {
-        return $this->dataApi->finalize($revisionId, $rawData);
+        return $this->response(fn () => [
+            'uuid' => $this->dataApi->finalize($revisionId, $rawData),
+        ]);
     }
 
     #[\Override]
-    public function getDraft(int $revisionId): array
+    public function getDraft(int $revisionId): CoreBridgeResponse
     {
-        return $this->dataApi->getDraft($revisionId);
+        return $this->response(fn () => $this->dataApi->getDraft($revisionId));
     }
 
     #[\Override]
@@ -63,8 +67,8 @@ readonly class CoreDataApiBridge implements CoreDataBridgeInterface
     }
 
     #[\Override]
-    public function publish(EMSLink $emsLink, string $environment): bool
+    public function publish(EMSLink $emsLink, string $environment): CoreBridgeResponse
     {
-        return $this->dataApi->publish($emsLink->getOuuid(), $environment);
+        return $this->response(fn () => $this->dataApi->publish($emsLink->getOuuid(), $environment));
     }
 }

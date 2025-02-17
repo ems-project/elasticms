@@ -24,63 +24,72 @@ readonly class CoreDataServiceBridge implements CoreDataBridgeInterface
     }
 
     #[\Override]
-    public function autoSave(int $revisionId, array $rawData): bool
+    public function autoSave(int $revisionId, array $rawData): CoreBridgeResponse
     {
-        $revision = $this->revisionService->getByRevisionId($revisionId);
-        $this->revisionService->autoSave($revision, $rawData);
-
-        return true;
-    }
-
-    #[\Override]
-    public function create(array $rawData = []): int
-    {
-        return $this->revisionService->create(contentType: $this->contentType, rawData: $rawData)->getId();
-    }
-
-    #[\Override]
-    public function delete(string $uuid): bool
-    {
-        $this->dataService->delete($this->contentType, $uuid);
-
-        return true;
-    }
-
-    #[\Override]
-    public function discard(int $revisionId): bool
-    {
-        $revision = $this->revisionService->getByRevisionId($revisionId);
-        $this->dataService->discardDraft($revision);
-
-        return !$revision->hasId();
-    }
-
-    #[\Override]
-    public function finalize(int $revisionId, array $rawData = []): string
-    {
-        $revision = $this->dataService->getRevisionById($revisionId, $this->contentType);
-
-        if (\count($rawData) > 0) {
+        return $this->response(function () use ($revisionId, $rawData) {
+            $revision = $this->revisionService->getByRevisionId($revisionId);
             $this->revisionService->autoSave($revision, $rawData);
-        }
-
-        $revision->autoSaveToRawData();
-        $newRevision = $this->dataService->finalizeDraft($revision);
-
-        $this->dataService->refresh($this->contentType->giveEnvironment());
-
-        return $newRevision->giveOuuid();
+        });
     }
 
     #[\Override]
-    public function getDraft(int $revisionId): array
+    public function create(array $rawData = []): CoreBridgeResponse
     {
-        $revision = $this->revisionService->getByRevisionId($revisionId);
+        return $this->response(function () use ($rawData) {
+            $revision = $this->revisionService->create(
+                contentType: $this->contentType->validate(),
+                rawData: $rawData
+            );
 
-        return [
-            'id' => $revision->getId(),
-            'data' => $revision->getDraftData(),
-        ];
+            return ['revisionId' => $revision->getId()];
+        });
+    }
+
+    #[\Override]
+    public function delete(string $uuid): CoreBridgeResponse
+    {
+        return $this->response(fn () => $this->dataService->delete($this->contentType->validate(), $uuid));
+    }
+
+    #[\Override]
+    public function discard(int $revisionId): CoreBridgeResponse
+    {
+        return $this->response(function () use ($revisionId) {
+            $revision = $this->revisionService->getByRevisionId($revisionId);
+            $this->dataService->discardDraft($revision);
+        });
+    }
+
+    #[\Override]
+    public function finalize(int $revisionId, array $rawData = []): CoreBridgeResponse
+    {
+        return $this->response(function () use ($revisionId, $rawData) {
+            $revision = $this->dataService->getRevisionById($revisionId, $this->contentType);
+
+            if (\count($rawData) > 0) {
+                $this->revisionService->autoSave($revision, $rawData);
+            }
+
+            $revision->autoSaveToRawData();
+            $newRevision = $this->dataService->finalizeDraft($revision);
+
+            $this->dataService->refresh($this->contentType->giveEnvironment());
+
+            return ['uuid' => $newRevision->giveOuuid()];
+        });
+    }
+
+    #[\Override]
+    public function getDraft(int $revisionId): CoreBridgeResponse
+    {
+        return $this->response(function () use ($revisionId) {
+            $revision = $this->revisionService->getByRevisionId($revisionId);
+
+            return [
+                'id' => $revision->getId(),
+                'data' => $revision->getDraftData(),
+            ];
+        });
     }
 
     #[\Override]
@@ -94,12 +103,8 @@ readonly class CoreDataServiceBridge implements CoreDataBridgeInterface
     }
 
     #[\Override]
-    public function publish(EMSLink $emsLink, string $environment): bool
+    public function publish(EMSLink $emsLink, string $environment): CoreBridgeResponse
     {
-        try {
-            return $this->revisionService->publish($emsLink, $environment);
-        } catch (\Throwable $e) {
-            return false;
-        }
+        return $this->response(fn () => $this->revisionService->publish($emsLink, $environment));
     }
 }

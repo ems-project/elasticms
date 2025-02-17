@@ -22,13 +22,13 @@ class ChoicePicker {
                 return {
                     item: ({ classNames }, data) => {
                         let icon = ''
-                        if (data.element && data.element.dataset.icon) {
-                            icon = `<i class="${data.element.dataset.icon}"></i> `
+                        if (data.element?.dataset.icon ?? data.customProperties.icon) {
+                            icon = `<i class="${data.element?.dataset.icon ?? data.customProperties.icon}"></i> `
                         }
                         let style = ''
-                        if (data.element && data.element.dataset.color) {
-                            const blackOrWhite = luma(data.element.dataset.color.replace('#', '')) >= 165 ? 'black' : 'white'
-                            style = ` style="color: ${blackOrWhite};background-color: ${data.element.dataset.color};"`
+                        if (data.element?.dataset.color ?? data.customProperties.color) {
+                            const blackOrWhite = luma((data.element?.dataset.color ?? data.customProperties.color).replace('#', '')) >= 165 ? 'black' : 'white'
+                            style = ` style="color: ${blackOrWhite};background-color: ${data.element?.dataset.color ?? data.customProperties.color};"`
                         }
                         const itemTemplate = template(`
                           <div class="${getClassNames(classNames.item).join(' ')} ${getClassNames(
@@ -110,7 +110,11 @@ class ChoicePicker {
                     if (results.items.length) {
                         const formattedResults = results.items.map((item) => ({
                             value: item.id,
-                            label: item.text
+                            label: item.text,
+                            customProperties: {
+                                icon: item.icon ?? null,
+                                color: item.color ?? null,
+                            },
                         }))
                         choices.setChoices(formattedResults, 'value', 'label', true)
                     }

@@ -1,13 +1,22 @@
 import Choices from "choices.js";
-import Job from "../plugins/job.js";
+import { ChangeEvent } from '../events/changeEvent'
 
 class ChoicePicker {
     constructor(element) {
         const querySearchLabel = element.dataset.querySearchLabel
-        new Choices(element, {
+        const type = element.dataset.type
+        const searchId = element.dataset.searchId
+        const querySearch = element.dataset.querySearch
+        const circleOnly = element.dataset.circleOnly
+        const dynamicLoading = element.dataset.dynamicLoading
+        const sortable = element.dataset.sortable
+        const locale = element.dataset.locale
+        const referrerEmsId = element.dataset.referrerEmsId
+        const choices = new Choices(element, {
             placeholderValue: querySearchLabel ?? 'Search',
             removeItemButton: true,
             allowHTML: true,
+            removeItems: true,
             callbackOnCreateTemplates: function (template, escapeForTemplate, getClassNames) {
                 return {
                     item: ({ classNames }, data) => {
@@ -26,6 +35,7 @@ class ChoicePicker {
                             data.active ? 'aria-selected="true"' : ''
                         } ${data.disabled ? 'aria-disabled="true"' : ''}>
                             ${icon}${data.label}
+                            <button type="button" class="choices__button" aria-label="Remove item: ${data.label}" data-button="">Remove item</button>
                           </div>`)
                     },
                     choice: ({ classNames }, data) => {
@@ -51,6 +61,67 @@ class ChoicePicker {
                 }
             }
         })
+
+        element.addEventListener('change', (event) => {
+            const changeEvent = new ChangeEvent(event.target)
+            changeEvent.dispatch()
+        })
+
+        if (dynamicLoading) {
+            const searchApiUrl = document.body.dataset.searchApi
+            element.addEventListener('search', async function (event) {
+                const searchValue = event.detail.value.trim()
+                // if (searchValue.length < 2) return;
+
+                try {
+                    const params = new URLSearchParams()
+                    params.append('q', searchValue)
+                    params.append('page', 1)
+                    params.append('type', type)
+                    params.append('searchId', searchId)
+                    params.append('querySearch', querySearch)
+                    if (locale !== undefined) {
+                        params.append('locale', locale)
+                    }
+                    if (referrerEmsId !== undefined) {
+                        params.append('referrerEmsId', referrerEmsId)
+                    }
+                    if (circleOnly !== undefined) {
+                        params.append('circle', circleOnly)
+                    }
+                    const response = await fetch(`${searchApiUrl}?${params}`)
+                    const results = await response.json()
+                    choices.clearChoices()
+                    if (results.items.length) {
+                        const formattedResults = results.items.map((item) => ({
+                            value: item.id,
+                            label: item.text
+                        }))
+                        choices.setChoices(formattedResults, 'value', 'label', true)
+                    }
+                } catch (error) {
+                    console.error('Error while retrieving data :', error)
+                }
+            })
+        }
+        if (sortable) {
+            const choicesList = element.parentElement.querySelector('div.choices__list')
+            const spaceship = (a, b) => (a > b) - (a < b)
+            $(choicesList).sortable({
+                stop: function () {
+                    const listItems = Array.from(choicesList.querySelectorAll('div.choices__item')).map(
+                        (p) => p.dataset.value
+                    )
+                    const options = Array.from(element.options).sort((a, b) =>
+                        spaceship(listItems.indexOf(a.value), listItems.indexOf(b.value))
+                    )
+                    element.innerHTML = ''
+                    options.forEach((option) => element.add(option))
+                    const changeEvent = new ChangeEvent(element)
+                    changeEvent.dispatch()
+                }
+            })
+        }
     }
 }
 

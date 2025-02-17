@@ -298,7 +298,7 @@
 
         <service id="EMS\CoreBundle\Controller\User\GroupController" public="true">
             <argument type="service" id="emsco.logger"/>
-            <argument type="service" id="ems.form.manager" />
+            <argument type="service" id="ems.group.manager" />
             <argument type="service" id="ems.form.field-type.manager" />
             <argument type="service" id="emsco.data_table.factory" />
             <argument>%ems_core.template_namespace%</argument>

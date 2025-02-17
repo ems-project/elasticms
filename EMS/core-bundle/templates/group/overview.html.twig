@@ -1,0 +1,14 @@
+{% extends '@EMSCore/base.html.twig' %}
+
+
+
+{% block pagetitle %}Test{% endblock %}
+
+{% block body %}
+    <ul>
+    {%  for user in test %}
+        <li>{{ user.email }}</li>
+    {% endfor %}
+    </ul>
+{% endblock %}
+

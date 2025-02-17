@@ -10,6 +10,8 @@ use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Data\DataInterface;
 
 readonly class CoreDataApiBridge implements CoreDataBridgeInterface
 {
+    use CoreBridgeTrait;
+
     public function __construct(private DataInterface $dataApi)
     {
     }
@@ -51,9 +53,13 @@ readonly class CoreDataApiBridge implements CoreDataBridgeInterface
     }
 
     #[\Override]
-    public function initDraft(string $ouuid): int
+    public function initDraft(string $uuid): CoreBridgeResponse
     {
-        return $this->dataApi->initDraft($ouuid)->getRevisionId();
+        return $this->response(function () use ($uuid) {
+            $draft = $this->dataApi->initDraft($uuid);
+
+            return ['revisionId' => $draft->getRevisionId()];
+        });
     }
 
     #[\Override]

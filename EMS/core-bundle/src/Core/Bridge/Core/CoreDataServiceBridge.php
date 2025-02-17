@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Core\Bridge\Core;
 
+use EMS\CommonBundle\Common\Bridge\Core\CoreBridgeResponse;
+use EMS\CommonBundle\Common\Bridge\Core\CoreBridgeTrait;
 use EMS\CommonBundle\Common\EMSLink;
 use EMS\CommonBundle\Contracts\Bridge\Core\CoreDataBridgeInterface;
 use EMS\CoreBundle\Entity\ContentType;
@@ -12,6 +14,8 @@ use EMS\CoreBundle\Service\Revision\RevisionService;
 
 readonly class CoreDataServiceBridge implements CoreDataBridgeInterface
 {
+    use CoreBridgeTrait;
+
     public function __construct(
         private ContentType $contentType,
         private DataService $dataService,
@@ -80,9 +84,13 @@ readonly class CoreDataServiceBridge implements CoreDataBridgeInterface
     }
 
     #[\Override]
-    public function initDraft(string $ouuid): int
+    public function initDraft(string $uuid): CoreBridgeResponse
     {
-        throw new \RuntimeException('todo');
+        return $this->response(function () use ($uuid) {
+            $draft = $this->dataService->initNewDraft($this->contentType, $uuid);
+
+            return ['revisionId' => $draft->getId()];
+        });
     }
 
     #[\Override]

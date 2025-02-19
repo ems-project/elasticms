@@ -10,16 +10,18 @@ use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Admin\MetaInterface;
 
 readonly class CoreInfoApiBridge implements CoreInfoBridgeInterface
 {
+    use CoreBridgeTrait;
+
     public function __construct(private MetaInterface $metaApi)
     {
     }
 
     #[\Override]
-    public function documents(array $environments, EMSLink ...$emsLinks): array
+    public function documents(array $environments, EMSLink ...$emsLinks): CoreBridgeResponse
     {
-        return $this->metaApi->getInfoDocuments(
+        return $this->response(fn () => $this->metaApi->getInfoDocuments(
             environments: $environments,
             emsLinks: \array_values(\array_map(static fn (EMSLink $link) => $link->getEmsId(), $emsLinks))
-        );
+        ));
     }
 }

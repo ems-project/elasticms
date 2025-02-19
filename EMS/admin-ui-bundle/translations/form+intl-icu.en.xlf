@@ -153,10 +153,6 @@
         <source>fields.asset.move-button</source>
         <target>fields.asset.move-button</target>
       </trans-unit>
-      <trans-unit id="R.YjJTq" resname="fields.asset.preview">
-        <source>fields.asset.preview</source>
-        <target>fields.asset.preview</target>
-      </trans-unit>
       <trans-unit id="f4znk1a" resname="fields.asset.remove-button">
         <source>fields.asset.remove-button</source>
         <target>fields.asset.remove-button</target>
@@ -176,6 +172,10 @@
       <trans-unit id="dLDcuHS" resname="form.field-type-type.root">
         <source>form.field-type-type.root</source>
         <target>form.field-type-type.root</target>
+      </trans-unit>
+      <trans-unit id="nrqBytm" resname="view.form.fields.asset.preview">
+        <source>view.form.fields.asset.preview</source>
+        <target>view.form.fields.asset.preview</target>
       </trans-unit>
     </body>
   </file>

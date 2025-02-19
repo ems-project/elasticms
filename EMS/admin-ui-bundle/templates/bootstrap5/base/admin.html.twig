@@ -43,6 +43,8 @@
             {% for key, label in breadcrumb %}
                 {% if loop.last %}
                     <li class="breadcrumb-item active">{{ label }}</li>
+                {% elseif ' ' in key %}
+                    <li class="breadcrumb-item"><i class="{{ key }}"></i> {{ label }}</a></li>
                 {% else %}
                     <li class="breadcrumb-item"><a href="{{ key }}">{{ label }}</a></li>
                 {% endif %}
@@ -64,7 +66,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0">{% block pagetitle %}{{ block('title') }}{% endblock %}{% block subtitle %}{% endblock %}</h1>
+                            <h1 class="m-0">{% block pagetitle %}{{ block('title') }}{% endblock %}{% block subtitle %}{% if subtitle is defined %}<small>{{ subtitle }}</small>{% endif %}{% endblock %}</h1>
                         </div>
                         <div class="col-sm-6">
                             {{ block('breadcrumb') }}

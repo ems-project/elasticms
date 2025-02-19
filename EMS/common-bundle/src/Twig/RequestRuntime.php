@@ -6,6 +6,7 @@ namespace EMS\CommonBundle\Twig;
 
 use EMS\CommonBundle\Helper\EmsFields;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\FlashBagAwareSessionInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Extension\RuntimeExtensionInterface;
 
@@ -13,6 +14,17 @@ class RequestRuntime implements RuntimeExtensionInterface
 {
     public function __construct(private readonly RequestStack $requestStack, private readonly AssetRuntime $assetRuntime)
     {
+    }
+
+    public function flash(string $type, string $message): void
+    {
+        $session = $this->requestStack->getSession();
+
+        if (!$session instanceof FlashBagAwareSessionInterface) {
+            return;
+        }
+
+        $session->getFlashBag()->add($type, $message);
     }
 
     /**

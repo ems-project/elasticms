@@ -13,11 +13,8 @@ indent_style = space
 trim_trailing_whitespace = false
 max_line_length = 80
 
-[*.{yml,yaml,php,html,twig,js,json,xml}]
+[*.{yml,yaml,php,html,twig,json,xml}]
 indent_size = 4
-
-[*.{js}]
-indent_size = 2
 
 [*.php]
 trim_trailing_whitespace = false

@@ -7,6 +7,7 @@
   * [ems_store_read](#ems_store_read)
   * [ems_store_save](#ems_store_save)
   * [ems_store_delete](#ems_store_delete)
+  * [ems_flash](#ems_flash)
 * [Twig filters](#twig-filters)
   * [ems_anti_spam](#ems_anti_spam)
   * [ems_html_encode](#ems_html_encode)
@@ -16,10 +17,17 @@
   * [ems_replace_regex](#ems_replace_regex)
   * [ems_html_decode](#ems_html_decode)
   * [ems_hash](#ems_hash)
-  * [format_bytes](#format_bytes)
+  * [ems_format_bytes](#ems_format_bytes)
   * [ems_ascii_folding](#ems_ascii_folding)
   * [ems_template_exists](#ems_template_exists)
   * [ems_analyze](#ems_analyze)
+  * [ems_json_decode](#ems_json_decode)
+  * [ems_array_key](#ems_array_key)
+  * [ems_ouuid](#ems_ouuid)
+  * [ems_md5](#ems_md5)
+  * [ems_luma](#ems_luma)
+  * [ems_contrast_ratio](#ems_contrast_ratio)
+  * [ems_color](#ems_color)
   * [ems_slug](#ems_slug)
   * [ems_file_from_archive](#ems_file_from_archive)
   * [ems_link](#ems_link)
@@ -168,6 +176,34 @@ emsch_delete_store:
 {% endapply %}
 {% endblock request -%}
 ````
+
+## ems_flash
+
+Add a flash to the symfony request flash bag.
+
+```twig
+{% do ems_flash('error', 'error.default'|trans) %}
+```
+
+You can use the following template for displaying the flashes (bootstrap5).
+
+```twig
+{%- set alertTypes = {
+    'success': 'alert-success',
+    'error': 'alert-danger',
+    'warning': 'alert-warning',
+    'info': 'alert-info'
+} -%}
+
+{%- for type, class in alertTypes -%}
+    {%- for message in app.session.flashBag.get(type) -%}
+        <div class="alert {{ class }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {%- endfor -%}
+{%- endfor -%}
+```
 
 # Twig filters
 

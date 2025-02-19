@@ -1,3 +1,8 @@
+job:
+  abstract:
+    subtitle: 'Run a symfony command'
+  add:
+    title: 'Create job'
 core:
   modal:
     close: 'Close'

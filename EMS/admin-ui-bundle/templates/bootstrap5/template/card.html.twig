@@ -53,11 +53,13 @@ Available Blocks:
 
         {% block form %}
             {% if form is defined %}
-                {% for field in form %}
-                    {% if 'submit' not in field.vars.block_prefixes %}
-                        {{ form_row(field) }}
-                    {% endif %}
-                {% endfor %}
+                <div class="row">
+                    {% for field in form %}
+                        {% if 'submit' not in field.vars.block_prefixes %}
+                            {{ form_row(field) }}
+                        {% endif %}
+                    {% endfor %}
+                </div>
             {% endif %}
         {% endblock %}
     </div>

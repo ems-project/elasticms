@@ -13,7 +13,7 @@ class ColorPickerType extends Select2Type
 {
     /** @var array<string, ?string> */
     private array $choices;
-    
+
     public function __construct()
     {
         parent::__construct();

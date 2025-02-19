@@ -179,13 +179,13 @@ emsch_delete_store:
 
 ## ems_flash
 
-Add a flash to the symfony request flash bag
+Add a flash to the symfony request flash bag.
 
 ```twig
 {% do ems_flash('error', 'error.default'|trans) %}
 ```
 
-You can use the following this template for displaying the flashes (bootstrap5)
+You can use the following template for displaying the flashes (bootstrap5).
 
 ```twig
 {%- set alertTypes = {

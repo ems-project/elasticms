@@ -13,6 +13,22 @@
         <source>core.modal.loading</source>
         <target>Loading...</target>
       </trans-unit>
+      <trans-unit id="nu3_Qla" resname="icon.jobs">
+        <source>icon.jobs</source>
+        <target>fa fa-terminal</target>
+      </trans-unit>
+      <trans-unit id="o8gkLRY" resname="job.abstract.subtitle">
+        <source>job.abstract.subtitle</source>
+        <target>Run a symfony command</target>
+      </trans-unit>
+      <trans-unit id="CPdXoro" resname="job.add.title">
+        <source>job.add.title</source>
+        <target>Create job</target>
+      </trans-unit>
+      <trans-unit id="QwNHnbl" resname="key.jobs">
+        <source>key.jobs</source>
+        <target>Jobs</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

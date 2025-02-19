@@ -23,7 +23,7 @@ Available Blocks:
 #}
 
 {% block title %}{% if title is defined %}{{ title|trans }}{% endif %}{% endblock title %}
-{% block pagetitle %}{{ pageTitle|default(block('title'))|trans }}{% endblock %}
+{% block pagetitle %}{{ pageTitle is defined ? pageTitle|trans  : block('title') }}{% endblock %}
 
 {% block body %}
 <div class="card {{ class|default('mb-4 shadow') }}">

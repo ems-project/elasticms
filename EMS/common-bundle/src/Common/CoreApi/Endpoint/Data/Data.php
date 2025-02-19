@@ -140,6 +140,13 @@ final readonly class Data implements DataInterface
         return new Index($this->client->post($resource, $rawData));
     }
 
+    public function initDraft(string $ouuid): DraftInterface
+    {
+        $resource = $this->makeResource('init-draft', $ouuid);
+
+        return new Draft($this->client->post($resource));
+    }
+
     #[\Override]
     public function indexAsync(?string $ouuid, array $rawData, bool $merge = false, bool $refresh = false): ResponseInterface
     {

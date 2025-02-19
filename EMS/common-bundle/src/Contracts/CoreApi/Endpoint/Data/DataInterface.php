@@ -50,6 +50,8 @@ interface DataInterface
      */
     public function index(?string $ouuid, array $rawData, bool $merge = false, bool $refresh = false): Index;
 
+    public function initDraft(string $ouuid): DraftInterface;
+
     /**
      * @param array<string, mixed> $rawData
      */

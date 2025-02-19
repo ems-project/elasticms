@@ -9,8 +9,11 @@ use EMS\CommonBundle\Common\Bridge\Core\CoreBridgeTrait;
 use EMS\CommonBundle\Common\EMSLink;
 use EMS\CommonBundle\Contracts\Bridge\Core\CoreDataBridgeInterface;
 use EMS\CoreBundle\Entity\ContentType;
+use EMS\CoreBundle\Exception\NotFoundException;
 use EMS\CoreBundle\Service\DataService;
 use EMS\CoreBundle\Service\Revision\RevisionService;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 readonly class CoreDataServiceBridge implements CoreDataBridgeInterface
 {
@@ -83,7 +86,15 @@ readonly class CoreDataServiceBridge implements CoreDataBridgeInterface
     public function getDraft(int $revisionId): CoreBridgeResponse
     {
         return $this->response(function () use ($revisionId) {
-            $revision = $this->revisionService->getByRevisionId($revisionId);
+            try {
+                $revision = $this->revisionService->getByRevisionId($revisionId);
+            } catch (\Throwable) {
+                throw new NotFoundException('Revision not found');
+            }
+
+            if (!$revision->isDraft()) {
+                throw new HttpException(Response::HTTP_NOT_ACCEPTABLE, 'not in draft');
+            }
 
             return [
                 'id' => $revision->getId(),

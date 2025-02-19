@@ -23,6 +23,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CrudController extends AbstractController
@@ -123,7 +124,15 @@ class CrudController extends AbstractController
 
     public function getDraft(int $revisionId): JsonResponse
     {
-        $revision = $this->revisionService->getByRevisionId($revisionId);
+        try {
+            $revision = $this->revisionService->getByRevisionId($revisionId);
+        } catch (\Throwable) {
+            throw $this->createNotFoundException('Revision not found');
+        }
+
+        if (!$revision->isDraft()) {
+            throw new HttpException(Response::HTTP_NOT_ACCEPTABLE, 'not in draft');
+        }
 
         return $this->flashMessageLogger->buildJsonResponse([
             'success' => true,

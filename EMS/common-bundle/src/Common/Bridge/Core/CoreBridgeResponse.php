@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Common\Bridge\Core;
 
+use Symfony\Component\HttpKernel\Exception\HttpException;
+
 class CoreBridgeResponse
 {
     private function __construct(
         private mixed $data = null,
-        private ?\Throwable $exception = null
+        private ?HttpException $exception = null
     ) {
     }
 
@@ -19,7 +21,10 @@ class CoreBridgeResponse
 
     public static function onError(\Throwable $e): self
     {
-        return new self(exception: $e);
+        $code = (int) $e instanceof HttpException ? $e->getStatusCode() : $e->getCode();
+        $httpCode = $code >= 100 && $code <= 599 ? $code : 500;
+
+        return new self(exception: new HttpException($httpCode, $e->getMessage(), $e));
     }
 
     public function success(): bool

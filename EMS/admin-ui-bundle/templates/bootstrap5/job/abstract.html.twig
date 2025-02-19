@@ -1,10 +1,6 @@
 {% extends '@EMSAdminUI/bootstrap5/template/card.html.twig' %}
 {% trans_default_domain 'ems-adminui-twigs' %}
-
-{% block subtitle -%}
-    {%- set subtitle = 'job.abstract.subtitle'|trans  -%}
-    {{- parent() -}}
-{%- endblock subtitle %}
+{% form_theme form with ['@EMSAdminUI/bootstrap5/job/form.html.twig'] only %}
 
 {% block breadcrumb %}
     {% set breadcrumb = {

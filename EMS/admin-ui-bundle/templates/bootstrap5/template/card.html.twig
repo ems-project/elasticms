@@ -1,5 +1,4 @@
 {% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}
-{% trans_default_domain 'ems-adminui-twigs' %}
 
 {#
 Template: Bootstrap Card with Blocks
@@ -22,6 +21,9 @@ Available Blocks:
     - form: Customizes the form section inside the card.
     - footer: Customizes the card footer.
 #}
+
+{% block title %}{% if title is defined %}{{ title|trans }}{% endif %}{% endblock title %}
+{% block pagetitle %}{{ pageTitle is defined ? pageTitle|trans  : block('title') }}{% endblock %}
 
 {% block body %}
 <div class="card {{ class|default('mb-4 shadow') }}">
@@ -51,11 +53,13 @@ Available Blocks:
 
         {% block form %}
             {% if form is defined %}
-                {% for field in form %}
-                    {% if 'submit' not in field.vars.block_prefixes %}
-                        {{ form_row(field) }}
-                    {% endif %}
-                {% endfor %}
+                <div class="row">
+                    {% for field in form %}
+                        {% if 'submit' not in field.vars.block_prefixes %}
+                            {{ form_row(field) }}
+                        {% endif %}
+                    {% endfor %}
+                </div>
             {% endif %}
         {% endblock %}
     </div>

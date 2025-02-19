@@ -340,3 +340,8 @@ type:
             log           {Who did what}
             other         {}
         }
+    title_create: |-
+        {type, select,
+            job           {Launch new job}
+            other         {Ceeate}
+        }

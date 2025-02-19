@@ -6,8 +6,3 @@ key:
   jobs: Jobs
 icon:
   jobs: 'fa fa-terminal'
-job:
-  abstract:
-    subtitle: 'Run a symfony command'
-  add:
-    title: 'Create job'

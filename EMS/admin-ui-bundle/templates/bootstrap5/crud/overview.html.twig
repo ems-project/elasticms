@@ -2,7 +2,6 @@
 
 {% block title %}{{ title|trans }}{% endblock %}
 {% block pagetitle %}{{ pageTitle|default(title)|trans }}{% endblock %}
-{% block subtitle %}{% if subTitle is defined %}<small>{{ subTitle|trans }}</small>{% endif %}{% endblock %}
 
 {% block breadcrumb %}
 	{# @var item \EMS\CoreBundle\Core\UI\Page\BreadcrumbItem #}

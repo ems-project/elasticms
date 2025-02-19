@@ -34,14 +34,6 @@ use Symfony\Component\Yaml\Yaml;
 
 use function Symfony\Component\String\u;
 
-const IGNORE_PATHS = [
-    'Command',
-    'DependencyInjection',
-    'Entity',
-    'Repository',
-    '/Resources\/(public|config|DoctrineMigrations)/',
-];
-
 $command = static function (InputInterface $input, OutputInterface $output): int {
     $stopWatch = new Stopwatch();
     $stopWatch->start('build');
@@ -75,7 +67,7 @@ $command = static function (InputInterface $input, OutputInterface $output): int
     $currentCatalogue = new MessageCatalogue($locale);
     /** @var TranslationReaderInterface $reader */
     $reader = $container->get('translation.reader');
-    $reader->read($bundleDir.'/Resources/translations', $currentCatalogue);
+    $reader->read($bundleDir.'/translations', $currentCatalogue);
 
     $catalogueDomains = $currentCatalogue->getDomains();
     \array_walk($domains, static function (string $d) use ($catalogueDomains) {
@@ -93,8 +85,8 @@ $command = static function (InputInterface $input, OutputInterface $output): int
     $finder = (new Finder())
         ->ignoreUnreadableDirs()
         ->ignoreVCSIgnored(true)
-        ->notPath(IGNORE_PATHS)
-        ->in($bundleDir);
+        ->notPath('/src/(Command|DependencyInjection|Entity|Repository)')
+        ->in([$bundleDir.'/src', $bundleDir.'/templates']);
 
     $extractors = [
         ['Parsing php files', '*.php', new PhpAstExtractor([
@@ -167,12 +159,12 @@ $command = static function (InputInterface $input, OutputInterface $output): int
 
         $translationWriter->write($sortedMessages, $format, match ($format) {
             'yml' => [
-                'path' => $bundleDir.'/Resources/translations',
+                'path' => $bundleDir.'/translations',
                 'as_tree' => true,
                 'inline' => 5,
             ],
             'xlf' => [
-                'path' => $bundleDir.'/Resources/translations',
+                'path' => $bundleDir.'/translations',
                 'version' => '1.2',
                 'default_locale' => 'en',
             ],

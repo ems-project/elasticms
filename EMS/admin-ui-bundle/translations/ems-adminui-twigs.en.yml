@@ -1,8 +1,0 @@
-core:
-  modal:
-    close: 'Close'
-    loading: 'Loading...'
-key:
-  jobs: Jobs
-icon:
-  jobs: 'fa fa-terminal'

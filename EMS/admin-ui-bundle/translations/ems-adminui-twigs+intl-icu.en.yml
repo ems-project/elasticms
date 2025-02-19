@@ -1,0 +1,13 @@
+core:
+    modal:
+        close: Close
+        loading: Loading...
+icon:
+    jobs: 'fa fa-terminal'
+job:
+    abstract:
+        subtitle: 'Run a symfony command'
+    add:
+        title: 'Create job'
+key:
+    jobs: Jobs

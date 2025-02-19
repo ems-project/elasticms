@@ -9,7 +9,6 @@ use EMS\CommonBundle\Helper\Text\Encoder;
 use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\DataTable\Type\Job\JobDataTableType;
-use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Entity\Job;
 use EMS\CoreBundle\Form\Data\TableAbstract;
 use EMS\CoreBundle\Form\Form\JobType;
@@ -52,7 +51,7 @@ class JobController extends AbstractController
             match ($this->getClickedButtonName($form)) {
                 TableAbstract::DELETE_ACTION => $this->jobService->deleteByIds(...$table->getSelected()),
                 JobDataTableType::ACTION_DELETE_ALL => $this->jobService->clean(),
-                default => $this->logger->messageError(t('log.error.invalid_table_action', [], EMSCoreBundle::TRANS_CORE)),
+                default => $this->logger->messageError(t('log.error.invalid_table_action', [], 'emsco-core')),
             };
 
             return $this->redirectToRoute('job.index');
@@ -61,12 +60,12 @@ class JobController extends AbstractController
         return $this->render("@$this->templateNamespace/crud/overview.html.twig", [
             'form' => $form->createView(),
             'icon' => 'fa fa-file-text-o',
-            'title' => t('type.title_overview', ['type' => 'job'], EMSCoreBundle::TRANS_CORE),
-            'subTitle' => t('type.title_sub', ['type' => 'job'], EMSCoreBundle::TRANS_CORE),
+            'title' => t('type.title_overview', ['type' => 'job'], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'job'], 'emsco-core'),
             'breadcrumb' => [
-                'admin' => t('key.admin', [], EMSCoreBundle::TRANS_CORE),
-                'jobs' => t('key.jobs', [], EMSCoreBundle::TRANS_CORE),
-                'page' => t('key.job_logs', [], EMSCoreBundle::TRANS_CORE),
+                'admin' => t('key.admin', [], 'emsco-core'),
+                'jobs' => t('key.jobs', [], 'emsco-core'),
+                'page' => t('key.job_logs', [], 'emsco-core'),
             ],
         ]);
     }
@@ -110,8 +109,8 @@ class JobController extends AbstractController
 
         return $this->render("@$this->templateNamespace/job/add.html.twig", [
             'form' => $form->createView(),
-            'title' => t('type.title_create', ['type' => 'job'], EMSCoreBundle::TRANS_CORE),
-            'subTitle' => t('type.title_sub', ['type' => 'job'], EMSCoreBundle::TRANS_CORE),
+            'title' => t('type.title_create', ['type' => 'job'], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'job'], 'emsco-core'),
         ]);
     }
 

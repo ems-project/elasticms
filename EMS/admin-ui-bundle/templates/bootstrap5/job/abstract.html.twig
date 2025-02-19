@@ -5,3 +5,11 @@
     {%- set subtitle = 'job.abstract.subtitle'|trans  -%}
     {{- parent() -}}
 {%- endblock subtitle %}
+
+{% block breadcrumb %}
+    {% set breadcrumb = {
+        ('icon.jobs'|trans): 'key.jobs'|trans,
+        '#': block('title'),
+    } %}
+    {{ parent() }}
+{% endblock breadcrumb %}

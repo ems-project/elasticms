@@ -43,6 +43,8 @@
             {% for key, label in breadcrumb %}
                 {% if loop.last %}
                     <li class="breadcrumb-item active">{{ label }}</li>
+                {% elseif ' ' in key %}
+                    <li class="breadcrumb-item"><i class="{{ key }}"></i> {{ label }}</a></li>
                 {% else %}
                     <li class="breadcrumb-item"><a href="{{ key }}">{{ label }}</a></li>
                 {% endif %}

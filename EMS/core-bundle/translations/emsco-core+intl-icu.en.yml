@@ -308,6 +308,11 @@ type:
             content_type_deactivate {Deactivate selected}
             other                   {action selection}
         }
+    title_create: |-
+        {type, select,
+            job           {Launch new job}
+            other         {Ceeate}
+        }
     title_overview: |-
         {type, select,
             analyzer            {List of analyzers}
@@ -339,9 +344,4 @@ type:
             job_schedule  {When you are not at work}
             log           {Who did what}
             other         {}
-        }
-    title_create: |-
-        {type, select,
-            job           {Launch new job}
-            other         {Ceeate}
         }

@@ -21,7 +21,7 @@ class CoreBridgeResponse
 
     public static function onError(\Throwable $e): self
     {
-        $code = (int) $e instanceof HttpException ? $e->getStatusCode() : $e->getCode();
+        $code = $e instanceof HttpException ? $e->getStatusCode() : (int) $e->getCode();
         $httpCode = $code >= 100 && $code <= 599 ? $code : 500;
 
         return new self(exception: new HttpException($httpCode, $e->getMessage(), $e));

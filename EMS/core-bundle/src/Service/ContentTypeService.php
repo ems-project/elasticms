@@ -480,7 +480,7 @@ class ContentTypeService implements EntityServiceInterface
                 $this->logger->messageError(t(
                     'log.error.content_type_add_unreferenced',
                     ['environment' => $environment->getName(), 'error' => $e->getMessage()],
-                   'emsco-core'
+                    'emsco-core'
                 ));
             }
         }

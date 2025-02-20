@@ -23,7 +23,7 @@ final readonly class ClientFactory
         if (null === $this->baseUrl) {
             throw new \RuntimeException('base url not set (EMSCH_BACKEND_URL)');
         }
-        
+
         return new Client([
             'base_uri' => $this->baseUrl,
             'headers' => $headers,

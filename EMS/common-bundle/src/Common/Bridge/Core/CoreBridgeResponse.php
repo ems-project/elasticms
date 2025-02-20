@@ -9,8 +9,8 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 class CoreBridgeResponse
 {
     private function __construct(
-        private mixed $data = null,
-        private ?HttpException $exception = null
+        private readonly mixed $data = null,
+        private readonly ?HttpException $exception = null
     ) {
     }
 

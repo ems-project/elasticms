@@ -11,7 +11,7 @@ use GuzzleHttp\Client;
  */
 final readonly class ClientFactory
 {
-    public function __construct(private string $baseUrl)
+    public function __construct(private ?string $baseUrl)
     {
     }
 
@@ -20,6 +20,10 @@ final readonly class ClientFactory
      */
     public function createClient(array $headers = []): Client
     {
+        if (null === $this->baseUrl) {
+            throw new \RuntimeException('base url not set (EMSCH_BACKEND_URL)');
+        }
+        
         return new Client([
             'base_uri' => $this->baseUrl,
             'headers' => $headers,

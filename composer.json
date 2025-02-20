@@ -215,9 +215,9 @@
             "@phpunit-web"
         ],
         "phpall": [
-            "@phpunit",
+            "@phpcs",
             "@phpstan",
-            "@phpcs"
+            "@phpunit"
         ],
         "lint": [
             "@lint-container",

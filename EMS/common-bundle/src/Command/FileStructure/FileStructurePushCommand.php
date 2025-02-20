@@ -87,7 +87,7 @@ class FileStructurePushCommand extends AbstractCommand
         $diffArchive = $archive->diff($previousArchive);
 
         $this->io->section('Pushing archive');
-        $progressBar = $this->io->createProgressBar($archive->getCount());
+        $progressBar = $this->io->createProgressBar($diffArchive->getCount());
         $failedCount = 0;
         if ($this->chunkSize < 1) {
             throw new \RuntimeException(\sprintf('Chunk size must greater than 0, %d given', $this->chunkSize));

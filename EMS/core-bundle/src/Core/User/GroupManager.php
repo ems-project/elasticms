@@ -1,15 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Core\User;
 
 use EMS\CommonBundle\Entity\EntityInterface;
-use EMS\CoreBundle\Core\Mail\MailerService;
-use EMS\CoreBundle\Core\Security\Canonicalizer;
-use EMS\CoreBundle\Entity\User;
+use EMS\CoreBundle\Entity\Group;
 use EMS\CoreBundle\Repository\GroupRepository;
 use EMS\CoreBundle\Service\EntityServiceInterface;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class GroupManager implements EntityServiceInterface
 {
@@ -17,7 +15,7 @@ class GroupManager implements EntityServiceInterface
         private readonly GroupRepository $groupRepository,
     ) {
     }
-   
+
     public function getAll(): array
     {
         return $this->groupRepository->getAll();
@@ -38,8 +36,7 @@ class GroupManager implements EntityServiceInterface
     public function getEntityName(): string
     {
         // TODO: Implement getEntityName() method.
-        return "";
-
+        return '';
     }
 
     public function getAliasesName(): array
@@ -52,21 +49,18 @@ class GroupManager implements EntityServiceInterface
     {
         // TODO: Implement count() method.
         return 0;
-
     }
 
     public function getByItemName(string $name): ?EntityInterface
     {
         // TODO: Implement getByItemName() method.
         return null;
-
     }
 
     public function updateEntityFromJson(EntityInterface $entity, string $json): EntityInterface
     {
         // TODO: Implement updateEntityFromJson() method.
         return $entity;
-
     }
 
     public function createEntityFromJson(string $json, ?string $name = null): EntityInterface
@@ -75,12 +69,31 @@ class GroupManager implements EntityServiceInterface
         $form = Form::fromJson($json);
 
         return $form;
-
     }
 
     public function deleteByItemName(string $name): string
     {
         // TODO: Implement deleteByItemName() method.
-        return "";
+        return '';
+    }
+
+    public function create(Group $group): void
+    {
+        if (!$group->isLabelDefined()) {
+            $group->setLabel($group->getName());
+        }
+        $group->setRoles([
+            'foo' => 'bar',
+        ]);
+        $this->groupRepository->save($group);
+    }
+
+    public function update(Group $group): void
+    {
+        $group->setName($group->getName());
+        $group->setLabel($group->getName());
+        $group->setRoles([]);
+
+        $this->groupRepository->save($group);
     }
 }

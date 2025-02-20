@@ -7,5 +7,8 @@
     <route id="emsco_group_admin_index" path="/admin/group"
            controller="EMS\CoreBundle\Controller\User\GroupController::index"
            methods="GET|POST"/>
+    <route id="emsco_group_admin_index" path="/admin/group/add"
+           controller="EMS\CoreBundle\Controller\User\GroupController::addGroup"
+           methods="GET|POST"/>
 
 </routes>

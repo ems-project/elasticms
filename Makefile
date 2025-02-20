@@ -47,7 +47,7 @@ stop: ## stop docker, admin server, web server
 	@$(MAKE) -s server-stop/admin
 	@$(MAKE) -s server-stop/web
 	@$(DOCKER_COMPOSE) down
-check: ## run all checks (php checks,linting,translations)
+check: ## run all checks
 	@composer monorepo-validate
 	@composer rector
 	@composer phpall

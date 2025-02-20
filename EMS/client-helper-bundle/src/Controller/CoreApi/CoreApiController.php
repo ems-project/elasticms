@@ -32,7 +32,7 @@ readonly class CoreApiController
             'success' => $this->coreBridge->data($contentType)->autoSave(
                 revisionId: $revisionId,
                 rawData: Json::decode(Type::string($request->getContent()))
-            ),
+            )->success(),
         ]);
     }
 }

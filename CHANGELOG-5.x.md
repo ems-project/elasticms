@@ -1,5 +1,11 @@
 # Changelog 5.x
 
+## 5.25.3 (2025-02-12)
+### Bug Fixes
+* fix(demo): fix favicon redirect to avoid _get_file_path: true by @theus77 in https://github.com/ems-project/elasticms/pull/1185
+* fix(emsch/asset): still need to update the styleset on admin side by @theus77 in https://github.com/ems-project/elasticms/pull/1181
+* fix(emsch/template): rollback exits use template builder by @Davidmattei in https://github.com/ems-project/elasticms/pull/1200
+
 ## 5.25.2 (2025-02-03)
 ### Features
 * feat(docker): Add a NPM_EXTRA_CMD to customize the npm config by @theus77 in https://github.com/ems-project/elasticms/pull/1175

@@ -2,11 +2,10 @@
 
 {% block title %}{{ title|trans }}{% endblock %}
 {% block pagetitle %}{{ pageTitle|default(title)|trans }}{% endblock %}
-{% block subtitle %}{% if subTitle is defined %}<small>{{ subTitle|trans }}</small>{% endif %}{% endblock %}
 
 {% block breadcrumb %}
 	{# @var item \EMS\CoreBundle\Core\UI\Page\BreadcrumbItem #}
-	<ol class="breadcrumb">
+	<ol class="breadcrumb float-sm-end">
 		{% if breadcrumb is iterable %}
 			{% for name, item in breadcrumb %}
 				{% if name == 'contentType' %}

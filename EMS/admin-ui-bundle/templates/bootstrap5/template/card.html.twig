@@ -1,0 +1,86 @@
+{% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}
+
+{#
+Template: Bootstrap Card with Blocks
+
+Description:
+This template renders a Bootstrap card with customizable sections.
+
+Available Variables:
+    - class (string, optional): Additional CSS classes for the card.
+    - header (string, optional): Content for the card header.
+    - cardTitle (string, optional): The title of the card.
+    - content (string, optional): Main text content of the card.
+    - form (FormView, optional): A Symfony form to be displayed inside the card.
+    - footer (string, optional): Footer text for the card.
+
+Available Blocks:
+    - header: Customizes the card header.
+    - cardTitle: Customizes the card title.
+    - content: Customizes the main content.
+    - form: Customizes the form section inside the card.
+    - footer: Customizes the card footer.
+#}
+
+{% block title %}{% if title is defined %}{{ title|trans }}{% endif %}{% endblock title %}
+{% block pagetitle %}{{ pageTitle is defined ? pageTitle|trans  : block('title') }}{% endblock %}
+
+{% block body %}
+<div class="card {{ class|default('mb-4 shadow') }}">
+    {% if form is defined %}
+        {{ form_start(form) }}
+    {% endif %}
+    {% block header %}
+        {% if header is defined %}
+            <div class="card-header">
+                {{ header }}
+            </div>
+        {% endif %}
+    {% endblock %}
+
+    <div class="card-body">
+        {% block cardTitle %}
+            {% if cardTitle is defined %}
+                <h2 class="card-title">{{ cardTitle }}</h2>
+            {% endif %}
+        {% endblock %}
+
+        {% block content %}
+            {% if content is defined %}
+                <p class="card-text">{{ content }}</p>
+            {% endif %}
+        {% endblock %}
+
+        {% block form %}
+            {% if form is defined %}
+                <div class="row">
+                    {% for field in form %}
+                        {% if 'submit' not in field.vars.block_prefixes %}
+                            {{ form_row(field) }}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endblock %}
+    </div>
+
+    {% block footer %}
+        {% if footer is defined %}
+            <div class="card-footer clearfix">
+                {{ footer|default('') }}
+            </div>
+        {% elseif form is defined and form|length > 0 %}
+            <div class="card-footer clearfix">
+                {% for field in form %}
+                    {% if 'submit' in field.vars.block_prefixes %}
+                        {{ form_row(field) }}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endblock %}
+    {% if form is defined %}
+        {{ form_end(form) }}
+    {% endif %}
+</div>
+{% endblock body %}

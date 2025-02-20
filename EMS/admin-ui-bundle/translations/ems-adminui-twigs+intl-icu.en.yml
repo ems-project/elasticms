@@ -1,0 +1,8 @@
+core:
+    modal:
+        close: Close
+        loading: Loading...
+icon:
+    jobs: 'fa fa-terminal'
+key:
+    jobs: Jobs

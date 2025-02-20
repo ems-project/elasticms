@@ -97,7 +97,7 @@ class Revision implements EntityInterface, \Stringable
     }
 
     /**
-     * Remove virtual fields ans save the raw data.
+     * Remove virtual fields and save the raw data.
      *
      * @param array<mixed> $data
      */
@@ -656,7 +656,7 @@ class Revision implements EntityInterface, \Stringable
     public function autoSaveToRawData(): self
     {
         if (null !== $this->autoSave) {
-            $this->rawData = $this->autoSave;
+            $this->rawData = [...$this->getRawData(), ...$this->autoSave];
             $this->autoSaveClear();
         }
 

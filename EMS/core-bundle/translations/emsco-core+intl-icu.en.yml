@@ -29,22 +29,22 @@ action:
     update_mapping: 'Update mapping'
     view: View
 color:
-    red: Red
-    maroon: Maroon
-    fuchsia: Fuchsia
-    orange: Orange
-    yellow: Yellow
-    olive: Olive
-    green: Green
-    lime: Lime
-    teal: Teal
     aqua: Aqua
-    light-blue: 'Light blue'
-    blue: Blue
-    purple: Purple
-    navy: Navy
     black: Black
+    blue: Blue
+    fuchsia: Fuchsia
     gray: Gray
+    green: Green
+    light-blue: 'Light blue'
+    lime: Lime
+    maroon: Maroon
+    navy: Navy
+    olive: Olive
+    orange: Orange
+    purple: Purple
+    red: Red
+    teal: Teal
+    yellow: Yellow
 core:
     content_type:
         view_define: |-
@@ -307,6 +307,11 @@ type:
             content_type_activate   {Activate selected}
             content_type_deactivate {Deactivate selected}
             other                   {action selection}
+        }
+    title_create: |-
+        {type, select,
+            job           {Launch new job}
+            other         {Ceeate}
         }
     title_overview: |-
         {type, select,

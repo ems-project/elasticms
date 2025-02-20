@@ -5,7 +5,7 @@
 {% block pagetitle %}{{ block('title') }}{% endblock %}
 
 {% block breadcrumb %}
-    <ol class="breadcrumb">
+    <ol class="breadcrumb float-sm-end">
         <li class="breadcrumb-item"><a href="{{ path('emsco_view_revisions', {type: revision.contentType.name, ouuid: revision.ouuid, revisionId: revision.id}) }}"><i class="{{ revision.contentType.icon|default('fa fa-book') }}"></i> {{ revision.label }}</a></li>
         <li class="breadcrumb-item">{{ block('title') }}</li>
     </ol>

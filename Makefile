@@ -11,7 +11,7 @@ RUN_ADMIN				= php ${PWD}/elasticms-admin/bin/console --no-debug
 RUN_WEB					= php ${PWD}/elasticms-web/bin/console --no-debug
 RUN_POSTGRES		= docker exec -i -u ${DOCKER_USER}:0 -e PGUSER=postgres -e PGPASSWORD=adminpg ems-mono-postgres
 NPM_CMD         = "${NPM_EXTRA_CMD} npm $*"
-RUN_DEMO_NPM		= docker run -u ${DOCKER_USER}:0 --rm -it -v ${PWD}/demo:/opt/src --workdir /opt/src elasticms/base-php:8.1-cli-dev sh -c ${NPM_CMD}
+RUN_DEMO_NPM		= docker run -u ${DOCKER_USER}:0 --rm -it -v ${PWD}/demo:/opt/src --workdir /opt/src elasticms/base-php:8.4-cli-dev sh -c ${NPM_CMD}
 
 .DEFAULT_GOAL := help
 .PHONY: help demo docs
@@ -47,6 +47,12 @@ stop: ## stop docker, admin server, web server
 	@$(MAKE) -s server-stop/admin
 	@$(MAKE) -s server-stop/web
 	@$(DOCKER_COMPOSE) down
+check: ## run all checks
+	@composer monorepo-validate
+	@composer rector
+	@composer phpall
+	@composer lint
+	@$(MAKE) build-translations
 cache-clear: ## cache clear
 	@$(RUN_ADMIN) c:cl
 	@$(RUN_WEB) c:cl
@@ -66,7 +72,7 @@ server-log/%:  ## server-log/(admin|web)
 ## —— Build ————————————————————————————————————————————————————————————————————————————————————————————————————————————
 build-translations: ## build translations
 	@php build/translations en EMSCoreBundle --write --format=yml -d emsco-core
-	@php build/translations en EMSAdminUIBundle --write --format=xlf
+	@php build/translations en EMSAdminUIBundle --write --format=yml
 
 ## —— Database —————————————————————————————————————————————————————————————————————————————————————————————————————————
 db-migrate: ## run doctrine migrations

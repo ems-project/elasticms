@@ -73,13 +73,8 @@ final readonly class TemplateLoader implements LoaderInterface
         if (null === $this->environmentHelper->getCurrentEnvironment()) {
             return false;
         }
-        if (!TemplateName::validate($name)) {
-            return false;
-        }
-        $environment = $this->getEnvironment();
-        $templateName = new TemplateName($name);
 
-        return $this->builder->exists($environment, $templateName);
+        return TemplateName::validate($name);
     }
 
     private function getEnvironment(): Environment

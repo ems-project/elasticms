@@ -47,7 +47,7 @@ class WYSIWYG {
       return
     }
     const profile = JSON.parse(document.body.dataset.wysiwygInfo)
-    if (typeof profile.editor !== "string") {
+    if (typeof profile.editor !== 'string') {
       console.error('Editor is not defined')
       return
     }

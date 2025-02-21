@@ -17,7 +17,9 @@ use EMS\CoreBundle\Core\ContentType\ViewDefinition;
 use EMS\CoreBundle\Entity\Helper\JsonClass;
 use EMS\CoreBundle\Entity\Helper\JsonDeserializer;
 use EMS\CoreBundle\Form\DataField\ContainerFieldType;
+use EMS\CoreBundle\Form\DataField\DateFieldType;
 use EMS\CoreBundle\Roles;
+use EMS\Helpers\Standard\DateTime;
 use EMS\Helpers\Standard\Json;
 use EMS\Helpers\Standard\Type;
 
@@ -1005,6 +1007,25 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
     public function setVersionFields(VersionFields $versionFields): void
     {
         $this->versionFields = $versionFields->getFields();
+    }
+
+    public function getVersionDateFormat(): string
+    {
+        if (null === $dateFromField = $this->getVersionDateFromField()) {
+            throw new \RuntimeException('Version date from field not defined.');
+        } 
+        
+        if (null === $dateFromFieldType = $this->fieldType->findChildByName($dateFromField)) {
+            throw new \RuntimeException(sprintf('Version date from "%s" field not found.', $dateFromFieldType));
+        }
+        
+        if ($dateFromFieldType->getType() === DateFieldType::class) {
+            $mappingFormat = $dateFromFieldType->getMappingOption('format');
+            
+            return $mappingFormat ? DateTime::convertFormat('java', $mappingFormat) : \DateTimeInterface::ATOM;
+        }
+        
+        return \DateTimeInterface::ATOM;        
     }
 
     public function getVersionDateFromField(): ?string

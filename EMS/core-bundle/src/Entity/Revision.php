@@ -799,7 +799,7 @@ class Revision implements EntityInterface, \Stringable
             $dateString = $this->rawData[$dateToField] ?? null;
         }
 
-        return $dateString ? DateTime::createFromFormat($dateString) : null;
+        return $dateString ? DateTime::createFromFormat($dateString, $contentType->getVersionDateFormat()) : null;
     }
 
     public function hasVersionTag(): bool
@@ -878,13 +878,15 @@ class Revision implements EntityInterface, \Stringable
         if (null === $contentType = $this->contentType) {
             throw new \RuntimeException(\sprintf('ContentType not found for revision %d', $this->getId()));
         }
+        
+        $versionDateFormat = $contentType->getVersionDateFormat();
 
         if ('from' === $field && null !== $dateFromField = $contentType->getVersionDateFromField()) {
-            $this->rawData[$dateFromField] = $date->format(\DateTimeInterface::ATOM);
+            $this->rawData[$dateFromField] = $date->format($versionDateFormat);
         }
 
         if ('to' === $field && null !== $dateToField = $contentType->getVersionDateToField()) {
-            $this->rawData[$dateToField] = $date->format(\DateTimeInterface::ATOM);
+            $this->rawData[$dateToField] = $date->format($versionDateFormat);
         }
     }
 

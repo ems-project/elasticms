@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\Helpers\Standard;
 
+use EMS\Helpers\Date\DateFormatHelper;
+
 final class DateTime
 {
     public static function create(string $time): \DateTimeImmutable
@@ -34,5 +36,10 @@ final class DateTime
         }
 
         return $dateTime;
+    }
+
+    public static function convertFormat(string $type, string $format): string
+    {
+        return DateFormatHelper::convert($type, $format);
     }
 }

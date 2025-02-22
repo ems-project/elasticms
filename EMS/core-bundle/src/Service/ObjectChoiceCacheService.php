@@ -181,7 +181,7 @@ class ObjectChoiceCacheService
                     continue;
                 }
 
-                if ($contentType->hasVersionTags() && null !== $dateToField = $contentType->getVersionDateToField()) {
+                if ($contentType->hasVersionTags() && null !== $dateToField = $contentType->versioning()?->fieldTo) {
                     $contentTypeQuery = new BoolQuery();
                     $contentTypeQuery->addMust($this->elasticaService->getTermsQuery(Mapping::VERSION_UUID, $ouuids));
                     $contentTypeQuery->addMustNot(new Exists($dateToField));

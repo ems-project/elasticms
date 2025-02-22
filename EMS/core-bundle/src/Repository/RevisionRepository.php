@@ -843,8 +843,6 @@ class RevisionRepository extends EntityRepository
 
     public function findLatestVersion(ContentType $contentType, string $versionOuuid, ?Environment $environment = null): ?Revision
     {
-        $toField = $contentType->getVersionDateToField();
-
         $qb = $this->createQueryBuilder('r');
         $qb
             ->andWhere($qb->expr()->eq('r.versionUuid', ':version_ouuid'))
@@ -861,6 +859,9 @@ class RevisionRepository extends EntityRepository
 
         /** @var Revision[] $revisions */
         $revisions = $qb->getQuery()->getResult();
+        if (null === $toField = $contentType->versioning()?->fieldTo) {
+            return null;
+        }
 
         foreach ($revisions as $revision) {
             $toFieldValue = $revision->getRawData()[$toField] ?? 'latest';

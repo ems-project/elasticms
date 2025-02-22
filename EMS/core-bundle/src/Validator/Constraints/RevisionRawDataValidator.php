@@ -32,7 +32,7 @@ class RevisionRawDataValidator extends ConstraintValidator
     {
         $contentType = $constraint->contentType;
 
-        if (null === $fromField = $contentType->getVersionDateFromField()) {
+        if (null === $fromField = $contentType->versioning()?->fieldFrom) {
             return;
         }
 
@@ -42,7 +42,7 @@ class RevisionRawDataValidator extends ConstraintValidator
             return;
         }
 
-        $toField = $constraint->contentType->getVersionDateToField();
+        $toField = $constraint->contentType->versioning()?->fieldTo;
 
         if (null === $toField || null === $versionToDate = ArrayHelper::findDateTime($toField, $rawData)) {
             return;

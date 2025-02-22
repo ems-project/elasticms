@@ -1032,7 +1032,7 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
 
     public function getVersionDateFormat(): string
     {
-        if (null === $dateFromField = $this->getVersionDateFromField()) {
+        if (null === $dateFromField = $this->versioning()?->fieldFrom) {
             throw new \RuntimeException('Version date from field not defined.');
         }
 
@@ -1047,16 +1047,6 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
         }
 
         return \DateTimeInterface::ATOM;
-    }
-
-    public function getVersionDateFromField(): ?string
-    {
-        return $this->versionField(VersionFields::DATE_FROM);
-    }
-
-    public function getVersionDateToField(): ?string
-    {
-        return $this->versionField(VersionFields::DATE_TO);
     }
 
     public function hasVersionTagField(): bool

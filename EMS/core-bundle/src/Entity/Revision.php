@@ -789,17 +789,13 @@ class Revision implements EntityInterface, \Stringable
 
     public function getVersionDate(string $field): ?\DateTimeInterface
     {
-        $contentType = $this->giveContentType();
+        $dateString = match ($field) {
+            'from' => $this->rawData[$this->giveContentType()->versioning()?->fieldFrom] ?? null,
+            'to' => $this->rawData[$this->giveContentType()->versioning()?->fieldTo] ?? null,
+            default => null,
+        };
 
-        $dateString = null;
-        if ('from' === $field && null !== $dateFromField = $contentType->getVersionDateFromField()) {
-            $dateString = $this->rawData[$dateFromField] ?? null;
-        }
-        if ('to' === $field && null !== $dateToField = $contentType->getVersionDateToField()) {
-            $dateString = $this->rawData[$dateToField] ?? null;
-        }
-
-        return $dateString ? DateTime::createFromFormat($dateString, $contentType->getVersionDateFormat()) : null;
+        return $dateString ? DateTime::createFromFormat($dateString, $this->giveContentType()->getVersionDateFormat()) : null;
     }
 
     public function hasVersionTag(): bool
@@ -875,19 +871,14 @@ class Revision implements EntityInterface, \Stringable
 
     public function setVersionDate(string $field, \DateTimeInterface $date): void
     {
-        if (null === $contentType = $this->contentType) {
-            throw new \RuntimeException(\sprintf('ContentType not found for revision %d', $this->getId()));
-        }
-        
-        $versionDateFormat = $contentType->getVersionDateFormat();
+        $fieldName = match ($field) {
+            'from' => $this->giveContentType()->versioning()?->fieldFrom,
+            'to' => $this->giveContentType()->versioning()?->fieldTo,
+            default => throw new \RuntimeException('invalid field')
+        };
 
-        if ('from' === $field && null !== $dateFromField = $contentType->getVersionDateFromField()) {
-            $this->rawData[$dateFromField] = $date->format($versionDateFormat);
-        }
-
-        if ('to' === $field && null !== $dateToField = $contentType->getVersionDateToField()) {
-            $this->rawData[$dateToField] = $date->format($versionDateFormat);
-        }
+        $versionDateFormat = $this->giveContentType()->getVersionDateFormat();
+        $this->rawData[$fieldName] = $date->format($versionDateFormat);
     }
 
     public function getDraftSaveDate(): ?\DateTime

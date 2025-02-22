@@ -26,7 +26,7 @@ Available Blocks:
 {% block pagetitle %}{{ pageTitle is defined ? pageTitle|trans  : block('title') }}{% endblock %}
 
 {% block body %}
-<div class="card {{ class|default('mb-4 shadow') }}">
+<div class="card card-outline {{ class|default("card-#{theme_color} mb-4 shadow") }}">
     {% if form is defined %}
         {{ form_start(form) }}
     {% endif %}

@@ -79,21 +79,21 @@
         <div class="btn-group float-end">
             {% if not job.done %}
                 {% include '@EMSAdminUI/bootstrap5/elements/get-button.html.twig' with {
-                    'url':  path('job.status', {'job': job.id}),
-                    'label': 'Refresh page',
+                    'url':  path('emsco_job_status', {'job': job.id}),
+                    'label': 'button.reload_page'|trans,
                     'icon': 'refresh'
                 }%}
             {% endif %}
             {% if is_granted('ROLE_ADMIN') %}
                 {% include '@EMSAdminUI/bootstrap5/elements/get-button.html.twig' with {
                     'url':  path('emsco_job_index'),
-                    'label': 'Job\'s list',
+                    'label': 'job.list'|trans,
                     'icon': 'chevron-circle-right'
                 }%}
                 {% include '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' with {
                     'url':  path('emsco_job_delete', {'job': job.id}),
-                    'message': 'Do you confirm ?',
-                    'label': 'Delete',
+                    'message': 'button.confirm'|trans,
+                    'label': 'button.delete'|trans,
                     'icon': 'trash'
                 }%}
             {% endif %}

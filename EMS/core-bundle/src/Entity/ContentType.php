@@ -12,6 +12,7 @@ use EMS\CoreBundle\Core\ContentType\ContentTypeFields;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Core\ContentType\ContentTypeSettings;
 use EMS\CoreBundle\Core\ContentType\Version\VersionFields;
+use EMS\CoreBundle\Core\ContentType\Version\Versioning;
 use EMS\CoreBundle\Core\ContentType\Version\VersionOptions;
 use EMS\CoreBundle\Core\ContentType\ViewDefinition;
 use EMS\CoreBundle\Entity\Helper\JsonClass;
@@ -963,6 +964,26 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
         return $this->field(ContentTypeFields::BUSINESS_ID);
     }
 
+    public function versioning(): ?Versioning
+    {
+        $fields = new VersionFields($this->versionFields ?? []);
+        if (!isset($fields[VersionFields::DATE_FROM], $fields[VersionFields::DATE_TO])) {
+            return null;
+        }
+
+        $version = new Versioning(
+            fieldFrom: $fields[VersionFields::DATE_FROM],
+            fieldTo: $fields[VersionFields::DATE_TO],
+            options: new VersionOptions($this->versionOptions ?? []),
+        );
+
+        if (isset($fields[VersionFields::VERSION_TAG]) && \count($this->versionTags ?? []) > 0) {
+            $version->enableTags($fields[VersionFields::VERSION_TAG], $this->versionTags);
+        }
+
+        return $version;
+    }
+
     public function hasVersionTags(): bool
     {
         return \count($this->versionTags ?? []) > 0;
@@ -1013,19 +1034,19 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
     {
         if (null === $dateFromField = $this->getVersionDateFromField()) {
             throw new \RuntimeException('Version date from field not defined.');
-        } 
-        
-        if (null === $dateFromFieldType = $this->fieldType->findChildByName($dateFromField)) {
-            throw new \RuntimeException(sprintf('Version date from "%s" field not found.', $dateFromFieldType));
         }
-        
-        if ($dateFromFieldType->getType() === DateFieldType::class) {
+
+        if (null === $dateFromFieldType = $this->fieldType?->findChildByName($dateFromField)) {
+            throw new \RuntimeException(\sprintf('Version date from "%s" field not found.', $dateFromFieldType));
+        }
+
+        if (DateFieldType::class === $dateFromFieldType->getType()) {
             $mappingFormat = $dateFromFieldType->getMappingOption('format');
-            
+
             return $mappingFormat ? DateTime::convertFormat('java', $mappingFormat) : \DateTimeInterface::ATOM;
         }
-        
-        return \DateTimeInterface::ATOM;        
+
+        return \DateTimeInterface::ATOM;
     }
 
     public function getVersionDateFromField(): ?string
@@ -1053,11 +1074,8 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
      */
     public function getDisabledDataFields(): array
     {
-        if ($this->getVersionOptions()[VersionOptions::DATES_READ_ONLY]) {
-            return \array_filter([
-                $this->getVersionDateFromField(),
-                $this->getVersionDateToField(),
-            ]);
+        if (true === $this->versioning()?->optionDatesReadOnly()) {
+            return [$this->versioning()->fieldFrom, $this->versioning()->fieldTo];
         }
 
         return [];

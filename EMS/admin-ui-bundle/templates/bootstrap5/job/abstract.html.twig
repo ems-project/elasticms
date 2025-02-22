@@ -5,9 +5,11 @@
 {% endif %}
 
 {% block breadcrumb %}
-    {% set breadcrumb = {
-        ('icon.jobs'|trans): 'key.jobs'|trans,
-        '#': block('title'),
-    } %}
+    {% set breadcrumb = [{
+        icon: 'icon.jobs'|trans,
+        link: path('emsco_job_index'),
+        label: 'key.jobs'|trans,
+    }, {
+    }] %}
     {{ parent() }}
 {% endblock breadcrumb %}

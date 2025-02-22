@@ -40,14 +40,15 @@
 {% block breadcrumb %}
     {% if breadcrumb|length > 1 %}
         <ol class="breadcrumb float-sm-end">
-            {% for key, label in breadcrumb %}
-                {% if loop.last %}
-                    <li class="breadcrumb-item active">{{ label }}</li>
-                {% elseif ' ' in key %}
-                    <li class="breadcrumb-item"><i class="{{ key }}"></i> {{ label }}</a></li>
-                {% else %}
-                    <li class="breadcrumb-item"><a href="{{ key }}">{{ label }}</a></li>
-                {% endif %}
+            {% for item in breadcrumb %}
+                <li class="{{ html_classes('breadcrumb-item', {
+                    'active': loop.last,
+                }) }}">
+                    {% if item.link is defined %}<a href="{{ item.link }}">{% endif %}
+                    {% if item.icon is defined %}<i class="{{ item.icon }}"></i>{% endif %}
+                    {{ item.label|default(block('title')) }}
+                    {% if item.link is defined %}</a>{% endif %}
+                </li>
             {% endfor %}
         </ol>
     {% endif %}

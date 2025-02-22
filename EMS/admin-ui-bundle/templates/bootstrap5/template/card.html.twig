@@ -10,6 +10,7 @@ Available Variables:
     - class (string, optional): Additional CSS classes for the card.
     - header (string, optional): Content for the card header.
     - cardTitle (string, optional): The title of the card.
+    - cardTitleIcon (string, optional): The icon class ot the title of the card.
     - content (string, optional): Main text content of the card.
     - form (FormView, optional): A Symfony form to be displayed inside the card.
     - footer (string, optional): Footer text for the card.
@@ -41,7 +42,12 @@ Available Blocks:
     <div class="card-body">
         {% block cardTitle %}
             {% if cardTitle is defined %}
-                <h2 class="card-title">{{ cardTitle }}</h2>
+                <h2 class="card-title">
+                    {% if cardTitleIcon is defined %}
+                        <i class="{{ cardTitleIcon }}"></i>
+                    {% endif %}
+                    {{ cardTitle }}
+                </h2>
             {% endif %}
         {% endblock %}
 

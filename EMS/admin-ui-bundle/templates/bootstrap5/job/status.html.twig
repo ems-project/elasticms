@@ -16,14 +16,6 @@
 
 {% block job_info %}
     {% set list = [{
-        icon: 'fa fa-clock',
-        label: 'job.started'|trans,
-        value: job.created|date(date_time_format),
-    },{
-        icon: 'fa fa-hourglass',
-        label: 'job.modified'|trans,
-        value: job.modified|date(date_time_format),
-    },{
         icon: 'fa fa-user',
         label: 'job.user'|trans,
         value: job.user|emsco_display_name,
@@ -32,6 +24,14 @@
         label: 'job.command'|trans,
         content: job.command|default('list'),
         contentClass: 'console'
+    },{
+        icon: 'fa fa-clock',
+        label: 'job.started'|trans,
+        value: job.created|date(date_time_format),
+    },{
+        icon: 'fa fa-hourglass',
+        label: 'job.modified'|trans,
+        value: job.modified|date(date_time_format),
     },{
         icon: 'fa fa-percent',
         label: 'job.progress'|trans,

@@ -88,6 +88,8 @@ class JobController extends AbstractController
         }
 
         return $this->render("@$this->templateNamespace/job/status.html.twig", [
+            'title' => t('type.title_status', ['type' => 'job', 'job_id' => $job->getId()], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'job'], 'emsco-core'),
             'job' => $job,
             'status' => $encoder->encodeUrl($job->getStatus()),
             'output' => $encoder->encodeUrl($converter->convert($job->getOutput())),

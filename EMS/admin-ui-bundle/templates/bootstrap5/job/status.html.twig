@@ -61,12 +61,11 @@
 {% endblock job_info %}
 
 {% block header %}
-    <div class="card-header">
-        <h2 class="card-title">
-            <i class="fa fa-gear{% if not job.done %} fa-spin{% endif %}"></i>
-            {{ 'job.output'|trans({job_id: job.id}) }}
-        </h2>
-    </div>
+    {% set cardTitleIcon = html_classes('fa', 'fa-gear', {
+        'fa-spin': job.done,
+    }) %}
+    {% set cardTitle = 'job.output'|trans({job_id: job.id}) %}
+    {{ parent() }}
 {% endblock %}
 
 {% block content %}

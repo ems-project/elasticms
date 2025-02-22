@@ -44,30 +44,21 @@
             value: job.tag,
         }]) %}
     {% endif %}
-    <div class="card card-{{ theme_color }} card-outline shadow">
-        <div class="card-header">
-            <h2 class="text-center card-title"><i class="fa fa-info"></i> Meta information</h2>
-        </div>
-        <div class="card-body">
-            <ul class="list-group list-group-unbordered">
-                {% for item in list %}
-                    <li class="list-group-item">
-                        <div class="d-flex w-100 justify-content-between">
-                            <b><i class="{{ item.icon }}"></i> {{ item.label }}</b>
-                            {% if item.value is defined %}<span>{{ item.value }}</span>{% endif %}
-                        </div>
-                        {% if item.content is defined %}
-                            <p class="mt-1 mb-0 {{ item.contentClass|default('') }}">
-                                {{ item.content }}
-                            </p>
-                        {% endif %}
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
-{% endblock job_info %}
 
+    {% set listGroup %}
+        {% include '@EMSAdminUI/bootstrap5/components/bootstrap/list-group.html.twig' with {
+            'list':  list
+        }%}
+    {% endset %}
+
+    {% with {
+        content: listGroup,
+        cardTitle: 'job.info'|trans,
+        cardTitleIcon: 'fa fa-info',
+    } %}
+        {{ block('body', '@EMSAdminUI/bootstrap5/template/card.html.twig') }}
+    {% endwith %}
+{% endblock job_info %}
 
 {% block header %}
     <div class="card-header">

@@ -38,18 +38,37 @@
 {% set breadcrumb = [] %}
 
 {% block breadcrumb %}
-    {% if breadcrumb|length > 1 %}
+    {% if breadcrumb is defined %}
         <ol class="breadcrumb float-sm-end">
-            {% for item in breadcrumb %}
-                <li class="{{ html_classes('breadcrumb-item', {
-                    'active': loop.last,
-                }) }}">
-                    {% if item.link is defined %}<a href="{{ item.link }}">{% endif %}
-                    {% if item.icon is defined %}<i class="{{ item.icon }}"></i>{% endif %}
-                    {{ item.label|default(block('title')) }}
-                    {% if item.link is defined %}</a>{% endif %}
-                </li>
-            {% endfor %}
+            {% if breadcrumb is iterable %}
+                {% for name, item in breadcrumb %}
+                    {% if name == 'contentType' %}
+                        <li>{{ t('key.content_types', [], 'emsco-core')|trans }}</li>
+                        <li>
+                            <i class="{{ item.icon|default('fa fa-book') }}"></i>&nbsp;{{ item.pluralName }}
+                        </li>
+                    {% elseif name == 'page' %}
+                        <li>{% if icon is defined %}<i class="{{ icon }}"></i>{% endif %}&nbsp;{{ item|trans }}</li>
+                    {% else %}
+                        <li>{{ item|trans }}</li>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                {# @var item \EMS\CoreBundle\Core\UI\Page\NavigationItem #}
+                {% for item in breadcrumb.items %}
+                    {%- set label -%}
+                        {% if item.icon %}<i class="{{ item.icon }}"></i>&nbsp;{% endif %}
+                        {{ item.label ? item.label|trans : item.text|default('...') }}
+                    {%- endset -%}
+                    <li class="{{ html_classes({ 'active': loop.last }) }}">
+                        {% if item.route and loop.last == false %}
+                            <a href="{{ path(item.route, item.routeParams) }}">{{ label|raw }}</a>
+                        {% else %}
+                            {{ label|raw }}
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            {% endif %}
         </ol>
     {% endif %}
 {% endblock breadcrumb %}

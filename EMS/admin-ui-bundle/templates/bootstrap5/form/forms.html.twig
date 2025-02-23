@@ -221,7 +221,7 @@
 
 {% block emsco_form_table_column_row_actions %}
     {% trans_default_domain 'EMSCoreBundle' %}
-    <div class="btn-group {{ table.rowActionsClass }}">
+    <div class="btn-group {{ table.rowActionsClass|default('float-end') }}">
         {% for action in table.itemActions %}
             {% if action is iterable and action|length > 0 %}
                 <div class="btn-group">
@@ -319,7 +319,7 @@
                     </div>
                 {% endif %}
                 <div class="box-body with-border">
-                    <div class="table-responsive">
+                    <div class="table-responsive mt-2">
                         <table class="table table-condensed table-striped" data-datatable="{{ table.frontendOptions|json_encode|e('html_attr') }}">
                             <thead>
                             <tr role="row">

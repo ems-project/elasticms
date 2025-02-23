@@ -6,8 +6,6 @@ core:
     modal:
         close: Close
         loading: Loading...
-icon:
-    jobs: 'fa fa-terminal'
 job:
     command: Command
     completed: Completed
@@ -19,5 +17,3 @@ job:
     started: 'Started time'
     tag: Tag
     user: User
-key:
-    jobs: Jobs

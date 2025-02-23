@@ -296,7 +296,7 @@
                 {% if table_title is defined or form.vars.title_label|default(false) or toolbar is defined or (table.sortable and table.supportsTableActions) or table.toolbarActions|length > 0 %}
                     <div class="card-header d-flex align-items-center">
                         {% if table_title is defined or form.vars.title_label|default(false) %}
-                            <h2 class="box-title">
+                            <h2 class="card-title">
                                 {% if table_title_icon is defined %}<i class="{{ table_title_icon }}"></i>&nbsp;{% endif %}
                                 {{ table_title|default(form.vars.title_label|trans) }}
                             </h2>

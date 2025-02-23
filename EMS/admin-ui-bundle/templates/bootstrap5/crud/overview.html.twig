@@ -4,7 +4,7 @@
 {% block pagetitle %}{{ pageTitle|default(title)|trans }}{% endblock %}
 
 {% block breadcrumb %}
-	{# @var item \EMS\CoreBundle\Core\UI\Page\BreadcrumbItem #}
+	{# @var item \EMS\CoreBundle\Core\UI\Page\NavigationItem #}
 	<ol class="breadcrumb float-sm-end">
 		{% if breadcrumb is iterable %}
 			{% for name, item in breadcrumb %}

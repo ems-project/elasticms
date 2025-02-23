@@ -13,7 +13,8 @@ class Select {
       checkboxesAll[i].addEventListener('change', function () {
         const targets = document.querySelectorAll(selector)
         for (let j = 0; j < targets.length; ++j) {
-          targets[j].checked = this.checked
+          const input = 'INPUT' === targets[j].tagName ? targets[j] : targets[j].querySelector('input')
+          input.checked = checkboxesAll[i].checked
         }
       })
     }

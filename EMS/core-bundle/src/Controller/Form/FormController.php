@@ -147,6 +147,11 @@ class FormController extends AbstractController
         return $this->render("@$this->templateNamespace/admin-form/reorder.html.twig", [
             'form' => $formType->createView(),
             'entity' => $form,
+            'title' => t('form.reorder.title', ['label' => $form->getLabel()], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'form'], 'emsco-core'),
+            'breadcrumb' => $this->breadcrumb()->add(
+                t('form.reorder.title', ['label' => $form->getLabel()], 'emsco-core')
+            ),
         ]);
     }
 

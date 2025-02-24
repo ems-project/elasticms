@@ -1,0 +1,41 @@
+{#
+Template: Unbordered List Group
+
+Description:
+This template renders an unbordered Bootstrap list group (`ul.list-group`).
+Each list item contains an icon, a label, an optional value, and an optional content section.
+
+Available Variables:
+- list (array, required): An array of items, each containing:
+    - icon (string, required): The CSS class for the icon (e.g., FontAwesome or Bootstrap icons).
+    - label (string, required): The main label text for the list item.
+    - value (string, optional): A value displayed on the right side.
+    - content (string, optional): Additional content displayed below the label.
+    - contentClass (string, optional): Additional CSS classes for the `content` paragraph.
+
+Example Usage:
+
+```twig
+{% set items = [
+    { icon: 'fas fa-user', label: 'Username', value: 'JohnDoe' },
+    { icon: 'fas fa-envelope', label: 'Email', value: 'john@example.com' },
+    { icon: 'fas fa-info-circle', label: 'Notes', content: 'This user is an admin.', contentClass: 'text-muted' }
+] %}
+{% include '@EMSAdminUI/bootstrap5/components/bootstrap/list-group.html.twig' with { list: items } %}
+```
+#}
+<ul class="list-group list-group-unbordered">
+{% for item in list %}
+    <li class="list-group-item">
+        <div class="d-flex w-100 justify-content-between">
+            <b><i class="{{ item.icon }}"></i> {{ item.label }}</b>
+            {% if item.value is defined %}<span>{{ item.value }}</span>{% endif %}
+        </div>
+        {% if item.content is defined %}
+            <p class="mt-1 mb-0 {{ item.contentClass|default('') }}">
+                {{ item.content }}
+            </p>
+        {% endif %}
+    </li>
+{% endfor %}
+</ul>

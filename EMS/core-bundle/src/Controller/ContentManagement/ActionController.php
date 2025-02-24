@@ -75,6 +75,7 @@ final class ActionController extends AbstractController
                 parameters: ['type' => 'content_type_action', 'contentType' => $contentType->getSingularName()],
                 domain: 'emsco-core'
             ),
+            'subTitle' => t('type.title_sub', ['type' => 'action'], 'emsco-core'),
             'breadcrumb' => Navigation::admin()->contentType($contentType)->contentTypeActions($contentType),
         ]);
     }

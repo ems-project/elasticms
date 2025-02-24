@@ -18,11 +18,8 @@ use EMS\CoreBundle\Core\ContentType\ViewDefinition;
 use EMS\CoreBundle\Entity\Helper\JsonClass;
 use EMS\CoreBundle\Entity\Helper\JsonDeserializer;
 use EMS\CoreBundle\Form\DataField\ContainerFieldType;
-use EMS\CoreBundle\Form\DataField\DateFieldType;
 use EMS\CoreBundle\Roles;
-use EMS\Helpers\Standard\DateTime;
 use EMS\Helpers\Standard\Json;
-use EMS\Helpers\Standard\Type;
 
 class ContentType extends JsonDeserializer implements \JsonSerializable, EntityInterface, \Stringable
 {
@@ -971,17 +968,18 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
             return null;
         }
 
-        $version = new Versioning(
+        $versioning = new Versioning(
             fieldFrom: $fields[VersionFields::DATE_FROM],
             fieldTo: $fields[VersionFields::DATE_TO],
-            options: new VersionOptions($this->versionOptions ?? []),
         );
 
+        $versioning->setRootFieldType($this->fieldType);
+
         if (isset($fields[VersionFields::VERSION_TAG]) && \count($this->versionTags ?? []) > 0) {
-            $version->enableTags($fields[VersionFields::VERSION_TAG], $this->versionTags);
+            $versioning->enableTags($fields[VersionFields::VERSION_TAG], $this->versionTags);
         }
 
-        return $version;
+        return $versioning;
     }
 
     public function hasVersionTags(): bool
@@ -1015,11 +1013,6 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
         $this->versionOptions = $versionOptions->getOptions();
     }
 
-    public function versionField(string $field): ?string
-    {
-        return $this->getVersionFields()[$field] ?? null;
-    }
-
     public function getVersionFields(): VersionFields
     {
         return new VersionFields($this->versionFields ?? []);
@@ -1030,42 +1023,15 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
         $this->versionFields = $versionFields->getFields();
     }
 
-    public function getVersionDateFormat(): string
-    {
-        if (null === $dateFromField = $this->versioning()?->fieldFrom) {
-            throw new \RuntimeException('Version date from field not defined.');
-        }
-
-        if (null === $dateFromFieldType = $this->fieldType?->findChildByName($dateFromField)) {
-            throw new \RuntimeException(\sprintf('Version date from "%s" field not found.', $dateFromFieldType));
-        }
-
-        if (DateFieldType::class === $dateFromFieldType->getType()) {
-            $mappingFormat = $dateFromFieldType->getMappingOption('format');
-
-            return $mappingFormat ? DateTime::convertFormat('java', $mappingFormat) : \DateTimeInterface::ATOM;
-        }
-
-        return \DateTimeInterface::ATOM;
-    }
-
-    public function hasVersionTagField(): bool
-    {
-        return null !== $this->versionField(VersionFields::VERSION_TAG);
-    }
-
-    public function getVersionTagField(): string
-    {
-        return Type::string($this->versionField(VersionFields::VERSION_TAG));
-    }
-
     /**
      * @return string[]
      */
     public function getDisabledDataFields(): array
     {
-        if (true === $this->versioning()?->optionDatesReadOnly()) {
-            return [$this->versioning()->fieldFrom, $this->versioning()->fieldTo];
+        $versioning = $this->versioning();
+
+        if ($versioning && $this->getVersionOptions()[VersionOptions::DATES_READ_ONLY]) {
+            return [$versioning->fieldFrom, $versioning->fieldTo];
         }
 
         return [];

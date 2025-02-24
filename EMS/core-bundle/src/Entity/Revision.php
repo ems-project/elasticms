@@ -782,9 +782,9 @@ class Revision implements EntityInterface, \Stringable
 
     public function getVersionTagField(): ?string
     {
-        $contentType = $this->giveContentType();
+        $tagField = $this->giveContentType()->versioning()?->getFieldTag();
 
-        return $contentType->hasVersionTagField() ? ($this->rawData[$contentType->getVersionTagField()] ?? null) : null;
+        return $tagField ? ($this->rawData[$tagField] ?? null) : null;
     }
 
     public function getVersionDate(string $field): ?\DateTimeInterface
@@ -799,7 +799,7 @@ class Revision implements EntityInterface, \Stringable
             default => null,
         };
 
-        return $versionDate ? DateTime::createFromFormat($versionDate, $this->giveContentType()->getVersionDateFormat()) : null;
+        return $versionDate ? DateTime::createFromFormat($versionDate, $versioning->versionDateFormat()) : null;
     }
 
     public function hasVersionTag(): bool
@@ -885,8 +885,7 @@ class Revision implements EntityInterface, \Stringable
             default => throw new \RuntimeException('invalid field')
         };
 
-        $versionDateFormat = $this->giveContentType()->getVersionDateFormat();
-        $this->rawData[$fieldName] = $date->format($versionDateFormat);
+        $this->rawData[$fieldName] = $date->format($versioning->versionDateFormat());
     }
 
     public function getDraftSaveDate(): ?\DateTime

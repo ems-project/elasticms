@@ -388,9 +388,10 @@ class PublishService
 
         $contentType = $revision->giveContentType();
         $selectedVersionTag = $revision->getVersionNextTag();
+        $tagField = $contentType->versioning()?->getFieldTag();
 
-        if (\in_array($selectedVersionTag, [null, Revision::VERSION_BLANK], true)) {
-            $revision->removeFromRawData($contentType->getVersionTagField());
+        if ($tagField && \in_array($selectedVersionTag, [null, Revision::VERSION_BLANK], true)) {
+            $revision->removeFromRawData($tagField);
 
             return;
         }
@@ -411,8 +412,12 @@ class PublishService
             $revision->setVersionDate('from', $now);
         }
 
-        $revision->setVersionTag($selectedVersionTag);
-        $revision->removeFromRawData($contentType->getVersionTagField());
+        if ($selectedVersionTag) {
+            $revision->setVersionTag($selectedVersionTag);
+        }
+        if ($tagField) {
+            $revision->removeFromRawData($tagField);
+        }
 
         $this->dataService->finalizeDraft($revision, $form, $commandUser);
     }

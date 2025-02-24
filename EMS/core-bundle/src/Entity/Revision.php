@@ -798,11 +798,6 @@ class Revision implements EntityInterface, \Stringable
         return $versionDate ? DateTime::createFromFormat($versionDate, $versioning->dateFormat()) : null;
     }
 
-    public function hasVersionTag(): bool
-    {
-        return null !== $this->versionTag;
-    }
-
     public function getVersionTag(): ?string
     {
         return $this->versionTag;

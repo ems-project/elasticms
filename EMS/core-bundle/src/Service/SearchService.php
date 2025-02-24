@@ -13,6 +13,7 @@ use EMS\CommonBundle\Common\EMSLink;
 use EMS\CommonBundle\Elasticsearch\Document\Document as ElasticsearchDocument;
 use EMS\CommonBundle\Search\Search as CommonSearch;
 use EMS\CommonBundle\Service\ElasticaService;
+use EMS\CoreBundle\Core\ContentType\Version\VersionFields;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Entity\Form\Search;
@@ -122,7 +123,7 @@ class SearchService
         $index = $environment?->getAlias() ?? $contentType->giveEnvironment()->getAlias();
         $searchQuery = null;
 
-        if ($contentType->hasVersionTags() && null !== $dateToField = $contentType->versioning()?->fieldTo) {
+        if ($contentType->hasVersionTags() && null !== $dateToField = $contentType->getVersioning()->field(VersionFields::DATE_TO)) {
             $shouldVersion = new BoolQuery();
             $shouldVersion->addMust($this->elasticaService->getTermsQuery(Mapping::VERSION_UUID, [$ouuid]));
             $shouldVersion->addMustNot(new Exists($dateToField));

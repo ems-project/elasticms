@@ -741,7 +741,7 @@ class ContentTypeService implements EntityServiceInterface
             return [];
         }
 
-        $versionTags = $contentType->getVersionTags();
+        $versionTags = $contentType->getVersioning()->getTags();
         $defaultVersion = \array_shift($versionTags);
         $defaultVersionLabel = $this->translator->trans(
             'field.revision_version_tag',
@@ -761,7 +761,7 @@ class ContentTypeService implements EntityServiceInterface
             return [];
         }
 
-        $versionTags = $contentType->getVersionTags();
+        $versionTags = $contentType->getVersioning()->getTags();
         $versionTagsLabels = \array_map(fn (string $versionTag) => $this->translator->trans(
             'field.revision_version_tag',
             ['%version_tag%' => $versionTag],

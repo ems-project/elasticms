@@ -961,25 +961,24 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
         return $this->field(ContentTypeFields::BUSINESS_ID);
     }
 
-    public function versioning(): ?Versioning
+    public function getVersioning(): Versioning
     {
-        $fields = new VersionFields($this->versionFields ?? []);
-        if (!isset($fields[VersionFields::DATE_FROM], $fields[VersionFields::DATE_TO])) {
-            return null;
-        }
-
         $versioning = new Versioning(
-            fieldFrom: $fields[VersionFields::DATE_FROM],
-            fieldTo: $fields[VersionFields::DATE_TO],
+            fields: $this->versionFields ?? [],
+            options: $this->versionOptions ?? [],
+            tags: $this->versionTags ?? []
         );
 
         $versioning->setRootFieldType($this->fieldType);
 
-        if (isset($fields[VersionFields::VERSION_TAG]) && \count($this->versionTags ?? []) > 0) {
-            $versioning->enableTags($fields[VersionFields::VERSION_TAG], $this->versionTags);
-        }
-
         return $versioning;
+    }
+
+    public function setVersioning(Versioning $versioning): void
+    {
+        $this->versionTags = $versioning->getTags();
+        $this->versionOptions = $versioning->getOptions()->getData();
+        $this->versionFields = $versioning->getFields()->getData();
     }
 
     public function hasVersionTags(): bool
@@ -990,48 +989,15 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
     /**
      * @return string[]
      */
-    public function getVersionTags(): array
-    {
-        return $this->versionTags ?? [];
-    }
-
-    /**
-     * @param ?string[] $versionTags
-     */
-    public function setVersionTags(?array $versionTags): void
-    {
-        $this->versionTags = $versionTags;
-    }
-
-    public function getVersionOptions(): VersionOptions
-    {
-        return new VersionOptions($this->versionOptions ?? []);
-    }
-
-    public function setVersionOptions(VersionOptions $versionOptions): void
-    {
-        $this->versionOptions = $versionOptions->getOptions();
-    }
-
-    public function getVersionFields(): VersionFields
-    {
-        return new VersionFields($this->versionFields ?? []);
-    }
-
-    public function setVersionFields(VersionFields $versionFields): void
-    {
-        $this->versionFields = $versionFields->getFields();
-    }
-
-    /**
-     * @return string[]
-     */
     public function getDisabledDataFields(): array
     {
-        $versioning = $this->versioning();
+        $versioning = $this->getVersioning();
 
-        if ($versioning && $this->getVersionOptions()[VersionOptions::DATES_READ_ONLY]) {
-            return [$versioning->fieldFrom, $versioning->fieldTo];
+        if ($versioning->getOptions()[VersionOptions::DATES_READ_ONLY]) {
+            return \array_filter([
+                $versioning->field(VersionFields::DATE_FROM),
+                $versioning->field(VersionFields::DATE_TO),
+            ]);
         }
 
         return [];

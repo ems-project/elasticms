@@ -10,6 +10,7 @@ use Doctrine\DBAL\Exception as DBALException;
 use Doctrine\ORM\NonUniqueResultException;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
+use EMS\CoreBundle\Core\ContentType\Version\VersionFields;
 use EMS\CoreBundle\Core\Environment\EnvironmentPublisher;
 use EMS\CoreBundle\Core\Environment\EnvironmentPublisherFactory;
 use EMS\CoreBundle\Core\Log\LogRevisionContext;
@@ -388,7 +389,7 @@ class PublishService
 
         $contentType = $revision->giveContentType();
         $selectedVersionTag = $revision->getVersionNextTag();
-        $tagField = $contentType->versioning()?->getFieldTag();
+        $tagField = $contentType->getVersioning()->field(VersionFields::VERSION_TAG);
 
         if ($tagField && \in_array($selectedVersionTag, [null, Revision::VERSION_BLANK], true)) {
             $revision->removeFromRawData($tagField);

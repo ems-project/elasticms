@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Validator\Constraints;
 
+use EMS\CoreBundle\Core\ContentType\Version\VersionFields;
 use EMS\CoreBundle\Core\ContentType\Version\VersionOptions;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\Helpers\ArrayHelper\ArrayHelper;
@@ -32,7 +33,7 @@ class RevisionRawDataValidator extends ConstraintValidator
     {
         $contentType = $constraint->contentType;
 
-        if (null === $fromField = $contentType->versioning()?->fieldFrom) {
+        if (null === $fromField = $contentType->getVersioning()->field(VersionFields::DATE_FROM)) {
             return;
         }
 
@@ -42,7 +43,7 @@ class RevisionRawDataValidator extends ConstraintValidator
             return;
         }
 
-        $toField = $constraint->contentType->versioning()?->fieldTo;
+        $toField = $constraint->contentType->getVersioning()->field(VersionFields::DATE_TO);
 
         if (null === $toField || null === $versionToDate = ArrayHelper::findDateTime($toField, $rawData)) {
             return;
@@ -57,7 +58,7 @@ class RevisionRawDataValidator extends ConstraintValidator
             ]);
         }
 
-        $intervalOneDay = $constraint->contentType->getVersionOptions()[VersionOptions::DATES_INTERVAL_ONE_DAY];
+        $intervalOneDay = $constraint->contentType->getVersioning()->option(VersionOptions::DATES_INTERVAL_ONE_DAY);
         $diffDays = $versionFromDate->diff($versionToDate)->days;
 
         if ($versionToDate > $versionFromDate && $intervalOneDay && 0 === $diffDays) {

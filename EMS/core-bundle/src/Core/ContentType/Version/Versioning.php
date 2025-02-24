@@ -11,21 +11,37 @@ use EMS\Helpers\Standard\DateTime;
 class Versioning
 {
     private ?FieldType $rootFieldType = null;
-    private ?string $fieldTag = null;
-    /** @var string[] */
-    private array $tags = [];
 
+    /**
+     * @param array<string, ?string> $fields
+     * @param array<string, bool>    $options
+     * @param string[]               $tags
+     */
     public function __construct(
-        public string $fieldFrom,
-        public string $fieldTo,
+        private array $fields,
+        private array $options,
+        private array $tags
     ) {
     }
 
-    /** @param string[] $tags */
-    public function enableTags(string $field, array $tags): void
+    public function field(string $name): ?string
     {
-        $this->fieldTag = $field;
-        $this->tags = $tags;
+        return $this->getFields()[$name] ?? null;
+    }
+
+    public function option(string $name): bool
+    {
+        return $this->getOptions()[$name] ?? false;
+    }
+
+    public function getFields(): VersionFields
+    {
+        return new VersionFields($this->fields ?? []);
+    }
+
+    public function getOptions(): VersionOptions
+    {
+        return new VersionOptions($this->options ?? []);
     }
 
     /** @return string[] */
@@ -34,9 +50,14 @@ class Versioning
         return $this->tags;
     }
 
-    public function getFieldTag(): ?string
+    public function setFields(VersionFields $versionFields): void
     {
-        return $this->fieldTag;
+        $this->fields = $versionFields->getData();
+    }
+
+    public function setOptions(VersionOptions $versionOptions): void
+    {
+        $this->options = $versionOptions->getData();
     }
 
     public function setRootFieldType(?FieldType $rootFieldType): void
@@ -44,10 +65,20 @@ class Versioning
         $this->rootFieldType = $rootFieldType;
     }
 
-    public function versionDateFormat(): string
+    /** @param string[] $tags */
+    public function setTags(array $tags): void
     {
-        if (null === $fromFieldType = $this->rootFieldType?->findChildByName($this->fieldFrom)) {
-            throw new \RuntimeException(\sprintf('Version date from "%s" field not found.', $this->fieldFrom));
+        $this->tags = $tags;
+    }
+
+    public function dateFormat(): string
+    {
+        if (null === $fieldFrom = $this->field(VersionFields::DATE_FROM)) {
+            throw new \RuntimeException('Version from not defined');
+        }
+
+        if (null === $fromFieldType = $this->rootFieldType?->findChildByName($fieldFrom)) {
+            throw new \RuntimeException(\sprintf('Version date from "%s" field not found.', $fieldFrom));
         }
 
         if (DateFieldType::class === $fromFieldType->getType()) {

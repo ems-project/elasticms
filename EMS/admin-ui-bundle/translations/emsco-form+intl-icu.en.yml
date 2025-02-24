@@ -1,3 +1,5 @@
+action:
+    select_all: 'Select all'
 form:
     data:
         bool_table_column:

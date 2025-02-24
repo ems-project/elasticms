@@ -221,7 +221,7 @@
 
 {% block emsco_form_table_column_row_actions %}
     {% trans_default_domain 'EMSCoreBundle' %}
-    <div class="btn-group {{ table.rowActionsClass }}">
+    <div class="btn-group {{ table.rowActionsClass|default('float-end') }}">
         {% for action in table.itemActions %}
             {% if action is iterable and action|length > 0 %}
                 <div class="btn-group">
@@ -296,7 +296,7 @@
                 {% if table_title is defined or form.vars.title_label|default(false) or toolbar is defined or (table.sortable and table.supportsTableActions) or table.toolbarActions|length > 0 %}
                     <div class="card-header d-flex align-items-center">
                         {% if table_title is defined or form.vars.title_label|default(false) %}
-                            <h2 class="box-title">
+                            <h2 class="card-title">
                                 {% if table_title_icon is defined %}<i class="{{ table_title_icon }}"></i>&nbsp;{% endif %}
                                 {{ table_title|default(form.vars.title_label|trans) }}
                             </h2>
@@ -319,14 +319,16 @@
                     </div>
                 {% endif %}
                 <div class="box-body with-border">
-                    <div class="table-responsive">
+                    <div class="table-responsive mt-2">
                         <table class="table table-condensed table-striped" data-datatable="{{ table.frontendOptions|json_encode|e('html_attr') }}">
                             <thead>
                             <tr role="row">
                                 {% if table.supportsTableActions %}
                                     <th class="fit" data-orderable="false" data-name="_checkbox">
-                                        <label class="visually-hidden" for="select-all">{{ 'action.select_all'|trans({}, 'emsco-core') }}</label>
-                                        <input type="checkbox" value="" data-grouped-checkbox-target=".{{ table.attributeName|e('html_attr') }}-to-select" id="select-all">
+                                        <div class="icheck-primary">
+                                            <input type="checkbox" id="select-all" class="form-check-input" value="" aria-label="{{ 'action.select_all'|trans }}" data-grouped-checkbox-target=".{{ table.attributeName|e('html_attr') }}-to-select">
+                                            <label class="form-check-label" for="select-all"></label>
+                                        </div>
                                     </th>
                                 {% endif %}
                                 {% for column in table.columns %}

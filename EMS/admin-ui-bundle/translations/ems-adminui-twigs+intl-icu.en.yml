@@ -1,8 +1,19 @@
+button:
+    confirm: 'Do you confirm?'
+    delete: Delete
+    reload_page: 'Reload page'
 core:
     modal:
         close: Close
         loading: Loading...
-icon:
-    jobs: 'fa fa-terminal'
-key:
-    jobs: Jobs
+job:
+    command: Command
+    completed: Completed
+    info: 'About this job'
+    list: "Job's list"
+    modified: 'Last updated'
+    output: "Job's output"
+    progress: Progress
+    started: 'Started time'
+    tag: Tag
+    user: User

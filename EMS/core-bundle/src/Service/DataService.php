@@ -1163,6 +1163,7 @@ class DataService
                 }
                 $hasPreviousRevision = $previous->getId();
                 $em->persist($previous);
+                $this->unlockRevision($previous, $username);
             }
         }
 

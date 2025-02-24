@@ -30,7 +30,7 @@
 {% endblock emsco_form_table_column_data_value_bool %}
 
 {% block emsco_form_table_column_data_bool %}
-    <td data-order="{% if attribute(line.data, column.attribute)|default(false) %}1{% endif %}">
+    <td class="text-center" data-order="{% if attribute(line.data, column.attribute)|default(false) %}1{% endif %}">
         {{- block(column.tableDataValueBlock()) -}}
     </td>
 {% endblock emsco_form_table_column_data_bool %}

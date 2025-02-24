@@ -379,7 +379,10 @@ class PublishService
 
     private function publishVersion(Revision $revision, Environment $environment, ?string $commandUser = null): void
     {
-        if (!$revision->hasVersionTags()) {
+        $contentType = $revision->giveContentType();
+        $versioning = $contentType->getVersioning();
+
+        if (!$versioning->enabled()) {
             return;
         }
 
@@ -387,9 +390,8 @@ class PublishService
             throw new \RuntimeException('Revision missing version uuid!');
         }
 
-        $contentType = $revision->giveContentType();
         $selectedVersionTag = $revision->getVersionNextTag();
-        $tagField = $contentType->getVersioning()->field(VersionFields::VERSION_TAG);
+        $tagField = $versioning->field(VersionFields::VERSION_TAG);
 
         if ($tagField && \in_array($selectedVersionTag, [null, Revision::VERSION_BLANK], true)) {
             $revision->removeFromRawData($tagField);

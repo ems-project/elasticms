@@ -143,7 +143,7 @@
 {% endblock %}
 
 {% block revisionTabAboutRevision %}
-	{% if revision.hasVersionTags %}
+    {% if revision.giveContentType.versioning.tags|length > 0 %}
 		<strong><i class="fa fa-tags margin-r-5"></i> Version</strong>
 		<p class="text-muted">
 			{% if newVersionTag is not null and newVersionTag != 'silent' %}
@@ -226,7 +226,7 @@
 
 {% block revisionBody %}
 	<div class="box revision-view">
-		{% if revision.hasVersionTags and newVersionTag is not null and newVersionTag != 'silent' %}
+		{% if revision.giveContentType.versioning.tags|length > 0 and newVersionTag is not null and newVersionTag != 'silent' %}
 		<div class="box-header with-border bg-green color-palette">
 			<h3 class="box-title">New version <strong>{{ newVersionTag }}</strong></h3>
 		</div>

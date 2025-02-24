@@ -771,11 +771,6 @@ class Revision implements EntityInterface, \Stringable
         return $this;
     }
 
-    public function hasVersionTags(): bool
-    {
-        return $this->contentType && $this->contentType->hasVersionTags();
-    }
-
     public function getVersionUuid(): ?UuidInterface
     {
         return $this->versionUuid;
@@ -823,7 +818,9 @@ class Revision implements EntityInterface, \Stringable
      */
     public function setVersionMetaFields(): void
     {
-        if (!$this->hasVersionTags()) {
+        $versioning = $this->giveContentType()->getVersioning();
+
+        if (!$versioning->enabled()) {
             return;
         }
 
@@ -832,8 +829,10 @@ class Revision implements EntityInterface, \Stringable
             $this->setVersionId($versionId);
         }
 
-        $this->setVersionTag($this->rawData[Mapping::VERSION_TAG] ?? $this->getVersionTagDefault());
-        $this->updateVersionNextTag();
+        if (\count($versioning->getTags()) > 0) {
+            $this->setVersionTag($this->rawData[Mapping::VERSION_TAG] ?? $this->getVersionTagDefault());
+            $this->updateVersionNextTag();
+        }
 
         if (null === $this->getVersionDate('from') && null === $this->getVersionDate('to')) {
             if ($this->hasOuuid()) {
@@ -854,7 +853,7 @@ class Revision implements EntityInterface, \Stringable
         $versionTags = $this->contentType ? $this->contentType->getVersioning()->getTags() : [];
 
         if (!isset($versionTags[0])) {
-            throw new \RuntimeException(\sprintf('No version tags found for contentType %s (use hasVersionTags)', $this->getContentTypeName()));
+            throw new \RuntimeException(\sprintf('No version tags found for contentType %s', $this->getContentTypeName()));
         }
 
         return Type::string($versionTags[0]);

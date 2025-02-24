@@ -20,7 +20,7 @@ class RevisionRawDataValidator extends ConstraintValidator
     #[\Override]
     public function validate($value, Constraint $constraint): void
     {
-        if ($constraint->contentType->hasVersionTags()) {
+        if ($constraint->contentType->getVersioning()->enabled()) {
             $this->validateVersionDates($constraint, $value);
         }
     }

@@ -981,11 +981,6 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
         $this->versionFields = $versioning->getFields()->getData();
     }
 
-    public function hasVersionTags(): bool
-    {
-        return \count($this->versionTags ?? []) > 0;
-    }
-
     /**
      * @return string[]
      */

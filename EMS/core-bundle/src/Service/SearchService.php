@@ -123,7 +123,8 @@ class SearchService
         $index = $environment?->getAlias() ?? $contentType->giveEnvironment()->getAlias();
         $searchQuery = null;
 
-        if ($contentType->hasVersionTags() && null !== $dateToField = $contentType->getVersioning()->field(VersionFields::DATE_TO)) {
+        $versioning = $contentType->getVersioning();
+        if ($versioning->enabled() && null !== $dateToField = $versioning->field(VersionFields::DATE_TO)) {
             $shouldVersion = new BoolQuery();
             $shouldVersion->addMust($this->elasticaService->getTermsQuery(Mapping::VERSION_UUID, [$ouuid]));
             $shouldVersion->addMustNot(new Exists($dateToField));

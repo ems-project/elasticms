@@ -24,6 +24,11 @@ class Versioning
     ) {
     }
 
+    public function enabled(): bool
+    {
+        return null !== $this->field(VersionFields::DATE_FROM) && null !== $this->field(VersionFields::DATE_TO);
+    }
+
     public function field(string $name): ?string
     {
         return $this->getFields()[$name] ?? null;

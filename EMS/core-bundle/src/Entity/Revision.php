@@ -789,13 +789,17 @@ class Revision implements EntityInterface, \Stringable
 
     public function getVersionDate(string $field): ?\DateTimeInterface
     {
-        $dateString = match ($field) {
-            'from' => $this->rawData[$this->giveContentType()->versioning()?->fieldFrom] ?? null,
-            'to' => $this->rawData[$this->giveContentType()->versioning()?->fieldTo] ?? null,
+        if (null === $versioning = $this->giveContentType()->versioning()) {
+            return null;
+        }
+
+        $versionDate = match ($field) {
+            'from' => $this->rawData[$versioning->fieldFrom] ?? null,
+            'to' => $this->rawData[$versioning->fieldTo] ?? null,
             default => null,
         };
 
-        return $dateString ? DateTime::createFromFormat($dateString, $this->giveContentType()->getVersionDateFormat()) : null;
+        return $versionDate ? DateTime::createFromFormat($versionDate, $this->giveContentType()->getVersionDateFormat()) : null;
     }
 
     public function hasVersionTag(): bool
@@ -871,9 +875,13 @@ class Revision implements EntityInterface, \Stringable
 
     public function setVersionDate(string $field, \DateTimeInterface $date): void
     {
+        if (null === $versioning = $this->giveContentType()->versioning()) {
+            throw new \RuntimeException('versioning not enabled');
+        }
+
         $fieldName = match ($field) {
-            'from' => $this->giveContentType()->versioning()?->fieldFrom,
-            'to' => $this->giveContentType()->versioning()?->fieldTo,
+            'from' => $versioning->fieldFrom,
+            'to' => $versioning->fieldTo,
             default => throw new \RuntimeException('invalid field')
         };
 

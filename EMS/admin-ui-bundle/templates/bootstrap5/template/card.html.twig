@@ -77,11 +77,11 @@ Available Blocks:
             </div>
         {% elseif form is defined and form|length > 0 %}
             <div class="card-footer clearfix">
-                {% for field in form %}
-                    {% if 'submit' in field.vars.block_prefixes %}
-                        {{ form_row(field) }}
-                    {% endif %}
-                {% endfor %}
+                <div class="btn-group">
+                    {% for field in form|filter(field => 'submit' in field.vars.block_prefixes) %}
+                        {{ form_widget(field) }}
+                    {% endfor %}
+                </div>
             </div>
         {% endif %}
     {% endblock %}

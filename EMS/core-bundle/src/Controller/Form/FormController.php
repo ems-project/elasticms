@@ -123,10 +123,10 @@ class FormController extends AbstractController
         return $this->render("@$this->templateNamespace/admin-form/edit.html.twig", [
             'form' => $formType->createView(),
             'entity' => $form,
-            'title' => t('type.title_edit', ['type' => 'form'], 'emsco-core'),
+            'title' => t('type.title_edit', ['type' => 'form', 'label' => $form->getLabel()], 'emsco-core'),
             'subTitle' => t('type.title_sub', ['type' => 'form'], 'emsco-core'),
             'breadcrumb' => $this->breadcrumb()->add(
-                t('type.title_edit', ['type' => 'form'], 'emsco-core')
+                t('type.title_edit', ['type' => 'form', 'label' => $form->getLabel()], 'emsco-core')
             ),
         ]);
     }

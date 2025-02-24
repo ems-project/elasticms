@@ -104,6 +104,11 @@ final class ActionController extends AbstractController
         return $this->render("@$this->templateNamespace/action/add.html.twig", [
             'contentType' => $contentType,
             'form' => $form->createView(),
+            'title' => t('type.title_create', ['type' => 'action'], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'action'], 'emsco-core'),
+            'breadcrumb' => Navigation::admin()->contentType($contentType)->contentTypeActions($contentType)->add(
+                t('type.title_create', ['type' => 'action'], 'emsco-core'),
+            ),
         ]);
     }
 
@@ -150,6 +155,11 @@ final class ActionController extends AbstractController
             'form' => $form->createView(),
             'action' => $action,
             'contentType' => $action->giveContentType(),
+            'title' => t('type.title_edit', ['type' => 'action', 'label' => $action->getLabel()], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'action'], 'emsco-core'),
+            'breadcrumb' => Navigation::admin()->contentType($action->giveContentType())->contentTypeActions($action->giveContentType())->add(
+                t('type.title_edit', ['type' => 'action', 'label' => $action->getLabel()], 'emsco-core'),
+            ),
         ]);
     }
 

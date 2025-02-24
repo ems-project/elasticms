@@ -79,7 +79,7 @@ core:
                 browser_image   {As image browser}
                 browser_object  {As object browser}
                 browser_file    {As file browser}
-                other           {Undefine}
+                other           {Undefined}
             }
         definition: |-
             {value, select,
@@ -311,7 +311,12 @@ type:
     title_create: |-
         {type, select,
             job           {Launch new job}
-            other         {Ceeate}
+            other         {Create}
+        }
+    title_edit: |-
+        {type, select,
+            action        {Edit action: {label}}
+            other         {Edit}
         }
     title_overview: |-
         {type, select,

@@ -1,0 +1,49 @@
+{% extends '@EMSAdminUI/bootstrap5/template/card.html.twig' %}
+
+{% block form %}
+    <div class="row">
+        {{ form_row(form.name) }}
+        {{ form_row(form.label) }}
+        {{ form_row(form.icon) }}
+        {{ form_row(form.public) }}
+        {{ form_row(form.environments) }}
+        {{ form_row(form.body) }}
+        {{ form_row(form.editWithWysiwyg) }}
+        {{ form_row(form.active) }}
+        {{ form_row(form.role) }}
+        {{ form_row(form.renderOption) }}
+        <div class="embed">
+            {{ form_row(form.header) }}
+        </div>
+        <div class="export pdf">
+            {{ form_row(form.preview) }}
+            {{ form_row(form.disposition) }}
+            {{ form_row(form.allow_origin) }}
+            {{ form_row(form.filename) }}
+        </div>
+        <div class="export">
+            {{ form_row(form.accumulateInOneFile) }}
+            {{ form_row(form.spreadsheet) }}
+            {{ form_row(form.mimeType) }}
+            {{ form_row(form.extension) }}
+        </div>
+        <div class="notification">
+            {{ form_row(form.roleTo) }}
+            {{ form_row(form.roleCc) }}
+            {{ form_row(form.emailContentType) }}
+            {% if form.circlesTo is defined %} {{ form_row(form.circlesTo) }}{% endif %}
+            {{ form_row(form.responseTemplate) }}
+        </div>
+        <div class="pdf">
+            {{ form_row(form.orientation) }}
+            {{ form_row(form.size) }}
+        </div>
+        <div class="job">
+            {{ form_row(form.tag) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('src/action.js', 'emsadminui') }}" type="module"></script>
+{% endblock %}

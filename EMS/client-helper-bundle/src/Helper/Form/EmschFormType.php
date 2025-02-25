@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Helper\Form;
 
+use EMS\ClientHelperBundle\Helper\Form\Type\EmschFormDateType;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Form\FormInterface;
 use EMS\CommonBundle\Contracts\Twig\TemplateInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -33,22 +33,10 @@ class EmschFormType extends AbstractType
         $elements = $options['template']->jsonBlock(self::BLOCK_FROM_CONFIG);
 
         foreach ($elements as $element) {
-            $type = $element['type'] ?? 'text';
+            $elementType = $this->getElementType($element['type'] ?? 'text');
+            $elementOptions = $element['options'] ?? [];
 
-            $elementType = match ($type) {
-                'text' => TextType::class,
-                'textarea' => TextareaType::class,
-                'date' => DateType::class,
-                'button' => ButtonType::class,
-                'submit' => SubmitType::class,
-                default => throw new \RuntimeException(\sprintf('Unknown form type "%s"', $type)),
-            };
-
-            $builder->add(
-                child: $element['name'],
-                type: $elementType,
-                options: $element['options'] ?? []
-            );
+            $builder->add(child: $element['name'], type: $elementType, options: $elementOptions);
         }
     }
 
@@ -65,5 +53,17 @@ class EmschFormType extends AbstractType
             ->setRequired(['template'])
             ->setAllowedTypes('template', TemplateInterface::class)
         ;
+    }
+
+    private function getElementType(string $type): string
+    {
+        return match ($type) {
+            'text' => TextType::class,
+            'textarea' => TextareaType::class,
+            'date' => EmschFormDateType::class,
+            'button' => ButtonType::class,
+            'submit' => SubmitType::class,
+            default => throw new \RuntimeException(\sprintf('Unknown form type "%s"', $type)),
+        };
     }
 }

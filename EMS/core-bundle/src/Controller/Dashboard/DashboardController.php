@@ -134,7 +134,7 @@ class DashboardController extends AbstractController
         return Navigation::admin()->add(
             label: t('key.dashboards', [], 'emsco-core'),
             icon: 'fa fa-dashboard',
-            route: 'ems_core_channel_index',
+            route: 'emsco_dashboard_admin_index',
         );
     }
 }

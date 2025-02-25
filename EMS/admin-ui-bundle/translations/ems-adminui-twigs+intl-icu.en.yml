@@ -1,7 +1,15 @@
+action:
+    update_from_json: 'Update from JSON'
 button:
     confirm: 'Do you confirm?'
     delete: Delete
     reload_page: 'Reload page'
+content_type:
+    field: Field
+    mapping: Mapping
+    permission: Permission
+    role: Role
+    settings: Settings
 core:
     modal:
         close: Close

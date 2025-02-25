@@ -9,6 +9,7 @@ use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Form\FormInterface;
 use EMS\CommonBundle\Contracts\Twig\TemplateInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -60,11 +61,12 @@ class EmschFormType extends AbstractType
     private function getElementType(string $type): string
     {
         return match ($type) {
+            'button' => ButtonType::class,
+            'checkbox' => CheckboxType::class,
+            'date' => EmschFormDateType::class,
+            'submit' => SubmitType::class,
             'text' => TextType::class,
             'textarea' => TextareaType::class,
-            'date' => EmschFormDateType::class,
-            'button' => ButtonType::class,
-            'submit' => SubmitType::class,
             default => throw new \RuntimeException(\sprintf('Unknown form type "%s"', $type)),
         };
     }

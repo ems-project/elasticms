@@ -269,6 +269,7 @@ class ContentTypeController extends AbstractController
             'form' => $form->createView(),
             'icon' => 'fa fa-sitemap',
             'title' => t('type.title_overview', ['type' => 'content_type'], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'content_type'], 'emsco-core'),
             'breadcrumb' => Navigation::admin()->contentTypes(),
         ]);
     }

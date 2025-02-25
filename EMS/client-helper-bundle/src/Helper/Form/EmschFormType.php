@@ -14,6 +14,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraint;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @extends AbstractType<mixed>
@@ -35,6 +37,7 @@ class EmschFormType extends AbstractType
         foreach ($elements as $element) {
             $elementType = $this->getElementType($element['type'] ?? 'text');
             $elementOptions = $element['options'] ?? [];
+            $elementOptions['constraints'] = $this->resolveConstraints($elementOptions['constraints'] ?? []);
 
             $builder->add(child: $element['name'], type: $elementType, options: $elementOptions);
         }
@@ -53,6 +56,25 @@ class EmschFormType extends AbstractType
             ->setRequired(['template'])
             ->setAllowedTypes('template', TemplateInterface::class)
         ;
+    }
+
+    /**
+     * @param array<int, array<mixed>> $constraints
+     *
+     * @return Constraint[]
+     */
+    private function resolveConstraints(array $constraints): array
+    {
+        return \array_map(static fn (array $value) => match ($value['type']) {
+            'notBlank' => new Assert\NotBlank(message: $value['message'] ?? null),
+            'length' => new Assert\Length(
+                min: isset($value['min']) ? (int) $value['min'] : null,
+                max: isset($value['max']) ? (int) $value['max'] : null,
+                minMessage: $value['minMessage'] ?? null,
+                maxMessage: $value['maxMessage'] ?? null,
+            ),
+            default => throw new \RuntimeException(\sprintf('Invalid constraint type "%s"', $value['type'])),
+        }, $constraints);
     }
 
     private function getElementType(string $type): string

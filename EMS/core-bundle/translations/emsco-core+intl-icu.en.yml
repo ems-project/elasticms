@@ -360,6 +360,7 @@ type:
         {type, select,
             analyzer      {Expert mode}
             channel       {Ready for the world wide web?}
+            content_type  {Define the encoding forms}
             dashboard     {Customize the lobby}
             filter        {Expert mode}
             form          {Reusable components}

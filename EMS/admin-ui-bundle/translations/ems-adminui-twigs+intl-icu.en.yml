@@ -10,6 +10,8 @@ content_type:
     permission: Permission
     role: Role
     settings: Settings
+    tasks: Tasks
+    versioning: Versioning
 core:
     modal:
         close: Close

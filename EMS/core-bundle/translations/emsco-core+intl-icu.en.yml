@@ -316,6 +316,7 @@ type:
             action        {Create action}
             analyzer      {Create analyzer}
             channel       {Create channel}
+            dashboard     {Create dashboard}
             form          {Create form}
             job           {Launch new job}
             other         {Create}

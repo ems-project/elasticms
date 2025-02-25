@@ -232,6 +232,12 @@ class ContentTypeController extends AbstractController
 
         return $this->render("@$this->templateNamespace/contenttype/add.html.twig", [
             'form' => $form->createView(),
+            'title' => t('type.title_create', ['type' => 'content_type'], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'content_type'], 'emsco-core'),
+            'breadcrumb' => $this->breadcrumb()->add(
+                t('type.title_create', ['type' => 'content_type'], 'emsco-core')
+            ),
+            'notice' => t('type.notice_message', ['type' => 'content_type'], 'emsco-core'),
         ]);
     }
 
@@ -585,5 +591,14 @@ class ContentTypeController extends AbstractController
         $response->headers->set('Content-Disposition', $disposition);
 
         return $response;
+    }
+
+    private function breadcrumb(): Navigation
+    {
+        return Navigation::admin()->add(
+            label: t('key.content_types', [], 'emsco-core'),
+            icon: 'fa fa-sitemap',
+            route: 'emsco_admin_content_type_index',
+        );
     }
 }

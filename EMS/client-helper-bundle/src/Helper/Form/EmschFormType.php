@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Helper\Form;
 
+use EMS\ClientHelperBundle\Helper\Form\Type\EmschFormDateTimeType;
 use EMS\ClientHelperBundle\Helper\Form\Type\EmschFormDateType;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Form\FormInterface;
 use EMS\CommonBundle\Contracts\Twig\TemplateInterface;
@@ -64,6 +65,7 @@ class EmschFormType extends AbstractType
             'button' => ButtonType::class,
             'checkbox' => CheckboxType::class,
             'date' => EmschFormDateType::class,
+            'datetime' => EmschFormDateTimeType::class,
             'submit' => SubmitType::class,
             'text' => TextType::class,
             'textarea' => TextareaType::class,

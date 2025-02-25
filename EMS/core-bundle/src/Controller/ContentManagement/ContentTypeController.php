@@ -338,6 +338,8 @@ class ContentTypeController extends AbstractController
 
         return $this->render("@$this->templateNamespace/contenttype/field.html.twig", [
             'form' => $form->createView(),
+            'field' => $field,
+            'contentType' => $contentType,
             'title' => t('type.title_edit', ['type' => 'field', 'label' => $contentType->getName()], 'emsco-core'),
             'subTitle' => t('type.title_sub', ['type' => 'field'], 'emsco-core'),
             'breadcrumb' => Navigation::admin()->contentType($contentType)->add(

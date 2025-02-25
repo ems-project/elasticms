@@ -44,18 +44,29 @@ class EmschFormType extends AbstractType
     }
 
     #[\Override]
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver
+            ->setRequired(['template'])
+            ->setAllowedTypes('template', TemplateInterface::class);
+    }
+
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return '';
     }
 
-    #[\Override]
-    public function configureOptions(OptionsResolver $resolver): void
+    private function getElementType(string $type): string
     {
-        $resolver
-            ->setRequired(['template'])
-            ->setAllowedTypes('template', TemplateInterface::class)
-        ;
+        return match ($type) {
+            'text' => TextType::class,
+            'textarea' => TextareaType::class,
+            'date' => EmschFormDateType::class,
+            'button' => ButtonType::class,
+            'submit' => SubmitType::class,
+            default => throw new \RuntimeException(\sprintf('Unknown form type "%s"', $type)),
+        };
     }
 
     /**
@@ -76,17 +87,5 @@ class EmschFormType extends AbstractType
             ),
             default => throw new \RuntimeException(\sprintf('Invalid constraint type "%s"', $value['type'])),
         }, $constraints);
-    }
-
-    private function getElementType(string $type): string
-    {
-        return match ($type) {
-            'text' => TextType::class,
-            'textarea' => TextareaType::class,
-            'date' => EmschFormDateType::class,
-            'button' => ButtonType::class,
-            'submit' => SubmitType::class,
-            default => throw new \RuntimeException(\sprintf('Unknown form type "%s"', $type)),
-        };
     }
 }

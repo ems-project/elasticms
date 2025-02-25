@@ -100,6 +100,11 @@ class DashboardController extends AbstractController
         return $this->render("@$this->templateNamespace/dashboard/edit.html.twig", [
             'form' => $form->createView(),
             'dashboard' => $dashboard,
+            'title' => t('type.title_edit', ['type' => 'dashboard', 'label' => $dashboard->getLabel()], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'dashboard'], 'emsco-core'),
+            'breadcrumb' => $this->breadcrumb()->add(
+                t('type.title_edit', ['type' => 'dashboard', 'label' => $dashboard->getLabel()], 'emsco-core')
+            ),
         ]);
     }
 

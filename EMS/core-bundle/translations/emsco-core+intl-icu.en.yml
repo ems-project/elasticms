@@ -326,6 +326,7 @@ type:
             action        {Edit action: {label}}
             analyzer      {Edit analyzer: {label}}
             channel       {Edit channel: {label}}
+            dashboard     {Edit dashboard: {label}}
             form          {Edit form: {label}}
             other         {Edit}
         }

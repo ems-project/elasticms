@@ -315,6 +315,7 @@ type:
         {type, select,
             action        {Create action}
             analyzer      {Create analyzer}
+            channel       {Create channel}
             form          {Create form}
             job           {Launch new job}
             other         {Create}
@@ -323,6 +324,7 @@ type:
         {type, select,
             action        {Edit action: {label}}
             analyzer      {Edit analyzer: {label}}
+            channel       {Edit channel: {label}}
             form          {Edit form: {label}}
             other         {Edit}
         }
@@ -355,6 +357,7 @@ type:
     title_sub: |-
         {type, select,
             analyzer      {Expert mode}
+            channel       {Ready for the world wide web?}
             dashboard     {Customize the lobby}
             filter        {Expert mode}
             form          {Reusable components}

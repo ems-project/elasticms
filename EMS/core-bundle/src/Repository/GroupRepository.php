@@ -13,20 +13,47 @@ class GroupRepository extends ServiceEntityRepository
 {
     public function __construct(Registry $registry)
     {
-        parent::__construct($registry, User::class);
+        parent::__construct($registry, Group::class);
     }
 
     public function getAll(): array
     {
         $qb = $this->createQueryBuilder('u');
-
         return $qb->getQuery()->execute();
     }
 
     public function save(Group $group): void
     {
-        \dump($group);
         $this->getEntityManager()->persist($group);
         $this->getEntityManager()->flush();
+    }
+    public function delete(Group $group): void
+    {
+        $this->getEntityManager()->remove($group);
+        $this->getEntityManager()->flush();
+    }
+
+    public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue)
+    {
+        dump($size);
+        $qb = $this->createQueryBuilder('c')
+            ->setFirstResult($from)
+            ->setMaxResults($size);
+
+        if (\in_array($orderField, ['name', 'label'])) {
+            $qb->orderBy(\sprintf('c.%s', $orderField), $orderDirection);
+        } else {
+            $qb->orderBy('c.name', $orderDirection);
+        }
+
+        return $qb->getQuery()->execute();
+    }
+    
+    public function counter(string $searchValue = ''): int
+    {
+        $qb = $this->createQueryBuilder('c');
+        $qb->select('count(c.id)');
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
     }
 }

@@ -23,14 +23,16 @@ class GroupManager implements EntityServiceInterface
 
     public function isSortable(): bool
     {
-        // TODO: Implement isSortable() method.
         return false;
     }
 
     public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, mixed $context = null): array
     {
-        // TODO: Implement get() method.
-        return [];
+        if (null !== $context) {
+            throw new \RuntimeException('Unexpected not null context');
+        }
+
+        return $this->groupRepository->get($from, $size, $orderField, $orderDirection, $searchValue);
     }
 
     public function getEntityName(): string
@@ -47,6 +49,7 @@ class GroupManager implements EntityServiceInterface
 
     public function count(string $searchValue = '', mixed $context = null): int
     {
+        dump('count');
         // TODO: Implement count() method.
         return 0;
     }

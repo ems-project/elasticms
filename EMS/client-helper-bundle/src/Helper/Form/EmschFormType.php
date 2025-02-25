@@ -67,6 +67,7 @@ class EmschFormType extends AbstractType
     {
         return \array_map(static fn (array $value) => match ($value['type']) {
             'notBlank' => new Assert\NotBlank(message: $value['message'] ?? null),
+            'email' => new Assert\Email(message: $value['message'] ?? null),
             'length' => new Assert\Length(
                 min: isset($value['min']) ? (int) $value['min'] : null,
                 max: isset($value['max']) ? (int) $value['max'] : null,

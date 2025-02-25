@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Helper\Form;
 
+use EMS\ClientHelperBundle\Helper\Form\Type\EmschFormDateTimeType;
+use EMS\ClientHelperBundle\Helper\Form\Type\EmschFormDateType;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Form\FormInterface;
 use EMS\CommonBundle\Contracts\Twig\TemplateInterface;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ButtonType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraint;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @extends AbstractType<mixed>
@@ -32,22 +33,20 @@ class EmschFormType extends AbstractType
         $elements = $options['template']->jsonBlock(self::BLOCK_FROM_CONFIG);
 
         foreach ($elements as $element) {
-            $type = $element['type'] ?? 'text';
+            $elementType = $this->getElementType($element['type'] ?? 'text');
+            $elementOptions = $element['options'] ?? [];
+            $elementOptions['constraints'] = $this->resolveConstraints($elementOptions['constraints'] ?? []);
 
-            $elementType = match ($type) {
-                'text' => TextType::class,
-                'date' => DateType::class,
-                'button' => ButtonType::class,
-                'submit' => SubmitType::class,
-                default => throw new \RuntimeException(\sprintf('Unknown form type "%s"', $type)),
-            };
-
-            $builder->add(
-                child: $element['name'],
-                type: $elementType,
-                options: $element['options'] ?? []
-            );
+            $builder->add(child: $element['name'], type: $elementType, options: $elementOptions);
         }
+    }
+
+    #[\Override]
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver
+            ->setRequired(['template'])
+            ->setAllowedTypes('template', TemplateInterface::class);
     }
 
     #[\Override]
@@ -56,12 +55,44 @@ class EmschFormType extends AbstractType
         return '';
     }
 
-    #[\Override]
-    public function configureOptions(OptionsResolver $resolver): void
+    private function getElementType(string $type): string
     {
-        $resolver
-            ->setRequired(['template'])
-            ->setAllowedTypes('template', TemplateInterface::class)
-        ;
+        return match ($type) {
+            'button' => Type\ButtonType::class,
+            'checkbox' => Type\CheckboxType::class,
+            'choice' => Type\ChoiceType::class,
+            'country' => Type\CountryType::class,
+            'date' => EmschFormDateType::class,
+            'datetime' => EmschFormDateTimeType::class,
+            'hidden' => Type\HiddenType::class,
+            'integer' => Type\IntegerType::class,
+            'language' => Type\LanguageType::class,
+            'money' => Type\MoneyType::class,
+            'number' => Type\NumberType::class,
+            'submit' => Type\SubmitType::class,
+            'text' => Type\TextType::class,
+            'textarea' => Type\TextareaType::class,
+            default => throw new \RuntimeException(\sprintf('Unknown form type "%s"', $type)),
+        };
+    }
+
+    /**
+     * @param array<int, array<mixed>> $constraints
+     *
+     * @return Constraint[]
+     */
+    private function resolveConstraints(array $constraints): array
+    {
+        return \array_map(static fn (array $value) => match ($value['type']) {
+            'notBlank' => new Assert\NotBlank(message: $value['message'] ?? null),
+            'email' => new Assert\Email(message: $value['message'] ?? null),
+            'length' => new Assert\Length(
+                min: isset($value['min']) ? (int) $value['min'] : null,
+                max: isset($value['max']) ? (int) $value['max'] : null,
+                minMessage: $value['minMessage'] ?? null,
+                maxMessage: $value['maxMessage'] ?? null,
+            ),
+            default => throw new \RuntimeException(\sprintf('Invalid constraint type "%s"', $value['type'])),
+        }, $constraints);
     }
 }

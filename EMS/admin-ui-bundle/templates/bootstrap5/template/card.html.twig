@@ -1,5 +1,5 @@
 {% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}
-
+{% trans_default_domain 'ems-adminui-twigs' %}
 {#
 Template: Bootstrap Card with Blocks
 
@@ -14,6 +14,7 @@ Available Variables:
     - content (string, optional): Main text content of the card.
     - form (FormView, optional): A Symfony form to be displayed inside the card.
     - footer (string, optional): Footer text for the card.
+    - notice (translation, optional): A notice message in a side card.
 
 Available Blocks:
     - header: Customizes the card header.
@@ -27,6 +28,23 @@ Available Blocks:
 {% block pagetitle %}{{ pageTitle is defined ? pageTitle|trans  : block('title') }}{% endblock %}
 
 {% block body %}
+    {% if notice is defined and notice %}
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-3">
+                    {{ block('notice') }}
+                </div>
+                <div class="col-md-9">
+                    {{ block('card') }}
+                </div>
+            </div>
+        </div>
+    {% else %}
+        {{ block('card') }}
+    {% endif %}
+{% endblock body %}
+
+{% block card %}
 <div class="card card-outline {{ class|default("card-#{theme_color} mb-4 shadow") }}">
     {% if form is defined and form %}
         {{ form_start(form) }}
@@ -89,4 +107,16 @@ Available Blocks:
         {{ form_end(form) }}
     {% endif %}
 </div>
-{% endblock body %}
+{% endblock card %}
+
+{% block notice %}
+    {% with {
+        content: notice|trans,
+        cardTitle: 'notice_card.title'|trans,
+        cardTitleIcon: 'fa fa-warning',
+        form: null,
+        warning: null,
+    } %}
+        {{ block('card', '@EMSAdminUI/bootstrap5/template/card.html.twig') }}
+    {% endwith %}
+{% endblock notice %}

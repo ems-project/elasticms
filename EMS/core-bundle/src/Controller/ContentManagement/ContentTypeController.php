@@ -281,11 +281,10 @@ class ContentTypeController extends AbstractController
 
         return $this->render("@$this->templateNamespace/crud/overview.html.twig", [
             'form' => $form->createView(),
-            'title' => t('action.add_referenced_content_type', [], 'emsco-core'),
-            'breadcrumb' => Navigation::admin()->contentTypes()->add(
-                label: t('action.add_referenced', [], 'emsco-core'),
-                icon: 'fa fa-plus',
-                route: Routes::ADMIN_CONTENT_TYPE_ADD_REFERENCED_INDEX,
+            'title' => t('action.add_referenced_content_type', ['type' => 'content_type'], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'content_type'], 'emsco-core'),
+            'breadcrumb' => $this->breadcrumb()->add(
+                t('action.add_referenced_content_type', ['type' => 'content_type'], 'emsco-core')
             ),
         ]);
     }

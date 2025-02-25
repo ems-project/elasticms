@@ -28,7 +28,7 @@ Available Blocks:
 
 {% block body %}
 <div class="card card-outline {{ class|default("card-#{theme_color} mb-4 shadow") }}">
-    {% if form is defined %}
+    {% if form is defined and form %}
         {{ form_start(form) }}
     {% endif %}
     {% block header %}
@@ -58,7 +58,7 @@ Available Blocks:
         {% endblock %}
 
         {% block form %}
-            {% if form is defined %}
+            {% if form is defined and form %}
                 <div class="row">
                     {% for field in form %}
                         {% if 'submit' not in field.vars.block_prefixes %}
@@ -75,7 +75,7 @@ Available Blocks:
             <div class="card-footer clearfix">
                 {{ footer|default('') }}
             </div>
-        {% elseif form is defined and form|length > 0 %}
+        {% elseif form is defined and form and form|length > 0 %}
             <div class="card-footer clearfix">
                 <div class="btn-group">
                     {% for field in form|filter(field => 'submit' in field.vars.block_prefixes) %}
@@ -85,7 +85,7 @@ Available Blocks:
             </div>
         {% endif %}
     {% endblock %}
-    {% if form is defined %}
+    {% if form is defined and form %}
         {{ form_end(form) }}
     {% endif %}
 </div>

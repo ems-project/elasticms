@@ -365,6 +365,11 @@ class ContentTypeController extends AbstractController
         return $this->render("@$this->templateNamespace/contenttype/reorder.html.twig", [
             'form' => $form->createView(),
             'contentType' => $contentType,
+            'title' => t('action.reorder', ['type' => 'content_type'], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'content_type'], 'emsco-core'),
+            'breadcrumb' => Navigation::admin()->contentType($contentType)->add(
+                t('action.reorder', ['type' => 'content_type'], 'emsco-core')
+            ),
         ]);
     }
 

@@ -1,7 +1,3 @@
-analyzer:
-    warning:
-        message: Warning
-        title: 'All environments have to be re-builded each times that an analyzer configuration is created or updated.'
 button:
     confirm: 'Do you confirm?'
     delete: Delete
@@ -21,3 +17,5 @@ job:
     started: 'Started time'
     tag: Tag
     user: User
+notice_card:
+    title: Notice

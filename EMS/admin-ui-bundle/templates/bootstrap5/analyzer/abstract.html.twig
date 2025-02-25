@@ -3,9 +3,9 @@
 
 {% block body %}
     <div class="container-fluid">
-        <div class="row" >
+        <div class="row">
             <div class="col-md-3">
-                {{ block('warning') }}
+                {{ block('notice') }}
             </div>
             <div class="col-md-9">
                 {{ parent() }}
@@ -14,16 +14,14 @@
     </div>
 {% endblock body %}
 
-{% block warning %}
-    {% set content %}
-        <p>{{ 'analyzer.warning.message'|trans }}</p>
-    {% endset %}
+{% block notice %}
     {% with {
-        content: content,
-        cardTitle: 'analyzer.warning.title'|trans,
+        content: notice|trans,
+        cardTitle: 'notice_card.title'|trans,
         cardTitleIcon: 'fa fa-warning',
         form: null,
+        warning: null,
     } %}
         {{ block('body', '@EMSAdminUI/bootstrap5/template/card.html.twig') }}
     {% endwith %}
-{% endblock warning %}
+{% endblock notice %}

@@ -63,6 +63,7 @@ class AnalyzerController extends AbstractController
             'breadcrumb' => $this->breadcrumb()->add(
                 t('type.title_create', ['type' => 'analyzer'], 'emsco-core')
             ),
+            'notice' => t('type.notice_message', ['type' => 'analyzer'], 'emsco-core'),
         ]);
     }
 
@@ -103,6 +104,7 @@ class AnalyzerController extends AbstractController
             'breadcrumb' => $this->breadcrumb()->add(
                 t('type.title_edit', ['type' => 'analyzer', 'label' => $analyzer->getLabel()], 'emsco-core')
             ),
+            'notice' => t('type.notice_message', ['type' => 'analyzer'], 'emsco-core'),
         ]);
     }
 

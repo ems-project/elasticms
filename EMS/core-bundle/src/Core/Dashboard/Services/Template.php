@@ -8,6 +8,7 @@ use EMS\CoreBundle\Core\UI\Page\Navigation;
 use EMS\CoreBundle\Entity\Dashboard;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
+
 use function Symfony\Component\Translation\t;
 
 class Template implements DashboardInterface

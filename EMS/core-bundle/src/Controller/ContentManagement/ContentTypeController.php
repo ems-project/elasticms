@@ -102,7 +102,11 @@ class ContentTypeController extends AbstractController
 
         return $this->render("@$this->templateNamespace/contenttype/json_update.html.twig", [
             'form' => $form->createView(),
-            'contentType' => $contentType,
+            'title' => t('action.update_content_type_from_json', ['name' => $contentType->getName()], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'content_type'], 'emsco-core'),
+            'breadcrumb' => Navigation::admin()->contentType($contentType)->add(
+                t('action.update_content_type_from_json', ['name' => $contentType->getName()], 'emsco-core')
+            ),
         ]);
     }
 

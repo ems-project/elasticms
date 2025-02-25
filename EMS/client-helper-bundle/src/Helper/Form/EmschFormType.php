@@ -11,6 +11,7 @@ use EMS\CommonBundle\Contracts\Twig\TemplateInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -64,6 +65,7 @@ class EmschFormType extends AbstractType
         return match ($type) {
             'button' => ButtonType::class,
             'checkbox' => CheckboxType::class,
+            'choice' => ChoiceType::class,
             'date' => EmschFormDateType::class,
             'datetime' => EmschFormDateTimeType::class,
             'submit' => SubmitType::class,

@@ -68,28 +68,33 @@ class DashboardController extends AbstractController
     public function add(Request $request): Response
     {
         $dashboard = new Dashboard();
-
-        return $this->edit($request, $dashboard, true);
-    }
-
-    public function edit(Request $request, Dashboard $dashboard, bool $create = false): Response
-    {
         $form = $this->createForm(DashboardType::class, $dashboard, [
-            'create' => $create,
+            'create' => true,
         ]);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $this->dashboardManager->update($dashboard);
+            
+            return $this->redirectToRoute(Routes::DASHBOARD_ADMIN_EDIT, ['dashboard' => $dashboard->getId()]);
+        }
 
-            if ($create) {
-                return $this->redirectToRoute(Routes::DASHBOARD_ADMIN_EDIT, ['dashboard' => $dashboard->getId()]);
-            }
+        return $this->render("@$this->templateNamespace/dashboard/add.html.twig", [
+            'form' => $form->createView(),
+            'dashboard' => $dashboard,
+        ]);
+    }
+
+    public function edit(Request $request, Dashboard $dashboard): Response
+    {
+        $form = $this->createForm(DashboardType::class, $dashboard);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->dashboardManager->update($dashboard);
 
             return $this->redirectToRoute(Routes::DASHBOARD_ADMIN_INDEX);
         }
 
-        return $this->render($create ? "@$this->templateNamespace/dashboard/add.html.twig" : "@$this->templateNamespace/dashboard/edit.html.twig", [
+        return $this->render("@$this->templateNamespace/dashboard/edit.html.twig", [
             'form' => $form->createView(),
             'dashboard' => $dashboard,
         ]);

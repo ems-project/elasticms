@@ -15,7 +15,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * @extends AbstractType<mixed>
  */
-class EmschFormDateType extends AbstractType
+class EmschDateType extends AbstractType
 {
     /**
      * @param FormBuilderInterface<FormInterface> $builder

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Helper\Form;
 
-use EMS\ClientHelperBundle\Helper\Form\Type\EmschFormDateTimeType;
-use EMS\ClientHelperBundle\Helper\Form\Type\EmschFormDateType;
+use EMS\ClientHelperBundle\Helper\Form\Type\EmschDateTimeType;
+use EMS\ClientHelperBundle\Helper\Form\Type\EmschDateType;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Form\FormInterface;
 use EMS\CommonBundle\Contracts\Twig\TemplateInterface;
 use Symfony\Component\Form\AbstractType;
@@ -62,8 +62,8 @@ class EmschFormType extends AbstractType
             'checkbox' => Type\CheckboxType::class,
             'choice' => Type\ChoiceType::class,
             'country' => Type\CountryType::class,
-            'date' => EmschFormDateType::class,
-            'datetime' => EmschFormDateTimeType::class,
+            'date' => EmschDateType::class,
+            'datetime' => EmschDateTimeType::class,
             'hidden' => Type\HiddenType::class,
             'integer' => Type\IntegerType::class,
             'language' => Type\LanguageType::class,

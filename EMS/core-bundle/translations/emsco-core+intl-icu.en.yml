@@ -98,6 +98,9 @@ core:
                 other   {There are # indexes}
             }
     version: 'Version {core} with Symfony {symfony}'
+dashboard:
+    exception:
+        title: 'An exception has been raised'
 field:
     alias: Alias
     available: Available

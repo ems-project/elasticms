@@ -160,6 +160,7 @@ form:
 key:
     actions: Actions
     admin: Admin
+    analyzer: key.analyzer
     analyzers: Analyzers
     channels: Channels
     content_types: 'Content Types'
@@ -314,6 +315,7 @@ type:
     title_create: |-
         {type, select,
             action        {Create action}
+            analyzer      {Create analyzer}
             form          {Create form}
             job           {Launch new job}
             other         {Create}
@@ -321,6 +323,7 @@ type:
     title_edit: |-
         {type, select,
             action        {Edit action: {label}}
+            analyzer      {Edit analyzer: {label}}
             form          {Edit form: {label}}
             other         {Edit}
         }

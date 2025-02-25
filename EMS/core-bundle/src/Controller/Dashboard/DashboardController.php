@@ -8,6 +8,7 @@ use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
 use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Core\Dashboard\DashboardManager;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
+use EMS\CoreBundle\Core\UI\Page\Navigation;
 use EMS\CoreBundle\DataTable\Type\DashboardDataTableType;
 use EMS\CoreBundle\Entity\Dashboard;
 use EMS\CoreBundle\Form\Data\TableAbstract;
@@ -58,10 +59,7 @@ class DashboardController extends AbstractController
             'icon' => 'fa fa-dashboard',
             'title' => t('type.title_overview', ['type' => 'dashboard'], 'emsco-core'),
             'subTitle' => t('type.title_sub', ['type' => 'dashboard'], 'emsco-core'),
-            'breadcrumb' => [
-                'admin' => t('key.admin', [], 'emsco-core'),
-                'page' => t('key.dashboards', [], 'emsco-core'),
-            ],
+            'breadcrumb' => $this->breadcrumb(),
         ]);
     }
 
@@ -81,6 +79,11 @@ class DashboardController extends AbstractController
         return $this->render("@$this->templateNamespace/dashboard/add.html.twig", [
             'form' => $form->createView(),
             'dashboard' => $dashboard,
+            'title' => t('type.title_create', ['type' => 'dashboard'], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'dashboard'], 'emsco-core'),
+            'breadcrumb' => $this->breadcrumb()->add(
+                t('type.title_create', ['type' => 'dashboard'], 'emsco-core')
+            ),
         ]);
     }
 
@@ -119,5 +122,14 @@ class DashboardController extends AbstractController
         $this->dashboardManager->undefine($dashboard);
 
         return $this->redirectToRoute(Routes::DASHBOARD_ADMIN_INDEX);
+    }
+
+    private function breadcrumb(): Navigation
+    {
+        return Navigation::admin()->add(
+            label: t('key.dashboards', [], 'emsco-core'),
+            icon: 'fa fa-dashboard',
+            route: 'ems_core_channel_index',
+        );
     }
 }

@@ -9,12 +9,7 @@ use EMS\ClientHelperBundle\Helper\Form\Type\EmschFormDateType;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Form\FormInterface;
 use EMS\CommonBundle\Contracts\Twig\TemplateInterface;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ButtonType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type as Type;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraint;
@@ -63,14 +58,20 @@ class EmschFormType extends AbstractType
     private function getElementType(string $type): string
     {
         return match ($type) {
-            'button' => ButtonType::class,
-            'checkbox' => CheckboxType::class,
-            'choice' => ChoiceType::class,
+            'button' => Type\ButtonType::class,
+            'checkbox' => Type\CheckboxType::class,
+            'choice' => Type\ChoiceType::class,
+            'country' => Type\CountryType::class,
             'date' => EmschFormDateType::class,
             'datetime' => EmschFormDateTimeType::class,
-            'submit' => SubmitType::class,
-            'text' => TextType::class,
-            'textarea' => TextareaType::class,
+            'hidden' => Type\HiddenType::class,
+            'integer' => Type\IntegerType::class,
+            'language' => Type\LanguageType::class,
+            'money' => Type\MoneyType::class,
+            'number' => Type\NumberType::class,
+            'submit' => Type\SubmitType::class,
+            'text' => Type\TextType::class,
+            'textarea' => Type\TextareaType::class,
             default => throw new \RuntimeException(\sprintf('Unknown form type "%s"', $type)),
         };
     }

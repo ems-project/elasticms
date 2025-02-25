@@ -17,3 +17,5 @@ job:
     started: 'Started time'
     tag: Tag
     user: User
+notice_card:
+    title: Notice

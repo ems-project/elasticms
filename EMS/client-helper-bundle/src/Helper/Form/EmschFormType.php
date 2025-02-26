@@ -23,8 +23,11 @@ class EmschFormType extends AbstractType
     private const string BLOCK_FROM_VIEW = 'emschFormView';
 
     /**
-     * @param FormBuilderInterface<mixed>            $builder
-     * @param array{ 'template': TemplateInterface, 'emsch_form_view': array<mixed> } $options
+     * @param FormBuilderInterface<mixed> $builder
+     * @param array{
+     *     'template': TemplateInterface,
+     *     'emsch_form_view': array<mixed>
+     * } $options
      */
     #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void

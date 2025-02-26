@@ -14,4 +14,5 @@ class Commands
     final public const string MEDIA_LIBRARY_SYNC = 'emscli:media-library:synchronize';
     final public const string MEDIA_LIBRARY_TIKA_CACHE = 'emscli:media-library:load-tika-cache';
     final public const string FILE_READER_IMPORT = 'emscli:file-reader:import';
+    final public const string USERS_COLLECT_USERS = 'emscli:users:collect';
 }

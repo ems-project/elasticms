@@ -22,10 +22,28 @@ class CollectUsersCommand extends AbstractCommand
 {
     public const string ADMIN_URLS_ARGUMENT = 'admin-urls';
     public const string USERNAME_ARGUMENT = 'username';
+
+    /**
+     * @var string[]
+     */
+    public const array TABLE_HEADER = [
+        'Admin',
+        'Username',
+        'Email',
+        'Email Domain',
+        'Display Name',
+        'Roles',
+        'Last Login',
+        'Expiration Date',
+    ];
     /**
      * @var string[]
      */
     private array $adminUrls;
+    /**
+     * @var string[][]
+     */
+    private array $users = [];
     private string $username;
 
     public function __construct(private readonly AdminHelper $adminHelper)
@@ -69,9 +87,12 @@ class CollectUsersCommand extends AbstractCommand
                 $this->io->progressAdvance();
                 continue;
             }
+            $this->collectUsers($coreApi);
             $this->io->progressAdvance();
         }
         $this->io->progressFinish();
+
+        $this->io->table(self::TABLE_HEADER, $this->users);
 
         return self::SUCCESS;
     }
@@ -91,5 +112,21 @@ class CollectUsersCommand extends AbstractCommand
         }
 
         return $this->adminHelper->getCoreApi();
+    }
+
+    private function collectUsers(CoreApiInterface $coreApi): void
+    {
+        foreach ($coreApi->user()->getProfiles() as $profile) {
+            $this->users[] = [
+                $coreApi->getBaseUrl(),
+                $profile->getUsername(),
+                $profile->getEmail(),
+                \explode('@', $profile->getEmail())[1],
+                $profile->getDisplayName() ?? '',
+                \implode(', ', $profile->getRoles()),
+                $profile->getLastLogin()?->format('Y-m-d H:i:s') ?? '',
+                $profile->getExpirationDate()?->format('Y-m-d H:i:s') ?? '',
+            ];
+        }
     }
 }

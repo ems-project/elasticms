@@ -35,9 +35,9 @@ class CollectUsersCommand extends AbstractCommand
         'Email',
         'Email Domain',
         'Display Name',
-        'Roles',
         'Last Login',
         'Expiration Date',
+        'Roles',
     ];
     /**
      * @var string[]
@@ -153,9 +153,9 @@ class CollectUsersCommand extends AbstractCommand
                 $profile->getEmail(),
                 \explode('@', $profile->getEmail())[1],
                 $profile->getDisplayName() ?? '',
-                \implode(', ', $profile->getRoles()),
                 $profile->getLastLogin()?->format('Y-m-d H:i:s') ?? '',
                 $profile->getExpirationDate()?->format('Y-m-d H:i:s') ?? '',
+                \implode(', ', $profile->getRoles()),
             ];
         }
     }

@@ -36,7 +36,7 @@ class Template implements DashboardInterface
                 'exception' => $e,
                 'dashboard' => $dashboard,
                 'options' => $dashboard->getOptions(),
-                'title' => t('dashboard.exception.title', [], 'emsco-core'),
+                'title' => t('core.dashboard.exception.title', [], 'emsco-core'),
                 'subTitle' => t('type.title_sub', ['type' => 'dashboard'], 'emsco-core'),
                 'breadcrumb' => Navigation::dashboards()->add(
                     text: $dashboard->getLabel(),

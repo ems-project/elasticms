@@ -91,6 +91,8 @@ core:
                 browser_file    {File browser}
                 other           {Unknown}
             }
+        exception:
+            title: 'An exception has been raised'
     environment:
         index_count: |-
             {indexes, plural,
@@ -99,9 +101,6 @@ core:
                 other   {There are # indexes}
             }
     version: 'Version {core} with Symfony {symfony}'
-dashboard:
-    exception:
-        title: 'An exception has been raised'
 field:
     alias: Alias
     available: Available

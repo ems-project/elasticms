@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Helper\Form;
 
-use EMS\ClientHelperBundle\Helper\Form\Type\EmschDateTimeType;
-use EMS\ClientHelperBundle\Helper\Form\Type\EmschDateType;
-use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Form\FormInterface;
+use EMS\ClientHelperBundle\Helper\Form\Type as EmsFormType;
 use EMS\CommonBundle\Contracts\Twig\TemplateInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type;
@@ -23,7 +21,7 @@ class EmschFormType extends AbstractType
     private const string BLOCK_FROM_CONFIG = 'emschFormConfig';
 
     /**
-     * @param FormBuilderInterface<FormInterface>    $builder
+     * @param FormBuilderInterface<mixed>            $builder
      * @param array{ 'template': TemplateInterface } $options
      */
     #[\Override]
@@ -61,9 +59,10 @@ class EmschFormType extends AbstractType
             'button' => Type\ButtonType::class,
             'checkbox' => Type\CheckboxType::class,
             'choice' => Type\ChoiceType::class,
+            'choice_dynamic' => EmsFormType\EmschChoiceDynamicType::class,
             'country' => Type\CountryType::class,
-            'date' => EmschDateType::class,
-            'datetime' => EmschDateTimeType::class,
+            'date' => EmsFormType\EmschDateType::class,
+            'datetime' => EmsFormType\EmschDateTimeType::class,
             'hidden' => Type\HiddenType::class,
             'integer' => Type\IntegerType::class,
             'language' => Type\LanguageType::class,

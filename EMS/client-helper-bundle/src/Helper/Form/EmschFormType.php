@@ -9,6 +9,7 @@ use EMS\CommonBundle\Contracts\Twig\TemplateInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -19,10 +20,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 class EmschFormType extends AbstractType
 {
     private const string BLOCK_FROM_CONFIG = 'emschFormConfig';
+    private const string BLOCK_FROM_VIEW = 'emschFormView';
 
     /**
-     * @param FormBuilderInterface<mixed>            $builder
-     * @param array{ 'template': TemplateInterface } $options
+     * @param FormBuilderInterface<mixed> $builder
+     * @param array{
+     *     'template': TemplateInterface,
+     *     'emsch_form_view': array<mixed>
+     * } $options
      */
     #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -34,6 +39,7 @@ class EmschFormType extends AbstractType
             $elementType = $this->getElementType($element['type'] ?? 'text');
             $elementOptions = $element['options'] ?? [];
             $elementOptions['constraints'] = $this->resolveConstraints($elementOptions['constraints'] ?? []);
+            $elementOptions['emsch_form_view'] = $options['emsch_form_view'];
 
             $builder->add(child: $element['name'], type: $elementType, options: $elementOptions);
         }
@@ -44,7 +50,13 @@ class EmschFormType extends AbstractType
     {
         $resolver
             ->setRequired(['template'])
-            ->setAllowedTypes('template', TemplateInterface::class);
+            ->setAllowedTypes('template', TemplateInterface::class)
+            ->setDefault('emsch_form_view', function (Options $options): array {
+                /** @var TemplateInterface $template */
+                $template = $options['template'];
+
+                return $template->jsonBlock(self::BLOCK_FROM_VIEW);
+            });
     }
 
     #[\Override]

@@ -1,12 +1,28 @@
-{% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}
-{% trans_default_domain 'emsco-twigs' %}
+{% extends '@EMSAdminUI/bootstrap5/template/card.html.twig' %}
 
-{% block breadcrumb %}
-    <ol class="breadcrumb float-sm-end">
-        <li class="breadcrumb-item"><a href="{{ path('emsco_dashboard_admin_index') }}"><i class="{{ 'view.icon.class.dashboard'|trans }}"></i> {{ 'dashboard.menu'|trans }}</a></li>
-        {% block breadcrumb_items %}{% endblock breadcrumb_items %}
-    </ol>
-{% endblock %}
+{% block form %}
+<div class="row">
+    {{ form_row(form.name) }}
+    <div class="clearfix"></div>
+    {{ form_row(form.role) }}
+    <div class="clearfix"></div>
+    {{ form_row(form.icon) }}
+    <div class="clearfix"></div>
+    {{ form_row(form.label) }}
+    <div class="clearfix"></div>
+    {{ form_row(form.color) }}
+    <div class="clearfix"></div>
+    {{ form_row(form.sidebarMenu) }}
+    <div class="clearfix"></div>
+    {{ form_row(form.notificationMenu) }}
+    <div class="clearfix"></div>
+    {%  if form.type is defined %}
+        {{ form_row(form.type) }}
+        <div class="clearfix"></div>
+    {% endif %}
+    {%  if form.options is defined %}
+        {{ form_row(form.options) }}
+    {% endif %}
+</div>
+{% endblock form %}
 
-{% block pagetitle %}{{ block('title') }}{% endblock %}
-{% block subtitle %}<small>{{ 'dashboard.tagline'|trans }}</small>{% endblock %}

@@ -8,9 +8,11 @@ use App\CLI\Commands;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
+use EMS\CommonBundle\Contracts\Spreadsheet\SpreadsheetGeneratorServiceInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(
@@ -22,6 +24,7 @@ class CollectUsersCommand extends AbstractCommand
 {
     public const string ADMIN_URLS_ARGUMENT = 'admin-urls';
     public const string USERNAME_ARGUMENT = 'username';
+    public const string OPTION_FILENAME = 'filename';
 
     /**
      * @var string[]
@@ -45,8 +48,9 @@ class CollectUsersCommand extends AbstractCommand
      */
     private array $users = [];
     private string $username;
+    private ?string $filename;
 
-    public function __construct(private readonly AdminHelper $adminHelper)
+    public function __construct(private readonly AdminHelper $adminHelper, private readonly SpreadsheetGeneratorServiceInterface $spreadsheetGeneratorService)
     {
         parent::__construct();
     }
@@ -64,6 +68,11 @@ class CollectUsersCommand extends AbstractCommand
                 self::ADMIN_URLS_ARGUMENT,
                 InputArgument::IS_ARRAY,
                 'List of admin URLs where to collect users'
+            )->addOption(
+                self::OPTION_FILENAME,
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Export filename, xlsx or csv formats are supported',
             );
     }
 
@@ -73,6 +82,7 @@ class CollectUsersCommand extends AbstractCommand
         parent::initialize($input, $output);
         $this->adminUrls = $this->getArgumentStringArray(self::ADMIN_URLS_ARGUMENT);
         $this->username = $this->getArgumentString(self::USERNAME_ARGUMENT);
+        $this->filename = $this->getOptionStringNull(self::OPTION_FILENAME);
     }
 
     #[\Override]
@@ -92,7 +102,27 @@ class CollectUsersCommand extends AbstractCommand
         }
         $this->io->progressFinish();
 
-        $this->io->table(self::TABLE_HEADER, $this->users);
+        if (null == $this->filename) {
+            $this->io->table(self::TABLE_HEADER, $this->users);
+
+            return self::SUCCESS;
+        }
+
+        $fileExtension = \pathinfo($this->filename)['extension'] ?? null;
+        if (!\in_array($fileExtension, SpreadsheetGeneratorServiceInterface::FORMAT_WRITERS)) {
+            $this->io->error(\sprintf('File extension %s is not supported', $fileExtension));
+        }
+
+        $config = [
+            SpreadsheetGeneratorServiceInterface::SHEETS => [[
+                'rows' => [self::TABLE_HEADER, ...$this->users],
+                'name' => 'users',
+            ]],
+            SpreadsheetGeneratorServiceInterface::CONTENT_FILENAME => 'users',
+            SpreadsheetGeneratorServiceInterface::WRITER => $fileExtension,
+        ];
+        $this->spreadsheetGeneratorService->generateSpreadsheetFile($config, $this->filename);
+        $this->io->success(\sprintf('Collected %s users in the file %s', \count($this->users), $this->filename));
 
         return self::SUCCESS;
     }

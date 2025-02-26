@@ -17,7 +17,7 @@
     "require": {
         "php": "^8.4",
         "ext-dom": "*",
-        "elasticms/helpers": "6.0.*",
+        "elasticms/helpers": "6.1.*",
         "symfony/dom-crawler": "6.4.*",
         "symfony/property-access": "6.4.*"
     },

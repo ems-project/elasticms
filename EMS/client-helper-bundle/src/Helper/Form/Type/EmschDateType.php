@@ -27,12 +27,8 @@ class EmschDateType extends AbstractType
         $dataFormat = $options['data_format'];
 
         $builder->addModelTransformer(new CallbackTransformer(
-            function ($value) use ($dataFormat): ?\DateTimeInterface {
-                return \is_string($value) ? DateTime::createFromFormat($value, $dataFormat) : null;
-            },
-            function ($value) use ($dataFormat) {
-                return $value instanceof \DateTimeInterface ? $value->format($dataFormat) : null;
-            }
+            fn ($value): ?\DateTimeInterface => \is_string($value) ? DateTime::createFromFormat($value, $dataFormat) : null,
+            fn ($value) => $value instanceof \DateTimeInterface ? $value->format($dataFormat) : null
         ));
     }
 

@@ -7,7 +7,7 @@ namespace EMS\ClientHelperBundle\Helper\Form;
 use EMS\ClientHelperBundle\Helper\Form\Type as EmsFormType;
 use EMS\CommonBundle\Contracts\Twig\TemplateInterface;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type;
+use Symfony\Component\Form\Extension\Core\Type as SymfonyType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -68,21 +68,21 @@ class EmschFormType extends AbstractType
     private function getElementType(string $type): string
     {
         return match ($type) {
-            'button' => Type\ButtonType::class,
-            'checkbox' => Type\CheckboxType::class,
-            'choice' => Type\ChoiceType::class,
+            'button' => SymfonyType\ButtonType::class,
+            'checkbox' => SymfonyType\CheckboxType::class,
+            'choice' => SymfonyType\ChoiceType::class,
             'choice_dynamic' => EmsFormType\EmschChoiceDynamicType::class,
-            'country' => Type\CountryType::class,
+            'country' => SymfonyType\CountryType::class,
             'date' => EmsFormType\EmschDateType::class,
             'datetime' => EmsFormType\EmschDateTimeType::class,
-            'hidden' => Type\HiddenType::class,
-            'integer' => Type\IntegerType::class,
-            'language' => Type\LanguageType::class,
-            'money' => Type\MoneyType::class,
-            'number' => Type\NumberType::class,
-            'submit' => Type\SubmitType::class,
-            'text' => Type\TextType::class,
-            'textarea' => Type\TextareaType::class,
+            'hidden' => SymfonyType\HiddenType::class,
+            'integer' => SymfonyType\IntegerType::class,
+            'language' => SymfonyType\LanguageType::class,
+            'money' => SymfonyType\MoneyType::class,
+            'number' => SymfonyType\NumberType::class,
+            'submit' => SymfonyType\SubmitType::class,
+            'text' => SymfonyType\TextType::class,
+            'textarea' => SymfonyType\TextareaType::class,
             default => throw new \RuntimeException(\sprintf('Unknown form type "%s"', $type)),
         };
     }

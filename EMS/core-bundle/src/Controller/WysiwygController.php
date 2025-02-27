@@ -174,6 +174,13 @@ class WysiwygController extends AbstractController
 
         return $this->render("@$this->templateNamespace/wysiwyg_styles_set/new.html.twig", [
             'form' => $form->createView(),
+            'title' => t('type.title_create', ['type' => 'wysiwyg_style_set'], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'wysiwyg_style_set'], 'emsco-core'),
+            'breadcrumb' => $this->breadcrumb()->add(
+                label: t('key.wysiwyg_style_sets', [], 'emsco-core'),
+            )->add(
+                t('type.title_create', ['type' => 'wysiwyg_style_set'], 'emsco-core'),
+            ),
         ]);
     }
 

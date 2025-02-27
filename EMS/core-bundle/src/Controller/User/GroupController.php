@@ -104,6 +104,21 @@ class GroupController extends AbstractController
 
         return $this->redirectToRoute('emsco_group_admin_index');
     }
+    public function editGroup(Group $group,Request $request): Response
+    {
+        $this->groupManager->editGroup($group);
+        $form = $this->createForm(GroupType::class, $group, ['mode' => UserType::MODE_UPDATE]);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->groupManager->editGroup($group);
+            $this->redirectToRoute('emsco_group_admin_index');
+        }
+        
+        return $this->render("@$this->templateNamespace/group/create.html.twig", [
+            'form' => $form,
+        ]);
+    }
 
     private function breadcrumb(): Navigation
     {

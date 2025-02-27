@@ -36,7 +36,6 @@ class GroupRepository extends ServiceEntityRepository
 
     public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue)
     {
-        
         $qb = $this->createQueryBuilder('c')
             ->setFirstResult($from)
             ->setMaxResults($size);

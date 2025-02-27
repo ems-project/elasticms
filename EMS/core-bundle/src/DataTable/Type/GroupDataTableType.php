@@ -26,6 +26,5 @@ class GroupDataTableType extends AbstractEntityTableType
             ->addTableActionDelete($table, 'group_delete', 'Delete')
             ->addItemDelete($table, 'group', Routes::GROUP_DELETE)
             ->addTableToolbarActionAdd($table, Routes::GROUP_ADD);
-            
     }
 }

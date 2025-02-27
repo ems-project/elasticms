@@ -94,7 +94,7 @@ class GroupController extends AbstractController
 
     public function deleteGroup(Group $group): Response
     {
-        $this->groupManager->deleteGroup($group);        
+        $this->groupManager->deleteGroup($group);
 
         return $this->redirectToRoute('emsco_group_admin_index');
     }

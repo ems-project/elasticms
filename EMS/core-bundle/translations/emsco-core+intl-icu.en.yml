@@ -189,6 +189,7 @@ key:
     uploaded_files_logs: 'Uploaded Files Logs'
     views: Views
     wysiwyg: WYSIWYG
+    wysiwyg_profiles: Profiles
 log:
     error:
         content_type_add_unreferenced: 'Unexpected error while getting unreferenced content type(s) from external environment {environment}: {error}'
@@ -322,14 +323,15 @@ type:
         }
     title_create: |-
         {type, select,
-            action        {Create action}
-            analyzer      {Create analyzer}
-            channel       {Create channel}
-            dashboard     {Create dashboard}
-            content_type  {Create content type}
-            form          {Create form}
-            job           {Launch new job}
-            other         {Create}
+            action          {Create action}
+            analyzer        {Create analyzer}
+            channel         {Create channel}
+            dashboard       {Create dashboard}
+            content_type    {Create content type}
+            form            {Create form}
+            job             {Launch new job}
+            wysiwyg_profile {Create profile}
+            other           {Create}
         }
     title_edit: |-
         {type, select,

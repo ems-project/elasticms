@@ -6,6 +6,7 @@ namespace EMS\CoreBundle\Controller;
 
 use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
+use EMS\CoreBundle\Core\UI\Page\Navigation;
 use EMS\CoreBundle\DataTable\Type\Wysiwyg\WysiwygProfileDataTableType;
 use EMS\CoreBundle\DataTable\Type\Wysiwyg\WysiwygStylesSetDataTableType;
 use EMS\CoreBundle\EMSCoreBundle;
@@ -98,6 +99,11 @@ class WysiwygController extends AbstractController
 
         return $this->render("@$this->templateNamespace/wysiwygprofile/new.html.twig", [
             'form' => $form->createView(),
+            'title' => t('type.title_create', ['type' => 'wysiwyg_profile'], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'wysiwyg_profile'], 'emsco-core'),
+            'breadcrumb' => $this->breadcrumb()->add(
+                t('type.title_create', ['type' => 'wysiwyg_profile'], 'emsco-core'),
+            ),
         ]);
     }
 
@@ -251,5 +257,16 @@ class WysiwygController extends AbstractController
         }
 
         return $form;
+    }
+
+    private function breadcrumb(): Navigation
+    {
+        return Navigation::admin()->add(
+            label: t('key.wysiwyg', [], 'emsco-core'),
+            icon: 'fa fa-edit',
+            route: 'emsco_wysiwyg_index',
+        )->add(
+            label: t('key.wysiwyg_profiles', [], 'emsco-core'),
+        );
     }
 }

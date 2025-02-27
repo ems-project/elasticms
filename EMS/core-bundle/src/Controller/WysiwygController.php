@@ -57,7 +57,6 @@ class WysiwygController extends AbstractController
             $datatableStyleSets instanceof RedirectResponse => $datatableStyleSets,
             default => $this->render("@$this->templateNamespace/crud/overview.html.twig", [
                 'icon' => 'fa fa-language',
-                'title' => t('type.title_overview', ['type' => 'wysiwyg'], 'emsco-core'),
                 'datatables' => [
                     [
                         'title' => t('type.title_overview', ['type' => 'wysiwyg_profile'], 'emsco-core'),
@@ -68,10 +67,9 @@ class WysiwygController extends AbstractController
                         'form' => $datatableStyleSets->createView(),
                     ],
                 ],
-                'breadcrumb' => [
-                    'admin' => t('key.admin', [], 'emsco-core'),
-                    'page' => t('key.wysiwyg', [], 'emsco-core'),
-                ],
+                'title' => t('type.title_overview', ['type' => 'wysiwyg'], 'emsco-core'),
+                'subTitle' => t('type.title_sub', ['type' => 'wysiwyg_profile'], 'emsco-core'),
+                'breadcrumb' => $this->breadcrumb(),
             ]),
         };
     }
@@ -102,6 +100,8 @@ class WysiwygController extends AbstractController
             'title' => t('type.title_create', ['type' => 'wysiwyg_profile'], 'emsco-core'),
             'subTitle' => t('type.title_sub', ['type' => 'wysiwyg_profile'], 'emsco-core'),
             'breadcrumb' => $this->breadcrumb()->add(
+                label: t('key.wysiwyg_profiles', [], 'emsco-core'),
+            )->add(
                 t('type.title_create', ['type' => 'wysiwyg_profile'], 'emsco-core'),
             ),
         ]);
@@ -265,8 +265,6 @@ class WysiwygController extends AbstractController
             label: t('key.wysiwyg', [], 'emsco-core'),
             icon: 'fa fa-edit',
             route: 'emsco_wysiwyg_index',
-        )->add(
-            label: t('key.wysiwyg_profiles', [], 'emsco-core'),
         );
     }
 }

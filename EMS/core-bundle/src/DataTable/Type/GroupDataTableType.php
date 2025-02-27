@@ -1,13 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\DataTable\Type;
 
 use EMS\CoreBundle\Core\DataTable\Type\AbstractEntityTableType;
-use EMS\CoreBundle\Core\Form\FormManager;
 use EMS\CoreBundle\Core\User\GroupManager;
 use EMS\CoreBundle\Form\Data\EntityTable;
 use EMS\CoreBundle\Routes;
-use function Symfony\Component\Translation\t;
 
 class GroupDataTableType extends AbstractEntityTableType
 {
@@ -21,11 +21,11 @@ class GroupDataTableType extends AbstractEntityTableType
     #[\Override]
     public function build(EntityTable $table): void
     {
-        dump($table);
         $this
             ->addColumnsOrderLabelName($table)
-            ->addTableActionDelete($table, 'group_delete');
-
+            ->addTableActionDelete($table, 'group_delete', 'Delete')
+            ->addItemDelete($table, 'group', Routes::GROUP_DELETE)
+            ->addTableToolbarActionAdd($table, Routes::GROUP_ADD);
+            
     }
-
 }

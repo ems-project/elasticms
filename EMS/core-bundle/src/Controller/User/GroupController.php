@@ -10,23 +10,22 @@ use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\Core\Form\FieldTypeManager;
 use EMS\CoreBundle\Core\UI\Page\Navigation;
 use EMS\CoreBundle\Core\User\GroupManager;
-use EMS\CoreBundle\DataTable\Type\FormDataTableType;
 use EMS\CoreBundle\DataTable\Type\GroupDataTableType;
 use EMS\CoreBundle\Entity\Group;
 use EMS\CoreBundle\Entity\User;
 use EMS\CoreBundle\Form\Form\GroupType;
 use EMS\CoreBundle\Form\Form\TableType;
 use EMS\CoreBundle\Form\Form\UserType;
-use EMS\CoreBundle\Routes;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use function PHPUnit\Framework\matches;
+
 use function Symfony\Component\Translation\t;
 
 class GroupController extends AbstractController
 {
     use CoreControllerTrait;
+
     public function __construct(
         private readonly LocalizedLoggerInterface $logger,
         private readonly GroupManager $groupManager,
@@ -40,13 +39,14 @@ class GroupController extends AbstractController
     {
         $table = $this->dataTableFactory->create(GroupDataTableType::class);
         $test = $this->groupManager->getAll();
-    
+
         $form = $this->createForm(TableType::class, $table, [
             'reorder_label' => t('type.reorder', ['type' => 'form'], 'emsco-core'),
         ]);
         $form->handleRequest($request);
-        if($this->getClickedButtonName($form)){
-            dump($this->getClickedButtonName($form));
+        if ($this->getClickedButtonName($form)) {
+            \dump($this->getClickedButtonName($form));
+
             return $this->render("@$this->templateNamespace/group/create.html.twig", [
                 'test' => $test,
                 'form' => $form,
@@ -70,11 +70,12 @@ class GroupController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-//            dump($this->getClickedButtonName($form));
-//            if (GroupType::DELETE_BUTTON === $this->getClickedButtonName($form)) {
-//                dump('c un delete');
-//            }
+            //            dump($this->getClickedButtonName($form));
+            //            if (GroupType::DELETE_BUTTON === $this->getClickedButtonName($form)) {
+            //                dump('c un delete');
+            //            }
             $this->groupManager->create($group);
+
             //            $continue = $this->userExist($group, 'add');
             //
             //            if ($continue) {
@@ -82,7 +83,7 @@ class GroupController extends AbstractController
             //                $this->groupManager->update($group);
             //                $this->addFlash('notice', 'User created!');
             //
-                            return $this->redirectToRoute('emsco_group_admin_index');
+            return $this->redirectToRoute('emsco_group_admin_index');
             //            }
         }
 
@@ -91,10 +92,11 @@ class GroupController extends AbstractController
         ]);
     }
 
-    public function deleteLastGroup(Request $request): Response
+    public function deleteGroup(Group $group): Response
     {
-        sleep(5);
-        return $this->redirectToRoute('group_index');
+        $this->groupManager->deleteGroup($group);        
+
+        return $this->redirectToRoute('emsco_group_admin_index');
     }
 
     private function breadcrumb(): Navigation
@@ -109,5 +111,4 @@ class GroupController extends AbstractController
             route: 'emsco_group_admin_index'
         );
     }
-
 }

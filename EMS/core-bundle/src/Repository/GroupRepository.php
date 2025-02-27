@@ -7,7 +7,6 @@ namespace EMS\CoreBundle\Repository;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use EMS\CoreBundle\Entity\Group;
-use EMS\CoreBundle\Entity\User;
 
 class GroupRepository extends ServiceEntityRepository
 {
@@ -19,6 +18,7 @@ class GroupRepository extends ServiceEntityRepository
     public function getAll(): array
     {
         $qb = $this->createQueryBuilder('u');
+
         return $qb->getQuery()->execute();
     }
 
@@ -27,6 +27,7 @@ class GroupRepository extends ServiceEntityRepository
         $this->getEntityManager()->persist($group);
         $this->getEntityManager()->flush();
     }
+
     public function delete(Group $group): void
     {
         $this->getEntityManager()->remove($group);
@@ -35,7 +36,7 @@ class GroupRepository extends ServiceEntityRepository
 
     public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue)
     {
-        dump($size);
+        
         $qb = $this->createQueryBuilder('c')
             ->setFirstResult($from)
             ->setMaxResults($size);
@@ -48,7 +49,7 @@ class GroupRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->execute();
     }
-    
+
     public function counter(string $searchValue = ''): int
     {
         $qb = $this->createQueryBuilder('c');

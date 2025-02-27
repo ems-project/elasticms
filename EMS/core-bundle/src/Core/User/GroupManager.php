@@ -37,8 +37,8 @@ class GroupManager implements EntityServiceInterface
 
     public function getEntityName(): string
     {
-        // TODO: Implement getEntityName() method.
-        return '';
+        
+        return 'group';
     }
 
     public function getAliasesName(): array
@@ -49,7 +49,7 @@ class GroupManager implements EntityServiceInterface
 
     public function count(string $searchValue = '', mixed $context = null): int
     {
-        dump('count');
+
         // TODO: Implement count() method.
         return 0;
     }
@@ -78,6 +78,10 @@ class GroupManager implements EntityServiceInterface
     {
         // TODO: Implement deleteByItemName() method.
         return '';
+    }
+    public function deleteGroup(Group $group): void
+    {
+        $this->groupRepository->delete($group);
     }
 
     public function create(Group $group): void

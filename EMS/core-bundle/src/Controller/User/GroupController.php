@@ -98,6 +98,12 @@ class GroupController extends AbstractController
 
         return $this->redirectToRoute('emsco_group_admin_index');
     }
+    public function deleteAllGroup(): Response
+    {
+        $this->groupManager->deleteAllGroup();
+
+        return $this->redirectToRoute('emsco_group_admin_index');
+    }
 
     private function breadcrumb(): Navigation
     {

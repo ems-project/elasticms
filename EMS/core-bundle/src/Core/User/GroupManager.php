@@ -82,6 +82,10 @@ class GroupManager implements EntityServiceInterface
     {
         $this->groupRepository->delete($group);
     }
+    public function deleteAllGroup(): void
+    {
+        $this->groupRepository->deleteAllGroup();
+    }
 
     public function create(Group $group): void
     {

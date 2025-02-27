@@ -335,13 +335,14 @@ type:
         }
     title_edit: |-
         {type, select,
-            action        {Edit action: {label}}
-            analyzer      {Edit analyzer: {label}}
-            channel       {Edit channel: {label}}
-            dashboard     {Edit dashboard: {label}}
-            content_type  {Edit content type: {label}}
-            form          {Edit form: {label}}
-            other         {Edit}
+            action          {Edit action: {label}}
+            analyzer        {Edit analyzer: {label}}
+            channel         {Edit channel: {label}}
+            dashboard       {Edit dashboard: {label}}
+            content_type    {Edit content type: {label}}
+            form            {Edit form: {label}}
+            wysiwyg_profile {Edit profile: {label}}
+            other           {Edit}
         }
     title_overview: |-
         {type, select,

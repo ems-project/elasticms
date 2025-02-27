@@ -141,6 +141,13 @@ class WysiwygController extends AbstractController
 
         return $this->render("@$this->templateNamespace/wysiwygprofile/edit.html.twig", [
             'form' => $form->createView(),
+            'title' => t('type.title_edit', ['type' => 'wysiwyg_profile'], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'wysiwyg_profile'], 'emsco-core'),
+            'breadcrumb' => $this->breadcrumb()->add(
+                label: t('key.wysiwyg_profiles', [], 'emsco-core'),
+            )->add(
+                t('type.title_edit', ['type' => 'wysiwyg_profile'], 'emsco-core'),
+            ),
         ]);
     }
 

@@ -295,6 +295,7 @@ type:
         {type, select,
             analyzer      {All environments have to be rebuild each times that an analyzer configuration is created or updated.}
             content_type  {The content type won’t be directly available to the authors. You’ll need to activate it later, once the mappings have been updated. Take your time to review the content type.}
+            add_alias     {This operation will create a new alias to an existing index.}
             other         {}
         }
     reorder: |-
@@ -323,6 +324,7 @@ type:
         }
     title_create: |-
         {type, select,
+            alias         {Add an alias to {label}}
             action        {Create action}
             analyzer      {Create analyzer}
             channel       {Create channel}

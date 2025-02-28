@@ -15,6 +15,7 @@ use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Core\Dashboard\DashboardManager;
 use EMS\CoreBundle\Core\Document\DataLinks;
+use EMS\CoreBundle\Core\UI\Page\Navigation;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Dashboard;
 use EMS\CoreBundle\Entity\Form\ExportDocuments;
@@ -49,6 +50,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use function Symfony\Component\Translation\t;
 
 class ElasticsearchController extends AbstractController
 {
@@ -109,6 +111,13 @@ class ElasticsearchController extends AbstractController
         return $this->render("@$this->templateNamespace/elasticsearch/add-alias.html.twig", [
             'form' => $form->createView(),
             'name' => $name,
+            'title' => t('type.title_create', ['type' => 'alias', 'label' => $name], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'alias'], 'emsco-core'),
+            'breadcrumb' => Navigation::admin()->environments()->add(
+                label: t('key.orphan_indexes', [], 'emsco-core'),
+                icon: 'fa fa-chain-broken',
+                route: Routes::ADMIN_ELASTIC_ORPHAN
+            )->add(t('type.title_create', ['type' => 'alias', 'label' => $name], 'emsco-core')),
         ]);
     }
 

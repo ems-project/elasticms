@@ -1,15 +1,5 @@
-{% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}{% trans_default_domain 'EMSCoreBundle' %}
+{% extends '@EMSAdminUI/bootstrap5/template/card.html.twig' %}
 
-{% block title %}{{ 'Documentation'|trans }}{% endblock %}
-{% block pagetitle %}{{ 'Documentation'|trans }}{% endblock %}
-{% block breadcrumb %}
-	<ol class="breadcrumb float-sm-end">
-		<li class="breadcrumb-item"><i class="fa fa-book"></i> {{ 'Documentation'|trans }}</li>
-	</ol>
-{% endblock %}
-
-{% block body %}
-
+{% block content %}
     {{ 'ems.documentation.body'|emsco_i18n|emsco_generate_from_template|raw }}
-
 {% endblock %}

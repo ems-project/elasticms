@@ -119,6 +119,7 @@ class ElasticsearchController extends AbstractController
                 icon: 'fa fa-chain-broken',
                 route: Routes::ADMIN_ELASTIC_ORPHAN
             )->add(t('type.title_create', ['type' => 'alias', 'label' => $name], 'emsco-core')),
+            'notice' => t('type.notice_message', ['type' => 'alias'], 'emsco-core'),
         ]);
     }
 

@@ -295,6 +295,11 @@ type:
             wysiwyg_style_set   {Delete all selected WYSIWYG style sets?}
             other               {Delete all selected?}
         }
+    export: |-
+        {type, select,
+            documents      {Export {label}}
+            other          {Export}
+        }
     notice_message: |-
         {type, select,
             analyzer      {All environments have to be rebuild each times that an analyzer configuration is created or updated.}

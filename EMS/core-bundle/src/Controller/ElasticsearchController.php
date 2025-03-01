@@ -563,11 +563,14 @@ class ElasticsearchController extends AbstractController
                         Json::encode($this->searchService->generateSearchBody($search))
                     ));
 
-                    $exportForms[] = $exportForm->createView();
+                    $exportForms[] = [
+                        'form' => $exportForm->createView(),
+                        'title' => t('type.export', ['type' => 'documents', 'label' => $contentType->getPluralName()], 'emsco-core'),
+                    ];
                 }
 
                 return $this->render("@$this->templateNamespace/elasticsearch/export-search.html.twig", [
-                    'exportForms' => $exportForms,
+                    'forms' => $exportForms,
                     'title' => t('key.export_documents', [], 'emsco-core'),
                     'breadcrumb' => $this->breadcrumb()->add(
                         label: t('key.export_documents', [], 'emsco-core'),

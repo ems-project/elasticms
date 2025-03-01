@@ -171,6 +171,7 @@ key:
     environments: Environments
     environments_external: 'External environments'
     environments_local: 'Local environments'
+    export_documents: 'Export documents'
     filters: Filters
     forms: Forms
     i18n: I18N
@@ -184,6 +185,7 @@ key:
     publishers: Publishers
     query_searches: QuerySearch
     schedule: Schedule
+    search: Search
     structure: Structure
     unreferenced_aliases: 'Unreferenced aliases'
     uploaded_files: 'Uploaded Files'

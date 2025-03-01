@@ -568,6 +568,11 @@ class ElasticsearchController extends AbstractController
 
                 return $this->render("@$this->templateNamespace/elasticsearch/export-search.html.twig", [
                     'exportForms' => $exportForms,
+                    'title' => t('key.export_documents', [], 'emsco-core'),
+                    'breadcrumb' => $this->breadcrumb()->add(
+                        label: t('key.export_documents', [], 'emsco-core'),
+                        icon: 'fa fa-archive',
+                    ),
                 ]);
             }
 
@@ -623,5 +628,15 @@ class ElasticsearchController extends AbstractController
         }
 
         return $aggregation->getKeys();
+    }
+
+    private function breadcrumb(?Search $search = null): Navigation
+    {
+        return Navigation::admin()->add(
+            label: t('key.search', [], 'emsco-core'),
+            icon: 'fa fa-search',
+            route: 'ems_search',
+            routeParams: ['search_form' => $search?->jsonSerialize() ?? []],
+        );
     }
 }

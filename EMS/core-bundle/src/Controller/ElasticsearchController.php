@@ -567,7 +567,8 @@ class ElasticsearchController extends AbstractController
 
                     $exportForms[] = [
                         'form' => $exportForm->createView(),
-                        'title' => t('type.export', ['type' => 'documents', 'label' => $contentType->getPluralName()], 'emsco-core'),
+                        'title' => t('type.export', ['type' => 'documents', 'count' => $bucket->getCount(), 'singular' => $contentType->getSingularName(), 'plural' => $contentType->getPluralName()], 'emsco-core'),
+                        'icon' => $contentType->getIcon(),
                     ];
                 }
 

@@ -297,8 +297,11 @@ type:
         }
     export: |-
         {type, select,
-            documents      {Export {label}}
-            other          {Export}
+            documents {{count, plural,
+                    =1    {Export one {singular}}
+                    other {Export # {plural}}
+            }}
+            other     {Export}
         }
     notice_message: |-
         {type, select,

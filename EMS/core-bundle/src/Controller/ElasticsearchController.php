@@ -554,7 +554,8 @@ class ElasticsearchController extends AbstractController
             if (null !== $response && $form->isSubmitted() && $form->isValid() && \array_key_exists('exportResults', $request->query->all('search_form'))) {
                 $exportForms = [];
                 $contentTypes = $this->getAllContentType($response);
-                foreach ($contentTypes as $name) {
+                foreach ($contentTypes as $bucket) {
+                    $name = $bucket->getKey();
                     $contentType = $types[$name];
 
                     $exportForm = $this->createForm(ExportDocumentsType::class, new ExportDocuments(
@@ -621,16 +622,13 @@ class ElasticsearchController extends AbstractController
     }
 
     /**
-     * @return string[]
+     * @return iterable<Bucket>|Bucket[]
      */
-    private function getAllContentType(CommonResponse $response): array
+    private function getAllContentType(CommonResponse $response): iterable
     {
         $aggregation = $response->getAggregation(AggregateOptionService::CONTENT_TYPES_AGGREGATION);
-        if (null === $aggregation) {
-            return [];
-        }
 
-        return $aggregation->getKeys();
+        return $aggregation?->getBuckets() ?? [];
     }
 
     private function breadcrumb(?Search $search = null): Navigation

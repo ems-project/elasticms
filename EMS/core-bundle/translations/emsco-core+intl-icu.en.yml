@@ -250,7 +250,7 @@ revision:
         put_back_selected: 'Put back selected'
         title: '{pluralName} in trash'
 status:
-    title: 'Systems'' status'
+    title: "Systems' status"
     title_sub: 'Is everything working as expected?'
 type:
     confirm: |-

@@ -148,6 +148,8 @@ views:
             content-types: 'Content Types'
     elasticsearch:
         cluster:
+            bits: 'Bits'
+            public-key: 'Public key'
             cluster-uuid: 'Cluster UUID'
             tagline: Tagline
             node-name: 'Node name'

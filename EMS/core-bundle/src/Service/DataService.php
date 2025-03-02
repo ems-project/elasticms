@@ -538,7 +538,7 @@ class DataService
      */
     public function getCertificateInfo(): array
     {
-        if (empty($this->publicKey) || empty($this->privateKey)) {
+        if (empty($this->privateKey)) {
             return [
                 'status' => 'yellow',
             ];
@@ -558,9 +558,12 @@ class DataService
             ];
         }
 
-        return \array_merge($details, [
+        return [
             'status' => 'green',
-        ]);
+            'bits' => $details['bits'],
+            'key' => $details['key'],
+            'type' => $details['type'],
+        ];
     }
 
     public function testIntegrityInIndexes(Revision $revision): void

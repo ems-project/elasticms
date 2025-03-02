@@ -54,9 +54,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ElasticsearchController extends AbstractController
 {
-    /**
-     * @param string[] $elasticsearchCluster
-     */
     public function __construct(
         private readonly LoggerInterface $logger,
         private readonly IndexService $indexService,
@@ -79,7 +76,6 @@ class ElasticsearchController extends AbstractController
         private readonly SerializerInterface $serializer,
         private readonly int $pagingSize,
         private readonly ?string $healthCheckAllowOrigin,
-        private readonly array $elasticsearchCluster,
         private readonly string $templateNamespace
     ) {
     }
@@ -144,8 +140,6 @@ class ElasticsearchController extends AbstractController
         $context['title'] = $title;
 
         if ($detailed) {
-            $context['cluster']['connection'] = Json::encode($this->elasticsearchCluster, true);
-
             $context['certificate'] = $this->dataService->getCertificateInfo();
             $context['certificate']['title'] = $this->translator->trans('certificate.status', ['color' => $context['certificate']['status'] ?? 'red'], 'emsco-core');
 

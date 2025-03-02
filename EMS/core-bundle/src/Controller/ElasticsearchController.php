@@ -169,7 +169,7 @@ class ElasticsearchController extends AbstractController
                 'subTitle' => t('status.title_sub', [], 'emsco-core'),
                 'breadcrumb' => new Navigation()->add(
                     label: t('status.title', [],'emsco-core'),
-                    icon: 'fa-solid fa-heart',
+                    icon: 'fa-solid fa-stethoscope',
                 ),
             ]))),
         };

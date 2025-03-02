@@ -11,12 +11,15 @@
            controller="EMS\CoreBundle\Controller\ElasticsearchController::status"
            methods="GET|POST"
            format="html">
+        <requirement key="_format">html|json|xml</requirement>
         <default key="detailed" xsi:nil="false"/>
     </route>
     <route id="elasticsearch.status" path="/status.{_format}"
            controller="EMS\CoreBundle\Controller\ElasticsearchController::status"
            methods="GET|POST"
-           format="html"/>
+           format="html">
+        <requirement key="_format">html|json|xml</requirement>
+    </route>
     <route id="ems_quick_search" path="/quick-search"
            controller="EMS\CoreBundle\Controller\ElasticsearchController::quickSearch"
            methods="GET"

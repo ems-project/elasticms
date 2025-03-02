@@ -135,7 +135,13 @@
         label: 'key.status'|trans,
         value: asset_extractor.status|humanize,
     }] %}
-    {% if certificate.content|default %}
+    {% if asset_extractor.client|default %}
+        {% set list = list|merge([{
+            label: 'key.client'|trans,
+            value: asset_extractor.client,
+        }]) %}
+    {% endif %}
+    {% if asset_extractor.content|default %}
         {% set list = list|merge([{
             label: 'key.content'|trans,
             value: asset_extractor.content,

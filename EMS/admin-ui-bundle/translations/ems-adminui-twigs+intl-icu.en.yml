@@ -33,6 +33,7 @@ key:
     active_shards_percent_as_number: 'Active shards'
     bits: Bits
     build_date: 'Build date'
+    client: Client
     cluster_uuid: 'Cluster UUID'
     content: Content
     delayed_unassigned_shards: 'Delayed unassigned shards'

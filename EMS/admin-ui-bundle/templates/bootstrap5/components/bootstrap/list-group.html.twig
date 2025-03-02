@@ -7,7 +7,7 @@ Each list item contains an icon, a label, an optional value, and an optional con
 
 Available Variables:
 - list (array, required): An array of items, each containing:
-    - icon (string, required): The CSS class for the icon (e.g., FontAwesome or Bootstrap icons).
+    - icon (string, optional): The CSS class for the icon (e.g., FontAwesome or Bootstrap icons).
     - label (string, required): The main label text for the list item.
     - value (string, optional): A value displayed on the right side.
     - content (string, optional): Additional content displayed below the label.
@@ -28,7 +28,7 @@ Example Usage:
 {% for item in list %}
     <li class="list-group-item">
         <div class="d-flex w-100 justify-content-between">
-            <b><i class="{{ item.icon }}"></i> {{ item.label }}</b>
+            <b>{% if item.icon|default %}<i class="{{ item.icon }}"></i> {% endif %}{{ item.label }}</b>
             {% if item.value is defined %}<span>{{ item.value }}</span>{% endif %}
         </div>
         {% if item.content is defined %}

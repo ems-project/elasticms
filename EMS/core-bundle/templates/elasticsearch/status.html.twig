@@ -4,8 +4,8 @@
     <i class="fa fa-circle text-{{ status }}"></i> {{ status }}
 {%- endblock status %}
 
-{% block title %}{{ title }}{% endblock %}
-{% block pagetitle %}{{ title }}{% endblock %}
+{% block title %}{{ title|trans }}{% endblock %}
+{% block pagetitle %}{{ title|trans }}{% endblock %}
 {% block subtitle %}<small>Life inside a cluster</small>{% endblock %}
 
 {% block breadcrumb %}
@@ -21,15 +21,17 @@
 	<div class="col-md-6 col-lg-4">
         {% if cluster|default %}
 		<div class="box box box-solid">
-			<div class="box-header with-border bg-{{ status }}">
+			<div class="box-header with-border bg-{{ cluster.status }}">
 				<h4 class="box-title">
                     <i class="icon fa fa-cubes fa-2x"></i>
-                    Cluster name: <strong>{{ cluster.cluster_name }}</strong>
+                    {{ cluster.title }}
 				</h4>
 			</div>
             {% if app.user %}
                 <div class="box-body ">
                     <ul class="list-group">
+                        <li class="list-group-item">Cluster name<span
+                                class=" badge bg-{{ status }}">{{ cluster.cluster_name }}</span></li>
                         {% if info is defined and info %}
                             <li class="list-group-item">{{ 'views.elasticsearch.cluster.cluster-uuid'|trans }}<span
                                 class=" badge bg-{{ status }}">{{ info.cluster_uuid }}</span></li>
@@ -123,7 +125,7 @@
 				<div class="box-header with-border bg-{{ asset_extractor.status }}">
 					<h4 class="box-title">
 						<i class="icon fa fa-external-link fa-2x"></i>
-                        {{ asset_extractor.status }}
+                        {{ asset_extractor.title }}
 					</h4>
 				</div>
                 {% if app.user %}

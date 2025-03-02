@@ -14,9 +14,10 @@
         {% endif %}
     </div>
     {% if app.user %}
-        <a href="{{ path('elasticsearch.status') }}" id="status-overview" class="position-absolute top-0 end-0" title="{{ attribute(statusLabel, status)|default('unknown') }}">
+        {% set statusTitle = 'cluster.status'|trans({color: status}, 'emsco-core') %}
+        <a href="{{ path('elasticsearch.status') }}" id="status-overview" class="position-absolute top-0 end-0" title="{{ statusTitle }}">
             {%- with {
-                title: 'cluster.status'|trans({color: status}, 'emsco-core'),
+                title: statusTitle,
                 status: status,
             } -%}
                 {{ block('status', '@EMSAdminUI/bootstrap5/elasticsearch/status.html.twig') }}

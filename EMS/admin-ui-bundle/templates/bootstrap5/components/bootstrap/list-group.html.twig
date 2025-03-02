@@ -12,6 +12,7 @@ Available Variables:
     - value (string, optional): A value displayed on the right side.
     - content (string, optional): Additional content displayed below the label.
     - contentClass (string, optional): Additional CSS classes for the `content` paragraph.
+    - contentTag (string, optional): The HTML tag that surrounds the content, by default, is a 'p'.
 
 Example Usage:
 
@@ -32,9 +33,9 @@ Example Usage:
             {% if item.value is defined %}<span>{{ item.value }}</span>{% endif %}
         </div>
         {% if item.content is defined %}
-            <p class="mt-1 mb-0 {{ item.contentClass|default('') }}">
-                {{ item.content }}
-            </p>
+            <{{ item.contentTag|default('p') }} class="mt-1 mb-0 {{ item.contentClass|default('') }}">
+                {{- item.content -}}
+            </{{ item.contentTag|default('p') }}>
         {% endif %}
     </li>
 {% endfor %}

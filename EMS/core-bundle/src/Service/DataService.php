@@ -538,8 +538,7 @@ class DataService
      */
     public function getCertificateInfo(): array
     {
-        $public_key = $this->public_key;
-        if (empty($public_key)) {
+        if (empty($this->public_key) || empty($this->private_key)) {
             return [
                 'status' => 'yellow',
             ];

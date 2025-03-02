@@ -131,7 +131,7 @@ class ElasticsearchController extends AbstractController
         try {
             $health = $this->elasticaService->getClusterHealth();
             $context['cluster'] = $detailed ? $health : null;
-            $status = $health['status'] ?? 'red';
+            $context['cluster']['status'] = $status = $health['status'] ?? 'red';
             $context['cluster']['title'] = $this->translator->trans('cluster.status', ['color' => $status], 'emsco-core');
             if ('red' === $status) {
                 $statusCode = 500;

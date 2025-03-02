@@ -15,6 +15,7 @@ use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Core\Dashboard\DashboardManager;
 use EMS\CoreBundle\Core\Document\DataLinks;
+use EMS\CoreBundle\Core\UI\Page\Navigation;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Dashboard;
 use EMS\CoreBundle\Entity\Form\ExportDocuments;
@@ -51,6 +52,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use function Symfony\Component\Translation\t;
 
 class ElasticsearchController extends AbstractController
 {
@@ -127,17 +129,17 @@ class ElasticsearchController extends AbstractController
             $health = $this->elasticaService->getClusterHealth();
             $context['cluster'] = $detailed ? $health : null;
             $status = $health['status'] ?? 'red';
-            $title = $this->translator->trans('cluster.status', ['color' => $status], 'emsco-core');
+            $context['cluster']['title'] = $this->translator->trans('cluster.status', ['color' => $status], 'emsco-core');
             if ('red' === $status) {
                 $statusCode = 500;
             }
         } catch (\Throwable $e) {
             $status = 'red';
-            $title = $e->getMessage();
+            $context['cluster']['title'] = $e->getMessage();
             $statusCode = 503;
         }
         $context['status'] = $status;
-        $context['title'] = $title;
+        $context['title'] = $context['cluster']['title'];
 
         if ($detailed) {
             $context['certificate'] = $this->dataService->getCertificateInfo();
@@ -162,7 +164,14 @@ class ElasticsearchController extends AbstractController
                 'body' => $this->renderBlock($htmlTemplate, 'status', $context)->getContent(),
             ]))),
             'xml' => new Response($this->serializer->serialize($context, 'xml'), 200, ['Content-Type' => 'application/xml']),
-            default => $this->render($htmlTemplate, $context),
+            default => $this->render($htmlTemplate, \array_filter(\array_merge($context, [
+                'title' => t('status.title', [], 'emsco-core'),
+                'subTitle' => t('status.title_sub', [], 'emsco-core'),
+                'breadcrumb' => new Navigation()->add(
+                    label: t('status.title', [],'emsco-core'),
+                    icon: 'fa-solid fa-heart',
+                ),
+            ]))),
         };
         $response->setStatusCode($statusCode);
         $allowOrigin = $this->healthCheckAllowOrigin;

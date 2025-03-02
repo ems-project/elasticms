@@ -1,16 +1,4 @@
-{% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}{% trans_default_domain 'emsco-twigs' %}
-
-
-{% block title %}Elasticsearch cluster's status{% endblock %}
-{% block pagetitle %}Status of the cluster{% endblock %}
-{% block subtitle %}<small>Life inside a cluster</small>{% endblock %}
-
-{% block breadcrumb %}
-	<ol class="breadcrumb float-sm-end">
-		<li class="breadcrumb-item"><i class="fa fa-cubes"></i> Elasticsearch</li>
-		<li class="breadcrumb-item active">Status</li>
-	</ol>
-{% endblock %}
+{% extends '@EMSAdminUI/bootstrap5/template/card.html.twig' %}
 
 {% block status -%}
     <i class="fa fa-circle fa-2xs text-{{ status }}"></i>  <span class="visually-hidden">{{ title }}</span>

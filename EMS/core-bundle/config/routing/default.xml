@@ -8,9 +8,11 @@
            controller="EMS\CoreBundle\Controller\DefaultController::documentation"
            methods="GET|HEAD"/>
     <route id="health-check" path="/health_check.{_format}"
-           controller="EMS\CoreBundle\Controller\ElasticsearchController::healthCheck"
+           controller="EMS\CoreBundle\Controller\ElasticsearchController::status"
            methods="GET|POST"
-           format="html"/>
+           format="html">
+        <default key="detailed" xsi:nil="false"/>
+    </route>
     <route id="elasticsearch.status" path="/status.{_format}"
            controller="EMS\CoreBundle\Controller\ElasticsearchController::status"
            methods="GET|POST"

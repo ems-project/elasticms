@@ -534,22 +534,34 @@ class DataService
     }
 
     /**
-     * @return ?array<mixed, mixed>
+     * @return array<mixed, mixed>
      */
-    public function getCertificateInfo(): ?array
+    public function getCertificateInfo(): array
     {
-        if ($this->private_key) {
-            $certificate = \openssl_pkey_get_private($this->private_key);
-            if (false === $certificate) {
-                throw new \RuntimeException('Private key not found');
-            }
-
-            $details = \openssl_pkey_get_details($certificate);
-
-            return $details ?: null;
+        $public_key = $this->public_key;
+        if (empty($public_key)) {
+            return [
+                'status' => 'yellow',
+            ];
         }
 
-        return null;
+        $certificate = \openssl_pkey_get_private($this->private_key);
+        if (false === $certificate) {
+            return [
+                'status' => 'red',
+            ];
+        }
+
+        $details = \openssl_pkey_get_details($certificate);
+        if (false === $details) {
+            return [
+                'status' => 'red',
+            ];
+        }
+
+        return \array_merge($details, [
+            'status' => 'green',
+        ]);
     }
 
     public function testIntegrityInIndexes(Revision $revision): void

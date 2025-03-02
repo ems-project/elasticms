@@ -116,9 +116,19 @@ class ElasticsearchController extends AbstractController
 
     public function healthCheck(string $_format): Response
     {
+        @\trigger_error(\sprintf('The controller method %s::healthCheck is deprecated, please use %s::status with detailed=false', self::class, self::class), E_USER_DEPRECATED);
+
+        return $this->status($_format, false);
+    }
+
+    public function status(string $_format, bool $detailed = true): Response
+    {
         $statusCode = 200;
+        $context = [];
         try {
-            $status = $this->elasticaService->getClusterHealth()['status'] ?? 'red';
+            $health = $this->elasticaService->getClusterHealth();
+            $context['cluster'] = $detailed ? $health : null;
+            $status = $health['status'] ?? 'red';
             $title = $this->translator->trans('cluster.status', ['color' => $status], 'emsco-core');
             if ('red' === $status) {
                 $statusCode = 500;
@@ -128,15 +138,33 @@ class ElasticsearchController extends AbstractController
             $title = $e->getMessage();
             $statusCode = 503;
         }
-        $context = [
-            'status' => $status,
-            'title' => $title,
-        ];
+        $context['status'] = $status;
+        $context['title'] = $title;
+
+        if ($detailed) {
+            $context['cluster']['connection'] = Json::encode($this->elasticsearchCluster, true);
+            
+            $context['certificate'] = $this->dataService->getCertificateInfo();
+            $context['certificate']['title'] = $this->translator->trans('certificate.status', ['color' => $context['certificate']['status'] ?? 'red'], 'emsco-core');
+
+            try {
+                $context['asset_extractor'] = $this->assetExtractorService->hello();
+                $context['asset_extractor']['status'] = 'green';
+                $context['asset_extractor']['title'] = $this->translator->trans('asset_extractor.status', ['color' => 'green'], 'emsco-core');
+            } catch (\Exception $e) {
+                $context['asset_extractor'] = [
+                    'status' => 'red',
+                    'title' => $this->translator->trans('asset_extractor.status', ['color' => 'red'], 'emsco-core'),
+                    'message' => $e->getMessage(),
+                ];
+            }
+        }
+
         $htmlTemplate = "@$this->templateNamespace/elasticsearch/status.html.twig";
         $response = match ($_format) {
-            'json' => new JsonResponse(\array_merge($context, [
+            'json' => new JsonResponse(\array_filter(\array_merge($context, [
                 'body' => $this->renderBlock($htmlTemplate, 'status', $context)->getContent(),
-            ])),
+            ]))),
             default => $this->render($htmlTemplate, $context),
         };
         $response->setStatusCode($statusCode);
@@ -146,51 +174,6 @@ class ElasticsearchController extends AbstractController
         }
 
         return $response;
-    }
-
-    public function status(string $_format): Response
-    {
-        try {
-            $status = $this->elasticaService->getClusterHealth();
-            $certificateInformation = $this->dataService->getCertificateInfo();
-
-            $globalStatus = 'green';
-            try {
-                $tika = $this->assetExtractorService->hello();
-            } catch (\Exception $e) {
-                $globalStatus = 'yellow';
-                $tika = [
-                    'code' => 500,
-                    'content' => $e->getMessage(),
-                ];
-            }
-
-            if ('html' === $_format && 'green' !== $status['status']) {
-                $globalStatus = $status['status'];
-                if ('red' === $status['status']) {
-                    $this->logger->error('log.elasticsearch.cluster_red', [
-                        'color_status' => $status['status'],
-                    ]);
-                } else {
-                    $this->logger->warning('log.elasticsearch.cluster_yellow', [
-                        'color_status' => $status['status'],
-                    ]);
-                }
-            }
-
-            return $this->render("@$this->templateNamespace/elasticsearch/status.$_format.twig", [
-                'status' => $status,
-                'certificate' => $certificateInformation,
-                'tika' => $tika,
-                'globalStatus' => $globalStatus,
-                'info' => $this->elasticaService->getClusterInfo(),
-                'specifiedVersion' => $this->elasticaService->getVersion(),
-            ]);
-        } catch (NoNodesAvailableException) {
-            return $this->render("@$this->templateNamespace/elasticsearch/no-nodes-available.$_format.twig", [
-                'cluster' => $this->elasticsearchCluster,
-            ]);
-        }
     }
 
     public function indexSearch(): Response

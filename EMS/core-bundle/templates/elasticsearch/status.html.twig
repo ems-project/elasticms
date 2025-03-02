@@ -1,5 +1,8 @@
 {% extends '@EMSCore/base.html.twig' %}{% trans_default_domain 'emsco-twigs' %}
 
+{% block status -%}
+    <i class="fa fa-circle text-{{ status }}"></i> {{ status }}
+{%- endblock status %}
 
 {% block title %}Elasticsearch cluster's status{% endblock %}
 {% block pagetitle %}Status of the cluster{% endblock %}

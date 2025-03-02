@@ -29,6 +29,14 @@ action:
     update_content_type_from_json: 'Update {name} from a JSON file'
     update_mapping: 'Update mapping'
     view: View
+cluster:
+    status: |-
+        {color, select,
+            green   {Green: All systems are operating as expected.}
+            yellow  {Yellow: Documents are being indexed. This status shouldn’t last forever.}
+            red     {Red: System issues detected. Please contact your administrator.}
+            other   {Well, that’s odd... Contact your system administrator.}
+        }
 color:
     aqua: Aqua
     black: Black

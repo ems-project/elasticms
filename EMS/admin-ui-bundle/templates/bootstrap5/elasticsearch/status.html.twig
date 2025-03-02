@@ -12,6 +12,9 @@
 	</ol>
 {% endblock %}
 
+{% block status -%}
+    <i class="fa fa-circle fa-2xs text-{{ status }}"></i>  <span class="visually-hidden">{{ title }}</span>
+{%- endblock status %}
 
 {% block body %}
 <div class="row">

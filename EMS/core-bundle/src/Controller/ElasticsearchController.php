@@ -45,10 +45,11 @@ use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ElasticsearchController extends AbstractController
 {
@@ -73,6 +74,7 @@ class ElasticsearchController extends AbstractController
         private readonly ContentTypeRepository $contentTypeRepository,
         private readonly SearchRepository $searchRepository,
         private readonly EnvironmentRepository $environmentRepository,
+        private readonly TranslatorInterface $translator,
         private readonly int $pagingSize,
         private readonly ?string $healthCheckAllowOrigin,
         private readonly array $elasticsearchCluster,
@@ -114,23 +116,36 @@ class ElasticsearchController extends AbstractController
 
     public function healthCheck(string $_format): Response
     {
+        $statusCode = 200;
         try {
-            $health = $this->elasticaService->getClusterHealth();
-
-            $response = $this->render("@$this->templateNamespace/elasticsearch/status.$_format.twig", [
-                'status' => $health,
-                'globalStatus' => $health['status'] ?? 'red',
-            ]);
-
-            $allowOrigin = $this->healthCheckAllowOrigin;
-            if (\is_string($allowOrigin) && \strlen($allowOrigin) > 0) {
-                $response->headers->set('Access-Control-Allow-Origin', $allowOrigin);
+            $status = $this->elasticaService->getClusterHealth()['status'] ?? 'red';
+            $title = $this->translator->trans('cluster.status', ['color' => $status], 'emsco-core');
+            if ('red' === $status) {
+                $statusCode = 500;
             }
-
-            return $response;
-        } catch (\Exception $e) {
-            throw new ServiceUnavailableHttpException('Due to '.$e->getMessage());
+        } catch (\Throwable $e) {
+            $status = 'red';
+            $title = $e->getMessage();
+            $statusCode = 503;
         }
+        $context = [
+            'status' => $status,
+            'title' => $title,
+        ];
+        $htmlTemplate = "@$this->templateNamespace/elasticsearch/status.html.twig";
+        $response = match ($_format) {
+            'json' => new JsonResponse(\array_merge($context, [
+                'body' => $this->renderBlock($htmlTemplate, 'status', $context)->getContent(),
+            ])),
+            default => $this->render($htmlTemplate, $context),
+        };
+        $response->setStatusCode($statusCode);
+        $allowOrigin = $this->healthCheckAllowOrigin;
+        if (\is_string($allowOrigin) && \strlen($allowOrigin) > 0) {
+            $response->headers->set('Access-Control-Allow-Origin', $allowOrigin);
+        }
+
+        return $response;
     }
 
     public function status(string $_format): Response

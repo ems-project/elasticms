@@ -1,8 +1,4 @@
 elements:
-    status:
-        green: 'Green, systems are working as expected'
-        red: 'Red, systems are facing issues. Please contact your system administrator.'
-        yellow: "Yellow, systems are indexing documents. This status can't stay like this forever."
     user-image:
         anonymous: 'Anonymous user'
 side-menu:

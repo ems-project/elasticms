@@ -49,6 +49,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ElasticsearchController extends AbstractController
@@ -75,6 +76,7 @@ class ElasticsearchController extends AbstractController
         private readonly SearchRepository $searchRepository,
         private readonly EnvironmentRepository $environmentRepository,
         private readonly TranslatorInterface $translator,
+        private readonly SerializerInterface $serializer,
         private readonly int $pagingSize,
         private readonly ?string $healthCheckAllowOrigin,
         private readonly array $elasticsearchCluster,
@@ -143,7 +145,7 @@ class ElasticsearchController extends AbstractController
 
         if ($detailed) {
             $context['cluster']['connection'] = Json::encode($this->elasticsearchCluster, true);
-            
+
             $context['certificate'] = $this->dataService->getCertificateInfo();
             $context['certificate']['title'] = $this->translator->trans('certificate.status', ['color' => $context['certificate']['status'] ?? 'red'], 'emsco-core');
 
@@ -165,6 +167,7 @@ class ElasticsearchController extends AbstractController
             'json' => new JsonResponse(\array_filter(\array_merge($context, [
                 'body' => $this->renderBlock($htmlTemplate, 'status', $context)->getContent(),
             ]))),
+            'xml' => new Response($this->serializer->serialize($context, 'xml'), 200, ['Content-Type' => 'application/xml']),
             default => $this->render($htmlTemplate, $context),
         };
         $response->setStatusCode($statusCode);

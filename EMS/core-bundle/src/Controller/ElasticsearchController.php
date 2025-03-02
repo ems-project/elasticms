@@ -123,6 +123,9 @@ class ElasticsearchController extends AbstractController
 
     public function status(string $_format, bool $detailed = true): Response
     {
+        if ($detailed && !$this->authorizationChecker->isGranted('ROLE_USER')) {
+            $detailed = false;
+        }
         $statusCode = 200;
         $context = [];
         try {

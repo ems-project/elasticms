@@ -13,6 +13,7 @@ Available Variables:
     - content (string, optional): Additional content displayed below the label.
     - contentClass (string, optional): Additional CSS classes for the `content` paragraph.
     - contentTag (string, optional): The HTML tag that surrounds the content, by default, is a 'p'.
+    - link (string, optional): A link on the label.
 
 Example Usage:
 
@@ -29,7 +30,9 @@ Example Usage:
 {% for item in list %}
     <li class="list-group-item">
         <div class="d-flex w-100 justify-content-between">
+            {% if item.link|default %}<a href="{{ item.link }}">{% endif %}
             <b>{% if item.icon|default %}<i class="{{ item.icon }}"></i> {% endif %}{{ item.label }}</b>
+            {% if item.link|default %}</a>{% endif %}
             {% if item.value is defined %}<span>{{ item.value }}</span>{% endif %}
         </div>
         {% if item.content is defined %}

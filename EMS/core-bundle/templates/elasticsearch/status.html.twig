@@ -32,20 +32,18 @@
                     <ul class="list-group">
                         <li class="list-group-item">Cluster name<span
                                 class=" badge bg-{{ status }}">{{ cluster.cluster_name }}</span></li>
-                        {% if info is defined and info %}
-                            <li class="list-group-item">{{ 'views.elasticsearch.cluster.cluster-uuid'|trans }}<span
-                                class=" badge bg-{{ status }}">{{ info.cluster_uuid }}</span></li>
-                            <li class="list-group-item">{{ 'views.elasticsearch.cluster.tagline'|trans }}<span
-                                class=" badge bg-{{ status }}">{{ info.tagline }}</span></li>
-                            <li class="list-group-item">{{ 'views.elasticsearch.cluster.node-name'|trans }}<span
-                                class=" badge bg-{{ status }}">{{ info.name }}</span></li>
-                            <li class="list-group-item">{{ 'views.elasticsearch.cluster.version'|trans }}<span
-                                class=" badge bg-{{ status }}">{{ info.version.number }}</span></li>
-                            <li class="list-group-item">{{ 'views.elasticsearch.cluster.lucene-version'|trans }}<span
-                                class=" badge bg-{{ status }}">{{ info.version.lucene_version }}</span></li>
-                            <li class="list-group-item">{{ 'views.elasticsearch.cluster.build-date'|trans }}<span
-                                class=" badge bg-{{ status }}">{{ info.version.build_date|split('.')|first|date(date_time_format) }}</span></li>
-                        {% endif %}
+                        <li class="list-group-item">{{ 'views.elasticsearch.cluster.cluster-uuid'|trans }}<span
+                            class=" badge bg-{{ status }}">{{ cluster.cluster_uuid }}</span></li>
+                        <li class="list-group-item">{{ 'views.elasticsearch.cluster.tagline'|trans }}<span
+                            class=" badge bg-{{ status }}">{{ cluster.tagline }}</span></li>
+                        <li class="list-group-item">{{ 'views.elasticsearch.cluster.node-name'|trans }}<span
+                            class=" badge bg-{{ status }}">{{ cluster.name }}</span></li>
+                        <li class="list-group-item">{{ 'views.elasticsearch.cluster.version'|trans }}<span
+                            class=" badge bg-{{ status }}">{{ cluster.version.number }}</span></li>
+                        <li class="list-group-item">{{ 'views.elasticsearch.cluster.lucene-version'|trans }}<span
+                            class=" badge bg-{{ status }}">{{ cluster.version.lucene_version }}</span></li>
+                        <li class="list-group-item">{{ 'views.elasticsearch.cluster.build-date'|trans }}<span
+                            class=" badge bg-{{ status }}">{{ cluster.version.build_date|split('.')|first|date(date_time_format) }}</span></li>
                         <li class="list-group-item">Number of nodes <span
                             class=" badge bg-{{ status }}">{{ cluster.number_of_nodes }}</span></li>
                         <li class="list-group-item">Number of data nodes <span

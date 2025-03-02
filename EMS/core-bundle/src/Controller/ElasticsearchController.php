@@ -52,6 +52,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+
 use function Symfony\Component\Translation\t;
 
 class ElasticsearchController extends AbstractController
@@ -145,6 +146,8 @@ class ElasticsearchController extends AbstractController
         $context['title'] = $context['cluster']['title'];
 
         if ($detailed) {
+            $context['cluster'] = \array_merge($context['cluster'], $this->elasticaService->getClusterInfo());
+
             $context['certificate'] = $this->dataService->getCertificateInfo();
             $context['certificate']['title'] = $this->translator->trans('certificate.status', ['color' => $context['certificate']['status'] ?? 'red'], 'emsco-core');
 
@@ -171,7 +174,7 @@ class ElasticsearchController extends AbstractController
                 'title' => t('status.title', [], 'emsco-core'),
                 'subTitle' => t('status.title_sub', [], 'emsco-core'),
                 'breadcrumb' => new Navigation()->add(
-                    label: t('status.title', [],'emsco-core'),
+                    label: t('status.title', [], 'emsco-core'),
                     icon: 'fa-solid fa-stethoscope',
                 ),
             ]))),

@@ -67,8 +67,8 @@ class DataService
     final public const int ALGO = OPENSSL_ALGO_SHA1;
     protected const SCROLL_TIMEOUT = '1m';
 
-    private false|\OpenSSLAsymmetricKey|null $private_key = null;
-    private ?string $public_key = null;
+    private false|\OpenSSLAsymmetricKey|null $privateKey = null;
+    private ?string $publicKey = null;
 
     /** @var array<mixed> */
     private array $cacheBusinessKey = [];
@@ -112,7 +112,7 @@ class DataService
                     throw new \RuntimeException(\sprintf('Could not open file in "%s"', $privateKey));
                 }
 
-                $this->private_key = \openssl_pkey_get_private($privateKeyContent);
+                $this->privateKey = \openssl_pkey_get_private($privateKeyContent);
             } catch (\Exception $e) {
                 $this->logger->warning('service.data.not_able_to_load_the_private_key', [
                     EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
@@ -474,9 +474,9 @@ class DataService
         $hash = $this->storageManager->computeStringHash($json);
         $objectArray[Mapping::HASH_FIELD] = $hash;
 
-        if ($this->private_key) {
+        if ($this->privateKey) {
             $signature = null;
-            if (\openssl_sign($json, $signature, $this->private_key, OPENSSL_ALGO_SHA1)) {
+            if (\openssl_sign($json, $signature, $this->privateKey, OPENSSL_ALGO_SHA1)) {
                 $objectArray[Mapping::SIGNATURE_FIELD] = \base64_encode((string) $signature);
             } else {
                 $this->logger->warning('service.data.not_able_to_sign', [
@@ -521,16 +521,16 @@ class DataService
 
     public function getPublicKey(): ?string
     {
-        if ($this->private_key && empty($this->public_key)) {
-            $certificate = \openssl_pkey_get_private($this->private_key);
+        if ($this->privateKey && empty($this->publicKey)) {
+            $certificate = \openssl_pkey_get_private($this->privateKey);
             if (false === $certificate) {
                 throw new \RuntimeException('Private key not found');
             }
             $details = \openssl_pkey_get_details($certificate);
-            $this->public_key = $details ? ($details['key'] ?? null) : null;
+            $this->publicKey = $details ? ($details['key'] ?? null) : null;
         }
 
-        return $this->public_key;
+        return $this->publicKey;
     }
 
     /**
@@ -538,13 +538,13 @@ class DataService
      */
     public function getCertificateInfo(): array
     {
-        if (empty($this->public_key) || empty($this->private_key)) {
+        if (empty($this->publicKey) || empty($this->privateKey)) {
             return [
                 'status' => 'yellow',
             ];
         }
 
-        $certificate = \openssl_pkey_get_private($this->private_key);
+        $certificate = \openssl_pkey_get_private($this->privateKey);
         if (false === $certificate) {
             return [
                 'status' => 'red',
@@ -632,7 +632,7 @@ class DataService
                         }
                     } else {
                         $data = Json::encode($indexedItem);
-                        if ($this->private_key) {
+                        if ($this->privateKey) {
                             $this->logger->info('service.data.revision_not_signed', [
                                 EmsFields::LOG_REVISION_ID_FIELD => $revision->getId(),
                                 EmsFields::LOG_CONTENTTYPE_FIELD => $revision->giveContentType()->getName(),

@@ -370,6 +370,7 @@ type:
             content_type    {Create content type}
             form            {Create form}
             job             {Launch new job}
+            search          {Create search}
             wysiwyg_profile {Create profile}
             other           {Create}
         }

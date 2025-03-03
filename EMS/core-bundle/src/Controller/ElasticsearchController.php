@@ -508,6 +508,11 @@ class ElasticsearchController extends AbstractController
 
                 return $this->render("@$this->templateNamespace/elasticsearch/save-search.html.twig", [
                     'form' => $form->createView(),
+                    'title' => t('type.title_create', ['type' => 'search'], 'emsco-core'),
+                    'subTitle' => t('type.title_sub', ['type' => 'search'], 'emsco-core'),
+                    'breadcrumb' => $this->breadcrumb($search)->add(
+                        t('type.title_create', ['type' => 'search'], 'emsco-core')
+                    ),
                 ]);
             } elseif ($form->isSubmitted() && $form->isValid() && \array_key_exists('delete', $request->query->all('search_form'))) {
                 // Form treatment after the "Delete" button has been pressed (to delete a previous saved search preset)

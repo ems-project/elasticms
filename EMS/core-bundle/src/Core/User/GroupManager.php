@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Core\User;
 
 use EMS\CommonBundle\Entity\EntityInterface;
+use EMS\CoreBundle\Entity\Form;
 use EMS\CoreBundle\Entity\Group;
 use EMS\CoreBundle\Repository\GroupRepository;
 use EMS\CoreBundle\Service\EntityServiceInterface;
@@ -42,14 +43,20 @@ class GroupManager implements EntityServiceInterface
 
     public function getAliasesName(): array
     {
-        // TODO: Implement getAliasesName() method.
-        return [];
+        return [
+            'groups',
+            'Group',
+            'Groups',
+        ];
     }
 
     public function count(string $searchValue = '', mixed $context = null): int
     {
-        // TODO: Implement count() method.
-        return 0;
+        if (null !== $context) {
+            throw new \RuntimeException('Unexpected not null context');
+        }
+
+        return $this->groupRepository->counter($searchValue);
     }
 
     public function getByItemName(string $name): ?EntityInterface
@@ -59,22 +66,30 @@ class GroupManager implements EntityServiceInterface
 
     public function updateEntityFromJson(EntityInterface $entity, string $json): EntityInterface
     {
-        // TODO: Implement updateEntityFromJson() method.
-        return $entity;
+        if (!$entity instanceof Group) {
+            throw new \RuntimeException('Unexpected group object');
+        }
+        $group = Group::fromJson($json, $entity);
+        $this->groupRepository->save($group);
+
+        return $group;
     }
 
     public function createEntityFromJson(string $json, ?string $name = null): EntityInterface
     {
-        // TODO: Implement createEntityFromJson() method.
-        $form = Form::fromJson($json);
-
-        return $form;
+        return Group::fromJson($json);
     }
 
     public function deleteByItemName(string $name): string
     {
-        // TODO: Implement deleteByItemName() method.
-        return '';
+        $group = $this->groupRepository->getByName($name);
+        if (null === $group) {
+            throw new \RuntimeException(\sprintf('Form %s not found', $name));
+        }
+        $id = $group->getName();
+        $this->groupRepository->delete($group);
+
+        return $id;
     }
 
     public function deleteGroup(Group $group): void

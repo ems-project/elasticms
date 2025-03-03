@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Entity;
 
 use EMS\CommonBundle\Entity\CreatedModifiedTrait;
+use EMS\CoreBundle\Entity\Helper\JsonClass;
 use Ramsey\Uuid\UuidInterface;
 
 class Group implements EntityInterface
@@ -77,5 +78,15 @@ class Group implements EntityInterface
     public function setOrderKey(int $key): void
     {
         $this->orderKey = $key;
+    }
+    public static function fromJson(string $json, ?EntityInterface $group = null): Group
+    {
+        $meta = JsonClass::fromJsonString($json);
+        $group = $meta->jsonDeserialize($group);
+        if (!$group instanceof Group) {
+            throw new \Exception(\sprintf('Unexpected object class, got %s', $meta->getClass()));
+        }
+
+        return $group;
     }
 }

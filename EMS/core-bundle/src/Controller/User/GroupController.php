@@ -68,21 +68,9 @@ class GroupController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //            dump($this->getClickedButtonName($form));
-            //            if (GroupType::DELETE_BUTTON === $this->getClickedButtonName($form)) {
-            //                dump('c un delete');
-            //            }
             $this->groupManager->create($group);
-
-            //            $continue = $this->userExist($group, 'add');
-            //
-            //            if ($continue) {
-            //                $group->setEnabled(true);
-            //                $this->groupManager->update($group);
-            //                $this->addFlash('notice', 'User created!');
-            //
+            
             return $this->redirectToRoute('emsco_group_admin_index');
-            //            }
         }
 
         return $this->render("@$this->templateNamespace/group/create.html.twig", [

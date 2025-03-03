@@ -92,4 +92,5 @@ class GroupRepository extends ServiceEntityRepository
 
         return $group instanceof Group ? $group : null;
     }
+    
 }

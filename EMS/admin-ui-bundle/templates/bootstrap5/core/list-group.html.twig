@@ -7,11 +7,13 @@ Each list item contains an icon, a label, an optional value, and an optional con
 
 Available Variables:
 - list (array, required): An array of items, each containing:
-    - icon (string, required): The CSS class for the icon (e.g., FontAwesome or Bootstrap icons).
+    - icon (string, optional): The CSS class for the icon (e.g., FontAwesome or Bootstrap icons).
     - label (string, required): The main label text for the list item.
     - value (string, optional): A value displayed on the right side.
     - content (string, optional): Additional content displayed below the label.
     - contentClass (string, optional): Additional CSS classes for the `content` paragraph.
+    - contentTag (string, optional): The HTML tag that surrounds the content, by default, is a 'p'.
+    - link (string, optional): A link on the label.
 
 Example Usage:
 
@@ -21,20 +23,22 @@ Example Usage:
     { icon: 'fas fa-envelope', label: 'Email', value: 'john@example.com' },
     { icon: 'fas fa-info-circle', label: 'Notes', content: 'This user is an admin.', contentClass: 'text-muted' }
 ] %}
-{% include '@EMSAdminUI/bootstrap5/components/bootstrap/list-group.html.twig' with { list: items } %}
+{% include '@EMSAdminUI/bootstrap5/core/list-group.html.twig' with { list: items } %}
 ```
 #}
 <ul class="list-group list-group-unbordered">
 {% for item in list %}
     <li class="list-group-item">
         <div class="d-flex w-100 justify-content-between">
-            <b><i class="{{ item.icon }}"></i> {{ item.label }}</b>
+            {% if item.link|default %}<a href="{{ item.link }}">{% endif %}
+            <b>{% if item.icon|default %}<i class="{{ item.icon }}"></i> {% endif %}{{ item.label }}</b>
+            {% if item.link|default %}</a>{% endif %}
             {% if item.value is defined %}<span>{{ item.value }}</span>{% endif %}
         </div>
         {% if item.content is defined %}
-            <p class="mt-1 mb-0 {{ item.contentClass|default('') }}">
-                {{ item.content }}
-            </p>
+            <{{ item.contentTag|default('p') }} class="mt-1 mb-0 {{ item.contentClass|default('') }}">
+                {{- item.content -}}
+            </{{ item.contentTag|default('p') }}>
         {% endif %}
     </li>
 {% endfor %}

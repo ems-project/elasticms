@@ -25,42 +25,42 @@
         <ul class="pagination pagination-sm no-margin float-end">
 
         {% if currentPage > 1 %}
-            <li><a href="{{ path(paginationPath, currentFilters|merge({(pageParameter): currentPage-1})) }}">«</a></li>
+            <li class="page-item"><a class="page-link" href="{{ path(paginationPath, currentFilters|merge({(pageParameter): currentPage-1})) }}">«</a></li>
 
             {% for i in range(1, extremePagesLimit)|filter(i => i < (currentPage - nearbyPagesLimit)) %}
-                <li><a href="{{ path(paginationPath, currentFilters|merge({(pageParameter): i})) }}">{{ i }}</a></li>
+                <li class="page-item"><a class="page-link" href="{{ path(paginationPath, currentFilters|merge({(pageParameter): i})) }}">{{ i }}</a></li>
             {% endfor %}
 
             {% if extremePagesLimit + 1 < currentPage - nearbyPagesLimit %}
-                <li><span class="sep-dots">...</span></li>
+                <li class="page-item disabled"><span class="page-link">...</span></li>
             {% endif %}
 
             {% for i in range(currentPage-nearbyPagesLimit, currentPage-1)|filter(i => i > 0) %}
-                <li><a href="{{ path(paginationPath, currentFilters|merge({(pageParameter): i})) }}">{{ i }}</a></li>
+                <li class="page-item"><a class="page-link" href="{{ path(paginationPath, currentFilters|merge({(pageParameter): i})) }}">{{ i }}</a></li>
             {% endfor %}
         {% elseif showAlwaysFirstAndLast %}
-            <li class="disabled">«</li>
+            <li class="page-item"><span class="page-link disabled">«</span></li>
         {% endif %}
 
-        <li class="active"><a href="{{ path(paginationPath, currentFilters|merge({ (pageParameter): currentPage })) }}"
+        <li class="page-item active"><a class="page-link" href="{{ path(paginationPath, currentFilters|merge({ (pageParameter): currentPage })) }}"
            >{{ currentPage }}</a></li>
 
         {% if currentPage < lastPage %}
             {% for i in range(currentPage+1, currentPage + nearbyPagesLimit)|filter(i => i <= lastPage) %}
-                <li><a href="{{ path(paginationPath, currentFilters|merge({page: i})) }}">{{ i }}</a></li>
+                <li class="page-item"><a class="page-link" href="{{ path(paginationPath, currentFilters|merge({page: i})) }}">{{ i }}</a></li>
             {% endfor %}
 
             {% if  (lastPage - extremePagesLimit) > (currentPage + nearbyPagesLimit) %}
-                <li><span class="sep-dots">...</span></li>
+                <li class="page-item disabled"><span class="page-link">...</span></li>
             {% endif %}
 
             {% for i in range(lastPage - extremePagesLimit+1, lastPage)|filter(i => i > (currentPage + nearbyPagesLimit)) %}
-                <li><a href="{{ path(paginationPath, currentFilters|merge({(pageParameter): i})) }}">{{ i }}</a></li>
+                <li class="page-item"><a class="page-link" href="{{ path(paginationPath, currentFilters|merge({(pageParameter): i})) }}">{{ i }}</a></li>
             {% endfor %}
 
-            <li><a href="{{ path(paginationPath, currentFilters|merge({(pageParameter): currentPage+1})) }}">»</a></li>
+            <li class="page-item"><a class="page-link" href="{{ path(paginationPath, currentFilters|merge({(pageParameter): currentPage+1})) }}">»</a></li>
         {% elseif showAlwaysFirstAndLast %}
-            <li class="disabled">»</li>
+            <li class="page-item disabled"><span class="page-link">»</span></li>
         {% endif %}
     </ul>
 {% endif %}

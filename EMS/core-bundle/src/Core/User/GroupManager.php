@@ -54,8 +54,7 @@ class GroupManager implements EntityServiceInterface
 
     public function getByItemName(string $name): ?EntityInterface
     {
-        // TODO: Implement getByItemName() method.
-        return null;
+        return $this->groupRepository->getByName($name);
     }
 
     public function updateEntityFromJson(EntityInterface $entity, string $json): EntityInterface
@@ -84,7 +83,7 @@ class GroupManager implements EntityServiceInterface
     }
     public function editGroup(Group $group): void
     {
-        $this->groupRepository->delete($group);
+        $this->groupRepository->edit($group);
     }
     public function deleteAllGroup(): void
     {

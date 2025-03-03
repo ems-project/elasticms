@@ -6,6 +6,7 @@ namespace EMS\CoreBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use EMS\CoreBundle\Entity\Form;
 use EMS\CoreBundle\Entity\Group;
 
 class GroupRepository extends ServiceEntityRepository
@@ -24,6 +25,13 @@ class GroupRepository extends ServiceEntityRepository
 
     public function save(Group $group): void
     {
+        $existingGroup = $this->getEntityManager()
+            ->getRepository(Group::class)
+            ->findOneBy(['name' => $group->getName()]); 
+
+        if ($existingGroup) {
+            throw new \Exception("Le groupe avec ce nom existe déjà.");
+        }
         $this->getEntityManager()->persist($group);
         $this->getEntityManager()->flush();
     }
@@ -63,5 +71,25 @@ class GroupRepository extends ServiceEntityRepository
         $em->delete(Group::class, 'c')
             ->getQuery()
             ->execute();
+    }
+
+    public function edit(Group $group):void
+    {
+        $this->getEntityManager()->persist($group);
+        $this->getEntityManager()->flush();
+    }
+    
+    public function getByName(string $name): ?Group
+    {
+        $qb = $this->createQueryBuilder('group');
+        $qb
+            ->addSelect('fieldType')
+            ->leftJoin('form.fieldType', 'fieldType')
+            ->andWhere($qb->expr()->eq('group.name', ':name'))
+            ->setParameter('name', $name);
+
+        $group = $qb->getQuery()->getOneOrNullResult();
+
+        return $group instanceof Group ? $group : null;
     }
 }

@@ -6,6 +6,7 @@ namespace EMS\CoreBundle\DataTable\Type;
 
 use EMS\CoreBundle\Core\DataTable\Type\AbstractEntityTableType;
 use EMS\CoreBundle\Core\User\GroupManager;
+use EMS\CoreBundle\Form\Data\BoolTableColumn;
 use EMS\CoreBundle\Form\Data\EntityTable;
 use EMS\CoreBundle\Routes;
 
@@ -21,7 +22,10 @@ class GroupDataTableType extends AbstractEntityTableType
     #[\Override]
     public function build(EntityTable $table): void
     {
+        $table->addColumnDefinition(new BoolTableColumn('user.index.column.enabled', 'select'));
+
         $this
+            ->addColumnsCreatedModifiedDate($table)
             ->addColumnsOrderLabelName($table)
             ->addTableActionDelete($table, 'group_delete', 'Delete')
             ->addItemDelete($table, 'group', Routes::GROUP_DELETE)

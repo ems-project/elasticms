@@ -6,7 +6,7 @@
 
 {% block body %}
     <ul>
-    {%  for user in test %}
+    {%  for user in list_user_group %}
         <li style="display: flex; justify-content: flex-start; align-items: center; margin-bottom: 10px;">
             {{ user.name }}
             <button class="btn btn-danger" style="margin-left: 10px;">delete</button>

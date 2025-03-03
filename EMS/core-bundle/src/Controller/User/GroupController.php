@@ -38,23 +38,21 @@ class GroupController extends AbstractController
     public function index(Request $request): Response
     {
         $table = $this->dataTableFactory->create(GroupDataTableType::class);
-        $test = $this->groupManager->getAll();
+        $list_user_group = $this->groupManager->getAll();
 
         $form = $this->createForm(TableType::class, $table, [
             'reorder_label' => t('type.reorder', ['type' => 'form'], 'emsco-core'),
         ]);
         $form->handleRequest($request);
         if ($this->getClickedButtonName($form)) {
-            \dump($this->getClickedButtonName($form));
-
             return $this->render("@$this->templateNamespace/group/create.html.twig", [
-                'test' => $test,
+                'list_user_group' => $list_user_group,
                 'form' => $form,
             ]);
         }
 
         return $this->render("@$this->templateNamespace/crud/overview.html.twig", [
-            'test' => $test,
+            'list_user_group' =>$list_user_group,
             'form' => $form,
             'title' => t('type.title_overview', ['type' => 'group'], 'emsco-core'),
             'subTitle' => t('type.title_sub', ['type' => 'group'], 'emsco-core'),
@@ -112,7 +110,7 @@ class GroupController extends AbstractController
         
         if ($form->isSubmitted() && $form->isValid()) {
             $this->groupManager->editGroup($group);
-            $this->redirectToRoute('emsco_group_admin_index');
+            return $this->redirectToRoute('emsco_group_admin_index');
         }
         
         return $this->render("@$this->templateNamespace/group/create.html.twig", [

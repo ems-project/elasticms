@@ -1,7 +1,5 @@
 {% extends '@EMSCore/base.html.twig' %}
 
-
-
 {% block pagetitle %}Test{% endblock %}
 
 {% block body %}
@@ -9,12 +7,12 @@
     {%  for user in list_user_group %}
         <li style="display: flex; justify-content: flex-start; align-items: center; margin-bottom: 10px;">
             {{ user.name }}
-            <button class="btn btn-danger" style="margin-left: 10px;">delete</button>
+            <button class="btn btn-danger" style="margin-left: 10px;">{{ 'action.delete_all'|trans({}, 'emsco-core') }}</button>
         </li>
     {% endfor %}
     </ul>
     <form action="group/add">
-        <button type="submit" class="btn btn-primary" style="margin-left: 5px;">Add group</button>
+        <button type="submit" class="btn btn-primary" style="margin-left: 5px;">{{ 'action.add_user_group'|trans({}, 'emsco-core') }}</button>
     </form>
 {% endblock %}
 

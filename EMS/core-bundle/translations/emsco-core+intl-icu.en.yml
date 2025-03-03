@@ -1,6 +1,7 @@
 action:
     activate: Activate
     add: Add
+    add_user_group: Add User Group
     add_alias: 'Add alias'
     add_referenced: 'Add referenced'
     add_referenced_content_type: 'Add a reference content type'

@@ -8,6 +8,7 @@ use EMS\CoreBundle\Core\DataTable\Type\AbstractEntityTableType;
 use EMS\CoreBundle\Core\User\GroupManager;
 use EMS\CoreBundle\Form\Data\BoolTableColumn;
 use EMS\CoreBundle\Form\Data\EntityTable;
+use EMS\CoreBundle\Form\Data\TableAbstract;
 use EMS\CoreBundle\Routes;
 
 class GroupDataTableType extends AbstractEntityTableType
@@ -31,6 +32,7 @@ class GroupDataTableType extends AbstractEntityTableType
             ->addItemDelete($table, 'group', Routes::GROUP_DELETE)
             ->addItemEdit($table, Routes::GROUP_EDIT)
             ->addTableToolbarActionAdd($table, Routes::GROUP_ADD)
-            ->addTableToolbarActionDelete($table, Routes::DELETE_ALL_GROUP);
+            ->addTableToolbarActionDelete($table, Routes::GROUP_DELETE_ALL);
+
     }
 }

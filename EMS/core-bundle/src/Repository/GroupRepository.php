@@ -30,7 +30,7 @@ class GroupRepository extends ServiceEntityRepository
             ->findOneBy(['name' => $group->getName()]); 
 
         if ($existingGroup) {
-            throw new \Exception("Le groupe avec ce nom existe déjà.");
+            throw new \Exception("The group with this name already exists.");
         }
         $this->getEntityManager()->persist($group);
         $this->getEntityManager()->flush();

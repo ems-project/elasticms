@@ -21,12 +21,8 @@ final class GroupType extends AbstractType
     public const string MODE_UPDATE = 'update';
     public const string UPDATE_BUTTON = 'update_button';
     public const string CREATE_BUTTON = 'create_button';
-    public const string DELETE_BUTTON = 'delete_button';
 
-    public function __construct()
-    {
-    }
-
+   
     /**
      * @param FormBuilderInterface<mixed> $builder
      * @param array<string, mixed>        $options
@@ -60,12 +56,6 @@ final class GroupType extends AbstractType
                     'class' => 'btn btn-primary btn-sm ',
                 ],
                 'icon' => 'fa fa-save',
-                'translation_domain' => EMSCoreBundle::TRANS_DOMAIN,
-            ])->add(self::DELETE_BUTTON, SubmitEmsType::class, [
-                'attr' => [
-                    'class' => 'btn btn-primary btn-sm ',
-                ],
-                'icon' => 'fa fa-trash',
                 'translation_domain' => EMSCoreBundle::TRANS_DOMAIN,
             ]);
         }

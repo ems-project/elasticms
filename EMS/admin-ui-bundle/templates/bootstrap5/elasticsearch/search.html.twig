@@ -10,8 +10,26 @@
 	</div>
 
     {% if response and response.totalDocuments > 0 %}
+        {% set pagination %}
+            {% if lastPage > 1 %}
+                {% include '@EMSAdminUI/bootstrap5/elements/pagination.html.twig' with {
+                    'lastPage': lastPage,
+                    'currentPage': page,
+                    'currentFilters': app.request.query,
+                    'paginationPath': paginationPath,
+                    'showAlwaysFirstAndLast': false
+                } %}
+            {% endif %}
+        {% endset %}
         <div id="search-page" class="col-md-9">
-            {{ block('searchPage') }}
+            {% with {
+                form: null,
+                searchForm: form,
+                header: pagination,
+                footer: pagination,
+            } %}
+                {{ parent() }}
+            {% endwith %}
         </div>
         <div id="search-facets" class="col-md-3">
             {{ block('searchFacets') }}
@@ -21,85 +39,64 @@
 </div>
 {% endblock %}
 
-{% block searchPage %}
-    <div class="card card-{{ theme_color }} card-outline">
-        {% if lastPage > 1 %}
+{% block header %}
+    <div class="card-footer">
+        {{ header }}
+    </div>
+{% endblock %}
+
+{% block content %}
+    {% for result in response.documents %}
+        <div class="card card-light">
             <div class="card-header">
-                {% include '@EMSAdminUI/bootstrap5/elements/pagination.html.twig' with {
-                    'lastPage': lastPage,
-                    'currentPage': page,
-                    'currentFilters': app.request.query,
-                    'paginationPath': paginationPath,
-                    'showAlwaysFirstAndLast': false
-                } %}
+                {% if attribute(types, result.contentType) is defined %}
+                    <span class="text-{{ attribute(types, result.contentType).color }}">
+                    <i class="{{ attribute(types, result.contentType).icon }}"></i>
+                    {% if searchForm.vars.data.environments|length != 1 %}
+                        {{ attribute(types, result.contentType).singularName }} |
+                    {% endif %}
+
+                        {% set resultLabel = result|emsco_display %}
+                        {{ resultLabel }}
+                        {% if resultLabel != result.id or emsco_is_super() %}<small>({{ result.id }})</small>{% endif %}
+                </span>
+                {% else %}
+                    <i class="fa fa-question"></i>
+                    {{ result.contentType|humanize }} | {{ result.id }}
+                {% endif %}
+
             </div>
-        {% endif %}
-        <div class="card-body">
-            {% for result in response.documents %}
-                <div class="card card-light">
-                    <div class="card-header">
-                        {% if attribute(types, result.contentType) is defined %}
-                            <span class="text-{{ attribute(types, result.contentType).color }}">
-                            <i class="{{ attribute(types, result.contentType).icon }}"></i>
-                            {% if form.vars.data.environments|length != 1 %}
-                                {{ attribute(types, result.contentType).singularName }} |
-                            {% endif %}
-
-                                {% set resultLabel = result|emsco_display %}
-                                {{ resultLabel }}
-                                {% if resultLabel != result.id or emsco_is_super() %}<small>({{ result.id }})</small>{% endif %}
-                        </span>
-                        {% else %}
-                            <i class="fa fa-question"></i>
-                            {{ result.contentType|humanize }} | {{ result.id }}
-                        {% endif %}
-
-                    </div>
-                    {% if result.highlight is defined and result.highlight %}
-                        <div class="card-body">
-                            <div class="col-12">
-                                {{ result.highlight._all.0|e|replace({'&lt;em&gt;': '<em>', '&lt;/em&gt;': '</em>'})|raw }}
-                            </div>
-                        </div>
-                    {% endif %}
-                    {% if attribute(types, result.contentType) is defined and attribute(types, result.contentType).indexTwig %}
-                        <div class="card-body">
-                            <div class="col-12">
-                                {{ attribute(types, result.contentType).indexTwig|emsco_generate_from_template({
-                                    environment: attribute(indexes, result.index),
-                                    contentType: attribute(types, result.contentType),
-                                    object: result,
-                                    source: result.source
-                                })|raw }}
-                            </div>
-                        </div>
-                    {% endif %}
-                    <div class="card-footer">
-                        {% if attribute(types, result.contentType) is defined %}
-                            {% include '@EMSAdminUI/bootstrap5/elements/object-toolbar.html.twig' with {
-                                environment: attribute(indexes, result.index),
-                                contentType: attribute(types, result.contentType),
-                                object: result.raw,
-                            } %}
-                        {% endif %}
+            {% if result.highlight is defined and result.highlight %}
+                <div class="card-body">
+                    <div class="col-12">
+                        {{ result.highlight._all.0|e|replace({'&lt;em&gt;': '<em>', '&lt;/em&gt;': '</em>'})|raw }}
                     </div>
                 </div>
-
-            {% endfor %}
-        </div>
-        {% if lastPage > 1 %}
+            {% endif %}
+            {% if attribute(types, result.contentType) is defined and attribute(types, result.contentType).indexTwig %}
+                <div class="card-body">
+                    <div class="col-12">
+                        {{ attribute(types, result.contentType).indexTwig|emsco_generate_from_template({
+                            environment: attribute(indexes, result.index),
+                            contentType: attribute(types, result.contentType),
+                            object: result,
+                            source: result.source
+                        })|raw }}
+                    </div>
+                </div>
+            {% endif %}
             <div class="card-footer">
-                {% include '@EMSAdminUI/bootstrap5/elements/pagination.html.twig' with {
-                    'lastPage': lastPage,
-                    'currentPage': page,
-                    'currentFilters': app.request.query,
-                    'paginationPath': paginationPath,
-                    'showAlwaysFirstAndLast': false
-                } %}
+                {% if attribute(types, result.contentType) is defined %}
+                    {% include '@EMSAdminUI/bootstrap5/elements/object-toolbar.html.twig' with {
+                        environment: attribute(indexes, result.index),
+                        contentType: attribute(types, result.contentType),
+                        object: result.raw,
+                    } %}
+                {% endif %}
             </div>
-        {% endif %}
-    </div>
-{% endblock searchPage %}
+        </div>
+    {% endfor %}
+{% endblock content %}
 
 {% block searchFacets %}
     {% if sortOptions|length %}

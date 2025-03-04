@@ -648,7 +648,7 @@ class ElasticsearchController extends AbstractController
 
     private function breadcrumb(?Search $search = null): Navigation
     {
-        return Navigation::admin()->add(
+        return Navigation::data()->add(
             label: t('key.search', [], 'emsco-core'),
             icon: 'fa fa-search',
             route: 'ems_search',

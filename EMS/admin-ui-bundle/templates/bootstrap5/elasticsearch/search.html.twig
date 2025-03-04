@@ -1,4 +1,5 @@
 {% extends '@EMSAdminUI/bootstrap5/template/card.html.twig' %}
+{% trans_default_domain 'ems-adminui-twigs' %}
 
 
 {% block body %}
@@ -34,7 +35,6 @@
         <div id="search-facets" class="col-md-3">
             {{ block('searchFacets') }}
         </div>
-        {{ block('publishButton') }}
 	{% endif %}
 </div>
 {% endblock %}
@@ -43,6 +43,20 @@
     <div class="card-footer">
         {{ header }}
     </div>
+{% endblock %}
+
+{% block footer %}
+    {% if body is defined and searchForm.environments.vars.value|length == 1  and searchForm.contentTypes.vars.value|length == 1  and is_granted(searchForm.contentTypes.vars.value.0|emsco_get_content_type.roles.publish) and searchForm.environments.vars.value|first|emsco_get_environment.managed and response.total > 1 %}
+        {% set footer %}
+            {% include '@EMSAdminUI/bootstrap5/elements/get-button.html.twig' with {
+                'url':  path('search.publish', app.request.query.all ),
+                'label': 'Publish '~response.formattedTotal|default('not-applicable'|trans)~' '~searchForm.contentTypes.vars.value.0|emsco_get_content_type.pluralName,
+                'icon': 'fa fa-upload'
+            } %}
+            {{ footer|default('') }}
+        {% endset %}
+    {% endif %}
+    {{ parent() }}
 {% endblock %}
 
 {% block content %}
@@ -100,154 +114,160 @@
 
 {% block searchFacets %}
     {% if sortOptions|length %}
-        <div class="card card-{{ theme_color }} card-outline">
-            <div class="card-header">
-                <h3 class="card-title">
-                    <i class="fa fa-sort-alpha-asc"></i> {{ 'views.elasticsearch.search.sort-options'|trans }}
-                </h3>
-            </div>
-            <div class="card-body">
-                {% for option in sortOptions %}
-                    {% set active = false %}
-                    {% set order = 'asc' %}
-                    {% if currentFilters.all.search_form.sortBy is defined and currentFilters.all.search_form.sortBy == option.field %}
-                        {% set active = true %}
-                        {% if currentFilters.all.search_form.sortOrder is defined %}
-                            {% set order = currentFilters.all.search_form.sortOrder %}
-                        {% endif %}
-                        {% set order = order=='desc'?'asc':'desc' %}
-                    {% else %}
-                        {% if option.inverted %}
-                            {% set order = 'desc' %}
-                        {% endif %}
+        {% set header %}
+            <i class="fa fa-sort-alpha-asc"></i> {{ 'key.sort_by'|trans }}
+        {% endset %}
+        {% set content %}
+            {% for option in sortOptions %}
+                {% set active = false %}
+                {% set order = 'asc' %}
+                {% if currentFilters.all.search_form.sortBy is defined and currentFilters.all.search_form.sortBy == option.field %}
+                    {% set active = true %}
+                    {% if currentFilters.all.search_form.sortOrder is defined %}
+                        {% set order = currentFilters.all.search_form.sortOrder %}
                     {% endif %}
-                    <a href="{{ path(paginationPath, currentFilters.all|merge({'search_form[sortBy]': option.field, 'search_form[sortOrder]': order, page: 1})) }}" class="btn btn-block btn-social btn-primary {% if active %} active{% endif %}">
-                        <i class="{% if option.icon %}{{ option.icon }}{% else %}fa fa-sort-alpha-asc{% endif %}"></i>
-                        {{ option.name }}
-                        {% if active %}
-                            <i class="fa fa-sort-{% if option.inverted %}{{ order=='desc'?'asc':'desc' }}{% else %}{{ order }}{% endif %} float-end"></i>
-                        {% endif %}
-                    </a>
-                {% endfor %}
-                {% if currentFilters.all.search_form.sortBy is defined and currentFilters.all.search_form.sortBy %}
-                    {% set search_form = currentFilters.all.search_form|merge({'sortBy':null, 'sortOrder':null }) %}
-                    <a href="{{ path(paginationPath, currentFilters.all|merge({ 'search_form' : search_form})) }}" class="btn btn-block btn-social btn-primary">
-                        <i class="fa fa-remove"></i>
-                        Clear sort options
-                    </a>
+                    {% set order = order=='desc'?'asc':'desc' %}
+                {% else %}
+                    {% if option.inverted %}
+                        {% set order = 'desc' %}
+                    {% endif %}
                 {% endif %}
-            </div>
-        </div>
+                <a href="{{ path(paginationPath, currentFilters.all|merge({'search_form[sortBy]': option.field, 'search_form[sortOrder]': order, page: 1})) }}" class="btn btn-block btn-social btn-primary {% if active %} active{% endif %}">
+                    <i class="{% if option.icon %}{{ option.icon }}{% else %}fa fa-sort-alpha-asc{% endif %}"></i>
+                    {{ option.name }}
+                    {% if active %}
+                        <i class="fa fa-sort-{% if option.inverted %}{{ order=='desc'?'asc':'desc' }}{% else %}{{ order }}{% endif %} float-end"></i>
+                    {% endif %}
+                </a>
+            {% endfor %}
+            {% if currentFilters.all.search_form.sortBy is defined and currentFilters.all.search_form.sortBy %}
+                {% set search_form = currentFilters.all.search_form|merge({'sortBy':null, 'sortOrder':null }) %}
+                <a href="{{ path(paginationPath, currentFilters.all|merge({ 'search_form' : search_form})) }}" class="btn btn-block btn-social btn-primary">
+                    <i class="fa fa-remove"></i>
+                    Clear sort options
+                </a>
+            {% endif %}
+        {% endset %}
+        {% with {
+            form: null,
+            header: header,
+            footer: null,
+            content: content,
+        } %}
+            {{ block('card', '@EMSAdminUI/bootstrap5/template/card.html.twig') }}
+        {% endwith %}
     {% endif %}
 
     {% for id, option in aggregateOptions %}
         {% if response.getAggregation('agg_'~id) and (response.getAggregation('agg_'~id).buckets|length > 0 or response.getAggregation('agg_'~id).count > 0) %}
-            <div class="card card-{{ theme_color }} card-outline">
-                <div class="card-header">
-                    <h3 class="card-title"><i class="fa fa-filter"></i> {{ option.name }}</h3>
-                </div>
-                <div class="card-body">
-                    {{ option.template|emsco_generate_from_template({
-                        'option': option,
-                        'id': id,
-                        'aggregation': response.getAggregation('agg_'~id).raw,
-                        'currentFilters': currentFilters,
-                        'paginationPath': paginationPath,
-                        'search': search
-                    })|raw }}
-                </div>
-            </div>
+            {% set header %}
+                <i class="fa fa-filter"></i> {{ option.name }}
+            {% endset %}
+            {% set content %}
+                {{ option.template|emsco_generate_from_template({
+                    'option': option,
+                    'id': id,
+                    'aggregation': response.getAggregation('agg_'~id).raw,
+                    'currentFilters': currentFilters,
+                    'paginationPath': paginationPath,
+                    'search': search
+                })|raw }}
+            {% endset %}
+            {% with {
+                form: null,
+                header: header,
+                footer: null,
+                content: content,
+            } %}
+                {{ block('card', '@EMSAdminUI/bootstrap5/template/card.html.twig') }}
+            {% endwith %}
         {% endif %}
     {% endfor %}
 
-    <div class="card card-{{ theme_color }} card-outline">
-        <div class="card-header">
-            <h3 class="card-title"><i class="fa fa-sitemap"></i> Content types</h3>
-        </div>
-        <div class="card-body">
-            {% set cleanedFilters = [] %}
-            {% if currentFilters.all.search_form is defined %}
-                {% for key, filter in currentFilters.all.search_form %}
-                    {% if key != 'contentTypes' %}
-                        {% set cleanedFilters = cleanedFilters|merge({(key): filter}) %}
-                    {% endif %}
-                {% endfor %}
-                {% set cleanedFilters = {search_form: cleanedFilters} %}
-            {% else %}
-                {% set cleanedFilters = currentFilters.all %}
-            {% endif %}
 
-            {% for index in response.getAggregation('types').buckets %}
-                {% if attribute(types, index.key) is defined %}
-                    <a href="{{ path(paginationPath, cleanedFilters|merge({'search_form[contentTypes][0]': index.key, page: 1})) }}" class="btn btn-block btn-social {% if attribute(types, index.key).color %}bg-{{ attribute(types, index.key).color }}{% else %}bg-gray{% endif %}">
-                        <i class="{% if attribute(types, index.key).icon %}{{ attribute(types, index.key).icon }}{% else %}fa fa-book{% endif %}"></i>
-                        {% if index.count > 1 %}
-                            {{ attribute(types, index.key).pluralName }}
-                        {% else %}
-                            {{ attribute(types, index.key).singularName }}
-                        {% endif %}
-                        <span class="badge float-end">{{ index.count }}</span>
-                    </a>
-                {% else %}
-                    <a href="{{ path(paginationPath, app.request.query|merge({'search_form[contentTypes][0]': index.key, page: 1})) }}" class="btn btn-block btn-social bg-gray">
-                        <i class="fa fa-question"></i>
-                        {{ index.key|humanize }}
-                        <span class="badge float-end">{{ index.count }}</span>
-                    </a>
+    {% set header %}
+        <i class="fa fa-sitemap"></i> {{ 'key.content_types'|trans }}
+    {% endset %}
+    {% set content %}
+        {% set cleanedFilters = [] %}
+        {% if currentFilters.all.search_form is defined %}
+            {% for key, filter in currentFilters.all.search_form %}
+                {% if key != 'contentTypes' %}
+                    {% set cleanedFilters = cleanedFilters|merge({(key): filter}) %}
                 {% endif %}
             {% endfor %}
-            {% if response.getAggregation('types').raw.sum_other_doc_count > 0 %}
-                <a href="#" class="disabled btn btn-block btn-social btn-primary">
-                    <i class="fa fa-question"></i>
-                    Other
-                    <span class="badge float-end">{{ response.getAggregation('types').raw.sum_other_doc_count }}</span>
-                </a>
-            {% endif %}
-        </div>
-    </div>
+            {% set cleanedFilters = {search_form: cleanedFilters} %}
+        {% else %}
+            {% set cleanedFilters = currentFilters.all %}
+        {% endif %}
 
-    <div class="card card-{{ theme_color }} card-outline">
-        <div class="card-header">
-            <h3 class="card-title"><i class="fa fa-database"></i> Environments</h3>
-        </div>
-        <div class="card-body">
-            {% set cleanedFilters = [] %}
-            {% if currentFilters.all.search_form is defined %}
-                {% for key, filter in currentFilters.all.search_form %}
-                    {% if key != 'environments' %}
-                        {% set cleanedFilters = cleanedFilters|merge({(key): filter}) %}
+        {% for index in response.getAggregation('types').buckets %}
+            {% if attribute(types, index.key) is defined %}
+                <a href="{{ path(paginationPath, cleanedFilters|merge({'search_form[contentTypes][0]': index.key, page: 1})) }}" class="btn btn-block btn-social {% if attribute(types, index.key).color %}bg-{{ attribute(types, index.key).color }}{% else %}bg-gray{% endif %}">
+                    <i class="{% if attribute(types, index.key).icon %}{{ attribute(types, index.key).icon }}{% else %}fa fa-book{% endif %}"></i>
+                    {% if index.count > 1 %}
+                        {{ attribute(types, index.key).pluralName }}
+                    {% else %}
+                        {{ attribute(types, index.key).singularName }}
                     {% endif %}
-                {% endfor %}
-                {% set cleanedFilters = {search_form: cleanedFilters} %}
-            {% else %}
-                {% set cleanedFilters = currentFilters.all %}
-            {% endif %}
-
-            {% for index in response.getAggregation('indexes').buckets %}
-                <a href="{{ path(paginationPath, cleanedFilters|merge({'search_form[environments][0]': attribute(indexes, index.key).name})) }}" class="btn btn-block btn-social {% if attribute(indexes, index.key).color %}bg-{{ attribute(indexes, index.key).color }}{% else %}bg-gray{% endif %}">
-                    <i class="fa fa-eye"></i>
-                    {{ attribute(indexes, index.key).label }}
                     <span class="badge float-end">{{ index.count }}</span>
                 </a>
-            {% endfor %}
-        </div>
-    </div>
-{% endblock searchFacets %}
+            {% else %}
+                <a href="{{ path(paginationPath, app.request.query|merge({'search_form[contentTypes][0]': index.key, page: 1})) }}" class="btn btn-block btn-social bg-gray">
+                    <i class="fa fa-question"></i>
+                    {{ index.key|humanize }}
+                    <span class="badge float-end">{{ index.count }}</span>
+                </a>
+            {% endif %}
+        {% endfor %}
+        {% if response.getAggregation('types').raw.sum_other_doc_count > 0 %}
+            <a href="#" class="disabled btn btn-block btn-social btn-primary">
+                <i class="fa fa-question"></i>
+                Other
+                <span class="badge float-end">{{ response.getAggregation('types').raw.sum_other_doc_count }}</span>
+            </a>
+        {% endif %}
+    {% endset %}
+    {% with {
+        form: null,
+        header: header,
+        footer: null,
+        content: content,
+    } %}
+        {{ block('card', '@EMSAdminUI/bootstrap5/template/card.html.twig') }}
+    {% endwith %}
 
-{% block publishButton %}
-    {% if body is defined and form.environments.vars.value|length == 1  and form.contentTypes.vars.value|length == 1  and is_granted(form.contentTypes.vars.value.0|emsco_get_content_type.roles.publish) and form.environments.vars.value|first|emsco_get_environment.managed and response.total > 1 %}
-        <div class="col-12">
-            <div class="card card-{{ theme_color }} card-outline">
-                <div class="card-footer">
-                    <div class="btn-group">
-                        {% include '@EMSAdminUI/bootstrap5/elements/get-button.html.twig' with {
-                            'url':  path('search.publish', app.request.query.all ),
-                            'label': 'Publish '~response.formattedTotal|default('not-applicable'|trans)~' '~form.contentTypes.vars.value.0|emsco_get_content_type.pluralName,
-                            'icon': 'fa fa-upload'
-                        } %}
-                    </div>
-                </div>
-            </div>
-        </div>
-    {% endif %}
-{% endblock publishButton %}
+
+    {% set header %}
+        <i class="fa fa-database"></i> {{ 'key.environments'|trans }}
+    {% endset %}
+    {% set content %}
+        {% set cleanedFilters = [] %}
+        {% if currentFilters.all.search_form is defined %}
+            {% for key, filter in currentFilters.all.search_form %}
+                {% if key != 'environments' %}
+                    {% set cleanedFilters = cleanedFilters|merge({(key): filter}) %}
+                {% endif %}
+            {% endfor %}
+            {% set cleanedFilters = {search_form: cleanedFilters} %}
+        {% else %}
+            {% set cleanedFilters = currentFilters.all %}
+        {% endif %}
+
+        {% for index in response.getAggregation('indexes').buckets %}
+            <a href="{{ path(paginationPath, cleanedFilters|merge({'search_form[environments][0]': attribute(indexes, index.key).name})) }}" class="btn btn-block btn-social {% if attribute(indexes, index.key).color %}bg-{{ attribute(indexes, index.key).color }}{% else %}bg-gray{% endif %}">
+                <i class="fa fa-eye"></i>
+                {{ attribute(indexes, index.key).label }}
+                <span class="badge float-end">{{ index.count }}</span>
+            </a>
+        {% endfor %}
+    {% endset %}
+    {% with {
+        form: null,
+        header: header,
+        footer: null,
+        content: content,
+    } %}
+        {{ block('card', '@EMSAdminUI/bootstrap5/template/card.html.twig') }}
+    {% endwith %}
+{% endblock searchFacets %}

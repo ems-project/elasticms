@@ -8,8 +8,7 @@
 {% block body %}
 
 <div class="row">
-{#	TODO: duplicate ID search-page! #}
-	<div id="search-page" class="col-12">
+	<div id="search-page-form" class="col-12">
 		{% include "@EMSAdminUI/bootstrap5/elasticsearch/search-form-filter.html.twig" with {
 			form: form,
 		} %}

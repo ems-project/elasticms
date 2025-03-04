@@ -75,6 +75,7 @@ class Routes
     final public const string FORM_ADMIN_INDEX = 'emsco_form_admin_index';
     final public const string FORM_ADMIN_ADD = 'emsco_form_admin_add';
     final public const string GROUP_ADD = 'emsco_group_admin_add';
+    final public const string GROUP_INDEX = 'emsco_group_admin_index';
     final public const string GROUP_EDIT = 'emsco_group_admin_edit';
     final public const string GROUP_DELETE = 'emsco_group_admin_delete';
     final public const string GROUP_DELETE_ALL = 'emsco_group_admin_delete_all_group';

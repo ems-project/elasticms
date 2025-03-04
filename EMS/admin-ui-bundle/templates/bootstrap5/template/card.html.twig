@@ -81,6 +81,7 @@ Available Blocks:
                     {% for field in form %}
                         {% if 'submit' not in field.vars.block_prefixes %}
                             {{ form_row(field) }}
+                            <div class="clearfix"></div>
                         {% endif %}
                     {% endfor %}
                 </div>

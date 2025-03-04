@@ -370,6 +370,7 @@ type:
             content_type    {Create content type}
             form            {Create form}
             job             {Launch new job}
+            job_schedule    {Create schedule}
             wysiwyg_profile {Create profile}
             other           {Create}
         }
@@ -381,6 +382,7 @@ type:
             dashboard       {Edit dashboard: {label}}
             content_type    {Edit content type: {label}}
             form            {Edit form: {label}}
+            job_schedule    {Edit schedule: {label}}
             wysiwyg_profile {Edit profile: {label}}
             other           {Edit}
         }

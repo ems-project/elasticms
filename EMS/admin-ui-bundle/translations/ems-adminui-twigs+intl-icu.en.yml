@@ -38,9 +38,11 @@ key:
     content: Content
     content_types: 'Content types'
     delayed_unassigned_shards: 'Delayed unassigned shards'
+    environments: Environments
     initializing_shards: 'Initializing shards'
     lucene_version: 'Lucene version'
     name: Name
+    not-applicable: 'Not applicable'
     number_of_data_nodes: 'Number of data nodes'
     number_of_nodes: 'Number of nodes'
     number_of_pending_tasks: 'Number of pending tasks'
@@ -51,6 +53,5 @@ key:
     task_max_waiting_in_queue_millis: 'Task max waiting in queue'
     unassigned_shards: 'Unassigned shards'
     version: Version
-not-applicable: not-applicable
 notice_card:
     title: Notice

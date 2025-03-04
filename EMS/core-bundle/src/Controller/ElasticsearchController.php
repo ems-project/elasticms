@@ -587,7 +587,8 @@ class ElasticsearchController extends AbstractController
                 return $this->render("@$this->templateNamespace/elasticsearch/export-search.html.twig", [
                     'forms' => $exportForms,
                     'title' => t('key.export_documents', [], 'emsco-core'),
-                    'breadcrumb' => $this->breadcrumb()->add(
+                    'subTitle' => t('type.title_sub', ['type' => 'search'], 'emsco-core'),
+                    'breadcrumb' => $this->breadcrumb($search)->add(
                         label: t('key.export_documents', [], 'emsco-core'),
                         icon: 'fa fa-archive',
                     ),

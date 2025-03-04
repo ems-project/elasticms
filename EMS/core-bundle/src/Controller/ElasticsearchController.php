@@ -630,7 +630,7 @@ class ElasticsearchController extends AbstractController
                 'search' => $search,
                 'sortOptions' => $this->sortOptionService->getAll(),
                 'aggregateOptions' => $this->aggregateOptionService->getAll(),
-                'title' => t('search.title', ['count' => $response->getTotal()], 'emsco-core'),
+                'title' => t('search.title', ['count' => $response?->getTotal() ?? -1], 'emsco-core'),
                 'subTitle' => t('type.title_sub', ['type' => 'search'], 'emsco-core'),
                 'breadcrumb' => $this->breadcrumb($search),
             ]);

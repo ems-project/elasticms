@@ -255,6 +255,7 @@ revision:
 search:
     title: |-
         {count, plural,
+            =-1   {Search result is missing}
             =0    {No results found}
             =1    {1 document found}
             other {# documents found}

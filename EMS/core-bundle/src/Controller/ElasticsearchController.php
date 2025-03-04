@@ -630,6 +630,9 @@ class ElasticsearchController extends AbstractController
                 'search' => $search,
                 'sortOptions' => $this->sortOptionService->getAll(),
                 'aggregateOptions' => $this->aggregateOptionService->getAll(),
+                'title' => t('search.title', ['count' => $response->getTotal()], 'emsco-core'),
+                'subTitle' => t('type.title_sub', ['type' => 'search'], 'emsco-core'),
+                'breadcrumb' => $this->breadcrumb($search),
             ]);
         } catch (NoNodesAvailableException) {
             return $this->redirectToRoute('elasticsearch.status');

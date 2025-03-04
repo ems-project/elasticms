@@ -252,6 +252,13 @@ revision:
         put_back_confirm: 'Put back "{label}" ?'
         put_back_selected: 'Put back selected'
         title: '{pluralName} in trash'
+search:
+    title: |-
+        {count, plural,
+            =0    {No results found}
+            =1    {1 document found}
+            other {# documents found}
+        }
 status:
     title: "Systems' status"
     title_sub: 'Is everything working as expected?'

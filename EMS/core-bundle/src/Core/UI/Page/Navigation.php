@@ -34,7 +34,7 @@ class Navigation
                 icon: $contentType->getIcon(),
             );
         }
-        
+
         return $navigation;
     }
 

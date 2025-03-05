@@ -49,6 +49,12 @@ class FilterController extends AbstractController
 
         return $this->render("@$this->templateNamespace/filter/add.html.twig", [
             'form' => $form->createView(),
+            'title' => t('type.title_create', ['type' => 'filter'], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'filter'], 'emsco-core'),
+            'breadcrumb' => $this->breadcrumb()->add(
+                t('type.title_create', ['type' => 'filter'], 'emsco-core')
+            ),
+            'notice' => t('type.notice_message', ['type' => 'filter'], 'emsco-core'),
         ]);
     }
 
@@ -73,6 +79,12 @@ class FilterController extends AbstractController
 
         return $this->render("@$this->templateNamespace/filter/edit.html.twig", [
             'form' => $form->createView(),
+            'title' => t('type.title_edit', ['type' => 'filter', 'label' => $filter->getLabel()], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'filter'], 'emsco-core'),
+            'breadcrumb' => $this->breadcrumb()->add(
+                t('type.title_edit', ['type' => 'filter', 'label' => $filter->getLabel()], 'emsco-core')
+            ),
+            'notice' => t('type.notice_message', ['type' => 'filter'], 'emsco-core'),
         ]);
     }
 

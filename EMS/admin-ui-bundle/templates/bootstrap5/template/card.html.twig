@@ -90,7 +90,7 @@ Available Blocks:
     </div>
 
     {% block footer %}
-        {% if footer is defined %}
+        {% if footer is defined and footer %}
             <div class="card-footer clearfix">
                 {{ footer|default('') }}
             </div>

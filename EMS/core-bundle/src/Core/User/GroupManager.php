@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Core\User;
 
 use EMS\CommonBundle\Entity\EntityInterface;
-use EMS\CoreBundle\Entity\Form;
 use EMS\CoreBundle\Entity\Group;
 use EMS\CoreBundle\Repository\GroupRepository;
 use EMS\CoreBundle\Service\EntityServiceInterface;
@@ -96,10 +95,12 @@ class GroupManager implements EntityServiceInterface
     {
         $this->groupRepository->delete($group);
     }
+
     public function editGroup(Group $group): void
     {
         $this->groupRepository->edit($group);
     }
+
     public function deleteAllGroup(): void
     {
         $this->groupRepository->deleteAllGroup();
@@ -123,5 +124,12 @@ class GroupManager implements EntityServiceInterface
         $group->setRoles([]);
 
         $this->groupRepository->save($group);
+    }
+
+    public function deleteByIds(array $getSelected): void
+    {
+        foreach ($this->groupRepository->getByIds($getSelected) as $group) {
+            $this->deleteGroup($group);
+        }
     }
 }

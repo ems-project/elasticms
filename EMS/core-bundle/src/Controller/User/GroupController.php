@@ -12,10 +12,11 @@ use EMS\CoreBundle\Core\UI\Page\Navigation;
 use EMS\CoreBundle\Core\User\GroupManager;
 use EMS\CoreBundle\DataTable\Type\GroupDataTableType;
 use EMS\CoreBundle\Entity\Group;
-use EMS\CoreBundle\Entity\User;
+use EMS\CoreBundle\Form\Data\TableAbstract;
 use EMS\CoreBundle\Form\Form\GroupType;
 use EMS\CoreBundle\Form\Form\TableType;
 use EMS\CoreBundle\Form\Form\UserType;
+use EMS\CoreBundle\Routes;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -44,15 +45,17 @@ class GroupController extends AbstractController
             'reorder_label' => t('type.reorder', ['type' => 'form'], 'emsco-core'),
         ]);
         $form->handleRequest($request);
-        if ($this->getClickedButtonName($form)) {
-            return $this->render("@$this->templateNamespace/group/create.html.twig", [
-                'list_user_group' => $list_user_group,
-                'form' => $form,
-            ]);
+        if ($form->isSubmitted() && $form->isValid()) {
+            match ($this->getClickedButtonName($form)) {
+                TableAbstract::DELETE_ACTION => $this->groupManager->deleteByIds($table->getSelected()),
+                default => $this->logger->messageError(t('log.error.invalid_table_action', [], 'emsco-core')),
+            };
+
+            return $this->redirectToRoute(Routes::GROUP_INDEX);
         }
 
         return $this->render("@$this->templateNamespace/crud/overview.html.twig", [
-            'list_user_group' =>$list_user_group,
+            'list_user_group' => $list_user_group,
             'form' => $form,
             'title' => t('type.title_overview', ['type' => 'group'], 'emsco-core'),
             'subTitle' => t('type.title_sub', ['type' => 'group'], 'emsco-core'),
@@ -69,7 +72,7 @@ class GroupController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->groupManager->create($group);
-            
+
             return $this->redirectToRoute('emsco_group_admin_index');
         }
 
@@ -84,23 +87,36 @@ class GroupController extends AbstractController
 
         return $this->redirectToRoute('emsco_group_admin_index');
     }
+
+    public function deleteSelectedGroup($SelectedGroup): Response
+    {
+        // TableAbstract::DELETE_ACTION => $this->deleteSelectedGroup($SelectedGroup);
+        foreach ($SelectedGroup as $group) {
+            $this->groupManager->deleteGroup($group);
+        }
+
+        return $this->redirectToRoute('emsco_group_admin_index');
+    }
+
     public function deleteAllGroup(): Response
     {
         $this->groupManager->deleteAllGroup();
 
         return $this->redirectToRoute('emsco_group_admin_index');
     }
-    public function editGroup(Group $group,Request $request): Response
+
+    public function editGroup(Group $group, Request $request): Response
     {
         $this->groupManager->editGroup($group);
         $form = $this->createForm(GroupType::class, $group, ['mode' => UserType::MODE_UPDATE]);
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
             $this->groupManager->editGroup($group);
+
             return $this->redirectToRoute('emsco_group_admin_index');
         }
-        
+
         return $this->render("@$this->templateNamespace/group/create.html.twig", [
             'form' => $form,
         ]);

@@ -22,7 +22,6 @@ final class GroupType extends AbstractType
     public const string UPDATE_BUTTON = 'update_button';
     public const string CREATE_BUTTON = 'create_button';
 
-   
     /**
      * @param FormBuilderInterface<mixed> $builder
      * @param array<string, mixed>        $options

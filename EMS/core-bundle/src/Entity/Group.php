@@ -6,6 +6,7 @@ namespace EMS\CoreBundle\Entity;
 
 use EMS\CommonBundle\Entity\CreatedModifiedTrait;
 use EMS\CoreBundle\Entity\Helper\JsonClass;
+use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 class Group implements EntityInterface
@@ -21,6 +22,7 @@ class Group implements EntityInterface
 
     public function __construct()
     {
+        $this->id = Uuid::uuid4();
         $this->created = new \DateTime();
         $this->modified = new \DateTime();
     }
@@ -79,6 +81,7 @@ class Group implements EntityInterface
     {
         $this->orderKey = $key;
     }
+
     public static function fromJson(string $json, ?EntityInterface $group = null): Group
     {
         $meta = JsonClass::fromJsonString($json);

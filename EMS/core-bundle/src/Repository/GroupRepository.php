@@ -6,7 +6,7 @@ namespace EMS\CoreBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use EMS\CoreBundle\Entity\Form;
+use Doctrine\DBAL\ArrayParameterType;
 use EMS\CoreBundle\Entity\Group;
 
 class GroupRepository extends ServiceEntityRepository
@@ -27,10 +27,10 @@ class GroupRepository extends ServiceEntityRepository
     {
         $existingGroup = $this->getEntityManager()
             ->getRepository(Group::class)
-            ->findOneBy(['name' => $group->getName()]); 
+            ->findOneBy(['name' => $group->getName()]);
 
         if ($existingGroup) {
-            throw new \Exception("The group with this name already exists.");
+            throw new \Exception('The group with this name already exists.');
         }
         $this->getEntityManager()->persist($group);
         $this->getEntityManager()->flush();
@@ -65,20 +65,20 @@ class GroupRepository extends ServiceEntityRepository
         return (int) $qb->getQuery()->getSingleScalarResult();
     }
 
-    public function deleteAllGroup():void
+    public function deleteAllGroup(): void
     {
-        $em = $this->createQueryBuilder("g");
+        $em = $this->createQueryBuilder('g');
         $em->delete(Group::class, 'c')
             ->getQuery()
             ->execute();
     }
 
-    public function edit(Group $group):void
+    public function edit(Group $group): void
     {
         $this->getEntityManager()->persist($group);
         $this->getEntityManager()->flush();
     }
-    
+
     public function getByName(string $name): ?Group
     {
         $qb = $this->createQueryBuilder('group');
@@ -92,5 +92,18 @@ class GroupRepository extends ServiceEntityRepository
 
         return $group instanceof Group ? $group : null;
     }
-    
+
+    /**
+     * @param string[] $ids
+     *
+     * @return Group[]
+     */
+    public function getByIds(array $ids): array
+    {
+        $queryBuilder = $this->createQueryBuilder('user_group');
+        $queryBuilder->where('user_group.id IN (:ids)')
+            ->setParameter('ids', $ids, ArrayParameterType::STRING);
+
+        return $queryBuilder->getQuery()->getResult();
+    }
 }

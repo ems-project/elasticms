@@ -81,7 +81,7 @@ trait DataTableTypeTrait
 
         return $this;
     }
-    
+
     /**
      * @param array<mixed> $routeParams
      */

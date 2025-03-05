@@ -253,6 +253,14 @@ revision:
         put_back_confirm: 'Put back "{label}" ?'
         put_back_selected: 'Put back selected'
         title: '{pluralName} in trash'
+search:
+    title: |-
+        {count, plural,
+            =-1   {Search result is missing}
+            =0    {No results found}
+            =1    {1 document found}
+            other {# documents found}
+        }
 status:
     title: "Systems' status"
     title_sub: 'Is everything working as expected?'
@@ -372,6 +380,7 @@ type:
             form            {Create form}
             job             {Launch new job}
             query_search    {Create query search}
+            search          {Create search}
             wysiwyg_profile {Create profile}
             other           {Create}
         }

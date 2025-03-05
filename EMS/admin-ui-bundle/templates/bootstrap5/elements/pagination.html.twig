@@ -22,7 +22,7 @@
 
     {# the number of pages that are displayed around the active page #}
     {% set nearbyPagesLimit = 2 %}
-        <ul class="pagination pagination-sm no-margin float-end">
+        <ul class="pagination pagination-sm no-margin float-end mb-0">
 
         {% if currentPage > 1 %}
             <li class="page-item"><a class="page-link" href="{{ path(paginationPath, currentFilters|merge({(pageParameter): currentPage-1})) }}">«</a></li>

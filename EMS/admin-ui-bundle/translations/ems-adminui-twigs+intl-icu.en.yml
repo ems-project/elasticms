@@ -36,14 +36,18 @@ key:
     client: Client
     cluster_uuid: 'Cluster UUID'
     content: Content
+    content_types: 'Content types'
     delayed_unassigned_shards: 'Delayed unassigned shards'
+    environments: Environments
     initializing_shards: 'Initializing shards'
     lucene_version: 'Lucene version'
     name: Name
+    not-applicable: 'N/A'
     number_of_data_nodes: 'Number of data nodes'
     number_of_nodes: 'Number of nodes'
     number_of_pending_tasks: 'Number of pending tasks'
     public_key: 'Public key'
+    sort_by: 'Sort by'
     status: Status
     tagline: Tagline
     task_max_waiting_in_queue_millis: 'Task max waiting in queue'

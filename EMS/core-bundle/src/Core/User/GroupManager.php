@@ -111,9 +111,6 @@ class GroupManager implements EntityServiceInterface
         if (!$group->isLabelDefined()) {
             $group->setLabel($group->getName());
         }
-        $group->setRoles([
-            'foo' => 'bar',
-        ]);
         $this->groupRepository->save($group);
     }
 

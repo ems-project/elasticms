@@ -6,8 +6,12 @@ namespace EMS\CoreBundle\Form\Form;
 
 use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Entity\Group;
+use EMS\CoreBundle\Form\Field\ContentTypePickerType;
+use EMS\CoreBundle\Form\Field\DashboardPickerType;
 use EMS\CoreBundle\Form\Field\SubmitEmsType;
+use EMS\CoreBundle\Service\UserService;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,6 +25,11 @@ final class GroupType extends AbstractType
     public const string MODE_UPDATE = 'update';
     public const string UPDATE_BUTTON = 'update_button';
     public const string CREATE_BUTTON = 'create_button';
+   
+    public function __construct(private readonly UserService $userService)
+    {
+        
+    } 
 
     /**
      * @param FormBuilderInterface<mixed> $builder
@@ -38,7 +47,15 @@ final class GroupType extends AbstractType
             ])
             ->add('label', TextType::class, [
                 'label' => 'label',
-            ]);
+            ])
+            ->add('roles', ChoiceType::class, [
+            'choices' => $this->userService->getExistingRoles(),
+            'label' => 'Roles',
+            'expanded' => true,
+            'multiple' => true,
+            'mapped' => true,
+        ])
+            ->add('dashboard', ContentTypePickerType::class);
         if (self::MODE_CREATE === $mode) {
             $builder->add(self::CREATE_BUTTON, SubmitEmsType::class, [
                 'attr' => ['class' => 'btn btn-primary btn-sm'],

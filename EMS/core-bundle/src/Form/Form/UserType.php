@@ -116,6 +116,13 @@ final class UserType extends AbstractType
                 'choice_translation_domain' => false,
             ])
             ->add('localePreferred', ChoiceType::class, [
+                'label' => 'User group',
+                'translation_domain' => EMSCoreBundle::TRANS_FORM_DOMAIN,
+                'required' => false,
+                'choices' => \array_flip($this->userService->getExistingRoles()),
+                'choice_translation_domain' => false,
+            ])
+            ->add('localePreferred', ChoiceType::class, [
                 'label' => 'user.locale_preferred',
                 'translation_domain' => EMSCoreBundle::TRANS_FORM_DOMAIN,
                 'required' => false,

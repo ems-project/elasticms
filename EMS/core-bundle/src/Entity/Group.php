@@ -19,6 +19,7 @@ class Group implements EntityInterface
     protected ?string $label = null;
     /** @var mixed[] */
     private array $roles = [];
+    private string $dashboard;
 
     public function __construct()
     {
@@ -92,4 +93,15 @@ class Group implements EntityInterface
 
         return $group;
     }
+
+    public function getDashboard(): string
+    {
+        return $this->dashboard;
+    }
+
+    public function setDashboard(string $dashboard): void
+    {
+        $this->dashboard = $dashboard;
+    }
+    
 }

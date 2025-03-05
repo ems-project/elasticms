@@ -460,6 +460,10 @@
             <argument type="service" id="ems_core.form.transformer.asset" />
             <tag name="form.type"/>
         </service>
+        <service id="ems_core.form.user_group" class="EMS\CoreBundle\Form\Form\GroupType">
+            <argument type="service" id="ems.service.user" />
+            <tag name="form.type"/>
+        </service>
 
         <service id="emsco.form_extension.locale_form_extension" class="EMS\CoreBundle\Form\Extension\LocaleFormExtension">
             <tag name="form.type_extension"/>

@@ -102,6 +102,7 @@ class TwigElementsController extends AbstractController
             return $menu;
         }
         $userMenu = $menu->addChild('views.elements.side-menu-html.users', 'fa fa-users', Routes::USER_INDEX);
+        $userMenu->addChild('views.elements.side-menu-html.users', 'fa fa-users', Routes::USER_INDEX);
         $userMenu->addChild(t('key.overview', [], 'emsco-core'), 'fa fa-list-ul', Routes::GROUP_INDEX);
 
         return $menu;

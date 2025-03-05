@@ -8,6 +8,7 @@ use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
 use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\Core\Mapping\FilterManager;
+use EMS\CoreBundle\Core\UI\Page\Navigation;
 use EMS\CoreBundle\DataTable\Type\Mapping\FilterDataTableType;
 use EMS\CoreBundle\Entity\Filter;
 use EMS\CoreBundle\Form\Data\TableAbstract;
@@ -113,10 +114,17 @@ class FilterController extends AbstractController
             'form' => $form->createView(),
             'icon' => 'fa fa-filter',
             'title' => t('type.title_overview', ['type' => 'filter'], 'emsco-core'),
-            'breadcrumb' => [
-                'admin' => t('key.admin', [], 'emsco-core'),
-                'page' => t('key.filters', [], 'emsco-core'),
-            ],
+            'subTitle' => t('type.title_sub', ['type' => 'filter'], 'emsco-core'),
+            'breadcrumb' => $this->breadcrumb(),
         ]);
+    }
+
+    private function breadcrumb(): Navigation
+    {
+        return Navigation::admin()->add(
+            label: t('key.filters', [], 'emsco-core'),
+            icon: 'fa fa-filter',
+            route: 'emsco_filter_index',
+        );
     }
 }

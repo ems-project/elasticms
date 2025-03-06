@@ -31,14 +31,17 @@ key:
     active_primary_shards: 'Active primary shards'
     active_shards: 'Active shards'
     active_shards_percent_as_number: 'Active shards'
+    add_translation: 'Add translation'
     bits: Bits
     build_date: 'Build date'
+    cancel: Cancel
     channel: Channel
     client: Client
     cluster_uuid: 'Cluster UUID'
     content: Content
     content_types: 'Content types'
     context: Context
+    create: Create
     created: Created
     delayed_unassigned_shards: 'Delayed unassigned shards'
     environments: Environments
@@ -53,6 +56,7 @@ key:
     number_of_nodes: 'Number of nodes'
     number_of_pending_tasks: 'Number of pending tasks'
     public_key: 'Public key'
+    save: Save
     severity: Severity
     sort_by: 'Sort by'
     status: Status

@@ -54,8 +54,7 @@ final class GroupType extends AbstractType
             'expanded' => true,
             'multiple' => true,
             'mapped' => true,
-        ])
-            ->add('dashboard', ContentTypePickerType::class);
+        ]);
         if (self::MODE_CREATE === $mode) {
             $builder->add(self::CREATE_BUTTON, SubmitEmsType::class, [
                 'attr' => ['class' => 'btn btn-primary btn-sm'],

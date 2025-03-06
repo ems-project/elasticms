@@ -30,7 +30,7 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
     private Collection $authTokens;
     private string $locale = self::DEFAULT_LOCALE;
     private ?string $localePreferred = null;
-    private ?string $Group = null;
+    private ?string $group = null;
     private ?string $username = null;
     private ?string $usernameCanonical = null;
     private ?string $email = null;
@@ -511,5 +511,14 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
     public function setUserOptions(UserOptions $userOptions): void
     {
         $this->userOptions = $userOptions->getOptions();
+    }
+    public function getGroup(): ?string
+    {
+        return $this->group;
+    }
+    
+    public function setGroup(?string $group): void
+    {
+        $this->group = $group;
     }
 }

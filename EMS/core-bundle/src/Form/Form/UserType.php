@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Form\Form;
 
 use Doctrine\ORM\EntityRepository;
+use EMS\CoreBundle\Core\User\GroupManager;
 use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Entity\Group;
 use EMS\CoreBundle\Entity\User;
@@ -32,7 +33,7 @@ final class UserType extends AbstractType
     public const string MODE_CREATE = 'create';
     public const string MODE_UPDATE = 'update';
 
-    public function __construct(private readonly UserService $userService, private readonly ?string $circleObject)
+    public function __construct(private readonly UserService $userService, private readonly GroupManager $groupManager, private readonly ?string $circleObject)
     {
     }
 
@@ -65,6 +66,11 @@ final class UserType extends AbstractType
                 'second_options' => ['label' => 'user.password_confirmation'],
                 'invalid_message' => 'user.password.mismatch',
             ]);
+        }
+
+        $choices = [];
+        foreach ($this->groupManager->getAll() as $group) {
+            $choices[$group->getLabel()] = $group->getName();
         }
 
         $builder
@@ -122,12 +128,12 @@ final class UserType extends AbstractType
                 'required' => false,
                 'choices' => \array_flip(Locales::getNames()),
                 'choice_translation_domain' => false,
-            ])->add('group', EntityType::class, [
-                'label' => 'Group',
+            ])
+            ->add('userGroup', ChoiceType::class, [
+                'label' => 'key.group',
                 'required' => false,
-                'class' => Group::class,
-                'query_builder' => fn (EntityRepository $er) => $er->createQueryBuilder('p'),
-                'choice_translation_domain' => false,
+                'choices' => $choices,
+                'translation_domain' => EMSCoreBundle::TRANS_FORM_DOMAIN,
             ])
             ->add('userOptions', UserOptionsType::class, [
                 'label' => 'user.option.title',

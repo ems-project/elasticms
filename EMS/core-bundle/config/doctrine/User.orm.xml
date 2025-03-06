@@ -33,6 +33,7 @@
     <field name="passwordRequestedAt" column="password_requested_at" type="datetime" nullable="true"/>
     <field name="roles" type="json"/>
     <field name="userOptions" column="user_options" type="json" nullable="true"/>
+    <field name="userGroup" length="180" nullable="true"/>
 
     <many-to-one field="wysiwygProfile" target-entity="EMS\CoreBundle\Entity\WysiwygProfile">
       <join-column name="wysiwyg_profile_id"/>

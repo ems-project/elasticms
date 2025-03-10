@@ -103,6 +103,15 @@ class EmschFormType extends AbstractType
                 minMessage: $value['minMessage'] ?? null,
                 maxMessage: $value['maxMessage'] ?? null,
             ),
+            'range' => new Assert\Range(
+                notInRangeMessage: $value['message'] ?? null,
+                min: isset($value['min']) ? (int) $value['min'] : null,
+                max: isset($value['max']) ? (int) $value['max'] : null,
+            ),
+            'regex' => new Assert\Regex(
+                pattern: $value['pattern'],
+                message: $value['message'] ?? null,
+            ),
             default => throw new \RuntimeException(\sprintf('Invalid constraint type "%s"', $value['type'])),
         }, $constraints);
     }

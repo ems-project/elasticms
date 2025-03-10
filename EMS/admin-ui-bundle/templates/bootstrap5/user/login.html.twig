@@ -55,7 +55,7 @@
                 </form>
 
                 <p class="mb-1">
-                    <a href="{{ path('emsco_user_resetting_request') }}">{{ 'user.login.forgot'|trans }}</a>
+                    <a href="{{ app.request.server.all['EMSCO_REWRITE_FORGOT_PASSWORD']|default(path('emsco_user_resetting_request')) }}">{{ 'user.login.forgot'|trans }}</a>
                 </p>
             </div>
         </div>

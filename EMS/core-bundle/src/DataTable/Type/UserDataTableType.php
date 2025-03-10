@@ -40,6 +40,7 @@ class UserDataTableType extends AbstractEntityTableType
         }
         $table->addColumnDefinition(new BoolTableColumn('user.index.column.enabled', 'enabled'));
         $table->addColumnDefinition(new RolesTableColumn('user.index.column.roles', 'roles'));
+        $table->addColumn('user.index.column.roles', 'userGroup');
         $table->addColumnDefinition(new DatetimeTableColumn('user.index.column.lastLogin', 'lastLogin'));
         $table->addColumnDefinition(new DatetimeTableColumn('user.index.column.expirationDate', 'expirationDate'));
 

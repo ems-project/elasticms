@@ -267,6 +267,10 @@ class UserService implements EntityServiceInterface
     {
         return $this->userRepository->countUsers($searchValue);
     }
+    public function getUsersByGroup(string $searchValue = ''): array
+    {
+        return $this->userRepository->getUsersByGroup($searchValue);
+    }
 
     public function isGrantedRole(string $role): bool
     {

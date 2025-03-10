@@ -10,6 +10,7 @@ use EMS\CoreBundle\Form\Field\ContentTypePickerType;
 use EMS\CoreBundle\Form\Field\DashboardPickerType;
 use EMS\CoreBundle\Form\Field\SubmitEmsType;
 use EMS\CoreBundle\Service\UserService;
+use phpDocumentor\Reflection\PseudoTypes\List_;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -55,6 +56,16 @@ final class GroupType extends AbstractType
             'multiple' => true,
             'mapped' => true,
         ]);
+
+      dump($this->userService->getUsersByGroup("prof"));
+        /*$builder->add(self::MODE_CREATE, ChoiceType::class, [
+            'choices' => $this->userService->getExistingRoles(),
+            'label' => 'Roles',
+            'expanded' => true,
+            'multiple' => true,
+            'mapped' => true,
+        ]);*/
+        
         if (self::MODE_CREATE === $mode) {
             $builder->add(self::CREATE_BUTTON, SubmitEmsType::class, [
                 'attr' => ['class' => 'btn btn-primary btn-sm'],

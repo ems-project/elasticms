@@ -161,4 +161,13 @@ final class UserRepository extends ServiceEntityRepository implements UserReposi
                 ->setParameter(':term', '%'.$searchValue.'%');
         }
     }
+
+    public function getUsersByGroup(string $searchValue) : array
+    {
+        $queryBuilder = $this->createQueryBuilder('user');
+        $queryBuilder->where('user.userGroup IN (:searchValue)')
+            ->setParameter('searchValue', $searchValue);
+
+        return $queryBuilder->getQuery()->getResult();
+    }
 }

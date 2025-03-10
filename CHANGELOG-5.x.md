@@ -1,5 +1,9 @@
 # Changelog 5.x
 
+## 5.25.5 (2025-03-10)
+### Features
+* feat(admin): allow change link forgot password by @IsaMic in https://github.com/ems-project/elasticms/pull/1250
+
 ## 5.25.4 (2025-02-26)
 ### Bug Fixes
 * fix(admin/action): filter on the environment even if the template.role == "not-defined" by @theus77 in https://github.com/ems-project/elasticms/pull/1205

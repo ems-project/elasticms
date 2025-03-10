@@ -1,5 +1,10 @@
 # Changelog 6.x
 
+## 6.1.1 (2025-03-10)
+### Bug Fixes
+* fix(admin/publish): only create new version if tags are defined by @Davidmattei in https://github.com/ems-project/elasticms/pull/1247
+* fix(web/form): add range and regex assert by @Davidmattei in https://github.com/ems-project/elasticms/pull/1248
+
 ## 6.1.0 (2025-02-26)
 ### Features
 * feat(admin/contentType): optional tags and date support by @Davidmattei in https://github.com/ems-project/elasticms/pull/1224

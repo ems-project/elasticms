@@ -20,7 +20,7 @@ use Symfony\Component\Console\Output\OutputInterface;
     aliases: ['emscli:file-reader:import'],
     hidden: false
 )]
-final class FileReaderImportCommand extends AbstractImportCommand
+final class FileImportCommand extends AbstractImportCommand
 {
     private const string ARGUMENT_FILE = 'file';
 

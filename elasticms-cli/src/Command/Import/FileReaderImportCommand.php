@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\CLI\Command\FileReader;
+namespace App\CLI\Command\Import;
 
 use App\CLI\Client\File\FileReaderImportConfig;
 use App\CLI\Commands;

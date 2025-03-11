@@ -1,11 +1,20 @@
 parameters:
-  env(DATABASE_URL): 'sqlite:///%kernel.project_dir%/var/data.db'
-  env(DB_SERVER_VERSION): '5.7'
+    env(DB_HOST): '127.0.0.1'
+    env(DB_DRIVER): 'pgsql'
+    env(DB_USER): 'user'
+    env(DB_PASSWORD): 'pass'
+    env(DB_PORT): '5432'
+    env(DB_NAME): 'elasticms'
+    env(DB_CONNECTION_TIMEOUT): 30
+    env(DB_VERSION): '12'
+    env(DB_URL): '%env(string:DB_DRIVER)%://%env(string:DB_USER)%:%%env(urlencode:DB_PASSWORD)%%@%env(string:DB_HOST)%:%env(string:DB_PORT)%/%env(string:DB_NAME)%'
 
 doctrine:
     dbal:
-        url: '%env(resolve:DATABASE_URL)%'
-        server_version: '%env(resolve:DB_SERVER_VERSION)%'
+        url: '%env(resolve:DB_URL)%'
+        server_version: '%env(string:DB_VERSION)%'
+        options:
+            2: '%env(int:DB_CONNECTION_TIMEOUT)%' #const PDO:ATTR_TIMEOUT = 2 , minimum value is 2 https://pracucci.com/php-pdo-pgsql-connection-timeout.html
     orm:
         auto_generate_proxy_classes: true
         auto_mapping: true

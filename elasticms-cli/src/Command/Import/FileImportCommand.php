@@ -27,9 +27,9 @@ final class FileImportCommand extends AbstractImportCommand
     private string $file;
 
     public function __construct(
+        private readonly FileReaderInterface $fileReader,
         AdminHelper $adminHelper,
         StorageManager $storageManager,
-        private readonly FileReaderInterface $fileReader,
     ) {
         parent::__construct($adminHelper, $storageManager);
     }

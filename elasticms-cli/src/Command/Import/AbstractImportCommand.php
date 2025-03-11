@@ -161,8 +161,8 @@ abstract class AbstractImportCommand extends AbstractCommand
         $ouuid = $this->expressionLanguage->evaluate($config->ouuidExpression, ['row' => $row]);
         $prefix = $config->ouuidPrefix;
 
-        return match (true) {
-            $config->generateOuuid => (string) UuidGenerator::fromValue(($prefix ?? '').$ouuid),
+        return (string) match (true) {
+            $config->generateOuuid => UuidGenerator::fromValue(($prefix ?? '').$ouuid),
             null !== $prefix => Hash::string($prefix.$ouuid),
             $config->generateHash => Hash::string(\sprintf('FileReaderImport:%s:%s', $this->contentType, $ouuid)),
             default => $ouuid,

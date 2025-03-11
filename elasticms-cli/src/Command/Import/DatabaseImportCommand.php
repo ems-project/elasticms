@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\CLI\Command\Import;
 
 use App\CLI\Commands;
+use Doctrine\DBAL\Connection;
+use EMS\CommonBundle\Common\Admin\AdminHelper;
+use EMS\CommonBundle\Storage\StorageManager;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -21,12 +24,20 @@ final class DatabaseImportCommand extends AbstractImportCommand
 
     private string $table;
 
+    public function __construct(
+        private readonly Connection $connection,
+        AdminHelper $adminHelper,
+        StorageManager $storageManager
+    ) {
+        parent::__construct($adminHelper, $storageManager);
+    }
+
     #[\Override]
     protected function configure(): void
     {
-        parent::configure();
-
         $this->addArgument(self::ARGUMENT_TABLE, InputArgument::REQUIRED, 'Database table name.');
+
+        parent::configure();
     }
 
     #[\Override]
@@ -43,11 +54,28 @@ final class DatabaseImportCommand extends AbstractImportCommand
         try {
             $this->io->title('EMS CLI - Import - Database');
 
+            $config = $this->getImportConfig();
+            $records = $this->getRecords($this->table);
+
+            $this->import($config, $records);
+
             return self::EXECUTE_SUCCESS;
         } catch (\Throwable $e) {
             $this->io->error($e->getMessage());
 
             return self::EXECUTE_ERROR;
         }
+    }
+
+    private function getRecords(string $table): \Generator
+    {
+        $sql = \sprintf('SELECT * FROM %s;', $table);
+        $stmt = $this->connection->executeQuery($sql);
+
+        while ($row = $stmt->fetchAssociative()) {
+            yield $row;
+        }
+
+        return [];
     }
 }

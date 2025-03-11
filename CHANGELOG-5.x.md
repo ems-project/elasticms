@@ -1,5 +1,14 @@
 # Changelog 5.x
 
+## 5.25.5 (2025-03-10)
+### Features
+* feat(admin): allow change link forgot password by @IsaMic in https://github.com/ems-project/elasticms/pull/1250
+
+## 5.25.4 (2025-02-26)
+### Bug Fixes
+* fix(admin/action): filter on the environment even if the template.role == "not-defined" by @theus77 in https://github.com/ems-project/elasticms/pull/1205
+* fix(admin/revision): unlock after discard draft by @theus77 in https://github.com/ems-project/elasticms/pull/1223
+
 ## 5.25.3 (2025-02-12)
 ### Bug Fixes
 * fix(demo): fix favicon redirect to avoid _get_file_path: true by @theus77 in https://github.com/ems-project/elasticms/pull/1185

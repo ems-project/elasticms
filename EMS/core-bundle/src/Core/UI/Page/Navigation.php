@@ -20,6 +20,29 @@ class Navigation
         return (new self())->add(label: t('key.admin', [], 'emsco-core'));
     }
 
+    public static function dashboards(): self
+    {
+        return (new self())->add(label: t('key.dashboards', [], 'emsco-core'));
+    }
+
+    public static function publishers(): self
+    {
+        return (new self())->add(label: t('key.publishers', [], 'emsco-core'));
+    }
+
+    public static function data(?ContentType $contentType = null): self
+    {
+        $navigation = (new self())->add(label: t('key.content_types', [], 'emsco-core'));
+        if (null !== $contentType) {
+            $navigation->add(
+                text: $contentType->getPluralName(),
+                icon: $contentType->getIcon(),
+            );
+        }
+
+        return $navigation;
+    }
+
     public function contentType(ContentType $contentType): self
     {
         $this->contentTypes();

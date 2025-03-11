@@ -1,42 +1,14 @@
-{% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}{% trans_default_domain 'EMSCoreBundle' %}
+{% extends '@EMSAdminUI/bootstrap5/template/card.html.twig' %}
 
-{% block title %}Edit "{{ contentType.singularName }}"  field: {{ field.name }}{% endblock %}
-{% block pagetitle %}Edit "{{ contentType.singularName }}" field: {{ field.name }}{% endblock %}
-
-{% block breadcrumb %}
-	<ol class="breadcrumb float-sm-end">
-		<li class="breadcrumb-item"><a href="{{ path("emsco_admin_content_type_index") }}"><i class="fa fa-cubes"></i> Content Types</a></li>
-		<li class="breadcrumb-item"><a href="{{ path("emsco_admin_content_type_edit", {contentType: contentType.id}) }}"><i class="{{ contentType.icon }}"></i> Edit {{ contentType.singularName }}</a></li>
-		<li class="breadcrumb-item"><a href="{{ path("emsco_admin_content_type_reorder", {contentType: contentType.id}) }}"><i class="{{ contentType.icon }}"></i> Reorder {{ contentType.singularName }}</a></li>
-		<li class="breadcrumb-item active">Field</li>
-	</ol>
-{% endblock %}
-
-{% block body %}
-	{{ form_start(form) }}
-	<div class="row">
-		<div class="col-12">
-			<div class="card card-{{ theme_color }} card-outline card-outline-tabs">
-				<div class="card-header">
-					<h3 class="card-title"><i class="fa fa-sitemap"></i> {{ contentType.singularName }}'s field: {{ field.name }}</h3>
-				</div>
-				<!-- /.box-header -->
-				<div class="card-body">
-					{{ form_row(form.fieldType) }}
-				</div>
-				<!-- /.box-body -->
-				<div class="card-footer text-end">
-					<div class="btn-group">
-						<button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#edit_field_type_fieldType_modal_add">
-								<i class="fa fa-plus"></i> Subfield
-						</button>
-						{{ form_widget(form.save) }}
-						{{ form_widget(form.saveAndClose) }}
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-    {{ form_end(form) }}
-{% endblock %}
+{% block footer %}
+    {% set footer %}
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#edit_field_type_fieldType_modal_add">
+                    <i class="fa fa-plus"></i> Subfield
+            </button>
+            {{ form_widget(form.save) }}
+            {{ form_widget(form.saveAndClose) }}
+        </div>
+    {% endset %}
+    {{ parent() }}
+{% endblock footer %}

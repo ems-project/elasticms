@@ -1,5 +1,56 @@
 # Changelog 6.x
 
+## 6.1.1 (2025-03-10)
+### Bug Fixes
+* fix(admin/publish): only create new version if tags are defined by @Davidmattei in https://github.com/ems-project/elasticms/pull/1247
+* fix(web/form): add range and regex assert by @Davidmattei in https://github.com/ems-project/elasticms/pull/1248
+
+## 6.1.0 (2025-02-26)
+### Features
+* feat(admin/contentType): optional tags and date support by @Davidmattei in https://github.com/ems-project/elasticms/pull/1224
+* feat(admin/field): multiplexed tab with emsch.locales parameter by @theus77 in https://github.com/ems-project/elasticms/pull/1201
+* feat(admin/post-processing): add document revision in context by @Davidmattei in https://github.com/ems-project/elasticms/pull/1214
+* feat(admin/ui): replace select2 by choices.js by @theus77 in https://github.com/ems-project/elasticms/pull/1210
+* feat(common/bridge): add data publish endpoint by @Davidmattei in https://github.com/ems-project/elasticms/pull/1196
+* feat(common/bridge): add new initDraft method and CoreBridgeResponse by @Davidmattei in https://github.com/ems-project/elasticms/pull/1209
+* feat(common/twig): add ems_flash twig function by @Davidmattei in https://github.com/ems-project/elasticms/pull/1215
+* feat(mono-repo): add make 'check' target by @Davidmattei in https://github.com/ems-project/elasticms/pull/1220
+* feat(spreadsheet): add data validation by @IsaMic in https://github.com/ems-project/elasticms/pull/1190
+* feat(web/form): add dynamic choice element for emsch forms  by @Davidmattei in https://github.com/ems-project/elasticms/pull/1232
+* feat(web/form): add emsch_form_view view variable by @Davidmattei in https://github.com/ems-project/elasticms/pull/1233
+* feat(web/form): support constraints and extra elements by @Davidmattei in https://github.com/ems-project/elasticms/pull/1221
+### Bug Fixes
+* fix(admin): color picker form field by @theus77 in https://github.com/ems-project/elasticms/pull/1195
+* fix(admin): optional use of deprecated EMSCH_BACKEND_URL env by @Davidmattei in https://github.com/ems-project/elasticms/pull/1219
+* fix(admin/action): filter on the environment even if the template.role == "not-defined" by @theus77 in https://github.com/ems-project/elasticms/pull/1205
+* fix(admin/cli): backup fieldType ignore displayExtraOptions by @Davidmattei in https://github.com/ems-project/elasticms/pull/1212
+* fix(admin/color-picker): use translation function for choices by @theus77 in https://github.com/ems-project/elasticms/pull/1216
+* fix(admin/dashboard): use data-icon for type just like other pickers by @theus77 in https://github.com/ems-project/elasticms/pull/1230
+* fix(admin/field): avoid to have extra display options saved in the FileType entity by @theus77 in https://github.com/ems-project/elasticms/pull/1203
+* fix(admin/field): reverse entity name modal transformer nullable by @Davidmattei in https://github.com/ems-project/elasticms/pull/1211
+* fix(admin/revision): unlock after discard draft by @theus77 in https://github.com/ems-project/elasticms/pull/1223
+* fix(admin/ui): action are not filtered on envs is role is not defined by @theus77 in https://github.com/ems-project/elasticms/pull/1206
+* fix(admin/ui): edit content type form bootstrap 5 by @theus77 in https://github.com/ems-project/elasticms/pull/1204
+* fix(demo): correct demo-backup-configs by @theus77 in https://github.com/ems-project/elasticms/pull/1194
+### Code Refactoring
+* refactor(admin/ui): actions admin and forms admin (bs5 template) by @theus77 in https://github.com/ems-project/elasticms/pull/1226
+* refactor(admin/ui): admin analyzer by @theus77 in https://github.com/ems-project/elasticms/pull/1227
+* refactor(admin/ui): admin channels by @theus77 in https://github.com/ems-project/elasticms/pull/1228
+* refactor(admin/ui): admin content types by @theus77 in https://github.com/ems-project/elasticms/pull/1229
+* refactor(admin/ui): admin dashboard by @theus77 in https://github.com/ems-project/elasticms/pull/1231
+* refactor(admin/ui): crud add template by @theus77 in https://github.com/ems-project/elasticms/pull/1217
+* refactor(admin/ui): job templates by @theus77 in https://github.com/ems-project/elasticms/pull/1225
+* refactor(admin/ui): select2 to choices.js by @theus77 in https://github.com/ems-project/elasticms/pull/1207
+* refactor(admin/ui): style admin job with generic card template by @theus77 in https://github.com/ems-project/elasticms/pull/1213
+* refactor(common/slugger): preserve file extension option by @theus77 in https://github.com/ems-project/elasticms/pull/1187
+* refactor(demo): simplify content types and add a link content type by @theus77 in https://github.com/ems-project/elasticms/pull/1191
+* refactor(helper/date): convert java/js format to php by @Davidmattei in https://github.com/ems-project/elasticms/pull/1222
+### Chores
+* chore(admin/ui): npm run format by @theus77 in https://github.com/ems-project/elasticms/pull/1208
+* chore(docker): setup_minio like demo by @theus77 in https://github.com/ems-project/elasticms/pull/1198
+* chore(make): upgrade to base-php:8.4-cli-dev for npm by @theus77 in https://github.com/ems-project/elasticms/pull/1202
+* chore: build translations correct paths and only yaml by @Davidmattei in https://github.com/ems-project/elasticms/pull/1218
+
 ## 6.0.1 (2025-02-12)
 ### Bug Fixes
 * fix(admin/ui): select2 in bootstrap's modal by @theus77 in https://github.com/ems-project/elasticms/pull/1192

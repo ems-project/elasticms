@@ -65,6 +65,10 @@
             <argument type="service" id="security.csrf.token_manager" />
         </service>
 
+        <service id="emsch.form.extension.view" class="EMS\ClientHelperBundle\Helper\Form\Extension\EmschFormViewExtension">
+            <tag name="form.type_extension" priority="1"/>
+        </service>
+
         <!-- event listeners -->
         <service id="emsch.event_listener.security" class="EMS\ClientHelperBundle\EventListener\SecurityListener">
             <argument type="service" id="security.authorization_checker" />

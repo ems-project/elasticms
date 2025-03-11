@@ -50,7 +50,7 @@ fields:
         view-button: fields.asset.view-button
 form:
     field-type-type:
-        root: form.field-type-type.root
+        root: Structure
 view:
     form:
         fields:

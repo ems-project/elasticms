@@ -1,8 +1,71 @@
+action:
+    update_from_json: 'Update from JSON'
+button:
+    confirm: 'Do you confirm?'
+    delete: Delete
+    reload_page: 'Reload page'
+content_type:
+    field: Field
+    mapping: Mapping
+    permission: Permission
+    role: Role
+    settings: Settings
+    tasks: Tasks
+    versioning: Versioning
 core:
     modal:
         close: Close
         loading: Loading...
-icon:
-    jobs: 'fa fa-terminal'
+job:
+    command: Command
+    completed: Completed
+    info: 'About this job'
+    list: "Job's list"
+    modified: 'Last updated'
+    output: "Job's output"
+    progress: Progress
+    started: 'Started time'
+    tag: Tag
+    user: User
 key:
-    jobs: Jobs
+    active_primary_shards: 'Active primary shards'
+    active_shards: 'Active shards'
+    active_shards_percent_as_number: 'Active shards'
+    add_translation: 'Add translation'
+    bits: Bits
+    build_date: 'Build date'
+    cancel: Cancel
+    channel: Channel
+    client: Client
+    cluster_uuid: 'Cluster UUID'
+    content: Content
+    content_types: 'Content types'
+    context: Context
+    create: Create
+    created: Created
+    delayed_unassigned_shards: 'Delayed unassigned shards'
+    environments: Environments
+    extra: Extra
+    impersonator: Impersonator
+    initializing_shards: 'Initializing shards'
+    lucene_version: 'Lucene version'
+    message: Message
+    name: Name
+    not-applicable: N/A
+    number_of_data_nodes: 'Number of data nodes'
+    number_of_nodes: 'Number of nodes'
+    number_of_pending_tasks: 'Number of pending tasks'
+    public_key: 'Public key'
+    save: Save
+    severity: Severity
+    sort_by: 'Sort by'
+    status: Status
+    tagline: Tagline
+    task_max_waiting_in_queue_millis: 'Task max waiting in queue'
+    unassigned_shards: 'Unassigned shards'
+    username: Username
+    version: Version
+log:
+    title: 'Log of the {created}'
+notice_card:
+    title: Notice

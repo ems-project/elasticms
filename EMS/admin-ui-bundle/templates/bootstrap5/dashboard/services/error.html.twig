@@ -1,22 +1,8 @@
-{% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}
-{% trans_default_domain 'emsco-twigs' %}
-
-{% block breadcrumb %}
-    <ol class="breadcrumb float-sm-end">
-        <li class="breadcrumb-item"><a href="{{ path('emsco_dashboard', {name: dashboard.name}) }}"><i class="{{ dashboard.icon }}"></i> {{ dashboard.label }}</a></li>
-    </ol>
-{% endblock %}
-
-{% block title %}{{ 'dashboard.exception.title'|trans({'%name%': dashboard.name}) }}{% endblock %}
-{% block pagetitle %}{{ block('title') }}{% endblock %}
-{% block subtitle %}{% endblock %}
+{% extends '@EMSAdminUI/bootstrap5/template/card.html.twig' %}
 
 {% block body %}
-    <div class="row">
-        <div class="col-12">
-            <div class="card card-{{ theme_color }} card-outline card-body">
-                <pre>{{ exception.message }}</pre>
-            </div>
-        </div>
-    </div>
+    {% set content %}
+        <pre>{{ exception.message }}</pre>
+    {% endset %}
+    {{ parent() }}
 {% endblock %}

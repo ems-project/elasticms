@@ -7,6 +7,7 @@ namespace EMS\CoreBundle\Controller;
 use Elasticsearch\Common\Exceptions\ElasticsearchException;
 use Elasticsearch\Common\Exceptions\NoNodesAvailableException;
 use EMS\CommonBundle\Common\EMSLink;
+use EMS\CommonBundle\Elasticsearch\Aggregation\Bucket;
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
 use EMS\CommonBundle\Elasticsearch\Response\Response as CommonResponse;
 use EMS\CommonBundle\Helper\EmsFields;
@@ -15,6 +16,7 @@ use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Core\Dashboard\DashboardManager;
 use EMS\CoreBundle\Core\Document\DataLinks;
+use EMS\CoreBundle\Core\UI\Page\Navigation;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Dashboard;
 use EMS\CoreBundle\Entity\Form\ExportDocuments;
@@ -45,16 +47,17 @@ use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
+
+use function Symfony\Component\Translation\t;
 
 class ElasticsearchController extends AbstractController
 {
-    /**
-     * @param string[] $elasticsearchCluster
-     */
     public function __construct(
         private readonly LoggerInterface $logger,
         private readonly IndexService $indexService,
@@ -73,9 +76,10 @@ class ElasticsearchController extends AbstractController
         private readonly ContentTypeRepository $contentTypeRepository,
         private readonly SearchRepository $searchRepository,
         private readonly EnvironmentRepository $environmentRepository,
+        private readonly TranslatorInterface $translator,
+        private readonly SerializerInterface $serializer,
         private readonly int $pagingSize,
         private readonly ?string $healthCheckAllowOrigin,
-        private readonly array $elasticsearchCluster,
         private readonly string $templateNamespace
     ) {
     }
@@ -109,73 +113,88 @@ class ElasticsearchController extends AbstractController
         return $this->render("@$this->templateNamespace/elasticsearch/add-alias.html.twig", [
             'form' => $form->createView(),
             'name' => $name,
+            'title' => t('type.title_create', ['type' => 'alias', 'label' => $name], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'alias'], 'emsco-core'),
+            'breadcrumb' => Navigation::admin()->environments()->add(
+                label: t('key.orphan_indexes', [], 'emsco-core'),
+                icon: 'fa fa-chain-broken',
+                route: Routes::ADMIN_ELASTIC_ORPHAN
+            )->add(t('type.title_create', ['type' => 'alias', 'label' => $name], 'emsco-core')),
+            'notice' => t('type.notice_message', ['type' => 'alias'], 'emsco-core'),
         ]);
     }
 
     public function healthCheck(string $_format): Response
     {
-        try {
-            $health = $this->elasticaService->getClusterHealth();
+        @\trigger_error(\sprintf('The controller method %s::healthCheck is deprecated, please use %s::status with detailed=false', self::class, self::class), E_USER_DEPRECATED);
 
-            $response = $this->render("@$this->templateNamespace/elasticsearch/status.$_format.twig", [
-                'status' => $health,
-                'globalStatus' => $health['status'] ?? 'red',
-            ]);
-
-            $allowOrigin = $this->healthCheckAllowOrigin;
-            if (\is_string($allowOrigin) && \strlen($allowOrigin) > 0) {
-                $response->headers->set('Access-Control-Allow-Origin', $allowOrigin);
-            }
-
-            return $response;
-        } catch (\Exception $e) {
-            throw new ServiceUnavailableHttpException('Due to '.$e->getMessage());
-        }
+        return $this->status($_format, false);
     }
 
-    public function status(string $_format): Response
+    public function status(string $_format, bool $detailed = true): Response
     {
+        if ($detailed && !$this->authorizationChecker->isGranted('ROLE_USER')) {
+            $detailed = false;
+        }
+        $statusCode = 200;
+        $context = [];
         try {
-            $status = $this->elasticaService->getClusterHealth();
-            $certificateInformation = $this->dataService->getCertificateInfo();
+            $health = $this->elasticaService->getClusterHealth();
+            $context['cluster'] = $detailed ? $health : null;
+            $context['cluster']['status'] = $status = $health['status'] ?? 'red';
+            $context['cluster']['title'] = $this->translator->trans('cluster.status', ['color' => $status], 'emsco-core');
+            if ('red' === $status) {
+                $statusCode = 500;
+            }
+        } catch (\Throwable $e) {
+            $status = 'red';
+            $context['cluster']['title'] = $e->getMessage();
+            $statusCode = 503;
+        }
+        $context['status'] = $status;
+        $context['title'] = $context['cluster']['title'];
 
-            $globalStatus = 'green';
+        if ($detailed) {
+            $context['cluster'] = \array_merge($context['cluster'], $this->elasticaService->getClusterInfo());
+
+            $context['certificate'] = $this->dataService->getCertificateInfo();
+            $context['certificate']['title'] = $this->translator->trans('certificate.status', ['color' => $context['certificate']['status'] ?? 'red'], 'emsco-core');
+
             try {
-                $tika = $this->assetExtractorService->hello();
+                $context['asset_extractor'] = $this->assetExtractorService->hello();
+                $context['asset_extractor']['status'] = 'green';
+                $context['asset_extractor']['title'] = $this->translator->trans('asset_extractor.status', ['color' => 'green'], 'emsco-core');
             } catch (\Exception $e) {
-                $globalStatus = 'yellow';
-                $tika = [
-                    'code' => 500,
-                    'content' => $e->getMessage(),
+                $context['asset_extractor'] = [
+                    'status' => 'red',
+                    'title' => $this->translator->trans('asset_extractor.status', ['color' => 'red'], 'emsco-core'),
+                    'message' => $e->getMessage(),
                 ];
             }
-
-            if ('html' === $_format && 'green' !== $status['status']) {
-                $globalStatus = $status['status'];
-                if ('red' === $status['status']) {
-                    $this->logger->error('log.elasticsearch.cluster_red', [
-                        'color_status' => $status['status'],
-                    ]);
-                } else {
-                    $this->logger->warning('log.elasticsearch.cluster_yellow', [
-                        'color_status' => $status['status'],
-                    ]);
-                }
-            }
-
-            return $this->render("@$this->templateNamespace/elasticsearch/status.$_format.twig", [
-                'status' => $status,
-                'certificate' => $certificateInformation,
-                'tika' => $tika,
-                'globalStatus' => $globalStatus,
-                'info' => $this->elasticaService->getClusterInfo(),
-                'specifiedVersion' => $this->elasticaService->getVersion(),
-            ]);
-        } catch (NoNodesAvailableException) {
-            return $this->render("@$this->templateNamespace/elasticsearch/no-nodes-available.$_format.twig", [
-                'cluster' => $this->elasticsearchCluster,
-            ]);
         }
+
+        $htmlTemplate = "@$this->templateNamespace/elasticsearch/status.html.twig";
+        $response = match ($_format) {
+            'json' => new JsonResponse(\array_filter(\array_merge($context, [
+                'body' => $this->renderBlock($htmlTemplate, 'status', $context)->getContent(),
+            ]))),
+            'xml' => new Response($this->serializer->serialize($context, 'xml'), 200, ['Content-Type' => 'application/xml']),
+            default => $this->render($htmlTemplate, \array_filter(\array_merge($context, [
+                'title' => t('status.title', [], 'emsco-core'),
+                'subTitle' => t('status.title_sub', [], 'emsco-core'),
+                'breadcrumb' => new Navigation()->add(
+                    label: t('status.title', [], 'emsco-core'),
+                    icon: 'fa-solid fa-stethoscope',
+                ),
+            ]))),
+        };
+        $response->setStatusCode($statusCode);
+        $allowOrigin = $this->healthCheckAllowOrigin;
+        if (\is_string($allowOrigin) && \strlen($allowOrigin) > 0) {
+            $response->headers->set('Access-Control-Allow-Origin', $allowOrigin);
+        }
+
+        return $response;
     }
 
     public function indexSearch(): Response
@@ -489,6 +508,11 @@ class ElasticsearchController extends AbstractController
 
                 return $this->render("@$this->templateNamespace/elasticsearch/save-search.html.twig", [
                     'form' => $form->createView(),
+                    'title' => t('type.title_create', ['type' => 'search'], 'emsco-core'),
+                    'subTitle' => t('type.title_sub', ['type' => 'search'], 'emsco-core'),
+                    'breadcrumb' => $this->breadcrumb($search)->add(
+                        t('type.title_create', ['type' => 'search'], 'emsco-core')
+                    ),
                 ]);
             } elseif ($form->isSubmitted() && $form->isValid() && \array_key_exists('delete', $request->query->all('search_form'))) {
                 // Form treatment after the "Delete" button has been pressed (to delete a previous saved search preset)
@@ -543,7 +567,8 @@ class ElasticsearchController extends AbstractController
             if (null !== $response && $form->isSubmitted() && $form->isValid() && \array_key_exists('exportResults', $request->query->all('search_form'))) {
                 $exportForms = [];
                 $contentTypes = $this->getAllContentType($response);
-                foreach ($contentTypes as $name) {
+                foreach ($contentTypes as $bucket) {
+                    $name = $bucket->getKey();
                     $contentType = $types[$name];
 
                     $exportForm = $this->createForm(ExportDocumentsType::class, new ExportDocuments(
@@ -552,11 +577,21 @@ class ElasticsearchController extends AbstractController
                         Json::encode($this->searchService->generateSearchBody($search))
                     ));
 
-                    $exportForms[] = $exportForm->createView();
+                    $exportForms[] = [
+                        'form' => $exportForm->createView(),
+                        'title' => t('type.export', ['type' => 'documents', 'count' => $bucket->getCount(), 'singular' => $contentType->getSingularName(), 'plural' => $contentType->getPluralName()], 'emsco-core'),
+                        'icon' => $contentType->getIcon(),
+                    ];
                 }
 
                 return $this->render("@$this->templateNamespace/elasticsearch/export-search.html.twig", [
-                    'exportForms' => $exportForms,
+                    'forms' => $exportForms,
+                    'title' => t('key.export_documents', [], 'emsco-core'),
+                    'subTitle' => t('type.title_sub', ['type' => 'search'], 'emsco-core'),
+                    'breadcrumb' => $this->breadcrumb($search)->add(
+                        label: t('key.export_documents', [], 'emsco-core'),
+                        icon: 'fa fa-archive',
+                    ),
                 ]);
             }
 
@@ -595,6 +630,9 @@ class ElasticsearchController extends AbstractController
                 'search' => $search,
                 'sortOptions' => $this->sortOptionService->getAll(),
                 'aggregateOptions' => $this->aggregateOptionService->getAll(),
+                'title' => t('search.title', ['count' => $response?->getTotal() ?? -1], 'emsco-core'),
+                'subTitle' => t('type.title_sub', ['type' => 'search'], 'emsco-core'),
+                'breadcrumb' => $this->breadcrumb($search),
             ]);
         } catch (NoNodesAvailableException) {
             return $this->redirectToRoute('elasticsearch.status');
@@ -602,15 +640,22 @@ class ElasticsearchController extends AbstractController
     }
 
     /**
-     * @return string[]
+     * @return iterable<Bucket>|Bucket[]
      */
-    private function getAllContentType(CommonResponse $response): array
+    private function getAllContentType(CommonResponse $response): iterable
     {
         $aggregation = $response->getAggregation(AggregateOptionService::CONTENT_TYPES_AGGREGATION);
-        if (null === $aggregation) {
-            return [];
-        }
 
-        return $aggregation->getKeys();
+        return $aggregation?->getBuckets() ?? [];
+    }
+
+    private function breadcrumb(?Search $search = null): Navigation
+    {
+        return Navigation::data()->add(
+            label: t('key.search', [], 'emsco-core'),
+            icon: 'fa fa-search',
+            route: 'ems_search',
+            routeParams: ['search_form' => $search?->jsonSerialize() ?? []],
+        );
     }
 }

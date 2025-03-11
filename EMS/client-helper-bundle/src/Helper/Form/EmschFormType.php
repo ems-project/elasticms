@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Helper\Form;
 
-use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Form\FormInterface;
+use EMS\ClientHelperBundle\Helper\Form\Type as EmsFormType;
 use EMS\CommonBundle\Contracts\Twig\TemplateInterface;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ButtonType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type as SymfonyType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraint;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @extends AbstractType<mixed>
@@ -20,10 +20,14 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class EmschFormType extends AbstractType
 {
     private const string BLOCK_FROM_CONFIG = 'emschFormConfig';
+    private const string BLOCK_FROM_VIEW = 'emschFormView';
 
     /**
-     * @param FormBuilderInterface<FormInterface>    $builder
-     * @param array{ 'template': TemplateInterface } $options
+     * @param FormBuilderInterface<mixed> $builder
+     * @param array{
+     *     'template': TemplateInterface,
+     *     'emsch_form_view': array<mixed>
+     * } $options
      */
     #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -32,28 +36,13 @@ class EmschFormType extends AbstractType
         $elements = $options['template']->jsonBlock(self::BLOCK_FROM_CONFIG);
 
         foreach ($elements as $element) {
-            $type = $element['type'] ?? 'text';
+            $elementType = $this->getElementType($element['type'] ?? 'text');
+            $elementOptions = $element['options'] ?? [];
+            $elementOptions['constraints'] = $this->resolveConstraints($elementOptions['constraints'] ?? []);
+            $elementOptions['emsch_form_view'] = $options['emsch_form_view'];
 
-            $elementType = match ($type) {
-                'text' => TextType::class,
-                'date' => DateType::class,
-                'button' => ButtonType::class,
-                'submit' => SubmitType::class,
-                default => throw new \RuntimeException(\sprintf('Unknown form type "%s"', $type)),
-            };
-
-            $builder->add(
-                child: $element['name'],
-                type: $elementType,
-                options: $element['options'] ?? []
-            );
+            $builder->add(child: $element['name'], type: $elementType, options: $elementOptions);
         }
-    }
-
-    #[\Override]
-    public function getBlockPrefix(): string
-    {
-        return '';
     }
 
     #[\Override]
@@ -62,6 +51,68 @@ class EmschFormType extends AbstractType
         $resolver
             ->setRequired(['template'])
             ->setAllowedTypes('template', TemplateInterface::class)
-        ;
+            ->setDefault('emsch_form_view', function (Options $options): array {
+                /** @var TemplateInterface $template */
+                $template = $options['template'];
+
+                return $template->jsonBlock(self::BLOCK_FROM_VIEW);
+            });
+    }
+
+    #[\Override]
+    public function getBlockPrefix(): string
+    {
+        return '';
+    }
+
+    private function getElementType(string $type): string
+    {
+        return match ($type) {
+            'button' => SymfonyType\ButtonType::class,
+            'checkbox' => SymfonyType\CheckboxType::class,
+            'choice' => SymfonyType\ChoiceType::class,
+            'choice_dynamic' => EmsFormType\EmschChoiceDynamicType::class,
+            'country' => SymfonyType\CountryType::class,
+            'date' => EmsFormType\EmschDateType::class,
+            'datetime' => EmsFormType\EmschDateTimeType::class,
+            'hidden' => SymfonyType\HiddenType::class,
+            'integer' => SymfonyType\IntegerType::class,
+            'language' => SymfonyType\LanguageType::class,
+            'money' => SymfonyType\MoneyType::class,
+            'number' => SymfonyType\NumberType::class,
+            'submit' => SymfonyType\SubmitType::class,
+            'text' => SymfonyType\TextType::class,
+            'textarea' => SymfonyType\TextareaType::class,
+            default => throw new \RuntimeException(\sprintf('Unknown form type "%s"', $type)),
+        };
+    }
+
+    /**
+     * @param array<int, array<mixed>> $constraints
+     *
+     * @return Constraint[]
+     */
+    private function resolveConstraints(array $constraints): array
+    {
+        return \array_map(static fn (array $value) => match ($value['type']) {
+            'notBlank' => new Assert\NotBlank(message: $value['message'] ?? null),
+            'email' => new Assert\Email(message: $value['message'] ?? null),
+            'length' => new Assert\Length(
+                min: isset($value['min']) ? (int) $value['min'] : null,
+                max: isset($value['max']) ? (int) $value['max'] : null,
+                minMessage: $value['minMessage'] ?? null,
+                maxMessage: $value['maxMessage'] ?? null,
+            ),
+            'range' => new Assert\Range(
+                notInRangeMessage: $value['message'] ?? null,
+                min: isset($value['min']) ? (int) $value['min'] : null,
+                max: isset($value['max']) ? (int) $value['max'] : null,
+            ),
+            'regex' => new Assert\Regex(
+                pattern: $value['pattern'],
+                message: $value['message'] ?? null,
+            ),
+            default => throw new \RuntimeException(\sprintf('Invalid constraint type "%s"', $value['type'])),
+        }, $constraints);
     }
 }

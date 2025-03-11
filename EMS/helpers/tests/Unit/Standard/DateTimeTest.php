@@ -56,4 +56,10 @@ class DateTimeTest extends TestCase
 
         DateTime::createFromFormat('invalid-time', \DateTimeInterface::ATOM);
     }
+
+    public function testConvertFormat(): void
+    {
+        $this->assertEquals('Y/m/d g:i:s', DateTime::convertFormat('java', 'yyyy/MM/dd hh:mm:ss'));
+        $this->assertEquals('d-FM-Y HH:m:ss', DateTime::convertFormat('js', 'dd-MMM-yyyy HH:mm:ss'));
+    }
 }

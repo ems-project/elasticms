@@ -10,6 +10,7 @@ use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Data\DataInterface;
 use EMS\CommonBundle\Contracts\File\FileReaderInterface;
+use EMS\CommonBundle\Helper\MimeTypeHelper;
 use EMS\CommonBundle\Search\Search;
 use EMS\CommonBundle\Storage\File\FileInterface;
 use EMS\CommonBundle\Storage\NotFoundException;
@@ -97,7 +98,11 @@ final class FileReaderImportCommand extends AbstractCommand
 
             $config = $this->createConfig(...$this->getOptionStringArray(self::OPTION_CONFIG, false));
 
-            $cells = $this->fileReader->readCells($this->getFile($this->file)->getFilename(), [
+            $file = $this->getFile($this->file);
+            $mimeType = MimeTypeHelper::getInstance()->guessMimeType($file->getFilename());
+
+            $cells = $this->fileReader->readCells($file->getFilename(), [
+                'mime_type' => $mimeType,
                 'delimiter' => $config->delimiter,
                 'encoding' => $config->encoding,
                 'exclude_rows' => $config->excludeRows,

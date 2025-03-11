@@ -17,6 +17,7 @@ use EMS\CoreBundle\Form\Form\GroupType;
 use EMS\CoreBundle\Form\Form\TableType;
 use EMS\CoreBundle\Form\Form\UserType;
 use EMS\CoreBundle\Routes;
+use EMS\CoreBundle\Service\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,6 +31,7 @@ class GroupController extends AbstractController
     public function __construct(
         private readonly LocalizedLoggerInterface $logger,
         private readonly GroupManager $groupManager,
+        private readonly UserService $userService,
         private readonly FieldTypeManager $fieldTypeManager,
         private readonly DataTableFactory $dataTableFactory,
         private readonly string $templateNamespace,
@@ -110,6 +112,9 @@ class GroupController extends AbstractController
         $this->groupManager->editGroup($group);
         $form = $this->createForm(GroupType::class, $group, ['mode' => UserType::MODE_UPDATE]);
         $form->handleRequest($request);
+        $users = $this->userService->getUsersByGroup($group->getName());
+        dump($users);
+  
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->groupManager->editGroup($group);
@@ -119,6 +124,7 @@ class GroupController extends AbstractController
 
         return $this->render("@$this->templateNamespace/group/create.html.twig", [
             'form' => $form,
+            'users' => $users,
         ]);
     }
 

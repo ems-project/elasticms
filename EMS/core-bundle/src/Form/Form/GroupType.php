@@ -57,7 +57,6 @@ final class GroupType extends AbstractType
             'mapped' => true,
         ]);
 
-      dump($this->userService->getUsersByGroup("prof"));
         /*$builder->add(self::MODE_CREATE, ChoiceType::class, [
             'choices' => $this->userService->getExistingRoles(),
             'label' => 'Roles',
@@ -84,6 +83,8 @@ final class GroupType extends AbstractType
                 'icon' => 'fa fa-save',
                 'translation_domain' => EMSCoreBundle::TRANS_DOMAIN,
             ]);
+            //dump($this->userService->getUsersByGroup($builder->getData()->__toString()));
+
         }
     }
 

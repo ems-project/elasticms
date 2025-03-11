@@ -26,9 +26,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 #[AsCommand(
-    name: Commands::FILE_READER_IMPORT,
+    name: Commands::IMPORT_FILE,
     description: 'Import an Excel file or a CSV file, one document per row.',
-    hidden: false
+    aliases: ['emscli:file-reader:import'],
+    hidden: false 
 )]
 final class FileReaderImportCommand extends AbstractCommand
 {

@@ -302,6 +302,14 @@ In a WYSIWYG field, the master file won't be uploaded, a resized image will be u
 ```dotenv
 EMSCO_IMAGE_MAX_SIZE=2048
 ``` 
+
+### EMSCO_FORGOT_PASSWORD_URL
+For replace the value of href of the 'I forgot my password' link.
+When we don't have a mail server for the password request form, we can replace this link for example with a mailto.
+
+```dotenv
+EMSCO_FORGOT_PASSWORD_URL=mailto:project@site.be?subject=Password%20Reset&body=Hello%2C%0A%0AI%20am%20requesting%20to%20reset%20my%20password%20for%20my%20account%20%5BEnter%20Your%20User%20Name%5D
+``` 
   
 ### EMS_BACKEND_URL
 Define the url use by the user to access elasticms (in order to generate links in emails).

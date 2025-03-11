@@ -113,9 +113,7 @@ class GroupController extends AbstractController
         $form = $this->createForm(GroupType::class, $group, ['mode' => UserType::MODE_UPDATE]);
         $form->handleRequest($request);
         $users = $this->userService->getUsersByGroup($group->getName());
-        dump($users);
-  
-
+        
         if ($form->isSubmitted() && $form->isValid()) {
             $this->groupManager->editGroup($group);
 

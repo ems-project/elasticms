@@ -6,7 +6,7 @@ namespace App\CLI\Client\File;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class FileReaderImportConfig
+class ImportConfig
 {
     /**
      * @param array<string, mixed> $defaultData

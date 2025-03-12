@@ -20,17 +20,53 @@ Define the max connections to the API client, when using async calls. By default
 
 ## Doctrine variables
 
-### DATABASE_URL
+Default values (sqlite):
+```dotenv
+DB_DRIVER='pgsql'
+DB_USER='user'
+DB_PASSWORD='pass'
+DB_PORT='5432'
+DB_NAME='elasticms'
+```
 
-Format described at https://www.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/configuration.html#connecting-using-a-url
+### DB_HOST
 
-IMPORTANT: You MUST configure your server version, either here or in config/packages/doctrine.yaml
+DB's host.
+- Default value: `127.0.0.1`
+- Example: `DB_DRIVER='db-server.tl'`
 
-Examples: 
-- `DATABASE_URL="sqlite:///%kernel.project_dir%/var/data.db"`
-- `DATABASE_URL="mysql://db_user:db_password@127.0.0.1:3306/db_name?serverVersion=5.7&charset=utf8mb4"`
-- `DATABASE_URL="postgresql://symfony:ChangeMe@127.0.0.1:5432/app?serverVersion=13&charset=utf8"`
+### DB_DRIVER
 
+Driver (Type of the DB server). Accepted values are `mysql`, `pgsql` and `sqlite`
+- Default value: `pgsql`
+- Example: `DB_DRIVER='pgsql'`
+
+### DB_USER
+
+- Default value `user`
+- Example: `DB_USER='demo'`
+
+### DB_PASSWORD
+
+- Default value `pass`
+- Example: `DB_PASSWORD='password'`
+
+### DB_PORT
+
+For information the default mysql/mariadb port is 3306 and 5432 for Postgres
+- Default value `5432`
+- Example: `DB_PORT='5432'`
+
+### DB_NAME
+
+- Default value `elasticms`
+- Example: `DB_NAME='demo'`
+
+### DB_SCHEMA
+
+This variable is not used by Doctrine but by the dump script with postgres in the docker image of elasticms.
+- Default value: not defined
+- Example: `DB_SCEMA='schema_demo_adm'`
 
 ## Elasticms Common Bundle variables
 

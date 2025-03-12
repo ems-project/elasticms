@@ -1,4 +1,19 @@
-{% extends '@EMSCore/group/form.html.twig' %}
-{% trans_default_domain 'emsco-twigs' %}
+{% extends '@EMSCore/crud/overview.html.twig' %}
+{#{% trans_default_domain 'emsco-twigs' %}#}
 
-{% block title %}{{ 'group.add.title'|trans }}{% endblock %}
+{#{% block title %}{{ 'group.add.title'|trans }}{% endblock %}#}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-6">
+            {{ form(form) }}
+        </div>
+        <div class="col-md-6">
+            {% with {
+                form: datatableForm,
+            } %}
+                {{ parent() }}
+            {% endwith %}
+        </div>
+    </div>
+{% endblock %}

@@ -11,6 +11,9 @@ use EMS\CoreBundle\Core\Form\FieldTypeManager;
 use EMS\CoreBundle\Core\UI\Page\Navigation;
 use EMS\CoreBundle\Core\User\GroupManager;
 use EMS\CoreBundle\DataTable\Type\GroupDataTableType;
+use EMS\CoreBundle\DataTable\Type\UserDataTableType;
+use EMS\CoreBundle\DataTable\Type\UserGroupDataTableType;
+use EMS\CoreBundle\DataTable\Type\Wysiwyg\WysiwygStylesSetDataTableType;
 use EMS\CoreBundle\Entity\Group;
 use EMS\CoreBundle\Form\Data\TableAbstract;
 use EMS\CoreBundle\Form\Form\GroupType;
@@ -19,6 +22,8 @@ use EMS\CoreBundle\Form\Form\UserType;
 use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -109,10 +114,13 @@ class GroupController extends AbstractController
 
     public function editGroup(Group $group, Request $request): Response
     {
+        $userGroupDataTable = $this->usersInGroupDataTable($request, $group);
         $this->groupManager->editGroup($group);
-        $form = $this->createForm(GroupType::class, $group, ['mode' => UserType::MODE_UPDATE]);
+        $form = $this->createForm(GroupType::class, $group, [
+            'mode' => UserType::MODE_UPDATE,
+        ]);
         $form->handleRequest($request);
-        $users = $this->userService->getUsersByGroup($group->getName());
+//        $users = $this->userService->getUsersByGroup($group->getName());
         
         if ($form->isSubmitted() && $form->isValid()) {
             $this->groupManager->editGroup($group);
@@ -122,7 +130,10 @@ class GroupController extends AbstractController
 
         return $this->render("@$this->templateNamespace/group/create.html.twig", [
             'form' => $form,
-            'users' => $users,
+            'datatableForm' => $userGroupDataTable->createView(),
+            'title' => t('type.title_edit', ['type' => 'group'], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'group'], 'emsco-core'),
+            'breadcrumb' => $this->breadcrumb(),
         ]);
     }
 
@@ -137,5 +148,32 @@ class GroupController extends AbstractController
             icon: 'fa fa-users',
             route: 'emsco_group_admin_index'
         );
+    }
+
+    /**
+     * @return RedirectResponse|FormInterface<mixed>
+     */
+    private function usersInGroupDataTable(Request $request, Group $group): RedirectResponse|FormInterface
+    {
+
+        $table = $this->dataTableFactory->create(UserDataTableType::class, [
+            'light' => true,
+            'group' => $group,
+        ]);
+
+        $form = $this->createForm(TableType::class, $table);
+//        $table = $this->dataTableFactory->create(UserGroupDataTableType::class);
+//        $form = $this->createForm( TableType::class, $table, [
+//            'reorder_label' => t('type.reorder', ['type' => 'form'], 'emsco-core'),
+//        ]);
+//        $form->handleRequest($request);
+//
+//        if ($form->isSubmitted() && $form->isValid()) {
+//            // ...
+//            dump($form->getData());
+//        }
+
+        return $form;
+        
     }
 }

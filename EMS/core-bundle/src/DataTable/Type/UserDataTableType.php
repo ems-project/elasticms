@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\DataTable\Type;
 
 use EMS\CoreBundle\Core\DataTable\Type\AbstractEntityTableType;
+use EMS\CoreBundle\Entity\Group;
 use EMS\CoreBundle\Form\Data\BoolTableColumn;
 use EMS\CoreBundle\Form\Data\Condition\Terms;
 use EMS\CoreBundle\Form\Data\DataLinksTableColumn;
@@ -14,6 +15,7 @@ use EMS\CoreBundle\Form\Data\RolesTableColumn;
 use EMS\CoreBundle\Roles;
 use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\UserService;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserDataTableType extends AbstractEntityTableType
 {
@@ -29,9 +31,9 @@ class UserDataTableType extends AbstractEntityTableType
     {
         $table->addColumn('user.index.column.username', 'username');
         $table->addColumn('user.index.column.displayname', 'displayName');
+        $table->addColumn('user.index.column.email', 'email');
         $table->addColumnDefinition(new BoolTableColumn('user.index.column.email_notification', 'emailNotification'))
             ->setIconClass('fa fa-bell');
-        $table->addColumn('user.index.column.email', 'email');
         $table->addColumn('user.index.column.locale_ui', 'locale');
         $table->addColumn('user.index.column.locale_preferred', 'localePreferred');
         $table->addColumn('user.index.column.wysiwyg_profile', 'wysiwygProfile');
@@ -55,5 +57,14 @@ class UserDataTableType extends AbstractEntityTableType
     public function getRoles(): array
     {
         return [Roles::ROLE_USER_MANAGEMENT];
+    }
+    
+    public function configureOptions(OptionsResolver $optionsResolver): void
+    {
+        parent::configureOptions($optionsResolver);
+        $optionsResolver->setDefaults([
+            'light' => false,
+            'group'=>null,
+        ])->setAllowedTypes('light', ['bool'])->setAllowedTypes('group', ['null', Group::class]);
     }
 }

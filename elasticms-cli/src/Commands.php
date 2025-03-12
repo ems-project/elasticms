@@ -16,6 +16,6 @@ class Commands
 
     final public const string IMPORT_FILE = 'emscli:import:file';
     final public const string IMPORT_DATABASE = 'emscli:import:database';
-    
+
     final public const string USERS_COLLECT_USERS = 'emscli:users:collect';
 }

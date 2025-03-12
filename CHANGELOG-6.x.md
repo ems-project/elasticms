@@ -1,8 +1,12 @@
 # Changelog 6.x
 
-## 6.1.1 (2025-03-10)
+## 6.1.1 (2025-03-12)
+### Features
+* feat(admin): allow change link forgot password by @IsaMic in https://github.com/ems-project/elasticms/pull/1250
+* feat(cli/import): add command for database import by @Davidmattei in https://github.com/ems-project/elasticms/pull/1253
 ### Bug Fixes
 * fix(admin/publish): only create new version if tags are defined by @Davidmattei in https://github.com/ems-project/elasticms/pull/1247
+* fix(cli/file-import): use correct mimetype of import file by @Davidmattei in https://github.com/ems-project/elasticms/pull/1252
 * fix(web/form): add range and regex assert by @Davidmattei in https://github.com/ems-project/elasticms/pull/1248
 
 ## 6.1.0 (2025-02-26)

@@ -171,6 +171,12 @@ class UserService implements EntityServiceInterface
         $em->remove($user);
         $em->flush();
     }
+    public function deleteUserForGroup(User $user): void
+    {
+        $em = $this->doctrine->getManager();
+        $user->setUserGroup(null);
+        $em->flush();
+    }
 
     /**
      * @return UserInterface[]

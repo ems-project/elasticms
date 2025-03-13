@@ -32,25 +32,31 @@ class UserDataTableType extends AbstractEntityTableType
         $table->addColumn('user.index.column.username', 'username');
         $table->addColumn('user.index.column.displayname', 'displayName');
         $table->addColumn('user.index.column.email', 'email');
-        $table->addColumnDefinition(new BoolTableColumn('user.index.column.email_notification', 'emailNotification'))
-            ->setIconClass('fa fa-bell');
-        $table->addColumn('user.index.column.locale_ui', 'locale');
-        $table->addColumn('user.index.column.locale_preferred', 'localePreferred');
-        $table->addColumn('user.index.column.wysiwyg_profile', 'wysiwygProfile');
-        if ($this->circleObject) {
-            $table->addColumnDefinition(new DataLinksTableColumn('user.index.column.circles', 'circles'));
+        $context =$table->getContext();
+        if (($context['light'] ?? false)){
+            $table->addDynamicItemPostAction(Routes::USER_DELETE_FOR_GROUP, 'user.action.delete', 'trash', 'user.action.delete_confirm', ['user' => 'id','group' => 'group']);
         }
-        $table->addColumnDefinition(new BoolTableColumn('user.index.column.enabled', 'enabled'));
-        $table->addColumnDefinition(new RolesTableColumn('user.index.column.roles', 'roles'));
-        $table->addColumn('user.index.column.roles', 'userGroup');
-        $table->addColumnDefinition(new DatetimeTableColumn('user.index.column.lastLogin', 'lastLogin'));
-        $table->addColumnDefinition(new DatetimeTableColumn('user.index.column.expirationDate', 'expirationDate'));
+        if (!($context['light'] ?? false)) {
+            $table->addColumnDefinition(new BoolTableColumn('user.index.column.email_notification', 'emailNotification'))
+                ->setIconClass('fa fa-bell');
+            $table->addColumn('user.index.column.locale_ui', 'locale');
+            $table->addColumn('user.index.column.locale_preferred', 'localePreferred');
+            $table->addColumn('user.index.column.wysiwyg_profile', 'wysiwygProfile');
+            if ($this->circleObject) {
+                $table->addDynamicItemPostAction(Routes::USER_DELETE, 'user.action.delete', 'trash', 'user.action.delete_confirm', ['user' => 'id']);
+            }
+            $table->addColumnDefinition(new BoolTableColumn('user.index.column.enabled', 'enabled'));
+            $table->addColumnDefinition(new RolesTableColumn('user.index.column.roles', 'roles'));
+            $table->addColumn('user.index.column.roles', 'userGroup');
+            $table->addColumnDefinition(new DatetimeTableColumn('user.index.column.lastLogin', 'lastLogin'));
+            $table->addColumnDefinition(new DatetimeTableColumn('user.index.column.expirationDate', 'expirationDate'));
 
-        $table->addDynamicItemGetAction(Routes::USER_EDIT, 'user.action.edit', 'pencil', ['user' => 'id']);
-        $table->addDynamicItemGetAction('homepage', 'user.action.switch', 'user-secret', ['_switch_user' => 'username']);
-        $table->addDynamicItemPostAction(Routes::USER_ENABLING, 'user.action.disable', 'user-times', 'user.action.disable_confirm', ['user' => 'id']);
-        $table->addDynamicItemPostAction(Routes::USER_API_KEY, 'user.action.generate_api', 'key', 'user.action.generate_api_confirm', ['username' => 'username'])->addCondition(new Terms('roles', [Roles::ROLE_API]));
-        $table->addDynamicItemPostAction(Routes::USER_DELETE, 'user.action.delete', 'trash', 'user.action.delete_confirm', ['user' => 'id']);
+            $table->addDynamicItemGetAction(Routes::USER_EDIT, 'user.action.edit', 'pencil', ['user' => 'id']);
+            $table->addDynamicItemGetAction('homepage', 'user.action.switch', 'user-secret', ['_switch_user' => 'username']);
+            $table->addDynamicItemPostAction(Routes::USER_ENABLING, 'user.action.disable', 'user-times', 'user.action.disable_confirm', ['user' => 'id']);
+            $table->addDynamicItemPostAction(Routes::USER_API_KEY, 'user.action.generate_api', 'key', 'user.action.generate_api_confirm', ['username' => 'username'])->addCondition(new Terms('roles', [Roles::ROLE_API]));
+            $table->addDynamicItemPostAction(Routes::USER_DELETE, 'user.action.delete', 'trash', 'user.action.delete_confirm', ['user' => 'id']);
+        }
     }
 
     #[\Override]
@@ -58,7 +64,14 @@ class UserDataTableType extends AbstractEntityTableType
     {
         return [Roles::ROLE_USER_MANAGEMENT];
     }
-    
+
+    #[\Override] 
+    public function getContext(array $options): mixed
+    {
+        return ['light' => $options['light'] ?? false];
+    }
+
+
     public function configureOptions(OptionsResolver $optionsResolver): void
     {
         parent::configureOptions($optionsResolver);

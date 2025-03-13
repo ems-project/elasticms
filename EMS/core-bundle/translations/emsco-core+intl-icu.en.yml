@@ -1,10 +1,10 @@
 action:
     activate: Activate
     add: Add
-    add_user_group: Add User Group
     add_alias: 'Add alias'
     add_referenced: 'Add referenced'
     add_referenced_content_type: 'Add a reference content type'
+    add_user_group: 'Add User Group'
     attach: Attach
     close: Close
     confirmation: 'Do you confirm?'
@@ -199,6 +199,7 @@ key:
     export_documents: 'Export documents'
     filters: Filters
     forms: Forms
+    groups: Groups
     i18n: I18N
     job_logs: 'Jobs logs'
     jobs: Jobs
@@ -217,6 +218,7 @@ key:
     unreferenced_aliases: 'Unreferenced aliases'
     uploaded_files: 'Uploaded Files'
     uploaded_files_logs: 'Uploaded Files Logs'
+    users: Users
     views: Views
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profiles

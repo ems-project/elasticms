@@ -73,6 +73,8 @@ class GroupController extends AbstractController
     public function addGroup(Request $request): Response
     {
         $group = new Group();
+        $userGroupDataTable = $this->usersInGroupDataTable($request, $group);
+
 
         $form = $this->createForm(GroupType::class, $group, ['mode' => UserType::MODE_CREATE]);
         $form->handleRequest($request);
@@ -85,6 +87,9 @@ class GroupController extends AbstractController
 
         return $this->render("@$this->templateNamespace/group/create.html.twig", [
             'form' => $form,
+            'title' => t('type.title_overview', ['type' => 'group'], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'group'], 'emsco-core'),
+            'breadcrumb' => $this->breadcrumb(),
         ]);
     }
 
@@ -128,7 +133,7 @@ class GroupController extends AbstractController
             return $this->redirectToRoute('emsco_group_admin_index');
         }
 
-        return $this->render("@$this->templateNamespace/group/create.html.twig", [
+        return $this->render("@$this->templateNamespace/group/edit.html.twig", [
             'form' => $form,
             'datatableForm' => $userGroupDataTable->createView(),
             'title' => t('type.title_edit', ['type' => 'group'], 'emsco-core'),

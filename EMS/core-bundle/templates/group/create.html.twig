@@ -5,15 +5,8 @@
 
 {% block body %}
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-5">
             {{ form(form) }}
-        </div>
-        <div class="col-md-6">
-            {% with {
-                form: datatableForm,
-            } %}
-                {{ parent() }}
-            {% endwith %}
         </div>
     </div>
 {% endblock %}

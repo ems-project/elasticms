@@ -90,8 +90,8 @@ services:
     volumes:
       - s3:/data
     environment:
-      MINIO_ACCESS_KEY: accesskey
-      MINIO_SECRET_KEY: secretkey
+      MINIO_ROOT_USER: accesskey
+      MINIO_ROOT_PASSWORD: secretkey
     command: server /data --console-address ":9001"
     healthcheck:
       test: [ "CMD", "mc", "ready", "local" ]

@@ -1,0 +1,39 @@
+{% set search = emsch_search([], {
+    "query": {
+        "bool": {
+            "should": [
+                {
+                    "match_phrase": {
+                        "_all": app.request.get('hash'),
+                    }
+                },
+                {
+                    "nested": {
+                        "path": "file",
+                        "query": {
+                            "term": {
+                                "file.sha1": {
+                                    "value": app.request.get('hash'),
+                                }
+                            }
+                        }
+                    }
+                }
+            ],
+            "minimum_should_match": 1
+        }
+    },
+}, 0, 0) %}
+
+{% if search.hits.total.value|default(0) == 0 %}
+    {% do emsch_http_error(403, 'Forbidden') %}
+{% endif %}
+
+{{- {
+    controller: 'EMS\\CommonBundle\\Controller\\FileController::asset',
+    path: {
+       filename: app.request.get('filename'),
+       hash: app.request.get('hash'),
+       hash_config: app.request.get('config'),
+    },
+}|json_encode|raw -}}

@@ -61,12 +61,40 @@
     </div>
 {%- endblock %}
 
+
+{% block ems_file_row %}
+    <div class="form-group">
+        <div class="files-upload border rounded">
+            {%- set browseLabel = "#{name}_browse"|trans -%}
+            {%- if "#{name}_browse" == browseLabel -%}
+                {%- set browseLabel = "ems_file_browse"|trans -%}
+            {%- endif -%}
+            {%- set label_attr = {
+                'data-browse': browseLabel,
+                'placeholder': label_attr.placeholder|default(form.vars.label|default(none))
+            } -%}
+            {{- form_widget(form, {label_attr: label_attr}) -}}
+            {{- form_help(form) -}}
+            <ul class="file-list"></ul>
+        </div>
+    </div>
+{% endblock %}
+
 {% block file_widget -%}
+    <{{ element|default('div') }} class="custom-file">
+    {%- set type = type|default('file') -%}
+    {%- set input_lang = 'en' -%}
+    {% if app is defined and app.request is defined %}{%- set input_lang = app.request.locale -%}{%- endif -%}
+    {%- set attr = {lang: input_lang} | merge(attr) -%}
+    {{- block('form_widget_simple') -}}
+    {%- set label_attr = label_attr|merge({ class: (label_attr.class|default('') ~ ' custom-file-label')|trim })|filter((value, key) => key != 'id') -%}
     {% set label_attr = label_attr|merge({
-        'class': ems_meta.class|default(''),
+        'class': label_attr.class|default('') ~ ' ' ~ ems_meta.class|default(''),
     }) %}
-    {{ parent() }}
-    <ul class="file-list"></ul>
+    <label for="{{ form.vars.id }}" {% with { attr: label_attr } %}{{ block('attributes') }}{% endwith %}>
+       {{ label|raw }}
+    </label>
+    </{{ element|default('div') }}>
 {% endblock -%}
 
 {% block repeated_row -%}

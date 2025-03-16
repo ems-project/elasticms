@@ -123,7 +123,6 @@ demo: ## make new demo
 	@$(MAKE) -s db-migrate
 	@$(MAKE) -s assets-install
 	@$(MAKE) -s assets-build
-	@$(MAKE) -s db-migrate
 	@$(RUN_ADMIN) emsco:user:create demo demo@example.com demo --super-admin
 	@$(RUN_ADMIN) emsco:user:promote demo ROLE_API
 	@$(RUN_ADMIN) emsco:user:promote demo ROLE_FORM_CRM

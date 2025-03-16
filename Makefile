@@ -71,15 +71,15 @@ server-log/%:  ## server-log/(admin|web)
 	symfony server:log --dir=elasticms-${*}
 
 ## —— assets ————————————————————————————————————————————————————————————————————————————————————————————————————————————
-assets-npm/%: ## Admin UI npm
+assets-npm/%: ## npm run in AdminUIBundle
 	@$(RUN_ADMIN_UI_NPM) $*
-assets-install: ## build assets
+assets-install: ## Install NPM dependencies in AdminUIBundle assets
 	@$(MAKE) -s assets-npm/"install"
-assets-build: ## build assets
+assets-build: ## build AdminUIBundle assets
 	@$(MAKE) -s assets-npm/"run build"
-assets-clean: ## build assets
+assets-clean: ## remove AdminUIBundle assets
 	rm -Rf EMS/admin-ui-bundle/public
-assets-dev: ## Start a Vite server
+assets-dev: ## Start an AdminUIBundle Vite server
 	@$(MAKE) -s assets-clean
 	@$(MAKE) -s assets-npm/"run dev-host"
 

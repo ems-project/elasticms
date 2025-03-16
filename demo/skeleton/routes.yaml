@@ -128,4 +128,4 @@ ems_check_asset:
   config:
     path: '/file/{config}/{hash}/{filename}'
     controller: 'emsch.controller.router::redirect'
-  template_static: platform_template/redirects/asset.json.twig
+  template_static: template/redirects/asset.json.twig

@@ -12,8 +12,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DateTimeFieldType extends DataFieldType
 {
-    const string DEFAULT_PARSE_FORMAT = 'd/m/Y H:i';
-    const string DEFAULT_DISPLAY_FORMAT = 'dd/MM/yyyy HH:mm';
+    public const string DEFAULT_PARSE_FORMAT = 'd/m/Y H:i';
+    public const string DEFAULT_DISPLAY_FORMAT = 'dd/MM/yyyy HH:mm';
 
     #[\Override]
     public function getLabel(): string
@@ -93,7 +93,7 @@ class DateTimeFieldType extends DataFieldType
             ])
             ->add('parseFormat', TextType::class, [
                 'required' => false,
-                'attr' => ['placeholder' => sprintf('(PHP) %s', self::DEFAULT_PARSE_FORMAT)],
+                'attr' => ['placeholder' => \sprintf('(PHP) %s', self::DEFAULT_PARSE_FORMAT)],
             ])
             ->add('daysOfWeekDisabled', TextType::class, [
                 'required' => false,

@@ -7,11 +7,12 @@ DOCKER_COMPOSE	= docker compose -f docker/docker-compose.yml
 PORT_admin 			= 8881
 PORT_web 				= 8882
 
-RUN_ADMIN				= php ${PWD}/elasticms-admin/bin/console --no-debug
-RUN_WEB					= php ${PWD}/elasticms-web/bin/console --no-debug
-RUN_POSTGRES		= docker exec -i -u ${DOCKER_USER}:0 -e PGUSER=postgres -e PGPASSWORD=adminpg ems-mono-postgres
-NPM_CMD         = "${NPM_EXTRA_CMD} npm $*"
-RUN_DEMO_NPM		= docker run -u ${DOCKER_USER}:0 --rm -it -v ${PWD}/demo:/opt/src --workdir /opt/src elasticms/base-php:8.4-cli-dev sh -c ${NPM_CMD}
+RUN_ADMIN				 = php ${PWD}/elasticms-admin/bin/console --no-debug
+RUN_WEB					 = php ${PWD}/elasticms-web/bin/console --no-debug
+RUN_POSTGRES		 = docker exec -i -u ${DOCKER_USER}:0 -e PGUSER=postgres -e PGPASSWORD=adminpg ems-mono-postgres
+NPM_CMD          = "${NPM_EXTRA_CMD} npm $*"
+RUN_DEMO_NPM		 = docker run -u ${DOCKER_USER}:0 --rm -it -v ${PWD}/demo:/opt/src --workdir /opt/src elasticms/base-php:8.4-cli-dev sh -c ${NPM_CMD}
+RUN_ADMIN_UI_NPM = docker run -u ${DOCKER_USER}:0 --rm -p 5173:5173 -it -v ${PWD}/EMS/admin-ui-bundle:/opt/src --workdir /opt/src/assets elasticms/base-php:8.4-cli-dev sh -c ${NPM_CMD}
 
 .DEFAULT_GOAL := help
 .PHONY: help demo docs
@@ -69,6 +70,19 @@ server-stop/%:  ## server-stop/(admin|web)
 server-log/%:  ## server-log/(admin|web)
 	symfony server:log --dir=elasticms-${*}
 
+## —— assets ————————————————————————————————————————————————————————————————————————————————————————————————————————————
+assets-npm/%: ## npm run in AdminUIBundle
+	@$(RUN_ADMIN_UI_NPM) $*
+assets-install: ## Install NPM dependencies in AdminUIBundle assets
+	@$(MAKE) -s assets-npm/"install"
+assets-build: ## build AdminUIBundle assets
+	@$(MAKE) -s assets-npm/"run build"
+assets-clean: ## remove AdminUIBundle assets
+	rm -Rf EMS/admin-ui-bundle/public
+assets-dev: ## Start an AdminUIBundle Vite server
+	@$(MAKE) -s assets-clean
+	@$(MAKE) -s assets-npm/"run dev-host"
+
 ## —— Build ————————————————————————————————————————————————————————————————————————————————————————————————————————————
 build-translations: ## build translations
 	@php build/translations en EMSCoreBundle --write --format=yml -d emsco-core
@@ -107,6 +121,8 @@ demo: ## make new demo
 	@$(MAKE) -s db-drop/"demo"
 	@$(MAKE) -s db-create/"demo" SCHEMA="schema_demo_adm"
 	@$(MAKE) -s db-migrate
+	@$(MAKE) -s assets-install
+	@$(MAKE) -s assets-build
 	@$(RUN_ADMIN) emsco:user:create demo demo@example.com demo --super-admin
 	@$(RUN_ADMIN) emsco:user:promote demo ROLE_API
 	@$(RUN_ADMIN) emsco:user:promote demo ROLE_FORM_CRM

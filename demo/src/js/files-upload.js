@@ -1,12 +1,6 @@
 const dataTransferByFields = []
 const msg =
     {
-        "fileRemove": {
-            "fr": "Supprimer",
-            "nl": "Verwijderen",
-            "de": "Löschen",
-            "en": "Remove"
-        },
         "filesSelectedCount": {
             "fr": "%count% fichiers selectionnés",
             "nl": "%count% geselecteerde bestanden",
@@ -18,6 +12,18 @@ const msg =
             "nl": "1 geselecteerde bestand",
             "de": "1 ausgewählte Datei",
             "en": "1 file selected"
+        },
+        "filesRemoveAll": {
+            "fr": "Supprimer tout",
+            "nl": "Alles verwijderen",
+            "de": "Alle löschen",
+            "en": "Remove all"
+        },
+        "fileRemove": {
+            "fr": "Supprimer",
+            "nl": "Verwijderen",
+            "de": "Löschen",
+            "en": "Remove"
         },
         "requiredLabel": {
             "fr": "(*) Champs obligatoires",
@@ -31,12 +37,6 @@ const msg =
             "de": "Die Dateien sind zu groß. Die maximal zulässige Größe beträgt %fileSize%.",
             "en": "The data is large. The maximum size is %fileSize%."
         },
-        "wrongFormat": {
-            "fr": "<div class=\"invalid-feedback\" style=\"margin-top: 4px\"><small class=\"d-block\" style=\"display: block\"><span class=\"form-error-icon label label-danger text-uppercase\" style=\"margin-right: 8px\">Erreur</span><span class=\"form-error-message text-danger\">Format incorrect.</span></small></div>",
-            "nl": "<div class=\"invalid-feedback\" style=\"margin-top: 4px\"><small class=\"d-block\" style=\"display: block\"><span class=\"form-error-icon label label-danger text-uppercase\" style=\"margin-right: 8px\">Fout</span><span class=\"form-error-message text-danger\">Onjuist formaat.</span></small></div>",
-            "de": "<div class=\"invalid-feedback\" style=\"margin-top: 4px\"><small class=\"d-block\" style=\"display: block\"><span class=\"form-error-icon label label-danger text-uppercase\" style=\"margin-right: 8px\">Fehler</span><span class=\"form-error-message text-danger\">Falsches Format.</span></small></div>",
-            "en": "<div class=\"invalid-feedback\" style=\"margin-top: 4px\"><small class=\"d-block\" style=\"display: block\"><span class=\"form-error-icon label label-danger text-uppercase\" style=\"margin-right: 8px\">Error</span><span class=\"form-error-message text-danger\">Incorrect format.</span></small></div>",
-        },
         "wrongFormatFile": {
             "fr": "<span class=\"form-error-icon label label-danger text-uppercase\" style=\"margin-right: 8px\">Erreur</span><span class=\"form-error-message text-danger\">Format incorrect.</span>&nbsp;",
             "nl": "<span class=\"form-error-icon label label-danger text-uppercase\" style=\"margin-right: 8px\">Fout</span><span class=\"form-error-message text-danger\">Onjuist formaat.</span>&nbsp;",
@@ -48,36 +48,6 @@ const msg =
             "nl": "Onjuist formaat",
             "de": "Falsches Format",
             "en": "Incorrect format",
-        },
-        "mandatory": {
-            "fr": "<div class=\"invalid-feedback\" style=\"margin-top: 4px\"><small class=\"d-block\" style=\"display: block\"><span class=\"form-error-icon label label-danger text-uppercase\" style=\"margin-right: 8px\">Erreur</span><span class=\"form-error-message text-danger\">Ce champ ne peut pas être vide.</span></small></div>",
-            "nl": "<div class=\"invalid-feedback\" style=\"margin-top: 4px\"><small class=\"d-block\" style=\"display: block\"><span class=\"form-error-icon label label-danger text-uppercase\" style=\"margin-right: 8px\">Fout</span><span class=\"form-error-message text-danger\">Deze waarde mag niet leeg zijn.</span></small></div>",
-            "de": "<div class=\"invalid-feedback\" style=\"margin-top: 4px\"><small class=\"d-block\" style=\"display: block\"><span class=\"form-error-icon label label-danger text-uppercase\" style=\"margin-right: 8px\">Fehler</span><span class=\"form-error-message text-danger\">Dieser Wert darf nicht leer sein.</span></small></div>",
-            "en": "<div class=\"invalid-feedback\" style=\"margin-top: 4px\"><small class=\"d-block\" style=\"display: block\"><span class=\"form-error-icon label label-danger text-uppercase\" style=\"margin-right: 8px\">Error</span><span class=\"form-error-message text-danger\">This field can't be empty.</span></small></div>",
-        },
-        "successMsg": {
-            "fr": "<p><strong>Nous avons bien reçu votre question</strong></p><p>Nous vous tiendrons au courant via e-mail.</p>",
-            "nl": "<p><strong>Wij hebben uw vraag goed ontvangen</strong></p><p>We houden je op de hoogte via e-mail.</p>",
-            "de": "<p><strong>Wir haben Ihre Frage erhalten</strong></p><p>Wir halten Sie auf dem Laufenden über E-Mail.</p>",
-            "en": "<p><strong>We have received your question</strong></p><p>We will keep you informed through e-mail.</p>"
-        },
-        "errorMsg": {
-            "fr": "<p><strong>Erreur d’envoi du formulaire</strong></p><p>Le formulaire n’a pas pu être envoyé. Veuillez réessayer plus tard.</p>",
-            "nl": "<p><strong>Verzendfout</strong></p><p>Helaas kon het formulier niet verzonden worden. Probeer het later nog eens. </p>",
-            "de": "<p><strong>Versandfehler</strong></p><p>Leider konnte das Formular nicht abgesendet werden. Bitte versuchen Sie es später noch einmal.</p>",
-            "en": "<p><strong>Erreur d’envoi du formulaire</strong></p><p>Le formulaire n’a pas pu être envoyé. Veuillez réessayer plus tard.</p>",
-        },
-        "i18n": {
-            "remove": {
-                "fr": "Enlever",
-                "nl": "Verwijderen",
-                "de": "entfernen"
-            },
-            "count": {
-                "fr": "fichiers",
-                "nl": "bestanden",
-                "de": "Dateien"
-            }
         }
     };
 
@@ -92,25 +62,37 @@ export default class FilesUpload {
         this.acceptTypes = target.getAttribute('accept')
         this.addDraggableListener(this)
         this.addChangeInputListener(target, this.boxFileupload)
+        this.validationRequired(target)
     }
 
-    addDraggableListener(target) {
+    addDraggableListener() {
         const self = this
-        this.boxFileupload.addEventListener("dragover", self.fileDragHover, false);
-        this.boxFileupload.addEventListener("dragleave", self.fileDragHover, false);
+        this.boxFileupload.addEventListener("dragover", self.fileDragHover, false)
+        this.boxFileupload.addEventListener("dragleave", self.fileDragHover, false)
         this.boxFileupload.addEventListener("drop", function(e) {
             self.fileDragHover(e);
             const files = e.target.files || e.dataTransfer.files;
             self.initFilesUpload(files, this);
-        }, false);
+        }, false)
     }
 
     addChangeInputListener(target, context) {
         const self = this
-        target.addEventListener("change", function(e) {
+        target.addEventListener("change", function() {
             self.initFilesUpload(target.files, context);
-        });
+        })
     }
+
+    validationRequired(target) {
+        const self = this
+        target.addEventListener('invalid', function(e) {
+            e.preventDefault();
+            if (this.required) {
+                self.boxFileupload.querySelector('.files-upload-error').innerHTML = msg.requiredLabel[self.langAttr]
+            }
+        })
+    }
+
 
     initFilesUpload(uplaodFiles, context) {
         const self = this
@@ -139,44 +121,87 @@ export default class FilesUpload {
         }
 
         if (filesSize > self.inputFileMaxAllowedSize) {
-            fileField.setCustomValidity(msg.max_multiple_file_size[langAttr].replace('%fileSize%', this.humanFileSize(self.inputFileMaxAllowedSize, true)));
+            fileField.setCustomValidity(msg.max_multiple_file_size[langAttr].replace('%fileSize%', this.humanFileSize(self.inputFileMaxAllowedSize, true)))
+            self.boxFileupload.querySelector('.files-upload-error').innerHTML = msg.max_multiple_file_size[langAttr].replace('%fileSize%', this.humanFileSize(self.inputFileMaxAllowedSize, true))
         } else {
             fileField.setCustomValidity('');
-        }
-        console.log(filenames)
-
-        var fileList = context.querySelector('.file-list')
-        fileList.innerHTML = ''
-        for (var i = 0; i < filenames.length; ++i) {
-            const li = document.createElement('li')
-            var liError = ''
-            if (uplaodFiles.item(i).type !== undefined && !this.acceptTypes.toLowerCase().includes(uplaodFiles.item(i).type)) {
-                liError = msg.wrongFormatFile[langAttr]
-                fileField.setCustomValidity(msg.wrongFormatStrip[langAttr])
-            }
-            const a = document.createElement('a');
-            a.className = 'remove-file'
-            a.innerHTML = msg.fileRemove[langAttr]
-            a.href = '#'
-            a.dataset.fileid = i
-            li.innerHTML = liError + filenames[i] + ' (' + this.humanFileSize(uplaodFiles.item(i).size, true) + ')  '
-            li.append(a)
-            fileList.append(li)
+            self.boxFileupload.querySelector('.files-upload-error').innerHTML = ''
         }
 
         fileField.files = dataTransfer.files;
         var fileList = context.querySelector('.file-list')
-        var removelist = fileList.querySelectorAll('.remove-file')
-        for(var z = 0; z < removelist.length; z++) {
-            var elem = removelist[z];
-            elem.addEventListener("click", function(e) {
-                e.preventDefault();
-                const itemId = this.dataset.fileid;
-                const dataTransfer = dataTransferByFields[fileField.id];
-                dataTransfer.items.remove(itemId)
-                fileField.files = dataTransfer.files;
-                self.initFilesUpload(fileField.files, context);
-            });
+        fileList.innerHTML = ''
+        let clearAllTag = document.createElement('a')
+        clearAllTag.className = 'remove-all-files'
+        clearAllTag.innerHTML = msg.filesRemoveAll[langAttr]
+        clearAllTag.href = '#'
+        if(filenames.length === 0) {
+           if (self.boxFileupload.querySelector('p.count-file') !== null ) {
+               self.boxFileupload.querySelector('p.count-file').remove()
+           }
+           if (self.boxFileupload.querySelector('.remove-all-files') !== null ) {
+                self.boxFileupload.querySelector('.remove-all-files').remove()
+           }
+        }
+        else {
+            let p = document.createElement('p')
+            if (self.boxFileupload.querySelector('p.count-file') !== null ) {
+                p = self.boxFileupload.querySelector('p.count-file')
+            } else {
+                p.className = 'count-file'
+                self.boxFileupload.insertBefore(p, fileList)
+                p = self.boxFileupload.querySelector('p.count-file')
+            }
+
+            if (filenames.length === 1) {
+                p.innerHTML = msg.fileSelectedCount[langAttr]
+                if (self.boxFileupload.querySelector('.remove-all-files') !== null ) {
+                    self.boxFileupload.querySelector('.remove-all-files').remove()
+                }
+            } else {
+                p.innerHTML = msg.filesSelectedCount[langAttr].replace('%count%', filenames.length)
+                if (self.boxFileupload.querySelector('.remove-all-files') == null ) {
+                    self.boxFileupload.append(clearAllTag)
+                }
+                clearAllTag.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    const dataTransfer = dataTransferByFields[fileField.id]
+                    dataTransfer.items.clear()
+                    fileField.files = dataTransfer.files
+                    self.initFilesUpload(fileField.files, context)
+                });
+            }
+
+            for (var i = 0; i < filenames.length; ++i) {
+                const li = document.createElement('li')
+                var liError = ''
+                if (uplaodFiles.item(i).type !== undefined && !self.acceptTypes.toLowerCase().includes(uplaodFiles.item(i).type)) {
+                    liError = msg.wrongFormatFile[langAttr]
+                    fileField.setCustomValidity(msg.wrongFormatStrip[langAttr])
+                }
+                const a = document.createElement('a')
+                a.className = 'remove-file'
+                a.innerHTML = msg.fileRemove[langAttr]
+                a.href = '#'
+                a.dataset.fileid = i
+                li.innerHTML = liError + filenames[i] + ' (' + self.humanFileSize(uplaodFiles.item(i).size, true) + ')  '
+                li.append(a)
+                fileList.append(li)
+            }
+
+            fileList = context.querySelector('.file-list')
+            var removelist = fileList.querySelectorAll('.remove-file')
+            for(var z = 0; z < removelist.length; z++) {
+                var elem = removelist[z]
+                elem.addEventListener("click", function(e) {
+                    e.preventDefault()
+                    const itemId = this.dataset.fileid
+                    const dataTransfer = dataTransferByFields[fileField.id]
+                    dataTransfer.items.remove(itemId)
+                    fileField.files = dataTransfer.files
+                    self.initFilesUpload(fileField.files, context)
+                });
+            }
         }
     }
 

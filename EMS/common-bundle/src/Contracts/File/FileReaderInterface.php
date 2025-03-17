@@ -18,6 +18,7 @@ interface FileReaderInterface
 
     /**
      * @param array{
+     *      mime_type?: ?string,
      *      delimiter?: ?string,
      *      encoding?: ?string,
      *      exclude_rows?: int[],

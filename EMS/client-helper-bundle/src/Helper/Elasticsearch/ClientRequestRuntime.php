@@ -15,6 +15,7 @@ use EMS\CommonBundle\Elasticsearch\Response\Response;
 use EMS\CommonBundle\Service\ElasticaService;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Twig\Extension\RuntimeExtensionInterface;
@@ -62,8 +63,11 @@ final class ClientRequestRuntime implements RuntimeExtensionInterface
     /**
      * @param mixed[] $headers
      */
-    public function httpException(int $statusCode, string $message = '', array $headers = [], int $code = 0): never
+    public function httpException(int $statusCode, ?string $message = null, array $headers = [], int $code = 0): never
     {
+        if (null === $message) {
+            $message = SymfonyResponse::$statusTexts[$statusCode] ?? 'Unknown status';
+        }
         throw new HttpException($statusCode, $message, null, $headers, $code);
     }
 

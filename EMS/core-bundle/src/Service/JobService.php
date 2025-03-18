@@ -127,7 +127,7 @@ class JobService implements EntityServiceInterface
         $job->setCommand($command);
         $job->setTag($tag);
         $this->save($job);
-        
+
         if ($addToAsyncQueue) {
             $this->bus->dispatch(
                 new JobMessage($job->getId())

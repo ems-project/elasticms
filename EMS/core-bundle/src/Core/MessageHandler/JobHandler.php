@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Core\MessageHandler;
 
 use EMS\CoreBundle\Core\Message\Job;
@@ -11,8 +13,9 @@ readonly class JobHandler
 {
     public function __construct(
         private JobService $service,
-    ){}
-    
+    ) {
+    }
+
     public function __invoke(Job $message): void
     {
         $job = $this->service->getById($message->getContent());

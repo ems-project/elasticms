@@ -55,7 +55,7 @@ const msg =
 export default class FilesUpload {
 
     load(target) {
-        this.langAttr = document.querySelector('html').getAttribute('lang')
+        this.langAttr = document.querySelector('html').getAttribute('lang') ?? 'en'
         this.fileField = target
         this.boxFileupload = target.closest(".files-upload")
         this.inputFileMaxAllowedSize = parseInt(target.dataset.maxfilesize)

@@ -7,7 +7,6 @@ namespace EMS\CoreBundle\Form\Form;
 use Doctrine\ORM\EntityRepository;
 use EMS\CoreBundle\Core\User\GroupManager;
 use EMS\CoreBundle\EMSCoreBundle;
-use EMS\CoreBundle\Entity\Group;
 use EMS\CoreBundle\Entity\User;
 use EMS\CoreBundle\Entity\WysiwygProfile;
 use EMS\CoreBundle\Form\Field\ObjectPickerType;

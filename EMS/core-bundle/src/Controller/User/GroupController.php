@@ -12,8 +12,6 @@ use EMS\CoreBundle\Core\UI\Page\Navigation;
 use EMS\CoreBundle\Core\User\GroupManager;
 use EMS\CoreBundle\DataTable\Type\GroupDataTableType;
 use EMS\CoreBundle\DataTable\Type\UserDataTableType;
-use EMS\CoreBundle\DataTable\Type\UserGroupDataTableType;
-use EMS\CoreBundle\DataTable\Type\Wysiwyg\WysiwygStylesSetDataTableType;
 use EMS\CoreBundle\Entity\Group;
 use EMS\CoreBundle\Form\Data\TableAbstract;
 use EMS\CoreBundle\Form\Form\GroupType;
@@ -75,7 +73,6 @@ class GroupController extends AbstractController
         $group = new Group();
         $userGroupDataTable = $this->usersInGroupDataTable($request, $group);
 
-
         $form = $this->createForm(GroupType::class, $group, ['mode' => UserType::MODE_CREATE]);
         $form->handleRequest($request);
 
@@ -102,7 +99,6 @@ class GroupController extends AbstractController
 
     public function deleteSelectedGroup($SelectedGroup): Response
     {
-        // TableAbstract::DELETE_ACTION => $this->deleteSelectedGroup($SelectedGroup);
         foreach ($SelectedGroup as $group) {
             $this->groupManager->deleteGroup($group);
         }
@@ -120,13 +116,14 @@ class GroupController extends AbstractController
     public function editGroup(Group $group, Request $request): Response
     {
         $userGroupDataTable = $this->usersInGroupDataTable($request, $group);
+        $userNotInGroupDataTable = $this->usersNotInGroupDataTable($request, $group);
         $this->groupManager->editGroup($group);
         $form = $this->createForm(GroupType::class, $group, [
             'mode' => UserType::MODE_UPDATE,
         ]);
         $form->handleRequest($request);
-//        $users = $this->userService->getUsersByGroup($group->getName());
-        
+        //        $users = $this->userService->getUsersByGroup($group->getName());
+
         if ($form->isSubmitted() && $form->isValid()) {
             $this->groupManager->editGroup($group);
 
@@ -136,6 +133,7 @@ class GroupController extends AbstractController
         return $this->render("@$this->templateNamespace/group/edit.html.twig", [
             'form' => $form,
             'datatableForm' => $userGroupDataTable->createView(),
+            'userNotInGroupDataTable' => $userNotInGroupDataTable->createView(),
             'title' => t('type.title_edit', ['type' => 'group'], 'emsco-core'),
             'subTitle' => t('type.title_sub', ['type' => 'group'], 'emsco-core'),
             'breadcrumb' => $this->breadcrumb(),
@@ -160,25 +158,30 @@ class GroupController extends AbstractController
      */
     private function usersInGroupDataTable(Request $request, Group $group): RedirectResponse|FormInterface
     {
-
         $table = $this->dataTableFactory->create(UserDataTableType::class, [
             'light' => true,
-            'group' => $group,
+            'in-group' => false,
+            'group-name' => $group->getName(),
         ]);
 
         $form = $this->createForm(TableType::class, $table);
-//        $table = $this->dataTableFactory->create(UserGroupDataTableType::class);
-//        $form = $this->createForm( TableType::class, $table, [
-//            'reorder_label' => t('type.reorder', ['type' => 'form'], 'emsco-core'),
-//        ]);
-//        $form->handleRequest($request);
-//
-//        if ($form->isSubmitted() && $form->isValid()) {
-//            // ...
-//            dump($form->getData());
-//        }
 
         return $form;
-        
+    }
+
+    /**
+     * @return RedirectResponse|FormInterface<mixed>
+     */
+    private function usersNotInGroupDataTable(Request $request, Group $group): RedirectResponse|FormInterface
+    {
+        $table = $this->dataTableFactory->create(UserDataTableType::class, [
+            'light' => true,
+            'in-group' => true,
+            'group-name' => $group->getName(),
+        ]);
+
+        $form = $this->createForm(TableType::class, $table);
+
+        return $form;
     }
 }

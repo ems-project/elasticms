@@ -6,11 +6,8 @@ namespace EMS\CoreBundle\Form\Form;
 
 use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Entity\Group;
-use EMS\CoreBundle\Form\Field\ContentTypePickerType;
-use EMS\CoreBundle\Form\Field\DashboardPickerType;
 use EMS\CoreBundle\Form\Field\SubmitEmsType;
 use EMS\CoreBundle\Service\UserService;
-use phpDocumentor\Reflection\PseudoTypes\List_;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -26,11 +23,10 @@ final class GroupType extends AbstractType
     public const string MODE_UPDATE = 'update';
     public const string UPDATE_BUTTON = 'update_button';
     public const string CREATE_BUTTON = 'create_button';
-   
+
     public function __construct(private readonly UserService $userService)
     {
-        
-    } 
+    }
 
     /**
      * @param FormBuilderInterface<mixed> $builder
@@ -50,12 +46,12 @@ final class GroupType extends AbstractType
                 'label' => 'label',
             ])
             ->add('roles', ChoiceType::class, [
-            'choices' => $this->userService->getExistingRoles(),
-            'label' => 'Roles',
-            'expanded' => true,
-            'multiple' => true,
-            'mapped' => true,
-        ]);
+                'choices' => $this->userService->getExistingRoles(),
+                'label' => 'Roles',
+                'expanded' => true,
+                'multiple' => true,
+                'mapped' => true,
+            ]);
 
         /*$builder->add(self::MODE_CREATE, ChoiceType::class, [
             'choices' => $this->userService->getExistingRoles(),
@@ -64,7 +60,7 @@ final class GroupType extends AbstractType
             'multiple' => true,
             'mapped' => true,
         ]);*/
-        
+
         if (self::MODE_CREATE === $mode) {
             $builder->add(self::CREATE_BUTTON, SubmitEmsType::class, [
                 'attr' => ['class' => 'btn btn-primary btn-sm'],
@@ -83,8 +79,7 @@ final class GroupType extends AbstractType
                 'icon' => 'fa fa-save',
                 'translation_domain' => EMSCoreBundle::TRANS_DOMAIN,
             ]);
-            //dump($this->userService->getUsersByGroup($builder->getData()->__toString()));
-
+            // dump($this->userService->getUsersByGroup($builder->getData()->__toString()));
         }
     }
 

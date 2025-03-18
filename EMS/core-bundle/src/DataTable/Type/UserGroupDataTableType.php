@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\DataTable\Type;
 
 use EMS\CoreBundle\Core\DataTable\Type\AbstractEntityTableType;
@@ -10,11 +12,13 @@ use EMS\CoreBundle\Service\UserService;
 class UserGroupDataTableType extends AbstractEntityTableType
 {
     use DataTableTypeTrait;
+
     public function __construct(
         UserService $entityService,
-        ) {
+    ) {
         parent::__construct($entityService);
     }
+
     #[\Override]
     public function build(EntityTable $table): void
     {

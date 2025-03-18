@@ -171,6 +171,7 @@ class UserService implements EntityServiceInterface
         $em->remove($user);
         $em->flush();
     }
+
     public function deleteUserForGroup(User $user): void
     {
         $em = $this->doctrine->getManager();
@@ -250,7 +251,7 @@ class UserService implements EntityServiceInterface
     #[\Override]
     public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, mixed $context = null): array
     {
-        return $this->userRepository->get($from, $size, $orderField, $orderDirection, $searchValue);
+        return $this->userRepository->get($from, $size, $orderField, $orderDirection, $searchValue, $context);
     }
 
     #[\Override]
@@ -271,8 +272,9 @@ class UserService implements EntityServiceInterface
     #[\Override]
     public function count(string $searchValue = '', mixed $context = null): int
     {
-        return $this->userRepository->countUsers($searchValue);
+        return $this->userRepository->countUsers($searchValue, $context);
     }
+
     public function getUsersByGroup(string $searchValue = ''): array
     {
         return $this->userRepository->getUsersByGroup($searchValue);

@@ -103,9 +103,9 @@ class Group implements EntityInterface
     {
         $this->dashboard = $dashboard;
     }
+
     public function __toString(): string
     {
         return $this->getName();
     }
-    
 }

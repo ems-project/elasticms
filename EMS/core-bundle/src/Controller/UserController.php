@@ -26,7 +26,6 @@ use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\UserService;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -309,6 +308,7 @@ class UserController extends AbstractController
 
         return true;
     }
+
     public function removeFromGroup(User $user, Group $group): Response
     {
         $user->setUserGroup(null);

@@ -18,8 +18,9 @@
             </div>
             <div class="md4">
                 {% with {
-                    form: datatableForm,
+                    form: userNotInGroupDataTable,
                 } %}
+                    {{ parent() }}
                 {% endwith %}
             </div>
 

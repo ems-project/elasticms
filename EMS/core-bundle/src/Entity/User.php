@@ -512,11 +512,12 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
     {
         $this->userOptions = $userOptions->getOptions();
     }
+
     public function getUserGroup(): ?string
     {
         return $this->userGroup;
     }
-    
+
     public function setUserGroup(?string $userGroup): void
     {
         $this->userGroup = $userGroup;

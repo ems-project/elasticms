@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\DataTable\Type;
 
 use EMS\CoreBundle\Core\DataTable\Type\AbstractEntityTableType;
-use EMS\CoreBundle\Entity\Group;
+use EMS\CoreBundle\Core\User\UserContextDTO;
 use EMS\CoreBundle\Form\Data\BoolTableColumn;
 use EMS\CoreBundle\Form\Data\Condition\Terms;
-use EMS\CoreBundle\Form\Data\DataLinksTableColumn;
 use EMS\CoreBundle\Form\Data\DatetimeTableColumn;
 use EMS\CoreBundle\Form\Data\EntityTable;
 use EMS\CoreBundle\Form\Data\RolesTableColumn;
@@ -32,11 +31,11 @@ class UserDataTableType extends AbstractEntityTableType
         $table->addColumn('user.index.column.username', 'username');
         $table->addColumn('user.index.column.displayname', 'displayName');
         $table->addColumn('user.index.column.email', 'email');
-        $context =$table->getContext();
-        if (($context['light'] ?? false)){
-            $table->addDynamicItemPostAction(Routes::USER_DELETE_FOR_GROUP, 'user.action.delete', 'trash', 'user.action.delete_confirm', ['user' => 'id','group' => 'group']);
+        $context = $table->getContext();
+        if ($context instanceof UserContextDTO) {
+            $table->addDynamicItemPostAction(Routes::USER_DELETE_FOR_GROUP, 'user.action.delete', 'trash', 'user.action.delete_confirm', ['user' => 'id', 'group' => $context->groupName]);
         }
-        if (!($context['light'] ?? false)) {
+        if (!$context instanceof UserContextDTO || !$context->light) {
             $table->addColumnDefinition(new BoolTableColumn('user.index.column.email_notification', 'emailNotification'))
                 ->setIconClass('fa fa-bell');
             $table->addColumn('user.index.column.locale_ui', 'locale');
@@ -65,19 +64,19 @@ class UserDataTableType extends AbstractEntityTableType
         return [Roles::ROLE_USER_MANAGEMENT];
     }
 
-    #[\Override] 
-    public function getContext(array $options): mixed
+    #[\Override]
+    public function getContext(array $options): UserContextDTO
     {
-        return ['light' => $options['light'] ?? false];
+        return new UserContextDTO($options['light'], $options['in-group'], $options['group-name']);
     }
-
 
     public function configureOptions(OptionsResolver $optionsResolver): void
     {
         parent::configureOptions($optionsResolver);
         $optionsResolver->setDefaults([
             'light' => false,
-            'group'=>null,
-        ])->setAllowedTypes('light', ['bool'])->setAllowedTypes('group', ['null', Group::class]);
+            'in-group' => false,
+            'group-name' => null,
+        ])->setAllowedTypes('light', ['bool'])->setAllowedTypes('group-name', ['null', 'string']);
     }
 }

@@ -10,6 +10,7 @@ use EMS\CoreBundle\Core\ContentType\FieldType\FieldTypeService;
 use EMS\CoreBundle\Core\ContentType\FieldType\FieldTypeTreeItem;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\Core\UI\FlashMessageLogger;
+use EMS\CoreBundle\Core\User\GroupManager;
 use EMS\CoreBundle\Core\User\UserManager;
 use EMS\CoreBundle\DataTable\Type\UserDataTableType;
 use EMS\CoreBundle\Entity\AuthToken;
@@ -36,6 +37,7 @@ class UserController extends AbstractController
         private readonly ContentTypeRepository $contentTypeRepository,
         private readonly UserService $userService,
         private readonly UserManager $userManager,
+        private readonly GroupManager $groupManager,
         private readonly SpreadsheetGeneratorServiceInterface $spreadsheetGenerator,
         private readonly DataTableFactory $dataTableFactory,
         private readonly AuthTokenRepository $authTokenRepository,
@@ -309,13 +311,24 @@ class UserController extends AbstractController
         return true;
     }
 
-    public function removeFromGroup(User $user, Group $group): Response
+    public function removeFromGroup(User $user, string $groupName): Response
     {
         $user->setUserGroup(null);
         $this->userService->updateUser($user);
+        $userGroup = $this->groupManager->getByItemName($groupName);
 
         return $this->redirectToRoute(Routes::GROUP_EDIT, [
-            'group' => $group,
+            'group' => $userGroup->getId(),
+        ]);
+    }
+    public function addFromGroup(User $user, string $group): Response
+    {
+        $user->setUserGroup($group);
+        $this->userService->updateUser($user);
+        $userGroup = $this->groupManager->getByItemName($group);
+
+        return $this->redirectToRoute(Routes::GROUP_EDIT, [
+            'group' => $userGroup,
         ]);
     }
 }

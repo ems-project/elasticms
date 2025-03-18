@@ -81,16 +81,15 @@ class GroupRepository extends ServiceEntityRepository
 
     public function getByName(string $name): ?Group
     {
-        $qb = $this->createQueryBuilder('group');
+        dump($name);
+        $qb = $this->createQueryBuilder('user_group');
         $qb
-            ->addSelect('fieldType')
-            ->leftJoin('form.fieldType', 'fieldType')
-            ->andWhere($qb->expr()->eq('group.name', ':name'))
+            ->andWhere($qb->expr()->eq('user_group.name', ':name'))
             ->setParameter('name', $name);
 
-        $group = $qb->getQuery()->getOneOrNullResult();
+        $userGroup = $qb->getQuery()->getOneOrNullResult();
 
-        return $group instanceof Group ? $group : null;
+        return $userGroup instanceof Group ? $userGroup : null;
     }
 
     /**

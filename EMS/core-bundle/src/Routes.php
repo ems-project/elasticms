@@ -124,6 +124,7 @@ class Routes
     final public const string USER_API_KEY = 'emsco_user_api_key';
     final public const string USER_DELETE = 'emsco_user_delete';
     final public const string USER_DELETE_FOR_GROUP = 'emsco_remove_user_from_group';
+    final public const string USER_ADD_FOR_GROUP = 'emsco_add_user_from_group';
     final public const string USER_PROFILE = 'emsco_user_profile';
     final public const string USER_PROFILE_EDIT = 'emsco_user_profile_edit';
     final public const string USER_CHANGE_PASSWORD = 'emsco_user_change_password';

@@ -37,6 +37,11 @@ class JobService implements EntityServiceInterface
         $this->em = $doctrine->getManager();
     }
 
+    public function getById(int $id): ?Job
+    {
+        return $this->repository->findById($id);
+    }
+
     public function deleteByIds(string ...$ids): void
     {
         $analyzers = $this->repository->getByIds(...$ids);

@@ -500,6 +500,10 @@
             <argument>%ems_core.instance_id%</argument>
             <tag name="emsco.entity.service" priority="90" />
         </service>
+        <service id="emsco.job_message_handler" class="EMS\CoreBundle\Core\MessageHandler\JobHandler">
+            <argument type="service" id="EMS\CoreBundle\Service\JobService"/>
+            <tag name="messenger.message_handler" handles="EMS\CoreBundle\Core\Message\Job" />
+        </service>
 
         <!-- Aliases -->
         <service id="ems.service.data" alias="EMS\CoreBundle\Service\DataService" public="true"/>

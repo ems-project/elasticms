@@ -38,10 +38,10 @@ const msg =
             "en": "The data is large. The maximum size is %fileSize%."
         },
         "wrongFormatFile": {
-            "fr": "<span class=\"form-error-icon label label-danger text-uppercase\" style=\"margin-right: 8px\">Erreur</span><span class=\"form-error-message text-danger\">Format incorrect.</span>&nbsp;",
-            "nl": "<span class=\"form-error-icon label label-danger text-uppercase\" style=\"margin-right: 8px\">Fout</span><span class=\"form-error-message text-danger\">Onjuist formaat.</span>&nbsp;",
-            "de": "<span class=\"form-error-icon label label-danger text-uppercase\" style=\"margin-right: 8px\">Fehler</span><span class=\"form-error-message text-danger\">Falsches Format.</span>&nbsp;",
-            "en": "<span class=\"form-error-icon label label-danger text-uppercase\" style=\"margin-right: 8px\">Error</span><span class=\"form-error-message text-danger\">Incorrect format.</span>&nbsp;",
+            "fr": "Erreur: Format incorrect.&nbsp;",
+            "nl": "Fout: Onjuist formaat.&nbsp;",
+            "de": "FehlerFalsches: Format.&nbsp;",
+            "en": "ErrorIncorrect: format.&nbsp;",
         },
         "wrongFormatStrip": {
             "fr": "Format incorrect",
@@ -57,7 +57,7 @@ export default class FilesUpload {
     load(target) {
         this.langAttr = document.querySelector('html').getAttribute('lang') ?? 'en'
         this.fileField = target
-        this.boxFileupload = target.closest(".files-upload")
+        this.boxFileupload = target.closest('.files-upload')
         this.inputFileMaxAllowedSize = parseInt(target.dataset.maxfilesize)
         this.acceptTypes = target.getAttribute('accept')
         this.addDraggableListener(this)
@@ -67,9 +67,9 @@ export default class FilesUpload {
 
     addDraggableListener() {
         const self = this
-        this.boxFileupload.addEventListener("dragover", self.fileDragHover, false)
-        this.boxFileupload.addEventListener("dragleave", self.fileDragHover, false)
-        this.boxFileupload.addEventListener("drop", function(e) {
+        this.boxFileupload.addEventListener('dragover', self.fileDragHover, false)
+        this.boxFileupload.addEventListener('dragleave', self.fileDragHover, false)
+        this.boxFileupload.addEventListener('drop', function(e) {
             self.fileDragHover(e);
             const files = e.target.files || e.dataTransfer.files;
             self.initFilesUpload(files, this);
@@ -78,7 +78,7 @@ export default class FilesUpload {
 
     addChangeInputListener(target, context) {
         const self = this
-        target.addEventListener("change", function() {
+        target.addEventListener('change', function() {
             self.initFilesUpload(target.files, context);
         })
     }
@@ -96,8 +96,8 @@ export default class FilesUpload {
 
     initFilesUpload(uplaodFiles, context) {
         const self = this
-        var langAttr = self.langAttr
-        var fileField = self.fileField
+        const langAttr = self.langAttr
+        let fileField = self.fileField
         let dataTransfer = new DataTransfer();
         if (dataTransferByFields[fileField.id] !== undefined) {
             dataTransfer = dataTransferByFields[fileField.id];
@@ -129,7 +129,7 @@ export default class FilesUpload {
         }
 
         fileField.files = dataTransfer.files;
-        var fileList = context.querySelector('.file-list')
+        let fileList = context.querySelector('.file-list')
         fileList.innerHTML = ''
         let clearAllTag = document.createElement('a')
         clearAllTag.className = 'remove-all-files'
@@ -163,7 +163,7 @@ export default class FilesUpload {
                 if (self.boxFileupload.querySelector('.remove-all-files') == null ) {
                     self.boxFileupload.append(clearAllTag)
                 }
-                clearAllTag.addEventListener("click", function(e) {
+                clearAllTag.addEventListener('click', function(e) {
                     e.preventDefault();
                     const dataTransfer = dataTransferByFields[fileField.id]
                     dataTransfer.items.clear()
@@ -172,11 +172,13 @@ export default class FilesUpload {
                 });
             }
 
-            for (var i = 0; i < filenames.length; ++i) {
+            for (let i = 0; i < filenames.length; ++i) {
                 const li = document.createElement('li')
-                var liError = ''
                 if (uplaodFiles.item(i).type !== undefined && !self.acceptTypes.toLowerCase().includes(uplaodFiles.item(i).type)) {
-                    liError = msg.wrongFormatFile[langAttr]
+                    const span = document.createElement('span')
+                    span.className = 'form-error-message text-danger'
+                    span.innerHTML = msg.wrongFormatFile[langAttr]
+                    li.prepend(span)
                     fileField.setCustomValidity(msg.wrongFormatStrip[langAttr])
                 }
                 const a = document.createElement('a')
@@ -184,15 +186,15 @@ export default class FilesUpload {
                 a.innerHTML = msg.fileRemove[langAttr]
                 a.href = '#'
                 a.dataset.fileid = i
-                li.innerHTML = liError + filenames[i] + ' (' + self.humanFileSize(uplaodFiles.item(i).size, true) + ')  '
+                li.innerHTML = li.innerHTML + filenames[i] + ' (' + self.humanFileSize(uplaodFiles.item(i).size, true) + ')  '
                 li.append(a)
                 fileList.append(li)
             }
 
-            var removelist = fileList.querySelectorAll('.remove-file')
-            for(var z = 0; z < removelist.length; z++) {
-                var elem = removelist[z]
-                elem.addEventListener("click", function(e) {
+            const removelist = fileList.querySelectorAll('.remove-file')
+            for(let z = 0; z < removelist.length; z++) {
+                const elem = removelist[z]
+                elem.addEventListener('click', function(e) {
                     e.preventDefault()
                     const itemId = this.dataset.fileid
                     const dataTransfer = dataTransferByFields[fileField.id]

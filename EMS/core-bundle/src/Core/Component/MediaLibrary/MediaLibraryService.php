@@ -177,7 +177,7 @@ class MediaLibraryService
             $folder->id,
         ]);
 
-        return $this->jobService->createCommand($user, $command);
+        return $this->jobService->createCommand($user, $command, null, true);
     }
 
     public function jobFolderRename(UserInterface $user, MediaLibraryFolder $folder): Job
@@ -197,7 +197,7 @@ class MediaLibraryService
             $folder->giveName(),
         ]);
 
-        return $this->jobService->createCommand($user, $command);
+        return $this->jobService->createCommand($user, $command, null, true);
     }
 
     /**

@@ -18,7 +18,8 @@ readonly class JobHandler
 
     public function __invoke(Job $message): void
     {
-        $job = $this->service->getById($message->getContent());
-        $this->service->run($job);
+        if ($job = $this->service->getById($message->getContent())) {
+            $this->service->run($job);
+        }
     }
 }

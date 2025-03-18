@@ -8,3 +8,9 @@ framework:
 
         routing:
             'EMS\CoreBundle\Core\Message\AsyncMessageInterface': async
+
+        buses:
+            command.bus:
+                middleware:
+                    - emsco.messenger.middleware.user_token_stamp
+                    - emsco.messenger.middleware.restore_user_from_stamp

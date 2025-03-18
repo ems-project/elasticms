@@ -33,9 +33,10 @@ final class FileReader implements FileReaderInterface
     #[\Override]
     public function readCells(string $filename, array $options = []): \Generator
     {
-        $isCsv = 0 === \strcasecmp(\pathinfo($filename, PATHINFO_EXTENSION), 'csv');
+        $mimeType = $options['mime_type'] ?? null;
+        $csvExtension = 0 === \strcasecmp(\pathinfo($filename, PATHINFO_EXTENSION), 'csv');
 
-        if ($isCsv) {
+        if ($csvExtension || 'text/csv' === $mimeType) {
             $csv = new CsvFile(
                 filename: $filename,
                 delimiter: ($options['delimiter'] ?? CsvFile::DEFAULT_DELIMITER),

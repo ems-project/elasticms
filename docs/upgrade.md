@@ -1,7 +1,20 @@
 # Upgrade
 
-  * [Switch to CK Editor 5](#switch-to-ck-editor-5)
+<!-- TOC -->
+* [Upgrade](#upgrade)
+  * [General remarks](#general-remarks)
+  * [version 6.1.1](#version-611)
+  * [Switch to CK Editor 5 (still in beta)](#switch-to-ck-editor-5-still-in-beta)
   * [version 6.0.x](#version-60x)
+    * [Postgres 17](#postgres-17)
+    * [Symfony request inputBag](#symfony-request-inputbag)
+    * [Renamed embed methods in web/skeleton templates](#renamed-embed-methods-in-webskeleton-templates)
+    * [Routes removed](#routes-removed)
+    * [Deprecated twig filters](#deprecated-twig-filters)
+    * [Deprecated twig function](#deprecated-twig-function)
+    * [New dynamic mapping config which change the elasticsearch indexes](#new-dynamic-mapping-config-which-change-the-elasticsearch-indexes)
+  * [version 5.25.x](#version-525x)
+  * [version 5.24.x](#version-524x)
   * [version 5.23.x](#version-523x)
   * [version 5.22.x](#version-522x)
   * [version 5.21.x](#version-521x)
@@ -11,13 +24,27 @@
   * [version 5.14.x](#version-514x)
   * [version 5.7.x](#version-57x)
   * [version 5.3.x](#version-53x)
+    * [Deprecated emsch_add_environment](#deprecated-emsch_add_environment-)
   * [version 4.2.x](#version-42x)
+    * [Content type roles in twig](#content-type-roles-in-twig)
   * [version 4.x](#version-4x)
+    * [Deprecated twig functions](#deprecated-twig-functions)
+    * [Asset custom twig functions](#asset-custom-twig-functions)
+    * [Email custom twig functions](#email-custom-twig-functions)
+    * [Misc](#misc)
   * [Tips and tricks](#tips-and-tricks)
+    * [Backward compatibility route to old school assets path](#backward-compatibility-route-to-old-school-assets-path)
+    * [Create an old school "Corresponding revision" in the action menu](#create-an-old-school-corresponding-revision-in-the-action-menu)
+<!-- TOC -->
 
 ## General remarks
 
  * It's always a good idea to rebuild indexes on upgrade: `emsco:environment:rebuild --all`
+
+## version 6.1.1
+
+We added a new cli command `emscli:import:database`.
+Good practice to replace `emscli:file-reader:import` now alias for `emscli:file:import`
 
 ## Switch to CK Editor 5 (still in beta)
 

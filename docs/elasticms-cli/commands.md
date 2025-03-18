@@ -50,9 +50,9 @@ Example:
 php bin/console ems:admin:command 'ems:env:rebuild preview'
 ```
 
-## File Reader
+## Import
 
-### Import
+### File
 
 With this command you can upload a folder to a content-type.
 If the merge options is set to `false`, the rawData will be replaced.
@@ -60,14 +60,40 @@ It will send async index requests, the responses are parsed when the flush-size 
 
 ```bash
 Description:
-  Import an Excel file or a CSV file, one document per row
+  Import an Excel file or a CSV file, one document per row.
 
 Usage:
-  emscli:file-reader:import [options] [--] <file> <content-type>
+  emscli:import:file [options] [--] <file> <content-type>
+  emscli:file-reader:import
 
 Arguments:
-  file                  File path (xlsx or csv)
-  content-type          Content type target
+  file                         File path (xlsx or csv)
+  content-type                 Content type target
+
+Options:
+      --config=CONFIG          Config(s) json, file path or hash (multiple values allowed)
+      --dry-run                Just do a dry run
+      --merge=MERGE            Perform a merge or replace [default: true]
+      --flush-size=FLUSH-SIZE  Flush size for the queue [default: 100]
+      --limit=LIMIT            Limit the rows
+```
+
+### Database
+
+With this command you can upload a database table to a content-type.
+If the merge options is set to `false`, the rawData will be replaced.
+It will send async index requests, the responses are parsed when the flush-size is reached (default 100).
+
+```bash
+Description:
+  Import an database table, one document per row.
+
+Usage:
+  emscli:import:database [options] [--] <table> <content-type>
+
+Arguments:
+  table                        Database table name.
+  content-type                 Content type target
 
 Options:
       --config=CONFIG          Config(s) json, file path or hash (multiple values allowed)

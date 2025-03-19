@@ -31,12 +31,13 @@ class UserDataTableType extends AbstractEntityTableType
         $table->addColumn('user.index.column.username', 'username');
         $table->addColumn('user.index.column.displayname', 'displayName');
         $table->addColumn('user.index.column.email', 'email');
+        $table->addColumn('user.index.column.groupName', 'userGroup');
         $context = $table->getContext();
-        if ($context instanceof UserContextDTO && $context->inGroup) {
+        if ($context instanceof UserContextDTO && $context->inGroup && null !== $context->groupName) {
             $table->addDynamicItemPostAction(Routes::USER_DELETE_FOR_GROUP, 'user.action.delete', 'trash', 'user.action.delete_confirm', ['user' => 'id', 'groupName' => $context->groupName]);
         }
-        if ($context instanceof UserContextDTO && !$context->inGroup) {
-            $table->addItemPostAction(Routes::USER_ADD_FOR_GROUP, 'user.add.button', 'plus','user.add.add_confirm',['user' => 'id', 'group' => $context->groupName]);
+        if ($context instanceof UserContextDTO && !$context->inGroup && null !== $context->groupName) {
+            $table->addItemPostAction(Routes::USER_ADD_FOR_GROUP, 'user.add.button', 'plus', 'user.add.add_confirm', ['user' => 'id', 'group' => $context->groupName]);
         }
         if (!$context instanceof UserContextDTO || !$context->light) {
             $table->addColumnDefinition(new BoolTableColumn('user.index.column.email_notification', 'emailNotification'))

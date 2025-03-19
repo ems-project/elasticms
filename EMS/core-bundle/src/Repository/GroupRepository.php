@@ -81,7 +81,7 @@ class GroupRepository extends ServiceEntityRepository
 
     public function getByName(string $name): ?Group
     {
-        dump($name);
+        \dump($name);
         $qb = $this->createQueryBuilder('user_group');
         $qb
             ->andWhere($qb->expr()->eq('user_group.name', ':name'))

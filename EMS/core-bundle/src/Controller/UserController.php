@@ -15,7 +15,6 @@ use EMS\CoreBundle\Core\User\UserManager;
 use EMS\CoreBundle\DataTable\Type\UserDataTableType;
 use EMS\CoreBundle\Entity\AuthToken;
 use EMS\CoreBundle\Entity\ContentType;
-use EMS\CoreBundle\Entity\Group;
 use EMS\CoreBundle\Entity\User;
 use EMS\CoreBundle\Form\Form\TableType;
 use EMS\CoreBundle\Form\Form\UserType;
@@ -321,6 +320,7 @@ class UserController extends AbstractController
             'group' => $userGroup->getId(),
         ]);
     }
+
     public function addFromGroup(User $user, string $group): Response
     {
         $user->setUserGroup($group);
@@ -328,7 +328,7 @@ class UserController extends AbstractController
         $userGroup = $this->groupManager->getByItemName($group);
 
         return $this->redirectToRoute(Routes::GROUP_EDIT, [
-            'group' => $userGroup,
+            'group' => $userGroup->getId(),
         ]);
     }
 }

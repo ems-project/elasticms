@@ -127,7 +127,7 @@ final class UserRepository extends ServiceEntityRepository implements UserReposi
     {
         $qb = $this->createQueryBuilder('user');
         $qb->select('count(user.id)');
-        $this->addSearchFilters($qb, $searchValue, $context);
+        $this->addSearchFilters($qb, $searchValue);
 
         return (int) $this->getQuery($qb, $context)->getSingleScalarResult();
     }
@@ -174,15 +174,19 @@ final class UserRepository extends ServiceEntityRepository implements UserReposi
 
     private function getQuery(QueryBuilder $qb, ?UserContextDTO $context)
     {
-        if (null === $context) {
+        if (null === $context || null === $context->groupName) {
             return $qb->getQuery();
         }
-        $expr = $qb->expr()->eq('user.userGroup', ':group');
-        if (!$context->inGroup) {
-            $expr = $qb->expr()->not($expr);
+        if ($context->inGroup) {
+            $inGroup = $qb->expr()->eq('user.userGroup', ':userGroup');
+            $qb->andWhere($inGroup);
+        } else {
+            $inGroup = $qb->expr()->neq('user.userGroup', ':userGroup');
+            $isNull = $qb->expr()->isNull('user.userGroup');
+            $qb->orWhere($inGroup);
+            $qb->orWhere($isNull);
         }
-        $qb->andWhere($expr);
-        $qb->setParameter('group', $context->groupName);
+        $qb->setParameter('userGroup', $context->groupName);
 
         return $qb->getQuery();
     }

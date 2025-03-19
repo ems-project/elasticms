@@ -174,7 +174,7 @@ export default class FilesUpload {
 
             for (let i = 0; i < filenames.length; ++i) {
                 const li = document.createElement('li')
-                if (uplaodFiles.item(i).type !== undefined && !self.acceptTypes.toLowerCase().includes(uplaodFiles.item(i).type)) {
+                if (uplaodFiles.item(i).type !== undefined && self.acceptTypes && !self.acceptTypes.toLowerCase().includes(uplaodFiles.item(i).type)) {
                     const span = document.createElement('span')
                     span.className = 'form-error-message text-danger'
                     span.innerHTML = msg.wrongFormatFile[langAttr]

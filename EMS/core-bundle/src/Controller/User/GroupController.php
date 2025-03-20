@@ -19,6 +19,7 @@ use EMS\CoreBundle\Form\Form\TableType;
 use EMS\CoreBundle\Form\Form\UserType;
 use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\UserService;
+use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -44,10 +45,9 @@ class GroupController extends AbstractController
     public function index(Request $request): Response
     {
         $table = $this->dataTableFactory->create(GroupDataTableType::class);
-        $list_user_group = $this->groupManager->getAll();
 
         $form = $this->createForm(TableType::class, $table, [
-            'reorder_label' => t('type.reorder', ['type' => 'form'], 'emsco-core'),
+            'reorder_label' => t('type.reorder', ['type' => 'group'], 'emsco-core'),
         ]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -60,7 +60,6 @@ class GroupController extends AbstractController
         }
 
         return $this->render("@$this->templateNamespace/crud/overview.html.twig", [
-            'list_user_group' => $list_user_group,
             'form' => $form,
             'title' => t('type.title_overview', ['type' => 'group'], 'emsco-core'),
             'subTitle' => t('type.title_sub', ['type' => 'group'], 'emsco-core'),
@@ -78,7 +77,7 @@ class GroupController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->groupManager->create($group);
 
-            return $this->redirectToRoute('emsco_group_admin_index');
+            return $this->redirectToRoute(Routes::GROUP_INDEX);
         }
 
         return $this->render("@$this->templateNamespace/group/create.html.twig", [
@@ -93,30 +92,29 @@ class GroupController extends AbstractController
     {
         $this->groupManager->deleteGroup($group);
 
-        return $this->redirectToRoute('emsco_group_admin_index');
+        return $this->redirectToRoute(Routes::GROUP_INDEX);
     }
 
-    public function deleteSelectedGroup($SelectedGroup): Response
+    public function deleteSelectedGroup($selectedGroup): Response
     {
-        foreach ($SelectedGroup as $group) {
+        foreach ($selectedGroup as $group) {
             $this->groupManager->deleteGroup($group);
         }
 
-        return $this->redirectToRoute('emsco_group_admin_index');
+        return $this->redirectToRoute(Routes::GROUP_INDEX);
     }
 
     public function deleteAllGroup(): Response
     {
         $this->groupManager->deleteAllGroup();
 
-        return $this->redirectToRoute('emsco_group_admin_index');
+        return $this->redirectToRoute(Routes::GROUP_INDEX);
     }
 
     public function editGroup(Group $group, Request $request): Response
     {
-        $userGroupDataTable = $this->usersInGroupDataTable($request, $group);
-        $userNotInGroupDataTable = $this->usersNotInGroupDataTable($request, $group);
-        $this->groupManager->editGroup($group);
+        $userNotInGroupDataTable = $this->usersInGroupDataTable($request, $group,false);
+        $userGroupDataTable = $this->usersInGroupDataTable($request, $group,true);
         $form = $this->createForm(GroupType::class, $group, [
             'mode' => UserType::MODE_UPDATE,
         ]);
@@ -125,7 +123,7 @@ class GroupController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->groupManager->editGroup($group);
 
-            return $this->redirectToRoute('emsco_group_admin_index');
+            return $this->redirectToRoute(Routes::GROUP_INDEX);
         }
 
         return $this->render("@$this->templateNamespace/group/edit.html.twig", [
@@ -154,27 +152,11 @@ class GroupController extends AbstractController
     /**
      * @return RedirectResponse|FormInterface<mixed>
      */
-    private function usersInGroupDataTable(Request $request, Group $group): RedirectResponse|FormInterface
+    private function usersInGroupDataTable(Request $request, Group $group, bool $inGroup): RedirectResponse|FormInterface
     {
         $table = $this->dataTableFactory->create(UserDataTableType::class, [
             'light' => true,
-            'in-group' => false,
-            'group-name' => $group->getName(),
-        ]);
-
-        $form = $this->createForm(TableType::class, $table);
-
-        return $form;
-    }
-
-    /**
-     * @return RedirectResponse|FormInterface<mixed>
-     */
-    private function usersNotInGroupDataTable(Request $request, Group $group): RedirectResponse|FormInterface
-    {
-        $table = $this->dataTableFactory->create(UserDataTableType::class, [
-            'light' => true,
-            'in-group' => true,
+            'in-group' => $inGroup,
             'group-name' => $group->getName(),
         ]);
 

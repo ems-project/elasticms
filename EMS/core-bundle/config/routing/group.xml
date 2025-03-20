@@ -9,7 +9,7 @@
            methods="GET|POST"/>
     <route id="emsco_group_admin_add" path="/admin/group/add"
            controller="EMS\CoreBundle\Controller\User\GroupController::addGroup"
-           methods="POST"/>
+           methods="GET|POST"/>
     <route id="emsco_group_admin_delete" path="/admin/group/delete/{group}"
            controller="EMS\CoreBundle\Controller\User\GroupController::deleteGroup"
            methods="GET|POST"/>

@@ -1,4 +1,5 @@
 {% extends '@EMSCore/crud/overview.html.twig' %}
+{% trans_default_domain 'EMSCoreBundle' %}
 {#{% trans_default_domain 'emsco-twigs' %}#}
 
 {#{% block title %}{{ 'group.add.title'|trans }}{% endblock %}#}
@@ -10,7 +11,7 @@
         </div>
         <div class="col-md-7">
             <div class="md4">
-                <h2>User not in group</h2>
+                <h2>{{ 'view.user.index.user in group'|trans }}</h2>
                 {% with {
                     form: datatableForm,
                 } %}
@@ -18,14 +19,13 @@
                 {% endwith %}
             </div>
             <div class="md4">
-                <h2>User in group</h2>
+                <h2>{{ 'view.user.index.user not in group'|trans }}</h2>
                 {% with {
                     form: userNotInGroupDataTable,
                 } %}
                     {{ parent() }}
                 {% endwith %}
             </div>
-
         </div>
     </div>
 {% endblock %}

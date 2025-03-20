@@ -1,7 +1,5 @@
 {% extends '@EMSCore/base.html.twig' %}
 
-{% block pagetitle %}Test{% endblock %}
-
 {% block body %}
     <ul>
     {%  for user in list_user_group %}
@@ -11,8 +9,5 @@
         </li>
     {% endfor %}
     </ul>
-    <form action="group/add">
-        <button type="submit" class="btn btn-primary" style="margin-left: 5px;">{{ 'action.add_user_group'|trans({}, 'emsco-core') }}</button>
-    </form>
 {% endblock %}
 

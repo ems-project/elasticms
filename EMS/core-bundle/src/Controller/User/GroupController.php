@@ -132,7 +132,7 @@ class GroupController extends AbstractController
             'userNotInGroupDataTable' => $userNotInGroupDataTable->createView(),
             'title' => t('type.title_edit', ['type' => 'group'], 'emsco-core'),
             'subTitle' => t('type.title_sub', ['type' => 'group'], 'emsco-core'),
-            'breadcrumb' => $this->breadcrumb(),
+            'breadcrumb' => $this->breadcrumb()->add(t('type.title_overview', ['type' => 'group'], 'emsco-core')),
         ]);
     }
 

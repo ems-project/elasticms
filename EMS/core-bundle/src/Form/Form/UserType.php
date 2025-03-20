@@ -129,7 +129,7 @@ final class UserType extends AbstractType
                 'choice_translation_domain' => false,
             ])
             ->add('userGroup', ChoiceType::class, [
-                'label' => 'key.group',
+                'label' => 'user.group',
                 'required' => false,
                 'choices' => $choices,
                 'translation_domain' => EMSCoreBundle::TRANS_FORM_DOMAIN,

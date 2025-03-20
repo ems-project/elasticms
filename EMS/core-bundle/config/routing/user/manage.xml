@@ -22,13 +22,13 @@
     <route id="emsco_user_delete" path="/delete/{user}"
            controller="EMS\CoreBundle\Controller\UserController::delete"
            methods="POST"/>
-    <route id="emsco_remove_user_from_group" path="/remove/{user}/{groupName}"
+    <route id="emsco_remove_user_from_group" path="/remove/{user}/from/{groupName}"
            controller="EMS\CoreBundle\Controller\UserController::removeFromGroup"
            methods="POST"/>
-    <route id="emsco_add_user_from_group" path="/add/{user}/to-group/{group}"
+    <route id="emsco_add_user_from_group" path="/add/{user}/to/{group}"
            controller="EMS\CoreBundle\Controller\UserController::addFromGroup"
-           methods="POST"/>
-    <route id="emsco_user_enabling" path="/enabling/{user}"
+           methods="GET"/>
+    <route id="emsco_user_enable" path="/enable/{user}"
            controller="EMS\CoreBundle\Controller\UserController::enabling"
            methods="POST"/>
     <route id="emsco_user_api_key" path="/api-key/{username}"

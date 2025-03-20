@@ -120,7 +120,7 @@ class Routes
     final public const string USER_INDEX = 'emsco_user_index';
     final public const string USER_ADD = 'emsco_user_add';
     final public const string USER_EDIT = 'emsco_user_edit';
-    final public const string USER_ENABLING = 'emsco_user_enabling';
+    final public const string USER_ENABLING = 'emsco_user_enable';
     final public const string USER_API_KEY = 'emsco_user_api_key';
     final public const string USER_DELETE = 'emsco_user_delete';
     final public const string USER_DELETE_FOR_GROUP = 'emsco_remove_user_from_group';

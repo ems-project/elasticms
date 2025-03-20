@@ -1,5 +1,4 @@
 import { ChangeEvent } from '../events/changeEvent'
-import '../../../css/core/plugins/codeEditor.scss'
 
 const modules: Record<string, () => Promise<{ default: string }>> = {
   'ace/ext/beautify': () => import('ace-builds/src-noconflict/ext-beautify.js?url'),

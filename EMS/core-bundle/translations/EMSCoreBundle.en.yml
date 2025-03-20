@@ -760,7 +760,6 @@ user:
             user_group: Group
     add:
         button: 'Add user'
-        add_confirm: 'Add this user?'
     export:
         excel: 'Excel export'
         csv: 'CSV export'

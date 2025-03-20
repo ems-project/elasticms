@@ -346,9 +346,6 @@
             <argument>%ems_core.circles_object%</argument>
             <tag name="form.type"/>
         </service>
-        <service id="ems_core.form.group_type" class="EMS\CoreBundle\Form\Form\GroupType">
-            <tag name="form.type"/>
-        </service>
         <service id="ems.form.field.contenttypefieldpickertype" class="EMS\CoreBundle\Form\Field\ContentTypeFieldPickerType">
             <argument type="service" id="ems.form.factories.contentTypeFieldChoiceListFactory" />
             <tag name="form.type"/>

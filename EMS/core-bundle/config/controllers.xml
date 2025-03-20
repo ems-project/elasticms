@@ -69,7 +69,6 @@
             <tag name="controller.service_arguments"/>
         </service>
 
-
         <!-- Api\Search -->
         <service id="EMS\CoreBundle\Controller\Api\Search\SearchController">
             <argument type="service" id="ems_common.service.elastica"/>

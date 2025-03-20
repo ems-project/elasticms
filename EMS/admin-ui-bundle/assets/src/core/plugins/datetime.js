@@ -1,5 +1,4 @@
 import { TempusDominus } from '@eonasdan/tempus-dominus'
-import '@eonasdan/tempus-dominus/src/scss/tempus-dominus.scss'
 import ChangeEvent from '../events/changeEvent'
 
 class Datetime {

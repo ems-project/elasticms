@@ -315,6 +315,7 @@ class UserController extends AbstractController
         $user->setUserGroup(null);
         $this->userService->updateUser($user);
         $userGroup = $this->groupManager->getByItemName($groupName);
+        
         return $this->redirectToRoute(Routes::GROUP_EDIT, [
             'group' => $userGroup->getId(),
         ]);

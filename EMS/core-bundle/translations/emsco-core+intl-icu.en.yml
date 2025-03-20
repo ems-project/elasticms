@@ -219,6 +219,7 @@ key:
     uploaded_files: 'Uploaded Files'
     uploaded_files_logs: 'Uploaded Files Logs'
     users: Users
+    user-management: 'User management'
     views: Views
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profiles

@@ -24,6 +24,7 @@
             <argument type="service" id="logger" />
             <argument type="service" id="Symfony\Component\Routing\Generator\UrlGeneratorInterface" />
             <argument type="service" id="EMS\CommonBundle\Storage\Processor\Processor" />
+            <argument type="service" id="ems_common.file.reader" />
             <tag name="twig.runtime" />
         </service>
         <service id="ems_common.twig.runtime.request" alias="EMS\CommonBundle\Twig\RequestRuntime"/>

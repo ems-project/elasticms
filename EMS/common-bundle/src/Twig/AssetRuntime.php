@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Twig;
 
 use EMS\CommonBundle\Common\Standard\Image;
+use EMS\CommonBundle\Contracts\File\FileReaderInterface;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Helper\Text\Encoder;
 use EMS\CommonBundle\Storage\NotSavedException;
@@ -26,8 +27,13 @@ class AssetRuntime
 {
     private readonly Filesystem $filesystem;
 
-    public function __construct(private readonly StorageManager $storageManager, private readonly LoggerInterface $logger, private readonly UrlGeneratorInterface $urlGenerator, private readonly Processor $processor)
-    {
+    public function __construct(
+        private readonly StorageManager $storageManager,
+        private readonly LoggerInterface $logger,
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly Processor $processor,
+        private readonly FileReaderInterface $fileReader,
+    ) {
         $this->filesystem = new Filesystem();
     }
 
@@ -231,5 +237,45 @@ class AssetRuntime
         }
 
         return $asTempFile ? $tempFile : $tempFile->path;
+    }
+
+    /**
+     * @param array{
+     *     delimiter?: ?string,
+     *     encoding?: ?string,
+     *     all_sheets?: ?bool,
+     * } $options
+     *
+     * @return mixed[]
+     */
+    public function fileReaderGetData(string $hash, array $options = []): array
+    {
+        $tempFilename = $this->temporaryFile($hash);
+        if (null === $tempFilename) {
+            throw new \RuntimeException('Unexpected temporary filename');
+        }
+
+        return $this->fileReader->getData($tempFilename, $options);
+    }
+
+    /**
+     * @param array{
+     *      mime_type?: ?string,
+     *      delimiter?: ?string,
+     *      encoding?: ?string,
+     *      exclude_rows?: int[],
+     *      limit?: ?int,
+     *  } $options
+     *
+     * @return \Generator<mixed>
+     */
+    public function fileReaderReadCells(string $hash, array $options = []): \Generator
+    {
+        $tempFilename = $this->temporaryFile($hash);
+        if (null === $tempFilename) {
+            throw new \RuntimeException('Unexpected temporary filename');
+        }
+
+        return $this->fileReader->readCells($tempFilename, $options);
     }
 }

@@ -8,6 +8,8 @@
   * [ems_store_save](#ems_store_save)
   * [ems_store_delete](#ems_store_delete)
   * [ems_flash](#ems_flash)
+  * [ems_file_reader_data](#ems_file_reader_data)
+  * [ems_file_reader_cells](#ems_file_reader_cells)
 * [Twig filters](#twig-filters)
   * [ems_anti_spam](#ems_anti_spam)
   * [ems_html_encode](#ems_html_encode)
@@ -204,6 +206,34 @@ You can use the following template for displaying the flashes (bootstrap5).
     {%- endfor -%}
 {%- endfor -%}
 ```
+
+## ems_file_reader_data
+
+Use the FileReader to get CSV or MS Excel fil content.
+
+```twig
+<pre>{{ ems_file_reader_data('57bcba09d6f5e06852b83b2b2ba545529f862a87', {'all_sheets': true})|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+```
+
+Options:
+ * `delimiter` (string): For CSV file
+ * `encoding` (string): file's charset
+ * `all_sheets` (boolean): Extract only the active sheet (false, default) or all sheets (true)
+
+## ems_file_reader_cells
+
+Returns a cells iterator
+
+```twig
+<pre>{% set cellsIterator = ems_file_reader_cells('57bcba09d6f5e06852b83b2b2ba545529f862a87', {'exclude_rows': [0]}) }}</pre>
+```
+Options:
+ * `mime_type` (string): File mimetype
+ * `delimiter` (string): CSV delimiter
+ * `encoding` (string): file's charset
+ * `exclude_rows` (int[]): skip those rows
+ * `limit` (int): limit to the first rows
+
 
 # Twig filters
 

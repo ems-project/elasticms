@@ -27,7 +27,16 @@ final class FileReader implements FileReaderInterface
             $reader->setDelimiter($options['delimiter']);
         }
 
-        return $reader->load($filename)->getActiveSheet()->toArray();
+        if (true !== ($options['all_sheets'] ?? false)) {
+            return $reader->load($filename)->getActiveSheet()->toArray();
+        }
+
+        $data = [];
+        foreach ($reader->load($filename)->getAllSheets() as $sheet) {
+            $data[$sheet->getTitle()] = $sheet->toArray();
+        }
+
+        return $data;
     }
 
     #[\Override]

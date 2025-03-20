@@ -12,9 +12,9 @@
     <field name="name" length="255" unique="true"/>
     <field name="label" length="255"/>
     <field name="roles" type="json"/>
-
     <field name="created" type="datetime"/>
     <field name="modified" type="datetime"/>
+
     <lifecycle-callbacks>
       <lifecycle-callback type="prePersist" method="updateModified" />
       <lifecycle-callback type="preUpdate" method="updateModified" />

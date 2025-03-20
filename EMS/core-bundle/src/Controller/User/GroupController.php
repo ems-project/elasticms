@@ -71,7 +71,6 @@ class GroupController extends AbstractController
     public function addGroup(Request $request): Response
     {
         $group = new Group();
-        $userGroupDataTable = $this->usersInGroupDataTable($request, $group);
 
         $form = $this->createForm(GroupType::class, $group, ['mode' => UserType::MODE_CREATE]);
         $form->handleRequest($request);
@@ -122,7 +121,6 @@ class GroupController extends AbstractController
             'mode' => UserType::MODE_UPDATE,
         ]);
         $form->handleRequest($request);
-        //        $users = $this->userService->getUsersByGroup($group->getName());
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->groupManager->editGroup($group);

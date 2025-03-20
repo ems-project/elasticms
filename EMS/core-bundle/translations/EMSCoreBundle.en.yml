@@ -757,6 +757,7 @@ user:
             locale_preferred: 'Locale preferred'
             wysiwyg_profile: 'WYSIWYG profile'
             locale_ui: UI
+            user_group: Group
     add:
         button: 'Add user'
         add_confirm: 'Add this user?'

@@ -53,14 +53,6 @@ final class GroupType extends AbstractType
                 'mapped' => true,
             ]);
 
-        /*$builder->add(self::MODE_CREATE, ChoiceType::class, [
-            'choices' => $this->userService->getExistingRoles(),
-            'label' => 'Roles',
-            'expanded' => true,
-            'multiple' => true,
-            'mapped' => true,
-        ]);*/
-
         if (self::MODE_CREATE === $mode) {
             $builder->add(self::CREATE_BUTTON, SubmitEmsType::class, [
                 'attr' => ['class' => 'btn btn-primary btn-sm'],
@@ -79,7 +71,6 @@ final class GroupType extends AbstractType
                 'icon' => 'fa fa-save',
                 'translation_domain' => EMSCoreBundle::TRANS_DOMAIN,
             ]);
-            // dump($this->userService->getUsersByGroup($builder->getData()->__toString()));
         }
     }
 

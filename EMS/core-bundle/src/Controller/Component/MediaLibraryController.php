@@ -30,6 +30,7 @@ class MediaLibraryController
         private readonly TranslatorInterface $translator,
         private readonly FormFactory $formFactory,
         private readonly string $templateNamespace,
+        private readonly bool $asyncEnabled,
     ) {
     }
 
@@ -150,6 +151,7 @@ class MediaLibraryController
 
             $componentModal->modal->data['success'] = true;
             $componentModal->modal->data['jobId'] = $job->getId();
+            $componentModal->modal->data['async'] = $this->asyncEnabled;
             $componentModal->template->context->append([
                 'infoMessage' => $this->translator->trans('media_library.folder.delete.job_info', [], EMSCoreBundle::TRANS_COMPONENT),
             ]);
@@ -335,6 +337,7 @@ class MediaLibraryController
 
             return new JsonResponse([
                 'success' => true,
+                'async' => $this->asyncEnabled,
                 'jobId' => $job->getId(),
                 'path' => $folder->getPath()->getValue(),
                 'modalBody' => '',

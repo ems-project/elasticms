@@ -83,6 +83,11 @@ emsch_language_selection:
     config:
         path: /
     template_static: template/view/language_select.html.twig
+emsch_js_translations:
+    config:
+        path: /translations/{_locale}.js
+        requirements: { _locale: en|fr|nl|de, _format: js }
+    template_static: template/js/translations.js.twig
 emsch_word_export:
     config:
         path: '/_word_export/{contentType}/{ouuid}.docx'

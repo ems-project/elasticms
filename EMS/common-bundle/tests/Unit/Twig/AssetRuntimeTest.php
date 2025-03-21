@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Tests\Twig;
 
+use EMS\CommonBundle\Contracts\File\FileReaderInterface;
 use EMS\CommonBundle\Storage\Processor\Processor;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\CommonBundle\Twig\AssetRuntime;
@@ -17,6 +18,7 @@ class AssetRuntimeTest extends TestCase
     private LoggerInterface $logger;
     private UrlGeneratorInterface $urlGenerator;
     private Processor $processor;
+    private FileReaderInterface $fileReader;
 
     #[\Override]
     public function setUp(): void
@@ -25,6 +27,7 @@ class AssetRuntimeTest extends TestCase
         $this->logger = $this->createMock(LoggerInterface::class);
         $this->urlGenerator = $this->createMock(UrlGeneratorInterface::class);
         $this->processor = $this->createMock(Processor::class);
+        $this->fileReader = $this->createMock(FileReaderInterface::class);
     }
 
     public function testImageInfoTempFileIsNull()
@@ -35,7 +38,7 @@ class AssetRuntimeTest extends TestCase
                 $this->logger,
                 $this->urlGenerator,
                 $this->processor,
-                '',
+                $this->fileReader,
             ])
             ->onlyMethods(['temporaryFile'])
             ->getMock();
@@ -59,7 +62,7 @@ class AssetRuntimeTest extends TestCase
                 $this->logger,
                 $this->urlGenerator,
                 $this->processor,
-                '',
+                $this->fileReader,
             ])
             ->onlyMethods(['temporaryFile'])
             ->getMock();
@@ -83,7 +86,7 @@ class AssetRuntimeTest extends TestCase
                 $this->logger,
                 $this->urlGenerator,
                 $this->processor,
-                '',
+                $this->fileReader,
             ])
             ->onlyMethods(['temporaryFile'])
             ->getMock();
@@ -116,7 +119,7 @@ class AssetRuntimeTest extends TestCase
                 $this->logger,
                 $this->urlGenerator,
                 $this->processor,
-                '',
+                $this->fileReader,
             ])
             ->onlyMethods(['temporaryFile'])
             ->getMock();

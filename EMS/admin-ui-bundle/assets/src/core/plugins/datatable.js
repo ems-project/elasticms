@@ -1,8 +1,6 @@
 import $ from 'jquery'
 import 'datatables.net'
 import 'datatables.net-bs'
-import 'datatables.net-bs/css/dataTables.bootstrap.css'
-import '../../../css/core/plugins/datatable.scss'
 import Core from '../core'
 
 class Datatable {

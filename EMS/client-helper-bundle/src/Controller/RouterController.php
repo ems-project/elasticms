@@ -29,6 +29,9 @@ final readonly class RouterController
     ) {
     }
 
+    /**
+     * @param array<string, string|string[]> $headers
+     */
     public function handle(Request $request, array $headers = []): Response
     {
         $response = new Response($this->handler->handle($request)->render());

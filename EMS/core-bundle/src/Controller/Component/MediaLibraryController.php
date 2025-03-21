@@ -148,12 +148,13 @@ class MediaLibraryController
         if ($form->isSubmitted() && $form->isValid()) {
             $job = $this->mediaLibraryService->jobFolderDelete($user, $folder);
             $this->flashBag($request)->clear();
+            $modalMessage = ($this->asyncEnabled) ? 'media_library.folder.delete.job_info_async' : 'media_library.folder.delete.job_info';
 
             $componentModal->modal->data['success'] = true;
             $componentModal->modal->data['jobId'] = $job->getId();
             $componentModal->modal->data['async'] = $this->asyncEnabled;
             $componentModal->template->context->append([
-                'infoMessage' => $this->translator->trans('media_library.folder.delete.job_info', [], EMSCoreBundle::TRANS_COMPONENT),
+                'infoMessage' => $this->translator->trans($modalMessage, [], EMSCoreBundle::TRANS_COMPONENT),
             ]);
 
             return new JsonResponse($componentModal->render());
@@ -335,6 +336,8 @@ class MediaLibraryController
             $job = $this->mediaLibraryService->jobFolderRename($user, $folder);
             $this->flashBag($request)->clear();
 
+            $modalMessage = ($this->asyncEnabled) ? 'media_library.folder.rename.job_info_async' : 'media_library.folder.rename.job_info';
+
             return new JsonResponse([
                 'success' => true,
                 'async' => $this->asyncEnabled,
@@ -342,7 +345,7 @@ class MediaLibraryController
                 'path' => $folder->getPath()->getValue(),
                 'modalBody' => '',
                 'modalMessages' => [
-                    ['info' => $this->translator->trans('media_library.folder.rename.job_info', [], EMSCoreBundle::TRANS_COMPONENT)],
+                    ['info' => $this->translator->trans($modalMessage, [], EMSCoreBundle::TRANS_COMPONENT)],
                 ],
             ]);
         }

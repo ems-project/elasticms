@@ -372,8 +372,11 @@ export default class MediaLibrary {
             if (!json.hasOwnProperty('success') || json.success === false) return;
             if (!json.hasOwnProperty('jobId')) return;
             if (json.hasOwnProperty('async') && json.async === true) {
-              ajaxModal.close();
-              return;
+              return Promise.allSettled([
+                new Promise(resolve => setTimeout(resolve, 2000))
+              ])
+                .then(() => ajaxModal.close())
+              ;
             }
 
             let jobProgressBar = new ProgressBar('progress-' + json.jobId, {
@@ -403,8 +406,11 @@ export default class MediaLibrary {
             if (!json.hasOwnProperty('success') || json.success === false) return;
             if (!json.hasOwnProperty('jobId') || !json.hasOwnProperty('path')) return;
             if (json.hasOwnProperty('async') && json.async === true) {
-              ajaxModal.close();
-              return;
+              return Promise.allSettled([
+                new Promise(resolve => setTimeout(resolve, 2000))
+              ])
+                .then(() => ajaxModal.close())
+              ;
             }
 
             let jobProgressBar = new ProgressBar('progress-' + json.jobId, {

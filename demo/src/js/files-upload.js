@@ -1,56 +1,5 @@
+import t from './translations.js'
 const dataTransferByFields = []
-const msg =
-    {
-        "filesSelectedCount": {
-            "fr": "%count% fichiers selectionnés",
-            "nl": "%count% geselecteerde bestanden",
-            "de": "%count% ausgewählte Dateien",
-            "en": "%count% files selected"
-        },
-        "fileSelectedCount": {
-            "fr": "1 fichier selectionné",
-            "nl": "1 geselecteerde bestand",
-            "de": "1 ausgewählte Datei",
-            "en": "1 file selected"
-        },
-        "filesRemoveAll": {
-            "fr": "Supprimer tout",
-            "nl": "Alles verwijderen",
-            "de": "Alle löschen",
-            "en": "Remove all"
-        },
-        "fileRemove": {
-            "fr": "Supprimer",
-            "nl": "Verwijderen",
-            "de": "Löschen",
-            "en": "Remove"
-        },
-        "requiredLabel": {
-            "fr": "(*) Champs obligatoires",
-            "nl": "(*) Verplichte velden",
-            "de": "(*) Benötigte Felder",
-            "en": "(*) Required fields"
-        },
-        "max_multiple_file_size": {
-            "fr": "Les fichiers sont trop volumineux. La taille maximale autorisée est de %fileSize%.",
-            "nl": "De bestanden zijn te groot. Toegestane maximum grootte is %fileSize%.",
-            "de": "Die Dateien sind zu groß. Die maximal zulässige Größe beträgt %fileSize%.",
-            "en": "The data is large. The maximum size is %fileSize%."
-        },
-        "wrongFormatFile": {
-            "fr": "Erreur: Format incorrect.&nbsp;",
-            "nl": "Fout: Onjuist formaat.&nbsp;",
-            "de": "FehlerFalsches: Format.&nbsp;",
-            "en": "ErrorIncorrect: format.&nbsp;",
-        },
-        "wrongFormatStrip": {
-            "fr": "Format incorrect",
-            "nl": "Onjuist formaat",
-            "de": "Falsches Format",
-            "en": "Incorrect format",
-        }
-    };
-
 
 export default class FilesUpload {
 
@@ -88,7 +37,7 @@ export default class FilesUpload {
         target.addEventListener('invalid', function(e) {
             e.preventDefault();
             if (this.required) {
-                self.boxFileupload.querySelector('.files-upload-error').innerHTML = msg.requiredLabel[self.langAttr]
+                self.boxFileupload.querySelector('.files-upload-error').innerHTML = t('required_field')
             }
         })
     }
@@ -121,8 +70,8 @@ export default class FilesUpload {
         }
 
         if (filesSize > self.inputFileMaxAllowedSize) {
-            fileField.setCustomValidity(msg.max_multiple_file_size[langAttr].replace('%fileSize%', this.humanFileSize(self.inputFileMaxAllowedSize, true)))
-            self.boxFileupload.querySelector('.files-upload-error').innerHTML = msg.max_multiple_file_size[langAttr].replace('%fileSize%', this.humanFileSize(self.inputFileMaxAllowedSize, true))
+            fileField.setCustomValidity(t('max_size_reached').replace('%fileSize%', this.humanFileSize(self.inputFileMaxAllowedSize, true)))
+            self.boxFileupload.querySelector('.files-upload-error').innerHTML = t('max_size_reached').replace('%fileSize%', this.humanFileSize(self.inputFileMaxAllowedSize, true))
         } else {
             fileField.setCustomValidity('');
             self.boxFileupload.querySelector('.files-upload-error').innerHTML = ''
@@ -133,7 +82,7 @@ export default class FilesUpload {
         fileList.innerHTML = ''
         let clearAllTag = document.createElement('a')
         clearAllTag.className = 'remove-all-files'
-        clearAllTag.innerHTML = msg.filesRemoveAll[langAttr]
+        clearAllTag.innerHTML = t('remove_all')
         clearAllTag.href = '#'
         if(filenames.length === 0) {
            if (self.boxFileupload.querySelector('p.count-file') !== null ) {
@@ -154,12 +103,12 @@ export default class FilesUpload {
             }
 
             if (filenames.length === 1) {
-                p.innerHTML = msg.fileSelectedCount[langAttr]
+                p.innerHTML = t('file_selected')
                 if (self.boxFileupload.querySelector('.remove-all-files') !== null ) {
                     self.boxFileupload.querySelector('.remove-all-files').remove()
                 }
             } else {
-                p.innerHTML = msg.filesSelectedCount[langAttr].replace('%count%', filenames.length)
+                p.innerHTML = t('files_selected').replace('%count%', filenames.length)
                 if (self.boxFileupload.querySelector('.remove-all-files') == null ) {
                     self.boxFileupload.append(clearAllTag)
                 }
@@ -177,13 +126,13 @@ export default class FilesUpload {
                 if (uplaodFiles.item(i).type !== undefined && self.acceptTypes && !self.acceptTypes.toLowerCase().includes(uplaodFiles.item(i).type)) {
                     const span = document.createElement('span')
                     span.className = 'form-error-message text-danger'
-                    span.innerHTML = msg.wrongFormatFile[langAttr]
+                    span.innerHTML = t('format_not_supported')
                     li.prepend(span)
-                    fileField.setCustomValidity(msg.wrongFormatStrip[langAttr])
+                    fileField.setCustomValidity(t('incorrect_format'))
                 }
                 const a = document.createElement('a')
                 a.className = 'remove-file'
-                a.innerHTML = msg.fileRemove[langAttr]
+                a.innerHTML = t('remove')
                 a.href = '#'
                 a.dataset.fileid = i
                 li.innerHTML = li.innerHTML + filenames[i] + ' (' + self.humanFileSize(uplaodFiles.item(i).size, true) + ')  '

@@ -36,6 +36,7 @@ class JobService implements EntityServiceInterface
         private readonly ScheduleManager $scheduleManager,
         private readonly TokenStorageInterface $tokenStorage,
         private readonly MessageBusInterface $bus,
+        private readonly bool $asyncEnabled,
     ) {
         $this->em = $doctrine->getManager();
     }
@@ -128,7 +129,7 @@ class JobService implements EntityServiceInterface
         $job->setTag($tag);
         $this->save($job);
 
-        if ($addToAsyncQueue) {
+        if ($this->asyncEnabled && $addToAsyncQueue) {
             $this->bus->dispatch(
                 new JobMessage($job->getId())
             );

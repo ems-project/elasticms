@@ -29,14 +29,10 @@ final readonly class RouterController
     ) {
     }
 
-    /**
-     * @param array<string, string|string[]> $headers
-     */
-    public function handle(Request $request, array $headers = []): Response
+    public function handle(Request $request): Response
     {
         $response = new Response($this->handler->handle($request)->render());
         $this->cacheHelper->makeResponseCacheable($request, $response);
-        $response->headers->add($headers);
 
         return $response;
     }

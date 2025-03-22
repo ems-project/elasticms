@@ -201,7 +201,7 @@ export default function dynForms(formId) {
     }
 
     const updateVisibilities = function() {
-        $('.collapse-on-change').collapse('hide');
+        $('.collapse-on-change').hide();
         dynForms.find('.form-group').each(function(){
             setVisibility(this);
         });

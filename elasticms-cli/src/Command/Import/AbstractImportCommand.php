@@ -30,21 +30,24 @@ abstract class AbstractImportCommand extends AbstractCommand
     private const string ARGUMENT_CONTENT_TYPE = 'content-type';
     private const string OPTION_CONFIG = 'config';
     private const string OPTION_DRY_RUN = 'dry-run';
-    private const string OPTION_LIMIT = 'limit';
-    private const string OPTION_FLUSH_SIZE = 'flush-size';
-    private const string OPTION_CHUNK_SIZE = 'chunk-size';
     private const string OPTION_MERGE = 'merge';
     private const string OPTION_LAZY = 'lazy';
     private const string OPTION_DIGEST = 'digest';
+    
+    private const string OPTION_FLUSH_SIZE = 'flush-size';
+    private const string OPTION_CHUNK_SIZE = 'chunk-size';
+    private const string OPTION_SCROLL_SIZE = 'scroll-size';
 
-    protected string $contentType;
-    protected bool $dryRun;
-    protected bool $merge;
-    protected bool $lazy;
-    protected int $flushSize;
-    protected int $chunkSize;
-    protected ?int $limit = null;
+    private string $contentType;
+    private bool $dryRun;
+    private bool $merge;
+    private bool $lazy;
     private ?string $digestField = null;
+    
+    private int $flushSize;
+    private int $scrollSize;
+    private int $chunkSize;
+    
     private ExpressionLanguage $expressionLanguage;
 
     private int $countIndex = 0;
@@ -67,7 +70,7 @@ abstract class AbstractImportCommand extends AbstractCommand
             ->addOption(self::OPTION_MERGE, null, InputOption::VALUE_REQUIRED, 'Perform a merge or replace', true)
             ->addOption(self::OPTION_FLUSH_SIZE, null, InputOption::VALUE_REQUIRED, 'Flush size for the queue', 100)
             ->addOption(self::OPTION_CHUNK_SIZE, null, InputOption::VALUE_REQUIRED, 'Chunk size for processing rows', 100)
-            ->addOption(self::OPTION_LIMIT, null, InputOption::VALUE_REQUIRED, 'Limit the rows')
+            ->addOption(self::OPTION_SCROLL_SIZE, null, InputOption::VALUE_REQUIRED, 'Search scroll size', 100)
             ->addOption(self::OPTION_LAZY, null, InputOption::VALUE_NONE, 'Lazy index will only call post-processing on source element')
             ->addOption(self::OPTION_DIGEST, null, InputOption::VALUE_REQUIRED, 'Only index not digested rows')
         ;
@@ -80,11 +83,12 @@ abstract class AbstractImportCommand extends AbstractCommand
         $this->contentType = $this->getArgumentString(self::ARGUMENT_CONTENT_TYPE);
         $this->dryRun = $this->getOptionBool(self::OPTION_DRY_RUN);
         $this->merge = $this->getOptionBool(self::OPTION_MERGE);
-        $this->flushSize = $this->getOptionInt(self::OPTION_FLUSH_SIZE);
-        $this->chunkSize = $this->getOptionInt(self::OPTION_CHUNK_SIZE);
-        $this->limit = $this->getOptionIntNull(self::OPTION_LIMIT);
         $this->lazy = $this->getOptionBool(self::OPTION_LAZY);
         $this->digestField = $this->getOptionStringNull(self::OPTION_DIGEST);
+        
+        $this->flushSize = $this->getOptionInt(self::OPTION_FLUSH_SIZE);
+        $this->chunkSize = $this->getOptionInt(self::OPTION_CHUNK_SIZE);
+        $this->scrollSize = $this->getOptionInt(self::OPTION_SCROLL_SIZE);
 
         $this->expressionLanguage = new ExpressionLanguage();
     }
@@ -267,7 +271,7 @@ abstract class AbstractImportCommand extends AbstractCommand
         $search = $this->createSearch($searchQuery);
         $search->setSources([$field]);
 
-        foreach ($this->adminHelper->getCoreApi()->search()->scroll($search) as $hit) {
+        foreach ($this->adminHelper->getCoreApi()->search()->scroll($search, $this->scrollSize) as $hit) {
             $digested[$hit->getOuuid()] = $hit->getValue($field);
         }
 
@@ -282,7 +286,7 @@ abstract class AbstractImportCommand extends AbstractCommand
         $ouuids = [];
         $search = $this->createSearch();
 
-        foreach ($this->adminHelper->getCoreApi()->search()->scroll($search) as $hit) {
+        foreach ($this->adminHelper->getCoreApi()->search()->scroll($search, $this->scrollSize) as $hit) {
             $ouuids[$hit->getOuuid()] = true;
         }
 

@@ -27,7 +27,7 @@ final class FileImportCommand extends AbstractImportCommand
     private const string OPTION_LIMIT = 'limit';
 
     private string $file;
-    protected ?int $limit = null;
+    private ?int $limit = null;
 
     public function __construct(
         private readonly FileReaderInterface $fileReader,

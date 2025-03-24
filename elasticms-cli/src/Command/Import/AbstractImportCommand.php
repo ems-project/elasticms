@@ -29,10 +29,12 @@ abstract class AbstractImportCommand extends AbstractCommand
     private const string OPTION_LIMIT = 'limit';
     private const string OPTION_FLUSH_SIZE = 'flush-size';
     private const string OPTION_MERGE = 'merge';
+    private const string OPTION_LAZY = 'lazy';
 
     protected string $contentType;
     protected bool $dryRun;
     protected bool $merge;
+    protected bool $lazy;
     protected int $flushSize;
     protected ?int $limit = null;
     private ExpressionLanguage $expressionLanguage;
@@ -54,6 +56,7 @@ abstract class AbstractImportCommand extends AbstractCommand
             ->addOption(self::OPTION_MERGE, null, InputOption::VALUE_REQUIRED, 'Perform a merge or replace', true)
             ->addOption(self::OPTION_FLUSH_SIZE, null, InputOption::VALUE_REQUIRED, 'Flush size for the queue', 100)
             ->addOption(self::OPTION_LIMIT, null, InputOption::VALUE_REQUIRED, 'Limit the rows')
+            ->addOption(self::OPTION_LAZY, null, InputOption::VALUE_NONE, 'Lazy index will only call post-processing on source element')
         ;
     }
 
@@ -66,6 +69,7 @@ abstract class AbstractImportCommand extends AbstractCommand
         $this->merge = $this->getOptionBool(self::OPTION_MERGE);
         $this->flushSize = $this->getOptionInt(self::OPTION_FLUSH_SIZE);
         $this->limit = $this->getOptionIntNull(self::OPTION_LIMIT);
+        $this->lazy = $this->getOptionBool(self::OPTION_LAZY);
 
         $this->expressionLanguage = new ExpressionLanguage();
     }
@@ -100,7 +104,12 @@ abstract class AbstractImportCommand extends AbstractCommand
             }
 
             if (!$this->dryRun) {
-                $queue->add($contentTypeApi->indexAsync(ouuid: $ouuid, rawData: $rawData, merge: $this->merge));
+                $queue->add($contentTypeApi->indexAsync(
+                    ouuid: $ouuid,
+                    rawData: $rawData,
+                    merge: $this->merge,
+                    lazy: $this->lazy
+                ));
             }
 
             ++$count;

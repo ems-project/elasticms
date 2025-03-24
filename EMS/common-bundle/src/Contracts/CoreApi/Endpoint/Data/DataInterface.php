@@ -55,7 +55,7 @@ interface DataInterface
     /**
      * @param array<string, mixed> $rawData
      */
-    public function indexAsync(?string $ouuid, array $rawData, bool $merge = false, bool $refresh = false): ResponseInterface;
+    public function indexAsync(?string $ouuid, array $rawData, bool $merge = false, bool $refresh = false, bool $lazy = false): ResponseInterface;
 
     /**
      * @throws CoreApiExceptionInterface

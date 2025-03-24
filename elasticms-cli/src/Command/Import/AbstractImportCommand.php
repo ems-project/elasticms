@@ -104,7 +104,8 @@ abstract class AbstractImportCommand extends AbstractCommand
         $ouuids = $config->deleteMissingDocuments ? $this->searchExistingOuuids() : [];
 
         $progressBar = $this->io->createProgressBar();
-        $queue = $coreApi->queue($this->flushSize)->addFlushCallback(fn () => $progressBar->advance());
+        $progressBar->start();
+        $queue = $coreApi->queue($this->flushSize);
 
         foreach ($this->processInChunk($config, $records) as $docs) {
             $indexOuuids = \array_keys($docs);
@@ -114,10 +115,16 @@ abstract class AbstractImportCommand extends AbstractCommand
 
             foreach ($docs as $ouuid => $rawData) {
                 if (!$this->dryRun) {
-                    $queue->add($contentTypeApi->indexAsync($ouuid, $rawData, $this->merge, $this->lazy));
+                    $queue->add($contentTypeApi->indexAsync(
+                        ouuid: $ouuid,
+                        rawData: $rawData,
+                        merge: $this->merge,
+                        lazy: $this->lazy
+                    ));
                 }
                 ++$this->countIndex;
             }
+            $progressBar->advance(\count($indexOuuids));
         }
 
         $queue->flush();

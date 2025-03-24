@@ -85,7 +85,7 @@ class EMSCoreExtension extends Extension implements PrependExtensionInterface
         $container->setParameter('ems_core.security.ldap.enabled', $config['ldap']['enabled']);
         $container->setParameter('ems_core.security.ldap.config', $config['ldap']);
 
-        $container->setParameter('ems_core.async.enabled', false); // TODO: choose a way to enable/disable async
+        $container->setParameter('ems_core.async.enabled', $config['async']['enabled']);
     }
 
     #[\Override]

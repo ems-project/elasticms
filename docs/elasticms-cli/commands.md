@@ -71,11 +71,14 @@ Arguments:
   content-type                 Content type target
 
 Options:
-      --config=CONFIG          Config(s) json, file path or hash (multiple values allowed)
-      --dry-run                Just do a dry run
-      --merge=MERGE            Perform a merge or replace [default: true]
-      --flush-size=FLUSH-SIZE  Flush size for the queue [default: 100]
-      --limit=LIMIT            Limit the rows
+      --config=CONFIG            Config(s) json, file path or hash (multiple values allowed)
+      --dry-run                  Just do a dry run
+      --merge=MERGE              Perform a merge or replace [default: true]
+      --flush-size=FLUSH-SIZE    Flush size for the queue [default: 100]
+      --scroll-size=SCROLL-SIZE  Scroll size for searching existing [default: 100]
+      --limit=LIMIT              Limit the rows
+      --lazy                     Lazy index will only call post-processing on source element
+      --digest=DIGEST            Only index not digested rows
 ```
 
 ### Database
@@ -96,11 +99,14 @@ Arguments:
   content-type                 Content type target
 
 Options:
-      --config=CONFIG          Config(s) json, file path or hash (multiple values allowed)
-      --dry-run                Just do a dry run
-      --merge=MERGE            Perform a merge or replace [default: true]
-      --flush-size=FLUSH-SIZE  Flush size for the queue [default: 100]
-      --limit=LIMIT            Limit the rows
+      --config=CONFIG            Config(s) json, file path or hash (multiple values allowed)
+      --dry-run                  Just do a dry run
+      --merge=MERGE              Perform a merge or replace [default: true]
+      --flush-size=FLUSH-SIZE    Flush size for the queue [default: 100]
+      --scroll-size=SCROLL-SIZE  Scroll size for searching existing [default: 100]
+      --limit=LIMIT              Limit the rows
+      --lazy                     Lazy index will only call post-processing on source element
+      --digest=DIGEST            Only index not digested rows
 ```
 
 ### Config

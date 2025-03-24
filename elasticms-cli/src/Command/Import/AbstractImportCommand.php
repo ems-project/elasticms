@@ -62,7 +62,7 @@ abstract class AbstractImportCommand extends AbstractCommand
             ->addOption(self::OPTION_SCROLL_SIZE, null, InputOption::VALUE_REQUIRED, 'Scroll size for searching existing', 100)
             ->addOption(self::OPTION_LIMIT, null, InputOption::VALUE_REQUIRED, 'Limit the rows')
             ->addOption(self::OPTION_LAZY, null, InputOption::VALUE_NONE, 'Lazy index will only call post-processing on source element')
-            ->addOption(self::OPTION_DIGEST, null, InputOption::VALUE_REQUIRED, 'Use a digest field')
+            ->addOption(self::OPTION_DIGEST, null, InputOption::VALUE_REQUIRED, 'Only index not digested rows')
         ;
     }
 

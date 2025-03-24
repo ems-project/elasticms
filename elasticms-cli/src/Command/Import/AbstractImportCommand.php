@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace App\CLI\Command\Import;
 
 use App\CLI\Client\File\ImportConfig;
+use Elastica\Query\AbstractQuery;
+use Elastica\Query\BoolQuery;
+use Elastica\Query\Exists;
+use Elastica\Query\Terms;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Data\DataInterface;
@@ -28,7 +32,7 @@ abstract class AbstractImportCommand extends AbstractCommand
     private const string OPTION_DRY_RUN = 'dry-run';
     private const string OPTION_LIMIT = 'limit';
     private const string OPTION_FLUSH_SIZE = 'flush-size';
-    private const string OPTION_SCROLL_SIZE = 'scroll-size';
+    private const string OPTION_CHUNK_SIZE = 'chunk-size';
     private const string OPTION_MERGE = 'merge';
     private const string OPTION_LAZY = 'lazy';
     private const string OPTION_DIGEST = 'digest';
@@ -38,10 +42,13 @@ abstract class AbstractImportCommand extends AbstractCommand
     protected bool $merge;
     protected bool $lazy;
     protected int $flushSize;
-    protected int $scrollSize;
+    protected int $chunkSize;
     protected ?int $limit = null;
     private ?string $digestField = null;
     private ExpressionLanguage $expressionLanguage;
+
+    private int $countIndex = 0;
+    private int $countDigest = 0;
 
     public function __construct(
         private readonly AdminHelper $adminHelper,
@@ -59,7 +66,7 @@ abstract class AbstractImportCommand extends AbstractCommand
             ->addOption(self::OPTION_DRY_RUN, null, InputOption::VALUE_NONE, 'Just do a dry run')
             ->addOption(self::OPTION_MERGE, null, InputOption::VALUE_REQUIRED, 'Perform a merge or replace', true)
             ->addOption(self::OPTION_FLUSH_SIZE, null, InputOption::VALUE_REQUIRED, 'Flush size for the queue', 100)
-            ->addOption(self::OPTION_SCROLL_SIZE, null, InputOption::VALUE_REQUIRED, 'Scroll size for searching existing', 100)
+            ->addOption(self::OPTION_CHUNK_SIZE, null, InputOption::VALUE_REQUIRED, 'Chunk size for processing rows', 100)
             ->addOption(self::OPTION_LIMIT, null, InputOption::VALUE_REQUIRED, 'Limit the rows')
             ->addOption(self::OPTION_LAZY, null, InputOption::VALUE_NONE, 'Lazy index will only call post-processing on source element')
             ->addOption(self::OPTION_DIGEST, null, InputOption::VALUE_REQUIRED, 'Only index not digested rows')
@@ -74,7 +81,7 @@ abstract class AbstractImportCommand extends AbstractCommand
         $this->dryRun = $this->getOptionBool(self::OPTION_DRY_RUN);
         $this->merge = $this->getOptionBool(self::OPTION_MERGE);
         $this->flushSize = $this->getOptionInt(self::OPTION_FLUSH_SIZE);
-        $this->scrollSize = $this->getOptionInt(self::OPTION_SCROLL_SIZE);
+        $this->chunkSize = $this->getOptionInt(self::OPTION_CHUNK_SIZE);
         $this->limit = $this->getOptionIntNull(self::OPTION_LIMIT);
         $this->lazy = $this->getOptionBool(self::OPTION_LAZY);
         $this->digestField = $this->getOptionStringNull(self::OPTION_DIGEST);
@@ -90,45 +97,23 @@ abstract class AbstractImportCommand extends AbstractCommand
             throw new \RuntimeException(\sprintf('Not authenticated for %s, run ems:admin:login', $this->adminHelper->getCoreApi()->getBaseUrl()));
         }
 
-        $existing = $this->searchExisting($config);
+        $ouuids = $config->deleteMissingDocuments ? $this->searchExistingOuuids() : [];
 
         $progressBar = $this->io->createProgressBar();
-        $count = 0;
-        $countDigested = 0;
         $queue = $coreApi->queue($this->flushSize)->addFlushCallback(fn () => $progressBar->advance());
 
-        foreach ($records as $row) {
-            $ouuid = $this->createOuuid($config, $row);
+        foreach ($this->processInChunk($config, $records) as $docs) {
+            $indexOuuids = \array_keys($docs);
+            $ouuids = \array_diff($ouuids, $indexOuuids);
 
-            $rawData = $config->defaultData;
-            $rawData['_sync_metadata'] = $row;
+            $docs = $this->filterDigested($docs);
 
-            if (null !== $ouuidVersionExpression = $config->ouuidVersionExpression) {
-                $rawData['_version_uuid'] = UuidGenerator::fromValue(
-                    value: $this->expressionLanguage->evaluate($ouuidVersionExpression, ['row' => $row])
-                );
-            }
-
-            if ($ouuid) {
-                $isDigested = $this->digest($row, $rawData, $existing[$ouuid] ?? null);
-                unset($existing[$ouuid]);
-
-                if ($isDigested) {
-                    ++$countDigested;
-                    continue;
+            foreach ($docs as $ouuid => $rawData) {
+                if (!$this->dryRun) {
+                    $queue->add($contentTypeApi->indexAsync($ouuid, $rawData, $this->merge, $this->lazy));
                 }
+                $this->countIndex++;
             }
-
-            if (!$this->dryRun) {
-                $queue->add($contentTypeApi->indexAsync(
-                    ouuid: $ouuid,
-                    rawData: $rawData,
-                    merge: $this->merge,
-                    lazy: $this->lazy
-                ));
-            }
-
-            ++$count;
         }
 
         $queue->flush();
@@ -140,15 +125,15 @@ abstract class AbstractImportCommand extends AbstractCommand
             $this->io->warning(\sprintf('Could not read %d records', $notReadable));
         }
 
-        if (!$this->dryRun && $config->deleteMissingDocuments && \count($existing) > 0) {
-            $this->deleteMissingDocuments($contentTypeApi, ...\array_keys($existing));
+        if (!$this->dryRun && $config->deleteMissingDocuments && \count($ouuids) > 0) {
+            $this->deleteMissingDocuments($contentTypeApi, ...\array_keys($ouuids));
         }
 
         $this->io->definitionList(
             'Summary',
-            ['Index' => $count],
-            ['Digested' => $countDigested],
-            ['Delete' => \count($existing)]
+            ['Index' => $this->countIndex],
+            ['Digested' => $this->countDigest],
+            ['Delete' => \count($ouuids)]
         );
     }
 
@@ -175,6 +160,40 @@ abstract class AbstractImportCommand extends AbstractCommand
         }
     }
 
+    private function processInChunk(ImportConfig $config, \Generator $records): \Generator
+    {
+        $chunks = [];
+
+        foreach ($records as $row) {
+            $ouuid = $this->createOuuid($config, $row);
+
+            $rawData = $config->defaultData;
+            $rawData['_sync_metadata'] = $row;
+
+            if (null !== $ouuidVersionExpression = $config->ouuidVersionExpression) {
+                $rawData['_version_uuid'] = UuidGenerator::fromValue(
+                    value: $this->expressionLanguage->evaluate($ouuidVersionExpression, ['row' => $row])
+                );
+            }
+
+            if (null !== $this->digestField) {
+                $rowDigest = $this->storageManager->computeDataHash($row);
+                $rawData[$this->digestField] = $rowDigest;
+            }
+
+            $chunks[$ouuid] = $rawData;
+
+            if (\count($chunks) === $this->chunkSize) {
+                yield $chunks;
+                $chunks = [];
+            }
+        }
+
+        if (\count($chunks) > 0) {
+            yield $chunks;
+        }
+    }
+
     /**
      * @param array<int, array<mixed>> $row
      */
@@ -196,19 +215,29 @@ abstract class AbstractImportCommand extends AbstractCommand
     }
 
     /**
-     * @param array<int, array<mixed>> $row
-     * @param array<string, mixed>     $rawData
+     * @param array<string, array<string, string>> $docs
+     *
+     * @return array<string, array<string, string>>
      */
-    public function digest(array $row, array &$rawData, ?string $existingDigest): bool
+    public function filterDigested(array $docs): array
     {
         if (null === $this->digestField) {
-            return false;
+            return $docs;
         }
 
-        $rowDigest = $this->storageManager->computeDataHash($row);
-        $rawData[$this->digestField] = $rowDigest;
+        $result = [];
+        $digested = $this->searchDigested($this->digestField, ...\array_keys($docs));
 
-        return $existingDigest && $existingDigest === $rowDigest;
+        foreach ($docs as $ouuid => $rawData) {
+            if ($rawData[$this->digestField] === $digested[$ouuid]) {
+                ++$this->countDigest;
+                continue;
+            }
+
+            $result[$ouuid] = $rawData;
+        }
+
+        return $result;
     }
 
     private function deleteMissingDocuments(DataInterface $api, string ...$ouuids): void
@@ -225,25 +254,48 @@ abstract class AbstractImportCommand extends AbstractCommand
     }
 
     /**
-     * @return array<string, ?string>
+     * @return array<string, string>
      */
-    private function searchExisting(ImportConfig $config): array
+    private function searchDigested(string $field, string ...$ouuids): array
     {
-        if (false === $config->deleteMissingDocuments && null === $this->digestField) {
-            return [];
+        $digested = [];
+
+        $searchQuery = new BoolQuery();
+        $searchQuery->addMust(new Terms('_id', \array_values($ouuids)));
+        $searchQuery->addMust(new Exists($field));
+
+        $search = $this->createSearch($searchQuery);
+        $search->setSources([$field]);
+
+        foreach ($this->adminHelper->getCoreApi()->search()->scroll($search) as $hit) {
+            $digested[$hit->getOuuid()] = $hit->getValue($field);
         }
 
-        $ouuids = [];
-        $search = new Search([
-            $this->adminHelper->getCoreApi()->meta()->getDefaultContentTypeEnvironmentAlias($this->contentType),
-        ]);
-        $search->setSources($this->digestField ? ['_id', $this->digestField] : ['_id']);
-        $search->setContentTypes([$this->contentType]);
+        return $digested;
+    }
 
-        foreach ($this->adminHelper->getCoreApi()->search()->scroll($search, $this->scrollSize) as $hit) {
-            $ouuids[$hit->getOuuid()] = $this->digestField ? $hit->getValue($this->digestField) : null;
+    /**
+     * @return array<string, bool>
+     */
+    private function searchExistingOuuids(): array
+    {
+        $ouuids = [];
+        $search = $this->createSearch();
+
+        foreach ($this->adminHelper->getCoreApi()->search()->scroll($search) as $hit) {
+            $ouuids[$hit->getOuuid()] = true;
         }
 
         return $ouuids;
+    }
+
+    private function createSearch(?AbstractQuery $query = null): Search
+    {
+        $index = $this->adminHelper->getCoreApi()->meta()->getDefaultContentTypeEnvironmentAlias($this->contentType);
+
+        $search = new Search([$index], $query);
+        $search->setContentTypes([$this->contentType]);
+
+        return $search;
     }
 }

@@ -28,15 +28,19 @@ abstract class AbstractImportCommand extends AbstractCommand
     private const string OPTION_DRY_RUN = 'dry-run';
     private const string OPTION_LIMIT = 'limit';
     private const string OPTION_FLUSH_SIZE = 'flush-size';
+    private const string OPTION_SCROLL_SIZE = 'scroll-size';
     private const string OPTION_MERGE = 'merge';
     private const string OPTION_LAZY = 'lazy';
+    private const string OPTION_DIGEST = 'digest';
 
     protected string $contentType;
     protected bool $dryRun;
     protected bool $merge;
     protected bool $lazy;
     protected int $flushSize;
+    protected int $scrollSize;
     protected ?int $limit = null;
+    private ?string $digestField = null;
     private ExpressionLanguage $expressionLanguage;
 
     public function __construct(
@@ -55,8 +59,10 @@ abstract class AbstractImportCommand extends AbstractCommand
             ->addOption(self::OPTION_DRY_RUN, null, InputOption::VALUE_NONE, 'Just do a dry run')
             ->addOption(self::OPTION_MERGE, null, InputOption::VALUE_REQUIRED, 'Perform a merge or replace', true)
             ->addOption(self::OPTION_FLUSH_SIZE, null, InputOption::VALUE_REQUIRED, 'Flush size for the queue', 100)
+            ->addOption(self::OPTION_SCROLL_SIZE, null, InputOption::VALUE_REQUIRED, 'Scroll size for searching existing', 100)
             ->addOption(self::OPTION_LIMIT, null, InputOption::VALUE_REQUIRED, 'Limit the rows')
             ->addOption(self::OPTION_LAZY, null, InputOption::VALUE_NONE, 'Lazy index will only call post-processing on source element')
+            ->addOption(self::OPTION_DIGEST, null, InputOption::VALUE_REQUIRED, 'Use a digest field')
         ;
     }
 
@@ -68,8 +74,10 @@ abstract class AbstractImportCommand extends AbstractCommand
         $this->dryRun = $this->getOptionBool(self::OPTION_DRY_RUN);
         $this->merge = $this->getOptionBool(self::OPTION_MERGE);
         $this->flushSize = $this->getOptionInt(self::OPTION_FLUSH_SIZE);
+        $this->scrollSize = $this->getOptionInt(self::OPTION_SCROLL_SIZE);
         $this->limit = $this->getOptionIntNull(self::OPTION_LIMIT);
         $this->lazy = $this->getOptionBool(self::OPTION_LAZY);
+        $this->digestField = $this->getOptionStringNull(self::OPTION_DIGEST);
 
         $this->expressionLanguage = new ExpressionLanguage();
     }
@@ -81,10 +89,12 @@ abstract class AbstractImportCommand extends AbstractCommand
         if (!$coreApi->isAuthenticated()) {
             throw new \RuntimeException(\sprintf('Not authenticated for %s, run ems:admin:login', $this->adminHelper->getCoreApi()->getBaseUrl()));
         }
-        $ouuids = $config->deleteMissingDocuments ? $this->searchExistingOuuids() : [];
+
+        $existing = $this->searchExisting($config);
 
         $progressBar = $this->io->createProgressBar();
         $count = 0;
+        $countDigested = 0;
         $queue = $coreApi->queue($this->flushSize)->addFlushCallback(fn () => $progressBar->advance());
 
         foreach ($records as $row) {
@@ -100,7 +110,13 @@ abstract class AbstractImportCommand extends AbstractCommand
             }
 
             if ($ouuid) {
-                unset($ouuids[$ouuid]);
+                $isDigested = $this->digest($row, $rawData, $existing[$ouuid] ?? null);
+                unset($existing[$ouuid]);
+
+                if ($isDigested) {
+                    ++$countDigested;
+                    continue;
+                }
             }
 
             if (!$this->dryRun) {
@@ -124,14 +140,15 @@ abstract class AbstractImportCommand extends AbstractCommand
             $this->io->warning(\sprintf('Could not read %d records', $notReadable));
         }
 
-        if (!$this->dryRun && $config->deleteMissingDocuments && \count($ouuids) > 0) {
-            $this->deleteMissingDocuments($contentTypeApi, ...\array_keys($ouuids));
+        if (!$this->dryRun && $config->deleteMissingDocuments && \count($existing) > 0) {
+            $this->deleteMissingDocuments($contentTypeApi, ...\array_keys($existing));
         }
 
         $this->io->definitionList(
             'Summary',
             ['Index' => $count],
-            ['Delete' => \count($ouuids)]
+            ['Digested' => $countDigested],
+            ['Delete' => \count($existing)]
         );
     }
 
@@ -178,6 +195,22 @@ abstract class AbstractImportCommand extends AbstractCommand
         };
     }
 
+    /**
+     * @param array<int, array<mixed>> $row
+     * @param array<string, mixed>     $rawData
+     */
+    public function digest(array $row, array &$rawData, ?string $existingDigest): bool
+    {
+        if (null === $this->digestField) {
+            return false;
+        }
+
+        $rowDigest = $this->storageManager->computeDataHash($row);
+        $rawData[$this->digestField] = $rowDigest;
+
+        return $existingDigest && $existingDigest === $rowDigest;
+    }
+
     private function deleteMissingDocuments(DataInterface $api, string ...$ouuids): void
     {
         $this->io->newLine(2);
@@ -192,19 +225,23 @@ abstract class AbstractImportCommand extends AbstractCommand
     }
 
     /**
-     * @return array<string, bool>
+     * @return array<string, ?string>
      */
-    private function searchExistingOuuids(): array
+    private function searchExisting(ImportConfig $config): array
     {
+        if (false === $config->deleteMissingDocuments && null === $this->digestField) {
+            return [];
+        }
+
         $ouuids = [];
         $search = new Search([
             $this->adminHelper->getCoreApi()->meta()->getDefaultContentTypeEnvironmentAlias($this->contentType),
         ]);
-        $search->setSources(['_id']);
+        $search->setSources($this->digestField ? ['_id', $this->digestField] : ['_id']);
         $search->setContentTypes([$this->contentType]);
 
-        foreach ($this->adminHelper->getCoreApi()->search()->scroll($search) as $hit) {
-            $ouuids[$hit->getOuuid()] = true;
+        foreach ($this->adminHelper->getCoreApi()->search()->scroll($search, $this->scrollSize) as $hit) {
+            $ouuids[$hit->getOuuid()] = $this->digestField ? $hit->getValue($this->digestField) : null;
         }
 
         return $ouuids;

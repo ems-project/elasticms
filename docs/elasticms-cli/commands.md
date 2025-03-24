@@ -67,19 +67,19 @@ Usage:
   emscli:file-reader:import
 
 Arguments:
-  file                           File path (xlsx or csv)
-  content-type                   Content type target
+  file                             File path (xlsx or csv)
+  content-type                     Content type target
 
 Options:
-      --limit=LIMIT              Limit the rows
-      --config=CONFIG            Config(s) json, file path or hash (multiple values allowed)
-      --dry-run                  Just do a dry run
-      --merge=MERGE              Perform a merge or replace [default: true]
-      --flush-size=FLUSH-SIZE    Flush size for the queue [default: 100]
-      --chunk-size=CHUNK-SIZE    Chunk size for processing rows [default: 100]
-      --scroll-size=SCROLL-SIZE  Search scroll size [default: 100]
-      --lazy                     Lazy index will only call post-processing on source element
-      --digest=DIGEST            Only index not digested rows
+      --limit=LIMIT                Limit the rows
+      --config=CONFIG              Config(s) json, file path or hash (multiple values allowed)
+      --dry-run                    Just do a dry run
+      --merge=MERGE                Perform a merge or replace [default: true]
+      --flush-size=FLUSH-SIZE      Flush size for the queue [default: 100]
+      --chunk-size=CHUNK-SIZE      Chunk size for processing rows [default: 100]
+      --scroll-size=SCROLL-SIZE    Search scroll size [default: 100]
+      --lazy                       Lazy index will only call post-processing on source element
+      --digest-field=DIGEST-FIELD  Only index not digested rows
 ```
 
 ### Database
@@ -96,18 +96,18 @@ Usage:
   emscli:import:database [options] [--] <table> <content-type>
 
 Arguments:
-  table                          Database table name.
-  content-type                   Content type target
+  table                            Database table name.
+  content-type                     Content type target
 
 Options:
-      --config=CONFIG            Config(s) json, file path or hash (multiple values allowed)
-      --dry-run                  Just do a dry run
-      --merge=MERGE              Perform a merge or replace [default: true]
-      --flush-size=FLUSH-SIZE    Flush size for the queue [default: 100]
-      --chunk-size=CHUNK-SIZE    Chunk size for processing rows [default: 100]
-      --scroll-size=SCROLL-SIZE  Search scroll size [default: 100]
-      --lazy                     Lazy index will only call post-processing on source element
-      --digest=DIGEST            Only index not digested rows
+      --config=CONFIG              Config(s) json, file path or hash (multiple values allowed)
+      --dry-run                    Just do a dry run
+      --merge=MERGE                Perform a merge or replace [default: true]
+      --flush-size=FLUSH-SIZE      Flush size for the queue [default: 100]
+      --chunk-size=CHUNK-SIZE      Chunk size for processing rows [default: 100]
+      --scroll-size=SCROLL-SIZE    Search scroll size [default: 100]
+      --lazy                       Lazy index will only call post-processing on source element
+      --digest-field=DIGEST-FIELD  Only index not digested rows
 ```
 
 ### Config

@@ -32,8 +32,8 @@ abstract class AbstractImportCommand extends AbstractCommand
     private const string OPTION_DRY_RUN = 'dry-run';
     private const string OPTION_MERGE = 'merge';
     private const string OPTION_LAZY = 'lazy';
-    private const string OPTION_DIGEST = 'digest';
-    
+    private const string OPTION_DIGEST_FIELD = 'digest-field';
+
     private const string OPTION_FLUSH_SIZE = 'flush-size';
     private const string OPTION_CHUNK_SIZE = 'chunk-size';
     private const string OPTION_SCROLL_SIZE = 'scroll-size';
@@ -43,11 +43,11 @@ abstract class AbstractImportCommand extends AbstractCommand
     private bool $merge;
     private bool $lazy;
     private ?string $digestField = null;
-    
+
     private int $flushSize;
     private int $scrollSize;
     private int $chunkSize;
-    
+
     private ExpressionLanguage $expressionLanguage;
 
     private int $countIndex = 0;
@@ -72,7 +72,7 @@ abstract class AbstractImportCommand extends AbstractCommand
             ->addOption(self::OPTION_CHUNK_SIZE, null, InputOption::VALUE_REQUIRED, 'Chunk size for processing rows', 100)
             ->addOption(self::OPTION_SCROLL_SIZE, null, InputOption::VALUE_REQUIRED, 'Search scroll size', 100)
             ->addOption(self::OPTION_LAZY, null, InputOption::VALUE_NONE, 'Lazy index will only call post-processing on source element')
-            ->addOption(self::OPTION_DIGEST, null, InputOption::VALUE_REQUIRED, 'Only index not digested rows')
+            ->addOption(self::OPTION_DIGEST_FIELD, null, InputOption::VALUE_REQUIRED, 'Only index not digested rows')
         ;
     }
 
@@ -84,8 +84,8 @@ abstract class AbstractImportCommand extends AbstractCommand
         $this->dryRun = $this->getOptionBool(self::OPTION_DRY_RUN);
         $this->merge = $this->getOptionBool(self::OPTION_MERGE);
         $this->lazy = $this->getOptionBool(self::OPTION_LAZY);
-        $this->digestField = $this->getOptionStringNull(self::OPTION_DIGEST);
-        
+        $this->digestField = $this->getOptionStringNull(self::OPTION_DIGEST_FIELD);
+
         $this->flushSize = $this->getOptionInt(self::OPTION_FLUSH_SIZE);
         $this->chunkSize = $this->getOptionInt(self::OPTION_CHUNK_SIZE);
         $this->scrollSize = $this->getOptionInt(self::OPTION_SCROLL_SIZE);
@@ -116,7 +116,7 @@ abstract class AbstractImportCommand extends AbstractCommand
                 if (!$this->dryRun) {
                     $queue->add($contentTypeApi->indexAsync($ouuid, $rawData, $this->merge, $this->lazy));
                 }
-                $this->countIndex++;
+                ++$this->countIndex;
             }
         }
 

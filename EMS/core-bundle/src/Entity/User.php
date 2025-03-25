@@ -31,6 +31,7 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
     private string $locale = self::DEFAULT_LOCALE;
     private ?string $localePreferred = null;
     private ?string $userGroup = null;
+    /** @var string[] */
     private array $groupRoles = [];
     private ?string $username = null;
     private ?string $usernameCanonical = null;
@@ -93,7 +94,9 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
 
         return $now > $this->expirationDate;
     }
-
+    /**
+     * @param string[] $groupRoles
+     */
     public function setGroupRoles(array $groupRoles): void
     {
         $this->groupRoles = $groupRoles;

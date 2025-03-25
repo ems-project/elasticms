@@ -11,6 +11,10 @@ use Doctrine\ORM\QueryBuilder;
 use EMS\CoreBundle\Entity\Group;
 use EMS\CoreBundle\Entity\Schedule;
 
+/**
+ * @extends ServiceEntityRepository<Group>
+ */
+
 class GroupRepository extends ServiceEntityRepository
 {
     public function __construct(Registry $registry)
@@ -55,7 +59,10 @@ class GroupRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
     }
 
-    public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue)
+     /**
+     * @return Group[]
+     */    
+    public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue): array
     {
         $qb = $this->createQueryBuilder('g')
             ->setFirstResult($from)

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Controller;
 
+use Doctrine\ORM\EntityNotFoundException;
 use EMS\CommonBundle\Contracts\Spreadsheet\SpreadsheetGeneratorServiceInterface;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CoreBundle\Core\ContentType\FieldType\FieldTypeService;
@@ -15,6 +16,7 @@ use EMS\CoreBundle\Core\User\UserManager;
 use EMS\CoreBundle\DataTable\Type\UserDataTableType;
 use EMS\CoreBundle\Entity\AuthToken;
 use EMS\CoreBundle\Entity\ContentType;
+use EMS\CoreBundle\Entity\EntityInterface;
 use EMS\CoreBundle\Entity\User;
 use EMS\CoreBundle\Form\Form\TableType;
 use EMS\CoreBundle\Form\Form\UserType;
@@ -318,7 +320,10 @@ class UserController extends AbstractController
         $user->setUserGroup(null);
         $this->userService->updateUser($user);
         $userGroup = $this->groupManager->getByItemName($groupName);
-
+        
+        if (!$userGroup instanceof EntityInterface) {
+            throw new EntityNotFoundException();
+        }
         return $this->redirectToRoute(Routes::GROUP_EDIT, [
             'group' => $userGroup->getId(),
         ]);
@@ -329,6 +334,10 @@ class UserController extends AbstractController
         $user->setUserGroup($group);
         $this->userService->updateUser($user);
         $userGroup = $this->groupManager->getByItemName($group);
+
+        if (!$userGroup instanceof EntityInterface) {
+            throw new EntityNotFoundException();
+        }
 
         return $this->redirectToRoute(Routes::GROUP_EDIT, [
             'group' => $userGroup->getId(),

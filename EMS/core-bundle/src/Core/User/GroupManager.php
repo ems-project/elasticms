@@ -6,6 +6,7 @@ namespace EMS\CoreBundle\Core\User;
 
 use EMS\CommonBundle\Entity\EntityInterface;
 use EMS\CoreBundle\Entity\Group;
+use EMS\CoreBundle\Entity\Schedule;
 use EMS\CoreBundle\Repository\GroupRepository;
 use EMS\CoreBundle\Service\EntityServiceInterface;
 
@@ -15,7 +16,10 @@ class GroupManager implements EntityServiceInterface
         private readonly GroupRepository $groupRepository,
     ) {
     }
-
+    
+    /**
+     * @return Schedule[]
+     */
     public function getAll(): array
     {
         return $this->groupRepository->getAll();
@@ -88,7 +92,7 @@ class GroupManager implements EntityServiceInterface
         $id = $group->getId();
         $this->groupRepository->delete($group);
 
-        return $id->toString();
+        return $id;
     }
 
     public function deleteGroup(Group $group): void
@@ -114,6 +118,9 @@ class GroupManager implements EntityServiceInterface
         $this->groupRepository->save($group,false);
     }
 
+    /**
+     * @param string[] $ids
+     */
     public function deleteByIds(array $ids): void
     {
         $this->groupRepository->deleteGroupByIds($ids);

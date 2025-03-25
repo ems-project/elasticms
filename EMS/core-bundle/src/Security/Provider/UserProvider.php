@@ -62,6 +62,7 @@ class UserProvider implements UserProviderInterface
         }
         if (null !== $user->getUserGroup()) {
             $group = $this->groupRepository->getByName($user->getUserGroup());
+            
             $user->setGroupRoles($group->getRoles());
         }
 

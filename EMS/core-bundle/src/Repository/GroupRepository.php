@@ -9,6 +9,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\ORM\QueryBuilder;
 use EMS\CoreBundle\Entity\Group;
+use EMS\CoreBundle\Entity\Schedule;
 
 class GroupRepository extends ServiceEntityRepository
 {
@@ -17,6 +18,9 @@ class GroupRepository extends ServiceEntityRepository
         parent::__construct($registry, Group::class);
     }
 
+    /**
+     * @return Schedule[]
+     */
     public function getAll(): array
     {
         $qb = $this->createQueryBuilder('u');

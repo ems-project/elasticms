@@ -28,7 +28,7 @@
     <route id="emsco_add_user_from_group" path="/add/{user}/to/{group}"
            controller="EMS\CoreBundle\Controller\UserController::addFromGroup"
            methods="GET"/>
-    <route id="emsco_user_enable" path="/enable/{user}"
+    <route id="emsco_user_enabling" path="/enabling/{user}"
            controller="EMS\CoreBundle\Controller\UserController::enabling"
            methods="POST"/>
     <route id="emsco_user_api_key" path="/api-key/{username}"

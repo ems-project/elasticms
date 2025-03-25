@@ -63,11 +63,17 @@ class Group implements EntityInterface
         $this->label = $label;
     }
 
+    /**
+     * @return Schedule[]
+     */
     public function getRoles(): array
     {
         return $this->roles;
     }
 
+    /**
+     * @param string[] $roles
+     */
     public function setRoles(array $roles): void
     {
         $this->roles = $roles;

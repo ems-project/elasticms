@@ -4,7 +4,6 @@ action:
     add_alias: 'Add alias'
     add_referenced: 'Add referenced'
     add_referenced_content_type: 'Add a reference content type'
-    add_user_group: 'Add User Group'
     attach: Attach
     close: Close
     confirmation: 'Do you confirm?'
@@ -218,8 +217,8 @@ key:
     unreferenced_aliases: 'Unreferenced aliases'
     uploaded_files: 'Uploaded Files'
     uploaded_files_logs: 'Uploaded Files Logs'
-    users: Users
     user-management: 'User management'
+    users: Users
     views: Views
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profiles

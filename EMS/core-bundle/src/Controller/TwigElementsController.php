@@ -103,7 +103,7 @@ class TwigElementsController extends AbstractController
         }
         $userMenu = $menu->addChild(t('key.user-management',[],'emsco-core'), 'fa fa-users', Routes::USER_INDEX);
         $userMenu->addChild(t('key.users',[],'emsco-core'), 'fa fa-users', Routes::USER_INDEX);
-        $userMenu->addChild(t('key.overview', [], 'emsco-core'), 'fa fa-list-ul', Routes::GROUP_INDEX);
+        $userMenu->addChild(t('key.groups', [], 'emsco-core'), 'fa fa-list-ul', Routes::GROUP_INDEX);
 
         return $menu;
     }

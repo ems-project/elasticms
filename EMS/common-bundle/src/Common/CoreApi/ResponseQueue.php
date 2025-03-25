@@ -11,8 +11,6 @@ class ResponseQueue implements \Countable
     private int $count = 0;
     /** @var ResponseInterface[] */
     private array $responses = [];
-    /** @var callable */
-    private $flushCallback;
 
     public function __construct(private readonly int $flushSize)
     {
@@ -22,13 +20,6 @@ class ResponseQueue implements \Countable
     public function count(): int
     {
         return \max($this->count, 0);
-    }
-
-    public function addFlushCallback(callable $callback): self
-    {
-        $this->flushCallback = $callback;
-
-        return $this;
     }
 
     public function add(ResponseInterface $response): self
@@ -46,9 +37,6 @@ class ResponseQueue implements \Countable
     public function flush(): self
     {
         foreach ($this->responses as $i => $response) {
-            if ($this->flushCallback) {
-                ($this->flushCallback)($response);
-            }
             unset($this->responses[$i]);
         }
 

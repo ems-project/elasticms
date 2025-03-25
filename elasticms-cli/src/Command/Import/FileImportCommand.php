@@ -12,6 +12,7 @@ use EMS\CommonBundle\Storage\StorageManager;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(
@@ -23,8 +24,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 final class FileImportCommand extends AbstractImportCommand
 {
     private const string ARGUMENT_FILE = 'file';
+    private const string OPTION_LIMIT = 'limit';
 
     private string $file;
+    private ?int $limit = null;
 
     public function __construct(
         private readonly FileReaderInterface $fileReader,
@@ -37,7 +40,10 @@ final class FileImportCommand extends AbstractImportCommand
     #[\Override]
     protected function configure(): void
     {
-        $this->addArgument(self::ARGUMENT_FILE, InputArgument::REQUIRED, 'File path (xlsx or csv)');
+        $this
+            ->addArgument(self::ARGUMENT_FILE, InputArgument::REQUIRED, 'File path (xlsx or csv)')
+            ->addOption(self::OPTION_LIMIT, null, InputOption::VALUE_REQUIRED, 'Limit the rows')
+        ;
         parent::configure();
     }
 
@@ -47,6 +53,7 @@ final class FileImportCommand extends AbstractImportCommand
         parent::initialize($input, $output);
 
         $this->file = $this->getArgumentString(self::ARGUMENT_FILE);
+        $this->limit = $this->getOptionIntNull(self::OPTION_LIMIT);
     }
 
     #[\Override]

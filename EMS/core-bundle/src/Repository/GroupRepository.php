@@ -136,6 +136,9 @@ class GroupRepository extends ServiceEntityRepository
         return $queryBuilder->getQuery()->getResult();
     }
 
+    /**
+     * @param string[] $ids
+     */
     public function deleteGroupByIds(array $ids): void
     {
         $queryBuilder = $this->createQueryBuilder('g');

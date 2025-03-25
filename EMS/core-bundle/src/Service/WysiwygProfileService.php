@@ -55,11 +55,11 @@ class WysiwygProfileService implements EntityServiceInterface
     }
 
     #[\Override]
-    public function deleteByItemName(string $name): string
+    public function deleteByItemName(string $id): string
     {
-        $profile = $this->wysiwygProfileRepository->getByName($name);
+        $profile = $this->wysiwygProfileRepository->getByName($id);
         if (null === $profile) {
-            throw new \RuntimeException(\sprintf('WYSIWYG Profile %s not found', $name));
+            throw new \RuntimeException(\sprintf('WYSIWYG Profile %s not found', $id));
         }
         $id = $profile->getId();
         $this->wysiwygProfileRepository->delete($profile);

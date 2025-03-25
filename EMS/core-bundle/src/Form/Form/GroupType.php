@@ -58,12 +58,8 @@ final class GroupType extends AbstractType
                 'attr' => ['class' => 'btn btn-primary btn-sm'],
                 'icon' => 'fa fa-plus',
             ]);
-            $builder->add(self::CREATE_BUTTON, SubmitEmsType::class, [
-                'attr' => ['class' => 'btn btn-primary btn-sm'],
-                'icon' => 'fa fa-plus',
-            ]);
         }
-        if (self::MODE_UPDATE === $mode) {
+        elseif (self::MODE_UPDATE === $mode) {
             $builder->add(self::UPDATE_BUTTON, SubmitEmsType::class, [
                 'attr' => [
                     'class' => 'btn btn-primary btn-sm ',
@@ -71,6 +67,9 @@ final class GroupType extends AbstractType
                 'icon' => 'fa fa-save',
                 'translation_domain' => EMSCoreBundle::TRANS_DOMAIN,
             ]);
+        }
+        else{
+            throw new \RuntimeException('Invalid mode');
         }
     }
 

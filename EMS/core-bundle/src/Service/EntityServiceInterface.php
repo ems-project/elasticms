@@ -30,5 +30,5 @@ interface EntityServiceInterface
 
     public function createEntityFromJson(string $json, ?string $name = null): EntityInterface;
 
-    public function deleteByItemName(string $name): string;
+    public function deleteByItemName(string $id): string;
 }

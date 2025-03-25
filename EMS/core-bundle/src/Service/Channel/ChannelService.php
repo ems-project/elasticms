@@ -142,11 +142,11 @@ final readonly class ChannelService implements EntityServiceInterface
     }
 
     #[\Override]
-    public function deleteByItemName(string $name): string
+    public function deleteByItemName(string $id): string
     {
-        $channel = $this->channelRepository->getByName($name);
+        $channel = $this->channelRepository->getByName($id);
         if (null === $channel) {
-            throw new \RuntimeException(\sprintf('Filter %s not found', $name));
+            throw new \RuntimeException(\sprintf('Filter %s not found', $id));
         }
         $id = $channel->getId();
         $this->delete($channel);

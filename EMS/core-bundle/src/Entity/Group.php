@@ -19,8 +19,7 @@ class Group implements EntityInterface
     protected ?string $label = null;
     /** @var mixed[] */
     private array $roles = [];
-    private string $dashboard;
-
+    
     public function __construct()
     {
         $this->id = Uuid::uuid4();
@@ -55,7 +54,7 @@ class Group implements EntityInterface
 
     public function getLabel(): string
     {
-        return $this->label ?? '';
+        return $this->label ?? $this->name;
     }
 
     public function setLabel(string $label): void
@@ -92,16 +91,6 @@ class Group implements EntityInterface
         }
 
         return $group;
-    }
-
-    public function getDashboard(): string
-    {
-        return $this->dashboard;
-    }
-
-    public function setDashboard(string $dashboard): void
-    {
-        $this->dashboard = $dashboard;
     }
 
     public function __toString(): string

@@ -69,7 +69,7 @@ class GroupManager implements EntityServiceInterface
             throw new \RuntimeException('Unexpected group object');
         }
         $group = Group::fromJson($json, $entity);
-        $this->groupRepository->save($group);
+        $this->groupRepository->save($group,true);
 
         return $group;
     }
@@ -79,16 +79,16 @@ class GroupManager implements EntityServiceInterface
         return Group::fromJson($json);
     }
 
-    public function deleteByItemName(string $name): string
+    public function deleteByItemName(string $id): string
     {
-        $group = $this->groupRepository->getByName($name);
+        $group = $this->groupRepository->getByName($id);
         if (null === $group) {
-            throw new \RuntimeException(\sprintf('Form %s not found', $name));
+            throw new \RuntimeException(\sprintf('Form %s not found', $id));
         }
-        $id = $group->getName();
+        $id = $group->getId();
         $this->groupRepository->delete($group);
 
-        return $id;
+        return $id->toString();
     }
 
     public function deleteGroup(Group $group): void
@@ -98,7 +98,7 @@ class GroupManager implements EntityServiceInterface
 
     public function editGroup(Group $group): void
     {
-        $this->groupRepository->edit($group);
+        $this->groupRepository->save($group,true);
     }
 
     public function deleteAllGroup(): void
@@ -111,22 +111,14 @@ class GroupManager implements EntityServiceInterface
         if (!$group->isLabelDefined()) {
             $group->setLabel($group->getName());
         }
-        $this->groupRepository->save($group);
+        $this->groupRepository->save($group,false);
     }
 
-    public function update(Group $group): void
+    public function deleteByIds(array $ids): void
     {
-        $group->setName($group->getName());
-        $group->setLabel($group->getName());
-        $group->setRoles([]);
-
-        $this->groupRepository->save($group);
+        $this->groupRepository->deleteGroupByIds($ids);
+        
     }
 
-    public function deleteByIds(array $getSelected): void
-    {
-        foreach ($this->groupRepository->getByIds($getSelected) as $group) {
-            $this->deleteGroup($group);
-        }
-    }
+   
 }

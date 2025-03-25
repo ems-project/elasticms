@@ -7,6 +7,7 @@ namespace EMS\CoreBundle\Repository;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\ArrayParameterType;
+use Doctrine\ORM\QueryBuilder;
 use EMS\CoreBundle\Entity\Group;
 
 class GroupRepository extends ServiceEntityRepository
@@ -23,17 +24,25 @@ class GroupRepository extends ServiceEntityRepository
         return $qb->getQuery()->execute();
     }
 
-    public function save(Group $group): void
+    public function save(Group $group,bool $isEditMode): void
     {
         $existingGroup = $this->getEntityManager()
             ->getRepository(Group::class)
             ->findOneBy(['name' => $group->getName()]);
 
         if ($existingGroup) {
-            throw new \Exception('The group with this name already exists.');
+            if ($isEditMode) {
+                if ($existingGroup->getId() !== $group->getId()) {
+                    throw new \Exception('The group already exists.');
+                }else{
+                    $this->getEntityManager()->persist($group);
+                    $this->getEntityManager()->flush();
+                }
+            }
+        }else{
+            $this->getEntityManager()->persist($group);
+            $this->getEntityManager()->flush();
         }
-        $this->getEntityManager()->persist($group);
-        $this->getEntityManager()->flush();
     }
 
     public function delete(Group $group): void
@@ -44,23 +53,36 @@ class GroupRepository extends ServiceEntityRepository
 
     public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue)
     {
-        $qb = $this->createQueryBuilder('c')
+        $qb = $this->createQueryBuilder('g')
             ->setFirstResult($from)
             ->setMaxResults($size);
+        $this->addSearchFilters($qb, $searchValue);
 
         if (\in_array($orderField, ['name', 'label'])) {
-            $qb->orderBy(\sprintf('c.%s', $orderField), $orderDirection);
+            $qb->orderBy(\sprintf('g.%s', $orderField), $orderDirection);
         } else {
-            $qb->orderBy('c.name', $orderDirection);
+            $qb->orderBy('g.name', $orderDirection);
         }
 
         return $qb->getQuery()->execute();
+    }
+    private function addSearchFilters(QueryBuilder $qb, string $searchValue): void
+    {
+        if (\strlen($searchValue) > 0) {
+            $or = $qb->expr()->orX(
+                $qb->expr()->like('c.label', ':term'),
+                $qb->expr()->like('c.name', ':term'),
+            );
+            $qb->andWhere($or)
+                ->setParameter(':term', '%'.$searchValue.'%');
+        }
     }
 
     public function counter(string $searchValue = ''): int
     {
         $qb = $this->createQueryBuilder('c');
         $qb->select('count(c.id)');
+        $this->addSearchFilters($qb, $searchValue);
 
         return (int) $qb->getQuery()->getSingleScalarResult();
     }
@@ -73,12 +95,6 @@ class GroupRepository extends ServiceEntityRepository
             ->execute();
     }
 
-    public function edit(Group $group): void
-    {
-        $this->getEntityManager()->persist($group);
-        $this->getEntityManager()->flush();
-    }
-
     public function getByName(string $name): ?Group
     {
         $qb = $this->createQueryBuilder('user_group');
@@ -88,7 +104,11 @@ class GroupRepository extends ServiceEntityRepository
 
         $userGroup = $qb->getQuery()->getOneOrNullResult();
 
-        return $userGroup instanceof Group ? $userGroup : null;
+        if (null !== $userGroup && ! $userGroup instanceof Group) {
+            throw new \RuntimeException('Unexpected Group entity');
+        }
+
+        return $userGroup;
     }
 
     /**
@@ -103,5 +123,16 @@ class GroupRepository extends ServiceEntityRepository
             ->setParameter('ids', $ids, ArrayParameterType::STRING);
 
         return $queryBuilder->getQuery()->getResult();
+    }
+
+    public function deleteGroupByIds(array $ids): void
+    {
+        $queryBuilder = $this->createQueryBuilder('g');
+        $queryBuilder
+            ->delete(Group::class, 'g') 
+            ->where('g.id IN (:ids)')   
+            ->setParameter('ids', $ids) 
+            ->getQuery()
+            ->execute();
     }
 }

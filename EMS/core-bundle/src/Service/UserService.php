@@ -172,13 +172,6 @@ class UserService implements EntityServiceInterface
         $em->flush();
     }
 
-    public function deleteUserForGroup(User $user): void
-    {
-        $em = $this->doctrine->getManager();
-        $user->setUserGroup(null);
-        $em->flush();
-    }
-
     /**
      * @return UserInterface[]
      */
@@ -275,11 +268,6 @@ class UserService implements EntityServiceInterface
         return $this->userRepository->countUsers($searchValue, $context);
     }
 
-    public function getUsersByGroup(string $searchValue = ''): array
-    {
-        return $this->userRepository->getUsersByGroup($searchValue);
-    }
-
     public function isGrantedRole(string $role): bool
     {
         return $this->security->isGranted($role);
@@ -326,7 +314,7 @@ class UserService implements EntityServiceInterface
     }
 
     #[\Override]
-    public function deleteByItemName(string $name): string
+    public function deleteByItemName(string $id): string
     {
         throw new \RuntimeException('deleteByItemName method not yet implemented');
     }

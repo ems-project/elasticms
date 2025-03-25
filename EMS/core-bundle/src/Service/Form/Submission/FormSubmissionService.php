@@ -303,7 +303,7 @@ final readonly class FormSubmissionService implements EntityServiceInterface
     }
 
     #[\Override]
-    public function deleteByItemName(string $name): string
+    public function deleteByItemName(string $id): string
     {
         throw new \RuntimeException('deleteByItemName method not yet implemented');
     }

@@ -55,11 +55,11 @@ class WysiwygStylesSetService implements EntityServiceInterface
     }
 
     #[\Override]
-    public function deleteByItemName(string $name): string
+    public function deleteByItemName(string $id): string
     {
-        $styleSet = $this->wysiwygStylesSetRepository->getByName($name);
+        $styleSet = $this->wysiwygStylesSetRepository->getByName($id);
         if (null === $styleSet) {
-            throw new \RuntimeException(\sprintf('WWYSIWYG StylesSet %s not found', $name));
+            throw new \RuntimeException(\sprintf('WWYSIWYG StylesSet %s not found', $id));
         }
         $id = $styleSet->getId();
         $this->wysiwygStylesSetRepository->delete($styleSet);

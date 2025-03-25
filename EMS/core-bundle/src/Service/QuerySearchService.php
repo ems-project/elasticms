@@ -237,11 +237,11 @@ final readonly class QuerySearchService implements EntityServiceInterface
     }
 
     #[\Override]
-    public function deleteByItemName(string $name): string
+    public function deleteByItemName(string $id): string
     {
-        $querySearch = $this->getOneByName($name);
+        $querySearch = $this->getOneByName($id);
         if (null === $querySearch) {
-            throw new \RuntimeException(\sprintf('QuerySearch %s not found', $name));
+            throw new \RuntimeException(\sprintf('QuerySearch %s not found', $id));
         }
         $id = $querySearch->getId();
         $this->querySearchRepository->delete($querySearch);

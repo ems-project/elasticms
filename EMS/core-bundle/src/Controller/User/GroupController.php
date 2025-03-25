@@ -19,10 +19,8 @@ use EMS\CoreBundle\Form\Form\TableType;
 use EMS\CoreBundle\Form\Form\UserType;
 use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\UserService;
-use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -113,8 +111,8 @@ class GroupController extends AbstractController
 
     public function editGroup(Group $group, Request $request): Response
     {
-        $userNotInGroupDataTable = $this->usersInGroupDataTable($request, $group,false);
-        $userGroupDataTable = $this->usersInGroupDataTable($request, $group,true);
+        $userNotInGroupDataTable = $this->usersInGroupDataTable($request, $group, false);
+        $userGroupDataTable = $this->usersInGroupDataTable($request, $group, true);
         $form = $this->createForm(GroupType::class, $group, [
             'mode' => UserType::MODE_UPDATE,
         ]);
@@ -150,9 +148,9 @@ class GroupController extends AbstractController
     }
 
     /**
-     * @return RedirectResponse|FormInterface<mixed>
+     * @return FormInterface<UserDataTableType>
      */
-    private function usersInGroupDataTable(Request $request, Group $group, bool $inGroup): RedirectResponse|FormInterface
+    private function usersInGroupDataTable(Request $request, Group $group, bool $inGroup): FormInterface
     {
         $table = $this->dataTableFactory->create(UserDataTableType::class, [
             'light' => true,

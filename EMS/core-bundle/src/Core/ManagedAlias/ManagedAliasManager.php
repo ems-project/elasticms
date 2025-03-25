@@ -96,11 +96,11 @@ class ManagedAliasManager implements EntityServiceInterface
     }
 
     #[\Override]
-    public function deleteByItemName(string $name): string
+    public function deleteByItemName(string $id): string
     {
-        $managedAlias = $this->repository->findByName($name);
+        $managedAlias = $this->repository->findByName($id);
         if (null === $managedAlias) {
-            throw new \RuntimeException(\sprintf('Manage alias %s not found', $name));
+            throw new \RuntimeException(\sprintf('Manage alias %s not found', $id));
         }
         $id = $managedAlias->getId();
         $this->repository->delete($managedAlias);

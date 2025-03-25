@@ -308,9 +308,9 @@ class JobService implements EntityServiceInterface
     }
 
     #[\Override]
-    public function deleteByItemName(string $name): string
+    public function deleteByItemName(string $id): string
     {
-        $job = $this->repository->findById((int) $name);
+        $job = $this->repository->findById((int) $id);
         $id = $job->getId();
         $this->repository->delete($job);
 

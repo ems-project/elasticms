@@ -50,11 +50,11 @@ class FilterManager implements EntityServiceInterface
     }
 
     #[\Override]
-    public function deleteByItemName(string $name): string
+    public function deleteByItemName(string $id): string
     {
-        $filter = $this->filterRepository->findByName($name);
+        $filter = $this->filterRepository->findByName($id);
         if (null === $filter) {
-            throw new \RuntimeException(\sprintf('Filter %s not found', $name));
+            throw new \RuntimeException(\sprintf('Filter %s not found', $id));
         }
         $id = $filter->getId();
         $this->filterRepository->delete($filter);

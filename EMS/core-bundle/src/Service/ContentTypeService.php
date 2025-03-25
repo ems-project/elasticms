@@ -830,12 +830,12 @@ class ContentTypeService implements EntityServiceInterface
     }
 
     #[\Override]
-    public function deleteByItemName(string $name): string
+    public function deleteByItemName(string $id): string
     {
         $contentTypeRepository = $this->getContentTypeRepository();
-        $contentType = $this->getByItemName($name);
+        $contentType = $this->getByItemName($id);
         if (null === $contentType) {
-            throw new \RuntimeException(\sprintf('Entity %s not found', $name));
+            throw new \RuntimeException(\sprintf('Entity %s not found', $id));
         }
         if (!$contentType instanceof ContentType) {
             throw new \RuntimeException('Unexpected non ContentType object');

@@ -18,9 +18,10 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
  */
 class UserProvider implements UserProviderInterface
 {
-    public function __construct(private readonly UserRepository $userRepository,
-                                private readonly GroupRepository $groupRepository)
-    {
+    public function __construct(
+        private readonly UserRepository $userRepository,
+        private readonly GroupRepository $groupRepository
+    ) {
     }
 
     #[\Override]
@@ -59,9 +60,9 @@ class UserProvider implements UserProviderInterface
         if ($user->isExpired()) {
             throw new AccountExpiredException(\sprintf('The account "%s" is expired', $user->getUserIdentifier()));
         }
-        if ($user->getUserGroup() !== null) {
+        if (null !== $user->getUserGroup()) {
             $group = $this->groupRepository->getByName($user->getUserGroup());
-            $user->setUserRoles($group->getRoles());
+            $user->setGroupRoles($group->getRoles());
         }
 
         return $user;

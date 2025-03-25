@@ -81,6 +81,6 @@ class UserDataTableType extends AbstractEntityTableType
             'light' => false,
             'in-group' => false,
             'group-name' => null,
-        ])->setAllowedTypes('light', ['bool'])->setAllowedTypes('group-name', ['null', 'string']);
+        ])->setAllowedTypes('light', ['bool'])->setAllowedTypes('group-name', ['null', 'string'])->setAllowedTypes('in-group', ['bool']);
     }
 }

@@ -145,11 +145,11 @@ class FormManager implements EntityServiceInterface
     }
 
     #[\Override]
-    public function deleteByItemName(string $name): string
+    public function deleteByItemName(string $id): string
     {
-        $form = $this->formRepository->getByName($name);
+        $form = $this->formRepository->getByName($id);
         if (null === $form) {
-            throw new \RuntimeException(\sprintf('Form %s not found', $name));
+            throw new \RuntimeException(\sprintf('Form %s not found', $id));
         }
         $id = $form->getId();
         $this->formRepository->delete($form);

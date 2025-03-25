@@ -1,12 +1,5 @@
 {% extends '@EMSCore/base.html.twig' %}
 {% trans_default_domain 'emsco-twigs' %}
 
-{% block breadcrumb %}
-    <ol class="breadcrumb">
-        <li><a href="{{ path('emsco_group_admin_index') }}"><i class="fa fa-users"></i> {{ 'group.menu'|trans }}</a></li>
-        {% block breadcrumb_items %}{% endblock breadcrumb_items %}
-    </ol>
-{% endblock %}
-
 {% block pagetitle %}{{ block('title') }}{% endblock %}
 {% block subtitle %}<small>{{ 'group.tagline'|trans }}</small>{% endblock %}

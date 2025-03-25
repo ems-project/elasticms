@@ -33,8 +33,6 @@ class GroupController extends AbstractController
     public function __construct(
         private readonly LocalizedLoggerInterface $logger,
         private readonly GroupManager $groupManager,
-        private readonly UserService $userService,
-        private readonly FieldTypeManager $fieldTypeManager,
         private readonly DataTableFactory $dataTableFactory,
         private readonly string $templateNamespace,
     ) {
@@ -89,15 +87,6 @@ class GroupController extends AbstractController
     public function deleteGroup(Group $group): Response
     {
         $this->groupManager->deleteGroup($group);
-
-        return $this->redirectToRoute(Routes::GROUP_INDEX);
-    }
-
-    public function deleteSelectedGroup($selectedGroup): Response
-    {
-        foreach ($selectedGroup as $group) {
-            $this->groupManager->deleteGroup($group);
-        }
 
         return $this->redirectToRoute(Routes::GROUP_INDEX);
     }

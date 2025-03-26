@@ -1,1 +1,14 @@
 files_browse: 'Wähle Dateien'
+js:
+  file_selected: '1 ausgewählte Datei'
+  files_selected: '%count% ausgewählte Dateien'
+  form_error: 'Das Formular ist auf ein Problem gestoßen : %message%'
+  form_error_try_later: 'Das Formular ist auf ein Problem gestoßen, bitte versuchen Sie es später noch einmal.'
+  form_processed: 'Ihre Nachricht wurde gesendet.'
+  form_saved: 'Ihre Nachricht wurde gesendet.'
+  format_not_supported: 'FehlerFalsches: Format.'
+  incorrect_format: 'Falsches Format'
+  max_size_reached: 'Die Dateien sind zu groß. Die maximal zulässige Größe beträgt %fileSize%.'
+  required_field: '(*) Pflichtfeld'
+  remove: Löschen
+  remove_all: 'Alle löschen'

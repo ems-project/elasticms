@@ -148,13 +148,10 @@ final readonly class Data implements DataInterface
     }
 
     #[\Override]
-    public function indexAsync(?string $ouuid, array $rawData, bool $merge = false, bool $refresh = false): ResponseInterface
+    public function indexAsync(?string $ouuid, array $rawData, bool $merge = false, bool $refresh = false, bool $lazy = false): ResponseInterface
     {
         $resource = $this->makeResource($merge && $ouuid ? 'update' : 'index', $ouuid);
-
-        if ($refresh) {
-            $resource .= '?refresh=true';
-        }
+        $resource .= '?'.\http_build_query(['refresh' => $refresh, 'lazy' => $lazy]);
 
         return $this->client->asyncRequest(Request::METHOD_POST, $resource, ['json' => $rawData]);
     }

@@ -223,6 +223,14 @@ class StorageManager implements FileManagerInterface
         return \hash($hashAlgo ?? $this->hashAlgo, $string, $binary);
     }
 
+    /** @param array<mixed> $data */
+    public function computeDataHash(array $data): string
+    {
+        Json::normalize($data);
+
+        return $this->computeStringHash(Json::encode($data));
+    }
+
     public function computeFileHash(string $filename): string
     {
         $hashFile = \hash_file($this->hashAlgo, $filename);

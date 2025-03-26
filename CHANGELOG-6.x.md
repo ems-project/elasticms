@@ -1,5 +1,18 @@
 # Changelog 6.x
 
+## 6.1.2 (2025-03-24)
+### Features
+* feat(admin/api): add support for lazy indexing by @Davidmattei in https://github.com/ems-project/elasticms/pull/1268
+* feat(cli/import): add digest feature by @Davidmattei in https://github.com/ems-project/elasticms/pull/1271
+### Bug Fixes
+* fix(admin/contentType): add suport helptext for choiceFieldType by @theus77 in https://github.com/ems-project/elasticms/pull/1258
+* fix(admin/contentType): datetime field type correct default display format by @theus77 in https://github.com/ems-project/elasticms/pull/1270
+* fix(admin/contentType): support helptext for choiceFieldType by @theus77 in https://github.com/ems-project/elasticms/pull/1259
+* fix(admin/contentType): wrong default display date format for DataTimeFieldType by @theus77 in https://github.com/ems-project/elasticms/pull/1260
+* fix(admin/extract): avoid creating ghost documents by @theus77 in https://github.com/ems-project/elasticms/pull/1263
+* fix(admin/js): disable button on file upload by @theus77 in https://github.com/ems-project/elasticms/pull/1272
+* fix(admin/mapping): not analyzed index by @theus77 in https://github.com/ems-project/elasticms/pull/1269
+
 ## 6.1.1 (2025-03-12)
 ### Features
 * feat(admin): allow change link forgot password by @IsaMic in https://github.com/ems-project/elasticms/pull/1250

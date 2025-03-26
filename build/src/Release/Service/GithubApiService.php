@@ -103,7 +103,7 @@ class GithubApiService
             $previousVersion = new Version($version->major, $version->minor, $version->patch - 1);
 
             if (!\in_array($previousVersion->getTag(), $tags, true)) {
-                throw new \RuntimeException('Previous version not found!');
+                throw new \RuntimeException('Previous version not found!'.$previousVersion->getTag());
             }
 
             return $previousVersion;

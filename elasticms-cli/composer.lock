@@ -1750,7 +1750,7 @@
         },
         {
             "name": "elasticms/common-bundle",
-            "version": "5.21.5",
+            "version": "5.21.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSCommonBundle.git",
@@ -1837,13 +1837,13 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSCommonBundle/tree/5.21.5"
+                "source": "https://github.com/ems-project/EMSCommonBundle/tree/5.21.6"
             },
             "time": "2024-10-11T13:55:10+00:00"
         },
         {
             "name": "elasticms/helpers",
-            "version": "5.21.5",
+            "version": "5.21.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/helpers.git",
@@ -1899,7 +1899,7 @@
                 "php"
             ],
             "support": {
-                "source": "https://github.com/ems-project/helpers/tree/5.21.5"
+                "source": "https://github.com/ems-project/helpers/tree/5.21.6"
             },
             "time": "2024-09-03T07:45:27+00:00"
         },
@@ -11413,7 +11413,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
@@ -11423,6 +11423,6 @@
         "ext-json": "*",
         "ext-sqlite3": "*"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "plugin-api-version": "2.6.0"
 }

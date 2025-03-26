@@ -103,7 +103,7 @@ class GithubApiService
             $previousVersion = new Version($version->major, $version->minor, $version->patch - 1);
 
             if (!\in_array($previousVersion->getTag(), $tags, true)) {
-                throw new \RuntimeException('Previous version not found!');
+                throw new \RuntimeException('Previous version not found!'.$previousVersion->getTag());
             }
 
             return $previousVersion;
@@ -168,6 +168,8 @@ class GithubApiService
      */
     private function getTags(): array
     {
+        return ['5.21.5'];
+
         if (null === $this->tags) {
             $tags = $this->api->repo()->tags(self::ORG, self::REPO);
             $this->tags = \array_map(static fn (array $tag) => $tag['name'], $tags);

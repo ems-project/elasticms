@@ -64,7 +64,7 @@ class Group implements EntityInterface
     }
 
     /**
-     * @return Schedule[]
+     * @return array<string>
      */
     public function getRoles(): array
     {

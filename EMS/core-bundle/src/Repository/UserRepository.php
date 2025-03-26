@@ -166,6 +166,7 @@ final class UserRepository extends ServiceEntityRepository implements UserReposi
     
     /**
      * @param string $searchValue
+     * @return User[]
      */
     public function getUsersByGroup(string $searchValue): array
     {
@@ -175,10 +176,8 @@ final class UserRepository extends ServiceEntityRepository implements UserReposi
 
         return $queryBuilder->getQuery()->getResult();
     }
-    /**
-     * @return Query
-     */
-    private function getQuery(QueryBuilder $qb, ?UserContextDTO $context)
+ 
+    private function getQuery(QueryBuilder $qb, ?UserContextDTO $context) 
     {
         if (null === $context || null === $context->groupName) {
             return $qb->getQuery();

@@ -168,8 +168,6 @@ class GithubApiService
      */
     private function getTags(): array
     {
-        return ['5.21.5'];
-
         if (null === $this->tags) {
             $tags = $this->api->repo()->tags(self::ORG, self::REPO);
             $this->tags = \array_map(static fn (array $tag) => $tag['name'], $tags);

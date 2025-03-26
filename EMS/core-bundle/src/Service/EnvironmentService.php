@@ -502,11 +502,11 @@ class EnvironmentService implements EntityServiceInterface
     }
 
     #[\Override]
-    public function deleteByItemName(string $id): string
+    public function deleteByItemName(string $name): string
     {
-        $environment = $this->getByItemName($id);
+        $environment = $this->getByItemName($name);
         if (null === $environment) {
-            throw new \RuntimeException(\sprintf('Environment %s not found', $id));
+            throw new \RuntimeException(\sprintf('Environment %s not found', $name));
         }
         if (!$environment instanceof Environment) {
             throw new \RuntimeException('Unexpected non Environment object');

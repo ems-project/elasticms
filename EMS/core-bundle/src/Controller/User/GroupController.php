@@ -90,7 +90,6 @@ class GroupController extends AbstractController
 
         return $this->redirectToRoute(Routes::GROUP_INDEX);
     }
-
     public function deleteAllGroup(): Response
     {
         $this->groupManager->deleteAllGroup();

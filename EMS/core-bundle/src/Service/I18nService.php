@@ -49,11 +49,11 @@ class I18nService implements EntityServiceInterface
     }
 
     #[\Override]
-    public function deleteByItemName(string $id): string
+    public function deleteByItemName(string $name): string
     {
-        $i18n = $this->repository->findByIdentifier($id);
+        $i18n = $this->repository->findByIdentifier($name);
         if (null === $i18n) {
-            throw new \RuntimeException(\sprintf('I18n %s not found', $id));
+            throw new \RuntimeException(\sprintf('I18n %s not found', $name));
         }
         $id = $i18n->getId();
         $this->repository->delete($i18n);

@@ -83,11 +83,11 @@ class GroupManager implements EntityServiceInterface
         return Group::fromJson($json);
     }
 
-    public function deleteByItemName(string $id): string
+    public function deleteByItemName(string $name): string
     {
-        $group = $this->groupRepository->getByName($id);
+        $group = $this->groupRepository->getByName($name);
         if (null === $group) {
-            throw new \RuntimeException(\sprintf('Form %s not found', $id));
+            throw new \RuntimeException(\sprintf('Form %s not found', $name));
         }
         $id = $group->getId();
         $this->groupRepository->delete($group);

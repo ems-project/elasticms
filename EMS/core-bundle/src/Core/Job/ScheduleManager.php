@@ -163,11 +163,11 @@ class ScheduleManager implements EntityServiceInterface
     }
 
     #[\Override]
-    public function deleteByItemName(string $id): string
+    public function deleteByItemName(string $name): string
     {
-        $schedule = $this->scheduleRepository->getByName($id);
+        $schedule = $this->scheduleRepository->getByName($name);
         if (null === $schedule) {
-            throw new \RuntimeException(\sprintf('Filter %s not found', $id));
+            throw new \RuntimeException(\sprintf('Filter %s not found', $name));
         }
         $id = $schedule->getId();
         $this->delete($schedule);

@@ -147,7 +147,7 @@ final readonly class ReleaseRevisionService implements QueryServiceInterface, En
     }
 
     #[\Override]
-    public function deleteByItemName(string $id): string
+    public function deleteByItemName(string $name): string
     {
         throw new \RuntimeException('deleteByItemName method not yet implemented');
     }

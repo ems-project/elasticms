@@ -50,11 +50,11 @@ class AnalyzerManager implements EntityServiceInterface
     }
 
     #[\Override]
-    public function deleteByItemName(string $id): string
+    public function deleteByItemName(string $name): string
     {
-        $analyzer = $this->analyzerRepository->findByName($id);
+        $analyzer = $this->analyzerRepository->findByName($name);
         if (null === $analyzer) {
-            throw new \RuntimeException(\sprintf('Analyzer %s not found', $id));
+            throw new \RuntimeException(\sprintf('Analyzer %s not found', $name));
         }
         $id = $analyzer->getId();
         $this->analyzerRepository->delete($analyzer);

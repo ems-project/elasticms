@@ -204,11 +204,11 @@ class DashboardManager implements EntityServiceInterface
     }
 
     #[\Override]
-    public function deleteByItemName(string $id): string
+    public function deleteByItemName(string $name): string
     {
-        $dashboard = $this->dashboardRepository->getByName($id);
+        $dashboard = $this->dashboardRepository->getByName($name);
         if (null === $dashboard) {
-            throw new \RuntimeException(\sprintf('Dashboard %s not found', $id));
+            throw new \RuntimeException(\sprintf('Dashboard %s not found', $name));
         }
         $id = $dashboard->getId();
         $this->dashboardRepository->delete($dashboard);

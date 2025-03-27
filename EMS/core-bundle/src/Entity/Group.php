@@ -19,14 +19,14 @@ class Group implements EntityInterface
     protected ?string $label = null;
     /** @var mixed[] */
     private array $roles = [];
-    
+
     public function __construct()
     {
         $this->id = Uuid::uuid4();
         $this->created = new \DateTime();
         $this->modified = new \DateTime();
     }
-    
+
     #[\Override]
     public function getId(): string
     {

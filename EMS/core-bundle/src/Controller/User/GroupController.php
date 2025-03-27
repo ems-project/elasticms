@@ -7,7 +7,6 @@ namespace EMS\CoreBundle\Controller\User;
 use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
 use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
-use EMS\CoreBundle\Core\Form\FieldTypeManager;
 use EMS\CoreBundle\Core\UI\Page\Navigation;
 use EMS\CoreBundle\Core\User\GroupManager;
 use EMS\CoreBundle\DataTable\Type\GroupDataTableType;
@@ -18,7 +17,6 @@ use EMS\CoreBundle\Form\Form\GroupType;
 use EMS\CoreBundle\Form\Form\TableType;
 use EMS\CoreBundle\Form\Form\UserType;
 use EMS\CoreBundle\Routes;
-use EMS\CoreBundle\Service\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -90,6 +88,7 @@ class GroupController extends AbstractController
 
         return $this->redirectToRoute(Routes::GROUP_INDEX);
     }
+
     public function deleteAllGroup(): Response
     {
         $this->groupManager->deleteAllGroup();

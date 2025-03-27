@@ -6,7 +6,6 @@ namespace EMS\CoreBundle\Core\User;
 
 use EMS\CommonBundle\Entity\EntityInterface;
 use EMS\CoreBundle\Entity\Group;
-use EMS\CoreBundle\Entity\Schedule;
 use EMS\CoreBundle\Repository\GroupRepository;
 use EMS\CoreBundle\Service\EntityServiceInterface;
 
@@ -16,9 +15,9 @@ class GroupManager implements EntityServiceInterface
         private readonly GroupRepository $groupRepository,
     ) {
     }
-    
+
     /**
-     * @return Schedule[]
+     * @return Group[]
      */
     public function getAll(): array
     {
@@ -73,7 +72,7 @@ class GroupManager implements EntityServiceInterface
             throw new \RuntimeException('Unexpected group object');
         }
         $group = Group::fromJson($json, $entity);
-        $this->groupRepository->save($group,true);
+        $this->groupRepository->save($group, true);
 
         return $group;
     }
@@ -102,7 +101,7 @@ class GroupManager implements EntityServiceInterface
 
     public function editGroup(Group $group): void
     {
-        $this->groupRepository->save($group,true);
+        $this->groupRepository->save($group, true);
     }
 
     public function deleteAllGroup(): void
@@ -115,7 +114,7 @@ class GroupManager implements EntityServiceInterface
         if (!$group->isLabelDefined()) {
             $group->setLabel($group->getName());
         }
-        $this->groupRepository->save($group,false);
+        $this->groupRepository->save($group, false);
     }
 
     /**
@@ -124,8 +123,5 @@ class GroupManager implements EntityServiceInterface
     public function deleteByIds(array $ids): void
     {
         $this->groupRepository->deleteGroupByIds($ids);
-        
     }
-
-   
 }

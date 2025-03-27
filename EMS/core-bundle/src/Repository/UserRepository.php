@@ -6,7 +6,6 @@ namespace EMS\CoreBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use EMS\CoreBundle\Core\Security\Canonicalizer;
 use EMS\CoreBundle\Core\User\UserContextDTO;
@@ -163,9 +162,8 @@ final class UserRepository extends ServiceEntityRepository implements UserReposi
                 ->setParameter(':term', '%'.$searchValue.'%');
         }
     }
-    
+
     /**
-     * @param string $searchValue
      * @return User[]
      */
     public function getUsersByGroup(string $searchValue): array
@@ -176,8 +174,8 @@ final class UserRepository extends ServiceEntityRepository implements UserReposi
 
         return $queryBuilder->getQuery()->getResult();
     }
- 
-    private function getQuery(QueryBuilder $qb, ?UserContextDTO $context) 
+
+    private function getQuery(QueryBuilder $qb, ?UserContextDTO $context)
     {
         if (null === $context || null === $context->groupName) {
             return $qb->getQuery();

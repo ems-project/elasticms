@@ -94,6 +94,7 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
 
         return $now > $this->expirationDate;
     }
+
     /**
      * @param string[] $groupRoles
      */

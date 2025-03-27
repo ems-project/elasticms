@@ -14,7 +14,6 @@ use EMS\CoreBundle\Entity\Schedule;
 /**
  * @extends ServiceEntityRepository<Group>
  */
-
 class GroupRepository extends ServiceEntityRepository
 {
     public function __construct(Registry $registry)
@@ -32,7 +31,7 @@ class GroupRepository extends ServiceEntityRepository
         return $qb->getQuery()->execute();
     }
 
-    public function save(Group $group,bool $isEditMode): void
+    public function save(Group $group, bool $isEditMode): void
     {
         $existingGroup = $this->getEntityManager()
             ->getRepository(Group::class)
@@ -42,12 +41,12 @@ class GroupRepository extends ServiceEntityRepository
             if ($isEditMode) {
                 if ($existingGroup->getId() !== $group->getId()) {
                     throw new \Exception('The group already exists.');
-                }else{
+                } else {
                     $this->getEntityManager()->persist($group);
                     $this->getEntityManager()->flush();
                 }
             }
-        }else{
+        } else {
             $this->getEntityManager()->persist($group);
             $this->getEntityManager()->flush();
         }
@@ -59,9 +58,9 @@ class GroupRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
     }
 
-     /**
+    /**
      * @return Group[]
-     */    
+     */
     public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue): array
     {
         $qb = $this->createQueryBuilder('g')
@@ -77,6 +76,7 @@ class GroupRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->execute();
     }
+
     private function addSearchFilters(QueryBuilder $qb, string $searchValue): void
     {
         if (\strlen($searchValue) > 0) {
@@ -115,7 +115,7 @@ class GroupRepository extends ServiceEntityRepository
 
         $userGroup = $qb->getQuery()->getOneOrNullResult();
 
-        if (null !== $userGroup && ! $userGroup instanceof Group) {
+        if (null !== $userGroup && !$userGroup instanceof Group) {
             throw new \RuntimeException('Unexpected Group entity');
         }
 
@@ -143,9 +143,9 @@ class GroupRepository extends ServiceEntityRepository
     {
         $queryBuilder = $this->createQueryBuilder('g');
         $queryBuilder
-            ->delete(Group::class, 'g') 
-            ->where('g.id IN (:ids)')   
-            ->setParameter('ids', $ids) 
+            ->delete(Group::class, 'g')
+            ->where('g.id IN (:ids)')
+            ->setParameter('ids', $ids)
             ->getQuery()
             ->execute();
     }

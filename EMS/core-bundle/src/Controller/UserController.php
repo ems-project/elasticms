@@ -314,16 +314,17 @@ class UserController extends AbstractController
 
     public function removeFromGroup(User $user, string $groupName): Response
     {
-        if($user->getUserGroup() !== $groupName){
+        if ($user->getUserGroup() !== $groupName) {
             throw new \RuntimeException('Group name has to be equal to user group name');
         }
         $user->setUserGroup(null);
         $this->userService->updateUser($user);
         $userGroup = $this->groupManager->getByItemName($groupName);
-        
+
         if (!$userGroup instanceof EntityInterface) {
             throw new EntityNotFoundException();
         }
+
         return $this->redirectToRoute(Routes::GROUP_EDIT, [
             'group' => $userGroup->getId(),
         ]);

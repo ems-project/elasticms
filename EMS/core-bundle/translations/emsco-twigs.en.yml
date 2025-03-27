@@ -130,7 +130,7 @@ views:
             publishers: Publishers
             compare-environments: 'Compare environments'
             uploaded-files: 'Uploaded files'
-            user-management: User management
+            user-management: 'User management'
             users: Users
             admin: Admin
             search: Search

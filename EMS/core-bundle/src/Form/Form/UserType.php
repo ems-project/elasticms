@@ -69,7 +69,7 @@ final class UserType extends AbstractType
 
         $choices = [];
         foreach ($this->groupManager->getAll() as $group) {
-            $choices[$group->getl] = $group->getName();
+            $choices[$group->getLabel()] = $group->getName();
         }
 
         $builder

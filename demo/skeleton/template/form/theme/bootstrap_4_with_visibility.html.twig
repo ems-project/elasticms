@@ -64,8 +64,7 @@
 
 {% block ems_file_row %}
     <div class="form-group">
-
-        <div class="files-upload border rounded p-2">
+        <div class="files-upload form-control">
             <p class="files-upload-error text-danger"></p>
             {%- set browseLabel = "#{name}_browse"|trans -%}
             {%- if "#{name}_browse" == browseLabel -%}

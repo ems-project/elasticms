@@ -43,7 +43,7 @@ export default class FilesUpload {
     }
 
 
-    initFilesUpload(uplaodFiles, context) {
+    initFilesUpload(uploadFiles, context) {
         const self = this
         const langAttr = self.langAttr
         let fileField = self.fileField
@@ -56,17 +56,17 @@ export default class FilesUpload {
 
         const filenames = [];
         let filesSize = 0;
-        for (let i = 0; uplaodFiles && i < uplaodFiles.length; ++i) {
-            if (self.inDataTransfer(dataTransfer, uplaodFiles[i])) {
+        for (let i = 0; uploadFiles && i < uploadFiles.length; ++i) {
+            if (self.inDataTransfer(dataTransfer, uploadFiles[i])) {
                 continue;
             }
-            dataTransfer.items.add(uplaodFiles[i]);
+            dataTransfer.items.add(uploadFiles[i]);
         }
-        uplaodFiles = dataTransfer.files;
+        uploadFiles = dataTransfer.files;
 
-        for (let i = 0; i < uplaodFiles.length; ++i) {
-            filesSize += uplaodFiles.item(i).size
-            filenames.push(uplaodFiles.item(i).name.split("\\").pop().replace('%20', ' '));
+        for (let i = 0; i < uploadFiles.length; ++i) {
+            filesSize += uploadFiles.item(i).size
+            filenames.push(uploadFiles.item(i).name.split("\\").pop().replace('%20', ' '));
         }
 
         if (filesSize > self.inputFileMaxAllowedSize) {
@@ -123,7 +123,7 @@ export default class FilesUpload {
 
             for (let i = 0; i < filenames.length; ++i) {
                 const li = document.createElement('li')
-                if (uplaodFiles.item(i).type !== undefined && self.acceptTypes && !self.acceptTypes.toLowerCase().includes(uplaodFiles.item(i).type)) {
+                if (uploadFiles.item(i).type !== undefined && self.acceptTypes && !self.acceptTypes.toLowerCase().includes(uploadFiles.item(i).type)) {
                     const span = document.createElement('span')
                     span.className = 'form-error-message text-danger'
                     span.innerHTML = t('format_not_supported')
@@ -135,7 +135,7 @@ export default class FilesUpload {
                 a.innerHTML = t('remove')
                 a.href = '#'
                 a.dataset.fileid = i
-                li.innerHTML = li.innerHTML + filenames[i] + ' (' + self.humanFileSize(uplaodFiles.item(i).size, true) + ')  '
+                li.innerHTML = li.innerHTML + filenames[i] + ' (' + self.humanFileSize(uploadFiles.item(i).size, true) + ')  '
                 li.append(a)
                 fileList.append(li)
             }

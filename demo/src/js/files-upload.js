@@ -37,7 +37,9 @@ export default class FilesUpload {
         const self = this
         const label = self.boxFileupload.querySelector('.custom-file-label')
         self.boxFileupload.querySelector('.files-upload-head').addEventListener('click', (e) => {
-            label.click();
+            if (e.target.closest('label') !== label) {
+                label.click()
+            }
         })
     }
 
@@ -143,7 +145,7 @@ export default class FilesUpload {
                 const li = document.createElement('li')
                 if (uploadFiles.item(i).type !== undefined && self.acceptTypes && !self.acceptTypes.toLowerCase().includes(uploadFiles.item(i).type)) {
                     const span = document.createElement('span')
-                    span.className = 'form-error-message text-danger'
+                    span.className = 'form-error-message'
                     span.innerHTML = t('format_not_supported')
                     li.prepend(span)
                     fileField.setCustomValidity(t('incorrect_format'))

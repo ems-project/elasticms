@@ -37,11 +37,20 @@ export default class FilesUpload {
         target.addEventListener('invalid', function(e) {
             e.preventDefault();
             if (this.required) {
-                self.boxFileupload.querySelector('.files-upload-error').innerHTML = t('required_field')
+                self.setError(t('required_field'))
             }
         })
     }
 
+    setError(errorMsg) {
+        const errorBox = this.boxFileupload.querySelector('.files-upload-error')
+        errorBox.innerHTML = errorMsg
+        errorBox.classList.remove('d-none')
+    }
+
+    removeError() {
+        this.boxFileupload.querySelector('.files-upload-error').classList.add('d-none');
+    }
 
     initFilesUpload(uploadFiles, context) {
         const self = this
@@ -71,10 +80,10 @@ export default class FilesUpload {
 
         if (filesSize > self.inputFileMaxAllowedSize) {
             fileField.setCustomValidity(t('max_size_reached').replace('%fileSize%', this.humanFileSize(self.inputFileMaxAllowedSize, true)))
-            self.boxFileupload.querySelector('.files-upload-error').innerHTML = t('max_size_reached').replace('%fileSize%', this.humanFileSize(self.inputFileMaxAllowedSize, true))
+            self.setError(t('max_size_reached').replace('%fileSize%', this.humanFileSize(self.inputFileMaxAllowedSize, true)))
         } else {
             fileField.setCustomValidity('');
-            self.boxFileupload.querySelector('.files-upload-error').innerHTML = ''
+            self.removeError();
         }
 
         fileField.files = dataTransfer.files;

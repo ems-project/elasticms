@@ -29,7 +29,8 @@ export default defineConfig({
       scss: {
         api: 'modern-compiler',
       }
-    }
+    },
+    devSourcemap: true
   },
   plugins: [
     liveReload('../templates/**/*.twig'),

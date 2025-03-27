@@ -8,6 +8,18 @@ $files-upload-selector: 'files-upload';
 
   .custom-file-label {
     cursor: pointer;
+
+    span {
+      text-decoration: underline;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+
+    &::before {
+      content: attr(data-browse);
+    }
   }
 
   .count-file {
@@ -19,13 +31,27 @@ $files-upload-selector: 'files-upload';
     li {
       display: flex;
       justify-content: space-between;
-      gap: 3rem;
+      flex-wrap: wrap;
+      column-gap: 3rem;
+      row-gap: 1rem;
       padding: 1rem;
       background-color: var(--bs-secondary-bg);
       border-radius: var(--bs-border-radius);
 
       & + li {
         margin-top: map-get($spacers, 2);
+      }
+
+      &:has(.form-error-message) {
+        background-color: var(--bs-danger);
+
+        .form-error-message {
+          flex: 0 0 100%;
+        }
+
+        &, a {
+          color: #fff;
+        }
       }
     }
   }

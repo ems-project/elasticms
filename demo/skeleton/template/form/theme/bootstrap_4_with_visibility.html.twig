@@ -63,6 +63,8 @@
 
 
 {% block ems_file_row %}
+    {%- trans_default_domain form.vars.translation_domain -%}
+
     <div class="form-group">
         <div class="files-upload form-control">
             <p class="files-upload-error text-danger d-none"></p>
@@ -97,7 +99,7 @@
         'class': html_classes(label_attr.class|default(''), ems_meta.class|default('')),
     }) %}
     <label for="{{ form.vars.id }}" {% with { attr: label_attr } %}{{ block('attributes') }}{% endwith %}>
-       {{ label|raw }}
+       <span>{{ label|raw }}</span>
     </label>
     </{{ element|default('div') }}>
 {% endblock -%}

@@ -332,13 +332,13 @@ class UserController extends AbstractController
 
     public function addFromGroup(User $user, string $group): Response
     {
-        $user->setUserGroup($group);
-        $this->userService->updateUser($user);
         $userGroup = $this->groupManager->getByItemName($group);
-
         if (!$userGroup instanceof EntityInterface) {
             throw new EntityNotFoundException();
         }
+
+        $user->setUserGroup($group);
+        $this->userService->updateUser($user);
 
         return $this->redirectToRoute(Routes::GROUP_EDIT, [
             'group' => $userGroup->getId(),

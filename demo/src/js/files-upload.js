@@ -12,6 +12,7 @@ export default class FilesUpload {
         this.addDraggableListener(this)
         this.addChangeInputListener(target, this.boxFileupload)
         this.validationRequired(target)
+        this.addClickListener(this.boxFileupload)
     }
 
     addDraggableListener() {
@@ -29,6 +30,14 @@ export default class FilesUpload {
         const self = this
         target.addEventListener('change', function() {
             self.initFilesUpload(target.files, context);
+        })
+    }
+
+    addClickListener(target) {
+        const self = this
+        const label = self.boxFileupload.querySelector('.custom-file-label')
+        self.boxFileupload.querySelector('.files-upload-head').addEventListener('click', (e) => {
+            label.click();
         })
     }
 

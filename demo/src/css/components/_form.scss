@@ -1,0 +1,54 @@
+$files-upload-selector: 'files-upload';
+
+.#{$files-upload-selector} {
+  padding: 1rem;
+  border-style: dashed;
+  display: flex;
+  flex-direction: column;
+
+  .custom-file-label {
+    cursor: pointer;
+  }
+
+  .count-file {
+    margin-top: map-get($spacers, 3);
+    margin-bottom: map-get($spacers, 2);
+  }
+
+  .file-list {
+    li {
+      display: flex;
+      justify-content: space-between;
+      gap: 3rem;
+      padding: 1rem;
+      background-color: var(--bs-secondary-bg);
+      border-radius: var(--bs-border-radius);
+
+      & + li {
+        margin-top: map-get($spacers, 2);
+      }
+    }
+  }
+
+  .remove-all-files {
+    display: inline-block;
+    margin-top: map-get($spacers, 2);
+    text-align: right;
+    padding-right: map-get($spacers, 3);
+  }
+}
+
+.#{$files-upload-selector}-head {
+  padding-left: 2.5rem;
+  position: relative;
+
+  &::before {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+
+    @include faw-icon($fa-var-arrow-up-from-bracket, 24);
+  }
+}
+

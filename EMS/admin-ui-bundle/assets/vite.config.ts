@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import inject from '@rollup/plugin-inject'
 import liveReload from 'vite-plugin-live-reload'
+import { resolve } from 'path';
 
 export default defineConfig({
   base: './',
@@ -42,7 +43,10 @@ export default defineConfig({
     })
   ],
   resolve: {
-    extensions: ['.js', '.ts']
+    extensions: ['.js', '.ts'],
+    alias: {
+      '@fonts': resolve('./public/fonts')
+    }
   },
   server: {
     host: '0.0.0.0',

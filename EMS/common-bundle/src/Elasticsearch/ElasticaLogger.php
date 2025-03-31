@@ -94,7 +94,7 @@ class ElasticaLogger extends AbstractLogger implements QueryLoggerInterface
                 ],
                 'queryString' => $request->getQuery(),
                 'itemCount' => $responseData['hits']['total']['value'] ?? $responseData['hits']['total'] ?? 0,
-                'backtrace' => (new \Exception())->getTraceAsString(),
+                'backtrace' => new \Exception()->getTraceAsString(),
             ];
         }
 

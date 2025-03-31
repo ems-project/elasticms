@@ -73,6 +73,6 @@ class HtmlSanitizerConfigBuilderTest extends TestCase
 
     private function factory(array $settings = []): HtmlSanitizerConfig
     {
-        return (new HtmlSanitizerConfigBuilder($settings))->build();
+        return new HtmlSanitizerConfigBuilder($settings)->build();
     }
 }

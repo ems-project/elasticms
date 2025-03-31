@@ -39,13 +39,13 @@ class HtmlTest extends TestCase
             </div>
             HTML;
 
-        $this->assertEquals($result, (string) (new Html($html))->prettyPrint());
+        $this->assertEquals($result, (string) new Html($html)->prettyPrint());
     }
 
     #[DataProvider('getDataHtmlSanitize')]
     public function testSanitize(string $html, string $expected, array $sanitize): void
     {
-        $this->assertEquals($expected, (string) (new Html($html))->sanitize($sanitize));
+        $this->assertEquals($expected, (string) new Html($html)->sanitize($sanitize));
     }
 
     public static function getDataHtmlSanitize(): array

@@ -101,7 +101,7 @@ class AssetRuntime
             $hashConfig = $e->getHash();
         }
         if (!($config[EmsFields::ASSET_CONFIG_GET_FILE_PATH] ?? false)) {
-            $basename = (new Encoder())->slug(text: \basename($filename), preserveFileExtension: true);
+            $basename = new Encoder()->slug(text: \basename($filename), preserveFileExtension: true);
 
             return $this->urlGenerator->generate($route, [
                 'hash_config' => $hashConfig,

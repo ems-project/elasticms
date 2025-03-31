@@ -11,7 +11,7 @@ class DateTimeTest extends TestCase
 {
     public function testCreate()
     {
-        self::assertSame((new \DateTimeImmutable())->format('c'), DateTime::create('now')->format('c'));
+        self::assertSame(new \DateTimeImmutable()->format('c'), DateTime::create('now')->format('c'));
     }
 
     public function testCreateFromFormat()

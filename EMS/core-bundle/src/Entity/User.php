@@ -22,6 +22,7 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
     private ?array $circles = [];
     private ?string $displayName = null;
     private ?WysiwygProfile $wysiwygProfile = null;
+    private ?Group $group = null;
     private bool $layoutBoxed = false;
     private bool $emailNotification = true;
     private bool $sidebarMini = false;
@@ -530,5 +531,15 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
     public function setUserGroup(?string $userGroup): void
     {
         $this->userGroup = $userGroup;
+    }
+    
+    public function getGroup(): ?Group
+    {
+        return $this->group;
+    }
+
+    public function setGroup(?Group $group): void
+    {
+        $this->group = $group;
     }
 }

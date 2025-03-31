@@ -142,7 +142,7 @@ class GroupController extends AbstractController
         $table = $this->dataTableFactory->create(UserDataTableType::class, [
             'light' => true,
             'in-group' => $inGroup,
-            'group-name' => $group->getName(),
+            'group-name' => $group->getId(),
         ]);
 
         $form = $this->createForm(TableType::class, $table);

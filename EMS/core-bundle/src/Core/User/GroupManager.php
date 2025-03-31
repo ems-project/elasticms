@@ -65,6 +65,11 @@ class GroupManager implements EntityServiceInterface
     {
         return $this->groupRepository->getByName($name);
     }
+    
+    public function getByItemId(string $id): ?EntityInterface
+    {
+        return $this->groupRepository->getById($id);
+    }
 
     public function updateEntityFromJson(EntityInterface $entity, string $json): EntityInterface
     {

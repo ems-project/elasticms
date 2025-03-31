@@ -17,6 +17,7 @@ use EMS\CoreBundle\DataTable\Type\UserDataTableType;
 use EMS\CoreBundle\Entity\AuthToken;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\EntityInterface;
+use EMS\CoreBundle\Entity\Group;
 use EMS\CoreBundle\Entity\User;
 use EMS\CoreBundle\Form\Form\TableType;
 use EMS\CoreBundle\Form\Form\UserType;
@@ -332,12 +333,13 @@ class UserController extends AbstractController
 
     public function addFromGroup(User $user, string $group): Response
     {
-        $userGroup = $this->groupManager->getByItemName($group);
+        $userGroup = $this->groupManager->getByItemId($group);
         if (!$userGroup instanceof EntityInterface) {
             throw new EntityNotFoundException();
         }
 
         $user->setUserGroup($group);
+        $user->setGroup($userGroup);
         $this->userService->updateUser($user);
 
         return $this->redirectToRoute(Routes::GROUP_EDIT, [

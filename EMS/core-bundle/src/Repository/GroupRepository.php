@@ -10,6 +10,7 @@ use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\ORM\QueryBuilder;
 use EMS\CoreBundle\Entity\Group;
 use EMS\CoreBundle\Entity\Schedule;
+use Ramsey\Uuid\Uuid;
 
 /**
  * @extends ServiceEntityRepository<Group>
@@ -112,6 +113,22 @@ class GroupRepository extends ServiceEntityRepository
         $qb
             ->andWhere($qb->expr()->eq('user_group.name', ':name'))
             ->setParameter('name', $name);
+
+        $userGroup = $qb->getQuery()->getOneOrNullResult();
+
+        if (null !== $userGroup && !$userGroup instanceof Group) {
+            throw new \RuntimeException('Unexpected Group entity');
+        }
+
+        return $userGroup;
+    }
+    public function getById(string $id): ?Group
+    {
+        $uuid = Uuid::fromString($id);
+        $qb = $this->createQueryBuilder('user_group');
+        $qb
+            ->andWhere($qb->expr()->eq('user_group.id', ':id'))
+            ->setParameter('id', $uuid);
 
         $userGroup = $qb->getQuery()->getOneOrNullResult();
 

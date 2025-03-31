@@ -63,21 +63,25 @@
 
 
 {% block ems_file_row %}
-    <div class="form-group">
+    {%- trans_default_domain form.vars.ems_translation_domain -%}
 
-        <div class="files-upload border rounded p-2">
-            <p class="files-upload-error text-danger"></p>
+    <div class="form-group">
+        <div class="files-upload form-control">
+            <p class="files-upload-error text-danger d-none"></p>
             {%- set browseLabel = "#{name}_browse"|trans -%}
             {%- if "#{name}_browse" == browseLabel -%}
                 {%- set browseLabel = "ems_file_browse"|trans -%}
             {%- endif -%}
             {%- set label_attr = {
                 'data-browse': browseLabel,
-                'placeholder': label_attr.placeholder|default(form.vars.label|default(none))
+                'placeholder': label_attr.placeholder|default(form.vars.label|default(none)),
+                'id': id ~ '_label'
             } -%}
-            {{- form_widget(form, {label_attr: label_attr}) -}}
-            {{- form_help(form) -}}
-            <ul class="file-list"></ul>
+            <div class="files-upload-head" role="button" aria-labelledby="{{ id ~ '_label' }}">
+                {{- form_widget(form, {label_attr: label_attr}) -}}
+                {{- form_help(form) -}}
+            </div>
+            <ul class="file-list list-unstyled mb-0"></ul>
         </div>
     </div>
 {% endblock %}
@@ -90,12 +94,12 @@
     {%- set class = attr.class ~ ' d-none'-%}
     {%- set attr = attr|merge({lang: input_lang, class: class}) -%}
     {{- block('form_widget_simple') -}}
-    {%- set label_attr = label_attr|merge({ class: (label_attr.class|default('') ~ ' custom-file-label')|trim })|filter((value, key) => key != 'id') -%}
+    {%- set label_attr = label_attr|merge({ class: (label_attr.class|default('') ~ ' custom-file-label')|trim }) -%}
     {% set label_attr = label_attr|merge({
         'class': html_classes(label_attr.class|default(''), ems_meta.class|default('')),
     }) %}
     <label for="{{ form.vars.id }}" {% with { attr: label_attr } %}{{ block('attributes') }}{% endwith %}>
-       {{ label|raw }}
+       <span>{{ label|raw }}</span>
     </label>
     </{{ element|default('div') }}>
 {% endblock -%}

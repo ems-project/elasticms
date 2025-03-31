@@ -122,6 +122,7 @@ class GroupRepository extends ServiceEntityRepository
 
         return $userGroup;
     }
+
     public function getById(string $id): ?Group
     {
         $uuid = Uuid::fromString($id);

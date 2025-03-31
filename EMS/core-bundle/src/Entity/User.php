@@ -532,7 +532,7 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
     {
         $this->userGroup = $userGroup;
     }
-    
+
     public function getGroup(): ?Group
     {
         return $this->group;

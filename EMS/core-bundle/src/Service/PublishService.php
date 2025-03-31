@@ -388,6 +388,8 @@ class PublishService
         $selectedVersionTag = $revision->getVersionNextTag();
 
         if (\in_array($selectedVersionTag, [null, Revision::VERSION_BLANK], true)) {
+            $revision->removeFromRawData($contentType->getVersionTagField());
+
             return;
         }
 

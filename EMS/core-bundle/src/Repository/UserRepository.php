@@ -177,7 +177,7 @@ final class UserRepository extends ServiceEntityRepository implements UserReposi
 
     private function getQuery(QueryBuilder $qb, ?UserContextDTO $context)
     {
-        if (null === $context || null === $context->groupName) {
+        if (null === $context || null === $context->groupId) {
             return $qb->getQuery();
         }
         if ($context->inGroup) {
@@ -189,7 +189,7 @@ final class UserRepository extends ServiceEntityRepository implements UserReposi
             $qb->orWhere($inGroup);
             $qb->orWhere($isNull);
         }
-        $qb->setParameter('userGroup', $context->groupName);
+        $qb->setParameter('userGroup', $context->groupId);
 
         return $qb->getQuery();
     }

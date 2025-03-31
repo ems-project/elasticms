@@ -33,11 +33,11 @@ class UserDataTableType extends AbstractEntityTableType
         $table->addColumn('user.index.column.email', 'email');
         $table->addColumn('user.index.column.user_group', 'userGroup');
         $context = $table->getContext();
-        if ($context instanceof UserContextDTO && $context->inGroup && null !== $context->groupName) {
-            $table->addDynamicItemPostAction(Routes::USER_DELETE_FOR_GROUP, 'user.action.delete', 'trash', 'user.action.delete_confirm', ['user' => 'id', 'groupName' => $context->groupName]);
+        if ($context instanceof UserContextDTO && $context->inGroup && null !== $context->groupId) {
+            $table->addDynamicItemPostAction(Routes::USER_DELETE_FOR_GROUP, 'user.action.delete', 'trash', 'user.action.delete_confirm', ['user' => 'id', 'groupName' => $context->groupId]);
         }
-        if ($context instanceof UserContextDTO && !$context->inGroup && null !== $context->groupName) {
-            $table->addDynamicItemGetAction(Routes::USER_ADD_FOR_GROUP, 'user.add.button', 'plus', ['user' => 'id', 'group' => $context->groupName]);
+        if ($context instanceof UserContextDTO && !$context->inGroup && null !== $context->groupId) {
+            $table->addDynamicItemGetAction(Routes::USER_ADD_FOR_GROUP, 'user.add.button', 'plus', ['user' => 'id', 'group' => $context->groupId]);
         }
         if (!$context instanceof UserContextDTO || !$context->light) {
             $table->addColumnDefinition(new BoolTableColumn('user.index.column.email_notification', 'emailNotification'))
@@ -71,7 +71,7 @@ class UserDataTableType extends AbstractEntityTableType
     #[\Override]
     public function getContext(array $options): UserContextDTO
     {
-        return new UserContextDTO($options['light'], $options['in-group'], $options['group-name']);
+        return new UserContextDTO($options['light'], $options['in-group'], $options['group-id']);
     }
 
     public function configureOptions(OptionsResolver $optionsResolver): void
@@ -80,7 +80,7 @@ class UserDataTableType extends AbstractEntityTableType
         $optionsResolver->setDefaults([
             'light' => false,
             'in-group' => false,
-            'group-name' => null,
-        ])->setAllowedTypes('light', ['bool'])->setAllowedTypes('group-name', ['null', 'string'])->setAllowedTypes('in-group', ['bool']);
+            'group-id' => null,
+        ])->setAllowedTypes('light', ['bool'])->setAllowedTypes('group-id', ['null', 'string'])->setAllowedTypes('in-group', ['bool']);
     }
 }

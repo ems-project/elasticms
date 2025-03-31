@@ -60,8 +60,8 @@ class UserProvider implements UserProviderInterface
         if ($user->isExpired()) {
             throw new AccountExpiredException(\sprintf('The account "%s" is expired', $user->getUserIdentifier()));
         }
-        if (null !== $user->getUserGroup()) {
-            $group = $this->groupRepository->getByName($user->getUserGroup());
+        if (null !== $user->getGroup()) {
+            $group = $this->groupRepository->getById($user->getGroup()->getId());
 
             $user->setGroupRoles($group->getRoles());
         }

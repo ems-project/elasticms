@@ -150,8 +150,8 @@ class MediaLibraryController
         if ($form->isSubmitted() && $form->isValid()) {
             $job = $this->mediaLibraryService->jobFolderDelete($user, $folder);
             $this->flashBag($request)->clear();
-            $modalMessage = ($this->asyncEnabled) 
-                ? t('media_library.folder.delete.job_info_async') 
+            $modalMessage = ($this->asyncEnabled)
+                ? t('media_library.folder.delete.job_info_async')
                 : t('media_library.folder.delete.job_info')
             ;
 

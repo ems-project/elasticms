@@ -7,6 +7,7 @@ namespace EMS\CoreBundle\Form\Form;
 use Doctrine\ORM\EntityRepository;
 use EMS\CoreBundle\Core\User\GroupManager;
 use EMS\CoreBundle\EMSCoreBundle;
+use EMS\CoreBundle\Entity\Group;
 use EMS\CoreBundle\Entity\User;
 use EMS\CoreBundle\Entity\WysiwygProfile;
 use EMS\CoreBundle\Form\Field\ObjectPickerType;
@@ -69,7 +70,7 @@ final class UserType extends AbstractType
 
         $choices = [];
         foreach ($this->groupManager->getAll() as $group) {
-            $choices[$group->getLabel()] = $group->getName();
+            $choices[$group->getLabel()] = $group->getId();
         }
 
         $builder
@@ -128,11 +129,22 @@ final class UserType extends AbstractType
                 'choices' => \array_flip(Locales::getNames()),
                 'choice_translation_domain' => false,
             ])
-            ->add('userGroup', ChoiceType::class, [
-                'label' => 'user.group',
+//            ->add('group', ChoiceType::class, [
+//                'label' => 'user.group',
+//                'required' => false,
+//                'choices' => $choices,
+//                'translation_domain' => EMSCoreBundle::TRANS_FORM_DOMAIN,
+//            ])
+            ->add('group', EntityType::class, [
                 'required' => false,
-                'choices' => $choices,
-                'translation_domain' => EMSCoreBundle::TRANS_FORM_DOMAIN,
+                'label' => 'Group',
+                'class' => Group::class,
+                'choice_label' => 'name',
+                'query_builder' => fn (EntityRepository $er) => $er->createQueryBuilder('g'),
+                'attr' => [
+                    'data-live-search' => true,
+                    'class' => 'user-group-picker',
+                ],
             ])
             ->add('userOptions', UserOptionsType::class, [
                 'label' => 'user.option.title',

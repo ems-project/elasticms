@@ -181,11 +181,11 @@ final class UserRepository extends ServiceEntityRepository implements UserReposi
             return $qb->getQuery();
         }
         if ($context->inGroup) {
-            $inGroup = $qb->expr()->eq('user.userGroup', ':userGroup');
+            $inGroup = $qb->expr()->eq('user.group', ':userGroup');
             $qb->andWhere($inGroup);
         } else {
-            $inGroup = $qb->expr()->neq('user.userGroup', ':userGroup');
-            $isNull = $qb->expr()->isNull('user.userGroup');
+            $inGroup = $qb->expr()->neq('user.group', ':userGroup');
+            $isNull = $qb->expr()->isNull('user.group');
             $qb->orWhere($inGroup);
             $qb->orWhere($isNull);
         }

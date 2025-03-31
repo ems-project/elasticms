@@ -22,6 +22,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+use function Symfony\Component\Translation\t;
+
 class MediaLibraryController
 {
     public function __construct(
@@ -148,13 +150,16 @@ class MediaLibraryController
         if ($form->isSubmitted() && $form->isValid()) {
             $job = $this->mediaLibraryService->jobFolderDelete($user, $folder);
             $this->flashBag($request)->clear();
-            $modalMessage = ($this->asyncEnabled) ? 'media_library.folder.delete.job_info_async' : 'media_library.folder.delete.job_info';
+            $modalMessage = ($this->asyncEnabled) 
+                ? t('media_library.folder.delete.job_info_async') 
+                : t('media_library.folder.delete.job_info')
+            ;
 
             $componentModal->modal->data['success'] = true;
             $componentModal->modal->data['jobId'] = $job->getId();
             $componentModal->modal->data['async'] = $this->asyncEnabled;
             $componentModal->template->context->append([
-                'infoMessage' => $this->translator->trans($modalMessage, [], EMSCoreBundle::TRANS_COMPONENT),
+                'infoMessage' => $this->translator->trans($modalMessage->getMessage(), [], EMSCoreBundle::TRANS_COMPONENT),
             ]);
 
             return new JsonResponse($componentModal->render());
@@ -336,7 +341,10 @@ class MediaLibraryController
             $job = $this->mediaLibraryService->jobFolderRename($user, $folder);
             $this->flashBag($request)->clear();
 
-            $modalMessage = ($this->asyncEnabled) ? 'media_library.folder.rename.job_info_async' : 'media_library.folder.rename.job_info';
+            $modalMessage = ($this->asyncEnabled)
+                ? t('media_library.folder.rename.job_info_async')
+                : t('media_library.folder.rename.job_info')
+            ;
 
             return new JsonResponse([
                 'success' => true,
@@ -345,7 +353,7 @@ class MediaLibraryController
                 'path' => $folder->getPath()->getValue(),
                 'modalBody' => '',
                 'modalMessages' => [
-                    ['info' => $this->translator->trans($modalMessage, [], EMSCoreBundle::TRANS_COMPONENT)],
+                    ['info' => $this->translator->trans($modalMessage->getMessage(), [], EMSCoreBundle::TRANS_COMPONENT)],
                 ],
             ]);
         }

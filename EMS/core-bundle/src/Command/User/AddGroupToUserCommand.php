@@ -60,7 +60,7 @@ class AddGroupToUserCommand extends AbstractUserCommand
             $group = $this->getArgumentString('group');
             
             $user = $this->userManager->getUserByUsername($username);
-            $userGroup = $this->groupManager->getByItemId($group);
+            $userGroup = $this->groupManager->getByItemName($group);
             
             if (!$userGroup instanceof EntityInterface) {
                 throw new EntityNotFoundException();
@@ -83,7 +83,7 @@ class AddGroupToUserCommand extends AbstractUserCommand
     protected function interact(InputInterface $input, OutputInterface $output): void
     {
         $questions = [];
-
+        $this->io->title('Add a group to a user');
         if (!$input->getArgument('username')) {
             $question = new Question('Please give the username:');
             $question->setValidator(function ($username) {

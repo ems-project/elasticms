@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Storage\Service;
 
+use Aws\S3\Exception\S3Exception;
 use Aws\S3\S3Client;
 use EMS\CommonBundle\Common\Cache\Cache;
 use EMS\CommonBundle\Storage\File\FileInterface;
@@ -190,7 +191,13 @@ class S3Storage extends AbstractUrlStorage
             throw new \RuntimeException('Missing multipart upload');
         }
 
-        $this->getS3Client()->completeMultipartUpload($cache->get());
+        try {
+            $this->getS3Client()->completeMultipartUpload($cache->get());
+        } catch (S3Exception $e) {
+            if (!$this->head($hash)) {
+                throw $e;
+            }
+        }
         $this->deleteCache($hash);
     }
 

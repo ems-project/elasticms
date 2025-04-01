@@ -129,12 +129,6 @@ final class UserType extends AbstractType
                 'choices' => \array_flip(Locales::getNames()),
                 'choice_translation_domain' => false,
             ])
-//            ->add('group', ChoiceType::class, [
-//                'label' => 'user.group',
-//                'required' => false,
-//                'choices' => $choices,
-//                'translation_domain' => EMSCoreBundle::TRANS_FORM_DOMAIN,
-//            ])
             ->add('group', EntityType::class, [
                 'required' => false,
                 'label' => 'Group',

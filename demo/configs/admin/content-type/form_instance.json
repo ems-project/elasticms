@@ -615,11 +615,10 @@
                                                                                     "class": "col-md-12",
                                                                                     "lastOfRow": false,
                                                                                     "helptext": null,
-                                                                                    "values": null,
-                                                                                    "labels": null,
+                                                                                    "values": "en\r\nfr\r\nnl\r\nde",
+                                                                                    "labels": "English\r\nFrench\r\nDutch\r\nGerman",
                                                                                     "icon": "fa fa-language",
-                                                                                    "localePreferredFirst": true,
-                                                                                    "withLocalesVariable": true
+                                                                                    "localePreferredFirst": true
                                                                                 },
                                                                                 "mappingOptions": [],
                                                                                 "restrictionOptions": [],
@@ -670,7 +669,7 @@
                                                                                                 "protected": false
                                                                                             }
                                                                                         },
-                                                                                        "orderKey": 0,
+                                                                                        "orderKey": 1,
                                                                                         "children": []
                                                                                     },
                                                                                     "replaced": []
@@ -713,7 +712,7 @@
                                                                                                 "protected": false
                                                                                             }
                                                                                         },
-                                                                                        "orderKey": 1,
+                                                                                        "orderKey": 2,
                                                                                         "children": []
                                                                                     },
                                                                                     "replaced": []
@@ -752,7 +751,7 @@
                                                                                                 "protected": false
                                                                                             }
                                                                                         },
-                                                                                        "orderKey": 2,
+                                                                                        "orderKey": 3,
                                                                                         "children": []
                                                                                     },
                                                                                     "replaced": []
@@ -1423,11 +1422,10 @@
                                                             "class": "col-md-12",
                                                             "lastOfRow": false,
                                                             "helptext": null,
-                                                            "values": null,
-                                                            "labels": null,
+                                                            "values": "en\r\nfr\r\nnl\r\nde",
+                                                            "labels": "English\r\nFrench\r\nDutch\r\nGerman",
                                                             "icon": null,
-                                                            "localePreferredFirst": true,
-                                                            "withLocalesVariable": true
+                                                            "localePreferredFirst": true
                                                         },
                                                         "mappingOptions": [],
                                                         "restrictionOptions": [],
@@ -1477,7 +1475,7 @@
                                                                         "protected": false
                                                                     }
                                                                 },
-                                                                "orderKey": 0,
+                                                                "orderKey": 1,
                                                                 "children": []
                                                             },
                                                             "replaced": []
@@ -1609,11 +1607,10 @@
                                                                         "class": "col-md-12",
                                                                         "lastOfRow": false,
                                                                         "helptext": null,
-                                                                        "values": null,
-                                                                        "labels": null,
+                                                                        "values": "en\r\nfr\r\nnl\r\nde",
+                                                                        "labels": "English\r\nFrench\r\nDutch\r\nGerman",
                                                                         "icon": null,
-                                                                        "localePreferredFirst": true,
-                                                                        "withLocalesVariable": true
+                                                                        "localePreferredFirst": true
                                                                     },
                                                                     "mappingOptions": [],
                                                                     "restrictionOptions": [],
@@ -1665,7 +1662,7 @@
                                                                                     "transformers": []
                                                                                 }
                                                                             },
-                                                                            "orderKey": 0,
+                                                                            "orderKey": 1,
                                                                             "children": []
                                                                         },
                                                                         "replaced": []

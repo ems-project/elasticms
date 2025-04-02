@@ -166,11 +166,10 @@
                                                 "class": "col-md-12",
                                                 "lastOfRow": false,
                                                 "helptext": null,
-                                                "values": null,
-                                                "labels": null,
+                                                "values": "nl\r\nfr",
+                                                "labels": "Dutch\r\nFrench",
                                                 "localePreferredFirst": true,
-                                                "icon": "fa fa-language",
-                                                "withLocalesVariable": true
+                                                "icon": "fa fa-language"
                                             },
                                             "mappingOptions": [],
                                             "restrictionOptions": [],

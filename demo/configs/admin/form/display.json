@@ -32,17 +32,17 @@
                         "arguments": [],
                         "properties": {
                             "type": "EMS\\CoreBundle\\Form\\DataField\\ComputedFieldType",
-                            "name": "display_label_nl",
+                            "name": "display_label_fr",
                             "contentType": null,
                             "deleted": false,
                             "description": null,
                             "options": {
                                 "displayOptions": {
-                                    "label": "Display Label (NL)",
+                                    "label": "Display Label (FR)",
                                     "class": "col-md-12 hidden d-none",
                                     "lastOfRow": false,
                                     "helptext": null,
-                                    "valueTemplate": "{{ block(\"value_nl\", \"@EMSCH/template_ems/content_type/display.twig\") }}",
+                                    "valueTemplate": "{{ block(\"value_fr\", \"@EMSCH/template_ems/content_type/display.twig\") }}",
                                     "json": true,
                                     "displayTemplate": null
                                 },
@@ -58,7 +58,7 @@
                                 },
                                 "raw_data": []
                             },
-                            "orderKey": 0,
+                            "orderKey": 1,
                             "children": [
                                 {
                                     "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -96,17 +96,17 @@
                         "arguments": [],
                         "properties": {
                             "type": "EMS\\CoreBundle\\Form\\DataField\\ComputedFieldType",
-                            "name": "display_label_fr",
+                            "name": "display_label_nl",
                             "contentType": null,
                             "deleted": false,
                             "description": null,
                             "options": {
                                 "displayOptions": {
-                                    "label": "Display Label (FR)",
+                                    "label": "Display Label (NL)",
                                     "class": "col-md-12 hidden d-none",
                                     "lastOfRow": false,
                                     "helptext": null,
-                                    "valueTemplate": "{{ block(\"value_fr\", \"@EMSCH/template_ems/content_type/display.twig\") }}",
+                                    "valueTemplate": "{{ block(\"value_nl\", \"@EMSCH/template_ems/content_type/display.twig\") }}",
                                     "json": true,
                                     "displayTemplate": null
                                 },
@@ -122,7 +122,7 @@
                                 },
                                 "raw_data": []
                             },
-                            "orderKey": 1,
+                            "orderKey": 2,
                             "children": [
                                 {
                                     "class": "EMS\\CoreBundle\\Entity\\FieldType",

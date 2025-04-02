@@ -29,8 +29,7 @@
                         "class": null,
                         "lastOfRow": false,
                         "helptext": null,
-                        "icon": null,
-                        "language": null
+                        "icon": null
                     },
                     "restrictionOptions": {
                         "minimum_role": null
@@ -220,8 +219,7 @@
                                     "class": "col-md-12",
                                     "lastOfRow": false,
                                     "helptext": null,
-                                    "icon": "fa fa-gears",
-                                    "language": null
+                                    "icon": "fa fa-gears"
                                 },
                                 "mappingOptions": [],
                                 "restrictionOptions": {
@@ -250,7 +248,7 @@
                                                 "label": "Disposition",
                                                 "class": "col-md-12",
                                                 "lastOfRow": false,
-                                                "helptext": "Specify if the file must be downloaded or open in the browser:\r\n<ul>\r\n<lI><strong>Attachment : </strong>Force the download</li>\r\n<lI><strong>Inline : </strong>The browser will try to open the file</li>\r\n</ul>",
+                                                "helptext": null,
                                                 "multiple": false,
                                                 "expanded": false,
                                                 "select2": true,
@@ -542,7 +540,7 @@
                                     "protected": false
                                 }
                             },
-                            "orderKey": 5,
+                            "orderKey": 6,
                             "children": []
                         },
                         "replaced": []

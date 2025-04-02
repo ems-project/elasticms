@@ -9,7 +9,7 @@
         "notificationMenu": false,
         "definition": null,
         "type": "ems_core.dashboard.revision_task",
-        "role": "ROLE_USER",
+        "role": "not-defined",
         "color": null,
         "options": [],
         "orderKey": 3

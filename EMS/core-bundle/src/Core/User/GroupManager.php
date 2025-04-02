@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Core\User;
 
 use EMS\CommonBundle\Entity\EntityInterface;
+use EMS\CommonBundle\Helper\Text\Encoder;
 use EMS\CoreBundle\Entity\Group;
 use EMS\CoreBundle\Repository\GroupRepository;
 use EMS\CoreBundle\Service\EntityServiceInterface;
@@ -106,6 +107,12 @@ class GroupManager implements EntityServiceInterface
 
     public function editGroup(Group $group): void
     {
+        if (!$group->isLabelDefined()) {
+            $group->setLabel($group->getName());
+        }
+        
+        $group->setName(new Encoder()->slug(text: $group->getName(), separator: '_')->toString());
+        
         $this->groupRepository->save($group, true);
     }
 
@@ -119,6 +126,11 @@ class GroupManager implements EntityServiceInterface
         if (!$group->isLabelDefined()) {
             $group->setLabel($group->getName());
         }
+        if (0 === $group->getOrderKey()) {
+            $group->setOrderKey($this->groupRepository->counter() + 1);
+        }
+        $group->setName(new Encoder()->slug(text: $group->getName(), separator: '_')->toString());
+        
         $this->groupRepository->save($group, false);
     }
 

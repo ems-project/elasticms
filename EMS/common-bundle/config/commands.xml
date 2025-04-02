@@ -124,5 +124,8 @@
             <argument type="service" id="ems.helper.admin_api"/>
             <tag name="console.command" />
         </service>
+        <service id="ems.command.runner.start" class="EMS\CommonBundle\Command\Runner\StartCommand">
+            <tag name="console.command" />
+        </service>
     </services>
 </container>

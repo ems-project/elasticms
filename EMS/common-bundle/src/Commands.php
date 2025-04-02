@@ -18,4 +18,5 @@ class Commands
     final public const string FILE_STRUCTURE_PULL = 'ems:file-structure:pull';
     final public const string FILE_STRUCTURE_PUSH = 'ems:file-structure:push';
     final public const string SUBMISSION_FORWARD = 'ems:submissions:forward';
+    final public const string RUNNER_START = 'ems:runner:start';
 }

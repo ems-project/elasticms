@@ -1,0 +1,11 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\WysiwygProfile",
+    "arguments": [],
+    "properties": {
+        "name": "test",
+        "editor": "ckeditor4",
+        "config": null,
+        "orderKey": 104
+    },
+    "replaced": []
+}

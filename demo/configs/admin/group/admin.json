@@ -1,0 +1,14 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\Group",
+    "arguments": [],
+    "properties": {
+        "name": "admin",
+        "orderKey": 0,
+        "label": "admin",
+        "roles": [
+            "ROLE_ADMIN",
+            "ROLE_SUPER_ADMIN"
+        ]
+    },
+    "replaced": []
+}

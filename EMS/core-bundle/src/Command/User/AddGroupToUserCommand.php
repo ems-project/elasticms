@@ -18,16 +18,18 @@ use Symfony\Component\Console\Question\Question;
 
 #[AsCommand(
     name: Commands::USER_ADD_GROUP,
-    description: 'Add a group to a user.',
+    description: 'Specify a user Group.',
     hidden: false
 )]
 class AddGroupToUserCommand extends AbstractUserCommand
 {
-    public function __construct(UserManager $userManager,
-                                protected GroupManager $groupManager)
-    {
+    public function __construct(
+        UserManager $userManager,
+        protected GroupManager $groupManager
+    ) {
         parent::__construct($userManager);
     }
+
     #[\Override]
     protected function configure(): void
     {
@@ -58,17 +60,17 @@ class AddGroupToUserCommand extends AbstractUserCommand
         try {
             $username = $this->getArgumentString('username');
             $group = $this->getArgumentString('group');
-            
+
             $user = $this->userManager->getUserByUsername($username);
             $userGroup = $this->groupManager->getByItemName($group);
-            
+
             if (!$userGroup instanceof EntityInterface) {
                 throw new EntityNotFoundException();
             }
 
             $user->setGroup($userGroup);
             $this->userManager->update($user);
-            
+
             $this->io->success(\sprintf('Group "%s" has been added to user "%s".', $group, $username));
 
             return self::EXECUTE_SUCCESS;

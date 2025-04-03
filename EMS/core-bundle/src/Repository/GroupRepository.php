@@ -53,12 +53,6 @@ class GroupRepository extends ServiceEntityRepository
         }
     }
 
-    public function delete(Group $group): void
-    {
-        $this->getEntityManager()->remove($group);
-        $this->getEntityManager()->flush();
-    }
-
     /**
      * @return Group[]
      */

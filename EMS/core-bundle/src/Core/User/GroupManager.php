@@ -102,7 +102,7 @@ class GroupManager implements EntityServiceInterface
 
     public function deleteGroup(Group $group): void
     {
-        $this->groupRepository->delete($group);
+        $this->groupRepository->deleteGroupByIds([$group->getId()]);
     }
 
     public function editGroup(Group $group): void

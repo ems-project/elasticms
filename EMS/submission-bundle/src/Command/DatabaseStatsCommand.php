@@ -95,7 +95,7 @@ final class DatabaseStatsCommand extends Command
         /** @var string $fromName */
         $fromName = $input->getOption('email-from-name');
 
-        return (new TemplatedEmail())
+        return new TemplatedEmail()
             ->subject($subject)
             ->from(new Address($fromEmail, $fromName))
             ->to(...$toEmail);

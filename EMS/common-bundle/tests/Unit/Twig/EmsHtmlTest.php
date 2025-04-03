@@ -17,7 +17,7 @@ class EmsHtmlTest extends TestCase
 
         $this->assertEquals(
             '<p>Intro elasticms end</p>',
-            (string) (new EmsHtml($html))
+            (string) new EmsHtml($html)
                 ->removeTag('a')->removeTag('strong')
         );
     }
@@ -30,7 +30,7 @@ class EmsHtmlTest extends TestCase
 
         $this->assertEquals(
             '<p>elasticms <a href="/home">Home</a></p>',
-            (string) (new EmsHtml($html))
+            (string) new EmsHtml($html)
                 ->removeTag('a', '[^>]*href="(https:.*?)"[^>]*')
         );
     }
@@ -43,7 +43,7 @@ class EmsHtmlTest extends TestCase
 
         $this->assertEquals(
             '<p>elasticms (https://github.com/ems-project/elasticms) Home (/home)</p>',
-            (string) (new EmsHtml($html))
+            (string) new EmsHtml($html)
                 ->printUrls()
         );
     }
@@ -56,7 +56,7 @@ class EmsHtmlTest extends TestCase
 
         $this->assertEquals(
             '<p><a href="#home">home</a> <a id="Home">Home</a></p>',
-            (string) (new EmsHtml($html))->printUrls()
+            (string) new EmsHtml($html)->printUrls()
         );
     }
 }

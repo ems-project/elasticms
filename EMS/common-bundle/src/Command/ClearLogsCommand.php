@@ -50,7 +50,7 @@ class ClearLogsCommand extends AbstractCommand
             throw new \RuntimeException('invalid time');
         }
 
-        $this->before = (new \DateTime())->setTimestamp($beforeTime);
+        $this->before = new \DateTime()->setTimestamp($beforeTime);
         $this->channels = $this->getOptionStringArray(self::OPTION_CHANNEL, false);
     }
 

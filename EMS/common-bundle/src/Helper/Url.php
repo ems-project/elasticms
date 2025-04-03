@@ -41,7 +41,7 @@ class Url
         $sameHost = ($parsed['scheme'] ?? null) === ($relativeParsed['scheme'] ?? null) && ($parsed['host'] ?? null) === ($relativeParsed['host'] ?? null) && ($parsed['port'] ?? null) === ($relativeParsed['port'] ?? null);
         $sameHost = $sameHost || (null === ($parsed['scheme'] ?? null) && null === ($parsed['host'] ?? null) && null === ($parsed['port'] ?? null));
 
-        $this->referer = null === $referer ? null : (new Url($referer))->getUrl(null, true);
+        $this->referer = null === $referer ? null : new Url($referer)->getUrl(null, true);
 
         if (!$sameHost) {
             $scheme = $parsed['scheme'] ?? $relativeParsed['scheme'] ?? null;
@@ -151,7 +151,7 @@ class Url
     public function getUrl(?string $path = null, bool $withFragment = false, bool $withPassword = true, bool $withQuery = true): string
     {
         if (null !== $path) {
-            return (new Url($path, $this->getUrl()))->getUrl(null, $withFragment);
+            return new Url($path, $this->getUrl())->getUrl(null, $withFragment);
         }
         if (\in_array($this->getScheme(), self::ABSOLUTE_SCHEME)) {
             $url = \sprintf('%s:', $this->scheme);

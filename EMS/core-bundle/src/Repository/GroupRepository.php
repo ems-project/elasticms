@@ -99,14 +99,6 @@ class GroupRepository extends ServiceEntityRepository
         return (int) $qb->getQuery()->getSingleScalarResult();
     }
 
-    public function deleteAllGroup(): void
-    {
-        $em = $this->createQueryBuilder('g');
-        $em->delete(Group::class, 'c')
-            ->getQuery()
-            ->execute();
-    }
-
     public function getByName(string $name): ?Group
     {
         $qb = $this->createQueryBuilder('user_group');

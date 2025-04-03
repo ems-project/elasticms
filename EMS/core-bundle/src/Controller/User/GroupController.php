@@ -89,13 +89,6 @@ class GroupController extends AbstractController
         return $this->redirectToRoute(Routes::GROUP_INDEX);
     }
 
-    public function deleteAllGroup(): Response
-    {
-        $this->groupManager->deleteAllGroup();
-
-        return $this->redirectToRoute(Routes::GROUP_INDEX);
-    }
-
     public function editGroup(Group $group, Request $request): Response
     {
         $userNotInGroupDataTable = $this->usersInGroupDataTable($request, $group, false);

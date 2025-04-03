@@ -163,18 +163,6 @@ final class UserRepository extends ServiceEntityRepository implements UserReposi
         }
     }
 
-    /**
-     * @return User[]
-     */
-    public function getUsersByGroup(string $searchValue): array
-    {
-        $queryBuilder = $this->createQueryBuilder('user');
-        $queryBuilder->where('user.userGroup IN (:searchValue)')
-            ->setParameter('searchValue', $searchValue);
-
-        return $queryBuilder->getQuery()->getResult();
-    }
-
     private function getQuery(QueryBuilder $qb, ?UserContextDTO $context)
     {
         if (null === $context || null === $context->groupId) {

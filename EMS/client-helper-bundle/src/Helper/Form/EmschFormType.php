@@ -112,6 +112,10 @@ class EmschFormType extends AbstractType
                 pattern: $value['pattern'],
                 message: $value['message'] ?? null,
             ),
+            'greaterThan' => new Assert\GreaterThan(value: $value['value'], message: $value['message'] ?? null),
+            'greaterThanOrEqual' => new Assert\GreaterThanOrEqual(value: $value['value'], message: $value['message'] ?? null),
+            'lessThan' => new Assert\LessThan(value: $value['value'], message: $value['message'] ?? null),
+            'lessThanOrEqual' => new Assert\LessThanOrEqual(value: $value['value'], message: $value['message'] ?? null),
             default => throw new \RuntimeException(\sprintf('Invalid constraint type "%s"', $value['type'])),
         }, $constraints);
     }

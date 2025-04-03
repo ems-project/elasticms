@@ -121,9 +121,6 @@ class GroupManager implements EntityServiceInterface
         if (!$group->isLabelDefined()) {
             $group->setLabel($group->getName());
         }
-        if (0 === $group->getOrderKey()) {
-            $group->setOrderKey($this->groupRepository->counter() + 1);
-        }
         $group->setName(new Encoder()->slug(text: $group->getName(), separator: '_')->toString());
         
         $this->groupRepository->save($group, false);

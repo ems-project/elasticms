@@ -16,7 +16,6 @@ class Group extends JsonDeserializer implements \JsonSerializable, EntityInterfa
 
     private UuidInterface $id;
     protected string $name;
-    protected int $orderKey = 0;
     protected ?string $label = null;
     /** @var mixed[] */
     private array $roles = [];
@@ -78,16 +77,6 @@ class Group extends JsonDeserializer implements \JsonSerializable, EntityInterfa
     public function setRoles(array $roles): void
     {
         $this->roles = $roles;
-    }
-
-    public function getOrderKey(): int
-    {
-        return $this->orderKey;
-    }
-
-    public function setOrderKey(int $key): void
-    {
-        $this->orderKey = $key;
     }
 
     public static function fromJson(string $json, ?EntityInterface $group = null): Group

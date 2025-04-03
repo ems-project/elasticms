@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Storage\Service;
 
+use Aws\S3\Exception\S3Exception;
 use Aws\S3\S3Client;
 use EMS\CommonBundle\Common\Cache\Cache;
 use EMS\CommonBundle\Storage\File\FileInterface;
@@ -11,6 +12,7 @@ use EMS\CommonBundle\Storage\Processor\Config;
 use EMS\CommonBundle\Storage\StreamWrapper;
 use EMS\Helpers\Html\MimeTypes;
 use EMS\Helpers\Standard\Base64;
+use Psr\Cache\CacheItemInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Finder\SplFileInfo;
@@ -45,7 +47,7 @@ class S3Storage extends AbstractUrlStorage
 
         if ($this->multipartUpload) {
             $base64Hash = Base64::encode(\sha1($chunk, true));
-            $cache = $this->cache->getItem($this->uploadKey($hash));
+            $cache = $this->getCache($hash);
             $args = $cache->get();
             $multipartUpload = $s3->uploadPart(\array_merge($args, [
                 'Content-Length' => \strlen($chunk),
@@ -65,7 +67,6 @@ class S3Storage extends AbstractUrlStorage
         }
 
         $uploadKey = $this->uploadKey($hash);
-
         $head = $s3->headObject([
             'Bucket' => $this->bucket,
             'Key' => $uploadKey,
@@ -122,8 +123,6 @@ class S3Storage extends AbstractUrlStorage
     public function initUpload(string $hash, int $size, string $name, string $type): bool
     {
         $s3 = $this->getS3Client();
-        $uploadKey = $this->uploadKey($hash);
-
         if ($this->multipartUpload) {
             $key = $this->key($hash);
             $multipartUpload = $s3->createMultipartUpload([
@@ -132,7 +131,7 @@ class S3Storage extends AbstractUrlStorage
                 'ChecksumAlgorithm' => 'SHA1',
             ]);
             $uploadId = $multipartUpload->get('UploadId');
-            $cache = $this->cache->getItem($uploadKey);
+            $cache = $this->getCache($hash);
             $cache->set([
                 'Bucket' => $this->bucket,
                 'Key' => $key,
@@ -145,6 +144,7 @@ class S3Storage extends AbstractUrlStorage
             return \is_string($uploadId);
         }
 
+        $uploadKey = $this->uploadKey($hash);
         $result = $s3->putObject([
             'Bucket' => $this->bucket,
             'Key' => $uploadKey,
@@ -186,22 +186,33 @@ class S3Storage extends AbstractUrlStorage
             return;
         }
 
-        $uploadKey = $this->uploadKey($hash);
-        $cache = $this->cache->getItem($uploadKey);
+        $cache = $this->getCache($hash);
         if (!$cache->isHit()) {
             throw new \RuntimeException('Missing multipart upload');
         }
 
-        $this->getS3Client()->completeMultipartUpload($cache->get());
-        $this->cache->delete($uploadKey);
+        try {
+            $this->getS3Client()->completeMultipartUpload($cache->get());
+        } catch (S3Exception $e) {
+            if (!$this->head($hash)) {
+                throw $e;
+            }
+        }
+        $this->deleteCache($hash);
     }
 
     public function removeUpload(string $hash): void
     {
-        $this->getS3Client()->deleteObject([
-            'Bucket' => $this->bucket,
-            'Key' => $this->multipartUpload ? $this->key($hash) : $this->uploadKey($hash),
-        ]);
+        if ($this->multipartUpload) {
+            $cache = $this->getCache($hash);
+            $this->getS3Client()->abortMultipartUpload($cache->get());
+            $this->deleteCache($hash);
+        } else {
+            $this->getS3Client()->deleteObject([
+                'Bucket' => $this->bucket,
+                'Key' => $this->uploadKey($hash),
+            ]);
+        }
     }
 
     /**
@@ -226,10 +237,6 @@ class S3Storage extends AbstractUrlStorage
 
     private function uploadKey(string $hash): string
     {
-        if ($this->multipartUpload) {
-            return \sprintf('uploads_%s_%s', $this->bucket, $hash);
-        }
-
         return "uploads/$hash";
     }
 
@@ -328,5 +335,15 @@ class S3Storage extends AbstractUrlStorage
         ]);
 
         return $result->hasKey('ETag');
+    }
+
+    private function getCache(string $hash): CacheItemInterface
+    {
+        return $this->cache->getItem(\sprintf('S3_multipart_%s_%s', $this->bucket, $hash));
+    }
+
+    private function deleteCache(string $hash): void
+    {
+        $this->cache->delete(\sprintf('S3_multipart_%s_%s', $this->bucket, $hash));
     }
 }

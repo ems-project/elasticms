@@ -314,7 +314,7 @@ final class Filter
         return new Range($this->getField(), \array_filter([
             'gte' => $start,
             'lte' => $end,
-            'time_zone' => (new \DateTime())->format('P'),
+            'time_zone' => new \DateTime()->format('P'),
             'format' => self::TYPE_DATE_TIME_RANGE === $this->type ? 'yyyy-MM-dd HH:mm:ss' : 'yyyy-MM-dd',
         ]));
     }

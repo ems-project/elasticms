@@ -174,7 +174,7 @@ final class Search
             throw new \RuntimeException('Query search should be a bool query');
         }
 
-        return (new BoolQuery())->setParams($querySearch['bool']);
+        return new BoolQuery()->setParams($querySearch['bool']);
     }
 
     public function getAnalyzer(): string

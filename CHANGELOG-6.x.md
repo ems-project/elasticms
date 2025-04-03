@@ -1,5 +1,38 @@
 # Changelog 6.x
 
+## 6.2.0 (2025-03-31)
+### Features
+* feat(admin): add `forgot_password_url` configuration by @IsaMic in https://github.com/ems-project/elasticms/pull/1251
+* feat(cli/user): collect users info from multiple admins by @theus77 in https://github.com/ems-project/elasticms/pull/1234
+* feat(common/twig): add file reader functions (csv & excel) by @theus77 in https://github.com/ems-project/elasticms/pull/1264
+* feat(demo): allow access to file if in indexes by @theus77 in https://github.com/ems-project/elasticms/pull/1256
+* feat(demo): demo-FilesUpload + fix(submission) by @IsaMic in https://github.com/ems-project/elasticms/pull/1255
+* feat(demo): js translations from twig/skeleton by @theus77 in https://github.com/ems-project/elasticms/pull/1267
+* feat(demo/file-upload): styling & UX by @michaeldk in https://github.com/ems-project/elasticms/pull/1274
+* feat(demo/js-translations): add support for pattern replacement by @michaeldk in https://github.com/ems-project/elasticms/pull/1275
+### Bug Fixes
+* fix(admin-ui): fix ems font import by @michaeldk in https://github.com/ems-project/elasticms/pull/1277
+* fix(admin/versioning): ref search latest version by @Davidmattei in https://github.com/ems-project/elasticms/pull/1273
+### Code Refactoring
+* refactor(admin-ui-bundle/css): refactor CSS imports by @michaeldk in https://github.com/ems-project/elasticms/pull/1265
+* refactor(admin/ui): admin wysiwyg entities by @theus77 in https://github.com/ems-project/elasticms/pull/1235
+* refactor(admin/ui): documentaiton page and add alias  by @theus77 in https://github.com/ems-project/elasticms/pull/1236
+* refactor(admin/ui): draft in progress by @theus77 in https://github.com/ems-project/elasticms/pull/1246
+* refactor(admin/ui): elasticsearch and avoid json.twig templates by @theus77 in https://github.com/ems-project/elasticms/pull/1237
+* refactor(admin/ui): filter by @theus77 in https://github.com/ems-project/elasticms/pull/1242
+* refactor(admin/ui): i18n by @theus77 in https://github.com/ems-project/elasticms/pull/1245
+* refactor(admin/ui): navigation breadcrumbs in uploaded files by @theus77 in https://github.com/ems-project/elasticms/pull/1244
+* refactor(admin/ui): pagination.html.twig by @theus77 in https://github.com/ems-project/elasticms/pull/1238
+* refactor(admin/ui): query_search by @theus77 in https://github.com/ems-project/elasticms/pull/1241
+* refactor(admin/ui): schedule by @theus77 in https://github.com/ems-project/elasticms/pull/1240
+* refactor(admin/ui): search templates by @theus77 in https://github.com/ems-project/elasticms/pull/1239
+* refactor(admin/ui): trash and logs by @theus77 in https://github.com/ems-project/elasticms/pull/1243
+### Chores
+* chore(admin-ui/vite): add source map in dev mode for easier debug by @michaeldk in https://github.com/ems-project/elasticms/pull/1276
+* chore(dev): switch default EMS_CACHE redis to file_system by @theus77 in https://github.com/ems-project/elasticms/pull/1261
+* chore(docker): update deprecated minio env variables by @michaeldk in https://github.com/ems-project/elasticms/pull/1254
+* chore: add dev scripts for AdminUIBundle in makeFile by @theus77 in https://github.com/ems-project/elasticms/pull/1257
+
 ## 6.1.2 (2025-03-24)
 ### Features
 * feat(admin/api): add support for lazy indexing by @Davidmattei in https://github.com/ems-project/elasticms/pull/1268

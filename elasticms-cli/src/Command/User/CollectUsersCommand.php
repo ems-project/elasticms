@@ -48,7 +48,7 @@ class CollectUsersCommand extends AbstractCommand
      */
     private array $users = [];
     private string $username;
-    private ?string $filename;
+    private ?string $filename = null;
 
     public function __construct(private readonly AdminHelper $adminHelper, private readonly SpreadsheetGeneratorServiceInterface $spreadsheetGeneratorService)
     {

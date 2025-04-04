@@ -71,7 +71,7 @@ class EmschFormType extends AbstractType
     #[\Override]
     public function getBlockPrefix(): string
     {
-        return 'emsch_form';
+        return '';
     }
 
     private function getElementType(string $type): string

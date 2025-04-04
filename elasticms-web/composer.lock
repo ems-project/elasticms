@@ -1885,12 +1885,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSClientHelperBundle.git",
-                "reference": "235404841ad2fad2d7707ded1746898eb153f3ac"
+                "reference": "6ada65c2e040e3b694cab7c35e6282e5f4476a5a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSClientHelperBundle/zipball/235404841ad2fad2d7707ded1746898eb153f3ac",
-                "reference": "235404841ad2fad2d7707ded1746898eb153f3ac",
+                "url": "https://api.github.com/repos/ems-project/EMSClientHelperBundle/zipball/6ada65c2e040e3b694cab7c35e6282e5f4476a5a",
+                "reference": "6ada65c2e040e3b694cab7c35e6282e5f4476a5a",
                 "shasum": ""
             },
             "require": {
@@ -1934,7 +1934,7 @@
             "support": {
                 "source": "https://github.com/ems-project/EMSClientHelperBundle/tree/6.2.1"
             },
-            "time": "2025-04-04T08:48:47+00:00"
+            "time": "2025-04-04T10:05:18+00:00"
         },
         {
             "name": "elasticms/common-bundle",

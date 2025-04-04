@@ -15,6 +15,7 @@ class DockerRemoteFactory extends AbstractFactory
     final public const string RUNNER_REMOTE_DOCKER_BASE_URL = 'base-url';
     final public const string RUNNER_REMOTE_DOCKER_IMAGE = 'image';
     final public const string RUNNER_REMOTE_DOCKER_IMAGE_TAG = 'image-tag';
+    final public const string RUNNER_REMOTE_DOCKER_ENV = 'env';
 
     public function __construct(LoggerInterface $logger, ComposerInfo $composerInfo)
     {
@@ -32,6 +33,7 @@ class DockerRemoteFactory extends AbstractFactory
         $resolver->setDefaults([
             self::RUNNER_REMOTE_DOCKER_BASE_URL => 'http://localhost:2375',
             self::RUNNER_REMOTE_DOCKER_IMAGE_TAG => null,
+            self::RUNNER_REMOTE_DOCKER_ENV => [],
         ])
             ->setRequired([
                 self::RUNNER_REMOTE_DOCKER_IMAGE,
@@ -39,6 +41,7 @@ class DockerRemoteFactory extends AbstractFactory
             ->setAllowedTypes(self::RUNNER_REMOTE_DOCKER_BASE_URL, ['string'])
             ->setAllowedTypes(self::RUNNER_REMOTE_DOCKER_IMAGE, ['string'])
             ->setAllowedTypes(self::RUNNER_REMOTE_DOCKER_IMAGE_TAG, ['string', 'null'])
+            ->setAllowedTypes(self::RUNNER_REMOTE_DOCKER_ENV, ['array'])
         ;
         /** @var array{
          *     type: string,
@@ -46,6 +49,7 @@ class DockerRemoteFactory extends AbstractFactory
          *     base-url: string,
          *     image: string,
          *     image-tag: string|null,
+         *     env: string[],
          *  } $resolvedConfig */
         $resolvedConfig = $resolver->resolve($runnerConfig);
 
@@ -58,6 +62,7 @@ class DockerRemoteFactory extends AbstractFactory
             $resolvedConfig[self::RUNNER_REMOTE_DOCKER_BASE_URL],
             $resolvedConfig[self::RUNNER_REMOTE_DOCKER_IMAGE],
             $resolvedConfig[self::RUNNER_REMOTE_DOCKER_IMAGE_TAG],
+            $resolvedConfig[self::RUNNER_REMOTE_DOCKER_ENV],
         );
     }
 }

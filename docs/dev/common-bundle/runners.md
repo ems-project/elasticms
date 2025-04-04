@@ -61,6 +61,7 @@ To do this, you must specify the following configuration parameters:
 - `base-url`: The base URL to the Docker API (Default value: `http://localhost:2375`)
 - `image`: The name of a Docker image (required)
 - `image-tag`: The image tag. You can use the value `%ems_version%` to match the version tag of ElasticMS (Default value: `latest`)
+- `env`: Additional environment variables as an array of string (Default value: `[]`)
 
 Example:
 
@@ -78,7 +79,8 @@ Example:
       "app": "my-app",
       "app.kubernetes.io/part-of": "my-app",
       "type": "elasticms-runner"
-    }
+    },
+    "env": ["foo=bar"]
   }
 ]
 ```

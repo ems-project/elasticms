@@ -13,11 +13,15 @@ use GuzzleHttp\Client;
 {
     private Client $httpClient;
 
+    /**
+     * @param string[] $env
+     */
     public function __construct(
         readonly private string $tag,
         string $baseUrl,
         readonly private string $image,
         readonly private ?string $imageTag = null,
+        readonly private array $env = [],
     ) {
         $this->httpClient = HttpClientFactory::create($baseUrl);
     }
@@ -42,6 +46,7 @@ use GuzzleHttp\Client;
             'json' => [
                 'Image' => "$this->image:$imageTag",
                 'Cmd' => $command,
+                'Env' => $this->env,
                 'Tty' => true,
             ],
         ]);

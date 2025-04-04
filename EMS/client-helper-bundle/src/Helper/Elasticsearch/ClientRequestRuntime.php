@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\ClientHelperBundle\Helper\Elasticsearch;
 
 use EMS\ClientHelperBundle\Exception\SingleResultException;
+use EMS\ClientHelperBundle\Helper\Search\Manager;
 use EMS\ClientHelperBundle\Helper\Search\Search;
 use EMS\CommonBundle\Common\EMSLink;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
@@ -30,6 +31,7 @@ final class ClientRequestRuntime implements RuntimeExtensionInterface
         private readonly RequestStack $requestStack,
         private readonly LoggerInterface $logger,
         private readonly ElasticaService $elasticaService,
+        private readonly Manager $searchManager,
     ) {
     }
 
@@ -71,14 +73,25 @@ final class ClientRequestRuntime implements RuntimeExtensionInterface
         throw new HttpException($statusCode, $message, null, $headers, $code);
     }
 
-    public function searchConfig(): Search
+    /**
+     * @param array<mixed> $options
+     */
+    public function searchConfig(array $options): Search
     {
         $currentRequest = $this->requestStack->getCurrentRequest();
         if (null === $currentRequest) {
             throw new \RuntimeException('Unexpected null request');
         }
 
-        return new Search($currentRequest, $this->manager->getDefault());
+        return new Search($currentRequest, $this->manager->getDefault(), $options);
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    public function searchConfigExecute(Search $searchConfig): array
+    {
+        return $this->searchManager->search($searchConfig);
     }
 
     /**

@@ -191,7 +191,8 @@ class ViewController extends AbstractController
         return Navigation::admin()->add(
             label: t('key.views', [], 'emsco-core'),
             icon: $contentType->getIcon() ?? 'fa fa-book',
-            route: 'emsco_form_admin_index',
+            route: Routes::ADMIN_CONTENT_TYPE_VIEW_INDEX,
+            routeParams: ['contentType' => $contentType->getId()],
         );
     }
 }

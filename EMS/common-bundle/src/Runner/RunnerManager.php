@@ -70,4 +70,11 @@ class RunnerManager
 
         return $runner->status($id);
     }
+
+    public function output(string $tag, string $id): string
+    {
+        $runner = $this->getRunnerFromConfigs($tag);
+
+        return $runner->output($id);
+    }
 }

@@ -16,4 +16,6 @@ interface RunnerInterface
     public function start(array $command): string;
 
     public function status(string $id): RunnerStatus;
+
+    public function output(string $id): string;
 }

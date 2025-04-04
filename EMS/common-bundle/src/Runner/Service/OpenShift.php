@@ -98,4 +98,23 @@ class OpenShift implements RunnerInterface
 
         return $status;
     }
+
+    public function output(string $id): string
+    {
+        $response = $this->httpClient->get("/api/v1/namespaces/$this->namespace/pods", [
+            'query' => [
+                'selector' => "job-name=$id",
+            ],
+        ]);
+        $podsData = Json::decode($response->getBody()->getContents());
+        $pods = $podsData['items'] ?? [];
+
+        if (empty($pods)) {
+            throw new \RuntimeException('No pods available');
+        }
+        $podName = $pods[0]['metadata']['name'];
+        $logResponse = $this->httpClient->get("/api/v1/namespaces/$this->namespace/pods/$podName/log");
+
+        return $logResponse->getBody()->getContents();
+    }
 }

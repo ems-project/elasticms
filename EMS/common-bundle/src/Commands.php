@@ -20,4 +20,5 @@ class Commands
     final public const string SUBMISSION_FORWARD = 'ems:submissions:forward';
     final public const string RUNNER_START = 'ems:runner:start';
     final public const string RUNNER_STATUS = 'ems:runner:status';
+    final public const string RUNNER_OUTPUT = 'ems:runner:output';
 }

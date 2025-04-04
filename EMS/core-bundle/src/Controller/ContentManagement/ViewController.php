@@ -70,7 +70,7 @@ class ViewController extends AbstractController
                 parameters: ['type' => 'content_type_view', 'contentType' => $contentType->getSingularName()],
                 domain: 'emsco-core'
             ),
-            'breadcrumb' => Navigation::admin()->contentType($contentType)->contentTypeViews($contentType),
+            'breadcrumb' => $this->breadcrumb($contentType),
         ]);
     }
 
@@ -193,11 +193,6 @@ class ViewController extends AbstractController
 
     private function breadcrumb(ContentType $contentType): Navigation
     {
-        return Navigation::admin()->contentType($contentType)->add(
-            label: t('key.views', [], 'emsco-core'),
-            icon: $contentType->getIcon() ?? 'fa fa-book',
-            route: Routes::ADMIN_CONTENT_TYPE_VIEW_INDEX,
-            routeParams: ['contentType' => $contentType->getId()],
-        );
+        return Navigation::admin()->contentType($contentType)->contentTypeViews($contentType);
     }
 }

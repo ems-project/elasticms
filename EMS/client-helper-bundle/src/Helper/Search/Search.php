@@ -55,9 +55,12 @@ final class Search
     private string $sortOrder = 'asc';
     private readonly ?string $minimumShouldMatch;
 
-    public function __construct(private readonly Request $request, ClientRequest $clientRequest)
+    /**
+     * @param array<mixed> $options
+     */
+    public function __construct(private readonly Request $request, ClientRequest $clientRequest, ?array $options = null)
     {
-        $options = $this->getOptions($request, $clientRequest);
+        $options ??= $this->getOptions($request, $clientRequest);
 
         if (isset($options['facets'])) {
             @\trigger_error('Deprecated facets, please use filters setting', E_USER_DEPRECATED);

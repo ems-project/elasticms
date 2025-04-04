@@ -23,7 +23,7 @@ final readonly class SearchController
     {
         $template = $this->handler->handle($request);
 
-        $search = $this->manager->search($request);
+        $search = $this->manager->searchFromRequest($request);
         $template->context()->append($search);
 
         $response = new Response($template->render());

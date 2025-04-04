@@ -1,5 +1,18 @@
 # Changelog 6.x
 
+## 6.2.1 (2025-04-04)
+### Features
+* feat(client/emschForm): support validate block by @Davidmattei in https://github.com/ems-project/elasticms/pull/1287
+* feat(emsch/form): add "greaterThan" and "lessThan" constraints by @Davidmattei in https://github.com/ems-project/elasticms/pull/1283
+* feat(web/twig): add 'ems_search_config_execute' twig function by @Davidmattei in https://github.com/ems-project/elasticms/pull/1289
+### Bug Fixes
+* fix(admin/revision): set version revision on publish by @coppee in https://github.com/ems-project/elasticms/pull/1278
+* fix(admin/view): view type selects not showing labels by @theus77 in https://github.com/ems-project/elasticms/pull/1284
+* fix(common/bridge): add publish versions endpoint by @Davidmattei in https://github.com/ems-project/elasticms/pull/1285
+* fix(common/storage): s3 upload bug small files by @theus77 in https://github.com/ems-project/elasticms/pull/1280
+* fix(core/revision): api finalize autoSave check for _version_uuid by @Davidmattei in https://github.com/ems-project/elasticms/pull/1282
+* fix(core/revision): autoSave without merge by @Davidmattei in https://github.com/ems-project/elasticms/pull/1281
+
 ## 6.2.0 (2025-03-31)
 ### Features
 * feat(admin): add `forgot_password_url` configuration by @IsaMic in https://github.com/ems-project/elasticms/pull/1251

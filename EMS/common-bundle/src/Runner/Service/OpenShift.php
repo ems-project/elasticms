@@ -21,6 +21,7 @@ class OpenShift implements RunnerInterface
         readonly private string $tag,
         string $baseUrl,
         string $authKey,
+        readonly private string $namespace,
         readonly private string $image,
         readonly private ?string $imageTag = null,
         readonly private int $ttlSecondsAfterFinished = 3600,
@@ -58,7 +59,7 @@ class OpenShift implements RunnerInterface
             ],
         ], 6);
 
-        $response = $this->httpClient->post('jobs', [
+        $response = $this->httpClient->post("apis/batch/v1/namespaces/$this->namespace/jobs", [
             'body' => $yamlContent,
         ]);
         if (!\in_array($response->getStatusCode(), [200, 201], true)) {
@@ -75,7 +76,7 @@ class OpenShift implements RunnerInterface
 
     public function status(string $id): RunnerStatus
     {
-        $response = $this->httpClient->get("jobs/$id");
+        $response = $this->httpClient->get("apis/batch/v1/namespaces/$this->namespace/jobs/$id");
         $data = Json::decode($response->getBody()->getContents());
         $conditions = $data['status']['conditions'] ?? [];
         $active = $data['status']['active'] ?? 0;

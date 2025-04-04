@@ -14,6 +14,7 @@ class OpenShiftFactory extends AbstractFactory
     final public const string RUNNER_OPENSHIFT_BASE_URL = 'base-url';
     final public const string RUNNER_OPENSHIFT_AUTH_KEY = 'auth-key';
     final public const string RUNNER_OPENSHIFT_AUTH_KEY_FILE = 'auth-key-file';
+    final public const string RUNNER_OPENSHIFT_NAMESPACE = 'namespace';
     final public const string RUNNER_OPENSHIFT_IMAGE = 'image';
     final public const string RUNNER_OPENSHIFT_IMAGE_TAG = 'image-tag';
     final public const string RUNNER_OPENSHIFT_TTL_SECONDS_AFTER_FINISHED = 'ttl-seconds-after-finished';
@@ -40,16 +41,18 @@ class OpenShiftFactory extends AbstractFactory
             ->setRequired([
                 self::RUNNER_OPENSHIFT_BASE_URL,
                 self::RUNNER_OPENSHIFT_AUTH_KEY,
+                self::RUNNER_OPENSHIFT_NAMESPACE,
                 self::RUNNER_OPENSHIFT_IMAGE,
             ])
             ->setAllowedTypes(self::RUNNER_OPENSHIFT_BASE_URL, ['string'])
+            ->setAllowedTypes(self::RUNNER_OPENSHIFT_NAMESPACE, ['string'])
             ->setAllowedTypes(self::RUNNER_OPENSHIFT_AUTH_KEY, ['string', 'null'])
             ->setAllowedTypes(self::RUNNER_OPENSHIFT_AUTH_KEY_FILE, ['string', 'null'])
             ->setAllowedTypes(self::RUNNER_OPENSHIFT_IMAGE, ['string'])
             ->setAllowedTypes(self::RUNNER_OPENSHIFT_IMAGE_TAG, ['string', 'null'])
             ->setAllowedTypes(self::RUNNER_OPENSHIFT_TTL_SECONDS_AFTER_FINISHED, ['int'])
         ;
-        /** @var array{type: string, tag: string, base-url: string, auth-key: string|null, auth-key-file: string|null, image: string, image-tag: string|null, ttl-seconds-after-finished: int} $resolvedConfig */
+        /** @var array{type: string, tag: string, base-url: string, auth-key: string|null, auth-key-file: string|null, namespace: string, image: string, image-tag: string|null, ttl-seconds-after-finished: int} $resolvedConfig */
         $resolvedConfig = $resolver->resolve($runnerConfig);
 
         if (self::RUNNER_TYPE !== $resolvedConfig[self::RUNNER_CONFIG_TYPE]) {
@@ -74,6 +77,7 @@ class OpenShiftFactory extends AbstractFactory
             $resolvedConfig[self::RUNNER_CONFIG_TAG],
             $resolvedConfig[self::RUNNER_OPENSHIFT_BASE_URL],
             $authKey,
+            $resolvedConfig[self::RUNNER_OPENSHIFT_NAMESPACE],
             $resolvedConfig[self::RUNNER_OPENSHIFT_IMAGE],
             $resolvedConfig[self::RUNNER_OPENSHIFT_IMAGE_TAG],
             $resolvedConfig[self::RUNNER_OPENSHIFT_TTL_SECONDS_AFTER_FINISHED],

@@ -25,6 +25,8 @@ class OpenShift implements RunnerInterface
         readonly private string $image,
         readonly private ?string $imageTag = null,
         readonly private int $ttlSecondsAfterFinished = 3600,
+        readonly private int $backoffLimit = 0,
+        readonly private int $activeDeadlineSeconds = 60,
     ) {
         $this->httpClient = HttpClientFactory::create($baseUrl, [
             'Authorization' => \sprintf('Bearer %s', $authKey),
@@ -46,6 +48,8 @@ class OpenShift implements RunnerInterface
             ],
             'spec' => [
                 'ttlSecondsAfterFinished' => $this->ttlSecondsAfterFinished,
+                'backoffLimit' => $this->backoffLimit,
+                'activeDeadlineSeconds' => $this->activeDeadlineSeconds,
                 'template' => [
                     'spec' => [
                         'containers' => [[

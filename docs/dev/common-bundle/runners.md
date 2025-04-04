@@ -26,3 +26,5 @@ To do this, you must specify the following configuration parameters:
 - `image`: The name of a Docker image (required)
 - `image-tag`: The image tag. You can use the value `%ems_version%` to match the version tag of ElasticMS (optional)
 - `ttl-seconds-after-finished`: Defines the time-to-live (in seconds) after the job has finished (optional) (default value `3600`)
+- `backoff-limit`:  Number of restarts allowed after a pod failure (default: `0`)
+- `active-deadline-seconds`:  Abort the job if it is not completed within the time limit (in seconds) (default: `60`)

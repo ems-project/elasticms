@@ -8,8 +8,9 @@ use EMS\CommonBundle\Runner\Service\RunnerInterface;
 
 interface RunnerFactoryInterface
 {
-    public const RUNNER_CONFIG_TYPE = 'type';
-    public const RUNNER_CONFIG_TAG = 'tag';
+    public const string RUNNER_CONFIG_TYPE = 'type';
+    public const string RUNNER_CONFIG_TAG = 'tag';
+    final public const string RUNNER_OPENSHIFT_EMS_VERSION_REPLACER = '%ems_version%';
 
     public function getRunnerType(): string;
 

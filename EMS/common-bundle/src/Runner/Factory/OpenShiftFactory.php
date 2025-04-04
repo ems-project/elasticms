@@ -22,11 +22,10 @@ class OpenShiftFactory extends AbstractFactory
     final public const string RUNNER_OPENSHIFT_BACKOFF_LIMIT = 'backoff-limit';
     final public const string RUNNER_OPENSHIFT_ACTIVE_DEADLINE_SECONDS = 'active-deadline-seconds';
     final public const string RUNNER_OPENSHIFT_LABELS = 'labels';
-    final public const string RUNNER_OPENSHIFT_EMS_VERSION_REPLACER = '%ems_version%';
 
-    public function __construct(LoggerInterface $logger, private readonly ComposerInfo $composerInfo)
+    public function __construct(LoggerInterface $logger, ComposerInfo $composerInfo)
     {
-        parent::__construct($logger);
+        parent::__construct($logger, $composerInfo);
     }
 
     public function getRunnerType(): string
@@ -97,13 +96,7 @@ class OpenShiftFactory extends AbstractFactory
             throw new \RuntimeException(\sprintf('An %s or %s is required.', self::RUNNER_OPENSHIFT_AUTH_KEY, self::RUNNER_OPENSHIFT_AUTH_KEY_FILE));
         }
 
-        $imageTag = $resolvedConfig[self::RUNNER_OPENSHIFT_IMAGE_TAG];
-        if (self::RUNNER_OPENSHIFT_EMS_VERSION_REPLACER === $imageTag) {
-            $imageTag = $this->composerInfo->getVersionPackages()['common'] ?? null;
-            if (null === $imageTag) {
-                $this->logger->warning('ElasticMS\'s version package is not configured.');
-            }
-        }
+        $imageTag = $this->getCommonVersionTag($resolvedConfig[self::RUNNER_OPENSHIFT_IMAGE_TAG]);
 
         return new OpenShift(
             $resolvedConfig[self::RUNNER_CONFIG_TAG],

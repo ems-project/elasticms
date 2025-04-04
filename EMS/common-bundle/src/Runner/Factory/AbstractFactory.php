@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Runner\Factory;
 
+use EMS\CommonBundle\Common\Composer\ComposerInfo;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 abstract class AbstractFactory implements RunnerFactoryInterface
 {
-    public function __construct(readonly protected LoggerInterface $logger)
+    public function __construct(readonly protected LoggerInterface $logger, readonly private ComposerInfo $composerInfo)
     {
     }
 
@@ -24,5 +25,17 @@ abstract class AbstractFactory implements RunnerFactoryInterface
         ;
 
         return $resolver;
+    }
+
+    public function getCommonVersionTag(?string $imageTag): ?string
+    {
+        if (self::RUNNER_OPENSHIFT_EMS_VERSION_REPLACER === $imageTag) {
+            $imageTag = $this->composerInfo->getVersionPackages()['common'] ?? null;
+            if (null === $imageTag) {
+                $this->logger->warning('ElasticMS\'s version package is not configured.');
+            }
+        }
+
+        return $imageTag;
     }
 }

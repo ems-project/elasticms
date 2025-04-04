@@ -4,15 +4,12 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Runner;
 
-use EMS\CommonBundle\Exception\RunnerNotFoundException;
 use EMS\CommonBundle\Runner\Factory\RunnerFactoryInterface;
 use EMS\CommonBundle\Runner\Service\RunnerInterface;
 use Psr\Log\LoggerInterface;
 
 class RunnerManager
 {
-    /** @var RunnerInterface[] */
-    private array $runners = [];
     /** @var RunnerFactoryInterface[] */
     private array $factories = [];
 
@@ -28,7 +25,6 @@ class RunnerManager
             }
             $this->addRunnerFactory($factory);
         }
-        $this->registerRunnersFromConfigs();
     }
 
     private function addRunnerFactory(RunnerFactoryInterface $factory): void
@@ -36,10 +32,13 @@ class RunnerManager
         $this->factories[$factory->getRunnerType()] = $factory;
     }
 
-    private function registerRunnersFromConfigs(): void
+    private function getRunnerFromConfigs(string $tag): RunnerInterface
     {
         foreach ($this->runnerConfigs as $runnerConfig) {
-            $type = $runnerConfig['type'] ?? null;
+            if ($tag !== ($runnerConfig[RunnerFactoryInterface::RUNNER_CONFIG_TAG] ?? null)) {
+                continue;
+            }
+            $type = $runnerConfig[RunnerFactoryInterface::RUNNER_CONFIG_TYPE] ?? null;
             if (null === $type) {
                 $this->logger->error('Runner type not defined.');
                 continue;
@@ -49,16 +48,10 @@ class RunnerManager
                 $this->logger->error(\sprintf('Runner factory "%s" was not found.', $factory));
                 continue;
             }
-            $runner = $factory->createService($runnerConfig);
-            if (null !== $runner) {
-                $this->addRunner($runner);
-            }
-        }
-    }
 
-    private function addRunner(RunnerInterface $runner): void
-    {
-        $this->runners[$runner->getTag()] = $runner;
+            return $factory->createRunner($runnerConfig);
+        }
+        throw new \RuntimeException(\sprintf('Runner for tag "%s" not found.', $tag));
     }
 
     /**
@@ -66,10 +59,7 @@ class RunnerManager
      */
     public function start(string $tag, array $command): string
     {
-        $runner = $this->runners[$tag] ?? null;
-        if (null === $runner) {
-            throw new RunnerNotFoundException($tag);
-        }
+        $runner = $this->getRunnerFromConfigs($tag);
 
         return $runner->start($command);
     }

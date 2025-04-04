@@ -17,10 +17,11 @@ class OpenShift implements RunnerInterface
     private UuidInterface $uuid;
 
     public function __construct(
+        readonly private string $tag,
         string $baseUrl,
         string $authKey,
         readonly private string $image,
-        readonly private ?string $tag = null,
+        readonly private ?string $imageTag = null,
         readonly private int $ttlSecondsAfterFinished = 3600,
     ) {
         $this->httpClient = HttpClientFactory::create($baseUrl, [
@@ -47,7 +48,7 @@ class OpenShift implements RunnerInterface
                     'spec' => [
                         'containers' => [[
                             'name' => 'ems-runner-container',
-                            'image' => null !== $this->tag ? "$this->image:$this->tag" : $this->image,
+                            'image' => null !== $this->imageTag ? "$this->image:$this->imageTag" : $this->image,
                             'command' => $command,
                         ]],
                         'restartPolicy' => 'Never',
@@ -67,6 +68,6 @@ class OpenShift implements RunnerInterface
 
     public function getTag(): string
     {
-        return 'openshift';
+        return $this->tag;
     }
 }

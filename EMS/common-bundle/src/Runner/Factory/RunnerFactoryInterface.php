@@ -8,10 +8,13 @@ use EMS\CommonBundle\Runner\Service\RunnerInterface;
 
 interface RunnerFactoryInterface
 {
+    public const RUNNER_CONFIG_TYPE = 'type';
+    public const RUNNER_CONFIG_TAG = 'tag';
+
     public function getRunnerType(): string;
 
     /**
      * @param mixed[] $runnerConfig
      */
-    public function createService(array $runnerConfig): ?RunnerInterface;
+    public function createRunner(array $runnerConfig): RunnerInterface;
 }

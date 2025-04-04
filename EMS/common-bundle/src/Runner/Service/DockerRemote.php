@@ -22,8 +22,9 @@ use GuzzleHttp\Client;
         readonly private string $image,
         readonly private ?string $imageTag = null,
         readonly private array $env = [],
+        ?string $socketPath = null,
     ) {
-        $this->httpClient = HttpClientFactory::create($baseUrl);
+        $this->httpClient = HttpClientFactory::create(baseUrl: $baseUrl, socketPath: $socketPath);
     }
 
     public function getTag(): string

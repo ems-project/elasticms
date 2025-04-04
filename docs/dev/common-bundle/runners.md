@@ -62,25 +62,38 @@ To do this, you must specify the following configuration parameters:
 - `image`: The name of a Docker image (required)
 - `image-tag`: The image tag. You can use the value `%ems_version%` to match the version tag of ElasticMS (Default value: `latest`)
 - `env`: Additional environment variables as an array of string (Default value: `[]`)
+- `socket-path`: Allow to use a local docker via the UNIX socket file 
+
+Warning: this type of runner does not clean up the containers it creates.
 
 Example:
 
 ```json
 [
   {
-    "type": "openshift",
-    "tag": "toto",
-    "base-url": "https://api.paas.my-company.tld:6443/",
-    "auth-key": "sha256~my-priVatE_aUthkEy",
-    "namespace": "my-team-project",
-    "image": "elasticms/cli",
-    "image-tag": "%ems_version%",
-    "labels": {
-      "app": "my-app",
-      "app.kubernetes.io/part-of": "my-app",
-      "type": "elasticms-runner"
-    },
-    "env": ["foo=bar"]
+    "type": "docker-remote",
+    "tag": "docker",
+    "image": "busybox",
+    "env": [
+      "foo=bar"
+    ]
+  }
+]
+```
+
+Example with a UNIX socket file:
+
+```json
+[
+  {
+    "type": "docker-remote",
+    "tag": "docker",
+    "image": "busybox",
+    "env": [
+      "foo=bar"
+    ],
+    "base-url": "http://localhost",
+    "socket-path": "/var/run/docker.sock"
   }
 ]
 ```

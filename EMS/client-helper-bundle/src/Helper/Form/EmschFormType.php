@@ -43,23 +43,6 @@ class EmschFormType extends AbstractType
         }
     }
 
-    /** @param array<string, mixed> $data */
-    public function validateForm(array $data, ExecutionContextInterface $context, TemplateInterface $template): void
-    {
-        $template->context()->append(['submitData' => $data]);
-
-        /** @var array<int, array{ 'path'?: string, 'message': string }> $errors */
-        $errors = $template->jsonBlock(EmschFormBlock::VALIDATE->value);
-
-        foreach ($errors as $error) {
-            $violation = $context->buildViolation($error['message']);
-            if (isset($error['path'])) {
-                $violation->atPath($error['path']);
-            }
-            $violation->addViolation();
-        }
-    }
-
     #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
@@ -111,6 +94,23 @@ class EmschFormType extends AbstractType
             'textarea' => SymfonyType\TextareaType::class,
             default => throw new \RuntimeException(\sprintf('Unknown form type "%s"', $type)),
         };
+    }
+
+    /** @param array<string, mixed> $data */
+    private function validateForm(array $data, ExecutionContextInterface $context, TemplateInterface $template): void
+    {
+        $template->context()->append(['submitData' => $data]);
+
+        /** @var array<int, array{ 'path'?: string, 'message': string }> $errors */
+        $errors = $template->jsonBlock(EmschFormBlock::VALIDATE->value);
+
+        foreach ($errors as $error) {
+            $violation = $context->buildViolation($error['message']);
+            if (isset($error['path'])) {
+                $violation->atPath($error['path']);
+            }
+            $violation->addViolation();
+        }
     }
 
     /**

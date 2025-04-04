@@ -56,7 +56,7 @@ class OpenShiftFactory extends AbstractFactory
         $resolvedConfig = $resolver->resolve($runnerConfig);
 
         if (self::RUNNER_TYPE !== $resolvedConfig[self::RUNNER_CONFIG_TYPE]) {
-            throw new \RuntimeException(\sprintf('Config mismatched for openshift: %s', $resolvedConfig[self::RUNNER_CONFIG_TYPE]));
+            throw new \RuntimeException(\sprintf('Config mismatched for openshift factory: %s', $resolvedConfig[self::RUNNER_CONFIG_TYPE]));
         }
 
         $authKey = $resolvedConfig[self::RUNNER_OPENSHIFT_AUTH_KEY];

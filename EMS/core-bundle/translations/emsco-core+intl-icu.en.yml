@@ -386,6 +386,7 @@ type:
             job_schedule    {Create schedule}
             query_search    {Create query search}
             search          {Create search}
+            view            {Create view}
             wysiwyg_profile {Create profile}
             other           {Create}
         }
@@ -441,5 +442,6 @@ type:
             job           {Running process}
             job_schedule  {When you are not at work}
             log           {Who did what}
+            view          {Customize the menu}
             other         {}
         }

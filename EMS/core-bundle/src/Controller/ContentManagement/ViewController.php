@@ -118,6 +118,11 @@ class ViewController extends AbstractController
         return $this->render("@$this->templateNamespace/view/add.html.twig", [
             'contentType' => $contentType,
             'form' => $form->createView(),
+            'title' => t('type.title_create', ['type' => 'view'], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'view'], 'emsco-core'),
+            'breadcrumb' => $this->breadcrumb($contentType)->add(
+                t('type.title_create', ['type' => 'view'], 'emsco-core')
+            ),
         ]);
     }
 
@@ -179,5 +184,14 @@ class ViewController extends AbstractController
         return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_VIEW_INDEX, [
             'contentType' => $view->getContentType()->getId(),
         ]);
+    }
+
+    private function breadcrumb(ContentType $contentType): Navigation
+    {
+        return Navigation::admin()->add(
+            label: t('key.views', [], 'emsco-core'),
+            icon: $contentType->getIcon() ?? 'fa fa-book',
+            route: 'emsco_form_admin_index',
+        );
     }
 }

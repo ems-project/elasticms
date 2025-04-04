@@ -6,7 +6,7 @@ namespace EMS\CommonBundle\Command\Runner;
 
 use EMS\CommonBundle\Commands;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
-use EMS\CommonBundle\Helper\Runner\OpenShiftJob;
+use EMS\CommonBundle\Runner\RunnerManager;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -26,6 +26,11 @@ class StartCommand extends AbstractCommand
      * @var string[]
      */
     private array $command;
+
+    public function __construct(readonly private RunnerManager $runnerManager)
+    {
+        parent::__construct();
+    }
 
     #[\Override]
     protected function configure(): void
@@ -47,11 +52,8 @@ class StartCommand extends AbstractCommand
     #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $runner = new OpenShiftJob(
-            'https://api.ssb-02.paas.cloud.ssbdc.be:6443/apis/batch/v1/namespaces/webagency-bu-inami-services/',
-            'sha256~E2MROs10-X9NP-WWAToQNdXe9CEZT2dOtrD7RYM7uEY',
-        );
-        $runner->start($this->command);
+        $id = $this->runnerManager->start($this->tag, $this->command);
+        $this->io->title(\sprintf('Runner started: %s', $id));
 
         return self::EXECUTE_SUCCESS;
     }

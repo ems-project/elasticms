@@ -63,4 +63,11 @@ class RunnerManager
 
         return $runner->start($command);
     }
+
+    public function status(string $tag, string $id): RunnerStatus
+    {
+        $runner = $this->getRunnerFromConfigs($tag);
+
+        return $runner->status($id);
+    }
 }

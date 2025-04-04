@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Runner\Service;
 
 use EMS\CommonBundle\Common\HttpClientFactory;
+use EMS\CommonBundle\Runner\RunnerStatus;
 use EMS\Helpers\Standard\Json;
 use GuzzleHttp\Client;
 use Ramsey\Uuid\Uuid;
@@ -61,7 +62,7 @@ class OpenShift implements RunnerInterface
             'body' => $yamlContent,
         ]);
         if (!\in_array($response->getStatusCode(), [200, 201], true)) {
-            throw new \RuntimeException(\sprintf('Response status code: %d',$response->getStatusCode()));  
+            throw new \RuntimeException(\sprintf('Response status code: %d', $response->getStatusCode()));
         }
 
         return $this->uuid->toString();
@@ -70,5 +71,30 @@ class OpenShift implements RunnerInterface
     public function getTag(): string
     {
         return $this->tag;
+    }
+
+    public function status(string $id): RunnerStatus
+    {
+        $response = $this->httpClient->get("jobs/$id");
+        $data = Json::decode($response->getBody()->getContents());
+        $conditions = $data['status']['conditions'] ?? [];
+        $active = $data['status']['active'] ?? 0;
+        $status = RunnerStatus::Unknown;
+
+        foreach ($conditions as $condition) {
+            if ('Complete' === $condition['type'] && 'True' === $condition['status']) {
+                $status = RunnerStatus::Succeeded;
+                break;
+            }
+            if ('Failed' === $condition['type'] && 'True' === $condition['status']) {
+                $status = RunnerStatus::Failed;
+                break;
+            }
+        }
+        if (RunnerStatus::Unknown === $status && $active > 0) {
+            $status = RunnerStatus::Running;
+        }
+
+        return $status;
     }
 }

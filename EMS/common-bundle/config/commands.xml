@@ -128,5 +128,9 @@
             <argument type="service" id="ems_common.runner.manager" />
             <tag name="console.command" />
         </service>
+        <service id="ems.command.runner.status" class="EMS\CommonBundle\Command\Runner\StatusCommand">
+            <argument type="service" id="ems_common.runner.manager" />
+            <tag name="console.command" />
+        </service>
     </services>
 </container>

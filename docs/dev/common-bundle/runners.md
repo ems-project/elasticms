@@ -17,8 +17,8 @@ This means you can define multiple runner configurations of the same type.
 This type of runner allows launching a runner via an OpenShift Job.  
 To do this, you must specify the following configuration parameters:
 
-- `type`: Must be set to `openshift`
-- `tag`: A name to identify this specific OpenShift runner configuration
+- `type`: Must be set to `openshift` (required)
+- `tag`: A name to identify this specific OpenShift runner configuration (required)
 - `base-url`: The base URL of your OpenShift PaaS (required)
 - `auth-key`: An authentication key (optional if `auth-key-file` is defined)
 - `auth-key-file`: A path to a file containing an authentication key (optional if `auth-key` is defined)

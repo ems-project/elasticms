@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Runner\Factory;
 
+use EMS\CommonBundle\Common\Composer\ComposerInfo;
 use EMS\CommonBundle\Runner\Service\OpenShift;
 use EMS\CommonBundle\Runner\Service\RunnerInterface;
 use Psr\Log\LoggerInterface;
@@ -18,8 +19,9 @@ class OpenShiftFactory extends AbstractFactory
     final public const string RUNNER_OPENSHIFT_IMAGE = 'image';
     final public const string RUNNER_OPENSHIFT_IMAGE_TAG = 'image-tag';
     final public const string RUNNER_OPENSHIFT_TTL_SECONDS_AFTER_FINISHED = 'ttl-seconds-after-finished';
+    final public const string RUNNER_OPENSHIFT_EMS_VERSION_REPLACER = '%ems_version%';
 
-    public function __construct(LoggerInterface $logger)
+    public function __construct(LoggerInterface $logger, private readonly ComposerInfo $composerInfo)
     {
         parent::__construct($logger);
     }
@@ -73,13 +75,21 @@ class OpenShiftFactory extends AbstractFactory
             throw new \RuntimeException(\sprintf('An %s or %s is required.', self::RUNNER_OPENSHIFT_AUTH_KEY, self::RUNNER_OPENSHIFT_AUTH_KEY_FILE));
         }
 
+        $imageTag = $resolvedConfig[self::RUNNER_OPENSHIFT_IMAGE_TAG];
+        if (self::RUNNER_OPENSHIFT_EMS_VERSION_REPLACER === $imageTag) {
+            $imageTag = $this->composerInfo->getVersionPackages()['common'] ?? null;
+            if (null === $imageTag) {
+                $this->logger->warning('ElasticMS\'s version package is not configured.');
+            }
+        }
+
         return new OpenShift(
             $resolvedConfig[self::RUNNER_CONFIG_TAG],
             $resolvedConfig[self::RUNNER_OPENSHIFT_BASE_URL],
             $authKey,
             $resolvedConfig[self::RUNNER_OPENSHIFT_NAMESPACE],
             $resolvedConfig[self::RUNNER_OPENSHIFT_IMAGE],
-            $resolvedConfig[self::RUNNER_OPENSHIFT_IMAGE_TAG],
+            $imageTag,
             $resolvedConfig[self::RUNNER_OPENSHIFT_TTL_SECONDS_AFTER_FINISHED],
         );
     }

@@ -15,6 +15,7 @@
 
         <service id="ems_common.runner.factory.openshift" class="EMS\CommonBundle\Runner\Factory\OpenShiftFactory">
             <argument type="service" id="logger" />
+            <argument type="service" id="ems_common.composer.info"/>
             <tag name="ems_common.runner.factory" alias="openshift"/>
         </service>
     </services>

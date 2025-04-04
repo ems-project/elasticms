@@ -19,9 +19,9 @@ class OpenShiftFactory extends AbstractFactory
     final public const string RUNNER_OPENSHIFT_IMAGE = 'image';
     final public const string RUNNER_OPENSHIFT_IMAGE_TAG = 'image-tag';
     final public const string RUNNER_OPENSHIFT_TTL_SECONDS_AFTER_FINISHED = 'ttl-seconds-after-finished';
-    final public const string RUNNER_OPENSHIFT_BACKOFF_LIMIT= 'backoff-limit';
-    final public const string RUNNER_OPENSHIFT_ACTIVE_DEADLINE_SECONDS= 'active-deadline-seconds';
-    final public const string RUNNER_OPENSHIFT_LABELS= 'labels';
+    final public const string RUNNER_OPENSHIFT_BACKOFF_LIMIT = 'backoff-limit';
+    final public const string RUNNER_OPENSHIFT_ACTIVE_DEADLINE_SECONDS = 'active-deadline-seconds';
+    final public const string RUNNER_OPENSHIFT_LABELS = 'labels';
     final public const string RUNNER_OPENSHIFT_EMS_VERSION_REPLACER = '%ems_version%';
 
     public function __construct(LoggerInterface $logger, private readonly ComposerInfo $composerInfo)
@@ -63,7 +63,20 @@ class OpenShiftFactory extends AbstractFactory
             ->setAllowedTypes(self::RUNNER_OPENSHIFT_ACTIVE_DEADLINE_SECONDS, ['int'])
             ->setAllowedTypes(self::RUNNER_OPENSHIFT_LABELS, ['array'])
         ;
-        /** @var array{type: string, tag: string, base-url: string, auth-key: string|null, auth-key-file: string|null, namespace: string, image: string, image-tag: string|null, ttl-seconds-after-finished: int, backoff-limit: int, active-deadline-seconds: int} $resolvedConfig */
+        /** @var array{
+         *     type: string,
+         *     tag: string,
+         *     base-url: string,
+         *     auth-key: string|null,
+         *     auth-key-file: string|null,
+         *     namespace: string,
+         *     image: string,
+         *     image-tag: string|null,
+         *     ttl-seconds-after-finished: int,
+         *     backoff-limit: int,
+         *     active-deadline-seconds: int,
+         *     labels: array<string, string>
+         *         } $resolvedConfig */
         $resolvedConfig = $resolver->resolve($runnerConfig);
 
         if (self::RUNNER_TYPE !== $resolvedConfig[self::RUNNER_CONFIG_TYPE]) {

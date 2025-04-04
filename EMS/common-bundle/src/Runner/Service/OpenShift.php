@@ -60,10 +60,11 @@ class OpenShift implements RunnerInterface
         $response = $this->httpClient->post('jobs', [
             'body' => $yamlContent,
         ]);
-        $responseBody = Json::decode($response->getBody()->getContents());
-        \dump($responseBody);
+        if (!\in_array($response->getStatusCode(), [200, 201], true)) {
+            throw new \RuntimeException(\sprintf('Response status code: %d',$response->getStatusCode()));  
+        }
 
-        return 'toto';
+        return $this->uuid->toString();
     }
 
     public function getTag(): string

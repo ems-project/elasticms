@@ -53,7 +53,7 @@ class StartCommand extends AbstractCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $id = $this->runnerManager->start($this->tag, $this->command);
-        $this->io->title(\sprintf('Runner started: %s', $id));
+        $this->io->title(\sprintf('Runner "%s" started with id: %s', $this->tag, $id));
 
         return self::EXECUTE_SUCCESS;
     }

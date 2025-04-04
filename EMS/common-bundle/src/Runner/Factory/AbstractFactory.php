@@ -17,10 +17,10 @@ abstract class AbstractFactory implements RunnerFactoryInterface
     {
         $resolver = new OptionsResolver();
         $resolver
-            ->setAllowedTypes(self::RUNNER_CONFIG_TYPE, 'string')
-            ->setAllowedTypes(self::RUNNER_CONFIG_TAG, 'string')
             ->setRequired(self::RUNNER_CONFIG_TYPE)
             ->setRequired(self::RUNNER_CONFIG_TAG)
+            ->setAllowedTypes(self::RUNNER_CONFIG_TYPE, ['string'])
+            ->setAllowedTypes(self::RUNNER_CONFIG_TAG, ['string'])
         ;
 
         return $resolver;

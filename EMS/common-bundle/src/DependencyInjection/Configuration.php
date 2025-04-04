@@ -26,6 +26,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->variableNode('storages')->defaultValue([])->end()
+                ->variableNode('runners')->defaultValue([])->end()
                 ->variableNode('store_data_services')->defaultValue([])->end()
                 ->booleanNode('profiler')->defaultFalse()->end()
                 ->scalarNode('hash_algo')->defaultValue('sha1')->end()

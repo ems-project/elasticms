@@ -125,6 +125,7 @@
             <tag name="console.command" />
         </service>
         <service id="ems.command.runner.start" class="EMS\CommonBundle\Command\Runner\StartCommand">
+            <argument type="service" id="ems_common.runner.manager" />
             <tag name="console.command" />
         </service>
     </services>

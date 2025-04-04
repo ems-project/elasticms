@@ -50,3 +50,35 @@ Example:
   }
 ]
 ```
+
+## Docker Remote
+
+This type of runner allows launching a runner via a remote Docker API.  
+To do this, you must specify the following configuration parameters:
+
+- `type`: Must be set to `docker-remote` (required)
+- `tag`: A name to identify this specific Docker Remote runner configuration (required)
+- `base-url`: The base URL to the Docker API (Default value: `http://localhost:2375`)
+- `image`: The name of a Docker image (required)
+- `image-tag`: The image tag. You can use the value `%ems_version%` to match the version tag of ElasticMS (Default value: `latest`)
+
+Example:
+
+```json
+[
+  {
+    "type": "openshift",
+    "tag": "toto",
+    "base-url": "https://api.paas.my-company.tld:6443/",
+    "auth-key": "sha256~my-priVatE_aUthkEy",
+    "namespace": "my-team-project",
+    "image": "elasticms/cli",
+    "image-tag": "%ems_version%",
+    "labels": {
+      "app": "my-app",
+      "app.kubernetes.io/part-of": "my-app",
+      "type": "elasticms-runner"
+    }
+  }
+]
+```

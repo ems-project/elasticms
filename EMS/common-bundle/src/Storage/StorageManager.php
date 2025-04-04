@@ -45,7 +45,7 @@ class StorageManager implements FileManagerInterface
     {
         foreach ($factories as $factory) {
             if (!$factory instanceof StorageFactoryInterface) {
-                throw new \RuntimeException('Unexpected StorageInterface class');
+                throw new \RuntimeException('Unexpected StorageFactoryInterface class');
             }
             $this->addStorageFactory($factory);
         }

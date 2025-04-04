@@ -28,3 +28,25 @@ To do this, you must specify the following configuration parameters:
 - `ttl-seconds-after-finished`: Defines the time-to-live (in seconds) after the job has finished (optional) (default value `3600`)
 - `backoff-limit`:  Number of restarts allowed after a pod failure (default: `0`)
 - `active-deadline-seconds`:  Abort the job if it is not completed within the time limit (in seconds) (default: `60`)
+- `labels`:  Add OpenShift labels to the Job and the Pod
+
+Example:
+
+```json
+[
+  {
+    "type": "openshift",
+    "tag": "toto",
+    "base-url": "https://api.paas.my-company.tld:6443/",
+    "auth-key": "sha256~my-priVatE_aUthkEy",
+    "namespace": "my-team-project",
+    "image": "elasticms/cli",
+    "image-tag": "%ems_version%",
+    "labels": {
+      "app": "my-app",
+      "app.kubernetes.io/part-of": "my-app",
+      "type": "elasticms-runner"
+    }
+  }
+]
+```

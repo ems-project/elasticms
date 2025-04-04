@@ -21,6 +21,7 @@ class OpenShiftFactory extends AbstractFactory
     final public const string RUNNER_OPENSHIFT_TTL_SECONDS_AFTER_FINISHED = 'ttl-seconds-after-finished';
     final public const string RUNNER_OPENSHIFT_BACKOFF_LIMIT= 'backoff-limit';
     final public const string RUNNER_OPENSHIFT_ACTIVE_DEADLINE_SECONDS= 'active-deadline-seconds';
+    final public const string RUNNER_OPENSHIFT_LABELS= 'labels';
     final public const string RUNNER_OPENSHIFT_EMS_VERSION_REPLACER = '%ems_version%';
 
     public function __construct(LoggerInterface $logger, private readonly ComposerInfo $composerInfo)
@@ -43,6 +44,7 @@ class OpenShiftFactory extends AbstractFactory
                 self::RUNNER_OPENSHIFT_TTL_SECONDS_AFTER_FINISHED => 3600,
                 self::RUNNER_OPENSHIFT_BACKOFF_LIMIT => 0,
                 self::RUNNER_OPENSHIFT_ACTIVE_DEADLINE_SECONDS => 60,
+                self::RUNNER_OPENSHIFT_LABELS => [],
             ])
             ->setRequired([
                 self::RUNNER_OPENSHIFT_BASE_URL,
@@ -59,6 +61,7 @@ class OpenShiftFactory extends AbstractFactory
             ->setAllowedTypes(self::RUNNER_OPENSHIFT_TTL_SECONDS_AFTER_FINISHED, ['int'])
             ->setAllowedTypes(self::RUNNER_OPENSHIFT_BACKOFF_LIMIT, ['int'])
             ->setAllowedTypes(self::RUNNER_OPENSHIFT_ACTIVE_DEADLINE_SECONDS, ['int'])
+            ->setAllowedTypes(self::RUNNER_OPENSHIFT_LABELS, ['array'])
         ;
         /** @var array{type: string, tag: string, base-url: string, auth-key: string|null, auth-key-file: string|null, namespace: string, image: string, image-tag: string|null, ttl-seconds-after-finished: int, backoff-limit: int, active-deadline-seconds: int} $resolvedConfig */
         $resolvedConfig = $resolver->resolve($runnerConfig);
@@ -99,6 +102,7 @@ class OpenShiftFactory extends AbstractFactory
             $resolvedConfig[self::RUNNER_OPENSHIFT_TTL_SECONDS_AFTER_FINISHED],
             $resolvedConfig[self::RUNNER_OPENSHIFT_BACKOFF_LIMIT],
             $resolvedConfig[self::RUNNER_OPENSHIFT_ACTIVE_DEADLINE_SECONDS],
+            $resolvedConfig[self::RUNNER_OPENSHIFT_LABELS],
         );
     }
 }

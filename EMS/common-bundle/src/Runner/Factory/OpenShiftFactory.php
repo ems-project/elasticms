@@ -22,6 +22,7 @@ class OpenShiftFactory extends AbstractFactory
     final public const string RUNNER_OPENSHIFT_BACKOFF_LIMIT = 'backoff-limit';
     final public const string RUNNER_OPENSHIFT_ACTIVE_DEADLINE_SECONDS = 'active-deadline-seconds';
     final public const string RUNNER_OPENSHIFT_LABELS = 'labels';
+    final public const string RUNNER_OPENSHIFT_ENV = 'env';
 
     public function __construct(LoggerInterface $logger, ComposerInfo $composerInfo)
     {
@@ -44,6 +45,7 @@ class OpenShiftFactory extends AbstractFactory
                 self::RUNNER_OPENSHIFT_BACKOFF_LIMIT => 0,
                 self::RUNNER_OPENSHIFT_ACTIVE_DEADLINE_SECONDS => 60,
                 self::RUNNER_OPENSHIFT_LABELS => [],
+                self::RUNNER_OPENSHIFT_ENV => [],
             ])
             ->setRequired([
                 self::RUNNER_OPENSHIFT_BASE_URL,
@@ -61,6 +63,7 @@ class OpenShiftFactory extends AbstractFactory
             ->setAllowedTypes(self::RUNNER_OPENSHIFT_BACKOFF_LIMIT, ['int'])
             ->setAllowedTypes(self::RUNNER_OPENSHIFT_ACTIVE_DEADLINE_SECONDS, ['int'])
             ->setAllowedTypes(self::RUNNER_OPENSHIFT_LABELS, ['array'])
+            ->setAllowedTypes(self::RUNNER_OPENSHIFT_ENV, ['array'])
         ;
         /** @var array{
          *     type: string,
@@ -74,7 +77,8 @@ class OpenShiftFactory extends AbstractFactory
          *     ttl-seconds-after-finished: int,
          *     backoff-limit: int,
          *     active-deadline-seconds: int,
-         *     labels: array<string, string>
+         *     labels: array<string, string>,
+         *     env: array<array{name: string, value: string}>,
          *         } $resolvedConfig */
         $resolvedConfig = $resolver->resolve($runnerConfig);
 
@@ -109,6 +113,7 @@ class OpenShiftFactory extends AbstractFactory
             $resolvedConfig[self::RUNNER_OPENSHIFT_BACKOFF_LIMIT],
             $resolvedConfig[self::RUNNER_OPENSHIFT_ACTIVE_DEADLINE_SECONDS],
             $resolvedConfig[self::RUNNER_OPENSHIFT_LABELS],
+            $resolvedConfig[self::RUNNER_OPENSHIFT_ENV],
         );
     }
 }

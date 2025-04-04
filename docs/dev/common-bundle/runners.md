@@ -29,6 +29,7 @@ To do this, you must specify the following configuration parameters:
 - `backoff-limit`:  Number of restarts allowed after a pod failure (default: `0`)
 - `active-deadline-seconds`:  Abort the job if it is not completed within the time limit (in seconds) (default: `60`)
 - `labels`:  Add OpenShift labels to the Job and the Pod
+- `env`: Additional environment variables as an array of pair {name: string, value: string} (Default value: `[]`)
 
 Example:
 
@@ -46,7 +47,11 @@ Example:
       "app": "my-app",
       "app.kubernetes.io/part-of": "my-app",
       "type": "elasticms-runner"
-    }
+    },
+    "env": [{
+      "name": "foo",
+      "value": "bar"
+    }]
   }
 ]
 ```

@@ -18,7 +18,8 @@ class OpenShift implements RunnerInterface
     private UuidInterface $uuid;
 
     /**
-     * @param array<string, string> $labels
+     * @param array<string, string>                     $labels
+     * @param array<array{name: string, value: string}> $env
      */
     public function __construct(
         readonly private string $tag,
@@ -31,6 +32,7 @@ class OpenShift implements RunnerInterface
         readonly private int $backoffLimit = 0,
         readonly private int $activeDeadlineSeconds = 60,
         readonly private array $labels = [],
+        readonly private array $env = [],
     ) {
         $this->httpClient = HttpClientFactory::create($baseUrl, [
             'Authorization' => \sprintf('Bearer %s', $authKey),
@@ -64,6 +66,7 @@ class OpenShift implements RunnerInterface
                             'name' => 'ems-runner-container',
                             'image' => null !== $this->imageTag ? "$this->image:$this->imageTag" : $this->image,
                             'command' => $command,
+                            'env' => $this->env,
                         ]],
                         'restartPolicy' => 'Never',
                     ],

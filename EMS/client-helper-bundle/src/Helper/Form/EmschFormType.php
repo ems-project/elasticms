@@ -13,15 +13,13 @@ use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @extends AbstractType<mixed>
  */
 class EmschFormType extends AbstractType
 {
-    private const string BLOCK_FROM_CONFIG = 'emschFormConfig';
-    private const string BLOCK_FROM_VIEW = 'emschFormView';
-
     /**
      * @param FormBuilderInterface<mixed> $builder
      * @param array{
@@ -33,7 +31,7 @@ class EmschFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         /** @var list<array{ 'name': string, 'type'?: 'string', 'options': array<string, mixed> }> $elements */
-        $elements = $options['template']->jsonBlock(self::BLOCK_FROM_CONFIG);
+        $elements = $options['template']->jsonBlock(EmschFormBlock::CONFIG->value);
 
         foreach ($elements as $element) {
             $elementType = $this->getElementType($element['type'] ?? 'text');
@@ -45,24 +43,52 @@ class EmschFormType extends AbstractType
         }
     }
 
+    /** @param array<string, mixed> $data */
+    public function validateForm(array $data, ExecutionContextInterface $context, TemplateInterface $template): void
+    {
+        $template->context()->append(['submitData' => $data]);
+
+        /** @var array<int, array{ 'path'?: string, 'message': string }> $errors */
+        $errors = $template->jsonBlock(EmschFormBlock::VALIDATE->value);
+
+        foreach ($errors as $error) {
+            $violation = $context->buildViolation($error['message']);
+            if (isset($error['path'])) {
+                $violation->atPath($error['path']);
+            }
+            $violation->addViolation();
+        }
+    }
+
     #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
             ->setRequired(['template'])
             ->setAllowedTypes('template', TemplateInterface::class)
-            ->setDefault('emsch_form_view', function (Options $options): array {
-                /** @var TemplateInterface $template */
-                $template = $options['template'];
+            ->setDefaults([
+                'constraints' => function (Options $options) {
+                    /** @var TemplateInterface $template */
+                    $template = $options['template'];
 
-                return $template->jsonBlock(self::BLOCK_FROM_VIEW);
-            });
+                    return [new Assert\Callback(function ($data, ExecutionContextInterface $context) use ($template) {
+                        $this->validateForm($data, $context, $template);
+                    })];
+                },
+                'emsch_form_view' => function (Options $options): array {
+                    /** @var TemplateInterface $template */
+                    $template = $options['template'];
+
+                    return $template->jsonBlock(EmschFormBlock::VIEW->value);
+                },
+            ])
+        ;
     }
 
     #[\Override]
     public function getBlockPrefix(): string
     {
-        return '';
+        return 'emsch_form';
     }
 
     private function getElementType(string $type): string

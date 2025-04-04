@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EMS\CommonBundle\Helper\Runner;
+namespace EMS\CommonBundle\Runner\Service;
 
 use EMS\CommonBundle\Common\HttpClientFactory;
 use EMS\Helpers\Standard\Json;
@@ -11,7 +11,7 @@ use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Yaml\Yaml;
 
-class OpenShiftJob implements RunnerInterface
+class OpenShift implements RunnerInterface
 {
     private Client $httpClient;
     private UuidInterface $uuid;
@@ -19,6 +19,9 @@ class OpenShiftJob implements RunnerInterface
     public function __construct(
         string $baseUrl,
         string $authKey,
+        readonly private string $image,
+        readonly private ?string $tag = null,
+        readonly private int $ttlSecondsAfterFinished = 3600,
     ) {
         $this->httpClient = HttpClientFactory::create($baseUrl, [
             'Authorization' => \sprintf('Bearer %s', $authKey),
@@ -39,12 +42,12 @@ class OpenShiftJob implements RunnerInterface
                 'name' => $this->uuid->toString(),
             ],
             'spec' => [
-                'ttlSecondsAfterFinished' => 3600,
+                'ttlSecondsAfterFinished' => $this->ttlSecondsAfterFinished,
                 'template' => [
                     'spec' => [
                         'containers' => [[
                             'name' => 'ems-runner-container',
-                            'image' => 'busybox',
+                            'image' => null !== $this->tag ? "$this->image:$this->tag" : $this->image,
                             'command' => $command,
                         ]],
                         'restartPolicy' => 'Never',
@@ -60,5 +63,10 @@ class OpenShiftJob implements RunnerInterface
         \dump($responseBody);
 
         return 'toto';
+    }
+
+    public function getTag(): string
+    {
+        return 'openshift';
     }
 }

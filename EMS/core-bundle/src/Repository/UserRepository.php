@@ -162,7 +162,7 @@ final class UserRepository extends ServiceEntityRepository implements UserReposi
                 ->setParameter(':term', '%'.$searchValue.'%');
         }
     }
-    
+
     private function getQuery(QueryBuilder $qb, ?UserContextDTO $context)
     {
         if (null === $context || null === $context->groupId) {

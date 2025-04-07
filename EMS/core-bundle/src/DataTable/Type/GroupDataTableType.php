@@ -8,6 +8,7 @@ use EMS\CoreBundle\Core\DataTable\Type\AbstractEntityTableType;
 use EMS\CoreBundle\Core\User\GroupManager;
 use EMS\CoreBundle\Form\Data\EntityTable;
 use EMS\CoreBundle\Routes;
+
 use function Symfony\Component\Translation\t;
 
 class GroupDataTableType extends AbstractEntityTableType
@@ -26,7 +27,6 @@ class GroupDataTableType extends AbstractEntityTableType
         $table->addColumn(t('field.label', [], 'emsco-core'), 'label');
         $this
             ->addColumnsCreatedModifiedDate($table)
-            ->addColumnsOrderLabelName($table)
             ->addTableActionDelete($table, 'group_delete')
             ->addItemDelete($table, 'group', Routes::GROUP_DELETE)
             ->addItemEdit($table, Routes::GROUP_EDIT)

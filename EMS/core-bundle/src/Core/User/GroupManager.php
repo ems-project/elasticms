@@ -100,13 +100,19 @@ class GroupManager implements EntityServiceInterface
         return $id;
     }
 
-    public function deleteGroup(Group $group): void
+    public function delete(Group $group): void
     {
         $this->groupRepository->deleteGroupByIds([$group->getId()]);
     }
 
-    public function editGroup(Group $group): void
+    public function edit(Group $group): void
     {
+        if (!$group->isLabelDefined()) {
+            $group->setLabel($group->getName());
+        }
+
+        $group->setName(new Encoder()->slug(text: $group->getName(), separator: '_')->toString());
+
         $this->groupRepository->save($group, true);
     }
 

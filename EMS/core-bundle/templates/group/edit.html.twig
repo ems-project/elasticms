@@ -7,7 +7,7 @@
             {{ form(form) }}
         </div>
         <div class="col-md-7">
-            <div class="md4">
+            <div class="md-4">
                 <h2>{{ 'view.user.index.user in group'|trans }}</h2>
                 {% with {
                     form: datatableForm,
@@ -15,7 +15,7 @@
                     {{ parent() }}
                 {% endwith %}
             </div>
-            <div class="md4">
+            <div class="md-4">
                 <h2>{{ 'view.user.index.user not in group'|trans }}</h2>
                 {% with {
                     form: userNotInGroupDataTable,

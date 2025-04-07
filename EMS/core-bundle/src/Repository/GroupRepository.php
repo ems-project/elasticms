@@ -53,12 +53,6 @@ class GroupRepository extends ServiceEntityRepository
         }
     }
 
-    public function delete(Group $group): void
-    {
-        $this->getEntityManager()->remove($group);
-        $this->getEntityManager()->flush();
-    }
-
     /**
      * @return Group[]
      */
@@ -97,14 +91,6 @@ class GroupRepository extends ServiceEntityRepository
         $this->addSearchFilters($qb, $searchValue);
 
         return (int) $qb->getQuery()->getSingleScalarResult();
-    }
-
-    public function deleteAllGroup(): void
-    {
-        $em = $this->createQueryBuilder('g');
-        $em->delete(Group::class, 'c')
-            ->getQuery()
-            ->execute();
     }
 
     public function getByName(string $name): ?Group

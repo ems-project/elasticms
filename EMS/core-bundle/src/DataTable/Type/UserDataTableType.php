@@ -31,7 +31,6 @@ class UserDataTableType extends AbstractEntityTableType
         $table->addColumn('user.index.column.username', 'username');
         $table->addColumn('user.index.column.displayname', 'displayName');
         $table->addColumn('user.index.column.email', 'email');
-        $table->addColumn('user.index.column.user_group', 'userGroup');
         $context = $table->getContext();
         if ($context instanceof UserContextDTO && $context->inGroup && null !== $context->groupId) {
             $table->addDynamicItemPostAction(Routes::USER_DELETE_FOR_GROUP, 'user.action.delete', 'trash', 'user.action.delete_confirm', ['user' => 'id', 'groupName' => $context->groupId]);

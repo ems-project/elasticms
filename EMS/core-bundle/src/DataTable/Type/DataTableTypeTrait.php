@@ -82,21 +82,6 @@ trait DataTableTypeTrait
         return $this;
     }
 
-    /**
-     * @param array<mixed> $routeParams
-     */
-    public function addTableToolbarActionDelete(TableAbstract $table, string $route, array $routeParams = []): self
-    {
-        $table->addToolbarAction(
-            label: t('action.delete', [], 'emsco-core'),
-            icon: 'fa fa-trash',
-            routeName: $route,
-            routeParams: $routeParams
-        )->setCssClass('btn btn-sm btn-danger');
-
-        return $this;
-    }
-
     public function addTableActionDelete(TableAbstract $table, string $type, string $name = TableAbstract::DELETE_ACTION): self
     {
         $table->addTableAction(

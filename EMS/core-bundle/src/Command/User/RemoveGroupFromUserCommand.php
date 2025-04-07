@@ -39,15 +39,15 @@ class RemoveGroupFromUserCommand extends AbstractUserCommand
             ])
             ->setHelp(
                 <<<'EOT'
-            The <info>emsco:user:delete-group</info> command removes the group from a user:
+                    The <info>emsco:user:delete-group</info> command removes the group from a user:
 
-              <info>php %command.full_name% matthieu</info>
+                      <info>php %command.full_name% matthieu</info>
 
-            This interactive shell will ask you for the username if not provided.
+                    This interactive shell will ask you for the username if not provided.
 
-            The group associated with the user will be removed automatically.
+                    The group associated with the user will be removed automatically.
 
-            EOT
+                    EOT
             );
     }
 

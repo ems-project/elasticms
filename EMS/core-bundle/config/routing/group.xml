@@ -13,9 +13,6 @@
     <route id="emsco_group_admin_delete" path="/admin/group/delete/{group}"
            controller="EMS\CoreBundle\Controller\User\GroupController::deleteGroup"
            methods="POST"/>
-    <route id="emsco_group_admin_delete_selected_group" path="/admin/group/delete-selected-group"
-           controller="EMS\CoreBundle\Controller\User\GroupController::deleteSelectedGroup"
-           methods="POST"/>
     <route id="emsco_group_admin_edit" path="/admin/group/edit/{group}"
            controller="EMS\CoreBundle\Controller\User\GroupController::editGroup"
            methods="GET|POST"/>

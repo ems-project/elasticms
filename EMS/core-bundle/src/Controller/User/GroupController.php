@@ -84,25 +84,26 @@ class GroupController extends AbstractController
 
     public function deleteGroup(Group $group): Response
     {
-        $this->groupManager->deleteGroup($group);
+        $this->groupManager->delete($group);
 
         return $this->redirectToRoute(Routes::GROUP_INDEX);
     }
 
     public function editGroup(Group $group, Request $request): Response
     {
-        $userNotInGroupDataTable = $this->usersInGroupDataTable($request, $group, false);
-        $userGroupDataTable = $this->usersInGroupDataTable($request, $group, true);
         $form = $this->createForm(GroupType::class, $group, [
             'mode' => UserType::MODE_UPDATE,
         ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->groupManager->editGroup($group);
+            $this->groupManager->edit($group);
 
             return $this->redirectToRoute(Routes::GROUP_INDEX);
         }
+
+        $userNotInGroupDataTable = $this->usersInGroupDataTable($request, $group, false);
+        $userGroupDataTable = $this->usersInGroupDataTable($request, $group, true);
 
         return $this->render("@$this->templateNamespace/group/edit.html.twig", [
             'form' => $form,

@@ -44,9 +44,9 @@ class UserDataTableType extends AbstractEntityTableType
             $table->addColumn('user.index.column.locale_ui', 'locale');
             $table->addColumn('user.index.column.locale_preferred', 'localePreferred');
             $table->addColumn('user.index.column.wysiwyg_profile', 'wysiwygProfile');
-            if ($this->circleObject) {
-                $table->addDynamicItemPostAction(Routes::USER_DELETE, 'user.action.delete', 'trash', 'user.action.delete_confirm', ['user' => 'id']);
-            }
+            //            if ($this->circleObject) {
+            //                $table->addDynamicItemPostAction(Routes::USER_DELETE, 'user.action.delete', 'trash', 'user.action.delete_confirm', ['user' => 'id']);
+            //            }
             $table->addColumnDefinition(new BoolTableColumn('user.index.column.enabled', 'enabled'));
             $table->addColumnDefinition(new RolesTableColumn('user.index.column.roles', 'roles'));
             $table->addColumn('user.index.column.roles', 'userGroup');

@@ -95,7 +95,7 @@ class GroupManager implements EntityServiceInterface
             throw new \RuntimeException(\sprintf('Form %s not found', $name));
         }
         $id = $group->getId();
-        $this->groupRepository->delete($group);
+        $this->groupRepository->deleteGroupByIds([$group->getId()]);
 
         return $id;
     }

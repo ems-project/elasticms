@@ -29,7 +29,7 @@ final class EmailHandler extends AbstractHandler
 
             $emailRequest = new EmailRequest($endpoint, $message);
 
-            $message = (new Email())
+            $message = new Email()
                 ->subject($emailRequest->getSubject())
                 ->from($emailRequest->getFrom())
                 ->to($emailRequest->getEndpoint())

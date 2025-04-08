@@ -240,7 +240,10 @@ abstract class AbstractImportCommand extends AbstractCommand
         $digested = $this->searchDigested($this->digestField, ...\array_keys($docs));
 
         foreach ($docs as $ouuid => $rawData) {
-            if ($rawData[$this->digestField] === $digested[$ouuid]) {
+            $digestRawdata = $rawData[$this->digestField] ?? null;
+            $digestSearch = $digested[$ouuid] ?? null;
+
+            if ($digestRawdata && $digestRawdata === $digestSearch) {
                 ++$this->countDigest;
                 continue;
             }

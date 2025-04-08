@@ -673,7 +673,7 @@ class Revision implements EntityInterface, \Stringable
     public function autoSaveToRawData(): self
     {
         if (null !== $this->autoSave) {
-            $this->rawData = [...$this->getRawData(), ...$this->autoSave];
+            $this->rawData = $this->autoSave;
             $this->autoSaveClear();
         }
 
@@ -836,7 +836,7 @@ class Revision implements EntityInterface, \Stringable
         }
 
         if (null === $this->getVersionUuid()) {
-            $versionId = isset($this->rawData['_version_uuid']) ? Uuid::fromString($this->rawData['_version_uuid']) : Uuid::uuid4();
+            $versionId = isset($this->rawData[Mapping::VERSION_UUID]) ? Uuid::fromString($this->rawData[Mapping::VERSION_UUID]) : Uuid::uuid4();
             $this->setVersionId($versionId);
         }
 
@@ -845,7 +845,9 @@ class Revision implements EntityInterface, \Stringable
         }
 
         if (\count($versioning->getTags()) > 0) {
-            $this->setVersionTag($this->rawData[Mapping::VERSION_TAG] ?? $this->getVersionTagDefault());
+            if (null === $this->getVersionTag()) {
+                $this->setVersionTag($this->rawData[Mapping::VERSION_TAG] ?? $this->getVersionTagDefault());
+            }
             $this->updateVersionNextTag();
         }
 

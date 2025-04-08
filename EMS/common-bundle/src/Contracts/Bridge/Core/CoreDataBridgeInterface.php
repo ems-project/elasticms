@@ -27,4 +27,6 @@ interface CoreDataBridgeInterface
     public function initDraft(string $uuid): CoreBridgeResponse;
 
     public function publish(EMSLink $emsLink, string $environment): CoreBridgeResponse;
+
+    public function publishVersions(string $versionUuid, string $environment): CoreBridgeResponse;
 }

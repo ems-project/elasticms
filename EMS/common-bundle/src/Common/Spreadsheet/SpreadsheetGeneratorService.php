@@ -240,7 +240,7 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
         }
 
         foreach ($config[self::SHEETS][0]['rows'] ?? [] as $row) {
-            \fputcsv($handle, $row, $config[self::CSV_SEPARATOR]);
+            \fputcsv($handle, $row, $config[self::CSV_SEPARATOR], escape: '\\');
         }
         \fclose($handle);
     }
@@ -262,7 +262,7 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
                 }
 
                 foreach ($config[self::SHEETS][0]['rows'] ?? [] as $row) {
-                    \fputcsv($handle, $row, $config[self::CSV_SEPARATOR]);
+                    \fputcsv($handle, $row, $config[self::CSV_SEPARATOR], escape: '\\');
                 }
             }
         );

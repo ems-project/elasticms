@@ -6,6 +6,7 @@ namespace EMS\CommonBundle\Contracts\CoreApi\Endpoint\Data;
 
 use EMS\CommonBundle\Common\CoreApi\Endpoint\Data\Index;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiExceptionInterface;
+use Ramsey\Uuid\UuidInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 interface DataInterface
@@ -89,4 +90,11 @@ interface DataInterface
     public function save(string $ouuid, array $rawData, int $mode = self::MODE_UPDATE, bool $discardDraft = true): int;
 
     public function publish(string $ouuid, string $environment, ?string $revisionId = null): bool;
+
+    /**
+     * @return list<string> published document ids
+     *
+     * @throws CoreApiExceptionInterface
+     */
+    public function publishVersions(UuidInterface $versionUuid, string $environment): array;
 }

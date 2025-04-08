@@ -12,6 +12,7 @@ export default class FilesUpload {
         this.addDraggableListener(this)
         this.addChangeInputListener(target, this.boxFileupload)
         this.validationRequired(target)
+        this.addClickListener()
     }
 
     addDraggableListener() {
@@ -32,18 +33,36 @@ export default class FilesUpload {
         })
     }
 
+    addClickListener() {
+        const label = this.boxFileupload.querySelector('.custom-file-label')
+        this.boxFileupload.querySelector('.files-upload-head').addEventListener('click', (e) => {
+            if (e.target.closest('label') !== label) {
+                label.click()
+            }
+        })
+    }
+
     validationRequired(target) {
         const self = this
         target.addEventListener('invalid', function(e) {
             e.preventDefault();
             if (this.required) {
-                self.boxFileupload.querySelector('.files-upload-error').innerHTML = t('required_field')
+                self.setError(t('required_field'))
             }
         })
     }
 
+    setError(errorMsg) {
+        const errorBox = this.boxFileupload.querySelector('.files-upload-error')
+        errorBox.innerHTML = errorMsg
+        errorBox.classList.remove('d-none')
+    }
 
-    initFilesUpload(uplaodFiles, context) {
+    removeError() {
+        this.boxFileupload.querySelector('.files-upload-error').classList.add('d-none');
+    }
+
+    initFilesUpload(uploadFiles, context) {
         const self = this
         const langAttr = self.langAttr
         let fileField = self.fileField
@@ -56,25 +75,25 @@ export default class FilesUpload {
 
         const filenames = [];
         let filesSize = 0;
-        for (let i = 0; uplaodFiles && i < uplaodFiles.length; ++i) {
-            if (self.inDataTransfer(dataTransfer, uplaodFiles[i])) {
+        for (let i = 0; uploadFiles && i < uploadFiles.length; ++i) {
+            if (self.inDataTransfer(dataTransfer, uploadFiles[i])) {
                 continue;
             }
-            dataTransfer.items.add(uplaodFiles[i]);
+            dataTransfer.items.add(uploadFiles[i]);
         }
-        uplaodFiles = dataTransfer.files;
+        uploadFiles = dataTransfer.files;
 
-        for (let i = 0; i < uplaodFiles.length; ++i) {
-            filesSize += uplaodFiles.item(i).size
-            filenames.push(uplaodFiles.item(i).name.split("\\").pop().replace('%20', ' '));
+        for (let i = 0; i < uploadFiles.length; ++i) {
+            filesSize += uploadFiles.item(i).size
+            filenames.push(uploadFiles.item(i).name.split("\\").pop().replace('%20', ' '));
         }
 
         if (filesSize > self.inputFileMaxAllowedSize) {
             fileField.setCustomValidity(t('max_size_reached').replace('%fileSize%', this.humanFileSize(self.inputFileMaxAllowedSize, true)))
-            self.boxFileupload.querySelector('.files-upload-error').innerHTML = t('max_size_reached').replace('%fileSize%', this.humanFileSize(self.inputFileMaxAllowedSize, true))
+            self.setError(t('max_size_reached').replace('%fileSize%', this.humanFileSize(self.inputFileMaxAllowedSize, true)))
         } else {
             fileField.setCustomValidity('');
-            self.boxFileupload.querySelector('.files-upload-error').innerHTML = ''
+            self.removeError();
         }
 
         fileField.files = dataTransfer.files;
@@ -123,9 +142,9 @@ export default class FilesUpload {
 
             for (let i = 0; i < filenames.length; ++i) {
                 const li = document.createElement('li')
-                if (uplaodFiles.item(i).type !== undefined && self.acceptTypes && !self.acceptTypes.toLowerCase().includes(uplaodFiles.item(i).type)) {
+                if (uploadFiles.item(i).type !== undefined && self.acceptTypes && !self.acceptTypes.toLowerCase().includes(uploadFiles.item(i).type)) {
                     const span = document.createElement('span')
-                    span.className = 'form-error-message text-danger'
+                    span.className = 'form-error-message'
                     span.innerHTML = t('format_not_supported')
                     li.prepend(span)
                     fileField.setCustomValidity(t('incorrect_format'))
@@ -135,7 +154,7 @@ export default class FilesUpload {
                 a.innerHTML = t('remove')
                 a.href = '#'
                 a.dataset.fileid = i
-                li.innerHTML = li.innerHTML + filenames[i] + ' (' + self.humanFileSize(uplaodFiles.item(i).size, true) + ')  '
+                li.innerHTML = li.innerHTML + filenames[i] + ' (' + self.humanFileSize(uploadFiles.item(i).size, true) + ')  '
                 li.append(a)
                 fileList.append(li)
             }

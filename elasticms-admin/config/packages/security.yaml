@@ -69,6 +69,7 @@ security:
         - { path: ^/_readiness$, role: PUBLIC_ACCESS }
         - { path: ^/_liveness$, role: PUBLIC_ACCESS }
         - { path: ^/public/, role: PUBLIC_ACCESS }
+        - { path: ^/emsf/, role: PUBLIC_ACCESS }
         - { path: ^/health_check(\.json)?$, role: PUBLIC_ACCESS }
         - { path: ^/login$, role: PUBLIC_ACCESS }
         - { path: ^/auth-token$, role: PUBLIC_ACCESS }

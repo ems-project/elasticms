@@ -9,7 +9,6 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\ORM\QueryBuilder;
 use EMS\CoreBundle\Entity\Group;
-use EMS\CoreBundle\Entity\Schedule;
 use Ramsey\Uuid\Uuid;
 
 /**
@@ -23,7 +22,7 @@ class GroupRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Schedule[]
+     * @return Group[]
      */
     public function getAll(): array
     {

@@ -68,9 +68,11 @@ class UserDataTableType extends AbstractEntityTableType
     #[\Override]
     public function getContext(array $options): UserContextDTO
     {
-        return new UserContextDTO(Type::bool($options['light'] ?? null),
-                                  Type::bool($options['in-group'] ?? null),
-                                  Type::string($options['group-id'] ?? null));
+        return new UserContextDTO(
+            Type::bool($options['light'] ?? null),
+            Type::bool($options['in-group'] ?? null),
+            Type::string($options['group-id'] ?? null)
+        );
     }
 
     public function configureOptions(OptionsResolver $optionsResolver): void

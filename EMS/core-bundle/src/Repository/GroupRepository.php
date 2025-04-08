@@ -93,7 +93,7 @@ class GroupRepository extends ServiceEntityRepository
         $userGroup = $qb->getQuery()->getOneOrNullResult();
 
         if (null !== $userGroup && !$userGroup instanceof Group) {
-            throw new \RuntimeException(sprintf('Unexpected Group entity for %s', $name));
+            throw new \RuntimeException(\sprintf('Unexpected Group entity for %s', $name));
         }
 
         return $userGroup;

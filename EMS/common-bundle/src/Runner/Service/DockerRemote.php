@@ -9,7 +9,7 @@ use EMS\CommonBundle\Runner\RunnerStatus;
 use EMS\Helpers\Standard\Json;
 use GuzzleHttp\Client;
 
-#[\AllowDynamicProperties] class DockerRemote implements RunnerInterface
+class DockerRemote implements RunnerInterface
 {
     private Client $httpClient;
 

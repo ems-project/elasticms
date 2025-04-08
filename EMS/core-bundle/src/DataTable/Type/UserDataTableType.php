@@ -14,6 +14,7 @@ use EMS\CoreBundle\Form\Data\RolesTableColumn;
 use EMS\CoreBundle\Roles;
 use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\UserService;
+use EMS\Helpers\Standard\Type;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserDataTableType extends AbstractEntityTableType
@@ -33,10 +34,10 @@ class UserDataTableType extends AbstractEntityTableType
         $table->addColumn('user.index.column.email', 'email');
         $context = $table->getContext();
         if ($context instanceof UserContextDTO && $context->inGroup && null !== $context->groupId) {
-            $table->addDynamicItemPostAction(Routes::USER_DELETE_FOR_GROUP, 'user.action.delete', 'trash', 'user.action.delete_confirm', ['user' => 'id', 'groupName' => $context->groupId]);
+            $table->addDynamicItemPostAction(Routes::USER_REMOVE_FROM_GROUP, 'user.action.delete', 'trash', 'user.action.delete_confirm', ['user' => 'id', 'groupName' => $context->groupId]);
         }
         if ($context instanceof UserContextDTO && !$context->inGroup && null !== $context->groupId) {
-            $table->addDynamicItemGetAction(Routes::USER_ADD_FOR_GROUP, 'user.add.button', 'plus', ['user' => 'id', 'group' => $context->groupId]);
+            $table->addDynamicItemGetAction(Routes::USER_ADD_TO_GROUP, 'user.add.button', 'plus', ['user' => 'id', 'group' => $context->groupId]);
         }
         if (!$context instanceof UserContextDTO || !$context->light) {
             $table->addColumnDefinition(new BoolTableColumn('user.index.column.email_notification', 'emailNotification'))
@@ -67,7 +68,9 @@ class UserDataTableType extends AbstractEntityTableType
     #[\Override]
     public function getContext(array $options): UserContextDTO
     {
-        return new UserContextDTO($options['light'], $options['in-group'], $options['group-id']);
+        return new UserContextDTO(Type::bool($options['light'] ?? null),
+                                  Type::bool($options['in-group'] ?? null),
+                                  Type::string($options['group-id'] ?? null));
     }
 
     public function configureOptions(OptionsResolver $optionsResolver): void

@@ -78,7 +78,7 @@ class GroupManager implements EntityServiceInterface
             throw new \RuntimeException('Unexpected group object');
         }
         $group = Group::fromJson($json, $entity);
-        $this->groupRepository->save($group, true);
+        $this->groupRepository->save($group);
 
         return $group;
     }
@@ -113,7 +113,7 @@ class GroupManager implements EntityServiceInterface
 
         $group->setName(new Encoder()->slug(text: $group->getName(), separator: '_')->toString());
 
-        $this->groupRepository->save($group, true);
+        $this->groupRepository->save($group);
     }
 
     public function create(Group $group): void
@@ -123,7 +123,7 @@ class GroupManager implements EntityServiceInterface
         }
         $group->setName(new Encoder()->slug(text: $group->getName(), separator: '_')->toString());
 
-        $this->groupRepository->save($group, false);
+        $this->groupRepository->save($group);
     }
 
     /**

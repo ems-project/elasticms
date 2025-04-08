@@ -25,8 +25,8 @@
     <route id="emsco_remove_user_from_group" path="/remove/{user}/from/{groupName}"
            controller="EMS\CoreBundle\Controller\UserController::removeFromGroup"
            methods="POST"/>
-    <route id="emsco_add_user_from_group" path="/add/{user}/to/{group}"
-           controller="EMS\CoreBundle\Controller\UserController::addFromGroup"
+    <route id="emsco_add_user_to_group" path="/add/{user}/to/{group}"
+           controller="EMS\CoreBundle\Controller\UserController::addToGroup"
            methods="GET"/>
     <route id="emsco_user_enabling" path="/enabling/{user}"
            controller="EMS\CoreBundle\Controller\UserController::enabling"

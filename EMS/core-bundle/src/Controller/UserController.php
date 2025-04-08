@@ -328,7 +328,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    public function addFromGroup(User $user, string $group): Response
+    public function addToGroup(User $user, string $group): Response
     {
         $userGroup = $this->groupManager->getByItemId($group);
         if (!$userGroup instanceof EntityInterface) {

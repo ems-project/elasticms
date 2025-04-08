@@ -32,25 +32,15 @@ class GroupRepository extends ServiceEntityRepository
         return $qb->getQuery()->execute();
     }
 
-    public function save(Group $group, bool $isEditMode): void
+    public function save(Group $group): void
     {
-        $existingGroup = $this->getEntityManager()
-            ->getRepository(Group::class)
-            ->findOneBy(['name' => $group->getName()]);
+        $existingGroup = $this->getByName($group->getName());
 
-        if ($existingGroup) {
-            if ($isEditMode) {
-                if ($existingGroup->getId() !== $group->getId()) {
-                    throw new \Exception('The group already exists.');
-                } else {
-                    $this->getEntityManager()->persist($group);
-                    $this->getEntityManager()->flush();
-                }
-            }
-        } else {
-            $this->getEntityManager()->persist($group);
-            $this->getEntityManager()->flush();
+        if ($existingGroup && $existingGroup->getId() !== $group->getId()) {
+            throw new \RuntimeException(\sprintf('The group %s already exists.', $group->getName()));
         }
+        $this->getEntityManager()->persist($group);
+        $this->getEntityManager()->flush();
     }
 
     /**
@@ -103,7 +93,7 @@ class GroupRepository extends ServiceEntityRepository
         $userGroup = $qb->getQuery()->getOneOrNullResult();
 
         if (null !== $userGroup && !$userGroup instanceof Group) {
-            throw new \RuntimeException('Unexpected Group entity');
+            throw new \RuntimeException(sprintf('Unexpected Group entity for %s', $name));
         }
 
         return $userGroup;

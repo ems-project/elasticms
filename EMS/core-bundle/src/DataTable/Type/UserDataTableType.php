@@ -14,6 +14,7 @@ use EMS\CoreBundle\Form\Data\RolesTableColumn;
 use EMS\CoreBundle\Roles;
 use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\UserService;
+use EMS\Helpers\Standard\Type;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserDataTableType extends AbstractEntityTableType
@@ -70,7 +71,7 @@ class UserDataTableType extends AbstractEntityTableType
     #[\Override]
     public function getContext(array $options): UserContextDTO
     {
-        return new UserContextDTO($options['light'], $options['in-group'], $options['group-id']);
+        return new UserContextDTO(Type::bool($options['light'] ?? null) , $options['in-group'], $options['group-id']);
     }
 
     public function configureOptions(OptionsResolver $optionsResolver): void

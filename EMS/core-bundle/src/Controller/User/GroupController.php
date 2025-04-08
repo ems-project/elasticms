@@ -69,7 +69,7 @@ class GroupController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->groupManager->create($group);
+            $this->groupManager->save($group);
 
             return $this->redirectToRoute(Routes::GROUP_INDEX);
         }
@@ -97,7 +97,7 @@ class GroupController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->groupManager->edit($group);
+            $this->groupManager->save($group);
 
             return $this->redirectToRoute(Routes::GROUP_INDEX);
         }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Security\Provider;
 
+use EMS\CoreBundle\Entity\Group;
 use EMS\CoreBundle\Entity\User;
 use EMS\CoreBundle\Repository\GroupRepository;
 use EMS\CoreBundle\Repository\UserRepository;
@@ -60,10 +61,12 @@ class UserProvider implements UserProviderInterface
         if ($user->isExpired()) {
             throw new AccountExpiredException(\sprintf('The account "%s" is expired', $user->getUserIdentifier()));
         }
-        if (null !== $user->getGroup()) {
-            $group = $this->groupRepository->getById($user->getGroup()->getId());
-
+        $userGroup = $user->getGroup();
+        $group = $userGroup instanceof Group ? $this->groupRepository->getById($userGroup->getId()) : null;
+        if (null !== $group) {
             $user->setGroupRoles($group->getRoles());
+        } else {
+            $user->setGroupRoles([]);
         }
 
         return $user;

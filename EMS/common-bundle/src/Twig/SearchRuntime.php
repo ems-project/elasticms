@@ -85,9 +85,9 @@ final class SearchRuntime implements RuntimeExtensionInterface
     private function nestedSearchScroll(string $alias, array $contentTypeNames, string $field): \Generator
     {
         $nestedQuery = new Nested();
-        $nestedQuery->setPath($field)->setQuery((new BoolQuery())->addMust(new Exists($field)));
+        $nestedQuery->setPath($field)->setQuery(new BoolQuery()->addMust(new Exists($field)));
 
-        $search = new Search([$alias], (new BoolQuery())->addMust($nestedQuery));
+        $search = new Search([$alias], new BoolQuery()->addMust($nestedQuery));
         $search->setSources([$field]);
         $search->setContentTypes($contentTypeNames);
 

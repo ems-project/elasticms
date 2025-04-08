@@ -61,7 +61,7 @@ class CommonExtension extends AbstractExtension
             new TwigFilter('ems_html_encode', [TextRuntime::class, 'htmlEncode'], ['is_safe' => ['html']]),
             new TwigFilter('ems_html_decode', [TextRuntime::class, 'htmlDecode']),
             new TwigFilter('ems_anti_spam', [TextRuntime::class, 'htmlEncodePii'], ['is_safe' => ['html']]),
-            new TwigFilter('ems_manifest', (new ManifestRuntime())->manifest(...)),
+            new TwigFilter('ems_manifest', new ManifestRuntime()->manifest(...)),
             new TwigFilter('ems_json_menu_decode', [TextRuntime::class, 'jsonMenuDecode']),
             new TwigFilter('ems_json_menu_nested_decode', [TextRuntime::class, 'jsonMenuNestedDecode']),
             new TwigFilter('ems_json_decode', [TextRuntime::class, 'jsonDecode']),

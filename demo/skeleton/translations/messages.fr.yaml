@@ -38,7 +38,7 @@ emsch:
             username: 'Nom d''utilisateur'
 features:
     discover: 'Découvrez toutes les fonctionnalités'
-files_browse: 'Choisir des fichiers'
+files_browse: 'Glisser-déposer des fichiers ici ou'
 footer:
     join-us-github: 'Join-us on GitHub'
 js:

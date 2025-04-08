@@ -66,6 +66,18 @@ Sorting example
 {% endif %}
 ````
 
+## ems_search_config_execute
+
+Execute a search configuration and retrieve the results, allowing the
+configuration to be defined directly within Twig templates instead of in the
+route or environment variables
+
+````twig
+{% set searchConfig = emsch_search_config() %}
+
+{% set results = emsch_search_config_execute(searchConfig %}
+````
+
 # Twig embed
 
 ## render hierarchy

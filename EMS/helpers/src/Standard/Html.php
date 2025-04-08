@@ -28,7 +28,7 @@ class Html implements \Stringable
             ));
         }
 
-        $sanitized = (new HtmlSanitizer($config))->sanitize($this->html);
+        $sanitized = new HtmlSanitizer($config)->sanitize($this->html);
 
         return new Html($sanitized);
     }

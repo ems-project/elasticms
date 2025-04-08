@@ -71,7 +71,7 @@ class UserDataTableType extends AbstractEntityTableType
         return new UserContextDTO(
             Type::bool($options['light'] ?? null),
             Type::bool($options['in-group'] ?? null),
-            Type::string($options['group-id'] ?? null)
+            Type::nullableString($options['group-id'] ?? null)
         );
     }
 

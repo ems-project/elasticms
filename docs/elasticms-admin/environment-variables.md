@@ -418,8 +418,8 @@ Used to define storage services. Elasticms supports [multiple types of storage s
 ### EMS_RUNNERS
 
 Used to define ruuner services. See [runners](../dev/common-bundle/runners.md) for more details. 
-- Default value: `EMS_STORAGES='[]'`
-- Example: `EMS_STORAGES='[{"type":"openshift","tag":"toto","base-url":"https://api.my-paas.tld:6443/","auth-key":"sha256~my-priVAteAuthorization_kEy","namespace":"my-namesapce","image":"busybox"}]'`
+- Default value: `EMS_RUNNERS='[]'`
+- Example: `EMS_RUNNERS='[{"type":"openshift","tag":"toto","base-url":"https://api.my-paas.tld:6443/","auth-key":"sha256~my-priVAteAuthorization_kEy","namespace":"my-namesapce","image":"busybox"}]'`
 
 ### EMS_HASH_ALGO
 

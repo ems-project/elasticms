@@ -134,7 +134,7 @@ final class UserRepository extends ServiceEntityRepository implements UserReposi
     }
 
     /**
-     * @return array<mixed>
+     * @return User[]
      */
     public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, ?UserContextDTO $context = null): array
     {
@@ -164,6 +164,9 @@ final class UserRepository extends ServiceEntityRepository implements UserReposi
         }
     }
 
+    /**
+     * @return Query<null, User>
+     */
     private function getQuery(QueryBuilder $qb, ?UserContextDTO $context): Query
     {
         if (null == $context || null == $context->groupId) {

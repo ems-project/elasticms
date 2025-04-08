@@ -62,12 +62,12 @@ class GroupManager implements EntityServiceInterface
         return $this->groupRepository->counter($searchValue);
     }
 
-    public function getByItemName(string $name): ?EntityInterface
+    public function getByItemName(string $name): ?Group
     {
         return $this->groupRepository->getByName($name);
     }
 
-    public function getByItemId(string $id): ?EntityInterface
+    public function getByItemId(string $id): ?Group
     {
         return $this->groupRepository->getById($id);
     }

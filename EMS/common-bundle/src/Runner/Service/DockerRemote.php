@@ -1,0 +1,91 @@
+<?php
+
+declare(strict_types=1);
+
+namespace EMS\CommonBundle\Runner\Service;
+
+use EMS\CommonBundle\Common\HttpClientFactory;
+use EMS\CommonBundle\Runner\RunnerStatus;
+use EMS\Helpers\Standard\Json;
+use GuzzleHttp\Client;
+
+class DockerRemote implements RunnerInterface
+{
+    private Client $httpClient;
+
+    /**
+     * @param string[] $env
+     */
+    public function __construct(
+        readonly private string $tag,
+        string $baseUrl,
+        readonly private string $image,
+        readonly private ?string $imageTag = null,
+        readonly private array $env = [],
+        ?string $socketPath = null,
+    ) {
+        $this->httpClient = HttpClientFactory::create(baseUrl: $baseUrl, socketPath: $socketPath);
+    }
+
+    public function getTag(): string
+    {
+        return $this->tag;
+    }
+
+    public function start(array $command): string
+    {
+        $imageTag = $this->imageTag ?? 'latest';
+        $this->httpClient->post('images/create', [
+            'query' => [
+                'fromImage' => $this->image,
+                'tag' => $imageTag,
+            ],
+            'timeout' => 300,
+        ]);
+
+        $response = $this->httpClient->post('containers/create', [
+            'json' => [
+                'Image' => "$this->image:$imageTag",
+                'Cmd' => $command,
+                'Env' => $this->env,
+                'Tty' => true,
+            ],
+        ]);
+        $data = Json::decode($response->getBody()->getContents());
+        $id = $data['Id'] ?? null;
+        if (null === $id) {
+            throw new \RuntimeException('No Docker Remote Id found');
+        }
+        $this->httpClient->post("/containers/$id/start");
+
+        return $id;
+    }
+
+    public function status(string $id): RunnerStatus
+    {
+        $response = $this->httpClient->get("containers/$id/json");
+        $data = Json::decode($response->getBody()->getContents());
+        $status = $data['State']['Status'];
+
+        return match ($status) {
+            'created' => RunnerStatus::Pending,
+            'running' => RunnerStatus::Running,
+            'exited' => RunnerStatus::Succeeded,
+            'dead' => RunnerStatus::Failed,
+            default => RunnerStatus::Unknown,
+        };
+    }
+
+    public function output(string $id): string
+    {
+        $response = $this->httpClient->get("containers/$id/logs", [
+            'query' => [
+                'stdout' => 'true',
+                'stderr' => 'false',
+                'tail' => 'all',
+            ],
+        ]);
+
+        return $response->getBody()->getContents();
+    }
+}

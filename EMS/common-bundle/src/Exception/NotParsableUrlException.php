@@ -6,12 +6,9 @@ namespace EMS\CommonBundle\Exception;
 
 class NotParsableUrlException extends \Exception
 {
-    private readonly string $url;
-
-    public function __construct(string $url, private readonly ?string $referer, string $message)
+    public function __construct(private readonly string $url, private readonly ?string $referer, string $message)
     {
         parent::__construct(\sprintf('Not parsable url %s: %s', $url, $message));
-        $this->url = $url;
     }
 
     public function getUrl(): string

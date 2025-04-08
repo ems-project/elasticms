@@ -111,6 +111,12 @@ Used to define storage services. Elasticms supports [multiple types of storage s
 - Default value: `EMS_STORAGES='[{"type":"fs","path":".\/var\/assets"},{"type":"s3","credentials":[],"bucket":""},{"type":"db","activate":false},{"type":"http","base-url":"","auth-key":""},{"type":"sftp","host":"","path":"","username":"","public-key-file":"","private-key-file":""}]'`
 - Example: `EMS_STORAGES='[{"type":"fs","path":"./var/assets"},{"type":"fs","path":"/var/lib/elasticms"}]'`
 
+### EMS_RUNNERS
+
+Used to define ruuner services. See [runners](../dev/common-bundle/runners.md) for more details.
+- Default value: `EMS_RUNNERS='[]'`
+- Example: `EMS_RUNNERS='[{"type":"openshift","tag":"toto","base-url":"https://api.my-paas.tld:6443/","auth-key":"sha256~my-priVAteAuthorization_kEy","namespace":"my-namesapce","image":"busybox"}]'`
+
 ### EMS_HASH_ALGO
 
 Refers to the [PHP hash_algos](https://www.php.net/manual/fr/function.hash-algos.php) function. Specify the algorithms to used in order to hash and identify files. It's also used to hash the document indexed in elasticsearch.

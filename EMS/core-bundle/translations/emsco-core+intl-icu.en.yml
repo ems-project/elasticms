@@ -241,6 +241,9 @@ log:
         draft_not_found: 'Draft not found with id "{revisionId}"'
         duplicate_environment: 'Environment "{name}" already exists!'
         index_not_found: 'Index "{index}" not found'
+profile:
+    title: 'Your profile'
+    title_sub: 'All about you'
 revision:
     draft:
         delete: 'Delete this draft'

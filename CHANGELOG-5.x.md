@@ -1,5 +1,10 @@
 # Changelog 5.x
 
+## 5.25.7 (2025-04-09)
+### Bug Fixes
+* fix(admin/security): allows public access to /emsf/ baseurls (channels) by @theus77 in https://github.com/ems-project/elasticms/pull/1292
+* fix(common/storage): s3 upload bug small files by @theus77 in https://github.com/ems-project/elasticms/pull/1280
+
 ## 5.25.6 (2025-03-31)
 ### Bug Fixes
 * fix(admin/contentType): support helptext for choiceFieldType by @theus77 in https://github.com/ems-project/elasticms/pull/1259

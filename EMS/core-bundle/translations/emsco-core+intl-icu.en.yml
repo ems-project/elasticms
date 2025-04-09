@@ -164,6 +164,7 @@ field:
     release_environment_target: 'Environment for (un)publication'
     revision_version_tag: 'Yes as {version_tag}'
     revision_version_tag_empty: 'No (Silent publish)'
+    roles: field.roles
     severity: Severity
     singular: Singular
     status: Status

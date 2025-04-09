@@ -28,8 +28,8 @@ class GroupDataTableType extends AbstractEntityTableType
         $this
             ->addColumnsCreatedModifiedDate($table)
             ->addTableActionDelete($table, 'group_delete')
-            ->addItemDelete($table, 'group', Routes::GROUP_DELETE)
             ->addItemEdit($table, Routes::GROUP_EDIT)
+            ->addItemDelete($table, 'group', Routes::GROUP_DELETE)
             ->addTableToolbarActionAdd($table, Routes::GROUP_ADD);
     }
 }

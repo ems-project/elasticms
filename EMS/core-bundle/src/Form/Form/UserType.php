@@ -108,7 +108,7 @@ final class UserType extends AbstractType
                     'class' => 'wysiwyg-profile-picker',
                 ],
             ])
-            ->add('roles', ChoiceType::class, [
+            ->add('userRoles', ChoiceType::class, [
                 'choices' => $this->userService->getExistingRoles(),
                 'label' => 'Roles',
                 'expanded' => true,

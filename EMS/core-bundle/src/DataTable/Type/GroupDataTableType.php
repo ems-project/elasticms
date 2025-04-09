@@ -27,7 +27,7 @@ class GroupDataTableType extends AbstractEntityTableType
         $table->addColumn(t('field.label', [], 'emsco-core'), 'label');
         $this
             ->addColumnsCreatedModifiedDate($table)
-            ->addTableActionDelete($table, 'group_delete')
+            ->addTableActionDelete($table, 'group')
             ->addItemEdit($table, Routes::GROUP_EDIT)
             ->addItemDelete($table, 'group', Routes::GROUP_DELETE)
             ->addTableToolbarActionAdd($table, Routes::GROUP_ADD);

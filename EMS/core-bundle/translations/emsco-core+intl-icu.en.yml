@@ -297,6 +297,7 @@ type:
             environment_external {Delete the "{label}" external environment?}
             filter               {Delete the "{label}" filter?}
             form                 {Delete the "{label}" form?}
+            group                {Delete the "{label}" group?}
             i18n                 {Delete the "{label}" i18n key?}
             orphan_index         {Delete the orphan index "{label}"?}
             job                  {Delete the job?}
@@ -322,6 +323,7 @@ type:
             environment         {Delete all selected environments?}
             filter              {Delete all selected filters?}
             form                {Delete all selected forms?}
+            group               {Delete all selected groups?}
             i18n                {Delete all selected i18n keys?}
             orphan_index        {Delete all selected orphan indexes?}
             job                 {Delete all selected jobs?}

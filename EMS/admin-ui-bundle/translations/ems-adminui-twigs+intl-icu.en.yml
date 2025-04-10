@@ -69,3 +69,6 @@ log:
     title: 'Log of the {created}'
 notice_card:
     title: Notice
+subtitle:
+    user-in-group: 'Users in group'
+    user-not-in-group: 'User not in group'

@@ -88,13 +88,9 @@
     {%- if value is iterable and column.valid(line.data)  -%}
         {%- for string in value -%}
             {%- if not loop.first -%}
-                {%- if loop.last -%}
-                    &nbsp;&amp;&nbsp;
-                {%- else -%}
-                    ,&nbsp;
-                {%- endif -%}
+                {%- if loop.last %} &amp; {% else %}, {% endif -%}
             {%- endif -%}
-            {{- string|trans -}}
+            {{- string|trans([], 'EMSCoreBundle') -}}
         {%- endfor -%}
     {%- endif -%}
 {% endblock emsco_form_table_column_data_value_roles %}
@@ -130,6 +126,11 @@
         {{- block('emsco_form_table_column_data_label_suffix') -}}
     {%- endif -%}
 {% endblock emsco_form_table_column_data_value_translation %}
+
+{% block emsco_form_table_column_data_value_entity %}
+    {%- set value = attribute(line.data, column.attribute)|default(false) -%}
+    {{ value.label|default('') }}
+{% endblock emsco_form_table_column_data_value_entity %}
 
 {% block emsco_form_table_column_data_translation %}
     {%- set value = attribute(line.data, column.attribute)|default(false) -%}

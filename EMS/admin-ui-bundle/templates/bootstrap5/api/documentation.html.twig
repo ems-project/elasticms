@@ -7,17 +7,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="https://github.com/ems-project" />
-    <link rel="stylesheet" href="{{ asset('src/app.js.css', 'emsadminui') }}">
+    <link rel="stylesheet" href="{{ asset('src/swaggerUi.js.css', 'emsadminui') }}">
     <link rel="icon" sizes="128x128" type="image/png" href="{{ path('core-favicon') }}" />
     <link rel="apple-touch-icon" sizes="128x128" type="image/png" href="{{ path('core-apple-touch-icon') }}">
     <link rel="manifest" href="{{ path('core-site-webmanifest') }}" />
 </head>
-<body>
-    <h1>TEST</h1>
+<body data-openapi=" {{ path('emsco_documentation',{'_format': 'json'}) }}">
+    <div id="swagger-ui"></div>
     {%- if vite.isDevServerRunning -%}
         <script type="module" src="{{- vite.devServerClient -}}"></script>
     {%- endif -%}
-    <script src="{{ asset('src/app.js', 'emsadminui') }}" type="module"></script>
+    <script src="{{ asset('src/swaggerUi.js', 'emsadminui') }}" type="module"></script>
     {% block javascripts %}{% endblock %}
 </body>
 </html>

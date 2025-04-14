@@ -21,6 +21,7 @@ import SymfonyCollection from './plugins/symfonyCollection'
 import Text from './plugins/text'
 import Tooltip from './plugins/tooltip'
 import WYSIWYG from './plugins/wysiwyg.ts'
+import { initSwaggerUI } from './plugins/swaggerUi.js'
 
 import RevisionTask from './components/revisionTask'
 import Modal from './components/modal'
@@ -60,6 +61,8 @@ class Core {
     ]
     document.addEventListener(EMS_ADDED_DOM_EVENT, (event) => this.load(event.detail.target))
     this.coreReady()
+
+    initSwaggerUI();
   }
 
   load(target) {

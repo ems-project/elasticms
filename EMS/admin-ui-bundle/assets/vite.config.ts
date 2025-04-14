@@ -15,6 +15,7 @@ export default defineConfig({
       input: {
         action: 'src/action.js',
         app: 'src/app.js',
+        swaggerui: 'src/swaggerUi.js',
         calendar: 'src/calendar.js',
         'criteria-table': 'src/criteria-table.js',
         'criteria-view': 'src/criteria-view.js',

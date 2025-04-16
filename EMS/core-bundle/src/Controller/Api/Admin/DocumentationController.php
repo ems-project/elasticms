@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Controller\Api\Admin;
 
+use phpDocumentor\Reflection\Types\False_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouterInterface;
 
 class DocumentationController extends AbstractController
@@ -24,9 +26,6 @@ class DocumentationController extends AbstractController
             $paths = [];
 
             foreach ($this->getRoutes() as $name => $route) {
-                if (!str_starts_with($name, 'emsco_admin')) {
-                    continue;
-                }
 
                 $path = $route->getPath();
                 $methods = $route->getMethods();
@@ -63,16 +62,8 @@ class DocumentationController extends AbstractController
 
     public function getRoutes(): array
     {
-        $allRoutes = $this->router->getRouteCollection()->all();
-
-        $Routes = [];
-
-        foreach ($allRoutes as $name => $route) {
-            if (str_starts_with($name, 'emsco_admin')) {
-                $Routes[$name] = $route;
-            }
-        }
-
-        return $Routes;
+        $routes = $this->router->getRouteCollection()->all();
+        
+        return \array_filter($routes, static fn (Route $route) => $route->getOption('openapi') );
     }
 }

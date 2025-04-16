@@ -40,7 +40,9 @@
     <route id="emsco_api_content_type_create" path="/{entity}"
            controller="EMS\CoreBundle\Controller\Api\Admin\EntitiesController::create"
            methods="POST"
-           format="json"/>
+           format="json">
+        <option key="openapi">true</option>
+    </route>
     <route id="emsco_api_content_type_get" path="/{entity}/{name}"
            controller="EMS\CoreBundle\Controller\Api\Admin\EntitiesController::get"
            methods="GET"

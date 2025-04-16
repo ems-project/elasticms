@@ -32,6 +32,7 @@
            controller="EMS\CoreBundle\Controller\ContentManagement\CrudController::autoSave"
            methods="POST"
            format="json">
+        <option key="openapi">true</option>
         <default key="interface">api</default>
         <requirement key="interface">api|json</requirement>
     </route>

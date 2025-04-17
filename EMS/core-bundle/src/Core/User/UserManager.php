@@ -13,6 +13,7 @@ use EMS\CoreBundle\Repository\UserRepository;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class UserManager
 {
@@ -25,6 +26,7 @@ class UserManager
         private readonly MailerService $mailerService,
         private readonly UserRepository $userRepository,
         private readonly UserPasswordHasherInterface $userPasswordHasher,
+        private readonly AuthorizationCheckerInterface $authorizationChecker,
         private readonly string $templateNamespace,
     ) {
     }
@@ -89,6 +91,11 @@ class UserManager
     public function getUserByConfirmationToken(string $token): ?User
     {
         return $this->userRepository->findOneBy(['confirmationToken' => $token]);
+    }
+
+    public function isGranted(string $role): bool
+    {
+        return $this->authorizationChecker->isGranted($role);
     }
 
     public function requestResetPassword(string $usernameOrEmail): ?User

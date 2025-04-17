@@ -219,7 +219,7 @@ class CrudController extends AbstractController
         $isDeleted = false;
 
         try {
-            $this->dataService->delete($name, $ouuid);
+            $this->revisionService->delete($name, $ouuid);
             $this->logger->notice('log.crud.deleted', [
                 EmsFields::LOG_CONTENTTYPE_FIELD => $name,
                 EmsFields::LOG_OUUID_FIELD => $ouuid,

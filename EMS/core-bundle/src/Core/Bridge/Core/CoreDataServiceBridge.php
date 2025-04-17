@@ -52,7 +52,7 @@ readonly class CoreDataServiceBridge implements CoreDataBridgeInterface
     #[\Override]
     public function delete(string $uuid): CoreBridgeResponse
     {
-        return $this->response(fn () => $this->dataService->delete($this->contentType->validate(), $uuid));
+        return $this->response(fn () => $this->revisionService->delete($this->contentType->validate(), $uuid));
     }
 
     #[\Override]

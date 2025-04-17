@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Service\Revision;
 
+use Doctrine\ORM\EntityManagerInterface;
 use EMS\CommonBundle\Common\EMSLink;
 use EMS\CommonBundle\Common\EMSLinkCollection;
 use EMS\CommonBundle\Contracts\ExpressionServiceInterface;
@@ -14,6 +15,7 @@ use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CoreBundle\Common\DocumentInfo;
 use EMS\CoreBundle\Contracts\Revision\RevisionServiceInterface;
 use EMS\CoreBundle\Core\ContentType\ContentTypeFields;
+use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Core\Log\LogRevisionContext;
 use EMS\CoreBundle\Core\Revision\Revisions;
 use EMS\CoreBundle\Core\User\UserManager;
@@ -33,6 +35,7 @@ use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -45,6 +48,7 @@ class RevisionService implements RevisionServiceInterface
         private readonly FormFactory $formFactory,
         private readonly LoggerInterface $logger,
         private readonly LoggerInterface $auditLogger,
+        private readonly EntityManagerInterface $em,
         private readonly RevisionRepository $revisionRepository,
         private readonly PublishService $publishService,
         private readonly ContentTypeService $contentTypeService,
@@ -121,6 +125,40 @@ class RevisionService implements RevisionServiceInterface
         return $this->formFactory->createBuilder(RevisionType::class, $revision, [
             'raw_data' => $revision->getRawData(),
         ])->getForm();
+    }
+
+    public function delete(ContentType|string $contentType, string $ouuid, ?string $username = null): void
+    {
+        $contentType = (\is_string($contentType)) ? $this->contentTypeService->giveByName($contentType) : $contentType;
+        $contentType->validate();
+
+        if (!$this->userManager->isGranted($contentType->role(ContentTypeRoles::DELETE))) {
+            throw new AccessDeniedException('Delete role not granted!');
+        }
+
+        $revisions = $this->revisionRepository->findBy(['ouuid' => $ouuid, 'contentType' => $contentType]);
+        $username ??= $this->userManager->getAuthenticatedUser()->getUsername();
+
+        /** @var Revision $revision */
+        foreach ($revisions as $revision) {
+            $this->dataService->lockRevision(revision: $revision, username: $username);
+
+            /** @var Environment $environment */
+            foreach ($revision->getEnvironments() as $environment) {
+                $this->publishService->unpublish(revision: $revision, environment: $environment, defaultProtected: false);
+            }
+            $revision->delete($username);
+
+            if (null === $revision->getEndTime()) {
+                $this->auditLogger->notice('log.revision.deleted', LogRevisionContext::delete($revision));
+            }
+
+            $this->em->persist($revision);
+            $this->dataService->unlockRevision($revision, $username);
+        }
+        $this->em->flush();
+
+        $this->elasticaService->refresh($contentType->giveEnvironment()->getAlias());
     }
 
     public function deleteByContentType(ContentType $contentType): int

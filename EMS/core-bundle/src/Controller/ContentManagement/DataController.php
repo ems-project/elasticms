@@ -37,6 +37,7 @@ use EMS\CoreBundle\Service\EnvironmentService;
 use EMS\CoreBundle\Service\IndexService;
 use EMS\CoreBundle\Service\JobService;
 use EMS\CoreBundle\Service\PublishService;
+use EMS\CoreBundle\Service\Revision\RevisionService;
 use EMS\CoreBundle\Service\SearchService;
 use EMS\CoreBundle\Twig\AppExtension;
 use EMS\Helpers\Standard\Json;
@@ -60,6 +61,7 @@ class DataController extends AbstractController
     public function __construct(
         private readonly LoggerInterface $logger,
         private readonly DataService $dataService,
+        private readonly RevisionService $revisionService,
         private readonly SearchService $searchService,
         private readonly ContentTypeService $contentTypeService,
         private readonly EnvironmentService $environmentService,
@@ -353,7 +355,7 @@ class DataController extends AbstractController
             ]);
         }
 
-        $this->dataService->delete($type, $ouuid);
+        $this->revisionService->delete($type, $ouuid);
 
         return $this->contentTypeService->redirectOverview($contentType);
     }

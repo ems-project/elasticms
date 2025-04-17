@@ -11,7 +11,6 @@ use Doctrine\ORM\OptimisticLockException;
 use EMS\CommonBundle\Common\EMSLink;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
 use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
-use EMS\CommonBundle\Elasticsearch\Exception\NotFoundException;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CommonBundle\Storage\StorageManager;
@@ -54,7 +53,6 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Twig\Environment as TwigEnvironment;
 use Twig\Error\Error;
@@ -1191,64 +1189,6 @@ class DataService
         $this->auditLogger->info('log.revision.draft.deleted', LogRevisionContext::update($revision));
 
         return $hasPreviousRevision;
-    }
-
-    public function delete(ContentType|string $contentType, string $ouuid, ?string $username = null): void
-    {
-        $contentType = (\is_string($contentType)) ? $this->contentTypeService->giveByName($contentType) : $contentType;
-        $contentType->validate();
-
-        if (!$this->authorizationChecker->isGranted($contentType->role(ContentTypeRoles::DELETE))) {
-            throw new AccessDeniedException('Delete role not granted!');
-        }
-
-        /** @var EntityManager $em */
-        $em = $this->doctrine->getManager();
-        /** @var RevisionRepository $repository */
-        $repository = $em->getRepository(Revision::class);
-
-        $revisions = $repository->findBy([
-            'ouuid' => $ouuid,
-            'contentType' => $contentType]);
-
-        $username ??= $this->userService->getCurrentUser()->getUsername();
-
-        /** @var Revision $revision */
-        foreach ($revisions as $revision) {
-            $this->lockRevision(revision: $revision, username: $username);
-
-            /** @var Environment $environment */
-            foreach ($revision->getEnvironments() as $environment) {
-                try {
-                    $this->indexService->delete($revision, $environment);
-                    $this->auditLogger->notice('log.unpublished.success', LogRevisionContext::unpublish($revision, $environment));
-                } catch (NotFoundException $e) {
-                    if (!$revision->getDeleted()) {
-                        $this->logger->warning('service.data.already_unpublished', [
-                            'label' => $revision->getLabel(),
-                            EmsFields::LOG_CONTENTTYPE_FIELD => $revision->giveContentType()->getName(),
-                            EmsFields::LOG_OUUID_FIELD => $revision->getOuuid(),
-                            EmsFields::LOG_REVISION_ID_FIELD => $revision->getId(),
-                            EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_DELETE,
-                            EmsFields::LOG_ENVIRONMENT_FIELD => $environment->getLabel(),
-                        ]);
-                    }
-                    throw $e;
-                }
-                $revision->removeEnvironment($environment);
-            }
-            $revision->delete($username);
-
-            if (null === $revision->getEndTime()) {
-                $this->auditLogger->notice('log.revision.deleted', LogRevisionContext::delete($revision));
-            }
-
-            $em->persist($revision);
-            $this->unlockRevision($revision, $username);
-        }
-        $em->flush();
-
-        $this->elasticaService->refresh($contentType->giveEnvironment()->getAlias());
     }
 
     public function trashEmpty(ContentType $contentType, string ...$ouuids): void

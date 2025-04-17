@@ -267,7 +267,7 @@ class PublishService
     /**
      * @throws DBALException
      */
-    public function unpublish(Revision $revision, Environment $environment, bool $command = false): void
+    public function unpublish(Revision $revision, Environment $environment, bool $command = false, bool $defaultProtected = true): void
     {
         if (!$command) {
             $user = $this->userService->getCurrentUser();
@@ -293,7 +293,7 @@ class PublishService
             }
         }
 
-        if ($revision->giveContentType()->giveEnvironment() === $environment) {
+        if ($defaultProtected && $revision->giveContentType()->giveEnvironment() === $environment) {
             $this->logger->warning('service.publish.not_in_default_environment', [
                 EmsFields::LOG_CONTENTTYPE_FIELD => $revision->giveContentType()->getName(),
                 EmsFields::LOG_OUUID_FIELD => $revision->getOuuid(),

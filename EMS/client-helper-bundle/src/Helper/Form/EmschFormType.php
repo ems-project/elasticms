@@ -43,9 +43,13 @@ class EmschFormType extends AbstractType
         }
 
         $template = $options['template'];
-        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($template) {
-            $template->context()->append(['submitData' => $event->getData()]);
-        });
+        $appendEmschFormData = function (FormEvent $event) use ($template) {
+            $template->context()->append(['emschFormData' => $event->getData()]);
+        };
+
+        $builder
+            ->addEventListener(FormEvents::POST_SET_DATA, $appendEmschFormData)
+            ->addEventListener(FormEvents::POST_SUBMIT, $appendEmschFormData);
     }
 
     /**
@@ -87,7 +91,7 @@ class EmschFormType extends AbstractType
                     $template = $options['template'];
 
                     return [new Assert\Callback(function ($data, ExecutionContextInterface $context) use ($template) {
-                        $this->validateForm($data, $context, $template);
+                        $this->validateForm($context, $template);
                     })];
                 },
             ])
@@ -122,11 +126,8 @@ class EmschFormType extends AbstractType
         };
     }
 
-    /** @param array<string, mixed> $data */
-    private function validateForm(array $data, ExecutionContextInterface $context, TemplateInterface $template): void
+    private function validateForm(ExecutionContextInterface $context, TemplateInterface $template): void
     {
-        $template->context()->append(['submitData' => $data]);
-
         /** @var array<int, array{ 'path'?: string, 'message': string }> $errors */
         $errors = $template->jsonBlock(EmschFormBlock::VALIDATE->value);
 

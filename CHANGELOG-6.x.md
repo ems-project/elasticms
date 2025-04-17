@@ -1,5 +1,13 @@
 # Changelog 6.x
 
+## 6.2.2 (2025-04-17)
+### Bug Fixes
+* fix(admin/api): ldap authenticator use provider by @Davidmattei in https://github.com/ems-project/elasticms/pull/1301
+* fix(admin/revision): lock exception on restore from trash by @Davidmattei in https://github.com/ems-project/elasticms/pull/1298
+* fix(admin/revision): use revision display column in trash overview by @Davidmattei in https://github.com/ems-project/elasticms/pull/1300
+* fix(admin/security): allows public access to /emsf/ baseurls (channels) by @theus77 in https://github.com/ems-project/elasticms/pull/1292
+* fix(web/form): pass submitted data to template by @Davidmattei in https://github.com/ems-project/elasticms/pull/1297
+
 ## 6.2.1 (2025-04-04)
 ### Features
 * feat(client/emschForm): support validate block by @Davidmattei in https://github.com/ems-project/elasticms/pull/1287

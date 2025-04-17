@@ -1,6 +1,8 @@
 {% extends '@EMSCH/template/view/abstract.html.twig' %}
 {% trans_default_domain trans_default_domain %}
 
+{% import '@EMSCH/template/macros/wysiwyg.twig' as wysiwyg %}
+
 {% block title %}
     {%- if attribute(source, locale).meta_title|default(false) -%}
         {{- attribute(source, locale).meta_title -}}
@@ -43,7 +45,9 @@
         <section class="py-5 py-lg-8">
             <div class="row">
                 <div class="col-12 col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
-                    {{ attribute(source, locale).body|emsch_routing }}
+                    {%- if attribute(source, locale).body is defined -%}
+                        {{ wysiwyg.transform(attribute(source, locale).body|emsch_routing) }}
+                    {%- endif -%}
                 </div>
                 <div class="col-12 col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
                     {%  set target = {

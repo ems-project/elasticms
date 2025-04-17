@@ -24,15 +24,28 @@ class DocumentationController extends AbstractController
 
         if ($format === 'json') {
             $paths = [];
+            $tags = [];
 
             foreach ($this->getRoutes() as $name => $route) {
-
                 $path = $route->getPath();
                 $methods = $route->getMethods();
                 $controller = $route->getDefault('_controller') ?? 'Not defined';
 
+                $tag = 'Default';
+                if (str_contains($controller, 'Controller')) {
+                    $parts = explode('\\', $controller);
+                    $controllerName = end($parts);
+                    $tag = str_replace('Controller', '', explode('::', $controllerName)[0]);
+                }
+
+                $tags[$tag] = [
+                    'name' => $tag,
+                    'description' => "Endpoints related to $tag"
+                ];
+
                 foreach ($methods as $method) {
                     $paths[$path][strtolower($method)] = [
+                        'tags' => [$tag],
                         'summary' => $name,
                         'responses' => [
                             '200' => [
@@ -50,6 +63,7 @@ class DocumentationController extends AbstractController
                     'description' => 'OpenAPI documentation based on Symfony routes',
                     'version' => '1.0.0',
                 ],
+                'tags' => array_values($tags), 
                 'paths' => $paths,
             ];
 
@@ -58,6 +72,7 @@ class DocumentationController extends AbstractController
 
         return $this->render("@$this->templateNamespace/api/documentation.html.twig");
     }
+
 
 
     public function getRoutes(): array

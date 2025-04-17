@@ -23,18 +23,15 @@ readonly class FormController
     public function __invoke(Request $request): Response
     {
         $template = $this->handler->handle($request);
-
         $data = $template->jsonBlock(EmschFormBlock::DATA->value);
 
         $form = $this->formFactory->create(EmschFormType::class, $data, ['template' => $template]);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $template->context()->append(['emschFormData' => $form->getData()]);
-
-            if ($redirect = $template->renderBlock(EmschFormBlock::SUCCESS_REDIRECT->value)) {
-                return new RedirectResponse($redirect);
-            }
+        if ($form->isSubmitted()
+            && $form->isValid()
+            && $redirect = $template->renderBlock(EmschFormBlock::SUCCESS_REDIRECT->value)) {
+            return new RedirectResponse($redirect);
         }
 
         $template->context()->append(['emschForm' => $form->createView()]);

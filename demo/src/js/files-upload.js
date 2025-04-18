@@ -1,56 +1,5 @@
+import t from './translations.js'
 const dataTransferByFields = []
-const msg =
-    {
-        "filesSelectedCount": {
-            "fr": "%count% fichiers selectionnés",
-            "nl": "%count% geselecteerde bestanden",
-            "de": "%count% ausgewählte Dateien",
-            "en": "%count% files selected"
-        },
-        "fileSelectedCount": {
-            "fr": "1 fichier selectionné",
-            "nl": "1 geselecteerde bestand",
-            "de": "1 ausgewählte Datei",
-            "en": "1 file selected"
-        },
-        "filesRemoveAll": {
-            "fr": "Supprimer tout",
-            "nl": "Alles verwijderen",
-            "de": "Alle löschen",
-            "en": "Remove all"
-        },
-        "fileRemove": {
-            "fr": "Supprimer",
-            "nl": "Verwijderen",
-            "de": "Löschen",
-            "en": "Remove"
-        },
-        "requiredLabel": {
-            "fr": "(*) Champs obligatoires",
-            "nl": "(*) Verplichte velden",
-            "de": "(*) Benötigte Felder",
-            "en": "(*) Required fields"
-        },
-        "max_multiple_file_size": {
-            "fr": "Les fichiers sont trop volumineux. La taille maximale autorisée est de %fileSize%.",
-            "nl": "De bestanden zijn te groot. Toegestane maximum grootte is %fileSize%.",
-            "de": "Die Dateien sind zu groß. Die maximal zulässige Größe beträgt %fileSize%.",
-            "en": "The data is large. The maximum size is %fileSize%."
-        },
-        "wrongFormatFile": {
-            "fr": "Erreur: Format incorrect.&nbsp;",
-            "nl": "Fout: Onjuist formaat.&nbsp;",
-            "de": "FehlerFalsches: Format.&nbsp;",
-            "en": "ErrorIncorrect: format.&nbsp;",
-        },
-        "wrongFormatStrip": {
-            "fr": "Format incorrect",
-            "nl": "Onjuist formaat",
-            "de": "Falsches Format",
-            "en": "Incorrect format",
-        }
-    };
-
 
 export default class FilesUpload {
 
@@ -63,6 +12,7 @@ export default class FilesUpload {
         this.addDraggableListener(this)
         this.addChangeInputListener(target, this.boxFileupload)
         this.validationRequired(target)
+        this.addClickListener()
     }
 
     addDraggableListener() {
@@ -83,18 +33,36 @@ export default class FilesUpload {
         })
     }
 
+    addClickListener() {
+        const label = this.boxFileupload.querySelector('.custom-file-label')
+        this.boxFileupload.querySelector('.files-upload-head').addEventListener('click', (e) => {
+            if (e.target.closest('label') !== label) {
+                label.click()
+            }
+        })
+    }
+
     validationRequired(target) {
         const self = this
         target.addEventListener('invalid', function(e) {
             e.preventDefault();
             if (this.required) {
-                self.boxFileupload.querySelector('.files-upload-error').innerHTML = msg.requiredLabel[self.langAttr]
+                self.setError(t('required_field'))
             }
         })
     }
 
+    setError(errorMsg) {
+        const errorBox = this.boxFileupload.querySelector('.files-upload-error')
+        errorBox.innerHTML = errorMsg
+        errorBox.classList.remove('d-none')
+    }
 
-    initFilesUpload(uplaodFiles, context) {
+    removeError() {
+        this.boxFileupload.querySelector('.files-upload-error').classList.add('d-none');
+    }
+
+    initFilesUpload(uploadFiles, context) {
         const self = this
         const langAttr = self.langAttr
         let fileField = self.fileField
@@ -107,25 +75,25 @@ export default class FilesUpload {
 
         const filenames = [];
         let filesSize = 0;
-        for (let i = 0; uplaodFiles && i < uplaodFiles.length; ++i) {
-            if (self.inDataTransfer(dataTransfer, uplaodFiles[i])) {
+        for (let i = 0; uploadFiles && i < uploadFiles.length; ++i) {
+            if (self.inDataTransfer(dataTransfer, uploadFiles[i])) {
                 continue;
             }
-            dataTransfer.items.add(uplaodFiles[i]);
+            dataTransfer.items.add(uploadFiles[i]);
         }
-        uplaodFiles = dataTransfer.files;
+        uploadFiles = dataTransfer.files;
 
-        for (let i = 0; i < uplaodFiles.length; ++i) {
-            filesSize += uplaodFiles.item(i).size
-            filenames.push(uplaodFiles.item(i).name.split("\\").pop().replace('%20', ' '));
+        for (let i = 0; i < uploadFiles.length; ++i) {
+            filesSize += uploadFiles.item(i).size
+            filenames.push(uploadFiles.item(i).name.split("\\").pop().replace('%20', ' '));
         }
 
         if (filesSize > self.inputFileMaxAllowedSize) {
-            fileField.setCustomValidity(msg.max_multiple_file_size[langAttr].replace('%fileSize%', this.humanFileSize(self.inputFileMaxAllowedSize, true)))
-            self.boxFileupload.querySelector('.files-upload-error').innerHTML = msg.max_multiple_file_size[langAttr].replace('%fileSize%', this.humanFileSize(self.inputFileMaxAllowedSize, true))
+            fileField.setCustomValidity(t('max_size_reached').replace('%fileSize%', this.humanFileSize(self.inputFileMaxAllowedSize, true)))
+            self.setError(t('max_size_reached').replace('%fileSize%', this.humanFileSize(self.inputFileMaxAllowedSize, true)))
         } else {
             fileField.setCustomValidity('');
-            self.boxFileupload.querySelector('.files-upload-error').innerHTML = ''
+            self.removeError();
         }
 
         fileField.files = dataTransfer.files;
@@ -133,7 +101,7 @@ export default class FilesUpload {
         fileList.innerHTML = ''
         let clearAllTag = document.createElement('a')
         clearAllTag.className = 'remove-all-files'
-        clearAllTag.innerHTML = msg.filesRemoveAll[langAttr]
+        clearAllTag.innerHTML = t('remove_all')
         clearAllTag.href = '#'
         if(filenames.length === 0) {
            if (self.boxFileupload.querySelector('p.count-file') !== null ) {
@@ -154,12 +122,12 @@ export default class FilesUpload {
             }
 
             if (filenames.length === 1) {
-                p.innerHTML = msg.fileSelectedCount[langAttr]
+                p.innerHTML = t('file_selected')
                 if (self.boxFileupload.querySelector('.remove-all-files') !== null ) {
                     self.boxFileupload.querySelector('.remove-all-files').remove()
                 }
             } else {
-                p.innerHTML = msg.filesSelectedCount[langAttr].replace('%count%', filenames.length)
+                p.innerHTML = t('files_selected').replace('%count%', filenames.length)
                 if (self.boxFileupload.querySelector('.remove-all-files') == null ) {
                     self.boxFileupload.append(clearAllTag)
                 }
@@ -174,19 +142,19 @@ export default class FilesUpload {
 
             for (let i = 0; i < filenames.length; ++i) {
                 const li = document.createElement('li')
-                if (uplaodFiles.item(i).type !== undefined && !self.acceptTypes.toLowerCase().includes(uplaodFiles.item(i).type)) {
+                if (uploadFiles.item(i).type !== undefined && self.acceptTypes && !self.acceptTypes.toLowerCase().includes(uploadFiles.item(i).type)) {
                     const span = document.createElement('span')
-                    span.className = 'form-error-message text-danger'
-                    span.innerHTML = msg.wrongFormatFile[langAttr]
+                    span.className = 'form-error-message'
+                    span.innerHTML = t('format_not_supported')
                     li.prepend(span)
-                    fileField.setCustomValidity(msg.wrongFormatStrip[langAttr])
+                    fileField.setCustomValidity(t('incorrect_format'))
                 }
                 const a = document.createElement('a')
                 a.className = 'remove-file'
-                a.innerHTML = msg.fileRemove[langAttr]
+                a.innerHTML = t('remove')
                 a.href = '#'
                 a.dataset.fileid = i
-                li.innerHTML = li.innerHTML + filenames[i] + ' (' + self.humanFileSize(uplaodFiles.item(i).size, true) + ')  '
+                li.innerHTML = li.innerHTML + filenames[i] + ' (' + self.humanFileSize(uploadFiles.item(i).size, true) + ')  '
                 li.append(a)
                 fileList.append(li)
             }

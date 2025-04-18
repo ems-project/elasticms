@@ -9,3 +9,16 @@ emsch:
       submit: Login
 login: Login
 files_browse: 'Choose files'
+js:
+  file_selected: '1 file selected'
+  files_selected: '%count% files selected'
+  form_error: 'The form encountered an issue : %message%'
+  form_error_try_later: 'The form encountered an issue, please try again later.'
+  form_processed: 'Your message has been sent.'
+  form_saved: 'Your message has been sent.'
+  format_not_supported: 'Error: format not supported.'
+  incorrect_format: 'Incorrect format'
+  max_size_reached: 'The data is large. The maximum size is %fileSize%.'
+  required_field: '(*) Required field'
+  remove: Remove
+  remove_all: 'Remove all'

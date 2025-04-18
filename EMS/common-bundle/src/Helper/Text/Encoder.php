@@ -115,7 +115,7 @@ class Encoder
             $rules = ['de-ASCII'];
         }
 
-        return (new UnicodeString($text))->ascii($rules)->toString();
+        return new UnicodeString($text)->ascii($rules)->toString();
     }
 
     public static function markdownToHtml(string $markdown): string

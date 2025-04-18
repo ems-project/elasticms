@@ -578,7 +578,6 @@ service:
         too_many_indexes: 'There is too many indexes'
     asset_extractor:
         extract_error: 'An issue has been raised while extracting information from the file %filename% : %error_message%<br>Please verify your input file and retry or add manually meta information within the info modal menu.'
-        persist_error: 'An issue has been raised while persisting the information extracted from the asset/file %file_hash% : %error_message%'
     contenttype:
         field_not_found: 'Field %field_id% not found and ignored'
         reordered: 'Content type "%contenttype% has been reordered'
@@ -749,6 +748,7 @@ user:
             email: E-mail
             email_notification: 'E-mail notifications'
             enabled: Enabled
+            group: Group
             id: 'User ID'
             lastLogin: 'Last Login'
             expirationDate: 'Expiration Date'
@@ -757,6 +757,7 @@ user:
             locale_preferred: 'Locale preferred'
             wysiwyg_profile: 'WYSIWYG profile'
             locale_ui: UI
+            user_group: Group
     add:
         button: 'Add user'
     export:
@@ -825,6 +826,8 @@ view:
     user:
         index:
             title: 'User list'
+            user-in-group: 'User in group'
+            user-not-in-group: 'User not in group'
         permissions:
             page_title: 'Permissions Overview'
             titles:

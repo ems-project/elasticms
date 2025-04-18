@@ -127,7 +127,7 @@ final class File implements FileInterface
         }
         $stream = $this->client->download($this->downloadLink($hash));
 
-        return (new StorageFile($stream))->getFilename();
+        return new StorageFile($stream)->getFilename();
     }
 
     #[\Override]

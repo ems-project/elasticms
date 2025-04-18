@@ -41,6 +41,8 @@ class CommonExtension extends AbstractExtension
             new TwigFunction('ems_file_from_archive', [AssetRuntime::class, 'fileFromArchive']),
             new TwigFunction('ems_core', [CoreBridgeRuntime::class, 'build']),
             new TwigFunction('ems_flash', [RequestRuntime::class, 'flash']),
+            new TwigFunction('ems_file_reader_data', [AssetRuntime::class, 'fileReaderGetData']),
+            new TwigFunction('ems_file_reader_cells', [AssetRuntime::class, 'fileReaderReadCells']),
             new TwigFunction('ems_unzip', [AssetRuntime::class, 'unzip'], [
                 'deprecation_info' => new DeprecatedCallableInfo('elasticms/common-bundle', '5.19.0', 'ems_file_from_archive'),
             ]),
@@ -59,7 +61,7 @@ class CommonExtension extends AbstractExtension
             new TwigFilter('ems_html_encode', [TextRuntime::class, 'htmlEncode'], ['is_safe' => ['html']]),
             new TwigFilter('ems_html_decode', [TextRuntime::class, 'htmlDecode']),
             new TwigFilter('ems_anti_spam', [TextRuntime::class, 'htmlEncodePii'], ['is_safe' => ['html']]),
-            new TwigFilter('ems_manifest', (new ManifestRuntime())->manifest(...)),
+            new TwigFilter('ems_manifest', new ManifestRuntime()->manifest(...)),
             new TwigFilter('ems_json_menu_decode', [TextRuntime::class, 'jsonMenuDecode']),
             new TwigFilter('ems_json_menu_nested_decode', [TextRuntime::class, 'jsonMenuNestedDecode']),
             new TwigFilter('ems_json_decode', [TextRuntime::class, 'jsonDecode']),

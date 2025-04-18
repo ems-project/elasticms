@@ -27,6 +27,7 @@ class EMSCommonExtension extends Extension implements PrependExtensionInterface
 
         $loader->load('storage.xml');
         $loader->load('store_data.xml');
+        $loader->load('runner.xml');
 
         if ($config['profiler']) {
             $loader->load('profiler.xml');
@@ -39,6 +40,7 @@ class EMSCommonExtension extends Extension implements PrependExtensionInterface
         $container->setParameter('ems_common.elasticsearch_hosts', $config['elasticsearch_hosts']);
         $container->setParameter('ems_common.elasticsearch_connection_pool', $config['elasticsearch_connection_pool']);
         $container->setParameter('ems_common.storages', $config['storages']);
+        $container->setParameter('ems_common.runners', $config['runners']);
         $container->setParameter('ems_common.store_data_services', $config['store_data_services']);
         $container->setParameter('ems_common.log_level', $config['log_level']);
         $container->setParameter('ems_common.excluded_content_types', $config['excluded_content_types']);

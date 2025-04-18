@@ -9,39 +9,67 @@ use EMS\CommonBundle\Contracts\Twig\TemplateInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type as SymfonyType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @extends AbstractType<mixed>
  */
 class EmschFormType extends AbstractType
 {
-    private const string BLOCK_FROM_CONFIG = 'emschFormConfig';
-    private const string BLOCK_FROM_VIEW = 'emschFormView';
-
     /**
      * @param FormBuilderInterface<mixed> $builder
      * @param array{
      *     'template': TemplateInterface,
-     *     'emsch_form_view': array<mixed>
+     *     'elements': list<array{ 'name': string, 'type'?: 'string', 'options': array<string, mixed> }>
      * } $options
      */
     #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        /** @var list<array{ 'name': string, 'type'?: 'string', 'options': array<string, mixed> }> $elements */
-        $elements = $options['template']->jsonBlock(self::BLOCK_FROM_CONFIG);
-
-        foreach ($elements as $element) {
+        foreach ($options['elements'] as $element) {
             $elementType = $this->getElementType($element['type'] ?? 'text');
             $elementOptions = $element['options'] ?? [];
             $elementOptions['constraints'] = $this->resolveConstraints($elementOptions['constraints'] ?? []);
-            $elementOptions['emsch_form_view'] = $options['emsch_form_view'];
 
             $builder->add(child: $element['name'], type: $elementType, options: $elementOptions);
+        }
+
+        $template = $options['template'];
+        $appendEmschFormData = function (FormEvent $event) use ($template) {
+            $template->context()->append(['emschFormData' => $event->getData()]);
+        };
+
+        $builder
+            ->addEventListener(FormEvents::POST_SET_DATA, $appendEmschFormData)
+            ->addEventListener(FormEvents::POST_SUBMIT, $appendEmschFormData);
+    }
+
+    /**
+     * @param array{
+     *     'template': TemplateInterface,
+     *     'elements': list<array{ 'name': string, 'type'?: 'string', 'options': array<string, mixed> }>
+     * } $options
+     */
+    #[\Override]
+    public function finishView(FormView $view, FormInterface $form, array $options): void
+    {
+        $template = $options['template'];
+        $emschView = $template->jsonBlock(EmschFormBlock::VIEW->value);
+
+        foreach ($options['elements'] as $element) {
+            if (!isset($view->children[$element['name']])) {
+                continue;
+            }
+
+            $view->children[$element['name']]->vars['emsch_form_view'] = $emschView;
         }
     }
 
@@ -51,12 +79,23 @@ class EmschFormType extends AbstractType
         $resolver
             ->setRequired(['template'])
             ->setAllowedTypes('template', TemplateInterface::class)
-            ->setDefault('emsch_form_view', function (Options $options): array {
-                /** @var TemplateInterface $template */
-                $template = $options['template'];
+            ->setDefaults([
+                'elements' => function (Options $options) {
+                    /** @var TemplateInterface $template */
+                    $template = $options['template'];
 
-                return $template->jsonBlock(self::BLOCK_FROM_VIEW);
-            });
+                    return $template->jsonBlock(EmschFormBlock::CONFIG->value);
+                },
+                'constraints' => function (Options $options) {
+                    /** @var TemplateInterface $template */
+                    $template = $options['template'];
+
+                    return [new Assert\Callback(function ($data, ExecutionContextInterface $context) use ($template) {
+                        $this->validateForm($context, $template);
+                    })];
+                },
+            ])
+        ;
     }
 
     #[\Override]
@@ -87,6 +126,20 @@ class EmschFormType extends AbstractType
         };
     }
 
+    private function validateForm(ExecutionContextInterface $context, TemplateInterface $template): void
+    {
+        /** @var array<int, array{ 'path'?: string, 'message': string }> $errors */
+        $errors = $template->jsonBlock(EmschFormBlock::VALIDATE->value);
+
+        foreach ($errors as $error) {
+            $violation = $context->buildViolation($error['message']);
+            if (isset($error['path'])) {
+                $violation->atPath($error['path']);
+            }
+            $violation->addViolation();
+        }
+    }
+
     /**
      * @param array<int, array<mixed>> $constraints
      *
@@ -112,6 +165,10 @@ class EmschFormType extends AbstractType
                 pattern: $value['pattern'],
                 message: $value['message'] ?? null,
             ),
+            'greaterThan' => new Assert\GreaterThan(value: $value['value'], message: $value['message'] ?? null),
+            'greaterThanOrEqual' => new Assert\GreaterThanOrEqual(value: $value['value'], message: $value['message'] ?? null),
+            'lessThan' => new Assert\LessThan(value: $value['value'], message: $value['message'] ?? null),
+            'lessThanOrEqual' => new Assert\LessThanOrEqual(value: $value['value'], message: $value['message'] ?? null),
             default => throw new \RuntimeException(\sprintf('Invalid constraint type "%s"', $value['type'])),
         }, $constraints);
     }

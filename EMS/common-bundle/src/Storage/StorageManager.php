@@ -45,7 +45,7 @@ class StorageManager implements FileManagerInterface
     {
         foreach ($factories as $factory) {
             if (!$factory instanceof StorageFactoryInterface) {
-                throw new \RuntimeException('Unexpected StorageInterface class');
+                throw new \RuntimeException('Unexpected StorageFactoryInterface class');
             }
             $this->addStorageFactory($factory);
         }
@@ -221,6 +221,14 @@ class StorageManager implements FileManagerInterface
     public function computeStringHash(string $string, ?string $hashAlgo = null, bool $binary = false): string
     {
         return \hash($hashAlgo ?? $this->hashAlgo, $string, $binary);
+    }
+
+    /** @param array<mixed> $data */
+    public function computeDataHash(array $data): string
+    {
+        Json::normalize($data);
+
+        return $this->computeStringHash(Json::encode($data));
     }
 
     public function computeFileHash(string $filename): string

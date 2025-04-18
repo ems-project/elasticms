@@ -26,33 +26,41 @@ final readonly class Manager
     /**
      * @return array<mixed>
      */
-    public function search(Request $request): array
+    public function searchFromRequest(Request $request): array
     {
-        $requestSearch = new Search($request, $this->clientRequest);
+        return $this->search(new Search($request, $this->clientRequest));
+    }
 
-        $qbService = new QueryBuilder($this->clientRequest, $requestSearch);
-        $search = $qbService->buildSearch($requestSearch->getTypes());
-        $search->setSourceExcludes($requestSearch->getFieldsExclude());
-        $search->setFrom($requestSearch->getFrom());
-        $search->setSize($requestSearch->getSize());
-        $search->setRegex($requestSearch->getIndexRegex());
+    /**
+     * @return array<mixed>
+     */
+    public function search(Search $searchConfig): array
+    {
+        $qbService = new QueryBuilder($this->clientRequest, $searchConfig);
+
+        $search = $qbService->buildSearch($searchConfig->getTypes());
+        $search->setSourceExcludes($searchConfig->getFieldsExclude());
+        $search->setFrom($searchConfig->getFrom());
+        $search->setSize($searchConfig->getSize());
+        $search->setRegex($searchConfig->getIndexRegex());
 
         $commonSearch = $this->clientRequest->commonSearch($search);
+        /** @var array{ 'hits': array<mixed> } $results */
         $results = $commonSearch->getResponse()->getData();
         $results['hits']['total'] = $results['hits']['total']['value'] ?? $results['hits']['total'] ?? 0;
 
         $response = Response::fromResultSet($commonSearch);
-        $requestSearch->bindAggregations($response, $qbService->getQueryFilters());
+        $searchConfig->bindAggregations($response, $qbService->getQueryFilters());
 
         return [
             'results' => $results,
             'response' => $response,
-            'search' => $requestSearch,
-            'query' => $requestSearch->getQueryString(),
-            'sort' => $requestSearch->getSortBy(),
-            'facets' => $requestSearch->getQueryFacets(),
-            'page' => $requestSearch->getPage(),
-            'size' => $requestSearch->getSize(),
+            'search' => $searchConfig,
+            'query' => $searchConfig->getQueryString(),
+            'sort' => $searchConfig->getSortBy(),
+            'facets' => $searchConfig->getQueryFacets(),
+            'page' => $searchConfig->getPage(),
+            'size' => $searchConfig->getSize(),
         ];
     }
 }

@@ -66,6 +66,7 @@ class Revision implements EntityInterface, \Stringable
     private bool $selfUpdate = false;
 
     public const VERSION_BLANK = 'silent';
+    private bool $lazyIndex = false;
 
     public function enableSelfUpdate(): void
     {
@@ -94,7 +95,21 @@ class Revision implements EntityInterface, \Stringable
      */
     public function getData(): array
     {
+        if ($this->isLazyIndex()) {
+            return [];
+        }
+
         return RawDataTransformer::transform($this->giveContentType()->getFieldType(), $this->rawData ?? []);
+    }
+
+    public function setLazyIndex(bool $lazyIndex): void
+    {
+        $this->lazyIndex = $lazyIndex;
+    }
+
+    public function isLazyIndex(): bool
+    {
+        return $this->lazyIndex;
     }
 
     /**
@@ -146,6 +161,7 @@ class Revision implements EntityInterface, \Stringable
                 $this->taskCurrent = $ancestor->taskCurrent;
                 $this->taskPlannedIds = $ancestor->taskPlannedIds;
                 $this->taskApprovedIds = $ancestor->taskApprovedIds;
+                $this->lazyIndex = $ancestor->lazyIndex;
 
                 if (null !== $versionUuid = $ancestor->getVersionUuid()) {
                     $this->setVersionId($versionUuid);
@@ -267,6 +283,22 @@ class Revision implements EntityInterface, \Stringable
     public function setArchived(bool $archived): self
     {
         $this->archived = $archived;
+
+        return $this;
+    }
+
+    public function delete(string $username): self
+    {
+        $this->deletedBy = $username;
+        $this->deleted = true;
+
+        return $this;
+    }
+
+    public function restore(): self
+    {
+        $this->deletedBy = null;
+        $this->deleted = false;
 
         return $this;
     }
@@ -422,13 +454,6 @@ class Revision implements EntityInterface, \Stringable
     public function setArchivedBy(?string $archivedBy): void
     {
         $this->archivedBy = $archivedBy;
-    }
-
-    public function setDeletedBy(?string $deletedBy): self
-    {
-        $this->deletedBy = $deletedBy;
-
-        return $this;
     }
 
     public function getDeletedBy(): ?string
@@ -657,7 +682,7 @@ class Revision implements EntityInterface, \Stringable
     public function autoSaveToRawData(): self
     {
         if (null !== $this->autoSave) {
-            $this->rawData = [...$this->getRawData(), ...$this->autoSave];
+            $this->rawData = $this->autoSave;
             $this->autoSaveClear();
         }
 
@@ -820,12 +845,18 @@ class Revision implements EntityInterface, \Stringable
         }
 
         if (null === $this->getVersionUuid()) {
-            $versionId = isset($this->rawData['_version_uuid']) ? Uuid::fromString($this->rawData['_version_uuid']) : Uuid::uuid4();
+            $versionId = isset($this->rawData[Mapping::VERSION_UUID]) ? Uuid::fromString($this->rawData[Mapping::VERSION_UUID]) : Uuid::uuid4();
             $this->setVersionId($versionId);
         }
 
+        if ($this->isLazyIndex()) {
+            return;
+        }
+
         if (\count($versioning->getTags()) > 0) {
-            $this->setVersionTag($this->rawData[Mapping::VERSION_TAG] ?? $this->getVersionTagDefault());
+            if (null === $this->getVersionTag()) {
+                $this->setVersionTag($this->rawData[Mapping::VERSION_TAG] ?? $this->getVersionTagDefault());
+            }
             $this->updateVersionNextTag();
         }
 

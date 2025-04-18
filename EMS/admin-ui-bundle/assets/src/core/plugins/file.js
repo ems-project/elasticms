@@ -2,7 +2,6 @@ import $ from 'jquery'
 import FileUploader from '@elasticms/file-uploader'
 import { AddedDomEvent } from '../events/addedDomEvent'
 import PickFileFromServer from '../helpers/pickFileFromServer'
-import '../../../css/core/plugins/file.scss'
 import ajaxRequest from '../components/ajaxRequest'
 
 class File {

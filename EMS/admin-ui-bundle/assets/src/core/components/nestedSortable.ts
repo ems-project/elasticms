@@ -1,4 +1,3 @@
-import '../../../css/core/plugins/sortable.scss'
 import Sortable from 'sortablejs'
 
 export class NestedSortableOptions {

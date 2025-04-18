@@ -8,6 +8,7 @@ use EMS\CommonBundle\Common\CoreApi\Client;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Data\DataInterface;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Data\DraftInterface;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Data\RevisionInterface;
+use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
@@ -148,13 +149,10 @@ final readonly class Data implements DataInterface
     }
 
     #[\Override]
-    public function indexAsync(?string $ouuid, array $rawData, bool $merge = false, bool $refresh = false): ResponseInterface
+    public function indexAsync(?string $ouuid, array $rawData, bool $merge = false, bool $refresh = false, bool $lazy = false): ResponseInterface
     {
         $resource = $this->makeResource($merge && $ouuid ? 'update' : 'index', $ouuid);
-
-        if ($refresh) {
-            $resource .= '?refresh=true';
-        }
+        $resource .= '?'.\http_build_query(['refresh' => $refresh, 'lazy' => $lazy]);
 
         return $this->client->asyncRequest(Request::METHOD_POST, $resource, ['json' => $rawData]);
     }
@@ -163,12 +161,16 @@ final readonly class Data implements DataInterface
     public function publish(string $ouuid, string $environment, ?string $revisionId = null): bool
     {
         $resource = $this->makeResource('publish', $ouuid, $environment, $revisionId ?? '');
-        $success = $this->client->post($resource)->getData()['success'] ?? null;
-        if (!\is_bool($success)) {
-            throw new \RuntimeException('Unexpected: search must be a boolean');
-        }
 
-        return $success;
+        return $this->client->post($resource)->isSuccess();
+    }
+
+    #[\Override]
+    public function publishVersions(UuidInterface $versionUuid, string $environment): array
+    {
+        $resource = $this->makeResource('publish-versions', $versionUuid->toString(), $environment);
+
+        return $this->client->post($resource)->getData()['published_documents'] ?? [];
     }
 
     private function makeResource(?string ...$path): string

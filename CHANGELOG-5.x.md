@@ -1,5 +1,17 @@
 # Changelog 5.x
 
+## 5.25.7 (2025-04-09)
+### Bug Fixes
+* fix(admin/security): allows public access to /emsf/ baseurls (channels) by @theus77 in https://github.com/ems-project/elasticms/pull/1292
+* fix(common/storage): s3 upload bug small files by @theus77 in https://github.com/ems-project/elasticms/pull/1280
+
+## 5.25.6 (2025-03-31)
+### Bug Fixes
+* fix(admin/contentType): support helptext for choiceFieldType by @theus77 in https://github.com/ems-project/elasticms/pull/1259
+* fix(admin/extract): avoid creating ghost documents by @theus77 in https://github.com/ems-project/elasticms/pull/1263
+* fix(admin/js): disable button on file upload by @theus77 in https://github.com/ems-project/elasticms/pull/1272
+* fix(admin/revision): set version revision on publish by @coppee in https://github.com/ems-project/elasticms/pull/1278
+
 ## 5.25.5 (2025-03-10)
 ### Features
 * feat(admin): allow change link forgot password by @IsaMic in https://github.com/ems-project/elasticms/pull/1250
@@ -222,6 +234,14 @@
 * refactor(admin/cli): replace EmsCommand.php by AbstractCommand from c…   …ommon by @Davidmattei in https://github.com/ems-project/elasticms/pull/1022
 ### Chores
 * chore(demo): remove double 'french_stop' from backup. by @theus77 in https://github.com/ems-project/elasticms/pull/1018
+
+## 5.21.6 (2025-03-26)
+### Bug Fixes
+* fix(admin/contentType): support helptext for choiceFieldType by @theus77 in https://github.com/ems-project/elasticms/pull/1259
+* fix(admin/extract): avoid creating ghost documents by @theus77 in https://github.com/ems-project/elasticms/pull/1263
+* fix(admin/js): disable button on file upload by @theus77 in https://github.com/ems-project/elasticms/pull/1272
+* fix(core/file): return size and mimetype in the file api by @theus77 in https://github.com/ems-project/elasticms/pull/1118
+* fix(web): performance issue with getHierarchy function by @theus77 in https://github.com/ems-project/elasticms/pull/1155
 
 ## 5.21.5 (2024-12-09)
 ### Bug Fixes

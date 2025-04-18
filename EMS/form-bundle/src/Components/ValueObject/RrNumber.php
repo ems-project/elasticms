@@ -29,7 +29,7 @@ class RrNumber
      */
     public function __construct(string $number)
     {
-        $rrn = (new NumberValue($number))->getDigits();
+        $rrn = new NumberValue($number)->getDigits();
         \preg_match_all(self::RRN, $rrn, $matches, PREG_SET_ORDER, 0);
 
         $data = $matches[0];

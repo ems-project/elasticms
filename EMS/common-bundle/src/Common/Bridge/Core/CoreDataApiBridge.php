@@ -7,6 +7,7 @@ namespace EMS\CommonBundle\Common\Bridge\Core;
 use EMS\CommonBundle\Common\EMSLink;
 use EMS\CommonBundle\Contracts\Bridge\Core\CoreDataBridgeInterface;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Data\DataInterface;
+use Ramsey\Uuid\Uuid;
 
 readonly class CoreDataApiBridge implements CoreDataBridgeInterface
 {
@@ -70,5 +71,11 @@ readonly class CoreDataApiBridge implements CoreDataBridgeInterface
     public function publish(EMSLink $emsLink, string $environment): CoreBridgeResponse
     {
         return $this->response(fn () => $this->dataApi->publish($emsLink->getOuuid(), $environment));
+    }
+
+    #[\Override]
+    public function publishVersions(string $versionUuid, string $environment): CoreBridgeResponse
+    {
+        return $this->response(fn () => $this->dataApi->publishVersions(Uuid::fromString($versionUuid), $environment));
     }
 }

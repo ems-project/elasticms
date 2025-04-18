@@ -24,12 +24,10 @@ user:
             action:
                 cancel: Cancel
                 edit: Edit
-            display_name: 'Display name'
             email: e-mail
             email_notification: 'e-mail notification'
+            extra_roles: 'Extra roles'
             locale: 'Locale UI'
             locale_preferred: 'Locale preferred'
-            roles: Roles
             username: Username
             wysiwyg: 'WYSIWYG profile'
-        title: 'Your profile'

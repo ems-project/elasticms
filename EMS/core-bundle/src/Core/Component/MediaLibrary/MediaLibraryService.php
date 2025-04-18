@@ -93,10 +93,10 @@ class MediaLibraryService
     {
         $query = $this->elasticaService->getBoolQuery();
         $query
-            ->addMust((new Term())->setTerm($this->getConfig()->fieldPath, $document->path))
-            ->addMustNot((new Term())->setTerm('_id', $document->id));
+            ->addMust(new Term()->setTerm($this->getConfig()->fieldPath, $document->path))
+            ->addMustNot(new Term()->setTerm('_id', $document->id));
 
-        $existsFile = (new NestedQuery())
+        $existsFile = new NestedQuery()
             ->setPath($this->getConfig()->fieldFile)
             ->setQuery(new Exists($this->getConfig()->fieldFile));
 
@@ -142,7 +142,7 @@ class MediaLibraryService
     {
         $query = $this->elasticaService->getBoolQuery();
         $query->addMustNot(
-            (new NestedQuery())
+            new NestedQuery()
                 ->setPath($this->getConfig()->fieldFile)
                 ->setQuery(new Exists($this->getConfig()->fieldFile))
         );
@@ -347,8 +347,8 @@ class MediaLibraryService
 
         $query = $this->elasticaService->getBoolQuery();
         $query
-            ->addMust((new NestedQuery())->setPath($this->getConfig()->fieldFile)->setQuery(new Exists($hashField)))
-            ->addMust((new Term())->setTerm($this->getConfig()->fieldFolder, $path));
+            ->addMust(new NestedQuery()->setPath($this->getConfig()->fieldFile)->setQuery(new Exists($hashField)))
+            ->addMust(new Term()->setTerm($this->getConfig()->fieldFolder, $path));
 
         $search = $this->buildSearch($query);
 
@@ -390,7 +390,7 @@ class MediaLibraryService
         $fileSizeField = \sprintf('%s.%s', $fileField, EmsFields::CONTENT_FILE_SIZE_FIELD);
 
         $filesAgg = new NestedAgg('files', $this->getConfig()->fieldFile);
-        $filesAgg->addAggregation((new Sum('size'))->setField($fileSizeField));
+        $filesAgg->addAggregation(new Sum('size')->setField($fileSizeField));
         $search->addAggregation($filesAgg);
 
         if ($searchValue) {

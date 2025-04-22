@@ -110,6 +110,7 @@ class ExtractAssetCommand extends AbstractCommand
                 'size' => $file->getSize(),
                 'length' => \strlen($content),
                 'words' => \str_word_count($content),
+                'tokens' => $this->estimateTokens($content),
             ];
         }
 
@@ -117,20 +118,30 @@ class ExtractAssetCommand extends AbstractCommand
             $carry['size'] += $row['size'];
             $carry['length'] += $row['length'];
             $carry['words'] += $row['words'];
+            $carry['tokens'] += $row['tokens'];
 
             return $carry;
-        }, ['size' => 0, 'length' => 0, 'words' => 0]);
+        }, ['size' => 0, 'length' => 0, 'words' => 0, 'tokens' => 0]);
 
         $rows[] = new TableSeparator();
         $rows[] = ['name' => '<info>totals</info>', ...$totals];
 
-        $this->io->table(['name', 'size', 'length', 'words'], \array_map(static function ($row) {
+        $this->io->table(['name', 'size', 'length', 'words', 'tokens'], \array_map(static function ($row) {
             return \is_array($row) ? [
                 $row['name'],
                 Converter::formatBytes($row['size']),
                 \number_format($row['length'], 0, ',', '.'),
                 \number_format($row['words'], 0, ',', '.'),
+                \number_format($row['tokens'], 0, ',', '.'),
             ] : $row;
         }, $rows));
+    }
+
+    private function estimateTokens(string $content): int 
+    {
+        $words = preg_split('/\s+/', trim($content));
+        $wordCount = count($words);
+        
+        return (int) ceil($wordCount * 1.33);
     }
 }

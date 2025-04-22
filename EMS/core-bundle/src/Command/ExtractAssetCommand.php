@@ -5,13 +5,18 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Command;
 
 use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\CommonBundle\Common\Converter;
+use EMS\CommonBundle\Storage\Service\StorageInterface;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Service\AssetExtractorService;
+use EMS\Helpers\Standard\Type;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
 
@@ -25,6 +30,7 @@ class ExtractAssetCommand extends AbstractCommand
 {
     private const string ARG_PATH = 'path';
     private const string ARG_NAME = 'name';
+    private const string OPTION_REPORT = 'report';
 
     public function __construct(
         protected LoggerInterface $logger,
@@ -40,33 +46,91 @@ class ExtractAssetCommand extends AbstractCommand
         $this
             ->addArgument(self::ARG_PATH, InputArgument::REQUIRED, 'Path to the files to extract data from')
             ->addArgument(self::ARG_NAME, InputArgument::OPTIONAL, 'File pattern or file name i.e. *.pdf', '*.*')
+            ->addOption(self::OPTION_REPORT, null, InputOption::VALUE_NONE, 'Print extract data report')
         ;
     }
 
     #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $this->io->title('EMSCO - asset - extract');
+
         $path = $this->getArgumentString(self::ARG_PATH);
         $name = $this->getArgumentString(self::ARG_NAME);
 
         $files = new Finder()->in($path)->name($name);
 
+        $this->io->section('Extracting files');
+        $this->extract($files);
+
+        if ($this->getOptionBool(self::OPTION_REPORT)) {
+            $this->io->section('Report');
+            $this->report($files);
+        }
+
+        return self::EXECUTE_SUCCESS;
+    }
+
+    private function extract(Finder $files): void
+    {
         $progress = $this->io->createProgressBar($files->count());
         $progress->start();
 
         foreach ($files as $file) {
-            if (false === $realPath = $file->getRealPath()) {
-                $progress->advance();
-                continue;
+            $filename = Type::string($file->getRealPath());
+            $hash = $this->storageManager->computeFileHash($filename);
+
+            if (!$this->storageManager->head($hash)) {
+                $this->storageManager->saveFile($filename, StorageInterface::STORAGE_USAGE_ASSET);
             }
 
-            $hash = $this->storageManager->computeFileHash($realPath);
-            $this->extractorService->extractMetaData($hash, $realPath);
+            $this->extractorService->extractMetaData($hash, $filename, true);
 
             $progress->advance();
         }
-        $progress->finish();
 
-        return self::EXECUTE_SUCCESS;
+        $progress->finish();
+        $this->io->newLine(2);
+    }
+
+    private function report(Finder $files): void
+    {
+        $rows = [];
+        foreach ($files as $file) {
+            $filename = Type::string($file->getRealPath());
+            $hash = $this->storageManager->computeFileHash($filename);
+
+            if (null === $extractedData = $this->extractorService->findCachedExtractedData($hash)) {
+                throw new \RuntimeException('Extracted file not found');
+            }
+
+            $content = $extractedData->getContent(false);
+            $rows[] = [
+                'name' => $file->getFilename(),
+                'size' => $file->getSize(),
+                'length' => \strlen($content),
+                'words' => \str_word_count($content),
+            ];
+        }
+
+        $totals = \array_reduce($rows, static function ($carry, $row) {
+            $carry['size'] += $row['size'];
+            $carry['length'] += $row['length'];
+            $carry['words'] += $row['words'];
+
+            return $carry;
+        }, ['size' => 0, 'length' => 0, 'words' => 0]);
+
+        $rows[] = new TableSeparator();
+        $rows[] = ['name' => '<info>totals</info>', ...$totals];
+
+        $this->io->table(['name', 'size', 'length', 'words'], \array_map(static function ($row) {
+            return \is_array($row) ? [
+                $row['name'],
+                Converter::formatBytes($row['size']),
+                \number_format($row['length'], 0, ',', '.'),
+                \number_format($row['words'], 0, ',', '.'),
+            ] : $row;
+        }, $rows));
     }
 }

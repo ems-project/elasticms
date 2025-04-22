@@ -98,18 +98,25 @@ class AssetExtractorService implements CacheWarmerInterface
         return $this->extractMetaData($hash, $file, $forced)->getSource();
     }
 
-    public function extractMetaData(string $hash, ?string $file = null, bool $forced = false, ?string $filename = null): ExtractedData
+    public function findCachedExtractedData(string $hash): ?ExtractedData
     {
         $manager = $this->doctrine->getManager();
         $repository = $manager->getRepository(CacheAssetExtractor::class);
 
         /** @var ?CacheAssetExtractor $cacheData */
-        $cacheData = $repository->findOneBy([
-            'hash' => $hash,
-        ]);
+        $cacheData = $repository->findOneBy(['hash' => $hash]);
 
         if ($cacheData instanceof CacheAssetExtractor) {
             return new ExtractedData($cacheData->getData() ?? [], $this->tikaMaxContent);
+        }
+
+        return null;
+    }
+
+    public function extractMetaData(string $hash, ?string $file = null, bool $forced = false, ?string $filename = null): ExtractedData
+    {
+        if (null !== $extractedData = $this->findCachedExtractedData($hash)) {
+            return $extractedData;
         }
 
         $filesize = $this->fileService->getSize($hash);
@@ -188,6 +195,8 @@ class AssetExtractorService implements CacheWarmerInterface
             $cacheData = new CacheAssetExtractor();
             $cacheData->setHash($hash);
             $cacheData->setData($out->getSource());
+
+            $manager = $this->doctrine->getManager();
             $manager->persist($cacheData);
             $manager->flush();
         }

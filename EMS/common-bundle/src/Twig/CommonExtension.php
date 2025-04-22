@@ -10,6 +10,7 @@ use EMS\CommonBundle\Helper\Text\Encoder;
 use EMS\Helpers\Standard\Base64;
 use EMS\Helpers\Standard\Color;
 use EMS\Helpers\Standard\DateTime;
+use EMS\Helpers\Standard\Number;
 use EMS\Helpers\Standard\UuidGenerator;
 use Twig\DeprecatedCallableInfo;
 use Twig\Extension\AbstractExtension;
@@ -55,7 +56,7 @@ class CommonExtension extends AbstractExtension
         return [
             new TwigFilter('ems_array_key', $this->arrayKey(...)),
             new TwigFilter('ems_file_exists', $this->fileExists(...)),
-            new TwigFilter('ems_format_bytes', Converter::formatBytes(...)),
+            new TwigFilter('ems_format_bytes', Number::formatBytes(...)),
             new TwigFilter('ems_ouuid', $this->getOuuid(...)),
             new TwigFilter('ems_locale_attr', [RequestRuntime::class, 'localeAttribute']),
             new TwigFilter('ems_html_encode', [TextRuntime::class, 'htmlEncode'], ['is_safe' => ['html']]),
@@ -96,7 +97,7 @@ class CommonExtension extends AbstractExtension
             new TwigFilter('array_key', $this->arrayKey(...), [
                 'deprecation_info' => new DeprecatedCallableInfo('elasticms/common-bundle', '6.0.0', 'ems_array_key'),
             ]),
-            new TwigFilter('format_bytes', Converter::formatBytes(...), [
+            new TwigFilter('format_bytes', Number::formatBytes(...), [
                 'deprecation_info' => new DeprecatedCallableInfo('elasticms/common-bundle', '6.0.0', 'ems_format_bytes'),
             ]),
             new TwigFilter('locale_attr', [RequestRuntime::class, 'localeAttribute'], [

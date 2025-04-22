@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Command;
 
 use EMS\CommonBundle\Common\Command\AbstractCommand;
-use EMS\CommonBundle\Common\Converter;
 use EMS\CommonBundle\Storage\Service\StorageInterface;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Service\AssetExtractorService;
+use EMS\Helpers\Standard\Number;
 use EMS\Helpers\Standard\Type;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -129,7 +129,7 @@ class ExtractAssetCommand extends AbstractCommand
         $this->io->table(['name', 'size', 'length', 'words', 'tokens'], \array_map(static function ($row) {
             return \is_array($row) ? [
                 $row['name'],
-                Converter::formatBytes($row['size']),
+                Number::formatBytes($row['size']),
                 \number_format($row['length'], 0, ',', '.'),
                 \number_format($row['words'], 0, ',', '.'),
                 \number_format($row['tokens'], 0, ',', '.'),

@@ -137,11 +137,14 @@ class ExtractAssetCommand extends AbstractCommand
         }, $rows));
     }
 
-    private function estimateTokens(string $content): int 
+    private function estimateTokens(string $content): int
     {
-        $words = preg_split('/\s+/', trim($content));
-        $wordCount = count($words);
-        
-        return (int) ceil($wordCount * 1.33);
+        if (false === $words = \preg_split('/\s+/', \trim($content))) {
+            throw new \RuntimeException('Invalid content');
+        }
+
+        $wordCount = \count($words);
+
+        return (int) \ceil($wordCount * 1.33);
     }
 }

@@ -130,9 +130,9 @@ class ExtractAssetCommand extends AbstractCommand
             return \is_array($row) ? [
                 $row['name'],
                 Number::formatBytes($row['size']),
-                \number_format($row['length'], 0, ',', '.'),
-                \number_format($row['words'], 0, ',', '.'),
-                \number_format($row['tokens'], 0, ',', '.'),
+                Number::format($row['length']),
+                Number::format($row['words']),
+                Number::format($row['tokens']),
             ] : $row;
         }, $rows));
     }

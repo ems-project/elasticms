@@ -6,6 +6,13 @@ namespace EMS\Helpers\Standard;
 
 class Number
 {
+    public static function format(float|int $number): string
+    {
+        $decimals = \is_int($number) ? 0 : 2;
+
+        return \number_format($number, $decimals, ',', '.');
+    }
+
     public static function formatBytes(int $bytes, int $precision = 2): string
     {
         $units = ['B', 'KB', 'MB', 'GB', 'TB'];

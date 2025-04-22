@@ -24,8 +24,15 @@ class NumberTest extends TestCase
         ];
     }
 
+    public function testFormat(): void
+    {
+        self::assertSame('77', Number::format(77));
+        self::assertSame('568,60', Number::format(568.5987));
+        self::assertSame('1.698.568,99', Number::format(1698568.99));
+    }
+
     #[DataProvider('byteProvider')]
-    public function testBytes(int $byte, string $expected, string $expected2, string $expected3): void
+    public function testFormatBytes(int $byte, string $expected, string $expected2, string $expected3): void
     {
         self::assertSame($expected, Number::formatBytes($byte));
         self::assertSame($expected2, Number::formatBytes($byte, 0));

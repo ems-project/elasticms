@@ -8,6 +8,7 @@ use EMS\CoreBundle\Core\DataTable\Type\AbstractEntityTableType;
 use EMS\CoreBundle\Core\User\UserContextDTO;
 use EMS\CoreBundle\Form\Data\BoolTableColumn;
 use EMS\CoreBundle\Form\Data\Condition\Terms;
+use EMS\CoreBundle\Form\Data\DataLinksTableColumn;
 use EMS\CoreBundle\Form\Data\DatetimeTableColumn;
 use EMS\CoreBundle\Form\Data\EntityTable;
 use EMS\CoreBundle\Form\Data\RolesTableColumn;
@@ -46,6 +47,9 @@ class UserDataTableType extends AbstractEntityTableType
             $table->addColumn('user.index.column.locale_preferred', 'localePreferred');
             $table->addColumn('user.index.column.wysiwyg_profile', 'wysiwygProfile');
             $table->addColumnDefinition(new BoolTableColumn('user.index.column.enabled', 'enabled'));
+            if ($this->circleObject) {
+                $table->addColumnDefinition(new DataLinksTableColumn('user.index.column.circles', 'circles'));
+            }
             $table->addColumnDefinition(new RolesTableColumn('user.index.column.roles', 'roles'));
             $table->addColumn('user.index.column.roles', 'userGroup');
             $table->addColumnDefinition(new DatetimeTableColumn('user.index.column.lastLogin', 'lastLogin'));

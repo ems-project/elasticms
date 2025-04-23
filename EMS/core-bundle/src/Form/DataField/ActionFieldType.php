@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Form\DataField;
 
+use EMS\CoreBundle\Entity\DataField;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 
 class ActionFieldType extends DataFieldType
 {
@@ -22,6 +25,18 @@ class ActionFieldType extends DataFieldType
         $restrictionOptions = $optionsForm->get('restrictionOptions');
         $restrictionOptions->remove('mandatory')->remove('mandatory_if');
     }
+
+    #[\Override] 
+    public function buildView(FormView $view, FormInterface $form, array $options): void
+    {
+        parent::buildView($view, $form, $options);
+        
+        /** @var DataField $dataField */
+        $dataField = $view->vars['data'];
+        
+        $view->vars['fieldId'] = $dataField->giveFieldType()->getId();
+    }
+
 
     #[\Override]
     public function getBlockPrefix(): string

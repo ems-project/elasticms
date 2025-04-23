@@ -76,7 +76,7 @@ class RemoveGroupFromUserCommand extends AbstractUserCommand
 
                 return self::EXECUTE_SUCCESS;
             }
-            
+
             return self::EXECUTE_ERROR;
         } catch (\Throwable $e) {
             $this->io->error($e->getMessage());

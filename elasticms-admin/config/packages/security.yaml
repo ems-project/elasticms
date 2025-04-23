@@ -81,6 +81,7 @@ security:
         - { path: ^/channel/.*/emsch/api, role: ROLE_USER }
         - { path: ^/channel/, role: PUBLIC_ACCESS }
         - { path: ^/bundles, role: PUBLIC_ACCESS }
+        - { path: ^/action, roles: ROLE_USER }
         - { path: ^/api/user-profile, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/api, roles: ROLE_API }
         - { path: ^/api/admin, roles: ROLE_ADMIN }

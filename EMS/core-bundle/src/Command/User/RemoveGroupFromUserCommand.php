@@ -59,7 +59,7 @@ class RemoveGroupFromUserCommand extends AbstractUserCommand
 
             $user = $this->userManager->getUserByUsername($username);
             $group = $user->getGroup();
-            $userGroup = $this->groupManager->getByItemName($group);
+            $userGroup = $this->groupManager->getByItemName($group->getName());
 
             if (!$userGroup instanceof EntityInterface) {
                 throw new EntityNotFoundException();

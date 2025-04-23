@@ -51,6 +51,9 @@ class UserDataTableType extends AbstractEntityTableType
                 $table->addColumnDefinition(new DataLinksTableColumn('user.index.column.circles', 'circles'));
             }
             $table->addColumnDefinition(new BoolTableColumn('user.index.column.enabled', 'enabled'));
+            if ($this->circleObject) {
+                $table->addColumnDefinition(new DataLinksTableColumn('user.index.column.circles', 'circles'));
+            }
             $table->addColumnDefinition(new RolesTableColumn('user.index.column.roles', 'roles'));
             $table->addColumnDefinition(new EntityTableColumn('user.index.column.group', 'group'));
             $table->addColumnDefinition(new DatetimeTableColumn('user.index.column.lastLogin', 'lastLogin'));

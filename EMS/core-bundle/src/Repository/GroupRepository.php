@@ -23,7 +23,7 @@ class GroupRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Schedule[]
+     * @return Group[]
      */
     public function getAll(): array
     {

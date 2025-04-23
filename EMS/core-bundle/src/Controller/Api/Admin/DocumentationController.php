@@ -74,11 +74,13 @@ class DocumentationController extends AbstractController
     }
 
 
-
+    /**
+     * @return Route[]
+     */
     public function getRoutes(): array
     {
         $routes = $this->router->getRouteCollection()->all();
         
-        return \array_filter($routes, static fn (Route $route) => $route->getOption('openapi') );
+        return \array_filter($routes, static fn (Route $route) => $route->getOption('openapi'));
     }
 }

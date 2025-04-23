@@ -26,17 +26,16 @@ class ActionFieldType extends DataFieldType
         $restrictionOptions->remove('mandatory')->remove('mandatory_if');
     }
 
-    #[\Override] 
+    #[\Override]
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         parent::buildView($view, $form, $options);
-        
+
         /** @var DataField $dataField */
         $dataField = $view->vars['data'];
-        
+
         $view->vars['fieldId'] = $dataField->giveFieldType()->getId();
     }
-
 
     #[\Override]
     public function getBlockPrefix(): string

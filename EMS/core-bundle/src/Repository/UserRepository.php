@@ -6,6 +6,7 @@ namespace EMS\CoreBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use EMS\CoreBundle\Core\Security\Canonicalizer;
 use EMS\CoreBundle\Core\User\UserContextDTO;
@@ -163,9 +164,14 @@ final class UserRepository extends ServiceEntityRepository implements UserReposi
         }
     }
 
-    private function getQuery(QueryBuilder $qb, ?UserContextDTO $context)
+    /**
+     * @param QueryBuilder $qb
+     * @param UserContextDTO|null $context
+     * @return Query<null, User>
+     */
+    private function getQuery(QueryBuilder $qb, ?UserContextDTO $context): Query
     {
-        if (null === $context || null === $context->groupId) {
+        if (null == $context || null == $context->groupId) {
             return $qb->getQuery();
         }
         if ($context->inGroup) {

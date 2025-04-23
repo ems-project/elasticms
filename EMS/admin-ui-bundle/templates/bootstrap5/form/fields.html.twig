@@ -1532,3 +1532,7 @@
 		</div>
 	</div>
 {% endblock edit_image_widget %}
+
+{%- block action_row -%}
+    <button type="button" class="btn btn-default">{{ form.vars.label|i18n }}</button>
+{%- endblock action_row -%}

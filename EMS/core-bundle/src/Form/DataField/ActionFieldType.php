@@ -40,10 +40,4 @@ class ActionFieldType extends DataFieldType
     {
         return 'Action field';
     }
-
-    #[\Override]
-    public static function isContainer(): bool
-    {
-        return true;
-    }
 }

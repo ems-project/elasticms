@@ -39,15 +39,15 @@ class RemoveGroupFromUserCommand extends AbstractUserCommand
             ])
             ->setHelp(
                 <<<'EOT'
-            The <info>emsco:user:delete-group</info> command removes the group from a user:
+                    The <info>emsco:user:delete-group</info> command removes the group from a user:
 
-              <info>php %command.full_name% matthieu</info>
+                      <info>php %command.full_name% matthieu</info>
 
-            This interactive shell will ask you for the username if not provided.
+                    This interactive shell will ask you for the username if not provided.
 
-            The group associated with the user will be removed automatically.
+                    The group associated with the user will be removed automatically.
 
-            EOT
+                    EOT
             );
     }
 
@@ -58,17 +58,22 @@ class RemoveGroupFromUserCommand extends AbstractUserCommand
             $username = $this->getArgumentString('username');
 
             $user = $this->userManager->getUserByUsername($username);
-            $group = $user->getGroup();
-            $userGroup = $this->groupManager->getByItemName($group->getName());
 
-            if (!$userGroup instanceof EntityInterface) {
-                throw new EntityNotFoundException();
+            if (null !== $user) {
+                $group = $user->getGroup();
+                if (null !== $group) {
+                    $userGroup = $this->groupManager->getByItemName($group->getName());
+
+                    if (!$userGroup instanceof EntityInterface) {
+                        throw new EntityNotFoundException();
+                    }
+                }
+
+                $user->setGroup(null);
+                $this->userManager->update($user);
+
+                $this->io->success(\sprintf('Group "%s" has been removed from user "%s".', $group, $username));
             }
-
-            $user->setGroup(null);
-            $this->userManager->update($user);
-
-            $this->io->success(\sprintf('Group "%s" has been removed from user "%s".', $group, $username));
 
             return self::EXECUTE_SUCCESS;
         } catch (\Throwable $e) {

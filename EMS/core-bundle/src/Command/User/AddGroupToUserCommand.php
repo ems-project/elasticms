@@ -67,13 +67,16 @@ class AddGroupToUserCommand extends AbstractUserCommand
             if (!$userGroup instanceof EntityInterface) {
                 throw new EntityNotFoundException();
             }
+            if (null !== $user) {
+                $user->setGroup($userGroup);
+                $this->userManager->update($user);
 
-            $user->setGroup($userGroup);
-            $this->userManager->update($user);
+                $this->io->success(\sprintf('Group "%s" has been added to user "%s".', $group, $username));
 
-            $this->io->success(\sprintf('Group "%s" has been added to user "%s".', $group, $username));
+                return self::EXECUTE_SUCCESS;
+            }
 
-            return self::EXECUTE_SUCCESS;
+            return self::EXECUTE_ERROR;
         } catch (\Throwable $e) {
             $this->io->error($e->getMessage());
 

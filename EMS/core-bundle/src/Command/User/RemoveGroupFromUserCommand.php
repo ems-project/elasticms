@@ -73,9 +73,11 @@ class RemoveGroupFromUserCommand extends AbstractUserCommand
                 $this->userManager->update($user);
 
                 $this->io->success(\sprintf('Group "%s" has been removed from user "%s".', $group, $username));
-            }
 
-            return self::EXECUTE_SUCCESS;
+                return self::EXECUTE_SUCCESS;
+            }
+            
+            return self::EXECUTE_ERROR;
         } catch (\Throwable $e) {
             $this->io->error($e->getMessage());
 

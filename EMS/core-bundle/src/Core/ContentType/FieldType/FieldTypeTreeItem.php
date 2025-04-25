@@ -68,7 +68,7 @@ class FieldTypeTreeItem implements \IteratorAggregate, \Stringable
             throw new \RuntimeException(\sprintf('Found multiple fields named "%s"', $name));
         }
 
-        return $result[0] ?? null;
+        return \array_pop($result);
     }
 
     public function getFieldType(): FieldType

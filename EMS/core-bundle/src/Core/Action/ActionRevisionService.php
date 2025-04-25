@@ -17,7 +17,7 @@ class ActionRevisionService
     }
 
     /**
-     * @return array{ 'output': string[], 'revisionId': int }
+     * @return array{ 'outputFields': string[], 'revisionId': int }
      */
     public function handle(int $revisionId, int $fieldId): array
     {

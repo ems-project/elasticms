@@ -231,12 +231,7 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
         $this->displayExtraOptions = $displayOptions;
     }
 
-    /**
-     * @param ?mixed $default
-     *
-     * @return mixed
-     */
-    public function getDisplayOption(string $key, $default = null)
+    public function getDisplayOption(string $key, mixed $default = null): mixed
     {
         $options = $this->getDisplayOptions();
 
@@ -248,12 +243,7 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
         return (bool) ($this->displayExtraOptions[$key] ?? $this->options[self::DISPLAY_OPTIONS][$key] ?? $default);
     }
 
-    /**
-     * @param ?mixed $default
-     *
-     * @return mixed
-     */
-    public function getMappingOption(string $key, $default = null)
+    public function getMappingOption(string $key, mixed $default = null): mixed
     {
         $options = $this->getMappingOptions();
 
@@ -280,20 +270,14 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
         return $options['restrictionOptions'] ?? [];
     }
 
-    /**
-     * @return mixed
-     */
-    public function getRestrictionOption(string $key, mixed $default = null)
+    public function getRestrictionOption(string $key, mixed $default = null): mixed
     {
         $options = $this->getRestrictionOptions();
 
         return $options[$key] ?? $default;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getMigrationOption(string $key, mixed $default = null)
+    public function getMigrationOption(string $key, mixed $default = null): mixed
     {
         $options = $this->getMigrationOptions();
 
@@ -318,6 +302,11 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
         $options = $this->getOptions();
 
         return $options['extraOptions'] ?? [];
+    }
+
+    public function getExtraOption(string $key, mixed $default = null): mixed
+    {
+        return $this->getExtraOptions()[$key] ?? $default;
     }
 
     public function getMinimumRole(): string

@@ -6,6 +6,7 @@
 
     <services>
         <service id="EMS\CoreBundle\Controller\ActionController" public="true">
+            <argument type="service" id="emsco.action.revision" />
             <tag name="controller.service_arguments"/>
         </service>
         <!-- Admin -->

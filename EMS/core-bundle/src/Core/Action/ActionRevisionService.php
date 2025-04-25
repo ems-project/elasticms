@@ -19,12 +19,12 @@ class ActionRevisionService
     /**
      * @return array{ 'output': string[], 'revisionId': int }
      */
-    public function create(int $revisionId, int $fieldId): array
+    public function handle(int $revisionId, int $fieldId): array
     {
         $revision = $this->getDraftRevision($revisionId);
         $config = $this->getConfig($fieldId);
 
-        return ['output' => $config->outputNames(), 'revisionId' => $revision->getId()];
+        return ['outputFields' => $config->getOutputFields(), 'revisionId' => $revision->getId()];
     }
 
     private function getConfig(int $fieldId): ActionRevisionConfig

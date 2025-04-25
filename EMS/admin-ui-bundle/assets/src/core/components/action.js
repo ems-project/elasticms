@@ -1,25 +1,39 @@
 export default class Action {
   load(target) {
-    const fieldActionButtons = target.querySelectorAll('.field-action');
-    fieldActionButtons.forEach(button => onClickFieldAction(button));
+    const revisionFieldActions = target.querySelectorAll('.field-action');
+    revisionFieldActions.forEach(button => onClickRevisionFieldAction(button));
   }
 }
 
-function onClickFieldAction(button) {
+function onClickRevisionFieldAction(button) {
   button.addEventListener('click', event => {
     event.preventDefault();
 
-    const fieldId = button.dataset.fieldId;
-    if (!fieldId) return;
+    const { fieldId, revisionId } = button.dataset;
+    if (!fieldId || !revisionId) return;
 
-    sendAjaxRequest(fieldId)
-      .then((json) => console.debug(json))
+    sendAction(`/action/revision/${revisionId}/field/${fieldId}`)
+      .then((json) => handle(json))
       .catch((error) => console.error(error));
   });
 }
 
-async function sendAjaxRequest(fieldId) {
-  const response = await fetch(`/action/field/${fieldId}`, {
+function handle({ outputFields }) {
+     outputFields.forEach((name) => {
+        const element = document.querySelector(`[name="${name}"]`);
+        if (!element) return;
+
+        if (element.id in CKEDITOR.instances) {
+          const ckeditor = CKEDITOR.instances[element.id]
+          ckeditor.setReadOnly(true);
+        } else {
+          element.disabled = true;
+        }
+    });
+}
+
+async function sendAction(endpoint) {
+  const response = await fetch(endpoint, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' }
   });

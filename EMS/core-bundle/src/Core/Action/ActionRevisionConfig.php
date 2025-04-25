@@ -25,7 +25,7 @@ class ActionRevisionConfig
     /**
      * @return string[]
      */
-    public function outputNames(): array
+    public function getOutputFields(): array
     {
         return \array_map(static fn (FieldType $field) => 'revision[data]'.$field->getPath(), $this->output);
     }

@@ -19,7 +19,7 @@ class ActionController
         $result = $this->actionRevisionService->handle($revisionId, $fieldId);
 
         return new JsonResponse([
-            'outputFields' => $result['output'],
+            'outputFields' => $result['outputFields'],
         ]);
     }
 }

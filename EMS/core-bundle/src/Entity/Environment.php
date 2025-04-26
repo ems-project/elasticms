@@ -35,8 +35,8 @@ class Environment extends JsonDeserializer implements \JsonSerializable, EntityI
     protected $managed;
     /** @var bool */
     protected $snapshot = false;
-    /** @var Collection<int, Revision> */
-    protected Collection $revisions;
+    /** @var Collection<int, EnvironmentRevision> */
+    protected Collection $environmentRevisions;
     /** @var string[] */
     protected ?array $circles = null;
     /** @var bool */
@@ -51,7 +51,7 @@ class Environment extends JsonDeserializer implements \JsonSerializable, EntityI
 
     public function __construct()
     {
-        $this->revisions = new ArrayCollection();
+        $this->environmentRevisions = new ArrayCollection();
         $this->contentTypesHavingThisAsDefault = new ArrayCollection();
 
         $this->created = new \DateTime();
@@ -164,14 +164,30 @@ class Environment extends JsonDeserializer implements \JsonSerializable, EntityI
 
     public function addRevision(Revision $revision): self
     {
-        $this->revisions[] = $revision;
+        foreach ($this->environmentRevisions as $environmentRevision) {
+            if ($environmentRevision->getRevision() === $revision) {
+                return $this;
+            }
+        }
+        $environmentRevision = new EnvironmentRevision();
+        $environmentRevision->setEnvironment($this);
+        $environmentRevision->setRevision($revision);
+        $this->environmentRevisions[] = $environmentRevision;
 
         return $this;
     }
 
-    public function removeRevision(Revision $revision): void
+    public function removeEnvironmentRevisions(EnvironmentRevision $environmentRevision): void
     {
-        $this->revisions->removeElement($revision);
+        $this->environmentRevisions->removeElement($environmentRevision);
+    }
+
+    /**
+     * @return Collection<int, EnvironmentRevision>
+     */
+    public function getEnvironmentRevisions(): Collection
+    {
+        return $this->environmentRevisions;
     }
 
     /**
@@ -179,7 +195,8 @@ class Environment extends JsonDeserializer implements \JsonSerializable, EntityI
      */
     public function getRevisions(): Collection
     {
-        return $this->revisions;
+        return $this->environmentRevisions
+            ->map(fn (EnvironmentRevision $er) => $er->getRevision());
     }
 
     /**

@@ -21,6 +21,7 @@ use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Entity\Release;
 use EMS\CoreBundle\Entity\Revision;
+use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 /**
@@ -117,7 +118,7 @@ class RevisionRepository extends EntityRepository
             ->join('c.environment', 'ce')
             ->join('r.environmentRevisions', 'er')
             ->andWhere($qb->expr()->in('r.ouuid', ':ouuids'))
-            ->andWhere($qb->expr()->eq('er', ':environment'))
+            ->andWhere($qb->expr()->eq('er.environment', ':environment'))
             ->setParameters(new ArrayCollection([
                 new Parameter('environment', $environment),
                 new Parameter('ouuids', $ouuids, ArrayParameterType::STRING),
@@ -135,9 +136,11 @@ class RevisionRepository extends EntityRepository
     public function addEnvironment(Revision $revision, Environment $environment): int
     {
         $conn = $this->getEntityManager()->getConnection();
-        $stmt = $conn->prepare('insert into environment_revision (environment_id, revision_id) VALUES(:envId, :revId)');
+        $stmt = $conn->prepare('insert into environment_revision (id, environment_id, revision_id, created, modified) VALUES(:id, :envId, :revId, :now, :now)');
+        $stmt->bindValue('id', Uuid::uuid4()->toString());
         $stmt->bindValue('envId', $environment->getId());
         $stmt->bindValue('revId', $revision->getId());
+        $stmt->bindValue('now', new \DateTime()->format('Y-m-d H:i:s'));
 
         return (int) $stmt->executeStatement();
     }
@@ -159,7 +162,7 @@ class RevisionRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('r');
         $qb->join('r.environmentRevisions', 'er')
-        ->where('er.id = :env')
+        ->where('er.environment = :env')
         // ->andWhere($qb->expr()->eq('r.deleted', ':false')
         ->setMaxResults(50)
         ->setFirstResult($page * 50)
@@ -209,14 +212,14 @@ class RevisionRepository extends EntityRepository
     public function getRevisionsPaginatorPerEnvironmentAndContentType(Environment $env, ContentType $contentType, int $page = 0, int $size = 50): Paginator
     {
         $qb = $this->createQueryBuilder('r');
-        $qb->join('r.environments', 'e')
-        ->where('e.id = :eid')
+        $qb->join('r.environmentRevisions', 'er')
+        ->where('er.environment = :env')
         ->andWhere('r.contentType = :ct')
         ->setMaxResults($size)
         ->setFirstResult($page * $size)
         ->orderBy('r.id', 'asc')
         ->setParameters(new ArrayCollection([
-            new Parameter('eid', $env->getId()),
+            new Parameter('env', $env),
             new Parameter('ct', $contentType),
         ]));
 
@@ -226,13 +229,13 @@ class RevisionRepository extends EntityRepository
     public function findByEnvironment(string $ouuid, ContentType $contentType, Environment $environment): Revision
     {
         $qb = $this->createQueryBuilder('r')
-            ->join('r.environments', 'e')
+            ->join('r.environmentRevisions', 'er')
             ->andWhere('r.ouuid = :ouuid')
             ->andWhere('r.contentType = :contentType')
-            ->andWhere('e.id = :eid')
+            ->andWhere('er.environment = :env')
             ->setParameter('ouuid', $ouuid)
             ->setParameter('contentType', $contentType)
-            ->setParameter('eid', $environment->getId());
+            ->setParameter('env', $environment);
 
         return $qb->getQuery()->getSingleResult();
     }
@@ -281,7 +284,8 @@ class RevisionRepository extends EntityRepository
         $qb = $this->createQueryBuilder('r');
         $qb->select('c.id', 'c.color', 'c.name content_type_name', 'c.singularName content_type_singular_name', 'c.icon', 'r.ouuid', "CONCAT(c.name, ':', r.ouuid) AS emsLink", 'max(r.labelField) as item_labelField', 'count(c.id) counter', 'min(concat(e.id, \'/\',r.id, \'/\', r.created, \'/\', r.finalizedBy)) minrevid', 'max(concat(e.id, \'/\',r.id, \'/\', r.created, \'/\', r.finalizedBy)) maxrevid', 'max(r.id) lastRevId')
         ->join('r.contentType', 'c')
-        ->join('r.environments', 'e')
+        ->join('r.environmentRevisions', 'er')
+        ->join('er.environment', 'e')
         ->where('e.id in (:source, :target)')
         ->andWhere($qb->expr()->eq('r.deleted', ':false'))
         ->andWhere($qb->expr()->eq('c.deleted', ':false'))
@@ -377,7 +381,8 @@ class RevisionRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('r');
         $qb->select('r', 'e');
-        $qb->leftJoin('r.environments', 'e');
+        $qb->leftJoin('r.environmentRevisions', 'er');
+        $qb->leftJoin('er.environment', 'e');
         $qb->where($qb->expr()->eq('r.ouuid', ':ouuid'));
         $qb->andWhere($qb->expr()->eq('r.contentType', ':contentType'));
         $qb->setMaxResults(5);
@@ -400,13 +405,13 @@ class RevisionRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('r');
         $qb
-            ->join('r.environments', 'e')
+            ->join('r.environmentRevisions', 'er')
             ->andWhere($qb->expr()->eq('r.ouuid', ':ouuid'))
-            ->andWhere($qb->expr()->eq('e.id', ':envId'))
+            ->andWhere($qb->expr()->eq('er.environment', ':env'))
             ->andWhere($qb->expr()->eq('r.contentType', ':contentTypeId'))
             ->setParameters(new ArrayCollection([
                 new Parameter('ouuid', $ouuid),
-                new Parameter('envId', $env->getId()),
+                new Parameter('env', $env),
                 new Parameter('contentTypeId', $contentType->getId()),
             ]));
 
@@ -421,28 +426,6 @@ class RevisionRepository extends EntityRepository
         }
 
         return null;
-    }
-
-    /**
-     * @return ?Revision[]
-     */
-    public function findIdByOuuidAndContentTypeAndEnvironment(string $ouuid, int $contentType, int $env): ?array
-    {
-        $qb = $this->createQueryBuilder('r');
-        $qb->join('r.environments', 'e');
-        $qb->where('r.ouuid = :ouuid and e.id = :envId and r.contentType = :contentTypeId');
-        $qb->setParameters(new ArrayCollection([
-            new Parameter('ouuid', $ouuid),
-            new Parameter('envId', $env),
-            new Parameter('contentTypeId', $contentType),
-        ]));
-
-        $out = $qb->getQuery()->getArrayResult();
-        if (\count($out) > 1) {
-            throw new NonUniqueResultException($ouuid.' is publish multiple times in '.$env);
-        }
-
-        return $out[0] ?? null;
     }
 
     public function unlockRevision(int $revisionId): int
@@ -761,7 +744,8 @@ class RevisionRepository extends EntityRepository
             ->addSelect('c')
             ->addSelect('e')
             ->join('r.contentType', 'c')
-            ->join('r.environments', 'e')
+            ->join('r.environmentRevisions', 'er')
+            ->join('er.environment', 'e')
             ->andWhere($qb->expr()->eq('c.active', $qb->expr()->literal(true)))
             ->andWhere($qb->expr()->eq('c.deleted', $qb->expr()->literal(false)))
             ->andWhere($qb->expr()->eq('r.deleted', $qb->expr()->literal(false)))
@@ -851,9 +835,9 @@ class RevisionRepository extends EntityRepository
 
         if ($environment) {
             $qb
-                ->join('r.environments', 'e')
-                ->andWhere($qb->expr()->eq('e.id', ':environment_id'))
-                ->setParameter('environment_id', $environment->getId());
+                ->join('r.environmentRevisions', 'er')
+                ->andWhere($qb->expr()->eq('er.environmpent', ':environment'))
+                ->setParameter('environment', $environment);
         } else {
             $qb->andWhere($qb->expr()->isNull('r.endTime'));
         }
@@ -932,15 +916,15 @@ class RevisionRepository extends EntityRepository
         $qb
             ->addSelect('e')
             ->join('r.contentType', 'c')
-            ->join('r.environments', 'e')
-            ->andWhere($qb->expr()->eq('e.id', ':environment_id'))
+            ->join('r.environmentRevisions', 'er')
+            ->andWhere($qb->expr()->eq('er.environment', ':environment'))
             ->andWhere($qb->expr()->eq('r.versionUuid', ':version_uuid'))
             ->andWhere($qb->expr()->eq('c.deleted', $qb->expr()->literal(false)))
             ->andWhere($qb->expr()->eq('c.active', $qb->expr()->literal(true)))
             ->andWhere($qb->expr()->eq('r.deleted', $qb->expr()->literal(false)))
             ->setParameters(new ArrayCollection([
                 new Parameter('version_uuid', $versionUuid),
-                new Parameter('environment_id', $defaultEnvironment->getId()),
+                new Parameter('environment', $defaultEnvironment),
             ]));
 
         return $qb->getQuery()->execute();
@@ -991,7 +975,8 @@ class RevisionRepository extends EntityRepository
     {
         $this->lockRevisions($contentType, new \DateTime('+60 min'), $username, true, null, false);
         $qb = $this->createQueryBuilder('r')
-            ->join('r.environments', 'e')
+            ->join('r.environmentRevisions', 'er')
+            ->join('er.environment', 'e')
             ->where('r.contentType = :ct')
             ->andWhere('e.id IN (:ids)')
             ->setParameter('ids', [$contentType->giveEnvironment()->getId(), $target->getId()], ArrayParameterType::INTEGER)

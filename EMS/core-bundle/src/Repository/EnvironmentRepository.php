@@ -159,7 +159,8 @@ class EnvironmentRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('e');
         $qb
-            ->join('e.revisions', 'r')
+            ->join('e.environmentRevisions', 'er')
+            ->join('er.revision', 'r')
             ->join('r.contentType', 'c')
             ->andWhere($qb->expr()->eq('c.deleted', $qb->expr()->literal(false)))
             ->andWhere($qb->expr()->eq('c.active', $qb->expr()->literal(true)))

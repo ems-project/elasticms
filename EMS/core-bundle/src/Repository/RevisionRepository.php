@@ -158,14 +158,14 @@ class RevisionRepository extends EntityRepository
     public function getRevisionsPaginatorPerEnvironment(Environment $env, int $page = 0): Paginator
     {
         $qb = $this->createQueryBuilder('r');
-        $qb->join('r.environments', 'e')
-        ->where('e.id = :eid')
+        $qb->join('r.environmentRevisions', 'er')
+        ->where('er.id = :env')
         // ->andWhere($qb->expr()->eq('r.deleted', ':false')
         ->setMaxResults(50)
         ->setFirstResult($page * 50)
         ->orderBy('r.id', 'asc')
         ->setParameters(new ArrayCollection([
-            new Parameter('eid', $env->getId()),
+            new Parameter('env', $env),
         ]));
 
         return new Paginator($qb->getQuery());

@@ -115,11 +115,11 @@ class RevisionRepository extends EntityRepository
             ->addSelect('ce, c')
             ->join('r.contentType', 'c')
             ->join('c.environment', 'ce')
-            ->join('r.environments', 're')
+            ->join('r.environmentRevisions', 'er')
             ->andWhere($qb->expr()->in('r.ouuid', ':ouuids'))
-            ->andWhere($qb->expr()->eq('re.id', ':environment_id'))
+            ->andWhere($qb->expr()->eq('er', ':environment'))
             ->setParameters(new ArrayCollection([
-                new Parameter('environment_id', $environment->getId()),
+                new Parameter('environment', $environment),
                 new Parameter('ouuids', $ouuids, ArrayParameterType::STRING),
             ]));
 

@@ -162,7 +162,7 @@ class Environment extends JsonDeserializer implements \JsonSerializable, EntityI
         return $this;
     }
 
-    public function addRevision(Revision $revision): self
+    public function addRevision(Revision $revision, string $username): self
     {
         foreach ($this->environmentRevisions as $environmentRevision) {
             if ($environmentRevision->getRevision() === $revision) {
@@ -172,14 +172,10 @@ class Environment extends JsonDeserializer implements \JsonSerializable, EntityI
         $environmentRevision = new EnvironmentRevision();
         $environmentRevision->setEnvironment($this);
         $environmentRevision->setRevision($revision);
+        $environmentRevision->setCreatedBy($username);
         $this->environmentRevisions[] = $environmentRevision;
 
         return $this;
-    }
-
-    public function removeEnvironmentRevisions(EnvironmentRevision $environmentRevision): void
-    {
-        $this->environmentRevisions->removeElement($environmentRevision);
     }
 
     /**
@@ -196,6 +192,7 @@ class Environment extends JsonDeserializer implements \JsonSerializable, EntityI
     public function getRevisions(): Collection
     {
         return $this->environmentRevisions
+            ->filter(fn (EnvironmentRevision $er) => null === $er->getDeleted())
             ->map(fn (EnvironmentRevision $er) => $er->getRevision());
     }
 

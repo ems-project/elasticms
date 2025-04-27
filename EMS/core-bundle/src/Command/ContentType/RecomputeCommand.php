@@ -162,7 +162,7 @@ final class RecomputeCommand extends AbstractCommand
                     }
                 }
 
-                $newRevision = $revision->convertToDraft();
+                $newRevision = $revision->convertToDraft(self::LOCK_BY);
                 $revisionType = $this->formFactory->create(RevisionType::class, $newRevision, [
                     'migration' => true,
                     'content_type' => $this->contentType,

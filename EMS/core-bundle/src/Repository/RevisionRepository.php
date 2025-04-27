@@ -118,6 +118,7 @@ class RevisionRepository extends EntityRepository
             ->join('c.environment', 'ce')
             ->join('r.environmentRevisions', 'er')
             ->andWhere($qb->expr()->in('r.ouuid', ':ouuids'))
+            ->andWhere($qb->expr()->isNull('er.deleted'))
             ->andWhere($qb->expr()->eq('er.environment', ':environment'))
             ->setParameters(new ArrayCollection([
                 new Parameter('environment', $environment),

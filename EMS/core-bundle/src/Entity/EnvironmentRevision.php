@@ -4,23 +4,25 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Entity;
 
-use EMS\CommonBundle\Entity\CreatedModifiedTrait;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 class EnvironmentRevision implements \EMS\CommonBundle\Entity\EntityInterface
 {
-    use CreatedModifiedTrait;
-
     private UuidInterface $id;
     private Environment $environment;
     private Revision $revision;
+    private \DateTime $created;
+    private string $createdBy;
+    private ?\DateTime $deleted = null;
+    private ?string $deletedBy = null;
 
     public function __construct()
     {
         $this->id = Uuid::uuid4();
         $this->created = new \DateTime();
-        $this->modified = new \DateTime();
+        $this->deleted = null;
+        $this->deletedBy = null;
     }
 
     #[\Override]
@@ -47,5 +49,45 @@ class EnvironmentRevision implements \EMS\CommonBundle\Entity\EntityInterface
     public function setRevision(Revision $revision): void
     {
         $this->revision = $revision;
+    }
+
+    public function getCreated(): \DateTime
+    {
+        return $this->created;
+    }
+
+    public function setCreated(\DateTime $created): void
+    {
+        $this->created = $created;
+    }
+
+    public function getCreatedBy(): string
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(string $createdBy): void
+    {
+        $this->createdBy = $createdBy;
+    }
+
+    public function getDeleted(): ?\DateTime
+    {
+        return $this->deleted;
+    }
+
+    public function setDeleted(?\DateTime $deleted): void
+    {
+        $this->deleted = $deleted;
+    }
+
+    public function getDeletedBy(): ?string
+    {
+        return $this->deletedBy;
+    }
+
+    public function setDeletedBy(string $deletedBy): void
+    {
+        $this->deletedBy = $deletedBy;
     }
 }

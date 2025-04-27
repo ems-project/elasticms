@@ -108,7 +108,7 @@ final class TimeMachineCommand extends Command
 
         $this->dataService->lockRevision($currentRevision, null, false, self::SYSTEM_TIME_MACHINE);
 
-        $revertedRevision = $currentRevision->convertToDraft();
+        $revertedRevision = $currentRevision->convertToDraft(self::SYSTEM_TIME_MACHINE);
         $revertedRevision->setRawData($inTimeRaw);
         $revertedRevision->setDraft(false);
         $revertedRevision->setFinalizedBy(self::SYSTEM_TIME_MACHINE);

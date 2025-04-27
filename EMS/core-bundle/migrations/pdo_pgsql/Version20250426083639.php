@@ -7,6 +7,7 @@ namespace Application\Migrations;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
+use Ramsey\Uuid\Uuid;
 
 final class Version20250426083639 extends AbstractMigration
 {
@@ -22,6 +23,10 @@ final class Version20250426083639 extends AbstractMigration
             "Migration can only be executed safely on '\Doctrine\DBAL\Platforms\PostgreSQLPlatform'."
         );
 
+
+        $this->addSql(<<<'SQL'
+            ALTER TABLE environment_revision ADD id UUID DEFAULT NULL
+        SQL);
         $this->addSql(<<<'SQL'
             ALTER TABLE environment_revision DROP CONSTRAINT FK_895F7B701DFA7C8F
         SQL);
@@ -35,11 +40,17 @@ final class Version20250426083639 extends AbstractMigration
             ALTER TABLE environment_revision ADD created TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL
         SQL);
         $this->addSql(<<<'SQL'
-            ALTER TABLE environment_revision ADD modified TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL
+            ALTER TABLE environment_revision ADD created_by VARCHAR(180) DEFAULT NULL
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE environment_revision ADD deleted TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE environment_revision ADD deleted_by VARCHAR(180) DEFAULT NULL
         SQL);
 
         $this->addSql(<<<'SQL'
-            UPDATE environment_revision SET created = NOW(), modified = NOW()
+            UPDATE environment_revision SET created = NOW(), created_by = 'DOCTRINE_UPGRADE_SCRIPT'
         SQL);
 
         $this->addSql(<<<'SQL'
@@ -47,12 +58,23 @@ final class Version20250426083639 extends AbstractMigration
         SQL);
 
         $this->addSql(<<<'SQL'
-            ALTER TABLE environment_revision ALTER modified SET NOT NULL
+            ALTER TABLE environment_revision ALTER created_by SET NOT NULL
+        SQL);
+        $rows = $this->connection->fetchAllAssociative('SELECT environment_id, revision_id FROM environment_revision');
+        foreach ($rows as $row) {
+            $this->addSql(<<<'SQL'
+                UPDATE environment_revision SET id = :id WHERE environment_id = :environment_id AND revision_id = :revision_id
+            SQL, [
+                    'id' => Uuid::uuid4()->toString(),
+                    'environment_id' => $row['environment_id'],
+                    'revision_id' => $row['revision_id'],
+                ]
+            );
+        }
+        $this->addSql(<<<'SQL'
+            ALTER TABLE environment_revision ALTER created SET NOT NULL
         SQL);
         
-        $this->addSql(<<<'SQL'
-            ALTER TABLE environment_revision ADD id UUID NOT NULL
-        SQL);
         $this->addSql(<<<'SQL'
             ALTER TABLE environment_revision ADD CONSTRAINT FK_895F7B701DFA7C8F FOREIGN KEY (revision_id) REFERENCES revision (id) NOT DEFERRABLE INITIALLY IMMEDIATE
         SQL);
@@ -81,7 +103,13 @@ final class Version20250426083639 extends AbstractMigration
             ALTER TABLE environment_revision DROP created
         SQL);
         $this->addSql(<<<'SQL'
-            ALTER TABLE environment_revision DROP modified
+            ALTER TABLE environment_revision DROP deleted
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE environment_revision DROP created_by
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE environment_revision DROP deleted_by
         SQL);
         $this->addSql(<<<'SQL'
             ALTER TABLE environment_revision DROP id

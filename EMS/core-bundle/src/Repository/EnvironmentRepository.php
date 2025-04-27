@@ -165,6 +165,7 @@ class EnvironmentRepository extends EntityRepository
             ->andWhere($qb->expr()->eq('c.deleted', $qb->expr()->literal(false)))
             ->andWhere($qb->expr()->eq('c.active', $qb->expr()->literal(true)))
             ->andWhere($qb->expr()->eq('r.deleted', $qb->expr()->literal(false)))
+            ->andWhere($qb->expr()->isNull('er.deleted'))
             ->orderBy('e.orderKey', 'ASC');
 
         if (null !== $versionOuuid = $revision->getVersionUuid()) {

@@ -210,13 +210,12 @@ class Revision implements EntityInterface, \Stringable
         ];
     }
 
-    public function convertToDraft(): Revision
+    public function convertToDraft(string $username): Revision
     {
         $draft = clone $this;
         $draft->environmentRevisions = new ArrayCollection();
-
         $now = new \DateTime('now');
-        $draft->addEnvironment($this->giveContentType()->giveEnvironment());
+        $draft->addEnvironment($this->giveContentType()->giveEnvironment(), $username);
         $draft->setStartTime($now);
         $draft->setCreated($now);
         $draft->setEndTime(null);
@@ -527,7 +526,7 @@ class Revision implements EntityInterface, \Stringable
         return $this->dataField;
     }
 
-    public function addEnvironment(Environment $environment): self
+    public function addEnvironment(Environment $environment, string $username): self
     {
         foreach ($this->environmentRevisions as $environmentRevision) {
             if ($environmentRevision->getEnvironment() === $environment) {
@@ -537,6 +536,7 @@ class Revision implements EntityInterface, \Stringable
         $environmentRevision = new EnvironmentRevision();
         $environmentRevision->setEnvironment($environment);
         $environmentRevision->setRevision($this);
+        $environmentRevision->setCreatedBy($username);
         $this->environmentRevisions[] = $environmentRevision;
 
         return $this;
@@ -567,6 +567,7 @@ class Revision implements EntityInterface, \Stringable
     public function getEnvironments(): Collection
     {
         return $this->environmentRevisions
+            ->filter(fn (EnvironmentRevision $er) => null === $er->getDeleted())
             ->map(fn (EnvironmentRevision $er) => $er->getEnvironment());
     }
 

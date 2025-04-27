@@ -134,24 +134,27 @@ class RevisionRepository extends EntityRepository
         $this->getEntityManager()->flush();
     }
 
-    public function addEnvironment(Revision $revision, Environment $environment): int
+    public function addEnvironment(Revision $revision, Environment $environment, string $username): int
     {
         $conn = $this->getEntityManager()->getConnection();
-        $stmt = $conn->prepare('insert into environment_revision (id, environment_id, revision_id, created, modified) VALUES(:id, :envId, :revId, :now, :now)');
+        $stmt = $conn->prepare('insert into environment_revision (id, environment_id, revision_id, created,  created_by, deleted, deleted_by) VALUES(:id, :envId, :revId, :now, :username, null, null)');
         $stmt->bindValue('id', Uuid::uuid4()->toString());
         $stmt->bindValue('envId', $environment->getId());
         $stmt->bindValue('revId', $revision->getId());
         $stmt->bindValue('now', new \DateTime()->format('Y-m-d H:i:s'));
+        $stmt->bindValue('username', $username);
 
         return (int) $stmt->executeStatement();
     }
 
-    public function removeEnvironment(Revision $revision, Environment $environment): int
+    public function removeEnvironment(Revision $revision, Environment $environment, string $username): int
     {
         $conn = $this->getEntityManager()->getConnection();
-        $stmt = $conn->prepare('delete from environment_revision where environment_id = :envId and revision_id = :revId');
+        $stmt = $conn->prepare('update environment_revision set deleted = :now, deleted_by = :username  where environment_id = :envId and revision_id = :revId and deleted is null');
         $stmt->bindValue('envId', $environment->getId());
         $stmt->bindValue('revId', $revision->getId());
+        $stmt->bindValue('now', new \DateTime()->format('Y-m-d H:i:s'));
+        $stmt->bindValue('username', $username);
 
         return (int) $stmt->executeStatement();
     }
@@ -164,6 +167,7 @@ class RevisionRepository extends EntityRepository
         $qb = $this->createQueryBuilder('r');
         $qb->join('r.environmentRevisions', 'er')
         ->where('er.environment = :env')
+        ->andWhere($qb->expr()->isNull('er.deleted'))
         // ->andWhere($qb->expr()->eq('r.deleted', ':false')
         ->setMaxResults(50)
         ->setFirstResult($page * 50)
@@ -216,6 +220,7 @@ class RevisionRepository extends EntityRepository
         $qb->join('r.environmentRevisions', 'er')
         ->where('er.environment = :env')
         ->andWhere('r.contentType = :ct')
+            ->andWhere($qb->expr()->isNull('er.deleted'))
         ->setMaxResults($size)
         ->setFirstResult($page * $size)
         ->orderBy('r.id', 'asc')
@@ -229,11 +234,12 @@ class RevisionRepository extends EntityRepository
 
     public function findByEnvironment(string $ouuid, ContentType $contentType, Environment $environment): Revision
     {
-        $qb = $this->createQueryBuilder('r')
-            ->join('r.environmentRevisions', 'er')
+        $qb = $this->createQueryBuilder('r');
+        $qb->join('r.environmentRevisions', 'er')
             ->andWhere('r.ouuid = :ouuid')
             ->andWhere('r.contentType = :contentType')
             ->andWhere('er.environment = :env')
+            ->andWhere($qb->expr()->isNull('er.deleted'))
             ->setParameter('ouuid', $ouuid)
             ->setParameter('contentType', $contentType)
             ->setParameter('env', $environment);
@@ -290,6 +296,7 @@ class RevisionRepository extends EntityRepository
         ->where('e.id in (:source, :target)')
         ->andWhere($qb->expr()->eq('r.deleted', ':false'))
         ->andWhere($qb->expr()->eq('c.deleted', ':false'))
+        ->andWhere($qb->expr()->isNull('er.deleted'))
         ->groupBy('c.id', 'c.name', 'c.icon', 'r.ouuid', 'c.orderKey')
         ->orHaving('count(r.id) = 1')
         ->orHaving('max(r.id) <> min(r.id)')
@@ -386,6 +393,7 @@ class RevisionRepository extends EntityRepository
         $qb->leftJoin('er.environment', 'e');
         $qb->where($qb->expr()->eq('r.ouuid', ':ouuid'));
         $qb->andWhere($qb->expr()->eq('r.contentType', ':contentType'));
+        $qb->andWhere($qb->expr()->isNull('er.deleted'));
         $qb->setMaxResults(5);
         $qb->setFirstResult(($page - 1) * 5);
         $qb->orderBy('r.created', 'DESC');
@@ -410,6 +418,7 @@ class RevisionRepository extends EntityRepository
             ->andWhere($qb->expr()->eq('r.ouuid', ':ouuid'))
             ->andWhere($qb->expr()->eq('er.environment', ':env'))
             ->andWhere($qb->expr()->eq('r.contentType', ':contentTypeId'))
+            ->andWhere($qb->expr()->isNull('er.deleted'))
             ->setParameters(new ArrayCollection([
                 new Parameter('ouuid', $ouuid),
                 new Parameter('env', $env),
@@ -751,6 +760,7 @@ class RevisionRepository extends EntityRepository
             ->andWhere($qb->expr()->eq('c.deleted', $qb->expr()->literal(false)))
             ->andWhere($qb->expr()->eq('r.deleted', $qb->expr()->literal(false)))
             ->andWhere($qb->expr()->isNotNull('e.id'))
+            ->andWhere($qb->expr()->isNull('er.deleted'))
             ->andWhere($qb->expr()->in('r.ouuid', ':ouuids'))
             ->setParameter('ouuids', $ouuids, ArrayParameterType::STRING);
 
@@ -838,6 +848,7 @@ class RevisionRepository extends EntityRepository
             $qb
                 ->join('r.environmentRevisions', 'er')
                 ->andWhere($qb->expr()->eq('er.environmpent', ':environment'))
+                ->andWhere($qb->expr()->isNull('er.deleted'))
                 ->setParameter('environment', $environment);
         } else {
             $qb->andWhere($qb->expr()->isNull('r.endTime'));
@@ -923,6 +934,7 @@ class RevisionRepository extends EntityRepository
             ->andWhere($qb->expr()->eq('c.deleted', $qb->expr()->literal(false)))
             ->andWhere($qb->expr()->eq('c.active', $qb->expr()->literal(true)))
             ->andWhere($qb->expr()->eq('r.deleted', $qb->expr()->literal(false)))
+            ->andWhere($qb->expr()->isNull('er.deleted'))
             ->setParameters(new ArrayCollection([
                 new Parameter('version_uuid', $versionUuid),
                 new Parameter('environment', $defaultEnvironment),
@@ -975,11 +987,12 @@ class RevisionRepository extends EntityRepository
     public function switchEnvironments(ContentType $contentType, Environment $target, string $username, int $batchSize = 500): void
     {
         $this->lockRevisions($contentType, new \DateTime('+60 min'), $username, true, null, false);
-        $qb = $this->createQueryBuilder('r')
-            ->join('r.environmentRevisions', 'er')
+        $qb = $this->createQueryBuilder('r');
+        $qb->join('r.environmentRevisions', 'er')
             ->join('er.environment', 'e')
             ->where('r.contentType = :ct')
             ->andWhere('e.id IN (:ids)')
+            ->andWhere($qb->expr()->isNull('er.deleted'))
             ->setParameter('ids', [$contentType->giveEnvironment()->getId(), $target->getId()], ArrayParameterType::INTEGER)
             ->setParameter('ct', $contentType);
         $detachableEntities = [];
@@ -991,10 +1004,10 @@ class RevisionRepository extends EntityRepository
                 continue;
             }
             if ($revision->getEnvironments()->contains($contentType->giveEnvironment())) {
-                $revision->addEnvironment($target);
+                $revision->addEnvironment($target, $username);
                 $revision->removeEnvironment($contentType->giveEnvironment());
             } else {
-                $revision->addEnvironment($contentType->giveEnvironment());
+                $revision->addEnvironment($contentType->giveEnvironment(), $username);
                 $revision->removeEnvironment($target);
             }
             $detachableEntities[] = $revision;

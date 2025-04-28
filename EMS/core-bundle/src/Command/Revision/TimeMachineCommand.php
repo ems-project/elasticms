@@ -114,7 +114,7 @@ final class TimeMachineCommand extends Command
         $revertedRevision->setFinalizedBy(self::SYSTEM_TIME_MACHINE);
         $this->dataService->sign($revertedRevision);
 
-        $currentRevision->close(new \DateTime('now'));
+        $currentRevision->close(new \DateTime('now'), self::SYSTEM_TIME_MACHINE);
 
         $this->em->persist($currentRevision);
         $this->em->persist($revertedRevision);

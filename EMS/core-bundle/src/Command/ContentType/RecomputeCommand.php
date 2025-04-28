@@ -197,7 +197,7 @@ final class RecomputeCommand extends AbstractCommand
                     continue;
                 }
 
-                $revision->close(new \DateTime('now'));
+                $revision->close(new \DateTime('now'), self::LOCK_BY);
                 $newRevision->setDraft(false);
 
                 $newRevision->setFinalizedBy(self::LOCK_BY);

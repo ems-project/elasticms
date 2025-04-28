@@ -247,14 +247,14 @@ class Revision implements EntityInterface, \Stringable
     /**
      * Close a revision.
      */
-    public function close(\DateTime $endTime): void
+    public function close(\DateTime $endTime, string $username): void
     {
         if (null === $this->endTime) {
             $this->setEndTime($endTime);
         }
         $this->setDraft(false);
         $this->autoSaveClear();
-        $this->removeEnvironment($this->giveContentType()->giveEnvironment());
+        $this->removeEnvironment($this->giveContentType()->giveEnvironment(), $username);
     }
 
     public function getAllFieldsAreThere(): ?bool
@@ -549,11 +549,12 @@ class Revision implements EntityInterface, \Stringable
         return $this;
     }
 
-    public function removeEnvironment(Environment $environment): self
+    public function removeEnvironment(Environment $environment, string $username): self
     {
         foreach ($this->environmentRevisions as $key => $environmentRevision) {
             if ($environmentRevision->getEnvironment() === $environment) {
-                $this->environmentRevisions->remove($key);
+                $environmentRevision->setDeleted(new \DateTime());
+                $environmentRevision->setDeletedBy($username);
                 break;
             }
         }

@@ -1005,10 +1005,10 @@ class RevisionRepository extends EntityRepository
             }
             if ($revision->getEnvironments()->contains($contentType->giveEnvironment())) {
                 $revision->addEnvironment($target, $username);
-                $revision->removeEnvironment($contentType->giveEnvironment());
+                $revision->removeEnvironment($contentType->giveEnvironment(), $username);
             } else {
                 $revision->addEnvironment($contentType->giveEnvironment(), $username);
-                $revision->removeEnvironment($target);
+                $revision->removeEnvironment($target, $username);
             }
             $detachableEntities[] = $revision;
             if ((\count($detachableEntities) % $batchSize) === 0) {

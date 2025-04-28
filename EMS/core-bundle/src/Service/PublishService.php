@@ -93,10 +93,10 @@ class PublishService
         }
     }
 
-    public function silentUnpublish(Revision $revision, bool $flush = true): void
+    public function silentUnpublish(Revision $revision, string $username, bool $flush = true): void
     {
         $environment = $revision->giveContentType()->giveEnvironment();
-        $revision->removeEnvironment($environment);
+        $revision->removeEnvironment($environment, $username);
         $this->indexService->delete($revision, $environment);
 
         if ($flush) {

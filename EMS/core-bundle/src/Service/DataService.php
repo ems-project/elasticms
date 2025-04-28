@@ -775,7 +775,7 @@ class DataService
                 if ($item) {
                     $this->lockRevision($item, null, false, $username);
                     $previousObjectArray = $item->getRawData();
-                    $item->removeEnvironment($revision->giveContentType()->giveEnvironment());
+                    $item->removeEnvironment($revision->giveContentType()->giveEnvironment(), $username);
                     $em->persist($item);
                     $this->unlockRevision($item, $username);
                 }
@@ -1235,7 +1235,7 @@ class DataService
                     }
                     throw $e;
                 }
-                $revision->removeEnvironment($environment);
+                $revision->removeEnvironment($environment, $username);
             }
             $revision->delete($username);
 

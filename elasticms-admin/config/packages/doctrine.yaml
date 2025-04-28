@@ -13,6 +13,9 @@ doctrine:
     dbal:
         url: '%env(resolve:DB_URL)%'
         server_version: '%env(string:DB_VERSION)%'
+        default_table_options:
+            charset: utf8
+            collate: utf8_unicode_ci
         options:
             2: '%env(int:DB_CONNECTION_TIMEOUT)%' #const PDO:ATTR_TIMEOUT = 2 , minimum value is 2 https://pracucci.com/php-pdo-pgsql-connection-timeout.html
     orm:

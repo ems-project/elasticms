@@ -94,6 +94,9 @@
             <factory service="doctrine.orm.default_entity_manager" method="getRepository" />
             <argument>EMS\CoreBundle\Entity\Job</argument>
         </service>
+        <service id="ems.repository.log_action" class="EMS\CoreBundle\Repository\LogActionRepository">
+            <argument type="service" id="doctrine"/>
+        </service>
         <service id="EMS\CoreBundle\Repository\ManagedAliasRepository">
             <factory service="doctrine.orm.default_entity_manager" method="getRepository" />
             <argument>EMS\CoreBundle\Entity\ManagedAlias</argument>

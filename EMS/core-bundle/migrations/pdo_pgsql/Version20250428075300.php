@@ -13,7 +13,7 @@ final class Version20250428075300 extends AbstractMigration
     #[\Override]
     public function getDescription(): string
     {
-        return 'Add symfony messenger messages table';
+        return 'Add symfony messenger messages table and WYSIWYG profile editor field';
     }
 
     #[\Override]
@@ -36,6 +36,13 @@ final class Version20250428075300 extends AbstractMigration
         $this->addSql(<<<'SQL'
             CREATE INDEX IDX_75EA56E016BA31DB ON messenger_messages (delivered_at)
         SQL);
+
+        $this->addSql(<<<'SQL'
+            ALTER TABLE wysiwyg_profile ALTER editor TYPE VARCHAR(255)
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE wysiwyg_profile ALTER editor DROP DEFAULT
+        SQL);
     }
 
     #[\Override]
@@ -48,6 +55,13 @@ final class Version20250428075300 extends AbstractMigration
         
         $this->addSql(<<<'SQL'
             DROP TABLE messenger_messages
+        SQL);
+        
+        $this->addSql(<<<'SQL'
+            ALTER TABLE wysiwyg_profile ALTER editor TYPE VARCHAR(255)
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE wysiwyg_profile ALTER editor SET DEFAULT 'ckeditor4'
         SQL);
     }
 }

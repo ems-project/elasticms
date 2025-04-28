@@ -6,7 +6,7 @@ declare(strict_types=1);
 require __DIR__.'/../vendor/autoload.php';
 
 use App\Admin\Kernel;
-use EMS\CommonBundle\Common\Converter;
+use EMS\Helpers\Standard\Number;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Console\Input\InputArgument;
@@ -213,7 +213,7 @@ $command = static function (InputInterface $input, OutputInterface $output): int
     $io->newLine();
     $io->listing([
         \sprintf('Duration: %d s', $buildStopWatch->getDuration() / 1000),
-        \sprintf('Memory: %s', Converter::formatBytes($buildStopWatch->getMemory())),
+        \sprintf('Memory: %s', Number::formatBytes($buildStopWatch->getMemory())),
     ]);
 
     return Command::SUCCESS;

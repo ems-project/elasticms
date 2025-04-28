@@ -14,8 +14,8 @@ use Symfony\Component\Yaml\Yaml;
 
 class OpenShift implements RunnerInterface
 {
-    private Client $httpClient;
-    private UuidInterface $uuid;
+    private readonly Client $httpClient;
+    private readonly UuidInterface $uuid;
 
     /**
      * @param array<string, string>                     $labels

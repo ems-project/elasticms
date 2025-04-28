@@ -39,9 +39,9 @@ final class Version20250220092804 extends AbstractMigration
             "Migration can only be executed safely on '\Doctrine\DBAL\Platforms\PostgreSQLPlatform'."
         );
         
-        $this->addSql('DROP TABLE user_group');
         $this->addSql('ALTER TABLE "user" DROP CONSTRAINT FK_8D93D649FE54D947');
         $this->addSql('DROP INDEX IDX_8D93D649FE54D947');
         $this->addSql('ALTER TABLE "user" DROP group_id');
+        $this->addSql('DROP TABLE user_group');
     }
 }

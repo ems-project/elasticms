@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Controller\Api\Admin;
 
-use phpDocumentor\Reflection\Types\False_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,10 +13,11 @@ use Symfony\Component\Routing\RouterInterface;
 
 class DocumentationController extends AbstractController
 {
-    public function __construct(private readonly string $templateNamespace,
-                                private readonly RouterInterface $router)
-    {
-    }
+    public function __construct(
+        private readonly string $templateNamespace,
+        private readonly RouterInterface $router
+    ) {}
+
     public function getDocumentation(Request $request): Response
     {
         $format = $request->getRequestFormat();
@@ -47,6 +47,17 @@ class DocumentationController extends AbstractController
                     $paths[$path][strtolower($method)] = [
                         'tags' => [$tag],
                         'summary' => $name,
+                        'parameters' => [
+                            [
+                                'name' => 'X-Auth-Token',
+                                'in' => 'header',
+                                'required' => true,
+                                'schema' => [
+                                    'type' => 'string',
+                                ],
+                                'description' => 'Authentication token'
+                            ],
+                        ],
                         'responses' => [
                             '200' => [
                                 'description' => "Response for route $name",
@@ -63,7 +74,7 @@ class DocumentationController extends AbstractController
                     'description' => 'OpenAPI documentation based on Symfony routes',
                     'version' => '1.0.0',
                 ],
-                'tags' => array_values($tags), 
+                'tags' => array_values($tags),
                 'paths' => $paths,
             ];
 
@@ -73,14 +84,13 @@ class DocumentationController extends AbstractController
         return $this->render("@$this->templateNamespace/api/documentation.html.twig");
     }
 
-
     /**
      * @return Route[]
      */
     public function getRoutes(): array
     {
         $routes = $this->router->getRouteCollection()->all();
-        
+
         return \array_filter($routes, static fn (Route $route) => $route->getOption('openapi'));
     }
 }

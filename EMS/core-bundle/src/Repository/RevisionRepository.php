@@ -388,12 +388,15 @@ class RevisionRepository extends EntityRepository
     public function getAllRevisionsSummary(string $ouuid, ContentType $contentType, int $page = 1): array
     {
         $qb = $this->createQueryBuilder('r');
-        $qb->select('r', 'er', 'e');
-        $qb->leftJoin('r.environmentRevisions', 'er');
-        $qb->leftJoin('er.environment', 'e');
+        $qb->select('r', 'er');
+        $qb->leftJoin(
+            'r.environmentRevisions',
+            'er',
+            'WITH',
+            $qb->expr()->isNull('er.deleted')
+        );
         $qb->where($qb->expr()->eq('r.ouuid', ':ouuid'));
         $qb->andWhere($qb->expr()->eq('r.contentType', ':contentType'));
-        $qb->andWhere($qb->expr()->isNull('er.deleted'));
         $qb->setMaxResults(5);
         $qb->setFirstResult(($page - 1) * 5);
         $qb->orderBy('r.created', 'DESC');

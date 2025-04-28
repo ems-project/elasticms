@@ -930,7 +930,7 @@ class RevisionRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('r');
         $qb
-            ->addSelect('e')
+            ->addSelect('er')
             ->join('r.contentType', 'c')
             ->join('r.environmentRevisions', 'er')
             ->andWhere($qb->expr()->eq('er.environment', ':environment'))

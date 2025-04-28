@@ -21,4 +21,10 @@ class LogActionRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, LogAction::class);
     }
+
+    public function save(LogAction $logAction): void
+    {
+        $this->getEntityManager()->persist($logAction);
+        $this->getEntityManager()->flush();
+    }
 }

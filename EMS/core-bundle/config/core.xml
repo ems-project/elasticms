@@ -5,7 +5,11 @@
         http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
 
+        <service id="emsco.action.log" class="EMS\CoreBundle\Core\Action\ActionLogService">
+            <argument type="service" id="ems.repository.log_action" />
+        </service>
         <service id="emsco.action.revision" class="EMS\CoreBundle\Core\Action\ActionRevisionService">
+            <argument type="service" id="emsco.action.log" />
             <argument type="service" id="ems.service.revision" />
             <argument type="service" id="emsco.core.content_type.field_type.service" />
         </service>

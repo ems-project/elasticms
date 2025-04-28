@@ -5,26 +5,40 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Core\Action;
 
 use EMS\CoreBundle\Core\ContentType\FieldType\FieldTypeService;
+use EMS\CoreBundle\Core\Revision\RawDataTransformer;
 use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Service\Revision\RevisionService;
+use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 class ActionRevisionService
 {
+    private readonly PropertyAccessor $propertyAccessor;
+
     public function __construct(
+        private readonly ActionLogService $actionLogService,
         private readonly RevisionService $revisionService,
         private readonly FieldTypeService $fieldTypeService,
     ) {
+        $this->propertyAccessor = new PropertyAccessor();
     }
 
     /**
-     * @return array{ 'outputFields': string[], 'revisionId': int }
+     * @return array{ 'outputFields': string[], 'action': string }
      */
     public function handle(int $revisionId, int $fieldId): array
     {
         $revision = $this->getDraftRevision($revisionId);
         $config = $this->getConfig($fieldId);
 
-        return ['outputFields' => $config->getOutputFields(), 'revisionId' => $revision->getId()];
+        $inputData = $this->getInputData($revision, $config);
+        $outputObject = $this->getOutputObject($config);
+
+        $actionLog = $this->actionLogService->newRequest([
+            'input' => $inputData,
+            'output' => $outputObject,
+        ]);
+
+        return ['outputFields' => $config->getOutputFields(), 'action' => $actionLog->getId()];
     }
 
     private function getConfig(int $fieldId): ActionRevisionConfig
@@ -43,5 +57,41 @@ class ActionRevisionService
         }
 
         return $revision;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function getInputData(Revision $revision, ActionRevisionConfig $config): array
+    {
+        $inputData = [];
+
+        $data = $revision->getAutoSave() ?? $revision->getRawData();
+        $rawData = RawDataTransformer::transform($revision->giveContentType()->getFieldType(), $data);
+
+        foreach ($config->getInputPaths() as $inputPath) {
+            if (!$this->propertyAccessor->isReadable($rawData, $inputPath)) {
+                continue;
+            }
+
+            $value = $this->propertyAccessor->getValue($rawData, $inputPath);
+            $this->propertyAccessor->setValue($inputData, $inputPath, $value);
+        }
+
+        return $inputData;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function getOutputObject(ActionRevisionConfig $config): array
+    {
+        $outputObject = [];
+
+        foreach ($config->getOutputPaths() as $outputPath) {
+            $this->propertyAccessor->setValue($outputObject, $outputPath, null);
+        }
+
+        return $outputObject;
     }
 }

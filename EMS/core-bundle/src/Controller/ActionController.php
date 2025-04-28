@@ -20,6 +20,7 @@ class ActionController
 
         return new JsonResponse([
             'outputFields' => $result['outputFields'],
+            'action' => $result['action'],
         ]);
     }
 }

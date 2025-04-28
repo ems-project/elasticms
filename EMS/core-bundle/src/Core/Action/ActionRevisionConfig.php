@@ -30,6 +30,22 @@ class ActionRevisionConfig
         return \array_map(static fn (FieldType $field) => 'revision[data]'.$field->getPath(), $this->output);
     }
 
+    /**
+     * @return string[]
+     */
+    public function getInputPaths(): array
+    {
+        return \array_map(static fn (FieldType $field) => $field->getPropertyPath(), $this->input);
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getOutputPaths(): array
+    {
+        return \array_map(static fn (FieldType $field) => $field->getPropertyPath(), $this->output);
+    }
+
     public static function fromFieldType(FieldType $fieldType, FieldTypeTreeItem $fieldTree): ActionRevisionConfig
     {
         $jsonConfig = $fieldType->getExtraOption('config', '{}');

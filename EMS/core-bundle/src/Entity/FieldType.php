@@ -545,6 +545,29 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
         return \implode('', $path ?? []);
     }
 
+    /**
+     * @return FieldType[]
+     */
+    public function getPathTypes(): array
+    {
+        $path = [$this];
+
+        if (null !== $this->parent) {
+            $path = \array_merge($this->parent->getPathTypes(), $path);
+        }
+
+        return $path;
+    }
+
+    public function getPropertyPath(): string
+    {
+        $pathTypes = $this->getPathTypes();
+        \array_shift($pathTypes);
+        $path = \array_map(static fn (FieldType $child) => $child->getName(), $pathTypes);
+
+        return \sprintf('[%s]', \implode('][', $path));
+    }
+
     public function findChildByName(string $name): ?FieldType
     {
         foreach ($this->loopChildren() as $child) {

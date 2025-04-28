@@ -11,7 +11,7 @@ use GuzzleHttp\Client;
 
 class DockerRemote implements RunnerInterface
 {
-    private Client $httpClient;
+    private readonly Client $httpClient;
 
     /**
      * @param string[] $env

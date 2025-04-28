@@ -47,6 +47,9 @@ class DocumentationController extends AbstractController
                     $paths[$path][strtolower($method)] = [
                         'tags' => [$tag],
                         'summary' => $name,
+                        'security' => [
+                            ['XAuthToken' => []]
+                        ],
                         'parameters' => [
                             [
                                 'name' => 'X-Auth-Token',
@@ -60,7 +63,10 @@ class DocumentationController extends AbstractController
                         ],
                         'responses' => [
                             '200' => [
-                                'description' => "Response for route $name",
+                                'description' => "Success response for route $name",
+                            ],
+                            '401' => [
+                                'description' => "Unauthorized",
                             ],
                         ],
                     ];
@@ -76,6 +82,15 @@ class DocumentationController extends AbstractController
                 ],
                 'tags' => array_values($tags),
                 'paths' => $paths,
+                'components' => [
+                    'securitySchemes' => [
+                        'XAuthToken' => [
+                            'type' => 'apiKey',
+                            'in' => 'header',
+                            'name' => 'X-Auth-Token',
+                        ],
+                    ],
+                ],
             ];
 
             return new JsonResponse($openApi);

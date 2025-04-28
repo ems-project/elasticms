@@ -126,7 +126,7 @@ class ExtractAssetCommand extends AbstractCommand
         $rows[] = new TableSeparator();
         $rows[] = ['name' => '<info>totals</info>', ...$totals];
 
-        $this->io->table(['name', 'size', 'length', 'words', 'tokens'], \array_map(static fn($row) => \is_array($row) ? [
+        $this->io->table(['name', 'size', 'length', 'words', 'tokens'], \array_map(static fn ($row) => \is_array($row) ? [
             $row['name'],
             Number::formatBytes($row['size']),
             Number::format($row['length']),

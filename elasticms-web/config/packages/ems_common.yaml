@@ -13,7 +13,7 @@ parameters:
     env(EMS_STORAGES): '[{"type":"fs","path":"%env(string:STORAGE_PATH)%"},{"type":"s3","credentials":%env(string:S3_CREDENTIALS)%,"bucket":"%env(string:S3_BUCKET)%"},{"type":"http","base-url":"%env(string:EMSCH_BACKEND_URL)%"}]'
     env(EMS_RUNNERS): '[]'
     env(EMS_STORE_DATA_SERVICES): '[]'
-    env(EMS_KEY_STORE): '[]'
+    env(EMS_KEY_STORE): '{}'
     env(EMS_LOG_LEVEL): '250'
     env(EMS_BACKEND_URL): ~
     env(EMS_BACKEND_API_KEY): ~

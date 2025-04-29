@@ -164,7 +164,6 @@
         <service id="ems.command.add_group_to_user" class="EMS\CoreBundle\Command\User\AddGroupToUserCommand" parent="ems_core.command_user.abstract_user_command">
             <argument type="service" id="ems.group.manager"/>
             <tag name="console.command"/>
-            <tag name="console.command" command="fos:user:add-group" />
         </service>
         <service id="ems.command.remove_group_from_user" class="EMS\CoreBundle\Command\User\RemoveGroupFromUserCommand" parent="ems_core.command_user.abstract_user_command">
             <argument type="service" id="ems.group.manager"/>

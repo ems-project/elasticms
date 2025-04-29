@@ -275,6 +275,11 @@ Specify replacement strings, per locale to symbols. E.g. if you want to replace 
 
 Define (JSON format) the store data services, in the priority order. See the [Stora Data documentation](../recipes/store-data.md) for more details. By default, the store data functionalities are disabled.
 
+### EMS_KEY_STORE
+
+A JSON-formatted environment variable that stores API tokens or other credentials as key/value pairs.
+Used to centralize and securely manage secrets (e.g. API keys) needed across the application. Each key can be accessed by name via the `KeyStore` service.
+
 ### EMS_TRUSTED_IPS
 
 Define (JSON format) a range of allowed ip address. Example: `["127.0.0.1", "::1", "192.168.0.1/24"]`

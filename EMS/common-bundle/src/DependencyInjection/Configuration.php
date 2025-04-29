@@ -28,6 +28,7 @@ class Configuration implements ConfigurationInterface
                 ->variableNode('storages')->defaultValue([])->end()
                 ->variableNode('runners')->defaultValue([])->end()
                 ->variableNode('store_data_services')->defaultValue([])->end()
+                ->variableNode('key_store')->defaultValue([])->end()
                 ->booleanNode('profiler')->defaultFalse()->end()
                 ->scalarNode('hash_algo')->defaultValue('sha1')->end()
                 ->scalarNode('backend_url')->defaultValue(null)->end()

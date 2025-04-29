@@ -17,7 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 
 #[AsCommand(
-    name: Commands::USER_DELETE_GROUP,
+    name: Commands::USER_REMOVE_GROUP,
     description: 'Remove a group from a user.',
     hidden: false
 )]

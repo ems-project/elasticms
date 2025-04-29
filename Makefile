@@ -140,6 +140,7 @@ demo: ## make new demo
 	@$(RUN_ADMIN) ems:managed-alias:add-environment ma_preview default
 	@$(RUN_ADMIN) ems:managed-alias:add-environment ma_live live
 	@$(RUN_ADMIN) ems:managed-alias:add-environment ma_live default
+	@$(RUN_ADMIN) emsco:user:add-group demo admin
 	@$(RUN_ADMIN) emsch:local:login demo demo
 	@$(RUN_ADMIN) emsch:local:push --force
 	@$(RUN_ADMIN) emsch:local:upload --filename=./demo/skeleton/template/asset_hash.twig
@@ -147,7 +148,9 @@ demo: ## make new demo
 	@$(RUN_ADMIN) ems:admin:restore --documents-folder=./demo/configs/document --documents --force
 	@$(RUN_ADMIN) ems:environment:align preview live --force --no-debug
 demo-backup-configs: ## backup demo configs
-	@$(RUN_ADMIN) ems:admin:backup --configs-folder=./demo/configs/admin --configs --export
+	@$(RUN_WEB) c:c
+	@$(RUN_WEB) ems:admin:login --username=demo --password=demo
+	@$(RUN_WEB) ems:admin:backup --configs-folder=./demo/configs/admin --configs --export
 demo-backup-documents: ## backup demo documents
 	@$(RUN_ADMIN) ems:admin:backup --documents-folder=./demo/configs/document --documents --export
 demo-npm/%: ## demo npm

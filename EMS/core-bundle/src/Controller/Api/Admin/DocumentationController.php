@@ -16,13 +16,14 @@ class DocumentationController extends AbstractController
     public function __construct(
         private readonly string $templateNamespace,
         private readonly RouterInterface $router
-    ) {}
+    ) {
+    }
 
     public function getDocumentation(Request $request): Response
     {
         $format = $request->getRequestFormat();
 
-        if ($format === 'json') {
+        if ('json' === $format) {
             $paths = [];
             $tags = [];
 
@@ -32,19 +33,19 @@ class DocumentationController extends AbstractController
                 $controller = $route->getDefault('_controller') ?? 'Not defined';
 
                 $tag = 'Default';
-                if (str_contains($controller, 'Controller')) {
-                    $parts = explode('\\', $controller);
-                    $controllerName = end($parts);
-                    $tag = str_replace('Controller', '', explode('::', $controllerName)[0]);
+                if (\str_contains($controller, 'Controller')) {
+                    $parts = \explode('\\', $controller);
+                    $controllerName = \end($parts);
+                    $tag = \str_replace('Controller', '', \explode('::', $controllerName)[0]);
                 }
 
                 $tags[$tag] = [
                     'name' => $tag,
-                    'description' => "Endpoints related to $tag"
+                    'description' => "Endpoints related to $tag",
                 ];
 
                 foreach ($methods as $method) {
-                    $paths[$path][strtolower($method)] = [
+                    $paths[$path][\strtolower($method)] = [
                         'tags' => [$tag],
                         'summary' => $name,
                         'responses' => [
@@ -52,7 +53,7 @@ class DocumentationController extends AbstractController
                                 'description' => "Success response for route $name",
                             ],
                             '401' => [
-                                'description' => "Unauthorized",
+                                'description' => 'Unauthorized',
                             ],
                         ],
                     ];
@@ -66,7 +67,7 @@ class DocumentationController extends AbstractController
                     'description' => 'OpenAPI documentation based on Symfony routes',
                     'version' => '1.0.0',
                 ],
-                'tags' => array_values($tags),
+                'tags' => \array_values($tags),
                 'paths' => $paths,
                 'components' => [
                     'securitySchemes' => [
@@ -81,7 +82,7 @@ class DocumentationController extends AbstractController
                     [
                         'XAuthToken' => [],
                     ],
-                ]    
+                ],
             ];
 
             return new JsonResponse($openApi);

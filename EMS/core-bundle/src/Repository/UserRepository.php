@@ -165,8 +165,6 @@ final class UserRepository extends ServiceEntityRepository implements UserReposi
     }
 
     /**
-     * @param QueryBuilder $qb
-     * @param UserContextDTO|null $context
      * @return Query<null, User>
      */
     private function getQuery(QueryBuilder $qb, ?UserContextDTO $context): Query

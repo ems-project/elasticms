@@ -320,13 +320,7 @@ class UserController extends AbstractController
             throw new \RuntimeException(\sprintf('The user is not in the group "%s".', $groupName));
         }
         $user->setGroup(null);
-
         $this->userService->updateUser($user);
-        $userGroup = $this->groupManager->getByItemId($groupName);
-
-        if (!$userGroup instanceof EntityInterface && null !== $userGroup) {
-            throw new EntityNotFoundException();
-        }
 
         return $this->redirectToRoute(Routes::GROUP_EDIT, [
             'group' => $groupName,

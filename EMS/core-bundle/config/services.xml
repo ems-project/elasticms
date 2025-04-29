@@ -507,9 +507,12 @@
             <argument>%ems_core.instance_id%</argument>
             <tag name="emsco.entity.service" priority="90" />
         </service>
-        <service id="emsco.job_message_handler" class="EMS\CoreBundle\Core\Messenger\Handler\JobHandler">
+        <service id="emsco.messenger_handler.action" class="EMS\CoreBundle\Core\Messenger\Handler\ActionHandler">
+            <tag name="messenger.message_handler" handles="EMS\CoreBundle\Core\Messenger\Message\ActionMessage" />
+        </service>
+        <service id="emsco.messenger_handler.job" class="EMS\CoreBundle\Core\Messenger\Handler\JobHandler">
             <argument type="service" id="EMS\CoreBundle\Service\JobService"/>
-            <tag name="messenger.message_handler" handles="EMS\CoreBundle\Core\Messenger\Message\Job" />
+            <tag name="messenger.message_handler" handles="EMS\CoreBundle\Core\Messenger\Message\JobMessage" />
         </service>
         <service id="emsco.messenger.middleware.user_token_stamp" class="EMS\CoreBundle\Core\Messenger\Middleware\UserTokenStampMiddleware">
             <argument type="service" id="security.token_storage"/>

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Core\Messenger\Message;
 
-readonly class Job implements AsyncMessageInterface
+readonly class JobMessage implements AsyncMessageInterface
 {
     public function __construct(
         private int $content,

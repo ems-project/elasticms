@@ -38,6 +38,11 @@ class LogAction
         return $this->id->toString();
     }
 
+    public function getUuid(): UuidInterface
+    {
+        return $this->id;
+    }
+
     /** @return array<mixed> */
     public function getRequest(): array
     {

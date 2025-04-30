@@ -46,6 +46,7 @@
     "jquery-ui-bundle": "^1.12.1-migrate",
     "promise": "^8.3.0",
     "sortablejs": "^1.15.3",
+    "swagger-ui": "^5.20.8",
     "uuid": "^10.0.0"
   }
 }

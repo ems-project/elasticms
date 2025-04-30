@@ -8,7 +8,7 @@
            controller="EMS\CoreBundle\Controller\Api\AuthTokenLoginController::login"
            methods="POST"
            format="json"/>
-    <route id="emsco_documentation" path="/admin/documentation.{_format}"
+    <route id="emsco_documentation_api" path="/admin/documentation/api.{_format}"
            controller="EMS\CoreBundle\Controller\Api\Admin\DocumentationController::getDocumentation"
            methods="GET"
            format="html"

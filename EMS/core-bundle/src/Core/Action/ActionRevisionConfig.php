@@ -17,8 +17,10 @@ class ActionRevisionConfig
      * @param FieldType[] $output
      */
     public function __construct(
-        public array $input = [],
-        public array $output = [],
+        /** @var ?array{ 'provider': 'openai', 'request': array<mixed> } */
+        public ?array $ai = null,
+        private readonly array $input = [],
+        private readonly array $output = [],
     ) {
     }
 
@@ -51,7 +53,11 @@ class ActionRevisionConfig
         $jsonConfig = $fieldType->getExtraOption('config', '{}');
         $config = self::getConfigResolver($fieldTree)->resolve(Json::decode($jsonConfig));
 
-        return new self($config['input'], $config['output']);
+        return new self(
+            $config['ai'],
+            $config['input'],
+            $config['output']
+        );
     }
 
     private static function getConfigResolver(FieldTypeTreeItem $fieldTree): OptionsResolver
@@ -65,7 +71,7 @@ class ActionRevisionConfig
 
         $optionResolver = new OptionsResolver();
         $optionResolver
-            ->setIgnoreUndefined()
+            ->setDefaults(['ai' => null])
             ->setRequired(['input', 'output'])
             ->setAllowedTypes('input', ['array'])
             ->setAllowedTypes('output', ['array'])

@@ -19,57 +19,16 @@ class OpenAiService
     ) {
     }
 
-    /**
-     * @return array<mixed>
-     */
-    public function v1Responses(): array
+    public function v1Responses(OpenAiRequest $request): OpenAiResponse
     {
-        $response = $this->httpClient->request('POST', self::BASE_URL.'/v1/responses', [
-            'headers' => $this->getHeaders(),
-            'json' => [
-                'model' => 'gpt-4.1-nano',
-                'input' => [
-                    [
-                        'role' => 'system',
-                        'content' => 'You are a French translator',
-                    ],
-                    [
-                        'role' => 'user',
-                        'content' => Json::encode([
-                            'Dutch' => [
-                                'page_title_nl' => 'Nieuws',
-                                'page_description_nl' => 'Vandaag is er niets gebeurd!',
-                            ],
-                        ]),
-                    ],
-                ],
-                'text' => [
-                    'format' => [
-                        'type' => 'json_schema',
-                        'name' => 'translation',
-                        'schema' => [
-                            'type' => 'object',
-                            'properties' => [
-                                'French' => [
-                                    'type' => 'object',
-                                    'properties' => [
-                                        'page_title_fr' => ['type' => 'string'],
-                                        'page_description_fr' => ['type' => 'string'],
-                                    ],
-                                    'required' => ['page_title_fr', 'page_description_fr'],
-                                    'additionalProperties' => false,
-                                ],
-                            ],
-                            'required' => ['French'],
-                            'additionalProperties' => false,
-                        ],
-                        'strict' => true,
-                    ],
-                ],
-            ],
-        ]);
-
-        return $response->toArray();
+        return new OpenAiResponse($this->httpClient->request(
+            method: 'POST',
+            url: self::BASE_URL.'/v1/responses',
+            options: [
+                'headers' => $this->getHeaders(),
+                'json' => $request->body,
+            ]
+        ));
     }
 
     /** @return array{ 'Content-Type': 'application/json', 'Authorization': string } */

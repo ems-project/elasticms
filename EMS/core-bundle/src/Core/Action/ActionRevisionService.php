@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Core\Action;
 
+use EMS\CommonBundle\Common\Ai\OpenAiRequest;
 use EMS\CoreBundle\Core\ContentType\FieldType\FieldTypeService;
 use EMS\CoreBundle\Core\Revision\RawDataTransformer;
 use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Service\Revision\RevisionService;
+use EMS\Helpers\ArrayHelper\ArrayHelper;
+use EMS\Helpers\Standard\Json;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 class ActionRevisionService
@@ -30,13 +33,20 @@ class ActionRevisionService
         $revision = $this->getDraftRevision($revisionId);
         $config = $this->getConfig($fieldId);
 
-        $inputData = $this->getInputData($revision, $config);
-        $outputObject = $this->getOutputObject($config);
+        $ai = $config->ai;
+        if (null === $ai || 'openai' !== $ai['provider']) {
+            throw new \RuntimeException('For now only AI openai is supported!');
+        }
 
-        $action = $this->actionService->requestFromRevision($revision, [
-            'input' => $inputData,
-            'output' => $outputObject,
-        ]);
+        $inputJson = $this->buildInputJson($revision, $config);
+        $outputSchema = $this->buildOutputSchema($config);
+        $body = ArrayHelper::map(
+            data: $ai['request'],
+            mapper: static fn ($value) => '%inputJson%' === $value ? $inputJson : $value
+        );
+
+        $openAiRequest = OpenAiRequest::withResponseSchema($body, $outputSchema);
+        $action = $this->actionService->requestFromRevision($revision, $openAiRequest->body);
 
         return ['outputFields' => $config->getOutputFields(), 'action' => $action->getId()->toString()];
     }
@@ -59,10 +69,7 @@ class ActionRevisionService
         return $revision;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
-    private function getInputData(Revision $revision, ActionRevisionConfig $config): array
+    private function buildInputJson(Revision $revision, ActionRevisionConfig $config): string
     {
         $inputData = [];
 
@@ -78,20 +85,20 @@ class ActionRevisionService
             $this->propertyAccessor->setValue($inputData, $inputPath, $value);
         }
 
-        return $inputData;
+        return Json::encode($inputData);
     }
 
     /**
      * @return array<string, mixed>
      */
-    private function getOutputObject(ActionRevisionConfig $config): array
+    private function buildOutputSchema(ActionRevisionConfig $config): array
     {
-        $outputObject = [];
+        $outputSchema = [];
 
         foreach ($config->getOutputPaths() as $outputPath) {
-            $this->propertyAccessor->setValue($outputObject, $outputPath, null);
+            $this->propertyAccessor->setValue($outputSchema, $outputPath, null);
         }
 
-        return $outputObject;
+        return $outputSchema;
     }
 }

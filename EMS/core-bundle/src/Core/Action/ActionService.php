@@ -47,4 +47,9 @@ class ActionService
 
         return $action;
     }
+
+    public function update(Action $action): void
+    {
+        $this->repository->save($action);
+    }
 }

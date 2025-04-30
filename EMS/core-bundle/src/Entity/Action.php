@@ -38,10 +38,40 @@ class Action
         $this->modified = new \DateTime();
     }
 
+    /** @param array<mixed> $response */
+    public function flagDone(array $response): self
+    {
+        $this->status = ActionStatus::DONE;
+        $this->response = $response;
+
+        return $this;
+    }
+
+    public function flagFailed(\Throwable|\Exception $e): self
+    {
+        $this->response = ['error' => $e->getMessage(), 'trace' => $e->getTraceAsString()];
+        $this->status = ActionStatus::FAILED;
+
+        return $this;
+    }
+
+    public function flagInProgress(): self
+    {
+        $this->status = ActionStatus::IN_PROGRESS;
+
+        return $this;
+    }
+
+    public function getId(): UuidInterface
+    {
+        return $this->id;
+    }
+
     /**
      * @return array{
      *     'sender': string,
      *     'senderId': string,
+     *     'status': string,
      *     'requestHash': string,
      *     'createdBy': string,
      * }
@@ -51,14 +81,10 @@ class Action
         return [
             'sender' => $this->sender,
             'senderId' => $this->senderId,
+            'status' => $this->status->value,
             'requestHash' => $this->requestHash,
             'createdBy' => $this->createdBy,
         ];
-    }
-
-    public function getId(): UuidInterface
-    {
-        return $this->id;
     }
 
     /** @return array<mixed> */
@@ -71,23 +97,5 @@ class Action
     public function getResponse(): ?array
     {
         return $this->response;
-    }
-
-    public function getStatus(): ActionStatus
-    {
-        return $this->status;
-    }
-
-    /** @param ?array<mixed> $response */
-    public function setResponse(?array $response): void
-    {
-        $this->response = $response;
-    }
-
-    public function setStatus(ActionStatus $status): self
-    {
-        $this->status = $status;
-
-        return $this;
     }
 }

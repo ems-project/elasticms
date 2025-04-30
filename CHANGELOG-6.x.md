@@ -1,5 +1,19 @@
 # Changelog 6.x
 
+## 6.3.0 (2025-04-29)
+### Features
+* feat(admin/cli): add and remove user from group commands by @Zki49 in https://github.com/ems-project/elasticms/pull/1304
+* feat(admin/cli): add report option for emsco:asset:extract by @Davidmattei in https://github.com/ems-project/elasticms/pull/1302
+* feat(admin/messenger): add messenger component for queuing by @coppee in https://github.com/ems-project/elasticms/pull/1262
+* feat(admin/user): implement user groups by @Zki49 in https://github.com/ems-project/elasticms/pull/1199
+* feat(admin/user): support user group in adminUI by @theus77 in https://github.com/ems-project/elasticms/pull/1294
+* feat(common/runner): implement job runners by @theus77 in https://github.com/ems-project/elasticms/pull/1288
+* feat(demo/wysiwyg): add wysiwyg crawler macro by @michaeldk in https://github.com/ems-project/elasticms/pull/1296
+### Bug Fixes
+* fix(admin/database): add missing migrations by @Davidmattei in https://github.com/ems-project/elasticms/pull/1308
+* fix(admin/revision): detail current version is closed by @Davidmattei in https://github.com/ems-project/elasticms/pull/1305
+* fix(admin/view): correct view templates for bootstrap5 by @theus77 in https://github.com/ems-project/elasticms/pull/1286
+
 ## 6.2.2 (2025-04-17)
 ### Bug Fixes
 * fix(admin/api): ldap authenticator use provider by @Davidmattei in https://github.com/ems-project/elasticms/pull/1301

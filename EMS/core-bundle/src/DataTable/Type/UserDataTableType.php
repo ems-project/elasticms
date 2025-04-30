@@ -35,10 +35,10 @@ class UserDataTableType extends AbstractEntityTableType
         $table->addColumn('user.index.column.displayname', 'displayName');
         $table->addColumn('user.index.column.email', 'email');
         $context = $table->getContext();
-        if ($context instanceof UserContextDTO && $context->inGroup && null != $context->groupId) {
+        if ($context instanceof UserContextDTO && $context->inGroup && null !== $context->groupId) {
             $table->addDynamicItemPostAction(Routes::USER_REMOVE_FROM_GROUP, 'user.action.delete', 'trash', 'user.action.delete_confirm', ['user' => 'id', 'groupName' => $context->groupId]);
         }
-        if ($context instanceof UserContextDTO && !$context->inGroup && null != $context->groupId) {
+        if ($context instanceof UserContextDTO && !$context->inGroup && null !== $context->groupId) {
             $table->addDynamicItemGetAction(Routes::USER_ADD_TO_GROUP, 'user.add.button', 'plus', ['user' => 'id', 'group' => $context->groupId]);
         }
         if (!$context instanceof UserContextDTO || !$context->light) {
@@ -51,9 +51,6 @@ class UserDataTableType extends AbstractEntityTableType
                 $table->addColumnDefinition(new DataLinksTableColumn('user.index.column.circles', 'circles'));
             }
             $table->addColumnDefinition(new BoolTableColumn('user.index.column.enabled', 'enabled'));
-            if ($this->circleObject) {
-                $table->addColumnDefinition(new DataLinksTableColumn('user.index.column.circles', 'circles'));
-            }
             $table->addColumnDefinition(new RolesTableColumn('user.index.column.roles', 'roles'));
             $table->addColumnDefinition(new EntityTableColumn('user.index.column.group', 'group'));
             $table->addColumnDefinition(new DatetimeTableColumn('user.index.column.lastLogin', 'lastLogin'));
@@ -79,7 +76,7 @@ class UserDataTableType extends AbstractEntityTableType
         return new UserContextDTO(
             Type::bool($options['light'] ?? null),
             Type::bool($options['in-group'] ?? null),
-            null === $options['group-id'] ? null : Type::string($options['group-id'] ?? null)
+            Type::nullableString($options['group-id'] ?? null)
         );
     }
 

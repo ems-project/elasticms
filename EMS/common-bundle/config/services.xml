@@ -169,5 +169,9 @@
         <service id="ems_common.key_store" class="EMS\CommonBundle\Common\KeyStore">
             <argument>%ems_common.key_store%</argument>
         </service>
+        <service id="ems_common.ai.open_ai" class="EMS\CommonBundle\Common\Ai\OpenAiService">
+            <argument type="service" id="http_client"/>
+            <argument type="service" id="ems_common.key_store"/>
+        </service>
     </services>
 </container>

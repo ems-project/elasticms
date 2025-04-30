@@ -507,10 +507,12 @@
             <argument>%ems_core.instance_id%</argument>
             <tag name="emsco.entity.service" priority="90" />
         </service>
-        <service id="emsco.messenger_handler.action" class="EMS\CoreBundle\Core\Messenger\Handler\ActionHandler">
+        <service id="emsco.core_messenger_handler.action_handler" class="EMS\CoreBundle\Core\Messenger\Handler\ActionHandler">
+            <argument type="service" id="emsco.core_action.action_service" />
+            <argument type="service" id="ems_common.ai.open_ai" />
             <tag name="messenger.message_handler" handles="EMS\CoreBundle\Core\Messenger\Message\ActionMessage" />
         </service>
-        <service id="emsco.messenger_handler.job" class="EMS\CoreBundle\Core\Messenger\Handler\JobHandler">
+        <service id="ems_core.core_messenger_handler.job_handler" class="EMS\CoreBundle\Core\Messenger\Handler\JobHandler">
             <argument type="service" id="EMS\CoreBundle\Service\JobService"/>
             <tag name="messenger.message_handler" handles="EMS\CoreBundle\Core\Messenger\Message\JobMessage" />
         </service>

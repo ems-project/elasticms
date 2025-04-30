@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class ActionController
 {
     public function __construct(
-        private readonly ActionRevisionService $actionRevisionService,
+        private readonly ActionRevisionService $actionRevisionService
     ) {
     }
 

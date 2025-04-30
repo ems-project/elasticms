@@ -12,13 +12,12 @@ class KeyStore
     ) {
     }
 
-    public function get(string $key): ?string
+    public function get(string $key): string
     {
-        return $this->store[$key] ?? null;
-    }
+        if (!\array_key_exists($key, $this->store)) {
+            throw new \RuntimeException(\sprintf('Key "%s" does not exist in EMS_KEY_STORE', $key));
+        }
 
-    public function has(string $key): bool
-    {
-        return \array_key_exists($key, $this->store);
+        return $this->store[$key];
     }
 }

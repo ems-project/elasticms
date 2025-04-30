@@ -9,7 +9,7 @@ use Ramsey\Uuid\UuidInterface;
 readonly class ActionMessage implements AsyncMessageInterface
 {
     public function __construct(
-        public UuidInterface $logUuid,
+        public UuidInterface $actionId,
     ) {
     }
 }

@@ -15,9 +15,9 @@ class ActionRevisionService
     private readonly PropertyAccessor $propertyAccessor;
 
     public function __construct(
-        private readonly ActionLogService $actionLogService,
+        private readonly ActionService $actionService,
         private readonly RevisionService $revisionService,
-        private readonly FieldTypeService $fieldTypeService,
+        private readonly FieldTypeService $fieldTypeService
     ) {
         $this->propertyAccessor = new PropertyAccessor();
     }
@@ -33,12 +33,12 @@ class ActionRevisionService
         $inputData = $this->getInputData($revision, $config);
         $outputObject = $this->getOutputObject($config);
 
-        $actionLog = $this->actionLogService->newRequest([
+        $action = $this->actionService->requestFromRevision($revision, [
             'input' => $inputData,
             'output' => $outputObject,
         ]);
 
-        return ['outputFields' => $config->getOutputFields(), 'action' => $actionLog->getId()];
+        return ['outputFields' => $config->getOutputFields(), 'action' => $action->getId()->toString()];
     }
 
     private function getConfig(int $fieldId): ActionRevisionConfig

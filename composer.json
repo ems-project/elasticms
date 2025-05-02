@@ -12,8 +12,8 @@
     "prefer-stable": true,
     "require": {
         "php": "^8.4",
-        "ext-curl": "*",
         "ext-ctype": "*",
+        "ext-curl": "*",
         "ext-dom": "*",
         "ext-exif": "*",
         "ext-fileinfo": "*",

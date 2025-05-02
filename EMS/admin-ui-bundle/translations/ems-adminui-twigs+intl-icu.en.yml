@@ -16,6 +16,9 @@ core:
     modal:
         close: Close
         loading: Loading...
+documentation:
+    api:
+        title: Documentation
 job:
     command: Command
     completed: Completed

@@ -139,7 +139,6 @@ services:
       MERCURE_SUBSCRIBER_JWT_KEY: 'SwzI+2MT9eSgrvxPEDF4LBAG7K/tvoP9OkN3Ho8AQnM='
       MERCURE_EXTRA_DIRECTIVES: |
         cors_origins http://local.ems-demo-admin.localhost http://local.ems-demo-admin-dev.localhost
-    command: /usr/bin/caddy run --config /etc/caddy/dev.Caddyfile
     healthcheck:
       test: [ "CMD", "wget", "-O-", "http://localhost/healthz" ]
       timeout: 5s

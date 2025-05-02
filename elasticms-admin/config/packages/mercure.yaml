@@ -1,0 +1,13 @@
+parameters:
+    env(MERCURE_URL): 'http://localhost:3000/.well-known/mercure'
+    env(MERCURE_PUBLIC_URL): 'http://localhost:3000/.well-known/mercure'
+    env(MERCURE_JWT_SECRET): 'ChangeThisMercureHubJWTSecretKey'
+
+mercure:
+    hubs:
+        default:
+            url: '%env(MERCURE_URL)%'
+            public_url: '%env(MERCURE_PUBLIC_URL)%'
+            jwt:
+                secret: '%env(MERCURE_JWT_SECRET)%'
+                publish: '*'

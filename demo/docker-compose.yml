@@ -128,6 +128,37 @@ services:
     volumes:
       - redis:/var/lib/redis/data
 
+  mercure:
+    image: dunglas/mercure
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    environment:
+      SERVER_NAME: ':80'
+      MERCURE_PUBLISHER_JWT_KEY: 'JDC614TKzbUxDrhYyoJq9d/gYhkvOinC4yNzy/Dk/hI='
+      MERCURE_SUBSCRIBER_JWT_KEY: 'SwzI+2MT9eSgrvxPEDF4LBAG7K/tvoP9OkN3Ho8AQnM='
+      MERCURE_EXTRA_DIRECTIVES: |
+        cors_origins http://local.ems-demo-admin.localhost http://local.ems-demo-admin-dev.localhost
+    command: /usr/bin/caddy run --config /etc/caddy/dev.Caddyfile
+    healthcheck:
+      test: [ "CMD", "wget", "-O-", "http://localhost/healthz" ]
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+    volumes:
+      - mercure_data:/data
+      - mercure_config:/config
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mercure.rule=Host(`mercure.localhost`)"
+      - "traefik.http.routers.mercure.service=mercure"
+      - "traefik.http.routers.mercure.entrypoints=web"
+      - "traefik.http.routers.mercure-tls.rule=Host(`mercure.localhost`)"
+      - "traefik.http.routers.mercure-tls.service=mercure"
+      - "traefik.http.routers.mercure-tls.entrypoints=websecure"
+      - "traefik.http.routers.mercure-tls.tls=true"
+      - "traefik.http.services.mercure.loadbalancer.server.port=80"
+
   mailhog:
     image: mailhog/mailhog
     labels:
@@ -203,6 +234,8 @@ volumes:
   redis:
   s3:
   postgres:
+  mercure_data:
+  mercure_config:
 
 networks:
   default:

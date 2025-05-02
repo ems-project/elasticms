@@ -91,4 +91,5 @@ security:
         - { path: ^/elasticsearch, roles: ROLE_ADMIN }
         - { path: ^/publisher, roles: ROLE_PUBLISHER }
         - { path: ^/submissions, roles: ROLE_FORM_CRM }
+        - { path: ^/mercure, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/, roles: ROLE_USER }

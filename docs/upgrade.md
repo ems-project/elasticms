@@ -3,6 +3,7 @@
 <!-- TOC -->
 * [Upgrade](#upgrade)
   * [General remarks](#general-remarks)
+  * [version 6.4.0](#version-640)
   * [version 6.1.1](#version-611)
   * [Switch to CK Editor 5 (still in beta)](#switch-to-ck-editor-5-still-in-beta)
   * [version 6.0.x](#version-60x)
@@ -40,6 +41,16 @@
 ## General remarks
 
  * It's always a good idea to rebuild indexes on upgrade: `emsco:environment:rebuild --all`
+
+## version 6.4.0
+
+In this version we implement [mercure](https://mercure.rocks).
+For the moment it requires the following environment variables to be configured:
+
+- ```EMSCO_URL_USER```: user for creating the mercure topic urls.
+- ```MERCURE_PUBLISHER_JWT_KEY```: used by the symfony hub for publishing messages to topics.
+- ```MERCURE_SUBSCRIBER_JWT_KEY```: used by our mercure serivce for generating the users JWT token.
+- ```MERCURE_EXTRA_DIRECTIVES```: used by mercure for defining the allowed cross origins.
 
 ## version 6.1.1
 

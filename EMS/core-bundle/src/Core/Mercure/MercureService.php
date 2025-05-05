@@ -85,6 +85,6 @@ class MercureService
 
     private function topic(string $name): string
     {
-        return $this->getBaseUrl().'/'.$name;
+        return "{$this->getBaseUrl()}/$name";
     }
 }

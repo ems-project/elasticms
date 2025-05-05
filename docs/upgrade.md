@@ -44,15 +44,9 @@
 
 ## version 6.4.0
 
-In this version we implement [mercure](https://mercure.rocks).
-For the moment it requires the following environment variables to be configured:
-
-- ```EMSCO_URL_USER```: user for creating the mercure topic urls.
-- ```MERCURE_PUBLISHER_JWT_KEY```: used by the symfony hub for publishing messages to topics.
-- ```MERCURE_SUBSCRIBER_JWT_KEY```: used by our mercure serivce for generating the users JWT token.
-- ```MERCURE_EXTRA_DIRECTIVES```: used by mercure for defining the allowed cross origins.
-
-Use the following command for generating the JWT keys : ```openssl rand -base64 32```
+* Add [mercure](https://mercure.rocks) (open solucation for real-time communications)
+  * make sure the [environment variables](/elasticms-admin/environment-variables.md#symfony-mercure) are defined.
+  * [more information](/elasticms-admin/mercure.md)
 
 ## version 6.1.1
 

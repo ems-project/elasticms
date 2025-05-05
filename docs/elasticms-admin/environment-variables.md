@@ -50,6 +50,34 @@ HTTP_CUSTOM_FORWARDED_FOR=HTTP_X_COMPANY_FORWARDED_FOR#Default value HTTP_CUSTOM
 HTTP_CUSTOM_FORWARDED_HOST=HTTP_X_COMPANY_FORWARDED_HOST#Default value HTTP_CUSTOM_FORWARDED_HOST
 ```
 
+## Symfony Mercure
+
+Since version 6.4.0 we use symfony mercure bundle
+
+### MERCURE_URL
+
+Default `http://localhost:3000/.well-known/mercure`, private url to mercure hub.
+
+### MERCURE_PUBLIC_URL
+
+Default `http://localhost:3000/.well-known/mercure`, public url to mercure hub.
+
+### MERCURE_PUBLISHER_JWT_KEY
+
+Use by the symfony mercure hub for publishing messages. 
+Use the following command for generating a JWT token:
+```bash
+openssl rand -base64 32
+```
+
+### MERCURE_SUBSCRIBER_JWT_KEY
+
+Used by the core mercure service for generating the users JWT token.
+Use the following command for generating a JWT token:
+```bash
+openssl rand -base64 32
+```
+
 ## Swift Mailer
 
 ### MAILER_URL
@@ -310,6 +338,11 @@ When we don't have a mail server for the password request form, we can replace t
 ```dotenv
 EMSCO_FORGOT_PASSWORD_URL=mailto:project@site.be?subject=Password%20Reset&body=Hello%2C%0A%0AI%20am%20requesting%20to%20reset%20my%20password%20for%20my%20account%20%5BEnter%20Your%20User%20Name%5D
 ``` 
+
+### EMSCO_URL_USER
+
+Define the public url to the elasticms, default empty.
+This value is also used for mercure, for creating the topics.
   
 ### EMS_BACKEND_URL
 Define the url use by the user to access elasticms (in order to generate links in emails).

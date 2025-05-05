@@ -52,6 +52,8 @@ For the moment it requires the following environment variables to be configured:
 - ```MERCURE_SUBSCRIBER_JWT_KEY```: used by our mercure serivce for generating the users JWT token.
 - ```MERCURE_EXTRA_DIRECTIVES```: used by mercure for defining the allowed cross origins.
 
+Use the following command for generating the JWT keys : ```openssl rand -base64 32```
+
 ## version 6.1.1
 
 We added a new cli command `emscli:import:database`.

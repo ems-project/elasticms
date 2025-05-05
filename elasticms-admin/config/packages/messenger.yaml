@@ -1,3 +1,6 @@
+parameters:
+    env(MESSENGER_TRANSPORT_DSN): 'redis://localhost:6379/messages'
+
 framework:
     messenger:
         failure_transport: failed

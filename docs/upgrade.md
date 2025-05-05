@@ -3,6 +3,7 @@
 <!-- TOC -->
 * [Upgrade](#upgrade)
   * [General remarks](#general-remarks)
+  * [version 6.4.0](#version-640)
   * [version 6.1.1](#version-611)
   * [Switch to CK Editor 5 (still in beta)](#switch-to-ck-editor-5-still-in-beta)
   * [version 6.0.x](#version-60x)
@@ -40,6 +41,12 @@
 ## General remarks
 
  * It's always a good idea to rebuild indexes on upgrade: `emsco:environment:rebuild --all`
+
+## version 6.4.0
+
+* Add [mercure](https://mercure.rocks) (open solucation for real-time communications)
+  * make sure the [environment variables](/elasticms-admin/environment-variables.md#symfony-mercure) are defined.
+  * [more information](/elasticms-admin/mercure.md)
 
 ## version 6.1.1
 

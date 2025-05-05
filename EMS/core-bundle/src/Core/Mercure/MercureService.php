@@ -4,26 +4,37 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Core\Mercure;
 
+use EMS\CoreBundle\Core\User\UserManager;
+use EMS\CoreBundle\Entity\User;
+use EMS\Helpers\Standard\Json;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
 
+use function Symfony\Component\String\u;
+
 class MercureService
 {
+    public const string TOPIC_NOTIFICATIONS = 'notifications';
+
     public function __construct(
         private readonly HubInterface $mercureHub,
+        private readonly UserManager $userManager,
         private readonly string $mercurePublicUrl,
         private readonly string $subscriberJWT,
         private readonly string $userUrl,
-    )
-    {
+    ) {
     }
-    
+
     /** @return array{ 'token': string, 'url': string } */
     public function generateToken(string $expiresAt): array
     {
+        if ('' === $this->subscriberJWT) {
+            throw new \RuntimeException('MERCURE_SUBSCRIBER_JWT_KEY not defined');
+        }
+
         $config = Configuration::forSymmetricSigner(
             new Sha256(),
             InMemory::plainText($this->subscriberJWT)
@@ -33,7 +44,10 @@ class MercureService
         $token = $config->builder()
             ->issuedAt($now)
             ->expiresAt($now->modify($expiresAt))
-            ->withClaim('mercure', ['subscribe' => ['http://localhost:8881/demo']])
+            ->withClaim('mercure', ['subscribe' => [
+                $this->topic(self::TOPIC_NOTIFICATIONS),
+                $this->topic('user/'.$this->userManager->getAuthenticatedUser()->getId()),
+            ]])
             ->getToken($config->signer(), $config->signingKey());
 
         return [
@@ -42,15 +56,35 @@ class MercureService
         ];
     }
 
-    public function publish(string $message): void
+    /**
+     * @param array<mixed> $data
+     */
+    public function publish(array $data, string ...$topicNames): void
     {
-        $update = new Update(
-            'http://localhost:8881/demo', // topic
-            json_encode([
-                'message' => $message
-            ])
-        );
+        $topics = \array_map(fn (string $name) => $this->topic($name), $topicNames);
 
-        $this->mercureHub->publish($update);
+        $this->mercureHub->publish(new Update($topics, Json::encode($data)));
+    }
+
+    /**
+     * @param array<mixed> $data
+     */
+    public function publishForUser(User $user, array $data): void
+    {
+        $this->publish($data, 'user/'.$user->getId());
+    }
+
+    private function getBaseUrl(): string
+    {
+        if ('' === $this->userUrl) {
+            throw new \RuntimeException('EMSCO_URL_USER is not defined');
+        }
+
+        return u($this->userUrl)->trimSuffix('/')->toString();
+    }
+
+    private function topic(string $name): string
+    {
+        return $this->getBaseUrl().'/'.$name;
     }
 }

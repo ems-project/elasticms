@@ -39,6 +39,7 @@ make start
 * [MinIO](http://minio.localhost/login): A S3 like service
 * [Tika](http://tika.localhost): A S3 like service
 * [Redis Commander](http://redis-commander.localhost): A Redis inspector tool
+* [Mercure](http://mercure.localhost/.well-known/mercure): A real-time communication solution
 
 
 ### Local ports exposed

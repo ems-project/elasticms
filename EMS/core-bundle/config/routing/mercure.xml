@@ -4,10 +4,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://symfony.com/schema/routing https://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <route id="emsco_api_extract_data" path="/get/{hash}"
-           controller="EMS\CoreBundle\Controller\Api\File\ExtractDataController::get"
-           methods="GET">
-        <option key="openapi">true</option>
-    </route>
-
+    <route id="emsco_mercure_token" path="/mercure/token"
+           controller="EMS\CoreBundle\Controller\MercureController::getToken"
+           methods="GET"/>
 </routes>

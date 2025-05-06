@@ -150,10 +150,6 @@ services:
       file: '../demo/docker-compose.yml'
       service: mercure
     container_name: ems-mono-mercure
-    environment:
-      MERCURE_PUBLISHER_JWT_KEY: ${MERCURE_PUBLISHER_JWT_KEY}
-      MERCURE_SUBSCRIBER_JWT_KEY: ${MERCURE_SUBSCRIBER_JWT_KEY}
-      MERCURE_EXTRA_DIRECTIVES: ${MERCURE_EXTRA_DIRECTIVES}
 
 volumes:
   elk7_data01:

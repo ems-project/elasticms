@@ -12,16 +12,15 @@ Since version 6.4.0 the core can publish message on the mercure hub.
 We could add the following javascript code in a dashboard or view
 
 ```javascript
-const userId = {{ app.user.getId }};
-    
-fetch('/mercure/token')
+  const userId = {{ app.user.getId }};
+  const url = {{ mercure(['http://localhost:8881/notifications', "http://localhost:8881/user/#{app.user.getId}"])|escape('js') }}
+
+  fetch('/mercure/token')
     .then(response => response.json())
     .then(data => {
-        const url = new URL(data.url);
-        url.searchParams.append('topic', 'http://localhost:8881/notifications');
-        url.searchParams.append('topic', `http://localhost:8881/user/${userId}`);
+        const url = new URL(url)
         url.searchParams.append('authorization', data.token);
-
+        
         const eventSource = new EventSource(url);
         eventSource.onmessage = event => {
             console.log('Received:', event.data, event.type);
@@ -29,7 +28,7 @@ fetch('/mercure/token')
         eventSource.onerror = (error) => {
             console.error('EventSource failed:', error);
         };
-    });
+  });
 ```
 
 On the service side we can you the Mercure service for publishing data to the hub.

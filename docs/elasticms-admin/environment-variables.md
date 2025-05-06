@@ -62,17 +62,9 @@ Default `http://localhost:3000/.well-known/mercure`, private url to mercure hub.
 
 Default `http://localhost:3000/.well-known/mercure`, public url to mercure hub.
 
-### MERCURE_PUBLISHER_JWT_KEY
+### MERCURE_JWT_KEY
 
-Use by the symfony mercure hub for publishing messages. 
-Use the following command for generating a JWT token:
-```bash
-openssl rand -base64 32
-```
-
-### MERCURE_SUBSCRIBER_JWT_KEY
-
-Used by the core mercure service for generating the users JWT token.
+Use by the symfony mercure hub for publishing and subscribing messages. 
 Use the following command for generating a JWT token:
 ```bash
 openssl rand -base64 32

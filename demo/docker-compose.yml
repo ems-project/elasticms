@@ -135,10 +135,9 @@ services:
       - "3000:80"
     environment:
       SERVER_NAME: ':80'
-      MERCURE_PUBLISHER_JWT_KEY: 'JDC614TKzbUxDrhYyoJq9d/gYhkvOinC4yNzy/Dk/hI='
-      MERCURE_SUBSCRIBER_JWT_KEY: 'SwzI+2MT9eSgrvxPEDF4LBAG7K/tvoP9OkN3Ho8AQnM='
-      MERCURE_EXTRA_DIRECTIVES: |
-        cors_origins http://local.ems-demo-admin.localhost http://local.ems-demo-admin-dev.localhost
+      MERCURE_PUBLISHER_JWT_KEY: ${MERCURE_JWT_KEY}
+      MERCURE_SUBSCRIBER_JWT_KEY: ${MERCURE_JWT_KEY}
+      MERCURE_EXTRA_DIRECTIVES: ${MERCURE_EXTRA_DIRECTIVES}
     healthcheck:
       test: [ "CMD", "wget", "-O-", "http://localhost/healthz" ]
       timeout: 5s

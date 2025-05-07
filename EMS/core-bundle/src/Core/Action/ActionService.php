@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Core\Action;
 
+use EMS\CoreBundle\Core\Mercure\MercureService;
 use EMS\CoreBundle\Core\Messenger\Message\ActionMessage;
 use EMS\CoreBundle\Core\User\UserManager;
 use EMS\CoreBundle\Entity\Action;
@@ -17,7 +18,8 @@ class ActionService
     public function __construct(
         private readonly ActionRepository $repository,
         private readonly UserManager $userManager,
-        private readonly MessageBusInterface $bus
+        private readonly MessageBusInterface $bus,
+        private readonly MercureService $mercureService,
     ) {
     }
 
@@ -48,8 +50,34 @@ class ActionService
         return $action;
     }
 
-    public function update(Action $action): void
+    /**
+     * @param array<mixed> $response
+     */
+    public function statusDone(Action $action, array $response): void
     {
-        $this->repository->save($action);
+        $this->repository->save($action->setStatus(ActionStatus::DONE)->setResponse($response));
+        $this->publish($action);
+    }
+
+    public function statusFailed(Action $action, \Throwable $e): void
+    {
+        $this->repository->save(
+            $action
+            ->setStatus(ActionStatus::FAILED)
+            ->setResponse(['error' => $e->getMessage(), 'trace' => $e->getTraceAsString()])
+        );
+    }
+
+    public function statusInProgress(Action $action): void
+    {
+        $this->repository->save($action->setStatus(ActionStatus::IN_PROGRESS));
+    }
+
+    private function publish(Action $action): void
+    {
+        $this->mercureService->publishForUser(
+            data: ['type' => 'action', 'response' => $action->getResponse()],
+            user: $action->getCreatedBy()
+        );
     }
 }

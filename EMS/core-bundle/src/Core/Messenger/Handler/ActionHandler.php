@@ -24,14 +24,14 @@ class ActionHandler
         $action = $this->actionService->getById($message->actionId);
 
         try {
-            $this->actionService->update($action->flagInProgress());
+            $this->actionService->statusInProgress($action);
 
             $openAiRequest = new OpenAiRequest($action->getRequest());
             $response = $this->openAiService->v1Responses($openAiRequest)->toArray();
 
-            $this->actionService->update($action->flagDone($response));
+            $this->actionService->statusDone($action, $response);
         } catch (\Throwable $e) {
-            $this->actionService->update($action->flagFailed($e));
+            $this->actionService->statusFailed($action, $e);
         }
     }
 }

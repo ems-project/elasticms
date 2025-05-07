@@ -9,6 +9,7 @@ use EMS\CoreBundle\Entity\User;
 use EMS\Helpers\Standard\Json;
 use Lcobucci\JWT\Token\RegisteredClaims;
 use Symfony\Component\Mercure\HubInterface;
+use Symfony\Component\Mercure\Jwt\TokenFactoryInterface;
 use Symfony\Component\Mercure\Update;
 
 use function Symfony\Component\String\u;
@@ -27,40 +28,15 @@ class MercureService
 
     public function generateToken(): string
     {
-        if (null === $factory = $this->mercureHub->getFactory()) {
-            throw new \RuntimeException('No factory was provided');
-        }
-
         $now = new \DateTimeImmutable('now');
 
-        return $factory->create(
-            subscribe: [
-                $this->topic(self::TOPIC_NOTIFICATIONS),
-                $this->topic('user/'.$this->userManager->getAuthenticatedUser()->getId()),
-            ],
+        return $this->getTokenFactory()->create(
+            subscribe: $this->getTopics(),
             additionalClaims: [
                 RegisteredClaims::ISSUED_AT => $now,
                 RegisteredClaims::EXPIRATION_TIME => $now->modify(self::TOKEN_EXPIRATION_TIME),
             ],
         );
-    }
-
-    /**
-     * @param array<mixed> $data
-     */
-    public function publish(array $data, string ...$topicNames): void
-    {
-        $topics = \array_map(fn (string $name) => $this->topic($name), $topicNames);
-
-        $this->mercureHub->publish(new Update($topics, Json::encode($data), true));
-    }
-
-    /**
-     * @param array<mixed> $data
-     */
-    public function publishForUser(User $user, array $data): void
-    {
-        $this->publish($data, 'user/'.$user->getId());
     }
 
     private function getBaseUrl(): string
@@ -70,6 +46,60 @@ class MercureService
         }
 
         return u($this->userUrl)->trimSuffix('/')->toString();
+    }
+
+    public function getPublicUrl(): string
+    {
+        return $this->mercureHub->getPublicUrl();
+    }
+
+    private function getTokenFactory(): TokenFactoryInterface
+    {
+        if (null === $factory = $this->mercureHub->getFactory()) {
+            throw new \RuntimeException('No factory was provided');
+        }
+
+        return $factory;
+    }
+
+    /** @return string[] */
+    public function getTopics(): array
+    {
+        return [
+            $this->topic(self::TOPIC_NOTIFICATIONS),
+            $this->topic('user/'.$this->userManager->getAuthenticatedUser()->getId()),
+        ];
+    }
+
+    /**
+     * @param array<mixed> $data
+     */
+    public function publish(array $data, string ...$topicNames): void
+    {
+        $topics = \array_map(fn (string $name) => $this->topic($name), $topicNames);
+
+        if (0 === \count($topics)) {
+            throw new \RuntimeException('No publish topics passed.');
+        }
+
+        $this->mercureHub->publish(new Update($topics, Json::encode($data), true));
+    }
+
+    /**
+     * @param array<mixed> $data
+     */
+    public function publishForUser(array $data, User|string|null $user = null): void
+    {
+        $user ??= $this->userManager->getAuthenticatedUser();
+        if (\is_string($user)) {
+            $user = $this->userManager->getUserByUsername($user);
+        }
+
+        if (null === $user) {
+            throw new \RuntimeException('User not found.');
+        }
+
+        $this->publish($data, 'user/'.$user->getId());
     }
 
     private function topic(string $name): string

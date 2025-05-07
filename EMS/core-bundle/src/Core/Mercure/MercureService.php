@@ -16,7 +16,6 @@ use function Symfony\Component\String\u;
 
 class MercureService
 {
-    public const string TOPIC_NOTIFICATIONS = 'notifications';
     private const string TOKEN_EXPIRATION_TIME = '+1 hour';
 
     public function __construct(
@@ -62,22 +61,43 @@ class MercureService
         return $factory;
     }
 
+    /**
+     * @param array<string, mixed> $params
+     */
+    public function topic(Topic $type, array $params = []): string
+    {
+        $topic = $this->getBaseUrl().'/'.$type->value;
+
+        if (\count($params) > 0) {
+            $topic = \strtr($topic, \array_combine(
+                \array_map(static fn ($k) => '{'.$k.'}', \array_keys($params)),
+                \array_values($params)
+            ));
+
+            if (\preg_match('/\{[^}]+}/', $topic)) {
+                throw new \RuntimeException(\sprintf('Replace all params for "%s"', $topic));
+            }
+        }
+
+        return $topic;
+    }
+
     /** @return string[] */
     public function getTopics(): array
     {
+        $userId = $this->userManager->getAuthenticatedUser()->getId();
+
         return [
-            $this->topic(self::TOPIC_NOTIFICATIONS),
-            $this->topic('user/'.$this->userManager->getAuthenticatedUser()->getId()),
+            $this->topic(Topic::NOTIFICATIONS),
+            $this->topic(Topic::USER, ['id' => $userId]),
         ];
     }
 
     /**
      * @param array<mixed> $data
      */
-    public function publish(array $data, string ...$topicNames): void
+    public function publish(array $data, string ...$topics): void
     {
-        $topics = \array_map(fn (string $name) => $this->topic($name), $topicNames);
-
         if (0 === \count($topics)) {
             throw new \RuntimeException('No publish topics passed.');
         }
@@ -99,11 +119,8 @@ class MercureService
             throw new \RuntimeException('User not found.');
         }
 
-        $this->publish($data, 'user/'.$user->getId());
-    }
+        $topic = $this->topic(Topic::USER, ['id' => $user->getId()]);
 
-    private function topic(string $name): string
-    {
-        return "{$this->getBaseUrl()}/$name";
+        $this->publish($data, $topic);
     }
 }

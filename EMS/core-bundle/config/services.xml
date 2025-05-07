@@ -515,6 +515,7 @@
         <service id="emsco.core_messenger_handler.action_handler" class="EMS\CoreBundle\Core\Messenger\Handler\ActionHandler">
             <argument type="service" id="emsco.core_action.action_service" />
             <argument type="service" id="ems_common.ai.open_ai" />
+            <argument type="service" id="emsco.core_mercure.mercure_service" />
             <tag name="messenger.message_handler" handles="EMS\CoreBundle\Core\Messenger\Message\ActionMessage" />
         </service>
         <service id="ems_core.core_messenger_handler.job_handler" class="EMS\CoreBundle\Core\Messenger\Handler\JobHandler">

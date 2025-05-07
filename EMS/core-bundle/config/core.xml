@@ -6,7 +6,7 @@
     <services>
 
         <service id="emsco.core_action.action_service" class="EMS\CoreBundle\Core\Action\ActionService">
-            <argument type="service" id="ems.repository.action" />
+            <argument type="service" id="ems.repository.cache_action" />
             <argument type="service" id="emsco.manager.user" />
             <argument type="service" id="messenger.default_bus" />
             <argument type="service" id="emsco.core_mercure.mercure_service" />

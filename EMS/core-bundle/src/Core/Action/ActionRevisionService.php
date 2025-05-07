@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Core\Action;
 
 use EMS\CommonBundle\Common\Ai\OpenAiRequest;
+use EMS\CommonBundle\Common\Ai\OpenAiResponseSchema;
 use EMS\CoreBundle\Core\ContentType\FieldType\FieldTypeService;
 use EMS\CoreBundle\Core\Revision\RawDataTransformer;
 use EMS\CoreBundle\Entity\Revision;
@@ -26,7 +27,7 @@ class ActionRevisionService
     }
 
     /**
-     * @return array{ 'outputFields': string[], 'action': string }
+     * @return array{ 'outputFields': string[] }
      */
     public function handle(int $revisionId, int $fieldId): array
     {
@@ -46,9 +47,9 @@ class ActionRevisionService
         );
 
         $openAiRequest = OpenAiRequest::withResponseSchema($body, $outputSchema);
-        $action = $this->actionService->requestFromRevision($revision, $openAiRequest->body);
+        $this->actionService->requestFromRevision($revision, $openAiRequest->body);
 
-        return ['outputFields' => $config->getOutputFields(), 'action' => $action->getId()->toString()];
+        return ['outputFields' => $config->getOutputFields()];
     }
 
     private function getConfig(int $fieldId): ActionRevisionConfig
@@ -76,29 +77,27 @@ class ActionRevisionService
         $data = $revision->getAutoSave() ?? $revision->getRawData();
         $rawData = RawDataTransformer::transform($revision->giveContentType()->getFieldType(), $data);
 
-        foreach ($config->getInputPaths() as $inputPath) {
-            if (!$this->propertyAccessor->isReadable($rawData, $inputPath)) {
+        foreach ($config->input as $inputField) {
+            $inputPropertyPath = $inputField->getPropertyPath();
+            if (!$this->propertyAccessor->isReadable($rawData, $inputPropertyPath)) {
                 continue;
             }
 
-            $value = $this->propertyAccessor->getValue($rawData, $inputPath);
-            $this->propertyAccessor->setValue($inputData, $inputPath, $value);
+            $value = $this->propertyAccessor->getValue($rawData, $inputPropertyPath);
+            $inputData[$inputField->getPath()] = $value;
         }
 
         return Json::encode($inputData);
     }
 
-    /**
-     * @return array<string, mixed>
-     */
-    private function buildOutputSchema(ActionRevisionConfig $config): array
+    private function buildOutputSchema(ActionRevisionConfig $config): OpenAiResponseSchema
     {
-        $outputSchema = [];
+        $schema = new OpenAiResponseSchema();
 
-        foreach ($config->getOutputPaths() as $outputPath) {
-            $this->propertyAccessor->setValue($outputSchema, $outputPath, null);
+        foreach ($config->output as $outputField) {
+            $schema->addStringProperty($outputField->getPropertyPath());
         }
 
-        return $outputSchema;
+        return $schema;
     }
 }

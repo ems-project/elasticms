@@ -25,13 +25,10 @@ final class Version20250428094834 extends AbstractMigration
         );
 
         $this->addSql(<<<'SQL'
-            CREATE TABLE action (id UUID NOT NULL, status VARCHAR(25) NOT NULL, sender VARCHAR(50) NOT NULL, sender_id VARCHAR(100) NOT NULL, request JSON NOT NULL, request_hash VARCHAR(255) NOT NULL, response JSON DEFAULT NULL, created TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, created_by TEXT NOT NULL, modified TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))
+            CREATE TABLE cache_action (id UUID NOT NULL, request_hash VARCHAR(255) NOT NULL, request JSON NOT NULL, response JSON DEFAULT NULL, created TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, modified TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE INDEX sender_idx ON action (sender, sender_id)
-        SQL);
-        $this->addSql(<<<'SQL'
-            CREATE INDEX request_idx ON action (request_hash)
+            CREATE UNIQUE INDEX uniq_request_hash ON cache_action (request_hash)
         SQL);
     }
 
@@ -44,7 +41,7 @@ final class Version20250428094834 extends AbstractMigration
         );
 
         $this->addSql(<<<'SQL'
-            DROP TABLE action
+            DROP TABLE cache_action
         SQL);
     }
 }

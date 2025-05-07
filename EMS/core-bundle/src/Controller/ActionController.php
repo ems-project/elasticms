@@ -16,11 +16,6 @@ class ActionController
 
     public function revisionField(int $revisionId, int $fieldId): JsonResponse
     {
-        $result = $this->actionRevisionService->handle($revisionId, $fieldId);
-
-        return new JsonResponse([
-            'outputFields' => $result['outputFields'],
-            'action' => $result['action'],
-        ]);
+        return new JsonResponse($this->actionRevisionService->handle($revisionId, $fieldId));
     }
 }

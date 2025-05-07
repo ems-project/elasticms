@@ -19,8 +19,8 @@ class ActionRevisionConfig
     public function __construct(
         /** @var ?array{ 'provider': 'openai', 'request': array<mixed> } */
         public ?array $ai = null,
-        private readonly array $input = [],
-        private readonly array $output = [],
+        public readonly array $input = [],
+        public readonly array $output = [],
     ) {
     }
 
@@ -29,23 +29,7 @@ class ActionRevisionConfig
      */
     public function getOutputFields(): array
     {
-        return \array_map(static fn (FieldType $field) => 'revision[data]'.$field->getPath(), $this->output);
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getInputPaths(): array
-    {
-        return \array_map(static fn (FieldType $field) => $field->getPropertyPath(), $this->input);
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getOutputPaths(): array
-    {
-        return \array_map(static fn (FieldType $field) => $field->getPropertyPath(), $this->output);
+        return \array_map(static fn (FieldType $field) => $field->getPath(), $this->output);
     }
 
     public static function fromFieldType(FieldType $fieldType, FieldTypeTreeItem $fieldTree): ActionRevisionConfig

@@ -21,14 +21,22 @@ class OpenAiService
 
     public function v1Responses(OpenAiRequest $request): OpenAiResponse
     {
-        return new OpenAiResponse($this->httpClient->request(
+        $response = $this->httpClient->request(
             method: 'POST',
             url: self::BASE_URL.'/v1/responses',
             options: [
                 'headers' => $this->getHeaders(),
                 'json' => $request->body,
             ]
-        ));
+        );
+        $statusCode = $response->getStatusCode();
+
+        if ($statusCode >= 400) {
+            $body = $response->getContent(false);
+            throw new \RuntimeException("Open AI - error ($statusCode): $body");
+        }
+
+        return new OpenAiResponse($response);
     }
 
     /** @return array{ 'Content-Type': 'application/json', 'Authorization': string } */

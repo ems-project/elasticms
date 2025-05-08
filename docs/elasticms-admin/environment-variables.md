@@ -50,9 +50,17 @@ HTTP_CUSTOM_FORWARDED_FOR=HTTP_X_COMPANY_FORWARDED_FOR#Default value HTTP_CUSTOM
 HTTP_CUSTOM_FORWARDED_HOST=HTTP_X_COMPANY_FORWARDED_HOST#Default value HTTP_CUSTOM_FORWARDED_HOST
 ```
 
+## Symfony Messenger
+
+Since version 6.4.0 we use symfony messenger bundle.
+
+### MESSENGER_TRANSPORT_DSN
+
+Default `redis://localhost:6379/messages`.
+
 ## Symfony Mercure
 
-Since version 6.4.0 we use symfony mercure bundle
+Since version 6.4.0 we use symfony mercure bundle.
 
 ### MERCURE_URL
 

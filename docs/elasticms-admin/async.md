@@ -69,6 +69,12 @@ response schema.
 
 In this example, we use the OpenAI platform to tryout translation requests.
 
+This action requires an `openai` entry in your keystore.
+
+```.dotenv
+EMS_KEY_STORE='{"openai":"...."}'
+```
+
 ### Action config for the field
 
 ```json

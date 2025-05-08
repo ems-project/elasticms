@@ -104,6 +104,4 @@ EMS_KEY_STORE='{"openai":"...."}'
     "page_description_fr"
   ]
 }
-
 ```
-

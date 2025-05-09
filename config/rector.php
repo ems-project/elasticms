@@ -50,6 +50,6 @@ return RectorConfig::configure()
         ReadOnlyPropertyRector::class => [
             __DIR__ . '/../EMS/core-bundle/src/Entity',
             __DIR__ . '/../EMS/common-bundle/src/Entity',
-            __DIR__ . '/../EMS/submission-bundle-bundle/src/Entity',
+            __DIR__ . '/../EMS/submission-bundle/src/Entity',
         ],
     ]);

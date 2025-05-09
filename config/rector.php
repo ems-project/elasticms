@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 use Rector\CodeQuality\Rector\Class_\InlineConstructorDefaultToPropertyRector;
 use Rector\Config\RectorConfig;
+use Rector\Doctrine\Set\DoctrineSetList;
+use Rector\Php81\Rector\Property\ReadOnlyPropertyRector;
 use Rector\Symfony\Set\SymfonySetList;
 
 return RectorConfig::configure()
@@ -44,4 +46,10 @@ return RectorConfig::configure()
         SymfonySetList::SYMFONY_CODE_QUALITY,
         SymfonySetList::SYMFONY_CONSTRUCTOR_INJECTION,
     ])
-;
+    ->withSkip([
+        ReadOnlyPropertyRector::class => [
+            __DIR__ . '/../EMS/core-bundle/src/Entity',
+            __DIR__ . '/../EMS/common-bundle/src/Entity',
+            __DIR__ . '/../EMS/submission-bundle-bundle/src/Entity',
+        ],
+    ]);

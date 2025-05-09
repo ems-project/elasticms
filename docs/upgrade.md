@@ -44,9 +44,10 @@
 
 ## version 6.4.0
 
-* Add [mercure](https://mercure.rocks) (open solucation for real-time communications)
+* Add [mercure](https://mercure.rocks) (open solution for real-time communications)
   * make sure the [environment variables](/elasticms-admin/environment-variables.md#symfony-mercure) are defined.
-  * [more information](/elasticms-admin/mercure.md)
+  * [more information](/elasticms-admin/async.md)
+* Symfony messenger component [more information](/elasticms-admin/async.md)
 
 ## version 6.1.1
 

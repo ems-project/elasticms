@@ -50,9 +50,17 @@ HTTP_CUSTOM_FORWARDED_FOR=HTTP_X_COMPANY_FORWARDED_FOR#Default value HTTP_CUSTOM
 HTTP_CUSTOM_FORWARDED_HOST=HTTP_X_COMPANY_FORWARDED_HOST#Default value HTTP_CUSTOM_FORWARDED_HOST
 ```
 
+## Symfony Messenger
+
+Since version 6.4.0 we use symfony messenger bundle.
+
+### MESSENGER_TRANSPORT_DSN
+
+Default `redis://localhost:6379/messages`.
+
 ## Symfony Mercure
 
-Since version 6.4.0 we use symfony mercure bundle
+Since version 6.4.0 we use symfony mercure bundle.
 
 ### MERCURE_URL
 
@@ -511,6 +519,11 @@ Specify replacement strings, per locale to symbols. E.g. if you want to replace 
 ### EMS_STORE_DATA_SERVICES
 
 Define (JSON format) the store data services, in the priority order. See the [Stora Data documentation](../recipes/store-data.md) for more details. Default value `[{"type":"db"}]`
+
+### EMS_KEY_STORE
+
+A JSON-formatted environment variable that stores API tokens or other credentials as key/value pairs.
+Used to centralize and securely manage secrets (e.g. API keys) needed across the application. Each key can be accessed by name via the `KeyStore` service.
 
 ### EMS_TRUSTED_IPS
 

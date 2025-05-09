@@ -17,7 +17,7 @@
   - [Environment](/elasticms-admin/environment/environment.md)
   - [User](/elasticms-admin/user/user.md)
   - [WYSIWYG](/elasticms-admin/wysiwyg/wysiwyg.md)
-  - [Mercure](/elasticms-admin/mercure.md)
+  - [Async (Messenger, Mercure)](/elasticms-admin/async.md)
 - [ElasticMS Web](/elasticms-web/index.md)
   - [Environment variables](/elasticms-web/parameters.md)
   - [Security](/elasticms-web/security.md)

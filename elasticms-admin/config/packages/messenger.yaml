@@ -10,7 +10,7 @@ framework:
             failed: 'doctrine://default?queue_name=failed'
 
         routing:
-            'EMS\CoreBundle\Core\Message\AsyncMessageInterface': async
+            'EMS\CoreBundle\Core\Messenger\Message\AsyncMessageInterface': async
 
         buses:
             command.bus:

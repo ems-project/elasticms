@@ -42,6 +42,7 @@ class EMSCommonExtension extends Extension implements PrependExtensionInterface
         $container->setParameter('ems_common.storages', $config['storages']);
         $container->setParameter('ems_common.runners', $config['runners']);
         $container->setParameter('ems_common.store_data_services', $config['store_data_services']);
+        $container->setParameter('ems_common.key_store', $config['key_store']);
         $container->setParameter('ems_common.log_level', $config['log_level']);
         $container->setParameter('ems_common.excluded_content_types', $config['excluded_content_types']);
         $container->setParameter('ems_common.slug_symbol_map', $config['slug_symbol_map']);

@@ -168,6 +168,11 @@ Redis port for the common cache service. Default `6379`.
 
 Define (JSON format) the store data services, in the priority order. See the [Stora Data documentation](../recipes/store-data.md) for more details. By default, the store data functionalities are disabled.
 
+### EMS_KEY_STORE
+
+A JSON-formatted environment variable that stores API tokens or other credentials as key/value pairs.
+Used to centralize and securely manage secrets (e.g. API keys) needed across the application. Each key can be accessed by name via the `KeyStore` service.
+
 ### EMS_EXCLUDED_CONTENT_TYPES
 
 Define (JSON format) a list of content type names to exclude from admin backup/restore commands. Example: `["route","template","template_ems","label"]`. Default value `[]`

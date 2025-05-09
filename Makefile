@@ -44,6 +44,7 @@ start: ## start docker, admin server, web server
 	@$(DOCKER_COMPOSE) up -d
 	@$(MAKE) -s server-start/admin
 	@$(MAKE) -s server-start/web
+	cd elasticms-admin && symfony local:run -d php bin/console messenger:consume async -vvv
 stop: ## stop docker, admin server, web server
 	@$(MAKE) -s server-stop/admin
 	@$(MAKE) -s server-stop/web
@@ -65,10 +66,18 @@ status: ## status
 ## —— Symfony server ———————————————————————————————————————————————————————————————————————————————————————————————————
 server-start/%: ## server-start/(admin|web)
 	symfony server:start --dir=elasticms-${*} -d --port=$(PORT_$(*)) --no-tls
-server-stop/%:  ## server-stop/(admin|web)
+server-stop/%: ## server-stop/(admin|web)
 	symfony server:stop --dir=elasticms-${*}
-server-log/%:  ## server-log/(admin|web)
+server-log/%: ## server-log/(admin|web)
 	symfony server:log --dir=elasticms-${*}
+server-status/%: ## server-log/(admin|web)
+	symfony server:status --dir=elasticms-${*}
+server-restart: ## server-restart
+	@$(MAKE) -s server-stop/admin
+	@$(MAKE) -s server-stop/web
+	@$(MAKE) -s server-start/admin
+	@$(MAKE) -s server-start/web
+	cd elasticms-admin && symfony local:run -d php bin/console messenger:consume async -vvv
 
 ## —— assets ————————————————————————————————————————————————————————————————————————————————————————————————————————————
 assets-npm/%: ## npm run in AdminUIBundle

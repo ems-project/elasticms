@@ -1532,3 +1532,12 @@
 		</div>
 	</div>
 {% endblock edit_image_widget %}
+
+{%- block action_row -%}
+    <button type="button"
+        data-field-id="{{ form.vars.fieldId }}"
+        data-revision-id="{{ form.vars.revisionId }}"
+        class="btn btn-default field-action">
+        {{ form.vars.label|i18n }}
+    </button>
+{%- endblock action_row -%}

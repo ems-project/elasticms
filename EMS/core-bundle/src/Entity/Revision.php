@@ -529,8 +529,9 @@ class Revision implements EntityInterface, \Stringable
     public function addEnvironment(Environment $environment, string $username): self
     {
         if (\array_any(
-            $this->environmentRevisions->toArray(), 
-            static fn (EnvironmentRevision $er) => $er->getEnvironment() === $environment && null === $er->getDeleted())
+            $this->environmentRevisions->toArray(),
+            static fn (EnvironmentRevision $er) => $er->getEnvironment() === $environment && null === $er->getDeleted()
+        )
         ) {
             return $this;
         }

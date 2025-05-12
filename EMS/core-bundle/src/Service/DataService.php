@@ -460,15 +460,10 @@ class DataService
      */
     public function signRaw(array &$objectArray): string
     {
-        if (isset($objectArray[Mapping::HASH_FIELD])) {
-            unset($objectArray[Mapping::HASH_FIELD]);
-        }
-        if (isset($objectArray[Mapping::SIGNATURE_FIELD])) {
-            unset($objectArray[Mapping::SIGNATURE_FIELD]);
-        }
-        if (isset($objectArray[Mapping::PUBLISHED_DATETIME_FIELD])) {
-            unset($objectArray[Mapping::PUBLISHED_DATETIME_FIELD]);
-        }
+        unset($objectArray[Mapping::HASH_FIELD]);
+        unset($objectArray[Mapping::SIGNATURE_FIELD]);
+        unset($objectArray[Mapping::PUBLISHED_DATETIME_FIELD]);
+        unset($objectArray[Mapping::PUBLISHED_BY_FIELD]);
         Json::normalize($objectArray);
         $json = Json::encode($objectArray);
 
@@ -586,9 +581,8 @@ class DataService
 
                 Json::normalize($indexedItem);
 
-                if (isset($indexedItem[Mapping::PUBLISHED_DATETIME_FIELD])) {
-                    unset($indexedItem[Mapping::PUBLISHED_DATETIME_FIELD]);
-                }
+                unset($indexedItem[Mapping::PUBLISHED_DATETIME_FIELD]);
+                unset($indexedItem[Mapping::PUBLISHED_BY_FIELD]);
 
                 if (isset($indexedItem[Mapping::HASH_FIELD])) {
                     if ($indexedItem[Mapping::HASH_FIELD] != $revision->getSha1()) {

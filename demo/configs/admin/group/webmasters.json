@@ -2,9 +2,8 @@
     "class": "EMS\\CoreBundle\\Entity\\Group",
     "arguments": [],
     "properties": {
-        "name": "webmaster",
-        "orderKey": 0,
-        "label": "webmaster",
+        "name": "webmasters",
+        "label": "Webmasters",
         "roles": [
             "ROLE_USER",
             "ROLE_WEBMASTER"

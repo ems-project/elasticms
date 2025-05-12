@@ -286,7 +286,7 @@ class DataService
                                 'must' => [
                                     [
                                         'term' => [
-                                            '_contenttype' => $contentType->getName(),
+                                            Mapping::CONTENT_TYPE_FIELD => $contentType->getName(),
                                         ],
                                     ],
                                     [
@@ -1831,7 +1831,7 @@ class DataService
                                 'must' => [
                                     [
                                         'term' => [
-                                            '_contenttype' => $contentType->getName(),
+                                            Mapping::CONTENT_TYPE_FIELD => $contentType->getName(),
                                         ],
                                     ],
                                     [

@@ -176,7 +176,7 @@ E.g.:
 * `array_key` must be replaced by `ems_array_key`
 * `format_bytes` must be replaced by `ems_format_bytes`
 * `locale_attr` must be replaced by `ems_locale_attr`
-* `data` must be replaced by `emsco_get`
+* `data` must be replaced by `emsco_get.source`
 * `url_generator` must be replaced by `ems_webalize`
 * `get_environment` must be replaced by `emsco_get_environment`
 * `get_content_type` must be replaced by `emsco_get_contentType`

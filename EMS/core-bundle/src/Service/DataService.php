@@ -763,7 +763,6 @@ class DataService
 
         if ($this->isValid($form, null, $objectArray)) {
             $ouuid = $revision->getOuuid();
-            $this->indexService->indexRevision($revision);
             if (null !== $ouuid) {
                 $item = $repository->findByOuuidContentTypeAndEnvironment($revision);
                 if ($item) {
@@ -776,6 +775,7 @@ class DataService
             }
 
             $revision->addEnvironment($revision->giveContentType()->giveEnvironment(), $username);
+            $this->indexService->indexRevision($revision);
             $revision->setDraft(false);
 
             $revision->setFinalizedBy($username);

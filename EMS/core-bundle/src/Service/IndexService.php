@@ -67,10 +67,6 @@ final readonly class IndexService
         if (null === $environment) {
             $environment = $contentType->giveEnvironment();
         }
-        if (null === $environment) {
-            throw new \RuntimeException('Unexpected null environment');
-        }
-
         $objectArray = $revision->getRawData($environment);
 
         $ouuid = $this->indexDocument($this->contentTypeService->getIndex($contentType, $environment), $contentType->getName(), $revision->getOuuid(), $objectArray);

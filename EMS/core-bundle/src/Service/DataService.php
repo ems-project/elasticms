@@ -460,10 +460,11 @@ class DataService
      */
     public function signRaw(array &$objectArray): string
     {
-        unset($objectArray[Mapping::HASH_FIELD]);
-        unset($objectArray[Mapping::SIGNATURE_FIELD]);
-        unset($objectArray[Mapping::PUBLISHED_DATETIME_FIELD]);
-        unset($objectArray[Mapping::PUBLISHED_BY_FIELD]);
+        unset(
+            $objectArray[Mapping::HASH_FIELD],
+            $objectArray[Mapping::SIGNATURE_FIELD],
+            $objectArray[Mapping::PUBLISHED_DATETIME_FIELD],
+            $objectArray[Mapping::PUBLISHED_BY_FIELD]);
         Json::normalize($objectArray);
         $json = Json::encode($objectArray);
 
@@ -581,8 +582,9 @@ class DataService
 
                 Json::normalize($indexedItem);
 
-                unset($indexedItem[Mapping::PUBLISHED_DATETIME_FIELD]);
-                unset($indexedItem[Mapping::PUBLISHED_BY_FIELD]);
+                unset(
+                    $indexedItem[Mapping::PUBLISHED_DATETIME_FIELD],
+                    $indexedItem[Mapping::PUBLISHED_BY_FIELD]);
 
                 if (isset($indexedItem[Mapping::HASH_FIELD])) {
                     if ($indexedItem[Mapping::HASH_FIELD] != $revision->getSha1()) {
@@ -775,13 +777,12 @@ class DataService
             }
 
             $revision->addEnvironment($revision->giveContentType()->giveEnvironment(), $username);
-            $this->indexService->indexRevision($revision);
             $revision->setDraft(false);
-
             $revision->setFinalizedBy($username);
-
             $em->persist($revision);
             $em->flush();
+
+            $this->indexService->indexRevision($revision);
 
             $this->unlockRevision($revision, $username);
             $this->dispatcher->dispatch(new RevisionFinalizeDraftEvent($revision));

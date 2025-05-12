@@ -775,7 +775,7 @@ class DataService
                     $this->unlockRevision($item, $username);
                 }
             }
-            
+
             $revision->addEnvironment($revision->giveContentType()->giveEnvironment(), $username);
             $this->indexService->indexRevision($revision);
 
@@ -783,7 +783,6 @@ class DataService
             $revision->setFinalizedBy($username);
             $em->persist($revision);
             $em->flush();
-
 
             $this->unlockRevision($revision, $username);
             $this->dispatcher->dispatch(new RevisionFinalizeDraftEvent($revision));

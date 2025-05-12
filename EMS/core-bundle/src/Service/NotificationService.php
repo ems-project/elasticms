@@ -16,6 +16,7 @@ use EMS\CoreBundle\Entity\Notification;
 use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Entity\Template;
 use EMS\CoreBundle\Entity\UserInterface;
+use EMS\CoreBundle\Event\RevisionEvent;
 use EMS\CoreBundle\Event\RevisionFinalizeDraftEvent;
 use EMS\CoreBundle\Event\RevisionNewDraftEvent;
 use EMS\CoreBundle\Event\RevisionPublishEvent;
@@ -28,6 +29,15 @@ use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 use Twig\Environment as TwigEnvironment;
+use Twig\Error\Error;
+
+enum Event
+{
+    case Publish;
+    case Unpublish;
+    case FinalizeDraft;
+    case NewDraft;
+}
 
 class NotificationService
 {
@@ -49,6 +59,7 @@ class NotificationService
                 $this->setStatus($notification, 'aborted', 'warning');
             }
         }
+        $this->triggerEventActions($event, Event::Publish);
     }
 
     public function unpublishEvent(RevisionUnpublishEvent $event): void
@@ -61,6 +72,7 @@ class NotificationService
         foreach ($notifications as $notification) {
             $this->setStatus($notification, 'aborted', 'warning');
         }
+        $this->triggerEventActions($event, Event::Unpublish);
     }
 
     public function finalizeDraftEvent(RevisionFinalizeDraftEvent $event): void
@@ -75,6 +87,7 @@ class NotificationService
                 $this->setStatus($notification, 'aborted', 'warning');
             }
         }
+        $this->triggerEventActions($event, Event::FinalizeDraft);
     }
 
     public function newDraftEvent(RevisionNewDraftEvent $event): void
@@ -90,6 +103,7 @@ class NotificationService
                 ...['notification_name' => $notification->getTemplate()->getName()],
             ]);
         }
+        $this->triggerEventActions($event, Event::NewDraft);
     }
 
     public function setDryRun(bool $dryRun): void
@@ -517,6 +531,28 @@ class NotificationService
                 $em->persist($notification);
                 $em->flush();
             } catch (TransportExceptionInterface) {
+            }
+        }
+    }
+
+    private function triggerEventActions(RevisionEvent $event, Event $type): void
+    {
+        foreach ($event->getRevision()->giveContentType()->getTemplates() as $action) {
+            if (RenderOptionType::EVENT !== $action->getRenderOption()) {
+                continue;
+            }
+            if (!empty($action->getEnvironments()) && !\in_array($event->getEnvironment(), $action->getEnvironments(), true)) {
+                continue;
+            }
+            try {
+                $this->twig->createTemplate($action->getBody())->render([
+                    'action' => $action,
+                    'revision' => $event->getRevision(),
+                    'environment' => $event->getEnvironment(),
+                    'eventType' => $type,
+                ]);
+            } catch (Error $e) {
+                $this->logger->warning($e->getMessage());
             }
         }
     }

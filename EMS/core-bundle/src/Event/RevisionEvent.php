@@ -18,7 +18,7 @@ class RevisionEvent extends Event
     {
         return $this->revision;
     }
-    
+
     public function getEnvironment(): Environment
     {
         return $this->revision->giveContentType()->giveEnvironment();

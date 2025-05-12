@@ -2,9 +2,8 @@
     "class": "EMS\\CoreBundle\\Entity\\Group",
     "arguments": [],
     "properties": {
-        "name": "author",
-        "orderKey": 0,
-        "label": "author",
+        "name": "authors",
+        "label": "Authors",
         "roles": [
             "ROLE_USER",
             "ROLE_AUTHOR"

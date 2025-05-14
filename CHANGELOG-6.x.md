@@ -1,5 +1,11 @@
 # Changelog 6.x
 
+## 6.3.1 (2025-05-14)
+### Bug Fixes
+* fix(admin/user): create groups from json by @theus77 in https://github.com/ems-project/elasticms/pull/1315
+### Documentation
+* docs(upgrade/6.0.0): emsco_get.source for accessing data by @theus77 in https://github.com/ems-project/elasticms/pull/1318
+
 ## 6.3.0 (2025-04-29)
 ### Features
 * feat(admin/cli): add and remove user from group commands by @Zki49 in https://github.com/ems-project/elasticms/pull/1304

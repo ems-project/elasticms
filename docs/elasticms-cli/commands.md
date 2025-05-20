@@ -134,7 +134,7 @@ php bin/console emscli:file-reader:import pages.csv page \
   * Pass an array of row positions to exclude (0 is first row, -1 is last row)
 * `exclude_expression`: ?string (default=null)
   * Exclude rows based on and expression (context row array and string ouuid)
-  * example skip rows where the ID column is empty: `row["ID"] == """`
+  * example skip rows where the ID column is empty: `empty(trim(row[\"ID\"]))`
 * `generate_hash`: bool (default=false)
   * Use the OUUID column and the content type name in order to generate a "better" ouuid
 * `ouuid_expression`: ?string (default="row['ouuid']")

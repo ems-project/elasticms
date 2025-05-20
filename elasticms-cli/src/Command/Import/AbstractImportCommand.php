@@ -50,6 +50,7 @@ abstract class AbstractImportCommand extends AbstractCommand
 
     private int $countIndex = 0;
     private int $countDigest = 0;
+    private int $countExclude = 0;
 
     public function __construct(
         private readonly AdminHelper $adminHelper,
@@ -112,6 +113,7 @@ abstract class AbstractImportCommand extends AbstractCommand
 
             foreach ($docs as $ouuid => $rawData) {
                 if ($this->excludeExpression($config, $ouuid, $rawData)) {
+                    ++$this->countExclude;
                     continue;
                 }
 
@@ -144,6 +146,7 @@ abstract class AbstractImportCommand extends AbstractCommand
         $this->io->definitionList(
             'Summary',
             ['Index' => $this->countIndex],
+            ['Excluded' => $this->countExclude],
             ['Digested' => $this->countDigest],
             ['Delete' => \count($ouuids)]
         );

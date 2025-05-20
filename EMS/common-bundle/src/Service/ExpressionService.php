@@ -90,6 +90,16 @@ final class ExpressionService implements ExpressionServiceInterface
                 return \substr($str, $offset, $length);
             }
         );
+        $expressionLanguage->register(
+            'trim',
+            fn ($value) => \sprintf('(trim(%1$s))', $value),
+            fn ($arguments, $value) => \trim($value)
+        );
+        $expressionLanguage->register(
+            'empty',
+            fn ($value) => \sprintf('(empty(%1$s))', $value),
+            fn ($arguments, $value) => null === $value || '' === $value || [] === $value
+        );
 
         return $expressionLanguage;
     }

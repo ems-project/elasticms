@@ -7,6 +7,7 @@ namespace App\CLI\Command\Import;
 use App\CLI\Commands;
 use Doctrine\DBAL\Connection;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
+use EMS\CommonBundle\Contracts\ExpressionServiceInterface;
 use EMS\CommonBundle\Storage\StorageManager;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -27,9 +28,10 @@ final class DatabaseImportCommand extends AbstractImportCommand
     public function __construct(
         private readonly Connection $connection,
         AdminHelper $adminHelper,
-        StorageManager $storageManager
+        StorageManager $storageManager,
+        ExpressionServiceInterface $expressionService,
     ) {
-        parent::__construct($adminHelper, $storageManager);
+        parent::__construct($adminHelper, $storageManager, $expressionService);
     }
 
     #[\Override]

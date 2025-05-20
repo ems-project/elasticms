@@ -12,6 +12,7 @@ use Elastica\Query\Terms;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Data\DataInterface;
+use EMS\CommonBundle\Contracts\ExpressionServiceInterface;
 use EMS\CommonBundle\Search\Search;
 use EMS\CommonBundle\Storage\File\FileInterface;
 use EMS\CommonBundle\Storage\NotFoundException;
@@ -23,7 +24,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 abstract class AbstractImportCommand extends AbstractCommand
 {
@@ -48,14 +48,13 @@ abstract class AbstractImportCommand extends AbstractCommand
     private int $scrollSize;
     private int $chunkSize;
 
-    private ExpressionLanguage $expressionLanguage;
-
     private int $countIndex = 0;
     private int $countDigest = 0;
 
     public function __construct(
         private readonly AdminHelper $adminHelper,
         private readonly StorageManager $storageManager,
+        private readonly ExpressionServiceInterface $expressionService,
     ) {
         parent::__construct();
     }
@@ -89,8 +88,6 @@ abstract class AbstractImportCommand extends AbstractCommand
         $this->flushSize = $this->getOptionInt(self::OPTION_FLUSH_SIZE);
         $this->chunkSize = $this->getOptionInt(self::OPTION_CHUNK_SIZE);
         $this->scrollSize = $this->getOptionInt(self::OPTION_SCROLL_SIZE);
-
-        $this->expressionLanguage = new ExpressionLanguage();
     }
 
     public function import(ImportConfig $config, \Generator $records): void
@@ -114,6 +111,10 @@ abstract class AbstractImportCommand extends AbstractCommand
             $docs = $this->filterDigested($docs);
 
             foreach ($docs as $ouuid => $rawData) {
+                if ($this->excludeExpression($config, $ouuid, $rawData)) {
+                    continue;
+                }
+
                 if (!$this->dryRun) {
                     $queue->add($contentTypeApi->indexAsync(
                         ouuid: $ouuid,
@@ -182,9 +183,12 @@ abstract class AbstractImportCommand extends AbstractCommand
             $rawData['_sync_metadata'] = $row;
 
             if (null !== $ouuidVersionExpression = $config->ouuidVersionExpression) {
-                $rawData['_version_uuid'] = UuidGenerator::fromValue(
-                    value: $this->expressionLanguage->evaluate($ouuidVersionExpression, ['row' => $row])
-                );
+                $ouuidVersionValue = $this->expressionService->evaluateToString($ouuidVersionExpression, ['row' => $row]);
+                if (null === $ouuidVersionValue) {
+                    throw new \RuntimeException(\sprintf('Could not make version ouuid from expression: %s', $ouuidVersionExpression));
+                }
+
+                $rawData['_version_uuid'] = UuidGenerator::fromValue($ouuidVersionValue);
             }
 
             if (null !== $this->digestField) {
@@ -214,7 +218,7 @@ abstract class AbstractImportCommand extends AbstractCommand
             return null;
         }
 
-        $ouuid = $this->expressionLanguage->evaluate($config->ouuidExpression, ['row' => $row]);
+        $ouuid = $this->expressionService->evaluateToString($config->ouuidExpression, ['row' => $row]);
         $prefix = $config->ouuidPrefix;
 
         return (string) match (true) {
@@ -223,6 +227,21 @@ abstract class AbstractImportCommand extends AbstractCommand
             $config->generateHash => Hash::string(\sprintf('FileReaderImport:%s:%s', $this->contentType, $ouuid)),
             default => $ouuid,
         };
+    }
+
+    /**
+     * @param array<string, string> $rawData
+     */
+    private function excludeExpression(ImportConfig $config, string $ouuid, array $rawData): bool
+    {
+        if (null === $expression = $config->excludeExpression) {
+            return false;
+        }
+
+        return $this->expressionService->evaluateToBool($expression, [
+            'ouuid' => $ouuid,
+            'row' => $rawData['_sync_metadata'],
+        ]);
     }
 
     /**

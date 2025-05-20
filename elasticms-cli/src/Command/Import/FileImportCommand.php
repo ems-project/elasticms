@@ -6,6 +6,7 @@ namespace App\CLI\Command\Import;
 
 use App\CLI\Commands;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
+use EMS\CommonBundle\Contracts\ExpressionServiceInterface;
 use EMS\CommonBundle\Contracts\File\FileReaderInterface;
 use EMS\CommonBundle\Helper\MimeTypeHelper;
 use EMS\CommonBundle\Storage\StorageManager;
@@ -33,8 +34,9 @@ final class FileImportCommand extends AbstractImportCommand
         private readonly FileReaderInterface $fileReader,
         AdminHelper $adminHelper,
         StorageManager $storageManager,
+        ExpressionServiceInterface $expressionService,
     ) {
-        parent::__construct($adminHelper, $storageManager);
+        parent::__construct($adminHelper, $storageManager, $expressionService);
     }
 
     #[\Override]

@@ -18,6 +18,7 @@ class ImportConfig
         public ?string $delimiter = null,
         public ?string $encoding = null,
         public array $excludeRows = [],
+        public ?string $excludeExpression = null,
         public bool $generateHash = false,
         public bool $generateOuuid = false,
         public ?string $ouuidExpression = "row['ouuid']",
@@ -39,6 +40,7 @@ class ImportConfig
                 'delimiter' => null,
                 'encoding' => null,
                 'exclude_rows' => [],
+                'exclude_expression' => null,
                 'generate_hash' => false,
                 'generate_ouuid' => false,
                 'ouuid_expression' => 'row[\'ouuid\']',
@@ -48,6 +50,7 @@ class ImportConfig
             ->setAllowedTypes('delete_missing_documents', 'bool')
             ->setAllowedTypes('generate_hash', 'bool')
             ->setAllowedTypes('generate_ouuid', 'bool')
+            ->setAllowedTypes('exclude_expression', ['string', 'null'])
             ->setAllowedTypes('ouuid_expression', ['string', 'null'])
             ->setAllowedTypes('ouuid_version_expression', ['string', 'null'])
             ->setAllowedTypes('ouuid_prefix', ['string', 'null'])
@@ -61,6 +64,7 @@ class ImportConfig
             delimiter: $options['delimiter'],
             encoding: $options['encoding'],
             excludeRows: $options['exclude_rows'],
+            excludeExpression: $options['exclude_expression'],
             generateHash: $options['generate_hash'],
             generateOuuid: $options['generate_ouuid'],
             ouuidExpression: $options['ouuid_expression'],

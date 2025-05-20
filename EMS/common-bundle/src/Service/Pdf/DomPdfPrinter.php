@@ -56,6 +56,8 @@ final class DomPdfPrinter implements PdfPrinterInterface
         $dompdf->setOptions(new Options([
             'isHtml5ParserEnabled' => $options->isHtml5Parsing(),
             'isPhpEnabled' => $options->isPhpEnabled(),
+            'isRemoteEnabled' => $options->isRemoteEnabled(),
+            'allowedRemoteHosts' => $options->getAllowedRemoteHosts(),
             'chroot' => \array_filter(\array_merge($this->domPdfRootDirectories, [$options->getChroot()])),
         ]));
         $dompdf->render();

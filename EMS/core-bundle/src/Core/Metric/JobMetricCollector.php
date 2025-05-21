@@ -46,7 +46,7 @@ class JobMetricCollector implements MetricCollectorInterface
                 } else {
                     $value = (float) $info[$name];
                 }
-                
+
                 $gauge->set($value, [$info['tag'] ?? '']);
             }
         }

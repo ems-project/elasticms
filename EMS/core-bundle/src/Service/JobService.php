@@ -64,7 +64,7 @@ class JobService implements EntityServiceInterface
             name: 'last_ping',
             help: 'Timestamp of the last ping',
             labels: ['tag']
-        )->set(\time(), [$tag ?? 'none']);
+        )->set(\time(), [$tag ?? '']);
 
         return $this->repository->findOneBy(
             ['started' => false, 'done' => false, 'tag' => $tag],

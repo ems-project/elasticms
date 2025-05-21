@@ -92,7 +92,7 @@ emsco_job_count_jobs_started{tag="custom_worker"} 3
 emsco_job_count_jobs_started{tag="none"} 1
 ```
 
-The core jobService also registers a gauge metric when the next-job is requested. This allows monitoring of the last time a next-job request was made.
+The core jobService also registers a gauge metric when the next-job is requested. This allows monitoring of the last time a next-job request was made. This metric is recorded in real time and is not subject to the collectors' 5-minute validity constraint.
 
 ```
 # HELP emsco_job_last_ping Timestamp of the last ping

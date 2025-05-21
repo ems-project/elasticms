@@ -43,6 +43,7 @@
     - [Helpers](/dev/common-bundle/helpers.md)
     - [JSON Menu Nested](/dev/common-bundle/json-menu-nested.md)
     - [JSON Menu](/dev/common-bundle/json-menu.md)
+    - [Metrics](/dev/common-bundle/metrics.md)
     - [Processors](/dev/common-bundle/processors.md)
     - [Spreadsheet](/dev/common-bundle/spreadsheet.md)
     - [Storages](/dev/common-bundle/storages.md)

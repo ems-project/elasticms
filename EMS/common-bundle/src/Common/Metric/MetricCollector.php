@@ -7,6 +7,7 @@ namespace EMS\CommonBundle\Common\Metric;
 use EMS\CommonBundle\Common\Cache\Cache;
 use EMS\Helpers\Standard\DateTime;
 use Prometheus\CollectorRegistry;
+use Prometheus\Gauge;
 use Prometheus\MetricFamilySamples;
 use Prometheus\Storage\Adapter;
 use Prometheus\Storage\APC;
@@ -49,6 +50,14 @@ class MetricCollector
         }
 
         return $this->getCollectorRegistry()->getMetricFamilySamples();
+    }
+
+    /**
+     * @param string[] $labels
+     */
+    public function gauge(string $namespace, string $name, string $help, array $labels = []): Gauge
+    {
+        return $this->getCollectorRegistry()->getOrRegisterGauge($namespace, $name, $help, $labels);
     }
 
     public function collect(): void

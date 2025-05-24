@@ -77,7 +77,7 @@ parameters:
     env(EMSCO_LDAP_DISPLAY_NAME_FIELD): '%env(string:LDAP_DISPLAY_NAME_FIELD)%'
     env(EMSCO_LDAP_UID_KEY): '%env(string:LDAP_UID_KEY)%'
 
-    env(EMSCO_ASYNC_ENABLED): false
+    env(EMSCO_ASYNC_ENABLED): true
 
 ems_core:
     private_key:  '%env(string:EMSCO_PRIVATE_KEY)%'

@@ -132,14 +132,14 @@ class JobService implements EntityServiceInterface
         return $job;
     }
 
-    public function createCommand(UserInterface $user, ?string $command, ?string $tag = null, ?bool $addToAsyncQueue = false): Job
+    public function createCommand(UserInterface $user, ?string $command, ?string $tag = null): Job
     {
         $job = $this->newJob($user);
         $job->setCommand($command);
         $job->setTag($tag);
         $this->save($job);
 
-        if ($this->asyncEnabled && $addToAsyncQueue) {
+        if ($this->asyncEnabled) {
             $this->bus->dispatch(new JobMessage($job->getId()));
         }
 

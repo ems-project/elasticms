@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Runner;
 
+use EMS\CommonBundle\Exception\RunnerNotFoundException;
 use EMS\CommonBundle\Runner\Factory\RunnerFactoryInterface;
 use EMS\CommonBundle\Runner\Service\RunnerInterface;
 use Psr\Log\LoggerInterface;
@@ -51,7 +52,7 @@ class RunnerManager
 
             return $factory->createRunner($runnerConfig);
         }
-        throw new \RuntimeException(\sprintf('Runner for tag "%s" not found.', $tag));
+        throw new RunnerNotFoundException($tag);
     }
 
     /**

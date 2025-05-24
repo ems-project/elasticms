@@ -8,6 +8,7 @@ use EMS\CommonBundle\Exception\RunnerNotFoundException;
 use EMS\CommonBundle\Runner\RunnerManager;
 use EMS\CoreBundle\Core\Messenger\Message\JobMessage;
 use EMS\CoreBundle\Service\JobService;
+use EMS\Helpers\Standard\Text;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
@@ -35,7 +36,9 @@ readonly class JobHandler
         }
 
         try {
-            $this->runnerManager->start($tag, [$job->getCommand() ?? '']);
+            $command = Text::shellWords($job->getCommand() ?? '');
+            $runnerId = $this->runnerManager->start($tag, $command);
+            $this->logger->info('job_handler.runner_started', ['jobId' => $runnerId]);
         } catch (RunnerNotFoundException) {
             $this->logger->info('job_handler.runner_not_found', ['tag' => $tag]);
         }

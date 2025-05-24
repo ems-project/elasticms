@@ -139,10 +139,6 @@ class JobService implements EntityServiceInterface
         $job->setTag($tag);
         $this->save($job);
 
-        if ($this->asyncEnabled) {
-            $this->bus->dispatch(new JobMessage($job->getId()));
-        }
-
         return $job;
     }
 
@@ -150,6 +146,9 @@ class JobService implements EntityServiceInterface
     {
         $this->em->persist($job);
         $this->em->flush();
+        if (!$job->getStarted() && $this->asyncEnabled) {
+            $this->bus->dispatch(new JobMessage($job->getId()));
+        }
     }
 
     public function delete(Job $job): void

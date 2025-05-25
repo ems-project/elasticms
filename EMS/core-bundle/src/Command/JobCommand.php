@@ -99,6 +99,12 @@ class JobCommand extends AbstractCommand
             if (null === $nextJob) {
                 throw new \RuntimeException(\sprintf('Job %d not found', $this->jobId));
             }
+            if (null !== $this->tag && $this->tag !== $nextJob->getTag()) {
+                throw new \RuntimeException(\sprintf('job tag mismatched %s', $nextJob->getTag()));
+            }
+            if ($nextJob->getStarted()) {
+                throw new \RuntimeException('job already started');
+            }
         } else {
             $nextJob = $this->jobService->nextJob($this->tag);
         }

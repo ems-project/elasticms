@@ -32,7 +32,7 @@ interface AdminInterface
 
     public function runCommand(string $command, OutputInterface $output): void;
 
-    public function getNextJob(string $tag): ?Job;
+    public function getNextJob(string $tag, ?string $jobId): ?Job;
 
     public function jobCompleted(Job $job): void;
 

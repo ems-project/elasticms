@@ -93,7 +93,7 @@ final class ExpressionService implements ExpressionServiceInterface
         $expressionLanguage->register(
             'trim',
             fn ($value) => \sprintf('(trim(%1$s))', $value),
-            fn ($arguments, $value) => \trim($value)
+            fn ($arguments, $value) => \trim((string) $value)
         );
         $expressionLanguage->register(
             'empty',

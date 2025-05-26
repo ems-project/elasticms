@@ -223,7 +223,8 @@
         "phpall": [
             "@phpcs",
             "@phpstan",
-            "@phpunit-all"
+            "@phpunit-all",
+            "@lint"
         ],
         "lint": [
             "@lint-container",

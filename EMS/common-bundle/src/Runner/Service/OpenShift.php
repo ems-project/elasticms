@@ -23,6 +23,7 @@ class OpenShift implements RunnerInterface
      */
     public function __construct(
         readonly private string $tag,
+        readonly private ?string $workerCommand,
         string $baseUrl,
         string $authKey,
         readonly private string $namespace,
@@ -131,5 +132,10 @@ class OpenShift implements RunnerInterface
         $logResponse = $this->httpClient->get("/api/v1/namespaces/$this->namespace/pods/$podName/log");
 
         return $logResponse->getBody()->getContents();
+    }
+
+    public function getWorkerCommand(): ?string
+    {
+        return $this->workerCommand;
     }
 }

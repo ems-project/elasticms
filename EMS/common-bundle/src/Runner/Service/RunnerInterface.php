@@ -10,6 +10,8 @@ interface RunnerInterface
 {
     public function getTag(): string;
 
+    public function getWorkerCommand(): ?string;
+
     /**
      * @param string[] $command
      */

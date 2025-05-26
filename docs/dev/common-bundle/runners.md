@@ -7,8 +7,9 @@ See below for the list of available types of runners.
 The `EMS_RUNNERS` environment variable is a JSON array of configurations.  
 Each configuration's parameters will depend on the type of runner you want to use, but they will all share the following parameters:
 
-- `type`: identifies the kind of runner (e.g., `openshift`)
-- `tag`: a name you provide to identify a specific runner configuration
+- `type`: identifies the kind of runner (e.g., `openshift` or `docker-remote`) (required)
+- `tag`: a name you provide to identify a specific runner configuration (required)
+- `worker-command`: use to specify worker command if a job with the same tag then the runner is created. Use the following replace token `%ems_job_id%` to specify the Job ID to run by the runner. E.g. `ems:admin:next-job tag %ems_job_id%` or `emsco:job:run %ems_job_id%` (optional)
 
 This means you can define multiple runner configurations of the same type.
 

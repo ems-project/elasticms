@@ -68,6 +68,7 @@ class OpenShiftFactory extends AbstractFactory
         /** @var array{
          *     type: string,
          *     tag: string,
+         *     worker-command: string|null,
          *     base-url: string,
          *     auth-key: string|null,
          *     auth-key-file: string|null,
@@ -104,6 +105,7 @@ class OpenShiftFactory extends AbstractFactory
 
         return new OpenShift(
             $resolvedConfig[self::RUNNER_CONFIG_TAG],
+            $resolvedConfig[self::RUNNER_CONFIG_WORKER_COMMAND],
             $resolvedConfig[self::RUNNER_OPENSHIFT_BASE_URL],
             $authKey,
             $resolvedConfig[self::RUNNER_OPENSHIFT_NAMESPACE],

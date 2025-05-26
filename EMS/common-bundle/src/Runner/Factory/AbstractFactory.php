@@ -20,8 +20,10 @@ abstract class AbstractFactory implements RunnerFactoryInterface
         $resolver
             ->setRequired(self::RUNNER_CONFIG_TYPE)
             ->setRequired(self::RUNNER_CONFIG_TAG)
+            ->setDefault(self::RUNNER_CONFIG_WORKER_COMMAND, null)
             ->setAllowedTypes(self::RUNNER_CONFIG_TYPE, ['string'])
             ->setAllowedTypes(self::RUNNER_CONFIG_TAG, ['string'])
+            ->setAllowedTypes(self::RUNNER_CONFIG_WORKER_COMMAND, ['string', 'null'])
         ;
 
         return $resolver;
@@ -29,7 +31,7 @@ abstract class AbstractFactory implements RunnerFactoryInterface
 
     public function getCommonVersionTag(?string $imageTag): ?string
     {
-        if (self::RUNNER_OPENSHIFT_EMS_VERSION_REPLACER === $imageTag) {
+        if (self::RUNNER_EMS_VERSION_REPLACER === $imageTag) {
             $imageTag = $this->composerInfo->getVersionPackages()['common'] ?? null;
             if (null === $imageTag) {
                 $this->logger->warning('ElasticMS\'s version package is not configured.');

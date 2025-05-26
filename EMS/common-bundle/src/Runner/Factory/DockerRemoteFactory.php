@@ -49,6 +49,7 @@ class DockerRemoteFactory extends AbstractFactory
         /** @var array{
          *     type: string,
          *     tag: string,
+         *     worker-command: string|null,
          *     base-url: string,
          *     image: string,
          *     image-tag: string|null,
@@ -63,6 +64,7 @@ class DockerRemoteFactory extends AbstractFactory
 
         return new DockerRemote(
             $resolvedConfig[self::RUNNER_CONFIG_TAG],
+            $resolvedConfig[self::RUNNER_CONFIG_WORKER_COMMAND],
             $resolvedConfig[self::RUNNER_REMOTE_DOCKER_BASE_URL],
             $resolvedConfig[self::RUNNER_REMOTE_DOCKER_IMAGE],
             $resolvedConfig[self::RUNNER_REMOTE_DOCKER_IMAGE_TAG],

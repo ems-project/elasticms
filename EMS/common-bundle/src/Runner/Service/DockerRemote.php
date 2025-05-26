@@ -18,6 +18,7 @@ class DockerRemote implements RunnerInterface
      */
     public function __construct(
         readonly private string $tag,
+        readonly private ?string $workerCommand,
         string $baseUrl,
         readonly private string $image,
         readonly private ?string $imageTag = null,
@@ -87,5 +88,10 @@ class DockerRemote implements RunnerInterface
         ]);
 
         return $response->getBody()->getContents();
+    }
+
+    public function getWorkerCommand(): ?string
+    {
+        return $this->workerCommand;
     }
 }

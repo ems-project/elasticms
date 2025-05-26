@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Runner;
 
+use EMS\CommonBundle\Exception\RunnerNotFoundException;
 use EMS\CommonBundle\Runner\Factory\RunnerFactoryInterface;
 use EMS\CommonBundle\Runner\Service\RunnerInterface;
+use EMS\CoreBundle\Entity\Job;
+use EMS\Helpers\Standard\Text;
 use Psr\Log\LoggerInterface;
 
 class RunnerManager
@@ -51,7 +54,7 @@ class RunnerManager
 
             return $factory->createRunner($runnerConfig);
         }
-        throw new \RuntimeException(\sprintf('Runner for tag "%s" not found.', $tag));
+        throw new RunnerNotFoundException($tag);
     }
 
     /**
@@ -76,5 +79,19 @@ class RunnerManager
         $runner = $this->getRunnerFromConfigs($tag);
 
         return $runner->output($id);
+    }
+
+    public function startJob(Job $job): string
+    {
+        $runner = $this->getRunnerFromConfigs($job->getTag() ?? '');
+        $command = $runner->getWorkerCommand();
+        if (null === $command) {
+            $command = $job->getCommand() ?? '';
+        } else {
+            $command = \str_replace(RunnerFactoryInterface::RUNNER_EMS_JOB_ID_REPLACER, (string) $job->getId(), $command);
+        }
+        $command = Text::shellWords($command);
+
+        return $runner->start($command);
     }
 }

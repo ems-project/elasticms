@@ -3,6 +3,7 @@
 ## 6.4.0 (2025-05-26)
 ### Features
 * feat(admin/api): add openapi documentation by @Zki49 in https://github.com/ems-project/elasticms/pull/1309
+* feat(admin/job): auto launch runner by @theus77 in https://github.com/ems-project/elasticms/pull/1326
 * feat(admin/jobs): add metrics job collector by @Davidmattei in https://github.com/ems-project/elasticms/pull/1324
 * feat(admin/revision): implement actions and AI support by @Davidmattei in https://github.com/ems-project/elasticms/pull/1303
 * feat(admin/revision): implement publish event action by @theus77 in https://github.com/ems-project/elasticms/pull/1320

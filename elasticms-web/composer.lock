@@ -1944,12 +1944,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSCommonBundle.git",
-                "reference": "522d3bea74b8d35020f59e5010637257c4c939c7"
+                "reference": "cce05e263a68c21ec97feb879e82101ae6fdd367"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSCommonBundle/zipball/522d3bea74b8d35020f59e5010637257c4c939c7",
-                "reference": "522d3bea74b8d35020f59e5010637257c4c939c7",
+                "url": "https://api.github.com/repos/ems-project/EMSCommonBundle/zipball/cce05e263a68c21ec97feb879e82101ae6fdd367",
+                "reference": "cce05e263a68c21ec97feb879e82101ae6fdd367",
                 "shasum": ""
             },
             "require": {
@@ -2024,7 +2024,7 @@
             "support": {
                 "source": "https://github.com/ems-project/EMSCommonBundle/tree/6.4.0"
             },
-            "time": "2025-05-26T09:36:36+00:00"
+            "time": "2025-05-26T09:50:48+00:00"
         },
         {
             "name": "elasticms/form-bundle",
@@ -2081,12 +2081,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/helpers.git",
-                "reference": "95261b29f5224eec3e89915b27d01bb3620eb6da"
+                "reference": "884bb25cceb4a0c1b81046f5d1cb45c47c1e1e11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/helpers/zipball/95261b29f5224eec3e89915b27d01bb3620eb6da",
-                "reference": "95261b29f5224eec3e89915b27d01bb3620eb6da",
+                "url": "https://api.github.com/repos/ems-project/helpers/zipball/884bb25cceb4a0c1b81046f5d1cb45c47c1e1e11",
+                "reference": "884bb25cceb4a0c1b81046f5d1cb45c47c1e1e11",
                 "shasum": ""
             },
             "require": {
@@ -2123,7 +2123,7 @@
             "support": {
                 "source": "https://github.com/ems-project/helpers/tree/6.4.0"
             },
-            "time": "2025-04-24T06:36:45+00:00"
+            "time": "2025-05-26T08:54:05+00:00"
         },
         {
             "name": "elasticms/submission-bundle",

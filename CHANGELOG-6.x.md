@@ -1,5 +1,27 @@
 # Changelog 6.x
 
+## 6.4.0 (2025-05-26)
+### Features
+* feat(admin/api): add openapi documentation by @Zki49 in https://github.com/ems-project/elasticms/pull/1309
+* feat(admin/jobs): add metrics job collector by @Davidmattei in https://github.com/ems-project/elasticms/pull/1324
+* feat(admin/revision): implement actions and AI support by @Davidmattei in https://github.com/ems-project/elasticms/pull/1303
+* feat(admin/revision): implement publish event action by @theus77 in https://github.com/ems-project/elasticms/pull/1320
+* feat(admin/revision): set published meta fields in raw by @theus77 in https://github.com/ems-project/elasticms/pull/1317
+* feat(admin/symfony): implement mercure bundle (real-time push) by @Davidmattei in https://github.com/ems-project/elasticms/pull/1310
+* feat(cli/import): support exclude expression by @Davidmattei in https://github.com/ems-project/elasticms/pull/1323
+* feat(common/pdf): printer support remote hosts option by @theus77 in https://github.com/ems-project/elasticms/pull/1322
+### Bug Fixes
+* fix(admin/contentType): invalid mapping for multiplex with locales variable by @Davidmattei in https://github.com/ems-project/elasticms/pull/1321
+* fix(admin/doctrine): invalid entity mapping for new EnvironmentRevision by @Davidmattei in https://github.com/ems-project/elasticms/pull/1312
+* fix(admin/environment): restore revision from trash (EnvironmentRevision) by @Davidmattei in https://github.com/ems-project/elasticms/pull/1313
+* fix(admin/mercure): one JWT_TOKEN and better token generation by @Davidmattei in https://github.com/ems-project/elasticms/pull/1311
+* fix(admin/revision): cascade delete environments by @Davidmattei in https://github.com/ems-project/elasticms/pull/1314
+* fix(admin/revision): new document without ouuid by @theus77 in https://github.com/ems-project/elasticms/pull/1319
+* fix(common/admin): already connected supres error on existing valid authkey by @theus77 in https://github.com/ems-project/elasticms/pull/1316
+* fix(common/core-api): json decode on forward stream for form file by @Davidmattei in https://github.com/ems-project/elasticms/pull/1325
+### Code Refactoring
+* refactor(admin/doctrine): add EnvironmentRevision associative entity by @theus77 in https://github.com/ems-project/elasticms/pull/1306
+
 ## 6.3.1 (2025-05-14)
 ### Bug Fixes
 * fix(admin/user): create groups from json by @theus77 in https://github.com/ems-project/elasticms/pull/1315

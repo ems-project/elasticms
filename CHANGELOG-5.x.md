@@ -1,5 +1,12 @@
 # Changelog 5.x
 
+## 5.25.8 (2025-05-26)
+### Bug Fixes
+* fix(admin/api): ldap authenticator use provider by @Davidmattei in https://github.com/ems-project/elasticms/pull/1301
+* fix(admin/revision): lock exception on restore from trash by @Davidmattei in https://github.com/ems-project/elasticms/pull/1298
+* fix(admin/revision): use revision display column in trash overview by @Davidmattei in https://github.com/ems-project/elasticms/pull/1300
+* fix(common/core-api): json decode on forward stream for form file by @Davidmattei in https://github.com/ems-project/elasticms/pull/1325
+
 ## 5.25.7 (2025-04-09)
 ### Bug Fixes
 * fix(admin/security): allows public access to /emsf/ baseurls (channels) by @theus77 in https://github.com/ems-project/elasticms/pull/1292

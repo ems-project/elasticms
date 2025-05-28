@@ -42,6 +42,12 @@
 
  * It's always a good idea to rebuild indexes on upgrade: `emsco:environment:rebuild --all`
 
+## version 6.4.1
+
+* Add a new twig global ```emschLocales``` which contains the EMSCH_LOCALES
+  Because it is added by the clientHelperBundle it is available in admin and website templates
+  Replace ```app.request.server.get('EMSCH_LOCALES')|json_decode``` by ```emschLocales```
+
 ## version 6.4.0
 
 * Add [mercure](https://mercure.rocks) (open solution for real-time communications)

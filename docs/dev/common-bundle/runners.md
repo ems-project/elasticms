@@ -21,6 +21,10 @@ To do this, you must specify the following configuration parameters:
 - `type`: Must be set to `openshift` (required)
 - `tag`: A name to identify this specific OpenShift runner configuration (required)
 - `base-url`: The base URL of your OpenShift PaaS (required)
+- `verify-ssl`: Boolean or string that describes the SSL certificate verification behavior of the requests (optional)
+  - `true`: Use the system's CA bundle (this is the default setting)
+  - `"/path/to/cert.pem"`: Use a custom SSL certificate on disk
+  - `false`: Disable validation entirely (don't do this!)
 - `auth-key`: An authentication key (optional if `auth-key-file` is defined)
 - `auth-key-file`: A path to a file containing an authentication key (optional if `auth-key` is defined)
 - `namespace`: The OpenShift project in which to launch the job (required)

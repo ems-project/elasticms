@@ -1,5 +1,16 @@
 # Changelog 6.x
 
+## 6.4.1 (2025-06-02)
+### Features
+* feat(twig): add global emschLocales variable by @Davidmattei in https://github.com/ems-project/elasticms/pull/1328
+### Bug Fixes
+* fix(admin/cke): browser server of images by @IsaMic in https://github.com/ems-project/elasticms/pull/1330
+* fix(admin/field): multiplex correct use form locale by @Davidmattei in https://github.com/ems-project/elasticms/pull/1329
+* fix(admin/group): remove not working + improve by @IsaMic in https://github.com/ems-project/elasticms/pull/1333
+* fix(admin/mercure): change default dev env MERCURE_URL by @Davidmattei in https://github.com/ems-project/elasticms/pull/1327
+* fix(admin/trash): role Edit can "Put back" by @IsaMic in https://github.com/ems-project/elasticms/pull/1331
+* fix(common/runner): allow to use a self-signed ca for openshift by @theus77 in https://github.com/ems-project/elasticms/pull/1332
+
 ## 6.4.0 (2025-05-26)
 ### Features
 * feat(admin/api): add openapi documentation by @Zki49 in https://github.com/ems-project/elasticms/pull/1309

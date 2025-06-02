@@ -12,14 +12,16 @@ class HttpClientFactory
 {
     /**
      * @param array<mixed> $headers
+     * @param string|bool  $verifySsl
      */
-    public static function create(string $baseUrl, array $headers = [], int $timeout = 30, bool $allowRedirects = false, ?string $socketPath = null): Client
+    public static function create(string $baseUrl, array $headers = [], int $timeout = 30, bool $allowRedirects = false, ?string $socketPath = null, $verifySsl = true): Client
     {
         $config = [
             'base_uri' => $baseUrl,
             'headers' => $headers,
             'timeout' => $timeout,
             'allow_redirects' => $allowRedirects,
+            'verify' => $verifySsl,
         ];
         if (null !== $socketPath) {
             $handler = new CurlHandler();

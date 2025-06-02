@@ -23,6 +23,7 @@ class OpenShiftFactory extends AbstractFactory
     final public const string RUNNER_OPENSHIFT_ACTIVE_DEADLINE_SECONDS = 'active-deadline-seconds';
     final public const string RUNNER_OPENSHIFT_LABELS = 'labels';
     final public const string RUNNER_OPENSHIFT_ENV = 'env';
+    final public const string RUNNER_OPENSHIFT_VERIFY_SSL = 'verify-ssl';
 
     public function __construct(LoggerInterface $logger, ComposerInfo $composerInfo)
     {
@@ -40,7 +41,9 @@ class OpenShiftFactory extends AbstractFactory
         $resolver
             ->setDefaults([
                 self::RUNNER_OPENSHIFT_IMAGE_TAG => null,
+                self::RUNNER_OPENSHIFT_AUTH_KEY => null,
                 self::RUNNER_OPENSHIFT_AUTH_KEY_FILE => null,
+                self::RUNNER_OPENSHIFT_VERIFY_SSL => true,
                 self::RUNNER_OPENSHIFT_TTL_SECONDS_AFTER_FINISHED => 3600,
                 self::RUNNER_OPENSHIFT_BACKOFF_LIMIT => 0,
                 self::RUNNER_OPENSHIFT_ACTIVE_DEADLINE_SECONDS => 60,
@@ -49,7 +52,6 @@ class OpenShiftFactory extends AbstractFactory
             ])
             ->setRequired([
                 self::RUNNER_OPENSHIFT_BASE_URL,
-                self::RUNNER_OPENSHIFT_AUTH_KEY,
                 self::RUNNER_OPENSHIFT_NAMESPACE,
                 self::RUNNER_OPENSHIFT_IMAGE,
             ])
@@ -64,6 +66,7 @@ class OpenShiftFactory extends AbstractFactory
             ->setAllowedTypes(self::RUNNER_OPENSHIFT_ACTIVE_DEADLINE_SECONDS, ['int'])
             ->setAllowedTypes(self::RUNNER_OPENSHIFT_LABELS, ['array'])
             ->setAllowedTypes(self::RUNNER_OPENSHIFT_ENV, ['array'])
+            ->setAllowedTypes(self::RUNNER_OPENSHIFT_VERIFY_SSL, ['bool', 'string'])
         ;
         /** @var array{
          *     type: string,
@@ -80,6 +83,7 @@ class OpenShiftFactory extends AbstractFactory
          *     active-deadline-seconds: int,
          *     labels: array<string, string>,
          *     env: array<array{name: string, value: string}>,
+         *     verify-ssl: bool,
          *         } $resolvedConfig */
         $resolvedConfig = $resolver->resolve($runnerConfig);
 
@@ -107,6 +111,7 @@ class OpenShiftFactory extends AbstractFactory
             $resolvedConfig[self::RUNNER_CONFIG_TAG],
             $resolvedConfig[self::RUNNER_CONFIG_WORKER_COMMAND],
             $resolvedConfig[self::RUNNER_OPENSHIFT_BASE_URL],
+            $resolvedConfig[self::RUNNER_OPENSHIFT_VERIFY_SSL],
             $authKey,
             $resolvedConfig[self::RUNNER_OPENSHIFT_NAMESPACE],
             $resolvedConfig[self::RUNNER_OPENSHIFT_IMAGE],

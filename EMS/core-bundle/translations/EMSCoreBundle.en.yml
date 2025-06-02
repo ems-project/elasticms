@@ -741,7 +741,7 @@ user:
         generate_api: 'API key'
         generate_api_confirm: 'Generate API key for this user?'
         remove: Remove
-        remove_confirm: 'Remove of this group?'
+        remove_confirm: 'Remove this user from the group?'
         switch: 'Switch user'
     index:
         column:

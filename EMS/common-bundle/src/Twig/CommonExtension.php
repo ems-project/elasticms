@@ -7,6 +7,7 @@ use EMS\CommonBundle\Common\EMSLink;
 use EMS\CommonBundle\Common\Standard\Base64;
 use EMS\CommonBundle\Helper\Text\Encoder;
 use EMS\Helpers\Standard\Color;
+use EMS\Helpers\Standard\DateTime;
 use EMS\Helpers\Standard\UuidGenerator;
 use Twig\DeprecatedCallableInfo;
 use Twig\Extension\AbstractExtension;
@@ -21,6 +22,8 @@ class CommonExtension extends AbstractExtension
             new TwigFunction('ems_asset_path', [AssetRuntime::class, 'assetPath'], ['is_safe' => ['html']]),
             new TwigFunction('ems_json_file', [AssetRuntime::class, 'jsonFromFile']),
             new TwigFunction('ems_asset_get_content', [AssetRuntime::class, 'getContent']),
+            new TwigFunction('ems_asset_head', [AssetRuntime::class, 'head']),
+            new TwigFunction('ems_asset_heads', [AssetRuntime::class, 'heads']),
             new TwigFunction('ems_html', [TextRuntime::class, 'emsHtml'], ['is_safe' => ['all']]),
             new TwigFunction('ems_http', [HttpClientRuntime::class, 'request']),
             new TwigFunction('ems_nested_search', [SearchRuntime::class, 'nestedSearch']),
@@ -70,6 +73,8 @@ class CommonExtension extends AbstractExtension
             new TwigFilter('ems_link', fn ($emsLink) => EMSLink::fromText($emsLink)),
             new TwigFilter('ems_valid_mail', [TextRuntime::class, 'isValidEmail']),
             new TwigFilter('ems_uuid', [UuidGenerator::class, 'fromValue']),
+            new TwigFilter('ems_date', DateTime::createFromFormat(...)),
+            new TwigFilter('ems_int', intval(...)),
             new TwigFilter('ems_webalize', [Encoder::class, 'webalizeForUsers'], [
                 'deprecation_info' => new DeprecatedCallableInfo('elasticms/common-bundle', '5.17.1', 'ems_slug'),
             ]),

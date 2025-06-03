@@ -5,7 +5,8 @@
   * [Start external micro-services](#start-external-micro-services)
     * [Test your config](#test-your-config)
     * [Local ports exposed](#local-ports-exposed)
-  * [Prerequisite](#prerequisite-)
+  * [Prerequisite](#prerequisite)
+  * [Load the Demo config](#load-or-reset-the-demo-config)
   * [Init elasticMS](#init-elasticms)
   * [Load and save DB dumps](#load-and-save-db-dumps)
   * [Identity provider (IDP) (Keycloak)](#identity-provider-idp-keycloak)
@@ -21,7 +22,7 @@ elasticMS comes with multiple micro-services:
 * Tika: for extracting data from assets
 * PosgresSQL or MySQL: As authentic source of data
 
-In order to simplify development all those services are available in a docker compose:
+In order to simplify development all those services are available in a docker compose and can be easily started with those make commands:
 
 ```bash
 make init
@@ -62,6 +63,21 @@ wget https://get.symfony.com/cli/installer -O - | bash
 sudo mv ~/.symfony5/bin/symfony /usr/local/bin/symfony 
 ```
 
+## Load (or reset) the Demo config
+
+Ensure that your `.env.local` files are aligned with their respective `.env.local.dist` in the folders:
+ * elasticms-admin
+ * elasticms-web
+
+Before starting the demo you may need to define those environment variables:
+ * DOCKER_USER: the user id that will be used to run the docker runs. By default, the current user id.
+ * NPM_EXTRA_CMD: Used to run commands before npm. This variable must end with a `;`. E.g. `export NPM_EXTRA_CMD='npm set strict-ssl=false;'` 
+
+```bash
+make demo
+```
+[elasticMS Admin](http://localhost:8881) and [elasticMS Demo](http://localhost:8882) are now available.
+
 ## Init elasticMS
 
 ````bash
@@ -98,7 +114,7 @@ make db-dump/"db_example" SCHEMA="schema_example_adm"
 
 ## Identity provider (IDP) (Keycloak)
 
-Elasticms-web has a build in OAuth2 and SAML authenticator. see [elasticms-web/security](/elasticms-web/security.md).
+Elasticms-web has a build in OAuth2 and SAML authenticator. see [elasticms-web/security](../elasticms-web/security.md).
 
 For developing and testing purposes you may want to start an IDP. 
 Therefor we created a subdirectory 'idp' containing the services (keycloak & postgres).

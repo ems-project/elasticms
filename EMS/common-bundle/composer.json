@@ -27,7 +27,7 @@
         "doctrine/doctrine-bundle": "^2.8",
         "doctrine/orm": "^2.6",
         "dompdf/dompdf": "^v2.0",
-        "elasticms/helpers": "5.24.*",
+        "elasticms/helpers": "5.25.*",
         "guzzlehttp/guzzle": "^6.3",
         "maennchen/zipstream-php": "^2.4",
         "phpoffice/phpspreadsheet": "^1.16",

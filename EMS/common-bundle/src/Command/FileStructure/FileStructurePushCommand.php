@@ -87,7 +87,7 @@ class FileStructurePushCommand extends AbstractCommand
         $diffArchive = $archive->diff($previousArchive);
 
         $this->io->section('Pushing archive');
-        $progressBar = $this->io->createProgressBar($archive->getCount());
+        $progressBar = $this->io->createProgressBar($diffArchive->getCount());
         $failedCount = 0;
         if ($this->chunkSize < 1) {
             throw new \RuntimeException(\sprintf('Chunk size must greater than 0, %d given', $this->chunkSize));
@@ -127,13 +127,13 @@ class FileStructurePushCommand extends AbstractCommand
         $progressBar->finish();
         $this->io->newLine();
 
-        \file_put_contents($hashFilename, $hash);
-
         if ($this->output->isQuiet()) {
             echo $hash;
         } else {
             $this->io->success(\sprintf('Archive %s have been uploaded with the directory content of %s', $hash, $this->folderPath));
         }
+
+        File::putContents($hashFilename, $hash);
 
         return self::EXECUTE_SUCCESS;
     }

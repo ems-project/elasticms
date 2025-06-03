@@ -22,10 +22,11 @@ final class TranslationFiles implements \IteratorAggregate, \Countable
     {
         $path = $directory.\DIRECTORY_SEPARATOR.self::DIRECTORY;
 
-        if (\file_exists($path)) {
-            foreach (Finder::create()->in($path)->files()->name('*.yaml') as $file) {
-                $this->files[] = new TranslationFile($file);
-            }
+        if (!\file_exists($path)) {
+            return;
+        }
+        foreach (Finder::create()->in($path)->files()->name('*.yaml') as $file) {
+            $this->files[] = new TranslationFile($file);
         }
     }
 

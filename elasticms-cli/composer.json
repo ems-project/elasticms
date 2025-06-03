@@ -18,7 +18,7 @@
         "ext-json": "*",
         "ext-sqlite3": "*",
         "doctrine/doctrine-migrations-bundle": "^3.2",
-        "elasticms/common-bundle": "5.24.*",
+        "elasticms/common-bundle": "5.25.*",
         "kevinrob/guzzle-cache-middleware": "^4.0",
         "symfony/console": "^5.4",
         "symfony/css-selector": "^5.4",

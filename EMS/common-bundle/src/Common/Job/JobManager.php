@@ -11,6 +11,8 @@ use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 
+use function Symfony\Component\String\u;
+
 class JobManager
 {
     public function __construct(private readonly KernelInterface $kernel, private readonly AdminHelper $adminHelper)
@@ -24,7 +26,10 @@ class JobManager
         try {
             $application = new Application($this->kernel);
             $application->setAutoExit(false);
-            $input = new StringInput($job->getCommand());
+
+            $command = $job->getCommand();
+            $escapedCommand = u($command)->replace('\\', '\\\\')->toString();
+            $input = new StringInput($escapedCommand);
 
             $application->run($input, $output);
             $this->adminHelper->getCoreApi()->admin()->jobCompleted($job);

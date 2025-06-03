@@ -117,5 +117,9 @@
             <argument type="service" id="ems_common.storage.manager"/>
             <tag name="console.command" />
         </service>
+        <service id="ems.command.submission.forward" class="EMS\CommonBundle\Command\Submission\ForwardCommand">
+            <argument type="service" id="ems.helper.admin_api"/>
+            <tag name="console.command" />
+        </service>
     </services>
 </container>

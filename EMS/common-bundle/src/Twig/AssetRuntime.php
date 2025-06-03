@@ -158,6 +158,19 @@ class AssetRuntime
         return $this->storageManager->getContents($hash);
     }
 
+    public function head(string $hash): bool
+    {
+        return $this->storageManager->head($hash);
+    }
+
+    /**
+     * @return \Traversable<int, string|true>
+     */
+    public function heads(string ...$fileHashes): \Traversable
+    {
+        return $this->storageManager->heads(...$fileHashes);
+    }
+
     /**
      * @return array<string, int|string>|null
      */

@@ -13,6 +13,10 @@
   * [version 4.x](#version-4x)
   * [Tips and tricks](#tips-and-tricks)
 
+## version 5.25.x
+
+- The `emsco:environment:align` will after publication also unpublish documents that are not aligned.
+
 ## version 5.24.x
 
 There is breaking changes in the options of the [File Reader Import](elasticms-cli/commands?id=file-reader) command. 

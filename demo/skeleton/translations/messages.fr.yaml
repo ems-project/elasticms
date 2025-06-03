@@ -27,6 +27,15 @@ ems:
     back_to_ems: 'Retour à eMS'
 ems_form:
     loading: 'en cours de chargement...'
+emsch:
+    security:
+        exception:
+            bad_credentials: 'Nom d''utilisateur ou mot de passe invalide'
+            error: 'Une erreur s''est produite !'
+        form:
+            password: 'Mot de passe'
+            submit: 'Se connecter'
+            username: 'Nom d''utilisateur'
 features:
     discover: 'Découvrez toutes les fonctionnalités'
 files_browse: 'Choisir des fichiers'
@@ -41,6 +50,7 @@ js:
 language:
     selection: 'select language'
 locale: Français
+login: 'Se connecter'
 missing:
     description: 'Changer de langue pour voir les versions alternatives.'
     title: 'Ce contenu n''est pas disponible en français'

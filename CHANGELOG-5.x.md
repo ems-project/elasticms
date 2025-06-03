@@ -1,5 +1,77 @@
 # Changelog 5.x
 
+## 5.25.8 (2025-05-26)
+### Bug Fixes
+* fix(admin/api): ldap authenticator use provider by @Davidmattei in https://github.com/ems-project/elasticms/pull/1301
+* fix(admin/revision): lock exception on restore from trash by @Davidmattei in https://github.com/ems-project/elasticms/pull/1298
+* fix(admin/revision): use revision display column in trash overview by @Davidmattei in https://github.com/ems-project/elasticms/pull/1300
+* fix(common/core-api): json decode on forward stream for form file by @Davidmattei in https://github.com/ems-project/elasticms/pull/1325
+
+## 5.25.7 (2025-04-09)
+### Bug Fixes
+* fix(admin/security): allows public access to /emsf/ baseurls (channels) by @theus77 in https://github.com/ems-project/elasticms/pull/1292
+* fix(common/storage): s3 upload bug small files by @theus77 in https://github.com/ems-project/elasticms/pull/1280
+
+## 5.25.6 (2025-03-31)
+### Bug Fixes
+* fix(admin/contentType): support helptext for choiceFieldType by @theus77 in https://github.com/ems-project/elasticms/pull/1259
+* fix(admin/extract): avoid creating ghost documents by @theus77 in https://github.com/ems-project/elasticms/pull/1263
+* fix(admin/js): disable button on file upload by @theus77 in https://github.com/ems-project/elasticms/pull/1272
+* fix(admin/revision): set version revision on publish by @coppee in https://github.com/ems-project/elasticms/pull/1278
+
+## 5.25.5 (2025-03-10)
+### Features
+* feat(admin): allow change link forgot password by @IsaMic in https://github.com/ems-project/elasticms/pull/1250
+
+## 5.25.4 (2025-02-26)
+### Bug Fixes
+* fix(admin/action): filter on the environment even if the template.role == "not-defined" by @theus77 in https://github.com/ems-project/elasticms/pull/1205
+* fix(admin/revision): unlock after discard draft by @theus77 in https://github.com/ems-project/elasticms/pull/1223
+
+## 5.25.3 (2025-02-12)
+### Bug Fixes
+* fix(demo): fix favicon redirect to avoid _get_file_path: true by @theus77 in https://github.com/ems-project/elasticms/pull/1185
+* fix(emsch/asset): still need to update the styleset on admin side by @theus77 in https://github.com/ems-project/elasticms/pull/1181
+* fix(emsch/template): rollback exits use template builder by @Davidmattei in https://github.com/ems-project/elasticms/pull/1200
+
+## 5.25.2 (2025-02-03)
+### Features
+* feat(docker): Add a NPM_EXTRA_CMD to customize the npm config by @theus77 in https://github.com/ems-project/elasticms/pull/1175
+### Bug Fixes
+* fix(admin/field): add help text support for VersionTagFieldType by @theus77 in https://github.com/ems-project/elasticms/pull/1170
+* fix(admin/submission): export command use ems property accessor  by @theus77 in https://github.com/ems-project/elasticms/pull/1142
+* fix(admin/twig): escape label in data links by @theus77 in https://github.com/ems-project/elasticms/pull/1132
+* fix(common/twig): add ems_asset_head(s) and implement for wysiwyg field by @theus77 in https://github.com/ems-project/elasticms/pull/1171
+* fix(core/twig): html escape special chars in display label by @Davidmattei in https://github.com/ems-project/elasticms/pull/1124
+* fix(file-structure::push): avoid silent error when it's not possible to update the .hash file by @theus77 in https://github.com/ems-project/elasticms/pull/1146
+* fix(twig): deprecate ems function and filters with deprecation_info by @Davidmattei in https://github.com/ems-project/elasticms/pull/1125
+* fix(web): error templates based on request format (json, xml, html, ...) by @theus77 in https://github.com/ems-project/elasticms/pull/1152
+* fix(web): performance issue with getHierarchy function by @theus77 in https://github.com/ems-project/elasticms/pull/1155
+### Chores
+* chore: add POSTGRES_VERSION environment variable for dev docker by @theus77 in https://github.com/ems-project/elasticms/pull/1148
+
+## 5.25.1 (2025-01-09)
+### Bug Fixes
+* fix(common/job): escape jobs command by @Davidmattei in https://github.com/ems-project/elasticms/pull/1121
+* fix(common/storage): put zip archive in cache by @theus77 in https://github.com/ems-project/elasticms/pull/1108
+* fix(core/field): a symfony form type name can not start by a dash by @theus77 in https://github.com/ems-project/elasticms/pull/1119
+* fix(core/file): return size and mimetype in the file api by @theus77 in https://github.com/ems-project/elasticms/pull/1118
+* fix(helper/file): bigger chunks for tempFile by @theus77 in https://github.com/ems-project/elasticms/pull/1109
+* fix(web/routing): emsch_routing transform with query string by @theus77 in https://github.com/ems-project/elasticms/pull/1120
+
+## 5.25.0 (2024-12-18)
+### Features
+* feat(admin/environment): cli align unpublish not published documents by @Davidmattei in https://github.com/ems-project/elasticms/pull/1089
+* feat(admin/submission): add export command filter by expression by @theus77 in https://github.com/ems-project/elasticms/pull/1085
+* feat(cli): enable symfony debug bundle in dev mode by @Davidmattei in https://github.com/ems-project/elasticms/pull/1081
+* feat(common/twig): new filter ems_date by @Davidmattei in https://github.com/ems-project/elasticms/pull/1102
+* feat(common/twig): new filter ems_int by @Davidmattei in https://github.com/ems-project/elasticms/pull/1104
+### Bug Fixes
+* fix(web/translations): support locales without EMSCH_LOCALES by @theus77 in https://github.com/ems-project/elasticms/pull/1107
+* fix(web/twig): ems_template_exists use template builder by @theus77 in https://github.com/ems-project/elasticms/pull/1062
+### Code Refactoring
+* refactor(common): add ems:submissions:forward from core by @theus77 in https://github.com/ems-project/elasticms/pull/1106
+
 ## 5.24.5 (2025-02-03)
 ### Bug Fixes
 * fix(admin/twig): escape label in data links by @theus77 in https://github.com/ems-project/elasticms/pull/1132

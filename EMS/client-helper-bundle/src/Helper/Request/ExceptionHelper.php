@@ -7,12 +7,13 @@ namespace EMS\ClientHelperBundle\Helper\Request;
 use EMS\ClientHelperBundle\Exception\TemplatingException;
 use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequestManager;
 use Symfony\Component\ErrorHandler\Exception\FlattenException;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
 
 final class ExceptionHelper
 {
-    public function __construct(private readonly Environment $twig, private readonly ClientRequestManager $manager, private readonly bool $enabled, private readonly bool $debug, private readonly string $template = '')
+    public function __construct(private readonly Environment $twig, private readonly ClientRequestManager $manager, private readonly RequestStack $requestStack, private readonly bool $enabled, private readonly bool $debug, private readonly string $template = '')
     {
     }
 
@@ -33,7 +34,12 @@ final class ExceptionHelper
     public function generateResponse(FlattenException $exception): Response
     {
         $code = $exception->getStatusCode();
-        $template = $this->getTemplate($code);
+        $format = 'html';
+        $request = $this->requestStack->getCurrentRequest();
+        if (null !== $request) {
+            $format = $request->getRequestFormat() ?? 'html';
+        }
+        $template = $this->getTemplate($code, $format);
 
         return new Response($this->twig->render($template, [
             'trans_default_domain' => $this->manager->getDefault()->getCacheKey(),
@@ -43,15 +49,27 @@ final class ExceptionHelper
         ]));
     }
 
-    private function getTemplate(int $code): string
+    private function getTemplate(int $code, string $format): string
     {
-        $customCodeTemplate = \str_replace('{code}', \strval($code), $this->template);
+        $customCodeTemplate = \str_replace([
+            '{code}',
+            '{_format}',
+        ], [
+            \strval($code),
+            $format,
+        ], $this->template);
 
         if ($this->templateExists($customCodeTemplate)) {
             return $customCodeTemplate;
         }
 
-        $errorTemplate = \str_replace('{code}', '', $this->template);
+        $errorTemplate = \str_replace([
+            '{code}',
+            '{_format}',
+        ], [
+            '',
+            $format,
+        ], $this->template);
 
         if ($this->templateExists($errorTemplate)) {
             return $errorTemplate;

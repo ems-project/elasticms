@@ -27,6 +27,15 @@ ems:
     back_to_ems: 'Terug naar eMS'
 ems_form:
     loading: 'bezig met laden...'
+emsch:
+    security:
+        exception:
+            bad_credentials: 'Ongeldige gebruikersnaam of wachtwoord'
+            error: 'Er is iets fout gegaan!'
+        form:
+            password: Wachtwoord
+            submit: Login
+            username: Gebruikersnaam
 features:
     discover: 'Ontdek alle features'
 files_browse: 'Kiezen bestanden'
@@ -41,6 +50,7 @@ js:
 language:
     selection: 'select language'
 locale: Nederlands
+login: Login
 missing:
     description: 'Wijzig de taal om alternatieve versies te zien.'
     title: 'Deze inhoud is niet beschikbaar in het Nederlands'

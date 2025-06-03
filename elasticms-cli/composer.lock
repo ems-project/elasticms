@@ -1640,12 +1640,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSCommonBundle.git",
-                "reference": "498547f21945d18df49037d0be4db36216e5ca4a"
+                "reference": "1f1922e956d234beb9935fd23f065878e6fdfb17"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSCommonBundle/zipball/498547f21945d18df49037d0be4db36216e5ca4a",
-                "reference": "498547f21945d18df49037d0be4db36216e5ca4a",
+                "url": "https://api.github.com/repos/ems-project/EMSCommonBundle/zipball/1f1922e956d234beb9935fd23f065878e6fdfb17",
+                "reference": "1f1922e956d234beb9935fd23f065878e6fdfb17",
                 "shasum": ""
             },
             "require": {
@@ -1720,7 +1720,7 @@
             "support": {
                 "source": "https://github.com/ems-project/EMSCommonBundle/tree/6.4.1"
             },
-            "time": "2025-06-02T07:11:34+00:00"
+            "time": "2025-06-03T07:25:06+00:00"
         },
         {
             "name": "elasticms/helpers",

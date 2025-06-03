@@ -29,6 +29,7 @@ class Client extends BaseClient
         $this->stopwatch?->start('es_request', 'fos_elastica');
 
         try {
+            $path = ('/' === $path) ? '' : $path;
             $response = parent::request($path, $method, $data, $query, $contentType);
         } catch (ResponseException $e) {
             $this->getLogger()?->logResponse($e->getResponse(), $e->getRequest());

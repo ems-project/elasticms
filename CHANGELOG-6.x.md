@@ -1,5 +1,12 @@
 # Changelog 6.x
 
+## 6.4.2 (2025-06-04)
+### Bug Fixes
+* fix(admin/contentType): versioning fields empty string by @Davidmattei in https://github.com/ems-project/elasticms/pull/1337
+* fix(admin/doctrine): fieldType options can be null by @Davidmattei in https://github.com/ems-project/elasticms/pull/1336
+* fix(admin/environment): correct counter on overview by @Davidmattei in https://github.com/ems-project/elasticms/pull/1338
+* fix(admin/environment): rebuild correct compare current env by @Davidmattei in https://github.com/ems-project/elasticms/pull/1335
+
 ## 6.4.1 (2025-06-03)
 ### Features
 * feat(twig): add global emschLocales variable by @Davidmattei in https://github.com/ems-project/elasticms/pull/1328

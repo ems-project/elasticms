@@ -548,8 +548,8 @@ class EnvironmentService implements EntityServiceInterface
 
         if (null === $stats) {
             $stats = [
-                'revisions' => $this->environmentRevisionRepository->countRevisions(),
-                'revisions_deleted' => $this->environmentRevisionRepository->countRevisions(deleted: true),
+                'revisions' => $this->environmentRevisionRepository->countDocumentsByEnvironments(),
+                'revisions_deleted' => $this->environmentRevisionRepository->countDocumentsByEnvironments(deleted: true),
             ];
         }
 

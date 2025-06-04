@@ -26,7 +26,7 @@ class EnvironmentRevisionRepository extends ServiceEntityRepository
     /**
      * @return array<int, int>
      */
-    public function countRevisions(bool $deleted = false, bool $managed = true): array
+    public function countDocumentsByEnvironments(bool $deleted = false, bool $managed = true): array
     {
         $qb = $this->getEntityManager()->getConnection()->createQueryBuilder();
         $qb

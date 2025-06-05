@@ -25,7 +25,11 @@
 {%- endblock media_lib_file_header -%}
 
 {%- block media_lib_file -%}
-    <div><a href="{{- mediaFile.urlView -}}" download="{{- mediaFile.name -}}" data-ems-id="{{- mediaFile.emsId -}}">{{- mediaFile.name -}}</a></div>
+    <div>
+        <a href="{{- mediaFile.urlView -}}" download="{{- mediaFile.name -}}" data-ems-id="{{- mediaFile.emsId -}}">
+            {{ mediaFile.folder[folder.path|default('')|length + 1:] }}{{- mediaFile.name -}}{% dump %}
+        </a>
+    </div>
     <div>{{- mediaFile.file.mimetype|trans({}, 'emsco-mimetypes') -}}</div>
     <div><a href="{{ path('emsco_view_revisions', { 'type': mediaFile.document.contentType, 'ouuid': mediaFile.id  }) }}">show revision</a></div>
     <div>{{ mediaFile.document.getValue('date_creation')|date(date_time_format) }}</div>

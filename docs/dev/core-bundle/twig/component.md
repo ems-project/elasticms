@@ -165,6 +165,10 @@ For a more advanced implementation look into our [demo project](https://github.c
 | `searchSize`      | 100          | Used for search and infinity scrolling                     |
 | `searchQuery`     | see config   | Example only load media files for an organization          |
 | `searchFileQuery` |              | Define the search query used for searching file documents  |
+| `searchType`      | term         | Specify the folder range of a query search                 |
+|                   |              | `term`: only in the current folder                         |
+|                   |              | `prefix`: within the current folder and all subfolders     |
+|                   |              | `all`: in every folders                                    |
 | `template`        |              | see [templating](#templating-media-library)                |
 | `context`         |              | see [templating](#templating-media-library)                |
 

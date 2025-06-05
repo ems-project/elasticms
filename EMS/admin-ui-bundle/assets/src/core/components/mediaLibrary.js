@@ -31,6 +31,7 @@ export default class MediaLibrary {
 
     this.#elements = {
       header: element.querySelector('div.media-nav-bar'),
+      breadcrumb: element.querySelector('div.media-lib-breadcrumb'),
       footer: element.querySelector('div.media-lib-footer'),
       inputUpload: element.querySelector('input.file-uploader-input'),
       files: element.querySelector('div.media-lib-files'),
@@ -537,6 +538,7 @@ export default class MediaLibrary {
 
     return this._get(path).then((json) => {
       if (Object.hasOwn(json, 'header')) this._refreshHeader(json.header)
+      if (Object.hasOwn(json, 'breadcrumb')) this.#elements.breadcrumb.innerHTML = json.breadcrumb
       if (Object.hasOwn(json, 'footer')) this.#elements.footer.innerHTML = json.footer
     })
   }
@@ -596,6 +598,7 @@ export default class MediaLibrary {
       this._refreshHeader(json.header)
       this.#activeFolderHeader = json.header
     }
+    if (Object.hasOwn(json, 'breadcrumb')) this.#elements.breadcrumb.innerHTML = json.breadcrumb
     if (Object.hasOwn(json, 'footer')) this.#elements.footer.innerHTML = json.footer
 
     const { rowHeader, totalRows, rows, remaining = false } = json

@@ -2,6 +2,7 @@
     {{ component('media_library', {
         'id': 'examaple-media-lib',
         'template': _self,
+        'searchType': 'prefix',
         "sort": [
             { "id": "name", "field": "media_path.alpha_order", "defaultOrder": "asc" },
             { "id": "type", "field": "media_file.mimetype", "nested_path": "media_file" },

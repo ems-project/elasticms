@@ -182,6 +182,7 @@ export default class MediaLibrary {
       if (!button || getSiblingFile(fileId, sibling) === null) return
 
       button.style.display = 'inline-block'
+      button.classList.remove('disabled')
       button.addEventListener('click', () => {
         const file = getSiblingFile(fileId, sibling)
         if (!file) return

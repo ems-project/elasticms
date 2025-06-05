@@ -33,6 +33,7 @@
         {%- if mediaFile is defined -%}
             <div class="btn-group">
                 {{- template.block('media_lib_button_file_view', _context)|raw -}}
+                {{- template.block('file_download_file', _context)|raw -}}
                 {{- template.block('media_lib_button_file_rename', _context)|raw -}}
                 {{- template.block('media_lib_button_files_move', _context)|raw -}}
                 {{- template.block('media_lib_button_file_delete', _context)|raw -}}
@@ -89,9 +90,7 @@
                 <i class="fa fa-angle-double-left"></i>
                 {{ 'media_library.file.view.previous'|trans }}
             </button>
-            <a class="btn btn-sm btn-default" href="{{ ems_asset_path(mediaFile.file, {_disposition: 'attachment'}) }}">
-                <i class="fa fa-download"></i> Download file
-            </a>
+            {{- template.block('file_download_file', _context)|raw -}}
             <a class="btn btn-sm btn-default" href="{{ path('emsco_view_revisions', { 'type': mediaFile.document.contentType, 'ouuid': mediaFile.id  }) }}">
                 <i class="fa fa-archive"></i> Show revision
             </a>
@@ -102,3 +101,9 @@
         </div>
     </div>
 {% endblock media_lib_modal_preview_footer %}
+
+{% block file_download_file %}
+    <a class="btn btn-sm btn-default" href="{{ ems_asset_path(mediaFile.file, {_disposition: 'attachment'}) }}">
+        <i class="fa fa-download"></i> Download file
+    </a>
+{% endblock file_download_file %}

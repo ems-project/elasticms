@@ -10,6 +10,7 @@ class AjaxModal {
 
     if (this.modal) {
       this.loadingElement = this.modal.querySelector('.modal-loading')
+      this.modalContentElement = this.modal.querySelector('.ajax-modal-body')
       this.modal.addEventListener('hide.bs.modal', (e) => {
         e.target.dispatchEvent(new Event('ajax-modal-close'))
       })
@@ -42,6 +43,7 @@ class AjaxModal {
 
   reset() {
     this.loadingElement.style.display = 'block'
+    this.modalContentElement.style.display = 'none'
     document.removeEventListener('keydown', this.onKeyDown)
 
     this.modal.querySelectorAll('.ckeditor_ems').each(() => {
@@ -63,6 +65,7 @@ class AjaxModal {
       e.remove()
     })
     this.loadingElement.style.display = 'block'
+    this.modalContentElement.style.display = 'none'
 
     this.modal.querySelectorAll('input, button, .select2, textarea').forEach((e) => {
       e.classList.add('emsco-modal-has-been-disabled')
@@ -72,6 +75,7 @@ class AjaxModal {
 
   stateReady() {
     this.loadingElement.style.display = 'none'
+    this.modalContentElement.style.display = 'block'
     this.modal.querySelector('.ajax-modal-body').style.display = 'block'
 
     this.modal

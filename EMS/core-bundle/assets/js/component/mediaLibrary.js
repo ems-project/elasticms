@@ -19,17 +19,20 @@ export default class MediaLibrary {
     #searchValue = null;
     #sortId = null;
     #sortOrder = null;
+    #searchType = 'term'
 
     constructor (element, options) {
         this.id = element.id;
         this.element = element;
         this.#pathPrefix = `${options.urlMediaLib}/${element.dataset.hash}`;
         this.#options = options;
+        this.#searchType = element.dataset.searchType ?? 'term';
 
         this.#elements = {
-            header:  element.querySelector('div.media-nav-bar'),
-            footer:  element.querySelector('div.media-lib-footer'),
-            inputUpload:  element.querySelector('input.file-uploader-input'),
+            header: element.querySelector('div.media-nav-bar'),
+            footer: element.querySelector('div.media-lib-footer'),
+            breadcrumb: element.querySelector('div.media-lib-breadcrumb'),
+            inputUpload: element.querySelector('input.file-uploader-input'),
             files: element.querySelector('div.media-lib-files'),
             loadMoreFiles: element.querySelector('div.media-lib-files > div.media-lib-load-more'),
             listFiles: element.querySelector("ul.media-lib-list-files"),
@@ -101,7 +104,7 @@ export default class MediaLibrary {
             if (classList.contains('media-lib-folder')) this._onClickFolder(event.target);
 
             if (classList.contains('btn-file-upload')) this.#elements.inputUpload.click();
-            if (classList.contains('btn-file-view')) this._onClickButtonFileView(event.target);
+            if (classList.contains('btn-file-view')) this._onClickButtonFileView(event.target, event);
             if (classList.contains('btn-file-rename')) this._onClickButtonFileRename(event.target);
             if (classList.contains('btn-file-delete')) this._onClickButtonFileDelete(event.target);
             if (classList.contains('btn-files-delete')) this._onClickButtonFilesDelete(event.target)
@@ -149,7 +152,8 @@ export default class MediaLibrary {
 
         this._getFiles().then(() => this.loading(false));
     }
-    _onClickButtonFileView(button) {
+  _onClickButtonFileView(button, event) {
+        event.preventDefault()
         const getSiblingFile = (fileId, sibling) => {
             const row = this.#elements.listFiles.querySelector(`.media-lib-file[data-id='${fileId}']`);
             const rowSibling = row.closest('li')[sibling];
@@ -161,6 +165,7 @@ export default class MediaLibrary {
             if (!button || null === getSiblingFile(fileId, sibling)) return;
 
             button.style.display = 'inline-block';
+            button.classList.remove('disabled')
             button.addEventListener('click', () => {
                 const file = getSiblingFile(fileId, sibling);
                 if (!file) return;
@@ -469,6 +474,7 @@ export default class MediaLibrary {
 
         return this._get(path).then((json) => {
             if (json.hasOwnProperty('header')) this._refreshHeader(json.header);
+            if (json.hasOwnProperty('breadcrumb')) this.#elements.breadcrumb.innerHTML = json.breadcrumb;
             if (json.hasOwnProperty('footer')) this.#elements.footer.innerHTML = json.footer;
         });
     }
@@ -479,7 +485,7 @@ export default class MediaLibrary {
             this.#elements.listFiles.innerHTML = '';
         }
 
-        const query = new URLSearchParams({ from: from.toString() });
+        const query = new URLSearchParams({ from: from.toString(), searchType: this.#searchType });
         if (this.getSelectionFiles().length > 0) query.append('selectionFiles', this.getSelectionFiles().length.toString());
         if (this.#searchValue) query.append('search', this.#searchValue);
         if (this.#sortId) query.append('sortId', this.#sortId);
@@ -518,6 +524,7 @@ export default class MediaLibrary {
             this._refreshHeader(json.header);
             this.#activeFolderHeader = json.header;
         }
+        if (json.hasOwnProperty('breadcrumb')) this.#elements.breadcrumb.innerHTML = json.breadcrumb;
         if (json.hasOwnProperty('footer')) this.#elements.footer.innerHTML = json.footer;
         if (json.hasOwnProperty('rowHeader')) {
             this.#elements.listFiles.innerHTML += json.rowHeader;

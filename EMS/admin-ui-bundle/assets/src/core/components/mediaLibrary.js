@@ -111,7 +111,7 @@ export default class MediaLibrary {
       if (classList.contains('media-lib-folder')) this._onClickFolder(event.target)
 
       if (classList.contains('btn-file-upload')) this.#elements.inputUpload.click()
-      if (classList.contains('btn-file-view')) this._onClickButtonFileView(event.target)
+      if (classList.contains('btn-file-view')) this._onClickButtonFileView(event.target, event)
       if (classList.contains('btn-file-rename')) this._onClickButtonFileRename(event.target)
       if (classList.contains('btn-file-delete')) this._onClickButtonFileDelete(event.target)
       if (classList.contains('btn-files-delete')) this._onClickButtonFilesDelete(event.target)
@@ -169,7 +169,8 @@ export default class MediaLibrary {
     this._getFiles().then(() => this.loading(false))
   }
 
-  _onClickButtonFileView(button) {
+  _onClickButtonFileView(button, event) {
+    event.preventDefault()
     const getSiblingFile = (fileId, sibling) => {
       const row = this.#elements.listFiles.querySelector(`.media-lib-file[data-id='${fileId}']`)
       const rowSibling = row.closest('li')[sibling]
@@ -181,6 +182,7 @@ export default class MediaLibrary {
       if (!button || getSiblingFile(fileId, sibling) === null) return
 
       button.style.display = 'inline-block'
+      button.classList.remove('disabled')
       button.addEventListener('click', () => {
         const file = getSiblingFile(fileId, sibling)
         if (!file) return

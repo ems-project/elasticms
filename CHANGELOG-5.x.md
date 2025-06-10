@@ -1,5 +1,10 @@
 # Changelog 5.x
 
+## 5.25.9 (2025-06-10)
+### Bug Fixes
+* fix(admin/datatable): use post instead of get for ajax requests by @theus77 in https://github.com/ems-project/elasticms/pull/1339
+* fix(common/elasticSearch): double slash in request (getVersion) by @Davidmattei in https://github.com/ems-project/elasticms/pull/1334
+
 ## 5.25.8 (2025-05-26)
 ### Bug Fixes
 * fix(admin/api): ldap authenticator use provider by @Davidmattei in https://github.com/ems-project/elasticms/pull/1301

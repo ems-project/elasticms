@@ -163,7 +163,7 @@ class PublishService
         if ($contentType->giveEnvironment() === $environment) {
             throw new \LogicException('Unpublish failed: is default environment');
         }
-        
+
         $revision->removeEnvironment($environment, $username);
         $this->bulker->delete($environment->getAlias(), $revision->giveOuuid());
     }

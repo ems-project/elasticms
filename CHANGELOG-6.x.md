@@ -1,5 +1,12 @@
 # Changelog 6.x
 
+## 6.4.3 (2025-06-10)
+### Bug Fixes
+* fix(admin/content-type): mandatory if, not working as expected by @theus77 in https://github.com/ems-project/elasticms/pull/1344
+* fix(admin/datatable): use post instead of get for ajax requests by @theus77 in https://github.com/ems-project/elasticms/pull/1339
+* fix(admin/revision): bulk unpublish flag environment revision as deleted by @Davidmattei in https://github.com/ems-project/elasticms/pull/1345
+* fix(admin/security): on all logins set last login (api,bridge) by @Davidmattei in https://github.com/ems-project/elasticms/pull/1346
+
 ## 6.4.2 (2025-06-04)
 ### Bug Fixes
 * fix(admin/contentType): versioning fields empty string by @Davidmattei in https://github.com/ems-project/elasticms/pull/1337

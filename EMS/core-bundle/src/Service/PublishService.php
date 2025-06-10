@@ -156,15 +156,15 @@ class PublishService
         return $already ? 0 : 1;
     }
 
-    public function bulkUnpublish(Revision $revision, Environment $environment): void
+    public function bulkUnpublish(Revision $revision, Environment $environment, string $username): void
     {
         $contentType = $revision->giveContentType();
 
         if ($contentType->giveEnvironment() === $environment) {
             throw new \LogicException('Unpublish failed: is default environment');
         }
-
-        $revision->getEnvironments()->removeElement($environment);
+        
+        $revision->removeEnvironment($environment, $username);
         $this->bulker->delete($environment->getAlias(), $revision->giveOuuid());
     }
 

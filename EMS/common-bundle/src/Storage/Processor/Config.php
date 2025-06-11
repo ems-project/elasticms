@@ -64,22 +64,24 @@ class Config
                 $tempFile = TempFile::create();
                 $stream = $this->storageManager->getStreamFromArchive($matches['hash'], $matches['path'])->getStream();
                 $tempFile->loadFromStream($stream);
+                $filenameForMimetype = $matches['path'];
                 $this->filename = $tempFile->path;
                 $this->cacheKey = $this->makeCacheKey($this->configHash, $this->storageManager->computeStringHash($filename));
                 break;
             } elseif (\is_file($filename)) {
+                $filenameForMimetype = $filename;
                 $this->filename = $filename;
                 $this->cacheKey = $this->makeCacheKey($this->configHash, $this->storageManager->computeFileHash($filename));
                 break;
             }
         }
 
-        if (null === $this->filename) {
+        if (null === $this->filename || !isset($filenameForMimetype)) {
             throw new NotFoundHttpException(\sprintf('File %s not found', $this->filename));
         }
 
         if ($this->hasDefaultMimeType()) {
-            $this->options[EmsFields::ASSET_CONFIG_MIME_TYPE] = MimeType::fromFilename($this->filename) ?? $this->options[EmsFields::ASSET_CONFIG_MIME_TYPE];
+            $this->options[EmsFields::ASSET_CONFIG_MIME_TYPE] = MimeType::fromFilename($filenameForMimetype) ?? $this->options[EmsFields::ASSET_CONFIG_MIME_TYPE];
         }
     }
 

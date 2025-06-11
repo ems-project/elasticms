@@ -6,6 +6,7 @@
         "sort": [
             { "id": "name", "field": "media_path.alpha_order", "defaultOrder": "asc" },
             { "id": "type", "field": "media_file.mimetype", "nested_path": "media_file" },
+            { "id": "user", "field": "_finalized_by" },
             { "id": "created", "field": "date_creation" },
             { "id": "size", "field": "media_file.filesize", "nested_path": "media_file" }
         ]
@@ -53,6 +54,7 @@
 {%- block media_lib_file_header -%}
     <div data-sort-id="name" style="flex: 4">Name</div>
     <div data-sort-id="type" style="flex: 4">Type</div>
+    <div data-sort-id="user" style="flex: 4">Author</div>
     <div data-sort-id="created" style="flex: 2">Creation</div>
     <div data-sort-id="size" class="text-right">Size</div>
 {%- endblock media_lib_file_header -%}
@@ -64,6 +66,7 @@
         </a>
     </div>
     <div style="flex: 4">{{- mediaFile.file.mimetype|trans({}, 'emsco-mimetypes') -}}</div>
+    <div style="flex: 4">{{- mediaFile.document.getValue('_finalized_by')|emsco_display_name -}}</div>
     <div style="flex: 2">{{ mediaFile.document.getValue('date_creation')|date(date_time_format) }}</div>
     <div class="text-right">{{- mediaFile.file.filesize|default(0)|ems_format_bytes -}}</div>
 {%- endblock media_lib_file -%}

@@ -35,6 +35,7 @@
             <div class="btn-group">
                 {{- template.block('media_lib_button_file_view', _context)|raw -}}
                 {{- template.block('file_download_file', _context)|raw -}}
+                {{- template.block('button_file_edit', _context)|raw -}}
                 {{- template.block('media_lib_button_file_rename', _context)|raw -}}
                 {{- template.block('media_lib_button_files_move', _context)|raw -}}
                 {{- template.block('media_lib_button_file_delete', _context)|raw -}}
@@ -94,9 +95,7 @@
                 {{ 'media_library.file.view.previous'|trans }}
             </button>
             {{- template.block('file_download_file', _context)|raw -}}
-            <a class="btn btn-sm btn-default" href="{{ path('emsco_view_revisions', { 'type': mediaFile.document.contentType, 'ouuid': mediaFile.id  }) }}">
-                <i class="fa fa-archive"></i> Show revision
-            </a>
+            {{- template.block('button_file_edit', _context)|raw -}}
             <button class="btn btn-sm btn-default btn-preview-next disabled">
                 {{ 'media_library.file.view.next'|trans }}
                 <i class="fa fa-angle-double-right"></i>
@@ -104,6 +103,19 @@
         </div>
     </div>
 {% endblock media_lib_modal_preview_footer %}
+
+{%- block media_lib_button_file_rename -%}
+    {% trans_default_domain 'emsco-component' %}
+    <button class="btn btn-sm btn-default btn-file-rename" data-id="{{- mediaFile.id -}}">
+        <i class="fa fa-i-cursor" aria-hidden="true"></i> {{- buttonLabel|default('media_library.file.rename.title'|trans) -}}
+    </button>
+{%- endblock media_lib_button_file_rename -%}
+
+{% block button_file_edit %}
+    <a class="btn btn-sm btn-default" href="{{ path('emsco_view_revisions', { 'type': mediaFile.document.contentType, 'ouuid': mediaFile.id  }) }}">
+        <i class="fa fa-pencil"></i> Edit
+    </a>
+{% endblock button_file_edit %}
 
 {% block file_download_file %}
     <a class="btn btn-sm btn-default" href="{{ ems_asset_path(mediaFile.file, {_disposition: 'attachment'}) }}">

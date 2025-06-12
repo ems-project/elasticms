@@ -36,8 +36,6 @@ class ExportCommand extends AbstractCommand
     private string $configFilename;
     /** @var mixed[] */
     private array $columns;
-    /** @var string[] */
-    private array $fields;
     private ?string $filter = null;
     private ?string $filename = null;
     /**
@@ -72,9 +70,8 @@ class ExportCommand extends AbstractCommand
 
         $this->configFilename = $this->getArgumentString(self::ARGUMENT_CONFIG_FILE);
         $config = Json::decode($this->getFile($this->configFilename)->getContent());
-        
+
         $this->columns = $config['columns'];
-        $this->fields = \array_column($config['columns'], 'field');
         $this->filter = $config['filter'];
         $this->filename = $config['filename'] ?? null;
         $this->emailsTo = $config['email-to'];

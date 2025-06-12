@@ -25,7 +25,8 @@ final readonly class SubmissionExporter
         private MailerService $mailerService,
         private Environment $templating,
         private PropertyAccessorInterface $propertyAccessor,
-    ) {}
+    ) {
+    }
 
     public function export(ExportConfig $config, SymfonyStyle $io): void
     {
@@ -58,10 +59,11 @@ final readonly class SubmissionExporter
         }
 
         $io->progressFinish();
-        $headers = array_column($config->columns, 'name');
+        $headers = \array_column($config->columns, 'name');
 
         if (null === $config->filename && empty($config->emailsTo)) {
             $io->table($headers, $sheet);
+
             return;
         }
 
@@ -79,7 +81,7 @@ final readonly class SubmissionExporter
 
         if ($config->filename) {
             File::putContents($config->filename, $tempFile->getContents());
-            $io->success(sprintf('File %s generated', $config->filename));
+            $io->success(\sprintf('File %s generated', $config->filename));
         }
 
         if (!empty($config->emailsTo)) {
@@ -87,21 +89,25 @@ final readonly class SubmissionExporter
             $io->success('Email(s) sent');
         }
 
-        $io->success(sprintf('Exported %d submissions', count($sheet)));
+        $io->success(\sprintf('Exported %d submissions', \count($sheet)));
     }
 
+    /**
+     * @param array{field?: string, template?: string, block?: string, name?: string} $column
+     * @param array<string, mixed>                                                    $data
+     */
     private function renderColumn(array $column, array $data): string
     {
-        
         if (!empty($column['field'])) {
             return $this->propertyAccessor->getValue($data, $column['field']) ?? '';
         }
 
         if (!empty($column['template'])) {
             $template = $this->templating->load($column['template']);
+
             return !empty($column['block'])
-                ? $template->renderBlock($column['block'], compact('data'))
-                : $template->render(compact('data'));
+                ? $template->renderBlock($column['block'], \compact('data'))
+                : $template->render(\compact('data'));
         }
 
         return '';
@@ -109,16 +115,16 @@ final readonly class SubmissionExporter
 
     private function determineFormat(ExportConfig $config, SymfonyStyle $io): string
     {
-        $fileExtension = $config->filename ? pathinfo($config->filename, PATHINFO_EXTENSION) : null;
+        $fileExtension = $config->filename ? \pathinfo($config->filename, PATHINFO_EXTENSION) : null;
 
-        if ($fileExtension && !in_array($fileExtension, SpreadsheetGeneratorServiceInterface::FORMAT_WRITERS, true)) {
+        if ($fileExtension && !\in_array($fileExtension, SpreadsheetGeneratorServiceInterface::FORMAT_WRITERS, true)) {
             throw new \InvalidArgumentException("Unsupported file extension: $fileExtension");
         }
 
         $format = $config->format ?? $fileExtension ?? SpreadsheetGeneratorServiceInterface::XLSX_WRITER;
 
         if ($fileExtension && $format !== $fileExtension) {
-            $io->warning(sprintf('Export format %s mismatched with file extension %s', $format, $fileExtension));
+            $io->warning(\sprintf('Export format %s mismatched with file extension %s', $format, $fileExtension));
         }
 
         return $format;
@@ -135,7 +141,7 @@ final readonly class SubmissionExporter
         $mailTemplate
             ->setSubject($config->subject)
             ->setBodyBlock('body')
-            ->addAttachment($tempFile->path, sprintf('crm-export.%s', $config->format));
+            ->addAttachment($tempFile->path, \sprintf('crm-export.%s', $config->format));
 
         $this->mailerService->sendMailTemplate($mailTemplate);
     }

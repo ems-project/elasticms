@@ -1,6 +1,5 @@
 <?php
 
-
 declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command\Submission;
@@ -10,13 +9,16 @@ use EMS\Helpers\Standard\Json;
 final readonly class ExportConfig
 {
     public function __construct(
-        public array   $columns,
+        /** @var mixed[] */
+        public array $columns,
         public ?string $filter,
         public ?string $filename,
-        public array   $emailsTo,
-        public string  $subject,
+        /** @var string[] */
+        public array $emailsTo,
+        public string $subject,
         public ?string $format,
-    ) {}
+    ) {
+    }
 
     public static function fromJson(string $json): self
     {

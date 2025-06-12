@@ -17,7 +17,6 @@ use EMS\CoreBundle\Core\Mail\MailerService;
 use EMS\CoreBundle\Service\Form\Submission\FormSubmissionService;
 use EMS\Helpers\File\File;
 use EMS\Helpers\File\TempFile;
-use EMS\Helpers\Standard\Json;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -33,6 +32,7 @@ class ExportCommand extends AbstractCommand
 {
     public const string MAIL_TEMPLATE = '@EMSCore/email/submissions-export.html.twig';
     public const string ARGUMENT_CONFIG_FILE = 'config-file';
+    private ExportConfig $exportConfig;
     private string $configFilename;
     /** @var mixed[] */
     private array $columns;
@@ -69,14 +69,14 @@ class ExportCommand extends AbstractCommand
         parent::initialize($input, $output);
 
         $this->configFilename = $this->getArgumentString(self::ARGUMENT_CONFIG_FILE);
-        $config = Json::decode($this->getFile($this->configFilename)->getContent());
+        $this->exportConfig = ExportConfig::fromJson($this->getFile($this->configFilename)->getContent());
 
-        $this->columns = $config['columns'];
-        $this->filter = $config['filter'];
-        $this->filename = $config['filename'] ?? null;
-        $this->emailsTo = $config['email-to'];
-        $this->subject = $config['email-subject'];
-        $this->format = $config['export-format'];
+        $this->columns = $this->exportConfig->columns;
+        $this->filter = $this->exportConfig->filter;
+        $this->filename = $this->exportConfig->filename ?? null;
+        $this->emailsTo = $this->exportConfig->emailsTo;
+        $this->subject = $this->exportConfig->subject;
+        $this->format = $this->exportConfig->format;
     }
 
     #[\Override]

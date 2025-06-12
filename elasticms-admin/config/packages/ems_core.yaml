@@ -63,6 +63,7 @@ parameters:
     env(EMSCO_LOCK_TIME): '+1 minutes'
     env(EMSCO_IMAGE_MAX_SIZE): 2048
     env(EMSCO_FORGOT_PASSWORD_URL): ~
+    env(EMSCO_GROUP_FEATURE): false
 
     env(EMSCO_LDAP_ENABLED): true
     env(EMSCO_LDAP_DN_STRING): '%env(string:LDAP_DN_STRING)%'
@@ -112,6 +113,7 @@ ems_core:
     lock_time: '%env(string:EMSCO_LOCK_TIME)%'
     image_max_size: '%env(int:EMSCO_IMAGE_MAX_SIZE)%'
     forgot_password_url: '%env(string:EMSCO_FORGOT_PASSWORD_URL)%'
+    group_feature: '%env(bool:EMSCO_GROUP_FEATURE)%'
 
     ldap:
         enabled: '%env(bool:EMSCO_LDAP_ENABLED)%'

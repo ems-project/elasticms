@@ -77,9 +77,9 @@ class Processor
 
         $cacheResponse = new Response();
         $this->cacheHelper->makeResponseCacheable($request, $cacheResponse, $cacheKey, $config->getLastUpdateDate(), $immutableRoute);
-        //        if ($cacheResponse->isNotModified($request)) {
-        //            return $cacheResponse;
-        //        }
+        if ($cacheResponse->isNotModified($request)) {
+            return $cacheResponse;
+        }
 
         try {
             $stream = $this->getStream($config, $filename);

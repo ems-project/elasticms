@@ -15,7 +15,11 @@
 
 {% block javascript %}{% endblock javascript %}
 
-{% block css %}{% endblock css %}
+{% block css %}
+    <style>
+        .media-nav-bar { background: red }
+    </style>
+{% endblock css %}
 
 {%- block media_lib_header -%}
     <div class="media-lib-container">

@@ -269,6 +269,9 @@
             <argument type="service" id="ems_common.service.expression_service"/>
             <argument type="service" id="EMS\CommonBundle\Contracts\Spreadsheet\SpreadsheetGeneratorServiceInterface"/>
             <argument type="service" id="ems_core.core_mail.mailer_service"/>
+            <argument type="service" id="ems_common.storage.manager"/>
+            <argument type="service" id="ems.helper.admin_api" />
+            <argument type="service" id="twig"/>
             <tag name="console.command"/>
         </service>
         <service id="ems.environment.updatemetafield" class="EMS\CoreBundle\Command\UpdateMetaFieldCommand">

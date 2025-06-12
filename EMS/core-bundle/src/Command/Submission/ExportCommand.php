@@ -4,20 +4,25 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command\Submission;
 
+use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Common\PropertyAccess\PropertyAccessor;
 use EMS\CommonBundle\Contracts\Spreadsheet\SpreadsheetGeneratorServiceInterface;
 use EMS\CommonBundle\Service\ExpressionService;
+use EMS\CommonBundle\Storage\File\FileInterface;
+use EMS\CommonBundle\Storage\NotFoundException;
+use EMS\CommonBundle\Storage\StorageManager;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Core\Mail\MailerService;
 use EMS\CoreBundle\Service\Form\Submission\FormSubmissionService;
 use EMS\Helpers\File\File;
 use EMS\Helpers\File\TempFile;
+use EMS\Helpers\Standard\Json;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Twig\Environment;
 
 #[AsCommand(
     name: Commands::SUBMISSION_EXPORT,
@@ -26,14 +31,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 class ExportCommand extends AbstractCommand
 {
-    public const MAIL_TEMPLATE = '@EMSCore/email/submissions-export.html.twig';
-    public const ARG_FIELDS = 'fields';
-    public const OPTION_FILTER = 'filter';
-    public const OPTION_FILENAME = 'filename';
-    public const OPTION_EMAIL_TO = 'email-to';
-    public const OPTION_EMAIL_SUBJECT = 'email-subject';
-    public const OPTION_EXPORT_FORMAT = 'format';
-
+    public const string MAIL_TEMPLATE = '@EMSCore/email/submissions-export.html.twig';
+    public const string ARGUMENT_CONFIG_FILE = 'config-file';
+    private string $configFilename;
+    /** @var mixed[] */
+    private array $columns;
     /** @var string[] */
     private array $fields;
     private ?string $filter = null;
@@ -50,6 +52,9 @@ class ExportCommand extends AbstractCommand
         private readonly ExpressionService $expressionService,
         private readonly SpreadsheetGeneratorServiceInterface $spreadsheetGeneratorService,
         private readonly MailerService $mailerService,
+        private readonly StorageManager $storageManager,
+        private readonly AdminHelper $adminHelper,
+        private readonly Environment $templating,
     ) {
         parent::__construct();
     }
@@ -57,50 +62,24 @@ class ExportCommand extends AbstractCommand
     #[\Override]
     protected function configure(): void
     {
-        $this
-            ->addArgument(
-                self::ARG_FIELDS,
-                InputArgument::IS_ARRAY,
-                'Fields to export in a property accessor format [instance] [name] [locale] [submission_date] [data][email] [data][multi-choice][level_0] [data][multi-choice][level_1]'
-            )->addOption(
-                self::OPTION_FILTER,
-                null,
-                InputOption::VALUE_OPTIONAL,
-                'Expression to filter submissions, e.g. "\'true\' == (data[\'recontact-optin\'] ?? \'false\')". The following variables are available: data (array), instance (string), name (string), locale (string), submission_date (date in the ISO 8601 format)'
-            )->addOption(
-                self::OPTION_FILENAME,
-                null,
-                InputOption::VALUE_OPTIONAL,
-                'Export filename, xlsx or csv formats are supported',
-            )->addOption(
-                self::OPTION_EMAIL_TO,
-                null,
-                InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
-                'Email addresses where the export will be sent',
-            )->addOption(
-                self::OPTION_EMAIL_SUBJECT,
-                null,
-                InputOption::VALUE_OPTIONAL,
-                'Email\'s subject',
-                'Submissions export'
-            )->addOption(
-                self::OPTION_EXPORT_FORMAT,
-                null,
-                InputOption::VALUE_OPTIONAL,
-                \sprintf('Format of the export. Supported formats: %s', \implode(', ', SpreadsheetGeneratorServiceInterface::FORMAT_WRITERS)),
-            );
+        $this->addArgument(self::ARGUMENT_CONFIG_FILE, InputArgument::REQUIRED, 'JSON config file (filename)');
     }
 
     #[\Override]
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
-        $this->fields = $this->getArgumentStringArray(self::ARG_FIELDS);
-        $this->filter = $this->getOptionStringNull(self::OPTION_FILTER);
-        $this->filename = $this->getOptionStringNull(self::OPTION_FILENAME);
-        $this->emailsTo = $this->getOptionStringArray(self::OPTION_EMAIL_TO, false);
-        $this->subject = $this->getOptionString(self::OPTION_EMAIL_SUBJECT);
-        $this->format = $this->getOptionStringNull(self::OPTION_EXPORT_FORMAT);
+
+        $this->configFilename = $this->getArgumentString(self::ARGUMENT_CONFIG_FILE);
+        $config = Json::decode($this->getFile($this->configFilename)->getContent());
+        
+        $this->columns = $config['columns'];
+        $this->fields = \array_column($config['columns'], 'field');
+        $this->filter = $config['filter'];
+        $this->filename = $config['filename'] ?? null;
+        $this->emailsTo = $config['email-to'];
+        $this->subject = $config['email-subject'];
+        $this->format = $config['export-format'];
     }
 
     #[\Override]
@@ -124,16 +103,26 @@ class ExportCommand extends AbstractCommand
                 continue;
             }
             $line = [];
-            foreach ($this->fields as $field) {
-                $line[] = $propertyAccessor->getValue($data, $field) ?? '';
+            foreach ($this->columns as $column) {
+                if (!empty($column['field'])) {
+                    $line[] = $propertyAccessor->getValue($data, $column['field']) ?? '';
+                } elseif (!empty($column['template'])) {
+                    $template = $this->templating->load($column['template']);
+                    if (!empty($column['block'])) {
+                        $field = $template->renderBlock($column['block'], \compact('data'));
+                    } else {
+                        $field = $template->render(\compact('data'));
+                    }
+                    $line[] = $field;
+                }
             }
             $sheet[] = $line;
             $this->io->progressAdvance();
         }
         $this->io->progressFinish();
-
+        $headers = \array_column($this->columns, 'name');
         if (null === $this->filename && empty($this->emailsTo)) {
-            $this->io->table([...$this->fields], $sheet);
+            $this->io->table([...$headers], $sheet);
 
             return self::EXECUTE_SUCCESS;
         }
@@ -141,7 +130,7 @@ class ExportCommand extends AbstractCommand
 
         $config = [
             SpreadsheetGeneratorServiceInterface::SHEETS => [[
-                'rows' => [[...$this->fields], ...$sheet],
+                'rows' => [[...$headers], ...$sheet],
                 'name' => 'submissions',
             ]],
             SpreadsheetGeneratorServiceInterface::CONTENT_FILENAME => 'submissions',
@@ -152,6 +141,7 @@ class ExportCommand extends AbstractCommand
 
         $this->generateFile($tempFile);
         $this->sendEmail($tempFile);
+        $this->io->success('Export '.\count($sheet).' submission(s) done !');
 
         return self::EXECUTE_SUCCESS;
     }
@@ -185,7 +175,7 @@ class ExportCommand extends AbstractCommand
         $fileExtension = null;
         if (null !== $this->filename) {
             $fileExtension = \pathinfo($this->filename)['extension'] ?? null;
-            if (!\in_array($fileExtension, SpreadsheetGeneratorServiceInterface::FORMAT_WRITERS)) {
+            if (!\in_array($fileExtension, SpreadsheetGeneratorServiceInterface::FORMAT_WRITERS, true)) {
                 $this->io->error(\sprintf('File extension %s is not supported', $fileExtension));
             }
         }
@@ -196,5 +186,14 @@ class ExportCommand extends AbstractCommand
         }
 
         return $this->format;
+    }
+
+    private function getFile(string $fileIdentifier): FileInterface
+    {
+        try {
+            return $this->storageManager->getFile($fileIdentifier);
+        } catch (NotFoundException) {
+            return $this->adminHelper->getCoreApi()->file()->getFile($fileIdentifier);
+        }
     }
 }

@@ -66,6 +66,12 @@ final readonly class SubmissionExporter
 
             return;
         }
+        
+        if (\count($sheet) === 0) {
+            $io->warning('No exported submissions found. No emails have been sent.');
+            
+            return;
+        }
 
         $extension = $this->determineFormat($config, $io);
         $tempFile = TempFile::create();
@@ -84,12 +90,12 @@ final readonly class SubmissionExporter
             $io->success(\sprintf('File %s generated', $config->filename));
         }
 
+        $io->success(\sprintf('Exported %d submissions', \count($sheet)));
+
         if (!empty($config->emailsTo)) {
             $this->sendEmail($tempFile, $config);
             $io->success('Email(s) sent');
         }
-
-        $io->success(\sprintf('Exported %d submissions', \count($sheet)));
     }
 
     /**

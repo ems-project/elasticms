@@ -66,10 +66,10 @@ final readonly class SubmissionExporter
 
             return;
         }
-        
-        if (\count($sheet) === 0) {
+
+        if (0 === \count($sheet)) {
             $io->warning('No exported submissions found. No emails have been sent.');
-            
+
             return;
         }
 

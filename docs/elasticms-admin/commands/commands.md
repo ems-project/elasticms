@@ -367,6 +367,10 @@ php bin/console emsco:submissions:export ../../tmp/config.json
 }
 ```
 
+```bash
+php bin/console emsco:submissions:export "{\"columns\":[{\"name\":\"Instance\",\"field\":\"[instance]\"},{\"name\":\"Name\",\"field\":\"[name]\"},{\"name\":\"Submission at\",\"field\":\"[submission_date]\"},{\"name\":\"Locale\",\"field\":\"[locale]\"},{\"name\":\"Profile\",\"field\":\"[data][profile]\"},{\"name\":\"Postcode\",\"template\":\"@EMSCH/template/export/submissions.twig\",\"block\":\"postcode\"},{\"name\":\"Country\",\"template\":\"@EMSCH/template/export/submissions.twig\",\"block\":\"country\"}],\"filter\":\"'new_contact_form' == name and 'citizen' == data['profile'] and submission_date starts with '2042-01-'\",\"subject\":\"New export submission\",\"emails-to\":[\"john@example.com\",\"doe@example.com\"],\"format\":\"xlsx\"}"
+```
+
 ```twig
 {%- block postcode -%}
     {{- data['data']['profile']|default == 'employer' ? data['data']['company-postcode']|default : data['data']['postcode']|default -}}

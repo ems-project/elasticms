@@ -12,6 +12,7 @@ use EMS\CommonBundle\Storage\StorageManager;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Core\Submission\ExportConfig;
 use EMS\CoreBundle\Core\Submission\SubmissionExporter;
+use EMS\Helpers\Standard\Json;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -25,7 +26,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ExportCommand extends AbstractCommand
 {
     public const string MAIL_TEMPLATE = '@EMSCore/email/submissions-export.html.twig';
-    public const string ARGUMENT_CONFIG_FILE = 'config-file';
+    public const string ARGUMENT_CONFIG = 'config-file';
     private ExportConfig $exportConfig;
 
     public function __construct(
@@ -39,7 +40,7 @@ class ExportCommand extends AbstractCommand
     #[\Override]
     protected function configure(): void
     {
-        $this->addArgument(self::ARGUMENT_CONFIG_FILE, InputArgument::REQUIRED, 'JSON config file (path)');
+        $this->addArgument(self::ARGUMENT_CONFIG, InputArgument::REQUIRED, 'JSON config file (path or JSON)');
     }
 
     #[\Override]
@@ -47,10 +48,7 @@ class ExportCommand extends AbstractCommand
     {
         parent::initialize($input, $output);
 
-        $fileIdentifier = $this->getArgumentString(self::ARGUMENT_CONFIG_FILE);
-        $file = $this->getFile($fileIdentifier);
-
-        $this->exportConfig = ExportConfig::fromJson($file->getContent());
+        $this->exportConfig = $this->getExportConfig();
     }
 
     #[\Override]
@@ -59,6 +57,18 @@ class ExportCommand extends AbstractCommand
         $this->exporter->export($this->exportConfig, $this->io);
 
         return self::EXECUTE_SUCCESS;
+    }
+
+    private function getExportConfig(): ExportConfig
+    {
+        $input = $this->getArgumentString(self::ARGUMENT_CONFIG);
+        
+        $config = match (true) {
+            Json::isJson($input) => $input,
+            $this->getFile($input) instanceof FileInterface => $this->getFile($input)->getContent(),
+        };
+        
+        return ExportConfig::fromJson($config);
     }
 
     private function getFile(string $fileIdentifier): FileInterface

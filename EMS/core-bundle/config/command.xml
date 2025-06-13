@@ -265,7 +265,7 @@
             <tag name="console.command"/>
         </service>
         <service id="ems.submission.export" class="EMS\CoreBundle\Command\Submission\ExportCommand">
-            <argument type="service" id="emsco.service.submission.exporter"/>
+            <argument type="service" id="emsco.submission.exporter"/>
             <argument type="service" id="ems_common.storage.manager"/>
             <argument type="service" id="ems.helper.admin_api" />
             <tag name="console.command"/>

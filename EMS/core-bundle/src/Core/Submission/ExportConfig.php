@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EMS\CoreBundle\Command\Submission;
+namespace EMS\CoreBundle\Core\Submission;
 
 use EMS\Helpers\Standard\Json;
 

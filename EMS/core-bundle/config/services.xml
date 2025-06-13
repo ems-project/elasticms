@@ -302,7 +302,7 @@
             <argument type="service" id="ems_common.service.elastica" />
             <argument type="service" id="translator" />
         </service>
-        <service id="emsco.service.submission.exporter" class="EMS\CoreBundle\Service\Submission\SubmissionExporter">
+        <service id="emsco.submission.exporter" class="EMS\CoreBundle\Core\Submission\SubmissionExporter">
             <argument type="service" id="ems.form_submission"/>
             <argument type="service" id="ems_common.service.expression_service"/>
             <argument type="service" id="EMS\CommonBundle\Contracts\Spreadsheet\SpreadsheetGeneratorServiceInterface"/>

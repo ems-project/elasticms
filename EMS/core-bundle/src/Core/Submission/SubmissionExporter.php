@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-namespace EMS\CoreBundle\Service\Submission;
+namespace EMS\CoreBundle\Core\Submission;
 
 use EMS\CommonBundle\Contracts\Spreadsheet\SpreadsheetGeneratorServiceInterface;
 use EMS\CommonBundle\Service\ExpressionService;
 use EMS\CoreBundle\Command\Submission\ExportCommand;
-use EMS\CoreBundle\Command\Submission\ExportConfig;
 use EMS\CoreBundle\Core\Mail\MailerService;
 use EMS\CoreBundle\Service\Form\Submission\FormSubmissionService;
 use EMS\Helpers\File\File;

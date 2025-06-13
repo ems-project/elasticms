@@ -9,9 +9,7 @@ use EMS\CommonBundle\Service\ExpressionService;
 use EMS\CoreBundle\Command\Submission\ExportCommand;
 use EMS\CoreBundle\Core\Mail\MailerService;
 use EMS\CoreBundle\Service\Form\Submission\FormSubmissionService;
-use EMS\Helpers\File\File;
 use EMS\Helpers\File\TempFile;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Twig\Environment;
 
@@ -27,14 +25,15 @@ final readonly class SubmissionExporter
     ) {
     }
 
-    public function export(ExportConfig $config, SymfonyStyle $io): void
+    public function export(ExportConfig $config): ExportResult
     {
-        $io->section('Exporting form submissions');
         $sheet = [];
+        $headers = \array_column($config->columns, 'name');
 
-        $io->progressStart($this->formSubmissionService->count());
+        $unprocessedSubmissions = $this->formSubmissionService->getUnprocessed();
+        $unprocessedSubmissionsCount = \count($unprocessedSubmissions);
 
-        foreach ($this->formSubmissionService->getUnprocessed() as $submission) {
+        foreach ($unprocessedSubmissions as $submission) {
             $data = [
                 'instance' => $submission->getInstance(),
                 'name' => $submission->getName(),
@@ -44,7 +43,6 @@ final readonly class SubmissionExporter
             ];
 
             if ($config->filter && !$this->expressionService->evaluateToBool($config->filter, $data)) {
-                $io->progressAdvance();
                 continue;
             }
 
@@ -54,47 +52,29 @@ final readonly class SubmissionExporter
             }
 
             $sheet[] = $line;
-            $io->progressAdvance();
-        }
-
-        $io->progressFinish();
-        $headers = \array_column($config->columns, 'name');
-
-        if (null === $config->filename && empty($config->emailsTo)) {
-            $io->table($headers, $sheet);
-
-            return;
         }
 
         if (0 === \count($sheet)) {
-            $io->warning('No exported submissions found. No emails have been sent.');
-
-            return;
+            return new ExportResult($unprocessedSubmissionsCount, 0);
         }
 
-        $extension = $this->determineFormat($config, $io);
+        $extension = $this->determineFormat($config);
         $tempFile = TempFile::create();
 
         $this->spreadsheetGeneratorService->generateSpreadsheetFile([
             SpreadsheetGeneratorServiceInterface::SHEETS => [[
-                'rows' => [[...$headers], ...$sheet],
+                'rows' => [$headers, ...$sheet],
                 'name' => 'submissions',
             ]],
             SpreadsheetGeneratorServiceInterface::CONTENT_FILENAME => 'submissions',
             SpreadsheetGeneratorServiceInterface::WRITER => $extension,
         ], $tempFile->path);
 
-        if ($config->filename) {
-            File::putContents($config->filename, $tempFile->getContents());
-            $io->success(\sprintf('File %s generated', $config->filename));
-        }
-
-        $io->success(\sprintf('Exported %d submissions', \count($sheet)));
-
         if (!empty($config->emailsTo)) {
             $this->sendEmail($tempFile, $config);
-            $io->success('Email(s) sent');
         }
+
+        return new ExportResult($unprocessedSubmissionsCount, \count($sheet));
     }
 
     /**
@@ -118,7 +98,7 @@ final readonly class SubmissionExporter
         return '';
     }
 
-    private function determineFormat(ExportConfig $config, SymfonyStyle $io): string
+    private function determineFormat(ExportConfig $config): string
     {
         $fileExtension = $config->filename ? \pathinfo($config->filename, PATHINFO_EXTENSION) : null;
 
@@ -126,13 +106,7 @@ final readonly class SubmissionExporter
             throw new \InvalidArgumentException("Unsupported file extension: $fileExtension");
         }
 
-        $format = $config->format ?? $fileExtension ?? SpreadsheetGeneratorServiceInterface::XLSX_WRITER;
-
-        if ($fileExtension && $format !== $fileExtension) {
-            $io->warning(\sprintf('Export format %s mismatched with file extension %s', $format, $fileExtension));
-        }
-
-        return $format;
+        return $config->format ?? $fileExtension ?? SpreadsheetGeneratorServiceInterface::XLSX_WRITER;
     }
 
     private function sendEmail(TempFile $tempFile, ExportConfig $config): void
@@ -146,7 +120,7 @@ final readonly class SubmissionExporter
         $mailTemplate
             ->setSubject($config->subject)
             ->setBodyBlock('body')
-            ->addAttachment($tempFile->path, \sprintf('crm-export.%s', $config->format));
+            ->addAttachment($tempFile->path, \sprintf('%s.%s', $config->filename, $config->format));
 
         $this->mailerService->sendMailTemplate($mailTemplate);
     }

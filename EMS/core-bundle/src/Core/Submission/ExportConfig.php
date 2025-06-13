@@ -4,22 +4,22 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Core\Submission;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use EMS\Helpers\Standard\Json;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final readonly class ExportConfig
 {
     /**
-     * @param mixed[] $columns
+     * @param mixed[]  $columns
      * @param string[] $emailsTo
      */
     public function __construct(
         public array $columns,
-        public ?string $filter,
-        public ?string $filename,
         public array $emailsTo,
         public string $subject,
-        public ?string $format,
+        public ?string $filter = null,
+        public ?string $filename = 'crm-export',
+        public ?string $format = 'xlsx',
     ) {
     }
 
@@ -31,8 +31,8 @@ final readonly class ExportConfig
         $resolver->setRequired(['columns', 'emails-to', 'subject']);
         $resolver->setDefaults([
             'filter' => null,
-            'filename' => null,
-            'format' => null,
+            'filename' => 'crm-export',
+            'format' => 'xlsx',
         ]);
 
         $resolver->setAllowedTypes('columns', 'array');
@@ -44,10 +44,11 @@ final readonly class ExportConfig
 
         $resolver->setNormalizer('emails-to', function ($options, $value) {
             foreach ($value as $email) {
-                if (!is_string($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                    throw new \InvalidArgumentException(sprintf('Invalid email: %s', $email));
+                if (!\is_string($email) || !\filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    throw new \InvalidArgumentException(\sprintf('Invalid email: %s', $email));
                 }
             }
+
             return $value;
         });
 

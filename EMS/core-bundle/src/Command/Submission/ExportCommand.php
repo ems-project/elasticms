@@ -54,7 +54,17 @@ class ExportCommand extends AbstractCommand
     #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->exporter->export($this->exportConfig, $this->io);
+        $this->io->section('Exporting form submissions');
+
+        $result = $this->exporter->export($this->exportConfig);
+
+        if (0 === $result->exportCount) {
+            $this->io->warning(\sprintf('No exported submissions on %d unprocessed submissions. No file or emails were generated.', $result->unprocessedSubmissionsCount));
+
+            return self::EXECUTE_SUCCESS;
+        }
+
+        $this->io->success(\sprintf('Exported %d submissions on %d unprocessed submissions.', $result->exportCount, $result->unprocessedSubmissionsCount));
 
         return self::EXECUTE_SUCCESS;
     }
@@ -62,12 +72,12 @@ class ExportCommand extends AbstractCommand
     private function getExportConfig(): ExportConfig
     {
         $input = $this->getArgumentString(self::ARGUMENT_CONFIG);
-        
+
         $config = match (true) {
             Json::isJson($input) => $input,
             $this->getFile($input) instanceof FileInterface => $this->getFile($input)->getContent(),
         };
-        
+
         return ExportConfig::fromJson($config);
     }
 

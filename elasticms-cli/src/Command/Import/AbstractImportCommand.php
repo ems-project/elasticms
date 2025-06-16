@@ -99,7 +99,7 @@ abstract class AbstractImportCommand extends AbstractCommand
             throw new \RuntimeException(\sprintf('Not authenticated for %s, run ems:admin:login', $this->adminHelper->getCoreApi()->getBaseUrl()));
         }
 
-        $ouuids = $config->deleteMissingDocuments ? $this->searchExistingOuuids() : [];
+        $ouuids = $config->deleteMissingDocuments ? $this->searchExistingOuuids($config) : [];
 
         $progressBar = $this->io->createProgressBar();
         $progressBar->start();
@@ -140,7 +140,7 @@ abstract class AbstractImportCommand extends AbstractCommand
         }
 
         if (!$this->dryRun && $config->deleteMissingDocuments && \count($ouuids) > 0) {
-            $this->deleteMissingDocuments($contentTypeApi, ...\array_keys($ouuids));
+            $this->deleteMissingDocuments($contentTypeApi, ...$ouuids);
         }
 
         $this->io->definitionList(
@@ -311,15 +311,17 @@ abstract class AbstractImportCommand extends AbstractCommand
     }
 
     /**
-     * @return array<string, bool>
+     * @return string[]
      */
-    private function searchExistingOuuids(): array
+    private function searchExistingOuuids(ImportConfig $config): array
     {
+        $query = $config->query ? new BoolQuery()->addMust($config->query) : null;
+
         $ouuids = [];
-        $search = $this->createSearch();
+        $search = $this->createSearch($query);
 
         foreach ($this->adminHelper->getCoreApi()->search()->scroll($search, $this->scrollSize) as $hit) {
-            $ouuids[$hit->getOuuid()] = true;
+            $ouuids[] = $hit->getOuuid();
         }
 
         return $ouuids;

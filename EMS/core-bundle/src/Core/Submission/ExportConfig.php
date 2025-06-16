@@ -52,14 +52,22 @@ final readonly class ExportConfig
             return $value;
         });
 
+        /** @var array{
+         *     columns: array<array<string, mixed>>,
+         *     emails-to: string[],
+         *     subject: string,
+         *     filter: string|null,
+         *     filename: string|null,
+         *     format: string|null
+         * } $options */
         $options = $resolver->resolve($raw);
 
         return new self(
             $options['columns'],
-            $options['filter'],
-            $options['filename'],
             $options['emails-to'],
             $options['subject'],
+            $options['filter'],
+            $options['filename'],
             $options['format']
         );
     }

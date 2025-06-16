@@ -126,6 +126,8 @@ php bin/console emscli:file-reader:import pages.csv page \
   * Define the csv delimiter, default 
 * `default_data`: array (default=[])
   * Data array will be merged with row data
+* `query`: array (default=null)
+  * Base query for searching the existing documents, use for delete missing documents
 * `delete_missing_documents`: bool (default=false)
   * The command will delete content type document that are missing in the import file
 * `encoding`: ?string (default=null)

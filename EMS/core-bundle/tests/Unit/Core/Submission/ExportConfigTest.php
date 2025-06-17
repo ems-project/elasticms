@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Tests\Unit\Core\Submission;
 
 use EMS\CoreBundle\Core\Submission\ExportConfig;
-use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 
 final class ExportConfigTest extends TestCase
 {
@@ -22,7 +22,7 @@ final class ExportConfigTest extends TestCase
         $this->assertEquals($expected['filename'], $config->filename);
         $this->assertEquals($expected['format'], $config->format);
         $this->assertEquals($expected['filter'], $config->filter);
-        $this->assertSame(count($expected['columns']), count($config->columns));
+        $this->assertSame(\count($expected['columns']), \count($config->columns));
 
         foreach ($expected['columns'] as $index => $expectedColumn) {
             $this->assertEquals($expectedColumn['name'], $config->columns[$index]['name']);
@@ -36,10 +36,10 @@ final class ExportConfigTest extends TestCase
             'default_configuration' => [
                 'input' => [
                     'columns' => [
-                        ['name' => 'Email', 'field' => '[data][email]']
+                        ['name' => 'Email', 'field' => '[data][email]'],
                     ],
                     'emails-to' => ['test@example.com'],
-                    'subject' => 'Test Export'
+                    'subject' => 'Test Export',
                 ],
                 'expected' => [
                     'subject' => 'Test Export',
@@ -48,16 +48,16 @@ final class ExportConfigTest extends TestCase
                     'format' => 'xlsx',
                     'filter' => null,
                     'columns' => [
-                        ['name' => 'Email', 'field' => '[data][email]']
-                    ]
-                ]
+                        ['name' => 'Email', 'field' => '[data][email]'],
+                    ],
+                ],
             ],
             'with_custom_filter' => [
                 'input' => [
                     'columns' => [['name' => 'Email', 'field' => '[data][email]']],
                     'emails-to' => ['test@example.com'],
                     'subject' => 'Test Export',
-                    'filter' => 'status:active' // Changed to string format
+                    'filter' => 'status:active', // Changed to string format
                 ],
                 'expected' => [
                     'subject' => 'Test Export',
@@ -65,18 +65,18 @@ final class ExportConfigTest extends TestCase
                     'filename' => 'crm-export',
                     'format' => 'xlsx',
                     'filter' => 'status:active',
-                    'columns' => [['name' => 'Email', 'field' => '[data][email]']]
-                ]
+                    'columns' => [['name' => 'Email', 'field' => '[data][email]']],
+                ],
             ],
             'multiple_columns' => [
                 'input' => [
                     'columns' => [
                         ['name' => 'Email', 'field' => '[data][email]'],
                         ['name' => 'Name', 'field' => '[data][name]'],
-                        ['name' => 'Phone', 'field' => '[data][phone]']
+                        ['name' => 'Phone', 'field' => '[data][phone]'],
                     ],
                     'emails-to' => ['test@example.com'],
-                    'subject' => 'Test Export'
+                    'subject' => 'Test Export',
                 ],
                 'expected' => [
                     'subject' => 'Test Export',
@@ -87,9 +87,9 @@ final class ExportConfigTest extends TestCase
                     'columns' => [
                         ['name' => 'Email', 'field' => '[data][email]'],
                         ['name' => 'Name', 'field' => '[data][name]'],
-                        ['name' => 'Phone', 'field' => '[data][phone]']
-                    ]
-                ]
+                        ['name' => 'Phone', 'field' => '[data][phone]'],
+                    ],
+                ],
             ],
         ];
     }
@@ -110,26 +110,26 @@ final class ExportConfigTest extends TestCase
                 'input' => [
                     'columns' => [],
                     'emails-to' => ['invalid-email'],
-                    'subject' => 'Test'
+                    'subject' => 'Test',
                 ],
-                'expectedException' => \InvalidArgumentException::class
+                'expectedException' => \InvalidArgumentException::class,
             ],
             'missing_required_field' => [
                 'input' => [
                     'columns' => [],
-                    'subject' => 'Test'
+                    'subject' => 'Test',
                 ],
-                'expectedException' => \Symfony\Component\OptionsResolver\Exception\MissingOptionsException::class
+                'expectedException' => \Symfony\Component\OptionsResolver\Exception\MissingOptionsException::class,
             ],
             'invalid_filter_type' => [
                 'input' => [
                     'columns' => [['name' => 'Test', 'field' => '[data][test]']],
                     'emails-to' => ['test@example.com'],
                     'subject' => 'Test',
-                    'filter' => ['invalid' => 'filter']
+                    'filter' => ['invalid' => 'filter'],
                 ],
-                'expectedException' => \Symfony\Component\OptionsResolver\Exception\InvalidOptionsException::class
-            ]
+                'expectedException' => \Symfony\Component\OptionsResolver\Exception\InvalidOptionsException::class,
+            ],
         ];
     }
 }

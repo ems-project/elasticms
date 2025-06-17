@@ -12,6 +12,10 @@ class ImportConfig
      * @param array<string, mixed> $defaultData
      * @param array<string, mixed> $query
      * @param int[]                $excludeRows
+     * @param array<int, array{
+     *     'source': string,
+     *     'target': string
+     * }>                          $alignEnvironments
      */
     private function __construct(
         public array $defaultData = [],
@@ -26,6 +30,7 @@ class ImportConfig
         public ?string $ouuidExpression = "row['ouuid']",
         public ?string $ouuidVersionExpression = null,
         public ?string $ouuidPrefix = null,
+        public array $alignEnvironments = []
     ) {
     }
 
@@ -49,6 +54,7 @@ class ImportConfig
                 'ouuid_expression' => 'row[\'ouuid\']',
                 'ouuid_version_expression' => null,
                 'ouuid_prefix' => null,
+                'align_environments' => [],
             ])
             ->setAllowedTypes('delete_missing_documents', 'bool')
             ->setAllowedTypes('query', ['array', 'null'])
@@ -58,6 +64,16 @@ class ImportConfig
             ->setAllowedTypes('ouuid_expression', ['string', 'null'])
             ->setAllowedTypes('ouuid_version_expression', ['string', 'null'])
             ->setAllowedTypes('ouuid_prefix', ['string', 'null'])
+            ->setAllowedTypes('align_environments', ['array'])
+            ->setNormalizer('align_environments', function (OptionsResolver $resolver, array $value) {
+                $alignEnvironment = new OptionsResolver();
+                $alignEnvironment
+                    ->setRequired(['source', 'target'])
+                    ->setAllowedTypes('source', 'string')
+                    ->setAllowedTypes('target', 'string');
+
+                return \array_map(static fn (mixed $item) => $alignEnvironment->resolve($item), $value);
+            })
         ;
 
         $options = $optionsResolver->resolve($config);
@@ -75,6 +91,7 @@ class ImportConfig
             ouuidExpression: $options['ouuid_expression'],
             ouuidVersionExpression: $options['ouuid_version_expression'],
             ouuidPrefix: $options['ouuid_prefix'],
+            alignEnvironments: $options['align_environments'],
         );
     }
 }

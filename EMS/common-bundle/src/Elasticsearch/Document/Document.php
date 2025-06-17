@@ -126,6 +126,7 @@ class Document implements DocumentInterface
                 $source[EMSSource::FIELD_FINALIZATION_DATETIME],
                 $source[EMSSource::FIELD_FINALIZED_BY],
                 $source[EMSSource::FIELD_HASH],
+                $source[EMSSource::FIELD_PUBLICATION_BY],
                 $source[EMSSource::FIELD_PUBLICATION_DATETIME],
                 $source[EMSSource::FIELD_SIGNATURE]
             );

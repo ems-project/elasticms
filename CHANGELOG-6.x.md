@@ -1,5 +1,19 @@
 # Changelog 6.x
 
+## 6.4.4 (2025-06-17)
+### Features
+* feat(cli/import): support align environments by @Davidmattei in https://github.com/ems-project/elasticms/pull/1358
+* feat(cli/import): support query for search documents by @Davidmattei in https://github.com/ems-project/elasticms/pull/1356
+### Bug Fixes
+* fix(admin/datatable): use post for ajax request core data tables by @Davidmattei in https://github.com/ems-project/elasticms/pull/1347
+* fix(admin/json-menu-nested): display template not rendering choices by @Davidmattei in https://github.com/ems-project/elasticms/pull/1357
+* fix(admin/media-lib): delete folder not granted by @Davidmattei in https://github.com/ems-project/elasticms/pull/1353
+* fix(admin/user): profile group only print if defined by @Davidmattei in https://github.com/ems-project/elasticms/pull/1359
+* fix(common/backup): exclude _published by from export by @Davidmattei in https://github.com/ems-project/elasticms/pull/1360
+* fix(common/job): correct set status for core jobs by @Davidmattei in https://github.com/ems-project/elasticms/pull/1361
+* fix(common/storage): asset processor overwrite default mimetype by @theus77 in https://github.com/ems-project/elasticms/pull/1349
+* fix(core/repository): typo in findLatestVersion by @coppee in https://github.com/ems-project/elasticms/pull/1355
+
 ## 6.4.3 (2025-06-10)
 ### Bug Fixes
 * fix(admin/content-type): mandatory if, not working as expected by @theus77 in https://github.com/ems-project/elasticms/pull/1344

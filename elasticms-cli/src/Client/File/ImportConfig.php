@@ -10,11 +10,17 @@ class ImportConfig
 {
     /**
      * @param array<string, mixed> $defaultData
+     * @param array<string, mixed> $query
      * @param int[]                $excludeRows
+     * @param array<int, array{
+     *     'source': string,
+     *     'target': string
+     * }>                          $alignEnvironments
      */
     private function __construct(
         public array $defaultData = [],
         public bool $deleteMissingDocuments = false,
+        public ?array $query = null,
         public ?string $delimiter = null,
         public ?string $encoding = null,
         public array $excludeRows = [],
@@ -24,6 +30,7 @@ class ImportConfig
         public ?string $ouuidExpression = "row['ouuid']",
         public ?string $ouuidVersionExpression = null,
         public ?string $ouuidPrefix = null,
+        public array $alignEnvironments = []
     ) {
     }
 
@@ -37,6 +44,7 @@ class ImportConfig
             ->setDefaults([
                 'default_data' => [],
                 'delete_missing_documents' => false,
+                'query' => null,
                 'delimiter' => null,
                 'encoding' => null,
                 'exclude_rows' => [],
@@ -46,14 +54,26 @@ class ImportConfig
                 'ouuid_expression' => 'row[\'ouuid\']',
                 'ouuid_version_expression' => null,
                 'ouuid_prefix' => null,
+                'align_environments' => [],
             ])
             ->setAllowedTypes('delete_missing_documents', 'bool')
+            ->setAllowedTypes('query', ['array', 'null'])
             ->setAllowedTypes('generate_hash', 'bool')
             ->setAllowedTypes('generate_ouuid', 'bool')
             ->setAllowedTypes('exclude_expression', ['string', 'null'])
             ->setAllowedTypes('ouuid_expression', ['string', 'null'])
             ->setAllowedTypes('ouuid_version_expression', ['string', 'null'])
             ->setAllowedTypes('ouuid_prefix', ['string', 'null'])
+            ->setAllowedTypes('align_environments', ['array'])
+            ->setNormalizer('align_environments', function (OptionsResolver $resolver, array $value) {
+                $alignEnvironment = new OptionsResolver();
+                $alignEnvironment
+                    ->setRequired(['source', 'target'])
+                    ->setAllowedTypes('source', 'string')
+                    ->setAllowedTypes('target', 'string');
+
+                return \array_map(static fn (mixed $item) => $alignEnvironment->resolve($item), $value);
+            })
         ;
 
         $options = $optionsResolver->resolve($config);
@@ -61,6 +81,7 @@ class ImportConfig
         return new self(
             defaultData: $options['default_data'],
             deleteMissingDocuments: $options['delete_missing_documents'],
+            query: $options['query'],
             delimiter: $options['delimiter'],
             encoding: $options['encoding'],
             excludeRows: $options['exclude_rows'],
@@ -70,6 +91,7 @@ class ImportConfig
             ouuidExpression: $options['ouuid_expression'],
             ouuidVersionExpression: $options['ouuid_version_expression'],
             ouuidPrefix: $options['ouuid_prefix'],
+            alignEnvironments: $options['align_environments'],
         );
     }
 }

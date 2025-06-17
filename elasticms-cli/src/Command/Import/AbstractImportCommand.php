@@ -99,7 +99,7 @@ abstract class AbstractImportCommand extends AbstractCommand
             throw new \RuntimeException(\sprintf('Not authenticated for %s, run ems:admin:login', $this->adminHelper->getCoreApi()->getBaseUrl()));
         }
 
-        $ouuids = $config->deleteMissingDocuments ? $this->searchExistingOuuids() : [];
+        $ouuids = $config->deleteMissingDocuments ? $this->searchExistingOuuids($config) : [];
 
         $progressBar = $this->io->createProgressBar();
         $progressBar->start();
@@ -140,8 +140,10 @@ abstract class AbstractImportCommand extends AbstractCommand
         }
 
         if (!$this->dryRun && $config->deleteMissingDocuments && \count($ouuids) > 0) {
-            $this->deleteMissingDocuments($contentTypeApi, ...\array_keys($ouuids));
+            $this->deleteMissingDocuments($contentTypeApi, ...$ouuids);
         }
+
+        $this->alignEnvironments($config);
 
         $this->io->definitionList(
             'Summary',
@@ -311,15 +313,17 @@ abstract class AbstractImportCommand extends AbstractCommand
     }
 
     /**
-     * @return array<string, bool>
+     * @return string[]
      */
-    private function searchExistingOuuids(): array
+    private function searchExistingOuuids(ImportConfig $config): array
     {
+        $query = $config->query ? new BoolQuery()->addMust($config->query) : null;
+
         $ouuids = [];
-        $search = $this->createSearch();
+        $search = $this->createSearch($query);
 
         foreach ($this->adminHelper->getCoreApi()->search()->scroll($search, $this->scrollSize) as $hit) {
-            $ouuids[$hit->getOuuid()] = true;
+            $ouuids[] = $hit->getOuuid();
         }
 
         return $ouuids;
@@ -333,5 +337,36 @@ abstract class AbstractImportCommand extends AbstractCommand
         $search->setContentTypes([$this->contentType]);
 
         return $search;
+    }
+
+    private function alignEnvironments(ImportConfig $config): void
+    {
+        $alignEnvironments = $config->alignEnvironments;
+
+        if (0 === \count($alignEnvironments)) {
+            return;
+        }
+
+        $this->io->newLine(2);
+        $this->io->section('Align environments');
+
+        $adminApi = $this->adminHelper->getCoreApi()->admin();
+
+        foreach ($alignEnvironments as $align) {
+            $options = ['--force'];
+            if ($config->query) {
+                $options[] = \sprintf("--search-query='%s'", Json::encode($config->query));
+            }
+
+            $command = [
+                'emsco:environment:align',
+                ...$options,
+                '--',
+                $align['source'],
+                $align['target'],
+            ];
+
+            $adminApi->runCommand(\implode(' ', $command), $this->output);
+        }
     }
 }

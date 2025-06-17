@@ -58,7 +58,7 @@
 ## version 6.1.1
 
 We added a new cli command `emscli:import:database`.
-Good practice to replace `emscli:file-reader:import` now alias for `emscli:file:import`
+Good practice to replace `emscli:file-reader:import` now alias for `emscli:import:file`
 
 ## Switch to CK Editor 5 (still in beta)
 

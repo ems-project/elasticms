@@ -122,12 +122,13 @@ php bin/console emscli:file-reader:import pages.csv page \
 --config='./var/files/config.json'
 ```
 
-* `delimiter`: ?string (default=null) 
-  * Define the csv delimiter, default 
+* `delimiter`: ?string (default=null)
+  * Define the csv delimiter
 * `default_data`: array (default=[])
   * Data array will be merged with row data
 * `query`: array (default=null)
-  * Base query for searching the existing documents, use for delete missing documents
+  * Base query for searching the existing documents, use for delete missing
+    documents and alignment.
 * `delete_missing_documents`: bool (default=false)
   * The command will delete content type document that are missing in the import file
 * `encoding`: ?string (default=null)
@@ -146,10 +147,14 @@ php bin/console emscli:file-reader:import pages.csv page \
   * Expression language apply to excel rows for generating a version uuid saved in `_version_uuid` 
 * `ouuid_prefix`: ?string (default=null)
   * The ouuid will prefix with this value before hashing
+* `align_environments`: array (default[])
+  * Example
+    `[{'source':'preview','target':'live'},{'source':'preview','target':'default'}]`,
+    if query is defined this will be used as search-query for the alignment.
 
 ### Example
 
-I.e.: `ems:file:impo --config='{"ouuid_expression":null}' /home/dockerce/documents/promo/features.xlsx feature`
+I.e.: `ems:import:file --config='{"ouuid_expression":null}' /home/dockerce/documents/promo/features.xlsx feature`
 
 During the import an associate array containing the Excel row is available in the source `_sync_metadata`.
 

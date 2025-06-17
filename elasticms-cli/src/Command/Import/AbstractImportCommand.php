@@ -143,6 +143,8 @@ abstract class AbstractImportCommand extends AbstractCommand
             $this->deleteMissingDocuments($contentTypeApi, ...$ouuids);
         }
 
+        $this->alignEnvironments($config);
+
         $this->io->definitionList(
             'Summary',
             ['Index' => $this->countIndex],
@@ -335,5 +337,36 @@ abstract class AbstractImportCommand extends AbstractCommand
         $search->setContentTypes([$this->contentType]);
 
         return $search;
+    }
+
+    private function alignEnvironments(ImportConfig $config): void
+    {
+        $alignEnvironments = $config->alignEnvironments;
+
+        if (0 === \count($alignEnvironments)) {
+            return;
+        }
+
+        $this->io->newLine(2);
+        $this->io->section('Align environments');
+
+        $adminApi = $this->adminHelper->getCoreApi()->admin();
+
+        foreach ($alignEnvironments as $align) {
+            $options = ['--force'];
+            if ($config->query) {
+                $options[] = \sprintf("--search-query='%s'", Json::encode($config->query));
+            }
+
+            $command = [
+                'emsco:environment:align',
+                ...$options,
+                '--',
+                $align['source'],
+                $align['target'],
+            ];
+
+            $adminApi->runCommand(\implode(' ', $command), $this->output);
+        }
     }
 }

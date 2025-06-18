@@ -151,6 +151,12 @@
     </button>
 {%- endblock media_lib_button_file_view -%}
 
+{%- block media_lib_button_file_revision -%}
+    <a class="btn btn-sm btn-default" href="{{ path('emsco_view_revisions', { 'type': mediaFile.document.contentType, 'ouuid': mediaFile.id  }) }}">
+        <i class="fa fa-archive" aria-hidden="true"></i> {{- buttonLabel|default('media_library.file.revision.title'|trans) -}}
+    </a>
+{%- endblock media_lib_button_file_revision -%}
+
 {%- block media_lib_button_files_delete -%}
     <button class="btn btn-sm btn-default btn-files-delete" data-modal-size="md">
         <i class="fa fa-remove" aria-hidden="true"></i> {{- buttonLabel|default('media_library.files.delete.title'|trans({ '%count%': selectionFiles })) -}}

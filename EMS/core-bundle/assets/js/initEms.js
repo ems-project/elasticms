@@ -337,6 +337,18 @@ import JsonMenuNestedComponent from "./component/jsonMenuNestedComponent";
         });
     }
 
+  function initFormSubmitOnSelectChange() {
+    const parents = document.querySelectorAll('[data-form-submit-on-select-change]');
+    [].forEach.call(parents, function (parent) {
+      let selects = parent.querySelectorAll('select');
+      [].forEach.call(selects, function (select) {
+        select.onchange = (e) => {
+          select.form.submit();
+        }
+      });
+    });
+  }
+
 
     $(document).ready(function() {
         activeMenu();
@@ -355,6 +367,7 @@ import JsonMenuNestedComponent from "./component/jsonMenuNestedComponent";
         initJsonMenuNestedComponent()
         intAjaxModalLinks();
         initPostButtons();
+        initFormSubmitOnSelectChange();
 
         //cron to update the cluster status
         window.setInterval(function(){

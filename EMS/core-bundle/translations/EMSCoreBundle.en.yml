@@ -729,6 +729,7 @@ task:
         assignee: Assignees
         requester: Requesters
         version_next_tag: New versions
+        is_overdue: 'Overdue only'
         submit: Search
         reset: Clear
 user:

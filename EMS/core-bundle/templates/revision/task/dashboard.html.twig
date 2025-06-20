@@ -78,6 +78,9 @@
                     {% if filterForm.versionNextTag is defined %}
                         {{ form_row(filterForm.versionNextTag, {'row_attr': { 'class': 'col-md-3' }, 'label': 'task.filter.version_next_tag'|trans  }) }}
                     {% endif %}
+                    {% if filterForm.isOverdue is defined %}
+                        {{ form_row(filterForm.isOverdue, {'row_attr': { 'class': 'col-md-3 pt-4' }, 'label': 'task.filter.is_overdue'|trans  }) }}
+                    {% endif %}
                     <div class="col-md-12">
                         <input type="hidden" name="tab" value="{{ currentTab }}" />
                         <div class="btn-group">

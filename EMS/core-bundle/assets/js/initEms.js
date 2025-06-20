@@ -337,14 +337,15 @@ import JsonMenuNestedComponent from "./component/jsonMenuNestedComponent";
         });
     }
 
-  function initFormSubmitOnSelectChange() {
-    const parents = document.querySelectorAll('[data-form-submit-on-select-change]');
+  function initFormSubmitOnChoiceChange() {
+    const parents = document.querySelectorAll('[data-ems-form-submit-on-choice-change]');
     [].forEach.call(parents, function (parent) {
-      let selects = parent.querySelectorAll('select');
-      [].forEach.call(selects, function (select) {
-        select.onchange = (e) => {
-          select.form.submit();
+      let choices = parent.querySelectorAll('select, input[type=checkbox], input[type=radio]');
+      [].forEach.call(choices, function (choice) {
+        if ('checkbox' === choice.getAttribute('type')) {
+          $(choice).iCheck('destroy');
         }
+        choice.onchange = () => { choice.form.submit(); }
       });
     });
   }
@@ -367,7 +368,7 @@ import JsonMenuNestedComponent from "./component/jsonMenuNestedComponent";
         initJsonMenuNestedComponent()
         intAjaxModalLinks();
         initPostButtons();
-        initFormSubmitOnSelectChange();
+        initFormSubmitOnChoiceChange();
 
         //cron to update the cluster status
         window.setInterval(function(){

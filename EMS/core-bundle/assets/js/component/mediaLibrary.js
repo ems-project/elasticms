@@ -347,6 +347,7 @@ export default class MediaLibrary {
 
     _onClickFolder(folder) {
         this.loading(true);
+        this.#searchValue = null;
 
         this.getFolders().forEach((f) => f.classList.remove('active'));
         folder.classList.add('active');

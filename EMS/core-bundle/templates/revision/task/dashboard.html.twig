@@ -27,9 +27,9 @@
         {% endfor %}
         {% if filterForm is defined %}
             <li class="pull-right">
-                <div>
-                    <a class="btn btn-sm btn-primary" role="button" data-toggle="collapse" href="#filters" aria-expanded="{{ showFilters ? 'true' : 'false' }}" aria-controls="filters">
-                        <i class="fa fa-filter" aria-hidden="true"></i> {{ 'task.filters'|trans }}
+                <div class="p-1">
+                    <a class="btn btn-md btn-primary" role="button" data-toggle="collapse" href="#filters" aria-expanded="{{ showFilters ? 'true' : 'false' }}" aria-controls="filters">
+                        <i class="fa fa-filter mr-2" aria-hidden="true"></i> {{ 'task.filters'|trans }}
                     </a>
                 </div>
             </li>

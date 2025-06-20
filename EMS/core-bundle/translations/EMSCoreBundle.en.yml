@@ -723,7 +723,7 @@ task:
         done: Finish
         reject: Reject
         send: Send
-    filters: Filters
+    filters: 'Filtering the tasks'
     filter:
         status: Statuses
         assignee: Assignees

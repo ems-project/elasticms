@@ -379,9 +379,10 @@ export default class MediaLibrary {
             if (!json.hasOwnProperty('jobId')) return;
             if (json.hasOwnProperty('async') && json.async === true) {
               return Promise.allSettled([
-                new Promise(resolve => setTimeout(resolve, 2000))
+                new Promise(resolve => setTimeout(resolve, 3500))
               ])
                 .then(() => ajaxModal.close())
+                .then(() => location.reload())
               ;
             }
 
@@ -413,9 +414,10 @@ export default class MediaLibrary {
             if (!json.hasOwnProperty('jobId') || !json.hasOwnProperty('path')) return;
             if (json.hasOwnProperty('async') && json.async === true) {
               return Promise.allSettled([
-                new Promise(resolve => setTimeout(resolve, 2000))
+                new Promise(resolve => setTimeout(resolve, 3500))
               ])
                 .then(() => ajaxModal.close())
+                .then(() => location.reload())
               ;
             }
 

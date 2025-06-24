@@ -1,5 +1,11 @@
 # Changelog 6.x
 
+## 6.4.5 (2025-06-24)
+### Bug Fixes
+* fix(admin/environment): correct remove/add with version revisions  by @Davidmattei in https://github.com/ems-project/elasticms/pull/1362
+### Chores
+* chore(docker): overwrite postgres volume name by @Davidmattei in https://github.com/ems-project/elasticms/pull/1363
+
 ## 6.4.4 (2025-06-17)
 ### Features
 * feat(cli/import): support align environments by @Davidmattei in https://github.com/ems-project/elasticms/pull/1358

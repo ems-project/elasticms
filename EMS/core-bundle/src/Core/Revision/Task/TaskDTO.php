@@ -17,6 +17,7 @@ final class TaskDTO
     public ?string $assignee = null;
     public ?\DateTimeInterface $deadline = null;
     public ?string $description = null;
+    public ?string $helptext = null;
     #[Assert\NotBlank]
     #[Assert\Range(min: 0)]
     public ?int $delay = null;
@@ -39,6 +40,9 @@ final class TaskDTO
         }
         if ($task->hasDescription()) {
             $dto->description = $task->getDescription();
+        }
+        if ($task->hasHelptext()) {
+            $dto->helptext = $task->getHelptext();
         }
 
         return $dto;

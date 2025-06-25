@@ -41,9 +41,6 @@ final class TaskDTO
         if ($task->hasDescription()) {
             $dto->description = $task->getDescription();
         }
-        if ($task->hasHelptext()) {
-            $dto->helptext = $task->getHelptext();
-        }
 
         return $dto;
     }

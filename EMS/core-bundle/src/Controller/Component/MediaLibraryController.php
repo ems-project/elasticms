@@ -309,7 +309,7 @@ class MediaLibraryController
     public function moveFolder(Request $request, UserInterface $user, string $folderId): JsonResponse
     {
         $folder = $this->mediaLibraryService->getFolder($folderId);
-        $currentPath = ($folder ? $folder->getPath()->getLabel() : 'Home');
+        $currentPath = $folder->getPath()->getLabel();
 
         $modal = $this->mediaLibraryService->modal([
             'type' => 'move_folder',
@@ -322,7 +322,7 @@ class MediaLibraryController
                 return false;
             }
 
-            if ($folderId === ($folder->getParent()?->id ?? 'home')) {
+            if ($folderId === ($folder->getParent()->id ?? 'home')) {
                 return false;
             }
 

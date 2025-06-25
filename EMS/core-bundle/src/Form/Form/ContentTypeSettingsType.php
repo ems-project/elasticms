@@ -45,7 +45,7 @@ class ContentTypeSettingsType extends AbstractType
             ->add(ContentTypeSettings::TASKS_HELPTEXTS, CollectionType::class, [
                 'entry_type' => TextType::class,
                 'attr' => [
-                    'class' => 'a2lix_lib_sf_collection', 
+                    'class' => 'a2lix_lib_sf_collection',
                     'data-lang-add' => 'Add help-text',
                     'data-lang-remove' => 'X',
                     'data-entry-remove-class' => 'btn btn-danger',

@@ -55,7 +55,7 @@ class MediaLibraryFolderMoveCommand extends AbstractMediaLibraryCommand
 
         $folderId = $this->getArgumentString(self::ARGUMENT_FOLDER_ID);
         $this->folder = $this->mediaLibraryService->getFolder($folderId);
-        
+
         $targetId = $this->getArgumentString(self::ARGUMENT_TARGET_ID);
         $this->target = $this->mediaLibraryService->getFolder($targetId);
 
@@ -66,11 +66,11 @@ class MediaLibraryFolderMoveCommand extends AbstractMediaLibraryCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $jobOutput = $output instanceof JobOutput ? $output : null;
-        
+
         $fromPath = $this->folder->getPath();
         $from = $fromPath->getValue();
         $to = $this->target->getPath()->getValue();
-        $toChild = \implode('/',[$to, $fromPath->getName()]);
+        $toChild = \implode('/', [$to, $fromPath->getName()]);
         $this->io->info(\sprintf('Start moving from "%s" to "%s"', $from, $to));
 
         $totalChildren = $this->mediaLibraryService->countChildren($from);

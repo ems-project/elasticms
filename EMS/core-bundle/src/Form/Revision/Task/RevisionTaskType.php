@@ -110,7 +110,7 @@ final class RevisionTaskType extends AbstractType
             $form->add('title', ChoiceType::class, [
                 'label' => 'task.field.title',
                 'attr' => [
-                    'data-tags' => true, 
+                    'data-tags' => true,
                     'class' => 'select2',
                     'data-ems-target' => 'ems-task-helptext',
                     'data-ems-toggle-notification-on-select-change' => Json::encode($tasksHelptexts),

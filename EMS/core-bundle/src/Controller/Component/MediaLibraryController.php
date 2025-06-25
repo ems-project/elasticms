@@ -306,6 +306,80 @@ class MediaLibraryController
         return new JsonResponse($componentModal->render());
     }
 
+    public function moveFolder(Request $request, UserInterface $user, string $folderId): JsonResponse
+    {
+        $folder = $this->mediaLibraryService->getFolder($folderId);
+        $currentPath = ($folder ? $folder->getPath()->getLabel() : 'Home');
+
+        $modal = $this->mediaLibraryService->modal([
+            'type' => 'move_folder',
+            'title' => $this->translator->trans('media_library.folder.move.title', [], EMSCoreBundle::TRANS_COMPONENT),
+        ]);
+
+        $folders = $this->mediaLibraryService->getFolders()->getChoices();
+        $choices = \array_filter($folders, static function ($folderId) use ($folders, $folder) {
+            if ($folderId === ($folder->id ?? 'home')) {
+                return false;
+            }
+
+            if ($folderId === ($folder->getParent()?->id ?? 'home')) {
+                return false;
+            }
+
+            $targetPathRaw = \array_flip($folders)[$folderId] ?? null;
+            $targetPath = $targetPathRaw ? '/'.\str_replace(' ', '', $targetPathRaw) : null;
+            $currentPath = \str_replace(' ', '', $folder->getPath()->getValue());
+            return !($targetPath && str_starts_with($targetPath, $currentPath));
+        });
+        
+        $formData = ['target' => $request->query->get('targetId') ?: 'home'];
+        $form = $this->formFactory->createBuilder(FormType::class, $formData)->getForm();
+        $form
+            ->add('target', ChoiceType::class, [
+                'constraints' => [new Assert\NotBlank()],
+                'label' => 'media_library.folder.move.select_folder',
+                'translation_domain' => EMSCoreBundle::TRANS_COMPONENT,
+                'choice_translation_domain' => false,
+                'attr' => ['class' => 'select2'],
+                'choices' => $choices,
+                'required' => true,
+            ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $targetId = $form->getData()['target'];
+            
+            $folder->setPath($folder->getpath());
+            $job = $this->mediaLibraryService->jobFolderMove($user, $folder, $targetId);
+            $this->flashBag($request)->clear();
+
+            $modalMessage = ($this->asyncEnabled)
+                ? t('media_library.folder.move.job_info_async')
+                : t('media_library.folder.move.job_info')
+            ;
+
+            return new JsonResponse([
+                'success' => true,
+                'async' => $this->asyncEnabled,
+                'jobId' => $job->getId(),
+                'path' => $folder->getPath()->getValue(),
+                'modalBody' => '',
+                'modalMessages' => [
+                    ['info' => $this->translator->trans($modalMessage->getMessage(), [], EMSCoreBundle::TRANS_COMPONENT)],
+                ],
+            ]);
+        }
+
+        $modal->template->context->append([
+            'infoMessage' => $this->translator->trans('media_library.folder.move.info', ['%path%' => $currentPath], EMSCoreBundle::TRANS_COMPONENT),
+            'form' => $form->createView(),
+            'submitIcon' => 'fa-location-arrow',
+            'submitLabel' => $this->translator->trans('media_library.folder.move.submit', [], EMSCoreBundle::TRANS_COMPONENT),
+        ]);
+
+        return new JsonResponse($modal->render());
+    }
+
     public function renameFile(Request $request, string $fileId): JsonResponse
     {
         $file = $this->mediaLibraryService->getFile($fileId);

@@ -133,6 +133,12 @@
     </button>
 {%- endblock media_lib_button_folder_rename -%}
 
+{%- block media_lib_button_folder_move -%}
+    <button class="btn btn-sm btn-default btn-folder-move" data-id="{{- mediaFolder.id -}}" data-modal-size="md">
+        <i class="fa fa-location-arrow" aria-hidden="true"></i> {{- buttonLabel|default('media_library.folder.move.title'|trans) -}}
+    </button>
+{%- endblock media_lib_button_folder_move -%}
+
 {%- block media_lib_button_file_rename -%}
     <button class="btn btn-sm btn-default btn-file-rename" data-id="{{- mediaFile.id -}}">
         <i class="fa fa-pencil" aria-hidden="true"></i> {{- buttonLabel|default('media_library.file.rename.title'|trans) -}}

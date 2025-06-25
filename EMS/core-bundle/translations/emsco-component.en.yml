@@ -42,6 +42,8 @@ media_library:
             title: 'Delete file'
         rename:
             title: 'Rename file'
+        revision:
+            title: 'Revision'
         view:
             title: 'View file'
             title_modal: 'View file: %name%'

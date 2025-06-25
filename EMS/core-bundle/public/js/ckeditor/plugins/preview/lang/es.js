@@ -1,1 +1,1 @@
-CKEDITOR.plugins.setLang("preview","es",{preview:"Vista Previa"});
+﻿CKEDITOR.plugins.setLang("preview","es",{preview:"Vista Previa"});

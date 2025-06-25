@@ -1,1 +1,1 @@
-CKEDITOR.plugins.setLang("preview","cy",{preview:"Rhagolwg"});
+﻿CKEDITOR.plugins.setLang("preview","cy",{preview:"Rhagolwg"});

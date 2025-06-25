@@ -1,1 +1,1 @@
-CKEDITOR.plugins.setLang("newpage","id",{toolbar:"Halaman Baru"});
+﻿CKEDITOR.plugins.setLang("newpage","id",{toolbar:"Halaman Baru"});

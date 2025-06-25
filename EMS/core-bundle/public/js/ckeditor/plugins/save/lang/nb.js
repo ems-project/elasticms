@@ -1,1 +1,1 @@
-CKEDITOR.plugins.setLang("save","nb",{toolbar:"Lagre"});
+﻿CKEDITOR.plugins.setLang("save","nb",{toolbar:"Lagre"});

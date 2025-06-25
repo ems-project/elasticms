@@ -1,1 +1,1 @@
-CKEDITOR.plugins.setLang("newpage","ms",{toolbar:"Helaian Baru"});
+﻿CKEDITOR.plugins.setLang("newpage","ms",{toolbar:"Helaian Baru"});

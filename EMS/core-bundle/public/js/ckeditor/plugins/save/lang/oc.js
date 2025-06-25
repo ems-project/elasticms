@@ -1,1 +1,1 @@
-CKEDITOR.plugins.setLang("save","oc",{toolbar:"Enregistrar"});
+﻿CKEDITOR.plugins.setLang("save","oc",{toolbar:"Enregistrar"});

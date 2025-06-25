@@ -1,1 +1,1 @@
-CKEDITOR.plugins.setLang("preview","ro",{preview:"Previzualizare"});
+﻿CKEDITOR.plugins.setLang("preview","ro",{preview:"Previzualizare"});

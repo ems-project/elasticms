@@ -1,1 +1,1 @@
-CKEDITOR.plugins.setLang("print","et",{toolbar:"Printimine"});
+﻿CKEDITOR.plugins.setLang("print","et",{toolbar:"Printimine"});

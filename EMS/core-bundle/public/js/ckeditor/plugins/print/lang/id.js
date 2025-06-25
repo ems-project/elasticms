@@ -1,1 +1,1 @@
-CKEDITOR.plugins.setLang("print","id",{toolbar:"Cetak"});
+﻿CKEDITOR.plugins.setLang("print","id",{toolbar:"Cetak"});

@@ -1,1 +1,1 @@
-CKEDITOR.plugins.setLang("preview","en-ca",{preview:"Preview"});
+﻿CKEDITOR.plugins.setLang("preview","en-ca",{preview:"Preview"});

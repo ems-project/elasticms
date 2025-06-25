@@ -1,1 +1,1 @@
-CKEDITOR.plugins.setLang("print","gl",{toolbar:"Imprimir"});
+﻿CKEDITOR.plugins.setLang("print","gl",{toolbar:"Imprimir"});

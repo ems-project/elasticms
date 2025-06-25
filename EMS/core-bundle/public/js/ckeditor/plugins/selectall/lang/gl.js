@@ -1,1 +1,1 @@
-CKEDITOR.plugins.setLang("selectall","gl",{toolbar:"Seleccionar todo"});
+﻿CKEDITOR.plugins.setLang("selectall","gl",{toolbar:"Seleccionar todo"});

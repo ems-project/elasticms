@@ -1,1 +1,1 @@
-CKEDITOR.plugins.setLang("sourcedialog","af",{toolbar:"Bron",title:"Bron"});
+﻿CKEDITOR.plugins.setLang("sourcedialog","af",{toolbar:"Bron",title:"Bron"});

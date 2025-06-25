@@ -1,1 +1,1 @@
-CKEDITOR.plugins.setLang("sourcedialog","sq",{toolbar:"Burimi",title:"Burimi"});
+﻿CKEDITOR.plugins.setLang("sourcedialog","sq",{toolbar:"Burimi",title:"Burimi"});

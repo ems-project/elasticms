@@ -1,1 +1,1 @@
-CKEDITOR.plugins.setLang("print","sl",{toolbar:"Natisni"});
+﻿CKEDITOR.plugins.setLang("print","sl",{toolbar:"Natisni"});

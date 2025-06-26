@@ -767,7 +767,7 @@ class DataService
             $ouuid = $revision->getOuuid();
             if (null !== $ouuid) {
                 $item = $repository->findByOuuidContentTypeAndEnvironment($revision);
-                if ($item) {
+                if ($item && $revision !== $item) {
                     $this->lockRevision($item, null, false, $username);
                     $previousObjectArray = $item->getRawData();
                     $item->removeEnvironment($revision->giveContentType()->giveEnvironment(), $username);
@@ -1193,7 +1193,7 @@ class DataService
         $contentType = (\is_string($contentType)) ? $this->contentTypeService->giveByName($contentType) : $contentType;
         $contentType->validate();
 
-        if (!$this->authorizationChecker->isGranted($contentType->role(ContentTypeRoles::DELETE))) {
+        if (null === $username && !$this->authorizationChecker->isGranted($contentType->role(ContentTypeRoles::DELETE))) {
             throw new AccessDeniedException('Delete role not granted!');
         }
 

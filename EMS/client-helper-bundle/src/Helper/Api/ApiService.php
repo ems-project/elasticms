@@ -86,6 +86,10 @@ final readonly class ApiService
             if (\is_array($fileField)) {
                 /** @var string $pos */
                 foreach ($fileField as $pos => $collectionOfFields) {
+                    if ($collectionOfFields instanceof UploadedFile) {
+                        $body[$fieldKey][$pos] = $this->createContentFileHashField($apiName, $collectionOfFields);
+                        continue;
+                    }
                     /** @var string $fileKey */
                     foreach ($collectionOfFields as $fileKey => $file) {
                         if (\is_array($file)) {

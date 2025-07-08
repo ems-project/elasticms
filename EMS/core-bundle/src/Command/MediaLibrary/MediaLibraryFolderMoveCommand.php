@@ -57,7 +57,7 @@ class MediaLibraryFolderMoveCommand extends AbstractMediaLibraryCommand
         $this->folder = $this->mediaLibraryService->getFolder($folderId);
 
         $targetId = $this->getArgumentString(self::ARGUMENT_TARGET_ID);
-        $this->target = $targetId !== 'home' ? $this->mediaLibraryService->getFolder($targetId)->getPath()->getValue() : '/';
+        $this->target = 'home' !== $targetId ? $this->mediaLibraryService->getFolder($targetId)->getPath()->getValue() : '/';
 
         $this->username = $this->getOptionString(self::OPTION_USERNAME);
     }

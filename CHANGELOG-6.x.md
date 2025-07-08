@@ -3,6 +3,7 @@
 ## 6.4.5 (2025-06-24)
 ### Bug Fixes
 * fix(admin/environment): correct remove/add with version revisions  by @Davidmattei in https://github.com/ems-project/elasticms/pull/1362
+* fix(admin/revision): lock exception on silent publication by @Davidmattei in https://github.com/ems-project/elasticms/pull/1364
 ### Chores
 * chore(docker): overwrite postgres volume name by @Davidmattei in https://github.com/ems-project/elasticms/pull/1363
 

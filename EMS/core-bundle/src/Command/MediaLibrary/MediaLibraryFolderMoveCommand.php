@@ -22,7 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class MediaLibraryFolderMoveCommand extends AbstractMediaLibraryCommand
 {
     private MediaLibraryFolder $folder;
-    private MediaLibraryFolder $target;
+    private string $target;
     private string $username;
 
     public const ARGUMENT_FOLDER_ID = 'folder-id';
@@ -57,7 +57,7 @@ class MediaLibraryFolderMoveCommand extends AbstractMediaLibraryCommand
         $this->folder = $this->mediaLibraryService->getFolder($folderId);
 
         $targetId = $this->getArgumentString(self::ARGUMENT_TARGET_ID);
-        $this->target = $this->mediaLibraryService->getFolder($targetId);
+        $this->target = $targetId !== 'home' ? $this->mediaLibraryService->getFolder($targetId)->getPath()->getValue() : '/';
 
         $this->username = $this->getOptionString(self::OPTION_USERNAME);
     }
@@ -69,7 +69,7 @@ class MediaLibraryFolderMoveCommand extends AbstractMediaLibraryCommand
 
         $fromPath = $this->folder->getPath();
         $from = $fromPath->getValue();
-        $to = $this->target->getPath()->getValue();
+        $to = $this->target;
         $toChild = \implode('/', [$to, $fromPath->getName()]);
         $this->io->info(\sprintf('Start moving from "%s" to "%s"', $from, $to));
 

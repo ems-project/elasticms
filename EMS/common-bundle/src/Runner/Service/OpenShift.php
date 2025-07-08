@@ -19,12 +19,14 @@ class OpenShift implements RunnerInterface
 
     /**
      * @param array<string, string>                     $labels
+     * @param string|bool                               $verifySsl
      * @param array<array{name: string, value: string}> $env
      */
     public function __construct(
         readonly private string $tag,
         readonly private ?string $workerCommand,
         string $baseUrl,
+        $verifySsl,
         string $authKey,
         readonly private string $namespace,
         readonly private string $image,
@@ -35,10 +37,10 @@ class OpenShift implements RunnerInterface
         readonly private array $labels = [],
         readonly private array $env = [],
     ) {
-        $this->httpClient = HttpClientFactory::create($baseUrl, [
+        $this->httpClient = HttpClientFactory::create(baseUrl: $baseUrl, headers: [
             'Authorization' => \sprintf('Bearer %s', $authKey),
             'Content-Type' => 'application/yaml',
-        ]);
+        ], verifySsl: $verifySsl);
         $this->uuid = Uuid::uuid4();
     }
 

@@ -24,6 +24,7 @@ class UserDataTableType extends AbstractEntityTableType
     public function __construct(
         UserService $entityService,
         private readonly ?string $circleObject,
+        private readonly bool $groupFeature,
     ) {
         parent::__construct($entityService);
     }
@@ -35,8 +36,11 @@ class UserDataTableType extends AbstractEntityTableType
         $table->addColumn('user.index.column.displayname', 'displayName');
         $table->addColumn('user.index.column.email', 'email');
         $context = $table->getContext();
+        if (!$context->inGroup && $context->light && $this->groupFeature) {
+            $table->addColumnDefinition(new EntityTableColumn('user.index.column.group', 'group'));
+        }
         if ($context instanceof UserContextDTO && $context->inGroup && null !== $context->groupId) {
-            $table->addDynamicItemPostAction(Routes::USER_REMOVE_FROM_GROUP, 'user.action.delete', 'trash', 'user.action.delete_confirm', ['user' => 'id', 'groupName' => $context->groupId]);
+            $table->addDynamicItemPostAction(Routes::USER_REMOVE_FROM_GROUP, 'user.action.remove', 'trash', 'user.action.remove_confirm', ['user' => 'id', 'groupName' => $context->groupId]);
         }
         if ($context instanceof UserContextDTO && !$context->inGroup && null !== $context->groupId) {
             $table->addDynamicItemGetAction(Routes::USER_ADD_TO_GROUP, 'user.add.button', 'plus', ['user' => 'id', 'group' => $context->groupId]);
@@ -51,8 +55,10 @@ class UserDataTableType extends AbstractEntityTableType
                 $table->addColumnDefinition(new DataLinksTableColumn('user.index.column.circles', 'circles'));
             }
             $table->addColumnDefinition(new BoolTableColumn('user.index.column.enabled', 'enabled'));
+            if ($this->groupFeature) {
+                $table->addColumnDefinition(new EntityTableColumn('user.index.column.group', 'group'));
+            }
             $table->addColumnDefinition(new RolesTableColumn('user.index.column.roles', 'roles'));
-            $table->addColumnDefinition(new EntityTableColumn('user.index.column.group', 'group'));
             $table->addColumnDefinition(new DatetimeTableColumn('user.index.column.lastLogin', 'lastLogin'));
             $table->addColumnDefinition(new DatetimeTableColumn('user.index.column.expirationDate', 'expirationDate'));
 

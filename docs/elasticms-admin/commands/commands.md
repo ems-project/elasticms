@@ -21,6 +21,8 @@
       * [Revision discard](#revision-discard)
       * [Revision task create](#revision-task-create)
       * [Revision task notification mail](#revision-task-notification-mail)
+    * [Submission](#submission)
+      * [Submission export](#submission-export)
     * [User](#user)
       * [User activate](#user-activate)
       * [User change](#user-change)
@@ -329,6 +331,53 @@ Options:
       --deadline-end=DEADLINE-END      End deadline from now "+1 days"
       --include-task-managers          Include task admins/managers
       --limit=LIMIT                    limit the results inside mail [default: 10]
+```
+
+### Submission
+
+#### Submission export
+
+```bash
+Usage:
+  emsco:submissions:export <config-file>
+  
+Arguments:
+  config-file                         JSON config file (path)
+```
+
+```bash
+php bin/console emsco:submissions:export ../../tmp/config.json
+```
+
+```json
+{
+  "columns": [
+    { "name":  "Instance", "field": "[instance]" },
+    { "name":  "Name", "field": "[name]" },
+    { "name":  "Submission at", "field": "[submission_date]" },
+    { "name":  "Locale", "field": "[locale]" },
+    { "name":  "Profile", "field": "[data][profile]" },
+    { "name":  "Postcode", "template": "@EMSCH/template/export/submissions.twig", "block": "postcode" },
+    { "name":  "Country", "template": "@EMSCH/template/export/submissions.twig", "block": "country" }
+  ],
+  "filter": "'new_contact_form' == name and 'citizen' == data['profile'] and submission_date starts with '2042-01-'",
+  "subject": "New export submission",
+  "emails-to": ["john@example.com", "doe@example.com"],
+  "format": "xlsx"
+}
+```
+
+```bash
+php bin/console emsco:submissions:export "{\"columns\":[{\"name\":\"Instance\",\"field\":\"[instance]\"},{\"name\":\"Name\",\"field\":\"[name]\"},{\"name\":\"Submission at\",\"field\":\"[submission_date]\"},{\"name\":\"Locale\",\"field\":\"[locale]\"},{\"name\":\"Profile\",\"field\":\"[data][profile]\"},{\"name\":\"Postcode\",\"template\":\"@EMSCH/template/export/submissions.twig\",\"block\":\"postcode\"},{\"name\":\"Country\",\"template\":\"@EMSCH/template/export/submissions.twig\",\"block\":\"country\"}],\"filter\":\"'new_contact_form' == name and 'citizen' == data['profile'] and submission_date starts with '2042-01-'\",\"subject\":\"New export submission\",\"emails-to\":[\"john@example.com\",\"doe@example.com\"],\"format\":\"xlsx\"}"
+```
+
+```twig
+{%- block postcode -%}
+    {{- data['data']['profile']|default == 'employer' ? data['data']['company-postcode']|default : data['data']['postcode']|default -}}
+{%- endblock -%}
+{%- block country -%}
+    {{- data['data']['profile']|default == 'employer' ? data['data']['company-country']|default : data['data']['country']|default -}}
+{%- endblock -%}
 ```
 
 ### User

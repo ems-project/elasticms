@@ -21,7 +21,6 @@ use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Entity\Release;
 use EMS\CoreBundle\Entity\Revision;
-use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 /**
@@ -113,10 +112,11 @@ class RevisionRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('r');
         $qb
-            ->addSelect('ce, c')
+            ->addSelect('ce, c, er, e')
             ->join('r.contentType', 'c')
             ->join('c.environment', 'ce')
             ->join('r.environmentRevisions', 'er')
+            ->join('er.environment', 'e')
             ->andWhere($qb->expr()->in('r.ouuid', ':ouuids'))
             ->andWhere($qb->expr()->isNull('er.deleted'))
             ->andWhere($qb->expr()->eq('er.environment', ':environment'))
@@ -132,31 +132,6 @@ class RevisionRepository extends EntityRepository
     {
         $this->getEntityManager()->persist($revision);
         $this->getEntityManager()->flush();
-    }
-
-    public function addEnvironment(Revision $revision, Environment $environment, string $username): int
-    {
-        $conn = $this->getEntityManager()->getConnection();
-        $stmt = $conn->prepare('insert into environment_revision (id, environment_id, revision_id, created,  created_by, deleted, deleted_by) VALUES(:id, :envId, :revId, :now, :username, null, null)');
-        $stmt->bindValue('id', Uuid::uuid4()->toString());
-        $stmt->bindValue('envId', $environment->getId());
-        $stmt->bindValue('revId', $revision->getId());
-        $stmt->bindValue('now', new \DateTime()->format('Y-m-d H:i:s'));
-        $stmt->bindValue('username', $username);
-
-        return (int) $stmt->executeStatement();
-    }
-
-    public function removeEnvironment(Revision $revision, Environment $environment, string $username): int
-    {
-        $conn = $this->getEntityManager()->getConnection();
-        $stmt = $conn->prepare('update environment_revision set deleted = :now, deleted_by = :username  where environment_id = :envId and revision_id = :revId and deleted is null');
-        $stmt->bindValue('envId', $environment->getId());
-        $stmt->bindValue('revId', $revision->getId());
-        $stmt->bindValue('now', new \DateTime()->format('Y-m-d H:i:s'));
-        $stmt->bindValue('username', $username);
-
-        return (int) $stmt->executeStatement();
     }
 
     /**
@@ -217,17 +192,20 @@ class RevisionRepository extends EntityRepository
     public function getRevisionsPaginatorPerEnvironmentAndContentType(Environment $env, ContentType $contentType, int $page = 0, int $size = 50): Paginator
     {
         $qb = $this->createQueryBuilder('r');
-        $qb->join('r.environmentRevisions', 'er')
-        ->where('er.environment = :env')
-        ->andWhere('r.contentType = :ct')
+        $qb
+            ->addSelect('er, e')
+            ->join('r.environmentRevisions', 'er')
+            ->join('er.environment', 'e')
+            ->andWhere('er.environment = :env')
+            ->andWhere('r.contentType = :ct')
             ->andWhere($qb->expr()->isNull('er.deleted'))
-        ->setMaxResults($size)
-        ->setFirstResult($page * $size)
-        ->orderBy('r.id', 'asc')
-        ->setParameters(new ArrayCollection([
-            new Parameter('env', $env),
-            new Parameter('ct', $contentType),
-        ]));
+            ->setMaxResults($size)
+            ->setFirstResult($page * $size)
+            ->orderBy('r.id', 'asc')
+            ->setParameters(new ArrayCollection([
+                new Parameter('env', $env),
+                new Parameter('ct', $contentType),
+            ]));
 
         return new Paginator($qb->getQuery());
     }
@@ -851,7 +829,7 @@ class RevisionRepository extends EntityRepository
         if ($environment) {
             $qb
                 ->join('r.environmentRevisions', 'er')
-                ->andWhere($qb->expr()->eq('er.environmpent', ':environment'))
+                ->andWhere($qb->expr()->eq('er.environment', ':environment'))
                 ->andWhere($qb->expr()->isNull('er.deleted'))
                 ->setParameter('environment', $environment);
         } else {

@@ -141,10 +141,12 @@ class PublishService
         $already = $revisionEnvironment === $revision;
 
         if (!$already && $revisionEnvironment) {
-            $this->revRepository->removeEnvironment($revisionEnvironment, $environment, $commandUser);
+            $revisionEnvironment->removeEnvironment($environment, $commandUser);
+            $this->revRepository->save($revisionEnvironment);
         }
         if (!$already) {
-            $this->revRepository->addEnvironment($revision, $environment, $commandUser);
+            $revision->addEnvironment($environment, $commandUser);
+            $this->revRepository->save($revision);
         }
 
         $this->dataService->sign($revision, true);
@@ -156,7 +158,7 @@ class PublishService
         return $already ? 0 : 1;
     }
 
-    public function bulkUnpublish(Revision $revision, Environment $environment): void
+    public function bulkUnpublish(Revision $revision, Environment $environment, string $username): void
     {
         $contentType = $revision->giveContentType();
 
@@ -164,7 +166,7 @@ class PublishService
             throw new \LogicException('Unpublish failed: is default environment');
         }
 
-        $revision->getEnvironments()->removeElement($environment);
+        $revision->removeEnvironment($environment, $username);
         $this->bulker->delete($environment->getAlias(), $revision->giveOuuid());
     }
 
@@ -230,7 +232,8 @@ class PublishService
             $already = true;
             $this->logger->notice('service.publish.already_published', $logContext);
         } elseif ($item) {
-            $this->revRepository->removeEnvironment($item, $environment, $username);
+            $item->removeEnvironment($environment, $username);
+            $this->revRepository->save($item);
         }
 
         if (null === $commandUser) {
@@ -244,7 +247,8 @@ class PublishService
         }
 
         if (!$already) {
-            $this->revRepository->addEnvironment($revision, $environment, $username);
+            $revision->addEnvironment($environment, $username);
+            $this->revRepository->save($revision);
 
             if (null === $commandUser) {
                 $this->auditLogger->notice('log.published.success', [...[

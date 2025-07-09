@@ -45,8 +45,6 @@ class Text
     {
         \preg_match_all('/(?:[^\s\'"]|\'[^\']*\'|"[^"]*")+/u', $cmd, $matches);
 
-        return \array_map(function ($word) {
-            return \trim($word, " \t\n\r\0\x0B\"'");
-        }, $matches[0]);
+        return \array_map(static fn($word) => \trim((string) $word, " \t\n\r\0\x0B\"'"), $matches[0]);
     }
 }

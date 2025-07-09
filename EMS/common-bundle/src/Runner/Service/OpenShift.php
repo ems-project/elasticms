@@ -23,19 +23,19 @@ class OpenShift implements RunnerInterface
      * @param array<array{name: string, value: string}> $env
      */
     public function __construct(
-        readonly private string $tag,
-        readonly private ?string $workerCommand,
+        private readonly string $tag,
+        private readonly ?string $workerCommand,
         string $baseUrl,
         $verifySsl,
         string $authKey,
-        readonly private string $namespace,
-        readonly private string $image,
-        readonly private ?string $imageTag = null,
-        readonly private int $ttlSecondsAfterFinished = 3600,
-        readonly private int $backoffLimit = 0,
-        readonly private int $activeDeadlineSeconds = 60,
-        readonly private array $labels = [],
-        readonly private array $env = [],
+        private readonly string $namespace,
+        private readonly string $image,
+        private readonly ?string $imageTag = null,
+        private readonly int $ttlSecondsAfterFinished = 3600,
+        private readonly int $backoffLimit = 0,
+        private readonly int $activeDeadlineSeconds = 60,
+        private readonly array $labels = [],
+        private readonly array $env = [],
     ) {
         $this->httpClient = HttpClientFactory::create(baseUrl: $baseUrl, headers: [
             'Authorization' => \sprintf('Bearer %s', $authKey),

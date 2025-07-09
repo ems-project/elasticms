@@ -27,7 +27,7 @@ class StartCommand extends AbstractCommand
      */
     private array $command;
 
-    public function __construct(readonly private RunnerManager $runnerManager)
+    public function __construct(private readonly RunnerManager $runnerManager)
     {
         parent::__construct();
     }

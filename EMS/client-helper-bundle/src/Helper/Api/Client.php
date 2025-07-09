@@ -36,12 +36,11 @@ final readonly class Client
     }
 
     /**
-     * @deprecated
      *
      * @param array<mixed> $body
-     *
      * @return array<mixed>
      */
+    #[\Deprecated]
     public function createDraft(string $type, array $body, ?string $ouuid = null): array
     {
         @\trigger_error('Deprecated use the initNewDocument or initNewDraftRevision functions', E_USER_DEPRECATED);

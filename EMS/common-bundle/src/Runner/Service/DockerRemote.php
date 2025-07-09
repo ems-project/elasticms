@@ -17,12 +17,12 @@ class DockerRemote implements RunnerInterface
      * @param string[] $env
      */
     public function __construct(
-        readonly private string $tag,
-        readonly private ?string $workerCommand,
+        private readonly string $tag,
+        private readonly ?string $workerCommand,
         string $baseUrl,
-        readonly private string $image,
-        readonly private ?string $imageTag = null,
-        readonly private array $env = [],
+        private readonly string $image,
+        private readonly ?string $imageTag = null,
+        private readonly array $env = [],
         ?string $socketPath = null,
     ) {
         $this->httpClient = HttpClientFactory::create(baseUrl: $baseUrl, socketPath: $socketPath);

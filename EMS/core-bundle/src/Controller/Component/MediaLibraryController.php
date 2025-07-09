@@ -8,6 +8,7 @@ use EMS\CoreBundle\Core\Component\MediaLibrary\Config\MediaLibraryConfig;
 use EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryService;
 use EMS\CoreBundle\Core\UI\AjaxModal;
 use EMS\CoreBundle\Core\UI\AjaxService;
+use EMS\CoreBundle\Core\UI\FlashMessageLogger;
 use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Form\Form\MediaLibrary\MediaLibraryDocumentFormType;
 use EMS\Helpers\Standard\Json;
@@ -30,6 +31,7 @@ class MediaLibraryController
     public function __construct(
         private readonly MediaLibraryService $mediaLibraryService,
         private readonly AjaxService $ajax,
+        private readonly FlashMessageLogger $flashMessageLogger,
         private readonly TranslatorInterface $translator,
         private readonly FormFactory $formFactory,
         private readonly string $templateNamespace,
@@ -352,14 +354,13 @@ class MediaLibraryController
 
             $folder->setPath($folder->getpath());
             $job = $this->mediaLibraryService->jobFolderMove($user, $folder, $targetId);
-            $this->flashBag($request)->clear();
 
             $modalMessage = ($this->asyncEnabled)
                 ? t('media_library.folder.move.job_info_async')
                 : t('media_library.folder.move.job_info')
             ;
 
-            return new JsonResponse([
+            return $this->flashMessageLogger->buildJsonResponse([
                 'success' => true,
                 'async' => $this->asyncEnabled,
                 'jobId' => $job->getId(),

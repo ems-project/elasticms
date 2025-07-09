@@ -36,8 +36,7 @@ final readonly class Client
     }
 
     /**
-     *
-     * @param array<mixed> $body
+     * @param  array<mixed> $body
      * @return array<mixed>
      */
     #[\Deprecated]

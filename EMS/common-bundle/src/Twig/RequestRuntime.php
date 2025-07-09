@@ -45,7 +45,6 @@ class RequestRuntime implements RuntimeExtensionInterface
     }
 
     /**
-     *
      * @param array<string, mixed> $fileField
      * @param array<string, mixed> $assetConfig
      */

@@ -1,5 +1,10 @@
 # Changelog 6.x
 
+## 6.4.6 (2025-07-09)
+### Bug Fixes
+* fix(admin/environment): revert align command use dbal queries by @Davidmattei in https://github.com/ems-project/elasticms/pull/1367
+* fix(admin/environment): revert unpublish command use dbal queries by @Davidmattei in https://github.com/ems-project/elasticms/pull/1368
+
 ## 6.4.5 (2025-06-24)
 ### Bug Fixes
 * fix(admin/environment): correct remove/add with version revisions  by @Davidmattei in https://github.com/ems-project/elasticms/pull/1362

@@ -20,6 +20,7 @@ class ImportConfig
     private function __construct(
         public array $defaultData = [],
         public bool $deleteMissingDocuments = false,
+        public bool $lowercaseHeaders = false,
         public ?array $query = null,
         public ?string $delimiter = null,
         public ?string $encoding = null,
@@ -44,6 +45,7 @@ class ImportConfig
             ->setDefaults([
                 'default_data' => [],
                 'delete_missing_documents' => false,
+                'lowercase_headers' => false,
                 'query' => null,
                 'delimiter' => null,
                 'encoding' => null,
@@ -57,6 +59,7 @@ class ImportConfig
                 'align_environments' => [],
             ])
             ->setAllowedTypes('delete_missing_documents', 'bool')
+            ->setAllowedTypes('lowercase_headers', 'bool')
             ->setAllowedTypes('query', ['array', 'null'])
             ->setAllowedTypes('generate_hash', 'bool')
             ->setAllowedTypes('generate_ouuid', 'bool')
@@ -81,6 +84,7 @@ class ImportConfig
         return new self(
             defaultData: $options['default_data'],
             deleteMissingDocuments: $options['delete_missing_documents'],
+            lowercaseHeaders: $options['lowercase_headers'],
             query: $options['query'],
             delimiter: $options['delimiter'],
             encoding: $options['encoding'],

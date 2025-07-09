@@ -1,5 +1,18 @@
 # Changelog 6.x
 
+## 6.5.0 (2025-07-09)
+### Features
+* feat(admin/cli): new submission export command by @coppee in https://github.com/ems-project/elasticms/pull/1352
+* feat(admin/media-lib): add behavior for view file on click by @theus77 in https://github.com/ems-project/elasticms/pull/1342
+* feat(admin/media-lib): add searchType option by @theus77 in https://github.com/ems-project/elasticms/pull/1340
+* feat(admin/media-lib): folder move and revision task helpText by @coppee in https://github.com/ems-project/elasticms/pull/1351
+* feat(admin/media-lib): separate navbar and breadcrumb by @theus77 in https://github.com/ems-project/elasticms/pull/1341
+* feat(cli/import): add new option lowercase_headers by @Davidmattei in https://github.com/ems-project/elasticms/pull/1369
+* feat(demo/media-lib): apply end user remarks (edit button and author) by @theus77 in https://github.com/ems-project/elasticms/pull/1348
+### Bug Fixes
+* fix(admin/user): enable groups with EMSCO_GROUP_FEATURE (default false) by @theus77 in https://github.com/ems-project/elasticms/pull/1343
+* fix(web/api): treat an simple array of files by @IsaMic in https://github.com/ems-project/elasticms/pull/1366
+
 ## 6.4.6 (2025-07-09)
 ### Bug Fixes
 * fix(admin/environment): revert align command use dbal queries by @Davidmattei in https://github.com/ems-project/elasticms/pull/1367

@@ -1,6 +1,6 @@
 # Changelog 6.x
 
-## 6.5.0 (2025-07-09)
+## 6.5.0 (2025-07-10)
 ### Features
 * feat(admin/cli): new submission export command by @coppee in https://github.com/ems-project/elasticms/pull/1352
 * feat(admin/media-lib): add behavior for view file on click by @theus77 in https://github.com/ems-project/elasticms/pull/1342
@@ -10,6 +10,7 @@
 * feat(cli/import): add new option lowercase_headers by @Davidmattei in https://github.com/ems-project/elasticms/pull/1369
 * feat(demo/media-lib): apply end user remarks (edit button and author) by @theus77 in https://github.com/ems-project/elasticms/pull/1348
 ### Bug Fixes
+* fix(admin/bridge): meta info environments not correct by @Davidmattei in https://github.com/ems-project/elasticms/pull/1370
 * fix(admin/user): enable groups with EMSCO_GROUP_FEATURE (default false) by @theus77 in https://github.com/ems-project/elasticms/pull/1343
 * fix(web/api): treat an simple array of files by @IsaMic in https://github.com/ems-project/elasticms/pull/1366
 

@@ -35,11 +35,11 @@ class WysiwygProfileType extends AbstractType
             ->add('editor', ChoiceType::class, [
                 'required' => true,
                 'choices' => [
-                    'key.ckeditor4' => WysiwygProfile::CKEDITOR4,
-                    'key.ckeditor5' => WysiwygProfile::CKEDITOR5,
+                    'wysiwyg_profile_editor.ckeditor4' => WysiwygProfile::CKEDITOR4,
+                    'wysiwyg_profile_editor.ckeditor5' => WysiwygProfile::CKEDITOR5,
                 ],
                 'label' => t('field.editor', [], 'emsco-core'),
-                'choice_translation_domain' => 'emsco-core',
+                'choice_translation_domain' => 'emsco-choices',
             ])
             ->add('config', CodeEditorType::class, [
                 'language' => 'ace/mode/json',

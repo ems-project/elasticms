@@ -217,6 +217,7 @@ key:
     logs: Logs
     loop_count: '#'
     managed_aliases: 'Managed aliases'
+    notice: Notice
     orphan_indexes: 'Orphan indexes'
     overview: Overview
     publishers: Publishers

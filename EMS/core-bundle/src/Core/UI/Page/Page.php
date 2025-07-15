@@ -16,7 +16,9 @@ readonly class Page
      *     icon?: string,
      *     breadcrumb?: Navigation,
      *     datatable?: array{ form: FormView, icon?: string, title?: TranslatableMessage },
-     *     datatables?: array<int, array{ form: FormView, icon?: string, title?: TranslatableMessage }>
+     *     datatables?: array<int, array{ form: FormView, icon?: string, title?: TranslatableMessage }>,
+     *     form?: FormView,
+     *     notice?: TranslatableMessage
      * } $context
      */
     public function __construct(

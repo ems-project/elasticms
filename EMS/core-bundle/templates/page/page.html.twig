@@ -77,11 +77,14 @@
         <div class="{{ notice is defined ? 'col-md-9' : 'col-md-12' }}">
             <div class="box box-primary">
                 {{ form_start(form) }}
-                <div class="box-body">
+                <div class="box-body ">
+                    {{ form_errors(form) }}
                     {% for child in form %}
                         {% if child.vars.name != 'save' %}
                             <div class="row">
-                                {{ form_row(child) }}
+                                {% set row_attr = child.vars.row_attr ?? {} %}
+                                {% set row_attr = row_attr|merge({'class': row_attr.class|default('col-md-12')}) %}
+                                {{ form_row(child, {'row_attr': row_attr}) }}
                             </div>
                         {% endif %}
                     {% endfor %}

@@ -27,9 +27,6 @@ final class QuerySearchOptionsType extends AbstractType
                 'label' => t('field.query', [], 'emsco-core'),
                 'required' => true,
                 'language' => 'ace/mode/json',
-                'row_attr' => [
-                    'class' => 'col-md-12',
-                ],
             ]);
     }
 }

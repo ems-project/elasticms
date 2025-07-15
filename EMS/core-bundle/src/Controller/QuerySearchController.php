@@ -97,7 +97,7 @@ final class QuerySearchController extends AbstractController
 
         return new Page([
             'form' => $form->createView(),
-            'title' => t('type.title_create', ['type' => 'query_search'], 'emsco-core'),
+            'title' => t('type.title_edit', ['type' => 'query_search', 'label' => $querySearch->getLabel()], 'emsco-core'),
             'subTitle' => t('type.title_sub', ['type' => 'query_search'], 'emsco-core'),
             'breadcrumb' => $this->breadcrumb()->add(
                 t('type.title_create', ['type' => 'query_search'], 'emsco-core'),

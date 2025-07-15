@@ -75,13 +75,11 @@ class WysiwygController extends AbstractController
         };
     }
 
-    public function profileAdd(Request $request): Response
+    public function profileAdd(Request $request): Page|RedirectResponse
     {
         $profile = new WysiwygProfile();
 
-        $form = $this->createForm(WysiwygProfileType::class, $profile, [
-            'createform' => true,
-        ]);
+        $form = $this->createForm(WysiwygProfileType::class, $profile);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -96,7 +94,7 @@ class WysiwygController extends AbstractController
             }
         }
 
-        return $this->render("@$this->templateNamespace/wysiwygprofile/new.html.twig", [
+        return new Page([
             'form' => $form->createView(),
             'title' => t('type.title_create', ['type' => 'wysiwyg_profile'], 'emsco-core'),
             'subTitle' => t('type.title_sub', ['type' => 'wysiwyg_profile'], 'emsco-core'),
@@ -115,34 +113,25 @@ class WysiwygController extends AbstractController
         return $this->redirectToRoute(Routes::WYSIWYG_INDEX);
     }
 
-    public function profileEdit(Request $request, WysiwygProfile $wysiwygProfile): Response
+    public function profileEdit(Request $request, WysiwygProfile $wysiwygProfile): Page|RedirectResponse
     {
         $form = $this->createForm(WysiwygProfileType::class, $wysiwygProfile);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
-            $removeButton = $form->get('remove');
-            if ($removeButton instanceof ClickableInterface && $removeButton->isClicked()) {
-                $this->wysiwygProfileService->delete($wysiwygProfile);
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                Json::decode($wysiwygProfile->getConfig() ?? '{}');
+                $this->wysiwygProfileService->update($wysiwygProfile);
 
                 return $this->redirectToRoute(Routes::WYSIWYG_INDEX);
-            }
-
-            if ($form->isValid()) {
-                try {
-                    Json::decode($wysiwygProfile->getConfig() ?? '{}');
-                    $this->wysiwygProfileService->update($wysiwygProfile);
-
-                    return $this->redirectToRoute(Routes::WYSIWYG_INDEX);
-                } catch (\Throwable $e) {
-                    $form->get('config')->addError(new FormError($this->translator->trans('wysiwyg.invalid_config_format', ['%msg%' => $e->getMessage()], 'EMSCoreBundle')));
-                }
+            } catch (\Throwable $e) {
+                $form->get('config')->addError(new FormError($this->translator->trans('wysiwyg.invalid_config_format', ['%msg%' => $e->getMessage()], 'EMSCoreBundle')));
             }
         }
 
-        return $this->render("@$this->templateNamespace/wysiwygprofile/edit.html.twig", [
+        return new Page([
             'form' => $form->createView(),
-            'title' => t('type.title_edit', ['type' => 'wysiwyg_profile'], 'emsco-core'),
+            'title' => t('type.title_edit', ['type' => 'wysiwyg_profile', 'label' => $wysiwygProfile->getName()], 'emsco-core'),
             'subTitle' => t('type.title_sub', ['type' => 'wysiwyg_profile'], 'emsco-core'),
             'breadcrumb' => $this->breadcrumb()->add(
                 label: t('key.wysiwyg_profiles', [], 'emsco-core'),

@@ -194,6 +194,7 @@ field:
     user_impersonator: Impersonator
     user_modified: 'Modified by'
     user_uploaded: 'Uploaded by'
+    editor: Editor
 form:
     reorder:
         title: 'Reorder fields of form: {label}'
@@ -237,6 +238,8 @@ key:
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profiles
     wysiwyg_style_sets: 'Style Sets'
+    ckeditor4: 'CK Editor 4'
+    ckeditor5: 'CK Editor 5'
 log:
     error:
         content_type_add_unreferenced: 'Unexpected error while getting unreferenced content type(s) from external environment {environment}: {error}'

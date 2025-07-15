@@ -44,6 +44,7 @@
                 <div class="card card-outline card-yellow mb-4 shadow">
                     {{ form_start(form) }}
                     <div class="card-body">
+                        {{ form_errors(form) }}
                         {% for child in form %}
                             {% if child.vars.name != 'save' %}
                                 <div class="row">

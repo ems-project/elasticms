@@ -153,6 +153,7 @@ field:
     definition: Definition
     environment_default: 'Default environment'
     environment_external: 'External environment'
+    environments: Environments
     extra: Extra
     file:
         size: Size
@@ -171,6 +172,7 @@ field:
     name: Name
     plural: Plural
     public_access: 'Public Access'
+    query: Query
     release_environment_source: 'Source Environment for publication'
     release_environment_target: 'Environment for (un)publication'
     revision_version_tag: 'Yes as {version_tag}'
@@ -192,8 +194,6 @@ field:
     user_impersonator: Impersonator
     user_modified: 'Modified by'
     user_uploaded: 'Uploaded by'
-    query: Query
-    environments: Environments
 form:
     reorder:
         title: 'Reorder fields of form: {label}'

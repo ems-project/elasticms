@@ -29,7 +29,6 @@ final class QuerySearchController extends AbstractController
         private readonly LocalizedLoggerInterface $logger,
         private readonly QuerySearchService $querySearchService,
         private readonly DataTableFactory $dataTableFactory,
-        private readonly string $templateNamespace,
     ) {
     }
 
@@ -63,15 +62,10 @@ final class QuerySearchController extends AbstractController
         ]);
     }
 
-    public function add(Request $request): Response
+    public function add(Request $request): Page|RedirectResponse
     {
         $querySearch = new QuerySearch();
 
-        return $this->edit($request, $querySearch, "@$this->templateNamespace/query-search/add.html.twig");
-    }
-
-    public function edit(Request $request, QuerySearch $querySearch, ?string $view = null): Response
-    {
         $form = $this->createForm(QuerySearchType::class, $querySearch);
         $form->handleRequest($request);
 
@@ -81,20 +75,28 @@ final class QuerySearchController extends AbstractController
             return $this->redirectToRoute('ems_core_query_search_index');
         }
 
-        if (null == $view) {
-            $view = "@$this->templateNamespace/query-search/edit.html.twig";
+        return new Page([
+            'form' => $form->createView(),
+            'title' => t('type.title_create', ['type' => 'query_search'], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'query_search'], 'emsco-core'),
+            'breadcrumb' => $this->breadcrumb()->add(
+                t('type.title_create', ['type' => 'query_search'], 'emsco-core'),
+            ),
+        ]);
+    }
 
-            return $this->render($view, [
-                'form' => $form->createView(),
-                'title' => t('type.title_edit', ['type' => 'query_search', 'label' => $querySearch->getLabel()], 'emsco-core'),
-                'subTitle' => t('type.title_sub', ['type' => 'query_search'], 'emsco-core'),
-                'breadcrumb' => $this->breadcrumb()->add(
-                    t('type.title_edit', ['type' => 'query_search', 'label' => $querySearch->getLabel()], 'emsco-core'),
-                ),
-            ]);
+    public function edit(Request $request, QuerySearch $querySearch): Page|RedirectResponse
+    {
+        $form = $this->createForm(QuerySearchType::class, $querySearch);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->querySearchService->update($querySearch);
+
+            return $this->redirectToRoute('ems_core_query_search_index');
         }
-
-        return $this->render($view, [
+        
+        return new Page([
             'form' => $form->createView(),
             'title' => t('type.title_create', ['type' => 'query_search'], 'emsco-core'),
             'subTitle' => t('type.title_sub', ['type' => 'query_search'], 'emsco-core'),

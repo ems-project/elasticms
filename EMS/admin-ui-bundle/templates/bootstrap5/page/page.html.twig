@@ -40,15 +40,19 @@
             {%- if notice is defined -%}
                 <div class="col-md-3">{{ block('render_notice') }}</div>
             {%- endif -%}
-            <div class="col-md-9">
+            <div class="{{ notice is defined ? 'col-md-9' : 'col-md-12' }}">
                 <div class="card card-outline card-yellow mb-4 shadow">
                     {{ form_start(form) }}
                     <div class="card-body">
-                        {{ form_row(form.name) }}
-                        {{ form_row(form.label) }}
-                        {{ form_widget(form.options) }}
+                        {% for child in form %}
+                            {% if child.vars.name != 'save' %}
+                                <div class="row">
+                                    {{ form_row(child) }}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
                     </div>
-                    <div class="card-footer clearfix">
+                    <div class="card-footer">
                         {{ form_widget(form.save) }}
                     </div>
                     {{ form_end(form) }}

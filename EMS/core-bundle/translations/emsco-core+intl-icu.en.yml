@@ -192,6 +192,8 @@ field:
     user_impersonator: Impersonator
     user_modified: 'Modified by'
     user_uploaded: 'Uploaded by'
+    query: Query
+    environments: Environments
 form:
     reorder:
         title: 'Reorder fields of form: {label}'

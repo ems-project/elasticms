@@ -265,14 +265,11 @@ form:
             unicode_case: UNICODE_CASE
             unicode_character_class: UNICODE_CHARACTER_CLASS
             unix_lines: UNIX_LINES
-        label: Label
         lowercase: Lowercase
         max_output_size: 'Max Output Size'
         max_token_length: 'Max Token Length'
-        name: Name
         pattern: Pattern
         position_increment_gap: 'Position Increment Gap'
-        save: Save
         separator: Separator
         stopwords:
             _arabic_: Arabic
@@ -499,14 +496,6 @@ form_submissions:
         error: 'Form deletion failed!'
         success: 'Form submission with id "%id%" has been deleted!'
     title: 'Form Submissions'
-query_search:
-    add:
-        save: Create
-        title: 'Add a QuerySearch'
-    edit:
-        save: Save
-        title: 'Edit a QuerySearch'
-    menu: QuerySearch
 release:
     actions:
         add_publish: 'Add documents for publication'
@@ -811,7 +800,6 @@ view:
         class:
             channel: 'fa fa-eye'
             release: 'fa fa-cube'
-            query_search: 'fa fa-list-alt'
             uploaded-file: 'fa fa-upload'
     macros:
         data-field-type:

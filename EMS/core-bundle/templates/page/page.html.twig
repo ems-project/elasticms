@@ -74,18 +74,20 @@
         {%- if notice is defined -%}
             <div class="col-md-3">{{ block('render_notice') }}</div>
         {%- endif -%}
-        <div class="col-md-9">
+        <div class="{{ notice is defined ? 'col-md-9' : 'col-md-12' }}">
             <div class="box box-primary">
                 {{ form_start(form) }}
                 <div class="box-body">
-                    {{ form_row(form.name) }}
-                    {{ form_row(form.label) }}
-                    {{ form_widget(form.options) }}
+                    {% for child in form %}
+                        {% if child.vars.name != 'save' %}
+                            <div class="row">
+                                {{ form_row(child) }}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
                 </div>
                 <div class="box-footer">
-                    <div class="pull-left">
-                        {{ form_widget(form.save) }}
-                    </div>
+                    {{ form_widget(form.save) }}
                 </div>
                 {{ form_end(form) }}
             </div>

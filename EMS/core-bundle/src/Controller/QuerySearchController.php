@@ -17,7 +17,6 @@ use EMS\CoreBundle\Service\QuerySearchService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 use function Symfony\Component\Translation\t;
 
@@ -95,7 +94,7 @@ final class QuerySearchController extends AbstractController
 
             return $this->redirectToRoute('ems_core_query_search_index');
         }
-        
+
         return new Page([
             'form' => $form->createView(),
             'title' => t('type.title_create', ['type' => 'query_search'], 'emsco-core'),

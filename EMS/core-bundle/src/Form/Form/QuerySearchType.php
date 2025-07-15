@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Form\Form;
 
-use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Entity\QuerySearch;
 use EMS\CoreBundle\Form\DataTransformer\QuerySearchOptionsTransformer;
@@ -16,6 +15,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+
 use function Symfony\Component\Translation\t;
 
 /**
@@ -74,7 +74,7 @@ final class QuerySearchType extends AbstractType
                 'label' => false,
             ])
             ->add('save', SubmitEmsType::class, [
-                'attr' => [ 
+                'attr' => [
                     'class' => 'btn btn-primary btn-sm ',
                 ],
                 'label' => t('action.save', [], 'emsco-core'),

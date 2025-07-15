@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Form\Form;
 
 use EMS\CoreBundle\Entity\Filter;
-use EMS\CoreBundle\Form\Field\AnalyzerOptionsType;
 use EMS\CoreBundle\Form\Field\FilterOptionsType;
 use EMS\CoreBundle\Form\Field\SubmitEmsType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+
 use function Symfony\Component\Translation\t;
 
 /**

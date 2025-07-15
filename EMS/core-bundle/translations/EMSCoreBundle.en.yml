@@ -928,16 +928,7 @@ revision:
 'The server returned a %status_code%': 'The server returned a %status_code%'
 'With the message "%status_text%"':
     '': 'With the message "%status_text%".'
-'Add an Analyzer': 'Add an Analyzer'
-'expert mode': 'expert mode'
-Analyzers: Analyzers
-'Add an analyzer': 'Add an analyzer'
-'Edit an Analyzer': 'Edit an Analyzer'
 Notice: Notice
-'All environments have to be re-builded each times that the analyzers configuration is updated':
-    '': 'All environments have to be re-builded each times that the analyzers configuration is updated.'
-'List analyzers': 'List analyzers'
-'Add analyzer': 'Add analyzer'
 '#': '#'
 Name: Name
 Label: Label
@@ -985,11 +976,6 @@ Environments: Environments
 'Content type': 'Content type'
 'Add managed alias': 'Add managed alias'
 'Edit managed alias': 'Edit managed alias'
-'Add a Filter': 'Add a Filter'
-'Edit a Filter': 'Edit a Filter'
-'All environments have to be re-builded each times that the filters configuration is updated':
-    '': 'All environments have to be re-builded each times that the filters configuration is updated.'
-'List filters': 'List filters'
 Add: Add
 show: Show
 hide: Hide

@@ -22,7 +22,6 @@ use EMS\CoreBundle\Service\WysiwygProfileService;
 use EMS\CoreBundle\Service\WysiwygStylesSetService;
 use EMS\Helpers\Standard\Json;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
@@ -44,7 +43,6 @@ class WysiwygController extends AbstractController
         private readonly FormFactoryInterface $formFactory,
         private readonly LocalizedLoggerInterface $logger,
         private readonly TranslatorInterface $translator,
-        private readonly string $templateNamespace,
     ) {
     }
 
@@ -141,13 +139,11 @@ class WysiwygController extends AbstractController
         ]);
     }
 
-    public function styleSetAdd(Request $request): Response
+    public function styleSetAdd(Request $request): Page|RedirectResponse
     {
         $stylesSet = new WysiwygStylesSet();
 
-        $form = $this->createForm(WysiwygStylesSetType::class, $stylesSet, [
-            'createform' => true,
-        ]);
+        $form = $this->createForm(WysiwygStylesSetType::class, $stylesSet);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -162,7 +158,7 @@ class WysiwygController extends AbstractController
             }
         }
 
-        return $this->render("@$this->templateNamespace/wysiwyg_styles_set/new.html.twig", [
+        return new Page([
             'form' => $form->createView(),
             'title' => t('type.title_create', ['type' => 'wysiwyg_style_set'], 'emsco-core'),
             'subTitle' => t('type.title_sub', ['type' => 'wysiwyg_style_set'], 'emsco-core'),
@@ -181,34 +177,25 @@ class WysiwygController extends AbstractController
         return $this->redirectToRoute(Routes::WYSIWYG_INDEX);
     }
 
-    public function styleSetEdit(Request $request, WysiwygStylesSet $wysiwygStyleSet): Response
+    public function styleSetEdit(Request $request, WysiwygStylesSet $wysiwygStyleSet): Page|RedirectResponse
     {
         $form = $this->createForm(WysiwygStylesSetType::class, $wysiwygStyleSet);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
-            $removedButton = $form->get('remove');
-            if ($removedButton instanceof ClickableInterface && $removedButton->isClicked()) {
-                $this->wysiwygStylesSetService->delete($wysiwygStyleSet);
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                Json::decode($wysiwygStyleSet->getConfig());
+                $this->wysiwygStylesSetService->update($wysiwygStyleSet);
 
                 return $this->redirectToRoute(Routes::WYSIWYG_INDEX);
-            }
-
-            if ($form->isValid()) {
-                try {
-                    Json::decode($wysiwygStyleSet->getConfig());
-                    $this->wysiwygStylesSetService->update($wysiwygStyleSet);
-
-                    return $this->redirectToRoute(Routes::WYSIWYG_INDEX);
-                } catch (\Throwable $e) {
-                    $form->get('config')->addError(new FormError($this->translator->trans('wysiwyg.invalid_config_format', ['%msg%' => $e->getMessage()], 'EMSCoreBundle')));
-                }
+            } catch (\Throwable $e) {
+                $form->get('config')->addError(new FormError($this->translator->trans('wysiwyg.invalid_config_format', ['%msg%' => $e->getMessage()], 'EMSCoreBundle')));
             }
         }
 
-        return $this->render("@$this->templateNamespace/wysiwyg_styles_set/edit.html.twig", [
+        return new Page([
             'form' => $form->createView(),
-            'title' => t('type.title_edit', ['type' => 'wysiwyg_style_set'], 'emsco-core'),
+            'title' => t('type.title_edit', ['type' => 'wysiwyg_style_set', 'label' => $wysiwygStyleSet->getName()], 'emsco-core'),
             'subTitle' => t('type.title_sub', ['type' => 'wysiwyg_style_set'], 'emsco-core'),
             'breadcrumb' => $this->breadcrumb()->add(
                 label: t('key.wysiwyg_style_sets', [], 'emsco-core'),

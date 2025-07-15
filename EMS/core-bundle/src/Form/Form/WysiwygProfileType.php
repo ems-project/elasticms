@@ -43,6 +43,7 @@ class WysiwygProfileType extends AbstractType
             ])
             ->add('config', CodeEditorType::class, [
                 'language' => 'ace/mode/json',
+                'label' => t('field.config', [], 'emsco-core'),
             ])
             ->add('save', SubmitEmsType::class, [
                 'attr' => [

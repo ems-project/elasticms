@@ -195,6 +195,12 @@ field:
     user_modified: 'Modified by'
     user_uploaded: 'Uploaded by'
     editor: Editor
+    format_tags: 'Format tags'
+    content_css: 'Content css'
+    table_default_css: Default Table class attribute (deprecated)
+    content_js: 'Content js'
+    save_dir: 'Save dir'
+    config: 'Config'
 form:
     reorder:
         title: 'Reorder fields of form: {label}'
@@ -418,20 +424,21 @@ type:
         }
     title_edit: |-
         {type, select,
-            action          {Edit action: {label}}
-            analyzer        {Edit analyzer: {label}}
-            channel         {Edit channel: {label}}
-            dashboard       {Edit dashboard: {label}}
-            content_type    {Edit content type: {label}}
-            filter          {Edit filter: {label}}
-            form            {Edit form: {label}}
-            group           {Edit Group: {label}}
-            i18n            {Edit I18N: {label}}
-            job_schedule    {Edit schedule: {label}}
-            query_search    {Edit query search: {label}}
-            view            {Edit view: {label}}
-            wysiwyg_profile {Edit profile: {label}}
-            other           {Edit}
+            action            {Edit action: {label}}
+            analyzer          {Edit analyzer: {label}}
+            channel           {Edit channel: {label}}
+            dashboard         {Edit dashboard: {label}}
+            content_type      {Edit content type: {label}}
+            filter            {Edit filter: {label}}
+            form              {Edit form: {label}}
+            group             {Edit Group: {label}}
+            i18n              {Edit I18N: {label}}
+            job_schedule      {Edit schedule: {label}}
+            query_search      {Edit query search: {label}}
+            view              {Edit view: {label}}
+            wysiwyg_profile   {Edit profile: {label}}
+            wysiwyg_style_set {Edit style set: {label}}
+            other             {Edit}
         }
     title_overview: |-
         {type, select,

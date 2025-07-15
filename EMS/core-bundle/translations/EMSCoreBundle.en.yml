@@ -387,9 +387,6 @@ form:
             error_with_document: 'It was impossible to update the document "%label%" : %error_message%'
             ordered: 'The %contenttype%''s documents have been ordered with the view "%view_label%"'
             too_many_documents: 'This content type have to much document (%total%) to be reorder them all in once'
-    wysiwyg_style_set:
-        table_default_css:
-            title: 'Default Table class attribute (deprecated)'
 ROLE_ADMIN: Administrator
 ROLE_ALLOW_ALIGN: 'Align Environment'
 ROLE_API: API
@@ -756,8 +753,6 @@ user:
         excel: 'Excel export'
         csv: 'CSV export'
 view:
-    breadcrumb:
-        wysiwyg-options: 'WYSIWYG Options'
     contenttype:
         reorder_item:
             edit_field_button: 'Edit %name%'
@@ -1009,15 +1004,6 @@ Outbox: Outbox
 Views: Views
 'gallery view plugin': 'gallery view plugin'
 'Reorganise:': 'Reorganise:'
-'Edit WYSIWYG styles set': 'Edit WYSIWYG styles set'
-'New WYSIWYG styles set': 'New WYSIWYG styles set'
-'WYSIWYG options': 'WYSIWYG options'
-'Add a profile': 'Add a profile'
-'Click on ''Add a profile'' to create a first WYSIWYG profile': 'Click on ''Add a profile'' to create a first WYSIWYG profile'
-'WYSIWYG styles sets': 'WYSIWYG styles sets'
-'Add a style set': 'Add a style set'
-'Click on ''Add a styles set'' to create a first styles set': 'Click on ''Add a styles set'' to create a first styles set'
-'New WYSIWYG profile': 'New WYSIWYG profile'
 '%date% Finalized by %user%': '%date% Finalized by %user%'
 'no revision in %env%': 'no revision in %env%'
 'Unpublish in %env%': 'Unpublish in %env%'

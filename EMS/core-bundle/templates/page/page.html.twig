@@ -70,6 +70,7 @@
 {% endblock render_datatables %}
 
 {%- block render_form -%}
+    {% form_theme form '@EMSCore/page/page_form.html.twig' %}
     <div class="row">
         {%- if notice is defined -%}
             <div class="col-md-3">{{ block('render_notice') }}</div>

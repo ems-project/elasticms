@@ -39,7 +39,7 @@ class WysiwygProfileType extends AbstractType
                     'key.ckeditor5' => WysiwygProfile::CKEDITOR5,
                 ],
                 'label' => t('field.editor', [], 'emsco-core'),
-                'translation_domain' => 'emsco-core',
+                'choice_translation_domain' => 'emsco-core',
             ])
             ->add('config', CodeEditorType::class, [
                 'language' => 'ace/mode/json',

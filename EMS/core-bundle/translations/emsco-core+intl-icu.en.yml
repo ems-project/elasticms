@@ -140,6 +140,9 @@ field:
     available: Available
     channel: Channel
     command: Command
+    config: Config
+    content_css: 'Content css'
+    content_js: 'Content js'
     context: Context
     count: Count
     cron: Cron
@@ -151,6 +154,7 @@ field:
     date_run_previous: 'Date previous run'
     date_upload: 'Date upload'
     definition: Definition
+    editor: Editor
     environment_default: 'Default environment'
     environment_external: 'External environment'
     environments: Environments
@@ -158,6 +162,7 @@ field:
     file:
         size: Size
         type: Type
+    format_tags: 'Format tags'
     hash: 'Hash signature'
     hidden: Hidden
     index: Index
@@ -178,9 +183,11 @@ field:
     revision_version_tag: 'Yes as {version_tag}'
     revision_version_tag_empty: 'No (Silent publish)'
     roles: Roles
+    save_dir: 'Save dir'
     severity: Severity
     singular: Singular
     status: Status
+    table_default_css: 'Default Table class attribute (deprecated)'
     tag: Tag
     text: Text
     total: Total
@@ -194,13 +201,6 @@ field:
     user_impersonator: Impersonator
     user_modified: 'Modified by'
     user_uploaded: 'Uploaded by'
-    editor: Editor
-    format_tags: 'Format tags'
-    content_css: 'Content css'
-    table_default_css: Default Table class attribute (deprecated)
-    content_js: 'Content js'
-    save_dir: 'Save dir'
-    config: 'Config'
 form:
     reorder:
         title: 'Reorder fields of form: {label}'

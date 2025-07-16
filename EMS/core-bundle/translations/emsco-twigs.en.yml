@@ -229,16 +229,6 @@ job:
     icon:
         class: 'fa fa-terminal'
     menu: Jobs
-schedule:
-    icon:
-        class: 'fa fa-calendar-o'
-    list:
-        menu: Schedule
-    tagline: 'When you are not at work'
-    add:
-        title: 'Add a schedule'
-    edit:
-        title: 'Edit schedule "%name%"'
 log:
     icon:
         class: 'fa fa-file-text'

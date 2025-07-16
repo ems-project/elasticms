@@ -80,14 +80,16 @@
                 <div class="box-body ">
                     {{ form_errors(form) }}
                     <div class="row">
-                        {% for child in form|filter(c => c.vars.name != 'save') %}
+                        {% for child in form|filter(c => not (c.vars.name in ['save', 'save_close'])) %}
                             {{ form_row(child) }}
                             <div class="clearfix"></div>
                         {% endfor %}
                     </div>
                 </div>
                 <div class="box-footer">
-                    {{ form_rest(form) }}
+                    {%- for button in form|filter(c => c.vars.name in ['save', 'save_close'])  -%}
+                        {{ form_widget(button) }}
+                    {%- endfor -%}
                 </div>
                 {{ form_end(form) }}
             </div>

@@ -253,6 +253,8 @@ key:
     query_search: 'Query search'
     query_searches: QuerySearch
     schedule: Schedule
+    schedule_cron: '<Minute> <Hour> <Day_of_the_Month> <Month_of_the_Year> <Day_of_the_Week>. E.g. every 15 minutes: */15 * * * *'
+    schedule_tag: 'Used to indentify workers (e.g. CLI) which would remotely execute the job'
     search: Search
     structure: Structure
     trash: Trash

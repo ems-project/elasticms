@@ -69,29 +69,6 @@ form:
     label: Label
     create: Create
     save: Save
-dashboard:
-    label: Label
-    icon: Icon
-    name: Name
-    save: Save
-    create: Create
-    role: Role
-    color: Color
-    type: 'Type of dashboard'
-    sidebarMenu: 'Visible in the sidebar menu'
-    notificationMenu: 'Visible in the notification menu'
-    export:
-        none: None
-        attachment: Attachment
-        inline: Inline
-        body: Body
-        filename: Filename
-        fileDisposition: Disposition
-        mimetype: Mime-Type
-    template:
-        body: Body
-        header: Header
-        footer: Footer
 view:
     name: Name
     label: Label

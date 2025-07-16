@@ -186,12 +186,6 @@ not-applicable: N/A
 task:
     tab_tasks: Tasks
 dashboard:
-    menu: Dashboards
-    tagline: 'Customize the lobby'
-    add:
-        title: 'Add a dashboard'
-    edit:
-        title: 'Edit the dashboard "%label%"'
     exception:
         title: 'The dashboard %name% raised an exception'
 table:

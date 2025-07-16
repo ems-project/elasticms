@@ -140,6 +140,7 @@ field:
     attributes: 'Request extra attributes'
     available: Available
     channel: Channel
+    color: Color
     command: Command
     config: Config
     content_css: 'Content css'
@@ -167,10 +168,13 @@ field:
     format_tags: 'Format tags'
     hash: 'Hash signature'
     hidden: Hidden
+    icon: Icon
     index: Index
     indexes: Indexes
     is_active: Active
     is_dirty: Dirty
+    is_menu_notification: 'Visible in the notification menu'
+    is_menu_sidebar: 'Visible in the sidebar menu'
     key: Key
     label: Label
     last_seen: 'Last seen'
@@ -184,6 +188,7 @@ field:
     release_environment_target: 'Environment for (un)publication'
     revision_version_tag: 'Yes as {version_tag}'
     revision_version_tag_empty: 'No (Silent publish)'
+    role: Role
     roles: Roles
     save_dir: 'Save dir'
     search_config: 'Search config'
@@ -192,6 +197,9 @@ field:
     status: Status
     table_default_css: 'Default Table class attribute (deprecated)'
     tag: Tag
+    template_body: 'Template body'
+    template_footer: 'Template footer'
+    template_header: 'Template header'
     text: Text
     total: Total
     total_deleted: 'Total deleted'
@@ -211,6 +219,7 @@ key:
     actions: Actions
     admin: Admin
     analyzers: Analyzers
+    attachment: Attachment
     channel_public: 'Make channel available for non-authenticated users ?'
     channels: Channels
     ckeditor4: 'CK Editor 4'
@@ -218,20 +227,25 @@ key:
     content_types: 'Content Types'
     dashboards: Dashboards
     details: Details
+    disposition: Disposition
     documentation: Documentation
     environments: Environments
     environments_external: 'External environments'
     environments_local: 'Local environments'
     export_documents: 'Export documents'
+    filename: Filename
     filters: Filters
     forms: Forms
     groups: Groups
     i18n: I18N
+    inline: Inline
     job_logs: 'Jobs logs'
     jobs: Jobs
     logs: Logs
     loop_count: '#'
     managed_aliases: 'Managed aliases'
+    mimetype: Mime-Type
+    none: None
     notice: Notice
     orphan_indexes: 'Orphan indexes'
     overview: Overview

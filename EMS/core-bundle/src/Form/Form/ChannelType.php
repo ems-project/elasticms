@@ -50,7 +50,7 @@ final class ChannelType extends AbstractType
                 ],
             ])
             ->add('public', CheckboxType::class, [
-                'label' => t('key.channel_public', [], 'emsco-core'),
+                'label' => t('key.public_channel', [], 'emsco-core'),
                 'required' => false,
                 'row_attr' => [
                     'class' => 'col-md-12',

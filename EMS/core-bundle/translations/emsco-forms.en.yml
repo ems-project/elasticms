@@ -70,15 +70,6 @@ form:
     create: Create
     save: Save
 view:
-    name: Name
-    label: Label
-    role: Role
-    icon: Icon
-    create: Create
-    public: 'Publicly available (without authentication)'
-    type: Type
-    save: Save
-    saveAndClose: 'Save and Close'
     pdf_orientation: 'PDF Orientation'
     pdf_size: 'PDF Size'
 role:

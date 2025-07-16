@@ -220,7 +220,6 @@ key:
     admin: Admin
     analyzers: Analyzers
     attachment: Attachment
-    channel_public: 'Make channel available for non-authenticated users ?'
     channels: Channels
     ckeditor4: 'CK Editor 4'
     ckeditor5: 'CK Editor 5'
@@ -249,6 +248,8 @@ key:
     notice: Notice
     orphan_indexes: 'Orphan indexes'
     overview: Overview
+    public_channel: 'Make channel available for non-authenticated users ?'
+    public_view: 'Publicly available (without authentication)'
     publishers: Publishers
     query_search: 'Query search'
     query_searches: QuerySearch

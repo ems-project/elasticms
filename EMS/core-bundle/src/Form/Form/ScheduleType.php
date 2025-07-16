@@ -58,21 +58,21 @@ class ScheduleType extends AbstractType
             $builder->add('save', SubmitEmsType::class, [
                 'label' => t('action.save', [], 'emsco-core'),
                 'attr' => [
-                    'class' => 'btn-primary btn-sm',
+                    'class' => 'btn btn-primary btn-sm',
                     'data-ajax-save-url' => $options['ajax-save-url'],
                 ],
                 'icon' => 'fa fa-save',
             ])->add('save_close', SubmitEmsType::class, [
                 'label' => t('action.save_close', [], 'emsco-core'),
                 'attr' => [
-                    'class' => 'btn-primary btn-sm',
+                    'class' => 'btn btn-primary btn-sm',
                 ],
                 'icon' => 'fa fa-save',
             ]);
         } else {
             $builder->add('save', SubmitEmsType::class, [
                 'label' => t('action.save', [], 'emsco-core'),
-                'attr' => ['class' => 'btn-primary btn-sm'],
+                'attr' => ['class' => 'btn btn-primary btn-sm'],
                 'icon' => 'fa fa-save',
             ]);
         }

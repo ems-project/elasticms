@@ -13,12 +13,8 @@ form:
     menu: Forms
 view:
     icon:
-        class: 'fa fa-tv'
         class.form: 'fa fa-keyboard-o'
-        class.channel: 'fa fa-eye'
         class.release: 'fa fa-cube'
-        class.query_search: 'fa fa-list-alt'
-        class.dashboard: 'fa fa-dashboard'
     elements:
         side-menu:
             release-admin:
@@ -38,13 +34,7 @@ view:
     menu:
         breadcrumb:
             content-types: 'Content types'
-    add:
-        title: 'Add a new view for %type%'
     tagline: ''
-    list:
-        menu: Views
-    edit:
-        title: 'Edit view "%name%" for %type%'
     profile:
         show:
             alt:

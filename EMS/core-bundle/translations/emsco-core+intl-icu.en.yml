@@ -137,6 +137,7 @@ core:
     version: 'Version {core} with Symfony {symfony}'
 field:
     alias: Alias
+    attributes: 'Request extra attributes'
     available: Available
     channel: Channel
     command: Command
@@ -155,6 +156,7 @@ field:
     date_upload: 'Date upload'
     definition: Definition
     editor: Editor
+    entry_path: 'Default entry path'
     environment_default: 'Default environment'
     environment_external: 'External environment'
     environments: Environments
@@ -184,6 +186,7 @@ field:
     revision_version_tag_empty: 'No (Silent publish)'
     roles: Roles
     save_dir: 'Save dir'
+    search_config: 'Search config'
     severity: Severity
     singular: Singular
     status: Status
@@ -208,6 +211,7 @@ key:
     actions: Actions
     admin: Admin
     analyzers: Analyzers
+    channel_public: 'Make channel available for non-authenticated users ?'
     channels: Channels
     ckeditor4: 'CK Editor 4'
     ckeditor5: 'CK Editor 5'

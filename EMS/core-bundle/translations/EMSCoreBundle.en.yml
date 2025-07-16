@@ -349,11 +349,6 @@ form:
             file_not_found: 'File not found with the hash "%file_hash%"'
     email: Email
     form:
-        channel:
-            alias: Alias
-            label: Label
-            name: Name
-            public: 'Make channel available for non-authenticated users ?'
         query_search:
             environments: Environments
             label: Label
@@ -371,10 +366,6 @@ form:
             format_tags:
                 label: 'Format tags (override styles sets config)'
     subform:
-        channel:
-            attributes: 'Request extra attributes'
-            entryPath: 'Default entry path'
-            searchConfig: 'Search config'
         searchquery:
             query: 'Default query'
             searchConfig: 'Search config'
@@ -410,14 +401,6 @@ ROLE_USER: User
 ROLE_USER_MANAGEMENT: 'User Management'
 ROLE_USER_READ: 'User read'
 ROLE_WEBMASTER: Webmaster
-channel:
-    add:
-        save: Create
-        title: 'Add a channel'
-    edit:
-        save: Save
-        title: 'Edit a channel'
-    menu: Channels
 command:
     reindex:
         end: 'The content type %contenttype%''s documents have been reindexed in %environment% (index: %index%)'
@@ -793,7 +776,6 @@ view:
             title: 'Form Submissions Overview'
     icon:
         class:
-            channel: 'fa fa-eye'
             release: 'fa fa-cube'
             uploaded-file: 'fa fa-upload'
     macros:

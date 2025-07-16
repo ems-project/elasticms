@@ -70,7 +70,6 @@
 {% endblock render_datatables %}
 
 {%- block render_form -%}
-    {% form_theme form '@EMSCore/page/page_form.html.twig' %}
     <div class="row">
         {%- if notice is defined -%}
             <div class="col-md-3">{{ block('render_notice') }}</div>
@@ -80,15 +79,12 @@
                 {{ form_start(form) }}
                 <div class="box-body ">
                     {{ form_errors(form) }}
-                    {% for child in form %}
-                        {% if child.vars.name != 'save' %}
-                            <div class="row">
-                                {% set row_attr = child.vars.row_attr ?? {} %}
-                                {% set row_attr = row_attr|merge({'class': row_attr.class|default('col-md-12')}) %}
-                                {{ form_row(child, {'row_attr': row_attr}) }}
-                            </div>
-                        {% endif %}
-                    {% endfor %}
+                    <div class="row">
+                        {% for child in form|filter(c => c.vars.name != 'save') %}
+                            {{ form_row(child) }}
+                            <div class="clearfix"></div>
+                        {% endfor %}
+                    </div>
                 </div>
                 <div class="box-footer">
                     {{ form_widget(form.save) }}

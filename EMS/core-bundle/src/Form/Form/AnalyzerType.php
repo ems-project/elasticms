@@ -30,14 +30,17 @@ class AnalyzerType extends AbstractType
             ->add('name', null, [
                 'label' => t('field.name', [], 'emsco-core'),
                 'required' => true,
+                'row_attr' => ['class' => 'col-md-12'],
             ])
             ->add('label', null, [
                 'label' => t('field.label', [], 'emsco-core'),
                 'required' => true,
+                'row_attr' => ['class' => 'col-md-12'],
             ])
             ->add('options', AnalyzerOptionsType::class, [
                 'attr' => ['class' => 'fields-to-display-by-value'],
                 'label' => false,
+                'row_attr' => ['class' => 'col-md-12'],
             ])
             ->add('save', SubmitEmsType::class, [
                 'attr' => ['class' => 'btn btn-primary'],

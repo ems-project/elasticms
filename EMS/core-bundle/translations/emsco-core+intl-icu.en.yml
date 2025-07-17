@@ -136,10 +136,13 @@ core:
             }
     version: 'Version {core} with Symfony {symfony}'
 field:
+    accumulate_file: 'Accumulate in one file'
     alias: Alias
+    allowed_remote_hosts: 'Allowed remote hosts'
     attributes: 'Request extra attributes'
     available: Available
     channel: Channel
+    circles_to: 'Circles to'
     color: Color
     command: Command
     config: Config
@@ -157,24 +160,36 @@ field:
     date_upload: 'Date upload'
     definition: Definition
     editor: Editor
+    email_content_type: 'Content type (ie: text/html)'
     entry_path: 'Default entry path'
     environment_default: 'Default environment'
     environment_external: 'External environment'
     environments: Environments
     extra: Extra
     file:
+        disposition: Disposition
+        extension: Extension
+        mimetype: Mime-Type
+        name: Filename
+        orientation: Orientation
+        paper_size: 'Paper size'
         size: Size
         type: Type
     format_tags: 'Format tags'
     hash: 'Hash signature'
+    header: Header
+    header_allow_origin: 'The Access-Control-Allow-Origin header'
     hidden: Hidden
     icon: Icon
     index: Index
     indexes: Indexes
     is_active: Active
     is_dirty: Dirty
+    is_edit_wysiwyg: 'Edit with WYSIWYG'
     is_menu_notification: 'Visible in the notification menu'
     is_menu_sidebar: 'Visible in the sidebar menu'
+    is_preview: Preview
+    is_public: Public
     key: Key
     label: Label
     last_seen: 'Last seen'
@@ -186,20 +201,25 @@ field:
     query: Query
     release_environment_source: 'Source Environment for publication'
     release_environment_target: 'Environment for (un)publication'
+    render_option: 'Render option'
     revision_version_tag: 'Yes as {version_tag}'
     revision_version_tag_empty: 'No (Silent publish)'
     role: Role
+    role_cc: 'Role cc'
+    role_to: 'Role to'
     roles: Roles
     save_dir: 'Save dir'
     search_config: 'Search config'
     severity: Severity
     singular: Singular
+    spreadsheet: Spreadsheet
     status: Status
     table_default_css: 'Default Table class attribute (deprecated)'
     tag: Tag
     template_body: 'Template body'
     template_footer: 'Template footer'
     template_header: 'Template header'
+    template_response: 'Template response'
     text: Text
     total: Total
     total_deleted: 'Total deleted'
@@ -212,10 +232,6 @@ field:
     user_impersonator: Impersonator
     user_modified: 'Modified by'
     user_uploaded: 'Uploaded by'
-    is_preview: Preview
-    is_edit_wysiwyg: 'Edit with WYSIWYG'
-    is_public: Public
-    render_option: 'Render option'
 form:
     reorder:
         title: 'Reorder fields of form: {label}'
@@ -230,13 +246,11 @@ key:
     content_types: 'Content Types'
     dashboards: Dashboards
     details: Details
-    disposition: Disposition
     documentation: Documentation
     environments: Environments
     environments_external: 'External environments'
     environments_local: 'Local environments'
     export_documents: 'Export documents'
-    filename: Filename
     filters: Filters
     forms: Forms
     groups: Groups
@@ -244,14 +258,15 @@ key:
     inline: Inline
     job_logs: 'Jobs logs'
     jobs: Jobs
+    landscape: Landscape
     logs: Logs
     loop_count: '#'
     managed_aliases: 'Managed aliases'
-    mimetype: Mime-Type
     none: None
     notice: Notice
     orphan_indexes: 'Orphan indexes'
     overview: Overview
+    portrait: Portrait
     public_channel: 'Make channel available for non-authenticated users ?'
     public_view: 'Publicly available (without authentication)'
     publishers: Publishers

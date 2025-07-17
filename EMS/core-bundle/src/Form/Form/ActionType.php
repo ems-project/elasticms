@@ -21,6 +21,7 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use function Symfony\Component\Translation\t;
@@ -117,37 +118,44 @@ class ActionType extends AbstractType
                     'rows' => '10',
                     'class' => 'action_renderOption fields-to-display-for fields-to-display-for-embed',
                 ],
+                'label' => t('field.header', [], 'emsco-core'),
                 'required' => false,
                 'row_attr' => ['class' => 'col-md-12'],
             ])
             ->add('accumulateInOneFile', CheckboxType::class, [
                 'attr' => ['class' => 'action_renderOption fields-to-display-for fields-to-display-for-export'],
+                'label' => t('field.accumulate_file', [], 'emsco-core'),
                 'required' => false,
                 'row_attr' => ['class' => 'col-md-12'], ])
             ->add('spreadsheet', CheckboxType::class, [
                 'attr' => ['class' => 'action_renderOption fields-to-display-for fields-to-display-for-export'],
+                'label' => t('field.spreadsheet', [], 'emsco-core'),
                 'required' => false,
                 'row_attr' => ['class' => 'col-md-12'], ])
             ->add('mimeType', TextType::class, [
                 'attr' => ['class' => 'action_renderOption fields-to-display-for fields-to-display-for-export'],
+                'label' => t('field.file.mimetype', [], 'emsco-core'),
                 'required' => false,
                 'row_attr' => ['class' => 'col-md-6'], ])
             ->add('extension', TextType::class, [
                 'attr' => ['class' => 'action_renderOption fields-to-display-for fields-to-display-for-export'],
+                'label' => t('field.file.extension', [], 'emsco-core'),
                 'required' => false,
-                'row_attr' => ['class' => 'col-md-6'],
-            ])
-            ->add('roleCc', RolePickerType::class, [
-                'attr' => ['class' => 'action_renderOption fields-to-display-for fields-to-display-for-notification'],
                 'row_attr' => ['class' => 'col-md-6'],
             ])
             ->add('roleTo', RolePickerType::class, [
                 'attr' => ['class' => 'action_renderOption fields-to-display-for fields-to-display-for-notification'],
+                'label' => t('field.role_to', [], 'emsco-core'),
+                'row_attr' => ['class' => 'col-md-6'],
+            ])
+            ->add('roleCc', RolePickerType::class, [
+                'attr' => ['class' => 'action_renderOption fields-to-display-for fields-to-display-for-notification'],
+                'label' => t('field.role_cc', [], 'emsco-core'),
                 'row_attr' => ['class' => 'col-md-6'],
             ])
             ->add('emailContentType', TextType::class, [
                 'attr' => ['class' => 'action_renderOption fields-to-display-for fields-to-display-for-notification'],
-                'label' => 'Content type (ie: text/html)',
+                'label' => t('field.email_content_type', [], 'emsco-core'),
                 'required' => false,
                 'row_attr' => ['class' => 'col-md-12'],
             ]);
@@ -155,6 +163,7 @@ class ActionType extends AbstractType
         if ('' !== $this->circleType) {
             $builder->add('circlesTo', ObjectPickerType::class, [
                 'attr' => ['class' => 'action_renderOption fields-to-display-for fields-to-display-for-notification'],
+                'label' => t('field.circles_to', [], 'emsco-core'),
                 'multiple' => true,
                 'required' => false,
                 'row_attr' => ['class' => 'col-md-12'],
@@ -165,12 +174,14 @@ class ActionType extends AbstractType
         $builder
             ->add('responseTemplate', CodeEditorType::class, [
                 'attr' => ['class' => 'action_renderOption fields-to-display-for fields-to-display-for-notification'],
+                'label' => t('field.template_response', [], 'emsco-core'),
                 'required' => false,
                 'row_attr' => ['class' => 'col-md-12'],
                 'slug' => 'template-response',
             ])
             ->add('tag', TextType::class, [
                 'attr' => ['class' => 'action_renderOption fields-to-display-for fields-to-display-for-job'],
+                'label' => t('field.tag', [], 'emsco-core'),
                 'required' => false,
                 'row_attr' => ['class' => 'col-md-6'],
             ])
@@ -182,18 +193,19 @@ class ActionType extends AbstractType
             ])
             ->add('disposition', ChoiceType::class, [
                 'attr' => ['class' => 'action_renderOption fields-to-display-for fields-to-display-for-pdf'],
-                'label' => 'File diposition',
+                'label' => t('field.file.disposition', [], 'emsco-core'),
                 'expanded' => true,
                 'choices' => [
-                    'None' => null,
-                    'Attachment' => 'attachment',
-                    'Inline' => 'inline',
+                    t('key.none', [], 'emsco-core')->getMessage() => null,
+                    t('key.attachment', [], 'emsco-core')->getMessage() => ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+                    t('key.inline', [], 'emsco-core')->getMessage() => ResponseHeaderBag::DISPOSITION_INLINE,
                 ],
+                'choice_translation_domain' => 'emsco-core',
                 'row_attr' => ['class' => 'col-md-12'],
             ])
             ->add('allow_origin', TextType::class, [
                 'attr' => ['class' => 'action_renderOption fields-to-display-for fields-to-display-for-pdf'],
-                'label' => 'The Access-Control-Allow-Originm header',
+                'label' => t('field.header_allow_origin', [], 'emsco-core'),
                 'required' => false,
                 'row_attr' => ['class' => 'col-md-12'],
             ])
@@ -201,6 +213,7 @@ class ActionType extends AbstractType
                 'attr' => ['class' => 'action_renderOption fields-to-display-for fields-to-display-for-pdf'],
                 'max-lines' => 5,
                 'min-lines' => 5,
+                'label' => t('field.file.name', [], 'emsco-core'),
                 'required' => false,
                 'row_attr' => ['class' => 'col-md-12'],
                 'slug' => 'template-filename',
@@ -208,9 +221,11 @@ class ActionType extends AbstractType
             ->add('orientation', ChoiceType::class, [
                 'attr' => ['class' => 'action_renderOption fields-to-display-for fields-to-display-for-pdf'],
                 'choices' => [
-                    'Portrait' => 'portrait',
-                    'Landscape' => 'landscape',
+                    t('key.portrait', [], 'emsco-core')->getMessage() => 'portrait',
+                    t('key.landscape', [], 'emsco-core')->getMessage() => 'landscape',
                 ],
+                'choice_translation_domain' => 'emsco-core',
+                'label' => t('field.file.orientation', [], 'emsco-core'),
                 'required' => false,
                 'row_attr' => ['class' => 'col-md-12'],
             ])
@@ -218,6 +233,7 @@ class ActionType extends AbstractType
                 'attr' => ['class' => 'action_renderOption fields-to-display-for fields-to-display-for-pdf'],
                 'required' => false,
                 'choices' => \array_combine(\array_keys(CPDF::$PAPER_SIZES), \array_keys(CPDF::$PAPER_SIZES)),
+                'label' => t('field.file.paper_size', [], 'emsco-core'),
                 'row_attr' => ['class' => 'col-md-12'],
             ])
             ->add('allowedRemoteHosts', CollectionType::class, [
@@ -233,6 +249,7 @@ class ActionType extends AbstractType
                     'label' => false,
                     'attr' => ['style' => 'width: 300px; float: left;'],
                 ],
+                'label' => t('field.allowed_remote_hosts', [], 'emsco-core'),
                 'row_attr' => ['class' => 'col-md-12'],
             ])
         ;

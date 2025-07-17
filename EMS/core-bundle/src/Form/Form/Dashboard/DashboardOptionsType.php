@@ -77,19 +77,19 @@ class DashboardOptionsType extends AbstractType
     {
         $builder
             ->add(DashboardOptions::FILENAME, CodeEditorType::class, [
-                'label' => t('key.filename', [], 'emsco-core'),
+                'label' => t('field.file.name', [], 'emsco-core'),
                 'required' => false,
                 'row_attr' => ['class' => 'col-md-12'],
                 'max-lines' => 5,
                 'min-lines' => 5,
             ])
             ->add(DashboardOptions::MIMETYPE, null, [
-                'label' => t('key.mimetype', [], 'emsco-core'),
+                'label' => t('field.file.mimetype', [], 'emsco-core'),
                 'required' => false,
                 'row_attr' => ['class' => 'col-md-12'],
             ])
             ->add(DashboardOptions::FILE_DISPOSITION, ChoiceType::class, [
-                'label' => t('key.disposition', [], 'emsco-core'),
+                'label' => t('field.file.disposition', [], 'emsco-core'),
                 'expanded' => true,
                 'row_attr' => ['class' => 'col-md-12'],
                 'choices' => [

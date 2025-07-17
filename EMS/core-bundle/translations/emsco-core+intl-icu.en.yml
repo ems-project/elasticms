@@ -212,6 +212,10 @@ field:
     user_impersonator: Impersonator
     user_modified: 'Modified by'
     user_uploaded: 'Uploaded by'
+    is_preview: Preview
+    is_edit_wysiwyg: 'Edit with WYSIWYG'
+    is_public: Public
+    render_option: 'Render option'
 form:
     reorder:
         title: 'Reorder fields of form: {label}'

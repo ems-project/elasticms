@@ -13,7 +13,6 @@ export default defineConfig({
     copyPublicDir: true,
     rollupOptions: {
       input: {
-        action: 'src/action.js',
         app: 'src/app.js',
         swaggerui: 'src/swagger-ui.js',
         calendar: 'src/calendar.js',

@@ -22,15 +22,6 @@ view:
             user:
                 searches: Searches
                 name: '%name%'
-    action:
-        add:
-            title: 'Add a new action to %contentType%'
-        edit:
-            title: 'Edit the action %action% for %contentType%'
-        index:
-            add:
-                title: 'Add an action'
-            title: '%contentType%''s actions'
     menu:
         breadcrumb:
             content-types: 'Content types'

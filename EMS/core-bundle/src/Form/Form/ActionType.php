@@ -241,7 +241,8 @@ class ActionType extends AbstractType
                 'allow_delete' => true,
                 'attr' => [
                     'class' => 'a2lix_lib_sf_collection action_renderOption fields-to-display-for fields-to-display-for-pdf',
-                    'data-lang-remove' => 'X',
+                    'data-lang-add' => 'Add',
+                    'data-lang-remove' => 'Remove',
                     'data-entry-remove-class' => 'btn btn-danger',
                 ],
                 'entry_type' => TextType::class,

@@ -252,6 +252,7 @@ key:
     environments_local: 'Local environments'
     export_documents: 'Export documents'
     filters: Filters
+    form_submissions: 'Form Submissions'
     forms: Forms
     groups: Groups
     i18n: I18N
@@ -491,6 +492,7 @@ type:
             environment         {Overview}
             filter              {List of filters}
             form                {List of forms}
+            form_submission     {List of form submissions}
             group               {List of groups}
             i18n                {I18n list}
             i18n_translations   {Translations for key "{key}"}

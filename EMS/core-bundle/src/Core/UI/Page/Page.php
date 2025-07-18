@@ -20,14 +20,11 @@ readonly class Page
      *     form?: FormView,
      *     notice?: TranslatableMessage
      * } $context
+     * @param string $template
      */
     public function __construct(
-        public array $context
+        public array $context,
+        public string $template = 'page/page.html.twig'
     ) {
-    }
-
-    public function getTemplate(): string
-    {
-        return 'page/page.html.twig';
     }
 }

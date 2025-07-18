@@ -70,7 +70,6 @@ module.exports = (env, argv) => {
             'calendar': './assets/calendar.js',
             'criteria-view': './assets/criteria-view.js',
             'criteria-table': './assets/criteria-table.js',
-            'i18n': './assets/i18n.js',
             'dashboard-browser': './assets/js/module/dashboardBrowser.js',
         },
         output: {

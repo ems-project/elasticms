@@ -20,7 +20,6 @@ readonly class Page
      *     form?: FormView,
      *     notice?: TranslatableMessage
      * } $context
-     * @param string $template
      */
     public function __construct(
         public array $context,

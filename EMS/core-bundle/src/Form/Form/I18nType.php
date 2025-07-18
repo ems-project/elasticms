@@ -9,9 +9,9 @@ use EMS\CoreBundle\Form\Field\I18nContentType;
 use EMS\CoreBundle\Form\Field\SubmitEmsType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+
 use function Symfony\Component\Translation\t;
 
 /**
@@ -55,7 +55,6 @@ class I18nType extends AbstractType
                 'label' => t('action.save', [], 'emsco-core'),
                 'icon' => 'fa fa-save',
             ]);
-        ;
     }
 
     #[\Override]

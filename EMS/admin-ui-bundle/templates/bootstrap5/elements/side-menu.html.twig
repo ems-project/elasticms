@@ -13,7 +13,7 @@
             {{ 'side_menu.anonymous-user'|trans }}
         {% endif %}
     </div>
-    {% if app.user %}
+    {% if status is defined %}
         {% set statusTitle = 'cluster.status'|trans({color: status}, 'emsco-core') %}
         <a href="{{ path('elasticsearch.status') }}" id="status-overview" class="position-absolute top-0 end-0" title="{{ statusTitle }}">
             {%- with {

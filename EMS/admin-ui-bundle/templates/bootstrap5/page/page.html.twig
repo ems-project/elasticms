@@ -8,6 +8,8 @@
         {{ block('render_datatable') }}
     {%- elseif datatables is defined -%}
         {{ block('render_datatables') }}
+    {%- elseif form is defined -%}
+        {{ block('render_form') }}
     {%- endif -%}
 {% endblock %}
 
@@ -31,3 +33,45 @@
         {% endfor %}
     </div>
 {% endblock render_datatables %}
+
+{%- block render_form -%}
+    <div class="container-fluid">
+        <div class="row">
+            {%- if notice is defined -%}
+                <div class="col-md-3">{{ block('render_notice') }}</div>
+            {%- endif -%}
+            <div class="{{ notice is defined ? 'col-md-9' : 'col-md-12' }}">
+                <div class="card card-outline card-yellow mb-4 shadow">
+                    {{ form_start(form) }}
+                    <div class="card-body">
+                        {{ form_errors(form) }}
+                        <div class="row">
+                            {% for child in form|filter(c => not (c.vars.name in ['save', 'save_close'])) %}
+                                {{ form_row(child) }}
+                                <div class="clearfix"></div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        {%- for button in form|filter(c => c.vars.name in ['save', 'save_close'])  -%}
+                            {{ form_widget(button) }}
+                        {%- endfor -%}
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{%- endblock render_form -%}
+
+{%- block render_notice -%}
+    <div class="card card-outline card-yellow mb-4 shadow">
+        <div class="card-body">
+            <h2 class="card-title mb-2">
+                <i class="fa fa-warning"></i>
+                {{ 'key.notice'|trans({}, 'emsco-core') }}
+            </h2>
+            <p class="card-text">{{ notice|trans }}</p>
+        </div>
+    </div>
+{%- endblock render_notice -%}

@@ -30,7 +30,6 @@ final class ChannelController extends AbstractController
         private readonly LocalizedLoggerInterface $logger,
         private readonly ChannelService $channelService,
         private readonly DataTableFactory $dataTableFactory,
-        private readonly string $templateNamespace,
     ) {
     }
 
@@ -112,13 +111,6 @@ final class ChannelController extends AbstractController
         $this->channelService->delete($channel);
 
         return $this->redirectToRoute('ems_core_channel_index');
-    }
-
-    public function menu(): Response
-    {
-        return $this->render("@$this->templateNamespace/channel/menu.html.twig", [
-            'channels' => $this->channelService->getAll(),
-        ]);
     }
 
     private function breadcrumb(): Navigation

@@ -22,7 +22,6 @@
             <argument type="service" id="emsco.logger" />
             <argument type="service" id="ems.service.channel" />
             <argument type="service" id="emsco.data_table.factory" />
-            <argument>%ems_core.template_namespace%</argument>
             <call method="setContainer"/>
             <tag name="container.service_subscriber"/>
             <tag name="controller.service_arguments"/>
@@ -551,6 +550,13 @@
         </service>
 
         <!-- Controllers -->
+
+        <service id="EMS\CoreBundle\Controller\ChannelController" public="true">
+            <argument type="service" id="ems.service.channel"/>
+            <argument>%ems_core.template_namespace%</argument>
+            <call method="setContainer"/>
+            <tag name="container.service_subscriber"/>
+        </service>
         <service id="EMS\CoreBundle\Controller\DashboardController" public="true">
             <argument type="service" id="ems.dashboard.manager" />
             <argument type="service" id="ems_core.dashboard.dashboards" />

@@ -7,7 +7,7 @@
         "phpstan",
         "xliff"
     ],
-    "license": "MIT",
+    "license": "LGPL-3.0",
     "authors": [
         {
             "name": "EMS Community",

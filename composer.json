@@ -7,7 +7,7 @@
             "homepage": "https://github.com/ems-project/elasticms/contributors"
         }
     ],
-    "license": "MIT",
+    "license": "LGPL-3.0",
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {

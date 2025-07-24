@@ -8,7 +8,7 @@
         }
     ],
     "type": "project",
-    "license": "MIT",
+    "license": "LGPL-3.0",
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {

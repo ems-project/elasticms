@@ -137,15 +137,11 @@
                                 'btnClass': ''
                             }%}
                         {% else %}
-                            {% if a.link|default %}
-                                <a href="{{ a.link }}" {% for attribute in a.link_attributes|default([]) %}{{ attribute.name }}="{{ attribute.value }}" {% endfor %}>
-                            {% endif %}
+                            <a href="{{ a.link|default('#') }}" {% for attribute in a.link_attributes|default([]) %}{{ attribute.name }}="{{ attribute.value }}" {% endfor %}>
                             {% if a.icon|default %}<i class="{{ a.icon|raw }}"></i>{% endif %}
                             {% if a.label|default %}{{ a.label|raw }}{% endif %}
                             {% if a.suffix_icon|default %}<i class="{{ a.suffix_icon }}"></i>{% endif %}
-                            {% if a.link|default %}
-                                </a>
-                            {% endif %}
+                            </a>
                         {% endif %}
                     </li>
                 {% endfor %}

@@ -1,5 +1,9 @@
 # Changelog 6.x
 
+## 6.5.1 (2025-07-25)
+### Bug Fixes
+* fix(admin/revision): inactive actions by @theus77 in https://github.com/ems-project/elasticms/pull/1375
+
 ## 6.5.0 (2025-07-10)
 ### Features
 * feat(admin/cli): new submission export command by @coppee in https://github.com/ems-project/elasticms/pull/1352

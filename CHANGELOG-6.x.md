@@ -1,5 +1,17 @@
 # Changelog 6.x
 
+## 6.6.0 (2025-07-29)
+### Features
+* feat(demo): using webp in demo's cards by @theus77 in https://github.com/ems-project/elasticms/pull/1374
+### Bug Fixes
+* fix(admin): ct picker background color in multiple mode by @theus77 in https://github.com/ems-project/elasticms/pull/1377
+### Documentation
+* docs: licences mit to LGPL-3.0 by @theus77 in https://github.com/ems-project/elasticms/pull/1376
+### Code Refactoring
+* refactor(admin): crud overview template to page object by @Davidmattei in https://github.com/ems-project/elasticms/pull/1371
+* refactor(admin): move admin controllers by @Davidmattei in https://github.com/ems-project/elasticms/pull/1373
+* refactor(admin): remove add/edit form template for admin config by @Davidmattei in https://github.com/ems-project/elasticms/pull/1372
+
 ## 6.5.1 (2025-07-25)
 ### Bug Fixes
 * fix(admin/revision): inactive actions by @theus77 in https://github.com/ems-project/elasticms/pull/1375

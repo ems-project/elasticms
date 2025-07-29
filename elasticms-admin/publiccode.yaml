@@ -1,0 +1,89 @@
+publiccodeYmlVersion: '0.2'
+applicationSuite: ElasticMS
+categories:
+    - website-builder
+dependsOn:
+    open:
+        - name: elasticsearch
+          optional: false
+          version: ''
+          versionMax: 8.x
+          versionMin: 7.x
+description:
+    en:
+        documentation: 'https://ems-project.github.io/#/'
+        features:
+            - Secure by design
+            - WCAG and GDPR Oriented
+            - Advanced Customization
+        genericName: Content Management System
+        longDescription: |
+            ElasticMS Admin is an headless CMS to manage generic content in order to
+            publish it in several Elasticsearch index. To handle content you can or
+            use the user interface or the API.  ElasticMS Admin is part of the
+            ElasticMS suite.
+
+
+            **Advanced Customization**
+
+            ElasticMS is a highly customizable CMS. It offers numerous extensions to
+            provide solutions tailored to advanced needs and specific client
+            requirements.
+
+
+            **WCAG and GDPR Oriented**
+
+            ElasticMS complies with standards aimed at making web content more
+            accessible to people with disabilities and also meets user data protection
+            requirements.
+
+
+            **Constant Evolution**
+
+            ElasticMS is a scalable CMS that is continuously evolving through
+            technical improvements to meet the real needs of public services and make
+            their work easier.
+
+
+            **Secure by design**
+
+
+            The authoritative source of the content is stored in a traditional
+            relational database (Postgres, MariaDB, ..). However, applications and
+            websites must access the content via Elasticsearch indexes and therefore
+            do not have direct access to the authoritative content sources.
+        shortDescription: The admin part of ElasticMS
+developmentStatus: stable
+it:
+    conforme:
+        gdpr: false
+        lineeGuidaDesign: false
+        misureMinimeSicurezza: false
+        modelloInteroperabilita: false
+    countryExtensionVersion: '0.2'
+    piattaforme:
+        anpr: false
+        cie: false
+        pagopa: false
+        spid: false
+landingURL: 'https://elasticms.fgov.be/'
+legal:
+    license: LGPL-3.0-or-later
+localisation:
+    availableLanguages:
+        - en
+    localisationReady: true
+maintenance:
+    contacts:
+        - email: mathieu.dekeyzer@smals.be
+          name: Mathieu De Keyzer
+          phone: '+32478670047'
+    type: internal
+name: ElasticMS Admin
+platforms:
+    - web
+    - linux
+releaseDate: '2025-07-29'
+softwareType: standalone/web
+softwareVersion: 6.6.0
+url: 'https://github.com/ems-project/elasticms-admin'

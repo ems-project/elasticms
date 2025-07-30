@@ -31,7 +31,8 @@ class ImportConfig
         public ?string $ouuidExpression = "row['ouuid']",
         public ?string $ouuidVersionExpression = null,
         public ?string $ouuidPrefix = null,
-        public array $alignEnvironments = []
+        public array $alignEnvironments = [],
+        public ?string $mimeType = null,
     ) {
     }
 
@@ -57,6 +58,7 @@ class ImportConfig
                 'ouuid_version_expression' => null,
                 'ouuid_prefix' => null,
                 'align_environments' => [],
+                'mime_type' => null,
             ])
             ->setAllowedTypes('delete_missing_documents', 'bool')
             ->setAllowedTypes('lowercase_headers', 'bool')
@@ -68,6 +70,7 @@ class ImportConfig
             ->setAllowedTypes('ouuid_version_expression', ['string', 'null'])
             ->setAllowedTypes('ouuid_prefix', ['string', 'null'])
             ->setAllowedTypes('align_environments', ['array'])
+            ->setAllowedTypes('mime_type', ['string', 'null'])
             ->setNormalizer('align_environments', function (OptionsResolver $resolver, array $value) {
                 $alignEnvironment = new OptionsResolver();
                 $alignEnvironment
@@ -96,6 +99,7 @@ class ImportConfig
             ouuidVersionExpression: $options['ouuid_version_expression'],
             ouuidPrefix: $options['ouuid_prefix'],
             alignEnvironments: $options['align_environments'],
+            mimeType: $options['mime_type'],
         );
     }
 }

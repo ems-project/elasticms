@@ -69,7 +69,7 @@ final class FileImportCommand extends AbstractImportCommand
             $mimeType = MimeTypeHelper::getInstance()->guessMimeType($file->getFilename());
 
             $cells = $this->fileReader->readCells($file->getFilename(), [
-                'mime_type' => $mimeType,
+                'mime_type' => $config->mimeType ?? $mimeType,
                 'delimiter' => $config->delimiter,
                 'encoding' => $config->encoding,
                 'exclude_rows' => $config->excludeRows,

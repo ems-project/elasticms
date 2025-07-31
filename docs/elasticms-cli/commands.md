@@ -153,6 +153,8 @@ php bin/console emscli:file-reader:import pages.csv page \
   * Example
     `[{'source':'preview','target':'live'},{'source':'preview','target':'default'}]`,
     if query is defined this will be used as search-query for the alignment.
+* `mime_type`: string or null (default null)
+  * For the mime_type of the import file 
 
 ### Example
 

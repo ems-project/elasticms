@@ -17,6 +17,7 @@ use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Core\Log\LogRevisionContext;
+use EMS\CoreBundle\Core\Revision\EventType;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\DataField;
 use EMS\CoreBundle\Entity\Environment;
@@ -239,12 +240,13 @@ class DataService
      *
      * @throws \Throwable
      */
-    public function propagateDataToComputedField(FormInterface $form, array &$objectArray, ContentType $contentType, string $type, ?string $ouuid, bool $migration = false, bool $finalize = true): bool
+    public function propagateDataToComputedField(FormInterface $form, array &$objectArray, ContentType $contentType, string $type, ?string $ouuid, EventType $eventType): bool
     {
         return $this->postProcessingService->postProcessing($form, $contentType, $objectArray, [
             '_id' => $ouuid,
-            'migration' => $migration,
-            'finalize' => $finalize,
+            'migration' => $eventType->isMigrate(),
+            'finalize' => $eventType->isFinalize(),
+            'event' => $eventType,
             'rootObject' => $objectArray,
         ]);
     }
@@ -752,7 +754,7 @@ class DataService
         if (!$revision->isLazyIndex()) {
             $this->updateDataStructure($revision->giveContentType()->getFieldType(), $form->get('data')->getNormData());
         }
-        if ($computeFields && $this->propagateDataToComputedField($form->get('data'), $objectArray, $revision->giveContentType(), $revision->giveContentType()->getName(), $revision->getOuuid())) {
+        if ($computeFields && $this->propagateDataToComputedField($form->get('data'), $objectArray, $revision->giveContentType(), $revision->giveContentType()->getName(), $revision->getOuuid(), EventType::finalizeEvent())) {
             $revision->setRawData($objectArray);
         }
         $this->setMetaFields($revision);
@@ -1440,7 +1442,7 @@ class DataService
 
         $objectArray = $reloadRevision->getRawData();
         $this->updateDataStructure($reloadRevision->giveContentType()->getFieldType(), $form->get('data')->getNormData());
-        $this->propagateDataToComputedField($form->get('data'), $objectArray, $reloadRevision->giveContentType(), $reloadRevision->giveContentType()->getName(), $reloadRevision->getOuuid(), false, false);
+        $this->propagateDataToComputedField($form->get('data'), $objectArray, $reloadRevision->giveContentType(), $reloadRevision->giveContentType()->getName(), $reloadRevision->getOuuid(), EventType::draftEvent());
 
         if (false !== $finalizedBy) {
             $objectArray[Mapping::FINALIZED_BY_FIELD] = $finalizedBy;

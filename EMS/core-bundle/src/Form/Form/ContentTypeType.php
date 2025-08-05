@@ -17,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use function Symfony\Component\Translation\t;
 
 /**
  * @extends AbstractType<mixed>
@@ -69,8 +70,7 @@ class ContentTypeType extends AbstractType
                 'required' => false,
             ]);
             $builder->add('recomputeOnPublish', CheckboxType::class, [
-                'label' => 'content-type.recompute_on_publish.label',
-                'translation_domain' => EMSCoreBundle::TRANS_FORM_DOMAIN,
+                'label' => t('content-type.field.recompute_on_publish.label', [], 'emsco-core'),
                 'required' => false,
             ]);
         }

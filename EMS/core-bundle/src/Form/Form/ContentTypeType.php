@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Form\Form;
 
+use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Form\Field\CodeEditorType;
 use EMS\CoreBundle\Form\Field\ColorPickerType;
@@ -65,6 +66,11 @@ class ContentTypeType extends AbstractType
         if ($environment->getManaged()) {
             $builder->add('autoPublish', CheckboxType::class, [
                 'label' => 'Silently publish draft and auto-save into the default environment',
+                'required' => false,
+            ]);
+            $builder->add('recomputeOnPublish', CheckboxType::class, [
+                'label' => 'content-type.recompute_on_publish.label',
+                'translation_domain' => EMSCoreBundle::TRANS_FORM_DOMAIN,
                 'required' => false,
             ]);
         }

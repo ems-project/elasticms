@@ -40,6 +40,11 @@
         <option name="default">0</option>
       </options>
     </field>
+    <field name="recomputeOnPublish" column="recompute_on_publish" type="boolean">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
     <field name="active" type="boolean"/>
     <field name="defaultValue" column="default_value" type="text" nullable="true"/>
     <field name="versionTags" column="version_tags" type="json" nullable="true"/>

@@ -64,6 +64,7 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
     protected $webContent = true;
     /** @var bool */
     protected $autoPublish = false;
+    protected bool $recomputeOnPublish = false;
     protected bool $active = false;
     /** @var Environment|null */
     protected $environment;
@@ -881,6 +882,18 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
     public function setAutoPublish(bool $autoPublish): ContentType
     {
         $this->autoPublish = $autoPublish;
+
+        return $this;
+    }
+
+    public function isRecomputeOnPublish(): bool
+    {
+        return $this->recomputeOnPublish;
+    }
+
+    public function setRecomputeOnPublish(bool $recomputeOnPublish): ContentType
+    {
+        $this->recomputeOnPublish = $recomputeOnPublish;
 
         return $this;
     }

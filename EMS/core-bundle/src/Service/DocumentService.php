@@ -52,7 +52,7 @@ class DocumentService
         $revision->setData($data);
         $objectArray = $revision->getRawData();
 
-        $this->dataService->propagateDataToComputedField($revisionType->get('data'), $objectArray, $documentImportContext->getContentType(), $documentImportContext->getContentType()->getName(), $revision->getOuuid(), EventType::migrateEvent());
+        $this->dataService->propagateDataToComputedField($revisionType->get('data'), $objectArray, $documentImportContext->getContentType(), $documentImportContext->getContentType()->getName(), $revision->getOuuid(), EventType::importEvent());
         $revision->setRawData($objectArray);
 
         unset($revisionType);

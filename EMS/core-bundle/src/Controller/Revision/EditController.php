@@ -234,7 +234,7 @@ class EditController extends AbstractController
         }
 
         $objectArray = $revision->getRawData();
-        $this->dataService->propagateDataToComputedField($form->get('data'), $objectArray, $contentType, $contentType->getName(), $revision->getOuuid(), EventType::draftEvent());
+        $this->dataService->propagateDataToComputedField($form->get('data'), $objectArray, $contentType, $contentType->getName(), $revision->getOuuid(), EventType::savedAsDraftEvent());
 
         if ($revision->getOuuid()) {
             $this->logger->info('log.data.revision.start_edit', LogRevisionContext::read($revision));

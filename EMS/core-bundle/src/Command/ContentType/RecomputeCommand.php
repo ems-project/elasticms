@@ -186,7 +186,7 @@ final class RecomputeCommand extends AbstractCommand
 
                 $objectArray = $newRevision->getRawData();
 
-                $this->dataService->propagateDataToComputedField($revisionType->get('data'), $objectArray, $this->contentType, $this->contentType->getName(), $newRevision->getOuuid(), EventType::migrateEvent());
+                $this->dataService->propagateDataToComputedField($revisionType->get('data'), $objectArray, $this->contentType, $this->contentType->getName(), $newRevision->getOuuid(), EventType::recomputeEvent());
                 $newRevision->setRawData($objectArray);
 
                 $this->dataService->sign($revision);

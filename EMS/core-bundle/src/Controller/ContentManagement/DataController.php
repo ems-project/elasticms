@@ -612,7 +612,7 @@ class DataController extends AbstractController
 
             $this->dataService->isValid($form, null, $objectArray);
             if (\is_array($objectArray)) {
-                $this->dataService->propagateDataToComputedField($form->get('data'), $objectArray, $revision->giveContentType(), $revision->giveContentType()->getName(), $revision->getOuuid(), EventType::draftEvent());
+                $this->dataService->propagateDataToComputedField($form->get('data'), $objectArray, $revision->giveContentType(), $revision->giveContentType()->getName(), $revision->getOuuid(), EventType::autoSaveEvent());
             }
 
             $session = $request->getSession();

@@ -6,13 +6,27 @@ namespace EMS\CoreBundle\Core\Revision;
 
 class EventType
 {
-    private function __construct(private readonly bool $migrate = false, private readonly bool $finalize = false, private readonly bool $publish = false, private readonly bool $draft = false)
-    {
+    private function __construct(
+        private readonly bool $migrate = false,
+        private readonly bool $finalize = false,
+        private readonly bool $publish = false,
+        private readonly bool $draft = false,
+        private readonly bool $recompute = false,
+        private readonly bool $import = false,
+        private readonly bool $autoSave = false,
+        private readonly bool $savedAsDraft = false,
+        private readonly bool $reload = false,
+    ) {
     }
 
-    public static function migrateEvent(): self
+    public static function importEvent(): self
     {
-        return new self(migrate: true, finalize: true);
+        return new self(migrate: true, finalize: true, import: true);
+    }
+
+    public static function recomputeEvent(): self
+    {
+        return new self(migrate: true, finalize: true, recompute: true);
     }
 
     public static function finalizeEvent(): self
@@ -25,9 +39,19 @@ class EventType
         return new self(finalize: true, publish : true);
     }
 
-    public static function draftEvent(): self
+    public static function autoSaveEvent(): self
     {
-        return new self(draft : true);
+        return new self(draft : true, autoSave: true);
+    }
+
+    public static function savedAsDraftEvent(): self
+    {
+        return new self(draft : true, savedAsDraft: true);
+    }
+
+    public static function reloadEvent(): self
+    {
+        return new self(draft : true, reload: true);
     }
 
     public function isMigrate(): bool
@@ -48,5 +72,30 @@ class EventType
     public function isDraft(): bool
     {
         return $this->draft;
+    }
+
+    public function isRecompute(): bool
+    {
+        return $this->recompute;
+    }
+
+    public function isImport(): bool
+    {
+        return $this->import;
+    }
+
+    public function isAutoSave(): bool
+    {
+        return $this->autoSave;
+    }
+
+    public function isSavedAsDraft(): bool
+    {
+        return $this->savedAsDraft;
+    }
+
+    public function isReload(): bool
+    {
+        return $this->reload;
     }
 }

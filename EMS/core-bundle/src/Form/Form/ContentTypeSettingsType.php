@@ -11,6 +11,8 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
+use function Symfony\Component\Translation\t;
+
 /**
  * @extends AbstractType<mixed>
  */
@@ -26,6 +28,7 @@ class ContentTypeSettingsType extends AbstractType
         $builder
             ->add(ContentTypeSettings::HIDE_REVISION_SIDEBAR, CheckboxType::class, ['required' => false])
             ->add(ContentTypeSettings::TASKS_ENABLED, CheckboxType::class, ['required' => false])
+            ->add(ContentTypeSettings::RECOMPUTE_ON_PUBLISH, CheckboxType::class, ['label' => t('content-type.field.recompute_on_publish.label', [], 'emsco-core'), 'required' => false])
             ->add(ContentTypeSettings::TASKS_TITLES, CollectionType::class, [
                 'entry_type' => TextType::class,
                 'attr' => [

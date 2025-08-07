@@ -17,8 +17,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-use function Symfony\Component\Translation\t;
-
 /**
  * @extends AbstractType<mixed>
  */
@@ -67,10 +65,6 @@ class ContentTypeType extends AbstractType
         if ($environment->getManaged()) {
             $builder->add('autoPublish', CheckboxType::class, [
                 'label' => 'Silently publish draft and auto-save into the default environment',
-                'required' => false,
-            ]);
-            $builder->add('recomputeOnPublish', CheckboxType::class, [
-                'label' => t('content-type.field.recompute_on_publish.label', [], 'emsco-core'),
                 'required' => false,
             ]);
         }

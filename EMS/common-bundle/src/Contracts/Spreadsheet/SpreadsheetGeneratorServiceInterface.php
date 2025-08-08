@@ -19,6 +19,7 @@ interface SpreadsheetGeneratorServiceInterface
     public const CONTENT_DISPOSITION = 'disposition';
     public const CELL_DATA = 'data';
     public const CELL_STYLE = 'style';
+    public const VALUE_BINDER = 'value_binder';
 
     /**
      * @param array<mixed> $config

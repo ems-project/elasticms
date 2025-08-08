@@ -9,6 +9,7 @@ Two writer are supported:
     "filename": "custom-filename",
     "disposition": "attachment",
     "writer": "xlsx",
+    "value_binder": "string",
     "sheets": [
         {
             "name": "Sheet 1",
@@ -29,6 +30,15 @@ Two writer are supported:
 
 {{- config|json_encode|raw -}}
 ```
+
+The `value_binder` config allows following values:
+- `null`: use DefaultValueBinder
+- `string`: use StringValueBinder
+- `advanced`: use AdvancedValueBinder
+
+More info about [value binders](https://phpspreadsheet.readthedocs.io/en/latest/topics/accessing-cells/#using-value-binders-to-facilitate-data-entry).
+
+
 Different config for definition of Cell are available (config may be mixed up)
 
 - `without style`: directly string value or an array { "data" : "stringValue" }

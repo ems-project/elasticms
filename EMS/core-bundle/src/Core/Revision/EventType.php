@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Core\Revision;
 
+use EMS\CoreBundle\Entity\Environment;
+
 class EventType
 {
     private function __construct(
@@ -16,6 +18,7 @@ class EventType
         private readonly bool $autoSave = false,
         private readonly bool $savedAsDraft = false,
         private readonly bool $reload = false,
+        private readonly ?Environment $target = null,
     ) {
     }
 
@@ -34,9 +37,9 @@ class EventType
         return new self(finalize: true);
     }
 
-    public static function publishEvent(): self
+    public static function publishEvent(Environment $environment): self
     {
-        return new self(finalize: true, publish : true);
+        return new self(finalize: true, publish : true, target: $environment);
     }
 
     public static function autoSaveEvent(): self
@@ -97,5 +100,10 @@ class EventType
     public function isReload(): bool
     {
         return $this->reload;
+    }
+
+    public function getTarget(): ?Environment
+    {
+        return $this->target;
     }
 }

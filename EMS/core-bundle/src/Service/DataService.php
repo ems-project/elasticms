@@ -16,6 +16,7 @@ use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
+use EMS\CoreBundle\Core\ContentType\ContentTypeSettings;
 use EMS\CoreBundle\Core\Log\LogRevisionContext;
 use EMS\CoreBundle\Core\Revision\EventType;
 use EMS\CoreBundle\Entity\ContentType;
@@ -701,6 +702,52 @@ class DataService
     public function refresh(Environment $environment): bool
     {
         return $this->elasticaService->refresh($environment->getAlias());
+    }
+
+    public function recomputeOnPublish(Revision $revision, Environment $environment): Revision
+    {
+        if (!$revision->giveContentType()->getSettings()->getSettingBool(ContentTypeSettings::RECOMPUTE_ON_PUBLISH)) {
+            return $revision;
+        }
+        if ($revision->getDeleted()) {
+            throw new \Exception('Can not recomputed a deleted revision');
+        }
+        if (!empty($revision->getAutoSave())) {
+            throw new DataStateException('An auto save is pending, it can not be recomputed.');
+        }
+        if (!$revision->hasOuuid()) {
+            throw new DataStateException('The revision doesn\'t have OUUID, it can not be recomputed.');
+        }
+        if (null == $revision->getDatafield()) {
+            $this->loadDataStructure($revision);
+        }
+        $builder = $this->formFactory->createBuilder(RevisionType::class, $revision, ['raw_data' => $revision->getRawData()]);
+        $form = $builder->getForm();
+        $token = $this->tokenStorage->getToken();
+        if (null === $token) {
+            throw new \RuntimeException('Unexpected null token');
+        }
+        $username = $token->getUserIdentifier();
+        $this->lockRevision($revision, null, false, $username);
+        $objectArray = $revision->getRawData();
+
+        if (!$revision->isLazyIndex()) {
+            $this->updateDataStructure($revision->giveContentType()->getFieldType(), $form->get('data')->getNormData());
+        }
+        if (!$this->propagateDataToComputedField($form->get('data'), $objectArray, $revision->giveContentType(), $revision->giveContentType()->getName(), $revision->getOuuid(), EventType::publishEvent($environment))) {
+            return $revision;
+        }
+        $revision->setRawData($objectArray);
+        $this->sign($revision);
+        $this->setMetaFields($revision);
+        $em = $this->doctrine->getManager();
+        $em->persist($revision);
+        $em->flush();
+        foreach ($revision->getEnvironments() as $environment) {
+            $this->indexService->indexRevision($revision, $environment);
+        }
+
+        return $revision;
     }
 
     /**

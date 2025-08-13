@@ -1,5 +1,10 @@
 # Changelog 6.x
 
+## 6.6.1 (2025-08-08)
+### Bug Fixes
+* fix(cli/import): add new mime type configuration by @Davidmattei in https://github.com/ems-project/elasticms/pull/1380
+* fix(common/spreadsheet): config value_binder by @Davidmattei in https://github.com/ems-project/elasticms/pull/1382
+
 ## 6.6.0 (2025-07-29)
 ### Features
 * feat(demo): using webp in demo's cards by @theus77 in https://github.com/ems-project/elasticms/pull/1374

@@ -119,6 +119,7 @@ class EmschFormType extends AbstractType
             'language' => SymfonyType\LanguageType::class,
             'money' => SymfonyType\MoneyType::class,
             'number' => SymfonyType\NumberType::class,
+            'percent' => SymfonyType\PercentType::class,
             'submit' => SymfonyType\SubmitType::class,
             'text' => SymfonyType\TextType::class,
             'textarea' => SymfonyType\TextareaType::class,

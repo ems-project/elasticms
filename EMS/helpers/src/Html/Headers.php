@@ -16,4 +16,5 @@ class Headers
     public const SET_COOKIE = 'set-cookie';
     public const COOKIE = 'cookie';
     public const IF_NONE_MATCH = 'if-none-match';
+    public const LINK = 'link';
 }

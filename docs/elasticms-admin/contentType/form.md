@@ -61,8 +61,18 @@ It's a powerful way to validate, provide each form's DataField. It can be config
 
 Context of the postprocessing template:
  - `_id`: Document's OUUID (string) or `null` if the documents hasn't been finalized yet
- - `migration`: boolean set to `true` in the context of a migration (like in the context of the `ems:contenttype:migrate` or `ems:contenttype:recompute` command)
+ - `migration`: boolean set to `true` in the context of a migration (like in the context of the `emsco:contenttype:migrate` or `ems:contenttype:recompute` command)
  - `finalize`: boolean set to `false` in the context of an autosave, otherwize set to `true`
+ - `event`: [EMS\CoreBundle\Core\Revision\EventType](https://github.com/ems-project/elasticms/blob/6.x/EMS/core-bundle/src/Core/Revision/EventType.php). This object as the following parameters:
+   - `migrate`: boolean set to `true` in the context of a migration (like in the context of the `emsco:contenttype:migrate`` or `ems:contenttype:recompute` command)
+   - `finalize`: boolean set to `false` in the context of an autosave, otherwize set to `true`
+   - `publish`: boolean set to `true` in the context of a recompute on publish, only if the option 'Recompute on publish' is activated for the content type
+   - `draft`: boolean set to `true` if it's not a finalisation 
+   - `recompute`: boolean set to `true` if it's a recompute (e.g. recompute command or recompute on publish) 
+   - `import`: boolean set to `true` if it's a revision that is migrated with the command `emsco:contenttype:migrate` or `emsco:contenttype:import`  
+   - `autoSave`: boolean set to `true` if it's an auto save  
+   - `savedAsDraft`: boolean set to `true` if it's a save as draft  
+   - `reload`: boolean set to `true` if data are reloaded during a reindex 
  - `rootObject`: The associate array of the document's RAW data as it was extracted from the Revision's form
  - `_source`: The associate array of the current field with all its siblings (refers to data of the current DataField structure)
  - `_type`: content type's name (string)
@@ -70,4 +80,15 @@ Context of the postprocessing template:
  - `alias`: Elasticsearch's alias of the content type's default environment
  - `path`: Dot path to the current DataField (i.e. `'fr.title'`)
  - `form`: Symfony Form object of the current DataField
+
+### Example of recompute on publish
+
+In this example a counter `publish_counter` is incremented each time that a document is published in an environment but the default one.
+
+```twig
+{%- if event.publish -%}
+    {%- set counter = _source.publish_counter|default(0) -%}
+    {{- counter + 1 -}}
+{%- endif -%}
+```
 

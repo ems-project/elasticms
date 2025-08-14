@@ -17,8 +17,7 @@ readonly class CoreBridgeController
     public function __construct(
         private CoreBridgeInterface $coreBridge,
         private UrlGeneratorInterface $urlGenerator
-    )
-    {
+    ) {
     }
 
     public function api(): void
@@ -40,12 +39,12 @@ readonly class CoreBridgeController
             )->success(),
         ]);
     }
-    
+
     public function fileInitUpload(Request $request): JsonResponse
     {
         $requestContent = $request->getContent();
         $json = Json::decode($requestContent);
-        
+
         $hash = $json['hash'];
 
         $uploaded = $this->coreBridge->file()->initUpload(
@@ -54,21 +53,21 @@ readonly class CoreBridgeController
             filename: $json['name'],
             mimetype: $json['type']
         );
-        
+
         return new JsonResponse([
             'uploaded' => $uploaded,
             'chunkUrl' => $this->urlGenerator->generate('emsch_api_file_chunk', ['hash' => $hash]),
         ]);
     }
-    
+
     public function fileChunk(Request $request, string $hash): JsonResponse
     {
         $chunk = $request->getContent();
-        
-        if (!is_string($chunk)) {
+
+        if (!\is_string($chunk)) {
             throw new BadRequestHttpException();
         }
-        
+
         return new JsonResponse([
             'uploaded' => $this->coreBridge->file()->addChunk($hash, $chunk),
         ]);

@@ -10,7 +10,7 @@ use EMS\CommonBundle\Contracts\CoreApi\Endpoint\File\FileInterface;
 readonly class CoreFileApiBridge implements CoreFileBridgeInterface
 {
     use CoreBridgeTrait;
-    
+
     public function __construct(private FileInterface $file)
     {
     }

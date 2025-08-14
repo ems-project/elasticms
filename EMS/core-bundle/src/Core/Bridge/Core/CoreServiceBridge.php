@@ -52,7 +52,7 @@ readonly class CoreServiceBridge implements CoreBridgeInterface
     public function file(): CoreFileBridgeInterface
     {
         $user = $this->userService->getCurrentUser()->getUsername();
-        
+
         return new CoreFileServiceBridge($this->fileService, $user);
     }
 }

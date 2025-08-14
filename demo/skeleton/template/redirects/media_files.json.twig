@@ -4,7 +4,8 @@
         _username: source.username|default(false),
         _password: source.password|default(false),
         _before: source.before|default(false),
-        _after: source.after|default(false)
+        _after: source.after|default(false),
+        _canonical: "https://elasticms.fgov.be/media-files#{source.media_path}"
     }|filter(v => v != false) -%}
     {{- {
         controller: 'EMS\\CommonBundle\\Controller\\FileController::resolveAsset',

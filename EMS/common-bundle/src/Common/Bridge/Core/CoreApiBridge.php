@@ -6,6 +6,7 @@ namespace EMS\CommonBundle\Common\Bridge\Core;
 
 use EMS\CommonBundle\Contracts\Bridge\Core\CoreBridgeInterface;
 use EMS\CommonBundle\Contracts\Bridge\Core\CoreDataBridgeInterface;
+use EMS\CommonBundle\Contracts\Bridge\Core\CoreFileBridgeInterface;
 use EMS\CommonBundle\Contracts\Bridge\Core\CoreInfoBridgeInterface;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
 
@@ -28,5 +29,10 @@ readonly class CoreApiBridge implements CoreBridgeInterface
     public function info(): CoreInfoBridgeInterface
     {
         return new CoreInfoApiBridge($this->coreApi->meta());
+    }
+
+    public function file(): CoreFileBridgeInterface
+    {
+        return new CoreFileApiBridge($this->coreApi->file());
     }
 }

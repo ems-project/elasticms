@@ -1,6 +1,9 @@
+# Spreadsheets
+
 In Twig you can set the spreadsheet options by generating a JSON
 
 Two writer are supported:
+
 - `xlsx`: Generate a Microsoft Excel file
 - `csv`: Generate a CSV file
 
@@ -31,13 +34,18 @@ Two writer are supported:
 {{- config|json_encode|raw -}}
 ```
 
+## Value binders
+
 The `value_binder` config allows following values:
+
 - `null`: use DefaultValueBinder
 - `string`: use StringValueBinder
 - `advanced`: use AdvancedValueBinder
 
-More info about [value binders](https://phpspreadsheet.readthedocs.io/en/latest/topics/accessing-cells/#using-value-binders-to-facilitate-data-entry).
+More info
+about [value binders](https://phpspreadsheet.readthedocs.io/en/latest/topics/accessing-cells/#using-value-binders-to-facilitate-data-entry).
 
+## Style cells
 
 Different config for definition of Cell are available (config may be mixed up)
 
@@ -55,6 +63,7 @@ Different config for definition of Cell are available (config may be mixed up)
         ],
     ]
 ```
+
 - `with style`: need an array { "data" : "stringValue", "style" : [] }
 
 ```twig
@@ -92,4 +101,41 @@ Different config for definition of Cell are available (config may be mixed up)
     ]
 
 ```
-- More information of style (styleArray only): [refers to Phpspreadsheet Documentation](https://phpspreadsheet.readthedocs.io/en/latest/topics/recipes/#styles)
+
+- More information of style (styleArray
+  only): [refers to Phpspreadsheet Documentation](https://phpspreadsheet.readthedocs.io/en/latest/topics/recipes/#styles)
+
+## Date cells
+
+When dates are exported as strings, all cells in the column will initially
+contain string values. However, if a user edits one of these cells in Excel,
+that specific cell is automatically converted into a real date value, while the
+others remain strings.
+As a result, the column ends up containing mixed data types.
+When reading the file back, the edited cell is interpreted as a numeric date (
+Excel stores dates internally as integers) and will therefore be returned in the
+m/d/Y format.
+
+To avoid mixed data types, any value that represents a date should be stored as
+a proper date type instead of a string.
+
+Define:
+
+- Type: date
+- Format input: use by php for converting the data into a \DateTime object
+- Format display: use by formatting the object in excel
+
+```json
+{
+  "rows": [
+    [
+      {
+        "data": "23/08/2025",
+        "type": "date",
+        "format_input": "d/m/Y",
+        "format_display": "dd/mm/yyyy"
+      }
+    ]
+  ]
+}
+```

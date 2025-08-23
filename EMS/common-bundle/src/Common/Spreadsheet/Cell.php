@@ -6,13 +6,12 @@ namespace EMS\CommonBundle\Common\Spreadsheet;
 
 readonly class Cell
 {
-    public const string TYPE_DATE = 'date';
-
     public const string CELL_DATA = 'data';
+    public const string CELL_FORMAT_DISPLAY = 'format_display';
+    public const string CELL_FORMAT_INPUT = 'format_input';
     public const string CELL_STYLE = 'style';
     public const string CELL_TYPE = 'type';
-    public const string CELL_FORMAT_INPUT = 'format_input';
-    public const string CELL_FORMAT_DISPLAY = 'format_display';
+    public const string TYPE_DATE = 'date';
 
     /** @param array<mixed> $style */
     public function __construct(
@@ -24,13 +23,13 @@ readonly class Cell
     ) {
     }
 
-    public function isType(string $type): bool
-    {
-        return $this->type === $type;
-    }
-
     public function hasStyle(): bool
     {
         return \count($this->style) > 0;
+    }
+
+    public function isType(string $type): bool
+    {
+        return $this->type === $type;
     }
 }

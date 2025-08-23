@@ -18,11 +18,6 @@ interface SpreadsheetGeneratorServiceInterface
     public const string SHEETS = 'sheets';
     public const string CONTENT_FILENAME = 'filename';
     public const string CONTENT_DISPOSITION = 'disposition';
-    public const string CELL_DATA = 'data';
-    public const string CELL_STYLE = 'style';
-    public const string CELL_TYPE = 'type';
-    public const string CELL_FORMAT_INPUT = 'format_input';
-    public const string CELL_FORMAT_DISPLAY = 'format_display';
     public const string VALUE_BINDER = 'value_binder';
 
     /**

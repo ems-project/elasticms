@@ -4,8 +4,16 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Common\Spreadsheet;
 
-readonly class SpreadsheetCell
+readonly class Cell
 {
+    public const string TYPE_DATE = 'date';
+
+    public const string CELL_DATA = 'data';
+    public const string CELL_STYLE = 'style';
+    public const string CELL_TYPE = 'type';
+    public const string CELL_FORMAT_INPUT = 'format_input';
+    public const string CELL_FORMAT_DISPLAY = 'format_display';
+
     /** @param array<mixed> $style */
     public function __construct(
         public string $data,

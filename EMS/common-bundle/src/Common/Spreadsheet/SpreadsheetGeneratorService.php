@@ -114,9 +114,7 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
                         $sheet->setDataValidation($cellCoordinate, $validation);
                     }
 
-                    $value = \is_array($value) ? $value : [self::CELL_DATA => $value];
-                    $cell = $this->resolveOptionsCell($value);
-                    $this->addCell($sheet, $cellCoordinate, $cell);
+                    $this->addCell($sheet, $cellCoordinate, $this->buildCellFromValue($value));
 
                     ++$k;
                     $maxCol = $k > $maxCol ? $k : $maxCol;
@@ -136,21 +134,21 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
         return $spreadsheet;
     }
 
-    private function addCell(Worksheet $sheet, string $cellCoordinate, SpreadsheetCell $cell): void
+    private function addCell(Worksheet $sheet, string $cellCoordinate, Cell $cell): void
     {
         $data = $cell->data;
-        if ($cell->isType('date') && '' !== $data && null !== $formatInput = $cell->formatInput) {
+        if ($cell->isType(Cell::TYPE_DATE) && '' !== $data && null !== $formatInput = $cell->formatInput) {
             $data = DateTime::createFromFormat($data, $formatInput)->setTime(0, 0);
             $valueBinder = new DefaultValueBinder();
         }
 
-        $value = $cell->isType('date') ? Date::PHPToExcel($data) : Converter::stringify($data);
+        $value = $cell->isType(Cell::TYPE_DATE) ? Date::PHPToExcel($data) : Converter::stringify($data);
         $sheet->setCellValue($cellCoordinate, $value, $valueBinder ?? null);
 
         if ($cell->hasStyle()) {
             $sheet->getStyle($cellCoordinate)->applyFromArray($cell->style);
         }
-        if ($cell->isType('date') && null !== $formatDisplay = $cell->formatDisplay) {
+        if ($cell->isType(Cell::TYPE_DATE) && null !== $formatDisplay = $cell->formatDisplay) {
             $sheet->getStyle($cellCoordinate)->getNumberFormat()->setFormatCode($formatDisplay);
         }
     }
@@ -196,32 +194,34 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
     /**
      * @param array<mixed> $config
      */
-    private function resolveOptionsCell(array $config): SpreadsheetCell
+    private function buildCellFromValue(string|array $config): Cell
     {
+        $config = \is_array($config) ? $config : [Cell::CELL_DATA => $config];
+
         $resolver = new OptionsResolver();
         $resolver
             ->setDefaults([
-                self::CELL_STYLE => [],
-                self::CELL_TYPE => null,
-                self::CELL_FORMAT_INPUT => null,
-                self::CELL_FORMAT_DISPLAY => null,
+                Cell::CELL_STYLE => [],
+                Cell::CELL_TYPE => null,
+                Cell::CELL_FORMAT_INPUT => null,
+                Cell::CELL_FORMAT_DISPLAY => null,
             ])
-            ->setRequired([self::CELL_DATA])
-            ->setAllowedValues(self::CELL_TYPE, [null, 'date'])
-            ->setAllowedTypes(self::CELL_STYLE, ['array'])
-            ->setAllowedTypes(self::CELL_FORMAT_INPUT, ['null', 'string'])
-            ->setAllowedTypes(self::CELL_FORMAT_DISPLAY, ['null', 'string'])
+            ->setRequired([Cell::CELL_DATA])
+            ->setAllowedValues(Cell::CELL_TYPE, [null, 'date'])
+            ->setAllowedTypes(Cell::CELL_STYLE, ['array'])
+            ->setAllowedTypes(Cell::CELL_FORMAT_INPUT, ['null', 'string'])
+            ->setAllowedTypes(Cell::CELL_FORMAT_DISPLAY, ['null', 'string'])
         ;
 
         /** @var array{data: string, type?: string, style: array<mixed>, format_input?: string, format_display?: string} $resolved */
         $resolved = $resolver->resolve($config);
 
-        return new SpreadsheetCell(
-            $resolved[self::CELL_DATA],
-            $resolved[self::CELL_STYLE],
-            $resolved[self::CELL_TYPE] ?? null,
-            $resolved[self::CELL_FORMAT_INPUT] ?? null,
-            $resolved[self::CELL_FORMAT_DISPLAY] ?? null,
+        return new Cell(
+            $resolved[Cell::CELL_DATA],
+            $resolved[Cell::CELL_STYLE],
+            $resolved[Cell::CELL_TYPE] ?? null,
+            $resolved[Cell::CELL_FORMAT_INPUT] ?? null,
+            $resolved[Cell::CELL_FORMAT_DISPLAY] ?? null,
         );
     }
 

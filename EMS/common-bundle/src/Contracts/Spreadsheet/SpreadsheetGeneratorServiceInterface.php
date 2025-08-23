@@ -9,17 +9,21 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 interface SpreadsheetGeneratorServiceInterface
 {
-    public const WRITER = 'writer';
-    public const XLSX_WRITER = 'xlsx';
-    public const CSV_WRITER = 'csv';
-    public const FORMAT_WRITERS = [self::CSV_WRITER, self::XLSX_WRITER];
-    public const CSV_SEPARATOR = 'csv_separator';
-    public const SHEETS = 'sheets';
-    public const CONTENT_FILENAME = 'filename';
-    public const CONTENT_DISPOSITION = 'disposition';
-    public const CELL_DATA = 'data';
-    public const CELL_STYLE = 'style';
-    public const VALUE_BINDER = 'value_binder';
+    public const string WRITER = 'writer';
+    public const string XLSX_WRITER = 'xlsx';
+    public const string CSV_WRITER = 'csv';
+    /** @var string[] */
+    public const array FORMAT_WRITERS = [self::CSV_WRITER, self::XLSX_WRITER];
+    public const string CSV_SEPARATOR = 'csv_separator';
+    public const string SHEETS = 'sheets';
+    public const string CONTENT_FILENAME = 'filename';
+    public const string CONTENT_DISPOSITION = 'disposition';
+    public const string CELL_DATA = 'data';
+    public const string CELL_STYLE = 'style';
+    public const string CELL_TYPE = 'type';
+    public const string CELL_FORMAT_INPUT = 'format_input';
+    public const string CELL_FORMAT_DISPLAY = 'format_display';
+    public const string VALUE_BINDER = 'value_binder';
 
     /**
      * @param array<mixed> $config

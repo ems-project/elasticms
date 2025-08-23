@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Common\Spreadsheet;
 
-class SpreadsheetCell
+readonly class SpreadsheetCell
 {
     /** @param array<mixed> $style */
     public function __construct(

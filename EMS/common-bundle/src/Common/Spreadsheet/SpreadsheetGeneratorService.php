@@ -7,12 +7,15 @@ namespace EMS\CommonBundle\Common\Spreadsheet;
 use EMS\CommonBundle\Common\Converter;
 use EMS\CommonBundle\Contracts\Spreadsheet\SpreadsheetGeneratorServiceInterface;
 use EMS\Helpers\File\TempFile;
+use EMS\Helpers\Standard\DateTime;
 use PhpOffice\PhpSpreadsheet\Cell\AdvancedValueBinder;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Cell\DefaultValueBinder;
 use PhpOffice\PhpSpreadsheet\Cell\StringValueBinder;
 use PhpOffice\PhpSpreadsheet\Settings;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;
@@ -103,21 +106,16 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
             foreach ($sheetConfig['rows'] as $row) {
                 $k = 1;
                 foreach ($row as $value) {
+                    $cellCoordinate = Coordinate::stringFromColumnIndex($k).$j;
+
                     if (\array_key_exists('validations', $sheetConfig) && null != $sheetConfig['validations'][$k - 1]) {
                         $spreadsheetValidation = $sheetConfig['validations'][$k - 1];
-                        $validation = $spreadsheetValidation->addValidation($sheet->getCell(Coordinate::stringFromColumnIndex($k).$j)->getDataValidation());
-                        $sheet->setDataValidation(Coordinate::stringFromColumnIndex($k).$j, $validation);
+                        $validation = $spreadsheetValidation->addValidation($sheet->getCell($cellCoordinate)->getDataValidation());
+                        $sheet->setDataValidation($cellCoordinate, $validation);
                     }
 
-                    if (!\is_array($value)) {
-                        $value = [self::CELL_DATA => $value];
-                    }
-                    $value = $this->resolveOptionsCell($value);
-                    $sheet->setCellValue(Coordinate::stringFromColumnIndex($k).$j, Converter::stringify($value[self::CELL_DATA]));
-                    if (!empty($value[self::CELL_STYLE])) {
-                        $sheet->getStyle(Coordinate::stringFromColumnIndex($k).$j)
-                            ->applyFromArray($value[self::CELL_STYLE]);
-                    }
+                    $this->addCell($sheet, $cellCoordinate, $this->buildCellFromValue($value));
+
                     ++$k;
                     $maxCol = $k > $maxCol ? $k : $maxCol;
                 }
@@ -134,6 +132,25 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
         }
 
         return $spreadsheet;
+    }
+
+    private function addCell(Worksheet $sheet, string $cellCoordinate, Cell $cell): void
+    {
+        $data = $cell->data;
+        if ($cell->isType(Cell::TYPE_DATE) && '' !== $data && null !== $formatInput = $cell->formatInput) {
+            $data = DateTime::createFromFormat($data, $formatInput)->setTime(0, 0);
+            $valueBinder = new DefaultValueBinder();
+        }
+
+        $value = $cell->isType(Cell::TYPE_DATE) ? Date::PHPToExcel($data) : Converter::stringify($data);
+        $sheet->setCellValue($cellCoordinate, $value, $valueBinder ?? null);
+
+        if ($cell->hasStyle()) {
+            $sheet->getStyle($cellCoordinate)->applyFromArray($cell->style);
+        }
+        if ($cell->isType(Cell::TYPE_DATE) && null !== $formatDisplay = $cell->formatDisplay) {
+            $sheet->getStyle($cellCoordinate)->getNumberFormat()->setFormatCode($formatDisplay);
+        }
     }
 
     /**
@@ -176,20 +193,36 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
 
     /**
      * @param array<mixed> $config
-     *
-     * @return array{data: string, style: array<mixed>}
      */
-    private function resolveOptionsCell(array $config): array
+    private function buildCellFromValue(string|array $config): Cell
     {
-        $resolver = new OptionsResolver();
-        $resolver->setDefaults([self::CELL_STYLE => []]);
-        $resolver->setRequired([self::CELL_DATA]);
-        $resolver->setAllowedTypes(self::CELL_STYLE, ['array']);
+        $config = \is_array($config) ? $config : [Cell::CELL_DATA => $config];
 
-        /** @var array{data: string, style: array<mixed>} $resolved */
+        $resolver = new OptionsResolver();
+        $resolver
+            ->setDefaults([
+                Cell::CELL_STYLE => [],
+                Cell::CELL_TYPE => null,
+                Cell::CELL_FORMAT_INPUT => null,
+                Cell::CELL_FORMAT_DISPLAY => null,
+            ])
+            ->setRequired([Cell::CELL_DATA])
+            ->setAllowedValues(Cell::CELL_TYPE, [null, 'date'])
+            ->setAllowedTypes(Cell::CELL_STYLE, ['array'])
+            ->setAllowedTypes(Cell::CELL_FORMAT_INPUT, ['null', 'string'])
+            ->setAllowedTypes(Cell::CELL_FORMAT_DISPLAY, ['null', 'string'])
+        ;
+
+        /** @var array{data: string, type?: string, style: array<mixed>, format_input?: string, format_display?: string} $resolved */
         $resolved = $resolver->resolve($config);
 
-        return $resolved;
+        return new Cell(
+            $resolved[Cell::CELL_DATA],
+            $resolved[Cell::CELL_STYLE],
+            $resolved[Cell::CELL_TYPE] ?? null,
+            $resolved[Cell::CELL_FORMAT_INPUT] ?? null,
+            $resolved[Cell::CELL_FORMAT_DISPLAY] ?? null,
+        );
     }
 
     /**

@@ -20,7 +20,7 @@
         "ext-mbstring": "*",
         "ext-sqlite3": "*",
         "doctrine/doctrine-migrations-bundle": "^3.2",
-        "elasticms/common-bundle": "6.6.*",
+        "elasticms/common-bundle": "6.7.*",
         "kevinrob/guzzle-cache-middleware": "^6.0",
         "symfony/console": "6.4.*",
         "symfony/css-selector": "6.4.*",

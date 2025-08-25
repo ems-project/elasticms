@@ -1,5 +1,9 @@
 # Changelog 5.x
 
+## 5.25.10 (2025-07-11)
+### Bug Fixes
+* fix(admin/datatable): use post for ajax request core data tables by @Davidmattei in https://github.com/ems-project/elasticms/pull/1347
+
 ## 5.25.9 (2025-06-10)
 ### Bug Fixes
 * fix(admin/datatable): use post instead of get for ajax requests by @theus77 in https://github.com/ems-project/elasticms/pull/1339

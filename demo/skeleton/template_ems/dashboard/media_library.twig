@@ -1,6 +1,6 @@
 {% block body %}
     {{ component('media_library', {
-        'id': 'examaple-media-lib',
+        'id': 'example-media-lib',
         'template': _self,
         'searchType': 'prefix',
         "sort": [
@@ -22,6 +22,7 @@
         <div class="btn-group">
             {%- if mediaFolder is defined and mediaFile is not defined and selectionFiles == 0 -%}
                 {{- template.block('media_lib_button_folder_rename', _context)|raw -}}
+                {{- template.block('media_lib_button_folder_move', _context)|raw -}}
                 {{- template.block('media_lib_button_folder_delete', _context)|raw -}}
             {%- endif -%}
         </div>
@@ -36,6 +37,7 @@
                 {{- template.block('media_lib_button_file_view', _context)|raw -}}
                 {{- template.block('file_download_file', _context)|raw -}}
                 {{- template.block('button_file_edit', _context)|raw -}}
+                {{- template.block('media_lib_button_file_revision', _context)|raw -}}
                 {{- template.block('media_lib_button_file_rename', _context)|raw -}}
                 {{- template.block('media_lib_button_files_move', _context)|raw -}}
                 {{- template.block('media_lib_button_file_delete', _context)|raw -}}

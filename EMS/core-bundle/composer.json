@@ -5,7 +5,7 @@
     "keywords": [
         "elasticms"
     ],
-    "license": "MIT",
+    "license": "LGPL-3.0",
     "authors": [
         {
             "name": "EMS Community",
@@ -24,8 +24,8 @@
         "doctrine/doctrine-bundle": "^2.11",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "dragonmantank/cron-expression": "^3.3",
-        "elasticms/submission-bundle": "6.4.*",
-        "elasticms/xliff": "6.4.*",
+        "elasticms/submission-bundle": "6.7.*",
+        "elasticms/xliff": "6.7.*",
         "guzzlehttp/guzzle": "^7.8",
         "maennchen/zipstream-php": "^3.0",
         "scssphp/scssphp": "^2.0",

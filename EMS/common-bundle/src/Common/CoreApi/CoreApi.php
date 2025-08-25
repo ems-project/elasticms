@@ -161,10 +161,8 @@ final readonly class CoreApi implements CoreApiInterface
         return new Form($this->client);
     }
 
-    /**
-     * @deprecated
-     */
     #[\Override]
+    #[\Deprecated]
     public function hashFile(string $filename): string
     {
         @\trigger_error('CoreApi::hashFile is deprecated use the CorePai/File/File::hashFile', E_USER_DEPRECATED);
@@ -172,10 +170,8 @@ final readonly class CoreApi implements CoreApiInterface
         return $this->fileEndpoint->hashFile($filename);
     }
 
-    /**
-     * @deprecated
-     */
     #[\Override]
+    #[\Deprecated]
     public function initUpload(string $hash, int $size, string $filename, string $mimetype): int
     {
         @\trigger_error('CoreApi::initUpload is deprecated use the CorePai/File/File::initUpload', E_USER_DEPRECATED);
@@ -183,10 +179,8 @@ final readonly class CoreApi implements CoreApiInterface
         return $this->fileEndpoint->initUpload($hash, $size, $filename, $mimetype);
     }
 
-    /**
-     * @deprecated
-     */
     #[\Override]
+    #[\Deprecated]
     public function addChunk(string $hash, string $chunk): int
     {
         @\trigger_error('CoreApi::addChunk is deprecated use the CorePai/File/File::addChunk', E_USER_DEPRECATED);

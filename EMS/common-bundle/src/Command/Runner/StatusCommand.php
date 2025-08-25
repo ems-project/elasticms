@@ -24,7 +24,7 @@ class StatusCommand extends AbstractCommand
     private string $tag;
     private string $id;
 
-    public function __construct(readonly private RunnerManager $runnerManager)
+    public function __construct(private readonly RunnerManager $runnerManager)
     {
         parent::__construct();
     }

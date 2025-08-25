@@ -51,7 +51,7 @@ $command = static function (InputInterface $input, OutputInterface $output): int
     }
 
     $io->writeln('Booting admin kernel');
-    (new Dotenv())->load(__DIR__.'/../elasticms-admin/.env');
+    new Dotenv()->load(__DIR__.'/../elasticms-admin/.env');
     $adminKernel = new Kernel('test', true);
     $adminKernel->boot();
     $bundleDir = $adminKernel->getBundle($bundle)->getPath();
@@ -82,7 +82,7 @@ $command = static function (InputInterface $input, OutputInterface $output): int
 
     $io->writeln('Extracting translation keys from code');
     $extractedCatalogue = new MessageCatalogue($locale);
-    $finder = (new Finder())
+    $finder = new Finder()
         ->ignoreUnreadableDirs()
         ->ignoreVCSIgnored(true)
         ->notPath('/src/(Command|DependencyInjection|Entity|Repository)')
@@ -219,7 +219,7 @@ $command = static function (InputInterface $input, OutputInterface $output): int
     return Command::SUCCESS;
 };
 
-(new SingleCommandApplication())
+new SingleCommandApplication()
     ->setName('Build: extract translations')
     ->addArgument('locale', InputArgument::REQUIRED, 'locale')
     ->addArgument('bundle', InputArgument::REQUIRED, 'bundle')

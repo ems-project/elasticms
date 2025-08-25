@@ -1,8 +1,60 @@
 # Changelog 6.x
 
+## 6.7.0 (2025-08-25)
+### Features
+* feat(admin/content-type): recompute on publication by @theus77 in https://github.com/ems-project/elasticms/pull/1381
+* feat(admin/twig): new twig function emsco_job by @Davidmattei in https://github.com/ems-project/elasticms/pull/1387
+* feat(common/asset): new canonical header config by @theus77 in https://github.com/ems-project/elasticms/pull/1384
+* feat(common/spreadsheet): support excel date fields by @Davidmattei in https://github.com/ems-project/elasticms/pull/1391
+* feat(web/brigde): support file upload (chunk) by @Davidmattei in https://github.com/ems-project/elasticms/pull/1385
+* feat(web/form): support percent type by @Davidmattei in https://github.com/ems-project/elasticms/pull/1383
+### Code Refactoring
+* refactor(admin/action): execute job action in service by @Davidmattei in https://github.com/ems-project/elasticms/pull/1386
+
+## 6.6.1 (2025-08-08)
+### Bug Fixes
+* fix(cli/import): add new mime type configuration by @Davidmattei in https://github.com/ems-project/elasticms/pull/1380
+* fix(common/spreadsheet): config value_binder by @Davidmattei in https://github.com/ems-project/elasticms/pull/1382
+
+## 6.6.0 (2025-07-29)
+### Features
+* feat(demo): using webp in demo's cards by @theus77 in https://github.com/ems-project/elasticms/pull/1374
+### Bug Fixes
+* fix(admin): ct picker background color in multiple mode by @theus77 in https://github.com/ems-project/elasticms/pull/1377
+### Documentation
+* docs: licences mit to LGPL-3.0 by @theus77 in https://github.com/ems-project/elasticms/pull/1376
+### Code Refactoring
+* refactor(admin): crud overview template to page object by @Davidmattei in https://github.com/ems-project/elasticms/pull/1371
+* refactor(admin): move admin controllers by @Davidmattei in https://github.com/ems-project/elasticms/pull/1373
+* refactor(admin): remove add/edit form template for admin config by @Davidmattei in https://github.com/ems-project/elasticms/pull/1372
+
+## 6.5.1 (2025-07-25)
+### Bug Fixes
+* fix(admin/revision): inactive actions by @theus77 in https://github.com/ems-project/elasticms/pull/1375
+
+## 6.5.0 (2025-07-10)
+### Features
+* feat(admin/cli): new submission export command by @coppee in https://github.com/ems-project/elasticms/pull/1352
+* feat(admin/media-lib): add behavior for view file on click by @theus77 in https://github.com/ems-project/elasticms/pull/1342
+* feat(admin/media-lib): add searchType option by @theus77 in https://github.com/ems-project/elasticms/pull/1340
+* feat(admin/media-lib): folder move and revision task helpText by @coppee in https://github.com/ems-project/elasticms/pull/1351
+* feat(admin/media-lib): separate navbar and breadcrumb by @theus77 in https://github.com/ems-project/elasticms/pull/1341
+* feat(cli/import): add new option lowercase_headers by @Davidmattei in https://github.com/ems-project/elasticms/pull/1369
+* feat(demo/media-lib): apply end user remarks (edit button and author) by @theus77 in https://github.com/ems-project/elasticms/pull/1348
+### Bug Fixes
+* fix(admin/bridge): meta info environments not correct by @Davidmattei in https://github.com/ems-project/elasticms/pull/1370
+* fix(admin/user): enable groups with EMSCO_GROUP_FEATURE (default false) by @theus77 in https://github.com/ems-project/elasticms/pull/1343
+* fix(web/api): treat an simple array of files by @IsaMic in https://github.com/ems-project/elasticms/pull/1366
+
+## 6.4.6 (2025-07-09)
+### Bug Fixes
+* fix(admin/environment): revert align command use dbal queries by @Davidmattei in https://github.com/ems-project/elasticms/pull/1367
+* fix(admin/environment): revert unpublish command use dbal queries by @Davidmattei in https://github.com/ems-project/elasticms/pull/1368
+
 ## 6.4.5 (2025-06-24)
 ### Bug Fixes
 * fix(admin/environment): correct remove/add with version revisions  by @Davidmattei in https://github.com/ems-project/elasticms/pull/1362
+* fix(admin/revision): lock exception on silent publication by @Davidmattei in https://github.com/ems-project/elasticms/pull/1364
 ### Chores
 * chore(docker): overwrite postgres volume name by @Davidmattei in https://github.com/ems-project/elasticms/pull/1363
 

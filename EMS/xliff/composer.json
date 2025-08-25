@@ -7,7 +7,7 @@
         "phpstan",
         "xliff"
     ],
-    "license": "MIT",
+    "license": "LGPL-3.0",
     "authors": [
         {
             "name": "EMS Community",
@@ -17,7 +17,7 @@
     "require": {
         "php": "^8.4",
         "ext-dom": "*",
-        "elasticms/helpers": "6.4.*",
+        "elasticms/helpers": "6.7.*",
         "symfony/dom-crawler": "6.4.*",
         "symfony/property-access": "6.4.*"
     },

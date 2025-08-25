@@ -127,8 +127,9 @@
         </service>
 
         <!-- controllers -->
-        <service id="EMS\ClientHelperBundle\Controller\CoreApi\CoreApiController" public="true">
+        <service id="EMS\ClientHelperBundle\Controller\CoreBridgeController" public="true">
             <argument type="service" id="EMS\CommonBundle\Contracts\Bridge\Core\CoreBridgeInterface"/>
+            <argument type="service" id="router"/>
         </service>
 
         <service id="emsch.controller.search" class="EMS\ClientHelperBundle\Controller\SearchController" public="true">

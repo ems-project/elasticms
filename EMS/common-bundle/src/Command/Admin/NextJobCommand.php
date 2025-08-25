@@ -26,7 +26,7 @@ class NextJobCommand extends AbstractCommand
     final public const string TAG_JOB_ID = 'job-id';
     final public const string SILENT_OPTION = 'silent';
     private string $tag;
-    private ?string $jobId;
+    private ?string $jobId = null;
     private bool $silent;
 
     public function __construct(private readonly AdminHelper $adminHelper, private readonly JobManager $jobManager)

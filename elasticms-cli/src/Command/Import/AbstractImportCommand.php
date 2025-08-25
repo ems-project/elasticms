@@ -182,6 +182,10 @@ abstract class AbstractImportCommand extends AbstractCommand
         $chunks = [];
 
         foreach ($records as $row) {
+            if ($config->lowercaseHeaders) {
+                $row = \array_change_key_case($row);
+            }
+
             $ouuid = $this->createOuuid($config, $row);
 
             $rawData = $config->defaultData;

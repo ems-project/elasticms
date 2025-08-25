@@ -10,7 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 abstract class AbstractFactory implements RunnerFactoryInterface
 {
-    public function __construct(readonly protected LoggerInterface $logger, readonly private ComposerInfo $composerInfo)
+    public function __construct(protected readonly LoggerInterface $logger, private readonly ComposerInfo $composerInfo)
     {
     }
 

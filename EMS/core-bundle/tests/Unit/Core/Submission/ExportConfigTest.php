@@ -7,6 +7,8 @@ namespace EMS\CoreBundle\Tests\Unit\Core\Submission;
 use EMS\CoreBundle\Core\Submission\ExportConfig;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
+use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 
 final class ExportConfigTest extends TestCase
 {
@@ -119,7 +121,7 @@ final class ExportConfigTest extends TestCase
                     'columns' => [],
                     'subject' => 'Test',
                 ],
-                'expectedException' => \Symfony\Component\OptionsResolver\Exception\MissingOptionsException::class,
+                'expectedException' => MissingOptionsException::class,
             ],
             'invalid_filter_type' => [
                 'input' => [
@@ -128,7 +130,7 @@ final class ExportConfigTest extends TestCase
                     'subject' => 'Test',
                     'filter' => ['invalid' => 'filter'],
                 ],
-                'expectedException' => \Symfony\Component\OptionsResolver\Exception\InvalidOptionsException::class,
+                'expectedException' => InvalidOptionsException::class,
             ],
         ];
     }

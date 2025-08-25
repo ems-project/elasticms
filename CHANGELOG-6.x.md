@@ -1,5 +1,16 @@
 # Changelog 6.x
 
+## 6.7.0 (2025-08-25)
+### Features
+* feat(admin/content-type): recompute on publication by @theus77 in https://github.com/ems-project/elasticms/pull/1381
+* feat(admin/twig): new twig function emsco_job by @Davidmattei in https://github.com/ems-project/elasticms/pull/1387
+* feat(common/asset): new canonical header config by @theus77 in https://github.com/ems-project/elasticms/pull/1384
+* feat(common/spreadsheet): support excel date fields by @Davidmattei in https://github.com/ems-project/elasticms/pull/1391
+* feat(web/brigde): support file upload (chunk) by @Davidmattei in https://github.com/ems-project/elasticms/pull/1385
+* feat(web/form): support percent type by @Davidmattei in https://github.com/ems-project/elasticms/pull/1383
+### Code Refactoring
+* refactor(admin/action): execute job action in service by @Davidmattei in https://github.com/ems-project/elasticms/pull/1386
+
 ## 6.6.1 (2025-08-08)
 ### Bug Fixes
 * fix(cli/import): add new mime type configuration by @Davidmattei in https://github.com/ems-project/elasticms/pull/1380

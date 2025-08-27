@@ -190,11 +190,8 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
 
         return $resolved;
     }
-
-    /**
-     * @param array<mixed> $config
-     */
-    private function buildCellFromValue(string|array $config): Cell
+    
+    private function buildCellFromValue(mixed $config): Cell
     {
         $config = \is_array($config) ? $config : [Cell::CELL_DATA => $config];
 

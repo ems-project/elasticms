@@ -191,10 +191,7 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
         return $resolved;
     }
 
-    /**
-     * @param array<mixed> $config
-     */
-    private function buildCellFromValue(string|array $config): Cell
+    private function buildCellFromValue(mixed $config): Cell
     {
         $config = \is_array($config) ? $config : [Cell::CELL_DATA => $config];
 
@@ -213,7 +210,7 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
             ->setAllowedTypes(Cell::CELL_FORMAT_DISPLAY, ['null', 'string'])
         ;
 
-        /** @var array{data: string, type?: string, style: array<mixed>, format_input?: string, format_display?: string} $resolved */
+        /** @var array{data: mixed, type?: string, style: array<mixed>, format_input?: string, format_display?: string} $resolved */
         $resolved = $resolver->resolve($config);
 
         return new Cell(

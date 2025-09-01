@@ -136,5 +136,9 @@
             <argument type="service" id="ems_common.runner.manager" />
             <tag name="console.command" />
         </service>
+        <service id="ems.command.indexes.synchronize" class="EMS\CommonBundle\Command\Index\SynchronizeCommand">
+            <argument type="service" id="logger" />
+            <tag name="console.command" />
+        </service>
     </services>
 </container>

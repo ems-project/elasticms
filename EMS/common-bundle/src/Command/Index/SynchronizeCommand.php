@@ -26,8 +26,8 @@ class SynchronizeCommand extends AbstractCommand
     private const string ARGUMENT_SOURCE = 'source';
     private const string ARGUMENT_TARGET = 'target';
     private const string OPTION_BULK_SIZE = 'bulk-size';
-    public const OPTION_SOURCE_HEADERS = 'source-headers';
-    public const OPTION_TARGET_HEADERS = 'target-headers';
+    public const string OPTION_SOURCE_HEADERS = 'source-headers';
+    public const string OPTION_TARGET_HEADERS = 'target-headers';
     private string $source;
     private string $target;
     private int $bulkSize;
@@ -89,8 +89,8 @@ class SynchronizeCommand extends AbstractCommand
         $this->source = $this->getArgumentString(self::ARGUMENT_SOURCE);
         $this->target = $this->getArgumentString(self::ARGUMENT_TARGET);
         $this->bulkSize = $this->getOptionInt(self::OPTION_BULK_SIZE);
-        $this->sourceHeaders = Json::decode($this->getArgumentString(self::OPTION_SOURCE_HEADERS));
-        $this->targetHeaders = Json::decode($this->getArgumentString(self::OPTION_TARGET_HEADERS));
+        $this->targetHeaders = Json::decode($this->getOptionString(self::OPTION_TARGET_HEADERS));
+        $this->sourceHeaders = Json::decode($this->getOptionString(self::OPTION_SOURCE_HEADERS));
     }
 
     #[\Override]

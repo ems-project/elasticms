@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Command\Index;
 
 use EMS\CommonBundle\Commands;
+use EMS\CommonBundle\Common\Cluster\SimpleIndexClient;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
-use EMS\CommonBundle\Common\HttpClientFactory;
 use EMS\Helpers\Standard\Json;
-use GuzzleHttp\Client;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -97,28 +96,14 @@ class SynchronizeCommand extends AbstractCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io->title(\sprintf('Synchronizing %s to %s', $this->source, $this->target));
-        $sourceClient = $this->getClient($this->source, $this->targetHeaders);
-        $targetClient = $this->getClient($this->target, $this->sourceHeaders);
+        $sourceClient = SimpleIndexClient::create($this->source, $this->targetHeaders);
+        if (!$sourceClient->isDefined()) {
+            throw new \RuntimeException('Source index not found');
+        }
+        $this->io->info(\sprintf('Source index %s', $sourceClient->getIndex()));
 
-        $this->io->section(\sprintf('Check mapping of %s', $this->target));
-        $sourceMapping = $this->getMapping($sourceClient);
+        $targetClient = SimpleIndexClient::create($this->target, $this->sourceHeaders);
 
         return self::EXECUTE_SUCCESS;
-    }
-
-    /**
-     * @param mixed[] $headers
-     */
-    private function getClient(string $baseUrl, array $headers = []): Client
-    {
-        return HttpClientFactory::create($baseUrl, $headers);
-    }
-
-    /**
-     * @return mixed[]
-     */
-    private function getMapping(Client $sourceClient): array
-    {
-        return Json::decode($sourceClient->get('')->getBody()->getContents())['mappings'];
     }
 }

@@ -12,7 +12,6 @@ class ArrayHelper
     /**
      * @param mixed|mixed[] $array1
      * @param mixed|mixed[] $array2
-     * @return bool
      */
     public static function arrays_are_equal_recursive($array1, $array2): bool
     {

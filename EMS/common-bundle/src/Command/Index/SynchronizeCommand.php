@@ -25,6 +25,7 @@ class SynchronizeCommand extends AbstractCommand
     private const string ARGUMENT_SOURCE = 'source';
     private const string ARGUMENT_TARGET = 'target';
     private const string OPTION_BULK_SIZE = 'bulk-size';
+    private const string OPTION_FORCE = 'force';
     public const string OPTION_SOURCE_HEADERS = 'source-headers';
     public const string OPTION_TARGET_HEADERS = 'target-headers';
     private string $source;
@@ -38,6 +39,7 @@ class SynchronizeCommand extends AbstractCommand
      * @var string[]
      */
     private array $targetHeaders;
+    private bool $force;
 
     public function __construct(public readonly LoggerInterface $logger)
     {
@@ -66,6 +68,12 @@ class SynchronizeCommand extends AbstractCommand
                 100
             )
             ->addOption(
+                self::OPTION_FORCE,
+                null,
+                InputOption::VALUE_NONE,
+                'A new index will be created if set',
+            )
+            ->addOption(
                 self::OPTION_SOURCE_HEADERS,
                 null,
                 InputOption::VALUE_OPTIONAL,
@@ -88,6 +96,7 @@ class SynchronizeCommand extends AbstractCommand
         $this->source = $this->getArgumentString(self::ARGUMENT_SOURCE);
         $this->target = $this->getArgumentString(self::ARGUMENT_TARGET);
         $this->bulkSize = $this->getOptionInt(self::OPTION_BULK_SIZE);
+        $this->force = $this->getOptionBool(self::OPTION_FORCE);
         $this->targetHeaders = Json::decode($this->getOptionString(self::OPTION_TARGET_HEADERS));
         $this->sourceHeaders = Json::decode($this->getOptionString(self::OPTION_SOURCE_HEADERS));
     }

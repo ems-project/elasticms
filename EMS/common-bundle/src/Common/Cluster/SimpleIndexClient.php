@@ -23,7 +23,10 @@ class SimpleIndexClient
      */
     private function __construct(public readonly string $baseUrl, public readonly array $headers = [])
     {
-        $this->client = HttpClientFactory::create($baseUrl, $headers);
+        if (\str_ends_with($baseUrl, '/')) {
+            throw new \RuntimeException('The baseurl cannot end with a slash');
+        }
+        $this->client = HttpClientFactory::create($baseUrl.'/', $headers);
     }
 
     /**

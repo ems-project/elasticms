@@ -7,6 +7,7 @@ namespace EMS\CommonBundle\Command\Index;
 use EMS\CommonBundle\Commands;
 use EMS\CommonBundle\Common\Cluster\SimpleIndexClient;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\Helpers\ArrayHelper\ArrayHelper;
 use EMS\Helpers\Standard\Json;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -71,13 +72,13 @@ class SynchronizeCommand extends AbstractCommand
                 self::OPTION_FORCE,
                 null,
                 InputOption::VALUE_NONE,
-                'A new index will be created if set',
+                'A new index will be created and populated',
             )
             ->addOption(
                 self::OPTION_SOURCE_HEADERS,
                 null,
                 InputOption::VALUE_OPTIONAL,
-                'Extra headers of the copy client (JSON encoded)',
+                'Extra headers of the source client (JSON encoded)',
                 '[]'
             )
             ->addOption(
@@ -112,7 +113,35 @@ class SynchronizeCommand extends AbstractCommand
         $this->io->info(\sprintf('Source index %s', $sourceClient->getIndex()));
 
         $targetClient = SimpleIndexClient::create($this->target, $this->sourceHeaders);
+        $this->alignMappings($sourceClient, $targetClient);
+        $this->io->info(\sprintf('Target index %s', $targetClient->getIndex()));
+
+        $targetClient->switchAlias();
 
         return self::EXECUTE_SUCCESS;
+    }
+
+    private function alignMappings(SimpleIndexClient $sourceClient, SimpleIndexClient $targetClient): void
+    {
+        $sourceMapping = $sourceClient->getMappings();
+        $targetMapping = [];
+        if (!$this->force && $targetClient->isDefined()) {
+            $targetMapping = $targetClient->getMappings();
+        }
+        unset($sourceMapping['_meta']);
+        unset($targetMapping['_meta']);
+        if (ArrayHelper::arrays_are_equal_recursive($sourceMapping, $targetMapping)) {
+            $this->io->info('Target\'s mappings are aligned');
+
+            return;
+        }
+        $metas = [
+            'generator' => 'EMS synchronize command',
+        ];
+        if (!$this->force && $targetClient->isDefined() && $targetClient->updateMapping($sourceMapping, $metas)) {
+            return;
+        }
+
+        $targetClient->createIndex($sourceMapping, $sourceClient->getSettings(), $metas);
     }
 }

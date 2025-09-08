@@ -46,7 +46,7 @@ class RequestRuntime implements RuntimeExtensionInterface
     }
 
     /**
-     * @param  string[]|string $ipsOrSubnets
+     * @param string[]|string $ipsOrSubnets
      */
     public function checkIp(string $requestIp, string|array $ipsOrSubnets): bool
     {

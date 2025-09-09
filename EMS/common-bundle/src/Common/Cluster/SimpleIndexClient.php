@@ -15,6 +15,7 @@ use GuzzleHttp\Exception\RequestException;
 
 class SimpleIndexClient
 {
+    public const string ID = '_id';
     private Client $client;
     private bool $defined;
     private string $alias;
@@ -208,5 +209,18 @@ class SimpleIndexClient
         ])->getBody()->getContents());
 
         return new SearchResult($response);
+    }
+
+    /**
+     * @param mixed[] $source
+     */
+    public function index(string $id, array $source): void
+    {
+        $this->client->post('_doc/'.$id, [
+            'body' => Json::encode($source),
+            'headers' => [
+                Headers::CONTENT_TYPE => MimeTypes::APPLICATION_JSON->value,
+            ],
+        ])->getBody()->getContents();
     }
 }

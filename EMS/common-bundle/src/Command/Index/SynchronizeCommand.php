@@ -11,6 +11,7 @@ use Elastica\Query\MatchAll;
 use EMS\CommonBundle\Commands;
 use EMS\CommonBundle\Common\Cluster\AggregationResult;
 use EMS\CommonBundle\Common\Cluster\BucketResponse;
+use EMS\CommonBundle\Common\Cluster\SearchResult;
 use EMS\CommonBundle\Common\Cluster\SimpleIndexClient;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
@@ -172,18 +173,19 @@ class SynchronizeCommand extends AbstractCommand
         $sourceContentTypes = $this->getContentTypes($this->sourceClient);
         $targetContentTypes = $this->getContentTypes($this->targetClient);
         foreach ($sourceContentTypes->getBuckets() as $contentType) {
-            if ($targetContentTypes->hasKey($contentType->getKey())) {
+            $inTarget = null;
+            if (!$this->force && $targetContentTypes->hasKey($contentType->getKey())) {
                 $inTarget = $targetContentTypes->getBucketByKey($contentType->getKey());
                 if (
                     $contentType->getDocCount() === $inTarget->getDocCount()
-                    && $contentType->getAggregation(self::AGGREGATION_PUBLISHED) === $inTarget->getAggregation(self::AGGREGATION_PUBLISHED)
-                    && $contentType->getAggregation(self::AGGREGATION_FINALIZED) === $inTarget->getAggregation(self::AGGREGATION_FINALIZED)
+                    && $contentType->getAggregation(self::AGGREGATION_PUBLISHED)->getValueAsString() === $inTarget->getAggregation(self::AGGREGATION_PUBLISHED)->getValueAsString()
+                    && $contentType->getAggregation(self::AGGREGATION_FINALIZED)->getValueAsString() === $inTarget->getAggregation(self::AGGREGATION_FINALIZED)->getValueAsString()
                 ) {
                     $this->io->info(\sprintf('Content type %s is aligned', $contentType->getKey()));
                     continue;
                 }
             }
-            $this->synchronizeDocuments($contentType);
+            $this->synchronizeDocuments($contentType, $this->force || null === $inTarget);
         }
     }
 
@@ -206,7 +208,7 @@ class SynchronizeCommand extends AbstractCommand
         return $sourceClient->search($query)->getAggregation(self::AGGREGATION_CONTENT_TYPE);
     }
 
-    private function synchronizeDocuments(BucketResponse $contentType): void
+    private function synchronizeDocuments(BucketResponse $contentType, bool $force): void
     {
         $this->io->section(\sprintf('Synchronized the %s documents', $contentType->getKey()));
         $search = new Query\Terms(EMSSource::FIELD_CONTENT_TYPE, [$contentType->getKey()]);
@@ -215,10 +217,39 @@ class SynchronizeCommand extends AbstractCommand
         $documents = $this->sourceClient->search($query, $this->keepAlive);
         $this->io->progressStart($documents->getTotal());
         do {
+            $this->synchronizeBulk($documents, $force);
             $this->io->progressAdvance($documents->countHits());
             $scrollId = $documents->getScrollId();
             $documents = $this->sourceClient->scroll($scrollId, $this->keepAlive, $this->bulkSize);
         } while ($documents->countHits() > 0);
         $this->io->progressFinish();
+    }
+
+    private function synchronizeBulk(SearchResult $documents, bool $force): void
+    {
+        $documentsInTarget = null;
+        if (!$force) {
+            $search = new Query\Terms(SimpleIndexClient::ID, $documents->getIds());
+            $query = new Query($search);
+            $query->setSize($documents->countHits());
+            $query->setSource([
+                EMSSource::FIELD_HASH,
+                EMSSource::FIELD_FINALIZATION_DATETIME,
+                EMSSource::FIELD_PUBLICATION_DATETIME,
+            ]);
+            $documentsInTarget = $this->sourceClient->search($query);
+        }
+        foreach ($documents->getHits() as $document) {
+            if (
+                null !== $documentsInTarget
+                && null !== ($target = $documentsInTarget->getById($document->getId()))
+                && $target->get(EMSSource::FIELD_HASH) === $document->get(EMSSource::FIELD_HASH)
+                && $target->get(EMSSource::FIELD_FINALIZATION_DATETIME) === $document->get(EMSSource::FIELD_FINALIZATION_DATETIME)
+                && $target->get(EMSSource::FIELD_PUBLICATION_DATETIME) === $document->get(EMSSource::FIELD_PUBLICATION_DATETIME)
+            ) {
+                continue;
+            }
+            $this->targetClient->index($document->getId(), $document->getSource());
+        }
     }
 }

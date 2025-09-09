@@ -34,4 +34,34 @@ class SearchResult
     {
         return Type::integer($this->response['hits']['total']['value']);
     }
+
+    /**
+     * @return list<string>
+     */
+    public function getIds(): array
+    {
+        return \array_values(\array_map(fn (array $result) => Type::string($result['_id']), $this->response['hits']['hits']));
+    }
+
+    /**
+     * @return iterable<HitResult>
+     */
+    public function getHits(): iterable
+    {
+        foreach ($this->response['hits']['hits'] as $hit) {
+            yield new HitResult($hit);
+        }
+    }
+
+    public function getById(string $id): ?HitResult
+    {
+        foreach ($this->response['hits']['hits'] as $hit) {
+            $hit = new HitResult($hit);
+            if ($hit->getId() === $id) {
+                return $hit;
+            }
+        }
+
+        return null;
+    }
 }

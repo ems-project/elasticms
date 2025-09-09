@@ -27,6 +27,9 @@ class AggregationResult
 
     public function hasKey(string $key): bool
     {
+        if (!isset($this->response['buckets'])) {
+            return false;
+        }
         foreach (Type::array($this->response['buckets']) as $bucket) {
             $bucket = new BucketResponse($bucket);
             if ($bucket->getKey() === $key) {
@@ -46,5 +49,10 @@ class AggregationResult
             }
         }
         throw new \RuntimeException(\sprintf('No bucket found for key %s', $key));
+    }
+
+    public function getValueAsString(): string
+    {
+        return Type::string($this->response['value_as_string']);
     }
 }

@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Command\Index;
 
 use Elastica\Aggregation\Max;
-use Elastica\Aggregation\Min;
 use Elastica\Aggregation\Terms as TermsAggregation;
 use Elastica\Query;
 use Elastica\Query\MatchAll;
 use EMS\CommonBundle\Commands;
-use EMS\CommonBundle\Common\Cluster\SearchResult;
+use EMS\CommonBundle\Common\Cluster\AggregationResult;
+use EMS\CommonBundle\Common\Cluster\BucketResponse;
 use EMS\CommonBundle\Common\Cluster\SimpleIndexClient;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
@@ -37,6 +37,8 @@ class SynchronizeCommand extends AbstractCommand
     public const string OPTION_SOURCE_HEADERS = 'source-headers';
     public const string OPTION_TARGET_HEADERS = 'target-headers';
     private const string AGGREGATION_CONTENT_TYPE = 'content-types';
+    private const string AGGREGATION_PUBLISHED = 'published';
+    private const string AGGREGATION_FINALIZED = 'finalized';
     private string $source;
     private string $target;
     private int $bulkSize;
@@ -156,21 +158,32 @@ class SynchronizeCommand extends AbstractCommand
     private function synchronizeContentTypes(SimpleIndexClient $sourceClient, SimpleIndexClient $targetClient): void
     {
         $sourceContentTypes = $this->getContentTypes($sourceClient);
-        $targetContentTypes = $this->getContentTypes($sourceClient);
-        foreach ($sourceContentTypes->getAggregation(self::AGGREGATION_CONTENT_TYPE)->getBuckets() as $contentType) {
-            dump($contentType->getKey());
+        $targetContentTypes = $this->getContentTypes($targetClient);
+        foreach ($sourceContentTypes->getBuckets() as $contentType) {
+            if ($targetContentTypes->hasKey($contentType->getKey())) {
+                $inTarget = $targetContentTypes->getBucketByKey($contentType->getKey());
+                if (
+                    $contentType->getDocCount() === $inTarget->getDocCount()
+                    && $contentType->getAggregation(self::AGGREGATION_PUBLISHED) === $inTarget->getAggregation(self::AGGREGATION_PUBLISHED)
+                    && $contentType->getAggregation(self::AGGREGATION_FINALIZED) === $inTarget->getAggregation(self::AGGREGATION_FINALIZED)
+                ) {
+                    $this->io->info(\sprintf('Content type %s is aligned', $contentType->getKey()));
+                    continue;
+                }
+            }
+            $this->synchronizeDocuments($contentType);
         }
     }
 
-    private function getContentTypes(SimpleIndexClient $sourceClient): SearchResult
+    private function getContentTypes(SimpleIndexClient $sourceClient): AggregationResult
     {
         $aggregation = new TermsAggregation(self::AGGREGATION_CONTENT_TYPE);
         $aggregation->setSize(50);
         $aggregation->setField(EMSSource::FIELD_CONTENT_TYPE);
-        $maxPublished = new Max('published');
+        $maxPublished = new Max(self::AGGREGATION_PUBLISHED);
         $maxPublished->setField(EMSSource::FIELD_PUBLICATION_DATETIME);
         $aggregation->addAggregation($maxPublished);
-        $maxFinalized = new Max('finalized');
+        $maxFinalized = new Max(self::AGGREGATION_FINALIZED);
         $maxFinalized->setField(EMSSource::FIELD_FINALIZATION_DATETIME);
         $aggregation->addAggregation($maxFinalized);
         $search = new MatchAll();
@@ -178,6 +191,11 @@ class SynchronizeCommand extends AbstractCommand
         $query->setSize(0);
         $query->addAggregation($aggregation);
 
-        return $sourceClient->search($query);
+        return $sourceClient->search($query)->getAggregation(self::AGGREGATION_CONTENT_TYPE);
+    }
+
+    private function synchronizeDocuments(BucketResponse $contentType): void
+    {
+        $this->io->section(\sprintf('Synchronized the %s documents', $contentType->getKey()));
     }
 }

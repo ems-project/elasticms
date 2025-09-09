@@ -6,7 +6,6 @@ namespace EMS\CommonBundle\Common\Cluster;
 
 use Elastica\Query;
 use EMS\CommonBundle\Common\HttpClientFactory;
-use EMS\CommonBundle\Elasticsearch\Elastica\ResultSet;
 use EMS\Helpers\Html\Headers;
 use EMS\Helpers\Html\MimeTypes;
 use EMS\Helpers\Standard\Json;

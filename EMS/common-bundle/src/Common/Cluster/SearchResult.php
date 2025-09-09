@@ -8,7 +8,6 @@ use EMS\Helpers\Standard\Type;
 
 class SearchResult
 {
-
     /**
      * @param mixed[] $response
      */

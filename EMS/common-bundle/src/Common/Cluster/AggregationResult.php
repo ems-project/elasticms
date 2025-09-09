@@ -8,7 +8,6 @@ use EMS\Helpers\Standard\Type;
 
 class AggregationResult
 {
-
     /**
      * @param mixed[] $response
      */
@@ -24,5 +23,28 @@ class AggregationResult
         foreach (Type::array($this->response['buckets']) as $bucket) {
             yield new BucketResponse($bucket);
         }
+    }
+
+    public function hasKey(string $key): bool
+    {
+        foreach (Type::array($this->response['buckets']) as $bucket) {
+            $bucket = new BucketResponse($bucket);
+            if ($bucket->getKey() === $key) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function getBucketByKey(string $key): BucketResponse
+    {
+        foreach (Type::array($this->response['buckets']) as $bucket) {
+            $bucket = new BucketResponse($bucket);
+            if ($bucket->getKey() === $key) {
+                return $bucket;
+            }
+        }
+        throw new \RuntimeException(\sprintf('No bucket found for key %s', $key));
     }
 }

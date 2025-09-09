@@ -115,7 +115,7 @@ class SimpleIndexClient
      */
     public function createIndex(array $sourceMappings, array $settings, array $metas): void
     {
-        $client = HttpClientFactory::create(\sprintf('%s_%s', $this->baseUrl, new \DateTime()->format('Ymd_His')), $this->headers);
+        $client = HttpClientFactory::create(\sprintf('%s_%s/', $this->baseUrl, new \DateTime()->format('Ymd_His')), $this->headers);
         $sourceMappings['_meta'] = $metas;
         $body = [
             'mappings' => $sourceMappings,

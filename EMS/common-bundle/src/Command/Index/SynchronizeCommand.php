@@ -238,7 +238,7 @@ class SynchronizeCommand extends AbstractCommand
                 EMSSource::FIELD_FINALIZATION_DATETIME,
                 EMSSource::FIELD_PUBLICATION_DATETIME,
             ]);
-            $documentsInTarget = $this->sourceClient->search($query);
+            $documentsInTarget = $this->targetClient->search($query);
         }
 
         $bulk = new BulkBody();

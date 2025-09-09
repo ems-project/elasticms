@@ -223,4 +223,24 @@ class SimpleIndexClient
             ],
         ])->getBody()->getContents();
     }
+
+    /**
+     * @return array<string, int>
+     */
+    public function bulk(BulkBody $bulk): array
+    {
+        $response = Json::decode($this->client->post('_bulk', [
+            'body' => $bulk->getBody(),
+            'headers' => [
+                Headers::CONTENT_TYPE => MimeTypes::APPLICATION_JSON->value,
+            ],
+        ])->getBody()->getContents());
+        $status = [];
+        foreach ($response['items'] as $item) {
+            $action = \array_key_first($item);
+            $status[$item[$action]['_id']] = $item[$action]['status'];
+        }
+
+        return $status;
+    }
 }

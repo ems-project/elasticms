@@ -11,6 +11,7 @@ use Elastica\Query\MatchAll;
 use EMS\CommonBundle\Commands;
 use EMS\CommonBundle\Common\Cluster\AggregationResult;
 use EMS\CommonBundle\Common\Cluster\BucketResponse;
+use EMS\CommonBundle\Common\Cluster\BulkBody;
 use EMS\CommonBundle\Common\Cluster\SearchResult;
 use EMS\CommonBundle\Common\Cluster\SimpleIndexClient;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
@@ -239,6 +240,8 @@ class SynchronizeCommand extends AbstractCommand
             ]);
             $documentsInTarget = $this->sourceClient->search($query);
         }
+
+        $bulk = new BulkBody();
         foreach ($documents->getHits() as $document) {
             if (
                 null !== $documentsInTarget
@@ -249,7 +252,11 @@ class SynchronizeCommand extends AbstractCommand
             ) {
                 continue;
             }
-            $this->targetClient->index($document->getId(), $document->getSource());
+            $bulk->index($document->getId(), $document->getSource());
         }
+        if ($bulk->empty()) {
+            return;
+        }
+        $this->targetClient->bulk($bulk);
     }
 }

@@ -178,10 +178,30 @@ class SimpleIndexClient
         }
     }
 
-    public function search(Query $query): SearchResult
+    public function search(Query $query, ?string $scroll = null): SearchResult
     {
-        $response = Json::decode($this->client->get('_search', [
+        $params = [];
+        if (null !== $scroll) {
+            $params['scroll'] = $scroll;
+            $query->setSort(['_doc']);
+        }
+        $response = Json::decode($this->client->get('_search?'.\http_build_query($params), [
             'body' => Json::encode($query->toArray()),
+            'headers' => [
+                Headers::CONTENT_TYPE => MimeTypes::APPLICATION_JSON->value,
+            ],
+        ])->getBody()->getContents());
+
+        return new SearchResult($response);
+    }
+
+    public function scroll(string $scrollId, string $scroll, int $size): SearchResult
+    {
+        $response = Json::decode($this->client->get('../_search/scroll', [
+            'body' => Json::encode([
+                'scroll_id' => $scrollId,
+                'scroll' => $scroll,
+            ]),
             'headers' => [
                 Headers::CONTENT_TYPE => MimeTypes::APPLICATION_JSON->value,
             ],

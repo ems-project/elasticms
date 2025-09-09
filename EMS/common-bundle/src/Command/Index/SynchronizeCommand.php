@@ -33,6 +33,7 @@ class SynchronizeCommand extends AbstractCommand
     private const string ARGUMENT_SOURCE = 'source';
     private const string ARGUMENT_TARGET = 'target';
     private const string OPTION_BULK_SIZE = 'bulk-size';
+    private const string OPTION_KEEP_ALIVE = '2m';
     private const string OPTION_FORCE = 'force';
     public const string OPTION_SOURCE_HEADERS = 'source-headers';
     public const string OPTION_TARGET_HEADERS = 'target-headers';
@@ -53,6 +54,7 @@ class SynchronizeCommand extends AbstractCommand
     private bool $force;
     private SimpleIndexClient $sourceClient;
     private SimpleIndexClient $targetClient;
+    private string $keepAlive;
 
     public function __construct(public readonly LoggerInterface $logger)
     {
@@ -78,7 +80,14 @@ class SynchronizeCommand extends AbstractCommand
                 null,
                 InputOption::VALUE_OPTIONAL,
                 'Number of bulk size to copy',
-                100
+                500
+            )
+            ->addOption(
+                self::OPTION_KEEP_ALIVE,
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'TTL of the bulk/scroll',
+                '2m'
             )
             ->addOption(
                 self::OPTION_FORCE,
@@ -109,6 +118,7 @@ class SynchronizeCommand extends AbstractCommand
         $this->source = $this->getArgumentString(self::ARGUMENT_SOURCE);
         $this->target = $this->getArgumentString(self::ARGUMENT_TARGET);
         $this->bulkSize = $this->getOptionInt(self::OPTION_BULK_SIZE);
+        $this->keepAlive = $this->getOptionString(self::OPTION_KEEP_ALIVE);
         $this->force = $this->getOptionBool(self::OPTION_FORCE);
         $this->targetHeaders = Json::decode($this->getOptionString(self::OPTION_TARGET_HEADERS));
         $this->sourceHeaders = Json::decode($this->getOptionString(self::OPTION_SOURCE_HEADERS));
@@ -199,5 +209,16 @@ class SynchronizeCommand extends AbstractCommand
     private function synchronizeDocuments(BucketResponse $contentType): void
     {
         $this->io->section(\sprintf('Synchronized the %s documents', $contentType->getKey()));
+        $search = new Query\Terms(EMSSource::FIELD_CONTENT_TYPE, [$contentType->getKey()]);
+        $query = new Query($search);
+        $query->setSize($this->bulkSize);
+        $documents = $this->sourceClient->search($query, $this->keepAlive);
+        $this->io->progressStart($documents->getTotal());
+        do {
+            $this->io->progressAdvance($documents->countHits());
+            $scrollId = $documents->getScrollId();
+            $documents = $this->sourceClient->scroll($scrollId, $this->keepAlive, $this->bulkSize);
+        } while ($documents->countHits() > 0);
+        $this->io->progressFinish();
     }
 }

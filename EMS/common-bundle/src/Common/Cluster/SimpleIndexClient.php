@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Common\Cluster;
 
+use Elastica\Query;
 use EMS\CommonBundle\Common\HttpClientFactory;
+use EMS\CommonBundle\Elasticsearch\Elastica\ResultSet;
 use EMS\Helpers\Html\Headers;
 use EMS\Helpers\Html\MimeTypes;
 use EMS\Helpers\Standard\Json;
@@ -96,7 +98,7 @@ class SimpleIndexClient
             $response = Json::decode($this->client->put('_mapping', [
                 'body' => Json::encode($sourceMapping),
                 'headers' => [
-                    Headers::CONTENT_TYPE => MimeTypes::APPLICATION_JSON,
+                    Headers::CONTENT_TYPE => MimeTypes::APPLICATION_JSON->value,
                 ],
             ])->getBody()->getContents());
 
@@ -122,7 +124,7 @@ class SimpleIndexClient
         $response = Json::decode($client->put('', [
             'body' => Json::encode($body),
             'headers' => [
-                Headers::CONTENT_TYPE => MimeTypes::APPLICATION_JSON,
+                Headers::CONTENT_TYPE => MimeTypes::APPLICATION_JSON->value,
             ],
         ])->getBody()->getContents());
         if (true !== ($response['acknowledged'] ?? null)) {
@@ -169,11 +171,23 @@ class SimpleIndexClient
                 'actions' => $actions,
             ]),
             'headers' => [
-                Headers::CONTENT_TYPE => MimeTypes::APPLICATION_JSON,
+                Headers::CONTENT_TYPE => MimeTypes::APPLICATION_JSON->value,
             ],
         ])->getBody()->getContents());
         if (true !== ($response['acknowledged'] ?? null)) {
             throw new \RuntimeException('Impossible to switch alias');
         }
+    }
+
+    public function search(Query $query): SearchResult
+    {
+        $response = Json::decode($this->client->get('_search', [
+            'body' => Json::encode($query->toArray()),
+            'headers' => [
+                Headers::CONTENT_TYPE => MimeTypes::APPLICATION_JSON->value,
+            ],
+        ])->getBody()->getContents());
+
+        return new SearchResult($response);
     }
 }

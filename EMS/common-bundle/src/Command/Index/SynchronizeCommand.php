@@ -4,9 +4,16 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Command\Index;
 
+use Elastica\Aggregation\Max;
+use Elastica\Aggregation\Min;
+use Elastica\Aggregation\Terms as TermsAggregation;
+use Elastica\Query;
+use Elastica\Query\MatchAll;
 use EMS\CommonBundle\Commands;
+use EMS\CommonBundle\Common\Cluster\SearchResult;
 use EMS\CommonBundle\Common\Cluster\SimpleIndexClient;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
 use EMS\Helpers\ArrayHelper\ArrayHelper;
 use EMS\Helpers\Standard\Json;
 use Psr\Log\LoggerInterface;
@@ -29,6 +36,7 @@ class SynchronizeCommand extends AbstractCommand
     private const string OPTION_FORCE = 'force';
     public const string OPTION_SOURCE_HEADERS = 'source-headers';
     public const string OPTION_TARGET_HEADERS = 'target-headers';
+    private const string AGGREGATION_CONTENT_TYPE = 'content-types';
     private string $source;
     private string $target;
     private int $bulkSize;
@@ -115,7 +123,7 @@ class SynchronizeCommand extends AbstractCommand
         $targetClient = SimpleIndexClient::create($this->target, $this->sourceHeaders);
         $this->alignMappings($sourceClient, $targetClient);
         $this->io->info(\sprintf('Target index %s', $targetClient->getIndex()));
-
+        $this->synchronizeContentTypes($sourceClient, $targetClient);
         $targetClient->switchAlias();
 
         return self::EXECUTE_SUCCESS;
@@ -143,5 +151,33 @@ class SynchronizeCommand extends AbstractCommand
         }
 
         $targetClient->createIndex($sourceMapping, $sourceClient->getSettings(), $metas);
+    }
+
+    private function synchronizeContentTypes(SimpleIndexClient $sourceClient, SimpleIndexClient $targetClient): void
+    {
+        $sourceContentTypes = $this->getContentTypes($sourceClient);
+        $targetContentTypes = $this->getContentTypes($sourceClient);
+        foreach ($sourceContentTypes->getAggregation(self::AGGREGATION_CONTENT_TYPE)->getBuckets() as $contentType) {
+            dump($contentType->getKey());
+        }
+    }
+
+    private function getContentTypes(SimpleIndexClient $sourceClient): SearchResult
+    {
+        $aggregation = new TermsAggregation(self::AGGREGATION_CONTENT_TYPE);
+        $aggregation->setSize(50);
+        $aggregation->setField(EMSSource::FIELD_CONTENT_TYPE);
+        $maxPublished = new Max('published');
+        $maxPublished->setField(EMSSource::FIELD_PUBLICATION_DATETIME);
+        $aggregation->addAggregation($maxPublished);
+        $maxFinalized = new Max('finalized');
+        $maxFinalized->setField(EMSSource::FIELD_FINALIZATION_DATETIME);
+        $aggregation->addAggregation($maxFinalized);
+        $search = new MatchAll();
+        $query = new Query($search);
+        $query->setSize(0);
+        $query->addAggregation($aggregation);
+
+        return $sourceClient->search($query);
     }
 }

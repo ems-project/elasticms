@@ -51,6 +51,8 @@ class SynchronizeCommand extends AbstractCommand
      */
     private array $targetHeaders;
     private bool $force;
+    private SimpleIndexClient $sourceClient;
+    private SimpleIndexClient $targetClient;
 
     public function __construct(public readonly LoggerInterface $logger)
     {
@@ -116,27 +118,27 @@ class SynchronizeCommand extends AbstractCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io->title(\sprintf('Synchronizing %s to %s', $this->source, $this->target));
-        $sourceClient = SimpleIndexClient::create($this->source, $this->targetHeaders);
-        if (!$sourceClient->isDefined()) {
+        $this->sourceClient = SimpleIndexClient::create($this->source, $this->targetHeaders);
+        if (!$this->sourceClient->isDefined()) {
             throw new \RuntimeException('Source index not found');
         }
-        $this->io->info(\sprintf('Source index %s', $sourceClient->getIndex()));
+        $this->io->info(\sprintf('Source index %s', $this->sourceClient->getIndex()));
 
-        $targetClient = SimpleIndexClient::create($this->target, $this->sourceHeaders);
-        $this->alignMappings($sourceClient, $targetClient);
-        $this->io->info(\sprintf('Target index %s', $targetClient->getIndex()));
-        $this->synchronizeContentTypes($sourceClient, $targetClient);
-        $targetClient->switchAlias();
+        $this->targetClient = SimpleIndexClient::create($this->target, $this->sourceHeaders);
+        $this->alignMappings();
+        $this->io->info(\sprintf('Target index %s', $this->targetClient->getIndex()));
+        $this->synchronizeContentTypes();
+        $this->targetClient->switchAlias();
 
         return self::EXECUTE_SUCCESS;
     }
 
-    private function alignMappings(SimpleIndexClient $sourceClient, SimpleIndexClient $targetClient): void
+    private function alignMappings(): void
     {
-        $sourceMapping = $sourceClient->getMappings();
+        $sourceMapping = $this->sourceClient->getMappings();
         $targetMapping = [];
-        if (!$this->force && $targetClient->isDefined()) {
-            $targetMapping = $targetClient->getMappings();
+        if (!$this->force && $this->targetClient->isDefined()) {
+            $targetMapping = $this->targetClient->getMappings();
         }
         unset($sourceMapping['_meta']);
         unset($targetMapping['_meta']);
@@ -148,17 +150,17 @@ class SynchronizeCommand extends AbstractCommand
         $metas = [
             'generator' => 'EMS synchronize command',
         ];
-        if (!$this->force && $targetClient->isDefined() && $targetClient->updateMapping($sourceMapping, $metas)) {
+        if (!$this->force && $this->targetClient->isDefined() && $this->targetClient->updateMapping($sourceMapping, $metas)) {
             return;
         }
 
-        $targetClient->createIndex($sourceMapping, $sourceClient->getSettings(), $metas);
+        $this->targetClient->createIndex($sourceMapping, $this->sourceClient->getSettings(), $metas);
     }
 
-    private function synchronizeContentTypes(SimpleIndexClient $sourceClient, SimpleIndexClient $targetClient): void
+    private function synchronizeContentTypes(): void
     {
-        $sourceContentTypes = $this->getContentTypes($sourceClient);
-        $targetContentTypes = $this->getContentTypes($targetClient);
+        $sourceContentTypes = $this->getContentTypes($this->sourceClient);
+        $targetContentTypes = $this->getContentTypes($this->targetClient);
         foreach ($sourceContentTypes->getBuckets() as $contentType) {
             if ($targetContentTypes->hasKey($contentType->getKey())) {
                 $inTarget = $targetContentTypes->getBucketByKey($contentType->getKey());

@@ -189,7 +189,7 @@ class SynchronizeCommand extends AbstractCommand
             $ids = $this->synchronizeDocuments($contentType, $this->force || null === $inTarget);
             $this->deleteDocuments($contentType, $ids);
         }
-        
+
         foreach ($targetContentTypes->getBuckets() as $contentType) {
             if ($sourceContentTypes->hasKey($contentType->getKey())) {
                 continue;

@@ -12,8 +12,8 @@ use EMS\CommonBundle\Commands;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
 use EMS\CommonBundle\Elasticsearch\Sync\Aggregation;
-use EMS\CommonBundle\Elasticsearch\Sync\BucketResponse;
-use EMS\CommonBundle\Elasticsearch\Sync\Bulk;
+use EMS\CommonBundle\Elasticsearch\Sync\Bucket;
+use EMS\CommonBundle\Elasticsearch\Sync\BulkRequest;
 use EMS\CommonBundle\Elasticsearch\Sync\SearchResponse;
 use EMS\CommonBundle\Elasticsearch\Sync\Synchronizer;
 use EMS\Helpers\ArrayHelper\ArrayHelper;
@@ -230,7 +230,7 @@ class SynchronizeCommand extends AbstractCommand
     /**
      * @return array<string, int>
      */
-    private function synchronizeDocuments(BucketResponse $contentType, bool $force): array
+    private function synchronizeDocuments(Bucket $contentType, bool $force): array
     {
         $this->io->section(\sprintf('Synchronized the %s documents', $contentType->getKey()));
         $search = new Query\Terms($this->keywordField, [$contentType->getKey()]);
@@ -270,7 +270,7 @@ class SynchronizeCommand extends AbstractCommand
             $documentsInTarget = $this->targetClient->search($query);
         }
 
-        $bulk = new Bulk();
+        $bulk = new BulkRequest();
         foreach ($documents->getHits() as $document) {
             if (
                 null !== $documentsInTarget
@@ -294,7 +294,7 @@ class SynchronizeCommand extends AbstractCommand
     /**
      * @param array<string, int> $butIds
      */
-    private function deleteDocuments(BucketResponse $contentType, array $butIds = []): void
+    private function deleteDocuments(Bucket $contentType, array $butIds = []): void
     {
         $search = new Query\Terms($this->keywordField, [$contentType->getKey()]);
         $query = new Query($search);
@@ -326,7 +326,7 @@ class SynchronizeCommand extends AbstractCommand
      */
     private function deleteBulk(SearchResponse $documents, array $butIds): void
     {
-        $bulk = new Bulk();
+        $bulk = new BulkRequest();
         foreach ($documents->getHits() as $document) {
             if (isset($butIds[$document->getId()])) {
                 continue;

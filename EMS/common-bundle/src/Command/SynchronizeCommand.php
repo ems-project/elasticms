@@ -221,8 +221,9 @@ class SynchronizeCommand extends AbstractCommand
             $this->synchronizeBulk($documents, $force);
             $this->io->progressAdvance($documents->countHits());
             $scrollId = $documents->getScrollId();
-            $documents = $this->sourceClient->scroll($scrollId, $this->keepAlive, $this->bulkSize);
+            $documents = $this->sourceClient->scroll($scrollId, $this->keepAlive);
         } while ($documents->countHits() > 0);
+        $this->sourceClient->closeScroll($scrollId);
         $this->io->progressFinish();
     }
 

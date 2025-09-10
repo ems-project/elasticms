@@ -192,7 +192,7 @@ class Synchronizer
         return new SearchResponse($response);
     }
 
-    public function scroll(string $scrollId, string $scroll, int $size): SearchResponse
+    public function scroll(string $scrollId, string $scroll): SearchResponse
     {
         $response = Json::decode($this->client->request('GET', '../_search/scroll', [
             'body' => Json::encode([
@@ -229,5 +229,14 @@ class Synchronizer
         }
 
         return $status;
+    }
+
+    public function closeScroll(string $scrollId): void
+    {
+        $this->client->request('DELETE', '../_search/scroll', [
+            'json' => [
+                'scroll_id' => $scrollId,
+            ],
+        ]);
     }
 }

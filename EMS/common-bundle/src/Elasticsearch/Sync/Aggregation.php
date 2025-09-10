@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace EMS\CommonBundle\Common\Cluster;
+namespace EMS\CommonBundle\Elasticsearch\Sync;
 
 use EMS\Helpers\Standard\Type;
 
-class AggregationResult
+class Aggregation
 {
     /**
      * @param mixed[] $response

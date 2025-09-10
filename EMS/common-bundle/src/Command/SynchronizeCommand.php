@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace EMS\CommonBundle\Command\Index;
+namespace EMS\CommonBundle\Command;
 
 use Elastica\Aggregation\Max;
 use Elastica\Aggregation\Terms as TermsAggregation;
 use Elastica\Query;
 use Elastica\Query\MatchAll;
 use EMS\CommonBundle\Commands;
-use EMS\CommonBundle\Common\Cluster\AggregationResult;
-use EMS\CommonBundle\Common\Cluster\BucketResponse;
-use EMS\CommonBundle\Common\Cluster\BulkBody;
-use EMS\CommonBundle\Common\Cluster\SearchResult;
-use EMS\CommonBundle\Common\Cluster\SimpleIndexClient;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
+use EMS\CommonBundle\Elasticsearch\Sync\Aggregation;
+use EMS\CommonBundle\Elasticsearch\Sync\Bucket;
+use EMS\CommonBundle\Elasticsearch\Sync\BucketResponse;
+use EMS\CommonBundle\Elasticsearch\Sync\SearchResponse;
+use EMS\CommonBundle\Elasticsearch\Sync\Synchronizer;
 use EMS\Helpers\ArrayHelper\ArrayHelper;
 use EMS\Helpers\Standard\Json;
 use Psr\Log\LoggerInterface;
@@ -54,8 +54,8 @@ class SynchronizeCommand extends AbstractCommand
      */
     private array $targetHeaders;
     private bool $force;
-    private SimpleIndexClient $sourceClient;
-    private SimpleIndexClient $targetClient;
+    private Synchronizer $sourceClient;
+    private Synchronizer $targetClient;
     private string $keepAlive;
 
     public function __construct(public readonly LoggerInterface $logger)
@@ -130,13 +130,13 @@ class SynchronizeCommand extends AbstractCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io->title(\sprintf('Synchronizing %s to %s', $this->source, $this->target));
-        $this->sourceClient = SimpleIndexClient::create($this->source, $this->targetHeaders);
+        $this->sourceClient = Synchronizer::create($this->source, $this->targetHeaders);
         if (!$this->sourceClient->isDefined()) {
             throw new \RuntimeException('Source index not found');
         }
         $this->io->info(\sprintf('Source index %s', $this->sourceClient->getIndex()));
 
-        $this->targetClient = SimpleIndexClient::create($this->target, $this->sourceHeaders);
+        $this->targetClient = Synchronizer::create($this->target, $this->sourceHeaders);
         $this->alignMappings();
         $this->io->info(\sprintf('Target index %s', $this->targetClient->getIndex()));
         $this->synchronizeContentTypes();
@@ -190,7 +190,7 @@ class SynchronizeCommand extends AbstractCommand
         }
     }
 
-    private function getContentTypes(SimpleIndexClient $sourceClient): AggregationResult
+    private function getContentTypes(Synchronizer $sourceClient): Aggregation
     {
         $aggregation = new TermsAggregation(self::AGGREGATION_CONTENT_TYPE);
         $aggregation->setSize(50);
@@ -226,11 +226,11 @@ class SynchronizeCommand extends AbstractCommand
         $this->io->progressFinish();
     }
 
-    private function synchronizeBulk(SearchResult $documents, bool $force): void
+    private function synchronizeBulk(SearchResponse $documents, bool $force): void
     {
         $documentsInTarget = null;
         if (!$force) {
-            $search = new Query\Terms(SimpleIndexClient::ID, $documents->getIds());
+            $search = new Query\Terms(Synchronizer::ID, $documents->getIds());
             $query = new Query($search);
             $query->setSize($documents->countHits());
             $query->setSource([
@@ -241,7 +241,7 @@ class SynchronizeCommand extends AbstractCommand
             $documentsInTarget = $this->targetClient->search($query);
         }
 
-        $bulk = new BulkBody();
+        $bulk = new Bucket();
         foreach ($documents->getHits() as $document) {
             if (
                 null !== $documentsInTarget

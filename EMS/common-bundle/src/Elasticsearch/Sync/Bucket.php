@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace EMS\CommonBundle\Common\Cluster;
+namespace EMS\CommonBundle\Elasticsearch\Sync;
 
 use EMS\Helpers\Standard\Json;
 
-class BulkBody
+class Bucket
 {
     private string $body = '';
 
@@ -15,7 +15,7 @@ class BulkBody
      */
     public function index(string $id, array $source): void
     {
-        $this->body .= Json::encode(['index' => [SimpleIndexClient::ID => $id]]).PHP_EOL;
+        $this->body .= Json::encode(['index' => [Synchronizer::ID => $id]]).PHP_EOL;
         $this->body .= Json::encode($source).PHP_EOL;
     }
 

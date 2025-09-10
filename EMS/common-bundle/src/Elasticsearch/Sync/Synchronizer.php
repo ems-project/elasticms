@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EMS\CommonBundle\Common\Cluster;
+namespace EMS\CommonBundle\Elasticsearch\Sync;
 
 use Elastica\Query;
 use EMS\CommonBundle\Common\HttpClientFactory;
@@ -13,7 +13,7 @@ use EMS\Helpers\Standard\Type;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 
-class SimpleIndexClient
+class Synchronizer
 {
     public const string ID = '_id';
     private Client $client;
@@ -179,7 +179,7 @@ class SimpleIndexClient
         }
     }
 
-    public function search(Query $query, ?string $scroll = null): SearchResult
+    public function search(Query $query, ?string $scroll = null): SearchResponse
     {
         $params = [];
         if (null !== $scroll) {
@@ -193,10 +193,10 @@ class SimpleIndexClient
             ],
         ])->getBody()->getContents());
 
-        return new SearchResult($response);
+        return new SearchResponse($response);
     }
 
-    public function scroll(string $scrollId, string $scroll, int $size): SearchResult
+    public function scroll(string $scrollId, string $scroll, int $size): SearchResponse
     {
         $response = Json::decode($this->client->get('../_search/scroll', [
             'body' => Json::encode([
@@ -208,7 +208,7 @@ class SimpleIndexClient
             ],
         ])->getBody()->getContents());
 
-        return new SearchResult($response);
+        return new SearchResponse($response);
     }
 
     /**
@@ -227,7 +227,7 @@ class SimpleIndexClient
     /**
      * @return array<string, int>
      */
-    public function bulk(BulkBody $bulk): array
+    public function bulk(Bucket $bulk): array
     {
         $response = Json::decode($this->client->post('_bulk', [
             'body' => $bulk->getBody(),

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EMS\CommonBundle\Common\Cluster;
+namespace EMS\CommonBundle\Elasticsearch\Sync;
 
 use EMS\Helpers\Standard\Type;
 
@@ -25,8 +25,8 @@ class BucketResponse
         return Type::integer($this->response['doc_count']);
     }
 
-    public function getAggregation(string $aggregationName): AggregationResult
+    public function getAggregation(string $aggregationName): Aggregation
     {
-        return new AggregationResult(Type::array($this->response[$aggregationName]));
+        return new Aggregation(Type::array($this->response[$aggregationName]));
     }
 }

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace EMS\CommonBundle\Common\Cluster;
+namespace EMS\CommonBundle\Elasticsearch\Sync;
 
 use EMS\Helpers\Standard\Type;
 
-class SearchResult
+class SearchResponse
 {
     /**
      * @param mixed[] $response
@@ -15,9 +15,9 @@ class SearchResult
     {
     }
 
-    public function getAggregation(string $aggregationName): AggregationResult
+    public function getAggregation(string $aggregationName): Aggregation
     {
-        return new AggregationResult(Type::array($this->response['aggregations'][$aggregationName]));
+        return new Aggregation(Type::array($this->response['aggregations'][$aggregationName]));
     }
 
     public function getScrollId(): string
@@ -44,19 +44,19 @@ class SearchResult
     }
 
     /**
-     * @return iterable<HitResult>
+     * @return iterable<Hit>
      */
     public function getHits(): iterable
     {
         foreach ($this->response['hits']['hits'] as $hit) {
-            yield new HitResult($hit);
+            yield new Hit($hit);
         }
     }
 
-    public function getById(string $id): ?HitResult
+    public function getById(string $id): ?Hit
     {
         foreach ($this->response['hits']['hits'] as $hit) {
-            $hit = new HitResult($hit);
+            $hit = new Hit($hit);
             if ($hit->getId() === $id) {
                 return $hit;
             }

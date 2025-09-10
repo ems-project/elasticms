@@ -5,18 +5,18 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Elasticsearch\Sync;
 
 use Elastica\Query;
-use EMS\CommonBundle\Common\HttpClientFactory;
 use EMS\Helpers\Html\Headers;
 use EMS\Helpers\Html\MimeTypes;
 use EMS\Helpers\Standard\Json;
 use EMS\Helpers\Standard\Type;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
+use Symfony\Component\HttpClient\Exception\ClientException;
+use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class Synchronizer
 {
     public const string ID = '_id';
-    private Client $client;
+    private HttpClientInterface $client;
     private bool $defined;
     private string $alias;
     private ?string $index = null;
@@ -34,7 +34,11 @@ class Synchronizer
         if (\str_ends_with($baseUrl, '/')) {
             throw new \RuntimeException('The baseurl cannot end with a slash');
         }
-        $this->client = HttpClientFactory::create($baseUrl.'/', $headers);
+        $this->client = HttpClient::createForBaseUri($baseUrl.'/', [
+            'headers' => \array_merge($headers, [
+                Headers::CONTENT_TYPE => MimeTypes::APPLICATION_JSON->value,
+            ]),
+        ]);
         $path = \explode('/', $baseUrl);
         $this->alias = Type::string(\end($path));
     }
@@ -46,9 +50,9 @@ class Synchronizer
     {
         $indexClient = new self($baseUrl, $headers);
         try {
-            $response = Json::decode($indexClient->client->request('GET', '')->getBody()->getContents());
+            $response = Json::decode($indexClient->client->request('GET', '')->getContent());
             $indexClient->defined = true;
-        } catch (RequestException $e) {
+        } catch (ClientException $e) {
             if (404 !== $e->getCode()) {
                 throw $e;
             }
@@ -95,12 +99,9 @@ class Synchronizer
     {
         try {
             $sourceMapping['_meta'] = $metas;
-            $response = Json::decode($this->client->put('_mapping', [
+            $response = Json::decode($this->client->request('PUT', '_mapping', [
                 'body' => Json::encode($sourceMapping),
-                'headers' => [
-                    Headers::CONTENT_TYPE => MimeTypes::APPLICATION_JSON->value,
-                ],
-            ])->getBody()->getContents());
+            ])->getContent());
 
             return true === ($response['acknowledged'] ?? null);
         } catch (\Exception) {
@@ -115,18 +116,19 @@ class Synchronizer
      */
     public function createIndex(array $sourceMappings, array $settings, array $metas): void
     {
-        $client = HttpClientFactory::create(\sprintf('%s_%s/', $this->baseUrl, new \DateTime()->format('Ymd_His')), $this->headers);
+        $client = HttpClient::createForBaseUri(\sprintf('%s_%s/', $this->baseUrl, new \DateTime()->format('Ymd_His')), [
+            'headers' => \array_merge($this->headers, [
+                Headers::CONTENT_TYPE => MimeTypes::APPLICATION_JSON->value,
+            ]),
+        ]);
         $sourceMappings['_meta'] = $metas;
         $body = [
             'mappings' => $sourceMappings,
             'settings' => $settings,
         ];
-        $response = Json::decode($client->put('', [
+        $response = Json::decode($client->request('PUT', '', [
             'body' => Json::encode($body),
-            'headers' => [
-                Headers::CONTENT_TYPE => MimeTypes::APPLICATION_JSON->value,
-            ],
-        ])->getBody()->getContents());
+        ])->getContent());
         if (true !== ($response['acknowledged'] ?? null)) {
             throw new \RuntimeException('Impossible to create a new index');
         }
@@ -166,14 +168,11 @@ class Synchronizer
             ];
         }
 
-        $response = Json::decode($this->client->post('../_aliases', [
+        $response = Json::decode($this->client->request('POST', '../_aliases', [
             'body' => Json::encode([
                 'actions' => $actions,
             ]),
-            'headers' => [
-                Headers::CONTENT_TYPE => MimeTypes::APPLICATION_JSON->value,
-            ],
-        ])->getBody()->getContents());
+        ])->getContent());
         if (true !== ($response['acknowledged'] ?? null)) {
             throw new \RuntimeException('Impossible to switch alias');
         }
@@ -186,27 +185,21 @@ class Synchronizer
             $params['scroll'] = $scroll;
             $query->setSort(['_doc']);
         }
-        $response = Json::decode($this->client->get('_search?'.\http_build_query($params), [
+        $response = Json::decode($this->client->request('GET', '_search?'.\http_build_query($params), [
             'body' => Json::encode($query->toArray()),
-            'headers' => [
-                Headers::CONTENT_TYPE => MimeTypes::APPLICATION_JSON->value,
-            ],
-        ])->getBody()->getContents());
+        ])->getContent());
 
         return new SearchResponse($response);
     }
 
     public function scroll(string $scrollId, string $scroll, int $size): SearchResponse
     {
-        $response = Json::decode($this->client->get('../_search/scroll', [
+        $response = Json::decode($this->client->request('GET', '../_search/scroll', [
             'body' => Json::encode([
                 'scroll_id' => $scrollId,
                 'scroll' => $scroll,
             ]),
-            'headers' => [
-                Headers::CONTENT_TYPE => MimeTypes::APPLICATION_JSON->value,
-            ],
-        ])->getBody()->getContents());
+        ])->getContent());
 
         return new SearchResponse($response);
     }
@@ -216,12 +209,9 @@ class Synchronizer
      */
     public function index(string $id, array $source): void
     {
-        $this->client->post('_doc/'.$id, [
+        $this->client->request('POST', '_doc/'.$id, [
             'body' => Json::encode($source),
-            'headers' => [
-                Headers::CONTENT_TYPE => MimeTypes::APPLICATION_JSON->value,
-            ],
-        ])->getBody()->getContents();
+        ])->getContent();
     }
 
     /**
@@ -229,12 +219,9 @@ class Synchronizer
      */
     public function bulk(Bucket $bulk): array
     {
-        $response = Json::decode($this->client->post('_bulk', [
+        $response = Json::decode($this->client->request('POST', '_bulk', [
             'body' => $bulk->getBody(),
-            'headers' => [
-                Headers::CONTENT_TYPE => MimeTypes::APPLICATION_JSON->value,
-            ],
-        ])->getBody()->getContents());
+        ])->getContent());
         $status = [];
         foreach ($response['items'] as $item) {
             $action = \array_key_first($item);

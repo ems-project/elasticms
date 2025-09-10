@@ -189,6 +189,13 @@ class SynchronizeCommand extends AbstractCommand
             $ids = $this->synchronizeDocuments($contentType, $this->force || null === $inTarget);
             $this->deleteDocuments($contentType, $ids);
         }
+        
+        foreach ($targetContentTypes->getBuckets() as $contentType) {
+            if ($sourceContentTypes->hasKey($contentType->getKey())) {
+                continue;
+            }
+            $this->deleteDocuments($contentType);
+        }
     }
 
     private function getContentTypes(Synchronizer $sourceClient): Aggregation
@@ -277,7 +284,7 @@ class SynchronizeCommand extends AbstractCommand
     /**
      * @param array<string, int> $butIds
      */
-    private function deleteDocuments(BucketResponse $contentType, array $butIds): void
+    private function deleteDocuments(BucketResponse $contentType, array $butIds = []): void
     {
         $search = new Query\Terms(EMSSource::FIELD_CONTENT_TYPE, [$contentType->getKey()]);
         $query = new Query($search);

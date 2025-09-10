@@ -12,8 +12,8 @@ use EMS\CommonBundle\Commands;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
 use EMS\CommonBundle\Elasticsearch\Sync\Aggregation;
-use EMS\CommonBundle\Elasticsearch\Sync\Bucket;
 use EMS\CommonBundle\Elasticsearch\Sync\BucketResponse;
+use EMS\CommonBundle\Elasticsearch\Sync\Bulk;
 use EMS\CommonBundle\Elasticsearch\Sync\SearchResponse;
 use EMS\CommonBundle\Elasticsearch\Sync\Synchronizer;
 use EMS\Helpers\ArrayHelper\ArrayHelper;
@@ -186,7 +186,8 @@ class SynchronizeCommand extends AbstractCommand
                     continue;
                 }
             }
-            $this->synchronizeDocuments($contentType, $this->force || null === $inTarget);
+            $ids = $this->synchronizeDocuments($contentType, $this->force || null === $inTarget);
+            $this->deleteDocuments($contentType, $ids);
         }
     }
 
@@ -209,7 +210,10 @@ class SynchronizeCommand extends AbstractCommand
         return $sourceClient->search($query)->getAggregation(self::AGGREGATION_CONTENT_TYPE);
     }
 
-    private function synchronizeDocuments(BucketResponse $contentType, bool $force): void
+    /**
+     * @return array<string, int>
+     */
+    private function synchronizeDocuments(BucketResponse $contentType, bool $force): array
     {
         $this->io->section(\sprintf('Synchronized the %s documents', $contentType->getKey()));
         $search = new Query\Terms(EMSSource::FIELD_CONTENT_TYPE, [$contentType->getKey()]);
@@ -217,18 +221,25 @@ class SynchronizeCommand extends AbstractCommand
         $query->setSize($this->bulkSize);
         $documents = $this->sourceClient->search($query, $this->keepAlive);
         $this->io->progressStart($documents->getTotal());
+        $status = [];
         do {
-            $this->synchronizeBulk($documents, $force);
+            $status = \array_merge($status, $this->synchronizeBulk($documents, $force));
             $this->io->progressAdvance($documents->countHits());
             $scrollId = $documents->getScrollId();
             $documents = $this->sourceClient->scroll($scrollId, $this->keepAlive);
         } while ($documents->countHits() > 0);
         $this->sourceClient->closeScroll($scrollId);
         $this->io->progressFinish();
+
+        return $status;
     }
 
-    private function synchronizeBulk(SearchResponse $documents, bool $force): void
+    /**
+     * @return array<string, int>
+     */
+    private function synchronizeBulk(SearchResponse $documents, bool $force): array
     {
+        $status = [];
         $documentsInTarget = null;
         if (!$force) {
             $search = new Query\Terms(Synchronizer::ID, $documents->getIds());
@@ -242,7 +253,7 @@ class SynchronizeCommand extends AbstractCommand
             $documentsInTarget = $this->targetClient->search($query);
         }
 
-        $bulk = new Bucket();
+        $bulk = new Bulk();
         foreach ($documents->getHits() as $document) {
             if (
                 null !== $documentsInTarget
@@ -251,9 +262,56 @@ class SynchronizeCommand extends AbstractCommand
                 && $target->get(EMSSource::FIELD_FINALIZATION_DATETIME) === $document->get(EMSSource::FIELD_FINALIZATION_DATETIME)
                 && $target->get(EMSSource::FIELD_PUBLICATION_DATETIME) === $document->get(EMSSource::FIELD_PUBLICATION_DATETIME)
             ) {
+                $status[$document->getId()] = 200;
                 continue;
             }
             $bulk->index($document->getId(), $document->getSource());
+        }
+        if ($bulk->empty()) {
+            return $status;
+        }
+
+        return \array_merge($status, $this->targetClient->bulk($bulk));
+    }
+
+    /**
+     * @param array<string, int> $butIds
+     */
+    private function deleteDocuments(BucketResponse $contentType, array $butIds): void
+    {
+        $search = new Query\Terms(EMSSource::FIELD_CONTENT_TYPE, [$contentType->getKey()]);
+        $query = new Query($search);
+        $query->setSize($this->bulkSize);
+        $documents = $this->targetClient->search($query, $this->keepAlive);
+        if ($documents->getTotal() <= \count($butIds)) {
+            $this->sourceClient->closeScroll($documents->getScrollId());
+
+            return;
+        }
+
+        $this->io->section(\sprintf('Delete %d of the %s documents', $documents->getTotal() - \count($butIds), $contentType->getKey()));
+        $this->io->progressStart($documents->getTotal());
+        do {
+            $this->deleteBulk($documents, $butIds);
+            $this->io->progressAdvance($documents->countHits());
+            $scrollId = $documents->getScrollId();
+            $documents = $this->sourceClient->scroll($scrollId, $this->keepAlive);
+        } while ($documents->countHits() > 0);
+        $this->sourceClient->closeScroll($scrollId);
+        $this->io->progressFinish();
+    }
+
+    /**
+     * @param array<string, int> $butIds
+     */
+    private function deleteBulk(SearchResponse $documents, array $butIds): void
+    {
+        $bulk = new Bulk();
+        foreach ($documents->getHits() as $document) {
+            if (isset($butIds[$document->getId()])) {
+                continue;
+            }
+            $bulk->delete($document->getId());
         }
         if ($bulk->empty()) {
             return;

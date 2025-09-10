@@ -6,7 +6,7 @@ namespace EMS\CommonBundle\Elasticsearch\Sync;
 
 use EMS\Helpers\Standard\Json;
 
-class Bucket
+class Bulk
 {
     private string $body = '';
 
@@ -17,6 +17,11 @@ class Bucket
     {
         $this->body .= Json::encode(['index' => [Synchronizer::ID => $id]]).PHP_EOL;
         $this->body .= Json::encode($source).PHP_EOL;
+    }
+
+    public function delete(string $id): void
+    {
+        $this->body .= Json::encode(['delete' => [Synchronizer::ID => $id]]).PHP_EOL;
     }
 
     public function getBody(): string

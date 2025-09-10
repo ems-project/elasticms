@@ -217,7 +217,7 @@ class Synchronizer
     /**
      * @return array<string, int>
      */
-    public function bulk(Bucket $bulk): array
+    public function bulk(Bulk $bulk): array
     {
         $response = Json::decode($this->client->request('POST', '_bulk', [
             'body' => $bulk->getBody(),

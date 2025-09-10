@@ -39,6 +39,7 @@ class SynchronizeCommand extends AbstractCommand
     private const string OPTION_FORCE = 'force';
     public const string OPTION_SOURCE_HEADERS = 'source-headers';
     public const string OPTION_TARGET_HEADERS = 'target-headers';
+    public const string OPTION_KEYWORD_FIELD = 'keyword-field';
     private const string AGGREGATION_CONTENT_TYPE = 'content-types';
     private const string AGGREGATION_PUBLISHED = 'published';
     private const string AGGREGATION_FINALIZED = 'finalized';
@@ -57,6 +58,7 @@ class SynchronizeCommand extends AbstractCommand
     private Synchronizer $sourceClient;
     private Synchronizer $targetClient;
     private string $keepAlive;
+    private string $keywordField;
 
     public function __construct(public readonly LoggerInterface $logger)
     {
@@ -110,6 +112,13 @@ class SynchronizeCommand extends AbstractCommand
                 InputOption::VALUE_OPTIONAL,
                 'Extra headers of the target client (JSON encoded)',
                 '[]'
+            )
+            ->addOption(
+                self::OPTION_KEYWORD_FIELD,
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'The keyword field used to group data',
+                EMSSource::FIELD_CONTENT_TYPE
             );
     }
 
@@ -124,6 +133,7 @@ class SynchronizeCommand extends AbstractCommand
         $this->force = $this->getOptionBool(self::OPTION_FORCE);
         $this->targetHeaders = Json::decode($this->getOptionString(self::OPTION_TARGET_HEADERS));
         $this->sourceHeaders = Json::decode($this->getOptionString(self::OPTION_SOURCE_HEADERS));
+        $this->keywordField = $this->getOptionString(self::OPTION_KEYWORD_FIELD);
     }
 
     #[\Override]
@@ -202,7 +212,7 @@ class SynchronizeCommand extends AbstractCommand
     {
         $aggregation = new TermsAggregation(self::AGGREGATION_CONTENT_TYPE);
         $aggregation->setSize(50);
-        $aggregation->setField(EMSSource::FIELD_CONTENT_TYPE);
+        $aggregation->setField($this->keywordField);
         $maxPublished = new Max(self::AGGREGATION_PUBLISHED);
         $maxPublished->setField(EMSSource::FIELD_PUBLICATION_DATETIME);
         $aggregation->addAggregation($maxPublished);
@@ -223,7 +233,7 @@ class SynchronizeCommand extends AbstractCommand
     private function synchronizeDocuments(BucketResponse $contentType, bool $force): array
     {
         $this->io->section(\sprintf('Synchronized the %s documents', $contentType->getKey()));
-        $search = new Query\Terms(EMSSource::FIELD_CONTENT_TYPE, [$contentType->getKey()]);
+        $search = new Query\Terms($this->keywordField, [$contentType->getKey()]);
         $query = new Query($search);
         $query->setSize($this->bulkSize);
         $documents = $this->sourceClient->search($query, $this->keepAlive);
@@ -286,8 +296,11 @@ class SynchronizeCommand extends AbstractCommand
      */
     private function deleteDocuments(BucketResponse $contentType, array $butIds = []): void
     {
-        $search = new Query\Terms(EMSSource::FIELD_CONTENT_TYPE, [$contentType->getKey()]);
+        $search = new Query\Terms($this->keywordField, [$contentType->getKey()]);
         $query = new Query($search);
+        $query->setSource([
+            '_n_a',
+        ]);
         $query->setSize($this->bulkSize);
         $documents = $this->targetClient->search($query, $this->keepAlive);
         if ($documents->getTotal() <= \count($butIds)) {

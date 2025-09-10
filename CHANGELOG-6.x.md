@@ -1,5 +1,11 @@
 # Changelog 6.x
 
+## 6.7.1 (2025-08-28)
+### Bug Fixes
+* fix(admin/contentType): display json menu link with query by @Davidmattei in https://github.com/ems-project/elasticms/pull/1394
+* fix(admin/migration): replace choiceType update type by @Davidmattei in https://github.com/ems-project/elasticms/pull/1393
+* fix(common/spreadsheet): allow mixed as cell value by @Davidmattei in https://github.com/ems-project/elasticms/pull/1392
+
 ## 6.7.0 (2025-08-25)
 ### Features
 * feat(admin/content-type): recompute on publication by @theus77 in https://github.com/ems-project/elasticms/pull/1381

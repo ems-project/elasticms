@@ -194,7 +194,9 @@ EMSCH_SAML_IDP_PUBLIC_KEY='MIICoTCCAYkCBgGGOshSgDANBgkqhkiG9w0BAQsFADAUMRIwEAYDV
 EMSCH_SAML_IDP_SSO='http://keycloak.localhost/realms/elasticms/protocol/saml'
 ```
 
-> *IMPORT* For using xDebug change http://keycloak.localhost -> http://localhost:9081
+!> For using xDebug change http://keycloak.localhost -> http://localhost:9081
+
+!> If Keycloak runs on a different domain, you need to set the environment variable [SESSION_COOKIE_SAMESITE](/elasticms-web/parameters.md#SESSION_COOKIE_SAMESITE) to lax.
 
 | Variable                          | Location                                                                                                                                           |
 |-----------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|

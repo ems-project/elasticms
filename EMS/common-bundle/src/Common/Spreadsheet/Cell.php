@@ -15,7 +15,7 @@ readonly class Cell
 
     /** @param array<mixed> $style */
     public function __construct(
-        public string $data,
+        public mixed $data,
         public array $style = [],
         public ?string $type = null,
         public ?string $formatInput = null,

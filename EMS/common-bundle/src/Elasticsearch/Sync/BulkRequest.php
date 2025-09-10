@@ -6,7 +6,7 @@ namespace EMS\CommonBundle\Elasticsearch\Sync;
 
 use EMS\Helpers\Standard\Json;
 
-class Bulk
+class BulkRequest
 {
     private string $body = '';
 

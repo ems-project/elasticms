@@ -6,7 +6,7 @@ namespace EMS\CommonBundle\Elasticsearch\Sync;
 
 use EMS\Helpers\Standard\Type;
 
-class BucketResponse
+class Bucket
 {
     /**
      * @param mixed[] $response

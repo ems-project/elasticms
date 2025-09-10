@@ -16,12 +16,12 @@ class Aggregation
     }
 
     /**
-     * @return iterable<BucketResponse>
+     * @return iterable<Bucket>
      */
     public function getBuckets(): iterable
     {
         foreach (Type::array($this->response['buckets']) as $bucket) {
-            yield new BucketResponse($bucket);
+            yield new Bucket($bucket);
         }
     }
 
@@ -31,7 +31,7 @@ class Aggregation
             return false;
         }
         foreach (Type::array($this->response['buckets']) as $bucket) {
-            $bucket = new BucketResponse($bucket);
+            $bucket = new Bucket($bucket);
             if ($bucket->getKey() === $key) {
                 return true;
             }
@@ -40,10 +40,10 @@ class Aggregation
         return false;
     }
 
-    public function getBucketByKey(string $key): BucketResponse
+    public function getBucketByKey(string $key): Bucket
     {
         foreach (Type::array($this->response['buckets']) as $bucket) {
-            $bucket = new BucketResponse($bucket);
+            $bucket = new Bucket($bucket);
             if ($bucket->getKey() === $key) {
                 return $bucket;
             }

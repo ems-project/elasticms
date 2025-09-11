@@ -1,5 +1,13 @@
 # Changelog 6.x
 
+## 6.7.2 (2025-09-11)
+### Bug Fixes
+* fix(admin/channel): new option prefix_instance_id by @Davidmattei in https://github.com/ems-project/elasticms/pull/1403
+* fix(admin/session): cookie_samesite lax by @Davidmattei in https://github.com/ems-project/elasticms/pull/1402
+* fix(admin/twig): json menu query default check by @Davidmattei in https://github.com/ems-project/elasticms/pull/1401
+* fix(demo): invalid replacing placeholder ~view.id~ by @Davidmattei in https://github.com/ems-project/elasticms/pull/1400
+* fix(web/sso): env variable SESSION_COOKIE_SAMESITE by @Davidmattei in https://github.com/ems-project/elasticms/pull/1398
+
 ## 6.7.1 (2025-08-28)
 ### Bug Fixes
 * fix(admin/contentType): display json menu link with query by @Davidmattei in https://github.com/ems-project/elasticms/pull/1394

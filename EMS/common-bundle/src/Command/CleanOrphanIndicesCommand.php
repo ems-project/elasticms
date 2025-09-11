@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Command;
 
 use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\Helpers\Standard\Json;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -25,10 +26,15 @@ final class CleanOrphanIndicesCommand extends AbstractCommand
     private const string OPTION_FORCE = 'force';
     private const string OPTION_INCLUDE_SYSTEM = 'include-system';
     private const string OPTION_TIMEOUT = 'timeout';
+    private const string OPTION_HEADERS = 'headers';
     private string $elasticsearch;
     private bool $force;
     private bool $includeSystem;
     private int $timeout;
+    /**
+     * @var mixed[]
+     */
+    private array $headers;
 
     public function __construct(private readonly HttpClientInterface $httpClient)
     {
@@ -42,7 +48,8 @@ final class CleanOrphanIndicesCommand extends AbstractCommand
             ->addArgument(self::ARGUMENT_ELASTICSEARCH_URL, InputArgument::REQUIRED, 'The base URL of the Elasticsearch cluster (e.g. http://localhost:9200)')
             ->addOption(self::OPTION_FORCE, null, InputOption::VALUE_NONE, 'Actually delete the orphan indices instead of just listing them (dry-run by default).')
             ->addOption(self::OPTION_INCLUDE_SYSTEM, null, InputOption::VALUE_NONE, 'Include system indices (starting with ".") in the cleanup.')
-            ->addOption(self::OPTION_TIMEOUT, null, InputOption::VALUE_REQUIRED, 'HTTP timeout in seconds.', '10');
+            ->addOption(self::OPTION_TIMEOUT, null, InputOption::VALUE_REQUIRED, 'HTTP timeout in seconds.', '10')
+            ->addOption(self::OPTION_HEADERS, null, InputOption::VALUE_REQUIRED, 'Extra headers for the HTTP client (JSON encoded).', '[]');
     }
 
     #[\Override]
@@ -53,6 +60,7 @@ final class CleanOrphanIndicesCommand extends AbstractCommand
         $this->force = $this->getOptionBool(self::OPTION_FORCE);
         $this->includeSystem = $this->getOptionBool(self::OPTION_INCLUDE_SYSTEM);
         $this->timeout = $this->getOptionInt(self::OPTION_TIMEOUT);
+        $this->headers = Json::decode($this->getOptionString(self::OPTION_HEADERS));
     }
 
     #[\Override]
@@ -69,11 +77,13 @@ final class CleanOrphanIndicesCommand extends AbstractCommand
         try {
             $indicesResp = $this->httpClient->request('GET', $this->elasticsearch.'/_cat/indices?format=json', [
                 'timeout' => $this->timeout,
+                'headers' => $this->headers,
             ]);
             $indices = $indicesResp->toArray();
 
             $aliasesResp = $this->httpClient->request('GET', $this->elasticsearch.'/_aliases', [
                 'timeout' => $this->timeout,
+                'headers' => $this->headers,
             ]);
             $aliasesMap = $aliasesResp->toArray(false);
         } catch (TransportExceptionInterface|HttpExceptionInterface $e) {
@@ -125,6 +135,7 @@ final class CleanOrphanIndicesCommand extends AbstractCommand
             try {
                 $resp = $this->httpClient->request('DELETE', $this->elasticsearch.'/'.\rawurlencode($index), [
                     'timeout' => $this->timeout,
+                    'headers' => $this->headers,
                 ]);
                 $status = $resp->getStatusCode();
                 if ($status >= 200 && $status < 300) {
@@ -146,7 +157,7 @@ final class CleanOrphanIndicesCommand extends AbstractCommand
         }
         if (!empty($failed)) {
             $this->io->warning(\sprintf('%d deletions failed.', \count($failed)));
-            
+
             return Command::FAILURE;
         }
 

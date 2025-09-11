@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CommonBundle\Command;
 
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -35,15 +37,15 @@ final class CleanOrphanIndicesCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io            = new SymfonyStyle($input, $output);
-        $elasticsearch = rtrim((string) $input->getArgument('elasticsearch-url'), '/');
-        $force         = (bool) $input->getOption('force');
+        $io = new SymfonyStyle($input, $output);
+        $elasticsearch = \rtrim((string) $input->getArgument('elasticsearch-url'), '/');
+        $force = (bool) $input->getOption('force');
         $includeSystem = (bool) $input->getOption('include-system');
-        $timeout       = (int) $input->getOption('timeout');
+        $timeout = (int) $input->getOption('timeout');
 
         $io->title('Elasticsearch orphan indices cleanup');
-        $io->writeln(sprintf('Cluster URL: <info>%s</info>', $elasticsearch));
-        $io->writeln(sprintf('Mode: <comment>%s</comment>', $force ? 'DELETE' : 'DRY-RUN (no deletion performed)'));
+        $io->writeln(\sprintf('Cluster URL: <info>%s</info>', $elasticsearch));
+        $io->writeln(\sprintf('Mode: <comment>%s</comment>', $force ? 'DELETE' : 'DRY-RUN (no deletion performed)'));
         if (!$includeSystem) {
             $io->writeln('System indices (prefix ".") will be ignored.');
         }
@@ -51,19 +53,19 @@ final class CleanOrphanIndicesCommand extends Command
 
         try {
             // 1) Get list of all indices
-            $indicesResp = $this->httpClient->request('GET', $elasticsearch . '/_cat/indices?format=json', [
+            $indicesResp = $this->httpClient->request('GET', $elasticsearch.'/_cat/indices?format=json', [
                 'timeout' => $timeout,
             ]);
             $indices = $indicesResp->toArray();
 
             // 2) Get aliases map
-            $aliasesResp = $this->httpClient->request('GET', $elasticsearch . '/_aliases', [
+            $aliasesResp = $this->httpClient->request('GET', $elasticsearch.'/_aliases', [
                 'timeout' => $timeout,
             ]);
             $aliasesMap = $aliasesResp->toArray(false);
-
         } catch (TransportExceptionInterface|HttpExceptionInterface $e) {
-            $io->error(sprintf('Error while calling Elasticsearch: %s', $e->getMessage()));
+            $io->error(\sprintf('Error while calling Elasticsearch: %s', $e->getMessage()));
+
             return Command::FAILURE;
         }
 
@@ -74,7 +76,7 @@ final class CleanOrphanIndicesCommand extends Command
                 continue; // unexpected format
             }
             $name = (string) $row['index'];
-            if (!$includeSystem && str_starts_with($name, '.')) {
+            if (!$includeSystem && \str_starts_with($name, '.')) {
                 continue; // skip system indices
             }
             $allIndexNames[] = $name;
@@ -91,47 +93,49 @@ final class CleanOrphanIndicesCommand extends Command
 
         if (empty($orphans)) {
             $io->success('No orphan indices found. The cluster is clean 👍');
+
             return Command::SUCCESS;
         }
 
-        $io->section(sprintf('Found %d orphan indices', \count($orphans)));
+        $io->section(\sprintf('Found %d orphan indices', \count($orphans)));
         $io->listing($orphans);
 
         if (!$force) {
             $io->success('Dry-run completed. Add --force to actually delete these indices.');
+
             return Command::SUCCESS;
         }
 
         // 3) Delete orphan indices
         $io->section('Deleting orphan indices...');
         $deleted = [];
-        $failed  = [];
+        $failed = [];
 
         foreach ($orphans as $index) {
             try {
-                $resp = $this->httpClient->request('DELETE', $elasticsearch . '/' . rawurlencode($index), [
+                $resp = $this->httpClient->request('DELETE', $elasticsearch.'/'.\rawurlencode($index), [
                     'timeout' => $timeout,
                 ]);
                 $status = $resp->getStatusCode();
                 if ($status >= 200 && $status < 300) {
                     $deleted[] = $index;
-                    $io->writeln(sprintf('<info>✔</info> Deleted: %s', $index));
+                    $io->writeln(\sprintf('<info>✔</info> Deleted: %s', $index));
                 } else {
-                    $failed[] = [$index, 'HTTP ' . $status];
-                    $io->writeln(sprintf('<error>✘</error> Failed to delete %s (HTTP %d)', $index, $status));
+                    $failed[] = [$index, 'HTTP '.$status];
+                    $io->writeln(\sprintf('<error>✘</error> Failed to delete %s (HTTP %d)', $index, $status));
                 }
             } catch (TransportExceptionInterface|HttpExceptionInterface $e) {
                 $failed[] = [$index, $e->getMessage()];
-                $io->writeln(sprintf('<error>✘</error> Failed to delete %s (%s)', $index, $e->getMessage()));
+                $io->writeln(\sprintf('<error>✘</error> Failed to delete %s (%s)', $index, $e->getMessage()));
             }
         }
 
         $io->newLine();
         if (!empty($deleted)) {
-            $io->success(sprintf('%d indices deleted successfully.', \count($deleted)));
+            $io->success(\sprintf('%d indices deleted successfully.', \count($deleted)));
         }
         if (!empty($failed)) {
-            $io->warning(sprintf('%d deletions failed.', \count($failed)));
+            $io->warning(\sprintf('%d deletions failed.', \count($failed)));
         }
 
         return empty($failed) ? Command::SUCCESS : Command::FAILURE;

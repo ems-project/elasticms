@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Twig;
 
 use EMS\CommonBundle\Helper\EmsFields;
+use Symfony\Component\HttpFoundation\IpUtils;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\FlashBagAwareSessionInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -42,6 +43,19 @@ class RequestRuntime implements RuntimeExtensionInterface
         $locale = $request->getLocale();
 
         return $source[$attribute.$locale] ?? '';
+    }
+
+    /**
+     * @param string[]|string $ipsOrSubnets
+     */
+    public function checkIp(string $requestIp, string|array $ipsOrSubnets): bool
+    {
+        $request = $this->requestStack->getCurrentRequest();
+        if (null !== $request && $request->isMethodSafe()) {
+            throw new \RuntimeException(\sprintf('The safe method %s is not allowed with ems_check_ip()', $request->getMethod()));
+        }
+
+        return IpUtils::checkIp($requestIp, $ipsOrSubnets);
     }
 
     /**

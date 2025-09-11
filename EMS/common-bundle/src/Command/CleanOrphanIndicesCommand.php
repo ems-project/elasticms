@@ -52,13 +52,11 @@ final class CleanOrphanIndicesCommand extends Command
         $io->newLine();
 
         try {
-            // 1) Get list of all indices
             $indicesResp = $this->httpClient->request('GET', $elasticsearch.'/_cat/indices?format=json', [
                 'timeout' => $timeout,
             ]);
             $indices = $indicesResp->toArray();
 
-            // 2) Get aliases map
             $aliasesResp = $this->httpClient->request('GET', $elasticsearch.'/_aliases', [
                 'timeout' => $timeout,
             ]);
@@ -69,20 +67,18 @@ final class CleanOrphanIndicesCommand extends Command
             return Command::FAILURE;
         }
 
-        // Filter indices
         $allIndexNames = [];
         foreach ($indices as $row) {
             if (!isset($row['index'])) {
-                continue; // unexpected format
+                continue;
             }
             $name = (string) $row['index'];
             if (!$includeSystem && \str_starts_with($name, '.')) {
-                continue; // skip system indices
+                continue;
             }
             $allIndexNames[] = $name;
         }
 
-        // Identify orphan indices
         $orphans = [];
         foreach ($allIndexNames as $name) {
             $hasAliases = isset($aliasesMap[$name]['aliases']) && \count($aliasesMap[$name]['aliases']) > 0;
@@ -106,7 +102,6 @@ final class CleanOrphanIndicesCommand extends Command
             return Command::SUCCESS;
         }
 
-        // 3) Delete orphan indices
         $io->section('Deleting orphan indices...');
         $deleted = [];
         $failed = [];

@@ -298,9 +298,7 @@ class SynchronizeCommand extends AbstractCommand
     {
         $search = new Query\Terms($this->keywordField, [$contentType->getKey()]);
         $query = new Query($search);
-        $query->setSource([
-            '_n_a',
-        ]);
+        $query->setSource(false);
         $query->setSize($this->bulkSize);
         $documents = $this->targetClient->search($query, $this->keepAlive);
         if ($documents->getTotal() <= \count($butIds)) {

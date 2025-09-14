@@ -411,12 +411,14 @@ class Environment extends JsonDeserializer implements \JsonSerializable, EntityI
         $json->removeProperty('modified');
         $json->removeProperty('indexes');
         $json->removeProperty('total');
-        $json->removeProperty('alias');
         $json->removeProperty('counter');
         $json->removeProperty('deletedRevision');
         $json->removeProperty('revisions');
         $json->removeProperty('contentTypesHavingThisAsDefault');
         $json->removeProperty('environmentRevisions');
+        if ($this->managed === true) {
+            $json->removeProperty('alias');
+        }
 
         return $json;
     }

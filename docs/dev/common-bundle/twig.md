@@ -33,6 +33,7 @@
   * [ems_color](#ems_color)
   * [ems_slug](#ems_slug)
   * [ems_file_from_archive](#ems_file_from_archive)
+  * [ems_files_in_archive](#ems_files_in_archive)
   * [ems_link](#ems_link)
   * [ems_valid_mail](#ems_valid_mail)
   * [ems_uuid](#ems_uuid-1)

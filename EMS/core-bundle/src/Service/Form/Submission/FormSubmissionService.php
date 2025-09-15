@@ -236,9 +236,13 @@ final readonly class FormSubmissionService implements EntityServiceInterface
         ];
     }
 
-    public function removeExpiredSubmissions(): int
+    public function removeExpiredSubmissions(bool $keepMetadata): int
     {
-        return $this->formSubmissionRepository->removeAllOutdatedSubmission();
+        if ($keepMetadata) {
+            return $this->formSubmissionRepository->clearDataOnExpiredSubmissions();
+        }
+
+        return $this->formSubmissionRepository->deleteAllExpiredSubmission();
     }
 
     /**

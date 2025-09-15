@@ -48,16 +48,24 @@ class FormSubmissionRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return FormSubmission[]
+     * @return \Generator<FormSubmission>
      */
-    public function findAllUnprocessed(): array
+    public function findAllUnprocessed(int $batchSize = 500): \Generator
     {
-        $qb = $this->createQueryBuilder('fs');
-        $qb
-            ->andWhere($qb->expr()->isNotNull('fs.data'))
-            ->orderBy('fs.created', 'desc');
+        $query = $this->createQueryBuilder('fs')
+            ->andWhere('fs.data IS NOT NULL')
+            ->orderBy('fs.created', 'DESC')
+            ->addOrderBy('fs.id', 'DESC')
+            ->getQuery();
 
-        return $qb->getQuery()->execute();
+        $i = 0;
+
+        foreach ($query->toIterable() as $entity) {
+            yield $entity;
+            if ((++$i % $batchSize) === 0) {
+                $this->getEntityManager()->clear();
+            }
+        }
     }
 
     public function countAllUnprocessed(string $searchValue): int

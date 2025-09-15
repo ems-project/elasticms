@@ -31,9 +31,10 @@ final readonly class SubmissionExporter
         $headers = \array_column($config->columns, 'name');
 
         $unprocessedSubmissions = $this->formSubmissionService->getUnprocessed();
-        $unprocessedSubmissionsCount = \count($unprocessedSubmissions);
+        $unprocessedSubmissionsCount = 0;
 
         foreach ($unprocessedSubmissions as $submission) {
+            ++$unprocessedSubmissionsCount;
             $data = [
                 'instance' => $submission->getInstance(),
                 'name' => $submission->getName(),

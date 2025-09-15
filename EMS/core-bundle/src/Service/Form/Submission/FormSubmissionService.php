@@ -157,9 +157,9 @@ final readonly class FormSubmissionService implements EntityServiceInterface
     }
 
     /**
-     * @return FormSubmission[]
+     * @return \Generator<FormSubmission>
      */
-    public function getUnprocessed(): array
+    public function getUnprocessed(): \Generator
     {
         return $this->formSubmissionRepository->findAllUnprocessed();
     }

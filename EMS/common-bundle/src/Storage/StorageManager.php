@@ -738,4 +738,22 @@ class StorageManager implements FileManagerInterface
 
         return false;
     }
+
+    public function getFilesInArchive(string $hash): Archive
+    {
+        $archiveFile = TempFile::create()->loadFromStream($this->getStream($hash));
+        $type = MimeTypeHelper::getInstance()->guessMimeType($archiveFile->path);
+        switch ($type) {
+            case MimeTypes::APPLICATION_ZIP->value:
+            case MimeTypes::APPLICATION_GZIP->value:
+                $tempDir = TempDirectory::createFromZipArchive($archiveFile->path);
+                break;
+            case MimeTypes::APPLICATION_JSON->value:
+                return Archive::fromStructure($archiveFile->getContents(), $this->hashAlgo);
+            default:
+                throw new \RuntimeException(\sprintf('Archive format %s not supported', $type));
+        }
+
+        return Archive::fromDirectory($tempDir->path, $this->hashAlgo);
+    }
 }

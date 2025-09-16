@@ -7,6 +7,8 @@ namespace EMS\CoreBundle\Command\Submission;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Service\Form\Submission\FormSubmissionService;
+use EMS\Helpers\Html\MimeTypes;
+use EMS\Helpers\Standard\Base64;
 use EMS\Helpers\Standard\DateTime;
 use EMS\SubmissionBundle\Request\DatabaseRequest;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -60,7 +62,13 @@ class GenerateDummySubmissionsCommand extends AbstractCommand
                     'foobar' => true,
                     'body' => 'Lorem ipsum',
                 ],
-                'files' => [],
+                'files' => [[
+                    'filename' => 'foobar.txt',
+                    'mimeType' => MimeTypes::TEXT_PLAIN->value,
+                    'base64' => Base64::encode('foobar'),
+                    'size' => 6,
+                    'form_field' => 'attachement',
+                ]],
             ]));
             $this->io->progressAdvance();
         }

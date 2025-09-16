@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace EMS\Helpers\File;
 
+use EMS\CommonBundle\Storage\File\FileInterface;
 use EMS\Helpers\Standard\Type;
 use Psr\Http\Message\StreamInterface;
 
-class TempFile
+class TempFile implements FileInterface
 {
     private const string PREFIX = 'EMS_temp_file_';
 
@@ -82,5 +83,23 @@ class TempFile
     public function getSize(): int
     {
         return Type::integer(\filesize($this->path));
+    }
+
+    public function putContents(string $contents): void
+    {
+        $numberOfBytes = \file_put_contents($this->path, $contents);
+        if ($numberOfBytes !== \strlen($contents)) {
+            throw new \RuntimeException(\sprintf('Size mismatched! %d were written, %d were expected.', $numberOfBytes, \strlen($contents)));
+        }
+    }
+
+    public function getContent(): string
+    {
+        return $this->getContents();
+    }
+
+    public function getFilename(): string
+    {
+        return $this->path;
     }
 }

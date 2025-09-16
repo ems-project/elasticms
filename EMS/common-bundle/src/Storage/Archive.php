@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Storage;
 
 use EMS\CommonBundle\Helper\MimeTypeHelper;
+use EMS\Helpers\File\TempFile;
 use EMS\Helpers\Standard\Json;
 use EMS\Helpers\Standard\Type;
 use Symfony\Component\Finder\Finder;
@@ -197,5 +198,13 @@ class Archive implements \JsonSerializable
         }
 
         return $newArchive;
+    }
+
+    public function getTempFile(): TempFile
+    {
+        $tempFile = TempFile::create();
+        $tempFile->putContents(Json::encode($this));
+
+        return $tempFile;
     }
 }

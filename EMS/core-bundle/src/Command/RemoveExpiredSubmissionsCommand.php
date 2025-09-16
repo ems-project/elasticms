@@ -52,10 +52,18 @@ class RemoveExpiredSubmissionsCommand extends AbstractCommand
     #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $removedCount = $this->formSubmissionService->removeExpiredSubmissions($this->metadata);
+        $removedCount = $this->formSubmissionService->removeExpiredSubmissionAttachments();
+        $this->logger->notice(\sprintf('%d submission attachments were removed', $removedCount));
+        $output->writeln(\sprintf('%d submission attachments were removed', $removedCount));
 
-        $this->logger->notice(\sprintf('%d submissions were removed', $removedCount));
-        $output->writeln(\sprintf('%d submissions were removed', $removedCount));
+        $removedCount = $this->formSubmissionService->removeExpiredSubmissions($this->metadata);
+        if ($this->metadata) {
+            $this->logger->notice(\sprintf('%d submission data were cleaned out', $removedCount));
+            $output->writeln(\sprintf('%d submission data were cleaned out', $removedCount));
+        } else {
+            $this->logger->notice(\sprintf('%d submissions were removed', $removedCount));
+            $output->writeln(\sprintf('%d submissions were removed', $removedCount));
+        }
 
         return 0;
     }

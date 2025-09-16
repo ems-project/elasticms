@@ -328,4 +328,9 @@ final readonly class FormSubmissionService implements EntityServiceInterface
 
         return $rows;
     }
+
+    public function removeExpiredSubmissionAttachments(): int
+    {
+        return $this->formSubmissionFileRepository->removeExpiredSubmissionAttachments();
+    }
 }

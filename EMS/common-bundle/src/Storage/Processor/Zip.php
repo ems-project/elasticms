@@ -21,6 +21,9 @@ class Zip
     {
         $file = TempFile::create();
         $stream = \fopen($file->path, 'r+');
+        if (false === $stream) {
+            throw new \RuntimeException('Unexpected false temporary stream');
+        }
 
         $zip = new ZipStream(OperationMode::NORMAL, '', $stream, CompressionMethod::DEFLATE, 6, false, true, false);
         foreach ($this->config->getFiles() as $file) {

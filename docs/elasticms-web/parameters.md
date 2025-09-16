@@ -24,6 +24,14 @@ A secret seed.
 
 Define the max connections to the API client, when using async calls. By default it is set to `4`.
 
+### SESSION_COOKIE_SAMESITE
+
+By default, this option is set to `strict`. However, when using Single Sign-On (
+SSO) with Keycloak on a different domain, you need to change it to `lax` to
+ensure that cross-domain authentication cookies work correctly. See
+the [Symfony session configuration documentation](https://symfony.com/doc/current/session.html#cookie-samesite)
+for more details.
+
 ### Behind a Load Balancer or a Reverse Proxy
 
 ```dotenv

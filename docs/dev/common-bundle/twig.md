@@ -10,6 +10,7 @@
   * [ems_flash](#ems_flash)
   * [ems_file_reader_data](#ems_file_reader_data)
   * [ems_file_reader_cells](#ems_file_reader_cells)
+  * [ems_check_ip](#ems_check_ip)
 * [Twig filters](#twig-filters)
   * [ems_anti_spam](#ems_anti_spam)
   * [ems_html_encode](#ems_html_encode)
@@ -234,6 +235,26 @@ Options:
  * `exclude_rows` (int[]): skip those rows
  * `limit` (int): limit to the first rows
 
+## ems_check_ip
+
+Checks if an IPv4 or IPv6 address is contained in the list of given IPs or subnets. In order to avoid HTTP cache issues, this function must be called in a non-safe request (i.e. `POST` or `PUT`).
+
+````twig
+{% set clientIp = app.request.headers.get('X-FORWARDED-FOR')|default('192.168.0.5') %}
+{% set ranges =  [
+    '192.168.0.0/24',
+    '10.0.0.0/8',
+    '203.0.113.5',
+    '172.16.0.0/255.240.0.0',
+    '2001:db8::/32',
+    'fd00::/8',
+    '2a02:26f0:10::5',
+] %}
+
+{% if ems_check_ip(clientIp, ranges) %}
+ {# display sensitive contents here #}
+{% endif %}
+````
 
 # Twig filters
 

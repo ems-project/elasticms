@@ -23,7 +23,7 @@ class Zip
             throw new \RuntimeException('Unexpected false temporary stream');
         }
 
-        $zip = new ZipStream(OperationMode::NORMAL, '', $stream, CompressionMethod::DEFLATE, 6, false, true);
+        $zip = new ZipStream(OperationMode::NORMAL, '', $stream, CompressionMethod::DEFLATE, 6, false, true, false);
         foreach ($this->config->getFiles() as $file) {
             $zip->addFileFromPsr7Stream($file['filename'], $file['stream']);
         }

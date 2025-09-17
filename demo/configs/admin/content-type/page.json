@@ -1402,7 +1402,8 @@
                     "size": null,
                     "public": false,
                     "spreadsheet": false,
-                    "tag": null
+                    "tag": null,
+                    "allowedRemoteHosts": []
                 },
                 "replaced": []
             },
@@ -1436,7 +1437,8 @@
                     "size": null,
                     "public": false,
                     "spreadsheet": false,
-                    "tag": null
+                    "tag": null,
+                    "allowedRemoteHosts": []
                 },
                 "replaced": []
             }

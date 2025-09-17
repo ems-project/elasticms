@@ -363,7 +363,8 @@ php bin/console emsco:submissions:export ../../tmp/config.json
   "filter": "'new_contact_form' == name and 'citizen' == data['profile'] and submission_date starts with '2042-01-'",
   "subject": "New export submission",
   "emails-to": ["john@example.com", "doe@example.com"],
-  "format": "xlsx"
+  "format": "xlsx",
+  "batch-size": 200
 }
 ```
 

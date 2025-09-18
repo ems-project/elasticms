@@ -1,5 +1,11 @@
 # Changelog 6.x
 
+## 6.7.3 (2025-09-18)
+### Bug Fixes
+* fix(admin/submission): memory issues on remove and export by @theus77 in https://github.com/ems-project/elasticms/pull/1408
+* fix(common/zip): disable defaultEnableZeroHeader for zipStream by @theus77 in https://github.com/ems-project/elasticms/pull/1410
+* fix(web/api): treatFiles improve error message by @theus77 in https://github.com/ems-project/elasticms/pull/1411
+
 ## 6.7.2 (2025-09-11)
 ### Bug Fixes
 * fix(admin/channel): new option prefix_instance_id by @Davidmattei in https://github.com/ems-project/elasticms/pull/1403

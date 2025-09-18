@@ -40,6 +40,7 @@ class CommonExtension extends AbstractExtension
             new TwigFunction('ems_store_delete', [StoreDataRuntime::class, 'delete']),
             new TwigFunction('ems_template_exists', [TemplateRuntime::class, 'templateExists']),
             new TwigFunction('ems_file_from_archive', [AssetRuntime::class, 'fileFromArchive']),
+            new TwigFunction('ems_files_in_archive', [AssetRuntime::class, 'getFilesInArchive']),
             new TwigFunction('ems_core', [CoreBridgeRuntime::class, 'build']),
             new TwigFunction('ems_flash', [RequestRuntime::class, 'flash']),
             new TwigFunction('ems_file_reader_data', [AssetRuntime::class, 'fileReaderGetData']),

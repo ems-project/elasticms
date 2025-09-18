@@ -5,17 +5,20 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Storage;
 
 use EMS\CommonBundle\Helper\MimeTypeHelper;
+use EMS\CommonBundle\Storage\File\FileInterface;
+use EMS\Helpers\File\TempFile;
 use EMS\Helpers\Standard\Json;
 use EMS\Helpers\Standard\Type;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class Archive implements \JsonSerializable
+class Archive implements \JsonSerializable, FileInterface
 {
     /** @var array<string, ArchiveItem> */
     private array $files = [];
     private ?OptionsResolver $itemResolver = null;
+    private ?TempFile $tempFile = null;
 
     public function __construct(private readonly string $hashAlgo)
     {
@@ -197,5 +200,20 @@ class Archive implements \JsonSerializable
         }
 
         return $newArchive;
+    }
+
+    public function getContent(): string
+    {
+        return Json::encode($this);
+    }
+
+    public function getFilename(): string
+    {
+        if (null === $this->tempFile) {
+            $this->tempFile = TempFile::create();
+            $this->tempFile->putContents($this->getContent());
+        }
+
+        return $this->tempFile->path;
     }
 }

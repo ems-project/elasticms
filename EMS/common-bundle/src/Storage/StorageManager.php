@@ -761,7 +761,7 @@ class StorageManager implements FileManagerInterface
             default:
                 throw new \RuntimeException(\sprintf('Archive format %s not supported', $type));
         }
-        $this->saveCache($cacheConfig, $archive->getTempFile());
+        $this->saveCache($cacheConfig, $archive);
 
         return $archive;
     }

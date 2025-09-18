@@ -136,6 +136,10 @@
             <argument type="service" id="ems_common.runner.manager" />
             <tag name="console.command" />
         </service>
+        <service id="elasticsearch:clean-orphan-indices" class="EMS\CommonBundle\Command\CleanOrphanIndicesCommand">
+            <argument type="service" id="http_client" />
+            <tag name="console.command" />
+        </service>
         <service id="ems.command.indexes.synchronize" class="EMS\CommonBundle\Command\SynchronizeCommand">
             <argument type="service" id="logger" />
             <tag name="console.command" />

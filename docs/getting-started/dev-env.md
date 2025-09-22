@@ -283,10 +283,9 @@ Ensure that those lines are there:
 extension=opentelemetry.so
 ```
 
-Restart PHP-FPM and check that the extension is on:
+Check that the extension is on:
 
 ```shell
-sudo brew services restart php@8.4
 php -m | grep opentelemetry
 ```
 

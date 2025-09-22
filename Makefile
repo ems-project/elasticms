@@ -57,6 +57,16 @@ status: ## status
 
 ## —— Symfony server ———————————————————————————————————————————————————————————————————————————————————————————————————
 server-start/%: ## server-start/(admin|web)
+	OTEL_PHP_AUTOLOAD_ENABLED=true \
+	OTEL_SERVICE_NAME=demo-ems-$(*) \
+	OTEL_TRACES_EXPORTER=otlp \
+	OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf \
+	OTEL_EXPORTER_OTLP_ENDPOINT=http://apm-server.localhost \
+	OTEL_RESOURCE_ATTRIBUTES=deployment.environment=dev \
+	OTEL_TRACES_SAMPLER=always_on \
+	OTEL_LOG_LEVEL=debug \
+	OTEL_PHP_LOG_DESTINATION=stderr \
+	OTEL_PHP_AUTOLOAD_PATH=$(MAKEFILE_DIR)/vendor/autoload.php \
 	symfony server:start --dir=elasticms-${*} -d --port=$(PORT_$(*)) --no-tls
 server-stop/%:  ## server-stop/(admin|web)
 	symfony server:stop --dir=elasticms-${*}

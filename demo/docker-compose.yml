@@ -66,6 +66,17 @@ services:
       - "traefik.http.routers.kibana.service=kibana"
       - "traefik.http.services.kibana.loadbalancer.server.port=5601"
 
+  apm-server:
+      extends:
+          file: docker-${ELK_VERSION-elk7}.yml
+          service: apm-server
+      labels:
+          - "traefik.enable=true"
+          - "traefik.http.routers.apm-server.rule=Host(`apm-server.localhost`)"
+          - "traefik.http.routers.apm-server.entrypoints=web"
+          - "traefik.http.routers.apm-server.service=apm-server"
+          - "traefik.http.services.apm-server.loadbalancer.server.port=8200"
+
   postgres:
     image: postgres:17
 #    ports:

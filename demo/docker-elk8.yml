@@ -119,3 +119,17 @@ services:
       interval: 10s
       timeout: 10s
       retries: 120
+
+  apm-server:
+      image: docker.elastic.co/apm/apm-server:${ELK8_STACK_VERSION}
+      depends_on:
+          - kibana
+      command: >
+          apm-server -e
+            --strict.perms=false
+            -E apm-server.host=0.0.0.0:8200
+            -E output.elasticsearch.hosts=["http://es01:9200","http://es02:9200","http://es03:9200"]
+            -E apm-server.rum.enabled=true
+            -E apm-server.otlp.enabled=true
+            -E apm-server.otlp.protocols.http.enabled=true
+            -E apm-server.auth.anonymous.enabled=true

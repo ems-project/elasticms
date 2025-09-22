@@ -238,3 +238,55 @@ cd ../../../elasticms-admin/
 php bin/console a:i --symlink
 ```
 
+## Install OpenTelemetry on OS X
+
+Update Homebrew and install build tools:
+
+```shell
+brew update
+brew install gcc make autoconf
+```
+
+Check that PHP8.4 is installed and running:
+
+```shell
+php -v
+```
+
+Must returns something like `PHP 8.4.x`
+
+Otherwize:
+
+```shell
+brew tap shivammathur/php
+brew install shivammathur/php/php@8.4
+brew link --force --overwrite php@8.4
+```
+
+Install OpenTelemetry via PECL:
+
+```shell
+pecl install opentelemetry
+pecl install protobuf
+```
+
+Activate the OpenTelemetry in the php.ini. First locate the php.ini with
+
+```shell
+php --ini
+``` 
+
+Ensure that those lines are there:
+
+```ini
+[opentelemetry]
+extension=opentelemetry.so
+```
+
+Restart PHP-FPM and check that the extension is on:
+
+```shell
+sudo brew services restart php@8.4
+php -m | grep opentelemetry
+```
+

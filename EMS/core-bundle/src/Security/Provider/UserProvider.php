@@ -31,11 +31,6 @@ class UserProvider implements UserProviderInterface
         return $this->findUser($identifier);
     }
 
-    public function loadUserByUsername(string $username): UserInterface
-    {
-        return $this->loadUserByIdentifier($username);
-    }
-
     #[\Override]
     public function refreshUser(UserInterface $user): UserInterface
     {

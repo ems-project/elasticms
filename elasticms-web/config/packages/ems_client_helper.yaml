@@ -21,6 +21,7 @@ parameters:
     env(EMSCH_LOCAL_PATH):              ~
 
     env(EMSCH_SECURITY_ROUTE_LOGIN):    'emsch_login'
+    env(EMSCH_SECURITY_FIREWALL):       ~
 
     env(EMSCH_OAUTH2):                      false
     env(EMSCH_OAUTH2_PROVIDER):             'keycloak'
@@ -69,6 +70,7 @@ ems_client_helper:
         url: '%env(string:EMSCH_BACKEND_URL)%'
     security:
         route_login: '%env(string:EMSCH_SECURITY_ROUTE_LOGIN)%'
+        firewall: '%env(string:EMSCH_SECURITY_FIREWALL)%'
         sso:
             oauth2:
                 enabled: '%env(bool:EMSCH_OAUTH2)%'

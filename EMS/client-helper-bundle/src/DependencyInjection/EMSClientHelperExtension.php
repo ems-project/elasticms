@@ -41,6 +41,7 @@ final class EMSClientHelperExtension extends Extension implements PrependExtensi
         $container->setParameter('emsch.security.sso.oauth2', $config['security']['sso']['oauth2'] ?? []);
         $container->setParameter('emsch.security.sso.saml', $config['security']['sso']['saml'] ?? []);
         $container->setParameter('emsch.security.route_login', $config['security']['route_login']);
+        $container->setParameter('emsch.security.firewall', $config['security']['firewall']);
 
         $templates = $config['templates'];
         $container->getDefinition('emsch.helper_exception')->replaceArgument(5, $templates['error']);

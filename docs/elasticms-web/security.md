@@ -9,7 +9,8 @@ On submit the application will preform a coreApi login to the environment api.
 !> User need be **enabled** and the role api is **not** required for logging in.
 
 1) For forcing authentication on a route set default **_authenticated** to true.
-   See [Routing](/dev/client-helper-bundle/routing.md) for more information.
+   See [Routing](/dev/client-helper-bundle/routing.md) for more information. Or define a regex in
+   `EMSCH_SECURITY_FIREWALL` env variable, this way you can protect all routes at once.
 
 2) create the login route
    

@@ -175,7 +175,9 @@ final class Configuration implements ConfigurationInterface
     private function addSecuritySection(ArrayNodeDefinition $rootNode): void
     {
         $security = $rootNode->children()->arrayNode('security')->addDefaultsIfNotSet()->children();
-        $security->scalarNode('route_login')->defaultValue('emsch_login')->end();
+        $security
+            ->scalarNode('route_login')->defaultValue('emsch_login')->end()
+            ->scalarNode('firewall')->defaultValue(null)->end();
 
         $sso = $security->arrayNode('sso')->children();
 

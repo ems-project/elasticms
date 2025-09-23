@@ -9,6 +9,7 @@ use EMS\ClientHelperBundle\Security\Sso\OAuth2\OAuth2Service;
 use EMS\ClientHelperBundle\Security\Sso\OAuth2\OAuth2Token;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -21,7 +22,9 @@ readonly class SecurityListener implements EventSubscriberInterface
         private AuthorizationCheckerInterface $authorizationChecker,
         private TokenStorageInterface $tokenStorage,
         private OAuth2Service $oAuth2Service,
-        private CoreApiInterface $coreApi
+        private CoreApiInterface $coreApi,
+        private string $routeLogin,
+        private ?string $firewallRegex,
     ) {
     }
 
@@ -66,10 +69,30 @@ readonly class SecurityListener implements EventSubscriberInterface
         }
 
         $request = $event->getRequest();
-        $forceAuthenticated = $request->attributes->get('_authenticated', false);
 
-        if ($forceAuthenticated && !$this->authorizationChecker->isGranted('IS_AUTHENTICATED_FULLY')) {
+        if ($this->authorizationChecker->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return;
+        }
+
+        if ($request->attributes->get('_authenticated', false) || $this->firewallMatch($request)) {
             throw new AccessDeniedException();
         }
+    }
+
+    private function firewallMatch(Request $request): bool
+    {
+        if (0 === \strlen($this->firewall ?? '')) {
+            return false;
+        }
+
+        if ($request->attributes->get('_route') === $this->routeLogin) {
+            return false;
+        }
+
+        if (\preg_match('#'.$this->firewallRegex.'#', $request->getPathInfo())) {
+            return true;
+        }
+
+        return false;
     }
 }

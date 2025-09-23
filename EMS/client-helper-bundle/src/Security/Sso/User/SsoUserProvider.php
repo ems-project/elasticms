@@ -29,7 +29,7 @@ class SsoUserProvider implements UserProviderInterface
         return SsoUser::class === $class;
     }
 
-    public function loadSsoUser(string $identifier, ?string $email = null): UserInterface
+    public function loadUserByIdentifierEmail(string $identifier, ?string $email = null): UserInterface
     {
         return new SsoUser($identifier, $email);
     }

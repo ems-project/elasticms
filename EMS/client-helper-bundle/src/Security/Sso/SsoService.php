@@ -4,23 +4,50 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Security\Sso;
 
+use EMS\ClientHelperBundle\Security\CoreApi\User\CoreApiUserProvider;
 use EMS\ClientHelperBundle\Security\Sso\OAuth2\OAuth2Service;
 use EMS\ClientHelperBundle\Security\Sso\Saml\SamlService;
+use EMS\ClientHelperBundle\Security\Sso\User\SsoUserProvider;
+use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Loader\Configurator\CollectionConfigurator;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class SsoService
 {
     public function __construct(
         private readonly OAuth2Service $oAuth2Service,
         private readonly SamlService $samlService,
+        private readonly SsoUserProvider $ssoUserProvider,
+        private readonly CoreApiUserProvider $coreApiUserProvider,
+        private readonly CoreApiInterface $coreApi
     ) {
     }
 
     public function enabled(): bool
     {
         return $this->samlService->isEnabled() || $this->oAuth2Service->isEnabled();
+    }
+
+    public function loadUser(string $userIdentifier, ?string $email = null): UserInterface
+    {
+        if ($this->coreApi->isAuthenticated()
+            && null !== $token = $this->coreApi->user()->authenticate($userIdentifier, $email)) {
+            return $this->coreApiUserProvider->loadUserByIdentifier($token);
+        }
+
+        return $this->ssoUserProvider->loadUserByIdentifierEmail($userIdentifier, $email);
+    }
+
+    public function oauth2(): OAuth2Service
+    {
+        return $this->oAuth2Service;
+    }
+
+    public function saml(): SamlService
+    {
+        return $this->samlService;
     }
 
     public function start(Request $request): RedirectResponse

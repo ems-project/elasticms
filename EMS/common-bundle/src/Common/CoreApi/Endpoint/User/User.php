@@ -43,6 +43,6 @@ final readonly class User implements UserInterface
     {
         $result = $this->client->get('/api/user-profiles');
 
-        return \array_map(fn(array $data) => new Profile($data), $result->getData());
+        return \array_map(fn (array $data) => new Profile($data), $result->getData());
     }
 }

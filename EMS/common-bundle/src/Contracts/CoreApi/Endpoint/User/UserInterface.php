@@ -8,17 +8,17 @@ use EMS\CommonBundle\Contracts\CoreApi\CoreApiExceptionInterface;
 
 interface UserInterface
 {
-    /**
-     * @return ProfileInterface[]
-     *
-     * @throws CoreApiExceptionInterface
-     */
-    public function getProfiles(): array;
+    public function authenticate(string $username, ?string $email): ?string;
 
     /**
      * @throws CoreApiExceptionInterface
      */
     public function getProfileAuthenticated(): ProfileInterface;
 
-    public function authenticate(string $username, ?string $email): ?string;
+    /**
+     * @return ProfileInterface[]
+     *
+     * @throws CoreApiExceptionInterface
+     */
+    public function getProfiles(): array;
 }

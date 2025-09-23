@@ -19,4 +19,6 @@ interface UserInterface
      * @throws CoreApiExceptionInterface
      */
     public function getProfileAuthenticated(): ProfileInterface;
+
+    public function authenticate(string $username, ?string $email): ?string;
 }

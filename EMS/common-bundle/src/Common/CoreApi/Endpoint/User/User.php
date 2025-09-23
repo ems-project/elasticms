@@ -30,4 +30,19 @@ final readonly class User implements UserInterface
     {
         return new Profile($this->client->get('/api/user-profile')->getData());
     }
+
+    #[\Override]
+    public function authenticate(string $username, ?string $email): ?string
+    {
+        try {
+            $response = $this->client->post('/api/user/authenticate', [
+                'username' => $username,
+                'email' => $email,
+            ]);
+
+            return $response->getData()['token'] ?? null;
+        } catch (\Throwable) {
+            return null;
+        }
+    }
 }

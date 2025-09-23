@@ -56,6 +56,7 @@
         <service id="emsch.security.sso.oauth2.authenticator" class="EMS\ClientHelperBundle\Security\Sso\OAuth2\OAuth2Authenticator">
             <argument type="service" id="security.http_utils"/>
             <argument type="service" id="emsch.security.sso.oauth2"/>
+            <argument type="service" id="emsch.security.sso.user_provider"/>
         </service>
 
         <service id="emsch.security.sso.saml" class="EMS\ClientHelperBundle\Security\Sso\Saml\SamlService">
@@ -70,6 +71,7 @@
         <service id="emsch.security.sso.saml.authenticator" class="EMS\ClientHelperBundle\Security\Sso\Saml\SamlAuthenticator">
             <argument type="service" id="security.http_utils"/>
             <argument type="service" id="emsch.security.sso.saml"/>
+            <argument type="service" id="emsch.security.sso.user_provider"/>
         </service>
     </services>
 </container>

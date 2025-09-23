@@ -7,7 +7,7 @@ namespace EMS\ClientHelperBundle\Security\Sso\OAuth2\Provider;
 use EMS\ClientHelperBundle\Security\Sso\OAuth2\OAuth2Token;
 use EMS\Helpers\Standard\Type;
 use League\OAuth2\Client\Provider\AbstractProvider;
-use League\OAuth2\Client\Provider\ResourceOwnerInterface;
+use League\OAuth2\Client\Token\AccessToken;
 use League\OAuth2\Client\Token\AccessTokenInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use TheNetworg\OAuth2\Client\Provider\Azure;
@@ -106,12 +106,16 @@ class AzureOAuth2Provider extends AbstractOAuth2Provider
         return $this->azure;
     }
 
-    /**
-     * @param AzureResourceOwner $resourceOwner
-     */
-    #[\Override]
-    protected function getUsernameFromResource(ResourceOwnerInterface $resourceOwner): ?string
+    /** @param AccessToken $accessToken */
+    public function getUserInfo(AccessTokenInterface $accessToken): array
     {
-        return $resourceOwner->getUpn();
+        /** @var AzureResourceOwner $resourceOwner */
+        $resourceOwner = $this->azure->getResourceOwner($accessToken);
+        $data = $resourceOwner->toArray();
+
+        return [
+            'username' => $data['upn'] ?? $data['preferred_username'] ?? null,
+            'email' => $data['mail'] ?? $data['email'] ?? null,
+        ];
     }
 }

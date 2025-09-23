@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Security\Sso\OAuth2;
 
-use EMS\ClientHelperBundle\Security\Sso\User\SsoUser;
+use EMS\ClientHelperBundle\Security\Sso\User\SsoUserProvider;
 use League\OAuth2\Client\Token\AccessTokenInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,6 +25,7 @@ class OAuth2Authenticator extends AbstractAuthenticator
     public function __construct(
         private readonly HttpUtils $httpUtils,
         private readonly OAuth2Service $oAuth2Service,
+        private readonly SsoUserProvider $ssoUserProvider,
     ) {
     }
 
@@ -39,13 +40,21 @@ class OAuth2Authenticator extends AbstractAuthenticator
     #[\Override]
     public function authenticate(Request $request): Passport
     {
-        $accessToken = $this->oAuth2Service->getProvider()->getAccessToken($request);
-        $username = $this->oAuth2Service->getProvider()->getUsername($accessToken);
+        $provider = $this->oAuth2Service->getProvider();
+        $accessToken = $provider->getAccessToken($request);
+        $userInfo = $provider->getUserInfo($accessToken);
+
+        $identifier = $userInfo['username'] ?? null;
+        $email = $userInfo['email'] ?? null;
+        if (!$identifier) {
+            throw new AuthenticationException('No username found');
+        }
 
         $passport = new SelfValidatingPassport(
-            userBadge: new UserBadge($username, fn (string $userIdentifier) => new SsoUser(
-                identifier: $userIdentifier
-            ))
+            userBadge: new UserBadge(
+                $userInfo['username'],
+                fn (string $userIdentifier) => $this->ssoUserProvider->loadSsoUser($userIdentifier, $email),
+            )
         );
         $passport->setAttribute('access_token', $accessToken);
 

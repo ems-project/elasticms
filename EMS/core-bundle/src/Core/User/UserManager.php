@@ -19,6 +19,8 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Security\Core\Exception\AccountExpiredException;
+use Symfony\Component\Security\Core\Exception\DisabledException;
 
 class UserManager
 {
@@ -35,23 +37,6 @@ class UserManager
         private readonly AuthTokenRepository $authTokenRepository,
         private readonly string $templateNamespace,
     ) {
-    }
-
-    public function loginAsUser(string $username, ?string $email): string
-    {
-        if (!$this->authorizationChecker->isGranted(Roles::ROLE_USER_MANAGEMENT)) {
-            throw new AccessDeniedException();
-        }
-
-        $user = $email
-            ? $this->getUserByEmail($email) ?? $this->getUserByUsername($username)
-            : $this->getUserByUsername($username);
-
-        if (!$user instanceof UserInterface) {
-            throw new NotFoundException('User not found');
-        }
-
-        return $this->authTokenRepository->create($user)->getValue();
     }
 
     public function create(string $username, string $password, string $email, bool $active, bool $superAdmin): User
@@ -116,6 +101,38 @@ class UserManager
         return $this->userRepository->findOneBy(['confirmationToken' => $token]);
     }
 
+    public function loginAsUser(string $username, ?string $email): string
+    {
+        if (!$this->authorizationChecker->isGranted(Roles::ROLE_USER_MANAGEMENT)) {
+            throw new AccessDeniedException();
+        }
+
+        $user = $email
+            ? $this->getUserByEmail($email) ?? $this->getUserByUsername($username)
+            : $this->getUserByUsername($username);
+
+        if (!$user instanceof UserInterface) {
+            throw new NotFoundException('User not found');
+        }
+
+        if ($user->isExpired()) {
+            throw new AccountExpiredException(\sprintf('The account "%s" is expired', $user->getUserIdentifier()));
+        }
+        if (!$user->isEnabled()) {
+            throw new DisabledException(\sprintf('The account "%s" is disabled', $user->getUserIdentifier()));
+        }
+
+        $this->loginUser($user);
+
+        return $this->authTokenRepository->create($user)->getValue();
+    }
+
+    public function loginUser(User $user): void
+    {
+        $user->setLastLogin(new \DateTime());
+        $this->update($user);
+    }
+
     public function requestResetPassword(string $usernameOrEmail): ?User
     {
         $user = $this->userRepository->findUserByUsernameOrEmail($usernameOrEmail);
@@ -154,8 +171,7 @@ class UserManager
         $user->setEnabled(true);
         $this->update($user);
 
-        $user->setLastLogin(new \DateTime());
-        $this->update($user);
+        $this->loginUser($user);
     }
 
     public function update(User $user): void

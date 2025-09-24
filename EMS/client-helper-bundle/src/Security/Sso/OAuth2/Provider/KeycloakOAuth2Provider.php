@@ -6,9 +6,9 @@ namespace EMS\ClientHelperBundle\Security\Sso\OAuth2\Provider;
 
 use EMS\Helpers\Standard\Base64;
 use League\OAuth2\Client\Provider\AbstractProvider;
-use League\OAuth2\Client\Provider\ResourceOwnerInterface;
+use League\OAuth2\Client\Token\AccessToken;
+use League\OAuth2\Client\Token\AccessTokenInterface;
 use Stevenmaguire\OAuth2\Client\Provider\Keycloak;
-use Stevenmaguire\OAuth2\Client\Provider\KeycloakResourceOwner;
 
 class KeycloakOAuth2Provider extends AbstractOAuth2Provider
 {
@@ -61,12 +61,14 @@ class KeycloakOAuth2Provider extends AbstractOAuth2Provider
         return $this->keycloak;
     }
 
-    /**
-     * @param KeycloakResourceOwner $resourceOwner
-     */
-    #[\Override]
-    protected function getUsernameFromResource(ResourceOwnerInterface $resourceOwner): ?string
+    /** @param AccessToken $accessToken */
+    public function getUserInfo(AccessTokenInterface $accessToken): array
     {
-        return $resourceOwner->getUsername();
+        $data = $this->keycloak->getResourceOwner($accessToken)->toArray();
+
+        return [
+            'username' => $data['preferred_username'] ?? null,
+            'email' => $data['email'] ?? null,
+        ];
     }
 }

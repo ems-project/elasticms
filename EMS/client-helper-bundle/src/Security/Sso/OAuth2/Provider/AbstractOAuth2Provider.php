@@ -6,8 +6,6 @@ namespace EMS\ClientHelperBundle\Security\Sso\OAuth2\Provider;
 
 use EMS\ClientHelperBundle\Security\Sso\OAuth2\OAuth2Token;
 use League\OAuth2\Client\Provider\AbstractProvider;
-use League\OAuth2\Client\Provider\ResourceOwnerInterface;
-use League\OAuth2\Client\Token\AccessToken;
 use League\OAuth2\Client\Token\AccessTokenInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,28 +23,10 @@ abstract class AbstractOAuth2Provider implements ProviderInterface
 
     abstract protected function getProvider(): AbstractProvider;
 
-    abstract protected function getUsernameFromResource(ResourceOwnerInterface $resourceOwner): ?string;
-
     #[\Override]
     public function createToken(AccessTokenInterface $accessToken, Passport $passport, string $firewallName): OAuth2Token
     {
         return new OAuth2Token($accessToken, $passport->getUser(), $firewallName, $passport->getUser()->getRoles());
-    }
-
-    /**
-     * @param AccessToken $token
-     */
-    #[\Override]
-    public function getUsername(AccessTokenInterface $token): string
-    {
-        $resourceOwner = $this->getProvider()->getResourceOwner($token);
-        $username = $this->getUsernameFromResource($resourceOwner);
-
-        if (null === $username) {
-            throw new AuthenticationException('Could not retrieve username');
-        }
-
-        return $username;
     }
 
     #[\Override]

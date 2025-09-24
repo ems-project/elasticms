@@ -376,7 +376,6 @@
             <argument type="service" id="ems.repository.user" />
             <argument type="service" id="ems.repository.search" />
             <argument type="service" id="security.authorization_checker" />
-            <argument type="service" id="ems.repository.auth_token" />
             <argument>%security.role_hierarchy.roles%</argument>
         </service>
         <service id="ems.service.wysiwyg_profile" class="EMS\CoreBundle\Service\WysiwygProfileService">

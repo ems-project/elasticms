@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Controller\Api;
 
-use EMS\CoreBundle\Service\UserService;
+use EMS\CoreBundle\Core\User\UserManager;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 class UserController
 {
     public function __construct(
-        private readonly UserService $userService,
+        private readonly UserManager $userManager,
     ) {
     }
 
@@ -27,7 +27,7 @@ class UserController
 
         return new JsonResponse([
             'success' => true,
-            'token' => $this->userService->authenticate($data['username'], $data['email']),
+            'token' => $this->userManager->authenticate($data['username'], $data['email']),
         ]);
     }
 }

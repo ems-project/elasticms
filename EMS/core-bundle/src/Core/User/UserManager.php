@@ -9,10 +9,16 @@ use EMS\CoreBundle\Core\Security\Canonicalizer;
 use EMS\CoreBundle\Core\Security\Token;
 use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Entity\User;
+use EMS\CoreBundle\Entity\UserInterface;
+use EMS\CoreBundle\Exception\NotFoundException;
+use EMS\CoreBundle\Repository\AuthTokenRepository;
 use EMS\CoreBundle\Repository\UserRepository;
+use EMS\CoreBundle\Roles;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class UserManager
 {
@@ -25,8 +31,27 @@ class UserManager
         private readonly MailerService $mailerService,
         private readonly UserRepository $userRepository,
         private readonly UserPasswordHasherInterface $userPasswordHasher,
+        private readonly AuthorizationCheckerInterface $authorizationChecker,
+        private readonly AuthTokenRepository $authTokenRepository,
         private readonly string $templateNamespace,
     ) {
+    }
+
+    public function authenticate(string $username, ?string $email): string
+    {
+        if (!$this->authorizationChecker->isGranted(Roles::ROLE_USER_MANAGEMENT)) {
+            throw new AccessDeniedException();
+        }
+
+        $user = $email
+            ? $this->getUserByEmail($email) ?? $this->getUserByUsername($username)
+            : $this->getUserByUsername($username);
+
+        if (!$user instanceof UserInterface) {
+            throw new NotFoundException('User not found');
+        }
+
+        return $this->authTokenRepository->create($user)->getValue();
     }
 
     public function create(string $username, string $password, string $email, bool $active, bool $superAdmin): User

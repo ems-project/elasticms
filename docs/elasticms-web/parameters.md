@@ -178,6 +178,10 @@ Define a global firewall regex for forcing authentication, default value `null`
 The following example protects all routes except if it starts with /api or /_profiler, ...
 Example: `^(?!(/api|/_profiler|/_wdt|/bundles|/favicon\.ico|/saml|/oauth2))`
 
+### EMSCH_SSO_CORE_USER
+
+Enable sso with core user authentication, default value `false`
+
 ## Elasticms Common Bundle variables
 
 ### EMS_ELASTICSEARCH_HOSTS

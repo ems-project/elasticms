@@ -20,5 +20,5 @@ interface UserInterface
      */
     public function getProfiles(): array;
 
-    public function subAuthenticate(string $username, ?string $email): ?string;
+    public function proxyAuthenticate(string $username, ?string $email): ?string;
 }

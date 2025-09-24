@@ -34,7 +34,7 @@
             prefix="/api/data"/>
 
     <route id="emsco_api_user_sub_authenticate" path="/api/user/sub-authenticate"
-           controller="EMS\CoreBundle\Controller\Api\UserController::subAuthenticate"
+           controller="EMS\CoreBundle\Controller\Api\UserController::proxyAuthenticate"
            methods="POST">
         <option key="openapi">true</option>
     </route>

@@ -17,7 +17,7 @@ class UserController
     ) {
     }
 
-    public function subAuthenticate(Request $request): JsonResponse
+    public function proxyAuthenticate(Request $request): JsonResponse
     {
         $data = Json::decode($request->getContent());
 
@@ -27,7 +27,7 @@ class UserController
 
         return new JsonResponse([
             'success' => true,
-            'token' => $this->userManager->subAuthenticate($data['username'], $data['email']),
+            'token' => $this->userManager->proxyAuthenticate($data['username'], $data['email']),
         ]);
     }
 }

@@ -101,7 +101,7 @@ class UserManager
         return $this->userRepository->findOneBy(['confirmationToken' => $token]);
     }
 
-    public function subAuthenticate(string $username, ?string $email): string
+    public function proxyAuthenticate(string $username, ?string $email): string
     {
         if (!$this->authorizationChecker->isGranted(Roles::ROLE_USER_MANAGEMENT)) {
             throw new AccessDeniedException();

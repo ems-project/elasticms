@@ -32,7 +32,7 @@ final readonly class User implements UserInterface
     }
 
     #[\Override]
-    public function subAuthenticate(string $username, ?string $email): ?string
+    public function proxyAuthenticate(string $username, ?string $email): ?string
     {
         try {
             $response = $this->client->post('/api/user/login-as-user', [

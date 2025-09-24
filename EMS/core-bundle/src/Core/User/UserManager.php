@@ -37,7 +37,7 @@ class UserManager
     ) {
     }
 
-    public function authenticate(string $username, ?string $email): string
+    public function loginAsUser(string $username, ?string $email): string
     {
         if (!$this->authorizationChecker->isGranted(Roles::ROLE_USER_MANAGEMENT)) {
             throw new AccessDeniedException();

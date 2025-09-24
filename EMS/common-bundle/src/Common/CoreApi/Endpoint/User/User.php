@@ -15,21 +15,6 @@ final readonly class User implements UserInterface
     }
 
     #[\Override]
-    public function authenticate(string $username, ?string $email): ?string
-    {
-        try {
-            $response = $this->client->post('/api/user/authenticate', [
-                'username' => $username,
-                'email' => $email,
-            ]);
-
-            return $response->getData()['token'] ?? null;
-        } catch (\Throwable $e) {
-            return null;
-        }
-    }
-
-    #[\Override]
     public function getProfileAuthenticated(): ProfileInterface
     {
         return new Profile($this->client->get('/api/user-profile')->getData());
@@ -44,5 +29,20 @@ final readonly class User implements UserInterface
         $result = $this->client->get('/api/user-profiles');
 
         return \array_map(fn (array $data) => new Profile($data), $result->getData());
+    }
+
+    #[\Override]
+    public function loginAsUser(string $username, ?string $email): ?string
+    {
+        try {
+            $response = $this->client->post('/api/user/login-as-user', [
+                'username' => $username,
+                'email' => $email,
+            ]);
+
+            return $response->getData()['token'] ?? null;
+        } catch (\Throwable $e) {
+            return null;
+        }
     }
 }

@@ -35,7 +35,7 @@ class SsoService
     {
         if ($this->loadCoreUser
             && $this->coreApi->isAuthenticated()
-            && null !== $token = $this->coreApi->user()->authenticate($userIdentifier, $email)) {
+            && null !== $token = $this->coreApi->user()->loginAsUser($userIdentifier, $email)) {
             return $this->coreApiUserProvider->loadUserByIdentifier($token);
         }
 

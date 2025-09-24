@@ -33,8 +33,8 @@
     <import resource="@EMSCoreBundle/config/routing/api/data.xml"
             prefix="/api/data"/>
 
-    <route id="emsco_user_authenticate" path="/api/user/authenticate"
-           controller="EMS\CoreBundle\Controller\Api\UserController::authenticate"
+    <route id="emsco_api_user_login_as_user" path="/api/user/login-as-user"
+           controller="EMS\CoreBundle\Controller\Api\UserController::loginAsUser"
            methods="POST">
         <option key="openapi">true</option>
     </route>

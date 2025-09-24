@@ -17,7 +17,7 @@ class UserController
     ) {
     }
 
-    public function authenticate(Request $request): JsonResponse
+    public function loginAsUser(Request $request): JsonResponse
     {
         $data = Json::decode($request->getContent());
 
@@ -27,7 +27,7 @@ class UserController
 
         return new JsonResponse([
             'success' => true,
-            'token' => $this->userManager->authenticate($data['username'], $data['email']),
+            'token' => $this->userManager->loginAsUser($data['username'], $data['email']),
         ]);
     }
 }

@@ -180,6 +180,7 @@ final class Configuration implements ConfigurationInterface
             ->scalarNode('firewall')->defaultValue(null)->end();
 
         $sso = $security->arrayNode('sso')->children();
+        $sso->scalarNode('core_user')->defaultValue(false)->end();
 
         $oAuth2 = $sso->arrayNode('oauth2')->canBeEnabled()->children();
         foreach (OAuth2Property::cases() as $oAuth2Property) {

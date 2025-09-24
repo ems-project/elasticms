@@ -88,6 +88,7 @@ Enable a dev IDP see [dev-env](/getting-started/dev-env.md#identity-provider-idp
 Note: the current SSO implementation does only support the login. The logout on the IDP was not required.
 
 > To enable combined core authentication, define an `EMS_BACKEND_API_KEY` that has the ROLE_USER_MANAGEMENT grant.
+> And enable it by setting EMSCH_SSO_CORE_USER to true.
 
 !> If Keycloak runs on a different domain, you need to set the environment variable [SESSION_COOKIE_SAMESITE](/elasticms-web/parameters.md#SESSION_COOKIE_SAMESITE) to lax.
 

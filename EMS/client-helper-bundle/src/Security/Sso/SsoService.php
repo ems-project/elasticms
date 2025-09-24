@@ -21,7 +21,8 @@ class SsoService
         private readonly SamlService $samlService,
         private readonly SsoUserProvider $ssoUserProvider,
         private readonly CoreApiUserProvider $coreApiUserProvider,
-        private readonly CoreApiInterface $coreApi
+        private readonly CoreApiInterface $coreApi,
+        private readonly bool $loadCoreUser
     ) {
     }
 
@@ -32,7 +33,8 @@ class SsoService
 
     public function loadUser(string $userIdentifier, ?string $email = null): UserInterface
     {
-        if ($this->coreApi->isAuthenticated()
+        if ($this->loadCoreUser
+            && $this->coreApi->isAuthenticated()
             && null !== $token = $this->coreApi->user()->authenticate($userIdentifier, $email)) {
             return $this->coreApiUserProvider->loadUserByIdentifier($token);
         }

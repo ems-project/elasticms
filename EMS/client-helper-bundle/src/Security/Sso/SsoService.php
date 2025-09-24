@@ -39,7 +39,7 @@ class SsoService
             return $this->coreApiUserProvider->loadUserByIdentifier($token);
         }
 
-        return $this->ssoUserProvider->loadUserByIdentifierEmail($userIdentifier, $email);
+        return $this->ssoUserProvider->loadUserByIdentifierOrEmail($userIdentifier, $email);
     }
 
     public function oauth2(): OAuth2Service

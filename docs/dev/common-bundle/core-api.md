@@ -105,13 +105,13 @@ final class Example
 * **save**(string $ouuid, array $rawData, int $mode = DataInterface::MODE_UPDATE): int
     > Save (create, update or replace) the raw for the given ouuid. 
 ### User ([UserInterface](https://github.com/ems-project/elasticms/blob/HEAD/EMS/common-bundle/src/Contracts/CoreApi/Endpoint/User/UserInterface.php))
-* **authenticate(string $username, ?string $email): ?string**
-  > If the user has ROLE_USER_MANAGEMENT, this function returns an auth token for the requested username or email. It
-  first attempts to find the user by email; if not found, it falls back to username. Used by the frontend core for SSO
-  authentication.
 * **getProfiles**(): array
     > Return an array of [ProfileInterface](https://github.com/ems-project/elasticms/blob/HEAD/EMS/common-bundle/src/Contracts/CoreApi/Endpoint/User/ProfileInterface.php) instances
 * **getProfileAuthenticated**(): [ProfileInterface](https://github.com/ems-project/elasticms/blob/HEAD/EMS/common-bundle/src/Contracts/CoreApi/Endpoint/User/ProfileInterface.php)
+* **loginAsUser(string $username, ?string $email): ?string**
+  > If the user has ROLE_USER_MANAGEMENT, this function returns an auth token for the requested username or email. It
+  first attempts to find the user by email; if not found, it falls back to username. Used by the frontend core for SSO
+  authentication.
 ### File ([FileInterface](https://github.com/ems-project/elasticms/blob/HEAD/EMS/common-bundle/src/Contracts/CoreApi/Endpoint/File/FileInterface.php))
 * **hashFile**(string $filename): string
     > Return a hash for a given filename

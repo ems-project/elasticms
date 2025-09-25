@@ -38,11 +38,6 @@ readonly class CoreApiUserProvider implements UserProviderInterface
         return CoreApiUser::class === $class;
     }
 
-    public function loadUserByUsername(string $username): UserInterface
-    {
-        return $this->loadUserByIdentifier($username);
-    }
-
     #[\Override]
     public function loadUserByIdentifier(string $identifier): UserInterface
     {

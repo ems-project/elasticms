@@ -9,7 +9,8 @@ On submit the application will preform a coreApi login to the environment api.
 !> User need be **enabled** and the role api is **not** required for logging in.
 
 1) For forcing authentication on a route set default **_authenticated** to true.
-   See [Routing](/dev/client-helper-bundle/routing.md) for more information.
+   See [Routing](/dev/client-helper-bundle/routing.md) for more information. Or define a regex in
+   `EMSCH_SECURITY_FIREWALL` env variable, this way you can protect all routes at once.
 
 2) create the login route
    
@@ -85,6 +86,9 @@ For implementing an SSO, we need a IDP (Identity Provider).
 Enable a dev IDP see [dev-env](/getting-started/dev-env.md#identity-provider-idp-keycloak).
 
 Note: the current SSO implementation does only support the login. The logout on the IDP was not required.
+
+> To enable combined core authentication, define an `EMS_BACKEND_API_KEY` that has the ROLE_USER_MANAGEMENT grant.
+> And enable it by setting EMSCH_SSO_CORE_USER to true.
 
 !> If Keycloak runs on a different domain, you need to set the environment variable [SESSION_COOKIE_SAMESITE](/elasticms-web/parameters.md#SESSION_COOKIE_SAMESITE) to lax.
 

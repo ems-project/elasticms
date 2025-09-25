@@ -75,6 +75,8 @@
             <argument type="service" id="security.token_storage" />
             <argument type="service" id="emsch.security.sso.oauth2" />
             <argument type="service" id="ems_common.core_api" />
+            <argument type="string">%emsch.security.route_login%</argument>
+            <argument type="string">%emsch.security.firewall%</argument>
             <tag name="kernel.event_subscriber" />
         </service>
 

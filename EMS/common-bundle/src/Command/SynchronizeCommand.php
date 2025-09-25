@@ -18,12 +18,12 @@ use EMS\CommonBundle\Elasticsearch\Sync\SearchResponse;
 use EMS\CommonBundle\Elasticsearch\Sync\Synchronizer;
 use EMS\Helpers\ArrayHelper\ArrayHelper;
 use EMS\Helpers\Standard\Json;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 #[AsCommand(
     name: Commands::INDEX_SYNCHRONIZE,
@@ -60,7 +60,7 @@ class SynchronizeCommand extends AbstractCommand
     private string $keepAlive;
     private string $keywordField;
 
-    public function __construct(public readonly LoggerInterface $logger)
+    public function __construct(private readonly HttpClientInterface $httpClient)
     {
         parent::__construct();
     }
@@ -140,13 +140,13 @@ class SynchronizeCommand extends AbstractCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io->title(\sprintf('Synchronizing %s to %s', $this->source, $this->target));
-        $this->sourceClient = Synchronizer::create($this->source, $this->targetHeaders);
+        $this->sourceClient = Synchronizer::create($this->httpClient, $this->source, $this->targetHeaders);
         if (!$this->sourceClient->isDefined()) {
             throw new \RuntimeException('Source index not found');
         }
         $this->io->info(\sprintf('Source index %s', $this->sourceClient->getIndex()));
 
-        $this->targetClient = Synchronizer::create($this->target, $this->sourceHeaders);
+        $this->targetClient = Synchronizer::create($this->httpClient, $this->target, $this->sourceHeaders);
         $this->alignMappings();
         $this->io->info(\sprintf('Target index %s', $this->targetClient->getIndex()));
         $this->synchronizeContentTypes();
@@ -176,7 +176,7 @@ class SynchronizeCommand extends AbstractCommand
             return;
         }
 
-        $this->targetClient->createIndex($sourceMapping, $this->sourceClient->getSettings(), $metas);
+        $this->targetClient->createIndex($this->httpClient, $sourceMapping, $this->sourceClient->getSettings(), $metas);
     }
 
     private function synchronizeContentTypes(): void

@@ -10,7 +10,6 @@ use EMS\Helpers\Html\MimeTypes;
 use EMS\Helpers\Standard\Json;
 use EMS\Helpers\Standard\Type;
 use Symfony\Component\HttpClient\Exception\ClientException;
-use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class Synchronizer
@@ -29,16 +28,22 @@ class Synchronizer
     /**
      * @param array<mixed> $headers
      */
-    private function __construct(public readonly string $baseUrl, public readonly array $headers = [])
-    {
+    private function __construct(
+        HttpClientInterface $httpClient,
+        public readonly string $baseUrl,
+        public readonly array $headers = []
+    ) {
         if (\str_ends_with($baseUrl, '/')) {
             throw new \RuntimeException('The baseurl cannot end with a slash');
         }
-        $this->client = HttpClient::createForBaseUri($baseUrl.'/', [
+
+        $this->client = $httpClient->withOptions([
+            'base_uri' => $baseUrl.'/',
             'headers' => \array_merge($headers, [
                 Headers::CONTENT_TYPE => MimeTypes::APPLICATION_JSON->value,
             ]),
         ]);
+
         $path = \explode('/', $baseUrl);
         $this->alias = Type::string(\end($path));
     }
@@ -46,9 +51,9 @@ class Synchronizer
     /**
      * @param array<mixed> $headers
      */
-    public static function create(string $baseUrl, array $headers = []): self
+    public static function create(HttpClientInterface $httpClient, string $baseUrl, array $headers = []): self
     {
-        $indexClient = new self($baseUrl, $headers);
+        $indexClient = new self($httpClient, $baseUrl, $headers);
         try {
             $response = Json::decode($indexClient->client->request('GET', '')->getContent());
             $indexClient->defined = true;
@@ -114,9 +119,10 @@ class Synchronizer
      * @param mixed[] $settings
      * @param mixed[] $metas
      */
-    public function createIndex(array $sourceMappings, array $settings, array $metas): void
+    public function createIndex(HttpClientInterface $httpClient, array $sourceMappings, array $settings, array $metas): void
     {
-        $client = HttpClient::createForBaseUri(\sprintf('%s_%s/', $this->baseUrl, new \DateTime()->format('Ymd_His')), [
+        $client = $httpClient->withOptions([
+            'base_uri' => \sprintf('%s_%s/', $this->baseUrl, new \DateTime()->format('Ymd_His')),
             'headers' => \array_merge($this->headers, [
                 Headers::CONTENT_TYPE => MimeTypes::APPLICATION_JSON->value,
             ]),

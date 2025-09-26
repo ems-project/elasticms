@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Controller;
 
+use EMS\ClientHelperBundle\Helper\Request\Handler;
 use EMS\CommonBundle\Elasticsearch\Client;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -13,12 +14,15 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 class ElasticsearchController
 {
     public function __construct(
+        private readonly Handler $handler,
         private readonly Client $client,
     ) {
     }
 
     public function index(Request $request): JsonResponse
     {
+        $this->handler->handleStaticTemplate($request)?->renderBlock('preRequest');
+
         $path = '/'.\rtrim($request->get('path'), '/');
         $index = $request->get('index');
 
@@ -34,6 +38,8 @@ class ElasticsearchController
 
     public function scroll(Request $request): JsonResponse
     {
+        $this->handler->handleStaticTemplate($request)?->renderBlock('preRequest');
+
         $method = $request->getMethod();
         $data = '' !== $request->getContent() ? Json::decode($request->getContent()) : [];
 

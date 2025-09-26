@@ -1,0 +1,67 @@
+<?php
+
+declare(strict_types=1);
+
+namespace EMS\ClientHelperBundle\Controller;
+
+use EMS\CommonBundle\Elasticsearch\Client;
+use EMS\Helpers\Standard\Json;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+
+class ElasticsearchController
+{
+    public function __construct(
+        private readonly Client $client,
+    ) {
+    }
+
+    public function index(Request $request): JsonResponse
+    {
+        $path = '/'.\rtrim($request->get('path'), '/');
+        $index = $request->get('index');
+
+        $data = '' !== $request->getContent() ? Json::decode($request->getContent()) : [];
+        $query = $request->query->all();
+
+        if (null !== $index && !\preg_match('/^(?![_-])[a-z0-9_-]{1,255}$/', $index)) {
+            throw new \InvalidArgumentException("Invalid index name: $index");
+        }
+
+        return $this->request($index.$path, 'GET', $data, $query);
+    }
+
+    public function scroll(Request $request): JsonResponse
+    {
+        $method = $request->getMethod();
+        $data = '' !== $request->getContent() ? Json::decode($request->getContent()) : [];
+
+        $scroll = $data['scroll'] ?? null;
+        $scrollId = $data['scroll_id'] ?? null;
+
+        if (null === $scrollId) {
+            throw new \InvalidArgumentException("Missing 'scroll_id'");
+        }
+        if (Request::METHOD_GET === $method && null === $scroll) {
+            throw new \InvalidArgumentException("Missing 'scroll'");
+        }
+
+        return $this->request('_search/scroll', $method, match ($method) {
+            Request::METHOD_GET => ['scroll' => $scroll, 'scroll_id' => $scrollId],
+            Request::METHOD_DELETE => ['scroll_id' => $scrollId],
+            default => throw new BadRequestHttpException(),
+        });
+    }
+
+    /**
+     * @param array<mixed> $data
+     * @param array<mixed> $query
+     */
+    private function request(string $path, string $method, array $data = [], array $query = []): JsonResponse
+    {
+        $response = $this->client->request($path, $method, $data, $query);
+
+        return new JsonResponse($response->getData());
+    }
+}

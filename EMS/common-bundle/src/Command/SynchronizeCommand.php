@@ -7,7 +7,6 @@ namespace EMS\CommonBundle\Command;
 use Elastica\Aggregation\Max;
 use Elastica\Aggregation\Terms as TermsAggregation;
 use Elastica\Query;
-use Elastica\Query\MatchAll;
 use EMS\CommonBundle\Commands;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
@@ -219,8 +218,7 @@ class SynchronizeCommand extends AbstractCommand
         $maxFinalized = new Max(self::AGGREGATION_FINALIZED);
         $maxFinalized->setField(EMSSource::FIELD_FINALIZATION_DATETIME);
         $aggregation->addAggregation($maxFinalized);
-        $search = new MatchAll();
-        $query = new Query($search);
+        $query = new Query(['query' => ['bool' => ['must' => []]]]);
         $query->setSize(0);
         $query->addAggregation($aggregation);
 

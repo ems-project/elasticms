@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Controller;
 
+use Elastica\Exception\ConnectionException;
+use Elastica\Exception\ResponseException;
 use EMS\ClientHelperBundle\Helper\Request\Handler;
 use EMS\CommonBundle\Elasticsearch\Client;
 use EMS\Helpers\Standard\Json;
@@ -66,8 +68,12 @@ class ElasticsearchController
      */
     private function request(string $path, string $method, array $data = [], array $query = []): JsonResponse
     {
-        $response = $this->client->request($path, $method, $data, $query);
+        try {
+            $response = $this->client->request($path, $method, $data, $query);
 
-        return new JsonResponse($response->getData());
+            return new JsonResponse($response->getData());
+        } catch (ResponseException|ConnectionException $e) {
+            return new JsonResponse($e->getResponse()->getData(), $e->getResponse()->getStatus());
+        }
     }
 }

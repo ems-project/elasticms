@@ -18,7 +18,7 @@
     "editable": true,
     "fiscalYearStartMonth": 0,
     "graphTooltip": 0,
-    "id": 2,
+    "id": 1,
     "links": [],
     "panels": [
         {
@@ -36,7 +36,8 @@
                         "mode": "absolute",
                         "steps": [
                             {
-                                "color": "green"
+                                "color": "green",
+                                "value": 0
                             },
                             {
                                 "color": "red",
@@ -71,7 +72,7 @@
                 "textMode": "name",
                 "wideLayout": true
             },
-            "pluginVersion": "12.0.4",
+            "pluginVersion": "12.1.1",
             "targets": [
                 {
                     "datasource": {
@@ -109,7 +110,8 @@
                         "mode": "absolute",
                         "steps": [
                             {
-                                "color": "green"
+                                "color": "green",
+                                "value": 0
                             },
                             {
                                 "color": "red",
@@ -144,7 +146,7 @@
                 "textMode": "name",
                 "wideLayout": true
             },
-            "pluginVersion": "12.0.4",
+            "pluginVersion": "12.1.1",
             "targets": [
                 {
                     "datasource": {
@@ -182,7 +184,8 @@
                         "mode": "absolute",
                         "steps": [
                             {
-                                "color": "green"
+                                "color": "green",
+                                "value": 0
                             },
                             {
                                 "color": "red",
@@ -217,7 +220,7 @@
                 "textMode": "name",
                 "wideLayout": true
             },
-            "pluginVersion": "12.0.4",
+            "pluginVersion": "12.1.1",
             "targets": [
                 {
                     "datasource": {
@@ -262,7 +265,8 @@
                         "mode": "absolute",
                         "steps": [
                             {
-                                "color": "green"
+                                "color": "green",
+                                "value": 0
                             },
                             {
                                 "color": "red",
@@ -292,7 +296,7 @@
                 },
                 "showHeader": true
             },
-            "pluginVersion": "12.0.4",
+            "pluginVersion": "12.1.1",
             "targets": [
                 {
                     "editorMode": "code",
@@ -424,5 +428,5 @@
     "timezone": "browser",
     "title": "EMS",
     "uid": "dashboard-ems",
-    "version": 2
+    "version": 1
 }

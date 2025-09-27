@@ -1,32 +1,35 @@
-version: "3.9"
+version: "3.8"
 
 services:
     prometheus:
         image: prom/prometheus:latest
-        container_name: prometheus
+        container_name: ems_prometheus
         volumes:
-            - ./prometheus.yml:/etc/prometheus/prometheus.yml
+            - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+            - prometheus_data:/prometheus
         ports:
             - "9090:9090"
+        restart: unless-stopped
         extra_hosts:
             - "host.docker.internal:host-gateway"
 
     grafana:
         image: grafana/grafana-oss:latest
-        container_name: grafana
+        container_name: ems_grafana
         environment:
             - GF_SECURITY_ADMIN_USER=admin
             - GF_SECURITY_ADMIN_PASSWORD=admin
             - GF_INSTALL_PLUGINS=
             - GF_UPDATE_CHECKS_ENABLED=false
-        ports:
-            - "3001:3000"
         depends_on:
             - prometheus
         volumes:
-            - grafana-data:/var/lib/grafana
-            - ./datasource:/etc/grafana/provisioning:ro
-            - ./dashboards:/var/lib/grafana/dashboards:ro
+            - ./grafana/provisioning:/etc/grafana/provisioning:ro
+            - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+            - grafana_data:/var/lib/grafana
+        ports:
+            - "3001:3000"
+        restart: unless-stopped
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.grafana.rule=Host(`grafana.localhost`)"
@@ -35,7 +38,8 @@ services:
             - "traefik.http.services.grafana.loadbalancer.server.port=3000"
 
 volumes:
-    grafana-data:
+    prometheus_data:
+    grafana_data:
 
 networks:
     default:

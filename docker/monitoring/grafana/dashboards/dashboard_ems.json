@@ -18,13 +18,13 @@
     "editable": true,
     "fiscalYearStartMonth": 0,
     "graphTooltip": 0,
-    "id": 3,
+    "id": 2,
     "links": [],
     "panels": [
         {
             "datasource": {
                 "type": "prometheus",
-                "uid": "feyize3unyi9sb"
+                "uid": "prometheus_datasource"
             },
             "fieldConfig": {
                 "defaults": {
@@ -36,8 +36,7 @@
                         "mode": "absolute",
                         "steps": [
                             {
-                                "color": "green",
-                                "value": 0
+                                "color": "green"
                             },
                             {
                                 "color": "red",
@@ -72,12 +71,12 @@
                 "textMode": "name",
                 "wideLayout": true
             },
-            "pluginVersion": "12.1.1",
+            "pluginVersion": "12.0.4",
             "targets": [
                 {
                     "datasource": {
                         "type": "prometheus",
-                        "uid": "feyize3unyi9sb"
+                        "uid": "prometheus_datasource"
                     },
                     "disableTextWrap": false,
                     "editorMode": "builder",
@@ -98,7 +97,7 @@
         {
             "datasource": {
                 "type": "prometheus",
-                "uid": "feyize3unyi9sb"
+                "uid": "prometheus_datasource"
             },
             "fieldConfig": {
                 "defaults": {
@@ -110,8 +109,7 @@
                         "mode": "absolute",
                         "steps": [
                             {
-                                "color": "green",
-                                "value": 0
+                                "color": "green"
                             },
                             {
                                 "color": "red",
@@ -146,12 +144,12 @@
                 "textMode": "name",
                 "wideLayout": true
             },
-            "pluginVersion": "12.1.1",
+            "pluginVersion": "12.0.4",
             "targets": [
                 {
                     "datasource": {
                         "type": "prometheus",
-                        "uid": "feyize3unyi9sb"
+                        "uid": "prometheus_datasource"
                     },
                     "disableTextWrap": false,
                     "editorMode": "code",
@@ -172,7 +170,7 @@
         {
             "datasource": {
                 "type": "prometheus",
-                "uid": "feyize3unyi9sb"
+                "uid": "prometheus_datasource"
             },
             "fieldConfig": {
                 "defaults": {
@@ -184,8 +182,7 @@
                         "mode": "absolute",
                         "steps": [
                             {
-                                "color": "green",
-                                "value": 0
+                                "color": "green"
                             },
                             {
                                 "color": "red",
@@ -220,12 +217,12 @@
                 "textMode": "name",
                 "wideLayout": true
             },
-            "pluginVersion": "12.1.1",
+            "pluginVersion": "12.0.4",
             "targets": [
                 {
                     "datasource": {
                         "type": "prometheus",
-                        "uid": "feyize3unyi9sb"
+                        "uid": "prometheus_datasource"
                     },
                     "disableTextWrap": false,
                     "editorMode": "code",
@@ -246,7 +243,7 @@
         {
             "datasource": {
                 "type": "prometheus",
-                "uid": "feyize3unyi9sb"
+                "uid": "prometheus_datasource"
             },
             "fieldConfig": {
                 "defaults": {
@@ -265,8 +262,7 @@
                         "mode": "absolute",
                         "steps": [
                             {
-                                "color": "green",
-                                "value": 0
+                                "color": "green"
                             },
                             {
                                 "color": "red",
@@ -296,7 +292,7 @@
                 },
                 "showHeader": true
             },
-            "pluginVersion": "12.1.1",
+            "pluginVersion": "12.0.4",
             "targets": [
                 {
                     "editorMode": "code",
@@ -312,7 +308,7 @@
                 {
                     "datasource": {
                         "type": "prometheus",
-                        "uid": "P4A242E350FC83338"
+                        "uid": "prometheus_datasource"
                     },
                     "editorMode": "code",
                     "exemplar": false,
@@ -327,7 +323,7 @@
                 {
                     "datasource": {
                         "type": "prometheus",
-                        "uid": "P4A242E350FC83338"
+                        "uid": "prometheus_datasource"
                     },
                     "editorMode": "code",
                     "exemplar": false,
@@ -427,6 +423,6 @@
     "timepicker": {},
     "timezone": "browser",
     "title": "EMS",
-    "uid": "1eaa0ee8-512a-4e2b-8499-88b163b1925b",
-    "version": 10
+    "uid": "dashboard-ems",
+    "version": 2
 }

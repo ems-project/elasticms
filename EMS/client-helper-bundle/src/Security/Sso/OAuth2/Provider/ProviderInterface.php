@@ -20,5 +20,6 @@ interface ProviderInterface
 
     public function refreshToken(OAuth2Token $token): OAuth2Token;
 
-    public function getUsername(AccessTokenInterface $token): string;
+    /** @return array{ username: string, email: string } */
+    public function getUserInfo(AccessTokenInterface $accessToken): array;
 }

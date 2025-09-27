@@ -5,7 +5,8 @@ DOCKER_USER			?= $(shell id -u)
 DOCKER_COMPOSE	= docker compose -f docker/docker-compose.yml
 
 PORT_admin 			= 8881
-PORT_web 				= 8882
+PORT_web 			= 8882
+PORT_cli 			= 8883
 
 RUN_ADMIN				 = php ${PWD}/elasticms-admin/bin/console --no-debug
 RUN_WEB					 = php ${PWD}/elasticms-web/bin/console --no-debug
@@ -64,13 +65,13 @@ status: ## status
 	@$(DOCKER_COMPOSE) ps
 
 ## —— Symfony server ———————————————————————————————————————————————————————————————————————————————————————————————————
-server-start/%: ## server-start/(admin|web)
+server-start/%: ## server-start/(admin|web|cli)
 	symfony server:start --dir=elasticms-${*} -d --port=$(PORT_$(*)) --no-tls --allow-all-ip
-server-stop/%: ## server-stop/(admin|web)
+server-stop/%: ## server-stop/(admin|web|cli)
 	symfony server:stop --dir=elasticms-${*}
-server-log/%: ## server-log/(admin|web)
+server-log/%: ## server-log/(admin|web|cli)
 	symfony server:log --dir=elasticms-${*}
-server-status/%: ## server-log/(admin|web)
+server-status/%: ## server-log/(admin|web|cli)
 	symfony server:status --dir=elasticms-${*}
 server-restart: ## server-restart
 	@$(MAKE) -s server-stop/admin

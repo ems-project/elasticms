@@ -29,9 +29,9 @@ class SsoUserProvider implements UserProviderInterface
         return SsoUser::class === $class;
     }
 
-    public function loadUserByUsername(string $username): UserInterface
+    public function loadUserByIdentifierOrEmail(string $identifier, ?string $email = null): UserInterface
     {
-        return $this->loadUserByIdentifier($username);
+        return new SsoUser($identifier, $email);
     }
 
     #[\Override]

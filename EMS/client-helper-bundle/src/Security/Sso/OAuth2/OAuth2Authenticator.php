@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Security\Sso\OAuth2;
 
-use EMS\ClientHelperBundle\Security\Sso\User\SsoUser;
+use EMS\ClientHelperBundle\Security\Sso\SsoService;
 use League\OAuth2\Client\Token\AccessTokenInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,14 +24,14 @@ class OAuth2Authenticator extends AbstractAuthenticator
 
     public function __construct(
         private readonly HttpUtils $httpUtils,
-        private readonly OAuth2Service $oAuth2Service,
+        private readonly SsoService $sso,
     ) {
     }
 
     #[\Override]
     public function supports(Request $request): ?bool
     {
-        return $this->oAuth2Service->isEnabled()
+        return $this->sso->oauth2()->isEnabled()
             && $request->isMethod(Request::METHOD_GET)
             && $this->httpUtils->checkRequestPath($request, OAuth2Service::ROUTE_REDIRECT);
     }
@@ -39,13 +39,21 @@ class OAuth2Authenticator extends AbstractAuthenticator
     #[\Override]
     public function authenticate(Request $request): Passport
     {
-        $accessToken = $this->oAuth2Service->getProvider()->getAccessToken($request);
-        $username = $this->oAuth2Service->getProvider()->getUsername($accessToken);
+        $provider = $this->sso->oauth2()->getProvider();
+        $accessToken = $provider->getAccessToken($request);
+        $userInfo = $provider->getUserInfo($accessToken);
+
+        $identifier = $userInfo['username'] ?? null;
+        $email = $userInfo['email'] ?? null;
+        if (!$identifier) {
+            throw new AuthenticationException('No username found');
+        }
 
         $passport = new SelfValidatingPassport(
-            userBadge: new UserBadge($username, fn (string $userIdentifier) => new SsoUser(
-                identifier: $userIdentifier
-            ))
+            userBadge: new UserBadge(
+                $userInfo['username'],
+                fn (string $userIdentifier) => $this->sso->loadUser($userIdentifier, $email),
+            )
         );
         $passport->setAttribute('access_token', $accessToken);
 
@@ -77,6 +85,6 @@ class OAuth2Authenticator extends AbstractAuthenticator
         /** @var AccessTokenInterface $accessToken */
         $accessToken = $passport->getAttribute('access_token');
 
-        return $this->oAuth2Service->getProvider()->createToken($accessToken, $passport, $firewallName);
+        return $this->sso->oauth2()->getProvider()->createToken($accessToken, $passport, $firewallName);
     }
 }

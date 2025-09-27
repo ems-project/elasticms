@@ -73,7 +73,11 @@ class ElasticsearchController
 
             return new JsonResponse($response->getData());
         } catch (ResponseException|ConnectionException $e) {
-            return new JsonResponse($e->getResponse()->getData(), $e->getResponse()->getStatus());
+            if (null === $response = $e->getResponse()) {
+                throw $e;
+            }
+
+            return new JsonResponse($response->getData(), $response->getStatus());
         }
     }
 }

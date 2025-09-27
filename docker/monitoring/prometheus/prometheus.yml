@@ -2,6 +2,6 @@ global:
     scrape_interval: 15s
 
 scrape_configs:
-    - job_name: 'emsco'
+    - job_name: 'admin'
       static_configs:
           - targets: ['host.docker.internal:8881']

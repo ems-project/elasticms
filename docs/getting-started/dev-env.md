@@ -5,12 +5,16 @@
   * [Start external micro-services](#start-external-micro-services)
     * [Test your config](#test-your-config)
     * [Local ports exposed](#local-ports-exposed)
-  * [Prerequisite](#prerequisite)
-  * [Load the Demo config](#load-or-reset-the-demo-config)
+  * [Prerequisite](#prerequisite-)
+  * [Load (or reset) the Demo config](#load-or-reset-the-demo-config)
   * [Init elasticMS](#init-elasticms)
   * [Load and save DB dumps](#load-and-save-db-dumps)
+  * [Admin UI](#admin-ui)
   * [Identity provider (IDP) (Keycloak)](#identity-provider-idp-keycloak)
+  * [Monitoring (Grafana and Prometheus)](#monitoring-grafana-and-prometheus)
+    * [Updating Dashboards](#updating-dashboards)
   * [About PHP configuration](#about-php-configuration)
+  * [Works with the bootstrap5 theme](#works-with-the-bootstrap5-theme)
 <!-- TOC -->
 
 ## Start external micro-services
@@ -219,6 +223,29 @@ EMSCH_SAML_IDP_SSO='http://keycloak.localhost/realms/elasticms/protocol/saml'
   openssl pkcs12 --nokeys --info -in keystore.p12 
   ```
   EMSCH_OAUTH2_ENCRYPTION_KEY=Base64(-----BEGIN CERTIFICATE-----.....-----END CERTIFICATE-----).
+
+## Monitoring (Grafana and Prometheus)
+
+The ElasticMS apps provide metrics via the **Metrics controller** in the CommonBundle.
+
+Start the Docker monitoring services and open Grafana at [http://grafana.localhost/](http://grafana.localhost/) (default login: `admin` / `admin`).  
+At the first login, Grafana will ask you to update the password — you can use `admin/admin` again if needed.
+
+Prometheus is scraping only the local Symfony admin at port **8881**.  
+You can see the scrape status at [http://localhost:9090/targets](http://localhost:9090/targets).
+
+To allow Prometheus to scrape metrics, the Symfony server needs the `--allow-all-ip` option.
+
+```bash
+cd docker/monitoring
+docker compose up -d
+```
+
+For updating/creating dashboard:
+1. **Export JSON** from Grafana: `Share → Export → Save to file`.
+2. **Copy JSON** to `/docker/monitoring/grafana/dashboards`.
+3. **Use a stable UID** — fill it in manually when creating a new dashboard.
+4. **Reload dashboards**: `docker compose up -d` will automatically import/update them.
 
 ## About PHP configuration
 

@@ -7,7 +7,6 @@ namespace EMS\CommonBundle\Command;
 use Elastica\Aggregation\Max;
 use Elastica\Aggregation\Terms as TermsAggregation;
 use Elastica\Query;
-use Elastica\Query\MatchAll;
 use EMS\CommonBundle\Commands;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
@@ -140,13 +139,13 @@ class SynchronizeCommand extends AbstractCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io->title(\sprintf('Synchronizing %s to %s', $this->source, $this->target));
-        $this->sourceClient = Synchronizer::create($this->httpClient, $this->source, $this->targetHeaders);
+        $this->sourceClient = Synchronizer::create($this->httpClient, $this->source, $this->sourceHeaders);
         if (!$this->sourceClient->isDefined()) {
             throw new \RuntimeException('Source index not found');
         }
         $this->io->info(\sprintf('Source index %s', $this->sourceClient->getIndex()));
 
-        $this->targetClient = Synchronizer::create($this->httpClient, $this->target, $this->sourceHeaders);
+        $this->targetClient = Synchronizer::create($this->httpClient, $this->target, $this->targetHeaders);
         $this->alignMappings();
         $this->io->info(\sprintf('Target index %s', $this->targetClient->getIndex()));
         $this->synchronizeContentTypes();
@@ -219,8 +218,7 @@ class SynchronizeCommand extends AbstractCommand
         $maxFinalized = new Max(self::AGGREGATION_FINALIZED);
         $maxFinalized->setField(EMSSource::FIELD_FINALIZATION_DATETIME);
         $aggregation->addAggregation($maxFinalized);
-        $search = new MatchAll();
-        $query = new Query($search);
+        $query = new Query(['query' => ['bool' => ['must' => []]]]);
         $query->setSize(0);
         $query->addAggregation($aggregation);
 

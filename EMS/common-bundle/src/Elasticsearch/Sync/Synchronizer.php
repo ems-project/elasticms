@@ -128,10 +128,11 @@ class Synchronizer
             ]),
         ]);
         $sourceMappings['_meta'] = $metas;
-        $body = [
-            'mappings' => $sourceMappings,
-            'settings' => $settings,
-        ];
+        $body = ['mappings' => $sourceMappings];
+        if (\count($settings) > 0) {
+            $body['settings'] = $settings;
+        }
+
         $response = Json::decode($client->request('PUT', '', [
             'body' => Json::encode($body),
         ])->getContent());

@@ -236,6 +236,13 @@ You can see the scrape status at [http://localhost:9090/targets](http://localhos
 
 To allow Prometheus to scrape metrics, the Symfony server needs the `--allow-all-ip` option.
 
+On the admin make sure the following env variables are defined:
+
+```.dotenv
+EMS_METRIC_HOST=host.docker.internal
+EMS_METRIC_PORT=8881
+```
+
 ```bash
 cd docker/monitoring
 docker compose up -d

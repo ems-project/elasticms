@@ -338,6 +338,21 @@
                     "legendFormat": "__auto",
                     "range": false,
                     "refId": "Done"
+                },
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "prometheus_datasource"
+                    },
+                    "editorMode": "code",
+                    "exemplar": false,
+                    "expr": "emsco_job_count_jobs_pending",
+                    "format": "table",
+                    "hide": false,
+                    "instant": true,
+                    "legendFormat": "__auto",
+                    "range": false,
+                    "refId": "Pending"
                 }
             ],
             "title": "ElasticMS Jobs",
@@ -358,7 +373,8 @@
                                 "tag",
                                 "Value #Total",
                                 "Value #Started",
-                                "Value #Done"
+                                "Value #Done",
+                                "Value #Pending"
                             ]
                         }
                     }
@@ -369,44 +385,20 @@
                         "excludeByName": {},
                         "includeByName": {},
                         "indexByName": {
-                            "OnGoing": 5,
-                            "Scheduled": 4,
-                            "Value #Done": 2,
-                            "Value #Started": 3,
-                            "Value #Total": 1,
+                            "Value #Done": 3,
+                            "Value #Pending": 1,
+                            "Value #Started": 2,
+                            "Value #Total": 4,
                             "tag": 0
                         },
+                        "orderByMode": "manual",
                         "renameByName": {
                             "NotDone": "Scheduled",
                             "Value #Done": "Done",
+                            "Value #Pending": "Pending",
                             "Value #Started": "Started",
                             "Value #Total": "Total",
                             "tag": "Tag"
-                        }
-                    }
-                },
-                {
-                    "id": "calculateField",
-                    "options": {
-                        "alias": "Planned",
-                        "binary": {
-                            "left": {
-                                "matcher": {
-                                    "id": "byName",
-                                    "options": "Total"
-                                }
-                            },
-                            "operator": "-",
-                            "right": {
-                                "matcher": {
-                                    "id": "byName",
-                                    "options": "Done"
-                                }
-                            }
-                        },
-                        "mode": "binary",
-                        "reduce": {
-                            "reducer": "sum"
                         }
                     }
                 }

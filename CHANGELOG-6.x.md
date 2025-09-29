@@ -12,6 +12,7 @@
 ### Bug Fixes
 * fix(admin/backup): environment export ignore alias by @theus77 in https://github.com/ems-project/elasticms/pull/1406
 * fix(cli/sync): use symfony http client service by @Davidmattei in https://github.com/ems-project/elasticms/pull/1416
+* fix(web): support EMSCH_OAUTH2_REDIRECT_URI as path by @Davidmattei in https://github.com/ems-project/elasticms/pull/1419
 ### Chores
 * chore(cli): enable web profile in dev env by @Davidmattei in https://github.com/ems-project/elasticms/pull/1415
 * chore(docker): add prometheus & grafana by @Davidmattei in https://github.com/ems-project/elasticms/pull/1412

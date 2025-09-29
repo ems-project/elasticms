@@ -1937,12 +1937,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSCommonBundle.git",
-                "reference": "dd4f14775c8316f0691b29b48ecb21e6743add75"
+                "reference": "841a1d06bf2ccc610ac1e0e3e265568c409aec13"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSCommonBundle/zipball/dd4f14775c8316f0691b29b48ecb21e6743add75",
-                "reference": "dd4f14775c8316f0691b29b48ecb21e6743add75",
+                "url": "https://api.github.com/repos/ems-project/EMSCommonBundle/zipball/841a1d06bf2ccc610ac1e0e3e265568c409aec13",
+                "reference": "841a1d06bf2ccc610ac1e0e3e265568c409aec13",
                 "shasum": ""
             },
             "require": {
@@ -2017,7 +2017,7 @@
             "support": {
                 "source": "https://github.com/ems-project/EMSCommonBundle/tree/6.8.0"
             },
-            "time": "2025-09-29T07:51:18+00:00"
+            "time": "2025-09-29T09:34:51+00:00"
         },
         {
             "name": "elasticms/form-bundle",

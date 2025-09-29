@@ -1,5 +1,21 @@
 # Changelog 6.x
 
+## 6.8.0 (2025-09-29)
+### Features
+* feat(admin/metric): add jobs pending gauge by @Davidmattei in https://github.com/ems-project/elasticms/pull/1418
+* feat(cli/sync): support sync ems index over skeleton by @Davidmattei in https://github.com/ems-project/elasticms/pull/1417
+* feat(common/command): ems:elasticsearch:clean-orphan-indices by @theus77 in https://github.com/ems-project/elasticms/pull/1404
+* feat(common/command): ems:indexes:synchronize, sync 2 indexes by @theus77 in https://github.com/ems-project/elasticms/pull/1395
+* feat(common/twig): ems_files_in_archive by @theus77 in https://github.com/ems-project/elasticms/pull/1409
+* feat(common/twig): new ems_check_ip function by @theus77 in https://github.com/ems-project/elasticms/pull/1399
+* feat(web): core authentication with sso by @Davidmattei in https://github.com/ems-project/elasticms/pull/1414
+### Bug Fixes
+* fix(admin/backup): environment export ignore alias by @theus77 in https://github.com/ems-project/elasticms/pull/1406
+* fix(cli/sync): use symfony http client service by @Davidmattei in https://github.com/ems-project/elasticms/pull/1416
+### Chores
+* chore(cli): enable web profile in dev env by @Davidmattei in https://github.com/ems-project/elasticms/pull/1415
+* chore(docker): add prometheus & grafana by @Davidmattei in https://github.com/ems-project/elasticms/pull/1412
+
 ## 6.7.3 (2025-09-18)
 ### Bug Fixes
 * fix(admin/submission): memory issues on remove and export by @theus77 in https://github.com/ems-project/elasticms/pull/1408

@@ -25,13 +25,13 @@ class ElasticsearchController
     {
         $this->handler->handleStaticTemplate($request)?->renderBlock('preRequest');
 
-        $path = '/'.\rtrim($request->get('path'), '/');
+        $path = '/'.\rtrim((string) $request->get('path'), '/');
         $index = $request->get('index');
 
         $data = '' !== $request->getContent() ? Json::decode($request->getContent()) : [];
         $query = $request->query->all();
 
-        if (null !== $index && !\preg_match('/^(?![_-])[a-z0-9_-]{1,255}$/', $index)) {
+        if (null !== $index && !\preg_match('/^(?![_-])[a-z0-9_-]{1,255}$/', (string) $index)) {
             throw new \InvalidArgumentException("Invalid index name: $index");
         }
 

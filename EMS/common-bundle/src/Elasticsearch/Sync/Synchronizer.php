@@ -17,7 +17,7 @@ class Synchronizer
     public const string ID = '_id';
     private HttpClientInterface $client;
     private bool $defined;
-    private string $alias;
+    private readonly string $alias;
     private ?string $index = null;
     private ?string $previousIndex = null;
     /** @var mixed[] */
@@ -71,9 +71,7 @@ class Synchronizer
         $indexClient->previousIndex = $indexClient->index = Type::string(\array_key_first($response));
         $indexClient->mappings = $response[$indexClient->index]['mappings'];
         $indexClient->settings = $response[$indexClient->index]['settings']['index'];
-        $indexClient->settings = \array_filter($indexClient->settings, function ($v, $k) {
-            return 'analysis' === $k;
-        }, ARRAY_FILTER_USE_BOTH);
+        $indexClient->settings = \array_filter($indexClient->settings, fn ($v, $k) => 'analysis' === $k, ARRAY_FILTER_USE_BOTH);
 
         return $indexClient;
     }

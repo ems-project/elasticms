@@ -41,7 +41,7 @@ final readonly class User implements UserInterface
             ]);
 
             return $response->getData()['token'] ?? null;
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             return null;
         }
     }

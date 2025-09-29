@@ -31,7 +31,7 @@ final class DomPdfPrinter implements PdfPrinterInterface
         $options ??= new PdfPrintOptions([]);
         $dompdf = $this->makeDomPdf($pdf, $options);
 
-        return new PdfOutput(fn (): ?string => $dompdf->output());
+        return new PdfOutput(fn (): string => $dompdf->output());
     }
 
     #[\Override]

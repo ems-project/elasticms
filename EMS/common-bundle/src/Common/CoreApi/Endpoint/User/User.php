@@ -35,7 +35,7 @@ final readonly class User implements UserInterface
     public function proxyAuthenticate(string $username, ?string $email): ?string
     {
         try {
-            $response = $this->client->post('/api/user/login-as-user', [
+            $response = $this->client->post('/api/user/proxy-authenticate', [
                 'username' => $username,
                 'email' => $email,
             ]);

@@ -16,10 +16,12 @@ abstract class AbstractOAuth2Provider implements ProviderInterface
 {
     abstract protected function getName(): string;
 
+    abstract protected function getRedirectUri(): string;
+
     /**
      * @return array<string, mixed>
      */
-    abstract protected function getOptions(): array;
+    abstract protected function getOptions(Request $request): array;
 
     abstract protected function getProvider(): AbstractProvider;
 
@@ -32,7 +34,7 @@ abstract class AbstractOAuth2Provider implements ProviderInterface
     #[\Override]
     public function redirect(Request $request): RedirectResponse
     {
-        $options = $this->getOptions();
+        $options = $this->getOptions($request);
         $url = $this->getProvider()->getAuthorizationUrl($options);
 
         $request->getSession()->set($this->getName(), $this->getProvider()->getState());
@@ -41,7 +43,7 @@ abstract class AbstractOAuth2Provider implements ProviderInterface
     }
 
     #[\Override]
-    public function refreshToken(OAuth2Token $token): OAuth2Token
+    public function refreshToken(Request $request, OAuth2Token $token): OAuth2Token
     {
         if (!$token->getAccessToken()->hasExpired()) {
             return $token;
@@ -51,7 +53,7 @@ abstract class AbstractOAuth2Provider implements ProviderInterface
             throw new AuthenticationException('User not found');
         }
 
-        $options = $this->getOptions();
+        $options = $this->getOptions($request);
         $options['refresh_token'] = $token->getAccessToken()->getRefreshToken();
         $refreshedToken = $this->getProvider()->getAccessToken('refresh_token', $options);
 
@@ -78,9 +80,20 @@ abstract class AbstractOAuth2Provider implements ProviderInterface
             throw new AuthenticationException('Code missing');
         }
 
-        $options = $this->getOptions();
+        $options = $this->getOptions($request);
         $options['code'] = $code;
 
         return $this->getProvider()->getAccessToken('authorization_code', $options);
+    }
+
+    protected function buildRedirectUri(Request $request): string
+    {
+        $redirectUri = $this->getRedirectUri();
+
+        if (\str_starts_with($redirectUri, '/')) {
+            $redirectUri = $request->getSchemeAndHttpHost().$redirectUri;
+        }
+
+        return $redirectUri;
     }
 }

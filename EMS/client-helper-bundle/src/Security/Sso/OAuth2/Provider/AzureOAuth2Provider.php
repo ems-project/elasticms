@@ -9,6 +9,7 @@ use EMS\Helpers\Standard\Type;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Token\AccessToken;
 use League\OAuth2\Client\Token\AccessTokenInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use TheNetworg\OAuth2\Client\Provider\Azure;
 use TheNetworg\OAuth2\Client\Provider\AzureResourceOwner;
@@ -30,7 +31,7 @@ class AzureOAuth2Provider extends AbstractOAuth2Provider
         string $tenant,
         string $clientId,
         string $clientSecret,
-        string $redirectUri,
+        private readonly string $redirectUri,
         ?array $scopes,
         ?string $version,
     ) {
@@ -70,9 +71,9 @@ class AzureOAuth2Provider extends AbstractOAuth2Provider
     }
 
     #[\Override]
-    public function refreshToken(OAuth2Token $token): OAuth2Token
+    public function refreshToken(Request $request, OAuth2Token $token): OAuth2Token
     {
-        $refreshedToken = parent::refreshToken($token);
+        $refreshedToken = parent::refreshToken($request, $token);
 
         foreach ($token->serviceTokens as $serviceName => $serviceToken) {
             if (!$serviceToken->hasExpired()) {
@@ -95,9 +96,18 @@ class AzureOAuth2Provider extends AbstractOAuth2Provider
     }
 
     #[\Override]
-    protected function getOptions(): array
+    protected function getRedirectUri(): string
     {
-        return ['scope' => $this->azure->scope];
+        return $this->redirectUri;
+    }
+
+    #[\Override]
+    protected function getOptions(Request $request): array
+    {
+        return [
+            'redirect_uri' => $this->buildRedirectUri($request),
+            'scope' => $this->azure->scope,
+        ];
     }
 
     #[\Override]

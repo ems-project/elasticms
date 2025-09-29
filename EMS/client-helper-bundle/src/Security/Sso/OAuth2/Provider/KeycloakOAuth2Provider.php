@@ -9,6 +9,7 @@ use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Token\AccessToken;
 use League\OAuth2\Client\Token\AccessTokenInterface;
 use Stevenmaguire\OAuth2\Client\Provider\Keycloak;
+use Symfony\Component\HttpFoundation\Request;
 
 class KeycloakOAuth2Provider extends AbstractOAuth2Provider
 {
@@ -19,7 +20,7 @@ class KeycloakOAuth2Provider extends AbstractOAuth2Provider
         string $realm,
         string $clientId,
         string $clientSecret,
-        string $redirectUri,
+        private readonly string $redirectUri,
         ?string $version,
         ?string $encryptionAlgorithm,
         ?string $encryptionKey,
@@ -50,9 +51,14 @@ class KeycloakOAuth2Provider extends AbstractOAuth2Provider
     }
 
     #[\Override]
-    protected function getOptions(): array
+    protected function getRedirectUri(): string
     {
-        return [];
+        return $this->redirectUri;
+    }
+
+    protected function getOptions(Request $request): array
+    {
+        return ['redirect_uri' => $this->buildRedirectUri($request)];
     }
 
     #[\Override]

@@ -54,12 +54,12 @@ readonly class SecurityListener implements EventSubscriberInterface
         }
     }
 
-    public function refreshToken(): void
+    public function refreshToken(ControllerEvent $event): void
     {
         $token = $this->tokenStorage->getToken();
 
         if ($token instanceof OAuth2Token && $token->isExpired() && $token->hasRefreshToken()) {
-            $this->tokenStorage->setToken($this->oAuth2Service->refreshToken($token));
+            $this->tokenStorage->setToken($this->oAuth2Service->refreshToken($event->getRequest(), $token));
         }
     }
 

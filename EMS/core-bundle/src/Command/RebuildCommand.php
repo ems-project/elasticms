@@ -45,6 +45,7 @@ class RebuildCommand extends AbstractCommand
     private bool $yellowOk;
     private bool $all;
     private bool $ignoreReferrers;
+    private ?string $environmentName = null;
 
     public function __construct(private readonly Registry $doctrine, protected LoggerInterface $logger, private readonly ContentTypeService $contentTypeService, private readonly EnvironmentService $environmentService, private readonly ReindexCommand $reindexCommand, private readonly ElasticaService $elasticaService, private readonly Mapping $mapping, private readonly AliasService $aliasService, private readonly string $instanceId, private readonly string $defaultBulkSize)
     {
@@ -104,6 +105,7 @@ class RebuildCommand extends AbstractCommand
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
+        $this->environmentName = $this->getArgumentStringNull(self::ARGUMENT_NAME);
         $this->yellowOk = $this->getOptionBool(self::OPTION_YELLOW_OK);
         $this->all = $this->getOptionBool(self::OPTION_ALL);
         $this->bulkSize = $this->getOptionInt(self::OPTION_BULK_SIZE);
@@ -127,16 +129,15 @@ class RebuildCommand extends AbstractCommand
         }
 
         $this->em = $this->doctrine->getManager();
-        $name = $input->getArgument(self::ARGUMENT_NAME);
         $envRepo = $this->em->getRepository(Environment::class);
         if (!$envRepo instanceof EnvironmentRepository) {
             throw new \RuntimeException('Unexpected environment repository');
         }
 
-        if (\is_string($name)) {
-            $environment = $envRepo->findOneBy(['name' => $name, 'managed' => true]);
+        if (null !== $this->environmentName) {
+            $environment = $envRepo->findOneBy(['name' => $this->environmentName, 'managed' => true]);
             if (!$environment instanceof Environment) {
-                $output->writeln('WARNING: Managed environment named '.$name.' not found');
+                $output->writeln('WARNING: Managed environment named '.$this->environmentName.' not found');
 
                 return -1;
             }

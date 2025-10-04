@@ -26,26 +26,73 @@ action:
     status: Status
     toggle_visibility: 'Toggle visibility'
     toggle_visibility_selected: 'Toggle visibility selected'
+    update_content_type_from_json: 'Update {name} from a JSON file'
     update_mapping: 'Update mapping'
     view: View
+asset_extractor:
+    status: |-
+        {color, select,
+            green   {Green: Asset extractor is operational}
+            red     {Red: Asset extractor is not fully operational. Contact your system administrator}
+            other   {Well, that’s odd... Contact your system administrator}
+        }
+certificate:
+    status: |-
+        {color, select,
+            green   {Green: A valid certificate is in place}
+            yellow  {Yellow: Certificate missing or not configured}
+            red     {Red: Private key not found}
+            other   {Well, that’s odd... Contact your system administrator}
+        }
+cluster:
+    status: |-
+        {color, select,
+            green   {Green: Search cluster is operating as expected}
+            yellow  {Yellow: Documents are being indexed. This status shouldn’t last forever}
+            red     {Red: System issues detected. Please contact your administrator}
+            other   {Well, that’s odd... Contact your system administrator}
+        }
 color:
-    red: Red
-    maroon: Maroon
-    fuchsia: Fuchsia
-    orange: Orange
-    yellow: Yellow
-    olive: Olive
-    green: Green
-    lime: Lime
-    teal: Teal
     aqua: Aqua
-    light-blue: 'Light blue'
-    blue: Blue
-    purple: Purple
-    navy: Navy
     black: Black
+    blue: Blue
+    fuchsia: Fuchsia
     gray: Gray
+    green: Green
+    light-blue: 'Light blue'
+    lime: Lime
+    maroon: Maroon
+    navy: Navy
+    olive: Olive
+    orange: Orange
+    purple: Purple
+    red: Red
+    teal: Teal
+    yellow: Yellow
+content-type:
+    field:
+        hide_revision_sidebar:
+            label: 'Hide revision sidebar'
+        recompute_on_publish:
+            label: 'Recompute documents on publication'
+        tasks_enabled:
+            label: Enabled
+        tasks_helptexts:
+            label: Helptexts
+        tasks_titles:
+            label: Titles
 core:
+    action:
+        render-option:
+            embed: Embed
+            event: Event
+            export: Export
+            external-link: 'External link'
+            import: Import
+            job: Job
+            notification: Notification
+            pdf: PDF
+            raw-html: 'Raw HTML'
     content_type:
         view_define: |-
             {define, select,
@@ -79,7 +126,7 @@ core:
                 browser_image   {As image browser}
                 browser_object  {As object browser}
                 browser_file    {As file browser}
-                other           {Undefine}
+                other           {Undefined}
             }
         definition: |-
             {value, select,
@@ -90,6 +137,8 @@ core:
                 browser_file    {File browser}
                 other           {Unknown}
             }
+        exception:
+            title: 'An exception has been raised'
     environment:
         index_count: |-
             {indexes, plural,
@@ -99,10 +148,18 @@ core:
             }
     version: 'Version {core} with Symfony {symfony}'
 field:
+    accumulate_file: 'Accumulate in one file'
     alias: Alias
+    allowed_remote_hosts: 'Allowed remote hosts'
+    attributes: 'Request extra attributes'
     available: Available
     channel: Channel
+    circles_to: 'Circles to'
+    color: Color
     command: Command
+    config: Config
+    content_css: 'Content css'
+    content_js: 'Content js'
     context: Context
     count: Count
     cron: Cron
@@ -114,18 +171,37 @@ field:
     date_run_previous: 'Date previous run'
     date_upload: 'Date upload'
     definition: Definition
+    editor: Editor
+    email_content_type: 'Content type (ie: text/html)'
+    entry_path: 'Default entry path'
     environment_default: 'Default environment'
     environment_external: 'External environment'
+    environments: Environments
     extra: Extra
     file:
+        disposition: Disposition
+        extension: Extension
+        mimetype: Mime-Type
+        name: Filename
+        orientation: Orientation
+        paper_size: 'Paper size'
         size: Size
         type: Type
+    format_tags: 'Format tags'
     hash: 'Hash signature'
+    header: Header
+    header_allow_origin: 'The Access-Control-Allow-Origin header'
     hidden: Hidden
+    icon: Icon
     index: Index
     indexes: Indexes
     is_active: Active
     is_dirty: Dirty
+    is_edit_wysiwyg: 'Edit with WYSIWYG'
+    is_menu_notification: 'Visible in the notification menu'
+    is_menu_sidebar: 'Visible in the sidebar menu'
+    is_preview: Preview
+    is_public: Public
     key: Key
     label: Label
     last_seen: 'Last seen'
@@ -134,14 +210,28 @@ field:
     name: Name
     plural: Plural
     public_access: 'Public Access'
+    query: Query
     release_environment_source: 'Source Environment for publication'
     release_environment_target: 'Environment for (un)publication'
+    render_option: 'Render option'
     revision_version_tag: 'Yes as {version_tag}'
     revision_version_tag_empty: 'No (Silent publish)'
+    role: Role
+    role_cc: 'Role cc'
+    role_to: 'Role to'
+    roles: Roles
+    save_dir: 'Save dir'
+    search_config: 'Search config'
     severity: Severity
     singular: Singular
+    spreadsheet: Spreadsheet
     status: Status
+    table_default_css: 'Default Table class attribute (deprecated)'
     tag: Tag
+    template_body: 'Template body'
+    template_footer: 'Template footer'
+    template_header: 'Template header'
+    template_response: 'Template response'
     text: Text
     total: Total
     total_deleted: 'Total deleted'
@@ -154,35 +244,62 @@ field:
     user_impersonator: Impersonator
     user_modified: 'Modified by'
     user_uploaded: 'Uploaded by'
+form:
+    reorder:
+        title: 'Reorder fields of form: {label}'
 key:
     actions: Actions
     admin: Admin
     analyzers: Analyzers
+    attachment: Attachment
     channels: Channels
+    ckeditor4: 'CK Editor 4'
+    ckeditor5: 'CK Editor 5'
     content_types: 'Content Types'
     dashboards: Dashboards
+    details: Details
+    documentation: Documentation
     environments: Environments
     environments_external: 'External environments'
     environments_local: 'Local environments'
+    export_documents: 'Export documents'
     filters: Filters
+    form_submissions: 'Form Submissions'
     forms: Forms
+    groups: Groups
     i18n: I18N
+    inline: Inline
     job_logs: 'Jobs logs'
     jobs: Jobs
+    landscape: Landscape
     logs: Logs
     loop_count: '#'
     managed_aliases: 'Managed aliases'
+    none: None
+    notice: Notice
     orphan_indexes: 'Orphan indexes'
     overview: Overview
+    portrait: Portrait
+    prefix_instance_id: 'Prefix alias with instance ID'
+    public_channel: 'Make channel available for non-authenticated users ?'
+    public_view: 'Publicly available (without authentication)'
     publishers: Publishers
+    query_search: 'Query search'
     query_searches: QuerySearch
     schedule: Schedule
+    schedule_cron: '<Minute> <Hour> <Day_of_the_Month> <Month_of_the_Year> <Day_of_the_Week>. E.g. every 15 minutes: */15 * * * *'
+    schedule_tag: 'Used to indentify workers (e.g. CLI) which would remotely execute the job'
+    search: Search
     structure: Structure
+    trash: Trash
     unreferenced_aliases: 'Unreferenced aliases'
     uploaded_files: 'Uploaded Files'
     uploaded_files_logs: 'Uploaded Files Logs'
+    users: Users
     views: Views
     wysiwyg: WYSIWYG
+    wysiwyg_profiles: Profiles
+    wysiwyg_style_sets: 'Style Sets'
 log:
     error:
         content_type_add_unreferenced: 'Unexpected error while getting unreferenced content type(s) from external environment {environment}: {error}'
@@ -200,6 +317,9 @@ log:
         draft_not_found: 'Draft not found with id "{revisionId}"'
         duplicate_environment: 'Environment "{name}" already exists!'
         index_not_found: 'Index "{index}" not found'
+profile:
+    title: 'Your profile'
+    title_sub: 'All about you'
 revision:
     draft:
         delete: 'Delete this draft'
@@ -213,11 +333,21 @@ revision:
         ouuid: Ouuid
     new: 'New {contentType}'
     trash:
-        label: Trash
         put_back: 'Put back'
         put_back_confirm: 'Put back "{label}" ?'
         put_back_selected: 'Put back selected'
         title: '{pluralName} in trash'
+search:
+    title: |-
+        {count, plural,
+            =-1   {Search result is missing}
+            =0    {No results found}
+            =1    {1 document found}
+            other {# documents found}
+        }
+status:
+    title: "Systems' status"
+    title_sub: 'Is everything working as expected?'
 type:
     confirm: |-
         {type, select,
@@ -247,6 +377,7 @@ type:
             environment_external {Delete the "{label}" external environment?}
             filter               {Delete the "{label}" filter?}
             form                 {Delete the "{label}" form?}
+            group                {Delete the "{label}" group?}
             i18n                 {Delete the "{label}" i18n key?}
             orphan_index         {Delete the orphan index "{label}"?}
             job                  {Delete the job?}
@@ -272,6 +403,7 @@ type:
             environment         {Delete all selected environments?}
             filter              {Delete all selected filters?}
             form                {Delete all selected forms?}
+            group               {Delete all selected groups?}
             i18n                {Delete all selected i18n keys?}
             orphan_index        {Delete all selected orphan indexes?}
             job                 {Delete all selected jobs?}
@@ -283,6 +415,22 @@ type:
             wysiwyg_profile     {Delete all selected WYSIWYG profiles?}
             wysiwyg_style_set   {Delete all selected WYSIWYG style sets?}
             other               {Delete all selected?}
+        }
+    export: |-
+        {type, select,
+            documents {{count, plural,
+                    =1    {Export one {singular}}
+                    other {Export # {plural}}
+            }}
+            other     {Export}
+        }
+    notice_message: |-
+        {type, select,
+            analyzer      {All environments have to be rebuild each times that an analyzer configuration is created or updated.}
+            filter        {All environments have to be rebuild each times that a filter configuration is created or updated.}
+            content_type  {The content type won’t be directly available to the authors. You’ll need to activate it later, once the mappings have been updated. Take your time to review the content type.}
+            alias         {This operation will create a new alias to an existing index.}
+            other         {}
         }
     reorder: |-
         {type, select,
@@ -308,6 +456,44 @@ type:
             content_type_deactivate {Deactivate selected}
             other                   {action selection}
         }
+    title_create: |-
+        {type, select,
+            alias           {Add an alias to {label}}
+            action          {Create action}
+            analyzer        {Create analyzer}
+            channel         {Create channel}
+            dashboard       {Create dashboard}
+            content_type    {Create content type}
+            filter          {Create filter}
+            form            {Create form}
+            job             {Launch new job}
+            group           {Create Group}
+            i18n            {Create I18N}
+            job_schedule    {Create schedule}
+            query_search    {Create query search}
+            search          {Create search}
+            view            {Create view}
+            wysiwyg_profile {Create profile}
+            other           {Create}
+        }
+    title_edit: |-
+        {type, select,
+            action            {Edit action: {label}}
+            analyzer          {Edit analyzer: {label}}
+            channel           {Edit channel: {label}}
+            dashboard         {Edit dashboard: {label}}
+            content_type      {Edit content type: {label}}
+            filter            {Edit filter: {label}}
+            form              {Edit form: {label}}
+            group             {Edit Group: {label}}
+            i18n              {Edit I18N: {label}}
+            job_schedule      {Edit schedule: {label}}
+            query_search      {Edit query search: {label}}
+            view              {Edit view: {label}}
+            wysiwyg_profile   {Edit profile: {label}}
+            wysiwyg_style_set {Edit style set: {label}}
+            other             {Edit}
+        }
     title_overview: |-
         {type, select,
             analyzer            {List of analyzers}
@@ -319,24 +505,34 @@ type:
             environment         {Overview}
             filter              {List of filters}
             form                {List of forms}
+            form_submission     {List of form submissions}
+            group               {List of groups}
             i18n                {I18n list}
             i18n_translations   {Translations for key "{key}"}
             job                 {Jobs list}
             job_schedule        {Schedule}
             log                 {Logs}
-            query_search        {List of QuerySearch}
+            query_search        {List of QuerySearches}
             wysiwyg_profile     {WYSIWYG profiles}
             wysiwyg_style_set   {WYSIWYG style sets}
             other               {Overview}
         }
+    title_status: |-
+        {type, select,
+            job           {Status of job #{job_id}}
+            other         {Status}
+        }
     title_sub: |-
         {type, select,
             analyzer      {Expert mode}
+            channel       {Ready for the world wide web?}
+            content_type  {Define the encoding forms}
             dashboard     {Customize the lobby}
             filter        {Expert mode}
             form          {Reusable components}
             job           {Running process}
             job_schedule  {When you are not at work}
             log           {Who did what}
+            view          {Customize the menu}
             other         {}
         }

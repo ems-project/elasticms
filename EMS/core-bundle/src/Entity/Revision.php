@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use EMS\CommonBundle\Entity\CreatedModifiedTrait;
 use EMS\CommonBundle\Entity\IdentifierIntegerTrait;
+use EMS\CoreBundle\Core\ContentType\Version\VersionFields;
 use EMS\CoreBundle\Core\Revision\RawDataTransformer;
 use EMS\CoreBundle\Exception\LockedException;
 use EMS\CoreBundle\Exception\NotLockedException;
@@ -43,8 +44,8 @@ class Revision implements EntityInterface, \Stringable
     private ?string $lockBy = null;
     private ?string $autoSaveBy = null;
     private ?\DateTime $lockUntil = null;
-    /** @var Collection<int, Environment> */
-    private Collection $environments;
+    /** @var Collection<int, EnvironmentRevision> */
+    private Collection $environmentRevisions;
     /** @var Collection<int, Notification> */
     private Collection $notifications;
     /** @var ?array<mixed> */
@@ -65,6 +66,7 @@ class Revision implements EntityInterface, \Stringable
     private bool $selfUpdate = false;
 
     public const VERSION_BLANK = 'silent';
+    private bool $lazyIndex = false;
 
     public function enableSelfUpdate(): void
     {
@@ -93,7 +95,21 @@ class Revision implements EntityInterface, \Stringable
      */
     public function getData(): array
     {
+        if ($this->isLazyIndex()) {
+            return [];
+        }
+
         return RawDataTransformer::transform($this->giveContentType()->getFieldType(), $this->rawData ?? []);
+    }
+
+    public function setLazyIndex(bool $lazyIndex): void
+    {
+        $this->lazyIndex = $lazyIndex;
+    }
+
+    public function isLazyIndex(): bool
+    {
+        return $this->lazyIndex;
     }
 
     /**
@@ -122,7 +138,7 @@ class Revision implements EntityInterface, \Stringable
 
     public function __construct()
     {
-        $this->environments = new ArrayCollection();
+        $this->environmentRevisions = new ArrayCollection();
         $this->notifications = new ArrayCollection();
         $this->releases = new ArrayCollection();
         $this->created = new \DateTime();
@@ -145,6 +161,7 @@ class Revision implements EntityInterface, \Stringable
                 $this->taskCurrent = $ancestor->taskCurrent;
                 $this->taskPlannedIds = $ancestor->taskPlannedIds;
                 $this->taskApprovedIds = $ancestor->taskApprovedIds;
+                $this->lazyIndex = $ancestor->lazyIndex;
 
                 if (null !== $versionUuid = $ancestor->getVersionUuid()) {
                     $this->setVersionId($versionUuid);
@@ -193,13 +210,12 @@ class Revision implements EntityInterface, \Stringable
         ];
     }
 
-    public function convertToDraft(): Revision
+    public function convertToDraft(string $username): Revision
     {
         $draft = clone $this;
-        $draft->environments = new ArrayCollection();
-
+        $draft->environmentRevisions = new ArrayCollection();
         $now = new \DateTime('now');
-        $draft->addEnvironment($this->giveContentType()->giveEnvironment());
+        $draft->addEnvironment($this->giveContentType()->giveEnvironment(), $username);
         $draft->setStartTime($now);
         $draft->setCreated($now);
         $draft->setEndTime(null);
@@ -222,7 +238,7 @@ class Revision implements EntityInterface, \Stringable
         $clone->finalizedBy = null;
         $clone->finalizedDate = null;
         $clone->startTime = new \DateTime('now');
-        $clone->environments = new ArrayCollection(); // clear publications
+        $clone->environmentRevisions = new ArrayCollection(); // clear publications
         $clone->notifications = new ArrayCollection(); // clear notifications
 
         return $clone;
@@ -231,14 +247,14 @@ class Revision implements EntityInterface, \Stringable
     /**
      * Close a revision.
      */
-    public function close(\DateTime $endTime): void
+    public function close(\DateTime $endTime, string $username): void
     {
         if (null === $this->endTime) {
             $this->setEndTime($endTime);
         }
         $this->setDraft(false);
         $this->autoSaveClear();
-        $this->removeEnvironment($this->giveContentType()->giveEnvironment());
+        $this->removeEnvironment($this->giveContentType()->giveEnvironment(), $username);
     }
 
     public function getAllFieldsAreThere(): ?bool
@@ -266,6 +282,22 @@ class Revision implements EntityInterface, \Stringable
     public function setArchived(bool $archived): self
     {
         $this->archived = $archived;
+
+        return $this;
+    }
+
+    public function delete(string $username): self
+    {
+        $this->deletedBy = $username;
+        $this->deleted = true;
+
+        return $this;
+    }
+
+    public function restore(): self
+    {
+        $this->deletedBy = null;
+        $this->deleted = false;
 
         return $this;
     }
@@ -423,13 +455,6 @@ class Revision implements EntityInterface, \Stringable
         $this->archivedBy = $archivedBy;
     }
 
-    public function setDeletedBy(?string $deletedBy): self
-    {
-        $this->deletedBy = $deletedBy;
-
-        return $this;
-    }
-
     public function getDeletedBy(): ?string
     {
         return $this->deletedBy;
@@ -501,16 +526,56 @@ class Revision implements EntityInterface, \Stringable
         return $this->dataField;
     }
 
-    public function addEnvironment(Environment $environment): self
+    public function addEnvironment(Environment $environment, string $username): self
     {
-        $this->environments[] = $environment;
+        if (\array_any(
+            $this->environmentRevisions->toArray(),
+            static fn (EnvironmentRevision $er) => $er->getEnvironment() === $environment && null === $er->getDeleted()
+        )
+        ) {
+            return $this;
+        }
+        $environmentRevision = new EnvironmentRevision();
+        $environmentRevision->setEnvironment($environment);
+        $environmentRevision->setRevision($this);
+        $environmentRevision->setCreatedBy($username);
+        $this->environmentRevisions[] = $environmentRevision;
 
         return $this;
     }
 
-    public function removeEnvironment(Environment $environment): self
+    public function getCurrentEnvironmentRevision(Environment $environment): EnvironmentRevision
     {
-        $this->environments->removeElement($environment);
+        foreach ($this->environmentRevisions as $environmentRevision) {
+            if ($environmentRevision->getEnvironment()->getId() !== $environment->getId() || null !== $environmentRevision->getDeleted()) {
+                continue;
+            }
+
+            return $environmentRevision;
+        }
+        throw new \RuntimeException(\sprintf('No EnvironmentRevision for revision %d and environment %s!', $this->getId(), $environment->getName()));
+    }
+
+    public function addEnvironmentRevision(EnvironmentRevision $environmentRevision): self
+    {
+        $this->environmentRevisions[] = $environmentRevision;
+
+        return $this;
+    }
+
+    public function removeEnvironment(Environment $environment, string $username): self
+    {
+        foreach ($this->environmentRevisions as $environmentRevision) {
+            if (null !== $environmentRevision->getDeleted()) {
+                continue;
+            }
+
+            if ($environmentRevision->getEnvironment() === $environment) {
+                $environmentRevision->setDeleted(new \DateTime());
+                $environmentRevision->setDeletedBy($username);
+                break;
+            }
+        }
 
         return $this;
     }
@@ -518,15 +583,17 @@ class Revision implements EntityInterface, \Stringable
     /**
      * @return Collection<int, Environment>
      */
-    public function getEnvironments()
+    public function getEnvironments(): Collection
     {
-        return $this->environments;
+        return $this->environmentRevisions
+            ->filter(fn (EnvironmentRevision $er) => null === $er->getDeleted())
+            ->map(fn (EnvironmentRevision $er) => $er->getEnvironment());
     }
 
     public function isPublished(string $environmentName): bool
     {
-        foreach ($this->environments as $environment) {
-            if ($environment->getName() === $environmentName) {
+        foreach ($this->environmentRevisions as $environmentRevision) {
+            if ($environmentRevision->getEnvironment()->getName() === $environmentName) {
                 return true;
             }
         }
@@ -547,12 +614,17 @@ class Revision implements EntityInterface, \Stringable
     /**
      * @return array<mixed>
      */
-    public function getRawData(): array
+    public function getRawData(?Environment $environment = null): array
     {
         $rawData = $this->rawData ?? [];
 
         if (null !== $this->versionUuid) {
             $rawData[Mapping::VERSION_UUID] = $this->versionUuid->toString();
+        }
+        if (null !== $environment) {
+            $environmentRevision = $this->getCurrentEnvironmentRevision($environment);
+            $rawData[Mapping::PUBLISHED_DATETIME_FIELD] = $environmentRevision->getCreated()->format(\DateTime::ATOM);
+            $rawData[Mapping::PUBLISHED_BY_FIELD] = $environmentRevision->getCreatedBy();
         }
 
         return $rawData;
@@ -770,11 +842,6 @@ class Revision implements EntityInterface, \Stringable
         return $this;
     }
 
-    public function hasVersionTags(): bool
-    {
-        return $this->contentType && $this->contentType->hasVersionTags();
-    }
-
     public function getVersionUuid(): ?UuidInterface
     {
         return $this->versionUuid;
@@ -782,29 +849,24 @@ class Revision implements EntityInterface, \Stringable
 
     public function getVersionTagField(): ?string
     {
-        $contentType = $this->giveContentType();
+        $tagField = $this->giveContentType()->getVersioning()->field(VersionFields::VERSION_TAG);
 
-        return $contentType->hasVersionTagField() ? ($this->rawData[$contentType->getVersionTagField()] ?? null) : null;
+        return $tagField ? ($this->rawData[$tagField] ?? null) : null;
     }
 
     public function getVersionDate(string $field): ?\DateTimeInterface
     {
-        $contentType = $this->giveContentType();
+        $versioning = $this->giveContentType()->getVersioning();
 
-        $dateString = null;
-        if ('from' === $field && null !== $dateFromField = $contentType->getVersionDateFromField()) {
-            $dateString = $this->rawData[$dateFromField] ?? null;
-        }
-        if ('to' === $field && null !== $dateToField = $contentType->getVersionDateToField()) {
-            $dateString = $this->rawData[$dateToField] ?? null;
-        }
+        $fieldName = match ($field) {
+            'from' => $versioning->field(VersionFields::DATE_FROM),
+            'to' => $versioning->field(VersionFields::DATE_TO),
+            default => null,
+        };
 
-        return $dateString ? DateTime::createFromFormat($dateString) : null;
-    }
+        $versionDate = $fieldName ? ($this->rawData[$fieldName] ?? null) : null;
 
-    public function hasVersionTag(): bool
-    {
-        return null !== $this->versionTag;
+        return $versionDate ? DateTime::createFromFormat($versionDate, $versioning->dateFormat()) : null;
     }
 
     public function getVersionTag(): ?string
@@ -822,17 +884,27 @@ class Revision implements EntityInterface, \Stringable
      */
     public function setVersionMetaFields(): void
     {
-        if (!$this->hasVersionTags()) {
+        $versioning = $this->giveContentType()->getVersioning();
+
+        if (!$versioning->enabled()) {
             return;
         }
 
         if (null === $this->getVersionUuid()) {
-            $versionId = isset($this->rawData['_version_uuid']) ? Uuid::fromString($this->rawData['_version_uuid']) : Uuid::uuid4();
+            $versionId = isset($this->rawData[Mapping::VERSION_UUID]) ? Uuid::fromString($this->rawData[Mapping::VERSION_UUID]) : Uuid::uuid4();
             $this->setVersionId($versionId);
         }
 
-        $this->setVersionTag($this->rawData[Mapping::VERSION_TAG] ?? $this->getVersionTagDefault());
-        $this->updateVersionNextTag();
+        if ($this->isLazyIndex()) {
+            return;
+        }
+
+        if (\count($versioning->getTags()) > 0) {
+            if (null === $this->getVersionTag()) {
+                $this->setVersionTag($this->rawData[Mapping::VERSION_TAG] ?? $this->getVersionTagDefault());
+            }
+            $this->updateVersionNextTag();
+        }
 
         if (null === $this->getVersionDate('from') && null === $this->getVersionDate('to')) {
             if ($this->hasOuuid()) {
@@ -850,10 +922,10 @@ class Revision implements EntityInterface, \Stringable
 
     private function getVersionTagDefault(): string
     {
-        $versionTags = $this->contentType ? $this->contentType->getVersionTags() : [];
+        $versionTags = $this->contentType ? $this->contentType->getVersioning()->getTags() : [];
 
         if (!isset($versionTags[0])) {
-            throw new \RuntimeException(\sprintf('No version tags found for contentType %s (use hasVersionTags)', $this->getContentTypeName()));
+            throw new \RuntimeException(\sprintf('No version tags found for contentType %s', $this->getContentTypeName()));
         }
 
         return Type::string($versionTags[0]);
@@ -861,7 +933,7 @@ class Revision implements EntityInterface, \Stringable
 
     public function setVersionTag(string $versionTag): void
     {
-        $versionTags = $this->contentType ? $this->contentType->getVersionTags() : [];
+        $versionTags = $this->contentType ? $this->contentType->getVersioning()->getTags() : [];
 
         if (\in_array($versionTag, $versionTags, true)) {
             $this->versionTag = $versionTag;
@@ -875,17 +947,19 @@ class Revision implements EntityInterface, \Stringable
 
     public function setVersionDate(string $field, \DateTimeInterface $date): void
     {
-        if (null === $contentType = $this->contentType) {
-            throw new \RuntimeException(\sprintf('ContentType not found for revision %d', $this->getId()));
+        $versioning = $this->giveContentType()->getVersioning();
+
+        $fieldName = match ($field) {
+            'from' => $versioning->field(VersionFields::DATE_FROM),
+            'to' => $versioning->field(VersionFields::DATE_TO),
+            default => null,
+        };
+
+        if (null === $fieldName) {
+            throw new \RuntimeException('setVersionDate failed');
         }
 
-        if ('from' === $field && null !== $dateFromField = $contentType->getVersionDateFromField()) {
-            $this->rawData[$dateFromField] = $date->format(\DateTimeInterface::ATOM);
-        }
-
-        if ('to' === $field && null !== $dateToField = $contentType->getVersionDateToField()) {
-            $this->rawData[$dateToField] = $date->format(\DateTimeInterface::ATOM);
-        }
+        $this->rawData[$fieldName] = $date->format($versioning->dateFormat());
     }
 
     public function getDraftSaveDate(): ?\DateTime

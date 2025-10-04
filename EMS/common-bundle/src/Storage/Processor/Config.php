@@ -64,22 +64,24 @@ class Config
                 $tempFile = TempFile::create();
                 $stream = $this->storageManager->getStreamFromArchive($matches['hash'], $matches['path'])->getStream();
                 $tempFile->loadFromStream($stream);
+                $filenameForMimetype = $matches['path'];
                 $this->filename = $tempFile->path;
                 $this->cacheKey = $this->makeCacheKey($this->configHash, $this->storageManager->computeStringHash($filename));
                 break;
             } elseif (\is_file($filename)) {
+                $filenameForMimetype = $filename;
                 $this->filename = $filename;
                 $this->cacheKey = $this->makeCacheKey($this->configHash, $this->storageManager->computeFileHash($filename));
                 break;
             }
         }
 
-        if (null === $this->filename) {
+        if (null === $this->filename || !isset($filenameForMimetype)) {
             throw new NotFoundHttpException(\sprintf('File %s not found', $this->filename));
         }
 
         if ($this->hasDefaultMimeType()) {
-            $this->options[EmsFields::ASSET_CONFIG_MIME_TYPE] = MimeType::fromFilename($this->filename) ?? $this->options[EmsFields::ASSET_CONFIG_MIME_TYPE];
+            $this->options[EmsFields::ASSET_CONFIG_MIME_TYPE] = MimeType::fromFilename($filenameForMimetype) ?? $this->options[EmsFields::ASSET_CONFIG_MIME_TYPE];
         }
     }
 
@@ -377,6 +379,7 @@ class Config
             ->setAllowedTypes(EmsFields::ASSET_CONFIG_BEFORE, ['string', 'int'])
             ->setAllowedTypes(EmsFields::ASSET_CONFIG_AFTER, ['string', 'int'])
             ->setAllowedTypes(EmsFields::ASSET_CONFIG_IMAGE_FORMAT, ['string', 'null'])
+            ->setAllowedTypes(EmsFields::ASSET_CONFIG_CANONICAL, ['string', 'null'])
             ->setAllowedValues(EmsFields::ASSET_CONFIG_TYPE, [null, EmsFields::ASSET_CONFIG_TYPE_IMAGE, EmsFields::ASSET_CONFIG_TYPE_ZIP])
             ->setAllowedValues(EmsFields::ASSET_CONFIG_DISPOSITION, [ResponseHeaderBag::DISPOSITION_INLINE, ResponseHeaderBag::DISPOSITION_ATTACHMENT])
             ->setAllowedValues(EmsFields::ASSET_CONFIG_IMAGE_FORMAT, [
@@ -443,6 +446,7 @@ class Config
             EmsFields::ASSET_CONFIG_IMAGE_FORMAT => null,
             EmsFields::ASSET_CONFIG_X => null,
             EmsFields::ASSET_CONFIG_Y => null,
+            EmsFields::ASSET_CONFIG_CANONICAL => null,
         ];
     }
 
@@ -597,5 +601,10 @@ class Config
     public function getY(): int
     {
         return (int) \round($this->options[EmsFields::ASSET_CONFIG_Y] ?? 0);
+    }
+
+    public function getCanonical(): ?string
+    {
+        return Type::nullableString($this->options[EmsFields::ASSET_CONFIG_CANONICAL] ?? null);
     }
 }

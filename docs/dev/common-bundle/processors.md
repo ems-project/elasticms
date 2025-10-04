@@ -107,6 +107,7 @@ With this processor you'll be able to generate images from a source asset:
    - `png` -> `_quality` is ignored
    - `bmp` -> `_quality` is ignored
    - `gif` -> `_quality` is ignored
+- `_canonical` used to define a canonical link header in the response. For example if `_canonical` is set to `https://elasticms.fgov.be/media-files/user-groups/202304_usergroup_pv_fr.pdf` the request's headers will contain `Link: https://elasticms.fgov.be/media-files/user-groups/202304_usergroup_pv_fr.pdf; rel="canonical"` 
 
 In this example it will generate a PNG of 400 pixels of width. The height will be defined by the proportion of the original image:
 ```twig

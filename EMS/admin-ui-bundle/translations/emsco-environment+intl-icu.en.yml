@@ -1,0 +1,7 @@
+environment:
+    edit:
+        short_title: environment.edit.short_title
+        title: environment.edit.title
+    index:
+        title: environment.index.title
+    plural: environment.plural

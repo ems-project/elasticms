@@ -65,12 +65,18 @@
             <argument type="service" id="security.csrf.token_manager" />
         </service>
 
+        <service id="emsch.form.extension.view" class="EMS\ClientHelperBundle\Helper\Form\Extension\EmschFormViewExtension">
+            <tag name="form.type_extension" priority="1"/>
+        </service>
+
         <!-- event listeners -->
         <service id="emsch.event_listener.security" class="EMS\ClientHelperBundle\EventListener\SecurityListener">
             <argument type="service" id="security.authorization_checker" />
             <argument type="service" id="security.token_storage" />
             <argument type="service" id="emsch.security.sso.oauth2" />
             <argument type="service" id="ems_common.core_api" />
+            <argument type="string">%emsch.security.route_login%</argument>
+            <argument type="string">%emsch.security.firewall%</argument>
             <tag name="kernel.event_subscriber" />
         </service>
 
@@ -117,13 +123,15 @@
             <argument type="service" id="request_stack" />
             <argument type="service" id="logger" />
             <argument type="service" id="ems_common.service.elastica" />
+            <argument type="service" id="emsch.search.manager" />
             <tag name="monolog.logger" channel="emsch_request"/>
             <tag name="twig.runtime" />
         </service>
 
         <!-- controllers -->
-        <service id="EMS\ClientHelperBundle\Controller\CoreApi\CoreApiController" public="true">
+        <service id="EMS\ClientHelperBundle\Controller\CoreBridgeController" public="true">
             <argument type="service" id="EMS\CommonBundle\Contracts\Bridge\Core\CoreBridgeInterface"/>
+            <argument type="service" id="router"/>
         </service>
 
         <service id="emsch.controller.search" class="EMS\ClientHelperBundle\Controller\SearchController" public="true">

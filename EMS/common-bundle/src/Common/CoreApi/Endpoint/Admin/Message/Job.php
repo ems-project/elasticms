@@ -40,7 +40,7 @@ class Job
 
     public function getCommand(): string
     {
-        return $this->command ?? 'list';
+        return $this->command;
     }
 
     public function getOutput(): ?string

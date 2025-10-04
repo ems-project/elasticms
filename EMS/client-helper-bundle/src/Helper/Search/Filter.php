@@ -64,11 +64,26 @@ final class Filter
     private readonly string $clause;
 
     /**
-     * @param array<mixed> $options
+     * @param array{
+     *     'type': string,
+     *     'field'?: string,
+     *     'secondary_field'?: string,
+     *     'nested_path'?: string,
+     *     'clause'?: string,
+     *     'public'?: bool,
+     *     'active'?: bool,
+     *     'optional'?: bool,
+     *     'aggs_size'?: string|int,
+     *     'sort_field'?: string,
+     *     'sort_order'?: string,
+     *     'reversed_nested'?: bool,
+     *     'date_format'?: bool|string,
+     *     'value'?: mixed
+     * } $options
      */
     public function __construct(private readonly ClientRequest $clientRequest, private readonly string $name, array $options)
     {
-        if (!\in_array($options['type'], self::TYPES)) {
+        if (!\in_array($options['type'], self::TYPES, true)) {
             throw new \Exception(\sprintf('invalid filter type %s', $options['type']));
         }
         $this->type = $options['type'];
@@ -314,7 +329,7 @@ final class Filter
         return new Range($this->getField(), \array_filter([
             'gte' => $start,
             'lte' => $end,
-            'time_zone' => (new \DateTime())->format('P'),
+            'time_zone' => new \DateTime()->format('P'),
             'format' => self::TYPE_DATE_TIME_RANGE === $this->type ? 'yyyy-MM-dd HH:mm:ss' : 'yyyy-MM-dd',
         ]));
     }
@@ -337,12 +352,10 @@ final class Filter
         }
 
         $dateString = $dateTime->format('Y-m-d');
-
-        $fromField = $this->field ?? 'version_from_date';
         $toField = $this->secondaryField ?? 'version_to_date';
 
         $boolQuery = new BoolQuery();
-        $before = new Range($fromField, ['lte' => $dateString, 'format' => 'yyyy-MM-dd']);
+        $before = new Range($this->field, ['lte' => $dateString, 'format' => 'yyyy-MM-dd']);
         $after = new Range($toField, ['gt' => $dateString, 'format' => 'yyyy-MM-dd']);
         $boolQuery->addMust($before);
         $boolQuery->addMust($this->getQueryOptional($toField, $after));

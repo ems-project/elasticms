@@ -61,6 +61,7 @@ final class EmsFields
     public const string ASSET_SEED = '_seed';
     public const string ASSET_CONFIG_X = '_x';
     public const string ASSET_CONFIG_Y = '_y';
+    public const string ASSET_CONFIG_CANONICAL = '_canonical';
 
     public const string LOG_ALIAS = 'ems_internal_logger_alias';
     public const string LOG_TYPE = 'doc';

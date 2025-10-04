@@ -4,12 +4,14 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://symfony.com/schema/routing https://symfony.com/schema/routing/routing-1.0.xsd">
 
+    <import resource="@EMSCoreBundle/config/routing/action.xml" />
     <import resource="@EMSCoreBundle/config/routing/data.xml"
             prefix="/data"/>
     <import resource="@EMSCoreBundle/config/routing/api.xml" />
     <import resource="@EMSCoreBundle/config/routing/public.xml"/>
     <import resource="@EMSCoreBundle/config/routing/dashboard.xml"/>
     <import resource="@EMSCoreBundle/config/routing/form.xml"/>
+    <import resource="@EMSCoreBundle/config/routing/group.xml"/>
     <import resource="@EMSCoreBundle/config/routing/channel.xml"
             prefix="/channel-admin"/>
     <import resource="@EMSCoreBundle/config/routing/component.xml"
@@ -92,4 +94,5 @@
     <import resource="@EMSCoreBundle/config/routing/images.xml"
             prefix="/images"/>
     <import resource="@EMSCoreBundle/config/routing/icons.xml"/>
+    <import resource="@EMSCoreBundle/config/routing/mercure.xml"/>
 </routes>

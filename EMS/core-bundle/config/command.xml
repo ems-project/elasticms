@@ -99,6 +99,9 @@
         <service id="emsco.command.media_lib.folder.rename" class="EMS\CoreBundle\Command\MediaLibrary\MediaLibraryFolderRenameCommand" parent="emsco.command.media_lib">
             <tag name="console.command"/>
         </service>
+        <service id="emsco.command.media_lib.folder.move" class="EMS\CoreBundle\Command\MediaLibrary\MediaLibraryFolderMoveCommand" parent="emsco.command.media_lib">
+            <tag name="console.command"/>
+        </service>
 
         <!-- EMS notification -->
         <service id="ems.command.notification.bulk_action" class="EMS\CoreBundle\Command\Notification\BulkActionCommand">
@@ -160,6 +163,14 @@
         <service id="ems.command.promote_user" class="EMS\CoreBundle\Command\User\PromoteUserCommand" parent="ems_core.command_user.abstract_user_command">
             <tag name="console.command"/>
             <tag name="console.command" command="fos:user:promote" />
+        </service>
+        <service id="ems.command.add_group_to_user" class="EMS\CoreBundle\Command\User\AddGroupToUserCommand" parent="ems_core.command_user.abstract_user_command">
+            <argument type="service" id="ems.group.manager"/>
+            <tag name="console.command"/>
+        </service>
+        <service id="ems.command.remove_group_from_user" class="EMS\CoreBundle\Command\User\RemoveGroupFromUserCommand" parent="ems_core.command_user.abstract_user_command">
+            <argument type="service" id="ems.group.manager"/>
+            <tag name="console.command"/>
         </service>
         <service id="ems.command.update_user_option" class="EMS\CoreBundle\Command\User\UpdateUserOptionCommand" parent="ems_core.command_user.abstract_user_command">
             <tag name="console.command"/>
@@ -257,10 +268,12 @@
             <tag name="console.command"/>
         </service>
         <service id="ems.submission.export" class="EMS\CoreBundle\Command\Submission\ExportCommand">
+            <argument type="service" id="emsco.submission.exporter"/>
+            <argument type="service" id="ems.config.resolver"/>
+            <tag name="console.command"/>
+        </service>
+        <service id="ems.submission.generate-dummies" class="EMS\CoreBundle\Command\Submission\GenerateDummySubmissionsCommand">
             <argument type="service" id="ems.form_submission"/>
-            <argument type="service" id="ems_common.service.expression_service"/>
-            <argument type="service" id="EMS\CommonBundle\Contracts\Spreadsheet\SpreadsheetGeneratorServiceInterface"/>
-            <argument type="service" id="ems_core.core_mail.mailer_service"/>
             <tag name="console.command"/>
         </service>
         <service id="ems.environment.updatemetafield" class="EMS\CoreBundle\Command\UpdateMetaFieldCommand">

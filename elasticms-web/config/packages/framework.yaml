@@ -1,5 +1,6 @@
 parameters:
     env(DEFAULT_LOCAL): 'en'
+    env(SESSION_COOKIE_SAMESITE): strict
     env(HTTP_CLIENT_MAX_CONNECTIONS): 4
 
 framework:
@@ -14,7 +15,7 @@ framework:
     session:
         handler_id: ~
         cookie_secure: auto
-        cookie_samesite: strict
+        cookie_samesite: '%env(SESSION_COOKIE_SAMESITE)%'
         storage_factory_id: session.storage.factory.native
 
     esi: true

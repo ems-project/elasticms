@@ -6,8 +6,5 @@ namespace EMS\CommonBundle\Entity;
 
 interface EntityInterface
 {
-    /**
-     * @return int|string
-     */
-    public function getId();
+    public function getId(): int|string;
 }

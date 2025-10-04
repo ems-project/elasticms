@@ -170,8 +170,9 @@ class RestoreCommand extends AbstractCommand
         $rows = [];
         $this->io->progressStart(\count($contentTypes));
         foreach ($contentTypes as $contentType) {
-            if (\in_array($contentType, $this->excludedContentTypes)) {
+            if (\in_array($contentType, $this->excludedContentTypes, true)) {
                 $this->io->note(\sprintf('Content type "%s" has been ignored as excluded (see EMS_EXCLUDED_CONTENT_TYPES)', $contentType));
+                $this->io->progressAdvance();
                 continue;
             }
             $rows[] = $this->restoreDocument($contentType);

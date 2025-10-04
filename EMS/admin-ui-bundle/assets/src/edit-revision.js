@@ -135,11 +135,11 @@ function onChange(allowAutoPublish = false) {
 
   synch = true
   // update ckeditor's text areas
-  /* for (let i in CKEDITOR.instances) {
-        if(CKEDITOR.instances.hasOwnProperty(i)) {
-            CKEDITOR.instances[i].updateElement();
-        }
-    } */
+  for (let i in CKEDITOR.instances) {
+      if(CKEDITOR.instances.hasOwnProperty(i)) {
+          CKEDITOR.instances[i].updateElement();
+      }
+  }
 
   waitingResponse = ajaxRequest
     .post(primaryBox.data('ajax-update'), $('form[name=revision]').serialize())

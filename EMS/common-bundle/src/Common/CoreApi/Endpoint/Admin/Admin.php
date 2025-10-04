@@ -110,9 +110,13 @@ class Admin implements AdminInterface
     }
 
     #[\Override]
-    public function getNextJob(string $tag): ?Job
+    public function getNextJob(string $tag, ?string $jobId): ?Job
     {
-        $result = $this->client->post(\implode('/', ['api', 'admin', 'next-job', $tag]));
+        $path = \implode('/', ['api', 'admin', 'next-job', $tag]);
+        if (null !== $jobId) {
+            $path .= '?job_id='.\urlencode($jobId);
+        }
+        $result = $this->client->post($path);
         if (null === ($result->getData()['job_id'] ?? null)) {
             return null;
         }

@@ -35,17 +35,23 @@
     'data-asset-path': asset(''),
 } %}
 {% set theme_color_contrast = theme_color in ['yellow','lime','white','cyan'] ? 'light' : 'dark' %}
-{% set breadcrumb = [] %}
 
 {% block breadcrumb %}
-    {% if breadcrumb|length > 1 %}
+    {% if breadcrumb is defined %}
         <ol class="breadcrumb float-sm-end">
-            {% for key, label in breadcrumb %}
-                {% if loop.last %}
-                    <li class="breadcrumb-item active">{{ label }}</li>
-                {% else %}
-                    <li class="breadcrumb-item"><a href="{{ key }}">{{ label }}</a></li>
-                {% endif %}
+            {# @var item \EMS\CoreBundle\Core\UI\Page\NavigationItem #}
+            {% for item in breadcrumb.items %}
+                {%- set label -%}
+                    {% if item.icon %}<i class="{{ item.icon }}"></i>&nbsp;{% endif %}
+                    {{ item.label ? item.label|trans : item.text|default('...') }}
+                {%- endset -%}
+                <li class="{{ html_classes('breadcrumb-item', { 'active': loop.last }) }}">
+                    {% if item.route and loop.last == false %}
+                        <a href="{{ path(item.route, item.routeParams) }}">{{ label }}</a>
+                    {% else %}
+                        {{ label }}
+                    {% endif %}
+                </li>
             {% endfor %}
         </ol>
     {% endif %}
@@ -64,7 +70,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0">{% block pagetitle %}{{ block('title') }}{% endblock %}{% block subtitle %}{% endblock %}</h1>
+                            <h1 class="m-0">{% block pagetitle %}{{ block('title') }}{% endblock %}{% block subtitle %}{% if subTitle is defined %}<small>{{ subTitle|trans }}</small>{% endif %}{% endblock %}</h1>
                         </div>
                         <div class="col-sm-6">
                             {{ block('breadcrumb') }}

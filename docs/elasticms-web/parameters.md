@@ -24,6 +24,14 @@ A secret seed.
 
 Define the max connections to the API client, when using async calls. By default it is set to `4`.
 
+### SESSION_COOKIE_SAMESITE
+
+By default, this option is set to `strict`. However, when using Single Sign-On (
+SSO) with Keycloak on a different domain, you need to change it to `lax` to
+ensure that cross-domain authentication cookies work correctly. See
+the [Symfony session configuration documentation](https://symfony.com/doc/current/session.html#cookie-samesite)
+for more details.
+
 ### Behind a Load Balancer or a Reverse Proxy
 
 ```dotenv
@@ -160,6 +168,20 @@ EMSCH_LOCAL_PATH='../demo/skeleton'
 
 Specify the maximum number of expected document for template, translation and route content types. Default value `1000`
 
+### EMSCH_SECURITY_ROUTE_LOGIN
+
+Define the route name for the login page, by default `emsch_login`. 
+
+### EMSCH_SECURITY_FIREWALL
+
+Define a global firewall regex for forcing authentication, default value `null`
+The following example protects all routes except if it starts with /api or /_profiler, ...
+Example: `^(?!(/api|/_profiler|/_wdt|/bundles|/favicon\.ico|/saml|/oauth2))`
+
+### EMSCH_SSO_CORE_USER
+
+Enable sso with core user authentication, default value `false`
+
 ## Elasticms Common Bundle variables
 
 ### EMS_ELASTICSEARCH_HOSTS
@@ -202,6 +224,12 @@ Define the [elasticsearch sniffing strategy](https://www.elastic.co/guide/en/ela
 Used to define storage services. Elasticms supports [multiple types of storage services](https://github.com/ems-project/EMSCommonBundle/blob/master/src/Resources/doc/storages.md). 
 - Default value: `EMS_STORAGES='[{"type":"fs","path":".\/var\/assets"},{"type":"s3","credentials":[],"bucket":""},{"type":"db","activate":false},{"type":"http","base-url":"","auth-key":""},{"type":"sftp","host":"","path":"","username":"","public-key-file":"","private-key-file":""}]'`
 - Example: `EMS_STORAGES='[{"type":"fs","path":"./var/assets"},{"type":"fs","path":"/var/lib/elasticms"}]'`
+
+### EMS_RUNNERS
+
+Used to define ruuner services. See [runners](../dev/common-bundle/runners.md) for more details.
+- Default value: `EMS_RUNNERS='[]'`
+- Example: `EMS_RUNNERS='[{"type":"openshift","tag":"toto","base-url":"https://api.my-paas.tld:6443/","auth-key":"sha256~my-priVAteAuthorization_kEy","namespace":"my-namesapce","image":"busybox"}]'`
 
 ### EMS_HASH_ALGO
 
@@ -268,6 +296,11 @@ Specify replacement strings, per locale to symbols. E.g. if you want to replace 
 ### EMS_STORE_DATA_SERVICES
 
 Define (JSON format) the store data services, in the priority order. See the [Stora Data documentation](../recipes/store-data.md) for more details. By default, the store data functionalities are disabled.
+
+### EMS_KEY_STORE
+
+A JSON-formatted environment variable that stores API tokens or other credentials as key/value pairs.
+Used to centralize and securely manage secrets (e.g. API keys) needed across the application. Each key can be accessed by name via the `KeyStore` service.
 
 ### EMS_TRUSTED_IPS
 

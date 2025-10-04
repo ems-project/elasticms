@@ -38,7 +38,7 @@ class CsvFile implements \Countable, \IteratorAggregate
     {
         $count = 0;
         $handle = $this->getHandle();
-        while (false !== \fgetcsv($handle, 2000, $this->delimiter)) {
+        while (false !== \fgetcsv($handle, 2000, $this->delimiter, escape: '\\')) {
             ++$count;
         }
         \fclose($handle);
@@ -75,10 +75,10 @@ class CsvFile implements \Countable, \IteratorAggregate
             if (0 === \strncmp($firstRow, self::UTF8_BOM, 3)) {
                 $firstRow = \substr($firstRow, 3);
             }
-            yield \str_getcsv($firstRow, $this->delimiter);
+            yield \str_getcsv($firstRow, $this->delimiter, escape: '\\');
         }
 
-        while (($row = \fgetcsv($handle, 2000, $this->delimiter)) !== false) {
+        while (($row = \fgetcsv($handle, 2000, $this->delimiter, escape: '\\')) !== false) {
             yield $row;
         }
         \fclose($handle);

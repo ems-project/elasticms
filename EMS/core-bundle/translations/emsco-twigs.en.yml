@@ -1,3 +1,5 @@
+field:
+    group: Group
 form:
     reorder:
         title: 'Reorder %label%'
@@ -11,12 +13,8 @@ form:
     menu: Forms
 view:
     icon:
-        class: 'fa fa-tv'
         class.form: 'fa fa-keyboard-o'
-        class.channel: 'fa fa-eye'
         class.release: 'fa fa-cube'
-        class.query_search: 'fa fa-list-alt'
-        class.dashboard: 'fa fa-dashboard'
     elements:
         side-menu:
             release-admin:
@@ -24,25 +22,10 @@ view:
             user:
                 searches: Searches
                 name: '%name%'
-    action:
-        add:
-            title: 'Add a new action to %contentType%'
-        edit:
-            title: 'Edit the action %action% for %contentType%'
-        index:
-            add:
-                title: 'Add an action'
-            title: '%contentType%''s actions'
     menu:
         breadcrumb:
             content-types: 'Content types'
-    add:
-        title: 'Add a new view for %type%'
     tagline: ''
-    list:
-        menu: Views
-    edit:
-        title: 'Edit view "%name%" for %type%'
     profile:
         show:
             alt:
@@ -147,6 +130,15 @@ views:
             dashboards: Dashboards
             content-types: 'Content Types'
     elasticsearch:
+        cluster:
+            bits: 'Bits'
+            public-key: 'Public key'
+            cluster-uuid: 'Cluster UUID'
+            tagline: Tagline
+            node-name: 'Node name'
+            version: 'Version'
+            lucene-version: 'Lucene version'
+            build-date: 'Build date'
         export-search:
             title: 'Export documents'
         search:
@@ -175,12 +167,6 @@ not-applicable: N/A
 task:
     tab_tasks: Tasks
 dashboard:
-    menu: Dashboards
-    tagline: 'Customize the lobby'
-    add:
-        title: 'Add a dashboard'
-    edit:
-        title: 'Edit the dashboard "%label%"'
     exception:
         title: 'The dashboard %name% raised an exception'
 table:
@@ -190,10 +176,10 @@ table:
 ems_core:
     dashboard:
         template:
-            icon: 'fa fa-html5'
+            icon: 'fa fa-brands fa-html5'
             label: Template
         export:
-            icon: 'glyphicon glyphicon-export'
+            icon: 'glyphicon glyphicon-export fa-solid fa-file-export'
             label: Export
         revision_task:
             icon: 'fa fa-sticky-note'
@@ -224,16 +210,6 @@ job:
     icon:
         class: 'fa fa-terminal'
     menu: Jobs
-schedule:
-    icon:
-        class: 'fa fa-calendar-o'
-    list:
-        menu: Schedule
-    tagline: 'When you are not at work'
-    add:
-        title: 'Add a schedule'
-    edit:
-        title: 'Edit schedule "%name%"'
 log:
     icon:
         class: 'fa fa-file-text'

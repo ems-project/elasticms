@@ -24,11 +24,11 @@ class ChoicePicker {
         return {
           item: ({ classNames }, data) => {
             let icon = ''
-            if (data.element?.dataset.icon ?? data.customProperties.icon) {
+            if (data.element?.dataset.icon ?? data.customProperties?.icon) {
               icon = `<i class="${data.element?.dataset.icon ?? data.customProperties.icon}"></i> `
             }
             let style = ''
-            if (data.element?.dataset.color ?? data.customProperties.color) {
+            if (data.element?.dataset.color ?? data.customProperties?.color) {
               const blackOrWhite =
                 luma(
                   (data.element?.dataset.color ?? data.customProperties.color).replace('#', '')

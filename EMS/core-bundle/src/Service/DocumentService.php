@@ -6,6 +6,7 @@ namespace EMS\CoreBundle\Service;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
+use EMS\CoreBundle\Core\Revision\EventType;
 use EMS\CoreBundle\Elasticsearch\Bulker;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Context\DocumentImportContext;
@@ -51,7 +52,7 @@ class DocumentService
         $revision->setData($data);
         $objectArray = $revision->getRawData();
 
-        $this->dataService->propagateDataToComputedField($revisionType->get('data'), $objectArray, $documentImportContext->getContentType(), $documentImportContext->getContentType()->getName(), $revision->getOuuid(), true);
+        $this->dataService->propagateDataToComputedField($revisionType->get('data'), $objectArray, $documentImportContext->getContentType(), $documentImportContext->getContentType()->getName(), $revision->getOuuid(), EventType::importEvent());
         $revision->setRawData($objectArray);
 
         unset($revisionType);
@@ -65,7 +66,7 @@ class DocumentService
     {
         $newRevision = $this->dataService->getEmptyRevision($documentImportContext->getContentType(), $documentImportContext->getLockUser());
         if (!$documentImportContext->shouldFinalize()) {
-            $newRevision->removeEnvironment($documentImportContext->getEnvironment());
+            $newRevision->removeEnvironment($documentImportContext->getEnvironment(), $documentImportContext->getLockUser());
         }
         $newRevision->setOuuid($ouuid);
         $newRevision->setRawData($rawData);
@@ -91,7 +92,7 @@ class DocumentService
 
         if ($currentRevision) {
             $currentRevision->setLockBy($documentImportContext->getLockUser());
-            $currentRevision->setLockUntil((new \DateTime('now'))->add(new \DateInterval('PT5M')));
+            $currentRevision->setLockUntil(new \DateTime('now')->add(new \DateInterval('PT5M')));
 
             if ($documentImportContext->shouldOnlyChanged() && $currentRevision->hasHash() && $currentRevision->getHash() === $newRevision->getHash()) {
                 $this->getEntityManager()->persist($currentRevision); // updateModified
@@ -104,7 +105,7 @@ class DocumentService
             $currentRevision->setDraft(false);
             $currentRevision->autoSaveClear();
             if ($documentImportContext->shouldFinalize()) {
-                $currentRevision->removeEnvironment($documentImportContext->getEnvironment());
+                $currentRevision->removeEnvironment($documentImportContext->getEnvironment(), $documentImportContext->getLockUser());
             }
             $this->getEntityManager()->persist($currentRevision);
         }

@@ -145,6 +145,12 @@ services:
     ports:
       - 1025:1025
 
+  mercure:
+    extends:
+      file: '../demo/docker-compose.yml'
+      service: mercure
+    container_name: ems-mono-mercure
+
 volumes:
   elk7_data01:
   elk7_data02:
@@ -160,6 +166,10 @@ volumes:
   s3:
   mariadb:
   postgres:
+      name: ${POSTGRES_VOLUME-postgres}
+      external: false
+  mercure_data:
+  mercure_config:
 
 networks:
     default:

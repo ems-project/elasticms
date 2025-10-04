@@ -12,6 +12,7 @@ use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\Core\Form\FieldTypeManager;
 use EMS\CoreBundle\Core\UI\Page\Navigation;
+use EMS\CoreBundle\Core\UI\Page\Page;
 use EMS\CoreBundle\DataTable\Type\ContentType\ContentTypeDataTableType;
 use EMS\CoreBundle\DataTable\Type\ContentType\ContentTypeUnreferencedDataTableType;
 use EMS\CoreBundle\Entity\ContentType;
@@ -70,9 +71,7 @@ class ContentTypeController extends AbstractController
     ) {
     }
 
-    /**
-     * @deprecated
-     */
+    #[\Deprecated]
     public static function isValidName(string $name): bool
     {
         @\trigger_error('Deprecated isValidName function, please use the FieldTypeManager::isValidName function', E_USER_DEPRECATED);
@@ -102,7 +101,11 @@ class ContentTypeController extends AbstractController
 
         return $this->render("@$this->templateNamespace/contenttype/json_update.html.twig", [
             'form' => $form->createView(),
-            'contentType' => $contentType,
+            'title' => t('action.update_content_type_from_json', ['name' => $contentType->getName()], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'content_type'], 'emsco-core'),
+            'breadcrumb' => Navigation::admin()->contentType($contentType)->add(
+                t('action.update_content_type_from_json', ['name' => $contentType->getName()], 'emsco-core')
+            ),
         ]);
     }
 
@@ -232,10 +235,16 @@ class ContentTypeController extends AbstractController
 
         return $this->render("@$this->templateNamespace/contenttype/add.html.twig", [
             'form' => $form->createView(),
+            'title' => t('type.title_create', ['type' => 'content_type'], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'content_type'], 'emsco-core'),
+            'breadcrumb' => Navigation::admin()->contentTypes()->add(
+                t('type.title_create', ['type' => 'content_type'], 'emsco-core')
+            ),
+            'notice' => t('type.notice_message', ['type' => 'content_type'], 'emsco-core'),
         ]);
     }
 
-    public function index(Request $request): Response
+    public function index(Request $request): Page|RedirectResponse
     {
         $table = $this->dataTableFactory->create(ContentTypeDataTableType::class);
 
@@ -259,26 +268,26 @@ class ContentTypeController extends AbstractController
             return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_INDEX);
         }
 
-        return $this->render("@$this->templateNamespace/crud/overview.html.twig", [
-            'form' => $form->createView(),
+        return new Page([
+            'datatable' => ['form' => $form->createView()],
             'icon' => 'fa fa-sitemap',
             'title' => t('type.title_overview', ['type' => 'content_type'], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'content_type'], 'emsco-core'),
             'breadcrumb' => Navigation::admin()->contentTypes(),
         ]);
     }
 
-    public function addReferencedIndex(): Response
+    public function addReferencedIndex(): Page
     {
         $table = $this->dataTableFactory->create(ContentTypeUnreferencedDataTableType::class);
         $form = $this->createForm(TableType::class, $table);
 
-        return $this->render("@$this->templateNamespace/crud/overview.html.twig", [
-            'form' => $form->createView(),
-            'title' => t('action.add_referenced_content_type', [], 'emsco-core'),
+        return new Page([
+            'datatable' => ['form' => $form->createView()],
+            'title' => t('action.add_referenced_content_type', ['type' => 'content_type'], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'content_type'], 'emsco-core'),
             'breadcrumb' => Navigation::admin()->contentTypes()->add(
-                label: t('action.add_referenced', [], 'emsco-core'),
-                icon: 'fa fa-plus',
-                route: Routes::ADMIN_CONTENT_TYPE_ADD_REFERENCED_INDEX,
+                t('action.add_referenced_content_type', ['type' => 'content_type'], 'emsco-core')
             ),
         ]);
     }
@@ -297,9 +306,9 @@ class ContentTypeController extends AbstractController
         $this->contentTypeService->update($contentType);
 
         $this->logger->messageNotice(t(
-            message: 'log.notice.content_type_referenced',
-            parameters: ['contentType' => $contentType->getSingularName(), 'environment' => $environment->getLabel()],
-            domain: 'emsco-core'
+            'log.notice.content_type_referenced',
+            ['contentType' => $contentType->getSingularName(), 'environment' => $environment->getLabel()],
+            'emsco-core'
         ));
 
         return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_EDIT, [
@@ -330,6 +339,11 @@ class ContentTypeController extends AbstractController
             'form' => $form->createView(),
             'field' => $field,
             'contentType' => $contentType,
+            'title' => t('type.title_edit', ['type' => 'field', 'label' => $contentType->getName()], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'field'], 'emsco-core'),
+            'breadcrumb' => Navigation::admin()->contentType($contentType)->add(
+                t('type.title_edit', ['type' => 'field', 'label' => $field->getName()], 'emsco-core')
+            ),
         ]);
     }
 
@@ -352,6 +366,11 @@ class ContentTypeController extends AbstractController
         return $this->render("@$this->templateNamespace/contenttype/reorder.html.twig", [
             'form' => $form->createView(),
             'contentType' => $contentType,
+            'title' => t('action.reorder', ['type' => 'content_type'], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'content_type'], 'emsco-core'),
+            'breadcrumb' => Navigation::admin()->contentType($contentType)->add(
+                t('action.reorder', ['type' => 'content_type'], 'emsco-core')
+            ),
         ]);
     }
 
@@ -419,6 +438,9 @@ class ContentTypeController extends AbstractController
             'form' => $form->createView(),
             'contentType' => $contentType,
             'mapping' => $mapping,
+            'title' => t('type.title_edit', ['type' => 'content_type', 'label' => $contentType->getName()], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'content_type'], 'emsco-core'),
+            'breadcrumb' => Navigation::admin()->contentType($contentType),
         ]);
     }
 
@@ -500,6 +522,11 @@ class ContentTypeController extends AbstractController
         return $this->render("@$this->templateNamespace/contenttype/structure.html.twig", [
             'form' => $form->createView(),
             'contentType' => $contentType,
+            'title' => t('action.reorder', ['type' => 'content_type'], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'content_type'], 'emsco-core'),
+            'breadcrumb' => Navigation::admin()->contentType($contentType)->add(
+                t('action.reorder', ['type' => 'content_type'], 'emsco-core')
+            ),
         ]);
     }
 

@@ -1,0 +1,124 @@
+<?php
+
+declare(strict_types=1);
+
+namespace EMS\CoreBundle\Controller\Admin;
+
+use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
+use EMS\CoreBundle\Controller\CoreControllerTrait;
+use EMS\CoreBundle\Core\DataTable\DataTableFactory;
+use EMS\CoreBundle\Core\UI\Page\Navigation;
+use EMS\CoreBundle\Core\UI\Page\Page;
+use EMS\CoreBundle\DataTable\Type\QuerySearchDataTableType;
+use EMS\CoreBundle\Entity\QuerySearch;
+use EMS\CoreBundle\Form\Data\TableAbstract;
+use EMS\CoreBundle\Form\Form\QuerySearchType;
+use EMS\CoreBundle\Form\Form\TableType;
+use EMS\CoreBundle\Service\QuerySearchService;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+
+use function Symfony\Component\Translation\t;
+
+final class QuerySearchController extends AbstractController
+{
+    use CoreControllerTrait;
+
+    public function __construct(
+        private readonly LocalizedLoggerInterface $logger,
+        private readonly QuerySearchService $querySearchService,
+        private readonly DataTableFactory $dataTableFactory,
+    ) {
+    }
+
+    public function index(Request $request): Page|RedirectResponse
+    {
+        $table = $this->dataTableFactory->create(QuerySearchDataTableType::class);
+
+        $form = $this->createForm(TableType::class, $table, [
+            'reorder_label' => t('type.reorder', ['type' => 'query_search'], 'emsco-core'),
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            match ($this->getClickedButtonName($form)) {
+                TableAbstract::DELETE_ACTION => $this->querySearchService->deleteByIds($table->getSelected()),
+                TableType::REORDER_ACTION => $this->querySearchService->reorderByIds(
+                    ids: TableType::getReorderedKeys($form->getName(), $request)
+                ),
+                default => $this->logger->messageError(t('log.error.invalid_table_action', [], 'emsco-core')),
+            };
+
+            return $this->redirectToRoute('ems_core_query_search_index');
+        }
+
+        return new Page([
+            'datatable' => ['form' => $form->createView()],
+            'icon' => 'fa fa-list-alt',
+            'title' => t('type.title_overview', ['type' => 'query_search'], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'query_search'], 'emsco-core'),
+            'breadcrumb' => $this->breadcrumb(),
+        ]);
+    }
+
+    public function add(Request $request): Page|RedirectResponse
+    {
+        $querySearch = new QuerySearch();
+
+        $form = $this->createForm(QuerySearchType::class, $querySearch);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->querySearchService->update($querySearch);
+
+            return $this->redirectToRoute('ems_core_query_search_index');
+        }
+
+        return new Page([
+            'form' => $form->createView(),
+            'title' => t('type.title_create', ['type' => 'query_search'], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'query_search'], 'emsco-core'),
+            'breadcrumb' => $this->breadcrumb()->add(
+                t('type.title_create', ['type' => 'query_search'], 'emsco-core'),
+            ),
+        ]);
+    }
+
+    public function edit(Request $request, QuerySearch $querySearch): Page|RedirectResponse
+    {
+        $form = $this->createForm(QuerySearchType::class, $querySearch);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->querySearchService->update($querySearch);
+
+            return $this->redirectToRoute('ems_core_query_search_index');
+        }
+
+        return new Page([
+            'form' => $form->createView(),
+            'title' => t('type.title_edit', ['type' => 'query_search', 'label' => $querySearch->getLabel()], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'query_search'], 'emsco-core'),
+            'breadcrumb' => $this->breadcrumb()->add(
+                t('type.title_create', ['type' => 'query_search'], 'emsco-core'),
+            ),
+        ]);
+    }
+
+    public function delete(QuerySearch $querySearch): RedirectResponse
+    {
+        $this->querySearchService->delete($querySearch);
+
+        return $this->redirectToRoute('ems_core_query_search_index');
+    }
+
+    private function breadcrumb(): Navigation
+    {
+        return Navigation::admin()->add(
+            label: t('key.query_search', [], 'emsco-core'),
+            icon: 'fa fa-list-alt',
+            route: 'ems_core_query_search_index',
+        );
+    }
+}

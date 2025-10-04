@@ -19,17 +19,20 @@ export default class MediaLibrary {
     #searchValue = null;
     #sortId = null;
     #sortOrder = null;
+    #searchType = 'term'
 
     constructor (element, options) {
         this.id = element.id;
         this.element = element;
         this.#pathPrefix = `${options.urlMediaLib}/${element.dataset.hash}`;
         this.#options = options;
+        this.#searchType = element.dataset.searchType ?? 'term';
 
         this.#elements = {
-            header:  element.querySelector('div.media-nav-bar'),
-            footer:  element.querySelector('div.media-lib-footer'),
-            inputUpload:  element.querySelector('input.file-uploader-input'),
+            header: element.querySelector('div.media-nav-bar'),
+            footer: element.querySelector('div.media-lib-footer'),
+            breadcrumb: element.querySelector('div.media-lib-breadcrumb'),
+            inputUpload: element.querySelector('input.file-uploader-input'),
             files: element.querySelector('div.media-lib-files'),
             loadMoreFiles: element.querySelector('div.media-lib-files > div.media-lib-load-more'),
             listFiles: element.querySelector("ul.media-lib-list-files"),
@@ -101,7 +104,7 @@ export default class MediaLibrary {
             if (classList.contains('media-lib-folder')) this._onClickFolder(event.target);
 
             if (classList.contains('btn-file-upload')) this.#elements.inputUpload.click();
-            if (classList.contains('btn-file-view')) this._onClickButtonFileView(event.target);
+            if (classList.contains('btn-file-view')) this._onClickButtonFileView(event.target, event);
             if (classList.contains('btn-file-rename')) this._onClickButtonFileRename(event.target);
             if (classList.contains('btn-file-delete')) this._onClickButtonFileDelete(event.target);
             if (classList.contains('btn-files-delete')) this._onClickButtonFilesDelete(event.target)
@@ -110,6 +113,7 @@ export default class MediaLibrary {
             if (classList.contains('btn-folder-add')) this._onClickButtonFolderAdd();
             if (classList.contains('btn-folder-delete')) this._onClickButtonFolderDelete(event.target);
             if (classList.contains('btn-folder-rename')) this._onClickButtonFolderRename(event.target);
+            if (classList.contains('btn-folder-move')) this._onClickButtonFolderMove(event.target);
 
             if (classList.contains('btn-home')) this._onClickButtonHome(event.target);
             if (classList.contains('breadcrumb-item')) this._onClickBreadcrumbItem(event.target);
@@ -149,7 +153,8 @@ export default class MediaLibrary {
 
         this._getFiles().then(() => this.loading(false));
     }
-    _onClickButtonFileView(button) {
+  _onClickButtonFileView(button, event) {
+        event.preventDefault()
         const getSiblingFile = (fileId, sibling) => {
             const row = this.#elements.listFiles.querySelector(`.media-lib-file[data-id='${fileId}']`);
             const rowSibling = row.closest('li')[sibling];
@@ -161,6 +166,7 @@ export default class MediaLibrary {
             if (!button || null === getSiblingFile(fileId, sibling)) return;
 
             button.style.display = 'inline-block';
+            button.classList.remove('disabled')
             button.addEventListener('click', () => {
                 const file = getSiblingFile(fileId, sibling);
                 if (!file) return;
@@ -342,6 +348,7 @@ export default class MediaLibrary {
 
     _onClickFolder(folder) {
         this.loading(true);
+        this.#searchValue = null;
 
         this.getFolders().forEach((f) => f.classList.remove('active'));
         folder.classList.add('active');
@@ -371,6 +378,14 @@ export default class MediaLibrary {
         ajaxModal.load({ url: `${this.#pathPrefix}/folder/${folderId}/delete`, size: modalSize }, (json) => {
             if (!json.hasOwnProperty('success') || json.success === false) return;
             if (!json.hasOwnProperty('jobId')) return;
+            if (json.hasOwnProperty('async') && json.async === true) {
+              return Promise.allSettled([
+                new Promise(resolve => setTimeout(resolve, 3500))
+              ])
+                .then(() => ajaxModal.close())
+                .then(() => location.reload())
+              ;
+            }
 
             let jobProgressBar = new ProgressBar('progress-' + json.jobId, {
                 label: 'Deleting folder',
@@ -398,6 +413,14 @@ export default class MediaLibrary {
         ajaxModal.load({ url: `${this.#pathPrefix}/folder/${folderId}/rename`, size: 'sm'}, (json) => {
             if (!json.hasOwnProperty('success') || json.success === false) return;
             if (!json.hasOwnProperty('jobId') || !json.hasOwnProperty('path')) return;
+            if (json.hasOwnProperty('async') && json.async === true) {
+              return Promise.allSettled([
+                new Promise(resolve => setTimeout(resolve, 3500))
+              ])
+                .then(() => ajaxModal.close())
+                .then(() => location.reload())
+              ;
+            }
 
             let jobProgressBar = new ProgressBar('progress-' + json.jobId, {
                 label: 'Renaming',
@@ -418,6 +441,46 @@ export default class MediaLibrary {
             ;
         });
     }
+
+  _onClickButtonFolderMove(button, targetId) {
+    const folderId = button.dataset.id;
+    const modalSize = button.dataset.modalSize ?? 'sm';
+
+    const path = `${this.#pathPrefix}/folder/${folderId}/move`;
+    const query = new URLSearchParams({});
+    if (targetId) query.append('targetId', targetId);
+
+    ajaxModal.load({ url: path + '?' + query.toString(), size: modalSize}, (json) => {
+      if (!json.hasOwnProperty('success') || json.success === false) return;
+      if (!json.hasOwnProperty('jobId') || !json.hasOwnProperty('path')) return;
+      if (json.hasOwnProperty('async') && json.async === true) {
+        return Promise.allSettled([
+          new Promise(resolve => setTimeout(resolve, 3500))
+        ])
+          .then(() => ajaxModal.close())
+          .then(() => location.reload())
+          ;
+      }
+
+      let jobProgressBar = new ProgressBar('progress-' + json.jobId, {
+        label: 'Moving',
+        value: 100,
+        showPercentage: false,
+      });
+
+      ajaxModal.getBodyElement().append(jobProgressBar.element());
+      this.loading(true);
+
+      Promise.allSettled([
+        this._startJob(json.jobId),
+        this._jobPolling(json.jobId, jobProgressBar)
+      ])
+        .then(() => this._getFolders(json.path))
+        .then(() => new Promise(resolve => setTimeout(resolve, 2000)))
+        .then(() => ajaxModal.close())
+      ;
+    });
+  }
 
     _onClickButtonHome() {
         this.loading(true);
@@ -455,6 +518,7 @@ export default class MediaLibrary {
 
         return this._get(path).then((json) => {
             if (json.hasOwnProperty('header')) this._refreshHeader(json.header);
+            if (json.hasOwnProperty('breadcrumb')) this.#elements.breadcrumb.innerHTML = json.breadcrumb;
             if (json.hasOwnProperty('footer')) this.#elements.footer.innerHTML = json.footer;
         });
     }
@@ -465,7 +529,7 @@ export default class MediaLibrary {
             this.#elements.listFiles.innerHTML = '';
         }
 
-        const query = new URLSearchParams({ from: from.toString() });
+        const query = new URLSearchParams({ from: from.toString(), searchType: this.#searchType });
         if (this.getSelectionFiles().length > 0) query.append('selectionFiles', this.getSelectionFiles().length.toString());
         if (this.#searchValue) query.append('search', this.#searchValue);
         if (this.#sortId) query.append('sortId', this.#sortId);
@@ -504,6 +568,7 @@ export default class MediaLibrary {
             this._refreshHeader(json.header);
             this.#activeFolderHeader = json.header;
         }
+        if (json.hasOwnProperty('breadcrumb')) this.#elements.breadcrumb.innerHTML = json.breadcrumb;
         if (json.hasOwnProperty('footer')) this.#elements.footer.innerHTML = json.footer;
         if (json.hasOwnProperty('rowHeader')) {
             this.#elements.listFiles.innerHTML += json.rowHeader;

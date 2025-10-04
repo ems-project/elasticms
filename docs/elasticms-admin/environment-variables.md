@@ -50,6 +50,34 @@ HTTP_CUSTOM_FORWARDED_FOR=HTTP_X_COMPANY_FORWARDED_FOR#Default value HTTP_CUSTOM
 HTTP_CUSTOM_FORWARDED_HOST=HTTP_X_COMPANY_FORWARDED_HOST#Default value HTTP_CUSTOM_FORWARDED_HOST
 ```
 
+## Symfony Messenger
+
+Since version 6.4.0 we use symfony messenger bundle.
+
+### MESSENGER_TRANSPORT_DSN
+
+Default `redis://localhost:6379/messages`.
+
+## Symfony Mercure
+
+Since version 6.4.0 we use symfony mercure bundle.
+
+### MERCURE_URL
+
+Default `http://localhost:3000/.well-known/mercure`, private url to mercure hub.
+
+### MERCURE_PUBLIC_URL
+
+Default `http://localhost:3000/.well-known/mercure`, public url to mercure hub.
+
+### MERCURE_JWT_KEY
+
+Use by the symfony mercure hub for publishing and subscribing messages. 
+Use the following command for generating a JWT token:
+```bash
+openssl rand -base64 32
+```
+
 ## Swift Mailer
 
 ### MAILER_URL
@@ -302,6 +330,19 @@ In a WYSIWYG field, the master file won't be uploaded, a resized image will be u
 ```dotenv
 EMSCO_IMAGE_MAX_SIZE=2048
 ``` 
+
+### EMSCO_FORGOT_PASSWORD_URL
+For replace the value of href of the 'I forgot my password' link.
+When we don't have a mail server for the password request form, we can replace this link for example with a mailto.
+
+```dotenv
+EMSCO_FORGOT_PASSWORD_URL=mailto:project@site.be?subject=Password%20Reset&body=Hello%2C%0A%0AI%20am%20requesting%20to%20reset%20my%20password%20for%20my%20account%20%5BEnter%20Your%20User%20Name%5D
+``` 
+
+### EMSCO_URL_USER
+
+Define the public url to the elasticms, default empty.
+This value is also used for mercure, for creating the topics.
   
 ### EMS_BACKEND_URL
 Define the url use by the user to access elasticms (in order to generate links in emails).
@@ -407,6 +448,12 @@ Used to define storage services. Elasticms supports [multiple types of storage s
 - Default value: `EMS_STORAGES='[{"type":"fs","path":".\/var\/assets"},{"type":"s3","credentials":[],"bucket":""},{"type":"db","activate":false},{"type":"http","base-url":"","auth-key":""},{"type":"sftp","host":"","path":"","username":"","public-key-file":"","private-key-file":""}]'`
 - Example: `EMS_STORAGES='[{"type":"fs","path":"./var/assets"},{"type":"fs","path":"/var/lib/elasticms"}]'`
 
+### EMS_RUNNERS
+
+Used to define ruuner services. See [runners](../dev/common-bundle/runners.md) for more details. 
+- Default value: `EMS_RUNNERS='[]'`
+- Example: `EMS_RUNNERS='[{"type":"openshift","tag":"toto","base-url":"https://api.my-paas.tld:6443/","auth-key":"sha256~my-priVAteAuthorization_kEy","namespace":"my-namesapce","image":"busybox"}]'`
+
 ### EMS_HASH_ALGO
 
 Refers to the [PHP hash_algos](https://www.php.net/manual/fr/function.hash-algos.php) function. Specify the algorithms to used in order to hash and identify files. It's also used to hash the document indexed in elasticsearch.
@@ -472,6 +519,11 @@ Specify replacement strings, per locale to symbols. E.g. if you want to replace 
 ### EMS_STORE_DATA_SERVICES
 
 Define (JSON format) the store data services, in the priority order. See the [Stora Data documentation](../recipes/store-data.md) for more details. Default value `[{"type":"db"}]`
+
+### EMS_KEY_STORE
+
+A JSON-formatted environment variable that stores API tokens or other credentials as key/value pairs.
+Used to centralize and securely manage secrets (e.g. API keys) needed across the application. Each key can be accessed by name via the `KeyStore` service.
 
 ### EMS_TRUSTED_IPS
 

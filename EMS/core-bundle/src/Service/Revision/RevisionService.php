@@ -15,7 +15,6 @@ use EMS\CoreBundle\Common\DocumentInfo;
 use EMS\CoreBundle\Contracts\Revision\RevisionServiceInterface;
 use EMS\CoreBundle\Core\ContentType\ContentTypeFields;
 use EMS\CoreBundle\Core\Log\LogRevisionContext;
-use EMS\CoreBundle\Core\Revision\RawDataTransformer;
 use EMS\CoreBundle\Core\Revision\Revisions;
 use EMS\CoreBundle\Core\User\UserManager;
 use EMS\CoreBundle\Entity\ContentType;
@@ -27,8 +26,10 @@ use EMS\CoreBundle\Repository\RevisionRepository;
 use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\DataService;
 use EMS\CoreBundle\Service\EnvironmentService;
+use EMS\CoreBundle\Service\Mapping;
 use EMS\CoreBundle\Service\PublishService;
 use Psr\Log\LoggerInterface;
+use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Form\FormInterface;
@@ -57,7 +58,7 @@ class RevisionService implements RevisionServiceInterface
 
     public function archive(Revision $revision, string $archivedBy, bool $flush = true): bool
     {
-        $this->publishService->silentUnpublish($revision, $flush);
+        $this->publishService->silentUnpublish($revision, $archivedBy, $flush);
 
         $revision
             ->setArchived(true)
@@ -176,9 +177,9 @@ class RevisionService implements RevisionServiceInterface
 
         return match (true) {
             ($object instanceof Revision && null === $object->getOuuid() && $object->getEnvironments()->isEmpty()) => t(
-                message: 'revision.new',
-                parameters: ['contentType' => $contentType->getSingularName()],
-                domain: 'emsco-core'
+                'revision.new',
+                ['contentType' => $contentType->getSingularName()],
+                'emsco-core'
             )->trans($this->translator),
             ($object instanceof Revision) => $object->giveOuuid(),
             ($object instanceof DocumentInterface) => $object->getId(),
@@ -332,20 +333,28 @@ class RevisionService implements RevisionServiceInterface
         }
 
         $user = $this->userManager->getAuthenticatedUser();
+        $originalRawData = $revision->getRawData();
         $this->lock($revision, $user);
 
-        $rootFieldType = $revision->giveContentType()->getFieldType();
         $data = [...$revision->getRawData(), ...$autoSave];
 
+        $revision->setRawData($data);
         $form = $this->createRevisionForm($revision);
-        $form->submit(['data' => RawDataTransformer::transform($rootFieldType, $data)]);
+        $form->submit(['data' => $this->dataService->getSubmitData($form->get('data'))]);
+
+        $validatedAutoSaveData = $revision->setData($form->get('data')->getData())->getRawData();
 
         $now = new \DateTime();
         $revision
+            ->setRawData($originalRawData)
             ->setDraftSaveDate($now)
             ->setAutoSaveAt($now)
             ->setAutoSaveBy($user->getUsername())
-            ->setAutoSave(RawDataTransformer::reverseTransform($rootFieldType, $form->get('data')->getData()));
+            ->setAutoSave($validatedAutoSaveData);
+
+        if (isset($autoSave[Mapping::VERSION_UUID])) {
+            $revision->setVersionId(Uuid::fromString($autoSave[Mapping::VERSION_UUID]));
+        }
 
         $this->revisionRepository->save($revision);
     }
@@ -485,7 +494,7 @@ class RevisionService implements RevisionServiceInterface
     public function updateRawDataByEmsLink(EMSLink $emsLink, array $rawData, bool $merge = true, ?string $username = null): Revision
     {
         $draft = $this->dataService->initNewDraft(
-            type: $emsLink->getContentType(),
+            contentType: $emsLink->getContentType(),
             ouuid: $emsLink->getOuuid(),
             username: $username
         );
@@ -530,5 +539,27 @@ class RevisionService implements RevisionServiceInterface
         }
 
         return 1 === $this->publishService->publish($revision, $environment);
+    }
+
+    /**
+     * @return list<string> published document ids
+     */
+    public function publishVersion(ContentType $contentType, UuidInterface $versionUuid, string $environmentName): array
+    {
+        $environment = $this->environmentService->giveByName($environmentName);
+        $versions = $this->revisionRepository->findAllByVersionUuid($versionUuid, $contentType->giveEnvironment());
+
+        $results = [];
+        foreach ($versions as $version) {
+            if ($version->isPublished($environment->getName())) {
+                continue;
+            }
+
+            $results[$version->getOuuid()] = $this->publishService->publish($version, $environment);
+        }
+
+        $published = \array_filter($results, static fn ($result) => 1 === $result);
+
+        return \array_keys($published);
     }
 }

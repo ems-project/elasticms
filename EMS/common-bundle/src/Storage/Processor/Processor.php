@@ -77,9 +77,9 @@ class Processor
 
         $cacheResponse = new Response();
         $this->cacheHelper->makeResponseCacheable($request, $cacheResponse, $cacheKey, $config->getLastUpdateDate(), $immutableRoute);
-        //        if ($cacheResponse->isNotModified($request)) {
-        //            return $cacheResponse;
-        //        }
+        if ($cacheResponse->isNotModified($request)) {
+            return $cacheResponse;
+        }
 
         try {
             $stream = $this->getStream($config, $filename);
@@ -92,6 +92,11 @@ class Processor
             Headers::CONTENT_DISPOSITION => $config->getDisposition().'; '.HeaderUtils::toString(['filename' => $filename], ';'),
             Headers::CONTENT_TYPE => $config->getMimeType(),
         ]);
+        $canonical = $config->getCanonical();
+        if (null !== $canonical) {
+            $response->headers->set(Headers::LINK, "$canonical; rel=\"canonical\"");
+        }
+
         if ($immutableRoute) {
             $response->headers->add([
                 Headers::X_ROBOTS_TAG => Headers::X_ROBOTS_TAG_NOINDEX,

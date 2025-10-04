@@ -7,6 +7,7 @@ namespace EMS\CommonBundle\Common\Admin;
 use EMS\CommonBundle\Common\CoreApi\TokenStore;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
 use EMS\CommonBundle\Contracts\CoreApi\Exception\BaseUrlNotDefinedExceptionInterface;
+use EMS\CommonBundle\Contracts\CoreApi\Exception\NotAuthenticatedExceptionInterface;
 use Psr\Log\LoggerInterface;
 
 class AdminHelper
@@ -54,7 +55,11 @@ class AdminHelper
             ->setBaseUrl($baseUrl)
             ->setToken($token);
 
-        return $this->coreApi->user()->getProfileAuthenticated()->getUsername() === $username;
+        try {
+            return $this->coreApi->user()->getProfileAuthenticated()->getUsername() === $username;
+        } catch (NotAuthenticatedExceptionInterface) {
+            return false;
+        }
     }
 
     public function getCoreApi(): CoreApiInterface

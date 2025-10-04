@@ -37,4 +37,14 @@ class Text
 
         return \implode(' ', $str);
     }
+
+    /**
+     * @return string[]
+     */
+    public static function shellWords(string $cmd): array
+    {
+        \preg_match_all('/(?:[^\s\'"]|\'[^\']*\'|"[^"]*")+/u', $cmd, $matches);
+
+        return \array_map(static fn ($word) => \trim((string) $word, " \t\n\r\0\x0B\"'"), $matches[0]);
+    }
 }

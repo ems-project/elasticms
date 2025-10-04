@@ -9,6 +9,9 @@ use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\Core\Log\LogRevisionContext;
+use EMS\CoreBundle\Core\Revision\EventType;
+use EMS\CoreBundle\Core\UI\Page\Navigation;
+use EMS\CoreBundle\Core\UI\Page\Page;
 use EMS\CoreBundle\DataTable\Type\Revision\RevisionDraftsDataTableType;
 use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Entity\ContentType;
@@ -28,6 +31,7 @@ use EMS\CoreBundle\Service\Revision\RevisionService;
 use EMS\Helpers\Standard\Json;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -230,7 +234,7 @@ class EditController extends AbstractController
         }
 
         $objectArray = $revision->getRawData();
-        $this->dataService->propagateDataToComputedField($form->get('data'), $objectArray, $contentType, $contentType->getName(), $revision->getOuuid(), false, false);
+        $this->dataService->propagateDataToComputedField($form->get('data'), $objectArray, $contentType, $contentType->getName(), $revision->getOuuid(), EventType::savedAsDraftEvent());
 
         if ($revision->getOuuid()) {
             $this->logger->info('log.data.revision.start_edit', LogRevisionContext::read($revision));
@@ -253,7 +257,7 @@ class EditController extends AbstractController
         ]);
     }
 
-    public function draftInProgress(Request $request, ContentType $contentTypeId): Response
+    public function draftInProgress(Request $request, ContentType $contentTypeId): Page|RedirectResponse
     {
         $table = $this->dataTableFactory->create(RevisionDraftsDataTableType::class, [
             'content_type_name' => $contentTypeId->getName(),
@@ -270,14 +274,14 @@ class EditController extends AbstractController
             return $this->redirectToRoute(Routes::DRAFT_IN_PROGRESS, ['contentTypeId' => $contentTypeId->getId()]);
         }
 
-        return $this->render("@$this->templateNamespace/crud/overview.html.twig", [
-            'form' => $form->createView(),
+        return new Page([
+            'datatable' => ['form' => $form->createView()],
             'icon' => 'fa fa-fire',
             'title' => t('revision.draft.title', ['pluralName' => $contentTypeId->getPluralName()], 'emsco-core'),
-            'breadcrumb' => [
-                'contentType' => $contentTypeId,
-                'page' => t('revision.draft.label', [], 'emsco-core'),
-            ],
+            'breadcrumb' => Navigation::data($contentTypeId)->add(
+                label: t('revision.draft.label', [], 'emsco-core'),
+                icon: 'fa fa-fire',
+            ),
         ]);
     }
 

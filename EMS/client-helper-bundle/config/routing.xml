@@ -61,6 +61,12 @@
             <tag name="controller.service_arguments"/>
         </service>
 
+        <service id="emsch.controller.elasticsearch" class="EMS\ClientHelperBundle\Controller\ElasticsearchController">
+            <argument type="service" id="emsch.routing.handler" />
+            <argument type="service" id="ems_common.elastica.client" />
+            <tag name="controller.service_arguments"/>
+        </service>
+
         <service id="emsch.controller.spreadsheet" class="EMS\ClientHelperBundle\Controller\SpreadsheetController">
             <argument type="service" id="emsch.routing.handler" />
             <argument type="service" id="ems_common.service.spreadsheet_generator_service"/>

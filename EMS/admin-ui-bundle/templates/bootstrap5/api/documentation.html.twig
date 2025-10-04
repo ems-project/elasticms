@@ -1,0 +1,24 @@
+{%- trans_default_domain 'ems-adminui-twigs' -%}
+<!doctype html>
+<html lang="{{ app.request.locale }}">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>{{ 'documentation.api.title'|trans }}</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="https://github.com/ems-project" />
+    <link rel="stylesheet" href="{{ asset('src/swagger-ui.js.css', 'emsadminui') }}">
+    <link rel="icon" sizes="128x128" type="image/png" href="{{ path('core-favicon') }}" />
+    <link rel="apple-touch-icon" sizes="128x128" type="image/png" href="{{ path('core-apple-touch-icon') }}">
+    <link rel="manifest" href="{{ path('core-site-webmanifest') }}" />
+</head>
+<body data-openapi=" {{ path('emsco_documentation_api',{'_format': 'json'}) }}">
+    <div id="swagger-ui"></div>
+    {%- if vite.isDevServerRunning -%}
+        <script type="module" src="{{- vite.devServerClient -}}"></script>
+    {%- endif -%}
+    <script src="{{ asset('src/swagger-ui.js', 'emsadminui') }}" type="module"></script>
+    {% block javascripts %}{% endblock %}
+</body>
+</html>

@@ -124,5 +124,25 @@
             <argument type="service" id="ems.helper.admin_api"/>
             <tag name="console.command" />
         </service>
+        <service id="ems.command.runner.start" class="EMS\CommonBundle\Command\Runner\StartCommand">
+            <argument type="service" id="ems_common.runner.manager" />
+            <tag name="console.command" />
+        </service>
+        <service id="ems.command.runner.status" class="EMS\CommonBundle\Command\Runner\StatusCommand">
+            <argument type="service" id="ems_common.runner.manager" />
+            <tag name="console.command" />
+        </service>
+        <service id="ems.command.runner.output" class="EMS\CommonBundle\Command\Runner\OutputCommand">
+            <argument type="service" id="ems_common.runner.manager" />
+            <tag name="console.command" />
+        </service>
+        <service id="elasticsearch:clean-orphan-indices" class="EMS\CommonBundle\Command\CleanOrphanIndicesCommand">
+            <argument type="service" id="http_client" />
+            <tag name="console.command" />
+        </service>
+        <service id="ems.command.indexes.synchronize" class="EMS\CommonBundle\Command\SynchronizeCommand">
+            <argument type="service" id="http_client" />
+            <tag name="console.command" />
+        </service>
     </services>
 </container>

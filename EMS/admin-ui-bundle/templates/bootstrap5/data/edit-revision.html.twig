@@ -21,7 +21,7 @@
 	<div class="card-header">
 		<h3 class="card-title text-{{ revision.contentType.color }}"><i class="{% if revision.contentType.icon %}{{ revision.contentType.icon }} {% else %} fa fa-question {% endif %} "></i>&nbsp;&nbsp;&nbsp;{{ revision.contentType.singularName }}</h3>
 	</div>
-		{{ form_start(form) }}
+		{{ form_start(form, { 'attr': { 'data-revision-id': revision.id  } }) }}
 		<div class="card-body">
     	    {{- form_errors(form) -}}
     	    {{- form_errors(form.data) -}}

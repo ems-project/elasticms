@@ -9,11 +9,14 @@ use EMS\CommonBundle\Entity\Log;
 use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\Core\Log\LogManager;
+use EMS\CoreBundle\Core\UI\Page\Navigation;
+use EMS\CoreBundle\Core\UI\Page\Page;
 use EMS\CoreBundle\DataTable\Type\LogDataTableType;
 use EMS\CoreBundle\Form\Data\TableAbstract;
 use EMS\CoreBundle\Form\Form\TableType;
 use EMS\CoreBundle\Routes;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -31,7 +34,7 @@ class LogController extends AbstractController
     ) {
     }
 
-    public function index(Request $request): Response
+    public function index(Request $request): Page|RedirectResponse
     {
         $table = $this->dataTableFactory->create(LogDataTableType::class);
 
@@ -47,15 +50,12 @@ class LogController extends AbstractController
             return $this->redirectToRoute(Routes::LOG_INDEX);
         }
 
-        return $this->render("@$this->templateNamespace/crud/overview.html.twig", [
-            'form' => $form->createView(),
+        return new Page([
+            'datatable' => ['form' => $form->createView()],
             'icon' => 'fa fa-file-text',
             'title' => t('type.title_overview', ['type' => 'log'], 'emsco-core'),
             'subTitle' => t('type.title_sub', ['type' => 'log'], 'emsco-core'),
-            'breadcrumb' => [
-                'admin' => t('key.admin', [], 'emsco-core'),
-                'page' => t('key.logs', [], 'emsco-core'),
-            ],
+            'breadcrumb' => $this->breadcrumb(),
         ]);
     }
 
@@ -63,6 +63,10 @@ class LogController extends AbstractController
     {
         return $this->render("@$this->templateNamespace/log/view.html.twig", [
             'log' => $log,
+            'subTitle' => t('type.title_sub', ['type' => 'log'], 'emsco-core'),
+            'breadcrumb' => $this->breadcrumb()->add(
+                label: t('key.details', [], 'emsco-core'),
+            ),
         ]);
     }
 
@@ -71,5 +75,14 @@ class LogController extends AbstractController
         $this->logManager->delete($log);
 
         return $this->redirectToRoute(Routes::LOG_INDEX);
+    }
+
+    private function breadcrumb(): Navigation
+    {
+        return Navigation::admin()->add(
+            label: t('key.logs', [], 'emsco-core'),
+            icon: 'fa fa-file-text',
+            route: 'emsco_log_index',
+        );
     }
 }

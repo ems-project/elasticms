@@ -29,6 +29,7 @@ class Mapping
 
     final public const array MAPPING_INTERNAL_FIELDS = [
         Mapping::PUBLISHED_DATETIME_FIELD => Mapping::PUBLISHED_DATETIME_FIELD,
+        Mapping::PUBLISHED_BY_FIELD => Mapping::PUBLISHED_BY_FIELD,
         Mapping::FINALIZATION_DATETIME_FIELD => Mapping::FINALIZATION_DATETIME_FIELD,
         Mapping::FINALIZED_BY_FIELD => Mapping::FINALIZED_BY_FIELD,
         Mapping::HASH_FIELD => Mapping::HASH_FIELD,
@@ -44,6 +45,7 @@ class Mapping
     final public const string CORE_VERSION_META_FIELD = 'core_version';
     final public const string INSTANCE_ID_META_FIELD = 'instance_id';
     final public const string PUBLISHED_DATETIME_FIELD = '_published_datetime';
+    final public const string PUBLISHED_BY_FIELD = '_published_by';
 
     public function __construct(
         private readonly LoggerInterface $logger,
@@ -77,6 +79,7 @@ class Mapping
                 Mapping::HASH_FIELD => $this->elasticsearchService->getKeywordMapping(),
                 Mapping::SIGNATURE_FIELD => $this->elasticsearchService->getNotIndexedStringMapping(),
                 Mapping::FINALIZED_BY_FIELD => $this->elasticsearchService->getKeywordMapping(),
+                Mapping::PUBLISHED_BY_FIELD => $this->elasticsearchService->getKeywordMapping(),
                 Mapping::CONTENT_TYPE_FIELD => $this->elasticsearchService->getKeywordMapping(),
                 Mapping::FINALIZATION_DATETIME_FIELD => $this->elasticsearchService->getDateTimeMapping(),
                 Mapping::PUBLISHED_DATETIME_FIELD => $this->elasticsearchService->getDateTimeMapping(),
@@ -84,8 +87,10 @@ class Mapping
             $out['properties']
         );
 
-        if ($contentType->hasVersionTags()) {
+        if ($contentType->getVersioning()->enabled()) {
             $out['properties'][Mapping::VERSION_UUID] = $this->elasticsearchService->getKeywordMapping();
+        }
+        if ($contentType->getVersioning()->enabled() && \count($contentType->getVersioning()->getTags()) > 0) {
             $out['properties'][Mapping::VERSION_TAG] = $this->elasticsearchService->getKeywordMapping();
         }
 

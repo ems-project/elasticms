@@ -9,7 +9,13 @@
         <service id="ems.repository.auth_token" class="EMS\CoreBundle\Repository\AuthTokenRepository">
             <argument type="service" id="doctrine"/>
         </service>
+        <service id="ems.repository.cache_action" class="EMS\CoreBundle\Repository\CacheActionRepository">
+            <argument type="service" id="doctrine"/>
+        </service>
         <service id="ems.repository.channel" class="EMS\CoreBundle\Repository\ChannelRepository">
+            <argument type="service" id="doctrine"/>
+        </service>
+        <service id="ems.repository.environment_revision" class="EMS\CoreBundle\Repository\EnvironmentRevisionRepository">
             <argument type="service" id="doctrine"/>
         </service>
         <service id="ems.repository.query_search" class="EMS\CoreBundle\Repository\QuerySearchRepository">
@@ -39,6 +45,9 @@
             <tag name="doctrine.repository_service"/>
         </service>
         <service id="ems.repository.task" class="EMS\CoreBundle\Repository\TaskRepository">
+            <argument type="service" id="doctrine"/>
+        </service>
+        <service id="ems.repository.group" class="EMS\CoreBundle\Repository\GroupRepository">
             <argument type="service" id="doctrine"/>
         </service>
         <service id="ems.repository.dashboard" class="EMS\CoreBundle\Repository\DashboardRepository">

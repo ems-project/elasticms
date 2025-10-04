@@ -9,14 +9,16 @@ use EMS\CommonBundle\Contracts\CoreApi\CoreApiExceptionInterface;
 interface UserInterface
 {
     /**
+     * @throws CoreApiExceptionInterface
+     */
+    public function getProfileAuthenticated(): ProfileInterface;
+
+    /**
      * @return ProfileInterface[]
      *
      * @throws CoreApiExceptionInterface
      */
     public function getProfiles(): array;
 
-    /**
-     * @throws CoreApiExceptionInterface
-     */
-    public function getProfileAuthenticated(): ProfileInterface;
+    public function proxyAuthenticate(string $username, ?string $email): ?string;
 }

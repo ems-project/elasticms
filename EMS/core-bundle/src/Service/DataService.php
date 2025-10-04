@@ -16,7 +16,9 @@ use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
+use EMS\CoreBundle\Core\ContentType\ContentTypeSettings;
 use EMS\CoreBundle\Core\Log\LogRevisionContext;
+use EMS\CoreBundle\Core\Revision\EventType;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\DataField;
 use EMS\CoreBundle\Entity\Environment;
@@ -67,8 +69,8 @@ class DataService
     final public const int ALGO = OPENSSL_ALGO_SHA1;
     protected const SCROLL_TIMEOUT = '1m';
 
-    private false|\OpenSSLAsymmetricKey|null $private_key = null;
-    private ?string $public_key = null;
+    private false|\OpenSSLAsymmetricKey|null $privateKey = null;
+    private ?string $publicKey = null;
 
     /** @var array<mixed> */
     private array $cacheBusinessKey = [];
@@ -112,7 +114,7 @@ class DataService
                     throw new \RuntimeException(\sprintf('Could not open file in "%s"', $privateKey));
                 }
 
-                $this->private_key = \openssl_pkey_get_private($privateKeyContent);
+                $this->privateKey = \openssl_pkey_get_private($privateKeyContent);
             } catch (\Exception $e) {
                 $this->logger->warning('service.data.not_able_to_load_the_private_key', [
                     EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
@@ -151,8 +153,9 @@ class DataService
             }
         }
 
-        /** @var Notification $notification */
-        foreach ($revision->getNotifications() as $notification) {
+        /** @var Notification[] $revisionNotifications */
+        $revisionNotifications = $revision->isLazyIndex() ? [] : $revision->getNotifications();
+        foreach ($revisionNotifications as $notification) {
             if (Notification::PENDING === $notification->getStatus() && !$this->authorizationChecker->isGranted($notification->getTemplate()->getRole())) {
                 throw new PrivilegeException($revision, 'A pending "'.$notification->getTemplate()->getName().'" notification is locking this content');
             }
@@ -175,7 +178,7 @@ class DataService
 
         $twigExtension = $this->container->get('app.twig_extension');
 
-        if (!$username && $twigExtension instanceof AppExtension && !$twigExtension->oneGranted($revision->giveContentType()->getFieldType()->getFieldsRoles(), $super)) {
+        if (!$username && !$revision->isLazyIndex() && $twigExtension instanceof AppExtension && !$twigExtension->oneGranted($revision->giveContentType()->getFieldType()->getFieldsRoles(), $super)) {
             throw new PrivilegeException($revision);
         }
         // TODO: test circles
@@ -238,12 +241,13 @@ class DataService
      *
      * @throws \Throwable
      */
-    public function propagateDataToComputedField(FormInterface $form, array &$objectArray, ContentType $contentType, string $type, ?string $ouuid, bool $migration = false, bool $finalize = true): bool
+    public function propagateDataToComputedField(FormInterface $form, array &$objectArray, ContentType $contentType, string $type, ?string $ouuid, EventType $eventType): bool
     {
         return $this->postProcessingService->postProcessing($form, $contentType, $objectArray, [
             '_id' => $ouuid,
-            'migration' => $migration,
-            'finalize' => $finalize,
+            'migration' => $eventType->isMigrate(),
+            'finalize' => $eventType->isFinalize(),
+            'event' => $eventType,
             'rootObject' => $objectArray,
         ]);
     }
@@ -285,7 +289,7 @@ class DataService
                                 'must' => [
                                     [
                                         'term' => [
-                                            '_contenttype' => $contentType->getName(),
+                                            Mapping::CONTENT_TYPE_FIELD => $contentType->getName(),
                                         ],
                                     ],
                                     [
@@ -324,7 +328,7 @@ class DataService
      */
     public function hitToBusinessDocument(ContentType $contentType, array $hit): DocumentInterface
     {
-        $revision = $this->getEmptyRevision($contentType);
+        $revision = $this->getEmptyRevision($contentType, 'hitToBusinessDocument');
         $revision->setRawData($hit['_source']);
         $revision->setOuuid($hit['_id']);
         $revisionType = $this->formFactory->create(RevisionType::class, $revision, ['migration' => false, 'raw_data' => $revision->getRawData()]);
@@ -459,24 +463,20 @@ class DataService
      */
     public function signRaw(array &$objectArray): string
     {
-        if (isset($objectArray[Mapping::HASH_FIELD])) {
-            unset($objectArray[Mapping::HASH_FIELD]);
-        }
-        if (isset($objectArray[Mapping::SIGNATURE_FIELD])) {
-            unset($objectArray[Mapping::SIGNATURE_FIELD]);
-        }
-        if (isset($objectArray[Mapping::PUBLISHED_DATETIME_FIELD])) {
-            unset($objectArray[Mapping::PUBLISHED_DATETIME_FIELD]);
-        }
+        unset(
+            $objectArray[Mapping::HASH_FIELD],
+            $objectArray[Mapping::SIGNATURE_FIELD],
+            $objectArray[Mapping::PUBLISHED_DATETIME_FIELD],
+            $objectArray[Mapping::PUBLISHED_BY_FIELD]);
         Json::normalize($objectArray);
         $json = Json::encode($objectArray);
 
         $hash = $this->storageManager->computeStringHash($json);
         $objectArray[Mapping::HASH_FIELD] = $hash;
 
-        if ($this->private_key) {
+        if ($this->privateKey) {
             $signature = null;
-            if (\openssl_sign($json, $signature, $this->private_key, OPENSSL_ALGO_SHA1)) {
+            if (\openssl_sign($json, $signature, $this->privateKey, OPENSSL_ALGO_SHA1)) {
                 $objectArray[Mapping::SIGNATURE_FIELD] = \base64_encode((string) $signature);
             } else {
                 $this->logger->warning('service.data.not_able_to_sign', [
@@ -500,8 +500,13 @@ class DataService
         }
 
         $objectArray[Mapping::CONTENT_TYPE_FIELD] = $revision->giveContentType()->getName();
-        if ($revision->hasVersionTags()) {
+
+        $versioning = $revision->giveContentType()->getVersioning();
+
+        if ($versioning->enabled()) {
             $objectArray[Mapping::VERSION_UUID] = $revision->getVersionUuid();
+        }
+        if ($versioning->enabled() && \count($versioning->getTags()) > 0) {
             $objectArray[Mapping::VERSION_TAG] = $revision->getVersionTag();
             $revision->updateVersionNextTag();
         }
@@ -516,35 +521,49 @@ class DataService
 
     public function getPublicKey(): ?string
     {
-        if ($this->private_key && empty($this->public_key)) {
-            $certificate = \openssl_pkey_get_private($this->private_key);
+        if ($this->privateKey && empty($this->publicKey)) {
+            $certificate = \openssl_pkey_get_private($this->privateKey);
             if (false === $certificate) {
                 throw new \RuntimeException('Private key not found');
             }
             $details = \openssl_pkey_get_details($certificate);
-            $this->public_key = $details ? ($details['key'] ?? null) : null;
+            $this->publicKey = $details ? ($details['key'] ?? null) : null;
         }
 
-        return $this->public_key;
+        return $this->publicKey;
     }
 
     /**
-     * @return ?array<mixed, mixed>
+     * @return array<mixed, mixed>
      */
-    public function getCertificateInfo(): ?array
+    public function getCertificateInfo(): array
     {
-        if ($this->private_key) {
-            $certificate = \openssl_pkey_get_private($this->private_key);
-            if (false === $certificate) {
-                throw new \RuntimeException('Private key not found');
-            }
-
-            $details = \openssl_pkey_get_details($certificate);
-
-            return $details ?: null;
+        if (empty($this->privateKey)) {
+            return [
+                'status' => 'yellow',
+            ];
         }
 
-        return null;
+        $certificate = \openssl_pkey_get_private($this->privateKey);
+        if (false === $certificate) {
+            return [
+                'status' => 'red',
+            ];
+        }
+
+        $details = \openssl_pkey_get_details($certificate);
+        if (false === $details) {
+            return [
+                'status' => 'red',
+            ];
+        }
+
+        return [
+            'status' => 'green',
+            'bits' => $details['bits'],
+            'key' => $details['key'],
+            'type' => $details['type'],
+        ];
     }
 
     public function testIntegrityInIndexes(Revision $revision): void
@@ -566,9 +585,9 @@ class DataService
 
                 Json::normalize($indexedItem);
 
-                if (isset($indexedItem[Mapping::PUBLISHED_DATETIME_FIELD])) {
-                    unset($indexedItem[Mapping::PUBLISHED_DATETIME_FIELD]);
-                }
+                unset(
+                    $indexedItem[Mapping::PUBLISHED_DATETIME_FIELD],
+                    $indexedItem[Mapping::PUBLISHED_BY_FIELD]);
 
                 if (isset($indexedItem[Mapping::HASH_FIELD])) {
                     if ($indexedItem[Mapping::HASH_FIELD] != $revision->getSha1()) {
@@ -616,7 +635,7 @@ class DataService
                         }
                     } else {
                         $data = Json::encode($indexedItem);
-                        if ($this->private_key) {
+                        if ($this->privateKey) {
                             $this->logger->info('service.data.revision_not_signed', [
                                 EmsFields::LOG_REVISION_ID_FIELD => $revision->getId(),
                                 EmsFields::LOG_CONTENTTYPE_FIELD => $revision->giveContentType()->getName(),
@@ -685,6 +704,52 @@ class DataService
         return $this->elasticaService->refresh($environment->getAlias());
     }
 
+    public function recomputeOnPublish(Revision $revision, Environment $environment): Revision
+    {
+        if (!$revision->giveContentType()->getSettings()->getSettingBool(ContentTypeSettings::RECOMPUTE_ON_PUBLISH)) {
+            return $revision;
+        }
+        if ($revision->getDeleted()) {
+            throw new \Exception('Can not recomputed a deleted revision');
+        }
+        if (!empty($revision->getAutoSave())) {
+            throw new DataStateException('An auto save is pending, it can not be recomputed.');
+        }
+        if (!$revision->hasOuuid()) {
+            throw new DataStateException('The revision doesn\'t have OUUID, it can not be recomputed.');
+        }
+        if (null == $revision->getDatafield()) {
+            $this->loadDataStructure($revision);
+        }
+        $builder = $this->formFactory->createBuilder(RevisionType::class, $revision, ['raw_data' => $revision->getRawData()]);
+        $form = $builder->getForm();
+        $token = $this->tokenStorage->getToken();
+        if (null === $token) {
+            throw new \RuntimeException('Unexpected null token');
+        }
+        $username = $token->getUserIdentifier();
+        $this->lockRevision($revision, null, false, $username);
+        $objectArray = $revision->getRawData();
+
+        if (!$revision->isLazyIndex()) {
+            $this->updateDataStructure($revision->giveContentType()->getFieldType(), $form->get('data')->getNormData());
+        }
+        if (!$this->propagateDataToComputedField($form->get('data'), $objectArray, $revision->giveContentType(), $revision->giveContentType()->getName(), $revision->getOuuid(), EventType::publishEvent($environment))) {
+            return $revision;
+        }
+        $revision->setRawData($objectArray);
+        $this->sign($revision);
+        $this->setMetaFields($revision);
+        $em = $this->doctrine->getManager();
+        $em->persist($revision);
+        $em->flush();
+        foreach ($revision->getEnvironments() as $environment) {
+            $this->indexService->indexRevision($revision, $environment);
+        }
+
+        return $revision;
+    }
+
     /**
      * @param ?FormInterface<mixed> $form
      *
@@ -733,8 +798,10 @@ class DataService
 
         $objectArray = $revision->getRawData();
 
-        $this->updateDataStructure($revision->giveContentType()->getFieldType(), $form->get('data')->getNormData());
-        if ($computeFields && $this->propagateDataToComputedField($form->get('data'), $objectArray, $revision->giveContentType(), $revision->giveContentType()->getName(), $revision->getOuuid())) {
+        if (!$revision->isLazyIndex()) {
+            $this->updateDataStructure($revision->giveContentType()->getFieldType(), $form->get('data')->getNormData());
+        }
+        if ($computeFields && $this->propagateDataToComputedField($form->get('data'), $objectArray, $revision->giveContentType(), $revision->giveContentType()->getName(), $revision->getOuuid(), EventType::finalizeEvent())) {
             $revision->setRawData($objectArray);
         }
         $this->setMetaFields($revision);
@@ -747,23 +814,22 @@ class DataService
 
         if ($this->isValid($form, null, $objectArray)) {
             $ouuid = $revision->getOuuid();
-            $this->indexService->indexRevision($revision);
             if (null !== $ouuid) {
                 $item = $repository->findByOuuidContentTypeAndEnvironment($revision);
-                if ($item) {
+                if ($item && $revision !== $item) {
                     $this->lockRevision($item, null, false, $username);
                     $previousObjectArray = $item->getRawData();
-                    $item->removeEnvironment($revision->giveContentType()->giveEnvironment());
+                    $item->removeEnvironment($revision->giveContentType()->giveEnvironment(), $username);
                     $em->persist($item);
                     $this->unlockRevision($item, $username);
                 }
             }
 
-            $revision->addEnvironment($revision->giveContentType()->giveEnvironment());
+            $revision->addEnvironment($revision->giveContentType()->giveEnvironment(), $username);
+            $this->indexService->indexRevision($revision);
+
             $revision->setDraft(false);
-
             $revision->setFinalizedBy($username);
-
             $em->persist($revision);
             $em->flush();
 
@@ -865,22 +931,14 @@ class DataService
      * @throws \Exception
      * @throws NotFoundHttpException
      */
-    public function getNewestRevision(string $type, string $ouuid): Revision
+    public function getNewestRevision(ContentType|string $contentType, string $ouuid): Revision
     {
         /** @var EntityManager $em */
         $em = $this->doctrine->getManager();
 
-        /** @var ContentTypeRepository $contentTypeRepo */
-        $contentTypeRepo = $em->getRepository(ContentType::class);
-        $contentTypes = $contentTypeRepo->findBy([
-            'name' => $type,
-            'deleted' => false,
-        ]);
-
-        if (1 != \count($contentTypes)) {
-            throw new NotFoundHttpException('Unknown content type');
+        if (\is_string($contentType)) {
+            $contentType = $this->contentTypeService->giveByName($contentType);
         }
-        $contentType = $contentTypes[0];
 
         /** @var RevisionRepository $repository */
         $repository = $em->getRepository(Revision::class);
@@ -898,12 +956,12 @@ class DataService
             if (null === $endTime) {
                 return $revisions[0];
             } else {
-                throw new NotFoundHttpException('Revision for ouuid '.$ouuid.' and contenttype '.$type.' with end time '.$endTime->format(\DateTimeInterface::ATOM));
+                throw new NotFoundHttpException('Revision for ouuid '.$ouuid.' and contenttype '.$contentType->getName().' with end time '.$endTime->format(\DateTimeInterface::ATOM));
             }
         } elseif (0 == \count($revisions)) {
-            throw new NotFoundHttpException('Revision not found for ouuid '.$ouuid.' and contenttype '.$type);
+            throw new NotFoundHttpException('Revision not found for ouuid '.$ouuid.' and contenttype '.$contentType->getName());
         } else {
-            throw new \Exception('Too much newest revisions available for ouuid '.$ouuid.' and contenttype '.$type);
+            throw new \Exception('Too much newest revisions available for ouuid '.$ouuid.' and contenttype '.$contentType->getName());
         }
     }
 
@@ -1069,24 +1127,16 @@ class DataService
      * @throws OptimisticLockException
      * @throws \Exception
      */
-    public function initNewDraft(string $type, string $ouuid, ?Revision $fromRev = null, ?string $username = null): Revision
+    public function initNewDraft(ContentType|string $contentType, string $ouuid, ?Revision $fromRev = null, ?string $username = null): Revision
     {
         /** @var EntityManager $em */
         $em = $this->doctrine->getManager();
 
-        /** @var ContentTypeRepository $contentTypeRepo */
-        $contentTypeRepo = $em->getRepository(ContentType::class);
-        /** @var ContentType|null $contentType */
-        $contentType = $contentTypeRepo->findOneBy([
-            'name' => $type,
-            'deleted' => false,
-        ]);
-
-        if (null === $contentType) {
-            throw new NotFoundHttpException('ContentType '.$type.' Not found');
+        if (\is_string($contentType)) {
+            $contentType = $this->contentTypeService->giveByName($contentType);
         }
 
-        $revision = $this->getNewestRevision($type, $ouuid);
+        $revision = $this->getNewestRevision($contentType, $ouuid);
         $revision->setDeleted(false);
         if (null !== $revision->getDataField()) {
             $revision->getDataField()->propagateOuuid($revision->giveOuuid());
@@ -1174,6 +1224,7 @@ class DataService
                 }
                 $hasPreviousRevision = $previous->getId();
                 $em->persist($previous);
+                $this->unlockRevision($previous, $username);
             }
         }
 
@@ -1191,7 +1242,7 @@ class DataService
         $contentType = (\is_string($contentType)) ? $this->contentTypeService->giveByName($contentType) : $contentType;
         $contentType->validate();
 
-        if (!$this->authorizationChecker->isGranted($contentType->role(ContentTypeRoles::DELETE))) {
+        if (null === $username && !$this->authorizationChecker->isGranted($contentType->role(ContentTypeRoles::DELETE))) {
             throw new AccessDeniedException('Delete role not granted!');
         }
 
@@ -1228,16 +1279,16 @@ class DataService
                     }
                     throw $e;
                 }
-                $revision->removeEnvironment($environment);
+                $revision->removeEnvironment($environment, $username);
             }
-            $revision->setDeleted(true);
-            $revision->setDeletedBy($username);
+            $revision->delete($username);
 
             if (null === $revision->getEndTime()) {
                 $this->auditLogger->notice('log.revision.deleted', LogRevisionContext::delete($revision));
             }
 
             $em->persist($revision);
+            $this->unlockRevision($revision, $username);
         }
         $em->flush();
 
@@ -1260,16 +1311,14 @@ class DataService
         $revisions = $this->revRepository->findTrashRevisions($contentType, ...$ouuids);
 
         foreach ($revisions as $revision) {
-            $revision->setDeleted(false);
-            $revision->setDeletedBy(null);
+            $this->lockRevision($revision);
+            $revision->restore();
             if (null === $revision->getEndTime()) {
-                $this->lockRevision($revision);
                 $revision->setDraft(true);
                 $this->auditLogger->notice('log.revision.restored', LogRevisionContext::update($revision));
-            } else {
-                $revision->enableSelfUpdate();
             }
             $this->em->persist($revision);
+            $this->unlockRevision($revision);
         }
         $this->em->flush();
 
@@ -1380,6 +1429,11 @@ class DataService
         $data->setOrderKey($revision->giveContentType()->getFieldType()->getOrderKey());
         $data->setRawData($revision->getRawData());
         $revision->setDataField($data);
+
+        if ($revision->isLazyIndex()) {
+            return;
+        }
+
         $this->updateDataStructure($revision->giveContentType()->getFieldType(), $data);
         $object = $revision->getRawData();
         $this->updateDataValue($data, $object);
@@ -1435,7 +1489,7 @@ class DataService
 
         $objectArray = $reloadRevision->getRawData();
         $this->updateDataStructure($reloadRevision->giveContentType()->getFieldType(), $form->get('data')->getNormData());
-        $this->propagateDataToComputedField($form->get('data'), $objectArray, $reloadRevision->giveContentType(), $reloadRevision->giveContentType()->getName(), $reloadRevision->getOuuid(), false, false);
+        $this->propagateDataToComputedField($form->get('data'), $objectArray, $reloadRevision->giveContentType(), $reloadRevision->giveContentType()->getName(), $reloadRevision->getOuuid(), EventType::reloadEvent());
 
         if (false !== $finalizedBy) {
             $objectArray[Mapping::FINALIZED_BY_FIELD] = $finalizedBy;
@@ -1488,20 +1542,18 @@ class DataService
         return $out;
     }
 
-    public function getEmptyRevision(ContentType $contentType, ?string $user = null): Revision
+    public function getEmptyRevision(ContentType $contentType, string $user): Revision
     {
         $now = new \DateTime();
         $until = new \DateTime($this->lockTime);
         $newRevision = new Revision();
         $newRevision->setContentType($contentType);
-        $newRevision->addEnvironment($contentType->giveEnvironment());
+        $newRevision->addEnvironment($contentType->giveEnvironment(), $user);
         $newRevision->setStartTime($now);
         $newRevision->setEndTime(null);
         $newRevision->setDeleted(false);
         $newRevision->setDraft(true);
-        if ($user) {
-            $newRevision->setLockBy($user);
-        }
+        $newRevision->setLockBy($user);
         $newRevision->setLockUntil($until);
         $newRevision->setRawData([]);
 
@@ -1829,7 +1881,7 @@ class DataService
                                 'must' => [
                                     [
                                         'term' => [
-                                            '_contenttype' => $contentType->getName(),
+                                            Mapping::CONTENT_TYPE_FIELD => $contentType->getName(),
                                         ],
                                     ],
                                     [
@@ -1868,7 +1920,7 @@ class DataService
      */
     public function hitFromBusinessIdToDataLink(ContentType $contentType, string $ouuid, array $rawData): DocumentInterface
     {
-        $revision = $this->getEmptyRevision($contentType);
+        $revision = $this->getEmptyRevision($contentType, 'hitFromBusinessIdToDataLink');
         $revision->setRawData($rawData);
         $revision->setOuuid($ouuid);
         $revisionType = $this->formFactory->create(RevisionType::class, $revision, ['migration' => true, 'raw_data' => $revision->getRawData(), 'with_warning' => false]);

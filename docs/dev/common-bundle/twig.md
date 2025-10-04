@@ -7,6 +7,10 @@
   * [ems_store_read](#ems_store_read)
   * [ems_store_save](#ems_store_save)
   * [ems_store_delete](#ems_store_delete)
+  * [ems_flash](#ems_flash)
+  * [ems_file_reader_data](#ems_file_reader_data)
+  * [ems_file_reader_cells](#ems_file_reader_cells)
+  * [ems_check_ip](#ems_check_ip)
 * [Twig filters](#twig-filters)
   * [ems_anti_spam](#ems_anti_spam)
   * [ems_html_encode](#ems_html_encode)
@@ -16,12 +20,20 @@
   * [ems_replace_regex](#ems_replace_regex)
   * [ems_html_decode](#ems_html_decode)
   * [ems_hash](#ems_hash)
-  * [format_bytes](#format_bytes)
+  * [ems_format_bytes](#ems_format_bytes)
   * [ems_ascii_folding](#ems_ascii_folding)
   * [ems_template_exists](#ems_template_exists)
   * [ems_analyze](#ems_analyze)
+  * [ems_json_decode](#ems_json_decode)
+  * [ems_array_key](#ems_array_key)
+  * [ems_ouuid](#ems_ouuid)
+  * [ems_md5](#ems_md5)
+  * [ems_luma](#ems_luma)
+  * [ems_contrast_ratio](#ems_contrast_ratio)
+  * [ems_color](#ems_color)
   * [ems_slug](#ems_slug)
   * [ems_file_from_archive](#ems_file_from_archive)
+  * [ems_files_in_archive](#ems_files_in_archive)
   * [ems_link](#ems_link)
   * [ems_valid_mail](#ems_valid_mail)
   * [ems_uuid](#ems_uuid-1)
@@ -167,6 +179,82 @@ emsch_delete_store:
   }|json_encode|raw }}
 {% endapply %}
 {% endblock request -%}
+````
+
+## ems_flash
+
+Add a flash to the symfony request flash bag.
+
+```twig
+{% do ems_flash('error', 'error.default'|trans) %}
+```
+
+You can use the following template for displaying the flashes (bootstrap5).
+
+```twig
+{%- set alertTypes = {
+    'success': 'alert-success',
+    'error': 'alert-danger',
+    'warning': 'alert-warning',
+    'info': 'alert-info'
+} -%}
+
+{%- for type, class in alertTypes -%}
+    {%- for message in app.session.flashBag.get(type) -%}
+        <div class="alert {{ class }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {%- endfor -%}
+{%- endfor -%}
+```
+
+## ems_file_reader_data
+
+Use the FileReader to get CSV or MS Excel fil content.
+
+```twig
+<pre>{{ ems_file_reader_data('57bcba09d6f5e06852b83b2b2ba545529f862a87', {'all_sheets': true})|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+```
+
+Options:
+ * `delimiter` (string): For CSV file
+ * `encoding` (string): file's charset
+ * `all_sheets` (boolean): Extract only the active sheet (false, default) or all sheets (true)
+
+## ems_file_reader_cells
+
+Returns a cells iterator
+
+```twig
+<pre>{% set cellsIterator = ems_file_reader_cells('57bcba09d6f5e06852b83b2b2ba545529f862a87', {'exclude_rows': [0]}) }}</pre>
+```
+Options:
+ * `mime_type` (string): File mimetype
+ * `delimiter` (string): CSV delimiter
+ * `encoding` (string): file's charset
+ * `exclude_rows` (int[]): skip those rows
+ * `limit` (int): limit to the first rows
+
+## ems_check_ip
+
+Checks if an IPv4 or IPv6 address is contained in the list of given IPs or subnets. In order to avoid HTTP cache issues, this function must be called in a non-safe request (i.e. `POST` or `PUT`).
+
+````twig
+{% set clientIp = app.request.headers.get('X-FORWARDED-FOR')|default('192.168.0.5') %}
+{% set ranges =  [
+    '192.168.0.0/24',
+    '10.0.0.0/8',
+    '203.0.113.5',
+    '172.16.0.0/255.240.0.0',
+    '2001:db8::/32',
+    'fd00::/8',
+    '2a02:26f0:10::5',
+] %}
+
+{% if ems_check_ip(clientIp, ranges) %}
+ {# display sensitive contents here #}
+{% endif %}
 ````
 
 # Twig filters
@@ -461,6 +549,41 @@ Example:
     asTempFile: true,
 }) %}
 ```
+
+## ems_files_in_archive
+
+Returns the list of files present in an archive (EMS archive or Zip file)
+
+```twig
+{% set files = ems_files_in_archive(hash) %}
+```
+
+This method returns an array like this:
+
+
+```json
+{
+  "0693f7c7e26507b5d464a99f6a03b9309560abf3.json": {
+    "filename": "0693f7c7e26507b5d464accf6a03b9309560abf3.json",
+    "hash": "0693f7c7e26507b5d464accf6a03b9309560abf3",
+    "type": "application/json",
+    "size": 3561
+  },
+  "crm-export.xlsx": {
+    "filename": "crm-export.xlsx",
+    "hash": "dd2650a9d4537c5127b9907e83f1e508523d3c18",
+    "type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    "size": 167352
+  },
+  "2025-09 Facture Service 1113975398.PDF": {
+    "filename": "2025-09 Facture Service 1113975398.PDF",
+    "hash": "2ddf565c90bb89b0d860a538828f1dd7bb8b37a5",
+    "type": "application/pdf",
+    "size": 32640
+  }
+}
+```
+
 
 ## ems_link
 

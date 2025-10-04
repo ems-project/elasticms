@@ -127,7 +127,7 @@ final class File implements FileInterface
         }
         $stream = $this->client->download($this->downloadLink($hash));
 
-        return (new StorageFile($stream))->getFilename();
+        return new StorageFile($stream)->getFilename();
     }
 
     #[\Override]
@@ -164,6 +164,8 @@ final class File implements FileInterface
     #[\Override]
     public function addChunk(string $hash, string $chunk): int
     {
+        $test = HttpStorage::addChunkUrl($hash);
+
         $response = $this->client->postBody(HttpStorage::addChunkUrl($hash), $chunk);
 
         $data = $response->getData();

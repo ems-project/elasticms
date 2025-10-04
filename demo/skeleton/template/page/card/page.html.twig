@@ -26,19 +26,17 @@
 
 {% block image %}
     {% if attribute(target.source, locale).image|default(false) %}
+        {%- set imageSrc = ems_asset_path(attribute(target.source, locale).image, {
+            _config_type: 'image',
+            _width: 490,
+            _height: 300,
+            _quality: 90,
+            _resize: 'smartCrop',
+            _image_format:'webp',
+        }) -%}
         <img class="news-image img-fluid rounded mx-auto"
-             data-src="{{ ems_asset_path(attribute(target.source, locale).image, {
-                 _config_type: 'image',
-                 _width: 490,
-                 _height: 300,
-                 _quality: 90,
-             }) }}"
-             src="{{ ems_asset_path(attribute(target.source, locale).image, {
-                 _config_type: 'image',
-                 _width: 490,
-                 _height: 300,
-                 _quality: 90,
-             }) }}"
+             data-src="{{ imageSrc }}"
+             src="{{ imageSrc }}"
              alt="490x300"
              data-holder-rendered="true">
     {% endif %}

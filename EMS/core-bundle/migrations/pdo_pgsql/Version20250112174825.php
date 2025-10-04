@@ -28,7 +28,7 @@ final class Version20250112174825 extends AbstractMigration
         );
         $fieldTypes = $this->connection->executeQuery('select id, type, options from field_type');
         while ($fieldType = $fieldTypes->fetchAssociative()) {
-            $options = Json::decode($fieldType['options']);
+            $options = Json::decode($fieldType['options'] ?? '{}');
             if ('EMS\CoreBundle\Form\DataField\RadioFieldType' === $fieldType['type']) {
                 $options[FieldType::DISPLAY_OPTIONS]['expanded'] = true;
                 $options[FieldType::DISPLAY_OPTIONS]['multiple'] = false;
@@ -38,7 +38,7 @@ final class Version20250112174825 extends AbstractMigration
             } else {
                 continue;
             }
-            $this->addSql('UPDATE field_type SET options = :options WHERE id = :id', [
+            $this->addSql('UPDATE field_type SET type = :type, options = :options WHERE id = :id', [
                 'id' => $fieldType['id'],
                 'type' => ChoiceFieldType::class,
                 'options' => Json::encode($options),

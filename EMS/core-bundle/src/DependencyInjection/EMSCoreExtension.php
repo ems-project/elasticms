@@ -77,12 +77,16 @@ class EMSCoreExtension extends Extension implements PrependExtensionInterface
         $container->setParameter('ems_core.template_namespace', $config['template_namespace']);
         $container->setParameter('ems_core.dynamic_mapping', $config['dynamic_mapping']);
         $container->setParameter('ems_core.image_max_size', $config['image_max_size']);
+        $container->setParameter('ems_core.forgot_password_url', $config['forgot_password_url']);
+        $container->setParameter('ems_core.group_feature', $config['group_feature']);
 
         $container->setParameter('ems_core.security.firewall.core', $config['security']['firewall']['core']);
         $container->setParameter('ems_core.security.firewall.api', $config['security']['firewall']['api']);
 
         $container->setParameter('ems_core.security.ldap.enabled', $config['ldap']['enabled']);
         $container->setParameter('ems_core.security.ldap.config', $config['ldap']);
+
+        $container->setParameter('ems_core.async.enabled', $config['async']['enabled']);
     }
 
     #[\Override]
@@ -95,6 +99,7 @@ class EMSCoreExtension extends Extension implements PrependExtensionInterface
             'theme_color' => $configs[0]['theme_color'] ?? Configuration::THEME_COLOR,
             'ems_name' => $configs[0]['name'] ?? Configuration::NAME,
             'ems_shortname' => $configs[0]['shortname'] ?? Configuration::SHORTNAME,
+            'ems_instance_id' => $configs[0]['instance_id'] ?? Configuration::INSTANCE_ID,
             'paging_size' => $configs[0]['paging_size'] ?? Configuration::PAGING_SIZE,
             'circles_object' => $configs[0]['circles_object'] ?? Configuration::CIRCLES_OBJECT,
             'datepicker_daysofweek_highlighted' => $configs[0]['datepicker_daysofweek_highlighted'] ?? Configuration::DATEPICKER_DAYSOFWEEK_HIGHLIGHTED,
@@ -104,8 +109,9 @@ class EMSCoreExtension extends Extension implements PrependExtensionInterface
             'date_format' => $configs[0]['date_format'] ?? Configuration::DATE_FORMAT,
             'time_format' => $configs[0]['time_format'] ?? Configuration::TIME_FORMAT,
             'trigger_job_from_web' => $configs[0]['trigger_job_from_web'] ?? Configuration::TRIGGER_JOB_FROM_WEB,
-            'routes' => (new \ReflectionClass(Routes::class))->getConstants(),
+            'routes' => new \ReflectionClass(Routes::class)->getConstants(),
             'image_max_size' => $configs[0]['image_max_size'] ?? Configuration::IMAGE_MAX_SIZE,
+            'forgot_password_url' => $configs[0]['forgot_password_url'] ?? null,
         ];
 
         if (!empty($configs[0]['template_options'])) {

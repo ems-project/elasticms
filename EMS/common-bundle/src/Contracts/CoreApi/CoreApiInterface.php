@@ -66,18 +66,12 @@ interface CoreApiInterface
 
     public function form(): FormInterface;
 
-    /**
-     * @deprecated
-     */
+    #[\Deprecated]
     public function hashFile(string $filename): string;
 
-    /**
-     * @deprecated
-     */
+    #[\Deprecated]
     public function initUpload(string $hash, int $size, string $filename, string $mimetype): int;
 
-    /**
-     * @deprecated
-     */
+    #[\Deprecated]
     public function addChunk(string $hash, string $chunk): int;
 }

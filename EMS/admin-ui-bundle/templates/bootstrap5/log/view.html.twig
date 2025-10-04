@@ -1,58 +1,39 @@
-{% extends '@EMSAdminUI/bootstrap5/log/abstract.html.twig' %}
-{% trans_default_domain 'emsco-twigs' %}
+{% extends '@EMSAdminUI/bootstrap5/template/card.html.twig' %}
+{% trans_default_domain 'ems-adminui-twigs' %}
 
-{% block title %}{{ 'log.view.title'|trans({'%created%': log.created|date(date_time_format)}) }}{% endblock %}
+{% block title %}{{ 'log.title'|trans({'created': log.created|date(date_time_format)}) }}{% endblock %}
 
 {% block body %}
-    <div class="box box-default">
-        <div class="box-body">
-            {% if log.username|default(false) %}
-                <dl>
-                    <dt>{{ 'field.user'|trans({}, 'emsco-core') }}</dt>
-                    {%  set displayName = log.username|emsco_display_name %}
-                    <dd>{{ displayName }}{% if log.username != displayName%} ({{ log.username }}){% endif %}</dd>
-                </dl>
-            {% endif %}
-            {% if log.impersonator|default(false) %}
-                <dl>
-                    <dt>{{ 'field.user_impersonator'|trans({}, 'emsco-core') }}</dt>
-                    {%  set displayName = log.impersonator|emsco_display_name %}
-                    <dd>{{ displayName }}{% if log.impersonator != displayName%} ({{ log.impersonator }}){% endif %}</dd>
-                </dl>
-            {% endif %}
-            <dl>
-                <dt>{{ 'field.date_created'|trans({}, 'emsco-core') }}</dt>
-                <dd>{{ log.created|date(date_time_format) }}</dd>
-            </dl>
-            <dl>
-                <dt>{{ 'field.message'|trans({}, 'emsco-core') }}</dt>
-                <dd>{{ log.message }}</dd>
-            </dl>
-            <dl>
-                <dt>{{ 'field.severity'|trans({}, 'emsco-core') }}</dt>
-                <dd>{{ log.levelName }} ({{ log.level }})</dd>
-            </dl>
-            <dl>
-                <dt>{{ 'field.channel'|trans({}, 'emsco-core') }}</dt>
-                <dd>{{ log.channel }}</dd>
-            </dl>
-            <dl>
-                <dt>{{ 'field.context'|trans({}, 'emsco-core') }}</dt>
-                <dd><pre>{{ log.context|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre></dd>
-            </dl>
-            <dl>
-                <dt>{{ 'field.extra'|trans({}, 'emsco-core') }}</dt>
-                <dd><pre>{{ log.extra|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre></dd>
-            </dl>
-        </div>
-        <div class="box-footer">
-            {% include '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' with {
-                'url':  path('emsco_log_delete', {'log': log.id}),
-                'label': 'action.delete'|trans({}, 'emsco-core'),
-                'message': 'type.delete_confirm'|trans({'type': 'log'}, 'emsco-core'),
-                'icon': 'trash',
-                'btnType': 'outline-danger',
-            }%}
-        </div>
+<div class="row justify-content-md-center">
+    <div class="col-md-4">
+        {{ parent() }}
     </div>
-{% endblock %}
+</div>
+{% endblock body %}
+
+{% block content %}
+    {% set items = [
+        { icon: 'fas fa-user', label: 'key.username'|trans, value: log.username|default('key.not-applicable'|trans)|emsco_display_name },
+        { icon: 'fas fa-user-secret', label: 'key.impersonator'|trans, value: log.impersonator|default('key.not-applicable'|trans)|emsco_display_name },
+        { icon: 'fas fa-clock', label: 'key.created'|trans, value: log.created|date(date_time_format) },
+        { icon: 'fas fa-message', label: 'key.message'|trans, value: log.message|default('') },
+        { icon: 'fas fa-traffic-light', label: 'key.severity'|trans, value: "#{log.levelName} (#{log.level})" },
+        { icon: 'fas fa-road-circle-check', label: 'key.channel'|trans, value: log.channel|default('') },
+        { icon: 'fa-solid fa-file-lines', label: 'key.context'|trans, content: log.context|json_encode(constant('JSON_PRETTY_PRINT')), contentTag: 'pre' },
+        { icon: 'fa-solid fa-table', label: 'key.extra'|trans, content: log.extra|json_encode(constant('JSON_PRETTY_PRINT')), contentTag: 'pre' },
+    ] %}
+    {% include '@EMSAdminUI/bootstrap5/core/list-group.html.twig' with { list: items } %}
+{% endblock content %}
+
+{% block footer %}
+    {% set footer %}
+        {% include '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' with {
+            'url':  path('emsco_log_delete', {'log': log.id}),
+            'label': 'action.delete'|trans({}, 'emsco-core'),
+            'message': 'type.delete_confirm'|trans({'type': 'log'}, 'emsco-core'),
+            'icon': 'trash',
+            'btnType': 'outline-danger',
+        }%}
+    {% endset %}
+    {{ parent() }}
+{% endblock footer %}

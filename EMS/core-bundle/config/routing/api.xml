@@ -8,6 +8,13 @@
            controller="EMS\CoreBundle\Controller\Api\AuthTokenLoginController::login"
            methods="POST"
            format="json"/>
+    <route id="emsco_documentation_api" path="/admin/documentation/api.{_format}"
+           controller="EMS\CoreBundle\Controller\Api\Admin\DocumentationController::getDocumentation"
+           methods="GET"
+           format="html"
+    >
+        <requirement key="format">html|json</requirement>
+    </route>
 
     <import resource="@EMSCoreBundle/config/routing/api/admin.xml"
             prefix="/api/admin"/>
@@ -25,5 +32,11 @@
             prefix="/api/search"/>
     <import resource="@EMSCoreBundle/config/routing/api/data.xml"
             prefix="/api/data"/>
+
+    <route id="emsco_api_user_proxy_authenticate" path="/api/user/proxy-authenticate"
+           controller="EMS\CoreBundle\Controller\Api\UserController::proxyAuthenticate"
+           methods="POST">
+        <option key="openapi">true</option>
+    </route>
 
 </routes>

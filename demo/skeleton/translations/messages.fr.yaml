@@ -38,15 +38,22 @@ emsch:
             username: 'Nom d''utilisateur'
 features:
     discover: 'Découvrez toutes les fonctionnalités'
-files_browse: 'Choisir des fichiers'
+files_browse: 'Glisser-déposer des fichiers ici ou'
 footer:
     join-us-github: 'Join-us on GitHub'
 js:
-    file_selected: '%count% files selected'
-    form_error: 'The form faced an issue : %message%'
-    form_error_try_later: 'The form faced an issue, please try again later'
-    form_processed: 'Your message was sent'
-    form_saved: 'Your message was sent'
+    file_selected: '1 fichier selectionné'
+    files_selected: '%count% fichiers selectionnés'
+    form_error: 'Le formulaire a rencontré un problème : %message%'
+    form_error_try_later: 'Le formulaire a rencontré un problème, veuillez réessayer plus tard.'
+    form_processed: 'Votre message a été envoyé.'
+    form_saved: 'Votre message a été envoyé.'
+    format_not_supported: 'Erreur: Format incorrect.'
+    incorrect_format: 'Format incorrect'
+    max_size_reached: 'Les fichiers sont trop volumineux. La taille maximale autorisée est de %fileSize%.'
+    required_field: '(*) Champ obligatoire'
+    remove: Supprimer
+    remove_all: 'Supprimer tout'
 language:
     selection: 'select language'
 locale: Français

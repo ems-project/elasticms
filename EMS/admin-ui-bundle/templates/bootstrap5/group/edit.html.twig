@@ -1,0 +1,35 @@
+{% extends '@EMSAdminUI/bootstrap5/page/page.html.twig' %}
+{% trans_default_domain 'ems-adminui-twigs' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-5">
+            {% with {
+                form: form,
+                header: null,
+                footer: null,
+                content: null,
+            } %}
+                {{ block('card', '@EMSAdminUI/bootstrap5/template/card.html.twig') }}
+            {% endwith %}
+        </div>
+        <div class="col-md-7">
+            <div>
+                <h2>{{ 'subtitle.user-in-group'|trans }}</h2>
+                {% with {
+                    datatable: {'form': datatableForm},
+                } %}
+                    {{ parent() }}
+                {% endwith %}
+            </div>
+            <div>
+                <h2>{{ 'subtitle.user-not-in-group'|trans }}</h2>
+                {% with {
+                    datatable: {'form': userNotInGroupDataTable},
+                } %}
+                    {{ parent() }}
+                {% endwith %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

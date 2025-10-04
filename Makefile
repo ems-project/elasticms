@@ -5,13 +5,15 @@ DOCKER_USER			?= $(shell id -u)
 DOCKER_COMPOSE	= docker compose -f docker/docker-compose.yml
 
 PORT_admin 			= 8881
-PORT_web 				= 8882
+PORT_web 			= 8882
+PORT_cli 			= 8883
 
-RUN_ADMIN				= php ${PWD}/elasticms-admin/bin/console --no-debug
-RUN_WEB					= php ${PWD}/elasticms-web/bin/console --no-debug
-RUN_POSTGRES		= docker exec -i -u ${DOCKER_USER}:0 -e PGUSER=postgres -e PGPASSWORD=adminpg ems-mono-postgres
-NPM_CMD         = "${NPM_EXTRA_CMD} npm $*"
-RUN_DEMO_NPM		= docker run -u ${DOCKER_USER}:0 --rm -it -v ${PWD}/demo:/opt/src --workdir /opt/src elasticms/base-php:8.4-cli-dev sh -c ${NPM_CMD}
+RUN_ADMIN				 = php ${PWD}/elasticms-admin/bin/console --no-debug
+RUN_WEB					 = php ${PWD}/elasticms-web/bin/console --no-debug
+RUN_POSTGRES		 = docker exec -i -u ${DOCKER_USER}:0 -e PGUSER=postgres -e PGPASSWORD=adminpg ems-mono-postgres
+NPM_CMD          = "${NPM_EXTRA_CMD} npm $*"
+RUN_DEMO_NPM		 = docker run -u ${DOCKER_USER}:0 --rm -it -v ${PWD}/demo:/opt/src --workdir /opt/src elasticms/base-php:8.4-cli-dev sh -c ${NPM_CMD}
+RUN_ADMIN_UI_NPM = docker run -u ${DOCKER_USER}:0 --rm -p 5173:5173 -it -v ${PWD}/EMS/admin-ui-bundle:/opt/src --workdir /opt/src/assets elasticms/base-php:8.4-cli-dev sh -c ${NPM_CMD}
 
 .DEFAULT_GOAL := help
 .PHONY: help demo docs
@@ -43,10 +45,17 @@ start: ## start docker, admin server, web server
 	@$(DOCKER_COMPOSE) up -d
 	@$(MAKE) -s server-start/admin
 	@$(MAKE) -s server-start/web
+	cd elasticms-admin && symfony local:run -d php bin/console messenger:consume async -vvv
 stop: ## stop docker, admin server, web server
 	@$(MAKE) -s server-stop/admin
 	@$(MAKE) -s server-stop/web
 	@$(DOCKER_COMPOSE) down
+check: ## run all checks
+	@composer monorepo-validate
+	@composer rector
+	@composer phpall
+	@composer lint
+	@$(MAKE) build-translations
 cache-clear: ## cache clear
 	@$(RUN_ADMIN) c:cl
 	@$(RUN_WEB) c:cl
@@ -56,17 +65,38 @@ status: ## status
 	@$(DOCKER_COMPOSE) ps
 
 ## —— Symfony server ———————————————————————————————————————————————————————————————————————————————————————————————————
-server-start/%: ## server-start/(admin|web)
-	symfony server:start --dir=elasticms-${*} -d --port=$(PORT_$(*)) --no-tls
-server-stop/%:  ## server-stop/(admin|web)
+server-start/%: ## server-start/(admin|web|cli)
+	symfony server:start --dir=elasticms-${*} -d --port=$(PORT_$(*)) --no-tls --allow-all-ip
+server-stop/%: ## server-stop/(admin|web|cli)
 	symfony server:stop --dir=elasticms-${*}
-server-log/%:  ## server-log/(admin|web)
+server-log/%: ## server-log/(admin|web|cli)
 	symfony server:log --dir=elasticms-${*}
+server-status/%: ## server-log/(admin|web|cli)
+	symfony server:status --dir=elasticms-${*}
+server-restart: ## server-restart
+	@$(MAKE) -s server-stop/admin
+	@$(MAKE) -s server-stop/web
+	@$(MAKE) -s server-start/admin
+	@$(MAKE) -s server-start/web
+	cd elasticms-admin && symfony local:run -d php bin/console messenger:consume async -vvv
+
+## —— assets ————————————————————————————————————————————————————————————————————————————————————————————————————————————
+assets-npm/%: ## npm run in AdminUIBundle
+	@$(RUN_ADMIN_UI_NPM) $*
+assets-install: ## Install NPM dependencies in AdminUIBundle assets
+	@$(MAKE) -s assets-npm/"install"
+assets-build: ## build AdminUIBundle assets
+	@$(MAKE) -s assets-npm/"run build"
+assets-clean: ## remove AdminUIBundle assets
+	rm -Rf EMS/admin-ui-bundle/public
+assets-dev: ## Start an AdminUIBundle Vite server
+	@$(MAKE) -s assets-clean
+	@$(MAKE) -s assets-npm/"run dev-host"
 
 ## —— Build ————————————————————————————————————————————————————————————————————————————————————————————————————————————
 build-translations: ## build translations
 	@php build/translations en EMSCoreBundle --write --format=yml -d emsco-core
-	@php build/translations en EMSAdminUIBundle --write --format=xlf
+	@php build/translations en EMSAdminUIBundle --write --format=yml
 
 ## —— Database —————————————————————————————————————————————————————————————————————————————————————————————————————————
 db-migrate: ## run doctrine migrations
@@ -101,6 +131,8 @@ demo: ## make new demo
 	@$(MAKE) -s db-drop/"demo"
 	@$(MAKE) -s db-create/"demo" SCHEMA="schema_demo_adm"
 	@$(MAKE) -s db-migrate
+	@$(MAKE) -s assets-install
+	@$(MAKE) -s assets-build
 	@$(RUN_ADMIN) emsco:user:create demo demo@example.com demo --super-admin
 	@$(RUN_ADMIN) emsco:user:promote demo ROLE_API
 	@$(RUN_ADMIN) emsco:user:promote demo ROLE_FORM_CRM
@@ -118,6 +150,7 @@ demo: ## make new demo
 	@$(RUN_ADMIN) ems:managed-alias:add-environment ma_preview default
 	@$(RUN_ADMIN) ems:managed-alias:add-environment ma_live live
 	@$(RUN_ADMIN) ems:managed-alias:add-environment ma_live default
+	@$(RUN_ADMIN) emsco:user:add-group demo admins
 	@$(RUN_ADMIN) emsch:local:login demo demo
 	@$(RUN_ADMIN) emsch:local:push --force
 	@$(RUN_ADMIN) emsch:local:upload --filename=./demo/skeleton/template/asset_hash.twig
@@ -125,7 +158,9 @@ demo: ## make new demo
 	@$(RUN_ADMIN) ems:admin:restore --documents-folder=./demo/configs/document --documents --force
 	@$(RUN_ADMIN) ems:environment:align preview live --force --no-debug
 demo-backup-configs: ## backup demo configs
-	@$(RUN_ADMIN) ems:admin:backup --configs-folder=./demo/configs/admin --configs --export
+	@$(RUN_WEB) c:c
+	@$(RUN_WEB) ems:admin:login --username=demo --password=demo
+	@$(RUN_WEB) ems:admin:backup --configs-folder=./demo/configs/admin --configs --export
 demo-backup-documents: ## backup demo documents
 	@$(RUN_ADMIN) ems:admin:backup --documents-folder=./demo/configs/document --documents --export
 demo-npm/%: ## demo npm

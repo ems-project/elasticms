@@ -11,11 +11,12 @@ use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
-final class EMSClientHelperExtension extends Extension
+final class EMSClientHelperExtension extends Extension implements PrependExtensionInterface
 {
     #[\Override]
     public function load(array $configs, ContainerBuilder $container): void
@@ -37,9 +38,11 @@ final class EMSClientHelperExtension extends Extension
         $container->setParameter('emsch.asset_local_folder', $config['asset_local_folder'] ?? null);
         $container->setParameter('emsch.request_environments', $config['request_environments']);
         $container->setParameter('emsch.search_limit', $config['search_limit']);
+        $container->setParameter('emsch.security.sso.core_user', $config['security']['sso']['core_user'] ?? false);
         $container->setParameter('emsch.security.sso.oauth2', $config['security']['sso']['oauth2'] ?? []);
         $container->setParameter('emsch.security.sso.saml', $config['security']['sso']['saml'] ?? []);
         $container->setParameter('emsch.security.route_login', $config['security']['route_login']);
+        $container->setParameter('emsch.security.firewall', $config['security']['firewall']);
 
         $templates = $config['templates'];
         $container->getDefinition('emsch.helper_exception')->replaceArgument(5, $templates['error']);
@@ -59,6 +62,24 @@ final class EMSClientHelperExtension extends Extension
         }
 
         $loader->load('api.xml');
+    }
+
+    #[\Override]
+    public function prepend(ContainerBuilder $container): void
+    {
+        $bundles = $container->getParameter('kernel.bundles');
+
+        if (\is_array($bundles) && !isset($bundles['TwigBundle'])) {
+            return;
+        }
+
+        $config = $container->getExtensionConfig($this->getAlias())[0] ?? [];
+
+        $container->prependExtensionConfig('twig', [
+            'globals' => [
+                'emschLocales' => $config['locales'] ?? [],
+            ],
+        ]);
     }
 
     /**

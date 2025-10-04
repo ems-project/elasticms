@@ -54,6 +54,7 @@ final class Commands
 
     public const string MEDIA_LIB_FOLDER_DELETE = 'emsco:medialib:folder-delete';
     public const string MEDIA_LIB_FOLDER_RENAME = 'emsco:medialib:folder-rename';
+    public const string MEDIA_LIB_FOLDER_MOVE = 'emsco:medialib:folder-move';
 
     public const string USER_ACTIVATE = 'emsco:user:activate';
     public const string USER_CHANGE_PASSWORD = 'emsco:user:change-password';
@@ -65,7 +66,9 @@ final class Commands
 
     public const string XLIFF_EXTRACT = 'emsco:xliff:extract';
     public const string XLIFF_UPDATE = 'emsco:xliff:update';
-
+    public const string USER_ADD_GROUP = 'emsco:user:add-group';
+    public const string USER_REMOVE_GROUP = 'emsco:user:remove-group';
     public const string ASSET_REFRESH_FILE_FIELD = 'emsco:asset:refresh-file-fields';
     final public const string SUBMISSION_EXPORT = 'emsco:submissions:export';
+    final public const string GENERATE_DUMMY_SUBMISSIONS = 'emsco:submissions:generate-dummy-submissions';
 }

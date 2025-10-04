@@ -1,5 +1,3 @@
-import 'cropperjs/dist/cropper.css'
-import '../../../css/core/plugins/cropper.scss'
 import CropperJS from 'cropperjs'
 
 class Cropper {

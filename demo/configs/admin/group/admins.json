@@ -1,0 +1,16 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\Group",
+    "arguments": [],
+    "properties": {
+        "name": "admins",
+        "label": "Admins",
+        "roles": [
+            "ROLE_ADMIN",
+            "ROLE_SUPER_ADMIN",
+            "ROLE_API",
+            "ROLE_ALLOW_ALIGN",
+            "ROLE_COPY_PASTE"
+        ]
+    },
+    "replaced": []
+}

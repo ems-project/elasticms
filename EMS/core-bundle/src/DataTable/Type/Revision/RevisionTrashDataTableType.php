@@ -12,6 +12,7 @@ use EMS\CoreBundle\DataTable\Type\DataTableTypeTrait;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Form\Data\DatetimeTableColumn;
 use EMS\CoreBundle\Form\Data\QueryTable;
+use EMS\CoreBundle\Form\Data\RevisionDisplayTableColumn;
 use EMS\CoreBundle\Form\Data\UserTableColumn;
 use EMS\CoreBundle\Repository\RevisionRepository;
 use EMS\CoreBundle\Routes;
@@ -48,14 +49,14 @@ class RevisionTrashDataTableType extends AbstractTableType implements QueryServi
             ->setLabelAttribute('label')
             ->setDefaultOrder('modified', 'desc');
 
-        $table->addColumn(t('field.label', [], 'emsco-core'), 'label');
+        $table->addColumnDefinition(new RevisionDisplayTableColumn(t('field.label', [], 'emsco-core'), 'label'))->setOrderField('labelField');
         if ($this->userService->isSuper()) {
             $table->addColumn(t('revision.field.ouuid', [], 'emsco-core'), 'ouuid');
         }
         $table->addColumnDefinition(new UserTableColumn(t('field.user_deleted', [], 'emsco-core'), 'deletedBy'));
         $table->addColumnDefinition(new DatetimeTableColumn(t('field.date_modified', [], 'emsco-core'), 'modified'));
 
-        if ($this->authorizationChecker->isGranted($contentType->role(ContentTypeRoles::CREATE))) {
+        if ($this->authorizationChecker->isGranted($contentType->role(ContentTypeRoles::EDIT))) {
             $table->addDynamicItemPostAction(
                 route: Routes::DATA_TRASH_PUT_BACK,
                 labelKey: t('revision.trash.put_back', [], 'emsco-core'),

@@ -56,13 +56,13 @@ class DetailController extends AbstractController
 
         $revision = $this->revisionService->findByIdOrOuuid($contentType, $revisionId, $ouuid);
 
-        if (null === $revision && $contentType->hasVersionTags() && Uuid::isValid($ouuid)) {
-            // using version ouuid as ouuid should redirect to latest
-            $searchLatestVersion = $this->revisionRepository->findLatestVersion($contentType, $ouuid);
-            if ($searchLatestVersion && $searchLatestVersion->getOuuid() !== $ouuid) {
+        if (null === $revision && $contentType->getVersioning()->enabled() && Uuid::isValid($ouuid)) {
+            $document = $this->searchService->getDocument($contentType, $ouuid);
+
+            if ($document->getOuuid() !== $ouuid) {
                 return $this->redirectToRoute('emsco_view_revisions', [
                     'type' => $contentType->getName(),
-                    'ouuid' => $searchLatestVersion->getOuuid(),
+                    'ouuid' => $document->getOuuid(),
                 ]);
             }
         }
@@ -136,7 +136,7 @@ class DetailController extends AbstractController
         $referrerResultSet = $this->elasticaService->search($esSearch);
         $referrerResponse = CommonResponse::fromResultSet($referrerResultSet);
 
-        if ($contentType->hasVersionTags()
+        if ($contentType->getVersioning()->enabled()
             && (null !== $versionOuuid = $revision->getVersionUuid())
             && null !== $revision->getVersionDate('to')) {
             $latestVersion = $this->revisionRepository->findLatestVersion($contentType, $versionOuuid->toString());

@@ -16,6 +16,8 @@ class PdfPrintOptions
     private readonly string $orientation;
     private readonly string $size;
     private readonly string $chroot;
+    /** @var string[] */
+    private readonly array $allowedRemoteHosts;
 
     final public const string FILENAME = 'filename';
     final public const string ATTACHMENT = 'attachment';
@@ -25,6 +27,7 @@ class PdfPrintOptions
     final public const string ORIENTATION = 'orientation';
     final public const string SIZE = 'size';
     final public const string CHROOT = 'chroot';
+    final public const string ALLOWED_REMOTE_HOSTS = 'allowedRemoteHosts';
     private readonly TempDirectory $tempDirectory;
 
     /**
@@ -41,6 +44,7 @@ class PdfPrintOptions
         $this->orientation = $options[self::ORIENTATION] ?? 'portrait';
         $this->size = $options[self::SIZE] ?? 'a4';
         $this->chroot = $options[self::CHROOT] ?? $this->tempDirectory->path;
+        $this->allowedRemoteHosts = $options[self::ALLOWED_REMOTE_HOSTS] ?? [];
     }
 
     public function getFilename(): string
@@ -81,5 +85,18 @@ class PdfPrintOptions
     public function getChroot(): ?string
     {
         return $this->chroot;
+    }
+
+    public function isRemoteEnabled(): bool
+    {
+        return \count($this->allowedRemoteHosts) > 0;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getAllowedRemoteHosts(): array
+    {
+        return $this->allowedRemoteHosts;
     }
 }

@@ -66,6 +66,7 @@ security:
         - { path: ^/_readiness$, role: PUBLIC_ACCESS }
         - { path: ^/_liveness$, role: PUBLIC_ACCESS }
         - { path: ^/public/, role: PUBLIC_ACCESS }
+        - { path: ^/emsf/, role: PUBLIC_ACCESS }
         - { path: ^/health_check(\.json)?$, role: PUBLIC_ACCESS }
         - { path: ^/login$, role: PUBLIC_ACCESS }
         - { path: ^/auth-token$, role: PUBLIC_ACCESS }
@@ -80,6 +81,7 @@ security:
         - { path: ^/channel/.*/emsch/api, role: ROLE_USER }
         - { path: ^/channel/, role: PUBLIC_ACCESS }
         - { path: ^/bundles, role: PUBLIC_ACCESS }
+        - { path: ^/action, roles: ROLE_USER }
         - { path: ^/api/user-profile, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/api, roles: ROLE_API }
         - { path: ^/api/admin, roles: ROLE_ADMIN }
@@ -90,4 +92,5 @@ security:
         - { path: ^/elasticsearch, roles: ROLE_ADMIN }
         - { path: ^/publisher, roles: ROLE_PUBLISHER }
         - { path: ^/submissions, roles: ROLE_FORM_CRM }
+        - { path: ^/mercure, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/, roles: ROLE_USER }

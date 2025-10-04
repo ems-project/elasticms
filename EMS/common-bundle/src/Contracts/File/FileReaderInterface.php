@@ -10,14 +10,16 @@ interface FileReaderInterface
      * @param array{
      *     delimiter?: ?string,
      *     encoding?: ?string,
+     *     all_sheets?: ?bool,
      * } $options
      *
-     * @return array<int, array<mixed>>
+     * @return mixed[]
      */
     public function getData(string $filename, array $options = []): array;
 
     /**
      * @param array{
+     *      mime_type?: ?string,
      *      delimiter?: ?string,
      *      encoding?: ?string,
      *      exclude_rows?: int[],

@@ -30,4 +30,6 @@ interface ProfileInterface
      * @return array<string, mixed>
      */
     public function getUserOptions(): array;
+
+    public function getExpirationDate(): ?\DateTimeImmutable;
 }

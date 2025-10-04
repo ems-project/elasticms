@@ -1,4 +1,5 @@
 import dynForm from "./dyn-forms";
+import FilesUpload from "./files-upload.js";
 
 
 export default function form() {
@@ -57,9 +58,8 @@ export class skeletonForm
         const self = this;
         const fileFields = elementForm.querySelectorAll('input[type=file]');
         for (let i = 0; i < fileFields.length; i++) {
-            fileFields[i].onchange = function() {
-                self.updateFileField(this);
-            }
+            var filesUpload = new FilesUpload()
+            filesUpload.load(fileFields[i])
         }
         let $firstInvalid = $('.is-invalid').first();
         if ($firstInvalid.length > 0) {
@@ -94,36 +94,6 @@ export class skeletonForm
         }
         if (!displayedMessage) {
             this.addSuccessMessage(elementMessage, this.translations.form_processed);
-        }
-    }
-
-    updateFileField(fileField) {
-        const filenames = [];
-        for (var i = 0; i < fileField.files.length; ++i) {
-            filenames.push(fileField.files.item(i).name.split("\\").pop().replace('%20', ' '));
-        }
-
-        const fileLabel = fileField.parentNode.querySelector('.custom-file-label');
-        const fileList = fileField.parentNode.parentNode.querySelector('.file-list');
-        console.log(fileList);
-        if(filenames.length === 0) {
-            fileLabel.classList.remove('selected');
-            fileLabel.innerHTML = '';
-            fileList.innerHTML = '';
-        }
-        else if (filenames.length === 1) {
-            fileLabel.classList.add('selected');
-            fileLabel.innerHTML = filenames.pop();
-            fileList.innerHTML = '';
-        }
-        else {
-            fileLabel.classList.add('selected');
-            fileLabel.innerHTML = this.translations.file_selected.replace('%count%', filenames.length);
-            for (var i = 0; i < filenames.length; ++i) {
-                const li = document.createElement('li');
-                li.innerHTML = filenames[i];
-                fileList.appendChild(li);
-            }
         }
     }
 

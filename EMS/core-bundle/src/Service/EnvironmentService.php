@@ -22,6 +22,7 @@ use EMS\CoreBundle\Entity\Helper\JsonClass;
 use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Repository\AnalyzerRepository;
 use EMS\CoreBundle\Repository\EnvironmentRepository;
+use EMS\CoreBundle\Repository\EnvironmentRevisionRepository;
 use EMS\CoreBundle\Repository\FilterRepository;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -44,6 +45,7 @@ class EnvironmentService implements EntityServiceInterface
         private readonly LoggerInterface $logger,
         private readonly ElasticaService $elasticaService,
         private readonly AliasService $aliasService,
+        private readonly EnvironmentRevisionRepository $environmentRevisionRepository,
         private readonly string $instanceId,
     ) {
         $environmentRepository = $doctrine->getRepository(Environment::class);
@@ -149,10 +151,9 @@ class EnvironmentService implements EntityServiceInterface
     }
 
     /**
-     * @deprecated  https://github.com/ems-project/EMSCoreBundle/issues/281
-     *
      * @return array<string, Environment>
      */
+    #[\Deprecated(message: 'https://github.com/ems-project/EMSCoreBundle/issues/281')]
     public function getNotSnapshotEnvironments(): array
     {
         if ([] !== $this->notSnapshotEnvironments) {
@@ -170,10 +171,9 @@ class EnvironmentService implements EntityServiceInterface
     }
 
     /**
-     * @deprecated  https://github.com/ems-project/EMSCoreBundle/issues/281
-     *
      * @return string[]
      */
+    #[\Deprecated(message: 'https://github.com/ems-project/EMSCoreBundle/issues/281')]
     public function getNotSnapshotEnvironmentsNames(): array
     {
         return \array_keys($this->getNotSnapshotEnvironments());
@@ -300,7 +300,7 @@ class EnvironmentService implements EntityServiceInterface
             });
         }
 
-        return (new ArrayCollection($circleEnvironments))->filter(function (Environment $e) {
+        return new ArrayCollection($circleEnvironments)->filter(function (Environment $e) {
             $role = $e->getRolePublish();
 
             return null === $role || $this->authorizationChecker->isGranted($role);
@@ -546,8 +546,8 @@ class EnvironmentService implements EntityServiceInterface
 
         if (null === $stats) {
             $stats = [
-                'revisions' => $this->environmentRepository->countRevisionsById(),
-                'revisions_deleted' => $this->environmentRepository->countRevisionsById(deleted: true),
+                'revisions' => $this->environmentRevisionRepository->countDocumentsByEnvironments(),
+                'revisions_deleted' => $this->environmentRevisionRepository->countDocumentsByEnvironments(deleted: true),
             ];
         }
 

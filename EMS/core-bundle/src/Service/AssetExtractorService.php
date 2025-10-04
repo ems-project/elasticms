@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Service;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
-use EMS\CommonBundle\Common\Converter;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Helper\MimeTypeHelper;
 use EMS\CommonBundle\Storage\NotFoundException;
@@ -14,6 +13,7 @@ use EMS\CoreBundle\Helper\AssetExtractor\ExtractedData;
 use EMS\CoreBundle\Tika\TikaWrapper;
 use EMS\Helpers\File\File;
 use EMS\Helpers\File\TempFile;
+use EMS\Helpers\Standard\Number;
 use EMS\Helpers\Standard\Type;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
@@ -75,6 +75,7 @@ class AssetExtractorService implements CacheWarmerInterface
             return [
                 'code' => $result->getStatusCode(),
                 'content' => $result->getBody()->__toString(),
+                'client' => 'Tika',
             ];
         } else {
             $tempFile = TempFile::create();
@@ -88,33 +89,39 @@ class AssetExtractorService implements CacheWarmerInterface
     }
 
     /**
-     * @deprecated
-     *
      * @return mixed[]
      */
+    #[\Deprecated]
     public function extractData(string $hash, ?string $file = null, bool $forced = false): array
     {
         return $this->extractMetaData($hash, $file, $forced)->getSource();
     }
 
-    public function extractMetaData(string $hash, ?string $file = null, bool $forced = false, ?string $filename = null): ExtractedData
+    public function findCachedExtractedData(string $hash): ?ExtractedData
     {
         $manager = $this->doctrine->getManager();
         $repository = $manager->getRepository(CacheAssetExtractor::class);
 
         /** @var ?CacheAssetExtractor $cacheData */
-        $cacheData = $repository->findOneBy([
-            'hash' => $hash,
-        ]);
+        $cacheData = $repository->findOneBy(['hash' => $hash]);
 
         if ($cacheData instanceof CacheAssetExtractor) {
             return new ExtractedData($cacheData->getData() ?? [], $this->tikaMaxContent);
         }
 
+        return null;
+    }
+
+    public function extractMetaData(string $hash, ?string $file = null, bool $forced = false, ?string $filename = null): ExtractedData
+    {
+        if (null !== $extractedData = $this->findCachedExtractedData($hash)) {
+            return $extractedData;
+        }
+
         $filesize = $this->fileService->getSize($hash);
         if (!$forced && $filesize > (3 * 1024 * 1024)) {
             $this->logger->warning('log.warning.asset_extract.file_to_large', [
-                'filesize' => Converter::formatBytes($filesize),
+                'filesize' => Number::formatBytes($filesize),
                 'max_size' => '3 MB',
             ]);
 
@@ -165,7 +172,7 @@ class AssetExtractorService implements CacheWarmerInterface
                     if (!\mb_check_encoding($text)) {
                         $text = \mb_convert_encoding($text, \mb_internal_encoding(), 'ASCII');
                     }
-                    $text = \preg_replace('/(\n)(\s*\n)+/', '${1}', $text);
+                    $text = \preg_replace('/(\n)(\s*\n)+/', '${1}', Type::string($text));
                     $out->setContent($text ?? '');
                 }
                 if (!empty($out->getLocale())) {
@@ -184,20 +191,13 @@ class AssetExtractorService implements CacheWarmerInterface
         }
 
         if ($canBePersisted && isset($out)) {
-            try {
-                $cacheData = new CacheAssetExtractor();
-                $cacheData->setHash($hash);
-                $cacheData->setData($out->getSource());
-                $manager->persist($cacheData);
-                $manager->flush();
-            } catch (\Exception $e) {
-                $this->logger->warning('service.asset_extractor.persist_error', [
-                    'file_hash' => $hash,
-                    EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
-                    EmsFields::LOG_EXCEPTION_FIELD => $e,
-                    'tika' => 'jar',
-                ]);
-            }
+            $cacheData = new CacheAssetExtractor();
+            $cacheData->setHash($hash);
+            $cacheData->setData($out->getSource());
+
+            $manager = $this->doctrine->getManager();
+            $manager->persist($cacheData);
+            $manager->flush();
         }
 
         return $out ?? new ExtractedData([], $this->tikaMaxContent);

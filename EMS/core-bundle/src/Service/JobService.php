@@ -6,9 +6,12 @@ namespace EMS\CoreBundle\Service;
 
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
+use EMS\CommonBundle\Common\Metric\MetricCollector;
 use EMS\CommonBundle\Entity\EntityInterface;
 use EMS\CoreBundle\Command\JobOutput;
 use EMS\CoreBundle\Core\Job\ScheduleManager;
+use EMS\CoreBundle\Core\Messenger\Message\JobMessage;
+use EMS\CoreBundle\Core\Metric\JobMetricCollector;
 use EMS\CoreBundle\Entity\Helper\JsonClass;
 use EMS\CoreBundle\Entity\Job;
 use EMS\CoreBundle\Repository\JobRepository;
@@ -17,6 +20,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -32,9 +36,17 @@ class JobService implements EntityServiceInterface
         private readonly LoggerInterface $logger,
         private readonly JobRepository $repository,
         private readonly ScheduleManager $scheduleManager,
+        private readonly MetricCollector $metricCollector,
         private readonly TokenStorageInterface $tokenStorage,
+        private readonly MessageBusInterface $bus,
+        private readonly bool $asyncEnabled,
     ) {
         $this->em = $doctrine->getManager();
+    }
+
+    public function getById(int $id): ?Job
+    {
+        return $this->repository->findById($id);
     }
 
     public function deleteByIds(string ...$ids): void
@@ -47,6 +59,13 @@ class JobService implements EntityServiceInterface
 
     public function nextJob(?string $tag = null): ?Job
     {
+        $this->metricCollector->gauge(
+            namespace: JobMetricCollector::NAMESPACE,
+            name: 'last_ping',
+            help: 'Timestamp of the last ping',
+            labels: ['tag']
+        )->set(\time(), [$tag ?? '']);
+
         return $this->repository->findOneBy(
             ['started' => false, 'done' => false, 'tag' => $tag],
             ['created' => 'ASC']
@@ -127,6 +146,9 @@ class JobService implements EntityServiceInterface
     {
         $this->em->persist($job);
         $this->em->flush();
+        if (!$job->getStarted() && $this->asyncEnabled) {
+            $this->bus->dispatch(new JobMessage($job->getId()));
+        }
     }
 
     public function delete(Job $job): void
@@ -173,8 +195,7 @@ class JobService implements EntityServiceInterface
         $job->setStarted(true);
         $this->repository->save($job);
 
-        $output = new JobOutput($this->repository, $job->getId());
-        $output->setDecorated(true);
+        $output = $this->getJobOutput($job);
         $output->writeln('Job ready to be launch');
 
         return $output;
@@ -320,11 +341,16 @@ class JobService implements EntityServiceInterface
     public function write(int $jobId, string $message, bool $newLine): void
     {
         $job = $this->repository->findById($jobId);
-        $job->setOutput($job->getOutput().$message.($newLine ? PHP_EOL : ''));
 
-        $this->em->persist($job);
-        $this->em->flush();
+        $output = $this->getJobOutput($job);
+        $output->doWrite($message, $newLine);
+    }
 
-        $this->logger->info('Job '.$job->getCommand().' completed.');
+    private function getJobOutput(Job $job): JobOutput
+    {
+        $output = new JobOutput($this->repository, $job->getId());
+        $output->setDecorated(true);
+
+        return $output;
     }
 }

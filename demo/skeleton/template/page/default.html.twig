@@ -1,6 +1,8 @@
 {% extends '@EMSCH/template/base/bootstrap.html.twig' %}
 {% trans_default_domain trans_default_domain %}
 
+{% import '@EMSCH/template/macros/wysiwyg.twig' as wysiwyg %}
+
 {% block title %}{{ attribute(source, locale).title|default('') }}{% endblock %}
 
 {% block metatitle -%}
@@ -38,7 +40,7 @@
             <section class="py-5 py-lg-8">
                 <div class="row">
                     <div class="col-12 col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
-                        {{ attribute(source, locale).body|emsch_routing }}
+                        {{ wysiwyg.transform(attribute(source, locale).body|emsch_routing) }}
                     </div>
                 </div>
             </section>

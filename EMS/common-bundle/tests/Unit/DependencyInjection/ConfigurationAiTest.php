@@ -59,6 +59,8 @@ final class ConfigurationAiTest extends TestCase
                 'trusted_ips' => [],
             ],
             'vite_dev_server' => null,
+            'runners' => [],
+            'key_store' => [],
         ];
 
         $this->assertEquals($expected, $config);

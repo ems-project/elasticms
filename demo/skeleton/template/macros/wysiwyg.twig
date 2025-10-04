@@ -1,0 +1,38 @@
+{% macro transform(content, transformers = ['table', 'img', 'external_links']) %}
+    {% set crawler = content|ems_dom_crawler %}
+
+    {% for transformer in transformers %}
+        {{ block('_' ~ transformer) }}
+    {% endfor %}
+
+    {{ crawler.html()|raw }}
+{% endmacro %}
+
+{% block _table %}
+    {% for table in crawler.filter('table:not([class])') %}
+        {% set wrapper = table.ownerDocument.createElement('div') %}
+        {% do wrapper.setAttribute('class', 'table-responsive') %}
+
+        {% do table.setAttribute('class', 'table table-bordered table-striped') %}
+
+        {% do table.replaceWith(wrapper) %}
+        {% do wrapper.append(table) %}
+    {% endfor %}
+{% endblock _table %}
+
+{% block _img %}
+    {% for img in crawler.filter('img:not([class*="img-fluid"])') %}
+        {% do img.setAttribute('class', 'img-fluid') %}
+    {% endfor %}
+{% endblock _img %}
+
+{% block _external_links %}
+    {% set new_window = 'key.new_window'|trans %}
+    {% for a in crawler.filter('a[href^="http"]') %}
+        {% set span = a.ownerDocument.createElement('span') %}
+        {% do span.setAttribute('class', 'sr-only') %}
+        {% do span.append(new_window) %}
+        {% do a.append(span) %}
+        {% do a.setAttribute('target', '_blank') %}
+    {% endfor %}
+{% endblock _external_links %}

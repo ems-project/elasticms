@@ -108,8 +108,7 @@ class Client
      */
     public function forwardResponse(string $resource, array $query = []): StreamedResponse
     {
-        $request = $this->get($resource, $query);
-        $response = $request->response;
+        $response = $this->getResponse($resource, $query);
         if (!$response instanceof StreamableInterface) {
             throw new \RuntimeException('no stream response');
         }
@@ -120,9 +119,9 @@ class Client
                 \flush();
             }
             \fclose($stream);
-        }, $request->response->getStatusCode());
+        }, $response->getStatusCode());
 
-        $headers = $request->response->getHeaders();
+        $headers = $response->getHeaders();
 
         $streamResponse->headers->set('Content-Type', $headers['content-type']);
         $streamResponse->headers->set('Content-Disposition', $headers['content-disposition']);

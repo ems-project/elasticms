@@ -29,7 +29,8 @@ class TwigElementsController extends AbstractController
         private readonly JobService $jobService,
         private readonly DashboardManager $dashboardManager,
         private readonly ContentTypeService $contentTypeService,
-        private readonly string $templateNamespace
+        private readonly string $templateNamespace,
+        private readonly bool $groupFeature,
     ) {
     }
 
@@ -101,7 +102,11 @@ class TwigElementsController extends AbstractController
         if (!$this->isGranted('ROLE_USER_MANAGEMENT')) {
             return $menu;
         }
-        $menu->addChild('views.elements.side-menu-html.users', 'fa fa-users', Routes::USER_INDEX)->setTranslation([]);
+        $menu->addChild(t('key.users', [], 'emsco-core'), 'fa fa-users', Routes::USER_INDEX);
+        if (!$this->groupFeature) {
+            return $menu;
+        }
+        $menu->addChild(t('key.groups', [], 'emsco-core'), 'fa fa-list-ul', Routes::GROUP_INDEX);
 
         return $menu;
     }

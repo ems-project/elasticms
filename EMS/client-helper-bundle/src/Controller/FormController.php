@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Controller;
 
+use EMS\ClientHelperBundle\Helper\Form\EmschFormBlock;
 use EMS\ClientHelperBundle\Helper\Form\EmschFormType;
 use EMS\ClientHelperBundle\Helper\Request\Handler;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -13,9 +14,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 readonly class FormController
 {
-    public const string BLOCK_SUCCESS_REDIRECT = 'emschFormSuccessRedirect';
-    public const string BLOCK_DATA = 'emschFormData';
-
     public function __construct(
         private Handler $handler,
         private FormFactoryInterface $formFactory,
@@ -25,18 +23,15 @@ readonly class FormController
     public function __invoke(Request $request): Response
     {
         $template = $this->handler->handle($request);
-
-        $data = $template->jsonBlock(self::BLOCK_DATA);
+        $data = $template->jsonBlock(EmschFormBlock::DATA->value);
 
         $form = $this->formFactory->create(EmschFormType::class, $data, ['template' => $template]);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $template->context()->append(['emschFormData' => $form->getData()]);
-
-            if ($redirect = $template->renderBlock(self::BLOCK_SUCCESS_REDIRECT)) {
-                return new RedirectResponse($redirect);
-            }
+        if ($form->isSubmitted()
+            && $form->isValid()
+            && $redirect = $template->renderBlock(EmschFormBlock::SUCCESS_REDIRECT->value)) {
+            return new RedirectResponse($redirect);
         }
 
         $template->context()->append(['emschForm' => $form->createView()]);

@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import inject from '@rollup/plugin-inject'
 import liveReload from 'vite-plugin-live-reload'
+import { resolve } from 'path';
 
 export default defineConfig({
   base: './',
@@ -12,14 +13,13 @@ export default defineConfig({
     copyPublicDir: true,
     rollupOptions: {
       input: {
-        action: 'src/action.js',
         app: 'src/app.js',
+        swaggerui: 'src/swagger-ui.js',
         calendar: 'src/calendar.js',
         'criteria-table': 'src/criteria-table.js',
         'criteria-view': 'src/criteria-view.js',
         'edit-revision': 'src/edit-revision.js',
         hierarchical: 'src/hierarchical.js',
-        i18n: 'src/i18n.js',
         'managed-alias': 'src/managed-alias.js'
       }
     }
@@ -29,7 +29,8 @@ export default defineConfig({
       scss: {
         api: 'modern-compiler',
       }
-    }
+    },
+    devSourcemap: true
   },
   plugins: [
     liveReload('../templates/**/*.twig'),
@@ -41,7 +42,10 @@ export default defineConfig({
     })
   ],
   resolve: {
-    extensions: ['.js', '.ts']
+    extensions: ['.js', '.ts'],
+    alias: {
+      '@fonts': resolve('./public/fonts')
+    }
   },
   server: {
     host: '0.0.0.0',

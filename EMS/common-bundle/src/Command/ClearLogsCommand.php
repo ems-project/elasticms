@@ -35,7 +35,7 @@ class ClearLogsCommand extends AbstractCommand
     protected function configure(): void
     {
         $this
-            ->addOption(self::OPTION_BEFORE, null, InputOption::VALUE_OPTIONAL, 'CLear logs older than the strtotime (-1day, -5min, now)', '-1week')
+            ->addOption(self::OPTION_BEFORE, null, InputOption::VALUE_OPTIONAL, 'Clear logs older than the strtotime (-1day, -5min, now)', '-1week')
             ->addOption(self::OPTION_CHANNEL, null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Define channels default [app]', ['app'])
         ;
     }
@@ -50,7 +50,7 @@ class ClearLogsCommand extends AbstractCommand
             throw new \RuntimeException('invalid time');
         }
 
-        $this->before = (new \DateTime())->setTimestamp($beforeTime);
+        $this->before = new \DateTime()->setTimestamp($beforeTime);
         $this->channels = $this->getOptionStringArray(self::OPTION_CHANNEL, false);
     }
 

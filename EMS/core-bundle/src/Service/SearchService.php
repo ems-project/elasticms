@@ -7,12 +7,13 @@ namespace EMS\CoreBundle\Service;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Elastica\Query\AbstractQuery;
 use Elastica\Query\BoolQuery;
-use Elastica\Query\Exists;
-use Elastica\Query\Terms;
+use Elastica\Query\Term;
 use EMS\CommonBundle\Common\EMSLink;
+use EMS\CommonBundle\Elasticsearch\Document\Document;
 use EMS\CommonBundle\Elasticsearch\Document\Document as ElasticsearchDocument;
 use EMS\CommonBundle\Search\Search as CommonSearch;
 use EMS\CommonBundle\Service\ElasticaService;
+use EMS\CoreBundle\Core\ContentType\Version\VersionFields;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Entity\Form\Search;
@@ -39,10 +40,9 @@ class SearchService
     }
 
     /**
-     * @deprecated
-     *
      * @return array<mixed>
      */
+    #[\Deprecated]
     public function generateSearchBody(Search $search): array
     {
         @\trigger_error('SearchService::generateSearchBody is deprecated use the SearchService::generateSearch method instead', E_USER_DEPRECATED);
@@ -89,7 +89,7 @@ class SearchService
                     $boolQuery->addMustNot($esFilter);
                     break;
                 case 'filter':
-                    $boolQuery->addFilter((new BoolQuery())->addMust($esFilter));
+                    $boolQuery->addFilter(new BoolQuery()->addMust($esFilter));
                     break;
                 default:
                     throw new \RuntimeException(\sprintf('Unexpected %s boolean clause', $filter->getBooleanClause()));
@@ -122,15 +122,16 @@ class SearchService
         $index = $environment?->getAlias() ?? $contentType->giveEnvironment()->getAlias();
         $searchQuery = null;
 
-        if ($contentType->hasVersionTags() && null !== $dateToField = $contentType->getVersionDateToField()) {
-            $shouldVersion = new BoolQuery();
-            $shouldVersion->addMust($this->elasticaService->getTermsQuery(Mapping::VERSION_UUID, [$ouuid]));
-            $shouldVersion->addMustNot(new Exists($dateToField));
+        $versioning = $contentType->getVersioning();
+        if ($versioning->enabled() && null !== $dateFromField = $versioning->field(VersionFields::DATE_FROM)) {
+            $searchLatestVersion = new CommonSearch([$index], new Term([Mapping::VERSION_UUID => $ouuid]));
+            $searchLatestVersion->setSize(1);
+            $searchLatestVersion->setSort([$dateFromField => ['order' => 'desc']]);
 
-            $searchQuery = new BoolQuery();
-            $searchQuery->setMinimumShouldMatch(1);
-            $searchQuery->addShould($shouldVersion);
-            $searchQuery->addShould(new Terms('_id', [$ouuid]));
+            $searchLatestResults = $this->elasticaService->search($searchLatestVersion)->getResults();
+            if (isset($searchLatestResults[0])) {
+                return Document::fromResult($searchLatestResults[0]);
+            }
         }
 
         return $this->elasticaService->getDocument($index, $contentType->getName(), $ouuid, [], [], $searchQuery);

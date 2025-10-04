@@ -88,11 +88,14 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('template_namespace')->defaultValue(self::TEMPLATE_NAMESPACE)->end()
                 ->scalarNode('dynamic_mapping')->defaultValue(self::DYNAMIC_MAPPING)->end()
                 ->scalarNode('image_max_size')->defaultValue(self::IMAGE_MAX_SIZE)->end()
+                ->scalarNode('forgot_password_url')->defaultValue(null)->end()
+                ->booleanNode('group_feature')->defaultValue(false)->end()
             ->end()
         ;
 
         $this->addSecuritySection($rootNode);
         $this->addLdapSection($rootNode);
+        $this->addAsyncSection($rootNode);
 
         return $treeBuilder;
     }
@@ -137,6 +140,17 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('display_name_field')->end()
                     ->end()
                 ->end()
+            ->end()
+        ;
+    }
+
+    private function addAsyncSection(ArrayNodeDefinition $rootNode): void
+    {
+        $rootNode
+            ->children()
+            ->arrayNode('async')
+            ->canBeEnabled()
+            ->end()
             ->end()
         ;
     }

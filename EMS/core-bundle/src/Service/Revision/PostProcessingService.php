@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Service\Revision;
 
+use Doctrine\DBAL\Exception;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Json\JsonMenuNested;
 use EMS\CoreBundle\Core\Revision\RawDataTransformer;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\DataField;
 use EMS\CoreBundle\Entity\FieldType;
+use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Exception\CantBeFinalizedException;
 use EMS\CoreBundle\Form\DataField\CollectionFieldType;
 use EMS\CoreBundle\Form\DataField\ComputedFieldType;
@@ -50,6 +52,9 @@ final readonly class PostProcessingService
     public function postProcessing(FormInterface $form, ContentType $contentType, array &$objectArray, array $context = [], ?array &$parent = [], string $path = ''): bool
     {
         $migration = isset($context['migration']) && $context['migration'];
+        $rootData = $form->getRoot()->getData();
+        $revision = $rootData instanceof Revision ? $rootData : null;
+
         $context = \array_merge($context, [
             '_source' => &$objectArray, // if update also update the context
             '_type' => $contentType->getName(),
@@ -58,6 +63,7 @@ final readonly class PostProcessingService
             'parent' => $parent,
             'path' => $path,
             'form' => $form,
+            'revisionId' => $revision?->getId(),
         ]);
 
         $found = false;
@@ -117,6 +123,8 @@ final readonly class PostProcessingService
                             EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getPrevious()->getMessage(),
                         ]);
                     }
+                } elseif ($e->getPrevious() && $e->getPrevious() instanceof Exception) {
+                    throw $e->getPrevious();
                 } elseif ($e instanceof SyntaxError) {
                     if (!$migration) {
                         $twigContext = $e->getSourceContext();

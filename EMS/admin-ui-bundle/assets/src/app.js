@@ -1,6 +1,4 @@
 import '../css/adminlte.scss'
-import '../css/fontawsome.scss'
-import '../css/plugins.scss'
 
 import '@popperjs/core'
 import * as bootstrap from 'bootstrap'

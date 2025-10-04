@@ -1,0 +1,13 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\Group",
+    "arguments": [],
+    "properties": {
+        "name": "webmasters",
+        "label": "Webmasters",
+        "roles": [
+            "ROLE_USER",
+            "ROLE_WEBMASTER"
+        ]
+    },
+    "replaced": []
+}

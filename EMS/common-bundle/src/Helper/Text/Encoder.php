@@ -115,7 +115,7 @@ class Encoder
             $rules = ['de-ASCII'];
         }
 
-        return (new UnicodeString($text))->ascii($rules)->toString();
+        return new UnicodeString($text)->ascii($rules)->toString();
     }
 
     public static function markdownToHtml(string $markdown): string
@@ -160,10 +160,10 @@ class Encoder
 
     /**
      * Allow encoding other pii using a class "pii"
-     * <a href="tel:02/123.45.23"><span class="pii">02/123.45.23</span></a>.
+     * <a href="tel:+3221234523"><span class="pii">02/123.45.23</span></a>.
      *
      * The <span> element is consumed and is not kept in the end result.
-     * example browser output: <a href="tel:02/123.45.23">02/123.45.23</a>
+     * example browser output: <a href="tel:+3221234523">02/123.45.23</a>
      *
      * If html tags are used inside a pii span, it will be double encoded and give unexpected results on the browser
      */

@@ -6,6 +6,8 @@ namespace EMS\CoreBundle\Controller;
 
 use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
+use EMS\CoreBundle\Core\UI\Page\Navigation;
+use EMS\CoreBundle\Core\UI\Page\Page;
 use EMS\CoreBundle\DataTable\Type\UploadedAsset\UploadedAssetAdminDataTableType;
 use EMS\CoreBundle\DataTable\Type\UploadedAsset\UploadedAssetDataTableType;
 use EMS\CoreBundle\Entity\UploadedAsset;
@@ -28,11 +30,10 @@ class UploadedFileController extends AbstractController
         private readonly LocalizedLoggerInterface $logger,
         private readonly FileService $fileService,
         private readonly DataTableFactory $dataTableFactory,
-        private readonly string $templateNamespace,
     ) {
     }
 
-    public function adminOverview(Request $request): Response
+    public function adminOverview(Request $request): Page|Response
     {
         $table = $this->dataTableFactory->create(UploadedAssetAdminDataTableType::class);
 
@@ -55,14 +56,15 @@ class UploadedFileController extends AbstractController
             return $this->redirectToRoute(Routes::UPLOAD_ASSET_ADMIN_OVERVIEW);
         }
 
-        return $this->render("@$this->templateNamespace/crud/overview.html.twig", [
-            'form' => $form->createView(),
+        return new Page([
+            'datatable' => ['form' => $form->createView()],
             'icon' => 'fa fa-upload',
             'title' => t('key.uploaded_files_logs', [], 'emsco-core'),
-            'breadcrumb' => [
-                'admin' => t('key.admin', [], 'emsco-core'),
-                'page' => t('key.uploaded_files', [], 'emsco-core'),
-            ],
+            'breadcrumb' => Navigation::admin()->add(
+                label: t('key.uploaded_files', [], 'emsco-core'),
+                icon: 'fa fa-upload',
+                route: Routes::UPLOAD_ASSET_ADMIN_OVERVIEW,
+            ),
         ]);
     }
 
@@ -80,7 +82,7 @@ class UploadedFileController extends AbstractController
         return $this->redirectToRoute(Routes::UPLOAD_ASSET_ADMIN_OVERVIEW);
     }
 
-    public function publisherIndex(Request $request): Response
+    public function publisherIndex(Request $request): Page|Response
     {
         $table = $this->dataTableFactory->create(UploadedAssetDataTableType::class, [
             'location' => UploadedAssetDataTableType::LOCATION_PUBLISHER_OVERVIEW,
@@ -105,14 +107,15 @@ class UploadedFileController extends AbstractController
             return $this->redirectToRoute(Routes::UPLOAD_ASSET_PUBLISHER_OVERVIEW);
         }
 
-        return $this->render("@$this->templateNamespace/crud/overview.html.twig", [
-            'form' => $form->createView(),
+        return new Page([
+            'datatable' => ['form' => $form->createView()],
             'icon' => 'fa fa-upload',
             'title' => t('key.uploaded_files', [], 'emsco-core'),
-            'breadcrumb' => [
-                'publishers' => t('key.publishers', [], 'emsco-core'),
-                'page' => t('key.uploaded_files', [], 'emsco-core'),
-            ],
+            'breadcrumb' => Navigation::publishers()->add(
+                label: t('key.uploaded_files', [], 'emsco-core'),
+                icon: 'fa fa-upload',
+                route: Routes::UPLOAD_ASSET_PUBLISHER_OVERVIEW,
+            ),
         ]);
     }
 

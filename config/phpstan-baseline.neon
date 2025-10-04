@@ -13,12 +13,6 @@ parameters:
 			message: '#^Call to deprecated method extractData\(\) of class EMS\\CoreBundle\\Service\\AssetExtractorService\.$#'
 			identifier: method.deprecated
 			count: 1
-			path: ../EMS/core-bundle/src/Command/ExtractAssetCommand.php
-
-		-
-			message: '#^Call to deprecated method extractData\(\) of class EMS\\CoreBundle\\Service\\AssetExtractorService\.$#'
-			identifier: method.deprecated
-			count: 1
 			path: ../EMS/core-bundle/src/Command/IndexFileCommand.php
 
 		-

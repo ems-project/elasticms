@@ -12,4 +12,6 @@ interface CoreBridgeInterface
     public function data(string $contentType): CoreDataBridgeInterface;
 
     public function info(): CoreInfoBridgeInterface;
+
+    public function file(): CoreFileBridgeInterface;
 }

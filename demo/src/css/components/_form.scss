@@ -1,0 +1,80 @@
+$files-upload-selector: 'files-upload';
+
+.#{$files-upload-selector} {
+  padding: 1rem;
+  border-style: dashed;
+  display: flex;
+  flex-direction: column;
+
+  .custom-file-label {
+    cursor: pointer;
+
+    span {
+      text-decoration: underline;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+
+    &::before {
+      content: attr(data-browse);
+    }
+  }
+
+  .count-file {
+    margin-top: map-get($spacers, 3);
+    margin-bottom: map-get($spacers, 2);
+  }
+
+  .file-list {
+    li {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      column-gap: 3rem;
+      row-gap: 1rem;
+      padding: 1rem;
+      background-color: var(--bs-secondary-bg);
+      border-radius: var(--bs-border-radius);
+
+      & + li {
+        margin-top: map-get($spacers, 2);
+      }
+
+      &:has(.form-error-message) {
+        background-color: var(--bs-danger);
+
+        .form-error-message {
+          flex: 0 0 100%;
+        }
+
+        &, a {
+          color: #fff;
+        }
+      }
+    }
+  }
+
+  .remove-all-files {
+    display: inline-block;
+    margin-top: map-get($spacers, 2);
+    text-align: right;
+    padding-right: map-get($spacers, 3);
+  }
+}
+
+.#{$files-upload-selector}-head {
+  padding-left: 2.5rem;
+  position: relative;
+
+  &::before {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+
+    @include faw-icon($fa-var-arrow-up-from-bracket, 24);
+  }
+}
+

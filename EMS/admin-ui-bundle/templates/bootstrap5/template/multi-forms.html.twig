@@ -1,0 +1,34 @@
+{% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}
+{#
+Template: Multiple forms
+
+Description:
+Render multiple forms on the page
+
+Available Variables:
+    - forms (array, optional): list of object with those Variables:
+        - title (translation, mandatory): Sub-form's title
+        - form (FormView, mandatory): Sub-form
+        - icon (string, optional): Sub-form' icon
+#}
+
+
+{% block title %}{% if title is defined %}{{ title|trans }}{% endif %}{% endblock title %}
+
+{% block body %}
+    {% for subForm in forms %}
+        <div class="card card-{{ theme_color }} card-outline">
+            <div class="card-header">
+                <h3 class="card-title mb-2">
+                    {% if subForm.icon is defined and subForm.icon %}
+                        <i class="{{ subForm.icon }}"></i>
+                    {% endif %}
+                    {{ subForm.title|trans }}
+                </h3>
+            </div>
+            <div class="card-body">
+                {{ form(subForm.form) }}
+            </div>
+        </div>
+    {% endfor %}
+{% endblock body %}

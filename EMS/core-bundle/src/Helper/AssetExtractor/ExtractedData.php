@@ -6,6 +6,7 @@ namespace EMS\CoreBundle\Helper\AssetExtractor;
 
 use EMS\Helpers\Standard\Json;
 use EMS\Helpers\Standard\Text;
+use EMS\Helpers\Standard\Type;
 
 class ExtractedData
 {
@@ -60,7 +61,7 @@ class ExtractedData
             return null;
         }
 
-        return (new \DateTimeImmutable())->setTimestamp($parseDate);
+        return new \DateTimeImmutable()->setTimestamp($parseDate);
     }
 
     public function getDate(): string
@@ -83,9 +84,14 @@ class ExtractedData
         return isset($this->source['content']);
     }
 
-    public function getContent(): string
+    public function getContent(bool $applyMaxContentSize = true): string
     {
         $content = (string) ($this->source['content'] ?? '');
+
+        if (!$applyMaxContentSize) {
+            return $content;
+        }
+
         $trimContent = Text::superTrim($content);
 
         return \mb_substr($trimContent, 0, $this->maxContentSize, 'UTF-8');
@@ -112,7 +118,7 @@ class ExtractedData
         if (!\mb_check_encoding($data)) {
             $data = \mb_convert_encoding($data, \mb_internal_encoding(), 'ASCII');
         }
-        $cleaned = \preg_replace("/\r/", '', $data);
+        $cleaned = \preg_replace("/\r/", '', Type::string($data));
         if (null === $cleaned) {
             throw new \RuntimeException('It was possible to parse meta information');
         }

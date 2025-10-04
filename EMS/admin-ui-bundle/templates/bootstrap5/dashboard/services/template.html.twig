@@ -1,16 +1,6 @@
 {% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}
-{% trans_default_domain 'emsco-twigs' %}
-
-{% block breadcrumb %}
-    <ol class="breadcrumb float-sm-end">
-        <li class="breadcrumb-item"><a href="{{ path('emsco_dashboard', {name: dashboard.name}) }}"><i class="{{ dashboard.icon }}"></i> {{ dashboard.label }}</a></li>
-        {% block breadcrumb_items %}{% endblock breadcrumb_items %}
-    </ol>
-{% endblock %}
 
 {% block title %}{{ dashboard.label }}{% endblock %}
-{% block pagetitle %}{{ block('title') }}{% endblock %}
-{% block subtitle %}{% endblock %}
 
 
 {% block extraheader %}

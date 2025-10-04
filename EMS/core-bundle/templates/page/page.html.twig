@@ -1,0 +1,110 @@
+{% extends '@EMSCore/base.html.twig' %}
+
+{% block title %}{{ title|trans }}{% endblock %}
+{% block pagetitle %}{{ pageTitle|default(title)|trans }}{% endblock %}
+{% block subtitle %}{% if subTitle is defined %}<small>{{ subTitle|trans }}</small>{% endif %}{% endblock %}
+
+{% block breadcrumb %}
+	{# @var item \EMS\CoreBundle\Core\UI\Page\NavigationItem #}
+	<ol class="breadcrumb">
+		{% if breadcrumb is iterable %}
+			{% for name, item in breadcrumb %}
+				{% if name == 'contentType' %}
+					<li>{{ t('key.content_types', [], 'emsco-core')|trans }}</li>
+					<li>
+						<i class="{{ item.icon|default('fa fa-book') }}"></i>&nbsp;{{ item.pluralName }}
+					</li>
+				{% elseif name == 'page' %}
+					<li>{% if icon is defined %}<i class="{{ icon }}"></i>{% endif %}&nbsp;{{ item|trans }}</li>
+				{% else %}
+					<li>{{ item|trans }}</li>
+				{% endif %}
+			{% endfor %}
+		{% else %}
+			{% for item in breadcrumb.items %}
+				{%- set label -%}
+					{% if item.icon %}<i class="{{ item.icon }}"></i>&nbsp;{% endif %}
+					{{ item.label ? item.label|trans : item.text|default('...') }}
+				{%- endset -%}
+				<li class="{{ html_classes({ 'active': loop.last }) }}">
+					{% if item.route and loop.last == false %}
+						<a href="{{ path(item.route, item.routeParams) }}">{{ label|raw }}</a>
+					{% else %}
+						{{ label|raw }}
+					{% endif %}
+				</li>
+			{% endfor %}
+		{% endif %}
+	</ol>
+{% endblock %}
+
+{% block body %}
+    {%- if datatable is defined -%}
+        {{ block('render_datatable') }}
+    {%- elseif datatables is defined -%}
+        {{ block('render_datatables') }}
+    {%- elseif form is defined -%}
+        {{ block('render_form') }}
+    {%- endif -%}
+{% endblock %}
+
+{%- block render_datatable -%}
+    {% set tableOptions = {} %}
+    {% if datatable.icon is defined %}{% set tableOptions = tableOptions|merge({ 'table_title_icon': datatable.icon }) %}{% endif %}
+    {% if datatable.title is defined %}{% set tableOptions = tableOptions|merge({ 'table_title': datatable.title|trans }) %}{% endif %}
+
+    {% form_theme datatable.form '@EMSCore/form/forms.html.twig' %}
+    {{ form(datatable.form, tableOptions) }}
+{%- endblock render_datatable -%}
+
+{% block render_datatables %}
+    <div class="row">
+        {% for datatable in datatables %}
+            <div class="{{ datatables|length == 2 ? 'col-md-6': 'col-md-12' }}">
+                <div>
+                    {{ block('render_datatable') }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock render_datatables %}
+
+{%- block render_form -%}
+    <div class="row">
+        {%- if notice is defined -%}
+            <div class="col-md-3">{{ block('render_notice') }}</div>
+        {%- endif -%}
+        <div class="{{ notice is defined ? 'col-md-9' : 'col-md-12' }}">
+            <div class="box box-primary">
+                {{ form_start(form) }}
+                <div class="box-body ">
+                    {{ form_errors(form) }}
+                    <div class="row">
+                        {% for child in form|filter(c => not (c.vars.name in ['save', 'save_close'])) %}
+                            {{ form_row(child) }}
+                            <div class="clearfix"></div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="box-footer">
+                    {%- for button in form|filter(c => c.vars.name in ['save', 'save_close'])  -%}
+                        {{ form_widget(button) }}
+                    {%- endfor -%}
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{%- endblock render_form -%}
+
+{%- block render_notice -%}
+    <div class="box">
+        <div class="box-header with-border">
+            <i class="fa fa-warning"></i>
+            <h3 class="box-title">{{ 'key.notice'|trans({}, 'emsco-core') }}</h3>
+        </div>
+        <div class="box-body">
+            <p>{{ notice|trans }}</p>
+        </div>
+    </div>
+{%- endblock render_notice -%}

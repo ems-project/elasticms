@@ -101,25 +101,30 @@ class RebuildCommand extends AbstractCommand
     }
 
     #[\Override]
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    protected function initialize(InputInterface $input, OutputInterface $output): void
     {
-        $this->aliasService->build();
-        $this->yellowOk = true === $input->getOption(self::OPTION_YELLOW_OK);
-        $this->all = true === $input->getOption(self::OPTION_ALL);
-        $this->waitFor($this->yellowOk, $output);
+        parent::initialize($input, $output);
+        $this->yellowOk = $this->getOptionBool(self::OPTION_YELLOW_OK);
+        $this->all = $this->getOptionBool(self::OPTION_ALL);
+        $this->bulkSize = $this->getOptionInt(self::OPTION_BULK_SIZE);
+        $this->signData = !$this->getOptionBool(self::OPTION_DONT_SIGN);
+        $this->ignoreReferrers = $this->getOptionBool(self::OPTION_IGNORE_REFERRERS);
 
-        $this->bulkSize = (int) $input->getOption(self::OPTION_BULK_SIZE);
         if ($this->bulkSize <= 0) {
             throw new \RuntimeException('Unexpected bulk size option');
         }
+    }
+
+    #[\Override]
+    protected function execute(InputInterface $input, OutputInterface $output): int
+    {
+        $this->aliasService->build();
+        $this->waitFor($this->yellowOk, $output);
 
         if ($input->getOption(self::OPTION_SIGN_DATA)) {
             $this->logger->warning('command.rebuild.sign-data');
             $output->writeln('The option --sign-data is deprecated');
         }
-
-        $this->signData = !$input->getOption(self::OPTION_DONT_SIGN);
-        $this->ignoreReferrers = !$input->getOption(self::OPTION_IGNORE_REFERRERS);
 
         $this->em = $this->doctrine->getManager();
         $name = $input->getArgument(self::ARGUMENT_NAME);

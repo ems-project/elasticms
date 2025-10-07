@@ -39,6 +39,7 @@ class SynchronizeCommand extends AbstractCommand
     public const string OPTION_SOURCE_HEADERS = 'source-headers';
     public const string OPTION_TARGET_HEADERS = 'target-headers';
     public const string OPTION_KEYWORD_FIELD = 'keyword-field';
+    public const string OPTION_AGGS_SIZE = 'aggs-size';
     private const string AGGREGATION_CONTENT_TYPE = 'content-types';
     private const string AGGREGATION_PUBLISHED = 'published';
     private const string AGGREGATION_FINALIZED = 'finalized';
@@ -58,6 +59,7 @@ class SynchronizeCommand extends AbstractCommand
     private Synchronizer $targetClient;
     private string $keepAlive;
     private string $keywordField;
+    private int $aggsSize;
 
     public function __construct(private readonly HttpClientInterface $httpClient)
     {
@@ -118,6 +120,13 @@ class SynchronizeCommand extends AbstractCommand
                 InputOption::VALUE_OPTIONAL,
                 'The keyword field used to group data',
                 EMSSource::FIELD_CONTENT_TYPE
+            )
+            ->addOption(
+                self::OPTION_AGGS_SIZE,
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'The aggregation size on the keyword field',
+                50
             );
     }
 
@@ -128,6 +137,7 @@ class SynchronizeCommand extends AbstractCommand
         $this->source = $this->getArgumentString(self::ARGUMENT_SOURCE);
         $this->target = $this->getArgumentString(self::ARGUMENT_TARGET);
         $this->bulkSize = $this->getOptionInt(self::OPTION_BULK_SIZE);
+        $this->aggsSize = $this->getOptionInt(self::OPTION_AGGS_SIZE);
         $this->keepAlive = $this->getOptionString(self::OPTION_KEEP_ALIVE);
         $this->force = $this->getOptionBool(self::OPTION_FORCE);
         $this->targetHeaders = Json::decode($this->getOptionString(self::OPTION_TARGET_HEADERS));
@@ -210,7 +220,7 @@ class SynchronizeCommand extends AbstractCommand
     private function getContentTypes(Synchronizer $sourceClient): Aggregation
     {
         $aggregation = new TermsAggregation(self::AGGREGATION_CONTENT_TYPE);
-        $aggregation->setSize(50);
+        $aggregation->setSize($this->aggsSize);
         $aggregation->setField($this->keywordField);
         $maxPublished = new Max(self::AGGREGATION_PUBLISHED);
         $maxPublished->setField(EMSSource::FIELD_PUBLICATION_DATETIME);

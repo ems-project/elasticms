@@ -201,7 +201,7 @@ class SynchronizeCommand extends AbstractCommand
                     && $contentType->getAggregation(self::AGGREGATION_PUBLISHED)->getValueAsString() === $inTarget->getAggregation(self::AGGREGATION_PUBLISHED)->getValueAsString()
                     && $contentType->getAggregation(self::AGGREGATION_FINALIZED)->getValueAsString() === $inTarget->getAggregation(self::AGGREGATION_FINALIZED)->getValueAsString()
                 ) {
-                    $this->io->info(\sprintf('Content type %s is aligned', $contentType->getKey()));
+                    $this->io->info(\sprintf('Content type %s is aligned with %d documents', $contentType->getKey(), $inTarget->getDocCount()));
                     continue;
                 }
             }

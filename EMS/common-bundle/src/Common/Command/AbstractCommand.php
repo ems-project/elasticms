@@ -75,7 +75,7 @@ abstract class AbstractCommand extends Command implements CommandInterface
     {
         $arg = $this->input->getArgument($name);
         if (null === $arg && null !== $question) {
-            $this->io->ask(
+            $arg = $this->io->ask(
                 question: $question,
                 validator: function ($user) {
                     if (null === $user || '' === $user) {

@@ -46,7 +46,7 @@ final class Commands
     public const string REVISION_TASK_CREATE = 'emsco:revision:task:create';
     public const string REVISION_TASK_NOTIFICATION_MAIL = 'emsco:revision:task:notification-mail';
     public const string REVISION_DISCARD_DRAFT = 'emsco:revision:discard-draft';
-    public const string REVISIONS_UNLOCK = 'emsco:revisions:unlock';
+    public const string REVISIONS_UNLOCK = 'emsco:revision:unlock';
     public const string REVISIONS_INDEX_FILE_FIELDS = 'emsco:revisions:index-file-fields';
     public const string REVISIONS_TIME_MACHINE = 'emsco:revisions:time-machine';
     public const string SUBMISSIONS_EMAIL = 'emsco:submissions:email';

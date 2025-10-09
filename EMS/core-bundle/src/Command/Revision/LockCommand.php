@@ -11,8 +11,8 @@ use EMS\CommonBundle\Search\Search;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Entity\ContentType;
-use EMS\CoreBundle\Repository\ContentTypeRepository;
-use EMS\CoreBundle\Repository\RevisionRepository;
+use EMS\CoreBundle\Service\ContentTypeService;
+use EMS\CoreBundle\Service\DataService;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -45,9 +45,9 @@ final class LockCommand extends AbstractCommand
     private ?string $ouuid;
 
     public function __construct(
-        private readonly ContentTypeRepository $contentTypeRepository,
+        private readonly ContentTypeService $contentTypeService,
         private readonly ElasticaService $elasticaService,
-        private readonly RevisionRepository $revisionRepository,
+        private readonly DataService $dataService,
     ) {
         parent::__construct();
     }
@@ -73,14 +73,8 @@ final class LockCommand extends AbstractCommand
         $this->io->title('Content-type lock command');
 
         $this->until = $this->getArgumentDateTime(self::ARGUMENT_TIME);
-
         $contentTypeName = $this->getArgumentString(self::ARGUMENT_CONTENT_TYPE);
-        $contentType = $this->contentTypeRepository->findByName($contentTypeName);
-        if (!$contentType instanceof ContentType) {
-            throw new \RuntimeException('Content type not found');
-        }
-        $this->contentType = $contentType;
-
+        $this->contentType = $this->contentTypeService->giveByName($contentTypeName);
         $this->by = $this->getOptionString(self::OPTION_USER);
         $this->query = $this->getOptionString(self::OPTION_QUERY);
         $this->force = $this->getOptionBool(self::OPTION_FORCE);
@@ -92,7 +86,7 @@ final class LockCommand extends AbstractCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if ($this->ifEmpty
-            && 0 !== $this->revisionRepository->findAllLockedRevisions($this->contentType, $this->by)->count()) {
+            && 0 !== $this->dataService->countLockRevisions($this->contentType, $this->by)) {
             return 0;
         }
 
@@ -116,10 +110,10 @@ final class LockCommand extends AbstractCommand
 
             $revisionCount = 0;
             foreach ($this->searchDocuments($search) as $document) {
-                $revisionCount += $this->revisionRepository->lockRevisions($this->contentType, $this->until, $this->by, $this->force, $document->getId());
+                $revisionCount += $this->dataService->lockRevisions($this->contentType, $this->until, $this->by, $this->force, $document->getId());
             }
         } else {
-            $revisionCount = $this->revisionRepository->lockRevisions($this->contentType, $this->until, $this->by, $this->force, $this->ouuid);
+            $revisionCount = $this->dataService->lockRevisions($this->contentType, $this->until, $this->by, $this->force, $this->ouuid);
         }
 
         if (0 === $revisionCount) {

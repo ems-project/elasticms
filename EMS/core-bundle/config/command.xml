@@ -7,9 +7,9 @@
     <services>
         <!-- EMS content-type -->
         <service id="ems.contenttype.lock" class="EMS\CoreBundle\Command\Revision\LockCommand">
-            <argument type="service" id="EMS\CoreBundle\Repository\ContentTypeRepository"/>
+            <argument type="service" id="ems.service.contenttype"/>
             <argument type="service" id="ems_common.service.elastica"/>
-            <argument type="service" id="EMS\CoreBundle\Repository\RevisionRepository"/>
+            <argument type="service" id="ems.service.data"/>
             <tag name="console.command"/>
         </service>
         <service id="ems.contenttype.transform" class="EMS\CoreBundle\Command\ContentType\TransformCommand">

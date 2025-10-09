@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Common\Command;
 
 use EMS\CommonBundle\Command\CommandInterface;
+use EMS\Helpers\Standard\DateTime;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProcessHelper;
 use Symfony\Component\Console\Helper\QuestionHelper;
@@ -76,6 +77,13 @@ abstract class AbstractCommand extends Command implements CommandInterface
         }
 
         return (string) $arg;
+    }
+
+    protected function getArgumentDateTime(string $name): \DateTimeInterface
+    {
+        $arg = $this->getArgumentString($name);
+
+        return DateTime::create($arg);
     }
 
     protected function getArgumentStringNull(string $name): ?string

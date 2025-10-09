@@ -44,6 +44,7 @@ final class LockCommand extends AbstractCommand
 
     public const int RESULT_SUCCESS = 0;
     private bool $ifEmpty;
+    private ?string $ouuid;
 
     public function __construct(
         private readonly ContentTypeRepository $contentTypeRepository,
@@ -86,6 +87,7 @@ final class LockCommand extends AbstractCommand
         $this->query = $this->getOptionString(self::OPTION_QUERY);
         $this->force = $this->getOptionBool(self::OPTION_FORCE);
         $this->ifEmpty = $this->getOptionBool(self::OPTION_IF_EMPTY);
+        $this->ouuid = $this->getOptionStringNull(self::OPTION_OUUID);
     }
 
     #[\Override]
@@ -119,8 +121,7 @@ final class LockCommand extends AbstractCommand
                 $revisionCount += $this->revisionRepository->lockRevisions($this->contentType, $this->until, $this->by, $this->force, $document->getId());
             }
         } else {
-            $ouuid = $input->getOption(self::OPTION_OUUID) ? (string) ($input->getOption(self::OPTION_OUUID)) : null;
-            $revisionCount = $this->revisionRepository->lockRevisions($this->contentType, $this->until, $this->by, $this->force, $ouuid);
+            $revisionCount = $this->revisionRepository->lockRevisions($this->contentType, $this->until, $this->by, $this->force, $this->ouuid);
         }
 
         if (0 === $revisionCount) {

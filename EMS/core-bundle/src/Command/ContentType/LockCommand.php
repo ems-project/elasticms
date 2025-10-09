@@ -101,7 +101,9 @@ final class LockCommand extends AbstractCommand
             $search = $this->elasticaService->convertElasticsearchSearch([
                 'index' => (null !== $this->contentType->getEnvironment()) ? $this->contentType->getEnvironment()->getAlias() : '',
                 '_source' => false,
-                'body' => $query,
+                'body' => isset($query['query']) ? $query : [
+                    'query' => $query,
+                ],
             ]);
 
             $documentCount = $this->elasticaService->count($search);

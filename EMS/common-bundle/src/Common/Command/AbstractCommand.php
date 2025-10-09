@@ -77,9 +77,9 @@ abstract class AbstractCommand extends Command implements CommandInterface
         if (null === $arg && null !== $question) {
             $arg = $this->io->ask(
                 question: $question,
-                validator: function ($user) {
+                validator: function ($user) use ($name) {
                     if (null === $user || '' === $user) {
-                        throw new \RuntimeException('User cannot be empty.');
+                        throw new \RuntimeException(\sprintf('Argument %s must be defined.', $name));
                     }
 
                     return Type::string($user);

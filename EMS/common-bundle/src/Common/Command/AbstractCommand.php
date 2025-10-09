@@ -77,12 +77,12 @@ abstract class AbstractCommand extends Command implements CommandInterface
         if (null === $arg && null !== $question) {
             $arg = $this->io->ask(
                 question: $question,
-                validator: function ($user) use ($name) {
-                    if (null === $user || '' === $user) {
+                validator: function ($value) use ($name) {
+                    if (null === $value || '' === $value) {
                         throw new \RuntimeException(\sprintf('Argument %s must be defined.', $name));
                     }
 
-                    return Type::string($user);
+                    return Type::string($value);
                 }
             );
         } elseif (null === $arg) {

@@ -536,7 +536,7 @@ class RevisionRepository extends EntityRepository
         return $this->deleteByQueryBuilder($qb);
     }
 
-    public function lockRevisions(?ContentType $contentType, \DateTime $until, string $by, bool $force = false, ?string $ouuid = null, bool $onlyCurrentRevision = true): int
+    public function lockRevisions(?ContentType $contentType, \DateTimeInterface $until, string $by, bool $force = false, ?string $ouuid = null, bool $onlyCurrentRevision = true): int
     {
         $qbSelect = $this->createQueryBuilder('s');
         $qbSelect

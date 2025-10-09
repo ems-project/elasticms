@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command\ContentType;
 
+use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
 use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
 use EMS\CommonBundle\Search\Search;
@@ -14,12 +15,10 @@ use EMS\CoreBundle\Repository\ContentTypeRepository;
 use EMS\CoreBundle\Repository\RevisionRepository;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\Console\Attribute\AsCommand;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
     name: Commands::CONTENT_TYPE_LOCK,
@@ -27,14 +26,13 @@ use Symfony\Component\Console\Style\SymfonyStyle;
     hidden: false,
     aliases: ['ems:contenttype:lock']
 )]
-final class LockCommand extends Command
+final class LockCommand extends AbstractCommand
 {
     private string $by;
     private ContentType $contentType;
     private bool $force;
-    private SymfonyStyle $io;
     private string $query;
-    private \DateTime $until;
+    private \DateTimeInterface $until;
 
     public const string ARGUMENT_CONTENT_TYPE = 'contentType';
     public const string ARGUMENT_TIME = 'time';
@@ -71,42 +69,21 @@ final class LockCommand extends Command
     #[\Override]
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
-        $this->io = new SymfonyStyle($input, $output);
+        parent::initialize($input, $output);
         $this->io->title('Content-type lock command');
 
-        $timeArgument = $input->getArgument(self::ARGUMENT_TIME);
-        if (!\is_string($timeArgument)) {
-            throw new \RuntimeException('Unexpected time argument');
-        }
-        if (($time = \strtotime($timeArgument)) === false) {
-            throw new \RuntimeException('invalid time');
-        }
-        $until = new \DateTime();
-        $until->setTimestamp($time);
-        $this->until = $until;
+        $this->until = $this->getArgumentDateTime(self::ARGUMENT_TIME);
 
-        $contentTypeName = $input->getArgument(self::ARGUMENT_CONTENT_TYPE);
-        if (!\is_string($contentTypeName)) {
-            throw new \RuntimeException('Unexpected content type name');
-        }
+        $contentTypeName = $this->getArgumentString(self::ARGUMENT_CONTENT_TYPE);
         $contentType = $this->contentTypeRepository->findByName($contentTypeName);
         if (!$contentType instanceof ContentType) {
             throw new \RuntimeException('Content type not found');
         }
         $this->contentType = $contentType;
 
-        $by = $input->getOption(self::OPTION_USER);
-        if (!\is_string($by)) {
-            throw new \RuntimeException('Unexpected username');
-        }
-        $this->by = $by;
-
-        if (null !== $input->getOption(self::OPTION_QUERY)) {
-            $this->query = (string) $input->getOption('query');
-            Json::decode($this->query, 'Invalid json query');
-        }
-
-        $this->force = true === $input->getOption(self::OPTION_FORCE);
+        $this->by = $this->getOptionString(self::OPTION_USER);
+        $this->query = $this->getArgumentString(self::OPTION_QUERY);
+        $this->force = $this->getOptionBool(self::OPTION_FORCE);
     }
 
     #[\Override]

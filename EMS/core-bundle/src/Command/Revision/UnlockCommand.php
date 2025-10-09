@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EMS\CoreBundle\Command;
+namespace EMS\CoreBundle\Command\Revision;
 
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Entity\ContentType;
@@ -23,7 +23,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
     hidden: false,
     aliases: ['ems:revisions:unlock']
 )]
-final class UnlockRevisionsCommand extends Command
+final class UnlockCommand extends Command
 {
     private ?SymfonyStyle $io = null;
     private ?string $user = null;

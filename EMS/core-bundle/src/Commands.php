@@ -10,8 +10,8 @@ final class Commands
     public const string ASSET_EXTRACT = 'emsco:asset:extract';
     public const string ASSET_CLEAN = 'emsco:asset:clean';
     public const string ASSET_HEAD = 'emsco:asset:head';
-    public const string CONTENT_TYPE_LOCK = 'ems:contenttype:lock';
-    public const string CONTENT_TYPE_RECOMPUTE = 'ems:contenttype:recompute';
+    public const string CONTENT_TYPE_LOCK = 'emsco:revision:lock';
+    public const string CONTENT_TYPE_RECOMPUTE = 'emsco:contenttype:recompute';
     public const string CONTENT_TYPE_SWITCH_DEFAULT_ENV = 'emsco:contenttype:switch-default-env';
     public const string CONTENT_TYPE_CLEAN = 'emsco:contenttype:clean';
     public const string CONTENT_TYPE_ACTIVATE = 'emsco:contenttype:activate';

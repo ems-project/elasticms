@@ -4,36 +4,33 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command\Revision;
 
+use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CoreBundle\Commands;
-use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\DataService;
+use EMS\Helpers\Standard\Type;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
     name: Commands::REVISIONS_UNLOCK,
-    description: 'Unlock all content-types revisions.',
+    description: 'Unlock revisions for a user.',
     hidden: false,
     aliases: ['ems:revisions:unlock']
 )]
-final class UnlockCommand extends Command
+final class UnlockCommand extends AbstractCommand
 {
-    private ?SymfonyStyle $io = null;
-    private ?string $user = null;
-    private ?ContentType $contentType = null;
-    private ?bool $all = null;
-
-    private const string ARGUMENT_USER = 'user';
-    private const string ARGUMENT_CONTENT_TYPE = 'contentType';
+    private const string ARGUMENT_USERNAME = 'username';
+    private const string ARGUMENT_CONTENT_TYPE = 'content-type';
     private const string OPTION_ALL = 'all';
     private const string OPTION_STRICT = 'strict';
+    private ?string $contentTypeName;
+    private string $username;
+    private ?bool $all = null;
 
     public function __construct(private readonly LoggerInterface $logger, private readonly DataService $dataService, private readonly ContentTypeService $contentTypeService)
     {
@@ -45,26 +42,26 @@ final class UnlockCommand extends Command
     {
         $this
             ->addArgument(
-                self::ARGUMENT_USER,
-                InputArgument::REQUIRED,
-                'The user name: the user must correspond to the lock user.'
+                self::ARGUMENT_USERNAME,
+                InputArgument::OPTIONAL,
+                'The username of the locking user.'
             )
             ->addArgument(
                 self::ARGUMENT_CONTENT_TYPE,
                 InputArgument::OPTIONAL,
-                'The content-type target name. If you need to target ALL the content-types, don\'t use this argument but add the "--all" option.'
+                'The content type name. Instead you can target ALL content-types with the "--all" option.'
             )
             ->addOption(
                 self::OPTION_ALL,
                 null,
                 InputOption::VALUE_NONE,
-                'If set, all the content-types will be targeted.'
+                'If set, all the content-types will be unlocked for the user.'
             )
             ->addOption(
                 self::OPTION_STRICT,
                 null,
                 InputOption::VALUE_NONE,
-                'If set, an interact check failed will throw an exception.'
+                'Deprecated, use the -n option instead.'
             )
         ;
     }
@@ -72,137 +69,38 @@ final class UnlockCommand extends Command
     #[\Override]
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
-        $this->io = new SymfonyStyle($input, $output);
-        $this->io->title('Unlock revisions');
-        $this->all = (true === $input->getOption(self::OPTION_ALL));
-    }
-
-    #[\Override]
-    protected function interact(InputInterface $input, OutputInterface $output): void
-    {
-        if (null === $this->io) {
-            throw new \RuntimeException('Unexpected null SymfonyStyle');
+        parent::initialize($input, $output);
+        $this->all = $this->getOptionBool(self::OPTION_ALL);
+        $this->username = $this->getArgumentString(self::ARGUMENT_USERNAME, 'Username of the locking user');
+        if ($this->all) {
+            $this->contentTypeName = $this->getArgumentStringNull(self::ARGUMENT_CONTENT_TYPE);
+        } else {
+            $this->contentTypeName = $this->getArgumentStringFromChoice(self::ARGUMENT_CONTENT_TYPE, 'Select an existing content type', $this->contentTypeService->getAllNames());
         }
-        $this->io->section('Check arguments');
-        $this->checkUserArgument($input);
-        $this->checkContentTypeArgument($input);
 
-        $user = $input->getArgument(self::ARGUMENT_USER);
-        if (!\is_string($user)) {
-            throw new \RuntimeException('Unexpected user name');
-        }
-        $this->user = $user;
-
-        if (!$this->all) {
-            $name = $input->getArgument(self::ARGUMENT_CONTENT_TYPE);
-            if (!\is_string($name)) {
-                throw new \RuntimeException('Unexpected content type name');
-            }
-            $contentType = $this->contentTypeService->getByName($name);
-            if (false === $contentType) {
-                throw new \RuntimeException('Content type not found');
-            }
-            $this->contentType = $contentType;
+        if ($this->getOptionBool(self::OPTION_STRICT)) {
+            $this->logger->error('The "--strict" option is deprecated, use "-n" option instead.');
+            throw new \RuntimeException('The "--strict" option is deprecated, use "-n" option instead.');
         }
     }
 
     #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if (null === $this->io) {
-            throw new \RuntimeException('Unexpected null SymfonyStyle');
-        }
-        if (null === $this->user) {
-            throw new \RuntimeException('Unexpected null user');
-        }
-        if (null === $this->contentType) {
-            throw new \RuntimeException('Unexpected null contentType');
-        }
-        try {
-            if ($this->all) {
-                $count = $this->dataService->unlockAllRevisions($this->user);
-            } else {
-                $count = $this->dataService->unlockRevisions($this->contentType, $this->user);
-            }
-        } catch (\Exception $e) {
-            $this->io->error($e->getMessage());
-            $this->logger->error($e->getMessage());
+        $this->io->title(\sprintf('Unlock revisions for user %s', $this->username));
 
-            return -1;
-        }
+        if (null !== $this->contentTypeName && !$this->all) {
+            $contentType = $this->contentTypeService->giveByName($this->contentTypeName);
+            $count = $this->dataService->unlockRevisions($contentType, Type::string($this->username));
+        } elseif ($this->all && null === $this->contentTypeName) {
+            $count = $this->dataService->unlockAllRevisions(Type::string($this->username));
+        } else {
+            $this->io->error('Exactly one of the following must be specified: --all or a Content Type name.');
 
+            return self::INVALID;
+        }
         $this->io->success(\sprintf('%s revisions have been unlocked', $count));
 
-        return 0;
-    }
-
-    private function checkUserArgument(InputInterface $input): void
-    {
-        if (null === $input->getArgument(self::ARGUMENT_USER)) {
-            $message = 'The user name is not provided';
-            $this->setUserArgument($input, $message);
-        }
-    }
-
-    private function setUserArgument(InputInterface $input, string $message): void
-    {
-        if (null === $this->io) {
-            throw new \RuntimeException('Unexpected null SymfonyStyle');
-        }
-        if ($input->getOption(self::OPTION_STRICT)) {
-            $this->logger->error($message);
-            throw new \Exception($message);
-        }
-
-        $this->io->caution($message);
-        $user = $this->io->ask(
-            'Insert a user name: the user must correspond to the "lock user"',
-            null,
-            function ($user) {
-                if (empty($user)) {
-                    throw new \RuntimeException('User cannot be empty.');
-                }
-
-                return $user;
-            }
-        );
-        $input->setArgument(self::ARGUMENT_USER, $user);
-    }
-
-    private function checkContentTypeArgument(InputInterface $input): void
-    {
-        if ($this->all) {
-            return;
-        }
-
-        if (null === $input->getArgument(self::ARGUMENT_CONTENT_TYPE)) {
-            $message = 'The content type name is not provided';
-            $this->setContentTypeArgument($input, $message);
-        }
-
-        $contentTypeName = $input->getArgument(self::ARGUMENT_CONTENT_TYPE);
-        if (!\is_string($contentTypeName)) {
-            throw new \RuntimeException('Content Type name as to be a string');
-        }
-        if (false === $this->contentTypeService->getByName($contentTypeName)) {
-            $message = \sprintf('The content type "%s" not found', $contentTypeName);
-            $this->setContentTypeArgument($input, $message);
-            $this->checkContentTypeArgument($input);
-        }
-    }
-
-    private function setContentTypeArgument(InputInterface $input, string $message): void
-    {
-        if (null === $this->io) {
-            throw new \RuntimeException('Unexpected null SymfonyStyle');
-        }
-        if ($input->getOption(self::OPTION_STRICT)) {
-            $this->logger->error($message);
-            throw new \Exception($message);
-        }
-
-        $this->io->caution($message);
-        $contentTypeName = $this->io->choice('Select an existing content type', $this->contentTypeService->getAllNames());
-        $input->setArgument(self::ARGUMENT_CONTENT_TYPE, $contentTypeName);
+        return self::SUCCESS;
     }
 }

@@ -212,7 +212,8 @@ For enabling pdf generation use the **emsch.controller.pdf** controller
 }
 ```
 In Twig you can set/override the pdf options with custom meta tags in the head section
-```html
+```twig
+{%- set siteHashAssets = include('@EMSCH/template/asset_hash.twig')|trim -%}
 <head>
     <title>Title</title>
     <meta name="pdf:filename" content="example.pdf" />
@@ -221,8 +222,14 @@ In Twig you can set/override the pdf options with custom meta tags in the head s
     <meta name="pdf:html5Parsing" content="true" />
     <meta name="pdf:orientation" content="portrait" />
     <meta name="pdf:size" content="a4" />
+    <body>
+        <h1>Example export</h1>
+        <img src="{{ ems_file_from_archive(siteHashAssets, "img/logo.svg") }}" width="150" alt="{{ 'site.name'|trans }}">
+    </body>
 </head>
 ```
+
+!> For images, you should use ems_file_from_archive, especially when assets are loaded without a saveDir, which will be the default behaviour in version 7.x.
 
 ### Spreadsheet controller
 

@@ -41,8 +41,6 @@ final class LockCommand extends AbstractCommand
     public const string OPTION_FORCE = 'force';
     public const string OPTION_IF_EMPTY = 'if-empty';
     public const string OPTION_OUUID = 'ouuid';
-
-    public const int RESULT_SUCCESS = 0;
     private bool $ifEmpty;
     private ?string $ouuid;
 
@@ -127,7 +125,7 @@ final class LockCommand extends AbstractCommand
         if (0 === $revisionCount) {
             $this->io->error('No revisions locked, try force?');
 
-            return -1;
+            return self::FAILURE;
         }
 
         $this->io->success(\vsprintf('%s locked %d %s revisions until %s by %s', [
@@ -138,7 +136,7 @@ final class LockCommand extends AbstractCommand
             $this->by,
         ]));
 
-        return self::RESULT_SUCCESS;
+        return self::SUCCESS;
     }
 
     /**

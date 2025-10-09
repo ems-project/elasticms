@@ -82,7 +82,7 @@ final class LockCommand extends AbstractCommand
         $this->contentType = $contentType;
 
         $this->by = $this->getOptionString(self::OPTION_USER);
-        $this->query = $this->getArgumentString(self::OPTION_QUERY);
+        $this->query = $this->getOptionString(self::OPTION_QUERY);
         $this->force = $this->getOptionBool(self::OPTION_FORCE);
     }
 

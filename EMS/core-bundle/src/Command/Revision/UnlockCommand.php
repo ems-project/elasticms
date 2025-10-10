@@ -75,7 +75,8 @@ final class UnlockCommand extends AbstractCommand
         if ($this->all) {
             $this->contentTypeName = $this->getArgumentStringNull(self::ARGUMENT_CONTENT_TYPE);
         } else {
-            $this->contentTypeName = $this->getArgumentStringFromChoice(self::ARGUMENT_CONTENT_TYPE, 'Select an existing content type', $this->contentTypeService->getAllNames());
+            $this->choiceArgumentString(self::ARGUMENT_CONTENT_TYPE, 'Select an existing content type', $this->contentTypeService->getAllNames());
+            $this->contentTypeName = $this->getArgumentString(self::ARGUMENT_CONTENT_TYPE);
         }
 
         if ($this->getOptionBool(self::OPTION_STRICT)) {

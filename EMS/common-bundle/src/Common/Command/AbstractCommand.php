@@ -92,19 +92,6 @@ abstract class AbstractCommand extends Command implements CommandInterface
         return (string) $arg;
     }
 
-    /**
-     * @param string[] $choices
-     */
-    protected function getArgumentStringFromChoice(string $name, string $question, array $choices): string
-    {
-        $arg = $this->input->getArgument($name);
-        if (null !== $arg) {
-            return (string) $arg;
-        }
-
-        return (string) $this->io->choice($question, $choices);
-    }
-
     protected function getArgumentDateTime(string $name): \DateTimeInterface
     {
         $arg = $this->getArgumentString($name);

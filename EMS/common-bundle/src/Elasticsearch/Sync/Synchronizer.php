@@ -10,6 +10,7 @@ use EMS\Helpers\Html\MimeTypes;
 use EMS\Helpers\Standard\Json;
 use EMS\Helpers\Standard\Type;
 use Symfony\Component\HttpClient\Exception\ClientException;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class Synchronizer
@@ -244,8 +245,8 @@ class Synchronizer
                     'scroll_id' => $scrollId,
                 ],
             ]);
-        } catch (ClientException $e) {
-            if ($e->getCode() === 404) {
+        } catch (ClientExceptionInterface $e) {
+            if (404 === $e->getCode()) {
                 return;
             }
             throw $e;

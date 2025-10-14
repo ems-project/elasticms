@@ -4,6 +4,7 @@
 * [Upgrade](#upgrade)
   * [General remarks](#general-remarks)
   * [version 6.9.0](#version-649)
+  * [version 6.5.0](#version-650)
   * [version 6.4.1](#version-641)
   * [version 6.4.0](#version-640)
   * [version 6.1.1](#version-611)
@@ -49,6 +50,20 @@
 * The option --strict will throw an exception in the command `emsco:revision:unlock` use -n instead.
 * The alias `emsco:revisions:unlock` command is deprecated use `emsco:revision:unlock` instead.
 * The alias `emsco:contenttype:lock` command is deprecated use `emsco:revision:lock` instead.
+
+## version 6.5.0
+
+Attention: The following step is no need if you use 6.9.0 or later version.
+
+If your project use a medialibrary, you need to modify your Wysiwyg config and add `"oldFileHandling": true` :
+
+```json
+{
+  "ems" : {
+    "oldFileHandling": true
+  }
+}
+```
 
 ## version 6.4.1
 

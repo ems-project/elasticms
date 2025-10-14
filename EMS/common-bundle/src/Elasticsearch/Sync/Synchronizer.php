@@ -10,6 +10,7 @@ use EMS\Helpers\Html\MimeTypes;
 use EMS\Helpers\Standard\Json;
 use EMS\Helpers\Standard\Type;
 use Symfony\Component\HttpClient\Exception\ClientException;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class Synchronizer
@@ -238,10 +239,17 @@ class Synchronizer
 
     public function closeScroll(string $scrollId): void
     {
-        $this->client->request('DELETE', '../_search/scroll', [
-            'json' => [
-                'scroll_id' => $scrollId,
-            ],
-        ]);
+        try {
+            $this->client->request('DELETE', '../_search/scroll', [
+                'json' => [
+                    'scroll_id' => $scrollId,
+                ],
+            ]);
+        } catch (ClientExceptionInterface $e) {
+            if (404 === $e->getCode()) {
+                return;
+            }
+            throw $e;
+        }
     }
 }

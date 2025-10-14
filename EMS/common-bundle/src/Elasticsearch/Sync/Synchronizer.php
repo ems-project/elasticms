@@ -238,10 +238,17 @@ class Synchronizer
 
     public function closeScroll(string $scrollId): void
     {
-        $this->client->request('DELETE', '../_search/scroll', [
-            'json' => [
-                'scroll_id' => $scrollId,
-            ],
-        ]);
+        try {
+            $this->client->request('DELETE', '../_search/scroll', [
+                'json' => [
+                    'scroll_id' => $scrollId,
+                ],
+            ]);
+        } catch (ClientException $e) {
+            if ($e->getCode() === 404) {
+                return;
+            }
+            throw $e;
+        }
     }
 }

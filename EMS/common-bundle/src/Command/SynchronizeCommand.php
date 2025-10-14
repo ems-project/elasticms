@@ -34,7 +34,7 @@ class SynchronizeCommand extends AbstractCommand
     private const string ARGUMENT_SOURCE = 'source';
     private const string ARGUMENT_TARGET = 'target';
     private const string OPTION_BULK_SIZE = 'bulk-size';
-    private const string OPTION_KEEP_ALIVE = '2m';
+    private const string OPTION_KEEP_ALIVE = 'keep-alive';
     private const string OPTION_FORCE = 'force';
     public const string OPTION_SOURCE_HEADERS = 'source-headers';
     public const string OPTION_TARGET_HEADERS = 'target-headers';

@@ -7,11 +7,12 @@
         "label": "German for highlighting",
         "options": {
             "filter": [
-                "standard",
+                "acronym_keyword",
                 "lowercase",
                 "empty_elision",
                 "german_stemmer",
-                "german_stop"
+                "german_stop",
+                "business_synonyms"
             ],
             "char_filter": [
                 "html_strip"

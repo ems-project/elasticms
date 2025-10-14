@@ -34,11 +34,12 @@ class SynchronizeCommand extends AbstractCommand
     private const string ARGUMENT_SOURCE = 'source';
     private const string ARGUMENT_TARGET = 'target';
     private const string OPTION_BULK_SIZE = 'bulk-size';
-    private const string OPTION_KEEP_ALIVE = '2m';
+    private const string OPTION_KEEP_ALIVE = 'keep-alive';
     private const string OPTION_FORCE = 'force';
     public const string OPTION_SOURCE_HEADERS = 'source-headers';
     public const string OPTION_TARGET_HEADERS = 'target-headers';
     public const string OPTION_KEYWORD_FIELD = 'keyword-field';
+    public const string OPTION_AGGS_SIZE = 'aggs-size';
     private const string AGGREGATION_CONTENT_TYPE = 'content-types';
     private const string AGGREGATION_PUBLISHED = 'published';
     private const string AGGREGATION_FINALIZED = 'finalized';
@@ -58,6 +59,7 @@ class SynchronizeCommand extends AbstractCommand
     private Synchronizer $targetClient;
     private string $keepAlive;
     private string $keywordField;
+    private int $aggsSize;
 
     public function __construct(private readonly HttpClientInterface $httpClient)
     {
@@ -118,6 +120,13 @@ class SynchronizeCommand extends AbstractCommand
                 InputOption::VALUE_OPTIONAL,
                 'The keyword field used to group data',
                 EMSSource::FIELD_CONTENT_TYPE
+            )
+            ->addOption(
+                self::OPTION_AGGS_SIZE,
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'The aggregation size on the keyword field',
+                50
             );
     }
 
@@ -128,6 +137,7 @@ class SynchronizeCommand extends AbstractCommand
         $this->source = $this->getArgumentString(self::ARGUMENT_SOURCE);
         $this->target = $this->getArgumentString(self::ARGUMENT_TARGET);
         $this->bulkSize = $this->getOptionInt(self::OPTION_BULK_SIZE);
+        $this->aggsSize = $this->getOptionInt(self::OPTION_AGGS_SIZE);
         $this->keepAlive = $this->getOptionString(self::OPTION_KEEP_ALIVE);
         $this->force = $this->getOptionBool(self::OPTION_FORCE);
         $this->targetHeaders = Json::decode($this->getOptionString(self::OPTION_TARGET_HEADERS));
@@ -191,7 +201,7 @@ class SynchronizeCommand extends AbstractCommand
                     && $contentType->getAggregation(self::AGGREGATION_PUBLISHED)->getValueAsString() === $inTarget->getAggregation(self::AGGREGATION_PUBLISHED)->getValueAsString()
                     && $contentType->getAggregation(self::AGGREGATION_FINALIZED)->getValueAsString() === $inTarget->getAggregation(self::AGGREGATION_FINALIZED)->getValueAsString()
                 ) {
-                    $this->io->info(\sprintf('Content type %s is aligned', $contentType->getKey()));
+                    $this->io->info(\sprintf('Content type %s is aligned with %d documents', $contentType->getKey(), $inTarget->getDocCount()));
                     continue;
                 }
             }
@@ -210,7 +220,7 @@ class SynchronizeCommand extends AbstractCommand
     private function getContentTypes(Synchronizer $sourceClient): Aggregation
     {
         $aggregation = new TermsAggregation(self::AGGREGATION_CONTENT_TYPE);
-        $aggregation->setSize(50);
+        $aggregation->setSize($this->aggsSize);
         $aggregation->setField($this->keywordField);
         $maxPublished = new Max(self::AGGREGATION_PUBLISHED);
         $maxPublished->setField(EMSSource::FIELD_PUBLICATION_DATETIME);

@@ -32,16 +32,14 @@ class JobManager
             $escapedCommand = u($command)->replace('\\', '\\\\')->toString();
             $input = new StringInput($escapedCommand);
 
-            $result = $application->run($input, $output);
-
-            if (Command::SUCCESS === $result) {
-                $this->adminHelper->getCoreApi()->admin()->jobCompleted($job);
-            } else {
-                $this->adminHelper->getCoreApi()->admin()->jobFailed($job, \sprintf('return code %d', $result));
+            $returnCode = $application->run($input, $output);
+            if (Command::SUCCESS !== $returnCode) {
+                throw new \RuntimeException(\sprintf('Command return: %d', $returnCode));
             }
+
+            $this->adminHelper->getCoreApi()->admin()->jobCompleted($job);
         } catch (\Exception $e) {
             $this->adminHelper->getCoreApi()->admin()->jobFailed($job, $e->getMessage());
-            $output->writeln(\sprintf('An exception has been raised: %s', $e->getMessage()));
         }
     }
 }

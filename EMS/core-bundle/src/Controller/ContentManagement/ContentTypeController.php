@@ -178,15 +178,11 @@ class ContentTypeController extends AbstractController
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()) {
             /** @var ContentType $contentTypeAdded */
             $contentTypeAdded = $form->getData();
-            $contentTypes = $this->contentTypeRepository->findBy([
-                'name' => $contentTypeAdded->getName(),
-                'deleted' => false,
-            ]);
-
-            if (0 != \count($contentTypes)) {
+            $alreadyExistingContentType = $this->contentTypeService->getByItemName($contentTypeAdded->getName());
+            if (null !== $alreadyExistingContentType) {
                 $form->get('name')->addError(new FormError('Another content type named '.$contentTypeAdded->getName().' already exists'));
             }
 
@@ -194,43 +190,44 @@ class ContentTypeController extends AbstractController
                 $form->get('name')->addError(new FormError('The content type name is malformed (format: [a-z][a-z0-9_-]*)'));
             }
 
-            $normData = $form->get('import')->getNormData();
-            if ($normData) {
-                $name = $contentTypeAdded->getName();
-                $pluralName = $contentTypeAdded->getPluralName();
-                $singularName = $contentTypeAdded->getSingularName();
-                $environment = $contentTypeAdded->getEnvironment();
-                /** @var UploadedFile $file */
-                $file = $request->files->get('form')['import'];
-                $realPath = $file->getRealPath();
-                $json = $realPath ? \file_get_contents($realPath) : false;
+            if ($form->isValid()) {
+                $normData = $form->get('import')->getNormData();
+                if ($normData) {
+                    $name = $contentTypeAdded->getName();
+                    $pluralName = $contentTypeAdded->getPluralName();
+                    $singularName = $contentTypeAdded->getSingularName();
+                    $environment = $contentTypeAdded->getEnvironment();
+                    /** @var UploadedFile $file */
+                    $file = $request->files->get('form')['import'];
+                    $realPath = $file->getRealPath();
+                    $json = $realPath ? \file_get_contents($realPath) : false;
 
-                if (!\is_string($json)) {
-                    throw new NotFoundHttpException('JSON file not found');
+                    if (!\is_string($json)) {
+                        throw new NotFoundHttpException('JSON file not found');
+                    }
+                    if (!$environment instanceof Environment) {
+                        throw new NotFoundHttpException('Environment not found');
+                    }
+                    $contentType = $this->contentTypeService->contentTypeFromJson($json, $environment);
+                    $contentType->setName($name);
+                    $contentType->setSingularName($singularName);
+                    $contentType->setPluralName($pluralName);
+                    $contentType = $this->contentTypeService->importContentType($contentType);
+                } else {
+                    $contentType = $contentTypeAdded;
+                    $contentType->setAskForOuuid(false);
+                    $this->contentTypeService->update($contentType, false);
                 }
-                if (!$environment instanceof Environment) {
-                    throw new NotFoundHttpException('Environment not found');
-                }
-                $contentType = $this->contentTypeService->contentTypeFromJson($json, $environment);
-                $contentType->setName($name);
-                $contentType->setSingularName($singularName);
-                $contentType->setPluralName($pluralName);
-                $contentType = $this->contentTypeService->importContentType($contentType);
-            } else {
-                $contentType = $contentTypeAdded;
-                $contentType->setAskForOuuid(false);
-                $contentType->setOrderKey($this->contentTypeRepository->nextOrderKey());
-                $this->contentTypeRepository->save($contentType);
+
+                $this->logger->notice('log.contenttype.created', [
+                    EmsFields::LOG_CONTENTTYPE_FIELD => $contentType->getName(),
+                    EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_CREATE,
+                ]);
+
+                return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_EDIT, [
+                    'contentType' => $contentType->getId(),
+                ]);
             }
-
-            $this->logger->notice('log.contenttype.created', [
-                EmsFields::LOG_CONTENTTYPE_FIELD => $contentType->getName(),
-                EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_CREATE,
-            ]);
-
-            return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_EDIT, [
-                'contentType' => $contentType->getId(),
-            ]);
         }
 
         return $this->render("@$this->templateNamespace/contenttype/add.html.twig", [

@@ -441,18 +441,9 @@ class ContentTypeController extends AbstractController
         ]);
     }
 
-    public function editStructure(int $id, Request $request): Response
+    public function editStructure(ContentType $id, Request $request): Response
     {
-        $contentType = $this->contentTypeRepository->findById($id);
-
-        if (null === $contentType) {
-            $this->logger->error('log.contenttype.not_found', [
-                EmsFields::LOG_CONTENTTYPE_FIELD => $id,
-                EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_READ,
-            ]);
-
-            return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_INDEX);
-        }
+        $contentType = $id;
 
         $inputContentType = $request->request->all('content_type_structure');
 

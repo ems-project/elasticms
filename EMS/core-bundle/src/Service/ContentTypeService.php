@@ -523,6 +523,8 @@ class ContentTypeService implements EntityServiceInterface
         $contentTypeRepository = $em->getRepository(ContentType::class);
         if ($mustBeReset) {
             $contentType->reset($contentTypeRepository->nextOrderKey());
+        } elseif (null === $contentType->getSortOrder()) {
+            $contentType->setOrderKey($contentTypeRepository->nextOrderKey());
         }
         $this->persist($contentType);
         $em->flush();

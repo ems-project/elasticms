@@ -128,7 +128,7 @@ class ContentTypeController extends AbstractController
         }
 
         $contentType->setActive(true);
-        $this->contentTypeRepository->save($contentType);
+        $this->contentTypeService->update($contentType, false);
 
         return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_INDEX);
     }
@@ -136,7 +136,7 @@ class ContentTypeController extends AbstractController
     public function disable(ContentType $contentType): Response
     {
         $contentType->setActive(false);
-        $this->contentTypeRepository->save($contentType);
+        $this->contentTypeService->update($contentType, false);
 
         return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_INDEX);
     }
@@ -403,7 +403,7 @@ class ContentTypeController extends AbstractController
                 if (\array_key_exists('saveAndUpdateMapping', $inputContentType)) {
                     $this->contentTypeService->updateMapping($contentType);
                 }
-                $this->contentTypeRepository->save($contentType);
+                $this->contentTypeService->update($contentType, false);
 
                 if ($contentType->getDirty()) {
                     $this->logger->warning('log.contenttype.dirty', [
@@ -504,7 +504,7 @@ class ContentTypeController extends AbstractController
             } else {
                 $openModal = $this->fieldTypeManager->handleRequest($contentType->getFieldType(), $inputContentType['fieldType']);
                 $contentType->getFieldType()->updateOrderKeys();
-                $this->contentTypeRepository->save($contentType);
+                $this->contentTypeService->update($contentType, false);
 
                 return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_STRUCTURE, \array_filter([
                     'id' => $id,

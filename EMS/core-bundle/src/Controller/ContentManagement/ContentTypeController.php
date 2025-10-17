@@ -30,7 +30,6 @@ use EMS\CoreBundle\Form\Form\ContentTypeUpdateType;
 use EMS\CoreBundle\Form\Form\EditFieldTypeType;
 use EMS\CoreBundle\Form\Form\ReorderType;
 use EMS\CoreBundle\Form\Form\TableType;
-use EMS\CoreBundle\Repository\ContentTypeRepository;
 use EMS\CoreBundle\Repository\EnvironmentRepository;
 use EMS\CoreBundle\Repository\FieldTypeRepository;
 use EMS\CoreBundle\Routes;
@@ -64,7 +63,6 @@ class ContentTypeController extends AbstractController
         private readonly LocalizedLoggerInterface $logger,
         private readonly Mapping $mappingService,
         private readonly FieldTypeManager $fieldTypeManager,
-        private readonly ContentTypeRepository $contentTypeRepository,
         private readonly EnvironmentRepository $environmentRepository,
         private readonly FieldTypeRepository $fieldTypeRepository,
         private readonly string $templateNamespace

@@ -6,6 +6,7 @@ namespace EMS\ClientHelperBundle\Command\Local;
 
 use EMS\ClientHelperBundle\Helper\Environment\EnvironmentHelper;
 use EMS\ClientHelperBundle\Helper\Local\LocalHelper;
+use EMS\CommonBundle\Commands;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Admin\ConfigTypes;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Storage\Archive;
@@ -180,13 +181,7 @@ final class UploadAssetsCommand extends AbstractLocalCommand
         if ($this->skipPreloadCache) {
             return;
         }
-        $this->io->title('Preloading assets in admin\'s cache');
-        $directory = $this->localHelper->getDirectory($this->baseUrl);
-        $finder = new Finder();
-        $finder->files()->in($directory);
-        $this->io->progressStart($finder->count());
-        foreach ($finder as $file) {
-            $this->io->progressAdvance();
-        }
+
+        $this->localHelper->api($this->environment)->admin()->runCommand(implode(' ', [Commands::LOAD_ARCHIVE_IN_CACHE, $hash]), $this->output);
     }
 }

@@ -15,6 +15,15 @@ final class Type
         return $value;
     }
 
+    public static function nullableString(mixed $value): ?string
+    {
+        if (null === $value) {
+            return null;
+        }
+
+        return self::string($value);
+    }
+
     public static function string(mixed $value): string
     {
         if (!\is_string($value)) {

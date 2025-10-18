@@ -1,0 +1,123 @@
+{% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}
+{% trans_default_domain 'ems-adminui-twigs' %}
+{#
+Template: Bootstrap Card with Blocks
+
+Description:
+This template renders a Bootstrap card with customizable sections.
+
+Available Variables:
+    - class (string, optional): Additional CSS classes for the card.
+    - header (string, optional): Content for the card header.
+    - cardTitle (string, optional): The title of the card.
+    - cardTitleIcon (string, optional): The icon class ot the title of the card.
+    - content (string, optional): Main text content of the card.
+    - form (FormView, optional): A Symfony form to be displayed inside the card.
+    - footer (string, optional): Footer text for the card.
+    - notice (translation, optional): A notice message in a side card.
+
+Available Blocks:
+    - header: Customizes the card header.
+    - cardTitle: Customizes the card title.
+    - content: Customizes the main content.
+    - form: Customizes the form section inside the card.
+    - footer: Customizes the card footer.
+#}
+
+{% block title %}{% if title is defined %}{{ title|trans }}{% endif %}{% endblock title %}
+{% block pagetitle %}{{ pageTitle is defined ? pageTitle|trans  : block('title') }}{% endblock %}
+
+{% block body %}
+    {% if notice is defined and notice %}
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-3">
+                    {{ block('notice') }}
+                </div>
+                <div class="col-md-9">
+                    {{ block('card') }}
+                </div>
+            </div>
+        </div>
+    {% else %}
+        {{ block('card') }}
+    {% endif %}
+{% endblock body %}
+
+{% block card %}
+<div class="card card-outline {{ class|default("card-#{theme_color} mb-4 shadow") }}">
+    {% if form is defined and form %}
+        {{ form_start(form) }}
+    {% endif %}
+    {% block header %}
+        {% if header is defined %}
+            <div class="card-header">
+                {{ header }}
+            </div>
+        {% endif %}
+    {% endblock %}
+
+    <div class="card-body">
+        {% block cardTitle %}
+            {% if cardTitle is defined %}
+                <h2 class="card-title mb-2">
+                    {% if cardTitleIcon is defined %}
+                        <i class="{{ cardTitleIcon }}"></i>
+                    {% endif %}
+                    {{ cardTitle }}
+                </h2>
+            {% endif %}
+        {% endblock %}
+
+        {% block content %}
+            {% if content is defined %}
+                <p class="card-text">{{ content }}</p>
+            {% endif %}
+        {% endblock %}
+
+        {% block form %}
+            {% if form is defined and form %}
+                <div class="row">
+                    {% for field in form %}
+                        {% if 'submit' not in field.vars.block_prefixes %}
+                            {{ form_row(field) }}
+                            <div class="clearfix"></div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endblock %}
+    </div>
+
+    {% block footer %}
+        {% if footer is defined and footer %}
+            <div class="card-footer clearfix">
+                {{ footer|default('') }}
+            </div>
+        {% elseif form is defined and form and form|length > 0 %}
+            <div class="card-footer clearfix">
+                <div class="btn-group">
+                    {% for field in form|filter(field => 'submit' in field.vars.block_prefixes) %}
+                        {{ form_widget(field) }}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    {% endblock %}
+    {% if form is defined and form %}
+        {{ form_end(form) }}
+    {% endif %}
+</div>
+{% endblock card %}
+
+{% block notice %}
+    {% with {
+        content: notice|trans,
+        cardTitle: 'notice_card.title'|trans,
+        cardTitleIcon: 'fa fa-warning',
+        form: null,
+        warning: null,
+    } %}
+        {{ block('card', '@EMSAdminUI/bootstrap5/template/card.html.twig') }}
+    {% endwith %}
+{% endblock notice %}

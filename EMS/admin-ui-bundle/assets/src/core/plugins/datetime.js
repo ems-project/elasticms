@@ -1,5 +1,4 @@
 import { TempusDominus } from '@eonasdan/tempus-dominus'
-import '@eonasdan/tempus-dominus/src/scss/tempus-dominus.scss'
 import ChangeEvent from '../events/changeEvent'
 
 class Datetime {
@@ -34,10 +33,10 @@ class Datetime {
 
   loadDatetime(target) {
     const options = this.defaultOptions()
-    this.loadPicker(target, '.datetime-picker', options)
+    this.loadPicker(target, '.datetime-picker', options, true)
   }
 
-  loadPicker(target, query, options) {
+  loadPicker(target, query, options, momentJSFormat = false) {
     const pickers = target.querySelectorAll(query)
     for (let i = 0; i < pickers.length; i++) {
       if (pickers[i].dataset.multidate) {
@@ -47,7 +46,11 @@ class Datetime {
         options.localization.startOfTheWeek = pickers[i].dataset.weekStart
       }
       if (pickers[i].dataset.dateFormat) {
-        options.localization.format = pickers[i].dataset.dateFormat
+        let dateFormat = pickers[i].dataset.dateFormat
+        if (momentJSFormat) {
+          dateFormat = this.convertMomentToTempusFormat(dateFormat)
+        }
+        options.localization.format = dateFormat
       }
       if (pickers[i].dataset.daysOfWeekDisabled) {
         options.restrictions.daysOfWeekDisabled = JSON.parse(pickers[i].dataset.daysOfWeekDisabled)
@@ -133,6 +136,34 @@ class Datetime {
       },
       restrictions: {}
     }
+  }
+
+  convertMomentToTempusFormat(momentFormat) {
+    const map = {
+      'YYYY': 'yyyy',
+      'YY': 'yy',
+      'MMMM': 'MMMM',
+      'MMM': 'MMM',
+      'MM': 'MM',
+      'M': 'M',
+      'DD': 'dd',
+      'D': 'd',
+      'dddd': 'EEEE',
+      'ddd': 'EEE',
+      'HH': 'HH',
+      'H': 'H',
+      'hh': 'hh',
+      'h': 'h',
+      'mm': 'mm',
+      'm': 'm',
+      'ss': 'ss',
+      's': 's',
+      'A': 'a'
+    };
+    const sortedKeys = Object.keys(map).sort((a, b) => b.length - a.length);
+    const regex = new RegExp(sortedKeys.join('|'), 'g');
+
+    return momentFormat.replace(regex, match => map[match] || match);
   }
 }
 

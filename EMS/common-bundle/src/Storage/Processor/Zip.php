@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Storage\Processor;
 
+use EMS\Helpers\File\TempFile;
 use GuzzleHttp\Psr7\Stream;
 use Psr\Http\Message\StreamInterface;
 use ZipStream\CompressionMethod;
@@ -18,12 +19,13 @@ class Zip
 
     public function generate(): StreamInterface
     {
-        $stream = \fopen('php://temp', 'r+');
+        $file = TempFile::create();
+        $stream = \fopen($file->path, 'r+');
         if (false === $stream) {
             throw new \RuntimeException('Unexpected false temporary stream');
         }
 
-        $zip = new ZipStream(OperationMode::NORMAL, '', $stream, CompressionMethod::DEFLATE, 6, false, true);
+        $zip = new ZipStream(OperationMode::NORMAL, '', $stream, CompressionMethod::DEFLATE, 6, false, true, false);
         foreach ($this->config->getFiles() as $file) {
             $zip->addFileFromPsr7Stream($file['filename'], $file['stream']);
         }

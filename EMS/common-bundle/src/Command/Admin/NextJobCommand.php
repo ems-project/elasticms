@@ -23,8 +23,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 class NextJobCommand extends AbstractCommand
 {
     final public const string TAG_ARGUMENT = 'tag';
+    final public const string TAG_JOB_ID = 'job-id';
     final public const string SILENT_OPTION = 'silent';
     private string $tag;
+    private ?string $jobId = null;
     private bool $silent;
 
     public function __construct(private readonly AdminHelper $adminHelper, private readonly JobManager $jobManager)
@@ -37,6 +39,7 @@ class NextJobCommand extends AbstractCommand
     {
         parent::configure();
         $this->addArgument(self::TAG_ARGUMENT, InputArgument::REQUIRED, 'Tag that identifies the scheduled jobs');
+        $this->addArgument(self::TAG_JOB_ID, InputArgument::OPTIONAL, 'Job ID to execute');
         $this->addOption(self::SILENT_OPTION, null, InputOption::VALUE_NONE, 'Dont echo outputs in the console (only in the admin job logs)');
     }
 
@@ -46,17 +49,21 @@ class NextJobCommand extends AbstractCommand
         parent::initialize($input, $output);
         $this->adminHelper->setLogger(new ConsoleLogger($output));
         $this->tag = $this->getArgumentString(self::TAG_ARGUMENT);
+        $this->jobId = $this->getArgumentStringNull(self::TAG_JOB_ID);
         $this->silent = $this->getOptionBool(self::SILENT_OPTION);
     }
 
     #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $job = $this->adminHelper->getCoreApi()->admin()->getNextJob($this->tag);
+        $job = $this->adminHelper->getCoreApi()->admin()->getNextJob($this->tag, $this->jobId);
         if (null === $job) {
             $this->io->write('Nothing to execute locally');
 
             return self::EXECUTE_SUCCESS;
+        }
+        if (null !== $this->jobId && $this->jobId !== $job->getJobId()) {
+            throw new \RuntimeException(\sprintf('Job mismatched %s', (string) $job->getJobId()));
         }
 
         if (!$this->silent) {

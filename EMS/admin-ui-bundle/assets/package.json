@@ -3,9 +3,11 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "license": "LGPL-3.0",
   "scripts": {
     "build": "tsc && vite build",
     "dev": "vite",
+    "dev-host": "vite --host",
     "format": "prettier --write src/",
     "lint": "eslint . --ext .js,.ts --fix --ignore-path .gitignore",
     "preview": "vite preview",
@@ -45,6 +47,7 @@
     "jquery-ui-bundle": "^1.12.1-migrate",
     "promise": "^8.3.0",
     "sortablejs": "^1.15.3",
+    "swagger-ui": "^5.20.8",
     "uuid": "^10.0.0"
   }
 }

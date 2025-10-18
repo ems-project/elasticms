@@ -83,4 +83,12 @@ class TempFile
     {
         return Type::integer(\filesize($this->path));
     }
+
+    public function putContents(string $contents): void
+    {
+        $numberOfBytes = \file_put_contents($this->path, $contents);
+        if ($numberOfBytes !== \strlen($contents)) {
+            throw new \RuntimeException(\sprintf('Size mismatched! %d were written, %d were expected.', $numberOfBytes, \strlen($contents)));
+        }
+    }
 }

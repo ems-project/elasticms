@@ -14,6 +14,12 @@ final readonly class User implements UserInterface
     {
     }
 
+    #[\Override]
+    public function getProfileAuthenticated(): ProfileInterface
+    {
+        return new Profile($this->client->get('/api/user-profile')->getData());
+    }
+
     /**
      * @return ProfileInterface[]
      */
@@ -26,8 +32,17 @@ final readonly class User implements UserInterface
     }
 
     #[\Override]
-    public function getProfileAuthenticated(): ProfileInterface
+    public function proxyAuthenticate(string $username, ?string $email): ?string
     {
-        return new Profile($this->client->get('/api/user-profile')->getData());
+        try {
+            $response = $this->client->post('/api/user/proxy-authenticate', [
+                'username' => $username,
+                'email' => $email,
+            ]);
+
+            return $response->getData()['token'] ?? null;
+        } catch (\Throwable) {
+            return null;
+        }
     }
 }

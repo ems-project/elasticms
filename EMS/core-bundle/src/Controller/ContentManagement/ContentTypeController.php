@@ -12,6 +12,7 @@ use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\Core\Form\FieldTypeManager;
 use EMS\CoreBundle\Core\UI\Page\Navigation;
+use EMS\CoreBundle\Core\UI\Page\Page;
 use EMS\CoreBundle\DataTable\Type\ContentType\ContentTypeDataTableType;
 use EMS\CoreBundle\DataTable\Type\ContentType\ContentTypeUnreferencedDataTableType;
 use EMS\CoreBundle\Entity\ContentType;
@@ -29,7 +30,6 @@ use EMS\CoreBundle\Form\Form\ContentTypeUpdateType;
 use EMS\CoreBundle\Form\Form\EditFieldTypeType;
 use EMS\CoreBundle\Form\Form\ReorderType;
 use EMS\CoreBundle\Form\Form\TableType;
-use EMS\CoreBundle\Repository\ContentTypeRepository;
 use EMS\CoreBundle\Repository\EnvironmentRepository;
 use EMS\CoreBundle\Repository\FieldTypeRepository;
 use EMS\CoreBundle\Routes;
@@ -63,16 +63,13 @@ class ContentTypeController extends AbstractController
         private readonly LocalizedLoggerInterface $logger,
         private readonly Mapping $mappingService,
         private readonly FieldTypeManager $fieldTypeManager,
-        private readonly ContentTypeRepository $contentTypeRepository,
         private readonly EnvironmentRepository $environmentRepository,
         private readonly FieldTypeRepository $fieldTypeRepository,
         private readonly string $templateNamespace
     ) {
     }
 
-    /**
-     * @deprecated
-     */
+    #[\Deprecated]
     public static function isValidName(string $name): bool
     {
         @\trigger_error('Deprecated isValidName function, please use the FieldTypeManager::isValidName function', E_USER_DEPRECATED);
@@ -102,7 +99,11 @@ class ContentTypeController extends AbstractController
 
         return $this->render("@$this->templateNamespace/contenttype/json_update.html.twig", [
             'form' => $form->createView(),
-            'contentType' => $contentType,
+            'title' => t('action.update_content_type_from_json', ['name' => $contentType->getName()], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'content_type'], 'emsco-core'),
+            'breadcrumb' => Navigation::admin()->contentType($contentType)->add(
+                t('action.update_content_type_from_json', ['name' => $contentType->getName()], 'emsco-core')
+            ),
         ]);
     }
 
@@ -125,7 +126,7 @@ class ContentTypeController extends AbstractController
         }
 
         $contentType->setActive(true);
-        $this->contentTypeRepository->save($contentType);
+        $this->contentTypeService->update($contentType, false);
 
         return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_INDEX);
     }
@@ -133,7 +134,7 @@ class ContentTypeController extends AbstractController
     public function disable(ContentType $contentType): Response
     {
         $contentType->setActive(false);
-        $this->contentTypeRepository->save($contentType);
+        $this->contentTypeService->update($contentType, false);
 
         return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_INDEX);
     }
@@ -175,15 +176,11 @@ class ContentTypeController extends AbstractController
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()) {
             /** @var ContentType $contentTypeAdded */
             $contentTypeAdded = $form->getData();
-            $contentTypes = $this->contentTypeRepository->findBy([
-                'name' => $contentTypeAdded->getName(),
-                'deleted' => false,
-            ]);
-
-            if (0 != \count($contentTypes)) {
+            $alreadyExistingContentType = $this->contentTypeService->getByItemName($contentTypeAdded->getName());
+            if (null !== $alreadyExistingContentType) {
                 $form->get('name')->addError(new FormError('Another content type named '.$contentTypeAdded->getName().' already exists'));
             }
 
@@ -191,51 +188,58 @@ class ContentTypeController extends AbstractController
                 $form->get('name')->addError(new FormError('The content type name is malformed (format: [a-z][a-z0-9_-]*)'));
             }
 
-            $normData = $form->get('import')->getNormData();
-            if ($normData) {
-                $name = $contentTypeAdded->getName();
-                $pluralName = $contentTypeAdded->getPluralName();
-                $singularName = $contentTypeAdded->getSingularName();
-                $environment = $contentTypeAdded->getEnvironment();
-                /** @var UploadedFile $file */
-                $file = $request->files->get('form')['import'];
-                $realPath = $file->getRealPath();
-                $json = $realPath ? \file_get_contents($realPath) : false;
+            if ($form->isValid()) {
+                $normData = $form->get('import')->getNormData();
+                if ($normData) {
+                    $name = $contentTypeAdded->getName();
+                    $pluralName = $contentTypeAdded->getPluralName();
+                    $singularName = $contentTypeAdded->getSingularName();
+                    $environment = $contentTypeAdded->getEnvironment();
+                    /** @var UploadedFile $file */
+                    $file = $request->files->get('form')['import'];
+                    $realPath = $file->getRealPath();
+                    $json = $realPath ? \file_get_contents($realPath) : false;
 
-                if (!\is_string($json)) {
-                    throw new NotFoundHttpException('JSON file not found');
+                    if (!\is_string($json)) {
+                        throw new NotFoundHttpException('JSON file not found');
+                    }
+                    if (!$environment instanceof Environment) {
+                        throw new NotFoundHttpException('Environment not found');
+                    }
+                    $contentType = $this->contentTypeService->contentTypeFromJson($json, $environment);
+                    $contentType->setName($name);
+                    $contentType->setSingularName($singularName);
+                    $contentType->setPluralName($pluralName);
+                    $contentType = $this->contentTypeService->importContentType($contentType);
+                } else {
+                    $contentType = $contentTypeAdded;
+                    $contentType->setAskForOuuid(false);
+                    $this->contentTypeService->update($contentType, false);
                 }
-                if (!$environment instanceof Environment) {
-                    throw new NotFoundHttpException('Environment not found');
-                }
-                $contentType = $this->contentTypeService->contentTypeFromJson($json, $environment);
-                $contentType->setName($name);
-                $contentType->setSingularName($singularName);
-                $contentType->setPluralName($pluralName);
-                $contentType = $this->contentTypeService->importContentType($contentType);
-            } else {
-                $contentType = $contentTypeAdded;
-                $contentType->setAskForOuuid(false);
-                $contentType->setOrderKey($this->contentTypeRepository->nextOrderKey());
-                $this->contentTypeRepository->save($contentType);
+
+                $this->logger->notice('log.contenttype.created', [
+                    EmsFields::LOG_CONTENTTYPE_FIELD => $contentType->getName(),
+                    EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_CREATE,
+                ]);
+
+                return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_EDIT, [
+                    'contentType' => $contentType->getId(),
+                ]);
             }
-
-            $this->logger->notice('log.contenttype.created', [
-                EmsFields::LOG_CONTENTTYPE_FIELD => $contentType->getName(),
-                EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_CREATE,
-            ]);
-
-            return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_EDIT, [
-                'contentType' => $contentType->getId(),
-            ]);
         }
 
         return $this->render("@$this->templateNamespace/contenttype/add.html.twig", [
             'form' => $form->createView(),
+            'title' => t('type.title_create', ['type' => 'content_type'], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'content_type'], 'emsco-core'),
+            'breadcrumb' => Navigation::admin()->contentTypes()->add(
+                t('type.title_create', ['type' => 'content_type'], 'emsco-core')
+            ),
+            'notice' => t('type.notice_message', ['type' => 'content_type'], 'emsco-core'),
         ]);
     }
 
-    public function index(Request $request): Response
+    public function index(Request $request): Page|RedirectResponse
     {
         $table = $this->dataTableFactory->create(ContentTypeDataTableType::class);
 
@@ -259,26 +263,26 @@ class ContentTypeController extends AbstractController
             return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_INDEX);
         }
 
-        return $this->render("@$this->templateNamespace/crud/overview.html.twig", [
-            'form' => $form->createView(),
+        return new Page([
+            'datatable' => ['form' => $form->createView()],
             'icon' => 'fa fa-sitemap',
             'title' => t('type.title_overview', ['type' => 'content_type'], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'content_type'], 'emsco-core'),
             'breadcrumb' => Navigation::admin()->contentTypes(),
         ]);
     }
 
-    public function addReferencedIndex(): Response
+    public function addReferencedIndex(): Page
     {
         $table = $this->dataTableFactory->create(ContentTypeUnreferencedDataTableType::class);
         $form = $this->createForm(TableType::class, $table);
 
-        return $this->render("@$this->templateNamespace/crud/overview.html.twig", [
-            'form' => $form->createView(),
-            'title' => t('action.add_referenced_content_type', [], 'emsco-core'),
+        return new Page([
+            'datatable' => ['form' => $form->createView()],
+            'title' => t('action.add_referenced_content_type', ['type' => 'content_type'], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'content_type'], 'emsco-core'),
             'breadcrumb' => Navigation::admin()->contentTypes()->add(
-                label: t('action.add_referenced', [], 'emsco-core'),
-                icon: 'fa fa-plus',
-                route: Routes::ADMIN_CONTENT_TYPE_ADD_REFERENCED_INDEX,
+                t('action.add_referenced_content_type', ['type' => 'content_type'], 'emsco-core')
             ),
         ]);
     }
@@ -297,9 +301,9 @@ class ContentTypeController extends AbstractController
         $this->contentTypeService->update($contentType);
 
         $this->logger->messageNotice(t(
-            message: 'log.notice.content_type_referenced',
-            parameters: ['contentType' => $contentType->getSingularName(), 'environment' => $environment->getLabel()],
-            domain: 'emsco-core'
+            'log.notice.content_type_referenced',
+            ['contentType' => $contentType->getSingularName(), 'environment' => $environment->getLabel()],
+            'emsco-core'
         ));
 
         return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_EDIT, [
@@ -330,6 +334,11 @@ class ContentTypeController extends AbstractController
             'form' => $form->createView(),
             'field' => $field,
             'contentType' => $contentType,
+            'title' => t('type.title_edit', ['type' => 'field', 'label' => $contentType->getName()], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'field'], 'emsco-core'),
+            'breadcrumb' => Navigation::admin()->contentType($contentType)->add(
+                t('type.title_edit', ['type' => 'field', 'label' => $field->getName()], 'emsco-core')
+            ),
         ]);
     }
 
@@ -352,6 +361,11 @@ class ContentTypeController extends AbstractController
         return $this->render("@$this->templateNamespace/contenttype/reorder.html.twig", [
             'form' => $form->createView(),
             'contentType' => $contentType,
+            'title' => t('action.reorder', ['type' => 'content_type'], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'content_type'], 'emsco-core'),
+            'breadcrumb' => Navigation::admin()->contentType($contentType)->add(
+                t('action.reorder', ['type' => 'content_type'], 'emsco-core')
+            ),
         ]);
     }
 
@@ -384,7 +398,7 @@ class ContentTypeController extends AbstractController
                 if (\array_key_exists('saveAndUpdateMapping', $inputContentType)) {
                     $this->contentTypeService->updateMapping($contentType);
                 }
-                $this->contentTypeRepository->save($contentType);
+                $this->contentTypeService->update($contentType, false);
 
                 if ($contentType->getDirty()) {
                     $this->logger->warning('log.contenttype.dirty', [
@@ -419,21 +433,15 @@ class ContentTypeController extends AbstractController
             'form' => $form->createView(),
             'contentType' => $contentType,
             'mapping' => $mapping,
+            'title' => t('type.title_edit', ['type' => 'content_type', 'label' => $contentType->getName()], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'content_type'], 'emsco-core'),
+            'breadcrumb' => Navigation::admin()->contentType($contentType),
         ]);
     }
 
-    public function editStructure(int $id, Request $request): Response
+    public function editStructure(ContentType $id, Request $request): Response
     {
-        $contentType = $this->contentTypeRepository->findById($id);
-
-        if (null === $contentType) {
-            $this->logger->error('log.contenttype.not_found', [
-                EmsFields::LOG_CONTENTTYPE_FIELD => $id,
-                EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_READ,
-            ]);
-
-            return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_INDEX);
-        }
+        $contentType = $id;
 
         $inputContentType = $request->request->all('content_type_structure');
 
@@ -482,7 +490,7 @@ class ContentTypeController extends AbstractController
             } else {
                 $openModal = $this->fieldTypeManager->handleRequest($contentType->getFieldType(), $inputContentType['fieldType']);
                 $contentType->getFieldType()->updateOrderKeys();
-                $this->contentTypeRepository->save($contentType);
+                $this->contentTypeService->update($contentType, false);
 
                 return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_STRUCTURE, \array_filter([
                     'id' => $id,
@@ -500,6 +508,11 @@ class ContentTypeController extends AbstractController
         return $this->render("@$this->templateNamespace/contenttype/structure.html.twig", [
             'form' => $form->createView(),
             'contentType' => $contentType,
+            'title' => t('action.reorder', ['type' => 'content_type'], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'content_type'], 'emsco-core'),
+            'breadcrumb' => Navigation::admin()->contentType($contentType)->add(
+                t('action.reorder', ['type' => 'content_type'], 'emsco-core')
+            ),
         ]);
     }
 

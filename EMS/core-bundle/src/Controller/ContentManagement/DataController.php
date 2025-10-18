@@ -10,6 +10,7 @@ use EMS\CommonBundle\Helper\MimeTypeHelper;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Core\ContentType\ViewTypes;
 use EMS\CoreBundle\Core\Log\LogRevisionContext;
+use EMS\CoreBundle\Core\Revision\EventType;
 use EMS\CoreBundle\Core\UI\FlashMessageLogger;
 use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Entity\ContentType;
@@ -17,7 +18,6 @@ use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Entity\Form\Search;
 use EMS\CoreBundle\Entity\Form\SearchFilter;
 use EMS\CoreBundle\Entity\Revision;
-use EMS\CoreBundle\Entity\Template;
 use EMS\CoreBundle\Entity\UserInterface;
 use EMS\CoreBundle\Entity\View;
 use EMS\CoreBundle\Exception\DuplicateOuuidException;
@@ -26,16 +26,14 @@ use EMS\CoreBundle\Form\Field\IconTextType;
 use EMS\CoreBundle\Form\Form\RevisionType;
 use EMS\CoreBundle\Helper\EmsCoreResponse;
 use EMS\CoreBundle\Repository\ContentTypeRepository;
-use EMS\CoreBundle\Repository\EnvironmentRepository;
 use EMS\CoreBundle\Repository\RevisionRepository;
 use EMS\CoreBundle\Repository\SearchRepository;
-use EMS\CoreBundle\Repository\TemplateRepository;
 use EMS\CoreBundle\Routes;
+use EMS\CoreBundle\Service\ActionService;
 use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\DataService;
 use EMS\CoreBundle\Service\EnvironmentService;
 use EMS\CoreBundle\Service\IndexService;
-use EMS\CoreBundle\Service\JobService;
 use EMS\CoreBundle\Service\PublishService;
 use EMS\CoreBundle\Service\SearchService;
 use EMS\CoreBundle\Twig\AppExtension;
@@ -50,10 +48,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Twig\Environment as TwigEnvironment;
 
 class DataController extends AbstractController
 {
@@ -66,13 +63,10 @@ class DataController extends AbstractController
         private readonly IndexService $indexService,
         private readonly TranslatorInterface $translator,
         private readonly ViewTypes $viewTypes,
-        private readonly TwigEnvironment $twig,
-        private readonly JobService $jobService,
         private readonly ContentTypeRepository $contentTypeRepository,
         private readonly SearchRepository $searchRepository,
         private readonly RevisionRepository $revisionRepository,
-        private readonly TemplateRepository $templateRepository,
-        private readonly EnvironmentRepository $environmentRepository,
+        private readonly ActionService $actionService,
         private readonly FlashMessageLogger $flashMessageLogger,
         private readonly string $templateNamespace,
     ) {
@@ -478,69 +472,21 @@ class DataController extends AbstractController
         return $viewType->generateResponse($view, $request);
     }
 
-    public function customViewJob(string $environmentName, int $templateId, string $ouuid, Request $request): Response
+    public function customViewJob(Request $request, SymfonyUserInterface $user, string $environmentName, int $templateId, string $ouuid): Response
     {
-        /** @var Template|null $template * */
-        $template = $this->templateRepository->find($templateId);
-        /** @var Environment|null $env */
-        $env = $this->environmentRepository->findOneByName($environmentName);
-
-        if (null === $template || !$env) {
-            throw new NotFoundHttpException();
-        }
-
-        $document = $this->searchService->getDocument($template->giveContentType(), $ouuid, $env);
-
-        $success = false;
         try {
-            $command = $this->twig->createTemplate($template->getBody())->render([
-                'environment' => $env->getName(),
-                'contentType' => $template->getContentType(),
-                'object' => $document,
-                'source' => $document->getSource(),
-            ]);
-
-            $user = $this->getUser();
-            if (!$user instanceof UserInterface) {
-                throw new \RuntimeException('Unexpected user object');
-            }
-            $job = $this->jobService->createCommand($user, $command, $template->getTag());
-
-            $success = true;
-            $this->logger->notice('log.data.job.initialized', [
-                EmsFields::LOG_CONTENTTYPE_FIELD => $template->giveContentType()->getName(),
-                EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_UPDATE,
-                EmsFields::LOG_OUUID_FIELD => $ouuid,
-                'template_id' => $template->getId(),
-                'job_id' => $job->getId(),
-                'template_name' => $template->getName(),
-                'template_label' => $template->getLabel(),
-                'environment' => $env->getLabel(),
-            ]);
+            $action = $this->actionService->giveById($templateId);
+            $environment = $this->environmentService->giveByName($environmentName);
+            $job = $this->actionService->executeJobAction($user, $action, $ouuid, $environment);
 
             return EmsCoreResponse::createJsonResponse($request, true, [
                 'jobId' => $job->getId(),
-                'jobUrl' => $this->generateUrl('emsco_job_start', ['job' => $job->getId()], UrlGeneratorInterface::ABSOLUTE_PATH),
-                'url' => $this->generateUrl('emsco_job_status', ['job' => $job->getId()], UrlGeneratorInterface::ABSOLUTE_PATH),
+                'jobUrl' => $this->generateUrl(Routes::JOB_START, ['job' => $job->getId()]),
+                'url' => $this->generateUrl(Routes::JOB_STATUS, ['job' => $job->getId()]),
             ]);
-        } catch (\Throwable $e) {
-            $this->logger->error('log.data.job.initialize_failed', [
-                EmsFields::LOG_CONTENTTYPE_FIELD => $template->giveContentType()->getName(),
-                EmsFields::LOG_OUUID_FIELD => $ouuid,
-                EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
-                EmsFields::LOG_EXCEPTION_FIELD => $e,
-                'template_name' => $template->getName(),
-                'template_label' => $template->getLabel(),
-                'environment' => $env->getLabel(),
-            ]);
+        } catch (\Throwable) {
+            return EmsCoreResponse::createJsonResponse($request, false);
         }
-
-        $response = $this->flashMessageLogger->buildJsonResponse([
-            'success' => $success,
-        ]);
-        $response->headers->set('Content-Type', 'application/json');
-
-        return $response;
     }
 
     public function ajaxUpdate(int $revisionId, Request $request, PublishService $publishService): Response
@@ -611,7 +557,7 @@ class DataController extends AbstractController
 
             $this->dataService->isValid($form, null, $objectArray);
             if (\is_array($objectArray)) {
-                $this->dataService->propagateDataToComputedField($form->get('data'), $objectArray, $revision->giveContentType(), $revision->giveContentType()->getName(), $revision->getOuuid(), false, false);
+                $this->dataService->propagateDataToComputedField($form->get('data'), $objectArray, $revision->giveContentType(), $revision->giveContentType()->getName(), $revision->getOuuid(), EventType::autoSaveEvent());
             }
 
             $session = $request->getSession();

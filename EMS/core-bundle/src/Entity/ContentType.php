@@ -12,6 +12,7 @@ use EMS\CoreBundle\Core\ContentType\ContentTypeFields;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Core\ContentType\ContentTypeSettings;
 use EMS\CoreBundle\Core\ContentType\Version\VersionFields;
+use EMS\CoreBundle\Core\ContentType\Version\Versioning;
 use EMS\CoreBundle\Core\ContentType\Version\VersionOptions;
 use EMS\CoreBundle\Core\ContentType\ViewDefinition;
 use EMS\CoreBundle\Entity\Helper\JsonClass;
@@ -19,7 +20,6 @@ use EMS\CoreBundle\Entity\Helper\JsonDeserializer;
 use EMS\CoreBundle\Form\DataField\ContainerFieldType;
 use EMS\CoreBundle\Roles;
 use EMS\Helpers\Standard\Json;
-use EMS\Helpers\Standard\Type;
 
 class ContentType extends JsonDeserializer implements \JsonSerializable, EntityInterface, \Stringable
 {
@@ -40,10 +40,6 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
     protected $indexTwig;
     /** @var string */
     protected $extra;
-    /** @var string */
-    protected $lockBy;
-    /** @var \DateTime */
-    protected $lockUntil;
     protected bool $deleted = false;
     /** @var bool */
     protected $askForOuuid;
@@ -185,54 +181,6 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
     public function getDescription()
     {
         return $this->description;
-    }
-
-    /**
-     * Set lockBy.
-     *
-     * @param string $lockBy
-     *
-     * @return ContentType
-     */
-    public function setLockBy($lockBy)
-    {
-        $this->lockBy = $lockBy;
-
-        return $this;
-    }
-
-    /**
-     * Get lockBy.
-     *
-     * @return string
-     */
-    public function getLockBy()
-    {
-        return $this->lockBy;
-    }
-
-    /**
-     * Set lockUntil.
-     *
-     * @param \DateTime $lockUntil
-     *
-     * @return ContentType
-     */
-    public function setLockUntil($lockUntil)
-    {
-        $this->lockUntil = $lockUntil;
-
-        return $this;
-    }
-
-    /**
-     * Get lockUntil.
-     *
-     * @return \DateTime
-     */
-    public function getLockUntil()
-    {
-        return $this->lockUntil;
     }
 
     /**
@@ -961,70 +909,24 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
         return $this->field(ContentTypeFields::BUSINESS_ID);
     }
 
-    public function hasVersionTags(): bool
+    public function getVersioning(): Versioning
     {
-        return \count($this->versionTags ?? []) > 0;
+        $versioning = new Versioning(
+            fields: new VersionFields($this->versionFields ?? []),
+            options: new VersionOptions($this->versionOptions ?? []),
+            tags: $this->versionTags ?? []
+        );
+
+        $versioning->setRootFieldType($this->fieldType);
+
+        return $versioning;
     }
 
-    /**
-     * @return string[]
-     */
-    public function getVersionTags(): array
+    public function setVersioning(Versioning $versioning): void
     {
-        return $this->versionTags ?? [];
-    }
-
-    /**
-     * @param ?string[] $versionTags
-     */
-    public function setVersionTags(?array $versionTags): void
-    {
-        $this->versionTags = $versionTags;
-    }
-
-    public function getVersionOptions(): VersionOptions
-    {
-        return new VersionOptions($this->versionOptions ?? []);
-    }
-
-    public function setVersionOptions(VersionOptions $versionOptions): void
-    {
-        $this->versionOptions = $versionOptions->getOptions();
-    }
-
-    public function versionField(string $field): ?string
-    {
-        return $this->getVersionFields()[$field] ?? null;
-    }
-
-    public function getVersionFields(): VersionFields
-    {
-        return new VersionFields($this->versionFields ?? []);
-    }
-
-    public function setVersionFields(VersionFields $versionFields): void
-    {
-        $this->versionFields = $versionFields->getFields();
-    }
-
-    public function getVersionDateFromField(): ?string
-    {
-        return $this->versionField(VersionFields::DATE_FROM);
-    }
-
-    public function getVersionDateToField(): ?string
-    {
-        return $this->versionField(VersionFields::DATE_TO);
-    }
-
-    public function hasVersionTagField(): bool
-    {
-        return null !== $this->versionField(VersionFields::VERSION_TAG);
-    }
-
-    public function getVersionTagField(): string
-    {
-        return Type::string($this->versionField(VersionFields::VERSION_TAG));
+        $this->versionTags = $versioning->getTags();
+        $this->versionOptions = $versioning->getOptions()->getData();
+        $this->versionFields = $versioning->getFields()->getData();
     }
 
     /**
@@ -1032,10 +934,12 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
      */
     public function getDisabledDataFields(): array
     {
-        if ($this->getVersionOptions()[VersionOptions::DATES_READ_ONLY]) {
+        $versioning = $this->getVersioning();
+
+        if ($versioning->getOptions()[VersionOptions::DATES_READ_ONLY]) {
             return \array_filter([
-                $this->getVersionDateFromField(),
-                $this->getVersionDateToField(),
+                $versioning->field(VersionFields::DATE_FROM),
+                $versioning->field(VersionFields::DATE_TO),
             ]);
         }
 

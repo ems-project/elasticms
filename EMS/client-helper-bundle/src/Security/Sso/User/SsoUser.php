@@ -8,8 +8,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class SsoUser implements UserInterface
 {
-    public function __construct(private readonly string $identifier)
-    {
+    public function __construct(
+        private readonly string $identifier,
+        public readonly ?string $email = null
+    ) {
     }
 
     #[\Override]

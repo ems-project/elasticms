@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Common\Command;
 
 use EMS\CommonBundle\Command\CommandInterface;
+use EMS\Helpers\Standard\DateTime;
+use EMS\Helpers\Standard\Type;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProcessHelper;
 use Symfony\Component\Console\Helper\QuestionHelper;
@@ -69,13 +71,32 @@ abstract class AbstractCommand extends Command implements CommandInterface
         return (bool) $arg;
     }
 
-    protected function getArgumentString(string $name): string
+    protected function getArgumentString(string $name, ?string $question = null): string
     {
-        if (null === $arg = $this->input->getArgument($name)) {
+        $arg = $this->input->getArgument($name);
+        if (null === $arg && null !== $question) {
+            $arg = $this->io->ask(
+                question: $question,
+                validator: function ($value) use ($name) {
+                    if (null === $value || '' === $value) {
+                        throw new \RuntimeException(\sprintf('Argument %s must be defined.', $name));
+                    }
+
+                    return Type::string($value);
+                }
+            );
+        } elseif (null === $arg) {
             throw new \RuntimeException(\sprintf('Missing argument "%s"', $name));
         }
 
         return (string) $arg;
+    }
+
+    protected function getArgumentDateTime(string $name): \DateTimeInterface
+    {
+        $arg = $this->getArgumentString($name);
+
+        return DateTime::create($arg);
     }
 
     protected function getArgumentStringNull(string $name): ?string

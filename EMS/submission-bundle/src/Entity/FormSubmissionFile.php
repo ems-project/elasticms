@@ -14,7 +14,7 @@ class FormSubmissionFile implements EntityInterface, \JsonSerializable
 {
     use CreatedModifiedTrait;
 
-    private readonly UuidInterface $id;
+    private UuidInterface $id;
 
     /**
      * @var resource|string

@@ -206,7 +206,7 @@
                                                             "icon": null
                                                         },
                                                         "mappingOptions": {
-                                                            "analyzer": "keyword",
+                                                            "analyzer": null,
                                                             "copy_to": "live_search"
                                                         },
                                                         "restrictionOptions": {

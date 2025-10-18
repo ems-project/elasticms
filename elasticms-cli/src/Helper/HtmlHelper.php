@@ -18,7 +18,7 @@ class HtmlHelper
     }
 
     /**
-     * @return array<string, string>
+     * @return \Generator<string, string>
      */
     public function getLinks(): iterable
     {

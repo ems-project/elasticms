@@ -18,4 +18,13 @@ class TextTest extends TestCase
 
         "));
     }
+
+    public function testShellWords()
+    {
+        self::assertEquals([
+            '/bin/sh',
+            '-c',
+            'echo foobar',
+        ], Text::shellWords("/bin/sh -c 'echo foobar'"));
+    }
 }

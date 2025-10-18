@@ -25,6 +25,7 @@ import WYSIWYG from './plugins/wysiwyg.ts'
 import RevisionTask from './components/revisionTask'
 import Modal from './components/modal'
 import Sidebar from './components/sidebar'
+import Action from "./components/action";
 
 import { EMS_ADDED_DOM_EVENT } from './events/addedDomEvent'
 import CtrlSaveEvent from './events/ctrlSaveEvent'
@@ -34,6 +35,7 @@ class Core {
   constructor() {
     this._statusUpdateUrl = document.body.getAttribute('data-status-url')
     this._domListeners = [
+      new Action(),
       new Button(),
       new Choice(),
       new CodeEditor(),

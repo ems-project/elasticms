@@ -51,7 +51,7 @@ class ChangelogFile
             unset($this->releases[$latest]);
         }
 
-        $date = (new \DateTime('now'))->format('Y-m-d');
+        $date = new \DateTime('now')->format('Y-m-d');
         $release = \sprintf('## %s (%s)', $this->version->getTag(), $date);
 
         $this->releases = [...[$release => []], ...$this->releases];

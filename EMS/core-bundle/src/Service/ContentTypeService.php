@@ -478,9 +478,9 @@ class ContentTypeService implements EntityServiceInterface
                 ];
             } catch (\Throwable $e) {
                 $this->logger->messageError(t(
-                    message: 'log.error.content_type_add_unreferenced',
-                    parameters: ['environment' => $environment->getName(), 'error' => $e->getMessage()],
-                    domain: 'emsco-core'
+                    'log.error.content_type_add_unreferenced',
+                    ['environment' => $environment->getName(), 'error' => $e->getMessage()],
+                    'emsco-core'
                 ));
             }
         }
@@ -523,9 +523,10 @@ class ContentTypeService implements EntityServiceInterface
         $contentTypeRepository = $em->getRepository(ContentType::class);
         if ($mustBeReset) {
             $contentType->reset($contentTypeRepository->nextOrderKey());
+        } elseif (null === $contentType->getSortOrder()) {
+            $contentType->setOrderKey($contentTypeRepository->nextOrderKey());
         }
-        $this->persist($contentType);
-        $em->flush();
+        $contentTypeRepository->save($contentType);
     }
 
     public function getCircleContentType(): ?ContentType
@@ -737,11 +738,11 @@ class ContentTypeService implements EntityServiceInterface
      */
     public function getVersionDefault(ContentType $contentType): array
     {
-        if (!$contentType->hasVersionTags()) {
+        $versionTags = $contentType->getVersioning()->getTags();
+        if (0 === \count($versionTags)) {
             return [];
         }
 
-        $versionTags = $contentType->getVersionTags();
         $defaultVersion = \array_shift($versionTags);
         $defaultVersionLabel = $this->translator->trans(
             'field.revision_version_tag',
@@ -757,11 +758,11 @@ class ContentTypeService implements EntityServiceInterface
      */
     public function getVersionTagsByContentType(ContentType $contentType, ?bool $notBlankNewVersion = false): array
     {
-        if (!$contentType->hasVersionTags()) {
+        $versionTags = $contentType->getVersioning()->getTags();
+        if (0 === \count($versionTags)) {
             return [];
         }
 
-        $versionTags = $contentType->getVersionTags();
         $versionTagsLabels = \array_map(fn (string $versionTag) => $this->translator->trans(
             'field.revision_version_tag',
             ['%version_tag%' => $versionTag],

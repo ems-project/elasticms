@@ -45,7 +45,7 @@ class StorageManager implements FileManagerInterface
     {
         foreach ($factories as $factory) {
             if (!$factory instanceof StorageFactoryInterface) {
-                throw new \RuntimeException('Unexpected StorageInterface class');
+                throw new \RuntimeException('Unexpected StorageFactoryInterface class');
             }
             $this->addStorageFactory($factory);
         }
@@ -221,6 +221,14 @@ class StorageManager implements FileManagerInterface
     public function computeStringHash(string $string, ?string $hashAlgo = null, bool $binary = false): string
     {
         return \hash($hashAlgo ?? $this->hashAlgo, $string, $binary);
+    }
+
+    /** @param array<mixed> $data */
+    public function computeDataHash(array $data): string
+    {
+        Json::normalize($data);
+
+        return $this->computeStringHash(Json::encode($data));
     }
 
     public function computeFileHash(string $filename): string
@@ -729,5 +737,32 @@ class StorageManager implements FileManagerInterface
         }
 
         return false;
+    }
+
+    public function getFilesInArchive(string $hash): Archive
+    {
+        $cacheConfig = new Config($this, $hash, 'emsarchive');
+        $cache = $this->readCache($cacheConfig);
+        if (null !== $cache) {
+            return Archive::fromStructure($cache->getContents(), $this->hashAlgo);
+        }
+
+        $archiveFile = TempFile::create()->loadFromStream($this->getStream($hash));
+        $type = MimeTypeHelper::getInstance()->guessMimeType($archiveFile->path);
+        switch ($type) {
+            case MimeTypes::APPLICATION_ZIP->value:
+            case MimeTypes::APPLICATION_GZIP->value:
+                $tempDir = TempDirectory::createFromZipArchive($archiveFile->path);
+                $archive = Archive::fromDirectory($tempDir->path, $this->hashAlgo);
+                break;
+            case MimeTypes::APPLICATION_JSON->value:
+                $archive = Archive::fromStructure($archiveFile->getContents(), $this->hashAlgo);
+                break;
+            default:
+                throw new \RuntimeException(\sprintf('Archive format %s not supported', $type));
+        }
+        $this->saveCache($cacheConfig, $archive);
+
+        return $archive;
     }
 }

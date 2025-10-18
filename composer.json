@@ -7,12 +7,13 @@
             "homepage": "https://github.com/ems-project/elasticms/contributors"
         }
     ],
-    "license": "MIT",
+    "license": "LGPL-3.0",
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
         "php": "^8.4",
         "ext-ctype": "*",
+        "ext-curl": "*",
         "ext-dom": "*",
         "ext-exif": "*",
         "ext-fileinfo": "*",
@@ -24,6 +25,7 @@
         "ext-mbstring": "*",
         "ext-openssl": "*",
         "ext-opentelemetry": "*",
+        "ext-redis": "*",
         "ext-simplexml": "*",
         "ext-soap": "*",
         "ext-sqlite3": "*",
@@ -63,6 +65,7 @@
         "symfony/config": "6.4.*",
         "symfony/console": "6.4.*",
         "symfony/dependency-injection": "6.4.*",
+        "symfony/doctrine-messenger": "6.4.*",
         "symfony/dom-crawler": "6.4.*",
         "symfony/dotenv": "6.4.*",
         "symfony/error-handler": "6.4.*",
@@ -79,6 +82,8 @@
         "symfony/intl": "6.4.*",
         "symfony/ldap": "6.4.*",
         "symfony/mailer": "6.4.*",
+        "symfony/mercure-bundle": "^0.3.9",
+        "symfony/messenger": "6.4.*",
         "symfony/mime": "6.4.*",
         "symfony/monolog-bridge": "6.4.*",
         "symfony/monolog-bundle": "^3.8",
@@ -87,6 +92,7 @@
         "symfony/process": "6.4.*",
         "symfony/property-access": "6.4.*",
         "symfony/property-info": "6.4.*",
+        "symfony/redis-messenger": "6.4.*",
         "symfony/routing": "6.4.*",
         "symfony/runtime": "6.4.*",
         "symfony/security-bundle": "6.4.*",
@@ -206,7 +212,7 @@
     "scripts": {
         "rector": "rector --config=./config/rector.php",
         "monorepo-validate": "monorepo-builder --config=./config/monorepo-builder.php validate",
-        "phpcs": "PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer --config=./config/php-cs-fixer.php fix",
+        "phpcs": "php-cs-fixer --config=./config/php-cs-fixer.php fix",
         "phpstan": "phpstan --configuration=./config/phpstan.neon.dist --memory-limit=1G analyse",
         "phpstan-baseline": "phpstan --configuration=./config/phpstan.neon.dist --memory-limit=1G --generate-baseline=./config/phpstan-baseline.neon analyse",
         "phpunit": "phpunit -c config/phpunit.xml.dist --display-deprecations",
@@ -220,9 +226,10 @@
             "@phpunit-web"
         ],
         "phpall": [
-            "@phpunit",
+            "@phpcs",
             "@phpstan",
-            "@phpcs"
+            "@phpunit-all",
+            "@lint"
         ],
         "lint": [
             "@lint-container",

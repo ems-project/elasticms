@@ -16,13 +16,6 @@ class ConverterAiTest extends TestCase
         $this->assertEquals('a-e-i-o-u', Converter::toAscii('À É Í Ó Ú'));
     }
 
-    public function testFormatBytes(): void
-    {
-        $this->assertEquals('1 B', Converter::formatBytes(1));
-        $this->assertEquals('1 KB', Converter::formatBytes(1024));
-        $this->assertEquals('1 MB', Converter::formatBytes(1024 * 1024));
-    }
-
     public function testStringify(): void
     {
         $this->assertEquals('hello', Converter::stringify('hello'));

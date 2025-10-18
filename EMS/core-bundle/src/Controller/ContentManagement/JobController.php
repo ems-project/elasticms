@@ -8,6 +8,8 @@ use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
 use EMS\CommonBundle\Helper\Text\Encoder;
 use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
+use EMS\CoreBundle\Core\UI\Page\Navigation;
+use EMS\CoreBundle\Core\UI\Page\Page;
 use EMS\CoreBundle\DataTable\Type\Job\JobDataTableType;
 use EMS\CoreBundle\Entity\Job;
 use EMS\CoreBundle\Form\Data\TableAbstract;
@@ -24,6 +26,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 use function Symfony\Component\Translation\t;
@@ -41,7 +44,7 @@ class JobController extends AbstractController
     ) {
     }
 
-    public function index(Request $request): Response
+    public function index(Request $request): Page|RedirectResponse
     {
         $table = $this->dataTableFactory->create(JobDataTableType::class);
         $form = $this->createForm(TableType::class, $table);
@@ -57,16 +60,12 @@ class JobController extends AbstractController
             return $this->redirectToRoute('job.index');
         }
 
-        return $this->render("@$this->templateNamespace/crud/overview.html.twig", [
-            'form' => $form->createView(),
+        return new Page([
+            'datatable' => ['form' => $form->createView()],
             'icon' => 'fa fa-file-text-o',
             'title' => t('type.title_overview', ['type' => 'job'], 'emsco-core'),
             'subTitle' => t('type.title_sub', ['type' => 'job'], 'emsco-core'),
-            'breadcrumb' => [
-                'admin' => t('key.admin', [], 'emsco-core'),
-                'jobs' => t('key.jobs', [], 'emsco-core'),
-                'page' => t('key.job_logs', [], 'emsco-core'),
-            ],
+            'breadcrumb' => $this->breadcrumb(),
         ]);
     }
 
@@ -88,10 +87,15 @@ class JobController extends AbstractController
         }
 
         return $this->render("@$this->templateNamespace/job/status.html.twig", [
+            'title' => t('type.title_status', ['type' => 'job', 'job_id' => $job->getId()], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'job'], 'emsco-core'),
             'job' => $job,
             'status' => $encoder->encodeUrl($job->getStatus()),
             'output' => $encoder->encodeUrl($converter->convert($job->getOutput())),
             'launchJob' => true === $this->triggerJobFromWeb && false === $job->getStarted() && !$job->hasTag(),
+            'breadcrumb' => $this->breadcrumb()->add(
+                t('type.title_status', ['type' => 'job', 'job_id' => $job->getId()], 'emsco-core'),
+            ),
         ]);
     }
 
@@ -107,7 +111,14 @@ class JobController extends AbstractController
             return $this->redirectToRoute('job.status', ['job' => $job->getId()]);
         }
 
-        return $this->render("@$this->templateNamespace/job/add.html.twig", ['form' => $form->createView()]);
+        return $this->render("@$this->templateNamespace/job/add.html.twig", [
+            'form' => $form->createView(),
+            'title' => t('type.title_create', ['type' => 'job'], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'job'], 'emsco-core'),
+            'breadcrumb' => $this->breadcrumb()->add(
+                t('type.title_create', ['type' => 'job'], 'emsco-core'),
+            ),
+        ]);
     }
 
     public function delete(Job $job): RedirectResponse
@@ -152,7 +163,21 @@ class JobController extends AbstractController
 
     public function startNextJob(Request $request, UserInterface $user, string $tag): Response
     {
-        $job = $this->jobService->nextJob($tag);
+        $jobId = $request->query->get('job_id');
+        if (null !== $jobId) {
+            $job = $this->jobService->getById((int) $jobId);
+            if (null === $job) {
+                throw new NotFoundHttpException(\sprintf('job with id %s not found', $jobId));
+            }
+            if ($job->getTag() !== $tag) {
+                throw new \RuntimeException(\sprintf('job tag mismatched %s', $job->getTag()));
+            }
+            if ($job->getStarted()) {
+                throw new \RuntimeException('job already started');
+            }
+        } else {
+            $job = $this->jobService->nextJob($tag);
+        }
         if (null === $job) {
             $job = $this->jobService->nextJobScheduled($user->getUserIdentifier(), $tag);
         }
@@ -160,6 +185,8 @@ class JobController extends AbstractController
         if (null === $job) {
             return EmsCoreResponse::createJsonResponse($request, true, ['message' => 'no next job']);
         }
+
+        $this->jobService->start($job);
 
         return EmsCoreResponse::createJsonResponse($request, true, [
             'message' => \sprintf('job %d flagged has started', $job->getId()),
@@ -200,5 +227,14 @@ class JobController extends AbstractController
         $this->jobService->write($job, $message, $newLine);
 
         return EmsCoreResponse::createJsonResponse($request, true);
+    }
+
+    private function breadcrumb(): Navigation
+    {
+        return Navigation::admin()->add(
+            label: t('key.jobs', [], 'emsco-core'),
+            icon: 'fa fa-terminal',
+            route: 'emsco_job_index',
+        );
     }
 }

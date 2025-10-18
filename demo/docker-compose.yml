@@ -103,6 +103,8 @@ services:
     environment:
       MINIO_ACCESS_KEY: accesskey
       MINIO_SECRET_KEY: secretkey
+      MINIO_ROOT_USER: accesskey
+      MINIO_ROOT_PASSWORD: secretkey
     command: server /data --console-address ":9001"
     healthcheck:
       test: [ "CMD", "mc", "ready", "local" ]
@@ -136,6 +138,35 @@ services:
     image: centos/redis-5-centos7
     volumes:
       - redis:/var/lib/redis/data
+
+  mercure:
+    image: dunglas/mercure
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    environment:
+      SERVER_NAME: ':80'
+      MERCURE_PUBLISHER_JWT_KEY: ${MERCURE_JWT_KEY}
+      MERCURE_SUBSCRIBER_JWT_KEY: ${MERCURE_JWT_KEY}
+      MERCURE_EXTRA_DIRECTIVES: ${MERCURE_EXTRA_DIRECTIVES}
+    healthcheck:
+      test: [ "CMD", "wget", "-O-", "http://localhost/healthz" ]
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+    volumes:
+      - mercure_data:/data
+      - mercure_config:/config
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mercure.rule=Host(`mercure.localhost`)"
+      - "traefik.http.routers.mercure.service=mercure"
+      - "traefik.http.routers.mercure.entrypoints=web"
+      - "traefik.http.routers.mercure-tls.rule=Host(`mercure.localhost`)"
+      - "traefik.http.routers.mercure-tls.service=mercure"
+      - "traefik.http.routers.mercure-tls.entrypoints=websecure"
+      - "traefik.http.routers.mercure-tls.tls=true"
+      - "traefik.http.services.mercure.loadbalancer.server.port=80"
 
   mailhog:
     image: mailhog/mailhog
@@ -212,6 +243,8 @@ volumes:
   redis:
   s3:
   postgres:
+  mercure_data:
+  mercure_config:
 
 networks:
   default:

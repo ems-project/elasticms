@@ -8,6 +8,15 @@
            controller="EMS\CoreBundle\Controller\ContentManagement\CrudController::create"
            methods="POST"
            format="json">
+        <option key="openapi">true</option>
+        <default key="ouuid" xsi:nil="true"/>
+        <default key="interface">api</default>
+        <requirement key="interface">api|json</requirement>
+    </route>
+    <route id="emsco_interface_document_init_draft" path="/{interface}/data/{name}/init-draft/{uuid}"
+           controller="EMS\CoreBundle\Controller\ContentManagement\CrudController::initDraft"
+           methods="POST"
+           format="json">
         <default key="ouuid" xsi:nil="true"/>
         <default key="interface">api</default>
         <requirement key="interface">api|json</requirement>
@@ -24,6 +33,7 @@
            controller="EMS\CoreBundle\Controller\ContentManagement\CrudController::autoSave"
            methods="POST"
            format="json">
+        <option key="openapi">true</option>
         <default key="interface">api</default>
         <requirement key="interface">api|json</requirement>
     </route>
@@ -31,6 +41,7 @@
            controller="EMS\CoreBundle\Controller\ContentManagement\CrudController::get"
            methods="GET"
            format="json">
+        <option key="openapi">true</option>
         <default key="ouuid" xsi:nil="true"/>
         <default key="interface">api</default>
         <requirement key="interface">api|json</requirement>
@@ -61,6 +72,7 @@
            controller="EMS\CoreBundle\Controller\ContentManagement\CrudController::discard"
            methods="POST"
            format="json">
+        <option key="openapi">true</option>
         <default key="interface">api</default>
         <requirement key="interface">api|json</requirement>
     </route>
@@ -68,6 +80,7 @@
            controller="EMS\CoreBundle\Controller\ContentManagement\CrudController::delete"
            methods="POST"
            format="json">
+        <option key="openapi">true</option>
         <default key="interface">api</default>
         <requirement key="interface">api|json</requirement>
     </route>
@@ -75,6 +88,7 @@
            controller="EMS\CoreBundle\Controller\ContentManagement\CrudController::replace"
            methods="POST"
            format="json">
+        <option key="openapi">true</option>
         <default key="interface">api</default>
         <requirement key="interface">api|json</requirement>
     </route>
@@ -82,6 +96,7 @@
            controller="EMS\CoreBundle\Controller\ContentManagement\CrudController::index"
            methods="POST"
            format="json">
+        <option key="openapi">true</option>
         <default key="ouuid" xsi:nil="true"/>
         <default key="interface">api</default>
         <requirement key="interface">api|json</requirement>
@@ -90,6 +105,7 @@
            controller="EMS\CoreBundle\Controller\ContentManagement\CrudController::index"
            methods="POST"
            format="json">
+        <option key="openapi">true</option>
         <default key="replaceOrMerge">merge</default>
         <default key="interface">api</default>
         <requirement key="interface">api|json</requirement>
@@ -98,6 +114,7 @@
            controller="EMS\CoreBundle\Controller\ContentManagement\CrudController::merge"
            methods="POST"
            format="json">
+        <option key="openapi">true</option>
         <default key="interface">api</default>
         <requirement key="interface">api|json</requirement>
     </route>
@@ -105,6 +122,7 @@
            controller="EMS\CoreBundle\Controller\ContentManagement\CrudController::test"
            methods="GET"
            format="json">
+        <option key="openapi">true</option>
         <default key="interface">api</default>
         <requirement key="interface">api|json</requirement>
     </route>
@@ -112,6 +130,7 @@
            controller="EMS\CoreBundle\Controller\ContentManagement\CrudController::getContentTypeInfo"
            methods="GET"
            format="json">
+        <option key="openapi">true</option>
         <default key="interface">api</default>
         <requirement key="interface">api|json</requirement>
     </route>
@@ -119,6 +138,7 @@
            controller="EMS\CoreBundle\Controller\ContentManagement\CrudController::getUserProfile"
            methods="GET"
            format="json">
+        <option key="openapi">true</option>
         <default key="interface">api</default>
         <requirement key="interface">api|json</requirement>
     </route>
@@ -126,6 +146,7 @@
            controller="EMS\CoreBundle\Controller\ContentManagement\CrudController::getUserProfiles"
            methods="GET"
            format="json">
+        <option key="openapi">true</option>
         <default key="interface">api</default>
         <requirement key="interface">api|json</requirement>
     </route>
@@ -135,6 +156,7 @@
            controller="EMS\CoreBundle\Controller\ContentManagement\CrudController::test"
            methods="GET"
            format="json">
+        <option key="openapi">true</option>
         <default key="interface">api</default>
         <requirement key="interface">api|json</requirement>
     </route>

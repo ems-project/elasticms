@@ -204,7 +204,6 @@
                                                             "icon": null
                                                         },
                                                         "mappingOptions": {
-                                                            "index": null,
                                                             "analyzer": null,
                                                             "copy_to": "live_search"
                                                         },
@@ -1402,7 +1401,8 @@
                     "size": null,
                     "public": false,
                     "spreadsheet": false,
-                    "tag": null
+                    "tag": null,
+                    "allowedRemoteHosts": []
                 },
                 "replaced": []
             },
@@ -1436,7 +1436,8 @@
                     "size": null,
                     "public": false,
                     "spreadsheet": false,
-                    "tag": null
+                    "tag": null,
+                    "allowedRemoteHosts": []
                 },
                 "replaced": []
             }

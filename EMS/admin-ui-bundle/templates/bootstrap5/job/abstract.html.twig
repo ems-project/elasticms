@@ -1,0 +1,4 @@
+{% extends '@EMSAdminUI/bootstrap5/template/card.html.twig' %}
+{% if form is defined %}
+    {% form_theme form with ['@EMSAdminUI/bootstrap5/job/form.html.twig'] only %}
+{% endif %}

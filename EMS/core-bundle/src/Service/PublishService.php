@@ -10,6 +10,7 @@ use Doctrine\DBAL\Exception as DBALException;
 use Doctrine\ORM\NonUniqueResultException;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
+use EMS\CoreBundle\Core\ContentType\Version\VersionFields;
 use EMS\CoreBundle\Core\Environment\EnvironmentPublisher;
 use EMS\CoreBundle\Core\Environment\EnvironmentPublisherFactory;
 use EMS\CoreBundle\Core\Log\LogRevisionContext;
@@ -19,6 +20,7 @@ use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Event\RevisionPublishEvent;
 use EMS\CoreBundle\Event\RevisionUnpublishEvent;
+use EMS\CoreBundle\Repository\EnvironmentRevisionRepository;
 use EMS\CoreBundle\Repository\RevisionRepository;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
@@ -42,6 +44,7 @@ class PublishService
         private readonly LoggerInterface $logger,
         private readonly LoggerInterface $auditLogger,
         private readonly Bulker $bulker,
+        private readonly EnvironmentRevisionRepository $environmentRevisionRepository,
     ) {
         /** @var RevisionRepository $revRepository */
         $revRepository = $this->doctrine->getManager()->getRepository(Revision::class);
@@ -92,10 +95,10 @@ class PublishService
         }
     }
 
-    public function silentUnpublish(Revision $revision, bool $flush = true): void
+    public function silentUnpublish(Revision $revision, string $username, bool $flush = true): void
     {
         $environment = $revision->giveContentType()->giveEnvironment();
-        $revision->removeEnvironment($environment);
+        $revision->removeEnvironment($environment, $username);
         $this->indexService->delete($revision, $environment);
 
         if ($flush) {
@@ -140,10 +143,10 @@ class PublishService
         $already = $revisionEnvironment === $revision;
 
         if (!$already && $revisionEnvironment) {
-            $this->revRepository->removeEnvironment($revisionEnvironment, $environment);
+            $this->environmentRevisionRepository->delete($revisionEnvironment, $environment, $commandUser);
         }
         if (!$already) {
-            $this->revRepository->addEnvironment($revision, $environment);
+            $this->environmentRevisionRepository->create($revision, $environment, $commandUser);
         }
 
         $this->dataService->sign($revision, true);
@@ -155,7 +158,7 @@ class PublishService
         return $already ? 0 : 1;
     }
 
-    public function bulkUnpublish(Revision $revision, Environment $environment): void
+    public function bulkUnpublish(Revision $revision, Environment $environment, string $username): void
     {
         $contentType = $revision->giveContentType();
 
@@ -163,7 +166,7 @@ class PublishService
             throw new \LogicException('Unpublish failed: is default environment');
         }
 
-        $revision->getEnvironments()->removeElement($environment);
+        $this->environmentRevisionRepository->delete($revision, $environment, $username);
         $this->bulker->delete($environment->getAlias(), $revision->giveOuuid());
     }
 
@@ -219,37 +222,32 @@ class PublishService
             return 0;
         }
 
+        if (null === $commandUser) {
+            $this->dataService->lockRevision($revision, $environment);
+        }
+        $revision = $this->dataService->recomputeOnPublish($revision, $environment);
+
         $this->publishVersion($revision, $environment, $commandUser);
 
         $item = $this->revRepository->findByOuuidContentTypeAndEnvironment($revision, $environment);
 
+        $username = $commandUser ?? $this->userService->getCurrentUser()->getUsername();
         $already = false;
         if ($item === $revision) {
             $already = true;
             $this->logger->notice('service.publish.already_published', $logContext);
         } elseif ($item) {
-            $this->revRepository->removeEnvironment($item, $environment);
-        }
-
-        if (null === $commandUser) {
-            $this->dataService->lockRevision($revision, $environment);
+            $this->dataService->lockRevision($item, $environment);
+            $item->removeEnvironment($environment, $username);
+            $this->revRepository->save($item);
+            $this->dataService->unlockRevision($item);
         }
 
         $this->dataService->sign($revision, true);
-        if ($this->indexService->indexRevision($revision, $environment)) {
-            $this->revRepository->save($revision);
-        } else {
-            $this->logger->warning('service.publish.publish_failed', [...[
-                EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_UPDATE,
-            ], ...$logContext]);
-        }
-
-        if (null === $commandUser) {
-            $this->dataService->unlockRevision($revision);
-        }
 
         if (!$already) {
-            $this->revRepository->addEnvironment($revision, $environment);
+            $revision->addEnvironment($environment, $username);
+            $this->revRepository->save($revision);
 
             if (null === $commandUser) {
                 $this->auditLogger->notice('log.published.success', [...[
@@ -259,6 +257,15 @@ class PublishService
 
             $this->dispatcher->dispatch(new RevisionPublishEvent($revision, $environment));
         }
+        if (!$this->indexService->indexRevision($revision, $environment)) {
+            $this->logger->warning('service.publish.publish_failed', [...[
+                EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_UPDATE,
+            ], ...$logContext]);
+        }
+
+        if (null === $commandUser) {
+            $this->dataService->unlockRevision($revision);
+        }
 
         return $already ? 0 : 1;
     }
@@ -266,9 +273,9 @@ class PublishService
     /**
      * @throws DBALException
      */
-    public function unpublish(Revision $revision, Environment $environment, bool $command = false): void
+    public function unpublish(Revision $revision, Environment $environment, ?string $userCommand = null): void
     {
-        if (!$command) {
+        if (null === $userCommand) {
             $user = $this->userService->getCurrentUser();
             if (!empty($environment->getCircles() && !$this->authorizationChecker->isGranted('ROLE_USER_MANAGEMENT') && empty(\array_intersect($environment->getCircles(), $user->getCircles())))) {
                 $this->logger->warning('service.publish.not_in_circles', [
@@ -290,6 +297,9 @@ class PublishService
 
                 return;
             }
+            $username = $user->getUsername();
+        } else {
+            $username = $userCommand;
         }
 
         if ($revision->giveContentType()->giveEnvironment() === $environment) {
@@ -305,9 +315,11 @@ class PublishService
 
         /** @var Connection $connection */
         $connection = $this->doctrine->getConnection();
-        $statement = $connection->prepare('delete from environment_revision where environment_id = :envId and revision_id = :revId');
+        $statement = $connection->prepare('update environment_revision set deleted = :now, deleted_by = :username  where environment_id = :envId and revision_id = :revId and deleted is null');
         $statement->bindValue('envId', $environment->getId());
         $statement->bindValue('revId', $revision->getId());
+        $statement->bindValue('now', new \DateTime()->format('Y-m-d H:i:s'));
+        $statement->bindValue('username', $username);
         $statement->executeStatement();
 
         try {
@@ -378,7 +390,10 @@ class PublishService
 
     private function publishVersion(Revision $revision, Environment $environment, ?string $commandUser = null): void
     {
-        if (!$revision->hasVersionTags()) {
+        $contentType = $revision->giveContentType();
+        $versioning = $contentType->getVersioning();
+
+        if (!$versioning->enabled() || 0 === \count($versioning->getTags())) {
             return;
         }
 
@@ -386,11 +401,11 @@ class PublishService
             throw new \RuntimeException('Revision missing version uuid!');
         }
 
-        $contentType = $revision->giveContentType();
         $selectedVersionTag = $revision->getVersionNextTag();
+        $tagField = $versioning->field(VersionFields::VERSION_TAG);
 
-        if (\in_array($selectedVersionTag, [null, Revision::VERSION_BLANK], true)) {
-            $revision->removeFromRawData($contentType->getVersionTagField());
+        if ($tagField && \in_array($selectedVersionTag, [null, Revision::VERSION_BLANK], true)) {
+            $revision->removeFromRawData($tagField);
 
             return;
         }
@@ -411,8 +426,12 @@ class PublishService
             $revision->setVersionDate('from', $now);
         }
 
-        $revision->setVersionTag($selectedVersionTag);
-        $revision->removeFromRawData($contentType->getVersionTagField());
+        if ($selectedVersionTag) {
+            $revision->setVersionTag($selectedVersionTag);
+        }
+        if ($tagField) {
+            $revision->removeFromRawData($tagField);
+        }
 
         $this->dataService->finalizeDraft($revision, $form, $commandUser);
     }

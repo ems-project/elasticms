@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Form\Form;
 
 use Doctrine\ORM\EntityRepository;
+use EMS\CoreBundle\Core\User\GroupManager;
 use EMS\CoreBundle\EMSCoreBundle;
+use EMS\CoreBundle\Entity\Group;
 use EMS\CoreBundle\Entity\User;
 use EMS\CoreBundle\Entity\WysiwygProfile;
 use EMS\CoreBundle\Form\Field\ObjectPickerType;
@@ -31,8 +33,12 @@ final class UserType extends AbstractType
     public const string MODE_CREATE = 'create';
     public const string MODE_UPDATE = 'update';
 
-    public function __construct(private readonly UserService $userService, private readonly ?string $circleObject)
-    {
+    public function __construct(
+        private readonly UserService $userService,
+        private readonly GroupManager $groupManager,
+        private readonly ?string $circleObject,
+        private readonly bool $groupFeature,
+    ) {
     }
 
     /**
@@ -64,6 +70,11 @@ final class UserType extends AbstractType
                 'second_options' => ['label' => 'user.password_confirmation'],
                 'invalid_message' => 'user.password.mismatch',
             ]);
+        }
+
+        $choices = [];
+        foreach ($this->groupManager->getAll() as $group) {
+            $choices[$group->getLabel()] = $group->getId();
         }
 
         $builder
@@ -101,7 +112,7 @@ final class UserType extends AbstractType
                     'class' => 'wysiwyg-profile-picker',
                 ],
             ])
-            ->add('roles', ChoiceType::class, [
+            ->add('userRoles', ChoiceType::class, [
                 'choices' => $this->userService->getExistingRoles(),
                 'label' => 'Roles',
                 'expanded' => true,
@@ -127,6 +138,19 @@ final class UserType extends AbstractType
                 'context' => UserOptionsType::CONTEXT_USER_MANAGEMENT,
             ])
         ;
+        if ($this->groupFeature) {
+            $builder->add('group', EntityType::class, [
+                'required' => false,
+                'label' => 'Group',
+                'class' => Group::class,
+                'choice_label' => 'label',
+                'query_builder' => fn (EntityRepository $er) => $er->createQueryBuilder('g'),
+                'attr' => [
+                    'data-live-search' => true,
+                    'class' => 'user-group-picker',
+                ],
+            ]);
+        }
 
         if ($this->circleObject) {
             $builder->add('circles', ObjectPickerType::class, [

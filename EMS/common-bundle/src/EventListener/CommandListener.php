@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\EventListener;
 
 use EMS\CommonBundle\Command\CommandInterface;
-use EMS\CommonBundle\Common\Converter;
+use EMS\Helpers\Standard\Number;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
@@ -58,7 +58,7 @@ class CommandListener implements EventSubscriberInterface
         $io = new SymfonyStyle($event->getInput(), $event->getOutput());
         $io->listing([
             \sprintf('Duration: %d s', $stopwatch->getDuration() / 1000),
-            \sprintf('Memory: %s', Converter::formatBytes($stopwatch->getMemory())),
+            \sprintf('Memory: %s', Number::formatBytes($stopwatch->getMemory())),
         ]);
     }
 }

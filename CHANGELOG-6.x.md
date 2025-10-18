@@ -1,5 +1,305 @@
 # Changelog 6.x
 
+## 6.8.0 (2025-09-29)
+### Features
+* feat(admin/metric): add jobs pending gauge by @Davidmattei in https://github.com/ems-project/elasticms/pull/1418
+* feat(cli/sync): support sync ems index over skeleton by @Davidmattei in https://github.com/ems-project/elasticms/pull/1417
+* feat(common/command): ems:elasticsearch:clean-orphan-indices by @theus77 in https://github.com/ems-project/elasticms/pull/1404
+* feat(common/command): ems:indexes:synchronize, sync 2 indexes by @theus77 in https://github.com/ems-project/elasticms/pull/1395
+* feat(common/twig): ems_files_in_archive by @theus77 in https://github.com/ems-project/elasticms/pull/1409
+* feat(common/twig): new ems_check_ip function by @theus77 in https://github.com/ems-project/elasticms/pull/1399
+* feat(web): core authentication with sso by @Davidmattei in https://github.com/ems-project/elasticms/pull/1414
+### Bug Fixes
+* fix(admin/backup): environment export ignore alias by @theus77 in https://github.com/ems-project/elasticms/pull/1406
+* fix(cli/sync): use symfony http client service by @Davidmattei in https://github.com/ems-project/elasticms/pull/1416
+* fix(web): support EMSCH_OAUTH2_REDIRECT_URI as path by @Davidmattei in https://github.com/ems-project/elasticms/pull/1419
+### Chores
+* chore(cli): enable web profile in dev env by @Davidmattei in https://github.com/ems-project/elasticms/pull/1415
+* chore(docker): add prometheus & grafana by @Davidmattei in https://github.com/ems-project/elasticms/pull/1412
+
+## 6.7.3 (2025-09-18)
+### Bug Fixes
+* fix(admin/submission): memory issues on remove and export by @theus77 in https://github.com/ems-project/elasticms/pull/1408
+* fix(common/zip): disable defaultEnableZeroHeader for zipStream by @theus77 in https://github.com/ems-project/elasticms/pull/1410
+* fix(web/api): treatFiles improve error message by @theus77 in https://github.com/ems-project/elasticms/pull/1411
+
+## 6.7.2 (2025-09-11)
+### Bug Fixes
+* fix(admin/channel): new option prefix_instance_id by @Davidmattei in https://github.com/ems-project/elasticms/pull/1403
+* fix(admin/session): cookie_samesite lax by @Davidmattei in https://github.com/ems-project/elasticms/pull/1402
+* fix(admin/twig): json menu query default check by @Davidmattei in https://github.com/ems-project/elasticms/pull/1401
+* fix(demo): invalid replacing placeholder ~view.id~ by @Davidmattei in https://github.com/ems-project/elasticms/pull/1400
+* fix(web/sso): env variable SESSION_COOKIE_SAMESITE by @Davidmattei in https://github.com/ems-project/elasticms/pull/1398
+
+## 6.7.1 (2025-08-28)
+### Bug Fixes
+* fix(admin/contentType): display json menu link with query by @Davidmattei in https://github.com/ems-project/elasticms/pull/1394
+* fix(admin/migration): replace choiceType update type by @Davidmattei in https://github.com/ems-project/elasticms/pull/1393
+* fix(common/spreadsheet): allow mixed as cell value by @Davidmattei in https://github.com/ems-project/elasticms/pull/1392
+
+## 6.7.0 (2025-08-25)
+### Features
+* feat(admin/content-type): recompute on publication by @theus77 in https://github.com/ems-project/elasticms/pull/1381
+* feat(admin/twig): new twig function emsco_job by @Davidmattei in https://github.com/ems-project/elasticms/pull/1387
+* feat(common/asset): new canonical header config by @theus77 in https://github.com/ems-project/elasticms/pull/1384
+* feat(common/spreadsheet): support excel date fields by @Davidmattei in https://github.com/ems-project/elasticms/pull/1391
+* feat(web/brigde): support file upload (chunk) by @Davidmattei in https://github.com/ems-project/elasticms/pull/1385
+* feat(web/form): support percent type by @Davidmattei in https://github.com/ems-project/elasticms/pull/1383
+### Code Refactoring
+* refactor(admin/action): execute job action in service by @Davidmattei in https://github.com/ems-project/elasticms/pull/1386
+
+## 6.6.1 (2025-08-08)
+### Bug Fixes
+* fix(cli/import): add new mime type configuration by @Davidmattei in https://github.com/ems-project/elasticms/pull/1380
+* fix(common/spreadsheet): config value_binder by @Davidmattei in https://github.com/ems-project/elasticms/pull/1382
+
+## 6.6.0 (2025-07-29)
+### Features
+* feat(demo): using webp in demo's cards by @theus77 in https://github.com/ems-project/elasticms/pull/1374
+### Bug Fixes
+* fix(admin): ct picker background color in multiple mode by @theus77 in https://github.com/ems-project/elasticms/pull/1377
+### Documentation
+* docs: licences mit to LGPL-3.0 by @theus77 in https://github.com/ems-project/elasticms/pull/1376
+### Code Refactoring
+* refactor(admin): crud overview template to page object by @Davidmattei in https://github.com/ems-project/elasticms/pull/1371
+* refactor(admin): move admin controllers by @Davidmattei in https://github.com/ems-project/elasticms/pull/1373
+* refactor(admin): remove add/edit form template for admin config by @Davidmattei in https://github.com/ems-project/elasticms/pull/1372
+
+## 6.5.1 (2025-07-25)
+### Bug Fixes
+* fix(admin/revision): inactive actions by @theus77 in https://github.com/ems-project/elasticms/pull/1375
+
+## 6.5.0 (2025-07-10)
+### Features
+* feat(admin/cli): new submission export command by @coppee in https://github.com/ems-project/elasticms/pull/1352
+* feat(admin/media-lib): add behavior for view file on click by @theus77 in https://github.com/ems-project/elasticms/pull/1342
+* feat(admin/media-lib): add searchType option by @theus77 in https://github.com/ems-project/elasticms/pull/1340
+* feat(admin/media-lib): folder move and revision task helpText by @coppee in https://github.com/ems-project/elasticms/pull/1351
+* feat(admin/media-lib): separate navbar and breadcrumb by @theus77 in https://github.com/ems-project/elasticms/pull/1341
+* feat(cli/import): add new option lowercase_headers by @Davidmattei in https://github.com/ems-project/elasticms/pull/1369
+* feat(demo/media-lib): apply end user remarks (edit button and author) by @theus77 in https://github.com/ems-project/elasticms/pull/1348
+### Bug Fixes
+* fix(admin/bridge): meta info environments not correct by @Davidmattei in https://github.com/ems-project/elasticms/pull/1370
+* fix(admin/user): enable groups with EMSCO_GROUP_FEATURE (default false) by @theus77 in https://github.com/ems-project/elasticms/pull/1343
+* fix(web/api): treat an simple array of files by @IsaMic in https://github.com/ems-project/elasticms/pull/1366
+
+## 6.4.6 (2025-07-09)
+### Bug Fixes
+* fix(admin/environment): revert align command use dbal queries by @Davidmattei in https://github.com/ems-project/elasticms/pull/1367
+* fix(admin/environment): revert unpublish command use dbal queries by @Davidmattei in https://github.com/ems-project/elasticms/pull/1368
+
+## 6.4.5 (2025-06-24)
+### Bug Fixes
+* fix(admin/environment): correct remove/add with version revisions  by @Davidmattei in https://github.com/ems-project/elasticms/pull/1362
+* fix(admin/revision): lock exception on silent publication by @Davidmattei in https://github.com/ems-project/elasticms/pull/1364
+### Chores
+* chore(docker): overwrite postgres volume name by @Davidmattei in https://github.com/ems-project/elasticms/pull/1363
+
+## 6.4.4 (2025-06-17)
+### Features
+* feat(cli/import): support align environments by @Davidmattei in https://github.com/ems-project/elasticms/pull/1358
+* feat(cli/import): support query for search documents by @Davidmattei in https://github.com/ems-project/elasticms/pull/1356
+### Bug Fixes
+* fix(admin/datatable): use post for ajax request core data tables by @Davidmattei in https://github.com/ems-project/elasticms/pull/1347
+* fix(admin/json-menu-nested): display template not rendering choices by @Davidmattei in https://github.com/ems-project/elasticms/pull/1357
+* fix(admin/media-lib): delete folder not granted by @Davidmattei in https://github.com/ems-project/elasticms/pull/1353
+* fix(admin/user): profile group only print if defined by @Davidmattei in https://github.com/ems-project/elasticms/pull/1359
+* fix(common/backup): exclude _published by from export by @Davidmattei in https://github.com/ems-project/elasticms/pull/1360
+* fix(common/job): correct set status for core jobs by @Davidmattei in https://github.com/ems-project/elasticms/pull/1361
+* fix(common/storage): asset processor overwrite default mimetype by @theus77 in https://github.com/ems-project/elasticms/pull/1349
+* fix(core/repository): typo in findLatestVersion by @coppee in https://github.com/ems-project/elasticms/pull/1355
+
+## 6.4.3 (2025-06-10)
+### Bug Fixes
+* fix(admin/content-type): mandatory if, not working as expected by @theus77 in https://github.com/ems-project/elasticms/pull/1344
+* fix(admin/datatable): use post instead of get for ajax requests by @theus77 in https://github.com/ems-project/elasticms/pull/1339
+* fix(admin/revision): bulk unpublish flag environment revision as deleted by @Davidmattei in https://github.com/ems-project/elasticms/pull/1345
+* fix(admin/security): on all logins set last login (api,bridge) by @Davidmattei in https://github.com/ems-project/elasticms/pull/1346
+
+## 6.4.2 (2025-06-04)
+### Bug Fixes
+* fix(admin/contentType): versioning fields empty string by @Davidmattei in https://github.com/ems-project/elasticms/pull/1337
+* fix(admin/doctrine): fieldType options can be null by @Davidmattei in https://github.com/ems-project/elasticms/pull/1336
+* fix(admin/environment): correct counter on overview by @Davidmattei in https://github.com/ems-project/elasticms/pull/1338
+* fix(admin/environment): rebuild correct compare current env by @Davidmattei in https://github.com/ems-project/elasticms/pull/1335
+
+## 6.4.1 (2025-06-03)
+### Features
+* feat(twig): add global emschLocales variable by @Davidmattei in https://github.com/ems-project/elasticms/pull/1328
+### Bug Fixes
+* fix(admin/cke): browser server of images by @IsaMic in https://github.com/ems-project/elasticms/pull/1330
+* fix(admin/field): multiplex correct use form locale by @Davidmattei in https://github.com/ems-project/elasticms/pull/1329
+* fix(admin/group): remove not working + improve by @IsaMic in https://github.com/ems-project/elasticms/pull/1333
+* fix(admin/mercure): change default dev env MERCURE_URL by @Davidmattei in https://github.com/ems-project/elasticms/pull/1327
+* fix(admin/trash): role Edit can "Put back" by @IsaMic in https://github.com/ems-project/elasticms/pull/1331
+* fix(common/elasticSearch): double slash in request (getVersion) by @Davidmattei in https://github.com/ems-project/elasticms/pull/1334
+* fix(common/runner): allow to use a self-signed ca for openshift by @theus77 in https://github.com/ems-project/elasticms/pull/1332
+
+## 6.4.0 (2025-05-26)
+### Features
+* feat(admin/api): add openapi documentation by @Zki49 in https://github.com/ems-project/elasticms/pull/1309
+* feat(admin/job): auto launch runner by @theus77 in https://github.com/ems-project/elasticms/pull/1326
+* feat(admin/jobs): add metrics job collector by @Davidmattei in https://github.com/ems-project/elasticms/pull/1324
+* feat(admin/revision): implement actions and AI support by @Davidmattei in https://github.com/ems-project/elasticms/pull/1303
+* feat(admin/revision): implement publish event action by @theus77 in https://github.com/ems-project/elasticms/pull/1320
+* feat(admin/revision): set published meta fields in raw by @theus77 in https://github.com/ems-project/elasticms/pull/1317
+* feat(admin/symfony): implement mercure bundle (real-time push) by @Davidmattei in https://github.com/ems-project/elasticms/pull/1310
+* feat(cli/import): support exclude expression by @Davidmattei in https://github.com/ems-project/elasticms/pull/1323
+* feat(common/pdf): printer support remote hosts option by @theus77 in https://github.com/ems-project/elasticms/pull/1322
+### Bug Fixes
+* fix(admin/contentType): invalid mapping for multiplex with locales variable by @Davidmattei in https://github.com/ems-project/elasticms/pull/1321
+* fix(admin/doctrine): invalid entity mapping for new EnvironmentRevision by @Davidmattei in https://github.com/ems-project/elasticms/pull/1312
+* fix(admin/environment): restore revision from trash (EnvironmentRevision) by @Davidmattei in https://github.com/ems-project/elasticms/pull/1313
+* fix(admin/mercure): one JWT_TOKEN and better token generation by @Davidmattei in https://github.com/ems-project/elasticms/pull/1311
+* fix(admin/revision): cascade delete environments by @Davidmattei in https://github.com/ems-project/elasticms/pull/1314
+* fix(admin/revision): new document without ouuid by @theus77 in https://github.com/ems-project/elasticms/pull/1319
+* fix(common/admin): already connected supres error on existing valid authkey by @theus77 in https://github.com/ems-project/elasticms/pull/1316
+* fix(common/core-api): json decode on forward stream for form file by @Davidmattei in https://github.com/ems-project/elasticms/pull/1325
+### Code Refactoring
+* refactor(admin/doctrine): add EnvironmentRevision associative entity by @theus77 in https://github.com/ems-project/elasticms/pull/1306
+
+## 6.3.1 (2025-05-14)
+### Bug Fixes
+* fix(admin/user): create groups from json by @theus77 in https://github.com/ems-project/elasticms/pull/1315
+### Documentation
+* docs(upgrade/6.0.0): emsco_get.source for accessing data by @theus77 in https://github.com/ems-project/elasticms/pull/1318
+
+## 6.3.0 (2025-04-29)
+### Features
+* feat(admin/cli): add and remove user from group commands by @Zki49 in https://github.com/ems-project/elasticms/pull/1304
+* feat(admin/cli): add report option for emsco:asset:extract by @Davidmattei in https://github.com/ems-project/elasticms/pull/1302
+* feat(admin/messenger): add messenger component for queuing by @coppee in https://github.com/ems-project/elasticms/pull/1262
+* feat(admin/user): implement user groups by @Zki49 in https://github.com/ems-project/elasticms/pull/1199
+* feat(admin/user): support user group in adminUI by @theus77 in https://github.com/ems-project/elasticms/pull/1294
+* feat(common/runner): implement job runners by @theus77 in https://github.com/ems-project/elasticms/pull/1288
+* feat(demo/wysiwyg): add wysiwyg crawler macro by @michaeldk in https://github.com/ems-project/elasticms/pull/1296
+### Bug Fixes
+* fix(admin/database): add missing migrations by @Davidmattei in https://github.com/ems-project/elasticms/pull/1308
+* fix(admin/revision): detail current version is closed by @Davidmattei in https://github.com/ems-project/elasticms/pull/1305
+* fix(admin/view): correct view templates for bootstrap5 by @theus77 in https://github.com/ems-project/elasticms/pull/1286
+
+## 6.2.2 (2025-04-17)
+### Bug Fixes
+* fix(admin/api): ldap authenticator use provider by @Davidmattei in https://github.com/ems-project/elasticms/pull/1301
+* fix(admin/revision): lock exception on restore from trash by @Davidmattei in https://github.com/ems-project/elasticms/pull/1298
+* fix(admin/revision): use revision display column in trash overview by @Davidmattei in https://github.com/ems-project/elasticms/pull/1300
+* fix(admin/security): allows public access to /emsf/ baseurls (channels) by @theus77 in https://github.com/ems-project/elasticms/pull/1292
+* fix(web/form): pass submitted data to template by @Davidmattei in https://github.com/ems-project/elasticms/pull/1297
+
+## 6.2.1 (2025-04-04)
+### Features
+* feat(client/emschForm): support validate block by @Davidmattei in https://github.com/ems-project/elasticms/pull/1287
+* feat(emsch/form): add "greaterThan" and "lessThan" constraints by @Davidmattei in https://github.com/ems-project/elasticms/pull/1283
+* feat(web/twig): add 'ems_search_config_execute' twig function by @Davidmattei in https://github.com/ems-project/elasticms/pull/1289
+### Bug Fixes
+* fix(admin/revision): set version revision on publish by @coppee in https://github.com/ems-project/elasticms/pull/1278
+* fix(admin/view): view type selects not showing labels by @theus77 in https://github.com/ems-project/elasticms/pull/1284
+* fix(common/bridge): add publish versions endpoint by @Davidmattei in https://github.com/ems-project/elasticms/pull/1285
+* fix(common/storage): s3 upload bug small files by @theus77 in https://github.com/ems-project/elasticms/pull/1280
+* fix(core/revision): api finalize autoSave check for _version_uuid by @Davidmattei in https://github.com/ems-project/elasticms/pull/1282
+* fix(core/revision): autoSave without merge by @Davidmattei in https://github.com/ems-project/elasticms/pull/1281
+
+## 6.2.0 (2025-03-31)
+### Features
+* feat(admin): add `forgot_password_url` configuration by @IsaMic in https://github.com/ems-project/elasticms/pull/1251
+* feat(cli/user): collect users info from multiple admins by @theus77 in https://github.com/ems-project/elasticms/pull/1234
+* feat(common/twig): add file reader functions (csv & excel) by @theus77 in https://github.com/ems-project/elasticms/pull/1264
+* feat(demo): allow access to file if in indexes by @theus77 in https://github.com/ems-project/elasticms/pull/1256
+* feat(demo): demo-FilesUpload + fix(submission) by @IsaMic in https://github.com/ems-project/elasticms/pull/1255
+* feat(demo): js translations from twig/skeleton by @theus77 in https://github.com/ems-project/elasticms/pull/1267
+* feat(demo/file-upload): styling & UX by @michaeldk in https://github.com/ems-project/elasticms/pull/1274
+* feat(demo/js-translations): add support for pattern replacement by @michaeldk in https://github.com/ems-project/elasticms/pull/1275
+### Bug Fixes
+* fix(admin-ui): fix ems font import by @michaeldk in https://github.com/ems-project/elasticms/pull/1277
+* fix(admin/versioning): ref search latest version by @Davidmattei in https://github.com/ems-project/elasticms/pull/1273
+### Code Refactoring
+* refactor(admin-ui-bundle/css): refactor CSS imports by @michaeldk in https://github.com/ems-project/elasticms/pull/1265
+* refactor(admin/ui): admin wysiwyg entities by @theus77 in https://github.com/ems-project/elasticms/pull/1235
+* refactor(admin/ui): documentaiton page and add alias  by @theus77 in https://github.com/ems-project/elasticms/pull/1236
+* refactor(admin/ui): draft in progress by @theus77 in https://github.com/ems-project/elasticms/pull/1246
+* refactor(admin/ui): elasticsearch and avoid json.twig templates by @theus77 in https://github.com/ems-project/elasticms/pull/1237
+* refactor(admin/ui): filter by @theus77 in https://github.com/ems-project/elasticms/pull/1242
+* refactor(admin/ui): i18n by @theus77 in https://github.com/ems-project/elasticms/pull/1245
+* refactor(admin/ui): navigation breadcrumbs in uploaded files by @theus77 in https://github.com/ems-project/elasticms/pull/1244
+* refactor(admin/ui): pagination.html.twig by @theus77 in https://github.com/ems-project/elasticms/pull/1238
+* refactor(admin/ui): query_search by @theus77 in https://github.com/ems-project/elasticms/pull/1241
+* refactor(admin/ui): schedule by @theus77 in https://github.com/ems-project/elasticms/pull/1240
+* refactor(admin/ui): search templates by @theus77 in https://github.com/ems-project/elasticms/pull/1239
+* refactor(admin/ui): trash and logs by @theus77 in https://github.com/ems-project/elasticms/pull/1243
+### Chores
+* chore(admin-ui/vite): add source map in dev mode for easier debug by @michaeldk in https://github.com/ems-project/elasticms/pull/1276
+* chore(dev): switch default EMS_CACHE redis to file_system by @theus77 in https://github.com/ems-project/elasticms/pull/1261
+* chore(docker): update deprecated minio env variables by @michaeldk in https://github.com/ems-project/elasticms/pull/1254
+* chore: add dev scripts for AdminUIBundle in makeFile by @theus77 in https://github.com/ems-project/elasticms/pull/1257
+
+## 6.1.2 (2025-03-24)
+### Features
+* feat(admin/api): add support for lazy indexing by @Davidmattei in https://github.com/ems-project/elasticms/pull/1268
+* feat(cli/import): add digest feature by @Davidmattei in https://github.com/ems-project/elasticms/pull/1271
+### Bug Fixes
+* fix(admin/contentType): add suport helptext for choiceFieldType by @theus77 in https://github.com/ems-project/elasticms/pull/1258
+* fix(admin/contentType): datetime field type correct default display format by @theus77 in https://github.com/ems-project/elasticms/pull/1270
+* fix(admin/contentType): support helptext for choiceFieldType by @theus77 in https://github.com/ems-project/elasticms/pull/1259
+* fix(admin/contentType): wrong default display date format for DataTimeFieldType by @theus77 in https://github.com/ems-project/elasticms/pull/1260
+* fix(admin/extract): avoid creating ghost documents by @theus77 in https://github.com/ems-project/elasticms/pull/1263
+* fix(admin/js): disable button on file upload by @theus77 in https://github.com/ems-project/elasticms/pull/1272
+* fix(admin/mapping): not analyzed index by @theus77 in https://github.com/ems-project/elasticms/pull/1269
+
+## 6.1.1 (2025-03-12)
+### Features
+* feat(admin): allow change link forgot password by @IsaMic in https://github.com/ems-project/elasticms/pull/1250
+* feat(cli/import): add command for database import by @Davidmattei in https://github.com/ems-project/elasticms/pull/1253
+### Bug Fixes
+* fix(admin/publish): only create new version if tags are defined by @Davidmattei in https://github.com/ems-project/elasticms/pull/1247
+* fix(cli/file-import): use correct mimetype of import file by @Davidmattei in https://github.com/ems-project/elasticms/pull/1252
+* fix(web/form): add range and regex assert by @Davidmattei in https://github.com/ems-project/elasticms/pull/1248
+
+## 6.1.0 (2025-02-26)
+### Features
+* feat(admin/contentType): optional tags and date support by @Davidmattei in https://github.com/ems-project/elasticms/pull/1224
+* feat(admin/field): multiplexed tab with emsch.locales parameter by @theus77 in https://github.com/ems-project/elasticms/pull/1201
+* feat(admin/post-processing): add document revision in context by @Davidmattei in https://github.com/ems-project/elasticms/pull/1214
+* feat(admin/ui): replace select2 by choices.js by @theus77 in https://github.com/ems-project/elasticms/pull/1210
+* feat(common/bridge): add data publish endpoint by @Davidmattei in https://github.com/ems-project/elasticms/pull/1196
+* feat(common/bridge): add new initDraft method and CoreBridgeResponse by @Davidmattei in https://github.com/ems-project/elasticms/pull/1209
+* feat(common/twig): add ems_flash twig function by @Davidmattei in https://github.com/ems-project/elasticms/pull/1215
+* feat(mono-repo): add make 'check' target by @Davidmattei in https://github.com/ems-project/elasticms/pull/1220
+* feat(spreadsheet): add data validation by @IsaMic in https://github.com/ems-project/elasticms/pull/1190
+* feat(web/form): add dynamic choice element for emsch forms  by @Davidmattei in https://github.com/ems-project/elasticms/pull/1232
+* feat(web/form): add emsch_form_view view variable by @Davidmattei in https://github.com/ems-project/elasticms/pull/1233
+* feat(web/form): support constraints and extra elements by @Davidmattei in https://github.com/ems-project/elasticms/pull/1221
+### Bug Fixes
+* fix(admin): color picker form field by @theus77 in https://github.com/ems-project/elasticms/pull/1195
+* fix(admin): optional use of deprecated EMSCH_BACKEND_URL env by @Davidmattei in https://github.com/ems-project/elasticms/pull/1219
+* fix(admin/action): filter on the environment even if the template.role == "not-defined" by @theus77 in https://github.com/ems-project/elasticms/pull/1205
+* fix(admin/cli): backup fieldType ignore displayExtraOptions by @Davidmattei in https://github.com/ems-project/elasticms/pull/1212
+* fix(admin/color-picker): use translation function for choices by @theus77 in https://github.com/ems-project/elasticms/pull/1216
+* fix(admin/dashboard): use data-icon for type just like other pickers by @theus77 in https://github.com/ems-project/elasticms/pull/1230
+* fix(admin/field): avoid to have extra display options saved in the FileType entity by @theus77 in https://github.com/ems-project/elasticms/pull/1203
+* fix(admin/field): reverse entity name modal transformer nullable by @Davidmattei in https://github.com/ems-project/elasticms/pull/1211
+* fix(admin/revision): unlock after discard draft by @theus77 in https://github.com/ems-project/elasticms/pull/1223
+* fix(admin/ui): action are not filtered on envs is role is not defined by @theus77 in https://github.com/ems-project/elasticms/pull/1206
+* fix(admin/ui): edit content type form bootstrap 5 by @theus77 in https://github.com/ems-project/elasticms/pull/1204
+* fix(demo): correct demo-backup-configs by @theus77 in https://github.com/ems-project/elasticms/pull/1194
+### Code Refactoring
+* refactor(admin/ui): actions admin and forms admin (bs5 template) by @theus77 in https://github.com/ems-project/elasticms/pull/1226
+* refactor(admin/ui): admin analyzer by @theus77 in https://github.com/ems-project/elasticms/pull/1227
+* refactor(admin/ui): admin channels by @theus77 in https://github.com/ems-project/elasticms/pull/1228
+* refactor(admin/ui): admin content types by @theus77 in https://github.com/ems-project/elasticms/pull/1229
+* refactor(admin/ui): admin dashboard by @theus77 in https://github.com/ems-project/elasticms/pull/1231
+* refactor(admin/ui): crud add template by @theus77 in https://github.com/ems-project/elasticms/pull/1217
+* refactor(admin/ui): job templates by @theus77 in https://github.com/ems-project/elasticms/pull/1225
+* refactor(admin/ui): select2 to choices.js by @theus77 in https://github.com/ems-project/elasticms/pull/1207
+* refactor(admin/ui): style admin job with generic card template by @theus77 in https://github.com/ems-project/elasticms/pull/1213
+* refactor(common/slugger): preserve file extension option by @theus77 in https://github.com/ems-project/elasticms/pull/1187
+* refactor(demo): simplify content types and add a link content type by @theus77 in https://github.com/ems-project/elasticms/pull/1191
+* refactor(helper/date): convert java/js format to php by @Davidmattei in https://github.com/ems-project/elasticms/pull/1222
+### Chores
+* chore(admin/ui): npm run format by @theus77 in https://github.com/ems-project/elasticms/pull/1208
+* chore(docker): setup_minio like demo by @theus77 in https://github.com/ems-project/elasticms/pull/1198
+* chore(make): upgrade to base-php:8.4-cli-dev for npm by @theus77 in https://github.com/ems-project/elasticms/pull/1202
+* chore: build translations correct paths and only yaml by @Davidmattei in https://github.com/ems-project/elasticms/pull/1218
+
 ## 6.0.1 (2025-02-12)
 ### Bug Fixes
 * fix(admin/ui): select2 in bootstrap's modal by @theus77 in https://github.com/ems-project/elasticms/pull/1192

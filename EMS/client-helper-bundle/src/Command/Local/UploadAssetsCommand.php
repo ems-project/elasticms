@@ -24,12 +24,14 @@ final class UploadAssetsCommand extends AbstractLocalCommand
     private const string OPTION_FILENAME = 'filename';
     private const string OPTION_AS_STYLE_SET_ASSETS = 'as-style-set-assets';
     private const string OPTION_ARCHIVE_TYPE = 'archive';
+    private const string OPTION_SKIP_CACHE = 'skip-cache';
     private const string ARCHIVE_ZIP = 'zip';
     private const string ARCHIVE_EMS = 'ems';
     private ?string $filename = null;
     private bool $updateStyleSets;
     private string $baseUrl;
     private string $archiveType;
+    private bool $skipPreloadCache;
 
     public function __construct(EnvironmentHelper $environmentHelper, LocalHelper $localHelper, private readonly ?string $assetLocalFolder)
     {
@@ -45,6 +47,7 @@ final class UploadAssetsCommand extends AbstractLocalCommand
             ->addOption(self::OPTION_FILENAME, null, InputOption::VALUE_OPTIONAL, 'Save the asset\'s hash within the given file')
             ->addOption(self::OPTION_AS_STYLE_SET_ASSETS, null, InputOption::VALUE_NONE, 'Also update all style set\'s assets with this upload')
             ->addOption(self::OPTION_ARCHIVE_TYPE, null, InputOption::VALUE_OPTIONAL, \sprintf('The assets will be uploaded as an "%s" archive or a "%s" archive', self::ARCHIVE_EMS, self::ARCHIVE_ZIP), self::ARCHIVE_EMS)
+            ->addOption(self::OPTION_SKIP_CACHE, null, InputOption::VALUE_NONE, 'Assets won\'be preloaded in the admin\'s cache')
         ;
     }
 
@@ -56,6 +59,7 @@ final class UploadAssetsCommand extends AbstractLocalCommand
         $this->filename = $this->getOptionStringNull(self::OPTION_FILENAME);
         $this->updateStyleSets = $this->getOptionBool(self::OPTION_AS_STYLE_SET_ASSETS);
         $this->archiveType = $this->getOptionString(self::OPTION_ARCHIVE_TYPE);
+        $this->skipPreloadCache = $this->getOptionBool(self::OPTION_SKIP_CACHE);
     }
 
     #[\Override]
@@ -173,6 +177,9 @@ final class UploadAssetsCommand extends AbstractLocalCommand
 
     private function preloadCache(string $hash): void
     {
+        if ($this->skipPreloadCache) {
+            return;
+        }
         $this->io->title('Preloading assets in admin\'s cache');
         $directory = $this->localHelper->getDirectory($this->baseUrl);
         $finder = new Finder();

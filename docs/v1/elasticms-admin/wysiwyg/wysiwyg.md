@@ -20,7 +20,7 @@ A profile has a required `name` and `config` json field.
 
 For building the json, the ckeditor [Toolbar Configurator](https://ckeditor.com/latest/samples/toolbarconfigurator/index.html#basic) can be helpful.
 
-[Example full profile config json](../wysiwyg/example_profile.md).
+[Example full profile config json](example_profile.md).
 
 ### EMS settings
 

@@ -179,7 +179,7 @@ In `template/redirects/hosts.json.twig`
 
 ### Search controller
 
-See the [search documentation](./search.md) fo more information.
+See the [search documentation](search.md) fo more information.
 
 I.e.:
 ````yaml

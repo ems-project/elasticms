@@ -59,8 +59,6 @@ check: ## run all checks
 cache-clear: ## cache clear
 	@$(RUN_ADMIN) c:cl
 	@$(RUN_WEB) c:cl
-docs: ## serve docs
-	@docsify serve ./docs/v1
 status: ## status
 	@$(DOCKER_COMPOSE) ps
 
@@ -92,6 +90,12 @@ assets-clean: ## remove AdminUIBundle assets
 assets-dev: ## Start an AdminUIBundle Vite server
 	@$(MAKE) -s assets-clean
 	@$(MAKE) -s assets-npm/"run dev-host"
+
+## —— Doc ——————————————————————————————————————————————————————————————————————————————————————————————————————————————
+docs: ## serve docs
+	npm run --prefix ./docs docs:dev
+docs-init: ## init docs
+	npm install --prefix ./docs
 
 ## —— Build ————————————————————————————————————————————————————————————————————————————————————————————————————————————
 build-translations: ## build translations

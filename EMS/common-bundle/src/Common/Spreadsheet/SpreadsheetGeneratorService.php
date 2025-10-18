@@ -7,7 +7,10 @@ namespace EMS\CommonBundle\Common\Spreadsheet;
 use EMS\CommonBundle\Common\Converter;
 use EMS\CommonBundle\Contracts\Spreadsheet\SpreadsheetGeneratorServiceInterface;
 use EMS\Helpers\File\TempFile;
+use PhpOffice\PhpSpreadsheet\Cell\AdvancedValueBinder;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
+use PhpOffice\PhpSpreadsheet\Cell\DefaultValueBinder;
+use PhpOffice\PhpSpreadsheet\Cell\StringValueBinder;
 use PhpOffice\PhpSpreadsheet\Settings;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -84,6 +87,12 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
         $cache = new Psr16Cache(new FilesystemAdapter());
         Settings::setCache($cache);
 
+        $spreadsheet->setValueBinder(match ($config[self::VALUE_BINDER] ?? null) {
+            'string' => new StringValueBinder(),
+            'advanced' => new AdvancedValueBinder(),
+            default => new DefaultValueBinder(),
+        });
+
         $i = 0;
         $maxCol = 1;
         foreach ($config[self::SHEETS] as $sheetConfig) {
@@ -137,6 +146,7 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
             self::CONTENT_DISPOSITION => 'attachment',
             self::WRITER => self::XLSX_WRITER,
             self::CSV_SEPARATOR => ',',
+            self::VALUE_BINDER => null,
             'active_sheet' => 0,
         ];
     }
@@ -156,6 +166,7 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
         $resolver->setAllowedTypes(self::CONTENT_DISPOSITION, ['string']);
         $resolver->setAllowedValues(self::WRITER, [self::XLSX_WRITER, self::CSV_WRITER]);
         $resolver->setAllowedValues(self::CONTENT_DISPOSITION, ['attachment', 'inline']);
+        $resolver->setAllowedValues(self::VALUE_BINDER, [null, 'string', 'advanced']);
 
         /** @var array{writer: string, filename: string, disposition: string, sheets: array<mixed>, csv_separator: string} $resolved */
         $resolved = $resolver->resolve($config);

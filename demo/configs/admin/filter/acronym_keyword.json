@@ -2,16 +2,15 @@
     "class": "EMS\\CoreBundle\\Entity\\Filter",
     "arguments": [],
     "properties": {
-        "name": "english_stop",
+        "name": "acronym_keyword",
         "dirty": true,
-        "label": "english_stop",
+        "label": "acronym_keyword",
         "options": {
-            "remove_trailing": true,
-            "stopwords": "_english_",
-            "type": "stop",
+            "type": "keyword_marker",
+            "keywords_pattern": "^[A-Z]{2,6}$",
             "ignore_case": false
         },
-        "orderKey": 7
+        "orderKey": 1
     },
     "replaced": []
 }

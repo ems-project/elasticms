@@ -16,6 +16,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Finder\Finder;
 
 final class UploadAssetsCommand extends AbstractLocalCommand
 {
@@ -88,6 +89,7 @@ final class UploadAssetsCommand extends AbstractLocalCommand
                 File::putContents($this->filename, $hash);
             }
 
+            $this->preloadCache($hash);
             $this->updateStyleSets($hash);
 
             return self::EXECUTE_SUCCESS;
@@ -167,5 +169,17 @@ final class UploadAssetsCommand extends AbstractLocalCommand
         $progressBar->finish();
 
         return $this->coreApi->file()->uploadContents(Json::encode($archive), 'archive.json', MimeTypes::APPLICATION_JSON->value);
+    }
+
+    private function preloadCache(string $hash): void
+    {
+        $this->io->title('Preloading assets in admin\'s cache');
+        $directory = $this->localHelper->getDirectory($this->baseUrl);
+        $finder = new Finder();
+        $finder->files()->in($directory);
+        $this->io->progressStart($finder->count());
+        foreach ($finder as $file) {
+            $this->io->progressAdvance();
+        }
     }
 }

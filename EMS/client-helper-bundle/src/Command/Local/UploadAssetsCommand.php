@@ -17,7 +17,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Finder\Finder;
 
 final class UploadAssetsCommand extends AbstractLocalCommand
 {
@@ -182,6 +181,6 @@ final class UploadAssetsCommand extends AbstractLocalCommand
             return;
         }
 
-        $this->localHelper->api($this->environment)->admin()->runCommand(implode(' ', [Commands::LOAD_ARCHIVE_IN_CACHE, $hash]), $this->output);
+        $this->localHelper->api($this->environment)->admin()->runCommand(\implode(' ', [Commands::LOAD_ARCHIVE_IN_CACHE, $hash]), $this->output);
     }
 }

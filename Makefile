@@ -60,7 +60,7 @@ cache-clear: ## cache clear
 	@$(RUN_ADMIN) c:cl
 	@$(RUN_WEB) c:cl
 docs: ## serve docs
-	@docsify serve ./docs
+	@docsify serve ./docs/v1
 status: ## status
 	@$(DOCKER_COMPOSE) ps
 

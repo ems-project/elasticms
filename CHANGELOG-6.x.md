@@ -1,5 +1,13 @@
 # Changelog 6.x
 
+## 6.8.1 (2025-10-21)
+### Bug Fixes
+* fix(admin/field): keep null attribute for filter option by @theus77 in https://github.com/ems-project/elasticms/pull/1435
+* fix(admin/job): check return code for success by @Davidmattei in https://github.com/ems-project/elasticms/pull/1438
+* fix(cli/sync): new aggs size option for ems:index:synch by @theus77 in https://github.com/ems-project/elasticms/pull/1426
+* fix(common/cli): index synch close scroll by @theus77 in https://github.com/ems-project/elasticms/pull/1431
+* fix(demo): title mapping, docker image and version 6.8.0 by @theus77 in https://github.com/ems-project/elasticms/pull/1436
+
 ## 6.8.0 (2025-09-29)
 ### Features
 * feat(admin/metric): add jobs pending gauge by @Davidmattei in https://github.com/ems-project/elasticms/pull/1418

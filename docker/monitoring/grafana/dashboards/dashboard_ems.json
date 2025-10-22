@@ -72,7 +72,7 @@
                 "textMode": "name",
                 "wideLayout": true
             },
-            "pluginVersion": "12.1.1",
+            "pluginVersion": "12.2.1",
             "targets": [
                 {
                     "datasource": {
@@ -146,7 +146,7 @@
                 "textMode": "name",
                 "wideLayout": true
             },
-            "pluginVersion": "12.1.1",
+            "pluginVersion": "12.2.1",
             "targets": [
                 {
                     "datasource": {
@@ -220,7 +220,7 @@
                 "textMode": "name",
                 "wideLayout": true
             },
-            "pluginVersion": "12.1.1",
+            "pluginVersion": "12.2.1",
             "targets": [
                 {
                     "datasource": {
@@ -258,6 +258,9 @@
                         "cellOptions": {
                             "type": "auto"
                         },
+                        "footer": {
+                            "reducers": []
+                        },
                         "inspect": false
                     },
                     "mappings": [],
@@ -286,17 +289,9 @@
             "id": 36,
             "options": {
                 "cellHeight": "sm",
-                "footer": {
-                    "countRows": false,
-                    "fields": "",
-                    "reducer": [
-                        "sum"
-                    ],
-                    "show": false
-                },
                 "showHeader": true
             },
-            "pluginVersion": "12.1.1",
+            "pluginVersion": "12.2.1",
             "targets": [
                 {
                     "editorMode": "code",
@@ -353,6 +348,21 @@
                     "legendFormat": "__auto",
                     "range": false,
                     "refId": "Pending"
+                },
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "prometheus_datasource"
+                    },
+                    "editorMode": "code",
+                    "exemplar": false,
+                    "expr": "emsco_job_count_jobs_failed",
+                    "format": "table",
+                    "hide": false,
+                    "instant": true,
+                    "legendFormat": "__auto",
+                    "range": false,
+                    "refId": "Failed"
                 }
             ],
             "title": "ElasticMS Jobs",
@@ -374,7 +384,8 @@
                                 "Value #Total",
                                 "Value #Started",
                                 "Value #Done",
-                                "Value #Pending"
+                                "Value #Pending",
+                                "Value #Failed"
                             ]
                         }
                     }
@@ -386,15 +397,17 @@
                         "includeByName": {},
                         "indexByName": {
                             "Value #Done": 3,
+                            "Value #Failed": 4,
                             "Value #Pending": 1,
                             "Value #Started": 2,
-                            "Value #Total": 4,
+                            "Value #Total": 5,
                             "tag": 0
                         },
                         "orderByMode": "manual",
                         "renameByName": {
                             "NotDone": "Scheduled",
                             "Value #Done": "Done",
+                            "Value #Failed": "Failed",
                             "Value #Pending": "Pending",
                             "Value #Started": "Started",
                             "Value #Total": "Total",
@@ -407,7 +420,7 @@
         }
     ],
     "preload": false,
-    "schemaVersion": 41,
+    "schemaVersion": 42,
     "tags": [],
     "templating": {
         "list": []

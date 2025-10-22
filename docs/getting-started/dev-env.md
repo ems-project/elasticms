@@ -12,7 +12,6 @@
   * [Admin UI](#admin-ui)
   * [Identity provider (IDP) (Keycloak)](#identity-provider-idp-keycloak)
   * [Monitoring (Grafana and Prometheus)](#monitoring-grafana-and-prometheus)
-    * [Updating Dashboards](#updating-dashboards)
   * [About PHP configuration](#about-php-configuration)
   * [Works with the bootstrap5 theme](#works-with-the-bootstrap5-theme)
 <!-- TOC -->

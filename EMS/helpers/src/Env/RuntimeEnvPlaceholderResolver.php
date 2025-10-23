@@ -40,7 +40,7 @@ final class RuntimeEnvPlaceholderResolver
             return $this->handleMissing($varName, 'Environment variable not found');
         }
 
-        foreach ($processors as $proc) {
+        foreach (\array_reverse($processors) as $proc) {
             $value = $this->applyProcessor($proc, $value, $varName);
         }
 

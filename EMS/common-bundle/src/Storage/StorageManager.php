@@ -85,13 +85,7 @@ class StorageManager implements FileManagerInterface
 
     public function head(string $hash): bool
     {
-        foreach ($this->adapters as $adapter) {
-            if ($adapter->head($hash)) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_any($this->adapters, fn($adapter) => $adapter->head($hash));
     }
 
     #[\Override]
@@ -729,13 +723,7 @@ class StorageManager implements FileManagerInterface
 
     public function addFileInArchiveCache(string $hash, SplFileInfo $file, string $mimeType): bool
     {
-        foreach ($this->adapters as $adapter) {
-            if ($adapter->addFileInArchiveCache($hash, $file, $mimeType)) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_any($this->adapters, fn($adapter) => $adapter->addFileInArchiveCache($hash, $file, $mimeType));
     }
 
     public function getFilesInArchive(string $hash): Archive

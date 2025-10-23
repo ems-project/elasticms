@@ -62,13 +62,7 @@ class Document
 
     public function hasResourceFor(string $locale): bool
     {
-        foreach ($this->resources as $resource) {
-            if ($resource->getLocale() === $locale) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_any($this->resources, fn($resource) => $resource->getLocale() === $locale);
     }
 
     public function getResourceFor(string $locale): ?string

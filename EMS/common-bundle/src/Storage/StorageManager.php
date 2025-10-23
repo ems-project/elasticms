@@ -14,7 +14,6 @@ use EMS\CommonBundle\Storage\File\StorageFile;
 use EMS\CommonBundle\Storage\Processor\Config;
 use EMS\CommonBundle\Storage\Service\StorageInterface;
 use EMS\Helpers\File\File;
-use EMS\Helpers\File\File as FileHelper;
 use EMS\Helpers\File\TempDirectory;
 use EMS\Helpers\File\TempFile;
 use EMS\Helpers\Html\MimeTypes;
@@ -668,7 +667,7 @@ class StorageManager implements FileManagerInterface
             return $fileHash;
         }
 
-        $file = FileHelper::fromFilename($realPath);
+        $file = File::fromFilename($realPath);
         $mimeType ??= $file->mimeType;
         $filename ??= $file->name;
 

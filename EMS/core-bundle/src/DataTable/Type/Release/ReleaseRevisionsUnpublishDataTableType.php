@@ -141,7 +141,7 @@ class ReleaseRevisionsUnpublishDataTableType extends AbstractTableType implement
         }
 
         $resultSet = $this->elasticaService->search($search);
-        $documents = \array_map(static fn (Result $result) => Document::fromResult($result), $resultSet->getResults());
+        $documents = \array_map(Document::fromResult(...), $resultSet->getResults());
         $documentLinks = \array_map(static fn (Document $document) => $document->getEmsLink(), $documents);
         $infos = $this->revisionService->getDocumentsInfo(...$documentLinks);
 

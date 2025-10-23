@@ -294,7 +294,7 @@ class FormConfigFactory
      */
     private function getElements(array $emsLinks): array
     {
-        $emsLinks = \array_map(fn ($emsLink) => EMSLink::fromText($emsLink), $emsLinks);
+        $emsLinks = \array_map(EMSLink::fromText(...), $emsLinks);
 
         $documentIds = \array_reduce($emsLinks, function (array $carry, EMSLink $emsLink) {
             $carry[$emsLink->getContentType()][] = $emsLink->getOuuid();

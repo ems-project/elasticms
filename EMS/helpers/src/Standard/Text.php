@@ -33,7 +33,7 @@ class Text
             throw new \RuntimeException('Humanize failed!');
         }
 
-        $str = \array_map('ucwords', $str);
+        $str = \array_map(ucwords(...), $str);
 
         return \implode(' ', $str);
     }

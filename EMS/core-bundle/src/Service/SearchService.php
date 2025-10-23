@@ -60,7 +60,7 @@ class SearchService
     public function generateSearch(Search $search): CommonSearch
     {
         $environments = \array_filter(
-            \array_map(fn (string $name) => $this->environmentService->giveByName($name), $search->getEnvironments()),
+            \array_map($this->environmentService->giveByName(...), $search->getEnvironments()),
             fn (Environment $e) => $this->elasticaService->hasIndex($e->getAlias())
         );
 

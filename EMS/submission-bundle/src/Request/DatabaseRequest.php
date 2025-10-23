@@ -105,7 +105,7 @@ final readonly class DatabaseRequest
             $fileResolver = new OptionsResolver();
             $fileResolver->setRequired(['filename', 'mimeType', 'base64', 'size', 'form_field']);
 
-            $resolvedDatabaseRecord['files'] = \array_map(fn (array $file) => $fileResolver->resolve($file), $resolvedDatabaseRecord['files']);
+            $resolvedDatabaseRecord['files'] = \array_map($fileResolver->resolve(...), $resolvedDatabaseRecord['files']);
 
             return $resolvedDatabaseRecord;
         } catch (ExceptionInterface $e) {

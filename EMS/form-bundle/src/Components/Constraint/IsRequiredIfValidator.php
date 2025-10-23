@@ -61,6 +61,7 @@ class IsRequiredIfValidator extends ConstraintValidator
         if (!\is_array($value)) {
             return false;
         }
-        return array_all($value, $this->isEmpty(...));
+
+        return \array_all($value, $this->isEmpty(...));
     }
 }

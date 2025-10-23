@@ -9,7 +9,6 @@ use Elastica\Query\MatchQuery;
 use Elastica\Query\QueryString;
 use Elastica\Query\Terms;
 use Elastica\Query\Wildcard;
-use Elastica\Result;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
 use EMS\CommonBundle\Elasticsearch\QueryStringEscaper;
 use EMS\CommonBundle\Search\Search;

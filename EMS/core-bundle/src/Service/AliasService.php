@@ -360,6 +360,7 @@ class AliasService
             $alias['countIndexes'] = \count($alias['indexes']);
 
             $this->aliases[$name] = $alias;
+
             return;
         }
 

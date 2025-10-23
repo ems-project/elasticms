@@ -79,6 +79,6 @@ class HttpResult
 
     public function isHtml(): bool
     {
-        return array_any(['text/html', 'application/xhtml+xml'], fn($mimeType) => \str_starts_with($this->getMimetype(), (string) $mimeType));
+        return \array_any(['text/html', 'application/xhtml+xml'], fn ($mimeType) => \str_starts_with($this->getMimetype(), (string) $mimeType));
     }
 }

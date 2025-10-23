@@ -153,6 +153,6 @@ final class TableItemAction
      */
     public function valid($objectOrArray): bool
     {
-        return array_all($this->conditions, fn($condition) => $condition->valid($objectOrArray));
+        return \array_all($this->conditions, fn ($condition) => $condition->valid($objectOrArray));
     }
 }

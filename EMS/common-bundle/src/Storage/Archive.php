@@ -155,7 +155,7 @@ class Archive implements \JsonSerializable, FileInterface
 
     private function containsByHash(string $hash): bool
     {
-        return array_any($this->files, fn($file) => $hash === $file->hash);
+        return \array_any($this->files, fn ($file) => $hash === $file->hash);
     }
 
     public function diff(?Archive $otherArchive): self

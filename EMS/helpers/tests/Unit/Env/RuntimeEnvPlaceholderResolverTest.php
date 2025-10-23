@@ -58,6 +58,15 @@ final class RuntimeEnvPlaceholderResolverTest extends TestCase
         self::assertSame('My auth key is abc123.', $out);
     }
 
+    public function testResolvesSimpleSuperTrimProcessor(): void
+    {
+        $this->setEnv('A', " abc\n\t123 ");
+        $resolver = new RuntimeEnvPlaceholderResolver();
+        $out = $resolver->resolve('%env(super_trim:A)%.');
+
+        self::assertSame('abc 123.', $out);
+    }
+
     public function testResolvesMultiplePlaceholdersInOneString(): void
     {
         $this->setEnv('A', 'foo');

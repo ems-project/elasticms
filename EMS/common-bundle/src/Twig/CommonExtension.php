@@ -81,7 +81,7 @@ class CommonExtension extends AbstractExtension
             new TwigFilter('ems_hash', [AssetRuntime::class, 'hash']),
             new TwigFilter('ems_preg_match', Encoder::pregMatch(...)),
             new TwigFilter('ems_color', fn ($color) => new Color($color)),
-            new TwigFilter('ems_link', fn ($emsLink) => EMSLink::fromText($emsLink)),
+            new TwigFilter('ems_link', EMSLink::fromText(...)),
             new TwigFilter('ems_valid_mail', [TextRuntime::class, 'isValidEmail']),
             new TwigFilter('ems_uuid', UuidGenerator::fromValue(...)),
             new TwigFilter('ems_date', DateTime::createFromFormat(...)),

@@ -180,7 +180,7 @@ abstract class AbstractCommand extends Command implements CommandInterface
      */
     protected function getArgumentIntArray(string $name): array
     {
-        return \array_map('\intval', $this->getArgumentStringArray($name));
+        return \array_map(\intval(...), $this->getArgumentStringArray($name));
     }
 
     protected function getOptionBool(string $name): bool
@@ -219,7 +219,7 @@ abstract class AbstractCommand extends Command implements CommandInterface
      */
     protected function getOptionIntArray(string $name): array
     {
-        return \array_map('\intval', $this->getOptionStringArray($name));
+        return \array_map(\intval(...), $this->getOptionStringArray($name));
     }
 
     protected function getOptionIntNull(string $name): ?int

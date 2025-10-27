@@ -451,7 +451,7 @@ class ConfigManager
         $this->expressionLanguage->register(
             'split',
             fn ($pattern, $str, $limit = -1, $flags = PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY) => \sprintf('((null === %1$s || null === %2$s) ? null : \\preg_split(%1$s, %2$s, %3$d, %4$d))', $pattern, $str, $limit, $flags),
-            fn ($arguments, $pattern, $str, $limit = -1, $flags = PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY) => (null === $pattern || null === $str) ? null : \preg_split($pattern, (string) $str, $limit, $flags)
+            fn ($arguments, $pattern, $str, $limit = -1, $flags = PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY) => (null === $pattern || null === $str) ? null : \preg_split($pattern, (string) $str, (int) $limit, $flags)
         );
 
         $this->expressionLanguage->register(

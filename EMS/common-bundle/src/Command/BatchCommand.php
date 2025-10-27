@@ -6,6 +6,7 @@ namespace EMS\CommonBundle\Command;
 
 use EMS\CommonBundle\Commands;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\Helpers\Env\RuntimeEnvPlaceholderResolver;
 use EMS\Helpers\File\File;
 use EMS\Helpers\Standard\Json;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
@@ -66,10 +67,12 @@ class BatchCommand extends AbstractCommand
             $render = $template->hasBlock('execute') ?
                 $template->renderBlock('execute', $renderContext) : $template->render($renderContext);
 
+            $envVarResolver = new RuntimeEnvPlaceholderResolver();
             $commands = Json::decode($render, 'Template not returning valid json');
             foreach ($commands as $command) {
                 $this->io->section($command);
-                $application->run(new StringInput($command), $output);
+                $resolvedCommand = $envVarResolver->resolve($command);
+                $application->run(new StringInput($resolvedCommand), $output);
             }
 
             return self::SUCCESS;

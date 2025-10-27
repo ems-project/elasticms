@@ -6,6 +6,7 @@ namespace EMS\CommonBundle\Common\Job;
 
 use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\CoreApi\Endpoint\Admin\Message\Job;
+use EMS\Helpers\Env\RuntimeEnvPlaceholderResolver;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\StringInput;
@@ -26,11 +27,13 @@ class JobManager
 
         try {
             $application = new Application($this->kernel);
+            $envVarResolver = new RuntimeEnvPlaceholderResolver();
             $application->setAutoExit(false);
 
             $command = $job->getCommand();
             $escapedCommand = u($command)->replace('\\', '\\\\')->toString();
-            $input = new StringInput($escapedCommand);
+            $resolvedCommand = $envVarResolver->resolve($escapedCommand);
+            $input = new StringInput($resolvedCommand);
 
             $returnCode = $application->run($input, $output);
             if (Command::SUCCESS !== $returnCode) {

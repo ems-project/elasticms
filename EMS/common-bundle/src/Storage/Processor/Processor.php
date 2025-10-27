@@ -82,6 +82,11 @@ class Processor
             return $cacheResponse;
         }
 
+        if (null !== ($pathInArchive = $config->getPathInArchive())) {
+            $exploded = \explode('/', $pathInArchive);
+            $filename = \array_pop($exploded);
+        }
+
         try {
             $stream = $this->getStream($config, $filename);
             $response = $this->getResponseFromStreamInterface($stream, $request);

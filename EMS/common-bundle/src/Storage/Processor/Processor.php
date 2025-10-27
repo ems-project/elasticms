@@ -145,6 +145,10 @@ class Processor
         }
 
         if ('zip' === $config->getConfigType()) {
+            if (null === $config->getPathInArchive()) {
+                throw new \Exception('It was not able to generated a ZIP archive with path in cache');
+            }
+
             return $this->generateZip($config);
         }
 

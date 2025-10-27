@@ -9,7 +9,7 @@ use EMS\Helpers\Standard\Base64;
 use EMS\Helpers\Standard\Json;
 use EMS\Helpers\Standard\Text;
 
-final class RuntimeEnvPlaceholderResolver
+final readonly class RuntimeEnvPlaceholderResolver
 {
     public function __construct(
         private bool $throwExceptionOnMissing = true,

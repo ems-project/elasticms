@@ -260,6 +260,11 @@ class Config
         return (string) $this->options[EmsFields::ASSET_CONFIG_MIME_TYPE];
     }
 
+    public function setMimeType(string $mimeType): void
+    {
+        $this->options[EmsFields::ASSET_CONFIG_MIME_TYPE] = $mimeType;
+    }
+
     public function getImageFormat(): ?string
     {
         if (isset($this->options[EmsFields::ASSET_CONFIG_IMAGE_FORMAT])) {

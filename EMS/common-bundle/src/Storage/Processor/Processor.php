@@ -11,6 +11,7 @@ use EMS\CommonBundle\Storage\File\LocalFile;
 use EMS\CommonBundle\Storage\NotFoundException;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\Helpers\File\File;
+use EMS\Helpers\File\TempFile;
 use EMS\Helpers\Html\Headers;
 use EMS\Helpers\Standard\Json;
 use GuzzleHttp\Psr7\Stream;
@@ -162,6 +163,12 @@ class Processor
         try {
             if ($filename) {
                 $file = new LocalFile($filename);
+            } elseif (null !== ($pathInArchive = $config->getPathInArchive())) {
+                $tempFile = TempFile::create();
+                $stream = $this->storageManager->getStreamFromArchive($config->getAssetHash(), $pathInArchive);
+                $tempFile->loadFromStream($stream->getStream());
+                $config->setMimeType($stream->getMimetype());
+                $file = new LocalFile($tempFile->path);
             } else {
                 $file = $this->storageManager->getFile($config->getAssetHash());
             }

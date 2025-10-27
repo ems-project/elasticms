@@ -220,7 +220,7 @@ final class ClientRequest implements ClientRequestInterface
             $ids = [];
             foreach ($result['hits']['hits'] ?? [] as $document) {
                 $items[\sprintf('%s:%s', $emsLink->getContentType(), $document['_id'])] = $document;
-                $ids = \array_merge($ids, \array_filter(\array_map(fn (string $a): EMSLink => EMSLink::fromText($a), $document['_source'][$childrenField] ?? []), fn (EMSLink $a): bool => $emsLink->getContentType() !== $a->getContentType()));
+                $ids = \array_merge($ids, \array_filter(\array_map(EMSLink::fromText(...), $document['_source'][$childrenField] ?? []), fn (EMSLink $a): bool => $emsLink->getContentType() !== $a->getContentType()));
             }
             $contentTypes = \array_keys(\array_reduce($ids, function (array $carry, $l): array {
                 $carry[$l->getContentType()] = $l->getContentType();

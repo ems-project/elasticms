@@ -62,12 +62,6 @@ class IsRequiredIfValidator extends ConstraintValidator
             return false;
         }
 
-        foreach ($value as $subValue) {
-            if (!$this->isEmpty($subValue)) {
-                return false;
-            }
-        }
-
-        return true;
+        return \array_all($value, $this->isEmpty(...));
     }
 }

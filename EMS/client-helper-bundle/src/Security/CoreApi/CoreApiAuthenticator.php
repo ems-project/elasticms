@@ -72,7 +72,7 @@ class CoreApiAuthenticator extends AbstractAuthenticator
         return new SelfValidatingPassport(
             new UserBadge(
                 $this->coreApi->getToken(),
-                fn (string $token) => $this->coreApiUserProvider->loadUserByIdentifier($token)
+                $this->coreApiUserProvider->loadUserByIdentifier(...)
             ),
             [new CsrfTokenBadge(self::CSRF_ID, $csrfToken)]
         );

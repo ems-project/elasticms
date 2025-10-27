@@ -152,6 +152,13 @@ class Processor
             return $this->generateZip($config);
         }
 
+        if (null !== ($pathInArchive = $config->getPathInArchive())) {
+            $stream = $this->storageManager->getStreamFromArchive($config->getAssetHash(), $pathInArchive);
+            $config->setMimeType($stream->getMimeType());
+
+            return $stream->getStream();
+        }
+
         $filename = $config->getFilename();
         if (null !== $filename) {
             return $this->getStreamFomFilename($filename);

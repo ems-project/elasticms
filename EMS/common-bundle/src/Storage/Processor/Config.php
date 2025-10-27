@@ -298,6 +298,9 @@ class Config
 
             return $this->getConfigHash();
         }
+        if (null !== $this->getPathInArchive()) {
+            return $this->getConfigHash();
+        }
 
         return null;
     }

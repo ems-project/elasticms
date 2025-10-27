@@ -269,6 +269,11 @@ class Config
         return null;
     }
 
+    public function getPathInArchive(): ?string
+    {
+        return (string) $this->options[EmsFields::ASSET_CONFIG_PATH_IN_ARCHIVE];
+    }
+
     public function isCacheableResult(): bool
     {
         return $this->cacheableResult;
@@ -382,6 +387,7 @@ class Config
             ->setAllowedTypes(EmsFields::ASSET_CONFIG_CANONICAL, ['string', 'null'])
             ->setAllowedValues(EmsFields::ASSET_CONFIG_TYPE, [null, EmsFields::ASSET_CONFIG_TYPE_IMAGE, EmsFields::ASSET_CONFIG_TYPE_ZIP])
             ->setAllowedValues(EmsFields::ASSET_CONFIG_DISPOSITION, [ResponseHeaderBag::DISPOSITION_INLINE, ResponseHeaderBag::DISPOSITION_ATTACHMENT])
+            ->setAllowedTypes(EmsFields::ASSET_CONFIG_PATH_IN_ARCHIVE, ['string', 'null'])
             ->setAllowedValues(EmsFields::ASSET_CONFIG_IMAGE_FORMAT, [
                 null,
                 EmsFields::ASSET_CONFIG_WEBP_IMAGE_FORMAT,
@@ -447,6 +453,7 @@ class Config
             EmsFields::ASSET_CONFIG_X => null,
             EmsFields::ASSET_CONFIG_Y => null,
             EmsFields::ASSET_CONFIG_CANONICAL => null,
+            EmsFields::ASSET_CONFIG_PATH_IN_ARCHIVE => null,
         ];
     }
 

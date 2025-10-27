@@ -1,5 +1,28 @@
 # Changelog 6.x
 
+## 6.9.0 (2025-10-27)
+### Features
+* feat(admin/cli): environment rebuild new option ignore-referrers by @theus77 in https://github.com/ems-project/elasticms/pull/1422
+* feat(admin/job): env placeholder in job command by @theus77 in https://github.com/ems-project/elasticms/pull/1447
+* feat(admin/metrics): add failed job metrics by @Davidmattei in https://github.com/ems-project/elasticms/pull/1442
+* feat(admin/wysiwyg): hide/show file fields instead of remove/add by @coppee in https://github.com/ems-project/elasticms/pull/1425
+* feat(demo): add acronym keyword filter by @theus77 in https://github.com/ems-project/elasticms/pull/1437
+* feat(web/assets): preload upload asset in cache by @theus77 in https://github.com/ems-project/elasticms/pull/1440
+### Bug Fixes
+* fix(admin/job): scheduled jobs set tag by @Davidmattei in https://github.com/ems-project/elasticms/pull/1443
+* fix(admin/revision): sort revision environment by order key by @Davidmattei in https://github.com/ems-project/elasticms/pull/1444
+* fix(admin/web/cli): fallback env is prod not dev by @Davidmattei in https://github.com/ems-project/elasticms/pull/1445
+### Documentation
+* docs(web/pdf): example with files  by @Davidmattei in https://github.com/ems-project/elasticms/pull/1430
+### Code Refactoring
+* refactor(admin): use content type service in controller by @theus77 in https://github.com/ems-project/elasticms/pull/1439
+* refactor(admin/cli): (un)lock commands by @theus77 in https://github.com/ems-project/elasticms/pull/1428
+* refactor(admin/contentType): remove unused lockBy and lockUntil by @theus77 in https://github.com/ems-project/elasticms/pull/1429
+### Chores
+* chore(admin/cli): better description for lock command by @theus77 in https://github.com/ems-project/elasticms/pull/1433
+* chore: npm audit fix by @theus77 in https://github.com/ems-project/elasticms/pull/1423
+* chore: prepare 6.9 release with rector by @Davidmattei in https://github.com/ems-project/elasticms/pull/1446
+
 ## 6.8.1 (2025-10-21)
 ### Bug Fixes
 * fix(admin/field): keep null attribute for filter option by @theus77 in https://github.com/ems-project/elasticms/pull/1435

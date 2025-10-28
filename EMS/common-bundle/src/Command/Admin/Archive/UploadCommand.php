@@ -7,6 +7,9 @@ namespace EMS\CommonBundle\Command\Admin\Archive;
 use EMS\CommonBundle\Commands;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\CommonBundle\Storage\Archive;
+use EMS\Helpers\Html\MimeTypes;
+use EMS\Helpers\Standard\Json;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -54,7 +57,33 @@ class UploadCommand extends AbstractCommand
 
             return self::EXECUTE_ERROR;
         }
+        $archiveHash = $this->uploadAsEmsArchive();
+        $this->io->success(\sprintf('Folder archived with hash %s', $archiveHash));
 
         return self::EXECUTE_SUCCESS;
+    }
+
+    private function uploadAsEmsArchive(): string
+    {
+        $fileApi = $this->adminHelper->getCoreApi()->file();
+        $archive = Archive::fromDirectory($this->folderPath, $fileApi->getHashAlgo());
+        $this->io->section(\sprintf('Start uploading %d files', $archive->getCount()));
+        $this->io->progressStart($archive->getCount());
+        foreach ($fileApi->heads(...$archive->getHashes()) as $hash) {
+            if (true === $hash) {
+                $this->io->progressAdvance();
+                continue;
+            }
+
+            $file = $archive->getFirstFileByHash($hash);
+            $uploadHash = $fileApi->uploadFile($this->folderPath.DIRECTORY_SEPARATOR.$file->filename);
+            if ($uploadHash !== $hash) {
+                throw new \RuntimeException(\sprintf('Mismatched between the computed hash (%s) and the hash of the uploaded file (%s) for the file %s', $hash, $uploadHash, $file->filename));
+            }
+            $this->io->progressAdvance();
+        }
+        $this->io->progressFinish();
+
+        return $fileApi->uploadContents(Json::encode($archive), 'archive.json', MimeTypes::APPLICATION_JSON->value);
     }
 }

@@ -144,5 +144,9 @@
             <argument type="service" id="http_client" />
             <tag name="console.command" />
         </service>
+        <service id="ems.command.admin.archive.upload" class="EMS\CommonBundle\Command\Admin\Archive\UploadCommand">
+            <argument type="service" id="ems.helper.admin_api"/>
+            <tag name="console.command"/>
+        </service>
     </services>
 </container>

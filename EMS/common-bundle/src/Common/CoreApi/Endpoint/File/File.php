@@ -164,10 +164,7 @@ final class File implements FileInterface
     #[\Override]
     public function addChunk(string $hash, string $chunk): int
     {
-        $test = HttpStorage::addChunkUrl($hash);
-
         $response = $this->client->postBody(HttpStorage::addChunkUrl($hash), $chunk);
-
         $data = $response->getData();
         if (!$response->isSuccess() || !\is_int($data['uploaded'] ?? null)) {
             throw new \RuntimeException(\sprintf('Add chunk failed due to %s', $data['error'][0] ?? 'unknown reason'));

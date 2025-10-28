@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Storage\Processor;
 
 use EMS\CommonBundle\Helper\EmsFields;
+use EMS\CommonBundle\Helper\MimeTypeHelper;
 use EMS\CommonBundle\Storage\FileCollection;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\Helpers\File\TempFile;
@@ -260,6 +261,11 @@ class Config
         return (string) $this->options[EmsFields::ASSET_CONFIG_MIME_TYPE];
     }
 
+    public function setMimeType(string $mimeType): void
+    {
+        $this->options[EmsFields::ASSET_CONFIG_MIME_TYPE] = $mimeType;
+    }
+
     public function getImageFormat(): ?string
     {
         if (isset($this->options[EmsFields::ASSET_CONFIG_IMAGE_FORMAT])) {
@@ -267,6 +273,11 @@ class Config
         }
 
         return null;
+    }
+
+    public function getPathInArchive(): ?string
+    {
+        return (string) $this->options[EmsFields::ASSET_CONFIG_PATH_IN_ARCHIVE];
     }
 
     public function isCacheableResult(): bool
@@ -286,6 +297,9 @@ class Config
                 return null;
             }
 
+            return $this->getConfigHash();
+        }
+        if (null !== $this->getPathInArchive()) {
             return $this->getConfigHash();
         }
 
@@ -382,6 +396,7 @@ class Config
             ->setAllowedTypes(EmsFields::ASSET_CONFIG_CANONICAL, ['string', 'null'])
             ->setAllowedValues(EmsFields::ASSET_CONFIG_TYPE, [null, EmsFields::ASSET_CONFIG_TYPE_IMAGE, EmsFields::ASSET_CONFIG_TYPE_ZIP])
             ->setAllowedValues(EmsFields::ASSET_CONFIG_DISPOSITION, [ResponseHeaderBag::DISPOSITION_INLINE, ResponseHeaderBag::DISPOSITION_ATTACHMENT])
+            ->setAllowedTypes(EmsFields::ASSET_CONFIG_PATH_IN_ARCHIVE, ['string', 'null'])
             ->setAllowedValues(EmsFields::ASSET_CONFIG_IMAGE_FORMAT, [
                 null,
                 EmsFields::ASSET_CONFIG_WEBP_IMAGE_FORMAT,
@@ -447,6 +462,7 @@ class Config
             EmsFields::ASSET_CONFIG_X => null,
             EmsFields::ASSET_CONFIG_Y => null,
             EmsFields::ASSET_CONFIG_CANONICAL => null,
+            EmsFields::ASSET_CONFIG_PATH_IN_ARCHIVE => null,
         ];
     }
 
@@ -471,6 +487,11 @@ class Config
     {
         $filename = $fileField[EmsFields::CONTENT_FILE_NAME_FIELD_] ?? $fileField[$filenameField] ?? 'asset.bin';
         $mimeType = $config[EmsFields::ASSET_CONFIG_MIME_TYPE] ?? $fileField[EmsFields::CONTENT_MIME_TYPE_FIELD_] ?? $fileField[$mimeTypeField] ?? null;
+        if (\is_string($pathInArchive = $config[EmsFields::ASSET_CONFIG_PATH_IN_ARCHIVE] ?? null)) {
+            $exploded = \explode('/', $pathInArchive);
+
+            return \array_pop($exploded);
+        }
         if (null === $mimeType) {
             return $filename;
         }
@@ -484,6 +505,10 @@ class Config
      */
     public static function extractMimetype(array $fileField, array $config, string $filename, string $mimeTypeField = EmsFields::CONTENT_MIME_TYPE_FIELD): string
     {
+        if (\is_string($pathInArchive = $config[EmsFields::ASSET_CONFIG_PATH_IN_ARCHIVE] ?? null)) {
+            return MimeTypeHelper::getInstance()->guessMimeType($pathInArchive);
+        }
+
         return $config[EmsFields::ASSET_CONFIG_MIME_TYPE] ?? $fileField[EmsFields::CONTENT_MIME_TYPE_FIELD_] ?? $fileField[$mimeTypeField] ?? MimeType::fromFilename($filename) ?? MimeTypes::APPLICATION_OCTET_STREAM->value;
     }
 

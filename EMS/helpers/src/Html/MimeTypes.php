@@ -12,6 +12,7 @@ enum MimeTypes: string
     case APPLICATION_XLIFF = 'application/xliff+xml';
     case APPLICATION_XML = 'application/xml';
     case APPLICATION_JSON = 'application/json';
+    case APPLICATION_EMS_JSON = 'application/json+ems';
     case APPLICATION_OCTET_STREAM = 'application/octet-stream';
     case TEXT_PLAIN = 'text/plain';
     case IMAGE_PNG = 'image/png';

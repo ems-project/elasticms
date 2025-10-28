@@ -218,7 +218,7 @@ class UploadCommand extends AbstractCommand
             $this->mediaLibraryFolderField => $folder,
             $this->mediaLibraryFileField => [
                 EmsFields::CONTENT_FILE_HASH_FIELD => $hash,
-                EmsFields::CONTENT_MIME_TYPE_FIELD => MimeTypes::APPLICATION_JSON,
+                EmsFields::CONTENT_MIME_TYPE_FIELD => MimeTypes::APPLICATION_EMS_JSON,
                 EmsFields::CONTENT_FILE_NAME_FIELD => $filename,
                 EmsFields::CONTENT_FILE_SIZE_FIELD => $filesize,
             ],

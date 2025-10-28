@@ -37,12 +37,14 @@ class UploadCommand extends AbstractCommand
     private const MEDIA_LIBRARY_PATH_FIELD_OPTION = 'path-field';
     private const MEDIA_LIBRARY_FOLDER_FIELD_OPTION = 'folder-field';
     private const MEDIA_LIBRARY_FILE_FIELD_OPTION = 'file-field';
+    private const PRELOAD_OPTION = 'preload';
     private string $folderPath;
     private ?string $targetPath;
     private string $mediaLibraryContentType;
     private string $mediaLibraryPathField;
     private string $mediaLibraryFileField;
     private string $mediaLibraryFolderField;
+    private bool $preloadCache;
 
     public function __construct(private readonly AdminHelper $adminHelper)
     {
@@ -60,6 +62,7 @@ class UploadCommand extends AbstractCommand
             ->addOption(self::MEDIA_LIBRARY_PATH_FIELD_OPTION, null, InputOption::VALUE_OPTIONAL, 'Path field in the media library', 'media_path')
             ->addOption(self::MEDIA_LIBRARY_FILE_FIELD_OPTION, null, InputOption::VALUE_OPTIONAL, 'File field in the media library', 'media_file')
             ->addOption(self::MEDIA_LIBRARY_FOLDER_FIELD_OPTION, null, InputOption::VALUE_OPTIONAL, 'Folder field in the media library', 'media_folder')
+            ->addOption(self::PRELOAD_OPTION, null, InputOption::VALUE_NONE, 'Preload the archive is storage caches')
         ;
     }
 
@@ -74,6 +77,7 @@ class UploadCommand extends AbstractCommand
         $this->mediaLibraryPathField = $this->getOptionString(self::MEDIA_LIBRARY_PATH_FIELD_OPTION);
         $this->mediaLibraryFileField = $this->getOptionString(self::MEDIA_LIBRARY_FILE_FIELD_OPTION);
         $this->mediaLibraryFolderField = $this->getOptionString(self::MEDIA_LIBRARY_FOLDER_FIELD_OPTION);
+        $this->preloadCache = $this->getOptionBool(self::PRELOAD_OPTION);
     }
 
     #[\Override]
@@ -91,6 +95,7 @@ class UploadCommand extends AbstractCommand
         $archiveHash = $this->adminHelper->getCoreApi()->file()->uploadContents($archive->getContent(), 'archive.json', MimeTypes::APPLICATION_JSON->value);
         $this->io->success(\sprintf('Folder archived with hash %s', $archiveHash));
         $this->uploadInMediaLibrary($archiveHash, \strlen($archive->getContent()));
+        $this->preloadCache($archiveHash);
 
         return self::EXECUTE_SUCCESS;
     }
@@ -218,5 +223,13 @@ class UploadCommand extends AbstractCommand
                 EmsFields::CONTENT_FILE_SIZE_FIELD => $filesize,
             ],
         ]);
+    }
+
+    private function preloadCache(string $hash): void
+    {
+        if (!$this->preloadCache) {
+            return;
+        }
+        $this->adminHelper->getCoreApi()->admin()->runCommand(\implode(' ', [Commands::LOAD_ARCHIVE_IN_CACHE, $hash]), $this->output);
     }
 }

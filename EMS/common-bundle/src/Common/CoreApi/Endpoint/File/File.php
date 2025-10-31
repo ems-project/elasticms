@@ -133,7 +133,12 @@ final class File implements FileInterface
     #[\Override]
     public function downloadLink(string $hash): string
     {
-        return \sprintf('%s/data/file/%s', $this->client->getBaseUrl(), $hash);
+        $baseUrl = $this->client->getBaseUrl();
+        if (\str_ends_with($baseUrl, '/')) {
+            return \sprintf('%sdata/file/%s', $baseUrl, $hash);
+        }
+
+        return \sprintf('%s/data/file/%s', $baseUrl, $hash);
     }
 
     #[\Override]

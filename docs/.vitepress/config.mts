@@ -1,28 +1,33 @@
-import { defineConfig } from 'vitepress'
+import {defineConfig} from 'vitepress'
 
-// https://vitepress.dev/reference/site-config
+import sidebar from "./nav/sidebar";
+import navbar from "./nav/navbar";
+
 export default defineConfig({
-  title: "ElasticMS documentation",
-  description: "description",
-  themeConfig: {
-    // https://vitepress.dev/reference/default-theme-config
-    nav: [
-      { text: 'Home', link: '/' },
-      { text: 'Examples', link: '/markdown-examples' }
+    title: "ElasticMS",
+    description: "Documentation",
+    ignoreDeadLinks: true,
+    head: [
+        ['link', {rel: 'icon', href: '/favicon.ico'}]
     ],
-
-    sidebar: [
-      {
-        text: 'Examples',
-        items: [
-          { text: 'Markdown Examples', link: '/markdown-examples' },
-          { text: 'Runtime API Examples', link: '/api-examples' }
-        ]
-      }
-    ],
-
-    socialLinks: [
-      { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
-    ]
-  }
+    markdown: {
+        lineNumbers: true
+    },
+    srcDir: './src',
+    themeConfig: {
+        logo: '/logo.png',
+        nav: navbar,
+        sidebar: sidebar,
+        outline: 'deep',
+        editLink: {
+            pattern: 'https://github.com/ems-project/elasticms/edit/5.x/doc/:path',
+            text: 'Edit this page on GitHub'
+        },
+        socialLinks: [
+            {icon: 'github', link: 'https://github.com/ems-project/elasticms'}
+        ],
+        search: {
+            provider: 'local'
+        }
+    }
 })

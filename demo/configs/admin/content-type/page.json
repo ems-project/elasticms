@@ -9,8 +9,6 @@
         "description": null,
         "indexTwig": null,
         "extra": null,
-        "lockBy": null,
-        "lockUntil": null,
         "deleted": false,
         "askForOuuid": false,
         "color": null,
@@ -1506,7 +1504,9 @@
                 "Publication request",
                 "Validation request"
             ],
-            "hide_revision_sidebar": false
+            "tasks_helptexts": [],
+            "hide_revision_sidebar": false,
+            "recompute_on_publish": false
         }
     },
     "replaced": []

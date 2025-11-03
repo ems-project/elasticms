@@ -277,7 +277,7 @@ class Config
 
     public function getPathInArchive(): ?string
     {
-        return (string) $this->options[EmsFields::ASSET_CONFIG_PATH_IN_ARCHIVE];
+        return $this->options[EmsFields::ASSET_CONFIG_PATH_IN_ARCHIVE];
     }
 
     public function isCacheableResult(): bool

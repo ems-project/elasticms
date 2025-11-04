@@ -1,5 +1,11 @@
 # Changelog 6.x
 
+## 6.9.1 (2025-11-04)
+### Bug Fixes
+* fix(admin/channel): channel routes when a base url exists by @theus77 in https://github.com/ems-project/elasticms/pull/1454
+* fix(admin/contentType): edit structure $id is not an int anymore by @theus77 in https://github.com/ems-project/elasticms/pull/1449
+* fix(admin/contentType): expose content type to Twig template by @theus77 in https://github.com/ems-project/elasticms/pull/1453
+
 ## 6.9.0 (2025-10-27)
 ### Features
 * feat(admin/cli): environment rebuild new option ignore-referrers by @theus77 in https://github.com/ems-project/elasticms/pull/1422

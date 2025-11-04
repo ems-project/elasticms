@@ -278,4 +278,18 @@ class AssetRuntime
 
         return $this->fileReader->readCells($tempFilename, $options);
     }
+
+    /**
+     * @return array<string, array{filename: string, hash: string, type: string, size: int}>
+     */
+    public function getFilesInArchive(string $hash): array
+    {
+        $archive = $this->storageManager->getFilesInArchive($hash);
+        $output = [];
+        foreach ($archive->iterator() as $file) {
+            $output[$file->filename] = $file->jsonSerialize();
+        }
+
+        return $output;
+    }
 }

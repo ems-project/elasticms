@@ -9,8 +9,6 @@
         "description": null,
         "indexTwig": null,
         "extra": null,
-        "lockBy": null,
-        "lockUntil": null,
         "deleted": false,
         "askForOuuid": false,
         "color": null,
@@ -206,7 +204,7 @@
                                                             "icon": null
                                                         },
                                                         "mappingOptions": {
-                                                            "analyzer": "keyword",
+                                                            "analyzer": null,
                                                             "copy_to": "live_search"
                                                         },
                                                         "restrictionOptions": {

@@ -52,10 +52,10 @@ class OAuth2Service
         return $this->httpUtils->createRedirectResponse($request, self::ROUTE_LOGIN);
     }
 
-    public function refreshToken(OAuth2Token $token): TokenInterface
+    public function refreshToken(Request $request, OAuth2Token $token): TokenInterface
     {
         try {
-            return $this->getProvider()->refreshToken($token);
+            return $this->getProvider()->refreshToken($request, $token);
         } catch (\Throwable $e) {
             $this->logger->error($e->getMessage());
 

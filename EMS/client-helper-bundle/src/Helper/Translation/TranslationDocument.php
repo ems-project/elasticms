@@ -46,7 +46,7 @@ final class TranslationDocument implements BuilderDocumentInterface
     #[\Override]
     public function getDataSource(): array
     {
-        return \array_filter($this->source, fn ($key) => 'key' === $key || \str_starts_with($key, 'label_'), ARRAY_FILTER_USE_KEY);
+        return \array_filter($this->source, fn ($key) => 'key' === $key || \str_starts_with((string) $key, 'label_'), ARRAY_FILTER_USE_KEY);
     }
 
     /**

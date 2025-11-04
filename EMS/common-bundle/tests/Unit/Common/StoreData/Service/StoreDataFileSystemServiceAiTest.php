@@ -24,7 +24,7 @@ class StoreDataFileSystemServiceAiTest extends TestCase
     #[\Override]
     protected function tearDown(): void
     {
-        \array_map('unlink', \glob($this->rootPath.DIRECTORY_SEPARATOR.'*'));
+        \array_map(unlink(...), \glob($this->rootPath.DIRECTORY_SEPARATOR.'*'));
         \rmdir($this->rootPath);
     }
 

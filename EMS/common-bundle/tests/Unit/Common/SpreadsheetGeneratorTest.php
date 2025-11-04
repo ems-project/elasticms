@@ -93,7 +93,6 @@ class SpreadsheetGeneratorTest extends TestCase
         }
 
         $method = $reflection->getMethod($method);
-        $method->setAccessible(true);
 
         return $method->invokeArgs($object, $parameters);
     }

@@ -1,0 +1,16 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\Filter",
+    "arguments": [],
+    "properties": {
+        "name": "acronym_keyword",
+        "dirty": true,
+        "label": "acronym_keyword",
+        "options": {
+            "type": "keyword_marker",
+            "keywords_pattern": "^[A-Z]{2,6}$",
+            "ignore_case": false
+        },
+        "orderKey": 1
+    },
+    "replaced": []
+}

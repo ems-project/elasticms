@@ -1,5 +1,65 @@
 # Changelog 6.x
 
+## 6.9.1 (2025-11-04)
+### Bug Fixes
+* fix(admin/channel): channel routes when a base url exists by @theus77 in https://github.com/ems-project/elasticms/pull/1454
+* fix(admin/contentType): edit structure $id is not an int anymore by @theus77 in https://github.com/ems-project/elasticms/pull/1449
+* fix(admin/contentType): expose content type to Twig template by @theus77 in https://github.com/ems-project/elasticms/pull/1453
+
+## 6.9.0 (2025-10-27)
+### Features
+* feat(admin/cli): environment rebuild new option ignore-referrers by @theus77 in https://github.com/ems-project/elasticms/pull/1422
+* feat(admin/job): env placeholder in job command by @theus77 in https://github.com/ems-project/elasticms/pull/1447
+* feat(admin/metrics): add failed job metrics by @Davidmattei in https://github.com/ems-project/elasticms/pull/1442
+* feat(admin/wysiwyg): hide/show file fields instead of remove/add by @coppee in https://github.com/ems-project/elasticms/pull/1425
+* feat(demo): add acronym keyword filter by @theus77 in https://github.com/ems-project/elasticms/pull/1437
+* feat(web/assets): preload upload asset in cache by @theus77 in https://github.com/ems-project/elasticms/pull/1440
+### Bug Fixes
+* fix(admin/job): scheduled jobs set tag by @Davidmattei in https://github.com/ems-project/elasticms/pull/1443
+* fix(admin/revision): sort revision environment by order key by @Davidmattei in https://github.com/ems-project/elasticms/pull/1444
+* fix(admin/web/cli): fallback env is prod not dev by @Davidmattei in https://github.com/ems-project/elasticms/pull/1445
+### Documentation
+* docs(web/pdf): example with files  by @Davidmattei in https://github.com/ems-project/elasticms/pull/1430
+### Code Refactoring
+* refactor(admin): use content type service in controller by @theus77 in https://github.com/ems-project/elasticms/pull/1439
+* refactor(admin/cli): (un)lock commands by @theus77 in https://github.com/ems-project/elasticms/pull/1428
+* refactor(admin/contentType): remove unused lockBy and lockUntil by @theus77 in https://github.com/ems-project/elasticms/pull/1429
+### Chores
+* chore(admin/cli): better description for lock command by @theus77 in https://github.com/ems-project/elasticms/pull/1433
+* chore: npm audit fix by @theus77 in https://github.com/ems-project/elasticms/pull/1423
+* chore: prepare 6.9 release with rector by @Davidmattei in https://github.com/ems-project/elasticms/pull/1446
+
+## 6.8.1 (2025-10-21)
+### Bug Fixes
+* fix(admin/field): keep null attribute for filter option by @theus77 in https://github.com/ems-project/elasticms/pull/1435
+* fix(admin/job): check return code for success by @Davidmattei in https://github.com/ems-project/elasticms/pull/1438
+* fix(cli/sync): new aggs size option for ems:index:synch by @theus77 in https://github.com/ems-project/elasticms/pull/1426
+* fix(common/cli): index synch close scroll by @theus77 in https://github.com/ems-project/elasticms/pull/1431
+* fix(demo): title mapping, docker image and version 6.8.0 by @theus77 in https://github.com/ems-project/elasticms/pull/1436
+
+## 6.8.0 (2025-09-29)
+### Features
+* feat(admin/metric): add jobs pending gauge by @Davidmattei in https://github.com/ems-project/elasticms/pull/1418
+* feat(cli/sync): support sync ems index over skeleton by @Davidmattei in https://github.com/ems-project/elasticms/pull/1417
+* feat(common/command): ems:elasticsearch:clean-orphan-indices by @theus77 in https://github.com/ems-project/elasticms/pull/1404
+* feat(common/command): ems:indexes:synchronize, sync 2 indexes by @theus77 in https://github.com/ems-project/elasticms/pull/1395
+* feat(common/twig): ems_files_in_archive by @theus77 in https://github.com/ems-project/elasticms/pull/1409
+* feat(common/twig): new ems_check_ip function by @theus77 in https://github.com/ems-project/elasticms/pull/1399
+* feat(web): core authentication with sso by @Davidmattei in https://github.com/ems-project/elasticms/pull/1414
+### Bug Fixes
+* fix(admin/backup): environment export ignore alias by @theus77 in https://github.com/ems-project/elasticms/pull/1406
+* fix(cli/sync): use symfony http client service by @Davidmattei in https://github.com/ems-project/elasticms/pull/1416
+* fix(web): support EMSCH_OAUTH2_REDIRECT_URI as path by @Davidmattei in https://github.com/ems-project/elasticms/pull/1419
+### Chores
+* chore(cli): enable web profile in dev env by @Davidmattei in https://github.com/ems-project/elasticms/pull/1415
+* chore(docker): add prometheus & grafana by @Davidmattei in https://github.com/ems-project/elasticms/pull/1412
+
+## 6.7.3 (2025-09-18)
+### Bug Fixes
+* fix(admin/submission): memory issues on remove and export by @theus77 in https://github.com/ems-project/elasticms/pull/1408
+* fix(common/zip): disable defaultEnableZeroHeader for zipStream by @theus77 in https://github.com/ems-project/elasticms/pull/1410
+* fix(web/api): treatFiles improve error message by @theus77 in https://github.com/ems-project/elasticms/pull/1411
+
 ## 6.7.2 (2025-09-11)
 ### Bug Fixes
 * fix(admin/channel): new option prefix_instance_id by @Davidmattei in https://github.com/ems-project/elasticms/pull/1403

@@ -1,21 +1,21 @@
 {
   "realm" : "elasticms",
   "users" : [ {
-    "id" : "cb4c1ef8-9d98-4a67-879c-b8f990e82dc7",
-    "username" : "user1@example.com",
+    "id" : "9937ef8b-234a-45fb-ad2e-9da25ee96510",
+    "username" : "user1",
     "firstName" : "user1",
     "lastName" : "user1",
     "email" : "user1@example.com",
     "emailVerified" : true,
-    "createdTimestamp" : 1676052560411,
+    "createdTimestamp" : 1758542057658,
     "enabled" : true,
     "totp" : false,
     "credentials" : [ {
-      "id" : "87ced959-52b2-40df-8e47-316d97c9a58d",
+      "id" : "473780fa-9cb2-4cd6-97f7-2e6dea5c5995",
       "type" : "password",
       "userLabel" : "My password",
-      "createdDate" : 1676052573647,
-      "secretData" : "{\"value\":\"J8I0Fufl2L/lyoxQ+/4YhuFkwnbt420qpbCZ+Xo26RK/f+cD2s5s8Dquz+xXdEJ88BfryeoZD/jk0XGFO9+Zag==\",\"salt\":\"DWoQxG2PBeGhpq5wdaaZGg==\",\"additionalParameters\":{}}",
+      "createdDate" : 1758542070797,
+      "secretData" : "{\"value\":\"7ND1vlhn+Su58sWzV7mpJST3WGPl+HYZxT7ZX/IfXkWwYi6MbbD5xIntB1spNn8oEIftIqiVUNm56fP9q3Zm5w==\",\"salt\":\"eDPWlZba0bt8W3OJL5CfFA==\",\"additionalParameters\":{}}",
       "credentialData" : "{\"hashIterations\":210000,\"algorithm\":\"pbkdf2-sha512\",\"additionalParameters\":{}}"
     } ],
     "disableableCredentialTypes" : [ ],
@@ -24,22 +24,22 @@
     "notBefore" : 0,
     "groups" : [ ]
   }, {
-    "id" : "8b59dd81-116d-4564-860b-42d4c01f2d3d",
-    "username" : "user2@example.com",
+    "id" : "cd1f27f3-9bbb-42f5-a00c-bd813bac4b48",
+    "username" : "user2",
     "firstName" : "user2",
     "lastName" : "user2",
     "email" : "user2@example.com",
     "emailVerified" : true,
-    "createdTimestamp" : 1676052587736,
+    "createdTimestamp" : 1758542143717,
     "enabled" : true,
     "totp" : false,
     "credentials" : [ {
-      "id" : "cc863aea-2a1e-4b99-9ed1-89cb971d94ee",
+      "id" : "da2b9cc5-2baa-467f-9b2a-b77b69b4cbaa",
       "type" : "password",
       "userLabel" : "My password",
-      "createdDate" : 1676052598490,
-      "secretData" : "{\"value\":\"Yji3yqmUfa8PFZSIcz0vaCCKxph2uUX26mUAQ1vigGNhM0+thKXl2zbr/ScwlKjN+GWAkkSU7dHzEc1NFW9KCw==\",\"salt\":\"mn80b6jra39TqZnDYcmcfg==\",\"additionalParameters\":{}}",
-      "credentialData" : "{\"hashIterations\":27500,\"algorithm\":\"pbkdf2-sha256\",\"additionalParameters\":{}}"
+      "createdDate" : 1758542153626,
+      "secretData" : "{\"value\":\"XcEOV6qZ5tmNQRDenFvEmJ2ndskCZ7/bccCnhen7ZeZczqxPtyazweyUgXze2+o/z4v4RNi8xDsSiqCzk2p97g==\",\"salt\":\"CFqtPV0W2tiMjkxdSI1Zhg==\",\"additionalParameters\":{}}",
+      "credentialData" : "{\"hashIterations\":210000,\"algorithm\":\"pbkdf2-sha512\",\"additionalParameters\":{}}"
     } ],
     "disableableCredentialTypes" : [ ],
     "requiredActions" : [ ],

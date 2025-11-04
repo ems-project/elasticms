@@ -45,6 +45,7 @@ Regarding the file's type, it's possible to generate response from a source file
  - `_password` if defined the asset will be password protected with the provided password.
  - `_before` if defined the asset will be available until before the UNIX epoch integer or the strtotime string provided.
  - `_after` if defined the asset will be available after the UNIX epoch integer or the strtotime string provided.
+ - `_path_in_archive` If defined, the asset will be treated as an archive, and the file at the specified path within the archive will be processed instead.
  
 In the following example the path generated will force to download the asset:
 ```twig
@@ -134,3 +135,5 @@ In this example it will generate a PNG of 400 pixels of width. The height will b
    ]
 }) }}
 ```
+
+**Caution**: the option `_path_in_archive` can not be used with the ZIP processor.

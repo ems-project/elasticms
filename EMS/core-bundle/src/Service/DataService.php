@@ -1076,13 +1076,7 @@ class DataService
             if (empty($userCircles)) {
                 throw new HasNotCircleException($environment);
             }
-            $found = false;
-            foreach ($userCircles as $userCircle) {
-                if (\in_array($userCircle, $environmentCircles)) {
-                    $found = true;
-                    break;
-                }
-            }
+            $found = \array_any($userCircles, fn ($userCircle) => \in_array($userCircle, $environmentCircles));
             if (!$found) {
                 throw new HasNotCircleException($environment);
             }
@@ -1968,10 +1962,10 @@ class DataService
         return 0;
     }
 
-    public function lockRevisions(ContentType $contentType, \DateTime $until, string $by): int
+    public function lockRevisions(ContentType $contentType, \DateTimeInterface $until, string $by, bool $force = true, ?string $ouuid = null): int
     {
         try {
-            return $this->revRepository->lockRevisions($contentType, $until, $by, true);
+            return $this->revRepository->lockRevisions($contentType, $until, $by, $force, $ouuid);
         } catch (\Throwable $e) {
             $this->logger->error('service.data.lock_revisions_error', [
                 EmsFields::LOG_CONTENTTYPE_FIELD => $contentType->getName(),
@@ -2053,5 +2047,10 @@ class DataService
         }
 
         return $revision;
+    }
+
+    public function countLockRevisions(ContentType $contentType, string $by): int
+    {
+        return $this->revRepository->findAllLockedRevisions($contentType, $by)->count();
     }
 }

@@ -57,6 +57,15 @@ final readonly class Handler implements HandlerInterface
         );
     }
 
+    public function handleStaticTemplate(Request $request): ?TemplateInterface
+    {
+        if ('[template]' === $this->getRoute($request)->getOption('template')) {
+            return null;
+        }
+
+        return $this->handle($request);
+    }
+
     private function getRoute(Request $request): SymfonyRoute
     {
         $name = $request->attributes->get('_route');

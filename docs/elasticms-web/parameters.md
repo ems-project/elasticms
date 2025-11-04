@@ -168,6 +168,20 @@ EMSCH_LOCAL_PATH='../demo/skeleton'
 
 Specify the maximum number of expected document for template, translation and route content types. Default value `1000`
 
+### EMSCH_SECURITY_ROUTE_LOGIN
+
+Define the route name for the login page, by default `emsch_login`. 
+
+### EMSCH_SECURITY_FIREWALL
+
+Define a global firewall regex for forcing authentication, default value `null`
+The following example protects all routes except if it starts with /api or /_profiler, ...
+Example: `^(?!(/api|/_profiler|/_wdt|/bundles|/favicon\.ico|/saml|/oauth2))`
+
+### EMSCH_SSO_CORE_USER
+
+Enable sso with core user authentication, default value `false`
+
 ## Elasticms Common Bundle variables
 
 ### EMS_ELASTICSEARCH_HOSTS

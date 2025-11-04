@@ -21,7 +21,15 @@ use Psr\Log\LoggerInterface;
 class AliasService
 {
     private const string COUNTER_AGGREGATION = 'counter_aggregation';
-    /** @var array<string, array{name: string, total: int, indexes: Index[], environment: string, managed: bool}> */
+    /** @var array<string, array{
+     *     name: string,
+     *     countIndexes: int,
+     *     total: int,
+     *     indexes: Index[],
+     *     environment: string,
+     *     managed: bool
+     * }>
+     */
     private array $aliases = [];
     /** @var Index[] */
     private array $orphanIndexes = [];
@@ -41,7 +49,7 @@ class AliasService
     /**
      * @return array<int, array{ add: array{alias: string, index: string}}>|array<int, array{remove: array{alias: string, index: string}}>
      */
-    public function atomicSwitch(Environment $environment, string $newIndex): array
+    public function atomicSwitch(Environment $environment, string $newIndex, bool $ignoreReferrers = false): array
     {
         $aliasName = $environment->getAlias();
         $actions = [];
@@ -50,7 +58,7 @@ class AliasService
         if ($oldIndex = $this->getEnvironmentIndex($environment)) {
             $actions[] = ['remove' => ['alias' => $aliasName, 'index' => $oldIndex]];
 
-            if ($environment->isUpdateReferrers()) {
+            if (!$ignoreReferrers && $environment->isUpdateReferrers()) {
                 foreach ($this->getReferrers($oldIndex) as $referrerAlias) {
                     if ($referrerAlias['name'] === $environment->getAlias()) {
                         continue;
@@ -347,8 +355,11 @@ class AliasService
     private function addAlias(string $name, string $index, array $env = [], bool $managed = false): void
     {
         if ($this->hasAlias($name)) {
-            $this->aliases[$name]['indexes'][$index] = $this->getIndex($index);
-            $this->aliases[$name]['countIndexes'] = \count($this->aliases[$name]['indexes']);
+            $alias = $this->aliases[$name];
+            $alias['indexes'][$index] = $this->getIndex($index);
+            $alias['countIndexes'] = \count($alias['indexes']);
+
+            $this->aliases[$name] = $alias;
 
             return;
         }

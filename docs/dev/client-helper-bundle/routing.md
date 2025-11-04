@@ -6,11 +6,14 @@
   * [Config Defaults](#config-defaults)
   * [Controllers](#controllers)
     * [Redirect controller](#redirect-controller)
+      * [Redirect a host](#redirect-a-host)
     * [Search controller](#search-controller)
     * [Pdf controller](#pdf-controller)
     * [Spreadsheet controller](#spreadsheet-controller)
     * [Asset controller](#asset-controller)
+    * [ElasticSearch Controller](#elasticsearch-controller)
   * [EMSCH cache (sub-request)](#emsch-cache-sub-request)
+  * [Route to assets in archive](#route-to-assets-in-archive)
 <!-- TOC -->
 
 ## Options
@@ -209,7 +212,8 @@ For enabling pdf generation use the **emsch.controller.pdf** controller
 }
 ```
 In Twig you can set/override the pdf options with custom meta tags in the head section
-```html
+```twig
+{%- set siteHashAssets = include('@EMSCH/template/asset_hash.twig')|trim -%}
 <head>
     <title>Title</title>
     <meta name="pdf:filename" content="example.pdf" />
@@ -218,8 +222,14 @@ In Twig you can set/override the pdf options with custom meta tags in the head s
     <meta name="pdf:html5Parsing" content="true" />
     <meta name="pdf:orientation" content="portrait" />
     <meta name="pdf:size" content="a4" />
+    <body>
+        <h1>Example export</h1>
+        <img src="{{ ems_file_from_archive(siteHashAssets, "img/logo.svg") }}" width="150" alt="{{ 'site.name'|trans }}">
+    </body>
 </head>
 ```
+
+!> For images, you should use ems_file_from_archive, especially when assets are loaded without a saveDir, which will be the default behaviour in version 7.x.
 
 ### Spreadsheet controller
 
@@ -296,6 +306,42 @@ example_asset:
  - `filename`: File name
  - `headers`: Associative with response headers. 
  - `immutable`: optional for defining if the asset is immutable [devault value = false]
+
+### ElasticSearch Controller
+
+This controller is for proxy an elasticSearch index and scrolling.
+Ideal for using as source argument in the `ems:indexes:synchronize` command.
+
+```yaml
+api_index:
+  config:
+    path: '/api/{index}/{path}'
+    method: [ GET ]
+    requirements: { path: .*, index: 'demo_preview|demo_live' }
+    controller: 'emsch.controller.elasticsearch::index'
+  template_static: template/api.twig
+api_scroll:
+  config:
+    path: '/api/_search/scroll'
+    method: [ GET, DELETE ]
+    requirements: { path: .* }
+    controller: 'emsch.controller.elasticsearch::scroll'
+  template_static: template/api.twig
+```
+
+Defining a `template_static` is optional, but can be used for handling authentication.
+The two methods `index` and `scroll` will first try to render the block named `preRequest`.
+In the following example we secure the api by checking if the authentication token exists in the **APP_API_TOKENS**
+env variable.
+
+```twig
+{%- block preRequest -%}
+    {%- set tokens = app.request.server.all['APP_API_TOKENS']|default('[]')|ems_json_decode -%}
+    {%- set authToken = app.request.headers.get('Authorization', '')|u.trimPrefix('Bearer ')|format -%}
+    
+    {%- if authToken not in tokens -%}{%- do emsch_http_error(403) -%}{%- endif -%}
+{%- endblock preRequest -%}
+```
 
 ## EMSCH cache (sub-request)
 

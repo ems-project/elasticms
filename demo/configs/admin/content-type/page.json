@@ -9,8 +9,6 @@
         "description": null,
         "indexTwig": null,
         "extra": null,
-        "lockBy": null,
-        "lockUntil": null,
         "deleted": false,
         "askForOuuid": false,
         "color": null,
@@ -204,7 +202,6 @@
                                                             "icon": null
                                                         },
                                                         "mappingOptions": {
-                                                            "index": null,
                                                             "analyzer": null,
                                                             "copy_to": "live_search"
                                                         },
@@ -1402,7 +1399,8 @@
                     "size": null,
                     "public": false,
                     "spreadsheet": false,
-                    "tag": null
+                    "tag": null,
+                    "allowedRemoteHosts": []
                 },
                 "replaced": []
             },
@@ -1436,7 +1434,8 @@
                     "size": null,
                     "public": false,
                     "spreadsheet": false,
-                    "tag": null
+                    "tag": null,
+                    "allowedRemoteHosts": []
                 },
                 "replaced": []
             }
@@ -1505,7 +1504,9 @@
                 "Publication request",
                 "Validation request"
             ],
-            "hide_revision_sidebar": false
+            "tasks_helptexts": [],
+            "hide_revision_sidebar": false,
+            "recompute_on_publish": false
         }
     },
     "replaced": []

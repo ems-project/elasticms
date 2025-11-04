@@ -33,6 +33,7 @@
   * [ems_color](#ems_color)
   * [ems_slug](#ems_slug)
   * [ems_file_from_archive](#ems_file_from_archive)
+  * [ems_files_in_archive](#ems_files_in_archive)
   * [ems_link](#ems_link)
   * [ems_valid_mail](#ems_valid_mail)
   * [ems_uuid](#ems_uuid-1)
@@ -548,6 +549,41 @@ Example:
     asTempFile: true,
 }) %}
 ```
+
+## ems_files_in_archive
+
+Returns the list of files present in an archive (EMS archive or Zip file)
+
+```twig
+{% set files = ems_files_in_archive(hash) %}
+```
+
+This method returns an array like this:
+
+
+```json
+{
+  "0693f7c7e26507b5d464a99f6a03b9309560abf3.json": {
+    "filename": "0693f7c7e26507b5d464accf6a03b9309560abf3.json",
+    "hash": "0693f7c7e26507b5d464accf6a03b9309560abf3",
+    "type": "application/json",
+    "size": 3561
+  },
+  "crm-export.xlsx": {
+    "filename": "crm-export.xlsx",
+    "hash": "dd2650a9d4537c5127b9907e83f1e508523d3c18",
+    "type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    "size": 167352
+  },
+  "2025-09 Facture Service 1113975398.PDF": {
+    "filename": "2025-09 Facture Service 1113975398.PDF",
+    "hash": "2ddf565c90bb89b0d860a538828f1dd7bb8b37a5",
+    "type": "application/pdf",
+    "size": 32640
+  }
+}
+```
+
 
 ## ems_link
 

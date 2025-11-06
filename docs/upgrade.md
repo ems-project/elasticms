@@ -49,6 +49,9 @@
 ## version 6.9.2
 
 * Media library: the "nested_path" option for sorting is deprecated, use "parent_field" instead.
+* Skeleton search config: filters "nested_path" option is deprecated, use "parent_field" instead.
+* If you use "nested_path" inside es queries it should be replaced by `{ "nested": { "path": "..." } }`, this is why
+  elasticms is not using `nested_path` as option key anymore.
 
 ## version 6.9.0
 

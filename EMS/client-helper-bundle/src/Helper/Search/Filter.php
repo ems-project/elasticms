@@ -21,7 +21,7 @@ final class Filter
     private readonly string $type;
     private string $field;
     private ?string $secondaryField = null;
-    private ?string $nestedPath = null;
+    private ?string $parentField = null;
 
     private ?string $sortField = null;
     private readonly string $sortOrder;
@@ -69,6 +69,7 @@ final class Filter
      *     'field'?: string,
      *     'secondary_field'?: string,
      *     'nested_path'?: string,
+     *     'parent_field'?: string,
      *     'clause'?: string,
      *     'public'?: bool,
      *     'active'?: bool,
@@ -89,7 +90,13 @@ final class Filter
         $this->type = $options['type'];
         $this->field = $options['field'] ?? $name;
         $this->secondaryField = $options['secondary_field'] ?? null;
-        $this->nestedPath = $options['nested_path'] ?? null;
+
+        if (isset($options['nested_path'])) {
+            @\trigger_error('The "nested_path" option is deprecated and will be removed in ems 7. Please use "parent_field" instead.', E_USER_DEPRECATED);
+            $options['parent_field'] = $options['nested_path'];
+        }
+
+        $this->parentField = $options['parent_field'] ?? null;
         $this->clause = $options['clause'] ?? 'must';
 
         $this->public = (bool) ($options['public'] ?? true);
@@ -129,7 +136,7 @@ final class Filter
 
     public function getField(): string
     {
-        return $this->isNested() ? $this->nestedPath.'.'.$this->field : $this->field;
+        return $this->isNested() ? $this->parentField.'.'.$this->field : $this->field;
     }
 
     public function getValue(): mixed
@@ -257,12 +264,12 @@ final class Filter
 
     public function isNested(): bool
     {
-        return null !== $this->nestedPath;
+        return null !== $this->parentField;
     }
 
     public function getNestedPath(): ?string
     {
-        return $this->nestedPath;
+        return $this->parentField;
     }
 
     public function isReversedNested(): bool

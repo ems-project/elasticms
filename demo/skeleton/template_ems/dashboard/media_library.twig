@@ -5,10 +5,10 @@
         'searchType': 'prefix',
         "sort": [
             { "id": "name", "field": "media_path.alpha_order", "defaultOrder": "asc" },
-            { "id": "type", "field": "media_file.mimetype", "nested_path": "media_file" },
+            { "id": "type", "field": "media_file.mimetype", "parent_field": "media_file" },
             { "id": "user", "field": "_finalized_by" },
             { "id": "created", "field": "date_creation" },
-            { "id": "size", "field": "media_file.filesize", "nested_path": "media_file" }
+            { "id": "size", "field": "media_file.filesize", "parent_field": "media_file" }
         ]
     }) }}
 {% endblock body %}

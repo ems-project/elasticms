@@ -3,7 +3,8 @@
 <!-- TOC -->
 * [Upgrade](#upgrade)
   * [General remarks](#general-remarks)
-  * [version 6.9.0](#version-649)
+  * [version 6.9.2](#version-692)
+  * [version 6.9.0](#version-690)
   * [version 6.5.0](#version-650)
   * [version 6.4.1](#version-641)
   * [version 6.4.0](#version-640)
@@ -44,6 +45,10 @@
 ## General remarks
 
  * It's always a good idea to rebuild indexes on upgrade: `emsco:environment:rebuild --all`
+
+## version 6.9.2
+
+* Media library: the "nested_path" option for sorting is deprecated, use "parent_field" instead.
 
 ## version 6.9.0
 

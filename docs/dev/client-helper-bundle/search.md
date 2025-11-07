@@ -196,7 +196,7 @@ If facets depends on facets, we can create a nested collection for filtering.
   "filters": {
     "personTags": {
       "type": "terms",
-      "nested_path": "tags",
+      "parent_field": "tags",
       "field": "type",
       "aggs_size": 50,
       "sort_field": "_term",
@@ -204,7 +204,7 @@ If facets depends on facets, we can create a nested collection for filtering.
     },
     "personValues": {
       "type": "terms",
-      "nested_path": "tags",
+      "parent_field": "tags",
       "field": "values",
       "aggs_size": 50,
       "sort_field": "_term",
@@ -213,6 +213,8 @@ If facets depends on facets, we can create a nested collection for filtering.
   }
 }
 ````
+
+!> Since 6.9.2 `nested_path` is deprecated and should be replaced by `parent_field`.
 
 ## Synonyms
 

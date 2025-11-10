@@ -102,6 +102,7 @@
             <argument type="service" id="logger" />
             <argument type="service" id="ems_common.elastica.client" />
             <argument type="service" id="ems.helper.admin_api" />
+            <argument type="service" id="ems_common.cache.tag_collector" />
             <argument type="string">%ems_common.elasticsearch_proxy_api%</argument>
         </service>
         <service id="ems.helper.admin_api" class="EMS\CommonBundle\Common\Admin\AdminHelper">
@@ -177,6 +178,8 @@
         <service id="ems_common.ai.open_ai" class="EMS\CommonBundle\Common\Ai\OpenAiService">
             <argument type="service" id="http_client"/>
             <argument type="service" id="ems_common.key_store"/>
+        </service>
+        <service id="ems_common.cache.tag_collector" class="EMS\CommonBundle\Common\Cache\TagCollector">
         </service>
     </services>
 </container>

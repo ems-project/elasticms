@@ -1,5 +1,12 @@
 # Changelog 6.x
 
+## 6.9.2 (2025-11-07)
+### Bug Fixes
+* fix(admin/contentType): getSortOrder -> getOrderKey by @Davidmattei in https://github.com/ems-project/elasticms/pull/1457
+* fix(admin/media-lib): deprecated nested_path for parent_field by @Davidmattei in https://github.com/ems-project/elasticms/pull/1455
+* fix(admin/search): nested sort and filter remove nested_path by @Davidmattei in https://github.com/ems-project/elasticms/pull/1456
+* fix(web/search): deprecated nested_path for parent_field by @Davidmattei in https://github.com/ems-project/elasticms/pull/1458
+
 ## 6.9.1 (2025-11-04)
 ### Bug Fixes
 * fix(admin/channel): channel routes when a base url exists by @theus77 in https://github.com/ems-project/elasticms/pull/1454

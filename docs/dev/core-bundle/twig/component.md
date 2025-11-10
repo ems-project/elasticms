@@ -187,11 +187,13 @@ Default value:
 {
   "sort": [
     { "id": "name", "field": "media_path.alpha_order", "defaultOrder": "asc" },
-    { "id": "type", "field": "media_file.mimetype", "nested_path": "media_file" },
-    { "id": "size", "field": "media_file.filesize", "nested_path": "media_file" }
+    { "id": "type", "field": "media_file.mimetype", "parent_field": "media_file" },
+    { "id": "size", "field": "media_file.filesize", "parent_field": "media_file" }
   ]
 }
 ```
+
+!> Since 6.9.2 `nested_path` is deprecated and should be replaced by `parent_field`.
 
 ### Templating (media-library)
 

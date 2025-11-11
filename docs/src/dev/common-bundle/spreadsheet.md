@@ -49,7 +49,7 @@ about [value binders](https://phpspreadsheet.readthedocs.io/en/latest/topics/acc
 
 Different config for definition of Cell are available (config may be mixed up)
 
-- `without style`: directly string value or an array { "data" : "stringValue" }
+- `without style`: directly string value or an array `{ "data" : "stringValue" }`
 
 ```twig
     "rows": [
@@ -64,7 +64,7 @@ Different config for definition of Cell are available (config may be mixed up)
     ]
 ```
 
-- `with style`: need an array { "data" : "stringValue", "style" : [] }
+- `with style`: need an array `{ "data" : "stringValue", "style" : [] }`
 
 ```twig
     "rows": [

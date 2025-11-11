@@ -12,8 +12,16 @@ const sidebar: DefaultTheme.SidebarMulti = {
                 {text: 'Contributing', link: '/getting-started/contributing'},
             ]
         },
+        {
+            text: 'Site building',
+            collapsed: true,
+            items: [
+                {text: 'Twig', link: '/site-building/twig'},
+            ]
+        }
     ]
 }
 
 export default sidebar;
+
 

@@ -12,7 +12,7 @@ hero:
   actions:
     - theme: brand
       text: Quick start
-      link: /guide/getting-started
+      link: /getting-started/quick-start
     - theme: alt
       text: View on github
       link: https://github.com/ems-project/elasticms

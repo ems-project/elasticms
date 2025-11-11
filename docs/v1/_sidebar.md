@@ -1,17 +1,5 @@
 
-- [ElasticMS Admin](/elasticms-admin/index.md)
-  - [Environment variables](/elasticms-admin/environment-variables.md)
-  - [Commands](/elasticms-admin/commands/commands.md)
-  - [Commands](/elasticms-admin/commands/jobs.md)
-  - ContentType
-    - [Config](/elasticms-admin/contentType/contentType.md)
-    - [Form](/elasticms-admin/contentType/form.md)
-    - [File preview](/elasticms-admin/contentType/file-preview.md)
-  - [Dashboard](/elasticms-admin/dashboard/dashboard.md)
-  - [Environment](/elasticms-admin/environment/environment.md)
-  - [User](/elasticms-admin/user/user.md)
-  - [WYSIWYG](/elasticms-admin/wysiwyg/wysiwyg.md)
-  - [Async (Messenger, Mercure)](/elasticms-admin/async.md)
+
 - [ElasticMS Web](/elasticms-web/index.md)
   - [Environment variables](/elasticms-web/parameters.md)
   - [Security](/elasticms-web/security.md)

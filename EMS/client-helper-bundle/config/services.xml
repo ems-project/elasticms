@@ -111,6 +111,7 @@
             <argument type="service" id="emsch.manager.client_request" />
             <argument type="service" id="ems_common.twig.runtime.asset"/>
             <argument type="service" id="ems.vite"/>
+            <argument type="service" id="request_stack"/>
             <argument type="string">%kernel.project_dir%</argument>
             <argument type="string">%emsch.asset_local_folder%</argument>
             <tag name="twig.runtime" />

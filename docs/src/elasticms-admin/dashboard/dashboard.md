@@ -2,16 +2,6 @@
 
 Dashboards are customizable views that can apply to many content types at the same times.
 
-<!-- TOC -->
-* [Dashboard](#dashboard)
-  * [Properties](#properties)
-  * [Dashboard types](#dashboard-types)
-    * [Type export](#type-export)
-    * [Type revision task](#type-revision-task)
-    * [Type template](#type-template)
-  * [Upcoming dashboards](#upcoming-dashboards)
-<!-- TOC -->
-
 ## Properties 
 
 | Property         | Description                                                     |

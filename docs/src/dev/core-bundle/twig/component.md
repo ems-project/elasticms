@@ -6,17 +6,6 @@ in the feature we may use [live components](https://symfony.com/bundles/ux-live-
 
 The following components can be used in views/actions and dashboards.
 
-<!-- TOC -->
-* [Twig Components](#twig-components)
-  * [Json Menu Nested](#json-menu-nested)
-    * [Implementation (json-menu-nested)](#implementation-json-menu-nested)
-    * [Javascript and CSS (json-menu-nested)](#javascript-and-css-json-menu-nested)
-    * [Templating (json-menu-nested)](#templating-json-menu-nested)
-  * [Media library](#media-library)
-    * [Implementation (media-library)](#implementation-media-library)
-    * [Templating (media-library)](#templating-media-library)
-<!-- TOC -->
-
 !> Both components support overwriting the blocks, so the emsch templates must be loaded with `EMSCH_ENVS`.
 Using `emsch_add_environment` twig function, will not work. see [Upgrade 5.3.x](/upgrade.md#version-53x)
 

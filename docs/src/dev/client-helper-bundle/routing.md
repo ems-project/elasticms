@@ -1,21 +1,5 @@
 # Routing
 
-<!-- TOC -->
-* [Routing](#routing)
-  * [Options](#options)
-  * [Config Defaults](#config-defaults)
-  * [Controllers](#controllers)
-    * [Redirect controller](#redirect-controller)
-      * [Redirect a host](#redirect-a-host)
-    * [Search controller](#search-controller)
-    * [Pdf controller](#pdf-controller)
-    * [Spreadsheet controller](#spreadsheet-controller)
-    * [Asset controller](#asset-controller)
-    * [ElasticSearch Controller](#elasticsearch-controller)
-  * [EMSCH cache (sub-request)](#emsch-cache-sub-request)
-  * [Route to assets in archive](#route-to-assets-in-archive)
-<!-- TOC -->
-
 ## Options
 
 Skeleton routes can have the following options

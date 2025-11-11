@@ -2,49 +2,6 @@
 
 ContentType contain the structure, default environment and information for all related revisions.
 
-<!-- TOC -->
-* [ContentType](#contenttype)
-  * [Properties](#properties)
-  * [Default value](#default-value)
-  * [Fields](#fields)
-  * [Settings](#settings)
-    * [Tasks](#tasks)
-  * [Roles](#roles)
-* [Actions](#actions)
-  * [Embed](#embed)
-  * [Export](#export)
-    * [Spreadsheet](#spreadsheet)
-      * [Example export](#example-export)
-      * [Example export jsonMenuNested](#example-export-jsonmenunested)
-  * [Import](#import)
-    * [Example import jsonMenuNested](#example-import-jsonmenunested)
-  * [External link](#external-link)
-  * [Raw HTML](#raw-html)
-  * [Notification](#notification)
-  * [Job](#job)
-  * [Pdf](#pdf)
-* [Transformers](#transformers)
-  * [Html Attribute Transformer](#html-attribute-transformer)
-    * [Config](#config)
-    * [Examples](#examples)
-  * [Html Empty Transformer](#html-empty-transformer)
-    * [Config](#config-1)
-  * [Html remove node transformer](#html-remove-node-transformer)
-* [Views](#views)
-  * [Calendar view](#calendar-view)
-  * [Criteria view](#criteria-view)
-  * [DataLink view](#datalink-view)
-    * [Twig content template](#twig-content-template)
-    * [Example](#example)
-  * [Export view](#export-view)
-  * [Gallery view](#gallery-view)
-  * [Hierarchical view](#hierarchical-view)
-  * [Importer view](#importer-view)
-  * [Keywords view](#keywords-view)
-  * [Report view](#report-view)
-  * [Sorter view](#sorter-view)
-<!-- TOC -->
-
 ## Properties
 
 | Property             | Description                                  |

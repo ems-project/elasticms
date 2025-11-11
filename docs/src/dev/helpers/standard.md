@@ -1,19 +1,5 @@
 # Standards
 
-<!-- TOC -->
-* [Standards](#standards)
-  * [Accessor](#accessor)
-  * [Base64](#base64)
-  * [DateTime](#datetime)
-  * [Hash](#hash)
-  * [Html](#html)
-    * [Pretty Print](#pretty-print)
-    * [Sanitize](#sanitize)
-  * [Json](#json)
-  * [Text](#text)
-  * [Type](#type)
-<!-- TOC -->
-
 ## Accessor
 Convert a string `field path` to and array `property path`.
 

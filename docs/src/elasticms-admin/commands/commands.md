@@ -1,41 +1,5 @@
 # Commands
 
-<!-- TOC -->
-* [Commands](#commands)
-  * [EMSCO (CoreBundle)](#emsco-corebundle)
-    * [Asset](#asset)
-      * [Refresh file fields](#refresh-file-fields)
-    * [Content Type](#content-type)
-      * [Content Type switch default environment](#content-type-switch-default-environment)
-      * [Content Type transform](#content-type-transform)
-    * [Environment](#environment)
-      * [Environment align](#environment-align)
-      * [Environment unpublish](#environment-unpublish)
-    * [Release](#release)
-      * [Release create](#release-create)
-      * [Release publish](#release-publish)
-    * [Revision](#revision)
-      * [Revision archive](#revision-archive)
-      * [Revision copy](#revision-copy)
-      * [Revision delete](#revision-delete)
-      * [Revision discard](#revision-discard)
-      * [Revision task create](#revision-task-create)
-      * [Revision task notification mail](#revision-task-notification-mail)
-    * [Submission](#submission)
-      * [Submission export](#submission-export)
-    * [User](#user)
-      * [User activate](#user-activate)
-      * [User change](#user-change)
-      * [User create](#user-create)
-      * [User deactivate](#user-deactivate)
-      * [User demote](#user-demote)
-      * [User promote](#user-promote)
-      * [User update option](#user-update-option)
-    * [XLIFF](#xliff-)
-      * [XLIFF extract](#xliff-extract)
-      * [XLIFF update](#xliff-update)
-<!-- TOC -->
-
 ## EMSCO (CoreBundle)
 
 ### Asset

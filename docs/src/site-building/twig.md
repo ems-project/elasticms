@@ -5,13 +5,6 @@ The ems project heavily uses [TWIG](https:///twig.symfony.com).
 - ElasticMS Admin uses twig for: custom dashboards, views, actions, postprocessing, ..
 - ElasticMS Web uses twig for creating webpages, redirect, pdf exports, file serving
 
-<!-- TOC -->
-* [Twig](#twig)
-  * [Twig cheatsheet](#twig-cheatsheet)
-  * [Symfony cheatsheet](#symfony-cheatsheet)
-  * [elasticMS Common Bundle Extension](#common-bundle) for both ElasticMS Admin and ElasticMS Web
-<!-- TOC -->
-
 ## Twig cheatsheet
 
 | Tags                                                                |                                                                     |                                                           |                                                               |                                                                 |

@@ -1,14 +1,5 @@
 # Commands
 
-<!-- TOC -->
-* [Commands](#commands)
-  * [Batch](#batch)
-  * [Clear logs](#clear-logs)
-    * [Example](#example)
-  * [Status](#status)
-  * [Curl](#curl)
-<!-- TOC -->
-
 ## Batch
 
 Run command(s) defined in twig template.

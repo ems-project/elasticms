@@ -1,13 +1,5 @@
 # EMS (CommonBundle) Commands
 
-<!-- TOC -->
-
-* [EMS Commands](#ems-commonbundle-commands)
-    * [Admin](#admin)
-        * [Backup](#backup)
-
-<!-- TOC -->
-
 ### Admin
 
 #### Backup

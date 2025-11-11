@@ -3,15 +3,6 @@
 In elasticms you can configure WYSIWYG [profiles](#profiles) and [style sets](#style-sets).
 These are used for configurating and styling the [CKEditors](https://ckeditor.com/).
 
-<!-- TOC -->
-* [WYSIWYG](#wysiwyg)
-  * [Profiles](#profiles)
-    * [EMS settings](#ems-settings)
-      * [Paste](#paste)
-  * [Style sets](#style-sets)
-    * [Styles set preview](#styles-set-preview)
-<!-- TOC -->
-
 ## Profiles
 
 Profiles are attached to an elasticms [user](../user/user.md). The configuration is applied on all WYSIWYG fields.

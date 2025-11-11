@@ -6,13 +6,6 @@ The environment attach to a contentType is the `default` environment for this co
 From the default environment we can publish/unpublish to other environments.
 Often an elasticms has 2 environments `preview` and `live`. 
 
-<!-- TOC -->
-* [Environment](#environment)
-  * [Properties](#properties)
-  * [Publish Role](#publish-role)
-  * [Template publication](#template-publication)
-<!-- TOC -->
-
 ## Properties 
 
 | Property            | Description                                                      |

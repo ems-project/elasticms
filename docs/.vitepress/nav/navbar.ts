@@ -1,7 +1,8 @@
 import type {DefaultTheme} from 'vitepress'
 
 const navbar: DefaultTheme.NavItem[] = [
-    // { text: 'Home', link: '/' },
+    { text: 'Home', link: '/' },
+    { text: 'Upgrade', link: '/upgrade' },
     // {
     //     text: 'Guide',
     //     items: [

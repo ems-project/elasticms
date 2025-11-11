@@ -1,9 +1,3 @@
-- Getting started
-  - [Quick start](/getting-started/quick-start.md)
-  - [Setup your computer](/getting-started/local-dev.md)
-  - [Dev environment](/getting-started/dev-env.md)
-  - [Contributing](/getting-started/contributing.md)
-- [Upgrade](/upgrade.md)
 - Site building
   - [Twig](/site-building/twig.md)
 - [ElasticMS Admin](/elasticms-admin/index.md)

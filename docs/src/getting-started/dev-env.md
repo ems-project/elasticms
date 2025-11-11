@@ -1,21 +1,5 @@
 # Development environment
 
-<!-- TOC -->
-* [Development environment](#development-environment)
-  * [Start external micro-services](#start-external-micro-services)
-    * [Test your config](#test-your-config)
-    * [Local ports exposed](#local-ports-exposed)
-  * [Prerequisite](#prerequisite-)
-  * [Load (or reset) the Demo config](#load-or-reset-the-demo-config)
-  * [Init elasticMS](#init-elasticms)
-  * [Load and save DB dumps](#load-and-save-db-dumps)
-  * [Admin UI](#admin-ui)
-  * [Identity provider (IDP) (Keycloak)](#identity-provider-idp-keycloak)
-  * [Monitoring (Grafana and Prometheus)](#monitoring-grafana-and-prometheus)
-  * [About PHP configuration](#about-php-configuration)
-  * [Works with the bootstrap5 theme](#works-with-the-bootstrap5-theme)
-<!-- TOC -->
-
 ## Start external micro-services
 
 ElasticMS works with multiple micro-services:

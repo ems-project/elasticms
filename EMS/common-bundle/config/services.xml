@@ -181,5 +181,9 @@
         </service>
         <service id="ems_common.cache.tag_collector" class="EMS\CommonBundle\Common\Cache\TagCollector">
         </service>
+        <service id="ems.event_listener.tag_response_subscriber" class="EMS\CommonBundle\EventListener\TagResponseSubscriber">
+            <argument type="service" id="ems_common.cache.tag_collector"/>
+            <tag name="kernel.event_subscriber" />
+        </service>
     </services>
 </container>

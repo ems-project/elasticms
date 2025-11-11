@@ -42,6 +42,14 @@ const sidebar: DefaultTheme.SidebarMulti = {
                 { text: 'WYSIWYG', link: '/elasticms-admin/wysiwyg/wysiwyg' },
                 { text: 'Async (Messenger, Mercure)', link: '/elasticms-admin/async' },
             ]
+        },
+        {
+            text: 'ElasticMS Web',
+            link: '/elasticms-web/index',
+            items: [
+                { text: 'Environment variables', link: '/elasticms-web/parameters' },
+                { text: 'Security', link: '/elasticms-web/security' },
+            ]
         }
     ]
 }

@@ -237,7 +237,7 @@ avoid HTTP cache issues, this function must be called in a non-safe request (i.e
 
 For obfuscation of pii on your website when the user agent is a robot.
 
-Implementation details are based on http://www.wbwip.com/wbw/emailencoder.html using
+Implementation details are based on <http://www.wbwip.com/wbw/emailencoder.html> using
 `ems_html_encode`. The following data can be obfuscated (even inside a wysiwyg field):
 
 - emailadress `no_reply@example.com`

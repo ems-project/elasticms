@@ -5,10 +5,10 @@ moment. This command has 2 outputs:
 
 - Updated documents in a elasticms's admin (via the rest API) compatible with this
   [content type](/files/contenttype_audit.json ':ignore')
-- An [Excel report](#Report)
+- An [Excel report](#report)
 
 This command can perfomed multiple audits but not always all of them on every website's urls. See
-[Auditors](#Auditors).
+[Auditors](#auditors).
 
 Prior using this command, please login to an elasticms admin:
 `ems:admin:login http://admin.my-elasticms.tld`.
@@ -53,7 +53,7 @@ in parallels. But those auditors are heavy and affects the audit's speed. Turn t
 ### The request audit
 
 This audit is performed on every crawlable URL (HTTP and HTTPS). Other URLs, such ftp, mailto,
-javascript are not tested. But they are reported as ignored URLs. See [Report](#Report).
+javascript are not tested. But they are reported as ignored URLs. See [Report](#report).
 
 This audit will index in elasticms:
 

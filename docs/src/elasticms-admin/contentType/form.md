@@ -59,7 +59,7 @@ You have several types of DataField available to define the form structure :
 | Textarea             | Simple   | Textarea field                                                                         | text                                                                                                       | No                  |                                   |
 | Time                 | Simple   | Time picker                                                                            |                                                                                                            | No                  |                                   |
 | VersionTag           | Simple   |                                                                                        |                                                                                                            | No                  |                                   |
-| Wysiwyg              | Simple   | [CK Editor](https://ckeditor.com/                                                      | text                                                                                                       | No                  |                                   |
+| Wysiwyg              | Simple   | [CK Editor](<https://ckeditor.com/>                                                    | text                                                                                                       | No                  |                                   |
 
 ## Postprocessing
 
@@ -76,7 +76,7 @@ Context of the postprocessing template:
   [EMS\CoreBundle\Core\Revision\EventType](https://github.com/ems-project/elasticms/blob/6.x/EMS/core-bundle/src/Core/Revision/EventType.php).
   This object as the following parameters:
     - `migrate`: boolean set to `true` in the context of a migration (like in the context of the
-      `emsco:contenttype:migrate`` or `ems:contenttype:recompute` command)
+      `emsco:contenttype:migrate`` or`ems:contenttype:recompute` command)
     - `finalize`: boolean set to `false` in the context of an autosave, otherwize set to `true`
     - `publish`: boolean set to `true` in the context of a recompute on publish, only if the option
       'Recompute on publish' is activated for the content type

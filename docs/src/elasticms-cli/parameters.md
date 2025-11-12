@@ -82,7 +82,7 @@ elasticms.
 ### EMS_ELASTICSEARCH_CONNECTION_POOL
 
 Define the [elasticsearch sniffing
-strategy](https://www.elastic.co/guide/en/elasticsearch/client/php-api/7.17/connection_pool.html:
+strategy](<https://www.elastic.co/guide/en/elasticsearch/client/php-api/7.17/connection_pool.html>:
 
 - Default value:
   EMS_ELASTICSEARCH_CONNECTION_POOL='Elasticsearch\\ConnectionPool\\SimpleConnectionPool' if the

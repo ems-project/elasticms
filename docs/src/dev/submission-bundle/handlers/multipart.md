@@ -6,7 +6,7 @@ Send a http request from submission data in a multipart format.
 
 The endpoint needs to be a valid JSON and the only required property is URL.
 
-The following example will do a POST request to http://example.test/api/form?q=test
+The following example will do a POST request to <http://example.test/api/form?q=test>
 
 ```json
 {

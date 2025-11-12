@@ -125,7 +125,7 @@ elasticms.
 
 Usefull when connecting to a string of multiple hosts. To reduce timeout when checking a second host
 if the first host fails. The minimum value is 2
-https://pracucci.com/php-pdo-pgsql-connection-timeout.html
+<https://pracucci.com/php-pdo-pgsql-connection-timeout.html>
 
 - Default value `30`
 - Example: `DB_CONNECTION_TIMEOUT=30`
@@ -240,7 +240,7 @@ More info on [PHP.net](https://www.php.net/manual/en/function.curl-setopt.php).
 ### EMS_ELASTICSEARCH_CONNECTION_POOL
 
 Define the [elasticsearch sniffing
-strategy](https://www.elastic.co/guide/en/elasticsearch/client/php-api/7.17/connection_pool.html:
+strategy](<https://www.elastic.co/guide/en/elasticsearch/client/php-api/7.17/connection_pool.html>:
 
 - Default value:
   EMS_ELASTICSEARCH_CONNECTION_POOL='Elasticsearch\\ConnectionPool\\SimpleConnectionPool' if the
@@ -417,5 +417,5 @@ for the submission bundle. Set to `10` by default.
 
 ## Since version 5.14.0
 
-- EMS_WEBALIZE_REMOVABLE_REGEX : See [EMS_SLUG_SYMBOL_MAP](#EMS_SLUG_SYMBOL_MAP))
-- EMS_WEBALIZE_DASHABLE_REGEX : See [EMS_SLUG_SYMBOL_MAP](#EMS_SLUG_SYMBOL_MAP))
+- EMS_WEBALIZE_REMOVABLE_REGEX : See [EMS_SLUG_SYMBOL_MAP](#ems_slug_symbol_map))
+- EMS_WEBALIZE_DASHABLE_REGEX : See [EMS_SLUG_SYMBOL_MAP](#ems_slug_symbol_map))

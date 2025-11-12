@@ -156,7 +156,7 @@ elasticms.
 
 Usefull when connecting to a string of multiple hosts. To reduce timeout when checking a second host
 if the first host fails. The minimum value is 2
-https://pracucci.com/php-pdo-pgsql-connection-timeout.html
+<https://pracucci.com/php-pdo-pgsql-connection-timeout.html>
 
 - Default value `30`
 - Example: `DB_CONNECTION_TIMEOUT=30`
@@ -183,7 +183,7 @@ Url of a Tika server (string).
 
 Url or path to an Apache Tika jar file (string).
 
-- Default value: http://apache.belnet.be/tika/tika-app-1.22.jar
+- Default value: <http://apache.belnet.be/tika/tika-app-1.22.jar>
 - Example `EMSCO_TIKA_DOWNLOAD_URL=http://apache.belnet.be/tika/tika-app-1.22.jar'`
 
 ### Activate document signature
@@ -493,7 +493,7 @@ Possible values:
 ### EMS_ELASTICSEARCH_CONNECTION_POOL
 
 Define the [elasticsearch sniffing
-strategy](https://www.elastic.co/guide/en/elasticsearch/client/php-api/7.17/connection_pool.html:
+strategy](<https://www.elastic.co/guide/en/elasticsearch/client/php-api/7.17/connection_pool.html>:
 
 - Default value:
   EMS_ELASTICSEARCH_CONNECTION_POOL='Elasticsearch\\ConnectionPool\\SimpleConnectionPool' if the
@@ -710,44 +710,44 @@ instance of elasticms. I.e. adding users working hours.
 
 ## Since version 5.14.0
 
-- EMS_WEBALIZE_REMOVABLE_REGEX : See [EMS_SLUG_SYMBOL_MAP](#EMS_SLUG_SYMBOL_MAP))
-- EMS_WEBALIZE_DASHABLE_REGEX : See [EMS_SLUG_SYMBOL_MAP](#EMS_SLUG_SYMBOL_MAP))
+- EMS_WEBALIZE_REMOVABLE_REGEX : See [EMS_SLUG_SYMBOL_MAP](#ems_slug_symbol_map))
+- EMS_WEBALIZE_DASHABLE_REGEX : See [EMS_SLUG_SYMBOL_MAP](#ems_slug_symbol_map))
 
 ## Since version 1.14.3
 
 - ELASTICSEARCH_CLUSTER : See [EMS_ELASTICSEARCH_HOSTS](#ems_elasticsearch_hosts)
 - ELASTICSEARCH_VERSION : This variable doesn't have any replacement, the value is directly get form
   the elasticsearch cluster itself.
-- S3_BUCKET : See [EMS_STORAGES](#EMS_STORAGES)
-- S3_CREDENTIALS : See [EMS_STORAGES](#EMS_STORAGES)
-- STORAGE_FOLDER : See [EMS_STORAGES](#EMS_STORAGES)
-- EMS_SFTP_SERVEUR : See [EMS_STORAGES](#EMS_STORAGES)
-- EMS_SFTP_PATH : See [EMS_STORAGES](#EMS_STORAGES)
-- EMS_SFTP_USER : See [EMS_STORAGES](#EMS_STORAGES)
-- EMS_EMS_REMOTE_SERVER : See [EMS_STORAGES](#EMS_STORAGES)
-- EMS_EMS_REMOTE_AUTHKEY : See [EMS_STORAGES](#EMS_STORAGES)
-- EMS_SAVE_ASSETS_IN_DB : See [EMS_STORAGES](#EMS_STORAGES)
-- TIKA_SERVER : See [EMSCO_TIKA_SERVER](#EMSCO_TIKA_SERVER)
-- TIKA_DOWNLOAD_URL : See [EMSCO_TIKA_DOWNLOAD_URL](#EMSCO_TIKA_DOWNLOAD_URL)
+- S3_BUCKET : See [EMS_STORAGES](#ems_storages)
+- S3_CREDENTIALS : See [EMS_STORAGES](#ems_storages)
+- STORAGE_FOLDER : See [EMS_STORAGES](#ems_storages)
+- EMS_SFTP_SERVEUR : See [EMS_STORAGES](#ems_storages)
+- EMS_SFTP_PATH : See [EMS_STORAGES](#ems_storages)
+- EMS_SFTP_USER : See [EMS_STORAGES](#ems_storages)
+- EMS_EMS_REMOTE_SERVER : See [EMS_STORAGES](#ems_storages)
+- EMS_EMS_REMOTE_AUTHKEY : See [EMS_STORAGES](#ems_storages)
+- EMS_SAVE_ASSETS_IN_DB : See [EMS_STORAGES](#ems_storages)
+- TIKA_SERVER : See [EMSCO_TIKA_SERVER](#emsco_tika_server)
+- TIKA_DOWNLOAD_URL : See [EMSCO_TIKA_DOWNLOAD_URL](#emsco_tika_download_url)
 - EMS_PRIVATE_KEY : See [EMSCO_PRIVATE_KEY](#Activate document signature)
 - EMS_PUBLIC_KEY : See [EMSCO_PUBLIC_KEY](#Activate document signature)
-- EMS_INSTANCE_ID : See [EMSCO_INSTANCE_ID](#EMSCO_INSTANCE_ID)
-- EMS_NAME : See [EMSCO_NAME](#EMSCO_NAME)
-- EMS_SHORTNAME : See [EMSCO_SHORTNAME](#EMSCO_SHORTNAME)
+- EMS_INSTANCE_ID : See [EMSCO_INSTANCE_ID](#emsco_instance_id)
+- EMS_NAME : See [EMSCO_NAME](#emsco_name)
+- EMS_SHORTNAME : See [EMSCO_SHORTNAME](#emsco_shortname)
 - EMS_SINGLE_TYPE_INDEX : Not replaced
 - EMSCO_SINGLE_TYPE_INDEX : Not replaced
-- EMS_PAGING_SIZE : See [EMSCO_PAGING_SIZE](#EMSCO_PAGING_SIZE)
-- EMS_THEME_COLOR : See [EMSCO_THEME_COLOR](#EMSCO_THEME_COLOR)
-- EMS_DATE_TIME_FORMAT : See [EMSCO_DATE_TIME_FORMAT](#EMSCO_DATE_TIME_FORMAT)
-- EMS_DATEPICKER_FORMAT : See [EMSCO_DATEPICKER_FORMAT](#EMSCO_DATEPICKER_FORMAT)
-- EMS_DATEPICKER_WEEKSTART : See [EMSCO_DATEPICKER_WEEKSTART](#EMSCO_DATEPICKER_WEEKSTART)
+- EMS_PAGING_SIZE : See [EMSCO_PAGING_SIZE](#emsco_paging_size)
+- EMS_THEME_COLOR : See [EMSCO_THEME_COLOR](#emsco_theme_color)
+- EMS_DATE_TIME_FORMAT : See [EMSCO_DATE_TIME_FORMAT](#emsco_date_time_format)
+- EMS_DATEPICKER_FORMAT : See [EMSCO_DATEPICKER_FORMAT](#emsco_datepicker_format)
+- EMS_DATEPICKER_WEEKSTART : See [EMSCO_DATEPICKER_WEEKSTART](#emsco_datepicker_weekstart)
 - EMS_DATEPICKER_DAYSOFWEEK_HIGHLIGHTED : See
-  [EMSCO_DATEPICKER_DAYSOFWEEK_HIGHLIGHTED](#EMSCO_DATEPICKER_DAYSOFWEEK_HIGHLIGHTED)
+  [EMSCO_DATEPICKER_DAYSOFWEEK_HIGHLIGHTED](#emsco_datepicker_daysofweek_highlighted)
 - EMS_FROM_EMAIL_ADDRESS : See [EMSCO_FROM_EMAIL_ADDRESS](#From information for email sent)
 - EMS_FROM_EMAIL_NAME : See [EMSCO_FROM_EMAIL_NAME](#From information for email sent)
-- EMS_ALLOW_USER_REGISTRATION : See [EMSCO_ALLOW_USER_REGISTRATION](#EMSCO_ALLOW_USER_REGISTRATION)
-- EMS_ASSET_CONFIG : See [EMSCO_ASSET_CONFIG](#EMSCO_ASSET_CONFIG)
-- EMS_CIRCLES_OBJECT : See [EMSCO_CIRCLES_OBJECT](#EMSCO_ALLOW_USER_REGISTRATION)
+- EMS_ALLOW_USER_REGISTRATION : See [EMSCO_ALLOW_USER_REGISTRATION](#emsco_allow_user_registration)
+- EMS_ASSET_CONFIG : See [EMSCO_ASSET_CONFIG](#emsco_asset_config)
+- EMS_CIRCLES_OBJECT : See [EMSCO_CIRCLES_OBJECT](#emsco_allow_user_registration)
 - EMS_UPLOAD_FOLDER : Not replaced
 - DATABASE_URL : See [Doctrine](#Doctrine variables))
 - EMSCO_ASSET_CONFIG_TYPE : Not replaced

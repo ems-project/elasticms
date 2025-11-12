@@ -28,9 +28,9 @@ ContentType contain the structure, default environment and information for all r
 | versionOptions       |                                              |
 | versionDateFromField |                                              |
 | versionDateToField   |                                              |
-| roles                | Json field see [roles](#Roles)               |
-| fields               | Json field see [fields](#Fields)             |
-| settings             | See [settings](#Settings)                    |
+| roles                | Json field see [roles](#roles)               |
+| fields               | Json field see [fields](#fields)             |
+| settings             | See [settings](#settings)                    |
 
 ## Default value
 

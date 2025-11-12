@@ -263,7 +263,7 @@ If facets depends on facets, we can create a nested collection for filtering.
 
 Translate emsLinks inside a search result.
 
-### Simple,
+### Simple
 
 will search and match with the **\_all** field.
 

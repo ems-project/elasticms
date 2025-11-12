@@ -50,6 +50,7 @@ On submit the application will preform a coreApi login to the environment api.
     ```
 
 4. define login translations
+
     ```yaml
     emsch:
         security:
@@ -106,6 +107,7 @@ required.
 2. Enable OAuth2 or SAML
 3. Visit the authentication route, if both protocols are enabled only OAuth2 will be called.
 4. Add buttons on login page (optional)
+
     ```twig
     {% if app.user %}
        <h1>Welcome {{ app.user.userIdentifier }}</h1>
@@ -134,17 +136,17 @@ These clients are just an implementation of
 
 ### Keycloak
 
-| Name                              | Description                    |
-| --------------------------------- | ------------------------------ |
-| EMSCH_OAUTH2                      | bool for enabling OAUTH2       |
-| EMSCH_OAUTH2_AUTH_SERVER          | Keycloak server url            |
-| EMSCH_OAUTH2_REALM                | Keycloak REALM                 |
-| EMSCH_OAUTH2_CLIENT_ID            | Keycloak client id             |
-| EMSCH_OAUTH2_CLIENT_SECRET        | Keycloak client secret         |
-| EMSCH_OAUTH2_REDIRECT_URI         | https://mywebsite/callback-url |
-| EMSCH_OAUTH2_VERSION              | Optional: keycloak version     |
-| EMSCH_OAUTH2_ENCRYPTION_ALGORITHM | Optional: RS256,ES256,...      |
-| EMSCH_OAUTH2_ENCRYPTION_KEY       | Optional: base64 encode        |
+| Name                              | Description                      |
+| --------------------------------- | -------------------------------- |
+| EMSCH_OAUTH2                      | bool for enabling OAUTH2         |
+| EMSCH_OAUTH2_AUTH_SERVER          | Keycloak server url              |
+| EMSCH_OAUTH2_REALM                | Keycloak REALM                   |
+| EMSCH_OAUTH2_CLIENT_ID            | Keycloak client id               |
+| EMSCH_OAUTH2_CLIENT_SECRET        | Keycloak client secret           |
+| EMSCH_OAUTH2_REDIRECT_URI         | <https://mywebsite/callback-url> |
+| EMSCH_OAUTH2_VERSION              | Optional: keycloak version       |
+| EMSCH_OAUTH2_ENCRYPTION_ALGORITHM | Optional: RS256,ES256,...        |
+| EMSCH_OAUTH2_ENCRYPTION_KEY       | Optional: base64 encode          |
 
 > For encryption see
 > [Identity provider (IDP) (Keycloak)](http://localhost:3000/#/getting-started/dev-env?id=identity-provider-idp-keycloak)
@@ -158,7 +160,7 @@ These clients are just an implementation of
 | EMSCH_OAUTH2_REALM         | Tenant id                                             |
 | EMSCH_OAUTH2_CLIENT_ID     | Client id                                             |
 | EMSCH_OAUTH2_CLIENT_SECRET | Client secret value                                   |
-| EMSCH_OAUTH2_REDIRECT_URI  | https://mywebsite/callback-url                        |
+| EMSCH_OAUTH2_REDIRECT_URI  | <https://mywebsite/callback-url>                      |
 | EMSCH_OAUTH2_VERSION       | Default value = 2.0                                   |
 | EMSCH_OAUTH2_SCOPES        | Default value = ["openid","profile","offline_access"] |
 

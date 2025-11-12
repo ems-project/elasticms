@@ -56,7 +56,7 @@ The complexity is the average number of hash to compute in order to get a such r
 
 For now this endpoints config is use for sending a confirmation.
 
-###Http request body replacements
+### Http request body replacements
 
 The following placeholder(s) can be used in the body and will be replaced.
 

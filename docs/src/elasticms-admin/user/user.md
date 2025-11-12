@@ -12,8 +12,8 @@ For managing elasticms user you are required to have the role `USER_MANAGEMENT`,
 | e-mail notification          | Disable email notification with this checkbox                      |
 | display name                 | Name to display in elasticms                                       |
 | enabled                      | Disable user with this checkbox                                    |
-| roles                        | Collection of [roles](#Roles)                                      |
-| circles                      | Collection of [circles](#Circles)                                  |
+| roles                        | Collection of [roles](#roles)                                      |
+| circles                      | Collection of [circles](#circles)                                  |
 | last login                   | Date time when the user last logged in                             |
 | locale                       | Locale used for the UI (only support currently `EN`)               |
 | locale preferred             | Translate notifications, views, dashboard in user preferred locale |

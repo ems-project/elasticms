@@ -96,7 +96,7 @@ was with CKE4.
 
 And for the `WYSIWYG` > `WYSIWYG profiles` the config must be recreate from scratch. But basically
 you can override every default [CK Editor
-config](https://github.com/ems-project/elasticms/blob/1ea0749ec813ac7bd3afd29a8ce9520654d9a97c/EMS/admin-ui-bundle/assets/js/core/helpers/editor.js#L80.
+config](<https://github.com/ems-project/elasticms/blob/1ea0749ec813ac7bd3afd29a8ce9520654d9a97c/EMS/admin-ui-bundle/assets/js/core/helpers/editor.js#L80>.
 Check the [CK Editor builder](https://ckeditor.com/ckeditor-5/online-builder/). Here is an example.
 
 ```json
@@ -345,16 +345,16 @@ the website templates.
     - The `--filename` option in the `emsco:xliff:extract` command has been replaced by a
       `--basename` option and does not contains a path anymore, just a file basename.
 
-        Example replace
-        `emsco:xliff:extract live '{}' nl de title --filename=/tmp/pages-nl-to-de.xlf` by
-        `emsco:xliff:extract live '{}' nl de title --basename=pages-nl-to-de.xlf`
+                Example replace
+                `emsco:xliff:extract live '{}' nl de title --filename=/tmp/pages-nl-to-de.xlf` by
+                `emsco:xliff:extract live '{}' nl de title --basename=pages-nl-to-de.xlf`
 
     - In case of warning or error in the `emsco:xliff:update` command the report file is no more
       available locally. The report is upladed in the admin's storages. The directly get a link to
       the report you need to specify a `--base-url` option.
 
-        Example
-        `emsco:xliff:update /tmp/pages-nl-to-de.xlf --base-url=https://my-admin.my-project.tld`
+                Example
+                `emsco:xliff:update /tmp/pages-nl-to-de.xlf --base-url=https://my-admin.my-project.tld`
 
 - You should not specify a folder where to expand website assets in the `emsch_assets_version` twig
   function, in this case the function returns `null`.
@@ -414,10 +414,12 @@ emsch_demo_asset_in_archive:
 - Added infinity scrolling for [MediaLibrary](./dev/core-bundle/twig/component.md#media-library)
 - Added draggable file upload for [MediaLibrary](./dev/core-bundle/twig/component.md#media-library)
 - Added `ems:admin:restore` command
+
     ```bash
     ems:admin:restore --configs --force
     ems:admin:restore --documents --force
     ```
+
 - Added `filename` option for upload assets command
 
     ```bash
@@ -567,6 +569,6 @@ Create an action for the content types you want with those parameters:
     type: contentType.name,
     ouuid: object._id,
 }) }}">
-	<i class="fa fa-archive"></i> Corresponding revision
+ <i class="fa fa-archive"></i> Corresponding revision
 </a>
 ```

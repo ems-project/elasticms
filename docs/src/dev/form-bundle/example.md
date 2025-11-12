@@ -8,7 +8,7 @@ Requirements:
 
 ## Elements to integrate on your website
 
-Your html page on https://your-website.example needs the following **4 elements** to integrate an
+Your html page on <https://your-website.example> needs the following **4 elements** to integrate an
 EMSForm.
 
 1. An `iframe` to communicate to [https://emsforms-skeleton.example]

@@ -48,7 +48,7 @@ Options:
 | update.mapping[].indexDataColumn  | The data value column index (first = **0**)                            |
 | dataColumns[]                     | [see data columns](#update-config-data-columns)                        |
 
-#### Example update page contentType.
+#### Example update page contentType
 
 - The first column (0) contains a valid emsId (page:ouuid)
 - The second column (1) equals the update value for the page title field.

@@ -130,7 +130,7 @@ npm run dev
 npm run dev -- --debug # debug mode
 ```
 
-> Make sure you set **EMS_VITE_DEV_SERVER**='http://localhost:5173'
+> Make sure you set **EMS_VITE_DEV_SERVER**='<http://localhost:5173>'
 
 ## Identity provider (IDP) (Keycloak)
 
@@ -145,7 +145,7 @@ cd docker/idp
 docker compose up -d
 ```
 
-1. Check if available on http://keycloak.localhost or http://localhost:9081
+1. Check if available on <http://keycloak.localhost> or <http://localhost:9081>
 
     Administration Console -> `admin:changeme`
 
@@ -164,13 +164,13 @@ docker compose up -d
 
 3. Verify `elasticms` realm is created
 
-    Visit http://keycloak.localhost/realms/elasticms
+    Visit <http://keycloak.localhost/realms/elasticms>
 
 4. Login with elasticms users
 
-    http://keycloak.localhost/realms/elasticms/account
-    - user1@example.com changeme
-    - user2@example.com changeme
+    <http://keycloak.localhost/realms/elasticms/account>
+    - <user1@example.com> changeme
+    - <user2@example.com> changeme
 
 5. Use the following environment variables in `elasticms-web`
 
@@ -194,7 +194,7 @@ EMSCH_SAML_IDP_PUBLIC_KEY='MIICoTCCAYkCBgGGOshSgDANBgkqhkiG9w0BAQsFADAUMRIwEAYDV
 EMSCH_SAML_IDP_SSO='http://keycloak.localhost/realms/elasticms/protocol/saml'
 ```
 
-!> For using xDebug change http://keycloak.localhost -> http://localhost:9081
+!> For using xDebug change <http://keycloak.localhost> -> <http://localhost:9081>
 
 !> If Keycloak runs on a different domain, you need to set the environment variable
 [SESSION_COOKIE_SAMESITE](/elasticms-web/parameters.md#SESSION_COOKIE_SAMESITE) to lax.
@@ -211,7 +211,7 @@ EMSCH_SAML_IDP_SSO='http://keycloak.localhost/realms/elasticms/protocol/saml'
 | EMSCH_SAML_SP_ENTITY_ID           | [client settings](http://keycloak.localhost/admin/master/console/#/elasticms/clients/a959232e-2993-42d2-ab19-0de899880c1a/settings)                |
 | EMSCH_SAML_SP_PUBLIC_KEY          | [client keys](http://keycloak.localhost/admin/master/console/#/elasticms/clients/a959232e-2993-42d2-ab19-0de899880c1a/keys)                        |
 | EMSCH_SAML_SP_PRIVATE_KEY         | You receive the private key on generation                                                                                                          |
-| EMSCH_SAML_IDP_PUBLIC_KEY         | http://keycloak.localhost/realms/elasticms/protocol/saml/descriptor                                                                                |
+| EMSCH_SAML_IDP_PUBLIC_KEY         | <http://keycloak.localhost/realms/elasticms/protocol/saml/descriptor>                                                                              |
 
 - Generate oAuth2 encryption key
 

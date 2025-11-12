@@ -1,9 +1,6 @@
-EMSCommonBundle
-=============
+# EMSCommonBundle
 
 All code shared between the client helper bundle and the core bundle
-
-
 
 - [Twig](/dev/common-bundle/twig.md)
 - [Commands](/dev/common-bundle/commands.md)

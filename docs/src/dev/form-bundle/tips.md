@@ -1,4 +1,4 @@
-## Get a choice's label from a choice value
+# Get a choice's label from a choice value
 
 If inside a response template you want to get a choice label:
 

@@ -1,26 +1,33 @@
 # Export as word
 
-This document aims to walk you through the steps of creating a word export feature in the admin and in the frontend.
-In both cases, you will need to create an html template that will used by Word to open the document.
+This document aims to walk you through the steps of creating a word export feature in the admin and
+in the frontend. In both cases, you will need to create an html template that will used by Word to
+open the document.
 
-For this, we are going to use the _Office URI Scheme_ _ms-word_ (You can find out more about those schemes and the different arguments [here](https://docs.microsoft.com/en-us/office/client-developer/office-uri-schemes)), which follows the notation below:
+For this, we are going to use the _Office URI Scheme_ _ms-word_ (You can find out more about those
+schemes and the different arguments
+[Office URI Schemes documentation](https://docs.microsoft.com/en-us/office/client-developer/office-uri-schemes)),
+which follows the notation below:
 `< scheme-name >:< command-name >"|"< command-argument-descriptor > "|"< command-argument >`
 
 This scheme will then be used as url in a `_\<a>_` tag.
 
-This feature allows you to export either a page on its own, or a page within a structure. In that case, children of the page will be displayed as appendix at the end of the document.
+This feature allows you to export either a page on its own, or a page within a structure. In that
+case, children of the page will be displayed as appendix at the end of the document.
 
 ## Configuration
-For both admin and frontend, you are going to need to create an html that can be read by Word.
-Note that you can also stylise the document to your needs, but keep in mind that not all CSS is recognized by Word.
+
+For both admin and frontend, you are going to need to create an html that can be read by Word. Note
+that you can also stylise the document to your needs, but keep in mind that not all CSS is
+recognized by Word.
 
 The CSS needs to be added **inline**.
 
 ### 1. Route
-Create a route, which will query ElasticSearch to look for the page itself or the page within its structure.
-Note here that a boost has been added to the structure to get it as first result.
-For SEO purposes, you should **disallow** this route in your `robots.txt`
 
+Create a route, which will query ElasticSearch to look for the page itself or the page within its
+structure. Note here that a boost has been added to the structure to get it as first result. For SEO
+purposes, you should **disallow** this route in your `robots.txt`
 
 ```yaml
 export_word:
@@ -32,28 +39,34 @@ export_word:
 ```
 
 ### 2. Implement html to be converted to Word
+
 You can find the template of the word export in `skeleton/template/page/word-export`.
 
 The feature consists of 3 files:
 
-- css.twig : Allows you to stylise the export. The file will then be included inline in the export html structure
-- document.html.twig : Holds the html structure. Note that the content to be exported needs to be held in a table, to allow the addition of a header and a footer.
-The export demo does not have a header and a footer. To implement it, I invite you to follow [these steps](https://mathieu.dekeyzer.net/blog/2021-05-29/handle-page-margin-with-css)
+- css.twig : Allows you to stylise the export. The file will then be included inline in the export
+  html structure
+- document.html.twig : Holds the html structure. Note that the content to be exported needs to be
+  held in a table, to allow the addition of a header and a footer. The export demo does not have a
+  header and a footer. To implement it, I invite you to follow
+  [these steps](https://mathieu.dekeyzer.net/blog/2021-05-29/handle-page-margin-with-css)
 - export.twig : Holds the variables used in `document.html.twig`
 
-If your page is in a structure, the children of this page will ba added as appendix at the end of the document. Each child will be on a new page.
-
-
+If your page is in a structure, the children of this page will ba added as appendix at the end of
+the document. Each child will be on a new page.
 
 ## Use the export in the admin
-To use the export in the admin, you'll have to create a new action in the content type that you wish to export.
-For that, in the admin, go to `Content types` menu, and click on `Actions` of the CT of your choice.
-Clic then on `Add a new action` and fill in the fields. The `render option` should be **Raw HTML**.
 
-The body consists of a link that will target the html created above. 
-````twig
+To use the export in the admin, you'll have to create a new action in the content type that you wish
+to export. For that, in the admin, go to `Content types` menu, and click on `Actions` of the CT of
+your choice. Clic then on `Add a new action` and fill in the fields. The `render option` should be
+**Raw HTML**.
+
+The body consists of a link that will target the html created above.
+
+```twig
 {%- set locale = 'fr' -%}
-{% if attribute(source, locale).slug|default(false) %} 
+{% if attribute(source, locale).slug|default(false) %}
     {% if 'localhost' in app.request.host %}
         <a href="{{ "ms-word:ofe|u|http://demo-preview.#{target}.localhost/_export_word/#{source._contenttype}/#{object._id}.docx" }}"><i class="fa fa-file-word-o"></i> Export Word FR </a>
     {% else %}
@@ -61,19 +74,22 @@ The body consists of a link that will target the html created above.
         <a href="{{ "ms-word:ofe|u|#{wordBaseUrl}/channel/#{environment.name}/_export_word/#{source._contenttype}/#{object._id}.docx" }}"><i class="fa fa-file-word-o"></i> Export Word FR </a>
     {% endif %}
 {% endif %}
-````
+```
 
 Save and close.
 
 ## Use the export in the frontend
-To use the export in the frontend, you'll just have to create an `<a>` tag pointing to the route you've created in step 1.
+
+To use the export in the frontend, you'll just have to create an `<a>` tag pointing to the route
+you've created in step 1.
 
 Here is an example:
-````twig
+
+```twig
   {% if 'localhost' in app.request.host %}
       <a href="{{ "ms-word:ofe|u|http://demo-preview.#{target}.localhost/_export_word/#{source._contenttype}/#{object._id}.docx" }}"><i class="fa fa-file-word-o"></i> Export Document </a>
   {% else %}
       {% set wordBaseUrl = (environment.name == 'live' ? 'https' : app.request.scheme) ~ "://#{app.request.host}"  %}
       <a href="{{ "ms-word:ofe|u|#{wordBaseUrl}/channel/#{environment.name}/_export_word/#{source._contenttype}/#{object._id}.docx" }}"><i class="fa fa-file-word-o"></i> Export Document </a>
   {% endif %}
-````
+```

@@ -3,18 +3,19 @@
 For managing elasticms user you are required to have the role `USER_MANAGEMENT`, or CLI access.
 
 ## Properties
+
 | Property                     | Description                                                        |
-|------------------------------|--------------------------------------------------------------------|
+| ---------------------------- | ------------------------------------------------------------------ |
 | username                     | Login username                                                     |
 | password                     | Login password                                                     |
 | e-mail                       | Used for forget password and notifications                         |
 | e-mail notification          | Disable email notification with this checkbox                      |
 | display name                 | Name to display in elasticms                                       |
 | enabled                      | Disable user with this checkbox                                    |
-| roles                        | Collection of [roles](#Roles)                                      |
-| circles                      | Collection of [circles](#Circles)                                  |
+| roles                        | Collection of [roles](#roles)                                      |
+| circles                      | Collection of [circles](#circles)                                  |
 | last login                   | Date time when the user last logged in                             |
-| locale                       | Locale used for the UI (only support currently `EN`)               | 
+| locale                       | Locale used for the UI (only support currently `EN`)               |
 | locale preferred             | Translate notifications, views, dashboard in user preferred locale |
 | sidebar collapse             | Checkbox for making the sidebar collapsed by default               |
 | sidebar mini                 | Checkbox for mini sidebar                                          |
@@ -28,7 +29,7 @@ Since version 4.2 users also have options, in the feature we will extend and mig
 These options can be managed by the user (profile) or by the user manager.
 
 | Option        | Default | Description                                                                  |
-|---------------|---------|------------------------------------------------------------------------------|
+| ------------- | ------- | ---------------------------------------------------------------------------- |
 | simplified ui | false   | If enabled: hide save as draft and copy/paste functionality on revision edit |
 
 ## Roles
@@ -36,9 +37,9 @@ These options can be managed by the user (profile) or by the user manager.
 Users can have multiple roles, and always have at least the `USER`.
 
 | Role            | Description                        | Hierarchy                  |
-|-----------------|------------------------------------|----------------------------|
+| --------------- | ---------------------------------- | -------------------------- |
 | USER            | Default role                       |                            |
-| AUTHOR          | Group authors                      | USER                       |       
+| AUTHOR          | Group authors                      | USER                       |
 | FORM_CRM        | **Granted** form submissions       | USER                       |
 | TASK_MANAGER    | **Granted** manage revision tasks  | USER                       |
 | REVIEWER        | Group reviewers                    | AUTHOR                     |

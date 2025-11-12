@@ -1,4 +1,3 @@
-
 # Migrate a repository into the monorepo
 
 ## First steps ([source](https://medium.com/lgtm/migrating-to-the-monorepo-582106142654))

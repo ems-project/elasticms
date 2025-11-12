@@ -4,14 +4,15 @@
 
 Skeleton routes can have the following options
 
-* `config`: required: define the symfony routing config (path, defaults, requirements) 
-* `template_static`: optional: define a template path
-* `template_source`: optional: define a property path in the document received from the route query. example *[template]*
-* `query`: optional: search a document, if not found 404.
-* `index_regex`: optional: define an index regex for executing the query
+- `config`: required: define the symfony routing config (path, defaults, requirements)
+- `template_static`: optional: define a template path
+- `template_source`: optional: define a property path in the document received from the route query.
+  example _[template]_
+- `query`: optional: search a document, if not found 404.
+- `index_regex`: optional: define an index regex for executing the query
 
-The following route demonstrates the power of skeleton routes.
-Inside `template_static|query|index_regex` options we can replace by route params, pattern %param%.
+The following route demonstrates the power of skeleton routes. Inside
+`template_static|query|index_regex` options we can replace by route params, pattern %param%.
 
 ```yaml
 home:
@@ -26,46 +27,48 @@ home:
 
 ## Config Defaults
 
-| Name           | value      | Description                                                                                                                                          |
-|----------------|------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
-| _profiler      | true/false | You can disable the profiler for a specific route, by setting **_profiler** to false.                                                                |
-| _authenticated | true/false | The AuthenticatedListener will throw an **AccessDeniedException** if the user is not fully authenticated. See [security](/elasticms-web/security.md) |
-
+| Name            | value      | Description                                                                                                                                          |
+| --------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| \_profiler      | true/false | You can disable the profiler for a specific route, by setting **\_profiler** to false.                                                               |
+| \_authenticated | true/false | The AuthenticatedListener will throw an **AccessDeniedException** if the user is not fully authenticated. See [security](/elasticms-web/security.md) |
 
 ## Controllers
 
 ### Redirect controller
 
-A route can be defined in order to redirect the request to another url. An easy approach is by using the redirect Symfony controller:
+A route can be defined in order to redirect the request to another url. An easy approach is by using
+the redirect Symfony controller:
 
-````yaml
+```yaml
 favicon_ico:
     config:
-      path: /favicon.ico
-      controller: 'Symfony\Bundle\FrameworkBundle\Controller\RedirectController::urlRedirectAction'
-      defaults: { permanent: true, path: '/bundles/assets/static/icon64.png' }
-````
+        path: /favicon.ico
+        controller: 'Symfony\Bundle\FrameworkBundle\Controller\RedirectController::urlRedirectAction'
+        defaults: { permanent: true, path: '/bundles/assets/static/icon64.png' }
+```
 
-But if you need logic to specify the redirect url you may use the emsch redirect controller's function:
+But if you need logic to specify the redirect url you may use the emsch redirect controller's
+function:
 
-````yaml
+```yaml
 favicon_ico:
-  config:
-    path: /favicon.ico
-    controller: 'emsch.controller.router::redirect'
-  template_static: template/ems/redirect_favicon.json.twig
-````
+    config:
+        path: /favicon.ico
+        controller: 'emsch.controller.router::redirect'
+    template_static: template/ems/redirect_favicon.json.twig
+```
 
 And in the redirect_favicon.json.twig template:
 
-````twig
+```twig
 {% apply spaceless %}
       {% do emsch_assets_version('240c99f842c118a733f14420bf40e320bdb500b9') %}
       {{ {'url': asset('static/favicon-96x96.png', 'emsch'), 'status': 301 }|json_encode|raw }}
 {% endapply %}
-````
+```
 
 The template's response should be a JSON containing those optional parameters:
+
 - `path`: path for returning BinaryFileResponse
 - `url`: the target url to redirect to, required if path is not defined
 - `status`: the HTTP return's code. Default value: 302
@@ -74,9 +77,10 @@ The template's response should be a JSON containing those optional parameters:
 
 If the url parameter is not defined, the controller will throw a 404 with the message parameter.
 
-Instead of redirecting via an HTTP redirect response you can also directly return an assets. To do so, instead of giving a path to redirect to, give a path to a file:
+Instead of redirecting via an HTTP redirect response you can also directly return an assets. To do
+so, instead of giving a path to redirect to, give a path to a file:
 
-````twig
+```twig
 {% extends '@EMSCH/template/variables.twig' %}
 
 {%- block request %}
@@ -92,13 +96,14 @@ Instead of redirecting via an HTTP redirect response you can also directly retur
         }|json_encode|raw }}
     {% endapply %}
 {% endblock request -%}
-````
+```
 
-In this previous example we assume that a call to the `emsch_assets_version` function has been made in the `template/variables.twig` template.
+In this previous example we assume that a call to the `emsch_assets_version` function has been made
+in the `template/variables.twig` template.
 
-
-This controller can also be used to redirected to another controller (as a subrequest). 
-In this example we internally redirect a route into the FileController in order to exploit to range headers for a media file content type.
+This controller can also be used to redirected to another controller (as a subrequest). In this
+example we internally redirect a route into the FileController in order to exploit to range headers
+for a media file content type.
 
 ```yaml
 emsch_media_file:
@@ -124,29 +129,33 @@ emsch_media_file:
 
 This redirect may take 3 parameters:
 
- * `controller`: string identifying the controller where the request must be redirected. This parameter is mandatory.
- * `path`: associative array containing the named parameters to pass to the controller's method. Default value `[]`.
- * `query`: associative array containing the non-mandatory parameters (such those passed via the request to the controller). Default value `[]`.
-
+- `controller`: string identifying the controller where the request must be redirected. This
+  parameter is mandatory.
+- `path`: associative array containing the named parameters to pass to the controller's method.
+  Default value `[]`.
+- `query`: associative array containing the non-mandatory parameters (such those passed via the
+  request to the controller). Default value `[]`.
 
 #### Redirect a host
 
-When you have a domain `fqdn.tld` you may want that the website answers to those both FQDNs `fqdn.tld` and `www.fqdn.tld`.
-But, for SEO reasons, you also would like to redirect `fqdn.tld` requests to `www.fqdn.tld`.
-Use the following recipe:
+When you have a domain `fqdn.tld` you may want that the website answers to those both FQDNs
+`fqdn.tld` and `www.fqdn.tld`. But, for SEO reasons, you also would like to redirect `fqdn.tld`
+requests to `www.fqdn.tld`. Use the following recipe:
 
 In `routes.yaml`
+
 ```yaml
 redirect_hosts:
-  config:
-    path: '{path}'
-    host: 'fqdn.tld'
-    requirements: { path: '.*' }
-    controller: 'emsch.controller.router::redirect'
-  template_static: template/redirects/hosts.json.twig
+    config:
+        path: '{path}'
+        host: 'fqdn.tld'
+        requirements: { path: '.*' }
+        controller: 'emsch.controller.router::redirect'
+    template_static: template/redirects/hosts.json.twig
 ```
 
 In `template/redirects/hosts.json.twig`
+
 ```twig
 {%- block request %}
     {% apply spaceless %}
@@ -159,14 +168,13 @@ In `template/redirects/hosts.json.twig`
 
 ```
 
-
-
 ### Search controller
 
 See the [search documentation](search.md) fo more information.
 
 I.e.:
-````yaml
+
+```yaml
 emsch_search:
     config:
         path: { en: search, fr: chercher, nl: zoeken, de: suche }
@@ -181,21 +189,24 @@ emsch_search:
            }
         }
         controller: 'emsch.controller.search::handle'
-````
+```
 
 ### Pdf controller
 
 For enabling pdf generation use the **emsch.controller.pdf** controller
+
 ```json
 {
     "path": "/{_locale}/example-pdf",
     "controller": "emsch.controller.pdf",
     "requirements": {
-      "_locale": "fr|nl"
+        "_locale": "fr|nl"
     }
 }
 ```
+
 In Twig you can set/override the pdf options with custom meta tags in the head section
+
 ```twig
 {%- set siteHashAssets = include('@EMSCH/template/asset_hash.twig')|trim -%}
 <head>
@@ -213,23 +224,27 @@ In Twig you can set/override the pdf options with custom meta tags in the head s
 </head>
 ```
 
-!> For images, you should use ems_file_from_archive, especially when assets are loaded without a saveDir, which will be the default behaviour in version 7.x.
+!> For images, you should use ems_file_from_archive, especially when assets are loaded without a
+saveDir, which will be the default behaviour in version 7.x.
 
 ### Spreadsheet controller
 
 For enabling spreadsheet generation use the **emsch.controller.spreadsheet** controller
+
 ```yaml
 test_xlsx:
-  config:
-    path: /example-spreadsheet
-    controller: 'emsch.controller.spreadsheet'
-  template_static: template/test/spreadsheet.json.twig
-  order: 4
+    config:
+        path: /example-spreadsheet
+        controller: 'emsch.controller.spreadsheet'
+    template_static: template/test/spreadsheet.json.twig
+    order: 4
 ```
 
-Add style on Cell are available [See on EMSCommonBundle documentation](/dev/common-bundle/spreadsheet.md)
+Add style on Cell are available
+[See on EMSCommonBundle documentation](/dev/common-bundle/spreadsheet.md)
 
 Example writer `xlsx`
+
 ```twig
 {% set config = {
     "filename": "example",
@@ -244,6 +259,7 @@ Example writer `xlsx`
 ```
 
 Example writer `csv`
+
 ```twig
 {% set config = {
     "filename": "example",
@@ -285,100 +301,100 @@ example_asset:
 {{- assetConfig|json_encode|raw -}}
 ```
 
- - `hash`: Asset's hash
- - `config`: Config's hash or config array (see common's processor config)
- - `filename`: File name
- - `headers`: Associative with response headers. 
- - `immutable`: optional for defining if the asset is immutable [devault value = false]
+- `hash`: Asset's hash
+- `config`: Config's hash or config array (see common's processor config)
+- `filename`: File name
+- `headers`: Associative with response headers.
+- `immutable`: optional for defining if the asset is immutable [devault value = false]
 
 ### ElasticSearch Controller
 
-This controller is for proxy an elasticSearch index and scrolling.
-Ideal for using as source argument in the `ems:indexes:synchronize` command.
+This controller is for proxy an elasticSearch index and scrolling. Ideal for using as source
+argument in the `ems:indexes:synchronize` command.
 
 ```yaml
 api_index:
-  config:
-    path: '/api/{index}/{path}'
-    method: [ GET ]
-    requirements: { path: .*, index: 'demo_preview|demo_live' }
-    controller: 'emsch.controller.elasticsearch::index'
-  template_static: template/api.twig
+    config:
+        path: '/api/{index}/{path}'
+        method: [GET]
+        requirements: { path: .*, index: 'demo_preview|demo_live' }
+        controller: 'emsch.controller.elasticsearch::index'
+    template_static: template/api.twig
 api_scroll:
-  config:
-    path: '/api/_search/scroll'
-    method: [ GET, DELETE ]
-    requirements: { path: .* }
-    controller: 'emsch.controller.elasticsearch::scroll'
-  template_static: template/api.twig
+    config:
+        path: '/api/_search/scroll'
+        method: [GET, DELETE]
+        requirements: { path: .* }
+        controller: 'emsch.controller.elasticsearch::scroll'
+    template_static: template/api.twig
 ```
 
-Defining a `template_static` is optional, but can be used for handling authentication.
-The two methods `index` and `scroll` will first try to render the block named `preRequest`.
-In the following example we secure the api by checking if the authentication token exists in the **APP_API_TOKENS**
+Defining a `template_static` is optional, but can be used for handling authentication. The two
+methods `index` and `scroll` will first try to render the block named `preRequest`. In the following
+example we secure the api by checking if the authentication token exists in the **APP_API_TOKENS**
 env variable.
 
 ```twig
 {%- block preRequest -%}
     {%- set tokens = app.request.server.all['APP_API_TOKENS']|default('[]')|ems_json_decode -%}
     {%- set authToken = app.request.headers.get('Authorization', '')|u.trimPrefix('Bearer ')|format -%}
-    
+
     {%- if authToken not in tokens -%}{%- do emsch_http_error(403) -%}{%- endif -%}
 {%- endblock preRequest -%}
 ```
 
 ## EMSCH cache (sub-request)
 
-For routes that **not** return a streamable response we can enable caching that is generated in a subRequest.
-The pdf controller already has support for streams and can fallback to response when using _emsch_cache.
+For routes that **not** return a streamable response we can enable caching that is generated in a
+subRequest. The pdf controller already has support for streams and can fallback to response when
+using \_emsch_cache.
 
 ```yaml
 pdf_example:
     config:
         path: '/my-pdf-example/{_locale}/{id}/{timestamp}'
         requirements: { _locale: fr|nl, id: .+, timestamp: .+ }
-        defaults: { 
-          _emsch_cache: { key: 'pdf_example_%_locale%_%id%_%timestamp%', limit: 300 } 
-        }
+        defaults: { _emsch_cache: { key: 'pdf_example_%_locale%_%id%_%timestamp%', limit: 300 } }
         controller: emsch.controller.pdf
     query: '{"query":{"bool":{"must":[{"term":{"_contenttype":{"value":"page"}}},{"term":{"id":{"value":"%id%"}}}]}}}'
     template_static: template/my-pdf-example.html.twig
 ```
 
 Return HTTP codes:
-* **201**: On the first request when nothing is cached, this means the sub-request is started
-* **202**: If the sub-request is still running
-* **200**: The sub-request was finished and the response comes from the cache
-* **500**: An exception has occurred and this is now in cache. Check the error logs.
-  * Max memory limit reached? 
-  * Max execution limit reached, you can increase this on the route.
 
+- **201**: On the first request when nothing is cached, this means the sub-request is started
+- **202**: If the sub-request is still running
+- **200**: The sub-request was finished and the response comes from the cache
+- **500**: An exception has occurred and this is now in cache. Check the error logs.
+    - Max memory limit reached?
+    - Max execution limit reached, you can increase this on the route.
 
-> For now everything is cached using the symfony cache, this means if we restart the server the cache is cleared. The 
-> timestamp in the route can be the max _finalization time of your content types, this way the cache will not be used 
-> if the content has changed.
-
-> This setup only works with php-fpm (no windows) because we continue the process after the response is finished
-> (onKernelTerminate). 
-> 
-> Internally, the HttpKernel makes uses of the fastcgi_finish_request PHP function. This means 
-> that for now, only the PHP FPM server API can send a response to the client while the server's PHP 
-> process still performs some tasks. 
-> 
-> With all other server APIs, listeners to `kernel.terminate` are still executed, but the response is not sent to 
-> the client until they are all completed.
+> For now everything is cached using the symfony cache, this means if we restart the server the
+> cache is cleared. The timestamp in the route can be the max \_finalization time of your content
+> types, this way the cache will not be used if the content has changed.
+>
+> This setup only works with php-fpm (no windows) because we continue the process after the response
+> is finished (onKernelTerminate).
+>
+> Internally, the HttpKernel makes uses of the fastcgi_finish_request PHP function. This means that
+> for now, only the PHP FPM server API can send a response to the client while the server's PHP
+> process still performs some tasks.
+>
+> With all other server APIs, listeners to `kernel.terminate` are still executed, but the response
+> is not sent to the client until they are all completed.
 
 ## Route to assets in archive
 
 With this controller you can specify routes to files in zip archives.
 
-If the route is not immutable (does not contain the archive hash) you must specify the maxAge argument (by default it's set to one week).
+If the route is not immutable (does not contain the archive hash) you must specify the maxAge
+argument (by default it's set to one week).
 
 ```yaml
 emsch_demo_asset_in_archive:
-  config:
-    path: '/assets_in_archive/{path}'
-    requirements: { path: .* }
-    defaults: { hash: 253b903b1fb3ac30975ae9844a0352a65cdcfa3d, maxAge: 3600 }
-    controller: 'EMS\CommonBundle\Controller\FileController::assetInArchive'
+    config:
+        path: '/assets_in_archive/{path}'
+        requirements: { path: .* }
+        defaults: { hash: 253b903b1fb3ac30975ae9844a0352a65cdcfa3d, maxAge: 3600 }
+        controller: 'EMS\CommonBundle\Controller\FileController::assetInArchive'
 ```

@@ -1,6 +1,7 @@
 # Array Helper
 
 ## Find
+
 Find a value recursively inside an array.
 
 ```php
@@ -17,8 +18,9 @@ ArrayHelper::findDateTime('example', [ 'example' => '19/02/1989' ]); // returns 
 ```
 
 ## Map
-Apply callback function recursively on every value.
-The callback will also be called for properties with arrays, before calling child properties.
+
+Apply callback function recursively on every value. The callback will also be called for properties
+with arrays, before calling child properties.
 
 ```php
 use EMS\Helpers\ArrayHelper\ArrayHelper;

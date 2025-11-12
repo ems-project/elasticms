@@ -4,7 +4,7 @@
 
 With this command you can upload a folder to a media-file content-type:
 
-```
+```bash
 Usage:
   emscli:media-library:sync [options] [--] <folder>
 
@@ -24,35 +24,39 @@ Options:
 
 I.e.: `ems:media:sync media-file`
 
-It's also possible to join metadata by specify a excel filepath. That excel file must have a sheet with a header row and a way to identify the file with its relative filepath via a Symfony Expression language.
+It's also possible to join metadata by specify a excel filepath. That excel file must have a sheet
+with a header row and a way to identify the file with its relative filepath via a Symfony Expression
+language.
 
 I.e. with the following sheet:
 
-| Folder  | Meta_1             | Meta 2 | File           |
-|---------|:-------------------|--------|----------------|
-| folder  | HAAA               | foobar | IMG_5008.JPG   |
+| Folder | Meta_1 | Meta 2 | File         |
+| ------ | :----- | ------ | ------------ |
+| folder | HAAA   | foobar | IMG_5008.JPG |
 
-And the command  `ems:media:sync media-file --excel-file=meta.xlsx --locate-row-expression="'/'~row['Folder']~'/'~row['File']"`
+And the command
+`ems:media:sync media-file --excel-file=meta.xlsx --locate-row-expression="'/'~row['Folder']~'/'~row['File']"`
 
-If the  folder `./media-file` contains a `folder/IMG_5008.JPG` file the admin will receive the following raw data:
+If the folder `./media-file` contains a `folder/IMG_5008.JPG` file the admin will receive the
+following raw data:
 
 ```json
 {
-  "_contenttype": "media_file",
-  "_sync_metadata": {
-    "File": "IMG_5008.JPG",
-    "Folder": "folder",
-    "Meta 2": "foobar",
-    "Meta_1": "HAAA"
-  },
-  "media_file": {
-    "filename": "IMG_5008.JPG",
-    "filesize": 67192,
-    "mimetype": "image/jpeg",
-    "sha1": "4ac644df5e36f239a4e877aa866e7ec5442573f7"
-  },
-  "media_folder": "/folder/",
-  "media_path": "/folder/IMG_5008.JPG"
+    "_contenttype": "media_file",
+    "_sync_metadata": {
+        "File": "IMG_5008.JPG",
+        "Folder": "folder",
+        "Meta 2": "foobar",
+        "Meta_1": "HAAA"
+    },
+    "media_file": {
+        "filename": "IMG_5008.JPG",
+        "filesize": 67192,
+        "mimetype": "image/jpeg",
+        "sha1": "4ac644df5e36f239a4e877aa866e7ec5442573f7"
+    },
+    "media_folder": "/folder/",
+    "media_path": "/folder/IMG_5008.JPG"
 }
 ```
 
@@ -66,5 +70,5 @@ It's easy in the content type to use those data in field's post process:
 
 Remarks about the `locate-row-expression`:
 
- - The expression output result must start by a '/'
- - It's case-sensitive
+- The expression output result must start by a '/'
+- It's case-sensitive

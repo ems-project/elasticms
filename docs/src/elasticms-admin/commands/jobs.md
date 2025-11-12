@@ -2,17 +2,22 @@
 
 ## Overview
 
-The **Job system** in ElasticMS provides a way to execute Symfony console commands through various mechanisms:
+The **Job system** in ElasticMS provides a way to execute Symfony console commands through various
+mechanisms:
+
 - **Local execution** (within the CMS backend process)
 - **Worker execution** (a remote worker periodically fetching available jobs from the admin)
-- **Runner execution** (an isolated runtime, e.g., a Docker container or OpenShift job initialized on demand)
+- **Runner execution** (an isolated runtime, e.g., a Docker container or OpenShift job initialized
+  on demand)
 
 Each job is represented by a **Doctrine entity** that stores:
+
 - The command name and arguments
 - Execution context (initiator, starting date, etc.)
 - The execution **output**
 
-Before execution, the owner of the job **resolves placeholders** in the job’s command string — this allows dynamic configuration using environment variables, secret files, or encoded data.
+Before execution, the owner of the job **resolves placeholders** in the job’s command string — this
+allows dynamic configuration using environment variables, secret files, or encoded data.
 
 This is where the `RuntimeEnvPlaceholderResolver` comes into play.
 
@@ -20,11 +25,12 @@ This is where the `RuntimeEnvPlaceholderResolver` comes into play.
 
 ## Purpose of the Resolver
 
-The `RuntimeEnvPlaceholderResolver` provides **runtime replacement** of Symfony-style environment expressions directly in strings.
+The `RuntimeEnvPlaceholderResolver` provides **runtime replacement** of Symfony-style environment
+expressions directly in strings.
 
 It supports placeholders such as:
 
-```
+```text
 %env(string:MY_ENV_VAR)%
 %env(base64:API_KEY_BASE64)%
 %env(json:CONFIG_JSON)%
@@ -33,8 +39,8 @@ It supports placeholders such as:
 
 and can chain multiple processors:
 
-```
-%env(trim:base64:API_CREDENTIALS)% 
+```text
+%env(trim:base64:API_CREDENTIALS)%
 ```
 
 ---
@@ -47,16 +53,17 @@ When a **Job** entity defines a command like:
 ems:index:sync %env(string:API_SOURCE_ENDPOINT)% %env(string:TARGET_ALIAS_BASEURL)% --source-headers='{"Authorization":"Bearer %env(string:SOURCE_AUTHKEY)%"}' --target-headers='{"Authorization":"Basic %env(string:TARGET_BASIC_KEY)%"}'
 ```
 
-Before executing it, the owner of the job should resolve the placeholders using the `RuntimeEnvPlaceholderResolver`.  
-This allows the same Job definition to run consistently in different environments (local dev, Docker, OpenShift, etc.) without hardcoding sensitive values.
+Before executing it, the owner of the job should resolve the placeholders using the
+`RuntimeEnvPlaceholderResolver`.  
+This allows the same Job definition to run consistently in different environments (local dev,
+Docker, OpenShift, etc.) without hardcoding sensitive values.
 
 ---
-
 
 ## Supported Processors
 
 | Processor      | Description                                                                   | Example                          |
-|----------------|-------------------------------------------------------------------------------|----------------------------------|
+| -------------- | ----------------------------------------------------------------------------- | -------------------------------- |
 | `string`       | Casts the value to string                                                     | `%env(string:API_KEY)%`          |
 | `int`          | Casts to integer                                                              | `%env(int:MAX_RETRIES)%`         |
 | `float`        | Casts to float                                                                | `%env(float:THRESHOLD)%`         |
@@ -72,6 +79,7 @@ This allows the same Job definition to run consistently in different environment
 | `urldecode`    | URL-decodes the value                                                         | `%env(urldecode:QUERY)%`         |
 
 You can chain processors to compose transformations:
+
 ```text
 %env(string:base64:MY_KEY)%
 %env(trim:file:API_TOKEN_PATH)%
@@ -81,16 +89,19 @@ You can chain processors to compose transformations:
 
 ## Security Considerations
 
-- **Secrets stay externalized** — values are only injected at runtime, not stored in the database or configuration files.
+- **Secrets stay externalized** — values are only injected at runtime, not stored in the database or
+  configuration files.
 - Avoid logging resolved command strings containing sensitive values.
-- When running in containers or OpenShift, ensure required environment variables or secret mounts are available at runtime.
+- When running in containers or OpenShift, ensure required environment variables or secret mounts
+  are available at runtime.
 
 ---
 
 ## Future Extensions
 
 Possible enhancements for future integration:
-- **`key:` processor** to extract specific keys from JSON env vars (`%env(key:db.password:CONFIG_JSON)%`)
+
+- **`key:` processor** to extract specific keys from JSON env vars
+  (`%env(key:db.password:CONFIG_JSON)%`)
 - **`vault:` processor** to fetch secrets from an external vault (HashiCorp, Azure Key Vault, etc.)
 - **Caching** resolved values to avoid repeated I/O operations for file or JSON env vars.
-

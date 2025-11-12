@@ -7,7 +7,8 @@ Create a pdf that can be used in chained handlers.
 The endpoint needs to be a valid JSON.
 
 Default property values:
-```twig 
+
+```twig
 {
     "filename": "handle.pdf",
     "orientation": "portrait",
@@ -17,11 +18,12 @@ Default property values:
 
 ## Message
 
-- Add a block named **pdfHtml** for defining the PDF content. 
+- Add a block named **pdfHtml** for defining the PDF content.
 - Add a block named **handleResponseExtra** for changing the handler response.
 
 Example:
-```twig 
+
+```twig
 {%- block pdfHtml -%}
 <!DOCTYPE html>
 <html lang="en">
@@ -30,12 +32,12 @@ Example:
     </head>
     <body>
         <h1>Content pdf</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod aliquam nisl, 
-        ut varius purus vulputate quis. Nulla vehicula consequat ante a facilisis. 
-        Nunc tincidunt mauris at tincidunt feugiat. Praesent lacinia lacinia gravida. 
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-        Curabitur quis convallis eros. Curabitur scelerisque enim sapien, sed condimentum enim laoreet vel. 
-        Ut ut semper urna. In interdum eros vel eros interdum rutrum.</p>   
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod aliquam nisl,
+        ut varius purus vulputate quis. Nulla vehicula consequat ante a facilisis.
+        Nunc tincidunt mauris at tincidunt feugiat. Praesent lacinia lacinia gravida.
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Curabitur quis convallis eros. Curabitur scelerisque enim sapien, sed condimentum enim laoreet vel.
+        Ut ut semper urna. In interdum eros vel eros interdum rutrum.</p>
     </body>
 </html>
 {%- endblock -%}
@@ -51,8 +53,8 @@ Example:
 
 ## Chaining to email
 
-This example only works if the first submission (index 0) handler is a pdf handler.
-Then we can access the response in the a second email handler.
+This example only works if the first submission (index 0) handler is a pdf handler. Then we can
+access the response in the a second email handler.
 
 ```twig
 {% autoescape %}

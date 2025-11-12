@@ -1,14 +1,15 @@
 # Zip handler
 
-Create a zip that can be used in chained handlers.
-The files can be from previous handlers (Pdf, ..) or form files.
+Create a zip that can be used in chained handlers. The files can be from previous handlers (Pdf, ..)
+or form files.
 
 ## Endpoint
 
 The endpoint needs to be a valid JSON
 
 Default property values:
-```twig 
+
+```twig
 {
     "filename": "handle.zip"
 }
@@ -16,11 +17,12 @@ Default property values:
 
 ## Message
 
-- Add a block named **files** for defining the files to send. 
+- Add a block named **files** for defining the files to send.
 - Add a block named **handleResponseExtra** for changing the handler response.
 
 Example:
-```twig 
+
+```twig
 {%- block files -%}
     {# first 2 entries are form attachments files and the first one is place in a folder called test #}
     {# response 0 is a pdf response and we can also forward the base64 #}

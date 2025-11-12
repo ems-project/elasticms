@@ -1,17 +1,19 @@
 # EMSFormBundle
+
 Generate forms based on ElasticMS content configuration
 
-
 ## Build frontend resources
-`````bash
+
+```bash
 npm install
 npm run build
-`````
+```
 
 In development stage
-`````bash
+
+```bash
 npm run start
-`````
+```
 
 ## Documentation
 

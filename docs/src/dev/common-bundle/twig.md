@@ -1,12 +1,17 @@
-# Twig Functions
+# Twig
 
-## ems_html
+## Functions
 
-Will return a instance of [EmsHtml](https://github.com/ems-project/elasticms/tree/4.x/EMS/common-bundle/src/Common/Text/EmsHtml.php) which is an extension of Twig\Markup.
-You can easyly replace text, remove html tags, printUrls.
+### ems_html
+
+Will return a instance of
+[EmsHtml](https://github.com/ems-project/elasticms/tree/4.x/EMS/common-bundle/src/Common/Text/EmsHtml.php)
+which is an extension of Twig\Markup. You can easyly replace text, remove html tags, printUrls.
 
 Example
+
 > This example is usefull for generating pdf's.
+
 - This wil replace 'example' by 'EXAMPLE' and 'searchX' by 'replaceX'
 - Remove all a tags if the attribute text contains 'mywebsite.com' and will keep the content
 - Print urls will transform the a tags based on the format (default: ':content (:href)')
@@ -21,11 +26,12 @@ Example
 {{ description|emsch_routing_config(emschRoutingConfig) }}
 ```
 
-## ems_nested_search
+### ems_nested_search
 
 Search all choices of a nested field, and this function will runtime cache the result.
 
 Arguments
+
 - **alias**: name of the elasticsearch alias
 - **contentTypeNames**: string or array of contentType names
 - **nestedFieldName**: namem of the nestedField
@@ -33,7 +39,8 @@ Arguments
 
 Example
 
-The following example will build 3 variables by using the *ems_nested_search*, the choices will only build once and cached.
+The following example will build 3 variables by using the _ems_nested_search_, the choices will only
+build once and cached.
 
 ```twig
 {% set example1 = ems_nested_search('my_alias', 'structure', 'documents', {'id': 'd2214354-a946-4e60-8e1a-921a643df3ad'}) %}
@@ -41,14 +48,17 @@ The following example will build 3 variables by using the *ems_nested_search*, t
 {% set example3 = ems_nested_search('my_alias', 'structure', 'documents', {'id': '0186c0ac-4d8f-4755-a8f0-afa9fb86d599'}) %}
 ```
 
-## ems_image_info
+### ems_image_info
+
 Retrieve information (size, resolution, mime type and extension) about an image, based on its hash.
 If the hash can not be recognized as an image or does not exist, **_null_** is returned.
 
 Arguments
+
 - **hash**: hash(sha1) of the image
 
 Where _'4ef5796bb14ce4b711737dc44aa20bff82193cf5'_ is the hash of a jpg
+
 ```twig
 {{ ems_image_info('4ef5796bb14ce4b711737dc44aa20bff82193cf5') }}
 
@@ -64,30 +74,34 @@ Where _'4ef5796bb14ce4b711737dc44aa20bff82193cf5'_ is the hash of a jpg
 }
 ```
 
-## ems_uuid
+### ems_uuid
 
-Generate a version 4 (random) UUID. [More info](https://uuid.ramsey.dev/en/stable/rfc4122/version4.html).
+Generate a version 4 (random) UUID.
+[More info](https://uuid.ramsey.dev/en/stable/rfc4122/version4.html).
 
-````twig
+```twig
 {{ ems_uuid() }}
-````
+```
 
-## ems_store_read
+### ems_store_read
 
-Retrieve, or initialize, an associative array (a.k.a. store data) for a given key from the first Store Data Services where the key is available. See the [Stora Data documentation](../../recipes/store-data.md) for more details.
+Retrieve, or initialize, an associative array (a.k.a. store data) for a given key from the first
+Store Data Services where the key is available. See the
+[Stora Data documentation](../../recipes/store-data.md) for more details.
 
-````twig
+```twig
 {% set data = ems_store_read('forum') %}
 <form method="post" action="{{ path('emsch_update_store') }}">
     <textarea name="data" cols="10">{{ data.get('[data]') }}</textarea>
     <input name="submit" type="submit" value="Submit">
 </form>
-````
+```
 
+### ems_store_save
 
-## ems_store_save
-
-Update a store data in all store data services. This function must be called in a non-safe request (i.e. `POST` or `PUT`). See the [Stora Data documentation](../../recipes/store-data.md) for more details.
+Update a store data in all store data services. This function must be called in a non-safe request
+(i.e. `POST` or `PUT`). See the [Stora Data documentation](../../recipes/store-data.md) for more
+details.
 
 ```yaml
 emsch_update_store:
@@ -98,7 +112,7 @@ emsch_update_store:
     template_static: template/redirects/post-data.json.twig
 ```
 
-````twig
+```twig
 {%- block request %}
 {% apply spaceless %}
   {% set data = ems_store_read('forum') %}
@@ -110,12 +124,13 @@ emsch_update_store:
   }|json_encode|raw }}
 {% endapply %}
 {% endblock request -%}
-````
+```
 
+### ems_store_delete
 
-## ems_store_delete
-
-Delete a store data in all store data services. This function must be called in a non-safe request (i.e. `POST` or `PUT`). See the [Stora Data documentation](../../recipes/store-data.md) for more details.
+Delete a store data in all store data services. This function must be called in a non-safe request
+(i.e. `POST` or `PUT`). See the [Stora Data documentation](../../recipes/store-data.md) for more
+details.
 
 ```yaml
 emsch_delete_store:
@@ -126,7 +141,7 @@ emsch_delete_store:
     template_static: template/redirects/delete-post-data.json.twig
 ```
 
-````twig
+```twig
 {%- block request %}
 {% apply spaceless %}
   {% do ems_store_delete('forum') %}
@@ -136,9 +151,9 @@ emsch_delete_store:
   }|json_encode|raw }}
 {% endapply %}
 {% endblock request -%}
-````
+```
 
-## ems_flash
+### ems_flash
 
 Add a flash to the symfony request flash bag.
 
@@ -166,7 +181,7 @@ You can use the following template for displaying the flashes (bootstrap5).
 {%- endfor -%}
 ```
 
-## ems_file_reader_data
+### ems_file_reader_data
 
 Use the FileReader to get CSV or MS Excel fil content.
 
@@ -175,29 +190,33 @@ Use the FileReader to get CSV or MS Excel fil content.
 ```
 
 Options:
- * `delimiter` (string): For CSV file
- * `encoding` (string): file's charset
- * `all_sheets` (boolean): Extract only the active sheet (false, default) or all sheets (true)
 
-## ems_file_reader_cells
+- `delimiter` (string): For CSV file
+- `encoding` (string): file's charset
+- `all_sheets` (boolean): Extract only the active sheet (false, default) or all sheets (true)
+
+### ems_file_reader_cells
 
 Returns a cells iterator
 
 ```twig
 <pre>{% set cellsIterator = ems_file_reader_cells('57bcba09d6f5e06852b83b2b2ba545529f862a87', {'exclude_rows': [0]}) }}</pre>
 ```
+
 Options:
- * `mime_type` (string): File mimetype
- * `delimiter` (string): CSV delimiter
- * `encoding` (string): file's charset
- * `exclude_rows` (int[]): skip those rows
- * `limit` (int): limit to the first rows
 
-## ems_check_ip
+- `mime_type` (string): File mimetype
+- `delimiter` (string): CSV delimiter
+- `encoding` (string): file's charset
+- `exclude_rows` (int[]): skip those rows
+- `limit` (int): limit to the first rows
 
-Checks if an IPv4 or IPv6 address is contained in the list of given IPs or subnets. In order to avoid HTTP cache issues, this function must be called in a non-safe request (i.e. `POST` or `PUT`).
+### ems_check_ip
 
-````twig
+Checks if an IPv4 or IPv6 address is contained in the list of given IPs or subnets. In order to
+avoid HTTP cache issues, this function must be called in a non-safe request (i.e. `POST` or `PUT`).
+
+```twig
 {% set clientIp = app.request.headers.get('X-FORWARDED-FOR')|default('192.168.0.5') %}
 {% set ranges =  [
     '192.168.0.0/24',
@@ -212,59 +231,65 @@ Checks if an IPv4 or IPv6 address is contained in the list of given IPs or subne
 {% if ems_check_ip(clientIp, ranges) %}
  {# display sensitive contents here #}
 {% endif %}
-````
+```
 
-# Twig filters
+## Twig filters
 
-## ems_anti_spam
+### ems_anti_spam
 
 For obfuscation of pii on your website when the user agent is a robot.
 
-Implementation details are based on http://www.wbwip.com/wbw/emailencoder.html using `ems_html_encode`.
-The following data can be obfuscated (even inside a wysiwyg field):
+Implementation details are based on <http://www.wbwip.com/wbw/emailencoder.html> using
+`ems_html_encode`. The following data can be obfuscated (even inside a wysiwyg field):
 
 - emailadress `no_reply@example.com`
-````twig
+
+```twig
 {{- 'no_reply@example.com'|ems_anti_spam -}}
-````
+```
+
 - phone number in `<a href="tel:____">`
-````twig
+
+```twig
 {{- '<a href="tel:02/123.50.00">repeated here, the number will not be encoded</a>'|ems_anti_spam -}}
-````
+```
+
 - custom selection of pii using a span with class "pii"
-````twig
+
+```twig
 {{- '<span class="pii">02/123.50.00</span>'|ems_anti_spam -}}
-````
+```
 
 See unit test for more examples.
 
-Note: Phone numbers are only obfuscated if they are found inside "tel:" notation. When a phone is used
-outside an anchor, the custom selection of pii method should be used.
+Note: Phone numbers are only obfuscated if they are found inside "tel:" notation. When a phone is
+used outside an anchor, the custom selection of pii method should be used.
 
-Note: When using custom selection of pii, make sure that no HTML tags are present inside the pii span.
+Note: When using custom selection of pii, make sure that no HTML tags are present inside the pii
+span.
 
-Note: the custom selection pii span is only present in the backend. The obfuscation method removes the span
-tag from the code that is sent to the browser.
+Note: the custom selection pii span is only present in the backend. The obfuscation method removes
+the span tag from the code that is sent to the browser.
 
-## ems_html_encode
+### ems_html_encode
 
 You can transform any text to its equivalent in html character encoding.
 
-````twig
+```twig
 {{- 'text and téxt'|ems_html_encode -}}
-````
+```
 
 See unit test for more examples.
 
-## ems_markdown
+### ems_markdown
 
-Filter converting a Markdown text into an HTML text following the GitHub standards. 
+Filter converting a Markdown text into an HTML text following the GitHub standards.
 
 ```twig
 {{ source.body|ems_markdown }}
 ```
 
-## ems_stringify
+### ems_stringify
 
 Filter converting any scalar value, array or object into a string.
 
@@ -272,11 +297,13 @@ Filter converting any scalar value, array or object into a string.
 {{ someObject|ems_stringify }}
 {{ someArray|ems_stringify }}
 ```
-## ems_asset_average_color
+
+### ems_asset_average_color
 
 Filter returning the average color, in CSS rgb format, of a passed hash.
 
 I.e.
+
 ```twig
 {{ 'ed266b89065e74483248da7ff71cb80e3cca40a5'|ems_asset_average_color}}
 ```
@@ -298,15 +325,18 @@ Will return `#666666`. It might be useful in order to define a background color:
     _get_file_path: localPath,
 }) }}
 ```
+
 ```twig
 style="background-color: {{ avatarHash|ems_asset_average_color }}"
- ```
+```
 
-## ems_replace_regex
+### ems_replace_regex
 
-Apply php **preg_replace** function on a text string. All possible exceptions are catched and logged as warning.
+Apply php **preg_replace** function on a text string. All possible exceptions are catched and logged
+as warning.
 
 Example replace all ems links by a span tag.
+
 ```twig
 {% set text %}
     <h1>Example</h1>
@@ -317,7 +347,7 @@ Example replace all ems links by a span tag.
 {{ text|ems_replace_regex('/<a.*?href="ems:\\/\\/\\S+".*?>(.*?)<\\/a>', '<span>$1</span>')|raw }}
 ```
 
-## ems_html_decode
+### ems_html_decode
 
 Convert HTML entities to their corresponding characters
 
@@ -329,13 +359,17 @@ The following example will generate a `è` :
 
 Other parameters:
 
- - flags: [refers to html_entity_decode's flags paramter](https://www.php.net/manual/en/function.html-entity-decode.php), default value `ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML5`
- - encoding: [defining the encoding used when converting characters](https://www.php.net/manual/en/function.html-entity-decode.php), default value `"UTF-8""`
+- flags:
+  [refers to html_entity_decode's flags paramter](https://www.php.net/manual/en/function.html-entity-decode.php),
+  default value `ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML5`
+- encoding:
+  [defining the encoding used when converting characters](https://www.php.net/manual/en/function.html-entity-decode.php),
+  default value `"UTF-8""`
 
+### ems_hash
 
-## ems_hash
-
-Generate a hash value from the message. See the [PHP hash function](https://php.net/manual/en/function.hash.php).
+Generate a hash value from the message. See the
+[PHP hash function](https://php.net/manual/en/function.hash.php).
 
 ```twig
 {{ 'foobar'|ems_hash }}
@@ -343,86 +377,93 @@ Generate a hash value from the message. See the [PHP hash function](https://php.
 ```
 
 Other parameters:
-- algo: [refers to the hash's algo parameter](https://php.net/manual/en/function.hash.php), default value `null` which means that the `ems_common.hash_algo` will be used
-- binary: [refers to the hash's binary parameter](https://php.net/manual/en/function.hash.php), default value `false`. When set to `true`, outputs raw binary data
 
-## ems_format_bytes
+- algo: [refers to the hash's algo parameter](https://php.net/manual/en/function.hash.php), default
+  value `null` which means that the `ems_common.hash_algo` will be used
+- binary: [refers to the hash's binary parameter](https://php.net/manual/en/function.hash.php),
+  default value `false`. When set to `true`, outputs raw binary data
+
+### ems_format_bytes
 
 Useful to generate a human readable file size from an interger.
 
-````twig
+```twig
 {{ 21666|ems_format_bytes }} {# displays: 21.16 KB #}
-````
+```
 
 A second 'precision' parameter can be defined:
 
-````twig
+```twig
 {{ 21666|ems_format_bytes(1) }} {# displays: 21.2 KB #}
-````
+```
 
-## ems_ascii_folding
+### ems_ascii_folding
 
 Convert UTF-8 characters in string by their equivalent in the "old" ascii table:
 
-````twig
+```twig
 {{ 'Chemin d''accès: î$]&²'|ems_ascii_folding }} {# displays: Chemin d acces: i$]&² #}
-````
+```
 
 It's useful if you want to sort an array regardless accented characters:
 
-````twig
+```twig
 {% set sortedArray = notSortedArray|sort((a, b) => a|ems_ascii_folding <=> b|ems_ascii_folding) %}
-````
+```
 
-## ems_template_exists
+### ems_template_exists
 
 Test if a template exists or not. This function works with all kind of templates:
 
-````twig
+```twig
 {% if not ems_template_exists("@EMSCH/template/page/#{name}.html.twig") %}
   {% do emsch_http_error(404, 'Page not found') %}
 {% endif %}
-````
+```
 
-## ems_analyze
+### ems_analyze
 
-Analyze an input string using the [elasticsearch Analyze API](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-analyze.html#indices-analyze):
+Analyze an input string using the
+[elasticsearch Analyze API](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-analyze.html#indices-analyze):
 
-````twig
+```twig
 <p>{{ ems_analyze('― — – ‒ ‹ › ′ ‵ ‘ ’ ‚ ‛ ″ ‴ ‶ ‷ “ ” „ ‟ «  » ü Ü ß ẞ ä ö Ä Ö', {
-  'filter': ['asciifolding'], 
+  'filter': ['asciifolding'],
   'tokenizer': 'keyword'
 }) }}</p>
 {# ― - - - ' ' ' ' ' ' ' ' " ‴ " ‷ " " " ‟ " " u U ss SS a o A O #}
-````
+```
 
 Arguments:
-  - text: the text to analyze (string)
-  - parameters: the Analyze API parameters (check the [elasticsearch Analyze API](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-analyze.html#indices-analyze) documentation) (array)
-  - index: an optional index name (string)
 
+- text: the text to analyze (string)
+- parameters: the Analyze API parameters (check the
+  [elasticsearch Analyze API](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-analyze.html#indices-analyze)
+  documentation) (array)
+- index: an optional index name (string)
 
-## ems_json_decode
+### ems_json_decode
 
-Call the PHP \json_decode method with those default values: `public function jsonDecode(string $json, bool $assoc = true, int $depth = 512, int $options = 0)`
+Call the PHP \json_decode method with those default values:
+`public function jsonDecode(string $json, bool $assoc = true, int $depth = 512, int $options = 0)`
 
-````twig
+```twig
 {% set config = 'con
-````
+```
 
-## ems_array_key
+### ems_array_key
 
-Use the value of the parameter identified by the given name as array index 
+Use the value of the parameter identified by the given name as array index
 
-````twig
+```twig
 {% set paths = rawData.paths|default([])|filter(p => p.locale == locale)|ems_array_key('uid') %}
-````
+```
 
-## ems_ouuid
+### ems_ouuid
 
 Extract a OUUID from an ElasticMS link
 
-````twig
+```twig
     {%  set categories = emsch_search('category', {
         "size": 1000,
         "query": { "terms": { "_id": query.aggregations.categories.buckets|map(p => p.key|ems_ouuid) }},
@@ -431,74 +472,79 @@ Extract a OUUID from an ElasticMS link
         ],
         "_source": ["#{app.request.locale}.title"]
     }).hits.hits|default([])|ems_array_key('_id')|map(p => attribute(p._source, app.request.locale).title) %}
-````
+```
 
-## ems_md5
+### ems_md5
 
 Calculate the md5 hash of a string
 
-````twig
+```twig
 {{ app.user.email|lower|md5 }}
-````
+```
 
-## ems_luma
+### ems_luma
 
 Calculate the luminance of a color(string)
 
-````twig
+```twig
 {% set luminance = '#FF56DD'|ems_luma %}
-````
+```
 
-## ems_contrast_ratio
+### ems_contrast_ratio
 
 Calculate the contrast ratio between 2 colors (string)
 
-````twig
+```twig
 {% if '#FF56DD'|ems_contrast_ratio('black') > '#FF56DD'|ems_contrast_ratio('white') %}#000000{% else %}#ffffff{% endif %}
-````
+```
 
-## ems_color
+### ems_color
 
 Convert a color (string) into a EMS\Helpers\Standard\Color
 
-````twig
+```twig
 {% set color = '#FF56DD'|ems_color %}
-````
+```
 
-## ems_slug
+### ems_slug
 
 Convert a string into an url friendly string
 
-````twig
+```twig
 {{ 'How do you do ?'|ems_slug }}
 {# how-do-you-do #}
-````
+```
 
 Arguments:
- - locale: default value `en`
- - separator: default value `-`
- - lower: default value `true`
 
-````twig
+- locale: default value `en`
+- separator: default value `-`
+- lower: default value `true`
+
+```twig
 {{ 'Wie fährst du deinen großen LKW ?'|ems_slug('de', '/', false) }}
 {# Wie/faehrst/du/deinen/grossen/LKW #}
-````
+```
 
-## ems_file_from_archive
+### ems_file_from_archive
 
-Returns a path to a temporary asset extracted from an archive (a zip file). Useful to get local path to an asset (e.g. in case of PDF generation)
+Returns a path to a temporary asset extracted from an archive (a zip file). Useful to get local path
+to an asset (e.g. in case of PDF generation)
 
-
-````twig
+```twig
     {% set path = ems_file_from_archive('253b903b1fb3ac30975ae9844a0352a65cdcfa3d', 'img/logos/full-logo.svg') %}
-````
+```
 
 This function also accept extra options:
 
- * `extract`: Specify that the function can not try to re-extract the archive if the searched path is missing. If disabled the function won't throw an error but `null`.  Default value: `true`.
- * `asTempFile`: Returns a [EMS\Helpers\File\TempFile](https://github.com/ems-project/elasticms/blob/5.x/EMS/helpers/src/File/TempFile.php) object when activated, a path to the temporary file instead. A TempFile is useful to get file's contents with the member function `getContents()`. Default value `false`
+- `extract`: Specify that the function can not try to re-extract the archive if the searched path is
+  missing. If disabled the function won't throw an error but `null`. Default value: `true`.
+- `asTempFile`: Returns a
+  [EMS\Helpers\File\TempFile](https://github.com/ems-project/elasticms/blob/5.x/EMS/helpers/src/File/TempFile.php)
+  object when activated, a path to the temporary file instead. A TempFile is useful to get file's
+  contents with the member function `getContents()`. Default value `false`
 
-Example: 
+Example:
 
 ```twig
 {% set tempFile = ems_file_from_archive(hash, "#{path}/index.php", {
@@ -507,7 +553,7 @@ Example:
 }) %}
 ```
 
-## ems_files_in_archive
+### ems_files_in_archive
 
 Returns the list of files present in an archive (EMS archive or Zip file)
 
@@ -517,40 +563,40 @@ Returns the list of files present in an archive (EMS archive or Zip file)
 
 This method returns an array like this:
 
-
 ```json
 {
-  "0693f7c7e26507b5d464a99f6a03b9309560abf3.json": {
-    "filename": "0693f7c7e26507b5d464accf6a03b9309560abf3.json",
-    "hash": "0693f7c7e26507b5d464accf6a03b9309560abf3",
-    "type": "application/json",
-    "size": 3561
-  },
-  "crm-export.xlsx": {
-    "filename": "crm-export.xlsx",
-    "hash": "dd2650a9d4537c5127b9907e83f1e508523d3c18",
-    "type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    "size": 167352
-  },
-  "2025-09 Facture Service 1113975398.PDF": {
-    "filename": "2025-09 Facture Service 1113975398.PDF",
-    "hash": "2ddf565c90bb89b0d860a538828f1dd7bb8b37a5",
-    "type": "application/pdf",
-    "size": 32640
-  }
+    "0693f7c7e26507b5d464a99f6a03b9309560abf3.json": {
+        "filename": "0693f7c7e26507b5d464accf6a03b9309560abf3.json",
+        "hash": "0693f7c7e26507b5d464accf6a03b9309560abf3",
+        "type": "application/json",
+        "size": 3561
+    },
+    "crm-export.xlsx": {
+        "filename": "crm-export.xlsx",
+        "hash": "dd2650a9d4537c5127b9907e83f1e508523d3c18",
+        "type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "size": 167352
+    },
+    "2025-09 Facture Service 1113975398.PDF": {
+        "filename": "2025-09 Facture Service 1113975398.PDF",
+        "hash": "2ddf565c90bb89b0d860a538828f1dd7bb8b37a5",
+        "type": "application/pdf",
+        "size": 32640
+    }
 }
 ```
 
+### ems_link
 
-## ems_link
-
-Return the [EMSLink](https://github.com/ems-project/elasticms/blob/HEAD/EMS/common-bundle/src/Common/EMSLink.php) object
+Return the
+[EMSLink](https://github.com/ems-project/elasticms/blob/HEAD/EMS/common-bundle/src/Common/EMSLink.php)
+object
 
 ```twig
 {% set emsLink = 'page:064efcc7751ee8b0915416a717e2db46d15c77eb'|ems_link %}
 ```
 
-## ems_valid_mail
+### ems_valid_mail
 
 Returns true if the input is a valid email
 
@@ -558,15 +604,16 @@ Returns true if the input is a valid email
 {%- if _source.email|ems_valid_mail -%}{% endif %}
 ```
 
-## ems_uuid
+### ems_uuid filter
 
-Generate a version 5 UUID from a value. [More info](https://uuid.ramsey.dev/en/stable/rfc4122/version5.html).
+Generate a version 5 UUID from a value.
+[More info](https://uuid.ramsey.dev/en/stable/rfc4122/version5.html).
 
 ```twig
-{{ 'my_unique_id_value'|ems_uuid }} 
+{{ 'my_unique_id_value'|ems_uuid }}
 ```
 
-## ems_date
+### ems_date
 
 Generate a \DateTimeImmutable object from a value.
 
@@ -577,7 +624,7 @@ Generate a \DateTimeImmutable object from a value.
 {{ date.timezone }}
 ```
 
-## ems_int
+### ems_int
 
 Use php \intval function on input
 

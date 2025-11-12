@@ -1,6 +1,7 @@
 # Standards
 
 ## Accessor
+
 Convert a string `field path` to and array `property path`.
 
 ```php
@@ -9,6 +10,7 @@ $path = Accessor::fieldPathToPropertyPath('src.table[0].title'); // [src][table]
 ```
 
 ## Base64
+
 Encode and decode a string value.
 
 ```php
@@ -18,12 +20,14 @@ $decoded = Base64::decode($encoded) //foobar
 ```
 
 ## DateTime
-Create from time or form format, and allways return a \DateTimeInterface or throwing \RuntimeExceptions
+
+Create from time or form format, and allways return a \DateTimeInterface or throwing
+\RuntimeExceptions
 
 ```php
 <?php
   use EMS\Helpers\Standard\DateTime;
-  
+
   $fromTime = DateTime::create('now');
   $fromFormat = DateTime::createFromFormat('01-01-2023', 'd-m-Y');
   $dateTime = DateTime::create('2018-12-31 13:05:21');
@@ -33,6 +37,7 @@ Create from time or form format, and allways return a \DateTimeInterface or thro
 ## Hash
 
 ## Html
+
 Standard for working with html texts.
 
 ```php
@@ -96,7 +101,8 @@ $settings = [
 
 ## Json
 
-> Because php json_encode can return false and json_decode mixed. This common standard will throw runtime exceptions.
+> Because php json_encode can return false and json_decode mixed. This common standard will throw
+> runtime exceptions.
 
 ```php
 <?php

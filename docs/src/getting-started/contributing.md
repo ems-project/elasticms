@@ -16,7 +16,7 @@ Quality off the pull requests is insured by:
 - [PHPStan](https://phpstan.org/)
 - [PHPUnit](https://phpunit.de/)
 
-Our composer has aliases defined for checking before submitting pull request. 
+Our composer has aliases defined for checking before submitting pull request.
 
 ```bash
 composer phpcs
@@ -32,19 +32,21 @@ New features should target the default branch.
 
 ### Title
 
-The pull request title should follow the git [conventional commits](https://www.conventionalcommits.org/) standard.
-This is forced with a GitHub action.
+The pull request title should follow the git
+[conventional commits](https://www.conventionalcommits.org/) standard. This is forced with a GitHub
+action.
 
-On merge all commits are squashed and the PR title is used as commit message.
-Sub commits inside the pull request are not required to follow the conventional commits standard.
+On merge all commits are squashed and the PR title is used as commit message. Sub commits inside the
+pull request are not required to follow the conventional commits standard.
 
 #### Examples
-* fix(user): update profile 500 error
-* fix(user): change password not updating
-* feat(wysiwyg): media library support
+
+- fix(user): update profile 500 error
+- fix(user): change password not updating
+- feat(wysiwyg): media library support
 
 | type     | section (changelog)      | description                                                                                             |
-|----------|--------------------------|---------------------------------------------------------------------------------------------------------|
+| -------- | ------------------------ | ------------------------------------------------------------------------------------------------------- |
 | feat     | Features                 | A new feature                                                                                           |
 | fix      | Bug Fixes                | A bug fix                                                                                               |
 | docs     | Documentation            | Documentation only changes                                                                              |
@@ -59,16 +61,18 @@ Sub commits inside the pull request are not required to follow the conventional 
 
 ## Rector
 
-[Rector](https://getrector.org/) is also available for ensuring that PHP and Symfony best practices are followed.
+[Rector](https://getrector.org/) is also available for ensuring that PHP and Symfony best practices
+are followed.
 
-`````bash
+```bash
 composer rector
-`````
+```
 
 ## Monorepo builder
 
-For building our mono repository we used the [symplify/monorepo-builder](https://github.com/symplify/monorepo-builder).
+For building our mono repository we used the
+[symplify/monorepo-builder](https://github.com/symplify/monorepo-builder).
 
-```
+```bash
 vendor/bin/monorepo-builder validate
 ```

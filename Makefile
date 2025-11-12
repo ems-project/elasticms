@@ -94,8 +94,12 @@ assets-dev: ## Start an AdminUIBundle Vite server
 ## —— Doc ——————————————————————————————————————————————————————————————————————————————————————————————————————————————
 docs: ## serve docs
 	npm run --prefix ./docs docs:dev
-docs-build: ## serve docs
+docs-build: ## build docs
 	npm run --prefix ./docs docs:build
+docs-format: ## format docs
+	npm run --prefix ./docs docs:format
+docs-lint: ## lint docs
+	npm run --prefix ./docs docs:lint
 docs-init: ## init docs
 	npm install --prefix ./docs
 

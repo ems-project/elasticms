@@ -6,12 +6,15 @@ The environment variables have been grouped by bundles and for the Symfony frame
 
 ### APP_ENV
 
-[Possible values](https://symfony.com/doc/current/configuration.html#selecting-the-active-environment): `dev`, `prod`, `test`
+[Possible values](https://symfony.com/doc/current/configuration.html#selecting-the-active-environment):
+`dev`, `prod`, `test`
+
 - Example `APP_ENV=dev`
 
 ### APP_SECRET
 
 A secret seed.
+
 - Example `APP_SECRET=7b19a4a6e37b9303e4f6bca1dc6691ed`
 
 ### HTTP_CLIENT_MAX_CONNECTIONS
@@ -21,6 +24,7 @@ Define the max connections to the API client, when using async calls. By default
 ## Doctrine variables
 
 Default values (sqlite):
+
 ```dotenv
 DB_DRIVER='pgsql'
 DB_USER='user'
@@ -32,12 +36,14 @@ DB_NAME='elasticms'
 ### DB_HOST
 
 DB's host.
+
 - Default value: `127.0.0.1`
 - Example: `DB_DRIVER='db-server.tl'`
 
 ### DB_DRIVER
 
 Driver (Type of the DB server). Accepted values are `mysql`, `pgsql` and `sqlite`
+
 - Default value: `pgsql`
 - Example: `DB_DRIVER='pgsql'`
 
@@ -54,6 +60,7 @@ Driver (Type of the DB server). Accepted values are `mysql`, `pgsql` and `sqlite
 ### DB_PORT
 
 For information the default mysql/mariadb port is 3306 and 5432 for Postgres
+
 - Default value `5432`
 - Example: `DB_PORT='5432'`
 
@@ -64,7 +71,9 @@ For information the default mysql/mariadb port is 3306 and 5432 for Postgres
 
 ### DB_SCHEMA
 
-This variable is not used by Doctrine but by the dump script with postgres in the docker image of elasticms.
+This variable is not used by Doctrine but by the dump script with postgres in the docker image of
+elasticms.
+
 - Default value: not defined
 - Example: `DB_SCEMA='schema_demo_adm'`
 
@@ -72,8 +81,14 @@ This variable is not used by Doctrine but by the dump script with postgres in th
 
 ### EMS_ELASTICSEARCH_CONNECTION_POOL
 
-Define the [elasticsearch sniffing strategy](https://www.elastic.co/guide/en/elasticsearch/client/php-api/7.17/connection_pool.html:
-- Default value: EMS_ELASTICSEARCH_CONNECTION_POOL='Elasticsearch\\ConnectionPool\\SimpleConnectionPool' if the EMS_ELASTICSEARCH_HOSTS contains one and only one host configuration; in order to avoid sniffing requests on a cluster that is more likely behind a reverse proxy. Else it contains EMS_ELASTICSEARCH_CONNECTION_POOL='Elasticsearch\\ConnectionPool\\SniffingConnectionPool'.
+Define the [elasticsearch sniffing
+strategy](<https://www.elastic.co/guide/en/elasticsearch/client/php-api/7.17/connection_pool.html>:
+
+- Default value:
+  EMS_ELASTICSEARCH_CONNECTION_POOL='Elasticsearch\\ConnectionPool\\SimpleConnectionPool' if the
+  EMS_ELASTICSEARCH_HOSTS contains one and only one host configuration; in order to avoid sniffing
+  requests on a cluster that is more likely behind a reverse proxy. Else it contains
+  EMS_ELASTICSEARCH_CONNECTION_POOL='Elasticsearch\\ConnectionPool\\SniffingConnectionPool'.
 - Possible values:
     - EMS_ELASTICSEARCH_CONNECTION_POOL='Elasticsearch\\ConnectionPool\\SimpleConnectionPool'
     - EMS_ELASTICSEARCH_CONNECTION_POOL='Elasticsearch\\ConnectionPool\\SniffingConnectionPool'
@@ -83,43 +98,58 @@ Define the [elasticsearch sniffing strategy](https://www.elastic.co/guide/en/ela
 ### EMS_ELASTICSEARCH_HOSTS
 
 Define the elasticsearch cluster as an array (JSON encoded) of hosts:
+
 - Default value: EMS_ELASTICSEARCH_HOSTS='["http://localhost:9200"]'
 
-If needed, this variable can also contain an [elastica servers array](https://elastica-docs.readthedocs.io/en/latest/client.html#client-configurations):
+If needed, this variable can also contain an
+[elastica servers array](https://elastica-docs.readthedocs.io/en/latest/client.html#client-configurations):
 
 ```dotenv
 EMS_ELASTICSEARCH_HOSTS='[{"transport":"Https","host":"elastic:fewl13@localhost","port":9200,"curl":{"64":false}}]'
 ```
-In this example the cluster contains only one host accessible via HTTPS on the port 9200. But with the CURL option `"64": false` the client doesn't check the validity of the host certificate
+
+In this example the cluster contains only one host accessible via HTTPS on the port 9200. But with
+the CURL option `"64": false` the client doesn't check the validity of the host certificate
 
 ```dotenv
 EMS_ELASTICSEARCH_HOSTS='[{"transport":"Https","host":"elastic:fewl13@localhost","port":9200,"curl":{"10065":"/opt/local/cacert.pem"}}]'
 ```
-Here the client uses the `/opt/local/cacert.pem` to validate the server certificate.
 
+Here the client uses the `/opt/local/cacert.pem` to validate the server certificate.
 
 ```dotenv
 EMS_ELASTICSEARCH_HOSTS='[{"transport":"Https","host":"localhost","port":9200,"headers":{"Authorization":"Basic ZWxhc3RpYzpmZXdsMTM="},"curl":{"64":false}}]'
 ```
+
 Another example with an extra HTTP header.
 
-[All PHP CURL integer identifier can be found on GitHub](https://github.com/JetBrains/phpstorm-stubs/blob/master/curl/curl_d.php). More info on [PHP.net](https://www.php.net/manual/en/function.curl-setopt.php).
+[All PHP CURL integer identifier can be found on GitHub](https://github.com/JetBrains/phpstorm-stubs/blob/master/curl/curl_d.php).
+More info on [PHP.net](https://www.php.net/manual/en/function.curl-setopt.php).
 
 ### EMS_STORAGES
 
-Used to define storage services. Elasticms supports [multiple types of storage services](https://github.com/ems-project/EMSCommonBundle/blob/master/src/Resources/doc/storages.md).
-- Default value: `EMS_STORAGES='[{"type":"fs","path":".\/var\/assets"},{"type":"s3","credentials":[],"bucket":""},{"type":"db","activate":false},{"type":"http","base-url":"","auth-key":""},{"type":"sftp","host":"","path":"","username":"","public-key-file":"","private-key-file":""}]'`
-- Example: `EMS_STORAGES='[{"type":"fs","path":"./var/assets"},{"type":"fs","path":"/var/lib/elasticms"}]'`
+Used to define storage services. Elasticms supports
+[multiple types of storage services](https://github.com/ems-project/EMSCommonBundle/blob/master/src/Resources/doc/storages.md).
+
+- Default value:
+  `EMS_STORAGES='[{"type":"fs","path":".\/var\/assets"},{"type":"s3","credentials":[],"bucket":""},{"type":"db","activate":false},{"type":"http","base-url":"","auth-key":""},{"type":"sftp","host":"","path":"","username":"","public-key-file":"","private-key-file":""}]'`
+- Example:
+  `EMS_STORAGES='[{"type":"fs","path":"./var/assets"},{"type":"fs","path":"/var/lib/elasticms"}]'`
 
 ### EMS_RUNNERS
 
 Used to define ruuner services. See [runners](../dev/common-bundle/runners.md) for more details.
+
 - Default value: `EMS_RUNNERS='[]'`
-- Example: `EMS_RUNNERS='[{"type":"openshift","tag":"toto","base-url":"https://api.my-paas.tld:6443/","auth-key":"sha256~my-priVAteAuthorization_kEy","namespace":"my-namesapce","image":"busybox"}]'`
+- Example:
+  `EMS_RUNNERS='[{"type":"openshift","tag":"toto","base-url":"https://api.my-paas.tld:6443/","auth-key":"sha256~my-priVAteAuthorization_kEy","namespace":"my-namesapce","image":"busybox"}]'`
 
 ### EMS_HASH_ALGO
 
-Refers to the [PHP hash_algos](https://www.php.net/manual/fr/function.hash-algos.php) function. Specify the algorithms to used in order to hash and identify files. It's also used to hash the document indexed in elasticsearch.
+Refers to the [PHP hash_algos](https://www.php.net/manual/fr/function.hash-algos.php) function.
+Specify the algorithms to used in order to hash and identify files. It's also used to hash the
+document indexed in elasticsearch.
+
 - Default value: EMS_HASH_ALGO='sha1'
 
 ### EMS_BACKEND_URL
@@ -140,7 +170,8 @@ EMS_CORE_API_HEADERS='{"Cookie":"XDEBUG_SESSION=PHPSTORM"}'
 
 ### EMS_BACKEND_API_TIMEOUT
 
-Adjust the API client's timeout. By default is set to `30` seconds, if you API request may take longueur (e.g. during migration) you can increase the timeout :
+Adjust the API client's timeout. By default is set to `30` seconds, if you API request may take
+longueur (e.g. during migration) you can increase the timeout :
 
 ### EMS_BACKEND_API_VERIFY
 
@@ -148,8 +179,8 @@ Define the `verify_host` and `verify_peer` for the api client, by default it is 
 
 ### EMS_CACHE
 
-Define the ems cache type. Default value `file_system`.
-Allowed values: `file_system`, `apc` and `redis`.
+Define the ems cache type. Default value `file_system`. Allowed values: `file_system`, `apc` and
+`redis`.
 
 ### EMS_CACHE_PREFIX
 
@@ -163,30 +194,39 @@ Redis host for the common cache service. Default `localhost`.
 
 Redis port for the common cache service. Default `6379`.
 
-
 ### EMS_STORE_DATA_SERVICES
 
-Define (JSON format) the store data services, in the priority order. See the [Stora Data documentation](../recipes/store-data.md) for more details. By default, the store data functionalities are disabled.
+Define (JSON format) the store data services, in the priority order. See the
+[Stora Data documentation](../recipes/store-data.md) for more details. By default, the store data
+functionalities are disabled.
 
 ### EMS_KEY_STORE
 
-A JSON-formatted environment variable that stores API tokens or other credentials as key/value pairs.
-Used to centralize and securely manage secrets (e.g. API keys) needed across the application. Each key can be accessed by name via the `KeyStore` service.
+A JSON-formatted environment variable that stores API tokens or other credentials as key/value
+pairs. Used to centralize and securely manage secrets (e.g. API keys) needed across the application.
+Each key can be accessed by name via the `KeyStore` service.
 
 ### EMS_EXCLUDED_CONTENT_TYPES
 
-Define (JSON format) a list of content type names to exclude from admin backup/restore commands. Example: `["route","template","template_ems","label"]`. Default value `[]`
+Define (JSON format) a list of content type names to exclude from admin backup/restore commands.
+Example: `["route","template","template_ems","label"]`. Default value `[]`
 
 ### EMS_SLUG_SYMBOL_MAP
 
-Specify replacement strings, per locale to symbols. E.g. if you want to replace the symbol `@` by the string `at` in your slug in English and French : `{"en":{"@":"at"},"fr":{"@":"at"}}`. Default value `~` ([rely on the default Symfony configuration](https://github.com/symfony/string/blob/f5832521b998b0bec40bee688ad5de98d4cf111b/Slugger/AsciiSlugger.php#L59C42-L61C6))
+Specify replacement strings, per locale to symbols. E.g. if you want to replace the symbol `@` by
+the string `at` in your slug in English and French : `{"en":{"@":"at"},"fr":{"@":"at"}}`. Default
+value `~`
+([rely on the default Symfony configuration](https://github.com/symfony/string/blob/f5832521b998b0bec40bee688ad5de98d4cf111b/Slugger/AsciiSlugger.php#L59C42-L61C6))
 
 ### EMS_ELASTICSEARCH_PROXY_API
 
-Bollean variable, if specified to `true` all elasticsearch query will be delegated to the admin api. And then you'll need to login on an admin first via the `ems:admin:login` command. By default, this variable is set to `false`.
+Bollean variable, if specified to `true` all elasticsearch query will be delegated to the admin api.
+And then you'll need to login on an admin first via the `ems:admin:login` command. By default, this
+variable is set to `false`.
 
 ## CLI variables
 
 ### EMSCLI_TIKA_PATH
 
-Path to the Tika JAR. Default `/opt/bin/tika.jar`. If your are using a elasticMS CLI, a Tika jar is included. From version 5.6.
+Path to the Tika JAR. Default `/opt/bin/tika.jar`. If your are using a elasticMS CLI, a Tika jar is
+included. From version 5.6.

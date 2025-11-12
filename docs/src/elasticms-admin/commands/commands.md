@@ -8,21 +8,21 @@
 
 This command ensure that all file fields, for all revisions, are using the last asset's fields:
 
- * _hash
- * _size
- * _algo
- * _type
- * _name
+- \_hash
+- \_size
+- \_algo
+- \_type
+- \_name
 
-That will have to be launch at least once between August 2024 and the release 7.x. 
-By then the fields `filename`, `filesize`, `sha1` and `mimetype` are deprecated.
+That will have to be launch at least once between August 2024 and the release 7.x. By then the
+fields `filename`, `filesize`, `sha1` and `mimetype` are deprecated.
 
-This command regenerate resized images in order to avoid too much memory consumption on image generation.
-So you might consider to launch this commend if you adjust the `EMSCO_IMAGE_MAX_SIZE` environment variable.
+This command regenerate resized images in order to avoid too much memory consumption on image
+generation. So you might consider to launch this commend if you adjust the `EMSCO_IMAGE_MAX_SIZE`
+environment variable.
 
-**Cautions**
-
-This command will mark all revision as updated by the `SYSTEM_REFRESH_FILE_FIELDS` user in the admin UI.
+> Cautions This command will mark all revision as updated by the `SYSTEM_REFRESH_FILE_FIELDS` user
+> in the admin UI.
 
 ```bash
 Usage:
@@ -34,17 +34,17 @@ Usage:
 
 #### Content Type switch default environment
 
-Switch the default environment for a given content type.
-Each revision published in the default environment will be marked as published in the provided environment.
-Each revision published in the provided environment will be mark as published in the default environment.
-The content type's environment by default will be set to the provided environment. 
+Switch the default environment for a given content type. Each revision published in the default
+environment will be marked as published in the provided environment. Each revision published in the
+provided environment will be mark as published in the default environment. The content type's
+environment by default will be set to the provided environment.
 
-**Cautions**
-
-* This command should never be run in a production environment without a good backup.
-* Affected environments must be rebuilded just after. As many content types might be switched, the command doesn't automatically rebuilding them. After this command affected indexes will be inconsistent.
-
-
+> Cautions
+>
+> - This command should never be run in a production environment without a good backup.
+> - Affected environments must be rebuilded just after. As many content types might be switched, the
+>   command doesn't automatically rebuilding them. After this command affected indexes will be
+>   inconsistent.
 
 ```bash
 Usage:
@@ -107,9 +107,10 @@ Options:
 Unpublish revision from an environment
 
 You cannot unpublish:
-- revisions from their default environment, you should use '**emsco:revision:archive**' for this.
-- revisions with only one environment. This can happen when the revision is archived in the default environment.
 
+- revisions from their default environment, you should use '**emsco:revision:archive**' for this.
+- revisions with only one environment. This can happen when the revision is archived in the default
+  environment.
 
 ```bash
 Usage:
@@ -161,7 +162,7 @@ Usage:
 ```bash
 Usage:
   emsco:revision:archive [options] [--] <content-type>
-  
+
 Arguments:
   content-type                           ContentType name
 
@@ -181,7 +182,7 @@ The json from `merge-raw-data` will be merged on the copied revisions.
 ```bash
 Usage:
   emsco:revision:copy [options] [--] <environment> <search-query> [<merge-raw-data>]
-  
+
 Arguments:
   environment                          environment name
   search-query                         search query
@@ -196,7 +197,8 @@ Options:
 
 Delete all/oldest revisions for content type(s).
 
-In `oldest` mode, only not published revisions will be removed and keeping revisions between publications.
+In `oldest` mode, only not published revisions will be removed and keeping revisions between
+publications.
 
 > This a hard delete, no rollback possible.
 
@@ -207,13 +209,13 @@ emsco:revision:delete all # Removing all revisions
 emsco:revision:delete all --mode=oldest # Removing all oldest revisions
 ```
 
-It's also possible to delete revision by passing a query. In this case the provided elasticsearch query is run all all OUUIDs are collected.
-Base on those OUUIDs all revisions in the database and all documents in all managed indexes are deleted.
+It's also possible to delete revision by passing a query. In this case the provided elasticsearch
+query is run all all OUUIDs are collected. Base on those OUUIDs all revisions in the database and
+all documents in all managed indexes are deleted.
 
 ```bash
  php bin/console ems:rev:dele --mode=by-query --query='{"index":"ems_default","body":{"query":{"bool":{"must":[{"term":{"host":{"value":"domain.tld","boost":1}}},{"terms":{"_contenttype":["audit"]}}]}}}}'
 ```
-
 
 ```bash
 Usage:
@@ -235,7 +237,7 @@ Discard drafts for content types
 ```bash
 Usage:
   emsco:revision:discard-draft [options] [--] [<content-types>...]
-  
+
 Arguments:
   content-types         ContentType names
 
@@ -249,15 +251,16 @@ Options:
 Create revision task based on ES query
 
 The command will not create tasks:
-* if tasks are not enabled `@todo task documentation`
-* if the revision has a current task or planned tasks
+
+- if tasks are not enabled `@todo task documentation`
+- if the revision has a current task or planned tasks
 
 ```bash
 Usage:
   emsco:revision:task:create [options] [--] <environment>
 
 Arguments:
-  environment                          
+  environment
 
 Options:
       --task=TASK                      {\"title\":\"title\",\"assignee\":\"username\",\"description\":\"optional\"}
@@ -274,16 +277,17 @@ Options:
 
 Send a notification mail to assignees, creators and task managers.
 
-Creates a list of all active tasks, ordered by the deadline. 
-You can define the deadline start and end with the deadline options.
+Creates a list of all active tasks, ordered by the deadline. You can define the deadline start and
+end with the deadline options.
 
 Loops over all tasks and checks:
+
 - If the task is in progress, add to the list of tasks for the assignee
 - If the task is completed, add to the list of tasks for the creator
 - If include-task-managers is true, add to the list of tasks for the manager
 
-For each receiver (assignee, creator, manager), we check if email notification is turn on.
-By default, we only send a list of the 10 first result (can be increase with limit option).
+For each receiver (assignee, creator, manager), we check if email notification is turn on. By
+default, we only send a list of the 10 first result (can be increase with limit option).
 
 ```bash
 Usage:
@@ -304,7 +308,7 @@ Options:
 ```bash
 Usage:
   emsco:submissions:export <config-file>
-  
+
 Arguments:
   config-file                         JSON config file (path)
 ```
@@ -315,20 +319,28 @@ php bin/console emsco:submissions:export ../../tmp/config.json
 
 ```json
 {
-  "columns": [
-    { "name":  "Instance", "field": "[instance]" },
-    { "name":  "Name", "field": "[name]" },
-    { "name":  "Submission at", "field": "[submission_date]" },
-    { "name":  "Locale", "field": "[locale]" },
-    { "name":  "Profile", "field": "[data][profile]" },
-    { "name":  "Postcode", "template": "@EMSCH/template/export/submissions.twig", "block": "postcode" },
-    { "name":  "Country", "template": "@EMSCH/template/export/submissions.twig", "block": "country" }
-  ],
-  "filter": "'new_contact_form' == name and 'citizen' == data['profile'] and submission_date starts with '2042-01-'",
-  "subject": "New export submission",
-  "emails-to": ["john@example.com", "doe@example.com"],
-  "format": "xlsx",
-  "batch-size": 200
+    "columns": [
+        { "name": "Instance", "field": "[instance]" },
+        { "name": "Name", "field": "[name]" },
+        { "name": "Submission at", "field": "[submission_date]" },
+        { "name": "Locale", "field": "[locale]" },
+        { "name": "Profile", "field": "[data][profile]" },
+        {
+            "name": "Postcode",
+            "template": "@EMSCH/template/export/submissions.twig",
+            "block": "postcode"
+        },
+        {
+            "name": "Country",
+            "template": "@EMSCH/template/export/submissions.twig",
+            "block": "country"
+        }
+    ],
+    "filter": "'new_contact_form' == name and 'citizen' == data['profile'] and submission_date starts with '2042-01-'",
+    "subject": "New export submission",
+    "emails-to": ["john@example.com", "doe@example.com"],
+    "format": "xlsx",
+    "batch-size": 200
 }
 ```
 
@@ -432,7 +444,7 @@ Options:
 
 #### User update option
 
-```
+```bash
 Description:
   Update a user option.
 
@@ -459,37 +471,44 @@ Help:
     php bin/console emsco:user:update-option custom_options '{"country":"Belgium"}' --email='%.be'
 ```
 
-### XLIFF 
+### XLIFF
 
 The core supports XLIFF exports and imports to have some content translated by a translation office.
 
 > **LIMITATIONS**
-> 
-> At this point elasticms only supports XLIFF translation in separated documents. In other words a document is associated to one and only one language. Those documents needs:
-> 
-> - A keyword field to identify the document's locale i.e. a `locale` field contains values like `'fr'`, `'en'`
-> - A keyword field to link documents that are translation of each other. It can be a `menu_uid` referring to a JSON Menu entry or a data link
-> 
+>
+> At this point elasticms only supports XLIFF translation in separated documents. In other words a
+> document is associated to one and only one language. Those documents needs:
+>
+> - A keyword field to identify the document's locale i.e. a `locale` field contains values like
+>   `'fr'`, `'en'`
+> - A keyword field to link documents that are translation of each other. It can be a `menu_uid`
+>   referring to a JSON Menu entry or a data link
+>
 > So the couple of those two fields must be unique by environment.
-> 
-> A support where fields such as `title_fr` and `title_nl` are in the same document is feasible but is not yet supported
-
+>
+> A support where fields such as `title_fr` and `title_nl` are in the same document is feasible but
+> is not yet supported
 
 #### XLIFF extract
 
-This command generates an XML in a [XLIFF format 1.2](http://docs.oasis-open.org/xliff/xliff-core/xliff-core.html).
+This command generates an XML in a
+[XLIFF format 1.2](http://docs.oasis-open.org/xliff/xliff-core/xliff-core.html).
 
 This command will
-- extract the fields `description`, `title_short` and `title`
-- for the document with the OUUID `db27a1da21b8d9c556abe67451007cd0ad80c54b` if it exists in the `next` environment
-- The expected locale of this document should be `nl`
-- It will try to identify a `de` document having the same `translation_id`  in the `latest`
-  - The translatable fields of this document will be used as default target value
-- It will check if something has changed for the current revision of the document, for the translatable fields, of the revision
-  - in the `latest` environment with the same OUUID
-  - If nothing changed, and if a target is defined it will mark the target's state as `final`
 
-```
+- extract the fields `description`, `title_short` and `title`
+- for the document with the OUUID `db27a1da21b8d9c556abe67451007cd0ad80c54b` if it exists in the
+  `next` environment
+- The expected locale of this document should be `nl`
+- It will try to identify a `de` document having the same `translation_id` in the `latest`
+    - The translatable fields of this document will be used as default target value
+- It will check if something has changed for the current revision of the document, for the
+  translatable fields, of the revision
+    - in the `latest` environment with the same OUUID
+    - If nothing changed, and if a target is defined it will mark the target's state as `final`
+
+```bash
 emsco:xliff:extract next '{"query":{"bool":{"must":[{"term":{"_id":{"value":"db27a1da21b8d9c556abe67451007cd0ad80c54b"}}},{"terms":{"_contenttype":["page","template"]}}]}}}' nl de description title_short title --base-url=http://example.localhost --target-environment=latest
 ```
 
@@ -522,22 +541,28 @@ Options:
 
 #### XLIFF update
 
-If a `publish-to` is specified in the options, the command will check if something as changed in source fields between the default environment and the `publish-to` one. If nothing changed and if the target fields are defined those target's sate will be marked as `'final'`
+If a `publish-to` is specified in the options, the command will check if something as changed in
+source fields between the default environment and the `publish-to` one. If nothing changed and if
+the target fields are defined those target's sate will be marked as `'final'`
 
 This command will:
+
 - Load the XLIFF file passed as argument
-- Each source document's revisions are identified in the XLIFF file. That exact revision will be used to generate a new revision for the target locale (defined in the XLIFF file)
+- Each source document's revisions are identified in the XLIFF file. That exact revision will be
+  used to generate a new revision for the target locale (defined in the XLIFF file)
 - The target OUUID will be identified via an elasticsearch query looking for a single document
-  - In the `latest` environment (as it's specified in the `publish-to` option, otherwise it will look in the default environment of the revision)
-  - Having the same `translation_id` field value
-  - Having the locale field value set to target locale
-  - If not found a new document with a brand new OUUID will be generate
-- As a `publish-to` environment is defined, translated revisions will be directly published in that environment
-- As the archive option is set the translated revisions will be unpublished from there default environment and mark as archived
-  - This option is available only if a `publish-to` environment is defined
+    - In the `latest` environment (as it's specified in the `publish-to` option, otherwise it will
+      look in the default environment of the revision)
+    - Having the same `translation_id` field value
+    - Having the locale field value set to target locale
+    - If not found a new document with a brand new OUUID will be generate
+- As a `publish-to` environment is defined, translated revisions will be directly published in that
+  environment
+- As the archive option is set the translated revisions will be unpublished from there default
+  environment and mark as archived
+    - This option is available only if a `publish-to` environment is defined
 
-
- ```
+```bash
 emsco:xliff:update /tmp/ems-extract-BfHeoa.xlf --publish-to=latest --archive
 ```
 

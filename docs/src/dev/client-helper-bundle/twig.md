@@ -17,18 +17,20 @@ The second argument should be set to `null` as that argument has been deprecated
 This function can be called only one time per Twig rendering. Otherwise, an error will be thrown.
 
 Example base template.
+
 ```twig
 <link rel="stylesheet" href="{{ asset('css/app.css', 'emsch') }}">
 ```
 
-When you are developing you may want to use asset in a local folder (in the `public` folder) instead of a zip file. In order to do so, use the `EMSCH_ASSET_LOCAL_FOLDER` environment variable
-
+When you are developing you may want to use asset in a local folder (in the `public` folder) instead
+of a zip file. In order to do so, use the `EMSCH_ASSET_LOCAL_FOLDER` environment variable
 
 ## emsch_unzip
 
-Like emsch_assets this will unzip a file into the required saveDir.
-The function will also return an array, on success this array will contain the file path as key 
-and a Symfony\Component\Finder\SplFileInfo object as value. 
+Like emsch_assets this will unzip a file into the required saveDir. The function will also return an
+array, on success this array will contain the file path as key and a
+Symfony\Component\Finder\SplFileInfo object as value.
+
 ```twig
 {% set images = emsch_unzip('cf3adfdc15eae63f2040cf2c737ccb37a06ee1f5', 'example-images') %}
 {% for path, info in images %}
@@ -39,19 +41,22 @@ and a Symfony\Component\Finder\SplFileInfo object as value.
 ## ems_search_config
 
 For accessing the search configuration (filters) before doing the actual search.
-````twig
+
+```twig
 {% set search = emsch_search_config() %}
 {% set choices = search.getFilter('name').getChoices() %}
-````
+```
 
 In a search result page the search is passed to the template.
-````twig
+
+```twig
 {% set activeFilters = search.getActiveFilters() %}
 {% set choices = search.getFilter('name').getChoices() %}
-````
+```
 
 Sorting example
-````twig
+
+```twig
 {% if search.sorts|length > 0 %}
     <div class="custom-control custom-radio">
       <input type="radio" id="sortby_relevance" name="s" value="" class="custom-control-input" {{ null == search.sortBy ? 'checked="checked"' }}>
@@ -64,23 +69,22 @@ Sorting example
         </div>
     {% endfor %}
 {% endif %}
-````
+```
 
 ## ems_search_config_execute
 
-Execute a search configuration and retrieve the results, allowing the
-configuration to be defined directly within Twig templates instead of in the
-route or environment variables
+Execute a search configuration and retrieve the results, allowing the configuration to be defined
+directly within Twig templates instead of in the route or environment variables
 
-````twig
+```twig
 {% set searchConfig = emsch_search_config() %}
 
 {% set results = emsch_search_config_execute(searchConfig %}
-````
+```
 
-# Twig embed
+## Twig embed
 
-## render hierarchy
+### render hierarchy
 
 ```twig
 {{ render(controller('emsch.controller.embed::renderHierarchy', {
@@ -92,13 +96,15 @@ route or environment variables
     'args': {'activeChild': emsLink, 'extra': 'test'}
 } )) }}
 ```
+
 Example menu.html.twig
+
 ```twig
-<ul>   
+<ul>
     {% for a, childA in hierarchy.children %}
-        <li {% if childA.active %}class="active"{% endif %}>  
+        <li {% if childA.active %}class="active"{% endif %}>
             {{ childA.source._contenttype ~ ':' ~ childA.id }}
-            {% if childA.children|length > 0 %}      
+            {% if childA.children|length > 0 %}
                 <ul>
                     {% for b, childB in childA.children %}
                         <li {% if childB.active %}class="active"{% endif %}>{{ childB.source._contenttype ~ ':' ~ childB.id }}</li>
@@ -109,21 +115,24 @@ Example menu.html.twig
     {% endfor %}
 </ul>
 ```
+
 Example menu.html.twig
 
-## Fragment
+### Fragment
 
-From a design perspective it might be useful to isolate part of the DOM in sub-requests. For instance a block "last post" is the same on all post and on the homepage. 
-By isolating this in a subrequest with `render` you will have a more readable code.
+From a design perspective it might be useful to isolate part of the DOM in sub-requests. For
+instance a block "last post" is the same on all post and on the homepage. By isolating this in a
+subrequest with `render` you will have a more readable code.
 
-What you can do is to just import a twig. But if you use the render function instead, you'll be able to cache this specific piece of DOM and reduce the required resources:
+What you can do is to just import a twig. But if you use the render function instead, you'll be able
+to cache this specific piece of DOM and reduce the required resources:
 
 ```twig
 {{ render(path('last_post', { last: 5 })) }}
 ```
 
-
-Off course, you have to declare the `fragment_footer` route. You may want to hide those subrequest for the outside by using the embed's fragment function:
+Off course, you have to declare the `fragment_footer` route. You may want to hide those subrequest
+for the outside by using the embed's fragment function:
 
 ```twig
     {{ render(controller('emsch.controller.embed::fragment', {
@@ -137,9 +146,9 @@ Off course, you have to declare the `fragment_footer` route. You may want to hid
 
 Not need to define a route with this solution.
 
-And if you have a reverse proxy in front of your application supporting [ESI](https://symfony.com/doc/current/http_cache/esi.html), i.e. varnish,
-you can switch to `render_esi`:
-
+And if you have a reverse proxy in front of your application supporting
+[ESI](https://symfony.com/doc/current/http_cache/esi.html), i.e. varnish, you can switch to
+`render_esi`:
 
 ```twig
     {{ render_esi(controller('emsch.controller.embed::fragment', {
@@ -151,13 +160,14 @@ you can switch to `render_esi`:
     })) }}
 ```
 
-Here the reverse proxy will calls the sub-requests by himself. So, globally, requests will use less memory. And the reverse proxy will also be able to cache part of the DOM. 
-I.e. the footer, which is basically always the same, won't have to be generated for each query. Even if the cache's TTL is short, it will help to absorb charge's peaks with less resources. 
+Here the reverse proxy will calls the sub-requests by himself. So, globally, requests will use less
+memory. And the reverse proxy will also be able to cache part of the DOM. I.e. the footer, which is
+basically always the same, won't have to be generated for each query. Even if the cache's TTL is
+short, it will help to absorb charge's peaks with less resources.
 
-## Cacheable fragment
+### Cacheable fragment
 
-Some repetitive computes can also be cached. For that you may call the `cacheableFragment` method: 
-
+Some repetitive computes can also be cached. For that you may call the `cacheableFragment` method:
 
 ```twig
     {% set structure = render(controller('emsch.controller.embed::cacheableFragment', {
@@ -170,12 +180,13 @@ Some repetitive computes can also be cached. For that you may call the `cacheabl
     }))|ems_json_decode %}
 ```
 
-The `cacheType` parameter is the content type's name used to invalidate the response in cache (if something has been updated) 
-
+The `cacheType` parameter is the content type's name used to invalidate the response in cache (if
+something has been updated)
 
 ## emsch_http_error
 
-Cancel the curent rendering an return the specified HTTP return code. Useful to redirect to another URL.
+Cancel the curent rendering an return the specified HTTP return code. Useful to redirect to another
+URL.
 
 Return a 404:
 
@@ -189,5 +200,4 @@ Redirect to Symfony:
   {% do emsch_http_error(307, "Temporary Redirect to #{url}", {
       location: url,
   }) %}
-  ```
-
+```

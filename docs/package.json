@@ -1,10 +1,14 @@
 {
   "devDependencies": {
+    "markdownlint-cli2": "^0.18.1",
+    "prettier": "^3.6.2",
     "vitepress": "^1.6.4"
   },
   "scripts": {
     "docs:dev": "vitepress dev",
     "docs:build": "vitepress build",
-    "docs:preview": "vitepress preview"
+    "docs:preview": "vitepress preview",
+    "docs:format": "prettier --log-level 'warn' --write 'src/**/*.md' && markdownlint-cli2 --fix 'src/**/*.md'",
+    "docs:lint": "prettier --log-level 'warn' --check 'src/**/*.md' && markdownlint-cli2 'src/**/*.md'"
   }
 }

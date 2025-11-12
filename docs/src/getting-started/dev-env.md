@@ -4,13 +4,14 @@
 
 ElasticMS works with multiple micro-services:
 
-* Redis: cache and session
-* elasticsearch: for indexing contents
-* Tika: for extracting data from assets
-* PosgresSQL or MariaDB: As authentic source of data
-* S3 like: to store assets
+- Redis: cache and session
+- elasticsearch: for indexing contents
+- Tika: for extracting data from assets
+- PosgresSQL or MariaDB: As authentic source of data
+- S3 like: to store assets
 
-In order to simplify development all those services are available in a docker compose and can be easily started with those make commands:
+In order to simplify development all those services are available in a docker compose and can be
+easily started with those make commands:
 
 ```bash
 make init
@@ -19,20 +20,20 @@ make start
 
 ### Test your config
 
-* [Traefik](http://localhost:8888/dashboard/#/): The middleware application used to route packages
-* [Kibana](http://kibana.localhost/app/dev_tools#/console): Power tools for elasticsearch
-* [es01](http://es01.localhost/),[es02](http://es02.localhost/),[es03](http://es03.localhost/): the hearts of elasticMS
-* [Mailhog](http://mailhog.localhost/): A mail catcher
-* [MinIO](http://minio.localhost/login): A S3 like service
-* [Tika](http://tika.localhost): A S3 like service
-* [Redis Commander](http://redis-commander.localhost): A Redis inspector tool
-* [Mercure](http://mercure.localhost/.well-known/mercure): A real-time communication solution
-
+- [Traefik](http://localhost:8888/dashboard/#/): The middleware application used to route packages
+- [Kibana](http://kibana.localhost/app/dev_tools#/console): Power tools for elasticsearch
+- [es01](http://es01.localhost/),[es02](http://es02.localhost/),[es03](http://es03.localhost/): the
+  hearts of elasticMS
+- [Mailhog](http://mailhog.localhost/): A mail catcher
+- [MinIO](http://minio.localhost/login): A S3 like service
+- [Tika](http://tika.localhost): A S3 like service
+- [Redis Commander](http://redis-commander.localhost): A Redis inspector tool
+- [Mercure](http://mercure.localhost/.well-known/mercure): A real-time communication solution
 
 ### Local ports exposed
 
 | Port | service         |
-|------|-----------------|
+| ---- | --------------- |
 | 80   | traefik         |
 | 442  | traefik TLS     |
 | 1025 | mailhog         |
@@ -44,33 +45,40 @@ make start
 | 9000 | minio           |
 | 9998 | tika            |
 
-## Prerequisite 
+## Prerequisite
 
 ```bash
 cd ~
 wget https://get.symfony.com/cli/installer -O - | bash
-sudo mv ~/.symfony5/bin/symfony /usr/local/bin/symfony 
+sudo mv ~/.symfony5/bin/symfony /usr/local/bin/symfony
 ```
 
 ## Load (or reset) the Demo config
 
-Ensure that your `.env.local` files are aligned with their respective `.env.local.dist` in the folders:
- * elasticms-admin
- * elasticms-web
+Ensure that your `.env.local` files are aligned with their respective `.env.local.dist` in the
+folders:
+
+- elasticms-admin
+- elasticms-web
 
 Before starting the demo you may need to define those environment variables:
- * DOCKER_USER: the user id that will be used to run the docker runs. By default, the current user id.
- * NPM_EXTRA_CMD: Used to run commands before npm. This variable must end with a `;`. E.g. `export NPM_EXTRA_CMD='npm set strict-ssl=false;'` 
+
+- DOCKER_USER: the user id that will be used to run the docker runs. By default, the current user
+  id.
+- NPM_EXTRA_CMD: Used to run commands before npm. This variable must end with a `;`. E.g.
+  `export NPM_EXTRA_CMD='npm set strict-ssl=false;'`
 
 ```bash
 make demo
 ```
-[elasticMS Admin](http://localhost:8881) and [elasticMS Demo](http://localhost:8882) are now available.
+
+[elasticMS Admin](http://localhost:8881) and [elasticMS Demo](http://localhost:8882) are now
+available.
 
 ## Init elasticMS
 
-````bash
-make init 
+```bash
+make init
 make start
 make db-create/"db_example" SCHEMA="schema_example_adm"
 cd elasticms-admin
@@ -78,18 +86,19 @@ cd elasticms-admin
 php bin/console doctrine:migrations:migrate
 php bin/console emsco:user:create --super-admin
 php bin/console asset:install --symlink
-````
+```
 
 [elasticMS Admin](http://localhost:8881) is now available.
 
 Useful make commands:
 
-* `make server-log/admin`
-* `make server-log/web`
+- `make server-log/admin`
+- `make server-log/web`
 
 ## Load and save DB dumps
 
-You may want to load an existing elasticMS dump. If so please check the dump's schema matches the DB's schema.
+You may want to load an existing elasticMS dump. If so please check the dump's schema matches the
+DB's schema.
 
 ```bash
 make db-load/"db_example" DUMP=./dump_example.sql
@@ -103,63 +112,67 @@ make db-dump/"db_example" SCHEMA="schema_example_adm"
 
 ## Admin UI
 
-The Admin UI bundles uses vite for building the assets, while the core bundle uses webpack.
-Vite comes with a great dev server, which will automatic reload pages on js/css and twig changes.
+The Admin UI bundles uses vite for building the assets, while the core bundle uses webpack. Vite
+comes with a great dev server, which will automatic reload pages on js/css and twig changes.
 
-1) Installation
-```bash
-cd EMS/admin-ui-bundle
-npm install
-npm run build
-```
+1. Installation
 
-2) Running dev server
-```bash
-npm run dev
-npm run dev -- --debug # debug mode
-```
+    ```bash
+    cd EMS/admin-ui-bundle
+    npm install
+    npm run build
+    ```
 
-> Make sure you set **EMS_VITE_DEV_SERVER**='http://localhost:5173'
+2. Running dev server
+
+    ```bash
+    npm run dev
+    npm run dev -- --debug # debug mode
+    ```
+
+> Make sure you set **EMS_VITE_DEV_SERVER**='<http://localhost:5173>'
 
 ## Identity provider (IDP) (Keycloak)
 
-Elasticms-web has a build in OAuth2 and SAML authenticator. see [elasticms-web/security](../elasticms-web/security.md).
+Elasticms-web has a build in OAuth2 and SAML authenticator. see
+[elasticms-web/security](../elasticms-web/security.md).
 
-For developing and testing purposes you may want to start an IDP. 
-Therefor we created a subdirectory 'idp' containing the services (keycloak & postgres).
+For developing and testing purposes you may want to start an IDP. Therefor we created a subdirectory
+'idp' containing the services (keycloak & postgres).
 
 ```bash
-cd docker/idp 
+cd docker/idp
 docker compose up -d
 ```
 
-1) Check if available on http://keycloak.localhost or http://localhost:9081
+1. Check if available on <http://keycloak.localhost> or <http://localhost:9081>
 
-   Administration Console -> `admin:changeme`
+    Administration Console -> `admin:changeme`
 
-2) Import the data and restart the keycloak service
+2. Import the data and restart the keycloak service
+
     ```bash
     docker compose exec keycloak sh /opt/keycloak/bin/kc.sh import --dir /data
     docker compose up -d --force-recreate
     ```
 
     If you want to export the data and versioning new settings
+
     ```bash
     docker compose exec keycloak sh /opt/keycloak/bin/kc.sh export --dir /data --users same_file --realm elasticms
     ```
-   
-3) Verify `elasticms` realm is created
 
-   Visit http://keycloak.localhost/realms/elasticms
+3. Verify `elasticms` realm is created
 
-4) Login with elasticms users
+    Visit <http://keycloak.localhost/realms/elasticms>
 
-   http://keycloak.localhost/realms/elasticms/account
+4. Login with elasticms users
 
-   - user1@example.com changeme
-   - user2@example.com changeme
+    <http://keycloak.localhost/realms/elasticms/account>
+    - <user1@example.com> changeme
+    - <user2@example.com> changeme
 
-5) Use the following environment variables in `elasticms-web`
+5. Use the following environment variables in `elasticms-web`
 
 ```bash
 EMSCH_OAUTH2=true
@@ -181,12 +194,13 @@ EMSCH_SAML_IDP_PUBLIC_KEY='MIICoTCCAYkCBgGGOshSgDANBgkqhkiG9w0BAQsFADAUMRIwEAYDV
 EMSCH_SAML_IDP_SSO='http://keycloak.localhost/realms/elasticms/protocol/saml'
 ```
 
-!> For using xDebug change http://keycloak.localhost -> http://localhost:9081
+!> For using xDebug change <http://keycloak.localhost> -> <http://localhost:9081>
 
-!> If Keycloak runs on a different domain, you need to set the environment variable [SESSION_COOKIE_SAMESITE](/elasticms-web/parameters.md#SESSION_COOKIE_SAMESITE) to lax.
+!> If Keycloak runs on a different domain, you need to set the environment variable
+[SESSION_COOKIE_SAMESITE](/elasticms-web/parameters.md#SESSION_COOKIE_SAMESITE) to lax.
 
 | Variable                          | Location                                                                                                                                           |
-|-----------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
+| --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
 | EMSCH_OAUTH2_CLIENT_ID            | [client settings](http://keycloak.localhost/admin/master/console/#/elasticms/clients/55e433be-33a4-46cf-b972-36eccc5cebb0/settings)                |
 | EMSCH_OAUTH2_CLIENT_SECRET        | [client credentials](http://keycloak.localhost/admin/master/console/#/elasticms/clients/55e433be-33a4-46cf-b972-36eccc5cebb0/credentials)          |
 | EMSCH_OAUTH2_REDIRECT_URI         | Valid redirect URIs on the client settings page                                                                                                    |
@@ -197,22 +211,26 @@ EMSCH_SAML_IDP_SSO='http://keycloak.localhost/realms/elasticms/protocol/saml'
 | EMSCH_SAML_SP_ENTITY_ID           | [client settings](http://keycloak.localhost/admin/master/console/#/elasticms/clients/a959232e-2993-42d2-ab19-0de899880c1a/settings)                |
 | EMSCH_SAML_SP_PUBLIC_KEY          | [client keys](http://keycloak.localhost/admin/master/console/#/elasticms/clients/a959232e-2993-42d2-ab19-0de899880c1a/keys)                        |
 | EMSCH_SAML_SP_PRIVATE_KEY         | You receive the private key on generation                                                                                                          |
-| EMSCH_SAML_IDP_PUBLIC_KEY         | http://keycloak.localhost/realms/elasticms/protocol/saml/descriptor                                                                                |
+| EMSCH_SAML_IDP_PUBLIC_KEY         | <http://keycloak.localhost/realms/elasticms/protocol/saml/descriptor>                                                                              |
 
-* Generate oAuth2 encryption key
+- Generate oAuth2 encryption key
 
-  This is the private key, received on creation and not stored in keycloak db.
-  ```bash
-  openssl pkcs12 --nokeys --info -in keystore.p12 
-  ```
-  EMSCH_OAUTH2_ENCRYPTION_KEY=Base64(-----BEGIN CERTIFICATE-----.....-----END CERTIFICATE-----).
+    This is the private key, received on creation and not stored in keycloak db.
+
+    ```bash
+    openssl pkcs12 --nokeys --info -in keystore.p12
+    ```
+
+    EMSCH_OAUTH2_ENCRYPTION_KEY=Base64(-----BEGIN CERTIFICATE-----.....-----END CERTIFICATE-----).
 
 ## Monitoring (Grafana and Prometheus)
 
 The ElasticMS apps provide metrics via the **Metrics controller** in the CommonBundle.
 
-Start the Docker monitoring services and open Grafana at [http://grafana.localhost/](http://grafana.localhost/) (default login: `admin` / `admin`).  
-At the first login, Grafana will ask you to update the password — you can use `admin/admin` again if needed.
+Start the Docker monitoring services and open Grafana at
+[http://grafana.localhost/](http://grafana.localhost/) (default login: `admin` / `admin`).  
+At the first login, Grafana will ask you to update the password — you can use `admin/admin` again if
+needed.
 
 Prometheus is scraping only the local Symfony admin at port **8881**.  
 You can see the scrape status at [http://localhost:9090/targets](http://localhost:9090/targets).
@@ -232,6 +250,7 @@ docker compose up -d
 ```
 
 For updating/creating dashboard:
+
 1. **Export JSON** from Grafana: `Share → Export → Save to file`.
 2. **Copy JSON** to `/docker/monitoring/grafana/dashboards`.
 3. **Use a stable UID** — fill it in manually when creating a new dashboard.
@@ -250,6 +269,7 @@ You can easily locate your php.ini file with the command: `php --info|grep php.i
 ## Works with the bootstrap5 theme
 
 First build the assets (a manifest is needed by the Admin UI bundle)
+
 ```shell
 cd EMS/admin-ui-bundle/assets
 npm install
@@ -257,4 +277,3 @@ npm run build
 cd ../../../elasticms-admin/
 php bin/console a:i --symlink
 ```
-

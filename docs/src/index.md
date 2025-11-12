@@ -3,19 +3,19 @@
 layout: home
 
 hero:
-  name: "ElasticMS"
-  text: "Documentation"
-  tagline: Content management with search
-  image:
-    src: /logo.png
-    alt: "ElasticMS logo"
-  actions:
-    - theme: brand
-      text: Quick start
-      link: /getting-started/quick-start
-    - theme: alt
-      text: View on github
-      link: https://github.com/ems-project/elasticms
+    name: 'ElasticMS'
+    text: 'Documentation'
+    tagline: Content management with search
+    image:
+        src: /logo.png
+        alt: 'ElasticMS logo'
+    actions:
+        - theme: brand
+          text: Quick start
+          link: /getting-started/quick-start
+        - theme: alt
+          text: View on github
+          link: https://github.com/ems-project/elasticms
 
 features:
 #  - title: Feature A

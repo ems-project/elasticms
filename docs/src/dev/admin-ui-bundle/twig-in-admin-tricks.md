@@ -1,16 +1,15 @@
 # Twig Global variable
 
- * `theme_color`: refer to the [EMSCO_THEME_COLOR](../../elasticms-admin/environment-variables.md#emsco_theme_color)
- * `theme_color_contrast`: possible value `light` for light theme color (e.g. white) or `dark`
+- `theme_color`: refer to the
+  [EMSCO_THEME_COLOR](../../elasticms-admin/environment-variables.md#emsco_theme_color)
+- `theme_color_contrast`: possible value `light` for light theme color (e.g. white) or `dark`
 
+## CSS classes
 
-# CSS classes
+### icheck
 
-## icheck
-
-ICheck CSS are loaded. 
-More information on the [iCheck website](https://github.com/bantikyan/icheck-bootstrap).
-Example:
+ICheck CSS are loaded. More information on the
+[iCheck website](https://github.com/bantikyan/icheck-bootstrap). Example:
 
 ```html
 <div class="icheck-primary">

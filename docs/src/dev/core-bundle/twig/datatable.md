@@ -1,8 +1,11 @@
-# emsco_datatable
+# Datatable
 
-This Twig filter generate an Ajax table view for you from elasticsearch queries. 
+## emsco_datatable
 
-With the following basic example you will have a table vue listing the `identifier` attribute for all `miniature` documents in your `default` environment  :
+This Twig filter generate an Ajax table view for you from elasticsearch queries.
+
+With the following basic example you will have a table vue listing the `identifier` attribute for
+all `miniature` documents in your `default` environment :
 
 ```twig
 {{ emsco_datatable(['default'],['miniature'], {
@@ -20,22 +23,27 @@ The second parameter is an array of content types.
 
 The third parameter is an options array:
 
- - `columns`: Definition of columns (array)
+- `columns`: Definition of columns (array)
     - `label`: Column's label (string). Default value `'Label'`
-    - `template`: Twig template (string) where the following variables are available. Default value `'''`. Available variable in the Twig context:
+    - `template`: Twig template (string) where the following variables are available. Default value
+      `'''`. Available variable in the Twig context:
         - `data`: EMS\CommonBundle\Elasticsearch\Document\DocumentInterface
         - `column`: EMS\CoreBundle\Form\Data\TemplateTableColumn
-    - `orderField`: this value (string) will be used in the elasticsearch query, when the table is sorted by this column, in order to sort the result set. If not defined, or set to null, this column won't be sortable. If not defined the column wont't be sortable.
+    - `orderField`: this value (string) will be used in the elasticsearch query, when the table is
+      sorted by this column, in order to sort the result set. If not defined, or set to null, this
+      column won't be sortable. If not defined the column wont't be sortable.
     - `cellType`: The HTML tag for the column's items. `td` or `th`. Default value `td`
-    - `cellClass`: The class attribute for the column's items. The default value is an empty string.  
- - `checkable`: Render a checkboxes in first column
- - `id`: Provide a datatable id default `elastica-datatable`,
- - `actions`: Array of object, object requires `name,label,icon`, optional provide `class, confirm`
-   
+    - `cellClass`: The class attribute for the column's items. The default value is an empty string.
+- `checkable`: Render a checkboxes in first column
+- `id`: Provide a datatable id default `elastica-datatable`,
+- `actions`: Array of object, object requires `name,label,icon`, optional provide `class, confirm`
+
 ## Optional options
 
 ### query
-It's the elasticsearch query (array or string) used to get the data when a query string is defined in the datatable's search field. I.e.:
+
+It's the elasticsearch query (array or string) used to get the data when a query string is defined
+in the datatable's search field. I.e.:
 
 ```twig
 {{ emsco_datatable(['ldap'],['ldap_user'], {
@@ -59,13 +67,17 @@ It's the elasticsearch query (array or string) used to get the data when a query
 }) }}
 ```
 
-You can use the `%query%` pattern to inject the query string in your query. In this example we are using a [`search_as_you_type`](https://www.elastic.co/guide/en/elasticsearch/reference/7.x/search-as-you-type.html) search field. This kind of field type are particularly suitable for this kind of search. You can define such field type with this mapping's config:
+You can use the `%query%` pattern to inject the query string in your query. In this example we are
+using a
+[`search_as_you_type`](https://www.elastic.co/guide/en/elasticsearch/reference/7.x/search-as-you-type.html)
+search field. This kind of field type are particularly suitable for this kind of search. You can
+define such field type with this mapping's config:
 
 ```json
 {
-   "live_search": {
-      "type": "search_as_you_type"
-   }
+    "live_search": {
+        "type": "search_as_you_type"
+    }
 }
 ```
 
@@ -73,25 +85,29 @@ Default value:
 
 ```json
 {
-   "query_string": {
-      "query": "%query%"
-   }
+    "query_string": {
+        "query": "%query%"
+    }
 }
 ```
 
 ## emptyQuery
 
-It's the elasticsearch query (array or string) used when nothing is defined in the datatable's search field. Default value:
+It's the elasticsearch query (array or string) used when nothing is defined in the datatable's
+search field. Default value:
 
 ```json
-{
-}
+{}
 ```
+
 ## frontendOptions
 
-It allows you to override every [datatables.net options](https://datatables.net/reference/option/) that you want. It's very flexible but also a bit dangerous if you start overriding the `ajax` or `serverSide` parameters. Default value `{}`
+It allows you to override every [datatables.net options](https://datatables.net/reference/option/)
+that you want. It's very flexible but also a bit dangerous if you start overriding the `ajax` or
+`serverSide` parameters. Default value `{}`
 
 I.e.:
+
 ```twig
 {{ emsco_datatable(['ldap'],['ldap_user'], {
     "frontendOptions": {
@@ -132,37 +148,44 @@ Another good example is to define a default sort column:
 }) }}
 ```
 
-
 ## asc_missing_values_position
 
-The `asc_missing_values_position` parameter specifies how docs which are missing the sort field, in `asc` direction, should be treated: The missing value can be set to `_last`, `_first`. The default is `_last`.
+The `asc_missing_values_position` parameter specifies how docs which are missing the sort field, in
+`asc` direction, should be treated: The missing value can be set to `_last`, `_first`. The default
+is `_last`.
 
 ## desc_missing_values_position
 
-The `desc_missing_values_position` parameter specifies how docs which are missing the sort field, in `desc` direction, should be treated: The missing value can be set to `_last`, `_first`. The default is `_first`.
+The `desc_missing_values_position` parameter specifies how docs which are missing the sort field, in
+`desc` direction, should be treated: The missing value can be set to `_last`, `_first`. The default
+is `_first`.
 
 ## default_sort
 
-The `default_sort` parameter specifies how docs should be sorted be default. Useful for the [emsco_datatable_csv_path](#emsco_datatable_csv_path) and the [emsco_datatable_excel_path](#emsco_datatable_excel_path) functions.
+The `default_sort` parameter specifies how docs should be sorted be default. Useful for the
+[emsco_datatable_csv_path](#emsco_datatable_csv_path) and the
+[emsco_datatable_excel_path](#emsco_datatable_excel_path) functions.
 
 Example:
- ```twig
+
+```twig
 {{ emsco_datatable(['ldap'],['ldap_user'], {
-    "default_sort": {
-        "name.keyword": "desc",
-        "_score": "asc"
-    },
-    "columns": [{
-        "label": "Name",
-        "template": "{{ data.source.name|default('') }}",
-        "orderField": "name.keyword"
-    }]
+   "default_sort": {
+       "name.keyword": "desc",
+       "_score": "asc"
+   },
+   "columns": [{
+       "label": "Name",
+       "template": "{{ data.source.name|default('') }}",
+       "orderField": "name.keyword"
+   }]
 }) }}
 ```
 
 ## row_context
 
-The `row_context` parameter allows you to define variables in a twig template, which variables will be available in your column's template:
+The `row_context` parameter allows you to define variables in a twig template, which variables will
+be available in your column's template:
 
 ```twig
 {{ emsco_datatable(['preview'],['page'], {
@@ -202,16 +225,19 @@ The `row_context` parameter allows you to define variables in a twig template, w
 
 ## protected
 
-By default this parameter `protected` is set to true and ensure that only authenticated user can see datatable contents. So event if the `emsco_datatable` function is called in a public view, the loading data ajax request won't work by default.
+By default this parameter `protected` is set to true and ensure that only authenticated user can see
+datatable contents. So event if the `emsco_datatable` function is called in a public view, the
+loading data ajax request won't work by default.
 
-If you want to give access to unauthenticated user you have to set this parameter to `false`. 
+If you want to give access to unauthenticated user you have to set this parameter to `false`.
 
-This works the same way for the functions `emsco_datatable_excel_path` and `emsco_datatable_csv_path`.
+This works the same way for the functions `emsco_datatable_excel_path` and
+`emsco_datatable_csv_path`.
 
 ## actions
 
-Actions are rendered under the table and can be used in combination with `checkable` for handling user selections.
-See the demo project for more implementation details.
+Actions are rendered under the table and can be used in combination with `checkable` for handling
+user selections. See the demo project for more implementation details.
 
 ```twig
 {{ emsco_datatable(['preview'],['page'], {
@@ -231,19 +257,19 @@ const datatable = window.dataTables['example-page-table'] //jquery instance of t
 document.getElementById('example-page-table').addEventListener('action.example_delete', (event) => {
     console.log(`You selected ${event.detail.selection}`)
     datatable.ajax.reload()
-});
+})
 ```
 
-# emsco_datatable_excel_path
+## emsco_datatable_excel_path
 
-This function is generating a path to an Excel generator route. This twig function has the same signature as the [emsco_datatable](#emsco_datatable) twig function.
+This function is generating a path to an Excel generator route. This twig function has the same
+signature as the [emsco_datatable](#emsco_datatable) twig function.
 
 With the following extra options:
 
- - `filename`: filename of the generated Excel file (without extension). Default value `datatable`
- - `disposition`: `attachment` or `inline`. Default value `attachment` 
- - `sheet_name`: Name of the only sheet. Default value  `Sheet`
-
+- `filename`: filename of the generated Excel file (without extension). Default value `datatable`
+- `disposition`: `attachment` or `inline`. Default value `attachment`
+- `sheet_name`: Name of the only sheet. Default value `Sheet`
 
 I.e.:
 
@@ -259,16 +285,20 @@ I.e.:
 }) }}">Download Excel</a>
 ```
 
-We can extend the columns of [emsco_datatable](#emsco_datatable) to add validation to define dropdown lists to the Excel file via a formula.
+We can extend the columns of [emsco_datatable](#emsco_datatable) to add validation to define
+dropdown lists to the Excel file via a formula.
 
 - `validation` : to add a validation on all cells in a column
-  - `type`: `list`. Default value `list` for a dropdown list.
-  - `formula`: Set the formule for the column
-  - `allow_blank`: Allow blank for a cell. Default `true`. Need `show_error` set to `true`.
-  - `show_input`: Enable show `prompt_title`. Default `true`.
-  - `show_error`: Enable show `error_title`. Default `true`.
-  - `prompt_title`: Prompt input text, override the default value `Chose a value from the list`. Need `show_input` set to `true`.
-  - `error_title`: Error text, override the default value `This value doesn't match the data validation restrictions defined for this cell`. Need `show_error` set to `true`.
+    - `type`: `list`. Default value `list` for a dropdown list.
+    - `formula`: Set the formule for the column
+    - `allow_blank`: Allow blank for a cell. Default `true`. Need `show_error` set to `true`.
+    - `show_input`: Enable show `prompt_title`. Default `true`.
+    - `show_error`: Enable show `error_title`. Default `true`.
+    - `prompt_title`: Prompt input text, override the default value `Chose a value from the list`.
+      Need `show_input` set to `true`.
+    - `error_title`: Error text, override the default value
+      `This value doesn't match the data validation restrictions defined for this cell`. Need
+      `show_error` set to `true`.
 
 I.e.:
 
@@ -292,16 +322,15 @@ I.e.:
 }) }}">Download Excel</a>
 ```
 
+## emsco_datatable_csv_path
 
-# emsco_datatable_csv_path
-
-This function is generating a path to an CSV generator route. This twig function has the same signature as the [emsco_datatable](#emsco_datatable) twig function.
+This function is generating a path to an CSV generator route. This twig function has the same
+signature as the [emsco_datatable](#emsco_datatable) twig function.
 
 With the following extra options:
 
 - `filename`: filename of the generated CSV file (without extension). Default value `datatable`
 - `disposition`: `attachment` or `inline`. Default value `attachment`
-
 
 I.e.:
 
@@ -316,4 +345,3 @@ I.e.:
     }]
 }) }}">Download CSV</a>
 ```
-

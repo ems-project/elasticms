@@ -1,12 +1,13 @@
 # Service Now handler
 
-Sends data to a Service Now REST endpoint. 
+Sends data to a Service Now REST endpoint.
 
 ## Endpoint
 
-The endpoint field contains the host, table, user, and password to connect to the REST endpoint. 
+The endpoint field contains the host, table, user, and password to connect to the REST endpoint.
 Connection parameters are fetched using the [connection configuration](../index.md#connections)
-```twig 
+
+```twig
 //endpoint field
 {
     "host": "https://example.service-now.com",
@@ -17,7 +18,8 @@ Connection parameters are fetched using the [connection configuration](../index.
 ```
 
 If you don't use default endpoints, you can specify them :
-```twig 
+
+```twig
 //endpoint field
 {
     "host": "https://example.service-now.com",
@@ -32,7 +34,8 @@ If you don't use default endpoints, you can specify them :
 ## Message
 
 The message field contains the data to be send to the REST endpoint, for example:
-```twig 
+
+```twig
 //message field
 {
     "body": {
@@ -45,7 +48,8 @@ The message field contains the data to be send to the REST endpoint, for example
 ```
 
 To include one or multiple attachments to your email, declare them as shown below.
-```twig 
+
+```twig
 //message field
 {
     "body": {

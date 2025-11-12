@@ -6,23 +6,25 @@ Send a http request from submission data in a multipart format.
 
 The endpoint needs to be a valid JSON and the only required property is URL.
 
-The following example will do a POST request to http://example.test/api/form?q=test
-```json 
+The following example will do a POST request to <http://example.test/api/form?q=test>
+
+```json
 {
-  "method": "POST",
-  "url": "http://example.test/api/form",
-  "timeout": 10,
+    "method": "POST",
+    "url": "http://example.test/api/form",
+    "timeout": 10
 }
 ```
 
 ## Message
 
-This should return a json that will be converted into a multipart object. 
+This should return a json that will be converted into a multipart object.
 
 File fields can be serialized as is it. See the `contact_attachment`field in the following example.
 
 Example:
-```twig 
+
+```twig
 {% set subject = config.elements.contact_subject.choices.getLabel(data.contact_subject) %}
 
 {{ {

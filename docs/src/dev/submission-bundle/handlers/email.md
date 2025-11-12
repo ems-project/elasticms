@@ -1,14 +1,15 @@
 # Email handler
 
-Sends an email to the email address defined in the endpoint field. 
+Sends an email to the email address defined in the endpoint field.
 
 ## Endpoint
 
-```twig 
+```twig
 incoming-email@example.com
 ```
 
 Or dynamically:
+
 ```twig
 {%- apply spaceless -%}
 {%- set destination = "incoming-email@example1.com" -%}
@@ -22,8 +23,11 @@ Or dynamically:
 ```
 
 ## Message
-Email sender, subject, and body are defined in the message field using the "from", "subject", and "body" keys respectively. The output should be a json object.
-```twig 
+
+Email sender, subject, and body are defined in the message field using the "from", "subject", and
+"body" keys respectively. The output should be a json object.
+
+```twig
 {% autoescape %}
 {% set email = {
     "from": "noreply@example.com",
@@ -34,7 +38,9 @@ Email sender, subject, and body are defined in the message field using the "from
 {{ email|json_encode|raw }}
 ```
 
-The message can access the filled in data of the form, for example submitted fields "email", "name", "firstname". Use the following approach if you want to include newlines in your email body.
+The message can access the filled in data of the form, for example submitted fields "email", "name",
+"firstname". Use the following approach if you want to include newlines in your email body.
+
 ```twig
 {% autoescape %}
 {% set body %}
@@ -52,7 +58,9 @@ The message can access the filled in data of the form, for example submitted fie
 {{ email|json_encode|raw }}
 ```
 
-If your body contains HTML structured text, you have to pass the content-type option text/html in the email object. By default text/plain is used.
+If your body contains HTML structured text, you have to pass the content-type option text/html in
+the email object. By default text/plain is used.
+
 ```twig
 {% autoescape %}
 {% set body %}
@@ -96,7 +104,7 @@ You can also define a `reply-to` option:
 Use the **formData** helper object to retrieve all files that are attached to the form submission.
 You can override the default values for each file using the `map` filter as shown below.
 
-```twig 
+```twig
 {% autoescape %}
 {% set body %}
     Email {{ data.email }}

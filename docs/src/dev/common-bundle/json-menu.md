@@ -2,20 +2,23 @@
 
 THIS TYPE OF ELAsTICMS FILED IS DEPRECATED, SEE [JSON MENU NESTED FIELD](json-menu-nested.md).
 
-JsonMenuStructure is a kind of elasticms field serializing a JSON in a string. That JSON has a specific structure. It's an array of JsonMenuItem; A JsonMenuItem has the following fields:
- - `id` : contain a unique id (string) for the JsonMenuItem (unique in the structure only)
- - `label` : contain a non-mandatory string labelling the JsonMenuIte
- - `type` : string identifying the subform type of this JsonMenuItem 
- - `object` : contain the JSON of the subform
- - `children` : contains a non-mandatory array of JsonMenuItem (recursive structure)
+JsonMenuStructure is a kind of elasticms field serializing a JSON in a string. That JSON has a
+specific structure. It's an array of JsonMenuItem; A JsonMenuItem has the following fields:
 
-# Twig filter ems_json_menu_decode
+- `id` : contain a unique id (string) for the JsonMenuItem (unique in the structure only)
+- `label` : contain a non-mandatory string labelling the JsonMenuIte
+- `type` : string identifying the subform type of this JsonMenuItem
+- `object` : contain the JSON of the subform
+- `children` : contains a non-mandatory array of JsonMenuItem (recursive structure)
 
-With this filter you can parse a JsonMenu field and get a [JsonMenu object](https://github.com/ems-project/elasticms/tree/4.x/EMS/common-bundle/src/Json/JsonMenu.php)
+## Twig filter ems_json_menu_decode
 
-## JsonMenu object
+With this filter you can parse a JsonMenu field and get a
+[JsonMenu object](https://github.com/ems-project/elasticms/tree/4.x/EMS/common-bundle/src/Json/JsonMenu.php)
 
-### Generate a breadcrumb
+### JsonMenu object
+
+#### Generate a breadcrumb
 
 JsonMenu contains a breadcrumb method useful in order to generate breadcrump:
 

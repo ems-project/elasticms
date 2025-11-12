@@ -2,7 +2,8 @@
 
 ## For file field for image
 
-This script limit the file's size to 3MB (helpful to keep elasticms-web containers small from a memory perspective). The script also ensure that the file is an image.
+This script limit the file's size to 3MB (helpful to keep elasticms-web containers small from a
+memory perspective). The script also ensure that the file is an image.
 
 ```twig
 {%- if finalize and _source.image.sha1|default(false) and _source.image.filesize|default(0) > 3145728 %}

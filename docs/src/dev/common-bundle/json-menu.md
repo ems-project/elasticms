@@ -11,14 +11,14 @@ specific structure. It's an array of JsonMenuItem; A JsonMenuItem has the follow
 - `object` : contain the JSON of the subform
 - `children` : contains a non-mandatory array of JsonMenuItem (recursive structure)
 
-# Twig filter ems_json_menu_decode
+## Twig filter ems_json_menu_decode
 
 With this filter you can parse a JsonMenu field and get a
 [JsonMenu object](https://github.com/ems-project/elasticms/tree/4.x/EMS/common-bundle/src/Json/JsonMenu.php)
 
-## JsonMenu object
+### JsonMenu object
 
-### Generate a breadcrumb
+#### Generate a breadcrumb
 
 JsonMenu contains a breadcrumb method useful in order to generate breadcrump:
 

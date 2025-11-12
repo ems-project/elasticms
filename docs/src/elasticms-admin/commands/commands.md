@@ -21,10 +21,8 @@ This command regenerate resized images in order to avoid too much memory consump
 generation. So you might consider to launch this commend if you adjust the `EMSCO_IMAGE_MAX_SIZE`
 environment variable.
 
-**Cautions**
-
-This command will mark all revision as updated by the `SYSTEM_REFRESH_FILE_FIELDS` user in the admin
-UI.
+> Cautions This command will mark all revision as updated by the `SYSTEM_REFRESH_FILE_FIELDS` user
+> in the admin UI.
 
 ```bash
 Usage:
@@ -41,12 +39,12 @@ environment will be marked as published in the provided environment. Each revisi
 provided environment will be mark as published in the default environment. The content type's
 environment by default will be set to the provided environment.
 
-**Cautions**
-
-- This command should never be run in a production environment without a good backup.
-- Affected environments must be rebuilded just after. As many content types might be switched, the
-  command doesn't automatically rebuilding them. After this command affected indexes will be
-  inconsistent.
+> Cautions
+>
+> - This command should never be run in a production environment without a good backup.
+> - Affected environments must be rebuilded just after. As many content types might be switched, the
+>   command doesn't automatically rebuilding them. After this command affected indexes will be
+>   inconsistent.
 
 ```bash
 Usage:

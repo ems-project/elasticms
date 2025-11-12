@@ -98,7 +98,7 @@ On a content type you can define a [user role](../user/user.md#Roles) for permis
 | show_link_create | Display creation link in navigation                                                                                                 |
 | show_link_search | Display search link in navigation                                                                                                   |
 
-# Actions
+## Actions
 
 | Render option                   | description                          |
 | ------------------------------- | ------------------------------------ |
@@ -110,15 +110,15 @@ On a content type you can define a [user role](../user/user.md#Roles) for permis
 | [Job](#job)                     | Start a new job                      |
 | [PDF](#pdf)                     | Generate a pdf                       |
 
-## Embed
+### Embed
 
 The body is used for creating a new page. Good for generating overviews or custom reports.
 
-## Export
+### Export
 
 Export a generated file.
 
-### Spreadsheet
+#### Spreadsheet
 
 If you enable the spreadsheet checkbox, the body needs to return a valid json. This json is passed
 to the common Spreadsheet generator.
@@ -128,7 +128,7 @@ to the common Spreadsheet generator.
 
 If you use the **csv** extension the body can only contain one sheet.
 
-#### Example export
+##### Example export
 
 ```twig
 {{- [
@@ -143,7 +143,7 @@ If you use the **csv** extension the body can only contain one sheet.
 ]|json_encode|raw -}}
 ```
 
-#### Example export jsonMenuNested
+##### Example export jsonMenuNested
 
 Export the nested object fields `title_nl`, `title_fr`, `date_start`, `date_end` from the field
 named `items`.
@@ -213,29 +213,29 @@ For importing a jsonMenuNested we should build the object. This is done by defin
 {%- endblock -%}
 ```
 
-## External link
+### External link
 
 The body is the href attribute for the external link. You can also use the raw render option for
 more flexibility.
 
-## Raw HTML
+### Raw HTML
 
 Only if the body returns html the output will be visible. With the HTML render option you can even
 overwrite the icon.
 
-## Notification
+### Notification
 
 Creates a new ems notification
 
-## Job
+### Job
 
 Start a new job, the body should be the command with arguments and options.
 
-## Pdf
+### Pdf
 
 Similar to the export render option, but will always generate a pdf.
 
-# Transformers
+## Transformers
 
 In the "Migration Options" of contenttype field you can add one or more transformers. For each
 transformer you need to define a JSON config. When running the transform command these transformers
@@ -247,11 +247,11 @@ will be applied.
 | [Html Empty Transformer](#html-empty-transformer)             | Clean empty html content                          | wysiwyg |
 | [Html Remove Node Transformer](#html-remove-node-transformer) | Clean empty html content                          | wysiwyg |
 
-## Html Attribute Transformer
+### #Html Attribute Transformer
 
 Only available for WYSIWYG field types.
 
-### Config
+Config
 
 - **attribute** : required, which attribute you want to transform
 - **element** : default (\*), which html element
@@ -259,7 +259,7 @@ Only available for WYSIWYG field types.
 - **remove_value_prefix** : default (null), remove all values starting by from **class** or
   **style** attributes.
 
-### Examples
+#### Examples
 
 > Remove all style attributes for all table elements
 
@@ -285,11 +285,9 @@ Only available for WYSIWYG field types.
 { "attribute": "class", "element": "div", "remove_value_prefix": "font-" }
 ```
 
-## Html Empty Transformer
+### Html Empty Transformer
 
 Only available for WYSIWYG field types. Clean content without textual content
-
-### Config
 
 > No config required
 
@@ -310,7 +308,7 @@ Example transformer to null
 </html>
 ```
 
-## Html remove node transformer
+### Html remove node transformer
 
 > Remove all span elements
 
@@ -324,7 +322,7 @@ Example transformer to null
 { "element": "span", "attribute": "class", "attribute_contains": "delete" }
 ```
 
-# Views
+## Views
 
 | Name                                       | Description                                                                       |
 | ------------------------------------------ | --------------------------------------------------------------------------------- |
@@ -339,15 +337,15 @@ Example transformer to null
 | [ReportViewType](#report-view)             | Perform an elasticsearch query and generate a report with a twig template         |
 | [SorterViewType](#sorter-view)             | Order a sub set (based on a ES query)                                             |
 
-## Calendar view
+### Calendar view
 
 A view where you can schedule your object
 
-## Criteria view
+### Criteria view
 
 A view where we can massively edit content types having criteria
 
-## DataLink view
+### DataLink view
 
 > Manipulate the choices in a data link of this content type.
 
@@ -355,7 +353,7 @@ It is used by the searchApi when creating an internal link inside a WYSIWYG. The
 not need to return anything, it needs to add data to the passed **dataLinks** object. This view will
 be excluded from the elasticms menu navigation.
 
-### Twig content template
+#### Twig content template
 
 | Name        | Instance                                                                                                         |
 | ----------- | ---------------------------------------------------------------------------------------------------------------- |
@@ -364,7 +362,7 @@ be excluded from the elasticms menu navigation.
 | environment | [Entity\environment](https://github.com/ems-project/EMSCoreBundle/blob/4.x/src/Entity/Environment.php)           |
 | dataLinks   | [Core\Document\DataLinks](https://github.com/ems-project/EMSCoreBundle/blob/4.x/src/Core/Document/DataLinks.php) |
 
-### Example
+#### Example
 
 > A document contains a json menu nested structure, and you want to select a node (id) inside this
 > structure. The WYSIWYG has a language defined and is also passed to the twig context.
@@ -406,30 +404,30 @@ be excluded from the elasticms menu navigation.
 {% endfor %}
 ```
 
-## Export view
+### Export view
 
 Perform an elasticsearch query and generate a export with a twig template
 
-## Gallery view
+### Gallery view
 
 A view where you can browse images
 
-## Hierarchical view
+### Hierarchical view
 
 Manage a menu structure (based on a ES query)
 
-## Importer view
+### Importer view
 
 Form to import a zip file containing JSON files
 
-## Keywords view
+### Keywords view
 
 A view where all properties of kind (such as keyword) are listed on a single page
 
-## Report view
+### Report view
 
 Perform an elasticsearch query and generate a report with a twig template
 
-## Sorter view
+### Sorter view
 
 Order a sub set (based on a ES query)

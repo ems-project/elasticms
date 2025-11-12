@@ -563,10 +563,6 @@ document indexed in elasticsearch.
 
 - Default value: EMS_HASH_ALGO='sha1'
 
-### EMS_BACKEND_URL
-
-Define backend elasticms url. CommonBundle provides a CoreApi instance.
-
 ### EMS_BACKEND_API_KEY
 
 Define backend authentication token. The commonBundle coreApi instance becomes authenticated.

@@ -82,9 +82,9 @@ directly within Twig templates instead of in the route or environment variables
 {% set results = emsch_search_config_execute(searchConfig %}
 ```
 
-# Twig embed
+## Twig embed
 
-## render hierarchy
+### render hierarchy
 
 ```twig
 {{ render(controller('emsch.controller.embed::renderHierarchy', {
@@ -118,7 +118,7 @@ Example menu.html.twig
 
 Example menu.html.twig
 
-## Fragment
+### Fragment
 
 From a design perspective it might be useful to isolate part of the DOM in sub-requests. For
 instance a block "last post" is the same on all post and on the homepage. By isolating this in a
@@ -165,7 +165,7 @@ memory. And the reverse proxy will also be able to cache part of the DOM. I.e. t
 basically always the same, won't have to be generated for each query. Even if the cache's TTL is
 short, it will help to absorb charge's peaks with less resources.
 
-## Cacheable fragment
+### Cacheable fragment
 
 Some repetitive computes can also be cached. For that you may call the `cacheableFragment` method:
 

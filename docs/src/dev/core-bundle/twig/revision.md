@@ -1,8 +1,8 @@
 # Twig core extension about Revision
 
-# Functions
+## Functions
 
-## emsco_revision_create
+### emsco_revision_create
 
 Create a new revision from twig
 
@@ -14,7 +14,7 @@ Create a new revision from twig
 }) %}
 ```
 
-## emsco_revision_update
+### emsco_revision_update
 
 Will overwrite the rawData, you can also use [emsco_revision_merge](#emsco_revision_merge). Use case
 example: update an other document on post processing. It will return the new revision, if you do not
@@ -27,7 +27,7 @@ needed you can just use twig `do`
 }) %}
 ```
 
-## emsco_revision_merge
+### emsco_revision_merge
 
 Will merge the passed rawData into the current rawData. It will return the new revision, if you do
 not needed you can just use twig `do`
@@ -38,7 +38,7 @@ not needed you can just use twig `do`
 }) %}
 ```
 
-## emsco_revisions_draft
+### emsco_revisions_draft
 
 Returns a iteratable result of revisions for the given contentTypeName
 
@@ -46,9 +46,9 @@ Returns a iteratable result of revisions for the given contentTypeName
 {% set ouuidsPagesInDraft = emsco_revisions_draft('page')|map(r => r.ouuid) %}
 ```
 
-# Filters
+## Filters
 
-## emsco_document_info
+### emsco_document_info
 
 The `emsco_document_info` filter on a EMSLink object or on a EMSId string (i.e.
 `contentTypeName:ouuid`) returns a

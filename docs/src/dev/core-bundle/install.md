@@ -1,4 +1,4 @@
-## Installation
+# Installation
 
 symfony new your_app cd your_app
 
@@ -17,7 +17,7 @@ elasticms/core-bundle:dev-master
     resource: "@EMSCoreBundle/Controller/"
     type:     annotation
 
-# prefix: /admin
+## prefix: /admin
 
 fos_user: resource: "@FOSUserBundle/Resources/config/routing/all.xml"
 

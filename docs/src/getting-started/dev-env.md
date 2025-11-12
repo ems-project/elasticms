@@ -117,18 +117,18 @@ comes with a great dev server, which will automatic reload pages on js/css and t
 
 1. Installation
 
-```bash
-cd EMS/admin-ui-bundle
-npm install
-npm run build
-```
+    ```bash
+    cd EMS/admin-ui-bundle
+    npm install
+    npm run build
+    ```
 
 2. Running dev server
 
-```bash
-npm run dev
-npm run dev -- --debug # debug mode
-```
+    ```bash
+    npm run dev
+    npm run dev -- --debug # debug mode
+    ```
 
 > Make sure you set **EMS_VITE_DEV_SERVER**='<http://localhost:5173>'
 

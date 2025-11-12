@@ -1,8 +1,8 @@
 # EMS (CommonBundle) Commands
 
-### Admin
+## Admin
 
-#### Backup
+### Backup
 
 The command downloads the configuration (JSON files for content types, environments, ...) and
 documents (JSON files) for all managed content types.
@@ -25,7 +25,7 @@ Options:
 The environment variable [`EMS_EXCLUDED_CONTENT_TYPES`](parameters.md#ems_excluded_content_types)
 can be used in order to exclude documents from a list content types.
 
-#### Command
+### Command
 
 Allow to rum command on a remote elasticMS. You need to be logged in first with the command
 `ems:admin:login`:

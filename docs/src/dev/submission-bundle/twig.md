@@ -7,7 +7,7 @@ DB/Elasticsearch): The string passed to the filter should be in the format
 `'connection_name%.%key_name'` The separator `%.%` is chosen to allow for `.` in passwords (and user
 names). A user or password cannot contain the combination of characters we use as separator!
 
-### Examples
+Examples:
 
 ```twig
 'service-now-instance-a%.%user'|emss_connection {# will be replaced with the user of the connection "service-now-instance-a" #}
@@ -23,7 +23,7 @@ This function can be called in the message twig temple in order to bypass the cu
 submission. The submission continue with the next handler, if defined, without exception nor error.
 Be noticed, that no response will be added to the HandleRequest object for the current handler.
 
-### Examples
+Examples:
 
 ```twig
 {% if app.request.server.all['IS_PROD_LIVE']|default(false)|lower not in ['true', '1', 'yes', 'y', 'live'] %}

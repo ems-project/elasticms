@@ -372,7 +372,7 @@ Return HTTP codes:
 > For now everything is cached using the symfony cache, this means if we restart the server the
 > cache is cleared. The timestamp in the route can be the max \_finalization time of your content
 > types, this way the cache will not be used if the content has changed.
-
+>
 > This setup only works with php-fpm (no windows) because we continue the process after the response
 > is finished (onKernelTerminate).
 >

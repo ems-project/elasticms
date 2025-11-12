@@ -6,8 +6,8 @@ open the document.
 
 For this, we are going to use the _Office URI Scheme_ _ms-word_ (You can find out more about those
 schemes and the different arguments
-[Office URI Schemes documentation](https://docs.microsoft.com/en-us/office/client-developer/office-uri-schemes)), which follows
-the notation below:
+[Office URI Schemes documentation](https://docs.microsoft.com/en-us/office/client-developer/office-uri-schemes)),
+which follows the notation below:
 `< scheme-name >:< command-name >"|"< command-argument-descriptor > "|"< command-argument >`
 
 This scheme will then be used as url in a `_\<a>_` tag.

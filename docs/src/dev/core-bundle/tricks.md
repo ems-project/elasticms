@@ -40,9 +40,9 @@ script.setAttribute('src', '//viewer.diagrams.net/js/viewer-static.min.js')
 document.body.appendChild(script)
 ```
 
-# Content type encoding form
+## Content type encoding form
 
-## Avoid nested tabs
+### Avoid nested tabs
 
 It's very useful to use multiplex fields in order to avoid maintaining forms per locale. But the
 multiplex fields are displayed as tabs. To avoid nested tabs, multiplex fields in tabs fields are

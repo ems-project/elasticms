@@ -1,6 +1,6 @@
 # Helpers
 
-### Log
+## Log
 
 The Common bundle provides a
 [Log](https://github.com/ems-project/elasticms/tree/4.x/EMS/common-bundle/src/Entity/Log.php) entity

@@ -10,14 +10,14 @@ fields:
 - `object` : contain the JSON of the subform
 - `children` : contains a non-mandatory array of JsonMenuNestedItem (recursive structure)
 
-# Twig filter ems_json_menu_nested_decode
+## Twig filter ems_json_menu_nested_decode
 
 With this filter you can parse a JsonMenuNested field and get a
 [JsonMenuNested object](https://github.com/ems-project/elasticms/tree/4.x/EMS/common-bundle/src/Json/JsonMenuNested.php)
 
-## JsonMenuNested object
+### JsonMenuNested object
 
-### Searching for a object value
+#### Searching for a object value
 
 Searching inside a JsonMenuNested you can use the search method on the object.
 
@@ -45,7 +45,7 @@ It returns an iterable result, if you are only intressed in one object use twig 
 {% for page in johnsPages %}...{% endfor %}
 ```
 
-### Generate a breadcrumb
+#### Generate a breadcrumb
 
 JsonMenuNested contains a breadcrumb method useful in order to generate breadcrumb:
 

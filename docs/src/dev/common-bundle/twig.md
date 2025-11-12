@@ -1,6 +1,8 @@
-# Twig Functions
+# Twig
 
-## ems_html
+## Functions
+
+### ems_html
 
 Will return a instance of
 [EmsHtml](https://github.com/ems-project/elasticms/tree/4.x/EMS/common-bundle/src/Common/Text/EmsHtml.php)
@@ -24,7 +26,7 @@ Example
 {{ description|emsch_routing_config(emschRoutingConfig) }}
 ```
 
-## ems_nested_search
+### ems_nested_search
 
 Search all choices of a nested field, and this function will runtime cache the result.
 
@@ -46,7 +48,7 @@ build once and cached.
 {% set example3 = ems_nested_search('my_alias', 'structure', 'documents', {'id': '0186c0ac-4d8f-4755-a8f0-afa9fb86d599'}) %}
 ```
 
-## ems_image_info
+### ems_image_info
 
 Retrieve information (size, resolution, mime type and extension) about an image, based on its hash.
 If the hash can not be recognized as an image or does not exist, **_null_** is returned.
@@ -72,7 +74,7 @@ Where _'4ef5796bb14ce4b711737dc44aa20bff82193cf5'_ is the hash of a jpg
 }
 ```
 
-## ems_uuid
+### ems_uuid
 
 Generate a version 4 (random) UUID.
 [More info](https://uuid.ramsey.dev/en/stable/rfc4122/version4.html).
@@ -81,7 +83,7 @@ Generate a version 4 (random) UUID.
 {{ ems_uuid() }}
 ```
 
-## ems_store_read
+### ems_store_read
 
 Retrieve, or initialize, an associative array (a.k.a. store data) for a given key from the first
 Store Data Services where the key is available. See the
@@ -95,7 +97,7 @@ Store Data Services where the key is available. See the
 </form>
 ```
 
-## ems_store_save
+### ems_store_save
 
 Update a store data in all store data services. This function must be called in a non-safe request
 (i.e. `POST` or `PUT`). See the [Stora Data documentation](../../recipes/store-data.md) for more
@@ -124,7 +126,7 @@ emsch_update_store:
 {% endblock request -%}
 ```
 
-## ems_store_delete
+### ems_store_delete
 
 Delete a store data in all store data services. This function must be called in a non-safe request
 (i.e. `POST` or `PUT`). See the [Stora Data documentation](../../recipes/store-data.md) for more
@@ -151,7 +153,7 @@ emsch_delete_store:
 {% endblock request -%}
 ```
 
-## ems_flash
+### ems_flash
 
 Add a flash to the symfony request flash bag.
 
@@ -179,7 +181,7 @@ You can use the following template for displaying the flashes (bootstrap5).
 {%- endfor -%}
 ```
 
-## ems_file_reader_data
+### ems_file_reader_data
 
 Use the FileReader to get CSV or MS Excel fil content.
 
@@ -193,7 +195,7 @@ Options:
 - `encoding` (string): file's charset
 - `all_sheets` (boolean): Extract only the active sheet (false, default) or all sheets (true)
 
-## ems_file_reader_cells
+### ems_file_reader_cells
 
 Returns a cells iterator
 
@@ -209,7 +211,7 @@ Options:
 - `exclude_rows` (int[]): skip those rows
 - `limit` (int): limit to the first rows
 
-## ems_check_ip
+### ems_check_ip
 
 Checks if an IPv4 or IPv6 address is contained in the list of given IPs or subnets. In order to
 avoid HTTP cache issues, this function must be called in a non-safe request (i.e. `POST` or `PUT`).
@@ -231,9 +233,9 @@ avoid HTTP cache issues, this function must be called in a non-safe request (i.e
 {% endif %}
 ```
 
-# Twig filters
+## Twig filters
 
-## ems_anti_spam
+### ems_anti_spam
 
 For obfuscation of pii on your website when the user agent is a robot.
 
@@ -269,7 +271,7 @@ span.
 Note: the custom selection pii span is only present in the backend. The obfuscation method removes
 the span tag from the code that is sent to the browser.
 
-## ems_html_encode
+### ems_html_encode
 
 You can transform any text to its equivalent in html character encoding.
 
@@ -279,7 +281,7 @@ You can transform any text to its equivalent in html character encoding.
 
 See unit test for more examples.
 
-## ems_markdown
+### ems_markdown
 
 Filter converting a Markdown text into an HTML text following the GitHub standards.
 
@@ -287,7 +289,7 @@ Filter converting a Markdown text into an HTML text following the GitHub standar
 {{ source.body|ems_markdown }}
 ```
 
-## ems_stringify
+### ems_stringify
 
 Filter converting any scalar value, array or object into a string.
 
@@ -296,7 +298,7 @@ Filter converting any scalar value, array or object into a string.
 {{ someArray|ems_stringify }}
 ```
 
-## ems_asset_average_color
+### ems_asset_average_color
 
 Filter returning the average color, in CSS rgb format, of a passed hash.
 
@@ -328,7 +330,7 @@ Will return `#666666`. It might be useful in order to define a background color:
 style="background-color: {{ avatarHash|ems_asset_average_color }}"
 ```
 
-## ems_replace_regex
+### ems_replace_regex
 
 Apply php **preg_replace** function on a text string. All possible exceptions are catched and logged
 as warning.
@@ -345,7 +347,7 @@ Example replace all ems links by a span tag.
 {{ text|ems_replace_regex('/<a.*?href="ems:\\/\\/\\S+".*?>(.*?)<\\/a>', '<span>$1</span>')|raw }}
 ```
 
-## ems_html_decode
+### ems_html_decode
 
 Convert HTML entities to their corresponding characters
 
@@ -364,7 +366,7 @@ Other parameters:
   [defining the encoding used when converting characters](https://www.php.net/manual/en/function.html-entity-decode.php),
   default value `"UTF-8""`
 
-## ems_hash
+### ems_hash
 
 Generate a hash value from the message. See the
 [PHP hash function](https://php.net/manual/en/function.hash.php).
@@ -381,7 +383,7 @@ Other parameters:
 - binary: [refers to the hash's binary parameter](https://php.net/manual/en/function.hash.php),
   default value `false`. When set to `true`, outputs raw binary data
 
-## ems_format_bytes
+### ems_format_bytes
 
 Useful to generate a human readable file size from an interger.
 
@@ -395,7 +397,7 @@ A second 'precision' parameter can be defined:
 {{ 21666|ems_format_bytes(1) }} {# displays: 21.2 KB #}
 ```
 
-## ems_ascii_folding
+### ems_ascii_folding
 
 Convert UTF-8 characters in string by their equivalent in the "old" ascii table:
 
@@ -409,7 +411,7 @@ It's useful if you want to sort an array regardless accented characters:
 {% set sortedArray = notSortedArray|sort((a, b) => a|ems_ascii_folding <=> b|ems_ascii_folding) %}
 ```
 
-## ems_template_exists
+### ems_template_exists
 
 Test if a template exists or not. This function works with all kind of templates:
 
@@ -419,7 +421,7 @@ Test if a template exists or not. This function works with all kind of templates
 {% endif %}
 ```
 
-## ems_analyze
+### ems_analyze
 
 Analyze an input string using the
 [elasticsearch Analyze API](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-analyze.html#indices-analyze):
@@ -440,7 +442,7 @@ Arguments:
   documentation) (array)
 - index: an optional index name (string)
 
-## ems_json_decode
+### ems_json_decode
 
 Call the PHP \json_decode method with those default values:
 `public function jsonDecode(string $json, bool $assoc = true, int $depth = 512, int $options = 0)`
@@ -449,7 +451,7 @@ Call the PHP \json_decode method with those default values:
 {% set config = 'con
 ```
 
-## ems_array_key
+### ems_array_key
 
 Use the value of the parameter identified by the given name as array index
 
@@ -457,7 +459,7 @@ Use the value of the parameter identified by the given name as array index
 {% set paths = rawData.paths|default([])|filter(p => p.locale == locale)|ems_array_key('uid') %}
 ```
 
-## ems_ouuid
+### ems_ouuid
 
 Extract a OUUID from an ElasticMS link
 
@@ -472,7 +474,7 @@ Extract a OUUID from an ElasticMS link
     }).hits.hits|default([])|ems_array_key('_id')|map(p => attribute(p._source, app.request.locale).title) %}
 ```
 
-## ems_md5
+### ems_md5
 
 Calculate the md5 hash of a string
 
@@ -480,7 +482,7 @@ Calculate the md5 hash of a string
 {{ app.user.email|lower|md5 }}
 ```
 
-## ems_luma
+### ems_luma
 
 Calculate the luminance of a color(string)
 
@@ -488,7 +490,7 @@ Calculate the luminance of a color(string)
 {% set luminance = '#FF56DD'|ems_luma %}
 ```
 
-## ems_contrast_ratio
+### ems_contrast_ratio
 
 Calculate the contrast ratio between 2 colors (string)
 
@@ -496,7 +498,7 @@ Calculate the contrast ratio between 2 colors (string)
 {% if '#FF56DD'|ems_contrast_ratio('black') > '#FF56DD'|ems_contrast_ratio('white') %}#000000{% else %}#ffffff{% endif %}
 ```
 
-## ems_color
+### ems_color
 
 Convert a color (string) into a EMS\Helpers\Standard\Color
 
@@ -504,7 +506,7 @@ Convert a color (string) into a EMS\Helpers\Standard\Color
 {% set color = '#FF56DD'|ems_color %}
 ```
 
-## ems_slug
+### ems_slug
 
 Convert a string into an url friendly string
 
@@ -524,7 +526,7 @@ Arguments:
 {# Wie/faehrst/du/deinen/grossen/LKW #}
 ```
 
-## ems_file_from_archive
+### ems_file_from_archive
 
 Returns a path to a temporary asset extracted from an archive (a zip file). Useful to get local path
 to an asset (e.g. in case of PDF generation)
@@ -551,7 +553,7 @@ Example:
 }) %}
 ```
 
-## ems_files_in_archive
+### ems_files_in_archive
 
 Returns the list of files present in an archive (EMS archive or Zip file)
 
@@ -584,7 +586,7 @@ This method returns an array like this:
 }
 ```
 
-## ems_link
+### ems_link
 
 Return the
 [EMSLink](https://github.com/ems-project/elasticms/blob/HEAD/EMS/common-bundle/src/Common/EMSLink.php)
@@ -594,7 +596,7 @@ object
 {% set emsLink = 'page:064efcc7751ee8b0915416a717e2db46d15c77eb'|ems_link %}
 ```
 
-## ems_valid_mail
+### ems_valid_mail
 
 Returns true if the input is a valid email
 
@@ -602,7 +604,7 @@ Returns true if the input is a valid email
 {%- if _source.email|ems_valid_mail -%}{% endif %}
 ```
 
-## ems_uuid
+### ems_uuid filter
 
 Generate a version 5 UUID from a value.
 [More info](https://uuid.ramsey.dev/en/stable/rfc4122/version5.html).
@@ -611,7 +613,7 @@ Generate a version 5 UUID from a value.
 {{ 'my_unique_id_value'|ems_uuid }}
 ```
 
-## ems_date
+### ems_date
 
 Generate a \DateTimeImmutable object from a value.
 
@@ -622,7 +624,7 @@ Generate a \DateTimeImmutable object from a value.
 {{ date.timezone }}
 ```
 
-## ems_int
+### ems_int
 
 Use php \intval function on input
 

@@ -1,4 +1,6 @@
-# emsco_datatable
+# Datatable
+
+## emsco_datatable
 
 This Twig filter generate an Ajax table view for you from elasticsearch queries.
 
@@ -258,7 +260,7 @@ document.getElementById('example-page-table').addEventListener('action.example_d
 })
 ```
 
-# emsco_datatable_excel_path
+## emsco_datatable_excel_path
 
 This function is generating a path to an Excel generator route. This twig function has the same
 signature as the [emsco_datatable](#emsco_datatable) twig function.
@@ -320,7 +322,7 @@ I.e.:
 }) }}">Download Excel</a>
 ```
 
-# emsco_datatable_csv_path
+## emsco_datatable_csv_path
 
 This function is generating a path to an CSV generator route. This twig function has the same
 signature as the [emsco_datatable](#emsco_datatable) twig function.

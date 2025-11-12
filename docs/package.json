@@ -8,7 +8,7 @@
     "docs:dev": "vitepress dev",
     "docs:build": "vitepress build",
     "docs:preview": "vitepress preview",
-    "docs:format": "prettier --write 'src/**/*.md' && markdownlint-cli2 --fix 'src/**/*.md'",
-    "docs:lint": "prettier --check 'src/**/*.md' && markdownlint-cli2 'src/**/*.md'"
+    "docs:format": "prettier --log-level 'warn' --write 'src/**/*.md' && markdownlint-cli2 --fix 'src/**/*.md'",
+    "docs:lint": "prettier --log-level 'warn' --check 'src/**/*.md' && markdownlint-cli2 'src/**/*.md'"
   }
 }

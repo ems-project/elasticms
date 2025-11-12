@@ -29,7 +29,7 @@ At the end you will get a list of questions to configure user database and datab
 user should exist in your mysql environment, you can automatically create the database and schema
 with the following commands:
 
-```
+```bash
 php bin/console doctrine:database:drop --force
 php bin/console doctrine:database:create
 php bin/console doctrine:migrations:migrate -n
@@ -102,7 +102,7 @@ for changes so that:
 - everyone can update to a newer version without dataloss (auto generate migrations with
   doctrine:migrations:diff for schema updates && write migrations for content changes)
 
-```
+```bash
 php bin/console doctrine:database:drop --force
 php bin/console doctrine:database:create
 php bin/console doctrine:migrations:migrate -n
@@ -130,13 +130,13 @@ In order to update composer dependencies (and the elaticms's bundles) run the fo
 
 In Windows Command Line:
 
-```
+```bash
 docker run -it -v %cd%:/opt/src -w /opt/src docker.io/elasticms/base-php-dev:7.4 composer --no-scripts update
 ```
 
 On Linux or in PowerShell
 
-```
+```bash
 docker run -it -v ${PWD}:/opt/src -w /opt/src docker.io/elasticms/base-php-dev:7.4 composer --no-scripts update
 ```
 
@@ -144,12 +144,12 @@ If you want to udpate elasticms's bundles only:
 
 In Windows Command Line:
 
-```
+```bash
 docker run -it -v %cd%:/opt/src -w /opt/src docker.io/elasticms/base-php-dev:7.4 composer update --no-scripts elasticms/*
 ```
 
 On Linux or in PowerShell
 
-```
+```bash
 docker run -it -v ${PWD}:/opt/src -w /opt/src docker.io/elasticms/base-php-dev:7.4 composer update --no-scripts elasticms/*
 ```

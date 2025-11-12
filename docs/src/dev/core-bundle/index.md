@@ -2,7 +2,7 @@
 
 ## Update translation files
 
-```
+```bash
 php bin/console trans:update --force --format=yml en EMSCoreBundle --as-tree=15
 ```
 

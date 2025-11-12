@@ -446,7 +446,7 @@ Options:
 
 #### User update option
 
-```
+```bash
 Description:
   Update a user option.
 
@@ -510,7 +510,7 @@ This command will
     - in the `latest` environment with the same OUUID
     - If nothing changed, and if a target is defined it will mark the target's state as `final`
 
-```
+```bash
 emsco:xliff:extract next '{"query":{"bool":{"must":[{"term":{"_id":{"value":"db27a1da21b8d9c556abe67451007cd0ad80c54b"}}},{"terms":{"_contenttype":["page","template"]}}]}}}' nl de description title_short title --base-url=http://example.localhost --target-environment=latest
 ```
 
@@ -564,7 +564,7 @@ This command will:
   environment and mark as archived
     - This option is available only if a `publish-to` environment is defined
 
-```
+```bash
 emsco:xliff:update /tmp/ems-extract-BfHeoa.xlf --publish-to=latest --archive
 ```
 

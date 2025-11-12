@@ -73,6 +73,6 @@ composer rector
 For building our mono repository we used the
 [symplify/monorepo-builder](https://github.com/symplify/monorepo-builder).
 
-```
+```bash
 vendor/bin/monorepo-builder validate
 ```

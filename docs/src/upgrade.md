@@ -345,16 +345,15 @@ the website templates.
     - The `--filename` option in the `emsco:xliff:extract` command has been replaced by a
       `--basename` option and does not contains a path anymore, just a file basename.
 
-                Example replace
-                `emsco:xliff:extract live '{}' nl de title --filename=/tmp/pages-nl-to-de.xlf` by
-                `emsco:xliff:extract live '{}' nl de title --basename=pages-nl-to-de.xlf`
+        > Example replace
+        > `emsco:xliff:extract live '{}' nl de title --filename=/tmp/pages-nl-to-de.xlf` by
+        > `emsco:xliff:extract live '{}' nl de title --basename=pages-nl-to-de.xlf`
 
     - In case of warning or error in the `emsco:xliff:update` command the report file is no more
       available locally. The report is upladed in the admin's storages. The directly get a link to
       the report you need to specify a `--base-url` option.
-
-                Example
-                `emsco:xliff:update /tmp/pages-nl-to-de.xlf --base-url=https://my-admin.my-project.tld`
+        > Example
+        > `emsco:xliff:update /tmp/pages-nl-to-de.xlf --base-url=https://my-admin.my-project.tld`
 
 - You should not specify a folder where to expand website assets in the `emsch_assets_version` twig
   function, in this case the function returns `null`.

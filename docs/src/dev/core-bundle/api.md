@@ -25,7 +25,7 @@ Response
 
 Hello world:
 
-```
+```bash
 curl --header "Accept: application/json" --header "X-Auth-Token: y03x33WesxeubKkKqoiGChQL44KyoUESml/kES+q+QS79P798OPHyTxugl8+e+IUcq8=" https://admin.test/api/test
 ```
 
@@ -33,12 +33,12 @@ curl --header "Accept: application/json" --header "X-Auth-Token: y03x33WesxeubKk
 
 Get user information (username, display name, roles and email):
 
-```
+```bash
 curl --header "Accept: application/json" --header "X-Auth-Token: y03x33WesxeubKkKqoiGChQL44KyoUESml/kES+q+QS79P798OPHyTxugl8+e+IUcq8=" https://admin.test/api/user-profile
 ```
 
 Get all user profiles (only for roles )
 
-```
+```bash
 curl --header "Accept: application/json" --header "X-Auth-Token: y03x33WesxeubKkKqoiGChQL44KyoUESml/kES+q+QS79P798OPHyTxugl8+e+IUcq8=" https://admin.test/api/user-profiles
 ```

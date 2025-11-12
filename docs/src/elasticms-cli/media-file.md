@@ -4,7 +4,7 @@
 
 With this command you can upload a folder to a media-file content-type:
 
-```
+```bash
 Usage:
   emscli:media-library:sync [options] [--] <folder>
 

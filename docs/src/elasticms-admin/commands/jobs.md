@@ -30,7 +30,7 @@ expressions directly in strings.
 
 It supports placeholders such as:
 
-```
+```text
 %env(string:MY_ENV_VAR)%
 %env(base64:API_KEY_BASE64)%
 %env(json:CONFIG_JSON)%
@@ -39,7 +39,7 @@ It supports placeholders such as:
 
 and can chain multiple processors:
 
-```
+```text
 %env(trim:base64:API_CREDENTIALS)%
 ```
 

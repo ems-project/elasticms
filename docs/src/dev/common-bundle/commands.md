@@ -7,7 +7,7 @@ Run command(s) defined in twig template.
 - The template must output a valid json list of commands.
 - If the template contains a block named `execute`, only this block will be rendered.
 
-```
+```bash
 Usage:
   ems:batch <template>
 
@@ -54,7 +54,7 @@ php bin/console ems:batch "@EMSCH/template_ems/batch_context.json.twig" --contex
 
 Remove stored logs from the database.
 
-```
+```bash
 Description:
   Clear doctrine logs
 
@@ -79,7 +79,7 @@ php bin/console ems:logs:clear --before=now --channel=app --channel=core
 This command give a basic status of the elasticsearch cluster and for the different storage
 services:
 
-```
+```bash
 ems:status
 ```
 
@@ -95,7 +95,7 @@ This command has 3 option:
 
 This command allows you to save request to a file. Usage:
 
-```
+```bash
 ems:curl /public/view/54 /opt/samples/test.pdf --save --base-url=http://demo-admin-dev.localhost
 ```
 

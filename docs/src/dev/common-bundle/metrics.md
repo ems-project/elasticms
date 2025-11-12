@@ -29,7 +29,7 @@ performance and avoid querying the database too frequently.
 This collector is registered by the common bundle with a validity period of 1 day. It parses the
 composer.json file and return the versions for elasticms packages.
 
-```
+```bash
 # HELP ems_info Info ems versions
 # TYPE ems_info gauge
 ems_info{client="6.3.1",common="6.3.1",core="6.3.1",form="6.3.1",submission="6.3.1",symfony="v6.4.20"} 1
@@ -44,7 +44,7 @@ queries the form submission table and collects the following information:
 - Total number of unprocessed submissions
 - Total number of submission errors
 
-```
+```bash
 # HELP emss_submissions_total Total form submissions
 # TYPE emss_submissions_total gauge
 emss_submissions_total{form_instance="default",form_name="User group form"} 5
@@ -69,7 +69,7 @@ job table and collects the following information ( grouped by tag):
 - Count jobs done
 - Count jobs started
 
-```
+```text
 # HELP emsco_job_last_created Timestamp of the last created job
 # TYPE emsco_job_last_created gauge
 emsco_job_last_created{tag=""} 1738332985
@@ -100,7 +100,7 @@ The core jobService also registers a gauge metric when the next-job is requested
 monitoring of the last time a next-job request was made. This metric is recorded in real time and is
 not subject to the collectors' 5-minute validity constraint.
 
-```
+```text
 # HELP emsco_job_last_ping Timestamp of the last ping
 # TYPE emsco_job_last_ping gauge
 emsco_job_last_ping{tag=""} 1747819578

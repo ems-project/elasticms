@@ -1,10 +1,13 @@
 {
   "devDependencies": {
+    "prettier": "^3.6.2",
     "vitepress": "^1.6.4"
   },
   "scripts": {
     "docs:dev": "vitepress dev",
     "docs:build": "vitepress build",
-    "docs:preview": "vitepress preview"
+    "docs:preview": "vitepress preview",
+    "format": "prettier --write 'src/**/*.md'",
+    "format:check": "prettier --check 'src/**/*.md'"
   }
 }

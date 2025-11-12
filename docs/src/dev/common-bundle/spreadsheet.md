@@ -42,8 +42,8 @@ The `value_binder` config allows following values:
 - `string`: use StringValueBinder
 - `advanced`: use AdvancedValueBinder
 
-More info
-about [value binders](https://phpspreadsheet.readthedocs.io/en/latest/topics/accessing-cells/#using-value-binders-to-facilitate-data-entry).
+More info about
+[value binders](https://phpspreadsheet.readthedocs.io/en/latest/topics/accessing-cells/#using-value-binders-to-facilitate-data-entry).
 
 ## Style cells
 
@@ -54,11 +54,11 @@ Different config for definition of Cell are available (config may be mixed up)
 ```twig
     "rows": [
         [
-            "A1", 
+            "A1",
             { "data" : "A2" }
         ],
         [
-            { "data" : "B1" }, 
+            { "data" : "B1" },
             "B2"
         ],
     ]
@@ -68,8 +68,8 @@ Different config for definition of Cell are available (config may be mixed up)
 
 ```twig
     "rows": [
-        [   "A1", 
-            { 
+        [   "A1",
+            {
                 "data" : "A2",
                 "style": {
                   "fill": {
@@ -82,8 +82,8 @@ Different config for definition of Cell are available (config may be mixed up)
             }
         ],
         [
-            { 
-                "data" : "B1", 
+            {
+                "data" : "B1",
                 "style": {
                   "fill": {
                     "fillType": "solid",
@@ -91,33 +91,30 @@ Different config for definition of Cell are available (config may be mixed up)
                       "rgb": "F9D73F"
                     }
                   }
-                } 
-            }, 
-            { 
-                "data" : "B2", 
-                "style" : {} 
+                }
+            },
+            {
+                "data" : "B2",
+                "style" : {}
             }
         ],
     ]
 
 ```
 
-- More information of style (styleArray
-  only): [refers to Phpspreadsheet Documentation](https://phpspreadsheet.readthedocs.io/en/latest/topics/recipes/#styles)
+- More information of style (styleArray only):
+  [refers to Phpspreadsheet Documentation](https://phpspreadsheet.readthedocs.io/en/latest/topics/recipes/#styles)
 
 ## Date cells
 
-When dates are exported as strings, all cells in the column will initially
-contain string values. However, if a user edits one of these cells in Excel,
-that specific cell is automatically converted into a real date value, while the
-others remain strings.
-As a result, the column ends up containing mixed data types.
-When reading the file back, the edited cell is interpreted as a numeric date (
-Excel stores dates internally as integers) and will therefore be returned in the
-m/d/Y format.
+When dates are exported as strings, all cells in the column will initially contain string values.
+However, if a user edits one of these cells in Excel, that specific cell is automatically converted
+into a real date value, while the others remain strings. As a result, the column ends up containing
+mixed data types. When reading the file back, the edited cell is interpreted as a numeric date (
+Excel stores dates internally as integers) and will therefore be returned in the m/d/Y format.
 
-To avoid mixed data types, any value that represents a date should be stored as
-a proper date type instead of a string.
+To avoid mixed data types, any value that represents a date should be stored as a proper date type
+instead of a string.
 
 Define:
 
@@ -127,15 +124,15 @@ Define:
 
 ```json
 {
-  "rows": [
-    [
-      {
-        "data": "23/08/2025",
-        "type": "date",
-        "format_input": "d/m/Y",
-        "format_display": "dd/mm/yyyy"
-      }
+    "rows": [
+        [
+            {
+                "data": "23/08/2025",
+                "type": "date",
+                "format_input": "d/m/Y",
+                "format_display": "dd/mm/yyyy"
+            }
+        ]
     ]
-  ]
 }
 ```

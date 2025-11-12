@@ -1,25 +1,32 @@
 # Store Data
 
-The store data functionalities are a collection of twigs functions that allow to persist data for a given key (key/values database). Those functionalities are available in both elasticms-admin and elasticms-web.
+The store data functionalities are a collection of twigs functions that allow to persist data for a
+given key (key/values database). Those functionalities are available in both elasticms-admin and
+elasticms-web.
 
 Use cases:
- * A shopping list in the admin
- * A basic pool
- * User shortcuts
+
+- A shopping list in the admin
+- A basic pool
+- User shortcuts
 
 ## Define the persistence services
 
-You can define multiple databases (services) in order to physically save the store data. The idea is to have several level of store services from volatile with high performance to secure and slow.
+You can define multiple databases (services) in order to physically save the store data. The idea is
+to have several level of store services from volatile with high performance to secure and slow.
 
-In order to keep store data synchronized, the store data services must be clustered. It's important if your application is running multiples containers or if you have multiple applications sharing the data.
+In order to keep store data synchronized, the store data services must be clustered. It's important
+if your application is running multiples containers or if you have multiple applications sharing the
+data.
 
 Use the `EMS_STORE_DATA_SERVICES` environment variable to define the store data services:
 
 ```yaml
 EMS_STORE_DATA_SERVICES='[{"type":"cache"},{"type":"db"}]'
 ```
- 
-By default, the store data are disabled. But for the elasticms-admin where the data are saved in the admin's DB (and only there).
+
+By default, the store data are disabled. But for the elasticms-admin where the data are saved in the
+admin's DB (and only there).
 
 ## Type of persistence services
 
@@ -32,8 +39,9 @@ This type doesn't have extra parameters.
 Example: EMS_STORE_DATA_SERVICES='[{"type":"db"}]'
 
 Parameters:
-* `type`: with the value `db`
-* `ttl`: Time to live (in seconds)(optional)
+
+- `type`: with the value `db`
+- `ttl`: Time to live (in seconds)(optional)
 
 ### Cache
 
@@ -43,7 +51,8 @@ This type doesn't have extra parameters.
 
 Example: `EMS_STORE_DATA_SERVICES='[{"type":"cache"}]'`
 
-CAUTION: If your application runs multiple containers, you should use the redis cache. Otherwise the data might not be shared between users 
+CAUTION: If your application runs multiple containers, you should use the redis cache. Otherwise the
+data might not be shared between users
 
 CAUTION: The cache services should be always be used in combination with another service:
 
@@ -52,19 +61,21 @@ EMS_STORE_DATA_SERVICES='[{"type":"cache"},{"type":"db"}]'
 ```
 
 Parameters:
-* `type`: with the value `cache`
-* `ttl`: Time to live (in seconds)(optional)
+
+- `type`: with the value `cache`
+- `ttl`: Time to live (in seconds)(optional)
 
 ### File storage
 
 The data are saved in a folder.
 
 Parameters:
- * `type`: with the value `fs`
- * `path`: path to a folder where the sata will be stored
 
+- `type`: with the value `fs`
+- `path`: path to a folder where the sata will be stored
 
-Example: 
+Example:
+
 ```yaml
 EMS_STORE_DATA_SERVICES='[{"type":"fs", "path":"/opt/store_data"}]'
 ```
@@ -74,20 +85,23 @@ EMS_STORE_DATA_SERVICES='[{"type":"fs", "path":"/opt/store_data"}]'
 The data are saved in a S3 bucket.
 
 Parameters:
- * `type`: with the value `s3`
- * `credentials`: S3 credentials e.g. `{"version":"2006-03-01","credentials":{"key":"accesskey","secret":"secretkey"},"region":"us-east-1","endpoint":"http://localhost:9000","use_path_style_endpoint":true}`
- * `bucket`: bucket's name
- * `ttl`: Time to live (by default data stay forever)
 
+- `type`: with the value `s3`
+- `credentials`: S3 credentials e.g.
+  `{"version":"2006-03-01","credentials":{"key":"accesskey","secret":"secretkey"},"region":"us-east-1","endpoint":"http://localhost:9000","use_path_style_endpoint":true}`
+- `bucket`: bucket's name
+- `ttl`: Time to live (by default data stay forever)
 
-Example: 
+Example:
+
 ```yaml
 EMS_STORE_DATA_SERVICES='[{"type":"s3", "bucket":"session", "credentials": {"version":"2006-03-01","credentials":{"key":"accesskey","secret":"secretkey"},"region":"us-east-1","endpoint":"http://localhost:9000","use_path_style_endpoint":true}}]'
 ```
 
 ## Using it
 
-Here is a form. It retrieves (or intializes) a `forum` data. And it extracts the `data` value as value form the `data` textarea.
+Here is a form. It retrieves (or intializes) a `forum` data. And it extracts the `data` value as
+value form the `data` textarea.
 
 ```twig
 {% set data = ems_store_read('forum') %}
@@ -97,7 +111,8 @@ Here is a form. It retrieves (or intializes) a `forum` data. And it extracts the
 </form>
 ```
 
-On submit, a post is sent to the `emsch_update_store` route. Which only allows `POST` method (a non-safe method):
+On submit, a post is sent to the `emsch_update_store` route. Which only allows `POST` method (a
+non-safe method):
 
 ```yaml
 emsch_update_store:
@@ -108,9 +123,10 @@ emsch_update_store:
     template_static: template/redirects/post-data.json.twig
 ```
 
-The `forum` data is retrieved from the first data store service, the `data` field is updated. Then the data is saved: updated in all store data services.
+The `forum` data is retrieved from the first data store service, the `data` field is updated. Then
+the data is saved: updated in all store data services.
 
-````twig
+```twig
 {%- block request %}
 {% apply spaceless %}
   {% set data = ems_store_read('forum') %}
@@ -122,8 +138,7 @@ The `forum` data is retrieved from the first data store service, the `data` fiel
   }|json_encode|raw }}
 {% endapply %}
 {% endblock request -%}
-````
-
+```
 
 ## Known issues
 

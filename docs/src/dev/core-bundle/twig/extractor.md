@@ -1,6 +1,8 @@
 #emsco_asset_meta
 
-This filter returns you a [ExtractedData](https://github.com/ems-project/EMSCoreBundle/blob/4.x/src/Helper/AssetExtractor/ExtractedData.php) object from an asset's hash:
+This filter returns you a
+[ExtractedData](https://github.com/ems-project/EMSCoreBundle/blob/4.x/src/Helper/AssetExtractor/ExtractedData.php)
+object from an asset's hash:
 
 ```twig
 {% set meta = source.file.sha1|emsco_asset_meta %}
@@ -8,7 +10,6 @@ This filter returns you a [ExtractedData](https://github.com/ems-project/EMSCore
 ```
 
 You can also specify a filename and bypass the 3MB protection:
-
 
 ```twig
 {% set meta = source.file.sha1|emsco_asset_meta('raport.pdf', true) %}

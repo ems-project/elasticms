@@ -1,15 +1,15 @@
 # Sftp handler
 
-Transport files over sftp. 
-The files can be from previous handlers (Pdf, ..) or form files.
+Transport files over sftp. The files can be from previous handlers (Pdf, ..) or form files.
 
 ## Endpoint
 
-The endpoint needs to be a valid JSON, only the property **host** is required
-The privateKey must be a base64 decode ppk key file.
+The endpoint needs to be a valid JSON, only the property **host** is required The privateKey must be
+a base64 decode ppk key file.
 
 Default property values:
-```twig 
+
+```twig
 {
     "host": "127.0.0.1",
     "port": 22,
@@ -23,11 +23,12 @@ Default property values:
 
 ## Message
 
-- Add a block named **files** for defining the files to send. 
+- Add a block named **files** for defining the files to send.
 - Add a block named **handleResponseExtra** for changing the handler response.
 
 Example:
-```twig 
+
+```twig
 {%- block files -%}
     {# first 2 entries are form attachments files and the first one is place in a folder called test #}
     {# response 0 is a pdf response and we can also forward the base64 #}

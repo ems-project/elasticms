@@ -2,10 +2,10 @@
 
 Dashboards are customizable views that can apply to many content types at the same times.
 
-## Properties 
+## Properties
 
 | Property         | Description                                                     |
-|------------------|-----------------------------------------------------------------|
+| ---------------- | --------------------------------------------------------------- |
 | name             | Webalized for generating the url                                |
 | icon             | Display icon in menu, dropdown                                  |
 | label            | Display label                                                   |
@@ -24,7 +24,7 @@ Dashboards are customizable views that can apply to many content types at the sa
 Generate a file export
 
 | Property        | Description                            |
-|-----------------|----------------------------------------|
+| --------------- | -------------------------------------- |
 | body            | Twig template for file content         |
 | filename        | Twig template for file name            |
 | mimetype        | Optional file mime type                |
@@ -40,18 +40,19 @@ Enable the elasticms task dashboard, without extra configuration.
 Create a full customized dashboard.
 
 | Property | Description                                                     |
-|----------|-----------------------------------------------------------------|
+| -------- | --------------------------------------------------------------- |
 | body     | Twig template, inject in content block                          |
 | header   | Twig template, inject at the end of the header tag (css)        |
 | footer   | Twig template, inject at the end of the footer tag (javascript) |
 
 ## Upcoming dashboards
 
-Here a list of dashboard types that we may  develop in the future:
+Here a list of dashboard types that we may develop in the future:
 
 - logs: a tools to have access to logs (filtered fir the current user or severity or not)
 - analytics: integration with analytics tools such Google Analytics, Matomo, ...
-- structure: A structure tools that organise documents in a structure (i.e. linked to a path_en field)
+- structure: A structure tools that organise documents in a structure (i.e. linked to a path_en
+  field)
 - calendar
 - maps
 - gantt
@@ -63,4 +64,3 @@ Here a list of dashboard types that we may  develop in the future:
 - shopping basket
 - redirect
 - ...
-

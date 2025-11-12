@@ -1,15 +1,16 @@
 # Environment
 
-An environment is used by a [ContentType](../contentType/contentType.md), all revisions will be indexed into the alias.
-The environment attach to a contentType is the `default` environment for this contentType.
+An environment is used by a [ContentType](../contentType/contentType.md), all revisions will be
+indexed into the alias. The environment attach to a contentType is the `default` environment for
+this contentType.
 
-From the default environment we can publish/unpublish to other environments.
-Often an elasticms has 2 environments `preview` and `live`. 
+From the default environment we can publish/unpublish to other environments. Often an elasticms has
+2 environments `preview` and `live`.
 
-## Properties 
+## Properties
 
 | Property            | Description                                                      |
-|---------------------|------------------------------------------------------------------|
+| ------------------- | ---------------------------------------------------------------- |
 | name                | Internal name                                                    |
 | label               | Display label                                                    |
 | color               | Display color                                                    |
@@ -25,17 +26,19 @@ Often an elasticms has 2 environments `preview` and `live`.
 
 ## Publish Role
 
-Block environment publication by [user role](../user/user.md#Roles), on revision detail page and compare environments page.
+Block environment publication by [user role](../user/user.md#Roles), on revision detail page and
+compare environments page.
 
 This overwrites the publish role on the [contentType](../contentType/contentType.md#Roles).
 
-> This does not apply for the default environment, publication in the default environment is managed 
+> This does not apply for the default environment, publication in the default environment is managed
 > by the [contentType edit role](../contentType/contentType.md#Roles).
 
 ## Template publication
 
 You can block publication to an environment by defining a publication template.
-- If the template adds a warning or error, the publication is block. 
+
+- If the template adds a warning or error, the publication is block.
 - If the template add an info message, the publication is not block.
 
 ```twig
@@ -44,14 +47,14 @@ You can block publication to an environment by defining a publication template.
 * Document {{ revision.label }} is not validated (checkbox)
 {% endset %}
 
-{% if revision.contentType == 'page' and false == document.source.validated|default(false) %} 
+{% if revision.contentType == 'page' and false == document.source.validated|default(false) %}
     {% do publication.addWarning(markdownMessage) %}
 {% endif %}
 ```
 
 > **Template context**
 >
-> * `publication` : publication object (methods addWarning, addError, addInfo)
-> * `environment` : current environment
-> * `revision` : revision to be published
-> * `document` : elasticsearch document of the revision (default environment) 
+> - `publication` : publication object (methods addWarning, addError, addInfo)
+> - `environment` : current environment
+> - `revision` : revision to be published
+> - `document` : elasticsearch document of the revision (default environment)

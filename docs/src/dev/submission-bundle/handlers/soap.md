@@ -4,11 +4,14 @@ Send a soap request from submission data.
 
 ## Endpoint
 
-The endpoint needs to be a valid JSON. The only required option is the **operation**.
-For the options no validation is executed, see [php soapClient](https://www.php.net/manual/en/soapclient.soapclient.php) documentation for more information
+The endpoint needs to be a valid JSON. The only required option is the **operation**. For the
+options no validation is executed, see
+[php soapClient](https://www.php.net/manual/en/soapclient.soapclient.php) documentation for more
+information
 
 Default property values:
-```twig 
+
+```twig
 {
     "wsdl": null,
     "options": []
@@ -17,11 +20,12 @@ Default property values:
 
 ## Message
 
-- Add a block named **arguments** for defining the arguments passed to the operation call. 
+- Add a block named **arguments** for defining the arguments passed to the operation call.
 - Add a block named **handleResponseExtra** for changing the handler response.
 
 Example:
-```twig 
+
+```twig
 {%- block arguments -%}
 {{- {'name': 'test'}|json_encode|raw -}}
 {%- endblock -%}

@@ -2,4 +2,4 @@
 
 ## Twig variables
 
- * `preloader` is set to true, a preloader page is shown
+- `preloader` is set to true, a preloader page is shown

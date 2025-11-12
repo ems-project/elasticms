@@ -1,15 +1,19 @@
 # Handle Submitted data
-When you are using forms, you probably also want to handle the submitted data.
-The [SubmissionBundle](https://github.com/ems-project/EMSSubmissionBundle) provides default handlers by implementing the `EMS\FormBundle\Handler\AbstractHandler`.
+
+When you are using forms, you probably also want to handle the submitted data. The
+[SubmissionBundle](https://github.com/ems-project/EMSSubmissionBundle) provides default handlers by
+implementing the `EMS\FormBundle\Handler\AbstractHandler`.
 
 ## Using your own handlers
-If the SubmissionBundle is not acting like you need to you can build your own handlers.
-Inspire yourself on the implementations found in the [SubmissionBundle](https://github.com/ems-project/EMSSubmissionBundle), email for example:
+
+If the SubmissionBundle is not acting like you need to you can build your own handlers. Inspire
+yourself on the implementations found in the
+[SubmissionBundle](https://github.com/ems-project/EMSSubmissionBundle), email for example:
 
 ```php
 <?php
-//EmailHandler.php    
-namespace EMS\SubmissionBundle\Handler;    
+//EmailHandler.php
+namespace EMS\SubmissionBundle\Handler;
 //...
 class EmailHandler extends AbstractHandler
 {
@@ -44,6 +48,7 @@ class EmailResponse extends AbstractResponse
 ```
 
 Let the form-bundle find your handler by tagging it:
+
 ```xml
 <service id="emss.emailhandler" class="EMS\SubmissionBundle\Handler\EmailHandler">
     <!-- ... arguments -->
@@ -52,8 +57,9 @@ Let the form-bundle find your handler by tagging it:
 ```
 
 ## Chained Handlers
-Handlers are called one-by-one, each handler's response is collected and available for the next Handler.
-In the Handlers `handle` function the previous response object is passed.
+
+Handlers are called one-by-one, each handler's response is collected and available for the next
+Handler. In the Handlers `handle` function the previous response object is passed.
 
 ```php
 <?php

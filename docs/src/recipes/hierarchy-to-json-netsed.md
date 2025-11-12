@@ -1,11 +1,12 @@
 # Old school hierarchy content type to JSON Nested menu
 
-In the past you might have configured some nested content type with a `children` data link. The one that you handle with the `Hierarchical view` admin's view.
+In the past you might have configured some nested content type with a `children` data link. The one
+that you handle with the `Hierarchical view` admin's view.
 
 ## Create a document's action
 
- - Go to the `menu` content type's action in the admin.
- - Add a `Embed` action
+- Go to the `menu` content type's action in the admin.
+- Add a `Embed` action
 
 The following boy will generate a JSON ready to be pasted in a new conet type's document:
 
@@ -73,10 +74,10 @@ The following boy will generate a JSON ready to be pasted in a new conet type's 
 
 
 
-{# initiate an empty JSON nested menu #} 
+{# initiate an empty JSON nested menu #}
 {% set structure = '{}'|ems_json_menu_nested_decode %}
 
-{# gets all menu document in order to get them one by one #} 
+{# gets all menu document in order to get them one by one #}
 {% set menus = {
     type: 'menu',
     index: contentType.environment.alias,
@@ -84,14 +85,13 @@ The following boy will generate a JSON ready to be pasted in a new conet type's 
 }|search.hits.hits|ems_array_key('_id')|map(p => p._source) %}
 
 
-{# recursively walk in the menu documents and fill the JSON Nested object #} 
+{# recursively walk in the menu documents and fill the JSON Nested object #}
 {{ _self.recu(contentType, structure, source, menus) }}
 
 
-{# render the JSON ready to be pasted in the revision JSON edit #} 
+{# render the JSON ready to be pasted in the revision JSON edit #}
 <pre>{{ {
     menu_json: structure.toArrayStructure()|json_encode,
     menu_root: source.menu_root
 }|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
 ```
-

@@ -1,6 +1,4 @@
-CoreBundle
-=============
-
+# CoreBundle
 
 ## Update translation files
 

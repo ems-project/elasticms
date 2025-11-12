@@ -4,14 +4,14 @@ You can use some tricks in your ElasticMS views, actions or dashboard to activat
 
 ## Image lazy loading
 
-This plugin avoid to directly load directly all images at page load.
-But to load images only when they close to the viewport.
-This can be useful when you display a lot of images on a long page.
+This plugin avoid to directly load directly all images at page load. But to load images only when
+they close to the viewport. This can be useful when you display a lot of images on a long page.
 
 To use it you need to:
- * Add a lazy class to the `IMAGE` tags
- * Specify a default image in the `src` attribute
- * Specify the image to load in the `data-original` attribute
+
+- Add a lazy class to the `IMAGE` tags
+- Specify a default image in the `src` attribute
+- Specify the image to load in the `data-original` attribute
 
 In this example the user Gavatar image is lazy loaded:
 
@@ -21,7 +21,8 @@ In this example the user Gavatar image is lazy loaded:
 
 ## selectpicker
 
-This is nice looking plugin for `SELECT` tags. Add a `selectpicker` class to the `SELECT` tag to activate it:
+This is nice looking plugin for `SELECT` tags. Add a `selectpicker` class to the `SELECT` tag to
+activate it:
 
 ```twig
 <select id="content_type_roles_view" name="content_type[roles][view]" data-live-search="data-live-search" class="selectpicker form-select">
@@ -41,15 +42,19 @@ This is nice looking plugin for `SELECT` tags. Add a `selectpicker` class to the
   <option value="ROLE_API" data-icon="fa fa-user-circle">API</option>
 </select>
 ```
-A class icon can be defined in the `data-icon` attribute of the `OPTION` tag. Add a `select2` class to the `SELECT` tag to activate it:
+
+A class icon can be defined in the `data-icon` attribute of the `OPTION` tag. Add a `select2` class
+to the `SELECT` tag to activate it:
 
 ## Select 2
 
-Another nice looking plugin for `SELECT` tags. Add a `select2` class to the `SELECT` tag to activate it.
+Another nice looking plugin for `SELECT` tags. Add a `select2` class to the `SELECT` tag to activate
+it.
 
 ## Datatable
 
-Activate a datatable on a `TABLE` tag by adding datatable options (JSON serialized) in a `data-datatable` attribute.
+Activate a datatable on a `TABLE` tag by adding datatable options (JSON serialized) in a
+`data-datatable` attribute.
 
 ```twig
 <table class="table table-condensed table-striped" data-datatable="{{ datatable.frontendOptions|json_encode|e('html_attr') }}">

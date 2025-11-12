@@ -71,7 +71,7 @@ In this example, we use the OpenAI platform to tryout translation requests.
 
 This action requires an `openai` entry in your keystore.
 
-```.dotenv
+```bash
 EMS_KEY_STORE='{"openai":"...."}'
 ```
 

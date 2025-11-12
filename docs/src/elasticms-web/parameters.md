@@ -160,7 +160,7 @@ Example base template.
 Overwrite the destination of the local files, by default `emsch:local:*` commands will search in `local/%environment_alias%` folder.
 
 Example for locally loading the demo inside local elasticms-web.
-```.dotenv
+```bash
 EMSCH_LOCAL_PATH='../demo/skeleton'
 ```
 

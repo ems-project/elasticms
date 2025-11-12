@@ -13,6 +13,11 @@ export default defineConfig({
     markdown: {
         lineNumbers: true
     },
+    vite: {
+        build: {
+            chunkSizeWarningLimit: 1500
+        }
+    },
     srcDir: './src',
     themeConfig: {
         logo: '/logo.png',

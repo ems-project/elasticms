@@ -161,7 +161,7 @@ docker compose up -d
 
 5) Use the following environment variables in `elasticms-web`
 
-```.dotenv
+```bash
 EMSCH_OAUTH2=true
 EMSCH_OAUTH2_AUTH_SERVER='http://keycloak.localhost'
 EMSCH_OAUTH2_REALM='elasticms'
@@ -221,7 +221,7 @@ To allow Prometheus to scrape metrics, the Symfony server needs the `--allow-all
 
 On the admin make sure the following env variables are defined:
 
-```.dotenv
+```bash
 EMS_METRIC_HOST=host.docker.internal
 EMS_METRIC_PORT=8881
 ```

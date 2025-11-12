@@ -8,7 +8,7 @@ registered. This route is only accessible from localhost on port 8881.
 When accessed, it returns Prometheus metrics by invoking all registered
 collector services.
 
-```.dotenv
+```bash
 EMS_METRIC_ENABLED=true
 EMS_METRIC_HOST=localhost
 EMS_METRIC_PORT=8881

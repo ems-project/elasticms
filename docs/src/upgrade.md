@@ -375,13 +375,13 @@ emsch_demo_asset_in_archive:
 In dashboards/views and action, we call `emsch_add_environment` for rendering a template from emsch.
 If elasticms-admin defines `EMSCH_ENV` and `EMSCH_ENVS`, this is not needed anymore.
 
-```.env
+```bash
 EMSCH_ENV='preview'
 EMSCH_ENVS='{"preview":{"alias":"example_preview", "router": false}}' 
 ```
 
 EMSCH_ENV will mark the preview environment as default, the following can also be done:
-```.env
+```bash
 EMSCH_ENVS='{"preview":{"alias":"example_preview", "default": true, "router": false}}' 
 ```
 

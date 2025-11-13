@@ -163,5 +163,9 @@
             <argument type="service" id="ems_common.storage.manager" on-invalid="null" />
             <tag name="console.command" />
         </service>
+        <service id="emsch.command.http_cache.invalidate" class="EMS\ClientHelperBundle\Command\HttpCache\InvalidateCommand">
+            <argument type="service" id="ems.common.cache" />
+            <tag name="console.command" />
+        </service>
     </services>
 </container>

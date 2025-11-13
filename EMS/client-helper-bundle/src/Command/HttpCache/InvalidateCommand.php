@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Command\HttpCache;
 
+use Elastica\Query\AbstractQuery;
+use Elastica\Query\Range;
 use EMS\ClientHelperBundle\Commands;
+use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequest;
 use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequestManager;
 use EMS\CommonBundle\Common\Cache\Cache;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Helper\EmsFields;
+use EMS\CommonBundle\Search\Search;
 use EMS\Helpers\Standard\DateTime;
 use EMS\Helpers\Standard\Type;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -24,18 +28,26 @@ use Symfony\Component\Console\Output\OutputInterface;
 class InvalidateCommand extends AbstractCommand
 {
     private const LAST_HTTP_CACHE_INVALIDATE_DATETIME = 'last-http-cache-invalidate-date-time';
-    private const string OPTION_PURGE = 'purge';
+    private const OPTION_PURGE = 'purge';
+    private const OPTION_BULK_SIZE = 'bulk-size';
+    private const OPTION_SCROLL_TIMEOUT = 'scroll-timeout';
     private bool $purge;
+    private ClientRequest $client;
+    private int $bulkSize;
+    private string $scrollTimeout;
 
     public function __construct(private readonly Cache $cacheManager, private readonly ClientRequestManager $manager)
     {
         parent::__construct();
+        $this->client = $this->manager->getDefault();
     }
 
     #[\Override]
     protected function configure(): void
     {
         $this->addOption(self::OPTION_PURGE, 'p', InputOption::VALUE_NONE, 'Purge all caches.');
+        $this->addOption(self::OPTION_BULK_SIZE, null, InputOption::VALUE_OPTIONAL, 'Bulk size.', 200);
+        $this->addOption(self::OPTION_SCROLL_TIMEOUT, null, InputOption::VALUE_OPTIONAL, 'Scroll timeout.', '1m');
     }
 
     #[\Override]
@@ -43,6 +55,8 @@ class InvalidateCommand extends AbstractCommand
     {
         parent::initialize($input, $output);
         $this->purge = $this->getOptionBool(self::OPTION_PURGE);
+        $this->bulkSize = $this->getOptionInt(self::OPTION_BULK_SIZE);
+        $this->scrollTimeout = $this->getOptionString(self::OPTION_SCROLL_TIMEOUT);
     }
 
     #[\Override]
@@ -67,13 +81,11 @@ class InvalidateCommand extends AbstractCommand
     private function purge(): \DateTimeImmutable
     {
         $this->io->title('Purge all caches');
-
-        $client = $this->manager->getDefault();
-        $search = $client->initializeCommonSearch([]);
-        $search->setSort([EmsFields::CONTENT_PUBLISHED_DATETIME_FIELD => 'desc']);
+        $search = $this->getSearch();
         $search->setSize(1);
-        $search->setSources([EmsFields::CONTENT_PUBLISHED_DATETIME_FIELD]);
-        $results = $client->commonSearch($search)->getResults();
+        $search->setSort([EmsFields::CONTENT_PUBLISHED_DATETIME_FIELD => 'desc']);
+        $search->setSize($this->bulkSize);
+        $results = $this->client->commonSearch($search)->getResults();
         if (!isset($results[0])) {
             throw new \RuntimeException('No results found');
         }
@@ -85,7 +97,37 @@ class InvalidateCommand extends AbstractCommand
     private function ban(\DateTimeImmutable $from): \DateTimeImmutable
     {
         $this->io->title(\sprintf('Invalidate HTTP caches from %s', $from->format('Y-m-d H:i:s')));
+        $range = new Range(EmsFields::CONTENT_PUBLISHED_DATETIME_FIELD, [
+            'gt' => $from->format('c'),
+        ]);
+        $search = $this->getSearch($range);
+        $search->setSize(0);
+        $total = $this->client->commonSearch($search)->getTotalHits();
+        if (0 === $total) {
+            $this->io->note('No hits found');
 
-        return $from;
+            return $from;
+        }
+        $search->setSize($this->bulkSize);
+        $this->io->progressStart($total);
+        $lastPublishedDate = $from;
+        foreach ($this->client->commonScroll($search, $this->scrollTimeout) as $result) {
+            $publishedDate = DateTime::create(Type::string($result->getSource()[EmsFields::CONTENT_PUBLISHED_DATETIME_FIELD] ?? null));
+            if ($publishedDate > $lastPublishedDate) {
+                $lastPublishedDate = $publishedDate;
+            }
+            $this->io->progressAdvance();
+        }
+        $this->io->progressFinish();
+
+        return $lastPublishedDate;
+    }
+
+    private function getSearch(?AbstractQuery $query = null): Search
+    {
+        $search = $this->client->initializeCommonSearch([], $query);
+        $search->setSources([EmsFields::CONTENT_PUBLISHED_DATETIME_FIELD]);
+
+        return $search;
     }
 }

@@ -180,6 +180,8 @@
             <argument type="service" id="ems_common.key_store"/>
         </service>
         <service id="ems_common.cache.tag_collector" class="EMS\CommonBundle\Common\Cache\TagCollector">
+            <argument type="service" id="request_stack" />
+            <argument type="string">%ems_common.http_caches%</argument>
         </service>
         <service id="ems.event_listener.tag_response_subscriber" class="EMS\CommonBundle\EventListener\TagResponseSubscriber">
             <argument type="service" id="ems_common.cache.tag_collector"/>

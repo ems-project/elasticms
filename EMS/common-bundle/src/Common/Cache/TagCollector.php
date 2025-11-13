@@ -7,6 +7,8 @@ namespace EMS\CommonBundle\Common\Cache;
 use Elastica\ResultSet;
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
 use EMS\CommonBundle\Search\Search;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TagCollector
 {
@@ -16,9 +18,21 @@ class TagCollector
     private array $indices = [];
     /** @var array<string, bool> */
     private array $contentTypes = [];
+    private bool $enable = false;
+
+    /**
+     * @param mixed[] $config
+     */
+    public function __construct(private readonly RequestStack $requestStack, public readonly array $config)
+    {
+        $this->resolveConfig($config);
+    }
 
     public function add(Search $search, ResultSet $resultSet): void
     {
+        if (!$this->enable) {
+            return;
+        }
         foreach ($search->getIndices() as $index) {
             $this->indices[$index] = true;
         }
@@ -42,5 +56,28 @@ class TagCollector
     public function isEmpty(): bool
     {
         return empty($this->uuids) && empty($this->indices) && empty($this->contentTypes);
+    }
+
+    /**
+     * @param mixed[] $config
+     */
+    private function resolveConfig(array $config): void
+    {
+        if (empty($config)) {
+            return;
+        }
+        $resolver = new OptionsResolver();
+        $resolver->setRequired(['header']);
+        $resolver->addAllowedTypes('header', 'string');
+        foreach ($config as $cacheConfig) {
+            /** array{header: string} */
+            $resolvedConfig = $resolver->resolve($cacheConfig);
+            if (null === $this->requestStack->getCurrentRequest()?->headers->get($resolvedConfig['header'])) {
+                continue;
+            }
+            $this->enable = true;
+
+            return;
+        }
     }
 }

@@ -23,7 +23,7 @@ use Elasticsearch\Endpoints\Indices\Refresh;
 use Elasticsearch\Endpoints\Info;
 use Elasticsearch\Endpoints\Scroll as ScrollEndpoints;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
-use EMS\CommonBundle\Common\Cache\TagCollector;
+use EMS\CommonBundle\Common\HttpCache\TagCollector;
 use EMS\CommonBundle\Elasticsearch\Client;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;

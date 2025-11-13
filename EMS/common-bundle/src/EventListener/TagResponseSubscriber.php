@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\EventListener;
 
-use EMS\CommonBundle\Common\Cache\TagCollector;
+use EMS\CommonBundle\Common\HttpCache\TagCollector;
 use EMS\Helpers\Html\Headers;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;

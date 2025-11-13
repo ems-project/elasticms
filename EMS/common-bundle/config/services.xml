@@ -179,7 +179,7 @@
             <argument type="service" id="http_client"/>
             <argument type="service" id="ems_common.key_store"/>
         </service>
-        <service id="ems_common.cache.tag_collector" class="EMS\CommonBundle\Common\Cache\TagCollector">
+        <service id="ems_common.cache.tag_collector" class="EMS\CommonBundle\Common\HttpCache\TagCollector">
             <argument type="service" id="request_stack" />
             <argument type="string">%ems_common.http_caches%</argument>
         </service>

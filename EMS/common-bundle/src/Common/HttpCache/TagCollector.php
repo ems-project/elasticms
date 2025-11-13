@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EMS\CommonBundle\Common\Cache;
+namespace EMS\CommonBundle\Common\HttpCache;
 
 use Elastica\ResultSet;
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;

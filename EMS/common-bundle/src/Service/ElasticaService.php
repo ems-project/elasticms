@@ -144,7 +144,7 @@ class ElasticaService
         if (1 !== $resultSet->count()) {
             throw new NotSingleResultException($resultSet->count(), $resultSet);
         }
-        $this->tagCollector->add($search, $resultSet);
+        $this->tagCollector->add($resultSet);
 
         return Document::fromResult($result);
     }
@@ -211,7 +211,7 @@ class ElasticaService
         } else {
             $resultSet = $this->createElasticaSearch($search, $search->getSearchOptions())->search();
         }
-        $this->tagCollector->add($search, $resultSet);
+        $this->tagCollector->add($resultSet);
 
         return $resultSet;
     }

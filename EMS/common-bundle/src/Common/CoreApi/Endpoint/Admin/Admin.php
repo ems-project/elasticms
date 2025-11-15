@@ -9,6 +9,7 @@ use EMS\CommonBundle\Common\CoreApi\Endpoint\Admin\Message\Job;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Admin\AdminInterface;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Admin\ConfigInterface;
 use EMS\CoreBundle\Entity\Job as JobEntity;
+use EMS\Helpers\Standard\Type;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpClient\Exception\TransportException;
 
@@ -168,5 +169,18 @@ class Admin implements AdminInterface
     public function getCoreVersion(): string
     {
         return $this->getVersions()['core'];
+    }
+
+    /**
+     * @param string[] $events
+     */
+    public function registerToWebhooks(string $endpointUrl, array $events): string
+    {
+        $webhookSubscriptions = $this->client->post(\implode('/', ['api', 'webhook-subscriptions']), [
+            'endpointUrl' => 'https://site-x.example.com/webhooks/content',
+            'events' => ['content.published'],
+        ])->getData();
+
+        return Type::string($webhookSubscriptions['id']);
     }
 }

@@ -6,7 +6,6 @@ namespace EMS\CoreBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use EMS\CoreBundle\Entity\Channel;
 use EMS\CoreBundle\Entity\WebhookSubscription;
 
 /**
@@ -26,12 +25,12 @@ class WebhookSubscriptionRepository extends ServiceEntityRepository
     /**
      * @param string[] $events
      */
-    public function create(string $endpointUrl, array $events): WebhookSubscription
+    public function create(string $endpointUrl, array $events, string $secret): WebhookSubscription
     {
         $subscription = new WebhookSubscription();
         $subscription->setEndpointUrl($endpointUrl);
         $subscription->setEvents($events);
-        $subscription->setSecret(\bin2hex(\random_bytes(32)));
+        $subscription->setSecret($secret);
         $this->getEntityManager()->persist($subscription);
         $this->getEntityManager()->flush();
 

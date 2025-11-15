@@ -518,6 +518,9 @@
             <argument type="service" id="ems.service.contenttype"/>
             <tag name="kernel.event_listener" event="EMS\CoreBundle\Event\RevisionFinalizeDraftEvent" method="finalizeDraftEvent" priority="0" />
         </service>
+        <service id="emsco.service.webhook_subscription" class="EMS\CoreBundle\Service\WebhookSubscriptionService">
+            <argument type="service" id="ems.repository.webhook_subscription"/>
+        </service>
         <service id="ems.form_submission" class="EMS\CoreBundle\Service\Form\Submission\FormSubmissionService">
             <argument type="service" id="ems.repository.form_submission"/>
             <argument type="service" id="ems.repository.form_submission_file"/>

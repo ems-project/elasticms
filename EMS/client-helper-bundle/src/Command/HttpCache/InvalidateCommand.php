@@ -117,13 +117,20 @@ class InvalidateCommand extends AbstractCommand
         $search->setSize($this->bulkSize);
         $this->io->progressStart($total);
         $lastPublishedDate = $from;
+        $tags = [];
         foreach ($this->client->commonScroll($search, $this->scrollTimeout) as $result) {
             $publishedDate = DateTime::create(Type::string($result->getSource()[EmsFields::CONTENT_PUBLISHED_DATETIME_FIELD] ?? null));
             if ($publishedDate > $lastPublishedDate) {
                 $lastPublishedDate = $publishedDate;
             }
-            $this->httpCacheManager->purgeByTags($result->getId());
+            $tags[] = $result->getId();
+            if (0 === (\count($tags) % $this->bulkSize)) {
+                $this->httpCacheManager->purgeByTags(...$tags);
+            }
             $this->io->progressAdvance();
+        }
+        if (\count($tags) > 0) {
+            $this->httpCacheManager->purgeByTags(...$tags);
         }
         $this->io->progressFinish();
 

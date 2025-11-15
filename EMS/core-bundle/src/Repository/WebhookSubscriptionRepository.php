@@ -20,7 +20,7 @@ class WebhookSubscriptionRepository extends ServiceEntityRepository
 {
     public function __construct(Registry $registry)
     {
-        parent::__construct($registry, Channel::class);
+        parent::__construct($registry, WebhookSubscription::class);
     }
 
     /**

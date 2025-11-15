@@ -21,11 +21,22 @@ class TagCollector
     private bool $enable = false;
 
     /**
-     * @param mixed[] $config
+     * @param mixed[] $jsonConfig
      */
-    public function __construct(private readonly RequestStack $requestStack, public readonly array $config)
+    public function __construct(private readonly RequestStack $requestStack, private readonly array $jsonConfig)
     {
-        $this->resolveConfig($config);
+        $request = $this->requestStack->getCurrentRequest();
+        if (null === $request) {
+            return;
+        }
+        foreach ($this->cacheConfigs() as $cacheConfigs) {
+            if (null === $request->headers->get($cacheConfigs->header)) {
+                continue;
+            }
+            $this->enable = true;
+
+            return;
+        }
     }
 
     public function add(Search $search, ResultSet $resultSet): void
@@ -59,25 +70,30 @@ class TagCollector
     }
 
     /**
-     * @param mixed[] $config
+     * @return \Generator<HttpCacheConfig>
      */
-    private function resolveConfig(array $config): void
+    public function cacheConfigs(): iterable
     {
-        if (empty($config)) {
+        if (empty($this->jsonConfig)) {
             return;
         }
         $resolver = new OptionsResolver();
-        $resolver->setRequired(['header']);
+        $resolver->setRequired(['header', 'url', 'headers', 'verify_ssl']);
         $resolver->addAllowedTypes('header', 'string');
-        foreach ($config as $cacheConfig) {
-            /** array{header: string} */
+        $resolver->addAllowedTypes('url', 'string');
+        $resolver->addAllowedTypes('headers', 'array');
+        $resolver->addAllowedTypes('verify_ssl', 'bool');
+        $resolver->setDefault('headers', []);
+        $resolver->setDefault('verify_ssl', true);
+        foreach ($this->jsonConfig as $cacheConfig) {
+            /** array{header: string, url: string, array: string[]|string[][], verify_ssl: bool} */
             $resolvedConfig = $resolver->resolve($cacheConfig);
-            if (null === $this->requestStack->getCurrentRequest()?->headers->get($resolvedConfig['header'])) {
-                continue;
-            }
-            $this->enable = true;
-
-            return;
+            yield new HttpCacheConfig(
+                $resolvedConfig['header'],
+                $resolvedConfig['url'],
+                $resolvedConfig['headers'],
+                $resolvedConfig['verify_ssl'],
+            );
         }
     }
 }

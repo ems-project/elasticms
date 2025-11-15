@@ -187,5 +187,9 @@
             <argument type="service" id="ems_common.cache.tag_collector"/>
             <tag name="kernel.event_subscriber" />
         </service>
+        <service id="ems_common.service.http_cache_manager" class="EMS\CommonBundle\Common\HttpCache\HttpCacheManager">
+            <argument type="service" id="logger" />
+            <argument type="service" id="ems_common.cache.tag_collector" />
+        </service>
     </services>
 </container>

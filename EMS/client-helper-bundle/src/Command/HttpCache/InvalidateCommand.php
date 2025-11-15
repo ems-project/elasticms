@@ -11,6 +11,7 @@ use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequest;
 use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequestManager;
 use EMS\CommonBundle\Common\Cache\Cache;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\CommonBundle\Common\HttpCache\HttpCacheManager;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Search\Search;
 use EMS\Helpers\Standard\DateTime;
@@ -36,10 +37,13 @@ class InvalidateCommand extends AbstractCommand
     private int $bulkSize;
     private string $scrollTimeout;
 
-    public function __construct(private readonly Cache $cacheManager, private readonly ClientRequestManager $manager)
-    {
+    public function __construct(
+        private readonly Cache $cacheManager,
+        private readonly ClientRequestManager $clientRequestManager,
+        private readonly HttpCacheManager $httpCacheManager,
+    ) {
         parent::__construct();
-        $this->client = $this->manager->getDefault();
+        $this->client = $this->clientRequestManager->getDefault();
     }
 
     #[\Override]
@@ -90,6 +94,8 @@ class InvalidateCommand extends AbstractCommand
             throw new \RuntimeException('No results found');
         }
         $lastPublishedDate = $results[0]->getSource()[EmsFields::CONTENT_PUBLISHED_DATETIME_FIELD] ?? null;
+        $purged = $this->httpCacheManager->purgeAll();
+        $this->io->note(\sprintf('%d HTTP cache(s) have been purged', $purged));
 
         return DateTime::create(Type::string($lastPublishedDate));
     }
@@ -116,6 +122,7 @@ class InvalidateCommand extends AbstractCommand
             if ($publishedDate > $lastPublishedDate) {
                 $lastPublishedDate = $publishedDate;
             }
+            $this->httpCacheManager->purgeByTags($result->getId());
             $this->io->progressAdvance();
         }
         $this->io->progressFinish();

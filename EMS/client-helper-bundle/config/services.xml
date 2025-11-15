@@ -166,6 +166,7 @@
         <service id="emsch.command.http_cache.invalidate" class="EMS\ClientHelperBundle\Command\HttpCache\InvalidateCommand">
             <argument type="service" id="ems.common.cache" />
             <argument type="service" id="emsch.manager.client_request" />
+            <argument type="service" id="ems_common.service.http_cache_manager" />
             <tag name="console.command" />
         </service>
     </services>

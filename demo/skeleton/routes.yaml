@@ -141,3 +141,9 @@ ems_check_asset:
     path: '/file/{config}/{hash}/{filename}'
     controller: 'emsch.controller.router::redirect'
   template_static: template/redirects/asset.json.twig
+emsch_admin_webhook:
+  config:
+    path: '/_admin_webhook'
+    method: [POST]
+    host: 'localhost'
+    controller: 'emsch.controller.http_cache::adminWebhook'

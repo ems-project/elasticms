@@ -44,4 +44,16 @@ class WebhookSubscriptionRepository extends ServiceEntityRepository
     {
         return $this->findBy(['enabled' => true]);
     }
+
+    public function disable(string $subscriptionId, string $errorMessage): void
+    {
+        $subscription = $this->find($subscriptionId);
+        if (!$subscription) {
+            return;
+        }
+        $subscription->setEnabled(false);
+        $subscription->setErrorMessage($errorMessage);
+        $this->getEntityManager()->persist($subscription);
+        $this->getEntityManager()->flush();
+    }
 }

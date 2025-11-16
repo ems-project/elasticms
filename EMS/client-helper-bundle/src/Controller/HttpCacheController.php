@@ -37,11 +37,11 @@ final class HttpCacheController extends AbstractController
             throw new \RuntimeException('event data not provided');
         }
 
-        if (\str_starts_with($eventName, 'content.published.') || \in_array($eventName, ['content.publish', 'content.unpublish'], true)) {
+        if (\str_starts_with($eventName, 'content.published.') || \in_array($eventName, ['content.finalize', 'content.unpublish'], true)) {
             $ouuid = Type::string($data['ouuid']);
             $this->httpCacheManager->purgeByTags($ouuid);
         } else {
-            throw new \RuntimeException('event type not supported');
+            throw new \RuntimeException(\sprintf('event type %s not supported', $eventName));
         }
 
         return new JsonResponse([

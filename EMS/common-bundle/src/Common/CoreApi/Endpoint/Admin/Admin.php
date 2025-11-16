@@ -177,8 +177,8 @@ class Admin implements AdminInterface
     public function registerToWebhooks(string $endpointUrl, array $events): string
     {
         $webhookSubscriptions = $this->client->post(\implode('/', ['api', 'webhook-subscriptions']), [
-            'endpointUrl' => 'https://site-x.example.com/webhooks/content',
-            'events' => ['content.published'],
+            'endpointUrl' => $endpointUrl,
+            'events' => $events,
         ])->getData();
 
         return Type::string($webhookSubscriptions['id']);

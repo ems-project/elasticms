@@ -37,6 +37,7 @@ readonly class WebhookSubscriptionHandler
                 Headers::CONTENT_TYPE => MimeTypes::APPLICATION_JSON->value,
                 Headers::X_WEBHOOK_SIGNATURE => $signature,
                 Headers::X_WEBHOOK_EVENT => $message->eventName,
+                Headers::X_WEBHOOK_SUBSCRIPTION_ID => $message->subscriptionId,
             ],
             'body' => $body,
         ]);

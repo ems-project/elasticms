@@ -22,4 +22,9 @@ class WebhookSubscriptionService
 
         return $this->repository->create($endpointUrl, $events, $secret);
     }
+
+    public function unsubscribe(string $id): void
+    {
+        $this->repository->disable($id, 'Unsubscribe');
+    }
 }

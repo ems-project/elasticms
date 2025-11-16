@@ -20,6 +20,14 @@ In case of success you'll get a JSON with those fields:
 * `id`: a UUID of the subscription you just created
 * `secret`: a secret that will be used to sign calls to the provided endpoint URL
 
+## Delete a subscription (unsubscribe)
+
+This HTTP call will unsubscribe the subscription for the provided UUID:
+
+```shell
+curl -X DELETE -H "X-Auth-Token: EDcTszIHnaaDCpvpi+dJeakj6uOsDqtvSY6rqJyDR3baPpnFA+6u4UAaPcMuJIAfwTs=" http://localhost:8881/api/webhook-subscriptions/08543760-55e5-40e0-8c4f-f3413fad0cb2
+```
+
 ## Verify calls to the exposed endpoint
 
 Every HTTP call will contain those headers:

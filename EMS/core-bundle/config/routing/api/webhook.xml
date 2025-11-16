@@ -9,5 +9,10 @@
            methods="POST"
            format="json">
     </route>
+    <route id="emsco_api_webhook_unsubscribe" path="/webhook-subscriptions/{id}"
+           controller="EMS\CoreBundle\Controller\Api\WebhookSubscriptionController::unsubscribe"
+           methods="DELETE"
+           format="json">
+    </route>
 
 </routes>

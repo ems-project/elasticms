@@ -34,4 +34,14 @@ class WebhookSubscriptionController extends AbstractController
             'secret' => $subscription->getSecret(),
         ]);
     }
+
+    public function unsubscribe(string $id): JsonResponse
+    {
+        $this->webhookSubscriptionService->unsubscribe($id);
+
+        return new JsonResponse([
+            'success' => true,
+            'id' => $id,
+        ]);
+    }
 }

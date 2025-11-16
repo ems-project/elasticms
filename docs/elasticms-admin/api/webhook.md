@@ -66,4 +66,16 @@ The structure of the webhook `data` is:
 * `ouuid`: OUUID of the document published
 * `raw_data`: Raw data (array) of the revision published
 
+### Finalize
+
+Type of this event `content.finalize`.
+Fire each time that a document draft is finalized
+
+The structure of the webhook `data` is:
+* `environment`: name of the admin's content type default environment (e.g. `preview`, `default`, ...). 
+* `alias`: the elasticsearch's alias corresponding to the content type default environment
+* `content_type`: name of the content type
+* `ouuid`: OUUID of the document finalized
+* `raw_data`: Raw data (array) of the revision finalized
+
 

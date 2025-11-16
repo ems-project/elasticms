@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\EventListener;
 
 use EMS\CoreBundle\Core\Messenger\Message\WebhookSubscriberMessage;
+use EMS\CoreBundle\Event\RevisionFinalizeDraftEvent;
 use EMS\CoreBundle\Event\RevisionPublishEvent;
 use EMS\CoreBundle\Repository\WebhookSubscriptionRepository;
 use Psr\Log\LoggerInterface;
@@ -25,33 +26,31 @@ final readonly class EventsToWebhookSubscribers implements EventSubscriberInterf
     {
         return [
             RevisionPublishEvent::class => 'onRevisionPublished',
+            RevisionFinalizeDraftEvent::class => 'onFinalizeDraft',
             WorkerMessageFailedEvent::class => 'onMessageFailed',
         ];
     }
 
     public function onRevisionPublished(RevisionPublishEvent $event): void
     {
-        $eventName = \sprintf('content.published.%s', $event->getEnvironment()->getName());
-        $payload = [
-            'event' => $eventName,
-            'data' => [
-                'environment' => $event->getEnvironment()->getName(),
-                'alias' => $event->getEnvironment()->getAlias(),
-                'content_type' => $event->getRevision()->giveContentType()->getName(),
-                'ouuid' => $event->getRevision()->getOuuid(),
-                'raw_data' => $event->getRevision()->getData(),
-            ],
-        ];
+        $this->dispatch(\sprintf('content.published.%s', $event->getEnvironment()->getName()), [
+            'environment' => $event->getEnvironment()->getName(),
+            'alias' => $event->getEnvironment()->getAlias(),
+            'content_type' => $event->getRevision()->giveContentType()->getName(),
+            'ouuid' => $event->getRevision()->getOuuid(),
+            'raw_data' => $event->getRevision()->getData(),
+        ]);
+    }
 
-        foreach ($this->repository->findEnabled() as $subscription) {
-            if (!\in_array($eventName, $subscription->getEvents(), true)) {
-                continue;
-            }
-
-            $this->bus->dispatch(
-                new WebhookSubscriberMessage($subscription->getId(), $eventName, $payload)
-            );
-        }
+    public function onFinalizeDraft(RevisionFinalizeDraftEvent $event): void
+    {
+        $this->dispatch('content.finalize', [
+            'environment' => $event->getEnvironment()->getName(),
+            'alias' => $event->getEnvironment()->getAlias(),
+            'content_type' => $event->getRevision()->giveContentType()->getName(),
+            'ouuid' => $event->getRevision()->getOuuid(),
+            'raw_data' => $event->getRevision()->getData(),
+        ]);
     }
 
     public function onMessageFailed(WorkerMessageFailedEvent $event): void
@@ -69,5 +68,26 @@ final readonly class EventsToWebhookSubscribers implements EventSubscriberInterf
             'event' => $message->eventName,
             'errorMessage' => $event->getThrowable()->getMessage(),
         ]);
+    }
+
+    /**
+     * @param mixed[] $data
+     */
+    private function dispatch(string $eventName, array $data): void
+    {
+        $payload = [
+            'event' => $eventName,
+            'data' => $data,
+        ];
+
+        foreach ($this->repository->findEnabled() as $subscription) {
+            if (!\in_array($eventName, $subscription->getEvents(), true)) {
+                continue;
+            }
+
+            $this->bus->dispatch(
+                new WebhookSubscriberMessage($subscription->getId(), $eventName, $payload)
+            );
+        }
     }
 }

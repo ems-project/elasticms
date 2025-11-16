@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\GoneHttpException;
-use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
+use Symfony\Component\Security\Http\AccessToken\Oidc\Exception\InvalidSignatureException;
 
 final class HttpCacheController extends AbstractController
 {
@@ -59,7 +59,7 @@ final class HttpCacheController extends AbstractController
         }
         $hash = \hash_hmac('sha256', Type::string($request->getContent()), Type::string($secret->get()));
         if ($hash !== $signature) {
-            throw new UnauthorizedHttpException('Invalid hash');
+            throw new InvalidSignatureException();
         }
     }
 }

@@ -39,6 +39,7 @@ final readonly class EventsToWebhookSubscribers implements EventSubscriberInterf
                 'alias' => $event->getEnvironment()->getAlias(),
                 'content_type' => $event->getRevision()->giveContentType()->getName(),
                 'ouuid' => $event->getRevision()->getOuuid(),
+                'raw_data' => $event->getRevision()->getData(),
             ],
         ];
 

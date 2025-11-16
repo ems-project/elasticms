@@ -39,6 +39,7 @@
         <service id="emsco.event_listener.events_to_webhook_subscribers" class="EMS\CoreBundle\EventListener\EventsToWebhookSubscribers">
             <argument type="service" id="ems.repository.webhook_subscription"/>
             <argument type="service" id="messenger.default_bus"/>
+            <argument type="service" id="logger"/>
             <tag name="kernel.event_subscriber" />
         </service>
 

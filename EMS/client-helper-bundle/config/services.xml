@@ -154,6 +154,13 @@
             <tag name="controller.service_arguments"/>
             <tag name="container.service_subscriber"/>
         </service>
+        <service id="emsch.controller.http_cache" class="EMS\ClientHelperBundle\Controller\HttpCacheController" public="true">
+            <argument type="service" id="ems_common.service.http_cache_manager"/>
+            <argument type="service" id="ems.common.cache"/>
+            <call method="setContainer"/>
+            <tag name="controller.service_arguments"/>
+            <tag name="container.service_subscriber"/>
+        </service>
         <service id="EMS\ClientHelperBundle\Controller\EmbedController" alias="emsch.controller.embed" public="true" />
 
         <!-- commands -->

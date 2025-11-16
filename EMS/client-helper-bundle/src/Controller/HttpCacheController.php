@@ -37,7 +37,7 @@ final class HttpCacheController extends AbstractController
             throw new \RuntimeException('event data not provided');
         }
 
-        if (\str_starts_with($eventName, 'content.published.') || 'content.finalize' == $eventName) {
+        if (\str_starts_with($eventName, 'content.published.') || \in_array($eventName, ['content.publish', 'content.unpublish'], true)) {
             $ouuid = Type::string($data['ouuid']);
             $this->httpCacheManager->purgeByTags($ouuid);
         } else {

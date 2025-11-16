@@ -7,6 +7,7 @@ namespace EMS\CoreBundle\EventListener;
 use EMS\CoreBundle\Core\Messenger\Message\WebhookSubscriberMessage;
 use EMS\CoreBundle\Event\RevisionFinalizeDraftEvent;
 use EMS\CoreBundle\Event\RevisionPublishEvent;
+use EMS\CoreBundle\Event\RevisionUnpublishEvent;
 use EMS\CoreBundle\Repository\WebhookSubscriptionRepository;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -27,6 +28,7 @@ final readonly class EventsToWebhookSubscribers implements EventSubscriberInterf
         return [
             RevisionPublishEvent::class => 'onRevisionPublished',
             RevisionFinalizeDraftEvent::class => 'onFinalizeDraft',
+            RevisionUnpublishEvent::class => 'onUnpublish',
             WorkerMessageFailedEvent::class => 'onMessageFailed',
         ];
     }
@@ -50,6 +52,16 @@ final readonly class EventsToWebhookSubscribers implements EventSubscriberInterf
             'content_type' => $event->getRevision()->giveContentType()->getName(),
             'ouuid' => $event->getRevision()->getOuuid(),
             'raw_data' => $event->getRevision()->getData(),
+        ]);
+    }
+
+    public function onUnpublish(RevisionUnpublishEvent $event): void
+    {
+        $this->dispatch('content.unpublish', [
+            'environment' => $event->getEnvironment()->getName(),
+            'alias' => $event->getEnvironment()->getAlias(),
+            'content_type' => $event->getRevision()->giveContentType()->getName(),
+            'ouuid' => $event->getRevision()->getOuuid(),
         ]);
     }
 

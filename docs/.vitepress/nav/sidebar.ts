@@ -41,6 +41,14 @@ const sidebar: DefaultTheme.SidebarMulti = {
                 { text: 'User', link: '/elasticms-admin/user/user' },
                 { text: 'WYSIWYG', link: '/elasticms-admin/wysiwyg/wysiwyg' },
                 { text: 'Async (Messenger, Mercure)', link: '/elasticms-admin/async' },
+                {
+                    text: 'API',
+                    collapsed: true,
+                    items: [
+                        { text: 'Login', link: '/elasticms-admin/api/login' },
+                        { text: 'Webhook', link: '/elasticms-admin/api/webhook' },
+                    ]
+                },
             ]
         },
         {

@@ -1,9 +1,13 @@
 # Login to the Admin API
 
-In order to use the admin API you must have an authentication token. To get one you have two options.
+## Get an authentication token
 
-The first option is to go to the user admin interface (`/user/`), locate your user and click on `API key` > `Generate API key for this user?`.
-The page will reload and a notice message will shows the authentication token.
+In order to use the admin API you must have an authentication token. To get one you have two
+options.
+
+The first option is to go to the user admin interface (`/user/`), locate your user and click on
+`API key` > `Generate API key for this user?`. The page will reload and a notice message will shows
+the authentication token.
 
 The other option is to login via a curl call:
 
@@ -16,7 +20,7 @@ curl -X POST http://localhost:8881/auth-token -d '{
 
 In case of success, you retrieve the key in the `authToken` field of the JSON response.
 
-# Test an authentication token
+## Test an authentication token
 
 The endpoint `/api/test` allows you to test an authentication token:
 

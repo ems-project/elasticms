@@ -172,15 +172,21 @@ class Admin implements AdminInterface
     }
 
     /**
-     * @param string[] $events
+     * @param  string[]                          $events
+     * @return array{id: string, secret: string}
      */
-    public function registerToWebhooks(string $endpointUrl, array $events): string
+    public function registerToWebhooks(string $endpointUrl, array $events): array
     {
         $webhookSubscriptions = $this->client->post(\implode('/', ['api', 'webhook-subscriptions']), [
             'endpointUrl' => $endpointUrl,
             'events' => $events,
         ])->getData();
+        $subscriptionId = Type::string($webhookSubscriptions['id']);
+        $secret = Type::string($webhookSubscriptions['secret']);
 
-        return Type::string($webhookSubscriptions['id']);
+        return [
+            'id' => $subscriptionId,
+            'secret' => $secret,
+        ];
     }
 }

@@ -6,6 +6,7 @@ namespace EMS\CommonBundle\Command\Admin;
 
 use EMS\CommonBundle\Commands;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
+use EMS\CommonBundle\Common\Cache\Cache;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -27,8 +28,10 @@ class RegisterToWebhookCommand extends AbstractCommand
      */
     private array $events;
 
-    public function __construct(private readonly AdminHelper $adminHelper)
-    {
+    public function __construct(
+        private readonly AdminHelper $adminHelper,
+        private Cache $cacheManager,
+    ) {
         parent::__construct();
     }
 
@@ -51,10 +54,13 @@ class RegisterToWebhookCommand extends AbstractCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $subscriptionId = $this->adminHelper->getCoreApi()->admin()->registerToWebhooks($this->endpoint, $this->events);
-        $output->writeln(\sprintf('Subscription ID: %s, ', $subscriptionId));
+        $subscription = $this->adminHelper->getCoreApi()->admin()->registerToWebhooks($this->endpoint, $this->events);
+        $secret = $this->cacheManager->getItem(\sprintf('webhook_secret_%s', $subscription['id']));
+        $secret->set($subscription['secret']);
+        $this->cacheManager->save($secret);
+        $output->writeln(\sprintf('Subscription ID: %s, ', $subscription['id']));
         if ($this->io->isQuiet()) {
-            echo $subscriptionId;
+            echo $subscription['id'];
         }
 
         return self::SUCCESS;

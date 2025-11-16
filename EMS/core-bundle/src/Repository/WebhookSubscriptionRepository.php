@@ -36,4 +36,12 @@ class WebhookSubscriptionRepository extends ServiceEntityRepository
 
         return $subscription;
     }
+
+    /**
+     * @return WebhookSubscription[]
+     */
+    public function findEnabled(): array
+    {
+        return $this->findBy(['enabled' => true]);
+    }
 }

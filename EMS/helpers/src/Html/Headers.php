@@ -18,4 +18,6 @@ class Headers
     final public const string COOKIE = 'cookie';
     final public const string IF_NONE_MATCH = 'if-none-match';
     final public const string LINK = 'link';
+    final public const string X_WEBHOOK_EVENT = 'X-Webhook-Event';
+    final public const string X_WEBHOOK_SIGNATURE = 'X-Webhook-Signature';
 }

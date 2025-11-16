@@ -18,6 +18,8 @@ class WebhookSubscription
 
     private string $secret;
 
+    private ?string $errorMessage = null;
+
     /** @var string[] */
     private array $events = [];
 
@@ -79,5 +81,15 @@ class WebhookSubscription
     public function setEnabled(bool $enabled): void
     {
         $this->enabled = $enabled;
+    }
+
+    public function getErrorMessage(): ?string
+    {
+        return $this->errorMessage;
+    }
+
+    public function setErrorMessage(string $errorMessage): void
+    {
+        $this->errorMessage = $errorMessage;
     }
 }

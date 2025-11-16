@@ -23,7 +23,7 @@ final class Version20251115131301 extends AbstractMigration
             !$this->connection->getDatabasePlatform() instanceof PostgreSQLPlatform,
             "Migration can only be executed safely on '\Doctrine\DBAL\Platforms\PostgreSQLPlatform'."
         );
-        $this->addSql('CREATE TABLE webhook_subscription (endpoint_url VARCHAR(255) NOT NULL, secret VARCHAR(255) NOT NULL, events JSON NOT NULL, enabled BOOLEAN DEFAULT true NOT NULL, created TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, modified TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, id UUID NOT NULL, PRIMARY KEY (id))');
+        $this->addSql('CREATE TABLE webhook_subscription (endpoint_url VARCHAR(255) NOT NULL, secret VARCHAR(255) NOT NULL, error_message VARCHAR(2048), events JSON NOT NULL, enabled BOOLEAN DEFAULT true NOT NULL, created TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, modified TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, id UUID NOT NULL, PRIMARY KEY (id))');
     }
     
     #[\Override]

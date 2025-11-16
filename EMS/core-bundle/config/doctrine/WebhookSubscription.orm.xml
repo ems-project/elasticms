@@ -11,6 +11,7 @@
 
     <field name="endpointUrl" length="255"/>
     <field name="secret" length="255"/>
+    <field name="errorMessage" length="2048" nullable="true"/>
     <field name="events" type="json"/>
     <field name="enabled" type="boolean">
       <options>

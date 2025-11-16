@@ -25,7 +25,7 @@ final class Version20251115132240 extends AbstractMigration
             && !$this->connection->getDatabasePlatform() instanceof MariaDBPlatform,
             "Migration can only be executed safely on '\Doctrine\DBAL\Platforms\MySQLPlatform'."
         );
-        $this->addSql('CREATE TABLE webhook_subscription (endpoint_url VARCHAR(255) NOT NULL, secret VARCHAR(255) NOT NULL, events JSON NOT NULL, enabled TINYINT(1) DEFAULT 1 NOT NULL, created DATETIME NOT NULL, modified DATETIME NOT NULL, id CHAR(36) NOT NULL, PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci`');
+        $this->addSql('CREATE TABLE webhook_subscription (endpoint_url VARCHAR(255) NOT NULL, secret VARCHAR(255) NOT NULL, error_message VARCHAR(2048), events JSON NOT NULL, enabled TINYINT(1) DEFAULT 1 NOT NULL, created DATETIME NOT NULL, modified DATETIME NOT NULL, id CHAR(36) NOT NULL, PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci`');
     }
 
     public function down(Schema $schema): void

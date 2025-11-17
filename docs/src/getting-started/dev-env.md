@@ -74,6 +74,7 @@ make demo
 
 [elasticMS Admin](http://localhost:8881) and [elasticMS Demo](http://localhost:8882) are now
 available.
+You may also test the [elasticMS demo via Varnish](http://varnish.localhost/).
 
 ## Init elasticMS
 

@@ -18,8 +18,7 @@ class HierarchicalController extends AbstractController
         private readonly ContentTypeService $contentTypeService,
         private readonly SearchService $searchService,
         private readonly string $templateNamespace
-    )
-    {
+    ) {
     }
 
     public function item(View $view, string $key): Response

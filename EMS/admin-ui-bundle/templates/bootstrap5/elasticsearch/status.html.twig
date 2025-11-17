@@ -8,14 +8,14 @@
 {% block body %}
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-6">
                 {{ block('cluster') }}
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
                 {{ block('certificate') }}
-            </div>
-            <div class="col-md-4">
                 {{ block('asset_extractor') }}
+                {{ block('jobs') }}
+                {{ block('bus') }}
             </div>
         </div>
     </div>
@@ -160,3 +160,45 @@
         {{ block('card', '@EMSAdminUI/bootstrap5/template/card.html.twig') }}
     {% endwith %}
 {% endblock asset_extractor %}
+
+{% block jobs %}
+    {% if jobs|default %}
+        {% set jobsGroup %}
+            {% include '@EMSAdminUI/bootstrap5/core/list-group.html.twig' with {
+                'list':  [
+                    {label: 'status.jobs.pending'|trans, value: jobs.pending|default(0) },
+                    {label: 'status.jobs.failed'|trans, value: jobs.failed|default(0) },
+                ],
+            }%}
+        {% endset %}
+        {% with {
+            content: jobsGroup,
+            cardTitle: 'status.jobs.title'|trans,
+            cardTitleIcon: 'fa-solid fa-terminal fa-2x',
+            theme_color: jobs.status,
+        } %}
+            {{ block('card', '@EMSAdminUI/bootstrap5/template/card.html.twig') }}
+        {% endwith %}
+    {% endif %}
+{% endblock jobs %}
+
+{% block bus %}
+    {% if bus|default %}
+        {% set busGroup %}
+            {% include '@EMSAdminUI/bootstrap5/core/list-group.html.twig' with {
+                'list':  [
+                    {label: 'status.bus.queue'|trans, value: bus.queue|default(0) },
+                    {label: 'status.bus.failed'|trans, value: bus.failed|default(0) },
+                ],
+            }%}
+        {% endset %}
+        {% with {
+            content: busGroup,
+            cardTitle: 'status.bus.title'|trans,
+            cardTitleIcon: 'fa-solid fa-bus fa-2x',
+            theme_color: bus.status,
+        } %}
+            {{ block('card', '@EMSAdminUI/bootstrap5/template/card.html.twig') }}
+        {% endwith %}
+    {% endif %}
+{% endblock bus %}

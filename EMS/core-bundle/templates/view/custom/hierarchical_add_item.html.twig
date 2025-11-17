@@ -17,7 +17,7 @@
       	</div>
 		<i class="{% if contentType.icon %}{{ contentType.icon }} {% else %} fa fa-question {% endif %} "></i>
 		<h3 class="box-title">
-		{%- if contentType.labelField is defined and data.source.(contentType.labelField) is defined -%}
+		{%- if contentType.labelField and data.source.(contentType.labelField) is defined -%}
 			{{- data.source.(contentType.labelField) -}}
 		{%- else -%}
 			{{- child -}}

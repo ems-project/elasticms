@@ -68,6 +68,15 @@ log:
     title: 'Log of the {created}'
 notice_card:
     title: Notice
+status:
+    bus:
+        failed: 'Messages in error'
+        queue: 'Messages in the queue'
+        title: 'Messages in the bus'
+    jobs:
+        failed: 'Failed jobs'
+        pending: 'Pending jobs'
+        title: Jobs
 subtitle:
     user-in-group: 'Users in group'
     user-not-in-group: 'User not in group'

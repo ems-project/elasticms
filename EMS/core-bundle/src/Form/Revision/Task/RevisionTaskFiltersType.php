@@ -25,9 +25,10 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 class RevisionTaskFiltersType extends AbstractType
 {
     public function __construct(
-        private readonly ContentTypeService $contentTypeService, 
+        private readonly ContentTypeService $contentTypeService,
         private readonly AuthorizationCheckerInterface $authorizationChecker
-    ){}
+    ) {
+    }
 
     /**
      * @param FormBuilderInterface<mixed> $builder
@@ -78,7 +79,7 @@ class RevisionTaskFiltersType extends AbstractType
                 'choices' => $versionTags,
             ]);
         }
-        
+
         if ($this->authorizationChecker->isGranted('ROLE_PUBLISHER')) {
             $builder->add('isOverdue', CheckboxType::class, [
                 'required' => false,

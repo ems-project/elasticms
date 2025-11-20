@@ -17,15 +17,17 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
  * @extends AbstractType<mixed>
  */
 class RevisionTaskFiltersType extends AbstractType
 {
-    public function __construct(private readonly ContentTypeService $contentTypeService)
-    {
-    }
+    public function __construct(
+        private readonly ContentTypeService $contentTypeService, 
+        private readonly AuthorizationCheckerInterface $authorizationChecker
+    ){}
 
     /**
      * @param FormBuilderInterface<mixed> $builder
@@ -76,12 +78,14 @@ class RevisionTaskFiltersType extends AbstractType
                 'choices' => $versionTags,
             ]);
         }
-
-        $builder->add('isOverdue', CheckboxType::class, [
-            'required' => false,
-            'label' => 'task.filter.is_overdue',
-            'translation_domain' => EMSCoreBundle::TRANS_DOMAIN,
-        ]);
+        
+        if ($this->authorizationChecker->isGranted('ROLE_PUBLISHER')) {
+            $builder->add('isOverdue', CheckboxType::class, [
+                'required' => false,
+                'label' => 'task.filter.is_overdue',
+                'translation_domain' => EMSCoreBundle::TRANS_DOMAIN,
+            ]);
+        }
 
         $builder->add('submit', SubmitType::class, [
             'label' => 'task.filter.submit',

@@ -40,6 +40,8 @@ final class HttpCacheController extends AbstractController
         if (\str_starts_with($eventName, 'content.published.') || \in_array($eventName, ['content.finalize', 'content.unpublish'], true)) {
             $ouuid = Type::string($data['ouuid']);
             $this->httpCacheManager->purgeByTags($ouuid);
+        } elseif (\str_starts_with($eventName, 'environment.new_index.')) {
+            $this->httpCacheManager->purgeAll();
         } else {
             throw new \RuntimeException(\sprintf('event type %s not supported', $eventName));
         }

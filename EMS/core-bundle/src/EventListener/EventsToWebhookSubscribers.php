@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\EventListener;
 
 use EMS\CoreBundle\Core\Messenger\Message\WebhookSubscriberMessage;
+use EMS\CoreBundle\Event\NewIndexEvent;
 use EMS\CoreBundle\Event\RevisionFinalizeDraftEvent;
 use EMS\CoreBundle\Event\RevisionPublishEvent;
 use EMS\CoreBundle\Event\RevisionUnpublishEvent;
@@ -30,6 +31,7 @@ final readonly class EventsToWebhookSubscribers implements EventSubscriberInterf
             RevisionFinalizeDraftEvent::class => 'onFinalizeDraft',
             RevisionUnpublishEvent::class => 'onUnpublish',
             WorkerMessageFailedEvent::class => 'onMessageFailed',
+            NewIndexEvent::class => 'onNewIndex',
         ];
     }
 
@@ -79,6 +81,15 @@ final readonly class EventsToWebhookSubscribers implements EventSubscriberInterf
             'subscriptionId' => $message->subscriptionId,
             'event' => $message->eventName,
             'errorMessage' => $event->getThrowable()->getMessage(),
+        ]);
+    }
+
+    public function onNewIndex(NewIndexEvent $event): void
+    {
+        $this->dispatch('environment.new_index', [
+            'index' => $event->getIndex(),
+            'aliases' => $event->getAliases(),
+            'old_index' => $event->getOldIndex(),
         ]);
     }
 

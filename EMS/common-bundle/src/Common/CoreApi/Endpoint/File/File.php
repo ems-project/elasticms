@@ -172,8 +172,6 @@ final class File implements FileInterface
     #[\Override]
     public function addChunk(string $hash, string $chunk): int
     {
-        $test = HttpStorage::addChunkUrl($hash);
-
         $response = $this->client->postBody(HttpStorage::addChunkUrl($hash), $chunk);
 
         $data = $response->getData();

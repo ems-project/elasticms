@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Event;
 
+use EMS\CoreBundle\Entity\Environment;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
@@ -16,8 +17,13 @@ class NewIndexEvent extends Event
     /**
      * @param string[] $aliases
      */
-    public function __construct(private readonly string $index, private readonly array $aliases, private readonly ?string $oldIndex)
+    public function __construct(private readonly Environment $environment, private readonly string $index, private readonly array $aliases, private readonly ?string $oldIndex)
     {
+    }
+
+    public function getEnvironment(): Environment
+    {
+        return $this->environment;
     }
 
     public function getIndex(): string

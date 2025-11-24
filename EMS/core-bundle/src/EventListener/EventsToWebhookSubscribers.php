@@ -86,7 +86,8 @@ final readonly class EventsToWebhookSubscribers implements EventSubscriberInterf
 
     public function onNewIndex(NewIndexEvent $event): void
     {
-        $this->dispatch('environment.new_index', [
+        $this->dispatch(\sprintf('environment.new_index.%s', $event->getEnvironment()->getName()), [
+            'environment' => $event->getEnvironment()->getName(),
             'index' => $event->getIndex(),
             'aliases' => $event->getAliases(),
             'old_index' => $event->getOldIndex(),

@@ -79,7 +79,7 @@ class AliasService
         $endpoint->setBody(['actions' => $actions]);
         $this->elasticaClient->requestEndpoint($endpoint);
 
-        $event = new NewIndexEvent($newIndex, $aliases, $oldIndex);
+        $event = new NewIndexEvent($environment, $newIndex, $aliases, $oldIndex);
         $this->dispatcher->dispatch($event);
 
         return $actions;

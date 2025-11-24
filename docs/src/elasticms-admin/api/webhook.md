@@ -107,3 +107,17 @@ The structure of the webhook `data` is:
 - `content_type`: name of the content type
 - `ouuid`: OUUID of the document finalized
 - `raw_data`: Raw data (array) of the revision finalized
+
+### New index
+
+To register to this event, you have to specify on which environment you want by ending the string
+`environment.new_index.` with the environment name. E.g. `environment.new_index.live`.
+
+The structure of the webhook `data` is:
+
+- `environment`: name of the admin's publish environment (e.g. `staging`, `live`, ...).
+- `index`: name of the just created elasticsearch index
+- `aliases`: the elasticsearch's alias corresponding to the publish environment
+- `content_type`: name of the content type
+- `ouuid`: OUUID of the document published
+- `raw_data`: Raw data (array) of the revision published

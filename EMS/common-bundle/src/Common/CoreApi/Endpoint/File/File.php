@@ -68,10 +68,13 @@ final class File implements FileInterface
         }
         $size = \strlen($contents);
         $fromByte = $this->initUpload($hash, $size, $filename, $mimeType);
-        $uploaded = $this->addChunk($hash, $fromByte > 0 ? \substr($contents, $fromByte) : $contents);
-        if ($uploaded !== $size) {
-            throw new \RuntimeException(\sprintf('Sizes mismatched %d vs. %d for assets %s', $uploaded, $size, $hash));
-        }
+        do {
+            $uploaded = $this->addChunk($hash, \substr($contents, $fromByte, FileHelper::DEFAULT_CHUNK_SIZE));
+            if ($uploaded > $size) {
+                throw new \RuntimeException(\sprintf('Sizes mismatched %d vs. %d for assets %s', $uploaded, $size, $hash));
+            }
+            $fromByte = $uploaded;
+        } while ($uploaded < $size);
 
         return $hash;
     }
@@ -172,6 +175,7 @@ final class File implements FileInterface
         if (!$response->isSuccess() || !\is_int($data['uploaded'] ?? null)) {
             throw new \RuntimeException(\sprintf('Add chunk failed due to %s', $data['error'][0] ?? 'unknown reason'));
         }
+        \dump($data);
 
         return $data['uploaded'];
     }

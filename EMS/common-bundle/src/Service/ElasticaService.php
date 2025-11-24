@@ -23,6 +23,7 @@ use Elasticsearch\Endpoints\Indices\Refresh;
 use Elasticsearch\Endpoints\Info;
 use Elasticsearch\Endpoints\Scroll as ScrollEndpoints;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
+use EMS\CommonBundle\Common\HttpCache\TagCollector;
 use EMS\CommonBundle\Elasticsearch\Client;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
@@ -46,8 +47,13 @@ class ElasticaService
     /** @var array<string, bool> */
     private array $existsIndex = [];
 
-    public function __construct(private readonly LoggerInterface $logger, private readonly Client $client, private readonly AdminHelper $adminHelper, private readonly bool $useAdminProxy)
-    {
+    public function __construct(
+        private readonly LoggerInterface $logger,
+        private readonly Client $client,
+        private readonly AdminHelper $adminHelper,
+        private readonly TagCollector $tagCollector,
+        private readonly bool $useAdminProxy,
+    ) {
     }
 
     public function getUrl(): string
@@ -138,6 +144,7 @@ class ElasticaService
         if (1 !== $resultSet->count()) {
             throw new NotSingleResultException($resultSet->count(), $resultSet);
         }
+        $this->tagCollector->add($resultSet);
 
         return Document::fromResult($result);
     }
@@ -204,6 +211,7 @@ class ElasticaService
         } else {
             $resultSet = $this->createElasticaSearch($search, $search->getSearchOptions())->search();
         }
+        $this->tagCollector->add($resultSet);
 
         return $resultSet;
     }

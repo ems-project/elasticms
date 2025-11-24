@@ -6,6 +6,7 @@ namespace EMS\CoreBundle\EventListener;
 
 use EMS\CoreBundle\Core\Messenger\Message\WebhookSubscriberMessage;
 use EMS\CoreBundle\Event\NewIndexEvent;
+use EMS\CoreBundle\Event\RevisionDeleteEvent;
 use EMS\CoreBundle\Event\RevisionFinalizeDraftEvent;
 use EMS\CoreBundle\Event\RevisionPublishEvent;
 use EMS\CoreBundle\Event\RevisionUnpublishEvent;
@@ -32,6 +33,7 @@ final readonly class EventsToWebhookSubscribers implements EventSubscriberInterf
             RevisionUnpublishEvent::class => 'onUnpublish',
             WorkerMessageFailedEvent::class => 'onMessageFailed',
             NewIndexEvent::class => 'onNewIndex',
+            RevisionDeleteEvent::class => 'onDelete',
         ];
     }
 
@@ -91,6 +93,16 @@ final readonly class EventsToWebhookSubscribers implements EventSubscriberInterf
             'index' => $event->getIndex(),
             'aliases' => $event->getAliases(),
             'old_index' => $event->getOldIndex(),
+        ]);
+    }
+
+    public function onDelete(RevisionDeleteEvent $event): void
+    {
+        $this->dispatch('content.delete', [
+            'environment' => $event->getEnvironment()->getName(),
+            'alias' => $event->getEnvironment()->getAlias(),
+            'content_type' => $event->getRevision()->giveContentType()->getName(),
+            'ouuid' => $event->getRevision()->getOuuid(),
         ]);
     }
 

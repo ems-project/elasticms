@@ -175,7 +175,6 @@ final class File implements FileInterface
         if (!$response->isSuccess() || !\is_int($data['uploaded'] ?? null)) {
             throw new \RuntimeException(\sprintf('Add chunk failed due to %s', $data['error'][0] ?? 'unknown reason'));
         }
-        \dump($data);
 
         return $data['uploaded'];
     }

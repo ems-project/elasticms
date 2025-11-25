@@ -1,5 +1,21 @@
 # Changelog 6.x
 
+## 6.9.3 (2025-11-25)
+### Features
+* feat(admin/status): jobs & bus status by @theus77 in https://github.com/ems-project/elasticms/pull/1463
+### Bug Fixes
+* fix(admin): user profile add translation key by @theus77 in https://github.com/ems-project/elasticms/pull/1462
+* fix(admin/contentType): remove cascade delete contentType environment by @Davidmattei in https://github.com/ems-project/elasticms/pull/1466
+* fix(admin/field): JSONFieldType allow null value by @Davidmattei in https://github.com/ems-project/elasticms/pull/1469
+* fix(admin/form-submissions): remove confirm key for download and export by @Davidmattei in https://github.com/ems-project/elasticms/pull/1475
+* fix(admin/icons): load only legacy icon sets by @Davidmattei in https://github.com/ems-project/elasticms/pull/1467
+* fix(admin/notification): treat accept button stays disabled by @Davidmattei in https://github.com/ems-project/elasticms/pull/1473
+* fix(admin/revision): locking skip granted checks when a username is pass by @Davidmattei in https://github.com/ems-project/elasticms/pull/1471
+* fix(admin/view): hierarchical correct print label from labelField by @Davidmattei in https://github.com/ems-project/elasticms/pull/1464
+* fix(admin/view): hierarchical reorder clears children by @Davidmattei in https://github.com/ems-project/elasticms/pull/1465
+* fix(web): the asset path must take the baseUrl into account by @theus77 in https://github.com/ems-project/elasticms/pull/1459
+* fix(web/search): boost must be disabled in order to avoid impact on the _score by @theus77 in https://github.com/ems-project/elasticms/pull/1470
+
 ## 6.9.2 (2025-11-07)
 ### Bug Fixes
 * fix(admin/contentType): getSortOrder -> getOrderKey by @Davidmattei in https://github.com/ems-project/elasticms/pull/1457

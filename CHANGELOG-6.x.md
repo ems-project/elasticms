@@ -6,6 +6,7 @@
 ### Bug Fixes
 * fix(admin): user profile add translation key by @theus77 in https://github.com/ems-project/elasticms/pull/1462
 * fix(admin/contentType): remove cascade delete contentType environment by @Davidmattei in https://github.com/ems-project/elasticms/pull/1466
+* fix(admin/core): revert npm audit fix by @Davidmattei in https://github.com/ems-project/elasticms/pull/1476
 * fix(admin/field): JSONFieldType allow null value by @Davidmattei in https://github.com/ems-project/elasticms/pull/1469
 * fix(admin/form-submissions): remove confirm key for download and export by @Davidmattei in https://github.com/ems-project/elasticms/pull/1475
 * fix(admin/icons): load only legacy icon sets by @Davidmattei in https://github.com/ems-project/elasticms/pull/1467

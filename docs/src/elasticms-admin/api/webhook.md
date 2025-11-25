@@ -90,7 +90,8 @@ Type of this event `content.unpublish`. Fire each time that a document draft is 
 The structure of the webhook `data` is:
 
 - `environment`: name of the admin's unpublish environment (e.g. `staging`, `live`, ...). FYI,
-  delete won't fire a `content.unpublish.` webhook for the default environment, see delete webhook.
+  delete won't fire a `content.unpublish.` webhook for the default environment, see
+  [delete webhook](#content-delete).
 - `alias`: the elasticsearch's alias corresponding to the unpublish environment
 - `content_type`: name of the content type
 - `ouuid`: OUUID of the document unpublished
@@ -107,3 +108,29 @@ The structure of the webhook `data` is:
 - `content_type`: name of the content type
 - `ouuid`: OUUID of the document finalized
 - `raw_data`: Raw data (array) of the revision finalized
+
+### Content Delete
+
+Type of this event `content.delete`. Fire each time that a document draft is deleted.
+
+The structure of the webhook `data` is:
+
+- `environment`: name of the admin's default environment (e.g. `preview`, ...). FYI, delete won't
+  fire a `content.unpublish.${environment}` webhook for the default environment.
+- `alias`: the elasticsearch's alias corresponding to the unpublish environment.
+- `content_type`: name of the content type.
+- `ouuid`: OUUID of the deleted document.
+
+### New index
+
+To register to this event, you have to specify on which environment you want by ending the string
+`environment.new_index.` with the environment name. E.g. `environment.new_index.live`.
+
+The structure of the webhook `data` is:
+
+- `environment`: name of the admin's publish environment (e.g. `staging`, `live`, ...).
+- `index`: name of the just created elasticsearch index
+- `aliases`: the elasticsearch's alias corresponding to the publish environment
+- `content_type`: name of the content type
+- `ouuid`: OUUID of the document published
+- `raw_data`: Raw data (array) of the revision published

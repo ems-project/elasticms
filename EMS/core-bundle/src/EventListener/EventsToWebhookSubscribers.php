@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\EventListener;
 
 use EMS\CoreBundle\Core\Messenger\Message\WebhookSubscriberMessage;
+use EMS\CoreBundle\Event\DispatchToWebhookEvent;
 use EMS\CoreBundle\Event\NewIndexEvent;
 use EMS\CoreBundle\Event\RevisionDeleteEvent;
 use EMS\CoreBundle\Event\RevisionFinalizeDraftEvent;
@@ -34,6 +35,7 @@ final readonly class EventsToWebhookSubscribers implements EventSubscriberInterf
             WorkerMessageFailedEvent::class => 'onMessageFailed',
             NewIndexEvent::class => 'onNewIndex',
             RevisionDeleteEvent::class => 'onDelete',
+            DispatchToWebhookEvent::class => 'onDispatchToWebhook',
         ];
     }
 
@@ -104,6 +106,11 @@ final readonly class EventsToWebhookSubscribers implements EventSubscriberInterf
             'content_type' => $event->getRevision()->giveContentType()->getName(),
             'ouuid' => $event->getRevision()->getOuuid(),
         ]);
+    }
+
+    public function onDispatchToWebhook(DispatchToWebhookEvent $event): void
+    {
+        $this->dispatch($event->name, $event->data);
     }
 
     /**

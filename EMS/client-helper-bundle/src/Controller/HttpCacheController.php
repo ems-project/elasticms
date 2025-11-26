@@ -19,8 +19,8 @@ use Symfony\Component\Security\Http\AccessToken\Oidc\Exception\InvalidSignatureE
 final class HttpCacheController extends AbstractController
 {
     public function __construct(
-        private HttpCacheManager $httpCacheManager,
-        private Cache $cacheManager,
+        private readonly HttpCacheManager $httpCacheManager,
+        private readonly Cache $cacheManager,
     ) {
     }
 

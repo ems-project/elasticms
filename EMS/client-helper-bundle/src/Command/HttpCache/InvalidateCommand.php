@@ -28,12 +28,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 class InvalidateCommand extends AbstractCommand
 {
-    private const LAST_HTTP_CACHE_INVALIDATE_DATETIME = 'last-http-cache-invalidate-date-time';
-    private const OPTION_PURGE = 'purge';
-    private const OPTION_BULK_SIZE = 'bulk-size';
-    private const OPTION_SCROLL_TIMEOUT = 'scroll-timeout';
+    private const string LAST_HTTP_CACHE_INVALIDATE_DATETIME = 'last-http-cache-invalidate-date-time';
+    private const string OPTION_PURGE = 'purge';
+    private const string OPTION_BULK_SIZE = 'bulk-size';
+    private const string OPTION_SCROLL_TIMEOUT = 'scroll-timeout';
     private bool $purge;
-    private ClientRequest $client;
+    private readonly ClientRequest $client;
     private int $bulkSize;
     private string $scrollTimeout;
 

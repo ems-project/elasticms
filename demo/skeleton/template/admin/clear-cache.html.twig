@@ -1,5 +1,4 @@
 {%- set event = emsch_webhook_event() -%}
-{% dump(event.name) %}
 {%- if event.name == 'clear-cache' -%}
     {%- do ems_clear_http_caches() -%}
     {%- set success = true -%}

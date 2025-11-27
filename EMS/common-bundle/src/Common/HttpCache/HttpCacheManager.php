@@ -48,6 +48,7 @@ class HttpCacheManager
                 ]),
             );
             $response = $client->request('BAN');
+            \dump($response->getStatusCode());
             if (200 === $response->getStatusCode()) {
                 ++$purgedCounter;
             }

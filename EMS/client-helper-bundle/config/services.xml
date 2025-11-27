@@ -65,6 +65,14 @@
             <argument type="service" id="security.csrf.token_manager" />
         </service>
 
+        <service id="emsch.helper_webhook" class="EMS\ClientHelperBundle\Helper\Webhook\WebhookHelper">
+            <argument type="service" id="request_stack" />
+            <argument type="service" id="ems.common.cache"/>
+        </service>
+        <service id="emsch.runtime_webhook" class="EMS\ClientHelperBundle\Helper\Webhook\WebhookRuntime">
+            <argument type="service" id="emsch.helper_webhook" />
+        </service>
+
         <service id="emsch.form.extension.view" class="EMS\ClientHelperBundle\Helper\Form\Extension\EmschFormViewExtension">
             <tag name="form.type_extension" priority="1"/>
         </service>
@@ -157,7 +165,7 @@
         </service>
         <service id="emsch.controller.http_cache" class="EMS\ClientHelperBundle\Controller\HttpCacheController" public="true">
             <argument type="service" id="ems_common.service.http_cache_manager"/>
-            <argument type="service" id="ems.common.cache"/>
+            <argument type="service" id="emsch.helper_webhook"/>
             <call method="setContainer"/>
             <tag name="controller.service_arguments"/>
             <tag name="container.service_subscriber"/>

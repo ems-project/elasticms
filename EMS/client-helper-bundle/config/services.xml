@@ -71,6 +71,7 @@
         </service>
         <service id="emsch.runtime_webhook" class="EMS\ClientHelperBundle\Helper\Webhook\WebhookRuntime">
             <argument type="service" id="emsch.helper_webhook" />
+            <tag name="twig.runtime" />
         </service>
 
         <service id="emsch.form.extension.view" class="EMS\ClientHelperBundle\Helper\Form\Extension\EmschFormViewExtension">

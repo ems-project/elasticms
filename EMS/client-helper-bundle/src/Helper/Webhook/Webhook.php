@@ -12,4 +12,9 @@ readonly class Webhook
     public function __construct(public string $eventName, public array $data)
     {
     }
+
+    public function getName(): string
+    {
+        return $this->eventName;
+    }
 }

@@ -17,4 +17,5 @@ enum MimeTypes: string
     case IMAGE_PNG = 'image/png';
     case IMAGE_JPEG = 'image/jpeg';
     case IMAGE_WEBP = 'image/webp';
+    case APPLICATION_PDF = 'application/pdf';
 }

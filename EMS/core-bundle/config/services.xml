@@ -463,6 +463,7 @@
             <argument>%kernel.project_dir%</argument>
             <argument>%ems_core.tika_download_url%</argument>
             <argument>%ems_core.tika_max_content%</argument>
+            <argument>%ems_core.pdf_max_pages%</argument>
             <tag name="kernel.cache_warmer" />
         </service>
         <service id="ems.service.search" class="EMS\CoreBundle\Service\SearchService">

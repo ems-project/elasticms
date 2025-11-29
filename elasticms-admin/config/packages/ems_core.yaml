@@ -36,6 +36,7 @@ parameters:
     env(EMSCO_TIKA_SERVER): '%env(string:TIKA_SERVER)%'
     env(EMSCO_TIKA_DOWNLOAD_URL): '%env(string:TIKA_DOWNLOAD_URL)%'
     env(EMSCO_TIKA_MAX_CONTENT): 5120
+    env(EMSCO_PDF_MAX_PAGES): 50
     env(EMSCO_PRIVATE_KEY): '%env(string:EMS_PRIVATE_KEY)%'
     env(EMSCO_PUBLIC_KEY): '%env(string:EMS_PUBLIC_KEY)%'
     env(EMSCO_INSTANCE_ID): '%env(string:EMS_INSTANCE_ID)%'
@@ -103,6 +104,7 @@ ems_core:
     tika_server: '%env(string:EMSCO_TIKA_SERVER)%'
     tika_download_url: '%env(string:EMSCO_TIKA_DOWNLOAD_URL)%'
     tika_max_content: '%env(int:EMSCO_TIKA_MAX_CONTENT)%'
+    pdf_max_pages: '%env(int:EMSCO_PDF_MAX_PAGES)%'
     trigger_job_from_web:  '%env(bool:EMSCO_TRIGGER_JOB_FROM_WEB)%'
     pre_generated_ouuids: '%env(bool:EMSCO_PRE_GENERATED_OUUIDS)%'
     default_bulk_size: '%env(int:EMSCO_DEFAULT_BULK_SIZE)%'

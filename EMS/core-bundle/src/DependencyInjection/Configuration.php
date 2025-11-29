@@ -33,7 +33,7 @@ class Configuration implements ConfigurationInterface
     final public const array ASSET_CONFIG = [];
     final public const null TIKA_SERVER = null;
     final public const int TIKA_MAX_CONTENT = 5120;
-    final public const bool SAVE_ASSETS_IN_DB = false;
+    final public const int PDF_MAX_PAGES = 50;
     final public const int DEFAULT_BULK_SIZE = 500;
     final public const string CLEAN_JOBS_TIME_STRING = '-7 days';
     final public const string TEMPLATE_NAMESPACE = 'EMSCore';
@@ -76,6 +76,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('public_key')->defaultValue(self::PUBLIC_KEY)->end()
                 ->scalarNode('tika_server')->defaultValue(self::TIKA_SERVER)->end()
                 ->scalarNode('tika_max_content')->defaultValue(self::TIKA_MAX_CONTENT)->end()
+                ->scalarNode('pdf_max_pages')->defaultValue(self::PDF_MAX_PAGES)->end()
                 ->scalarNode('elasticsearch_version')->defaultValue('depreacted')->end()
                 ->booleanNode('pre_generated_ouuids')->defaultValue(false)->end()
                 ->arrayNode('template_options')->defaultValue([])->prototype('variable')->end()->end()

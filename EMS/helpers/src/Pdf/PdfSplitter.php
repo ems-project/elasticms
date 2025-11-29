@@ -6,16 +6,15 @@ namespace EMS\Helpers\Pdf;
 
 use EMS\Helpers\File\TempFile;
 use EMS\Helpers\Standard\Type;
-use setasign\Fpdi\Tcpdf\Fpdi;
 
 class PdfSplitter
 {
-    private readonly Fpdi $pdf;
+    private readonly TcpdfFpdi $pdf;
     private readonly int $pageCount;
 
     public function __construct(private readonly string $filename)
     {
-        $this->pdf = new Fpdi();
+        $this->pdf = new TcpdfFpdi();
         $this->pageCount = $this->pdf->setSourceFile($filename);
     }
 

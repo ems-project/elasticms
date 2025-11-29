@@ -22,6 +22,10 @@ In case of success you'll get a JSON with those fields:
 - `id`: a UUID of the subscription you just created
 - `secret`: a secret that will be used to sign calls to the provided endpoint URL
 
+Also, around 40 seconds after the registration, a
+[`validate_webhook_subscription`](#validate-subscription) webhook event is sent to the provided
+`endpointUrl`.
+
 ## Delete a subscription (unsubscribe)
 
 This HTTP call will unsubscribe the subscription for the provided UUID:
@@ -67,6 +71,18 @@ Each webhook call's body contains a JSON with two fields:
 - `data`: An array specific to event type. See [events](#events) for more information
 
 ## Events
+
+### Validate subscription
+
+This event is sent 40 seconds after the registration. The registered client must return a 200 to
+this call in order keep it working. This event may be resent from time to time by the backend in
+order to monitor the webhook connection. A `200` response is still required to keep the connection
+active.
+
+The structure of the webhook `data` is:
+
+- `secret` (string): The subscription's secret.
+- `events` (string[]): The list of registered events.
 
 ### Content Publish to
 

@@ -582,3 +582,27 @@ Options:
       --current-revision-only                  Translations will be updated only is the source revision is still a current revision
       --base-url[=BASE-URL]                    Base url, in order to generate a download link to the error report
 ```
+
+## Dispatch a webhook event
+
+Command to trigger a custom webhook event to registered clients.
+
+```bash
+Usage:
+  emsco:webhook:dispatch <event-name> [<data>]
+
+Arguments:
+  event-name            Name of the webhook event
+  data                  Data (JSON format) [default: "{}"]
+
+Options:
+  -h, --help            Display help for the given command. When no command is given display help for the list command
+  -q, --quiet           Do not output any message
+  -V, --version         Display this application version
+      --ansi|--no-ansi  Force (or disable --no-ansi) ANSI output
+  -n, --no-interaction  Do not ask any interactive question
+  -e, --env=ENV         The Environment name. [default: "dev"]
+      --no-debug        Switch off debug mode.
+      --profile         Enables profiling (requires debug).
+  -v|vv|vvv, --verbose  Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+```

@@ -11,6 +11,7 @@ use EMS\CoreBundle\Event\RevisionDeleteEvent;
 use EMS\CoreBundle\Event\RevisionFinalizeDraftEvent;
 use EMS\CoreBundle\Event\RevisionPublishEvent;
 use EMS\CoreBundle\Event\RevisionUnpublishEvent;
+use EMS\CoreBundle\Event\ValidateWebhookSubscriptionEvent;
 use EMS\CoreBundle\Service\WebhookService;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -34,6 +35,7 @@ final readonly class EventsToWebhookSubscribers implements EventSubscriberInterf
             NewIndexEvent::class => 'onNewIndex',
             RevisionDeleteEvent::class => 'onDelete',
             DispatchToWebhookEvent::class => 'onDispatchToWebhook',
+            ValidateWebhookSubscriptionEvent::class => 'onValidateWebhookSubscription',
         ];
     }
 
@@ -109,5 +111,10 @@ final readonly class EventsToWebhookSubscribers implements EventSubscriberInterf
     public function onDispatchToWebhook(DispatchToWebhookEvent $event): void
     {
         $this->webhookService->dispatch($event->name, $event->data);
+    }
+
+    public function onValidateWebhookSubscription(ValidateWebhookSubscriptionEvent $event): void
+    {
+        $this->webhookService->validate($event->webhookSubscription);
     }
 }

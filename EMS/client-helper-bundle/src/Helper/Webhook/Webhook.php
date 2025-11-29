@@ -6,6 +6,8 @@ namespace EMS\ClientHelperBundle\Helper\Webhook;
 
 readonly class Webhook
 {
+    public const string VALIDATE_WEBHOOK_SUBSCRIBER = 'validate_webhook_subscription';
+
     /**
      * @param mixed[] $data
      */

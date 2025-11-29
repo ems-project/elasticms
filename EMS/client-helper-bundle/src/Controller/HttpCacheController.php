@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Controller;
 
+use EMS\ClientHelperBundle\Helper\Webhook\Webhook;
 use EMS\ClientHelperBundle\Helper\Webhook\WebhookHelper;
 use EMS\CommonBundle\Common\HttpCache\HttpCacheManager;
 use EMS\Helpers\Standard\Type;
@@ -27,7 +28,7 @@ final class HttpCacheController extends AbstractController
             $this->httpCacheManager->purgeByTags($ouuid);
         } elseif (\str_starts_with($webhook->eventName, 'environment.new_index.')) {
             $this->httpCacheManager->purgeAll();
-        } else {
+        } elseif (Webhook::VALIDATE_WEBHOOK_SUBSCRIBER !== $webhook->eventName) {
             throw new \RuntimeException(\sprintf('event type %s not supported', $webhook->eventName));
         }
 

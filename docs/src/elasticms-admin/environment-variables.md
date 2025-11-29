@@ -184,7 +184,21 @@ Url of a Tika server (string).
 Url or path to an Apache Tika jar file (string).
 
 - Default value: <http://apache.belnet.be/tika/tika-app-1.22.jar>
-- Example `EMSCO_TIKA_DOWNLOAD_URL=http://apache.belnet.be/tika/tika-app-1.22.jar'`
+- Example `EMSCO_TIKA_DOWNLOAD_URL=http://apache.belnet.be/tika/tika-app-1.22.jar`
+
+### EMSCO_TIKA_MAX_CONTENT
+
+Limits the number of characters extracted from assets by Tika.
+
+- Default value: `5120`
+- Example: `EMSCO_TIKA_MAX_CONTENT=5120`
+
+### EMSCO_PDF_MAX_PAGES
+
+Extracts the first `x` pages of PDF assets before sending them to Tika, in order to limit traffic.
+
+- Default value: `50`
+- Example: `EMSCO_PDF_MAX_PAGES=50`
 
 ### Activate document signature
 

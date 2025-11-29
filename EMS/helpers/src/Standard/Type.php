@@ -42,6 +42,15 @@ final class Type
         return $value;
     }
 
+    public static function float(mixed $value): float
+    {
+        if (!\is_float($value)) {
+            throw new \RuntimeException(\sprintf("Expect an float got '%s'", \gettype($value)));
+        }
+
+        return $value;
+    }
+
     /**
      * @return mixed[]
      */

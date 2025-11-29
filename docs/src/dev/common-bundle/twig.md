@@ -631,3 +631,16 @@ Use php \intval function on input
 ```twig
 {% set size = app.request.query.get('size', 0)|ems_int %}
 ```
+
+### ems_clear_http_caches
+
+Calls the configured reverse proxy services to invalidate all their caches.
+
+```twig
+{%- set event = emsch_webhook_event() -%}
+{%- if event.name == 'clear-cache' -%}
+    {%- do ems_clear_http_caches() -%}
+    {%- set success = true -%}
+{%- endif -%}
+{{- { success: success|default(false) }|json_encode|raw -}}
+```

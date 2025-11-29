@@ -13,6 +13,8 @@ use EMS\CoreBundle\Helper\AssetExtractor\ExtractedData;
 use EMS\CoreBundle\Tika\TikaWrapper;
 use EMS\Helpers\File\File;
 use EMS\Helpers\File\TempFile;
+use EMS\Helpers\Html\MimeTypes;
+use EMS\Helpers\Pdf\PdfSplitter;
 use EMS\Helpers\Standard\Number;
 use EMS\Helpers\Standard\Type;
 use Psr\Log\LoggerInterface;
@@ -34,6 +36,7 @@ class AssetExtractorService implements CacheWarmerInterface
         private readonly string $projectDir,
         private readonly ?string $tikaDownloadUrl,
         private readonly int $tikaMaxContent = 5120,
+        private readonly int $pdfMaxPages = 50,
     ) {
     }
 
@@ -134,6 +137,20 @@ class AssetExtractorService implements CacheWarmerInterface
         if (!$file || !\file_exists($file)) {
             throw new NotFoundException($hash);
         }
+
+        try {
+            $mimetypeGuesser = MimeTypeHelper::getInstance();
+            $mimetype = $mimetypeGuesser->guessMimeType($file);
+            if (MimeTypes::APPLICATION_PDF->value === $mimetype) {
+                $pdfSplitter = new PdfSplitter($file);
+                $file = $pdfSplitter->extractFirstPages($this->pdfMaxPages);
+            }
+        } catch (\Throwable $e) {
+            $this->logger->warning('service.asset_extractor.limit_pdf_pages_error', [
+                'message' => $e->getMessage(),
+            ]);
+        }
+
         $canBePersisted = true;
         if (!empty($this->tikaServer)) {
             try {

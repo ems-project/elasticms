@@ -11,8 +11,20 @@ class HttpCacheRuntime
     ) {
     }
 
-    public function clearCaches(): void
+    /**
+     * @param string|string[] $urlOrTags
+     */
+    public function clearCaches(array|string $urlOrTags = []): void
     {
-        $this->httpCacheManager->purgeAll();
+        if (empty($urlOrTags)) {
+            $this->httpCacheManager->purgeAll();
+        } elseif (\is_string($urlOrTags) && \str_starts_with($urlOrTags, '/')) {
+            $this->httpCacheManager->purgeByUrl($urlOrTags);
+        } else {
+            if (!\is_array($urlOrTags)) {
+                $urlOrTags = [$urlOrTags];
+            }
+            $this->httpCacheManager->purgeByTags(...$urlOrTags);
+        }
     }
 }

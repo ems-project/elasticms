@@ -46,6 +46,7 @@ const sidebar: DefaultTheme.SidebarMulti = {
                     collapsed: true,
                     items: [
                         { text: 'Login', link: '/elasticms-admin/api/login' },
+                        { text: 'Monitoring', link: '/elasticms-admin/api/monitoring' },
                         { text: 'Webhook', link: '/elasticms-admin/api/webhook' },
                     ]
                 },

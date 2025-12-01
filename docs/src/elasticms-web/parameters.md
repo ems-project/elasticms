@@ -368,6 +368,30 @@ Bollean variable, if specified to `true` all elasticsearch query will be delegat
 And then you'll need to login on an admin first via the `ems:admin:login` command. By default, this
 variable is set to `false`.
 
+### EMS_HTTP_CACHES
+
+Available since release **6.10.0**.
+
+This environment variable is used to define all reverse proxy services in front of your website.  
+Currently, **Varnish** is the only supported reverse proxy.
+
+It is used by the `HttpCacheManager` to invalidate cache services such as Varnish.
+
+```dotenv
+EMS_HTTP_CACHES='[{"header":"x-varnish","url":"http://varnish.localhost/","headers":{"X-Invalidate-Token":"devsecret"}}]'
+```
+
+This variable must contain a JSON-encoded array of objects. Each object is structured as follows:
+
+- `header`: The name of the HTTP request header used by the `HttpCacheManager` to detect that the
+  request has been forwarded by a reverse proxy. This field is required.
+- `url`: The internal URL of the reverse proxy that the HttpCacheManager will use to communicate
+  with it. This field is required.
+- `headers` (optional): A set of HTTP headers that the HttpCacheManager will include when
+  communicating with the reverse proxy. Default to `[]`.
+- `verify_ssl` (optional): Whether the certificate of the reverse proxy should be verified. Defaults
+  to `true`.
+
 ## Elasticms Form Bundle variables
 
 ### EMSF_HASHCASH_DIFFICULTY

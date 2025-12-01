@@ -631,3 +631,47 @@ Use php \intval function on input
 ```twig
 {% set size = app.request.query.get('size', 0)|ems_int %}
 ```
+
+### ems_clear_http_caches
+
+Calls the configured reverse proxy services to invalidate part or all of their caches.
+
+It accepts one optional argument:
+
+- **`URL or Tags` (optional)**:
+    - If it contains an empty array (default value), a full cache purge will be sent.
+    - If it is a string starting with `/`, a cache clear by URL will be sent.
+    - Otherwise, a cache clear by tags will be sent.
+
+#### Example of a cache clear route
+
+The URL is triggered by a `clear-cache` webhook event, at the endpoint `//localhost/_clear_cache`.
+
+Depending on the event data:
+
+- If it contains a **`tags`** attribute (string or array of strings), a tag-based cache clear will
+  be sent.
+- If it contains a **`url`** attribute (string), a URL-based cache clear will be sent.
+- Otherwise, a full cache purge will be sent.
+
+The `emsch_clear_cache` route:
+
+```yaml
+emsch_clear_cache:
+    config:
+        path: '/_clear_cache'
+        method: [POST]
+        host: 'localhost'
+    template_static: template/admin/clear-cache.html.twig
+```
+
+The `template/admin/clear-cache.html.twig` twig:
+
+```twig
+{%- set event = emsch_webhook_event() -%}
+{%- if event.name == 'clear-cache' -%}
+    {%- do ems_clear_http_caches(event.data.tags|default(event.data.url|default([]))) -%}
+    {%- set success = true -%}
+{%- endif -%}
+{{- { success: success|default(false) }|json_encode|raw -}}
+```

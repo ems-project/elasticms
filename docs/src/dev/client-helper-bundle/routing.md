@@ -398,3 +398,27 @@ emsch_demo_asset_in_archive:
         defaults: { hash: 253b903b1fb3ac30975ae9844a0352a65cdcfa3d, maxAge: 3600 }
         controller: 'EMS\CommonBundle\Controller\FileController::assetInArchive'
 ```
+
+## HTTP Cache Controller
+
+This controller allows you to interact with the configured reverse proxy (e.g. Varnish) that serve
+your skeleton.
+
+### Handle ElasticMS webhooks event
+
+This controller's method will handle regular ElasticMS webhooks event to invalidate caches base on
+the event. Depending the event, part of all of the caches will be purged.
+
+Example of route:
+
+```yaml
+emsch_admin_webhook:
+    config:
+        path: '/_admin_webhook'
+        method: [POST]
+        host: 'localhost'
+        controller: 'emsch.controller.http_cache::adminWebhook'
+```
+
+In order to avoid unnecessary exposition you should defined a host in that route that is available
+from the admin but not from the Internet.

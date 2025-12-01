@@ -30,7 +30,7 @@ class RegisterToWebhookCommand extends AbstractCommand
 
     public function __construct(
         private readonly AdminHelper $adminHelper,
-        private Cache $cacheManager,
+        private readonly Cache $cacheManager,
     ) {
         parent::__construct();
     }
@@ -45,6 +45,7 @@ class RegisterToWebhookCommand extends AbstractCommand
         ;
     }
 
+    #[\Override]
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
@@ -52,6 +53,7 @@ class RegisterToWebhookCommand extends AbstractCommand
         $this->events = $this->getArgumentStringArray(self::ARGUMENT_EVENTS);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $subscription = $this->adminHelper->getCoreApi()->admin()->registerToWebhooks($this->endpoint, $this->events);

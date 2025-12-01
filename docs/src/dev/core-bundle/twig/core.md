@@ -302,3 +302,17 @@ Function that generate a warning message to the user
   }) %}
 {% endif %}
 ```
+
+## emsco_webhook
+
+Dispatches a custom webhook event to registered clients.  
+This function takes two parameters:
+
+- **event name** (string)
+- **data** (array)
+
+```twig
+{% do emsco_webhook('custom-event', {
+    'foo': 'bar',
+}) %}
+```

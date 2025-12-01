@@ -147,3 +147,9 @@ emsch_admin_webhook:
     method: [POST]
     host: 'localhost'
     controller: 'emsch.controller.http_cache::adminWebhook'
+emsch_clear_cache:
+  config:
+    path: '/_clear_cache'
+    method: [POST]
+    host: 'localhost'
+  template_static: template/admin/clear-cache.html.twig

@@ -123,6 +123,10 @@
             <argument type="service" id="ems_common.service.elastica" />
             <tag name="twig.runtime" />
         </service>
+        <service id="ems.common.twig.htp_cache" class="EMS\CommonBundle\Common\HttpCache\HttpCacheRuntime">
+            <argument type="service" id="ems_common.service.http_cache_manager" />
+            <tag name="twig.runtime" />
+        </service>
         <service id="ems.common.twig.template_factory" class="EMS\CommonBundle\Common\Twig\TemplateFactory">
             <argument type="service" id="twig"/>
         </service>

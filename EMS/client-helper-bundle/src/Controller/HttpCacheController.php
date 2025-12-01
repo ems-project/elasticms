@@ -4,64 +4,36 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Controller;
 
-use EMS\CommonBundle\Common\Cache\Cache;
+use EMS\ClientHelperBundle\Helper\Webhook\Webhook;
+use EMS\ClientHelperBundle\Helper\Webhook\WebhookHelper;
 use EMS\CommonBundle\Common\HttpCache\HttpCacheManager;
-use EMS\Helpers\Html\Headers;
-use EMS\Helpers\Standard\Json;
 use EMS\Helpers\Standard\Type;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\GoneHttpException;
-use Symfony\Component\Security\Http\AccessToken\Oidc\Exception\InvalidSignatureException;
 
 final class HttpCacheController extends AbstractController
 {
     public function __construct(
-        private HttpCacheManager $httpCacheManager,
-        private Cache $cacheManager,
+        private readonly HttpCacheManager $httpCacheManager,
+        private readonly WebhookHelper $webhookHelper,
     ) {
     }
 
-    public function adminWebhook(Request $request): Response
+    public function adminWebhook(): Response
     {
-        $this->validateWebHookCall($request);
-        $event = Json::decode(Type::string($request->getContent()));
-        $eventName = $event['event'] ?? null;
-        $data = $event['data'] ?? null;
-        if (!\is_string($eventName)) {
-            throw new \RuntimeException('event name not provided');
-        }
-        if (!\is_array($data)) {
-            throw new \RuntimeException('event data not provided');
-        }
-
-        if (\str_starts_with($eventName, 'content.published.') || \in_array($eventName, ['content.finalize', 'content.unpublish', 'content.delete'], true)) {
-            $ouuid = Type::string($data['ouuid']);
+        $webhook = $this->webhookHelper->getWebhook();
+        if (\str_starts_with($webhook->eventName, 'content.published.') || \in_array($webhook->eventName, ['content.finalize', 'content.unpublish', 'content.delete'], true)) {
+            $ouuid = Type::string($webhook->data['ouuid'] ?? null);
             $this->httpCacheManager->purgeByTags($ouuid);
-        } elseif (\str_starts_with($eventName, 'environment.new_index.')) {
+        } elseif (\str_starts_with($webhook->eventName, 'environment.new_index.')) {
             $this->httpCacheManager->purgeAll();
-        } else {
-            throw new \RuntimeException(\sprintf('event type %s not supported', $eventName));
+        } elseif (Webhook::VALIDATE_WEBHOOK_SUBSCRIBER !== $webhook->eventName) {
+            throw new \RuntimeException(\sprintf('event type %s not supported', $webhook->eventName));
         }
 
         return new JsonResponse([
             'success' => true,
         ]);
-    }
-
-    private function validateWebHookCall(Request $request): void
-    {
-        $signature = Type::string($request->headers->get(Headers::X_WEBHOOK_SIGNATURE));
-        $subscriptionId = Type::string($request->headers->get(Headers::X_WEBHOOK_SUBSCRIPTION_ID));
-        $secret = $this->cacheManager->getItem(\sprintf('webhook_secret_%s', $subscriptionId));
-        if (!$secret->isHit()) {
-            throw new GoneHttpException('Unknown webhook subscription');
-        }
-        $hash = \hash_hmac('sha256', Type::string($request->getContent()), Type::string($secret->get()));
-        if ($hash !== $signature) {
-            throw new InvalidSignatureException();
-        }
     }
 }

@@ -87,3 +87,23 @@ The `redirects/favicon.json.twig` template:
         })|json_encode|raw -}}
 {%- endblock request -%}
 ```
+
+## emsch_webhook_event
+
+This function returns an `EMS\ClientHelperBundle\Helper\Webhook` instance for the current request's
+webhook.
+
+If the current request is not a valid webhook request, an exception will be thrown.
+
+A webhook request is always a POST request and must return JSON.
+
+See [webhook](../../../elasticms-admin/api/webhook.md) for more information.
+
+```twig
+{%- set event = emsch_webhook_event() -%}
+{%- if event.name == 'clear-cache' -%}
+    {%- do ems_clear_http_caches() -%}
+    {%- set success = true -%}
+{%- endif -%}
+{{- { success: success|default(false) }|json_encode|raw -}}
+```

@@ -1,5 +1,11 @@
 # Changelog 6.x
 
+## 6.9.4 (2025-12-08)
+### Bug Fixes
+* fix(admin/api): finalize draft without rawData by @Davidmattei in https://github.com/ems-project/elasticms/pull/1481
+* fix(admin/twig): alternative twig filter emco_src_path by @Davidmattei in https://github.com/ems-project/elasticms/pull/1483
+* fix(admin/wysiwyg): style set check hash exists by @Davidmattei in https://github.com/ems-project/elasticms/pull/1482
+
 ## 6.9.3 (2025-11-25)
 ### Features
 * feat(admin/status): jobs & bus status by @theus77 in https://github.com/ems-project/elasticms/pull/1463

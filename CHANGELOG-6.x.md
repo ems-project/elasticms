@@ -3,6 +3,7 @@
 ## 6.9.4 (2025-12-10)
 ### Bug Fixes
 * fix(admin/api): finalize draft without rawData by @Davidmattei in https://github.com/ems-project/elasticms/pull/1481
+* fix(admin/publish): excluded deleted environment revisions by @Davidmattei in https://github.com/ems-project/elasticms/pull/1485
 * fix(admin/publish): load all version environment revisions by @Davidmattei in https://github.com/ems-project/elasticms/pull/1484
 * fix(admin/twig): alternative twig filter emco_src_path by @Davidmattei in https://github.com/ems-project/elasticms/pull/1483
 * fix(admin/wysiwyg): style set check hash exists by @Davidmattei in https://github.com/ems-project/elasticms/pull/1482

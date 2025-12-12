@@ -11,7 +11,6 @@ use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\CommonBundle\Twig\AssetRuntime;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Extension\RuntimeExtensionInterface;
 
 final class AssetHelperRuntime implements RuntimeExtensionInterface
@@ -26,7 +25,6 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
         private readonly ClientRequestManager $manager,
         private readonly AssetRuntime $commonAssetRuntime,
         private readonly ViteService $viteService,
-        private readonly RequestStack $requestStack,
         string $projectDir,
         private readonly ?string $localFolder
     ) {
@@ -159,17 +157,10 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
 
     private function getBasePath(): string
     {
-        $request = $this->requestStack->getCurrentRequest();
-        if (null === $request) {
-            $baseUrl = '';
-        } else {
-            $baseUrl = $request->getBaseUrl();
-        }
-
         return match (true) {
             !empty($this->localFolder) => $this->localFolder,
-            null === $this->versionSaveDir => \sprintf('%s/bundles/%s', $baseUrl, $this->getVersionHash()),
-            default => \sprintf('%s/%s/%s', $this->getVersionSaveDir(), $baseUrl, $this->getVersionHash())
+            null === $this->versionSaveDir => \sprintf('bundles/%s', $this->getVersionHash()),
+            default => \sprintf('%s/%s', $this->versionSaveDir, $this->getVersionHash())
         };
     }
 

@@ -8,7 +8,6 @@ use EMS\CommonBundle\Common\CoreApi\Client;
 use EMS\CommonBundle\Common\CoreApi\Endpoint\Admin\Message\Job;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Admin\AdminInterface;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Admin\ConfigInterface;
-use EMS\CoreBundle\Entity\Job as JobEntity;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpClient\Exception\TransportException;
 
@@ -96,7 +95,7 @@ class Admin implements AdminInterface
     public function runCommand(string $command, ?OutputInterface $output = null): void
     {
         $job = [
-            'class' => JobEntity::class,
+            'class' => 'EMS\CoreBundle\Entity\Job',
             'arguments' => [],
             'properties' => [
                 'command' => $command,

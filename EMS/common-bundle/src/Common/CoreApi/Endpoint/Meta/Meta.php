@@ -41,4 +41,15 @@ final readonly class Meta implements MetaInterface
             'circles' => $circles,
         ])->getData();
     }
+
+    #[\Override]
+    public function getEnvironments(?bool $managed = null, ?bool $snapshot = null): array
+    {
+        $query = \array_filter([
+            'managed' => $managed,
+            'snapshot' => $snapshot,
+        ], static fn ($value) => null !== $value);
+
+        return $this->client->get('/api/meta/environments', $query)->getData();
+    }
 }

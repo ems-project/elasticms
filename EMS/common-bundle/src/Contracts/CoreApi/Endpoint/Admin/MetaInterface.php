@@ -34,4 +34,9 @@ interface MetaInterface
      * }>
      */
     public function getDrafts(bool $includeRawData = false, array $circles = []): array;
+
+    /**
+     * @return array<int, array{ name: string, managed: bool, snapshot: bool}>
+     */
+    public function getEnvironments(?bool $managed = null, ?bool $snapshot = null): array;
 }

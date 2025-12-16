@@ -20,4 +20,18 @@ interface MetaInterface
      *  }>
      */
     public function getInfoDocuments(array $environments, array $emsLinks): array;
+
+    /**
+     * @param string[] $circles
+     *
+     * @return array<int, array{
+     *     id: string,
+     *     ouuid: ?string,
+     *     circles: string[],
+     *     save_date: string,
+     *     created: string,
+     *     raw_data?: array<mixed>
+     * }>
+     */
+    public function getDrafts(bool $includeRawData = false, array $circles = []): array;
 }

@@ -12,7 +12,17 @@ interface AdminInterface
     public function getConfig(string $typeName): ConfigInterface;
 
     /**
-     * @return array{id: string, created: string, modified: string, command: string, user: string, started: bool, done: bool, output: ?string}
+     * @return array{
+     *     id: string,
+     *     created: string,
+     *     modified: string,
+     *     command: string,
+     *     user: string,
+     *     started: bool,
+     *     done: bool,
+     *     status: string,
+     *     output: ?string
+     * }
      */
     public function getJobStatus(string $jobId): array;
 

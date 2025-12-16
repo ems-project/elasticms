@@ -32,4 +32,13 @@ final readonly class Meta implements MetaInterface
 
         return $data['info'] ?? [];
     }
+
+    #[\Override]
+    public function getDrafts(bool $includeRawData = false, array $circles = []): array
+    {
+        return $this->client->get('/api/meta/drafts', [
+            'includeRawData' => $includeRawData,
+            'circles' => $circles,
+        ])->getData();
+    }
 }

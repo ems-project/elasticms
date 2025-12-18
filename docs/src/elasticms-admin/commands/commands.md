@@ -301,6 +301,36 @@ Options:
       --limit=LIMIT                    limit the results inside mail [default: 10]
 ```
 
+#### Revision Lock All
+
+Lock all revisions in the admin.
+
+```bash
+Description:
+  Lock all revisions
+
+Usage:
+  emsco:revision:lock-all [options] [--] <user>
+
+Arguments:
+  user                  User to lock all revisions
+
+Options:
+      --time=TIME       Lock time [default: "+10 minutes"]
+```
+
+#### Revision Unlock All
+
+Unlock all revisions in the admin.
+
+```bash
+Usage:
+  emsco:revision:unlock-all <user>
+
+Arguments:
+  user                  User to lock all revisions
+```
+
 ### Submission
 
 #### Submission export

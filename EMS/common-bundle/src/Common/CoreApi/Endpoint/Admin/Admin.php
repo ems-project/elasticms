@@ -89,7 +89,7 @@ class Admin implements AdminInterface
     }
 
     #[\Override]
-    public function runCommand(string $command, ?OutputInterface $output = null): void
+    public function runCommand(string $command, ?OutputInterface $output = null): string
     {
         $job = [
             'class' => 'EMS\CoreBundle\Entity\Job',
@@ -103,6 +103,8 @@ class Admin implements AdminInterface
         if (null !== $output) {
             $this->writeJobOutput($jobId, $output);
         }
+
+        return $jobId;
     }
 
     #[\Override]

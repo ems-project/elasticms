@@ -39,4 +39,6 @@ interface MetaInterface
      * @return array<int, array{ name: string, managed: bool, snapshot: bool}>
      */
     public function getEnvironments(?bool $managed = null, ?bool $snapshot = null): array;
+
+    public function aliasAttachEnvironment(string $alias, string $environment): bool;
 }

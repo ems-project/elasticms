@@ -24,13 +24,10 @@ class Admin implements AdminInterface
         return new Config($this->client, $typeName);
     }
 
-    /**
-     * @return array{id: string, created: string, modified: string, command: string, user: string, started: bool, done: bool, output: ?string}
-     */
     #[\Override]
     public function getJobStatus(string $jobId): array
     {
-        /** @var array{id: string, created: string, modified: string, command: string, user: string, started: bool, done: bool, output: ?string} $status */
+        /** @var array{id: string, created: string, modified: string, command: string, user: string,started: bool, done: bool, status: string, output: ?string } $status */
         $status = $this->client->get(\implode('/', ['api', 'admin', 'job-status', $jobId]))->getData();
 
         return $status;
@@ -93,7 +90,7 @@ class Admin implements AdminInterface
     }
 
     #[\Override]
-    public function runCommand(string $command, ?OutputInterface $output = null): void
+    public function runCommand(string $command, ?OutputInterface $output = null): string
     {
         $job = [
             'class' => 'EMS\CoreBundle\Entity\Job',
@@ -107,6 +104,8 @@ class Admin implements AdminInterface
         if (null !== $output) {
             $this->writeJobOutput($jobId, $output);
         }
+
+        return $jobId;
     }
 
     #[\Override]

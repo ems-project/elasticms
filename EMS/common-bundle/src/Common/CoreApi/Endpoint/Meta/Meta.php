@@ -52,4 +52,12 @@ final readonly class Meta implements MetaInterface
 
         return $this->client->get('/api/meta/environments', $query)->getData();
     }
+
+    public function aliasAttachEnvironment(string $alias, string $environment): bool
+    {
+        return $this->client->post(\implode('/', ['api', 'meta', 'alias-attach-environment']), [
+            'alias' => $alias,
+            'environment' => $environment,
+        ])->isSuccess();
+    }
 }

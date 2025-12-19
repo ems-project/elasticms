@@ -79,6 +79,27 @@ Options:
 
 ### Environment
 
+#### Environment create
+
+Starting from version 6.9.5, environments can be created at a specific position, automatically adjusting the order of
+other environments as needed.
+
+```bash
+Description:
+  Create a new environment.
+
+Usage:
+  emsco:environment:create [options] [--] <name>
+  
+Arguments:
+  name                     The environment name
+
+Options:
+      --strict             If set, the check failed will throw an exception
+      --update-referrers   If set, update referrers is true
+      --position=POSITION  Pass a position number, 1 for first position
+```
+
 #### Environment align
 
 Align an environment from another one

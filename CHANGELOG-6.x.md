@@ -1,5 +1,21 @@
 # Changelog 6.x
 
+## 6.9.5 (2025-12-19)
+### Features
+* feat(core/api): add data environments endpoint by @Davidmattei in https://github.com/ems-project/elasticms/pull/1496
+* feat(core/api): add meta findAll drafts endpoint by @Davidmattei in https://github.com/ems-project/elasticms/pull/1488
+* feat(core/api): add meta get environments endpoint by @Davidmattei in https://github.com/ems-project/elasticms/pull/1491
+* feat(core/api): new meta attach alias to environment endpoint by @Davidmattei in https://github.com/ems-project/elasticms/pull/1493
+* feat(core/cli): (un)lock all commands by @Davidmattei in https://github.com/ems-project/elasticms/pull/1492
+* feat(core/cli): create environment new position option by @Davidmattei in https://github.com/ems-project/elasticms/pull/1494
+* feat(core/cli): create environment new role and color option by @Davidmattei in https://github.com/ems-project/elasticms/pull/1497
+* feat(core/job): show created user in job overview by @Davidmattei in https://github.com/ems-project/elasticms/pull/1490
+### Bug Fixes
+* fix(common): reference to CoreBundle namespace are not allowed by @Davidmattei in https://github.com/ems-project/elasticms/pull/1487
+* fix(core/api): job status return status value by @Davidmattei in https://github.com/ems-project/elasticms/pull/1489
+* fix(core/api): run command output can be null by @Davidmattei in https://github.com/ems-project/elasticms/pull/1495
+* fix(web): rollback asset path must take the baseUrl by @theus77 in https://github.com/ems-project/elasticms/pull/1486
+
 ## 6.9.4 (2025-12-10)
 ### Bug Fixes
 * fix(admin/api): finalize draft without rawData by @Davidmattei in https://github.com/ems-project/elasticms/pull/1481

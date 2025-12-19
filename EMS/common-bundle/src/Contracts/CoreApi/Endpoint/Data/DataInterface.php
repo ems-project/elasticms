@@ -64,6 +64,11 @@ interface DataInterface
     public function get(string $ouuid): RevisionInterface;
 
     /**
+     * @return array<int, array{ name: string, label: string, snapshot: bool }>
+     */
+    public function getEnvironments(string $ouuid): array;
+
+    /**
      * @throws CoreApiExceptionInterface
      */
     public function head(string $ouuid): bool;

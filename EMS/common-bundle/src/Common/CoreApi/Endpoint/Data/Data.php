@@ -76,6 +76,12 @@ final readonly class Data implements DataInterface
     }
 
     #[\Override]
+    public function getEnvironments(string $ouuid): array
+    {
+        return $this->client->get($this->makeResource('environments', $ouuid))->getData();
+    }
+
+    #[\Override]
     public function getDraft(int $revisionId): array
     {
         $resource = $this->makeResource('draft', (string) $revisionId);

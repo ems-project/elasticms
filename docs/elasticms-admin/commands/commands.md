@@ -126,14 +126,16 @@ Description:
 
 Usage:
   emsco:environment:create [options] [--] <name>
-  
+
 Arguments:
-  name                     The environment name
+  name                             The environment name
 
 Options:
-      --strict             If set, the check failed will throw an exception
-      --update-referrers   If set, update referrers is true
-      --position=POSITION  Pass a position number, 1 for first position
+      --strict                     If set, the check failed will throw an exception
+      --update-referrers           If set, update referrers is true
+      --position=POSITION          Specifies the position at which the environment should be created
+      --color=COLOR                Specifies the color of the environment
+      --role-publish=ROLE-PUBLISH  Sets the publishing role for the environment (use false to disable publishing).
 ```
 
 #### Environment align

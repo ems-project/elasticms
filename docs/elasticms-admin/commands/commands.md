@@ -126,7 +126,7 @@ Description:
 
 Usage:
   emsco:environment:create [options] [--] <name>
-
+  
 Arguments:
   name                     The environment name
 

@@ -93,7 +93,7 @@ class EnvironmentService implements EntityServiceInterface
 
         if (null !== $position) {
             $max = $this->environmentRepository->getMaxOrder();
-            $position = \min($position, $max + 1);
+            $position = max(1, min($position, $max + 1));
             $this->environmentRepository->shiftOrderKeyFrom($position, 1);
             $environment->setOrderKey($position);
         }

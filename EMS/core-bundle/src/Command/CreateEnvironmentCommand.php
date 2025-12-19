@@ -61,7 +61,7 @@ class CreateEnvironmentCommand extends AbstractCommand
                 self::OPTION_POSITION,
                 null,
                 InputOption::VALUE_REQUIRED,
-                'Pass a position number, 1 for first position'
+                'Specifies the position at which the environment should be created'
             )
         ;
     }

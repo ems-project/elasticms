@@ -70,7 +70,8 @@ class CreateEnvironmentCommand extends AbstractCommand
                 self::OPTION_COLOR,
                 null,
                 InputOption::VALUE_REQUIRED,
-                'Specifies the color of the environment'
+                'Specifies the color of the environment',
+                'default'
             )
             ->addOption(
                 self::OPTION_ROLE_PUBLISH,
@@ -106,7 +107,7 @@ class CreateEnvironmentCommand extends AbstractCommand
             $updateReferrers = (bool) $input->getOption(self::OPTION_UPDATE_REFERRERS);
             $environment = $this->environmentService->createEnvironment(
                 name: $environmentName,
-                color: $this->getOptionStringNull(self::OPTION_COLOR) ?? 'default',
+                color: $this->getOptionString(self::OPTION_COLOR),
                 updateReferrers: $updateReferrers,
                 position: $this->getOptionIntNull(self::OPTION_POSITION),
                 rolePublish: $this->getRolePublish(),

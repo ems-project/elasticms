@@ -68,10 +68,13 @@ final class File implements FileInterface
         }
         $size = \strlen($contents);
         $fromByte = $this->initUpload($hash, $size, $filename, $mimeType);
-        $uploaded = $this->addChunk($hash, $fromByte > 0 ? \substr($contents, $fromByte) : $contents);
-        if ($uploaded !== $size) {
-            throw new \RuntimeException(\sprintf('Sizes mismatched %d vs. %d for assets %s', $uploaded, $size, $hash));
-        }
+        do {
+            $uploaded = $this->addChunk($hash, \substr($contents, $fromByte, FileHelper::DEFAULT_CHUNK_SIZE));
+            if ($uploaded > $size) {
+                throw new \RuntimeException(\sprintf('Sizes mismatched %d vs. %d for assets %s', $uploaded, $size, $hash));
+            }
+            $fromByte = $uploaded;
+        } while ($uploaded < $size);
 
         return $hash;
     }
@@ -133,7 +136,12 @@ final class File implements FileInterface
     #[\Override]
     public function downloadLink(string $hash): string
     {
-        return \sprintf('%s/data/file/%s', $this->client->getBaseUrl(), $hash);
+        $baseUrl = $this->client->getBaseUrl();
+        if (\str_ends_with($baseUrl, '/')) {
+            return \sprintf('%sdata/file/%s', $baseUrl, $hash);
+        }
+
+        return \sprintf('%s/data/file/%s', $baseUrl, $hash);
     }
 
     #[\Override]
@@ -164,8 +172,6 @@ final class File implements FileInterface
     #[\Override]
     public function addChunk(string $hash, string $chunk): int
     {
-        $test = HttpStorage::addChunkUrl($hash);
-
         $response = $this->client->postBody(HttpStorage::addChunkUrl($hash), $chunk);
 
         $data = $response->getData();

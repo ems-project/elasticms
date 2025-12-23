@@ -51,6 +51,8 @@ interface DataInterface
      */
     public function index(?string $ouuid, array $rawData, bool $merge = false, bool $refresh = false): Index;
 
+    public function indexFromAsset(?string $ouuid, string $hash, bool $merge = false, bool $refresh = false): Index;
+
     public function initDraft(string $ouuid): DraftInterface;
 
     /**

@@ -6,6 +6,7 @@ namespace EMS\CommonBundle\Twig;
 
 use EMS\CommonBundle\Common\Converter;
 use EMS\CommonBundle\Common\EMSLink;
+use EMS\CommonBundle\Common\HttpCache\HttpCacheRuntime;
 use EMS\CommonBundle\Helper\Text\Encoder;
 use EMS\Helpers\Standard\Base64;
 use EMS\Helpers\Standard\Color;
@@ -46,6 +47,7 @@ class CommonExtension extends AbstractExtension
             new TwigFunction('ems_file_reader_data', [AssetRuntime::class, 'fileReaderGetData']),
             new TwigFunction('ems_file_reader_cells', [AssetRuntime::class, 'fileReaderReadCells']),
             new TwigFunction('ems_check_ip', [RequestRuntime::class, 'checkIp']),
+            new TwigFunction('ems_clear_http_caches', [HttpCacheRuntime::class, 'clearCaches']),
             new TwigFunction('ems_unzip', [AssetRuntime::class, 'unzip'], [
                 'deprecation_info' => new DeprecatedCallableInfo('elasticms/common-bundle', '5.19.0', 'ems_file_from_archive'),
             ]),

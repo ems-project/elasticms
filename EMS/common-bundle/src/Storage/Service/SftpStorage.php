@@ -6,7 +6,7 @@ namespace EMS\CommonBundle\Storage\Service;
 
 use Psr\Log\LoggerInterface;
 
-class SftpStorage extends AbstractUrlStorage
+class SftpStorage extends AbstractUrlStorage implements \Stringable
 {
     /** @var resource|null */
     private $sftp;

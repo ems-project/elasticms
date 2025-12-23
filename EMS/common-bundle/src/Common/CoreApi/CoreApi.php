@@ -62,7 +62,7 @@ final readonly class CoreApi implements CoreApiInterface
     #[\Override]
     public function data(string $contentType): DataInterface
     {
-        return new Data($this->client, $contentType);
+        return new Data($this->client, $this->file(), $contentType);
     }
 
     #[\Override]

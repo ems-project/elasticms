@@ -6,6 +6,5 @@ window.$ = $;
 window.jQuery = $;
 
 import 'bootstrap';
-import 'popper.js';
 
 

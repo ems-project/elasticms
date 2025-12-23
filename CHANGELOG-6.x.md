@@ -13,6 +13,7 @@
 * feat(webhooks): add emsco_webhook, emsch_webhook_event, ems_clear_http_caches twig functions by @theus77 in https://github.com/ems-project/elasticms/pull/1477
 
 ## 6.9.5 (2025-12-19)
+## 6.9.5 (2025-12-23)
 ### Features
 * feat(core/api): add data environments endpoint by @Davidmattei in https://github.com/ems-project/elasticms/pull/1496
 * feat(core/api): add meta findAll drafts endpoint by @Davidmattei in https://github.com/ems-project/elasticms/pull/1488
@@ -23,6 +24,7 @@
 * feat(core/cli): create environment new role and color option by @Davidmattei in https://github.com/ems-project/elasticms/pull/1497
 * feat(core/job): show created user in job overview by @Davidmattei in https://github.com/ems-project/elasticms/pull/1490
 ### Bug Fixes
+* fix(admin/view): calendar,criteria gallery findChildByName by @Davidmattei in https://github.com/ems-project/elasticms/pull/1500
 * fix(common): reference to CoreBundle namespace are not allowed by @Davidmattei in https://github.com/ems-project/elasticms/pull/1487
 * fix(core/api): job status return status value by @Davidmattei in https://github.com/ems-project/elasticms/pull/1489
 * fix(core/api): run command output can be null by @Davidmattei in https://github.com/ems-project/elasticms/pull/1495

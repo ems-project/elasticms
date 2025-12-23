@@ -104,25 +104,20 @@ export class emsForm
             //Probably a message from a browser plugin
             return;
         }
-
         let data = encoding.jsonParse(e.data);
-
+        if (!data) {
+          //Not a JSON, probably a message from a browser plugin
+          return;
+        }
 
         if (this.ouuid && data.ouuid !== this.ouuid) {
             return;
         }
 
-        if (!data) {
-            if (typeof this.onError === 'function') {
-                this.onError('JSON parse error or missing data');
-            }
-            return;
-        }
-        
         if (data.instruction === undefined) {
             return;
         }
-        
+
         switch (data.instruction) {
             case 'form':
             case 'validation-error':

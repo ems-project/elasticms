@@ -2,7 +2,6 @@
   "name": "form-bundle",
   "version": "1.0.0",
   "description": "EMSFormBundle",
-  "type": "module",
   "main": "index.js",
   "scripts": {
     "build": "webpack --mode production --env prod --progress --profile",

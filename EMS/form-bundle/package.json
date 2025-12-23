@@ -2,10 +2,13 @@
   "name": "form-bundle",
   "version": "1.0.0",
   "description": "EMSFormBundle",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "build": "webpack --mode production --env prod --progress --profile",
     "start": "webpack --mode development --env dev --watch --progress --profile",
+    "format": "prettier --write assets/",
+    "lint": "eslint ./assets/ --ext .js --fix",
     "test": "jest"
   },
   "repository": {
@@ -33,6 +36,7 @@
     "formdata-polyfill": "^4.0.10",
     "hashcash-token": "^1.0.0",
     "jest": "^30.2.0",
+    "prettier": "^3.7.4",
     "style-loader": "^4.0.0",
     "ts-jest": "^29.4.6",
     "ts-node": "^10.9.2",

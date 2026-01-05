@@ -1,14 +1,6 @@
-{% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}{% trans_default_domain 'emsco-core' %}
+{% extends '@EMSAdminUI/bootstrap5/view/custom/abstract.html.twig' %}
 
 {% block extraheader %}{{ header|raw }}{% endblock %}
-
-{% block title %}{{ 'view.title'|trans({
-    'name': view.label,
-    'label': view.name,
-    'plural': view.contentType.pluralName,
-    'singular': view.contentType.singularName,
-}) }}{% endblock %}
-{% block pagetitle %}{{ block('title') }}{% endblock %}
 
 {% block body %}
 <div class="box with-border">

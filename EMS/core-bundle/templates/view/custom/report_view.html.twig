@@ -1,14 +1,6 @@
-{% extends '@EMSCore/base.html.twig' %}{% trans_default_domain '²emsco-core' %}
+{% extends '@EMSCore/view/custom/abstract.html.twig' %}
 
 {% block extraheader %}{{ header|raw }}{% endblock %}
-
-{% block title %}{{ 'view.title'|trans({
-    'name': view.label,
-    'label': view.name,
-    'plural': view.contentType.pluralName,
-    'singular': view.contentType.singularName,
-}) }}{% endblock %}
-{% block pagetitle %}{{ block('title') }}{% endblock %}
 
 {% block body %}
 <div class="box with-border">

@@ -1,12 +1,6 @@
-{% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}{% trans_default_domain 'EMSCoreBundle' %}
-
-{% block title %}{{ view.name }} of {{contentType.name}}{% endblock %}
-{% block pagetitle %}{{ view.name }} of {{contentType.name}}{% endblock %}
-
+{% extends '@EMSAdminUI/bootstrap5/view/custom/abstract.html.twig' %}
 
 {% block body %}
-
-
 	<div class="row">
     	<div class="col-md-12">
             {% include "@EMSAdminUI/bootstrap5/elasticsearch/search-form-filter.html.twig" with {

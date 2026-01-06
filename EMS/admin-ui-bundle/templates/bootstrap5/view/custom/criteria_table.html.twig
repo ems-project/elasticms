@@ -1,8 +1,4 @@
-{% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}{% trans_default_domain 'EMSCoreBundle' %}
-
-{% block title %}{{ view.name }} for {{view.contentType.pluralName}}{% endblock %}
-{% block pagetitle %}{{ view.name }} for {{view.contentType.pluralName}}{% endblock %}
-
+{% extends '@EMSAdminUI/bootstrap5/view/custom/abstract.html.twig' %}
 
 {% block body %}
 		{% set criteriaFilters = {} %}

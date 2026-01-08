@@ -1,17 +1,5 @@
 # Changelog 6.x
 
-## 6.10.0 (2025-12-01)
-### Features
-* feat(admin/api): index data from asset by @theus77 in https://github.com/ems-project/elasticms/pull/1472
-* feat(admin/dashboard): add permission check to overdue filter in task dashboard by @coppee in https://github.com/ems-project/elasticms/pull/1468
-* feat(admin/webhook): newIndexEvent and revisionDeleteEvent by @theus77 in https://github.com/ems-project/elasticms/pull/1474
-* feat(cache): varnish with web hooks and tag collectors by @theus77 in https://github.com/ems-project/elasticms/pull/1460
-* feat(common/storage): new _path_in_archive for processing file in archive by @theus77 in https://github.com/ems-project/elasticms/pull/1448
-* feat(demo): add emsch_archive route by @theus77 in https://github.com/ems-project/elasticms/pull/1451
-* feat(doc): add prettier and linter by @Davidmattei in https://github.com/ems-project/elasticms/pull/1461
-* feat(doc): use vitepress instead of docsify by @Davidmattei in https://github.com/ems-project/elasticms/pull/1452
-* feat(webhooks): add emsco_webhook, emsch_webhook_event, ems_clear_http_caches twig functions by @theus77 in https://github.com/ems-project/elasticms/pull/1477
-
 ## 6.9.5 (2025-12-19)
 ## 6.9.5 (2025-12-23)
 ### Features

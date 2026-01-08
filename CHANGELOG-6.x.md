@@ -1,6 +1,5 @@
 # Changelog 6.x
 
-## 6.9.5 (2025-12-19)
 ## 6.9.5 (2025-12-23)
 ### Features
 * feat(core/api): add data environments endpoint by @Davidmattei in https://github.com/ems-project/elasticms/pull/1496

@@ -80,6 +80,6 @@ final class TemplateBuilder extends AbstractBuilder
         $settings = $this->clientRequest->getSettings($environment);
         $contentType = $settings->getTemplateContentType($templateName->getContentType());
 
-        return \sprintf('twig_%s_%s_%d', $environment->getAlias(), $templateName->getSearchName(), $contentType->getLastPublished()->getTimestamp());
+        return \sprintf('twig_%s_%s_%d_%d', $environment->getAlias(), $templateName->getSearchName(), $contentType->getLastPublished()->getTimestamp(), $contentType->getTotal());
     }
 }

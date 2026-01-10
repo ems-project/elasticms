@@ -42,7 +42,7 @@ class WebhookHelper
         $subscriptionId = Type::string($request->headers->get(Headers::X_WEBHOOK_SUBSCRIPTION_ID));
         $secret = $this->cacheManager->getItem(\sprintf('webhook_secret_%s', $subscriptionId));
         if (!$secret->isHit()) {
-            throw new GoneHttpException('Unknown webhook subscription');
+            throw new GoneHttpException(\sprintf('Unknown webhook subscription %s', $subscriptionId));
         }
         $hash = \hash_hmac('sha256', Type::string($request->getContent()), Type::string($secret->get()));
         if ($hash !== $signature) {

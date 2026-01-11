@@ -61,6 +61,7 @@ final class ConfigurationAiTest extends TestCase
             'vite_dev_server' => null,
             'runners' => [],
             'key_store' => [],
+            'http_caches' => [],
         ];
 
         $this->assertEquals($expected, $config);

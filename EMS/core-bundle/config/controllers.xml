@@ -220,6 +220,7 @@
             <argument type="service" id="ems.service.contenttype" />
             <argument type="service" id="ems_core.core_ui.flash_message_logger" />
             <argument type="service" id="ems.service.revision" />
+            <argument type="service" id="ems_common.storage.manager" />
             <argument type="service" id="EMS\CoreBundle\Service\EnvironmentService" />
             <call method="setContainer"/>
             <tag name="container.service_subscriber"/>
@@ -679,6 +680,13 @@
             <argument type="service" id="ems.service.revision" />
             <argument type="service" id="ems.service.contenttype" />
             <argument type="service" id="ems.service.environment" />
+            <tag name="controller.service_arguments"/>
+        </service>
+        <service id="EMS\CoreBundle\Controller\Api\WebhookSubscriptionController">
+            <argument type="service" id="emsco.service.webhook_subscription" />
+            <argument type="service" id="event_dispatcher" />
+            <call method="setContainer"/>
+            <tag name="container.service_subscriber"/>
             <tag name="controller.service_arguments"/>
         </service>
 

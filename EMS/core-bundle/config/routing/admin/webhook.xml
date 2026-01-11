@@ -4,8 +4,13 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://symfony.com/schema/routing https://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <route id="emsco_webhook_index" path="/"
+    <route id="emsco_webhook_subscription_index" path="/"
            controller="EMS\CoreBundle\Controller\Webhook\WebhookController::index"
            methods="GET|POST"
+           format="html"/>
+
+    <route id="emsco_webhook_subscription_delete" path="/delete/{webhookSubscription}"
+           controller="EMS\CoreBundle\Controller\Webhook\WebhookController::delete"
+           methods="POST"
            format="html"/>
 </routes>

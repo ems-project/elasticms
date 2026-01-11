@@ -693,9 +693,8 @@
         <!-- Webhook -->
         <service id="EMS\CoreBundle\Controller\Webhook\WebhookController" public="true">
             <argument type="service" id="emsco.logger"/>
-            <argument type="service" id="ems.group.manager" />
+            <argument type="service" id="ems.webhook_subscription.manager" />
             <argument type="service" id="emsco.data_table.factory" />
-            <argument>%ems_core.template_namespace%</argument>
             <call method="setContainer"/>
             <tag name="container.service_subscriber"/>
             <tag name="controller.service_arguments"/>

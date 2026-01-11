@@ -193,6 +193,7 @@ field:
     header_allow_origin: 'The Access-Control-Allow-Origin header'
     hidden: Hidden
     icon: Icon
+    id: '#'
     index: Index
     indexes: Indexes
     is_active: Active
@@ -297,6 +298,7 @@ key:
     uploaded_files_logs: 'Uploaded Files Logs'
     users: Users
     views: Views
+    webhook_subscriptions: Subscriptions
     webhooks: Webhooks
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profiles

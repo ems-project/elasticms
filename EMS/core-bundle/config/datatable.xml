@@ -178,5 +178,9 @@
             <argument>%ems_core.group_feature%</argument>
             <tag name="emsco.datatable" />
         </service>
+        <service id="emsco.data_table.webhook_subscription" class="EMS\CoreBundle\DataTable\Type\WebhookSubscriptionDataTableType">
+            <argument type="service" id="ems.webhook_subscription.manager" />
+            <tag name="emsco.datatable" />
+        </service>
     </services>
 </container>

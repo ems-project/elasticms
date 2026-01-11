@@ -573,6 +573,9 @@
             <argument type="service" id="http_client"/>
             <tag name="messenger.message_handler" handles="EMS\CoreBundle\Core\Messenger\Message\WebhookSubscriberMessage" />
         </service>
+        <service id="ems.webhook_subscription.manager" class="EMS\CoreBundle\Core\Webhook\WebhookSubscriptionManager">
+            <argument type="service" id="ems.repository.webhook_subscription"/>
+        </service>
 
         <!-- Aliases -->
         <service id="ems.service.data" alias="EMS\CoreBundle\Service\DataService" public="true"/>

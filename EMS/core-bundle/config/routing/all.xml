@@ -80,6 +80,8 @@
             prefix="/admin/content-type/action"/>
     <import resource="@EMSCoreBundle/config/routing/admin/view.xml"
             prefix="/admin/content-type/view"/>
+    <import resource="@EMSCoreBundle/config/routing/admin/webhook.xml"
+            prefix="/admin/webhook"/>
     <import resource="@EMSCoreBundle/config/routing/elasticsearch.xml"
             prefix="/elasticsearch"/>
     <import resource="@EMSCoreBundle/config/routing/public-key.xml"/>

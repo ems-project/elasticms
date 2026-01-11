@@ -297,6 +297,7 @@ key:
     uploaded_files_logs: 'Uploaded Files Logs'
     users: Users
     views: Views
+    webhooks: Webhooks
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profiles
     wysiwyg_style_sets: 'Style Sets'

@@ -133,6 +133,7 @@ class Routes
     final public const string LOG_INDEX = 'emsco_log_index';
     final public const string LOG_DELETE = 'emsco_log_delete';
     final public const string LOG_VIEW = 'emsco_log_view';
+    final public const string WEBHOOK_INDEX = 'emsco_webhook_index';
     final public const string WYSIWYG_INDEX = 'emsco_wysiwyg_index';
     final public const string WYSIWYG_PROFILE_ADD = 'emsco_wysiwyg_profile_add';
     final public const string WYSIWYG_PROFILE_DELETE = 'emsco_wysiwyg_profile_delete';

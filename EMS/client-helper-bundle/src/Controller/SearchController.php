@@ -21,6 +21,7 @@ final readonly class SearchController
 
     public function handle(Request $request): Response
     {
+        @\trigger_error('The SearchController is deprecated and will be removed in ems 8, use the emsch_search_config and emsch_search_config_execute twig functions instead', E_USER_DEPRECATED);
         $template = $this->handler->handle($request);
 
         $search = $this->manager->searchFromRequest($request);

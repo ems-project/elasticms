@@ -150,3 +150,14 @@ The structure of the webhook `data` is:
 - `content_type`: name of the content type
 - `ouuid`: OUUID of the document published
 - `raw_data`: Raw data (array) of the revision published
+
+### Managed alias update
+
+To register to this event, you have to specify on which managed alias you want by ending the string
+`manage_alias.update.` with the alias name (so with the instance ID prefix). E.g. `manage_alias.update.ems_demo_ma_preview`.
+
+The structure of the webhook `data` is:
+
+- `actions`: object of added and removed indexes:
+  - `add`: string array of added indexes
+  - `remove`: string array of removed indexes

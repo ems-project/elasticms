@@ -332,6 +332,9 @@ class AliasService
                 $json[] = [$type => ['index' => $index, 'alias' => $alias]];
             }
         }
+        if (empty($json)) {
+            return;
+        }
 
         $endpoint = new UpdateAliases();
         $endpoint->setBody(['actions' => $json]);

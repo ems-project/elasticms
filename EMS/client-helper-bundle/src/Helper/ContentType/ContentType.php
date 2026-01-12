@@ -70,4 +70,9 @@ final class ContentType implements ContentTypeInterface
             $this->lastPublished = $lastPublished;
         }
     }
+
+    public function getTotal(): int
+    {
+        return $this->total;
+    }
 }

@@ -71,4 +71,15 @@ final class TemplateBuilder extends AbstractBuilder
 
         return $contentType->isLastPublishedAfterTime($time);
     }
+
+    public function getCacheKey(Environment $environment, TemplateName $templateName): string
+    {
+        if ($environment->isLocalPulled()) {
+            return \sprintf('twig_%s_%s_local', $environment->getAlias(), $templateName->getSearchName());
+        }
+        $settings = $this->clientRequest->getSettings($environment);
+        $contentType = $settings->getTemplateContentType($templateName->getContentType());
+
+        return \sprintf('twig_%s_%s_%d_%d', $environment->getAlias(), $templateName->getSearchName(), $contentType->getLastPublished()->getTimestamp(), $contentType->getTotal());
+    }
 }

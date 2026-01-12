@@ -26,7 +26,7 @@ final class HttpCacheController extends AbstractController
         if (\str_starts_with($webhook->eventName, 'content.published.') || \in_array($webhook->eventName, ['content.finalize', 'content.unpublish', 'content.delete'], true)) {
             $ouuid = Type::string($webhook->data['ouuid'] ?? null);
             $this->httpCacheManager->purgeByTags($ouuid);
-        } elseif (\str_starts_with($webhook->eventName, 'environment.new_index.')) {
+        } elseif (\str_starts_with($webhook->eventName, 'environment.new_index.') || \str_starts_with($webhook->eventName, 'alias.update.')) {
             $this->httpCacheManager->purgeAll();
         } elseif (Webhook::VALIDATE_WEBHOOK_SUBSCRIBER !== $webhook->eventName) {
             throw new \RuntimeException(\sprintf('event type %s not supported', $webhook->eventName));

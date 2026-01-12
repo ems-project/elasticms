@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Common\Command;
 
 use EMS\CommonBundle\Command\CommandInterface;
+use EMS\CommonBundle\Common\EMSLink;
 use EMS\Helpers\Standard\DateTime;
 use EMS\Helpers\Standard\Type;
 use Symfony\Component\Console\Command\Command;
@@ -260,6 +261,34 @@ abstract class AbstractCommand extends Command implements CommandInterface
         $option = $this->input->getOption($name);
 
         return null === $option ? null : (string) $option;
+    }
+
+    protected function getArgumentEmsLink(string $name): EMSLink
+    {
+        $argument = $this->input->getOption($name);
+
+        return EMSLink::fromText(Type::string($argument));
+    }
+
+    protected function getArgumentEmsLinkNull(string $name): ?EMSLink
+    {
+        $argument = $this->input->getOption($name);
+
+        return null === $argument ? null : EMSLink::fromText(Type::string($argument));
+    }
+
+    protected function getOptionEmsLink(string $name): EMSLink
+    {
+        $option = $this->input->getOption($name);
+
+        return EMSLink::fromText(Type::string($option));
+    }
+
+    protected function getOptionEmsLinkNull(string $name): ?EMSLink
+    {
+        $option = $this->input->getOption($name);
+
+        return null === $option ? null : EMSLink::fromText(Type::string($option));
     }
 
     /**

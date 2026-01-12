@@ -173,10 +173,14 @@ field:
     definition: Definition
     editor: Editor
     email_content_type: 'Content type (ie: text/html)'
+    enabled: Enabled
+    endpoint_url: Endpoint
     entry_path: 'Default entry path'
     environment_default: 'Default environment'
     environment_external: 'External environment'
     environments: Environments
+    error: 'Error message'
+    events: Events
     extra: Extra
     file:
         disposition: Disposition
@@ -193,7 +197,6 @@ field:
     header_allow_origin: 'The Access-Control-Allow-Origin header'
     hidden: Hidden
     icon: Icon
-    id: '#'
     index: Index
     indexes: Indexes
     is_active: Active

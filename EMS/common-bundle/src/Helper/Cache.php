@@ -35,7 +35,7 @@ class Cache
         $response->setMaxAge($immutableRoute ? 604800 : $maxAge);
         $response->setSharedMaxAge($immutableRoute ? 3_628_800 : ($maxAge * 6));
         $response->setPublic();
-        $response->setImmutable();
+        $response->setImmutable($immutableRoute);
 
         if (null !== $lastUpdateDate) {
             $response->setLastModified($lastUpdateDate);

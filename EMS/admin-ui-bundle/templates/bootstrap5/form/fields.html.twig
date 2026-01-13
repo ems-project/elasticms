@@ -127,7 +127,7 @@
 
 
 {% block ems_choice_row %}
-	{{ form_row(form.value, {'attr': attr, 'required': required, 'disabled': disabled}) }}
+	{{ form_row(form.value, {attr: attr, required: required, disabled: disabled}) }}
     {{ block('form_help') }}
 {%- endblock ems_choice_row %}
 
@@ -323,10 +323,10 @@
 {%- block code_editor_label -%}
     {% if label is not same as(false) -%}
         {% if not compound -%}
-            {% set label_attr = label_attr|merge({'for': id}) %}
+            {% set label_attr = label_attr|merge({for: id}) %}
         {%- endif -%}
         {% if required -%}
-            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+            {% set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' required')|trim}) %}
         {%- endif -%}
         {% if label is empty -%}
             {%- if label_format is not empty -%}
@@ -545,8 +545,8 @@
 					{% if 'EMS\\CoreBundle\\Form\\DataField\\MultiplexedTabContainerFieldType' == tab.vars.data.fieldType.type and form.vars.data.fieldType.type == 'EMS\\CoreBundle\\Form\\DataField\\TabsFieldType' %}
 						{% for item in tab.iterator %}
 							{% with {
-								'tab': item,
-								'counter': counter,
+								tab: item,
+								counter: counter,
 								}
 							%}
 								{{ block('tabsfieldtype_widget_tab_label_per_item') }}
@@ -555,8 +555,8 @@
 						{% endfor %}
 					{% else %}
 						{% with {
-							  'tab': tab,
-							  'counter': counter,
+							  tab: tab,
+							  counter: counter,
 							  }
 						  %}
 							{{ block('tabsfieldtype_widget_tab_label_per_item') }}
@@ -573,8 +573,8 @@
 				  {% if 'EMS\\CoreBundle\\Form\\DataField\\MultiplexedTabContainerFieldType' == tab.vars.data.fieldType.type and form.vars.data.fieldType.type == 'EMS\\CoreBundle\\Form\\DataField\\TabsFieldType' %}
 					  {% for item in tab.iterator %}
 						  {% with {
-							  'tab': item,
-							  'counter': counter,
+							  tab: item,
+							  counter: counter,
 							  }
 						  %}
 							  {{ block('tabsfieldtype_widget_tab_panel_per_item') }}
@@ -583,8 +583,8 @@
 					  {% endfor %}
 				  {% else %}
 					  {% with {
-						  'tab': tab,
-						  'counter': counter,
+						  tab: tab,
+						  counter: counter,
 						  }
 					  %}
 						  {{ block('tabsfieldtype_widget_tab_panel_per_item') }}
@@ -613,7 +613,7 @@
 		{% endif %}>
 		{% set tempId = form.vars.name ~ '_' ~ random() %}
 		<div class="card-body{% if form.vars.sortable %} ems-sortable{% endif %}">
-		    {{- form_widget(form, {'attr': {'class': 'collection-panel-container'}}) -}}
+		    {{- form_widget(form, {attr: {class: 'collection-panel-container'}}) -}}
 		</div>
 		<div>
 	  		<div class="btn-group">
@@ -781,10 +781,10 @@
 {%- block form_label -%}
     {% if label is not same as (false) -%}
         {% if not compound -%}
-            {% set label_attr = label_attr|merge({'for': id}) %}
+            {% set label_attr = label_attr|merge({for: id}) %}
         {%- endif -%}
         {% if required -%}
-            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+            {% set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' required')|trim}) %}
         {%- endif -%}
         {% if label is empty -%}
             {%- if label_format is not empty -%}
@@ -951,10 +951,10 @@
 {% block json_menu_nested_editor_fieldtype_widget %}
 	{{ form_widget(form) }}
 	{{ emsco_json_menu_nested({
-		'id': form.vars.id,
-		'field_type': data.fieldType,
-		'revision': revision,
-		'structure': data.rawData|default('{}'),
+		id: form.vars.id,
+		field_type: data.fieldType,
+		revision: revision,
+		structure: data.rawData|default('{}'),
 	}, 'revision_edit') }}
 {% endblock json_menu_nested_editor_fieldtype_widget %}
 
@@ -965,7 +965,7 @@
         <span class="input-group-text">
             <i class="fa fa-calendar"></i>
         </span>
-        {{- form_widget(form.value, {'attr': {'class': html_classes(form.value.vars.attr.class|default(''), {
+        {{- form_widget(form.value, {attr: {class: html_classes(form.value.vars.attr.class|default(''), {
             'is-invalid': errors|length > 0 or not valid,
         })}}) -}}
 	</div>
@@ -981,7 +981,7 @@
             <span class="input-group-text">
                 <i class="fa fa-calendar"></i>
             </span>
-            {{- form_widget(form.value, {'attr': {'class': html_classes(form.value.vars.attr.class|default(''), {
+            {{- form_widget(form.value, {attr: {class: html_classes(form.value.vars.attr.class|default(''), {
                 'is-invalid': errors|length > 0 or not valid,
             })}}) -}}
 		</div>
@@ -1117,7 +1117,7 @@
         <div class="tab-pane asset-preview-tab {% if form.vars.value.sha1 is not defined or not form.vars.value.sha1 %}hidden{% endif %}" id="asset-preview-tab-{{ form.vars.id }}">
         	<div class="text-center">
             	<img
-            		data-src="{{ path('ems_asset_processor', {'hash': '_asset_hash_', 'processor': 'preview', 'type': '_asset_mimetype_', 'name': '_asset_name_'}) }}"
+            		data-src="{{ path('ems_asset_processor', {hash: '_asset_hash_', processor: 'preview', type: '_asset_mimetype_', name: '_asset_name_'}) }}"
             		{% if form.vars.value.sha1 is defined and form.vars.value.sha1 %}
             			src="{{ emsco_asset_path(form.vars.value, form.vars.data.fieldType.getDisplayOption('imageAssetConfigIdentifier', 'preview')) }}"
             		{% endif %}
@@ -1221,9 +1221,9 @@
         <div role="tabpanel" class="tab-pane asset-preview-tab {% if form.vars.value.sha1 is defined and form.vars.value.sha1 %}active{% endif %}" id="asset-preview-tab-{{ form.vars.id }}">
         	<div class="text-center">
             	<img
-            		data-src="{{ path('ems_asset_processor', {'hash': '_asset_hash_', 'processor': 'preview', 'type': '_asset_mimetype_', 'name': '_asset_name_'}) }}"
+            		data-src="{{ path('ems_asset_processor', {hash: '_asset_hash_', processor: 'preview', type: '_asset_mimetype_', name: '_asset_name_'}) }}"
             		{% if form.vars.value.sha1 is defined and form.vars.value.sha1 %}
-            			src="{{ path('ems_asset_processor', {'hash': form.vars.value._image_resized_hash ?? form.vars.value.sha1, 'processor': 'preview', 'type': form.vars.value.mimetype, 'name': form.vars.value.filename}) }}"
+            			src="{{ path('ems_asset_processor', {hash: form.vars.value._image_resized_hash ?? form.vars.value.sha1, processor: 'preview', type: form.vars.value.mimetype, name: form.vars.value.filename}) }}"
             		{% endif %}
             		class="img-responsive center-block" alt="Preview of the field {{ form_label(form)|striptags }}"
             	>
@@ -1389,7 +1389,7 @@
                                         </ul>
                                     </div>
                                     <div class="card-body">
-                                        {{- form_widget(form.options, {'seed': form.vars.id}) -}}
+                                        {{- form_widget(form.options, {seed: form.vars.id}) -}}
                                     </div>
                                 </div>
                           </div>
@@ -1448,7 +1448,7 @@
         {% endif %}
 
         {% if form.options is defined and not form.vars.editSubfields %}
-            {{- form_widget(form.options, {'seed': form.vars.id, 'editSubfields': false}) -}}
+            {{- form_widget(form.options, {seed: form.vars.id, editSubfields: false}) -}}
         {% endif %}
 
         {% if form.rendered == false and form.vars.data.children is defined and form.vars.data.children|filter(child => not child.deleted)|length > 0 %}

@@ -7,11 +7,11 @@
 
 
             {{ include( '@EMSAdminUI/bootstrap5/elements/pagination.html.twig' , {
-				'lastPage': lastPage,
-				'currentPage': page,
-				'currentFilters': app.request.query,
-				'paginationPath': paginationPath,
-				'showAlwaysFirstAndLast': false
+				lastPage: lastPage,
+				currentPage: page,
+				currentFilters: app.request.query,
+				paginationPath: paginationPath,
+				showAlwaysFirstAndLast: false
 			} ) }}
 		</div>
 		<!-- /.box-header -->
@@ -71,19 +71,19 @@
 										<div class="btn-group">
 											{% if is_granted(notification.template.role) %}
 												{{ include( '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' , {
-													'url': path('notification.cancel', {'notification': notification.id}),
-													'label': 'Cancel',
-													'icon': 'ban',
-													'message': 'Do you confirm?'
+													url: path('notification.cancel', {notification: notification.id}),
+													label: 'Cancel',
+													icon: 'ban',
+													message: 'Do you confirm?'
 												} ) }}
 											{% endif %}
 
                                             {{ include( '@EMSAdminUI/bootstrap5/elements/object-views-button.html.twig' , {
-												'object': notification.revision.buildObject,
-												'contentType': notification.revision.contentType,
-												'environment': notification.environment,
-												'ouuid': notification.revision.ouuid,
-												'currentTemplate': notification.template
+												object: notification.revision.buildObject,
+												contentType: notification.revision.contentType,
+												environment: notification.environment,
+												ouuid: notification.revision.ouuid,
+												currentTemplate: notification.template
 											} ) }}
 					                    </div>
 									</td>

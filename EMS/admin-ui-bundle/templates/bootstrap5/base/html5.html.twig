@@ -25,9 +25,9 @@
                 {% block body %}{% endblock %}
             </section>
         {% endblock wrapper %}
-        {% embed '@EMSAdminUI/bootstrap5/core/modal.html.twig' with {'id': 'ajax-modal'} %}{% endembed %}
+        {% embed '@EMSAdminUI/bootstrap5/core/modal.html.twig' with {id: 'ajax-modal'} %}{% endembed %}
         {% embed '@EMSAdminUI/bootstrap5/core/cke-modal.html.twig' %}{% endembed %}
-        {% embed '@EMSAdminUI/bootstrap5/core/modal.html.twig' with {'id': 'pick-file-server-modal'} %}{% endembed %}
+        {% embed '@EMSAdminUI/bootstrap5/core/modal.html.twig' with {id: 'pick-file-server-modal'} %}{% endembed %}
         {{ include( '@EMSAdminUI/bootstrap5/core/out-of-sync.html.twig' ) }}
         {%- if wysiwygInfo is defined and wysiwygInfo|ems_json_decode.editor == constant('EMS\\CoreBundle\\Entity\\WysiwygProfile::CKEDITOR4') -%}
             <script src="{{ asset('ckeditor4.js', 'emscore') }}"></script>

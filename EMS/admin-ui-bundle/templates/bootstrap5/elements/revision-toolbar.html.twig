@@ -2,32 +2,32 @@
 <div class="btn-group{% if vertical is defined and vertical %}-vertical{% endif %}">
 	{% if withView is not defined or withView %}
         {{ include( '@EMSAdminUI/bootstrap5/elements/get-button.html.twig' , {
-			'url': path('data.revisions', {
-				'type': instance.contentType.name,
-				'ouuid': instance.ouuid,
-				'revisionId': revisionId,
+			url: path('data.revisions', {
+				type: instance.contentType.name,
+				ouuid: instance.ouuid,
+				revisionId: revisionId,
 			}),
-			'btnType': 'primary',
-			'label': 'views.elements.revision-toolbar-html.view-label'|trans,
-			'icon': 'eye'} ) }}
+			btnType: 'primary',
+			label: 'views.elements.revision-toolbar-html.view-label'|trans,
+			icon: 'eye'} ) }}
 
 	{% endif %}
 	{% if current and not draft and is_granted(instance.contentType.roles.edit) %}
 		{{ include( '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' , {
-			'url': path('revision.new-draft', {'ouuid': revision.ouuid, 'type': revision.contentType.name, 'item': app.request.get('item')}),
-			'label': 'views.elements.revision-toolbar-html.new-draft-label'|trans,
-			'btnType': 'primary',
-			'icon': 'pencil'} ) }}
+			url: path('revision.new-draft', {ouuid: revision.ouuid, type: revision.contentType.name, item: app.request.get('item')}),
+			label: 'views.elements.revision-toolbar-html.new-draft-label'|trans,
+			btnType: 'primary',
+			icon: 'pencil'} ) }}
 	{% endif %}
 	{% if draft %}
 		{% if is_granted(instance.contentType.roles.edit) %}
 			{% if not instance.contentType.circlesField or attribute(instance.rawData, instance.contentType.circlesField) is not defined or attribute(instance.rawData, instance.contentType.circlesField)|emsco_in_my_circles %}
 				<div class="btn-group">
 					{{ include( '@EMSAdminUI/bootstrap5/elements/get-button.html.twig' , {
-						'url': path('emsco_edit_revision', {'revisionId': revisionId, 'item': app.request.get('item')}),
-						'label': 'views.elements.revision-toolbar-html.edit-draft-label'|trans,
-						'btnType': 'primary',
-						'icon': 'pencil'} ) }}
+						url: path('emsco_edit_revision', {revisionId: revisionId, item: app.request.get('item')}),
+						label: 'views.elements.revision-toolbar-html.edit-draft-label'|trans,
+						btnType: 'primary',
+						icon: 'pencil'} ) }}
 					{% if is_granted('ROLE_SUPER') %}
 						<div class="btn-group">
 							<button type="button" class="btn btn-default btn-sm dropdown-toggle" data-bs-toggle="dropdown">
@@ -35,7 +35,7 @@
 							</button>
 							<ul class="dropdown-menu">
 								<li>
-									<a href="{{ path('emsco_edit_json_revision', {'revision': revisionId}) }}" class="dropdown-item">{{ 'views.elements.revision-toolbar-html.edit-revision-json'|trans }}</a>
+									<a href="{{ path('emsco_edit_json_revision', {revision: revisionId}) }}" class="dropdown-item">{{ 'views.elements.revision-toolbar-html.edit-revision-json'|trans }}</a>
 								</li>
 							</ul>
 						</div>
@@ -43,40 +43,40 @@
 				</div>
 				{% if autoSave %}
                     {{ include( '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' , {
-						'url': path('revision.cancel', {'revision': revisionId}),
-						'message': 'views.elements.revision-toolbar-html.cancel-message'|trans,
-						'label': 'views.elements.revision-toolbar-html.cancel-label'|trans,
-						'btnType': 'default',
-						'icon': 'remove'
+						url: path('revision.cancel', {revision: revisionId}),
+						message: 'views.elements.revision-toolbar-html.cancel-message'|trans,
+						label: 'views.elements.revision-toolbar-html.cancel-label'|trans,
+						btnType: 'default',
+						icon: 'remove'
 					} ) }}
 				{% endif %}
 				</div>
 				<div class="btn-group">
                     {% if not autoSave %}
 						{{ include( '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' , {
-							'url': path('revision.finalize', {'revision': revisionId}),
-							'message': 'views.elements.revision-toolbar-html.finalize-draft-message'|trans,
-							'label': 'views.elements.revision-toolbar-html.finalize-draft-label'|trans({'%environment%': instance.contentType.environment.label|default('')}),
-							'btnType': 'default',
-							'icon': 'check'
+							url: path('revision.finalize', {revision: revisionId}),
+							message: 'views.elements.revision-toolbar-html.finalize-draft-message'|trans,
+							label: 'views.elements.revision-toolbar-html.finalize-draft-label'|trans({'%environment%': instance.contentType.environment.label|default('')}),
+							btnType: 'default',
+							icon: 'check'
 						} ) }}
                     {% endif %}
                     {{ include( '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' , {
-					'url': path('revision.discard', {'revisionId': revisionId}),
-					'label': 'views.elements.revision-toolbar-html.discard-draft-label'|trans,
-					'message': 'views.elements.revision-toolbar-html.discard-draft-message'|trans,
-					'btnType': 'outline-danger',
-					'icon': 'trash'
+					url: path('revision.discard', {revisionId: revisionId}),
+					label: 'views.elements.revision-toolbar-html.discard-draft-label'|trans,
+					message: 'views.elements.revision-toolbar-html.discard-draft-message'|trans,
+					btnType: 'outline-danger',
+					icon: 'trash'
 				} ) }}
 			{% endif %}
 		{% endif %}
 	{% else %}
 		{% for env in environmentsRevision.environments %}
             {{ include( '@EMSAdminUI/bootstrap5/elements/object-views-button.html.twig' , {
-				'object': object,
-				'contentType': instance.contentType,
-				'environment': env,
-				'ouuid': revision.ouuid
+				object: object,
+				contentType: instance.contentType,
+				environment: env,
+				ouuid: revision.ouuid
 			} ) }}
    		{% endfor %}
 
@@ -93,60 +93,60 @@
 					<ul class="dropdown-menu">
 						{% if draft %}
 							<li>{{ include( '@EMSAdminUI/bootstrap5/elements/get-button.html.twig' , {
-								'url': path('emsco_edit_revision', {'revisionId': revisionId}),
-								'btnClass': 'dropdown-item',
-								'label': 'views.elements.revision-toolbar-html.edit-draft-label'|trans,
-								'icon': 'pencil'} ) }}</li>
+								url: path('emsco_edit_revision', {revisionId: revisionId}),
+								btnClass: 'dropdown-item',
+								label: 'views.elements.revision-toolbar-html.edit-draft-label'|trans,
+								icon: 'pencil'} ) }}</li>
 							{% if autoSave %}
 								<li>{{ include( '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' , {
-									'url': path('revision.cancel', {'revision': revisionId}),
-									'btnClass': 'dropdown-item',
-									'label': 'views.elements.revision-toolbar-html.cancel-last-updates-label'|trans,
-									'icon': 'remove'
+									url: path('revision.cancel', {revision: revisionId}),
+									btnClass: 'dropdown-item',
+									label: 'views.elements.revision-toolbar-html.cancel-last-updates-label'|trans,
+									icon: 'remove'
 								} ) }}</li>
 							{% endif %}
 						{% else %}
 							{% if is_granted('ROLE_PUBLISHER') and revision.id|default(false) %}
 								<li>{{ include( '@EMSAdminUI/bootstrap5/elements/get-button.html.twig' , {
-										'url': path('emsco_pick_a_release', {revision: revision.id}),
-										'btnClass': 'dropdown-item',
-										'label': 'views.elements.revision-toolbar-html.add-to-release'|trans(),
-										'icon': 'fa fa-map-pin'} ) }}</li>
+										url: path('emsco_pick_a_release', {revision: revision.id}),
+										btnClass: 'dropdown-item',
+										label: 'views.elements.revision-toolbar-html.add-to-release'|trans(),
+										icon: 'fa fa-map-pin'} ) }}</li>
 							{% endif %}
 							{% if is_granted('ROLE_SUPER') and instance.contentType.environment not in environmentsRevision.environments %}
 								<li>{{ include( '@EMSAdminUI/bootstrap5/elements/get-button.html.twig' , {
-									'url': path('emsco_edit_revision', {'revisionId': revisionId}),
-									'btnClass': 'dropdown-item',
-									'label': 'views.elements.revision-toolbar-html.edit-revision-label'|trans,
-									'icon': 'pencil'} ) }}</li>
+									url: path('emsco_edit_revision', {revisionId: revisionId}),
+									btnClass: 'dropdown-item',
+									label: 'views.elements.revision-toolbar-html.edit-revision-label'|trans,
+									icon: 'pencil'} ) }}</li>
 							{% endif %}
 							{% if autoSave %}
 								<li>{{ include( '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' , {
-									'url': path('revision.cancel', {'revision': revisionId}),
-									'btnClass': 'dropdown-item',
-									'message': 'views.elements.revision-toolbar-html.cancel-last-updates-message'|trans,
-									'label': 'views.elements.revision-toolbar-html.cancel-last-updates-label'|trans,
-									'icon': 'remove'
+									url: path('revision.cancel', {revision: revisionId}),
+									btnClass: 'dropdown-item',
+									message: 'views.elements.revision-toolbar-html.cancel-last-updates-message'|trans,
+									label: 'views.elements.revision-toolbar-html.cancel-last-updates-label'|trans,
+									icon: 'remove'
 								} ) }}</li>
 							{% endif %}
 								<li>{{ include( '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' , {
-									'url': path('revision.revert', {'id': revisionId}),
-									'btnClass': 'dropdown-item',
-									'label': 'views.elements.revision-toolbar-html.revert-revision-label'|trans,
-									'icon': 'undo'} ) }}</li>
+									url: path('revision.revert', {id: revisionId}),
+									btnClass: 'dropdown-item',
+									label: 'views.elements.revision-toolbar-html.revert-revision-label'|trans,
+									icon: 'undo'} ) }}</li>
 						{% endif %}
 						{% if rev is defined and revision is defined and compareId is defined and rev.id != revision.id and compareId != rev.id and compareId != revision.id %}
 							<li>{{ include( '@EMSAdminUI/bootstrap5/elements/get-button.html.twig' , {
-								'url': path('emsco_view_revisions', {
-									'type': revision.contentType.name,
-									'ouuid': revision.ouuid,
-									'revisionId': rev.id > revision.id ? rev.id : revision.id,
-									'compareId': rev.id < revision.id ? rev.id : revision.id,
-									'page': page
+								url: path('emsco_view_revisions', {
+									type: revision.contentType.name,
+									ouuid: revision.ouuid,
+									revisionId: rev.id > revision.id ? rev.id : revision.id,
+									compareId: rev.id < revision.id ? rev.id : revision.id,
+									page: page
 								}),
-								'btnClass': 'dropdown-item',
-								'label': 'views.elements.revision-toolbar-html.compare-label'|trans,
-								'icon': 'compress'} ) }}</li>
+								btnClass: 'dropdown-item',
+								label: 'views.elements.revision-toolbar-html.compare-label'|trans,
+								icon: 'compress'} ) }}</li>
 						{% endif %}
 					</ul>
 				</div>
@@ -164,7 +164,7 @@
 						</button>
 						<ul class="dropdown-menu">
 							{% for env in environmentsRevision.publish %}
-								<li><a href="{{ path('revision.publish_to', {'revisionId': revisionId, 'envId': env.id}) }}" class="dropdown-item">{{ env.label }}</a></li>
+								<li><a href="{{ path('revision.publish_to', {revisionId: revisionId, envId: env.id}) }}" class="dropdown-item">{{ env.label }}</a></li>
 							{% endfor %}
 					   </ul>
 					  </div>
@@ -179,7 +179,7 @@
 					  </button>
 					   <ul class="dropdown-menu">
 							{% for env in environmentsRevision.unpublish %}
-								<li><a href="{{ path('revision.unpublish', {'revisionId': revisionId, 'envId': env.id}) }}" class="dropdown-item">{{ env.label }}</a></li>
+								<li><a href="{{ path('revision.unpublish', {revisionId: revisionId, envId: env.id}) }}" class="dropdown-item">{{ env.label }}</a></li>
 							{% endfor %}
 					   </ul>
 				</div>
@@ -193,10 +193,10 @@
 					</button>
 					<ul class="dropdown-menu">
 						<li>{{ include( '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' , {
-							'url': path('revision.reindex', {'revisionId': revisionId}),
-							'btnClass': 'dropdown-item',
-							'label': 'views.elements.revision-toolbar-html.re-index-label'|trans,
-							'icon': 'recycle'} ) }}</li>
+							url: path('revision.reindex', {revisionId: revisionId}),
+							btnClass: 'dropdown-item',
+							label: 'views.elements.revision-toolbar-html.re-index-label'|trans,
+							icon: 'recycle'} ) }}</li>
 					</ul>
 				</div>
 			{% endif %}

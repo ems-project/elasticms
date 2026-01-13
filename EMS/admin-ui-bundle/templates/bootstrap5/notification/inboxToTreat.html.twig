@@ -60,11 +60,11 @@
 							  <i class="fa fa-gear"></i> Treat
 							</button>
                             {{ include( '@EMSAdminUI/bootstrap5/elements/object-views-button.html.twig' , {
-								'object': notification.revision.buildObject,
-								'contentType': notification.revision.contentType,
-								'environment': notification.environment,
-								'ouuid': notification.revision.ouuid,
-								'currentTemplate': notification.template
+								object: notification.revision.buildObject,
+								contentType: notification.revision.contentType,
+								environment: notification.environment,
+								ouuid: notification.revision.ouuid,
+								currentTemplate: notification.template
 							} ) }}
 	                    </div>
 
@@ -98,7 +98,7 @@
 	      <div class="modal-footer">
 
 			<div class="btn-group">
-              	{{ form_widget(treatform.accept, {'attr': {'disabled': true}}) }}
+              	{{ form_widget(treatform.accept, {attr: {disabled: true}}) }}
               	{{ form_widget(treatform.reject) }}
 			</div>
 	      </div>

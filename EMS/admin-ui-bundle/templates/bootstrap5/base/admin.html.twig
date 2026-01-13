@@ -23,8 +23,8 @@
     'data-search-api': path('elasticsearch.api.search'),
     'data-init-upload': path('emsco_file_data_init_upload'),
     'data-revision-url': path('emsco_view_revisions', {
-        'type': '__type__',
-        'ouuid': '__ouuid__',
+        type: '__type__',
+        ouuid: '__ouuid__',
     }),
     'data-ems-link-info': path('emsco_ems_link_info'),
     'data-file-view': path('ems.file.view', {sha1: '__file_identifier__', name: '__file_name__'}),
@@ -45,7 +45,7 @@
                     {% if item.icon %}<i class="{{ item.icon }}"></i>&nbsp;{% endif %}
                     {{ item.label ? item.label|trans : item.text|default('...') }}
                 {%- endset -%}
-                <li class="{{ html_classes('breadcrumb-item', {'active': loop.last}) }}">
+                <li class="{{ html_classes('breadcrumb-item', {active: loop.last}) }}">
                     {% if item.route and loop.last == false %}
                         <a href="{{ path(item.route, item.routeParams) }}">{{ label }}</a>
                     {% else %}

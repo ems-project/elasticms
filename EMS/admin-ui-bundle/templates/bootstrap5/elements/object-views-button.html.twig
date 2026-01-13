@@ -45,7 +45,7 @@
                             link_attributes: [
                                 {name: 'class', value: 'request_notification'},
                                 {name: 'onclick', value: "requestNotification(this, #{template.id}, '#{environment.name}', '#{contentType.id}' , '#{ouuid}'); return false;"},
-                                {name: 'data-url', value: path('notification.ajaxnotification', {'objectId': ouuid})}
+                                {name: 'data-url', value: path('notification.ajaxnotification', {objectId: ouuid})}
                             ],
                             icon: template.icon,
                             label: template.label
@@ -58,7 +58,7 @@
                             link: '#',
                             link_attributes: [
                                 {name: 'class', value: 'request_job'},
-                                {name: 'data-url', value: path('ems_job_custom_view', {'environmentName': environment.name, 'templateId': template.id, 'ouuid': ouuid})}
+                                {name: 'data-url', value: path('ems_job_custom_view', {environmentName: environment.name, templateId: template.id, ouuid: ouuid})}
                             ],
                             icon: template.icon,
                             label: template.label
@@ -67,7 +67,7 @@
                     {% endif %}
                 {% elseif template.renderOption is constant('EMS\\CoreBundle\\Form\\Field\\RenderOptionType::IMPORT') %}
                     {%- if (is_granted(template.role)) or template.role == "not-defined" -%}
-                        {%- set importModalUrl = path('emsco_data_action_import', {'actionId': template.id, 'ouuid': ouuid}) -%}
+                        {%- set importModalUrl = path('emsco_data_action_import', {actionId: template.id, ouuid: ouuid}) -%}
                         {% set action = {
                             link: '#',
                             link_attributes: [
@@ -97,20 +97,20 @@
 
     {% if is_granted('ROLE_COPY_PASTE') %}
         {% set contentTypeActions = contentTypeActions|merge([{
-            link: path('revision.copy', {'environment': environment.name, 'type': contentType.name, 'ouuid': ouuid}),
+            link: path('revision.copy', {environment: environment.name, type: contentType.name, ouuid: ouuid}),
             icon: 'views.elements.object-views-button.copy-data-icon-class'|trans,
             label: 'views.elements.object-views-button.copy-data'|trans
         }]) %}
         {% if not contentType.askForOuuid %}
             {% set contentTypeActions = contentTypeActions|merge([{
-                link: path('emsco_duplicate_revision', {'environment': environment.name, 'type': contentType.name, 'ouuid': ouuid}),
+                link: path('emsco_duplicate_revision', {environment: environment.name, type: contentType.name, ouuid: ouuid}),
                 icon: 'clone',
                 label: 'Duplicate',
                 post_button: true
             }]) %}
         {% endif %}
         {% set contentTypeActions = contentTypeActions|merge([{
-            link: path('data.view', {'environmentName': environment.name, 'type': contentType.name, 'ouuid': ouuid}),
+            link: path('data.view', {environmentName: environment.name, type: contentType.name, ouuid: ouuid}),
             icon: 'views.elements.object-views-button.raw-view-icon-class'|trans,
             label: 'views.elements.object-views-button.raw-view'|trans
         }]) %}
@@ -129,10 +129,10 @@
                     <li class="{{ a.list_item_classes|default([])|length > 0 ? a.list_item_classes|join(' ') }}">
                         {% if a.post_button|default %}
                             {{ include( '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' , {
-                                'url': a.link,
-                                'label': a.label,
-                                'icon': a.icon,
-                                'btnClass': ''
+                                url: a.link,
+                                label: a.label,
+                                icon: a.icon,
+                                btnClass: ''
                             } ) }}
                         {% else %}
                             {% if a.link|default %}
@@ -156,7 +156,7 @@
         {% endif %}
     </div>
 {% else %}
-    <a class="btn btn-sm btn-outline-primary" href="{{ path('data.view', {'environmentName': environment.name, 'type': contentType.name, 'ouuid': object.ouuid}) }}">
+    <a class="btn btn-sm btn-outline-primary" href="{{ path('data.view', {environmentName: environment.name, type: contentType.name, ouuid: object.ouuid}) }}">
         <i class="{{ 'views.elements.object-views-button.raw-view-icon-class'|trans }}"></i>
         {{ 'views.elements.object-views-button.raw-view'|trans }}
     </a>

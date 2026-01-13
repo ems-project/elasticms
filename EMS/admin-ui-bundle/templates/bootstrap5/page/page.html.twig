@@ -15,8 +15,8 @@
 
 {%- block render_datatable -%}
     {% set tableOptions = {} %}
-    {% if datatable.icon is defined %}{% set tableOptions = tableOptions|merge({'table_title_icon': datatable.icon}) %}{% endif %}
-    {% if datatable.title is defined %}{% set tableOptions = tableOptions|merge({'table_title': datatable.title|trans}) %}{% endif %}
+    {% if datatable.icon is defined %}{% set tableOptions = tableOptions|merge({table_title_icon: datatable.icon}) %}{% endif %}
+    {% if datatable.title is defined %}{% set tableOptions = tableOptions|merge({table_title: datatable.title|trans}) %}{% endif %}
 
     {% form_theme datatable.form '@EMSAdminUI/bootstrap5/form/forms.html.twig' %}
     {{ form(datatable.form, tableOptions) }}

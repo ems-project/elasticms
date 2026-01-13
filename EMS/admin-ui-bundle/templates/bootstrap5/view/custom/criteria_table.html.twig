@@ -47,10 +47,10 @@
 
 				<div class="btn-group  float-end">
                     {{ include( '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' , {
-						'url': app.request.requestUri,
-						'label': 'Update filters',
-						'icon': 'sliders',
-						'destinationFormName': 'criteria_filter'} ) }}
+						url: app.request.requestUri,
+						label: 'Update filters',
+						icon: 'sliders',
+						destinationFormName: 'criteria_filter'} ) }}
 				</div>
 
 			</div>
@@ -71,13 +71,13 @@
 											<th rowspan="1" colspan="1" nowrap>
 												{% if authorized %}
                                                     {{ include( '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' , {
-														'url': app.request.requestUri,
-														'destinationFormName': 'criteria_filter',
-														'action': path('views.criteria.align', {view: view.id}),
-														'name': 'alignOn',
-														'value': 'col:' ~ columnIdx,
-														'rawlabel': attribute(columns, columnIdx).label,
-														'message': 'Align table based on this column?'} ) }}
+														url: app.request.requestUri,
+														destinationFormName: 'criteria_filter',
+														action: path('views.criteria.align', {view: view.id}),
+														name: 'alignOn',
+														value: 'col:' ~ columnIdx,
+														rawlabel: attribute(columns, columnIdx).label,
+														message: 'Align table based on this column?'} ) }}
 												{% else %}
 													{{ attribute(columns, columnIdx).label|raw }}
 												{% endif %}
@@ -105,13 +105,13 @@
 											<th nowrap>
 											{% if authorized %}
                                                 {{ include( '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' , {
-													'url': app.request.requestUri,
-													'rawlabel': attribute(rows, rowIdx).label|raw,
-													'destinationFormName': 'criteria_filter',
-													'action': path('views.criteria.align', {view: view.id}),
-													'name': 'alignOn',
-													'value': 'row:' ~ rowIdx,
-													'message': 'Align table based on this line?'} ) }}
+													url: app.request.requestUri,
+													rawlabel: attribute(rows, rowIdx).label|raw,
+													destinationFormName: 'criteria_filter',
+													action: path('views.criteria.align', {view: view.id}),
+													name: 'alignOn',
+													value: 'row:' ~ rowIdx,
+													message: 'Align table based on this line?'} ) }}
 											{% else %}
 												{{ attribute(rows, rowIdx).label|raw }}
 											{% endif %}
@@ -132,13 +132,13 @@
 											<th nowrap>
 												{% if authorized %}
                                                     {{ include( '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' , {
-														'url': app.request.requestUri,
-														'rawlabel': attribute(rows, rowIdx).label|raw,
-														'destinationFormName': 'criteria_filter',
-														'action': path('views.criteria.align', {view: view.id}),
-														'name': 'alignOn',
-														'value': 'row:' ~ rowIdx,
-														'message': 'Align table based on this line?'} ) }}
+														url: app.request.requestUri,
+														rawlabel: attribute(rows, rowIdx).label|raw,
+														destinationFormName: 'criteria_filter',
+														action: path('views.criteria.align', {view: view.id}),
+														name: 'alignOn',
+														value: 'row:' ~ rowIdx,
+														message: 'Align table based on this line?'} ) }}
 												{% else %}
 													{{ attribute(rows, rowIdx).label|raw }}
 												{% endif %}
@@ -156,13 +156,13 @@
 											<th rowspan="1" colspan="1" nowrap>
 												{% if authorized %}
                                                     {{ include( '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' , {
-														'url': app.request.requestUri,
-														'destinationFormName': 'criteria_filter',
-														'action': path('views.criteria.align', {view: view.id}),
-														'name': 'alignOn',
-														'value': 'col:' ~ columnIdx,
-														'rawlabel': attribute(columns, columnIdx).label,
-														'message': 'Align table based on this column?'} ) }}
+														url: app.request.requestUri,
+														destinationFormName: 'criteria_filter',
+														action: path('views.criteria.align', {view: view.id}),
+														name: 'alignOn',
+														value: 'col:' ~ columnIdx,
+														rawlabel: attribute(columns, columnIdx).label,
+														message: 'Align table based on this column?'} ) }}
 												{% else %}
 													{{ attribute(columns, columnIdx).label|raw }}
 												{% endif %}

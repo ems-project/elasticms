@@ -14,11 +14,11 @@
         {% set pagination %}
             {% if lastPage > 1 %}
                 {{ include( '@EMSAdminUI/bootstrap5/elements/pagination.html.twig' , {
-                    'lastPage': lastPage,
-                    'currentPage': page,
-                    'currentFilters': app.request.query,
-                    'paginationPath': paginationPath,
-                    'showAlwaysFirstAndLast': false
+                    lastPage: lastPage,
+                    currentPage: page,
+                    currentFilters: app.request.query,
+                    paginationPath: paginationPath,
+                    showAlwaysFirstAndLast: false
                 } ) }}
             {% endif %}
         {% endset %}
@@ -49,9 +49,9 @@
     {% if body is defined and searchForm.environments.vars.value|length == 1 and searchForm.contentTypes.vars.value|length == 1 and is_granted(searchForm.contentTypes.vars.value.0|emsco_get_content_type.roles.publish) and searchForm.environments.vars.value|first|emsco_get_environment.managed and response.total > 1 %}
         {% set footer %}
             {{ include( '@EMSAdminUI/bootstrap5/elements/get-button.html.twig' , {
-                'url': path('search.publish', app.request.query.all),
-                'label': 'Publish ' ~ response.formattedTotal|default('key.not-applicable'|trans) ~ ' ' ~ searchForm.contentTypes.vars.value.0|emsco_get_content_type.pluralName,
-                'icon': 'fa fa-upload'
+                url: path('search.publish', app.request.query.all),
+                label: 'Publish ' ~ response.formattedTotal|default('key.not-applicable'|trans) ~ ' ' ~ searchForm.contentTypes.vars.value.0|emsco_get_content_type.pluralName,
+                icon: 'fa fa-upload'
             } ) }}
             {{ footer|default('') }}
         {% endset %}
@@ -141,8 +141,8 @@
                 </a>
             {% endfor %}
             {% if currentFilters.all.search_form.sortBy is defined and currentFilters.all.search_form.sortBy %}
-                {% set search_form = currentFilters.all.search_form|merge({'sortBy': null, 'sortOrder': null}) %}
-                <a href="{{ path(paginationPath, currentFilters.all|merge({'search_form': search_form})) }}" class="btn btn-block btn-social btn-primary">
+                {% set search_form = currentFilters.all.search_form|merge({sortBy: null, sortOrder: null}) %}
+                <a href="{{ path(paginationPath, currentFilters.all|merge({search_form: search_form})) }}" class="btn btn-block btn-social btn-primary">
                     <i class="fa fa-remove"></i>
                     Clear sort options
                 </a>
@@ -165,12 +165,12 @@
             {% endset %}
             {% set content %}
                 {{ option.template|emsco_generate_from_template({
-                    'option': option,
-                    'id': id,
-                    'aggregation': response.getAggregation('agg_' ~ id).raw,
-                    'currentFilters': currentFilters,
-                    'paginationPath': paginationPath,
-                    'search': search
+                    option: option,
+                    id: id,
+                    aggregation: response.getAggregation('agg_' ~ id).raw,
+                    currentFilters: currentFilters,
+                    paginationPath: paginationPath,
+                    search: search
                 })|raw }}
             {% endset %}
             {% with {

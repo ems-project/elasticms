@@ -1,9 +1,9 @@
 {% trans_default_domain 'EMSCoreBundle' %}
 {%- set settings = {
-	'form': (destinationFormName|default(false)),
-	'action': (action is defined ? action|json_encode : false),
-	'name': (name is defined ? name|json_encode : false),
-	'value': (value is defined ? value|json_encode : false),
+	form: (destinationFormName|default(false)),
+	action: (action is defined ? action|json_encode : false),
+	name: (name is defined ? name|json_encode : false),
+	value: (value is defined ? value|json_encode : false),
 }|filter(v => v != false) -%}
 {% set attributes = attributes|default([])|map((v, k) => "#{k}=#{v}")|join(' ') %}
 

@@ -65,11 +65,11 @@
         <h3 class="card-title">Compare "{{ environment }}" and "{{ withEnvironment }}"</h3> <small>{{ total }} difference(s)</small>
 
           {{ include( '@EMSAdminUI/bootstrap5/elements/pagination.html.twig' , {
-					'lastPage': lastPage,
-					'currentPage': page,
-					'currentFilters': app.request.query,
-					'paginationPath': paginationPath,
-					'showAlwaysFirstAndLast': false
+					lastPage: lastPage,
+					currentPage: page,
+					currentFilters: app.request.query,
+					paginationPath: paginationPath,
+					showAlwaysFirstAndLast: false
 				} ) }}
 
       </div>
@@ -88,12 +88,12 @@
                 </div>
             </th>
               {{ include( '@EMSAdminUI/bootstrap5/elements/sortable-th.html.twig' , {
-                 'title': 'Content type'|trans,
-                 'field': 'contentype',
+                 title: 'Content type'|trans,
+                 field: 'contentype',
             } ) }}
               {{ include( '@EMSAdminUI/bootstrap5/elements/sortable-th.html.twig' , {
-                 'title': 'Label'|trans,
-                 'field': 'label',
+                 title: 'Label'|trans,
+                 field: 'label',
             } ) }}
 
             <th><span class="badge bg-{{ environments[environment].color }}" title="Circles:">{{ environment }}</span></th>
@@ -147,10 +147,10 @@
         			{% endif %}
               {% if item.objectEnvironment %}
                   {{ include( '@EMSAdminUI/bootstrap5/elements/object-toolbar.html.twig' , {
-                  'object': item.objectEnvironment,
-                  'environment': fromEnv,
-                  'contentType': item.contentType,
-                  'recursiveView': true
+                  object: item.objectEnvironment,
+                  environment: fromEnv,
+                  contentType: item.contentType,
+                  recursiveView: true
               } ) }}
               {% for notification in item.revisionEnvironment.notifications %}
                 {% if notification.status == 'pending' %}
@@ -179,10 +179,10 @@
         				{% endif %}
                 {% if item.objectWithEnvironment %}
                     {{ include( '@EMSAdminUI/bootstrap5/elements/object-toolbar.html.twig' , {
-                    'object': item.objectWithEnvironment,
-                    'environment': withEnv,
-                    'contentType': item.contentType,
-                    'recursiveView': true
+                    object: item.objectWithEnvironment,
+                    environment: withEnv,
+                    contentType: item.contentType,
+                    recursiveView: true
                   } ) }}
                   {% for notification in item.revisionEnvironment.notifications %}
                       {% if notification.status == 'pending' %}
@@ -215,14 +215,14 @@
 
                   {% if minrev[1] != maxrev[1] %}
                       {{ include( '@EMSAdminUI/bootstrap5/elements/get-button.html.twig' , {
-                          'url': path('emsco_view_revisions', {
-                              'type': item.content_type_name,
-                              'ouuid': item.ouuid,
-                              'revisionId': minrev[1] > maxrev[1] ? minrev[1] : maxrev[1],
-                              'compareId': minrev[1] < maxrev[1] ? minrev[1] : maxrev[1]
+                          url: path('emsco_view_revisions', {
+                              type: item.content_type_name,
+                              ouuid: item.ouuid,
+                              revisionId: minrev[1] > maxrev[1] ? minrev[1] : maxrev[1],
+                              compareId: minrev[1] < maxrev[1] ? minrev[1] : maxrev[1]
                           }),
-                          'label': 'Compare',
-                          'icon': 'compress'} ) }}
+                          label: 'Compare',
+                          icon: 'compress'} ) }}
                   {% endif %}
               </td>
             </tr>
@@ -244,11 +244,11 @@
             {% endif %}
 
               {{ include( '@EMSAdminUI/bootstrap5/elements/pagination.html.twig' , {
-    			'lastPage': lastPage,
-    			'currentPage': page,
-    			'currentFilters': app.request.query,
-    			'paginationPath': paginationPath,
-    			'showAlwaysFirstAndLast': false
+    			lastPage: lastPage,
+    			currentPage: page,
+    			currentFilters: app.request.query,
+    			paginationPath: paginationPath,
+    			showAlwaysFirstAndLast: false
     		} ) }}
           </div>
           <!-- /.box-body -->

@@ -1,7 +1,7 @@
 {% extends '@EMSAdminUI/bootstrap5/template/card.html.twig' %}
 {% trans_default_domain 'ems-adminui-twigs' %}
 
-{% block title %}{{ 'log.title'|trans({'created': log.created|date(date_time_format)}) }}{% endblock %}
+{% block title %}{{ 'log.title'|trans({created: log.created|date(date_time_format)}) }}{% endblock %}
 
 {% block body %}
 <div class="row justify-content-md-center">
@@ -28,11 +28,11 @@
 {% block footer %}
     {% set footer %}
         {{ include( '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' , {
-            'url': path('emsco_log_delete', {'log': log.id}),
-            'label': 'action.delete'|trans({}, 'emsco-core'),
-            'message': 'type.delete_confirm'|trans({'type': 'log'}, 'emsco-core'),
-            'icon': 'trash',
-            'btnType': 'outline-danger',
+            url: path('emsco_log_delete', {log: log.id}),
+            label: 'action.delete'|trans({}, 'emsco-core'),
+            message: 'type.delete_confirm'|trans({type: 'log'}, 'emsco-core'),
+            icon: 'trash',
+            btnType: 'outline-danger',
         } ) }}
     {% endset %}
     {{ parent() }}

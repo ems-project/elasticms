@@ -30,14 +30,14 @@
             <div class="card-footer text-end">
                 <div class="btn-group">
                     {{ include( '@EMSAdminUI/bootstrap5/elements/get-button.html.twig' , {
-                        'url': path('emsco_admin_environment_index'),
-                        'label': 'Close',
-                        'icon': 'close'
+                        url: path('emsco_admin_environment_index'),
+                        label: 'Close',
+                        icon: 'close'
                     } ) }}
                     {{ include( '@EMSAdminUI/bootstrap5/elements/get-button.html.twig' , {
-                        'url': path('emsco_admin_environment_edit', {'environment': environment.id}),
-                        'label': 'Edit',
-                        'icon': 'pencil'
+                        url: path('emsco_admin_environment_edit', {environment: environment.id}),
+                        label: 'Edit',
+                        icon: 'pencil'
                     } ) }}
                 </div>
             </div>

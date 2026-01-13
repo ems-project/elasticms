@@ -20,11 +20,11 @@
 				{% endif %}
 				<li class="float-end">
 					{{ include( '@EMSAdminUI/bootstrap5/elements/pagination.html.twig' , {
-						'lastPage': lastPage,
-						'currentPage': page,
-						'currentFilters': app.request.query,
-						'paginationPath': paginationPath,
-						'showAlwaysFirstAndLast': false
+						lastPage: lastPage,
+						currentPage: page,
+						currentFilters: app.request.query,
+						paginationPath: paginationPath,
+						showAlwaysFirstAndLast: false
 					} ) }}
 				</li>
 			</ul>

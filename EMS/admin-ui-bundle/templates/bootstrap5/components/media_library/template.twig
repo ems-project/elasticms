@@ -81,7 +81,7 @@
         </div>
         {% if children|length > 0 %}
             <ul>
-                {% with {'structure': children} %}{{ template.block('media_lib_folder_rows', _context)|raw }}{% endwith %}
+                {% with {structure: children} %}{{ template.block('media_lib_folder_rows', _context)|raw }}{% endwith %}
             </ul>
         {% endif %}
     </li>
@@ -187,7 +187,7 @@
     <label for="media-lib-search-{{- id -}}" class="sr-only">Media library search</label>
     <input id="media-lib-search-{{- id -}}"
            class="{{ html_classes('media-lib-search form-control form-control-sm', {
-               'active': searchValue|default('')|length > 0
+               active: searchValue|default('')|length > 0
            }) }}"
            type="text"
            value="{{ searchValue|default('') }}"

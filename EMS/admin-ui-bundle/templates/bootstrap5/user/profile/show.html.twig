@@ -1,7 +1,6 @@
 {% extends '@EMSAdminUI/bootstrap5/template/card.html.twig' %}
 {%- trans_default_domain 'user' -%}
 
-
 {% block body %}
     {% set footer %}
         <div class="btn-group">
@@ -15,7 +14,6 @@
         </div>
     </div>
 {% endblock body %}
-
 
 {% block content %}
         <div class="text-center">
@@ -74,7 +72,6 @@
             {icon: 'fa-solid fa-id-card-clip', label: 'user.profile.show.extra_roles'|trans, content: roles},
         ]) %}
     {% endif %}
-
 
     {{ include( '@EMSAdminUI/bootstrap5/core/list-group.html.twig' , {list: items} ) }}
 {% endblock content %}

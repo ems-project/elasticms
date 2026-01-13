@@ -1,13 +1,11 @@
 {% trans_default_domain 'EMSCoreBundle' %}{% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}
 
-
 {% block breadcrumb %}
 	<ol class="breadcrumb float-sm-end">
 		<li class="breadcrumb-item"><a href="{{ path('ems_search_options_index') }}"><i class="fa fa-search"></i> {{ 'Search options'|trans }}</a></li>
 		<li class="breadcrumb-item">{% block title %}{% endblock %}</li>
    	</ol>
 {% endblock %}
-
 
 {% block body %}
 

@@ -80,10 +80,8 @@
 			} ) }}
    		{% endfor %}
 
-
 	   	{% if is_granted(instance.contentType.roles.edit) %}
 	   		{% if not instance.contentType.circlesField or attribute(object._source, instance.contentType.circlesField) is not defined or attribute(object._source, instance.contentType.circlesField)|emsco_in_my_circles %}
-
 
 				<div class="btn-group">
 					<button type="button" class="btn btn-default btn-sm dropdown-toggle" data-bs-toggle="dropdown">

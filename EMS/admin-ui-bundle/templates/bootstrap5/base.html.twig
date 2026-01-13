@@ -10,14 +10,12 @@
 
     <title>{{ ems_shortname|striptags }}: {% block title %}elasticMS{% endblock %}</title>
 
-
 	<link rel="icon" sizes="128x128" type="image/png" href="{{ path('core-favicon') }}" />
     <link rel="apple-touch-icon" sizes="128x128" type="image/png" href="{{ path('core-apple-touch-icon') }}">
     <link rel="manifest" href="{{ path('core-site-webmanifest') }}" />
 
     {%- block extraheader %}{% endblock %}
 </head>
-
 
 {%- set type_filters = [] -%}
 {%- set all_types = false %}
@@ -197,7 +195,6 @@
     </div>
   </div>
 </div>
-
 
 </div>
 <!-- ./wrapper -->

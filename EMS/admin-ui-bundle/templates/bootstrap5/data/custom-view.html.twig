@@ -10,7 +10,6 @@
 
 {% block subtitle %}{% endblock %}
 
-
 {% block extraheader %}
 	{% if template.header is defined and template.body %}
 		{{ template.header|emsco_generate_from_template({
@@ -21,8 +20,6 @@
 			})|raw }}
 	{% endif %}
 {% endblock %}
-
-
 
 {% block body %}
 {% import '@EMSAdminUI/bootstrap5/macros/data-field-type.html.twig' as macros %}

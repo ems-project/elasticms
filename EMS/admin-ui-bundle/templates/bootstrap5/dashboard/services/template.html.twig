@@ -2,7 +2,6 @@
 
 {% block title %}{{ dashboard.label }}{% endblock %}
 
-
 {% block extraheader %}
     {%- if options.header is defined -%}
         {{- include(template_from_string(options.header, 'Header template for Dashboard ' ~ dashboard.name)) -}}

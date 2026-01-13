@@ -49,12 +49,10 @@
     {%- endif -%}
 {%- endblock checkbox_radio_label %}
 
-
 {% block holder_field_type_row %}
     {{- form_widget(form) -}}
     {{- form_errors(form) -}}
 {% endblock holder_field_type_row %}
-
 
 {% block container_field_type_row %}
 <div id="{{ form.vars.id }}" class="container-fluid">
@@ -73,14 +71,12 @@
 </div>
 {% endblock container_field_type_row %}
 
-
 {% block empty_widget -%}
 {%- endblock empty_widget %}
 {% block empty_label -%}
 {%- endblock empty_label %}
 {% block empty_row -%}
 {%- endblock empty_row %}
-
 
 {% block bypassdatafield_row -%}
 	{% if form.value is defined %}
@@ -91,7 +87,6 @@
 		}) }}
     {% endif %}
 {%- endblock bypassdatafield_row %}
-
 
 {% block bypassdatafield_widget -%}
 	{% if form.value is defined %}
@@ -124,7 +119,6 @@
         {{ block('form_help') }}
     </div>
 {% endblock icontext_help %}
-
 
 {% block ems_choice_row %}
 	{{ form_row(form.value, {attr: attr, required: required, disabled: disabled}) }}
@@ -181,7 +175,6 @@
 		</button>
 	{% endif %}
 {%- endblock submitems_widget -%}
-
 
 {%- block data_field_options_widget -%}
 
@@ -355,7 +348,6 @@
 {##}</div>
 {%- endblock code_editor_row %}
 
-
 {% block code_editor_widget %}
     <pre>{{ form.vars.data }}</pre>
     <input type="hidden" id="{{ form.vars.id }}" class="{{ attr.class|default('') }}"  name="{{ form.vars.full_name }}" data-language="{{ form.vars.language }}" data-disabled="{{ form.vars.disabled }}" data-min-lines="{{ form.vars.min_lines }}" data-max-lines="{{ form.vars.max_lines }}" value="{{ form.vars.value }}">
@@ -410,8 +402,6 @@
 	{% endfor %}
 </div>
 {%- endblock bouttongroup_row %}
-
-
 
 {% block search_filter_row -%}
 	<div class="filter-container ">
@@ -476,9 +466,6 @@
 		</div>
 	</div>
 {%- endblock search_filter_row %}
-
-
-
 
 {# {% block container_row -%} #}
 {# 	<div class="card card-default"> #}
@@ -596,7 +583,6 @@
 		</div>
 	 </div>
 {%- endblock tabsfieldtype_widget %}
-
 
 {% block collectionfieldtype_widget -%}
 	<div class="collection-panel"
@@ -722,7 +708,6 @@
     {% endfor %}
 {% endblock holder_field_type_widget %}
 
-
 {% block container_field_type_widget %}
 	<div id="{{ form.vars.id }}" class="container-fluid">
 		<div class="{{ html_classes('row', {
@@ -777,7 +762,6 @@
 {# <!-- /.form group --> #}
 {# {% endblock timefieldtype_row %} #}
 
-
 {%- block form_label -%}
     {% if label is not same as (false) -%}
         {% if not compound -%}
@@ -800,14 +784,12 @@
     {%- endif -%}
 {%- endblock form_label -%}
 
-
 {% block codefieldtype_widget %}
 	<div class="ems-code-editor" {{ block('widget_attributes') }}>
         {{ form_widget(form) }}
     	<pre>{{ form.vars.value }}</pre>
 	</div>
 {% endblock codefieldtype_widget %}
-
 
 {% block codefieldtype_row %}
 	<div class="form-group{% if class %} {{ class }}{% else %} col-xs-12 {% endif %} {% if form.vars.errors|length %} has-error{% endif %}">
@@ -818,7 +800,6 @@
     <!-- /.form group -->
 {% endblock codefieldtype_row %}
 
-
 {% block json_menu_editor_fieldtype_row %}
 	<div class="form-group {% if form.vars.errors|length %} has-error{% endif %} json_menu_editor_fieldtype">
 		{{ form_label(form) }}
@@ -827,8 +808,6 @@
 	</div>
 	<!-- /.form group -->
 {% endblock json_menu_editor_fieldtype_row %}
-
-
 
 {% block json_menu_editor_fieldtype_node %}
 	{% for item in children %}
@@ -877,7 +856,6 @@
 	{% endfor %}
 {% endblock json_menu_editor_fieldtype_node %}
 
-
 {% block json_menu_editor_fieldtype_widget %}
 	{{ form_widget(form) }}
     {% set nodeTypes = form.vars.node_types|split(',') %}
@@ -916,7 +894,6 @@
             {% endfor %}
         </ul>
     {% endset %}
-
 
 	<div class="json_menu_editor_fieldtype_widget collapsible-container"
 		{% set children = [{id: '%uuid%', type: 'item', label: '%label%', icon: '%icon%', contentType: '%contentType%'}] %}
@@ -989,7 +966,6 @@
 	</div>
 {% endblock date_time_field_type_row %}
 
-
 {% block assettype_multiple_item %}
 
 	{% set prototype = (fileItem.vars.name == '__name__') %}
@@ -1053,7 +1029,6 @@
 		</div>
 	</li>
 {% endblock assettype_multiple_item %}
-
 
 {% block assettype_row %}
 
@@ -1166,7 +1141,6 @@
 </div>
 {% endblock assettype_row %}
 
-
 {% block filetype_row %}
 <div {% with {attr: row_attr|merge({class: 'card card-default file-uploader-row'})} %}{{ block('attributes') }}{% endwith %} {% if form.vars.meta_fields %}data-meta-fields{% endif %}>
 	<div class="card-heading">
@@ -1250,8 +1224,6 @@
 	</div>
 </div>
 {% endblock filetype_row %}
-
-
 
 {% block fieldTypeType_row -%}
 <div class="col-12 mt-4">

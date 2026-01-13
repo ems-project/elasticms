@@ -10,7 +10,7 @@
 
     <title>{{ ems_shortname|striptags }}: {% block title %}elasticMS{% endblock %}</title>
 
-	<link rel="icon" sizes="128x128" type="image/png" href="{{ path('core-favicon') }}" />
+    <link rel="icon" sizes="128x128" type="image/png" href="{{ path('core-favicon') }}" />
     <link rel="apple-touch-icon" sizes="128x128" type="image/png" href="{{ path('core-apple-touch-icon') }}">
     <link rel="manifest" href="{{ path('core-site-webmanifest') }}" />
 
@@ -68,9 +68,9 @@
         <ul class="nav navbar-nav">
           {% if app.user %}
 
-		{% if app.user %}
-		  {{ render(controller('EMS\\CoreBundle\\Controller\\ChannelController::menu')) }}
-		  {{ render(controller('EMS\\CoreBundle\\Controller\\NotificationController::menuNotification')) }}
+        {% if app.user %}
+          {{ render(controller('EMS\\CoreBundle\\Controller\\ChannelController::menu')) }}
+          {{ render(controller('EMS\\CoreBundle\\Controller\\NotificationController::menuNotification')) }}
         {% endif %}
 
           <!-- Tasks Menu -->
@@ -87,9 +87,9 @@
             <!-- Menu Toggle Button -->
             <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
               <!-- The user image in the navbar-->
-              	{{ include( '@EMSAdminUI/bootstrap5/elements/user-image.html.twig' , {
-					class: 'user-image',
-				} ) }}
+                  {{ include( '@EMSAdminUI/bootstrap5/elements/user-image.html.twig' , {
+                    class: 'user-image',
+                } ) }}
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
               <span class="hidden-xs">{{ app.user.displayName }}</span>
             </a>
@@ -97,16 +97,16 @@
               <!-- The user image in the menu -->
               <li class="user-header">
                 {{ include( '@EMSAdminUI/bootstrap5/elements/user-image.html.twig' , {
-					class: 'img-circle',
-				} ) }}
+                    class: 'img-circle',
+                } ) }}
 
                 <p>
                   {{ 'user.logged_in.title'|trans({'%username%': app.user.username}, 'emsco-user') }}
                   <small>{{ 'user.logged_in.member_since'|trans({'%date%': app.user.created|date(date_time_format)}, 'emsco-user') }}</small>
                   <small>
-                  	{% for role in app.user.roles %}
-                  		{{ role|trans }}{% if not loop.last %},{% endif %}
-                  	{% endfor %}
+                      {% for role in app.user.roles %}
+                          {{ role|trans }}{% if not loop.last %},{% endif %}
+                      {% endfor %}
                   </small>
                 </p>
               </li>
@@ -115,11 +115,11 @@
                   <a href="{{ path(routes.USER_PROFILE) }}" class="btn btn-default btn-flat">{{ 'user.profile.title'|trans({}, 'emsco-user') }}</a>
                 </div>
                 <div class="float-end">
-               		{% if is_granted('IS_IMPERSONATOR') %}
-               			<a href="{{ path('emsco_user_index', {_switch_user: '_exit'}) }}" class="btn btn-default btn-flat">{{ 'user.logout.exit'|trans({}, 'emsco-user') }}</a>
-               		{% else %}
-               			<a href="{{ path(routes.USER_LOGOUT) }}" class="btn btn-default btn-flat">{{ 'user.logout.submit'|trans({}, 'emsco-user') }}</a>
-               		{% endif %}
+                       {% if is_granted('IS_IMPERSONATOR') %}
+                           <a href="{{ path('emsco_user_index', {_switch_user: '_exit'}) }}" class="btn btn-default btn-flat">{{ 'user.logout.exit'|trans({}, 'emsco-user') }}</a>
+                       {% else %}
+                           <a href="{{ path(routes.USER_LOGOUT) }}" class="btn btn-default btn-flat">{{ 'user.logout.submit'|trans({}, 'emsco-user') }}</a>
+                       {% endif %}
                 </div>
               </li>
             </ul>
@@ -134,12 +134,12 @@
     </nav>
   </header>
 
-		{% if app.user %}
-		  	{{ render(controller('EMS\\CoreBundle\\Controller\\TwigElementsController::sideMenu')) }}
-		{% else %}
+        {% if app.user %}
+              {{ render(controller('EMS\\CoreBundle\\Controller\\TwigElementsController::sideMenu')) }}
+        {% else %}
             {{ include( '@EMSAdminUI/bootstrap5/elements/side-menu.html.twig' , {
-				contentTypes: emsco_get_content_types(),
-			} ) }}
+                contentTypes: emsco_get_content_types(),
+            } ) }}
         {% endif %}
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -150,29 +150,29 @@
         {% block subtitle %}{% endblock %}
       </h1>
 
-      	{% block breadcrumb %}{% endblock %}
+          {% block breadcrumb %}{% endblock %}
     </section>
 
     <!-- Main content -->
     <section class="content">
 
-		<div class="modal fade" id="modal-notifications" tabindex="-1" role="dialog" aria-labelledby="myModalNotifications">
-		  <div class="modal-dialog" role="document">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <h4 class="modal-title" id="myModalNotifications">
-							<strong>Notifications</strong>
-				</h4>
+        <div class="modal fade" id="modal-notifications" tabindex="-1" role="dialog" aria-labelledby="myModalNotifications">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="myModalNotifications">
+                            <strong>Notifications</strong>
+                </h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'action.close'|trans({}, 'emsco-core') }}"></button>
-		      </div>
-		      <div class="modal-body">
-			  </div>
-		      <div class="modal-footer">
-		      	<button id="modal-notification-close-button" type="button" class="btn btn-primary"><i class="fa fa-close"></i> Close</button>
-			  </div>
-		    </div>
-		  </div>
-		</div>
+              </div>
+              <div class="modal-body">
+              </div>
+              <div class="modal-footer">
+                  <button id="modal-notification-close-button" type="button" class="btn btn-primary"><i class="fa fa-close"></i> Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
     </section>
     <!-- /.content -->
   </div>

@@ -56,26 +56,26 @@
     </div>
 
 {% if results %}
-	<div class="col">
-		<div class="card card-{{ theme_color }} card-outline">
+    <div class="col">
+        <div class="card card-{{ theme_color }} card-outline">
       <div class="card-header">
-      	{% set fromInMyCircles = environments[environment].circles|emsco_in_my_circles %}
-      	{% set toInMyCircles = environments[withEnvironment].circles|emsco_in_my_circles %}
+          {% set fromInMyCircles = environments[environment].circles|emsco_in_my_circles %}
+          {% set toInMyCircles = environments[withEnvironment].circles|emsco_in_my_circles %}
 
         <h3 class="card-title">Compare "{{ environment }}" and "{{ withEnvironment }}"</h3> <small>{{ total }} difference(s)</small>
 
           {{ include( '@EMSAdminUI/bootstrap5/elements/pagination.html.twig' , {
-					lastPage: lastPage,
-					currentPage: page,
-					currentFilters: app.request.query,
-					paginationPath: paginationPath,
-					showAlwaysFirstAndLast: false,
-				} ) }}
+                    lastPage: lastPage,
+                    currentPage: page,
+                    currentFilters: app.request.query,
+                    paginationPath: paginationPath,
+                    showAlwaysFirstAndLast: false,
+                } ) }}
 
       </div>
       <!-- /.box-header -->
       <div class="card-body no-padding">
-			  <div class="table-responsive">
+              <div class="table-responsive">
         <table class="table dataTable">
           <thead>
           <tr>
@@ -104,14 +104,14 @@
           </thead>
           <tbody>
           {% for item in results %}
-      			{% set data = (item.content_type_name ~ ':' ~ item.ouuid) %}
-      			{% set minrev = item.minrevid|split('/') %}
-      			{% set maxrev = item.maxrevid|split('/') %}
-      			{% set defaultEnv = false %}
+                  {% set data = (item.content_type_name ~ ':' ~ item.ouuid) %}
+                  {% set minrev = item.minrevid|split('/') %}
+                  {% set maxrev = item.maxrevid|split('/') %}
+                  {% set defaultEnv = false %}
             {% for ct in contentTypes %}
-            	{% if ct.name == item.content_type_name %}
-            		{% set defaultEnv = ct.environment %}
-            	{% endif %}
+                {% if ct.name == item.content_type_name %}
+                    {% set defaultEnv = ct.environment %}
+                {% endif %}
             {% endfor %}
             <tr>
               <td>{{ loop.index + ((page - 1) * paging_size) }}.</td>
@@ -127,24 +127,24 @@
               <td><span title='{{ item.ouuid }}'>{{ item.item_labelField }}</span></td>
               <td>
               {% if defaultEnv %}
-        				{% if minrev[0] == fromEnv.id %}
-        					{% if fromEnv.id == defaultEnv.id %}
-        						<i class="fa fa-lock" aria-hidden="true"></i>
-        					{% elseif minrev[2] >= maxrev[2] %}
-        						<i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
-        					{% endif %}
-        					{{ minrev[2]|date(date_time_format) }}
-        					({{ minrev[1] }})
-        				{% elseif maxrev[0] == fromEnv.id %}
-        					{% if fromEnv.id == defaultEnv.id %}
-        						<i class="fa fa-lock" aria-hidden="true"></i>
-        					{% elseif minrev[2] <= maxrev[2] %}
-        						<i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
-        					{% endif %}
-        					{{ maxrev[2]|date(date_time_format) }}
-        					({{ maxrev[1] }})
-        				{% endif %}
-        			{% endif %}
+                        {% if minrev[0] == fromEnv.id %}
+                            {% if fromEnv.id == defaultEnv.id %}
+                                <i class="fa fa-lock" aria-hidden="true"></i>
+                            {% elseif minrev[2] >= maxrev[2] %}
+                                <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                            {% endif %}
+                            {{ minrev[2]|date(date_time_format) }}
+                            ({{ minrev[1] }})
+                        {% elseif maxrev[0] == fromEnv.id %}
+                            {% if fromEnv.id == defaultEnv.id %}
+                                <i class="fa fa-lock" aria-hidden="true"></i>
+                            {% elseif minrev[2] <= maxrev[2] %}
+                                <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                            {% endif %}
+                            {{ maxrev[2]|date(date_time_format) }}
+                            ({{ maxrev[1] }})
+                        {% endif %}
+                    {% endif %}
               {% if item.objectEnvironment %}
                   {{ include( '@EMSAdminUI/bootstrap5/elements/object-toolbar.html.twig' , {
                   object: item.objectEnvironment,
@@ -160,23 +160,23 @@
               {% endif %}
               </td>
               <td>
-        				{% if minrev[0] == withEnv.id %}
-        					{% if withEnv.id == defaultEnv.id %}
-        						<i class="fa fa-lock" aria-hidden="true"></i>
-        					{% elseif minrev[2] >= maxrev[2] %}
-        						<i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
-        					{% endif %}
-        					{{ minrev[2]|date(date_time_format) }}
-        					({{ minrev[1] }})
-        				{% elseif maxrev[0] == withEnv.id %}
-        					{% if withEnv.id == defaultEnv.id %}
-        						<i class="fa fa-lock" aria-hidden="true"></i>
-        					{% elseif minrev[2] <= maxrev[2] %}
-        						<i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
-        					{% endif %}
-        					{{ maxrev[2]|date(date_time_format) }}
-        					({{ maxrev[1] }})
-        				{% endif %}
+                        {% if minrev[0] == withEnv.id %}
+                            {% if withEnv.id == defaultEnv.id %}
+                                <i class="fa fa-lock" aria-hidden="true"></i>
+                            {% elseif minrev[2] >= maxrev[2] %}
+                                <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                            {% endif %}
+                            {{ minrev[2]|date(date_time_format) }}
+                            ({{ minrev[1] }})
+                        {% elseif maxrev[0] == withEnv.id %}
+                            {% if withEnv.id == defaultEnv.id %}
+                                <i class="fa fa-lock" aria-hidden="true"></i>
+                            {% elseif minrev[2] <= maxrev[2] %}
+                                <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                            {% endif %}
+                            {{ maxrev[2]|date(date_time_format) }}
+                            ({{ maxrev[1] }})
+                        {% endif %}
                 {% if item.objectWithEnvironment %}
                     {{ include( '@EMSAdminUI/bootstrap5/elements/object-toolbar.html.twig' , {
                     object: item.objectWithEnvironment,
@@ -186,7 +186,7 @@
                   } ) }}
                   {% for notification in item.revisionEnvironment.notifications %}
                       {% if notification.status == 'pending' %}
-                      	<span class="label label-default"><i class="{{ notification.template.icon }}"></i> {{ notification.template.label }}</span>
+                          <span class="label label-default"><i class="{{ notification.template.icon }}"></i> {{ notification.template.label }}</span>
                       {% endif %}
                   {% endfor %}
                 {% endif %}
@@ -233,23 +233,23 @@
       {% if is_granted('ROLE_ALLOW_ALIGN') or lastPage > 1 %}
           <div class="box-footer">
             {% if is_granted('ROLE_ALLOW_ALIGN') %}
-              	<div class="btn-group">
-              		{% if toInMyCircles %}
-                		<button type="submit" name="compare_environment_form[alignRight]" class="btn-primary btn-md btn"><span class="fa fa-chevron-right"></span>&nbsp;Align {{ withEnvironment }} with {{ environment }}</button>
-                	{% endif %}
-              		{% if fromInMyCircles %}
-                		<button type="submit" name="compare_environment_form[alignLeft]" class="btn-danger btn-md btn"><span class="fa fa-chevron-left"></span>&nbsp;Align {{ environment }} with {{ withEnvironment }}</button>
-              	    {% endif %}
-              	</div>
+                  <div class="btn-group">
+                      {% if toInMyCircles %}
+                        <button type="submit" name="compare_environment_form[alignRight]" class="btn-primary btn-md btn"><span class="fa fa-chevron-right"></span>&nbsp;Align {{ withEnvironment }} with {{ environment }}</button>
+                    {% endif %}
+                      {% if fromInMyCircles %}
+                        <button type="submit" name="compare_environment_form[alignLeft]" class="btn-danger btn-md btn"><span class="fa fa-chevron-left"></span>&nbsp;Align {{ environment }} with {{ withEnvironment }}</button>
+                      {% endif %}
+                  </div>
             {% endif %}
 
               {{ include( '@EMSAdminUI/bootstrap5/elements/pagination.html.twig' , {
-    			lastPage: lastPage,
-    			currentPage: page,
-    			currentFilters: app.request.query,
-    			paginationPath: paginationPath,
-    			showAlwaysFirstAndLast: false,
-    		} ) }}
+                lastPage: lastPage,
+                currentPage: page,
+                currentFilters: app.request.query,
+                paginationPath: paginationPath,
+                showAlwaysFirstAndLast: false,
+            } ) }}
           </div>
           <!-- /.box-body -->
       {% endif %}

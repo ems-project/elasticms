@@ -3,11 +3,11 @@
 
 {% block body %}
 <div class="row">
-	<div id="search-page-form" class="col-12">
-		{{ include( '@EMSAdminUI/bootstrap5/elasticsearch/search-form-filter.html.twig' , {
-			form: form,
-		} ) }}
-	</div>
+    <div id="search-page-form" class="col-12">
+        {{ include( '@EMSAdminUI/bootstrap5/elasticsearch/search-form-filter.html.twig' , {
+            form: form,
+        } ) }}
+    </div>
 
     {% if response and response.totalDocuments > 0 %}
         {% set pagination %}
@@ -34,7 +34,7 @@
         <div id="search-facets" class="col-md-3">
             {{ block('searchFacets') }}
         </div>
-	{% endif %}
+    {% endif %}
 </div>
 {% endblock %}
 

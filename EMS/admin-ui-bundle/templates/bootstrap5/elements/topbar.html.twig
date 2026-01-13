@@ -56,16 +56,16 @@
         {% if app.user %}
             <li class="nav-item dropdown user-menu">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                    {% include '@EMSAdminUI/bootstrap5/elements/user-image.html.twig' with {
+                    {{ include( '@EMSAdminUI/bootstrap5/elements/user-image.html.twig' , {
                         'class': 'user-image rounded-circle shadow'
-                    } %}
+                    } ) }}
                     <span class="d-none d-md-inline">{{ app.user.displayName }}</span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
                     <li class="user-header bg-{{ theme_color }}">
-                        {% include '@EMSAdminUI/bootstrap5/elements/user-image.html.twig' with {
+                        {{ include( '@EMSAdminUI/bootstrap5/elements/user-image.html.twig' , {
                             'class': 'rounded-circle shadow'
-                        } %}
+                        } ) }}
 
                         <p>
                             {{ 'user.logged_in.title'|trans({'%username%': app.user.username}, 'emsco-user') }}

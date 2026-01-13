@@ -34,7 +34,7 @@
 {% if datatable.supportsTableActions and datatable.tableMassActions|length > 0 %}
     <div class="btn-group">
         {% for action in datatable.tableMassActions %}
-            {% include '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' with {
+            {{ include( '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' , {
                 'message': action.confirmationKey ? action.confirmationKey.message : null,
                 'label': action.labelKey.message,
                 'btnClass': action.cssClass,
@@ -43,7 +43,7 @@
                     'data-datatable-target': datatable.id
                 },
                 'icon': action.icon,
-            } %}
+            } ) }}
         {% endfor %}
     </div>
 {% endif %}

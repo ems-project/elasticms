@@ -2,9 +2,9 @@
 
 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
     <div class="image">
-        {% include '@EMSAdminUI/bootstrap5/elements/user-image.html.twig' with {
+        {{ include( '@EMSAdminUI/bootstrap5/elements/user-image.html.twig' , {
             'class': 'img-circle elevation-2'
-        } %}
+        } ) }}
     </div>
     <div class="info">
         {% if app.user %}

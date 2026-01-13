@@ -128,12 +128,12 @@
                 {% for a in contentTypeActions %}
                     <li class="{{ a.list_item_classes|default([])|length > 0 ? a.list_item_classes|join(' ') }}">
                         {% if a.post_button|default %}
-                            {% include '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' with {
+                            {{ include( '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' , {
                                 'url': a.link,
                                 'label': a.label,
                                 'icon': a.icon,
                                 'btnClass': ''
-                            } %}
+                            } ) }}
                         {% else %}
                             {% if a.link|default %}
                                 <a href="{{ a.link }}" {% for attribute in a.link_attributes|default([]) %}{{ attribute.name }}="{{ attribute.value }}" {% endfor %}>

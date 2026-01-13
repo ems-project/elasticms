@@ -63,20 +63,20 @@
 
 					<td>
 						<div class="btn-group">
-                            {% include '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' with {
+                            {{ include( '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' , {
 								'url': path('notification.acknowledge', {'notification': notification.id}),
 								'label': 'Acknowledge',
 								'icon': 'check',
 								'message': 'Do you confirm?'
-							} %}
+							} ) }}
 
-                            {% include '@EMSAdminUI/bootstrap5/elements/object-views-button.html.twig' with {
+                            {{ include( '@EMSAdminUI/bootstrap5/elements/object-views-button.html.twig' , {
 								'object': notification.revision.buildObject,
 								'contentType': notification.revision.contentType,
 								'environment': notification.environment,
 								'ouuid': notification.revision,
 								'currentTemplate': notification.template
-							} %}
+							} ) }}
 	                    </div>
 					</td>
 				</tr>

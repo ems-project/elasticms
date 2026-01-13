@@ -64,13 +64,13 @@
 
         <h3 class="card-title">Compare "{{ environment }}" and "{{ withEnvironment }}"</h3> <small>{{ total }} difference(s)</small>
 
-          {{ include( '@EMSAdminUI/bootstrap5/elements/pagination.html.twig' , {
+          {{ include('@EMSAdminUI/bootstrap5/elements/pagination.html.twig', {
                     lastPage: lastPage,
                     currentPage: page,
                     currentFilters: app.request.query,
                     paginationPath: paginationPath,
                     showAlwaysFirstAndLast: false,
-                } ) }}
+                }) }}
 
       </div>
       <!-- /.box-header -->
@@ -87,14 +87,14 @@
                     <label for="align-env-checkbox-all"><span class="visually-hidden">{{ 'environment.align.checkbox-all'|trans }}</span></label>
                 </div>
             </th>
-              {{ include( '@EMSAdminUI/bootstrap5/elements/sortable-th.html.twig' , {
+              {{ include('@EMSAdminUI/bootstrap5/elements/sortable-th.html.twig', {
                  title: 'Content type'|trans,
                  field: 'contentype',
-            } ) }}
-              {{ include( '@EMSAdminUI/bootstrap5/elements/sortable-th.html.twig' , {
+            }) }}
+              {{ include('@EMSAdminUI/bootstrap5/elements/sortable-th.html.twig', {
                  title: 'Label'|trans,
                  field: 'label',
-            } ) }}
+            }) }}
 
             <th><span class="badge bg-{{ environments[environment].color }}" title="Circles:">{{ environment }}</span></th>
             <th><span class="badge bg-{{ environments[withEnvironment].color }}" title="Circles:">{{ withEnvironment }}</span></th>
@@ -146,12 +146,12 @@
                         {% endif %}
                     {% endif %}
               {% if item.objectEnvironment %}
-                  {{ include( '@EMSAdminUI/bootstrap5/elements/object-toolbar.html.twig' , {
+                  {{ include('@EMSAdminUI/bootstrap5/elements/object-toolbar.html.twig', {
                   object: item.objectEnvironment,
                   environment: fromEnv,
                   contentType: item.contentType,
                   recursiveView: true,
-              } ) }}
+              }) }}
               {% for notification in item.revisionEnvironment.notifications %}
                 {% if notification.status == 'pending' %}
                           <span class="label label-default"><i class="{{ notification.template.icon }}"></i> {{ notification.template.label }}</span>
@@ -178,12 +178,12 @@
                             ({{ maxrev[1] }})
                         {% endif %}
                 {% if item.objectWithEnvironment %}
-                    {{ include( '@EMSAdminUI/bootstrap5/elements/object-toolbar.html.twig' , {
+                    {{ include('@EMSAdminUI/bootstrap5/elements/object-toolbar.html.twig', {
                     object: item.objectWithEnvironment,
                     environment: withEnv,
                     contentType: item.contentType,
                     recursiveView: true,
-                  } ) }}
+                  }) }}
                   {% for notification in item.revisionEnvironment.notifications %}
                       {% if notification.status == 'pending' %}
                           <span class="label label-default"><i class="{{ notification.template.icon }}"></i> {{ notification.template.label }}</span>
@@ -214,7 +214,7 @@
                 {% endif %}
 
                   {% if minrev[1] != maxrev[1] %}
-                      {{ include( '@EMSAdminUI/bootstrap5/elements/get-button.html.twig' , {
+                      {{ include('@EMSAdminUI/bootstrap5/elements/get-button.html.twig', {
                           url: path('emsco_view_revisions', {
                               type: item.content_type_name,
                               ouuid: item.ouuid,
@@ -222,7 +222,7 @@
                               compareId: minrev[1] < maxrev[1] ? minrev[1] : maxrev[1],
                           }),
                           label: 'Compare',
-                          icon: 'compress'} ) }}
+                          icon: 'compress'}) }}
                   {% endif %}
               </td>
             </tr>
@@ -243,13 +243,13 @@
                   </div>
             {% endif %}
 
-              {{ include( '@EMSAdminUI/bootstrap5/elements/pagination.html.twig' , {
+              {{ include('@EMSAdminUI/bootstrap5/elements/pagination.html.twig', {
                 lastPage: lastPage,
                 currentPage: page,
                 currentFilters: app.request.query,
                 paginationPath: paginationPath,
                 showAlwaysFirstAndLast: false,
-            } ) }}
+            }) }}
           </div>
           <!-- /.box-body -->
       {% endif %}

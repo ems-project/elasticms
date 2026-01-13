@@ -22,18 +22,18 @@
         {icon: 'fa-solid fa-file-lines', label: 'key.context'|trans, content: log.context|json_encode(constant('JSON_PRETTY_PRINT')), contentTag: 'pre'},
         {icon: 'fa-solid fa-table', label: 'key.extra'|trans, content: log.extra|json_encode(constant('JSON_PRETTY_PRINT')), contentTag: 'pre'},
     ] %}
-    {{ include( '@EMSAdminUI/bootstrap5/core/list-group.html.twig' , {list: items} ) }}
+    {{ include('@EMSAdminUI/bootstrap5/core/list-group.html.twig', {list: items}) }}
 {% endblock content %}
 
 {% block footer %}
     {% set footer %}
-        {{ include( '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' , {
+        {{ include('@EMSAdminUI/bootstrap5/elements/post-button.html.twig', {
             url: path('emsco_log_delete', {log: log.id}),
             label: 'action.delete'|trans({}, 'emsco-core'),
             message: 'type.delete_confirm'|trans({type: 'log'}, 'emsco-core'),
             icon: 'trash',
             btnType: 'outline-danger',
-        } ) }}
+        }) }}
     {% endset %}
     {{ parent() }}
 {% endblock footer %}

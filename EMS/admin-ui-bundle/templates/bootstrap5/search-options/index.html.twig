@@ -11,7 +11,7 @@
 {% block body %}
     <div class="row">
         <div class="col-md-6">
-            {{ include( '@EMSAdminUI/bootstrap5/entity/list-entities.html.twig' , {
+            {{ include('@EMSAdminUI/bootstrap5/entity/list-entities.html.twig', {
                 entities: sortOptions,
                 icon: 'fa fa-sort-alpha-asc',
                 title: 'Sort Options'|trans,
@@ -20,10 +20,10 @@
                 add_route: 'ems_search_sort_option_new',
                 edit_route: 'ems_search_sort_option_edit',
                 form: sortOptionReorderForm,
-            } ) }}
+            }) }}
         </div>
         <div class="col-md-6">
-            {{ include( '@EMSAdminUI/bootstrap5/entity/list-entities.html.twig' , {
+            {{ include('@EMSAdminUI/bootstrap5/entity/list-entities.html.twig', {
                 entities: aggregateOptions,
                 icon: 'fa fa-th',
                 title: 'Aggregate Options'|trans,
@@ -32,10 +32,10 @@
                 add_route: 'ems_search_aggregate_option_new',
                 edit_route: 'ems_search_aggregate_option_edit',
                 form: aggregateOptionReorderForm,
-            } ) }}
+            }) }}
         </div>
         <div class="col-md-6">
-            {{ include( '@EMSAdminUI/bootstrap5/entity/list-entities.html.twig' , {
+            {{ include('@EMSAdminUI/bootstrap5/entity/list-entities.html.twig', {
                 entities: searchFieldOptions,
                 icon: 'fa fa-th',
                 title: 'Search Field Options'|trans,
@@ -44,7 +44,7 @@
                 add_route: 'ems_search_field_option_new',
                 edit_route: 'ems_search_field_option_edit',
                 form: searchFieldOptionReorderForm,
-            } ) }}
+            }) }}
         </div>
     </div>
 {% endblock %}

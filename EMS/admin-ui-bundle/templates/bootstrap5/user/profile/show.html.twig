@@ -17,9 +17,9 @@
 
 {% block content %}
         <div class="text-center">
-            {{ include( '@EMSAdminUI/bootstrap5/elements/user-image.html.twig' , {
+            {{ include('@EMSAdminUI/bootstrap5/elements/user-image.html.twig', {
                 class: 'profile-user-img img-responsive img-circle',
-            } ) }}
+            }) }}
         </div>
 
         <h3 class="profile-username text-center">{{ user.displayName }}</h3>
@@ -73,5 +73,5 @@
         ]) %}
     {% endif %}
 
-    {{ include( '@EMSAdminUI/bootstrap5/core/list-group.html.twig' , {list: items} ) }}
+    {{ include('@EMSAdminUI/bootstrap5/core/list-group.html.twig', {list: items}) }}
 {% endblock content %}

@@ -267,22 +267,22 @@
         {% set itemLabel = attribute(line.data, table.labelAttribute) %}
         {% if action.post %}
             {% if action.route != 'EMS_user_apikey' or 'ROLE_API' in line.data.roles %}
-                {{ include( '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' , {
+                {{ include('@EMSAdminUI/bootstrap5/elements/post-button.html.twig', {
                     url: path(action.route, routeParameters),
                     message: action.messageKey(itemLabel),
                     label: action.labelKey(itemLabel),
                     btnType: action.buttonType,
                     icon: action.icon,
                     group_class: loop.last ? 'float-end' : '',
-                } ) }}
+                }) }}
             {% endif %}
         {% else %}
-            {{ include( '@EMSAdminUI/bootstrap5/elements/get-button.html.twig' , {
+            {{ include('@EMSAdminUI/bootstrap5/elements/get-button.html.twig', {
                 url: path(action.route, routeParameters),
                 label: action.labelKey(itemLabel),
                 btnType: action.buttonType,
                 icon: action.icon,
-            } ) }}
+            }) }}
         {% endif %}
     {% endif %}
 {% endblock emsco_form_table_item_action %}

@@ -78,7 +78,7 @@
 {% block revisionToolbar %}
     <div class="card card-{{ theme_color }} card-outline card-outline-tabs">
         <div class="card-footer">
-            {{ include( '@EMSAdminUI/bootstrap5/elements/revision-toolbar.html.twig' , {
+            {{ include('@EMSAdminUI/bootstrap5/elements/revision-toolbar.html.twig', {
                 revisionId: revision.id,
                 environmentsRevision: emsco_get_environments_revision(revision),
                 draft: revision.draft,
@@ -87,29 +87,29 @@
                 instance: revision,
                 withView: false,
                 vertical: false,
-            } ) }}
+            }) }}
             <div class="btn-group float-end">
                 {% set ctRoles = revision.contentType.roles %}
 
                 {% if not revision.archived and is_granted(ctRoles.archive) and not revision.hasEndTime %}
-                    {{ include( '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' , {
+                    {{ include('@EMSAdminUI/bootstrap5/elements/post-button.html.twig', {
                         url: path('emsco_revision_archive', {revision: revision.id}),
                         label: 'Archive',
                         icon: 'archive',
                         btnType: 'outline-danger',
                         message: 'Do you confirm?',
-                    } ) }}
+                    }) }}
                 {% endif %}
 
                 {% if is_granted(ctRoles.delete) %}
                     {% if not revision.contentType.circlesField or attribute(object._source, revision.contentType.circlesField) is not defined or attribute(object._source, revision.contentType.circlesField)|emsco_in_my_circles %}
-                        {{ include( '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' , {
+                        {{ include('@EMSAdminUI/bootstrap5/elements/post-button.html.twig', {
                             url: path('object.delete', {type: revision.contentType.name, ouuid: revision.ouuid}),
                             label: 'Delete all revisions',
                             icon: 'trash',
                             btnType: 'outline-danger',
                             message: 'Do you confirm?',
-                        } ) }}
+                        }) }}
                     {% endif %}
                 {% endif %}
             </div>
@@ -268,7 +268,7 @@
             {{ macros.renderDataField(dataFields, revision.rawData, compare, compareData) }}
         </div>
         <div class="box-footer">
-            {{ include( '@EMSAdminUI/bootstrap5/elements/revision-toolbar.html.twig' , {
+            {{ include('@EMSAdminUI/bootstrap5/elements/revision-toolbar.html.twig', {
                 revisionId: revision.id,
                 environmentsRevision: emsco_get_environments_revision(revision),
                 draft: revision.draft,
@@ -276,7 +276,7 @@
                 autoSave: revision.autoSave,
                 instance: revision,
                 withView: false,
-            } ) }}
+            }) }}
 
         </div>
     </div>
@@ -397,14 +397,14 @@
 
                             </td>
                             <td>
-                                {{ include( '@EMSAdminUI/bootstrap5/elements/revision-toolbar.html.twig' , {
+                                {{ include('@EMSAdminUI/bootstrap5/elements/revision-toolbar.html.twig', {
                                     revisionId: rev.id,
                                     environmentsRevision: emsco_get_environments_revision(rev),
                                     draft: rev.draft,
                                     current: not rev.endTime,
                                     autoSave: rev.autoSave,
                                     instance: revision,
-                                } ) }}
+                                }) }}
                             </td>
                         </tr>
                     {% endfor %}
@@ -413,13 +413,13 @@
             </div>
         </div>
         <div class="box-footer">
-            {{ include( '@EMSAdminUI/bootstrap5/elements/pagination.html.twig' , {
+            {{ include('@EMSAdminUI/bootstrap5/elements/pagination.html.twig', {
                 lastPage: lastPage,
                 currentPage: page,
                 currentFilters: app.request.query|merge({type: revision.contentType.name, ouuid: revision.ouuid, revisionId: revision.id, compareId: compareId}),
                 paginationPath: 'data.revisions',
                 showAlwaysFirstAndLast: false,
-            } ) }}
+            }) }}
         </div>
     </div>
 {% endblock %}

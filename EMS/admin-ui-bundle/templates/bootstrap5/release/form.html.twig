@@ -32,24 +32,24 @@
         {% if release is defined and release.status == 'wip' %}
             <div class="card-footer">
                 <div class="btn-group">
-                    {{ include( '@EMSAdminUI/bootstrap5/elements/get-button.html.twig' , {
+                    {{ include('@EMSAdminUI/bootstrap5/elements/get-button.html.twig', {
                         url: path('emsco_release_add_revisions', {release: release.id, type: 'publish'}),
                         label: 'release.actions.add_publish'|trans,
                         icon: 'plus',
                         btnType: 'primary',
-                    } ) }}
-                    {{ include( '@EMSAdminUI/bootstrap5/elements/get-button.html.twig' , {
+                    }) }}
+                    {{ include('@EMSAdminUI/bootstrap5/elements/get-button.html.twig', {
                         url: path('emsco_release_add_revisions', {release: release.id, type: 'unpublish'}),
                         label: 'release.actions.add_unpublish'|trans,
                         icon: 'minus',
                         btnType: 'default',
-                    } ) }}
+                    }) }}
                     {% if release.revisions|length > 0 %}
-                        {{ include( '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' , {
+                        {{ include('@EMSAdminUI/bootstrap5/elements/post-button.html.twig', {
                             url: path('emsco_release_set_status', {release: release.id, status: 'ready'}),
                             label: 'release.actions.set_status_ready'|trans,
                             btnType: 'default',
-                            icon: 'play'} ) }}
+                            icon: 'play'}) }}
                     {% endif %}
                 </div>
             </div>

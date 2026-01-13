@@ -51,12 +51,12 @@
                                     }}) }}</li>
                             {% endif %}
                             <li>
-                                {{ include( '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' , {
+                                {{ include('@EMSAdminUI/bootstrap5/elements/post-button.html.twig', {
                                     url: path('revision.cancel', {revision: revision.id}),
                                     btnClass: 'dropdown-item',
                                     label: 'views.data.edit-revision-html.cancel-label'|trans,
                                     icon: 'remove',
-                                } ) }}
+                                }) }}
                             </li>
                         </ul>
                     </div>
@@ -64,14 +64,14 @@
             {% endif %}
 
             {% if revision.draft %}
-                {{ include( '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' , {
+                {{ include('@EMSAdminUI/bootstrap5/elements/post-button.html.twig', {
                     url: path('revision.discard', {revisionId: revision.id, type: revision.contentType.name}),
                     message: 'views.data.edit-revision-html.discard-draft-message'|trans,
                     btnType: 'outline-danger',
                     label: 'views.data.edit-revision-html.discard-draft-label'|trans,
                     icon: 'trash',
                     group_class: 'float-end',
-                } ) }}
+                }) }}
             {% endif %}
         </div>
         {{ form_end(form) }}

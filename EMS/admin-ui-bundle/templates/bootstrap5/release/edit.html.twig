@@ -12,9 +12,9 @@
 {% endblock %}
 
 {% block body %}
-    {{ include( '@EMSAdminUI/bootstrap5/release/form.html.twig' , {
+    {{ include('@EMSAdminUI/bootstrap5/release/form.html.twig', {
         label: 'release.edit.title',
-    } ) }}
+    }) }}
 
     {% form_theme form '@EMSAdminUI/bootstrap5/form/forms.html.twig' %}
     {{ form(form) }}

@@ -66,7 +66,7 @@
         {{ form_row(form.extra) }}
 
         {% if mapping %}
-            {% embed "@EMSAdminUI/bootstrap5/core/collapsed-card.html.twig" with {icon: 'fa fa-sliders'} %}
+            {% embed '@EMSAdminUI/bootstrap5/core/collapsed-card.html.twig' with {icon: 'fa fa-sliders'} %}
                 {% trans_default_domain 'ems-adminui-twigs' %}
                 {% block title %}{{ 'content_type.mapping'|trans }}{% endblock title %}
                 {% block body %}
@@ -76,7 +76,7 @@
             {% endembed %}
         {% endif %}
 
-        {% embed "@EMSAdminUI/bootstrap5/core/collapsed-card.html.twig" with {icon: 'fa fa-ticket'} %}
+        {% embed '@EMSAdminUI/bootstrap5/core/collapsed-card.html.twig' with {icon: 'fa fa-ticket'} %}
             {% trans_default_domain 'ems-adminui-twigs' %}
             {% block title %}{{ 'content_type.tasks'|trans }}{% endblock title %}
             {% block body %}
@@ -88,7 +88,7 @@
         {% endembed %}
 
         {% if form.versioning is defined %}
-            {% embed "@EMSAdminUI/bootstrap5/core/collapsed-card.html.twig" with {icon: 'fa fa-tags'} %}
+            {% embed '@EMSAdminUI/bootstrap5/core/collapsed-card.html.twig' with {icon: 'fa fa-tags'} %}
                 {% trans_default_domain 'ems-adminui-twigs' %}
                 {% block title %}{{ 'content_type.versioning'|trans }}{% endblock title %}
                 {% block body %}

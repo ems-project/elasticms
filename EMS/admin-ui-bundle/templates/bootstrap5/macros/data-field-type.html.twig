@@ -918,8 +918,8 @@
         </dt>
         <dd>
             <ul>
-                {% set labels = dataField.fieldType.displayOptions.labels|replace({"\r": ''})|split('\n') %}
-                {% set choices = dataField.fieldType.displayOptions.choices|replace({"\r": ''})|split('\n') %}
+                {% set labels = dataField.fieldType.displayOptions.labels|replace({'\r': ''})|split('\n') %}
+                {% set choices = dataField.fieldType.displayOptions.choices|replace({'\r': ''})|split('\n') %}
 
 
                 {% if dataField.fieldType.displayOptions.linked_collection is defined and dataField.fieldType.displayOptions.linked_collection

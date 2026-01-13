@@ -26,7 +26,7 @@
 	</div>
 	{% if contentType.name == view.contentType.name %}
 		<ol data-parent-id="{{ child }}">
-            {{ include( "@EMSAdminUI/bootstrap5/view/custom/hierarchical_item.html.twig" , {
+            {{ include( '@EMSAdminUI/bootstrap5/view/custom/hierarchical_item.html.twig' , {
 				parent: data.source,
             	view: view,
         	} ) }}

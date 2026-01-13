@@ -12,7 +12,7 @@
 				{% endif %}
 			</div>
 		</div>
-		{% if (child.type~'::isContainer')|emsco_call_user_func %}
+		{% if (child.type ~ '::isContainer')|emsco_call_user_func %}
 			<ol data-parent-id="{{ child.id }}">
                 {% if child.children|length > 0 %}
                     {% include "@EMSAdminUI/bootstrap5/contenttype/reorder_item.html.twig" with {

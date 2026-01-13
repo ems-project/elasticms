@@ -75,7 +75,7 @@
 														'destinationFormName': 'criteria_filter',
 														'action': path('views.criteria.align', {view: view.id}),
 														'name': 'alignOn',
-														'value': 'col:'~columnIdx,
+														'value': 'col:' ~ columnIdx,
 														'rawlabel': attribute(columns, columnIdx).label,
 														'message': 'Align table based on this column?' } %}
 												{% else %}
@@ -110,7 +110,7 @@
 													'destinationFormName': 'criteria_filter',
 													'action': path('views.criteria.align', {view: view.id}),
 													'name': 'alignOn',
-													'value': 'row:'~rowIdx,
+													'value': 'row:' ~ rowIdx,
 													'message': 'Align table based on this line?' } %}
 											{% else %}
 												{{ attribute(rows, rowIdx).label|raw }}
@@ -137,7 +137,7 @@
 														'destinationFormName': 'criteria_filter',
 														'action': path('views.criteria.align', {view: view.id}),
 														'name': 'alignOn',
-														'value': 'row:'~rowIdx,
+														'value': 'row:' ~ rowIdx,
 														'message': 'Align table based on this line?' } %}
 												{% else %}
 													{{ attribute(rows, rowIdx).label|raw }}
@@ -160,7 +160,7 @@
 														'destinationFormName': 'criteria_filter',
 														'action': path('views.criteria.align', {view: view.id}),
 														'name': 'alignOn',
-														'value': 'col:'~columnIdx,
+														'value': 'col:' ~ columnIdx,
 														'rawlabel': attribute(columns, columnIdx).label,
 														'message': 'Align table based on this column?' } %}
 												{% else %}

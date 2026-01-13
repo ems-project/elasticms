@@ -72,7 +72,7 @@
 {% endblock %}
 
 {%- block renderPaste -%}
-    {%- set level =  1 -%}
+    {%- set level = 1 -%}
     {%- for item in def.menu.children -%}{{- block('renderItem') -}}{%- endfor -%}
 {%- endblock -%}
 

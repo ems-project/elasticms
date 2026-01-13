@@ -103,7 +103,7 @@
 				{% endif %}
 
 				{% if is_granted(ctRoles.delete) %}
-					{% if not  revision.contentType.circlesField or attribute(object._source, revision.contentType.circlesField) is not defined or attribute(object._source, revision.contentType.circlesField)|emsco_in_my_circles %}
+					{% if not revision.contentType.circlesField or attribute(object._source, revision.contentType.circlesField) is not defined or attribute(object._source, revision.contentType.circlesField)|emsco_in_my_circles %}
 						{% include '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' with {
 							'url':  path('object.delete', {'type': revision.contentType.name, 'ouuid': revision.ouuid} ),
 							'label': 'Delete all revisions',
@@ -357,7 +357,7 @@
 					</tr>
 					{% for rev in revisionsSummary %}
 						<tr class="{% if rev.id == revision.id %}bg-{{ revision.contentType.color }}{% elseif compareId == rev.id or compareId == revision.id %}bg-gray{% endif %}">
-							<td>{{ loop.index+firstElemOfPage }}.</td>
+							<td>{{ loop.index + firstElemOfPage }}.</td>
 							<td>{{ rev.created|date|date(date_time_format) }}</td>
 							<td>
 								{% if rev.finalizedBy %}

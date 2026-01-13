@@ -157,7 +157,7 @@
                 {# <a href="{{ path('ems.file.view', {'sha1':attribute(compareRawData, dataField.fieldType.name).sha1, 'type':attribute(compareRawData, dataField.fieldType.name).mimetype, 'name':attribute(compareRawData, dataField.fieldType.name).filename }) }}" class="btn btn-small btn-default"><i class="fa fa-history"></i>&nbsp;{{'View Previous'|trans}}</a> #}
                 {# {% endif %} #}
 
-                {% set tempId = dataField.fieldType.name~'_'~random() %}
+                {% set tempId = dataField.fieldType.name ~ '_' ~ random() %}
                 <div class="btn-group">
                     <button type="button" class="btn btn-small btn-default asset-details" data-bs-toggle="modal" data-bs-target="#indexed-details-revision_{{ tempId }}">
                         <i class="fa fa-info"></i>
@@ -235,7 +235,7 @@
 
 {% block EMS_CoreBundle_Form_DataField_CollectionFieldType %}
     {% set collapsible = dataField.fieldType.displayOptions.collapsible|default(false) %}
-    {% set compareCollectionRawData = (attribute(compareRawData, dataField.fieldType.name) is defined?attribute(compareRawData, dataField.fieldType.name):null) %}
+    {% set compareCollectionRawData = (attribute(compareRawData, dataField.fieldType.name) is defined ? attribute(compareRawData, dataField.fieldType.name) : null) %}
     {% set diffCount = dataField.getChildren|length - compareCollectionRawData|length %}
 
     <div class="card card-default {% if collapsible %}collapsible-collection{% endif %}">
@@ -281,7 +281,7 @@
                                 {% if dataField.fieldType.displayOptions.singularLabel is defined %}
                                     {{ dataField.fieldType.displayOptions.singularLabel }}
                                 {% endif %}
-                                #{{ idx+1 }}
+                                #{{ idx + 1 }}
 
                                 {% if collapsible %}
                                     <div class="float-end">
@@ -297,7 +297,7 @@
                             <div class="row">
                                 {% for grandchild in child.getChildren %}
                                     <div class="{% if grandchild.fieldType.displayOptions.class is defined and grandchild.fieldType.displayOptions.class %}{{ grandchild.fieldType.displayOptions.class }}{% else %}col-md-12{% endif %}">
-                                        {{ _self.renderDataFieldBlock(grandchild, source, compare, (attribute(compareCollectionRawData, idx) is defined?attribute(compareCollectionRawData, idx):null), '', subpath, locale) }}
+                                        {{ _self.renderDataFieldBlock(grandchild, source, compare, (attribute(compareCollectionRawData, idx) is defined ? attribute(compareCollectionRawData, idx) : null), '', subpath, locale) }}
                                     </div>
                                     {% if grandchild.fieldType.displayOptions.lastOfRow is defined and grandchild.fieldType.displayOptions.lastOfRow %}
                                         <div class="clearfix"></div>
@@ -412,9 +412,9 @@
 <div class="card card-{{ theme_color }} card-outline card-outline-tabs">
     <div class="card-header p-0 border-bottom-0">
         <ul class="nav nav-tabs" role="tablist">
-            {% for key, item in  dataField.getChildren %}
+            {% for key, item in dataField.getChildren %}
                 <li class="nav-item {% if loop.index == 1 %}active{% endif %}">
-                    <a href="#item_{{ path|join('_')~'_'~loop.index0 }}__tab" data-bs-toggle="pill" class="nav-link{% if loop.index == 1 %} active{% endif %}" id="{{ path|join('_')~'_'~loop.index0 }}-tab"  data-bs-target="#item_{{ path|join('_')~'_'~loop.index0 }}__tab" role="tab" aria-selected="{% if loop.index == 1 %}true{% else %}false{% endif %}">
+                    <a href="#item_{{ path|join('_') ~ '_' ~ loop.index0 }}__tab" data-bs-toggle="pill" class="nav-link{% if loop.index == 1 %} active{% endif %}" id="{{ path|join('_') ~ '_' ~ loop.index0 }}-tab"  data-bs-target="#item_{{ path|join('_') ~ '_' ~ loop.index0 }}__tab" role="tab" aria-selected="{% if loop.index == 1 %}true{% else %}false{% endif %}">
                         {{ item.formLabel ?? key }}
                     </a>
                 </li>
@@ -423,8 +423,8 @@
     </div>
     <div class="card-body">
         <div class="tab-content">
-            {% for key, item in  dataField.getChildren %}
-                <div class="tab-pane{% if loop.index == 1 %} active{% endif %}" id="item_{{ path|join('_')~'_'~loop.index0 }}__tab">
+            {% for key, item in dataField.getChildren %}
+                <div class="tab-pane{% if loop.index == 1 %} active{% endif %}" id="item_{{ path|join('_') ~ '_' ~ loop.index0 }}__tab">
                     {% set childData = source[key]|default([]) %}
                     {% set childCompareData = compareRawData[key]|default([]) %}
                     <div class="row">
@@ -469,7 +469,7 @@
 
                 {% for child in tabs %}
                     {% if 'EMS\\CoreBundle\\Form\\DataField\\MultiplexedTabContainerFieldType' == child.fieldType.type|default(null) %}
-                        {% for key, item in  child.getChildren %}
+                        {% for key, item in child.getChildren %}
                             {% with {
                                 'child': item,
                                 'counter': counter,
@@ -501,12 +501,12 @@
                 {% set counter = 1 %}
                 {% for child in tabs %}
                     {% if 'EMS\\CoreBundle\\Form\\DataField\\MultiplexedTabContainerFieldType' == child.fieldType.type|default(null) %}
-                        {% for key, item in  child.getChildren %}
+                        {% for key, item in child.getChildren %}
                             {% with {
                                 'child': item,
                                 'counter': counter,
                             } %}
-                                <div class="tab-pane fade{% if counter == 1 %} active show{% endif %}" id="item_{{ path|join('_')~'_'~counter }}__tab" role="tabpanel" aria-labelledby="{{ path|join('_') }}-tab">
+                                <div class="tab-pane fade{% if counter == 1 %} active show{% endif %}" id="item_{{ path|join('_') ~ '_' ~ counter }}__tab" role="tabpanel" aria-labelledby="{{ path|join('_') }}-tab">
                                     {% set childData = source[key]|default([]) %}
                                     {% set childCompareData = compareRawData[key]|default([]) %}
                                     <div class="row">
@@ -524,7 +524,7 @@
                             {% set counter = counter + 1 %}
                         {% endfor %}
                     {% elseif 'EMS\\CoreBundle\\Form\\DataField\\ContainerFieldType' == child.fieldType.type|default(null) %}
-                        <div class="tab-pane{% if counter == 1 %} active{% endif %}" id="item_{{ path|join('_')~'_'~counter }}__tab">
+                        <div class="tab-pane{% if counter == 1 %} active{% endif %}" id="item_{{ path|join('_') ~ '_' ~ counter }}__tab">
                             {{ _self.renderDataFieldBlock(child, source, compare, compareRawData, '', [], locale) }}
                         </div>
                         {% set counter = counter + 1 %}
@@ -534,7 +534,7 @@
                             'counter': counter,
                         }
                         %}
-                            <div class="tab-pane{% if counter == 1 %} active{% endif %}" id="item_{{ path|join('_')~'_'~counter }}__tab">
+                            <div class="tab-pane{% if counter == 1 %} active{% endif %}" id="item_{{ path|join('_') ~ '_' ~ counter }}__tab">
                                 {{ _self.renderDataFieldBlock(child, source, compare, compareRawData, '', path|merge([counter]), locale) }}
                             </div>
                         {% endwith %}
@@ -575,7 +575,7 @@
 {% endblock %}
 
 {% block EMS_CoreBundle_Form_DataField_ComputedFieldType %}
-    {% set doCompare = compare and dataField.rawData|json_encode is not same as( (attribute(compareRawData, dataField.fieldType.name) is defined?attribute(compareRawData, dataField.fieldType.name):null)|json_encode  ) %}
+    {% set doCompare = compare and dataField.rawData|json_encode is not same as( (attribute(compareRawData, dataField.fieldType.name) is defined ? attribute(compareRawData, dataField.fieldType.name) : null)|json_encode  ) %}
     {% set color = not doCompare ? '' : not dataField.rawData ? 'bg-red' : not compareRawData|emsco_get_string(dataField.fieldType.name) ? 'bg-green' : 'bg-orange' %}
     <dl>
         {% if dataField.fieldType.displayOptions.label is defined %}
@@ -643,7 +643,7 @@
 {% endblock %}
 
 {% block EMS_CoreBundle_Form_DataField_JSONFieldType %}
-    {% set doCompare = compare and dataField.rawData|json_encode is not same as( (attribute(compareRawData, dataField.fieldType.name) is defined?attribute(compareRawData, dataField.fieldType.name):null)|json_encode ) %}
+    {% set doCompare = compare and dataField.rawData|json_encode is not same as( (attribute(compareRawData, dataField.fieldType.name) is defined ? attribute(compareRawData, dataField.fieldType.name) : null)|json_encode ) %}
     {% set color = not doCompare ? '' : not dataField.rawData ? 'bg-red' : not compareRawData|emsco_get_string(dataField.fieldType.name) ? 'bg-green' : 'bg-orange' %}
     <dl>
         <dt>
@@ -926,10 +926,10 @@
                     and attribute(source, dataField.fieldType.displayOptions.linked_collection) is defined and attribute(source, dataField.fieldType.displayOptions.linked_collection) %}
                     {% for index, collItem in attribute(source, dataField.fieldType.displayOptions.linked_collection) %}
                         {% set choices = [index]|merge(choices) %}
-                        {% set label = '#'~index %}
-                        {% if dataField.fieldType.displayOptions.collection_label_field is defined and  dataField.fieldType.displayOptions.collection_label_field
+                        {% set label = '#' ~ index %}
+                        {% if dataField.fieldType.displayOptions.collection_label_field is defined and dataField.fieldType.displayOptions.collection_label_field
                             and attribute(collItem, dataField.fieldType.displayOptions.collection_label_field) is defined and attribute(collItem, dataField.fieldType.displayOptions.collection_label_field) %}
-                            {% set label = label~': '~attribute(collItem, dataField.fieldType.displayOptions.collection_label_field) %}
+                            {% set label = label ~ ': ' ~ attribute(collItem, dataField.fieldType.displayOptions.collection_label_field) %}
                         {% endif %}
                         {% set labels = [label]|merge(labels) %}
                     {% endfor %}
@@ -989,7 +989,7 @@
 {% endblock %}
 
 {% block EMS_CoreBundle_Form_DataField_JsonMenuNestedLinkFieldType %}
-    {%- set doCompare = compare and dataField.rawData|json_encode is not same as( (attribute(compareRawData, dataField.fieldType.name) is defined?attribute(compareRawData, dataField.fieldType.name):null)|json_encode  ) -%}
+    {%- set doCompare = compare and dataField.rawData|json_encode is not same as( (attribute(compareRawData, dataField.fieldType.name) is defined ? attribute(compareRawData, dataField.fieldType.name) : null)|json_encode  ) -%}
     {%- set color = not doCompare ? '' : not dataField.rawData ? 'bg-red' : not compareRawData|emsco_get_string(dataField.fieldType.name) ? 'bg-green' : 'bg-orange' -%}
     {%- set displayOptions = dataField.fieldType.options.displayOptions -%}
     {%- set jmnField = displayOptions.json_menu_nested_field|default(false) -%}

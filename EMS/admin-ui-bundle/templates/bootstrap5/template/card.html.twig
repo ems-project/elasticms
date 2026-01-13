@@ -25,7 +25,7 @@ Available Blocks:
 #}
 
 {% block title %}{% if title is defined %}{{ title|trans }}{% endif %}{% endblock title %}
-{% block pagetitle %}{{ pageTitle is defined ? pageTitle|trans  : block('title') }}{% endblock %}
+{% block pagetitle %}{{ pageTitle is defined ? pageTitle|trans : block('title') }}{% endblock %}
 
 {% block body %}
     {% if notice is defined and notice %}

@@ -1,5 +1,9 @@
 # Changelog 6.x
 
+## 6.7.4 (2026-01-13)
+### Bug Fixes
+* fix(web/security): security listener was starting session by getting token by @theus77 in https://github.com/ems-project/elasticms/pull/1514
+
 ## 6.7.3 (2025-09-18)
 ### Bug Fixes
 * fix(admin/submission): memory issues on remove and export by @theus77 in https://github.com/ems-project/elasticms/pull/1408

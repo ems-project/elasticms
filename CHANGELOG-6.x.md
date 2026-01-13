@@ -1,5 +1,15 @@
 # Changelog 6.x
 
+## 6.9.6 (2026-01-13)
+### Bug Fixes
+* fix(admin/aliases): allow to remove all indexes from a managed aliases by @theus77 in https://github.com/ems-project/elasticms/pull/1509
+* fix(admin/js): nested modal datatable search not working by @Davidmattei in https://github.com/ems-project/elasticms/pull/1513
+* fix(admin/view): title: '{name} of {plural}' by @theus77 in https://github.com/ems-project/elasticms/pull/1502
+* fix(admin/webalize): align regex with web by @Davidmattei in https://github.com/ems-project/elasticms/pull/1501
+* fix(common/encoding): ems_anti_spam wrong encoding on tel: href by @theus77 in https://github.com/ems-project/elasticms/pull/1505
+* fix(web/security): security listener was starting session by getting token by @theus77 in https://github.com/ems-project/elasticms/pull/1514
+* fix(web/twig):  cache key add count and last published for index updates by @theus77 in https://github.com/ems-project/elasticms/pull/1508
+
 ## 6.9.5 (2025-12-23)
 ### Features
 * feat(core/api): add data environments endpoint by @Davidmattei in https://github.com/ems-project/elasticms/pull/1496

@@ -50,7 +50,7 @@
                 <li class="page-item"><a class="page-link" href="{{ path(paginationPath, currentFilters|merge({page: i})) }}">{{ i }}</a></li>
             {% endfor %}
 
-            {% if  (lastPage - extremePagesLimit) > (currentPage + nearbyPagesLimit) %}
+            {% if (lastPage - extremePagesLimit) > (currentPage + nearbyPagesLimit) %}
                 <li class="page-item disabled"><span class="page-link">...</span></li>
             {% endif %}
 

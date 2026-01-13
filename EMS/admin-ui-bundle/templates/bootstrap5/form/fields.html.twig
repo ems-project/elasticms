@@ -100,7 +100,7 @@
 {%- endblock bypassdatafield_widget %}
 
 {% block icontext_widget -%}
-	{% if  prefixIcon or prefixText or suffixIcon or suffixText %}
+	{% if prefixIcon or prefixText or suffixIcon or suffixText %}
         {% if not valid or errors|length > 0 %}
             {% set attr = attr|merge({class: attr.class|default('') ~ ' is-invalid'}) %}
         {% endif %}
@@ -612,7 +612,7 @@
 			data-index="0"
 		{% endif %}>
 		{% set tempId = form.vars.name ~ '_' ~ random() %}
-		<div class="card-body{% if  form.vars.sortable %} ems-sortable{% endif %}">
+		<div class="card-body{% if form.vars.sortable %} ems-sortable{% endif %}">
 		    {{- form_widget(form, {'attr': {'class': 'collection-panel-container'}}) -}}
 		</div>
 		<div>

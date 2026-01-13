@@ -213,7 +213,7 @@
 	{% endif %}
 	{% if circles_object and revision.circles|length > 0 %}
 		{% set circleContentType = circles_object|emsco_get_content_type %}
-		{% if  circleContentType %}
+		{% if circleContentType %}
 			<hr>
 			<strong><i class=" {% if circleContentType.icon %}{{ circleContentType.icon }}{% else %}fa fa-circle-o{% endif %} margin-r-5"></i> {{ circleContentType.pluralName }}</strong>
 			<p class="text-muted">

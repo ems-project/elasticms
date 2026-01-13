@@ -80,7 +80,7 @@
 	<div class="card card-{{ theme_color }} card-outline card-outline-tabs">
 		<div class="card-footer">
 			{% include '@EMSAdminUI/bootstrap5/elements/revision-toolbar.html.twig' with {
-				'revisionId' : revision.id,
+				'revisionId': revision.id,
 				'environmentsRevision': emsco_get_environments_revision(revision),
 				'draft': revision.draft,
 				'current': not revision.endTime,
@@ -94,7 +94,7 @@
 
 				{% if not revision.archived and is_granted(ctRoles.archive) and not revision.hasEndTime %}
 					{% include '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' with {
-						'url':  path('emsco_revision_archive', {'revision': revision.id} ),
+						'url': path('emsco_revision_archive', {'revision': revision.id}),
 						'label': 'Archive',
 						'icon': 'archive',
 						'btnType': 'outline-danger',
@@ -105,7 +105,7 @@
 				{% if is_granted(ctRoles.delete) %}
 					{% if not revision.contentType.circlesField or attribute(object._source, revision.contentType.circlesField) is not defined or attribute(object._source, revision.contentType.circlesField)|emsco_in_my_circles %}
 						{% include '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' with {
-							'url':  path('object.delete', {'type': revision.contentType.name, 'ouuid': revision.ouuid} ),
+							'url': path('object.delete', {'type': revision.contentType.name, 'ouuid': revision.ouuid}),
 							'label': 'Delete all revisions',
 							'icon': 'trash',
 							'btnType': 'outline-danger',
@@ -122,7 +122,7 @@
 	{% set tabs = [{name: 'tab_about_revision', label: 'views.data.revisions-data-html.revision'|trans}] %}
 
 	{% if revision.tasksEnabled %}
-		{% set tabs = tabs|merge([{ name: 'tab_tasks', label: 'task.tab_tasks'|trans }]) %}
+		{% set tabs = tabs|merge([{name: 'tab_tasks', label: 'task.tab_tasks'|trans}]) %}
 	{% endif %}
 	<div id="revision-tabs" class="card card-{{ theme_color }} card-outline card-outline-tabs">
 		<div class="card-header p-0 border-bottom-0">
@@ -226,7 +226,7 @@
 {% block revisionTabTasks %}
 	<div id="revision-tasks"
 		 data-load="{{ revision.hasTasks ? "true" : "false" }}"
-		 data-url="{{ path('emsco_task_ajax_tasks', {'revisionOuuid': revision.ouuid }) }}">
+		 data-url="{{ path('emsco_task_ajax_tasks', {'revisionOuuid': revision.ouuid}) }}">
 		<div id="revision-tasks-loading" class="task-loading"><i class="fa fa-cog fa-spin fa-3x fa-fw"></i></div>
 		<div id="revision-tasks-content">{# ajax loaded #}</div>
 	</div>
@@ -256,7 +256,7 @@
 			</h3>
 			{% if revision.giveContentType.versioning.enabled and revision.versionDate('to') != null and latestVersion %}
 				<div class="box-tools float-end">
-					<a href="{{ path('emsco_view_revisions', {'type': latestVersion.contentTypeName, 'ouuid': latestVersion.ouuid }) }}" class="btn btn-default bg-{{ revision.contentType.color }} btn-sm">
+					<a href="{{ path('emsco_view_revisions', {'type': latestVersion.contentTypeName, 'ouuid': latestVersion.ouuid}) }}" class="btn btn-default bg-{{ revision.contentType.color }} btn-sm">
 						<i class="{% if revision.contentType.icon %}{{ revision.contentType.icon }} {% else %} fa fa-question {% endif %}"></i>
 						current version
 					</a>
@@ -270,7 +270,7 @@
 		</div>
 		<div class="box-footer">
 			{% include '@EMSAdminUI/bootstrap5/elements/revision-toolbar.html.twig' with {
-				'revisionId' : revision.id,
+				'revisionId': revision.id,
 				'environmentsRevision': emsco_get_environments_revision(revision),
 				'draft': revision.draft,
 				'current': not revision.endTime,
@@ -287,7 +287,7 @@
 	<div class="card card-{{ theme_color }} card-outline card-outline-tabs">
 		<div class="card-header p-0 border-bottom-0">
 			<ul class="nav nav-tabs" role="tablist">
-				<li class="nav-item active"><a href="#tab_referrers" data-bs-target="#tab_referrers" data-bs-toggle="pill" class="nav-link active" role="tab" aria-controls="true">{{ 'views.data.revisions-data-html.linked-documents-in'|trans({'%environment%': revision.contentType.environment.label, '%length%': referrerResponse.documents|length, '%total%': referrerResponse.formattedTotal }) }}</a></li>
+				<li class="nav-item active"><a href="#tab_referrers" data-bs-target="#tab_referrers" data-bs-toggle="pill" class="nav-link active" role="tab" aria-controls="true">{{ 'views.data.revisions-data-html.linked-documents-in'|trans({'%environment%': revision.contentType.environment.label, '%length%': referrerResponse.documents|length, '%total%': referrerResponse.formattedTotal}) }}</a></li>
 				<li class="nav-item"><a href="#tab_revisions" data-bs-target="#tab_revisions" data-bs-toggle="pill" class="nav-link" role="tab" aria-controls="false">Revisions <small>{{ revisionsSummary|length }}/{{ counter }}</small></a></li>
 				{% if auditTable|default(false) %}
 					<li class="nav-item"><a href="#tab_audit" data-bs-target="#tab_audit" data-bs-toggle="pill" class="nav-link" role="tab" aria-controls="false">Audit <small>({{ auditCount }})</small></a></li>
@@ -328,7 +328,7 @@
 		</div>
 		<div class="box-footer">
 			<div class="btn-group">
-				<a href="{{ path('ems_search', {'search_form': referrersForm} ) }}" class="btn btn-default">
+				<a href="{{ path('ems_search', {'search_form': referrersForm}) }}" class="btn btn-default">
 					<i class="fa fa-search"></i>
 					{{ 'views.data.revisions-data-html.all-linked-documents'|trans }}
 				</a>
@@ -399,7 +399,7 @@
 							</td>
 							<td>
 								{% include '@EMSAdminUI/bootstrap5/elements/revision-toolbar.html.twig' with {
-									'revisionId' : rev.id,
+									'revisionId': rev.id,
 									'environmentsRevision': emsco_get_environments_revision(rev),
 									'draft': rev.draft,
 									'current': not rev.endTime,
@@ -417,7 +417,7 @@
 			{% include '@EMSAdminUI/bootstrap5/elements/pagination.html.twig' with {
 				'lastPage': lastPage,
 				'currentPage': page,
-				'currentFilters': app.request.query|merge({ type: revision.contentType.name , ouuid: revision.ouuid , revisionId: revision.id, compareId: compareId}),
+				'currentFilters': app.request.query|merge({type: revision.contentType.name, ouuid: revision.ouuid, revisionId: revision.id, compareId: compareId}),
 				'paginationPath': 'data.revisions',
 				'showAlwaysFirstAndLast': false
 			} %}

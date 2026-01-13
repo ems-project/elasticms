@@ -5,7 +5,7 @@
 	'name': (name is defined ? name|json_encode : false),
 	'value': (value is defined ? value|json_encode : false),
 }|filter(v => v != false) -%}
-{% set attributes = attributes|default([])|map((v,k) => "#{k}=#{v}")|join(' ') %}
+{% set attributes = attributes|default([])|map((v, k) => "#{k}=#{v}")|join(' ') %}
 
 {% if message is defined and message != null %}
 	<div class="btn-group{% if group_class is defined %} {{ group_class }}{% endif %}">

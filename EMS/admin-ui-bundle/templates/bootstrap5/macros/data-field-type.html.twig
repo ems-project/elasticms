@@ -91,11 +91,11 @@
                 <div class="{% if showA and showB %} col-md-6{% endif %} asset-preview-tab" >
 
                     {% if attribute(compareRawData, dataField.fieldType.name).mimetype starts with 'image/' %}
-                        {% set path = path('ems.file.view', {'sha1':attribute(compareRawData, dataField.fieldType.name).sha1, 'type':attribute(compareRawData, dataField.fieldType.name).mimetype, 'name':attribute(compareRawData, dataField.fieldType.name).filename }) %}
+                        {% set path = path('ems.file.view', {'sha1': attribute(compareRawData, dataField.fieldType.name).sha1, 'type': attribute(compareRawData, dataField.fieldType.name).mimetype, 'name': attribute(compareRawData, dataField.fieldType.name).filename}) %}
                         {% if dataField.fieldType.displayOptions.imageAssetConfigIdentifier is defined and dataField.fieldType.displayOptions.imageAssetConfigIdentifier %}
-                            {% set path = path('ems_asset_processor', {'hash':attribute(compareRawData, dataField.fieldType.name).sha1, 'processor': dataField.fieldType.displayOptions.imageAssetConfigIdentifier, 'type':attribute(compareRawData, dataField.fieldType.name).mimetype, 'name':attribute(compareRawData, dataField.fieldType.name).filename }) %}
+                            {% set path = path('ems_asset_processor', {'hash': attribute(compareRawData, dataField.fieldType.name).sha1, 'processor': dataField.fieldType.displayOptions.imageAssetConfigIdentifier, 'type': attribute(compareRawData, dataField.fieldType.name).mimetype, 'name': attribute(compareRawData, dataField.fieldType.name).filename}) %}
                         {% endif %}
-                        <a href="{{ path('ems.file.view', {'sha1':attribute(compareRawData, dataField.fieldType.name).sha1, 'type':attribute(compareRawData, dataField.fieldType.name).mimetype, 'name':attribute(compareRawData, dataField.fieldType.name).filename }) }}" target="_blank">
+                        <a href="{{ path('ems.file.view', {'sha1': attribute(compareRawData, dataField.fieldType.name).sha1, 'type': attribute(compareRawData, dataField.fieldType.name).mimetype, 'name': attribute(compareRawData, dataField.fieldType.name).filename}) }}" target="_blank">
                             <del class="diffmod">
                                 <img src="{{ path }}" class="img-responsive pad bg-red" alt="Image of the field {{ dataField.fieldType.name }}">
                             </del>
@@ -103,7 +103,7 @@
                     {% else %}
                         <div class="pad bg-red">
                             <strong class="">
-                                <del class="diffmod"><a href="{{ path('ems.file.view', {'sha1':attribute(compareRawData, dataField.fieldType.name).sha1, 'type':attribute(compareRawData, dataField.fieldType.name).mimetype, 'name':attribute(compareRawData, dataField.fieldType.name).filename }) }}" class="text-gray" target="_blank">{{ attribute(compareRawData, dataField.fieldType.name).filename }}</a></del>
+                                <del class="diffmod"><a href="{{ path('ems.file.view', {'sha1': attribute(compareRawData, dataField.fieldType.name).sha1, 'type': attribute(compareRawData, dataField.fieldType.name).mimetype, 'name': attribute(compareRawData, dataField.fieldType.name).filename}) }}" class="text-gray" target="_blank">{{ attribute(compareRawData, dataField.fieldType.name).filename }}</a></del>
                             </strong>
                         </div>
                     {% endif %}
@@ -129,7 +129,7 @@
                         {% else %}
                             <div class="pad {{ compareColor }}">
                                 <strong>
-                                    <a href="{{ path('ems.file.view', {'sha1':dataField.rawData.sha1, 'type':dataField.rawData.mimetype|default('application/bin'), 'name':dataField.rawData.filename|default('filename.bin') }) }}" class="{% if doCompare %}text-gray{% endif %}" target="_blank">
+                                    <a href="{{ path('ems.file.view', {'sha1': dataField.rawData.sha1, 'type': dataField.rawData.mimetype|default('application/bin'), 'name': dataField.rawData.filename|default('filename.bin')}) }}" class="{% if doCompare %}text-gray{% endif %}" target="_blank">
                                         {% if doCompare %}
                                         <ins class="diffmod">
                                             {% endif %}
@@ -163,7 +163,7 @@
                         <i class="fa fa-info"></i>
                         {{ 'Info'|trans }}
                     </button>
-                    <a href="{{ ems_asset_path(dataField.rawData, {'_disposition':'attachment'}) }}" class="btn btn-small btn-default"><i class="fa fa-download"></i>&nbsp;{{ 'Download'|trans }}</a>
+                    <a href="{{ ems_asset_path(dataField.rawData, {'_disposition': 'attachment'}) }}" class="btn btn-small btn-default"><i class="fa fa-download"></i>&nbsp;{{ 'Download'|trans }}</a>
                     {# <a href="{{ path('ems.file.view', {'sha1':dataField.rawData.sha1, 'type':dataField.rawData.mimetype, 'name':dataField.rawData.filename }) }}" class="btn btn-small btn-default"><i class="fa fa-eye"></i>&nbsp;{{'View'|trans}}</a> #}
                 </div>
                 <div class="modal" tabindex="-1" role="dialog" id="indexed-details-revision_{{ tempId }}">
@@ -575,7 +575,7 @@
 {% endblock %}
 
 {% block EMS_CoreBundle_Form_DataField_ComputedFieldType %}
-    {% set doCompare = compare and dataField.rawData|json_encode is not same as( (attribute(compareRawData, dataField.fieldType.name) is defined ? attribute(compareRawData, dataField.fieldType.name) : null)|json_encode  ) %}
+    {% set doCompare = compare and dataField.rawData|json_encode is not same as((attribute(compareRawData, dataField.fieldType.name) is defined ? attribute(compareRawData, dataField.fieldType.name) : null)|json_encode) %}
     {% set color = not doCompare ? '' : not dataField.rawData ? 'bg-red' : not compareRawData|emsco_get_string(dataField.fieldType.name) ? 'bg-green' : 'bg-orange' %}
     <dl>
         {% if dataField.fieldType.displayOptions.label is defined %}
@@ -643,7 +643,7 @@
 {% endblock %}
 
 {% block EMS_CoreBundle_Form_DataField_JSONFieldType %}
-    {% set doCompare = compare and dataField.rawData|json_encode is not same as( (attribute(compareRawData, dataField.fieldType.name) is defined ? attribute(compareRawData, dataField.fieldType.name) : null)|json_encode ) %}
+    {% set doCompare = compare and dataField.rawData|json_encode is not same as((attribute(compareRawData, dataField.fieldType.name) is defined ? attribute(compareRawData, dataField.fieldType.name) : null)|json_encode) %}
     {% set color = not doCompare ? '' : not dataField.rawData ? 'bg-red' : not compareRawData|emsco_get_string(dataField.fieldType.name) ? 'bg-green' : 'bg-orange' %}
     <dl>
         <dt>
@@ -676,7 +676,7 @@
 {% endblock %}
 
 {% block EMS_CoreBundle_Form_DataField_WysiwygFieldType %}
-    {% set doCompare = compare and dataField.rawData is not same as( compareRawData|emsco_get_string(dataField.fieldType.name) ) %}
+    {% set doCompare = compare and dataField.rawData is not same as(compareRawData|emsco_get_string(dataField.fieldType.name)) %}
     {% set color = not doCompare ? '' : not dataField.rawData ? 'bg-red' : not compareRawData|emsco_get_string(dataField.fieldType.name) ? 'bg-green' : 'bg-orange' %}
     <dl>
         <dt class="{{ color }}">
@@ -701,7 +701,7 @@
 {% endblock %}
 
 {% block EMS_CoreBundle_Form_DataField_CodeFieldType %}
-    {% set doCompare = compare and dataField.rawData is not same as( compareRawData|emsco_get_string(dataField.fieldType.name) ) %}
+    {% set doCompare = compare and dataField.rawData is not same as(compareRawData|emsco_get_string(dataField.fieldType.name)) %}
     {% set color = not doCompare ? '' : not dataField.rawData ? 'bg-red' : not compareRawData|emsco_get_string(dataField.fieldType.name) ? 'bg-green' : 'bg-orange' %}
     <dl>
         <dt>
@@ -756,7 +756,7 @@
 {% endblock %}
 
 {% block EMS_CoreBundle_Form_DataField_JsonMenuEditorFieldType %}
-    {% set doCompare = compare and dataField.rawData is not same as( compareRawData|emsco_get_string(dataField.fieldType.name) ) %}
+    {% set doCompare = compare and dataField.rawData is not same as(compareRawData|emsco_get_string(dataField.fieldType.name)) %}
     {% set color = not doCompare ? '' : not dataField.rawData ? 'bg-red' : not compareRawData|emsco_get_string(dataField.fieldType.name) ? 'bg-green' : 'bg-orange' %}
     <dl>
         <dt>
@@ -794,7 +794,7 @@
 {% endblock %}
 
 {% block EMS_CoreBundle_Form_DataField_JsonMenuNestedEditorFieldType %}
-    {% set doCompare = compare and dataField.rawData is not same as( compareRawData|emsco_get_string(dataField.fieldType.name) ) %}
+    {% set doCompare = compare and dataField.rawData is not same as(compareRawData|emsco_get_string(dataField.fieldType.name)) %}
     {% set color = not doCompare ? '' : not dataField.rawData ? 'bg-red' : not compareRawData|emsco_get_string(dataField.fieldType.name) ? 'bg-green' : 'bg-orange' %}
     <dl>
         <dt>
@@ -834,7 +834,7 @@
             {% endif %}
         </dt>
         <dd>
-            {% set hasChanged = compare and dataField.rawData is not same as ( attribute(compareRawData, dataField.fieldType.name) is defined ? attribute(compareRawData, dataField.fieldType.name) : null ) %}
+            {% set hasChanged = compare and dataField.rawData is not same as (attribute(compareRawData, dataField.fieldType.name) is defined ? attribute(compareRawData, dataField.fieldType.name) : null) %}
             {% if dataField.rawData %}
                 {% if hasChanged %}
                     {% if attribute(compareRawData, dataField.fieldType.name) is defined %}
@@ -918,8 +918,8 @@
         </dt>
         <dd>
             <ul>
-                {% set labels = dataField.fieldType.displayOptions.labels|replace({"\r":''})|split('\n') %}
-                {% set choices = dataField.fieldType.displayOptions.choices|replace({"\r":''})|split('\n') %}
+                {% set labels = dataField.fieldType.displayOptions.labels|replace({"\r": ''})|split('\n') %}
+                {% set choices = dataField.fieldType.displayOptions.choices|replace({"\r": ''})|split('\n') %}
 
 
                 {% if dataField.fieldType.displayOptions.linked_collection is defined and dataField.fieldType.displayOptions.linked_collection
@@ -989,7 +989,7 @@
 {% endblock %}
 
 {% block EMS_CoreBundle_Form_DataField_JsonMenuNestedLinkFieldType %}
-    {%- set doCompare = compare and dataField.rawData|json_encode is not same as( (attribute(compareRawData, dataField.fieldType.name) is defined ? attribute(compareRawData, dataField.fieldType.name) : null)|json_encode  ) -%}
+    {%- set doCompare = compare and dataField.rawData|json_encode is not same as((attribute(compareRawData, dataField.fieldType.name) is defined ? attribute(compareRawData, dataField.fieldType.name) : null)|json_encode) -%}
     {%- set color = not doCompare ? '' : not dataField.rawData ? 'bg-red' : not compareRawData|emsco_get_string(dataField.fieldType.name) ? 'bg-green' : 'bg-orange' -%}
     {%- set displayOptions = dataField.fieldType.options.displayOptions -%}
     {%- set jmnField = displayOptions.json_menu_nested_field|default(false) -%}
@@ -1027,17 +1027,17 @@
         {%- endfor -%}
 
         {% if displayOptions.choices_template|default(false) %}
-            {% set choices = displayOptions.choices_template|emsco_generate_from_template({ 'items': items })|ems_json_decode %}
+            {% set choices = displayOptions.choices_template|emsco_generate_from_template({'items': items})|ems_json_decode %}
         {% else %}
             {%- set choices = [] -%}
             {%- for item in items -%}
                 {%- set label = item.path|map(p => p.label)|join(' > ') -%}
-                {%- set choices = choices|merge({ (label): item.id }) -%}
+                {%- set choices = choices|merge({(label): item.id}) -%}
             {%- endfor -%}
         {% endif %}
 
         {%- set choiceLabels = choices|default([])|keys -%}
-        {%- set choiceValues = choices|default([])|reduce( (carry, c) => carry|default([])|merge([c])) -%}
+        {%- set choiceValues = choices|default([])|reduce((carry, c) => carry|default([])|merge([c])) -%}
     {%- endif -%}
     <dl>
         <dt>
@@ -1050,23 +1050,23 @@
         <dd>
             {%- if displayOptions.display_template|default(false) -%}
                 {%- set rawData = dataField.rawData -%}
-                {%- set data = choices|default([])|filter( (id, label) => rawData is iterable ? id in rawData : id == rawData) -%}
+                {%- set data = choices|default([])|filter((id, label) => rawData is iterable ? id in rawData : id == rawData) -%}
 
                 {%- if doCompare -%}
                     {%- set compareRawData = attribute(compareRawData, dataField.fieldType.name)|default(false) -%}
                     <div class="card-body {{ color }}">
                         <div class="col-md-6 bg-gray-light">
                             {%- if compareRawData -%}
-                                {%- set compareData = choices|default([])|filter( (id, label) => compareRawData is iterable ? id in compareRawData : id == compareRawData) -%}
-                                {{- displayOptions.display_template|emsco_generate_from_template({ data: compareData, dataField: dataField, choices: choices })|raw -}}
+                                {%- set compareData = choices|default([])|filter((id, label) => compareRawData is iterable ? id in compareRawData : id == compareRawData) -%}
+                                {{- displayOptions.display_template|emsco_generate_from_template({data: compareData, dataField: dataField, choices: choices})|raw -}}
                             {%- endif -%}
                         </div>
                         <div class="col-md-6 bg-gray-light">
-                            {{- displayOptions.display_template|emsco_generate_from_template({ data: data, dataField: dataField, choices: choices })|raw -}}
+                            {{- displayOptions.display_template|emsco_generate_from_template({data: data, dataField: dataField, choices: choices})|raw -}}
                         </div>
                     </div>
                 {%- else -%}
-                    {{- displayOptions.display_template|emsco_generate_from_template({ data: data, dataField: dataField, choices: choices|default([]) })|raw -}}
+                    {{- displayOptions.display_template|emsco_generate_from_template({data: data, dataField: dataField, choices: choices|default([])})|raw -}}
                 {%- endif -%}
             {%- else -%}
                 {%- set diffChoice = emsco_diff_choice(dataField.rawData, choiceLabels|default([]), choiceValues|default([]), compare, dataField.fieldType.name, compareRawData) -%}
@@ -1082,7 +1082,7 @@
 {% endblock %}
 
 {% block EMS_CoreBundle_Form_DataField_CheckboxFieldType %}
-    {% set doCompare = compare and dataField.rawData is not same as( attribute(compareRawData, dataField.fieldType.name) is defined ? attribute(compareRawData, dataField.fieldType.name) : null ) %}
+    {% set doCompare = compare and dataField.rawData is not same as(attribute(compareRawData, dataField.fieldType.name) is defined ? attribute(compareRawData, dataField.fieldType.name) : null) %}
     {% set color = not doCompare ? '' : 'bg-orange' %}
     <dl>
         <dt class="{{ color }}">

@@ -73,7 +73,7 @@
 {% endblock media_lib_folder_rows %}
 
 {% block media_lib_folder_row %}
-    <li class="{{ html_classes({ 'has-children': children|length > 0 }) }}">
+    <li class="{{ html_classes({'has-children': children|length > 0}) }}">
         <div class="media-lib-container">
             <div class="media-lib-folder" data-id="{{ folder.id }}" data-path="{{ folder.path }}">
                 {{- template.block('media_lib_folder', _context)|raw -}}
@@ -81,7 +81,7 @@
         </div>
         {% if children|length > 0 %}
             <ul>
-                {% with { 'structure': children } %}{{ template.block('media_lib_folder_rows', _context)|raw }}{% endwith %}
+                {% with {'structure': children} %}{{ template.block('media_lib_folder_rows', _context)|raw }}{% endwith %}
             </ul>
         {% endif %}
     </li>
@@ -153,13 +153,13 @@
 
 {%- block media_lib_button_files_delete -%}
     <button class="btn btn-sm btn-default btn-files-delete" data-modal-size="md">
-        <i class="fa fa-remove" aria-hidden="true"></i> {{- buttonLabel|default('media_library.files.delete.title'|trans({ '%count%': selectionFiles })) -}}
+        <i class="fa fa-remove" aria-hidden="true"></i> {{- buttonLabel|default('media_library.files.delete.title'|trans({'%count%': selectionFiles})) -}}
     </button>
 {%- endblock media_lib_button_files_delete -%}
 
 {%- block media_lib_button_files_move -%}
     <button class="btn btn-sm btn-default btn-files-move" data-modal-size="md">
-        <i class="fa fa-location-arrow" aria-hidden="true"></i> {{- buttonLabel|default('media_library.files.move.title'|trans({ '%count%': selectionFiles })) -}}
+        <i class="fa fa-location-arrow" aria-hidden="true"></i> {{- buttonLabel|default('media_library.files.move.title'|trans({'%count%': selectionFiles})) -}}
     </button>
 {%- endblock media_lib_button_files_move -%}
 

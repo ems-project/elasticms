@@ -12,7 +12,7 @@
 {% block environmentIndexesModal %}
     {% set modalId = "modal-environment-#{table.attributeName}-#{data.id|default(data.name)}" %}
     <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#{{ modalId }}">
-        {{ 'core.environment.index_count'|trans({'indexes': data.indexes|length }, 'emsco-core') }}
+        {{ 'core.environment.index_count'|trans({'indexes': data.indexes|length}, 'emsco-core') }}
     </button>
     <div class="modal fade" id="{{ modalId }}">
         <div class="modal-dialog">
@@ -44,7 +44,7 @@
 
 {% block contentTypeViewType %}
     {% if line.data.type %}
-        {{ t('core.content_type.view_type', {'value': line.data.type|u.trimPrefix('ems.view.') }, 'emsco-core')|trans }}
+        {{ t('core.content_type.view_type', {'value': line.data.type|u.trimPrefix('ems.view.')}, 'emsco-core')|trans }}
     {% endif %}
 {% endblock contentTypeViewType %}
 
@@ -89,7 +89,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title" id="{{ modalId }}-title">
                         <i class="fa fa-language"></i>
-                        {{ 'type.title_overview'|trans({'type': 'i18n_translations', 'key': data.identifier }, 'emsco-core') }}
+                        {{ 'type.title_overview'|trans({'type': 'i18n_translations', 'key': data.identifier}, 'emsco-core') }}
                     </h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'action.close'|trans({}, 'emsco-core') }}"></button>
                 </div>

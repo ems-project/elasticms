@@ -26,13 +26,13 @@
                         <div id="revision-tasks-reorder">
                             {% if tasksPlanned|length > 1 %}<a id="btn-tasks-reorder" href="#">{{ 'task.info.change_order'|trans }}</a>{% endif %}
                             <button id="btn-tasks-reorder-save" class="btn btn-xs btn-primary" style="display: none;"
-                                    data-url="{{ path('emsco_task_ajax_reorder', {'revisionOuuid': revision.ouuid }) }}">save</button>
+                                    data-url="{{ path('emsco_task_ajax_reorder', {'revisionOuuid': revision.ouuid}) }}">save</button>
                             <button id="btn-tasks-reorder-cancel" class="btn btn-xs btn-default" style="display: none;">cancel</button>
                         </div>
                     </div>
                     <ul id="revision-tasks-planned-list" class="list-group revision-tasks">
                         {% for taskPlanned in tasksPlanned %}
-                            {% with { 'task': taskPlanned } %}{{ block('taskItem') }}{% endwith %}
+                            {% with {'task': taskPlanned} %}{{ block('taskItem') }}{% endwith %}
                         {% endfor %}
                     </ul>
                 </div>
@@ -43,13 +43,13 @@
                     <div id="revision-tasks-approved-link">
                         <a href="#" id="btn-tasks-approved"
                            data-bs-toggle="true"
-                           data-bs-toggle-text="{{ 'task.finished.hide'|trans({ '%number%': tasksApproved|length }) }}">
-                            {{- 'task.finished.show'|trans({ '%number%': tasksApproved|length }) -}}
+                           data-bs-toggle-text="{{ 'task.finished.hide'|trans({'%number%': tasksApproved|length}) }}">
+                            {{- 'task.finished.show'|trans({'%number%': tasksApproved|length}) -}}
                         </a>
                     </div>
                     <ul id="revision-tasks-approved" class="list-group revision-tasks"  style="display: none;">
                         {% for taskApproved in tasksApproved %}
-                            {% with { 'task': taskApproved } %}{{ block('taskItemApproved') }}{% endwith %}
+                            {% with {'task': taskApproved} %}{{ block('taskItemApproved') }}{% endwith %}
                         {% endfor %}
                     </ul>
                 </div>
@@ -66,7 +66,7 @@
 {% endblock %}
 
 {% block taskActive %}
-    {% set viewUrl = path('emsco_task_ajax_modal_task', {'revisionOuuid': revision.ouuid, 'taskId': taskCurrent.id, 'fromRevision': true }) %}
+    {% set viewUrl = path('emsco_task_ajax_modal_task', {'revisionOuuid': revision.ouuid, 'taskId': taskCurrent.id, 'fromRevision': true}) %}
     <div id="task-item-active">
         <div class="tasks-item-block">
             <a href="#" class="tasks-item-view" data-url="{{ viewUrl }}" data-title="Task: {{ taskCurrent.title }}">
@@ -86,8 +86,8 @@
             </a>
             {% if taskCurrent.isRequester(app.user) or is_granted('ROLE_TASK_MANAGER') %}
                 <button class="btn-task-update-modal btn-task-modal btn btn-sm float-end"
-                        data-title="{{ 'task.update.title'|trans({ '%title%': taskCurrent.title }) }}"
-                        data-url="{{ path('emsco_task_ajax_modal_update', { 'revisionOuuid': revision.ouuid, 'taskId': taskCurrent.id }) }}">
+                        data-title="{{ 'task.update.title'|trans({'%title%': taskCurrent.title}) }}"
+                        data-url="{{ path('emsco_task_ajax_modal_update', {'revisionOuuid': revision.ouuid, 'taskId': taskCurrent.id}) }}">
                 </button>
             {% endif %}
         </div>
@@ -126,7 +126,7 @@
 {% endblock %}
 
 {% block taskItem %}
-    {% set viewUrl = path('emsco_task_ajax_modal_task', {'revisionOuuid': revision.ouuid, 'taskId': task.id, 'fromRevision': true  }) %}
+    {% set viewUrl = path('emsco_task_ajax_modal_task', {'revisionOuuid': revision.ouuid, 'taskId': task.id, 'fromRevision': true}) %}
     <li class="list-group-item tasks-item" data-id="{{ task.id }}">
         <div class="tasks-item-block">
             <a href="#" class="tasks-item-view" data-url="{{ viewUrl }}" data-title="Task: {{ task.title }}">
@@ -145,8 +145,8 @@
             </a>
             {% if task.isRequester(app.user) or is_granted('ROLE_TASK_MANAGER') %}
                 <button class="btn-task-update-modal btn-task-modal btn btn-sm float-end"
-                        data-title="{{ 'task.update.title'|trans({ '%title%': task.title }) }}"
-                        data-url="{{ path('emsco_task_ajax_modal_update', { 'revisionOuuid': revision.ouuid, taskId: task.id }) }}">
+                        data-title="{{ 'task.update.title'|trans({'%title%': task.title}) }}"
+                        data-url="{{ path('emsco_task_ajax_modal_update', {'revisionOuuid': revision.ouuid, taskId: task.id}) }}">
                 </button>
             {% endif %}
         </div>
@@ -154,7 +154,7 @@
 {% endblock %}
 
 {% block taskItemApproved %}
-    {% set viewUrl = path('emsco_task_ajax_modal_task', {'revisionOuuid': revision.ouuid, 'taskId': task.id, 'fromRevision': true  }) %}
+    {% set viewUrl = path('emsco_task_ajax_modal_task', {'revisionOuuid': revision.ouuid, 'taskId': task.id, 'fromRevision': true}) %}
     <li class="list-group-item tasks-item-approved">
         <a href="#" class="tasks-item-view" data-url="{{ viewUrl }}" data-title="Task: {{ task.title }}">
             <div class="tasks-item-block">
@@ -183,10 +183,10 @@
     {% if fromRevision == false %}
         <div class="float-end">
             <div class="btn-group">
-                <a class="btn btn-sm btn-default" href="{{ path('data.revisions', { 'type': contentType.name, 'ouuid': ouuid }) }}">
+                <a class="btn btn-sm btn-default" href="{{ path('data.revisions', {'type': contentType.name, 'ouuid': ouuid}) }}">
                     <i class="fa fa-file" aria-hidden="true"></i> {{ 'task.dashboard.action.go_revision'|trans }}
                 </a>
-                <a class="btn btn-sm btn-default" href="{{ path('revision.new-draft', { 'type': contentType.name, 'ouuid': ouuid }) }}">
+                <a class="btn btn-sm btn-default" href="{{ path('revision.new-draft', {'type': contentType.name, 'ouuid': ouuid}) }}">
                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i> {{ 'task.dashboard.action.edit_revision'|trans }}
                 </a>
             </div>

@@ -9,25 +9,25 @@
 			}),
 			'btnType': 'primary',
 			'label': 'views.elements.revision-toolbar-html.view-label'|trans,
-			'icon': 'eye' } %}
+			'icon': 'eye'} %}
 
 	{% endif %}
 	{% if current and not draft and is_granted(instance.contentType.roles.edit) %}
 		{% include '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' with {
-			'url': path('revision.new-draft', {'ouuid': revision.ouuid, 'type':revision.contentType.name, 'item': app.request.get('item') }),
+			'url': path('revision.new-draft', {'ouuid': revision.ouuid, 'type': revision.contentType.name, 'item': app.request.get('item')}),
 			'label': 'views.elements.revision-toolbar-html.new-draft-label'|trans,
 			'btnType': 'primary',
-			'icon': 'pencil' } %}
+			'icon': 'pencil'} %}
 	{% endif %}
 	{% if draft %}
 		{% if is_granted(instance.contentType.roles.edit) %}
 			{% if not instance.contentType.circlesField or attribute(instance.rawData, instance.contentType.circlesField) is not defined or attribute(instance.rawData, instance.contentType.circlesField)|emsco_in_my_circles %}
 				<div class="btn-group">
 					{% include '@EMSAdminUI/bootstrap5/elements/get-button.html.twig' with {
-						'url': path('emsco_edit_revision', {'revisionId': revisionId, 'item': app.request.get('item') }),
+						'url': path('emsco_edit_revision', {'revisionId': revisionId, 'item': app.request.get('item')}),
 						'label': 'views.elements.revision-toolbar-html.edit-draft-label'|trans,
 						'btnType': 'primary',
-						'icon': 'pencil' } %}
+						'icon': 'pencil'} %}
 					{% if is_granted('ROLE_SUPER') %}
 						<div class="btn-group">
 							<button type="button" class="btn btn-default btn-sm dropdown-toggle" data-bs-toggle="dropdown">
@@ -73,7 +73,7 @@
 	{% else %}
 		{% for env in environmentsRevision.environments %}
             {% include '@EMSAdminUI/bootstrap5/elements/object-views-button.html.twig' with {
-				'object':  object,
+				'object': object,
 				'contentType': instance.contentType,
 				'environment': env,
 				'ouuid': revision.ouuid
@@ -82,7 +82,7 @@
 
 
 	   	{% if is_granted(instance.contentType.roles.edit) %}
-	   		{% if not instance.contentType.circlesField or attribute(object._source,instance.contentType.circlesField) is not defined or attribute(object._source,instance.contentType.circlesField)|emsco_in_my_circles %}
+	   		{% if not instance.contentType.circlesField or attribute(object._source, instance.contentType.circlesField) is not defined or attribute(object._source, instance.contentType.circlesField)|emsco_in_my_circles %}
 
 
 				<div class="btn-group">
@@ -96,7 +96,7 @@
 								'url': path('emsco_edit_revision', {'revisionId': revisionId}),
 								'btnClass': 'dropdown-item',
 								'label': 'views.elements.revision-toolbar-html.edit-draft-label'|trans,
-								'icon': 'pencil' } %}</li>
+								'icon': 'pencil'} %}</li>
 							{% if autoSave %}
 								<li>{% include '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' with {
 									'url': path('revision.cancel', {'revision': revisionId}),
@@ -111,14 +111,14 @@
 										'url': path('emsco_pick_a_release', {revision: revision.id}),
 										'btnClass': 'dropdown-item',
 										'label': 'views.elements.revision-toolbar-html.add-to-release'|trans(),
-										'icon': 'fa fa-map-pin' } %}</li>
+										'icon': 'fa fa-map-pin'} %}</li>
 							{% endif %}
 							{% if is_granted('ROLE_SUPER') and instance.contentType.environment not in environmentsRevision.environments %}
 								<li>{% include '@EMSAdminUI/bootstrap5/elements/get-button.html.twig' with {
 									'url': path('emsco_edit_revision', {'revisionId': revisionId}),
 									'btnClass': 'dropdown-item',
 									'label': 'views.elements.revision-toolbar-html.edit-revision-label'|trans,
-									'icon': 'pencil' } %}</li>
+									'icon': 'pencil'} %}</li>
 							{% endif %}
 							{% if autoSave %}
 								<li>{% include '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' with {
@@ -133,7 +133,7 @@
 									'url': path('revision.revert', {'id': revisionId}),
 									'btnClass': 'dropdown-item',
 									'label': 'views.elements.revision-toolbar-html.revert-revision-label'|trans,
-									'icon': 'undo' } %}</li>
+									'icon': 'undo'} %}</li>
 						{% endif %}
 						{% if rev is defined and revision is defined and compareId is defined and rev.id != revision.id and compareId != rev.id and compareId != revision.id %}
 							<li>{% include '@EMSAdminUI/bootstrap5/elements/get-button.html.twig' with {
@@ -146,7 +146,7 @@
 								}),
 								'btnClass': 'dropdown-item',
 								'label': 'views.elements.revision-toolbar-html.compare-label'|trans,
-								'icon': 'compress' } %}</li>
+								'icon': 'compress'} %}</li>
 						{% endif %}
 					</ul>
 				</div>

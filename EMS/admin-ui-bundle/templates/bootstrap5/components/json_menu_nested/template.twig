@@ -34,7 +34,7 @@
 {%- endblock jmn_columns -%}
 
 {% block jmn_render %}
-    {% with { 'menu': menu } %}{{ template.block('jmn_items', _context)|raw }}{% endwith %}
+    {% with {'menu': menu} %}{{ template.block('jmn_items', _context)|raw }}{% endwith %}
 {% endblock jmn_render %}
 
 {% block jmn_items %}
@@ -45,12 +45,12 @@
 {% endblock jmn_items %}
 
 {%- block jmn_item -%}
-    <div class="{{ html_classes('jmn-node', { 'jmn-collapsible': item.hasChildren, 'jmn-node-active': item == render.activeItem }) }}" data-id="{{ item.id }}" data-type="{{ item.type }}">
+    <div class="{{ html_classes('jmn-node', {'jmn-collapsible': item.hasChildren, 'jmn-node-active': item == render.activeItem}) }}" data-id="{{ item.id }}" data-type="{{ item.type }}">
         {{ template.block('jmn_item_row', _context)|raw }}
         {%- if node.leaf == false -%}
             <div id="{{ "children-#{item.id}" }}" class="jmn-children jmn-sortable" data-types="{{ config.nodes.types(item.type)|json_encode|e('html_attr') }}">
                 {% if item in render.loadParents %}
-                    {% with { 'menu': item } %}{{ template.block('jmn_items', _context)|raw }}{% endwith %}
+                    {% with {'menu': item} %}{{ template.block('jmn_items', _context)|raw }}{% endwith %}
                 {% endif %}
             </div>
         {%- endif -%}
@@ -134,7 +134,7 @@
             <button type="button" class="btn btn-sm btn-default dropdown-toggle jmn-dropdown-add" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 {{- buttonLabel|default('Add') -}}
             </button>
-            <ul class="{{ html_classes('dropdown-menu', { 'pull-right': (dropDown|default('right') == 'right') }) }}">
+            <ul class="{{ html_classes('dropdown-menu', {'pull-right': (dropDown|default('right') == 'right')}) }}">
                 {{ addMenu|raw }}
             </ul>
         </div>
@@ -159,7 +159,7 @@
     {% if menuMore|length > 0 %}
         <div class="btn-group btn-group-sm">
             <button type="button" class="btn btn-sm btn-default dropdown-toggle jmn-dropdown-more" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-            <ul class="{{ html_classes('dropdown-menu', { 'pull-right': (dropDown|default('right') == 'right') }) }}">
+            <ul class="{{ html_classes('dropdown-menu', {'pull-right': (dropDown|default('right') == 'right')}) }}">
                 {{ menuMore|raw }}
             </ul>
         </div>

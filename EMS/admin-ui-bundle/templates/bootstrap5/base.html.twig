@@ -28,11 +28,11 @@
         {%- else %}
             {% set all_types = contentType.name -%}
         {%- endif -%}
-        {%- set type_filters = type_filters|merge([[contentType.singularName, contentType.name ]]) -%}
+        {%- set type_filters = type_filters|merge([[contentType.singularName, contentType.name]]) -%}
     {%- endfor -%}
 {%- endif -%}
 
-{%- set type_filters = [['All content types'|trans, all_types ]]|merge(type_filters) -%}
+{%- set type_filters = [['All content types'|trans, all_types]]|merge(type_filters) -%}
 
 <body class="hold-transition skin-{{ theme_color }} {% if app.user %}{% if app.user.layoutBoxed %}layout-boxed{% endif %}{% if app.user.sidebarCollapse %} sidebar-collapse{% endif %}{% if app.user.sidebarMini %} sidebar-mini{% endif %}{% endif %}"
       data-hash-algo="{{ ems_hash_algo|e('html_attr') }}"
@@ -42,9 +42,9 @@
       data-search-api="{{ path('elasticsearch.api.search')|e('html_attr') }}"
       data-asset-path="{{ asset('')|e('html_attr') }}"
       data-init-upload="{{ path('emsco_file_data_init_upload')|e('html_attr') }}"
-      data-file-view="{{ path('ems.file.view', { sha1: '__file_identifier__', name: '__file_name__' })|e('html_attr') }}"
-      data-file-extract="{{ path('ems_file_extract', { sha1: '__file_identifier__', name: '__file_name__' })|e('html_attr') }}"
-      data-file-extract-forced="{{ path('ems_file_extract_forced', { sha1: '__file_identifier__', name: '__file_name__' })|e('html_attr') }}"
+      data-file-view="{{ path('ems.file.view', {sha1: '__file_identifier__', name: '__file_name__'})|e('html_attr') }}"
+      data-file-extract="{{ path('ems_file_extract', {sha1: '__file_identifier__', name: '__file_name__'})|e('html_attr') }}"
+      data-file-extract-forced="{{ path('ems_file_extract_forced', {sha1: '__file_identifier__', name: '__file_name__'})|e('html_attr') }}"
       data-image-max-size="{{ image_max_size }}">
 <div class="wrapper">
 

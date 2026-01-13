@@ -42,7 +42,7 @@
             <li class="page-item"><span class="page-link disabled">«</span></li>
         {% endif %}
 
-        <li class="page-item active"><a class="page-link" href="{{ path(paginationPath, currentFilters|merge({ (pageParameter): currentPage })) }}"
+        <li class="page-item active"><a class="page-link" href="{{ path(paginationPath, currentFilters|merge({(pageParameter): currentPage})) }}"
            >{{ currentPage }}</a></li>
 
         {% if currentPage < lastPage %}

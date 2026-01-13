@@ -37,7 +37,7 @@
             <!-- /.box-body -->
 
             <div class="card-header">
-                <h3 class="card-title">{{ 'Filters' | trans }}</h3>
+                <h3 class="card-title">{{ 'Filters'|trans }}</h3>
             </div>
             <div class="card-body">
                 <div class="row">
@@ -147,7 +147,7 @@
         			{% endif %}
               {% if item.objectEnvironment %}
                   {% include '@EMSAdminUI/bootstrap5/elements/object-toolbar.html.twig' with {
-                  'object':  item.objectEnvironment,
+                  'object': item.objectEnvironment,
                   'environment': fromEnv,
                   'contentType': item.contentType,
                   'recursiveView': true
@@ -179,7 +179,7 @@
         				{% endif %}
                 {% if item.objectWithEnvironment %}
                     {% include '@EMSAdminUI/bootstrap5/elements/object-toolbar.html.twig' with {
-                    'object':  item.objectWithEnvironment,
+                    'object': item.objectWithEnvironment,
                     'environment': withEnv,
                     'contentType': item.contentType,
                     'recursiveView': true
@@ -222,7 +222,7 @@
                               'compareId': minrev[1] < maxrev[1] ? minrev[1] : maxrev[1]
                           }),
                           'label': 'Compare',
-                          'icon': 'compress' } %}
+                          'icon': 'compress'} %}
                   {% endif %}
               </td>
             </tr>

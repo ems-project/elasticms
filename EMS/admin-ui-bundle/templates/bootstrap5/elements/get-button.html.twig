@@ -6,7 +6,7 @@
 	{% endif %}
 >
 	{% if icon is defined %}
-		{% if icon|default('')|slice(0,9) == 'glyphicon' %}
+		{% if icon|default('')|slice(0, 9) == 'glyphicon' %}
 			<span class="glyphicon {{ icon }}"></span>&nbsp;
 		{% elseif icon|default('') != '' %}
 			<span class="fa fa-{{ icon }}"></span>&nbsp;

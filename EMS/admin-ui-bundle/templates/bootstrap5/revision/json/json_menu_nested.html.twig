@@ -3,7 +3,7 @@
 {% block render %}
     {%- set level = 0 -%}
     {%- set item = def.menu -%}
-    {%- set itemJson = { 'id': item.id, 'label': item.label, 'type': item.type, 'object': (item.object|merge({ 'label': item.label }))  } -%}
+    {%- set itemJson = {'id': item.id, 'label': item.label, 'type': item.type, 'object': (item.object|merge({'label': item.label}))} -%}
     {%- set node = def.getNodeByName(item.type) -%}
 
     <div id="json-menu-nested-{{ def.id }}-alerts" class="json-menu-nested-alerts"></div>
@@ -34,12 +34,12 @@
 {% block renderRootActions %}
     {%- if 'add' in node.actions or 'copy' in node.actions or 'paste' in node.actions -%}
     <span class="input-group-btn">
-        {% with { 'position': 'root' } %}
+        {% with {'position': 'root'} %}
             {%- set buttons = {
                 'add': block('buttonAdd'),
                 'more': block('buttonMore'),
             } -%}
-            {%- set blockRenderContext = { 'item': item, 'node': node, 'buttons': buttons } -%}
+            {%- set blockRenderContext = {'item': item, 'node': node, 'buttons': buttons} -%}
             {%- set rootBlock = def.renderBlocks('item_action', blockRenderContext) -%}
             {%- if rootBlock|length > 0 -%}
                 {%- for block in rootBlock %}{{ block|raw }}{%- endfor -%}
@@ -54,7 +54,7 @@
 {% block renderItem %}
     {%- set node = def.getNodeByName(item.type) -%}
     {% if node.id is defined %}
-        {%- set itemJson = { 'id': item.id, 'label': item.label, 'type': item.type, 'object': (item.object|merge({ 'label': item.label }))  } -%}
+        {%- set itemJson = {'id': item.id, 'label': item.label, 'type': item.type, 'object': (item.object|merge({'label': item.label}))} -%}
         <li class="collapsible json-menu-nested-item {{ def.isSortable ? 'json-menu-nested-sortable mjs-nestedSortable' }}"
             data-node-id="{{ node.id }}"
             data-item-id="{{ item.id }}"
@@ -63,7 +63,7 @@
             {% if item is defined and item.children|default([])|length > 0 %}
                 <ol class="json-menu-nested-list collapse" data-list="{{ item.id }}">
                     {%- for childItem in item.children|default([]) -%}
-                        {%- with { 'item': childItem, 'level': (level + 1) } -%}{{ block('renderItem') }}{% endwith %}
+                        {%- with {'item': childItem, 'level': (level + 1)} -%}{{ block('renderItem') }}{% endwith %}
                     {% endfor %}
                 </ol>
             {% endif %}
@@ -85,7 +85,7 @@
         'move': block('buttonMove'),
         'delete': block('buttonDelete'),
     } -%}
-    {% set blockRenderContext = { 'item': item, 'node': node, 'buttons': buttons } %}
+    {% set blockRenderContext = {'item': item, 'node': node, 'buttons': buttons} %}
     <div class="json-menu-nested-item">
         <button class="btn btn-default btn-sm btn-collapse" role="button" aria-expanded="false"></button>
         {%- if node.icon is defined -%}<i class="json-menu-nested-item-icon {{ node.icon }}"></i>{%- endif -%}

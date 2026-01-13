@@ -23,14 +23,14 @@
                           		{% set path = asset('images/logo.svg', 'emscore') %}
     	                        {% if attribute(item._source, view.options.imageField) is defined %}
                                     {% set file = attribute(item._source, view.options.imageField) %}
-                                    {% set path = path('ems.file.view', {'sha1':file.sha1, 'type':file.mimetype, 'name':file.filename }) %}
+                                    {% set path = path('ems.file.view', {'sha1': file.sha1, 'type': file.mimetype, 'name': file.filename}) %}
                      				{% if view.options.imageAssetConfigIdentifier %}
-                     				    {% set path = path('ems_asset_processor', {'hash':file.sha1, 'processor': view.options.imageAssetConfigIdentifier, 'type':file.mimetype, 'name':file.filename }) %}
+                     				    {% set path = path('ems_asset_processor', {'hash': file.sha1, 'processor': view.options.imageAssetConfigIdentifier, 'type': file.mimetype, 'name': file.filename}) %}
                      				{% endif %}
 	                            {% elseif view.options.missingImageHash %}
-                                    {% set path = path('ems.file.view', {'sha1':view.options.missingImageHash }) %}
+                                    {% set path = path('ems.file.view', {'sha1': view.options.missingImageHash}) %}
                      				{% if view.options.imageAssetConfigIdentifier %}
-                     				    {% set path = path('ems_asset_processor', {'hash':view.options.missingImageHash, 'processor': view.options.imageAssetConfigIdentifier }) %}
+                     				    {% set path = path('ems_asset_processor', {'hash': view.options.missingImageHash, 'processor': view.options.imageAssetConfigIdentifier}) %}
                      				{% endif %}
 	                            {% endif %}
                               <img
@@ -66,9 +66,9 @@
                               		{% set path = asset('images/logo.svg', 'emscore') %}
         	                        {% if attribute(item._source, view.options.imageField) is defined %}
     	                                {% set file = attribute(item._source, view.options.imageField) %}
-                       				    {% set path = path('ems_asset_processor', {'hash':file.sha1, 'processor': view.options.thumbnailAssetConfigIdentifier }) %}
+                       				    {% set path = path('ems_asset_processor', {'hash': file.sha1, 'processor': view.options.thumbnailAssetConfigIdentifier}) %}
     	                            {% elseif view.options.missingImageHash %}
-                       				    {% set path = path('ems_asset_processor', {'hash':view.options.missingImageHash, 'processor': view.options.thumbnailAssetConfigIdentifier }) %}
+                       				    {% set path = path('ems_asset_processor', {'hash': view.options.missingImageHash, 'processor': view.options.thumbnailAssetConfigIdentifier}) %}
     	                            {% endif %}
                      				 <td data-bs-target="#myCarousel" data-slide-to="{{ loop.index0 }}" >
                                       <img

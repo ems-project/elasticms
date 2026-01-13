@@ -20,7 +20,7 @@
     {%- if row_class is not empty -%}
         <div class="{{ row_class }}">
     {%- endif -%}
-    {{- form_label(form, null, { widget: block('checkbox_widget', 'form_div_layout.html.twig') }) -}}
+    {{- form_label(form, null, {widget: block('checkbox_widget', 'form_div_layout.html.twig')}) -}}
     {%- if row_class is not empty -%}
         </div>
     {%- endif -%}
@@ -613,7 +613,7 @@
 		{% endif %}>
 		{% set tempId = form.vars.name ~ '_' ~ random() %}
 		<div class="card-body{% if  form.vars.sortable %} ems-sortable{% endif %}">
-		    {{- form_widget(form, { 'attr': {'class': 'collection-panel-container'} }) -}}
+		    {{- form_widget(form, {'attr': {'class': 'collection-panel-container'}}) -}}
 		</div>
 		<div>
 	  		<div class="btn-group">
@@ -919,9 +919,9 @@
 
 
 	<div class="json_menu_editor_fieldtype_widget collapsible-container"
-		{% set children = [{ id: '%uuid%', type: 'item', label: '%label%', icon: '%icon%', contentType: '%contentType%'}] %}
+		{% set children = [{id: '%uuid%', type: 'item', label: '%label%', icon: '%icon%', contentType: '%contentType%'}] %}
 		 data-prototype-item="{{ block('json_menu_editor_fieldtype_node')|e('html_attr') }}"
-		{% set children = [{ id: '%uuid%', type: 'node', label: '%label%', icon: '%icon%', contentType: '%contentType%'}] %}
+		{% set children = [{id: '%uuid%', type: 'node', label: '%label%', icon: '%icon%', contentType: '%contentType%'}] %}
 		 data-prototype-node="{{ block('json_menu_editor_fieldtype_node')|e('html_attr') }}">
 		<div class="input-group">
 				<span class="input-group-btn">
@@ -931,7 +931,7 @@
 				</span>
 		</div>
 		<ol class="json_menu_sortable vertical not-collapsible">
-			{% set children = form.vars.data.rawData |default('[]')|ems_json_decode %}
+			{% set children = form.vars.data.rawData|default('[]')|ems_json_decode %}
 			{{ block('json_menu_editor_fieldtype_node') }}
 		</ol>
 		<div class="input-group">
@@ -965,9 +965,9 @@
         <span class="input-group-text">
             <i class="fa fa-calendar"></i>
         </span>
-        {{- form_widget(form.value, { 'attr': {'class': html_classes(form.value.vars.attr.class|default(''), {
+        {{- form_widget(form.value, {'attr': {'class': html_classes(form.value.vars.attr.class|default(''), {
             'is-invalid': errors|length > 0 or not valid,
-        })} }) -}}
+        })}}) -}}
 	</div>
     {{- form_errors(form) -}}
 </div>
@@ -981,9 +981,9 @@
             <span class="input-group-text">
                 <i class="fa fa-calendar"></i>
             </span>
-            {{- form_widget(form.value, { 'attr': {'class': html_classes(form.value.vars.attr.class|default(''), {
+            {{- form_widget(form.value, {'attr': {'class': html_classes(form.value.vars.attr.class|default(''), {
                 'is-invalid': errors|length > 0 or not valid,
-            })} }) -}}
+            })}}) -}}
 		</div>
         {{- form_errors(form) -}}
 	</div>
@@ -1117,11 +1117,11 @@
         <div class="tab-pane asset-preview-tab {% if form.vars.value.sha1 is not defined or not form.vars.value.sha1 %}hidden{% endif %}" id="asset-preview-tab-{{ form.vars.id }}">
         	<div class="text-center">
             	<img
-            		data-src="{{ path('ems_asset_processor', {'hash':'_asset_hash_', 'processor': 'preview', 'type':'_asset_mimetype_', 'name': '_asset_name_' }) }}"
+            		data-src="{{ path('ems_asset_processor', {'hash': '_asset_hash_', 'processor': 'preview', 'type': '_asset_mimetype_', 'name': '_asset_name_'}) }}"
             		{% if form.vars.value.sha1 is defined and form.vars.value.sha1 %}
             			src="{{ emsco_asset_path(form.vars.value, form.vars.data.fieldType.getDisplayOption('imageAssetConfigIdentifier', 'preview')) }}"
             		{% endif %}
-            		class="img-responsive center-block" alt="{{ 'view.form.fields.asset.preview'|trans({'%label%': form_label(form)|striptags }) }}"
+            		class="img-responsive center-block" alt="{{ 'view.form.fields.asset.preview'|trans({'%label%': form_label(form)|striptags}) }}"
             	>
 	        </div>
         </div>
@@ -1221,9 +1221,9 @@
         <div role="tabpanel" class="tab-pane asset-preview-tab {% if form.vars.value.sha1 is defined and form.vars.value.sha1 %}active{% endif %}" id="asset-preview-tab-{{ form.vars.id }}">
         	<div class="text-center">
             	<img
-            		data-src="{{ path('ems_asset_processor', {'hash':'_asset_hash_', 'processor': 'preview', 'type':'_asset_mimetype_', 'name': '_asset_name_' }) }}"
+            		data-src="{{ path('ems_asset_processor', {'hash': '_asset_hash_', 'processor': 'preview', 'type': '_asset_mimetype_', 'name': '_asset_name_'}) }}"
             		{% if form.vars.value.sha1 is defined and form.vars.value.sha1 %}
-            			src="{{ path('ems_asset_processor', {'hash': form.vars.value._image_resized_hash ?? form.vars.value.sha1, 'processor': 'preview', 'type':form.vars.value.mimetype, 'name':form.vars.value.filename }) }}"
+            			src="{{ path('ems_asset_processor', {'hash': form.vars.value._image_resized_hash ?? form.vars.value.sha1, 'processor': 'preview', 'type': form.vars.value.mimetype, 'name': form.vars.value.filename}) }}"
             		{% endif %}
             		class="img-responsive center-block" alt="Preview of the field {{ form_label(form)|striptags }}"
             	>
@@ -1280,8 +1280,8 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'action.close'|trans({}, 'emsco-core') }}"></button>
                           </div>
                           <div class="modal-body">
-                            {{ form_row( attribute(form, 'ems:internal:add:field:class')) }}
-                            {{ form_row( attribute(form, 'ems:internal:add:field:name')) }}
+                            {{ form_row(attribute(form, 'ems:internal:add:field:class')) }}
+                            {{ form_row(attribute(form, 'ems:internal:add:field:name')) }}
                           </div>
                           <div class="modal-footer">
                             <div class="btn-group">
@@ -1308,7 +1308,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'action.close'|trans({}, 'emsco-core') }}"></button>
                           </div>
                           <div class="modal-body">
-                            {{ form_row( attribute(form, 'ems:internal:add:subfield:name')) }}
+                            {{ form_row(attribute(form, 'ems:internal:add:subfield:name')) }}
                           </div>
                           <div class="modal-footer">
                             <div class="btn-group">
@@ -1329,7 +1329,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'action.close'|trans({}, 'emsco-core') }}"></button>
                           </div>
                           <div class="modal-body">
-                            {{ form_row( attribute(form, 'ems:internal:add:subfield:target_name')) }}
+                            {{ form_row(attribute(form, 'ems:internal:add:subfield:target_name')) }}
                           </div>
                           <div class="modal-footer">
                             <div class="btn-group">
@@ -1389,7 +1389,7 @@
                                         </ul>
                                     </div>
                                     <div class="card-body">
-                                        {{- form_widget(form.options, {'seed': form.vars.id} ) -}}
+                                        {{- form_widget(form.options, {'seed': form.vars.id}) -}}
                                     </div>
                                 </div>
                           </div>
@@ -1420,7 +1420,7 @@
                                     <li class="list-group-item">
                                         <i class="glyphicon glyphicon-move"></i>
                                         {{ child.name }}
-                                        {{ form_row( attribute(attribute(form, 'ems_' ~ child.name), 'name')) }}
+                                        {{ form_row(attribute(attribute(form, 'ems_' ~ child.name), 'name')) }}
                                     </li>
                                 {% endfor %}
                             </ul>
@@ -1448,7 +1448,7 @@
         {% endif %}
 
         {% if form.options is defined and not form.vars.editSubfields %}
-            {{- form_widget(form.options, {'seed': form.vars.id, 'editSubfields': false} ) -}}
+            {{- form_widget(form.options, {'seed': form.vars.id, 'editSubfields': false}) -}}
         {% endif %}
 
         {% if form.rendered == false and form.vars.data.children is defined and form.vars.data.children|filter(child => not child.deleted)|length > 0 %}

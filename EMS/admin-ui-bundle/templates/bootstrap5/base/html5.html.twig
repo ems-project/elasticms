@@ -18,7 +18,7 @@
         <link rel="manifest" href="{{ path('core-site-webmanifest') }}" />
         {%- block extraheader %}{% endblock %}
     </head>
-    <body{% with { attr: body_attr|default([]) } %}{{ block('attributes', '@EMSAdminUI/bootstrap5/base/helpers.html.twig') }}{% endwith %}>
+    <body{% with {attr: body_attr|default([])} %}{{ block('attributes', '@EMSAdminUI/bootstrap5/base/helpers.html.twig') }}{% endwith %}>
         {% block wrapper %}
             <h1>{% block pagetitle %}{{ block('title') }}{% endblock %}{% block subtitle %}{% endblock %}</h1>
             <section class="content">

@@ -17,7 +17,7 @@
 				environment: environment,
 				contentType: contentType,
 				object: object,
-				source: object.source
+				source: object.source,
 			})|raw }}
 	{% endif %}
 {% endblock %}
@@ -39,7 +39,7 @@
 						contentType: contentType,
 						object: object,
 						source: object.source,
-						_download: false
+						_download: false,
 					})|raw }}
 				{% endif %}
 
@@ -49,7 +49,7 @@
 						environment: environment,
 						contentType: contentType,
 						object: object,
-						source: object.source
+						source: object.source,
 					}) }}
 				{% endif %}
 			</div>
@@ -58,7 +58,7 @@
                 {{ include( '@EMSAdminUI/bootstrap5/elements/object-toolbar.html.twig' , {
 					object: object,
 					contentType: contentType,
-					recursiveView: true
+					recursiveView: true,
 				} ) }}
 
 				<div class="btn-toolbar float-end" role="toolbar">
@@ -72,7 +72,7 @@
 									_download: true}),
 								label: 'Download PDF',
 								icon: 'file-pdf-o',
-								target: '_blank'
+								target: '_blank',
 							} ) }}
 						{% endif %}
 						{% if template.body and template.renderOption is constant('EMS\\CoreBundle\\Form\\Field\\RenderOptionType::EXPORT') %}
@@ -84,7 +84,7 @@
 									_download: true}),
 								label: 'Download',
 								icon: 'download',
-								target: '_blank'
+								target: '_blank',
 							} ) }}
 						{% endif %}
 					</div>

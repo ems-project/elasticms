@@ -24,7 +24,7 @@
 {% block title %}
 	{{ 'views.data.revisions-data-html.title'|trans({
 		'%content-type%': revision.contentType.singularName,
-		'%title%': revision|emsco_display
+		'%title%': revision|emsco_display,
 	}) }}
 {% endblock %}
 
@@ -98,7 +98,7 @@
 						label: 'Archive',
 						icon: 'archive',
 						btnType: 'outline-danger',
-						message: 'Do you confirm?'
+						message: 'Do you confirm?',
 					} ) }}
 				{% endif %}
 
@@ -109,7 +109,7 @@
 							label: 'Delete all revisions',
 							icon: 'trash',
 							btnType: 'outline-danger',
-							message: 'Do you confirm?'
+							message: 'Do you confirm?',
 						} ) }}
 					{% endif %}
 				{% endif %}
@@ -404,7 +404,7 @@
 									draft: rev.draft,
 									current: not rev.endTime,
 									autoSave: rev.autoSave,
-									instance: revision
+									instance: revision,
 								} ) }}
 							</td>
 						</tr>
@@ -419,7 +419,7 @@
 				currentPage: page,
 				currentFilters: app.request.query|merge({type: revision.contentType.name, ouuid: revision.ouuid, revisionId: revision.id, compareId: compareId}),
 				paginationPath: 'data.revisions',
-				showAlwaysFirstAndLast: false
+				showAlwaysFirstAndLast: false,
 			} ) }}
 		</div>
 	</div>

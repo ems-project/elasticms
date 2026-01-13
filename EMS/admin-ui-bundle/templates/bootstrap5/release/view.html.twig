@@ -16,14 +16,14 @@
         {{ include( '@EMSAdminUI/bootstrap5/elements/get-button.html.twig' , {
             url: path('emsco_release_index'),
             label: 'release.all_releases.label',
-            icon: 'cube'
+            icon: 'cube',
         } ) }}
     {% endset %}
 
     {% if form is not null %}
         {% form_theme form '@EMSAdminUI/bootstrap5/form/forms.html.twig' %}
         {{ form(form, {
-            toolbar: toolbar
+            toolbar: toolbar,
         }) }}
     {% endif %}
 {% endblock %}

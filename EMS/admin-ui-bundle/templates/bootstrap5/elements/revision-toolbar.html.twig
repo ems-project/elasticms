@@ -47,7 +47,7 @@
 						message: 'views.elements.revision-toolbar-html.cancel-message'|trans,
 						label: 'views.elements.revision-toolbar-html.cancel-label'|trans,
 						btnType: 'default',
-						icon: 'remove'
+						icon: 'remove',
 					} ) }}
 				{% endif %}
 				</div>
@@ -58,7 +58,7 @@
 							message: 'views.elements.revision-toolbar-html.finalize-draft-message'|trans,
 							label: 'views.elements.revision-toolbar-html.finalize-draft-label'|trans({'%environment%': instance.contentType.environment.label|default('')}),
 							btnType: 'default',
-							icon: 'check'
+							icon: 'check',
 						} ) }}
                     {% endif %}
                     {{ include( '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' , {
@@ -66,7 +66,7 @@
 					label: 'views.elements.revision-toolbar-html.discard-draft-label'|trans,
 					message: 'views.elements.revision-toolbar-html.discard-draft-message'|trans,
 					btnType: 'outline-danger',
-					icon: 'trash'
+					icon: 'trash',
 				} ) }}
 			{% endif %}
 		{% endif %}
@@ -76,7 +76,7 @@
 				object: object,
 				contentType: instance.contentType,
 				environment: env,
-				ouuid: revision.ouuid
+				ouuid: revision.ouuid,
 			} ) }}
    		{% endfor %}
 
@@ -102,7 +102,7 @@
 									url: path('revision.cancel', {revision: revisionId}),
 									btnClass: 'dropdown-item',
 									label: 'views.elements.revision-toolbar-html.cancel-last-updates-label'|trans,
-									icon: 'remove'
+									icon: 'remove',
 								} ) }}</li>
 							{% endif %}
 						{% else %}
@@ -126,7 +126,7 @@
 									btnClass: 'dropdown-item',
 									message: 'views.elements.revision-toolbar-html.cancel-last-updates-message'|trans,
 									label: 'views.elements.revision-toolbar-html.cancel-last-updates-label'|trans,
-									icon: 'remove'
+									icon: 'remove',
 								} ) }}</li>
 							{% endif %}
 								<li>{{ include( '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' , {
@@ -142,7 +142,7 @@
 									ouuid: revision.ouuid,
 									revisionId: rev.id > revision.id ? rev.id : revision.id,
 									compareId: rev.id < revision.id ? rev.id : revision.id,
-									page: page
+									page: page,
 								}),
 								btnClass: 'dropdown-item',
 								label: 'views.elements.revision-toolbar-html.compare-label'|trans,

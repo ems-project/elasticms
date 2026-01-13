@@ -3,7 +3,7 @@
 {% block task_event_mail_subject %}
     {{ "task.mail.#{type}.subject"|trans({
         '%title%': task.title,
-        '%document%': revision|emsco_display
+        '%document%': revision|emsco_display,
     })|raw }}
 {% endblock task_event_mail_subject %}
 

@@ -67,7 +67,7 @@
 								url: path('notification.acknowledge', {notification: notification.id}),
 								label: 'Acknowledge',
 								icon: 'check',
-								message: 'Do you confirm?'
+								message: 'Do you confirm?',
 							} ) }}
 
                             {{ include( '@EMSAdminUI/bootstrap5/elements/object-views-button.html.twig' , {
@@ -75,7 +75,7 @@
 								contentType: notification.revision.contentType,
 								environment: notification.environment,
 								ouuid: notification.revision,
-								currentTemplate: notification.template
+								currentTemplate: notification.template,
 							} ) }}
 	                    </div>
 					</td>

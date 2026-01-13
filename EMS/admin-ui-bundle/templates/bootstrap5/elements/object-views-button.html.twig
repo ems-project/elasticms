@@ -12,7 +12,7 @@
                         environment: environment,
                         contentType: contentType,
                         object: object,
-                        source: source
+                        source: source,
                     }) %}
 
                     {% set action = {
@@ -20,7 +20,7 @@
                         link_attributes: [{name: 'target', value: '_blank'}],
                         icon: template.icon,
                         label: template.label,
-                        suffix_icon: 'fa fa-external-link pull-right'
+                        suffix_icon: 'fa fa-external-link pull-right',
                     } %}
                     {% if not link %}
                         {% set action = action|merge({list_item_classes: ['disabled']}) %}
@@ -32,7 +32,7 @@
                             environment: environment,
                             contentType: contentType,
                             object: object,
-                            source: source
+                            source: source,
                         }) -%}
                         {%- if rawHTML != '' -%}
                             {% set contentTypeActions = contentTypeActions|merge([{label: rawHTML|raw}]) %}
@@ -45,10 +45,10 @@
                             link_attributes: [
                                 {name: 'class', value: 'request_notification'},
                                 {name: 'onclick', value: "requestNotification(this, #{template.id}, '#{environment.name}', '#{contentType.id}' , '#{ouuid}'); return false;"},
-                                {name: 'data-url', value: path('notification.ajaxnotification', {objectId: ouuid})}
+                                {name: 'data-url', value: path('notification.ajaxnotification', {objectId: ouuid})},
                             ],
                             icon: template.icon,
-                            label: template.label
+                            label: template.label,
                         } %}
                         {% set contentTypeActions = contentTypeActions|merge([action]) %}
                     {% endif %}
@@ -58,10 +58,10 @@
                             link: '#',
                             link_attributes: [
                                 {name: 'class', value: 'request_job'},
-                                {name: 'data-url', value: path('ems_job_custom_view', {environmentName: environment.name, templateId: template.id, ouuid: ouuid})}
+                                {name: 'data-url', value: path('ems_job_custom_view', {environmentName: environment.name, templateId: template.id, ouuid: ouuid})},
                             ],
                             icon: template.icon,
-                            label: template.label
+                            label: template.label,
                         } %}
                         {% set contentTypeActions = contentTypeActions|merge([action]) %}
                     {% endif %}
@@ -75,7 +75,7 @@
                                 {name: 'data-ajax-modal-size', value: 'md'},
                             ],
                             icon: template.icon,
-                            label: template.label
+                            label: template.label,
                         } %}
                         {% set contentTypeActions = contentTypeActions|merge([action]) %}
                     {%- endif -%}
@@ -84,10 +84,10 @@
                         link: path(template.public ? 'ems_data_custom_template_public' : 'ems_data_custom_template_protected', {
                             environmentName: environment.name,
                             ouuid: ouuid,
-                            templateId: template.id
+                            templateId: template.id,
                         }),
                         icon: template.icon,
-                        label: template.label
+                        label: template.label,
                     } %}
                     {% set contentTypeActions = contentTypeActions|merge([action]) %}
                 {% endif %}
@@ -99,20 +99,20 @@
         {% set contentTypeActions = contentTypeActions|merge([{
             link: path('revision.copy', {environment: environment.name, type: contentType.name, ouuid: ouuid}),
             icon: 'views.elements.object-views-button.copy-data-icon-class'|trans,
-            label: 'views.elements.object-views-button.copy-data'|trans
+            label: 'views.elements.object-views-button.copy-data'|trans,
         }]) %}
         {% if not contentType.askForOuuid %}
             {% set contentTypeActions = contentTypeActions|merge([{
                 link: path('emsco_duplicate_revision', {environment: environment.name, type: contentType.name, ouuid: ouuid}),
                 icon: 'clone',
                 label: 'Duplicate',
-                post_button: true
+                post_button: true,
             }]) %}
         {% endif %}
         {% set contentTypeActions = contentTypeActions|merge([{
             link: path('data.view', {environmentName: environment.name, type: contentType.name, ouuid: ouuid}),
             icon: 'views.elements.object-views-button.raw-view-icon-class'|trans,
-            label: 'views.elements.object-views-button.raw-view'|trans
+            label: 'views.elements.object-views-button.raw-view'|trans,
         }]) %}
     {% endif %}
 
@@ -132,7 +132,7 @@
                                 url: a.link,
                                 label: a.label,
                                 icon: a.icon,
-                                btnClass: ''
+                                btnClass: '',
                             } ) }}
                         {% else %}
                             {% if a.link|default %}

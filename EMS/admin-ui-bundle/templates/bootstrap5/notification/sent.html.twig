@@ -11,7 +11,7 @@
 				currentPage: page,
 				currentFilters: app.request.query,
 				paginationPath: paginationPath,
-				showAlwaysFirstAndLast: false
+				showAlwaysFirstAndLast: false,
 			} ) }}
 		</div>
 		<!-- /.box-header -->
@@ -74,7 +74,7 @@
 													url: path('notification.cancel', {notification: notification.id}),
 													label: 'Cancel',
 													icon: 'ban',
-													message: 'Do you confirm?'
+													message: 'Do you confirm?',
 												} ) }}
 											{% endif %}
 
@@ -83,7 +83,7 @@
 												contentType: notification.revision.contentType,
 												environment: notification.environment,
 												ouuid: notification.revision.ouuid,
-												currentTemplate: notification.template
+												currentTemplate: notification.template,
 											} ) }}
 					                    </div>
 									</td>

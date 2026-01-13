@@ -69,7 +69,7 @@
 					currentPage: page,
 					currentFilters: app.request.query,
 					paginationPath: paginationPath,
-					showAlwaysFirstAndLast: false
+					showAlwaysFirstAndLast: false,
 				} ) }}
 
       </div>
@@ -150,7 +150,7 @@
                   object: item.objectEnvironment,
                   environment: fromEnv,
                   contentType: item.contentType,
-                  recursiveView: true
+                  recursiveView: true,
               } ) }}
               {% for notification in item.revisionEnvironment.notifications %}
                 {% if notification.status == 'pending' %}
@@ -182,7 +182,7 @@
                     object: item.objectWithEnvironment,
                     environment: withEnv,
                     contentType: item.contentType,
-                    recursiveView: true
+                    recursiveView: true,
                   } ) }}
                   {% for notification in item.revisionEnvironment.notifications %}
                       {% if notification.status == 'pending' %}
@@ -219,7 +219,7 @@
                               type: item.content_type_name,
                               ouuid: item.ouuid,
                               revisionId: minrev[1] > maxrev[1] ? minrev[1] : maxrev[1],
-                              compareId: minrev[1] < maxrev[1] ? minrev[1] : maxrev[1]
+                              compareId: minrev[1] < maxrev[1] ? minrev[1] : maxrev[1],
                           }),
                           label: 'Compare',
                           icon: 'compress'} ) }}
@@ -248,7 +248,7 @@
     			currentPage: page,
     			currentFilters: app.request.query,
     			paginationPath: paginationPath,
-    			showAlwaysFirstAndLast: false
+    			showAlwaysFirstAndLast: false,
     		} ) }}
           </div>
           <!-- /.box-body -->

@@ -16,7 +16,7 @@
 			<ol data-parent-id="{{ child.id }}">
                 {% if child.children|length > 0 %}
                     {{ include( '@EMSAdminUI/bootstrap5/contenttype/reorder_item.html.twig' , {
-                        parent: child
+                        parent: child,
                     } ) }}
                 {% endif %}
 			</ol>

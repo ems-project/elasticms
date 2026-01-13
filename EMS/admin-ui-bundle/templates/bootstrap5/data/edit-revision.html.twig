@@ -42,12 +42,12 @@
 						<ul class="dropdown-menu">
 							{% if form.copy is defined %}
 								<li>{{ form_widget(form.copy, {attr: {
-                                        class: 'dropdown-item'
+                                        class: 'dropdown-item',
                                     }}) }}</li>
 							{% endif %}
 							{% if form.paste is defined %}
 								<li>{{ form_widget(form.paste, {attr: {
-                                        class: 'dropdown-item'
+                                        class: 'dropdown-item',
                                     }}) }}</li>
 							{% endif %}
 							<li>
@@ -55,7 +55,7 @@
 									url: path('revision.cancel', {revision: revision.id}),
 									btnClass: 'dropdown-item',
 									label: 'views.data.edit-revision-html.cancel-label'|trans,
-									icon: 'remove'
+									icon: 'remove',
 								} ) }}
 							</li>
 						</ul>

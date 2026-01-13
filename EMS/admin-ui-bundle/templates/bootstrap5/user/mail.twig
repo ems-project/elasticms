@@ -5,7 +5,7 @@
 {{ 'user.resetting.email.message'|emsco_i18n(user.localePreferred|default('en'))|trans({
     '%username%': user.username,
     '%token%': user.confirmationToken,
-    '%confirmationUrl%': absolute_url(confirmationUrl)
+    '%confirmationUrl%': absolute_url(confirmationUrl),
 }) }}
 {% endautoescape %}
 {% endblock %}

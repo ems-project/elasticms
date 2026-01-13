@@ -5,7 +5,7 @@
         {% if revision.isLockedFor(app.user.userIdentifier) %}
             <div class="revision-tasks-info">{{- 'task.info.locked'|trans({
                     '%user%': revision.lockBy|emsco_display_name,
-                    '%time%': revision.lockUntil.format(date_time_format)
+                    '%time%': revision.lockUntil.format(date_time_format),
                 }) -}}</div>
         {% elseif revision.hasTasks == false %}
             <div id="revision-tasks-empty" class="revision-tasks-info">{{ 'task.info.empty'|trans }}</div>
@@ -114,8 +114,8 @@
                             label_html: true,
                             attr: {
                                 class: "btn btn-sm btn-task-handle btn-primary task-icon-#{handleType}",
-                                'data-type': handleType
-                            }
+                                'data-type': handleType,
+                            },
                         }) }}
                     {% endif %}
                 {% endfor %}
@@ -318,7 +318,7 @@
                     <h3 class="timeline-header bg-info">
                         {{ "task.status.history.#{log.status}"|trans({
                             '%user%': "<strong>#{log.username|emsco_display_name}</strong>",
-                            '%assignee%': "<strong>#{log.assignee|emsco_display_name}</strong>"
+                            '%assignee%': "<strong>#{log.assignee|emsco_display_name}</strong>",
                         })|raw }}
                     </h3>
                     {% if log.comment %}<div class="timeline-body bg-gray-light">{{ log.comment }}</div>{% endif %}

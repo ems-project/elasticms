@@ -836,7 +836,7 @@
 		{% if contentType %}
 			{% set item = item|merge({
 				icon: contentType.icon,
-				contentType: contentType.name
+				contentType: contentType.name,
 			}) %}
 		{% endif %}
 		<li id="{{ item.id }}" data-id="{{ item.id }}" data-type="{{ item.type|default('node') }}" data-label="{{ item.label|default('') }}" data-content-type="{{ item.contentType|default('node') }}" class="collapsible-container nestedSortable">

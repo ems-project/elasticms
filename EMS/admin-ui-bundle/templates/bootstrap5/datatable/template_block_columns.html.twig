@@ -70,7 +70,7 @@
     <div class="progress">
         <div class="{{ html_classes('progress-bar', 'progress-bar-striped', {
             'bg-success': line.data.status != 'failed' and line.data.done is same as true,
-            'bg-danger': line.data.status == 'failed'
+            'bg-danger': line.data.status == 'failed',
         }) }}" role="progressbar" aria-valuenow="{{ p }}" aria-valuemin="0" aria-valuemax="100" style="{{ "width: #{p}%;" }}">
             {{ "#{p}%" }}
         </div>
@@ -128,7 +128,7 @@
         {%- set revision = info.revision(table.context.release.environmentSource.name) -%}
         {{- '%date% Finalized by %user%'|trans({
             '%date%': (revision.finalizedDate ? revision.finalizedDate|date(date_time_format) : ''),
-            '%user%': (revision.finalizedBy ? revision.finalizedBy|emsco_display_name : '')
+            '%user%': (revision.finalizedBy ? revision.finalizedBy|emsco_display_name : ''),
         }) -}}
     {%- endif -%}
 {% endblock release_unpublish_source %}
@@ -139,7 +139,7 @@
         {%- set revision = info.revision(table.context.release.environmentTarget.name) -%}
         {{- '%date% Finalized by %user%'|trans({
             '%date%': (revision.finalizedDate ? revision.finalizedDate|date(date_time_format) : ''),
-            '%user%': (revision.finalizedBy ? revision.finalizedBy|emsco_display_name : '')
+            '%user%': (revision.finalizedBy ? revision.finalizedBy|emsco_display_name : ''),
         }) -}}
     {%- endif -%}
 {% endblock release_unpublish_target %}

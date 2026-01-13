@@ -187,7 +187,7 @@
     <label for="media-lib-search-{{- id -}}" class="sr-only">Media library search</label>
     <input id="media-lib-search-{{- id -}}"
            class="{{ html_classes('media-lib-search form-control form-control-sm', {
-               active: searchValue|default('')|length > 0
+               active: searchValue|default('')|length > 0,
            }) }}"
            type="text"
            value="{{ searchValue|default('') }}"
@@ -228,7 +228,7 @@
         <div class="media-lib-preview-file">
             {% if mediaFile.fileMimetype starts with 'image/' %}
                 <img src="{{ ems_asset_path(mediaFile.file, {
-                    _config_type: 'image'
+                    _config_type: 'image',
                 }) }}" alt="{{ mediaFile.giveName }}"/>
             {% else %}
                 <object data="{{ url }}" type="{{ mediaFile.fileMimetype }}">

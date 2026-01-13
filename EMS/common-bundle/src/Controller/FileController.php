@@ -139,7 +139,7 @@ class FileController extends AbstractController
      */
     private function closeSession(Request $request): void
     {
-        if (!$request->hasSession()) {
+        if (!$request->hasSession(true)) {
             return;
         }
 

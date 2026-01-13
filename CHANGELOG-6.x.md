@@ -25,6 +25,10 @@
 * chore(cli): enable web profile in dev env by @Davidmattei in https://github.com/ems-project/elasticms/pull/1415
 * chore(docker): add prometheus & grafana by @Davidmattei in https://github.com/ems-project/elasticms/pull/1412
 
+## 6.7.4 (2026-01-13)
+### Bug Fixes
+* fix(web/security): security listener was starting session by getting token by @theus77 in https://github.com/ems-project/elasticms/pull/1514
+
 ## 6.7.3 (2025-09-18)
 ### Bug Fixes
 * fix(admin/submission): memory issues on remove and export by @theus77 in https://github.com/ems-project/elasticms/pull/1408

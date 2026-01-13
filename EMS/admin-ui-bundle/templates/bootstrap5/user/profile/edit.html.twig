@@ -4,7 +4,7 @@
 {% block title %}{{ 'user.profile.edit.title'|trans }}{% endblock title %}
 
 {% block breadcrumb %}
-    {% set breadcrumb = {(path('emsco_user_profile_edit')): 'user.profile.edit.breadcrumb_title'|trans}|merge(breadcrumb)  %}
+    {% set breadcrumb = {(path('emsco_user_profile_edit')): 'user.profile.edit.breadcrumb_title'|trans}|merge(breadcrumb) %}
     {{ parent() }}
 {% endblock breadcrumb %}
 

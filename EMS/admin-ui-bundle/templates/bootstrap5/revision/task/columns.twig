@@ -33,7 +33,7 @@
             {%- if data.task_deadline|date('U') < date('now').timestamp -%}
                 <span class="text-danger"><strong>{{ data.task_deadline|date(date_format) }}</strong></span>
             {%- else -%}
-                {{  data.task_deadline|date(date_format) }}
+                {{ data.task_deadline|date(date_format) }}
             {%- endif -%}
         </td>
     {% else %}

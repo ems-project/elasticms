@@ -60,7 +60,7 @@
     {% endif %}
 {% endblock minrevidstatus %}
 
-{% block maxrevidstatus  %}
+{% block maxrevidstatus %}
     {% set release = table.context %}
     {% set maxrev = data.maxrevid|split('/') %}
     {% set minrev = data.minrevid|split('/') %}
@@ -77,4 +77,4 @@
     {% elseif maxrev[0] == release.environmentSource.id %}
         {{ 'replace by revision %date%'|trans({ '%date%' : maxrev[2]|date(date_time_format) }) }}
     {% endif %}
-{% endblock maxrevidstatus  %}
+{% endblock maxrevidstatus %}

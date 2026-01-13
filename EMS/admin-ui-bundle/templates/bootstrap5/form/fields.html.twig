@@ -78,7 +78,7 @@
 {%- endblock empty_widget %}
 {% block empty_label -%}
 {%- endblock empty_label %}
-{% block empty_row-%}
+{% block empty_row -%}
 {%- endblock empty_row %}
 
 
@@ -95,7 +95,7 @@
 
 {% block bypassdatafield_widget -%}
 	{% if form.value is defined %}
-        {{form_widget(form.value)}}
+        {{ form_widget(form.value) }}
     {% endif %}
 {%- endblock bypassdatafield_widget %}
 
@@ -127,7 +127,7 @@
 
 
 {% block ems_choice_row %}
-	{{form_row(form.value, {'attr': attr, 'required': required, 'disabled': disabled})}}
+	{{ form_row(form.value, {'attr': attr, 'required': required, 'disabled': disabled}) }}
     {{ block('form_help') }}
 {%- endblock ems_choice_row %}
 
@@ -365,7 +365,7 @@
 {% endblock datafieldtype_label %}
 
 {% block container_label -%}
-	{% if data.fieldType.displayOptions.label is defined  %}
+	{% if data.fieldType.displayOptions.label is defined %}
 		<div class="card-heading">
 			<h3 class="card-title">
 				{% if data.fieldType.displayOptions.icon is defined %}<i class="{{ data.fieldType.displayOptions.icon }}"></i>&nbsp;{% endif %}
@@ -377,7 +377,7 @@
 {% block holder_label -%}{%- endblock holder_label %}
 
 {% block collectionfieldtype_label -%}
-	{% if data.fieldType.displayOptions.label is defined  %}
+	{% if data.fieldType.displayOptions.label is defined %}
 		{% if data.fieldType.displayOptions.icon is defined %}
 			<i class="{{ data.fieldType.displayOptions.icon }}"></i>&nbsp;
 		{% endif %}
@@ -464,7 +464,7 @@
 					<div class="d-block d-md-none">
 						<label class="control-label">&nbsp;</label>
 					</div>
-                    {% if form.vars.name != '0'  %}
+                    {% if form.vars.name != '0' %}
                         <a class="btn btn-primary remove-filter form-control" href="#">
                             <i class="fa fa-trash"></i>
                         </a>
@@ -480,15 +480,15 @@
 
 
 
-{# {% block container_row -%}#}
-{# 	<div class="card card-default">#}
-{# 	  	{{- form_label(form) -}}#}
-{# 	  	<div class="card-body">#}
-{# 	  		{{- form_widget(form) -}}#}
-{# 	  	</div>#}
-{# 	    {{- form_errors(form) -}}#}
-{# 	</div>               #}
-{# {%- endblock container_row %}#}
+{# {% block container_row -%} #}
+{# 	<div class="card card-default"> #}
+{# 	  	{{- form_label(form) -}} #}
+{# 	  	<div class="card-body"> #}
+{# 	  		{{- form_widget(form) -}} #}
+{# 	  	</div> #}
+{# 	    {{- form_errors(form) -}} #}
+{# 	</div> #}
+{# {%- endblock container_row %} #}
 
 {% block tabsfieldtype_errors -%}
 {% endblock tabsfieldtype_errors -%}
@@ -502,32 +502,32 @@
 {% endblock form_help %}
 
 {% block tabsfieldtype_row -%}
-{# <div class="form-group{% if class %} {{ class }}{% else %} col-xs-12 {% endif %}{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">#}
-{# 	<div class="card card-default">#}
-{# 		<div class="card-heading">#}
-{# 	  		{{- form_label(form) -}}#}
-{# 	  	</div>#}
-{# 	  	<div  class="card-body">#}
+{# <div class="form-group{% if class %} {{ class }}{% else %} col-xs-12 {% endif %}{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}"> #}
+{# 	<div class="card card-default"> #}
+{# 		<div class="card-heading"> #}
+{# 	  		{{- form_label(form) -}} #}
+{# 	  	</div> #}
+{# 	  	<div  class="card-body"> #}
 			{{- form_widget(form) -}}
-{# 		</div>#}
+{# 		</div> #}
 		{{- form_errors(form) -}}
-{# 	</div>               #}
-{# </div>#}
+{# 	</div> #}
+{# </div> #}
 {% endblock tabsfieldtype_row %}
 
 {% block tabsfieldtype_widget_tab_label_per_item %}
-	<li id="{{ tab.vars.id}}__label" class="nav-item{% if tab.vars.errors|length %} has-error{% endif %}{% if tab.vars.class is defined and tab.vars.class != 'col-md-12' %} {{tab.vars.class}}{% endif %}">
-		<a href="#{{ tab.vars.id}}__tab" data-bs-toggle="pill" class="nav-link{% if counter == 1%} active{% endif %}" id="{{ tab.vars.id}}-tab" data-bs-target="#{{ tab.vars.id}}__tab" role="tab" aria-controls="{{ tab.vars.id}}__tab" aria-selected="{% if counter == 1%}true{%else%}false{% endif %}">
+	<li id="{{ tab.vars.id }}__label" class="nav-item{% if tab.vars.errors|length %} has-error{% endif %}{% if tab.vars.class is defined and tab.vars.class != 'col-md-12' %} {{ tab.vars.class }}{% endif %}">
+		<a href="#{{ tab.vars.id }}__tab" data-bs-toggle="pill" class="nav-link{% if counter == 1 %} active{% endif %}" id="{{ tab.vars.id }}-tab" data-bs-target="#{{ tab.vars.id }}__tab" role="tab" aria-controls="{{ tab.vars.id }}__tab" aria-selected="{% if counter == 1 %}true{% else %}false{% endif %}">
 			{{- form_label(tab) -}}
 		</a>
 	</li>
 {% endblock tabsfieldtype_widget_tab_label_per_item %}
 
 {% block tabsfieldtype_widget_tab_panel_per_item %}
-	<div class="tab-pane fade{% if counter == 1%} active show{% endif %}" id="{{ tab.vars.id}}__tab" role="tabpanel" aria-labelledby="{{ tab.vars.id}}-tab">
+	<div class="tab-pane fade{% if counter == 1 %} active show{% endif %}" id="{{ tab.vars.id }}__tab" role="tabpanel" aria-labelledby="{{ tab.vars.id }}-tab">
         {{ form_errors(tab) }}
 		<fieldset>
-			{% if counter == 1%}
+			{% if counter == 1 %}
 				{{- form_widget(tab) -}}
 			{% else %}
 				{{- form_widget(tab) -}}
@@ -606,7 +606,7 @@
 		 data-prototype-label="{{ form.vars.prototype.vars.label|e('html_attr') }}"
 		 data-prototype-name="{{ form.vars.prototype.vars.name|e('html_attr') }}"
 		 data-prototype="{{ form_row(form.vars.prototype)|e('html_attr') }}"
-		{% if (form|last).vars is defined  %}
+		{% if (form|last).vars is defined %}
 			data-index="{{ (form|last).vars.name + 1 }}"
 		{% else %}
 			data-index="0"
@@ -627,7 +627,7 @@
 
 {% block collectionfieldtype_row -%}
     {% set collapsible = form.vars.data.fieldType.displayOptions.collapsible|default(false) %}
-{# <div class="form-group{% if class %} {{ class }}{% else %} col-xs-12 {% endif %}{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">#}
+{# <div class="form-group{% if class %} {{ class }}{% else %} col-xs-12 {% endif %}{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}"> #}
 	<div class="card card-default {% if collapsible %}collapsible-collection{% endif %}">
 		<div class="card-heading">
 	  		{{- form_label(form) -}}
@@ -648,7 +648,7 @@
 		</div>
 		{{- form_errors(form) -}}
 	</div>
-{# </div>#}
+{# </div> #}
 {% endblock collectionfieldtype_row %}
 
 {% block collectionitemtype_row -%}
@@ -695,7 +695,7 @@
 {% block form_field_type_row %}
     {% for child in form.iterator %}
         {% if not child.vars.isVisible is defined or child.vars.isVisible %}
-            <div class="{% if child.vars.data.fieldType.options.displayOptions.class is defined %}{{ child.vars.data.fieldType.options.displayOptions.class }}{% endif %}{% if child.vars.errors|length > 0 and not child.vars.isContainer|default(false)  %} has-error{% endif %}">
+            <div class="{% if child.vars.data.fieldType.options.displayOptions.class is defined %}{{ child.vars.data.fieldType.options.displayOptions.class }}{% endif %}{% if child.vars.errors|length > 0 and not child.vars.isContainer|default(false) %} has-error{% endif %}">
                 {{- form_row(child) -}}
             </div>
         {% else %}
@@ -710,7 +710,7 @@
 {% block holder_field_type_widget %}
     {% for child in form.iterator %}
         {% if not child.vars.isVisible is defined or child.vars.isVisible %}
-            <div class="{% if child.vars.data.fieldType.options.displayOptions.class is defined %}{{ child.vars.data.fieldType.options.displayOptions.class }}{% endif %}{% if child.vars.errors|length > 0 and not child.vars.isContainer|default(false)  %} has-error{% endif %}">
+            <div class="{% if child.vars.data.fieldType.options.displayOptions.class is defined %}{{ child.vars.data.fieldType.options.displayOptions.class }}{% endif %}{% if child.vars.errors|length > 0 and not child.vars.isContainer|default(false) %} has-error{% endif %}">
                 {{- form_row(child) -}}
             </div>
         {% else %}
@@ -744,38 +744,38 @@
 	</div>
 {% endblock container_field_type_widget %}
 
-{# {% block datafieldtype_row -%}#}
-{# {# <div class="form-group{% if class %} {{ class }}{% else %} col-xs-12 {% endif %}{% if form.vars.value.fieldType is defined and form.vars.value.fieldType.options.restrictionOptions is defined and form.vars.value.fieldType.options.restrictionOptions.mandatory is defined and form.vars.value.fieldType.options.restrictionOptions.mandatory %} required {% endif %}{% if force_error|default(false) or not valid or form.vars.errors|length > 0 %} has-error{% endif %}">#}#}
-{# 	{% if isContainer and form.vars.data and form.vars.data.fieldType.options.displayOptions.label %}#}
-{# 		<div class="card card-default">#}
-{# 			<div class="card-heading">#}
-{# 		  		{{- form_label(form) -}}#}
-{# 		  	</div>#}
-{# 		  <div class="card-body">#}
-{# 		    {{- form_widget(form) -}}#}
-{# 		  </div>#}
-{# 		  {{- form_errors(form) -}}#}
-{# 		</div>               #}
-{# 	{% else %}#}
-{# 		  {{ form_row(form) }}#}
-{# 	{% endif %}#}
-{# {# </div>#}#}
-{# {% endblock datafieldtype_row %}#}
+{# {% block datafieldtype_row -%} #}
+{# {# <div class="form-group{% if class %} {{ class }}{% else %} col-xs-12 {% endif %}{% if form.vars.value.fieldType is defined and form.vars.value.fieldType.options.restrictionOptions is defined and form.vars.value.fieldType.options.restrictionOptions.mandatory is defined and form.vars.value.fieldType.options.restrictionOptions.mandatory %} required {% endif %}{% if force_error|default(false) or not valid or form.vars.errors|length > 0 %} has-error{% endif %}"> #}#}
+{# 	{% if isContainer and form.vars.data and form.vars.data.fieldType.options.displayOptions.label %} #}
+{# 		<div class="card card-default"> #}
+{# 			<div class="card-heading"> #}
+{# 		  		{{- form_label(form) -}} #}
+{# 		  	</div> #}
+{# 		  <div class="card-body"> #}
+{# 		    {{- form_widget(form) -}} #}
+{# 		  </div> #}
+{# 		  {{- form_errors(form) -}} #}
+{# 		</div> #}
+{# 	{% else %} #}
+{# 		  {{ form_row(form) }} #}
+{# 	{% endif %} #}
+{# {# </div> #}#}
+{# {% endblock datafieldtype_row %} #}
 
-{# {% block timefieldtype_row %}#}
-{# 	<div class="form-group{% if class %} {{ class }}{% else %} col-xs-12 {% endif %}">#}
-{#     	{{ form_label(form.data_value) }} #}
+{# {% block timefieldtype_row %} #}
+{# 	<div class="form-group{% if class %} {{ class }}{% else %} col-xs-12 {% endif %}"> #}
+{# {{ form_label(form.data_value) }} #}
 
-{#                   <div class="input-group">#}
-{#                     <div class="input-group-addon">#}
-{#                       <i class="fa fa-clock-o"></i>#}
-{#                     </div>#}
-{#                     {{- form_widget(form.data_value) -}}#}
-{#                   </div>#}
-{#                   <!-- /.input group -->#}
-{#                 </div>#}
-{#                 <!-- /.form group -->#}
-{# {% endblock timefieldtype_row %}#}
+{# <div class="input-group"> #}
+{# <div class="input-group-addon"> #}
+{# <i class="fa fa-clock-o"></i> #}
+{# </div> #}
+{# {{- form_widget(form.data_value) -}} #}
+{# </div> #}
+{# <!-- /.input group --> #}
+{# </div> #}
+{# <!-- /.form group --> #}
+{# {% endblock timefieldtype_row %} #}
 
 
 {%- block form_label -%}
@@ -879,7 +879,7 @@
 
 
 {% block json_menu_editor_fieldtype_widget %}
-	{{  form_widget(form) }}
+	{{ form_widget(form) }}
     {% set nodeTypes =  form.vars.node_types|split(',') %}
     {% set itemTypes =  form.vars.item_types|split(',') %}
 
@@ -893,7 +893,7 @@
             {% for type in itemTypes %}
                 {% set contentType = type|emsco_get_content_type %}
                 {% if contentType %}
-                    {% set contentTypeIcon = contentType.icon|default('fa fa-file')  %}
+                    {% set contentTypeIcon = contentType.icon|default('fa fa-file') %}
                     <li>
                         <a type="button" class="json_menu_sortable_add_item_button" data-label="" data-content-type="{{ type|e('html_attr') }}" data-icon="{{ contentTypeIcon|e('html_attr') }}">
                             <i class="{{ contentTypeIcon }}"></i>
@@ -905,7 +905,7 @@
             {% for type in nodeTypes %}
                 {% set contentType = type|emsco_get_content_type %}
                 {% if contentType %}
-                    {% set contentTypeIcon = contentType.icon|default('fa fa-folder')  %}
+                    {% set contentTypeIcon = contentType.icon|default('fa fa-folder') %}
                     <li>
                         <a type="button" class="json_menu_sortable_add_node_button" data-label="" data-content-type="{{ type|e('html_attr') }}" data-icon="{{ contentTypeIcon|e('html_attr') }}">
                             <i class="{{ contentTypeIcon }}"></i>
@@ -949,7 +949,7 @@
 {% endblock json_menu_nested_editor_fieldtype_row %}
 
 {% block json_menu_nested_editor_fieldtype_widget %}
-	{{  form_widget(form) }}
+	{{ form_widget(form) }}
 	{{ emsco_json_menu_nested({
 		'id': form.vars.id,
 		'field_type': data.fieldType,
@@ -1244,8 +1244,8 @@
               <i class="fa fa-info"></i>
               {{ 'Info'|trans }}
             </button>
-			<a href="#" class="btn btn-small btn-default view-asset-button {% if not form.children.sha1.vars.value %}disabled{% endif %}" target="_blank" alt="{{'View'|trans}}"><i class="fa fa-eye"></i>&nbsp;{{'View'|trans}}</a>
-			<a href="#" class="btn btn-small btn-default clear-asset-button  {% if not form.children.sha1.vars.value %}disabled{% endif %}" alt="{{'Clear'|trans}}"><i class="fa fa-remove"></i>&nbsp;{{'Clear'|trans}}</a>
+			<a href="#" class="btn btn-small btn-default view-asset-button {% if not form.children.sha1.vars.value %}disabled{% endif %}" target="_blank" alt="{{ 'View'|trans }}"><i class="fa fa-eye"></i>&nbsp;{{ 'View'|trans }}</a>
+			<a href="#" class="btn btn-small btn-default clear-asset-button  {% if not form.children.sha1.vars.value %}disabled{% endif %}" alt="{{ 'Clear'|trans }}"><i class="fa fa-remove"></i>&nbsp;{{ 'Clear'|trans }}</a>
 		</div>
 	</div>
 </div>
@@ -1340,7 +1340,7 @@
                         </div>
                       </div>
                     </div>
-                    {% if form.vars.editSubfields  %}
+                    {% if form.vars.editSubfields %}
                         <button type="button" class="btn btn-primary btn-xs" data-bs-toggle="modal" data-bs-target="#{{ form.vars.id }}_modal_add">
                             <i class="fa fa-plus"></i> Subfield
                         </button>
@@ -1367,25 +1367,25 @@
                                         <ul class="nav nav-tabs" role="tablist">
                                             {% set active=' active' %}
                                             {% if form.options.displayOptions is defined %}
-                                                <li class="nav-item{{ active }}"><a href="#tab_display_{{ form.vars.id }}" data-bs-target="#tab_display_{{ form.vars.id }}" class="nav-link{% if active != ''%} active{% endif %}" data-bs-toggle="pill" aria-selected="{% if active != ''%}true{%else%}false{% endif %}">Display</a></li>
+                                                <li class="nav-item{{ active }}"><a href="#tab_display_{{ form.vars.id }}" data-bs-target="#tab_display_{{ form.vars.id }}" class="nav-link{% if active != '' %} active{% endif %}" data-bs-toggle="pill" aria-selected="{% if active != '' %}true{% else %}false{% endif %}">Display</a></li>
                                                 {% set active='' %}
-                                            {%  endif %}
+                                            {% endif %}
                                             {% if form.options.mappingOptions is defined %}
-                                                <li class="nav-item{{ active }}"><a href="#tab_mapping_{{ form.vars.id }}" data-bs-target="#tab_mapping_{{ form.vars.id }}" class="nav-link{% if active != ''%} active{% endif %}" data-bs-toggle="pill" aria-selected="{% if active != ''%}true{%else%}false{% endif %}">Mapping</a></li>
+                                                <li class="nav-item{{ active }}"><a href="#tab_mapping_{{ form.vars.id }}" data-bs-target="#tab_mapping_{{ form.vars.id }}" class="nav-link{% if active != '' %} active{% endif %}" data-bs-toggle="pill" aria-selected="{% if active != '' %}true{% else %}false{% endif %}">Mapping</a></li>
                                                 {% set active='' %}
-                                            {%  endif %}
+                                            {% endif %}
                                             {% if form.options.restrictionOptions is defined %}
-                                              <li class="nav-item{{ active }}"><a href="#tab_restriction_{{ form.vars.id }}" data-bs-target="#tab_restriction_{{ form.vars.id }}" class="nav-link{% if active != ''%} active{% endif %}" data-bs-toggle="pill" aria-selected="{% if active != ''%}true{%else%}false{% endif %}">Restriction</a></li>
+                                              <li class="nav-item{{ active }}"><a href="#tab_restriction_{{ form.vars.id }}" data-bs-target="#tab_restriction_{{ form.vars.id }}" class="nav-link{% if active != '' %} active{% endif %}" data-bs-toggle="pill" aria-selected="{% if active != '' %}true{% else %}false{% endif %}">Restriction</a></li>
                                                 {% set active='' %}
-                                            {%  endif %}
+                                            {% endif %}
                                             {% if form.options.migrationOptions is defined %}
-                                              <li class="nav-item{{ active }}"><a href="#tab_migration_{{ form.vars.id }}" data-bs-target="#tab_migration_{{ form.vars.id }}" class="nav-link{% if active != ''%} active{% endif %}" data-bs-toggle="pill" aria-selected="{% if active != ''%}true{%else%}false{% endif %}">Migration</a></li>
+                                              <li class="nav-item{{ active }}"><a href="#tab_migration_{{ form.vars.id }}" data-bs-target="#tab_migration_{{ form.vars.id }}" class="nav-link{% if active != '' %} active{% endif %}" data-bs-toggle="pill" aria-selected="{% if active != '' %}true{% else %}false{% endif %}">Migration</a></li>
                                                 {% set active='' %}
-                                            {%  endif %}
+                                            {% endif %}
                                             {% if form.options.extraOptions is defined %}
-                                              <li class="nav-item{{ active }}"><a href="#tab_extra_{{ form.vars.id }}" data-bs-target="#tab_extra_{{ form.vars.id }}" class="nav-link{% if active != ''%} active{% endif %}" data-bs-toggle="pill" aria-selected="{% if active != ''%}true{%else%}false{% endif %}">Extra</a></li>
+                                              <li class="nav-item{{ active }}"><a href="#tab_extra_{{ form.vars.id }}" data-bs-target="#tab_extra_{{ form.vars.id }}" class="nav-link{% if active != '' %} active{% endif %}" data-bs-toggle="pill" aria-selected="{% if active != '' %}true{% else %}false{% endif %}">Extra</a></li>
                                                 {% set active='' %}
-                                            {%  endif %}
+                                            {% endif %}
                                         </ul>
                                     </div>
                                     <div class="card-body">

@@ -101,7 +101,7 @@
             icon: 'views.elements.object-views-button.copy-data-icon-class'|trans,
             label: 'views.elements.object-views-button.copy-data'|trans
         }]) %}
-        {% if not contentType.askForOuuid  %}
+        {% if not contentType.askForOuuid %}
             {% set contentTypeActions = contentTypeActions|merge([{
                 link: path('emsco_duplicate_revision', {'environment': environment.name, 'type': contentType.name, 'ouuid': ouuid}),
                 icon: 'clone',
@@ -133,7 +133,7 @@
                                 'label': a.label,
                                 'icon': a.icon,
                                 'btnClass': ''
-                            }%}
+                            } %}
                         {% else %}
                             {% if a.link|default %}
                                 <a href="{{ a.link }}" {% for attribute in a.link_attributes|default([]) %}{{ attribute.name }}="{{ attribute.value }}" {% endfor %}>

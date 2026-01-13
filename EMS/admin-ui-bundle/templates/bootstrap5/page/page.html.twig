@@ -53,7 +53,7 @@
                         </div>
                     </div>
                     <div class="card-footer">
-                        {%- for button in form|filter(c => c.vars.name in ['save', 'save_close'])  -%}
+                        {%- for button in form|filter(c => c.vars.name in ['save', 'save_close']) -%}
                             {{ form_widget(button) }}
                         {%- endfor -%}
                     </div>

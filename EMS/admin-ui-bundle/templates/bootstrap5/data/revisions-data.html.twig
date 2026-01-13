@@ -30,7 +30,7 @@
 
 {% block pagetitle %}
 	<i class="{% if revision.contentType.icon %}{{ revision.contentType.icon }} {% else %} fa fa-question {% endif %} "></i>
-	{{  block('title') }}
+	{{ block('title') }}
 {% endblock %}
 
 {% block subtitle %}
@@ -88,7 +88,7 @@
 				'instance': revision,
 				'withView': false,
 				'vertical': false,
-			}%}
+			} %}
 			<div class="btn-group float-end">
 				{% set ctRoles = revision.contentType.roles %}
 
@@ -99,7 +99,7 @@
 						'icon': 'archive',
 						'btnType': 'outline-danger',
 						'message': 'Do you confirm?'
-					}%}
+					} %}
 				{% endif %}
 
 				{% if is_granted(ctRoles.delete) %}
@@ -110,7 +110,7 @@
 							'icon': 'trash',
 							'btnType': 'outline-danger',
 							'message': 'Do you confirm?'
-						}%}
+						} %}
 					{% endif %}
 				{% endif %}
 			</div>
@@ -203,7 +203,7 @@
 		<p class="text-muted">
 			{% set notificationFound = false %}
 			{% for notification in revision.notifications %}
-				{% if notification.status == 'pending'  %}
+				{% if notification.status == 'pending' %}
 					<span class="label label-default"><i class="{{ notification.template.icon }}"></i> {{ notification.template.label }}</span>
 					{% set notificationFound = true %}
 				{% endif %}
@@ -228,7 +228,7 @@
 		 data-load="{{ revision.hasTasks ? "true" : "false" }}"
 		 data-url="{{ path('emsco_task_ajax_tasks', {'revisionOuuid': revision.ouuid }) }}">
 		<div id="revision-tasks-loading" class="task-loading"><i class="fa fa-cog fa-spin fa-3x fa-fw"></i></div>
-		<div id="revision-tasks-content">{# ajax loaded#}</div>
+		<div id="revision-tasks-content">{# ajax loaded #}</div>
 	</div>
 {% endblock %}
 
@@ -256,7 +256,7 @@
 			</h3>
 			{% if revision.giveContentType.versioning.enabled and revision.versionDate('to') != null and latestVersion %}
 				<div class="box-tools float-end">
-					<a href="{{ path('emsco_view_revisions', {'type': latestVersion.contentTypeName, 'ouuid': latestVersion.ouuid }) }}" class="btn btn-default bg-{{ revision.contentType.color  }} btn-sm">
+					<a href="{{ path('emsco_view_revisions', {'type': latestVersion.contentTypeName, 'ouuid': latestVersion.ouuid }) }}" class="btn btn-default bg-{{ revision.contentType.color }} btn-sm">
 						<i class="{% if revision.contentType.icon %}{{ revision.contentType.icon }} {% else %} fa fa-question {% endif %}"></i>
 						current version
 					</a>
@@ -277,7 +277,7 @@
 				'autoSave': revision.autoSave,
 				'instance': revision,
 				'withView': false,
-			}%}
+			} %}
 
 		</div>
 	</div>
@@ -376,7 +376,7 @@
 								</td>
 								<td>
 									{% if rev.autoSave %}
-										by {{ rev.autoSaveBy|emsco_display_name  }} <br>
+										by {{ rev.autoSaveBy|emsco_display_name }} <br>
 										on {{ rev.autoSaveAt|date(date_time_format) }}
 									{% endif %}
 								</td>
@@ -391,7 +391,7 @@
 							</td>
 							<td>
 								{% for notification in rev.notifications %}
-									{% if notification.status == 'pending'  %}
+									{% if notification.status == 'pending' %}
 										<span class="label label-default"><i class="{{ notification.template.icon }}"></i> {{ notification.template.label }}</span>
 									{% endif %}
 								{% endfor %}
@@ -405,7 +405,7 @@
 									'current': not rev.endTime,
 									'autoSave': rev.autoSave,
 									'instance': revision
-								}%}
+								} %}
 							</td>
 						</tr>
 					{% endfor %}

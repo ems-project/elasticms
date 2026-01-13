@@ -21,7 +21,7 @@
 										'url':  path(edit_route, {'id': entity.id}),
 										'label': 'Edit',
 										'icon': 'pencil'
-									}%}
+									} %}
 								</div>
 							</div>
 							<h3 class="box-title">{{ entity.name }}</h3>
@@ -41,7 +41,7 @@
     	</div>
 	{% else %}
 		<div class="box-body">
-		    {{missing_label}}
+		    {{ missing_label }}
 		</div>
 	{% endif %}
 	<!-- /.box-body -->

@@ -1,4 +1,4 @@
-{% trans_default_domain 'EMSCoreBundle' %}{% if rejectedNotifications|length <= 0  %}
+{% trans_default_domain 'EMSCoreBundle' %}{% if rejectedNotifications|length <= 0 %}
 	<p>{{ 'No result for this filters combinaison'|trans }}: <a href="{{ path('notifications.inbox') }}">{{ 'reset filters' }}</a></p>
 {% else %}
 	<div class="table-responsive">
@@ -19,7 +19,7 @@
 			{% for notification in rejectedNotifications %}
 				<tr>
 					<td class="" nowrap="nowrap">
-						<i class="{{notification.template.icon}}"></i> {{ notification.template.label }}
+						<i class="{{ notification.template.icon }}"></i> {{ notification.template.label }}
 
 					</td>
 					<td>{{ notification.responseBy }}</td>
@@ -68,7 +68,7 @@
 								'label': 'Acknowledge',
 								'icon': 'check',
 								'message': 'Do you confirm?'
-							}%}
+							} %}
 
                             {% include '@EMSAdminUI/bootstrap5/elements/object-views-button.html.twig' with {
 								'object':  notification.revision.buildObject,
@@ -76,7 +76,7 @@
 								'environment': notification.environment,
 								'ouuid': notification.revision,
 								'currentTemplate': notification.template
-							}%}
+							} %}
 	                    </div>
 					</td>
 				</tr>

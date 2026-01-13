@@ -78,7 +78,7 @@
     {% set listGroup %}
         {% include '@EMSAdminUI/bootstrap5/core/list-group.html.twig' with {
             'list':  list
-        }%}
+        } %}
     {% endset %}
 
     {% with {
@@ -114,7 +114,7 @@
     {% set listGroup %}
         {% include '@EMSAdminUI/bootstrap5/core/list-group.html.twig' with {
             'list':  list
-        }%}
+        } %}
     {% endset %}
 
     {% with {
@@ -148,7 +148,7 @@
     {% set listGroup %}
         {% include '@EMSAdminUI/bootstrap5/core/list-group.html.twig' with {
             'list':  list
-        }%}
+        } %}
     {% endset %}
 
     {% with {
@@ -169,7 +169,7 @@
                     {label: 'status.jobs.pending'|trans, value: jobs.pending|default(0) },
                     {label: 'status.jobs.failed'|trans, value: jobs.failed|default(0) },
                 ],
-            }%}
+            } %}
         {% endset %}
         {% with {
             content: jobsGroup,
@@ -190,7 +190,7 @@
                     {label: 'status.bus.queue'|trans, value: bus.queue|default(0) },
                     {label: 'status.bus.failed'|trans, value: bus.failed|default(0) },
                 ],
-            }%}
+            } %}
         {% endset %}
         {% with {
             content: busGroup,

@@ -43,12 +43,12 @@
         }) }}"></i>
     {% endset %}
     {% set circles %}
-        {% for circle in user.circles|default([])  -%}
+        {% for circle in user.circles|default([]) -%}
             <span class="badge bg-primary text-nowrap">{{- circle|emsco_display|raw -}}</span>
         {%- endfor %}
     {% endset %}
     {% set roles %}
-        {% for role in user.userRoles|default([])  -%}
+        {% for role in user.userRoles|default([]) -%}
             <span class="badge bg-primary text-nowrap">{{- role|trans({}, 'EMSCoreBundle') -}}</span>
         {%- endfor %}
     {% endset %}

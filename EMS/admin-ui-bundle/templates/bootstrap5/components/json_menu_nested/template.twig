@@ -23,7 +23,7 @@
     {{ template.block('jmn_button_more', _context)|raw }}
 {%- endblock jmn_actions -%}
 
-{%- block jmn_columns  -%}
+{%- block jmn_columns -%}
     {% for column in config.columns %}
         <div class="jmn-column {{ "jmn-column-#{column.name}" }}" style="{{ column.width ? "width:#{column.width}px;" }}" >
             {%- if template.hasBlock("jmn_column_#{column.name}") -%}
@@ -155,7 +155,7 @@
         'jmn_button_copy',
         'jmn_button_paste',
     ]) -%}
-    {% set menuMore = template.block('jmn_button_more_menu', _context)|raw  %}
+    {% set menuMore = template.block('jmn_button_more_menu', _context)|raw %}
     {% if menuMore|length > 0 %}
         <div class="btn-group btn-group-sm">
             <button type="button" class="btn btn-sm btn-default dropdown-toggle jmn-dropdown-more" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
@@ -208,7 +208,7 @@
 
 {%- block jmn_modal_footer -%}
     <div class="float-end">
-        {% if form is defined  %}
+        {% if form is defined %}
             <button id="ajax-modal-submit" class="btn btn-sm btn-primary"><i class="fa fa-save"></i>&nbsp;Save</button>
         {% endif %}
         <button type="button" class="btn btn-sm btn-default" data-bs-dismiss="modal">Cancel</button>

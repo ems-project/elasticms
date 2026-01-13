@@ -84,7 +84,7 @@
                     </div>
                 </div>
             </a>
-            {% if taskCurrent.isRequester(app.user) or is_granted('ROLE_TASK_MANAGER')  %}
+            {% if taskCurrent.isRequester(app.user) or is_granted('ROLE_TASK_MANAGER') %}
                 <button class="btn-task-update-modal btn-task-modal btn btn-sm float-end"
                         data-title="{{ 'task.update.title'|trans({ '%title%': taskCurrent.title }) }}"
                         data-url="{{ path('emsco_task_ajax_modal_update', { 'revisionOuuid': revision.ouuid, 'taskId': taskCurrent.id }) }}">
@@ -143,7 +143,7 @@
                     </div>
                 </div>
             </a>
-            {% if task.isRequester(app.user) or is_granted('ROLE_TASK_MANAGER')  %}
+            {% if task.isRequester(app.user) or is_granted('ROLE_TASK_MANAGER') %}
                 <button class="btn-task-update-modal btn-task-modal btn btn-sm float-end"
                         data-title="{{ 'task.update.title'|trans({ '%title%': task.title }) }}"
                         data-url="{{ path('emsco_task_ajax_modal_update', { 'revisionOuuid': revision.ouuid, taskId: task.id }) }}">
@@ -273,7 +273,7 @@
         {%- if task.status != 'completed' -%}
             <button id="ajax-modal-submit" class="btn btn-sm btn-primary task-icon-update">{{ 'task.update.submit'|trans }}</button>
         {%- endif -%}
-        {% if task.isRequester(app.user) or is_granted('ROLE_TASK_MANAGER')  %}
+        {% if task.isRequester(app.user) or is_granted('ROLE_TASK_MANAGER') %}
             <button type="button" id="btn-task-delete"
                     data-url="{{ path('emsco_task_ajax_delete', {'revisionOuuid': revisionOuuid, 'taskId': task.id}) }}"
                     class="btn btn-sm btn-danger task-icon-delete">{{ 'task.delete.submit'|trans }}</button>

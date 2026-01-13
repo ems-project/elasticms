@@ -67,9 +67,9 @@
         {% set revisionTarget = info.getRevision(data.release.environmentTarget.name) %}
         {% set stil_in_target = (revisionTarget ? true : false) %}
     {% endif %}
-    {%  if stil_in_target %}
+    {% if stil_in_target %}
         <i class="fa fa-check-square"><span class="visually-hidden">{{ 'release.release-revisison.still_in_target'|trans({'%target%': data.release.environmentTarget.label}) }}</span></i>
     {% else %}
-        <i class="fa fa-square"><span class="visually-hidden">{{ 'release.release-revisison.no_more_in_target'|trans({'%target%': data.release.environmentTarget.label})  }}</span></i>
+        <i class="fa fa-square"><span class="visually-hidden">{{ 'release.release-revisison.no_more_in_target'|trans({'%target%': data.release.environmentTarget.label}) }}</span></i>
     {% endif %}
 {% endblock stil_in_target %}

@@ -1,7 +1,7 @@
 {% trans_default_domain 'emsco-twigs' %}
 {{ form_start(form) }}
 	<div class="card card-{{ theme_color }} card-outline">
-		<div id="searchFormBoxBody" class="collapse {% if openSearchForm is defined and openSearchForm %}in{% endif %}" aria-expanded="{% if openSearchForm is not defined or not openSearchForm %}false{%else%}true{% endif %}">
+		<div id="searchFormBoxBody" class="collapse {% if openSearchForm is defined and openSearchForm %}in{% endif %}" aria-expanded="{% if openSearchForm is not defined or not openSearchForm %}false{% else %}true{% endif %}">
 			<div class="card-body" >
                 <div class="row">
                     {% if form.environments is defined %}
@@ -149,7 +149,7 @@
 		{% endif %}
 		<div class="card-footer">
 			<div class="btn-group">
-				<a class="toggle-button {% if openSearchForm is not defined or not openSearchForm %}collapsed{% endif %} btn btn-primary btn-sm" role="button" data-bs-toggle="collapse" href="#searchFormBoxBody" aria-expanded="{% if openSearchForm is not defined or not openSearchForm %}false{%else%}true{% endif %}" aria-controls="searchFormBoxBody">
+				<a class="toggle-button {% if openSearchForm is not defined or not openSearchForm %}collapsed{% endif %} btn btn-primary btn-sm" role="button" data-bs-toggle="collapse" href="#searchFormBoxBody" aria-expanded="{% if openSearchForm is not defined or not openSearchForm %}false{% else %}true{% endif %}" aria-controls="searchFormBoxBody">
 					<i class="fa fa-search"></i> Search form
 				</a>
 				{% if is_granted('ROLE_SUPER_ADMIN') and body is defined %}

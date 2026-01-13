@@ -11,9 +11,9 @@
 {% endblock %}
 
 {% block body %}
-	{%  set toolbar %}
+	{% set toolbar %}
 		<a class="btn btn-primary" href="{{ path('emsco_release_add') }}"><i class="fa fa-plus"></i> {{ add_label|default(form.vars.add_label)|trans }}</a>
-	{%  endset %}
+	{% endset %}
 
 	{% form_theme form '@EMSAdminUI/bootstrap5/form/forms.html.twig' %}
 	{{ form(form, {

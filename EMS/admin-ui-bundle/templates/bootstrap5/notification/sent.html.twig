@@ -17,7 +17,7 @@
 		<!-- /.box-header -->
 		<div class="box-body ">
 
-		{% if notifications|length <= 0  %}
+		{% if notifications|length <= 0 %}
 		<p>{{ 'No result to display'|trans }}: <a href="{{ path('notifications.sent') }}">{{ 'reset filters' }}</a></p>
 		{% else %}
 		<div class="table-responsive">
@@ -38,7 +38,7 @@
 							{% for notification in notifications %}
 								<tr>
 									<td class="" nowrap="nowrap">
-										<i class="{{notification.template.icon}}"></i> {{ notification.template.label }}
+										<i class="{{ notification.template.icon }}"></i> {{ notification.template.label }}
 
 									</td>
 									<td>{{ notification.username|emsco_display_name }}</td>
@@ -75,7 +75,7 @@
 													'label': 'Cancel',
 													'icon': 'ban',
 													'message': 'Do you confirm?'
-												}%}
+												} %}
 											{% endif %}
 
                                             {% include '@EMSAdminUI/bootstrap5/elements/object-views-button.html.twig' with {
@@ -84,7 +84,7 @@
 												'environment': notification.environment,
 												'ouuid': notification.revision.ouuid,
 												'currentTemplate': notification.template
-											}%}
+											} %}
 					                    </div>
 									</td>
 								</tr>

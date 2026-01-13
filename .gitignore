@@ -1,2 +1,4 @@
 /vendor/
 /.cache/
+
+/.twig-cs-fixer.cache

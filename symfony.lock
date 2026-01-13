@@ -318,5 +318,14 @@
     },
     "twig/extra-bundle": {
         "version": "v3.8.0"
+    },
+    "vincentlanglet/twig-cs-fixer": {
+        "version": "3.10",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "3.0",
+            "ref": "d42582ae1bce86fd43491d6264c738b0867f8ffe"
+        }
     }
 }

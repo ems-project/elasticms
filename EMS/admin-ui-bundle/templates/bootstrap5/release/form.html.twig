@@ -1,58 +1,58 @@
 {% trans_default_domain 'EMSCoreBundle' %}
 
 <div class="row">
-	<div class="col-md-12">
-		<div class="card card-{{ theme_color }} card-outline">
-			<div class="card-header">
-				<h3 class="card-title">{{ label|trans }}</h3>
-			</div>
-			{{ form_start(form_release) }}
-				<div class="card-body">
-					<div class="row">
-						<div class="col-md-6 col-lg-4">
-							{{ form_row(form_release.name) }}
-							{{ form_row(form_release.environmentTarget) }}
-							{{ form_row(form_release.execution_date) }}
-							{{ form_row(form_release.environmentSource) }}
-						</div>
-					</div>
-				</div>
-				<div class="card-footer">
-					<div class="btn-group">
-						{% if form_release.save is defined %}
-							{{ form_widget(form_release.save) }}
-							{{ form_widget(form_release.saveAndClose) }}
-						{% else %}
-							{{ form_widget(form_release.create) }}
-						{% endif %}
-					</div>
-				</div>
+    <div class="col-md-12">
+        <div class="card card-{{ theme_color }} card-outline">
+            <div class="card-header">
+                <h3 class="card-title">{{ label|trans }}</h3>
+            </div>
+            {{ form_start(form_release) }}
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 col-lg-4">
+                            {{ form_row(form_release.name) }}
+                            {{ form_row(form_release.environmentTarget) }}
+                            {{ form_row(form_release.execution_date) }}
+                            {{ form_row(form_release.environmentSource) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="btn-group">
+                        {% if form_release.save is defined %}
+                            {{ form_widget(form_release.save) }}
+                            {{ form_widget(form_release.saveAndClose) }}
+                        {% else %}
+                            {{ form_widget(form_release.create) }}
+                        {% endif %}
+                    </div>
+                </div>
             {{ form_end(form_release) }}
-		</div>
-		{% if release is defined and release.status == 'wip' %}
-			<div class="card-footer">
-				<div class="btn-group">
-					{% include '@EMSAdminUI/bootstrap5/elements/get-button.html.twig' with {
-						'url':  path('emsco_release_add_revisions', {'release': release.id, 'type': 'publish' } ),
-						'label': 'release.actions.add_publish'|trans,
-						'icon': 'plus',
-						'btnType': 'primary',
-					}%}
-                    {% include '@EMSAdminUI/bootstrap5/elements/get-button.html.twig' with {
-                        'url':  path('emsco_release_add_revisions', {'release': release.id, 'type': 'unpublish' } ),
-                        'label': 'release.actions.add_unpublish'|trans,
-                        'icon': 'minus',
-                        'btnType': 'default',
-                    }%}
-					{% if release.revisions|length > 0 %}
-						{% include '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' with {
-							'url': path('emsco_release_set_status', {'release': release.id, 'status': 'ready'}),
-							'label': 'release.actions.set_status_ready'|trans,
-							'btnType': 'default',
-							'icon': 'play' }%}
-					{% endif %}
-				</div>
-			</div>
-		{% endif %}
-	</div>
+        </div>
+        {% if release is defined and release.status == 'wip' %}
+            <div class="card-footer">
+                <div class="btn-group">
+                    {{ include('@EMSAdminUI/bootstrap5/elements/get-button.html.twig', {
+                        url: path('emsco_release_add_revisions', {release: release.id, type: 'publish'}),
+                        label: 'release.actions.add_publish'|trans,
+                        icon: 'plus',
+                        btnType: 'primary',
+                    }) }}
+                    {{ include('@EMSAdminUI/bootstrap5/elements/get-button.html.twig', {
+                        url: path('emsco_release_add_revisions', {release: release.id, type: 'unpublish'}),
+                        label: 'release.actions.add_unpublish'|trans,
+                        icon: 'minus',
+                        btnType: 'default',
+                    }) }}
+                    {% if release.revisions|length > 0 %}
+                        {{ include('@EMSAdminUI/bootstrap5/elements/post-button.html.twig', {
+                            url: path('emsco_release_set_status', {release: release.id, status: 'ready'}),
+                            label: 'release.actions.set_status_ready'|trans,
+                            btnType: 'default',
+                            icon: 'play'}) }}
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
 </div>

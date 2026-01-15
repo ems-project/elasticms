@@ -1,7 +1,7 @@
 {%- set types = {
-    'notice' : { 'class': 'info', 'title': 'Info!', 'icon': 'fa-info' },
-    'warning' : { 'class': 'warning', 'title': 'Warning!', 'icon': 'fa-warning' },
-    'error' : { 'class': 'danger', 'title': 'Error!', 'icon': 'fa-ban' },
+    notice: {class: 'info', title: 'Info!', icon: 'fa-info'},
+    warning: {class: 'warning', title: 'Warning!', icon: 'fa-warning'},
+    error: {class: 'danger', title: 'Error!', icon: 'fa-ban'},
 } -%}
 {%- for type, config in types -%}
     {% set alerts = app.session.flashbag.get(type) %}

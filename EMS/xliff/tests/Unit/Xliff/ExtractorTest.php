@@ -146,5 +146,6 @@ class ExtractorTest extends TestCase
         $xliffParser->saveXML($tempFile->path);
         $extracted = \file_get_contents($tempFile->path);
         $this->assertSame($expected, $extracted);
+        $tempFile->clean();
     }
 }

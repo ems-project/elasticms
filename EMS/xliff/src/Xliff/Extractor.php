@@ -472,9 +472,7 @@ class Extractor
             }
         }
 
-        if ($isTranslated || null === $this->isAlreadyTranslated($target)) {
-            $this->setTargetAttributes($target, $isFinal, $isTranslated);
-        }
+        $this->setTargetAttributes($target, $isFinal, $isTranslated);
 
         if (!$isTranslated || null === $foundTargetNode) {
             return;
@@ -567,7 +565,7 @@ class Extractor
             if (null !== $this->targetLocale) {
                 $targetChild->setAttribute('xml:lang', $this->targetLocale);
             }
-            if ($isFinal && $isTranslated) {
+            if ($isFinal && $isTranslated && (!$targetChild->hasAttribute('state') || 'final' === $targetChild->getAttribute('state'))) {
                 $targetChild->setAttribute('state', 'final');
             } elseif ($isTranslated) {
                 $targetChild->setAttribute('state', 'needs-translation');

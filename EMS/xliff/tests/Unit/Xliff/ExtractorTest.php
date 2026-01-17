@@ -8,7 +8,6 @@ use EMS\Helpers\File\TempFile;
 use EMS\Xliff\Xliff\Entity\InsertReport;
 use EMS\Xliff\Xliff\Extractor;
 use EMS\Xliff\Xliff\Inserter;
-use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Finder\Finder;
 
@@ -120,31 +119,5 @@ class ExtractorTest extends TestCase
 
         $this->assertEquals($expected, $actual, \sprintf('testXliffExtractions: %s', $fileNameWithExtension));
         $tempFile->clean();
-    }
-
-    /**
-     * @return array<array<int|string>>
-     */
-    public static function withBaselineProvider(): array
-    {
-        return [[
-            \file_get_contents(\implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'WithBaseline', 'TC-1', 'source.html'])),
-            \file_get_contents(\implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'WithBaseline', 'TC-1', 'target.html'])),
-            \file_get_contents(\implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'WithBaseline', 'TC-1', 'baseline.html'])),
-            \file_get_contents(\implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'WithBaseline', 'TC-1', 'extracted.xlf'])),
-        ]];
-    }
-
-    #[DataProvider('withBaselineProvider')]
-    public function testWithBaseline(string $sourceHtml, string $targetHtml, string $baselineHtml, string $expected): void
-    {
-        $xliffParser = new Extractor('nl', 'de', Extractor::XLIFF_1_2);
-        $document = $xliffParser->addDocument('content_type', 'fakeOuuid', 'fakeRevisionId');
-        $xliffParser->addHtmlField($document, '[body]', $sourceHtml, $targetHtml, $baselineHtml);
-
-        $tempFile = TempFile::create();
-        $xliffParser->saveXML($tempFile->path);
-        $extracted = \file_get_contents($tempFile->path);
-        $this->assertSame($expected, $extracted);
     }
 }

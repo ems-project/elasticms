@@ -100,8 +100,6 @@ class Extractor
         if (!\in_array($xliffVersion, self::XLIFF_VERSIONS)) {
             throw new \RuntimeException(\sprintf('Unsupported XLIFF version "%s", use one of the supported one: %s', $xliffVersion, \implode(', ', self::XLIFF_VERSIONS)));
         }
-
-        $this->nextId = 1;
         $this->xliffVersion = $xliffVersion;
 
         switch ($xliffVersion) {

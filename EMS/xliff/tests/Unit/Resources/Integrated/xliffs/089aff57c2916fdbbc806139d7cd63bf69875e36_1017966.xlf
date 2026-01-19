@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 https://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 https://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
   <file source-language="nl" original="content_type:089aff57c2916fdbbc806139d7cd63bf69875e36:1017966" datatype="database" target-language="de">
     <body>
       <trans-unit id="tu1" resname="[title]">
@@ -16,8 +16,8 @@
           <target xml:lang="de" state="final"/>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu5" resname="/html/body/p[2]">
-          <source xml:lang="nl"> De regering heeft beslist de werkgevers een doelgroepvermindering toe te kennen met het oog op het herstel van de werkgelegenheid in de sectoren die enige tijd gesloten zijn gebleven of die op een andere manier als gevolg van de coronacrisis een verminderde activiteit hebben gekend, en daarnaast ook in de sectoren die werkgelegenheid creëren. Deze doelgroepvermindering heeft betrekking op het 3<g id="d6" ctype="x-html-sup">de</g> kwartaal 2021. </source>
-          <target xml:lang="de" state="final"> Die Regierung hat beschlossen, den Arbeitgebern eine Zielgruppenermäßigung zu gewähren, um die Beschäftigung in Sektoren wiederherzustellen, die einige Zeit geschlossen waren oder in denen die Aktivität aufgrund der Corona-Krise anderweitig zurückgegangen ist, aber auch in Sektoren, die Arbeitsplätze schaffen. Diese Zielgruppenermäßigung bezieht sich auf das 3.<g id="d7" ctype="x-html-sup"/> Quartal 2021. </target>
+          <source xml:lang="nl"> De regering heeft beslist de werkgevers een doelgroepvermindering toe te kennen met het oog op het herstel van de werkgelegenheid in de sectoren die enige tijd gesloten zijn gebleven of die op een andere manier als gevolg van de coronacrisis een verminderde activiteit hebben gekend, en daarnaast ook in de sectoren die werkgelegenheid creëren. Deze doelgroepvermindering heeft betrekking op het 3<g id="g6" ctype="x-html-sup">de</g> kwartaal 2021. </source>
+          <target xml:lang="de" state="final"> Die Regierung hat beschlossen, den Arbeitgebern eine Zielgruppenermäßigung zu gewähren, um die Beschäftigung in Sektoren wiederherzustellen, die einige Zeit geschlossen waren oder in denen die Aktivität aufgrund der Corona-Krise anderweitig zurückgegangen ist, aber auch in Sektoren, die Arbeitsplätze schaffen. Diese Zielgruppenermäßigung bezieht sich auf das 3.<x id="x7" ctype="x-html-sup" equiv-text=" "/> Quartal 2021. </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu8" resname="/html/body/p[3]">
           <source xml:lang="nl"/>
@@ -50,8 +50,8 @@
           <target xml:lang="de" state="final"> Bedingungen für die Inanspruchnahme der Beitragsermäßigung </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu16" resname="/html/body/p[4]">
-          <source xml:lang="nl"> Om voor de doelgroepvermindering in aanmerking te komen, moet de werkgever <g id="d17" ctype="x-html-strong">in het 3<g id="d18" ctype="x-html-sup">de</g> kwartaal 2021 een toename van het arbeidsvolume kennen ten opzichte van het arbeidsvolume in het 1<g id="d19" ctype="x-html-sup">ste</g> kwartaal 2021</g>, berekend op basis van de 'totale µ(glob)' (som van alle µ(glob)s van alle werknemers): </source>
-          <target xml:lang="de" state="final"> Um die Zielgruppenermäßigung in Anspruch nehmen zu können, muss der Arbeitgeber <g id="d20" ctype="x-html-strong">im 3.<g id="d21" ctype="x-html-sup"/> Quartal 2021 eine Erhöhung des Arbeitsvolumens im Vergleich zum Arbeitsvolumen im 1.<g id="d22" ctype="x-html-sup"/> Quartal 2021</g> aufweisen, berechnet auf der Grundlage der „Summe µ(glob)“ (Summe aller µ(glob) sämtlicher Arbeitnehmer): </target>
+          <source xml:lang="nl"> Om voor de doelgroepvermindering in aanmerking te komen, moet de werkgever <g id="g17" ctype="x-html-strong">in het 3<g id="g18" ctype="x-html-sup">de</g> kwartaal 2021 een toename van het arbeidsvolume kennen ten opzichte van het arbeidsvolume in het 1<g id="g19" ctype="x-html-sup">ste</g> kwartaal 2021</g>, berekend op basis van de 'totale µ(glob)' (som van alle µ(glob)s van alle werknemers): </source>
+          <target xml:lang="de" state="final"> Um die Zielgruppenermäßigung in Anspruch nehmen zu können, muss der Arbeitgeber <g id="g20" ctype="x-html-strong">im 3.<x id="x21" ctype="x-html-sup" equiv-text=" "/> Quartal 2021 eine Erhöhung des Arbeitsvolumens im Vergleich zum Arbeitsvolumen im 1.<x id="x22" ctype="x-html-sup" equiv-text=" "/> Quartal 2021</g> aufweisen, berechnet auf der Grundlage der „Summe µ(glob)“ (Summe aller µ(glob) sämtlicher Arbeitnehmer): </target>
         </trans-unit>
         <group restype="x-html-ul" id="tu23" resname="/html/body/ul[1]">
           <trans-unit restype="listitem" id="tu24" resname="/html/body/ul[1]/li[1]">
@@ -70,8 +70,8 @@
         <group restype="x-html-div" id="tu27" resname="/html/body/div[1]">
           <note from="class">readMoreContent</note>
           <trans-unit restype="x-html-p" id="tu28" resname="/html/body/div[1]/p">
-            <source xml:lang="nl"> <g id="d29" ctype="x-html-strong">Voorbeeld:</g> </source>
-            <target xml:lang="de" state="final"> <g id="d30" ctype="x-html-strong">Beispiel:</g> </target>
+            <source xml:lang="nl"> <g id="g29" ctype="x-html-strong">Voorbeeld:</g> </source>
+            <target xml:lang="de" state="final"> <g id="g30" ctype="x-html-strong">Beispiel:</g> </target>
           </trans-unit>
           <group restype="x-html-ul" id="tu31" resname="/html/body/div[1]/ul">
             <trans-unit restype="listitem" id="tu32" resname="/html/body/div[1]/ul/li[1]">
@@ -101,20 +101,20 @@
           <target xml:lang="de" state="final"> Die Berechnung erfolgt auf der Ebene des Arbeitgebers. </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu38" resname="/html/body/p[6]">
-          <source xml:lang="nl"> De nieuw ingeschreven werkgevers na het 1<g id="d39" ctype="x-html-sup">ste</g> kwartaal 2021 en de werkgevers waarvoor geen enkele µ(glob) kon berekend worden voor het 1<g id="d40" ctype="x-html-sup">ste</g> kwartaal 2021 (bvb: geen DmfA of enkel werknemers met tijdelijke corona-werkloosheid) komen ook in het toepassingsgebied van de maatregel. In alle geval, als geen enkele µ(glob) kon berekend worden voor het 1<g id="d41" ctype="x-html-sup">ste</g> kwartaal 2021, zal deze µ(glob) gelijkgesteld worden aan '0' voor de berekeningen en de regel inzake de verhoging van het arbeidsvolume zoals hierboven uitgelegd. </source>
-          <target xml:lang="de" state="final"> Die nach dem 1.<g id="d42" ctype="x-html-sup"/> Quartal 2021 neu gemeldeten Arbeitgeber und die Arbeitgeber, für die vor dem 1.<g id="d43" ctype="x-html-sup"/> Quartal 2021 kein µ(glob) berechnet werden konnte (z.B. keine DmfA oder nur Arbeitnehmer mit vorübergehender Corona-Arbeitslosigkeit), werden ebenfalls in den Anwendungsbereich der Maßnahme einbezogen. Wenn für das 1.<g id="d44" ctype="x-html-sup"/> Quartal 2021 kein µ(glob) berechnet werden konnte, wird dieses µ(glob) für die Berechnungen und die Regel zur Erhöhung des Arbeitsvolumens, wie vorstehend erläutert, auf jeden Fall gleich „0“ gesetzt. </target>
+          <source xml:lang="nl"> De nieuw ingeschreven werkgevers na het 1<g id="g39" ctype="x-html-sup">ste</g> kwartaal 2021 en de werkgevers waarvoor geen enkele µ(glob) kon berekend worden voor het 1<g id="g40" ctype="x-html-sup">ste</g> kwartaal 2021 (bvb: geen DmfA of enkel werknemers met tijdelijke corona-werkloosheid) komen ook in het toepassingsgebied van de maatregel. In alle geval, als geen enkele µ(glob) kon berekend worden voor het 1<g id="g41" ctype="x-html-sup">ste</g> kwartaal 2021, zal deze µ(glob) gelijkgesteld worden aan '0' voor de berekeningen en de regel inzake de verhoging van het arbeidsvolume zoals hierboven uitgelegd. </source>
+          <target xml:lang="de" state="final"> Die nach dem 1.<x id="x42" ctype="x-html-sup" equiv-text=" "/> Quartal 2021 neu gemeldeten Arbeitgeber und die Arbeitgeber, für die vor dem 1.<x id="x43" ctype="x-html-sup" equiv-text=" "/> Quartal 2021 kein µ(glob) berechnet werden konnte (z.B. keine DmfA oder nur Arbeitnehmer mit vorübergehender Corona-Arbeitslosigkeit), werden ebenfalls in den Anwendungsbereich der Maßnahme einbezogen. Wenn für das 1.<x id="x44" ctype="x-html-sup" equiv-text=" "/> Quartal 2021 kein µ(glob) berechnet werden konnte, wird dieses µ(glob) für die Berechnungen und die Regel zur Erhöhung des Arbeitsvolumens, wie vorstehend erläutert, auf jeden Fall gleich „0“ gesetzt. </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu45" resname="/html/body/p[7]">
-          <source xml:lang="nl"> Voor deze voorwaarde zal de RSZ achteraf, op basis van de DmfA van het 1<g id="d46" ctype="x-html-sup">ste</g> en 3<g id="d47" ctype="x-html-sup">de</g> kwartaal 2021, controles uitvoeren. </source>
-          <target xml:lang="de" state="final"> Für diese Bedingung wird das LSS nachträgliche Kontrollen durchführen, basierend auf den DmfA des 1.<g id="d48" ctype="x-html-sup"/> und 3.<g id="d49" ctype="x-html-sup"/> Quartals 2021. </target>
+          <source xml:lang="nl"> Voor deze voorwaarde zal de RSZ achteraf, op basis van de DmfA van het 1<g id="g46" ctype="x-html-sup">ste</g> en 3<g id="g47" ctype="x-html-sup">de</g> kwartaal 2021, controles uitvoeren. </source>
+          <target xml:lang="de" state="final"> Für diese Bedingung wird das LSS nachträgliche Kontrollen durchführen, basierend auf den DmfA des 1.<x id="x48" ctype="x-html-sup" equiv-text=" "/> und 3.<x id="x49" ctype="x-html-sup" equiv-text=" "/> Quartals 2021. </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu50" resname="/html/body/p[8]">
           <source xml:lang="nl">   </source>
           <target xml:lang="de" state="final">   </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu51" resname="/html/body/p[9]">
-          <source xml:lang="nl"> <g id="d52" ctype="x-html-strong">Definitie van de µ(glob)</g> </source>
-          <target xml:lang="de" state="final"> <g id="d53" ctype="x-html-strong">Definition des µ(glob)</g> </target>
+          <source xml:lang="nl"> <g id="g52" ctype="x-html-strong">Definitie van de µ(glob)</g> </source>
+          <target xml:lang="de" state="final"> <g id="g53" ctype="x-html-strong">Definition des µ(glob)</g> </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu54" resname="/html/body/p[10]">
           <source xml:lang="nl"> Alle door de werkgever bezoldigde dagen komen in aanmerking voor de berekening van deze toename, alsook de vakantiedagen voor arbeiders, de onbezoldigde dagen inhaalrust in het kader van de maatregelen tot vermindering van de arbeidstijd met verhoogd uurloon en de dagen tijdelijke werkloosheid ingevolge slecht weer. In de praktijk gaat het over de µ die gebruikt wordt in het kader van de andere verminderingen (structurele en doelgroepen). Dit betekent dat de toename kan worden gerealiseerd aan de hand van nieuwe, bijkomende aanwervingen, maar ook door bijvoorbeeld werknemers die tijdelijk werkloos waren, terug aan de slag te laten gaan bij hun werkgever. </source>
@@ -125,16 +125,16 @@
           <target xml:lang="de" state="final">   </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu56" resname="/html/body/p[12]">
-          <source xml:lang="nl"> <g id="d57" ctype="x-html-strong">Belangrijkheidscode</g> </source>
-          <target xml:lang="de" state="final"> <g id="d58" ctype="x-html-strong">Wichtigkeitscode</g> </target>
+          <source xml:lang="nl"> <g id="g57" ctype="x-html-strong">Belangrijkheidscode</g> </source>
+          <target xml:lang="de" state="final"> <g id="g58" ctype="x-html-strong">Wichtigkeitscode</g> </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu59" resname="/html/body/p[13]">
-          <source xml:lang="nl"> Om het gemiddelde aantal werknemers te bepalen dat bij een werkgever tewerkgesteld is, zal de RSZ zich baseren op de belangrijkheidscodes die in het repertorium van het 3<g id="d60" ctype="x-html-sup">de</g> kwartaal 2021 staan genoteerd. </source>
-          <target xml:lang="de" state="final"> Um die durchschnittliche Anzahl der von einem Arbeitgeber beschäftigten Arbeitnehmer zu ermitteln, stützt sich das LSS auf die im Repertorium des 3.<g id="d61" ctype="x-html-sup"/> Quartals 2021 aufgeführten Wichtigkeitscodes. </target>
+          <source xml:lang="nl"> Om het gemiddelde aantal werknemers te bepalen dat bij een werkgever tewerkgesteld is, zal de RSZ zich baseren op de belangrijkheidscodes die in het repertorium van het 3<g id="g60" ctype="x-html-sup">de</g> kwartaal 2021 staan genoteerd. </source>
+          <target xml:lang="de" state="final"> Um die durchschnittliche Anzahl der von einem Arbeitgeber beschäftigten Arbeitnehmer zu ermitteln, stützt sich das LSS auf die im Repertorium des 3.<x id="x61" ctype="x-html-sup" equiv-text=" "/> Quartals 2021 aufgeführten Wichtigkeitscodes. </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu62" resname="/html/body/p[14]">
-          <source xml:lang="nl"> Ter herinnering: De belangrijkheidscode wordt jaarlijks aan het begin van het jaar berekend op basis van het gemiddelde aantal werknemers tewerkgesteld gedurende de referentieperiode (4<g id="d63" ctype="x-html-sup">de</g> kwartaal van het jaar vóór het voorgaande jaar (n-2) en het 1<g id="d64" ctype="x-html-sup">ste</g>, 2<g id="d65" ctype="x-html-sup">de</g> en 3<g id="d66" ctype="x-html-sup">de</g> kwartaal van het voorgaande jaar (n-1)). De belangrijkheidscode die voor de maatregel wordt gebruikt, is deze van 2021. Deze code is het resultaat van de berekening van het gemiddelde aantal werknemers tewerkgesteld door de werkgever in het 4<g id="d67" ctype="x-html-sup">de</g> kwartaal 2019 en de eerste 3 kwartalen van 2020. </source>
-          <target xml:lang="de" state="final"> Zur Erinnerung: Der Wichtigkeitscode wird jährlich zu Beginn des Jahres auf der Grundlage der durchschnittlichen Anzahl der Beschäftigten im Bezugszeitraum (4.<g id="d68" ctype="x-html-sup"/> Quartal des Jahres vor dem Vorjahr (n-2) und 1.<g id="d69" ctype="x-html-sup"/>, 2.<g id="d70" ctype="x-html-sup"/> und 3.<g id="d71" ctype="x-html-sup"/> Quartal des Vorjahres (n-1)) berechnet. Der für die Maßnahme verwendete Wichtigkeitscode ist der des Jahres 2021. Dieser Code ergibt sich aus der Berechnung der durchschnittlichen Anzahl der vom Arbeitgeber im 4.<g id="d72" ctype="x-html-sup"/> Quartal 2019 und in den ersten 3 Quartalen 2020 beschäftigten Mitarbeiter. </target>
+          <source xml:lang="nl"> Ter herinnering: De belangrijkheidscode wordt jaarlijks aan het begin van het jaar berekend op basis van het gemiddelde aantal werknemers tewerkgesteld gedurende de referentieperiode (4<g id="g63" ctype="x-html-sup">de</g> kwartaal van het jaar vóór het voorgaande jaar (n-2) en het 1<g id="g64" ctype="x-html-sup">ste</g>, 2<g id="g65" ctype="x-html-sup">de</g> en 3<g id="g66" ctype="x-html-sup">de</g> kwartaal van het voorgaande jaar (n-1)). De belangrijkheidscode die voor de maatregel wordt gebruikt, is deze van 2021. Deze code is het resultaat van de berekening van het gemiddelde aantal werknemers tewerkgesteld door de werkgever in het 4<g id="g67" ctype="x-html-sup">de</g> kwartaal 2019 en de eerste 3 kwartalen van 2020. </source>
+          <target xml:lang="de" state="final"> Zur Erinnerung: Der Wichtigkeitscode wird jährlich zu Beginn des Jahres auf der Grundlage der durchschnittlichen Anzahl der Beschäftigten im Bezugszeitraum (4.<x id="x68" ctype="x-html-sup" equiv-text=" "/> Quartal des Jahres vor dem Vorjahr (n-2) und 1.<x id="x69" ctype="x-html-sup" equiv-text=" "/>, 2.<x id="x70" ctype="x-html-sup" equiv-text=" "/> und 3.<x id="x71" ctype="x-html-sup" equiv-text=" "/> Quartal des Vorjahres (n-1)) berechnet. Der für die Maßnahme verwendete Wichtigkeitscode ist der des Jahres 2021. Dieser Code ergibt sich aus der Berechnung der durchschnittlichen Anzahl der vom Arbeitgeber im 4.<x id="x72" ctype="x-html-sup" equiv-text=" "/> Quartal 2019 und in den ersten 3 Quartalen 2020 beschäftigten Mitarbeiter. </target>
         </trans-unit>
         <trans-unit restype="x-html-h4" id="tu73" resname="/html/body/h4[2]">
           <source xml:lang="nl">   </source>
@@ -150,8 +150,8 @@
         </trans-unit>
         <group restype="x-html-ul" id="tu76" resname="/html/body/ul[2]">
           <trans-unit restype="listitem" id="tu77" resname="/html/body/ul[2]/li[1]">
-            <source xml:lang="nl">de werknemers waarvoor hij de doelgroepvermindering toepast, ononderbroken in dienst houden gedurende het betreffende kwartaal (3<g id="d78" ctype="x-html-sup">de</g> kwartaal 2021), behalve als de werknemer zelf ontslag neemt of om dringende redenen ontslagen wordt; </source>
-            <target xml:lang="de" state="final">die Mitarbeiter, für die er die Zielgruppenermäßigung anwendet, während des relevanten Quartals (3.<g id="d79" ctype="x-html-sup"/> Quartal 2021) kontinuierlich weiterbeschäftigen, es sei denn, der Mitarbeiter kündigt oder wird aus dringenden Gründen entlassen; </target>
+            <source xml:lang="nl">de werknemers waarvoor hij de doelgroepvermindering toepast, ononderbroken in dienst houden gedurende het betreffende kwartaal (3<g id="g78" ctype="x-html-sup">de</g> kwartaal 2021), behalve als de werknemer zelf ontslag neemt of om dringende redenen ontslagen wordt; </source>
+            <target xml:lang="de" state="final">die Mitarbeiter, für die er die Zielgruppenermäßigung anwendet, während des relevanten Quartals (3.<x id="x79" ctype="x-html-sup" equiv-text=" "/> Quartal 2021) kontinuierlich weiterbeschäftigen, es sei denn, der Mitarbeiter kündigt oder wird aus dringenden Gründen entlassen; </target>
           </trans-unit>
           <group restype="listitem" id="tu80" resname="/html/body/ul[2]/li[2]">
             <trans-unit id="tu81" resname="/html/body/ul[2]/li[2]/text()[1]">
@@ -174,8 +174,8 @@
             </group>
           </group>
           <trans-unit restype="listitem" id="tu86" resname="/html/body/ul[2]/li[3]">
-            <source xml:lang="nl">in het 2<g id="d87" ctype="x-html-sup">de</g> en 3<g id="d88" ctype="x-html-sup">de</g> kwartaal 2021 geen collectief ontslag hebben aangekondigd of aankondigen; </source>
-            <target xml:lang="de" state="final">keine Massenentlassungen im 2.<g id="d89" ctype="x-html-sup"/> und 3.<g id="d90" ctype="x-html-sup"/> Quartal 2021 angekündigt haben oder ankündigen; </target>
+            <source xml:lang="nl">in het 2<g id="g87" ctype="x-html-sup">de</g> en 3<g id="g88" ctype="x-html-sup">de</g> kwartaal 2021 geen collectief ontslag hebben aangekondigd of aankondigen; </source>
+            <target xml:lang="de" state="final">keine Massenentlassungen im 2.<x id="x89" ctype="x-html-sup" equiv-text=" "/> und 3.<x id="x90" ctype="x-html-sup" equiv-text=" "/> Quartal 2021 angekündigt haben oder ankündigen; </target>
           </trans-unit>
           <trans-unit restype="listitem" id="tu91" resname="/html/body/ul[2]/li[4]">
             <source xml:lang="nl">een werkgever aan wie het gebruik van een geregistreerd kassysteem is opgelegd, moet deze verplichting nakomen; </source>
@@ -199,14 +199,14 @@
           <target xml:lang="de" state="final"> Betrag der Ermäßigung </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu96" resname="/html/body/p[18]">
-          <source xml:lang="nl"> Het gaat om een doelgroepvermindering voor het <g id="d97" ctype="x-html-strong">3<g id="d98" ctype="x-html-sup">de</g> kwartaal 2021 voor maximum 5 werknemers per vestigingseenheid</g>. </source>
-          <target xml:lang="de" state="final"> Es geht um eine Zielgruppenermäßigung für das <g id="d99" ctype="x-html-strong">3.<g id="d100" ctype="x-html-sup"/> Quartal 2021für maximal 5 Arbeitnehmer pro Niederlassungseinheit</g>. </target>
+          <source xml:lang="nl"> Het gaat om een doelgroepvermindering voor het <g id="g97" ctype="x-html-strong">3<g id="g98" ctype="x-html-sup">de</g> kwartaal 2021 voor maximum 5 werknemers per vestigingseenheid</g>. </source>
+          <target xml:lang="de" state="final"> Es geht um eine Zielgruppenermäßigung für das <g id="g99" ctype="x-html-strong">3.<x id="x100" ctype="x-html-sup" equiv-text=" "/> Quartal 2021für maximal 5 Arbeitnehmer pro Niederlassungseinheit</g>. </target>
         </trans-unit>
         <group restype="x-html-div" id="tu101" resname="/html/body/div[2]">
           <note from="class">readMoreContent</note>
           <trans-unit restype="x-html-p" id="tu102" resname="/html/body/div[2]/p[1]">
-            <source xml:lang="nl"> <g id="d103" ctype="x-html-strong">Voorbeeld:</g> </source>
-            <target xml:lang="de" state="final"> <g id="d104" ctype="x-html-strong">Beispiel:</g> </target>
+            <source xml:lang="nl"> <g id="g103" ctype="x-html-strong">Voorbeeld:</g> </source>
+            <target xml:lang="de" state="final"> <g id="g104" ctype="x-html-strong">Beispiel:</g> </target>
           </trans-unit>
           <trans-unit restype="x-html-p" id="tu105" resname="/html/body/div[2]/p[2]">
             <source xml:lang="nl"> een werkgever die over twee vestigingseenheden beschikt, kan de doelgroepvermindering voor 10 werknemers toepassen, namelijk voor 5 werknemers in iedere vestigingseenheid. Als het aantal werknemers in één van de vestigingseenheden kleiner is dan 5, dan is het aantal doelgroepverminderingen die de werkgever voor deze vestigingseenheid kan toepassen, beperkt tot dat aantal. </source>
@@ -219,12 +219,12 @@
         </trans-unit>
         <group restype="x-html-ul" id="tu107" resname="/html/body/ul[3]">
           <trans-unit restype="listitem" id="tu108" resname="/html/body/ul[3]/li[1]">
-            <source xml:lang="nl">voor <g id="d109" ctype="x-html-strong">de zwaar getroffen werkgevers</g> is het bedrag van de vermindering gelijk aan <g id="d110" ctype="x-html-strong">2.400,00</g> EUR (<g id="d111" ctype="x-html-strong">G<g id="d112" ctype="x-html-sub">17</g></g>) voor maximum 5 werknemers per vestigingseenheid; </source>
-            <target xml:lang="de" state="final">für <g id="d113" ctype="x-html-strong">schwer betroffene Arbeitgeber</g> beträgt die Höhe der Ermäßigung <g id="d114" ctype="x-html-strong">2.400,00 EUR</g> (<g id="d115" ctype="x-html-strong">G<g id="d116" ctype="x-html-sub">17</g></g>) für maximal 5 Arbeitnehmer pro Niederlassungseinheit; </target>
+            <source xml:lang="nl">voor <g id="g109" ctype="x-html-strong">de zwaar getroffen werkgevers</g> is het bedrag van de vermindering gelijk aan <g id="g110" ctype="x-html-strong">2.400,00</g> EUR (<g id="g111" ctype="x-html-strong">G<g id="g112" ctype="x-html-sub">17</g></g>) voor maximum 5 werknemers per vestigingseenheid; </source>
+            <target xml:lang="de" state="final">für <g id="g113" ctype="x-html-strong">schwer betroffene Arbeitgeber</g> beträgt die Höhe der Ermäßigung <g id="g114" ctype="x-html-strong">2.400,00 EUR</g> (<g id="g115" ctype="x-html-strong">G<g id="g116" ctype="x-html-sub">17</g></g>) für maximal 5 Arbeitnehmer pro Niederlassungseinheit; </target>
           </trans-unit>
           <trans-unit restype="listitem" id="tu117" resname="/html/body/ul[3]/li[2]">
-            <source xml:lang="nl">voor de <g id="d118" ctype="x-html-strong">andere werkgevers</g> is het bedrag van de vermindering gelijk aan <g id="d119" ctype="x-html-strong">1.000,00</g> EUR (<g id="d120" ctype="x-html-strong">G<g id="d121" ctype="x-html-sub">1</g></g>) voor maximum 5 werknemers per vestigingseenheid. </source>
-            <target xml:lang="de" state="final">für die <g id="d122" ctype="x-html-strong">anderen Arbeitgeber</g> beträgt die Höhe der Ermäßigung <g id="d123" ctype="x-html-strong">1.000,00</g> EUR (<g id="d124" ctype="x-html-strong">G<g id="d125" ctype="x-html-sub">1</g></g>) für maximal 5 Arbeitnehmer pro Niederlassungseinheit. </target>
+            <source xml:lang="nl">voor de <g id="g118" ctype="x-html-strong">andere werkgevers</g> is het bedrag van de vermindering gelijk aan <g id="g119" ctype="x-html-strong">1.000,00</g> EUR (<g id="g120" ctype="x-html-strong">G<g id="g121" ctype="x-html-sub">1</g></g>) voor maximum 5 werknemers per vestigingseenheid. </source>
+            <target xml:lang="de" state="final">für die <g id="g122" ctype="x-html-strong">anderen Arbeitgeber</g> beträgt die Höhe der Ermäßigung <g id="g123" ctype="x-html-strong">1.000,00</g> EUR (<g id="g124" ctype="x-html-strong">G<g id="g125" ctype="x-html-sub">1</g></g>) für maximal 5 Arbeitnehmer pro Niederlassungseinheit. </target>
           </trans-unit>
         </group>
         <trans-unit restype="x-html-h4" id="tu126" resname="/html/body/h4[3]">
@@ -241,12 +241,12 @@
         </trans-unit>
         <group restype="x-html-ul" id="tu129" resname="/html/body/ul[4]">
           <trans-unit restype="listitem" id="tu130" resname="/html/body/ul[4]/li[1]">
-            <source xml:lang="nl">het arbeidsvolume in het 1<g id="d131" ctype="x-html-sup">ste</g> kwartaal 2021 ten minste 50 % lager ligt dan in het 1<g id="d132" ctype="x-html-sup">ste</g> kwartaal 2020 <g id="d133" ctype="x-html-strong">of</g> </source>
-            <target xml:lang="de" state="final">das Arbeitsvolumen im 1.<g id="d134" ctype="x-html-sup"/> Quartal 2021 um 50 % niedriger ist als im 1.<g id="d135" ctype="x-html-sup"/> Quartal 2020 <g id="d136" ctype="x-html-strong">oder</g> </target>
+            <source xml:lang="nl">het arbeidsvolume in het 1<g id="g131" ctype="x-html-sup">ste</g> kwartaal 2021 ten minste 50 % lager ligt dan in het 1<g id="g132" ctype="x-html-sup">ste</g> kwartaal 2020 <g id="g133" ctype="x-html-strong">of</g> </source>
+            <target xml:lang="de" state="final">das Arbeitsvolumen im 1.<x id="x134" ctype="x-html-sup" equiv-text=" "/> Quartal 2021 um 50 % niedriger ist als im 1.<x id="x135" ctype="x-html-sup" equiv-text=" "/> Quartal 2020 <g id="g136" ctype="x-html-strong">oder</g> </target>
           </trans-unit>
           <trans-unit restype="listitem" id="tu137" resname="/html/body/ul[4]/li[2]">
-            <source xml:lang="nl">het arbeidsvolume in het 4<g id="d138" ctype="x-html-sup">de</g> kwartaal 2020 ten minste 50 % lager ligt dan in het 4<g id="d139" ctype="x-html-sup">de</g> kwartaal 2019. </source>
-            <target xml:lang="de" state="final">das Arbeitsvolumen im 4.<g id="d140" ctype="x-html-sup"/> Quartal 2020 um 50 % niedriger ist als im 4.<g id="d141" ctype="x-html-sup"/> Quartal 2019. </target>
+            <source xml:lang="nl">het arbeidsvolume in het 4<g id="g138" ctype="x-html-sup">de</g> kwartaal 2020 ten minste 50 % lager ligt dan in het 4<g id="g139" ctype="x-html-sup">de</g> kwartaal 2019. </source>
+            <target xml:lang="de" state="final">das Arbeitsvolumen im 4.<x id="x140" ctype="x-html-sup" equiv-text=" "/> Quartal 2020 um 50 % niedriger ist als im 4.<x id="x141" ctype="x-html-sup" equiv-text=" "/> Quartal 2019. </target>
           </trans-unit>
         </group>
         <trans-unit restype="x-html-p" id="tu142" resname="/html/body/p[21]">
@@ -254,8 +254,8 @@
           <target xml:lang="de" state="final"> Dieser Vergleich erfolgt auf der Ebene des Arbeitgebers und wird auf der Basis der „Summe µ (glob)“ berechnet. Das LSS führt diese Berechnung auf der Grundlage einer „Momentaufnahme“ der DmfA am 1. Juli 2021 durch. </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu143" resname="/html/body/p[22]">
-          <source xml:lang="nl"> Werkgevers die hun activiteit pas in het 2<g id="d144" ctype="x-html-sup">de</g> kwartaal 2020 hebben aangevat, worden niet als 'zwaar getroffen' beschouwd en kunnen bijgevolg enkel in aanmerking komen voor de vermindering <g id="d145" ctype="x-html-strong">G<g id="d146" ctype="x-html-sub">1</g></g> (1.000,00 EUR) voor maximaal 5 werknemers per vestigingseenheid. </source>
-          <target xml:lang="de" state="final"> Arbeitgeber, die ihre Tätigkeit erst im 2.<g id="d147" ctype="x-html-sup"/> Quartal 2020 aufgenommen haben, gelten nicht als „schwer betroffen“ und können daher die Ermäßigung <g id="d148" ctype="x-html-strong">G<g id="d149" ctype="x-html-sub">1</g></g> (1.000,00 EUR) nur für maximal 5 Arbeitnehmer pro Niederlassungseinheit in Anspruch nehmen. </target>
+          <source xml:lang="nl"> Werkgevers die hun activiteit pas in het 2<g id="g144" ctype="x-html-sup">de</g> kwartaal 2020 hebben aangevat, worden niet als 'zwaar getroffen' beschouwd en kunnen bijgevolg enkel in aanmerking komen voor de vermindering <g id="g145" ctype="x-html-strong">G<g id="g146" ctype="x-html-sub">1</g></g> (1.000,00 EUR) voor maximaal 5 werknemers per vestigingseenheid. </source>
+          <target xml:lang="de" state="final"> Arbeitgeber, die ihre Tätigkeit erst im 2.<x id="x147" ctype="x-html-sup" equiv-text=" "/> Quartal 2020 aufgenommen haben, gelten nicht als „schwer betroffen“ und können daher die Ermäßigung <g id="g148" ctype="x-html-strong">G<g id="g149" ctype="x-html-sub">1</g></g> (1.000,00 EUR) nur für maximal 5 Arbeitnehmer pro Niederlassungseinheit in Anspruch nehmen. </target>
         </trans-unit>
         <trans-unit restype="x-html-h3" id="tu150" resname="/html/body/h3[4]">
           <source xml:lang="nl">   </source>
@@ -266,8 +266,8 @@
           <target xml:lang="de" state="final"> Spezifikation für die Berechnungen auf Basis des Arbeitsvolumens </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu152" resname="/html/body/p[23]">
-          <source xml:lang="nl"> Noch de toename van het arbeidsvolume tussen het 1<g id="d153" ctype="x-html-sup">ste</g> en het 3<g id="d154" ctype="x-html-sup">de</g> kwartaal 2021, noch de afname die bepalend is om een werkgever als 'zwaar getroffen' te beschouwen, mogen het gevolg zijn van een wettelijke herstructureringsoperatie zoals een fusie, een splitsing of de overdracht van een bedrijfstak. </source>
-          <target xml:lang="de" state="final"> Weder der Anstieg des Arbeitsvolumens zwischen dem 1.<g id="d155" ctype="x-html-sup"/> und 3.<g id="d156" ctype="x-html-sup"/> Quartal 2021 noch der Rückgang, der dazu führt, dass ein Arbeitgeber als „schwer betroffen“ gilt, darf das Ergebnis einer rechtlichen Umstrukturierung sein, wie z.B. einer Fusion, einer Aufspaltung oder der Übertragung eines Unternehmensbereichs. </target>
+          <source xml:lang="nl"> Noch de toename van het arbeidsvolume tussen het 1<g id="g153" ctype="x-html-sup">ste</g> en het 3<g id="g154" ctype="x-html-sup">de</g> kwartaal 2021, noch de afname die bepalend is om een werkgever als 'zwaar getroffen' te beschouwen, mogen het gevolg zijn van een wettelijke herstructureringsoperatie zoals een fusie, een splitsing of de overdracht van een bedrijfstak. </source>
+          <target xml:lang="de" state="final"> Weder der Anstieg des Arbeitsvolumens zwischen dem 1.<x id="x155" ctype="x-html-sup" equiv-text=" "/> und 3.<x id="x156" ctype="x-html-sup" equiv-text=" "/> Quartal 2021 noch der Rückgang, der dazu führt, dass ein Arbeitgeber als „schwer betroffen“ gilt, darf das Ergebnis einer rechtlichen Umstrukturierung sein, wie z.B. einer Fusion, einer Aufspaltung oder der Übertragung eines Unternehmensbereichs. </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu157" resname="/html/body/p[24]">
           <source xml:lang="nl"> Deze berekeningen gebeuren steeds op het niveau van de werkgever. </source>
@@ -278,8 +278,8 @@
           <target xml:lang="de" state="final"> Diese Ermäßigung unterliegt den allgemeinen Regeln für Zielgruppenermäßigungen. Der Antrag auf diese Ermäßigung muss bei der DmfA gestellt werden. </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu159" resname="/html/body/p[26]">
-          <source xml:lang="nl"> Praktisch in de DmfA van het 3<g id="d160" ctype="x-html-sup">de</g> kwartaal 2021: </source>
-          <target xml:lang="de" state="final"> Praktisch in der DmfA des 3.<g id="d161" ctype="x-html-sup"/> Quartals 2021: </target>
+          <source xml:lang="nl"> Praktisch in de DmfA van het 3<g id="g160" ctype="x-html-sup">de</g> kwartaal 2021: </source>
+          <target xml:lang="de" state="final"> Praktisch in der DmfA des 3.<x id="x161" ctype="x-html-sup" equiv-text=" "/> Quartals 2021: </target>
         </trans-unit>
         <group restype="x-html-ul" id="tu162" resname="/html/body/ul[5]">
           <group restype="listitem" id="tu163" resname="/html/body/ul[5]/li[1]">
@@ -289,12 +289,12 @@
             </trans-unit>
             <group restype="x-html-ul" id="tu165" resname="/html/body/ul[5]/li[1]/ul">
               <trans-unit restype="listitem" id="tu166" resname="/html/body/ul[5]/li[1]/ul/li[1]">
-                <source xml:lang="nl">3705: doelgroepvermindering <g id="d167" ctype="x-html-strong">G<g id="d168" ctype="x-html-sub">1</g></g> (1.000,00 EUR) </source>
-                <target xml:lang="de" state="final">3705: Zielgruppenermäßigung <g id="d169" ctype="x-html-strong">G<g id="d170" ctype="x-html-sub">1</g></g> (1.000,00 EUR) </target>
+                <source xml:lang="nl">3705: doelgroepvermindering <g id="g167" ctype="x-html-strong">G<g id="g168" ctype="x-html-sub">1</g></g> (1.000,00 EUR) </source>
+                <target xml:lang="de" state="final">3705: Zielgruppenermäßigung <g id="g169" ctype="x-html-strong">G<g id="g170" ctype="x-html-sub">1</g></g> (1.000,00 EUR) </target>
               </trans-unit>
               <trans-unit restype="listitem" id="tu171" resname="/html/body/ul[5]/li[1]/ul/li[2]">
-                <source xml:lang="nl">3706: doelgroepvermindering <g id="d172" ctype="x-html-strong">G<g id="d173" ctype="x-html-sub">17</g></g> (2.400,00 EUR) </source>
-                <target xml:lang="de" state="final">3706: Zielgruppenermäßigung <g id="d174" ctype="x-html-strong">G<g id="d175" ctype="x-html-sub">17</g></g> (2.400,00 EUR) </target>
+                <source xml:lang="nl">3706: doelgroepvermindering <g id="g172" ctype="x-html-strong">G<g id="g173" ctype="x-html-sub">17</g></g> (2.400,00 EUR) </source>
+                <target xml:lang="de" state="final">3706: Zielgruppenermäßigung <g id="g174" ctype="x-html-strong">G<g id="g175" ctype="x-html-sub">17</g></g> (2.400,00 EUR) </target>
               </trans-unit>
             </group>
           </group>

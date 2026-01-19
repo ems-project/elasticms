@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 https://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 https://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
   <file source-language="nl" original="content_type:71e12350d3c25b8603df5ae26974165586f3aaa4:1009885" datatype="database" target-language="de">
     <body>
       <trans-unit id="tu1" resname="[title]">
@@ -45,12 +45,12 @@
             <target xml:lang="de" state="final">Vertragspersonal, das als Ersatz für (vertraglich und satzungsgemäß eingestellte) Beamte eingestellt wird, die Anspruch auf eine Laufbahnunterbrechung haben (eingeführt durch Artikel 99 bis 107 des Sanierungsgesetzes vom 22.01.1985 zur Festlegung sozialer Bestimmungen) </target>
           </trans-unit>
           <trans-unit restype="listitem" id="tu14" resname="/html/body/ul[2]/li[2]">
-            <source xml:lang="nl">De contractuele vervangers van ambtenaren bedoeld in artikel 4 van de wet van 19 juli 2012 betreffende de vierdagenweek en het halftijds werken vanaf 50 of 55 jaar in de openbare sector; het zijn de vervangers van werknemers die hun prestaties met 1/5<g id="d15" ctype="x-html-sup">de</g> verminderd hebben in combinatie met de 4-dagenweek en compenserende premie. </source>
-            <target xml:lang="de" state="final">Vertragspersonal, das als Ersatz eingestellt wird im Sinne von Artikel 4 des Gesetzes vom 19.07.2012 über die Viertagewoche und die Halbzeitarbeit ab 50 oder 55 Jahre im öffentlichen Sektor; es handelt sich um Ersatzkräfte für Arbeitnehmer, die ihre Leistungen um ein Fünftel in Kombination mit der Viertagewoche und einer Ausgleichsprämie verringert haben. <g id="d16" ctype="x-html-sup"/> </target>
+            <source xml:lang="nl">De contractuele vervangers van ambtenaren bedoeld in artikel 4 van de wet van 19 juli 2012 betreffende de vierdagenweek en het halftijds werken vanaf 50 of 55 jaar in de openbare sector; het zijn de vervangers van werknemers die hun prestaties met 1/5<g id="g15" ctype="x-html-sup">de</g> verminderd hebben in combinatie met de 4-dagenweek en compenserende premie. </source>
+            <target xml:lang="de" state="final">Vertragspersonal, das als Ersatz eingestellt wird im Sinne von Artikel 4 des Gesetzes vom 19.07.2012 über die Viertagewoche und die Halbzeitarbeit ab 50 oder 55 Jahre im öffentlichen Sektor; es handelt sich um Ersatzkräfte für Arbeitnehmer, die ihre Leistungen um ein Fünftel in Kombination mit der Viertagewoche und einer Ausgleichsprämie verringert haben. <x id="x16" ctype="x-html-sup" equiv-text=" "/> </target>
           </trans-unit>
           <trans-unit restype="listitem" id="tu17" resname="/html/body/ul[2]/li[3]">
-            <source xml:lang="nl">De contractuele vervangers bedoeld in artikel 9, §1, artikel 10quater §1, en artikel 12, §1 van de wet van 10 april 1995 betreffende de herverdeling van de arbeid in de openbare sector; het zijn eveneens vervangers van werknemers die hun prestaties met 1/5de verminderd hebben in combinatie met de 4-dagenweek en compenserende premie.<g id="d18" ctype="lb"/> </source>
-            <target xml:lang="de" state="final">Ersatzweise eingestelltes Vertragspersonal im Sinne von Artikel 9, §1, Artikel 10quater §1, und Artikel 12, §1 des Gesetzes vom 10.04.1995 über die Neuverteilung der Arbeit im öffentlichen Sektor; es handelt sich ebenfalls um Ersatzkräfte für Arbeitnehmer, die ihre Leistungen um ein Fünftel in Kombination mit der Viertagewoche und einer Ausgleichsprämie verringert haben.<g id="d19" ctype="lb"/> </target>
+            <source xml:lang="nl">De contractuele vervangers bedoeld in artikel 9, §1, artikel 10quater §1, en artikel 12, §1 van de wet van 10 april 1995 betreffende de herverdeling van de arbeid in de openbare sector; het zijn eveneens vervangers van werknemers die hun prestaties met 1/5de verminderd hebben in combinatie met de 4-dagenweek en compenserende premie.<x id="x18" ctype="x-html-br" equiv-text=" "/> </source>
+            <target xml:lang="de" state="final">Ersatzweise eingestelltes Vertragspersonal im Sinne von Artikel 9, §1, Artikel 10quater §1, und Artikel 12, §1 des Gesetzes vom 10.04.1995 über die Neuverteilung der Arbeit im öffentlichen Sektor; es handelt sich ebenfalls um Ersatzkräfte für Arbeitnehmer, die ihre Leistungen um ein Fünftel in Kombination mit der Viertagewoche und einer Ausgleichsprämie verringert haben.<x id="x19" ctype="x-html-br" equiv-text=" "/> </target>
           </trans-unit>
         </group>
         <trans-unit restype="x-html-h2" id="tu20" resname="/html/body/h2[3]">
@@ -58,8 +58,8 @@
           <target xml:lang="de" state="final"> Betrag der Ermäßigung </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu21" resname="/html/body/p[1]">
-          <source xml:lang="nl"> Een doelgroepvermindering <g id="d22" ctype="x-html-strong">G<g id="d23" ctype="x-html-sub">7</g></g> wordt toegekend voor de contractuele vervangers gedurende de volledige duur van de tewerkstelling.  </source>
-          <target xml:lang="de" state="final"> Eine Zielgruppenermäßigung <g id="d24" ctype="x-html-strong">G<g id="d25" ctype="x-html-sub">7</g></g> wird vertraglichen Ersatzkräften während der gesamten Dauer der Beschäftigung gewährt.  </target>
+          <source xml:lang="nl"> Een doelgroepvermindering <g id="g22" ctype="x-html-strong">G<g id="g23" ctype="x-html-sub">7</g></g> wordt toegekend voor de contractuele vervangers gedurende de volledige duur van de tewerkstelling.  </source>
+          <target xml:lang="de" state="final"> Eine Zielgruppenermäßigung <g id="g24" ctype="x-html-strong">G<g id="g25" ctype="x-html-sub">7</g></g> wird vertraglichen Ersatzkräften während der gesamten Dauer der Beschäftigung gewährt.  </target>
         </trans-unit>
         <trans-unit restype="x-html-h2" id="tu26" resname="/html/body/h2[4]">
           <source xml:lang="nl"> Te vervullen formaliteiten </source>

@@ -32,20 +32,20 @@
         <group id="tu7" name="/html/body/ul/li">
           <unit id="tu8" name="/html/body/ul/li/text()[1]">
             <segment id="tu9" name="/html/body/ul/li/text()[1]">
-              <source>Voor elke <g id="d10" ctype="x-html-strong">erg laaggeschoolde jongere</g> die hij in dienst neemt met een startbaanovereenkomst </source>
+              <source>Voor elke <g id="g10" ctype="x-html-strong">erg laaggeschoolde jongere</g> die hij in dienst neemt met een startbaanovereenkomst </source>
               <target/>
             </segment>
           </unit>
           <group id="tu11" name="/html/body/ul/li/ul">
             <unit id="tu12" name="/html/body/ul/li/ul/li[1]">
               <segment id="tu13" name="/html/body/ul/li/ul/li[1]">
-                <source> <g id="d14" ctype="x-html-strong">G<g id="d15" ctype="x-html-sub">1</g></g> voor het kwartaal van indienstneming en de 15 daarop volgende kwartalen </source>
+                <source> <g id="g14" ctype="x-html-strong">G<g id="g15" ctype="x-html-sub">1</g></g> voor het kwartaal van indienstneming en de 15 daarop volgende kwartalen </source>
                 <target/>
               </segment>
             </unit>
             <unit id="tu16" name="/html/body/ul/li/ul/li[2]">
               <segment id="tu17" name="/html/body/ul/li/ul/li[2]">
-                <source> <g id="d18" ctype="x-html-strong">G<g id="d19" ctype="x-html-sub">2</g></g> voor de daaropvolgende kwartalen, en dit voor zolang hij in dienst is met een startbaanovereenkomst (de vermindering eindigt dus in elk geval in het kwartaal waarin de jongere 26 jaar wordt). </source>
+                <source> <g id="g18" ctype="x-html-strong">G<g id="g19" ctype="x-html-sub">2</g></g> voor de daaropvolgende kwartalen, en dit voor zolang hij in dienst is met een startbaanovereenkomst (de vermindering eindigt dus in elk geval in het kwartaal waarin de jongere 26 jaar wordt). </source>
                 <target/>
               </segment>
             </unit>
@@ -58,20 +58,20 @@
         <group id="tu22" name="/html/body/ul/li">
           <unit id="tu23" name="/html/body/ul/li/text()[1]">
             <segment id="tu24" name="/html/body/ul/li/text()[1]">
-              <source>Voor elke <g id="d25" ctype="x-html-strong">erg laaggeschoolde jongere</g> die hij in dienst neemt met een startbaanovereenkomst </source>
+              <source>Voor elke <g id="g25" ctype="x-html-strong">erg laaggeschoolde jongere</g> die hij in dienst neemt met een startbaanovereenkomst </source>
               <target/>
             </segment>
           </unit>
           <group id="tu26" name="/html/body/ul/li/ul">
             <unit id="tu27" name="/html/body/ul/li/ul/li[1]">
               <segment id="tu28" name="/html/body/ul/li/ul/li[1]">
-                <source> <g id="d29" ctype="x-html-strong">G<g id="d30" ctype="x-html-sub">1</g></g> voor het kwartaal van indienstneming en de 15 daarop volgende kwartalen </source>
+                <source> <g id="g29" ctype="x-html-strong">G<g id="g30" ctype="x-html-sub">1</g></g> voor het kwartaal van indienstneming en de 15 daarop volgende kwartalen </source>
                 <target/>
               </segment>
             </unit>
             <unit id="tu31" name="/html/body/ul/li/ul/li[2]">
               <segment id="tu32" name="/html/body/ul/li/ul/li[2]">
-                <source> <g id="d33" ctype="x-html-strong">G<g id="d34" ctype="x-html-sub">2</g></g> voor de daaropvolgende kwartalen, en dit voor zolang hij in dienst is met een startbaanovereenkomst (de vermindering eindigt dus in elk geval in het kwartaal waarin de jongere 26 jaar wordt). </source>
+                <source> <g id="g33" ctype="x-html-strong">G<g id="g34" ctype="x-html-sub">2</g></g> voor de daaropvolgende kwartalen, en dit voor zolang hij in dienst is met een startbaanovereenkomst (de vermindering eindigt dus in elk geval in het kwartaal waarin de jongere 26 jaar wordt). </source>
                 <target/>
               </segment>
             </unit>

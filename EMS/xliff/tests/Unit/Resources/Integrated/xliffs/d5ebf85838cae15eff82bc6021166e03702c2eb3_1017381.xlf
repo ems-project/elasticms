@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 https://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 https://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
   <file source-language="nl" original="content_type:d5ebf85838cae15eff82bc6021166e03702c2eb3:1017381" datatype="database" target-language="de">
     <body>
       <trans-unit id="tu1" resname="[title]">
@@ -46,12 +46,12 @@
             <target xml:lang="de" state="final"> Flämische Region: </target>
           </trans-unit>
           <trans-unit restype="x-html-p" id="tu14" resname="/html/body/div[1]/p[1]">
-            <source xml:lang="nl"> Op <g id="d15" ctype="x-html-strong">30 september 2015</g> lopen de laatste werkervaringsprojecten onder de vorm van doorstromingsprogramma's in <g id="d16" ctype="x-html-strong">Vlaanderen</g> af. Dit wil zeggen dat voor werknemers die afhangen van vestigingseenheden in het Vlaamse Gewest deze doelgroepvermindering niet meer kan worden toegepast. </source>
-            <target xml:lang="de" state="final"> Am <g id="d17" ctype="x-html-strong">30.09.2015</g> laufen die letzten Berufserfahrungsprojekte in Form von Berufsübergangsprogrammen in <g id="d18" ctype="x-html-strong">Flandern</g> ab. Das bedeutet, dass diese Zielgruppenermäßigung für Arbeitnehmer, die Niederlassungseinheiten in der Flämischen Region unterliegen, nicht mehr angewandt werden kann. </target>
+            <source xml:lang="nl"> Op <g id="g15" ctype="x-html-strong">30 september 2015</g> lopen de laatste werkervaringsprojecten onder de vorm van doorstromingsprogramma's in <g id="g16" ctype="x-html-strong">Vlaanderen</g> af. Dit wil zeggen dat voor werknemers die afhangen van vestigingseenheden in het Vlaamse Gewest deze doelgroepvermindering niet meer kan worden toegepast. </source>
+            <target xml:lang="de" state="final"> Am <g id="g17" ctype="x-html-strong">30.09.2015</g> laufen die letzten Berufserfahrungsprojekte in Form von Berufsübergangsprogrammen in <g id="g18" ctype="x-html-strong">Flandern</g> ab. Das bedeutet, dass diese Zielgruppenermäßigung für Arbeitnehmer, die Niederlassungseinheiten in der Flämischen Region unterliegen, nicht mehr angewandt werden kann. </target>
           </trans-unit>
           <trans-unit restype="x-html-p" id="tu19" resname="/html/body/div[1]/p[2]">
-            <source xml:lang="nl"> Op <g id="d20" ctype="x-html-strong">1 september 2016</g> wordt de doelgroepvermindering geschrapt voor <g id="d21" ctype="x-html-strong">Vlaanderen</g>. </source>
-            <target xml:lang="de" state="final"> Am <g id="d22" ctype="x-html-strong">01. September 2016</g> wird die Zielgruppenermäßigung für <g id="d23" ctype="x-html-strong">Flandern</g> abgeschafft. </target>
+            <source xml:lang="nl"> Op <g id="g20" ctype="x-html-strong">1 september 2016</g> wordt de doelgroepvermindering geschrapt voor <g id="g21" ctype="x-html-strong">Vlaanderen</g>. </source>
+            <target xml:lang="de" state="final"> Am <g id="g22" ctype="x-html-strong">01. September 2016</g> wird die Zielgruppenermäßigung für <g id="g23" ctype="x-html-strong">Flandern</g> abgeschafft. </target>
           </trans-unit>
         </group>
         <group restype="x-html-div" id="tu24" resname="/html/body/div[2]">
@@ -61,8 +61,8 @@
             <target xml:lang="de" state="final"> Deutschsprachige Gemeinschaft: </target>
           </trans-unit>
           <trans-unit restype="x-html-p" id="tu26" resname="/html/body/div[2]/p">
-            <source xml:lang="nl"> Vanaf <g id="d27" ctype="x-html-strong">1 oktober 2016</g> wordt het systeem van doorstromingsprogramma's opgeheven voor de <g id="d28" ctype="x-html-strong">Duitstalige Gemeenschap</g>. </source>
-            <target xml:lang="de" state="final"> Ab <g id="d29" ctype="x-html-strong">01.10.2016</g> wird das System der Berufsübergangsprogramme für die <g id="d30" ctype="x-html-strong">Deutschsprachige Gemeinschaft</g> aufgehoben. </target>
+            <source xml:lang="nl"> Vanaf <g id="g27" ctype="x-html-strong">1 oktober 2016</g> wordt het systeem van doorstromingsprogramma's opgeheven voor de <g id="g28" ctype="x-html-strong">Duitstalige Gemeenschap</g>. </source>
+            <target xml:lang="de" state="final"> Ab <g id="g29" ctype="x-html-strong">01.10.2016</g> wird das System der Berufsübergangsprogramme für die <g id="g30" ctype="x-html-strong">Deutschsprachige Gemeinschaft</g> aufgehoben. </target>
           </trans-unit>
         </group>
         <group restype="x-html-div" id="tu31" resname="/html/body/div[3]">
@@ -72,12 +72,12 @@
             <target xml:lang="de" state="final"> Wallonische Region (außer die Deutschsprachige Gemeinschaft): </target>
           </trans-unit>
           <trans-unit restype="x-html-p" id="tu33" resname="/html/body/div[3]/p[1]">
-            <source xml:lang="nl"> Op <g id="d34" ctype="x-html-strong">28 februari 2021</g> loopt het laatste doorstromingsprogramma in Wallonië af. Dit wil zeggen dat voor werknemers die afhangen van vestigingseenheden in het Waals Gewest deze doelgroepvermindering niet meer kan worden toegepast. </source>
-            <target xml:lang="de" state="final"> Am <g id="d35" ctype="x-html-strong">28. Februar 2021</g> läuft das letzte Programm für den beruflichen Übergang in Wallonien aus. Das bedeutet, dass diese Zielgruppenermäßigung für Arbeitnehmer, die Niederlassungseinheiten in der Wallonischen Region unterliegen, nicht mehr angewandt werden kann. </target>
+            <source xml:lang="nl"> Op <g id="g34" ctype="x-html-strong">28 februari 2021</g> loopt het laatste doorstromingsprogramma in Wallonië af. Dit wil zeggen dat voor werknemers die afhangen van vestigingseenheden in het Waals Gewest deze doelgroepvermindering niet meer kan worden toegepast. </source>
+            <target xml:lang="de" state="final"> Am <g id="g35" ctype="x-html-strong">28. Februar 2021</g> läuft das letzte Programm für den beruflichen Übergang in Wallonien aus. Das bedeutet, dass diese Zielgruppenermäßigung für Arbeitnehmer, die Niederlassungseinheiten in der Wallonischen Region unterliegen, nicht mehr angewandt werden kann. </target>
           </trans-unit>
           <trans-unit restype="x-html-p" id="tu36" resname="/html/body/div[3]/p[2]">
-            <source xml:lang="nl"> Vanaf het 2<g id="d37" ctype="x-html-sup">de</g> kwartaal 2021 wordt de doelgroepvermindering geschrapt voor <g id="d38" ctype="x-html-strong">Wallonië</g>. </source>
-            <target xml:lang="de" state="final"> Ab dem 2.<g id="d39" ctype="x-html-sup"/> Quartal 2021 wird die Zielgruppenermäßigung für <g id="d40" ctype="x-html-strong">Wallonien</g> abgeschafft. </target>
+            <source xml:lang="nl"> Vanaf het 2<g id="g37" ctype="x-html-sup">de</g> kwartaal 2021 wordt de doelgroepvermindering geschrapt voor <g id="g38" ctype="x-html-strong">Wallonië</g>. </source>
+            <target xml:lang="de" state="final"> Ab dem 2.<x id="x39" ctype="x-html-sup" equiv-text=" "/> Quartal 2021 wird die Zielgruppenermäßigung für <g id="g40" ctype="x-html-strong">Wallonien</g> abgeschafft. </target>
           </trans-unit>
         </group>
         <group restype="x-html-div" id="tu41" resname="/html/body/div[4]">
@@ -87,8 +87,8 @@
             <target xml:lang="de" state="final"> Region Brüssel-Hauptstadt: </target>
           </trans-unit>
           <trans-unit restype="x-html-p" id="tu43" resname="/html/body/div[4]/p">
-            <source xml:lang="nl"> Vanaf <g id="d44" ctype="x-html-strong">1 januari 2021</g> wordt het systeem van doorstromingsprogramma's opgeheven voor <g id="d45" ctype="x-html-strong">het Brussels Hoofdstedelijk Gewest</g>. </source>
-            <target xml:lang="de" state="final"> Ab dem <g id="d46" ctype="x-html-strong">01. Januar 2021</g> wird das System der Berufsübergangsprogramme für die <g id="d47" ctype="x-html-strong">Region Brüssel-Hauptstadt</g> aufgehoben. </target>
+            <source xml:lang="nl"> Vanaf <g id="g44" ctype="x-html-strong">1 januari 2021</g> wordt het systeem van doorstromingsprogramma's opgeheven voor <g id="g45" ctype="x-html-strong">het Brussels Hoofdstedelijk Gewest</g>. </source>
+            <target xml:lang="de" state="final"> Ab dem <g id="g46" ctype="x-html-strong">01. Januar 2021</g> wird das System der Berufsübergangsprogramme für die <g id="g47" ctype="x-html-strong">Region Brüssel-Hauptstadt</g> aufgehoben. </target>
           </trans-unit>
         </group>
         <trans-unit restype="x-html-p" id="tu48" resname="/html/body/p[2]">
@@ -100,8 +100,8 @@
           <target xml:lang="de" state="final"> Betroffene Arbeitnehmer </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu50" resname="/html/body/p[3]">
-          <source xml:lang="nl"> Het gaat om werkzoekenden, waarmee bedoeld wordt de niet-werkende werknemers die als werkzoekende ingeschreven zijn bij de gewestelijke dienst voor arbeidsbemiddeling. Deze werkzoekenden moeten aangeworven zijn in het kader van een doorstromingsprogramma zoals bedoeld in het koninklijk besluit van 9 juni 1997 ter uitvoering van het artikel 7 § 1, 3<g id="d51" ctype="x-html-sup">de</g> lid, m van de besluitwet van 28 december 1944 betreffende de maatschappelijke zekerheid der arbeiders. </source>
-          <target xml:lang="de" state="final"> Es betrifft Arbeitssuchende, mit denen nicht arbeitende Arbeitnehmer gemeint sind, die als Arbeitssuchende bei der regionalen Dienststelle für Arbeitsvermittlung eingetragen sind. Diese Arbeitssuchenden müssen im Rahmen eines Berufsübergangsprogramms im Sinne des Königlichen Erlasses vom 09.06.1997 in Ausführung von Artikel 7 § 1, Absatz 3, m des Erlassgesetzes vom 28.12.1994 über die soziale Sicherheit der Arbeitnehmer eingestellt worden sein. <g id="d52" ctype="x-html-sup"/> </target>
+          <source xml:lang="nl"> Het gaat om werkzoekenden, waarmee bedoeld wordt de niet-werkende werknemers die als werkzoekende ingeschreven zijn bij de gewestelijke dienst voor arbeidsbemiddeling. Deze werkzoekenden moeten aangeworven zijn in het kader van een doorstromingsprogramma zoals bedoeld in het koninklijk besluit van 9 juni 1997 ter uitvoering van het artikel 7 § 1, 3<g id="g51" ctype="x-html-sup">de</g> lid, m van de besluitwet van 28 december 1944 betreffende de maatschappelijke zekerheid der arbeiders. </source>
+          <target xml:lang="de" state="final"> Es betrifft Arbeitssuchende, mit denen nicht arbeitende Arbeitnehmer gemeint sind, die als Arbeitssuchende bei der regionalen Dienststelle für Arbeitsvermittlung eingetragen sind. Diese Arbeitssuchenden müssen im Rahmen eines Berufsübergangsprogramms im Sinne des Königlichen Erlasses vom 09.06.1997 in Ausführung von Artikel 7 § 1, Absatz 3, m des Erlassgesetzes vom 28.12.1994 über die soziale Sicherheit der Arbeitnehmer eingestellt worden sein. <x id="x52" ctype="x-html-sup" equiv-text=" "/> </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu53" resname="/html/body/p[4]">
           <source xml:lang="nl"> Volgende categorieën komen in aanmerking: </source>
@@ -210,20 +210,20 @@
         </trans-unit>
         <group restype="x-html-ul" id="tu85" resname="/html/body/ul[4]">
           <trans-unit restype="listitem" id="tu86" resname="/html/body/ul[4]/li[1]">
-            <source xml:lang="nl">categorie 1°: G<g id="d87" ctype="x-html-sub">1</g> gedurende het kwartaal van indienstneming en de 4 daarop volgende kwartalen en vervolgens G<g id="d88" ctype="x-html-sub">2</g> gedurende 4 kwartalen; </source>
-            <target xml:lang="de" state="final">Kategorie 1°: G<g id="d89" ctype="x-html-sub">1</g> im Quartal des Dienstantritts und den 4 folgenden Quartalen und danach G<g id="d90" ctype="x-html-sub">2</g> für 4 Quartale; </target>
+            <source xml:lang="nl">categorie 1°: G<g id="g87" ctype="x-html-sub">1</g> gedurende het kwartaal van indienstneming en de 4 daarop volgende kwartalen en vervolgens G<g id="g88" ctype="x-html-sub">2</g> gedurende 4 kwartalen; </source>
+            <target xml:lang="de" state="final">Kategorie 1°: G<g id="g89" ctype="x-html-sub">1</g> im Quartal des Dienstantritts und den 4 folgenden Quartalen und danach G<g id="g90" ctype="x-html-sub">2</g> für 4 Quartale; </target>
           </trans-unit>
           <trans-unit restype="listitem" id="tu91" resname="/html/body/ul[4]/li[2]">
-            <source xml:lang="nl">categorie 2°: G<g id="d92" ctype="x-html-sub">1</g> gedurende het kwartaal van indienstneming en de 8 daarop volgende kwartalen; </source>
-            <target xml:lang="de" state="final">Kategorie 2°: G<g id="d93" ctype="x-html-sub">1</g> im Quartal des Dienstantritts und den 8 darauf folgenden Quartalen; </target>
+            <source xml:lang="nl">categorie 2°: G<g id="g92" ctype="x-html-sub">1</g> gedurende het kwartaal van indienstneming en de 8 daarop volgende kwartalen; </source>
+            <target xml:lang="de" state="final">Kategorie 2°: G<g id="g93" ctype="x-html-sub">1</g> im Quartal des Dienstantritts und den 8 darauf folgenden Quartalen; </target>
           </trans-unit>
           <trans-unit restype="listitem" id="tu94" resname="/html/body/ul[4]/li[3]">
-            <source xml:lang="nl">categorie 3°: G<g id="d95" ctype="x-html-sub">1</g> gedurende het kwartaal van indienstneming en de 4 daarop volgende kwartalen en vervolgens G<g id="d96" ctype="x-html-sub">2</g> gedurende 8 kwartalen; </source>
-            <target xml:lang="de" state="final">Kategorie 3°: G<g id="d97" ctype="x-html-sub">1</g> im Quartal des Dienstantritts und den 4folgenden Quartalen und danach G<g id="d98" ctype="x-html-sub">2</g> für 8 Quartale; </target>
+            <source xml:lang="nl">categorie 3°: G<g id="g95" ctype="x-html-sub">1</g> gedurende het kwartaal van indienstneming en de 4 daarop volgende kwartalen en vervolgens G<g id="g96" ctype="x-html-sub">2</g> gedurende 8 kwartalen; </source>
+            <target xml:lang="de" state="final">Kategorie 3°: G<g id="g97" ctype="x-html-sub">1</g> im Quartal des Dienstantritts und den 4folgenden Quartalen und danach G<g id="g98" ctype="x-html-sub">2</g> für 8 Quartale; </target>
           </trans-unit>
           <trans-unit restype="listitem" id="tu99" resname="/html/body/ul[4]/li[4]">
-            <source xml:lang="nl">categorie 4°: G<g id="d100" ctype="x-html-sub">1</g> gedurende het kwartaal van indienstneming en de 12 daarop volgende kwartalen. </source>
-            <target xml:lang="de" state="final">Kategorie 4°: G<g id="d101" ctype="x-html-sub">1</g> im Quartal des Dienstantritts und den 12 darauf folgenden Quartalen; </target>
+            <source xml:lang="nl">categorie 4°: G<g id="g100" ctype="x-html-sub">1</g> gedurende het kwartaal van indienstneming en de 12 daarop volgende kwartalen. </source>
+            <target xml:lang="de" state="final">Kategorie 4°: G<g id="g101" ctype="x-html-sub">1</g> im Quartal des Dienstantritts und den 12 darauf folgenden Quartalen; </target>
           </trans-unit>
         </group>
         <trans-unit restype="x-html-h2" id="tu102" resname="/html/body/h2[4]">
@@ -231,8 +231,8 @@
           <target xml:lang="de" state="final"> Zu erledigende Formalitäten </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu103" resname="/html/body/p[8]">
-          <source xml:lang="nl"> De bepalingen van het koninklijk besluit van 9 juni 1997 tot uitvoering van artikel 7, § 1, derde lid, m, van de besluitwet van 28 december 1944 betreffende de maatschappelijke zekerheid der arbeiders betreffende de doorstromingsprogramma's moeten gerespecteerd worden. De RVA geeft aan de RSZ de gegevens van de werknemers door die recht geven op deze doelgroepvermindering. Meer informatie vindt u terug op de <g id="d104" ctype="x-html-a" html:href="http://www.rva.be/nl/documentatie/infoblad/t10" html:target="_blank">website van de RVA</g>. </source>
-          <target xml:lang="de" state="final"> Die Bestimmungen des Königlichen Erlasses vom 09.06.1997 zur Ausführung von Artikel 7, § 1, Absatz 3, m, des Erlassgesetzes vom 28.12.1994 über die soziale Sicherheit der Arbeitnehmer über Berufsübergangsprogramme müssen eingehalten werden. Das LfA leitet dem LSS die Daten der Arbeitnehmer zu, die das Recht auf diese Zielgruppenermäßigung eröffnen. Weitere Informationen finden Sie auf der <g id="d105" ctype="x-html-a" html:href="http://www.rva.be/nl/documentatie/infoblad/t10" html:target="_blank">Website des LfA</g>. </target>
+          <source xml:lang="nl"> De bepalingen van het koninklijk besluit van 9 juni 1997 tot uitvoering van artikel 7, § 1, derde lid, m, van de besluitwet van 28 december 1944 betreffende de maatschappelijke zekerheid der arbeiders betreffende de doorstromingsprogramma's moeten gerespecteerd worden. De RVA geeft aan de RSZ de gegevens van de werknemers door die recht geven op deze doelgroepvermindering. Meer informatie vindt u terug op de <bx id="bx105" rid="rid104" equiv-text="&amp;lt;a href=&amp;quot;http://www.rva.be/nl/documentatie/infoblad/t10&amp;quot; target=&amp;quot;_blank&amp;quot;&amp;gt;" ctype="x-html-a"/>website van de RVA<ex id="ex106" rid="rid104" equiv-text="&amp;lt;/a&amp;gt;" ctype="x-html-a"/>. </source>
+          <target xml:lang="de" state="final"> Die Bestimmungen des Königlichen Erlasses vom 09.06.1997 zur Ausführung von Artikel 7, § 1, Absatz 3, m, des Erlassgesetzes vom 28.12.1994 über die soziale Sicherheit der Arbeitnehmer über Berufsübergangsprogramme müssen eingehalten werden. Das LfA leitet dem LSS die Daten der Arbeitnehmer zu, die das Recht auf diese Zielgruppenermäßigung eröffnen. Weitere Informationen finden Sie auf der <bx id="bx108" rid="rid107" equiv-text="&amp;lt;a href=&amp;quot;http://www.rva.be/nl/documentatie/infoblad/t10&amp;quot; target=&amp;quot;_blank&amp;quot;&amp;gt;" ctype="x-html-a"/>Website des LfA<ex id="ex109" rid="rid107" equiv-text="&amp;lt;/a&amp;gt;" ctype="x-html-a"/>. </target>
         </trans-unit>
       </group>
     </body>

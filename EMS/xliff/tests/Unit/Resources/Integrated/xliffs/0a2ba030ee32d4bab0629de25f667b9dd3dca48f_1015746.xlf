@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 https://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 https://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
   <file source-language="nl" original="content_type:0a2ba030ee32d4bab0629de25f667b9dd3dca48f:1015746" datatype="database" target-language="de">
     <body>
       <trans-unit id="tu1" resname="[title]">
@@ -124,12 +124,12 @@
             <target xml:lang="de" state="final"> Deutschsprachige Gemeinschaft: </target>
           </trans-unit>
           <trans-unit restype="x-html-p" id="tu34" resname="/html/body/div[1]/p[1]">
-            <source xml:lang="nl"> Vanaf <g id="d35" ctype="x-html-strong">1 januari 2018</g> kan voor werknemers tewerkgesteld in het <g id="d36" ctype="x-html-strong">Duitstalige landsgedeelte</g> niet langer de 'doelgroepvermindering gesubsidieerde contractuelen' toegepast worden. </source>
-            <target xml:lang="de" state="final"> Ab <g id="d37" ctype="x-html-strong">01.01.2018</g> kann für Arbeitnehmer, die für eine Beschäftigung im <g id="d38" ctype="x-html-strong">deutschsprachigen Landesteil</g> eingestellt werden, nicht mehr die „Zielgruppenermäßigung bezuschusste Vertragsbedienstete“ angewandt werden. </target>
+            <source xml:lang="nl"> Vanaf <g id="g35" ctype="x-html-strong">1 januari 2018</g> kan voor werknemers tewerkgesteld in het <g id="g36" ctype="x-html-strong">Duitstalige landsgedeelte</g> niet langer de 'doelgroepvermindering gesubsidieerde contractuelen' toegepast worden. </source>
+            <target xml:lang="de" state="final"> Ab <g id="g37" ctype="x-html-strong">01.01.2018</g> kann für Arbeitnehmer, die für eine Beschäftigung im <g id="g38" ctype="x-html-strong">deutschsprachigen Landesteil</g> eingestellt werden, nicht mehr die „Zielgruppenermäßigung bezuschusste Vertragsbedienstete“ angewandt werden. </target>
           </trans-unit>
           <trans-unit restype="x-html-p" id="tu39" resname="/html/body/div[1]/p[2]">
-            <source xml:lang="nl"> Er zijn <g id="d40" ctype="x-html-strong">geen overgangsmaatregelen</g>. </source>
-            <target xml:lang="de" state="final"> Es gibt <g id="d41" ctype="x-html-strong">keine Übergangsmaßnahmen</g>. </target>
+            <source xml:lang="nl"> Er zijn <g id="g40" ctype="x-html-strong">geen overgangsmaatregelen</g>. </source>
+            <target xml:lang="de" state="final"> Es gibt <g id="g41" ctype="x-html-strong">keine Übergangsmaßnahmen</g>. </target>
           </trans-unit>
           <trans-unit restype="x-html-p" id="tu42" resname="/html/body/div[1]/p[3]">
             <source xml:lang="nl">   </source>
@@ -147,8 +147,8 @@
             <target xml:lang="de" state="final"> Flämische Region: </target>
           </trans-unit>
           <trans-unit restype="x-html-p" id="tu46" resname="/html/body/div[2]/p[1]">
-            <source xml:lang="nl"> Er worden geen gesubsidieerde contractuelen meer tewerkgesteld in het <g id="d47" ctype="x-html-strong">Vlaams Gewest</g> bij de plaatselijke en provinciale besturen. De doelgroepvermindering kan in de DmfAPPL aangifte niet meer toegepast worden vanaf het <g id="d48" ctype="x-html-strong">1<g id="d49" ctype="x-html-sup">ste</g> kwartaal 2017</g>. </source>
-            <target xml:lang="de" state="final"> Es werden keine bezuschussten Vertragsbediensteten, die durch einen Arbeitsvertrag gebunden sind, in der <g id="d50" ctype="x-html-strong">Flämischen Region</g> beschäftigt. Die Zielgruppenermäßigung kann an dem <g id="d51" ctype="x-html-strong">ersten Quartal 2017</g> in der DmfAPPL-Meldung nicht mehr angewendet werden. <g id="d52" ctype="x-html-sup"/> </target>
+            <source xml:lang="nl"> Er worden geen gesubsidieerde contractuelen meer tewerkgesteld in het <g id="g47" ctype="x-html-strong">Vlaams Gewest</g> bij de plaatselijke en provinciale besturen. De doelgroepvermindering kan in de DmfAPPL aangifte niet meer toegepast worden vanaf het <g id="g48" ctype="x-html-strong">1<g id="g49" ctype="x-html-sup">ste</g> kwartaal 2017</g>. </source>
+            <target xml:lang="de" state="final"> Es werden keine bezuschussten Vertragsbediensteten, die durch einen Arbeitsvertrag gebunden sind, in der <g id="g50" ctype="x-html-strong">Flämischen Region</g> beschäftigt. Die Zielgruppenermäßigung kann an dem <g id="g51" ctype="x-html-strong">ersten Quartal 2017</g> in der DmfAPPL-Meldung nicht mehr angewendet werden. <x id="x52" ctype="x-html-sup" equiv-text=" "/> </target>
           </trans-unit>
           <trans-unit restype="x-html-p" id="tu53" resname="/html/body/div[2]/p[2]">
             <source xml:lang="nl">   </source>
@@ -168,12 +168,12 @@
           <target xml:lang="de" state="final"> Betrag der Ermäßigung </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu57" resname="/html/body/p[7]">
-          <source xml:lang="nl"> Een doelgroepvermindering <g id="d58" ctype="x-html-strong">G<g id="d59" ctype="x-html-sub">7</g></g> wordt toegekend voor gesco's gedurende de volledige duur van de tewerkstelling. Gezien deze vermindering alle patronale basisbijdragen vrijstelt, mag ze ook worden toegepast wanneer er geen bezoldigde dagen zijn tijdens het kwartaal, maar bijvoorbeeld alleen een eindejaarspremie wordt betaald. </source>
-          <target xml:lang="de" state="final"> Eine Zielgruppenermäßigung <g id="d60" ctype="x-html-strong">G<g id="d61" ctype="x-html-sub">7</g></g> wird BVB während der gesamten Dauer der Beschäftigung gewährt. Da diese Ermäßigung von allen Arbeitgebergrundbeiträgen befreit, darf sie auch angewandt werden, wenn es im Quartal keine entlohnten Tage gibt, sondern z. B. nur eine Jahresendprämie bezahlt wird. </target>
+          <source xml:lang="nl"> Een doelgroepvermindering <g id="g58" ctype="x-html-strong">G<g id="g59" ctype="x-html-sub">7</g></g> wordt toegekend voor gesco's gedurende de volledige duur van de tewerkstelling. Gezien deze vermindering alle patronale basisbijdragen vrijstelt, mag ze ook worden toegepast wanneer er geen bezoldigde dagen zijn tijdens het kwartaal, maar bijvoorbeeld alleen een eindejaarspremie wordt betaald. </source>
+          <target xml:lang="de" state="final"> Eine Zielgruppenermäßigung <g id="g60" ctype="x-html-strong">G<g id="g61" ctype="x-html-sub">7</g></g> wird BVB während der gesamten Dauer der Beschäftigung gewährt. Da diese Ermäßigung von allen Arbeitgebergrundbeiträgen befreit, darf sie auch angewandt werden, wenn es im Quartal keine entlohnten Tage gibt, sondern z. B. nur eine Jahresendprämie bezahlt wird. </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu62" resname="/html/body/p[8]">
-          <source xml:lang="nl"> Voor de werkgevers die hun aangifte via de DmfAPPL indienen, wordt een doelgroepvermindering <g id="d63" ctype="x-html-strong">G<g id="d64" ctype="x-html-sub">13</g></g> toegekend voor gesco's gedurende de volledige duur van de tewerkstelling. Ze mag ook worden toegepast wanneer er geen bezoldigde dagen zijn tijdens het kwartaal, maar bijvoorbeeld alleen een eindejaarspremie wordt betaald. </source>
-          <target xml:lang="de" state="final"> Für Arbeitnehmer, die ihre Meldung über die DmfAPPL einreichen, wird eine Zielgruppenermäßigung <g id="d65" ctype="x-html-strong">G<g id="d66" ctype="x-html-sub">13</g></g> für BVB während der gesamten Dauer der Beschäftigung gewährt. Sie darf auch angewandt werden, wenn es im Quartal keine entlohnten Tage gibt, sondern z. B. nur eine Jahresendprämie bezahlt wird. </target>
+          <source xml:lang="nl"> Voor de werkgevers die hun aangifte via de DmfAPPL indienen, wordt een doelgroepvermindering <g id="g63" ctype="x-html-strong">G<g id="g64" ctype="x-html-sub">13</g></g> toegekend voor gesco's gedurende de volledige duur van de tewerkstelling. Ze mag ook worden toegepast wanneer er geen bezoldigde dagen zijn tijdens het kwartaal, maar bijvoorbeeld alleen een eindejaarspremie wordt betaald. </source>
+          <target xml:lang="de" state="final"> Für Arbeitnehmer, die ihre Meldung über die DmfAPPL einreichen, wird eine Zielgruppenermäßigung <g id="g65" ctype="x-html-strong">G<g id="g66" ctype="x-html-sub">13</g></g> für BVB während der gesamten Dauer der Beschäftigung gewährt. Sie darf auch angewandt werden, wenn es im Quartal keine entlohnten Tage gibt, sondern z. B. nur eine Jahresendprämie bezahlt wird. </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu67" resname="/html/body/p[9]">
           <source xml:lang="nl">   </source>
@@ -192,44 +192,44 @@
           <target xml:lang="de" state="final"> 1) öffentliche Verwaltungen des föderalen Staats </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu71" resname="/html/body/p[12]">
-          <source xml:lang="nl"> Voor de premieaanvraag<g id="d72" ctype="lb"/> FOD Werkgelegenheid, Arbeid en Sociaal Overleg, Dienst Gesubsidieerde Contractuelen<g id="d73" ctype="lb"/> Ernest Blerotstraat 1 te 1070 Brussel. </source>
-          <target xml:lang="de" state="final"> Für den Prämienantrag<g id="d74" ctype="lb"/> FÖD Beschäftigung, Arbeit und Soziale Konzertierung, Dienst Bezuschusste Vertragsbedienstete<g id="d75" ctype="lb"/> Ernest Blerotstraat/Rue Ernest Blerot 1 in 1070 Brüssel </target>
+          <source xml:lang="nl"> Voor de premieaanvraag<x id="x72" ctype="x-html-br" equiv-text=" "/> FOD Werkgelegenheid, Arbeid en Sociaal Overleg, Dienst Gesubsidieerde Contractuelen<x id="x73" ctype="x-html-br" equiv-text=" "/> Ernest Blerotstraat 1 te 1070 Brussel. </source>
+          <target xml:lang="de" state="final"> Für den Prämienantrag<x id="x74" ctype="x-html-br" equiv-text=" "/> FÖD Beschäftigung, Arbeit und Soziale Konzertierung, Dienst Bezuschusste Vertragsbedienstete<x id="x75" ctype="x-html-br" equiv-text=" "/> Ernest Blerotstraat/Rue Ernest Blerot 1 in 1070 Brüssel </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu76" resname="/html/body/p[13]">
-          <source xml:lang="nl"> Voor de betaling van de premie<g id="d77" ctype="lb"/> Rijksdienst voor Arbeidsvoorziening, Hoofdbestuur<g id="d78" ctype="lb"/> Keizerslaan 7 te 1000 Brussel. </source>
-          <target xml:lang="de" state="final"> Für die Auszahlung der Prämie<g id="d79" ctype="lb"/> Landesamt für Arbeitsbeschaffung, Hauptverwaltung<g id="d80" ctype="lb"/> Keizerslaan 7 te 1000 Brüssel. </target>
+          <source xml:lang="nl"> Voor de betaling van de premie<x id="x77" ctype="x-html-br" equiv-text=" "/> Rijksdienst voor Arbeidsvoorziening, Hoofdbestuur<x id="x78" ctype="x-html-br" equiv-text=" "/> Keizerslaan 7 te 1000 Brussel. </source>
+          <target xml:lang="de" state="final"> Für die Auszahlung der Prämie<x id="x79" ctype="x-html-br" equiv-text=" "/> Landesamt für Arbeitsbeschaffung, Hauptverwaltung<x id="x80" ctype="x-html-br" equiv-text=" "/> Keizerslaan 7 te 1000 Brüssel. </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu81" resname="/html/body/p[14]">
           <source xml:lang="nl"> 2) Openbare besturen van de Vlaamse Gemeenschap </source>
           <target xml:lang="de" state="final"> 2) Öffentliche Verwaltungen der Flämischen Gemeinschaft </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu82" resname="/html/body/p[15]">
-          <source xml:lang="nl"> Voor de premieaanvraag<g id="d83" ctype="lb"/> Ministerie van de Vlaamse Gemeenschap, Administratie Economie en Werkgelegenheid, Dienst Werkgelegenheid<g id="d84" ctype="lb"/> Markiesstraat 1, 1000 Brussel. </source>
-          <target xml:lang="de" state="final"> Für den Prämienantrag<g id="d85" ctype="lb"/> Ministerium der Flämischen Gemeinschaft, Verwaltung der Wirtschaft und Beschäftigung, Dienststelle Beschäftigung<g id="d86" ctype="lb"/> Markiesstraat 1, 1000 Brüssel. </target>
+          <source xml:lang="nl"> Voor de premieaanvraag<x id="x83" ctype="x-html-br" equiv-text=" "/> Ministerie van de Vlaamse Gemeenschap, Administratie Economie en Werkgelegenheid, Dienst Werkgelegenheid<x id="x84" ctype="x-html-br" equiv-text=" "/> Markiesstraat 1, 1000 Brussel. </source>
+          <target xml:lang="de" state="final"> Für den Prämienantrag<x id="x85" ctype="x-html-br" equiv-text=" "/> Ministerium der Flämischen Gemeinschaft, Verwaltung der Wirtschaft und Beschäftigung, Dienststelle Beschäftigung<x id="x86" ctype="x-html-br" equiv-text=" "/> Markiesstraat 1, 1000 Brüssel. </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu87" resname="/html/body/p[16]">
-          <source xml:lang="nl"> Voor de betaling van de premie<g id="d88" ctype="lb"/> Vlaamse Dienst voor Arbeidsbemiddeling en Beroepsopleiding<g id="d89" ctype="lb"/> Keizerslaan 11, 1000 Brussel. </source>
-          <target xml:lang="de" state="final"> Für die Auszahlung der Prämie<g id="d90" ctype="lb"/> Flämischer Dienst für Arbeitsvermittlung und Berufsausbildung<g id="d91" ctype="lb"/> Keizerslaan 11, 1000 Brüssel. </target>
+          <source xml:lang="nl"> Voor de betaling van de premie<x id="x88" ctype="x-html-br" equiv-text=" "/> Vlaamse Dienst voor Arbeidsbemiddeling en Beroepsopleiding<x id="x89" ctype="x-html-br" equiv-text=" "/> Keizerslaan 11, 1000 Brussel. </source>
+          <target xml:lang="de" state="final"> Für die Auszahlung der Prämie<x id="x90" ctype="x-html-br" equiv-text=" "/> Flämischer Dienst für Arbeitsvermittlung und Berufsausbildung<x id="x91" ctype="x-html-br" equiv-text=" "/> Keizerslaan 11, 1000 Brüssel. </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu92" resname="/html/body/p[17]">
           <source xml:lang="nl"> 3) Openbare besturen van het Waalse Gewest </source>
           <target xml:lang="de" state="final"> 3) Öffentliche Verwaltungen der Wallonischen Region </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu93" resname="/html/body/p[18]">
-          <source xml:lang="nl"> Voor de premieaanvraag<g id="d94" ctype="lb"/> Ministère de la Région wallonne, Direction générale de l'Economie et de l'Emploi, Service de l'Emploi<g id="d95" ctype="lb"/> Place de la Wallonie 1 te 5100 Jambes; </source>
-          <target xml:lang="de" state="final"> Für den Prämienantrag<g id="d96" ctype="lb"/> Ministère de la Région wallonne, Direction générale de l'Economie et de l'Emploi, Service de l'Emploi<g id="d97" ctype="lb"/> Place de la Wallonie 1 in 5100 Jambes; </target>
+          <source xml:lang="nl"> Voor de premieaanvraag<x id="x94" ctype="x-html-br" equiv-text=" "/> Ministère de la Région wallonne, Direction générale de l'Economie et de l'Emploi, Service de l'Emploi<x id="x95" ctype="x-html-br" equiv-text=" "/> Place de la Wallonie 1 te 5100 Jambes; </source>
+          <target xml:lang="de" state="final"> Für den Prämienantrag<x id="x96" ctype="x-html-br" equiv-text=" "/> Ministère de la Région wallonne, Direction générale de l'Economie et de l'Emploi, Service de l'Emploi<x id="x97" ctype="x-html-br" equiv-text=" "/> Place de la Wallonie 1 in 5100 Jambes; </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu98" resname="/html/body/p[19]">
-          <source xml:lang="nl"> Voor de betaling van de premie<g id="d99" ctype="lb"/> Office communautaire et régional de la Formation professionnelle et de l'Emploi<g id="d100" ctype="lb"/> Boulevard Tirou 104 te 6000 Charleroi. </source>
-          <target xml:lang="de" state="final"> Für die Auszahlung der Prämie<g id="d101" ctype="lb"/> Office communautaire et régional de la Formation professionnelle et de l'Emploi<g id="d102" ctype="lb"/> Boulevard Tirou 104 te 6000 Charleroi. </target>
+          <source xml:lang="nl"> Voor de betaling van de premie<x id="x99" ctype="x-html-br" equiv-text=" "/> Office communautaire et régional de la Formation professionnelle et de l'Emploi<x id="x100" ctype="x-html-br" equiv-text=" "/> Boulevard Tirou 104 te 6000 Charleroi. </source>
+          <target xml:lang="de" state="final"> Für die Auszahlung der Prämie<x id="x101" ctype="x-html-br" equiv-text=" "/> Office communautaire et régional de la Formation professionnelle et de l'Emploi<x id="x102" ctype="x-html-br" equiv-text=" "/> Boulevard Tirou 104 te 6000 Charleroi. </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu103" resname="/html/body/p[20]">
           <source xml:lang="nl"> 4) Openbare besturen van het Brussels Hoofdstedelijk Gewest </source>
           <target xml:lang="de" state="final"> 4) Öffentliche Verwaltungen der Region Brüssel-Hauptstadt </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu104" resname="/html/body/p[21]">
-          <source xml:lang="nl"> Voor de aanvraag en de betaling van de premie<g id="d105" ctype="lb"/> Brusselse Gewestelijke Dienst voor Arbeidsbemiddeling<g id="d106" ctype="lb"/> Anspachlaan 65 te 1000 Brussel. </source>
-          <target xml:lang="de" state="final"> Für die Beantragung und Bezahlung der Prämie<g id="d107" ctype="lb"/> Brüsseler regionales Amt für Arbeitsbeschaffung<g id="d108" ctype="lb"/> Anspachlaan 65 in 1000 Brüssel. </target>
+          <source xml:lang="nl"> Voor de aanvraag en de betaling van de premie<x id="x105" ctype="x-html-br" equiv-text=" "/> Brusselse Gewestelijke Dienst voor Arbeidsbemiddeling<x id="x106" ctype="x-html-br" equiv-text=" "/> Anspachlaan 65 te 1000 Brussel. </source>
+          <target xml:lang="de" state="final"> Für die Beantragung und Bezahlung der Prämie<x id="x107" ctype="x-html-br" equiv-text=" "/> Brüsseler regionales Amt für Arbeitsbeschaffung<x id="x108" ctype="x-html-br" equiv-text=" "/> Anspachlaan 65 in 1000 Brüssel. </target>
         </trans-unit>
         <trans-unit restype="x-html-h2" id="tu109" resname="/html/body/h2[4]">
           <source xml:lang="nl"> Te vervullen formaliteiten </source>

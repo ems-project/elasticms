@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 https://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 https://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
   <file source-language="nl" original="content_type:9c329c01cd71580e86683b9d79a376f8176f0176:1015749" datatype="database" target-language="de">
     <body>
       <trans-unit id="tu1" resname="[title]">
@@ -12,8 +12,8 @@
       </trans-unit>
       <group resname="[introduction]" id="grp3">
         <trans-unit restype="x-html-p" id="tu4" resname="/html/body/p">
-          <source xml:lang="nl"> Vanaf 1 januari 2014 wordt de vermindering voor de aanwerving van een 1<g id="d5" ctype="x-html-sup">ste</g> werknemer in de hoedanigheid van huispersoneel als doelgroepvermindering geïntegreerd in het systeem van de geharmoniseerde verminderingen. </source>
-          <target xml:lang="de" state="final"> Ab 01.01.2014 wird die Ermäßigung bei der Einstellung des ersten Arbeitnehmers in der Eigenschaft als Hauspersonal als Zielgruppenermäßigung in das System der harmonisierten Ermäßigungen integriert. <g id="d6" ctype="x-html-sup"/> </target>
+          <source xml:lang="nl"> Vanaf 1 januari 2014 wordt de vermindering voor de aanwerving van een 1<g id="g5" ctype="x-html-sup">ste</g> werknemer in de hoedanigheid van huispersoneel als doelgroepvermindering geïntegreerd in het systeem van de geharmoniseerde verminderingen. </source>
+          <target xml:lang="de" state="final"> Ab 01.01.2014 wird die Ermäßigung bei der Einstellung des ersten Arbeitnehmers in der Eigenschaft als Hauspersonal als Zielgruppenermäßigung in das System der harmonisierten Ermäßigungen integriert. <x id="x6" ctype="x-html-sup" equiv-text=" "/> </target>
         </trans-unit>
       </group>
       <group resname="[description]" id="grp7">
@@ -52,8 +52,8 @@
           <target xml:lang="de" state="final"> Die Beschäftigung mit einem Erstbeschäftigungsabkommen eines gering qualifizierten Jugendlichen gilt als Periode entschädigter Vollarbeitslosigkeit. </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu17" resname="/html/body/p[4]">
-          <source xml:lang="nl"> Onder <g id="d18" ctype="x-html-strong">huispersoneel</g> verstaat men: </source>
-          <target xml:lang="de" state="final"> Mit <g id="d19" ctype="x-html-strong">Hauspersonal</g> sind gemeint: </target>
+          <source xml:lang="nl"> Onder <g id="g18" ctype="x-html-strong">huispersoneel</g> verstaat men: </source>
+          <target xml:lang="de" state="final"> Mit <g id="g19" ctype="x-html-strong">Hauspersonal</g> sind gemeint: </target>
         </trans-unit>
         <group restype="x-html-ul" id="tu20" resname="/html/body/ul[2]">
           <trans-unit restype="listitem" id="tu21" resname="/html/body/ul[2]/li[1]">
@@ -76,8 +76,8 @@
             <target xml:lang="de" state="final"> Wallonische Region (außer die Deutschsprachige Gemeinschaft): </target>
           </trans-unit>
           <trans-unit restype="x-html-p" id="tu26" resname="/html/body/div/p[1]">
-            <source xml:lang="nl"> Vanaf <g id="d27" ctype="x-html-strong">1 juli 2017</g> kan voor werknemers die in dienst treden bij een werkgever voor een tewerkstelling in Wallonië niet langer de 'doelgroepvermindering huispersoneel' toegepast worden. </source>
-            <target xml:lang="de" state="final"> Ab 01.07.2017 kann für Arbeitnehmer, die bei einem Arbeitgeber für eine Beschäftigung in Flandern eingestellt werden, nicht mehr die „Zielgruppenermäßigung Hauspersonal“ angewandt werden.<g id="d28" ctype="x-html-strong"/> </target>
+            <source xml:lang="nl"> Vanaf <g id="g27" ctype="x-html-strong">1 juli 2017</g> kan voor werknemers die in dienst treden bij een werkgever voor een tewerkstelling in Wallonië niet langer de 'doelgroepvermindering huispersoneel' toegepast worden. </source>
+            <target xml:lang="de" state="final"> Ab 01.07.2017 kann für Arbeitnehmer, die bei einem Arbeitgeber für eine Beschäftigung in Flandern eingestellt werden, nicht mehr die „Zielgruppenermäßigung Hauspersonal“ angewandt werden.<x id="x28" ctype="x-html-strong" equiv-text=" "/> </target>
           </trans-unit>
           <trans-unit restype="x-html-p" id="tu29" resname="/html/body/div/p[2]">
             <source xml:lang="nl"> De vermindering is definitief stopgezet op 30 juni 2020.  </source>
@@ -93,8 +93,8 @@
           <target xml:lang="de" state="final"> Betrag der Ermäßigung </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu32" resname="/html/body/p[7]">
-          <source xml:lang="nl"> Een doelgroepvermindering <g id="d33" ctype="x-html-strong">G<g id="d34" ctype="x-html-sub">7</g></g> wordt toegekend gedurende de volledige duur van de tewerkstelling. </source>
-          <target xml:lang="de" state="final"> Eine Zielgruppenermäßigung <g id="d35" ctype="x-html-strong">G<g id="d36" ctype="x-html-sub">7</g></g> wird vertraglichen Ersatzkräften während der gesamten Dauer der Beschäftigung gewährt. </target>
+          <source xml:lang="nl"> Een doelgroepvermindering <g id="g33" ctype="x-html-strong">G<g id="g34" ctype="x-html-sub">7</g></g> wordt toegekend gedurende de volledige duur van de tewerkstelling. </source>
+          <target xml:lang="de" state="final"> Eine Zielgruppenermäßigung <g id="g35" ctype="x-html-strong">G<g id="g36" ctype="x-html-sub">7</g></g> wird vertraglichen Ersatzkräften während der gesamten Dauer der Beschäftigung gewährt. </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu37" resname="/html/body/p[8]">
           <source xml:lang="nl"> Wanneer de arbeidsovereenkomst van deze werknemer een einde neemt, blijft de vermindering behouden indien, binnen de 3 maanden na het einde van de overeenkomst, de werkgever een andere werknemer in de hoedanigheid van huispersoneel aanwerft die de genoemde voorwaarden vervult. </source>

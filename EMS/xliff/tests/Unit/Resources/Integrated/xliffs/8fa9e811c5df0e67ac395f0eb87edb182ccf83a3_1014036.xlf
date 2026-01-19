@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 https://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 https://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
   <file source-language="nl" original="content_type:8fa9e811c5df0e67ac395f0eb87edb182ccf83a3:1014036" datatype="database" target-language="de">
     <body>
       <trans-unit id="tu1" resname="[title]">
@@ -38,8 +38,8 @@
           <target xml:lang="de" state="final"> Betroffene Arbeitnehmer </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu10" resname="/html/body/p[4]">
-          <source xml:lang="nl"> De <g id="d11" ctype="x-html-strong">voltijdse werknemers</g> die tot een categorie van werknemers behoren die voor onbepaalde tijd overgegaan zijn tot, ofwel een effectieve arbeidsduurvermindering van ten minste een vol arbeidsuur onder de 38 uren per week, ofwel een vierdagenweek zoals verder bepaald, ofwel beide, kunnen in aanmerking komen voor deze doelgroepvermindering. </source>
-          <target xml:lang="de" state="final"> <g id="d12" ctype="x-html-strong">Vollzeitarbeitnehmer</g>, die zu einer Arbeitnehmerkategorie gehören, die für unbestimmte Zeit entweder zu einer tatsächlichen Arbeitszeitverkürzung von mindestens einer vollen Arbeitsstunde in der 38-Stunden-Woche oder auf eine Viertagewoche, wie nachstehend festgelegt ist, oder zu beiden übergegangen sind, können für diese Zielgruppenermäßigung in Betracht kommen. </target>
+          <source xml:lang="nl"> De <g id="g11" ctype="x-html-strong">voltijdse werknemers</g> die tot een categorie van werknemers behoren die voor onbepaalde tijd overgegaan zijn tot, ofwel een effectieve arbeidsduurvermindering van ten minste een vol arbeidsuur onder de 38 uren per week, ofwel een vierdagenweek zoals verder bepaald, ofwel beide, kunnen in aanmerking komen voor deze doelgroepvermindering. </source>
+          <target xml:lang="de" state="final"> <g id="g12" ctype="x-html-strong">Vollzeitarbeitnehmer</g>, die zu einer Arbeitnehmerkategorie gehören, die für unbestimmte Zeit entweder zu einer tatsächlichen Arbeitszeitverkürzung von mindestens einer vollen Arbeitsstunde in der 38-Stunden-Woche oder auf eine Viertagewoche, wie nachstehend festgelegt ist, oder zu beiden übergegangen sind, können für diese Zielgruppenermäßigung in Betracht kommen. </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu13" resname="/html/body/p[5]">
           <source xml:lang="nl"> De vermindering geldt alleen wanneer de invoering van de arbeidsduurvermindering vrijwillig gebeurt. Als een werkgever van paritair comité verandert, en terechtkomt in een paritair comité waarin de gemiddelde wekelijkse arbeidsduur lager is dan in het vroegere paritaire comité, dan wordt het zich aanpassen aan die nieuwe arbeidsduur, niet beschouwd als een collectieve arbeidsduurvermindering in de zin van deze bijdragevermindering. </source>
@@ -50,8 +50,8 @@
           <target xml:lang="de" state="final">   </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu15" resname="/html/body/p[7]">
-          <source xml:lang="nl"> <g id="d16" ctype="x-html-strong">Deeltijdse werknemers</g> van wie het loon moet worden aangepast wegens de invoering van de arbeidsduurvermindering komen eveneens in aanmerking. <g id="d17" ctype="lb"/> </source>
-          <target xml:lang="de" state="final"> <g id="d18" ctype="x-html-strong">Teilzeitarbeitnehmer</g>, deren Lohn wegen der Einführung der Arbeitszeitverkürzung angepasst werden muss, kommen auch in Betracht. <g id="d19" ctype="lb"/> </target>
+          <source xml:lang="nl"> <g id="g16" ctype="x-html-strong">Deeltijdse werknemers</g> van wie het loon moet worden aangepast wegens de invoering van de arbeidsduurvermindering komen eveneens in aanmerking. <x id="x17" ctype="x-html-br" equiv-text=" "/> </source>
+          <target xml:lang="de" state="final"> <g id="g18" ctype="x-html-strong">Teilzeitarbeitnehmer</g>, deren Lohn wegen der Einführung der Arbeitszeitverkürzung angepasst werden muss, kommen auch in Betracht. <x id="x19" ctype="x-html-br" equiv-text=" "/> </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu20" resname="/html/body/p[8]">
           <source xml:lang="nl"/>
@@ -62,8 +62,8 @@
           <target xml:lang="de" state="final"/>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu22" resname="/html/body/p[10]">
-          <source xml:lang="nl"> Dit geldt dus enkel wanneer het loon van de absoluut deeltijdse werknemer <g id="d23" ctype="x-html-strong">verplicht</g> verhoogt ten opzichte van een andere werknemer. Wanneer nadien wijzigingen aan de arbeidsovereenkomst worden aangebracht, eindigt het verplichte karakter van de aanpassing. Een verhoging of verlaging van de prestatiebreuk, een verandering van functie, het verlengen van een arbeidsovereenkomst en het hernieuwen van een arbeidsovereenkomst zijn allemaal elementen die het verplichte karakter van de aanpassing teniet doen. </source>
-          <target xml:lang="de" state="final"> Dies gilt nur, wenn der Lohn des absoluten Teilzeitarbeiters im Vergleich zu einem anderen Arbeitnehmer <g id="d24" ctype="x-html-strong">zwangsweise</g> erhöht wird. Werden nachträgliche Änderungen des Arbeitsvertrags vorgenommen, so endet der zwingende Charakter der Anpassung. Eine Erhöhung oder Verringerung des Leistungsbruch, eine Änderung der Funktion, die Verlängerung eines Arbeitsvertrags und die Erneuerung eines Arbeitsvertrags sind alles Elemente, die den zwingenden Charakter der Anpassung aufheben. </target>
+          <source xml:lang="nl"> Dit geldt dus enkel wanneer het loon van de absoluut deeltijdse werknemer <g id="g23" ctype="x-html-strong">verplicht</g> verhoogt ten opzichte van een andere werknemer. Wanneer nadien wijzigingen aan de arbeidsovereenkomst worden aangebracht, eindigt het verplichte karakter van de aanpassing. Een verhoging of verlaging van de prestatiebreuk, een verandering van functie, het verlengen van een arbeidsovereenkomst en het hernieuwen van een arbeidsovereenkomst zijn allemaal elementen die het verplichte karakter van de aanpassing teniet doen. </source>
+          <target xml:lang="de" state="final"> Dies gilt nur, wenn der Lohn des absoluten Teilzeitarbeiters im Vergleich zu einem anderen Arbeitnehmer <g id="g24" ctype="x-html-strong">zwangsweise</g> erhöht wird. Werden nachträgliche Änderungen des Arbeitsvertrags vorgenommen, so endet der zwingende Charakter der Anpassung. Eine Erhöhung oder Verringerung des Leistungsbruch, eine Änderung der Funktion, die Verlängerung eines Arbeitsvertrags und die Erneuerung eines Arbeitsvertrags sind alles Elemente, die den zwingenden Charakter der Anpassung aufheben. </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu25" resname="/html/body/p[11]">
           <source xml:lang="nl"> Een aantal vaststellingen op het terrein wijzen erop dat bepaalde werkgevers dit systeem misbruiken, en het systeem invoeren in een onderneming waar zeer weinig voltijdse werknemers in dienst zijn ten opzichte van het aantal absolute deeltijdsen. In zo een geval zal het tewerkstellingseffect omzeggens onbestaande zijn. Wanneer in zo een geval de arbeidsduurvermindering voor de voltijdsen ingevoerd wordt zonder volledig loonbehoud, zal de RSZ de situatie nader onderzoeken en de vermindering mogelijk weigeren. Het opzet is dan eerder om de loonkost te doen dalen onder andere door middel van het verkrijgen van een bijdragevermindering. </source>
@@ -75,10 +75,10 @@
         </trans-unit>
         <trans-unit id="tu27" resname="/html/body/br">
           <source xml:lang="nl">
-            <g id="d28" ctype="lb"/>
+            <x id="x28" ctype="x-html-br" equiv-text=" "/>
           </source>
           <target xml:lang="de" state="final">
-            <g id="d29" ctype="lb"/>
+            <x id="x29" ctype="x-html-br" equiv-text=" "/>
           </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu30" resname="/html/body/p[13]">
@@ -90,8 +90,8 @@
           <target xml:lang="de" state="final"> Betrag der Ermäßigung </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu32" resname="/html/body/p[14]">
-          <source xml:lang="nl"> De werkgever kan aanspraak maken op een vermindering G<g id="d33" ctype="x-html-sub">2</g> vanaf het kwartaal volgend op het kwartaal waarin de arbeidsduurvermindering of vierdagenweek wordt ingesteld en dit voor: </source>
-          <target xml:lang="de" state="final"> Der Arbeitgeber kann eine Ermäßigung G<g id="d34" ctype="x-html-sub">2</g> ab dem Quartal nach dem Quartal beanspruchen, in dem die Arbeitszeitverkürzung oder Viertagewochenregelung eingeführt wird, und dies für: </target>
+          <source xml:lang="nl"> De werkgever kan aanspraak maken op een vermindering G<g id="g33" ctype="x-html-sub">2</g> vanaf het kwartaal volgend op het kwartaal waarin de arbeidsduurvermindering of vierdagenweek wordt ingesteld en dit voor: </source>
+          <target xml:lang="de" state="final"> Der Arbeitgeber kann eine Ermäßigung G<g id="g34" ctype="x-html-sub">2</g> ab dem Quartal nach dem Quartal beanspruchen, in dem die Arbeitszeitverkürzung oder Viertagewochenregelung eingeführt wird, und dies für: </target>
         </trans-unit>
         <group restype="x-html-ul" id="tu35" resname="/html/body/ul">
           <trans-unit restype="listitem" id="tu36" resname="/html/body/ul/li[1]">
@@ -120,8 +120,8 @@
           <target xml:lang="de" state="final"> Die Ermäßigung infolge der Einführung der Viertagewoche kann nur für Vollzeitarbeitnehmer, nicht für Teilzeitarbeitnehmer angewandt werden. </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu42" resname="/html/body/p[17]">
-          <source xml:lang="nl"> De werkgever kan aanspraak maken op een vermindering G<g id="d43" ctype="x-html-sub">1</g> voor het kwartaal waarin de werknemer in aanmerking komt zowel voor de vermindering als gevolg van het invoeren van de vierdagenweek als voor de vermindering wegens het invoeren van een arbeidsduurvermindering. De doelgroepvermindering kan slechts worden toegekend indien de arbeidsduurvermindering of de invoering van de vierdagenweek gedurende het volledige kwartaal werd gehandhaafd. </source>
-          <target xml:lang="de" state="final"> Der Arbeitgeber kann eine Ermäßigung G<g id="d44" ctype="x-html-sub">1</g> für das Quartal beanspruchen, wobei der Arbeitnehmer sowohl für die Ermäßigung infolge der Einführung der Viertagewochenregelung als auch für die Ermäßigung wegen der Einführung der Arbeitszeitverkürzung in Betracht kommt. Die Zielgruppenermäßigung kann nur gewährt werden, wenn die Arbeitszeitverkürzung oder die Viertagewochenregelung im gesamten Quartal gilt. </target>
+          <source xml:lang="nl"> De werkgever kan aanspraak maken op een vermindering G<g id="g43" ctype="x-html-sub">1</g> voor het kwartaal waarin de werknemer in aanmerking komt zowel voor de vermindering als gevolg van het invoeren van de vierdagenweek als voor de vermindering wegens het invoeren van een arbeidsduurvermindering. De doelgroepvermindering kan slechts worden toegekend indien de arbeidsduurvermindering of de invoering van de vierdagenweek gedurende het volledige kwartaal werd gehandhaafd. </source>
+          <target xml:lang="de" state="final"> Der Arbeitgeber kann eine Ermäßigung G<g id="g44" ctype="x-html-sub">1</g> für das Quartal beanspruchen, wobei der Arbeitnehmer sowohl für die Ermäßigung infolge der Einführung der Viertagewochenregelung als auch für die Ermäßigung wegen der Einführung der Arbeitszeitverkürzung in Betracht kommt. Die Zielgruppenermäßigung kann nur gewährt werden, wenn die Arbeitszeitverkürzung oder die Viertagewochenregelung im gesamten Quartal gilt. </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu45" resname="/html/body/p[18]">
           <source xml:lang="nl"> Voltijdse werknemers die in dienst komen na de invoering van de arbeidsduurvermindering hebben eveneens recht op deze vermindering als ze tot een categorie behoren die daarvoor in aanmerking komt. Hetzelfde geldt voor deeltijdse werknemers die na het kwartaal waarin de vermindering voor de eerste maal wordt toegekend, voltijds gaan werken. De feitelijke situatie waarop de tewerkstellingslijn betrekking heeft, bepaalt of de werknemer tot de rechtopenende groep behoort of niet. </source>
@@ -152,10 +152,10 @@
           <target xml:lang="de" state="final"> Sowohl die durchschnittliche Anzahl der Stunden vor als auch nach der Einführung der Arbeitszeitverkürzung muss in einem separaten Bildschirm der Webanwendung oder in einem separaten Funktionsblock mitgeteilt werden. </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu52" resname="/html/body/p[24]">
-          <source xml:lang="nl"> In wezen kan dit dus verschillen van het gemiddeld <g id="d53" ctype="x-html-a" html:href="%{BASE_URL_CURRENT}%/instructions/fill_in_dmfa/dmfa_fillinrules/workerrecord_occupationrecords/occupationrecord.html"> aantal uren van de maatpersoon</g> bij de definiëring van de tewerkstellingslijn, omdat hier de uren inhaalrust ingevolge een arbeidsduurvermindering wel worden opgenomen. Meer uitleg over de wijze van aangifte vindt u terug bij de bespreking van '<g id="d54" ctype="x-html-a" html:href="%{BASE_URL_CURRENT}%/instructions/fill_in_dmfa/dmfa_fillinrules/servicedatadeclaration/declarationmethod_workerservices.html">aangifte inhaalrust</g>'.<g id="d55" ctype="lb"/> </source>
-          <target xml:lang="de" state="final"> Im Wesentlichen kann sich dies deshalb von der durchschnittlichen <g id="d56" ctype="x-html-a" html:href="%{BASE_URL_CURRENT}%/instructions/fill_in_dmfa/dmfa_fillinrules/workerrecord_occupationrecords/occupationrecord.html"> Anzahl Stunden der Referenzperson</g> bei der Definition der Beschäftigungszeile unterscheiden, da hier die Stunden der Ausgleichsruhe infolge einer Arbeitszeitverkürzung einbezogen werden. Weitere Informationen über die Art der Meldung finden Sie in der Erläuterung der ‚<g id="d57" ctype="x-html-a" html:href="%{BASE_URL_CURRENT}%/instructions/fill_in_dmfa/dmfa_fillinrules/servicedatadeclaration/declarationmethod_workerservices.html">Meldung der Ausgleichsruhe</g>‘.<g id="d58" ctype="lb"/> </target>
+          <source xml:lang="nl"> In wezen kan dit dus verschillen van het gemiddeld <bx id="bx54" rid="rid53" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/fill_in_dmfa/dmfa_fillinrules/workerrecord_occupationrecords/occupationrecord.html&amp;quot;&amp;gt;" ctype="x-html-a"/> aantal uren van de maatpersoon<ex id="ex55" rid="rid53" equiv-text="&amp;lt;/a&amp;gt;" ctype="x-html-a"/> bij de definiëring van de tewerkstellingslijn, omdat hier de uren inhaalrust ingevolge een arbeidsduurvermindering wel worden opgenomen. Meer uitleg over de wijze van aangifte vindt u terug bij de bespreking van '<bx id="bx57" rid="rid56" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/fill_in_dmfa/dmfa_fillinrules/servicedatadeclaration/declarationmethod_workerservices.html&amp;quot;&amp;gt;" ctype="x-html-a"/>aangifte inhaalrust<ex id="ex58" rid="rid56" equiv-text="&amp;lt;/a&amp;gt;" ctype="x-html-a"/>'.<x id="x59" ctype="x-html-br" equiv-text=" "/> </source>
+          <target xml:lang="de" state="final"> Im Wesentlichen kann sich dies deshalb von der durchschnittlichen <bx id="bx61" rid="rid60" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/fill_in_dmfa/dmfa_fillinrules/workerrecord_occupationrecords/occupationrecord.html&amp;quot;&amp;gt;" ctype="x-html-a"/> Anzahl Stunden der Referenzperson<ex id="ex62" rid="rid60" equiv-text="&amp;lt;/a&amp;gt;" ctype="x-html-a"/> bei der Definition der Beschäftigungszeile unterscheiden, da hier die Stunden der Ausgleichsruhe infolge einer Arbeitszeitverkürzung einbezogen werden. Weitere Informationen über die Art der Meldung finden Sie in der Erläuterung der ‚<bx id="bx64" rid="rid63" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/fill_in_dmfa/dmfa_fillinrules/servicedatadeclaration/declarationmethod_workerservices.html&amp;quot;&amp;gt;" ctype="x-html-a"/>Meldung der Ausgleichsruhe<ex id="ex65" rid="rid63" equiv-text="&amp;lt;/a&amp;gt;" ctype="x-html-a"/>‘.<x id="x66" ctype="x-html-br" equiv-text=" "/> </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu59" resname="/html/body/p[25]">
+        <trans-unit restype="x-html-p" id="tu67" resname="/html/body/p[25]">
           <source xml:lang="nl"> De datum van inwerkingtreding van het stelsel moet eveneens worden meegedeeld. </source>
           <target xml:lang="de" state="final"> Das Datum des Inkrafttretens des Systems ist auch mitzuteilen. </target>
         </trans-unit>

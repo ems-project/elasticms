@@ -30,28 +30,28 @@
     <group name="[%locale%][body]" id="grp5">
       <unit id="tu6" name="/html/body/p[1]">
         <segment id="tu7" name="/html/body/p[1]">
-          <source> Hello Mathieu, please visits <g id="d8" ctype="x-html-a" html:href="https://elasticms.eu/path%20with%20space?a1=value1&amp;a2=value2#anchor"> <g id="d9" ctype="italic" html:class="elasticms"/>The elastic<g id="d10" ctype="bold">ms</g> web site</g> </source>
-          <target> Bonjour Mathieu<g id="d11" ctype="x-html-a" html:href="https://elasticms.eu/path%20with%20space?a1=value1&amp;a2=value2#anchor">Le site d&#180;elasticms</g> </target>
+          <source> Hello Mathieu, please visits <bx id="bx9" rid="rid8" equiv-text="&amp;lt;a href=&amp;quot;https://elasticms.eu/path%20with%20space?a1=value1&amp;amp;amp;a2=value2#anchor&amp;quot;&amp;gt;" ctype="x-html-a"/> <x id="x10" ctype="x-html-i" equiv-text="&amp;lt;i class=&amp;quot;elasticms&amp;quot;&amp;gt;&amp;lt;/i&amp;gt;"/>The elastic<g id="g11" ctype="bold">ms</g> web site<ex id="ex12" rid="rid8" equiv-text="&amp;lt;/a&amp;gt;" ctype="x-html-a"/> </source>
+          <target> Bonjour Mathieu<bx id="bx14" rid="rid13" equiv-text="&amp;lt;a href=&amp;quot;https://elasticms.eu/path%20with%20space?a1=value1&amp;amp;amp;a2=value2#anchor&amp;quot;&amp;gt;" ctype="x-html-a"/>Le site d&#180;elasticms<ex id="ex15" rid="rid13" equiv-text="&amp;lt;/a&amp;gt;" ctype="x-html-a"/> </target>
         </segment>
       </unit>
-      <unit id="tu12" name="/html/body/p[2]">
-        <segment id="tu13" name="/html/body/p[2]">
-          <source> Hello Mathieu, please visits <g id="d14" ctype="x-html-a" html:href="https://elasticms.eu/path%20with%20space?a1=value1&amp;a2=value2#anchor"> <g id="d15" ctype="italic" html:class="elasticms"/>The elastic<g id="d16" ctype="bold">ms</g> web site</g> </source>
-          <target> Bonjour Mathieu<g id="d17" ctype="x-html-a" html:href="https://elasticms.eu/path%20with%20space?a1=value1&amp;a2=value2#anchor">Le site d&#180;elasticms</g> </target>
+      <unit id="tu16" name="/html/body/p[2]">
+        <segment id="tu17" name="/html/body/p[2]">
+          <source> Hello Mathieu, please visits <bx id="bx19" rid="rid18" equiv-text="&amp;lt;a href=&amp;quot;https://elasticms.eu/path%20with%20space?a1=value1&amp;amp;amp;a2=value2#anchor&amp;quot;&amp;gt;" ctype="x-html-a"/> <x id="x20" ctype="x-html-i" equiv-text="&amp;lt;i class=&amp;quot;elasticms&amp;quot;&amp;gt;&amp;lt;/i&amp;gt;"/>The elastic<g id="g21" ctype="bold">ms</g> web site<ex id="ex22" rid="rid18" equiv-text="&amp;lt;/a&amp;gt;" ctype="x-html-a"/> </source>
+          <target> Bonjour Mathieu<bx id="bx24" rid="rid23" equiv-text="&amp;lt;a href=&amp;quot;https://elasticms.eu/path%20with%20space?a1=value1&amp;amp;amp;a2=value2#anchor&amp;quot;&amp;gt;" ctype="x-html-a"/>Le site d&#180;elasticms<ex id="ex25" rid="rid23" equiv-text="&amp;lt;/a&amp;gt;" ctype="x-html-a"/> </target>
         </segment>
       </unit>
     </group>
-    <group name="[%locale%][body2]" id="grp18">
-      <unit id="tu19" name="/html/body/p[1]">
-        <segment id="tu20" name="/html/body/p[1]">
-          <source> Hello Mathieu, please visits <g id="d21" ctype="x-html-a" html:href="https://elasticms.eu/path%20with%20space?a1=value1&amp;a2=value2#anchor"> <g id="d22" ctype="italic" html:class="elasticms"/>The elastic<g id="d23" ctype="bold">ms</g> web site</g> </source>
-          <target> Bonjour Mathieu<g id="d24" ctype="x-html-a" html:href="https://elasticms.eu/path%20with%20space?a1=value1&amp;a2=value2#anchor">Le site d&#180;elasticms</g> </target>
+    <group name="[%locale%][body2]" id="grp26">
+      <unit id="tu27" name="/html/body/p[1]">
+        <segment id="tu28" name="/html/body/p[1]">
+          <source> Hello Mathieu, please visits <bx id="bx30" rid="rid29" equiv-text="&amp;lt;a href=&amp;quot;https://elasticms.eu/path%20with%20space?a1=value1&amp;amp;amp;a2=value2#anchor&amp;quot;&amp;gt;" ctype="x-html-a"/> <x id="x31" ctype="x-html-i" equiv-text="&amp;lt;i class=&amp;quot;elasticms&amp;quot;&amp;gt;&amp;lt;/i&amp;gt;"/>The elastic<g id="g32" ctype="bold">ms</g> web site<ex id="ex33" rid="rid29" equiv-text="&amp;lt;/a&amp;gt;" ctype="x-html-a"/> </source>
+          <target> Bonjour Mathieu<bx id="bx35" rid="rid34" equiv-text="&amp;lt;a href=&amp;quot;https://elasticms.eu/path%20with%20space?a1=value1&amp;amp;amp;a2=value2#anchor&amp;quot;&amp;gt;" ctype="x-html-a"/>Le site d&#180;elasticms<ex id="ex36" rid="rid34" equiv-text="&amp;lt;/a&amp;gt;" ctype="x-html-a"/> </target>
         </segment>
       </unit>
-      <unit id="tu25" name="/html/body/p[2]">
-        <segment id="tu26" name="/html/body/p[2]">
-          <source> Hello Mathieu, please visits <g id="d27" ctype="x-html-a" html:href="https://elasticms.eu/path%20with%20space?a1=value1&amp;a2=value2#anchor"> <g id="d28" ctype="italic" html:class="elasticms"/>The elastic<g id="d29" ctype="bold">ms</g> web site</g> </source>
-          <target> Bonjour Mathieu<g id="d30" ctype="x-html-a" html:href="https://elasticms.eu/path%20with%20space?a1=value1&amp;a2=value2#anchor">Le site d&#180;elasticms</g> </target>
+      <unit id="tu37" name="/html/body/p[2]">
+        <segment id="tu38" name="/html/body/p[2]">
+          <source> Hello Mathieu, please visits <bx id="bx40" rid="rid39" equiv-text="&amp;lt;a href=&amp;quot;https://elasticms.eu/path%20with%20space?a1=value1&amp;amp;amp;a2=value2#anchor&amp;quot;&amp;gt;" ctype="x-html-a"/> <x id="x41" ctype="x-html-i" equiv-text="&amp;lt;i class=&amp;quot;elasticms&amp;quot;&amp;gt;&amp;lt;/i&amp;gt;"/>The elastic<g id="g42" ctype="bold">ms</g> web site<ex id="ex43" rid="rid39" equiv-text="&amp;lt;/a&amp;gt;" ctype="x-html-a"/> </source>
+          <target> Bonjour Mathieu<bx id="bx45" rid="rid44" equiv-text="&amp;lt;a href=&amp;quot;https://elasticms.eu/path%20with%20space?a1=value1&amp;amp;amp;a2=value2#anchor&amp;quot;&amp;gt;" ctype="x-html-a"/>Le site d&#180;elasticms<ex id="ex46" rid="rid44" equiv-text="&amp;lt;/a&amp;gt;" ctype="x-html-a"/> </target>
         </segment>
       </unit>
     </group>

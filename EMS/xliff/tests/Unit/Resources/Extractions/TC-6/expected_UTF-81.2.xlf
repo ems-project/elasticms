@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 https://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 https://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
   <file source-language="en" original="contentType:ouuid_1:revisionId_1" datatype="database" target-language="fr">
     <body>
       <trans-unit id="tu1" resname="[title_%locale%]">
@@ -24,14 +24,14 @@
       </trans-unit>
       <group resname="[%locale%][body]" id="grp5">
         <trans-unit restype="x-html-p" id="tu6" resname="/html/body/p">
-          <source xml:lang="en">Hello Mathieu, please visits <g id="d7" ctype="x-html-a" html:href="https://elasticms.eu/path%20with%20space?a1=value1&amp;a2=value2#anchor"> <g id="d8" ctype="italic" html:class="elasticms"/>The elastic<g id="d9" ctype="bold">ms</g> web site</g></source>
-          <target xml:lang="fr" state="needs-translation">Bonjour Mathieu<g id="d10" ctype="x-html-a" html:href="https://elasticms.eu/path%20with%20space?a1=value1&amp;a2=value2#anchor">Le site d´elasticms</g></target>
+          <source xml:lang="en">Hello Mathieu, please visits <bx id="bx8" rid="rid7" equiv-text="&amp;lt;a href=&amp;quot;https://elasticms.eu/path%20with%20space?a1=value1&amp;amp;amp;a2=value2#anchor&amp;quot;&amp;gt;" ctype="x-html-a"/> <x id="x9" ctype="x-html-i" equiv-text="&amp;lt;i class=&amp;quot;elasticms&amp;quot;&amp;gt;&amp;lt;/i&amp;gt;"/>The elastic<g id="g10" ctype="bold">ms</g> web site<ex id="ex11" rid="rid7" equiv-text="&amp;lt;/a&amp;gt;" ctype="x-html-a"/></source>
+          <target xml:lang="fr" state="needs-translation">Bonjour Mathieu<bx id="bx13" rid="rid12" equiv-text="&amp;lt;a href=&amp;quot;https://elasticms.eu/path%20with%20space?a1=value1&amp;amp;amp;a2=value2#anchor&amp;quot;&amp;gt;" ctype="x-html-a"/>Le site d´elasticms<ex id="ex14" rid="rid12" equiv-text="&amp;lt;/a&amp;gt;" ctype="x-html-a"/></target>
         </trans-unit>
       </group>
-      <group resname="[%locale%][body2]" id="grp11">
-        <trans-unit restype="x-html-p" id="tu12" resname="/html/body/p">
-          <source xml:lang="en">Hello Mathieu, please visits <g id="d13" ctype="x-html-a" html:href="https://elasticms.eu/path%20with%20space?a1=value1&amp;a2=value2#anchor"> <g id="d14" ctype="italic" html:class="elasticms"/>The elastic<g id="d15" ctype="bold">ms</g> web site</g></source>
-          <target xml:lang="fr" state="final">Bonjour Mathieu<g id="d16" ctype="x-html-a" html:href="https://elasticms.eu/path%20with%20space?a1=value1&amp;a2=value2#anchor">Le site d´elasticms</g></target>
+      <group resname="[%locale%][body2]" id="grp15">
+        <trans-unit restype="x-html-p" id="tu16" resname="/html/body/p">
+          <source xml:lang="en">Hello Mathieu, please visits <bx id="bx18" rid="rid17" equiv-text="&amp;lt;a href=&amp;quot;https://elasticms.eu/path%20with%20space?a1=value1&amp;amp;amp;a2=value2#anchor&amp;quot;&amp;gt;" ctype="x-html-a"/> <x id="x19" ctype="x-html-i" equiv-text="&amp;lt;i class=&amp;quot;elasticms&amp;quot;&amp;gt;&amp;lt;/i&amp;gt;"/>The elastic<g id="g20" ctype="bold">ms</g> web site<ex id="ex21" rid="rid17" equiv-text="&amp;lt;/a&amp;gt;" ctype="x-html-a"/></source>
+          <target xml:lang="fr" state="final">Bonjour Mathieu<bx id="bx23" rid="rid22" equiv-text="&amp;lt;a href=&amp;quot;https://elasticms.eu/path%20with%20space?a1=value1&amp;amp;amp;a2=value2#anchor&amp;quot;&amp;gt;" ctype="x-html-a"/>Le site d´elasticms<ex id="ex24" rid="rid22" equiv-text="&amp;lt;/a&amp;gt;" ctype="x-html-a"/></target>
         </trans-unit>
       </group>
     </body>

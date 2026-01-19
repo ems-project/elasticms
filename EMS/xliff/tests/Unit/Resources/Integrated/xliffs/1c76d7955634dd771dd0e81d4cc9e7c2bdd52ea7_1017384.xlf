@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 https://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 https://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
   <file source-language="nl" original="content_type:1c76d7955634dd771dd0e81d4cc9e7c2bdd52ea7:1017384" datatype="database" target-language="de">
     <body>
       <trans-unit id="tu1" resname="[title]">
@@ -12,8 +12,8 @@
       </trans-unit>
       <group resname="[introduction]" id="grp3">
         <trans-unit restype="x-html-p" id="tu4" resname="/html/body/p">
-          <source xml:lang="nl"> Dit hoofdstuk betreft de herinschakeling van zeer moeilijk te plaatsen werklozen.<g id="d5" ctype="lb"/> </source>
-          <target xml:lang="de" state="final"> Dieses Kapitel betrifft die Wiedereingliederung von schwer zu vermittelnden Arbeitslosen.<g id="d6" ctype="lb"/> </target>
+          <source xml:lang="nl"> Dit hoofdstuk betreft de herinschakeling van zeer moeilijk te plaatsen werklozen.<x id="x5" ctype="x-html-br" equiv-text=" "/> </source>
+          <target xml:lang="de" state="final"> Dieses Kapitel betrifft die Wiedereingliederung von schwer zu vermittelnden Arbeitslosen.<x id="x6" ctype="x-html-br" equiv-text=" "/> </target>
         </trans-unit>
       </group>
       <group resname="[description]" id="grp7">
@@ -233,12 +233,12 @@
         </trans-unit>
         <group restype="x-html-ul" id="tu69" resname="/html/body/ul[4]">
           <trans-unit restype="listitem" id="tu70" resname="/html/body/ul[4]/li[1]">
-            <source xml:lang="nl">voor <g id="d71" ctype="x-html-strong">Vlaanderen</g>: de werknemer die vóór 1 januari 2016 bij de werkgever tewerkgesteld was als gesubsidieerde contractueel; </source>
-            <target xml:lang="de" state="final">für <g id="d72" ctype="x-html-strong">Flandern</g>: der Arbeitnehmer, der vor dem 01.01.2016 beim Arbeitgeber als bezuschusster Vertragsbediensteter beschäftigt war; </target>
+            <source xml:lang="nl">voor <g id="g71" ctype="x-html-strong">Vlaanderen</g>: de werknemer die vóór 1 januari 2016 bij de werkgever tewerkgesteld was als gesubsidieerde contractueel; </source>
+            <target xml:lang="de" state="final">für <g id="g72" ctype="x-html-strong">Flandern</g>: der Arbeitnehmer, der vor dem 01.01.2016 beim Arbeitgeber als bezuschusster Vertragsbediensteter beschäftigt war; </target>
           </trans-unit>
           <trans-unit restype="listitem" id="tu73" resname="/html/body/ul[4]/li[2]">
-            <source xml:lang="nl">voor <g id="d74" ctype="x-html-strong">Vlaanderen:</g> de werknemer die de werkgever opnieuw in dienst neemt binnen een periode van 12 maanden na beëindiging van de vorige arbeidsovereenkomst waarvoor hij de voordelen gesubsidieerde contractueel genoten heeft. </source>
-            <target xml:lang="de" state="final">für <g id="d75" ctype="x-html-strong">Flandern:</g> der Arbeitnehmer, den der Arbeitgeber innerhalb einer Frist von 12 Monaten nach Beendigung des vorausgehenden Arbeitsvertrags, für den er die Vorteile eines bezuschussten Vertragsbediensteten erhalten hat, erneut einstellt. </target>
+            <source xml:lang="nl">voor <g id="g74" ctype="x-html-strong">Vlaanderen:</g> de werknemer die de werkgever opnieuw in dienst neemt binnen een periode van 12 maanden na beëindiging van de vorige arbeidsovereenkomst waarvoor hij de voordelen gesubsidieerde contractueel genoten heeft. </source>
+            <target xml:lang="de" state="final">für <g id="g75" ctype="x-html-strong">Flandern:</g> der Arbeitnehmer, den der Arbeitgeber innerhalb einer Frist von 12 Monaten nach Beendigung des vorausgehenden Arbeitsvertrags, für den er die Vorteile eines bezuschussten Vertragsbediensteten erhalten hat, erneut einstellt. </target>
           </trans-unit>
         </group>
         <trans-unit restype="x-html-p" id="tu76" resname="/html/body/p[8]">
@@ -252,12 +252,12 @@
             <target xml:lang="de" state="final"> Deutschsprachige Gemeinschaft: </target>
           </trans-unit>
           <trans-unit restype="x-html-p" id="tu79" resname="/html/body/div[1]/p[1]">
-            <source xml:lang="nl"> Vanaf <g id="d80" ctype="x-html-strong">1 januari 2019</g> kan voor werknemers die in dienst treden bij een werkgever voor een tewerkstelling in een van de gemeentes van de <g id="d81" ctype="x-html-strong">Duitstalige Gemeenschap</g>, niet langer de 'doelgroepvermindering langdurig werkzoekenden - SINE' toegepast worden. </source>
-            <target xml:lang="de" state="final"> Ab <g id="d82" ctype="x-html-strong">01.01.2019</g> kann für Arbeitnehmer, die bei einem Arbeitgeber für eine Beschäftigung in einer der Gemeinden der <g id="d83" ctype="x-html-strong">Deutschsprachigen Gemeinschaft</g> eingestellt werden, nicht mehr die „Zielgruppenermäßigung Langzeitarbeitssuchende - SINE“ angewandt werden. </target>
+            <source xml:lang="nl"> Vanaf <g id="g80" ctype="x-html-strong">1 januari 2019</g> kan voor werknemers die in dienst treden bij een werkgever voor een tewerkstelling in een van de gemeentes van de <g id="g81" ctype="x-html-strong">Duitstalige Gemeenschap</g>, niet langer de 'doelgroepvermindering langdurig werkzoekenden - SINE' toegepast worden. </source>
+            <target xml:lang="de" state="final"> Ab <g id="g82" ctype="x-html-strong">01.01.2019</g> kann für Arbeitnehmer, die bei einem Arbeitgeber für eine Beschäftigung in einer der Gemeinden der <g id="g83" ctype="x-html-strong">Deutschsprachigen Gemeinschaft</g> eingestellt werden, nicht mehr die „Zielgruppenermäßigung Langzeitarbeitssuchende - SINE“ angewandt werden. </target>
           </trans-unit>
           <trans-unit restype="x-html-p" id="tu84" resname="/html/body/div[1]/p[2]">
-            <source xml:lang="nl"> Als <g id="d85" ctype="x-html-strong">overgangsmaatregel</g> kunnen werkgevers die werknemers hebben die in dienst getreden zijn vóór 1 januari 2019 en <g id="d86" ctype="x-html-strong">ononderbroken</g> verder in dienst blijven (met een doorlopende of aansluitende arbeidsovereenkomst), voor deze werknemers voor de hen resterende kwartalen en onder dezelfde voorwaarden, de vermindering blijven genieten. Er zijn <g id="d87" ctype="x-html-strong">specifieke verminderingscodes</g> voor deze overgangsmaatregelen. Er is geen einddatum van de overgangsmaatregelen voorzien.  </source>
-            <target xml:lang="de" state="final"> Als <g id="d88" ctype="x-html-strong">Übergangsmaßnahme</g> können Arbeitgeber, die Arbeitnehmer eingestellt haben, die vor 01.01.2019 ihren Dienst antraten und <g id="d89" ctype="x-html-strong">ununterbrochen</g> weiter im Dienst bleiben (mit einem dauerhaften oder anschließenden Arbeitsvertrag), die Ermäßigung für diese Arbeitnehmer für die ihnen verbleibenden Quartale unter den gleichen Bedingungen weiterhin beanspruchen. Es gibt <g id="d90" ctype="x-html-strong">spezielle Ermäßigungscodes</g> für diese Übergangsmaßnahmen. Es ist kein Enddatum für die Übergangsmaßnahmen vorgesehen.  </target>
+            <source xml:lang="nl"> Als <g id="g85" ctype="x-html-strong">overgangsmaatregel</g> kunnen werkgevers die werknemers hebben die in dienst getreden zijn vóór 1 januari 2019 en <g id="g86" ctype="x-html-strong">ononderbroken</g> verder in dienst blijven (met een doorlopende of aansluitende arbeidsovereenkomst), voor deze werknemers voor de hen resterende kwartalen en onder dezelfde voorwaarden, de vermindering blijven genieten. Er zijn <g id="g87" ctype="x-html-strong">specifieke verminderingscodes</g> voor deze overgangsmaatregelen. Er is geen einddatum van de overgangsmaatregelen voorzien.  </source>
+            <target xml:lang="de" state="final"> Als <g id="g88" ctype="x-html-strong">Übergangsmaßnahme</g> können Arbeitgeber, die Arbeitnehmer eingestellt haben, die vor 01.01.2019 ihren Dienst antraten und <g id="g89" ctype="x-html-strong">ununterbrochen</g> weiter im Dienst bleiben (mit einem dauerhaften oder anschließenden Arbeitsvertrag), die Ermäßigung für diese Arbeitnehmer für die ihnen verbleibenden Quartale unter den gleichen Bedingungen weiterhin beanspruchen. Es gibt <g id="g90" ctype="x-html-strong">spezielle Ermäßigungscodes</g> für diese Übergangsmaßnahmen. Es ist kein Enddatum für die Übergangsmaßnahmen vorgesehen.  </target>
           </trans-unit>
         </group>
         <trans-unit restype="x-html-p" id="tu91" resname="/html/body/p[9]">
@@ -271,8 +271,8 @@
             <target xml:lang="de" state="final"> Region Brüssel-Hauptstadt: </target>
           </trans-unit>
           <trans-unit restype="x-html-p" id="tu94" resname="/html/body/div[2]/p">
-            <source xml:lang="nl"> Vanaf <g id="d95" ctype="x-html-strong">1 januari 2021</g> kan de 'doelgroepvermindering langdurig werkzoekenden - SINE' niet langer toegepast worden voor een tewerkstelling in het <g id="d96" ctype="x-html-strong">Brussels Hoofdstedelijk Gewest</g> </source>
-            <target xml:lang="de" state="final"> Ab dem <g id="d97" ctype="x-html-strong">01. Januar 2021</g> kann die ‚Zielgruppenermäßigung langfristig Arbeitsuchende - SINE‘ nicht länger für eine Beschäftigung in der <g id="d98" ctype="x-html-strong">Region Brüssel-Hauptstadt</g> angewandt werden. </target>
+            <source xml:lang="nl"> Vanaf <g id="g95" ctype="x-html-strong">1 januari 2021</g> kan de 'doelgroepvermindering langdurig werkzoekenden - SINE' niet langer toegepast worden voor een tewerkstelling in het <g id="g96" ctype="x-html-strong">Brussels Hoofdstedelijk Gewest</g> </source>
+            <target xml:lang="de" state="final"> Ab dem <g id="g97" ctype="x-html-strong">01. Januar 2021</g> kann die ‚Zielgruppenermäßigung langfristig Arbeitsuchende - SINE‘ nicht länger für eine Beschäftigung in der <g id="g98" ctype="x-html-strong">Region Brüssel-Hauptstadt</g> angewandt werden. </target>
           </trans-unit>
         </group>
         <trans-unit restype="x-html-h2" id="tu99" resname="/html/body/h2[3]">
@@ -285,21 +285,21 @@
         </trans-unit>
         <group restype="x-html-ul" id="tu101" resname="/html/body/ul[5]">
           <trans-unit restype="listitem" id="tu102" resname="/html/body/ul[5]/li[1]">
-            <source xml:lang="nl">categorie 1° en 4°: G<g id="d103" ctype="x-html-sub">1</g> gedurende het kwartaal van indienstneming en de 10 daarop volgende kwartalen (wanneer de bevoegde regionale dienst voor arbeidsbemiddeling na afloop van de 10 kwartalen oordeelt dat de werknemer nog altijd niet geschikt is om zich te integreren in de gewone arbeidsmarkt, kan de duur van de doelgroepvermindering verlengd worden met een nieuwe periode van maximum 10 kwartalen); </source>
-            <target xml:lang="de" state="final">Kategorie 1° und 4°: G<g id="d104" ctype="x-html-sub">1</g> im Quartal des Dienstantritts und den 10 folgenden Quartalen (wenn das zuständige regionale Arbeitsvermittlungsamt nach den 10 Quartalen der Ansicht ist, dass der Arbeitnehmer immer noch nicht geeignet ist, sich in den normalen Arbeitsmarkt zu integrieren, kann die Dauer der Zielgruppenermäßigung um eine neue Periode von höchstens 10 Quartalen verlängert werden); </target>
+            <source xml:lang="nl">categorie 1° en 4°: G<g id="g103" ctype="x-html-sub">1</g> gedurende het kwartaal van indienstneming en de 10 daarop volgende kwartalen (wanneer de bevoegde regionale dienst voor arbeidsbemiddeling na afloop van de 10 kwartalen oordeelt dat de werknemer nog altijd niet geschikt is om zich te integreren in de gewone arbeidsmarkt, kan de duur van de doelgroepvermindering verlengd worden met een nieuwe periode van maximum 10 kwartalen); </source>
+            <target xml:lang="de" state="final">Kategorie 1° und 4°: G<g id="g104" ctype="x-html-sub">1</g> im Quartal des Dienstantritts und den 10 folgenden Quartalen (wenn das zuständige regionale Arbeitsvermittlungsamt nach den 10 Quartalen der Ansicht ist, dass der Arbeitnehmer immer noch nicht geeignet ist, sich in den normalen Arbeitsmarkt zu integrieren, kann die Dauer der Zielgruppenermäßigung um eine neue Periode von höchstens 10 Quartalen verlängert werden); </target>
           </trans-unit>
           <trans-unit restype="listitem" id="tu105" resname="/html/body/ul[5]/li[2]">
-            <source xml:lang="nl">categorie 2° en 5°: G<g id="d106" ctype="x-html-sub">1</g> gedurende het kwartaal van indienstneming en de 20 daarop volgende kwartalen (wanneer de bevoegde regionale dienst voor arbeidsbemiddeling na afloop van de 20 kwartalen oordeelt dat de werknemer nog altijd niet geschikt is om zich te integreren in de gewone arbeidsmarkt, kan de duur van de doelgroepvermindering verlengd worden met een nieuwe periode van maximum 20 kwartalen); </source>
-            <target xml:lang="de" state="final">Kategorie 2° und 5°: G<g id="d107" ctype="x-html-sub">1</g> im Quartal des Dienstantritts und den 20 folgenden Quartalen (wenn das zuständige regionale Arbeitsvermittlungsamt nach den 20 Quartalen der Ansicht ist, dass der Arbeitnehmer immer noch nicht geeignet ist, sich in den normalen Arbeitsmarkt zu integrieren, kann die Dauer der Zielgruppenermäßigung um eine neue Periode von höchstens 20 Quartalen verlängert werden); </target>
+            <source xml:lang="nl">categorie 2° en 5°: G<g id="g106" ctype="x-html-sub">1</g> gedurende het kwartaal van indienstneming en de 20 daarop volgende kwartalen (wanneer de bevoegde regionale dienst voor arbeidsbemiddeling na afloop van de 20 kwartalen oordeelt dat de werknemer nog altijd niet geschikt is om zich te integreren in de gewone arbeidsmarkt, kan de duur van de doelgroepvermindering verlengd worden met een nieuwe periode van maximum 20 kwartalen); </source>
+            <target xml:lang="de" state="final">Kategorie 2° und 5°: G<g id="g107" ctype="x-html-sub">1</g> im Quartal des Dienstantritts und den 20 folgenden Quartalen (wenn das zuständige regionale Arbeitsvermittlungsamt nach den 20 Quartalen der Ansicht ist, dass der Arbeitnehmer immer noch nicht geeignet ist, sich in den normalen Arbeitsmarkt zu integrieren, kann die Dauer der Zielgruppenermäßigung um eine neue Periode von höchstens 20 Quartalen verlängert werden); </target>
           </trans-unit>
           <trans-unit restype="listitem" id="tu108" resname="/html/body/ul[5]/li[3]">
-            <source xml:lang="nl">categorie 3° en 6°: G<g id="d109" ctype="x-html-sub">1</g> gedurende het kwartaal van indienstneming en de daarop volgende kwartalen. </source>
-            <target xml:lang="de" state="final">Kategorie 3° und 6°: G<g id="d110" ctype="x-html-sub">1</g> im Quartal des Dienstantritts und den darauf folgenden Quartalen; </target>
+            <source xml:lang="nl">categorie 3° en 6°: G<g id="g109" ctype="x-html-sub">1</g> gedurende het kwartaal van indienstneming en de daarop volgende kwartalen. </source>
+            <target xml:lang="de" state="final">Kategorie 3° und 6°: G<g id="g110" ctype="x-html-sub">1</g> im Quartal des Dienstantritts und den darauf folgenden Quartalen; </target>
           </trans-unit>
         </group>
         <trans-unit restype="x-html-p" id="tu111" resname="/html/body/p[11]">
-          <source xml:lang="nl"> Indien een werkgever deze vermindering reeds heeft genoten voor een werknemer die hij opnieuw in dienst neemt binnen de 12 maanden na het einde van de vorige arbeidsovereenkomst, wordt de tewerkstelling geacht ononderbroken te zijn voor wat betreft het vaststellen van het recht op de vermindering G<g id="d112" ctype="x-html-sub">1</g> en het aantal resterende kwartalen dat hij hierop nog recht heeft. De periode van onderbreking verlengt dus de periode waarin de voordelen kunnen worden toegekend, niet. </source>
-          <target xml:lang="de" state="final"> Wenn ein Arbeitgeber diese Ermäßigung bereits für einen Arbeitnehmer beansprucht hat, den er innerhalb einer Periode von 12 Monaten nach dem Ende des vorigen Arbeitsvertrags neu einstellt, gilt die Beschäftigung als ununterbrochen für die Feststellung des Rechts auf die Ermäßigung G<g id="d113" ctype="x-html-sub">1</g> und der Anzahl der restlichen Quartale, für die dieses Recht noch gilt. Die Periode der Unterbrechung verlängert deshalb nicht die Periode, während derer die Vorteile gewährt werden können. </target>
+          <source xml:lang="nl"> Indien een werkgever deze vermindering reeds heeft genoten voor een werknemer die hij opnieuw in dienst neemt binnen de 12 maanden na het einde van de vorige arbeidsovereenkomst, wordt de tewerkstelling geacht ononderbroken te zijn voor wat betreft het vaststellen van het recht op de vermindering G<g id="g112" ctype="x-html-sub">1</g> en het aantal resterende kwartalen dat hij hierop nog recht heeft. De periode van onderbreking verlengt dus de periode waarin de voordelen kunnen worden toegekend, niet. </source>
+          <target xml:lang="de" state="final"> Wenn ein Arbeitgeber diese Ermäßigung bereits für einen Arbeitnehmer beansprucht hat, den er innerhalb einer Periode von 12 Monaten nach dem Ende des vorigen Arbeitsvertrags neu einstellt, gilt die Beschäftigung als ununterbrochen für die Feststellung des Rechts auf die Ermäßigung G<g id="g113" ctype="x-html-sub">1</g> und der Anzahl der restlichen Quartale, für die dieses Recht noch gilt. Die Periode der Unterbrechung verlängert deshalb nicht die Periode, während derer die Vorteile gewährt werden können. </target>
         </trans-unit>
         <trans-unit restype="x-html-h2" id="tu114" resname="/html/body/h2[4]">
           <source xml:lang="nl"> Te vervullen formaliteiten </source>

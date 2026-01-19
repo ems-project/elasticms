@@ -264,9 +264,6 @@ class Extractor extends XliffVersion
                     $group->appendChild($note);
                 }
                 foreach ($groupAttributes as $attribute => $value) {
-                    if (null === $value) {
-                        throw new \RuntimeException('Unexpected null value');
-                    }
                     $group->setAttribute($attribute, $value);
                 }
                 $this->addId($group, $domNode);
@@ -318,9 +315,6 @@ class Extractor extends XliffVersion
         $segment = new \DOMElement($qualifiedName);
         $xliffElement->appendChild($segment);
         foreach ($attributes as $attribute => $value) {
-            if (null === $value) {
-                throw new \RuntimeException('Unexpected null value');
-            }
             $segment->setAttribute($attribute, $value);
         }
 
@@ -333,7 +327,7 @@ class Extractor extends XliffVersion
 
         $target = new \DOMElement('target');
         $segment->appendChild($target);
-        
+
         foreach ($notes as $from => $value) {
             if (null === $value) {
                 throw new \RuntimeException('Unexpected null value');

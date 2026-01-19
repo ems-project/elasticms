@@ -322,7 +322,10 @@ class InsertionRevision extends XliffVersion
             if ('note' !== $node->nodeName) {
                 continue;
             }
-            if (!$node->getAttribute('from')) {
+            if (!$node instanceof \DOMElement) {
+                throw new \RuntimeException('Unexpected attribute object');
+            }
+            if (!$node->hasAttribute('from')) {
                 continue;
             }
             $from = $node->getAttribute('from');

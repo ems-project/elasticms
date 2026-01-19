@@ -318,6 +318,16 @@ class InsertionRevision extends XliffVersion
             }
             $tag->setAttribute($attributeLocalName, $attribute->value);
         }
+        foreach ($child->childNodes as $node) {
+            if ('note' !== $node->nodeName) {
+                continue;
+            }
+            if (!$node->getAttribute('from')) {
+                continue;
+            }
+            $from = $node->getAttribute('from');
+            $tag->setAttribute($from, $node->textContent);
+        }
     }
 
     /**

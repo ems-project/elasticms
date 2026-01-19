@@ -235,6 +235,7 @@ class Extractor extends XliffVersion
                 $currentSegment = null;
                 if (\version_compare($this->xliffVersion, '2.0') < 0) {
                     $groupAttributes = [];
+                    $notes = [];
                     $groupAttributes['restype'] = static::getRestype($domNode->nodeName);
                     if (null !== $domNode->attributes) {
                         foreach ($domNode->attributes as $value) {
@@ -244,14 +245,24 @@ class Extractor extends XliffVersion
                             if (\in_array($value->nodeName, self::TRANSLATABLE_ATTRIBUTES, true)) {
                                 continue;
                             }
-                            $groupAttributes['html:'.$value->nodeName] = $value->nodeValue;
+                            $notes[$value->nodeName] = $value->nodeValue;
                         }
                     }
                 } else {
                     $groupAttributes = [];
+                    $notes = [];
                 }
                 $group = new \DOMElement('group');
                 $xliffParent->appendChild($group);
+                foreach ($notes as $from => $value) {
+                    if (null === $value) {
+                        throw new \RuntimeException('Unexpected null value');
+                    }
+                    $note = new \DOMElement('note');
+                    $note->setAttribute('from', $from);
+                    $note->textContent = $value;
+                    $group->appendChild($note);
+                }
                 foreach ($groupAttributes as $attribute => $value) {
                     if (null === $value) {
                         throw new \RuntimeException('Unexpected null value');
@@ -293,13 +304,14 @@ class Extractor extends XliffVersion
             $qualifiedName = 'segment';
             $sourceAttributes = [];
         }
+        $notes = [];
 
         if (null !== $sourceNode->attributes && \version_compare($this->xliffVersion, '2.0') < 0) {
             foreach ($sourceNode->attributes as $value) {
                 if (!$value instanceof \DOMAttr) {
                     throw new \RuntimeException('Unexpected attribute object');
                 }
-                $attributes['html:'.$value->nodeName] = $value->nodeValue;
+                $notes[$value->nodeName] = $value->nodeValue;
             }
         }
 
@@ -321,6 +333,16 @@ class Extractor extends XliffVersion
 
         $target = new \DOMElement('target');
         $segment->appendChild($target);
+        
+        foreach ($notes as $from => $value) {
+            if (null === $value) {
+                throw new \RuntimeException('Unexpected null value');
+            }
+            $note = new \DOMElement('note');
+            $note->setAttribute('from', $from);
+            $note->textContent = $value;
+            $segment->appendChild($note);
+        }
 
         return $segment;
     }

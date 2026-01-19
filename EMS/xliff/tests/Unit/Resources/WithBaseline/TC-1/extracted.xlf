@@ -4,20 +4,20 @@
     <body>
       <group id="[body]">
         <trans-unit restype="x-html-h2" id="/html/body/h2[1]">
-          <source xml:lang="nl"> <g ctype="x-html-ins">Gegevens periodieke sociale signalitiek</g> </source>
-          <target xml:lang="de" state="needs-translation"> <g ctype="x-html-ins" html:class="newWord">Daten zur periodischen Sozialkennzeichnung</g> </target>
+          <source xml:lang="nl"> <g id="//body/h2[1]/ins" ctype="x-html-ins">Gegevens periodieke sociale signalitiek</g> </source>
+          <target xml:lang="de" state="needs-translation"> <g id="//body/h2[1]/ins" ctype="x-html-ins" html:class="newWord">Daten zur periodischen Sozialkennzeichnung</g> </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="/html/body/p[1]">
-          <source xml:lang="nl"> De velden '<g ctype="x-html-strong">begindatum van de periodieke sociale signalitiek</g>' en '<g ctype="x-html-strong">einddatum van de periodieke sociale signalitiek</g>' bakenen de periode af waarop de gegevens in het blok '<g ctype="x-html-strong">periodieke sociale signalitiek</g>' betrekking hebben. </source>
-          <target xml:lang="de" state="final"> Die Felder „<g ctype="x-html-strong">Beginn der periodischen Sozialkennzeichnung</g>” und „<g ctype="x-html-strong">Ende der periodischen Sozialkennzeichnung</g>” begrenzen den Zeitraum, auf den sich die Angaben im Block „<g ctype="x-html-strong">Periodische Sozialkennzeichnung</g>” beziehen. </target>
+          <source xml:lang="nl"> De velden '<g id="//body/p[1]/strong[1]" ctype="x-html-strong">begindatum van de periodieke sociale signalitiek</g>' en '<g id="//body/p[1]/strong[2]" ctype="x-html-strong">einddatum van de periodieke sociale signalitiek</g>' bakenen de periode af waarop de gegevens in het blok '<g id="//body/p[1]/strong[3]" ctype="x-html-strong">periodieke sociale signalitiek</g>' betrekking hebben. </source>
+          <target xml:lang="de" state="final"> Die Felder „<g id="//body/p[1]/strong[1]" ctype="x-html-strong">Beginn der periodischen Sozialkennzeichnung</g>” und „<g id="//body/p[1]/strong[2]" ctype="x-html-strong">Ende der periodischen Sozialkennzeichnung</g>” begrenzen den Zeitraum, auf den sich die Angaben im Block „<g id="//body/p[1]/strong[3]" ctype="x-html-strong">Periodische Sozialkennzeichnung</g>” beziehen. </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="/html/body/p[2]">
           <source xml:lang="nl"> Deze periode situeert zich steeds binnen de periode afgebakend door de velden 'begindatum van de sociale signalitiek' en 'einddatum van de sociale signalitiek' in het blok 'sociale signalitiek'. </source>
           <target xml:lang="de" state="final"> Dieser Zeitraum liegt immer innerhalb des Zeitraums, der durch die Felder „Beginn der Sozialkennzeichnung” und „Ende der Sozialkennzeichnung” im Block „Sozialkennzeichnung” abgegrenzt ist. </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="/html/body/p[3]">
-          <source xml:lang="nl"> Zoals bij het blok 'sociale signalitiek' kunnen verschillende blokken 'periodieke sociale signalitiek' niet overlappen in de tijd en dus bij uitbreiding evenmin binnen eenzelfde loonberekeningsperiode. Als de situatie zich voordoet dat er overlappende gegevens zouden moeten worden opgenomen, moet een <g ctype="x-html-strong">afzonderlijk LTDS-bericht</g> volgen waarin alles opgenomen wordt van de bijkomende situatie. </source>
-          <target xml:lang="de" state="final"> Wie beim Block „Sozialkennzeichnung” dürfen sich verschiedene Blöcke „periodische Sozialkennzeichnung” zeitlich nicht überschneiden und somit auch nicht innerhalb desselben Lohn- und Gehaltsabrechnungszeitraums. Wenn sich die Situation ergibt, dass sich überschneidende Daten aufgenommen werden müssen, muss eine <g ctype="x-html-strong">separate LTDS-Nachricht</g> folgen, in die alles aus der zusätzlichen Situation aufgenommen wird. </target>
+          <source xml:lang="nl"> Zoals bij het blok 'sociale signalitiek' kunnen verschillende blokken 'periodieke sociale signalitiek' niet overlappen in de tijd en dus bij uitbreiding evenmin binnen eenzelfde loonberekeningsperiode. Als de situatie zich voordoet dat er overlappende gegevens zouden moeten worden opgenomen, moet een <g id="//body/p[3]/strong" ctype="x-html-strong">afzonderlijk LTDS-bericht</g> volgen waarin alles opgenomen wordt van de bijkomende situatie. </source>
+          <target xml:lang="de" state="final"> Wie beim Block „Sozialkennzeichnung” dürfen sich verschiedene Blöcke „periodische Sozialkennzeichnung” zeitlich nicht überschneiden und somit auch nicht innerhalb desselben Lohn- und Gehaltsabrechnungszeitraums. Wenn sich die Situation ergibt, dass sich überschneidende Daten aufgenommen werden müssen, muss eine <g id="//body/p[3]/strong" ctype="x-html-strong">separate LTDS-Nachricht</g> folgen, in die alles aus der zusätzlichen Situation aufgenommen wird. </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="/html/body/p[4]">
           <source xml:lang="nl"> Volgende gegevens bepalen de periodieke sociale signalitiek: </source>
@@ -26,8 +26,8 @@
         <group restype="x-html-ul" id="/html/body/ul[1]">
           <group restype="listitem" id="/html/body/ul[1]/li[1]">
             <trans-unit id="/html/body/ul[1]/li[1]/text()[1]">
-              <source xml:lang="nl"> <g ctype="x-html-strong">volume</g></source>
-              <target xml:lang="de" state="final"> <g ctype="x-html-strong">Volumen</g></target>
+              <source xml:lang="nl"> <g id="//body/ul[1]/li[1]/strong" ctype="x-html-strong">volume</g></source>
+              <target xml:lang="de" state="final"> <g id="//body/ul[1]/li[1]/strong" ctype="x-html-strong">Volumen</g></target>
             </trans-unit>
             <group restype="x-html-ul" id="/html/body/ul[1]/li[1]/ul">
               <trans-unit restype="listitem" id="/html/body/ul[1]/li[1]/ul/li">
@@ -38,8 +38,8 @@
           </group>
           <group restype="listitem" id="/html/body/ul[1]/li[2]">
             <trans-unit id="/html/body/ul[1]/li[2]/text()[1]">
-              <source xml:lang="nl"> <g ctype="x-html-strong">identificatienummer van de lokale vestigingseenheid (VE)</g></source>
-              <target xml:lang="de" state="final"> <g ctype="x-html-strong">Identifizierungsnummer der lokalen Niederlassungseinheit (NE)</g></target>
+              <source xml:lang="nl"> <g id="//body/ul[1]/li[2]/strong" ctype="x-html-strong">identificatienummer van de lokale vestigingseenheid (VE)</g></source>
+              <target xml:lang="de" state="final"> <g id="//body/ul[1]/li[2]/strong" ctype="x-html-strong">Identifizierungsnummer der lokalen Niederlassungseinheit (NE)</g></target>
             </trans-unit>
             <group restype="x-html-ul" id="/html/body/ul[1]/li[2]/ul">
               <group restype="listitem" id="/html/body/ul[1]/li[2]/ul/li[1]">
@@ -49,8 +49,8 @@
                 </trans-unit>
                 <group restype="x-html-ul" id="/html/body/ul[1]/li[2]/ul/li[1]/ul">
                   <trans-unit restype="listitem" id="/html/body/ul[1]/li[2]/ul/li[1]/ul/li">
-                    <source xml:lang="nl">in uitzonderlijke gevallen moet een fictief nummer worden aangegeven: zie de 'bijkomende info' op de betreffende pagina van de <g ctype="x-html-a" html:href="https://www.socialsecurity.be/employer/instructions/dmfa/nl/latest/instructions/fill_in_dmfa/occupationrecord/exploitation_site.html"> administratieve instructies DmfA</g> </source>
-                    <target xml:lang="de" state="final">In Ausnahmefällen muss eine fiktive Nummer angegeben werden: siehe „zusätzliche Informationen“ auf der entsprechenden Seite der <g ctype="x-html-a" html:href="https://www.socialsecurity.be/employer/instructions/dmfa/nl/latest/instructions/fill_in_dmfa/occupationrecord/exploitation_site.html"> Verwaltungsanweisungen der DmfA</g>. </target>
+                    <source xml:lang="nl">in uitzonderlijke gevallen moet een fictief nummer worden aangegeven: zie de 'bijkomende info' op de betreffende pagina van de <g id="//body/ul[1]/li[2]/ul/li[1]/ul/li/a" ctype="x-html-a" html:href="https://www.socialsecurity.be/employer/instructions/dmfa/nl/latest/instructions/fill_in_dmfa/occupationrecord/exploitation_site.html"> administratieve instructies DmfA</g> </source>
+                    <target xml:lang="de" state="final">In Ausnahmefällen muss eine fiktive Nummer angegeben werden: siehe „zusätzliche Informationen“ auf der entsprechenden Seite der <g id="//body/ul[1]/li[2]/ul/li[1]/ul/li/a" ctype="x-html-a" html:href="https://www.socialsecurity.be/employer/instructions/dmfa/nl/latest/instructions/fill_in_dmfa/occupationrecord/exploitation_site.html"> Verwaltungsanweisungen der DmfA</g>. </target>
                   </trans-unit>
                 </group>
               </group>
@@ -62,14 +62,14 @@
           </group>
           <group restype="listitem" id="/html/body/ul[1]/li[3]">
             <trans-unit id="/html/body/ul[1]/li[3]/text()[1]">
-              <source xml:lang="nl"> <g ctype="x-html-strong">nummer van het paritair comité</g></source>
-              <target xml:lang="de" state="final"> <g ctype="x-html-strong">Nummer der paritätischen Kommission</g></target>
+              <source xml:lang="nl"> <g id="//body/ul[1]/li[3]/strong" ctype="x-html-strong">nummer van het paritair comité</g></source>
+              <target xml:lang="de" state="final"> <g id="//body/ul[1]/li[3]/strong" ctype="x-html-strong">Nummer der paritätischen Kommission</g></target>
             </trans-unit>
             <group restype="x-html-ul" id="/html/body/ul[1]/li[3]/ul">
               <group restype="listitem" id="/html/body/ul[1]/li[3]/ul/li">
                 <trans-unit id="/html/body/ul[1]/li[3]/ul/li/text()[1]">
-                  <source xml:lang="nl">zie de betreffende pagina van de <g ctype="x-html-a" html:href="https://www.socialsecurity.be/employer/instructions/dmfa/nl/latest/instructions/fill_in_dmfa/occupationrecord/joint_committee.html"> administratieve instructies DmfA</g></source>
-                  <target xml:lang="de" state="final">siehe die entsprechende Seite in den <g ctype="x-html-a" html:href="https://www.socialsecurity.be/employer/instructions/dmfa/nl/latest/instructions/fill_in_dmfa/occupationrecord/joint_committee.html"> Verwaltungsanweisungen der DmfA</g></target>
+                  <source xml:lang="nl">zie de betreffende pagina van de <g id="//body/ul[1]/li[3]/ul/li/a" ctype="x-html-a" html:href="https://www.socialsecurity.be/employer/instructions/dmfa/nl/latest/instructions/fill_in_dmfa/occupationrecord/joint_committee.html"> administratieve instructies DmfA</g></source>
+                  <target xml:lang="de" state="final">siehe die entsprechende Seite in den <g id="//body/ul[1]/li[3]/ul/li/a" ctype="x-html-a" html:href="https://www.socialsecurity.be/employer/instructions/dmfa/nl/latest/instructions/fill_in_dmfa/occupationrecord/joint_committee.html"> Verwaltungsanweisungen der DmfA</g></target>
                 </trans-unit>
                 <group restype="x-html-ul" id="/html/body/ul[1]/li[3]/ul/li/ul">
                   <trans-unit restype="listitem" id="/html/body/ul[1]/li[3]/ul/li/ul/li[1]">
@@ -84,12 +84,12 @@
                     <group restype="x-html-ul" id="/html/body/ul[1]/li[3]/ul/li/ul/li[2]/ul">
                       <group restype="listitem" id="/html/body/ul[1]/li[3]/ul/li/ul/li[2]/ul/li">
                         <trans-unit id="/html/body/ul[1]/li[3]/ul/li/ul/li[2]/ul/li/text()[1]">
-                          <source xml:lang="nl">loonberekening van 1 januari tot en met 31 januari<g ctype="lb"/> &gt; sociale signalitiek van 1 januari tot en met 31 januari </source>
-                          <target xml:lang="de" state="final">Lohn- und Gehaltsabrechnung vom 1. Januar bis zum 31. Januar<g ctype="lb"/> &gt; Sozialkennzeichnung vom 1. Januar bis zum 31. Januar </target>
+                          <source xml:lang="nl">loonberekening van 1 januari tot en met 31 januari<g id="//body/ul[1]/li[3]/ul/li/ul/li[2]/ul/li/br" ctype="lb"/> &gt; sociale signalitiek van 1 januari tot en met 31 januari </source>
+                          <target xml:lang="de" state="final">Lohn- und Gehaltsabrechnung vom 1. Januar bis zum 31. Januar<g id="//body/ul[1]/li[3]/ul/li/ul/li[2]/ul/li/br" ctype="lb"/> &gt; Sozialkennzeichnung vom 1. Januar bis zum 31. Januar </target>
                         </trans-unit>
                         <trans-unit restype="x-html-p" id="/html/body/ul[1]/li[3]/ul/li/ul/li[2]/ul/li/p">
-                          <source xml:lang="nl"> &gt;&gt; periodieke sociale signalitiek van 1 januari tot en met 15 januari met paritair comité A<g ctype="lb"/> &gt;&gt; periodieke sociale signalitiek vanaf 15 januari tot en met 31 januari met paritair comité B </source>
-                          <target xml:lang="de" state="final"> &gt;&gt; Periodische Sozialkennzeichnung vom 1. Januar bis zum 15. Januar mit der paritätischen Kommission A<g ctype="lb"/> &gt;&gt; Periodische Sozialkennzeichnung vom 15. Januar bis zum 31. Januar mit der paritätischen Kommission B </target>
+                          <source xml:lang="nl"> &gt;&gt; periodieke sociale signalitiek van 1 januari tot en met 15 januari met paritair comité A<g id="//body/ul[1]/li[3]/ul/li/ul/li[2]/ul/li/p/br" ctype="lb"/> &gt;&gt; periodieke sociale signalitiek vanaf 15 januari tot en met 31 januari met paritair comité B </source>
+                          <target xml:lang="de" state="final"> &gt;&gt; Periodische Sozialkennzeichnung vom 1. Januar bis zum 15. Januar mit der paritätischen Kommission A<g id="//body/ul[1]/li[3]/ul/li/ul/li[2]/ul/li/p/br" ctype="lb"/> &gt;&gt; Periodische Sozialkennzeichnung vom 15. Januar bis zum 31. Januar mit der paritätischen Kommission B </target>
                         </trans-unit>
                       </group>
                     </group>
@@ -100,37 +100,37 @@
           </group>
           <group restype="listitem" id="/html/body/ul[1]/li[4]">
             <trans-unit id="/html/body/ul[1]/li[4]/text()[1]">
-              <source xml:lang="nl"> <g ctype="x-html-strong">NACE-code</g></source>
-              <target xml:lang="de" state="final"> <g ctype="x-html-strong">NACE-Code</g></target>
+              <source xml:lang="nl"> <g id="//body/ul[1]/li[4]/strong" ctype="x-html-strong">NACE-code</g></source>
+              <target xml:lang="de" state="final"> <g id="//body/ul[1]/li[4]/strong" ctype="x-html-strong">NACE-Code</g></target>
             </trans-unit>
             <group restype="x-html-ul" id="/html/body/ul[1]/li[4]/ul">
               <trans-unit restype="listitem" id="/html/body/ul[1]/li[4]/ul/li">
-                <source xml:lang="nl">zie de betreffende pagina van de <g ctype="x-html-a" html:href="https://www.socialsecurity.be/employer/instructions/dmfa/nl/latest/instructions/fill_in_dmfa/occupationrecord/sector_specific_characteristics/nace_code.html"> administratieve instructies DmfA</g> </source>
-                <target xml:lang="de" state="final">siehe die entsprechende Seite in den <g ctype="x-html-a" html:href="https://www.socialsecurity.be/employer/instructions/dmfa/nl/latest/instructions/fill_in_dmfa/occupationrecord/sector_specific_characteristics/nace_code.html"> Verwaltungsanweisungen der DmfA</g> </target>
+                <source xml:lang="nl">zie de betreffende pagina van de <g id="//body/ul[1]/li[4]/ul/li/a" ctype="x-html-a" html:href="https://www.socialsecurity.be/employer/instructions/dmfa/nl/latest/instructions/fill_in_dmfa/occupationrecord/sector_specific_characteristics/nace_code.html"> administratieve instructies DmfA</g> </source>
+                <target xml:lang="de" state="final">siehe die entsprechende Seite in den <g id="//body/ul[1]/li[4]/ul/li/a" ctype="x-html-a" html:href="https://www.socialsecurity.be/employer/instructions/dmfa/nl/latest/instructions/fill_in_dmfa/occupationrecord/sector_specific_characteristics/nace_code.html"> Verwaltungsanweisungen der DmfA</g> </target>
               </trans-unit>
             </group>
           </group>
           <group restype="listitem" id="/html/body/ul[1]/li[5]">
             <trans-unit id="/html/body/ul[1]/li[5]/text()[1]">
-              <source xml:lang="nl"> <g ctype="x-html-ins" html:class="newWord"><g ctype="x-html-strong">betalingswijze in het onderwijs</g></g></source>
+              <source xml:lang="nl"> <g id="//body/ul[1]/li[5]/ins" ctype="x-html-ins" html:class="newWord"><g id="//body/ul[1]/li[5]/ins/strong" ctype="x-html-strong">betalingswijze in het onderwijs</g></g></source>
               <target xml:lang="de" state="new"> </target>
             </trans-unit>
             <group restype="x-html-ul" id="/html/body/ul[1]/li[5]/ul">
               <trans-unit restype="listitem" id="/html/body/ul[1]/li[5]/ul/li">
-                <source xml:lang="nl"> <g ctype="x-html-ins" html:class="newWord">betaling in 10-den of 12-den</g> </source>
+                <source xml:lang="nl"> <g id="//body/ul[1]/li[5]/ul/li/ins" ctype="x-html-ins" html:class="newWord">betaling in 10-den of 12-den</g> </source>
                 <target xml:lang="de" state="new"/>
               </trans-unit>
             </group>
           </group>
           <group restype="listitem" id="/html/body/ul[1]/li[6]">
             <trans-unit id="/html/body/ul[1]/li[6]/text()[1]">
-              <source xml:lang="nl"> <g ctype="x-html-strong">wekelijkse arbeidsduur</g></source>
-              <target xml:lang="de" state="needs-translation"> <g ctype="x-html-strong">Maßnahme zur Neuverteilung der Arbeitszeit (MNA)</g></target>
+              <source xml:lang="nl"> <g id="//body/ul[1]/li[6]/strong" ctype="x-html-strong">wekelijkse arbeidsduur</g></source>
+              <target xml:lang="de" state="needs-translation"> <g id="//body/ul[1]/li[6]/strong" ctype="x-html-strong">Maßnahme zur Neuverteilung der Arbeitszeit (MNA)</g></target>
             </trans-unit>
             <group restype="x-html-ul" id="/html/body/ul[1]/li[6]/ul">
               <group restype="listitem" id="/html/body/ul[1]/li[6]/ul/li[1]">
                 <trans-unit id="/html/body/ul[1]/li[6]/ul/li[1]/text()[1]">
-                  <source xml:lang="nl">er zijn 3 <g ctype="x-html-strong">types</g> tewerkstellingsbreuken (Q en S steeds te vermelden):  </source>
+                  <source xml:lang="nl">er zijn 3 <g id="//body/ul[1]/li[6]/ul/li[1]/strong" ctype="x-html-strong">types</g> tewerkstellingsbreuken (Q en S steeds te vermelden):  </source>
                   <target xml:lang="de" state="needs-translation">Eine Maßnahme zur Neuverteilung der Arbeitszeit (MNA) ist eine strukturelle Abwesenheit, die zu einer Verringerung der durchschnittlichen Wochenarbeitszeit führt. Es können mehrere MNA gleichzeitig gelten, wobei mehrere Blöcke „Maßnahme zur Neuverteilung der Arbeitszeit” jeweils mit folgenden Angaben angegeben werden:  </target>
                 </trans-unit>
                 <group restype="x-html-ul" id="/html/body/ul[1]/li[6]/ul/li[1]/ul">
@@ -155,11 +155,11 @@
                 </trans-unit>
                 <group restype="x-html-ul" id="/html/body/ul[1]/li[6]/ul/li[2]/ul">
                   <trans-unit restype="listitem" id="/html/body/ul[1]/li[6]/ul/li[2]/ul/li[1]">
-                    <source xml:lang="nl"> <g ctype="x-html-strong">effectief gemiddelde wekelijkse arbeidsduur</g> = aantal te presteren uren per week per cyclus, inclusief eventuele betaalde inhaalrust en <g ctype="x-html-strong">inclusief</g> eventuele onbetaalde inhaalrust </source>
+                    <source xml:lang="nl"> <g id="//body/ul[1]/li[6]/ul/li[2]/ul/li[1]/strong[1]" ctype="x-html-strong">effectief gemiddelde wekelijkse arbeidsduur</g> = aantal te presteren uren per week per cyclus, inclusief eventuele betaalde inhaalrust en <g id="//body/ul[1]/li[6]/ul/li[2]/ul/li[1]/strong[2]" ctype="x-html-strong">inclusief</g> eventuele onbetaalde inhaalrust </source>
                     <target xml:lang="de" state="new"/>
                   </trans-unit>
                   <trans-unit restype="listitem" id="/html/body/ul[1]/li[6]/ul/li[2]/ul/li[2]">
-                    <source xml:lang="nl"> <g ctype="x-html-strong">jaarlijks gemiddelde wekelijkse betaalde arbeidsduur</g> = aantal te presteren uren per week op jaarbasis, inclusief eventuele betaalde inhaalrust en <g ctype="x-html-strong">exclusief</g> eventuele onbetaalde inhaalrust  </source>
+                    <source xml:lang="nl"> <g id="//body/ul[1]/li[6]/ul/li[2]/ul/li[2]/strong[1]" ctype="x-html-strong">jaarlijks gemiddelde wekelijkse betaalde arbeidsduur</g> = aantal te presteren uren per week op jaarbasis, inclusief eventuele betaalde inhaalrust en <g id="//body/ul[1]/li[6]/ul/li[2]/ul/li[2]/strong[2]" ctype="x-html-strong">exclusief</g> eventuele onbetaalde inhaalrust  </source>
                     <target xml:lang="de" state="new"/>
                   </trans-unit>
                 </group>
@@ -168,7 +168,7 @@
           </group>
           <group restype="listitem" id="/html/body/ul[1]/li[7]">
             <trans-unit id="/html/body/ul[1]/li[7]/text()[1]">
-              <source xml:lang="nl"> <g ctype="x-html-strong">maatregel reorganisatie arbeidstijd (MRA)</g></source>
+              <source xml:lang="nl"> <g id="//body/ul[1]/li[7]/strong" ctype="x-html-strong">maatregel reorganisatie arbeidstijd (MRA)</g></source>
               <target xml:lang="de" state="new"/>
             </trans-unit>
             <group restype="x-html-ul" id="/html/body/ul[1]/li[7]/ul">
@@ -212,8 +212,8 @@
           <target xml:lang="de" state="final"> Beispiele für die wöchentliche Arbeitszeit ohne MNA </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="/html/body/p[5]">
-          <source xml:lang="nl"> Indien geen maatregel tot reorganisatie van de arbeidstijd van toepassing is, dan worden er steeds <g ctype="x-html-strong">twee blokken 'wekelijkse arbeidsduur'</g> aangegeven: </source>
-          <target xml:lang="de" state="final"> Wenn keine Maßnahme zur Neuverteilung der Arbeitszeit gilt, werden immer <g ctype="x-html-strong">zwei Blöcke „wöchentliche Arbeitszeit”</g> angegeben: </target>
+          <source xml:lang="nl"> Indien geen maatregel tot reorganisatie van de arbeidstijd van toepassing is, dan worden er steeds <g id="//body/p[5]/strong" ctype="x-html-strong">twee blokken 'wekelijkse arbeidsduur'</g> aangegeven: </source>
+          <target xml:lang="de" state="final"> Wenn keine Maßnahme zur Neuverteilung der Arbeitszeit gilt, werden immer <g id="//body/p[5]/strong" ctype="x-html-strong">zwei Blöcke „wöchentliche Arbeitszeit”</g> angegeben: </target>
         </trans-unit>
         <group restype="x-html-ul" id="/html/body/ul[2]">
           <trans-unit restype="listitem" id="/html/body/ul[2]/li[1]">
@@ -778,8 +778,8 @@
           <target xml:lang="de" state="final"> Beispiele für die wöchentliche Arbeitszeit mit MNA </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="/html/body/p[19]">
-          <source xml:lang="nl"> Indien een maatregel tot reorganisatie van de arbeidstijd van toepassing is, dan worden er steeds <g ctype="x-html-strong">drie blokken 'wekelijkse arbeidsduur'</g> aangegeven: </source>
-          <target xml:lang="de" state="final"> Wenn eine Maßnahme zur Neuverteilung der Arbeitszeit gilt, werden immer <g ctype="x-html-strong">drei Blöcke „wöchentliche Arbeitszeit”</g> angegeben: </target>
+          <source xml:lang="nl"> Indien een maatregel tot reorganisatie van de arbeidstijd van toepassing is, dan worden er steeds <g id="//body/p[19]/strong" ctype="x-html-strong">drie blokken 'wekelijkse arbeidsduur'</g> aangegeven: </source>
+          <target xml:lang="de" state="final"> Wenn eine Maßnahme zur Neuverteilung der Arbeitszeit gilt, werden immer <g id="//body/p[19]/strong" ctype="x-html-strong">drei Blöcke „wöchentliche Arbeitszeit”</g> angegeben: </target>
         </trans-unit>
         <group restype="x-html-ul" id="/html/body/ul[3]">
           <trans-unit restype="listitem" id="/html/body/ul[3]/li[1]">
@@ -800,8 +800,8 @@
           <target xml:lang="de" state="final"> Darüber hinaus wird die Aussetzung im Abschnitt „Maßnahme zur Neuverteilung der Arbeitszeit” detailliert beschrieben. </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="/html/body/p[21]">
-          <source xml:lang="nl"> 1) Een voltijdse werknemer werkt effectief 38 uren per week gedurende 5 dagen per week (7,6 uren per dag). Er bestaat geen ADV-regeling. De werknemer neemt deeltijds tijdskrediet: hij vermindert zijn prestaties met 1/5<g ctype="x-html-sup">de</g>. Hij werkt niet op woensdagnamiddag en niet op vrijdagnamiddag. </source>
-          <target xml:lang="de" state="final"> 1) Ein Vollzeitarbeitnehmer arbeitet effektiv 38 Stunden pro Woche an 5 Tagen pro Woche (7,6 Stunden pro Tag). Es gibt keine Regelung zur Arbeitszeitverkürzung (AZV). Der Arbeitnehmer nimmt einen Teilzeit-Zeitkredit in Anspruch: Er reduziert seine Arbeitsleistung um 1/5.<g ctype="x-html-sup"/> Er arbeitet nicht am Mittwochnachmittag und nicht am Freitagnachmittag. </target>
+          <source xml:lang="nl"> 1) Een voltijdse werknemer werkt effectief 38 uren per week gedurende 5 dagen per week (7,6 uren per dag). Er bestaat geen ADV-regeling. De werknemer neemt deeltijds tijdskrediet: hij vermindert zijn prestaties met 1/5<g id="//body/p[21]/sup" ctype="x-html-sup">de</g>. Hij werkt niet op woensdagnamiddag en niet op vrijdagnamiddag. </source>
+          <target xml:lang="de" state="final"> 1) Ein Vollzeitarbeitnehmer arbeitet effektiv 38 Stunden pro Woche an 5 Tagen pro Woche (7,6 Stunden pro Tag). Es gibt keine Regelung zur Arbeitszeitverkürzung (AZV). Der Arbeitnehmer nimmt einen Teilzeit-Zeitkredit in Anspruch: Er reduziert seine Arbeitsleistung um 1/5.<g id="//body/p[21]/sup" ctype="x-html-sup"/> Er arbeitet nicht am Mittwochnachmittag und nicht am Freitagnachmittag. </target>
         </trans-unit>
         <group restype="table" html:align="left" html:class="table-bordered table-striped" id="/html/body/table[9]">
           <group restype="x-html-thead" id="/html/body/table[9]/thead">

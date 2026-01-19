@@ -10,7 +10,7 @@ use EMS\Helpers\Standard\Accessor;
 use EMS\Xliff\Xliff\Entity\InsertReport;
 use EMS\Xliff\XML\DomHelper;
 
-class InsertionRevision
+class InsertionRevision extends XliffVersion
 {
     private const string HTML_FIELD = 'html_field';
     private const string SIMPLE_FIELD = 'simple_field';
@@ -330,7 +330,7 @@ class InsertionRevision
      */
     private function importField(InsertReport $insertReport, \DOMElement $segment, string $sourceLocale, string $targetLocale, array &$extractedRawData, string $sourceValue, array &$insertRawData, string $targetValue, ?string $format): void
     {
-        $propertyPath = Accessor::fieldPathToPropertyPath(DomHelper::getStringAttr($segment, 'resname'));
+        $propertyPath = Accessor::fieldPathToPropertyPath(DomHelper::getStringAttr($segment, $this->getResourceNameAttribute()));
         $sourcePropertyPath = \str_replace(self::LOCALE_PLACE_HOLDER, $sourceLocale, $propertyPath);
         $targetPropertyPath = \str_replace(self::LOCALE_PLACE_HOLDER, $targetLocale, $propertyPath);
 

@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace EMS\Xliff\Xliff;
 
 use EMS\Helpers\Html\HtmlHelper;
-use EMS\Helpers\Standard\Type;
 use Symfony\Component\DomCrawler\Crawler;
 
-class Extractor
+class Extractor extends XliffVersion
 {
     // Source: https://docs.oasis-open.org/xliff/v1.2/xliff-profile-html/xliff-profile-html-1.2.html#SectionDetailsElements
     final public const array PRE_DEFINED_VALUES = [
@@ -86,21 +85,13 @@ class Extractor
         'wbr',
     ];
 
-    final public const string XLIFF_1_2 = '1.2';
-    final public const string XLIFF_2_0 = '2.0';
-    final public const array XLIFF_VERSIONS = [self::XLIFF_1_2, self::XLIFF_2_0];
-
     private int $nextId = 1;
-    private readonly string $xliffVersion;
     private readonly \DOMElement $xliff;
     private readonly \DOMDocument $dom;
 
     public function __construct(private readonly string $sourceLocale, private readonly ?string $targetLocale = null, string $xliffVersion = self::XLIFF_1_2)
     {
-        if (!\in_array($xliffVersion, self::XLIFF_VERSIONS)) {
-            throw new \RuntimeException(\sprintf('Unsupported XLIFF version "%s", use one of the supported one: %s', $xliffVersion, \implode(', ', self::XLIFF_VERSIONS)));
-        }
-        $this->xliffVersion = $xliffVersion;
+        parent::__construct($xliffVersion);
 
         switch ($xliffVersion) {
             case self::XLIFF_1_2:
@@ -188,7 +179,7 @@ class Extractor
     {
         $xliffAttributes = [
             'id' => \sprintf('tu%d', $this->nextId++),
-            'resname' => $fieldPath,
+            $this->getResourceNameAttribute() => $fieldPath,
         ];
         if (\version_compare($this->xliffVersion, '2.0') < 0) {
             $qualifiedName = 'trans-unit';
@@ -212,7 +203,7 @@ class Extractor
         $added = false;
         $group = new \DOMElement('group');
         $document->appendChild($group);
-        $group->setAttribute('resname', $fieldPath);
+        $group->setAttribute($this->getResourceNameAttribute(), $fieldPath);
         $group->setAttribute('id', \sprintf('group%d', $this->nextId++));
         foreach ($sourceCrawler->filterXPath('//body') as $domNode) {
             $this->addNode($group, $domNode, $targetCrawler, $baselineCrawler, $isFinal);
@@ -344,7 +335,7 @@ class Extractor
         if (null !== $attributeName) {
             $resourceName = \sprintf('%s[@%s]', $resourceName, $attributeName);
         }
-        $xliffElement->setAttribute('resname', $resourceName);
+        $xliffElement->setAttribute($this->getResourceNameAttribute(), $resourceName);
     }
 
     private function getXPath(\DOMNode $sourceNode): ?string

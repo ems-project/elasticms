@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\Xliff\Xliff;
 
 use EMS\Helpers\Html\HtmlHelper;
+use EMS\Helpers\Standard\Type;
 use Symfony\Component\DomCrawler\Crawler;
 
 class Extractor
@@ -519,6 +520,7 @@ class Extractor
         }
         if (\in_array($sourceNode->nodeName, self::INTERNAL_TAGS)) {
             $subNode = new \DOMElement('g');
+            $subNode->setAttribute('id', Type::string($this->getXPath($sourceNode)));
             $source->appendChild($subNode);
             $subNode->setAttribute('ctype', static::getRestype($sourceNode->nodeName));
             foreach ($sourceNode->attributes ?? [] as $value) {

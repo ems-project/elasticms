@@ -97,7 +97,6 @@ class Extractor extends XliffVersion
         switch ($xliffVersion) {
             case self::XLIFF_1_2:
                 $xliffAttributes = [
-                    'xmlns:html' => 'http://www.w3.org/1999/xhtml',
                     'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
                     'xmlns' => 'urn:oasis:names:tc:xliff:document:'.$xliffVersion,
                     'version' => $xliffVersion,

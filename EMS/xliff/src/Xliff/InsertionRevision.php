@@ -330,7 +330,7 @@ class InsertionRevision
      */
     private function importField(InsertReport $insertReport, \DOMElement $segment, string $sourceLocale, string $targetLocale, array &$extractedRawData, string $sourceValue, array &$insertRawData, string $targetValue, ?string $format): void
     {
-        $propertyPath = Accessor::fieldPathToPropertyPath(DomHelper::getStringAttr($segment, 'id'));
+        $propertyPath = Accessor::fieldPathToPropertyPath(DomHelper::getStringAttr($segment, 'resname'));
         $sourcePropertyPath = \str_replace(self::LOCALE_PLACE_HOLDER, $sourceLocale, $propertyPath);
         $targetPropertyPath = \str_replace(self::LOCALE_PLACE_HOLDER, $targetLocale, $propertyPath);
 

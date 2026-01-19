@@ -187,7 +187,8 @@ class Extractor
     public function addSimpleField(\DOMElement $document, string $fieldPath, string $source, ?string $target = null, bool $isFinal = false): void
     {
         $xliffAttributes = [
-            'id' => $fieldPath,
+            'id' => \sprintf('tu%d', $this->nextId++),
+            'resname' => $fieldPath,
         ];
         if (\version_compare($this->xliffVersion, '2.0') < 0) {
             $qualifiedName = 'trans-unit';
@@ -211,7 +212,8 @@ class Extractor
         $added = false;
         $group = new \DOMElement('group');
         $document->appendChild($group);
-        $group->setAttribute('id', $fieldPath);
+        $group->setAttribute('resname', $fieldPath);
+        $group->setAttribute('id', \sprintf('group%d', $this->nextId++));
         foreach ($sourceCrawler->filterXPath('//body') as $domNode) {
             $this->addNode($group, $domNode, $targetCrawler, $baselineCrawler, $isFinal);
             $added = true;
@@ -334,8 +336,15 @@ class Extractor
 
     private function addId(\DOMElement $xliffElement, \DOMNode $domNode, ?string $attributeName = null): void
     {
-        $id = $this->getId($domNode, $attributeName);
-        $xliffElement->setAttribute('id', $id);
+        $xliffElement->setAttribute('id', \sprintf('tu%d', $this->nextId++));
+        $resourceName = $domNode->getNodePath();
+        if (null === $resourceName) {
+            return;
+        }
+        if (null !== $attributeName) {
+            $resourceName = \sprintf('%s[@%s]', $resourceName, $attributeName);
+        }
+        $xliffElement->setAttribute('resname', $resourceName);
     }
 
     private function getXPath(\DOMNode $sourceNode): ?string
@@ -389,19 +398,6 @@ class Extractor
     public function getSourceLocale(): string
     {
         return $this->sourceLocale;
-    }
-
-    private function getId(\DOMNode $domNode, ?string $attributeName = null): string
-    {
-        $id = $domNode->getNodePath();
-        if (null === $id) {
-            $id = (string) ($this->nextId++);
-        }
-        if (null !== $attributeName) {
-            $id = \sprintf('%s[@%s]', $id, $attributeName);
-        }
-
-        return $id;
     }
 
     private function trimUselessWhiteSpaces(string $text): string
@@ -518,7 +514,7 @@ class Extractor
         }
         if (\in_array($sourceNode->nodeName, self::INTERNAL_TAGS)) {
             $subNode = new \DOMElement('g');
-            $subNode->setAttribute('id', Type::string($this->getXPath($sourceNode)));
+            $subNode->setAttribute('id', \sprintf('d%d', $this->nextId++));
             $source->appendChild($subNode);
             $subNode->setAttribute('ctype', static::getRestype($sourceNode->nodeName));
             foreach ($sourceNode->attributes ?? [] as $value) {

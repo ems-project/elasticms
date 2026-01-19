@@ -12,8 +12,8 @@ class Inserter
     /** @var string[] */
     private array $nameSpaces = [];
     private readonly \DOMNode $xliff;
-    private readonly ?string $sourceLocale;
-    private readonly ?string $targetLocale;
+    private ?string $sourceLocale;
+    private ?string $targetLocale;
 
     public function __construct(\DOMDocument $document)
     {

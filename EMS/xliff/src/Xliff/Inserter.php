@@ -51,6 +51,12 @@ class Inserter
             if (!$document instanceof \DOMElement) {
                 continue;
             }
+            if ($document->hasAttribute('source-language')) {
+                $this->sourceLocale = $document->getAttribute('source-language');
+            }
+            if ($document->hasAttribute('target-language')) {
+                $this->targetLocale = $document->getAttribute('target-language');
+            }
             yield new InsertionRevision($document, $this->version, $this->nameSpaces, $this->sourceLocale, $this->targetLocale);
         }
     }

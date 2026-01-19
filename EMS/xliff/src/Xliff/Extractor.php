@@ -204,7 +204,7 @@ class Extractor extends XliffVersion
         $group = new \DOMElement('group');
         $document->appendChild($group);
         $group->setAttribute($this->getResourceNameAttribute(), $fieldPath);
-        $group->setAttribute('id', \sprintf('group%d', $this->nextId++));
+        $group->setAttribute('id', \sprintf('grp%d', $this->nextId++));
         foreach ($sourceCrawler->filterXPath('//body') as $domNode) {
             $this->addNode($group, $domNode, $targetCrawler, $baselineCrawler, $isFinal);
             $added = true;

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\Xliff\Xliff;
 
 use EMS\Helpers\Html\HtmlHelper;
+use EMS\Helpers\Standard\Type;
 use Symfony\Component\DomCrawler\Crawler;
 
 class Extractor extends XliffVersion
@@ -512,6 +513,28 @@ class Extractor extends XliffVersion
         $this->setTargetAttributes($target, true, true);
     }
 
+    private function buildEquivTextOpeningTag(\DOMElement $el): string
+    {
+        $doc = $el->ownerDocument;
+        if (null === $doc) {
+            throw new \RuntimeException('Unexpected null doc');
+        }
+        $clone = $doc->createElement($el->tagName);
+
+        foreach ($el->attributes as $attr) {
+            $clone->setAttribute($attr->name, $attr->value);
+        }
+        $xml = $doc->saveXML($clone);
+        $xml = \preg_replace('#/>$#', '>', \trim(Type::string($xml)));
+
+        return \htmlspecialchars(Type::string($xml), ENT_QUOTES | ENT_XML1);
+    }
+
+    private function buildEquivTextClosingTag(\DOMElement $el): string
+    {
+        return \htmlspecialchars('</'.$el->tagName.'>', ENT_QUOTES | ENT_XML1);
+    }
+
     private function fillInline(\DOMNode $sourceNode, \DOMElement $source): void
     {
         if ('#text' === $sourceNode->nodeName) {
@@ -520,19 +543,38 @@ class Extractor extends XliffVersion
             return;
         }
         if (\in_array($sourceNode->nodeName, self::INTERNAL_TAGS)) {
-            $subNode = new \DOMElement('g');
-            $subNode->setAttribute('id', \sprintf('d%d', $this->nextId++));
-            $source->appendChild($subNode);
-            $subNode->setAttribute('ctype', static::getRestype($sourceNode->nodeName));
-            foreach ($sourceNode->attributes ?? [] as $value) {
-                if (!$value instanceof \DOMAttr) {
-                    throw new \RuntimeException('Unexpected attribute object');
+            if (!$sourceNode->hasChildNodes() && $sourceNode instanceof \DOMElement) {
+                $this->addXNode($sourceNode, $source);
+
+                return;
+            } elseif ($sourceNode->hasAttributes() && $sourceNode instanceof \DOMElement) {
+                $referenceId = \sprintf('rid%d', $this->nextId++);
+                $beginPairedPlaceholder = new \DOMElement('bx');
+                $beginPairedPlaceholder->setAttribute('id', \sprintf('bx%d', $this->nextId++));
+                $beginPairedPlaceholder->setAttribute('rid', $referenceId);
+                $beginPairedPlaceholder->setAttribute('equiv-text', $this->buildEquivTextOpeningTag($sourceNode));
+                $beginPairedPlaceholder->setAttribute('ctype', \sprintf('x-html-%s', $sourceNode->nodeName));
+                $source->appendChild($beginPairedPlaceholder);
+                for ($i = 0; $i < $sourceNode->childNodes->length; ++$i) {
+                    $child = $sourceNode->childNodes->item($i);
+                    if (null === $child) {
+                        continue;
+                    }
+                    $this->fillInline($child, $source);
                 }
-                $nodeValue = $value->nodeValue;
-                if (null === $nodeValue) {
-                    throw new \RuntimeException('Unexpected null node value');
-                }
-                $subNode->setAttribute('html:'.$value->nodeName, $nodeValue);
+                $endPairedPlaceholder = new \DOMElement('ex');
+                $endPairedPlaceholder->setAttribute('id', \sprintf('ex%d', $this->nextId++));
+                $endPairedPlaceholder->setAttribute('rid', $referenceId);
+                $endPairedPlaceholder->setAttribute('equiv-text', $this->buildEquivTextClosingTag($sourceNode));
+                $endPairedPlaceholder->setAttribute('ctype', \sprintf('x-html-%s', $sourceNode->nodeName));
+                $source->appendChild($endPairedPlaceholder);
+
+                return;
+            } else {
+                $subNode = new \DOMElement('g');
+                $subNode->setAttribute('id', \sprintf('g%d', $this->nextId++));
+                $source->appendChild($subNode);
+                $subNode->setAttribute('ctype', static::getRestype($sourceNode->nodeName));
             }
         } else {
             $subNode = $source;
@@ -597,5 +639,15 @@ class Extractor extends XliffVersion
     private function isAppendableSegment(\DOMNode $domNode): bool
     {
         return \in_array($domNode->nodeName, \array_merge(self::INTERNAL_TAGS, ['#text']));
+    }
+
+    private function addXNode(\DOMElement $sourceNode, \DOMElement $source): void
+    {
+        $node = new \DOMElement('x');
+        $node->setAttribute('id', \sprintf('x%d', $this->nextId++));
+        $node->setAttribute('ctype', \sprintf('x-html-%s', $sourceNode->nodeName));
+        $node->setAttribute('equiv-text', $sourceNode->hasAttributes() ? $this->buildEquivTextOpeningTag($sourceNode).$this->buildEquivTextClosingTag($sourceNode) : ' ');
+
+        $source->appendChild($node);
     }
 }

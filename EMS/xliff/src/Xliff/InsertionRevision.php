@@ -363,16 +363,83 @@ class InsertionRevision extends XliffVersion
 
     private function rebuildInline(\DOMElement $tagDom, \DOMElement $grandChild): void
     {
+        /** @var \DOMElement[] $stack */
+        $stack = [];
         foreach ($grandChild->childNodes as $node) {
             if ($node instanceof \DOMText) {
                 $tagDom->appendChild(new \DOMText($node->textContent));
+            } elseif ($node instanceof \DOMElement && 'x' === $node->nodeName) {
+                if ($node->hasAttribute('equiv-text') && ' ' !== $node->getAttribute('equiv-text')) {
+                    $equivText = $node->getAttribute('equiv-text');
+                    $rawHtml = \html_entity_decode(
+                        $equivText,
+                        ENT_QUOTES | ENT_XML1,
+                        'UTF-8'
+                    );
+                    $xml = "<wrapper>$rawHtml</wrapper>";
+                    $copy = $this->xmlToNode($xml);
+                    $tagDom->appendChild($copy);
+                } else {
+                    $tag = $this->getTagFromCType($node);
+                    $tag = new \DOMElement($tag);
+                    $tagDom->appendChild($tag);
+                }
+            } elseif ($node instanceof \DOMElement && 'bx' === $node->nodeName) {
+                $tag = $this->getTagFromCType($node);
+                $rid = $node->getAttribute('rid');
+                $equivText = $node->getAttribute('equiv-text');
+                $rawHtml = \html_entity_decode(
+                    $equivText,
+                    ENT_QUOTES | ENT_XML1,
+                    'UTF-8'
+                );
+                $xml = "<wrapper>$rawHtml</$tag></wrapper>";
+                $copy = $this->xmlToNode($xml);
+                $tagDom->appendChild($copy);
+                $stack[$rid] = $tagDom;
+                $tagDom = $copy;
+            } elseif ($node instanceof \DOMElement && 'ex' === $node->nodeName) {
+                $rid = $node->getAttribute('rid');
+                if (!isset($stack[$rid])) {
+                    throw new \RuntimeException(\sprintf('Unexpected closing tag with id %s', $rid));
+                }
+                $tagDom = $stack[$rid];
+                unset($stack[$rid]);
             } elseif ($node instanceof \DOMElement && 'g' === $node->nodeName) {
                 $tag = $this->restypeToTag(DomHelper::getStringAttr($node, 'ctype'));
                 $tag = new \DOMElement($tag);
                 $tagDom->appendChild($tag);
                 $this->copyHtmlAttribute($node, $tag);
                 $this->rebuildInline($tag, $node);
+            } else {
+                throw new \RuntimeException(\sprintf('Unexpected child: %s', \get_class($node)));
             }
         }
+    }
+
+    private function getTagFromCType(\DOMElement $node): string
+    {
+        $cType = $node->getAttribute('ctype');
+        if (!\str_starts_with($cType, 'x-html-')) {
+            throw new \RuntimeException(\sprintf('Unexpected node "%s" ctype for id %s', $cType, $node->getAttribute('id')));
+        }
+
+        return \substr($cType, 7);
+    }
+
+    private function xmlToNode(string $xml): \DOMElement
+    {
+        $tmp = new \DOMDocument('1.0', 'UTF-8');
+        $tmp->loadXML($xml, LIBXML_NOERROR | LIBXML_NOWARNING);
+        if (null === $tmp->documentElement || null === $tmp->documentElement->firstChild) {
+            throw new \RuntimeException(\sprintf('Unable to parse XML: %s', $xml));
+        }
+        $element = $tmp->documentElement->firstChild;
+        $copy = new \DOMElement($element->nodeName);
+        foreach ($element->attributes ?? [] as $attribute) {
+            $copy->setAttribute($attribute->name, $attribute->value);
+        }
+
+        return $copy;
     }
 }

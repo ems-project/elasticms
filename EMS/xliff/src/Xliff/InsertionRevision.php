@@ -23,18 +23,14 @@ class InsertionRevision extends XliffVersion
     /**
      * @param string[] $nameSpaces
      */
-    public function __construct(private readonly \DOMElement $document, private readonly string $version, private array $nameSpaces, private readonly ?string $sourceLocale, private ?string $targetLocale)
+    public function __construct(private readonly \DOMElement $document, string $version, private array $nameSpaces, private readonly ?string $sourceLocale, private ?string $targetLocale)
     {
-        if (\version_compare($this->version, '2.0') < 0) {
+        parent::__construct($version);
+        if (\version_compare($this->xliffVersion, '2.0') < 0) {
             [$this->contentType, $this->ouuid, $this->revisionId] = \explode(':', DomHelper::getStringAttr($document, 'original'));
         } else {
             [$this->contentType, $this->ouuid, $this->revisionId] = \explode(':', DomHelper::getStringAttr($document, 'id'));
         }
-    }
-
-    public function getVersion(): string
-    {
-        return $this->version;
     }
 
     public function getContentType(): string
@@ -72,7 +68,7 @@ class InsertionRevision extends XliffVersion
      */
     public function getTranslatedFields(): iterable
     {
-        if (\version_compare($this->version, '2.0') < 0) {
+        if (\version_compare($this->xliffVersion, '2.0') < 0) {
             $fields = DomHelper::getSingleElement($this->document, 'body');
         } else {
             $fields = $this->document;
@@ -91,9 +87,9 @@ class InsertionRevision extends XliffVersion
         $nodeName = $field->nodeName;
         if ('group' === $nodeName) {
             return self::HTML_FIELD;
-        } elseif ('trans-unit' === $nodeName && \version_compare($this->version, '2.0') < 0) {
+        } elseif ('trans-unit' === $nodeName && \version_compare($this->xliffVersion, '2.0') < 0) {
             return self::SIMPLE_FIELD;
-        } elseif ('unit' === $nodeName && \version_compare($this->version, '2.0') >= 0) {
+        } elseif ('unit' === $nodeName && \version_compare($this->xliffVersion, '2.0') >= 0) {
             return self::SIMPLE_FIELD;
         } else {
             return self::UNKNOWN_FIELD_TYPE;

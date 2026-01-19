@@ -21,4 +21,9 @@ abstract class XliffVersion
     {
         return \version_compare($this->xliffVersion, '2.0') < 0 ? 'resname' : 'name';
     }
+
+    public function getVersion(): string
+    {
+        return $this->xliffVersion;
+    }
 }

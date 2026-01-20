@@ -131,16 +131,21 @@ class ExtractorTest extends TestCase
             \file_get_contents(\implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'WithBaseline', 'TC-1', 'source.html'])),
             \file_get_contents(\implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'WithBaseline', 'TC-1', 'target.html'])),
             \file_get_contents(\implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'WithBaseline', 'TC-1', 'baseline.html'])),
-            \file_get_contents(\implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'WithBaseline', 'TC-1', 'extracted.xlf'])),
+            \implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'WithBaseline', 'TC-1', 'extracted.xlf']),
         ]];
     }
 
     #[DataProvider('withBaselineProvider')]
-    public function testWithBaseline(string $sourceHtml, string $targetHtml, string $baselineHtml, string $expected): void
+    public function testWithBaseline(string $sourceHtml, string $targetHtml, string $baselineHtml, string $expectedPath): void
     {
         $xliffParser = new Extractor('nl', 'de', Extractor::XLIFF_1_2);
         $document = $xliffParser->addDocument('content_type', 'fakeOuuid', 'fakeRevisionId');
         $xliffParser->addHtmlField($document, '[body]', $sourceHtml, $targetHtml, $baselineHtml);
+
+        if (!\file_exists($expectedPath)) {
+            $xliffParser->saveXML($expectedPath);
+        }
+        $expected = \file_get_contents($expectedPath);
 
         $tempFile = TempFile::create();
         $xliffParser->saveXML($tempFile->path);

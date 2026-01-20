@@ -43,8 +43,8 @@ class Encoder
      */
     private function encodePhone(string $text): string
     {
-        $telRegex = '/"tel:(?P<tel>.*)"/i';
-        $encodedText = \preg_replace_callback($telRegex, fn ($match) => \sprintf('"tel:%s"', $this->htmlEncode($match['tel'])), $text);
+        $telRegex = '~href\s*=\s*["\']tel:(?P<tel>[^"\']+)["\']~i';
+        $encodedText = \preg_replace_callback($telRegex, fn ($match) => \sprintf('href="tel:%s"', $this->htmlEncode($match['tel'])), $text);
 
         if (null === $encodedText) {
             return $text;

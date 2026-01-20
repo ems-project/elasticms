@@ -385,7 +385,6 @@ class InsertionRevision extends XliffVersion
                     $tagDom->appendChild($tag);
                 }
             } elseif ($node instanceof \DOMElement && 'bx' === $node->nodeName) {
-                $tag = $this->getTagFromCType($node);
                 $rid = $node->getAttribute('rid');
                 $equivText = $node->getAttribute('equiv-text');
                 $rawHtml = \html_entity_decode(
@@ -393,7 +392,12 @@ class InsertionRevision extends XliffVersion
                     ENT_QUOTES | ENT_XML1,
                     'UTF-8'
                 );
+                if (!\preg_match('/^<\s*(?P<tag>[a-zA-Z][a-zA-Z0-9:-]*)\b[^>]*\/?>$/', $rawHtml, $matches)) {
+                    throw new \RuntimeException(\sprintf('Unexpected %s tag', $equivText));
+                }
+                $tag = $matches['tag'];
                 $xml = "<wrapper>$rawHtml</$tag></wrapper>";
+
                 $copy = $this->xmlToNode($xml);
                 $tagDom->appendChild($copy);
                 $stack[$rid] = $tagDom;

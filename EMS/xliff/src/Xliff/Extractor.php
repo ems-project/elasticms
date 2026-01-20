@@ -552,7 +552,6 @@ class Extractor extends XliffVersion
                 $beginPairedPlaceholder->setAttribute('id', \sprintf('bx%d', $this->nextId++));
                 $beginPairedPlaceholder->setAttribute('rid', $referenceId);
                 $beginPairedPlaceholder->setAttribute('equiv-text', $this->buildEquivTextOpeningTag($sourceNode));
-                $beginPairedPlaceholder->setAttribute('ctype', \sprintf('x-html-%s', $sourceNode->nodeName));
                 $source->appendChild($beginPairedPlaceholder);
                 for ($i = 0; $i < $sourceNode->childNodes->length; ++$i) {
                     $child = $sourceNode->childNodes->item($i);
@@ -565,7 +564,6 @@ class Extractor extends XliffVersion
                 $endPairedPlaceholder->setAttribute('id', \sprintf('ex%d', $this->nextId++));
                 $endPairedPlaceholder->setAttribute('rid', $referenceId);
                 $endPairedPlaceholder->setAttribute('equiv-text', $this->buildEquivTextClosingTag($sourceNode));
-                $endPairedPlaceholder->setAttribute('ctype', \sprintf('x-html-%s', $sourceNode->nodeName));
                 $source->appendChild($endPairedPlaceholder);
 
                 return;

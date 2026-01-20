@@ -15,7 +15,7 @@
         }
     ],
     "require": {
-        "php": "^8.4",
+        "php": "^8.5",
         "ext-json": "*",
         "ext-tidy": "*",
         "symfony/html-sanitizer": "7.4.*",

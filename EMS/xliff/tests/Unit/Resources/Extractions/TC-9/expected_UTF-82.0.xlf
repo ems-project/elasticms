@@ -49,7 +49,7 @@
         </unit>
         <unit id="tu14" name="/html/body/div/p">
           <segment id="tu15" name="/html/body/div/p">
-            <source> Vanaf <g id="g16" ctype="x-html-strong">1 juli 2016</g> kan voor werknemers die tewerkgesteld worden in <g id="g17" ctype="x-html-strong">Vlaanderen</g> niet langer de 'doelgroepvermindering oudere werknemers' toegepast worden maar wel de '<bx id="bx19" rid="rid18" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/deductions/structuralreduction_targetgroupreductions/elderlyworkers_vl.html&amp;quot;&amp;gt;" ctype="x-html-a"/>doelgroepvermindering oudere werknemers - Vlaanderen<ex id="ex20" rid="rid18" equiv-text="&amp;lt;/a&amp;gt;" ctype="x-html-a"/>'. Er zijn geen overgangsmaatregelen voorzien. </source>
+            <source> Vanaf <g id="g16" ctype="x-html-strong">1 juli 2016</g> kan voor werknemers die tewerkgesteld worden in <g id="g17" ctype="x-html-strong">Vlaanderen</g> niet langer de 'doelgroepvermindering oudere werknemers' toegepast worden maar wel de '<bx id="bx19" rid="rid18" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/deductions/structuralreduction_targetgroupreductions/elderlyworkers_vl.html&amp;quot;&amp;gt;"/>doelgroepvermindering oudere werknemers - Vlaanderen<ex id="ex20" rid="rid18" equiv-text="&amp;lt;/a&amp;gt;"/>'. Er zijn geen overgangsmaatregelen voorzien. </source>
             <target/>
           </segment>
         </unit>
@@ -77,7 +77,7 @@
         </unit>
         <unit id="tu30" name="/html/body/div/p">
           <segment id="tu31" name="/html/body/div/p">
-            <source> Vanaf <g id="g32" ctype="x-html-strong">1 juli 2016</g> kan voor werknemers die tewerkgesteld worden in <g id="g33" ctype="x-html-strong">Vlaanderen</g> niet langer de 'doelgroepvermindering oudere werknemers' toegepast worden maar wel de '<bx id="bx35" rid="rid34" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/deductions/structuralreduction_targetgroupreductions/elderlyworkers_vl.html&amp;quot;&amp;gt;" ctype="x-html-a"/>doelgroepvermindering oudere werknemers - Vlaanderen<ex id="ex36" rid="rid34" equiv-text="&amp;lt;/a&amp;gt;" ctype="x-html-a"/>'. Er zijn geen overgangsmaatregelen voorzien. </source>
+            <source> Vanaf <g id="g32" ctype="x-html-strong">1 juli 2016</g> kan voor werknemers die tewerkgesteld worden in <g id="g33" ctype="x-html-strong">Vlaanderen</g> niet langer de 'doelgroepvermindering oudere werknemers' toegepast worden maar wel de '<bx id="bx35" rid="rid34" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/deductions/structuralreduction_targetgroupreductions/elderlyworkers_vl.html&amp;quot;&amp;gt;"/>doelgroepvermindering oudere werknemers - Vlaanderen<ex id="ex36" rid="rid34" equiv-text="&amp;lt;/a&amp;gt;"/>'. Er zijn geen overgangsmaatregelen voorzien. </source>
             <target/>
           </segment>
         </unit>

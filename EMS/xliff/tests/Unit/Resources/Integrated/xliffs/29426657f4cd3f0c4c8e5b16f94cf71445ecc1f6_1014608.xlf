@@ -183,8 +183,8 @@
           </trans-unit>
         </group>
         <trans-unit restype="x-html-p" id="tu67" resname="/html/body/p[3]">
-          <source xml:lang="nl"> De werkgever duidt in het DmfA-blok 'tewerkstelling inlichtingen' in de zone '<bx id="bx69" rid="rid68" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/fill_in_dmfa/dmfa_fillinrules/nssoinformation/prestationexemption.html&amp;quot;&amp;gt;" ctype="x-html-a"/>vrijstelling prestaties<ex id="ex70" rid="rid68" equiv-text="&amp;lt;/a&amp;gt;" ctype="x-html-a"/>' aan wat de situatie van de werknemer is. </source>
-          <target xml:lang="de" state="final"> Der Arbeitgeber meldet im DmfA-Block ‚Beschäftigung Auskünfte‘ im Feld ‚<bx id="bx72" rid="rid71" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/fill_in_dmfa/dmfa_fillinrules/nssoinformation/prestationexemption.html&amp;quot;&amp;gt;" ctype="x-html-a"/>Freistellung von Leistungen<ex id="ex73" rid="rid71" equiv-text="&amp;lt;/a&amp;gt;" ctype="x-html-a"/>‘ die Situation des Arbeitnehmers. </target>
+          <source xml:lang="nl"> De werkgever duidt in het DmfA-blok 'tewerkstelling inlichtingen' in de zone '<bx id="bx69" rid="rid68" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/fill_in_dmfa/dmfa_fillinrules/nssoinformation/prestationexemption.html&amp;quot;&amp;gt;"/>vrijstelling prestaties<ex id="ex70" rid="rid68" equiv-text="&amp;lt;/a&amp;gt;"/>' aan wat de situatie van de werknemer is. </source>
+          <target xml:lang="de" state="final"> Der Arbeitgeber meldet im DmfA-Block ‚Beschäftigung Auskünfte‘ im Feld ‚<bx id="bx72" rid="rid71" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/fill_in_dmfa/dmfa_fillinrules/nssoinformation/prestationexemption.html&amp;quot;&amp;gt;"/>Freistellung von Leistungen<ex id="ex73" rid="rid71" equiv-text="&amp;lt;/a&amp;gt;"/>‘ die Situation des Arbeitnehmers. </target>
         </trans-unit>
         <trans-unit restype="x-html-ul" id="tu74" resname="/html/body/ul[5]">
           <source xml:lang="nl"/>
@@ -272,8 +272,8 @@
           <target xml:lang="de" state="final"> Weitere Informationen </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu121" resname="/html/body/p[4]">
-          <source xml:lang="nl"> Bijkomende informatie vindt u op de website van Vlaanderen: <bx id="bx123" rid="rid122" equiv-text="&amp;lt;a href=&amp;quot;https://www.vlaanderen.be/doelgroepverminderingen#doelgroepverminderingen-voor-55-plussers&amp;quot; target=&amp;quot;_blank&amp;quot;&amp;gt;" ctype="x-html-a"/>https://www.vlaanderen.be/doelgroepverminderingen#doelgroepverminderingen-voor-55-plussers<ex id="ex124" rid="rid122" equiv-text="&amp;lt;/a&amp;gt;" ctype="x-html-a"/>. </source>
-          <target xml:lang="de" state="final"> Weitere Informationen finden Sie auf der Website von Flandern: <bx id="bx126" rid="rid125" equiv-text="&amp;lt;a href=&amp;quot;https://www.vlaanderen.be/doelgroepverminderingen#doelgroepverminderingen-voor-55-plussers&amp;quot; target=&amp;quot;_blank&amp;quot;&amp;gt;" ctype="x-html-a"/>https://www.vlaanderen.be/doelgroepverminderingen#doelgroepverminderingen-voor-55-plussers<ex id="ex127" rid="rid125" equiv-text="&amp;lt;/a&amp;gt;" ctype="x-html-a"/>. </target>
+          <source xml:lang="nl"> Bijkomende informatie vindt u op de website van Vlaanderen: <bx id="bx123" rid="rid122" equiv-text="&amp;lt;a href=&amp;quot;https://www.vlaanderen.be/doelgroepverminderingen#doelgroepverminderingen-voor-55-plussers&amp;quot; target=&amp;quot;_blank&amp;quot;&amp;gt;"/>https://www.vlaanderen.be/doelgroepverminderingen#doelgroepverminderingen-voor-55-plussers<ex id="ex124" rid="rid122" equiv-text="&amp;lt;/a&amp;gt;"/>. </source>
+          <target xml:lang="de" state="final"> Weitere Informationen finden Sie auf der Website von Flandern: <bx id="bx126" rid="rid125" equiv-text="&amp;lt;a href=&amp;quot;https://www.vlaanderen.be/doelgroepverminderingen#doelgroepverminderingen-voor-55-plussers&amp;quot; target=&amp;quot;_blank&amp;quot;&amp;gt;"/>https://www.vlaanderen.be/doelgroepverminderingen#doelgroepverminderingen-voor-55-plussers<ex id="ex127" rid="rid125" equiv-text="&amp;lt;/a&amp;gt;"/>. </target>
         </trans-unit>
       </group>
     </body>

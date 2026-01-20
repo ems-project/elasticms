@@ -56,7 +56,7 @@
         <group restype="x-html-ul" id="tu15" resname="/html/body/ul[2]">
           <group restype="listitem" id="tu16" resname="/html/body/ul[2]/li[1]">
             <trans-unit id="tu17" resname="/html/body/ul[2]/li[1]/text()[1]">
-              <source xml:lang="en">de opdrachten en taken van civiele veiligheid, uitgevoerd door de vrijwillige brandweerlieden en de vrijwilligers van de Civiele Bescherming en vermeld in de bijlage van het <bx id="bx19" rid="rid18" equiv-text="&amp;lt;a href=&amp;quot;http://www.ejustice.just.fgov.be/cgi_loi/loi_a1.pl?language=nl&amp;amp;amp;la=N&amp;amp;amp;cn=2014061012&amp;amp;amp;table_name=wet&amp;amp;amp;&amp;amp;amp;caller=list&amp;amp;amp;N&amp;amp;amp;fromtab=wet&amp;amp;amp;tri=dd+AS+RANK&amp;amp;amp;rech=1&amp;amp;amp;numero=1&amp;amp;amp;sql=(text+contains+(%27%27))#LNK0007&amp;quot; title=&amp;quot;ambulance&amp;quot;&amp;gt;" ctype="x-html-a"/>koninklijk besluit van 10 juni 2014<ex id="ex20" rid="rid18" equiv-text="&amp;lt;/a&amp;gt;" ctype="x-html-a"/>, meer bepaald </source>
+              <source xml:lang="en">de opdrachten en taken van civiele veiligheid, uitgevoerd door de vrijwillige brandweerlieden en de vrijwilligers van de Civiele Bescherming en vermeld in de bijlage van het <bx id="bx19" rid="rid18" equiv-text="&amp;lt;a href=&amp;quot;http://www.ejustice.just.fgov.be/cgi_loi/loi_a1.pl?language=nl&amp;amp;amp;la=N&amp;amp;amp;cn=2014061012&amp;amp;amp;table_name=wet&amp;amp;amp;&amp;amp;amp;caller=list&amp;amp;amp;N&amp;amp;amp;fromtab=wet&amp;amp;amp;tri=dd+AS+RANK&amp;amp;amp;rech=1&amp;amp;amp;numero=1&amp;amp;amp;sql=(text+contains+(%27%27))#LNK0007&amp;quot; title=&amp;quot;ambulance&amp;quot;&amp;gt;"/>koninklijk besluit van 10 juni 2014<ex id="ex20" rid="rid18" equiv-text="&amp;lt;/a&amp;gt;"/>, meer bepaald </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
             <group restype="x-html-ul" id="tu21" resname="/html/body/ul[2]/li[1]/ul">
@@ -86,7 +86,7 @@
           </group>
         </group>
         <trans-unit restype="x-html-p" id="tu28" resname="/html/body/p[5]">
-          <source xml:lang="en"> De <g id="g29" ctype="x-html-strong">vergoedingen voor 'niet-uitzonderlijke' prestaties</g> zijn vrijgesteld voor zover het bedrag van 785,95 EUR per kwartaal (niet geïndexeerd) niet overschreden wordt. Het geïndexeerd bedrag van de vergoedingen dat vrijgesteld is van socialezekerheidsbijdragen, bedraagt <bx id="bx31" rid="rid30" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;" ctype="x-html-span"/>1.191,26 EUR<ex id="ex32" rid="rid30" equiv-text="&amp;lt;/span&amp;gt;" ctype="x-html-span"/> per kwartaal vanaf het <bx id="bx34" rid="rid33" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;" ctype="x-html-span"/>2<g id="g35" ctype="x-html-sup">de</g> kwartaal van 2022<ex id="ex36" rid="rid33" equiv-text="&amp;lt;/span&amp;gt;" ctype="x-html-span"/>. </source>
+          <source xml:lang="en"> De <g id="g29" ctype="x-html-strong">vergoedingen voor 'niet-uitzonderlijke' prestaties</g> zijn vrijgesteld voor zover het bedrag van 785,95 EUR per kwartaal (niet geïndexeerd) niet overschreden wordt. Het geïndexeerd bedrag van de vergoedingen dat vrijgesteld is van socialezekerheidsbijdragen, bedraagt <bx id="bx31" rid="rid30" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>1.191,26 EUR<ex id="ex32" rid="rid30" equiv-text="&amp;lt;/span&amp;gt;"/> per kwartaal vanaf het <bx id="bx34" rid="rid33" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>2<g id="g35" ctype="x-html-sup">de</g> kwartaal van 2022<ex id="ex36" rid="rid33" equiv-text="&amp;lt;/span&amp;gt;"/>. </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu37" resname="/html/body/p[6]">
@@ -123,7 +123,7 @@
           </group>
         </group>
         <trans-unit restype="x-html-p" id="tu55" resname="/html/body/p[7]">
-          <source xml:lang="en"> Indien het maximumbedrag van <bx id="bx57" rid="rid56" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;" ctype="x-html-span"/>1.191,26 EUR<ex id="ex58" rid="rid56" equiv-text="&amp;lt;/span&amp;gt;" ctype="x-html-span"/> overschreden wordt, zijn er persoonlijke en patronale socialezekerheidsbijdragen verschuldigd op het totale bedrag van de vergoedingen voor 'niet-uitzonderlijke' prestaties en niet enkel op het gedeelte boven het drempelbedrag. </source>
+          <source xml:lang="en"> Indien het maximumbedrag van <bx id="bx57" rid="rid56" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>1.191,26 EUR<ex id="ex58" rid="rid56" equiv-text="&amp;lt;/span&amp;gt;"/> overschreden wordt, zijn er persoonlijke en patronale socialezekerheidsbijdragen verschuldigd op het totale bedrag van de vergoedingen voor 'niet-uitzonderlijke' prestaties en niet enkel op het gedeelte boven het drempelbedrag. </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu59" resname="/html/body/p[8]">
@@ -169,7 +169,7 @@
         <group restype="x-html-ul" id="tu71" resname="/html/body/ul[2]">
           <group restype="listitem" id="tu72" resname="/html/body/ul[2]/li[1]">
             <trans-unit id="tu73" resname="/html/body/ul[2]/li[1]/text()[1]">
-              <source xml:lang="en">de opdrachten en taken van civiele veiligheid, uitgevoerd door de vrijwillige brandweerlieden en de vrijwilligers van de Civiele Bescherming en vermeld in de bijlage van het <bx id="bx75" rid="rid74" equiv-text="&amp;lt;a href=&amp;quot;http://www.ejustice.just.fgov.be/cgi_loi/loi_a1.pl?language=nl&amp;amp;amp;la=N&amp;amp;amp;cn=2014061012&amp;amp;amp;table_name=wet&amp;amp;amp;&amp;amp;amp;caller=list&amp;amp;amp;N&amp;amp;amp;fromtab=wet&amp;amp;amp;tri=dd+AS+RANK&amp;amp;amp;rech=1&amp;amp;amp;numero=1&amp;amp;amp;sql=(text+contains+(%27%27))#LNK0007&amp;quot; title=&amp;quot;ambulance&amp;quot;&amp;gt;" ctype="x-html-a"/>koninklijk besluit van 10 juni 2014<ex id="ex76" rid="rid74" equiv-text="&amp;lt;/a&amp;gt;" ctype="x-html-a"/>, meer bepaald </source>
+              <source xml:lang="en">de opdrachten en taken van civiele veiligheid, uitgevoerd door de vrijwillige brandweerlieden en de vrijwilligers van de Civiele Bescherming en vermeld in de bijlage van het <bx id="bx75" rid="rid74" equiv-text="&amp;lt;a href=&amp;quot;http://www.ejustice.just.fgov.be/cgi_loi/loi_a1.pl?language=nl&amp;amp;amp;la=N&amp;amp;amp;cn=2014061012&amp;amp;amp;table_name=wet&amp;amp;amp;&amp;amp;amp;caller=list&amp;amp;amp;N&amp;amp;amp;fromtab=wet&amp;amp;amp;tri=dd+AS+RANK&amp;amp;amp;rech=1&amp;amp;amp;numero=1&amp;amp;amp;sql=(text+contains+(%27%27))#LNK0007&amp;quot; title=&amp;quot;ambulance&amp;quot;&amp;gt;"/>koninklijk besluit van 10 juni 2014<ex id="ex76" rid="rid74" equiv-text="&amp;lt;/a&amp;gt;"/>, meer bepaald </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
             <group restype="x-html-ul" id="tu77" resname="/html/body/ul[2]/li[1]/ul">
@@ -199,7 +199,7 @@
           </group>
         </group>
         <trans-unit restype="x-html-p" id="tu84" resname="/html/body/p[5]">
-          <source xml:lang="en"> De <g id="g85" ctype="x-html-strong">vergoedingen voor 'niet-uitzonderlijke' prestaties</g> zijn vrijgesteld voor zover het bedrag van 785,95 EUR per kwartaal (niet geïndexeerd) niet overschreden wordt. Het geïndexeerd bedrag van de vergoedingen dat vrijgesteld is van socialezekerheidsbijdragen, bedraagt <bx id="bx87" rid="rid86" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;" ctype="x-html-span"/>1.191,26 EUR<ex id="ex88" rid="rid86" equiv-text="&amp;lt;/span&amp;gt;" ctype="x-html-span"/> per kwartaal vanaf het <bx id="bx90" rid="rid89" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;" ctype="x-html-span"/>2<g id="g91" ctype="x-html-sup">de</g> kwartaal van 2022<ex id="ex92" rid="rid89" equiv-text="&amp;lt;/span&amp;gt;" ctype="x-html-span"/>. </source>
+          <source xml:lang="en"> De <g id="g85" ctype="x-html-strong">vergoedingen voor 'niet-uitzonderlijke' prestaties</g> zijn vrijgesteld voor zover het bedrag van 785,95 EUR per kwartaal (niet geïndexeerd) niet overschreden wordt. Het geïndexeerd bedrag van de vergoedingen dat vrijgesteld is van socialezekerheidsbijdragen, bedraagt <bx id="bx87" rid="rid86" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>1.191,26 EUR<ex id="ex88" rid="rid86" equiv-text="&amp;lt;/span&amp;gt;"/> per kwartaal vanaf het <bx id="bx90" rid="rid89" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>2<g id="g91" ctype="x-html-sup">de</g> kwartaal van 2022<ex id="ex92" rid="rid89" equiv-text="&amp;lt;/span&amp;gt;"/>. </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu93" resname="/html/body/p[6]">
@@ -236,7 +236,7 @@
           </group>
         </group>
         <trans-unit restype="x-html-p" id="tu111" resname="/html/body/p[7]">
-          <source xml:lang="en"> Indien het maximumbedrag van <bx id="bx113" rid="rid112" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;" ctype="x-html-span"/>1.191,26 EUR<ex id="ex114" rid="rid112" equiv-text="&amp;lt;/span&amp;gt;" ctype="x-html-span"/> overschreden wordt, zijn er persoonlijke en patronale socialezekerheidsbijdragen verschuldigd op het totale bedrag van de vergoedingen voor 'niet-uitzonderlijke' prestaties en niet enkel op het gedeelte boven het drempelbedrag. </source>
+          <source xml:lang="en"> Indien het maximumbedrag van <bx id="bx113" rid="rid112" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>1.191,26 EUR<ex id="ex114" rid="rid112" equiv-text="&amp;lt;/span&amp;gt;"/> overschreden wordt, zijn er persoonlijke en patronale socialezekerheidsbijdragen verschuldigd op het totale bedrag van de vergoedingen voor 'niet-uitzonderlijke' prestaties en niet enkel op het gedeelte boven het drempelbedrag. </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu115" resname="/html/body/p[8]">

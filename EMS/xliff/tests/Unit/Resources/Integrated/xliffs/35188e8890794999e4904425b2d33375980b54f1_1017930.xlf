@@ -81,8 +81,8 @@
             <group restype="x-html-ul" id="tu29" resname="/html/body/ul[2]/li[2]/ul">
               <note from="style">padding-top: 0px; padding-bottom: 0px;</note>
               <trans-unit restype="listitem" id="tu30" resname="/html/body/ul[2]/li[2]/ul/li">
-                <source xml:lang="nl">vanaf het <bx id="bx32" rid="rid31" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;" ctype="x-html-span"/>4<g id="g33" ctype="x-html-sup">de</g> kwartaal 2021<ex id="ex34" rid="rid31" equiv-text="&amp;lt;/span&amp;gt;" ctype="x-html-span"/> is het plafond gelijk aan <bx id="bx36" rid="rid35" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;" ctype="x-html-span"/>11.142,68 EUR<ex id="ex37" rid="rid35" equiv-text="&amp;lt;/span&amp;gt;" ctype="x-html-span"/> . </source>
-                <target xml:lang="de" state="final">ab dem <bx id="bx39" rid="rid38" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;" ctype="x-html-span"/>4.<x id="x40" ctype="x-html-sup" equiv-text=" "/> Quartal 2021<ex id="ex41" rid="rid38" equiv-text="&amp;lt;/span&amp;gt;" ctype="x-html-span"/> entspricht die Grenze <bx id="bx43" rid="rid42" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;" ctype="x-html-span"/>11.142,68 EUR<ex id="ex44" rid="rid42" equiv-text="&amp;lt;/span&amp;gt;" ctype="x-html-span"/>. </target>
+                <source xml:lang="nl">vanaf het <bx id="bx32" rid="rid31" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>4<g id="g33" ctype="x-html-sup">de</g> kwartaal 2021<ex id="ex34" rid="rid31" equiv-text="&amp;lt;/span&amp;gt;"/> is het plafond gelijk aan <bx id="bx36" rid="rid35" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>11.142,68 EUR<ex id="ex37" rid="rid35" equiv-text="&amp;lt;/span&amp;gt;"/> . </source>
+                <target xml:lang="de" state="final">ab dem <bx id="bx39" rid="rid38" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>4.<x id="x40" ctype="x-html-sup" equiv-text=" "/> Quartal 2021<ex id="ex41" rid="rid38" equiv-text="&amp;lt;/span&amp;gt;"/> entspricht die Grenze <bx id="bx43" rid="rid42" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>11.142,68 EUR<ex id="ex44" rid="rid42" equiv-text="&amp;lt;/span&amp;gt;"/>. </target>
               </trans-unit>
             </group>
           </group>
@@ -107,8 +107,8 @@
           <target xml:lang="de" state="final"> Weitere Informationen </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu54" resname="/html/body/p[2]">
-          <source xml:lang="nl"> Bijkomende informatie vindt u op de website van Actiris: <bx id="bx56" rid="rid55" equiv-text="&amp;lt;a href=&amp;quot;https://www.actiris.brussels/nl/werkgevers/korting-57/&amp;quot;&amp;gt;" ctype="x-html-a"/>https://www.actiris.brussels/nl/werkgevers/korting-57/<ex id="ex57" rid="rid55" equiv-text="&amp;lt;/a&amp;gt;" ctype="x-html-a"/>. </source>
-          <target xml:lang="de" state="final"> Weitere Informationen finden Sie auf der Website van Actiris: <bx id="bx59" rid="rid58" equiv-text="&amp;lt;a href=&amp;quot;https://www.actiris.brussels/nl/werkgevers/korting-57/&amp;quot;&amp;gt;" ctype="x-html-a"/>https://www.actiris.brussels/nl/werkgevers/korting-57/<ex id="ex60" rid="rid58" equiv-text="&amp;lt;/a&amp;gt;" ctype="x-html-a"/>. </target>
+          <source xml:lang="nl"> Bijkomende informatie vindt u op de website van Actiris: <bx id="bx56" rid="rid55" equiv-text="&amp;lt;a href=&amp;quot;https://www.actiris.brussels/nl/werkgevers/korting-57/&amp;quot;&amp;gt;"/>https://www.actiris.brussels/nl/werkgevers/korting-57/<ex id="ex57" rid="rid55" equiv-text="&amp;lt;/a&amp;gt;"/>. </source>
+          <target xml:lang="de" state="final"> Weitere Informationen finden Sie auf der Website van Actiris: <bx id="bx59" rid="rid58" equiv-text="&amp;lt;a href=&amp;quot;https://www.actiris.brussels/nl/werkgevers/korting-57/&amp;quot;&amp;gt;"/>https://www.actiris.brussels/nl/werkgevers/korting-57/<ex id="ex60" rid="rid58" equiv-text="&amp;lt;/a&amp;gt;"/>. </target>
         </trans-unit>
       </group>
     </body>

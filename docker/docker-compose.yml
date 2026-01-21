@@ -159,6 +159,88 @@ services:
             - "traefik.http.routers.varnish.entrypoints=web"
             - "traefik.http.services.varnish.loadbalancer.server.port=80"
 
+    keycloak:
+        profiles: [ "all","keycloak" ]
+        image: quay.io/keycloak/keycloak:24.0
+        environment:
+            KC_DB: postgres
+            KC_DB_VENDOR: POSTGRES
+            KC_DB_DATABASE: keycloak
+            KC_DB_USERNAME: keycloak
+            KC_DB_PASSWORD: password
+            KC_DB_URL_HOST: keycloak_db
+            KC_DB_SCHEMA: public
+            KC_DB_PORT: 5432
+            KEYCLOAK_ADMIN: admin
+            KEYCLOAK_ADMIN_PASSWORD: changeme
+            KEYCLOAK_LOGLEVEL: ALL
+        volumes:
+            - ./keycloak:/data
+        ports:
+            - "9081:8080"
+        command: [ 'start-dev' ]
+        depends_on:
+            - keycloak_db
+        restart: always
+        labels:
+            - "elasticMS"
+            - "traefik.enable=true"
+            - "traefik.http.routers.keycloak.rule=Host(`keycloak.localhost`)"
+            - "traefik.http.routers.keycloak.entrypoints=web"
+            - "traefik.http.routers.keycloak.service=keycloak"
+            - "traefik.http.services.keycloak.loadbalancer.server.port=8080"
+
+    keycloak_db:
+        profiles: [ "all","keycloak" ]
+        image: postgres:13
+        environment:
+            POSTGRES_DB: keycloak
+            POSTGRES_USER: keycloak
+            POSTGRES_PASSWORD: password
+        volumes:
+            - keycloak_data:/var/lib/postgresql/data
+        labels:
+            - "elasticMS"
+
+    prometheus:
+        profiles: [ "all","grafana" ]
+        labels:
+            - "elasticMS"
+        image: prom/prometheus:latest
+        volumes:
+            - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+            - prometheus_data:/prometheus
+        ports:
+            - "9090:9090"
+        restart: unless-stopped
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+
+    grafana:
+        profiles: [ "all","grafana" ]
+        image: grafana/grafana-oss:latest
+        environment:
+            - GF_SECURITY_ADMIN_USER=admin
+            - GF_SECURITY_ADMIN_PASSWORD=admin
+            - GF_INSTALL_PLUGINS=
+            - GF_UPDATE_CHECKS_ENABLED=false
+        depends_on:
+            - prometheus
+        volumes:
+            - ./grafana/provisioning:/etc/grafana/provisioning:ro
+            - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+            - grafana_data:/var/lib/grafana
+        ports:
+            - "3001:3000"
+        restart: unless-stopped
+        labels:
+            - "elasticMS"
+            - "traefik.enable=true"
+            - "traefik.http.routers.grafana.rule=Host(`grafana.localhost`)"
+            - "traefik.http.routers.grafana.entrypoints=web"
+            - "traefik.http.routers.grafana.service=grafana"
+            - "traefik.http.services.grafana.loadbalancer.server.port=3000"
+
 volumes:
     elk8_data1:
     os2_data1:
@@ -171,6 +253,9 @@ volumes:
         external: false
     mercure_data:
     mercure_config:
+    keycloak_data:
+    prometheus_data:
+    grafana_data:
 
 networks:
     default:

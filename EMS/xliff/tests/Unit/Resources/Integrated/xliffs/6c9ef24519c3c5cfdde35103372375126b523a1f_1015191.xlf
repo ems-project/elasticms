@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 https://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2">
   <file source-language="nl" original="content_type:6c9ef24519c3c5cfdde35103372375126b523a1f:1015191" datatype="database" target-language="de">
     <body>
       <trans-unit id="tu1" resname="[title]">
@@ -114,8 +114,8 @@
           </trans-unit>
         </group>
         <trans-unit restype="x-html-p" id="tu38" resname="/html/body/p[4]">
-          <source xml:lang="nl"> De werkgever duidt in het DmfA-blok 'tewerkstelling inlichtingen' in de zone '<bx id="bx40" rid="rid39" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/fill_in_dmfa/dmfa_fillinrules/nssoinformation/prestationexemption.html&amp;quot;&amp;gt;" ctype="x-html-a"/>vrijstelling prestaties<ex id="ex41" rid="rid39" equiv-text="&amp;lt;/a&amp;gt;" ctype="x-html-a"/>' aan wat de situatie van de werknemer is. </source>
-          <target xml:lang="de" state="final"> Der Arbeitgeber meldet im DmfA-Block ‚Beschäftigung Auskünfte‘ im Feld ‚<bx id="bx43" rid="rid42" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/fill_in_dmfa/dmfa_fillinrules/nssoinformation/prestationexemption.html&amp;quot;&amp;gt;" ctype="x-html-a"/>Freistellung von Leistungen<ex id="ex44" rid="rid42" equiv-text="&amp;lt;/a&amp;gt;" ctype="x-html-a"/>‘ die Situation des Arbeitnehmers. </target>
+          <source xml:lang="nl"> De werkgever duidt in het DmfA-blok 'tewerkstelling inlichtingen' in de zone '<bx id="bx40" rid="rid39" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/fill_in_dmfa/dmfa_fillinrules/nssoinformation/prestationexemption.html&amp;quot;&amp;gt;"/>vrijstelling prestaties<ex id="ex41" rid="rid39" equiv-text="&amp;lt;/a&amp;gt;"/>' aan wat de situatie van de werknemer is. </source>
+          <target xml:lang="de" state="final"> Der Arbeitgeber meldet im DmfA-Block ‚Beschäftigung Auskünfte‘ im Feld ‚<bx id="bx43" rid="rid42" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/fill_in_dmfa/dmfa_fillinrules/nssoinformation/prestationexemption.html&amp;quot;&amp;gt;"/>Freistellung von Leistungen<ex id="ex44" rid="rid42" equiv-text="&amp;lt;/a&amp;gt;"/>‘ die Situation des Arbeitnehmers. </target>
         </trans-unit>
         <trans-unit restype="x-html-h2" id="tu45" resname="/html/body/h2[3]">
           <source xml:lang="nl"> Bedrag van de vermindering </source>
@@ -185,8 +185,8 @@
           <target xml:lang="de" state="final"> Weitere Informationen </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu96" resname="/html/body/p[5]">
-          <source xml:lang="nl"> Bijkomende informatie vindt u op de website van het 'Arbeitsamt der Deutschsprachigen Gemeinschaft Belgiens - <bx id="bx98" rid="rid97" equiv-text="&amp;lt;a href=&amp;quot;http://www.adg.be/desktopdefault.aspx/tabid-5339/9317_read-50626/&amp;quot; target=&amp;quot;_blank&amp;quot;&amp;gt;" ctype="x-html-a"/>LSS-Ermäßigung: Ältere Arbeitnehmer/innen<ex id="ex99" rid="rid97" equiv-text="&amp;lt;/a&amp;gt;" ctype="x-html-a"/>'. </source>
-          <target xml:lang="de" state="final"> Weitere Informationen finden Sie auf der Website des ‚Arbeitsamt der Deutschsprachigen Gemeinschaft Belgiens - <bx id="bx101" rid="rid100" equiv-text="&amp;lt;a href=&amp;quot;http://www.adg.be/desktopdefault.aspx/tabid-5339/9317_read-50626/&amp;quot; target=&amp;quot;_blank&amp;quot;&amp;gt;" ctype="x-html-a"/>LSS-Ermäßigung: Ältere Arbeitnehmer/innen<ex id="ex102" rid="rid100" equiv-text="&amp;lt;/a&amp;gt;" ctype="x-html-a"/>‘. </target>
+          <source xml:lang="nl"> Bijkomende informatie vindt u op de website van het 'Arbeitsamt der Deutschsprachigen Gemeinschaft Belgiens - <bx id="bx98" rid="rid97" equiv-text="&amp;lt;a href=&amp;quot;http://www.adg.be/desktopdefault.aspx/tabid-5339/9317_read-50626/&amp;quot; target=&amp;quot;_blank&amp;quot;&amp;gt;"/>LSS-Ermäßigung: Ältere Arbeitnehmer/innen<ex id="ex99" rid="rid97" equiv-text="&amp;lt;/a&amp;gt;"/>'. </source>
+          <target xml:lang="de" state="final"> Weitere Informationen finden Sie auf der Website des ‚Arbeitsamt der Deutschsprachigen Gemeinschaft Belgiens - <bx id="bx101" rid="rid100" equiv-text="&amp;lt;a href=&amp;quot;http://www.adg.be/desktopdefault.aspx/tabid-5339/9317_read-50626/&amp;quot; target=&amp;quot;_blank&amp;quot;&amp;gt;"/>LSS-Ermäßigung: Ältere Arbeitnehmer/innen<ex id="ex102" rid="rid100" equiv-text="&amp;lt;/a&amp;gt;"/>‘. </target>
         </trans-unit>
       </group>
     </body>

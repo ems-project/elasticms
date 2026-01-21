@@ -20,11 +20,11 @@ services:
 
   setup_elk:
     extends:
-      file: docker-${ELK_VERSION-elk7}.yml
+      file: docker-${ELK_VERSION-elk8}.yml
       service: setup_elk
   es01:
     extends:
-      file: docker-${ELK_VERSION-elk7}.yml
+      file: docker-${ELK_VERSION-elk8}.yml
       service: es01
 #    ports:
 #      - "9200:9200"
@@ -36,7 +36,7 @@ services:
       - "traefik.http.services.es.loadbalancer.server.port=9200"
   es02:
     extends:
-      file: docker-${ELK_VERSION-elk7}.yml
+      file: docker-${ELK_VERSION-elk8}.yml
       service: es02
     labels:
       - "traefik.enable=true"
@@ -46,7 +46,7 @@ services:
       - "traefik.http.services.es.loadbalancer.server.port=9200"
   es03:
     extends:
-      file: docker-${ELK_VERSION-elk7}.yml
+      file: docker-${ELK_VERSION-elk8}.yml
       service: es03
     labels:
       - "traefik.enable=true"
@@ -57,7 +57,7 @@ services:
 
   kibana:
     extends:
-      file: docker-${ELK_VERSION-elk7}.yml
+      file: docker-${ELK_VERSION-elk8}.yml
       service: kibana
     labels:
       - "traefik.enable=true"
@@ -219,9 +219,6 @@ services:
       '
 
 volumes:
-  elk7_data01:
-  elk7_data02:
-  elk7_data03:
   elk8_data01:
   elk8_data02:
   elk8_data03:

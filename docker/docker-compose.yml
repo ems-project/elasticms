@@ -12,13 +12,13 @@ services:
         labels:
             - "elasticMS"
         extends:
-            file: ../demo/docker-${ELK_VERSION-elk7}.yml
+            file: ../demo/docker-${ELK_VERSION-elk8}.yml
             service: setup_elk
 
     es01:
         profiles: [ "all","ems" ]
         extends:
-            file: ../demo/docker-${ELK_VERSION-elk7}.yml
+            file: ../demo/docker-${ELK_VERSION-elk8}.yml
             service: es01
         ports:
             - "9201:9200"
@@ -33,7 +33,7 @@ services:
     es02:
         profiles: [ "all","ems" ]
         extends:
-            file: ../demo/docker-${ELK_VERSION-elk7}.yml
+            file: ../demo/docker-${ELK_VERSION-elk8}.yml
             service: es02
         ports:
             - "9202:9200"
@@ -48,7 +48,7 @@ services:
     es03:
         profiles: [ "all","ems" ]
         extends:
-            file: ../demo/docker-${ELK_VERSION-elk7}.yml
+            file: ../demo/docker-${ELK_VERSION-elk8}.yml
             service: es03
         ports:
             - "9203:9200"
@@ -63,7 +63,7 @@ services:
     kibana:
         profiles: [ "all","ems" ]
         extends:
-            file: ../demo/docker-${ELK_VERSION-elk7}.yml
+            file: ../demo/docker-${ELK_VERSION-elk8}.yml
             service: kibana
         labels:
             - "elasticMS"
@@ -190,9 +190,6 @@ services:
             - "traefik.http.services.varnish.loadbalancer.server.port=80"
 
 volumes:
-    elk7_data01:
-    elk7_data02:
-    elk7_data03:
     elk8_data01:
     elk8_data02:
     elk8_data03:

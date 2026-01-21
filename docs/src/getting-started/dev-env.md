@@ -16,13 +16,6 @@ wget https://get.symfony.com/cli/installer -O - | bash
 sudo mv ~/.symfony5/bin/symfony /usr/local/bin/symfony
 ```
 
-**Docker network**
-
-Make sure a Docker network called `skeleton` exists: 
-```bash
-docker network create skeleton
-```
-
 ## Quick start
 
 Start all default Docker services and Symfony servers with:

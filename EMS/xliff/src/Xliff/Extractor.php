@@ -100,7 +100,6 @@ class Extractor extends XliffVersion
                     'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
                     'xmlns' => 'urn:oasis:names:tc:xliff:document:'.$xliffVersion,
                     'version' => $xliffVersion,
-                    'xsi:schemaLocation' => 'urn:oasis:names:tc:xliff:document:1.2 https://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd',
                 ];
                 break;
             case self::XLIFF_2_0:
@@ -552,7 +551,6 @@ class Extractor extends XliffVersion
                 $beginPairedPlaceholder->setAttribute('id', \sprintf('bx%d', $this->nextId++));
                 $beginPairedPlaceholder->setAttribute('rid', $referenceId);
                 $beginPairedPlaceholder->setAttribute('equiv-text', $this->buildEquivTextOpeningTag($sourceNode));
-                $beginPairedPlaceholder->setAttribute('ctype', \sprintf('x-html-%s', $sourceNode->nodeName));
                 $source->appendChild($beginPairedPlaceholder);
                 for ($i = 0; $i < $sourceNode->childNodes->length; ++$i) {
                     $child = $sourceNode->childNodes->item($i);
@@ -565,7 +563,6 @@ class Extractor extends XliffVersion
                 $endPairedPlaceholder->setAttribute('id', \sprintf('ex%d', $this->nextId++));
                 $endPairedPlaceholder->setAttribute('rid', $referenceId);
                 $endPairedPlaceholder->setAttribute('equiv-text', $this->buildEquivTextClosingTag($sourceNode));
-                $endPairedPlaceholder->setAttribute('ctype', \sprintf('x-html-%s', $sourceNode->nodeName));
                 $source->appendChild($endPairedPlaceholder);
 
                 return;

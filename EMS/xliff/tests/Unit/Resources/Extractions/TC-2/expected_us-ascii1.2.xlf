@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="us-ascii"?>
-<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2">
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file source-language="en" original="contentType:ouuid_1:revisionId_1" datatype="database" target-language="fr">
     <body>
       <trans-unit id="tu1" resname="[title_%locale%]">
@@ -23,14 +23,14 @@
         <target xml:lang="fr" state="final"/>
       </trans-unit>
       <group resname="[%locale%][body]" id="grp5">
-        <trans-unit restype="x-html-p" id="tu6" resname="/html/body/p">
-          <source xml:lang="en"> Hello </source>
+        <trans-unit restype="x-html-p" id="tu7" resname="/html/body/p">
+          <source xml:lang="en" id="tu6"> Hello </source>
           <target xml:lang="fr" state="needs-translation"> Bonjour </target>
         </trans-unit>
       </group>
-      <group resname="[%locale%][body2]" id="grp7">
-        <trans-unit restype="x-html-p" id="tu8" resname="/html/body/p">
-          <source xml:lang="en"> Hello </source>
+      <group resname="[%locale%][body2]" id="grp8">
+        <trans-unit restype="x-html-p" id="tu10" resname="/html/body/p">
+          <source xml:lang="en" id="tu9"> Hello </source>
           <target xml:lang="fr" state="final"> Bonjour </target>
         </trans-unit>
       </group>

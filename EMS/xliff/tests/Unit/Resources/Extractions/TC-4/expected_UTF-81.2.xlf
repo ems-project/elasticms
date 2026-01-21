@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2">
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file source-language="en" original="contentType:ouuid_1:revisionId_1" datatype="database" target-language="fr">
     <body>
       <trans-unit id="tu1" resname="[title_%locale%]">
@@ -23,15 +23,15 @@
         <target xml:lang="fr" state="final"/>
       </trans-unit>
       <group resname="[%locale%][body]" id="grp5">
-        <trans-unit restype="x-html-p" id="tu6" resname="/html/body/p">
-          <source xml:lang="en"> Hello Mathieu, please visits <bx id="bx8" rid="rid7" equiv-text="&amp;lt;a href=&amp;quot;https://elasticms.eu/path%20with%20space?a1=value1&amp;amp;amp;a2=value2#anchor&amp;quot;&amp;gt;"/> <x id="x9" ctype="x-html-i" equiv-text="&amp;lt;i class=&amp;quot;elasticms&amp;quot;&amp;gt;&amp;lt;/i&amp;gt;"/>The elastic<g id="g10" ctype="bold">ms</g> web site<ex id="ex11" rid="rid7" equiv-text="&amp;lt;/a&amp;gt;"/> </source>
-          <target xml:lang="fr" state="needs-translation"> Bonjour Mathieu<bx id="bx13" rid="rid12" equiv-text="&amp;lt;a href=&amp;quot;https://elasticms.eu/path%20with%20space?a1=value1&amp;amp;amp;a2=value2#anchor&amp;quot;&amp;gt;"/>Le site d´elasticms<ex id="ex14" rid="rid12" equiv-text="&amp;lt;/a&amp;gt;"/> </target>
+        <trans-unit restype="x-html-p" id="tu7" resname="/html/body/p">
+          <source xml:lang="en" id="tu6"> Hello Mathieu, please visits <bx id="bx9" rid="rid8" equiv-text="&amp;lt;a href=&amp;quot;https://elasticms.eu/path%20with%20space?a1=value1&amp;amp;amp;a2=value2#anchor&amp;quot;&amp;gt;"/> <x id="x10" ctype="x-html-i" equiv-text="&amp;lt;i class=&amp;quot;elasticms&amp;quot;&amp;gt;&amp;lt;/i&amp;gt;"/>The elastic<g id="g11" ctype="bold">ms</g> web site<ex id="ex12" rid="rid8" equiv-text="&amp;lt;/a&amp;gt;"/> </source>
+          <target xml:lang="fr" state="needs-translation"> Bonjour Mathieu<bx id="bx14" rid="rid13" equiv-text="&amp;lt;a href=&amp;quot;https://elasticms.eu/path%20with%20space?a1=value1&amp;amp;amp;a2=value2#anchor&amp;quot;&amp;gt;"/>Le site d´elasticms<ex id="ex15" rid="rid13" equiv-text="&amp;lt;/a&amp;gt;"/> </target>
         </trans-unit>
       </group>
-      <group resname="[%locale%][body2]" id="grp15">
-        <trans-unit restype="x-html-p" id="tu16" resname="/html/body/p">
-          <source xml:lang="en"> Hello Mathieu, please visits <bx id="bx18" rid="rid17" equiv-text="&amp;lt;a href=&amp;quot;https://elasticms.eu/path%20with%20space?a1=value1&amp;amp;amp;a2=value2#anchor&amp;quot;&amp;gt;"/> <x id="x19" ctype="x-html-i" equiv-text="&amp;lt;i class=&amp;quot;elasticms&amp;quot;&amp;gt;&amp;lt;/i&amp;gt;"/>The elastic<g id="g20" ctype="bold">ms</g> web site<ex id="ex21" rid="rid17" equiv-text="&amp;lt;/a&amp;gt;"/> </source>
-          <target xml:lang="fr" state="final"> Bonjour Mathieu<bx id="bx23" rid="rid22" equiv-text="&amp;lt;a href=&amp;quot;https://elasticms.eu/path%20with%20space?a1=value1&amp;amp;amp;a2=value2#anchor&amp;quot;&amp;gt;"/>Le site d´elasticms<ex id="ex24" rid="rid22" equiv-text="&amp;lt;/a&amp;gt;"/> </target>
+      <group resname="[%locale%][body2]" id="grp16">
+        <trans-unit restype="x-html-p" id="tu18" resname="/html/body/p">
+          <source xml:lang="en" id="tu17"> Hello Mathieu, please visits <bx id="bx20" rid="rid19" equiv-text="&amp;lt;a href=&amp;quot;https://elasticms.eu/path%20with%20space?a1=value1&amp;amp;amp;a2=value2#anchor&amp;quot;&amp;gt;"/> <x id="x21" ctype="x-html-i" equiv-text="&amp;lt;i class=&amp;quot;elasticms&amp;quot;&amp;gt;&amp;lt;/i&amp;gt;"/>The elastic<g id="g22" ctype="bold">ms</g> web site<ex id="ex23" rid="rid19" equiv-text="&amp;lt;/a&amp;gt;"/> </source>
+          <target xml:lang="fr" state="final"> Bonjour Mathieu<bx id="bx25" rid="rid24" equiv-text="&amp;lt;a href=&amp;quot;https://elasticms.eu/path%20with%20space?a1=value1&amp;amp;amp;a2=value2#anchor&amp;quot;&amp;gt;"/>Le site d´elasticms<ex id="ex26" rid="rid24" equiv-text="&amp;lt;/a&amp;gt;"/> </target>
         </trans-unit>
       </group>
     </body>

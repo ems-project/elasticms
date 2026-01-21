@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2">
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file source-language="en" original="contentType:ouuid_1:revisionId_1" datatype="database" target-language="fr">
     <body>
       <trans-unit id="tu1" resname="[title_%locale%]">
@@ -23,96 +23,96 @@
         <target xml:lang="fr" state="final"/>
       </trans-unit>
       <group resname="[%locale%][body]" id="grp5">
-        <trans-unit restype="x-html-h1" id="tu6" resname="/html/body/h1">
-          <source xml:lang="en"> Report </source>
+        <trans-unit restype="x-html-h1" id="tu7" resname="/html/body/h1">
+          <source xml:lang="en" id="tu6"> Report </source>
           <target xml:lang="fr" state="new"/>
           <note from="class">title</note>
         </trans-unit>
-        <group restype="table" id="tu7" resname="/html/body/table">
+        <group restype="table" id="tu8" resname="/html/body/table">
           <note from="border">1</note>
           <note from="width">100%</note>
-          <group restype="row" id="tu8" resname="/html/body/table/tr[1]">
-            <trans-unit restype="cell" id="tu9" resname="/html/body/table/tr[1]/td[1]">
-              <source xml:lang="en"> Text in cell r1-c1 </source>
+          <group restype="row" id="tu9" resname="/html/body/table/tr[1]">
+            <trans-unit restype="cell" id="tu11" resname="/html/body/table/tr[1]/td[1]">
+              <source xml:lang="en" id="tu10"> Text in cell r1-c1 </source>
               <target xml:lang="fr" state="new"/>
               <note from="valign">top</note>
             </trans-unit>
-            <trans-unit restype="cell" id="tu10" resname="/html/body/table/tr[1]/td[2]">
-              <source xml:lang="en"> Text in cell r1-c2 </source>
+            <trans-unit restype="cell" id="tu13" resname="/html/body/table/tr[1]/td[2]">
+              <source xml:lang="en" id="tu12"> Text in cell r1-c2 </source>
               <target xml:lang="fr" state="new"/>
               <note from="valign">top</note>
             </trans-unit>
-            <trans-unit restype="cell" id="tu11" resname="/html/body/table/tr[1]/td[3]">
-              <source xml:lang="en"> é à   ï « </source>
+            <trans-unit restype="cell" id="tu15" resname="/html/body/table/tr[1]/td[3]">
+              <source xml:lang="en" id="tu14"> é à   ï « </source>
               <target xml:lang="fr" state="new"/>
               <note from="valign">top</note>
             </trans-unit>
           </group>
-          <group restype="row" id="tu12" resname="/html/body/table/tr[2]">
-            <trans-unit restype="cell" id="tu13" resname="/html/body/table/tr[2]/td[1]">
-              <source xml:lang="en"> Text in cell r2-c1 </source>
+          <group restype="row" id="tu16" resname="/html/body/table/tr[2]">
+            <trans-unit restype="cell" id="tu18" resname="/html/body/table/tr[2]/td[1]">
+              <source xml:lang="en" id="tu17"> Text in cell r2-c1 </source>
               <target xml:lang="fr" state="new"/>
               <note from="bgcolor">#C0C0C0</note>
             </trans-unit>
-            <trans-unit restype="cell" id="tu14" resname="/html/body/table/tr[2]/td[2]">
-              <source xml:lang="en"> Text in cell r2-c2 </source>
+            <trans-unit restype="cell" id="tu20" resname="/html/body/table/tr[2]/td[2]">
+              <source xml:lang="en" id="tu19"> Text in cell r2-c2 </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
-            <trans-unit restype="cell" id="tu15" resname="/html/body/table/tr[2]/td[3]">
-              <source xml:lang="en"> é à   « ï </source>
+            <trans-unit restype="cell" id="tu22" resname="/html/body/table/tr[2]/td[3]">
+              <source xml:lang="en" id="tu21"> é à   « ï </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
           </group>
         </group>
-        <trans-unit restype="x-html-p" id="tu16" resname="/html/body/p">
-          <source xml:lang="en"> All rights reserved (c) Gandalf Inc. </source>
+        <trans-unit restype="x-html-p" id="tu24" resname="/html/body/p">
+          <source xml:lang="en" id="tu23"> All rights reserved (c) Gandalf Inc. </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
       </group>
-      <group resname="[%locale%][body2]" id="grp17">
-        <trans-unit restype="x-html-h1" id="tu18" resname="/html/body/h1">
-          <source xml:lang="en"> Report </source>
+      <group resname="[%locale%][body2]" id="grp25">
+        <trans-unit restype="x-html-h1" id="tu27" resname="/html/body/h1">
+          <source xml:lang="en" id="tu26"> Report </source>
           <target xml:lang="fr" state="new"/>
           <note from="class">title</note>
         </trans-unit>
-        <group restype="table" id="tu19" resname="/html/body/table">
+        <group restype="table" id="tu28" resname="/html/body/table">
           <note from="border">1</note>
           <note from="width">100%</note>
-          <group restype="row" id="tu20" resname="/html/body/table/tr[1]">
-            <trans-unit restype="cell" id="tu21" resname="/html/body/table/tr[1]/td[1]">
-              <source xml:lang="en"> Text in cell r1-c1 </source>
+          <group restype="row" id="tu29" resname="/html/body/table/tr[1]">
+            <trans-unit restype="cell" id="tu31" resname="/html/body/table/tr[1]/td[1]">
+              <source xml:lang="en" id="tu30"> Text in cell r1-c1 </source>
               <target xml:lang="fr" state="new"/>
               <note from="valign">top</note>
             </trans-unit>
-            <trans-unit restype="cell" id="tu22" resname="/html/body/table/tr[1]/td[2]">
-              <source xml:lang="en"> Text in cell r1-c2 </source>
+            <trans-unit restype="cell" id="tu33" resname="/html/body/table/tr[1]/td[2]">
+              <source xml:lang="en" id="tu32"> Text in cell r1-c2 </source>
               <target xml:lang="fr" state="new"/>
               <note from="valign">top</note>
             </trans-unit>
-            <trans-unit restype="cell" id="tu23" resname="/html/body/table/tr[1]/td[3]">
-              <source xml:lang="en"> é à   ï « </source>
+            <trans-unit restype="cell" id="tu35" resname="/html/body/table/tr[1]/td[3]">
+              <source xml:lang="en" id="tu34"> é à   ï « </source>
               <target xml:lang="fr" state="new"/>
               <note from="valign">top</note>
             </trans-unit>
           </group>
-          <group restype="row" id="tu24" resname="/html/body/table/tr[2]">
-            <trans-unit restype="cell" id="tu25" resname="/html/body/table/tr[2]/td[1]">
-              <source xml:lang="en"> Text in cell r2-c1 </source>
+          <group restype="row" id="tu36" resname="/html/body/table/tr[2]">
+            <trans-unit restype="cell" id="tu38" resname="/html/body/table/tr[2]/td[1]">
+              <source xml:lang="en" id="tu37"> Text in cell r2-c1 </source>
               <target xml:lang="fr" state="new"/>
               <note from="bgcolor">#C0C0C0</note>
             </trans-unit>
-            <trans-unit restype="cell" id="tu26" resname="/html/body/table/tr[2]/td[2]">
-              <source xml:lang="en"> Text in cell r2-c2 </source>
+            <trans-unit restype="cell" id="tu40" resname="/html/body/table/tr[2]/td[2]">
+              <source xml:lang="en" id="tu39"> Text in cell r2-c2 </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
-            <trans-unit restype="cell" id="tu27" resname="/html/body/table/tr[2]/td[3]">
-              <source xml:lang="en"> é à   « ï </source>
+            <trans-unit restype="cell" id="tu42" resname="/html/body/table/tr[2]/td[3]">
+              <source xml:lang="en" id="tu41"> é à   « ï </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
           </group>
         </group>
-        <trans-unit restype="x-html-p" id="tu28" resname="/html/body/p">
-          <source xml:lang="en"> All rights reserved (c) Gandalf Inc. </source>
+        <trans-unit restype="x-html-p" id="tu44" resname="/html/body/p">
+          <source xml:lang="en" id="tu43"> All rights reserved (c) Gandalf Inc. </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
       </group>

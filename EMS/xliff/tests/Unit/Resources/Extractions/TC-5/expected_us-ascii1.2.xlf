@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="us-ascii"?>
-<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2">
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file source-language="en" original="contentType:ouuid_1:revisionId_1" datatype="database" target-language="fr">
     <body>
       <trans-unit id="tu1" resname="[title_%locale%]">
@@ -23,16 +23,16 @@
         <target xml:lang="fr" state="final"/>
       </trans-unit>
       <group resname="[%locale%][body]" id="grp5">
-        <trans-unit restype="x-html-p" id="tu6" resname="/html/body/p">
-          <source xml:lang="en"> This is Mount Hood: <x id="x7" ctype="x-html-img" equiv-text="&amp;lt;img src=&amp;quot;mthood.jpg&amp;quot; alt=&amp;quot;Mount Hood with its snow-covered top&amp;quot;&amp;gt;&amp;lt;/img&amp;gt;"/> </source>
-          <target xml:lang="fr" state="needs-translation"> Ceci est Mount Hood: <x id="x8" ctype="x-html-img" equiv-text="&amp;lt;img src=&amp;quot;mthood.jpg&amp;quot; alt=&amp;quot;Mount Hood avec son sommet enneig&amp;amp;#xE9;&amp;quot;&amp;gt;&amp;lt;/img&amp;gt;"/> </target>
+        <trans-unit restype="x-html-p" id="tu7" resname="/html/body/p">
+          <source xml:lang="en" id="tu6"> This is Mount Hood: <x id="x8" ctype="x-html-img" equiv-text="&amp;lt;img src=&amp;quot;mthood.jpg&amp;quot; alt=&amp;quot;Mount Hood with its snow-covered top&amp;quot;&amp;gt;&amp;lt;/img&amp;gt;"/> </source>
+          <target xml:lang="fr" state="needs-translation"> Ceci est Mount Hood: <x id="x9" ctype="x-html-img" equiv-text="&amp;lt;img src=&amp;quot;mthood.jpg&amp;quot; alt=&amp;quot;Mount Hood avec son sommet enneig&amp;amp;#xE9;&amp;quot;&amp;gt;&amp;lt;/img&amp;gt;"/> </target>
           <note from="title">Information about Mount Hood</note>
         </trans-unit>
       </group>
-      <group resname="[%locale%][body2]" id="grp9">
-        <trans-unit restype="x-html-p" id="tu10" resname="/html/body/p">
-          <source xml:lang="en"> This is Mount Hood: <x id="x11" ctype="x-html-img" equiv-text="&amp;lt;img src=&amp;quot;mthood.jpg&amp;quot; alt=&amp;quot;Mount Hood with its snow-covered top&amp;quot;&amp;gt;&amp;lt;/img&amp;gt;"/> </source>
-          <target xml:lang="fr" state="final"> Ceci est Mount Hood: <x id="x12" ctype="x-html-img" equiv-text="&amp;lt;img src=&amp;quot;mthood.jpg&amp;quot; alt=&amp;quot;Mount Hood avec son sommet enneig&amp;amp;#xE9;&amp;quot;&amp;gt;&amp;lt;/img&amp;gt;"/> </target>
+      <group resname="[%locale%][body2]" id="grp10">
+        <trans-unit restype="x-html-p" id="tu12" resname="/html/body/p">
+          <source xml:lang="en" id="tu11"> This is Mount Hood: <x id="x13" ctype="x-html-img" equiv-text="&amp;lt;img src=&amp;quot;mthood.jpg&amp;quot; alt=&amp;quot;Mount Hood with its snow-covered top&amp;quot;&amp;gt;&amp;lt;/img&amp;gt;"/> </source>
+          <target xml:lang="fr" state="final"> Ceci est Mount Hood: <x id="x14" ctype="x-html-img" equiv-text="&amp;lt;img src=&amp;quot;mthood.jpg&amp;quot; alt=&amp;quot;Mount Hood avec son sommet enneig&amp;amp;#xE9;&amp;quot;&amp;gt;&amp;lt;/img&amp;gt;"/> </target>
           <note from="title">Information about Mount Hood</note>
         </trans-unit>
       </group>

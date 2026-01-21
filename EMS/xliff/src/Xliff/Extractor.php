@@ -284,12 +284,13 @@ class Extractor extends XliffVersion
             $xliffElement = $tempElement;
         }
 
-        $attributes = [];
+        $attributes = [
+            'id' => \sprintf('tu%d', $this->nextId++),
+        ];
         if (\version_compare($this->xliffVersion, '2.0') < 0) {
             $qualifiedName = 'trans-unit';
             $sourceAttributes = [
                 'xml:lang' => $this->sourceLocale,
-                'id' => \sprintf('tu%d', $this->nextId++),
             ];
             if ($sourceNode instanceof \DOMElement && !\in_array($sourceNode->nodeName, self::INTERNAL_TAGS)) {
                 $attributes = [

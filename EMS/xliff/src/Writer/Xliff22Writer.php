@@ -4,6 +4,27 @@ declare(strict_types=1);
 
 namespace EMS\Xliff\Writer;
 
-class Xliff22Writer
+use EMS\Helpers\Standard\Type;
+use EMS\Xliff\Model\Package;
+use EMS\Xliff\Options;
+use EMS\Xliff\Version;
+use EMS\Xliff\XML\DomHelper;
+
+class Xliff22Writer implements WriterInterface
 {
+    public function __construct(private readonly Options $options)
+    {
+    }
+
+    public function supportsVersion(string $version): bool
+    {
+        return Version::V22 === $version;
+    }
+
+    public function write(Package $package): string
+    {
+        $dom = DomHelper::initDocument(Version::V22);
+
+        return Type::string($dom->saveXML());
+    }
 }

@@ -62,4 +62,29 @@ class DomHelper
 
         return $element;
     }
+
+    public static function initDocument(string $version): \DOMDocument
+    {
+        $dom = new \DOMDocument('1.0', 'UTF-8');
+        $dom->preserveWhiteSpace = false;
+        $dom->formatOutput = true;
+
+        $xliff = new \DOMElement('xliff');
+        $xliff->setAttribute('xmlns', \sprintf('urn:oasis:names:tc:xliff:document:%s', $version));
+        $xliff->setAttribute('version', $version);
+        $dom->appendChild($xliff);
+
+        return $dom;
+    }
+
+    public static function loadXml(string $xml): \DOMDocument
+    {
+        $dom = new \DOMDocument('1.0', 'UTF-8');
+        $ok = @$dom->loadXML($xml, LIBXML_NONET | LIBXML_NOERROR | LIBXML_NOWARNING);
+        if (!$ok) {
+            throw new \RuntimeException('Invalid XLIFF XML.');
+        }
+
+        return $dom;
+    }
 }

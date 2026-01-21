@@ -8,4 +8,7 @@ final readonly class Version
 {
     public const string V12 = '1.2';
     public const string V22 = '2.2';
+
+    /** @var string[] */
+    public const array ALL = [self::V12, self::V22];
 }

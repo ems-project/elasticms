@@ -63,18 +63,23 @@ class DomHelper
         return $element;
     }
 
-    public static function initDocument(string $version): \DOMDocument
+    public static function initDocument(bool $preserveWhiteSpace, bool $formatOutput): \DOMDocument
     {
         $dom = new \DOMDocument('1.0', 'UTF-8');
-        $dom->preserveWhiteSpace = false;
-        $dom->formatOutput = true;
+        $dom->preserveWhiteSpace = $preserveWhiteSpace;
+        $dom->formatOutput = $formatOutput;
 
+        return $dom;
+    }
+
+    public static function initXliff(\DOMDocument $dom, string $version, string $namespace): \DOMElement
+    {
         $xliff = new \DOMElement('xliff');
-        $xliff->setAttribute('xmlns', \sprintf('urn:oasis:names:tc:xliff:document:%s', $version));
+        $xliff->setAttribute('xmlns', $namespace);
         $xliff->setAttribute('version', $version);
         $dom->appendChild($xliff);
 
-        return $dom;
+        return $xliff;
     }
 
     public static function loadXml(string $xml): \DOMDocument

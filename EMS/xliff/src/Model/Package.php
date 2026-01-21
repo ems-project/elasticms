@@ -7,15 +7,26 @@ namespace EMS\Xliff\Model;
 final class Package
 {
     /** @var Document[] */
-    public array $documents = [];
+    private array $documents = [];
+    private string $sourceLocale;
+    private string $targetLocale;
 
     public function __construct()
     {
     }
 
-    public function addDocument(Document $document): void
+    public function setLocales(string $sourceLocale, string $targetLocale): void
     {
+        $this->sourceLocale = $sourceLocale;
+        $this->targetLocale = $targetLocale;
+    }
+
+    public function addDocument(string $id): Document
+    {
+        $document = new Document($id);
         $this->documents[] = $document;
+
+        return $document;
     }
 
     /**
@@ -24,5 +35,15 @@ final class Package
     public function getDocuments(): array
     {
         return $this->documents;
+    }
+
+    public function getSourceLocale(): string
+    {
+        return $this->sourceLocale;
+    }
+
+    public function getTargetLocale(): string
+    {
+        return $this->targetLocale;
     }
 }

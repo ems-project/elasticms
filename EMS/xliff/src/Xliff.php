@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EMS\Xliff;
 
-use EMS\Xliff\Model\Document;
 use EMS\Xliff\Model\Package;
 use EMS\Xliff\Reader\ReaderRegistry;
 use EMS\Xliff\Reader\Xliff12Reader;
@@ -18,14 +17,21 @@ final class Xliff
     private Package $package;
 
     private function __construct(
+        string $sourceLocale,
+        string $targetLocale,
         private readonly WriterRegistry $writers,
         private readonly ReaderRegistry $readers,
         private readonly Options $options,
     ) {
+        $this->package = new Package();
+        $this->package->setLocales($sourceLocale, $targetLocale);
     }
 
-    public static function createDefault(?Options $options = null): self
-    {
+    public static function createDefault(
+        string $sourceLocale,
+        string $targetLocale,
+        ?Options $options = null,
+    ): self {
         $options ??= new Options();
 
         $writers = new WriterRegistry([
@@ -34,11 +40,11 @@ final class Xliff
         ]);
 
         $readers = new ReaderRegistry([
-            new Xliff12Reader($options),
-            new Xliff22Reader($options),
+            new Xliff12Reader(),
+            new Xliff22Reader(),
         ]);
 
-        return new self($writers, $readers, $options);
+        return new self($sourceLocale, $targetLocale, $writers, $readers, $options);
     }
 
     public function getOptions(): Options
@@ -46,56 +52,12 @@ final class Xliff
         return $this->options;
     }
 
-    public function addDocument(string $id, string $sourceLocale, string $targetLocale): Document
-    {
-        $document = new Document(
-            id: $id,
-            sourceLocale: $this->normalizeLocale($sourceLocale),
-            targetLocale: $this->normalizeLocale($targetLocale),
-        );
-        $this->package->addDocument($document);
-
-        return $document;
-    }
-
     public function toXml(?string $version = null): string
     {
         $version ??= $this->options->defaultVersion;
         $writer = $this->writers->forVersion($version);
-        $packageDoc = $this->buildPackageDocument();
 
-        return $writer->write($packageDoc);
-    }
-
-    private function buildPackageDocument(): Package
-    {
-        //        if ($this->documents === []) {
-        //
-        //            return new Document(sourceLang: 'und', targetLang: 'und', original: 'package');
-        //        }
-        //
-        //        // Hypothèse: package homogène en locales.
-        //        $first = $this->documents[0]->getModel();
-        //
-        //        $package = new Document(
-        //            sourceLang: $first->sourceLang,
-        //            targetLang: $first->targetLang,
-        //            original: 'package'
-        //        );
-        //
-        //        foreach ($this->documents as $xdoc) {
-        //            foreach ($xdoc->getModel()->units as $unit) {
-        //                $package->addUnit($unit);
-        //            }
-        //        }
-        //
-        //        return $package;
-        return new Package();
-    }
-
-    private static function normalizeLocale(string $locale): string
-    {
-        return \str_replace('_', '-', $locale);
+        return $writer->write($this->package);
     }
 
     public function readXml(string $xliffXml): void

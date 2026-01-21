@@ -15,7 +15,7 @@ class RefactorTest extends TestCase
     {
         foreach (Version::ALL as $version) {
             $options = new Options($version);
-            $xliffPackage = Xliff::createDefault($options);
+            $xliffPackage = Xliff::createDefault('en', 'fr', $options);
             $this->assertSame($xliffPackage->getOptions()->defaultVersion, $version);
 
             // TODO: $xDocument = $xliffPackage->addDocument('page:document_id:revision_id');
@@ -25,9 +25,32 @@ class RefactorTest extends TestCase
             $xml = $xliffPackage->toXml();
             $this->assertNotEmpty($xml);
 
-            $xliffPackage = Xliff::createDefault();
+            $xliffPackage = Xliff::createDefault('en', 'fr');
             $xliffPackage->readXml($xml);
             $this->assertEmpty($xliffPackage->getPackage()->getDocuments());
+        }
+    }
+
+    public function testWithEmptyDocuments(): void
+    {
+        foreach (Version::ALL as $version) {
+            $options = new Options($version);
+            $xliffPackage = Xliff::createDefault('fr_FR', 'fr_BE', $options);
+            $this->assertSame($xliffPackage->getOptions()->defaultVersion, $version);
+
+            $xliffPackage->getPackage()->addDocument('1');
+            $xliffPackage->getPackage()->addDocument('2');
+
+            $xml = $xliffPackage->toXml();
+            $this->assertNotEmpty($xml);
+
+            $xliffPackage = Xliff::createDefault('fr_FR', 'fr_BE');
+            $xliffPackage->readXml($xml);
+            $this->assertCount(2, $xliffPackage->getPackage()->getDocuments());
+            $i = 1;
+            foreach ($xliffPackage->getPackage()->getDocuments() as $document) {
+                $this->assertSame(\sprintf('%d', $i++), $document->id);
+            }
         }
     }
 }

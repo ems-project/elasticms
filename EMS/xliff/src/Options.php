@@ -10,7 +10,8 @@ final readonly class Options
 {
     public function __construct(
         public string $defaultVersion = Version::V12,
-        public bool $preserveWhitespace = true,
+        public bool $preserveWhitespace = false,
+        public bool $formatOutput = true,
         public ?TranslatableAttributes $translatableAttributes = null,
     ) {
     }

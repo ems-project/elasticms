@@ -293,9 +293,7 @@ class Extractor extends XliffVersion
                 'xml:lang' => $this->sourceLocale,
             ];
             if ($sourceNode instanceof \DOMElement && !\in_array($sourceNode->nodeName, self::INTERNAL_TAGS)) {
-                $attributes = [
-                    'restype' => static::getRestype($sourceNode->nodeName),
-                ];
+                $attributes['restype'] = static::getRestype($sourceNode->nodeName);
             }
         } else {
             $qualifiedName = 'segment';

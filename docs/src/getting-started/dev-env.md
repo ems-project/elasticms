@@ -2,13 +2,13 @@
 
 ## Prerequisites
 
-**Init**
 On first run, execute init for generating required '.env' files.
- ```bash
- make init
- ```
 
-**Symfony CLI**
+```bash
+make init
+```
+
+Symfony CLI
 
 ```bash
 cd ~
@@ -24,16 +24,17 @@ Start all default Docker services and Symfony servers with:
 make start
 ```
 
-- [Admin server](http://localhost:8881): Symfony server for ems admin 
-- [Web server](http://localhost:8882): Symfony server for ems web 
-- [es01](http://es01.localhost/),[es02](http://es02.localhost/),[es03](http://es03.localhost/): the hearts of elasticMS 
-- [Traefik](http://localhost:8888): The middleware application used to route packages 
-- [Kibana](http://kibana.localhost): Power tools for elasticsearch 
-- [Mailhog](http://mailhog.localhost): A mail catcher 
-- [MinIO](http://minio.localhost): A S3 like service 
+- [Admin server](http://localhost:8881): Symfony server for ems admin
+- [Web server](http://localhost:8882): Symfony server for ems web
+- [es01](http://es01.localhost/),[es02](http://es02.localhost/),[es03](http://es03.localhost/): the
+  hearts of elasticMS
+- [Traefik](http://localhost:8888): The middleware application used to route packages
+- [Kibana](http://kibana.localhost): Power tools for elasticsearch
+- [Mailhog](http://mailhog.localhost): A mail catcher
+- [MinIO](http://minio.localhost): A S3 like service
 - [Tika](http://tika.localhost): Text extraction service
-- [Mercure](http://mercure.localhost/.well-known/mercure): A real-time communication solution 
-- Redis: for cache and sessions 
+- [Mercure](http://mercure.localhost/.well-known/mercure): A real-time communication solution
+- Redis: for cache and sessions
 - Postgres: default database (port: 5432, user: postgres, pass: adminpg)
 
 ```bash

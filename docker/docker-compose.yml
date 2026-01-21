@@ -260,3 +260,4 @@ volumes:
 networks:
     default:
         name: skeleton
+        external: true

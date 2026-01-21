@@ -397,7 +397,6 @@ class InsertionRevision extends XliffVersion
                 }
                 $tag = $matches['tag'];
                 $xml = "<wrapper>$rawHtml</$tag></wrapper>";
-
                 $copy = $this->xmlToNode($xml);
                 $tagDom->appendChild($copy);
                 $stack[$rid] = $tagDom;

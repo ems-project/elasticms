@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="us-ascii"?>
-<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 https://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2">
   <file source-language="en" original="contentType:ouuid_1:revisionId_1" datatype="database" target-language="fr">
     <body>
       <trans-unit id="tu1" resname="[title_%locale%]">
@@ -38,7 +38,7 @@
             <target xml:lang="fr" state="new"/>
           </trans-unit>
           <trans-unit restype="x-html-p" id="tu11" resname="/html/body/div/p">
-            <source xml:lang="en"> Vanaf <g id="g12" ctype="x-html-strong">1 juli 2016</g> kan voor werknemers die tewerkgesteld worden in <g id="g13" ctype="x-html-strong">Vlaanderen</g> niet langer de 'doelgroepvermindering oudere werknemers' toegepast worden maar wel de '<bx id="bx15" rid="rid14" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/deductions/structuralreduction_targetgroupreductions/elderlyworkers_vl.html&amp;quot;&amp;gt;" ctype="x-html-a"/>doelgroepvermindering oudere werknemers - Vlaanderen<ex id="ex16" rid="rid14" equiv-text="&amp;lt;/a&amp;gt;" ctype="x-html-a"/>'. Er zijn geen overgangsmaatregelen voorzien. </source>
+            <source xml:lang="en"> Vanaf <g id="g12" ctype="x-html-strong">1 juli 2016</g> kan voor werknemers die tewerkgesteld worden in <g id="g13" ctype="x-html-strong">Vlaanderen</g> niet langer de 'doelgroepvermindering oudere werknemers' toegepast worden maar wel de '<bx id="bx15" rid="rid14" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/deductions/structuralreduction_targetgroupreductions/elderlyworkers_vl.html&amp;quot;&amp;gt;"/>doelgroepvermindering oudere werknemers - Vlaanderen<ex id="ex16" rid="rid14" equiv-text="&amp;lt;/a&amp;gt;"/>'. Er zijn geen overgangsmaatregelen voorzien. </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
         </group>
@@ -59,7 +59,7 @@
             <target xml:lang="fr" state="new"/>
           </trans-unit>
           <trans-unit restype="x-html-p" id="tu23" resname="/html/body/div/p">
-            <source xml:lang="en"> Vanaf <g id="g24" ctype="x-html-strong">1 juli 2016</g> kan voor werknemers die tewerkgesteld worden in <g id="g25" ctype="x-html-strong">Vlaanderen</g> niet langer de 'doelgroepvermindering oudere werknemers' toegepast worden maar wel de '<bx id="bx27" rid="rid26" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/deductions/structuralreduction_targetgroupreductions/elderlyworkers_vl.html&amp;quot;&amp;gt;" ctype="x-html-a"/>doelgroepvermindering oudere werknemers - Vlaanderen<ex id="ex28" rid="rid26" equiv-text="&amp;lt;/a&amp;gt;" ctype="x-html-a"/>'. Er zijn geen overgangsmaatregelen voorzien. </source>
+            <source xml:lang="en"> Vanaf <g id="g24" ctype="x-html-strong">1 juli 2016</g> kan voor werknemers die tewerkgesteld worden in <g id="g25" ctype="x-html-strong">Vlaanderen</g> niet langer de 'doelgroepvermindering oudere werknemers' toegepast worden maar wel de '<bx id="bx27" rid="rid26" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/deductions/structuralreduction_targetgroupreductions/elderlyworkers_vl.html&amp;quot;&amp;gt;"/>doelgroepvermindering oudere werknemers - Vlaanderen<ex id="ex28" rid="rid26" equiv-text="&amp;lt;/a&amp;gt;"/>'. Er zijn geen overgangsmaatregelen voorzien. </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
         </group>

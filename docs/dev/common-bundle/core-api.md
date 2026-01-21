@@ -149,7 +149,7 @@ final class Example
 * **version**(): string
     > Return the cluster version
 * **healthStatus**(): string
-    > Return the cluster status [gren, yellow or red]
+    > Return the cluster status [green, yellow or red]
 * **refresh**(?string $index = null): bool
     > Refresh the index
 * **getIndicesFromAlias**(string $alias): string[]

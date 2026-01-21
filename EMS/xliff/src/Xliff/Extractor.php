@@ -497,6 +497,7 @@ class Extractor extends XliffVersion
         }
 
         $segment = new \DOMElement($qualifiedName);
+        $segment->setAttribute('id', \sprintf('tu%d', $this->nextId++));
         $xliffElement->appendChild($segment);
 
         $source = new \DOMElement('source');

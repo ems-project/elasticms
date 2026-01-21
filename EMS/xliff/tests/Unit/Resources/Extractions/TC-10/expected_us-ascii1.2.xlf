@@ -26,17 +26,17 @@
         <group restype="x-html-ul" id="tu6" resname="/html/body/ul">
           <group restype="listitem" id="tu7" resname="/html/body/ul/li">
             <trans-unit id="tu9" resname="/html/body/ul/li/text()[1]">
-              <source xml:lang="en" id="tu8">Voor elke <g id="g10" ctype="x-html-strong">erg laaggeschoolde jongere</g> die hij in dienst neemt met een startbaanovereenkomst </source>
+              <source xml:lang="en">Voor elke <g id="g10" ctype="x-html-strong">erg laaggeschoolde jongere</g> die hij in dienst neemt met een startbaanovereenkomst </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
             <group restype="x-html-ul" id="tu11" resname="/html/body/ul/li/ul">
               <note from="style">padding-top: 0px; padding-bottom: 0px;</note>
-              <trans-unit restype="listitem" id="tu13" resname="/html/body/ul/li/ul/li[1]">
-                <source xml:lang="en" id="tu12"> <g id="g14" ctype="x-html-strong">G<g id="g15" ctype="x-html-sub">1</g></g> voor het kwartaal van indienstneming en de 15 daarop volgende kwartalen </source>
+              <trans-unit id="tu13" restype="listitem" resname="/html/body/ul/li/ul/li[1]">
+                <source xml:lang="en"> <g id="g14" ctype="x-html-strong">G<g id="g15" ctype="x-html-sub">1</g></g> voor het kwartaal van indienstneming en de 15 daarop volgende kwartalen </source>
                 <target xml:lang="fr" state="new"/>
               </trans-unit>
-              <trans-unit restype="listitem" id="tu17" resname="/html/body/ul/li/ul/li[2]">
-                <source xml:lang="en" id="tu16"> <g id="g18" ctype="x-html-strong">G<g id="g19" ctype="x-html-sub">2</g></g> voor de daaropvolgende kwartalen, en dit voor zolang hij in dienst is met een startbaanovereenkomst (de vermindering eindigt dus in elk geval in het kwartaal waarin de jongere 26 jaar wordt). </source>
+              <trans-unit id="tu17" restype="listitem" resname="/html/body/ul/li/ul/li[2]">
+                <source xml:lang="en"> <g id="g18" ctype="x-html-strong">G<g id="g19" ctype="x-html-sub">2</g></g> voor de daaropvolgende kwartalen, en dit voor zolang hij in dienst is met een startbaanovereenkomst (de vermindering eindigt dus in elk geval in het kwartaal waarin de jongere 26 jaar wordt). </source>
                 <target xml:lang="fr" state="new"/>
               </trans-unit>
             </group>
@@ -47,17 +47,17 @@
         <group restype="x-html-ul" id="tu21" resname="/html/body/ul">
           <group restype="listitem" id="tu22" resname="/html/body/ul/li">
             <trans-unit id="tu24" resname="/html/body/ul/li/text()[1]">
-              <source xml:lang="en" id="tu23">Voor elke <g id="g25" ctype="x-html-strong">erg laaggeschoolde jongere</g> die hij in dienst neemt met een startbaanovereenkomst </source>
+              <source xml:lang="en">Voor elke <g id="g25" ctype="x-html-strong">erg laaggeschoolde jongere</g> die hij in dienst neemt met een startbaanovereenkomst </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
             <group restype="x-html-ul" id="tu26" resname="/html/body/ul/li/ul">
               <note from="style">padding-top: 0px; padding-bottom: 0px;</note>
-              <trans-unit restype="listitem" id="tu28" resname="/html/body/ul/li/ul/li[1]">
-                <source xml:lang="en" id="tu27"> <g id="g29" ctype="x-html-strong">G<g id="g30" ctype="x-html-sub">1</g></g> voor het kwartaal van indienstneming en de 15 daarop volgende kwartalen </source>
+              <trans-unit id="tu28" restype="listitem" resname="/html/body/ul/li/ul/li[1]">
+                <source xml:lang="en"> <g id="g29" ctype="x-html-strong">G<g id="g30" ctype="x-html-sub">1</g></g> voor het kwartaal van indienstneming en de 15 daarop volgende kwartalen </source>
                 <target xml:lang="fr" state="new"/>
               </trans-unit>
-              <trans-unit restype="listitem" id="tu32" resname="/html/body/ul/li/ul/li[2]">
-                <source xml:lang="en" id="tu31"> <g id="g33" ctype="x-html-strong">G<g id="g34" ctype="x-html-sub">2</g></g> voor de daaropvolgende kwartalen, en dit voor zolang hij in dienst is met een startbaanovereenkomst (de vermindering eindigt dus in elk geval in het kwartaal waarin de jongere 26 jaar wordt). </source>
+              <trans-unit id="tu32" restype="listitem" resname="/html/body/ul/li/ul/li[2]">
+                <source xml:lang="en"> <g id="g33" ctype="x-html-strong">G<g id="g34" ctype="x-html-sub">2</g></g> voor de daaropvolgende kwartalen, en dit voor zolang hij in dienst is met een startbaanovereenkomst (de vermindering eindigt dus in elk geval in het kwartaal waarin de jongere 26 jaar wordt). </source>
                 <target xml:lang="fr" state="new"/>
               </trans-unit>
             </group>

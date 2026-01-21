@@ -23,374 +23,374 @@
         <target xml:lang="fr" state="final"/>
       </trans-unit>
       <group resname="[%locale%][body]" id="grp5">
-        <trans-unit restype="x-html-p" id="tu7" resname="/html/body/p[1]">
-          <source xml:lang="en" id="tu6"> Het gaat om de werknemers van de privésector en van de openbare sector die een werknemersbijdrage van 13,07 % verschuldigd zijn. De werknemersbijdragevermindering is onafhankelijk van eventuele werkgeversbijdrageverminderingen. </source>
+        <trans-unit id="tu7" restype="x-html-p" resname="/html/body/p[1]">
+          <source xml:lang="en"> Het gaat om de werknemers van de privésector en van de openbare sector die een werknemersbijdrage van 13,07 % verschuldigd zijn. De werknemersbijdragevermindering is onafhankelijk van eventuele werkgeversbijdrageverminderingen. </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu9" resname="/html/body/p[2]">
-          <source xml:lang="en" id="tu8"> Voor de <g id="g10" ctype="x-html-strong">privésector</g> komen dus onder andere niet in aanmerking: </source>
+        <trans-unit id="tu9" restype="x-html-p" resname="/html/body/p[2]">
+          <source xml:lang="en"> Voor de <g id="g10" ctype="x-html-strong">privésector</g> komen dus onder andere niet in aanmerking: </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
         <group restype="x-html-ul" id="tu11" resname="/html/body/ul[1]">
-          <trans-unit restype="listitem" id="tu13" resname="/html/body/ul[1]/li[1]">
-            <source xml:lang="en" id="tu12">de geneesheren in opleiding tot specialist; </source>
+          <trans-unit id="tu13" restype="listitem" resname="/html/body/ul[1]/li[1]">
+            <source xml:lang="en">de geneesheren in opleiding tot specialist; </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
-          <trans-unit restype="listitem" id="tu15" resname="/html/body/ul[1]/li[2]">
-            <source xml:lang="en" id="tu14">de leerlingen, stagiairs en de andere jongeren tijdens de periode van gedeeltelijke onderwerping aan de sociale zekerheid (periode die eindigt op 31 december van het kalenderjaar waarin ze 18 jaar worden). </source>
+          <trans-unit id="tu15" restype="listitem" resname="/html/body/ul[1]/li[2]">
+            <source xml:lang="en">de leerlingen, stagiairs en de andere jongeren tijdens de periode van gedeeltelijke onderwerping aan de sociale zekerheid (periode die eindigt op 31 december van het kalenderjaar waarin ze 18 jaar worden). </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
         </group>
-        <trans-unit restype="x-html-p" id="tu17" resname="/html/body/p[3]">
-          <source xml:lang="en" id="tu16"> Voor de <g id="g18" ctype="x-html-strong">openbare sector</g> komen de meeste statutaire personeelsleden evenmin voor de vermindering in aanmerking. Contractuele werknemers daarentegen komen wél in aanmeking (dus ook gesubsidieerde contractuelen, artikel 60, § 7 van de organieke OCMW- wet, ...). </source>
+        <trans-unit id="tu17" restype="x-html-p" resname="/html/body/p[3]">
+          <source xml:lang="en"> Voor de <g id="g18" ctype="x-html-strong">openbare sector</g> komen de meeste statutaire personeelsleden evenmin voor de vermindering in aanmerking. Contractuele werknemers daarentegen komen wél in aanmeking (dus ook gesubsidieerde contractuelen, artikel 60, § 7 van de organieke OCMW- wet, ...). </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-h2" id="tu20" resname="/html/body/h2[1]">
-          <source xml:lang="en" id="tu19"> Praktische toepassing van de vermindering </source>
+        <trans-unit id="tu20" restype="x-html-h2" resname="/html/body/h2[1]">
+          <source xml:lang="en"> Praktische toepassing van de vermindering </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu22" resname="/html/body/p[4]">
-          <source xml:lang="en" id="tu21"> De vermindering bestaat uit een forfaitair bedrag dat geleidelijk vermindert naarmate het loon hoger wordt. De werkgever brengt het bedrag <g id="g23" ctype="x-html-strong">in mindering</g> van de normale werknemersbijdragen (13,07% van het brutoloon) bij de betaling van het loon. De werkbonus compenseert de volledige werknemersbijdrage voor een referteloon tot ongeveer <g id="g24" ctype="x-html-span">2.000,00 EUR</g> bruto per maand. </source>
+        <trans-unit id="tu22" restype="x-html-p" resname="/html/body/p[4]">
+          <source xml:lang="en"> De vermindering bestaat uit een forfaitair bedrag dat geleidelijk vermindert naarmate het loon hoger wordt. De werkgever brengt het bedrag <g id="g23" ctype="x-html-strong">in mindering</g> van de normale werknemersbijdragen (13,07% van het brutoloon) bij de betaling van het loon. De werkbonus compenseert de volledige werknemersbijdrage voor een referteloon tot ongeveer <g id="g24" ctype="x-html-span">2.000,00 EUR</g> bruto per maand. </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu26" resname="/html/body/p[5]">
-          <source xml:lang="en" id="tu25"> Indien het loon wordt betaald volgens een andere periodiciteit dan de maandelijkse (per week, per twee weken, per vier weken,...) berekent de werkgever de vermindering bij de laatste betaling die op de kalendermaand betrekking heeft. In dat geval is de berekening gebaseerd op de dagen en de lonen die op die kalendermaand betrekking hebben en moet het uitbetaalde bedrag en de ermee samenhangende periode opgesplitst worden per kalendermaand. </source>
+        <trans-unit id="tu26" restype="x-html-p" resname="/html/body/p[5]">
+          <source xml:lang="en"> Indien het loon wordt betaald volgens een andere periodiciteit dan de maandelijkse (per week, per twee weken, per vier weken,...) berekent de werkgever de vermindering bij de laatste betaling die op de kalendermaand betrekking heeft. In dat geval is de berekening gebaseerd op de dagen en de lonen die op die kalendermaand betrekking hebben en moet het uitbetaalde bedrag en de ermee samenhangende periode opgesplitst worden per kalendermaand. </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu28" resname="/html/body/p[6]">
-          <source xml:lang="en" id="tu27"> Voor werknemers die binnen de maand met opeenvolgende overeenkomsten werken, wordt het verminderingsbedrag verrekend aan het einde van iedere overeenkomst of bij iedere betaling die betrekking heeft op die overeenkomsten. </source>
+        <trans-unit id="tu28" restype="x-html-p" resname="/html/body/p[6]">
+          <source xml:lang="en"> Voor werknemers die binnen de maand met opeenvolgende overeenkomsten werken, wordt het verminderingsbedrag verrekend aan het einde van iedere overeenkomst of bij iedere betaling die betrekking heeft op die overeenkomsten. </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
         <group restype="x-html-div" id="tu29" resname="/html/body/div[1]">
           <note from="class">message alert</note>
           <trans-unit id="tu31" resname="/html/body/div[1]/text()[1]">
-            <source xml:lang="en" id="tu30"> <g id="g32" ctype="x-html-span">Opgelet</g></source>
+            <source xml:lang="en"> <g id="g32" ctype="x-html-span">Opgelet</g></source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
           <group restype="x-html-div" id="tu33" resname="/html/body/div[1]/div">
-            <trans-unit restype="x-html-p" id="tu35" resname="/html/body/div[1]/div/p">
-              <source xml:lang="en" id="tu34"> Vanaf 1 april 2024 wordt de berekening van de werkbonus opgesplitst in 2 componenten om een aangepaste berekening van de fiscale werkbonus mogelijk te maken. </source>
+            <trans-unit id="tu35" restype="x-html-p" resname="/html/body/div[1]/div/p">
+              <source xml:lang="en"> Vanaf 1 april 2024 wordt de berekening van de werkbonus opgesplitst in 2 componenten om een aangepaste berekening van de fiscale werkbonus mogelijk te maken. </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
           </group>
         </group>
-        <trans-unit restype="x-html-h2" id="tu37" resname="/html/body/h2[2]">
-          <source xml:lang="en" id="tu36"> Berekening van de vermindering </source>
+        <trans-unit id="tu37" restype="x-html-h2" resname="/html/body/h2[2]">
+          <source xml:lang="en"> Berekening van de vermindering </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu39" resname="/html/body/p[7]">
-          <source xml:lang="en" id="tu38"> Men berekent de vermindering voor iedere werknemer apart. Deze berekening omvat drie stappen. </source>
+        <trans-unit id="tu39" restype="x-html-p" resname="/html/body/p[7]">
+          <source xml:lang="en"> Men berekent de vermindering voor iedere werknemer apart. Deze berekening omvat drie stappen. </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-ul" id="tu41" resname="/html/body/ul[2]">
-          <source xml:lang="en" id="tu40"/>
+        <trans-unit id="tu41" restype="x-html-ul" resname="/html/body/ul[2]">
+          <source xml:lang="en"/>
           <target xml:lang="fr" state="needs-translation"/>
         </trans-unit>
         <group restype="x-html-ol" id="tu42" resname="/html/body/ol">
-          <trans-unit restype="listitem" id="tu44" resname="/html/body/ol/li[1]">
-            <source xml:lang="en" id="tu43">- Eerst bepaalt men het <g id="g45" ctype="x-html-strong">refertemaandloon</g> van de werknemer. </source>
+          <trans-unit id="tu44" restype="listitem" resname="/html/body/ol/li[1]">
+            <source xml:lang="en">- Eerst bepaalt men het <g id="g45" ctype="x-html-strong">refertemaandloon</g> van de werknemer. </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
-          <trans-unit restype="listitem" id="tu47" resname="/html/body/ol/li[2]">
-            <source xml:lang="en" id="tu46">- Op basis van dat refertemaandloon bepaalt men het <g id="g48" ctype="x-html-strong">basisbedrag van de vermindering</g>. </source>
+          <trans-unit id="tu47" restype="listitem" resname="/html/body/ol/li[2]">
+            <source xml:lang="en">- Op basis van dat refertemaandloon bepaalt men het <g id="g48" ctype="x-html-strong">basisbedrag van de vermindering</g>. </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
-          <trans-unit restype="listitem" id="tu50" resname="/html/body/ol/li[3]">
-            <source xml:lang="en" id="tu49">- Ten slotte stelt men het <g id="g51" ctype="x-html-strong">verminderingsbedrag</g> vast door het basisbedrag te corrigeren bij onvolledige prestaties en bij deeltijdse werknemers. </source>
+          <trans-unit id="tu50" restype="listitem" resname="/html/body/ol/li[3]">
+            <source xml:lang="en">- Ten slotte stelt men het <g id="g51" ctype="x-html-strong">verminderingsbedrag</g> vast door het basisbedrag te corrigeren bij onvolledige prestaties en bij deeltijdse werknemers. </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
         </group>
-        <trans-unit restype="x-html-ul" id="tu53" resname="/html/body/ul[3]">
-          <source xml:lang="en" id="tu52"/>
+        <trans-unit id="tu53" restype="x-html-ul" resname="/html/body/ul[3]">
+          <source xml:lang="en"/>
           <target xml:lang="fr" state="needs-translation"/>
         </trans-unit>
-        <trans-unit restype="x-html-h3" id="tu55" resname="/html/body/h3[1]">
-          <source xml:lang="en" id="tu54"> 1. - Vaststelling van het refertemaandloon (S) </source>
+        <trans-unit id="tu55" restype="x-html-h3" resname="/html/body/h3[1]">
+          <source xml:lang="en"> 1. - Vaststelling van het refertemaandloon (S) </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu57" resname="/html/body/p[8]">
-          <source xml:lang="en" id="tu56"> Het <g id="g58" ctype="x-html-strong">refertemaandloon (S)</g> kunt u rechtstreeks afleiden uit het <g id="g59" ctype="x-html-strong">brutoloon (W)</g> van de werknemer dat op de kalendermaand betrekking heeft. Hierbij houdt u geen rekening met: </source>
+        <trans-unit id="tu57" restype="x-html-p" resname="/html/body/p[8]">
+          <source xml:lang="en"> Het <g id="g58" ctype="x-html-strong">refertemaandloon (S)</g> kunt u rechtstreeks afleiden uit het <g id="g59" ctype="x-html-strong">brutoloon (W)</g> van de werknemer dat op de kalendermaand betrekking heeft. Hierbij houdt u geen rekening met: </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
         <group restype="x-html-ul" id="tu60" resname="/html/body/ul[4]">
-          <trans-unit restype="listitem" id="tu62" resname="/html/body/ul[4]/li[1]">
-            <source xml:lang="en" id="tu61">vergoedingen wegens onrechtmatige beëindiging van de arbeidsovereenkomsten (looncode 3 DmfA ) en de erdoor gedekte dagen; </source>
+          <trans-unit id="tu62" restype="listitem" resname="/html/body/ul[4]/li[1]">
+            <source xml:lang="en">vergoedingen wegens onrechtmatige beëindiging van de arbeidsovereenkomsten (looncode 3 DmfA ) en de erdoor gedekte dagen; </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
-          <trans-unit restype="listitem" id="tu64" resname="/html/body/ul[4]/li[2]">
-            <source xml:lang="en" id="tu63">flexi-loon (looncode 22 en 23 DmfA) en overuren horeca (looncode 13 DmfA) en de erdoor gedekte dagen/uren; </source>
+          <trans-unit id="tu64" restype="listitem" resname="/html/body/ul[4]/li[2]">
+            <source xml:lang="en">flexi-loon (looncode 22 en 23 DmfA) en overuren horeca (looncode 13 DmfA) en de erdoor gedekte dagen/uren; </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
-          <trans-unit restype="listitem" id="tu66" resname="/html/body/ul[4]/li[3]">
-            <source xml:lang="en" id="tu65">vergoedingen voor uren die geen arbeidstijd zijn in de zin van de arbeidswetgeving (looncode 6 DmfA); </source>
+          <trans-unit id="tu66" restype="listitem" resname="/html/body/ul[4]/li[3]">
+            <source xml:lang="en">vergoedingen voor uren die geen arbeidstijd zijn in de zin van de arbeidswetgeving (looncode 6 DmfA); </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
-          <trans-unit restype="listitem" id="tu68" resname="/html/body/ul[4]/li[4]">
-            <source xml:lang="en" id="tu67">de eindejaarspremies (13<g id="g69" ctype="x-html-sup">de</g> maand, attractiviteitspremie ziekenhuizen, ...)  tot beloop van het bedrag van het refertemaandloon (S) dat in aanmerking wordt genomen om de vermindering te berekenen voor de maand waarin die eindejaarspremie normaal wordt uitbetaald </source>
+          <trans-unit id="tu68" restype="listitem" resname="/html/body/ul[4]/li[4]">
+            <source xml:lang="en">de eindejaarspremies (13<g id="g69" ctype="x-html-sup">de</g> maand, attractiviteitspremie ziekenhuizen, ...)  tot beloop van het bedrag van het refertemaandloon (S) dat in aanmerking wordt genomen om de vermindering te berekenen voor de maand waarin die eindejaarspremie normaal wordt uitbetaald </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
-          <trans-unit restype="listitem" id="tu71" resname="/html/body/ul[4]/li[5]">
-            <source xml:lang="en" id="tu70">het enkel vertrekvakantiegeld (in de vakantieregeling privésector) uitbetaald door de werkgever aan zijn (ex-)werknemer </source>
+          <trans-unit id="tu71" restype="listitem" resname="/html/body/ul[4]/li[5]">
+            <source xml:lang="en">het enkel vertrekvakantiegeld (in de vakantieregeling privésector) uitbetaald door de werkgever aan zijn (ex-)werknemer </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
-          <trans-unit restype="listitem" id="tu73" resname="/html/body/ul[4]/li[6]">
-            <source xml:lang="en" id="tu72"> <g id="g74" ctype="x-html-span">het positief saldo aangegeven bij de eindafrekening na verrekening van het vertrekvakantiegeld (looncode 14)</g>. </source>
+          <trans-unit id="tu73" restype="listitem" resname="/html/body/ul[4]/li[6]">
+            <source xml:lang="en"> <g id="g74" ctype="x-html-span">het positief saldo aangegeven bij de eindafrekening na verrekening van het vertrekvakantiegeld (looncode 14)</g>. </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
         </group>
-        <trans-unit restype="x-html-p" id="tu76" resname="/html/body/p[9]">
-          <source xml:lang="en" id="tu75"> Bij het bepalen van het refertemaandloon (S) van een werknemer aan wie een gedeelte van het vakantiegeld dat (in de vakantieregeling privésector) overeenstemt met het normale loon voor de vakantiedagen vervroegd werd uitbetaald, wordt rekening gehouden met het gedeelte van het vertrekvakantiegeld dat de werkgever in mindering brengt van het uit te betalen loon. <bx id="bx78" rid="rid77" equiv-text="&amp;lt;a href=&amp;quot;%%7BBASE_URL_CURRENT%7D%/instructions/salary/particularcases/holidaypay.html&amp;quot; target=&amp;quot;_parent&amp;quot;&amp;gt;"/>Bekijk de voorbeelden<ex id="ex79" rid="rid77" equiv-text="&amp;lt;/a&amp;gt;"/>. </source>
+        <trans-unit id="tu76" restype="x-html-p" resname="/html/body/p[9]">
+          <source xml:lang="en"> Bij het bepalen van het refertemaandloon (S) van een werknemer aan wie een gedeelte van het vakantiegeld dat (in de vakantieregeling privésector) overeenstemt met het normale loon voor de vakantiedagen vervroegd werd uitbetaald, wordt rekening gehouden met het gedeelte van het vertrekvakantiegeld dat de werkgever in mindering brengt van het uit te betalen loon. <bx id="bx78" rid="rid77" equiv-text="&amp;lt;a href=&amp;quot;%%7BBASE_URL_CURRENT%7D%/instructions/salary/particularcases/holidaypay.html&amp;quot; target=&amp;quot;_parent&amp;quot;&amp;gt;"/>Bekijk de voorbeelden<ex id="ex79" rid="rid77" equiv-text="&amp;lt;/a&amp;gt;"/>. </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
         <group restype="x-html-div" id="tu80" resname="/html/body/div[2]">
           <note from="class">message alert</note>
           <trans-unit id="tu82" resname="/html/body/div[2]/text()[1]">
-            <source xml:lang="en" id="tu81"> <g id="g83" ctype="x-html-span">Opgelet</g></source>
+            <source xml:lang="en"> <g id="g83" ctype="x-html-span">Opgelet</g></source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
-          <trans-unit restype="x-html-p" id="tu85" resname="/html/body/div[2]/p">
-            <source xml:lang="en" id="tu84"> Zowel voor arbeiders als voor bedienden berekent men het refertemaandloon op basis van de aangegeven brutolonen aan 100%. </source>
+          <trans-unit id="tu85" restype="x-html-p" resname="/html/body/div[2]/p">
+            <source xml:lang="en"> Zowel voor arbeiders als voor bedienden berekent men het refertemaandloon op basis van de aangegeven brutolonen aan 100%. </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
         </group>
-        <trans-unit restype="x-html-p" id="tu87" resname="/html/body/p[10]">
-          <source xml:lang="en" id="tu86"> <g id="g88" ctype="x-html-strong">a) Definities en formules</g> </source>
+        <trans-unit id="tu87" restype="x-html-p" resname="/html/body/p[10]">
+          <source xml:lang="en"> <g id="g88" ctype="x-html-strong">a) Definities en formules</g> </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu90" resname="/html/body/p[11]">
-          <source xml:lang="en" id="tu89"> <g id="g91" ctype="x-html-strong">Voltijdse werknemers</g> </source>
+        <trans-unit id="tu90" restype="x-html-p" resname="/html/body/p[11]">
+          <source xml:lang="en"> <g id="g91" ctype="x-html-strong">Voltijdse werknemers</g> </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu93" resname="/html/body/p[12]">
-          <source xml:lang="en" id="tu92"> met <g id="g94" ctype="x-html-strong">volledige</g> prestaties: </source>
+        <trans-unit id="tu93" restype="x-html-p" resname="/html/body/p[12]">
+          <source xml:lang="en"> met <g id="g94" ctype="x-html-strong">volledige</g> prestaties: </source>
           <target xml:lang="fr" state="new"/>
           <note from="style">margin-left: 40px;</note>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu96" resname="/html/body/p[13]">
-          <source xml:lang="en" id="tu95"> <g id="g97" ctype="x-html-strong">S = W</g> </source>
+        <trans-unit id="tu96" restype="x-html-p" resname="/html/body/p[13]">
+          <source xml:lang="en"> <g id="g97" ctype="x-html-strong">S = W</g> </source>
           <target xml:lang="fr" state="new"/>
           <note from="style">margin-left: 80px;</note>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu99" resname="/html/body/p[14]">
-          <source xml:lang="en" id="tu98"> Onder een voltijdse werknemer met volledige prestaties wordt verstaan de werknemer voor wie J = D, waarbij: </source>
+        <trans-unit id="tu99" restype="x-html-p" resname="/html/body/p[14]">
+          <source xml:lang="en"> Onder een voltijdse werknemer met volledige prestaties wordt verstaan de werknemer voor wie J = D, waarbij: </source>
           <target xml:lang="fr" state="new"/>
           <note from="style">margin-left: 40px;</note>
         </trans-unit>
         <group restype="x-html-ul" id="tu100" resname="/html/body/ul[5]">
-          <trans-unit restype="listitem" id="tu102" resname="/html/body/ul[5]/li[1]">
-            <source xml:lang="en" id="tu101">J = het aantal dagen van de werknemer aangegeven met de prestatiecodes 1,3,4, 5 en 20. </source>
+          <trans-unit id="tu102" restype="listitem" resname="/html/body/ul[5]/li[1]">
+            <source xml:lang="en">J = het aantal dagen van de werknemer aangegeven met de prestatiecodes 1,3,4, 5 en 20. </source>
             <target xml:lang="fr" state="new"/>
             <note from="style">margin-left: 40px;</note>
           </trans-unit>
-          <trans-unit restype="listitem" id="tu104" resname="/html/body/ul[5]/li[2]">
-            <source xml:lang="en" id="tu103">D = het maximum aantal dagen prestaties voor de betrokken maand in het betrokken arbeidsstelsel. </source>
+          <trans-unit id="tu104" restype="listitem" resname="/html/body/ul[5]/li[2]">
+            <source xml:lang="en">D = het maximum aantal dagen prestaties voor de betrokken maand in het betrokken arbeidsstelsel. </source>
             <target xml:lang="fr" state="new"/>
             <note from="style">margin-left: 40px;</note>
           </trans-unit>
         </group>
-        <trans-unit restype="x-html-p" id="tu106" resname="/html/body/p[15]">
-          <source xml:lang="en" id="tu105">   </source>
+        <trans-unit id="tu106" restype="x-html-p" resname="/html/body/p[15]">
+          <source xml:lang="en">   </source>
           <target xml:lang="fr" state="new"/>
           <note from="style">margin-left: 40px;</note>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu108" resname="/html/body/p[16]">
-          <source xml:lang="en" id="tu107"> met <g id="g109" ctype="x-html-strong">onvolledige</g> prestaties: </source>
+        <trans-unit id="tu108" restype="x-html-p" resname="/html/body/p[16]">
+          <source xml:lang="en"> met <g id="g109" ctype="x-html-strong">onvolledige</g> prestaties: </source>
           <target xml:lang="fr" state="new"/>
           <note from="style">margin-left: 40px;</note>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu111" resname="/html/body/p[17]">
-          <source xml:lang="en" id="tu110"> <g id="g112" ctype="x-html-strong">S = (W/J) x D</g> </source>
+        <trans-unit id="tu111" restype="x-html-p" resname="/html/body/p[17]">
+          <source xml:lang="en"> <g id="g112" ctype="x-html-strong">S = (W/J) x D</g> </source>
           <target xml:lang="fr" state="new"/>
           <note from="style">margin-left: 80px;</note>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu114" resname="/html/body/p[18]">
-          <source xml:lang="en" id="tu113"> Onder een voltijdse werknemer met onvolledige prestaties wordt verstaan de werknemer voor wie J &lt; D </source>
+        <trans-unit id="tu114" restype="x-html-p" resname="/html/body/p[18]">
+          <source xml:lang="en"> Onder een voltijdse werknemer met onvolledige prestaties wordt verstaan de werknemer voor wie J &lt; D </source>
           <target xml:lang="fr" state="new"/>
           <note from="style">margin-left: 40px;</note>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu116" resname="/html/body/p[19]">
-          <source xml:lang="en" id="tu115"> De breuk W/J wordt afgerond naar de dichtstbijzijnde eurocent (0,005 EUR wordt 0,01 EUR) </source>
+        <trans-unit id="tu116" restype="x-html-p" resname="/html/body/p[19]">
+          <source xml:lang="en"> De breuk W/J wordt afgerond naar de dichtstbijzijnde eurocent (0,005 EUR wordt 0,01 EUR) </source>
           <target xml:lang="fr" state="new"/>
           <note from="style">margin-left: 40px;</note>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu118" resname="/html/body/p[20]">
-          <source xml:lang="en" id="tu117">   </source>
+        <trans-unit id="tu118" restype="x-html-p" resname="/html/body/p[20]">
+          <source xml:lang="en">   </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu120" resname="/html/body/p[21]">
-          <source xml:lang="en" id="tu119"> <g id="g121" ctype="x-html-strong">Deeltijdse werknemers en gelijkgestelden</g> </source>
+        <trans-unit id="tu120" restype="x-html-p" resname="/html/body/p[21]">
+          <source xml:lang="en"> <g id="g121" ctype="x-html-strong">Deeltijdse werknemers en gelijkgestelden</g> </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu123" resname="/html/body/p[22]">
-          <source xml:lang="en" id="tu122"> <g id="g124" ctype="x-html-strong">S = (W/H) x U</g> </source>
+        <trans-unit id="tu123" restype="x-html-p" resname="/html/body/p[22]">
+          <source xml:lang="en"> <g id="g124" ctype="x-html-strong">S = (W/H) x U</g> </source>
           <target xml:lang="fr" state="new"/>
           <note from="style">margin-left: 80px;</note>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu126" resname="/html/body/p[23]">
-          <source xml:lang="en" id="tu125"> Waarbij: </source>
+        <trans-unit id="tu126" restype="x-html-p" resname="/html/body/p[23]">
+          <source xml:lang="en"> Waarbij: </source>
           <target xml:lang="fr" state="new"/>
           <note from="style">margin-left: 40px;</note>
         </trans-unit>
         <group restype="x-html-ul" id="tu127" resname="/html/body/ul[6]">
-          <trans-unit restype="listitem" id="tu129" resname="/html/body/ul[6]/li[1]">
-            <source xml:lang="en" id="tu128">H = het aantal aangegeven uren met de prestatiecodes 1, 3, 4, 5 en 20; </source>
+          <trans-unit id="tu129" restype="listitem" resname="/html/body/ul[6]/li[1]">
+            <source xml:lang="en">H = het aantal aangegeven uren met de prestatiecodes 1, 3, 4, 5 en 20; </source>
             <target xml:lang="fr" state="new"/>
             <note from="style">margin-left: 40px;</note>
           </trans-unit>
-          <trans-unit restype="listitem" id="tu131" resname="/html/body/ul[6]/li[2]">
-            <source xml:lang="en" id="tu130">U = het aantal uren op maandbasis dat overeenstemt met D. </source>
+          <trans-unit id="tu131" restype="listitem" resname="/html/body/ul[6]/li[2]">
+            <source xml:lang="en">U = het aantal uren op maandbasis dat overeenstemt met D. </source>
             <target xml:lang="fr" state="new"/>
             <note from="style">margin-left: 40px;</note>
           </trans-unit>
         </group>
-        <trans-unit restype="x-html-p" id="tu133" resname="/html/body/p[24]">
-          <source xml:lang="en" id="tu132"> Deze berekening geldt zowel voor: </source>
+        <trans-unit id="tu133" restype="x-html-p" resname="/html/body/p[24]">
+          <source xml:lang="en"> Deze berekening geldt zowel voor: </source>
           <target xml:lang="fr" state="new"/>
           <note from="style">margin-left: 40px;</note>
         </trans-unit>
         <group restype="x-html-ul" id="tu134" resname="/html/body/ul[7]">
-          <trans-unit restype="listitem" id="tu136" resname="/html/body/ul[7]/li[1]">
-            <source xml:lang="en" id="tu135">werknemers die uitsluitend deeltijdse prestaties leveren; </source>
+          <trans-unit id="tu136" restype="listitem" resname="/html/body/ul[7]/li[1]">
+            <source xml:lang="en">werknemers die uitsluitend deeltijdse prestaties leveren; </source>
             <target xml:lang="fr" state="new"/>
             <note from="style">margin-left: 40px;</note>
           </trans-unit>
-          <trans-unit restype="listitem" id="tu138" resname="/html/body/ul[7]/li[2]">
-            <source xml:lang="en" id="tu137">werknemers die in de loop van de maand bij de werkgever voltijds en deeltijds werken; </source>
+          <trans-unit id="tu138" restype="listitem" resname="/html/body/ul[7]/li[2]">
+            <source xml:lang="en">werknemers die in de loop van de maand bij de werkgever voltijds en deeltijds werken; </source>
             <target xml:lang="fr" state="new"/>
             <note from="style">margin-left: 40px;</note>
           </trans-unit>
           <group restype="listitem" id="tu139" resname="/html/body/ul[7]/li[3]">
             <note from="style">margin-left: 40px;</note>
             <trans-unit id="tu141" resname="/html/body/ul[7]/li[3]/text()[1]">
-              <source xml:lang="en" id="tu140">voltijdse werknemers die met uren moeten worden aangegeven. Het betreft werknemers: </source>
+              <source xml:lang="en">voltijdse werknemers die met uren moeten worden aangegeven. Het betreft werknemers: </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
             <group restype="x-html-ul" id="tu142" resname="/html/body/ul[7]/li[3]/ul">
-              <trans-unit restype="listitem" id="tu144" resname="/html/body/ul[7]/li[3]/ul/li[1]">
-                <source xml:lang="en" id="tu143"> <g id="g145" ctype="x-html-span">van de provinciale en plaatselijke overheidsdiensten</g>, </source>
+              <trans-unit id="tu144" restype="listitem" resname="/html/body/ul[7]/li[3]/ul/li[1]">
+                <source xml:lang="en"> <g id="g145" ctype="x-html-span">van de provinciale en plaatselijke overheidsdiensten</g>, </source>
                 <target xml:lang="fr" state="new"/>
                 <note from="style">margin-left: 40px;</note>
               </trans-unit>
-              <trans-unit restype="listitem" id="tu147" resname="/html/body/ul[7]/li[3]/ul/li[2]">
-                <source xml:lang="en" id="tu146">in de horeca, </source>
+              <trans-unit id="tu147" restype="listitem" resname="/html/body/ul[7]/li[3]/ul/li[2]">
+                <source xml:lang="en">in de horeca, </source>
                 <target xml:lang="fr" state="new"/>
                 <note from="style">margin-left: 40px;</note>
               </trans-unit>
-              <trans-unit restype="listitem" id="tu149" resname="/html/body/ul[7]/li[3]/ul/li[3]">
-                <source xml:lang="en" id="tu148">met gedeeltelijke werkhervatting na ziekte of (arbeids)ongeval, </source>
+              <trans-unit id="tu149" restype="listitem" resname="/html/body/ul[7]/li[3]/ul/li[3]">
+                <source xml:lang="en">met gedeeltelijke werkhervatting na ziekte of (arbeids)ongeval, </source>
                 <target xml:lang="fr" state="new"/>
                 <note from="style">margin-left: 40px;</note>
               </trans-unit>
-              <trans-unit restype="listitem" id="tu151" resname="/html/body/ul[7]/li[3]/ul/li[4]">
-                <source xml:lang="en" id="tu150">met al dan niet gedeeltelijke (gereglementeerde) onderbreking van de loopbaan, </source>
+              <trans-unit id="tu151" restype="listitem" resname="/html/body/ul[7]/li[3]/ul/li[4]">
+                <source xml:lang="en">met al dan niet gedeeltelijke (gereglementeerde) onderbreking van de loopbaan, </source>
                 <target xml:lang="fr" state="new"/>
                 <note from="style">margin-left: 40px;</note>
               </trans-unit>
-              <trans-unit restype="listitem" id="tu153" resname="/html/body/ul[7]/li[3]/ul/li[5]">
-                <source xml:lang="en" id="tu152">met halftijds brugpensioen, </source>
+              <trans-unit id="tu153" restype="listitem" resname="/html/body/ul[7]/li[3]/ul/li[5]">
+                <source xml:lang="en">met halftijds brugpensioen, </source>
                 <target xml:lang="fr" state="new"/>
                 <note from="style">margin-left: 40px;</note>
               </trans-unit>
-              <trans-unit restype="listitem" id="tu155" resname="/html/body/ul[7]/li[3]/ul/li[6]">
-                <source xml:lang="en" id="tu154">werknemers bij tussenpozen (uitzendkrachten, tijdelijke arbeid, thuisarbeid), </source>
+              <trans-unit id="tu155" restype="listitem" resname="/html/body/ul[7]/li[3]/ul/li[6]">
+                <source xml:lang="en">werknemers bij tussenpozen (uitzendkrachten, tijdelijke arbeid, thuisarbeid), </source>
                 <target xml:lang="fr" state="new"/>
                 <note from="style">margin-left: 40px;</note>
               </trans-unit>
-              <trans-unit restype="listitem" id="tu157" resname="/html/body/ul[7]/li[3]/ul/li[7]">
-                <source xml:lang="en" id="tu156">met gelimiteerde prestaties (met een contract van korte duur en voor een tewerkstelling die per dag niet de gewoonlijke dagduur bereikt), </source>
+              <trans-unit id="tu157" restype="listitem" resname="/html/body/ul[7]/li[3]/ul/li[7]">
+                <source xml:lang="en">met gelimiteerde prestaties (met een contract van korte duur en voor een tewerkstelling die per dag niet de gewoonlijke dagduur bereikt), </source>
                 <target xml:lang="fr" state="new"/>
                 <note from="style">margin-left: 40px;</note>
               </trans-unit>
-              <trans-unit restype="listitem" id="tu159" resname="/html/body/ul[7]/li[3]/ul/li[8]">
-                <source xml:lang="en" id="tu158">seizoenarbeiders en </source>
+              <trans-unit id="tu159" restype="listitem" resname="/html/body/ul[7]/li[3]/ul/li[8]">
+                <source xml:lang="en">seizoenarbeiders en </source>
                 <target xml:lang="fr" state="new"/>
                 <note from="style">margin-left: 40px;</note>
               </trans-unit>
-              <trans-unit restype="listitem" id="tu161" resname="/html/body/ul[7]/li[3]/ul/li[9]">
-                <source xml:lang="en" id="tu160">werknemers bezoldigd met dienstencheques. </source>
+              <trans-unit id="tu161" restype="listitem" resname="/html/body/ul[7]/li[3]/ul/li[9]">
+                <source xml:lang="en">werknemers bezoldigd met dienstencheques. </source>
                 <target xml:lang="fr" state="new"/>
                 <note from="style">margin-left: 40px;</note>
               </trans-unit>
             </group>
           </group>
         </group>
-        <trans-unit restype="x-html-p" id="tu163" resname="/html/body/p[25]">
-          <source xml:lang="en" id="tu162"> De breuk W/H wordt afgerond naar de dichtstbijzijnde eurocent (0,005 EUR wordt 0,01 EUR) </source>
+        <trans-unit id="tu163" restype="x-html-p" resname="/html/body/p[25]">
+          <source xml:lang="en"> De breuk W/H wordt afgerond naar de dichtstbijzijnde eurocent (0,005 EUR wordt 0,01 EUR) </source>
           <target xml:lang="fr" state="new"/>
           <note from="style">margin-left: 40px;</note>
         </trans-unit>
         <group restype="x-html-div" id="tu164" resname="/html/body/div[3]">
           <note from="class">alert message</note>
           <trans-unit id="tu166" resname="/html/body/div[3]/text()[1]">
-            <source xml:lang="en" id="tu165"> <g id="g167" ctype="x-html-span">Opgelet</g></source>
+            <source xml:lang="en"> <g id="g167" ctype="x-html-span">Opgelet</g></source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
-          <trans-unit restype="x-html-p" id="tu169" resname="/html/body/div[3]/p">
-            <source xml:lang="en" id="tu168"> De prestaties van de flexi-jobs  en de overuren horeca blijven volledig buiten de berekening. </source>
+          <trans-unit id="tu169" restype="x-html-p" resname="/html/body/div[3]/p">
+            <source xml:lang="en"> De prestaties van de flexi-jobs  en de overuren horeca blijven volledig buiten de berekening. </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
         </group>
-        <trans-unit restype="x-html-p" id="tu171" resname="/html/body/p[26]">
-          <source xml:lang="en" id="tu170">  <g id="g172" ctype="x-html-strong">b) Opmerkingen</g> </source>
+        <trans-unit id="tu171" restype="x-html-p" resname="/html/body/p[26]">
+          <source xml:lang="en">  <g id="g172" ctype="x-html-strong">b) Opmerkingen</g> </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
         <group restype="x-html-ul" id="tu173" resname="/html/body/ul[8]">
-          <trans-unit restype="listitem" id="tu175" resname="/html/body/ul[8]/li[1]">
-            <source xml:lang="en" id="tu174">Voor werknemers tewerkgesteld bij een beperkte groep van werkgevers die vóór 1 oktober 2001 de arbeidsduur verminderden of de vierdagenweek invoerden en van wie de werknemers een tussenkomst krijgen om het loonverlies gedeeltelijk te compenseren (looncode 5), wordt S forfaitair verminderd met 80,57 EUR per maand. Het handelt hier om werknemers die in aanmerking komen voor een doelgroepvermindering op basis van artikel 367, 369 of 370 van de Programmawet van 24 december 2002. </source>
+          <trans-unit id="tu175" restype="listitem" resname="/html/body/ul[8]/li[1]">
+            <source xml:lang="en">Voor werknemers tewerkgesteld bij een beperkte groep van werkgevers die vóór 1 oktober 2001 de arbeidsduur verminderden of de vierdagenweek invoerden en van wie de werknemers een tussenkomst krijgen om het loonverlies gedeeltelijk te compenseren (looncode 5), wordt S forfaitair verminderd met 80,57 EUR per maand. Het handelt hier om werknemers die in aanmerking komen voor een doelgroepvermindering op basis van artikel 367, 369 of 370 van de Programmawet van 24 december 2002. </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
-          <trans-unit restype="listitem" id="tu177" resname="/html/body/ul[8]/li[2]">
-            <source xml:lang="en" id="tu176">Voor voltijdse werknemers die in de loop van de maand in verschillende arbeidsregelingen werken moet u, uitsluitend voor de toepassing van deze vermindering, alle prestaties omrekenen naar één van de regimes. </source>
+          <trans-unit id="tu177" restype="listitem" resname="/html/body/ul[8]/li[2]">
+            <source xml:lang="en">Voor voltijdse werknemers die in de loop van de maand in verschillende arbeidsregelingen werken moet u, uitsluitend voor de toepassing van deze vermindering, alle prestaties omrekenen naar één van de regimes. </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
         </group>
-        <trans-unit restype="x-html-p" id="tu179" resname="/html/body/p[27]">
-          <source xml:lang="en" id="tu178">   </source>
+        <trans-unit id="tu179" restype="x-html-p" resname="/html/body/p[27]">
+          <source xml:lang="en">   </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-h3" id="tu181" resname="/html/body/h3[2]">
-          <source xml:lang="en" id="tu180"> 2. - Berekening van het basisbedrag van de vermindering (R) </source>
+        <trans-unit id="tu181" restype="x-html-h3" resname="/html/body/h3[2]">
+          <source xml:lang="en"> 2. - Berekening van het basisbedrag van de vermindering (R) </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu183" resname="/html/body/p[28]">
-          <source xml:lang="en" id="tu182"> Het basisbedrag van de vermindering (R) wordt vastgesteld in functie van de hoogte van het refertemaandloon (S). </source>
+        <trans-unit id="tu183" restype="x-html-p" resname="/html/body/p[28]">
+          <source xml:lang="en"> Het basisbedrag van de vermindering (R) wordt vastgesteld in functie van de hoogte van het refertemaandloon (S). </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu185" resname="/html/body/p[29]">
-          <source xml:lang="en" id="tu184"> <g id="g186" ctype="x-html-span">Het koninklijk besluit van 27 maart 2023 versterkt de werkbonus voor de zeer lage lonen vanaf 1 juli 2023. Ingevolge deze versterking van de werkbonus, wordt een extra loongrens ingevoerd en de maximale vermindering voor de laagste lonen verhoogd.</g>   </source>
+        <trans-unit id="tu185" restype="x-html-p" resname="/html/body/p[29]">
+          <source xml:lang="en"> <g id="g186" ctype="x-html-span">Het koninklijk besluit van 27 maart 2023 versterkt de werkbonus voor de zeer lage lonen vanaf 1 juli 2023. Ingevolge deze versterking van de werkbonus, wordt een extra loongrens ingevoerd en de maximale vermindering voor de laagste lonen verhoogd.</g>   </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
         <group restype="x-html-div" id="tu187" resname="/html/body/div[4]">
-          <trans-unit restype="x-html-p" id="tu189" resname="/html/body/div[4]/p[1]">
-            <source xml:lang="en" id="tu188"> Ingevolge de verhoging van het gewaarborgd gemiddeld minimum maandinkomen (GGMMI) overeenkomstig CAO nr. 43-17 is er voor de berekening van de werkbonus, naast de opsplitsing in 2 luiken, een aanpassing van de loongrenzen, de hellingscoëfficiënten en van de maximale verminderingsbedragen nodig. De uiteindelijke sociale werkbonus is de som van de 2 componenten. </source>
+          <trans-unit id="tu189" restype="x-html-p" resname="/html/body/div[4]/p[1]">
+            <source xml:lang="en"> Ingevolge de verhoging van het gewaarborgd gemiddeld minimum maandinkomen (GGMMI) overeenkomstig CAO nr. 43-17 is er voor de berekening van de werkbonus, naast de opsplitsing in 2 luiken, een aanpassing van de loongrenzen, de hellingscoëfficiënten en van de maximale verminderingsbedragen nodig. De uiteindelijke sociale werkbonus is de som van de 2 componenten. </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
-          <trans-unit restype="x-html-p" id="tu191" resname="/html/body/div[4]/p[2]">
-            <source xml:lang="en" id="tu190">   </source>
+          <trans-unit id="tu191" restype="x-html-p" resname="/html/body/div[4]/p[2]">
+            <source xml:lang="en">   </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
         </group>
-        <trans-unit restype="x-html-p" id="tu193" resname="/html/body/p[30]">
-          <source xml:lang="en" id="tu192"> Loonschijven en verminderingsbedragen die gelden vanaf <g id="g194" ctype="x-html-strong">1 mei 2024</g>: </source>
+        <trans-unit id="tu193" restype="x-html-p" resname="/html/body/p[30]">
+          <source xml:lang="en"> Loonschijven en verminderingsbedragen die gelden vanaf <g id="g194" ctype="x-html-strong">1 mei 2024</g>: </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
         <group restype="x-html-div" id="tu195" resname="/html/body/div[5]">
-          <trans-unit restype="x-html-p" id="tu197" resname="/html/body/div[5]/p[1]">
-            <source xml:lang="en" id="tu196"> <g id="g198" ctype="x-html-strong">Bedienden (*)</g> </source>
+          <trans-unit id="tu197" restype="x-html-p" resname="/html/body/div[5]/p[1]">
+            <source xml:lang="en"> <g id="g198" ctype="x-html-strong">Bedienden (*)</g> </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
           <group restype="table" id="tu199" resname="/html/body/div[5]/table[1]">
             <note from="class">table-bordered table-striped</note>
             <group restype="x-html-thead" id="tu200" resname="/html/body/div[5]/table[1]/thead">
               <group restype="row" id="tu201" resname="/html/body/div[5]/table[1]/thead/tr[1]">
-                <trans-unit restype="x-html-th" id="tu203" resname="/html/body/div[5]/table[1]/thead/tr[1]/th[1]">
-                  <source xml:lang="en" id="tu202"> LUIK A (lage lonen) </source>
+                <trans-unit id="tu203" restype="x-html-th" resname="/html/body/div[5]/table[1]/thead/tr[1]/th[1]">
+                  <source xml:lang="en"> LUIK A (lage lonen) </source>
                   <target xml:lang="fr" state="new"/>
                   <note from="colspan">2</note>
                   <note from="rowspan">1</note>
                 </trans-unit>
-                <trans-unit restype="x-html-th" id="tu205" resname="/html/body/div[5]/table[1]/thead/tr[1]/th[2]">
-                  <source xml:lang="en" id="tu204"> LUIK B (zeer lage lonen) </source>
+                <trans-unit id="tu205" restype="x-html-th" resname="/html/body/div[5]/table[1]/thead/tr[1]/th[2]">
+                  <source xml:lang="en"> LUIK B (zeer lage lonen) </source>
                   <target xml:lang="fr" state="new"/>
                   <note from="colspan">2</note>
                   <note from="rowspan">1</note>
@@ -398,33 +398,33 @@
               </group>
               <group restype="row" id="tu206" resname="/html/body/div[5]/table[1]/thead/tr[2]">
                 <group restype="x-html-th" id="tu207" resname="/html/body/div[5]/table[1]/thead/tr[2]/th[1]">
-                  <trans-unit restype="x-html-p" id="tu209" resname="/html/body/div[5]/table[1]/thead/tr[2]/th[1]/p[1]">
-                    <source xml:lang="en" id="tu208"> S (refertemaandloon </source>
+                  <trans-unit id="tu209" restype="x-html-p" resname="/html/body/div[5]/table[1]/thead/tr[2]/th[1]/p[1]">
+                    <source xml:lang="en"> S (refertemaandloon </source>
                     <target xml:lang="fr" state="new"/>
                   </trans-unit>
-                  <trans-unit restype="x-html-p" id="tu211" resname="/html/body/div[5]/table[1]/thead/tr[2]/th[1]/p[2]">
-                    <source xml:lang="en" id="tu210"> aan 100% in EUR) </source>
+                  <trans-unit id="tu211" restype="x-html-p" resname="/html/body/div[5]/table[1]/thead/tr[2]/th[1]/p[2]">
+                    <source xml:lang="en"> aan 100% in EUR) </source>
                     <target xml:lang="fr" state="new"/>
                   </trans-unit>
                 </group>
                 <group restype="x-html-th" id="tu212" resname="/html/body/div[5]/table[1]/thead/tr[2]/th[2]">
-                  <trans-unit restype="x-html-p" id="tu214" resname="/html/body/div[5]/table[1]/thead/tr[2]/th[2]/p">
-                    <source xml:lang="en" id="tu213"> R (basisbedrag in EUR) </source>
+                  <trans-unit id="tu214" restype="x-html-p" resname="/html/body/div[5]/table[1]/thead/tr[2]/th[2]/p">
+                    <source xml:lang="en"> R (basisbedrag in EUR) </source>
                     <target xml:lang="fr" state="new"/>
                   </trans-unit>
                 </group>
                 <group restype="x-html-th" id="tu215" resname="/html/body/div[5]/table[1]/thead/tr[2]/th[3]">
-                  <trans-unit restype="x-html-p" id="tu217" resname="/html/body/div[5]/table[1]/thead/tr[2]/th[3]/p[1]">
-                    <source xml:lang="en" id="tu216"> S (refertemaandloon </source>
+                  <trans-unit id="tu217" restype="x-html-p" resname="/html/body/div[5]/table[1]/thead/tr[2]/th[3]/p[1]">
+                    <source xml:lang="en"> S (refertemaandloon </source>
                     <target xml:lang="fr" state="new"/>
                   </trans-unit>
-                  <trans-unit restype="x-html-p" id="tu219" resname="/html/body/div[5]/table[1]/thead/tr[2]/th[3]/p[2]">
-                    <source xml:lang="en" id="tu218"> aan 100% in EUR) </source>
+                  <trans-unit id="tu219" restype="x-html-p" resname="/html/body/div[5]/table[1]/thead/tr[2]/th[3]/p[2]">
+                    <source xml:lang="en"> aan 100% in EUR) </source>
                     <target xml:lang="fr" state="new"/>
                   </trans-unit>
                 </group>
-                <trans-unit restype="x-html-th" id="tu221" resname="/html/body/div[5]/table[1]/thead/tr[2]/th[4]">
-                  <source xml:lang="en" id="tu220"> R (basisbedrag in EUR) </source>
+                <trans-unit id="tu221" restype="x-html-th" resname="/html/body/div[5]/table[1]/thead/tr[2]/th[4]">
+                  <source xml:lang="en"> R (basisbedrag in EUR) </source>
                   <target xml:lang="fr" state="new"/>
                 </trans-unit>
               </group>
@@ -432,84 +432,84 @@
             <group restype="x-html-tbody" id="tu222" resname="/html/body/div[5]/table[1]/tbody">
               <group restype="row" id="tu223" resname="/html/body/div[5]/table[1]/tbody/tr[1]">
                 <group restype="cell" id="tu224" resname="/html/body/div[5]/table[1]/tbody/tr[1]/td[1]">
-                  <trans-unit restype="x-html-p" id="tu226" resname="/html/body/div[5]/table[1]/tbody/tr[1]/td[1]/p">
-                    <source xml:lang="en" id="tu225"> ≤ 2.723,36 </source>
+                  <trans-unit id="tu226" restype="x-html-p" resname="/html/body/div[5]/table[1]/tbody/tr[1]/td[1]/p">
+                    <source xml:lang="en"> ≤ 2.723,36 </source>
                     <target xml:lang="fr" state="new"/>
                   </trans-unit>
                 </group>
                 <group restype="cell" id="tu227" resname="/html/body/div[5]/table[1]/tbody/tr[1]/td[2]">
-                  <trans-unit restype="x-html-p" id="tu229" resname="/html/body/div[5]/table[1]/tbody/tr[1]/td[2]/p">
-                    <source xml:lang="en" id="tu228"> 118,22 </source>
+                  <trans-unit id="tu229" restype="x-html-p" resname="/html/body/div[5]/table[1]/tbody/tr[1]/td[2]/p">
+                    <source xml:lang="en"> 118,22 </source>
                     <target xml:lang="fr" state="new"/>
                   </trans-unit>
                 </group>
-                <trans-unit restype="cell" id="tu231" resname="/html/body/div[5]/table[1]/tbody/tr[1]/td[3]">
-                  <source xml:lang="en" id="tu230"> ≤ 2.132,59 </source>
+                <trans-unit id="tu231" restype="cell" resname="/html/body/div[5]/table[1]/tbody/tr[1]/td[3]">
+                  <source xml:lang="en"> ≤ 2.132,59 </source>
                   <target xml:lang="fr" state="new"/>
                 </trans-unit>
-                <trans-unit restype="cell" id="tu233" resname="/html/body/div[5]/table[1]/tbody/tr[1]/td[4]">
-                  <source xml:lang="en" id="tu232"> 159,43 </source>
+                <trans-unit id="tu233" restype="cell" resname="/html/body/div[5]/table[1]/tbody/tr[1]/td[4]">
+                  <source xml:lang="en"> 159,43 </source>
                   <target xml:lang="fr" state="new"/>
                 </trans-unit>
               </group>
               <group restype="row" id="tu234" resname="/html/body/div[5]/table[1]/tbody/tr[2]">
                 <group restype="cell" id="tu235" resname="/html/body/div[5]/table[1]/tbody/tr[2]/td[1]">
-                  <trans-unit restype="x-html-p" id="tu237" resname="/html/body/div[5]/table[1]/tbody/tr[2]/td[1]/p">
-                    <source xml:lang="en" id="tu236"> &gt; 2.723,36 en ≤ 3.207,40 </source>
+                  <trans-unit id="tu237" restype="x-html-p" resname="/html/body/div[5]/table[1]/tbody/tr[2]/td[1]/p">
+                    <source xml:lang="en"> &gt; 2.723,36 en ≤ 3.207,40 </source>
                     <target xml:lang="fr" state="new"/>
                   </trans-unit>
                 </group>
-                <trans-unit restype="cell" id="tu239" resname="/html/body/div[5]/table[1]/tbody/tr[2]/td[2]">
-                  <source xml:lang="en" id="tu238"> 118,22 - ( 0,2442 x (S - 2.723,36)) </source>
+                <trans-unit id="tu239" restype="cell" resname="/html/body/div[5]/table[1]/tbody/tr[2]/td[2]">
+                  <source xml:lang="en"> 118,22 - ( 0,2442 x (S - 2.723,36)) </source>
                   <target xml:lang="fr" state="new"/>
                 </trans-unit>
                 <group restype="cell" id="tu240" resname="/html/body/div[5]/table[1]/tbody/tr[2]/td[3]">
-                  <trans-unit restype="x-html-p" id="tu242" resname="/html/body/div[5]/table[1]/tbody/tr[2]/td[3]/p">
-                    <source xml:lang="en" id="tu241"> &gt; 2.132,59 en ≤ 2.723,36 </source>
+                  <trans-unit id="tu242" restype="x-html-p" resname="/html/body/div[5]/table[1]/tbody/tr[2]/td[3]/p">
+                    <source xml:lang="en"> &gt; 2.132,59 en ≤ 2.723,36 </source>
                     <target xml:lang="fr" state="new"/>
                   </trans-unit>
                 </group>
-                <trans-unit restype="cell" id="tu244" resname="/html/body/div[5]/table[1]/tbody/tr[2]/td[4]">
-                  <source xml:lang="en" id="tu243"> 159,43 - ( 0,2699 x (S - 2.132,59)) </source>
+                <trans-unit id="tu244" restype="cell" resname="/html/body/div[5]/table[1]/tbody/tr[2]/td[4]">
+                  <source xml:lang="en"> 159,43 - ( 0,2699 x (S - 2.132,59)) </source>
                   <target xml:lang="fr" state="new"/>
                 </trans-unit>
               </group>
               <group restype="row" id="tu245" resname="/html/body/div[5]/table[1]/tbody/tr[3]">
-                <trans-unit restype="cell" id="tu247" resname="/html/body/div[5]/table[1]/tbody/tr[3]/td[1]">
-                  <source xml:lang="en" id="tu246"> &gt; 3.207,40 </source>
+                <trans-unit id="tu247" restype="cell" resname="/html/body/div[5]/table[1]/tbody/tr[3]/td[1]">
+                  <source xml:lang="en"> &gt; 3.207,40 </source>
                   <target xml:lang="fr" state="new"/>
                 </trans-unit>
-                <trans-unit restype="cell" id="tu249" resname="/html/body/div[5]/table[1]/tbody/tr[3]/td[2]">
-                  <source xml:lang="en" id="tu248"> 0,00 </source>
+                <trans-unit id="tu249" restype="cell" resname="/html/body/div[5]/table[1]/tbody/tr[3]/td[2]">
+                  <source xml:lang="en"> 0,00 </source>
                   <target xml:lang="fr" state="new"/>
                 </trans-unit>
-                <trans-unit restype="cell" id="tu251" resname="/html/body/div[5]/table[1]/tbody/tr[3]/td[3]">
-                  <source xml:lang="en" id="tu250"> &gt; 2.723,36 </source>
+                <trans-unit id="tu251" restype="cell" resname="/html/body/div[5]/table[1]/tbody/tr[3]/td[3]">
+                  <source xml:lang="en"> &gt; 2.723,36 </source>
                   <target xml:lang="fr" state="new"/>
                 </trans-unit>
-                <trans-unit restype="cell" id="tu253" resname="/html/body/div[5]/table[1]/tbody/tr[3]/td[4]">
-                  <source xml:lang="en" id="tu252"> 0,00 </source>
+                <trans-unit id="tu253" restype="cell" resname="/html/body/div[5]/table[1]/tbody/tr[3]/td[4]">
+                  <source xml:lang="en"> 0,00 </source>
                   <target xml:lang="fr" state="new"/>
                 </trans-unit>
               </group>
             </group>
           </group>
-          <trans-unit restype="x-html-p" id="tu255" resname="/html/body/div[5]/p[2]">
-            <source xml:lang="en" id="tu254"> <g id="g256" ctype="x-html-strong">Arbeiders (**)</g> </source>
+          <trans-unit id="tu255" restype="x-html-p" resname="/html/body/div[5]/p[2]">
+            <source xml:lang="en"> <g id="g256" ctype="x-html-strong">Arbeiders (**)</g> </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
           <group restype="table" id="tu257" resname="/html/body/div[5]/table[2]">
             <note from="class">table-bordered table-striped</note>
             <group restype="x-html-thead" id="tu258" resname="/html/body/div[5]/table[2]/thead">
               <group restype="row" id="tu259" resname="/html/body/div[5]/table[2]/thead/tr[1]">
-                <trans-unit restype="x-html-th" id="tu261" resname="/html/body/div[5]/table[2]/thead/tr[1]/th[1]">
-                  <source xml:lang="en" id="tu260"> LUIK A (lage lonen) </source>
+                <trans-unit id="tu261" restype="x-html-th" resname="/html/body/div[5]/table[2]/thead/tr[1]/th[1]">
+                  <source xml:lang="en"> LUIK A (lage lonen) </source>
                   <target xml:lang="fr" state="new"/>
                   <note from="colspan">2</note>
                   <note from="rowspan">1</note>
                 </trans-unit>
-                <trans-unit restype="x-html-th" id="tu263" resname="/html/body/div[5]/table[2]/thead/tr[1]/th[2]">
-                  <source xml:lang="en" id="tu262"> LUIK B (zeer lage lonen) </source>
+                <trans-unit id="tu263" restype="x-html-th" resname="/html/body/div[5]/table[2]/thead/tr[1]/th[2]">
+                  <source xml:lang="en"> LUIK B (zeer lage lonen) </source>
                   <target xml:lang="fr" state="new"/>
                   <note from="colspan">2</note>
                   <note from="rowspan">1</note>
@@ -517,25 +517,25 @@
               </group>
               <group restype="row" id="tu264" resname="/html/body/div[5]/table[2]/thead/tr[2]">
                 <group restype="x-html-th" id="tu265" resname="/html/body/div[5]/table[2]/thead/tr[2]/th[1]">
-                  <trans-unit restype="x-html-p" id="tu267" resname="/html/body/div[5]/table[2]/thead/tr[2]/th[1]/p">
-                    <source xml:lang="en" id="tu266"> S (refertemaandloon aan 100% in EUR) </source>
+                  <trans-unit id="tu267" restype="x-html-p" resname="/html/body/div[5]/table[2]/thead/tr[2]/th[1]/p">
+                    <source xml:lang="en"> S (refertemaandloon aan 100% in EUR) </source>
                     <target xml:lang="fr" state="new"/>
                   </trans-unit>
                 </group>
                 <group restype="x-html-th" id="tu268" resname="/html/body/div[5]/table[2]/thead/tr[2]/th[2]">
-                  <trans-unit restype="x-html-p" id="tu270" resname="/html/body/div[5]/table[2]/thead/tr[2]/th[2]/p">
-                    <source xml:lang="en" id="tu269"> R (basisbedrag in EUR) </source>
+                  <trans-unit id="tu270" restype="x-html-p" resname="/html/body/div[5]/table[2]/thead/tr[2]/th[2]/p">
+                    <source xml:lang="en"> R (basisbedrag in EUR) </source>
                     <target xml:lang="fr" state="new"/>
                   </trans-unit>
                 </group>
                 <group restype="x-html-th" id="tu271" resname="/html/body/div[5]/table[2]/thead/tr[2]/th[3]">
-                  <trans-unit restype="x-html-p" id="tu273" resname="/html/body/div[5]/table[2]/thead/tr[2]/th[3]/p">
-                    <source xml:lang="en" id="tu272"> S (refertemaandloon aan 100% in EUR) </source>
+                  <trans-unit id="tu273" restype="x-html-p" resname="/html/body/div[5]/table[2]/thead/tr[2]/th[3]/p">
+                    <source xml:lang="en"> S (refertemaandloon aan 100% in EUR) </source>
                     <target xml:lang="fr" state="new"/>
                   </trans-unit>
                 </group>
-                <trans-unit restype="x-html-th" id="tu275" resname="/html/body/div[5]/table[2]/thead/tr[2]/th[4]">
-                  <source xml:lang="en" id="tu274"> R (basisbedrag in EUR) </source>
+                <trans-unit id="tu275" restype="x-html-th" resname="/html/body/div[5]/table[2]/thead/tr[2]/th[4]">
+                  <source xml:lang="en"> R (basisbedrag in EUR) </source>
                   <target xml:lang="fr" state="new"/>
                 </trans-unit>
               </group>
@@ -543,185 +543,185 @@
             <group restype="x-html-tbody" id="tu276" resname="/html/body/div[5]/table[2]/tbody">
               <group restype="row" id="tu277" resname="/html/body/div[5]/table[2]/tbody/tr[1]">
                 <group restype="cell" id="tu278" resname="/html/body/div[5]/table[2]/tbody/tr[1]/td[1]">
-                  <trans-unit restype="x-html-p" id="tu280" resname="/html/body/div[5]/table[2]/tbody/tr[1]/td[1]/p">
-                    <source xml:lang="en" id="tu279"> ≤ 2.723,36 </source>
+                  <trans-unit id="tu280" restype="x-html-p" resname="/html/body/div[5]/table[2]/tbody/tr[1]/td[1]/p">
+                    <source xml:lang="en"> ≤ 2.723,36 </source>
                     <target xml:lang="fr" state="new"/>
                   </trans-unit>
                 </group>
                 <group restype="cell" id="tu281" resname="/html/body/div[5]/table[2]/tbody/tr[1]/td[2]">
-                  <trans-unit restype="x-html-p" id="tu283" resname="/html/body/div[5]/table[2]/tbody/tr[1]/td[2]/p">
-                    <source xml:lang="en" id="tu282"> 127,68 </source>
+                  <trans-unit id="tu283" restype="x-html-p" resname="/html/body/div[5]/table[2]/tbody/tr[1]/td[2]/p">
+                    <source xml:lang="en"> 127,68 </source>
                     <target xml:lang="fr" state="new"/>
                   </trans-unit>
                 </group>
-                <trans-unit restype="cell" id="tu285" resname="/html/body/div[5]/table[2]/tbody/tr[1]/td[3]">
-                  <source xml:lang="en" id="tu284"> ≤ 2.132,59 </source>
+                <trans-unit id="tu285" restype="cell" resname="/html/body/div[5]/table[2]/tbody/tr[1]/td[3]">
+                  <source xml:lang="en"> ≤ 2.132,59 </source>
                   <target xml:lang="fr" state="new"/>
                 </trans-unit>
-                <trans-unit restype="cell" id="tu287" resname="/html/body/div[5]/table[2]/tbody/tr[1]/td[4]">
-                  <source xml:lang="en" id="tu286"> 172,18 </source>
+                <trans-unit id="tu287" restype="cell" resname="/html/body/div[5]/table[2]/tbody/tr[1]/td[4]">
+                  <source xml:lang="en"> 172,18 </source>
                   <target xml:lang="fr" state="new"/>
                 </trans-unit>
               </group>
               <group restype="row" id="tu288" resname="/html/body/div[5]/table[2]/tbody/tr[2]">
                 <group restype="cell" id="tu289" resname="/html/body/div[5]/table[2]/tbody/tr[2]/td[1]">
-                  <trans-unit restype="x-html-p" id="tu291" resname="/html/body/div[5]/table[2]/tbody/tr[2]/td[1]/p">
-                    <source xml:lang="en" id="tu290"> &gt; 2.723,36 en ≤ 3.207,40 </source>
+                  <trans-unit id="tu291" restype="x-html-p" resname="/html/body/div[5]/table[2]/tbody/tr[2]/td[1]/p">
+                    <source xml:lang="en"> &gt; 2.723,36 en ≤ 3.207,40 </source>
                     <target xml:lang="fr" state="new"/>
                   </trans-unit>
                 </group>
-                <trans-unit restype="cell" id="tu293" resname="/html/body/div[5]/table[2]/tbody/tr[2]/td[2]">
-                  <source xml:lang="en" id="tu292"> 127,68 - ( 0,2638 x (S - 2.723,36)) </source>
+                <trans-unit id="tu293" restype="cell" resname="/html/body/div[5]/table[2]/tbody/tr[2]/td[2]">
+                  <source xml:lang="en"> 127,68 - ( 0,2638 x (S - 2.723,36)) </source>
                   <target xml:lang="fr" state="new"/>
                 </trans-unit>
                 <group restype="cell" id="tu294" resname="/html/body/div[5]/table[2]/tbody/tr[2]/td[3]">
-                  <trans-unit restype="x-html-p" id="tu296" resname="/html/body/div[5]/table[2]/tbody/tr[2]/td[3]/p">
-                    <source xml:lang="en" id="tu295"> &gt; 2.132,59 en ≤ 2.723,36 </source>
+                  <trans-unit id="tu296" restype="x-html-p" resname="/html/body/div[5]/table[2]/tbody/tr[2]/td[3]/p">
+                    <source xml:lang="en"> &gt; 2.132,59 en ≤ 2.723,36 </source>
                     <target xml:lang="fr" state="new"/>
                   </trans-unit>
                 </group>
-                <trans-unit restype="cell" id="tu298" resname="/html/body/div[5]/table[2]/tbody/tr[2]/td[4]">
-                  <source xml:lang="en" id="tu297"> 172,18 - ( 0,2915 x (S - 2.132,59)) </source>
+                <trans-unit id="tu298" restype="cell" resname="/html/body/div[5]/table[2]/tbody/tr[2]/td[4]">
+                  <source xml:lang="en"> 172,18 - ( 0,2915 x (S - 2.132,59)) </source>
                   <target xml:lang="fr" state="new"/>
                 </trans-unit>
               </group>
               <group restype="row" id="tu299" resname="/html/body/div[5]/table[2]/tbody/tr[3]">
-                <trans-unit restype="cell" id="tu301" resname="/html/body/div[5]/table[2]/tbody/tr[3]/td[1]">
-                  <source xml:lang="en" id="tu300"> &gt; 3.207,40 </source>
+                <trans-unit id="tu301" restype="cell" resname="/html/body/div[5]/table[2]/tbody/tr[3]/td[1]">
+                  <source xml:lang="en"> &gt; 3.207,40 </source>
                   <target xml:lang="fr" state="new"/>
                 </trans-unit>
-                <trans-unit restype="cell" id="tu303" resname="/html/body/div[5]/table[2]/tbody/tr[3]/td[2]">
-                  <source xml:lang="en" id="tu302"> 0,00 </source>
+                <trans-unit id="tu303" restype="cell" resname="/html/body/div[5]/table[2]/tbody/tr[3]/td[2]">
+                  <source xml:lang="en"> 0,00 </source>
                   <target xml:lang="fr" state="new"/>
                 </trans-unit>
-                <trans-unit restype="cell" id="tu305" resname="/html/body/div[5]/table[2]/tbody/tr[3]/td[3]">
-                  <source xml:lang="en" id="tu304"> &gt; 2.723,36 </source>
+                <trans-unit id="tu305" restype="cell" resname="/html/body/div[5]/table[2]/tbody/tr[3]/td[3]">
+                  <source xml:lang="en"> &gt; 2.723,36 </source>
                   <target xml:lang="fr" state="new"/>
                 </trans-unit>
-                <trans-unit restype="cell" id="tu307" resname="/html/body/div[5]/table[2]/tbody/tr[3]/td[4]">
-                  <source xml:lang="en" id="tu306"> 0,00 </source>
+                <trans-unit id="tu307" restype="cell" resname="/html/body/div[5]/table[2]/tbody/tr[3]/td[4]">
+                  <source xml:lang="en"> 0,00 </source>
                   <target xml:lang="fr" state="new"/>
                 </trans-unit>
               </group>
             </group>
           </group>
         </group>
-        <trans-unit restype="x-html-p" id="tu309" resname="/html/body/p[31]">
-          <source xml:lang="en" id="tu308"> (*) Onder bedienden moet worden verstaan: de werknemers die moeten worden aangegeven aan 100 %, dus ook bijvoorbeeld arbeiders in de openbare sector.<x id="x310" ctype="x-html-br" equiv-text=" "/> (**) Onder arbeiders moet worden verstaan: de werknemers die moeten worden aangegeven aan 108 %, dus ook bijvoorbeeld kunstenaars. </source>
+        <trans-unit id="tu309" restype="x-html-p" resname="/html/body/p[31]">
+          <source xml:lang="en"> (*) Onder bedienden moet worden verstaan: de werknemers die moeten worden aangegeven aan 100 %, dus ook bijvoorbeeld arbeiders in de openbare sector.<x id="x310" ctype="x-html-br" equiv-text=" "/> (**) Onder arbeiders moet worden verstaan: de werknemers die moeten worden aangegeven aan 108 %, dus ook bijvoorbeeld kunstenaars. </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu312" resname="/html/body/p[32]">
-          <source xml:lang="en" id="tu311">   </source>
+        <trans-unit id="tu312" restype="x-html-p" resname="/html/body/p[32]">
+          <source xml:lang="en">   </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu314" resname="/html/body/p[33]">
-          <source xml:lang="en" id="tu313"> R wordt rekenkundig afgerond op de dichtstbijzijnde eenheid (Eurocent). </source>
+        <trans-unit id="tu314" restype="x-html-p" resname="/html/body/p[33]">
+          <source xml:lang="en"> R wordt rekenkundig afgerond op de dichtstbijzijnde eenheid (Eurocent). </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-h3" id="tu316" resname="/html/body/h3[3]">
-          <source xml:lang="en" id="tu315"> 3. - Vaststelling van het verminderingsbedrag (P) </source>
+        <trans-unit id="tu316" restype="x-html-h3" resname="/html/body/h3[3]">
+          <source xml:lang="en"> 3. - Vaststelling van het verminderingsbedrag (P) </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu318" resname="/html/body/p[34]">
-          <source xml:lang="en" id="tu317"> <g id="g319" ctype="x-html-strong">Voltijdse werknemers</g> </source>
+        <trans-unit id="tu318" restype="x-html-p" resname="/html/body/p[34]">
+          <source xml:lang="en"> <g id="g319" ctype="x-html-strong">Voltijdse werknemers</g> </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu321" resname="/html/body/p[35]">
-          <source xml:lang="en" id="tu320"> met <g id="g322" ctype="x-html-strong">volledige</g> prestaties: </source>
+        <trans-unit id="tu321" restype="x-html-p" resname="/html/body/p[35]">
+          <source xml:lang="en"> met <g id="g322" ctype="x-html-strong">volledige</g> prestaties: </source>
           <target xml:lang="fr" state="new"/>
           <note from="style">margin-left: 40px;</note>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu324" resname="/html/body/p[36]">
-          <source xml:lang="en" id="tu323"> <g id="g325" ctype="x-html-strong">P = R</g> </source>
+        <trans-unit id="tu324" restype="x-html-p" resname="/html/body/p[36]">
+          <source xml:lang="en"> <g id="g325" ctype="x-html-strong">P = R</g> </source>
           <target xml:lang="fr" state="new"/>
           <note from="style">margin-left: 80px;</note>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu327" resname="/html/body/p[37]">
-          <source xml:lang="en" id="tu326">   </source>
+        <trans-unit id="tu327" restype="x-html-p" resname="/html/body/p[37]">
+          <source xml:lang="en">   </source>
           <target xml:lang="fr" state="new"/>
           <note from="style">margin-left: 40px;</note>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu329" resname="/html/body/p[38]">
-          <source xml:lang="en" id="tu328"> met <g id="g330" ctype="x-html-strong">onvolledige</g> prestaties: </source>
+        <trans-unit id="tu329" restype="x-html-p" resname="/html/body/p[38]">
+          <source xml:lang="en"> met <g id="g330" ctype="x-html-strong">onvolledige</g> prestaties: </source>
           <target xml:lang="fr" state="new"/>
           <note from="style">margin-left: 40px;</note>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu332" resname="/html/body/p[39]">
-          <source xml:lang="en" id="tu331"> <g id="g333" ctype="x-html-strong">P= (J/D) x R</g> </source>
+        <trans-unit id="tu332" restype="x-html-p" resname="/html/body/p[39]">
+          <source xml:lang="en"> <g id="g333" ctype="x-html-strong">P= (J/D) x R</g> </source>
           <target xml:lang="fr" state="new"/>
           <note from="style">margin-left: 80px;</note>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu335" resname="/html/body/p[40]">
-          <source xml:lang="en" id="tu334"> De breuk J/D wordt afgerond op twee decimalen (0,005 wordt 0,01) en het resultaat van die breuk mag nooit groter zijn dan 1. </source>
+        <trans-unit id="tu335" restype="x-html-p" resname="/html/body/p[40]">
+          <source xml:lang="en"> De breuk J/D wordt afgerond op twee decimalen (0,005 wordt 0,01) en het resultaat van die breuk mag nooit groter zijn dan 1. </source>
           <target xml:lang="fr" state="new"/>
           <note from="style">margin-left: 40px;</note>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu337" resname="/html/body/p[41]">
-          <source xml:lang="en" id="tu336"> <g id="g338" ctype="x-html-strong">Deeltijdse werknemers en gelijkgestelden</g> </source>
+        <trans-unit id="tu337" restype="x-html-p" resname="/html/body/p[41]">
+          <source xml:lang="en"> <g id="g338" ctype="x-html-strong">Deeltijdse werknemers en gelijkgestelden</g> </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu340" resname="/html/body/p[42]">
-          <source xml:lang="en" id="tu339"> <g id="g341" ctype="x-html-strong">P= (H/U) x R</g> </source>
+        <trans-unit id="tu340" restype="x-html-p" resname="/html/body/p[42]">
+          <source xml:lang="en"> <g id="g341" ctype="x-html-strong">P= (H/U) x R</g> </source>
           <target xml:lang="fr" state="new"/>
           <note from="style">margin-left: 80px;</note>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu343" resname="/html/body/p[43]">
-          <source xml:lang="en" id="tu342"> De breuk H/U wordt afgerond op twee decimalen (0,005 wordt 0,01) en het resultaat van die breuk mag nooit groter zijn dan 1. </source>
+        <trans-unit id="tu343" restype="x-html-p" resname="/html/body/p[43]">
+          <source xml:lang="en"> De breuk H/U wordt afgerond op twee decimalen (0,005 wordt 0,01) en het resultaat van die breuk mag nooit groter zijn dan 1. </source>
           <target xml:lang="fr" state="new"/>
           <note from="style">margin-left: 40px;</note>
         </trans-unit>
-        <trans-unit restype="x-html-ul" id="tu345" resname="/html/body/ul[9]">
-          <source xml:lang="en" id="tu344"/>
+        <trans-unit id="tu345" restype="x-html-ul" resname="/html/body/ul[9]">
+          <source xml:lang="en"/>
           <target xml:lang="fr" state="needs-translation"/>
         </trans-unit>
         <group restype="x-html-div" id="tu346" resname="/html/body/div[6]">
-          <trans-unit restype="x-html-p" id="tu348" resname="/html/body/div[6]/p">
-            <source xml:lang="en" id="tu347"> De vermindering kan toegepast worden zowel op de gewone lonen als op uitbetaalde premies, maar niet op enkel vertrekvakantiegeld bedienden (looncode 7) en/of verbrekingsvergoedingen (looncode 3) verschuldigd gedurende deze periode. <g id="g349" ctype="x-html-span">De vermindering kan wel worden toegepast op de looncodes 6 en 14.</g> </source>
+          <trans-unit id="tu348" restype="x-html-p" resname="/html/body/div[6]/p">
+            <source xml:lang="en"> De vermindering kan toegepast worden zowel op de gewone lonen als op uitbetaalde premies, maar niet op enkel vertrekvakantiegeld bedienden (looncode 7) en/of verbrekingsvergoedingen (looncode 3) verschuldigd gedurende deze periode. <g id="g349" ctype="x-html-span">De vermindering kan wel worden toegepast op de looncodes 6 en 14.</g> </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
           <group restype="x-html-div" id="tu350" resname="/html/body/div[6]/div">
             <note from="class">message alert</note>
             <trans-unit id="tu352" resname="/html/body/div[6]/div/text()[1]">
-              <source xml:lang="en" id="tu351"> <g id="g353" ctype="x-html-span">Opgelet</g></source>
+              <source xml:lang="en"> <g id="g353" ctype="x-html-span">Opgelet</g></source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
-            <trans-unit restype="x-html-p" id="tu355" resname="/html/body/div[6]/div/p">
-              <source xml:lang="en" id="tu354"> De werkbonus (P) mag de verschuldigde persoonlijke socialezekerheidsbijdragen niet overschrijden. De sociale werkbonus = de vermindering berekend <bx id="bx357" rid="rid356" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>op basis van<ex id="ex358" rid="rid356" equiv-text="&amp;lt;/span&amp;gt;"/> Luik A <bx id="bx360" rid="rid359" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>(P<g id="g361" ctype="x-html-sub">A</g>)<ex id="ex362" rid="rid359" equiv-text="&amp;lt;/span&amp;gt;"/> + de vermindering berekend <bx id="bx364" rid="rid363" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>op basis van<ex id="ex365" rid="rid363" equiv-text="&amp;lt;/span&amp;gt;"/> Luik B <bx id="bx367" rid="rid366" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>(P<g id="g368" ctype="x-html-sub">B</g>)<ex id="ex369" rid="rid366" equiv-text="&amp;lt;/span&amp;gt;"/>. De eventuele aftopping bij een tekort aan werknemersbijdragen gebeurt op <bx id="bx371" rid="rid370" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>de berekening op basis van<ex id="ex372" rid="rid370" equiv-text="&amp;lt;/span&amp;gt;"/> Luik B en vervolgens op <bx id="bx374" rid="rid373" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>de berekening op basis van<ex id="ex375" rid="rid373" equiv-text="&amp;lt;/span&amp;gt;"/> Luik A. </source>
+            <trans-unit id="tu355" restype="x-html-p" resname="/html/body/div[6]/div/p">
+              <source xml:lang="en"> De werkbonus (P) mag de verschuldigde persoonlijke socialezekerheidsbijdragen niet overschrijden. De sociale werkbonus = de vermindering berekend <bx id="bx357" rid="rid356" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>op basis van<ex id="ex358" rid="rid356" equiv-text="&amp;lt;/span&amp;gt;"/> Luik A <bx id="bx360" rid="rid359" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>(P<g id="g361" ctype="x-html-sub">A</g>)<ex id="ex362" rid="rid359" equiv-text="&amp;lt;/span&amp;gt;"/> + de vermindering berekend <bx id="bx364" rid="rid363" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>op basis van<ex id="ex365" rid="rid363" equiv-text="&amp;lt;/span&amp;gt;"/> Luik B <bx id="bx367" rid="rid366" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>(P<g id="g368" ctype="x-html-sub">B</g>)<ex id="ex369" rid="rid366" equiv-text="&amp;lt;/span&amp;gt;"/>. De eventuele aftopping bij een tekort aan werknemersbijdragen gebeurt op <bx id="bx371" rid="rid370" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>de berekening op basis van<ex id="ex372" rid="rid370" equiv-text="&amp;lt;/span&amp;gt;"/> Luik B en vervolgens op <bx id="bx374" rid="rid373" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>de berekening op basis van<ex id="ex375" rid="rid373" equiv-text="&amp;lt;/span&amp;gt;"/> Luik A. </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
           </group>
         </group>
-        <trans-unit restype="x-html-p" id="tu377" resname="/html/body/p[44]">
-          <source xml:lang="en" id="tu376"> Wanneer een werknemer vakantie neemt die gedekt wordt door enkel vertrekvakantiegeld, is het mogelijk dat de werknemersbijdrage niet volstaat om de werkbonus volledig in rekening te brengen. <g id="g378" ctype="x-html-strong">De werkgever mag dan het resterende deel van de werkbonus aftrekken van de werknemersbijdrage van de volgende maand</g>. <bx id="bx380" rid="rid379" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>Vanaf het 2<g id="g381" ctype="x-html-sup">de</g> kwartaal 2024 is dit niet meer beperkt tot<ex id="ex382" rid="rid379" equiv-text="&amp;lt;/span&amp;gt;"/> <bx id="bx384" rid="rid383" equiv-text="&amp;lt;span class=&amp;quot;deletedWord&amp;quot;&amp;gt;"/>Dit kan echter enkel binnen<ex id="ex385" rid="rid383" equiv-text="&amp;lt;/span&amp;gt;"/> <bx id="bx387" rid="rid386" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>hetzelfde kwartaal<ex id="ex388" rid="rid386" equiv-text="&amp;lt;/span&amp;gt;"/>. </source>
+        <trans-unit id="tu377" restype="x-html-p" resname="/html/body/p[44]">
+          <source xml:lang="en"> Wanneer een werknemer vakantie neemt die gedekt wordt door enkel vertrekvakantiegeld, is het mogelijk dat de werknemersbijdrage niet volstaat om de werkbonus volledig in rekening te brengen. <g id="g378" ctype="x-html-strong">De werkgever mag dan het resterende deel van de werkbonus aftrekken van de werknemersbijdrage van de volgende maand</g>. <bx id="bx380" rid="rid379" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>Vanaf het 2<g id="g381" ctype="x-html-sup">de</g> kwartaal 2024 is dit niet meer beperkt tot<ex id="ex382" rid="rid379" equiv-text="&amp;lt;/span&amp;gt;"/> <bx id="bx384" rid="rid383" equiv-text="&amp;lt;span class=&amp;quot;deletedWord&amp;quot;&amp;gt;"/>Dit kan echter enkel binnen<ex id="ex385" rid="rid383" equiv-text="&amp;lt;/span&amp;gt;"/> <bx id="bx387" rid="rid386" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>hetzelfde kwartaal<ex id="ex388" rid="rid386" equiv-text="&amp;lt;/span&amp;gt;"/>. </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
         <group restype="x-html-div" id="tu389" resname="/html/body/div[7]">
           <note from="class">readMoreContent</note>
-          <trans-unit restype="x-html-p" id="tu391" resname="/html/body/div[7]/p">
-            <source xml:lang="en" id="tu390"> <bx id="bx393" rid="rid392" equiv-text="&amp;lt;strong class=&amp;quot;readMore readMoreOff&amp;quot;&amp;gt;"/><bx id="bx395" rid="rid394" equiv-text="&amp;lt;a href=&amp;quot;javascript:void(0)&amp;quot; class=&amp;quot;toggleLinkOff readMore&amp;quot;&amp;gt;"/>Voorbeelden<ex id="ex396" rid="rid394" equiv-text="&amp;lt;/a&amp;gt;"/><ex id="ex397" rid="rid392" equiv-text="&amp;lt;/strong&amp;gt;"/> </source>
+          <trans-unit id="tu391" restype="x-html-p" resname="/html/body/div[7]/p">
+            <source xml:lang="en"> <bx id="bx393" rid="rid392" equiv-text="&amp;lt;strong class=&amp;quot;readMore readMoreOff&amp;quot;&amp;gt;"/><bx id="bx395" rid="rid394" equiv-text="&amp;lt;a href=&amp;quot;javascript:void(0)&amp;quot; class=&amp;quot;toggleLinkOff readMore&amp;quot;&amp;gt;"/>Voorbeelden<ex id="ex396" rid="rid394" equiv-text="&amp;lt;/a&amp;gt;"/><ex id="ex397" rid="rid392" equiv-text="&amp;lt;/strong&amp;gt;"/> </source>
             <target xml:lang="fr" state="new"/>
             <note from="class">first</note>
           </trans-unit>
           <group restype="x-html-div" id="tu398" resname="/html/body/div[7]/div">
             <note from="class">hideContent</note>
-            <trans-unit restype="x-html-p" id="tu400" resname="/html/body/div[7]/div/p[1]">
-              <source xml:lang="en" id="tu399"> De onderstaande voorbeelden zijn gebaseerd op de cijfers die gelden vanaf 1 juni 2001. </source>
+            <trans-unit id="tu400" restype="x-html-p" resname="/html/body/div[7]/div/p[1]">
+              <source xml:lang="en"> De onderstaande voorbeelden zijn gebaseerd op de cijfers die gelden vanaf 1 juni 2001. </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
-            <trans-unit restype="x-html-p" id="tu402" resname="/html/body/div[7]/div/p[2]">
-              <source xml:lang="en" id="tu401"> Voorbeeld 1:<x id="x403" ctype="x-html-br" equiv-text=" "/> Voor een bepaalde maand heeft een <g id="g404" ctype="x-html-strong">bediende</g> een brutoloon van <g id="g405" ctype="x-html-span"><g id="g406" ctype="x-html-strong">2.015,00 EUR</g></g>. Die maand telt normaal 22 prestatiedagen. Hij wordt aangegeven met 19 dagen gewaarborgd maandloon (code 1), en drie niet door de werkgever betaalde ziektedagen (code 50). </source>
+            <trans-unit id="tu402" restype="x-html-p" resname="/html/body/div[7]/div/p[2]">
+              <source xml:lang="en"> Voorbeeld 1:<x id="x403" ctype="x-html-br" equiv-text=" "/> Voor een bepaalde maand heeft een <g id="g404" ctype="x-html-strong">bediende</g> een brutoloon van <g id="g405" ctype="x-html-span"><g id="g406" ctype="x-html-strong">2.015,00 EUR</g></g>. Die maand telt normaal 22 prestatiedagen. Hij wordt aangegeven met 19 dagen gewaarborgd maandloon (code 1), en drie niet door de werkgever betaalde ziektedagen (code 50). </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
-            <trans-unit restype="x-html-p" id="tu408" resname="/html/body/div[7]/div/p[3]">
-              <source xml:lang="en" id="tu407"> <g id="g409" ctype="x-html-span">Zijn refertemaandloon (S) is <g id="g410" ctype="x-html-strong">2.333,10 EUR</g>, nl. 106,05 EUR (=2.015,00/19 afgerond op twee decimalen) vermenigvuldigd met 22.<x id="x411" ctype="x-html-br" equiv-text=" "/> Het basisbedrag van de vermindering (R) is <g id="g412" ctype="x-html-strong">179,77 EUR</g>, nl. 262,16 - (0,2579 x (2.333,10 – 2.013,64)).<x id="x413" ctype="x-html-br" equiv-text=" "/> Het verminderingsbedrag (P) is <g id="g414" ctype="x-html-strong">154,60 EUR</g>, nl. 0,86 (=19/22 afgerond op twee decimalen) x 179,77. Dit betekent dat de werkgever bij de loonbetaling niet 263,36 EUR (=13,07% van 2.015) werknemersbijdrage inhoudt, maar 108,76 EUR (= 263,36 – 154,60)</g>. </source>
+            <trans-unit id="tu408" restype="x-html-p" resname="/html/body/div[7]/div/p[3]">
+              <source xml:lang="en"> <g id="g409" ctype="x-html-span">Zijn refertemaandloon (S) is <g id="g410" ctype="x-html-strong">2.333,10 EUR</g>, nl. 106,05 EUR (=2.015,00/19 afgerond op twee decimalen) vermenigvuldigd met 22.<x id="x411" ctype="x-html-br" equiv-text=" "/> Het basisbedrag van de vermindering (R) is <g id="g412" ctype="x-html-strong">179,77 EUR</g>, nl. 262,16 - (0,2579 x (2.333,10 – 2.013,64)).<x id="x413" ctype="x-html-br" equiv-text=" "/> Het verminderingsbedrag (P) is <g id="g414" ctype="x-html-strong">154,60 EUR</g>, nl. 0,86 (=19/22 afgerond op twee decimalen) x 179,77. Dit betekent dat de werkgever bij de loonbetaling niet 263,36 EUR (=13,07% van 2.015) werknemersbijdrage inhoudt, maar 108,76 EUR (= 263,36 – 154,60)</g>. </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
-            <trans-unit restype="x-html-p" id="tu416" resname="/html/body/div[7]/div/p[4]">
-              <source xml:lang="en" id="tu415"> Voorbeeld 2:<x id="x417" ctype="x-html-br" equiv-text=" "/> Voor een bepaalde maand heeft een <g id="g418" ctype="x-html-strong">arbeider</g> een brutoloon van <g id="g419" ctype="x-html-span"><g id="g420" ctype="x-html-strong">1336,00 EUR</g></g> (aan 100%). Tijdens die maand, die normaal 22 prestatiedagen telt, heeft hij 15 dagen normale werkelijke arbeid (code 1) en 7 wettelijke vakantiedagen (code 2). </source>
+            <trans-unit id="tu416" restype="x-html-p" resname="/html/body/div[7]/div/p[4]">
+              <source xml:lang="en"> Voorbeeld 2:<x id="x417" ctype="x-html-br" equiv-text=" "/> Voor een bepaalde maand heeft een <g id="g418" ctype="x-html-strong">arbeider</g> een brutoloon van <g id="g419" ctype="x-html-span"><g id="g420" ctype="x-html-strong">1336,00 EUR</g></g> (aan 100%). Tijdens die maand, die normaal 22 prestatiedagen telt, heeft hij 15 dagen normale werkelijke arbeid (code 1) en 7 wettelijke vakantiedagen (code 2). </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
-            <trans-unit restype="x-html-p" id="tu422" resname="/html/body/div[7]/div/p[5]">
-              <source xml:lang="en" id="tu421"> <g id="g423" ctype="x-html-span">Zijn refertemaandloon (S) is <g id="g424" ctype="x-html-strong">1.959,54 EUR</g>, nl. 89,07 (=1336,00/15) vermenigvuldigd met 22.<x id="x425" ctype="x-html-br" equiv-text=" "/> Het basisbedrag van de vermindering (R) is <g id="g426" ctype="x-html-strong">283,13 EUR</g> (zijn referteloon is kleiner dan 2.013,64 EUR).<x id="x427" ctype="x-html-br" equiv-text=" "/> Het verminderingsbedrag (P) is <g id="g428" ctype="x-html-strong">192,53 EUR</g>, nl. 0,68 (=15/22 afgerond op twee decimalen) x 283,13. Dit betekent dat de werkgever bij de loonbetaling niet 188,58 EUR, nl. 13,07% van 1442,88 (= 1336,00 + 8%) werknemersbijdrage inhoudt, maar 0 EUR (188,58 – 192,53 resulteert in een negatief bedrag, maar aangezien de werkbonus de verschuldigde persoonlijke socialezekerheidsbijdragen niet mag overschrijden is de uitkomst 0)</g>. </source>
+            <trans-unit id="tu422" restype="x-html-p" resname="/html/body/div[7]/div/p[5]">
+              <source xml:lang="en"> <g id="g423" ctype="x-html-span">Zijn refertemaandloon (S) is <g id="g424" ctype="x-html-strong">1.959,54 EUR</g>, nl. 89,07 (=1336,00/15) vermenigvuldigd met 22.<x id="x425" ctype="x-html-br" equiv-text=" "/> Het basisbedrag van de vermindering (R) is <g id="g426" ctype="x-html-strong">283,13 EUR</g> (zijn referteloon is kleiner dan 2.013,64 EUR).<x id="x427" ctype="x-html-br" equiv-text=" "/> Het verminderingsbedrag (P) is <g id="g428" ctype="x-html-strong">192,53 EUR</g>, nl. 0,68 (=15/22 afgerond op twee decimalen) x 283,13. Dit betekent dat de werkgever bij de loonbetaling niet 188,58 EUR, nl. 13,07% van 1442,88 (= 1336,00 + 8%) werknemersbijdrage inhoudt, maar 0 EUR (188,58 – 192,53 resulteert in een negatief bedrag, maar aangezien de werkbonus de verschuldigde persoonlijke socialezekerheidsbijdragen niet mag overschrijden is de uitkomst 0)</g>. </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
           </group>
@@ -729,402 +729,402 @@
         <group restype="x-html-div" id="tu429" resname="/html/body/div[8]">
           <note from="class">message alert</note>
           <trans-unit id="tu431" resname="/html/body/div[8]/text()[1]">
-            <source xml:lang="en" id="tu430"> <g id="g432" ctype="x-html-span">Opgelet</g></source>
+            <source xml:lang="en"> <g id="g432" ctype="x-html-span">Opgelet</g></source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
           <group restype="x-html-div" id="tu433" resname="/html/body/div[8]/div">
-            <trans-unit restype="x-html-p" id="tu435" resname="/html/body/div[8]/div/p">
-              <source xml:lang="en" id="tu434"> Vanaf 1 mei 2024 mag het totaal van de vermindering per werknemer niet meer bedragen dan <g id="g436" ctype="x-html-span">3.331,80 EUR</g> per kalenderjaar. </source>
+            <trans-unit id="tu435" restype="x-html-p" resname="/html/body/div[8]/div/p">
+              <source xml:lang="en"> Vanaf 1 mei 2024 mag het totaal van de vermindering per werknemer niet meer bedragen dan <g id="g436" ctype="x-html-span">3.331,80 EUR</g> per kalenderjaar. </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
           </group>
         </group>
-        <trans-unit restype="x-html-h2" id="tu438" resname="/html/body/h2[3]">
-          <source xml:lang="en" id="tu437"> Te vervullen formaliteiten </source>
+        <trans-unit id="tu438" restype="x-html-h2" resname="/html/body/h2[3]">
+          <source xml:lang="en"> Te vervullen formaliteiten </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu440" resname="/html/body/p[45]">
-          <source xml:lang="en" id="tu439"> In de <bx id="bx442" rid="rid441" equiv-text="&amp;lt;a href=&amp;quot;https://www.socialsecurity.be/site_nl/employer/general/techlib.htm#dmfa&amp;quot; target=&amp;quot;_blank&amp;quot;&amp;gt;"/>technische bibliotheek (techlib)<ex id="ex443" rid="rid441" equiv-text="&amp;lt;/a&amp;gt;"/> vindt u tevens een downloadbaar programma (macro) waarmee u deze vermindering kunt berekenen. </source>
+        <trans-unit id="tu440" restype="x-html-p" resname="/html/body/p[45]">
+          <source xml:lang="en"> In de <bx id="bx442" rid="rid441" equiv-text="&amp;lt;a href=&amp;quot;https://www.socialsecurity.be/site_nl/employer/general/techlib.htm#dmfa&amp;quot; target=&amp;quot;_blank&amp;quot;&amp;gt;"/>technische bibliotheek (techlib)<ex id="ex443" rid="rid441" equiv-text="&amp;lt;/a&amp;gt;"/> vindt u tevens een downloadbaar programma (macro) waarmee u deze vermindering kunt berekenen. </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu445" resname="/html/body/p[46]">
-          <source xml:lang="en" id="tu444"/>
+        <trans-unit id="tu445" restype="x-html-p" resname="/html/body/p[46]">
+          <source xml:lang="en"/>
           <target xml:lang="fr" state="needs-translation"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu447" resname="/html/body/p[47]">
-          <source xml:lang="en" id="tu446"/>
+        <trans-unit id="tu447" restype="x-html-p" resname="/html/body/p[47]">
+          <source xml:lang="en"/>
           <target xml:lang="fr" state="needs-translation"/>
         </trans-unit>
       </group>
       <group resname="[%locale%][body2]" id="grp448">
-        <trans-unit restype="x-html-p" id="tu450" resname="/html/body/p[1]">
-          <source xml:lang="en" id="tu449"> Het gaat om de werknemers van de privésector en van de openbare sector die een werknemersbijdrage van 13,07 % verschuldigd zijn. De werknemersbijdragevermindering is onafhankelijk van eventuele werkgeversbijdrageverminderingen. </source>
+        <trans-unit id="tu450" restype="x-html-p" resname="/html/body/p[1]">
+          <source xml:lang="en"> Het gaat om de werknemers van de privésector en van de openbare sector die een werknemersbijdrage van 13,07 % verschuldigd zijn. De werknemersbijdragevermindering is onafhankelijk van eventuele werkgeversbijdrageverminderingen. </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu452" resname="/html/body/p[2]">
-          <source xml:lang="en" id="tu451"> Voor de <g id="g453" ctype="x-html-strong">privésector</g> komen dus onder andere niet in aanmerking: </source>
+        <trans-unit id="tu452" restype="x-html-p" resname="/html/body/p[2]">
+          <source xml:lang="en"> Voor de <g id="g453" ctype="x-html-strong">privésector</g> komen dus onder andere niet in aanmerking: </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
         <group restype="x-html-ul" id="tu454" resname="/html/body/ul[1]">
-          <trans-unit restype="listitem" id="tu456" resname="/html/body/ul[1]/li[1]">
-            <source xml:lang="en" id="tu455">de geneesheren in opleiding tot specialist; </source>
+          <trans-unit id="tu456" restype="listitem" resname="/html/body/ul[1]/li[1]">
+            <source xml:lang="en">de geneesheren in opleiding tot specialist; </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
-          <trans-unit restype="listitem" id="tu458" resname="/html/body/ul[1]/li[2]">
-            <source xml:lang="en" id="tu457">de leerlingen, stagiairs en de andere jongeren tijdens de periode van gedeeltelijke onderwerping aan de sociale zekerheid (periode die eindigt op 31 december van het kalenderjaar waarin ze 18 jaar worden). </source>
+          <trans-unit id="tu458" restype="listitem" resname="/html/body/ul[1]/li[2]">
+            <source xml:lang="en">de leerlingen, stagiairs en de andere jongeren tijdens de periode van gedeeltelijke onderwerping aan de sociale zekerheid (periode die eindigt op 31 december van het kalenderjaar waarin ze 18 jaar worden). </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
         </group>
-        <trans-unit restype="x-html-p" id="tu460" resname="/html/body/p[3]">
-          <source xml:lang="en" id="tu459"> Voor de <g id="g461" ctype="x-html-strong">openbare sector</g> komen de meeste statutaire personeelsleden evenmin voor de vermindering in aanmerking. Contractuele werknemers daarentegen komen wél in aanmeking (dus ook gesubsidieerde contractuelen, artikel 60, § 7 van de organieke OCMW- wet, ...). </source>
+        <trans-unit id="tu460" restype="x-html-p" resname="/html/body/p[3]">
+          <source xml:lang="en"> Voor de <g id="g461" ctype="x-html-strong">openbare sector</g> komen de meeste statutaire personeelsleden evenmin voor de vermindering in aanmerking. Contractuele werknemers daarentegen komen wél in aanmeking (dus ook gesubsidieerde contractuelen, artikel 60, § 7 van de organieke OCMW- wet, ...). </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-h2" id="tu463" resname="/html/body/h2[1]">
-          <source xml:lang="en" id="tu462"> Praktische toepassing van de vermindering </source>
+        <trans-unit id="tu463" restype="x-html-h2" resname="/html/body/h2[1]">
+          <source xml:lang="en"> Praktische toepassing van de vermindering </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu465" resname="/html/body/p[4]">
-          <source xml:lang="en" id="tu464"> De vermindering bestaat uit een forfaitair bedrag dat geleidelijk vermindert naarmate het loon hoger wordt. De werkgever brengt het bedrag <g id="g466" ctype="x-html-strong">in mindering</g> van de normale werknemersbijdragen (13,07% van het brutoloon) bij de betaling van het loon. De werkbonus compenseert de volledige werknemersbijdrage voor een referteloon tot ongeveer <g id="g467" ctype="x-html-span">2.000,00 EUR</g> bruto per maand. </source>
+        <trans-unit id="tu465" restype="x-html-p" resname="/html/body/p[4]">
+          <source xml:lang="en"> De vermindering bestaat uit een forfaitair bedrag dat geleidelijk vermindert naarmate het loon hoger wordt. De werkgever brengt het bedrag <g id="g466" ctype="x-html-strong">in mindering</g> van de normale werknemersbijdragen (13,07% van het brutoloon) bij de betaling van het loon. De werkbonus compenseert de volledige werknemersbijdrage voor een referteloon tot ongeveer <g id="g467" ctype="x-html-span">2.000,00 EUR</g> bruto per maand. </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu469" resname="/html/body/p[5]">
-          <source xml:lang="en" id="tu468"> Indien het loon wordt betaald volgens een andere periodiciteit dan de maandelijkse (per week, per twee weken, per vier weken,...) berekent de werkgever de vermindering bij de laatste betaling die op de kalendermaand betrekking heeft. In dat geval is de berekening gebaseerd op de dagen en de lonen die op die kalendermaand betrekking hebben en moet het uitbetaalde bedrag en de ermee samenhangende periode opgesplitst worden per kalendermaand. </source>
+        <trans-unit id="tu469" restype="x-html-p" resname="/html/body/p[5]">
+          <source xml:lang="en"> Indien het loon wordt betaald volgens een andere periodiciteit dan de maandelijkse (per week, per twee weken, per vier weken,...) berekent de werkgever de vermindering bij de laatste betaling die op de kalendermaand betrekking heeft. In dat geval is de berekening gebaseerd op de dagen en de lonen die op die kalendermaand betrekking hebben en moet het uitbetaalde bedrag en de ermee samenhangende periode opgesplitst worden per kalendermaand. </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu471" resname="/html/body/p[6]">
-          <source xml:lang="en" id="tu470"> Voor werknemers die binnen de maand met opeenvolgende overeenkomsten werken, wordt het verminderingsbedrag verrekend aan het einde van iedere overeenkomst of bij iedere betaling die betrekking heeft op die overeenkomsten. </source>
+        <trans-unit id="tu471" restype="x-html-p" resname="/html/body/p[6]">
+          <source xml:lang="en"> Voor werknemers die binnen de maand met opeenvolgende overeenkomsten werken, wordt het verminderingsbedrag verrekend aan het einde van iedere overeenkomst of bij iedere betaling die betrekking heeft op die overeenkomsten. </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
         <group restype="x-html-div" id="tu472" resname="/html/body/div[1]">
           <note from="class">message alert</note>
           <trans-unit id="tu474" resname="/html/body/div[1]/text()[1]">
-            <source xml:lang="en" id="tu473"> <g id="g475" ctype="x-html-span">Opgelet</g></source>
+            <source xml:lang="en"> <g id="g475" ctype="x-html-span">Opgelet</g></source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
           <group restype="x-html-div" id="tu476" resname="/html/body/div[1]/div">
-            <trans-unit restype="x-html-p" id="tu478" resname="/html/body/div[1]/div/p">
-              <source xml:lang="en" id="tu477"> Vanaf 1 april 2024 wordt de berekening van de werkbonus opgesplitst in 2 componenten om een aangepaste berekening van de fiscale werkbonus mogelijk te maken. </source>
+            <trans-unit id="tu478" restype="x-html-p" resname="/html/body/div[1]/div/p">
+              <source xml:lang="en"> Vanaf 1 april 2024 wordt de berekening van de werkbonus opgesplitst in 2 componenten om een aangepaste berekening van de fiscale werkbonus mogelijk te maken. </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
           </group>
         </group>
-        <trans-unit restype="x-html-h2" id="tu480" resname="/html/body/h2[2]">
-          <source xml:lang="en" id="tu479"> Berekening van de vermindering </source>
+        <trans-unit id="tu480" restype="x-html-h2" resname="/html/body/h2[2]">
+          <source xml:lang="en"> Berekening van de vermindering </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu482" resname="/html/body/p[7]">
-          <source xml:lang="en" id="tu481"> Men berekent de vermindering voor iedere werknemer apart. Deze berekening omvat drie stappen. </source>
+        <trans-unit id="tu482" restype="x-html-p" resname="/html/body/p[7]">
+          <source xml:lang="en"> Men berekent de vermindering voor iedere werknemer apart. Deze berekening omvat drie stappen. </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-ul" id="tu484" resname="/html/body/ul[2]">
-          <source xml:lang="en" id="tu483"/>
+        <trans-unit id="tu484" restype="x-html-ul" resname="/html/body/ul[2]">
+          <source xml:lang="en"/>
           <target xml:lang="fr" state="final"/>
         </trans-unit>
         <group restype="x-html-ol" id="tu485" resname="/html/body/ol">
-          <trans-unit restype="listitem" id="tu487" resname="/html/body/ol/li[1]">
-            <source xml:lang="en" id="tu486">- Eerst bepaalt men het <g id="g488" ctype="x-html-strong">refertemaandloon</g> van de werknemer. </source>
+          <trans-unit id="tu487" restype="listitem" resname="/html/body/ol/li[1]">
+            <source xml:lang="en">- Eerst bepaalt men het <g id="g488" ctype="x-html-strong">refertemaandloon</g> van de werknemer. </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
-          <trans-unit restype="listitem" id="tu490" resname="/html/body/ol/li[2]">
-            <source xml:lang="en" id="tu489">- Op basis van dat refertemaandloon bepaalt men het <g id="g491" ctype="x-html-strong">basisbedrag van de vermindering</g>. </source>
+          <trans-unit id="tu490" restype="listitem" resname="/html/body/ol/li[2]">
+            <source xml:lang="en">- Op basis van dat refertemaandloon bepaalt men het <g id="g491" ctype="x-html-strong">basisbedrag van de vermindering</g>. </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
-          <trans-unit restype="listitem" id="tu493" resname="/html/body/ol/li[3]">
-            <source xml:lang="en" id="tu492">- Ten slotte stelt men het <g id="g494" ctype="x-html-strong">verminderingsbedrag</g> vast door het basisbedrag te corrigeren bij onvolledige prestaties en bij deeltijdse werknemers. </source>
+          <trans-unit id="tu493" restype="listitem" resname="/html/body/ol/li[3]">
+            <source xml:lang="en">- Ten slotte stelt men het <g id="g494" ctype="x-html-strong">verminderingsbedrag</g> vast door het basisbedrag te corrigeren bij onvolledige prestaties en bij deeltijdse werknemers. </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
         </group>
-        <trans-unit restype="x-html-ul" id="tu496" resname="/html/body/ul[3]">
-          <source xml:lang="en" id="tu495"/>
+        <trans-unit id="tu496" restype="x-html-ul" resname="/html/body/ul[3]">
+          <source xml:lang="en"/>
           <target xml:lang="fr" state="final"/>
         </trans-unit>
-        <trans-unit restype="x-html-h3" id="tu498" resname="/html/body/h3[1]">
-          <source xml:lang="en" id="tu497"> 1. - Vaststelling van het refertemaandloon (S) </source>
+        <trans-unit id="tu498" restype="x-html-h3" resname="/html/body/h3[1]">
+          <source xml:lang="en"> 1. - Vaststelling van het refertemaandloon (S) </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu500" resname="/html/body/p[8]">
-          <source xml:lang="en" id="tu499"> Het <g id="g501" ctype="x-html-strong">refertemaandloon (S)</g> kunt u rechtstreeks afleiden uit het <g id="g502" ctype="x-html-strong">brutoloon (W)</g> van de werknemer dat op de kalendermaand betrekking heeft. Hierbij houdt u geen rekening met: </source>
+        <trans-unit id="tu500" restype="x-html-p" resname="/html/body/p[8]">
+          <source xml:lang="en"> Het <g id="g501" ctype="x-html-strong">refertemaandloon (S)</g> kunt u rechtstreeks afleiden uit het <g id="g502" ctype="x-html-strong">brutoloon (W)</g> van de werknemer dat op de kalendermaand betrekking heeft. Hierbij houdt u geen rekening met: </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
         <group restype="x-html-ul" id="tu503" resname="/html/body/ul[4]">
-          <trans-unit restype="listitem" id="tu505" resname="/html/body/ul[4]/li[1]">
-            <source xml:lang="en" id="tu504">vergoedingen wegens onrechtmatige beëindiging van de arbeidsovereenkomsten (looncode 3 DmfA ) en de erdoor gedekte dagen; </source>
+          <trans-unit id="tu505" restype="listitem" resname="/html/body/ul[4]/li[1]">
+            <source xml:lang="en">vergoedingen wegens onrechtmatige beëindiging van de arbeidsovereenkomsten (looncode 3 DmfA ) en de erdoor gedekte dagen; </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
-          <trans-unit restype="listitem" id="tu507" resname="/html/body/ul[4]/li[2]">
-            <source xml:lang="en" id="tu506">flexi-loon (looncode 22 en 23 DmfA) en overuren horeca (looncode 13 DmfA) en de erdoor gedekte dagen/uren; </source>
+          <trans-unit id="tu507" restype="listitem" resname="/html/body/ul[4]/li[2]">
+            <source xml:lang="en">flexi-loon (looncode 22 en 23 DmfA) en overuren horeca (looncode 13 DmfA) en de erdoor gedekte dagen/uren; </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
-          <trans-unit restype="listitem" id="tu509" resname="/html/body/ul[4]/li[3]">
-            <source xml:lang="en" id="tu508">vergoedingen voor uren die geen arbeidstijd zijn in de zin van de arbeidswetgeving (looncode 6 DmfA); </source>
+          <trans-unit id="tu509" restype="listitem" resname="/html/body/ul[4]/li[3]">
+            <source xml:lang="en">vergoedingen voor uren die geen arbeidstijd zijn in de zin van de arbeidswetgeving (looncode 6 DmfA); </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
-          <trans-unit restype="listitem" id="tu511" resname="/html/body/ul[4]/li[4]">
-            <source xml:lang="en" id="tu510">de eindejaarspremies (13<g id="g512" ctype="x-html-sup">de</g> maand, attractiviteitspremie ziekenhuizen, ...)  tot beloop van het bedrag van het refertemaandloon (S) dat in aanmerking wordt genomen om de vermindering te berekenen voor de maand waarin die eindejaarspremie normaal wordt uitbetaald </source>
+          <trans-unit id="tu511" restype="listitem" resname="/html/body/ul[4]/li[4]">
+            <source xml:lang="en">de eindejaarspremies (13<g id="g512" ctype="x-html-sup">de</g> maand, attractiviteitspremie ziekenhuizen, ...)  tot beloop van het bedrag van het refertemaandloon (S) dat in aanmerking wordt genomen om de vermindering te berekenen voor de maand waarin die eindejaarspremie normaal wordt uitbetaald </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
-          <trans-unit restype="listitem" id="tu514" resname="/html/body/ul[4]/li[5]">
-            <source xml:lang="en" id="tu513">het enkel vertrekvakantiegeld (in de vakantieregeling privésector) uitbetaald door de werkgever aan zijn (ex-)werknemer </source>
+          <trans-unit id="tu514" restype="listitem" resname="/html/body/ul[4]/li[5]">
+            <source xml:lang="en">het enkel vertrekvakantiegeld (in de vakantieregeling privésector) uitbetaald door de werkgever aan zijn (ex-)werknemer </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
-          <trans-unit restype="listitem" id="tu516" resname="/html/body/ul[4]/li[6]">
-            <source xml:lang="en" id="tu515"> <g id="g517" ctype="x-html-span">het positief saldo aangegeven bij de eindafrekening na verrekening van het vertrekvakantiegeld (looncode 14)</g>. </source>
+          <trans-unit id="tu516" restype="listitem" resname="/html/body/ul[4]/li[6]">
+            <source xml:lang="en"> <g id="g517" ctype="x-html-span">het positief saldo aangegeven bij de eindafrekening na verrekening van het vertrekvakantiegeld (looncode 14)</g>. </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
         </group>
-        <trans-unit restype="x-html-p" id="tu519" resname="/html/body/p[9]">
-          <source xml:lang="en" id="tu518"> Bij het bepalen van het refertemaandloon (S) van een werknemer aan wie een gedeelte van het vakantiegeld dat (in de vakantieregeling privésector) overeenstemt met het normale loon voor de vakantiedagen vervroegd werd uitbetaald, wordt rekening gehouden met het gedeelte van het vertrekvakantiegeld dat de werkgever in mindering brengt van het uit te betalen loon. <bx id="bx521" rid="rid520" equiv-text="&amp;lt;a href=&amp;quot;%%7BBASE_URL_CURRENT%7D%/instructions/salary/particularcases/holidaypay.html&amp;quot; target=&amp;quot;_parent&amp;quot;&amp;gt;"/>Bekijk de voorbeelden<ex id="ex522" rid="rid520" equiv-text="&amp;lt;/a&amp;gt;"/>. </source>
+        <trans-unit id="tu519" restype="x-html-p" resname="/html/body/p[9]">
+          <source xml:lang="en"> Bij het bepalen van het refertemaandloon (S) van een werknemer aan wie een gedeelte van het vakantiegeld dat (in de vakantieregeling privésector) overeenstemt met het normale loon voor de vakantiedagen vervroegd werd uitbetaald, wordt rekening gehouden met het gedeelte van het vertrekvakantiegeld dat de werkgever in mindering brengt van het uit te betalen loon. <bx id="bx521" rid="rid520" equiv-text="&amp;lt;a href=&amp;quot;%%7BBASE_URL_CURRENT%7D%/instructions/salary/particularcases/holidaypay.html&amp;quot; target=&amp;quot;_parent&amp;quot;&amp;gt;"/>Bekijk de voorbeelden<ex id="ex522" rid="rid520" equiv-text="&amp;lt;/a&amp;gt;"/>. </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
         <group restype="x-html-div" id="tu523" resname="/html/body/div[2]">
           <note from="class">message alert</note>
           <trans-unit id="tu525" resname="/html/body/div[2]/text()[1]">
-            <source xml:lang="en" id="tu524"> <g id="g526" ctype="x-html-span">Opgelet</g></source>
+            <source xml:lang="en"> <g id="g526" ctype="x-html-span">Opgelet</g></source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
-          <trans-unit restype="x-html-p" id="tu528" resname="/html/body/div[2]/p">
-            <source xml:lang="en" id="tu527"> Zowel voor arbeiders als voor bedienden berekent men het refertemaandloon op basis van de aangegeven brutolonen aan 100%. </source>
+          <trans-unit id="tu528" restype="x-html-p" resname="/html/body/div[2]/p">
+            <source xml:lang="en"> Zowel voor arbeiders als voor bedienden berekent men het refertemaandloon op basis van de aangegeven brutolonen aan 100%. </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
         </group>
-        <trans-unit restype="x-html-p" id="tu530" resname="/html/body/p[10]">
-          <source xml:lang="en" id="tu529"> <g id="g531" ctype="x-html-strong">a) Definities en formules</g> </source>
+        <trans-unit id="tu530" restype="x-html-p" resname="/html/body/p[10]">
+          <source xml:lang="en"> <g id="g531" ctype="x-html-strong">a) Definities en formules</g> </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu533" resname="/html/body/p[11]">
-          <source xml:lang="en" id="tu532"> <g id="g534" ctype="x-html-strong">Voltijdse werknemers</g> </source>
+        <trans-unit id="tu533" restype="x-html-p" resname="/html/body/p[11]">
+          <source xml:lang="en"> <g id="g534" ctype="x-html-strong">Voltijdse werknemers</g> </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu536" resname="/html/body/p[12]">
-          <source xml:lang="en" id="tu535"> met <g id="g537" ctype="x-html-strong">volledige</g> prestaties: </source>
+        <trans-unit id="tu536" restype="x-html-p" resname="/html/body/p[12]">
+          <source xml:lang="en"> met <g id="g537" ctype="x-html-strong">volledige</g> prestaties: </source>
           <target xml:lang="fr" state="new"/>
           <note from="style">margin-left: 40px;</note>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu539" resname="/html/body/p[13]">
-          <source xml:lang="en" id="tu538"> <g id="g540" ctype="x-html-strong">S = W</g> </source>
+        <trans-unit id="tu539" restype="x-html-p" resname="/html/body/p[13]">
+          <source xml:lang="en"> <g id="g540" ctype="x-html-strong">S = W</g> </source>
           <target xml:lang="fr" state="new"/>
           <note from="style">margin-left: 80px;</note>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu542" resname="/html/body/p[14]">
-          <source xml:lang="en" id="tu541"> Onder een voltijdse werknemer met volledige prestaties wordt verstaan de werknemer voor wie J = D, waarbij: </source>
+        <trans-unit id="tu542" restype="x-html-p" resname="/html/body/p[14]">
+          <source xml:lang="en"> Onder een voltijdse werknemer met volledige prestaties wordt verstaan de werknemer voor wie J = D, waarbij: </source>
           <target xml:lang="fr" state="new"/>
           <note from="style">margin-left: 40px;</note>
         </trans-unit>
         <group restype="x-html-ul" id="tu543" resname="/html/body/ul[5]">
-          <trans-unit restype="listitem" id="tu545" resname="/html/body/ul[5]/li[1]">
-            <source xml:lang="en" id="tu544">J = het aantal dagen van de werknemer aangegeven met de prestatiecodes 1,3,4, 5 en 20. </source>
+          <trans-unit id="tu545" restype="listitem" resname="/html/body/ul[5]/li[1]">
+            <source xml:lang="en">J = het aantal dagen van de werknemer aangegeven met de prestatiecodes 1,3,4, 5 en 20. </source>
             <target xml:lang="fr" state="new"/>
             <note from="style">margin-left: 40px;</note>
           </trans-unit>
-          <trans-unit restype="listitem" id="tu547" resname="/html/body/ul[5]/li[2]">
-            <source xml:lang="en" id="tu546">D = het maximum aantal dagen prestaties voor de betrokken maand in het betrokken arbeidsstelsel. </source>
+          <trans-unit id="tu547" restype="listitem" resname="/html/body/ul[5]/li[2]">
+            <source xml:lang="en">D = het maximum aantal dagen prestaties voor de betrokken maand in het betrokken arbeidsstelsel. </source>
             <target xml:lang="fr" state="new"/>
             <note from="style">margin-left: 40px;</note>
           </trans-unit>
         </group>
-        <trans-unit restype="x-html-p" id="tu549" resname="/html/body/p[15]">
-          <source xml:lang="en" id="tu548">   </source>
+        <trans-unit id="tu549" restype="x-html-p" resname="/html/body/p[15]">
+          <source xml:lang="en">   </source>
           <target xml:lang="fr" state="new"/>
           <note from="style">margin-left: 40px;</note>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu551" resname="/html/body/p[16]">
-          <source xml:lang="en" id="tu550"> met <g id="g552" ctype="x-html-strong">onvolledige</g> prestaties: </source>
+        <trans-unit id="tu551" restype="x-html-p" resname="/html/body/p[16]">
+          <source xml:lang="en"> met <g id="g552" ctype="x-html-strong">onvolledige</g> prestaties: </source>
           <target xml:lang="fr" state="new"/>
           <note from="style">margin-left: 40px;</note>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu554" resname="/html/body/p[17]">
-          <source xml:lang="en" id="tu553"> <g id="g555" ctype="x-html-strong">S = (W/J) x D</g> </source>
+        <trans-unit id="tu554" restype="x-html-p" resname="/html/body/p[17]">
+          <source xml:lang="en"> <g id="g555" ctype="x-html-strong">S = (W/J) x D</g> </source>
           <target xml:lang="fr" state="new"/>
           <note from="style">margin-left: 80px;</note>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu557" resname="/html/body/p[18]">
-          <source xml:lang="en" id="tu556"> Onder een voltijdse werknemer met onvolledige prestaties wordt verstaan de werknemer voor wie J &lt; D </source>
+        <trans-unit id="tu557" restype="x-html-p" resname="/html/body/p[18]">
+          <source xml:lang="en"> Onder een voltijdse werknemer met onvolledige prestaties wordt verstaan de werknemer voor wie J &lt; D </source>
           <target xml:lang="fr" state="new"/>
           <note from="style">margin-left: 40px;</note>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu559" resname="/html/body/p[19]">
-          <source xml:lang="en" id="tu558"> De breuk W/J wordt afgerond naar de dichtstbijzijnde eurocent (0,005 EUR wordt 0,01 EUR) </source>
+        <trans-unit id="tu559" restype="x-html-p" resname="/html/body/p[19]">
+          <source xml:lang="en"> De breuk W/J wordt afgerond naar de dichtstbijzijnde eurocent (0,005 EUR wordt 0,01 EUR) </source>
           <target xml:lang="fr" state="new"/>
           <note from="style">margin-left: 40px;</note>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu561" resname="/html/body/p[20]">
-          <source xml:lang="en" id="tu560">   </source>
+        <trans-unit id="tu561" restype="x-html-p" resname="/html/body/p[20]">
+          <source xml:lang="en">   </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu563" resname="/html/body/p[21]">
-          <source xml:lang="en" id="tu562"> <g id="g564" ctype="x-html-strong">Deeltijdse werknemers en gelijkgestelden</g> </source>
+        <trans-unit id="tu563" restype="x-html-p" resname="/html/body/p[21]">
+          <source xml:lang="en"> <g id="g564" ctype="x-html-strong">Deeltijdse werknemers en gelijkgestelden</g> </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu566" resname="/html/body/p[22]">
-          <source xml:lang="en" id="tu565"> <g id="g567" ctype="x-html-strong">S = (W/H) x U</g> </source>
+        <trans-unit id="tu566" restype="x-html-p" resname="/html/body/p[22]">
+          <source xml:lang="en"> <g id="g567" ctype="x-html-strong">S = (W/H) x U</g> </source>
           <target xml:lang="fr" state="new"/>
           <note from="style">margin-left: 80px;</note>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu569" resname="/html/body/p[23]">
-          <source xml:lang="en" id="tu568"> Waarbij: </source>
+        <trans-unit id="tu569" restype="x-html-p" resname="/html/body/p[23]">
+          <source xml:lang="en"> Waarbij: </source>
           <target xml:lang="fr" state="new"/>
           <note from="style">margin-left: 40px;</note>
         </trans-unit>
         <group restype="x-html-ul" id="tu570" resname="/html/body/ul[6]">
-          <trans-unit restype="listitem" id="tu572" resname="/html/body/ul[6]/li[1]">
-            <source xml:lang="en" id="tu571">H = het aantal aangegeven uren met de prestatiecodes 1, 3, 4, 5 en 20; </source>
+          <trans-unit id="tu572" restype="listitem" resname="/html/body/ul[6]/li[1]">
+            <source xml:lang="en">H = het aantal aangegeven uren met de prestatiecodes 1, 3, 4, 5 en 20; </source>
             <target xml:lang="fr" state="new"/>
             <note from="style">margin-left: 40px;</note>
           </trans-unit>
-          <trans-unit restype="listitem" id="tu574" resname="/html/body/ul[6]/li[2]">
-            <source xml:lang="en" id="tu573">U = het aantal uren op maandbasis dat overeenstemt met D. </source>
+          <trans-unit id="tu574" restype="listitem" resname="/html/body/ul[6]/li[2]">
+            <source xml:lang="en">U = het aantal uren op maandbasis dat overeenstemt met D. </source>
             <target xml:lang="fr" state="new"/>
             <note from="style">margin-left: 40px;</note>
           </trans-unit>
         </group>
-        <trans-unit restype="x-html-p" id="tu576" resname="/html/body/p[24]">
-          <source xml:lang="en" id="tu575"> Deze berekening geldt zowel voor: </source>
+        <trans-unit id="tu576" restype="x-html-p" resname="/html/body/p[24]">
+          <source xml:lang="en"> Deze berekening geldt zowel voor: </source>
           <target xml:lang="fr" state="new"/>
           <note from="style">margin-left: 40px;</note>
         </trans-unit>
         <group restype="x-html-ul" id="tu577" resname="/html/body/ul[7]">
-          <trans-unit restype="listitem" id="tu579" resname="/html/body/ul[7]/li[1]">
-            <source xml:lang="en" id="tu578">werknemers die uitsluitend deeltijdse prestaties leveren; </source>
+          <trans-unit id="tu579" restype="listitem" resname="/html/body/ul[7]/li[1]">
+            <source xml:lang="en">werknemers die uitsluitend deeltijdse prestaties leveren; </source>
             <target xml:lang="fr" state="new"/>
             <note from="style">margin-left: 40px;</note>
           </trans-unit>
-          <trans-unit restype="listitem" id="tu581" resname="/html/body/ul[7]/li[2]">
-            <source xml:lang="en" id="tu580">werknemers die in de loop van de maand bij de werkgever voltijds en deeltijds werken; </source>
+          <trans-unit id="tu581" restype="listitem" resname="/html/body/ul[7]/li[2]">
+            <source xml:lang="en">werknemers die in de loop van de maand bij de werkgever voltijds en deeltijds werken; </source>
             <target xml:lang="fr" state="new"/>
             <note from="style">margin-left: 40px;</note>
           </trans-unit>
           <group restype="listitem" id="tu582" resname="/html/body/ul[7]/li[3]">
             <note from="style">margin-left: 40px;</note>
             <trans-unit id="tu584" resname="/html/body/ul[7]/li[3]/text()[1]">
-              <source xml:lang="en" id="tu583">voltijdse werknemers die met uren moeten worden aangegeven. Het betreft werknemers: </source>
+              <source xml:lang="en">voltijdse werknemers die met uren moeten worden aangegeven. Het betreft werknemers: </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
             <group restype="x-html-ul" id="tu585" resname="/html/body/ul[7]/li[3]/ul">
-              <trans-unit restype="listitem" id="tu587" resname="/html/body/ul[7]/li[3]/ul/li[1]">
-                <source xml:lang="en" id="tu586"> <g id="g588" ctype="x-html-span">van de provinciale en plaatselijke overheidsdiensten</g>, </source>
+              <trans-unit id="tu587" restype="listitem" resname="/html/body/ul[7]/li[3]/ul/li[1]">
+                <source xml:lang="en"> <g id="g588" ctype="x-html-span">van de provinciale en plaatselijke overheidsdiensten</g>, </source>
                 <target xml:lang="fr" state="new"/>
                 <note from="style">margin-left: 40px;</note>
               </trans-unit>
-              <trans-unit restype="listitem" id="tu590" resname="/html/body/ul[7]/li[3]/ul/li[2]">
-                <source xml:lang="en" id="tu589">in de horeca, </source>
+              <trans-unit id="tu590" restype="listitem" resname="/html/body/ul[7]/li[3]/ul/li[2]">
+                <source xml:lang="en">in de horeca, </source>
                 <target xml:lang="fr" state="new"/>
                 <note from="style">margin-left: 40px;</note>
               </trans-unit>
-              <trans-unit restype="listitem" id="tu592" resname="/html/body/ul[7]/li[3]/ul/li[3]">
-                <source xml:lang="en" id="tu591">met gedeeltelijke werkhervatting na ziekte of (arbeids)ongeval, </source>
+              <trans-unit id="tu592" restype="listitem" resname="/html/body/ul[7]/li[3]/ul/li[3]">
+                <source xml:lang="en">met gedeeltelijke werkhervatting na ziekte of (arbeids)ongeval, </source>
                 <target xml:lang="fr" state="new"/>
                 <note from="style">margin-left: 40px;</note>
               </trans-unit>
-              <trans-unit restype="listitem" id="tu594" resname="/html/body/ul[7]/li[3]/ul/li[4]">
-                <source xml:lang="en" id="tu593">met al dan niet gedeeltelijke (gereglementeerde) onderbreking van de loopbaan, </source>
+              <trans-unit id="tu594" restype="listitem" resname="/html/body/ul[7]/li[3]/ul/li[4]">
+                <source xml:lang="en">met al dan niet gedeeltelijke (gereglementeerde) onderbreking van de loopbaan, </source>
                 <target xml:lang="fr" state="new"/>
                 <note from="style">margin-left: 40px;</note>
               </trans-unit>
-              <trans-unit restype="listitem" id="tu596" resname="/html/body/ul[7]/li[3]/ul/li[5]">
-                <source xml:lang="en" id="tu595">met halftijds brugpensioen, </source>
+              <trans-unit id="tu596" restype="listitem" resname="/html/body/ul[7]/li[3]/ul/li[5]">
+                <source xml:lang="en">met halftijds brugpensioen, </source>
                 <target xml:lang="fr" state="new"/>
                 <note from="style">margin-left: 40px;</note>
               </trans-unit>
-              <trans-unit restype="listitem" id="tu598" resname="/html/body/ul[7]/li[3]/ul/li[6]">
-                <source xml:lang="en" id="tu597">werknemers bij tussenpozen (uitzendkrachten, tijdelijke arbeid, thuisarbeid), </source>
+              <trans-unit id="tu598" restype="listitem" resname="/html/body/ul[7]/li[3]/ul/li[6]">
+                <source xml:lang="en">werknemers bij tussenpozen (uitzendkrachten, tijdelijke arbeid, thuisarbeid), </source>
                 <target xml:lang="fr" state="new"/>
                 <note from="style">margin-left: 40px;</note>
               </trans-unit>
-              <trans-unit restype="listitem" id="tu600" resname="/html/body/ul[7]/li[3]/ul/li[7]">
-                <source xml:lang="en" id="tu599">met gelimiteerde prestaties (met een contract van korte duur en voor een tewerkstelling die per dag niet de gewoonlijke dagduur bereikt), </source>
+              <trans-unit id="tu600" restype="listitem" resname="/html/body/ul[7]/li[3]/ul/li[7]">
+                <source xml:lang="en">met gelimiteerde prestaties (met een contract van korte duur en voor een tewerkstelling die per dag niet de gewoonlijke dagduur bereikt), </source>
                 <target xml:lang="fr" state="new"/>
                 <note from="style">margin-left: 40px;</note>
               </trans-unit>
-              <trans-unit restype="listitem" id="tu602" resname="/html/body/ul[7]/li[3]/ul/li[8]">
-                <source xml:lang="en" id="tu601">seizoenarbeiders en </source>
+              <trans-unit id="tu602" restype="listitem" resname="/html/body/ul[7]/li[3]/ul/li[8]">
+                <source xml:lang="en">seizoenarbeiders en </source>
                 <target xml:lang="fr" state="new"/>
                 <note from="style">margin-left: 40px;</note>
               </trans-unit>
-              <trans-unit restype="listitem" id="tu604" resname="/html/body/ul[7]/li[3]/ul/li[9]">
-                <source xml:lang="en" id="tu603">werknemers bezoldigd met dienstencheques. </source>
+              <trans-unit id="tu604" restype="listitem" resname="/html/body/ul[7]/li[3]/ul/li[9]">
+                <source xml:lang="en">werknemers bezoldigd met dienstencheques. </source>
                 <target xml:lang="fr" state="new"/>
                 <note from="style">margin-left: 40px;</note>
               </trans-unit>
             </group>
           </group>
         </group>
-        <trans-unit restype="x-html-p" id="tu606" resname="/html/body/p[25]">
-          <source xml:lang="en" id="tu605"> De breuk W/H wordt afgerond naar de dichtstbijzijnde eurocent (0,005 EUR wordt 0,01 EUR) </source>
+        <trans-unit id="tu606" restype="x-html-p" resname="/html/body/p[25]">
+          <source xml:lang="en"> De breuk W/H wordt afgerond naar de dichtstbijzijnde eurocent (0,005 EUR wordt 0,01 EUR) </source>
           <target xml:lang="fr" state="new"/>
           <note from="style">margin-left: 40px;</note>
         </trans-unit>
         <group restype="x-html-div" id="tu607" resname="/html/body/div[3]">
           <note from="class">alert message</note>
           <trans-unit id="tu609" resname="/html/body/div[3]/text()[1]">
-            <source xml:lang="en" id="tu608"> <g id="g610" ctype="x-html-span">Opgelet</g></source>
+            <source xml:lang="en"> <g id="g610" ctype="x-html-span">Opgelet</g></source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
-          <trans-unit restype="x-html-p" id="tu612" resname="/html/body/div[3]/p">
-            <source xml:lang="en" id="tu611"> De prestaties van de flexi-jobs  en de overuren horeca blijven volledig buiten de berekening. </source>
+          <trans-unit id="tu612" restype="x-html-p" resname="/html/body/div[3]/p">
+            <source xml:lang="en"> De prestaties van de flexi-jobs  en de overuren horeca blijven volledig buiten de berekening. </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
         </group>
-        <trans-unit restype="x-html-p" id="tu614" resname="/html/body/p[26]">
-          <source xml:lang="en" id="tu613">  <g id="g615" ctype="x-html-strong">b) Opmerkingen</g> </source>
+        <trans-unit id="tu614" restype="x-html-p" resname="/html/body/p[26]">
+          <source xml:lang="en">  <g id="g615" ctype="x-html-strong">b) Opmerkingen</g> </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
         <group restype="x-html-ul" id="tu616" resname="/html/body/ul[8]">
-          <trans-unit restype="listitem" id="tu618" resname="/html/body/ul[8]/li[1]">
-            <source xml:lang="en" id="tu617">Voor werknemers tewerkgesteld bij een beperkte groep van werkgevers die vóór 1 oktober 2001 de arbeidsduur verminderden of de vierdagenweek invoerden en van wie de werknemers een tussenkomst krijgen om het loonverlies gedeeltelijk te compenseren (looncode 5), wordt S forfaitair verminderd met 80,57 EUR per maand. Het handelt hier om werknemers die in aanmerking komen voor een doelgroepvermindering op basis van artikel 367, 369 of 370 van de Programmawet van 24 december 2002. </source>
+          <trans-unit id="tu618" restype="listitem" resname="/html/body/ul[8]/li[1]">
+            <source xml:lang="en">Voor werknemers tewerkgesteld bij een beperkte groep van werkgevers die vóór 1 oktober 2001 de arbeidsduur verminderden of de vierdagenweek invoerden en van wie de werknemers een tussenkomst krijgen om het loonverlies gedeeltelijk te compenseren (looncode 5), wordt S forfaitair verminderd met 80,57 EUR per maand. Het handelt hier om werknemers die in aanmerking komen voor een doelgroepvermindering op basis van artikel 367, 369 of 370 van de Programmawet van 24 december 2002. </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
-          <trans-unit restype="listitem" id="tu620" resname="/html/body/ul[8]/li[2]">
-            <source xml:lang="en" id="tu619">Voor voltijdse werknemers die in de loop van de maand in verschillende arbeidsregelingen werken moet u, uitsluitend voor de toepassing van deze vermindering, alle prestaties omrekenen naar één van de regimes. </source>
+          <trans-unit id="tu620" restype="listitem" resname="/html/body/ul[8]/li[2]">
+            <source xml:lang="en">Voor voltijdse werknemers die in de loop van de maand in verschillende arbeidsregelingen werken moet u, uitsluitend voor de toepassing van deze vermindering, alle prestaties omrekenen naar één van de regimes. </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
         </group>
-        <trans-unit restype="x-html-p" id="tu622" resname="/html/body/p[27]">
-          <source xml:lang="en" id="tu621">   </source>
+        <trans-unit id="tu622" restype="x-html-p" resname="/html/body/p[27]">
+          <source xml:lang="en">   </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-h3" id="tu624" resname="/html/body/h3[2]">
-          <source xml:lang="en" id="tu623"> 2. - Berekening van het basisbedrag van de vermindering (R) </source>
+        <trans-unit id="tu624" restype="x-html-h3" resname="/html/body/h3[2]">
+          <source xml:lang="en"> 2. - Berekening van het basisbedrag van de vermindering (R) </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu626" resname="/html/body/p[28]">
-          <source xml:lang="en" id="tu625"> Het basisbedrag van de vermindering (R) wordt vastgesteld in functie van de hoogte van het refertemaandloon (S). </source>
+        <trans-unit id="tu626" restype="x-html-p" resname="/html/body/p[28]">
+          <source xml:lang="en"> Het basisbedrag van de vermindering (R) wordt vastgesteld in functie van de hoogte van het refertemaandloon (S). </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu628" resname="/html/body/p[29]">
-          <source xml:lang="en" id="tu627"> <g id="g629" ctype="x-html-span">Het koninklijk besluit van 27 maart 2023 versterkt de werkbonus voor de zeer lage lonen vanaf 1 juli 2023. Ingevolge deze versterking van de werkbonus, wordt een extra loongrens ingevoerd en de maximale vermindering voor de laagste lonen verhoogd.</g>   </source>
+        <trans-unit id="tu628" restype="x-html-p" resname="/html/body/p[29]">
+          <source xml:lang="en"> <g id="g629" ctype="x-html-span">Het koninklijk besluit van 27 maart 2023 versterkt de werkbonus voor de zeer lage lonen vanaf 1 juli 2023. Ingevolge deze versterking van de werkbonus, wordt een extra loongrens ingevoerd en de maximale vermindering voor de laagste lonen verhoogd.</g>   </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
         <group restype="x-html-div" id="tu630" resname="/html/body/div[4]">
-          <trans-unit restype="x-html-p" id="tu632" resname="/html/body/div[4]/p[1]">
-            <source xml:lang="en" id="tu631"> Ingevolge de verhoging van het gewaarborgd gemiddeld minimum maandinkomen (GGMMI) overeenkomstig CAO nr. 43-17 is er voor de berekening van de werkbonus, naast de opsplitsing in 2 luiken, een aanpassing van de loongrenzen, de hellingscoëfficiënten en van de maximale verminderingsbedragen nodig. De uiteindelijke sociale werkbonus is de som van de 2 componenten. </source>
+          <trans-unit id="tu632" restype="x-html-p" resname="/html/body/div[4]/p[1]">
+            <source xml:lang="en"> Ingevolge de verhoging van het gewaarborgd gemiddeld minimum maandinkomen (GGMMI) overeenkomstig CAO nr. 43-17 is er voor de berekening van de werkbonus, naast de opsplitsing in 2 luiken, een aanpassing van de loongrenzen, de hellingscoëfficiënten en van de maximale verminderingsbedragen nodig. De uiteindelijke sociale werkbonus is de som van de 2 componenten. </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
-          <trans-unit restype="x-html-p" id="tu634" resname="/html/body/div[4]/p[2]">
-            <source xml:lang="en" id="tu633">   </source>
+          <trans-unit id="tu634" restype="x-html-p" resname="/html/body/div[4]/p[2]">
+            <source xml:lang="en">   </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
         </group>
-        <trans-unit restype="x-html-p" id="tu636" resname="/html/body/p[30]">
-          <source xml:lang="en" id="tu635"> Loonschijven en verminderingsbedragen die gelden vanaf <g id="g637" ctype="x-html-strong">1 mei 2024</g>: </source>
+        <trans-unit id="tu636" restype="x-html-p" resname="/html/body/p[30]">
+          <source xml:lang="en"> Loonschijven en verminderingsbedragen die gelden vanaf <g id="g637" ctype="x-html-strong">1 mei 2024</g>: </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
         <group restype="x-html-div" id="tu638" resname="/html/body/div[5]">
-          <trans-unit restype="x-html-p" id="tu640" resname="/html/body/div[5]/p[1]">
-            <source xml:lang="en" id="tu639"> <g id="g641" ctype="x-html-strong">Bedienden (*)</g> </source>
+          <trans-unit id="tu640" restype="x-html-p" resname="/html/body/div[5]/p[1]">
+            <source xml:lang="en"> <g id="g641" ctype="x-html-strong">Bedienden (*)</g> </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
           <group restype="table" id="tu642" resname="/html/body/div[5]/table[1]">
             <note from="class">table-bordered table-striped</note>
             <group restype="x-html-thead" id="tu643" resname="/html/body/div[5]/table[1]/thead">
               <group restype="row" id="tu644" resname="/html/body/div[5]/table[1]/thead/tr[1]">
-                <trans-unit restype="x-html-th" id="tu646" resname="/html/body/div[5]/table[1]/thead/tr[1]/th[1]">
-                  <source xml:lang="en" id="tu645"> LUIK A (lage lonen) </source>
+                <trans-unit id="tu646" restype="x-html-th" resname="/html/body/div[5]/table[1]/thead/tr[1]/th[1]">
+                  <source xml:lang="en"> LUIK A (lage lonen) </source>
                   <target xml:lang="fr" state="new"/>
                   <note from="colspan">2</note>
                   <note from="rowspan">1</note>
                 </trans-unit>
-                <trans-unit restype="x-html-th" id="tu648" resname="/html/body/div[5]/table[1]/thead/tr[1]/th[2]">
-                  <source xml:lang="en" id="tu647"> LUIK B (zeer lage lonen) </source>
+                <trans-unit id="tu648" restype="x-html-th" resname="/html/body/div[5]/table[1]/thead/tr[1]/th[2]">
+                  <source xml:lang="en"> LUIK B (zeer lage lonen) </source>
                   <target xml:lang="fr" state="new"/>
                   <note from="colspan">2</note>
                   <note from="rowspan">1</note>
@@ -1132,33 +1132,33 @@
               </group>
               <group restype="row" id="tu649" resname="/html/body/div[5]/table[1]/thead/tr[2]">
                 <group restype="x-html-th" id="tu650" resname="/html/body/div[5]/table[1]/thead/tr[2]/th[1]">
-                  <trans-unit restype="x-html-p" id="tu652" resname="/html/body/div[5]/table[1]/thead/tr[2]/th[1]/p[1]">
-                    <source xml:lang="en" id="tu651"> S (refertemaandloon </source>
+                  <trans-unit id="tu652" restype="x-html-p" resname="/html/body/div[5]/table[1]/thead/tr[2]/th[1]/p[1]">
+                    <source xml:lang="en"> S (refertemaandloon </source>
                     <target xml:lang="fr" state="new"/>
                   </trans-unit>
-                  <trans-unit restype="x-html-p" id="tu654" resname="/html/body/div[5]/table[1]/thead/tr[2]/th[1]/p[2]">
-                    <source xml:lang="en" id="tu653"> aan 100% in EUR) </source>
+                  <trans-unit id="tu654" restype="x-html-p" resname="/html/body/div[5]/table[1]/thead/tr[2]/th[1]/p[2]">
+                    <source xml:lang="en"> aan 100% in EUR) </source>
                     <target xml:lang="fr" state="new"/>
                   </trans-unit>
                 </group>
                 <group restype="x-html-th" id="tu655" resname="/html/body/div[5]/table[1]/thead/tr[2]/th[2]">
-                  <trans-unit restype="x-html-p" id="tu657" resname="/html/body/div[5]/table[1]/thead/tr[2]/th[2]/p">
-                    <source xml:lang="en" id="tu656"> R (basisbedrag in EUR) </source>
+                  <trans-unit id="tu657" restype="x-html-p" resname="/html/body/div[5]/table[1]/thead/tr[2]/th[2]/p">
+                    <source xml:lang="en"> R (basisbedrag in EUR) </source>
                     <target xml:lang="fr" state="new"/>
                   </trans-unit>
                 </group>
                 <group restype="x-html-th" id="tu658" resname="/html/body/div[5]/table[1]/thead/tr[2]/th[3]">
-                  <trans-unit restype="x-html-p" id="tu660" resname="/html/body/div[5]/table[1]/thead/tr[2]/th[3]/p[1]">
-                    <source xml:lang="en" id="tu659"> S (refertemaandloon </source>
+                  <trans-unit id="tu660" restype="x-html-p" resname="/html/body/div[5]/table[1]/thead/tr[2]/th[3]/p[1]">
+                    <source xml:lang="en"> S (refertemaandloon </source>
                     <target xml:lang="fr" state="new"/>
                   </trans-unit>
-                  <trans-unit restype="x-html-p" id="tu662" resname="/html/body/div[5]/table[1]/thead/tr[2]/th[3]/p[2]">
-                    <source xml:lang="en" id="tu661"> aan 100% in EUR) </source>
+                  <trans-unit id="tu662" restype="x-html-p" resname="/html/body/div[5]/table[1]/thead/tr[2]/th[3]/p[2]">
+                    <source xml:lang="en"> aan 100% in EUR) </source>
                     <target xml:lang="fr" state="new"/>
                   </trans-unit>
                 </group>
-                <trans-unit restype="x-html-th" id="tu664" resname="/html/body/div[5]/table[1]/thead/tr[2]/th[4]">
-                  <source xml:lang="en" id="tu663"> R (basisbedrag in EUR) </source>
+                <trans-unit id="tu664" restype="x-html-th" resname="/html/body/div[5]/table[1]/thead/tr[2]/th[4]">
+                  <source xml:lang="en"> R (basisbedrag in EUR) </source>
                   <target xml:lang="fr" state="new"/>
                 </trans-unit>
               </group>
@@ -1166,84 +1166,84 @@
             <group restype="x-html-tbody" id="tu665" resname="/html/body/div[5]/table[1]/tbody">
               <group restype="row" id="tu666" resname="/html/body/div[5]/table[1]/tbody/tr[1]">
                 <group restype="cell" id="tu667" resname="/html/body/div[5]/table[1]/tbody/tr[1]/td[1]">
-                  <trans-unit restype="x-html-p" id="tu669" resname="/html/body/div[5]/table[1]/tbody/tr[1]/td[1]/p">
-                    <source xml:lang="en" id="tu668"> ≤ 2.723,36 </source>
+                  <trans-unit id="tu669" restype="x-html-p" resname="/html/body/div[5]/table[1]/tbody/tr[1]/td[1]/p">
+                    <source xml:lang="en"> ≤ 2.723,36 </source>
                     <target xml:lang="fr" state="new"/>
                   </trans-unit>
                 </group>
                 <group restype="cell" id="tu670" resname="/html/body/div[5]/table[1]/tbody/tr[1]/td[2]">
-                  <trans-unit restype="x-html-p" id="tu672" resname="/html/body/div[5]/table[1]/tbody/tr[1]/td[2]/p">
-                    <source xml:lang="en" id="tu671"> 118,22 </source>
+                  <trans-unit id="tu672" restype="x-html-p" resname="/html/body/div[5]/table[1]/tbody/tr[1]/td[2]/p">
+                    <source xml:lang="en"> 118,22 </source>
                     <target xml:lang="fr" state="new"/>
                   </trans-unit>
                 </group>
-                <trans-unit restype="cell" id="tu674" resname="/html/body/div[5]/table[1]/tbody/tr[1]/td[3]">
-                  <source xml:lang="en" id="tu673"> ≤ 2.132,59 </source>
+                <trans-unit id="tu674" restype="cell" resname="/html/body/div[5]/table[1]/tbody/tr[1]/td[3]">
+                  <source xml:lang="en"> ≤ 2.132,59 </source>
                   <target xml:lang="fr" state="new"/>
                 </trans-unit>
-                <trans-unit restype="cell" id="tu676" resname="/html/body/div[5]/table[1]/tbody/tr[1]/td[4]">
-                  <source xml:lang="en" id="tu675"> 159,43 </source>
+                <trans-unit id="tu676" restype="cell" resname="/html/body/div[5]/table[1]/tbody/tr[1]/td[4]">
+                  <source xml:lang="en"> 159,43 </source>
                   <target xml:lang="fr" state="new"/>
                 </trans-unit>
               </group>
               <group restype="row" id="tu677" resname="/html/body/div[5]/table[1]/tbody/tr[2]">
                 <group restype="cell" id="tu678" resname="/html/body/div[5]/table[1]/tbody/tr[2]/td[1]">
-                  <trans-unit restype="x-html-p" id="tu680" resname="/html/body/div[5]/table[1]/tbody/tr[2]/td[1]/p">
-                    <source xml:lang="en" id="tu679"> &gt; 2.723,36 en ≤ 3.207,40 </source>
+                  <trans-unit id="tu680" restype="x-html-p" resname="/html/body/div[5]/table[1]/tbody/tr[2]/td[1]/p">
+                    <source xml:lang="en"> &gt; 2.723,36 en ≤ 3.207,40 </source>
                     <target xml:lang="fr" state="new"/>
                   </trans-unit>
                 </group>
-                <trans-unit restype="cell" id="tu682" resname="/html/body/div[5]/table[1]/tbody/tr[2]/td[2]">
-                  <source xml:lang="en" id="tu681"> 118,22 - ( 0,2442 x (S - 2.723,36)) </source>
+                <trans-unit id="tu682" restype="cell" resname="/html/body/div[5]/table[1]/tbody/tr[2]/td[2]">
+                  <source xml:lang="en"> 118,22 - ( 0,2442 x (S - 2.723,36)) </source>
                   <target xml:lang="fr" state="new"/>
                 </trans-unit>
                 <group restype="cell" id="tu683" resname="/html/body/div[5]/table[1]/tbody/tr[2]/td[3]">
-                  <trans-unit restype="x-html-p" id="tu685" resname="/html/body/div[5]/table[1]/tbody/tr[2]/td[3]/p">
-                    <source xml:lang="en" id="tu684"> &gt; 2.132,59 en ≤ 2.723,36 </source>
+                  <trans-unit id="tu685" restype="x-html-p" resname="/html/body/div[5]/table[1]/tbody/tr[2]/td[3]/p">
+                    <source xml:lang="en"> &gt; 2.132,59 en ≤ 2.723,36 </source>
                     <target xml:lang="fr" state="new"/>
                   </trans-unit>
                 </group>
-                <trans-unit restype="cell" id="tu687" resname="/html/body/div[5]/table[1]/tbody/tr[2]/td[4]">
-                  <source xml:lang="en" id="tu686"> 159,43 - ( 0,2699 x (S - 2.132,59)) </source>
+                <trans-unit id="tu687" restype="cell" resname="/html/body/div[5]/table[1]/tbody/tr[2]/td[4]">
+                  <source xml:lang="en"> 159,43 - ( 0,2699 x (S - 2.132,59)) </source>
                   <target xml:lang="fr" state="new"/>
                 </trans-unit>
               </group>
               <group restype="row" id="tu688" resname="/html/body/div[5]/table[1]/tbody/tr[3]">
-                <trans-unit restype="cell" id="tu690" resname="/html/body/div[5]/table[1]/tbody/tr[3]/td[1]">
-                  <source xml:lang="en" id="tu689"> &gt; 3.207,40 </source>
+                <trans-unit id="tu690" restype="cell" resname="/html/body/div[5]/table[1]/tbody/tr[3]/td[1]">
+                  <source xml:lang="en"> &gt; 3.207,40 </source>
                   <target xml:lang="fr" state="new"/>
                 </trans-unit>
-                <trans-unit restype="cell" id="tu692" resname="/html/body/div[5]/table[1]/tbody/tr[3]/td[2]">
-                  <source xml:lang="en" id="tu691"> 0,00 </source>
+                <trans-unit id="tu692" restype="cell" resname="/html/body/div[5]/table[1]/tbody/tr[3]/td[2]">
+                  <source xml:lang="en"> 0,00 </source>
                   <target xml:lang="fr" state="new"/>
                 </trans-unit>
-                <trans-unit restype="cell" id="tu694" resname="/html/body/div[5]/table[1]/tbody/tr[3]/td[3]">
-                  <source xml:lang="en" id="tu693"> &gt; 2.723,36 </source>
+                <trans-unit id="tu694" restype="cell" resname="/html/body/div[5]/table[1]/tbody/tr[3]/td[3]">
+                  <source xml:lang="en"> &gt; 2.723,36 </source>
                   <target xml:lang="fr" state="new"/>
                 </trans-unit>
-                <trans-unit restype="cell" id="tu696" resname="/html/body/div[5]/table[1]/tbody/tr[3]/td[4]">
-                  <source xml:lang="en" id="tu695"> 0,00 </source>
+                <trans-unit id="tu696" restype="cell" resname="/html/body/div[5]/table[1]/tbody/tr[3]/td[4]">
+                  <source xml:lang="en"> 0,00 </source>
                   <target xml:lang="fr" state="new"/>
                 </trans-unit>
               </group>
             </group>
           </group>
-          <trans-unit restype="x-html-p" id="tu698" resname="/html/body/div[5]/p[2]">
-            <source xml:lang="en" id="tu697"> <g id="g699" ctype="x-html-strong">Arbeiders (**)</g> </source>
+          <trans-unit id="tu698" restype="x-html-p" resname="/html/body/div[5]/p[2]">
+            <source xml:lang="en"> <g id="g699" ctype="x-html-strong">Arbeiders (**)</g> </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
           <group restype="table" id="tu700" resname="/html/body/div[5]/table[2]">
             <note from="class">table-bordered table-striped</note>
             <group restype="x-html-thead" id="tu701" resname="/html/body/div[5]/table[2]/thead">
               <group restype="row" id="tu702" resname="/html/body/div[5]/table[2]/thead/tr[1]">
-                <trans-unit restype="x-html-th" id="tu704" resname="/html/body/div[5]/table[2]/thead/tr[1]/th[1]">
-                  <source xml:lang="en" id="tu703"> LUIK A (lage lonen) </source>
+                <trans-unit id="tu704" restype="x-html-th" resname="/html/body/div[5]/table[2]/thead/tr[1]/th[1]">
+                  <source xml:lang="en"> LUIK A (lage lonen) </source>
                   <target xml:lang="fr" state="new"/>
                   <note from="colspan">2</note>
                   <note from="rowspan">1</note>
                 </trans-unit>
-                <trans-unit restype="x-html-th" id="tu706" resname="/html/body/div[5]/table[2]/thead/tr[1]/th[2]">
-                  <source xml:lang="en" id="tu705"> LUIK B (zeer lage lonen) </source>
+                <trans-unit id="tu706" restype="x-html-th" resname="/html/body/div[5]/table[2]/thead/tr[1]/th[2]">
+                  <source xml:lang="en"> LUIK B (zeer lage lonen) </source>
                   <target xml:lang="fr" state="new"/>
                   <note from="colspan">2</note>
                   <note from="rowspan">1</note>
@@ -1251,25 +1251,25 @@
               </group>
               <group restype="row" id="tu707" resname="/html/body/div[5]/table[2]/thead/tr[2]">
                 <group restype="x-html-th" id="tu708" resname="/html/body/div[5]/table[2]/thead/tr[2]/th[1]">
-                  <trans-unit restype="x-html-p" id="tu710" resname="/html/body/div[5]/table[2]/thead/tr[2]/th[1]/p">
-                    <source xml:lang="en" id="tu709"> S (refertemaandloon aan 100% in EUR) </source>
+                  <trans-unit id="tu710" restype="x-html-p" resname="/html/body/div[5]/table[2]/thead/tr[2]/th[1]/p">
+                    <source xml:lang="en"> S (refertemaandloon aan 100% in EUR) </source>
                     <target xml:lang="fr" state="new"/>
                   </trans-unit>
                 </group>
                 <group restype="x-html-th" id="tu711" resname="/html/body/div[5]/table[2]/thead/tr[2]/th[2]">
-                  <trans-unit restype="x-html-p" id="tu713" resname="/html/body/div[5]/table[2]/thead/tr[2]/th[2]/p">
-                    <source xml:lang="en" id="tu712"> R (basisbedrag in EUR) </source>
+                  <trans-unit id="tu713" restype="x-html-p" resname="/html/body/div[5]/table[2]/thead/tr[2]/th[2]/p">
+                    <source xml:lang="en"> R (basisbedrag in EUR) </source>
                     <target xml:lang="fr" state="new"/>
                   </trans-unit>
                 </group>
                 <group restype="x-html-th" id="tu714" resname="/html/body/div[5]/table[2]/thead/tr[2]/th[3]">
-                  <trans-unit restype="x-html-p" id="tu716" resname="/html/body/div[5]/table[2]/thead/tr[2]/th[3]/p">
-                    <source xml:lang="en" id="tu715"> S (refertemaandloon aan 100% in EUR) </source>
+                  <trans-unit id="tu716" restype="x-html-p" resname="/html/body/div[5]/table[2]/thead/tr[2]/th[3]/p">
+                    <source xml:lang="en"> S (refertemaandloon aan 100% in EUR) </source>
                     <target xml:lang="fr" state="new"/>
                   </trans-unit>
                 </group>
-                <trans-unit restype="x-html-th" id="tu718" resname="/html/body/div[5]/table[2]/thead/tr[2]/th[4]">
-                  <source xml:lang="en" id="tu717"> R (basisbedrag in EUR) </source>
+                <trans-unit id="tu718" restype="x-html-th" resname="/html/body/div[5]/table[2]/thead/tr[2]/th[4]">
+                  <source xml:lang="en"> R (basisbedrag in EUR) </source>
                   <target xml:lang="fr" state="new"/>
                 </trans-unit>
               </group>
@@ -1277,185 +1277,185 @@
             <group restype="x-html-tbody" id="tu719" resname="/html/body/div[5]/table[2]/tbody">
               <group restype="row" id="tu720" resname="/html/body/div[5]/table[2]/tbody/tr[1]">
                 <group restype="cell" id="tu721" resname="/html/body/div[5]/table[2]/tbody/tr[1]/td[1]">
-                  <trans-unit restype="x-html-p" id="tu723" resname="/html/body/div[5]/table[2]/tbody/tr[1]/td[1]/p">
-                    <source xml:lang="en" id="tu722"> ≤ 2.723,36 </source>
+                  <trans-unit id="tu723" restype="x-html-p" resname="/html/body/div[5]/table[2]/tbody/tr[1]/td[1]/p">
+                    <source xml:lang="en"> ≤ 2.723,36 </source>
                     <target xml:lang="fr" state="new"/>
                   </trans-unit>
                 </group>
                 <group restype="cell" id="tu724" resname="/html/body/div[5]/table[2]/tbody/tr[1]/td[2]">
-                  <trans-unit restype="x-html-p" id="tu726" resname="/html/body/div[5]/table[2]/tbody/tr[1]/td[2]/p">
-                    <source xml:lang="en" id="tu725"> 127,68 </source>
+                  <trans-unit id="tu726" restype="x-html-p" resname="/html/body/div[5]/table[2]/tbody/tr[1]/td[2]/p">
+                    <source xml:lang="en"> 127,68 </source>
                     <target xml:lang="fr" state="new"/>
                   </trans-unit>
                 </group>
-                <trans-unit restype="cell" id="tu728" resname="/html/body/div[5]/table[2]/tbody/tr[1]/td[3]">
-                  <source xml:lang="en" id="tu727"> ≤ 2.132,59 </source>
+                <trans-unit id="tu728" restype="cell" resname="/html/body/div[5]/table[2]/tbody/tr[1]/td[3]">
+                  <source xml:lang="en"> ≤ 2.132,59 </source>
                   <target xml:lang="fr" state="new"/>
                 </trans-unit>
-                <trans-unit restype="cell" id="tu730" resname="/html/body/div[5]/table[2]/tbody/tr[1]/td[4]">
-                  <source xml:lang="en" id="tu729"> 172,18 </source>
+                <trans-unit id="tu730" restype="cell" resname="/html/body/div[5]/table[2]/tbody/tr[1]/td[4]">
+                  <source xml:lang="en"> 172,18 </source>
                   <target xml:lang="fr" state="new"/>
                 </trans-unit>
               </group>
               <group restype="row" id="tu731" resname="/html/body/div[5]/table[2]/tbody/tr[2]">
                 <group restype="cell" id="tu732" resname="/html/body/div[5]/table[2]/tbody/tr[2]/td[1]">
-                  <trans-unit restype="x-html-p" id="tu734" resname="/html/body/div[5]/table[2]/tbody/tr[2]/td[1]/p">
-                    <source xml:lang="en" id="tu733"> &gt; 2.723,36 en ≤ 3.207,40 </source>
+                  <trans-unit id="tu734" restype="x-html-p" resname="/html/body/div[5]/table[2]/tbody/tr[2]/td[1]/p">
+                    <source xml:lang="en"> &gt; 2.723,36 en ≤ 3.207,40 </source>
                     <target xml:lang="fr" state="new"/>
                   </trans-unit>
                 </group>
-                <trans-unit restype="cell" id="tu736" resname="/html/body/div[5]/table[2]/tbody/tr[2]/td[2]">
-                  <source xml:lang="en" id="tu735"> 127,68 - ( 0,2638 x (S - 2.723,36)) </source>
+                <trans-unit id="tu736" restype="cell" resname="/html/body/div[5]/table[2]/tbody/tr[2]/td[2]">
+                  <source xml:lang="en"> 127,68 - ( 0,2638 x (S - 2.723,36)) </source>
                   <target xml:lang="fr" state="new"/>
                 </trans-unit>
                 <group restype="cell" id="tu737" resname="/html/body/div[5]/table[2]/tbody/tr[2]/td[3]">
-                  <trans-unit restype="x-html-p" id="tu739" resname="/html/body/div[5]/table[2]/tbody/tr[2]/td[3]/p">
-                    <source xml:lang="en" id="tu738"> &gt; 2.132,59 en ≤ 2.723,36 </source>
+                  <trans-unit id="tu739" restype="x-html-p" resname="/html/body/div[5]/table[2]/tbody/tr[2]/td[3]/p">
+                    <source xml:lang="en"> &gt; 2.132,59 en ≤ 2.723,36 </source>
                     <target xml:lang="fr" state="new"/>
                   </trans-unit>
                 </group>
-                <trans-unit restype="cell" id="tu741" resname="/html/body/div[5]/table[2]/tbody/tr[2]/td[4]">
-                  <source xml:lang="en" id="tu740"> 172,18 - ( 0,2915 x (S - 2.132,59)) </source>
+                <trans-unit id="tu741" restype="cell" resname="/html/body/div[5]/table[2]/tbody/tr[2]/td[4]">
+                  <source xml:lang="en"> 172,18 - ( 0,2915 x (S - 2.132,59)) </source>
                   <target xml:lang="fr" state="new"/>
                 </trans-unit>
               </group>
               <group restype="row" id="tu742" resname="/html/body/div[5]/table[2]/tbody/tr[3]">
-                <trans-unit restype="cell" id="tu744" resname="/html/body/div[5]/table[2]/tbody/tr[3]/td[1]">
-                  <source xml:lang="en" id="tu743"> &gt; 3.207,40 </source>
+                <trans-unit id="tu744" restype="cell" resname="/html/body/div[5]/table[2]/tbody/tr[3]/td[1]">
+                  <source xml:lang="en"> &gt; 3.207,40 </source>
                   <target xml:lang="fr" state="new"/>
                 </trans-unit>
-                <trans-unit restype="cell" id="tu746" resname="/html/body/div[5]/table[2]/tbody/tr[3]/td[2]">
-                  <source xml:lang="en" id="tu745"> 0,00 </source>
+                <trans-unit id="tu746" restype="cell" resname="/html/body/div[5]/table[2]/tbody/tr[3]/td[2]">
+                  <source xml:lang="en"> 0,00 </source>
                   <target xml:lang="fr" state="new"/>
                 </trans-unit>
-                <trans-unit restype="cell" id="tu748" resname="/html/body/div[5]/table[2]/tbody/tr[3]/td[3]">
-                  <source xml:lang="en" id="tu747"> &gt; 2.723,36 </source>
+                <trans-unit id="tu748" restype="cell" resname="/html/body/div[5]/table[2]/tbody/tr[3]/td[3]">
+                  <source xml:lang="en"> &gt; 2.723,36 </source>
                   <target xml:lang="fr" state="new"/>
                 </trans-unit>
-                <trans-unit restype="cell" id="tu750" resname="/html/body/div[5]/table[2]/tbody/tr[3]/td[4]">
-                  <source xml:lang="en" id="tu749"> 0,00 </source>
+                <trans-unit id="tu750" restype="cell" resname="/html/body/div[5]/table[2]/tbody/tr[3]/td[4]">
+                  <source xml:lang="en"> 0,00 </source>
                   <target xml:lang="fr" state="new"/>
                 </trans-unit>
               </group>
             </group>
           </group>
         </group>
-        <trans-unit restype="x-html-p" id="tu752" resname="/html/body/p[31]">
-          <source xml:lang="en" id="tu751"> (*) Onder bedienden moet worden verstaan: de werknemers die moeten worden aangegeven aan 100 %, dus ook bijvoorbeeld arbeiders in de openbare sector.<x id="x753" ctype="x-html-br" equiv-text=" "/> (**) Onder arbeiders moet worden verstaan: de werknemers die moeten worden aangegeven aan 108 %, dus ook bijvoorbeeld kunstenaars. </source>
+        <trans-unit id="tu752" restype="x-html-p" resname="/html/body/p[31]">
+          <source xml:lang="en"> (*) Onder bedienden moet worden verstaan: de werknemers die moeten worden aangegeven aan 100 %, dus ook bijvoorbeeld arbeiders in de openbare sector.<x id="x753" ctype="x-html-br" equiv-text=" "/> (**) Onder arbeiders moet worden verstaan: de werknemers die moeten worden aangegeven aan 108 %, dus ook bijvoorbeeld kunstenaars. </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu755" resname="/html/body/p[32]">
-          <source xml:lang="en" id="tu754">   </source>
+        <trans-unit id="tu755" restype="x-html-p" resname="/html/body/p[32]">
+          <source xml:lang="en">   </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu757" resname="/html/body/p[33]">
-          <source xml:lang="en" id="tu756"> R wordt rekenkundig afgerond op de dichtstbijzijnde eenheid (Eurocent). </source>
+        <trans-unit id="tu757" restype="x-html-p" resname="/html/body/p[33]">
+          <source xml:lang="en"> R wordt rekenkundig afgerond op de dichtstbijzijnde eenheid (Eurocent). </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-h3" id="tu759" resname="/html/body/h3[3]">
-          <source xml:lang="en" id="tu758"> 3. - Vaststelling van het verminderingsbedrag (P) </source>
+        <trans-unit id="tu759" restype="x-html-h3" resname="/html/body/h3[3]">
+          <source xml:lang="en"> 3. - Vaststelling van het verminderingsbedrag (P) </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu761" resname="/html/body/p[34]">
-          <source xml:lang="en" id="tu760"> <g id="g762" ctype="x-html-strong">Voltijdse werknemers</g> </source>
+        <trans-unit id="tu761" restype="x-html-p" resname="/html/body/p[34]">
+          <source xml:lang="en"> <g id="g762" ctype="x-html-strong">Voltijdse werknemers</g> </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu764" resname="/html/body/p[35]">
-          <source xml:lang="en" id="tu763"> met <g id="g765" ctype="x-html-strong">volledige</g> prestaties: </source>
+        <trans-unit id="tu764" restype="x-html-p" resname="/html/body/p[35]">
+          <source xml:lang="en"> met <g id="g765" ctype="x-html-strong">volledige</g> prestaties: </source>
           <target xml:lang="fr" state="new"/>
           <note from="style">margin-left: 40px;</note>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu767" resname="/html/body/p[36]">
-          <source xml:lang="en" id="tu766"> <g id="g768" ctype="x-html-strong">P = R</g> </source>
+        <trans-unit id="tu767" restype="x-html-p" resname="/html/body/p[36]">
+          <source xml:lang="en"> <g id="g768" ctype="x-html-strong">P = R</g> </source>
           <target xml:lang="fr" state="new"/>
           <note from="style">margin-left: 80px;</note>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu770" resname="/html/body/p[37]">
-          <source xml:lang="en" id="tu769">   </source>
+        <trans-unit id="tu770" restype="x-html-p" resname="/html/body/p[37]">
+          <source xml:lang="en">   </source>
           <target xml:lang="fr" state="new"/>
           <note from="style">margin-left: 40px;</note>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu772" resname="/html/body/p[38]">
-          <source xml:lang="en" id="tu771"> met <g id="g773" ctype="x-html-strong">onvolledige</g> prestaties: </source>
+        <trans-unit id="tu772" restype="x-html-p" resname="/html/body/p[38]">
+          <source xml:lang="en"> met <g id="g773" ctype="x-html-strong">onvolledige</g> prestaties: </source>
           <target xml:lang="fr" state="new"/>
           <note from="style">margin-left: 40px;</note>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu775" resname="/html/body/p[39]">
-          <source xml:lang="en" id="tu774"> <g id="g776" ctype="x-html-strong">P= (J/D) x R</g> </source>
+        <trans-unit id="tu775" restype="x-html-p" resname="/html/body/p[39]">
+          <source xml:lang="en"> <g id="g776" ctype="x-html-strong">P= (J/D) x R</g> </source>
           <target xml:lang="fr" state="new"/>
           <note from="style">margin-left: 80px;</note>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu778" resname="/html/body/p[40]">
-          <source xml:lang="en" id="tu777"> De breuk J/D wordt afgerond op twee decimalen (0,005 wordt 0,01) en het resultaat van die breuk mag nooit groter zijn dan 1. </source>
+        <trans-unit id="tu778" restype="x-html-p" resname="/html/body/p[40]">
+          <source xml:lang="en"> De breuk J/D wordt afgerond op twee decimalen (0,005 wordt 0,01) en het resultaat van die breuk mag nooit groter zijn dan 1. </source>
           <target xml:lang="fr" state="new"/>
           <note from="style">margin-left: 40px;</note>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu780" resname="/html/body/p[41]">
-          <source xml:lang="en" id="tu779"> <g id="g781" ctype="x-html-strong">Deeltijdse werknemers en gelijkgestelden</g> </source>
+        <trans-unit id="tu780" restype="x-html-p" resname="/html/body/p[41]">
+          <source xml:lang="en"> <g id="g781" ctype="x-html-strong">Deeltijdse werknemers en gelijkgestelden</g> </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu783" resname="/html/body/p[42]">
-          <source xml:lang="en" id="tu782"> <g id="g784" ctype="x-html-strong">P= (H/U) x R</g> </source>
+        <trans-unit id="tu783" restype="x-html-p" resname="/html/body/p[42]">
+          <source xml:lang="en"> <g id="g784" ctype="x-html-strong">P= (H/U) x R</g> </source>
           <target xml:lang="fr" state="new"/>
           <note from="style">margin-left: 80px;</note>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu786" resname="/html/body/p[43]">
-          <source xml:lang="en" id="tu785"> De breuk H/U wordt afgerond op twee decimalen (0,005 wordt 0,01) en het resultaat van die breuk mag nooit groter zijn dan 1. </source>
+        <trans-unit id="tu786" restype="x-html-p" resname="/html/body/p[43]">
+          <source xml:lang="en"> De breuk H/U wordt afgerond op twee decimalen (0,005 wordt 0,01) en het resultaat van die breuk mag nooit groter zijn dan 1. </source>
           <target xml:lang="fr" state="new"/>
           <note from="style">margin-left: 40px;</note>
         </trans-unit>
-        <trans-unit restype="x-html-ul" id="tu788" resname="/html/body/ul[9]">
-          <source xml:lang="en" id="tu787"/>
+        <trans-unit id="tu788" restype="x-html-ul" resname="/html/body/ul[9]">
+          <source xml:lang="en"/>
           <target xml:lang="fr" state="final"/>
         </trans-unit>
         <group restype="x-html-div" id="tu789" resname="/html/body/div[6]">
-          <trans-unit restype="x-html-p" id="tu791" resname="/html/body/div[6]/p">
-            <source xml:lang="en" id="tu790"> De vermindering kan toegepast worden zowel op de gewone lonen als op uitbetaalde premies, maar niet op enkel vertrekvakantiegeld bedienden (looncode 7) en/of verbrekingsvergoedingen (looncode 3) verschuldigd gedurende deze periode. <g id="g792" ctype="x-html-span">De vermindering kan wel worden toegepast op de looncodes 6 en 14.</g> </source>
+          <trans-unit id="tu791" restype="x-html-p" resname="/html/body/div[6]/p">
+            <source xml:lang="en"> De vermindering kan toegepast worden zowel op de gewone lonen als op uitbetaalde premies, maar niet op enkel vertrekvakantiegeld bedienden (looncode 7) en/of verbrekingsvergoedingen (looncode 3) verschuldigd gedurende deze periode. <g id="g792" ctype="x-html-span">De vermindering kan wel worden toegepast op de looncodes 6 en 14.</g> </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
           <group restype="x-html-div" id="tu793" resname="/html/body/div[6]/div">
             <note from="class">message alert</note>
             <trans-unit id="tu795" resname="/html/body/div[6]/div/text()[1]">
-              <source xml:lang="en" id="tu794"> <g id="g796" ctype="x-html-span">Opgelet</g></source>
+              <source xml:lang="en"> <g id="g796" ctype="x-html-span">Opgelet</g></source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
-            <trans-unit restype="x-html-p" id="tu798" resname="/html/body/div[6]/div/p">
-              <source xml:lang="en" id="tu797"> De werkbonus (P) mag de verschuldigde persoonlijke socialezekerheidsbijdragen niet overschrijden. De sociale werkbonus = de vermindering berekend <bx id="bx800" rid="rid799" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>op basis van<ex id="ex801" rid="rid799" equiv-text="&amp;lt;/span&amp;gt;"/> Luik A <bx id="bx803" rid="rid802" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>(P<g id="g804" ctype="x-html-sub">A</g>)<ex id="ex805" rid="rid802" equiv-text="&amp;lt;/span&amp;gt;"/> + de vermindering berekend <bx id="bx807" rid="rid806" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>op basis van<ex id="ex808" rid="rid806" equiv-text="&amp;lt;/span&amp;gt;"/> Luik B <bx id="bx810" rid="rid809" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>(P<g id="g811" ctype="x-html-sub">B</g>)<ex id="ex812" rid="rid809" equiv-text="&amp;lt;/span&amp;gt;"/>. De eventuele aftopping bij een tekort aan werknemersbijdragen gebeurt op <bx id="bx814" rid="rid813" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>de berekening op basis van<ex id="ex815" rid="rid813" equiv-text="&amp;lt;/span&amp;gt;"/> Luik B en vervolgens op <bx id="bx817" rid="rid816" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>de berekening op basis van<ex id="ex818" rid="rid816" equiv-text="&amp;lt;/span&amp;gt;"/> Luik A. </source>
+            <trans-unit id="tu798" restype="x-html-p" resname="/html/body/div[6]/div/p">
+              <source xml:lang="en"> De werkbonus (P) mag de verschuldigde persoonlijke socialezekerheidsbijdragen niet overschrijden. De sociale werkbonus = de vermindering berekend <bx id="bx800" rid="rid799" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>op basis van<ex id="ex801" rid="rid799" equiv-text="&amp;lt;/span&amp;gt;"/> Luik A <bx id="bx803" rid="rid802" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>(P<g id="g804" ctype="x-html-sub">A</g>)<ex id="ex805" rid="rid802" equiv-text="&amp;lt;/span&amp;gt;"/> + de vermindering berekend <bx id="bx807" rid="rid806" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>op basis van<ex id="ex808" rid="rid806" equiv-text="&amp;lt;/span&amp;gt;"/> Luik B <bx id="bx810" rid="rid809" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>(P<g id="g811" ctype="x-html-sub">B</g>)<ex id="ex812" rid="rid809" equiv-text="&amp;lt;/span&amp;gt;"/>. De eventuele aftopping bij een tekort aan werknemersbijdragen gebeurt op <bx id="bx814" rid="rid813" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>de berekening op basis van<ex id="ex815" rid="rid813" equiv-text="&amp;lt;/span&amp;gt;"/> Luik B en vervolgens op <bx id="bx817" rid="rid816" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>de berekening op basis van<ex id="ex818" rid="rid816" equiv-text="&amp;lt;/span&amp;gt;"/> Luik A. </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
           </group>
         </group>
-        <trans-unit restype="x-html-p" id="tu820" resname="/html/body/p[44]">
-          <source xml:lang="en" id="tu819"> Wanneer een werknemer vakantie neemt die gedekt wordt door enkel vertrekvakantiegeld, is het mogelijk dat de werknemersbijdrage niet volstaat om de werkbonus volledig in rekening te brengen. <g id="g821" ctype="x-html-strong">De werkgever mag dan het resterende deel van de werkbonus aftrekken van de werknemersbijdrage van de volgende maand</g>. <bx id="bx823" rid="rid822" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>Vanaf het 2<g id="g824" ctype="x-html-sup">de</g> kwartaal 2024 is dit niet meer beperkt tot<ex id="ex825" rid="rid822" equiv-text="&amp;lt;/span&amp;gt;"/> <bx id="bx827" rid="rid826" equiv-text="&amp;lt;span class=&amp;quot;deletedWord&amp;quot;&amp;gt;"/>Dit kan echter enkel binnen<ex id="ex828" rid="rid826" equiv-text="&amp;lt;/span&amp;gt;"/> <bx id="bx830" rid="rid829" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>hetzelfde kwartaal<ex id="ex831" rid="rid829" equiv-text="&amp;lt;/span&amp;gt;"/>. </source>
+        <trans-unit id="tu820" restype="x-html-p" resname="/html/body/p[44]">
+          <source xml:lang="en"> Wanneer een werknemer vakantie neemt die gedekt wordt door enkel vertrekvakantiegeld, is het mogelijk dat de werknemersbijdrage niet volstaat om de werkbonus volledig in rekening te brengen. <g id="g821" ctype="x-html-strong">De werkgever mag dan het resterende deel van de werkbonus aftrekken van de werknemersbijdrage van de volgende maand</g>. <bx id="bx823" rid="rid822" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>Vanaf het 2<g id="g824" ctype="x-html-sup">de</g> kwartaal 2024 is dit niet meer beperkt tot<ex id="ex825" rid="rid822" equiv-text="&amp;lt;/span&amp;gt;"/> <bx id="bx827" rid="rid826" equiv-text="&amp;lt;span class=&amp;quot;deletedWord&amp;quot;&amp;gt;"/>Dit kan echter enkel binnen<ex id="ex828" rid="rid826" equiv-text="&amp;lt;/span&amp;gt;"/> <bx id="bx830" rid="rid829" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>hetzelfde kwartaal<ex id="ex831" rid="rid829" equiv-text="&amp;lt;/span&amp;gt;"/>. </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
         <group restype="x-html-div" id="tu832" resname="/html/body/div[7]">
           <note from="class">readMoreContent</note>
-          <trans-unit restype="x-html-p" id="tu834" resname="/html/body/div[7]/p">
-            <source xml:lang="en" id="tu833"> <bx id="bx836" rid="rid835" equiv-text="&amp;lt;strong class=&amp;quot;readMore readMoreOff&amp;quot;&amp;gt;"/><bx id="bx838" rid="rid837" equiv-text="&amp;lt;a href=&amp;quot;javascript:void(0)&amp;quot; class=&amp;quot;toggleLinkOff readMore&amp;quot;&amp;gt;"/>Voorbeelden<ex id="ex839" rid="rid837" equiv-text="&amp;lt;/a&amp;gt;"/><ex id="ex840" rid="rid835" equiv-text="&amp;lt;/strong&amp;gt;"/> </source>
+          <trans-unit id="tu834" restype="x-html-p" resname="/html/body/div[7]/p">
+            <source xml:lang="en"> <bx id="bx836" rid="rid835" equiv-text="&amp;lt;strong class=&amp;quot;readMore readMoreOff&amp;quot;&amp;gt;"/><bx id="bx838" rid="rid837" equiv-text="&amp;lt;a href=&amp;quot;javascript:void(0)&amp;quot; class=&amp;quot;toggleLinkOff readMore&amp;quot;&amp;gt;"/>Voorbeelden<ex id="ex839" rid="rid837" equiv-text="&amp;lt;/a&amp;gt;"/><ex id="ex840" rid="rid835" equiv-text="&amp;lt;/strong&amp;gt;"/> </source>
             <target xml:lang="fr" state="new"/>
             <note from="class">first</note>
           </trans-unit>
           <group restype="x-html-div" id="tu841" resname="/html/body/div[7]/div">
             <note from="class">hideContent</note>
-            <trans-unit restype="x-html-p" id="tu843" resname="/html/body/div[7]/div/p[1]">
-              <source xml:lang="en" id="tu842"> De onderstaande voorbeelden zijn gebaseerd op de cijfers die gelden vanaf 1 juni 2001. </source>
+            <trans-unit id="tu843" restype="x-html-p" resname="/html/body/div[7]/div/p[1]">
+              <source xml:lang="en"> De onderstaande voorbeelden zijn gebaseerd op de cijfers die gelden vanaf 1 juni 2001. </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
-            <trans-unit restype="x-html-p" id="tu845" resname="/html/body/div[7]/div/p[2]">
-              <source xml:lang="en" id="tu844"> Voorbeeld 1:<x id="x846" ctype="x-html-br" equiv-text=" "/> Voor een bepaalde maand heeft een <g id="g847" ctype="x-html-strong">bediende</g> een brutoloon van <g id="g848" ctype="x-html-span"><g id="g849" ctype="x-html-strong">2.015,00 EUR</g></g>. Die maand telt normaal 22 prestatiedagen. Hij wordt aangegeven met 19 dagen gewaarborgd maandloon (code 1), en drie niet door de werkgever betaalde ziektedagen (code 50). </source>
+            <trans-unit id="tu845" restype="x-html-p" resname="/html/body/div[7]/div/p[2]">
+              <source xml:lang="en"> Voorbeeld 1:<x id="x846" ctype="x-html-br" equiv-text=" "/> Voor een bepaalde maand heeft een <g id="g847" ctype="x-html-strong">bediende</g> een brutoloon van <g id="g848" ctype="x-html-span"><g id="g849" ctype="x-html-strong">2.015,00 EUR</g></g>. Die maand telt normaal 22 prestatiedagen. Hij wordt aangegeven met 19 dagen gewaarborgd maandloon (code 1), en drie niet door de werkgever betaalde ziektedagen (code 50). </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
-            <trans-unit restype="x-html-p" id="tu851" resname="/html/body/div[7]/div/p[3]">
-              <source xml:lang="en" id="tu850"> <g id="g852" ctype="x-html-span">Zijn refertemaandloon (S) is <g id="g853" ctype="x-html-strong">2.333,10 EUR</g>, nl. 106,05 EUR (=2.015,00/19 afgerond op twee decimalen) vermenigvuldigd met 22.<x id="x854" ctype="x-html-br" equiv-text=" "/> Het basisbedrag van de vermindering (R) is <g id="g855" ctype="x-html-strong">179,77 EUR</g>, nl. 262,16 - (0,2579 x (2.333,10 – 2.013,64)).<x id="x856" ctype="x-html-br" equiv-text=" "/> Het verminderingsbedrag (P) is <g id="g857" ctype="x-html-strong">154,60 EUR</g>, nl. 0,86 (=19/22 afgerond op twee decimalen) x 179,77. Dit betekent dat de werkgever bij de loonbetaling niet 263,36 EUR (=13,07% van 2.015) werknemersbijdrage inhoudt, maar 108,76 EUR (= 263,36 – 154,60)</g>. </source>
+            <trans-unit id="tu851" restype="x-html-p" resname="/html/body/div[7]/div/p[3]">
+              <source xml:lang="en"> <g id="g852" ctype="x-html-span">Zijn refertemaandloon (S) is <g id="g853" ctype="x-html-strong">2.333,10 EUR</g>, nl. 106,05 EUR (=2.015,00/19 afgerond op twee decimalen) vermenigvuldigd met 22.<x id="x854" ctype="x-html-br" equiv-text=" "/> Het basisbedrag van de vermindering (R) is <g id="g855" ctype="x-html-strong">179,77 EUR</g>, nl. 262,16 - (0,2579 x (2.333,10 – 2.013,64)).<x id="x856" ctype="x-html-br" equiv-text=" "/> Het verminderingsbedrag (P) is <g id="g857" ctype="x-html-strong">154,60 EUR</g>, nl. 0,86 (=19/22 afgerond op twee decimalen) x 179,77. Dit betekent dat de werkgever bij de loonbetaling niet 263,36 EUR (=13,07% van 2.015) werknemersbijdrage inhoudt, maar 108,76 EUR (= 263,36 – 154,60)</g>. </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
-            <trans-unit restype="x-html-p" id="tu859" resname="/html/body/div[7]/div/p[4]">
-              <source xml:lang="en" id="tu858"> Voorbeeld 2:<x id="x860" ctype="x-html-br" equiv-text=" "/> Voor een bepaalde maand heeft een <g id="g861" ctype="x-html-strong">arbeider</g> een brutoloon van <g id="g862" ctype="x-html-span"><g id="g863" ctype="x-html-strong">1336,00 EUR</g></g> (aan 100%). Tijdens die maand, die normaal 22 prestatiedagen telt, heeft hij 15 dagen normale werkelijke arbeid (code 1) en 7 wettelijke vakantiedagen (code 2). </source>
+            <trans-unit id="tu859" restype="x-html-p" resname="/html/body/div[7]/div/p[4]">
+              <source xml:lang="en"> Voorbeeld 2:<x id="x860" ctype="x-html-br" equiv-text=" "/> Voor een bepaalde maand heeft een <g id="g861" ctype="x-html-strong">arbeider</g> een brutoloon van <g id="g862" ctype="x-html-span"><g id="g863" ctype="x-html-strong">1336,00 EUR</g></g> (aan 100%). Tijdens die maand, die normaal 22 prestatiedagen telt, heeft hij 15 dagen normale werkelijke arbeid (code 1) en 7 wettelijke vakantiedagen (code 2). </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
-            <trans-unit restype="x-html-p" id="tu865" resname="/html/body/div[7]/div/p[5]">
-              <source xml:lang="en" id="tu864"> <g id="g866" ctype="x-html-span">Zijn refertemaandloon (S) is <g id="g867" ctype="x-html-strong">1.959,54 EUR</g>, nl. 89,07 (=1336,00/15) vermenigvuldigd met 22.<x id="x868" ctype="x-html-br" equiv-text=" "/> Het basisbedrag van de vermindering (R) is <g id="g869" ctype="x-html-strong">283,13 EUR</g> (zijn referteloon is kleiner dan 2.013,64 EUR).<x id="x870" ctype="x-html-br" equiv-text=" "/> Het verminderingsbedrag (P) is <g id="g871" ctype="x-html-strong">192,53 EUR</g>, nl. 0,68 (=15/22 afgerond op twee decimalen) x 283,13. Dit betekent dat de werkgever bij de loonbetaling niet 188,58 EUR, nl. 13,07% van 1442,88 (= 1336,00 + 8%) werknemersbijdrage inhoudt, maar 0 EUR (188,58 – 192,53 resulteert in een negatief bedrag, maar aangezien de werkbonus de verschuldigde persoonlijke socialezekerheidsbijdragen niet mag overschrijden is de uitkomst 0)</g>. </source>
+            <trans-unit id="tu865" restype="x-html-p" resname="/html/body/div[7]/div/p[5]">
+              <source xml:lang="en"> <g id="g866" ctype="x-html-span">Zijn refertemaandloon (S) is <g id="g867" ctype="x-html-strong">1.959,54 EUR</g>, nl. 89,07 (=1336,00/15) vermenigvuldigd met 22.<x id="x868" ctype="x-html-br" equiv-text=" "/> Het basisbedrag van de vermindering (R) is <g id="g869" ctype="x-html-strong">283,13 EUR</g> (zijn referteloon is kleiner dan 2.013,64 EUR).<x id="x870" ctype="x-html-br" equiv-text=" "/> Het verminderingsbedrag (P) is <g id="g871" ctype="x-html-strong">192,53 EUR</g>, nl. 0,68 (=15/22 afgerond op twee decimalen) x 283,13. Dit betekent dat de werkgever bij de loonbetaling niet 188,58 EUR, nl. 13,07% van 1442,88 (= 1336,00 + 8%) werknemersbijdrage inhoudt, maar 0 EUR (188,58 – 192,53 resulteert in een negatief bedrag, maar aangezien de werkbonus de verschuldigde persoonlijke socialezekerheidsbijdragen niet mag overschrijden is de uitkomst 0)</g>. </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
           </group>
@@ -1463,30 +1463,30 @@
         <group restype="x-html-div" id="tu872" resname="/html/body/div[8]">
           <note from="class">message alert</note>
           <trans-unit id="tu874" resname="/html/body/div[8]/text()[1]">
-            <source xml:lang="en" id="tu873"> <g id="g875" ctype="x-html-span">Opgelet</g></source>
+            <source xml:lang="en"> <g id="g875" ctype="x-html-span">Opgelet</g></source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
           <group restype="x-html-div" id="tu876" resname="/html/body/div[8]/div">
-            <trans-unit restype="x-html-p" id="tu878" resname="/html/body/div[8]/div/p">
-              <source xml:lang="en" id="tu877"> Vanaf 1 mei 2024 mag het totaal van de vermindering per werknemer niet meer bedragen dan <g id="g879" ctype="x-html-span">3.331,80 EUR</g> per kalenderjaar. </source>
+            <trans-unit id="tu878" restype="x-html-p" resname="/html/body/div[8]/div/p">
+              <source xml:lang="en"> Vanaf 1 mei 2024 mag het totaal van de vermindering per werknemer niet meer bedragen dan <g id="g879" ctype="x-html-span">3.331,80 EUR</g> per kalenderjaar. </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
           </group>
         </group>
-        <trans-unit restype="x-html-h2" id="tu881" resname="/html/body/h2[3]">
-          <source xml:lang="en" id="tu880"> Te vervullen formaliteiten </source>
+        <trans-unit id="tu881" restype="x-html-h2" resname="/html/body/h2[3]">
+          <source xml:lang="en"> Te vervullen formaliteiten </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu883" resname="/html/body/p[45]">
-          <source xml:lang="en" id="tu882"> In de <bx id="bx885" rid="rid884" equiv-text="&amp;lt;a href=&amp;quot;https://www.socialsecurity.be/site_nl/employer/general/techlib.htm#dmfa&amp;quot; target=&amp;quot;_blank&amp;quot;&amp;gt;"/>technische bibliotheek (techlib)<ex id="ex886" rid="rid884" equiv-text="&amp;lt;/a&amp;gt;"/> vindt u tevens een downloadbaar programma (macro) waarmee u deze vermindering kunt berekenen. </source>
+        <trans-unit id="tu883" restype="x-html-p" resname="/html/body/p[45]">
+          <source xml:lang="en"> In de <bx id="bx885" rid="rid884" equiv-text="&amp;lt;a href=&amp;quot;https://www.socialsecurity.be/site_nl/employer/general/techlib.htm#dmfa&amp;quot; target=&amp;quot;_blank&amp;quot;&amp;gt;"/>technische bibliotheek (techlib)<ex id="ex886" rid="rid884" equiv-text="&amp;lt;/a&amp;gt;"/> vindt u tevens een downloadbaar programma (macro) waarmee u deze vermindering kunt berekenen. </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu888" resname="/html/body/p[46]">
-          <source xml:lang="en" id="tu887"/>
+        <trans-unit id="tu888" restype="x-html-p" resname="/html/body/p[46]">
+          <source xml:lang="en"/>
           <target xml:lang="fr" state="final"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu890" resname="/html/body/p[47]">
-          <source xml:lang="en" id="tu889"/>
+        <trans-unit id="tu890" restype="x-html-p" resname="/html/body/p[47]">
+          <source xml:lang="en"/>
           <target xml:lang="fr" state="final"/>
         </trans-unit>
       </group>

@@ -23,114 +23,114 @@
         <target xml:lang="fr" state="final"/>
       </trans-unit>
       <group resname="[%locale%][body]" id="grp5">
-        <trans-unit restype="x-html-p" id="tu7" resname="/html/body/p[1]">
-          <source xml:lang="en" id="tu6"> Een anciënniteitspremie in speciën, in natura of in aankoopcheques, is geen loon als ze op volgende wijze wordt toegekend: </source>
+        <trans-unit id="tu7" restype="x-html-p" resname="/html/body/p[1]">
+          <source xml:lang="en"> Een anciënniteitspremie in speciën, in natura of in aankoopcheques, is geen loon als ze op volgende wijze wordt toegekend: </source>
           <target xml:lang="fr" state="needs-translation"> Eine Dienstalterszulage in bar, Sachvorteilen oder in Form von Einkaufsgutscheinen ist kein Lohn, wenn sie auf folgende Weise gewährt wird: </target>
         </trans-unit>
         <group restype="x-html-ol" id="tu8" resname="/html/body/ol">
           <group restype="listitem" id="tu9" resname="/html/body/ol/li[1]">
             <trans-unit id="tu11" resname="/html/body/ol/li[1]/text()[1]">
-              <source xml:lang="en" id="tu10">maximaal <g id="g12" ctype="x-html-strong">twee maal</g> tijdens de loopbaan van de werknemer bij een werkgever: </source>
+              <source xml:lang="en">maximaal <g id="g12" ctype="x-html-strong">twee maal</g> tijdens de loopbaan van de werknemer bij een werkgever: </source>
               <target xml:lang="fr" state="needs-translation">höchstens <g id="g13" ctype="x-html-strong">zwei Mal</g> während der Laufbahn des Arbeitnehmers bei dem Arbeitgeber: </target>
             </trans-unit>
             <group restype="x-html-ul" id="tu14" resname="/html/body/ol/li[1]/ul">
-              <trans-unit restype="listitem" id="tu16" resname="/html/body/ol/li[1]/ul/li[1]">
-                <source xml:lang="en" id="tu15">één maal ten vroegste tijdens het kalenderjaar waarin hij 25 jaar in dienst is bij de werkgever, </source>
+              <trans-unit id="tu16" restype="listitem" resname="/html/body/ol/li[1]/ul/li[1]">
+                <source xml:lang="en">één maal ten vroegste tijdens het kalenderjaar waarin hij 25 jaar in dienst is bij de werkgever, </source>
                 <target xml:lang="fr" state="needs-translation">frühestens in dem Kalenderjahr, in dem er 25 Jahre bei dem Arbeitgeber im Dienst war, </target>
               </trans-unit>
-              <trans-unit restype="listitem" id="tu18" resname="/html/body/ol/li[1]/ul/li[2]">
-                <source xml:lang="en" id="tu17">en een tweede maal ten vroegste tijdens het kalenderjaar waarin hij 35 jaar in dienst is bij de werkgever, </source>
+              <trans-unit id="tu18" restype="listitem" resname="/html/body/ol/li[1]/ul/li[2]">
+                <source xml:lang="en">en een tweede maal ten vroegste tijdens het kalenderjaar waarin hij 35 jaar in dienst is bij de werkgever, </source>
                 <target xml:lang="fr" state="needs-translation">die zweite Zulage frühestens im Kalenderjahr gezahlt wird, in dem er 35 Jahre bei dem Arbeitgeber im Dienst war, </target>
               </trans-unit>
             </group>
           </group>
           <group restype="listitem" id="tu19" resname="/html/body/ol/li[2]">
             <trans-unit id="tu21" resname="/html/body/ol/li[2]/text()[1]">
-              <source xml:lang="en" id="tu20">voor zover het <g id="g22" ctype="x-html-strong">maximale bedrag</g> niet hoger is dan: </source>
+              <source xml:lang="en">voor zover het <g id="g22" ctype="x-html-strong">maximale bedrag</g> niet hoger is dan: </source>
               <target xml:lang="fr" state="needs-translation">wenn der <g id="g23" ctype="x-html-strong">Höchstbetrag</g> nicht höher ist als: </target>
             </trans-unit>
             <group restype="x-html-ul" id="tu24" resname="/html/body/ol/li[2]/ul">
-              <trans-unit restype="listitem" id="tu26" resname="/html/body/ol/li[2]/ul/li[1]">
-                <source xml:lang="en" id="tu25">één maal het bruto bedrag van de maandwedde voor 25 jaar dienst, </source>
+              <trans-unit id="tu26" restype="listitem" resname="/html/body/ol/li[2]/ul/li[1]">
+                <source xml:lang="en">één maal het bruto bedrag van de maandwedde voor 25 jaar dienst, </source>
                 <target xml:lang="fr" state="needs-translation">das Einfache des Bruttobetrags des Monatsgehalts für 25 Dienstjahre, </target>
               </trans-unit>
-              <trans-unit restype="listitem" id="tu28" resname="/html/body/ol/li[2]/ul/li[2]">
-                <source xml:lang="en" id="tu27">twee maal het bruto bedrag van de maandwedde voor 35 jaar dienst. </source>
+              <trans-unit id="tu28" restype="listitem" resname="/html/body/ol/li[2]/ul/li[2]">
+                <source xml:lang="en">twee maal het bruto bedrag van de maandwedde voor 35 jaar dienst. </source>
                 <target xml:lang="fr" state="needs-translation">das Doppelte des Bruttobetrags des Monatsgehalts für 35 Dienstjahre. </target>
               </trans-unit>
             </group>
           </group>
         </group>
-        <trans-unit restype="x-html-p" id="tu30" resname="/html/body/p[2]">
-          <source xml:lang="en" id="tu29"> Indien de anciënniteitspremie dit bedrag overschrijdt, is alleen het gedeelte tot beloop van dit bedrag vrijgesteld van bijdragen. </source>
+        <trans-unit id="tu30" restype="x-html-p" resname="/html/body/p[2]">
+          <source xml:lang="en"> Indien de anciënniteitspremie dit bedrag overschrijdt, is alleen het gedeelte tot beloop van dit bedrag vrijgesteld van bijdragen. </source>
           <target xml:lang="fr" state="needs-translation"> Wenn die Dienstalterszulage diesen Betrag überschreitet, ist nur der Teil in Höhe dieses Betrags von Beiträgen befreit. </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu32" resname="/html/body/p[3]">
-          <source xml:lang="en" id="tu31"> In afwijking hiervan mag een werkgever er ook voor kiezen om het voordeel te bepalen in functie van het gemiddeld bruto bedrag van een maandloon in zijn onderneming. Werkgevers die hiervoor kiezen moeten per kalenderjaar het gemiddeld bruto bedrag van een maandloon in de onderneming vaststellen op basis van de verhouding tussen de uitbetaalde lonen en het aantal voltijdse equivalenten tijdens het voorgaande kalenderjaar. </source>
+        <trans-unit id="tu32" restype="x-html-p" resname="/html/body/p[3]">
+          <source xml:lang="en"> In afwijking hiervan mag een werkgever er ook voor kiezen om het voordeel te bepalen in functie van het gemiddeld bruto bedrag van een maandloon in zijn onderneming. Werkgevers die hiervoor kiezen moeten per kalenderjaar het gemiddeld bruto bedrag van een maandloon in de onderneming vaststellen op basis van de verhouding tussen de uitbetaalde lonen en het aantal voltijdse equivalenten tijdens het voorgaande kalenderjaar. </source>
           <target xml:lang="fr" state="needs-translation"> Abweichend davon kann ein Arbeitgeber auch dazu übergehen, den Vorteil in Abhängigkeit des durchschnittlichen Bruttobetrags eines Monatslohns in seinem Unternehmen festzulegen. Arbeitgeber, die diese Möglichkeit wählen, müssen je Kalenderjahr den durchschnittlichen Bruttobetrag eines Monatslohns im Unternehmen auf Basis des Verhältnisses zwischen den gezahlten Löhnen und der Anzahl der Vollzeitäquivalente während des vorangegangenen Kalenderjahres festlegen. </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu34" resname="/html/body/p[4]">
-          <source xml:lang="en" id="tu33"> Tijdens een kalenderjaar mag een werkgever beide berekeningswijzen niet samen toepassen. Doet hij dat wel, dan worden alle tijdens het kalenderjaar toegekende anciënniteitspremies beschouwd als loon.<x id="x35" ctype="x-html-br" equiv-text=" "/> </source>
+        <trans-unit id="tu34" restype="x-html-p" resname="/html/body/p[4]">
+          <source xml:lang="en"> Tijdens een kalenderjaar mag een werkgever beide berekeningswijzen niet samen toepassen. Doet hij dat wel, dan worden alle tijdens het kalenderjaar toegekende anciënniteitspremies beschouwd als loon.<x id="x35" ctype="x-html-br" equiv-text=" "/> </source>
           <target xml:lang="fr" state="needs-translation"> Während eines Kalenderjahres darf ein Arbeitgeber beide Berechnungsarten nicht zusammen anwenden. Falls dies der Fall ist, werden alle während dieses Kalenderjahres gewährten Dienstalterszulagen als Lohn betrachtet.<x id="x36" ctype="x-html-br" equiv-text=" "/> </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu38" resname="/html/body/p[5]">
-          <source xml:lang="en" id="tu37"> De werkgevers die zich op deze vrijstelling van bijdragen voor een anciënniteitspremie beroepen, moeten, op vraag van de RSZ, alle elementen en berekeningen aanbrengen die toelaten te beoordelen of de toegekende voordelen de maximumbedragen respecteren. </source>
+        <trans-unit id="tu38" restype="x-html-p" resname="/html/body/p[5]">
+          <source xml:lang="en"> De werkgevers die zich op deze vrijstelling van bijdragen voor een anciënniteitspremie beroepen, moeten, op vraag van de RSZ, alle elementen en berekeningen aanbrengen die toelaten te beoordelen of de toegekende voordelen de maximumbedragen respecteren. </source>
           <target xml:lang="fr" state="needs-translation"> Arbeitgeber, die sich auf diese Beitragsbefreiung berufen, müssen auf Ersuchen des LSS alle Elemente und Berechnungen vorlegen, die eine Beurteilung der Frage zulassen, ob die bewilligten Vorteile die Höchstbeträge nicht überschreiten. </target>
         </trans-unit>
       </group>
       <group resname="[%locale%][body2]" id="grp39">
-        <trans-unit restype="x-html-p" id="tu41" resname="/html/body/p[1]">
-          <source xml:lang="en" id="tu40"> Een anciënniteitspremie in speciën, in natura of in aankoopcheques, is geen loon als ze op volgende wijze wordt toegekend: </source>
+        <trans-unit id="tu41" restype="x-html-p" resname="/html/body/p[1]">
+          <source xml:lang="en"> Een anciënniteitspremie in speciën, in natura of in aankoopcheques, is geen loon als ze op volgende wijze wordt toegekend: </source>
           <target xml:lang="fr" state="final"> Eine Dienstalterszulage in bar, Sachvorteilen oder in Form von Einkaufsgutscheinen ist kein Lohn, wenn sie auf folgende Weise gewährt wird: </target>
         </trans-unit>
         <group restype="x-html-ol" id="tu42" resname="/html/body/ol">
           <group restype="listitem" id="tu43" resname="/html/body/ol/li[1]">
             <trans-unit id="tu45" resname="/html/body/ol/li[1]/text()[1]">
-              <source xml:lang="en" id="tu44">maximaal <g id="g46" ctype="x-html-strong">twee maal</g> tijdens de loopbaan van de werknemer bij een werkgever: </source>
+              <source xml:lang="en">maximaal <g id="g46" ctype="x-html-strong">twee maal</g> tijdens de loopbaan van de werknemer bij een werkgever: </source>
               <target xml:lang="fr" state="final">höchstens <g id="g47" ctype="x-html-strong">zwei Mal</g> während der Laufbahn des Arbeitnehmers bei dem Arbeitgeber: </target>
             </trans-unit>
             <group restype="x-html-ul" id="tu48" resname="/html/body/ol/li[1]/ul">
-              <trans-unit restype="listitem" id="tu50" resname="/html/body/ol/li[1]/ul/li[1]">
-                <source xml:lang="en" id="tu49">één maal ten vroegste tijdens het kalenderjaar waarin hij 25 jaar in dienst is bij de werkgever, </source>
+              <trans-unit id="tu50" restype="listitem" resname="/html/body/ol/li[1]/ul/li[1]">
+                <source xml:lang="en">één maal ten vroegste tijdens het kalenderjaar waarin hij 25 jaar in dienst is bij de werkgever, </source>
                 <target xml:lang="fr" state="final">frühestens in dem Kalenderjahr, in dem er 25 Jahre bei dem Arbeitgeber im Dienst war, </target>
               </trans-unit>
-              <trans-unit restype="listitem" id="tu52" resname="/html/body/ol/li[1]/ul/li[2]">
-                <source xml:lang="en" id="tu51">en een tweede maal ten vroegste tijdens het kalenderjaar waarin hij 35 jaar in dienst is bij de werkgever, </source>
+              <trans-unit id="tu52" restype="listitem" resname="/html/body/ol/li[1]/ul/li[2]">
+                <source xml:lang="en">en een tweede maal ten vroegste tijdens het kalenderjaar waarin hij 35 jaar in dienst is bij de werkgever, </source>
                 <target xml:lang="fr" state="final">die zweite Zulage frühestens im Kalenderjahr gezahlt wird, in dem er 35 Jahre bei dem Arbeitgeber im Dienst war, </target>
               </trans-unit>
             </group>
           </group>
           <group restype="listitem" id="tu53" resname="/html/body/ol/li[2]">
             <trans-unit id="tu55" resname="/html/body/ol/li[2]/text()[1]">
-              <source xml:lang="en" id="tu54">voor zover het <g id="g56" ctype="x-html-strong">maximale bedrag</g> niet hoger is dan: </source>
+              <source xml:lang="en">voor zover het <g id="g56" ctype="x-html-strong">maximale bedrag</g> niet hoger is dan: </source>
               <target xml:lang="fr" state="final">wenn der <g id="g57" ctype="x-html-strong">Höchstbetrag</g> nicht höher ist als: </target>
             </trans-unit>
             <group restype="x-html-ul" id="tu58" resname="/html/body/ol/li[2]/ul">
-              <trans-unit restype="listitem" id="tu60" resname="/html/body/ol/li[2]/ul/li[1]">
-                <source xml:lang="en" id="tu59">één maal het bruto bedrag van de maandwedde voor 25 jaar dienst, </source>
+              <trans-unit id="tu60" restype="listitem" resname="/html/body/ol/li[2]/ul/li[1]">
+                <source xml:lang="en">één maal het bruto bedrag van de maandwedde voor 25 jaar dienst, </source>
                 <target xml:lang="fr" state="final">das Einfache des Bruttobetrags des Monatsgehalts für 25 Dienstjahre, </target>
               </trans-unit>
-              <trans-unit restype="listitem" id="tu62" resname="/html/body/ol/li[2]/ul/li[2]">
-                <source xml:lang="en" id="tu61">twee maal het bruto bedrag van de maandwedde voor 35 jaar dienst. </source>
+              <trans-unit id="tu62" restype="listitem" resname="/html/body/ol/li[2]/ul/li[2]">
+                <source xml:lang="en">twee maal het bruto bedrag van de maandwedde voor 35 jaar dienst. </source>
                 <target xml:lang="fr" state="final">das Doppelte des Bruttobetrags des Monatsgehalts für 35 Dienstjahre. </target>
               </trans-unit>
             </group>
           </group>
         </group>
-        <trans-unit restype="x-html-p" id="tu64" resname="/html/body/p[2]">
-          <source xml:lang="en" id="tu63"> Indien de anciënniteitspremie dit bedrag overschrijdt, is alleen het gedeelte tot beloop van dit bedrag vrijgesteld van bijdragen. </source>
+        <trans-unit id="tu64" restype="x-html-p" resname="/html/body/p[2]">
+          <source xml:lang="en"> Indien de anciënniteitspremie dit bedrag overschrijdt, is alleen het gedeelte tot beloop van dit bedrag vrijgesteld van bijdragen. </source>
           <target xml:lang="fr" state="final"> Wenn die Dienstalterszulage diesen Betrag überschreitet, ist nur der Teil in Höhe dieses Betrags von Beiträgen befreit. </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu66" resname="/html/body/p[3]">
-          <source xml:lang="en" id="tu65"> In afwijking hiervan mag een werkgever er ook voor kiezen om het voordeel te bepalen in functie van het gemiddeld bruto bedrag van een maandloon in zijn onderneming. Werkgevers die hiervoor kiezen moeten per kalenderjaar het gemiddeld bruto bedrag van een maandloon in de onderneming vaststellen op basis van de verhouding tussen de uitbetaalde lonen en het aantal voltijdse equivalenten tijdens het voorgaande kalenderjaar. </source>
+        <trans-unit id="tu66" restype="x-html-p" resname="/html/body/p[3]">
+          <source xml:lang="en"> In afwijking hiervan mag een werkgever er ook voor kiezen om het voordeel te bepalen in functie van het gemiddeld bruto bedrag van een maandloon in zijn onderneming. Werkgevers die hiervoor kiezen moeten per kalenderjaar het gemiddeld bruto bedrag van een maandloon in de onderneming vaststellen op basis van de verhouding tussen de uitbetaalde lonen en het aantal voltijdse equivalenten tijdens het voorgaande kalenderjaar. </source>
           <target xml:lang="fr" state="final"> Abweichend davon kann ein Arbeitgeber auch dazu übergehen, den Vorteil in Abhängigkeit des durchschnittlichen Bruttobetrags eines Monatslohns in seinem Unternehmen festzulegen. Arbeitgeber, die diese Möglichkeit wählen, müssen je Kalenderjahr den durchschnittlichen Bruttobetrag eines Monatslohns im Unternehmen auf Basis des Verhältnisses zwischen den gezahlten Löhnen und der Anzahl der Vollzeitäquivalente während des vorangegangenen Kalenderjahres festlegen. </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu68" resname="/html/body/p[4]">
-          <source xml:lang="en" id="tu67"> Tijdens een kalenderjaar mag een werkgever beide berekeningswijzen niet samen toepassen. Doet hij dat wel, dan worden alle tijdens het kalenderjaar toegekende anciënniteitspremies beschouwd als loon.<x id="x69" ctype="x-html-br" equiv-text=" "/> </source>
+        <trans-unit id="tu68" restype="x-html-p" resname="/html/body/p[4]">
+          <source xml:lang="en"> Tijdens een kalenderjaar mag een werkgever beide berekeningswijzen niet samen toepassen. Doet hij dat wel, dan worden alle tijdens het kalenderjaar toegekende anciënniteitspremies beschouwd als loon.<x id="x69" ctype="x-html-br" equiv-text=" "/> </source>
           <target xml:lang="fr" state="final"> Während eines Kalenderjahres darf ein Arbeitgeber beide Berechnungsarten nicht zusammen anwenden. Falls dies der Fall ist, werden alle während dieses Kalenderjahres gewährten Dienstalterszulagen als Lohn betrachtet.<x id="x70" ctype="x-html-br" equiv-text=" "/> </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu72" resname="/html/body/p[5]">
-          <source xml:lang="en" id="tu71"> De werkgevers die zich op deze vrijstelling van bijdragen voor een anciënniteitspremie beroepen, moeten, op vraag van de RSZ, alle elementen en berekeningen aanbrengen die toelaten te beoordelen of de toegekende voordelen de maximumbedragen respecteren. </source>
+        <trans-unit id="tu72" restype="x-html-p" resname="/html/body/p[5]">
+          <source xml:lang="en"> De werkgevers die zich op deze vrijstelling van bijdragen voor een anciënniteitspremie beroepen, moeten, op vraag van de RSZ, alle elementen en berekeningen aanbrengen die toelaten te beoordelen of de toegekende voordelen de maximumbedragen respecteren. </source>
           <target xml:lang="fr" state="final"> Arbeitgeber, die sich auf diese Beitragsbefreiung berufen, müssen auf Ersuchen des LSS alle Elemente und Berechnungen vorlegen, die eine Beurteilung der Frage zulassen, ob die bewilligten Vorteile die Höchstbeträge nicht überschreiten. </target>
         </trans-unit>
       </group>

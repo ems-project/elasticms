@@ -23,43 +23,43 @@
         <target xml:lang="fr" state="final"/>
       </trans-unit>
       <group resname="[%locale%][body]" id="grp5">
-        <trans-unit restype="x-html-p" id="tu7" resname="/html/body/p[1]">
-          <source xml:lang="en" id="tu6"> Deze doelgroepvermindering is in elke regio aangepast en/of vervangen. U vindt meer op de desbetreffende pagina's. </source>
+        <trans-unit id="tu7" restype="x-html-p" resname="/html/body/p[1]">
+          <source xml:lang="en"> Deze doelgroepvermindering is in elke regio aangepast en/of vervangen. U vindt meer op de desbetreffende pagina's. </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu9" resname="/html/body/p[2]">
-          <source xml:lang="en" id="tu8"> <x id="x10" ctype="x-html-br" equiv-text=" "/> </source>
+        <trans-unit id="tu9" restype="x-html-p" resname="/html/body/p[2]">
+          <source xml:lang="en"> <x id="x10" ctype="x-html-br" equiv-text=" "/> </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
         <group restype="x-html-div" id="tu11" resname="/html/body/div">
           <note from="class">message alert</note>
-          <trans-unit restype="x-html-h3" id="tu13" resname="/html/body/div/h3">
-            <source xml:lang="en" id="tu12"> Vlaams Gewest: </source>
+          <trans-unit id="tu13" restype="x-html-h3" resname="/html/body/div/h3">
+            <source xml:lang="en"> Vlaams Gewest: </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
-          <trans-unit restype="x-html-p" id="tu15" resname="/html/body/div/p">
-            <source xml:lang="en" id="tu14"> Vanaf <g id="g16" ctype="x-html-strong">1 juli 2016</g> kan voor werknemers die tewerkgesteld worden in <g id="g17" ctype="x-html-strong">Vlaanderen</g> niet langer de 'doelgroepvermindering oudere werknemers' toegepast worden maar wel de '<bx id="bx19" rid="rid18" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/deductions/structuralreduction_targetgroupreductions/elderlyworkers_vl.html&amp;quot;&amp;gt;"/>doelgroepvermindering oudere werknemers - Vlaanderen<ex id="ex20" rid="rid18" equiv-text="&amp;lt;/a&amp;gt;"/>'. Er zijn geen overgangsmaatregelen voorzien. </source>
+          <trans-unit id="tu15" restype="x-html-p" resname="/html/body/div/p">
+            <source xml:lang="en"> Vanaf <g id="g16" ctype="x-html-strong">1 juli 2016</g> kan voor werknemers die tewerkgesteld worden in <g id="g17" ctype="x-html-strong">Vlaanderen</g> niet langer de 'doelgroepvermindering oudere werknemers' toegepast worden maar wel de '<bx id="bx19" rid="rid18" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/deductions/structuralreduction_targetgroupreductions/elderlyworkers_vl.html&amp;quot;&amp;gt;"/>doelgroepvermindering oudere werknemers - Vlaanderen<ex id="ex20" rid="rid18" equiv-text="&amp;lt;/a&amp;gt;"/>'. Er zijn geen overgangsmaatregelen voorzien. </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
         </group>
       </group>
       <group resname="[%locale%][body2]" id="grp21">
-        <trans-unit restype="x-html-p" id="tu23" resname="/html/body/p[1]">
-          <source xml:lang="en" id="tu22"> Deze doelgroepvermindering is in elke regio aangepast en/of vervangen. U vindt meer op de desbetreffende pagina's. </source>
+        <trans-unit id="tu23" restype="x-html-p" resname="/html/body/p[1]">
+          <source xml:lang="en"> Deze doelgroepvermindering is in elke regio aangepast en/of vervangen. U vindt meer op de desbetreffende pagina's. </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="tu25" resname="/html/body/p[2]">
-          <source xml:lang="en" id="tu24"> <x id="x26" ctype="x-html-br" equiv-text=" "/> </source>
+        <trans-unit id="tu25" restype="x-html-p" resname="/html/body/p[2]">
+          <source xml:lang="en"> <x id="x26" ctype="x-html-br" equiv-text=" "/> </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
         <group restype="x-html-div" id="tu27" resname="/html/body/div">
           <note from="class">message alert</note>
-          <trans-unit restype="x-html-h3" id="tu29" resname="/html/body/div/h3">
-            <source xml:lang="en" id="tu28"> Vlaams Gewest: </source>
+          <trans-unit id="tu29" restype="x-html-h3" resname="/html/body/div/h3">
+            <source xml:lang="en"> Vlaams Gewest: </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
-          <trans-unit restype="x-html-p" id="tu31" resname="/html/body/div/p">
-            <source xml:lang="en" id="tu30"> Vanaf <g id="g32" ctype="x-html-strong">1 juli 2016</g> kan voor werknemers die tewerkgesteld worden in <g id="g33" ctype="x-html-strong">Vlaanderen</g> niet langer de 'doelgroepvermindering oudere werknemers' toegepast worden maar wel de '<bx id="bx35" rid="rid34" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/deductions/structuralreduction_targetgroupreductions/elderlyworkers_vl.html&amp;quot;&amp;gt;"/>doelgroepvermindering oudere werknemers - Vlaanderen<ex id="ex36" rid="rid34" equiv-text="&amp;lt;/a&amp;gt;"/>'. Er zijn geen overgangsmaatregelen voorzien. </source>
+          <trans-unit id="tu31" restype="x-html-p" resname="/html/body/div/p">
+            <source xml:lang="en"> Vanaf <g id="g32" ctype="x-html-strong">1 juli 2016</g> kan voor werknemers die tewerkgesteld worden in <g id="g33" ctype="x-html-strong">Vlaanderen</g> niet langer de 'doelgroepvermindering oudere werknemers' toegepast worden maar wel de '<bx id="bx35" rid="rid34" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/deductions/structuralreduction_targetgroupreductions/elderlyworkers_vl.html&amp;quot;&amp;gt;"/>doelgroepvermindering oudere werknemers - Vlaanderen<ex id="ex36" rid="rid34" equiv-text="&amp;lt;/a&amp;gt;"/>'. Er zijn geen overgangsmaatregelen voorzien. </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
         </group>

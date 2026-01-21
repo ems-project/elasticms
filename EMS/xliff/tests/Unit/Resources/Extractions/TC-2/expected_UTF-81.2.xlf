@@ -23,14 +23,14 @@
         <target xml:lang="fr" state="final"/>
       </trans-unit>
       <group resname="[%locale%][body]" id="grp5">
-        <trans-unit restype="x-html-p" id="tu7" resname="/html/body/p">
-          <source xml:lang="en" id="tu6"> Hello </source>
+        <trans-unit id="tu7" restype="x-html-p" resname="/html/body/p">
+          <source xml:lang="en"> Hello </source>
           <target xml:lang="fr" state="needs-translation"> Bonjour </target>
         </trans-unit>
       </group>
       <group resname="[%locale%][body2]" id="grp8">
-        <trans-unit restype="x-html-p" id="tu10" resname="/html/body/p">
-          <source xml:lang="en" id="tu9"> Hello </source>
+        <trans-unit id="tu10" restype="x-html-p" resname="/html/body/p">
+          <source xml:lang="en"> Hello </source>
           <target xml:lang="fr" state="final"> Bonjour </target>
         </trans-unit>
       </group>

@@ -100,7 +100,6 @@ class Extractor extends XliffVersion
                     'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
                     'xmlns' => 'urn:oasis:names:tc:xliff:document:'.$xliffVersion,
                     'version' => $xliffVersion,
-                    'xsi:schemaLocation' => 'urn:oasis:names:tc:xliff:document:1.2 https://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd',
                 ];
                 break;
             case self::XLIFF_2_0:

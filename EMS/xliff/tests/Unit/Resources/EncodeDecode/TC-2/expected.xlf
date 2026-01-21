@@ -3,8 +3,8 @@
   <file source-language="en" original="content_type:fakeOuuid:fakeRevisionId" datatype="database" target-language="fr">
     <body>
       <group resname="[body]" id="grp1">
-        <trans-unit id="tu3" restype="x-html-p" resname="/html/body/p">
-          <source xml:lang="en"> Bonjour Mathieu<bx id="bx5" rid="rid4" equiv-text="&amp;lt;a href=&amp;quot;https://elasticms.eu/path%20with%20space?a1=value1&amp;amp;amp;a2=value2#anchor&amp;quot;&amp;gt;"/>Le site d´elasticms<ex id="ex6" rid="rid4" equiv-text="&amp;lt;/a&amp;gt;"/> </source>
+        <trans-unit restype="x-html-p" id="tu2" resname="/html/body/p">
+          <source xml:lang="en"> Bonjour Mathieu<bx id="bx4" rid="rid3" equiv-text="&amp;lt;a href=&amp;quot;https://elasticms.eu/path%20with%20space?a1=value1&amp;amp;amp;a2=value2#anchor&amp;quot;&amp;gt;"/>Le site d´elasticms<ex id="ex5" rid="rid3" equiv-text="&amp;lt;/a&amp;gt;"/> </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
       </group>

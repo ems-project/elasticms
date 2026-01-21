@@ -284,9 +284,7 @@ class Extractor extends XliffVersion
             $xliffElement = $tempElement;
         }
 
-        $attributes = [
-            'id' => \sprintf('tu%d', $this->nextId++),
-        ];
+        $attributes = [];
         if (\version_compare($this->xliffVersion, '2.0') < 0) {
             $qualifiedName = 'trans-unit';
             $sourceAttributes = [

@@ -30,36 +30,6 @@ services:
             - "traefik.http.routers.es.service=es"
             - "traefik.http.services.es.loadbalancer.server.port=9200"
 
-    es02:
-        profiles: [ "all","ems" ]
-        extends:
-            file: ../demo/docker-${ELK_VERSION-elk8}.yml
-            service: es02
-        ports:
-            - "9202:9200"
-        labels:
-            - "elasticMS"
-            - "traefik.enable=true"
-            - "traefik.http.routers.es.rule=Host(`es.localhost`)"
-            - "traefik.http.routers.es.entrypoints=web"
-            - "traefik.http.routers.es.service=es"
-            - "traefik.http.services.es.loadbalancer.server.port=9200"
-
-    es03:
-        profiles: [ "all","ems" ]
-        extends:
-            file: ../demo/docker-${ELK_VERSION-elk8}.yml
-            service: es03
-        ports:
-            - "9203:9200"
-        labels:
-            - "elasticMS"
-            - "traefik.enable=true"
-            - "traefik.http.routers.es.rule=Host(`es.localhost`)"
-            - "traefik.http.routers.es.entrypoints=web"
-            - "traefik.http.routers.es.service=es"
-            - "traefik.http.services.es.loadbalancer.server.port=9200"
-
     kibana:
         profiles: [ "all","ems" ]
         extends:
@@ -190,13 +160,9 @@ services:
             - "traefik.http.services.varnish.loadbalancer.server.port=80"
 
 volumes:
-    elk8_data01:
-    elk8_data02:
-    elk8_data03:
-    elk8_kibanadata:
-    os2_data01:
-    os2_data02:
-    os2_data03:
+    elk8_data1:
+    os2_data1:
+    kibana:
     redis:
     s3:
     mariadb:

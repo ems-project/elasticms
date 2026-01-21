@@ -28,16 +28,16 @@
       </segment>
     </unit>
     <group name="[%locale%][body]" id="grp5">
-      <unit id="tu6" name="/html/body/p">
-        <segment id="tu8" name="/html/body/p">
+      <unit id="tu6">
+        <segment id="tu7">
           <source> Hello </source>
           <target> Bonjour </target>
         </segment>
       </unit>
     </group>
-    <group name="[%locale%][body2]" id="grp9">
-      <unit id="tu10" name="/html/body/p">
-        <segment id="tu12" name="/html/body/p">
+    <group name="[%locale%][body2]" id="grp8">
+      <unit id="tu9">
+        <segment id="tu10">
           <source> Hello </source>
           <target> Bonjour </target>
         </segment>

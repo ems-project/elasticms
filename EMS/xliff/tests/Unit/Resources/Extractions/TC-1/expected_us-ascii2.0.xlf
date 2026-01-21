@@ -28,112 +28,112 @@
       </segment>
     </unit>
     <group name="[%locale%][body]" id="grp5">
-      <unit id="tu6" name="/html/body/h1">
-        <segment id="tu8" name="/html/body/h1">
+      <unit id="tu6">
+        <segment id="tu7">
           <source> Report </source>
           <target/>
         </segment>
       </unit>
-      <group id="tu9" name="/html/body/table">
-        <group id="tu10" name="/html/body/table/tr[1]">
-          <unit id="tu11" name="/html/body/table/tr[1]/td[1]">
-            <segment id="tu13" name="/html/body/table/tr[1]/td[1]">
+      <group id="tu8">
+        <group id="tu9">
+          <unit id="tu10">
+            <segment id="tu11">
               <source> Text in cell r1-c1 </source>
               <target/>
             </segment>
           </unit>
-          <unit id="tu14" name="/html/body/table/tr[1]/td[2]">
-            <segment id="tu16" name="/html/body/table/tr[1]/td[2]">
+          <unit id="tu12">
+            <segment id="tu13">
               <source> Text in cell r1-c2 </source>
               <target/>
             </segment>
           </unit>
-          <unit id="tu17" name="/html/body/table/tr[1]/td[3]">
-            <segment id="tu19" name="/html/body/table/tr[1]/td[3]">
+          <unit id="tu14">
+            <segment id="tu15">
               <source> &#233; &#224; &#160; &#239; &#171; </source>
               <target/>
             </segment>
           </unit>
         </group>
-        <group id="tu20" name="/html/body/table/tr[2]">
-          <unit id="tu21" name="/html/body/table/tr[2]/td[1]">
-            <segment id="tu23" name="/html/body/table/tr[2]/td[1]">
+        <group id="tu16">
+          <unit id="tu17">
+            <segment id="tu18">
               <source> Text in cell r2-c1 </source>
               <target/>
             </segment>
           </unit>
-          <unit id="tu24" name="/html/body/table/tr[2]/td[2]">
-            <segment id="tu26" name="/html/body/table/tr[2]/td[2]">
+          <unit id="tu19">
+            <segment id="tu20">
               <source> Text in cell r2-c2 </source>
               <target/>
             </segment>
           </unit>
-          <unit id="tu27" name="/html/body/table/tr[2]/td[3]">
-            <segment id="tu29" name="/html/body/table/tr[2]/td[3]">
+          <unit id="tu21">
+            <segment id="tu22">
               <source> &#233; &#224; &#160; &#171; &#239; </source>
               <target/>
             </segment>
           </unit>
         </group>
       </group>
-      <unit id="tu30" name="/html/body/p">
-        <segment id="tu32" name="/html/body/p">
+      <unit id="tu23">
+        <segment id="tu24">
           <source> All rights reserved (c) Gandalf Inc. </source>
           <target/>
         </segment>
       </unit>
     </group>
-    <group name="[%locale%][body2]" id="grp33">
-      <unit id="tu34" name="/html/body/h1">
-        <segment id="tu36" name="/html/body/h1">
+    <group name="[%locale%][body2]" id="grp25">
+      <unit id="tu26">
+        <segment id="tu27">
           <source> Report </source>
           <target/>
         </segment>
       </unit>
-      <group id="tu37" name="/html/body/table">
-        <group id="tu38" name="/html/body/table/tr[1]">
-          <unit id="tu39" name="/html/body/table/tr[1]/td[1]">
-            <segment id="tu41" name="/html/body/table/tr[1]/td[1]">
+      <group id="tu28">
+        <group id="tu29">
+          <unit id="tu30">
+            <segment id="tu31">
               <source> Text in cell r1-c1 </source>
               <target/>
             </segment>
           </unit>
-          <unit id="tu42" name="/html/body/table/tr[1]/td[2]">
-            <segment id="tu44" name="/html/body/table/tr[1]/td[2]">
+          <unit id="tu32">
+            <segment id="tu33">
               <source> Text in cell r1-c2 </source>
               <target/>
             </segment>
           </unit>
-          <unit id="tu45" name="/html/body/table/tr[1]/td[3]">
-            <segment id="tu47" name="/html/body/table/tr[1]/td[3]">
+          <unit id="tu34">
+            <segment id="tu35">
               <source> &#233; &#224; &#160; &#239; &#171; </source>
               <target/>
             </segment>
           </unit>
         </group>
-        <group id="tu48" name="/html/body/table/tr[2]">
-          <unit id="tu49" name="/html/body/table/tr[2]/td[1]">
-            <segment id="tu51" name="/html/body/table/tr[2]/td[1]">
+        <group id="tu36">
+          <unit id="tu37">
+            <segment id="tu38">
               <source> Text in cell r2-c1 </source>
               <target/>
             </segment>
           </unit>
-          <unit id="tu52" name="/html/body/table/tr[2]/td[2]">
-            <segment id="tu54" name="/html/body/table/tr[2]/td[2]">
+          <unit id="tu39">
+            <segment id="tu40">
               <source> Text in cell r2-c2 </source>
               <target/>
             </segment>
           </unit>
-          <unit id="tu55" name="/html/body/table/tr[2]/td[3]">
-            <segment id="tu57" name="/html/body/table/tr[2]/td[3]">
+          <unit id="tu41">
+            <segment id="tu42">
               <source> &#233; &#224; &#160; &#171; &#239; </source>
               <target/>
             </segment>
           </unit>
         </group>
       </group>
-      <unit id="tu58" name="/html/body/p">
-        <segment id="tu60" name="/html/body/p">
+      <unit id="tu43">
+        <segment id="tu44">
           <source> All rights reserved (c) Gandalf Inc. </source>
           <target/>
         </segment>

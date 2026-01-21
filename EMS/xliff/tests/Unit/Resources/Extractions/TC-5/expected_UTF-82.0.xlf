@@ -28,18 +28,18 @@
       </segment>
     </unit>
     <group name="[%locale%][body]" id="grp5">
-      <unit id="tu6" name="/html/body/p">
-        <segment id="tu8" name="/html/body/p">
-          <source> This is Mount Hood: <x id="x9" ctype="x-html-img" equiv-text="&amp;lt;img src=&amp;quot;mthood.jpg&amp;quot; alt=&amp;quot;Mount Hood with its snow-covered top&amp;quot;&amp;gt;&amp;lt;/img&amp;gt;"/> </source>
-          <target> Ceci est Mount Hood: <x id="x10" ctype="x-html-img" equiv-text="&amp;lt;img src=&amp;quot;mthood.jpg&amp;quot; alt=&amp;quot;Mount Hood avec son sommet enneig&amp;amp;#xE9;&amp;quot;&amp;gt;&amp;lt;/img&amp;gt;"/> </target>
+      <unit id="tu6">
+        <segment id="tu7">
+          <source> This is Mount Hood: <x id="x8" ctype="x-html-img" equiv-text="&amp;lt;img src=&amp;quot;mthood.jpg&amp;quot; alt=&amp;quot;Mount Hood with its snow-covered top&amp;quot;&amp;gt;&amp;lt;/img&amp;gt;"/> </source>
+          <target> Ceci est Mount Hood: <x id="x9" ctype="x-html-img" equiv-text="&amp;lt;img src=&amp;quot;mthood.jpg&amp;quot; alt=&amp;quot;Mount Hood avec son sommet enneig&amp;amp;#xE9;&amp;quot;&amp;gt;&amp;lt;/img&amp;gt;"/> </target>
         </segment>
       </unit>
     </group>
-    <group name="[%locale%][body2]" id="grp11">
-      <unit id="tu12" name="/html/body/p">
-        <segment id="tu14" name="/html/body/p">
-          <source> This is Mount Hood: <x id="x15" ctype="x-html-img" equiv-text="&amp;lt;img src=&amp;quot;mthood.jpg&amp;quot; alt=&amp;quot;Mount Hood with its snow-covered top&amp;quot;&amp;gt;&amp;lt;/img&amp;gt;"/> </source>
-          <target> Ceci est Mount Hood: <x id="x16" ctype="x-html-img" equiv-text="&amp;lt;img src=&amp;quot;mthood.jpg&amp;quot; alt=&amp;quot;Mount Hood avec son sommet enneig&amp;amp;#xE9;&amp;quot;&amp;gt;&amp;lt;/img&amp;gt;"/> </target>
+    <group name="[%locale%][body2]" id="grp10">
+      <unit id="tu11">
+        <segment id="tu12">
+          <source> This is Mount Hood: <x id="x13" ctype="x-html-img" equiv-text="&amp;lt;img src=&amp;quot;mthood.jpg&amp;quot; alt=&amp;quot;Mount Hood with its snow-covered top&amp;quot;&amp;gt;&amp;lt;/img&amp;gt;"/> </source>
+          <target> Ceci est Mount Hood: <x id="x14" ctype="x-html-img" equiv-text="&amp;lt;img src=&amp;quot;mthood.jpg&amp;quot; alt=&amp;quot;Mount Hood avec son sommet enneig&amp;amp;#xE9;&amp;quot;&amp;gt;&amp;lt;/img&amp;gt;"/> </target>
         </segment>
       </unit>
     </group>

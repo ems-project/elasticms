@@ -1,57 +1,51 @@
-# Development environment
+# Development Environment
 
-## Start external micro-services
+## Prerequisites
 
-ElasticMS works with multiple micro-services:
-
-- Redis: cache and session
-- elasticsearch: for indexing contents
-- Tika: for extracting data from assets
-- PosgresSQL or MariaDB: As authentic source of data
-- S3 like: to store assets
-
-In order to simplify development all those services are available in a docker compose and can be
-easily started with those make commands:
+On first run, execute init for generating required '.env' files.
 
 ```bash
 make init
-make start
 ```
 
-### Test your config
-
-- [Traefik](http://localhost:8888/dashboard/#/): The middleware application used to route packages
-- [Kibana](http://kibana.localhost/app/dev_tools#/console): Power tools for elasticsearch
-- [es01](http://es01.localhost/),[es02](http://es02.localhost/),[es03](http://es03.localhost/): the
-  hearts of elasticMS
-- [Mailhog](http://mailhog.localhost/): A mail catcher
-- [MinIO](http://minio.localhost/login): A S3 like service
-- [Tika](http://tika.localhost): A S3 like service
-- [Redis Commander](http://redis-commander.localhost): A Redis inspector tool
-- [Mercure](http://mercure.localhost/.well-known/mercure): A real-time communication solution
-
-### Local ports exposed
-
-| Port | service         |
-| ---- | --------------- |
-| 80   | traefik         |
-| 442  | traefik TLS     |
-| 1025 | mailhog         |
-| 3306 | mariadb         |
-| 5432 | postgres        |
-| 5601 | kibana          |
-| 6379 | redis           |
-| 8888 | traefik's admin |
-| 9000 | minio           |
-| 9998 | tika            |
-
-## Prerequisite
+Symfony CLI
 
 ```bash
 cd ~
 wget https://get.symfony.com/cli/installer -O - | bash
 sudo mv ~/.symfony5/bin/symfony /usr/local/bin/symfony
 ```
+
+## Quick start
+
+Start all default Docker services and Symfony servers with:
+
+```bash
+make start
+```
+
+- [Admin server](http://localhost:8881): Symfony server for ems admin
+- [Web server](http://localhost:8882): Symfony server for ems web
+- [es01](http://es01.localhost/),[es02](http://es02.localhost/),[es03](http://es03.localhost/): the
+  hearts of elasticMS
+- [Traefik](http://localhost:8888): The middleware application used to route packages
+- [Kibana](http://kibana.localhost): Power tools for elasticsearch
+- [Mailhog](http://mailhog.localhost): A mail catcher
+- [MinIO](http://minio.localhost): A S3 like service
+- [Tika](http://tika.localhost): Text extraction service
+- [Mercure](http://mercure.localhost/.well-known/mercure): A real-time communication solution
+- Redis: for cache and sessions
+- Postgres: default database (port: 5432, user: postgres, pass: adminpg)
+
+```bash
+make start/(mariadb|keycloak|grafana|redis-commander)
+make stop/(mariadb|keycloak|grafana|redis-commander)
+```
+
+- MariaDB (port: 3306, user: root, pass: mariadb)
+- [Redis commander](http://redis-commander.localhost)
+- [Keycloak](#keycloak)
+- [Grafana](#grafana)
 
 ## Load (or reset) the Demo config
 
@@ -132,7 +126,7 @@ comes with a great dev server, which will automatic reload pages on js/css and t
 
 > Make sure you set **EMS_VITE_DEV_SERVER**='<http://localhost:5173>'
 
-## Identity provider (IDP) (Keycloak)
+## Keycloak
 
 Elasticms-web has a build in OAuth2 and SAML authenticator. see
 [elasticms-web/security](../elasticms-web/security.md).
@@ -141,8 +135,7 @@ For developing and testing purposes you may want to start an IDP. Therefor we cr
 'idp' containing the services (keycloak & postgres).
 
 ```bash
-cd docker/idp
-docker compose up -d
+make start/keycloak
 ```
 
 1. Check if available on <http://keycloak.localhost> or <http://localhost:9081>
@@ -152,14 +145,14 @@ docker compose up -d
 2. Import the data and restart the keycloak service
 
     ```bash
-    docker compose exec keycloak sh /opt/keycloak/bin/kc.sh import --dir /data
-    docker compose up -d --force-recreate
+    docker compose -f docker/docker-compose.keycloak.yml exec keycloak sh /opt/keycloak/bin/kc.sh import --dir /data
+    make start/keycloak
     ```
 
     If you want to export the data and versioning new settings
 
     ```bash
-    docker compose exec keycloak sh /opt/keycloak/bin/kc.sh export --dir /data --users same_file --realm elasticms
+    docker compose -f docker/docker-compose.keycloak.yml exec keycloak sh /opt/keycloak/bin/kc.sh export --dir /data --users same_file --realm elasticms
     ```
 
 3. Verify `elasticms` realm is created
@@ -223,7 +216,7 @@ EMSCH_SAML_IDP_SSO='http://keycloak.localhost/realms/elasticms/protocol/saml'
 
     EMSCH_OAUTH2_ENCRYPTION_KEY=Base64(-----BEGIN CERTIFICATE-----.....-----END CERTIFICATE-----).
 
-## Monitoring (Grafana and Prometheus)
+## Grafana
 
 The ElasticMS apps provide metrics via the **Metrics controller** in the CommonBundle.
 
@@ -245,16 +238,15 @@ EMS_METRIC_PORT=8881
 ```
 
 ```bash
-cd docker/monitoring
-docker compose up -d
+make start/grafana
 ```
 
 For updating/creating dashboard:
 
 1. **Export JSON** from Grafana: `Share → Export → Save to file`.
-2. **Copy JSON** to `/docker/monitoring/grafana/dashboards`.
+2. **Copy JSON** to `/docker/grafana/dashboards`.
 3. **Use a stable UID** — fill it in manually when creating a new dashboard.
-4. **Reload dashboards**: `docker compose up -d` will automatically import/update them.
+4. **Reload dashboards**: `make start/grafana` will automatically import/update them.
 
 ## About PHP configuration
 

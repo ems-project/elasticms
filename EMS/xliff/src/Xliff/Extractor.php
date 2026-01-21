@@ -289,6 +289,7 @@ class Extractor extends XliffVersion
             $qualifiedName = 'trans-unit';
             $sourceAttributes = [
                 'xml:lang' => $this->sourceLocale,
+                'id' => \sprintf('tu%d', $this->nextId++),
             ];
             if ($sourceNode instanceof \DOMElement && !\in_array($sourceNode->nodeName, self::INTERNAL_TAGS)) {
                 $attributes = [

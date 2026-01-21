@@ -198,6 +198,9 @@
 .nav-sidebar > .nav-header {
   overflow: hidden;
   text-overflow: clip;
+  text-transform: uppercase;
+  color: white;
+  padding: 1rem 0.25rem;
 }
 
 .nav-sidebar .nav-item > .nav-link {

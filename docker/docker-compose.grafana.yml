@@ -1,9 +1,9 @@
-version: "3.8"
-
 services:
     prometheus:
+        profiles: [ "all","grafana" ]
+        labels:
+            - "elasticMS"
         image: prom/prometheus:latest
-        container_name: ems_prometheus
         volumes:
             - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
             - prometheus_data:/prometheus
@@ -14,8 +14,8 @@ services:
             - "host.docker.internal:host-gateway"
 
     grafana:
+        profiles: [ "all","grafana" ]
         image: grafana/grafana-oss:latest
-        container_name: ems_grafana
         environment:
             - GF_SECURITY_ADMIN_USER=admin
             - GF_SECURITY_ADMIN_PASSWORD=admin
@@ -31,6 +31,7 @@ services:
             - "3001:3000"
         restart: unless-stopped
         labels:
+            - "elasticMS"
             - "traefik.enable=true"
             - "traefik.http.routers.grafana.rule=Host(`grafana.localhost`)"
             - "traefik.http.routers.grafana.entrypoints=web"
@@ -40,7 +41,3 @@ services:
 volumes:
     prometheus_data:
     grafana_data:
-
-networks:
-    default:
-        name: skeleton

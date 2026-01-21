@@ -1,191 +1,215 @@
 services:
+    traefik:
+        profiles: [ "all","ems" ]
+        labels:
+            - "elasticMS"
+        extends:
+            file: ../demo/docker-compose.yml
+            service: traefik
 
-  traefik:
-    extends:
-      file: ../demo/docker-compose.yml
-      service: traefik
+    setup_elk:
+        profiles: [ "all","ems" ]
+        labels:
+            - "elasticMS"
+        extends:
+            file: ../demo/docker-${ELK_VERSION-elk7}.yml
+            service: setup_elk
 
-# This image is a small and easy application to test traefik's configuration
-#    whoami:
-#        image: "containous/whoami"
-#        container_name: "ems-mono-simple-service"
-#        labels:
-#            - "traefik.enable=true"
-#            - "traefik.http.routers.whoami.rule=Host(`whoami.localhost`)"
-#            - "traefik.http.routers.whoami.entrypoints=web"
-#            - "traefik.http.routers.whoami-tls.tls=true"
-#            - "traefik.http.routers.whoami-tls.rule=Host(`whoami.localhost`)"
-#            - "traefik.http.routers.whoami-tls.entrypoints=websecure"
+    es01:
+        profiles: [ "all","ems" ]
+        extends:
+            file: ../demo/docker-${ELK_VERSION-elk7}.yml
+            service: es01
+        ports:
+            - "9201:9200"
+        labels:
+            - "elasticMS"
+            - "traefik.enable=true"
+            - "traefik.http.routers.es.rule=Host(`es.localhost`)"
+            - "traefik.http.routers.es.entrypoints=web"
+            - "traefik.http.routers.es.service=es"
+            - "traefik.http.services.es.loadbalancer.server.port=9200"
 
-  setup_elk:
-    extends:
-      file: ../demo/docker-${ELK_VERSION-elk7}.yml
-      service: setup_elk
-  es01:
-    extends:
-      file: ../demo/docker-${ELK_VERSION-elk7}.yml
-      service: es01
-    ports:
-      - "9201:9200"
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.es.rule=Host(`es.localhost`)"
-      - "traefik.http.routers.es.entrypoints=web"
-      - "traefik.http.routers.es.service=es"
-      - "traefik.http.services.es.loadbalancer.server.port=9200"
-  es02:
-    extends:
-      file: ../demo/docker-${ELK_VERSION-elk7}.yml
-      service: es02
-    ports:
-      - "9202:9200"
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.es.rule=Host(`es.localhost`)"
-      - "traefik.http.routers.es.entrypoints=web"
-      - "traefik.http.routers.es.service=es"
-      - "traefik.http.services.es.loadbalancer.server.port=9200"
-  es03:
-    extends:
-      file: ../demo/docker-${ELK_VERSION-elk7}.yml
-      service: es03
-    ports:
-      - "9203:9200"
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.es.rule=Host(`es.localhost`)"
-      - "traefik.http.routers.es.entrypoints=web"
-      - "traefik.http.routers.es.service=es"
-      - "traefik.http.services.es.loadbalancer.server.port=9200"
+    es02:
+        profiles: [ "all","ems" ]
+        extends:
+            file: ../demo/docker-${ELK_VERSION-elk7}.yml
+            service: es02
+        ports:
+            - "9202:9200"
+        labels:
+            - "elasticMS"
+            - "traefik.enable=true"
+            - "traefik.http.routers.es.rule=Host(`es.localhost`)"
+            - "traefik.http.routers.es.entrypoints=web"
+            - "traefik.http.routers.es.service=es"
+            - "traefik.http.services.es.loadbalancer.server.port=9200"
 
-  kibana:
-    extends:
-      file: ../demo/docker-${ELK_VERSION-elk7}.yml
-      service: kibana
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.kibana.rule=Host(`kibana.localhost`)"
-      - "traefik.http.routers.kibana.entrypoints=web"
-      - "traefik.http.routers.kibana.service=kibana"
-      - "traefik.http.services.kibana.loadbalancer.server.port=5601"
+    es03:
+        profiles: [ "all","ems" ]
+        extends:
+            file: ../demo/docker-${ELK_VERSION-elk7}.yml
+            service: es03
+        ports:
+            - "9203:9200"
+        labels:
+            - "elasticMS"
+            - "traefik.enable=true"
+            - "traefik.http.routers.es.rule=Host(`es.localhost`)"
+            - "traefik.http.routers.es.entrypoints=web"
+            - "traefik.http.routers.es.service=es"
+            - "traefik.http.services.es.loadbalancer.server.port=9200"
 
+    kibana:
+        profiles: [ "all","ems" ]
+        extends:
+            file: ../demo/docker-${ELK_VERSION-elk7}.yml
+            service: kibana
+        labels:
+            - "elasticMS"
+            - "traefik.enable=true"
+            - "traefik.http.routers.kibana.rule=Host(`kibana.localhost`)"
+            - "traefik.http.routers.kibana.entrypoints=web"
+            - "traefik.http.routers.kibana.service=kibana"
+            - "traefik.http.services.kibana.loadbalancer.server.port=5601"
 
-  postgres:
-    container_name: ems-mono-postgres
-    image: postgres:${POSTGRES_VERSION-17}
-    ports:
-      - "5432:5432"
-    environment:
-      - POSTGRES_PASSWORD=adminpg
-      - TZ=Europe/Brussels
-      - PUID=1000
-      - PGID=1000
-    volumes:
-      - postgres:/var/lib/postgresql/data
+    postgres:
+        profiles: [ "all","ems" ]
+        labels:
+            - "elasticMS"
+        image: postgres:${POSTGRES_VERSION-17}
+        ports:
+            - "5432:5432"
+        environment:
+            - POSTGRES_PASSWORD=adminpg
+            - TZ=Europe/Brussels
+            - PUID=1000
+            - PGID=1000
+        volumes:
+            - postgres:/var/lib/postgresql/data
 
-  mariadb:
-    image: linuxserver/mariadb
-    container_name: ems-mono-mariadb
-    ports:
-      - "3306:3306"
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - MYSQL_ROOT_PASSWORD=mariadb
-      - TZ=Europe/Brussels
-    volumes:
-      - mariadb:/config
+    mariadb:
+        profiles: [ "all","mariadb" ]
+        labels:
+            - "elasticMS"
+        image: linuxserver/mariadb
+        ports:
+            - "3306:3306"
+        environment:
+            - PUID=1000
+            - PGID=1000
+            - MYSQL_ROOT_PASSWORD=mariadb
+            - TZ=Europe/Brussels
+        volumes:
+            - mariadb:/config
 
-  tika:
-    extends:
-      file: ../demo/docker-compose.yml
-      service: tika
-    container_name: ems-mono-tika
-    ports:
-      - "9998:9998"
+    tika:
+        profiles: [ "all","ems" ]
+        labels:
+            - "elasticMS"
+        extends:
+            file: ../demo/docker-compose.yml
+            service: tika
+        ports:
+            - "9998:9998"
 
-  minio:
-    extends:
-      file: ../demo/docker-compose.yml
-      service: minio
-    container_name: ems-mono-minio
-    ports:
-      - 9000:9000
+    minio:
+        profiles: [ "all","ems" ]
+        labels:
+            - "elasticMS"
+        extends:
+            file: ../demo/docker-compose.yml
+            service: minio
+        ports:
+            - "9000:9000"
 
-  setup_minio:
-      extends:
-          file: ../demo/docker-compose.yml
-          service: setup_minio
+    setup_minio:
+        profiles: [ "all","ems" ]
+        labels:
+            - "elasticMS"
+        extends:
+            file: ../demo/docker-compose.yml
+            service: setup_minio
 
-  redis:
-    extends:
-      file: ../demo/docker-compose.yml
-      service: redis
-    container_name: ems-mono-redis
-    ports:
-      - 6379:6379
+    redis:
+        profiles: [ "all","ems" ]
+        labels:
+            - "elasticMS"
+        extends:
+            file: ../demo/docker-compose.yml
+            service: redis
+        ports:
+            - "6379:6379"
 
-  redis-commander:
-    image: rediscommander/redis-commander:latest
-    container_name: ems-mono-redis-commander
-    environment:
-      - REDIS_HOSTS=local:redis:6379
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.redis-commander.rule=Host(`redis-commander.localhost`)"
-      - "traefik.http.routers.redis-commander.service=redis-commander"
-      - "traefik.http.routers.redis-commander.entrypoints=web"
-      - "traefik.http.services.redis-commander.loadbalancer.server.port=8081"
+    redis-commander:
+        profiles: [ "all","redis-commander" ]
+        image: rediscommander/redis-commander:latest
+        environment:
+            - REDIS_HOSTS=local:redis:6379
+        labels:
+            - "elasticMS"
+            - "traefik.enable=true"
+            - "traefik.http.routers.redis-commander.rule=Host(`redis-commander.localhost`)"
+            - "traefik.http.routers.redis-commander.service=redis-commander"
+            - "traefik.http.routers.redis-commander.entrypoints=web"
+            - "traefik.http.services.redis-commander.loadbalancer.server.port=8081"
 
-  mailhog:
-    extends:
-      file: ../demo/docker-compose.yml
-      service: mailhog
-    container_name: ems-mono-mailhog
-    ports:
-      - 1025:1025
+    mailhog:
+        profiles: [ "all","ems" ]
+        labels:
+            - "elasticMS"
+        extends:
+            file: ../demo/docker-compose.yml
+            service: mailhog
+        ports:
+            - "1025:1025"
 
-  mercure:
-    extends:
-      file: '../demo/docker-compose.yml'
-      service: mercure
-    container_name: ems-mono-mercure
+    mercure:
+        profiles: [ "all","ems" ]
+        labels:
+            - "elasticMS"
+        extends:
+            file: '../demo/docker-compose.yml'
+            service: mercure
 
-  varnish:
-      image: varnish:7.7
-      environment:
-          - VARNISH_SIZE=256M
-      volumes:
-          - ./varnish/default.vcl:/etc/varnish/default.vcl:ro
-      extra_hosts:
-          - "host.docker.internal:host-gateway"
-      labels:
-          - "traefik.enable=true"
-          - "traefik.http.routers.varnish.rule=Host(`varnish.localhost`)"
-          - "traefik.http.routers.varnish.service=varnish"
-          - "traefik.http.routers.varnish.entrypoints=web"
-          - "traefik.http.services.varnish.loadbalancer.server.port=80"
+    varnish:
+        profiles: [ "all","ems" ]
+        image: varnish:7.7
+        environment:
+            - VARNISH_SIZE=256M
+        volumes:
+            - ./varnish/default.vcl:/etc/varnish/default.vcl:ro
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+        labels:
+            - "elasticMS"
+            - "traefik.enable=true"
+            - "traefik.http.routers.varnish.rule=Host(`varnish.localhost`)"
+            - "traefik.http.routers.varnish.service=varnish"
+            - "traefik.http.routers.varnish.entrypoints=web"
+            - "traefik.http.services.varnish.loadbalancer.server.port=80"
 
 volumes:
-  elk7_data01:
-  elk7_data02:
-  elk7_data03:
-  elk8_data01:
-  elk8_data02:
-  elk8_data03:
-  elk8_kibanadata:
-  os2_data01:
-  os2_data02:
-  os2_data03:
-  redis:
-  s3:
-  mariadb:
-  postgres:
-      name: ${POSTGRES_VOLUME-postgres}
-      external: false
-  mercure_data:
-  mercure_config:
+    elk7_data01:
+    elk7_data02:
+    elk7_data03:
+    elk8_data01:
+    elk8_data02:
+    elk8_data03:
+    elk8_kibanadata:
+    os2_data01:
+    os2_data02:
+    os2_data03:
+    redis:
+    s3:
+    mariadb:
+    postgres:
+        name: ${POSTGRES_VOLUME-postgres}
+        external: false
+    mercure_data:
+    mercure_config:
 
 networks:
     default:
         name: skeleton
+        external: true

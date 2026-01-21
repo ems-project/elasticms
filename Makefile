@@ -1,8 +1,8 @@
 #!/usr/bin/make -f
 
-PWD							= $(shell pwd)
+PWD					= $(shell pwd)
 DOCKER_USER			?= $(shell id -u)
-DOCKER_COMPOSE	= docker compose -f docker/docker-compose.yml
+DOCKER_COMPOSE		= docker compose -f docker/docker-compose.yml -f docker/docker-compose.grafana.yml -f docker/docker-compose.keycloak.yml
 
 PORT_admin 			= 8881
 PORT_web 			= 8882
@@ -42,14 +42,18 @@ init: ## init mono repo (copy .env)
 	@cp -fp ./elasticms-web/.env.dist ./elasticms-web/.env
 	@cp -fp ./elasticms-web/.env.local.dist ./elasticms-web/.env.local
 start: ## start docker, admin server, web server
-	@$(DOCKER_COMPOSE) up -d
+	@$(DOCKER_COMPOSE) --profile=ems up -d
 	@$(MAKE) -s server-start/admin
 	@$(MAKE) -s server-start/web
 	cd elasticms-admin && symfony local:run -d php bin/console messenger:consume async -vvv
+start/%: ## start/(mariadb|keycloak|grafana|redis-commander)
+	@$(DOCKER_COMPOSE) --profile=${*} up -d --force-recreate
 stop: ## stop docker, admin server, web server
 	@$(MAKE) -s server-stop/admin
 	@$(MAKE) -s server-stop/web
-	@$(DOCKER_COMPOSE) down
+	@$(DOCKER_COMPOSE) --profile=all down
+stop/%: ## stop/(mariadb|keycloak|grafana|redis-commander)
+	@$(DOCKER_COMPOSE) --profile=${*} down
 check: ## run all checks
 	@composer monorepo-validate
 	@composer rector
@@ -60,7 +64,7 @@ cache-clear: ## cache clear
 	@$(RUN_ADMIN) c:cl
 	@$(RUN_WEB) c:cl
 status: ## status
-	@$(DOCKER_COMPOSE) ps
+	@docker ps --filter="label=elasticMS" --format "table {{.Label \"com.docker.compose.service\"}}\t{{.Status}}\t{{.Ports}}"
 
 ## —— Symfony server ———————————————————————————————————————————————————————————————————————————————————————————————————
 server-start/%: ## server-start/(admin|web|cli)
@@ -77,6 +81,12 @@ server-restart: ## server-restart
 	@$(MAKE) -s server-start/admin
 	@$(MAKE) -s server-start/web
 	cd elasticms-admin && symfony local:run -d php bin/console messenger:consume async -vvv
+
+## —— Docker --------———————————————————————————————————————————————————————————————————————————————————————————————————
+docker-images: ## List images
+	@docker ps --filter="label=elasticMS" --format "table {{.Label \"com.docker.compose.service\"}}\t{{.Image}}"
+docker-logs: ## logs
+	@$(DOCKER_COMPOSE) logs -f
 
 ## —— assets ————————————————————————————————————————————————————————————————————————————————————————————————————————————
 assets-npm/%: ## npm run in AdminUIBundle

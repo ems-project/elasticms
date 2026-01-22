@@ -9,8 +9,6 @@
         "description": null,
         "indexTwig": null,
         "extra": null,
-        "lockBy": null,
-        "lockUntil": null,
         "deleted": false,
         "askForOuuid": false,
         "color": null,
@@ -198,47 +196,6 @@
                                                 "class": "EMS\\CoreBundle\\Entity\\FieldType",
                                                 "arguments": [],
                                                 "properties": {
-                                                    "type": "EMS\\CoreBundle\\Form\\DataField\\TextStringFieldType",
-                                                    "name": "label",
-                                                    "contentType": null,
-                                                    "deleted": false,
-                                                    "description": null,
-                                                    "options": {
-                                                        "displayOptions": {
-                                                            "label": "Label",
-                                                            "class": "col-md-12",
-                                                            "lastOfRow": false,
-                                                            "helptext": null,
-                                                            "prefixIcon": null,
-                                                            "prefixText": null,
-                                                            "suffixIcon": null,
-                                                            "suffixText": null,
-                                                            "placeholder": null,
-                                                            "icon": null
-                                                        },
-                                                        "restrictionOptions": {
-                                                            "mandatory": false,
-                                                            "mandatory_if": null,
-                                                            "minimum_role": null
-                                                        },
-                                                        "migrationOptions": {
-                                                            "protected": false
-                                                        },
-                                                        "extraOptions": {
-                                                            "extra": null,
-                                                            "clear_on_copy": false,
-                                                            "postProcessing": null
-                                                        }
-                                                    },
-                                                    "orderKey": 0,
-                                                    "children": []
-                                                },
-                                                "replaced": []
-                                            },
-                                            {
-                                                "class": "EMS\\CoreBundle\\Entity\\FieldType",
-                                                "arguments": [],
-                                                "properties": {
                                                     "type": "EMS\\CoreBundle\\Form\\DataField\\FormFieldType",
                                                     "name": "menu_entries",
                                                     "contentType": null,
@@ -301,49 +258,6 @@
                                         },
                                         "orderKey": 1,
                                         "children": [
-                                            {
-                                                "class": "EMS\\CoreBundle\\Entity\\FieldType",
-                                                "arguments": [],
-                                                "properties": {
-                                                    "type": "EMS\\CoreBundle\\Form\\DataField\\TextStringFieldType",
-                                                    "name": "label",
-                                                    "contentType": null,
-                                                    "deleted": false,
-                                                    "description": null,
-                                                    "options": {
-                                                        "displayOptions": {
-                                                            "label": "Label",
-                                                            "class": "col-md-12",
-                                                            "lastOfRow": false,
-                                                            "helptext": null,
-                                                            "prefixIcon": null,
-                                                            "prefixText": null,
-                                                            "suffixIcon": null,
-                                                            "suffixText": null,
-                                                            "placeholder": null,
-                                                            "icon": null
-                                                        },
-                                                        "mappingOptions": [],
-                                                        "restrictionOptions": {
-                                                            "mandatory": false,
-                                                            "mandatory_if": null,
-                                                            "minimum_role": null
-                                                        },
-                                                        "extraOptions": {
-                                                            "extra": null,
-                                                            "clear_on_copy": false,
-                                                            "postProcessing": null
-                                                        },
-                                                        "raw_data": [],
-                                                        "migrationOptions": {
-                                                            "protected": false
-                                                        }
-                                                    },
-                                                    "orderKey": 0,
-                                                    "children": []
-                                                },
-                                                "replaced": []
-                                            },
                                             {
                                                 "class": "EMS\\CoreBundle\\Entity\\FieldType",
                                                 "arguments": [],
@@ -618,7 +532,9 @@
         "settings": {
             "tasks_enabled": false,
             "tasks_titles": [],
-            "hide_revision_sidebar": false
+            "tasks_helptexts": [],
+            "hide_revision_sidebar": false,
+            "recompute_on_publish": false
         }
     },
     "replaced": []

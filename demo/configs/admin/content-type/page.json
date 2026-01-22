@@ -9,8 +9,6 @@
         "description": null,
         "indexTwig": null,
         "extra": null,
-        "lockBy": null,
-        "lockUntil": null,
         "deleted": false,
         "askForOuuid": false,
         "color": null,
@@ -478,6 +476,26 @@
                                                                         "class": "EMS\\CoreBundle\\Entity\\FieldType",
                                                                         "arguments": [],
                                                                         "properties": {
+                                                                            "type": "EMS\\CoreBundle\\Form\\DataField\\TextStringFieldType",
+                                                                            "name": "label",
+                                                                            "contentType": null,
+                                                                            "deleted": false,
+                                                                            "description": null,
+                                                                            "options": {
+                                                                                "displayOptions": {
+                                                                                    "label": "Label",
+                                                                                    "class": "col-md-12"
+                                                                                }
+                                                                            },
+                                                                            "orderKey": 0,
+                                                                            "children": []
+                                                                        },
+                                                                        "replaced": []
+                                                                    },
+                                                                    {
+                                                                        "class": "EMS\\CoreBundle\\Entity\\FieldType",
+                                                                        "arguments": [],
+                                                                        "properties": {
                                                                             "type": "EMS\\CoreBundle\\Form\\DataField\\AssetFieldType",
                                                                             "name": "image",
                                                                             "contentType": null,
@@ -589,6 +607,26 @@
                                                                                 "raw_data": [],
                                                                                 "migrationOptions": {
                                                                                     "protected": false
+                                                                                }
+                                                                            },
+                                                                            "orderKey": 0,
+                                                                            "children": []
+                                                                        },
+                                                                        "replaced": []
+                                                                    },
+                                                                    {
+                                                                        "class": "EMS\\CoreBundle\\Entity\\FieldType",
+                                                                        "arguments": [],
+                                                                        "properties": {
+                                                                            "type": "EMS\\CoreBundle\\Form\\DataField\\TextStringFieldType",
+                                                                            "name": "label",
+                                                                            "contentType": null,
+                                                                            "deleted": false,
+                                                                            "description": null,
+                                                                            "options": {
+                                                                                "displayOptions": {
+                                                                                    "label": "Label",
+                                                                                    "class": "col-md-12"
                                                                                 }
                                                                             },
                                                                             "orderKey": 0,
@@ -849,6 +887,26 @@
                                                                             "children": []
                                                                         },
                                                                         "replaced": []
+                                                                    },
+                                                                    {
+                                                                        "class": "EMS\\CoreBundle\\Entity\\FieldType",
+                                                                        "arguments": [],
+                                                                        "properties": {
+                                                                            "type": "EMS\\CoreBundle\\Form\\DataField\\TextStringFieldType",
+                                                                            "name": "label",
+                                                                            "contentType": null,
+                                                                            "deleted": false,
+                                                                            "description": null,
+                                                                            "options": {
+                                                                                "displayOptions": {
+                                                                                    "label": "Label",
+                                                                                    "class": "col-md-12"
+                                                                                }
+                                                                            },
+                                                                            "orderKey": 0,
+                                                                            "children": []
+                                                                        },
+                                                                        "replaced": []
                                                                     }
                                                                 ]
                                                             },
@@ -932,6 +990,26 @@
                                                                             "children": []
                                                                         },
                                                                         "replaced": []
+                                                                    },
+                                                                    {
+                                                                        "class": "EMS\\CoreBundle\\Entity\\FieldType",
+                                                                        "arguments": [],
+                                                                        "properties": {
+                                                                            "type": "EMS\\CoreBundle\\Form\\DataField\\TextStringFieldType",
+                                                                            "name": "label",
+                                                                            "contentType": null,
+                                                                            "deleted": false,
+                                                                            "description": null,
+                                                                            "options": {
+                                                                                "displayOptions": {
+                                                                                    "label": "Label",
+                                                                                    "class": "col-md-12"
+                                                                                }
+                                                                            },
+                                                                            "orderKey": 0,
+                                                                            "children": []
+                                                                        },
+                                                                        "replaced": []
                                                                     }
                                                                 ]
                                                             },
@@ -1009,6 +1087,26 @@
                                                                                 "raw_data": [],
                                                                                 "migrationOptions": {
                                                                                     "protected": false
+                                                                                }
+                                                                            },
+                                                                            "orderKey": 0,
+                                                                            "children": []
+                                                                        },
+                                                                        "replaced": []
+                                                                    },
+                                                                    {
+                                                                        "class": "EMS\\CoreBundle\\Entity\\FieldType",
+                                                                        "arguments": [],
+                                                                        "properties": {
+                                                                            "type": "EMS\\CoreBundle\\Form\\DataField\\TextStringFieldType",
+                                                                            "name": "label",
+                                                                            "contentType": null,
+                                                                            "deleted": false,
+                                                                            "description": null,
+                                                                            "options": {
+                                                                                "displayOptions": {
+                                                                                    "label": "Label",
+                                                                                    "class": "col-md-12"
                                                                                 }
                                                                             },
                                                                             "orderKey": 0,

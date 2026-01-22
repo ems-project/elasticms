@@ -84,7 +84,7 @@
             {% set aggsMust = aggsMust|merge([{ 'terms': { (field) : (terms) } }]) %}
         {% endfor %}
 
-        {% set aggOrder = f.agg_sort is defined ? { '_term': (f.agg_sort|default('asc')) } : { '_count': 'desc' } %}
+        {% set aggOrder = f.agg_sort is defined ? { '_key': (f.agg_sort|default('asc')) } : { '_count': 'desc' } %}
 
         {% set aggSearch = {
             'index': env.alias,

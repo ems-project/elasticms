@@ -12,7 +12,6 @@ COPY . /tmpfs
 
 RUN mv /tmpfs/.docker /bootstrap \
     && mv /tmpfs /app/src/elasticms \
-    && COMPOSER_MEMORY_LIMIT=-1 composer -vvv install --no-interaction --no-suggest --no-scripts --working-dir /app/src/elasticms -o \
     && mkdir -p /app/src/elasticms/public/bundles /app/src/elasticms/var
 
 #

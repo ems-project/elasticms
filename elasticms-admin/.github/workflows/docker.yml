@@ -129,6 +129,16 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Configure Composer Cache Dir and Public Keys
+        run: |
+          mkdir -p $HOME/.composer/cache
+          curl -sSL https://composer.github.io/snapshots.pub -o $HOME/.composer/keys.dev.pub
+          curl -sSL https://composer.github.io/releases.pub -o $HOME/.composer/keys.tags.pub
+
+      - name: Composer and NPM 
+        run: |
+          make build-app
+
       - name: Bake and push image
         id: build
         uses: docker/bake-action@v6

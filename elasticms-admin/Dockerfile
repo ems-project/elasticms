@@ -12,11 +12,6 @@ COPY . /tmpfs
 
 RUN mv /tmpfs/.docker /bootstrap \
     && mv /tmpfs /app/src/elasticms \
-    && COMPOSER_MEMORY_LIMIT=-1 composer -vvv install --no-interaction --no-suggest --no-scripts --working-dir /app/src/elasticms -o \
-    && npm install --prefix /app/src/elasticms/vendor/elasticms/admin-ui-bundle/assets \
-    && npm --prefix /app/src/elasticms/vendor/elasticms/admin-ui-bundle/assets run build \
-    && rm -rf /app/src/elasticms/vendor/elasticms/admin-ui-bundle/assets/node_modules \
-    \
     && php /app/src/elasticms/bin/console assets:install /app/src/elasticms/public --symlink --no-interaction --env=prod \
     && rm -rf /app/src/elasticms/var/*
 

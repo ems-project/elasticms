@@ -1378,7 +1378,7 @@
                     "name": "show-fr",
                     "label": "Show FR",
                     "icon": "fa fa-eye",
-                    "body": "{{ block(\"show_page_fr\", \"@EMSCH/template_ems/actions.twig\") }}",
+                    "body": "{{ block('show_page_fr', '@EMSCH/template_ems/actions.twig') }}",
                     "header": null,
                     "editWithWysiwyg": false,
                     "renderOption": "rawHTML",
@@ -1413,7 +1413,7 @@
                     "name": "show-nl",
                     "label": "Show NL",
                     "icon": "fa fa-eye",
-                    "body": "{{ block(\"show_page_nl\", \"@EMSCH/template_ems/actions.twig\") }}",
+                    "body": "{{ block('show_page_nl', '@EMSCH/template_ems/actions.twig') }}",
                     "header": null,
                     "editWithWysiwyg": false,
                     "renderOption": "rawHTML",
@@ -1454,9 +1454,9 @@
                     "options": {
                         "body": "{}",
                         "size": 0,
-                        "template": "{{ block(\"template\", \"@EMSCH/template_ems/view/overview.twig\") }}",
-                        "header": "{{ block(\"css\", \"@EMSCH/template_ems/view/overview.twig\") }}",
-                        "javascript": "{{ block(\"javascript\", \"@EMSCH/template_ems/view/overview.twig\") }}"
+                        "template": "{{ block('template', '@EMSCH/template_ems/view/overview.twig') }}",
+                        "header": "{{ block('css', '@EMSCH/template_ems/view/overview.twig') }}",
+                        "javascript": "{{ block('javascript', '@EMSCH/template_ems/view/overview.twig') }}"
                     },
                     "orderKey": 1,
                     "public": false,

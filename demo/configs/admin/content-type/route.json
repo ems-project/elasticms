@@ -216,7 +216,7 @@
                                 },
                                 "extraOptions": {
                                     "extra": null,
-                                    "postProcessing": "{{ block(\"route_config\", \"@EMSCH/template_ems/content_type/post_processing.twig\") }}",
+                                    "postProcessing": "{{ block('route_config', '@EMSCH/template_ems/content_type/post_processing.twig') }}",
                                     "clear_on_copy": false
                                 },
                                 "raw_data": [],
@@ -261,7 +261,7 @@
                                 },
                                 "extraOptions": {
                                     "extra": null,
-                                    "postProcessing": "{{ block(\"route_query\", \"@EMSCH/template_ems/content_type/post_processing.twig\") }}",
+                                    "postProcessing": "{{ block('route_query', '@EMSCH/template_ems/content_type/post_processing.twig') }}",
                                     "clear_on_copy": false
                                 },
                                 "raw_data": [],
@@ -415,9 +415,9 @@
                     "options": {
                         "body": "{}",
                         "size": 0,
-                        "template": "{{ block(\"template\", \"@EMSCH/template_ems/view/overview.twig\") }}",
-                        "header": "{{ block(\"css\", \"@EMSCH/template_ems/view/overview.twig\") }}",
-                        "javascript": "{{ block(\"javascript\", \"@EMSCH/template_ems/view/overview.twig\") }}"
+                        "template": "{{ block('template', '@EMSCH/template_ems/view/overview.twig') }}",
+                        "header": "{{ block('css', '@EMSCH/template_ems/view/overview.twig') }}",
+                        "javascript": "{{ block('javascript', '@EMSCH/template_ems/view/overview.twig') }}"
                     },
                     "orderKey": 3,
                     "public": false,

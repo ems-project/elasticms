@@ -45,7 +45,7 @@
                     "orderField": "media_path"
                 },{
                     "label": "Locales",
-                    "template": '{{ data.source.locales|default([])|map(locale => ("locale."~locale)|i18n)|join(", ") }}'
+                    "template": '{{ data.source.locales|default([])|map(locale => ("locale."~locale)|emsco_i18n)|join(", ") }}'
     
                 },{
                     "label": "Size",

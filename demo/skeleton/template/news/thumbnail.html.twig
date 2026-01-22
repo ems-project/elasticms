@@ -20,7 +20,7 @@
             <div class="card-body px-0">
                 <small class="news-meta text-uppercase">
                     <span class="news-date mr-2">{{ news._source.publication_date|date('d/m/Y') }}</span>
-                    <span class="tag">{{ news._source.categories|default([])|map(p => attribute(tags, p|split(':')|last)|default(''))|join(' ') }}</span>
+                    <span class="tag">{{ news._source.categories|default([])|map(p => tags.(p|split(':')|last)|default(''))|join(' ') }}</span>
                 </small>
                 <h2 class="news-heading mt-2">{{ news._source.(locale).title|default('') }}</h2>
                 {{ news._source.(locale).summary|default|emsch_routing }}

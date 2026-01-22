@@ -46,8 +46,8 @@
         {%  for locale in locales %}
             {% if page._source.(locale).show|default(false) %}
                 {%  set loc = false %}
-                {% if paths.("page:#{page._id}") is defined and attribute(paths.("page:#{page._id}"), locale) is defined %}
-                    {%  set loc = url('emsch_path', {_locale: locale, path: attribute(paths.("page:#{page._id}"), locale).path}) %}
+                {% if paths.("page:#{page._id}") is defined and paths.("page:#{page._id}").(locale) is defined %}
+                    {%  set loc = url('emsch_path', {_locale: locale, path: paths.("page:#{page._id}").(locale).path}) %}
                 {% elseif page._source.(locale).slug|default(false) and page._source.(locale).slug == '/' %}
                     {%  set loc = url('emsch_path', {_locale: locale}) %}
                 {% elseif page._source.(locale).slug|default(false) %}

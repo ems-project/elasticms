@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 https://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file source-language="nl" original="content_type:fakeOuuid:fakeRevisionId" datatype="database" target-language="de">
     <body>
       <group resname="[body]" id="grp1">
         <trans-unit restype="x-html-h2" id="tu2" resname="/html/body/h2[1]">
           <source xml:lang="nl"> <g id="g3" ctype="x-html-ins">Gegevens periodieke sociale signalitiek</g> </source>
-          <target xml:lang="de" state="needs-translation"> <bx id="bx5" rid="rid4" equiv-text="&amp;lt;ins class=&amp;quot;newWord&amp;quot;&amp;gt;" ctype="x-html-ins"/>Daten zur periodischen Sozialkennzeichnung<ex id="ex6" rid="rid4" equiv-text="&amp;lt;/ins&amp;gt;" ctype="x-html-ins"/> </target>
+          <target xml:lang="de" state="needs-translation"> <bx id="bx5" rid="rid4" equiv-text="&amp;lt;ins class=&amp;quot;newWord&amp;quot;&amp;gt;"/>Daten zur periodischen Sozialkennzeichnung<ex id="ex6" rid="rid4" equiv-text="&amp;lt;/ins&amp;gt;"/> </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu7" resname="/html/body/p[1]">
           <source xml:lang="nl"> De velden '<g id="g8" ctype="x-html-strong">begindatum van de periodieke sociale signalitiek</g>' en '<g id="g9" ctype="x-html-strong">einddatum van de periodieke sociale signalitiek</g>' bakenen de periode af waarop de gegevens in het blok '<g id="g10" ctype="x-html-strong">periodieke sociale signalitiek</g>' betrekking hebben. </source>
@@ -49,8 +49,8 @@
                 </trans-unit>
                 <group restype="x-html-ul" id="tu33" resname="/html/body/ul[1]/li[2]/ul/li[1]/ul">
                   <trans-unit restype="listitem" id="tu34" resname="/html/body/ul[1]/li[2]/ul/li[1]/ul/li">
-                    <source xml:lang="nl">in uitzonderlijke gevallen moet een fictief nummer worden aangegeven: zie de 'bijkomende info' op de betreffende pagina van de <bx id="bx36" rid="rid35" equiv-text="&amp;lt;a href=&amp;quot;https://www.socialsecurity.be/employer/instructions/dmfa/nl/latest/instructions/fill_in_dmfa/occupationrecord/exploitation_site.html&amp;quot;&amp;gt;" ctype="x-html-a"/> administratieve instructies DmfA<ex id="ex37" rid="rid35" equiv-text="&amp;lt;/a&amp;gt;" ctype="x-html-a"/> </source>
-                    <target xml:lang="de" state="final">In Ausnahmefällen muss eine fiktive Nummer angegeben werden: siehe „zusätzliche Informationen“ auf der entsprechenden Seite der <bx id="bx39" rid="rid38" equiv-text="&amp;lt;a href=&amp;quot;https://www.socialsecurity.be/employer/instructions/dmfa/nl/latest/instructions/fill_in_dmfa/occupationrecord/exploitation_site.html&amp;quot;&amp;gt;" ctype="x-html-a"/> Verwaltungsanweisungen der DmfA<ex id="ex40" rid="rid38" equiv-text="&amp;lt;/a&amp;gt;" ctype="x-html-a"/>. </target>
+                    <source xml:lang="nl">in uitzonderlijke gevallen moet een fictief nummer worden aangegeven: zie de 'bijkomende info' op de betreffende pagina van de <bx id="bx36" rid="rid35" equiv-text="&amp;lt;a href=&amp;quot;https://www.socialsecurity.be/employer/instructions/dmfa/nl/latest/instructions/fill_in_dmfa/occupationrecord/exploitation_site.html&amp;quot;&amp;gt;"/> administratieve instructies DmfA<ex id="ex37" rid="rid35" equiv-text="&amp;lt;/a&amp;gt;"/> </source>
+                    <target xml:lang="de" state="final">In Ausnahmefällen muss eine fiktive Nummer angegeben werden: siehe „zusätzliche Informationen“ auf der entsprechenden Seite der <bx id="bx39" rid="rid38" equiv-text="&amp;lt;a href=&amp;quot;https://www.socialsecurity.be/employer/instructions/dmfa/nl/latest/instructions/fill_in_dmfa/occupationrecord/exploitation_site.html&amp;quot;&amp;gt;"/> Verwaltungsanweisungen der DmfA<ex id="ex40" rid="rid38" equiv-text="&amp;lt;/a&amp;gt;"/>. </target>
                   </trans-unit>
                 </group>
               </group>
@@ -68,8 +68,8 @@
             <group restype="x-html-ul" id="tu46" resname="/html/body/ul[1]/li[3]/ul">
               <group restype="listitem" id="tu47" resname="/html/body/ul[1]/li[3]/ul/li">
                 <trans-unit id="tu48" resname="/html/body/ul[1]/li[3]/ul/li/text()[1]">
-                  <source xml:lang="nl">zie de betreffende pagina van de <bx id="bx50" rid="rid49" equiv-text="&amp;lt;a href=&amp;quot;https://www.socialsecurity.be/employer/instructions/dmfa/nl/latest/instructions/fill_in_dmfa/occupationrecord/joint_committee.html&amp;quot;&amp;gt;" ctype="x-html-a"/> administratieve instructies DmfA<ex id="ex51" rid="rid49" equiv-text="&amp;lt;/a&amp;gt;" ctype="x-html-a"/></source>
-                  <target xml:lang="de" state="final">siehe die entsprechende Seite in den <bx id="bx53" rid="rid52" equiv-text="&amp;lt;a href=&amp;quot;https://www.socialsecurity.be/employer/instructions/dmfa/nl/latest/instructions/fill_in_dmfa/occupationrecord/joint_committee.html&amp;quot;&amp;gt;" ctype="x-html-a"/> Verwaltungsanweisungen der DmfA<ex id="ex54" rid="rid52" equiv-text="&amp;lt;/a&amp;gt;" ctype="x-html-a"/></target>
+                  <source xml:lang="nl">zie de betreffende pagina van de <bx id="bx50" rid="rid49" equiv-text="&amp;lt;a href=&amp;quot;https://www.socialsecurity.be/employer/instructions/dmfa/nl/latest/instructions/fill_in_dmfa/occupationrecord/joint_committee.html&amp;quot;&amp;gt;"/> administratieve instructies DmfA<ex id="ex51" rid="rid49" equiv-text="&amp;lt;/a&amp;gt;"/></source>
+                  <target xml:lang="de" state="final">siehe die entsprechende Seite in den <bx id="bx53" rid="rid52" equiv-text="&amp;lt;a href=&amp;quot;https://www.socialsecurity.be/employer/instructions/dmfa/nl/latest/instructions/fill_in_dmfa/occupationrecord/joint_committee.html&amp;quot;&amp;gt;"/> Verwaltungsanweisungen der DmfA<ex id="ex54" rid="rid52" equiv-text="&amp;lt;/a&amp;gt;"/></target>
                 </trans-unit>
                 <group restype="x-html-ul" id="tu55" resname="/html/body/ul[1]/li[3]/ul/li/ul">
                   <trans-unit restype="listitem" id="tu56" resname="/html/body/ul[1]/li[3]/ul/li/ul/li[1]">
@@ -105,19 +105,19 @@
             </trans-unit>
             <group restype="x-html-ul" id="tu71" resname="/html/body/ul[1]/li[4]/ul">
               <trans-unit restype="listitem" id="tu72" resname="/html/body/ul[1]/li[4]/ul/li">
-                <source xml:lang="nl">zie de betreffende pagina van de <bx id="bx74" rid="rid73" equiv-text="&amp;lt;a href=&amp;quot;https://www.socialsecurity.be/employer/instructions/dmfa/nl/latest/instructions/fill_in_dmfa/occupationrecord/sector_specific_characteristics/nace_code.html&amp;quot;&amp;gt;" ctype="x-html-a"/> administratieve instructies DmfA<ex id="ex75" rid="rid73" equiv-text="&amp;lt;/a&amp;gt;" ctype="x-html-a"/> </source>
-                <target xml:lang="de" state="final">siehe die entsprechende Seite in den <bx id="bx77" rid="rid76" equiv-text="&amp;lt;a href=&amp;quot;https://www.socialsecurity.be/employer/instructions/dmfa/nl/latest/instructions/fill_in_dmfa/occupationrecord/sector_specific_characteristics/nace_code.html&amp;quot;&amp;gt;" ctype="x-html-a"/> Verwaltungsanweisungen der DmfA<ex id="ex78" rid="rid76" equiv-text="&amp;lt;/a&amp;gt;" ctype="x-html-a"/> </target>
+                <source xml:lang="nl">zie de betreffende pagina van de <bx id="bx74" rid="rid73" equiv-text="&amp;lt;a href=&amp;quot;https://www.socialsecurity.be/employer/instructions/dmfa/nl/latest/instructions/fill_in_dmfa/occupationrecord/sector_specific_characteristics/nace_code.html&amp;quot;&amp;gt;"/> administratieve instructies DmfA<ex id="ex75" rid="rid73" equiv-text="&amp;lt;/a&amp;gt;"/> </source>
+                <target xml:lang="de" state="final">siehe die entsprechende Seite in den <bx id="bx77" rid="rid76" equiv-text="&amp;lt;a href=&amp;quot;https://www.socialsecurity.be/employer/instructions/dmfa/nl/latest/instructions/fill_in_dmfa/occupationrecord/sector_specific_characteristics/nace_code.html&amp;quot;&amp;gt;"/> Verwaltungsanweisungen der DmfA<ex id="ex78" rid="rid76" equiv-text="&amp;lt;/a&amp;gt;"/> </target>
               </trans-unit>
             </group>
           </group>
           <group restype="listitem" id="tu79" resname="/html/body/ul[1]/li[5]">
             <trans-unit id="tu80" resname="/html/body/ul[1]/li[5]/text()[1]">
-              <source xml:lang="nl"> <bx id="bx82" rid="rid81" equiv-text="&amp;lt;ins class=&amp;quot;newWord&amp;quot;&amp;gt;" ctype="x-html-ins"/><g id="g83" ctype="x-html-strong">betalingswijze in het onderwijs</g><ex id="ex84" rid="rid81" equiv-text="&amp;lt;/ins&amp;gt;" ctype="x-html-ins"/></source>
+              <source xml:lang="nl"> <bx id="bx82" rid="rid81" equiv-text="&amp;lt;ins class=&amp;quot;newWord&amp;quot;&amp;gt;"/><g id="g83" ctype="x-html-strong">betalingswijze in het onderwijs</g><ex id="ex84" rid="rid81" equiv-text="&amp;lt;/ins&amp;gt;"/></source>
               <target xml:lang="de" state="new"> </target>
             </trans-unit>
             <group restype="x-html-ul" id="tu85" resname="/html/body/ul[1]/li[5]/ul">
               <trans-unit restype="listitem" id="tu86" resname="/html/body/ul[1]/li[5]/ul/li">
-                <source xml:lang="nl"> <bx id="bx88" rid="rid87" equiv-text="&amp;lt;ins class=&amp;quot;newWord&amp;quot;&amp;gt;" ctype="x-html-ins"/>betaling in 10-den of 12-den<ex id="ex89" rid="rid87" equiv-text="&amp;lt;/ins&amp;gt;" ctype="x-html-ins"/> </source>
+                <source xml:lang="nl"> <bx id="bx88" rid="rid87" equiv-text="&amp;lt;ins class=&amp;quot;newWord&amp;quot;&amp;gt;"/>betaling in 10-den of 12-den<ex id="ex89" rid="rid87" equiv-text="&amp;lt;/ins&amp;gt;"/> </source>
                 <target xml:lang="de" state="new"/>
               </trans-unit>
             </group>

@@ -97,7 +97,6 @@ class Extractor extends XliffVersion
         switch ($xliffVersion) {
             case self::XLIFF_1_2:
                 $xliffAttributes = [
-                    'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
                     'xmlns' => 'urn:oasis:names:tc:xliff:document:'.$xliffVersion,
                     'version' => $xliffVersion,
                 ];
@@ -292,9 +291,7 @@ class Extractor extends XliffVersion
                 'xml:lang' => $this->sourceLocale,
             ];
             if ($sourceNode instanceof \DOMElement && !\in_array($sourceNode->nodeName, self::INTERNAL_TAGS)) {
-                $attributes = [
-                    'restype' => static::getRestype($sourceNode->nodeName),
-                ];
+                $attributes['restype'] = static::getRestype($sourceNode->nodeName);
             }
         } else {
             $qualifiedName = 'segment';
@@ -498,6 +495,7 @@ class Extractor extends XliffVersion
         }
 
         $segment = new \DOMElement($qualifiedName);
+        $segment->setAttribute('id', \sprintf('tu%d', $this->nextId++));
         $xliffElement->appendChild($segment);
 
         $source = new \DOMElement('source');

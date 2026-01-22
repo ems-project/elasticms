@@ -5,6 +5,7 @@ services:
             bash -c '
               echo "All done!";
             '
+
     es01:
         image: elasticsearch:${ELK7_STACK_VERSION}
         environment:
@@ -23,6 +24,7 @@ services:
         volumes:
             - elk7_data01:/usr/share/elasticsearch/data
         mem_limit: ${MEM_LIMIT}
+
     es02:
         image: elasticsearch:${ELK7_STACK_VERSION}
         environment:
@@ -41,6 +43,7 @@ services:
         volumes:
             - elk7_data02:/usr/share/elasticsearch/data
         mem_limit: ${MEM_LIMIT}
+
     es03:
         image: elasticsearch:${ELK7_STACK_VERSION}
         environment:
@@ -59,6 +62,7 @@ services:
         volumes:
             - elk7_data03:/usr/share/elasticsearch/data
         mem_limit: ${MEM_LIMIT}
+
     kibana:
         image: kibana:${ELK7_STACK_VERSION}
         environment:

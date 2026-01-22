@@ -6,7 +6,7 @@
         {% set field = f.field|default(filterName) %}
         {% set fieldValue = requestQuery.get(filterName, f.defaultValue|default([])) %}
 
-        {% set current = attribute(filterTerms, field)|default([]) %}
+        {% set current = filterTerms.(field)|default([]) %}
         {% if fieldValue|length > 0 %}
             {% set filterTerms = filterTerms|merge({ (field) : (current|merge(fieldValue)) }) %}
         {% endif %}
@@ -69,7 +69,7 @@
         {% set search = query|emsco_search_query.hits.hits %}
         {% set options = {} %}
         {% for h in search %}
-            {% set options = options|merge({ (attribute(h._source, f.search_field)): ("#{h._source._contenttype}:#{h._id}") })  %}
+            {% set options = options|merge({ (h._source.(f.search_field)): ("#{h._source._contenttype}:#{h._id}") })  %}
         {% endfor %}
 
         {% set filters = filters|merge({ (filterName) : (f|merge({'options': options })) }) %}
@@ -119,7 +119,7 @@
             <form method="GET" id="form-filters">
                 {% for filterName, f in filters %}
                     {% set field = f.field|default(filterName) %}
-                    {% set filterSelection = attribute(filterTerms, field)|default([]) %}
+                    {% set filterSelection = filterTerms.(field)|default([]) %}
                     <div class="form-group col-md-2">
                         <select name="{{ filterName }}[]" title="{{ f.label|default(filterName|capitalize) }}" id="filter-{{ filterName }}" class="selectpicker form-control input-sm" {{ f.multiple|default(true) ? 'multiple' }}>
                             {% for optionsLabel,optionValue in f.options|default([]) %}

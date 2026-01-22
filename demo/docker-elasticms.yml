@@ -32,10 +32,10 @@ services:
             - TRUSTED_HOSTS=localhost,*.localhost
             - APP_SECRET=ThisIsSecret
         volumes:
-            - ./skeleton:/opt/src/local/${INSTANCE_ID:-demo_}preview
-            - ./configs/elasticms-admin:/opt/configs
-            - ./configs/admin:/opt/src/admin
-            - ./configs/document:/opt/src/document
+            - ./configs/admin:/app/src/elasticms/admin
+            - ./configs/document:/app/src/elasticms/document
+            - ./configs/admin:/app/config/elasticms
+            - ./skeleton:/app/src/elasticms/local/${INSTANCE_ID:-demo_}preview
 
     web:
         image: elasticms/website-skeleton:${EMS_VERSION}
@@ -62,10 +62,9 @@ services:
             - EMSCH_ASSET_LOCAL_FOLDER=skeleton
             - VARNISH_ENABLED=true
         volumes:
-            - ./configs/elasticms-web:/opt/configs
-            - ./dist:/opt/src/public/skeleton:ro
-            - ./configs/admin:/opt/src/admin
-            - ./configs/document:/opt/src/document
-            - ./skeleton:/opt/src/local/${INSTANCE_ID:-demo_}ma_preview
-            - ./skeleton:/opt/src/local/${INSTANCE_ID:-demo_}ma_live
-            - ./skeleton:/opt/src/local/skeleton
+            - ./configs/admin:/app/src/elasticms/admin
+            - ./configs/document:/app/src/elasticms/document
+            - ./configs/elasticms-web:/app/config/elasticms
+            - ./dist:/app/src/elasticms/public/skeleton:ro
+            - ./skeleton:/app/src/elasticms/local/${INSTANCE_ID:-demo_}ma_preview
+            - ./skeleton:/app/src/elasticms/local/${INSTANCE_ID:-demo_}ma_live

@@ -4,7 +4,12 @@
 
     {% for filterName, f in filters|default([]) %}
         {% set field = f.field|default(filterName) %}
-        {% set fieldValue = requestQuery.get(filterName, f.defaultValue|default([])) %}
+
+        {%- if f.select|default('multiple') == 'multiple' -%}
+            {% set fieldValue = requestQuery.all(filterName)|default(f.defaultValue|default([])) %}
+        {%- else -%}
+            {% set fieldValue = requestQuery.get(filterName)|default(f.defaultValue) %}
+        {%- endif -%}
 
         {% set current = filterTerms.(field)|default([]) %}
         {% if fieldValue|length > 0 %}

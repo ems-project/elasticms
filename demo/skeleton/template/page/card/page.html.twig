@@ -1,8 +1,8 @@
 {% block card %}
     {{ block('description') }}
     <div class="mt-5">
-        <a href="{{ path('emsch_path', {path: attribute(pathsByUids, target.source.menu).path|default('')}) }}" class="btn btn-outline-primary text-uppercase">
-            {{ attribute(target.source, locale).subtitle|default(attribute(target.source, locale).title) }}
+        <a href="{{ path('emsch_path', {path: pathsByUids.(target.source.menu).path|default('')}) }}" class="btn btn-outline-primary text-uppercase">
+            {{ target.source.(locale).subtitle|default(target.source.(locale).title) }}
         </a>
     </div>
 {% endblock card %}
@@ -10,23 +10,23 @@
 {% block tags %}
     {% for tag in target.source.categories|default([]) %}
         {% set category = tag|emsch_get|default(false) %}
-        {% if category and attribute(category.source, locale).title|default(false) %}
-            <div class="tag">{{ attribute(category.source, locale).title }}</div>
+        {% if category and category.source.(locale).title|default(false) %}
+            <div class="tag">{{ category.source.(locale).title }}</div>
         {% endif %}
     {% endfor %}
 {% endblock tags %}
 
 {% block description %}
-    {% if attribute(target.source, locale).title|default(false) %}
-        <h3 class="h2 news-heading">{{ attribute(target.source, locale).title }}</h3>
+    {% if target.source.(locale).title|default(false) %}
+        <h3 class="h2 news-heading">{{ target.source.(locale).title }}</h3>
     {% endif %}
-    {{ attribute(target.source, locale).description|default('')|emsch_routing }}
+    {{ target.source.(locale).description|default('')|emsch_routing }}
 {% endblock description %}
 
 
 {% block image %}
-    {% if attribute(target.source, locale).image|default(false) %}
-        {%- set imageSrc = ems_asset_path(attribute(target.source, locale).image, {
+    {% if target.source.(locale).image|default(false) %}
+        {%- set imageSrc = ems_asset_path(target.source.(locale).image, {
             _config_type: 'image',
             _width: 490,
             _height: 300,

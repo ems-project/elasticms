@@ -17,21 +17,14 @@ final class Xliff
     private Package $package;
 
     private function __construct(
-        string $sourceLocale,
-        string $targetLocale,
         private readonly WriterRegistry $writers,
         private readonly ReaderRegistry $readers,
         private readonly Options $options,
     ) {
-        $this->package = new Package();
-        $this->package->setLocales($sourceLocale, $targetLocale);
     }
 
-    public static function createDefault(
-        string $sourceLocale,
-        string $targetLocale,
-        ?Options $options = null,
-    ): self {
+    public static function create(?Options $options = null): self
+    {
         $options ??= new Options();
 
         $writers = new WriterRegistry([
@@ -44,7 +37,13 @@ final class Xliff
             new Xliff22Reader(),
         ]);
 
-        return new self($sourceLocale, $targetLocale, $writers, $readers, $options);
+        return new self($writers, $readers, $options);
+    }
+
+    public function init(string $sourceLocale, string $targetLocale): void
+    {
+        $this->package = new Package();
+        $this->package->setLocales($sourceLocale, $targetLocale);
     }
 
     public function getOptions(): Options

@@ -2,14 +2,14 @@
 
 include .env
 
-ELK_VERSION  ?= elk7
-ENVIRONMENT  ?= local
-DOCKER_USER  ?= $(shell id -u)
-PWD					 = $(shell pwd)
-RUN_ADMIN		 = docker compose exec admin-${ENVIRONMENT} ems-demo
-RUN_WEB			 = docker compose exec -u ${DOCKER_USER} web-${ENVIRONMENT} preview
-RUN_POSTGRES = docker compose exec -e PGUSER=postgres -e PGPASSWORD=adminpg -T postgres
-RUN_NPM			 = docker run -u ${DOCKER_USER}:0 --rm -it -v ${PWD}:/opt/src --workdir /opt/src elasticms/base-php:8.1-cli-dev npm
+ELK_VERSION  	?= elk7
+ENVIRONMENT  	?= local
+DOCKER_USER  	?= $(shell id -u)
+PWD				= $(shell pwd)
+RUN_ADMIN		= docker compose exec admin-${ENVIRONMENT} ems-demo
+RUN_WEB			= docker compose exec -u ${DOCKER_USER} web-${ENVIRONMENT} preview
+RUN_POSTGRES 	= docker compose exec -e PGUSER=postgres -e PGPASSWORD=adminpg -T postgres
+RUN_NPM			= docker run -u ${DOCKER_USER}:0 --rm -it -v ${PWD}:/opt/src --workdir /opt/src elasticms/base-php:8.1-cli-dev npm
 
 .DEFAULT_GOAL := help
 .PHONY: help npm
@@ -102,9 +102,9 @@ emsch-push: ## local push
 emsch-pull: ## local pull
 	@$(RUN_WEB) emsch:local:pull
 emsch-assets: ## local upload (bundle.zip)
-	@$(RUN_WEB) emsch:local:upload --filename=/opt/src/local/skeleton/template/asset_hash.twig
+	@$(RUN_WEB) emsch:local:upload-assets --filename=/app/src/elasticms/local/skeleton/template/asset_hash.twig --as-style-set-assets
 emsch-folder-upload: ## upload folder assets
-	@$(RUN_WEB) emsch:local:folder-upload /opt/src/admin/assets
+	@$(RUN_WEB) emsch:local:folder-upload /app/src/elasticms/admin/assets
 backup-configs: ## backup configs
 	@$(RUN_WEB) ems:admin:backup --configs --export
 backup-documents: ## backup documents

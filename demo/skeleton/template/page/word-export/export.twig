@@ -15,7 +15,7 @@
 
 {% set structureNode = false %}
 {% if source._contenttype == 'structure' %}
-    {% set localeStructure = attribute(source, locale).structure|default('{}')|ems_json_menu_decode %}
+    {% set localeStructure = source.(locale).structure|default('{}')|ems_json_menu_decode %}
     {% set break = false %}
     {% for path in source.paths %}
         {% if not break and path.locale == locale and path.target == document %}
@@ -28,6 +28,6 @@
 {% set page = document|emsch_get %}
 
 {% block title %}
-    {{- attribute(page.source, locale).title|default('error.page-not-found'|trans) -}}
+    {{- page.source.(locale).title|default('error.page-not-found'|trans) -}}
 {% endblock %}
 

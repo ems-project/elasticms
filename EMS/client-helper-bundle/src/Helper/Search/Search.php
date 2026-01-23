@@ -101,17 +101,17 @@ final class Search
 
     private function bindRequest(Request $request): void
     {
-        $this->queryString = $request->query->get('q', $request->get('q', $this->queryString));
-        $requestFacets = $request->query->all()['f'] ?? $request->get('f', null);
+        $this->queryString = $request->query->get('q', $request->query->get('q', $this->queryString));
+        $requestFacets = $request->query->all()['f'] ?? $request->query->get('f', null);
 
         if (\is_array($requestFacets)) {
             $this->queryFacets = $requestFacets;
         }
 
-        $this->page = (int) $request->query->get('p', $request->get('p', $this->page));
-        $this->setSize((int) $request->query->get('l', $request->get('l', $this->size)));
-        $this->setSortBy($request->query->get('s', $request->get('s')));
-        $this->setSortOrder($request->query->all()['o'] ?? $request->get('o', $this->sortOrder));
+        $this->page = (int) $request->query->get('p', $request->attributes->get('p', $this->page));
+        $this->setSize((int) $request->query->get('l', $request->attributes->get('l', $this->size)));
+        $this->setSortBy($request->query->get('s', $request->attributes->get('s')));
+        $this->setSortOrder($request->query->get('o') ?? $request->attributes->get('o', $this->sortOrder));
 
         if (null !== $this->indexRegex) {
             $requestSearchIndex = RequestHelper::replace($request, $this->indexRegex);
@@ -328,7 +328,7 @@ final class Search
      */
     private function getOptions(Request $request, ClientRequest $clientRequest): array
     {
-        if ($requestSearchConfig = $request->get('search_config')) {
+        if ($requestSearchConfig = $request->attributes->get('search_config')) {
             if (\is_array($requestSearchConfig)) {
                 return $requestSearchConfig;
             }

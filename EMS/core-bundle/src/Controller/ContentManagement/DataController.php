@@ -311,7 +311,7 @@ class DataController extends AbstractController
 
         return $this->redirectToRoute(Routes::EDIT_REVISION, [
             'revisionId' => $this->dataService->initNewDraft($type, $ouuid)->getId(),
-            'item' => $request->get('item'),
+            'item' => $request->query->get('item'),
         ]);
     }
 
@@ -649,8 +649,7 @@ class DataController extends AbstractController
 
     public function duplicateWithJsonContent(ContentType $contentType, string $ouuid, Request $request): RedirectResponse
     {
-        $content = $request->get('JSON_BODY');
-        $jsonContent = Json::decode((string) $content);
+        $jsonContent = Json::decode($request->request->getString('JSON_BODY', '{}'));
         $jsonContent = \array_merge($this->dataService->getNewestRevision($contentType->getName(), $ouuid)->getRawData(), $jsonContent);
 
         return $this->intNewDocumentFromArray($contentType, $jsonContent);
@@ -659,8 +658,7 @@ class DataController extends AbstractController
     public function addFromJsonContent(ContentType $contentType, Request $request): RedirectResponse
     {
         try {
-            $content = $request->get('JSON_BODY');
-            $jsonContent = Json::decode((string) $content);
+            $jsonContent = Json::decode($request->request->getString('JSON_BODY', '{}'));
         } catch (\Throwable) {
             $this->logger->error('log.data.revision.add_from_json_error', [
                 EmsFields::LOG_CONTENTTYPE_FIELD => $contentType->getName(),

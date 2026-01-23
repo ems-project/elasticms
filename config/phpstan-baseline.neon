@@ -1,13 +1,5 @@
 parameters:
 	ignoreErrors:
-		-
-			message: '''
-				#^Call to deprecated method get\(\) of class Symfony\\Component\\HttpFoundation\\Request\:
-				since Symfony 7\.4, use properties `\-\>attributes`, `query` or `request` directly instead$#
-			'''
-			identifier: method.deprecated
-			count: 2
-			path: ../EMS/client-helper-bundle/src/Controller/ElasticsearchController.php
 
 		-
 			message: '''
@@ -45,14 +37,6 @@ parameters:
 			count: 1
 			path: ../EMS/client-helper-bundle/src/DependencyInjection/EMSClientHelperExtension.php
 
-		-
-			message: '''
-				#^Call to deprecated method get\(\) of class Symfony\\Component\\HttpFoundation\\Request\:
-				since Symfony 7\.4, use properties `\-\>attributes`, `query` or `request` directly instead$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: ../EMS/client-helper-bundle/src/Helper/Environment/EnvironmentHelper.php
 
 		-
 			message: '#^Parameter \$max of class Symfony\\Component\\Validator\\Constraints\\Length constructor expects int\<1, max\>\|null, int\|null given\.$#'
@@ -72,14 +56,6 @@ parameters:
 			count: 1
 			path: ../EMS/client-helper-bundle/src/Helper/Form/EmschFormType.php
 
-		-
-			message: '''
-				#^Call to deprecated method get\(\) of class Symfony\\Component\\HttpFoundation\\Request\:
-				since Symfony 7\.4, use properties `\-\>attributes`, `query` or `request` directly instead$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: ../EMS/client-helper-bundle/src/Helper/Request/RequestHelper.php
 
 		-
 			message: '''
@@ -99,23 +75,6 @@ parameters:
 			count: 1
 			path: ../EMS/client-helper-bundle/src/Helper/Routing/RoutingBuilder.php
 
-		-
-			message: '''
-				#^Call to deprecated method get\(\) of class Symfony\\Component\\HttpFoundation\\Request\:
-				since Symfony 7\.4, use properties `\-\>attributes`, `query` or `request` directly instead$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: ../EMS/client-helper-bundle/src/Helper/Search/Filter.php
-
-		-
-			message: '''
-				#^Call to deprecated method get\(\) of class Symfony\\Component\\HttpFoundation\\Request\:
-				since Symfony 7\.4, use properties `\-\>attributes`, `query` or `request` directly instead$#
-			'''
-			identifier: method.deprecated
-			count: 7
-			path: ../EMS/client-helper-bundle/src/Helper/Search/Search.php
 
 		-
 			message: '#^Parameter \#1 \$name of method EMS\\ClientHelperBundle\\Helper\\Search\\Search\:\:setSortBy\(\) expects string\|null, bool\|float\|int\|string\|null given\.$#'
@@ -130,34 +89,10 @@ parameters:
 			path: ../EMS/client-helper-bundle/src/Helper/Search/Search.php
 
 		-
-			message: '#^Property EMS\\ClientHelperBundle\\Helper\\Search\\Search\:\:\$queryString \(string\|null\) does not accept bool\|float\|int\|string\|null\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: ../EMS/client-helper-bundle/src/Helper/Search/Search.php
-
-		-
 			message: '#^Unable to resolve the template type TDefault in call to method Symfony\\Component\\HttpFoundation\\InputBag\<string\>\:\:get\(\)$#'
 			identifier: argument.templateType
-			count: 4
+			count: 3
 			path: ../EMS/client-helper-bundle/src/Helper/Search/Search.php
-
-		-
-			message: '''
-				#^Call to deprecated method get\(\) of class Symfony\\Component\\HttpFoundation\\Request\:
-				since Symfony 7\.4, use properties `\-\>attributes`, `query` or `request` directly instead$#
-			'''
-			identifier: method.deprecated
-			count: 2
-			path: ../EMS/client-helper-bundle/src/Helper/UserApi/AuthService.php
-
-		-
-			message: '''
-				#^Call to deprecated method get\(\) of class Symfony\\Component\\HttpFoundation\\Request\:
-				since Symfony 7\.4, use properties `\-\>attributes`, `query` or `request` directly instead$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: ../EMS/client-helper-bundle/src/Security/CoreApi/CoreApiAuthenticator.php
 
 		-
 			message: '#^Method EMS\\ClientHelperBundle\\Security\\CoreApi\\User\\CoreApiUser\:\:getUserIdentifier\(\) should return non\-empty\-string but returns string\.$#'
@@ -166,28 +101,10 @@ parameters:
 			path: ../EMS/client-helper-bundle/src/Security/CoreApi/User/CoreApiUser.php
 
 		-
-			message: '''
-				#^Call to deprecated method get\(\) of class Symfony\\Component\\HttpFoundation\\Request\:
-				since Symfony 7\.4, use properties `\-\>attributes`, `query` or `request` directly instead$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: ../EMS/client-helper-bundle/src/Security/Sso/OAuth2/Provider/AbstractOAuth2Provider.php
-
-		-
 			message: '#^Method EMS\\ClientHelperBundle\\Security\\Sso\\User\\SsoUser\:\:getUserIdentifier\(\) should return non\-empty\-string but returns string\.$#'
 			identifier: return.type
 			count: 1
 			path: ../EMS/client-helper-bundle/src/Security/Sso/User/SsoUser.php
-
-		-
-			message: '''
-				#^Call to deprecated method get\(\) of class Symfony\\Component\\HttpFoundation\\Request\:
-				since Symfony 7\.4, use properties `\-\>attributes`, `query` or `request` directly instead$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: ../EMS/common-bundle/src/Common/Metric/MetricEventListener.php
 
 		-
 			message: '''
@@ -241,37 +158,10 @@ parameters:
 			path: ../EMS/core-bundle/src/Controller/Api/File/ExtractDataController.php
 
 		-
-			message: '''
-				#^Call to deprecated method get\(\) of class Symfony\\Component\\HttpFoundation\\Request\:
-				since Symfony 7\.4, use properties `\-\>attributes`, `query` or `request` directly instead$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: ../EMS/core-bundle/src/Controller/Api/Form/VerificationController.php
-
-		-
-			message: '''
-				#^Call to deprecated method get\(\) of class Symfony\\Component\\HttpFoundation\\Request\:
-				since Symfony 7\.4, use properties `\-\>attributes`, `query` or `request` directly instead$#
-			'''
-			identifier: method.deprecated
-			count: 5
-			path: ../EMS/core-bundle/src/Controller/Component/MediaLibraryController.php
-
-		-
 			message: '#^Call to deprecated method isValidName\(\) of class EMS\\CoreBundle\\Controller\\ContentManagement\\ContentTypeController\.$#'
 			identifier: staticMethod.deprecated
 			count: 2
 			path: ../EMS/core-bundle/src/Controller/ContentManagement/ContentTypeController.php
-
-		-
-			message: '''
-				#^Call to deprecated method get\(\) of class Symfony\\Component\\HttpFoundation\\Request\:
-				since Symfony 7\.4, use properties `\-\>attributes`, `query` or `request` directly instead$#
-			'''
-			identifier: method.deprecated
-			count: 3
-			path: ../EMS/core-bundle/src/Controller/ContentManagement/DataController.php
 
 		-
 			message: '#^Instanceof between Symfony\\Component\\Form\\FormError and Symfony\\Component\\Form\\FormError will always evaluate to true\.$#'
@@ -286,15 +176,6 @@ parameters:
 			path: ../EMS/core-bundle/src/Controller/ContentManagement/DataController.php
 
 		-
-			message: '''
-				#^Call to deprecated method get\(\) of class Symfony\\Component\\HttpFoundation\\Request\:
-				since Symfony 7\.4, use properties `\-\>attributes`, `query` or `request` directly instead$#
-			'''
-			identifier: method.deprecated
-			count: 2
-			path: ../EMS/core-bundle/src/Controller/ContentManagement/FileController.php
-
-		-
 			message: '#^Call to deprecated method generateSearchBody\(\) of class EMS\\CoreBundle\\Service\\SearchService\.$#'
 			identifier: method.deprecated
 			count: 2
@@ -305,33 +186,6 @@ parameters:
 			identifier: offsetAccess.invalidOffset
 			count: 1
 			path: ../EMS/core-bundle/src/Controller/ElasticsearchController.php
-
-		-
-			message: '''
-				#^Call to deprecated method get\(\) of class Symfony\\Component\\HttpFoundation\\Request\:
-				since Symfony 7\.4, use properties `\-\>attributes`, `query` or `request` directly instead$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: ../EMS/core-bundle/src/Controller/Form/SubmissionController.php
-
-		-
-			message: '''
-				#^Call to deprecated method get\(\) of class Symfony\\Component\\HttpFoundation\\Request\:
-				since Symfony 7\.4, use properties `\-\>attributes`, `query` or `request` directly instead$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: ../EMS/core-bundle/src/Controller/Revision/JsonMenuNestedController.php
-
-		-
-			message: '''
-				#^Call to deprecated method get\(\) of class Symfony\\Component\\HttpFoundation\\Request\:
-				since Symfony 7\.4, use properties `\-\>attributes`, `query` or `request` directly instead$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: ../EMS/core-bundle/src/Controller/Revision/TaskController.php
 
 		-
 			message: '#^Call to deprecated method deprecatedSearchApi\(\) of class EMS\\CoreBundle\\Controller\\ElasticsearchController\.$#'
@@ -365,15 +219,6 @@ parameters:
 			identifier: offsetAccess.invalidOffset
 			count: 1
 			path: ../EMS/core-bundle/src/Controller/Wysiwyg/ModalController.php
-
-		-
-			message: '''
-				#^Call to deprecated method get\(\) of class Symfony\\Component\\HttpFoundation\\Request\:
-				since Symfony 7\.4, use properties `\-\>attributes`, `query` or `request` directly instead$#
-			'''
-			identifier: method.deprecated
-			count: 3
-			path: ../EMS/core-bundle/src/Controller/Wysiwyg/StylesetController.php
 
 		-
 			message: '#^Possibly invalid array key type string\|null\.$#'
@@ -422,15 +267,6 @@ parameters:
 			identifier: offsetAccess.invalidOffset
 			count: 1
 			path: ../EMS/core-bundle/src/Core/Dashboard/DashboardOptions.php
-
-		-
-			message: '''
-				#^Call to deprecated method get\(\) of class Symfony\\Component\\HttpFoundation\\Request\:
-				since Symfony 7\.4, use properties `\-\>attributes`, `query` or `request` directly instead$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: ../EMS/core-bundle/src/Core/Dashboard/Services/RevisionTask.php
 
 		-
 			message: '''
@@ -493,15 +329,6 @@ parameters:
 			path: ../EMS/core-bundle/src/Entity/User.php
 
 		-
-			message: '''
-				#^Call to deprecated method get\(\) of class Symfony\\Component\\HttpFoundation\\Request\:
-				since Symfony 7\.4, use properties `\-\>attributes`, `query` or `request` directly instead$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: ../EMS/core-bundle/src/EventListener/RequestListener.php
-
-		-
 			message: '#^Call to deprecated method updateDataValue\(\) of class EMS\\CoreBundle\\Entity\\DataField\.$#'
 			identifier: method.deprecated
 			count: 1
@@ -526,15 +353,6 @@ parameters:
 			path: ../EMS/core-bundle/src/Form/DataTransformer/FormModelTransformer.php
 
 		-
-			message: '''
-				#^Call to deprecated method get\(\) of class Symfony\\Component\\HttpFoundation\\Request\:
-				since Symfony 7\.4, use properties `\-\>attributes`, `query` or `request` directly instead$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: ../EMS/core-bundle/src/Form/Form/TableType.php
-
-		-
 			message: '#^Parameter \#2 \$type of method Symfony\\Component\\Form\\FormBuilderInterface\<mixed\>\:\:add\(\) expects class\-string\<Symfony\\Component\\Form\\FormTypeInterface\>\|null, string given\.$#'
 			identifier: argument.type
 			count: 1
@@ -557,15 +375,6 @@ parameters:
 			identifier: method.deprecated
 			count: 3
 			path: ../EMS/core-bundle/src/Form/View/Criteria/CriteriaFilterType.php
-
-		-
-			message: '''
-				#^Call to deprecated method get\(\) of class Symfony\\Component\\HttpFoundation\\Request\:
-				since Symfony 7\.4, use properties `\-\>attributes`, `query` or `request` directly instead$#
-			'''
-			identifier: method.deprecated
-			count: 6
-			path: ../EMS/core-bundle/src/Helper/DataTableRequest.php
 
 		-
 			message: '#^Possibly invalid array key type string\|null\.$#'
@@ -653,15 +462,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method get\(\) of class Symfony\\Component\\HttpFoundation\\Request\:
-				since Symfony 7\.4, use properties `\-\>attributes`, `query` or `request` directly instead$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: ../EMS/form-bundle/src/Security/Guard.php
-
-		-
-			message: '''
 				#^Call to method load\(\) of deprecated class Symfony\\Component\\DependencyInjection\\Loader\\XmlFileLoader\:
 				since Symfony 7\.4, use another loader instead$#
 			'''
@@ -677,15 +477,6 @@ parameters:
 			identifier: new.deprecatedClass
 			count: 1
 			path: ../EMS/submission-bundle/src/DependencyInjection/EMSSubmissionExtension.php
-
-		-
-			message: '''
-				#^Call to deprecated method get\(\) of class Symfony\\Component\\HttpFoundation\\Request\:
-				since Symfony 7\.4, use properties `\-\>attributes`, `query` or `request` directly instead$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: ../EMS/submission-bundle/src/EventSubscriber/FormSubmissionRequestSubscriber.php
 
 		-
 			message: '#^Property Build\\Release\\Command\\ChangelogCommand\:\:\$defaultName has no type specified\.$#'

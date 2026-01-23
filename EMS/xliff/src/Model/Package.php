@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\Xliff\Model;
 
+use EMS\Helpers\Standard\Locale;
+
 final class Package
 {
     /** @var Document[] */
@@ -17,8 +19,8 @@ final class Package
 
     public function setLocales(string $sourceLocale, string $targetLocale): void
     {
-        $this->sourceLocale = $sourceLocale;
-        $this->targetLocale = $targetLocale;
+        $this->sourceLocale = Locale::normalize($sourceLocale);
+        $this->targetLocale = Locale::normalize($targetLocale);
     }
 
     public function addDocument(string $id): Document

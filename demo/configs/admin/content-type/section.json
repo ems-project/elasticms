@@ -107,7 +107,7 @@
                                 "extraOptions": {
                                     "extra": null,
                                     "clear_on_copy": false,
-                                    "postProcessing": "{{ block(\"section_menu\", \"@EMSCH/template_ems/content_type/post_processing.twig\") }}"
+                                    "postProcessing": "{{ block('section_menu', '@EMSCH/template_ems/content_type/post_processing.twig') }}"
                                 },
                                 "raw_data": [],
                                 "migrationOptions": {
@@ -196,47 +196,6 @@
                                                 "class": "EMS\\CoreBundle\\Entity\\FieldType",
                                                 "arguments": [],
                                                 "properties": {
-                                                    "type": "EMS\\CoreBundle\\Form\\DataField\\TextStringFieldType",
-                                                    "name": "label",
-                                                    "contentType": null,
-                                                    "deleted": false,
-                                                    "description": null,
-                                                    "options": {
-                                                        "displayOptions": {
-                                                            "label": "Label",
-                                                            "class": "col-md-12",
-                                                            "lastOfRow": false,
-                                                            "helptext": null,
-                                                            "prefixIcon": null,
-                                                            "prefixText": null,
-                                                            "suffixIcon": null,
-                                                            "suffixText": null,
-                                                            "placeholder": null,
-                                                            "icon": null
-                                                        },
-                                                        "restrictionOptions": {
-                                                            "mandatory": false,
-                                                            "mandatory_if": null,
-                                                            "minimum_role": null
-                                                        },
-                                                        "migrationOptions": {
-                                                            "protected": false
-                                                        },
-                                                        "extraOptions": {
-                                                            "extra": null,
-                                                            "clear_on_copy": false,
-                                                            "postProcessing": null
-                                                        }
-                                                    },
-                                                    "orderKey": 0,
-                                                    "children": []
-                                                },
-                                                "replaced": []
-                                            },
-                                            {
-                                                "class": "EMS\\CoreBundle\\Entity\\FieldType",
-                                                "arguments": [],
-                                                "properties": {
                                                     "type": "EMS\\CoreBundle\\Form\\DataField\\FormFieldType",
                                                     "name": "menu_entries",
                                                     "contentType": null,
@@ -299,49 +258,6 @@
                                         },
                                         "orderKey": 1,
                                         "children": [
-                                            {
-                                                "class": "EMS\\CoreBundle\\Entity\\FieldType",
-                                                "arguments": [],
-                                                "properties": {
-                                                    "type": "EMS\\CoreBundle\\Form\\DataField\\TextStringFieldType",
-                                                    "name": "label",
-                                                    "contentType": null,
-                                                    "deleted": false,
-                                                    "description": null,
-                                                    "options": {
-                                                        "displayOptions": {
-                                                            "label": "Label",
-                                                            "class": "col-md-12",
-                                                            "lastOfRow": false,
-                                                            "helptext": null,
-                                                            "prefixIcon": null,
-                                                            "prefixText": null,
-                                                            "suffixIcon": null,
-                                                            "suffixText": null,
-                                                            "placeholder": null,
-                                                            "icon": null
-                                                        },
-                                                        "mappingOptions": [],
-                                                        "restrictionOptions": {
-                                                            "mandatory": false,
-                                                            "mandatory_if": null,
-                                                            "minimum_role": null
-                                                        },
-                                                        "extraOptions": {
-                                                            "extra": null,
-                                                            "clear_on_copy": false,
-                                                            "postProcessing": null
-                                                        },
-                                                        "raw_data": [],
-                                                        "migrationOptions": {
-                                                            "protected": false
-                                                        }
-                                                    },
-                                                    "orderKey": 0,
-                                                    "children": []
-                                                },
-                                                "replaced": []
-                                            },
                                             {
                                                 "class": "EMS\\CoreBundle\\Entity\\FieldType",
                                                 "arguments": [],
@@ -432,9 +348,9 @@
                                     "class": "col-md-12",
                                     "lastOfRow": false,
                                     "helptext": "Computed field, will contains all generated path for this section",
-                                    "valueTemplate": "{{- block(\"ems_value\", \"@EMSCH/template_ems/content_type/compute_paths.twig\") -}}",
+                                    "valueTemplate": "{{- block('ems_value', '@EMSCH/template_ems/content_type/compute_paths.twig') -}}",
                                     "json": true,
-                                    "displayTemplate": "{{- block(\"ems_display\", \"@EMSCH/template_ems/content_type/compute_paths.twig\") -}}"
+                                    "displayTemplate": "{{- block('ems_display', '@EMSCH/template_ems/content_type/compute_paths.twig') -}}"
                                 },
                                 "mappingOptions": {
                                     "mappingOptions": "{\r\n  \"type\": \"nested\",\r\n  \"properties\": {\r\n    \"uid\": {\r\n      \"type\": \"keyword\"\r\n    },\r\n    \"path\": {\r\n      \"type\": \"keyword\"\r\n    },\r\n    \"locale\": {\r\n      \"type\": \"keyword\"\r\n    }\r\n  }\r\n}",
@@ -444,7 +360,7 @@
                                 "extraOptions": {
                                     "extra": null,
                                     "clear_on_copy": false,
-                                    "postProcessing": "{{- block(\"ems_post_processing\", \"@EMSCH/template_ems/content_type/compute_paths.twig\") -}}"
+                                    "postProcessing": "{{- block('ems_post_processing', '@EMSCH/template_ems/content_type/compute_paths.twig') -}}"
                                 },
                                 "raw_data": []
                             },
@@ -547,9 +463,9 @@
                     "options": {
                         "body": "{}",
                         "size": 0,
-                        "template": "{{ block(\"template\", \"@EMSCH/template_ems/view/overview.twig\") }}",
-                        "header": "{{ block(\"css\", \"@EMSCH/template_ems/view/overview.twig\") }}",
-                        "javascript": "{{ block(\"javascript\", \"@EMSCH/template_ems/view/overview.twig\") }}"
+                        "template": "{{ block('template', '@EMSCH/template_ems/view/overview.twig') }}",
+                        "header": "{{ block('css', '@EMSCH/template_ems/view/overview.twig') }}",
+                        "javascript": "{{ block('javascript', '@EMSCH/template_ems/view/overview.twig') }}"
                     },
                     "orderKey": 1,
                     "public": false,
@@ -616,7 +532,9 @@
         "settings": {
             "tasks_enabled": false,
             "tasks_titles": [],
-            "hide_revision_sidebar": false
+            "tasks_helptexts": [],
+            "hide_revision_sidebar": false,
+            "recompute_on_publish": false
         }
     },
     "replaced": []

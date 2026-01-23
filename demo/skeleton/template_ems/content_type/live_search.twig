@@ -23,8 +23,8 @@
         {% set textes = textes|merge([_source.label]) %}
     {% endif %}
     {% for locale in locales %}
-        {% if attribute(_source, locale).title is defined %}
-            {% set textes = textes|merge([attribute(_source, locale).title]) %}
+        {% if _source.(locale).title is defined %}
+            {% set textes = textes|merge([_source.(locale).title]) %}
         {% endif %}
     {% endfor %}
     {{ textes|json_encode|raw }}

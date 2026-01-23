@@ -11,9 +11,9 @@
                 <dd>{{ usergroup.date|date('j %F% Y - H:i')|replace(monthsTrans|default({})) }}</dd>
                 <dt>{{ 'usergroup.team-meeting'|trans }}</dt>
                 <dd>{{ usergroup.duration }}</dd>
-                {% if attribute(usergroup, locale).body is defined %}
+                {% if usergroup.(locale).body is defined %}
                     <dt>{{ 'usergroup.topic'|trans }}</dt>
-                    <dd>{{ attribute(usergroup, locale).body|emsch_routing }}</dd>
+                    <dd>{{ usergroup.(locale).body|emsch_routing }}</dd>
                 {% endif %}
             </dl>
             <hr>

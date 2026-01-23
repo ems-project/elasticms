@@ -121,7 +121,7 @@
 
 {%- block jmn_button_item_add -%}
     <button class="jmn-btn-add dropdown-item" data-add="{{ addNode.id }}" data-modal-size="{{- buttonModalSize|default('md') -}}">
-        {% if addNode.icon %}<i class="{{ addNode.icon }}"></i>{% endif %}
+        {% if addNode.icon %}<i class="{{ addNode.icon }} me-2"></i>{% endif %}
         {{- buttonLabel|default("New #{addNode.label}") -}}
     </button>
 {%- endblock jmn_button_item_add -%}

@@ -62,9 +62,10 @@
         {% if preloader|default(false) %}
             {{ include('@EMSAdminUI/bootstrap5/elements/preloader.html.twig') }}
         {% endif %}
-        {{ include('@EMSAdminUI/bootstrap5/elements/topbar.html.twig') }}
         {{ include('@EMSAdminUI/bootstrap5/elements/sidenav.html.twig') }}
-        <div class="content-wrapper">
+        <div class="main">
+            {{ include('@EMSAdminUI/bootstrap5/elements/topbar.html.twig') }}
+        </div>
             {{ include('@EMSAdminUI/bootstrap5/elements/toasts.html.twig') }}
             <div class="content-header">
                 <div class="container-fluid">

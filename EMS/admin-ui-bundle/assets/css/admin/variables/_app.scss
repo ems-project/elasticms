@@ -259,30 +259,23 @@ $sidebar-header-color: $gray-400 !default;
 $sidebar-link-padding: .625rem 1.625rem !default;
 $sidebar-link-font-weight: 400 !default;
 $sidebar-link-bg: #222E3C !default;
-$sidebar-link-color: rgba($gray-200, 0.5) !default;
+$sidebar-link-color: #{rgba($gray-200, 0.75)};
 $sidebar-link-border-left-color: transparent !default;
 
 $sidebar-link-hover-font-weight: $font-weight-normal !default;
 $sidebar-link-hover-bg: #222E3C !default;
-$sidebar-link-hover-color: #{rgba($gray-200, 0.75)} !default;
+$sidebar-link-hover-color: #fff !default;
 $sidebar-link-hover-border-left-color: transparent !default;
 
 $sidebar-link-active-font-weight: $font-weight-normal !default;
 $sidebar-link-active-bg: #{linear-gradient(90deg, rgba($primary,0.1) 0%, rgba($primary,0.0875) 50%, rgba($black, 0) 100%)} !default;
-$sidebar-link-active-color: $gray-200 !default;
+$sidebar-link-active-color: #fff !default;
 $sidebar-link-active-border-left-color: $primary !default;
 
 // Sidebar link icon
-$sidebar-link-icon-color: #{rgba($gray-200, 0.5)} !default;
-$sidebar-link-icon-hover-color: #{rgba($gray-200, 0.75)} !default;
-$sidebar-link-icon-active-color: $gray-200 !default;
-
-// Sidebar bottom
-$sidebar-cta-color: $gray-200 !default;
-$sidebar-cta-bg: #2B3947 !default;
-$sidebar-cta-padding: $spacer*1.5 !default;
-$sidebar-cta-margin: $spacer*1.75 !default;
-$sidebar-cta-border-radius: $border-radius-lg !default;
+$sidebar-link-icon-color: #{rgba($gray-200, 0.75)} !default;
+$sidebar-link-icon-hover-color: #fff !default;
+$sidebar-link-icon-active-color: #fff !default;
 
 // Transitions
 $transition-appearance: background .4s ease-in-out, color .4s ease-in-out !default;

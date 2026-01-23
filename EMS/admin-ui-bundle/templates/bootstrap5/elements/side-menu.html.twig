@@ -1,52 +1,50 @@
 {%- trans_default_domain 'elements' -%}
 
-<div class="user-panel mt-3 pb-3 mb-3 d-flex">
-    <div class="image">
-        {{ include('@EMSAdminUI/bootstrap5/elements/user-image.html.twig', {
-            class: 'img-circle elevation-2',
-        }) }}
-    </div>
-    <div class="info">
-        {% if app.user %}
-            <a href="{{ path(routes.USER_PROFILE) }}" class="d-block">{{ app.user.displayName }}</a>
-        {% else %}
-            {{ 'side_menu.anonymous-user'|trans }}
-        {% endif %}
-    </div>
-    {% if status is defined %}
-        {% set statusTitle = 'cluster.status'|trans({color: status}, 'emsco-core') %}
-        <a href="{{ path('elasticsearch.status') }}" id="status-overview" class="position-absolute top-0 end-0" title="{{ statusTitle }}">
-            {%- with {
-                title: statusTitle,
-                status: status,
-            } -%}
-                {{ block('status', '@EMSAdminUI/bootstrap5/elasticsearch/status.html.twig') }}
-            {%- endwith -%}
-        </a>
-    {% endif %}
-</div>
+{#<div class="user-panel mt-3 pb-3 mb-3 d-flex">#}
+{#    <div class="image">#}
+{#        {{ include('@EMSAdminUI/bootstrap5/elements/user-image.html.twig', {#}
+{#            class: 'img-circle elevation-2',#}
+{#        }) }}#}
+{#    </div>#}
+{#    <div class="info">#}
+{#        {% if app.user %}#}
+{#            <a href="{{ path(routes.USER_PROFILE) }}" class="d-block">{{ app.user.displayName }}</a>#}
+{#        {% else %}#}
+{#            {{ 'side_menu.anonymous-user'|trans }}#}
+{#        {% endif %}#}
+{#    </div>#}
+{#    {% if status is defined %}#}
+{#        {% set statusTitle = 'cluster.status'|trans({color: status}, 'emsco-core') %}#}
+{#        <a href="{{ path('elasticsearch.status') }}" id="status-overview" class="position-absolute top-0 end-0" title="{{ statusTitle }}">#}
+{#            {%- with {#}
+{#                title: statusTitle,#}
+{#                status: status,#}
+{#            } -%}#}
+{#                {{ block('status', '@EMSAdminUI/bootstrap5/elasticsearch/status.html.twig') }}#}
+{#            {%- endwith -%}#}
+{#        </a>#}
+{#    {% endif %}#}
+{#</div>#}
 
-{% if app.user %}
-    <div class="form-inline">
-        <div class="input-group" data-widget="sidebar-search">
-            <input class="form-control form-control-sidebar" type="search" placeholder="{{ 'side-menu.quick-search.placeholder'|trans }}" aria-label="{{ 'side-menu.quick-search.label'|trans }}">
-            <div class="input-group-append">
-                <button class="btn btn-sidebar">
-                    <i class="fas fa-search fa-fw"></i>
-                    <span class="visually-hidden">{{ 'side-menu.search.btn'|trans }}</span>
-                </button>
-            </div>
-        </div>
-    </div>
-{% endif %}
+{#{% if app.user %}#}
+{#    <div class="form-inline">#}
+{#        <div class="input-group" data-widget="sidebar-search">#}
+{#            <input class="form-control form-control-sidebar" type="search" placeholder="{{ 'side-menu.quick-search.placeholder'|trans }}" aria-label="{{ 'side-menu.quick-search.label'|trans }}">#}
+{#            <div class="input-group-append">#}
+{#                <button class="btn btn-sidebar">#}
+{#                    <i class="fas fa-search fa-fw"></i>#}
+{#                    <span class="visually-hidden">{{ 'side-menu.search.btn'|trans }}</span>#}
+{#                </button>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#{% endif %}#}
 
-<nav class="mt-2">
-    <ul class="nav nav-pills nav-sidebar nav-child-indent flex-column" data-widget="treeview" role="menu" data-accordion="false">
-        {% for item in menu|default([])|filter(p => p.hasChildren) %}
-            <li class="nav-header">{{ item.title|trans(item.transParameters, 'emsco-twigs') }}</li>
-            {% for menu in item.children %}
-                {{ block('sidebarMenu', '@EMSAdminUI/bootstrap5/elements/menu.html.twig') }}
-            {% endfor %}
+<ul class="sidebar-nav">
+    {% for item in menu|default([])|filter(p => p.hasChildren) %}
+        <li class="sidebar-header">{{ item.title|trans(item.transParameters, 'emsco-twigs') }}</li>
+        {% for menu in item.children %}
+            {{ block('sidebarMenu', '@EMSAdminUI/bootstrap5/elements/menu.html.twig') }}
         {% endfor %}
-    </ul>
-</nav>
+    {% endfor %}
+</ul>

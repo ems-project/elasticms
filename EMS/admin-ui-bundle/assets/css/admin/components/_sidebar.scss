@@ -136,12 +136,32 @@ a.sidebar-link {
   z-index: 1;
 }
 
-// Sidebar bottom
-.sidebar-cta-content {
-  padding: $sidebar-cta-padding;
-  margin: $sidebar-cta-margin;
-  border-radius: $sidebar-cta-border-radius;
+[data-bs-toggle=collapse] .sidebar-badge {
+  right: 37px;
+}
 
-  background: $sidebar-cta-bg;
-  color: $sidebar-cta-color;
+.sidebar [data-bs-toggle=collapse]:after {
+  border: solid;
+  border-width: 0 .075rem .075rem 0;
+  content: " ";
+  display: inline-block;
+  padding: 2px;
+  position: absolute;
+  right: 1.5rem;
+  top: 1.2rem;
+  transform: rotate(45deg);
+  transition: all .2s ease-out
+}
+
+.sidebar [aria-expanded=true]:after, .sidebar [data-bs-toggle=collapse]:not(.collapsed):after {
+  top: 1.4rem;
+  transform: rotate(-135deg);
+}
+
+.sidebar-dropdown .sidebar-link {
+  background: transparent;
+  border-left: 0;
+  font-size: 90%;
+  font-weight: 400;
+  padding: .625rem 1.5rem .625rem 3.25rem;
 }

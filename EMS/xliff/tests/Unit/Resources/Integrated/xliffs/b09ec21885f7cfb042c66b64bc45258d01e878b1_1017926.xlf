@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2">
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file source-language="nl" original="content_type:b09ec21885f7cfb042c66b64bc45258d01e878b1:1017926" datatype="database" target-language="de">
     <body>
       <trans-unit id="tu1" resname="[title]">
@@ -10,12 +10,7 @@
         <source xml:lang="nl">De structurele vermindering</source>
         <target xml:lang="de" state="final">Strukturelle Ermäßigung</target>
       </trans-unit>
-      <group resname="[introduction]" id="grp3">
-        <trans-unit>
-          <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
-        </trans-unit>
-      </group>
+      <group resname="[introduction]" id="grp3"/>
       <group resname="[description]" id="grp4">
         <trans-unit restype="x-html-h2" id="tu5" resname="/html/body/h2[1]">
           <source xml:lang="nl"> Betrokken werkgevers </source>

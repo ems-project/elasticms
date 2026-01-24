@@ -2,11 +2,11 @@
 {% trans_default_domain trans_default_domain %}
 
 {% block dropdownSubmenu %}
-    {% if attribute(link.object, locale).title is defined %}
+    {% if link.object.(locale).title is defined %}
         <li class="dropdown-submenu">
-            <a class="dropdown-item dropdown-toggle" href="{{ attribute(urls, link.id) is defined ? attribute(urls, link.id) : '#' }}">{{ attribute(link.object, locale).title }}</a>
+            <a class="dropdown-item dropdown-toggle" href="{{ urls.(link.id) is defined ? urls.(link.id) : '#' }}">{{ link.object.(locale).title }}</a>
             <ul class="dropdown-menu">
-                {% for link in link.children|filter(link => attribute(urls, link.id) is defined) %}
+                {% for link in link.children|filter(link => urls.(link.id) is defined) %}
                     {% if link.children|length > 0 and link.object.dropdown|default(false) %}
                         {{ block('dropdownSubmenu') }}
                     {% else %}
@@ -19,23 +19,23 @@
 {% endblock %}
 
 {% block dropdownItem %}
-    {% if attribute(link.object, locale).title is defined %}
-        <li><a class="dropdown-item" href="{{ attribute(urls, link.id) }}">{{ attribute(link.object, locale).title }}</a></li>
+    {% if link.object.(locale).title is defined %}
+        <li><a class="dropdown-item" href="{{ urls.(link.id) }}">{{ link.object.(locale).title }}</a></li>
     {% endif %}
 {% endblock %}
 
 {% block dropdown %}
-    {% if attribute(section.object, locale).title is defined %}
+    {% if section.object.(locale).title is defined %}
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="{{ attribute(urls, section.id) is defined ? attribute(urls, section.id) : '#' }}" id="{{ section.id }}" role="button"
+            <a class="nav-link dropdown-toggle" href="{{ urls.(section.id) is defined ? urls.(section.id) : '#' }}" id="{{ section.id }}" role="button"
                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {{ attribute(section.object, locale).title }}
+                {{ section.object.(locale).title }}
             </a>
             <ul class="dropdown-menu" aria-labelledby="{{ section.id }}">
                 {% for link in section.children %}
                     {% if link.children|length > 0 and link.object.dropdown|default(false) %}
                         {{ block('dropdownSubmenu') }}
-                    {% elseif attribute(urls, link.id) is defined %}
+                    {% elseif urls.(link.id) is defined %}
                         {{ block('dropdownItem') }}
                     {% endif %}
                 {% endfor %}
@@ -45,15 +45,15 @@
 {% endblock %}
 
 {% block item %}
-    {% if attribute(urls, section.id) is defined and attribute(section.object, locale).title is defined %}
+    {% if urls.(section.id) is defined and section.object.(locale).title is defined %}
         <li class="nav-item">
-            <a class="nav-link" href="{{ attribute(urls, section.id) }}">{{ attribute(section.object, locale).title }}</a>
+            <a class="nav-link" href="{{ urls.(section.id) }}">{{ section.object.(locale).title }}</a>
         </li>
     {% endif %}
 {% endblock %}
 
 {% block request %}
-    {% for section in structure.children|filter(p => attribute(pages, p.id) is defined)  %}
+    {% for section in structure.children|filter(p => pages.(p.id) is defined)  %}
         {% if section.children|length > 0 and section.object.dropdown|default(false) %}
             {{ block('dropdown') }}
         {% else %}

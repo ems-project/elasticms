@@ -1,0 +1,7 @@
+{%- block template_publication -%}
+    {% if revision.contentType == 'page' %}
+        {% for locale, label in  {'fr': 'French', 'nl': 'Dutch'}|filter((l, k) => revision.rawData.(k).title is not defined) %}
+            {% do publication.addWarning("A title is required in #{locale}") %}
+        {% endfor %}
+    {% endif %}
+{%- endblock template_publication -%}

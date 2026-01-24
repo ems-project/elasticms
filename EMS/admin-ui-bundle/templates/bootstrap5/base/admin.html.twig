@@ -68,9 +68,9 @@
             {{ include('@EMSAdminUI/bootstrap5/elements/toasts.html.twig') }}
             <div class="content-header">
                 <div class="container-fluid">
-                    <div class="row mb-2">
+                    <div class="row mb-3">
                         <div class="col-sm-6">
-                            <h1 class="m-0">{% block pagetitle %}{{ block('title') }}{% endblock %}{% block subtitle %}{% if subTitle is defined %}<small>{{ subTitle|trans }}</small>{% endif %}{% endblock %}</h1>
+                            <h1>{% block pagetitle %}{{ block('title') }}{% endblock %}{% block subtitle %}{% if subTitle is defined %}<small>{{ subTitle|trans }}</small>{% endif %}{% endblock %}</h1>
                         </div>
                         <div class="col-sm-6">
                             {{ block('breadcrumb') }}

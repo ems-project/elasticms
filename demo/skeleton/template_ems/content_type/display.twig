@@ -9,7 +9,7 @@
 {% block value %}
     {% if finalize %}
         {% set orderLocales = [locale]|merge(['nl', 'fr']|filter(v => v != locale)) %}
-        {% set titles = orderLocales|map(l => attribute(_source, l).title|default(null))|filter(v => v != null) %}
+        {% set titles = orderLocales|map(l => _source.(l).title|default(null))|filter(v => v != null) %}
 
         {% if _type in ['page', 'news'] %}
             {{ titles|join(' / ')|default(null)|json_encode|raw }}

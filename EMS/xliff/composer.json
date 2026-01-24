@@ -14,11 +14,11 @@
         }
     ],
     "require": {
-        "php": "^8.4",
+        "php": "^8.5",
         "ext-dom": "*",
-        "elasticms/helpers": "6.9.*",
-        "symfony/dom-crawler": "6.4.*",
-        "symfony/property-access": "6.4.*"
+        "elasticms/helpers": "7.x-dev",
+        "symfony/dom-crawler": "7.4.*",
+        "symfony/property-access": "7.4.*"
     },
     "autoload": {
         "psr-4": {

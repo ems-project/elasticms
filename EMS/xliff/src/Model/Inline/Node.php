@@ -4,6 +4,6 @@ declare(strict_types=1);
 
 namespace EMS\Xliff\Model\Inline;
 
-class Node
+class Node implements InlineInterface
 {
 }

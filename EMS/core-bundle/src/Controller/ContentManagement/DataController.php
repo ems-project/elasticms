@@ -799,14 +799,17 @@ class DataController extends AbstractController
             }
 
             if (\in_array($category, ['asset', 'file'])) {
-                if (empty($contentType->getAssetField()) && empty($revision->getRawData()[$contentType->getAssetField()])) {
+                $rawData = $revision->getRawData();
+                $assetField = $contentType->getAssetField();
+
+                if (null === $assetField || isset($rawData[$assetField])) {
                     throw new NotFoundHttpException('Asset field not found for '.$revision);
                 }
 
                 return $this->redirectToRoute('ems_file_view', [
-                    'sha1' => $revision->getRawData()[$contentType->getAssetField()][EmsFields::CONTENT_FILE_HASH_FIELD_] ?? $revision->getRawData()[$contentType->getAssetField()][EmsFields::CONTENT_FILE_HASH_FIELD],
-                    'type' => $revision->getRawData()[$contentType->getAssetField()][EmsFields::CONTENT_MIME_TYPE_FIELD_] ?? $revision->getRawData()[$contentType->getAssetField()][EmsFields::CONTENT_MIME_TYPE_FIELD],
-                    'name' => $revision->getRawData()[$contentType->getAssetField()][EmsFields::CONTENT_FILE_NAME_FIELD_] ?? $revision->getRawData()[$contentType->getAssetField()][EmsFields::CONTENT_FILE_NAME_FIELD],
+                    'sha1' => $rawData[$assetField][EmsFields::CONTENT_FILE_HASH_FIELD_] ?? $rawData[$assetField][EmsFields::CONTENT_FILE_HASH_FIELD],
+                    'type' => $rawData[$assetField][EmsFields::CONTENT_MIME_TYPE_FIELD_] ?? $rawData[$assetField][EmsFields::CONTENT_MIME_TYPE_FIELD],
+                    'name' => $rawData[$assetField][EmsFields::CONTENT_FILE_NAME_FIELD_] ?? $rawData[$assetField][EmsFields::CONTENT_FILE_NAME_FIELD],
                 ]);
             }
         }

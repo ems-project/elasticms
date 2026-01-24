@@ -79,12 +79,6 @@ parameters:
 			path: ../EMS/client-helper-bundle/src/Helper/Search/Search.php
 
 		-
-			message: '#^Possibly invalid array key type string\|null\.$#'
-			identifier: offsetAccess.invalidOffset
-			count: 1
-			path: ../EMS/client-helper-bundle/src/Helper/Search/Search.php
-
-		-
 			message: '#^Unable to resolve the template type TDefault in call to method Symfony\\Component\\HttpFoundation\\InputBag\<string\>\:\:get\(\)$#'
 			identifier: argument.templateType
 			count: 3
@@ -142,12 +136,6 @@ parameters:
 			path: ../EMS/core-bundle/src/Command/IndexFileCommand.php
 
 		-
-			message: '#^Possibly invalid array key type string\|null\.$#'
-			identifier: offsetAccess.invalidOffset
-			count: 4
-			path: ../EMS/core-bundle/src/Command/Revision/TimeMachineCommand.php
-
-		-
 			message: '#^Call to deprecated method extractData\(\) of class EMS\\CoreBundle\\Service\\AssetExtractorService\.$#'
 			identifier: method.deprecated
 			count: 1
@@ -166,21 +154,9 @@ parameters:
 			path: ../EMS/core-bundle/src/Controller/ContentManagement/DataController.php
 
 		-
-			message: '#^Possibly invalid array key type string\|null\.$#'
-			identifier: offsetAccess.invalidOffset
-			count: 7
-			path: ../EMS/core-bundle/src/Controller/ContentManagement/DataController.php
-
-		-
 			message: '#^Call to deprecated method generateSearchBody\(\) of class EMS\\CoreBundle\\Service\\SearchService\.$#'
 			identifier: method.deprecated
 			count: 2
-			path: ../EMS/core-bundle/src/Controller/ElasticsearchController.php
-
-		-
-			message: '#^Possibly invalid array key type string\|null\.$#'
-			identifier: offsetAccess.invalidOffset
-			count: 1
 			path: ../EMS/core-bundle/src/Controller/ElasticsearchController.php
 
 		-
@@ -205,64 +181,10 @@ parameters:
 			path: ../EMS/core-bundle/src/Controller/Views/CriteriaController.php
 
 		-
-			message: '#^Possibly invalid array key type string\|null\.$#'
-			identifier: offsetAccess.invalidOffset
-			count: 13
-			path: ../EMS/core-bundle/src/Controller/Views/CriteriaController.php
-
-		-
-			message: '#^Possibly invalid array key type string\|null\.$#'
-			identifier: offsetAccess.invalidOffset
-			count: 1
-			path: ../EMS/core-bundle/src/Controller/Wysiwyg/ModalController.php
-
-		-
-			message: '#^Possibly invalid array key type string\|null\.$#'
-			identifier: offsetAccess.invalidOffset
-			count: 2
-			path: ../EMS/core-bundle/src/Core/Component/MediaLibrary/Config/MediaLibraryConfig.php
-
-		-
 			message: '#^Call to function is_string\(\) with string will always evaluate to true\.$#'
 			identifier: function.alreadyNarrowedType
 			count: 1
 			path: ../EMS/core-bundle/src/Core/Config/AbstractConfigFactory.php
-
-		-
-			message: '#^Possibly invalid array key type string\|null\.$#'
-			identifier: offsetAccess.invalidOffset
-			count: 1
-			path: ../EMS/core-bundle/src/Core/ContentType/ContentTypeFields.php
-
-		-
-			message: '#^Possibly invalid array key type string\|null\.$#'
-			identifier: offsetAccess.invalidOffset
-			count: 1
-			path: ../EMS/core-bundle/src/Core/ContentType/ContentTypeRoles.php
-
-		-
-			message: '#^Possibly invalid array key type string\|null\.$#'
-			identifier: offsetAccess.invalidOffset
-			count: 1
-			path: ../EMS/core-bundle/src/Core/ContentType/ContentTypeSettings.php
-
-		-
-			message: '#^Possibly invalid array key type string\|null\.$#'
-			identifier: offsetAccess.invalidOffset
-			count: 1
-			path: ../EMS/core-bundle/src/Core/ContentType/Version/VersionFields.php
-
-		-
-			message: '#^Possibly invalid array key type string\|null\.$#'
-			identifier: offsetAccess.invalidOffset
-			count: 1
-			path: ../EMS/core-bundle/src/Core/ContentType/Version/VersionOptions.php
-
-		-
-			message: '#^Possibly invalid array key type string\|null\.$#'
-			identifier: offsetAccess.invalidOffset
-			count: 1
-			path: ../EMS/core-bundle/src/Core/Dashboard/DashboardOptions.php
 
 		-
 			message: '''
@@ -272,12 +194,6 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: ../EMS/core-bundle/src/Core/User/UserManager.php
-
-		-
-			message: '#^Possibly invalid array key type string\|null\.$#'
-			identifier: offsetAccess.invalidOffset
-			count: 1
-			path: ../EMS/core-bundle/src/Core/User/UserOptions.php
 
 		-
 			message: '''
@@ -296,12 +212,6 @@ parameters:
 			identifier: new.deprecatedClass
 			count: 1
 			path: ../EMS/core-bundle/src/DependencyInjection/EMSCoreExtension.php
-
-		-
-			message: '#^Possibly invalid array key type string\|null\.$#'
-			identifier: offsetAccess.invalidOffset
-			count: 3
-			path: ../EMS/core-bundle/src/Elasticsearch/Index/Mappings.php
 
 		-
 			message: '#^Call to deprecated method updateDataStructure\(\) of class EMS\\CoreBundle\\Entity\\DataField\.$#'
@@ -373,12 +283,6 @@ parameters:
 			path: ../EMS/core-bundle/src/Form/View/Criteria/CriteriaFilterType.php
 
 		-
-			message: '#^Possibly invalid array key type string\|null\.$#'
-			identifier: offsetAccess.invalidOffset
-			count: 1
-			path: ../EMS/core-bundle/src/Service/ContentTypeService.php
-
-		-
 			message: '''
 				#^Call to deprecated method getChildByPath\(\) of class EMS\\CoreBundle\\Entity\\FieldType\:
 				it's not clear if its the mapping of the rawdata or of the formdata \(with ou without the virtual fields\) see the same function in the contenttypeservice$#
@@ -386,12 +290,6 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: ../EMS/core-bundle/src/Service/DataService.php
-
-		-
-			message: '#^Possibly invalid array key type string\|null\.$#'
-			identifier: offsetAccess.invalidOffset
-			count: 1
-			path: ../EMS/core-bundle/src/Service/Revision/RevisionService.php
 
 		-
 			message: '''
@@ -439,24 +337,6 @@ parameters:
 			path: ../EMS/form-bundle/src/DependencyInjection/EMSFormExtension.php
 
 		-
-			message: '#^Possibly invalid array key type int\|string\|null\.$#'
-			identifier: offsetAccess.invalidOffset
-			count: 1
-			path: ../EMS/form-bundle/src/FormConfig/FieldChoicesConfig.php
-
-		-
-			message: '#^Possibly invalid array key type string\|null\.$#'
-			identifier: array.invalidKey
-			count: 1
-			path: ../EMS/form-bundle/src/FormConfig/FieldChoicesConfig.php
-
-		-
-			message: '#^Possibly invalid array key type string\|null\.$#'
-			identifier: offsetAccess.invalidOffset
-			count: 1
-			path: ../EMS/form-bundle/src/FormConfig/FieldChoicesConfig.php
-
-		-
 			message: '''
 				#^Call to method load\(\) of deprecated class Symfony\\Component\\DependencyInjection\\Loader\\XmlFileLoader\:
 				since Symfony 7\.4, use another loader instead$#
@@ -474,20 +354,8 @@ parameters:
 			count: 1
 			path: ../EMS/submission-bundle/src/DependencyInjection/EMSSubmissionExtension.php
 
-		-
-			message: '#^Possibly invalid array key type string\|null\.$#'
-			identifier: offsetAccess.invalidOffset
-			count: 2
-			path: ../build/src/Release/File/ChangelogFile.php
 
-		-
-			message: '#^Possibly invalid array key type string\|null\.$#'
-			identifier: offsetAccess.invalidOffset
-			count: 2
-			path: ../elasticms-cli/src/Client/Audit/Cache.php
 
-		-
-			message: '#^Possibly invalid array key type string\|null\.$#'
-			identifier: offsetAccess.invalidOffset
-			count: 1
-			path: ../elasticms-cli/src/Command/Import/AbstractImportCommand.php
+
+
+

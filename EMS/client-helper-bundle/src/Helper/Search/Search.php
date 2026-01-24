@@ -281,6 +281,10 @@ final class Search
      */
     public function getSort(): ?array
     {
+        if (null === $this->sortBy) {
+            return null;
+        }
+
         return $this->sorts[$this->sortBy] ?? null;
     }
 

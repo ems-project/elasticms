@@ -92,4 +92,63 @@ class DomHelper
 
         return $dom;
     }
+
+    public static function createSingleElement(\DOMElement $parent, string $tagName): \DOMElement
+    {
+        foreach ($parent->childNodes as $child) {
+            if ($child instanceof \DOMElement && $child->tagName === $tagName) {
+                return $child;
+            }
+        }
+
+        return self::createElement($parent, $tagName);
+    }
+
+    /**
+     * @param array<string, string|null> $attributes
+     */
+    public static function createElement(\DOMElement $parent, string $tagName, array $attributes = []): \DOMElement
+    {
+        $element = new \DOMElement($tagName);
+        $parent->appendChild($element);
+        foreach ($attributes as $name => $value) {
+            if (null === $value) {
+                continue;
+            }
+            $element->setAttribute($name, $value);
+        }
+
+        return $element;
+    }
+
+    public static function getElement(\DOMXPath $xpath, \DOMElement $element, string $query): \DOMElement
+    {
+        $result = $xpath->query($query, $element);
+        if (!$result instanceof \DOMNodeList) {
+            throw new \RuntimeException(\sprintf('Element not found for query %s', $query));
+        }
+        $node = $result->item(0);
+        if (!$node instanceof \DOMElement) {
+            throw new \RuntimeException(\sprintf('Element not found for query %s', $query));
+        }
+
+        return $node;
+    }
+
+    /**
+     * @return iterable<\DOMElement>
+     */
+    public static function elementIterator(\DOMXPath $xpath, \DOMElement $element, string $query): iterable
+    {
+        $result = $xpath->query($query, $element);
+        if (!$result instanceof \DOMNodeList) {
+            throw new \RuntimeException(\sprintf('Element not found for query %s', $query));
+        }
+        foreach ($result as $node) {
+            if (!$node instanceof \DOMElement) {
+                throw new \RuntimeException(\sprintf('Unexpected non \DOMElement object: %s', \get_class($node)));
+            }
+            yield $node;
+        }
+    }
 }

@@ -14,6 +14,9 @@ use EMS\Xliff\Writer\Xliff22Writer;
 
 final class Xliff
 {
+    public const string STATE_FINAL = 'final';
+    public const string STATE_NEEDS_TRANSLATION = 'needs-translation';
+    public const string STATE_NEW = 'new';
     private Package $package;
 
     private function __construct(

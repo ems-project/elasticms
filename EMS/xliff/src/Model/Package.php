@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\Xliff\Model;
 
 use EMS\Helpers\Standard\Locale;
+use EMS\Xliff\Id\SequentialIdGenerator;
 
 final class Package
 {
@@ -12,6 +13,7 @@ final class Package
     private array $documents = [];
     private string $sourceLocale;
     private string $targetLocale;
+    private SequentialIdGenerator $idGenerator;
 
     public function __construct()
     {
@@ -21,11 +23,12 @@ final class Package
     {
         $this->sourceLocale = Locale::normalize($sourceLocale);
         $this->targetLocale = Locale::normalize($targetLocale);
+        $this->idGenerator = new SequentialIdGenerator();
     }
 
     public function addDocument(string $id): Document
     {
-        $document = new Document($id);
+        $document = new Document($this->idGenerator, $id);
         $this->documents[] = $document;
 
         return $document;

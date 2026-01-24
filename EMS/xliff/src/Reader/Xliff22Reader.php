@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace EMS\Xliff\Reader;
 
+use EMS\Xliff\Model\Document;
+use EMS\Xliff\Model\Inline\Text;
 use EMS\Xliff\Model\Package;
+use EMS\Xliff\Model\Segment;
+use EMS\Xliff\Model\Unit;
 use EMS\Xliff\Version;
 use EMS\Xliff\XML\DomHelper;
 
@@ -45,10 +49,46 @@ class Xliff22Reader implements ReaderInterface
             if (!$file instanceof \DOMElement) {
                 throw new \RuntimeException('Wrong <file> node.');
             }
-            $id = $file->getAttribute('original');
-            $package->addDocument($id);
+            $original = DomHelper::getElement($xpath, $file, 'x:metadata/x:meta[@type="original"]');
+            $id = $original->textContent;
+            $document = $package->addDocument($id);
+            foreach (DomHelper::elementIterator($xpath, $file, 'x:unit') as $unitElement) {
+                $this->addUnit($xpath, $unitElement, $document);
+            }
         }
 
         return $package;
+    }
+
+    private function addUnit(\DOMXPath $xpath, \DOMElement $unitElement, Document $document): void
+    {
+        $unit = new Unit(
+            id: $unitElement->getAttribute('id'),
+            resourceName: $unitElement->getAttribute('name'),
+            type: $unitElement->getAttribute('type'),
+        );
+        $document->addUnit($unit);
+        match ($unit->type) {
+            'text' => $this->addText($xpath, $unitElement, $unit),
+            default => throw new \RuntimeException(\sprintf('Unexpected unit type %s', $unit->type)),
+        };
+    }
+
+    private function addText(\DOMXPath $xpath, \DOMElement $unitElement, Unit $unit): void
+    {
+        $sourceElement = DomHelper::getElement($xpath, $unitElement, 'x:segment/x:source');
+        $source = new Text($sourceElement->textContent);
+        $targetElement = DomHelper::getElement($xpath, $unitElement, 'x:segment/x:target');
+        $targetNodes = [];
+        if ('' !== $targetElement->textContent) {
+            $targetNodes[] = new Text($targetElement->textContent);
+        }
+        $state = $targetElement->getAttribute('state');
+        $segment = new Segment(
+            sourceNodes: [$source],
+            targetNodes: $targetNodes,
+            state: $state,
+        );
+        $unit->addSegment($segment);
     }
 }

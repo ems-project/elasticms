@@ -11,7 +11,7 @@
         </div>
         <div class="box-body">
             {{ form_start(formView) }}
-            {{ form_row(attribute(formView, 'dashboard_default_search_options'), {class: 'col-md-4'}) }}
+            {{ form_row(formView.('dashboard_default_search_options'), {class: 'col-md-4'}) }}
             <div class="clearfix"></div>
             <div class="col-md-12">
 {#                <button type="submit" class="btn btn-primary"><i class="fa fa-eye"></i> Apply</button>#}

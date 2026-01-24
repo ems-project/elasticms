@@ -27,21 +27,7 @@
         <target/>
       </segment>
     </unit>
-    <group name="[%locale%][body]" id="grp5">
-      <unit>
-        <segment>
-          <source/>
-          <target/>
-        </segment>
-      </unit>
-    </group>
-    <group name="[%locale%][body2]" id="grp6">
-      <unit>
-        <segment>
-          <source/>
-          <target/>
-        </segment>
-      </unit>
-    </group>
+    <group name="[%locale%][body]" id="grp5"/>
+    <group name="[%locale%][body2]" id="grp6"/>
   </file>
 </xliff>

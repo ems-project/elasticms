@@ -1,49 +1,49 @@
 {
-  "name": "demo-website",
-  "version": "2.0.0",
-  "description": "A basic elasticms NPM project (with Vite)",
-  "repository": "https://github.com/ems-project/elasticms-demo",
-  "private": false,
-  "browserslist": [
-    "> 2%"
-  ],
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "watch": "vite build --watch"
-  },
-  "keywords": [],
-  "license": "LGPL-3.0",
-  "devDependencies": {
-    "@babel/core": "^7.14.3",
-    "@babel/preset-env": "^7.14.2",
-    "@popperjs/core": "^2.11.2",
-    "@rollup/plugin-inject": "^5.0.5",
-    "aos": "^2.3.4",
-    "autoprefixer": "^10.2.6",
-    "enquire.js": "^2.1.6",
-    "holderjs": "^2.9.9",
-    "sass-embedded": "1.77.5",
-    "vite": "^6.0.0",
-    "vite-plugin-css-injected-by-js": "^3.5.2",
-    "vite-plugin-live-reload": "^3.0.4",
-    "vite-plugin-static-copy": "^2.2.0"
-  },
-  "dependencies": {
-    "@elasticms/admin-menu": "^1.0.1",
-    "@fontsource/mulish": "^4.5.11",
-    "@fortawesome/fontawesome-free": "^6.6.0",
-    "bootstrap": "^5.3.3",
-    "bootstrap-datepicker": "^1.9.0",
-    "datatables.net": "^1.10.13",
-    "datatables.net-bs4": "^1.10.13",
-    "jquery": "^3.6.0",
-    "jquery-bridget": "^3.0.0",
-    "js-cookie": "^2.2.1",
-    "masonry-layout": "^4.2.2",
-    "popper.js": "^1.16.1",
-    "swiper": "^6.3.3"
-  }
+    "name": "demo-website",
+    "version": "2.0.0",
+    "description": "A basic elasticms NPM project (with Vite)",
+    "repository": "https://github.com/ems-project/elasticms-demo",
+    "private": false,
+    "browserslist": [
+        "> 2%"
+    ],
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview",
+        "watch": "vite build --watch"
+    },
+    "keywords": [],
+    "license": "LGPL-3.0",
+    "devDependencies": {
+        "@babel/core": "^7.14.3",
+        "@babel/preset-env": "^7.14.2",
+        "@popperjs/core": "^2.11.2",
+        "@rollup/plugin-inject": "^5.0.5",
+        "aos": "^2.3.4",
+        "autoprefixer": "^10.2.6",
+        "enquire.js": "^2.1.6",
+        "holderjs": "^2.9.9",
+        "sass-embedded": "1.77.5",
+        "vite": "^6.0.0",
+        "vite-plugin-css-injected-by-js": "^3.5.2",
+        "vite-plugin-live-reload": "^3.0.4",
+        "vite-plugin-static-copy": "^2.2.0"
+    },
+    "dependencies": {
+        "@elasticms/admin-menu": "^1.0.1",
+        "@fontsource/mulish": "^4.5.11",
+        "@fortawesome/fontawesome-free": "^6.6.0",
+        "bootstrap": "^5.3.3",
+        "bootstrap-datepicker": "^1.9.0",
+        "datatables.net": "^1.10.13",
+        "datatables.net-bs4": "^1.10.13",
+        "jquery": "^3.6.0",
+        "jquery-bridget": "^3.0.0",
+        "js-cookie": "^2.2.1",
+        "masonry-layout": "^4.2.2",
+        "popper.js": "^1.16.1",
+        "swiper": "^6.3.3"
+    }
 }

@@ -1,6 +1,5 @@
 parameters:
 	ignoreErrors:
-
 		-
 			message: '''
 				#^Call to method load\(\) of deprecated class Symfony\\Component\\DependencyInjection\\Loader\\XmlFileLoader\:
@@ -37,7 +36,6 @@ parameters:
 			count: 1
 			path: ../EMS/client-helper-bundle/src/DependencyInjection/EMSClientHelperExtension.php
 
-
 		-
 			message: '#^Parameter \$max of class Symfony\\Component\\Validator\\Constraints\\Length constructor expects int\<1, max\>\|null, int\|null given\.$#'
 			identifier: argument.type
@@ -56,7 +54,6 @@ parameters:
 			count: 1
 			path: ../EMS/client-helper-bundle/src/Helper/Form/EmschFormType.php
 
-
 		-
 			message: '''
 				#^Call to method load\(\) of deprecated class Symfony\\Component\\Routing\\Loader\\XmlFileLoader\:
@@ -74,7 +71,6 @@ parameters:
 			identifier: new.deprecatedClass
 			count: 1
 			path: ../EMS/client-helper-bundle/src/Helper/Routing/RoutingBuilder.php
-
 
 		-
 			message: '#^Parameter \#1 \$name of method EMS\\ClientHelperBundle\\Helper\\Search\\Search\:\:setSortBy\(\) expects string\|null, bool\|float\|int\|string\|null given\.$#'
@@ -477,18 +473,6 @@ parameters:
 			identifier: new.deprecatedClass
 			count: 1
 			path: ../EMS/submission-bundle/src/DependencyInjection/EMSSubmissionExtension.php
-
-		-
-			message: '#^Property Build\\Release\\Command\\ChangelogCommand\:\:\$defaultName has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: ../build/src/Release/Command/ChangelogCommand.php
-
-		-
-			message: '#^Property Build\\Release\\Command\\ReleaseCommand\:\:\$defaultName has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: ../build/src/Release/Command/ReleaseCommand.php
 
 		-
 			message: '#^Possibly invalid array key type string\|null\.$#'

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\Xliff;
 
+use EMS\Helpers\File\File;
 use EMS\Xliff\Model\Package;
 use EMS\Xliff\Reader\ReaderRegistry;
 use EMS\Xliff\Reader\Xliff12Reader;
@@ -60,6 +61,11 @@ final class Xliff
         $writer = $this->writers->forVersion($version);
 
         return $writer->write($this->package);
+    }
+
+    public function saveXml(string $expectedFilename, string $encoding, ?string $version = null): void
+    {
+        File::putContents($expectedFilename, $this->toXml($version));
     }
 
     public function readXml(string $xliffXml): void

@@ -67,7 +67,7 @@ class Xliff22Reader implements ReaderInterface
             resourceName: $unitElement->getAttribute('name'),
             type: $unitElement->getAttribute('type'),
         );
-        $document->addUnit($unit);
+        $document->addNode($unit);
         match ($unit->type) {
             'text' => $this->addText($xpath, $unitElement, $unit),
             default => throw new \RuntimeException(\sprintf('Unexpected unit type %s', $unit->type)),

@@ -81,8 +81,8 @@ class RefactorTest extends TestCase
             $i = 0;
             foreach ($xliffPackage->getPackage()->getDocuments() as $document) {
                 $this->assertSame(\sprintf('%d', ++$i), $document->id);
-                $this->assertCount(1, $document->getUnits());
-                foreach ($document->getUnits() as $unit) {
+                $this->assertCount(1, $document->getNodes());
+                foreach ($document->getNodes() as $unit) {
                     $this->assertSame('[title]', $unit->resourceName);
                     $this->assertSame('text', $unit->type);
                     $this->assertCount(1, $unit->getSegments());

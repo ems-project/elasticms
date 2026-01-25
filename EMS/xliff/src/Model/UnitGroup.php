@@ -4,26 +4,13 @@ declare(strict_types=1);
 
 namespace EMS\Xliff\Model;
 
-class Unit implements DocumentNodeInterface
+class UnitGroup implements DocumentNodeInterface
 {
-    /** @var Segment[] */
-    private array $segments = [];
+    /** @var DocumentNodeInterface[] */
+    private array $nodes = [];
 
     public function __construct(public readonly string $id, public readonly string $resourceName, public readonly ?string $type = null)
     {
-    }
-
-    public function addSegment(Segment $segment): void
-    {
-        $this->segments[] = $segment;
-    }
-
-    /**
-     * @return Segment[]
-     */
-    public function getSegments(): array
-    {
-        return $this->segments;
     }
 
     public function getId(): string
@@ -39,5 +26,18 @@ class Unit implements DocumentNodeInterface
     public function getType(): ?string
     {
         return $this->type;
+    }
+
+    /**
+     * @return DocumentNodeInterface[]
+     */
+    public function getNodes(): array
+    {
+        return $this->nodes;
+    }
+
+    public function addNode(DocumentNodeInterface $node): void
+    {
+        $this->nodes[] = $node;
     }
 }

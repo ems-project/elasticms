@@ -68,9 +68,9 @@ class Xliff12Reader implements ReaderInterface
             resourceName: $unitElement->getAttribute('resname'),
             type: $unitElement->getAttribute('restype'),
         );
-        $document->addUnit($unit);
+        $document->addNode($unit);
         match ($unit->type) {
-            'text' => $this->addText($xpath, $unitElement, $unit),
+            '', 'text' => $this->addText($xpath, $unitElement, $unit),
             default => throw new \RuntimeException(\sprintf('Unexpected unit type %s', $unit->type)),
         };
     }

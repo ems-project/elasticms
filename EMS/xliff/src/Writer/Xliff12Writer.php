@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace EMS\Xliff\Writer;
 
 use EMS\Helpers\Standard\Type;
+use EMS\Xliff\Html\HtmlExtractor;
+use EMS\Xliff\Id\SequentialIdGenerator;
 use EMS\Xliff\Model\Document;
-use EMS\Xliff\Model\Inline\InlineInterface;
+use EMS\Xliff\Model\Inline\Node;
 use EMS\Xliff\Model\Inline\Text;
 use EMS\Xliff\Model\Package;
 use EMS\Xliff\Model\Unit;
+use EMS\Xliff\Model\UnitGroup;
 use EMS\Xliff\Options;
 use EMS\Xliff\Version;
 use EMS\Xliff\XML\DomHelper;
@@ -18,6 +21,7 @@ class Xliff12Writer implements WriterInterface
 {
     public function __construct(private readonly Options $options)
     {
+        $extractor = new HtmlExtractor(new SequentialIdGenerator());
     }
 
     public function supportsVersion(string $version): bool
@@ -40,27 +44,44 @@ class Xliff12Writer implements WriterInterface
     {
         $file = DomHelper::createElement($xliff, 'file', [
             'source-language' => $package->getSourceLocale(),
-            'target-language' => $package->getTargetLocale(),
             'original' => $document->id,
             'datatype' => 'database',
+            'target-language' => $package->getTargetLocale(),
         ]);
-        foreach ($document->getUnits() as $unit) {
-            $this->addUnit($file, $unit);
+        foreach ($document->getNodes() as $node) {
+            switch ($node::class) {
+                case Unit::class:
+                    $this->addUnit($package, $file, $node);
+                    break;
+                case UnitGroup::class:
+                    $this->addUnitGroup($package, $file, $node);
+                    break;
+                default:
+                    throw new \LogicException('Unsupported document node');
+            }
         }
     }
 
-    private function addUnit(\DOMElement $file, Unit $unit): void
+    private function addUnitGroup(Package $package, \DOMElement $file, UnitGroup $unitGroup): void
+    {
+        // TODO
+    }
+
+    private function addUnit(Package $package, \DOMElement $file, Unit $unit): void
     {
         $body = DomHelper::createSingleElement($file, 'body');
         $tu = DomHelper::createElement($body, 'trans-unit', [
-            'id' => $unit->id,
-            'resname' => $unit->resourceName,
-            'restype' => $unit->type,
+            'id' => $unit->getId(),
+            'resname' => $unit->getResourceName(),
+            'restype' => $unit->getType(),
         ]);
         foreach ($unit->getSegments() as $segment) {
-            $source = DomHelper::createElement($tu, 'source');
+            $source = DomHelper::createElement($tu, 'source', [
+                'xml:lang' => $package->getSourceLocale(),
+            ]);
             $this->appendInlineNodes($source, $segment->sourceNodes);
             $target = DomHelper::createElement($tu, 'target', [
+                'xml:lang' => $package->getTargetLocale(),
                 'state' => $segment->state,
             ]);
             if (!empty($segment->targetNodes)) {
@@ -70,13 +91,15 @@ class Xliff12Writer implements WriterInterface
     }
 
     /**
-     * @param InlineInterface[] $nodes
+     * @param Node[] $nodes
      */
     private function appendInlineNodes(\DOMElement $parent, array $nodes): void
     {
         foreach ($nodes as $node) {
             if ($node instanceof Text) {
-                $parent->textContent .= $node->text;
+                if ('' !== $node->text) {
+                    $parent->textContent .= $node->text;
+                }
                 continue;
             }
 

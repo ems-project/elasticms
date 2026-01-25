@@ -69,7 +69,7 @@ class Xliff22Reader implements ReaderInterface
         );
         $document->addNode($unit);
         match ($unit->type) {
-            'text' => $this->addText($xpath, $unitElement, $unit),
+            '', 'text' => $this->addText($xpath, $unitElement, $unit),
             default => throw new \RuntimeException(\sprintf('Unexpected unit type %s', $unit->type)),
         };
     }

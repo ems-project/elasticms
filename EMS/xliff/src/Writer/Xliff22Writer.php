@@ -69,10 +69,11 @@ class Xliff22Writer implements WriterInterface
 
     private function addUnit(\DOMElement $file, Unit $unit): void
     {
+        $type = 'text' === $unit->getType() ? null : $unit->getType();
         $unitElement = DomHelper::createElement($file, 'unit', [
             'id' => $unit->id,
             'name' => $unit->resourceName,
-            'type' => $unit->type,
+            'type' => $type,
         ]);
 
         foreach ($unit->getSegments() as $segment) {

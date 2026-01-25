@@ -71,10 +71,11 @@ class Xliff12Writer implements WriterInterface
     private function addUnit(Package $package, \DOMElement $file, Unit $unit): void
     {
         $body = DomHelper::createSingleElement($file, 'body');
+        $type = 'text' === $unit->getType() ? null : $unit->getType();
         $tu = DomHelper::createElement($body, 'trans-unit', [
             'id' => $unit->getId(),
             'resname' => $unit->getResourceName(),
-            'restype' => $unit->getType(),
+            'restype' => $type,
         ]);
         foreach ($unit->getSegments() as $segment) {
             $source = DomHelper::createElement($tu, 'source', [

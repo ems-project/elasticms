@@ -83,6 +83,12 @@ class Xliff12Writer implements WriterInterface
                     throw new \LogicException('Unsupported document node');
             }
         }
+        foreach ($unitGroup->getNotes() as $note) {
+            $noteElement = DomHelper::createElement($groupElement, 'note', [
+                'from' => $note->from,
+            ]);
+            $noteElement->textContent = $note->text;
+        }
     }
 
     private function addUnit(Package $package, \DOMElement $parent, Unit $unit): void
@@ -105,6 +111,12 @@ class Xliff12Writer implements WriterInterface
             if (!empty($segment->targetNodes)) {
                 $this->appendInlineNodes($target, $segment->targetNodes);
             }
+        }
+        foreach ($unit->getNotes() as $note) {
+            $noteElement = DomHelper::createElement($tu, 'note', [
+                'from' => $note->from,
+            ]);
+            $noteElement->textContent = $note->text;
         }
     }
 

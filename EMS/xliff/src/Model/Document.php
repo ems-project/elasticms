@@ -62,7 +62,7 @@ class Document
 
     public function createHtml(string $resourceName, string $sourceHtml, ?string $targetHtml = null, ?string $baselineHtml = null, bool $isFinal = false): void
     {
-        $unitGroup = $this->htmlExtractor->extract($resourceName, $sourceHtml, $targetHtml, $baselineHtml);
+        $unitGroup = $this->htmlExtractor->extract($resourceName, $sourceHtml, $targetHtml, $baselineHtml, $isFinal);
 
         $this->addNode($unitGroup);
     }

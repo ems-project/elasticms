@@ -101,13 +101,13 @@ class HtmlExtractor
     ) {
     }
 
-    public function extract(string $fieldPath, string $sourceHtml, ?string $targetHtml = null, ?string $baselineHtml = null): UnitGroup
+    public function extract(string $fieldPath, string $sourceHtml, ?string $targetHtml = null, ?string $baselineHtml = null, bool $isFinal = false): UnitGroup
     {
         $unitGroup = new UnitGroup(
             id: $this->idGenerator->nextUnitGroupId(),
             resourceName: $fieldPath,
         );
-        $isFinal = $baselineHtml === $sourceHtml;
+        $isFinal = $isFinal || ($baselineHtml === $sourceHtml);
         $sourceCrawler = new Crawler(HtmlHelper::prettyPrint(HtmlHelper::stripZeroWidthCharacters($sourceHtml)));
         $targetCrawler = new Crawler(HtmlHelper::prettyPrint(HtmlHelper::stripZeroWidthCharacters($targetHtml)));
         $baselineCrawler = new Crawler(HtmlHelper::prettyPrint(HtmlHelper::stripZeroWidthCharacters($baselineHtml)));
@@ -164,7 +164,7 @@ class HtmlExtractor
             $targetNodes = $this->buildNodes($foundTargetNode);
         }
         if (!empty($targetNodes)) {
-            $state = Xliff::STATE_NEEDS_TRANSLATION;
+            $state = $isFinal ? Xliff::STATE_FINAL : Xliff::STATE_NEEDS_TRANSLATION;
             $foundBaseline = $baselineCrawler->filterXPath($nodeXPath);
             $foundBaselineNode = $foundBaseline->getNode(0);
             if (null !== $foundBaselineNode && $sourceNode->textContent === $foundBaselineNode->textContent) {

@@ -8,6 +8,7 @@ use EMS\Helpers\Standard\Type;
 use EMS\Xliff\Html\HtmlExtractor;
 use EMS\Xliff\Id\SequentialIdGenerator;
 use EMS\Xliff\Model\Document;
+use EMS\Xliff\Model\Inline\Group;
 use EMS\Xliff\Model\Inline\Node;
 use EMS\Xliff\Model\Inline\PairedCode;
 use EMS\Xliff\Model\Inline\Placeholder;
@@ -172,84 +173,16 @@ class Xliff12Writer implements WriterInterface
                         'equiv-text' => $node->equivalentText,
                     ]);
                     break;
+                case Group::class:
+                    $group = DomHelper::createElement($parent, 'g', [
+                        'id' => $node->id,
+                        'ctype' => $node->type,
+                    ]);
+                    $this->appendInlineNodes($group, $node->getChildren());
+                    break;
                 default:
                     throw new \RuntimeException(\sprintf('Inline node %s not supported', \get_class($node)));
             }
-            //            if ($node instanceof Text) {
-            //                if ('' !== $node->text) {
-            //                    $parent->textContent .= $node->text;
-            //                }
-            //            }
-
-            //            // 2) <g> (group inline)
-            //            if ($node instanceof Group) {
-            //                $g = $dom->createElement('g');
-            //                $g->setAttribute('id', $node->id);
-            //
-            //                if ($node->ctype !== null) {
-            //                    $g->setAttribute('ctype', $node->ctype);
-            //                }
-            //
-            //                // récursif
-            //                $this->appendInlineNodes($g, $node->children);
-            //
-            //                $parent->appendChild($g);
-            //                continue;
-            //            }
-            //
-            //            // 3) <x/> (placeholder)
-            //            if ($node instanceof Placeholder) {
-            //                $x = $dom->createElement('x');
-            //                $x->setAttribute('id', $node->id);
-            //
-            //                if ($node->ctype !== null) {
-            //                    $x->setAttribute('ctype', $node->ctype);
-            //                }
-            //
-            //                if ($node->equiv !== null) {
-            //                    $x->setAttribute(
-            //                        'equiv-text',
-            //                        htmlspecialchars($node->equiv, ENT_QUOTES | ENT_XML1, 'UTF-8')
-            //                    );
-            //                }
-            //
-            //                $parent->appendChild($x);
-            //                continue;
-            //            }
-            //
-            //            // 4) <bx> … </ex> (paired code)
-            //            if ($node instanceof PairedCode) {
-            //
-            //                // <bx/>
-            //                $bx = $dom->createElement('bx');
-            //                $bx->setAttribute('id', $node->id);
-            //
-            //                $bx->setAttribute(
-            //                    'equiv-text',
-            //                    htmlspecialchars($node->startTag, ENT_QUOTES | ENT_XML1, 'UTF-8')
-            //                );
-            //
-            //                if ($node->ctype !== null) {
-            //                    $bx->setAttribute('ctype', $node->ctype);
-            //                }
-            //
-            //                $parent->appendChild($bx);
-            //
-            //                // contenu interne
-            //                $this->appendInlineNodes($parent, $node->children);
-            //
-            //                // <ex/>
-            //                $ex = $dom->createElement('ex');
-            //                $ex->setAttribute('id', $node->id);
-            //
-            //                $ex->setAttribute(
-            //                    'equiv-text',
-            //                    htmlspecialchars($node->endTag, ENT_QUOTES | ENT_XML1, 'UTF-8')
-            //                );
-            //
-            //                $parent->appendChild($ex);
-            //                continue;
-            //            }
         }
     }
 }

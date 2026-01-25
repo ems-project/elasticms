@@ -8,6 +8,7 @@ use EMS\Helpers\Html\HtmlHelper;
 use EMS\Helpers\Standard\Type;
 use EMS\Xliff\Id\IdGeneratorInterface;
 use EMS\Xliff\Model\DocumentNodeInterface;
+use EMS\Xliff\Model\Inline\Group;
 use EMS\Xliff\Model\Inline\Node;
 use EMS\Xliff\Model\Inline\PairedCode;
 use EMS\Xliff\Model\Inline\Placeholder;
@@ -97,8 +98,6 @@ class HtmlExtractor
 
     public function __construct(
         private readonly IdGeneratorInterface $idGenerator,
-        //        private readonly TranslatableAttributes $policy,
-        //        private readonly Options $options,
     ) {
     }
 
@@ -217,15 +216,24 @@ class HtmlExtractor
                     if (null === $child) {
                         continue;
                     }
-                    $pairedCode->addChild($this->buildNodes($child));
+                    $pairedCode->addChildren($this->buildNodes($child));
                 }
 
                 return [$pairedCode];
             } else {
-                //                $subNode = new \DOMElement('g');
-                //                $subNode->setAttribute('id', \sprintf('g%d', $this->nextId++));
-                //                $source->appendChild($subNode);
-                //                $subNode->setAttribute('ctype', static::getRestype($node->nodeName));
+                $group = new Group(
+                    id: $this->idGenerator->nextGroupId(),
+                    type: self::getResourceType($node),
+                );
+                for ($i = 0; $i < $node->childNodes->length; ++$i) {
+                    $child = $node->childNodes->item($i);
+                    if (null === $child) {
+                        continue;
+                    }
+                    $group->addChildren($this->buildNodes($child));
+                }
+
+                return [$group];
             }
         }
 
@@ -281,11 +289,6 @@ class HtmlExtractor
 
         return true;
     }
-
-    //    private function isAppendableSegment(\DOMNode $domNode): bool
-    //    {
-    //        return \in_array($domNode->nodeName, \array_merge(self::INTERNAL_TAGS, ['#text']));
-    //    }
 
     private function getResourceName(\DOMNode $domNode, ?string $attributeName = null): string
     {

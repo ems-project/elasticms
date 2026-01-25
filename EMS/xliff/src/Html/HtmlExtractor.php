@@ -11,6 +11,7 @@ use EMS\Xliff\Model\DocumentNodeInterface;
 use EMS\Xliff\Model\Inline\Node;
 use EMS\Xliff\Model\Inline\PairedCode;
 use EMS\Xliff\Model\Inline\Text;
+use EMS\Xliff\Model\Note;
 use EMS\Xliff\Model\Segment;
 use EMS\Xliff\Model\Unit;
 use EMS\Xliff\Model\UnitGroup;
@@ -139,6 +140,8 @@ class HtmlExtractor
                     type: self::getResourceType($domNode),
                     resourceName: self::getResourceName($domNode),
                 );
+                $this->nodeAttributesToNotes($unit, $sourceNode);
+
                 $nodes[] = $unit;
                 //                $currentSegment = null;
                 //                if (\version_compare($this->xliffVersion, '2.0') < 0) {
@@ -184,45 +187,34 @@ class HtmlExtractor
 
     private function addInlineUnit(\DOMNode $sourceNode, Crawler $targetCrawler, Crawler $baselineCrawler, bool $isFinal): Unit
     {
+        $sourceNodes = $this->buildNodes($sourceNode);
+        $targetNodes = [];
+
+        $nodeXPath = $this->getXPath($sourceNode);
+        $foundTarget = $targetCrawler->filterXPath($nodeXPath);
+        $foundTargetNode = $foundTarget->getNode(0);
+        $state = Xliff::STATE_NEW;
+        if (null !== $foundTargetNode) {
+            $targetNodes = $this->buildNodes($foundTargetNode);
+        }
+        if (!empty($targetNodes)) {
+            $state = Xliff::STATE_NEEDS_TRANSLATION;
+            $foundBaseline = $baselineCrawler->filterXPath($nodeXPath);
+            $foundBaselineNode = $foundBaseline->getNode(0);
+            if (null !== $foundBaselineNode && $sourceNode->textContent === $foundBaselineNode->textContent) {
+                $state = Xliff::STATE_FINAL;
+            }
+        }
+
         $unit = new Unit(
             id: $this->idGenerator->nextUnitId(),
             resourceName: $this->getResourceName($sourceNode),
             type: self::getResourceType($sourceNode),
         );
-        $sourceNodes = $this->buildNodes($sourceNode);
-        $segment = new Segment($sourceNodes, [], Xliff::STATE_FINAL);
+        $segment = new Segment($sourceNodes, $targetNodes, $state);
         $unit->addSegment($segment);
+        $this->nodeAttributesToNotes($unit, $sourceNode);
 
-        //        $this->fillInline($sourceNode, $source);
-        //
-        //        $nodeXPath = $this->getXPath($sourceNode);
-        //        if (null === $nodeXPath) {
-        //            return;
-        //        }
-        //
-        //        $foundTarget = $targetCrawler->filterXPath($nodeXPath);
-        //        $foundTargetNode = $foundTarget->getNode(0);
-        //
-        //        $isTranslated = 1 === $foundTarget->count();
-        //        if (!$isTranslated && '' === $source->textContent) {
-        //            $isTranslated = true;
-        //        }
-        //
-        //        if ($isTranslated && !$isFinal && \in_array($this->isAlreadyTranslated($target, ['final']), [null, true])) {
-        //            $foundBaseline = $baselineCrawler->filterXPath($nodeXPath);
-        //            $foundBaselineNode = $foundBaseline->getNode(0);
-        //            if (null !== $foundBaselineNode) {
-        //                $isFinal = ($sourceNode->textContent === $foundBaselineNode->textContent);
-        //            }
-        //        }
-        //
-        //        $this->setTargetAttributes($target, $isFinal, $isTranslated);
-        //
-        //        if (!$isTranslated || null === $foundTargetNode) {
-        //            return;
-        //        }
-        //
-        //        $this->fillInline($foundTargetNode, $target);
         return $unit;
     }
 
@@ -362,5 +354,23 @@ class HtmlExtractor
     private function buildEquivTextClosingTag(\DOMElement $el): string
     {
         return \htmlspecialchars('</'.$el->tagName.'>', ENT_QUOTES | ENT_XML1);
+    }
+
+    private function nodeAttributesToNotes(DocumentNodeInterface $unit, \DOMNode $node): void
+    {
+        foreach ($node->attributes ?? [] as $value) {
+            $notes = new Note(
+                text: $value->nodeValue ?? '',
+                from: $value->nodeName
+            );
+            $unit->addNote($notes);
+        }
+    }
+
+    private function getXPath(\DOMNode $sourceNode): string
+    {
+        $nodePath = Type::string($sourceNode->getNodePath());
+
+        return \str_replace('/html/', '//', $nodePath);
     }
 }

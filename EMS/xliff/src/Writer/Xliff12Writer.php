@@ -65,9 +65,24 @@ class Xliff12Writer implements WriterInterface
         }
     }
 
-    private function addUnitGroup(Package $package, \DOMElement $file, UnitGroup $unitGroup): void
+    private function addUnitGroup(Package $package, \DOMElement $parent, UnitGroup $unitGroup): void
     {
-        // TODO
+        $groupElement = DomHelper::createElement($parent, 'group', [
+            'resname' => $unitGroup->getResourceName(),
+            'id' => $unitGroup->getId(),
+        ]);
+        foreach ($unitGroup->getNodes() as $node) {
+            switch ($node::class) {
+                case Unit::class:
+                    $this->addUnit($package, $groupElement, $node);
+                    break;
+                case UnitGroup::class:
+                    $this->addUnitGroup($package, $groupElement, $node);
+                    break;
+                default:
+                    throw new \LogicException('Unsupported document node');
+            }
+        }
     }
 
     private function addUnit(Package $package, \DOMElement $parent, Unit $unit): void

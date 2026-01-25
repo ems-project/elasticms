@@ -232,7 +232,7 @@ class HtmlExtractor
     private function buildNodes(\DOMNode $node): array
     {
         if ('#text' === $node->nodeName) {
-            return [new Text($node->textContent)];
+            return [new Text(self::trimUselessWhiteSpaces($node->textContent))];
         }
 
         if (\in_array($node->nodeName, self::INTERNAL_TAGS)) {

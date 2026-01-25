@@ -67,10 +67,27 @@ class Xliff12Writer implements WriterInterface
 
     private function addUnitGroup(Package $package, \DOMElement $parent, UnitGroup $unitGroup): void
     {
-        $groupElement = DomHelper::createElement($parent, 'group', [
-            'resname' => $unitGroup->getResourceName(),
-            'id' => $unitGroup->getId(),
-        ]);
+        // TODO: Remove == $unitGroup->getType() ==> just to keep legacy order
+        if (null === $unitGroup->getType()) {
+            $groupElement = DomHelper::createElement($parent, 'group', [
+                'resname' => $unitGroup->getResourceName(),
+                'id' => $unitGroup->getId(),
+            ]);
+        } else {
+            $groupElement = DomHelper::createElement($parent, 'group', [
+                'restype' => $unitGroup->getType(),
+                'id' => $unitGroup->getId(),
+                'resname' => $unitGroup->getResourceName(),
+            ]);
+        }
+        if (null !== $unitGroup->getType()) {
+            foreach ($unitGroup->getNotes() as $note) {
+                $noteElement = DomHelper::createElement($groupElement, 'note', [
+                    'from' => $note->from,
+                ]);
+                $noteElement->textContent = $note->text;
+            }
+        }
         foreach ($unitGroup->getNodes() as $node) {
             switch ($node::class) {
                 case Unit::class:
@@ -83,11 +100,13 @@ class Xliff12Writer implements WriterInterface
                     throw new \LogicException('Unsupported document node');
             }
         }
-        foreach ($unitGroup->getNotes() as $note) {
-            $noteElement = DomHelper::createElement($groupElement, 'note', [
-                'from' => $note->from,
-            ]);
-            $noteElement->textContent = $note->text;
+        if (null === $unitGroup->getType()) {
+            foreach ($unitGroup->getNotes() as $note) {
+                $noteElement = DomHelper::createElement($groupElement, 'note', [
+                    'from' => $note->from,
+                ]);
+                $noteElement->textContent = $note->text;
+            }
         }
     }
 

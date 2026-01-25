@@ -10,6 +10,7 @@ use EMS\Xliff\Id\IdGeneratorInterface;
 use EMS\Xliff\Model\DocumentNodeInterface;
 use EMS\Xliff\Model\Inline\Node;
 use EMS\Xliff\Model\Inline\PairedCode;
+use EMS\Xliff\Model\Inline\Placeholder;
 use EMS\Xliff\Model\Inline\Text;
 use EMS\Xliff\Model\Note;
 use EMS\Xliff\Model\Segment;
@@ -195,9 +196,13 @@ class HtmlExtractor
 
         if (\in_array($node->nodeName, self::INTERNAL_TAGS)) {
             if (!$node->hasChildNodes() && $node instanceof \DOMElement) {
-                //                $this->addXNode($node, $source);
-                //
-                //                return;
+                $placeholder = new Placeholder(
+                    id: $this->idGenerator->nextPlaceholderId(),
+                    type: $node->nodeName,
+                    equivalentText: $node->hasAttributes() ? $this->buildEquivTextOpeningTag($node).$this->buildEquivTextClosingTag($node) : ' ',
+                );
+
+                return [$placeholder];
             } elseif ($node->hasAttributes() && $node instanceof \DOMElement) {
                 $pairedCode = new PairedCode(
                     id: $this->idGenerator->nextInlineCodeId(),

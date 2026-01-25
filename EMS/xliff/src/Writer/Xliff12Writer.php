@@ -10,6 +10,7 @@ use EMS\Xliff\Id\SequentialIdGenerator;
 use EMS\Xliff\Model\Document;
 use EMS\Xliff\Model\Inline\Node;
 use EMS\Xliff\Model\Inline\PairedCode;
+use EMS\Xliff\Model\Inline\Placeholder;
 use EMS\Xliff\Model\Inline\Text;
 use EMS\Xliff\Model\Package;
 use EMS\Xliff\Model\Unit;
@@ -162,6 +163,13 @@ class Xliff12Writer implements WriterInterface
                         'id' => $node->endId,
                         'rid' => $node->referenceId,
                         'equiv-text' => $node->equivalentClosingText,
+                    ]);
+                    break;
+                case Placeholder::class:
+                    DomHelper::createElement($parent, 'x', [
+                        'id' => $node->id,
+                        'ctype' => \sprintf('x-html-%s', $node->type),
+                        'equiv-text' => $node->equivalentText,
                     ]);
                     break;
                 default:

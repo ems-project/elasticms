@@ -8,6 +8,8 @@ interface IdGeneratorInterface
 {
     public function nextUnitId(): string;
 
+    public function nextUnitGroupId(): string;
+
     public function nextSegmentId(): string;
 
     public function nextGroupId(): string;
@@ -17,4 +19,6 @@ interface IdGeneratorInterface
     public function nextEndInlineCodeId(): string;
 
     public function nextPlaceholderId(): string;
+
+    public function nextReferenceId(): string;
 }

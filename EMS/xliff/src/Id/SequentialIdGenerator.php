@@ -13,6 +13,11 @@ final class SequentialIdGenerator implements IdGeneratorInterface
         return \sprintf('tu%d', ++$this->counter);
     }
 
+    public function nextUnitGroupId(): string
+    {
+        return \sprintf('grp%d', ++$this->counter);
+    }
+
     public function nextSegmentId(): string
     {
         return \sprintf('s%d', ++$this->counter);
@@ -20,7 +25,7 @@ final class SequentialIdGenerator implements IdGeneratorInterface
 
     public function nextGroupId(): string
     {
-        return \sprintf('grp%d', ++$this->counter);
+        return \sprintf('g%d', ++$this->counter);
     }
 
     public function nextInlineCodeId(): string
@@ -36,5 +41,10 @@ final class SequentialIdGenerator implements IdGeneratorInterface
     public function nextPlaceholderId(): string
     {
         return \sprintf('x%d', ++$this->counter);
+    }
+
+    public function nextReferenceId(): string
+    {
+        return \sprintf('rid%d', ++$this->counter);
     }
 }

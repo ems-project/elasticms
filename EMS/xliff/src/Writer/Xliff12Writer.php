@@ -129,7 +129,7 @@ class Xliff12Writer implements WriterInterface
             switch ($node::class) {
                 case Text::class:
                     if ('' !== $node->text) {
-                        $parent->textContent .= $node->text;
+                        $parent->appendChild(new \DOMText($node->text));
                     }
                     break;
                 case PairedCode::class:

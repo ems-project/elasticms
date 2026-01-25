@@ -95,9 +95,9 @@ class Xliff12Writer implements WriterInterface
     {
         $type = 'text' === $unit->getType() ? null : $unit->getType();
         $tu = DomHelper::createElement($parent, 'trans-unit', [
+            'restype' => $type,
             'id' => $unit->getId(),
             'resname' => $unit->getResourceName(),
-            'restype' => $type,
         ]);
         foreach ($unit->getSegments() as $segment) {
             $source = DomHelper::createElement($tu, 'source', [

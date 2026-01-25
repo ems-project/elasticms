@@ -9,6 +9,7 @@ use EMS\Xliff\Html\HtmlExtractor;
 use EMS\Xliff\Id\SequentialIdGenerator;
 use EMS\Xliff\Model\Document;
 use EMS\Xliff\Model\Inline\Node;
+use EMS\Xliff\Model\Inline\PairedCode;
 use EMS\Xliff\Model\Inline\Text;
 use EMS\Xliff\Model\Package;
 use EMS\Xliff\Model\Unit;
@@ -53,10 +54,10 @@ class Xliff12Writer implements WriterInterface
         foreach ($document->getNodes() as $node) {
             switch ($node::class) {
                 case Unit::class:
-                    $this->addUnit($package, $file, $node);
+                    $this->addUnit($package, $body, $node);
                     break;
                 case UnitGroup::class:
-                    $this->addUnitGroup($package, $file, $node);
+                    $this->addUnitGroup($package, $body, $node);
                     break;
                 default:
                     throw new \LogicException('Unsupported document node');
@@ -69,11 +70,10 @@ class Xliff12Writer implements WriterInterface
         // TODO
     }
 
-    private function addUnit(Package $package, \DOMElement $file, Unit $unit): void
+    private function addUnit(Package $package, \DOMElement $parent, Unit $unit): void
     {
-        $body = DomHelper::createSingleElement($file, 'body');
         $type = 'text' === $unit->getType() ? null : $unit->getType();
-        $tu = DomHelper::createElement($body, 'trans-unit', [
+        $tu = DomHelper::createElement($parent, 'trans-unit', [
             'id' => $unit->getId(),
             'resname' => $unit->getResourceName(),
             'restype' => $type,

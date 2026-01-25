@@ -77,7 +77,10 @@ class Xliff22Reader implements ReaderInterface
     private function addText(\DOMXPath $xpath, \DOMElement $unitElement, Unit $unit): void
     {
         $sourceElement = DomHelper::getElement($xpath, $unitElement, 'x:segment/x:source');
-        $source = new Text($sourceElement->textContent);
+        $sourceNodes = [];
+        if ('' !== $sourceElement->textContent) {
+            $sourceNodes[] = new Text($sourceElement->textContent);
+        }
         $targetElement = DomHelper::getElement($xpath, $unitElement, 'x:segment/x:target');
         $targetNodes = [];
         if ('' !== $targetElement->textContent) {
@@ -85,7 +88,7 @@ class Xliff22Reader implements ReaderInterface
         }
         $state = $targetElement->getAttribute('state');
         $segment = new Segment(
-            sourceNodes: [$source],
+            sourceNodes: $sourceNodes,
             targetNodes: $targetNodes,
             state: $state,
         );

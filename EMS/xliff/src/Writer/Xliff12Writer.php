@@ -114,12 +114,33 @@ class Xliff12Writer implements WriterInterface
     private function appendInlineNodes(\DOMElement $parent, array $nodes): void
     {
         foreach ($nodes as $node) {
-            if ($node instanceof Text) {
-                if ('' !== $node->text) {
-                    $parent->textContent .= $node->text;
-                }
-                continue;
+            switch ($node::class) {
+                case Text::class:
+                    if ('' !== $node->text) {
+                        $parent->textContent .= $node->text;
+                    }
+                    break;
+                case PairedCode::class:
+                    DomHelper::createElement($parent, 'bx', [
+                        'id' => $node->id,
+                        'rid' => $node->referenceId,
+                        'equiv-text' => $node->equivalentOpeningText,
+                    ]);
+                    $this->appendInlineNodes($parent, $node->getChildren());
+                    DomHelper::createElement($parent, 'ex', [
+                        'id' => $node->endId,
+                        'rid' => $node->referenceId,
+                        'equiv-text' => $node->equivalentClosingText,
+                    ]);
+                    break;
+                default:
+                    throw new \RuntimeException(\sprintf('Inline node %s not supported', \get_class($node)));
             }
+            //            if ($node instanceof Text) {
+            //                if ('' !== $node->text) {
+            //                    $parent->textContent .= $node->text;
+            //                }
+            //            }
 
             //            // 2) <g> (group inline)
             //            if ($node instanceof Group) {
@@ -190,8 +211,6 @@ class Xliff12Writer implements WriterInterface
             //                $parent->appendChild($ex);
             //                continue;
             //            }
-
-            throw new \RuntimeException(\sprintf('Inline node %s not supported', \get_class($node)));
         }
     }
 }

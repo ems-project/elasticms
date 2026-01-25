@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace EMS\Xliff\Model\Inline;
 
-class Text implements InlineInterface
+class Text extends Node
 {
     public function __construct(public readonly string $text)
     {
+        parent::__construct();
     }
 }

@@ -62,27 +62,9 @@ class Document
 
     public function createHtml(string $resourceName, string $sourceHtml, ?string $targetHtml = null, ?string $baselineHtml = null, bool $isFinal = false): void
     {
-        if (null === $targetHtml) {
-            $state = Xliff::STATE_NEW;
-        } elseif ($baselineHtml === $sourceHtml) {
-            $state = Xliff::STATE_FINAL;
-        } else {
-            $state = Xliff::STATE_NEEDS_TRANSLATION;
-        }
-        if ($isFinal) {
-            $state = Xliff::STATE_FINAL;
-        }
+        $unitGroup = $this->htmlExtractor->extract($resourceName, $sourceHtml, $targetHtml, $baselineHtml);
 
-        //        $unit = new Unit(
-        //            id: $this->idGenerator->nextUnitId(),
-        //            resourceName: $resourceName,
-        //            type: 'text'
-        //        );
-
-        $units = $this->htmlExtractor->extract($resourceName, $sourceHtml, $targetHtml, $baselineHtml);
-        //        foreach ($units as $unit) {
-        //            $this->addUnit($unit);
-        //        }
+        $this->addNode($unitGroup);
     }
 
     /**

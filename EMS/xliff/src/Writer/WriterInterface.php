@@ -10,5 +10,5 @@ interface WriterInterface
 {
     public function supportsVersion(string $version): bool;
 
-    public function write(Package $package): string;
+    public function write(Package $package, string $encoding = 'UTF-8'): string;
 }

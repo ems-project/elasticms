@@ -29,9 +29,10 @@ class Xliff12Writer implements WriterInterface
         return Version::V12 === $version;
     }
 
-    public function write(Package $package): string
+    public function write(Package $package, string $encoding = 'UTF-8'): string
     {
         $dom = DomHelper::initDocument($this->options->preserveWhitespace, $this->options->formatOutput);
+        $dom->encoding = $encoding;
         $xliff = DomHelper::initXliff($dom, Version::V12, Version::V12_NAMESPACE);
         foreach ($package->getDocuments() as $document) {
             $this->addDocument($xliff, $package, $document);

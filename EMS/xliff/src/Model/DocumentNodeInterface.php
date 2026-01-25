@@ -11,4 +11,11 @@ interface DocumentNodeInterface
     public function getResourceName(): ?string;
 
     public function getType(): ?string;
+
+    public function addNote(Note $note): void;
+
+    /**
+     * @return Note[]
+     */
+    public function getNotes(): array;
 }

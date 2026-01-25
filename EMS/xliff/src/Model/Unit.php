@@ -8,6 +8,8 @@ class Unit implements DocumentNodeInterface
 {
     /** @var Segment[] */
     private array $segments = [];
+    /** @var Note[] */
+    private array $notes = [];
 
     public function __construct(public readonly string $id, public readonly string $resourceName, public readonly ?string $type = null)
     {
@@ -39,5 +41,18 @@ class Unit implements DocumentNodeInterface
     public function getType(): ?string
     {
         return $this->type;
+    }
+
+    public function addNote(Note $note): void
+    {
+        $this->notes[] = $note;
+    }
+
+    /**
+     * @return Note[]
+     */
+    public function getNotes(): array
+    {
+        return $this->notes;
     }
 }

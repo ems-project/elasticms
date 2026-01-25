@@ -8,6 +8,8 @@ class UnitGroup implements DocumentNodeInterface
 {
     /** @var DocumentNodeInterface[] */
     private array $nodes = [];
+    /** @var Note[] */
+    private array $notes = [];
 
     public function __construct(public readonly string $id, public readonly string $resourceName, public readonly ?string $type = null)
     {
@@ -39,5 +41,18 @@ class UnitGroup implements DocumentNodeInterface
     public function addNode(DocumentNodeInterface $node): void
     {
         $this->nodes[] = $node;
+    }
+
+    public function addNote(Note $note): void
+    {
+        $this->notes[] = $note;
+    }
+
+    /**
+     * @return Note[]
+     */
+    public function getNotes(): array
+    {
+        return $this->notes;
     }
 }

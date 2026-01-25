@@ -49,6 +49,7 @@ class Xliff12Writer implements WriterInterface
             'datatype' => 'database',
             'target-language' => $package->getTargetLocale(),
         ]);
+        $body = DomHelper::createSingleElement($file, 'body');
         foreach ($document->getNodes() as $node) {
             switch ($node::class) {
                 case Unit::class:

@@ -55,17 +55,17 @@ final class Xliff
         return $this->options;
     }
 
-    public function toXml(?string $version = null): string
+    public function toXml(?string $version = null, string $encoding = 'UTF-8'): string
     {
         $version ??= $this->options->defaultVersion;
         $writer = $this->writers->forVersion($version);
 
-        return $writer->write($this->package);
+        return $writer->write($this->package, $encoding);
     }
 
-    public function saveXml(string $expectedFilename, string $encoding, ?string $version = null): void
+    public function saveXml(string $expectedFilename, ?string $version = null, string $encoding = 'UTF-8'): void
     {
-        File::putContents($expectedFilename, $this->toXml($version));
+        File::putContents($expectedFilename, $this->toXml($version, $encoding));
     }
 
     public function readXml(string $xliffXml): void

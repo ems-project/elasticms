@@ -135,7 +135,7 @@ class HtmlExtractor
                 $nodes[] = $this->addInlineUnit($domNode, $targetCrawler, $baselineCrawler, $isFinal);
             } else {
                 $unit = new UnitGroup(
-                    id: $this->idGenerator->nextUnitId(),
+                    id: $this->idGenerator->nextUnitGroupId(),
                     type: self::getResourceType($domNode),
                     resourceName: self::getResourceName($domNode),
                 );

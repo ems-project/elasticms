@@ -127,7 +127,6 @@ class HtmlExtractor
     private function addNode(\DOMNode $sourceNode, Crawler $targetCrawler, Crawler $baselineCrawler, bool $isFinal): array
     {
         $nodes = [];
-        //        $currentSegment = null;
         foreach ($sourceNode->childNodes as $domNode) {
             if ($domNode instanceof \DOMText && $this->isEmpty($domNode)) {
                 continue;
@@ -137,48 +136,15 @@ class HtmlExtractor
             } else {
                 $unit = new UnitGroup(
                     id: $this->idGenerator->nextUnitGroupId(),
-                    type: self::getResourceType($domNode),
                     resourceName: self::getResourceName($domNode),
+                    type: self::getResourceType($domNode),
                 );
-                $this->nodeAttributesToNotes($unit, $sourceNode);
-
+                $this->nodeAttributesToNotes($unit, $domNode);
+                $childNodes = $this->addNode($domNode, $targetCrawler, $baselineCrawler, $isFinal);
+                foreach ($childNodes as $node) {
+                    $unit->addNode($node);
+                }
                 $nodes[] = $unit;
-                //                $currentSegment = null;
-                //                if (\version_compare($this->xliffVersion, '2.0') < 0) {
-                //                    $subGroupAttributes = [];
-                //                    $notes = [];
-                //                    $subGroupAttributes['restype'] = static::getRestype($domNode->nodeName);
-                //                    if (null !== $domNode->attributes) {
-                //                        foreach ($domNode->attributes as $value) {
-                //                            if (!$value instanceof \DOMAttr) {
-                //                                throw new \RuntimeException('Unexpected attribute object');
-                //                            }
-                //                            if (\in_array($value->nodeName, self::TRANSLATABLE_ATTRIBUTES, true)) {
-                //                                continue;
-                //                            }
-                //                            $notes[$value->nodeName] = $value->nodeValue;
-                //                        }
-                //                    }
-                //                } else {
-                //                    $subGroupAttributes = [];
-                //                    $notes = [];
-                //                }
-                //                $subGroup = new \DOMElement('group');
-                //                $group->appendChild($subGroup);
-                //                foreach ($notes as $from => $value) {
-                //                    if (null === $value) {
-                //                        throw new \RuntimeException('Unexpected null value');
-                //                    }
-                //                    $note = new \DOMElement('note');
-                //                    $note->setAttribute('from', $from);
-                //                    $note->textContent = $value;
-                //                    $subGroup->appendChild($note);
-                //                }
-                //                foreach ($subGroupAttributes as $attribute => $value) {
-                //                    $subGroup->setAttribute($attribute, $value);
-                //                }
-                //                $this->addId($subGroup, $domNode);
-                //                $this->addNode($subGroup, $domNode, $targetCrawler, $baselineCrawler, $isFinal);
             }
         }
 

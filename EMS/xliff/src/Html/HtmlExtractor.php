@@ -153,6 +153,11 @@ class HtmlExtractor
 
     private function addInlineUnit(\DOMNode $sourceNode, Crawler $targetCrawler, Crawler $baselineCrawler, bool $isFinal): Unit
     {
+        $unit = new Unit(
+            id: $this->idGenerator->nextUnitId(),
+            resourceName: $this->getResourceName($sourceNode),
+            type: self::getResourceType($sourceNode),
+        );
         $sourceNodes = $this->buildNodes($sourceNode);
         $targetNodes = [];
 
@@ -172,11 +177,6 @@ class HtmlExtractor
             }
         }
 
-        $unit = new Unit(
-            id: $this->idGenerator->nextUnitId(),
-            resourceName: $this->getResourceName($sourceNode),
-            type: self::getResourceType($sourceNode),
-        );
         $segment = new Segment($sourceNodes, $targetNodes, $state);
         $unit->addSegment($segment);
         $this->nodeAttributesToNotes($unit, $sourceNode);
@@ -204,9 +204,9 @@ class HtmlExtractor
                 return [$placeholder];
             } elseif ($node->hasAttributes() && $node instanceof \DOMElement) {
                 $pairedCode = new PairedCode(
+                    referenceId: $this->idGenerator->nextReferenceId(),
                     id: $this->idGenerator->nextInlineCodeId(),
                     endId: $this->idGenerator->nextEndInlineCodeId(),
-                    referenceId: $this->idGenerator->nextReferenceId(),
                     resourceName: $this->getResourceName($node),
                     equivalentOpeningText: $this->buildEquivTextOpeningTag($node),
                     equivalentClosingText: $this->buildEquivTextClosingTag($node),

@@ -10,9 +10,9 @@ class PairedCode extends Node
     private array $children = [];
 
     public function __construct(
+        public readonly string $referenceId,
         public readonly string $id,
         public readonly string $endId,
-        public readonly string $referenceId,
         public readonly string $resourceName,
         public readonly string $equivalentOpeningText,
         public readonly string $equivalentClosingText,

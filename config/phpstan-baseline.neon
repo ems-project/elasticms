@@ -246,42 +246,6 @@ parameters:
 			count: 1
 			path: ../EMS/form-bundle/src/Components/Form/NestedChoiceType.php
 
-		-
-			message: '''
-				#^Call to method load\(\) of deprecated class Symfony\\Component\\DependencyInjection\\Loader\\XmlFileLoader\:
-				since Symfony 7\.4, use another loader instead$#
-			'''
-			identifier: method.deprecatedClass
-			count: 1
-			path: ../EMS/form-bundle/src/DependencyInjection/EMSFormExtension.php
-
-		-
-			message: '''
-				#^Instantiation of deprecated class Symfony\\Component\\DependencyInjection\\Loader\\XmlFileLoader\:
-				since Symfony 7\.4, use another loader instead$#
-			'''
-			identifier: new.deprecatedClass
-			count: 1
-			path: ../EMS/form-bundle/src/DependencyInjection/EMSFormExtension.php
-
-		-
-			message: '''
-				#^Call to method load\(\) of deprecated class Symfony\\Component\\DependencyInjection\\Loader\\XmlFileLoader\:
-				since Symfony 7\.4, use another loader instead$#
-			'''
-			identifier: method.deprecatedClass
-			count: 2
-			path: ../EMS/submission-bundle/src/DependencyInjection/EMSSubmissionExtension.php
-
-		-
-			message: '''
-				#^Instantiation of deprecated class Symfony\\Component\\DependencyInjection\\Loader\\XmlFileLoader\:
-				since Symfony 7\.4, use another loader instead$#
-			'''
-			identifier: new.deprecatedClass
-			count: 1
-			path: ../EMS/submission-bundle/src/DependencyInjection/EMSSubmissionExtension.php
-
 
 
 

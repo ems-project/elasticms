@@ -1,5 +1,16 @@
 # Changelog 6.x
 
+## 6.9.7 (2026-01-26)
+### Features
+* feat(demo): resolve deprecations and update by @Davidmattei in https://github.com/ems-project/elasticms/pull/1529
+### Bug Fixes
+* fix(common/encoding): ems_anti_spam handle multiple phone numbers by @theus77 in https://github.com/ems-project/elasticms/pull/1523
+* fix(core/form-submission): avoid doctrine out of memory exception by @theus77 in https://github.com/ems-project/elasticms/pull/1518
+* fix(xliff): useless namespace + trans-unit without id by @theus77 in https://github.com/ems-project/elasticms/pull/1526
+* fix(xliff/extract): ctype in bx ex by @theus77 in https://github.com/ems-project/elasticms/pull/1524
+* fix(xliff/extract): format error by @theus77 in https://github.com/ems-project/elasticms/pull/1521
+* fix(xliff/extract): wrong final segment by @theus77 in https://github.com/ems-project/elasticms/pull/1520
+
 ## 6.9.6 (2026-01-13)
 ### Bug Fixes
 * fix(admin/aliases): allow to remove all indexes from a managed aliases by @theus77 in https://github.com/ems-project/elasticms/pull/1509

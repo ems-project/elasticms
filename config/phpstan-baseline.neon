@@ -19,18 +19,6 @@ parameters:
 			path: ../EMS/client-helper-bundle/src/Helper/Routing/RoutingBuilder.php
 
 		-
-			message: '#^Method EMS\\ClientHelperBundle\\Security\\CoreApi\\User\\CoreApiUser\:\:getUserIdentifier\(\) should return non\-empty\-string but returns string\.$#'
-			identifier: return.type
-			count: 1
-			path: ../EMS/client-helper-bundle/src/Security/CoreApi/User/CoreApiUser.php
-
-		-
-			message: '#^Method EMS\\ClientHelperBundle\\Security\\Sso\\User\\SsoUser\:\:getUserIdentifier\(\) should return non\-empty\-string but returns string\.$#'
-			identifier: return.type
-			count: 1
-			path: ../EMS/client-helper-bundle/src/Security/Sso/User/SsoUser.php
-
-		-
 			message: '''
 				#^Call to deprecated method assetPath\(\) of class EMS\\CommonBundle\\Twig\\RequestRuntime\:
 				assetPath will be removed in elasticms/common\-bundle 1\.20\. Use AssetRuntime\:\:assetPath instead\.$#
@@ -125,12 +113,6 @@ parameters:
 			identifier: method.deprecated
 			count: 2
 			path: ../EMS/core-bundle/src/Entity/Form/CriteriaUpdateConfig.php
-
-		-
-			message: '#^Method EMS\\CoreBundle\\Entity\\User\:\:getUserIdentifier\(\) should return non\-empty\-string but returns string\.$#'
-			identifier: return.type
-			count: 1
-			path: ../EMS/core-bundle/src/Entity/User.php
 
 		-
 			message: '#^Call to deprecated method updateDataValue\(\) of class EMS\\CoreBundle\\Entity\\DataField\.$#'

@@ -1,42 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: '''
-				#^Call to method load\(\) of deprecated class Symfony\\Component\\DependencyInjection\\Loader\\XmlFileLoader\:
-				since Symfony 7\.4, use another loader instead$#
-			'''
-			identifier: method.deprecatedClass
-			count: 8
-			path: ../EMS/client-helper-bundle/src/DependencyInjection/EMSClientHelperExtension.php
-
-		-
-			message: '''
-				#^Instantiation of deprecated class Symfony\\Component\\DependencyInjection\\Loader\\XmlFileLoader\:
-				since Symfony 7\.4, use another loader instead$#
-			'''
-			identifier: new.deprecatedClass
-			count: 1
-			path: ../EMS/client-helper-bundle/src/DependencyInjection/EMSClientHelperExtension.php
-
-		-
-			message: '''
-				#^Parameter \$loader of method EMS\\ClientHelperBundle\\DependencyInjection\\EMSClientHelperExtension\:\:defineClientRequest\(\) has typehint with deprecated class Symfony\\Component\\DependencyInjection\\Loader\\XmlFileLoader\:
-				since Symfony 7\.4, use another loader instead$#
-			'''
-			identifier: parameter.deprecatedClass
-			count: 1
-			path: ../EMS/client-helper-bundle/src/DependencyInjection/EMSClientHelperExtension.php
-
-		-
-			message: '''
-				#^Parameter \$loader of method EMS\\ClientHelperBundle\\DependencyInjection\\EMSClientHelperExtension\:\:processElasticms\(\) has typehint with deprecated class Symfony\\Component\\DependencyInjection\\Loader\\XmlFileLoader\:
-				since Symfony 7\.4, use another loader instead$#
-			'''
-			identifier: parameter.deprecatedClass
-			count: 1
-			path: ../EMS/client-helper-bundle/src/DependencyInjection/EMSClientHelperExtension.php
-
-		-
 			message: '#^Parameter \$max of class Symfony\\Component\\Validator\\Constraints\\Length constructor expects int\<1, max\>\|null, int\|null given\.$#'
 			identifier: argument.type
 			count: 1

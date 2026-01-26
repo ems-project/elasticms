@@ -75,14 +75,7 @@ parameters:
 			count: 1
 			path: ../EMS/core-bundle/src/Controller/Views/CalendarController.php
 
-		-
-			message: '''
-				#^Call to deprecated method getChildByPath\(\) of class EMS\\CoreBundle\\Entity\\FieldType\:
-				it's not clear if its the mapping of the rawdata or of the formdata \(with ou without the virtual fields\) see the same function in the contenttypeservice$#
-			'''
-			identifier: method.deprecated
-			count: 2
-			path: ../EMS/core-bundle/src/Controller/Views/CriteriaController.php
+
 
 		-
 			message: '#^Call to function is_string\(\) with string will always evaluate to true\.$#'
@@ -105,14 +98,7 @@ parameters:
 			count: 1
 			path: ../EMS/core-bundle/src/Entity/DataField.php
 
-		-
-			message: '''
-				#^Call to deprecated method getChildByPath\(\) of class EMS\\CoreBundle\\Entity\\FieldType\:
-				it's not clear if its the mapping of the rawdata or of the formdata \(with ou without the virtual fields\) see the same function in the contenttypeservice$#
-			'''
-			identifier: method.deprecated
-			count: 2
-			path: ../EMS/core-bundle/src/Entity/Form/CriteriaUpdateConfig.php
+
 
 		-
 			message: '#^Call to deprecated method updateDataValue\(\) of class EMS\\CoreBundle\\Entity\\DataField\.$#'
@@ -138,32 +124,11 @@ parameters:
 			count: 1
 			path: ../EMS/core-bundle/src/Form/DataTransformer/FormModelTransformer.php
 
-		-
-			message: '''
-				#^Call to deprecated method getChildByPath\(\) of class EMS\\CoreBundle\\Entity\\FieldType\:
-				it's not clear if its the mapping of the rawdata or of the formdata \(with ou without the virtual fields\) see the same function in the contenttypeservice$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: ../EMS/core-bundle/src/Form/Nature/ReorganizeType.php
 
-		-
-			message: '''
-				#^Call to deprecated method getChildByPath\(\) of class EMS\\CoreBundle\\Entity\\FieldType\:
-				it's not clear if its the mapping of the rawdata or of the formdata \(with ou without the virtual fields\) see the same function in the contenttypeservice$#
-			'''
-			identifier: method.deprecated
-			count: 3
-			path: ../EMS/core-bundle/src/Form/View/Criteria/CriteriaFilterType.php
 
-		-
-			message: '''
-				#^Call to deprecated method getChildByPath\(\) of class EMS\\CoreBundle\\Entity\\FieldType\:
-				it's not clear if its the mapping of the rawdata or of the formdata \(with ou without the virtual fields\) see the same function in the contenttypeservice$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: ../EMS/core-bundle/src/Service/DataService.php
+
+
+
 
 		-
 			message: '''

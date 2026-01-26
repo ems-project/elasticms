@@ -1,24 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: '#^Parameter \$max of class Symfony\\Component\\Validator\\Constraints\\Length constructor expects int\<1, max\>\|null, int\|null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: ../EMS/client-helper-bundle/src/Helper/Form/EmschFormType.php
-
-		-
-			message: '#^Parameter \$min of class Symfony\\Component\\Validator\\Constraints\\Length constructor expects int\<0, max\>\|null, int\|null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: ../EMS/client-helper-bundle/src/Helper/Form/EmschFormType.php
-
-		-
-			message: '#^Parameter \$type of method Symfony\\Component\\Form\\FormBuilderInterface\<mixed\>\:\:add\(\) expects class\-string\<Symfony\\Component\\Form\\FormTypeInterface\>\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: ../EMS/client-helper-bundle/src/Helper/Form/EmschFormType.php
-
-		-
 			message: '''
 				#^Call to method load\(\) of deprecated class Symfony\\Component\\Routing\\Loader\\XmlFileLoader\:
 				since Symfony 7\.4, use another loader instead$#
@@ -35,18 +17,6 @@ parameters:
 			identifier: new.deprecatedClass
 			count: 1
 			path: ../EMS/client-helper-bundle/src/Helper/Routing/RoutingBuilder.php
-
-		-
-			message: '#^Parameter \#1 \$name of method EMS\\ClientHelperBundle\\Helper\\Search\\Search\:\:setSortBy\(\) expects string\|null, bool\|float\|int\|string\|null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: ../EMS/client-helper-bundle/src/Helper/Search/Search.php
-
-		-
-			message: '#^Unable to resolve the template type TDefault in call to method Symfony\\Component\\HttpFoundation\\InputBag\<string\>\:\:get\(\)$#'
-			identifier: argument.templateType
-			count: 3
-			path: ../EMS/client-helper-bundle/src/Helper/Search/Search.php
 
 		-
 			message: '#^Method EMS\\ClientHelperBundle\\Security\\CoreApi\\User\\CoreApiUser\:\:getUserIdentifier\(\) should return non\-empty\-string but returns string\.$#'
@@ -187,12 +157,6 @@ parameters:
 			path: ../EMS/core-bundle/src/Form/DataTransformer/FormModelTransformer.php
 
 		-
-			message: '#^Parameter \#2 \$type of method Symfony\\Component\\Form\\FormBuilderInterface\<mixed\>\:\:add\(\) expects class\-string\<Symfony\\Component\\Form\\FormTypeInterface\>\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: ../EMS/core-bundle/src/Form/Form/ViewType.php
-
-		-
 			message: '''
 				#^Call to deprecated method getChildByPath\(\) of class EMS\\CoreBundle\\Entity\\FieldType\:
 				it's not clear if its the mapping of the rawdata or of the formdata \(with ou without the virtual fields\) see the same function in the contenttypeservice$#
@@ -228,23 +192,11 @@ parameters:
 			count: 1
 			path: ../EMS/core-bundle/src/Twig/AppExtension.php
 
-		-
-			message: '#^Parameter \#1 \$constraints of class Symfony\\Component\\Validator\\Constraints\\All constructor expects array\<Symfony\\Component\\Validator\\Constraint\>\|Symfony\\Component\\Validator\\Constraint\|null, array\<string, array\<Symfony\\Component\\Validator\\Constraint\>\> given\.$#'
-			identifier: argument.type
-			count: 1
-			path: ../EMS/form-bundle/src/Components/Field/MultipleFile.php
 
-		-
-			message: '#^Parameter \#2 \$type of method Symfony\\Component\\Form\\FormBuilderInterface\<mixed\>\:\:add\(\) expects class\-string\<Symfony\\Component\\Form\\FormTypeInterface\>\|null, string given\.$#'
-			identifier: argument.type
-			count: 2
-			path: ../EMS/form-bundle/src/Components/Form.php
 
-		-
-			message: '#^Parameter \#2 \$type of method Symfony\\Component\\Form\\FormBuilderInterface\<mixed\>\:\:add\(\) expects class\-string\<Symfony\\Component\\Form\\FormTypeInterface\>\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: ../EMS/form-bundle/src/Components/Form/NestedChoiceType.php
+
+
+
 
 
 

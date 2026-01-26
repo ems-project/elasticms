@@ -20,6 +20,7 @@ use EMS\CommonBundle\Storage\StorageManager;
 use EMS\Helpers\Standard\Hash;
 use EMS\Helpers\Standard\Json;
 use EMS\Helpers\Standard\UuidGenerator;
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -186,7 +187,7 @@ abstract class AbstractImportCommand extends AbstractCommand
                 $row = \array_change_key_case($row);
             }
 
-            $ouuid = $this->createOuuid($config, $row);
+            $ouuid = $this->createOuuid($config, $row) ?? Uuid::uuid4()->toString();
 
             $rawData = $config->defaultData;
             $rawData['_sync_metadata'] = $row;

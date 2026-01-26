@@ -87,18 +87,18 @@ class RefactorTest extends TestCase
                     $this->assertSame('', $unit->type);
                     $this->assertCount(1, $unit->getSegments());
                     foreach ($unit->getSegments() as $segment) {
-                        $this->assertCount(1, $segment->sourceNodes);
-                        $this->assertInstanceOf(Text::class, $segment->sourceNodes[0]);
-                        $this->assertSame(\sprintf('title%d', $i), $segment->sourceNodes[0]->text);
-                        if (empty($segment->targetNodes)) {
+                        $this->assertCount(1, $segment->getSourceNodes());
+                        $this->assertInstanceOf(Text::class, $segment->getSourceNodes()[0]);
+                        $this->assertSame(\sprintf('title%d', $i), $segment->getSourceNodes()[0]->text);
+                        if (empty($segment->getTargetNodes())) {
                             $this->assertSame(4, $i);
-                            $this->assertSame(Xliff::STATE_NEW, $segment->state);
+                            $this->assertSame(Xliff::STATE_NEW, $segment->getState());
                         } else {
-                            $this->assertCount(1, $segment->targetNodes);
-                            $this->assertSame(\sprintf('titre%d', $i), $segment->targetNodes[0]->text);
+                            $this->assertCount(1, $segment->getTargetNodes());
+                            $this->assertSame(\sprintf('titre%d', $i), $segment->getTargetNodes()[0]->text);
                             match ("$i") {
-                                '1' => $this->assertSame(Xliff::STATE_FINAL, $segment->state),
-                                '2', '3' => $this->assertSame(Xliff::STATE_NEEDS_TRANSLATION, $segment->state),
+                                '1' => $this->assertSame(Xliff::STATE_FINAL, $segment->getState()),
+                                '2', '3' => $this->assertSame(Xliff::STATE_NEEDS_TRANSLATION, $segment->getState()),
                             };
                         }
                     }

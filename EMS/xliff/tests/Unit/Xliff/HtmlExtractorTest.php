@@ -24,13 +24,13 @@ class HtmlExtractorTest extends TestCase
         $this->assertCount(1, $unit->getSegments());
         $segment = $unit->getSegments()[0];
         $this->assertSame('/html/body/p', $unit->resourceName);
-        $source = $segment->sourceNodes[0];
+        $source = $segment->getSourceNodes()[0];
         $this->assertInstanceOf(Text::class, $source);
         $this->assertSame('coucou', \trim($source->text));
         $group = $extractor->extract('[body]', '<p>coucou ceci <a href="/index.html">est un liens</a>.</p>');
         $segment = $group->getNodes()[0]->getSegments()[0];
-        $this->assertCount(3, $segment->sourceNodes);
-        $link = $segment->sourceNodes[1];
+        $this->assertCount(3, $segment->getSourceNodes());
+        $link = $segment->getSourceNodes()[1];
         $this->assertInstanceOf(PairedCode::class, $link);
         $this->assertSame('est un liens', $link->getChildren()[0]->text);
     }

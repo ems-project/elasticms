@@ -127,7 +127,7 @@ class Xliff12Writer implements WriterInterface
             $this->appendInlineNodes($source, $segment->getSourceNodes());
             $target = DomHelper::createElement($tu, 'target', [
                 'xml:lang' => $package->getTargetLocale(),
-                'state' => $segment->state,
+                'state' => $segment->getState(),
             ]);
             if (!empty($segment->getTargetNodes())) {
                 $this->appendInlineNodes($target, $segment->getTargetNodes());

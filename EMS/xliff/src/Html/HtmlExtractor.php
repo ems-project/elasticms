@@ -127,13 +127,24 @@ class HtmlExtractor
     private function addNode(\DOMNode $sourceNode, Crawler $targetCrawler, Crawler $baselineCrawler, bool $isFinal): array
     {
         $nodes = [];
+        $currentInlineSegment = null;
         foreach ($sourceNode->childNodes as $domNode) {
             if ($domNode instanceof \DOMText && $this->isEmpty($domNode)) {
                 continue;
             }
             if ($this->isInline($domNode)) {
-                $nodes[] = $this->addInlineUnit($domNode, $targetCrawler, $baselineCrawler, $isFinal);
+                $appendable = $this->isAppendableInline($domNode);
+                if (null === $currentInlineSegment || !$appendable) {
+                    $currentInlineUnit = $this->initInlineUnit($domNode);
+                    $nodes[] = $currentInlineUnit;
+                    $currentInlineSegment = $currentInlineUnit->getSegments()[0] ?? null;
+                    if (!$currentInlineSegment instanceof Segment) {
+                        throw new \RuntimeException('Unexpected null inline segment');
+                    }
+                }
+                $this->appendInline($currentInlineSegment, $domNode, $targetCrawler, $baselineCrawler, $isFinal);
             } else {
+                $currentInlineSegment = null;
                 $unit = new UnitGroup(
                     id: $this->idGenerator->nextUnitGroupId(),
                     resourceName: self::getResourceName($domNode),
@@ -151,14 +162,27 @@ class HtmlExtractor
         return $nodes;
     }
 
-    private function addInlineUnit(\DOMNode $sourceNode, Crawler $targetCrawler, Crawler $baselineCrawler, bool $isFinal): Unit
+    private function initInlineUnit(\DOMNode $sourceNode): Unit
     {
+        $type = null;
+        if ($sourceNode instanceof \DOMElement && !\in_array($sourceNode->nodeName, self::INTERNAL_TAGS)) {
+            $type = self::getResourceType($sourceNode);
+        }
         $unit = new Unit(
             id: $this->idGenerator->nextUnitId(),
             resourceName: $this->getResourceName($sourceNode),
-            type: self::getResourceType($sourceNode),
+            type: $type,
         );
-        $sourceNodes = $this->buildNodes($sourceNode);
+        $this->nodeAttributesToNotes($unit, $sourceNode);
+        $segment = new Segment([], [], Xliff::STATE_NEW);
+        $unit->addSegment($segment);
+
+        return $unit;
+    }
+
+    private function appendInline(Segment $segment, \DOMNode $sourceNode, Crawler $targetCrawler, Crawler $baselineCrawler, bool $isFinal): void
+    {
+        $segment->addSourceNodes($this->buildNodes($sourceNode));
         $targetNodes = [];
 
         $nodeXPath = $this->getXPath($sourceNode);
@@ -176,12 +200,6 @@ class HtmlExtractor
                 $state = Xliff::STATE_FINAL;
             }
         }
-
-        $segment = new Segment($sourceNodes, $targetNodes, $state);
-        $unit->addSegment($segment);
-        $this->nodeAttributesToNotes($unit, $sourceNode);
-
-        return $unit;
     }
 
     /**
@@ -346,5 +364,10 @@ class HtmlExtractor
         $nodePath = Type::string($sourceNode->getNodePath());
 
         return \str_replace('/html/', '//', $nodePath);
+    }
+
+    private function isAppendableInline(\DOMNode $domNode): bool
+    {
+        return \in_array($domNode->nodeName, \array_merge(self::INTERNAL_TAGS, ['#text']));
     }
 }

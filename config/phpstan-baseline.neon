@@ -70,24 +70,6 @@ parameters:
 			path: ../EMS/common-bundle/src/Controller/FileController.php
 
 		-
-			message: '''
-				#^Call to method load\(\) of deprecated class Symfony\\Component\\DependencyInjection\\Loader\\XmlFileLoader\:
-				since Symfony 7\.4, use another loader instead$#
-			'''
-			identifier: method.deprecatedClass
-			count: 10
-			path: ../EMS/common-bundle/src/DependencyInjection/EMSCommonExtension.php
-
-		-
-			message: '''
-				#^Instantiation of deprecated class Symfony\\Component\\DependencyInjection\\Loader\\XmlFileLoader\:
-				since Symfony 7\.4, use another loader instead$#
-			'''
-			identifier: new.deprecatedClass
-			count: 1
-			path: ../EMS/common-bundle/src/DependencyInjection/EMSCommonExtension.php
-
-		-
 			message: '#^Call to deprecated function imagedestroy\(\)\.$#'
 			identifier: function.deprecated
 			count: 2

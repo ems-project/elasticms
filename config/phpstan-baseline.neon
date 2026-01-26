@@ -142,24 +142,6 @@ parameters:
 			path: ../EMS/core-bundle/src/Core/User/UserManager.php
 
 		-
-			message: '''
-				#^Call to method load\(\) of deprecated class Symfony\\Component\\DependencyInjection\\Loader\\XmlFileLoader\:
-				since Symfony 7\.4, use another loader instead$#
-			'''
-			identifier: method.deprecatedClass
-			count: 15
-			path: ../EMS/core-bundle/src/DependencyInjection/EMSCoreExtension.php
-
-		-
-			message: '''
-				#^Instantiation of deprecated class Symfony\\Component\\DependencyInjection\\Loader\\XmlFileLoader\:
-				since Symfony 7\.4, use another loader instead$#
-			'''
-			identifier: new.deprecatedClass
-			count: 1
-			path: ../EMS/core-bundle/src/DependencyInjection/EMSCoreExtension.php
-
-		-
 			message: '#^Call to deprecated method updateDataStructure\(\) of class EMS\\CoreBundle\\Entity\\DataField\.$#'
 			identifier: method.deprecated
 			count: 1

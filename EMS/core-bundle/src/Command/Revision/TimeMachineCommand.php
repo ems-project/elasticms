@@ -137,8 +137,9 @@ final class TimeMachineCommand extends Command
     {
         $property = \array_shift($path);
 
-        if (!is_string($property)) {
+        if (!\is_string($property)) {
             $this->style->error('Property path is empty');
+
             return $currentRaw;
         }
 

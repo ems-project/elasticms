@@ -85,7 +85,7 @@ class Xliff12Reader implements ReaderInterface
             $targetNodes[] = new Text($targetElement->textContent);
         }
         $state = $targetElement->getAttribute('state');
-        $segment = new Segment(
+        $segment = Segment::load(
             sourceNodes: [$source],
             targetNodes: $targetNodes,
             state: $state,

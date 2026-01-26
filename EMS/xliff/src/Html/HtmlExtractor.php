@@ -17,7 +17,6 @@ use EMS\Xliff\Model\Note;
 use EMS\Xliff\Model\Segment;
 use EMS\Xliff\Model\Unit;
 use EMS\Xliff\Model\UnitGroup;
-use EMS\Xliff\Xliff;
 use Symfony\Component\DomCrawler\Crawler;
 
 class HtmlExtractor
@@ -135,14 +134,14 @@ class HtmlExtractor
             if ($this->isInline($domNode)) {
                 $appendable = $this->isAppendableInline($domNode);
                 if (null === $currentInlineSegment || !$appendable) {
-                    $currentInlineUnit = $this->initInlineUnit($domNode);
+                    $currentInlineUnit = $this->initInlineUnit($domNode, $isFinal);
                     $nodes[] = $currentInlineUnit;
                     $currentInlineSegment = $currentInlineUnit->getSegments()[0] ?? null;
                     if (!$currentInlineSegment instanceof Segment) {
                         throw new \RuntimeException('Unexpected null inline segment');
                     }
                 }
-                $this->appendInline($currentInlineSegment, $domNode, $targetCrawler, $baselineCrawler, $isFinal);
+                $this->appendInline($currentInlineSegment, $domNode, $targetCrawler, $baselineCrawler);
             } else {
                 $currentInlineSegment = null;
                 $unit = new UnitGroup(
@@ -162,7 +161,7 @@ class HtmlExtractor
         return $nodes;
     }
 
-    private function initInlineUnit(\DOMNode $sourceNode): Unit
+    private function initInlineUnit(\DOMNode $sourceNode, bool $isFinal): Unit
     {
         $type = null;
         if ($sourceNode instanceof \DOMElement && !\in_array($sourceNode->nodeName, self::INTERNAL_TAGS)) {
@@ -174,13 +173,13 @@ class HtmlExtractor
             type: $type,
         );
         $this->nodeAttributesToNotes($unit, $sourceNode);
-        $segment = new Segment([], [], Xliff::STATE_NEW);
+        $segment = Segment::init(isFinal: $isFinal);
         $unit->addSegment($segment);
 
         return $unit;
     }
 
-    private function appendInline(Segment $segment, \DOMNode $sourceNode, Crawler $targetCrawler, Crawler $baselineCrawler, bool $isFinal): void
+    private function appendInline(Segment $segment, \DOMNode $sourceNode, Crawler $targetCrawler, Crawler $baselineCrawler): void
     {
         $segment->addSourceNodes($this->buildNodes($sourceNode));
         $targetNodes = [];
@@ -188,17 +187,17 @@ class HtmlExtractor
         $nodeXPath = $this->getXPath($sourceNode);
         $foundTarget = $targetCrawler->filterXPath($nodeXPath);
         $foundTargetNode = $foundTarget->getNode(0);
-        $state = Xliff::STATE_NEW;
         if (null !== $foundTargetNode) {
             $targetNodes = $this->buildNodes($foundTargetNode);
         }
         if (!empty($targetNodes)) {
-            $state = $isFinal ? Xliff::STATE_FINAL : Xliff::STATE_NEEDS_TRANSLATION;
-            $foundBaseline = $baselineCrawler->filterXPath($nodeXPath);
-            $foundBaselineNode = $foundBaseline->getNode(0);
-            if (null !== $foundBaselineNode && $sourceNode->textContent === $foundBaselineNode->textContent) {
-                $state = Xliff::STATE_FINAL;
-            }
+            $segment->addTargetNodes($targetNodes);
+        }
+
+        $foundBaseline = $baselineCrawler->filterXPath($nodeXPath);
+        $foundBaselineNode = $foundBaseline->getNode(0);
+        if (null !== $foundBaselineNode) {
+            $segment->addBaseline($sourceNode->textContent, $foundBaselineNode->textContent);
         }
     }
 

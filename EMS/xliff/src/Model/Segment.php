@@ -5,15 +5,46 @@ declare(strict_types=1);
 namespace EMS\Xliff\Model;
 
 use EMS\Xliff\Model\Inline\Node;
+use EMS\Xliff\Model\Inline\Text;
+use EMS\Xliff\Xliff;
 
 class Segment
 {
+    /** @var string[] */
+    private array $sources = [];
+    /** @var string[] */
+    private array $baselines = [];
+
     /**
      * @param Node[] $sourceNodes
      * @param Node[] $targetNodes
      */
-    public function __construct(private array $sourceNodes, private array $targetNodes, private string $state)
+    private function __construct(private array $sourceNodes, private array $targetNodes, private readonly ?string $state = null, ?string $source = null, ?string $baselines = null, private bool $isFinal = false)
     {
+        if (null !== $source) {
+            $this->sources[] = $source;
+        }
+        if (null !== $baselines) {
+            $this->baselines[] = $baselines;
+        }
+    }
+
+    /**
+     * @param Node[] $sourceNodes
+     * @param Node[] $targetNodes
+     */
+    public static function load(array $sourceNodes, array $targetNodes, string $state): self
+    {
+        return new self($sourceNodes, $targetNodes, $state);
+    }
+
+    /**
+     * @param Node[] $sourceNodes
+     * @param Node[] $targetNodes
+     */
+    public static function init(array $sourceNodes = [], array $targetNodes = [], ?string $source = null, ?string $baselines = null, bool $isFinal = false): self
+    {
+        return new self($sourceNodes, $targetNodes, null, $source, $baselines, $isFinal);
     }
 
     /**
@@ -50,11 +81,40 @@ class Segment
 
     public function getState(): string
     {
-        return $this->state;
+        if (null !== $this->state) {
+            return $this->state;
+        }
+
+        if (empty($this->targetNodes) && 1 === \count($this->sourceNodes) && $this->sourceNodes[0] instanceof Text && '' === $this->sourceNodes[0]->text) {
+            return Xliff::STATE_FINAL;
+        }
+        if ($this->isFinal) {
+            return empty($this->targetNodes) ? Xliff::STATE_NEW : Xliff::STATE_FINAL;
+        }
+        if (empty($this->targetNodes)) {
+            return Xliff::STATE_NEW;
+        }
+        if (empty($this->baselines)) {
+            return Xliff::STATE_NEEDS_TRANSLATION;
+        }
+        if (\count($this->sources) !== \count($this->baselines)) {
+            return Xliff::STATE_NEEDS_TRANSLATION;
+        }
+        $i = 0;
+        foreach ($this->sources as $source) {
+            if ($this->baselines[$i++] === $source) {
+                continue;
+            }
+
+            return Xliff::STATE_NEEDS_TRANSLATION;
+        }
+
+        return Xliff::STATE_FINAL;
     }
 
-    public function setState(string $state): void
+    public function addBaseline(string $source, string $baseline): void
     {
-        $this->state = $state;
+        $this->sources[] = $source;
+        $this->baselines[] = $baseline;
     }
 }

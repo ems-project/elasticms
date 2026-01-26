@@ -87,7 +87,7 @@ class Xliff22Reader implements ReaderInterface
             $targetNodes[] = new Text($targetElement->textContent);
         }
         $state = $targetElement->getAttribute('state');
-        $segment = new Segment(
+        $segment = Segment::load(
             sourceNodes: $sourceNodes,
             targetNodes: $targetNodes,
             state: $state,

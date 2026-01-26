@@ -7,7 +7,6 @@ namespace EMS\Xliff\Model;
 use EMS\Xliff\Html\HtmlExtractor;
 use EMS\Xliff\Id\IdGeneratorInterface;
 use EMS\Xliff\Model\Inline\Text;
-use EMS\Xliff\Xliff;
 
 class Document
 {
@@ -22,17 +21,6 @@ class Document
 
     public function createText(string $resourceName, string $source, ?string $target = null, ?string $baseline = null, bool $isFinal = false): Unit
     {
-        if (null === $target) {
-            $state = Xliff::STATE_NEW;
-        } elseif ($baseline === $source) {
-            $state = Xliff::STATE_FINAL;
-        } else {
-            $state = Xliff::STATE_NEEDS_TRANSLATION;
-        }
-        if ($isFinal) {
-            $state = Xliff::STATE_FINAL;
-        }
-
         $unit = new Unit(
             id: $this->idGenerator->nextUnitId(),
             resourceName: $resourceName,
@@ -48,10 +36,12 @@ class Document
             $targetNodes[] = new Text($target);
         }
 
-        $segment = new Segment(
+        $segment = Segment::init(
             sourceNodes: $sourceNodes,
             targetNodes: $targetNodes,
-            state: $state
+            source: $source,
+            baselines: $baseline,
+            isFinal : $isFinal,
         );
 
         $unit->addSegment($segment);

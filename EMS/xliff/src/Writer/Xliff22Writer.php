@@ -80,12 +80,12 @@ class Xliff22Writer implements WriterInterface
             $segmentElement = DomHelper::createElement($unitElement, 'segment');
 
             $source = DomHelper::createElement($segmentElement, 'source');
-            $this->appendInlineNodes($source, $segment->sourceNodes);
+            $this->appendInlineNodes($source, $segment->getSourceNodes());
             $target = DomHelper::createElement($segmentElement, 'target', [
                 'state' => $segment->state,
             ]);
-            if (!empty($segment->targetNodes)) {
-                $this->appendInlineNodes($target, $segment->targetNodes);
+            if (!empty($segment->getTargetNodes())) {
+                $this->appendInlineNodes($target, $segment->getTargetNodes());
             }
         }
     }

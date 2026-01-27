@@ -39,6 +39,10 @@ final class EmailHandler extends AbstractHandler
                 $message->replyTo($replyTo);
             }
 
+            if (null !== ($priority = $emailRequest->getPriority())) {
+                $message->priority($priority);
+            }
+
             $this->addAttachments($emailRequest, $message);
 
             $this->mailer->send($message);

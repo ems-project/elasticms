@@ -12,14 +12,13 @@ class HtmlInjector
     public function inject(
         UnitGroup $document,
         string $locale
-    ): string
-    {
+    ): string {
         $document = new \DOMDocument();
         $html = new \DOMElement('html');
         $document->appendChild($html);
         $body = new \DOMElement('body');
         $html->appendChild($body);
-//        $this->groupToHtmlNodes($group, $nodeName, $body, $namespaces);
+        //        $this->groupToHtmlNodes($group, $nodeName, $body, $namespaces);
 
         $html = '';
         foreach ($body->childNodes as $node) {

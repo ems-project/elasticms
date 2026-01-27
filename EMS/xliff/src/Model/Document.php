@@ -80,7 +80,7 @@ class Document
         foreach ($this->getNodes() as $node) {
             $associativeArray[Type::string($node->getResourceName())] = 'extract';
         }
-        
+
         return $associativeArray;
     }
 }

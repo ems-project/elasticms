@@ -1,8 +1,8 @@
 emsco:
-    resource: '@EMSCoreBundle/config/routing/all.xml'
+    resource: '@EMSCoreBundle/config/routing/all.php'
 
 probe:
-  resource: '@EMSCommonBundle/config/routing/probe.xml'
+    resource: '@EMSCommonBundle/config/routing/probe.php'
 
 ems_common:
     resource: 'ems_common.route.loader::load'
@@ -13,12 +13,12 @@ emsch_routes:
     type: service
 
 forms:
-  resource: '@EMSFormBundle/config/routing/form.xml'
-  prefix: /emsf
+    resource: '@EMSFormBundle/config/routing/form.php'
+    prefix: /emsf
 
 forms_debug:
-  resource: '@EMSFormBundle/config/routing/debug.xml'
-  prefix: /emsf
+    resource: '@EMSFormBundle/config/routing/debug.php'
+    prefix: /emsf
 
 assets:
-  resource: '@EMSCommonBundle/config/routing/assets.xml'
+    resource: '@EMSCommonBundle/config/routing/assets.php'

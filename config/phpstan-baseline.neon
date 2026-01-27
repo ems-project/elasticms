@@ -28,12 +28,6 @@ parameters:
 			path: ../EMS/common-bundle/src/Controller/FileController.php
 
 		-
-			message: '#^Call to deprecated function imagedestroy\(\)\.$#'
-			identifier: function.deprecated
-			count: 2
-			path: ../EMS/common-bundle/src/Storage/Processor/Image.php
-
-		-
 			message: '#^Call to deprecated method extractData\(\) of class EMS\\CoreBundle\\Service\\AssetExtractorService\.$#'
 			identifier: method.deprecated
 			count: 1
@@ -101,12 +95,6 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: ../EMS/core-bundle/src/Form/DataField/NestedFieldType.php
-
-
-
-
-
-
 
 		-
 			message: '''

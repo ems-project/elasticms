@@ -11,6 +11,7 @@ use EMS\CommonBundle\Entity\IdentifierIntegerTrait;
 use EMS\CoreBundle\Core\User\UserOptions;
 use EMS\CoreBundle\Roles;
 use EMS\Helpers\Standard\Locale;
+use EMS\Helpers\Standard\Text;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserInterface, \Stringable
@@ -331,7 +332,7 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
     #[\Override]
     public function getUserIdentifier(): string
     {
-        $trimmed = \trim((string) $this->username);
+        $trimmed = Text::superTrim($this->username ?? '');
 
         if ('' === $trimmed || $this->username !== $trimmed) {
             throw new \LogicException('Username cannot be empty or start/end with a space.');

@@ -1,5 +1,5 @@
 emsco:
-    resource: '@EMSCoreBundle/config/routing/all.xml'
+    resource: '@EMSCoreBundle/config/routing/all.php'
 
 probe:
     resource: '@EMSCommonBundle/config/routing/probe.php'

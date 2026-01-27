@@ -40,22 +40,10 @@ parameters:
 			path: ../EMS/core-bundle/src/Controller/Api/File/ExtractDataController.php
 
 		-
-			message: '#^Call to deprecated method generateSearchBody\(\) of class EMS\\CoreBundle\\Service\\SearchService\.$#'
-			identifier: method.deprecated
-			count: 2
-			path: ../EMS/core-bundle/src/Controller/ElasticsearchController.php
-
-		-
 			message: '#^Call to deprecated method deprecatedSearchApi\(\) of class EMS\\CoreBundle\\Controller\\ElasticsearchController\.$#'
 			identifier: method.deprecated
 			count: 1
 			path: ../EMS/core-bundle/src/Controller/Search/QuerySearchController.php
-
-		-
-			message: '#^Call to deprecated method generateSearchBody\(\) of class EMS\\CoreBundle\\Service\\SearchService\.$#'
-			identifier: method.deprecated
-			count: 1
-			path: ../EMS/core-bundle/src/Controller/Views/CalendarController.php
 
 		-
 			message: '#^Call to deprecated method updateDataStructure\(\) of class EMS\\CoreBundle\\Entity\\DataField\.$#'

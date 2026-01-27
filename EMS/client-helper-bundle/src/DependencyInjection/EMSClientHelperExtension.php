@@ -12,7 +12,7 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
-use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
@@ -21,12 +21,12 @@ final class EMSClientHelperExtension extends Extension implements PrependExtensi
     #[\Override]
     public function load(array $configs, ContainerBuilder $container): void
     {
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../../config'));
-        $loader->load('builders.xml');
-        $loader->load('services.xml');
-        $loader->load('routing.xml');
-        $loader->load('search.xml');
-        $loader->load('security.xml');
+        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../config'));
+        $loader->load('builders.php');
+        $loader->load('services.php');
+        $loader->load('routing.php');
+        $loader->load('search.php');
+        $loader->load('security.php');
 
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
@@ -53,15 +53,15 @@ final class EMSClientHelperExtension extends Extension implements PrependExtensi
 
         if ($config['local']['enabled']) {
             $container->setParameter('emsch.local.path', $config['local']['path']);
-            $loader->load('local.xml');
+            $loader->load('local.php');
         }
 
         if ($config['user_api']['enabled']) {
             $container->setParameter('emsch.user_api.url', $config['user_api']['url']);
-            $loader->load('user_api.xml');
+            $loader->load('user_api.php');
         }
 
-        $loader->load('api.xml');
+        $loader->load('api.php');
     }
 
     #[\Override]
@@ -85,7 +85,7 @@ final class EMSClientHelperExtension extends Extension implements PrependExtensi
     /**
      * @param array<string, mixed> $config
      */
-    private function processElasticms(ContainerBuilder $container, XmlFileLoader $loader, array $config): void
+    private function processElasticms(ContainerBuilder $container, PhpFileLoader $loader, array $config): void
     {
         foreach ($config as $name => $options) {
             $this->defineClientRequest($container, $loader, $name, $options);
@@ -116,7 +116,7 @@ final class EMSClientHelperExtension extends Extension implements PrependExtensi
     /**
      * @param array<string, mixed> $options
      */
-    private function defineClientRequest(ContainerBuilder $container, XmlFileLoader $loader, string $name, array $options): void
+    private function defineClientRequest(ContainerBuilder $container, PhpFileLoader $loader, string $name, array $options): void
     {
         $definition = new Definition(ClientRequest::class);
         $definition->setArguments([

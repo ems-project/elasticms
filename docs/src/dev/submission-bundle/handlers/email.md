@@ -79,7 +79,7 @@ the email object. By default text/plain is used.
 {{ email|json_encode|raw }}
 ```
 
-You can also define a `reply-to` option:
+You can also define a `reply-to` or `priority` (priority range [1,5]) option:
 
 ```twig
 {% autoescape %}
@@ -92,6 +92,7 @@ You can also define a `reply-to` option:
 {% set email = {
     "from": "no-reply@company.com",
     "reply-to": data.email,
+    "priority": 1,
     "subject": "Email Form subject",
     "body": body
 } %}

@@ -83,7 +83,6 @@ class Image
         } else {
             \imagepng($image, $tempFile->path);
         }
-        \imagedestroy($image);
 
         return LocalFile::fromTempFile($tempFile);
     }
@@ -308,7 +307,6 @@ class Image
         if (false === $rotated) {
             throw new \RuntimeException('Could not rotate the image');
         }
-        \imagedestroy($image);
 
         return $rotated;
     }

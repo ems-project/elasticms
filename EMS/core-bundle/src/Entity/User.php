@@ -11,7 +11,6 @@ use EMS\CommonBundle\Entity\IdentifierIntegerTrait;
 use EMS\CoreBundle\Core\User\UserOptions;
 use EMS\CoreBundle\Roles;
 use EMS\Helpers\Standard\Locale;
-use EMS\Helpers\Standard\Type;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserInterface, \Stringable
@@ -346,7 +345,7 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
     #[\Override]
     public function getUserIdentifier(): string
     {
-        if ($this->username === '' || null === $this->username) {
+        if ('' === $this->username || null === $this->username) {
             throw new \LogicException('User identifier cannot be empty.');
         }
 

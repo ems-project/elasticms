@@ -84,7 +84,7 @@ class ViewType extends AbstractType
             ]);
         } else {
             $viewOptionsType = Type::string($this->container->get($view->getType())::class);
-            if (!is_subclass_of($viewOptionsType, FormTypeInterface::class)) {
+            if (!\is_subclass_of($viewOptionsType, FormTypeInterface::class)) {
                 throw new \UnexpectedValueException();
             }
 

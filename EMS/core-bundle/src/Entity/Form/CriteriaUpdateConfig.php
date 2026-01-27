@@ -25,8 +25,7 @@ class CriteriaUpdateConfig
         View $view,
         private readonly ContentTypeService $contentTypeService,
         private readonly LoggerInterface $logger
-    )
-    {
+    ) {
         $contentType = $view->getContentType();
 
         $rootFieldType = $contentType->getFieldType();

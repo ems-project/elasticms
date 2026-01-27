@@ -23,7 +23,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class ReorganizeType extends AbstractType
 {
     public function __construct(private readonly ContentTypeService $contentTypeService)
-    {}
+    {
+    }
 
     /**
      * @param FormBuilderInterface<mixed> $builder

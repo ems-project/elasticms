@@ -53,7 +53,7 @@ final class Profile implements ProfileInterface
     #[\Override]
     public function getUsername(): string
     {
-        if ($this->username === '') {
+        if ('' === $this->username) {
             throw new \LogicException('Username cannot be empty.');
         }
 

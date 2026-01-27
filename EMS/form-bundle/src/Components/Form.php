@@ -45,7 +45,7 @@ class Form extends AbstractType
                 $this->addField($builder, $element, $options['data'][$element->getName()] ?? null);
             } elseif ($element instanceof MarkupConfig || $element instanceof SubFormConfig) {
                 $elementClass = $element->getClassName();
-                if (!is_subclass_of($elementClass, FormTypeInterface::class)) {
+                if (!\is_subclass_of($elementClass, FormTypeInterface::class)) {
                     throw new \UnexpectedValueException();
                 }
 

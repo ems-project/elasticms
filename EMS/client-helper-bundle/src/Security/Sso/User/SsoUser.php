@@ -38,7 +38,7 @@ class SsoUser implements UserInterface
     #[\Override]
     public function getUserIdentifier(): string
     {
-        if ($this->identifier === '') {
+        if ('' === $this->identifier) {
             throw new \LogicException('User identifier cannot be empty.');
         }
 

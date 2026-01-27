@@ -29,8 +29,7 @@ class CriteriaViewType extends ViewType
         LoggerInterface $logger,
         protected RouterInterface $router,
         string $templateNamespace
-    )
-    {
+    ) {
         parent::__construct($formFactory, $twig, $logger, $templateNamespace);
     }
 

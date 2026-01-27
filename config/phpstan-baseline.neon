@@ -40,12 +40,6 @@ parameters:
 			path: ../EMS/core-bundle/src/Controller/Api/File/ExtractDataController.php
 
 		-
-			message: '#^Instanceof between Symfony\\Component\\Form\\FormError and Symfony\\Component\\Form\\FormError will always evaluate to true\.$#'
-			identifier: instanceof.alwaysTrue
-			count: 1
-			path: ../EMS/core-bundle/src/Controller/ContentManagement/DataController.php
-
-		-
 			message: '#^Call to deprecated method generateSearchBody\(\) of class EMS\\CoreBundle\\Service\\SearchService\.$#'
 			identifier: method.deprecated
 			count: 2

@@ -19,24 +19,6 @@ parameters:
 			path: ../EMS/client-helper-bundle/src/Helper/Form/EmschFormType.php
 
 		-
-			message: '''
-				#^Call to method load\(\) of deprecated class Symfony\\Component\\Routing\\Loader\\XmlFileLoader\:
-				since Symfony 7\.4, use another loader instead$#
-			'''
-			identifier: method.deprecatedClass
-			count: 1
-			path: ../EMS/client-helper-bundle/src/Helper/Routing/RoutingBuilder.php
-
-		-
-			message: '''
-				#^Instantiation of deprecated class Symfony\\Component\\Routing\\Loader\\XmlFileLoader\:
-				since Symfony 7\.4, use another loader instead$#
-			'''
-			identifier: new.deprecatedClass
-			count: 1
-			path: ../EMS/client-helper-bundle/src/Helper/Routing/RoutingBuilder.php
-
-		-
 			message: '#^Parameter \#1 \$name of method EMS\\ClientHelperBundle\\Helper\\Search\\Search\:\:setSortBy\(\) expects string\|null, bool\|float\|int\|string\|null given\.$#'
 			identifier: argument.type
 			count: 1

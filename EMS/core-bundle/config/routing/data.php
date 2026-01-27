@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
 return function (RoutingConfigurator $routes): void {
-
     // Core data routes
     $routes->add('emsco_data_default_search', '/{name}')
         ->controller('EMS\CoreBundle\Controller\ContentManagement\DataController::root')
@@ -58,12 +59,12 @@ return function (RoutingConfigurator $routes): void {
 
     $routes->add('emsco_data_private_view', '/custom-index-view/{viewId}')
         ->controller('EMS\CoreBundle\Controller\ContentManagement\DataController::customIndexView')
-        ->methods(['GET','POST'])
+        ->methods(['GET', 'POST'])
         ->defaults(['public' => 0]);
 
     $routes->add('emsco_data_action_import', '/action/import/{actionId}/{ouuid}')
         ->controller('EMS\CoreBundle\Controller\Revision\Action\ActionImportController')
-        ->methods(['GET','POST']);
+        ->methods(['GET', 'POST']);
 
     $routes->add('emsco_data_private_action', '/action/{environmentName}/{templateId}/{ouuid}/{_download}')
         ->controller('EMS\CoreBundle\Controller\Revision\Action\ActionController::render')
@@ -101,7 +102,7 @@ return function (RoutingConfigurator $routes): void {
 
     $routes->add('emsco_data_add', '/add/{contentType}')
         ->controller('EMS\CoreBundle\Controller\ContentManagement\DataController::add')
-        ->methods(['GET','POST']);
+        ->methods(['GET', 'POST']);
 
     $routes->add('emsco_data_revert', '/revisions/revert/{id}')
         ->controller('EMS\CoreBundle\Controller\ContentManagement\DataController::revertRevision')
@@ -135,7 +136,7 @@ return function (RoutingConfigurator $routes): void {
     // Release routes
     $routes->add('emsco_pick_a_release', '/pick-a-release/{revision}')
         ->controller('EMS\CoreBundle\Controller\ContentManagement\ReleaseController::pickRelease')
-        ->methods(['GET','POST']);
+        ->methods(['GET', 'POST']);
 
     $routes->add('emsco_data_add_revision_to_release', '/add-to-release/{type}/{revision}/{release}')
         ->controller('EMS\CoreBundle\Controller\ContentManagement\ReleaseController::addRevisionById')
@@ -234,7 +235,7 @@ return function (RoutingConfigurator $routes): void {
 
     $routes->add('data.add', '/add/{contentType}')
         ->controller('EMS\CoreBundle\Controller\ContentManagement\DataController::add')
-        ->methods(['GET','POST']);
+        ->methods(['GET', 'POST']);
 
     $routes->add('revision.revert', '/revisions/revert/{id}')
         ->controller('EMS\CoreBundle\Controller\ContentManagement\DataController::revertRevision')

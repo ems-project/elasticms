@@ -58,15 +58,6 @@ parameters:
 			path: ../EMS/core-bundle/src/Controller/Views/CalendarController.php
 
 		-
-			message: '''
-				#^Call to deprecated method eraseCredentials\(\) of class EMS\\CoreBundle\\Entity\\User\:
-				since Symfony 7\.3, erase credentials using the "__serialize\(\)" method instead$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: ../EMS/core-bundle/src/Core/User/UserManager.php
-
-		-
 			message: '#^Call to deprecated method updateDataStructure\(\) of class EMS\\CoreBundle\\Entity\\DataField\.$#'
 			identifier: method.deprecated
 			count: 1

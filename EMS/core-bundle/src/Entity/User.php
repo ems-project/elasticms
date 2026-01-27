@@ -304,42 +304,28 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
         }
     }
 
-    public function serialize(): string
+    /**
+     * @return array{username: non-empty-string} $data
+     */
+    public function __serialize(): array
     {
-        return \serialize([
-            $this->password,
-            $this->salt,
-            $this->usernameCanonical,
-            $this->username,
-            $this->enabled,
-            $this->id,
-            $this->email,
-            $this->emailCanonical,
-            $this->expirationDate,
-        ]);
+        return [
+            'username' => $this->getUserIdentifier(),
+        ];
     }
 
-    public function unserialize(string $serialized): void
+    /**
+     * @param array{username: non-empty-string} $data
+     */
+    public function __unserialize(array $data): void
     {
-        $data = \unserialize($serialized);
-
-        if (13 === (\is_countable($data) ? \count($data) : 0)) {
-            // Unserializing a User object from 1.3.x
-            unset($data[4], $data[5], $data[6], $data[9], $data[10]);
-            $data = \array_values($data);
-        } elseif (11 === (\is_countable($data) ? \count($data) : 0)) {
-            // Unserializing a User from a dev version somewhere between 2.0-alpha3 and 2.0-beta1
-            unset($data[4], $data[7], $data[8]);
-            $data = \array_values($data);
-        }
-
-        [$this->password, $this->salt, $this->usernameCanonical, $this->username, $this->enabled, $this->id, $this->email, $this->emailCanonical] = $data;
+        $this->username = $data['username'];
     }
 
     #[\Override]
     public function eraseCredentials(): void
     {
-        $this->plainPassword = null;
+        // noop — deprecated since Symfony 7.3
     }
 
     #[\Override]

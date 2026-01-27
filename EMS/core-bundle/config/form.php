@@ -143,6 +143,7 @@ return static function (ContainerConfigurator $container) {
             service('security.authorization_checker'),
             service('form.registry'),
             service('ems.service.elasticsearch'),
+            service('ems.service.data'),
         ])
         ->tag('ems.form.datafieldtype', ['alias' => 'nested'])
         ->tag('form.type');

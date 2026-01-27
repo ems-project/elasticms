@@ -40,18 +40,6 @@ parameters:
 			path: ../EMS/core-bundle/src/Controller/Api/File/ExtractDataController.php
 
 		-
-			message: '#^Call to deprecated method updateDataStructure\(\) of class EMS\\CoreBundle\\Entity\\DataField\.$#'
-			identifier: method.deprecated
-			count: 1
-			path: ../EMS/core-bundle/src/Entity/DataField.php
-
-		-
-			message: '#^Call to deprecated method updateDataValue\(\) of class EMS\\CoreBundle\\Entity\\DataField\.$#'
-			identifier: method.deprecated
-			count: 1
-			path: ../EMS/core-bundle/src/Form/DataField/NestedFieldType.php
-
-		-
 			message: '''
 				#^Call to deprecated method assetPath\(\) of class EMS\\CommonBundle\\Twig\\RequestRuntime\:
 				assetPath will be removed in elasticms/common\-bundle 1\.20\. Use AssetRuntime\:\:assetPath instead\.$#

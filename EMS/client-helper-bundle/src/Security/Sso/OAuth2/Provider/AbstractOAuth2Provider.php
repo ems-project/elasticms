@@ -69,7 +69,7 @@ abstract class AbstractOAuth2Provider implements ProviderInterface
     public function getAccessToken(Request $request): AccessTokenInterface
     {
         $expectedState = $request->getSession()->get($this->getName());
-        $actualState = $request->get('state');
+        $actualState = $request->query->get('state');
 
         if (!$actualState || ($actualState !== $expectedState)) {
             throw new AuthenticationException('Invalid state');

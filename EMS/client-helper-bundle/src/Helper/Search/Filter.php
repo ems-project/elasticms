@@ -195,7 +195,8 @@ final class Filter
             }
         }
 
-        $requestValue = $request->get($this->name, false);
+        $query = $request->query->all();
+        $requestValue = $query[$this->name];
         if (\is_array($requestValue) && 1 === \count($requestValue) && '' === ($requestValue[0] ?? false)) {
             $requestValue = false;
         }

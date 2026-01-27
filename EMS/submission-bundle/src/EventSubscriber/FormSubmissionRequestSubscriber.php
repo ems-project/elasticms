@@ -19,12 +19,12 @@ final readonly class FormSubmissionRequestSubscriber implements EventSubscriberI
     public function onKernelController(ControllerEvent $event): void
     {
         $request = $event->getRequest();
-        $formSubmissionId = $request->get('formSubmissionId');
 
-        if (null === $formSubmissionId) {
+        if (!$request->attributes->has('formSubmissionId')) {
             return;
         }
 
+        $formSubmissionId = $request->attributes->getString('formSubmissionId');
         $formSubmission = $this->formSubmissionRepository->findById($formSubmissionId);
 
         if (null === $formSubmission) {

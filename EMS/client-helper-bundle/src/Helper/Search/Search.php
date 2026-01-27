@@ -102,16 +102,17 @@ final class Search
     private function bindRequest(Request $request): void
     {
         $this->queryString = $request->query->get('q', $request->query->get('q', $this->queryString));
-        $requestFacets = $request->query->all()['f'] ?? $request->query->get('f', null);
+        $requestFacets = $request->query->all()['f'] ?? $request->query->get('f');
 
         if (\is_array($requestFacets)) {
             $this->queryFacets = $requestFacets;
         }
 
-        $this->page = (int) $request->query->get('p', $request->attributes->get('p', $this->page));
-        $this->setSize((int) $request->query->get('l', $request->attributes->get('l', $this->size)));
-        $this->setSortBy($request->query->get('s', $request->attributes->get('s')));
-        $this->setSortOrder($request->query->get('o') ?? $request->attributes->get('o', $this->sortOrder));
+        $all = [...$request->query->all(), ...$request->attributes->all()];
+        $this->page = isset($all['p']) ? (int) $all['p'] : $this->page;
+        $this->setSize(isset($all['l']) ? (int) $all['l'] : $this->size);
+        $this->setSortBy(isset($all['s']) ? (string) $all['s'] : null);
+        $this->setSortOrder(isset($all['o']) ? (string) $all['o'] : $this->sortOrder);
 
         if (null !== $this->indexRegex) {
             $requestSearchIndex = RequestHelper::replace($request, $this->indexRegex);

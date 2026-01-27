@@ -13,6 +13,7 @@ use EMS\CommonBundle\Storage\Factory\S3Factory;
 use EMS\CommonBundle\Storage\Factory\SftpFactory;
 use EMS\CommonBundle\Storage\Processor\Processor;
 use EMS\CommonBundle\Storage\StorageManager;
+use EMS\CommonBundle\Twig\AssetRuntime;
 
 return static function (ContainerConfigurator $container) {
     $services = $container->services();
@@ -32,7 +33,7 @@ return static function (ContainerConfigurator $container) {
     $services->set(FileController::class)
         ->args([
             service('ems_common.storage.processor'),
-            service('ems_common.twig.runtime.request'),
+            service(AssetRuntime::class),
         ])
         ->call('setContainer')
         ->tag('controller.service_arguments')

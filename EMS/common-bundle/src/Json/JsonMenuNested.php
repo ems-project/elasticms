@@ -446,6 +446,16 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
         $this->object = \array_filter($this->object);
     }
 
+    public function getPosition(): int
+    {
+        $parent = $this->getParent();
+        if ($this->isRoot() || null === $parent) {
+            return 0;
+        }
+
+        return (int) \array_search($this, $parent->getChildren());
+    }
+
     /**
      * @param JsonMenuNested[] $menu
      *

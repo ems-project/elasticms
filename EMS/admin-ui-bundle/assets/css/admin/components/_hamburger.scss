@@ -42,3 +42,11 @@
     right: 0;
   }
 }
+
+[data-bs-theme="dark"] {
+  .hamburger,
+  .hamburger:before,
+  .hamburger:after {
+    background: #fff;
+  }
+}

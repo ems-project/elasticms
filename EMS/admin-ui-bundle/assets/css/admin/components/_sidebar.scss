@@ -19,6 +19,10 @@
   margin-bottom: 0;
   list-style: none;
   flex-grow: 1;
+
+  overflow-y: auto;
+  scrollbar-color: $sidebar-link-color transparent;
+  scrollbar-width: thin;
 }
 
 // Sidebar links
@@ -75,9 +79,11 @@ a.sidebar-link {
 .sidebar-brand {
   font-weight: $sidebar-brand-font-weight;
   font-size: $sidebar-brand-font-size;
-  padding: $sidebar-brand-padding-y $sidebar-brand-padding-x;
+  padding: 0 $sidebar-brand-padding-x;
   display: block;
   color: $sidebar-brand-color;
+  height: 53px;
+  line-height: 53px;
 
   &:hover {
     text-decoration: none;
@@ -86,6 +92,16 @@ a.sidebar-link {
 
   &:focus {
     outline: 0;
+  }
+
+  b {
+    text-transform: uppercase;
+  }
+
+  @each $name, $color in $theme-colors {
+    &.bg-#{$name} {
+      background-image: linear-gradient(90deg, transparent, darken($color, 10%));
+    }
   }
 }
 
@@ -131,13 +147,13 @@ a.sidebar-link {
 // Badge
 .sidebar-badge {
   position: absolute;
-  right: 15px;
+  right: $sidebar-link-padding-x;
   top: 14px;
   z-index: 1;
 }
 
 [data-bs-toggle=collapse] .sidebar-badge {
-  right: 37px;
+  right: calc($sidebar-link-padding-x * 2);
 }
 
 .sidebar [data-bs-toggle=collapse]:after {
@@ -147,7 +163,7 @@ a.sidebar-link {
   display: inline-block;
   padding: 2px;
   position: absolute;
-  right: 1.5rem;
+  right: $sidebar-brand-padding-x;
   top: 1.2rem;
   transform: rotate(45deg);
   transition: all .2s ease-out
@@ -163,5 +179,5 @@ a.sidebar-link {
   border-left: 0;
   font-size: 90%;
   font-weight: 400;
-  padding: .625rem 1.5rem .625rem 3.25rem;
+  padding: $sidebar-link-padding-y $sidebar-link-padding-x $sidebar-link-padding-y calc($sidebar-link-padding-x * 2.5);
 }

@@ -65,7 +65,6 @@
         {{ include('@EMSAdminUI/bootstrap5/elements/sidenav.html.twig') }}
         <div class="main">
             {{ include('@EMSAdminUI/bootstrap5/elements/topbar.html.twig') }}
-        </div>
             {{ include('@EMSAdminUI/bootstrap5/elements/toasts.html.twig') }}
             <div class="content-header">
                 <div class="container-fluid">
@@ -82,9 +81,9 @@
                     {% block body %}{% endblock body %}
                 </section>
             </div>
+            {{ include('@EMSAdminUI/bootstrap5/elements/footer.html.twig') }}
         </div>
 
-        {{ include('@EMSAdminUI/bootstrap5/elements/footer.html.twig') }}
         {{ include('@EMSAdminUI/bootstrap5/elements/control-sidebar.html.twig') }}
     </div>
 {% endblock wrapper %}

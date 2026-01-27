@@ -135,3 +135,30 @@
 .navbar input {
   direction: ltr;
 }
+
+.input-group-navbar .btn,.input-group-navbar .form-control {
+  background: #f3f6fa;
+  border: 0;
+  border-radius: 20px;
+  box-shadow: none;
+  height: calc(2.1875rem + 2px);
+  padding: .4rem 1rem
+}
+
+.input-group-navbar .btn:focus,.input-group-navbar .form-control:focus {
+  background: #f3f6fa;
+  box-shadow: none;
+  outline: 0
+}
+
+.input-group-navbar .btn {
+  color: #6c757d
+}
+
+.nav-link {
+  color: #fff;
+}
+
+.user-menu .dropdown-toggle::after {
+  content: none;
+}

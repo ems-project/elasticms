@@ -12,7 +12,7 @@
             </span>
         </a>
         {% if menu.hasChildren %}
-            <ul id="nav-{{ menu.label|ems_slug }}" class="sidebar-dropdown list-unstyled">
+            <ul id="nav-{{ menu.label|ems_slug }}" class="sidebar-dropdown list-unstyled collapse">
                 {% for menu in menu.children %}
                     {{ block('sidebarMenu') }}
                 {% endfor %}

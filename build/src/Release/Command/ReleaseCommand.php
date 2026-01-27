@@ -11,24 +11,26 @@ use Build\Release\File\ComposerLockFile;
 use Build\Release\Service\GithubRelease;
 use Build\Release\Service\PackagistService;
 use Build\Release\Version;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Process\Process;
 
+#[AsCommand(
+    name: 'create',
+    description: 'Release a new version',
+    hidden: false
+)]
 class ReleaseCommand extends AbstractCommand
 {
-    protected static $defaultName = 'create';
-
     private Version $version;
     private PackagistService $packagist;
 
     protected function configure(): void
     {
-        $this
-            ->setDescription('release a new version')
-            ->addArgument('version', InputArgument::OPTIONAL, 'version number');
+        $this->addArgument('version', InputArgument::OPTIONAL, 'version number');
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output): void

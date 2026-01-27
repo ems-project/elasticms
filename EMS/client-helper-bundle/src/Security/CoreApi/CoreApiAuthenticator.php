@@ -43,7 +43,7 @@ class CoreApiAuthenticator extends AbstractAuthenticator
     #[\Override]
     public function supports(Request $request): ?bool
     {
-        return $request->isMethod(Request::METHOD_POST) && $request->get('_route') === $this->routeLogin;
+        return $request->isMethod(Request::METHOD_POST) && $request->attributes->get('_route') === $this->routeLogin;
     }
 
     #[\Override]

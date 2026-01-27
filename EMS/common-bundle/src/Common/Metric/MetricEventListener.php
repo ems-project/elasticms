@@ -30,7 +30,7 @@ final readonly class MetricEventListener implements EventSubscriberInterface
 
     public function metricCollect(TerminateEvent $event): void
     {
-        $controller = $event->getRequest()->get('_controller');
+        $controller = $event->getRequest()->attributes->getString('_controller');
 
         if (MetricController::METRICS === $controller && !$this->metricCollector->isInMemoryStorage()) {
             $this->metricCollector->collectWithValidity();

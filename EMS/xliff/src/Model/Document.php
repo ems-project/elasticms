@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\Xliff\Model;
 
+use EMS\Helpers\Standard\Type;
 use EMS\Xliff\Html\HtmlExtractor;
 use EMS\Xliff\Id\IdGeneratorInterface;
 use EMS\Xliff\Model\Inline\Text;
@@ -68,5 +69,18 @@ class Document
     public function addNode(DocumentNodeInterface $node): void
     {
         $this->nodes[] = $node;
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public function extract(): array
+    {
+        $associativeArray = [];
+        foreach ($this->getNodes() as $node) {
+            $associativeArray[Type::string($node->getResourceName())] = 'extract';
+        }
+        
+        return $associativeArray;
     }
 }

@@ -4,16 +4,20 @@ declare(strict_types=1);
 
 namespace EMS\Xliff\Reader;
 
+use EMS\Xliff\Html\HtmlExtractor;
+use EMS\Xliff\Html\HtmlInjector;
 use EMS\Xliff\Model\Document;
 use EMS\Xliff\Model\Inline\Text;
 use EMS\Xliff\Model\Package;
 use EMS\Xliff\Model\Segment;
 use EMS\Xliff\Model\Unit;
+use EMS\Xliff\Model\UnitGroup;
 use EMS\Xliff\Version;
 use EMS\Xliff\XML\DomHelper;
 
 class Xliff12Reader implements ReaderInterface
 {
+
     public function __construct()
     {
     }
@@ -50,8 +54,11 @@ class Xliff12Reader implements ReaderInterface
                 throw new \RuntimeException(\sprintf('target-language mismatch for file %s.', $id));
             }
             $document = $package->addDocument($id);
-            foreach (DomHelper::elementIterator($xpath, $file, 'x:body/x:trans-unit') as $unitElement) {
-                $this->addUnit($xpath, $unitElement, $document);
+            foreach (DomHelper::getSingleElement($file, 'body')->childNodes as $child) {
+                if (!$child instanceof \DOMElement) {
+                    continue;
+                }
+                $this->addNode($xpath, $child, $document);
             }
         }
         if (null === $package) {
@@ -61,7 +68,29 @@ class Xliff12Reader implements ReaderInterface
         return $package;
     }
 
-    private function addUnit(\DOMXPath $xpath, \DOMElement $unitElement, Document $document): void
+    private function addNode(\DOMXPath $xpath, \DOMElement $unitElement, Document $document): void
+    {
+        match($unitElement->nodeName) {
+            'trans-unit' => $this->addSimpleTextUnit($xpath, $unitElement, $document),
+            'group' => $this->addHtmlUnit($xpath, $unitElement, $document),
+            default => throw new \RuntimeException(\sprintf('Unexpected node type %s', $unitElement->nodeName)),
+        };
+    }
+
+    private function addHtmlUnit(\DOMXPath $xpath, \DOMElement $unitElement, Document $document): UnitGroup
+    {
+        $type = $unitElement->getAttribute('restype');
+        $unitGroup = new UnitGroup(
+            id: $unitElement->getAttribute('id'),
+            resourceName: $unitElement->getAttribute('resname'),
+            type: '' === $type ? null : $type,
+        );
+        $document->addNode($unitGroup);
+
+        return $unitGroup;
+    }
+
+    private function addSimpleTextUnit(\DOMXPath $xpath, \DOMElement $unitElement, Document $document): void
     {
         $unit = new Unit(
             id: $unitElement->getAttribute('id'),

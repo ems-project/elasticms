@@ -11,11 +11,11 @@ forms:
   resource: '@EMSFormBundle/config/routing/form.xml'
 
 user_api:
-  resource: '@EMSClientHelperBundle/config/routing/user_api.xml'
+  resource: '@EMSClientHelperBundle/config/routing/user_api.php'
   prefix: /user_api
 
 asset:
-  resource: '@EMSClientHelperBundle/config/routing/asset.xml'
+  resource: '@EMSClientHelperBundle/config/routing/asset.php'
   prefix: /bundles
 
 ems_common:

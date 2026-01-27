@@ -13,11 +13,11 @@ emsch_routes:
     type: service
 
 forms:
-    resource: '@EMSFormBundle/config/routing/form.xml'
+    resource: '@EMSFormBundle/config/routing/form.php'
     prefix: /emsf
 
 forms_debug:
-    resource: '@EMSFormBundle/config/routing/debug.xml'
+    resource: '@EMSFormBundle/config/routing/debug.php'
     prefix: /emsf
 
 assets:

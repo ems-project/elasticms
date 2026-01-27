@@ -8,7 +8,7 @@ probe:
     resource: '@EMSCommonBundle/config/routing/probe.php'
 
 forms:
-    resource: '@EMSFormBundle/config/routing/form.xml'
+    resource: '@EMSFormBundle/config/routing/form.php'
 
 user_api:
     resource: '@EMSClientHelperBundle/config/routing/user_api.php'

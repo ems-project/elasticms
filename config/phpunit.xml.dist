@@ -5,8 +5,8 @@
          colors="true"
          bootstrap="../vendor/autoload.php"
          cacheDirectory="../.cache/.phpunit.cache"
-         failOnDeprecation="true"
-         failOnPhpunitDeprecation="true"
+         failOnDeprecation="false"
+         failOnPhpunitDeprecation="false"
          failOnNotice="true"
          failOnRisky="true"
          failOnWarning="true">

@@ -22,18 +22,8 @@
         <source xml:lang="en"/>
         <target xml:lang="fr" state="final"/>
       </trans-unit>
-      <group resname="[%locale%][body]" id="grp5">
-        <trans-unit id="tu6">
-          <source xml:lang="en"/>
-          <target xml:lang="fr" state="final"/>
-        </trans-unit>
-      </group>
-      <group resname="[%locale%][body2]" id="grp7">
-        <trans-unit id="tu8">
-          <source xml:lang="en"/>
-          <target xml:lang="fr" state="final"/>
-        </trans-unit>
-      </group>
+      <group resname="[%locale%][body]" id="grp5"/>
+      <group resname="[%locale%][body2]" id="grp6"/>
     </body>
   </file>
 </xliff>

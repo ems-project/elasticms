@@ -25,8 +25,8 @@ class ElasticsearchController
     {
         $this->handler->handleStaticTemplate($request)?->renderBlock('preRequest');
 
-        $path = '/'.\rtrim((string) $request->get('path'), '/');
-        $index = $request->get('index');
+        $path = '/'.\rtrim($request->attributes->getString('path'), '/');
+        $index = $request->attributes->get('index');
 
         $data = '' !== $request->getContent() ? Json::decode($request->getContent()) : [];
         $query = $request->query->all();

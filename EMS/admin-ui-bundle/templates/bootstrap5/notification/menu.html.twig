@@ -1,6 +1,6 @@
 {% trans_default_domain 'notification' %}
 
-{%  for dashboard in dashboardMenu.children %}
+{% for dashboard in dashboardMenu.children %}
     <li class="nav-item">
         <a href="{{ path(dashboard.route, dashboard.routeParameters) }}" class="nav-link{% if dashboard.color %} text-{{ dashboard.color }}{% endif %}">
             <i class="{{ dashboard.icon }}"></i>

@@ -25,60 +25,60 @@
     {% set list = [{
         label: 'key.name'|trans,
         value: cluster.cluster_name|default(''),
-    },{
+    }, {
         label: 'key.cluster_uuid'|trans,
         value: cluster.cluster_uuid|default(''),
-    },{
+    }, {
         label: 'key.status'|trans,
         value: cluster.status|humanize,
-    },{
+    }, {
         label: 'key.tagline'|trans,
         value: cluster.tagline|default(''),
-    },{
+    }, {
         label: 'key.version'|trans,
         value: cluster.version.number|default(''),
-    },{
+    }, {
         label: 'key.build_date'|trans,
         value: cluster.version.build_date|split('.')|first|date(date_time_format),
-    },{
+    }, {
         label: 'key.lucene_version'|trans,
         value: cluster.version.lucene_version|default(''),
-    },{
+    }, {
         label: 'key.number_of_nodes'|trans,
         value: cluster.number_of_nodes|default(''),
-    },{
+    }, {
         label: 'key.number_of_data_nodes'|trans,
         value: cluster.number_of_data_nodes|default(''),
-    },{
+    }, {
         label: 'key.active_primary_shards'|trans,
         value: cluster.active_primary_shards|default(''),
-    },{
+    }, {
         label: 'key.active_shards'|trans,
         value: cluster.active_shards|default(''),
-    },{
+    }, {
         label: 'key.initializing_shards'|trans,
         value: cluster.initializing_shards|default(''),
-    },{
+    }, {
         label: 'key.unassigned_shards'|trans,
         value: cluster.unassigned_shards|default(''),
-    },{
+    }, {
         label: 'key.delayed_unassigned_shards'|trans,
         value: cluster.delayed_unassigned_shards|default(''),
-    },{
+    }, {
         label: 'key.number_of_pending_tasks'|trans,
         value: cluster.number_of_pending_tasks|default(''),
-    },{
+    }, {
         label: 'key.task_max_waiting_in_queue_millis'|trans,
         value: "#{cluster.task_max_waiting_in_queue_millis} ms",
-    },{
+    }, {
         label: 'key.active_shards_percent_as_number'|trans,
         value: "#{cluster.active_shards_percent_as_number}%",
     }] %}
 
     {% set listGroup %}
-        {% include '@EMSAdminUI/bootstrap5/core/list-group.html.twig' with {
-            'list':  list
-        }%}
+        {{ include('@EMSAdminUI/bootstrap5/core/list-group.html.twig', {
+            list: list,
+        }) }}
     {% endset %}
 
     {% with {
@@ -112,9 +112,9 @@
     {% endif %}
 
     {% set listGroup %}
-        {% include '@EMSAdminUI/bootstrap5/core/list-group.html.twig' with {
-            'list':  list
-        }%}
+        {{ include('@EMSAdminUI/bootstrap5/core/list-group.html.twig', {
+            list: list,
+        }) }}
     {% endset %}
 
     {% with {
@@ -146,9 +146,9 @@
     {% endif %}
 
     {% set listGroup %}
-        {% include '@EMSAdminUI/bootstrap5/core/list-group.html.twig' with {
-            'list':  list
-        }%}
+        {{ include('@EMSAdminUI/bootstrap5/core/list-group.html.twig', {
+            list: list,
+        }) }}
     {% endset %}
 
     {% with {
@@ -164,12 +164,12 @@
 {% block jobs %}
     {% if jobs|default %}
         {% set jobsGroup %}
-            {% include '@EMSAdminUI/bootstrap5/core/list-group.html.twig' with {
-                'list':  [
-                    {label: 'status.jobs.pending'|trans, value: jobs.pending|default(0) },
-                    {label: 'status.jobs.failed'|trans, value: jobs.failed|default(0) },
+            {{ include('@EMSAdminUI/bootstrap5/core/list-group.html.twig', {
+                list: [
+                    {label: 'status.jobs.pending'|trans, value: jobs.pending|default(0)},
+                    {label: 'status.jobs.failed'|trans, value: jobs.failed|default(0)},
                 ],
-            }%}
+            }) }}
         {% endset %}
         {% with {
             content: jobsGroup,
@@ -185,12 +185,12 @@
 {% block bus %}
     {% if bus|default %}
         {% set busGroup %}
-            {% include '@EMSAdminUI/bootstrap5/core/list-group.html.twig' with {
-                'list':  [
-                    {label: 'status.bus.queue'|trans, value: bus.queue|default(0) },
-                    {label: 'status.bus.failed'|trans, value: bus.failed|default(0) },
+            {{ include('@EMSAdminUI/bootstrap5/core/list-group.html.twig', {
+                list: [
+                    {label: 'status.bus.queue'|trans, value: bus.queue|default(0)},
+                    {label: 'status.bus.failed'|trans, value: bus.failed|default(0)},
                 ],
-            }%}
+            }) }}
         {% endset %}
         {% with {
             content: busGroup,

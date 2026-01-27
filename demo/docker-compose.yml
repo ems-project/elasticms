@@ -2,7 +2,7 @@ version: "2.4"
 
 services:
     traefik:
-        image: "traefik:v2.2"
+        image: "traefik:v3.6"
         command:
             - "--log.level=WARNING"
             - "--api.insecure=true"
@@ -19,34 +19,14 @@ services:
 
     setup_elk:
         extends:
-            file: docker-${ELK_VERSION-elk7}.yml
+            file: docker-${ELK_VERSION-elk8}.yml
             service: setup_elk
     es01:
         extends:
-            file: docker-${ELK_VERSION-elk7}.yml
+            file: docker-${ELK_VERSION-elk8}.yml
             service: es01
         ports:
-          - "9200:9200"
-        labels:
-            - "traefik.enable=true"
-            - "traefik.http.routers.es.rule=Host(`es.localhost`)"
-            - "traefik.http.routers.es.entrypoints=web"
-            - "traefik.http.routers.es.service=es"
-            - "traefik.http.services.es.loadbalancer.server.port=9200"
-    es02:
-        extends:
-            file: docker-${ELK_VERSION-elk7}.yml
-            service: es02
-        labels:
-            - "traefik.enable=true"
-            - "traefik.http.routers.es.rule=Host(`es.localhost`)"
-            - "traefik.http.routers.es.entrypoints=web"
-            - "traefik.http.routers.es.service=es"
-            - "traefik.http.services.es.loadbalancer.server.port=9200"
-    es03:
-        extends:
-            file: docker-${ELK_VERSION-elk7}.yml
-            service: es03
+            - "9200:9200"
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.es.rule=Host(`es.localhost`)"
@@ -56,7 +36,7 @@ services:
 
     kibana:
         extends:
-            file: docker-${ELK_VERSION-elk7}.yml
+            file: docker-${ELK_VERSION-elk8}.yml
             service: kibana
         labels:
             - "traefik.enable=true"
@@ -68,7 +48,7 @@ services:
     postgres:
         image: postgres:17
         ports:
-          - "5432:5432"
+            - "5432:5432"
         environment:
             - POSTGRES_PASSWORD=s3cr3t
             - TZ=Europe/Brussels
@@ -218,16 +198,9 @@ services:
             '
 
 volumes:
-    elk7_data01:
-    elk7_data02:
-    elk7_data03:
-    elk8_data01:
-    elk8_data02:
-    elk8_data03:
-    elk8_kibanadata:
-    os2_data01:
-    os2_data02:
-    os2_data03:
+    elk8_data1:
+    kibana:
+    os2_data1:
     redis:
     s3:
     postgres:

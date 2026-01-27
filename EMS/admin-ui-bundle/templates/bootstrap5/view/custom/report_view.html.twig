@@ -3,11 +3,13 @@
 {% block extraheader %}{{ header|raw }}{% endblock %}
 
 {% block body %}
-<div class="box with-border">
-	<div class="box-body" style="display: block;">
-		{{ render|raw }}
+    <div class="container-fluid">
+        <div class="card card-outline card-{{ theme_color }}">
+            <div class="card-body">
+                {{ render|raw }}
+            </div>
+        </div>
     </div>
-</div>
 {% endblock %}
 
 {% block javascripts %}

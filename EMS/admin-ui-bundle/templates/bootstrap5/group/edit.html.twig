@@ -17,7 +17,7 @@
             <div>
                 <h2>{{ 'subtitle.user-in-group'|trans }}</h2>
                 {% with {
-                    datatable: {'form': datatableForm},
+                    datatable: {form: datatableForm},
                 } %}
                     {{ parent() }}
                 {% endwith %}
@@ -25,7 +25,7 @@
             <div>
                 <h2>{{ 'subtitle.user-not-in-group'|trans }}</h2>
                 {% with {
-                    datatable: {'form': userNotInGroupDataTable},
+                    datatable: {form: userNotInGroupDataTable},
                 } %}
                     {{ parent() }}
                 {% endwith %}

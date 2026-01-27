@@ -2,7 +2,7 @@
 
 include .env
 
-ELK_VERSION  	?= elk7
+ELK_VERSION  	?= elk8
 ENVIRONMENT  	?= local
 DOCKER_USER  	?= $(shell id -u)
 PWD				= $(shell pwd)

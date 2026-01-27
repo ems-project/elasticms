@@ -40,12 +40,6 @@ parameters:
 			path: ../EMS/core-bundle/src/Controller/Api/File/ExtractDataController.php
 
 		-
-			message: '#^Call to deprecated method isValidName\(\) of class EMS\\CoreBundle\\Controller\\ContentManagement\\ContentTypeController\.$#'
-			identifier: staticMethod.deprecated
-			count: 2
-			path: ../EMS/core-bundle/src/Controller/ContentManagement/ContentTypeController.php
-
-		-
 			message: '#^Instanceof between Symfony\\Component\\Form\\FormError and Symfony\\Component\\Form\\FormError will always evaluate to true\.$#'
 			identifier: instanceof.alwaysTrue
 			count: 1

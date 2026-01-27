@@ -16,6 +16,7 @@ final class EmailRequest
     /** @var array<array<mixed>> */
     private readonly array $attachments;
     private readonly ?string $replyTo;
+    private readonly ?int $priority;
 
     /**
      * @param array<string, mixed> $message
@@ -32,6 +33,7 @@ final class EmailRequest
         $this->attachments = $message['attachments'] ?? [];
         $this->contentType = $message['content-type'] ?? MimeTypeHelper::TEXT_PLAIN;
         $this->replyTo = $message['reply-to'] ?? null;
+        $this->priority = $message['priority'] ?? null;
     }
 
     public function getEndpoint(): string
@@ -70,5 +72,10 @@ final class EmailRequest
     public function getReplyTo(): ?string
     {
         return $this->replyTo;
+    }
+
+    public function getPriority(): ?int
+    {
+        return $this->priority;
     }
 }

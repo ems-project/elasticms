@@ -19,15 +19,6 @@ parameters:
 			path: ../EMS/client-helper-bundle/src/Helper/Routing/RoutingBuilder.php
 
 		-
-			message: '''
-				#^Call to deprecated method assetPath\(\) of class EMS\\CommonBundle\\Twig\\RequestRuntime\:
-				assetPath will be removed in elasticms/common\-bundle 1\.20\. Use AssetRuntime\:\:assetPath instead\.$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: ../EMS/common-bundle/src/Controller/FileController.php
-
-		-
 			message: '#^Call to deprecated method extractData\(\) of class EMS\\CoreBundle\\Service\\AssetExtractorService\.$#'
 			identifier: method.deprecated
 			count: 1
@@ -38,15 +29,6 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: ../EMS/core-bundle/src/Controller/Api/File/ExtractDataController.php
-
-		-
-			message: '''
-				#^Call to deprecated method assetPath\(\) of class EMS\\CommonBundle\\Twig\\RequestRuntime\:
-				assetPath will be removed in elasticms/common\-bundle 1\.20\. Use AssetRuntime\:\:assetPath instead\.$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: ../EMS/core-bundle/src/Twig/AppExtension.php
 
 
 

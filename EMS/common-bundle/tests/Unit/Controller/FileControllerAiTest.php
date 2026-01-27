@@ -6,6 +6,7 @@ namespace EMS\Tests\CommonBundle\Unit\Controller;
 
 use EMS\CommonBundle\Controller\FileController;
 use EMS\CommonBundle\Storage\Processor\Processor;
+use EMS\CommonBundle\Twig\AssetRuntime;
 use EMS\CommonBundle\Twig\RequestRuntime;
 use GuzzleHttp\Psr7\Stream;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
@@ -20,14 +21,14 @@ class FileControllerAiTest extends TestCase
     private const string TEST_IMAGE_PATH = __DIR__.'/fixtures/image.png';
     private FileController $controller;
     private Processor $processor;
-    private RequestRuntime $requestRuntime;
+    private AssetRuntime $assetRuntime;
 
     #[\Override]
     protected function setUp(): void
     {
         $this->processor = $this->createMock(Processor::class);
-        $this->requestRuntime = $this->createMock(RequestRuntime::class);
-        $this->controller = new FileController($this->processor, $this->requestRuntime);
+        $this->assetRuntime = $this->createMock(AssetRuntime::class);
+        $this->controller = new FileController($this->processor, $this->assetRuntime);
     }
 
     public function testAsset(): void
@@ -53,7 +54,7 @@ class FileControllerAiTest extends TestCase
     #[IgnoreDeprecations]
     public function testView(): void
     {
-        $this->requestRuntime->expects($this->once())
+        $this->assetRuntime->expects($this->once())
             ->method('assetPath')
             ->willReturn('/path/to/asset');
 
@@ -64,7 +65,7 @@ class FileControllerAiTest extends TestCase
     #[IgnoreDeprecations]
     public function testDownload(): void
     {
-        $this->requestRuntime->expects($this->once())
+        $this->assetRuntime->expects($this->once())
             ->method('assetPath')
             ->willReturn('/path/to/asset');
 
@@ -106,7 +107,7 @@ class FileControllerAiTest extends TestCase
     #[IgnoreDeprecations]
     public function testGetFile(): void
     {
-        $this->requestRuntime->expects($this->once())
+        $this->assetRuntime->expects($this->once())
             ->method('assetPath')
             ->willReturn('/path/to/asset');
 

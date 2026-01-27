@@ -58,18 +58,6 @@ class RequestRuntime implements RuntimeExtensionInterface
         return IpUtils::checkIp($requestIp, $ipsOrSubnets);
     }
 
-    /**
-     * @param array<string, mixed> $fileField
-     * @param array<string, mixed> $assetConfig
-     */
-    #[\Deprecated(message: 'assetPath will be removed in elasticms/common-bundle 1.20. Use AssetRuntime::assetPath instead.')]
-    public function assetPath(array $fileField, array $assetConfig = [], string $route = 'ems_asset', string $fileHashField = EmsFields::CONTENT_FILE_HASH_FIELD, string $filenameField = EmsFields::CONTENT_FILE_NAME_FIELD, string $mimeTypeField = EmsFields::CONTENT_MIME_TYPE_FIELD, int $referenceType = UrlGeneratorInterface::RELATIVE_PATH): string
-    {
-        \trigger_error('assetPath will be removed in elasticms/common-bundle 1.20. Use AssetRuntime::assetPath instead.', E_USER_DEPRECATED);
-
-        return $this->assetRuntime->assetPath($fileField, $assetConfig, $route, $fileHashField, $filenameField, $mimeTypeField, $referenceType);
-    }
-
     #[\Deprecated(message: 'assetAverageColor will be removed in elasticms/common-bundle 1.20. Use AssetRuntime::assetAverageColor instead.')]
     public function assetAverageColor(string $hash): string
     {

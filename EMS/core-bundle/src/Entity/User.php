@@ -331,8 +331,10 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
     #[\Override]
     public function getUserIdentifier(): string
     {
-        if ('' === $this->username || null === $this->username) {
-            throw new \LogicException('User identifier cannot be empty.');
+        $trimmed = \trim((string) $this->username);
+
+        if ('' === $trimmed || $this->username !== $trimmed) {
+            throw new \LogicException('Username cannot be empty or start/end with a space.');
         }
 
         return $this->username;

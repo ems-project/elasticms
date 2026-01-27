@@ -38,8 +38,10 @@ class SsoUser implements UserInterface
     #[\Override]
     public function getUserIdentifier(): string
     {
-        if ('' === $this->identifier) {
-            throw new \LogicException('User identifier cannot be empty.');
+        $trimmed = \trim((string) $this->identifier);
+
+        if ('' === $trimmed || $this->identifier !== $trimmed) {
+            throw new \LogicException('User identifier cannot be empty or start/end with a space.');
         }
 
         return $this->identifier;

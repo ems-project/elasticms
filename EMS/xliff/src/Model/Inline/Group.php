@@ -13,7 +13,6 @@ class Group extends Node
         public readonly string $id,
         public readonly string $type,
     ) {
-        parent::__construct();
     }
 
     /**

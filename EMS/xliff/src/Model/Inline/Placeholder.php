@@ -11,6 +11,5 @@ class Placeholder extends Node
         public readonly string $type,
         public readonly ?string $equivalentText,
     ) {
-        parent::__construct();
     }
 }

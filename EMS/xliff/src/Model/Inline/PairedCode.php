@@ -17,7 +17,6 @@ class PairedCode extends Node
         public readonly string $equivalentOpeningText,
         public readonly string $equivalentClosingText,
     ) {
-        parent::__construct();
     }
 
     /**

@@ -6,7 +6,4 @@ namespace EMS\Xliff\Model\Inline;
 
 abstract class Node
 {
-    public function __construct()
-    {
-    }
 }

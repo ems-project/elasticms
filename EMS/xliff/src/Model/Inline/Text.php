@@ -8,6 +8,5 @@ class Text extends Node
 {
     public function __construct(public readonly string $text)
     {
-        parent::__construct();
     }
 }

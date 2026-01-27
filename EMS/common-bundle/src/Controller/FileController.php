@@ -7,7 +7,6 @@ namespace EMS\CommonBundle\Controller;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Storage\Processor\Processor;
 use EMS\CommonBundle\Twig\AssetRuntime;
-use EMS\CommonBundle\Twig\RequestRuntime;
 use EMS\Helpers\File\File;
 use EMS\Helpers\Html\Headers;
 use EMS\Helpers\Standard\Json;
@@ -25,8 +24,7 @@ class FileController extends AbstractController
     public function __construct(
         private readonly Processor $processor,
         private readonly AssetRuntime $assetRuntime
-    )
-    {
+    ) {
     }
 
     public function asset(Request $request, string $hash, string $hash_config, string $filename): Response

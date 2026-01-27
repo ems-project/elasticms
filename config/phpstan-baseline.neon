@@ -75,8 +75,6 @@ parameters:
 			count: 1
 			path: ../EMS/core-bundle/src/Controller/Views/CalendarController.php
 
-
-
 		-
 			message: '#^Call to function is_string\(\) with string will always evaluate to true\.$#'
 			identifier: function.alreadyNarrowedType
@@ -98,31 +96,11 @@ parameters:
 			count: 1
 			path: ../EMS/core-bundle/src/Entity/DataField.php
 
-
-
 		-
 			message: '#^Call to deprecated method updateDataValue\(\) of class EMS\\CoreBundle\\Entity\\DataField\.$#'
 			identifier: method.deprecated
 			count: 1
 			path: ../EMS/core-bundle/src/Form/DataField/NestedFieldType.php
-
-		-
-			message: '#^Method EMS\\CoreBundle\\Form\\DataTransformer\\ChannelOptionsTransformer\:\:reverseTransform\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: ../EMS/core-bundle/src/Form/DataTransformer/ChannelOptionsTransformer.php
-
-		-
-			message: '#^Method EMS\\CoreBundle\\Form\\DataTransformer\\ChannelOptionsTransformer\:\:transform\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: ../EMS/core-bundle/src/Form/DataTransformer/ChannelOptionsTransformer.php
-
-		-
-			message: '#^Method EMS\\CoreBundle\\Form\\DataTransformer\\FormModelTransformer\:\:reverseTransform\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: ../EMS/core-bundle/src/Form/DataTransformer/FormModelTransformer.php
 
 
 

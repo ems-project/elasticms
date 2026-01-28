@@ -305,14 +305,13 @@ class Xliff12Reader implements ReaderInterface
         if (!$child instanceof \DOMElement) {
             throw new \RuntimeException(\sprintf('Unexpected node type %s', $child->nodeName));
         }
-        $equivText = $child->getAttribute('equiv-text');
         $rawHtml = \html_entity_decode(
-            $equivText,
+            $child->getAttribute('equiv-text'),
             ENT_QUOTES | ENT_XML1,
             'UTF-8'
         );
         if (!\preg_match('/^<\s*(?P<tag>[a-zA-Z][a-zA-Z0-9:-]*)\b[^>]*\/?>$/', $rawHtml, $matches)) {
-            throw new \RuntimeException(\sprintf('Unexpected %s tag', $equivText));
+            throw new \RuntimeException(\sprintf('Unexpected %s html tag', $rawHtml));
         }
         $tag = $matches['tag'];
 

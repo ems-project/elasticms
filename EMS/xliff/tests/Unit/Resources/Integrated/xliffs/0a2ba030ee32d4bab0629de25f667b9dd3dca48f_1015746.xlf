@@ -19,7 +19,7 @@
           <source xml:lang="nl"> Werkgevers kunnen een gesubsidieerde contractueel in dienst nemen op basis van: </source>
           <target xml:lang="de" state="final"> Arbeitgeber können einen bezuschussten Vertragsbediensteten auf der folgenden Grundlage einstellen: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu6" resname="/html/body/ul">
+        <group restype="x-html-ul" id="grp6" resname="/html/body/ul">
           <trans-unit restype="listitem" id="tu7" resname="/html/body/ul/li[1]">
             <source xml:lang="nl">het stelsel van de gesubsidieerde contractuelen bij de openbare besturen dat werd ingevoerd door de programmawet van 30 december 1988; </source>
             <target xml:lang="de" state="final">das System der bezuschussten Vertragsbediensteten bei den lokalen Verwaltungen, das durch das Programmgesetz vom 30.12.1988 eingeführt wurde; </target>
@@ -43,7 +43,7 @@
           <source xml:lang="nl"> Het zijn: </source>
           <target xml:lang="de" state="final"> Dabei handelt es sich um: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu13" resname="/html/body/ul">
+        <group restype="x-html-ul" id="grp13" resname="/html/body/ul">
           <trans-unit restype="listitem" id="tu14" resname="/html/body/ul/li[1]">
             <source xml:lang="nl">de administraties en diensten van de federale overheid of deze die onder haar voogdij vallen; </source>
             <target xml:lang="de" state="final">Verwaltungen und Behörden des föderalen Staats oder jene, die er kontrolliert; </target>
@@ -117,7 +117,7 @@
           <source xml:lang="nl">   </source>
           <target xml:lang="de" state="final">   </target>
         </trans-unit>
-        <group restype="x-html-div" id="tu32" resname="/html/body/div[1]">
+        <group restype="x-html-div" id="grp32" resname="/html/body/div[1]">
           <note from="class">message alert</note>
           <trans-unit restype="x-html-h3" id="tu33" resname="/html/body/div[1]/h3">
             <source xml:lang="nl"> Duitstalige Gemeenschap: </source>
@@ -140,7 +140,7 @@
           <source xml:lang="nl">   </source>
           <target xml:lang="de" state="final">   </target>
         </trans-unit>
-        <group restype="x-html-div" id="tu44" resname="/html/body/div[2]">
+        <group restype="x-html-div" id="grp44" resname="/html/body/div[2]">
           <note from="class">message alert</note>
           <trans-unit restype="x-html-h3" id="tu45" resname="/html/body/div[2]/h3">
             <source xml:lang="nl"> Vlaams Gewest: </source>
@@ -192,44 +192,44 @@
           <target xml:lang="de" state="final"> 1) öffentliche Verwaltungen des föderalen Staats </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu71" resname="/html/body/p[12]">
-          <source xml:lang="nl"> Voor de premieaanvraag<x id="x72" ctype="x-html-br" equiv-text=" "/> FOD Werkgelegenheid, Arbeid en Sociaal Overleg, Dienst Gesubsidieerde Contractuelen<x id="x73" ctype="x-html-br" equiv-text=" "/> Ernest Blerotstraat 1 te 1070 Brussel. </source>
-          <target xml:lang="de" state="final"> Für den Prämienantrag<x id="x74" ctype="x-html-br" equiv-text=" "/> FÖD Beschäftigung, Arbeit und Soziale Konzertierung, Dienst Bezuschusste Vertragsbedienstete<x id="x75" ctype="x-html-br" equiv-text=" "/> Ernest Blerotstraat/Rue Ernest Blerot 1 in 1070 Brüssel </target>
+          <source xml:lang="nl"> Voor de premieaanvraag<x id="x72" ctype="lb" equiv-text=" "/> FOD Werkgelegenheid, Arbeid en Sociaal Overleg, Dienst Gesubsidieerde Contractuelen<x id="x73" ctype="lb" equiv-text=" "/> Ernest Blerotstraat 1 te 1070 Brussel. </source>
+          <target xml:lang="de" state="final"> Für den Prämienantrag<x id="x74" ctype="lb" equiv-text=" "/> FÖD Beschäftigung, Arbeit und Soziale Konzertierung, Dienst Bezuschusste Vertragsbedienstete<x id="x75" ctype="lb" equiv-text=" "/> Ernest Blerotstraat/Rue Ernest Blerot 1 in 1070 Brüssel </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu76" resname="/html/body/p[13]">
-          <source xml:lang="nl"> Voor de betaling van de premie<x id="x77" ctype="x-html-br" equiv-text=" "/> Rijksdienst voor Arbeidsvoorziening, Hoofdbestuur<x id="x78" ctype="x-html-br" equiv-text=" "/> Keizerslaan 7 te 1000 Brussel. </source>
-          <target xml:lang="de" state="final"> Für die Auszahlung der Prämie<x id="x79" ctype="x-html-br" equiv-text=" "/> Landesamt für Arbeitsbeschaffung, Hauptverwaltung<x id="x80" ctype="x-html-br" equiv-text=" "/> Keizerslaan 7 te 1000 Brüssel. </target>
+          <source xml:lang="nl"> Voor de betaling van de premie<x id="x77" ctype="lb" equiv-text=" "/> Rijksdienst voor Arbeidsvoorziening, Hoofdbestuur<x id="x78" ctype="lb" equiv-text=" "/> Keizerslaan 7 te 1000 Brussel. </source>
+          <target xml:lang="de" state="final"> Für die Auszahlung der Prämie<x id="x79" ctype="lb" equiv-text=" "/> Landesamt für Arbeitsbeschaffung, Hauptverwaltung<x id="x80" ctype="lb" equiv-text=" "/> Keizerslaan 7 te 1000 Brüssel. </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu81" resname="/html/body/p[14]">
           <source xml:lang="nl"> 2) Openbare besturen van de Vlaamse Gemeenschap </source>
           <target xml:lang="de" state="final"> 2) Öffentliche Verwaltungen der Flämischen Gemeinschaft </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu82" resname="/html/body/p[15]">
-          <source xml:lang="nl"> Voor de premieaanvraag<x id="x83" ctype="x-html-br" equiv-text=" "/> Ministerie van de Vlaamse Gemeenschap, Administratie Economie en Werkgelegenheid, Dienst Werkgelegenheid<x id="x84" ctype="x-html-br" equiv-text=" "/> Markiesstraat 1, 1000 Brussel. </source>
-          <target xml:lang="de" state="final"> Für den Prämienantrag<x id="x85" ctype="x-html-br" equiv-text=" "/> Ministerium der Flämischen Gemeinschaft, Verwaltung der Wirtschaft und Beschäftigung, Dienststelle Beschäftigung<x id="x86" ctype="x-html-br" equiv-text=" "/> Markiesstraat 1, 1000 Brüssel. </target>
+          <source xml:lang="nl"> Voor de premieaanvraag<x id="x83" ctype="lb" equiv-text=" "/> Ministerie van de Vlaamse Gemeenschap, Administratie Economie en Werkgelegenheid, Dienst Werkgelegenheid<x id="x84" ctype="lb" equiv-text=" "/> Markiesstraat 1, 1000 Brussel. </source>
+          <target xml:lang="de" state="final"> Für den Prämienantrag<x id="x85" ctype="lb" equiv-text=" "/> Ministerium der Flämischen Gemeinschaft, Verwaltung der Wirtschaft und Beschäftigung, Dienststelle Beschäftigung<x id="x86" ctype="lb" equiv-text=" "/> Markiesstraat 1, 1000 Brüssel. </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu87" resname="/html/body/p[16]">
-          <source xml:lang="nl"> Voor de betaling van de premie<x id="x88" ctype="x-html-br" equiv-text=" "/> Vlaamse Dienst voor Arbeidsbemiddeling en Beroepsopleiding<x id="x89" ctype="x-html-br" equiv-text=" "/> Keizerslaan 11, 1000 Brussel. </source>
-          <target xml:lang="de" state="final"> Für die Auszahlung der Prämie<x id="x90" ctype="x-html-br" equiv-text=" "/> Flämischer Dienst für Arbeitsvermittlung und Berufsausbildung<x id="x91" ctype="x-html-br" equiv-text=" "/> Keizerslaan 11, 1000 Brüssel. </target>
+          <source xml:lang="nl"> Voor de betaling van de premie<x id="x88" ctype="lb" equiv-text=" "/> Vlaamse Dienst voor Arbeidsbemiddeling en Beroepsopleiding<x id="x89" ctype="lb" equiv-text=" "/> Keizerslaan 11, 1000 Brussel. </source>
+          <target xml:lang="de" state="final"> Für die Auszahlung der Prämie<x id="x90" ctype="lb" equiv-text=" "/> Flämischer Dienst für Arbeitsvermittlung und Berufsausbildung<x id="x91" ctype="lb" equiv-text=" "/> Keizerslaan 11, 1000 Brüssel. </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu92" resname="/html/body/p[17]">
           <source xml:lang="nl"> 3) Openbare besturen van het Waalse Gewest </source>
           <target xml:lang="de" state="final"> 3) Öffentliche Verwaltungen der Wallonischen Region </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu93" resname="/html/body/p[18]">
-          <source xml:lang="nl"> Voor de premieaanvraag<x id="x94" ctype="x-html-br" equiv-text=" "/> Ministère de la Région wallonne, Direction générale de l'Economie et de l'Emploi, Service de l'Emploi<x id="x95" ctype="x-html-br" equiv-text=" "/> Place de la Wallonie 1 te 5100 Jambes; </source>
-          <target xml:lang="de" state="final"> Für den Prämienantrag<x id="x96" ctype="x-html-br" equiv-text=" "/> Ministère de la Région wallonne, Direction générale de l'Economie et de l'Emploi, Service de l'Emploi<x id="x97" ctype="x-html-br" equiv-text=" "/> Place de la Wallonie 1 in 5100 Jambes; </target>
+          <source xml:lang="nl"> Voor de premieaanvraag<x id="x94" ctype="lb" equiv-text=" "/> Ministère de la Région wallonne, Direction générale de l'Economie et de l'Emploi, Service de l'Emploi<x id="x95" ctype="lb" equiv-text=" "/> Place de la Wallonie 1 te 5100 Jambes; </source>
+          <target xml:lang="de" state="final"> Für den Prämienantrag<x id="x96" ctype="lb" equiv-text=" "/> Ministère de la Région wallonne, Direction générale de l'Economie et de l'Emploi, Service de l'Emploi<x id="x97" ctype="lb" equiv-text=" "/> Place de la Wallonie 1 in 5100 Jambes; </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu98" resname="/html/body/p[19]">
-          <source xml:lang="nl"> Voor de betaling van de premie<x id="x99" ctype="x-html-br" equiv-text=" "/> Office communautaire et régional de la Formation professionnelle et de l'Emploi<x id="x100" ctype="x-html-br" equiv-text=" "/> Boulevard Tirou 104 te 6000 Charleroi. </source>
-          <target xml:lang="de" state="final"> Für die Auszahlung der Prämie<x id="x101" ctype="x-html-br" equiv-text=" "/> Office communautaire et régional de la Formation professionnelle et de l'Emploi<x id="x102" ctype="x-html-br" equiv-text=" "/> Boulevard Tirou 104 te 6000 Charleroi. </target>
+          <source xml:lang="nl"> Voor de betaling van de premie<x id="x99" ctype="lb" equiv-text=" "/> Office communautaire et régional de la Formation professionnelle et de l'Emploi<x id="x100" ctype="lb" equiv-text=" "/> Boulevard Tirou 104 te 6000 Charleroi. </source>
+          <target xml:lang="de" state="final"> Für die Auszahlung der Prämie<x id="x101" ctype="lb" equiv-text=" "/> Office communautaire et régional de la Formation professionnelle et de l'Emploi<x id="x102" ctype="lb" equiv-text=" "/> Boulevard Tirou 104 te 6000 Charleroi. </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu103" resname="/html/body/p[20]">
           <source xml:lang="nl"> 4) Openbare besturen van het Brussels Hoofdstedelijk Gewest </source>
           <target xml:lang="de" state="final"> 4) Öffentliche Verwaltungen der Region Brüssel-Hauptstadt </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu104" resname="/html/body/p[21]">
-          <source xml:lang="nl"> Voor de aanvraag en de betaling van de premie<x id="x105" ctype="x-html-br" equiv-text=" "/> Brusselse Gewestelijke Dienst voor Arbeidsbemiddeling<x id="x106" ctype="x-html-br" equiv-text=" "/> Anspachlaan 65 te 1000 Brussel. </source>
-          <target xml:lang="de" state="final"> Für die Beantragung und Bezahlung der Prämie<x id="x107" ctype="x-html-br" equiv-text=" "/> Brüsseler regionales Amt für Arbeitsbeschaffung<x id="x108" ctype="x-html-br" equiv-text=" "/> Anspachlaan 65 in 1000 Brüssel. </target>
+          <source xml:lang="nl"> Voor de aanvraag en de betaling van de premie<x id="x105" ctype="lb" equiv-text=" "/> Brusselse Gewestelijke Dienst voor Arbeidsbemiddeling<x id="x106" ctype="lb" equiv-text=" "/> Anspachlaan 65 te 1000 Brussel. </source>
+          <target xml:lang="de" state="final"> Für die Beantragung und Bezahlung der Prämie<x id="x107" ctype="lb" equiv-text=" "/> Brüsseler regionales Amt für Arbeitsbeschaffung<x id="x108" ctype="lb" equiv-text=" "/> Anspachlaan 65 in 1000 Brüssel. </target>
         </trans-unit>
         <trans-unit restype="x-html-h2" id="tu109" resname="/html/body/h2[4]">
           <source xml:lang="nl"> Te vervullen formaliteiten </source>

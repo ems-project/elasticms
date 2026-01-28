@@ -20,7 +20,7 @@
           <source xml:lang="nl"> <g id="g7" ctype="x-html-strong">W</g> is de loonmassa die per tewerkstellingslijn driemaandelijks wordt aangegeven (tegen 100 %) met uitzondering van </source>
           <target xml:lang="de" state="final"> <g id="g8" ctype="x-html-strong">W</g> ist die Lohnsumme, die je Beschäftigungszeile alle drei Monate angegeben wird (zu 100 %), ausgenommen </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu9" resname="/html/body/ul[1]">
+        <group restype="x-html-ul" id="grp9" resname="/html/body/ul[1]">
           <trans-unit restype="listitem" id="tu10" resname="/html/body/ul[1]/li[1]">
             <source xml:lang="nl">de vergoedingen die worden betaald ingevolge een verbreking van de arbeidsovereenkomst en in zoverre deze worden uitgedrukt in arbeidsduur, </source>
             <target xml:lang="de" state="final">die Entschädigungen, die infolge einer Kündigung des Arbeitsvertrages bezahlt werden, sofern diese in Arbeitsdauer ausgedrückt werden, </target>
@@ -50,7 +50,7 @@
           <source xml:lang="nl"> Het gaat om de looncodes </source>
           <target xml:lang="de" state="final"> Es geht um die Lohncodes </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu17" resname="/html/body/ul[2]">
+        <group restype="x-html-ul" id="grp17" resname="/html/body/ul[2]">
           <trans-unit restype="listitem" id="tu18" resname="/html/body/ul[2]/li[1]">
             <source xml:lang="nl">(DmfA) 1, 2, 4, 5 en 12, </source>
             <target xml:lang="de" state="final">(DmfA) 1, 2, 4, 5 und 12, </target>
@@ -64,7 +64,7 @@
           <source xml:lang="nl"> De vermindering kan dus niet worden toegepast op </source>
           <target xml:lang="de" state="final"> Die Ermäßigung gilt deshalb nicht für </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu21" resname="/html/body/ul[3]">
+        <group restype="x-html-ul" id="grp21" resname="/html/body/ul[3]">
           <trans-unit restype="listitem" id="tu22" resname="/html/body/ul[3]/li[1]">
             <source xml:lang="nl">(DmfA) een tewerkstellingslijn met looncode 3 of 9 (verbrekingsvergoeding) of met looncode 22 (flexi-loon) en op de bedragen aangegeven onder looncode 6, 7, 11, 13 en 23, </source>
             <target xml:lang="de" state="final">(DmfA) eine Beschäftigungszeile mit Lohncode 3 oder 9 (Vertragsbruchentschädigung) oder mit Lohncode 22 (Flexi-Lohn) und für die unter Lohncode 6, 7, 11, 13 und 23 angegebenen Beträge. </target>
@@ -94,14 +94,14 @@
           <source xml:lang="nl"> Het <g id="g41" ctype="x-html-strong">refertekwartaalloon S,</g> of de omzetting van het reële loon naar een referteloon, wordt als volgt berekend (per tewerkstellingslijn): </source>
           <target xml:lang="de" state="final"> Der <g id="g42" ctype="x-html-strong">Referenzquartalslohn S</g> oder die Umsetzung des Reallohns in einen Referenzlohn wird wie folgt berechnet (pro Beschäftigungszeile): </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu43" resname="/html/body/ul[4]">
+        <group restype="x-html-ul" id="grp43" resname="/html/body/ul[4]">
           <trans-unit restype="listitem" id="tu44" resname="/html/body/ul[4]/li[1]">
-            <source xml:lang="nl"> <g id="g45" ctype="x-html-strong">voor de tewerkstelling uitsluitend aangegeven in dagen:</g> <g id="g46" ctype="x-html-strong">S = W x (13 x D / J)</g><x id="x47" ctype="x-html-br" equiv-text=" "/> met <g id="g48" ctype="x-html-strong">J</g> = X zonder de wettelijke vakantiedagen voor arbeiders, de niet door de werkgever betaalde vakantiedagen toegekend ingevolge algemeen verbindend verklaarde CAO, flexi-vakantiedagen, de dagen inhaalrust bouwbedrijf en de dagen tijdelijke werkloosheid ingevolge slecht weer; het gaat m.a.w. om de prestatiecodes 1, 3, 4, 5 en 20;<x id="x49" ctype="x-html-br" equiv-text=" "/> met <g id="g50" ctype="x-html-strong">D</g> = het aantal dagen per week van het arbeidsstelsel; </source>
-            <target xml:lang="de" state="final"> <g id="g51" ctype="x-html-strong">Für eine Beschäftigung, die ausschließlich in Tagen angegeben wird:</g><g id="g52" ctype="x-html-strong">S = W x (13 x D / J)</g><x id="x53" ctype="x-html-br" equiv-text=" "/> wobei <g id="g54" ctype="x-html-strong">J</g> = X ohne die gesetzlichen Urlaubstage für Arbeiter, die nicht vom Arbeitgeber bezahlten Urlaubstage, die infolge eines für allgemein verbindlich erklärten KAA gewährt werden, Flexi-Urlaubstage, die Ausgleichsruhetage im Bausektor und Tage vorübergehender Arbeitslosigkeit infolge ungünstiger Witterung; es betrifft mit anderen Worten die Leistungscodes 1, 3, 4, 5 und 20;<x id="x55" ctype="x-html-br" equiv-text=" "/> wobei <g id="g56" ctype="x-html-strong">D</g> = Anzahl der Tage pro Woche der Arbeitsregelung; </target>
+            <source xml:lang="nl"> <g id="g45" ctype="x-html-strong">voor de tewerkstelling uitsluitend aangegeven in dagen:</g> <g id="g46" ctype="x-html-strong">S = W x (13 x D / J)</g><x id="x47" ctype="lb" equiv-text=" "/> met <g id="g48" ctype="x-html-strong">J</g> = X zonder de wettelijke vakantiedagen voor arbeiders, de niet door de werkgever betaalde vakantiedagen toegekend ingevolge algemeen verbindend verklaarde CAO, flexi-vakantiedagen, de dagen inhaalrust bouwbedrijf en de dagen tijdelijke werkloosheid ingevolge slecht weer; het gaat m.a.w. om de prestatiecodes 1, 3, 4, 5 en 20;<x id="x49" ctype="lb" equiv-text=" "/> met <g id="g50" ctype="x-html-strong">D</g> = het aantal dagen per week van het arbeidsstelsel; </source>
+            <target xml:lang="de" state="final"> <g id="g51" ctype="x-html-strong">Für eine Beschäftigung, die ausschließlich in Tagen angegeben wird:</g><g id="g52" ctype="x-html-strong">S = W x (13 x D / J)</g><x id="x53" ctype="lb" equiv-text=" "/> wobei <g id="g54" ctype="x-html-strong">J</g> = X ohne die gesetzlichen Urlaubstage für Arbeiter, die nicht vom Arbeitgeber bezahlten Urlaubstage, die infolge eines für allgemein verbindlich erklärten KAA gewährt werden, Flexi-Urlaubstage, die Ausgleichsruhetage im Bausektor und Tage vorübergehender Arbeitslosigkeit infolge ungünstiger Witterung; es betrifft mit anderen Worten die Leistungscodes 1, 3, 4, 5 und 20;<x id="x55" ctype="lb" equiv-text=" "/> wobei <g id="g56" ctype="x-html-strong">D</g> = Anzahl der Tage pro Woche der Arbeitsregelung; </target>
           </trans-unit>
           <trans-unit restype="listitem" id="tu57" resname="/html/body/ul[4]/li[2]">
-            <source xml:lang="nl"> <g id="g58" ctype="x-html-strong">voor de tewerkstelling aangegeven in uren en dagen wordt dit:</g> <g id="g59" ctype="x-html-strong">S = W x (13 x U / H)</g><x id="x60" ctype="x-html-br" equiv-text=" "/> met <g id="g61" ctype="x-html-strong">H</g> = Z zonder de uren die overeenstemmen met de wettelijke vakantiedagen voor arbeiders, de uren die overeenstemmen met de niet door de werkgever betaalde vakantiedagen toegekend ingevolge algemeen verbindend verklaarde CAO of met de flexi-vakantiedagen, met de dagen inhaalrust bouwbedrijf en de uren die overeenstemmen met de dagen tijdelijke werkloosheid ingevolge slecht weer; het gaat m.a.w. om de prestatiecodes 1, 3, 4, 5 en 20;<x id="x62" ctype="x-html-br" equiv-text=" "/> met <g id="g63" ctype="x-html-strong">U</g> = het gemiddeld aantal uren per week van de maatpersoon. </source>
-            <target xml:lang="de" state="final"> <g id="g64" ctype="x-html-strong">Für die in Tagen und Stunden angegebene Beschäftigung ist dies:</g> <g id="g65" ctype="x-html-strong">S = W x (13 x U / H)</g><x id="x66" ctype="x-html-br" equiv-text=" "/> wobei <g id="g67" ctype="x-html-strong">H</g> = Z ohne die Stunden, die mit den gesetzlichen Urlaubstagen für Arbeiter übereinstimmen, Stunden, die mit den nicht vom Arbeitgeber bezahlten Urlaubstagen übereinstimmen, die infolge eines für allgemein verbindlich erklärten KAA oder mit den Flexi-Urlaubstagen gewährt werden, die Ausgleichsruhezeit im Bausektor und Stunden, die mit den Tagen vorübergehender Arbeitslosigkeit infolge ungünstiger Witterung übereinstimmen; es betrifft mit anderen Worten die Leistungscodes 1, 3, 4, 5 und 20;<x id="x68" ctype="x-html-br" equiv-text=" "/> wobei <g id="g69" ctype="x-html-strong">U</g> = die durchschnittliche Anzahl der Stunden pro Woche der Referenzperson ist. </target>
+            <source xml:lang="nl"> <g id="g58" ctype="x-html-strong">voor de tewerkstelling aangegeven in uren en dagen wordt dit:</g> <g id="g59" ctype="x-html-strong">S = W x (13 x U / H)</g><x id="x60" ctype="lb" equiv-text=" "/> met <g id="g61" ctype="x-html-strong">H</g> = Z zonder de uren die overeenstemmen met de wettelijke vakantiedagen voor arbeiders, de uren die overeenstemmen met de niet door de werkgever betaalde vakantiedagen toegekend ingevolge algemeen verbindend verklaarde CAO of met de flexi-vakantiedagen, met de dagen inhaalrust bouwbedrijf en de uren die overeenstemmen met de dagen tijdelijke werkloosheid ingevolge slecht weer; het gaat m.a.w. om de prestatiecodes 1, 3, 4, 5 en 20;<x id="x62" ctype="lb" equiv-text=" "/> met <g id="g63" ctype="x-html-strong">U</g> = het gemiddeld aantal uren per week van de maatpersoon. </source>
+            <target xml:lang="de" state="final"> <g id="g64" ctype="x-html-strong">Für die in Tagen und Stunden angegebene Beschäftigung ist dies:</g> <g id="g65" ctype="x-html-strong">S = W x (13 x U / H)</g><x id="x66" ctype="lb" equiv-text=" "/> wobei <g id="g67" ctype="x-html-strong">H</g> = Z ohne die Stunden, die mit den gesetzlichen Urlaubstagen für Arbeiter übereinstimmen, Stunden, die mit den nicht vom Arbeitgeber bezahlten Urlaubstagen übereinstimmen, die infolge eines für allgemein verbindlich erklärten KAA oder mit den Flexi-Urlaubstagen gewährt werden, die Ausgleichsruhezeit im Bausektor und Stunden, die mit den Tagen vorübergehender Arbeitslosigkeit infolge ungünstiger Witterung übereinstimmen; es betrifft mit anderen Worten die Leistungscodes 1, 3, 4, 5 und 20;<x id="x68" ctype="lb" equiv-text=" "/> wobei <g id="g69" ctype="x-html-strong">U</g> = die durchschnittliche Anzahl der Stunden pro Woche der Referenzperson ist. </target>
           </trans-unit>
         </group>
         <trans-unit restype="x-html-p" id="tu70" resname="/html/body/p[8]">
@@ -124,7 +124,7 @@
           <source xml:lang="nl"> Zowel bij de berekening van de structurele vermindering (P<g id="g75" ctype="x-html-sub">s</g>) als bij de doelgroepvermindering (P<g id="g76" ctype="x-html-sub">g</g>) wordt rekening gehouden met de prestatiebreuk (µ) van de tewerkstellingslijn en een vaste multiplicatiefactor (β<g id="g77" ctype="x-html-sub">s</g> en β<g id="g78" ctype="x-html-sub">g</g>) die het mogelijk maakt, afhankelijk van de geleverde arbeidsprestaties van de verschillende tewerkstellingen, af te wijken van een strikt proportionele vermindering van de bijdragen. De som van P<g id="g79" ctype="x-html-sub">s</g> en P<g id="g80" ctype="x-html-sub">g</g> geeft het bedrag dat men in mindering mag brengen van de voor deze tewerkstellingslijn van de werknemer, verschuldigde werkgeversbijdragen voor volgende regelingen: </source>
           <target xml:lang="de" state="final"> Sowohl bei der Berechnung der strukturellen Ermäßigung (P<g id="g81" ctype="x-html-sub">s</g>) als auch bei der Zielgruppenermäßigung (P<g id="g82" ctype="x-html-sub">g</g>) wird der Leistungsbruch (µ) der Beschäftigungszeile und ein fester Multiplikator (β<g id="g83" ctype="x-html-sub">s</g> und β<g id="g84" ctype="x-html-sub">g</g>) berücksichtigt, der es ermöglicht, je nach den erbrachten Arbeitsleistungen der verschiedenen Beschäftigungen von einer strikt proportionalen Ermäßigung dieser Beiträge abzuweichen. Die Summe von P<g id="g85" ctype="x-html-sub">s</g> und P<g id="g86" ctype="x-html-sub">g</g> ergibt den Betrag, den man von den für diese Beschäftigungszeile des Arbeitnehmers geschuldeten Arbeitgeberbeiträgen für folgende Regelungen in Abzug bringen darf: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu87" resname="/html/body/ul[5]">
+        <group restype="x-html-ul" id="grp87" resname="/html/body/ul[5]">
           <trans-unit restype="listitem" id="tu88" resname="/html/body/ul[5]/li[1]">
             <source xml:lang="nl">de patronale basisbijdrage na vermindering met de niet-toepasselijke regelingen; </source>
             <target xml:lang="de" state="final">den Arbeitgebergrundbeitrag nach Abzug der nicht anwendbaren Regelungen; </target>
@@ -150,7 +150,7 @@
           <source xml:lang="nl"> Enkel vertrekvakantiegeld (vakantieregeling privé-sector) dat door een werkgever wordt uitbetaald aan zijn (ex-)werknemer, maakt geen deel uit van de loonmassa voor de berekening van de refertekwartaallonen. Op dit enkel vertrekvakantiegeld kan de geharmoniseerde vermindering ook niet worden toegepast. Het deel van het vakantiegeld dat overeenstemt met het normale loon voor de vakantiedagen, dat vervroegd werd uitbetaald door de vroegere werkgever, maakt wel deel uit van de loonmassa en wordt dus wel in rekening gebracht voor de berekening van de refertekwartaallonen. <bx id="bx99" rid="rid98" equiv-text="&amp;lt;a href=&amp;quot;holidaypay-nl_1&amp;quot;&amp;gt;"/>Bekijk de voorbeelden<ex id="ex100" rid="rid98" equiv-text="&amp;lt;/a&amp;gt;"/>. </source>
           <target xml:lang="de" state="final"> Einfaches Abgangsurlaubsgeld (Urlaubsregelung im Privatsektor), das ein Arbeitgeber seinem (ehemaligen) Arbeitnehmer zahlt, ist nicht Bestandteil der Lohnsumme bei der Berechnung der Referenzquartalslöhne. Auf dieses einfache Abgangsurlaubsgeld kann die harmonisierte Ermäßigung auch nicht angewandt werden. Der Teil des Urlaubsgelds, der dem normalen Lohn für Urlaubstage entspricht, der vom vorigen Arbeitgeber verfrüht ausgezahlt wurde, ist sehr wohl Bestandteil der Lohnsumme und wird daher bei der Berechnung der Referenzquartalslöhne berücksichtigt. <bx id="bx102" rid="rid101" equiv-text="&amp;lt;a href=&amp;quot;holidaypay-nl_1&amp;quot;&amp;gt;"/>Siehe Beispiele<ex id="ex103" rid="rid101" equiv-text="&amp;lt;/a&amp;gt;"/>. </target>
         </trans-unit>
-        <group restype="x-html-div" id="tu104" resname="/html/body/div">
+        <group restype="x-html-div" id="grp104" resname="/html/body/div">
           <note from="class">message alert</note>
           <trans-unit restype="x-html-p" id="tu105" resname="/html/body/div/p">
             <source xml:lang="nl"> De vermindering van de bijdragen waar een werkgever recht op heeft, kan geheel of gedeeltelijk worden geweigerd bij de werkgevers die zonder rechtvaardiging hun verplichtingen aangaande betalingen van socialezekerheidsbijdragen niet nakomen of die schuldig worden bevonden aan het doen of laten verrichten van arbeid door een werknemer voor wie geen bijdragen werden betaald aan de Rijksdienst voor Sociale Zekerheid. </source>
@@ -165,14 +165,14 @@
           <source xml:lang="nl"> Men moet een onderscheid maken tussen de tewerkstellingen die enkel aangegeven worden in dagen en deze die aangegeven worden in dagen en uren: </source>
           <target xml:lang="de" state="final"> Es muss zwischen den Beschäftigungen unterschieden werden, die nur in Tagen, und solchen, die in Tagen und Stunden angegeben werden: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu108" resname="/html/body/ul[6]">
+        <group restype="x-html-ul" id="grp108" resname="/html/body/ul[6]">
           <trans-unit restype="listitem" id="tu109" resname="/html/body/ul[6]/li[1]">
-            <source xml:lang="nl"> <g id="g110" ctype="x-html-strong">aangegeven in dagen:</g> µ = X / (13 x D) <x id="x111" ctype="x-html-strong" equiv-text=" "/><x id="x112" ctype="x-html-br" equiv-text=" "/> met <g id="g113" ctype="x-html-strong">X</g> = het aantal arbeidsdagen en dagen tijdelijke werkloosheid ingevolge slecht weer (prestatiecodes 1, 2, 3, 4, 5, 12, 20 en 72); de dagen gedekt door een verbrekingsvergoeding komen niet in aanmerking voor de berekening van X.<x id="x114" ctype="x-html-br" equiv-text=" "/> met <g id="g115" ctype="x-html-strong">D</g> = het aantal dagen per week van het arbeidsstelsel; </source>
-            <target xml:lang="de" state="final"> <g id="g116" ctype="x-html-strong">in Tagen angegeben:</g> µ = X / (13 x D) <x id="x117" ctype="x-html-strong" equiv-text=" "/><x id="x118" ctype="x-html-br" equiv-text=" "/> wobei <g id="g119" ctype="x-html-strong">X</g> = Anzahl der Arbeitsstunden und der Tage vorübergehender Arbeitslosigkeit infolge ungünstiger Witterung (Leistungscodes 1, 2, 3, 4, 5, 12, 20 und 72); die durch eine Entlassungsentschädigung gedeckten Tage kommen für die Berechnung von X nicht in Betracht.<x id="x120" ctype="x-html-br" equiv-text=" "/> wobei <g id="g121" ctype="x-html-strong">D</g> = Anzahl der Tage pro Woche der Arbeitsregelung; </target>
+            <source xml:lang="nl"> <g id="g110" ctype="x-html-strong">aangegeven in dagen:</g> µ = X / (13 x D) <x id="x111" ctype="x-html-strong" equiv-text=" "/><x id="x112" ctype="lb" equiv-text=" "/> met <g id="g113" ctype="x-html-strong">X</g> = het aantal arbeidsdagen en dagen tijdelijke werkloosheid ingevolge slecht weer (prestatiecodes 1, 2, 3, 4, 5, 12, 20 en 72); de dagen gedekt door een verbrekingsvergoeding komen niet in aanmerking voor de berekening van X.<x id="x114" ctype="lb" equiv-text=" "/> met <g id="g115" ctype="x-html-strong">D</g> = het aantal dagen per week van het arbeidsstelsel; </source>
+            <target xml:lang="de" state="final"> <g id="g116" ctype="x-html-strong">in Tagen angegeben:</g> µ = X / (13 x D) <x id="x117" ctype="x-html-strong" equiv-text=" "/><x id="x118" ctype="lb" equiv-text=" "/> wobei <g id="g119" ctype="x-html-strong">X</g> = Anzahl der Arbeitsstunden und der Tage vorübergehender Arbeitslosigkeit infolge ungünstiger Witterung (Leistungscodes 1, 2, 3, 4, 5, 12, 20 und 72); die durch eine Entlassungsentschädigung gedeckten Tage kommen für die Berechnung von X nicht in Betracht.<x id="x120" ctype="lb" equiv-text=" "/> wobei <g id="g121" ctype="x-html-strong">D</g> = Anzahl der Tage pro Woche der Arbeitsregelung; </target>
           </trans-unit>
           <trans-unit restype="listitem" id="tu122" resname="/html/body/ul[6]/li[2]">
-            <source xml:lang="nl"> <g id="g123" ctype="x-html-strong">aangegeven in dagen en uren:</g> µ = Z / (13 x U) <x id="x124" ctype="x-html-strong" equiv-text=" "/><x id="x125" ctype="x-html-br" equiv-text=" "/> met <g id="g126" ctype="x-html-strong">Z</g> = het aantal arbeidsuren en uren die overeenstemmen met de dagen tijdelijke werkloosheid ingevolge slecht weer (prestatiecodes 1, 2, 3, 4, 5, 12, 20 en 72); de uren die overeenkomen met de dagen gedekt door een verbrekingsvergoeding komen niet in aanmerking voor de berekening van Z.<x id="x127" ctype="x-html-br" equiv-text=" "/> met <g id="g128" ctype="x-html-strong">U</g> = het gemiddeld aantal uren per week van de maatpersoon. </source>
-            <target xml:lang="de" state="final"> <g id="g129" ctype="x-html-strong">Anzahl der Arbeitsstunden und der Stunden:</g> µ = Z / (13 x U) <x id="x130" ctype="x-html-strong" equiv-text=" "/><x id="x131" ctype="x-html-br" equiv-text=" "/> wobei <g id="g132" ctype="x-html-strong">Z</g> = Anzahl der Arbeitsstunden und der Stunden, die mit den Tagen vorübergehender Arbeitslosigkeit infolge ungünstiger Witterung übereinstimmen (Leistungscodes 1, 2, 3, 4, 5, 12, 20 und 72). Die durch eine Entlassungsentschädigung gedeckten Tage kommen für die Berechnung von Z nicht in Betracht.<x id="x133" ctype="x-html-br" equiv-text=" "/> wobei <g id="g134" ctype="x-html-strong">U</g> = die durchschnittliche Anzahl der Stunden pro Woche der Referenzperson. </target>
+            <source xml:lang="nl"> <g id="g123" ctype="x-html-strong">aangegeven in dagen en uren:</g> µ = Z / (13 x U) <x id="x124" ctype="x-html-strong" equiv-text=" "/><x id="x125" ctype="lb" equiv-text=" "/> met <g id="g126" ctype="x-html-strong">Z</g> = het aantal arbeidsuren en uren die overeenstemmen met de dagen tijdelijke werkloosheid ingevolge slecht weer (prestatiecodes 1, 2, 3, 4, 5, 12, 20 en 72); de uren die overeenkomen met de dagen gedekt door een verbrekingsvergoeding komen niet in aanmerking voor de berekening van Z.<x id="x127" ctype="lb" equiv-text=" "/> met <g id="g128" ctype="x-html-strong">U</g> = het gemiddeld aantal uren per week van de maatpersoon. </source>
+            <target xml:lang="de" state="final"> <g id="g129" ctype="x-html-strong">Anzahl der Arbeitsstunden und der Stunden:</g> µ = Z / (13 x U) <x id="x130" ctype="x-html-strong" equiv-text=" "/><x id="x131" ctype="lb" equiv-text=" "/> wobei <g id="g132" ctype="x-html-strong">Z</g> = Anzahl der Arbeitsstunden und der Stunden, die mit den Tagen vorübergehender Arbeitslosigkeit infolge ungünstiger Witterung übereinstimmen (Leistungscodes 1, 2, 3, 4, 5, 12, 20 und 72). Die durch eine Entlassungsentschädigung gedeckten Tage kommen für die Berechnung von Z nicht in Betracht.<x id="x133" ctype="lb" equiv-text=" "/> wobei <g id="g134" ctype="x-html-strong">U</g> = die durchschnittliche Anzahl der Stunden pro Woche der Referenzperson. </target>
           </trans-unit>
         </group>
         <trans-unit restype="x-html-p" id="tu135" resname="/html/body/p[17]">
@@ -211,7 +211,7 @@
           <source xml:lang="nl"> Voor de structurele vermindering (β<g id="g146" ctype="x-html-sub">s</g>): </source>
           <target xml:lang="de" state="final"> Für die strukturelle Ermäßigung (β<g id="g147" ctype="x-html-sub">s</g>): </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu148" resname="/html/body/ul[7]">
+        <group restype="x-html-ul" id="grp148" resname="/html/body/ul[7]">
           <trans-unit restype="listitem" id="tu149" resname="/html/body/ul[7]/li[1]">
             <source xml:lang="nl">als µ (glob) &lt; 0,55, dan is ß<g id="g150" ctype="x-html-sub">s</g> = 1,18; </source>
             <target xml:lang="de" state="final">wenn µ (glob) &lt;0,55, dann entspricht ß<g id="g151" ctype="x-html-sub">s</g> = 1,18; </target>
@@ -229,7 +229,7 @@
           <source xml:lang="nl"> Voor de doelgroepvermindering (β<g id="g159" ctype="x-html-sub">g</g>): </source>
           <target xml:lang="de" state="final"> Für die Zielgruppenermäßigung (β<g id="g160" ctype="x-html-sub">g</g>): </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu161" resname="/html/body/ul[8]">
+        <group restype="x-html-ul" id="grp161" resname="/html/body/ul[8]">
           <trans-unit restype="listitem" id="tu162" resname="/html/body/ul[8]/li[1]">
             <source xml:lang="nl">als µ (glob) &lt; 0,55, dan is ß<g id="g163" ctype="x-html-sub">g</g> = 1; </source>
             <target xml:lang="de" state="final">wenn µ (glob) &lt;0,55, dann entspricht ß<g id="g164" ctype="x-html-sub">g</g> = 1; </target>
@@ -255,13 +255,13 @@
           <source xml:lang="nl"> Voor een µ (glob) &lt; 0,275 wordt de vaste multiplicatiefactor ß<g id="g174" ctype="x-html-sub">s</g> en ß<g id="g175" ctype="x-html-sub">g</g> = 0, behalve: </source>
           <target xml:lang="de" state="final"> Wenn µ (glob) &lt; 0,275, wird der feste Multiplikator ß<g id="g176" ctype="x-html-sub">s</g> und ß<g id="g177" ctype="x-html-sub">g</g> = 0, außer: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu178" resname="/html/body/ul[9]">
+        <group restype="x-html-ul" id="grp178" resname="/html/body/ul[9]">
           <trans-unit restype="listitem" id="tu179" resname="/html/body/ul[9]/li">
             <source xml:lang="nl">voor de werknemers tewerkgesteld bij erkende beschutte werkplaatsen, waar er geen ondergrens is; het zijn de werknemers van categorie 3 zoals hieronder vermeld in het hoofdstuk ‘structurele vermindering’ (zowel voor de structurele - als de doelgroepvermindering), </source>
             <target xml:lang="de" state="final">für die Arbeitnehmer, die bei anerkannten beschützten Werkstätten beschäftigt sind, für die keine Untergrenze gilt; es sind Arbeitnehmer von Kategorie 3, wie nachstehend im Kapitel „strukturelle Ermäßigung“ erwähnt (für die strukturelle- und Zielgruppenermäßigung), </target>
           </trans-unit>
         </group>
-        <group restype="x-html-ul" id="tu180" resname="/html/body/ul[10]">
+        <group restype="x-html-ul" id="grp180" resname="/html/body/ul[10]">
           <trans-unit restype="listitem" id="tu181" resname="/html/body/ul[10]/li[1]">
             <source xml:lang="nl">vanaf 1 april 2004, voor werknemers die met een minstens halftijdse arbeidsovereenkomst worden tewerkgesteld, m.a.w. indien het gemiddeld aantal uren per week van de werknemer ten minste de helft bedraagt van het gemiddeld aantal uren per week van de maatpersoon. Concreet houdt dit dus in dat deeltijdse werknemers zonder een minstens halftijdse arbeidsovereenkomst, die in de loop van een kwartaal slechts een beperkt aantal uren presteren, voor deze vermindering (zowel de structurele als de doelgroepenvermindering) niet in aanmerking zullen komen, </source>
             <target xml:lang="de" state="final">ab dem 01.04.2004 für Arbeitnehmer, die mit mindestens einem Halbzeitarbeitsvertrag beschäftigt werden, d. h. wenn die durchschnittliche Anzahl der Stunden pro Woche des Arbeitnehmers mindestens der Hälfte der durchschnittlichen Anzahl der Stunden pro Woche der Referenzperson entspricht. Konkret heißt dies, dass Teilzeitarbeitnehmer, die nicht zumindest einen Halbzeitarbeitsvertrag abgeschlossen haben und im Laufe eines Quartals nur eine begrenzte Anzahl Stunden leisten, für diese Ermäßigung (sowohl die strukturelle als auch die Zielgruppenermäßigung) nicht in Betracht kommen werden, </target>
@@ -299,7 +299,7 @@
           <source xml:lang="nl"> Bij het berekenen van het verminderingsbedrag trekt men eerst het bedrag sociale maribel af van de verschuldigde werkgeversbijdragen om het maximale bedrag aan werkgeversbijdragen te kennen waarop de geharmoniseerde vermindering in mindering mag worden gebracht.  Het forfait bedraagt vanaf 1 januari 2021: </source>
           <target xml:lang="de" state="final"> Beim Berechnen des Ermäßigungsbetrags zieht man zunächst den „Maribel sozial“-Betrag von den geschuldeten Arbeitgeberbeiträgen ab, um den Höchstbetrag der Arbeitgeberbeiträge zu bestimmen, von dem die harmonisierte Ermäßigung abgezogen werden darf.  Die Pauschale beträgt ab 01. Januar 2021: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu202" resname="/html/body/ul[11]">
+        <group restype="x-html-ul" id="grp202" resname="/html/body/ul[11]">
           <trans-unit restype="listitem" id="tu203" resname="/html/body/ul[11]/li[1]">
             <source xml:lang="nl"> <g id="g204" ctype="x-html-strong">409,37 EUR</g> voor de werkgevers van het <g id="g205" ctype="x-html-strong">paritair comité voor de diensten van gezins- en bejaardenhulp</g> (318.xx) </source>
             <target xml:lang="de" state="final"> <g id="g206" ctype="x-html-strong">409,37 EUR</g> für Arbeitgeber der <g id="g207" ctype="x-html-strong">Paritätischen Kommission für Familien- und Seniorenhilfsdienste</g> (318.xx) </target>
@@ -325,7 +325,7 @@
           <source xml:lang="nl"> Het forfait 'sociale maribel' moet niet in mindering gebracht worden bij de werknemer als de werkgever voor hem één van de volgende doelgroepverminderingen geniet </source>
           <target xml:lang="de" state="final"> Die Pauschale ‚soziale Maribel‘ muss nicht bei einem Arbeitnehmer abgezogen werden, wenn der Arbeitgeber für ihn eine der folgenden Zielgruppenermäßigungen erhält </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu229" resname="/html/body/ul[12]">
+        <group restype="x-html-ul" id="grp229" resname="/html/body/ul[12]">
           <trans-unit restype="listitem" id="tu230" resname="/html/body/ul[12]/li[1]">
             <source xml:lang="nl">'langdurig werkzoekenden' (DmfA), of één van de voor deze categorie voorziene overgangsmaatregelen, </source>
             <target xml:lang="de" state="final">‚langfristig Arbeitsuchende‘ (DmfA) oder eine für diese Kategorie vorgesehene Übergangsmaßnahme, </target>
@@ -383,7 +383,7 @@
           <source xml:lang="nl"> <g id="g244" ctype="x-html-strong">Verminderingen enkel op basis van criteria waaraan moet zijn voldaan voor het kwartaal waarvoor de vermindering wordt aangevraagd:</g> </source>
           <target xml:lang="de" state="final"> <g id="g245" ctype="x-html-strong">Ermäßigungen, die nur anhand von Kriterien gewährt werden, denen im Laufe des Quartals zu entsprechen ist, für das die Ermäßigung beantragt wird:</g> </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu246" resname="/html/body/ul[13]">
+        <group restype="x-html-ul" id="grp246" resname="/html/body/ul[13]">
           <trans-unit restype="listitem" id="tu247" resname="/html/body/ul[13]/li[1]">
             <source xml:lang="nl">structurele vermindering </source>
             <target xml:lang="de" state="final">Strukturelle Ermäßigung </target>
@@ -445,7 +445,7 @@
           <source xml:lang="nl"> <g id="g262" ctype="x-html-strong">Verminderingen op basis van criteria waaraan moet zijn voldaan voor het kwartaal waarvoor de vermindering wordt aangevraagd en waarvoor ook een aantal voorwaarden moeten worden vervuld op het moment van indiensttreding:</g> </source>
           <target xml:lang="de" state="final"> <g id="g263" ctype="x-html-strong">Ermäßigungen, die anhand von Kriterien gewährt werden, denen im Laufe des Quartals zu entsprechen ist, für das die Ermäßigung beantragt wird, und für die einige zusätzliche Bedingungen zum Zeitpunkt des Dienstantritts zu erfüllen sind:</g> </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu264" resname="/html/body/ul[14]">
+        <group restype="x-html-ul" id="grp264" resname="/html/body/ul[14]">
           <trans-unit restype="listitem" id="tu265" resname="/html/body/ul[14]/li[1]">
             <source xml:lang="nl">doelgroepvermindering oudere werknemers - Vlaanderen - oudere niet-werkende werkzoekende werknemers </source>
             <target xml:lang="de" state="final">Zielgruppenermäßigung ältere Arbeitnehmer – Flandern – nicht in Beschäftigung stehende ältere Arbeitnehmer </target>
@@ -491,7 +491,7 @@
           <source xml:lang="nl"> Concreet betekent dit: </source>
           <target xml:lang="de" state="final"> Konkret bedeutet dies: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu276" resname="/html/body/ul[15]">
+        <group restype="x-html-ul" id="grp276" resname="/html/body/ul[15]">
           <trans-unit restype="listitem" id="tu277" resname="/html/body/ul[15]/li[1]">
             <source xml:lang="nl">de toepassing van de voortzetting van de verminderingen voor verenigingen en stichtingen kan in analoge situaties als deze voorzien voor ondernemingen in het wetboek van vennootschappen en verenigingen: de rechtspersoon die de begunstigde is van een juridische herstructureringsoperatie zoals bepaald bij artikelen 12:2 tot en met 12:10 en 12:103 van het Wetboek van vennootschappen en verenigingen (fusie, splitsing, inbreng) (voorheen de artikelen 671 tot 679 en artikel 770 van het Wetboek van vennootschappen) </source>
             <target xml:lang="de" state="final">die Anwendung der Fortsetzung der Ermäßigungen für Vereinigungen und Stiftungen ist möglich in ähnlichen Situationen wie jener, die für Unternehmen im Gesellschafts- und Vereinigungsgesetzbuch vorgesehen sind: die juristische Person, die Begünstigter einer juristischen Umstrukturierungsoperation im Sinne der Artikel 12:2 bis einschließlich 12:10 des Gesellschafts- und Vereinigungsgesetzbuchs (Fusion, Spaltung, Einbringung) ist (zuvor die Artikel 671 bis 679 und Artikel 770 des Gesellschaftsgesetzbuchs ist) </target>
@@ -513,7 +513,7 @@
           <source xml:lang="nl"> De essentie van deze doelgroepverminderingen is dat bepaalde doelgroepen/werknemers (terug) actief en volledig in de arbeidsmarkt worden opgenomen. Deze regelgeving heeft tot doel dit te vrijwaren in alle gevallen van reorganisatie die de juridische entiteit overschrijden. Vanuit pragmatisch standpunt aanvaardt de RSZ dan ook dat de voortzettende werkgever verklaart dat hij zich in een rechtverkrijgende positie bevindt, met een bevestiging van de eventuele verplichtingen waaraan hij nog moet voldoen : </source>
           <target xml:lang="de" state="final"> Diese Zielgruppenermäßigungen zielen insbesondere darauf ab, dass bestimmte Zielgruppen/Arbeitnehmer (wieder) aktiv und vollständig in den Arbeitsmarkt eingegliedert werden. Diese Regelung soll dies in allen Fällen der Reorganisation gewährleisten, die über den Rahmen der Rechtseinheit hinausgehen. Aus pragmatischer Sicht bestätigt das LSS daher, dass der Arbeitgeber, die die Fortsetzung anwendet, erklärt, dass er sich in einer Position als Rechtsnachfolger befindet, wobei er bestätigt, dass er eventuell daran geknüpfte Verpflichtungen erfüllt: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu282" resname="/html/body/ul[16]">
+        <group restype="x-html-ul" id="grp282" resname="/html/body/ul[16]">
           <trans-unit restype="listitem" id="tu283" resname="/html/body/ul[16]/li[1]">
             <source xml:lang="nl">een simpele verklaring van de rechtspersoon/onderneming en de resulterende hem opvolgende rechtspersoon/onderneming dat de overgang/reorganisatie conform is aan één van de situaties voorzien in het wetboek van vennootschappen en verenigingen in de artikelen 12:2 tot 12:10 en 12:103 met overname van alle rechten en plichten die hieraan verbonden zijn, ook naar derden toe </source>
             <target xml:lang="de" state="final">eine einfache Erklärung der juristischen Person/des Unternehmens und der ihm nachfolgenden juristischen Person/des ihm nachfolgenden Unternehmens, dass der Übergang/die Reorganisation einer der Situationen entspricht, die im Gesellschafts- und Vereinigungsgesetzbuch in den Artikeln 12:2 bis 12:10 und 12:103 vorgesehen sind, mit Übernahme aller damit verbundenen Rechte und Pflichten, einschließlich gegenüber Dritten </target>
@@ -535,7 +535,7 @@
           <source xml:lang="nl"> Deze aanvraag moet verplicht gebeuren met het opgenomen <bx id="bx289" rid="rid288" equiv-text="&amp;lt;a href=&amp;quot;ems://asset:1f277e0c62cd174e182422fe2bea5e83df827dfd?name=model-verklaring-voortzetting-geharmoniseerde-2019-nl.pdf&amp;amp;amp;type=application%2Fpdf&amp;quot;&amp;gt;"/> model<ex id="ex290" rid="rid288" equiv-text="&amp;lt;/a&amp;gt;"/>. Uiteraard zijn deze verminderingen niet zomaar verworven maar moet nog aan een aantal voorwaarden worden voldaan, zoals: </source>
           <target xml:lang="de" state="final"> Dieser Antrag muss mit dem <bx id="bx292" rid="rid291" equiv-text="&amp;lt;a href=&amp;quot;ems://asset:1f277e0c62cd174e182422fe2bea5e83df827dfd?name=model-verklaring-voortzetting-geharmoniseerde-2019-nl.pdf&amp;amp;amp;type=application%2Fpdf&amp;quot;&amp;gt;"/> Muster<ex id="ex293" rid="rid291" equiv-text="&amp;lt;/a&amp;gt;"/> vorgenommen werden. Selbstverständlich werden diese Ermäßigungen nicht ohne Weiteres erworben, sondern es müssen einige der nachstehenden aufgelisteten Bedingungen erfüllt werden: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu294" resname="/html/body/ul[17]">
+        <group restype="x-html-ul" id="grp294" resname="/html/body/ul[17]">
           <trans-unit restype="listitem" id="tu295" resname="/html/body/ul[17]/li[1]">
             <source xml:lang="nl">de nieuwe werkgever moet tot de groep werkgevers behoren waarop de doelgroepvermindering betrekking heeft </source>
             <target xml:lang="de" state="final">Der neue Arbeitgeber muss zur Arbeitgebergruppe gehören, auf die sich die Zielgruppenermäßigung bezieht </target>

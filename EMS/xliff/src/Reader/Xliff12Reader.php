@@ -238,10 +238,16 @@ class Xliff12Reader implements ReaderInterface
             throw new \RuntimeException(\sprintf('Unexpected node type %s', $child->nodeName));
         }
 
+        $rawHtml = \html_entity_decode(
+            $child->getAttribute('equiv-text'),
+            ENT_QUOTES | ENT_XML1,
+            'UTF-8'
+        );
+
         return new Placeholder(
             id: $child->getAttribute('id'),
             type: Type::string($this->convertResourceType($child, 'ctype')),
-            equivalentText: $child->getAttribute('equiv-text')
+            equivalentText: $rawHtml,
         );
     }
 

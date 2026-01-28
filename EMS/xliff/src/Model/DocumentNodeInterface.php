@@ -18,4 +18,9 @@ interface DocumentNodeInterface
      * @return Note[]
      */
     public function getNotes(): array;
+
+    /**
+     * @return Segment[]
+     */
+    public function getSegments(): array;
 }

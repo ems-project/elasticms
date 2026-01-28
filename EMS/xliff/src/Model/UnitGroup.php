@@ -55,4 +55,17 @@ class UnitGroup implements DocumentNodeInterface
     {
         return $this->notes;
     }
+
+    /**
+     * @return Segment[]
+     */
+    public function getSegments(): array
+    {
+        $segments = [];
+        foreach ($this->getNodes() as $node) {
+            $segments = [...$segments, ...$node->getSegments()];
+        }
+
+        return $segments;
+    }
 }

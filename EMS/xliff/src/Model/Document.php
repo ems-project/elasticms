@@ -175,4 +175,17 @@ class Document
         }
         $this->propertyAccessor->setValue($insertData, $targetPropertyPath, $target);
     }
+
+    /**
+     * @return Segment[]
+     */
+    public function getSegments(): array
+    {
+        $segments = [];
+        foreach ($this->getNodes() as $node) {
+            $segments = [...$segments, ...$node->getSegments()];
+        }
+
+        return $segments;
+    }
 }

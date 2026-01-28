@@ -151,4 +151,29 @@ class DomHelper
             yield $node;
         }
     }
+
+    public static function createElementFromString(\DOMNode $dom, string $html, string $qualifiedName): \DOMElement
+    {
+        $sourceDom = new \DOMDocument('1.0', 'UTF-8');
+        \libxml_use_internal_errors(true);
+        $sourceDom->loadHTML(
+            "<div>$html</div>",
+            LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD
+        );
+        \libxml_clear_errors();
+        $element = $sourceDom->getElementsByTagName($qualifiedName)->item(0);
+        if (!$element instanceof \DOMElement) {
+            throw new \RuntimeException(\sprintf('No <%s> element found', $qualifiedName));
+        }
+        if (null === $dom->ownerDocument) {
+            throw new \RuntimeException('Unexpected null document');
+        }
+        $imported = $dom->ownerDocument->importNode($element, true);
+        if (!$imported instanceof \DOMElement) {
+            throw new \RuntimeException('Unexpected error on import node');
+        }
+        $dom->appendChild($imported);
+
+        return $imported;
+    }
 }

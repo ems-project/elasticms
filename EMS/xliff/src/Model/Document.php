@@ -14,7 +14,7 @@ use EMS\Xliff\Html\HtmlExtractor;
 use EMS\Xliff\Html\HtmlInjector;
 use EMS\Xliff\Id\IdGeneratorInterface;
 use EMS\Xliff\Model\Inline\Text;
-use EMS\Xliff\Xliff\Entity\InsertReport;
+use EMS\Xliff\Report\InsertReport;
 
 class Document
 {

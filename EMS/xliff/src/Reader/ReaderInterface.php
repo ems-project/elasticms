@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace EMS\Xliff\Reader;
 
 use EMS\Xliff\Model\Package;
-use EMS\Xliff\Xliff\Entity\InsertReport;
+use EMS\Xliff\Report\InsertReport;
 
 interface ReaderInterface
 {

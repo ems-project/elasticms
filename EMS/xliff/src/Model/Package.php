@@ -6,7 +6,7 @@ namespace EMS\Xliff\Model;
 
 use EMS\Helpers\Standard\Locale;
 use EMS\Xliff\Id\SequentialIdGenerator;
-use EMS\Xliff\Xliff\Entity\InsertReport;
+use EMS\Xliff\Report\InsertReport;
 
 final class Package
 {

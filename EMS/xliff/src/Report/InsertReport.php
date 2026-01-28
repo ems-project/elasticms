@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EMS\Xliff\Xliff\Entity;
+namespace EMS\Xliff\Report;
 
 class InsertReport
 {

@@ -9,8 +9,8 @@ use EMS\Xliff\Model\Inline\Text;
 use EMS\Xliff\Model\Package;
 use EMS\Xliff\Model\Segment;
 use EMS\Xliff\Model\Unit;
+use EMS\Xliff\Report\InsertReport;
 use EMS\Xliff\Version;
-use EMS\Xliff\Xliff\Entity\InsertReport;
 use EMS\Xliff\XML\DomHelper;
 
 class Xliff22Reader implements ReaderInterface

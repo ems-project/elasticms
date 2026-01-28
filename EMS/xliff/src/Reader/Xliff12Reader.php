@@ -17,9 +17,9 @@ use EMS\Xliff\Model\Package;
 use EMS\Xliff\Model\Segment;
 use EMS\Xliff\Model\Unit;
 use EMS\Xliff\Model\UnitGroup;
+use EMS\Xliff\Report\InsertReport;
 use EMS\Xliff\Version;
 use EMS\Xliff\Writer\Xliff12Writer;
-use EMS\Xliff\Xliff\Entity\InsertReport;
 use EMS\Xliff\XML\DomHelper;
 
 class Xliff12Reader implements ReaderInterface

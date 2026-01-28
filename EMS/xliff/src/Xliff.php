@@ -9,10 +9,10 @@ use EMS\Xliff\Model\Package;
 use EMS\Xliff\Reader\ReaderRegistry;
 use EMS\Xliff\Reader\Xliff12Reader;
 use EMS\Xliff\Reader\Xliff22Reader;
+use EMS\Xliff\Report\InsertReport;
 use EMS\Xliff\Writer\WriterRegistry;
 use EMS\Xliff\Writer\Xliff12Writer;
 use EMS\Xliff\Writer\Xliff22Writer;
-use EMS\Xliff\Xliff\Entity\InsertReport;
 
 final class Xliff
 {

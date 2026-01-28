@@ -8,6 +8,7 @@ use EMS\Helpers\Standard\Type;
 use EMS\Xliff\Model\Document;
 use EMS\Xliff\Model\Inline\Group;
 use EMS\Xliff\Model\Inline\Node;
+use EMS\Xliff\Model\Inline\PairedCode;
 use EMS\Xliff\Model\Inline\Placeholder;
 use EMS\Xliff\Model\Inline\Text;
 use EMS\Xliff\Model\Note;
@@ -193,13 +194,34 @@ class Xliff12Reader implements ReaderInterface
     private function readNode(\DOMNode $child): array
     {
         $nodes = [];
+        $stackNodes = [];
+        $stackPairedCodes = [];
         foreach ($child->childNodes as $child) {
-            $nodes[] = match ($child->nodeName) {
-                '#text' => $this->addTextNode($child),
-                'x' => $this->addPlaceholderNode($child),
-                'g' => $this->addGroupNode($child),
-                default => throw new \RuntimeException(\sprintf('Unexpected node type %s', $child->nodeName)),
-            };
+            if ('bx' === $child->nodeName) {
+                $pairedCode = $this->addPairedCode($child);
+                $stackNodes[$pairedCode->referenceId] = $nodes;
+                $stackPairedCodes[$pairedCode->referenceId] = $pairedCode;
+                $nodes = [];
+            } elseif ('ex' === $child->nodeName) {
+                if (!$child instanceof \DOMElement) {
+                    throw new \RuntimeException(\sprintf('Unexpected node type %s', $child->nodeName));
+                }
+                $referenceId = Type::string($child->getAttribute('rid'));
+                $pairedCode = $stackPairedCodes[$referenceId] ?? null;
+                if (!$pairedCode instanceof PairedCode) {
+                    throw new \RuntimeException(\sprintf('Unexpected paired code id %s', $referenceId));
+                }
+                $pairedCode->addChildren($nodes);
+                $nodes = $stackNodes[$referenceId];
+                $nodes[] = $pairedCode;
+            } else {
+                $nodes[] = match ($child->nodeName) {
+                    '#text' => $this->addTextNode($child),
+                    'x' => $this->addPlaceholderNode($child),
+                    'g' => $this->addGroupNode($child),
+                    default => throw new \RuntimeException(\sprintf('Unexpected node type %s', $child->nodeName)),
+                };
+            }
         }
 
         return $nodes;
@@ -270,5 +292,31 @@ class Xliff12Reader implements ReaderInterface
         }
 
         throw new \RuntimeException(\sprintf('Unexpected restype %s', $type));
+    }
+
+    private function addPairedCode(\DOMNode $child): PairedCode
+    {
+        if (!$child instanceof \DOMElement) {
+            throw new \RuntimeException(\sprintf('Unexpected node type %s', $child->nodeName));
+        }
+        $equivText = $child->getAttribute('equiv-text');
+        $rawHtml = \html_entity_decode(
+            $equivText,
+            ENT_QUOTES | ENT_XML1,
+            'UTF-8'
+        );
+        if (!\preg_match('/^<\s*(?P<tag>[a-zA-Z][a-zA-Z0-9:-]*)\b[^>]*\/?>$/', $rawHtml, $matches)) {
+            throw new \RuntimeException(\sprintf('Unexpected %s tag', $equivText));
+        }
+        $tag = $matches['tag'];
+
+        return new PairedCode(
+            referenceId: $child->getAttribute('rid'),
+            id: $child->getAttribute('id'),
+            endId: $child->getAttribute('id'),
+            resourceName: $tag,
+            equivalentOpeningText: $rawHtml,
+            equivalentClosingText: "</$tag>",
+        );
     }
 }

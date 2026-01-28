@@ -8,6 +8,7 @@ use EMS\Helpers\Html\HtmlHelper;
 use EMS\Helpers\Standard\Type;
 use EMS\Xliff\Model\Inline\Group;
 use EMS\Xliff\Model\Inline\Node;
+use EMS\Xliff\Model\Inline\PairedCode;
 use EMS\Xliff\Model\Inline\Placeholder;
 use EMS\Xliff\Model\Inline\Text;
 use EMS\Xliff\Model\Note;
@@ -94,6 +95,7 @@ class HtmlInjector
             Text::class => $this->appendText($parent, $node),
             Placeholder::class => $this->appendPlaceholder($parent, $node),
             Group::class => $this->appendGroup($parent, $node),
+            PairedCode::class => $this->appendPairedCode($parent, $node),
             default => throw new \RuntimeException(\sprintf('Unit segment node %s not supported', $node::class)),
         };
     }
@@ -113,5 +115,13 @@ class HtmlInjector
         }
 
         return $attributes;
+    }
+
+    private function appendPairedCode(\DOMElement $parent, PairedCode $node): void
+    {
+        $pairedCode = DomHelper::createElementFromString($parent, "$node->equivalentOpeningText$node->equivalentClosingText", $node->resourceName);
+        foreach ($node->getChildren() as $child) {
+            $this->nodeToHtmlDom($pairedCode, $child);
+        }
     }
 }

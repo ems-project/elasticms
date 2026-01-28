@@ -212,7 +212,7 @@ class Xliff12Writer implements WriterInterface
 
     private function getDocumentNodeResourceType(DocumentNodeInterface $documentNode): ?string
     {
-        if (\in_array($documentNode->getType(), [null, 'text'])) {
+        if (\in_array($documentNode->getType(), [null, 'text'], true)) {
             return null;
         }
 

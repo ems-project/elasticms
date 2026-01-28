@@ -145,7 +145,7 @@ class HtmlExtractor
     private function initInlineUnit(\DOMNode $sourceNode, bool $isFinal): Unit
     {
         $type = null;
-        if ($sourceNode instanceof \DOMElement && !\in_array($sourceNode->nodeName, self::INTERNAL_TAGS)) {
+        if ($sourceNode instanceof \DOMElement && !\in_array($sourceNode->nodeName, self::INTERNAL_TAGS, true)) {
             $type = $sourceNode->nodeName;
         }
         $unit = new Unit(
@@ -191,7 +191,7 @@ class HtmlExtractor
             return [new Text(self::trimUselessWhiteSpaces($node->textContent))];
         }
 
-        if (\in_array($node->nodeName, self::INTERNAL_TAGS)) {
+        if (\in_array($node->nodeName, self::INTERNAL_TAGS, true)) {
             if (!$node->hasChildNodes() && $node instanceof \DOMElement) {
                 $placeholder = new Placeholder(
                     id: $this->idGenerator->nextPlaceholderId(),
@@ -253,10 +253,10 @@ class HtmlExtractor
         if ('' === $trimmed) {
             return true;
         }
-        if (' ' === $trimmed && $sourceNode->nextSibling instanceof \DOMElement && !\in_array($sourceNode->nextSibling->nodeName, self::INTERNAL_TAGS)) {
+        if (' ' === $trimmed && $sourceNode->nextSibling instanceof \DOMElement && !\in_array($sourceNode->nextSibling->nodeName, self::INTERNAL_TAGS, true)) {
             return true;
         }
-        if (' ' === $trimmed && $sourceNode->previousSibling instanceof \DOMElement && !\in_array($sourceNode->previousSibling->nodeName, self::INTERNAL_TAGS)) {
+        if (' ' === $trimmed && $sourceNode->previousSibling instanceof \DOMElement && !\in_array($sourceNode->previousSibling->nodeName, self::INTERNAL_TAGS, true)) {
             return true;
         }
 
@@ -280,7 +280,7 @@ class HtmlExtractor
         }
         for ($i = 0; $i < $sourceNode->childNodes->length; ++$i) {
             $child = $sourceNode->childNodes->item($i);
-            if ($child instanceof \DOMElement && !\in_array($child->nodeName, self::INTERNAL_TAGS)) {
+            if ($child instanceof \DOMElement && !\in_array($child->nodeName, self::INTERNAL_TAGS, true)) {
                 return false;
             }
         }
@@ -343,6 +343,6 @@ class HtmlExtractor
 
     private function isAppendableInline(\DOMNode $domNode): bool
     {
-        return \in_array($domNode->nodeName, \array_merge(self::INTERNAL_TAGS, ['#text']));
+        return \in_array($domNode->nodeName, \array_merge(self::INTERNAL_TAGS, ['#text']), true);
     }
 }

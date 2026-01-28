@@ -25,7 +25,7 @@ final class TranslatableAttributes
 
     public function isTranslatable(string $tagName, string $attrName): bool
     {
-        if ('value' === $attrName && !\in_array($tagName, ['submit', 'button', 'reset'])) {
+        if ('value' === $attrName && !\in_array($tagName, ['submit', 'button', 'reset'], true)) {
             return false;
         }
 

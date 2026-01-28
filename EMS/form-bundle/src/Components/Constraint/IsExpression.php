@@ -6,13 +6,16 @@ namespace EMS\FormBundle\Components\Constraint;
 
 use Symfony\Component\Validator\Constraint;
 
-/**
- * @Annotation
- */
 class IsExpression extends Constraint
 {
-    public ?string $expression = null;
-    public string $message = 'This value is not valid.';
+    public function __construct(
+        public ?string $expression = null,
+        public string $message = 'This value is not valid.',
+        ?array $groups = null,
+        mixed $payload = null,
+    ) {
+        parent::__construct(groups: $groups, payload: $payload);
+    }
 
     /** @return string[] */
     #[\Override]

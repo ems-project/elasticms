@@ -31,6 +31,6 @@ class MultipleFile extends File
 
         $otherConstraints = \array_filter($constraints, fn (Constraint $constraint) => !$constraint instanceof Count);
 
-        return \array_merge($countConstraints, [new All(['constraints' => $otherConstraints])]);
+        return \array_merge($countConstraints, [new All($otherConstraints)]);
     }
 }

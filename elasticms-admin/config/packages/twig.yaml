@@ -5,6 +5,5 @@ twig:
   debug: '%kernel.debug%'
   strict_variables: '%kernel.debug%'
   auto_reload: true
-  exception_controller: null
   globals:
     ems_hash_algo: '%env(string:EMS_HASH_ALGO)%'

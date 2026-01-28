@@ -8,6 +8,7 @@ use EMS\Helpers\Standard\Type;
 use EMS\Xliff\Html\HtmlExtractor;
 use EMS\Xliff\Id\SequentialIdGenerator;
 use EMS\Xliff\Model\Document;
+use EMS\Xliff\Model\DocumentNodeInterface;
 use EMS\Xliff\Model\Inline\Group;
 use EMS\Xliff\Model\Inline\Node;
 use EMS\Xliff\Model\Inline\PairedCode;
@@ -22,6 +23,25 @@ use EMS\Xliff\XML\DomHelper;
 
 class Xliff12Writer implements WriterInterface
 {
+    final public const array PRE_DEFINED_VALUES = [
+        'b' => 'bold',
+        'br' => 'lb',
+        'caption' => 'caption',
+        'fieldset' => 'groupbox',
+        'form' => 'dialog',
+        'frame' => 'frame',
+        'head' => 'header',
+        'i' => 'italic',
+        'img' => 'image',
+        'li' => 'listitem',
+        'menu' => 'menu',
+        'table' => 'table',
+        'td' => 'cell',
+        'tfoot' => 'footer',
+        'tr' => 'row',
+        'u' => 'underlined',
+    ];
+
     public function __construct(private readonly Options $options)
     {
         $extractor = new HtmlExtractor(new SequentialIdGenerator());
@@ -77,7 +97,7 @@ class Xliff12Writer implements WriterInterface
             ]);
         } else {
             $groupElement = DomHelper::createElement($parent, 'group', [
-                'restype' => $unitGroup->getType(),
+                'restype' => $this->getDocumentNodeResourceType($unitGroup),
                 'id' => $unitGroup->getId(),
                 'resname' => $unitGroup->getResourceName(),
             ]);
@@ -114,9 +134,8 @@ class Xliff12Writer implements WriterInterface
 
     private function addUnit(Package $package, \DOMElement $parent, Unit $unit): void
     {
-        $type = 'text' === $unit->getType() ? null : $unit->getType();
         $tu = DomHelper::createElement($parent, 'trans-unit', [
-            'restype' => $type,
+            'restype' => $this->getDocumentNodeResourceType($unit),
             'id' => $unit->getId(),
             'resname' => $unit->getResourceName(),
         ]);
@@ -184,5 +203,19 @@ class Xliff12Writer implements WriterInterface
                     throw new \RuntimeException(\sprintf('Inline node %s not supported', \get_class($node)));
             }
         }
+    }
+
+    public function getInlineResourceType(string $type): string
+    {
+        return self::PRE_DEFINED_VALUES[$type] ?? \sprintf('x-html-%s', $type);
+    }
+
+    private function getDocumentNodeResourceType(DocumentNodeInterface $documentNode): ?string
+    {
+        if (null === $documentNode->getType()) {
+            return null;
+        }
+
+        return 'text' === $documentNode->getType() ? null : $this->getInlineResourceType($documentNode->getType());
     }
 }

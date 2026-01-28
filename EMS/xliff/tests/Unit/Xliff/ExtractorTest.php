@@ -9,7 +9,6 @@ use EMS\Xliff\Options;
 use EMS\Xliff\Version;
 use EMS\Xliff\Xliff;
 use EMS\Xliff\Xliff\Entity\InsertReport;
-use EMS\Xliff\Xliff\Extractor;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Finder\Finder;
@@ -122,9 +121,9 @@ class ExtractorTest extends TestCase
     public function saveAndCompare(string $absoluteFilePath, string $version, Xliff $xliffPackage, string $fileNameWithExtension, string $encoding): void
     {
         $expectedFilename = $absoluteFilePath.DIRECTORY_SEPARATOR.'expected_'.$encoding.$version.'.xlf';
-        //        if (!\file_exists($expectedFilename)) {
+                if (!\file_exists($expectedFilename)) {
         $xliffPackage->saveXml($expectedFilename, encoding: $encoding);
-        //        }
+                }
 
         $tempFile = TempFile::create();
         $xliffPackage->saveXML($tempFile->path, encoding: $encoding);
@@ -152,17 +151,20 @@ class ExtractorTest extends TestCase
     #[DataProvider('withBaselineProvider')]
     public function testWithBaseline(string $sourceHtml, string $targetHtml, string $baselineHtml, string $expectedPath): void
     {
-        $xliffParser = new Extractor('nl', 'de', Extractor::XLIFF_1_2);
-        $document = $xliffParser->addDocument('content_type', 'fakeOuuid', 'fakeRevisionId');
-        $xliffParser->addHtmlField($document, '[body]', $sourceHtml, $targetHtml, $baselineHtml);
+        $options = new Options(Version::V12);
+        $xliffPackage = Xliff::create($options);
+        $xliffPackage->init('nl', 'de');
+        $package = $xliffPackage->getPackage();
+        $document = $package->addDocument('content_type:fakeOuuid:fakeRevisionId');
+        $document->createHtml('[body]', $sourceHtml, $targetHtml, $baselineHtml);
 
-        if (!\file_exists($expectedPath)) {
-            $xliffParser->saveXML($expectedPath);
-        }
+                if (!\file_exists($expectedPath)) {
+        $xliffPackage->saveXML($expectedPath);
+                }
         $expected = \file_get_contents($expectedPath);
 
         $tempFile = TempFile::create();
-        $xliffParser->saveXML($tempFile->path);
+        $xliffPackage->saveXML($tempFile->path);
         $extracted = \file_get_contents($tempFile->path);
         $this->assertSame($expected, $extracted);
         $tempFile->clean();

@@ -123,6 +123,9 @@ class HtmlExtractor
                     }
                 }
                 $this->appendInline($currentInlineSegment, $domNode, $targetCrawler, $baselineCrawler);
+                if (!$appendable) {
+                    $currentInlineSegment = null;
+                }
             } else {
                 $currentInlineSegment = null;
                 $unit = new UnitGroup(

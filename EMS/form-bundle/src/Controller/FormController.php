@@ -25,8 +25,8 @@ class FormController extends AbstractFormController
         private readonly Client $client,
         private readonly Guard $guard,
         private readonly Environment $twig,
-        private readonly CsrfTokenManagerInterface $csrfTokenManager)
-    {
+        private readonly CsrfTokenManagerInterface $csrfTokenManager
+    ) {
     }
 
     public function iframe(Request $request, string $ouuid): Response

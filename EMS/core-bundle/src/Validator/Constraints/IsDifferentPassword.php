@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Validator\Constraints;
 
-use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Attribute\HasNamedArguments;
+use Symfony\Component\Validator\Constraint;
 
 class IsDifferentPassword extends Constraint
 {

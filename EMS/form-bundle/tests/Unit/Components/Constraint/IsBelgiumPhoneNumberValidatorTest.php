@@ -21,9 +21,7 @@ class IsBelgiumPhoneNumberValidatorTest extends ConstraintValidatorTestCase
     #[DataProvider('getInvalidPhoneNumbers')]
     public function testInvalidPhoneNumbers(string $phoneNumber): void
     {
-        $constraint = new IsBelgiumPhoneNumber([
-            'message' => 'myMessage',
-        ]);
+        $constraint = new IsBelgiumPhoneNumber('myMessage');
 
         $this->validator->validate($phoneNumber, $constraint);
 

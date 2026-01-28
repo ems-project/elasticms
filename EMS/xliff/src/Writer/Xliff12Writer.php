@@ -195,7 +195,7 @@ class Xliff12Writer implements WriterInterface
                 case Group::class:
                     $group = DomHelper::createElement($parent, 'g', [
                         'id' => $node->id,
-                        'ctype' => $node->type,
+                        'ctype' => $this->getInlineResourceType($node->type),
                     ]);
                     $this->appendInlineNodes($group, $node->getChildren());
                     break;

@@ -8,7 +8,6 @@ use EMS\Helpers\File\TempFile;
 use EMS\Xliff\Options;
 use EMS\Xliff\Version;
 use EMS\Xliff\Xliff;
-use EMS\Xliff\Xliff\Entity\InsertReport;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Finder\Finder;
@@ -59,12 +58,11 @@ class ExtractorTest extends TestCase
 
         $readerPackage = Xliff::create($options);
         $readerPackage->readXml($xliffPackage->toXml());
-        $insertReport = new InsertReport();
         foreach ($readerPackage->getPackage()->getDocuments() as $document) {
-            $document->unitToAssociativeArray($readerPackage->getPackage(), $insertReport, $rawData, $extracted);
+            $document->unitToAssociativeArray($readerPackage->getPackage(), $rawData, $extracted);
         }
-        $this->assertSame(1, $insertReport->countErrors());
-        $error = $insertReport->getErrors()['revisionId_1'][0];
+        $this->assertSame(1, $readerPackage->getPackage()->getInsertReport()->countErrors());
+        $error = $readerPackage->getPackage()->getInsertReport()->getErrors()['revisionId_1'][0];
         $this->assertSame('titre', $error->getReceived());
         $this->assertEquals([
             'de' => [
@@ -121,9 +119,9 @@ class ExtractorTest extends TestCase
     public function saveAndCompare(string $absoluteFilePath, string $version, Xliff $xliffPackage, string $fileNameWithExtension, string $encoding): void
     {
         $expectedFilename = $absoluteFilePath.DIRECTORY_SEPARATOR.'expected_'.$encoding.$version.'.xlf';
-                if (!\file_exists($expectedFilename)) {
-        $xliffPackage->saveXml($expectedFilename, encoding: $encoding);
-                }
+        if (!\file_exists($expectedFilename)) {
+            $xliffPackage->saveXml($expectedFilename, encoding: $encoding);
+        }
 
         $tempFile = TempFile::create();
         $xliffPackage->saveXML($tempFile->path, encoding: $encoding);
@@ -158,9 +156,9 @@ class ExtractorTest extends TestCase
         $document = $package->addDocument('content_type:fakeOuuid:fakeRevisionId');
         $document->createHtml('[body]', $sourceHtml, $targetHtml, $baselineHtml);
 
-                if (!\file_exists($expectedPath)) {
-        $xliffPackage->saveXML($expectedPath);
-                }
+        if (!\file_exists($expectedPath)) {
+            $xliffPackage->saveXML($expectedPath);
+        }
         $expected = \file_get_contents($expectedPath);
 
         $tempFile = TempFile::create();

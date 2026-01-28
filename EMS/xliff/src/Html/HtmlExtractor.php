@@ -21,25 +21,6 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class HtmlExtractor
 {
-    final public const array PRE_DEFINED_VALUES = [
-        'b' => 'bold',
-        'br' => 'lb',
-        'caption' => 'caption',
-        'fieldset' => 'groupbox',
-        'form' => 'dialog',
-        'frame' => 'frame',
-        'head' => 'header',
-        'i' => 'italic',
-        'img' => 'image',
-        'li' => 'listitem',
-        'menu' => 'menu',
-        'table' => 'table',
-        'td' => 'cell',
-        'tfoot' => 'footer',
-        'tr' => 'row',
-        'u' => 'underlined',
-    ];
-
     private const array INTERNAL_TAGS = [
         'a',
         'abbr',
@@ -147,7 +128,7 @@ class HtmlExtractor
                 $unit = new UnitGroup(
                     id: $this->idGenerator->nextUnitGroupId(),
                     resourceName: self::getResourceName($domNode),
-                    type: self::getResourceType($domNode),
+                    type: $domNode->nodeName,
                 );
                 $this->nodeAttributesToNotes($unit, $domNode);
                 $childNodes = $this->addNode($domNode, $targetCrawler, $baselineCrawler, $isFinal);
@@ -165,7 +146,7 @@ class HtmlExtractor
     {
         $type = null;
         if ($sourceNode instanceof \DOMElement && !\in_array($sourceNode->nodeName, self::INTERNAL_TAGS)) {
-            $type = self::getResourceType($sourceNode);
+            $type = $sourceNode->nodeName;
         }
         $unit = new Unit(
             id: $this->idGenerator->nextUnitId(),
@@ -240,7 +221,7 @@ class HtmlExtractor
             } else {
                 $group = new Group(
                     id: $this->idGenerator->nextGroupId(),
-                    type: self::getResourceType($node),
+                    type: $node->nodeName,
                 );
                 for ($i = 0; $i < $node->childNodes->length; ++$i) {
                     $child = $node->childNodes->item($i);
@@ -318,11 +299,6 @@ class HtmlExtractor
         }
 
         return $resourceName;
-    }
-
-    public static function getResourceType(\DOMNode $node): string
-    {
-        return self::PRE_DEFINED_VALUES[$node->nodeName] ?? \sprintf('x-html-%s', $node->nodeName);
     }
 
     private function buildEquivTextOpeningTag(\DOMElement $el): string

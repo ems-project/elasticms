@@ -15,6 +15,7 @@ use EMS\Xliff\Model\Segment;
 use EMS\Xliff\Model\Unit;
 use EMS\Xliff\Model\UnitGroup;
 use EMS\Xliff\Version;
+use EMS\Xliff\Writer\Xliff12Writer;
 use EMS\Xliff\XML\DomHelper;
 
 class Xliff12Reader implements ReaderInterface
@@ -199,20 +200,42 @@ class Xliff12Reader implements ReaderInterface
         return new Text($child->textContent);
     }
 
-    private function addPlaceholderNode(mixed $child): Placeholder
+    private function addPlaceholderNode(\DOMNode $child): Placeholder
     {
+        if (!$child instanceof \DOMElement) {
+            throw new \RuntimeException(\sprintf('Unexpected node type %s', $child->nodeName));
+        }
+
         return new Placeholder(
             id: $child->getAttribute('id'),
-            type: $child->getAttribute('ctype'),
+            type: $this->convertCType($child),
             equivalentText: $child->getAttribute('equiv-text')
         );
     }
 
-    private function addGroupNode(mixed $child): Group
+    private function addGroupNode(\DOMNode $child): Group
     {
+        if (!$child instanceof \DOMElement) {
+            throw new \RuntimeException(\sprintf('Unexpected node type %s', $child->nodeName));
+        }
+
         return new Group(
             id: $child->getAttribute('id'),
-            type: $child->getAttribute('ctype'),
+            type: $this->convertCType($child),
         );
+    }
+
+    private function convertCType(\DOMElement $child): string
+    {
+        $cType = $child->getAttribute('ctype');
+        $flipped = \array_flip(Xliff12Writer::PRE_DEFINED_VALUES);
+        if (isset($flipped[$cType])) {
+            return $flipped[$cType];
+        }
+        if (\str_starts_with($cType, 'x-html-')) {
+            return \substr($cType, 7);
+        }
+
+        throw new \RuntimeException(\sprintf('Unexpected restype %s', $cType));
     }
 }

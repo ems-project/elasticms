@@ -22,6 +22,8 @@ framework:
         log: true
     validation:
         email_validation_mode: html5
+    property_info:
+        with_constructor_extractor: true
 
 doctrine:
     dbal:

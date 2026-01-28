@@ -6,6 +6,7 @@ namespace EMS\Xliff\Model;
 
 use EMS\Helpers\Standard\Locale;
 use EMS\Xliff\Id\SequentialIdGenerator;
+use EMS\Xliff\Xliff\Entity\InsertReport;
 
 final class Package
 {
@@ -15,7 +16,7 @@ final class Package
     private string $targetLocale;
     private SequentialIdGenerator $idGenerator;
 
-    public function __construct()
+    public function __construct(private readonly ?InsertReport $insertReport = null)
     {
     }
 
@@ -28,7 +29,7 @@ final class Package
 
     public function addDocument(string $id): Document
     {
-        $document = new Document($this->idGenerator, $id);
+        $document = new Document($this->idGenerator, $id, $this->insertReport);
         $this->documents[] = $document;
 
         return $document;
@@ -50,5 +51,14 @@ final class Package
     public function getTargetLocale(): string
     {
         return $this->targetLocale;
+    }
+
+    public function getInsertReport(): InsertReport
+    {
+        if (null === $this->insertReport) {
+            throw new \RuntimeException('Unexpected null insert report');
+        }
+
+        return $this->insertReport;
     }
 }

@@ -12,6 +12,7 @@ use EMS\Xliff\Reader\Xliff22Reader;
 use EMS\Xliff\Writer\WriterRegistry;
 use EMS\Xliff\Writer\Xliff12Writer;
 use EMS\Xliff\Writer\Xliff22Writer;
+use EMS\Xliff\Xliff\Entity\InsertReport;
 
 final class Xliff
 {
@@ -70,8 +71,14 @@ final class Xliff
 
     public function readXml(string $xliffXml): void
     {
+        $insertReport = new InsertReport();
         $reader = $this->readers->detect($xliffXml);
-        $this->package = $reader->read($xliffXml);
+        $this->package = $reader->read($xliffXml, $insertReport);
+    }
+
+    public function fromFile(string $filename): void
+    {
+        $this->readXml(File::fromFilename($filename)->getContents());
     }
 
     public function getPackage(): Package

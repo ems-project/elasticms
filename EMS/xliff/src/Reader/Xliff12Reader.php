@@ -16,6 +16,7 @@ use EMS\Xliff\Model\Unit;
 use EMS\Xliff\Model\UnitGroup;
 use EMS\Xliff\Version;
 use EMS\Xliff\Writer\Xliff12Writer;
+use EMS\Xliff\Xliff\Entity\InsertReport;
 use EMS\Xliff\XML\DomHelper;
 
 class Xliff12Reader implements ReaderInterface
@@ -29,7 +30,7 @@ class Xliff12Reader implements ReaderInterface
         return \str_contains($xml, Version::V12_VERSION) || \str_contains($xml, Version::V12_NAMESPACE);
     }
 
-    public function read(string $xml): Package
+    public function read(string $xml, InsertReport $insertReport): Package
     {
         $dom = DomHelper::loadXml($xml);
         $xpath = new \DOMXPath($dom);
@@ -48,7 +49,7 @@ class Xliff12Reader implements ReaderInterface
             $sourceLocale = $file->getAttribute('source-language');
             $targetLocale = $file->getAttribute('target-language');
             if (null === $package) {
-                $package = new Package();
+                $package = new Package($insertReport);
                 $package->setLocales($sourceLocale, $targetLocale);
             } elseif ($sourceLocale !== $package->getSourceLocale()) {
                 throw new \RuntimeException(\sprintf('source-language mismatch for file %s.', $id));
@@ -64,7 +65,7 @@ class Xliff12Reader implements ReaderInterface
             }
         }
         if (null === $package) {
-            $package = new Package();
+            $package = new Package($insertReport);
         }
 
         return $package;

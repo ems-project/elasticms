@@ -26,14 +26,16 @@ class Document
     private TextFormater $textFormater;
     private PropertyAccessor $propertyAccessor;
     private HtmlInjector $htmlInjector;
+    private ?InsertReport $insertReport;
 
-    public function __construct(private readonly IdGeneratorInterface $idGenerator, public readonly string $id)
+    public function __construct(private readonly IdGeneratorInterface $idGenerator, public readonly string $id, ?InsertReport $insertReport = null)
     {
         $this->htmlExtractor = new HtmlExtractor($idGenerator);
         $this->htmlFormater = new HtmlFormater();
         $this->textFormater = new TextFormater();
         $this->propertyAccessor = PropertyAccessor::createPropertyAccessor();
         $this->htmlInjector = new HtmlInjector();
+        $this->insertReport = $insertReport;
     }
 
     public function createText(string $resourceName, string $source, ?string $target = null, ?string $baseline = null, bool $isFinal = false): Unit
@@ -104,12 +106,12 @@ class Document
      * @param mixed[] $extractData
      * @param mixed[] $insertData
      */
-    public function unitToAssociativeArray(Package $package, InsertReport $insertReport, array &$extractData, array &$insertData): void
+    public function unitToAssociativeArray(Package $package, array &$extractData, array &$insertData): void
     {
         foreach ($this->getNodes() as $node) {
             match ($node::class) {
-                Unit::class => $this->insertSimpleField($package, $insertReport, $node, $extractData, $insertData),
-                UnitGroup::class => $this->insertHtmlField($package, $insertReport, $node, $extractData, $insertData),
+                Unit::class => $this->insertSimpleField($package, $node, $extractData, $insertData),
+                UnitGroup::class => $this->insertHtmlField($package, $node, $extractData, $insertData),
                 default => throw new \RuntimeException(\sprintf('Unexpected %s unit type', $node::class)),
             };
         }
@@ -119,7 +121,7 @@ class Document
      * @param mixed[] $extractData
      * @param mixed[] $insertData
      */
-    private function insertSimpleField(Package $package, InsertReport $insertReport, Unit $unit, array &$extractData, array &$insertData): void
+    private function insertSimpleField(Package $package, Unit $unit, array &$extractData, array &$insertData): void
     {
         $sourceNodes = [];
         $targetNodes = [];
@@ -137,25 +139,25 @@ class Document
                 $targetNodes[] = $targetNode->text;
             }
         }
-        $this->insertField($insertReport, $package, $unit, $extractData, \implode('', $sourceNodes), $insertData, \implode('', $targetNodes), $this->textFormater);
+        $this->insertField($package, $unit, $extractData, \implode('', $sourceNodes), $insertData, \implode('', $targetNodes), $this->textFormater);
     }
 
     /**
      * @param mixed[] $extractData
      * @param mixed[] $insertData
      */
-    private function insertHtmlField(Package $package, InsertReport $insertReport, UnitGroup $unitGroup, array &$extractData, array &$insertData): void
+    private function insertHtmlField(Package $package, UnitGroup $unitGroup, array &$extractData, array &$insertData): void
     {
         $source = $this->htmlInjector->inject($unitGroup, 'source');
         $target = $this->htmlInjector->inject($unitGroup, 'target');
-        $this->insertField($insertReport, $package, $unitGroup, $extractData, $source, $insertData, $target, $this->htmlFormater);
+        $this->insertField($package, $unitGroup, $extractData, $source, $insertData, $target, $this->htmlFormater);
     }
 
     /**
      * @param mixed[] $extractData
      * @param mixed[] $insertData
      */
-    private function insertField(InsertReport $insertReport, Package $package, DocumentNodeInterface $documentNode, array &$extractData, string $source, array &$insertData, string $target, FormaterInterface $formater): void
+    private function insertField(Package $package, DocumentNodeInterface $documentNode, array &$extractData, string $source, array &$insertData, string $target, FormaterInterface $formater): void
     {
         $propertyPath = Accessor::fieldPathToPropertyPath(Type::string($documentNode->getResourceName()));
         $sourcePropertyPath = \str_replace(self::LOCALE_PLACE_HOLDER, $package->getSourceLocale(), $propertyPath);
@@ -166,7 +168,10 @@ class Document
         $source = $formater->format($source);
 
         if (\trim($expectedSource) !== \trim($source)) {
-            $insertReport->addError($expectedSource, $source, $sourcePropertyPath, $this->id);
+            if (null === $this->insertReport) {
+                throw new \RuntimeException('Unexpected null insert report');
+            }
+            $this->insertReport->addError($expectedSource, $source, $sourcePropertyPath, $this->id);
         }
         $this->propertyAccessor->setValue($insertData, $targetPropertyPath, $target);
     }

@@ -10,6 +10,7 @@ use EMS\Xliff\Model\Package;
 use EMS\Xliff\Model\Segment;
 use EMS\Xliff\Model\Unit;
 use EMS\Xliff\Version;
+use EMS\Xliff\Xliff\Entity\InsertReport;
 use EMS\Xliff\XML\DomHelper;
 
 class Xliff22Reader implements ReaderInterface
@@ -23,7 +24,7 @@ class Xliff22Reader implements ReaderInterface
         return \str_contains($xml, Version::V22_VERSION) || \str_contains($xml, Version::V22_NAMESPACE);
     }
 
-    public function read(string $xml): Package
+    public function read(string $xml, InsertReport $insertReport): Package
     {
         $dom = DomHelper::loadXml($xml);
         $xpath = new \DOMXPath($dom);
@@ -38,7 +39,7 @@ class Xliff22Reader implements ReaderInterface
         }
         $sourceLocale = $xliffNode->getAttribute('srcLang');
         $targetLocale = $xliffNode->getAttribute('trgLang');
-        $package = new Package();
+        $package = new Package($insertReport);
         $package->setLocales($sourceLocale, $targetLocale);
 
         $result = $xpath->query('/x:xliff/x:file');

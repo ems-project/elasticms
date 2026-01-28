@@ -31,6 +31,9 @@ class EncodeDecodeAndTest extends TestCase
         ], [
             \file_get_contents(\implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'EncodeDecode', 'TC-4', 'source.html'])),
             \implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'EncodeDecode', 'TC-4', 'expected.xlf']),
+        ], [
+            \file_get_contents(\implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'EncodeDecode', 'TC-5', 'source.html'])),
+            \implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'EncodeDecode', 'TC-5', 'expected.xlf']),
         ]];
     }
 

@@ -8,7 +8,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="title" content="{{ block('title') }}" />
         <meta name="author" content="https://github.com/ems-project" />
-        <link rel="stylesheet" href="{{ asset('src/app.js.css', 'emsadminui') }}">
+        {%- if vite.isDevServerRunning is same as(false) -%}
+            <link rel="stylesheet" href="{{ asset('src/app.js.css', 'emsadminui') }}">
+        {%- endif -%}
         {%- if wysiwygInfo is defined and wysiwygInfo|ems_json_decode.editor == constant('EMS\\CoreBundle\\Entity\\WysiwygProfile::CKEDITOR4') -%}
             <link rel="stylesheet" href="{{ asset('ckeditor4.css', 'emscore') }}">
         {%- endif -%}
@@ -21,9 +23,7 @@
     <body{% with {attr: body_attr|default([])} %}{{ block('attributes', '@EMSAdminUI/bootstrap5/base/helpers.html.twig') }}{% endwith %}>
         {% block wrapper %}
             <h1>{% block pagetitle %}{{ block('title') }}{% endblock %}{% block subtitle %}{% endblock %}</h1>
-            <section class="content">
-                {% block body %}{% endblock %}
-            </section>
+            {% block body %}{% endblock %}
         {% endblock wrapper %}
         {% embed '@EMSAdminUI/bootstrap5/core/modal.html.twig' with {id: 'ajax-modal'} %}{% endembed %}
         {% embed '@EMSAdminUI/bootstrap5/core/cke-modal.html.twig' %}{% endembed %}

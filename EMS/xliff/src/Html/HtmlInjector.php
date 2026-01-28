@@ -52,7 +52,7 @@ class HtmlInjector
     private function unitToHtmlDom(Unit $unit, string $segmentChildTag, \DOMElement $parent): void
     {
         if (null !== $unit->type) {
-            $parent = DomHelper::createElement($parent, $unit->type);
+            $parent = DomHelper::createElement($parent, $unit->type, $this->notesToAttributes($unit->getNotes()));
         }
         foreach ($unit->getSegments() as $segment) {
             $nodes = match ($segmentChildTag) {

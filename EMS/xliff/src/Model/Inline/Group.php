@@ -12,6 +12,8 @@ class Group extends Node
     public function __construct(
         public readonly string $id,
         public readonly string $type,
+        public readonly ?string $equivalentOpeningText = null,
+        public readonly ?string $equivalentClosingText = null,
     ) {
     }
 

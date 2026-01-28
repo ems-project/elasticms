@@ -5,8 +5,12 @@ declare(strict_types=1);
 namespace EMS\Xliff\Html;
 
 use EMS\Helpers\Html\HtmlHelper;
+use EMS\Helpers\Standard\Type;
+use EMS\Xliff\Model\Inline\Group;
+use EMS\Xliff\Model\Inline\Node;
 use EMS\Xliff\Model\Inline\Placeholder;
 use EMS\Xliff\Model\Inline\Text;
+use EMS\Xliff\Model\Note;
 use EMS\Xliff\Model\Unit;
 use EMS\Xliff\Model\UnitGroup;
 use EMS\Xliff\XML\DomHelper;
@@ -32,6 +36,9 @@ class HtmlInjector
 
     private function unitGroupToHtmlDom(UnitGroup $unitGroup, string $segmentChildTag, \DOMElement $parent): void
     {
+        if (null !== $unitGroup->type) {
+            $parent = DomHelper::createElement($parent, $unitGroup->type, $this->notesToAttributes($unitGroup->getNotes()));
+        }
         foreach ($unitGroup->getNodes() as $node) {
             match ($node::class) {
                 UnitGroup::class => $this->unitGroupToHtmlDom($node, $segmentChildTag, $parent),
@@ -43,10 +50,8 @@ class HtmlInjector
 
     private function unitToHtmlDom(Unit $unit, string $segmentChildTag, \DOMElement $parent): void
     {
-        if (null == $unit->type) {
-            $dom = new \DOMNode();
-        } else {
-            $dom = DomHelper::createElement($parent, $unit->type);
+        if (null !== $unit->type) {
+            $parent = DomHelper::createElement($parent, $unit->type);
         }
         foreach ($unit->getSegments() as $segment) {
             $nodes = match ($segmentChildTag) {
@@ -55,11 +60,7 @@ class HtmlInjector
                 default => throw new \RuntimeException(\sprintf('Unit segment %s not supported', $segmentChildTag)),
             };
             foreach ($nodes as $node) {
-                match ($node::class) {
-                    Text::class => $this->appendText($dom, $node),
-                    Placeholder::class => $this->appendPlaceholder($dom, $node),
-                    default => throw new \RuntimeException(\sprintf('Unit segment node %s not supported', $node::class)),
-                };
+                $this->nodeToHtmlDom($parent, $node);
             }
         }
     }
@@ -73,5 +74,44 @@ class HtmlInjector
     private function appendPlaceholder(\DOMNode $dom, Placeholder $node): void
     {
         DomHelper::createElement($dom, $node->type);
+    }
+
+    private function appendGroup(\DOMNode $dom, Group $node): void
+    {
+        if (null !== $node->equivalentOpeningText) {
+            $element = DomHelper::createElementFromString($dom, "$node->equivalentOpeningText</$node->type>", $node->type);
+        } else {
+            $element = DomHelper::createElement($dom, $node->type);
+        }
+        foreach ($node->getChildren() as $child) {
+            $this->nodeToHtmlDom($element, $child);
+        }
+    }
+
+    private function nodeToHtmlDom(\DOMElement $parent, Node $node): void
+    {
+        match ($node::class) {
+            Text::class => $this->appendText($parent, $node),
+            Placeholder::class => $this->appendPlaceholder($parent, $node),
+            Group::class => $this->appendGroup($parent, $node),
+            default => throw new \RuntimeException(\sprintf('Unit segment node %s not supported', $node::class)),
+        };
+    }
+
+    /**
+     * @param  Note[]                $getNotes
+     * @return array<string, string>
+     */
+    private function notesToAttributes(array $getNotes): array
+    {
+        $attributes = [];
+        foreach ($getNotes as $note) {
+            if (null === $note->from) {
+                continue;
+            }
+            $attributes[$note->from] = Type::string($note->text);
+        }
+
+        return $attributes;
     }
 }

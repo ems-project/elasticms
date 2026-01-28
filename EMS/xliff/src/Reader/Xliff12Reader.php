@@ -10,6 +10,7 @@ use EMS\Xliff\Model\Inline\Group;
 use EMS\Xliff\Model\Inline\Node;
 use EMS\Xliff\Model\Inline\Placeholder;
 use EMS\Xliff\Model\Inline\Text;
+use EMS\Xliff\Model\Note;
 use EMS\Xliff\Model\Package;
 use EMS\Xliff\Model\Segment;
 use EMS\Xliff\Model\Unit;
@@ -135,6 +136,16 @@ class Xliff12Reader implements ReaderInterface
                 default => throw new \RuntimeException(\sprintf('Unexpected node type %s', $unitElement->nodeName)),
             };
         }
+        foreach ($unitElement->attributes as $attribute) {
+            if (!\str_starts_with($attribute->nodeName, 'html:')) {
+                continue;
+            }
+            $attributeName = \substr($attribute->nodeName, 5);
+            $unitGroup->addNote(new Note(
+                text: Type::string($attribute->nodeValue),
+                from: $attributeName,
+            ));
+        }
         if (null !== $parentUnitGroup) {
             $parentUnitGroup->addNode($unitGroup);
         }
@@ -218,10 +229,30 @@ class Xliff12Reader implements ReaderInterface
             throw new \RuntimeException(\sprintf('Unexpected node type %s', $child->nodeName));
         }
 
-        return new Group(
+        $type = Type::string($this->convertResourceType($child, 'ctype'));
+        $legacyAttributes = '';
+        foreach ($child->attributes as $attribute) {
+            if (!\str_starts_with($attribute->nodeName, 'html:')) {
+                continue;
+            }
+            $attributeName = \substr($attribute->nodeName, 5);
+            $legacyAttributes .= \sprintf(' %s="%s"', $attributeName, $attribute->nodeValue);
+        }
+        $equivalentOpeningText = null;
+        $equivalentClosingText = null;
+        if (\strlen($legacyAttributes) > 0) {
+            $equivalentOpeningText = "<$type$legacyAttributes>";
+            $equivalentClosingText = "</$type>";
+        }
+        $group = new Group(
             id: $child->getAttribute('id'),
-            type: Type::string($this->convertResourceType($child, 'ctype')),
+            type: $type,
+            equivalentOpeningText: $equivalentOpeningText,
+            equivalentClosingText: $equivalentClosingText,
         );
+        $group->addChildren($this->readNode($child));
+
+        return $group;
     }
 
     private function convertResourceType(\DOMElement $child, string $qualifiedName): ?string

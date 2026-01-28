@@ -6,6 +6,7 @@ namespace EMS\Xliff\Reader;
 
 use EMS\Helpers\Standard\Type;
 use EMS\Xliff\Model\Document;
+use EMS\Xliff\Model\DocumentNodeInterface;
 use EMS\Xliff\Model\Inline\Group;
 use EMS\Xliff\Model\Inline\Node;
 use EMS\Xliff\Model\Inline\PairedCode;
@@ -134,6 +135,7 @@ class Xliff12Reader implements ReaderInterface
             match ($child->nodeName) {
                 'trans-unit' => $this->readHtmlUnit($child, $unitGroup),
                 'group' => $this->readHtmlUnitGroup($child, $unitGroup),
+                'note' => $this->readNote($child, $unitGroup),
                 default => throw new \RuntimeException(\sprintf('Unexpected node type %s', $unitElement->nodeName)),
             };
         }
@@ -160,6 +162,11 @@ class Xliff12Reader implements ReaderInterface
         $sourceNodes = [];
         $targetNodes = [];
         $state = null;
+        $unit = new Unit(
+            id: $unitId,
+            resourceName: $unitElement->getAttribute('resname'),
+            type: $this->convertResourceType($unitElement, 'restype'),
+        );
         foreach ($unitElement->childNodes as $child) {
             if (!$child instanceof \DOMElement) {
                 continue;
@@ -167,6 +174,7 @@ class Xliff12Reader implements ReaderInterface
             match ($child->nodeName) {
                 'source' => $sourceNodes = [...$sourceNodes, ...$this->readNode($child)],
                 'target' => $targetNodes = [...$targetNodes, ...$this->readNode($child)],
+                'note' => $this->readNote($child, $unit),
                 default => throw new \RuntimeException(\sprintf('Unexpected node type %s', $child->nodeName)),
             };
             if ('target' !== $child->nodeName) {
@@ -179,12 +187,17 @@ class Xliff12Reader implements ReaderInterface
             }
         }
         $segment = Segment::load($sourceNodes, $targetNodes, Type::string($state));
-        $unit = new Unit(
-            id: $unitId,
-            resourceName: $unitElement->getAttribute('resname'),
-            type: $this->convertResourceType($unitElement, 'restype'),
-        );
         $unit->addSegment($segment);
+        foreach ($unitElement->attributes as $attribute) {
+            if (!\str_starts_with($attribute->nodeName, 'html:')) {
+                continue;
+            }
+            $attributeName = \substr($attribute->nodeName, 5);
+            $unit->addNote(new Note(
+                text: Type::string($attribute->nodeValue),
+                from: $attributeName,
+            ));
+        }
         $parentUnitGroup->addNode($unit);
     }
 
@@ -323,5 +336,17 @@ class Xliff12Reader implements ReaderInterface
             equivalentOpeningText: $rawHtml,
             equivalentClosingText: "</$tag>",
         );
+    }
+
+    private function readNote(\DOMElement $child, DocumentNodeInterface $unitGroup): void
+    {
+        $from = $child->getAttribute('from');
+        if ('' === $from) {
+            return;
+        }
+        $unitGroup->addNote(new Note(
+            text: $child->textContent,
+            from: $from,
+        ));
     }
 }

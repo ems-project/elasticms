@@ -29,7 +29,6 @@ framework:
 twig:
     debug: true
     strict_variables: true
-    exception_controller: null
 
 services:
     _defaults:

@@ -21,7 +21,7 @@ class StyleCleanerTest extends TestCase
         $crawler = new Crawler('<html><body><div style="padding: inherit;">foobar</div></body></html>');
         $styleCleaner->process($webResource, $crawler->filter('body'));
         $this->assertEquals('<div>foobar</div>', $crawler->filter('body')->html());
-        $this->assertEquals('<body><div>foobar</div></body>', $crawler->html());
+        $this->assertEquals('<head></head><body><div>foobar</div></body>', $crawler->html());
     }
 
     public function testCleaningWithManyStyles(): void

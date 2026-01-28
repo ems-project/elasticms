@@ -6,11 +6,14 @@ namespace EMS\FormBundle\Components\Constraint;
 
 use Symfony\Component\Validator\Constraint;
 
-/**
- * @Annotation
- */
 class IsRequiredWithout extends Constraint
 {
-    public ?string $otherField = null;
-    public string $message = 'This field is required when {{otherField}} is not present.';
+    public function __construct(
+        public ?string $otherField = null,
+        public string $message = 'This field is required when {{otherField}} is not present.',
+        ?array $groups = null,
+        mixed $payload = null,
+    ) {
+        parent::__construct(groups: $groups, payload: $payload);
+    }
 }

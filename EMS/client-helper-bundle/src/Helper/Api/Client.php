@@ -12,17 +12,16 @@ use GuzzleHttp\Client as HttpClient;
 /**
  * @todo use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface
  */
-final readonly class Client
+class Client
 {
-    private HttpClient $client;
+    private ?HttpClient $client = null;
 
     public function __construct(
-        private string $name,
-        private string $baseUrl,
-        private string $key,
-        private CoreApiInterface $coreApi,
+        private readonly string $name,
+        private readonly ?string $baseUrl,
+        private readonly ?string $key,
+        private readonly CoreApiInterface $coreApi,
     ) {
-        $this->client = HttpClientFactory::create($baseUrl, ['X-Auth-Token' => $this->key]);
     }
 
     public function getCoreApi(): CoreApiInterface
@@ -60,7 +59,7 @@ final readonly class Client
             $url = \sprintf('api/data/%s/draft/%s', $type, $ouuid);
         }
 
-        $response = $this->client->post(
+        $response = $this->getClient()->post(
             $url,
             ['body' => Json::encode($body)]
         );
@@ -75,7 +74,7 @@ final readonly class Client
      */
     public function updateDocument(string $type, ?string $ouuid, array $body): array
     {
-        $response = $this->client->post(
+        $response = $this->getClient()->post(
             \sprintf('/api/data/%s/replace/%s', $type, $ouuid),
             ['body' => Json::encode($body)]
         );
@@ -88,7 +87,7 @@ final readonly class Client
      */
     public function finalize(string $type, int $revisionId): array
     {
-        $response = $this->client->post(
+        $response = $this->getClient()->post(
             \sprintf('api/data/%s/finalize/%d', $type, $revisionId)
         );
 
@@ -100,7 +99,7 @@ final readonly class Client
      */
     public function discardDraft(string $type, int $revisionId)
     {
-        $response = $this->client->post(
+        $response = $this->getClient()->post(
             \sprintf('api/data/%s/discard/%d', $type, $revisionId)
         );
 
@@ -112,7 +111,7 @@ final readonly class Client
      */
     public function postFile(\SplFileInfo $file, ?string $forcedFilename = null): array
     {
-        $response = $this->client->post('api/file/upload', [
+        $response = $this->getClient()->post('api/file/upload', [
             'multipart' => [
                 [
                     'name' => 'upload',
@@ -123,5 +122,23 @@ final readonly class Client
         ]);
 
         return Json::decode($response->getBody()->getContents());
+    }
+
+    private function getClient(): HttpClient
+    {
+        if (null !== $this->client) {
+            return $this->client;
+        }
+
+        if (null === $this->baseUrl) {
+            throw new \RuntimeException('Missing "EMSCH_BACKEND_URL" not defined');
+        }
+        if (null === $this->key) {
+            throw new \RuntimeException('Missing "EMSCH_BACKEND_API_KEY" not defined');
+        }
+
+        $this->client = HttpClientFactory::create($this->baseUrl, ['X-Auth-Token' => $this->key]);
+
+        return $this->client;
     }
 }

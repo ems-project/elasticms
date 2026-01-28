@@ -74,7 +74,11 @@ class HtmlInjector
 
     private function appendPlaceholder(\DOMNode $dom, Placeholder $node): void
     {
-        DomHelper::createElement($dom, $node->type);
+        if (!\in_array($node->equivalentText, [null, ' '], true)) {
+            DomHelper::createElementFromString($dom, $node->equivalentText, $node->type);
+        } else {
+            DomHelper::createElement($dom, $node->type);
+        }
     }
 
     private function appendGroup(\DOMNode $dom, Group $node): void

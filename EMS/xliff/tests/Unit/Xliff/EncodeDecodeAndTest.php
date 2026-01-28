@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\Xliff\Tests\Unit\Xliff;
 
 use EMS\Helpers\File\TempFile;
+use EMS\Helpers\Html\HtmlHelper;
 use EMS\Xliff\Options;
 use EMS\Xliff\Version;
 use EMS\Xliff\Xliff;
@@ -27,6 +28,9 @@ class EncodeDecodeAndTest extends TestCase
         ], [
             \file_get_contents(\implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'EncodeDecode', 'TC-3', 'source.html'])),
             \implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'EncodeDecode', 'TC-3', 'expected.xlf']),
+        ], [
+            \file_get_contents(\implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'EncodeDecode', 'TC-4', 'source.html'])),
+            \implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'EncodeDecode', 'TC-4', 'expected.xlf']),
         ]];
     }
 
@@ -37,7 +41,7 @@ class EncodeDecodeAndTest extends TestCase
         $readerPackage = Xliff::create($option);
         $readerPackage->init('en', 'fr');
         $document = $readerPackage->getPackage()->addDocument('content_type:fakeOuuid:fakeRevisionId');
-        $document->createHtml('[body]', $sourceHtml);
+        $document->createHtml('[body]', $sourceHtml, $sourceHtml, $sourceHtml);
 
         if (!\file_exists($expectedPath)) {
             $readerPackage->saveXML($expectedPath);
@@ -61,6 +65,7 @@ class EncodeDecodeAndTest extends TestCase
             ];
             $target = [];
             $document->unitToAssociativeArray($readerPackage->getPackage(), $correspondingJson, $target);
+            $this->assertSame(HtmlHelper::prettyPrint(HtmlHelper::stripZeroWidthCharacters($sourceHtml)), $target['body']);
         }
         $this->assertSame(0, $readerPackage->getPackage()->getInsertReport()->countErrors(), 'Errors in extract translations');
     }

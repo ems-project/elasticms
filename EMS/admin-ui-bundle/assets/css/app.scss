@@ -19,6 +19,7 @@
 @import "bootstrap/scss/transitions";
 @import "bootstrap/scss/dropdown";
 @import "bootstrap/scss/button-group";
+@import "bootstrap/scss/modal";
 @import "bootstrap/scss/nav";
 @import "bootstrap/scss/navbar";
 @import "bootstrap/scss/card";
@@ -31,6 +32,7 @@
 
 // Theme mixins
 @import "admin/mixins/button";
+@import "admin/mixins/tabs";
 
 // Theme components
 @import "admin/components/avatar";
@@ -49,6 +51,7 @@
 @import "admin/components/sizing";
 @import "admin/components/stat";
 @import "admin/components/tables";
+@import "admin/components/tabs";
 @import "admin/components/type";
 @import "admin/components/wrapper";
 

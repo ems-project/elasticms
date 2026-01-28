@@ -12,6 +12,8 @@
   height: 100vh;
   flex-direction: column;
   background: $sidebar-bg;
+  position: sticky;
+  top: 0;
 }
 
 .sidebar-nav {
@@ -41,10 +43,9 @@ a.sidebar-link {
   background: $sidebar-link-bg;
   border-left-color: $sidebar-link-border-left-color;
 
-  i,
-  svg {
-    margin-right: .75rem;
+  i {
     color: $sidebar-link-icon-color;
+    width: 20px;
   }
 }
 

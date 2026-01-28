@@ -188,7 +188,7 @@ class Xliff12Writer implements WriterInterface
                 case Placeholder::class:
                     DomHelper::createElement($parent, 'x', [
                         'id' => $node->id,
-                        'ctype' => \sprintf('x-html-%s', $node->type),
+                        'ctype' => $this->getInlineResourceType($node->type),
                         'equiv-text' => $node->equivalentText,
                     ]);
                     break;
@@ -212,10 +212,10 @@ class Xliff12Writer implements WriterInterface
 
     private function getDocumentNodeResourceType(DocumentNodeInterface $documentNode): ?string
     {
-        if (null === $documentNode->getType()) {
+        if (\in_array($documentNode->getType(), [null, 'text'])) {
             return null;
         }
 
-        return 'text' === $documentNode->getType() ? null : $this->getInlineResourceType($documentNode->getType());
+        return $this->getInlineResourceType($documentNode->getType());
     }
 }

@@ -9,8 +9,9 @@ class InsertReport
     /** @var InsertError[][] */
     private array $errors = [];
 
-    public function addError(string $expectedSourceValue, string $sourceValue, string $sourcePropertyPath, string $contentType, string $ouuid, string $revisionId): void
+    public function addError(string $expectedSourceValue, string $sourceValue, string $sourcePropertyPath, string $documentId): void
     {
+        [$contentType, $ouuid, $revisionId] = \explode(':', $documentId);
         $this->errors[$revisionId][] = new InsertError($expectedSourceValue, $sourceValue, $sourcePropertyPath, $contentType, $ouuid, $revisionId);
     }
 
@@ -35,5 +36,13 @@ class InsertReport
         }
 
         $zip->close();
+    }
+
+    /**
+     * @return InsertError[][]
+     */
+    public function getErrors(): array
+    {
+        return $this->errors;
     }
 }

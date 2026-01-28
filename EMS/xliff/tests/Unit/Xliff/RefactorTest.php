@@ -84,7 +84,7 @@ class RefactorTest extends TestCase
                 $this->assertCount(1, $document->getNodes());
                 foreach ($document->getNodes() as $unit) {
                     $this->assertSame('[title]', $unit->resourceName);
-                    $this->assertSame('', $unit->type);
+                    $this->assertSame(null, $unit->type);
                     $this->assertCount(1, $unit->getSegments());
                     foreach ($unit->getSegments() as $segment) {
                         $this->assertCount(1, $segment->getSourceNodes());

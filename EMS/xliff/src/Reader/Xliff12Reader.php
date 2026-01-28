@@ -84,11 +84,11 @@ class Xliff12Reader implements ReaderInterface
         $unit = new Unit(
             id: $unitElement->getAttribute('id'),
             resourceName: $unitElement->getAttribute('resname'),
-            type: $unitElement->getAttribute('restype'),
+            type: $this->convertResourceType($unitElement, 'restype'),
         );
         $document->addNode($unit);
         match ($unit->type) {
-            '', 'text' => $this->addText($xpath, $unitElement, $unit),
+            null, 'text' => $this->addText($xpath, $unitElement, $unit),
             default => throw new \RuntimeException(\sprintf('Unexpected unit type %s', $unit->type)),
         };
     }
@@ -119,11 +119,10 @@ class Xliff12Reader implements ReaderInterface
 
     private function readHtmlUnitGroup(\DOMElement $unitElement, ?UnitGroup $parentUnitGroup = null): UnitGroup
     {
-        $type = $unitElement->getAttribute('restype');
         $unitGroup = new UnitGroup(
             id: $unitElement->getAttribute('id'),
             resourceName: $unitElement->getAttribute('resname'),
-            type: '' === $type ? null : $type,
+            type: $this->convertResourceType($unitElement, 'restype'),
         );
         foreach ($unitElement->childNodes as $child) {
             if (!$child instanceof \DOMElement) {
@@ -167,11 +166,10 @@ class Xliff12Reader implements ReaderInterface
             }
         }
         $segment = Segment::load($sourceNodes, $targetNodes, Type::string($state));
-        $type = $unitElement->getAttribute('restype');
         $unit = new Unit(
             id: $unitId,
             resourceName: $unitElement->getAttribute('resname'),
-            type: '' === $type ? null : $type,
+            type: $this->convertResourceType($unitElement, 'restype'),
         );
         $unit->addSegment($segment);
         $parentUnitGroup->addNode($unit);
@@ -208,7 +206,7 @@ class Xliff12Reader implements ReaderInterface
 
         return new Placeholder(
             id: $child->getAttribute('id'),
-            type: $this->convertCType($child),
+            type: Type::string($this->convertResourceType($child, 'ctype')),
             equivalentText: $child->getAttribute('equiv-text')
         );
     }
@@ -221,21 +219,24 @@ class Xliff12Reader implements ReaderInterface
 
         return new Group(
             id: $child->getAttribute('id'),
-            type: $this->convertCType($child),
+            type: Type::string($this->convertResourceType($child, 'ctype')),
         );
     }
 
-    private function convertCType(\DOMElement $child): string
+    private function convertResourceType(\DOMElement $child, string $qualifiedName): ?string
     {
-        $cType = $child->getAttribute('ctype');
-        $flipped = \array_flip(Xliff12Writer::PRE_DEFINED_VALUES);
-        if (isset($flipped[$cType])) {
-            return $flipped[$cType];
+        $type = $child->getAttribute($qualifiedName);
+        if ('' === $type) {
+            return null;
         }
-        if (\str_starts_with($cType, 'x-html-')) {
-            return \substr($cType, 7);
+        $flipped = \array_flip(Xliff12Writer::PRE_DEFINED_VALUES);
+        if (isset($flipped[$type])) {
+            return $flipped[$type];
+        }
+        if (\str_starts_with($type, 'x-html-')) {
+            return \substr($type, 7);
         }
 
-        throw new \RuntimeException(\sprintf('Unexpected restype %s', $cType));
+        throw new \RuntimeException(\sprintf('Unexpected restype %s', $type));
     }
 }

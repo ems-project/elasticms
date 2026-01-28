@@ -8,6 +8,7 @@ use EMS\Helpers\File\TempFile;
 use EMS\Xliff\Options;
 use EMS\Xliff\Version;
 use EMS\Xliff\Xliff;
+use EMS\Xliff\Xliff\Entity\InsertReport;
 use EMS\Xliff\Xliff\Extractor;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
@@ -15,71 +16,73 @@ use Symfony\Component\Finder\Finder;
 
 class ExtractorTest extends TestCase
 {
-        public function testBrInEmptyParagraph(): void
-        {
-            $rawData = [
-                'nl' => [
-                    'body' => "<p>
-        Deze doelgroepvermindering is in elke regio aangepast en/of
-        vervangen. U vindt meer op de desbetreffende pagina's.
-        </p>
-        <p>
-        <br>
-        </p>
-        <p>
-        EOD
-        </p>",
-                ],
-            ];
-    
-            $existing = [
-                'de' => [
-                    'body' => "<p>
-        [de] Deze doelgroepvermindering is in elke regio aangepast en/of
-        vervangen. U vindt meer op de desbetreffende pagina's.
-        </p>
-        <p>
-        <br>
-        </p>
-        <p>
-        [de] EOD
-        </p>",
-                ],
-            ];
-    
-            $extracted = [];
+    public function testBrInEmptyParagraph(): void
+    {
+        $rawData = [
+            'nl' => [
+                'body' => "<p>
+    Deze doelgroepvermindering is in elke regio aangepast en/of
+    vervangen. U vindt meer op de desbetreffende pagina's.
+    </p>
+    <p>
+    <br>
+    </p>
+    <p>
+    EOD
+    </p>",
+            ],
+        ];
 
-            $options = new Options(Version::V12);
-            $xliffPackage = Xliff::create($options);
-            $xliffPackage->init('nl', 'de');
-            $package = $xliffPackage->getPackage();
-            $document = $package->addDocument('contentType:ouuid_1:revisionId_1');
-            $document->createText('[title]', 'titre', 'titre', 'titre' );
-            $document->createHtml('[%locale%][body]', $rawData['nl']['body'], $existing['de']['body'], null);
-            
-//            dump($xliffPackage->toXml());
-            $readerPackage = Xliff::create($options);
-            $xliffPackage->saveXml('test.xlf');
-            $readerPackage->readXml($xliffPackage->toXml());
-            foreach ($readerPackage->getPackage()->getDocuments() as $document) {
-                $extracted = $document->extract();
-                dump($extracted);
-            }
-//            $this->assertEquals([
-//                'de' => [
-//                    'body' => "<p>
-//      [de] Deze doelgroepvermindering is in elke regio aangepast
-//      en/of vervangen. U vindt meer op de desbetreffende pagina's.
-//     </p>
-//     <p>
-//      <br>
-//     </p>
-//     <p>
-//      [de] EOD
-//     </p>",
-//                ],
-//            ], $extracted);
+        $existing = [
+            'de' => [
+                'body' => "<p>
+    [de] Deze doelgroepvermindering is in elke regio aangepast en/of
+    vervangen. U vindt meer op de desbetreffende pagina's.
+    </p>
+    <p>
+    <br>
+    </p>
+    <p>
+    [de] EOD
+    </p>",
+            ],
+        ];
+
+        $extracted = [];
+
+        $options = new Options(Version::V12);
+        $xliffPackage = Xliff::create($options);
+        $xliffPackage->init('nl', 'de');
+        $package = $xliffPackage->getPackage();
+        $document = $package->addDocument('contentType:ouuid_1:revisionId_1');
+        $document->createText('[title]', 'titre', 'titre', 'titre');
+        $document->createHtml('[%locale%][body]', $rawData['nl']['body'], $existing['de']['body'], null);
+
+        $readerPackage = Xliff::create($options);
+        $readerPackage->readXml($xliffPackage->toXml());
+        $insertReport = new InsertReport();
+        foreach ($readerPackage->getPackage()->getDocuments() as $document) {
+            $document->unitToAssociativeArray($readerPackage->getPackage(), $insertReport, $rawData, $extracted);
         }
+        $this->assertSame(1, $insertReport->countErrors());
+        $error = $insertReport->getErrors()['revisionId_1'][0];
+        $this->assertSame('titre', $error->getReceived());
+        $this->assertEquals([
+            'de' => [
+                'body' => "<p>
+  [de] Deze doelgroepvermindering is in elke regio aangepast
+  en/of vervangen. U vindt meer op de desbetreffende pagina's.
+</p>
+<p>
+  <br>
+</p>
+<p>
+  [de] EOD
+</p>",
+            ],
+            'title' => 'titre',
+        ], $extracted);
+    }
 
     public function testXliffExtractions(): void
     {

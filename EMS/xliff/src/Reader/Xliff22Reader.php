@@ -65,11 +65,11 @@ class Xliff22Reader implements ReaderInterface
         $unit = new Unit(
             id: $unitElement->getAttribute('id'),
             resourceName: $unitElement->getAttribute('name'),
-            type: $unitElement->getAttribute('type'),
+            type: $this->convertResourceType($unitElement, 'type'),
         );
         $document->addNode($unit);
         match ($unit->type) {
-            '', 'text' => $this->addText($xpath, $unitElement, $unit),
+            null, 'text' => $this->addText($xpath, $unitElement, $unit),
             default => throw new \RuntimeException(\sprintf('Unexpected unit type %s', $unit->type)),
         };
     }
@@ -93,5 +93,15 @@ class Xliff22Reader implements ReaderInterface
             state: $state,
         );
         $unit->addSegment($segment);
+    }
+
+    private function convertResourceType(\DOMElement $child, string $qualifiedName): ?string
+    {
+        $type = $child->getAttribute($qualifiedName);
+        if ('' === $type) {
+            return null;
+        }
+
+        return $type;
     }
 }

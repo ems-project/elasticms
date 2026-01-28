@@ -355,7 +355,7 @@ class InsertionRevision extends XliffVersion
 
         $expectedSourceValue ??= '';
         if (\trim((string) $expectedSourceValue) !== \trim($sourceValue)) {
-            $insertReport->addError($expectedSourceValue, $sourceValue, $sourcePropertyPath, $this->contentType, $this->ouuid, $this->revisionId);
+            $insertReport->addError($expectedSourceValue, $sourceValue, $sourcePropertyPath, \implode(':', [$this->contentType, $this->ouuid, $this->revisionId]));
         }
 
         $propertyAccessor->setValue($insertRawData, $targetPropertyPath, $targetValue);

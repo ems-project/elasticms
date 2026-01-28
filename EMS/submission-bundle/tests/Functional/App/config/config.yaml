@@ -19,14 +19,14 @@ framework:
         resource: 'routes.yml'
         utf8: true
         strict_requirements: ~
-    profiler:
-        enabled: true
     php_errors:
         log: true
     validation:
         email_validation_mode: html5
     property_info:
         with_constructor_extractor: true
+    profiler:
+        collect_serializer_data: true
 
 twig:
     debug: true

@@ -23,6 +23,8 @@ framework:
         email_validation_mode: html5
     property_info:
         with_constructor_extractor: true
+    profiler:
+        collect_serializer_data: true
 
 security:
     firewalls:

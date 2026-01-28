@@ -6,9 +6,6 @@ namespace EMS\FormBundle\Components\Constraint;
 
 use Symfony\Component\Validator\Constraint;
 
-/**
- * @Annotation
- */
 class IsOnssRsz extends Constraint
 {
     public function __construct(

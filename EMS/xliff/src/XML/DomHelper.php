@@ -107,7 +107,7 @@ class DomHelper
     /**
      * @param array<string, string|null> $attributes
      */
-    public static function createElement(\DOMElement $parent, string $tagName, array $attributes = []): \DOMElement
+    public static function createElement(\DOMNode $parent, string $tagName, array $attributes = []): \DOMElement
     {
         $element = new \DOMElement($tagName);
         $parent->appendChild($element);

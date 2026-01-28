@@ -6,10 +6,14 @@ namespace EMS\CoreBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 
-/**
- * @Annotation
- */
+#[\Attribute]
 class AliasName extends Constraint
 {
-    public string $invalid = 'Must respects the following regex {{ regex }}';
+    public function __construct(
+        public string $invalid = 'Must respects the following regex {{ regex }}',
+        ?array $groups = null,
+        mixed $payload = null,
+    ) {
+        parent::__construct(groups: $groups, payload: $payload);
+    }
 }

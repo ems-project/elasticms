@@ -58,7 +58,6 @@ return static function (ContainerConfigurator $container) {
     $services->set(RequestRuntime::class)
         ->args([
             service('request_stack'),
-            service(AssetRuntime::class),
         ])
         ->tag('twig.runtime');
 

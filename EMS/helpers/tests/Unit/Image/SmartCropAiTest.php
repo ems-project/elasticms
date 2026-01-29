@@ -19,12 +19,6 @@ class SmartCropAiTest extends TestCase
         $this->image = \imagecreatetruecolor(200, 200);
     }
 
-    #[\Override]
-    protected function tearDown(): void
-    {
-        \imagedestroy($this->image);
-    }
-
     public function testConstructor()
     {
         $smartCrop = new SmartCrop($this->image, $this->cropWidth, $this->cropHeight);

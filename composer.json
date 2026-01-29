@@ -34,7 +34,7 @@
         "caxy/php-htmldiff": "^0.1",
         "cebe/markdown": "^1.2",
         "composer/ca-bundle": "^1.4",
-        "doctrine/doctrine-bundle": "^2.11",
+        "doctrine/doctrine-bundle": "^3.2",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^3.3",
         "dompdf/dompdf": "^v3.1",

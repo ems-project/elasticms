@@ -22,7 +22,7 @@
         "ext-openssl": "*",
         "ext-redis": "*",
         "ext-tidy": "*",
-        "doctrine/doctrine-bundle": "^2.11",
+        "doctrine/doctrine-bundle": "^3.2",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^3.3",
         "elasticms/admin-ui-bundle": "7.x-dev",

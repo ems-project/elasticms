@@ -19,6 +19,7 @@
         "ext-json": "*",
         "ext-mbstring": "*",
         "ext-sqlite3": "*",
+        "doctrine/doctrine-bundle": "^3.2",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "elasticms/common-bundle": "7.x-dev",
         "kevinrob/guzzle-cache-middleware": "^6.0",

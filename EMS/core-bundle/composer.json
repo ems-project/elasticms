@@ -21,7 +21,7 @@
         "ext-simplexml": "*",
         "ext-soap": "*",
         "caxy/php-htmldiff": "^0.1",
-        "doctrine/doctrine-bundle": "^2.11",
+        "doctrine/doctrine-bundle": "^3.2",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "dragonmantank/cron-expression": "^3.3",
         "elasticms/submission-bundle": "7.x-dev",

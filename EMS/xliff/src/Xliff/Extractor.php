@@ -564,12 +564,11 @@ class Extractor extends XliffVersion
                 $source->appendChild($endPairedPlaceholder);
 
                 return;
-            } else {
-                $subNode = new \DOMElement('g');
-                $subNode->setAttribute('id', \sprintf('g%d', $this->nextId++));
-                $source->appendChild($subNode);
-                $subNode->setAttribute('ctype', static::getRestype($sourceNode->nodeName));
             }
+            $subNode = new \DOMElement('g');
+            $subNode->setAttribute('id', \sprintf('g%d', $this->nextId++));
+            $source->appendChild($subNode);
+            $subNode->setAttribute('ctype', static::getRestype($sourceNode->nodeName));
         } else {
             $subNode = $source;
         }

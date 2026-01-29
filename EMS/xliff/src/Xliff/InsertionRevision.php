@@ -91,9 +91,9 @@ class InsertionRevision extends XliffVersion
             return self::SIMPLE_FIELD;
         } elseif ('unit' === $nodeName && \version_compare($this->xliffVersion, '2.0') >= 0) {
             return self::SIMPLE_FIELD;
-        } else {
-            return self::UNKNOWN_FIELD_TYPE;
         }
+
+        return self::UNKNOWN_FIELD_TYPE;
     }
 
     /**

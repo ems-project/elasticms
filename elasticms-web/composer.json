@@ -8,8 +8,8 @@
         }
     ],
     "type": "project",
-    "license": "LGPL-3.0",
-    "minimum-stability": "stable",
+    "license": "LGPL-3.0-or-later",
+    "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
         "php": "^8.5",
@@ -18,8 +18,8 @@
         "ext-intl": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
-        "doctrine/doctrine-bundle": "^2.11",
-        "doctrine/doctrine-migrations-bundle": "^3.2",
+        "doctrine/doctrine-bundle": "^3.2",
+        "doctrine/doctrine-migrations-bundle": "^4.0",
         "doctrine/orm": "^3.3",
         "elasticms/client-helper-bundle": "7.x-dev",
         "elasticms/form-bundle": "7.x-dev",

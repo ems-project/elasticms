@@ -2,6 +2,7 @@ parameters:
     locale: 'en'
 
 framework:
+    test: true
     http_method_override: false
     handle_all_throwables: true
     secret: 1621180219f163d89dc399e88cfc1807ab6448cf
@@ -27,13 +28,8 @@ doctrine:
     dbal:
         url: 'sqlite:///%kernel.project_dir%/test.db'
     orm:
-        auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         auto_mapping: true
-        enable_lazy_ghost_objects: true
-        enable_native_lazy_objects: true
-        controller_resolver:
-            auto_mapping: false
         identity_generation_preferences:
             Doctrine\DBAL\Platforms\PostgreSQLPlatform: sequence
 

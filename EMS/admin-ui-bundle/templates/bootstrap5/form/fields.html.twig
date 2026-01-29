@@ -141,7 +141,7 @@
 {%- endblock objectpicker_widget %}
 
 {%- block submitems_widget -%}
-    {%- if label is empty -%}
+    {%- if label is not defined or label is null -%}
         {%- if label_format is not empty -%}
             {% set label = label_format|replace({
                 '%name%': name,

@@ -9,6 +9,7 @@ PORT_web 			= 8882
 PORT_cli 			= 8883
 
 RUN_ADMIN			= php ${PWD}/elasticms-admin/bin/console --no-debug
+RUN_CLI				= php ${PWD}/elasticms-cli/bin/console --no-debug
 RUN_WEB				= php ${PWD}/elasticms-web/bin/console --no-debug
 RUN_POSTGRES		= docker compose --project-directory=docker exec -i -u ${DOCKER_USER}:0 -e PGUSER=postgres -e PGPASSWORD=adminpg postgres
 NPM_CMD          	= "${NPM_EXTRA_CMD} npm $*"
@@ -62,6 +63,7 @@ check: ## run all checks
 	@$(MAKE) build-translations
 cache-clear: ## cache clear
 	@$(RUN_ADMIN) c:cl
+	@$(RUN_CLI) c:cl
 	@$(RUN_WEB) c:cl
 status: ## status
 	@docker ps --filter="label=elasticMS" --format "table {{.Label \"com.docker.compose.service\"}}\t{{.Status}}\t{{.Ports}}"

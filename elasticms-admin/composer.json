@@ -8,8 +8,8 @@
         }
     ],
     "type": "project",
-    "license": "LGPL-3.0",
-    "minimum-stability": "dev",
+    "license": "LGPL-3.0-or-later",
+    "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
         "php": "^8.5",
@@ -74,13 +74,13 @@
         "symfony/polyfill-intl-grapheme": "*",
         "symfony/polyfill-intl-normalizer": "*",
         "symfony/polyfill-mbstring": "*",
+        "symfony/polyfill-php72": "*",
         "symfony/polyfill-php73": "*",
         "symfony/polyfill-php80": "*",
         "symfony/polyfill-php81": "*",
         "symfony/polyfill-php82": "*",
         "symfony/polyfill-php83": "*",
-        "symfony/polyfill-php84": "*",
-        "symfony/polyfill-php85": "*"
+        "symfony/polyfill-php84": "*"
     },
     "scripts": {
         "auto-scripts": {

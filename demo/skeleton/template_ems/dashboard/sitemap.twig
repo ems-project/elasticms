@@ -35,7 +35,7 @@
                         'field_path': '[structure]',
                         'template': '@EMSCH/template_ems/dashboard/json_menu_nested.twig',
                         'context_block': 'build_context',
-                        'active_item_id': app.request.get('activeItemId')|default(null),
+                        'active_item_id': app.request.query.get('activeItemId')|default(null),
                         'context': {
                             'sectionLabel': section._source.label,
                             'locale': locale

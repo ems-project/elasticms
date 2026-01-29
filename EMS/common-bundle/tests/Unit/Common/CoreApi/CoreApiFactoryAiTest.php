@@ -8,6 +8,7 @@ use EMS\CommonBundle\Common\CoreApi\Client;
 use EMS\CommonBundle\Common\CoreApi\CoreApi;
 use EMS\CommonBundle\Common\CoreApi\CoreApiFactory;
 use EMS\CommonBundle\Storage\StorageManager;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -32,6 +33,7 @@ final class CoreApiFactoryAiTest extends TestCase
         ]);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testCreate(): void
     {
         $baseUrl = 'http://example.com';

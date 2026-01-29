@@ -9,6 +9,7 @@ use EMS\CommonBundle\Repository\LogRepository;
 use Monolog\Level;
 use Monolog\Logger;
 use Monolog\LogRecord;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -27,6 +28,7 @@ class DoctrineHandlerAiTest extends TestCase
         $this->doctrineHandler = new DoctrineHandler($this->logRepository, $this->tokenStorage, Logger::WARNING);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testWrite(): void
     {
         $record = new LogRecord(
@@ -50,6 +52,7 @@ class DoctrineHandlerAiTest extends TestCase
         $method->invoke($this->doctrineHandler, $record);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testSecretContext(): void
     {
         $context = [

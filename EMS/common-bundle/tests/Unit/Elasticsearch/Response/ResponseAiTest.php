@@ -8,6 +8,7 @@ use Elastica\ResultSet;
 use EMS\CommonBundle\Elasticsearch\Aggregation\Aggregation;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
 use EMS\CommonBundle\Elasticsearch\Response\Response;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 
 final class ResponseAiTest extends TestCase
@@ -43,6 +44,7 @@ final class ResponseAiTest extends TestCase
         $this->assertTrue($response->isAccurate());
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testFromResultSet(): void
     {
         $resultSet = $this->createMock(ResultSet::class);

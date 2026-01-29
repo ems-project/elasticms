@@ -7,6 +7,7 @@ namespace EMS\Tests\CommonBundle\Unit\DataCollector;
 use EMS\CommonBundle\DataCollector\ElasticaDataCollector;
 use EMS\CommonBundle\Elasticsearch\ElasticaLogger;
 use EMS\CommonBundle\Service\ElasticaService;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -56,11 +57,13 @@ final class ElasticaDataCollectorAiTest extends TestCase
         $this->assertEquals(15.0, $this->collector->getExecutionTime());
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testName(): void
     {
         $this->assertEquals('elastica', $this->collector->getName());
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testReset(): void
     {
         $this->logger->expects($this->once())->method('reset');

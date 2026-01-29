@@ -210,7 +210,7 @@
         "phpcs": "php-cs-fixer --config=./config/php-cs-fixer.php fix",
         "phpstan": "phpstan --configuration=./config/phpstan.neon.dist --memory-limit=1G analyse",
         "phpstan-baseline": "phpstan --configuration=./config/phpstan.neon.dist --memory-limit=1G --generate-baseline=./config/phpstan-baseline.neon analyse",
-        "phpunit": "phpunit -c config/phpunit.xml.dist --display-deprecations",
+        "phpunit": "phpunit -c config/phpunit.xml.dist --display-deprecations --fail-on-notice --fail-on-warning",
         "phpunit-admin": "phpunit -c elasticms-admin/phpunit.xml.dist --display-deprecations",
         "phpunit-cli": "phpunit -c elasticms-cli/phpunit.xml.dist --display-deprecations",
         "phpunit-web": "phpunit -c elasticms-web/phpunit.xml.dist --display-deprecations",

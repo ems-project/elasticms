@@ -12,7 +12,6 @@
             "homepage": "https://github.com/ems-project/elasticms/contributors"
         }
     ],
-    "minimum-stability": "RC",
     "require": {
         "php": "^8.5",
         "ext-libxml": "*",

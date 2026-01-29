@@ -17,6 +17,7 @@ use EMS\Xliff\Model\Note;
 use EMS\Xliff\Model\Segment;
 use EMS\Xliff\Model\Unit;
 use EMS\Xliff\Model\UnitGroup;
+use EMS\Xliff\XML\DomHelper;
 use Symfony\Component\DomCrawler\Crawler;
 
 class HtmlExtractor
@@ -91,11 +92,14 @@ class HtmlExtractor
         $sourceCrawler = new Crawler(HtmlHelper::prettyPrint(HtmlHelper::stripZeroWidthCharacters($sourceHtml)));
         $targetCrawler = new Crawler(HtmlHelper::prettyPrint(HtmlHelper::stripZeroWidthCharacters($targetHtml)));
         $baselineCrawler = new Crawler(HtmlHelper::prettyPrint(HtmlHelper::stripZeroWidthCharacters($baselineHtml)));
-        foreach ($sourceCrawler->filterXPath('//body') as $domNode) {
-            $nodes = $this->addNode($domNode, $targetCrawler, $baselineCrawler, $isFinal);
-            foreach ($nodes as $node) {
-                $unitGroup->addNode($node);
-            }
+        $domHtml = $sourceCrawler->getNode(0);
+        if (!$domHtml instanceof \DOMElement) {
+            throw new \RuntimeException('Could not extract the source');
+        }
+        $body = DomHelper::getSingleElement($domHtml, 'body');
+        $nodes = $this->addNode($body, $targetCrawler, $baselineCrawler, $isFinal);
+        foreach ($nodes as $node) {
+            $unitGroup->addNode($node);
         }
 
         return $unitGroup;

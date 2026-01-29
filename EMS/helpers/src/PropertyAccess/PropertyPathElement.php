@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EMS\CommonBundle\Common\PropertyAccess;
+namespace EMS\Helpers\PropertyAccess;
 
 class PropertyPathElement
 {

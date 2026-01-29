@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\Xliff\Xliff;
 
-use EMS\CommonBundle\Common\PropertyAccess\PropertyAccessor;
 use EMS\Helpers\Html\HtmlHelper;
+use EMS\Helpers\PropertyAccess\PropertyAccessor;
 use EMS\Helpers\Standard\Accessor;
 use EMS\Xliff\Xliff\Entity\InsertReport;
 use EMS\Xliff\XML\DomHelper;

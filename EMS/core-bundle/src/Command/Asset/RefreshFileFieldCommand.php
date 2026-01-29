@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Command\Asset;
 
 use EMS\CommonBundle\Common\Command\AbstractCommand;
-use EMS\CommonBundle\Common\PropertyAccess\PropertyAccessor;
 use EMS\CommonBundle\Common\Standard\Image;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Storage\Processor\Config;
@@ -17,6 +16,7 @@ use EMS\CoreBundle\Entity\User;
 use EMS\CoreBundle\Service\FileService;
 use EMS\CoreBundle\Service\Revision\RevisionService;
 use EMS\Helpers\Html\MimeTypes;
+use EMS\Helpers\PropertyAccess\PropertyAccessor;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;

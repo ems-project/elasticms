@@ -5,6 +5,7 @@ ems_submission:
         - { connection: "http-conn", user: "userTest", password: "testPass" }
 
 framework:
+    test: true
     http_method_override: false
     handle_all_throwables: true
     secret: 1621180219f163d89dc399e88cfc1807ab6448cf

@@ -5,8 +5,8 @@
         path: emsch_asset('img/head/icon.png', {
             _config_type: 'image',
             _image_format: 'png',
-            _width: app.request.get('width'),
-            _height: app.request.get('height'),
+            _width: app.request.attributes.get('width'),
+            _height: app.request.attributes.get('height'),
             _get_file_path: true,
         }),
     }|json_encode|raw -}}

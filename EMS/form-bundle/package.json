@@ -16,7 +16,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "LGPL-3.0",
+  "license": "LGPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/ems-project/EMSFormBundle/issues"
   },

@@ -9,7 +9,7 @@
     </div>
     <div class="btn-group px-2" role="group" aria-label="Locales">
         {% for l in locales %}
-            <a href="{{ path(app.request.get('_route'), {'_locale': l, 'ouuid': config.id }) }}" class="btn btn-sm btn-outline-warning {{ l == locale ? "active" }}"><b>{{ l|upper }}</b></a>
+            <a href="{{ path(app.request.attributes.get('_route'), {'_locale': l, 'ouuid': config.id }) }}" class="btn btn-sm btn-outline-warning {{ l == locale ? "active" }}"><b>{{ l|upper }}</b></a>
         {% endfor %}
     </div>
 {% endblock %}

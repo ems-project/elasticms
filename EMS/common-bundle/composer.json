@@ -30,7 +30,7 @@
         "elasticms/helpers": "7.x-dev",
         "guzzlehttp/guzzle": "^7.8",
         "maennchen/zipstream-php": "^3.0",
-        "phpoffice/phpspreadsheet": "^3.8",
+        "phpoffice/phpspreadsheet": "^5.4",
         "promphp/prometheus_client_php": "^2.9",
         "psr/simple-cache": "^3.0",
         "ramsey/uuid-doctrine": "^2.1",

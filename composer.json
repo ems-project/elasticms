@@ -53,7 +53,7 @@
         "ramsey/uuid-doctrine": "^2.1",
         "ruflin/elastica": "^7.3",
         "scssphp/scssphp": "^2.0",
-        "sensiolabs/ansi-to-html": "^1.2",
+        "sensiolabs/ansi-to-html": "^2.0",
         "stevenmaguire/oauth2-keycloak": "^5.1",
         "symfony-cmf/routing": "^3.0",
         "symfony/asset": "7.4.*",

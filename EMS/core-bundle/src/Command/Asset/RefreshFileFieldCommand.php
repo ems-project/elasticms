@@ -66,7 +66,7 @@ class RefreshFileFieldCommand extends AbstractCommand
         $propertyAccessor = PropertyAccessor::createPropertyAccessor();
         $rawData = $revision->getRawData();
         $fieldsFound = false;
-        foreach ($propertyAccessor->fileFields($revision->getRawData()) as $propertyPath => $fileField) {
+        foreach ($propertyAccessor->fieldsWithAttributes($revision->getRawData(), [EmsFields::CONTENT_FILE_HASH_FIELD, EmsFields::CONTENT_FILE_HASH_FIELD_]) as $propertyPath => $fileField) {
             $fieldsFound = true;
             $hash = $fileField[EmsFields::CONTENT_FILE_HASH_FIELD] ?? $fileField[EmsFields::CONTENT_FILE_HASH_FIELD_] ?? null;
             $filename = $fileField[EmsFields::CONTENT_FILE_NAME_FIELD] ?? $fileField[EmsFields::CONTENT_FILE_NAME_FIELD_] ?? null;

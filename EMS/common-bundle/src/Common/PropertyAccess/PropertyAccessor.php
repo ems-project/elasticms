@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Common\PropertyAccess;
 
-use EMS\CommonBundle\Helper\EmsFields;
 use EMS\Helpers\Standard\Base64;
 use EMS\Helpers\Standard\Json;
 
@@ -119,11 +118,12 @@ class PropertyAccessor
 
     /**
      * @param  mixed[]                             $rawData
+     * @param  string[]                            $attributeNames
      * @return iterable<array<string, int|string>>
      */
-    public function fileFields(array $rawData): iterable
+    public function fieldsWithAttributes(array $rawData, array $attributeNames, int $atLeast = 1): iterable
     {
-        yield from $this->returnFileFields($rawData);
+        yield from $this->returnFieldsWithAttributes($rawData, $attributeNames, $atLeast);
     }
 
     private function getPropertyPath(PropertyPath|string $propertyPath): PropertyPath
@@ -220,23 +220,40 @@ class PropertyAccessor
 
     /**
      * @param  mixed[]                             $rawData
+     * @param  string[]                            $attributeNames
      * @return iterable<array<string, int|string>>
      */
-    private function returnFileFields(array $rawData, string $propertyPath = ''): iterable
+    private function returnFieldsWithAttributes(array $rawData, array $attributeNames, int $atLeast, string $propertyPath = ''): iterable
     {
         foreach ($rawData as $key => $value) {
             if (\is_string($value) && u($value)->trim()->startsWith('{') && Json::isJson($value)) {
-                $this->returnFileFields(Json::decode($value), \sprintf('%s[json:%s]', $propertyPath, $key));
+                $this->returnFieldsWithAttributes(Json::decode($value), $attributeNames, $atLeast, \sprintf('%s[json:%s]', $propertyPath, $key));
                 continue;
             }
             if (!\is_array($value)) {
                 continue;
             }
-            if (isset($value[EmsFields::CONTENT_FILE_HASH_FIELD]) || isset($value[EmsFields::CONTENT_FILE_HASH_FIELD_])) {
+            if ($this->hasAtLeastAttribute($value, $attributeNames, $atLeast)) {
                 yield \sprintf('%s[%s]', $propertyPath, $key) => $value;
                 continue;
             }
-            $this->returnFileFields($value, \sprintf('%s[%s]', $propertyPath, $key));
+            $this->returnFieldsWithAttributes($value, $attributeNames, $atLeast, \sprintf('%s[%s]', $propertyPath, $key));
         }
+    }
+
+    /**
+     * @param mixed[]  $rawData
+     * @param string[] $attributeNames
+     */
+    private function hasAtLeastAttribute(array $rawData, array $attributeNames, int $atLeast): bool
+    {
+        $counter = 0;
+        foreach ($attributeNames as $attributeName) {
+            if (isset($rawData[$attributeName]) && (++$counter >= $atLeast)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

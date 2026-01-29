@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "651b0c5ea23d36005744940be3e1bbcc",
+    "content-hash": "46d54587fcff3e6118d2f7f07b9bf862",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -13330,6 +13330,95 @@
             "time": "2025-08-01T08:46:24+00:00"
         },
         {
+            "name": "nette/utils",
+            "version": "v4.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nette/utils.git",
+                "reference": "c99059c0315591f1a0db7ad6002000288ab8dc72"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nette/utils/zipball/c99059c0315591f1a0db7ad6002000288ab8dc72",
+                "reference": "c99059c0315591f1a0db7ad6002000288ab8dc72",
+                "shasum": ""
+            },
+            "require": {
+                "php": "8.2 - 8.5"
+            },
+            "conflict": {
+                "nette/finder": "<3",
+                "nette/schema": "<1.2.2"
+            },
+            "require-dev": {
+                "jetbrains/phpstorm-attributes": "^1.2",
+                "nette/tester": "^2.5",
+                "phpstan/phpstan-nette": "^2.0@stable",
+                "tracy/tracy": "^2.9"
+            },
+            "suggest": {
+                "ext-gd": "to use Image",
+                "ext-iconv": "to use Strings::webalize(), toAscii(), chr() and reverse()",
+                "ext-intl": "to use Strings::webalize(), toAscii(), normalize() and compare()",
+                "ext-json": "to use Nette\\Utils\\Json",
+                "ext-mbstring": "to use Strings::lower() etc...",
+                "ext-tokenizer": "to use Nette\\Utils\\Reflection::getUseStatements()"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Nette\\": "src"
+                },
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause",
+                "GPL-2.0-only",
+                "GPL-3.0-only"
+            ],
+            "authors": [
+                {
+                    "name": "David Grudl",
+                    "homepage": "https://davidgrudl.com"
+                },
+                {
+                    "name": "Nette Community",
+                    "homepage": "https://nette.org/contributors"
+                }
+            ],
+            "description": "🛠  Nette Utils: lightweight utilities for string & array manipulation, image handling, safe JSON encoding/decoding, validation, slug or strong password generating etc.",
+            "homepage": "https://nette.org",
+            "keywords": [
+                "array",
+                "core",
+                "datetime",
+                "images",
+                "json",
+                "nette",
+                "paginator",
+                "password",
+                "slugify",
+                "string",
+                "unicode",
+                "utf-8",
+                "utility",
+                "validation"
+            ],
+            "support": {
+                "issues": "https://github.com/nette/utils/issues",
+                "source": "https://github.com/nette/utils/tree/v4.1.1"
+            },
+            "time": "2025-12-22T12:14:32+00:00"
+        },
+        {
             "name": "nikic/php-parser",
             "version": "v5.7.0",
             "source": {
@@ -17535,43 +17624,73 @@
         },
         {
             "name": "symplify/monorepo-builder",
-            "version": "11.2.23",
+            "version": "12.4.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symplify/monorepo-builder.git",
-                "reference": "cd0faf050efe72b1348e8432e9b85620b476c678"
+                "reference": "30a80ee0900f11dcdd73d1f83257db8268ba7250"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/monorepo-builder/zipball/cd0faf050efe72b1348e8432e9b85620b476c678",
-                "reference": "cd0faf050efe72b1348e8432e9b85620b476c678",
+                "url": "https://api.github.com/repos/symplify/monorepo-builder/zipball/30a80ee0900f11dcdd73d1f83257db8268ba7250",
+                "reference": "30a80ee0900f11dcdd73d1f83257db8268ba7250",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.2"
+                "nette/utils": "^4.0.5",
+                "phar-io/version": "^3.2",
+                "php": ">=8.2",
+                "sebastian/diff": "^6.0 || ^7.0",
+                "symfony/config": "^7.0 || ^8.0",
+                "symfony/console": "^7.0 || ^8.0",
+                "symfony/dependency-injection": "^7.0 || ^8.0",
+                "symfony/filesystem": "^7.0 || ^8.0",
+                "symfony/finder": "^7.0 || ^8.0",
+                "symfony/http-kernel": "^7.0 || ^8.0",
+                "symfony/process": "^7.0 || ^8.0",
+                "webmozart/assert": "^1.11"
+            },
+            "require-dev": {
+                "php-parallel-lint/php-parallel-lint": "^1.3",
+                "phpstan/extension-installer": "1.4.3",
+                "phpstan/phpstan": "^2.1.22",
+                "phpunit/phpunit": "^11.0",
+                "rector/rector": "^2.1.3",
+                "symplify/easy-ci": "^11.3",
+                "symplify/easy-coding-standard": "^12.0",
+                "symplify/phpstan-extensions": "^12.0.1",
+                "symplify/phpstan-rules": "^14.6.12",
+                "tomasvotruba/class-leak": "^2.0.5",
+                "tomasvotruba/unused-public": "^2.0.1",
+                "tracy/tracy": "^2.9"
             },
             "bin": [
-                "bin/monorepo-builder"
+                "bin/monorepo-builder",
+                "src-deps/easy-testing/bin/easy-testing"
             ],
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-main": "10.3-dev"
-                }
-            },
             "autoload": {
-                "files": [
-                    "bootstrap.php"
-                ]
+                "psr-4": {
+                    "Symplify\\EasyTesting\\": "src-deps/easy-testing/src",
+                    "Symplify\\PackageBuilder\\": "src-deps/package-builder/src",
+                    "Symplify\\SymplifyKernel\\": "src-deps/symplify-kernel/src",
+                    "Symplify\\MonorepoBuilder\\": [
+                        "src",
+                        "packages"
+                    ],
+                    "Symplify\\SmartFileSystem\\": "src-deps/smart-file-system/src",
+                    "Symplify\\AutowireArrayParameter\\": "src-deps/autowire-array-parameter/src",
+                    "Symplify\\ComposerJsonManipulator\\": "src-deps/composer-json-manipulator/src"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
-            "description": "Prefixed version of Not only Composer tools to build a Monorepo.",
+            "description": "Not only Composer tools to build a Monorepo.",
             "support": {
                 "issues": "https://github.com/symplify/monorepo-builder/issues",
-                "source": "https://github.com/symplify/monorepo-builder/tree/11.2.23"
+                "source": "https://github.com/symplify/monorepo-builder/tree/12.4.5"
             },
             "funding": [
                 {
@@ -17583,7 +17702,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-07-11T02:50:53+00:00"
+            "time": "2026-01-12T02:11:02+00:00"
         },
         {
             "name": "theseer/tokenizer",
@@ -17713,23 +17832,23 @@
         },
         {
             "name": "webmozart/assert",
-            "version": "2.1.2",
+            "version": "1.12.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webmozarts/assert.git",
-                "reference": "ce6a2f100c404b2d32a1dd1270f9b59ad4f57649"
+                "reference": "9be6926d8b485f55b9229203f962b51ed377ba68"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozarts/assert/zipball/ce6a2f100c404b2d32a1dd1270f9b59ad4f57649",
-                "reference": "ce6a2f100c404b2d32a1dd1270f9b59ad4f57649",
+                "url": "https://api.github.com/repos/webmozarts/assert/zipball/9be6926d8b485f55b9229203f962b51ed377ba68",
+                "reference": "9be6926d8b485f55b9229203f962b51ed377ba68",
                 "shasum": ""
             },
             "require": {
                 "ext-ctype": "*",
                 "ext-date": "*",
                 "ext-filter": "*",
-                "php": "^8.2"
+                "php": "^7.2 || ^8.0"
             },
             "suggest": {
                 "ext-intl": "",
@@ -17739,7 +17858,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-feature/2-0": "2.0-dev"
+                    "dev-master": "1.10-dev"
                 }
             },
             "autoload": {
@@ -17755,10 +17874,6 @@
                 {
                     "name": "Bernhard Schussek",
                     "email": "bschussek@gmail.com"
-                },
-                {
-                    "name": "Woody Gilk",
-                    "email": "woody.gilk@gmail.com"
                 }
             ],
             "description": "Assertions to validate method input/output with nice error messages.",
@@ -17769,9 +17884,9 @@
             ],
             "support": {
                 "issues": "https://github.com/webmozarts/assert/issues",
-                "source": "https://github.com/webmozarts/assert/tree/2.1.2"
+                "source": "https://github.com/webmozarts/assert/tree/1.12.1"
             },
-            "time": "2026-01-13T14:02:24+00:00"
+            "time": "2025-10-29T15:56:20+00:00"
         }
     ],
     "aliases": [],

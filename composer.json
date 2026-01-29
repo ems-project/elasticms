@@ -136,7 +136,7 @@
         "symfony/debug-bundle": "7.4.*",
         "symfony/var-dumper": "7.4.*",
         "symfony/web-profiler-bundle": "7.4.*",
-        "symplify/monorepo-builder": "^11.2",
+        "symplify/monorepo-builder": "^12.0",
         "vincentlanglet/twig-cs-fixer": "^3.10"
     },
     "config": {

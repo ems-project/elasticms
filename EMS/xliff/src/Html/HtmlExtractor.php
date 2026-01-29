@@ -221,21 +221,20 @@ class HtmlExtractor
                 }
 
                 return [$pairedCode];
-            } else {
-                $group = new Group(
-                    id: $this->idGenerator->nextGroupId(),
-                    type: $node->nodeName,
-                );
-                for ($i = 0; $i < $node->childNodes->length; ++$i) {
-                    $child = $node->childNodes->item($i);
-                    if (null === $child) {
-                        continue;
-                    }
-                    $group->addChildren($this->buildNodes($child));
-                }
-
-                return [$group];
             }
+            $group = new Group(
+                id: $this->idGenerator->nextGroupId(),
+                type: $node->nodeName,
+            );
+            for ($i = 0; $i < $node->childNodes->length; ++$i) {
+                $child = $node->childNodes->item($i);
+                if (null === $child) {
+                    continue;
+                }
+                $group->addChildren($this->buildNodes($child));
+            }
+
+            return [$group];
         }
 
         $nodes = [];

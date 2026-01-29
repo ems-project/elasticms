@@ -157,6 +157,10 @@ final class ExtractCommand extends AbstractCommand
             \sprintf('Starting the XLIFF export for fields: %s', \implode(' ', $this->fields)),
         ]);
 
+        if (Version::V22 === $this->xliffVersion) {
+            $this->io->warning('XLIFF 2.2 is not yet supported by elasticMS');
+        }
+
         $search = new Search([$this->sourceEnvironment->getAlias()], $this->searchQuery);
         $search->setSources(EMSSource::REQUIRED_FIELDS);
         $search->setSize($this->bulkSize);

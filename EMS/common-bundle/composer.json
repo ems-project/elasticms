@@ -34,7 +34,7 @@
         "promphp/prometheus_client_php": "^2.9",
         "psr/simple-cache": "^3.0",
         "ramsey/uuid-doctrine": "^2.1",
-        "ruflin/elastica": "^7.3",
+        "ruflin/elastica": "^8.0",
         "symfony/console": "7.4.*",
         "symfony/dom-crawler": "7.4.*",
         "symfony/event-dispatcher": "7.4.*",

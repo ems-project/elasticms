@@ -6,7 +6,7 @@
 .tab-content {
     background-color: $tab-content-background-color;
     box-shadow: $tab-content-box-shadow;
-    padding: $tab-content-padding;
+    padding: $tab-content-padding-y $tab-content-padding-x;
 
     .json-menu-nested-component {
         margin-top: 0;

@@ -6,6 +6,7 @@ namespace EMS\ClientHelperBundle\Twig;
 
 use EMS\ClientHelperBundle\Helper\Asset\AssetHelperRuntime;
 use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequestRuntime;
+use EMS\ClientHelperBundle\Helper\Webhook\WebhookRuntime;
 use EMS\CommonBundle\Twig\AssetRuntime;
 use Twig\DeprecatedCallableInfo;
 use Twig\Extension\AbstractExtension;
@@ -42,6 +43,7 @@ final class HelperExtension extends AbstractExtension
             new TwigFunction('emsch_asset', [AssetHelperRuntime::class, 'asset'], ['is_safe' => ['html']]),
             new TwigFunction('emsch_asset_redirect', [AssetHelperRuntime::class, 'assetRedirect']),
             new TwigFunction('emsch_assets_version', [AssetHelperRuntime::class, 'setVersion']),
+            new TwigFunction('emsch_webhook_event', [WebhookRuntime::class, 'getWebhook']),
             new TwigFunction('emsch_assets', [AssetHelperRuntime::class, 'assets'], [
                 'deprecation_info' => new DeprecatedCallableInfo('elasticms/client-helper-bundle', '5.19.0', 'emsch_assets_version'),
             ]),

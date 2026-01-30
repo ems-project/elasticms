@@ -6,7 +6,7 @@ namespace EMS\CommonBundle\Storage\Service;
 
 use Psr\Log\LoggerInterface;
 
-class SftpStorage extends AbstractUrlStorage
+class SftpStorage extends AbstractUrlStorage implements \Stringable
 {
     /** @var resource|null */
     private $sftp;
@@ -32,18 +32,18 @@ class SftpStorage extends AbstractUrlStorage
             throw new \RuntimeException("PHP functions Secure Shell are required by $this. (ssh2)");
         }
 
-        $connection = @\ssh2_connect($this->host, $this->port);
+        $connection = @ssh2_connect($this->host, $this->port);
         if (false === $connection) {
             throw new \Exception("Could not connect to $this->host on port $this->port.");
         }
 
         if (null === $this->passwordPhrase) {
-            \ssh2_auth_pubkey_file($connection, $this->username, $this->publicKeyFile, $this->privateKeyFile);
+            ssh2_auth_pubkey_file($connection, $this->username, $this->publicKeyFile, $this->privateKeyFile);
         } else {
-            \ssh2_auth_pubkey_file($connection, $this->username, $this->publicKeyFile, $this->privateKeyFile, $this->passwordPhrase);
+            ssh2_auth_pubkey_file($connection, $this->username, $this->publicKeyFile, $this->privateKeyFile, $this->passwordPhrase);
         }
 
-        $sftp = @\ssh2_sftp($connection);
+        $sftp = @ssh2_sftp($connection);
         if (false === $sftp) {
             throw new \Exception("Could not initialize SFTP subsystem to $this->host");
         }

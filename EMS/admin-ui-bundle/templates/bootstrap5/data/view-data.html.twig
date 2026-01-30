@@ -30,11 +30,11 @@
                 </div>
                 <!-- /.box-body -->
                 <div class="card-footer">
-                    {% include '@EMSAdminUI/bootstrap5/elements/object-toolbar.html.twig' with {
-                        'object':  object,
-                        'contentType': contentType,
-                        'recursiveView': true
-                    } %}
+                    {{ include('@EMSAdminUI/bootstrap5/elements/object-toolbar.html.twig', {
+                        object: object,
+                        contentType: contentType,
+                        recursiveView: true,
+                    }) }}
                 </div>
             </div>
         </div>

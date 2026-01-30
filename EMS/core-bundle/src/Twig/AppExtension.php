@@ -133,6 +133,7 @@ class AppExtension extends AbstractExtension
             new TwigFunction('emsco_warning', $this->warning(...)),
             new TwigFunction('emsco_get_revision_id', [RevisionRuntime::class, 'getRevisionId']),
             new TwigFunction('emsco_search', $this->search(...)),
+            new TwigFunction('emsco_webhook', [CoreRuntime::class, 'dispatchWebhook']),
             new TwigFunction('get_default_environments', [EnvironmentRuntime::class, 'getDefaultEnvironmentNames'], [
                 'deprecation_info' => new DeprecatedCallableInfo('elasticms/core-bundle', '5.0.0', 'emsco_get_default_environment_names'),
             ]),
@@ -214,6 +215,7 @@ class AppExtension extends AbstractExtension
             new TwigFilter('emsco_display_name', $this->displayName(...)),
             new TwigFilter('emsco_date_difference', $this->dateDifference(...)),
             new TwigFilter('emsco_debug', $this->debug(...)),
+            new TwigFilter('emsco_src_path', $this->srcPath(...)),
             new TwigFilter('emsco_search', $this->search(...)),
             new TwigFilter('emsco_search_query', $this->searchQuery(...)),
             new TwigFilter('emsco_call_user_func', $this->callUserFunc(...)),
@@ -303,7 +305,7 @@ class AppExtension extends AbstractExtension
                 'deprecation_info' => new DeprecatedCallableInfo('elasticms/core-bundle', '6.0.0', 'emsco_internal_links'),
             ]),
             new TwigFilter('src_path', $this->srcPath(...), [
-                'deprecation_info' => new DeprecatedCallableInfo('elasticms/core-bundle', '6.0.0'),
+                'deprecation_info' => new DeprecatedCallableInfo('elasticms/core-bundle', '6.0.0', 'emsco_src_path'),
             ]),
             new TwigFilter('get_user', $this->getUser(...), [
                 'deprecation_info' => new DeprecatedCallableInfo('elasticms/core-bundle', '6.0.0', 'emsco_get_user'),
@@ -372,7 +374,7 @@ class AppExtension extends AbstractExtension
             unset($config['_published_datetime']);
         }
 
-        return $this->commonRequestRuntime->assetPath($fileField, $config, $route, $fileHashField, $filenameField, $mimeTypeField, $referenceType);
+        return $this->assetRuntime->assetPath($fileField, $assetConfig, $route, $fileHashField, $filenameField, $mimeTypeField, $referenceType);
     }
 
     public function getFieldByPath(ContentType $contentType, string $path, bool $skipVirtualFields = false): ?FieldType
@@ -985,13 +987,8 @@ class AppExtension extends AbstractExtension
         if ($super && !$this->isSuper()) {
             return false;
         }
-        foreach ($roles as $role) {
-            if (!$this->authorizationChecker->isGranted($role)) {
-                return false;
-            }
-        }
 
-        return true;
+        return \array_all($roles, fn ($role) => $this->authorizationChecker->isGranted($role));
     }
 
     /**
@@ -1165,13 +1162,8 @@ class AppExtension extends AbstractExtension
         if ($super && !$this->isSuper()) {
             return false;
         }
-        foreach ($roles as $role) {
-            if ($this->authorizationChecker->isGranted($role)) {
-                return true;
-            }
-        }
 
-        return false;
+        return \array_any($roles, fn ($role) => $this->authorizationChecker->isGranted($role));
     }
 
     private function contrastRatio(string $c1, string $c2): float

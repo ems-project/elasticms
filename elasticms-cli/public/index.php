@@ -7,9 +7,13 @@ file_exists(dirname(__DIR__).'/vendor/autoload_runtime.php') ?
     require_once dirname(__DIR__).'/vendor/autoload_runtime.php' :
     require_once dirname(__DIR__).'/../vendor/autoload_runtime.php';
 
+if ('true' === ($_SERVER['APP_DISABLE_DOTENV'] ?? false)) {
+    $_SERVER['APP_ENV'] ??= 'prod';
+}
+
 $_SERVER['APP_RUNTIME_OPTIONS'] = [
     'disable_dotenv' => ('true' === ($_SERVER['APP_DISABLE_DOTENV'] ?? false)),
-    'prod_envs' => ['prod', 'redis', 'store_data'],
+    'prod_envs' => ['prod', 'redis'],
     'project_dir' => dirname(__DIR__),
 ];
 

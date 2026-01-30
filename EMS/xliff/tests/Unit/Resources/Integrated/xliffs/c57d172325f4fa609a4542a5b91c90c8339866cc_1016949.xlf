@@ -1,1111 +1,1132 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 https://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file source-language="nl" original="content_type:c57d172325f4fa609a4542a5b91c90c8339866cc:1016949" datatype="database" target-language="de">
     <body>
-      <trans-unit id="[title]">
+      <trans-unit id="tu1" resname="[title]">
         <source xml:lang="nl">Eerste aanwervingen</source>
         <target xml:lang="de" state="final">Ersteinstellungen</target>
       </trans-unit>
-      <trans-unit id="[title_short]">
+      <trans-unit id="tu2" resname="[title_short]">
         <source xml:lang="nl">Eerste aanwervingen</source>
         <target xml:lang="de" state="final">Ersteinstellungen</target>
       </trans-unit>
-      <group id="[introduction]">
-        <trans-unit restype="x-html-p" id="/html/body/p[1]">
+      <group resname="[introduction]" id="grp3">
+        <trans-unit restype="x-html-p" id="tu4" resname="/html/body/p[1]">
           <source xml:lang="nl"> Deze doelgroepvermindering wordt toegekend aan nieuwe werkgevers gedurende een aantal kwartalen voor maximaal 6 werknemers. </source>
           <target xml:lang="de" state="final"> Diese Zielgruppenermäßigung wird neuen Arbeitgebern für einige Quartale für höchstens 6 Arbeitnehmer gewährt. </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[2]">
-          <source xml:lang="nl"> Vanaf <g ctype="x-html-strong">1 januari 2016</g> wordt de doelgroepvermindering uitgebreid en versterkt: </source>
-          <target xml:lang="de" state="final"> Ab <g ctype="x-html-strong">01.01.2016</g> wird die Zielgruppenermäßigung erweitert: </target>
+        <trans-unit restype="x-html-p" id="tu5" resname="/html/body/p[2]">
+          <source xml:lang="nl"> Vanaf <g id="g6" ctype="x-html-strong">1 januari 2016</g> wordt de doelgroepvermindering uitgebreid en versterkt: </source>
+          <target xml:lang="de" state="final"> Ab <g id="g7" ctype="x-html-strong">01.01.2016</g> wird die Zielgruppenermäßigung erweitert: </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[3]">
+        <trans-unit restype="x-html-p" id="tu8" resname="/html/body/p[3]">
           <source xml:lang="nl"/>
           <target xml:lang="de" state="final"/>
         </trans-unit>
-        <group restype="x-html-ul" id="/html/body/ul[1]">
-          <trans-unit restype="listitem" id="/html/body/ul[1]/li[1]">
-            <source xml:lang="nl">de indiensttreding van een 1<g ctype="x-html-sup">ste</g> werknemer opent het recht op een vermindering G<g ctype="x-html-sub">7</g> (<g ctype="x-html-strong">onbeperkt in de tijd</g>); dit wil zeggen dat na het in mindering brengen van de doelgroepvermindering eerste aanwerving voor een 1<g ctype="x-html-sup">ste</g> werknemer er geen socialezekerheidsbijdragen verschuldigd meer zijn van het resterende deel van de werkgeversbijdrage bekomen na afhouding van het forfait sociale maribel en na toepassing van de structurele vermindering, </source>
-            <target xml:lang="de" state="final">die Einstellung eines ersten Arbeitnehmers eröffnet das Recht auf eine Ermäßigung G<g ctype="x-html-sub">7</g> (<g ctype="x-html-strong">zeitlich unbegrenzt</g>); das bedeutet, dass nach Abzug der Zielgruppenermäßigung Ersteinstellung für einen ersten Arbeitnehmer keine Sozialversicherungsbeiträge geschuldet werden für den verbleibenden Teil des Arbeitgeberbeitrags, der nach Einbehaltung der„Maribel Sozial“-Pauschale und nach Anwendung der strukturellen Ermäßigung erhalten wird; <g ctype="x-html-sup"/><g ctype="x-html-sup"/> </target>
+        <group restype="x-html-ul" id="tu9" resname="/html/body/ul[1]">
+          <trans-unit restype="listitem" id="tu10" resname="/html/body/ul[1]/li[1]">
+            <source xml:lang="nl">de indiensttreding van een 1<g id="g11" ctype="x-html-sup">ste</g> werknemer opent het recht op een vermindering G<g id="g12" ctype="x-html-sub">7</g> (<g id="g13" ctype="x-html-strong">onbeperkt in de tijd</g>); dit wil zeggen dat na het in mindering brengen van de doelgroepvermindering eerste aanwerving voor een 1<g id="g14" ctype="x-html-sup">ste</g> werknemer er geen socialezekerheidsbijdragen verschuldigd meer zijn van het resterende deel van de werkgeversbijdrage bekomen na afhouding van het forfait sociale maribel en na toepassing van de structurele vermindering, </source>
+            <target xml:lang="de" state="final">die Einstellung eines ersten Arbeitnehmers eröffnet das Recht auf eine Ermäßigung G<g id="g15" ctype="x-html-sub">7</g> (<g id="g16" ctype="x-html-strong">zeitlich unbegrenzt</g>); das bedeutet, dass nach Abzug der Zielgruppenermäßigung Ersteinstellung für einen ersten Arbeitnehmer keine Sozialversicherungsbeiträge geschuldet werden für den verbleibenden Teil des Arbeitgeberbeitrags, der nach Einbehaltung der„Maribel Sozial“-Pauschale und nach Anwendung der strukturellen Ermäßigung erhalten wird; <x id="x17" ctype="x-html-sup" equiv-text=" "/><x id="x18" ctype="x-html-sup" equiv-text=" "/> </target>
           </trans-unit>
-          <trans-unit restype="listitem" id="/html/body/ul[1]/li[2]">
-            <source xml:lang="nl">een doelgroepvermindering voor een 6<g ctype="x-html-sup">de</g> werknemer wordt voorzien, </source>
-            <target xml:lang="de" state="final">eine Zielgruppenermäßigung für einen sechsten Arbeitnehmer wird vorgesehen; <g ctype="x-html-sup"/> </target>
+          <trans-unit restype="listitem" id="tu19" resname="/html/body/ul[1]/li[2]">
+            <source xml:lang="nl">een doelgroepvermindering voor een 6<g id="g20" ctype="x-html-sup">de</g> werknemer wordt voorzien, </source>
+            <target xml:lang="de" state="final">eine Zielgruppenermäßigung für einen sechsten Arbeitnehmer wird vorgesehen; <x id="x21" ctype="x-html-sup" equiv-text=" "/> </target>
           </trans-unit>
-          <trans-unit restype="listitem" id="/html/body/ul[1]/li[3]">
-            <source xml:lang="nl">de forfaits en het aantal kwartalen waarin ze konden worden toegepast voor de 1<g ctype="x-html-sup">ste</g> tot de 5<g ctype="x-html-sup">de</g> werknemer, worden integraal doorgeschoven naar de 2<g ctype="x-html-sup">de</g> tot de 6<g ctype="x-html-sup">de</g> werknemer. </source>
-            <target xml:lang="de" state="final">die Pauschalen und die Anzahl der Quartale, in denen sie auf den ersten bis fünften Arbeitnehmer angewandt werden konnten, werden vollständig an den zweiten bis einschließlich sechsten Arbeitnehmer weitergegeben. <g ctype="x-html-sup"/><g ctype="x-html-sup"/><g ctype="x-html-sup"/><g ctype="x-html-sup"/> </target>
+          <trans-unit restype="listitem" id="tu22" resname="/html/body/ul[1]/li[3]">
+            <source xml:lang="nl">de forfaits en het aantal kwartalen waarin ze konden worden toegepast voor de 1<g id="g23" ctype="x-html-sup">ste</g> tot de 5<g id="g24" ctype="x-html-sup">de</g> werknemer, worden integraal doorgeschoven naar de 2<g id="g25" ctype="x-html-sup">de</g> tot de 6<g id="g26" ctype="x-html-sup">de</g> werknemer. </source>
+            <target xml:lang="de" state="final">die Pauschalen und die Anzahl der Quartale, in denen sie auf den ersten bis fünften Arbeitnehmer angewandt werden konnten, werden vollständig an den zweiten bis einschließlich sechsten Arbeitnehmer weitergegeben. <x id="x27" ctype="x-html-sup" equiv-text=" "/><x id="x28" ctype="x-html-sup" equiv-text=" "/><x id="x29" ctype="x-html-sup" equiv-text=" "/><x id="x30" ctype="x-html-sup" equiv-text=" "/> </target>
           </trans-unit>
         </group>
-        <trans-unit restype="x-html-p" id="/html/body/p[4]">
+        <trans-unit restype="x-html-p" id="tu31" resname="/html/body/p[4]">
           <source xml:lang="nl"/>
           <target xml:lang="de" state="final"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[5]">
+        <trans-unit restype="x-html-p" id="tu32" resname="/html/body/p[5]">
           <source xml:lang="nl"/>
           <target xml:lang="de" state="final"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[6]">
-          <source xml:lang="nl"> Vanaf <g ctype="x-html-strong">1 januari 2017</g> worden de verminderingsforfaits en het aantal kwartalen waarvoor ze kunnen worden toegepast verhoogd. Dit geldt enkel voor de opening van het recht vanaf 1 januari 2017. Naargelang de periode waarin het recht geopend werd kan het verminderingsforfait dus verschillen evenals het aantal kwartalen dat de vermindering kan worden toegepast. </source>
-          <target xml:lang="de" state="final"> Ab <g ctype="x-html-strong">01.01.2017</g> werden die Ermäßigungspauschalen und die Anzahl Quartale, auf die sie angewandt werden können, erhöht. Dies gilt nur für die Eröffnung des Rechts ab 01.01.2017. Die Ermäßigungspauschale und die Anzahl der Quartale, in denen die Ermäßigung angewendet werden kann, kann je nach dem Zeitraum, in dem das Recht eröffnet wurde, verschieden sein. </target>
+        <trans-unit restype="x-html-p" id="tu33" resname="/html/body/p[6]">
+          <source xml:lang="nl"> Vanaf <g id="g34" ctype="x-html-strong">1 januari 2017</g> worden de verminderingsforfaits en het aantal kwartalen waarvoor ze kunnen worden toegepast verhoogd. Dit geldt enkel voor de opening van het recht vanaf 1 januari 2017. Naargelang de periode waarin het recht geopend werd kan het verminderingsforfait dus verschillen evenals het aantal kwartalen dat de vermindering kan worden toegepast. </source>
+          <target xml:lang="de" state="final"> Ab <g id="g35" ctype="x-html-strong">01.01.2017</g> werden die Ermäßigungspauschalen und die Anzahl Quartale, auf die sie angewandt werden können, erhöht. Dies gilt nur für die Eröffnung des Rechts ab 01.01.2017. Die Ermäßigungspauschale und die Anzahl der Quartale, in denen die Ermäßigung angewendet werden kann, kann je nach dem Zeitraum, in dem das Recht eröffnet wurde, verschieden sein. </target>
         </trans-unit>
-        <trans-unit id="/html/body/br">
+        <trans-unit id="tu36" resname="/html/body/br">
           <source xml:lang="nl">
-            <g ctype="lb"/>
+            <x id="x37" ctype="x-html-br" equiv-text=" "/>
           </source>
           <target xml:lang="de" state="final">
-            <g ctype="lb"/>
+            <x id="x38" ctype="x-html-br" equiv-text=" "/>
           </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[7]">
+        <trans-unit restype="x-html-p" id="tu39" resname="/html/body/p[7]">
           <source xml:lang="nl"/>
           <target xml:lang="de" state="final"/>
         </trans-unit>
-        <trans-unit restype="x-html-ul" id="/html/body/ul[2]">
+        <trans-unit restype="x-html-ul" id="tu40" resname="/html/body/ul[2]">
           <source xml:lang="nl"/>
           <target xml:lang="de" state="final"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[8]">
+        <trans-unit restype="x-html-p" id="tu41" resname="/html/body/p[8]">
           <source xml:lang="nl"/>
           <target xml:lang="de" state="final"/>
         </trans-unit>
       </group>
-      <group id="[description]">
-        <trans-unit restype="x-html-h2" id="/html/body/h2[1]">
+      <group resname="[description]" id="grp42">
+        <trans-unit restype="x-html-h2" id="tu43" resname="/html/body/h2[1]">
           <source xml:lang="nl"> Betrokken werkgevers </source>
           <target xml:lang="de" state="final"> Betroffene Arbeitgeber </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[1]">
+        <trans-unit restype="x-html-p" id="tu44" resname="/html/body/p[1]">
           <source xml:lang="nl"> Alle werkgevers uit de privésector die werknemers tewerkstellen die onderworpen zijn aan de wet van 27 juni 1969 betreffende de maatschappelijke zekerheid der arbeiders. </source>
           <target xml:lang="de" state="final"> Alle Arbeitgeber aus dem Privatsektor, die Arbeitnehmer beschäftigen, die dem Gesetz vom 27.06.1969 über die soziale Sicherheit der Arbeiter unterliegen. </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[2]">
-          <source xml:lang="nl"> De werkgever kan gedurende 20 kwartalen nadat hij een 1<g ctype="x-html-sup">ste</g>, 2<g ctype="x-html-sup">de</g>, 3<g ctype="x-html-sup">de</g>, 4<g ctype="x-html-sup">de</g>, 5<g ctype="x-html-sup">de</g> of 6<g ctype="x-html-sup">de</g> werknemer in dienst neemt, een aantal kwartalen deze doelgroepvermindering genieten. Het is belangrijk te bepalen wanneer deze periode van 20 kwartalen aanvangt. Voor alle duidelijkheid zal de situatie voor een 1<g ctype="x-html-sup">ste</g>, een 2<g ctype="x-html-sup">de</g>,een 3<g ctype="x-html-sup">de</g>, een 4<g ctype="x-html-sup">de</g>, een 5<g ctype="x-html-sup">de</g> of een 6<g ctype="x-html-sup">de</g> aanwerving apart worden toegelicht. </source>
-          <target xml:lang="de" state="final"> Der Arbeitgeber kann 20 Quartale, nachdem er einen ersten, zweiten, dritten, vierten, fünften oder sechsten Arbeitnehmer einstellt, einige Quartale von dieser Zielgruppenermäßigung profitieren. <g ctype="x-html-sup"/><g ctype="x-html-sup"/><g ctype="x-html-sup"/><g ctype="x-html-sup"/><g ctype="x-html-sup"/><g ctype="x-html-sup"/> Es ist wichtig zu bestimmen, wann diese Periode von 20 Quartalen beginnt. Der Deutlichkeit halber wird die Situation für eine erste, zweite, dritte, vierte, fünfte und sechste Einstellung einzeln erörtert. <g ctype="x-html-sup"/><g ctype="x-html-sup"/><g ctype="x-html-sup"/><g ctype="x-html-sup"/><g ctype="x-html-sup"/><g ctype="x-html-sup"/> </target>
+        <trans-unit restype="x-html-p" id="tu45" resname="/html/body/p[2]">
+          <source xml:lang="nl"> De werkgever kan gedurende 20 kwartalen nadat hij een 1<g id="g46" ctype="x-html-sup">ste</g>, 2<g id="g47" ctype="x-html-sup">de</g>, 3<g id="g48" ctype="x-html-sup">de</g>, 4<g id="g49" ctype="x-html-sup">de</g>, 5<g id="g50" ctype="x-html-sup">de</g> of 6<g id="g51" ctype="x-html-sup">de</g> werknemer in dienst neemt, een aantal kwartalen deze doelgroepvermindering genieten. Het is belangrijk te bepalen wanneer deze periode van 20 kwartalen aanvangt. Voor alle duidelijkheid zal de situatie voor een 1<g id="g52" ctype="x-html-sup">ste</g>, een 2<g id="g53" ctype="x-html-sup">de</g>,een 3<g id="g54" ctype="x-html-sup">de</g>, een 4<g id="g55" ctype="x-html-sup">de</g>, een 5<g id="g56" ctype="x-html-sup">de</g> of een 6<g id="g57" ctype="x-html-sup">de</g> aanwerving apart worden toegelicht. </source>
+          <target xml:lang="de" state="final"> Der Arbeitgeber kann 20 Quartale, nachdem er einen ersten, zweiten, dritten, vierten, fünften oder sechsten Arbeitnehmer einstellt, einige Quartale von dieser Zielgruppenermäßigung profitieren. <x id="x58" ctype="x-html-sup" equiv-text=" "/><x id="x59" ctype="x-html-sup" equiv-text=" "/><x id="x60" ctype="x-html-sup" equiv-text=" "/><x id="x61" ctype="x-html-sup" equiv-text=" "/><x id="x62" ctype="x-html-sup" equiv-text=" "/><x id="x63" ctype="x-html-sup" equiv-text=" "/> Es ist wichtig zu bestimmen, wann diese Periode von 20 Quartalen beginnt. Der Deutlichkeit halber wird die Situation für eine erste, zweite, dritte, vierte, fünfte und sechste Einstellung einzeln erörtert. <x id="x64" ctype="x-html-sup" equiv-text=" "/><x id="x65" ctype="x-html-sup" equiv-text=" "/><x id="x66" ctype="x-html-sup" equiv-text=" "/><x id="x67" ctype="x-html-sup" equiv-text=" "/><x id="x68" ctype="x-html-sup" equiv-text=" "/><x id="x69" ctype="x-html-sup" equiv-text=" "/> </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[3]">
-          <source xml:lang="nl"> Voor de indienstname van een 1<g ctype="x-html-sup">ste</g> werknemer na 1 januari 2016 , kan de werkgever de vermindering voor één werknemer voor onbepaalde duur genieten. </source>
-          <target xml:lang="de" state="final"> Für die Einstellung eines <g ctype="x-html-sup">ersten</g> Arbeitnehmers nach dem 01. Januar 2016 und dem 31. Dezember 2020 kann der Arbeitgeber die Ermäßigung für einen Arbeitnehmer für unbestimmte Dauer in Anspruch nehmen. </target>
+        <trans-unit restype="x-html-p" id="tu70" resname="/html/body/p[3]">
+          <source xml:lang="nl"> Voor de indienstname van een 1<g id="g71" ctype="x-html-sup">ste</g> werknemer na 1 januari 2016 , kan de werkgever de vermindering voor één werknemer voor onbepaalde duur genieten. </source>
+          <target xml:lang="de" state="final"> Für die Einstellung eines <g id="g72" ctype="x-html-sup">ersten</g> Arbeitnehmers nach dem 01. Januar 2016 und dem 31. Dezember 2020 kann der Arbeitgeber die Ermäßigung für einen Arbeitnehmer für unbestimmte Dauer in Anspruch nehmen. </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[4]">
-          <source xml:lang="nl"> In de bespreking die volgt wordt voor de kwalificatie ‘<g ctype="x-html-strong">nieuwe werkgever</g>’ en voor het toekennen van de vermindering, <g ctype="x-html-strong">nooit</g> rekening gehouden met: </source>
-          <target xml:lang="de" state="final"> In der folgenden Erläuterung werden für die Qualifikation „<g ctype="x-html-strong">neuer Arbeitgeber</g>“ und die Gewährung der Ermäßigung <g ctype="x-html-strong">nie</g> folgende Personen berücksichtigt: </target>
+        <trans-unit restype="x-html-p" id="tu73" resname="/html/body/p[4]">
+          <source xml:lang="nl"> In de bespreking die volgt wordt voor de kwalificatie ‘<g id="g74" ctype="x-html-strong">nieuwe werkgever</g>’ en voor het toekennen van de vermindering, <g id="g75" ctype="x-html-strong">nooit</g> rekening gehouden met: </source>
+          <target xml:lang="de" state="final"> In der folgenden Erläuterung werden für die Qualifikation „<g id="g76" ctype="x-html-strong">neuer Arbeitgeber</g>“ und die Gewährung der Ermäßigung <g id="g77" ctype="x-html-strong">nie</g> folgende Personen berücksichtigt: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="/html/body/ul[1]">
-          <trans-unit restype="listitem" id="/html/body/ul[1]/li[1]">
+        <group restype="x-html-ul" id="tu78" resname="/html/body/ul[1]">
+          <trans-unit restype="listitem" id="tu79" resname="/html/body/ul[1]/li[1]">
             <source xml:lang="nl">jongeren tot 31 december van het jaar dat zij 18 worden; </source>
             <target xml:lang="de" state="final">Jugendliche bis zum 31. Dezember des Kalenderjahres, in dem sie 18 Jahre alt werden; </target>
           </trans-unit>
-          <trans-unit restype="listitem" id="/html/body/ul[1]/li[2]">
+          <trans-unit restype="listitem" id="tu80" resname="/html/body/ul[1]/li[2]">
             <source xml:lang="nl">leerlingen in het kader van het alternerend leren zoals bepaald in artikel 1bis van het koninklijk besluit van 28 november 1969; </source>
             <target xml:lang="de" state="final">Lehrlinge im Rahmen der alternierenden Ausbildung gemäß Artikel 1bis des Königlichen Erlasses vom 28.11.1969; </target>
           </trans-unit>
-          <trans-unit restype="listitem" id="/html/body/ul[1]/li[3]">
+          <trans-unit restype="listitem" id="tu81" resname="/html/body/ul[1]/li[3]">
             <source xml:lang="nl">dienstboden; </source>
             <target xml:lang="de" state="final">Hausangestellte; </target>
           </trans-unit>
-          <trans-unit restype="listitem" id="/html/body/ul[1]/li[4]">
+          <trans-unit restype="listitem" id="tu82" resname="/html/body/ul[1]/li[4]">
             <source xml:lang="nl">gelegenheidsarbeiders in de land- en tuinbouwsector; </source>
             <target xml:lang="de" state="final">Gelegenheitsarbeitnehmer in der Landwirtschaft und im Gartenbau; </target>
           </trans-unit>
-          <trans-unit restype="listitem" id="/html/body/ul[1]/li[5]">
+          <trans-unit restype="listitem" id="tu83" resname="/html/body/ul[1]/li[5]">
             <source xml:lang="nl">alle andere werknemers die niet onder de socialezekerheidswet van 27 juni 1969 vallen (jobstudenten, IBO'ers, vrijwilligers, bepaalde stagiairs,  …). </source>
             <target xml:lang="de" state="final">alle anderen Arbeitnehmer, die nicht unter das Gesetz zur Sozialen Sicherheit vom 27.06.1969 fallen (Werkstudenten, IBU, Freiwillige, bestimmte Praktikanten…). </target>
           </trans-unit>
         </group>
-        <trans-unit restype="x-html-p" id="/html/body/p[5]">
+        <trans-unit restype="x-html-p" id="tu84" resname="/html/body/p[5]">
           <source xml:lang="nl"> Voor de doelgroepvermindering eerste aanwervingen is het dus alsof werknemers die tot een van deze categorieën behoren niet bestaan. </source>
           <target xml:lang="de" state="final"> Für die Zielgruppenermäßigung für Ersteinstellungen kommen deshalb Arbeitnehmer, die zu einer dieser Kategorien gehören, nicht in Betracht. </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[6]">
-          <source xml:lang="nl"> Een <g ctype="x-html-strong">flexi-jobwerknemer</g> telt <g ctype="x-html-strong">wel</g> mee en <g ctype="x-html-strong">opent</g> in principe het recht (dit is belangrijk om te weten vanaf wanneer de periode van 20 kwartalen begint te lopen en om te bepalen of het recht op een 1<g ctype="x-html-sup">ste</g>, respectievelijk 2<g ctype="x-html-sup">de</g>, 3<g ctype="x-html-sup">de</g> .... werknemer al werd geopend), maar omdat zij geen gewone werkgeversbijdragen betalen kan er niets verminderd worden voor zulk een tewerkstelling. </source>
-          <target xml:lang="de" state="final"> Ein <g ctype="x-html-strong">Flexijob-Arbeitnehmer</g> wird <g ctype="x-html-strong">mitgerechnet</g> und <g ctype="x-html-strong">verleiht</g> grundsätzlich Anspruch (dies ist wichtig bei der Frage, wann die Periode der 20 Quartale beginnt, und um festzustellen, ob der Anspruch auf einen ersten bzw. zweiten, dritten… Arbeitnehmer bereits verliehen wurde); da sie aber keine normalen Arbeitgeberbeiträge zahlen, kann es für diese Beschäftigung keine Ermäßigung geben. <g ctype="x-html-sup"/><g ctype="x-html-sup"/><g ctype="x-html-sup"/> </target>
+        <trans-unit restype="x-html-p" id="tu85" resname="/html/body/p[6]">
+          <source xml:lang="nl"> Een <g id="g86" ctype="x-html-strong">flexi-jobwerknemer</g> telt <g id="g87" ctype="x-html-strong">wel</g> mee en <g id="g88" ctype="x-html-strong">opent</g> in principe het recht (dit is belangrijk om te weten vanaf wanneer de periode van 20 kwartalen begint te lopen en om te bepalen of het recht op een 1<g id="g89" ctype="x-html-sup">ste</g>, respectievelijk 2<g id="g90" ctype="x-html-sup">de</g>, 3<g id="g91" ctype="x-html-sup">de</g> .... werknemer al werd geopend), maar omdat zij geen gewone werkgeversbijdragen betalen kan er niets verminderd worden voor zulk een tewerkstelling. </source>
+          <target xml:lang="de" state="final"> Ein <g id="g92" ctype="x-html-strong">Flexijob-Arbeitnehmer</g> wird <g id="g93" ctype="x-html-strong">mitgerechnet</g> und <g id="g94" ctype="x-html-strong">verleiht</g> grundsätzlich Anspruch (dies ist wichtig bei der Frage, wann die Periode der 20 Quartale beginnt, und um festzustellen, ob der Anspruch auf einen ersten bzw. zweiten, dritten… Arbeitnehmer bereits verliehen wurde); da sie aber keine normalen Arbeitgeberbeiträge zahlen, kann es für diese Beschäftigung keine Ermäßigung geben. <x id="x95" ctype="x-html-sup" equiv-text=" "/><x id="x96" ctype="x-html-sup" equiv-text=" "/><x id="x97" ctype="x-html-sup" equiv-text=" "/> </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[7]">
+        <trans-unit restype="x-html-p" id="tu98" resname="/html/body/p[7]">
           <source xml:lang="nl">   </source>
           <target xml:lang="de" state="final">   </target>
         </trans-unit>
-        <trans-unit restype="x-html-h4" id="/html/body/h4[1]">
-          <source xml:lang="nl"> Aanwerving van een 1<g ctype="x-html-sup">ste</g> werknemer </source>
-          <target xml:lang="de" state="final"> Einstellung eines ersten Arbeitnehmers <g ctype="x-html-sup"/> </target>
+        <trans-unit restype="x-html-h4" id="tu99" resname="/html/body/h4[1]">
+          <source xml:lang="nl"> Aanwerving van een 1<g id="g100" ctype="x-html-sup">ste</g> werknemer </source>
+          <target xml:lang="de" state="final"> Einstellung eines ersten Arbeitnehmers <x id="x101" ctype="x-html-sup" equiv-text=" "/> </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[8]">
-          <source xml:lang="nl"> Op het moment van indienstneming mag de werkgever nooit onderworpen geweest zijn aan de wet van 27 juni 1969 betreffende de maatschappelijke zekerheid der arbeiders of, sedert ten minste 4 opeenvolgende <g ctype="x-html-a" html:href="%{BASE_URL_CURRENT}%/instructions/fill_in_dmfa/dmfa_fillinrules/dfmageneralprinciples_comparison/dfmageneralprinciples.html"> kwartalen</g> die het kwartaal van indienstneming voorafgaan, hieraan niet meer onderworpen geweest zijn (<g ctype="x-html-strong">nieuwe werkgever</g>). </source>
-          <target xml:lang="de" state="final"> Zum Zeitpunkt des Dienstantritts darf der Arbeitgeber nie dem Gesetz vom 27.06.1969 über die soziale Sicherheit der Arbeiter unterliegen bzw. darf er diesem Gesetz seit mindestens 4 aufeinander folgenden <g ctype="x-html-a" html:href="%{BASE_URL_CURRENT}%/instructions/fill_in_dmfa/dmfa_fillinrules/dfmageneralprinciples_comparison/dfmageneralprinciples.html"> Quartalen</g> vor dem Quartal des Dienstantritts nicht unterlegen gewesen sein (<g ctype="x-html-strong">neuer Arbeitgeber</g>). </target>
+        <trans-unit restype="x-html-p" id="tu102" resname="/html/body/p[8]">
+          <source xml:lang="nl"> Op het moment van indienstneming mag de werkgever nooit onderworpen geweest zijn aan de wet van 27 juni 1969 betreffende de maatschappelijke zekerheid der arbeiders of, sedert ten minste 4 opeenvolgende <bx id="bx104" rid="rid103" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/fill_in_dmfa/dmfa_fillinrules/dfmageneralprinciples_comparison/dfmageneralprinciples.html&amp;quot;&amp;gt;"/> kwartalen<ex id="ex105" rid="rid103" equiv-text="&amp;lt;/a&amp;gt;"/> die het kwartaal van indienstneming voorafgaan, hieraan niet meer onderworpen geweest zijn (<g id="g106" ctype="x-html-strong">nieuwe werkgever</g>). </source>
+          <target xml:lang="de" state="final"> Zum Zeitpunkt des Dienstantritts darf der Arbeitgeber nie dem Gesetz vom 27.06.1969 über die soziale Sicherheit der Arbeiter unterliegen bzw. darf er diesem Gesetz seit mindestens 4 aufeinander folgenden <bx id="bx108" rid="rid107" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/fill_in_dmfa/dmfa_fillinrules/dfmageneralprinciples_comparison/dfmageneralprinciples.html&amp;quot;&amp;gt;"/> Quartalen<ex id="ex109" rid="rid107" equiv-text="&amp;lt;/a&amp;gt;"/> vor dem Quartal des Dienstantritts nicht unterlegen gewesen sein (<g id="g110" ctype="x-html-strong">neuer Arbeitgeber</g>). </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[9]">
-          <source xml:lang="nl"> Is deze voorwaarde vervuld, dan moet men nagaan of de werkgever samen met andere werkgevers <g ctype="x-html-strong">geen zelfde technische bedrijfseenheid uitmaakt</g>. De 1<g ctype="x-html-sup">ste</g> werknemer mag immers <g ctype="x-html-strong">geen werknemer vervangen</g> die in de loop van de 12 maanden (dag op dag) voorafgaand aan de indienstneming in dezelfde technische bedrijfseenheid werkzaam geweest is. </source>
-          <target xml:lang="de" state="final"> Ist diese Bedingung erfüllt, muss ermittelt werden, ob der Arbeitgeber gemeinsam mit anderen Arbeitgebern <g ctype="x-html-strong">nicht die gleiche technische Betriebseinheit bildet</g>. Der erste Arbeitnehmer darf <g ctype="x-html-strong">auf keinen Fall einen Arbeitnehmer ersetzen</g>, der im Laufe der 12 Monate (Tag für Tag) vor dem Quartal des Dienstantritts in der gleichen technischen Betriebseinheit tätig war. <g ctype="x-html-sup"/> </target>
+        <trans-unit restype="x-html-p" id="tu111" resname="/html/body/p[9]">
+          <source xml:lang="nl"> Is deze voorwaarde vervuld, dan moet men nagaan of de werkgever samen met andere werkgevers <g id="g112" ctype="x-html-strong">geen zelfde technische bedrijfseenheid uitmaakt</g>. De 1<g id="g113" ctype="x-html-sup">ste</g> werknemer mag immers <g id="g114" ctype="x-html-strong">geen werknemer vervangen</g> die in de loop van de 12 maanden (dag op dag) voorafgaand aan de indienstneming in dezelfde technische bedrijfseenheid werkzaam geweest is. </source>
+          <target xml:lang="de" state="final"> Ist diese Bedingung erfüllt, muss ermittelt werden, ob der Arbeitgeber gemeinsam mit anderen Arbeitgebern <g id="g115" ctype="x-html-strong">nicht die gleiche technische Betriebseinheit bildet</g>. Der erste Arbeitnehmer darf <g id="g116" ctype="x-html-strong">auf keinen Fall einen Arbeitnehmer ersetzen</g>, der im Laufe der 12 Monate (Tag für Tag) vor dem Quartal des Dienstantritts in der gleichen technischen Betriebseinheit tätig war. <x id="x117" ctype="x-html-sup" equiv-text=" "/> </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[10]">
-          <source xml:lang="nl"> De aanwerving van de 1<g ctype="x-html-sup">ste</g> werknemer opent voor een periode van 20 kwartalen met ingang van het kwartaal van indienstneming, het recht van de werkgever op deze doelgroepvermindering voor één werknemer. Als de 1<g ctype="x-html-sup">ste</g> werknemer in dienst wordt genomen na 31 december 2015, opent hij het recht op deze doelgroepvermindering voor onbepaalde tijd. </source>
-          <target xml:lang="de" state="final"> Die Einstellung des ersten Arbeitnehmers eröffnet für eine Periode von 20 Quartalen ab dem Quartal des Dienstantritts das Recht des Arbeitgebers auf diese Zielgruppenermäßigung für einen einzigen Arbeitnehmer. <g ctype="x-html-sup"/> Wird der erste Arbeitnehmer nach dem 31.12.2015 eingestellt, eröffnet er das Recht auf diese Zielgruppenermäßigung für unbestimmte Zeit. <g ctype="x-html-sup"/> </target>
+        <trans-unit restype="x-html-p" id="tu118" resname="/html/body/p[10]">
+          <source xml:lang="nl"> De aanwerving van de 1<g id="g119" ctype="x-html-sup">ste</g> werknemer opent voor een periode van 20 kwartalen met ingang van het kwartaal van indienstneming, het recht van de werkgever op deze doelgroepvermindering voor één werknemer. Als de 1<g id="g120" ctype="x-html-sup">ste</g> werknemer in dienst wordt genomen na 31 december 2015, opent hij het recht op deze doelgroepvermindering voor onbepaalde tijd. </source>
+          <target xml:lang="de" state="final"> Die Einstellung des ersten Arbeitnehmers eröffnet für eine Periode von 20 Quartalen ab dem Quartal des Dienstantritts das Recht des Arbeitgebers auf diese Zielgruppenermäßigung für einen einzigen Arbeitnehmer. <x id="x121" ctype="x-html-sup" equiv-text=" "/> Wird der erste Arbeitnehmer nach dem 31.12.2015 eingestellt, eröffnet er das Recht auf diese Zielgruppenermäßigung für unbestimmte Zeit. <x id="x122" ctype="x-html-sup" equiv-text=" "/> </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[11]">
+        <trans-unit restype="x-html-p" id="tu123" resname="/html/body/p[11]">
           <source xml:lang="nl">   </source>
           <target xml:lang="de" state="final">   </target>
         </trans-unit>
-        <trans-unit restype="x-html-h4" id="/html/body/h4[2]">
-          <source xml:lang="nl"> Aanwerving van een 2<g ctype="x-html-sup">de</g> werknemer </source>
-          <target xml:lang="de" state="final"> Einstellung eines zweiten Arbeitnehmers <g ctype="x-html-sup"/> </target>
+        <trans-unit restype="x-html-h4" id="tu124" resname="/html/body/h4[2]">
+          <source xml:lang="nl"> Aanwerving van een 2<g id="g125" ctype="x-html-sup">de</g> werknemer </source>
+          <target xml:lang="de" state="final"> Einstellung eines zweiten Arbeitnehmers <x id="x126" ctype="x-html-sup" equiv-text=" "/> </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[12]">
-          <source xml:lang="nl"> Op het moment van indienstneming mag de werkgever sedert ten minste 4 opeenvolgende <g ctype="x-html-a" html:href="dfmageneralprinciples">kwartalen</g> die het kwartaal van indienstneming voorafgaan, nooit meer dan 1 werknemer onderworpen aan de wet van 27 juni 1969 tegelijkertijd in dienst hebben gehad. De 2<g ctype="x-html-sup">de</g> werknemer mag tevens geen werknemer vervangen die in de loop van de 12 maanden (dag op dag) voorafgaand aan de indienstneming in dezelfde technische bedrijfseenheid werkzaam geweest is. </source>
-          <target xml:lang="de" state="final"> Zum Zeitpunkt des Dienstantritts darf der Arbeitgeber seit mindestens 4 aufeinander folgenden <g ctype="x-html-a" html:href="dfmageneralprinciples">Quartalen</g> vor dem Quartal des Dienstantritts nie mehr als einen Arbeitnehmer, der dem Gesetz vom 27.06.1969 unterliegt, gleichzeitig angestellt haben. Der zweite Arbeitnehmer darf ebenfalls keinen Arbeitnehmer ersetzen, der im Laufe der 12 Monate (Tag für Tag) vor dem Dienstantritt in der gleichen technischen Betriebseinheit tätig war. <g ctype="x-html-sup"/> </target>
+        <trans-unit restype="x-html-p" id="tu127" resname="/html/body/p[12]">
+          <source xml:lang="nl"> Op het moment van indienstneming mag de werkgever sedert ten minste 4 opeenvolgende <bx id="bx129" rid="rid128" equiv-text="&amp;lt;a href=&amp;quot;dfmageneralprinciples&amp;quot;&amp;gt;"/>kwartalen<ex id="ex130" rid="rid128" equiv-text="&amp;lt;/a&amp;gt;"/> die het kwartaal van indienstneming voorafgaan, nooit meer dan 1 werknemer onderworpen aan de wet van 27 juni 1969 tegelijkertijd in dienst hebben gehad. De 2<g id="g131" ctype="x-html-sup">de</g> werknemer mag tevens geen werknemer vervangen die in de loop van de 12 maanden (dag op dag) voorafgaand aan de indienstneming in dezelfde technische bedrijfseenheid werkzaam geweest is. </source>
+          <target xml:lang="de" state="final"> Zum Zeitpunkt des Dienstantritts darf der Arbeitgeber seit mindestens 4 aufeinander folgenden <bx id="bx133" rid="rid132" equiv-text="&amp;lt;a href=&amp;quot;dfmageneralprinciples&amp;quot;&amp;gt;"/>Quartalen<ex id="ex134" rid="rid132" equiv-text="&amp;lt;/a&amp;gt;"/> vor dem Quartal des Dienstantritts nie mehr als einen Arbeitnehmer, der dem Gesetz vom 27.06.1969 unterliegt, gleichzeitig angestellt haben. Der zweite Arbeitnehmer darf ebenfalls keinen Arbeitnehmer ersetzen, der im Laufe der 12 Monate (Tag für Tag) vor dem Dienstantritt in der gleichen technischen Betriebseinheit tätig war. <x id="x135" ctype="x-html-sup" equiv-text=" "/> </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[13]">
-          <source xml:lang="nl"> De aanwerving van de 2<g ctype="x-html-sup">de</g> werknemer opent voor een periode van 20 kwartalen met ingang van het kwartaal van indienstneming, het recht van de werkgever op de doelgroepvermindering voor een 2<g ctype="x-html-sup">de</g> werknemer, in zoverre tijdens het betreffende kwartaal minstens 2 werknemers, al dan niet tegelijkertijd, bij de werkgever tewerkgesteld zijn. Indien 2 werknemers tegelijkertijd in dienst geweest zijn, kan een volgende periode van 20 kwartalen enkel beginnen na een periode van 4 opeenvolgende kwartalen gedurende welke niet meer dan 1 werknemer tegelijkertijd in dienst geweest is. </source>
-          <target xml:lang="de" state="final"> Die Einstellung des dritten Arbeitnehmers eröffnet für eine Periode von 20 Quartalen ab dem Quartal des Dienstantritts das Recht des Arbeitgebers auf diese Zielgruppenermäßigung für einen dritten Arbeitnehmer, sofern im betreffenden Quartal mindestens drei Arbeitnehmer, ggf. gleichzeitig, beim Arbeitgeber beschäftigt sind. <g ctype="x-html-sup"/><g ctype="x-html-sup"/> Wenn zwei Arbeitnehmer gleichzeitig beschäftigt wurden, kann eine folgende Periode von 20 Quartalen nur nach einer Periode von 4 aufeinanderfolgenden Quartalen beginnen, während derer nicht mehr als ein Arbeitnehmer gleichzeitig beschäftigt war. </target>
+        <trans-unit restype="x-html-p" id="tu136" resname="/html/body/p[13]">
+          <source xml:lang="nl"> De aanwerving van de 2<g id="g137" ctype="x-html-sup">de</g> werknemer opent voor een periode van 20 kwartalen met ingang van het kwartaal van indienstneming, het recht van de werkgever op de doelgroepvermindering voor een 2<g id="g138" ctype="x-html-sup">de</g> werknemer, in zoverre tijdens het betreffende kwartaal minstens 2 werknemers, al dan niet tegelijkertijd, bij de werkgever tewerkgesteld zijn. Indien 2 werknemers tegelijkertijd in dienst geweest zijn, kan een volgende periode van 20 kwartalen enkel beginnen na een periode van 4 opeenvolgende kwartalen gedurende welke niet meer dan 1 werknemer tegelijkertijd in dienst geweest is. </source>
+          <target xml:lang="de" state="final"> Die Einstellung des dritten Arbeitnehmers eröffnet für eine Periode von 20 Quartalen ab dem Quartal des Dienstantritts das Recht des Arbeitgebers auf diese Zielgruppenermäßigung für einen dritten Arbeitnehmer, sofern im betreffenden Quartal mindestens drei Arbeitnehmer, ggf. gleichzeitig, beim Arbeitgeber beschäftigt sind. <x id="x139" ctype="x-html-sup" equiv-text=" "/><x id="x140" ctype="x-html-sup" equiv-text=" "/> Wenn zwei Arbeitnehmer gleichzeitig beschäftigt wurden, kann eine folgende Periode von 20 Quartalen nur nach einer Periode von 4 aufeinanderfolgenden Quartalen beginnen, während derer nicht mehr als ein Arbeitnehmer gleichzeitig beschäftigt war. </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[14]">
+        <trans-unit restype="x-html-p" id="tu141" resname="/html/body/p[14]">
           <source xml:lang="nl">   </source>
           <target xml:lang="de" state="final">   </target>
         </trans-unit>
-        <trans-unit restype="x-html-h4" id="/html/body/h4[3]">
-          <source xml:lang="nl"> Aanwerving van een 3<g ctype="x-html-sup">de</g>, 4<g ctype="x-html-sup">de</g>, 5<g ctype="x-html-sup">de</g> en 6<g ctype="x-html-sup">de</g> werknemer </source>
-          <target xml:lang="de" state="final"> Einstellung eines dritten, vierten, fünften und sechsten Arbeitnehmers <g ctype="x-html-sup"/><g ctype="x-html-sup"/><g ctype="x-html-sup"/><g ctype="x-html-sup"/> </target>
+        <trans-unit restype="x-html-h4" id="tu142" resname="/html/body/h4[3]">
+          <source xml:lang="nl"> Aanwerving van een 3<g id="g143" ctype="x-html-sup">de</g>, 4<g id="g144" ctype="x-html-sup">de</g>, 5<g id="g145" ctype="x-html-sup">de</g> en 6<g id="g146" ctype="x-html-sup">de</g> werknemer </source>
+          <target xml:lang="de" state="final"> Einstellung eines dritten, vierten, fünften und sechsten Arbeitnehmers <x id="x147" ctype="x-html-sup" equiv-text=" "/><x id="x148" ctype="x-html-sup" equiv-text=" "/><x id="x149" ctype="x-html-sup" equiv-text=" "/><x id="x150" ctype="x-html-sup" equiv-text=" "/> </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[15]">
-          <source xml:lang="nl"> Op het moment van indienstneming mag de werkgever sedert ten minste 4 opeenvolgende <g ctype="x-html-a" html:href="dfmageneralprinciples">kwartalen</g> die het kwartaal van indienstneming voorafgaan, nooit meer dan 2 (respectievelijk 3, 4 en 5) werknemers onderworpen aan de wet van 27 juni 1969 tegelijkertijd in dienst hebben gehad. De 3<g ctype="x-html-sup">de</g> (respectievelijk 4<g ctype="x-html-sup">de</g>, 5<g ctype="x-html-sup">de</g> en 6<g ctype="x-html-sup">de</g>) werknemer mag tevens geen werknemer vervangen die in de loop van de 12 maanden (dag op dag) voorafgaand aan de indienstneming in dezelfde technische bedrijfseenheid werkzaam geweest is. </source>
-          <target xml:lang="de" state="final"> Zum Zeitpunkt des Dienstantritts darf der Arbeitgeber seit mindestens 4 aufeinanderfolgenden <g ctype="x-html-a" html:href="dfmageneralprinciples">Quartalen</g> vor dem Quartal des Dienstantritts nie mehr als zwei (bzw. drei, vier oder fünf) Arbeitnehmer, die dem Gesetz vom 27.06.1969 unterliegen, gleichzeitig angestellt haben. Der dritte (bzw. vierte, fünfte und sechste) Arbeitnehmer darf keinen Arbeitnehmer ersetzen, der im Laufe der 12 Monate (Tag für Tag) vor dem Quartal des Dienstantritts in der gleichen technischen Betriebseinheit tätig war. <g ctype="x-html-sup"/><g ctype="x-html-sup"/><g ctype="x-html-sup"/><g ctype="x-html-sup"/> </target>
+        <trans-unit restype="x-html-p" id="tu151" resname="/html/body/p[15]">
+          <source xml:lang="nl"> Op het moment van indienstneming mag de werkgever sedert ten minste 4 opeenvolgende <bx id="bx153" rid="rid152" equiv-text="&amp;lt;a href=&amp;quot;dfmageneralprinciples&amp;quot;&amp;gt;"/>kwartalen<ex id="ex154" rid="rid152" equiv-text="&amp;lt;/a&amp;gt;"/> die het kwartaal van indienstneming voorafgaan, nooit meer dan 2 (respectievelijk 3, 4 en 5) werknemers onderworpen aan de wet van 27 juni 1969 tegelijkertijd in dienst hebben gehad. De 3<g id="g155" ctype="x-html-sup">de</g> (respectievelijk 4<g id="g156" ctype="x-html-sup">de</g>, 5<g id="g157" ctype="x-html-sup">de</g> en 6<g id="g158" ctype="x-html-sup">de</g>) werknemer mag tevens geen werknemer vervangen die in de loop van de 12 maanden (dag op dag) voorafgaand aan de indienstneming in dezelfde technische bedrijfseenheid werkzaam geweest is. </source>
+          <target xml:lang="de" state="final"> Zum Zeitpunkt des Dienstantritts darf der Arbeitgeber seit mindestens 4 aufeinanderfolgenden <bx id="bx160" rid="rid159" equiv-text="&amp;lt;a href=&amp;quot;dfmageneralprinciples&amp;quot;&amp;gt;"/>Quartalen<ex id="ex161" rid="rid159" equiv-text="&amp;lt;/a&amp;gt;"/> vor dem Quartal des Dienstantritts nie mehr als zwei (bzw. drei, vier oder fünf) Arbeitnehmer, die dem Gesetz vom 27.06.1969 unterliegen, gleichzeitig angestellt haben. Der dritte (bzw. vierte, fünfte und sechste) Arbeitnehmer darf keinen Arbeitnehmer ersetzen, der im Laufe der 12 Monate (Tag für Tag) vor dem Quartal des Dienstantritts in der gleichen technischen Betriebseinheit tätig war. <x id="x162" ctype="x-html-sup" equiv-text=" "/><x id="x163" ctype="x-html-sup" equiv-text=" "/><x id="x164" ctype="x-html-sup" equiv-text=" "/><x id="x165" ctype="x-html-sup" equiv-text=" "/> </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[16]">
-          <source xml:lang="nl"> De aanwerving van de 3<g ctype="x-html-sup">de</g> (respectievelijk 4<g ctype="x-html-sup">de</g>, 5<g ctype="x-html-sup">de</g> en 6<g ctype="x-html-sup">de</g>) werknemer opent voor een periode van 20 kwartalen met ingang van het kwartaal van indienstneming, het recht van de werkgever op de doelgroepvermindering voor een 3<g ctype="x-html-sup">de</g> (respectievelijk 4<g ctype="x-html-sup">de</g>, 5<g ctype="x-html-sup">de</g> en 6<g ctype="x-html-sup">de</g>) werknemer in zoverre tijdens het betreffende kwartaal minstens 3 (respectievelijk 4, 5 en 6) werknemers, al dan niet tegelijkertijd, bij de werkgever tewerkgesteld zijn. Indien 3 (respectievelijk 4, 5 en 6) werknemers tegelijkertijd in dienst geweest zijn, kan een volgende periode van 20 kwartalen enkel beginnen na een periode van 4 opeenvolgende kwartalen gedurende welke niet meer dan 2 (respectievelijk 3, 4 en 5) werknemers tegelijkertijd in dienst geweest zijn. </source>
-          <target xml:lang="de" state="final"> Die Einstellung des dritten (bzw. vierten, fünften und sechsten) Arbeitnehmers eröffnet für eine Periode von 20 Quartalen ab dem Quartal des Dienstantritts das Recht des Arbeitgebers auf diese Zielgruppenermäßigung für einen dritten (bzw. vierten, fünften oder sechsten) Arbeitnehmer, sofern im betreffenden Quartal mindestens drei (bzw. vier, fünf oder sechs) Arbeitnehmer, ggf. gleichzeitig, beim Arbeitgeber beschäftigt sind. <g ctype="x-html-sup"/><g ctype="x-html-sup"/><g ctype="x-html-sup"/><g ctype="x-html-sup"/><g ctype="x-html-sup"/><g ctype="x-html-sup"/><g ctype="x-html-sup"/><g ctype="x-html-sup"/> Wenn drei (bzw. vier, fünf und sechs) Arbeitnehmer gleichzeitig beschäftigt wurden, kann eine folgende Periode von 20Quartalen nur nach einer Periode von 4aufeinanderfolgenden Quartalen beginnen, während derer nicht mehr als zwei (bzw. drei, vier und fünf) Arbeitnehmer gleichzeitig beschäftigt waren. </target>
+        <trans-unit restype="x-html-p" id="tu166" resname="/html/body/p[16]">
+          <source xml:lang="nl"> De aanwerving van de 3<g id="g167" ctype="x-html-sup">de</g> (respectievelijk 4<g id="g168" ctype="x-html-sup">de</g>, 5<g id="g169" ctype="x-html-sup">de</g> en 6<g id="g170" ctype="x-html-sup">de</g>) werknemer opent voor een periode van 20 kwartalen met ingang van het kwartaal van indienstneming, het recht van de werkgever op de doelgroepvermindering voor een 3<g id="g171" ctype="x-html-sup">de</g> (respectievelijk 4<g id="g172" ctype="x-html-sup">de</g>, 5<g id="g173" ctype="x-html-sup">de</g> en 6<g id="g174" ctype="x-html-sup">de</g>) werknemer in zoverre tijdens het betreffende kwartaal minstens 3 (respectievelijk 4, 5 en 6) werknemers, al dan niet tegelijkertijd, bij de werkgever tewerkgesteld zijn. Indien 3 (respectievelijk 4, 5 en 6) werknemers tegelijkertijd in dienst geweest zijn, kan een volgende periode van 20 kwartalen enkel beginnen na een periode van 4 opeenvolgende kwartalen gedurende welke niet meer dan 2 (respectievelijk 3, 4 en 5) werknemers tegelijkertijd in dienst geweest zijn. </source>
+          <target xml:lang="de" state="final"> Die Einstellung des dritten (bzw. vierten, fünften und sechsten) Arbeitnehmers eröffnet für eine Periode von 20 Quartalen ab dem Quartal des Dienstantritts das Recht des Arbeitgebers auf diese Zielgruppenermäßigung für einen dritten (bzw. vierten, fünften oder sechsten) Arbeitnehmer, sofern im betreffenden Quartal mindestens drei (bzw. vier, fünf oder sechs) Arbeitnehmer, ggf. gleichzeitig, beim Arbeitgeber beschäftigt sind. <x id="x175" ctype="x-html-sup" equiv-text=" "/><x id="x176" ctype="x-html-sup" equiv-text=" "/><x id="x177" ctype="x-html-sup" equiv-text=" "/><x id="x178" ctype="x-html-sup" equiv-text=" "/><x id="x179" ctype="x-html-sup" equiv-text=" "/><x id="x180" ctype="x-html-sup" equiv-text=" "/><x id="x181" ctype="x-html-sup" equiv-text=" "/><x id="x182" ctype="x-html-sup" equiv-text=" "/> Wenn drei (bzw. vier, fünf und sechs) Arbeitnehmer gleichzeitig beschäftigt wurden, kann eine folgende Periode von 20Quartalen nur nach einer Periode von 4aufeinanderfolgenden Quartalen beginnen, während derer nicht mehr als zwei (bzw. drei, vier und fünf) Arbeitnehmer gleichzeitig beschäftigt waren. </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[17]">
+        <trans-unit restype="x-html-p" id="tu183" resname="/html/body/p[17]">
           <source xml:lang="nl">   </source>
           <target xml:lang="de" state="final">   </target>
         </trans-unit>
-        <trans-unit restype="x-html-h2" id="/html/body/h2[2]">
+        <trans-unit restype="x-html-h2" id="tu184" resname="/html/body/h2[2]">
           <source xml:lang="nl"> Betrokken werknemers </source>
           <target xml:lang="de" state="final"> Betroffene Arbeitnehmer </target>
         </trans-unit>
-        <trans-unit restype="x-html-h3" id="/html/body/h3[1]">
+        <trans-unit restype="x-html-h3" id="tu185" resname="/html/body/h3[1]">
           <source xml:lang="nl"> Voorwaarden toekenning: </source>
           <target xml:lang="de" state="final"> Bedingungen für die Zuteilung: </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[18]">
-          <source xml:lang="nl"> Het betreft alle werknemers die onderworpen zijn aan de wet van 27 juni 1969 behalve de reeds opgesomde werknemers. De werknemer moet dus vóór zijn aanwerving aan <g ctype="x-html-strong">geen enkele</g> specifieke voorwaarde voldoen. Om voor de doelgroepvermindering in aanmerking te komen moet de werknemer uiteraard wel voldoen aan de <g ctype="x-html-a" html:href="%{BASE_URL_CURRENT}%/instructions/deductions/structuralreduction_targetgroupreductions/introduction.html"> algemene voorwaarden om van een doelgroepvermindering gebruik te kunnen maken</g>, in het bijzonder wat betreft de prestaties, die, als de werknemer niet verbonden is door een minstens halftijdse arbeidsovereenkomst, 27,5% moeten bedragen van voltijdse prestaties tijdens het ganse kwartaal (µ(glob) ten minste gelijk aan 0,275). </source>
-          <target xml:lang="de" state="final"> Es betrifft alle Arbeitnehmer, die dem Gesetz vom 27.06.1969 unterliegen, außer die bereits aufgelisteten Arbeitnehmer. Der Arbeitnehmer muss deshalb vor seiner Einstellung <g ctype="x-html-strong">keiner einzigen</g> besonderen Bedingung entsprechen. Um für die Zielgruppenermäßigung in Betracht zu kommen, muss der Arbeitnehmer den <g ctype="x-html-a" html:href="%{BASE_URL_CURRENT}%/instructions/deductions/structuralreduction_targetgroupreductions/introduction.html"> allgemeinen Bedingungen entsprechen, um die Zielgruppenermäßigung in Anspruch nehmen zu können</g>, insbesondere was die Leistungen betrifft, die, wenn der Arbeitnehmer nicht an einen Arbeitsvertrag für mindestens die Hälfte der Arbeitszeit gebunden ist, 27,5 % für Vollzeitleistungen während des gesamten Quartals (wobei µ(glob) mindestens 0,275) betragen muss. </target>
+        <trans-unit restype="x-html-p" id="tu186" resname="/html/body/p[18]">
+          <source xml:lang="nl"> Het betreft alle werknemers die onderworpen zijn aan de wet van 27 juni 1969 behalve de reeds opgesomde werknemers. De werknemer moet dus vóór zijn aanwerving aan <g id="g187" ctype="x-html-strong">geen enkele</g> specifieke voorwaarde voldoen. Om voor de doelgroepvermindering in aanmerking te komen moet de werknemer uiteraard wel voldoen aan de <bx id="bx189" rid="rid188" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/deductions/structuralreduction_targetgroupreductions/introduction.html&amp;quot;&amp;gt;"/> algemene voorwaarden om van een doelgroepvermindering gebruik te kunnen maken<ex id="ex190" rid="rid188" equiv-text="&amp;lt;/a&amp;gt;"/>, in het bijzonder wat betreft de prestaties, die, als de werknemer niet verbonden is door een minstens halftijdse arbeidsovereenkomst, 27,5% moeten bedragen van voltijdse prestaties tijdens het ganse kwartaal (µ(glob) ten minste gelijk aan 0,275). </source>
+          <target xml:lang="de" state="final"> Es betrifft alle Arbeitnehmer, die dem Gesetz vom 27.06.1969 unterliegen, außer die bereits aufgelisteten Arbeitnehmer. Der Arbeitnehmer muss deshalb vor seiner Einstellung <g id="g191" ctype="x-html-strong">keiner einzigen</g> besonderen Bedingung entsprechen. Um für die Zielgruppenermäßigung in Betracht zu kommen, muss der Arbeitnehmer den <bx id="bx193" rid="rid192" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/deductions/structuralreduction_targetgroupreductions/introduction.html&amp;quot;&amp;gt;"/> allgemeinen Bedingungen entsprechen, um die Zielgruppenermäßigung in Anspruch nehmen zu können<ex id="ex194" rid="rid192" equiv-text="&amp;lt;/a&amp;gt;"/>, insbesondere was die Leistungen betrifft, die, wenn der Arbeitnehmer nicht an einen Arbeitsvertrag für mindestens die Hälfte der Arbeitszeit gebunden ist, 27,5 % für Vollzeitleistungen während des gesamten Quartals (wobei µ(glob) mindestens 0,275) betragen muss. </target>
         </trans-unit>
-        <trans-unit restype="x-html-h3" id="/html/body/h3[2]">
+        <trans-unit restype="x-html-h3" id="tu195" resname="/html/body/h3[2]">
           <source xml:lang="nl"> Voorwaarde vervanging: </source>
           <target xml:lang="de" state="final"> Bedingung für den Austausch: </target>
         </trans-unit>
-        <group restype="x-html-div" html:class="alert message" id="/html/body/div[1]">
-          <trans-unit restype="x-html-p" id="/html/body/div[1]/p">
-            <source xml:lang="nl"> Om het recht op de vermindering te openen mag de nieuwe werknemer geen werknemer <g ctype="x-html-strong">vervangen</g> binnen <g ctype="x-html-strong">dezelfde technische bedrijfseenheid</g>. Het moet dus gaan om een meertewerkstelling. </source>
-            <target xml:lang="de" state="final"> Um das Recht auf die Ermäßigung zu eröffnen, darf der neue Arbeitnehmer keinen Arbeitnehmer <g ctype="x-html-strong">innerhalb</g> <g ctype="x-html-strong">der gleichen technischen Betriebseinheit ersetzen</g>. Es muss sich daher um eine Mehrbeschäftigung handeln. </target>
+        <group restype="x-html-div" id="tu196" resname="/html/body/div[1]">
+          <note from="class">alert message</note>
+          <trans-unit restype="x-html-p" id="tu197" resname="/html/body/div[1]/p">
+            <source xml:lang="nl"> Om het recht op de vermindering te openen mag de nieuwe werknemer geen werknemer <g id="g198" ctype="x-html-strong">vervangen</g> binnen <g id="g199" ctype="x-html-strong">dezelfde technische bedrijfseenheid</g>. Het moet dus gaan om een meertewerkstelling. </source>
+            <target xml:lang="de" state="final"> Um das Recht auf die Ermäßigung zu eröffnen, darf der neue Arbeitnehmer keinen Arbeitnehmer <g id="g200" ctype="x-html-strong">innerhalb</g> <g id="g201" ctype="x-html-strong">der gleichen technischen Betriebseinheit ersetzen</g>. Es muss sich daher um eine Mehrbeschäftigung handeln. </target>
           </trans-unit>
         </group>
-        <trans-unit restype="x-html-p" id="/html/body/p[19]">
-          <source xml:lang="nl"> Dit geldt zowel voor de doelgroepvermindering eerste aanwerving van een 1<g ctype="x-html-sup">ste</g> werknemer als voor de daarop volgende verminderingen (2<g ctype="x-html-sup">de</g> tot en met 6<g ctype="x-html-sup">de</g> werknemer). </source>
-          <target xml:lang="de" state="final"> Dies gilt sowohl für die Zielgruppenermäßigung Ersteinstellung eines ersten Arbeitnehmers als auch für die darauffolgenden Ermäßigungen (zweiter bis einschließlich sechster Arbeitnehmer). <g ctype="x-html-sup"/><g ctype="x-html-sup"/><g ctype="x-html-sup"/> </target>
+        <trans-unit restype="x-html-p" id="tu202" resname="/html/body/p[19]">
+          <source xml:lang="nl"> Dit geldt zowel voor de doelgroepvermindering eerste aanwerving van een 1<g id="g203" ctype="x-html-sup">ste</g> werknemer als voor de daarop volgende verminderingen (2<g id="g204" ctype="x-html-sup">de</g> tot en met 6<g id="g205" ctype="x-html-sup">de</g> werknemer). </source>
+          <target xml:lang="de" state="final"> Dies gilt sowohl für die Zielgruppenermäßigung Ersteinstellung eines ersten Arbeitnehmers als auch für die darauffolgenden Ermäßigungen (zweiter bis einschließlich sechster Arbeitnehmer). <x id="x206" ctype="x-html-sup" equiv-text=" "/><x id="x207" ctype="x-html-sup" equiv-text=" "/><x id="x208" ctype="x-html-sup" equiv-text=" "/> </target>
         </trans-unit>
-        <trans-unit restype="x-html-h4" id="/html/body/h4[4]">
-          <source xml:lang="nl"> Om na te gaan of er geen <g ctype="x-html-strong">'vervanging'</g> is in dezelfde technische bedrijfseenheid, gaat men als volgt te werk: </source>
-          <target xml:lang="de" state="final"> Um zu prüfen, ob in derselben technischen Betriebseinheit kein Arbeitnehmer <g ctype="x-html-strong">ersetzt</g> wurde, wird wie folgt verfahren: </target>
+        <trans-unit restype="x-html-h4" id="tu209" resname="/html/body/h4[4]">
+          <source xml:lang="nl"> Om na te gaan of er geen <g id="g210" ctype="x-html-strong">'vervanging'</g> is in dezelfde technische bedrijfseenheid, gaat men als volgt te werk: </source>
+          <target xml:lang="de" state="final"> Um zu prüfen, ob in derselben technischen Betriebseinheit kein Arbeitnehmer <g id="g211" ctype="x-html-strong">ersetzt</g> wurde, wird wie folgt verfahren: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="/html/body/ul[2]">
-          <trans-unit restype="listitem" id="/html/body/ul[2]/li[1]">
+        <group restype="x-html-ul" id="tu212" resname="/html/body/ul[2]">
+          <trans-unit restype="listitem" id="tu213" resname="/html/body/ul[2]/li[1]">
             <source xml:lang="nl">eerst bepaalt men het maximum aantal werknemers (koppen) dat gelijktijdig in dezelfde technische bedrijfseenheid tewerkgesteld was in de loop van de 12 maanden (dag op dag) die de indienstname voorafgaan (A); </source>
             <target xml:lang="de" state="final">zunächst wird die Höchstzahl der Arbeitnehmer (Personen) bestimmt, die gleichzeitig in der gleichen technischen Betriebseinheit im Laufe der 12 Monate (Tag für Tag)vor der Einstellung (A) beschäftigt war; </target>
           </trans-unit>
-          <trans-unit restype="listitem" id="/html/body/ul[2]/li[2]">
+          <trans-unit restype="listitem" id="tu214" resname="/html/body/ul[2]/li[2]">
             <source xml:lang="nl">vervolgens neemt men het totaal aantal werknemers dat op de eerste dag door de nieuwe werkgever aangeworven wordt, verhoogd met het aantal werknemers dat eventueel nog tewerkgesteld is door andere werkgevers in dezelfde technische bedrijfseenheid (B). </source>
             <target xml:lang="de" state="final">danach nimmt man die Gesamtzahl der Arbeitnehmer, die durch den neuen Arbeitgeber am ersten Tag angeworben wird, erhöht um die Anzahl der Arbeitnehmer, die eventuell noch durch andere Arbeitgeber in der gleichen technischen Betriebseinheit beschäftigt wird (B). </target>
           </trans-unit>
         </group>
-        <trans-unit restype="x-html-p" id="/html/body/p[20]">
-          <source xml:lang="nl"> Indien (B) ten minste één meer bedraagt dan (A), wordt het recht op de vermindering voor de aanwerving van de 1<g ctype="x-html-sup">ste</g> (2<g ctype="x-html-sup">de</g>, 3<g ctype="x-html-sup">de</g>, 4<g ctype="x-html-sup">de</g>, 5<g ctype="x-html-sup">de</g> of 6<g ctype="x-html-sup">de</g>) werknemer geopend. Indien de verhoging van het aantal werknemers evenwel kunstmatig wordt veroorzaakt (door bijvoorbeeld de aanwerving van enkele werknemers met een overeenkomst voor één dag), dan zal de RSZ het recht op de vermindering opnieuw ter discussie stellen </source>
-          <target xml:lang="de" state="final"> Wenn (B) mindestens einen Arbeitnehmer mehr als (A) zählt, hat man den Anspruch auf die Ermäßigung für die Einstellung des ersten Arbeitnehmers (zweiten, dritten, vierten, fünften oder sechsten) Arbeitnehmers eröffnet. <g ctype="x-html-sup"/><g ctype="x-html-sup"/><g ctype="x-html-sup"/><g ctype="x-html-sup"/><g ctype="x-html-sup"/><g ctype="x-html-sup"/> Wenn die Erhöhung der Anzahl der Arbeitnehmer aber künstlich herbeigeführt wird (indem z. B. Arbeitnehmer mit einem Vertrag für einen Tag angeworben werden), wird das LSS das Recht auf die Ermäßigung wieder zur Diskussion stellen. </target>
+        <trans-unit restype="x-html-p" id="tu215" resname="/html/body/p[20]">
+          <source xml:lang="nl"> Indien (B) ten minste één meer bedraagt dan (A), wordt het recht op de vermindering voor de aanwerving van de 1<g id="g216" ctype="x-html-sup">ste</g> (2<g id="g217" ctype="x-html-sup">de</g>, 3<g id="g218" ctype="x-html-sup">de</g>, 4<g id="g219" ctype="x-html-sup">de</g>, 5<g id="g220" ctype="x-html-sup">de</g> of 6<g id="g221" ctype="x-html-sup">de</g>) werknemer geopend. Indien de verhoging van het aantal werknemers evenwel kunstmatig wordt veroorzaakt (door bijvoorbeeld de aanwerving van enkele werknemers met een overeenkomst voor één dag), dan zal de RSZ het recht op de vermindering opnieuw ter discussie stellen </source>
+          <target xml:lang="de" state="final"> Wenn (B) mindestens einen Arbeitnehmer mehr als (A) zählt, hat man den Anspruch auf die Ermäßigung für die Einstellung des ersten Arbeitnehmers (zweiten, dritten, vierten, fünften oder sechsten) Arbeitnehmers eröffnet. <x id="x222" ctype="x-html-sup" equiv-text=" "/><x id="x223" ctype="x-html-sup" equiv-text=" "/><x id="x224" ctype="x-html-sup" equiv-text=" "/><x id="x225" ctype="x-html-sup" equiv-text=" "/><x id="x226" ctype="x-html-sup" equiv-text=" "/><x id="x227" ctype="x-html-sup" equiv-text=" "/> Wenn die Erhöhung der Anzahl der Arbeitnehmer aber künstlich herbeigeführt wird (indem z. B. Arbeitnehmer mit einem Vertrag für einen Tag angeworben werden), wird das LSS das Recht auf die Ermäßigung wieder zur Diskussion stellen. </target>
         </trans-unit>
-        <trans-unit restype="x-html-h4" id="/html/body/h4[5]">
-          <source xml:lang="nl"> In het kader van de geharmoniseerde verminderingen is er sprake van <g ctype="x-html-strong">dezelfde technische bedrijfseenheid</g> als: </source>
-          <target xml:lang="de" state="final"> Im Rahmen der harmonisierten Ermäßigungen handelt es sich um die <g ctype="x-html-strong">gleiche technische Betriebseinheit</g>, wenn: </target>
+        <trans-unit restype="x-html-h4" id="tu228" resname="/html/body/h4[5]">
+          <source xml:lang="nl"> In het kader van de geharmoniseerde verminderingen is er sprake van <g id="g229" ctype="x-html-strong">dezelfde technische bedrijfseenheid</g> als: </source>
+          <target xml:lang="de" state="final"> Im Rahmen der harmonisierten Ermäßigungen handelt es sich um die <g id="g230" ctype="x-html-strong">gleiche technische Betriebseinheit</g>, wenn: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="/html/body/ul[3]">
-          <trans-unit restype="listitem" id="/html/body/ul[3]/li[1]">
+        <group restype="x-html-ul" id="tu231" resname="/html/body/ul[3]">
+          <trans-unit restype="listitem" id="tu232" resname="/html/body/ul[3]/li[1]">
             <source xml:lang="nl">twee (of meerdere) juridische entiteiten (ondernemingen, verenigingen, ...) verbonden zijn door minstens één gemeenschappelijke persoon; dit kan een werknemer zijn, maar ook de bedrijfsleider, ...; </source>
             <target xml:lang="de" state="final">zwei (oder mehrere) Rechtseinheiten (Unternehmen, Vereinigungen…) durch mindestens eine gemeinsame Person gebunden sind; dies kann ein Arbeitnehmer sein, aber auch der Geschäftsführer…; </target>
           </trans-unit>
-          <group restype="listitem" id="/html/body/ul[3]/li[2]">
-            <trans-unit id="/html/body/ul[3]/li[2]/text()[1]">
+          <group restype="listitem" id="tu233" resname="/html/body/ul[3]/li[2]">
+            <trans-unit id="tu234" resname="/html/body/ul[3]/li[2]/text()[1]">
               <source xml:lang="nl">en deze juridische entiteiten een gemeenschappelijke socio-economische basis hebben; elementen die daarop kunnen wijzen zijn: </source>
               <target xml:lang="de" state="final">und diese Rechtseinheiten über eine gemeinsame sozioökonomische Grundlage verfügen; Elemente, die darauf hinweisen können, sind: </target>
             </trans-unit>
-            <group restype="x-html-ul" id="/html/body/ul[3]/li[2]/ul">
-              <trans-unit restype="listitem" id="/html/body/ul[3]/li[2]/ul/li[1]">
+            <group restype="x-html-ul" id="tu235" resname="/html/body/ul[3]/li[2]/ul">
+              <trans-unit restype="listitem" id="tu236" resname="/html/body/ul[3]/li[2]/ul/li[1]">
                 <source xml:lang="nl">plaats: wanneer de gebouwen waar de activiteiten worden uitgeoefend op dezelfde plaats of in elkaars nabijheid liggen; </source>
                 <target xml:lang="de" state="final">Ort: wenn die Gebäude, in denen die Tätigkeiten ausgeübt werden, sich im gleichen Ort oder in unmittelbare Nähe zueinander befinden; </target>
               </trans-unit>
-              <trans-unit restype="listitem" id="/html/body/ul[3]/li[2]/ul/li[2]">
+              <trans-unit restype="listitem" id="tu237" resname="/html/body/ul[3]/li[2]/ul/li[2]">
                 <source xml:lang="nl">activiteiten: gaat het om verwante en/of aanvullende activiteiten </source>
                 <target xml:lang="de" state="final">Aktivitäten: wenn es sich um verwandte und/oder ergänzende Tätigkeiten handelt </target>
               </trans-unit>
-              <trans-unit restype="listitem" id="/html/body/ul[3]/li[2]/ul/li[3]">
+              <trans-unit restype="listitem" id="tu238" resname="/html/body/ul[3]/li[2]/ul/li[3]">
                 <source xml:lang="nl">bedrijfsmateriaal: geheel of gedeeltelijk hetzelfde </source>
                 <target xml:lang="de" state="final">Betriebsmaterial: ganz oder teilweise gleich </target>
               </trans-unit>
-              <trans-unit restype="listitem" id="/html/body/ul[3]/li[2]/ul/li[4]">
+              <trans-unit restype="listitem" id="tu239" resname="/html/body/ul[3]/li[2]/ul/li[4]">
                 <source xml:lang="nl">klandizie </source>
                 <target xml:lang="de" state="final">Kundenkreis </target>
               </trans-unit>
             </group>
           </group>
         </group>
-        <group restype="x-html-div" html:class="readMoreContent" id="/html/body/div[2]">
-          <trans-unit restype="x-html-p" id="/html/body/div[2]/p[1]">
-            <source xml:lang="nl"> <g ctype="x-html-strong">Voorbeeld</g> </source>
-            <target xml:lang="de" state="final"> <g ctype="x-html-strong">Beispiel</g> </target>
+        <group restype="x-html-div" id="tu240" resname="/html/body/div[2]">
+          <note from="class">readMoreContent</note>
+          <trans-unit restype="x-html-p" id="tu241" resname="/html/body/div[2]/p[1]">
+            <source xml:lang="nl"> <g id="g242" ctype="x-html-strong">Voorbeeld</g> </source>
+            <target xml:lang="de" state="final"> <g id="g243" ctype="x-html-strong">Beispiel</g> </target>
           </trans-unit>
-          <trans-unit restype="x-html-p" id="/html/body/div[2]/p[2]">
-            <source xml:lang="nl"> Werkgever A neemt in februari 2015 zijn 1<g ctype="x-html-sup">ste</g> en 2<g ctype="x-html-sup">de</g> werknemer in dienst die het recht openen op de doelgroepvermindering eerste aanwervingen voor een 1<g ctype="x-html-sup">ste</g> en 2<g ctype="x-html-sup">de</g> werknemer. Op 15 januari 2016 start werkgever B, die tot dezelfde technische bedrijfseenheid behoort als werkgever A, met één van de twee werknemers van werkgever A. Werkgever A heeft dus nog maar één werknemer in dienst waarvoor hij verder de doelgroepvermindering eerste aanwervingen voor een 1<g ctype="x-html-sup">ste</g> werknemer blijft genieten (saldo van de nog niet opgenomen kwartalen, maar dan met het forfait G<g ctype="x-html-sub">7</g>). </source>
-            <target xml:lang="de" state="final"> Arbeitgeber A stellt im Februar 2015 seinen ersten und zweiten Arbeitnehmer ein, die das Recht auf die Zielgruppenermäßigung Ersteinstellungen für einen ersten und zweiten Arbeitnehmer eröffnen. <g ctype="x-html-sup"/><g ctype="x-html-sup"/><g ctype="x-html-sup"/><g ctype="x-html-sup"/> Am 15.01.2016 beginnt Arbeitgeber B, welcher der gleichen technischen Betriebseinheit wie Arbeitgeber A angehört, mit einem der beiden Arbeitnehmer von Arbeitgeber A. Arbeitgeber A hat daher nur noch einen beschäftigten Arbeitnehmer, für den er weiterhin die Zielgruppenermäßigung Ersteinstellungen für einen ersten Arbeitnehmer erhält (Saldo der noch nicht beanspruchten Quartale, aber dann mit der Pauschale G7). <g ctype="x-html-sup"/><g ctype="x-html-sub"/> </target>
+          <trans-unit restype="x-html-p" id="tu244" resname="/html/body/div[2]/p[2]">
+            <source xml:lang="nl"> Werkgever A neemt in februari 2015 zijn 1<g id="g245" ctype="x-html-sup">ste</g> en 2<g id="g246" ctype="x-html-sup">de</g> werknemer in dienst die het recht openen op de doelgroepvermindering eerste aanwervingen voor een 1<g id="g247" ctype="x-html-sup">ste</g> en 2<g id="g248" ctype="x-html-sup">de</g> werknemer. Op 15 januari 2016 start werkgever B, die tot dezelfde technische bedrijfseenheid behoort als werkgever A, met één van de twee werknemers van werkgever A. Werkgever A heeft dus nog maar één werknemer in dienst waarvoor hij verder de doelgroepvermindering eerste aanwervingen voor een 1<g id="g249" ctype="x-html-sup">ste</g> werknemer blijft genieten (saldo van de nog niet opgenomen kwartalen, maar dan met het forfait G<g id="g250" ctype="x-html-sub">7</g>). </source>
+            <target xml:lang="de" state="final"> Arbeitgeber A stellt im Februar 2015 seinen ersten und zweiten Arbeitnehmer ein, die das Recht auf die Zielgruppenermäßigung Ersteinstellungen für einen ersten und zweiten Arbeitnehmer eröffnen. <x id="x251" ctype="x-html-sup" equiv-text=" "/><x id="x252" ctype="x-html-sup" equiv-text=" "/><x id="x253" ctype="x-html-sup" equiv-text=" "/><x id="x254" ctype="x-html-sup" equiv-text=" "/> Am 15.01.2016 beginnt Arbeitgeber B, welcher der gleichen technischen Betriebseinheit wie Arbeitgeber A angehört, mit einem der beiden Arbeitnehmer von Arbeitgeber A. Arbeitgeber A hat daher nur noch einen beschäftigten Arbeitnehmer, für den er weiterhin die Zielgruppenermäßigung Ersteinstellungen für einen ersten Arbeitnehmer erhält (Saldo der noch nicht beanspruchten Quartale, aber dann mit der Pauschale G7). <x id="x255" ctype="x-html-sup" equiv-text=" "/><x id="x256" ctype="x-html-sub" equiv-text=" "/> </target>
           </trans-unit>
-          <trans-unit restype="x-html-p" id="/html/body/div[2]/p[3]">
-            <source xml:lang="nl"> Werkgever B daarentegen kan niet genieten van de doelgroepvermindering eerste aanwervingen voor een 1<g ctype="x-html-sup">ste</g> werknemer, omdat zijn werknemer een werknemer van werkgever A vervangt die daar werkzaam was gedurende de 12 maanden voorafgaand aan zijn indiensttreding (namelijk zichzelf). Werkgever B kan evenmin de doelgroepvermindering eerste aanwervingen voor een 2<g ctype="x-html-sup">de</g> werknemer verkrijgen, want hij heeft slechts één werknemer in dienst in de loop van het 1<g ctype="x-html-sup">ste</g> kwartaal 2016. </source>
-            <target xml:lang="de" state="final"> Arbeitgeber B kann dagegen die Zielgruppenermäßigung Ersteinstellungen für einen ersten Arbeitnehmer nicht mehr beanspruchen, da sein Arbeitnehmer einen Arbeitnehmer von Arbeitgeber A ersetzt, der dort 12 Monate lang vor seiner Einstellung tätig war (nämlich sich selbst). <g ctype="x-html-sup"/> Arbeitgeber B kann ebenso wenig die Zielgruppenermäßigung Ersteinstellungen für einen zweiten Arbeitnehmer erhalten, da er im Laufe des ersten Quartals 2016 nur einen Arbeitnehmer beschäftigt. <g ctype="x-html-sup"/><g ctype="x-html-sup"/> </target>
-          </trans-unit>
-        </group>
-        <group restype="x-html-div" html:class="alert message" id="/html/body/div[3]">
-          <trans-unit restype="x-html-p" id="/html/body/div[3]/p">
-            <source xml:lang="nl"> De vermindering is niet gebonden aan een bepaalde werknemer. <g ctype="x-html-strong">De werkgever kan dus elk kwartaal opnieuw kiezen voor welke werknemer hij de vermindering toepast</g>. Het is dus best mogelijk dat de werknemer die oorspronkelijk het recht opende, niet meer in dienst is. </source>
-            <target xml:lang="de" state="final"> Die Ermäßigung ist nicht an einen bestimmten Arbeitnehmer gebunden. <g ctype="x-html-strong">Der Arbeitgeber kann deshalb jedes Quartal neu wählen, für welchen Arbeitnehmer er die Ermäßigung anwendet</g>. Es ist deshalb gut möglich, dass der Arbeitnehmer, der ursprünglich das Recht eröffnete, nicht mehr im Dienst ist. </target>
+          <trans-unit restype="x-html-p" id="tu257" resname="/html/body/div[2]/p[3]">
+            <source xml:lang="nl"> Werkgever B daarentegen kan niet genieten van de doelgroepvermindering eerste aanwervingen voor een 1<g id="g258" ctype="x-html-sup">ste</g> werknemer, omdat zijn werknemer een werknemer van werkgever A vervangt die daar werkzaam was gedurende de 12 maanden voorafgaand aan zijn indiensttreding (namelijk zichzelf). Werkgever B kan evenmin de doelgroepvermindering eerste aanwervingen voor een 2<g id="g259" ctype="x-html-sup">de</g> werknemer verkrijgen, want hij heeft slechts één werknemer in dienst in de loop van het 1<g id="g260" ctype="x-html-sup">ste</g> kwartaal 2016. </source>
+            <target xml:lang="de" state="final"> Arbeitgeber B kann dagegen die Zielgruppenermäßigung Ersteinstellungen für einen ersten Arbeitnehmer nicht mehr beanspruchen, da sein Arbeitnehmer einen Arbeitnehmer von Arbeitgeber A ersetzt, der dort 12 Monate lang vor seiner Einstellung tätig war (nämlich sich selbst). <x id="x261" ctype="x-html-sup" equiv-text=" "/> Arbeitgeber B kann ebenso wenig die Zielgruppenermäßigung Ersteinstellungen für einen zweiten Arbeitnehmer erhalten, da er im Laufe des ersten Quartals 2016 nur einen Arbeitnehmer beschäftigt. <x id="x262" ctype="x-html-sup" equiv-text=" "/><x id="x263" ctype="x-html-sup" equiv-text=" "/> </target>
           </trans-unit>
         </group>
-        <trans-unit restype="x-html-p" id="/html/body/p[21]">
-          <source xml:lang="nl"> In de loop van het kwartaal kan een vermindering ook maar bij 1 werknemer in rekening worden gebracht (bijvoorbeeld de doelgroepvermindering eerste aanwervingen voor een 1<g ctype="x-html-sup">ste</g> werknemer), ook al wordt hij in de loop van het kwartaal vervangen door een andere werknemer, die dan op zijn beurt eventueel het recht opent op de doelgroepvermindering eerste aanwervingen voor een 2<g ctype="x-html-sup">de</g> werknemer). </source>
-          <target xml:lang="de" state="final"> Im Laufe des Quartals kann eine Ermäßigung nur bei 1 Arbeitnehmer geltend gemacht werden (z. B. die Zielgruppenermäßigung Ersteinstellungen für einen ersten Arbeitnehmer), auch wenn er im Laufe des Quartals von einem anderen Arbeitnehmer ersetzt wird, der dann wiederum das Recht auf die Zielgruppenermäßigung Ersteinstellungen für einen zweiten Arbeitnehmer eröffnet). <g ctype="x-html-sup"/><g ctype="x-html-sup"/> </target>
+        <group restype="x-html-div" id="tu264" resname="/html/body/div[3]">
+          <note from="class">alert message</note>
+          <trans-unit restype="x-html-p" id="tu265" resname="/html/body/div[3]/p">
+            <source xml:lang="nl"> De vermindering is niet gebonden aan een bepaalde werknemer. <g id="g266" ctype="x-html-strong">De werkgever kan dus elk kwartaal opnieuw kiezen voor welke werknemer hij de vermindering toepast</g>. Het is dus best mogelijk dat de werknemer die oorspronkelijk het recht opende, niet meer in dienst is. </source>
+            <target xml:lang="de" state="final"> Die Ermäßigung ist nicht an einen bestimmten Arbeitnehmer gebunden. <g id="g267" ctype="x-html-strong">Der Arbeitgeber kann deshalb jedes Quartal neu wählen, für welchen Arbeitnehmer er die Ermäßigung anwendet</g>. Es ist deshalb gut möglich, dass der Arbeitnehmer, der ursprünglich das Recht eröffnete, nicht mehr im Dienst ist. </target>
+          </trans-unit>
+        </group>
+        <trans-unit restype="x-html-p" id="tu268" resname="/html/body/p[21]">
+          <source xml:lang="nl"> In de loop van het kwartaal kan een vermindering ook maar bij 1 werknemer in rekening worden gebracht (bijvoorbeeld de doelgroepvermindering eerste aanwervingen voor een 1<g id="g269" ctype="x-html-sup">ste</g> werknemer), ook al wordt hij in de loop van het kwartaal vervangen door een andere werknemer, die dan op zijn beurt eventueel het recht opent op de doelgroepvermindering eerste aanwervingen voor een 2<g id="g270" ctype="x-html-sup">de</g> werknemer). </source>
+          <target xml:lang="de" state="final"> Im Laufe des Quartals kann eine Ermäßigung nur bei 1 Arbeitnehmer geltend gemacht werden (z. B. die Zielgruppenermäßigung Ersteinstellungen für einen ersten Arbeitnehmer), auch wenn er im Laufe des Quartals von einem anderen Arbeitnehmer ersetzt wird, der dann wiederum das Recht auf die Zielgruppenermäßigung Ersteinstellungen für einen zweiten Arbeitnehmer eröffnet). <x id="x271" ctype="x-html-sup" equiv-text=" "/><x id="x272" ctype="x-html-sup" equiv-text=" "/> </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[22]">
+        <trans-unit restype="x-html-p" id="tu273" resname="/html/body/p[22]">
           <source xml:lang="nl">   </source>
           <target xml:lang="de" state="final">   </target>
         </trans-unit>
-        <trans-unit restype="x-html-h2" id="/html/body/h2[3]">
+        <trans-unit restype="x-html-h2" id="tu274" resname="/html/body/h2[3]">
           <source xml:lang="nl"> Bedrag van de vermindering </source>
           <target xml:lang="de" state="final"> Betrag der Ermäßigung </target>
         </trans-unit>
-        <trans-unit restype="x-html-h3" id="/html/body/h3[3]">
+        <trans-unit restype="x-html-h3" id="tu275" resname="/html/body/h3[3]">
           <source xml:lang="nl"> Periode 4 - indienstnames vanaf 1 januari 2017 </source>
           <target xml:lang="de" state="final"> Periode 4 – Einstellungen ab 01.01.2017. </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[23]">
+        <trans-unit restype="x-html-p" id="tu276" resname="/html/body/p[23]">
           <source xml:lang="nl"> Forfaits en absolute bedragen bij maximale verminderingen en bij volledige prestaties(in EUR): </source>
           <target xml:lang="de" state="final"> Pauschalen und absolute Beträge bei maximalen Ermäßigungen und vollständigen Leistungen (in EUR): </target>
         </trans-unit>
-        <group restype="table" html:class="table-bordered" id="/html/body/table[1]">
-          <group restype="x-html-thead" id="/html/body/table[1]/thead">
-            <group restype="row" id="/html/body/table[1]/thead/tr">
-              <trans-unit restype="x-html-th" id="/html/body/table[1]/thead/tr/th[1]">
+        <group restype="table" id="tu277" resname="/html/body/table[1]">
+          <note from="class">table-bordered</note>
+          <group restype="x-html-thead" id="tu278" resname="/html/body/table[1]/thead">
+            <group restype="row" id="tu279" resname="/html/body/table[1]/thead/tr">
+              <trans-unit restype="x-html-th" id="tu280" resname="/html/body/table[1]/thead/tr/th[1]">
                 <source xml:lang="nl"> telling </source>
                 <target xml:lang="de" state="final"> Zählung </target>
               </trans-unit>
-              <trans-unit restype="x-html-th" html:colspan="3" id="/html/body/table[1]/thead/tr/th[2]">
+              <trans-unit restype="x-html-th" id="tu281" resname="/html/body/table[1]/thead/tr/th[2]">
                 <source xml:lang="nl"> forfaits </source>
                 <target xml:lang="de" state="final"> Pauschalen </target>
+                <note from="colspan">3</note>
               </trans-unit>
-              <trans-unit restype="x-html-th" html:colspan="3" id="/html/body/table[1]/thead/tr/th[3]">
+              <trans-unit restype="x-html-th" id="tu282" resname="/html/body/table[1]/thead/tr/th[3]">
                 <source xml:lang="nl"> absolute bedragen in EUR </source>
                 <target xml:lang="de" state="final"> absolute Beträge in EUR </target>
+                <note from="colspan">3</note>
               </trans-unit>
             </group>
           </group>
-          <group restype="x-html-tbody" id="/html/body/table[1]/tbody">
-            <group restype="row" id="/html/body/table[1]/tbody/tr[1]">
-              <trans-unit restype="cell" id="/html/body/table[1]/tbody/tr[1]/td[1]">
-                <source xml:lang="nl"> 1<g ctype="x-html-sup">ste</g> </source>
-                <target xml:lang="de" state="final"> 1.<g ctype="x-html-sup"/> </target>
+          <group restype="x-html-tbody" id="tu283" resname="/html/body/table[1]/tbody">
+            <group restype="row" id="tu284" resname="/html/body/table[1]/tbody/tr[1]">
+              <trans-unit restype="cell" id="tu285" resname="/html/body/table[1]/tbody/tr[1]/td[1]">
+                <source xml:lang="nl"> 1<g id="g286" ctype="x-html-sup">ste</g> </source>
+                <target xml:lang="de" state="final"> 1.<x id="x287" ctype="x-html-sup" equiv-text=" "/> </target>
               </trans-unit>
-              <trans-unit restype="cell" html:colspan="3" id="/html/body/table[1]/tbody/tr[1]/td[2]">
-                <source xml:lang="nl"> G<g ctype="x-html-sub">7</g> </source>
-                <target xml:lang="de" state="final"> G<g ctype="x-html-sub">7</g> </target>
+              <trans-unit restype="cell" id="tu288" resname="/html/body/table[1]/tbody/tr[1]/td[2]">
+                <source xml:lang="nl"> G<g id="g289" ctype="x-html-sub">7</g> </source>
+                <target xml:lang="de" state="final"> G<g id="g290" ctype="x-html-sub">7</g> </target>
+                <note from="colspan">3</note>
               </trans-unit>
-              <trans-unit restype="cell" html:colspan="3" id="/html/body/table[1]/tbody/tr[1]/td[3]">
+              <trans-unit restype="cell" id="tu291" resname="/html/body/table[1]/tbody/tr[1]/td[3]">
                 <source xml:lang="nl"> saldo (*) </source>
                 <target xml:lang="de" state="final"> Saldo (*) </target>
+                <note from="colspan">3</note>
               </trans-unit>
             </group>
-            <group restype="row" id="/html/body/table[1]/tbody/tr[2]">
-              <trans-unit restype="cell" id="/html/body/table[1]/tbody/tr[2]/td[1]">
-                <source xml:lang="nl"> 2<g ctype="x-html-sup">de</g> </source>
-                <target xml:lang="de" state="final"> 2.<g ctype="x-html-sup"/> </target>
+            <group restype="row" id="tu292" resname="/html/body/table[1]/tbody/tr[2]">
+              <trans-unit restype="cell" id="tu293" resname="/html/body/table[1]/tbody/tr[2]/td[1]">
+                <source xml:lang="nl"> 2<g id="g294" ctype="x-html-sup">de</g> </source>
+                <target xml:lang="de" state="final"> 2.<x id="x295" ctype="x-html-sup" equiv-text=" "/> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[1]/tbody/tr[2]/td[2]">
-                <source xml:lang="nl"> 5 x G<g ctype="x-html-sub">14</g> </source>
-                <target xml:lang="de" state="final"> 5 x G<g ctype="x-html-sub">14</g> </target>
+              <trans-unit restype="cell" id="tu296" resname="/html/body/table[1]/tbody/tr[2]/td[2]">
+                <source xml:lang="nl"> 5 x G<g id="g297" ctype="x-html-sub">14</g> </source>
+                <target xml:lang="de" state="final"> 5 x G<g id="g298" ctype="x-html-sub">14</g> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[1]/tbody/tr[2]/td[3]">
-                <source xml:lang="nl"> 4 x G<g ctype="x-html-sub">15</g>  </source>
-                <target xml:lang="de" state="final"> 4 x G<g ctype="x-html-sub">15</g>  </target>
+              <trans-unit restype="cell" id="tu299" resname="/html/body/table[1]/tbody/tr[2]/td[3]">
+                <source xml:lang="nl"> 4 x G<g id="g300" ctype="x-html-sub">15</g>  </source>
+                <target xml:lang="de" state="final"> 4 x G<g id="g301" ctype="x-html-sub">15</g>  </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[1]/tbody/tr[2]/td[4]">
-                <source xml:lang="nl"> 4 x G<g ctype="x-html-sub">16</g> </source>
-                <target xml:lang="de" state="final"> 4 x G<g ctype="x-html-sub">16</g> </target>
+              <trans-unit restype="cell" id="tu302" resname="/html/body/table[1]/tbody/tr[2]/td[4]">
+                <source xml:lang="nl"> 4 x G<g id="g303" ctype="x-html-sub">16</g> </source>
+                <target xml:lang="de" state="final"> 4 x G<g id="g304" ctype="x-html-sub">16</g> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[1]/tbody/tr[2]/td[5]">
+              <trans-unit restype="cell" id="tu305" resname="/html/body/table[1]/tbody/tr[2]/td[5]">
                 <source xml:lang="nl"> 5 x 1.550,00 </source>
                 <target xml:lang="de" state="final"> 5 x 1.550,00 </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[1]/tbody/tr[2]/td[6]">
+              <trans-unit restype="cell" id="tu306" resname="/html/body/table[1]/tbody/tr[2]/td[6]">
                 <source xml:lang="nl"> 4 x 1.050,00 </source>
                 <target xml:lang="de" state="final"> 4 x 1.050,00 </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[1]/tbody/tr[2]/td[7]">
+              <trans-unit restype="cell" id="tu307" resname="/html/body/table[1]/tbody/tr[2]/td[7]">
                 <source xml:lang="nl"> 4 x 450,00 </source>
                 <target xml:lang="de" state="final"> 4 x 450,00 </target>
               </trans-unit>
             </group>
-            <group restype="row" id="/html/body/table[1]/tbody/tr[3]">
-              <trans-unit restype="cell" id="/html/body/table[1]/tbody/tr[3]/td[1]">
-                <source xml:lang="nl"> 3<g ctype="x-html-sup">de</g> </source>
-                <target xml:lang="de" state="final"> 3.<g ctype="x-html-sup"/> </target>
+            <group restype="row" id="tu308" resname="/html/body/table[1]/tbody/tr[3]">
+              <trans-unit restype="cell" id="tu309" resname="/html/body/table[1]/tbody/tr[3]/td[1]">
+                <source xml:lang="nl"> 3<g id="g310" ctype="x-html-sup">de</g> </source>
+                <target xml:lang="de" state="final"> 3.<x id="x311" ctype="x-html-sup" equiv-text=" "/> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[1]/tbody/tr[3]/td[2]">
-                <source xml:lang="nl"> 5 x G<g ctype="x-html-sub">15</g> </source>
-                <target xml:lang="de" state="final"> 5 x G<g ctype="x-html-sub">15</g> </target>
+              <trans-unit restype="cell" id="tu312" resname="/html/body/table[1]/tbody/tr[3]/td[2]">
+                <source xml:lang="nl"> 5 x G<g id="g313" ctype="x-html-sub">15</g> </source>
+                <target xml:lang="de" state="final"> 5 x G<g id="g314" ctype="x-html-sub">15</g> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[1]/tbody/tr[3]/td[3]">
-                <source xml:lang="nl"> 4 x G<g ctype="x-html-sub">15</g> <g ctype="x-html-sub"/> </source>
-                <target xml:lang="de" state="final"> 4 x G<g ctype="x-html-sub">15</g> <g ctype="x-html-sub"/> </target>
+              <trans-unit restype="cell" id="tu315" resname="/html/body/table[1]/tbody/tr[3]/td[3]">
+                <source xml:lang="nl"> 4 x G<g id="g316" ctype="x-html-sub">15</g> <x id="x317" ctype="x-html-sub" equiv-text=" "/> </source>
+                <target xml:lang="de" state="final"> 4 x G<g id="g318" ctype="x-html-sub">15</g> <x id="x319" ctype="x-html-sub" equiv-text=" "/> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[1]/tbody/tr[3]/td[4]">
-                <source xml:lang="nl"> 4 x G<g ctype="x-html-sub">16</g> </source>
-                <target xml:lang="de" state="final"> 4 x G<g ctype="x-html-sub">16</g> </target>
+              <trans-unit restype="cell" id="tu320" resname="/html/body/table[1]/tbody/tr[3]/td[4]">
+                <source xml:lang="nl"> 4 x G<g id="g321" ctype="x-html-sub">16</g> </source>
+                <target xml:lang="de" state="final"> 4 x G<g id="g322" ctype="x-html-sub">16</g> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[1]/tbody/tr[3]/td[5]">
+              <trans-unit restype="cell" id="tu323" resname="/html/body/table[1]/tbody/tr[3]/td[5]">
                 <source xml:lang="nl"> 5 x 1.050,00 </source>
                 <target xml:lang="de" state="final"> 5 x 1.050,00 </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[1]/tbody/tr[3]/td[6]">
+              <trans-unit restype="cell" id="tu324" resname="/html/body/table[1]/tbody/tr[3]/td[6]">
                 <source xml:lang="nl"> 4 x 1.050,00 </source>
                 <target xml:lang="de" state="final"> 4 x 1.050,00 </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[1]/tbody/tr[3]/td[7]">
+              <trans-unit restype="cell" id="tu325" resname="/html/body/table[1]/tbody/tr[3]/td[7]">
                 <source xml:lang="nl"> 4 x 450,00 </source>
                 <target xml:lang="de" state="final"> 4 x 450,00 </target>
               </trans-unit>
             </group>
-            <group restype="row" id="/html/body/table[1]/tbody/tr[4]">
-              <trans-unit restype="cell" id="/html/body/table[1]/tbody/tr[4]/td[1]">
-                <source xml:lang="nl"> 4<g ctype="x-html-sup">de</g> </source>
-                <target xml:lang="de" state="final"> 4.<g ctype="x-html-sup"/> </target>
+            <group restype="row" id="tu326" resname="/html/body/table[1]/tbody/tr[4]">
+              <trans-unit restype="cell" id="tu327" resname="/html/body/table[1]/tbody/tr[4]/td[1]">
+                <source xml:lang="nl"> 4<g id="g328" ctype="x-html-sup">de</g> </source>
+                <target xml:lang="de" state="final"> 4.<x id="x329" ctype="x-html-sup" equiv-text=" "/> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[1]/tbody/tr[4]/td[2]">
-                <source xml:lang="nl"> 5 x G<g ctype="x-html-sub">15</g> </source>
-                <target xml:lang="de" state="final"> 5 x G<g ctype="x-html-sub">15</g> </target>
+              <trans-unit restype="cell" id="tu330" resname="/html/body/table[1]/tbody/tr[4]/td[2]">
+                <source xml:lang="nl"> 5 x G<g id="g331" ctype="x-html-sub">15</g> </source>
+                <target xml:lang="de" state="final"> 5 x G<g id="g332" ctype="x-html-sub">15</g> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[1]/tbody/tr[4]/td[3]">
-                <source xml:lang="nl"> 4 x G<g ctype="x-html-sub">15</g> <g ctype="x-html-sub"/> </source>
-                <target xml:lang="de" state="final"> 4 x G<g ctype="x-html-sub">15</g> <g ctype="x-html-sub"/> </target>
+              <trans-unit restype="cell" id="tu333" resname="/html/body/table[1]/tbody/tr[4]/td[3]">
+                <source xml:lang="nl"> 4 x G<g id="g334" ctype="x-html-sub">15</g> <x id="x335" ctype="x-html-sub" equiv-text=" "/> </source>
+                <target xml:lang="de" state="final"> 4 x G<g id="g336" ctype="x-html-sub">15</g> <x id="x337" ctype="x-html-sub" equiv-text=" "/> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[1]/tbody/tr[4]/td[4]">
-                <source xml:lang="nl"> 4 x G<g ctype="x-html-sub">16</g> </source>
-                <target xml:lang="de" state="final"> 4 x G<g ctype="x-html-sub">16</g> </target>
+              <trans-unit restype="cell" id="tu338" resname="/html/body/table[1]/tbody/tr[4]/td[4]">
+                <source xml:lang="nl"> 4 x G<g id="g339" ctype="x-html-sub">16</g> </source>
+                <target xml:lang="de" state="final"> 4 x G<g id="g340" ctype="x-html-sub">16</g> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[1]/tbody/tr[4]/td[5]">
+              <trans-unit restype="cell" id="tu341" resname="/html/body/table[1]/tbody/tr[4]/td[5]">
                 <source xml:lang="nl"> 5 x 1.050,00 </source>
                 <target xml:lang="de" state="final"> 5 x 1.050,00 </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[1]/tbody/tr[4]/td[6]">
+              <trans-unit restype="cell" id="tu342" resname="/html/body/table[1]/tbody/tr[4]/td[6]">
                 <source xml:lang="nl"> 4 x 1.050,00 </source>
                 <target xml:lang="de" state="final"> 4 x 1.050,00 </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[1]/tbody/tr[4]/td[7]">
+              <trans-unit restype="cell" id="tu343" resname="/html/body/table[1]/tbody/tr[4]/td[7]">
                 <source xml:lang="nl"> 4 x 450,00 </source>
                 <target xml:lang="de" state="final"> 4 x 450,00 </target>
               </trans-unit>
             </group>
-            <group restype="row" id="/html/body/table[1]/tbody/tr[5]">
-              <trans-unit restype="cell" id="/html/body/table[1]/tbody/tr[5]/td[1]">
-                <source xml:lang="nl"> 5<g ctype="x-html-sup">de</g> </source>
-                <target xml:lang="de" state="final"> 5.<g ctype="x-html-sup"/> </target>
+            <group restype="row" id="tu344" resname="/html/body/table[1]/tbody/tr[5]">
+              <trans-unit restype="cell" id="tu345" resname="/html/body/table[1]/tbody/tr[5]/td[1]">
+                <source xml:lang="nl"> 5<g id="g346" ctype="x-html-sup">de</g> </source>
+                <target xml:lang="de" state="final"> 5.<x id="x347" ctype="x-html-sup" equiv-text=" "/> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[1]/tbody/tr[5]/td[2]">
-                <source xml:lang="nl"> 5 x G<g ctype="x-html-sub">15</g> </source>
-                <target xml:lang="de" state="final"> 5 x G<g ctype="x-html-sub">15</g> </target>
+              <trans-unit restype="cell" id="tu348" resname="/html/body/table[1]/tbody/tr[5]/td[2]">
+                <source xml:lang="nl"> 5 x G<g id="g349" ctype="x-html-sub">15</g> </source>
+                <target xml:lang="de" state="final"> 5 x G<g id="g350" ctype="x-html-sub">15</g> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[1]/tbody/tr[5]/td[3]">
-                <source xml:lang="nl"> 4 x G<g ctype="x-html-sub">15</g> <g ctype="x-html-sub"/> </source>
-                <target xml:lang="de" state="final"> 4 x G<g ctype="x-html-sub">15</g> <g ctype="x-html-sub"/> </target>
+              <trans-unit restype="cell" id="tu351" resname="/html/body/table[1]/tbody/tr[5]/td[3]">
+                <source xml:lang="nl"> 4 x G<g id="g352" ctype="x-html-sub">15</g> <x id="x353" ctype="x-html-sub" equiv-text=" "/> </source>
+                <target xml:lang="de" state="final"> 4 x G<g id="g354" ctype="x-html-sub">15</g> <x id="x355" ctype="x-html-sub" equiv-text=" "/> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[1]/tbody/tr[5]/td[4]">
-                <source xml:lang="nl"> 4 x G<g ctype="x-html-sub">16</g> </source>
-                <target xml:lang="de" state="final"> 4 x G<g ctype="x-html-sub">16</g> </target>
+              <trans-unit restype="cell" id="tu356" resname="/html/body/table[1]/tbody/tr[5]/td[4]">
+                <source xml:lang="nl"> 4 x G<g id="g357" ctype="x-html-sub">16</g> </source>
+                <target xml:lang="de" state="final"> 4 x G<g id="g358" ctype="x-html-sub">16</g> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[1]/tbody/tr[5]/td[5]">
+              <trans-unit restype="cell" id="tu359" resname="/html/body/table[1]/tbody/tr[5]/td[5]">
                 <source xml:lang="nl"> 5 x 1.050,00 </source>
                 <target xml:lang="de" state="final"> 5 x 1.050,00 </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[1]/tbody/tr[5]/td[6]">
+              <trans-unit restype="cell" id="tu360" resname="/html/body/table[1]/tbody/tr[5]/td[6]">
                 <source xml:lang="nl"> 4 x 1.050,00 </source>
                 <target xml:lang="de" state="final"> 4 x 1.050,00 </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[1]/tbody/tr[5]/td[7]">
+              <trans-unit restype="cell" id="tu361" resname="/html/body/table[1]/tbody/tr[5]/td[7]">
                 <source xml:lang="nl"> 4 x 450,00 </source>
                 <target xml:lang="de" state="final"> 4 x 450,00 </target>
               </trans-unit>
             </group>
-            <group restype="row" id="/html/body/table[1]/tbody/tr[6]">
-              <trans-unit restype="cell" id="/html/body/table[1]/tbody/tr[6]/td[1]">
-                <source xml:lang="nl"> 6<g ctype="x-html-sup">de</g> </source>
-                <target xml:lang="de" state="final"> 6.<g ctype="x-html-sup"/> </target>
+            <group restype="row" id="tu362" resname="/html/body/table[1]/tbody/tr[6]">
+              <trans-unit restype="cell" id="tu363" resname="/html/body/table[1]/tbody/tr[6]/td[1]">
+                <source xml:lang="nl"> 6<g id="g364" ctype="x-html-sup">de</g> </source>
+                <target xml:lang="de" state="final"> 6.<x id="x365" ctype="x-html-sup" equiv-text=" "/> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[1]/tbody/tr[6]/td[2]">
-                <source xml:lang="nl"> 5 x G<g ctype="x-html-sub">15</g> <g ctype="x-html-sub"/> </source>
-                <target xml:lang="de" state="final"> 5 x G<g ctype="x-html-sub">15</g> <g ctype="x-html-sub"/> </target>
+              <trans-unit restype="cell" id="tu366" resname="/html/body/table[1]/tbody/tr[6]/td[2]">
+                <source xml:lang="nl"> 5 x G<g id="g367" ctype="x-html-sub">15</g> <x id="x368" ctype="x-html-sub" equiv-text=" "/> </source>
+                <target xml:lang="de" state="final"> 5 x G<g id="g369" ctype="x-html-sub">15</g> <x id="x370" ctype="x-html-sub" equiv-text=" "/> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[1]/tbody/tr[6]/td[3]">
-                <source xml:lang="nl"> 4 x G<g ctype="x-html-sub">15</g> <g ctype="x-html-sub"/> </source>
-                <target xml:lang="de" state="final"> 4 x G<g ctype="x-html-sub">15</g> <g ctype="x-html-sub"/> </target>
+              <trans-unit restype="cell" id="tu371" resname="/html/body/table[1]/tbody/tr[6]/td[3]">
+                <source xml:lang="nl"> 4 x G<g id="g372" ctype="x-html-sub">15</g> <x id="x373" ctype="x-html-sub" equiv-text=" "/> </source>
+                <target xml:lang="de" state="final"> 4 x G<g id="g374" ctype="x-html-sub">15</g> <x id="x375" ctype="x-html-sub" equiv-text=" "/> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[1]/tbody/tr[6]/td[4]">
-                <source xml:lang="nl"> 4 x G<g ctype="x-html-sub">16</g> </source>
-                <target xml:lang="de" state="final"> 4 x G<g ctype="x-html-sub">16</g> </target>
+              <trans-unit restype="cell" id="tu376" resname="/html/body/table[1]/tbody/tr[6]/td[4]">
+                <source xml:lang="nl"> 4 x G<g id="g377" ctype="x-html-sub">16</g> </source>
+                <target xml:lang="de" state="final"> 4 x G<g id="g378" ctype="x-html-sub">16</g> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[1]/tbody/tr[6]/td[5]">
+              <trans-unit restype="cell" id="tu379" resname="/html/body/table[1]/tbody/tr[6]/td[5]">
                 <source xml:lang="nl"> 5 x 1.050,00 </source>
                 <target xml:lang="de" state="final"> 5 x 1.050,00 </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[1]/tbody/tr[6]/td[6]">
+              <trans-unit restype="cell" id="tu380" resname="/html/body/table[1]/tbody/tr[6]/td[6]">
                 <source xml:lang="nl"> 4 x 1.050,00 </source>
                 <target xml:lang="de" state="final"> 4 x 1.050,00 </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[1]/tbody/tr[6]/td[7]">
+              <trans-unit restype="cell" id="tu381" resname="/html/body/table[1]/tbody/tr[6]/td[7]">
                 <source xml:lang="nl"> 4 x 450,00 </source>
                 <target xml:lang="de" state="final"> 4 x 450,00 </target>
               </trans-unit>
             </group>
           </group>
         </group>
-        <trans-unit restype="x-html-p" id="/html/body/p[24]">
+        <trans-unit restype="x-html-p" id="tu382" resname="/html/body/p[24]">
           <source xml:lang="nl"> (*) het saldo van de verschuldigde basisbijdragen na de eventuele sociale maribel aftrek en na toepassing van de structurele vermindering. </source>
           <target xml:lang="de" state="final"> (*) Der Saldo der geschuldeten Basisbeiträge nach eventuellem Abzug der „Maribel Sozial“-Maßnahme und nach Anwendung der strukturellen Ermäßigung. </target>
         </trans-unit>
-        <trans-unit restype="x-html-h4" id="/html/body/h4[6]">
-          <source xml:lang="nl"> 1<g ctype="x-html-sup">ste</g> werknemer </source>
-          <target xml:lang="de" state="final"> 1.<g ctype="x-html-sup"/> Arbeitnehmer </target>
+        <trans-unit restype="x-html-h4" id="tu383" resname="/html/body/h4[6]">
+          <source xml:lang="nl"> 1<g id="g384" ctype="x-html-sup">ste</g> werknemer </source>
+          <target xml:lang="de" state="final"> 1.<x id="x385" ctype="x-html-sup" equiv-text=" "/> Arbeitnehmer </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[25]">
-          <source xml:lang="nl"> De werkgever geniet voor één fysieke persoon een forfaitaire vermindering <g ctype="x-html-strong">G<g ctype="x-html-sub">7</g></g>. Indien de werkgever aangesloten is bij een sociaal secretariaat, heeft hij recht op een tussenkomst in de aansluitingskosten van 36,45 EUR voor de kwartalen waarin hij een doelgroepvermindering voor de aanwerving van een 1<g ctype="x-html-sup">ste</g> werknemer aanvraagt (deze tussenkomst wordt niet geproratiseerd). </source>
-          <target xml:lang="de" state="final"> Der Arbeitgeber hat für eine natürliche Person Anspruch auf eine pauschale Ermäßigung <g ctype="x-html-strong">G<g ctype="x-html-sub">7</g></g>. Wenn der Arbeitgeber einem Sozialsekretariat beigetreten ist, hat er Anspruch auf einen Zuschuss zu den Beitrittskosten in Höhe von 36,45 EUR für die Quartale, in denen er eine Zielgruppenermäßigung für die Einstellung eines ersten Arbeitnehmers beantragt (dieser Zuschuss wird nicht anteilig verrechnet). <g ctype="x-html-sup"/> </target>
+        <trans-unit restype="x-html-p" id="tu386" resname="/html/body/p[25]">
+          <source xml:lang="nl"> De werkgever geniet voor één fysieke persoon een forfaitaire vermindering <g id="g387" ctype="x-html-strong">G<g id="g388" ctype="x-html-sub">7</g></g>. Indien de werkgever aangesloten is bij een sociaal secretariaat, heeft hij recht op een tussenkomst in de aansluitingskosten van 36,45 EUR voor de kwartalen waarin hij een doelgroepvermindering voor de aanwerving van een 1<g id="g389" ctype="x-html-sup">ste</g> werknemer aanvraagt (deze tussenkomst wordt niet geproratiseerd). </source>
+          <target xml:lang="de" state="final"> Der Arbeitgeber hat für eine natürliche Person Anspruch auf eine pauschale Ermäßigung <g id="g390" ctype="x-html-strong">G<g id="g391" ctype="x-html-sub">7</g></g>. Wenn der Arbeitgeber einem Sozialsekretariat beigetreten ist, hat er Anspruch auf einen Zuschuss zu den Beitrittskosten in Höhe von 36,45 EUR für die Quartale, in denen er eine Zielgruppenermäßigung für die Einstellung eines ersten Arbeitnehmers beantragt (dieser Zuschuss wird nicht anteilig verrechnet). <x id="x392" ctype="x-html-sup" equiv-text=" "/> </target>
         </trans-unit>
-        <trans-unit restype="x-html-h4" id="/html/body/h4[7]">
-          <source xml:lang="nl"> 2<g ctype="x-html-sup">de</g> werknemer </source>
-          <target xml:lang="de" state="final"> 2.<g ctype="x-html-sup"/> Arbeitnehmer </target>
+        <trans-unit restype="x-html-h4" id="tu393" resname="/html/body/h4[7]">
+          <source xml:lang="nl"> 2<g id="g394" ctype="x-html-sup">de</g> werknemer </source>
+          <target xml:lang="de" state="final"> 2.<x id="x395" ctype="x-html-sup" equiv-text=" "/> Arbeitnehmer </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[26]">
-          <source xml:lang="nl"> De werkgever geniet voor één fysieke persoon een forfaitaire vermindering <g ctype="x-html-strong">G<g ctype="x-html-sub">14</g></g> voor maximaal 5 kwartalen, vervolgens <g ctype="x-html-strong">G<g ctype="x-html-sub">15</g></g> voor maximaal 4 kwartalen en daarna een forfaitaire vermindering <g ctype="x-html-strong">G<g ctype="x-html-sub">16</g></g> voor maximaal 4 kwartalen op te nemen binnen de 20 kwartalen te rekenen vanaf het kwartaal waarin de werkgever voor het eerst recht had op deze doelgroepvermindering. De werkgever bepaalt zelf de kwartalen waarin hij de vermindering wenst aan te rekenen, voor zover hij voor het gekozen kwartaal aan alle voorwaarden voldoet. Deze vermindering kan slechts toegepast worden als in de loop van het kwartaal minstens 2 werknemers werkzaam geweest zijn (tegelijkertijd of opeenvolgend). </source>
-          <target xml:lang="de" state="final"> Der Arbeitgeber hat für eine natürliche Person Anspruch auf eine pauschale Ermäßigung <g ctype="x-html-strong">G<g ctype="x-html-sub">14</g></g> für höchstens fünf Quartale, danach auf eine pauschale Ermäßigung <g ctype="x-html-strong">G<g ctype="x-html-sub">15</g></g> für höchstens vier Quartale und anschließend eine pauschale Ermäßigung <g ctype="x-html-strong">G<g ctype="x-html-sub">16</g></g> für höchstens vier Quartale, die er innerhalb von 20 Quartalen ab dem Quartal beanspruchen muss, in dem der Arbeitgeber zum ersten Mal Anspruch auf diese Zielgruppenermäßigung hatte. Der Arbeitgeber bestimmt selbst die Quartale, in denen er die Ermäßigung in Rechnung stellen möchte, sofern er für das gewählte Quartal allen Bedingungen entspricht. Diese Ermäßigung kann nur angewandt werden, wenn im Laufe des Quartals mindestens 2 Arbeitnehmer beschäftigt wurden (gleichzeitig oder nacheinander). </target>
+        <trans-unit restype="x-html-p" id="tu396" resname="/html/body/p[26]">
+          <source xml:lang="nl"> De werkgever geniet voor één fysieke persoon een forfaitaire vermindering <g id="g397" ctype="x-html-strong">G<g id="g398" ctype="x-html-sub">14</g></g> voor maximaal 5 kwartalen, vervolgens <g id="g399" ctype="x-html-strong">G<g id="g400" ctype="x-html-sub">15</g></g> voor maximaal 4 kwartalen en daarna een forfaitaire vermindering <g id="g401" ctype="x-html-strong">G<g id="g402" ctype="x-html-sub">16</g></g> voor maximaal 4 kwartalen op te nemen binnen de 20 kwartalen te rekenen vanaf het kwartaal waarin de werkgever voor het eerst recht had op deze doelgroepvermindering. De werkgever bepaalt zelf de kwartalen waarin hij de vermindering wenst aan te rekenen, voor zover hij voor het gekozen kwartaal aan alle voorwaarden voldoet. Deze vermindering kan slechts toegepast worden als in de loop van het kwartaal minstens 2 werknemers werkzaam geweest zijn (tegelijkertijd of opeenvolgend). </source>
+          <target xml:lang="de" state="final"> Der Arbeitgeber hat für eine natürliche Person Anspruch auf eine pauschale Ermäßigung <g id="g403" ctype="x-html-strong">G<g id="g404" ctype="x-html-sub">14</g></g> für höchstens fünf Quartale, danach auf eine pauschale Ermäßigung <g id="g405" ctype="x-html-strong">G<g id="g406" ctype="x-html-sub">15</g></g> für höchstens vier Quartale und anschließend eine pauschale Ermäßigung <g id="g407" ctype="x-html-strong">G<g id="g408" ctype="x-html-sub">16</g></g> für höchstens vier Quartale, die er innerhalb von 20 Quartalen ab dem Quartal beanspruchen muss, in dem der Arbeitgeber zum ersten Mal Anspruch auf diese Zielgruppenermäßigung hatte. Der Arbeitgeber bestimmt selbst die Quartale, in denen er die Ermäßigung in Rechnung stellen möchte, sofern er für das gewählte Quartal allen Bedingungen entspricht. Diese Ermäßigung kann nur angewandt werden, wenn im Laufe des Quartals mindestens 2 Arbeitnehmer beschäftigt wurden (gleichzeitig oder nacheinander). </target>
         </trans-unit>
-        <trans-unit restype="x-html-h4" id="/html/body/h4[8]">
-          <source xml:lang="nl"> 3<g ctype="x-html-sup">de</g>, 4<g ctype="x-html-sup">de</g>, 5<g ctype="x-html-sup">de</g> en 6<g ctype="x-html-sup">de</g> werknemer </source>
-          <target xml:lang="de" state="final"> dritter, vierter, fünfter und sechster Arbeitnehmer <g ctype="x-html-sup"/><g ctype="x-html-sup"/><g ctype="x-html-sup"/><g ctype="x-html-sup"/> </target>
+        <trans-unit restype="x-html-h4" id="tu409" resname="/html/body/h4[8]">
+          <source xml:lang="nl"> 3<g id="g410" ctype="x-html-sup">de</g>, 4<g id="g411" ctype="x-html-sup">de</g>, 5<g id="g412" ctype="x-html-sup">de</g> en 6<g id="g413" ctype="x-html-sup">de</g> werknemer </source>
+          <target xml:lang="de" state="final"> dritter, vierter, fünfter und sechster Arbeitnehmer <x id="x414" ctype="x-html-sup" equiv-text=" "/><x id="x415" ctype="x-html-sup" equiv-text=" "/><x id="x416" ctype="x-html-sup" equiv-text=" "/><x id="x417" ctype="x-html-sup" equiv-text=" "/> </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[27]">
-          <source xml:lang="nl"> De werkgever geniet voor één fysieke persoon een forfaitaire vermindering <g ctype="x-html-strong">G<g ctype="x-html-sub">15</g></g> voor maximaal 9 kwartalen en <g ctype="x-html-strong">G<g ctype="x-html-sub">16</g></g> voor maximaal 4 kwartalen op te nemen binnen de 20 kwartalen te rekenen vanaf het kwartaal waarin de werkgever voor het eerst recht had op deze doelgroepvermindering. De werkgever bepaalt zelf de kwartalen waarin hij de vermindering wenst aan te rekenen, voor zover hij voor het gekozen kwartaal aan alle voorwaarden voldoet. Deze vermindering kan slechts toegepast worden als in de loop van het kwartaal minstens 3, respectievelijk 4, 5 en 6, werknemers werkzaam geweest zijn (tegelijkertijd of opeenvolgend). </source>
-          <target xml:lang="de" state="final"> Der Arbeitgeber hat für eine natürliche Person Anspruch auf eine pauschale Ermäßigung <g ctype="x-html-strong">G<g ctype="x-html-sub">15</g></g> für höchstens fünf Quartale und <g ctype="x-html-strong">G<g ctype="x-html-sub">16</g></g> für höchstens acht Quartale, die er innerhalb von 20 Quartalen ab dem Quartal beanspruchen muss, in dem der Arbeitgeber zum ersten Mal Anspruch auf diese Zielgruppenermäßigung hatte. Der Arbeitgeber bestimmt selbst die Quartale, in denen er die Ermäßigung in Rechnung stellen möchte, sofern er für das gewählte Quartal allen Bedingungen entspricht. Diese Ermäßigung kann nur angewandt werden, wenn im Laufe des Quartals mindestens drei bzw. vier, fünf oder sechs Arbeitnehmer beschäftigt wurden (gleichzeitig oder nacheinander). </target>
+        <trans-unit restype="x-html-p" id="tu418" resname="/html/body/p[27]">
+          <source xml:lang="nl"> De werkgever geniet voor één fysieke persoon een forfaitaire vermindering <g id="g419" ctype="x-html-strong">G<g id="g420" ctype="x-html-sub">15</g></g> voor maximaal 9 kwartalen en <g id="g421" ctype="x-html-strong">G<g id="g422" ctype="x-html-sub">16</g></g> voor maximaal 4 kwartalen op te nemen binnen de 20 kwartalen te rekenen vanaf het kwartaal waarin de werkgever voor het eerst recht had op deze doelgroepvermindering. De werkgever bepaalt zelf de kwartalen waarin hij de vermindering wenst aan te rekenen, voor zover hij voor het gekozen kwartaal aan alle voorwaarden voldoet. Deze vermindering kan slechts toegepast worden als in de loop van het kwartaal minstens 3, respectievelijk 4, 5 en 6, werknemers werkzaam geweest zijn (tegelijkertijd of opeenvolgend). </source>
+          <target xml:lang="de" state="final"> Der Arbeitgeber hat für eine natürliche Person Anspruch auf eine pauschale Ermäßigung <g id="g423" ctype="x-html-strong">G<g id="g424" ctype="x-html-sub">15</g></g> für höchstens fünf Quartale und <g id="g425" ctype="x-html-strong">G<g id="g426" ctype="x-html-sub">16</g></g> für höchstens acht Quartale, die er innerhalb von 20 Quartalen ab dem Quartal beanspruchen muss, in dem der Arbeitgeber zum ersten Mal Anspruch auf diese Zielgruppenermäßigung hatte. Der Arbeitgeber bestimmt selbst die Quartale, in denen er die Ermäßigung in Rechnung stellen möchte, sofern er für das gewählte Quartal allen Bedingungen entspricht. Diese Ermäßigung kann nur angewandt werden, wenn im Laufe des Quartals mindestens drei bzw. vier, fünf oder sechs Arbeitnehmer beschäftigt wurden (gleichzeitig oder nacheinander). </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[28]">
+        <trans-unit restype="x-html-p" id="tu427" resname="/html/body/p[28]">
           <source xml:lang="nl">   </source>
           <target xml:lang="de" state="final">   </target>
         </trans-unit>
-        <trans-unit restype="x-html-h3" id="/html/body/h3[4]">
+        <trans-unit restype="x-html-h3" id="tu428" resname="/html/body/h3[4]">
           <source xml:lang="nl"> Periode 3 - Overgangsmaatregelen voor indienstnames vanaf 1 januari 2016 maar vóór 1 januari 2017 </source>
           <target xml:lang="de" state="final"> Periode 3 – Übergangsmaßnahmen für Einstellungen ab 01.01.2016, aber vor 01.01.2017 </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[29]">
-          <source xml:lang="nl">  De forfaitbedragen en het aantal toepasselijke kwartalen periode 3 gelden voor de werknemers die het <g ctype="x-html-strong">recht</g> op de doelgroepvermindering hebben <g ctype="x-html-strong">geopend in 2016</g><g ctype="x-html-strong">.</g> </source>
-          <target xml:lang="de" state="final"> Die Pauschalbeträge und die Anzahl der anwendbaren Quartale Periode 3 gelten für Arbeitnehmer, die das <g ctype="x-html-strong">Recht</g> auf Zielgruppenermäßigung 2016 <g ctype="x-html-strong">eröffnet</g> <g ctype="x-html-strong">haben</g>. </target>
+        <trans-unit restype="x-html-p" id="tu429" resname="/html/body/p[29]">
+          <source xml:lang="nl">  De forfaitbedragen en het aantal toepasselijke kwartalen periode 3 gelden voor de werknemers die het <g id="g430" ctype="x-html-strong">recht</g> op de doelgroepvermindering hebben <g id="g431" ctype="x-html-strong">geopend in 2016</g><g id="g432" ctype="x-html-strong">.</g> </source>
+          <target xml:lang="de" state="final"> Die Pauschalbeträge und die Anzahl der anwendbaren Quartale Periode 3 gelten für Arbeitnehmer, die das <g id="g433" ctype="x-html-strong">Recht</g> auf Zielgruppenermäßigung 2016 <g id="g434" ctype="x-html-strong">eröffnet</g> <g id="g435" ctype="x-html-strong">haben</g>. </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[30]">
+        <trans-unit restype="x-html-p" id="tu436" resname="/html/body/p[30]">
           <source xml:lang="nl"> Forfaits en absolute bedragen bij maximale verminderingen en bij volledige prestaties(in EUR): </source>
           <target xml:lang="de" state="final"> Pauschalen und absolute Beträge bei maximalen Ermäßigungen und vollständigen Leistungen (in EUR): </target>
         </trans-unit>
-        <group restype="table" html:class="table-bordered" id="/html/body/table[2]">
-          <group restype="x-html-thead" id="/html/body/table[2]/thead">
-            <group restype="row" id="/html/body/table[2]/thead/tr">
-              <trans-unit restype="x-html-th" id="/html/body/table[2]/thead/tr/th[1]">
+        <group restype="table" id="tu437" resname="/html/body/table[2]">
+          <note from="class">table-bordered</note>
+          <group restype="x-html-thead" id="tu438" resname="/html/body/table[2]/thead">
+            <group restype="row" id="tu439" resname="/html/body/table[2]/thead/tr">
+              <trans-unit restype="x-html-th" id="tu440" resname="/html/body/table[2]/thead/tr/th[1]">
                 <source xml:lang="nl"> telling </source>
                 <target xml:lang="de" state="final"> Zählung </target>
               </trans-unit>
-              <trans-unit restype="x-html-th" html:colspan="3" id="/html/body/table[2]/thead/tr/th[2]">
+              <trans-unit restype="x-html-th" id="tu441" resname="/html/body/table[2]/thead/tr/th[2]">
                 <source xml:lang="nl"> forfaits </source>
                 <target xml:lang="de" state="final"> Pauschalen </target>
+                <note from="colspan">3</note>
               </trans-unit>
-              <trans-unit restype="x-html-th" html:colspan="3" id="/html/body/table[2]/thead/tr/th[3]">
+              <trans-unit restype="x-html-th" id="tu442" resname="/html/body/table[2]/thead/tr/th[3]">
                 <source xml:lang="nl"> absolute bedragen in EUR </source>
                 <target xml:lang="de" state="final"> absolute Beträge in EUR </target>
+                <note from="colspan">3</note>
               </trans-unit>
             </group>
           </group>
-          <group restype="x-html-tbody" id="/html/body/table[2]/tbody">
-            <group restype="row" id="/html/body/table[2]/tbody/tr[1]">
-              <trans-unit restype="cell" id="/html/body/table[2]/tbody/tr[1]/td[1]">
-                <source xml:lang="nl"> 1<g ctype="x-html-sup">ste</g> </source>
-                <target xml:lang="de" state="final"> 1.<g ctype="x-html-sup"/> </target>
+          <group restype="x-html-tbody" id="tu443" resname="/html/body/table[2]/tbody">
+            <group restype="row" id="tu444" resname="/html/body/table[2]/tbody/tr[1]">
+              <trans-unit restype="cell" id="tu445" resname="/html/body/table[2]/tbody/tr[1]/td[1]">
+                <source xml:lang="nl"> 1<g id="g446" ctype="x-html-sup">ste</g> </source>
+                <target xml:lang="de" state="final"> 1.<x id="x447" ctype="x-html-sup" equiv-text=" "/> </target>
               </trans-unit>
-              <trans-unit restype="cell" html:colspan="3" id="/html/body/table[2]/tbody/tr[1]/td[2]">
-                <source xml:lang="nl"> G<g ctype="x-html-sub">7</g> </source>
-                <target xml:lang="de" state="final"> G<g ctype="x-html-sub">7</g> </target>
+              <trans-unit restype="cell" id="tu448" resname="/html/body/table[2]/tbody/tr[1]/td[2]">
+                <source xml:lang="nl"> G<g id="g449" ctype="x-html-sub">7</g> </source>
+                <target xml:lang="de" state="final"> G<g id="g450" ctype="x-html-sub">7</g> </target>
+                <note from="colspan">3</note>
               </trans-unit>
-              <trans-unit restype="cell" html:colspan="3" id="/html/body/table[2]/tbody/tr[1]/td[3]">
+              <trans-unit restype="cell" id="tu451" resname="/html/body/table[2]/tbody/tr[1]/td[3]">
                 <source xml:lang="nl"> saldo (*) </source>
                 <target xml:lang="de" state="final"> Saldo (*) </target>
+                <note from="colspan">3</note>
               </trans-unit>
             </group>
-            <group restype="row" id="/html/body/table[2]/tbody/tr[2]">
-              <trans-unit restype="cell" id="/html/body/table[2]/tbody/tr[2]/td[1]">
-                <source xml:lang="nl"> 2<g ctype="x-html-sup">de</g> </source>
-                <target xml:lang="de" state="final"> 2.<g ctype="x-html-sup"/> </target>
+            <group restype="row" id="tu452" resname="/html/body/table[2]/tbody/tr[2]">
+              <trans-unit restype="cell" id="tu453" resname="/html/body/table[2]/tbody/tr[2]/td[1]">
+                <source xml:lang="nl"> 2<g id="g454" ctype="x-html-sup">de</g> </source>
+                <target xml:lang="de" state="final"> 2.<x id="x455" ctype="x-html-sup" equiv-text=" "/> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[2]/tbody/tr[2]/td[2]">
-                <source xml:lang="nl"> 5 x G<g ctype="x-html-sub">14</g> </source>
-                <target xml:lang="de" state="final"> 5 x G<g ctype="x-html-sub">14</g> </target>
+              <trans-unit restype="cell" id="tu456" resname="/html/body/table[2]/tbody/tr[2]/td[2]">
+                <source xml:lang="nl"> 5 x G<g id="g457" ctype="x-html-sub">14</g> </source>
+                <target xml:lang="de" state="final"> 5 x G<g id="g458" ctype="x-html-sub">14</g> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[2]/tbody/tr[2]/td[3]">
-                <source xml:lang="nl"> 4 x G<g ctype="x-html-sub">15</g>  </source>
-                <target xml:lang="de" state="final"> 4 x G<g ctype="x-html-sub">15</g>  </target>
+              <trans-unit restype="cell" id="tu459" resname="/html/body/table[2]/tbody/tr[2]/td[3]">
+                <source xml:lang="nl"> 4 x G<g id="g460" ctype="x-html-sub">15</g>  </source>
+                <target xml:lang="de" state="final"> 4 x G<g id="g461" ctype="x-html-sub">15</g>  </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[2]/tbody/tr[2]/td[4]">
-                <source xml:lang="nl"> 4 x G<g ctype="x-html-sub">16</g> </source>
-                <target xml:lang="de" state="final"> 4 x G<g ctype="x-html-sub">16</g> </target>
+              <trans-unit restype="cell" id="tu462" resname="/html/body/table[2]/tbody/tr[2]/td[4]">
+                <source xml:lang="nl"> 4 x G<g id="g463" ctype="x-html-sub">16</g> </source>
+                <target xml:lang="de" state="final"> 4 x G<g id="g464" ctype="x-html-sub">16</g> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[2]/tbody/tr[2]/td[5]">
+              <trans-unit restype="cell" id="tu465" resname="/html/body/table[2]/tbody/tr[2]/td[5]">
                 <source xml:lang="nl"> 5 x 1.550,00 </source>
                 <target xml:lang="de" state="final"> 5 x 1.550,00 </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[2]/tbody/tr[2]/td[6]">
+              <trans-unit restype="cell" id="tu466" resname="/html/body/table[2]/tbody/tr[2]/td[6]">
                 <source xml:lang="nl"> 4 x 1.050,00 </source>
                 <target xml:lang="de" state="final"> 4 x 1.050,00 </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[2]/tbody/tr[2]/td[7]">
+              <trans-unit restype="cell" id="tu467" resname="/html/body/table[2]/tbody/tr[2]/td[7]">
                 <source xml:lang="nl"> 4 x 450,00 </source>
                 <target xml:lang="de" state="final"> 4 x 450,00 </target>
               </trans-unit>
             </group>
-            <group restype="row" id="/html/body/table[2]/tbody/tr[3]">
-              <trans-unit restype="cell" id="/html/body/table[2]/tbody/tr[3]/td[1]">
-                <source xml:lang="nl"> 3<g ctype="x-html-sup">de</g> </source>
-                <target xml:lang="de" state="final"> 3.<g ctype="x-html-sup"/> </target>
+            <group restype="row" id="tu468" resname="/html/body/table[2]/tbody/tr[3]">
+              <trans-unit restype="cell" id="tu469" resname="/html/body/table[2]/tbody/tr[3]/td[1]">
+                <source xml:lang="nl"> 3<g id="g470" ctype="x-html-sup">de</g> </source>
+                <target xml:lang="de" state="final"> 3.<x id="x471" ctype="x-html-sup" equiv-text=" "/> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[2]/tbody/tr[3]/td[2]">
-                <source xml:lang="nl"> 5 x G<g ctype="x-html-sub">15</g> </source>
-                <target xml:lang="de" state="final"> 5 x G<g ctype="x-html-sub">15</g> </target>
+              <trans-unit restype="cell" id="tu472" resname="/html/body/table[2]/tbody/tr[3]/td[2]">
+                <source xml:lang="nl"> 5 x G<g id="g473" ctype="x-html-sub">15</g> </source>
+                <target xml:lang="de" state="final"> 5 x G<g id="g474" ctype="x-html-sub">15</g> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[2]/tbody/tr[3]/td[3]">
-                <source xml:lang="nl"> 4 x G<g ctype="x-html-sub">16</g> </source>
-                <target xml:lang="de" state="final"> 4 x G<g ctype="x-html-sub">16</g> </target>
+              <trans-unit restype="cell" id="tu475" resname="/html/body/table[2]/tbody/tr[3]/td[3]">
+                <source xml:lang="nl"> 4 x G<g id="g476" ctype="x-html-sub">16</g> </source>
+                <target xml:lang="de" state="final"> 4 x G<g id="g477" ctype="x-html-sub">16</g> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[2]/tbody/tr[3]/td[4]">
-                <source xml:lang="nl"> 4 x G<g ctype="x-html-sub">16</g> </source>
-                <target xml:lang="de" state="final"> 4 x G<g ctype="x-html-sub">16</g> </target>
+              <trans-unit restype="cell" id="tu478" resname="/html/body/table[2]/tbody/tr[3]/td[4]">
+                <source xml:lang="nl"> 4 x G<g id="g479" ctype="x-html-sub">16</g> </source>
+                <target xml:lang="de" state="final"> 4 x G<g id="g480" ctype="x-html-sub">16</g> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[2]/tbody/tr[3]/td[5]">
+              <trans-unit restype="cell" id="tu481" resname="/html/body/table[2]/tbody/tr[3]/td[5]">
                 <source xml:lang="nl"> 5 x 1.050,00 </source>
                 <target xml:lang="de" state="final"> 5 x 1.050,00 </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[2]/tbody/tr[3]/td[6]">
+              <trans-unit restype="cell" id="tu482" resname="/html/body/table[2]/tbody/tr[3]/td[6]">
                 <source xml:lang="nl"> 4 x 450,00 </source>
                 <target xml:lang="de" state="final"> 4 x 450,00 </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[2]/tbody/tr[3]/td[7]">
+              <trans-unit restype="cell" id="tu483" resname="/html/body/table[2]/tbody/tr[3]/td[7]">
                 <source xml:lang="nl"> 4 x 450,00 </source>
                 <target xml:lang="de" state="final"> 4 x 450,00 </target>
               </trans-unit>
             </group>
-            <group restype="row" id="/html/body/table[2]/tbody/tr[4]">
-              <trans-unit restype="cell" id="/html/body/table[2]/tbody/tr[4]/td[1]">
-                <source xml:lang="nl"> 4<g ctype="x-html-sup">de</g> </source>
-                <target xml:lang="de" state="final"> 4.<g ctype="x-html-sup"/> </target>
+            <group restype="row" id="tu484" resname="/html/body/table[2]/tbody/tr[4]">
+              <trans-unit restype="cell" id="tu485" resname="/html/body/table[2]/tbody/tr[4]/td[1]">
+                <source xml:lang="nl"> 4<g id="g486" ctype="x-html-sup">de</g> </source>
+                <target xml:lang="de" state="final"> 4.<x id="x487" ctype="x-html-sup" equiv-text=" "/> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[2]/tbody/tr[4]/td[2]">
-                <source xml:lang="nl"> 5 x G<g ctype="x-html-sub">15</g> </source>
-                <target xml:lang="de" state="final"> 5 x G<g ctype="x-html-sub">15</g> </target>
+              <trans-unit restype="cell" id="tu488" resname="/html/body/table[2]/tbody/tr[4]/td[2]">
+                <source xml:lang="nl"> 5 x G<g id="g489" ctype="x-html-sub">15</g> </source>
+                <target xml:lang="de" state="final"> 5 x G<g id="g490" ctype="x-html-sub">15</g> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[2]/tbody/tr[4]/td[3]">
-                <source xml:lang="nl"> 4 x G<g ctype="x-html-sub">16</g> </source>
-                <target xml:lang="de" state="final"> 4 x G<g ctype="x-html-sub">16</g> </target>
+              <trans-unit restype="cell" id="tu491" resname="/html/body/table[2]/tbody/tr[4]/td[3]">
+                <source xml:lang="nl"> 4 x G<g id="g492" ctype="x-html-sub">16</g> </source>
+                <target xml:lang="de" state="final"> 4 x G<g id="g493" ctype="x-html-sub">16</g> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[2]/tbody/tr[4]/td[4]">
+              <trans-unit restype="cell" id="tu494" resname="/html/body/table[2]/tbody/tr[4]/td[4]">
                 <source xml:lang="nl"> --- </source>
                 <target xml:lang="de" state="final"> --- </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[2]/tbody/tr[4]/td[5]">
+              <trans-unit restype="cell" id="tu495" resname="/html/body/table[2]/tbody/tr[4]/td[5]">
                 <source xml:lang="nl"> 5 x 1.050,00 </source>
                 <target xml:lang="de" state="final"> 5 x 1.050,00 </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[2]/tbody/tr[4]/td[6]">
+              <trans-unit restype="cell" id="tu496" resname="/html/body/table[2]/tbody/tr[4]/td[6]">
                 <source xml:lang="nl"> 4 x 450,00 </source>
                 <target xml:lang="de" state="final"> 4 x 450,00 </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[2]/tbody/tr[4]/td[7]">
+              <trans-unit restype="cell" id="tu497" resname="/html/body/table[2]/tbody/tr[4]/td[7]">
                 <source xml:lang="nl"> --- </source>
                 <target xml:lang="de" state="final"> --- </target>
               </trans-unit>
             </group>
-            <group restype="row" id="/html/body/table[2]/tbody/tr[5]">
-              <trans-unit restype="cell" id="/html/body/table[2]/tbody/tr[5]/td[1]">
-                <source xml:lang="nl"> 5<g ctype="x-html-sup">de</g> </source>
-                <target xml:lang="de" state="final"> 5.<g ctype="x-html-sup"/> </target>
+            <group restype="row" id="tu498" resname="/html/body/table[2]/tbody/tr[5]">
+              <trans-unit restype="cell" id="tu499" resname="/html/body/table[2]/tbody/tr[5]/td[1]">
+                <source xml:lang="nl"> 5<g id="g500" ctype="x-html-sup">de</g> </source>
+                <target xml:lang="de" state="final"> 5.<x id="x501" ctype="x-html-sup" equiv-text=" "/> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[2]/tbody/tr[5]/td[2]">
-                <source xml:lang="nl"> 5 x G<g ctype="x-html-sub">1</g> </source>
-                <target xml:lang="de" state="final"> 5 x G<g ctype="x-html-sub">1</g> </target>
+              <trans-unit restype="cell" id="tu502" resname="/html/body/table[2]/tbody/tr[5]/td[2]">
+                <source xml:lang="nl"> 5 x G<g id="g503" ctype="x-html-sub">1</g> </source>
+                <target xml:lang="de" state="final"> 5 x G<g id="g504" ctype="x-html-sub">1</g> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[2]/tbody/tr[5]/td[3]">
-                <source xml:lang="nl"> 4 x G<g ctype="x-html-sub">2</g> </source>
-                <target xml:lang="de" state="final"> 4 x G<g ctype="x-html-sub">2</g> </target>
+              <trans-unit restype="cell" id="tu505" resname="/html/body/table[2]/tbody/tr[5]/td[3]">
+                <source xml:lang="nl"> 4 x G<g id="g506" ctype="x-html-sub">2</g> </source>
+                <target xml:lang="de" state="final"> 4 x G<g id="g507" ctype="x-html-sub">2</g> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[2]/tbody/tr[5]/td[4]">
+              <trans-unit restype="cell" id="tu508" resname="/html/body/table[2]/tbody/tr[5]/td[4]">
                 <source xml:lang="nl"> --- </source>
                 <target xml:lang="de" state="final"> --- </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[2]/tbody/tr[5]/td[5]">
+              <trans-unit restype="cell" id="tu509" resname="/html/body/table[2]/tbody/tr[5]/td[5]">
                 <source xml:lang="nl"> 5 x 1.000,00 </source>
                 <target xml:lang="de" state="final"> 5 x 1.000,00 </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[2]/tbody/tr[5]/td[6]">
+              <trans-unit restype="cell" id="tu510" resname="/html/body/table[2]/tbody/tr[5]/td[6]">
                 <source xml:lang="nl"> 4 x 400,00 </source>
                 <target xml:lang="de" state="final"> 4 x 400,00 </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[2]/tbody/tr[5]/td[7]">
+              <trans-unit restype="cell" id="tu511" resname="/html/body/table[2]/tbody/tr[5]/td[7]">
                 <source xml:lang="nl"> --- </source>
                 <target xml:lang="de" state="final"> --- </target>
               </trans-unit>
             </group>
-            <group restype="row" id="/html/body/table[2]/tbody/tr[6]">
-              <trans-unit restype="cell" id="/html/body/table[2]/tbody/tr[6]/td[1]">
-                <source xml:lang="nl"> 6<g ctype="x-html-sup">de</g> </source>
-                <target xml:lang="de" state="final"> 6.<g ctype="x-html-sup"/> </target>
+            <group restype="row" id="tu512" resname="/html/body/table[2]/tbody/tr[6]">
+              <trans-unit restype="cell" id="tu513" resname="/html/body/table[2]/tbody/tr[6]/td[1]">
+                <source xml:lang="nl"> 6<g id="g514" ctype="x-html-sup">de</g> </source>
+                <target xml:lang="de" state="final"> 6.<x id="x515" ctype="x-html-sup" equiv-text=" "/> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[2]/tbody/tr[6]/td[2]">
-                <source xml:lang="nl"> 5 x G<g ctype="x-html-sub">1</g> </source>
-                <target xml:lang="de" state="final"> 5 x G<g ctype="x-html-sub">1</g> </target>
+              <trans-unit restype="cell" id="tu516" resname="/html/body/table[2]/tbody/tr[6]/td[2]">
+                <source xml:lang="nl"> 5 x G<g id="g517" ctype="x-html-sub">1</g> </source>
+                <target xml:lang="de" state="final"> 5 x G<g id="g518" ctype="x-html-sub">1</g> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[2]/tbody/tr[6]/td[3]">
-                <source xml:lang="nl"> 4 x G<g ctype="x-html-sub">2</g> </source>
-                <target xml:lang="de" state="final"> 4 x G<g ctype="x-html-sub">2</g> </target>
+              <trans-unit restype="cell" id="tu519" resname="/html/body/table[2]/tbody/tr[6]/td[3]">
+                <source xml:lang="nl"> 4 x G<g id="g520" ctype="x-html-sub">2</g> </source>
+                <target xml:lang="de" state="final"> 4 x G<g id="g521" ctype="x-html-sub">2</g> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[2]/tbody/tr[6]/td[4]">
+              <trans-unit restype="cell" id="tu522" resname="/html/body/table[2]/tbody/tr[6]/td[4]">
                 <source xml:lang="nl"> --- </source>
                 <target xml:lang="de" state="final"> --- </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[2]/tbody/tr[6]/td[5]">
+              <trans-unit restype="cell" id="tu523" resname="/html/body/table[2]/tbody/tr[6]/td[5]">
                 <source xml:lang="nl"> 5 x 1.000,00 </source>
                 <target xml:lang="de" state="final"> 5 x 1.000,00 </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[2]/tbody/tr[6]/td[6]">
+              <trans-unit restype="cell" id="tu524" resname="/html/body/table[2]/tbody/tr[6]/td[6]">
                 <source xml:lang="nl"> 4 x 400,00 </source>
                 <target xml:lang="de" state="final"> 4 x 400,00 </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[2]/tbody/tr[6]/td[7]">
+              <trans-unit restype="cell" id="tu525" resname="/html/body/table[2]/tbody/tr[6]/td[7]">
                 <source xml:lang="nl"> --- </source>
                 <target xml:lang="de" state="final"> --- </target>
               </trans-unit>
             </group>
           </group>
         </group>
-        <trans-unit restype="x-html-p" id="/html/body/p[31]">
+        <trans-unit restype="x-html-p" id="tu526" resname="/html/body/p[31]">
           <source xml:lang="nl"> (*) het saldo van de verschuldigde basisbijdragen na de eventuele sociale maribel aftrek en na toepassing van de structurele vermindering. </source>
           <target xml:lang="de" state="final"> (*) Der Saldo der geschuldeten Basisbeiträge nach eventuellem Abzug der „Maribel Sozial“-Maßnahme und nach Anwendung der strukturellen Ermäßigung. </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[32]">
+        <trans-unit restype="x-html-p" id="tu527" resname="/html/body/p[32]">
           <source xml:lang="nl">   </source>
           <target xml:lang="de" state="final">   </target>
         </trans-unit>
-        <trans-unit restype="x-html-h3" id="/html/body/h3[5]">
+        <trans-unit restype="x-html-h3" id="tu528" resname="/html/body/h3[5]">
           <source xml:lang="nl"> Periode 2 - Overgangsmaatregelen voor indienstnames vanaf 1 januari 2015 maar vóór 1 januari 2016 </source>
           <target xml:lang="de" state="final"> Periode 2 – Übergangsmaßnahmen für Einstellungen ab 01.01.2015, aber vor 01.01.2016 </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[33]">
-          <source xml:lang="nl"> De forfaitbedragen die gelden vanaf 1 januari 2016 worden gehanteerd voor de werknemers die het <g ctype="x-html-strong">recht</g> op de doelgroepvermindering hebben <g ctype="x-html-strong">geopend in 2015</g> <g ctype="x-html-strong">voor de resterende kwartalen</g> van de doelgroepvermindering, wat wil zeggen dat: </source>
-          <target xml:lang="de" state="final"> Als Übergangsmaßnahme werden die neuen Pauschalbeträge angewendet, die ab 01.01.2016 für Arbeitnehmer gelten, die das <g ctype="x-html-strong">Recht</g> auf die Zielgruppenermäßigung <g ctype="x-html-strong">für die übrigen Quartale der Zielgruppenermäßigung</g> <g ctype="x-html-strong">2015</g> eröffnet haben, das heißt: </target>
+        <trans-unit restype="x-html-p" id="tu529" resname="/html/body/p[33]">
+          <source xml:lang="nl"> De forfaitbedragen die gelden vanaf 1 januari 2016 worden gehanteerd voor de werknemers die het <g id="g530" ctype="x-html-strong">recht</g> op de doelgroepvermindering hebben <g id="g531" ctype="x-html-strong">geopend in 2015</g> <g id="g532" ctype="x-html-strong">voor de resterende kwartalen</g> van de doelgroepvermindering, wat wil zeggen dat: </source>
+          <target xml:lang="de" state="final"> Als Übergangsmaßnahme werden die neuen Pauschalbeträge angewendet, die ab 01.01.2016 für Arbeitnehmer gelten, die das <g id="g533" ctype="x-html-strong">Recht</g> auf die Zielgruppenermäßigung <g id="g534" ctype="x-html-strong">für die übrigen Quartale der Zielgruppenermäßigung</g> <g id="g535" ctype="x-html-strong">2015</g> eröffnet haben, das heißt: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="/html/body/ul[4]">
-          <trans-unit restype="listitem" id="/html/body/ul[4]/li[1]">
-            <source xml:lang="nl">als een 1<g ctype="x-html-sup">ste</g> werknemer werd in dienst genomen in 2015, de werkgever recht heeft op het forfait G7 voor het resterend aantal kwartalen (dus maximaal 13 op te nemen in een periode van 20 kwartalen te rekenen vanaf het kwartaal van opening recht), </source>
-            <target xml:lang="de" state="final">wenn ein erster Arbeitnehmer 2015 eingestellt wurde, der dem Arbeitgeber für die Anzahl verbleibender Quartale das Recht auf die Pauschale G7 eröffnet (d. h. maximal 13 Quartale in einer Periode davon 20 Quartalen ab dem Quartal, in dem das Recht eröffnet wurde); <g ctype="x-html-sup"/> </target>
+        <group restype="x-html-ul" id="tu536" resname="/html/body/ul[4]">
+          <trans-unit restype="listitem" id="tu537" resname="/html/body/ul[4]/li[1]">
+            <source xml:lang="nl">als een 1<g id="g538" ctype="x-html-sup">ste</g> werknemer werd in dienst genomen in 2015, de werkgever recht heeft op het forfait G7 voor het resterend aantal kwartalen (dus maximaal 13 op te nemen in een periode van 20 kwartalen te rekenen vanaf het kwartaal van opening recht), </source>
+            <target xml:lang="de" state="final">wenn ein erster Arbeitnehmer 2015 eingestellt wurde, der dem Arbeitgeber für die Anzahl verbleibender Quartale das Recht auf die Pauschale G7 eröffnet (d. h. maximal 13 Quartale in einer Periode davon 20 Quartalen ab dem Quartal, in dem das Recht eröffnet wurde); <x id="x539" ctype="x-html-sup" equiv-text=" "/> </target>
           </trans-unit>
-          <trans-unit restype="listitem" id="/html/body/ul[4]/li[2]">
-            <source xml:lang="nl">als een 2<g ctype="x-html-sup">de</g> werknemer werd in dienst genomen in 2015, hij voor het resterend aantal kwartalen de nieuwe forfaits voor een 2<g ctype="x-html-sup">de</g> werknemer mag toepassen, (dus maximaal voor 13 kwartalen op te nemen in een periode van 20 kwartalen), </source>
-            <target xml:lang="de" state="final">wenn 2015 ein zweiter Arbeitnehmer eingestellt wurde, kann er für die Anzahl verbleibender Quartale die neuen Pauschalen für einen zweiten Arbeitnehmer anwenden (daher maximal für 13 Quartale, die in einer Periode von 20 Quartalen zu nehmen sind); <g ctype="x-html-sup"/><g ctype="x-html-sup"/> </target>
+          <trans-unit restype="listitem" id="tu540" resname="/html/body/ul[4]/li[2]">
+            <source xml:lang="nl">als een 2<g id="g541" ctype="x-html-sup">de</g> werknemer werd in dienst genomen in 2015, hij voor het resterend aantal kwartalen de nieuwe forfaits voor een 2<g id="g542" ctype="x-html-sup">de</g> werknemer mag toepassen, (dus maximaal voor 13 kwartalen op te nemen in een periode van 20 kwartalen), </source>
+            <target xml:lang="de" state="final">wenn 2015 ein zweiter Arbeitnehmer eingestellt wurde, kann er für die Anzahl verbleibender Quartale die neuen Pauschalen für einen zweiten Arbeitnehmer anwenden (daher maximal für 13 Quartale, die in einer Periode von 20 Quartalen zu nehmen sind); <x id="x543" ctype="x-html-sup" equiv-text=" "/><x id="x544" ctype="x-html-sup" equiv-text=" "/> </target>
           </trans-unit>
-          <trans-unit restype="listitem" id="/html/body/ul[4]/li[3]">
-            <source xml:lang="nl">als een 3<g ctype="x-html-sup">de</g> werknemer werd in dienst genomen in 2015, hij voor het resterend aantal kwartalen de forfaits voor een 3<g ctype="x-html-sup">de</g> werknemer mag blijven toepassen (in het oude en het nieuwe systeem zijn de forfaits voor een 3<g ctype="x-html-sup">de</g> werknemer hetzelfde), voor maximaal 9 kwartalen op te nemen in een periode van 20 kwartalen, </source>
-            <target xml:lang="de" state="final">wenn 2015 ein dritter Arbeitnehmer eingestellt wurde, kann er für die Anzahl verbleibender Quartale die Pauschalen auch für einen dritten Arbeitnehmer anwenden (im alten und im neuen System sind die Pauschalen für einen dritten Arbeitnehmer gleich), d. h. für maximal für 9 Quartale, die in einer Periode von 20 Quartalen zu nehmen sind; <g ctype="x-html-sup"/><g ctype="x-html-sup"/><g ctype="x-html-sup"/> </target>
+          <trans-unit restype="listitem" id="tu545" resname="/html/body/ul[4]/li[3]">
+            <source xml:lang="nl">als een 3<g id="g546" ctype="x-html-sup">de</g> werknemer werd in dienst genomen in 2015, hij voor het resterend aantal kwartalen de forfaits voor een 3<g id="g547" ctype="x-html-sup">de</g> werknemer mag blijven toepassen (in het oude en het nieuwe systeem zijn de forfaits voor een 3<g id="g548" ctype="x-html-sup">de</g> werknemer hetzelfde), voor maximaal 9 kwartalen op te nemen in een periode van 20 kwartalen, </source>
+            <target xml:lang="de" state="final">wenn 2015 ein dritter Arbeitnehmer eingestellt wurde, kann er für die Anzahl verbleibender Quartale die Pauschalen auch für einen dritten Arbeitnehmer anwenden (im alten und im neuen System sind die Pauschalen für einen dritten Arbeitnehmer gleich), d. h. für maximal für 9 Quartale, die in einer Periode von 20 Quartalen zu nehmen sind; <x id="x549" ctype="x-html-sup" equiv-text=" "/><x id="x550" ctype="x-html-sup" equiv-text=" "/><x id="x551" ctype="x-html-sup" equiv-text=" "/> </target>
           </trans-unit>
-          <trans-unit restype="listitem" id="/html/body/ul[4]/li[4]">
-            <source xml:lang="nl">als hij in het 4<g ctype="x-html-sup">de</g> kwartaal 2015 reeds 6 werknemers in dienst had, hij in 2016 geen vermindering voor een 6<g ctype="x-html-sup">de</g> werknemer kan verkrijgen. </source>
-            <target xml:lang="de" state="final">wenn er im vierten Quartal 2015 bereits 6 Arbeitnehmer beschäftigt hatte, kann er 2016 keine Ermäßigung für einen sechsten Arbeitnehmer erhalten. <g ctype="x-html-sup"/><g ctype="x-html-sup"/> </target>
+          <trans-unit restype="listitem" id="tu552" resname="/html/body/ul[4]/li[4]">
+            <source xml:lang="nl">als hij in het 4<g id="g553" ctype="x-html-sup">de</g> kwartaal 2015 reeds 6 werknemers in dienst had, hij in 2016 geen vermindering voor een 6<g id="g554" ctype="x-html-sup">de</g> werknemer kan verkrijgen. </source>
+            <target xml:lang="de" state="final">wenn er im vierten Quartal 2015 bereits 6 Arbeitnehmer beschäftigt hatte, kann er 2016 keine Ermäßigung für einen sechsten Arbeitnehmer erhalten. <x id="x555" ctype="x-html-sup" equiv-text=" "/><x id="x556" ctype="x-html-sup" equiv-text=" "/> </target>
           </trans-unit>
         </group>
-        <trans-unit restype="x-html-p" id="/html/body/p[34]">
+        <trans-unit restype="x-html-p" id="tu557" resname="/html/body/p[34]">
           <source xml:lang="nl"> Forfaits en absolute bedragen bij maximaal saldo resterende kwartalen, maximale verminderingen en bij volledige prestaties(in EUR): </source>
           <target xml:lang="de" state="final"> Pauschalen und absolute Beträge bei maximalem Saldo verbleibende Quartale, maximalen Ermäßigungen und vollständigen Leistungen (in EUR): </target>
         </trans-unit>
-        <group restype="table" html:class="table-bordered" id="/html/body/table[3]">
-          <group restype="x-html-thead" id="/html/body/table[3]/thead">
-            <group restype="row" id="/html/body/table[3]/thead/tr">
-              <trans-unit restype="x-html-th" id="/html/body/table[3]/thead/tr/th[1]">
+        <group restype="table" id="tu558" resname="/html/body/table[3]">
+          <note from="class">table-bordered</note>
+          <group restype="x-html-thead" id="tu559" resname="/html/body/table[3]/thead">
+            <group restype="row" id="tu560" resname="/html/body/table[3]/thead/tr">
+              <trans-unit restype="x-html-th" id="tu561" resname="/html/body/table[3]/thead/tr/th[1]">
                 <source xml:lang="nl"> telling </source>
                 <target xml:lang="de" state="final"> Zählung </target>
               </trans-unit>
-              <trans-unit restype="x-html-th" html:colspan="3" id="/html/body/table[3]/thead/tr/th[2]">
+              <trans-unit restype="x-html-th" id="tu562" resname="/html/body/table[3]/thead/tr/th[2]">
                 <source xml:lang="nl"> forfaits </source>
                 <target xml:lang="de" state="final"> Pauschalen </target>
+                <note from="colspan">3</note>
               </trans-unit>
-              <trans-unit restype="x-html-th" html:colspan="3" id="/html/body/table[3]/thead/tr/th[3]">
+              <trans-unit restype="x-html-th" id="tu563" resname="/html/body/table[3]/thead/tr/th[3]">
                 <source xml:lang="nl"> absolute bedragen in EUR </source>
                 <target xml:lang="de" state="final"> absolute Beträge in EUR </target>
+                <note from="colspan">3</note>
               </trans-unit>
             </group>
           </group>
-          <group restype="x-html-tbody" id="/html/body/table[3]/tbody">
-            <group restype="row" id="/html/body/table[3]/tbody/tr[1]">
-              <trans-unit restype="cell" id="/html/body/table[3]/tbody/tr[1]/td[1]">
-                <source xml:lang="nl"> 1<g ctype="x-html-sup">ste</g> </source>
-                <target xml:lang="de" state="final"> 1.<g ctype="x-html-sup"/> </target>
+          <group restype="x-html-tbody" id="tu564" resname="/html/body/table[3]/tbody">
+            <group restype="row" id="tu565" resname="/html/body/table[3]/tbody/tr[1]">
+              <trans-unit restype="cell" id="tu566" resname="/html/body/table[3]/tbody/tr[1]/td[1]">
+                <source xml:lang="nl"> 1<g id="g567" ctype="x-html-sup">ste</g> </source>
+                <target xml:lang="de" state="final"> 1.<x id="x568" ctype="x-html-sup" equiv-text=" "/> </target>
               </trans-unit>
-              <trans-unit restype="cell" html:colspan="3" id="/html/body/table[3]/tbody/tr[1]/td[2]">
-                <source xml:lang="nl"> 13 x G<g ctype="x-html-sub">7</g> </source>
-                <target xml:lang="de" state="final"> 13 x G<g ctype="x-html-sub">7</g> </target>
+              <trans-unit restype="cell" id="tu569" resname="/html/body/table[3]/tbody/tr[1]/td[2]">
+                <source xml:lang="nl"> 13 x G<g id="g570" ctype="x-html-sub">7</g> </source>
+                <target xml:lang="de" state="final"> 13 x G<g id="g571" ctype="x-html-sub">7</g> </target>
+                <note from="colspan">3</note>
               </trans-unit>
-              <trans-unit restype="cell" html:colspan="3" id="/html/body/table[3]/tbody/tr[1]/td[3]">
+              <trans-unit restype="cell" id="tu572" resname="/html/body/table[3]/tbody/tr[1]/td[3]">
                 <source xml:lang="nl"> 13 x saldo (*) </source>
                 <target xml:lang="de" state="final"> 13 x Saldo (*) </target>
+                <note from="colspan">3</note>
               </trans-unit>
             </group>
-            <group restype="row" id="/html/body/table[3]/tbody/tr[2]">
-              <trans-unit restype="cell" id="/html/body/table[3]/tbody/tr[2]/td[1]">
-                <source xml:lang="nl"> 2<g ctype="x-html-sup">de</g> </source>
-                <target xml:lang="de" state="final"> 2.<g ctype="x-html-sup"/> </target>
+            <group restype="row" id="tu573" resname="/html/body/table[3]/tbody/tr[2]">
+              <trans-unit restype="cell" id="tu574" resname="/html/body/table[3]/tbody/tr[2]/td[1]">
+                <source xml:lang="nl"> 2<g id="g575" ctype="x-html-sup">de</g> </source>
+                <target xml:lang="de" state="final"> 2.<x id="x576" ctype="x-html-sup" equiv-text=" "/> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[3]/tbody/tr[2]/td[2]">
-                <source xml:lang="nl"> 5 x G<g ctype="x-html-sub">14</g> </source>
-                <target xml:lang="de" state="final"> 5 x G<g ctype="x-html-sub">14</g> </target>
+              <trans-unit restype="cell" id="tu577" resname="/html/body/table[3]/tbody/tr[2]/td[2]">
+                <source xml:lang="nl"> 5 x G<g id="g578" ctype="x-html-sub">14</g> </source>
+                <target xml:lang="de" state="final"> 5 x G<g id="g579" ctype="x-html-sub">14</g> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[3]/tbody/tr[2]/td[3]">
-                <source xml:lang="nl"> 4 x G<g ctype="x-html-sub">15</g> </source>
-                <target xml:lang="de" state="final"> 4 x G<g ctype="x-html-sub">15</g> </target>
+              <trans-unit restype="cell" id="tu580" resname="/html/body/table[3]/tbody/tr[2]/td[3]">
+                <source xml:lang="nl"> 4 x G<g id="g581" ctype="x-html-sub">15</g> </source>
+                <target xml:lang="de" state="final"> 4 x G<g id="g582" ctype="x-html-sub">15</g> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[3]/tbody/tr[2]/td[4]">
-                <source xml:lang="nl"> 4 x G<g ctype="x-html-sub">16</g> </source>
-                <target xml:lang="de" state="final"> 4 x G<g ctype="x-html-sub">16</g> </target>
+              <trans-unit restype="cell" id="tu583" resname="/html/body/table[3]/tbody/tr[2]/td[4]">
+                <source xml:lang="nl"> 4 x G<g id="g584" ctype="x-html-sub">16</g> </source>
+                <target xml:lang="de" state="final"> 4 x G<g id="g585" ctype="x-html-sub">16</g> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[3]/tbody/tr[2]/td[5]">
+              <trans-unit restype="cell" id="tu586" resname="/html/body/table[3]/tbody/tr[2]/td[5]">
                 <source xml:lang="nl"> 5 x 1.550,00 </source>
                 <target xml:lang="de" state="final"> 5 x 1.550,00 </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[3]/tbody/tr[2]/td[6]">
+              <trans-unit restype="cell" id="tu587" resname="/html/body/table[3]/tbody/tr[2]/td[6]">
                 <source xml:lang="nl"> 4 x 1.050,00 </source>
                 <target xml:lang="de" state="final"> 4 x 1.050,00 </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[3]/tbody/tr[2]/td[7]">
+              <trans-unit restype="cell" id="tu588" resname="/html/body/table[3]/tbody/tr[2]/td[7]">
                 <source xml:lang="nl"> 4 x 450,00 </source>
                 <target xml:lang="de" state="final"> 4 x 450,00 </target>
               </trans-unit>
             </group>
-            <group restype="row" id="/html/body/table[3]/tbody/tr[3]">
-              <trans-unit restype="cell" id="/html/body/table[3]/tbody/tr[3]/td[1]">
-                <source xml:lang="nl"> 3<g ctype="x-html-sup">de</g> </source>
-                <target xml:lang="de" state="final"> 3.<g ctype="x-html-sup"/> </target>
+            <group restype="row" id="tu589" resname="/html/body/table[3]/tbody/tr[3]">
+              <trans-unit restype="cell" id="tu590" resname="/html/body/table[3]/tbody/tr[3]/td[1]">
+                <source xml:lang="nl"> 3<g id="g591" ctype="x-html-sup">de</g> </source>
+                <target xml:lang="de" state="final"> 3.<x id="x592" ctype="x-html-sup" equiv-text=" "/> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[3]/tbody/tr[3]/td[2]">
-                <source xml:lang="nl"> 5 x G<g ctype="x-html-sub">15</g> </source>
-                <target xml:lang="de" state="final"> 5 x G<g ctype="x-html-sub">15</g> </target>
+              <trans-unit restype="cell" id="tu593" resname="/html/body/table[3]/tbody/tr[3]/td[2]">
+                <source xml:lang="nl"> 5 x G<g id="g594" ctype="x-html-sub">15</g> </source>
+                <target xml:lang="de" state="final"> 5 x G<g id="g595" ctype="x-html-sub">15</g> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[3]/tbody/tr[3]/td[3]">
-                <source xml:lang="nl"> 4 x G<g ctype="x-html-sub">16</g> </source>
-                <target xml:lang="de" state="final"> 4 x G<g ctype="x-html-sub">16</g> </target>
+              <trans-unit restype="cell" id="tu596" resname="/html/body/table[3]/tbody/tr[3]/td[3]">
+                <source xml:lang="nl"> 4 x G<g id="g597" ctype="x-html-sub">16</g> </source>
+                <target xml:lang="de" state="final"> 4 x G<g id="g598" ctype="x-html-sub">16</g> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[3]/tbody/tr[3]/td[4]">
+              <trans-unit restype="cell" id="tu599" resname="/html/body/table[3]/tbody/tr[3]/td[4]">
                 <source xml:lang="nl"> --- </source>
                 <target xml:lang="de" state="final"> --- </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[3]/tbody/tr[3]/td[5]">
+              <trans-unit restype="cell" id="tu600" resname="/html/body/table[3]/tbody/tr[3]/td[5]">
                 <source xml:lang="nl"> 5 x 1.050,00 </source>
                 <target xml:lang="de" state="final"> 5 x 1.050,00 </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[3]/tbody/tr[3]/td[6]">
+              <trans-unit restype="cell" id="tu601" resname="/html/body/table[3]/tbody/tr[3]/td[6]">
                 <source xml:lang="nl"> 4 x 450,00 </source>
                 <target xml:lang="de" state="final"> 4 x 450,00 </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[3]/tbody/tr[3]/td[7]">
+              <trans-unit restype="cell" id="tu602" resname="/html/body/table[3]/tbody/tr[3]/td[7]">
                 <source xml:lang="nl"> --- </source>
                 <target xml:lang="de" state="final"> --- </target>
               </trans-unit>
             </group>
-            <group restype="row" id="/html/body/table[3]/tbody/tr[4]">
-              <trans-unit restype="cell" id="/html/body/table[3]/tbody/tr[4]/td[1]">
-                <source xml:lang="nl"> 4<g ctype="x-html-sup">de</g> </source>
-                <target xml:lang="de" state="final"> 4.<g ctype="x-html-sup"/> </target>
+            <group restype="row" id="tu603" resname="/html/body/table[3]/tbody/tr[4]">
+              <trans-unit restype="cell" id="tu604" resname="/html/body/table[3]/tbody/tr[4]/td[1]">
+                <source xml:lang="nl"> 4<g id="g605" ctype="x-html-sup">de</g> </source>
+                <target xml:lang="de" state="final"> 4.<x id="x606" ctype="x-html-sup" equiv-text=" "/> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[3]/tbody/tr[4]/td[2]">
-                <source xml:lang="nl"> 5 x G<g ctype="x-html-sub">15</g> </source>
-                <target xml:lang="de" state="final"> 5 x G<g ctype="x-html-sub">15</g> </target>
+              <trans-unit restype="cell" id="tu607" resname="/html/body/table[3]/tbody/tr[4]/td[2]">
+                <source xml:lang="nl"> 5 x G<g id="g608" ctype="x-html-sub">15</g> </source>
+                <target xml:lang="de" state="final"> 5 x G<g id="g609" ctype="x-html-sub">15</g> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[3]/tbody/tr[4]/td[3]">
-                <source xml:lang="nl"> 4 x G<g ctype="x-html-sub">16</g> </source>
-                <target xml:lang="de" state="final"> 4 x G<g ctype="x-html-sub">16</g> </target>
+              <trans-unit restype="cell" id="tu610" resname="/html/body/table[3]/tbody/tr[4]/td[3]">
+                <source xml:lang="nl"> 4 x G<g id="g611" ctype="x-html-sub">16</g> </source>
+                <target xml:lang="de" state="final"> 4 x G<g id="g612" ctype="x-html-sub">16</g> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[3]/tbody/tr[4]/td[4]">
+              <trans-unit restype="cell" id="tu613" resname="/html/body/table[3]/tbody/tr[4]/td[4]">
                 <source xml:lang="nl"> --- </source>
                 <target xml:lang="de" state="final"> --- </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[3]/tbody/tr[4]/td[5]">
+              <trans-unit restype="cell" id="tu614" resname="/html/body/table[3]/tbody/tr[4]/td[5]">
                 <source xml:lang="nl"> 5 x 1.050,00 </source>
                 <target xml:lang="de" state="final"> 5 x 1.050,00 </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[3]/tbody/tr[4]/td[6]">
+              <trans-unit restype="cell" id="tu615" resname="/html/body/table[3]/tbody/tr[4]/td[6]">
                 <source xml:lang="nl"> 4 x 450,00 </source>
                 <target xml:lang="de" state="final"> 4 x 450,00 </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[3]/tbody/tr[4]/td[7]">
+              <trans-unit restype="cell" id="tu616" resname="/html/body/table[3]/tbody/tr[4]/td[7]">
                 <source xml:lang="nl"> --- </source>
                 <target xml:lang="de" state="final"> --- </target>
               </trans-unit>
             </group>
-            <group restype="row" id="/html/body/table[3]/tbody/tr[5]">
-              <trans-unit restype="cell" id="/html/body/table[3]/tbody/tr[5]/td[1]">
-                <source xml:lang="nl"> 5<g ctype="x-html-sup">de</g> </source>
-                <target xml:lang="de" state="final"> 5.<g ctype="x-html-sup"/> </target>
+            <group restype="row" id="tu617" resname="/html/body/table[3]/tbody/tr[5]">
+              <trans-unit restype="cell" id="tu618" resname="/html/body/table[3]/tbody/tr[5]/td[1]">
+                <source xml:lang="nl"> 5<g id="g619" ctype="x-html-sup">de</g> </source>
+                <target xml:lang="de" state="final"> 5.<x id="x620" ctype="x-html-sup" equiv-text=" "/> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[3]/tbody/tr[5]/td[2]">
-                <source xml:lang="nl"> 5 x G<g ctype="x-html-sub">1</g> </source>
-                <target xml:lang="de" state="final"> 5 x G<g ctype="x-html-sub">1</g> </target>
+              <trans-unit restype="cell" id="tu621" resname="/html/body/table[3]/tbody/tr[5]/td[2]">
+                <source xml:lang="nl"> 5 x G<g id="g622" ctype="x-html-sub">1</g> </source>
+                <target xml:lang="de" state="final"> 5 x G<g id="g623" ctype="x-html-sub">1</g> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[3]/tbody/tr[5]/td[3]">
-                <source xml:lang="nl"> 4 x G<g ctype="x-html-sub">2</g> </source>
-                <target xml:lang="de" state="final"> 4 x G<g ctype="x-html-sub">2</g> </target>
+              <trans-unit restype="cell" id="tu624" resname="/html/body/table[3]/tbody/tr[5]/td[3]">
+                <source xml:lang="nl"> 4 x G<g id="g625" ctype="x-html-sub">2</g> </source>
+                <target xml:lang="de" state="final"> 4 x G<g id="g626" ctype="x-html-sub">2</g> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[3]/tbody/tr[5]/td[4]">
+              <trans-unit restype="cell" id="tu627" resname="/html/body/table[3]/tbody/tr[5]/td[4]">
                 <source xml:lang="nl"> --- </source>
                 <target xml:lang="de" state="final"> --- </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[3]/tbody/tr[5]/td[5]">
+              <trans-unit restype="cell" id="tu628" resname="/html/body/table[3]/tbody/tr[5]/td[5]">
                 <source xml:lang="nl"> 5 x 1.000,00 </source>
                 <target xml:lang="de" state="final"> 5 x 1.000,00 </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[3]/tbody/tr[5]/td[6]">
+              <trans-unit restype="cell" id="tu629" resname="/html/body/table[3]/tbody/tr[5]/td[6]">
                 <source xml:lang="nl"> 4 x 400,00 </source>
                 <target xml:lang="de" state="final"> 4 x 400,00 </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[3]/tbody/tr[5]/td[7]">
+              <trans-unit restype="cell" id="tu630" resname="/html/body/table[3]/tbody/tr[5]/td[7]">
                 <source xml:lang="nl"> --- </source>
                 <target xml:lang="de" state="final"> --- </target>
               </trans-unit>
             </group>
           </group>
         </group>
-        <trans-unit restype="x-html-p" id="/html/body/p[35]">
+        <trans-unit restype="x-html-p" id="tu631" resname="/html/body/p[35]">
           <source xml:lang="nl"> (*) het saldo van de verschuldigde basisbijdragen na de eventuele sociale maribel aftrek en na toepassing van de structurele vermindering. </source>
           <target xml:lang="de" state="final"> (*) Der Saldo der geschuldeten Basisbeiträge nach eventuellem Abzug der „Maribel Sozial“-Maßnahme und nach Anwendung der strukturellen Ermäßigung. </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[36]">
+        <trans-unit restype="x-html-p" id="tu632" resname="/html/body/p[36]">
           <source xml:lang="nl">   </source>
           <target xml:lang="de" state="final">   </target>
         </trans-unit>
-        <trans-unit restype="x-html-h3" id="/html/body/h3[6]">
+        <trans-unit restype="x-html-h3" id="tu633" resname="/html/body/h3[6]">
           <source xml:lang="nl"> Periode 1 - Overgangsmaatregelen voor het recht dat geopend werd vóór 1 januari 2015 </source>
           <target xml:lang="de" state="final"> Periode 1 - Übergangsmaßnahmen für das Recht, das vor dem 01.01.2015 eröffnet wurde </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[37]">
-          <source xml:lang="nl"> De verminderingsforfaits en het aantal toepasselijke kwartalen blijven ongewijzigd ten opzichte van de situatie 4<g ctype="x-html-sup">de</g> kwartaal 2015. </source>
-          <target xml:lang="de" state="final"> Die Ermäßigungspauschalen und die Anzahl der anwendbaren Quartale bleiben gegenüber der Situation im vierten Quartal 2015 unverändert. <g ctype="x-html-sup"/> </target>
+        <trans-unit restype="x-html-p" id="tu634" resname="/html/body/p[37]">
+          <source xml:lang="nl"> De verminderingsforfaits en het aantal toepasselijke kwartalen blijven ongewijzigd ten opzichte van de situatie 4<g id="g635" ctype="x-html-sup">de</g> kwartaal 2015. </source>
+          <target xml:lang="de" state="final"> Die Ermäßigungspauschalen und die Anzahl der anwendbaren Quartale bleiben gegenüber der Situation im vierten Quartal 2015 unverändert. <x id="x636" ctype="x-html-sup" equiv-text=" "/> </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[38]">
+        <trans-unit restype="x-html-p" id="tu637" resname="/html/body/p[38]">
           <source xml:lang="nl"> Forfaits en absolute bedragen bij maximale verminderingen en bij volledige prestaties(in EUR): </source>
           <target xml:lang="de" state="final"> Pauschalen und absolute Beträge bei maximalen Ermäßigungen und vollständigen Leistungen (in EUR): </target>
         </trans-unit>
-        <group restype="table" html:class="table-bordered" id="/html/body/table[4]">
-          <group restype="x-html-thead" id="/html/body/table[4]/thead">
-            <group restype="row" id="/html/body/table[4]/thead/tr">
-              <trans-unit restype="x-html-th" id="/html/body/table[4]/thead/tr/th[1]">
+        <group restype="table" id="tu638" resname="/html/body/table[4]">
+          <note from="class">table-bordered</note>
+          <group restype="x-html-thead" id="tu639" resname="/html/body/table[4]/thead">
+            <group restype="row" id="tu640" resname="/html/body/table[4]/thead/tr">
+              <trans-unit restype="x-html-th" id="tu641" resname="/html/body/table[4]/thead/tr/th[1]">
                 <source xml:lang="nl"> telling </source>
                 <target xml:lang="de" state="final"> Zählung </target>
               </trans-unit>
-              <trans-unit restype="x-html-th" html:colspan="3" id="/html/body/table[4]/thead/tr/th[2]">
+              <trans-unit restype="x-html-th" id="tu642" resname="/html/body/table[4]/thead/tr/th[2]">
                 <source xml:lang="nl"> forfaits </source>
                 <target xml:lang="de" state="final"> Pauschalen </target>
+                <note from="colspan">3</note>
               </trans-unit>
-              <trans-unit restype="x-html-th" html:colspan="3" id="/html/body/table[4]/thead/tr/th[3]">
+              <trans-unit restype="x-html-th" id="tu643" resname="/html/body/table[4]/thead/tr/th[3]">
                 <source xml:lang="nl"> absolute bedragen in EUR </source>
                 <target xml:lang="de" state="final"> absolute Beträge in EUR </target>
+                <note from="colspan">3</note>
               </trans-unit>
             </group>
           </group>
-          <group restype="x-html-tbody" id="/html/body/table[4]/tbody">
-            <group restype="row" id="/html/body/table[4]/tbody/tr[1]">
-              <trans-unit restype="cell" id="/html/body/table[4]/tbody/tr[1]/td[1]">
-                <source xml:lang="nl"> 1<g ctype="x-html-sup">ste</g> </source>
-                <target xml:lang="de" state="final"> 1.<g ctype="x-html-sup"/> </target>
+          <group restype="x-html-tbody" id="tu644" resname="/html/body/table[4]/tbody">
+            <group restype="row" id="tu645" resname="/html/body/table[4]/tbody/tr[1]">
+              <trans-unit restype="cell" id="tu646" resname="/html/body/table[4]/tbody/tr[1]/td[1]">
+                <source xml:lang="nl"> 1<g id="g647" ctype="x-html-sup">ste</g> </source>
+                <target xml:lang="de" state="final"> 1.<x id="x648" ctype="x-html-sup" equiv-text=" "/> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[4]/tbody/tr[1]/td[2]">
-                <source xml:lang="nl"> 5 x G<g ctype="x-html-sub">14</g> </source>
-                <target xml:lang="de" state="final"> 5 x G<g ctype="x-html-sub">14</g> </target>
+              <trans-unit restype="cell" id="tu649" resname="/html/body/table[4]/tbody/tr[1]/td[2]">
+                <source xml:lang="nl"> 5 x G<g id="g650" ctype="x-html-sub">14</g> </source>
+                <target xml:lang="de" state="final"> 5 x G<g id="g651" ctype="x-html-sub">14</g> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[4]/tbody/tr[1]/td[3]">
-                <source xml:lang="nl"> 4 x G<g ctype="x-html-sub">15</g> </source>
-                <target xml:lang="de" state="final"> 4 x G<g ctype="x-html-sub">15</g> </target>
+              <trans-unit restype="cell" id="tu652" resname="/html/body/table[4]/tbody/tr[1]/td[3]">
+                <source xml:lang="nl"> 4 x G<g id="g653" ctype="x-html-sub">15</g> </source>
+                <target xml:lang="de" state="final"> 4 x G<g id="g654" ctype="x-html-sub">15</g> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[4]/tbody/tr[1]/td[4]">
-                <source xml:lang="nl"> 4 x G<g ctype="x-html-sub">16</g> </source>
-                <target xml:lang="de" state="final"> 4 x G<g ctype="x-html-sub">16</g> </target>
+              <trans-unit restype="cell" id="tu655" resname="/html/body/table[4]/tbody/tr[1]/td[4]">
+                <source xml:lang="nl"> 4 x G<g id="g656" ctype="x-html-sub">16</g> </source>
+                <target xml:lang="de" state="final"> 4 x G<g id="g657" ctype="x-html-sub">16</g> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[4]/tbody/tr[1]/td[5]">
+              <trans-unit restype="cell" id="tu658" resname="/html/body/table[4]/tbody/tr[1]/td[5]">
                 <source xml:lang="nl"> 5 x 1.550,00 </source>
                 <target xml:lang="de" state="final"> 5 x 1.550,00 </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[4]/tbody/tr[1]/td[6]">
+              <trans-unit restype="cell" id="tu659" resname="/html/body/table[4]/tbody/tr[1]/td[6]">
                 <source xml:lang="nl"> 4 x 1.050,00 </source>
                 <target xml:lang="de" state="final"> 4 x 1.050,00 </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[4]/tbody/tr[1]/td[7]">
+              <trans-unit restype="cell" id="tu660" resname="/html/body/table[4]/tbody/tr[1]/td[7]">
                 <source xml:lang="nl"> 4 x 450,00 </source>
                 <target xml:lang="de" state="final"> 4 x 450,00 </target>
               </trans-unit>
             </group>
-            <group restype="row" id="/html/body/table[4]/tbody/tr[2]">
-              <trans-unit restype="cell" id="/html/body/table[4]/tbody/tr[2]/td[1]">
-                <source xml:lang="nl"> 2<g ctype="x-html-sup">de</g> </source>
-                <target xml:lang="de" state="final"> 2.<g ctype="x-html-sup"/> </target>
+            <group restype="row" id="tu661" resname="/html/body/table[4]/tbody/tr[2]">
+              <trans-unit restype="cell" id="tu662" resname="/html/body/table[4]/tbody/tr[2]/td[1]">
+                <source xml:lang="nl"> 2<g id="g663" ctype="x-html-sup">de</g> </source>
+                <target xml:lang="de" state="final"> 2.<x id="x664" ctype="x-html-sup" equiv-text=" "/> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[4]/tbody/tr[2]/td[2]">
-                <source xml:lang="nl"> 5 x G<g ctype="x-html-sub">15</g> </source>
-                <target xml:lang="de" state="final"> 5 x G<g ctype="x-html-sub">15</g> </target>
+              <trans-unit restype="cell" id="tu665" resname="/html/body/table[4]/tbody/tr[2]/td[2]">
+                <source xml:lang="nl"> 5 x G<g id="g666" ctype="x-html-sub">15</g> </source>
+                <target xml:lang="de" state="final"> 5 x G<g id="g667" ctype="x-html-sub">15</g> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[4]/tbody/tr[2]/td[3]">
-                <source xml:lang="nl"> 4 x G<g ctype="x-html-sub">16</g> </source>
-                <target xml:lang="de" state="final"> 4 x G<g ctype="x-html-sub">16</g> </target>
+              <trans-unit restype="cell" id="tu668" resname="/html/body/table[4]/tbody/tr[2]/td[3]">
+                <source xml:lang="nl"> 4 x G<g id="g669" ctype="x-html-sub">16</g> </source>
+                <target xml:lang="de" state="final"> 4 x G<g id="g670" ctype="x-html-sub">16</g> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[4]/tbody/tr[2]/td[4]">
-                <source xml:lang="nl"> 4 x G<g ctype="x-html-sub">16</g> </source>
-                <target xml:lang="de" state="final"> 4 x G<g ctype="x-html-sub">16</g> </target>
+              <trans-unit restype="cell" id="tu671" resname="/html/body/table[4]/tbody/tr[2]/td[4]">
+                <source xml:lang="nl"> 4 x G<g id="g672" ctype="x-html-sub">16</g> </source>
+                <target xml:lang="de" state="final"> 4 x G<g id="g673" ctype="x-html-sub">16</g> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[4]/tbody/tr[2]/td[5]">
+              <trans-unit restype="cell" id="tu674" resname="/html/body/table[4]/tbody/tr[2]/td[5]">
                 <source xml:lang="nl"> 5 x 1.050,00 </source>
                 <target xml:lang="de" state="final"> 5 x 1.050,00 </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[4]/tbody/tr[2]/td[6]">
+              <trans-unit restype="cell" id="tu675" resname="/html/body/table[4]/tbody/tr[2]/td[6]">
                 <source xml:lang="nl"> 4 x 450,00 </source>
                 <target xml:lang="de" state="final"> 4 x 450,00 </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[4]/tbody/tr[2]/td[7]">
+              <trans-unit restype="cell" id="tu676" resname="/html/body/table[4]/tbody/tr[2]/td[7]">
                 <source xml:lang="nl"> 4 x 450,00 </source>
                 <target xml:lang="de" state="final"> 4 x 450,00 </target>
               </trans-unit>
             </group>
-            <group restype="row" id="/html/body/table[4]/tbody/tr[3]">
-              <trans-unit restype="cell" id="/html/body/table[4]/tbody/tr[3]/td[1]">
-                <source xml:lang="nl"> 3<g ctype="x-html-sup">de</g> </source>
-                <target xml:lang="de" state="final"> 3.<g ctype="x-html-sup"/> </target>
+            <group restype="row" id="tu677" resname="/html/body/table[4]/tbody/tr[3]">
+              <trans-unit restype="cell" id="tu678" resname="/html/body/table[4]/tbody/tr[3]/td[1]">
+                <source xml:lang="nl"> 3<g id="g679" ctype="x-html-sup">de</g> </source>
+                <target xml:lang="de" state="final"> 3.<x id="x680" ctype="x-html-sup" equiv-text=" "/> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[4]/tbody/tr[3]/td[2]">
-                <source xml:lang="nl"> 5 x G<g ctype="x-html-sub">15</g> </source>
-                <target xml:lang="de" state="final"> 5 x G<g ctype="x-html-sub">15</g> </target>
+              <trans-unit restype="cell" id="tu681" resname="/html/body/table[4]/tbody/tr[3]/td[2]">
+                <source xml:lang="nl"> 5 x G<g id="g682" ctype="x-html-sub">15</g> </source>
+                <target xml:lang="de" state="final"> 5 x G<g id="g683" ctype="x-html-sub">15</g> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[4]/tbody/tr[3]/td[3]">
-                <source xml:lang="nl"> 4 x G<g ctype="x-html-sub">16</g> </source>
-                <target xml:lang="de" state="final"> 4 x G<g ctype="x-html-sub">16</g> </target>
+              <trans-unit restype="cell" id="tu684" resname="/html/body/table[4]/tbody/tr[3]/td[3]">
+                <source xml:lang="nl"> 4 x G<g id="g685" ctype="x-html-sub">16</g> </source>
+                <target xml:lang="de" state="final"> 4 x G<g id="g686" ctype="x-html-sub">16</g> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[4]/tbody/tr[3]/td[4]">
+              <trans-unit restype="cell" id="tu687" resname="/html/body/table[4]/tbody/tr[3]/td[4]">
                 <source xml:lang="nl"> --- </source>
                 <target xml:lang="de" state="final"> --- </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[4]/tbody/tr[3]/td[5]">
+              <trans-unit restype="cell" id="tu688" resname="/html/body/table[4]/tbody/tr[3]/td[5]">
                 <source xml:lang="nl"> 5 x 1.050,00 </source>
                 <target xml:lang="de" state="final"> 5 x 1.050,00 </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[4]/tbody/tr[3]/td[6]">
+              <trans-unit restype="cell" id="tu689" resname="/html/body/table[4]/tbody/tr[3]/td[6]">
                 <source xml:lang="nl"> 4 x 450,00 </source>
                 <target xml:lang="de" state="final"> 4 x 450,00 </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[4]/tbody/tr[3]/td[7]">
+              <trans-unit restype="cell" id="tu690" resname="/html/body/table[4]/tbody/tr[3]/td[7]">
                 <source xml:lang="nl"> --- </source>
                 <target xml:lang="de" state="final"> --- </target>
               </trans-unit>
             </group>
-            <group restype="row" id="/html/body/table[4]/tbody/tr[4]">
-              <trans-unit restype="cell" id="/html/body/table[4]/tbody/tr[4]/td[1]">
-                <source xml:lang="nl"> 4<g ctype="x-html-sup">de</g> </source>
-                <target xml:lang="de" state="final"> 4.<g ctype="x-html-sup"/> </target>
+            <group restype="row" id="tu691" resname="/html/body/table[4]/tbody/tr[4]">
+              <trans-unit restype="cell" id="tu692" resname="/html/body/table[4]/tbody/tr[4]/td[1]">
+                <source xml:lang="nl"> 4<g id="g693" ctype="x-html-sup">de</g> </source>
+                <target xml:lang="de" state="final"> 4.<x id="x694" ctype="x-html-sup" equiv-text=" "/> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[4]/tbody/tr[4]/td[2]">
-                <source xml:lang="nl"> 5 x G<g ctype="x-html-sub">1</g> </source>
-                <target xml:lang="de" state="final"> 5 x G<g ctype="x-html-sub">1</g> </target>
+              <trans-unit restype="cell" id="tu695" resname="/html/body/table[4]/tbody/tr[4]/td[2]">
+                <source xml:lang="nl"> 5 x G<g id="g696" ctype="x-html-sub">1</g> </source>
+                <target xml:lang="de" state="final"> 5 x G<g id="g697" ctype="x-html-sub">1</g> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[4]/tbody/tr[4]/td[3]">
-                <source xml:lang="nl"> 4 x G<g ctype="x-html-sub">2</g> </source>
-                <target xml:lang="de" state="final"> 4 x G<g ctype="x-html-sub">2</g> </target>
+              <trans-unit restype="cell" id="tu698" resname="/html/body/table[4]/tbody/tr[4]/td[3]">
+                <source xml:lang="nl"> 4 x G<g id="g699" ctype="x-html-sub">2</g> </source>
+                <target xml:lang="de" state="final"> 4 x G<g id="g700" ctype="x-html-sub">2</g> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[4]/tbody/tr[4]/td[4]">
+              <trans-unit restype="cell" id="tu701" resname="/html/body/table[4]/tbody/tr[4]/td[4]">
                 <source xml:lang="nl"> --- </source>
                 <target xml:lang="de" state="final"> --- </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[4]/tbody/tr[4]/td[5]">
+              <trans-unit restype="cell" id="tu702" resname="/html/body/table[4]/tbody/tr[4]/td[5]">
                 <source xml:lang="nl"> 5 x 1.000,00 </source>
                 <target xml:lang="de" state="final"> 5 x 1.000,00 </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[4]/tbody/tr[4]/td[6]">
+              <trans-unit restype="cell" id="tu703" resname="/html/body/table[4]/tbody/tr[4]/td[6]">
                 <source xml:lang="nl"> 4 x 400,00 </source>
                 <target xml:lang="de" state="final"> 4 x 400,00 </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[4]/tbody/tr[4]/td[7]">
+              <trans-unit restype="cell" id="tu704" resname="/html/body/table[4]/tbody/tr[4]/td[7]">
                 <source xml:lang="nl"> --- </source>
                 <target xml:lang="de" state="final"> --- </target>
               </trans-unit>
             </group>
-            <group restype="row" id="/html/body/table[4]/tbody/tr[5]">
-              <trans-unit restype="cell" id="/html/body/table[4]/tbody/tr[5]/td[1]">
-                <source xml:lang="nl"> 5<g ctype="x-html-sup">de</g> </source>
-                <target xml:lang="de" state="final"> 5.<g ctype="x-html-sup"/> </target>
+            <group restype="row" id="tu705" resname="/html/body/table[4]/tbody/tr[5]">
+              <trans-unit restype="cell" id="tu706" resname="/html/body/table[4]/tbody/tr[5]/td[1]">
+                <source xml:lang="nl"> 5<g id="g707" ctype="x-html-sup">de</g> </source>
+                <target xml:lang="de" state="final"> 5.<x id="x708" ctype="x-html-sup" equiv-text=" "/> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[4]/tbody/tr[5]/td[2]">
-                <source xml:lang="nl"> 5 x G<g ctype="x-html-sub">1</g> </source>
-                <target xml:lang="de" state="final"> 5 x G<g ctype="x-html-sub">1</g> </target>
+              <trans-unit restype="cell" id="tu709" resname="/html/body/table[4]/tbody/tr[5]/td[2]">
+                <source xml:lang="nl"> 5 x G<g id="g710" ctype="x-html-sub">1</g> </source>
+                <target xml:lang="de" state="final"> 5 x G<g id="g711" ctype="x-html-sub">1</g> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[4]/tbody/tr[5]/td[3]">
-                <source xml:lang="nl"> 4 x G<g ctype="x-html-sub">2</g> </source>
-                <target xml:lang="de" state="final"> 4 x G<g ctype="x-html-sub">2</g> </target>
+              <trans-unit restype="cell" id="tu712" resname="/html/body/table[4]/tbody/tr[5]/td[3]">
+                <source xml:lang="nl"> 4 x G<g id="g713" ctype="x-html-sub">2</g> </source>
+                <target xml:lang="de" state="final"> 4 x G<g id="g714" ctype="x-html-sub">2</g> </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[4]/tbody/tr[5]/td[4]">
+              <trans-unit restype="cell" id="tu715" resname="/html/body/table[4]/tbody/tr[5]/td[4]">
                 <source xml:lang="nl"> --- </source>
                 <target xml:lang="de" state="final"> --- </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[4]/tbody/tr[5]/td[5]">
+              <trans-unit restype="cell" id="tu716" resname="/html/body/table[4]/tbody/tr[5]/td[5]">
                 <source xml:lang="nl"> 5 x 1.000,00 </source>
                 <target xml:lang="de" state="final"> 5 x 1.000,00 </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[4]/tbody/tr[5]/td[6]">
+              <trans-unit restype="cell" id="tu717" resname="/html/body/table[4]/tbody/tr[5]/td[6]">
                 <source xml:lang="nl"> 4 x 400,00 </source>
                 <target xml:lang="de" state="final"> 4 x 400,00 </target>
               </trans-unit>
-              <trans-unit restype="cell" id="/html/body/table[4]/tbody/tr[5]/td[7]">
+              <trans-unit restype="cell" id="tu718" resname="/html/body/table[4]/tbody/tr[5]/td[7]">
                 <source xml:lang="nl">   --- </source>
                 <target xml:lang="de" state="final">   --- </target>
               </trans-unit>
             </group>
           </group>
         </group>
-        <trans-unit restype="x-html-p" id="/html/body/p[39]">
+        <trans-unit restype="x-html-p" id="tu719" resname="/html/body/p[39]">
           <source xml:lang="nl"> (*) het saldo van de verschuldigde basisbijdragen na de eventuele sociale maribel aftrek en na toepassing van de structurele vermindering. </source>
           <target xml:lang="de" state="final"> (*) Der Saldo der geschuldeten Basisbeiträge nach eventuellem Abzug der „Maribel Sozial“-Maßnahme und nach Anwendung der strukturellen Ermäßigung. </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[40]">
-          <source xml:lang="nl"> De vermindering voor een 4<g ctype="x-html-sup">de</g> en een 5<g ctype="x-html-sup">de</g> werknemer gelden enkel voor indienstnames vanaf 1 januari 2014. </source>
-          <target xml:lang="de" state="final"> Die Ermäßigungen für den vierten und fünften Arbeitnehmer gelten nur für Einstellungen ab 01.01.2014. <g ctype="x-html-sup"/><g ctype="x-html-sup"/> </target>
+        <trans-unit restype="x-html-p" id="tu720" resname="/html/body/p[40]">
+          <source xml:lang="nl"> De vermindering voor een 4<g id="g721" ctype="x-html-sup">de</g> en een 5<g id="g722" ctype="x-html-sup">de</g> werknemer gelden enkel voor indienstnames vanaf 1 januari 2014. </source>
+          <target xml:lang="de" state="final"> Die Ermäßigungen für den vierten und fünften Arbeitnehmer gelten nur für Einstellungen ab 01.01.2014. <x id="x723" ctype="x-html-sup" equiv-text=" "/><x id="x724" ctype="x-html-sup" equiv-text=" "/> </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[41]">
+        <trans-unit restype="x-html-p" id="tu725" resname="/html/body/p[41]">
           <source xml:lang="nl">   </source>
           <target xml:lang="de" state="final">   </target>
         </trans-unit>
-        <trans-unit restype="x-html-h2" id="/html/body/h2[4]">
+        <trans-unit restype="x-html-h2" id="tu726" resname="/html/body/h2[4]">
           <source xml:lang="nl"> Te vervullen formaliteiten </source>
           <target xml:lang="de" state="final"> Zu erledigende Formalitäten </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[42]">
+        <trans-unit restype="x-html-p" id="tu727" resname="/html/body/p[42]">
           <source xml:lang="nl"> Geen bijzondere formaliteiten. </source>
           <target xml:lang="de" state="final"> Keine besonderen Formalitäten. </target>
         </trans-unit>

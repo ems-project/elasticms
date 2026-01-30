@@ -1,0 +1,653 @@
+<h2><ins class="newWord">Gegevens periodieke sociale signalitiek</ins></h2>
+
+<p>De velden &#39;<strong>begindatum van de periodieke sociale signalitiek</strong>&#39; en &#39;<strong>einddatum van de periodieke sociale signalitiek</strong>&#39; bakenen de periode af waarop de gegevens in het blok &#39;<strong>periodieke&nbsp;sociale signalitiek</strong>&#39; betrekking hebben.</p>
+
+<p>Deze periode situeert zich steeds binnen de periode afgebakend door de velden &#39;begindatum van de sociale signalitiek&#39; en &#39;einddatum van de sociale signalitiek&#39; in het blok &#39;sociale signalitiek&#39;.</p>
+
+<p>Zoals bij het blok &#39;sociale signalitiek&#39; kunnen verschillende blokken &#39;periodieke sociale signalitiek&#39; niet overlappen in de tijd en dus bij uitbreiding evenmin binnen eenzelfde loonberekeningsperiode. Als de situatie zich voordoet dat er overlappende gegevens zouden moeten worden opgenomen, moet een <strong>afzonderlijk LTDS-bericht</strong> volgen waarin alles opgenomen wordt van de bijkomende situatie.</p>
+
+<p>Volgende gegevens bepalen de periodieke sociale signalitiek:</p>
+
+<ul>
+    <li><strong>volume</strong>
+
+        <ul>
+            <li>voltijdse of deeltijdse overeenkomst</li>
+        </ul>
+    </li>
+    <li><strong>identificatienummer van de lokale vestigingseenheid (VE)</strong>
+        <ul>
+            <li>identificatienummer toegekend door de Kruispuntbank van Ondernemingen dat een vestigingseenheid eenduidig identificeert.
+                <ul>
+                    <li>in uitzonderlijke gevallen moet een fictief nummer worden aangegeven: zie de &#39;bijkomende info&#39; op de betreffende pagina van de <a href="https://www.socialsecurity.be/employer/instructions/dmfa/nl/latest/instructions/fill_in_dmfa/occupationrecord/exploitation_site.html">administratieve instructies DmfA</a></li>
+                </ul>
+            </li>
+            <li>in geval van een verbrekingsvergoeding in maandelijkse schijven wordt het identificatienummer van de lokale vestigingseenheid van de laatst gekende prestaties vermeld</li>
+        </ul>
+    </li>
+    <li><strong>nummer van het paritair comit&eacute;</strong>
+        <ul>
+            <li>zie de betreffende pagina van de <a href="https://www.socialsecurity.be/employer/instructions/dmfa/nl/latest/instructions/fill_in_dmfa/occupationrecord/joint_committee.html"> administratieve instructies DmfA</a>
+                <ul>
+                    <li>het is uiteraard mogelijk dat een verandering van paritair comit&eacute; tevens een wijziging van de werkgeverscategorie betekent (omdat er een ander bijdragepercentage van toepassing wordt);&nbsp;als zich dat zou voordoen binnen de gewoonlijke loonberekeningsperiode moet men, zoals hiervoor reeds werd uitgelegd, de gegevens opnemen in een nieuwe periodieke signalitiek en dus een aparte loonberekening uitvoeren</li>
+                    <li>er moet geen nieuw bericht worden verzonden als de periodieke signalitiek met paritair comit&eacute; A volgt op de periode signalitiek met parirair comit&eacute; B zonder overlap in de tijd:
+                        <ul>
+                            <li>loonberekening van 1 januari tot en met 31 januari<br />
+                                &gt; sociale signalitiek van&nbsp;1 januari tot en met 31 januari
+                                <p>&gt;&gt; periodieke sociale signalitiek van 1 januari tot en met 15 januari met paritair comit&eacute; A<br />
+                                    &gt;&gt; periodieke sociale signalitiek vanaf 15 januari tot en met 31 januari met paritair comit&eacute; B</p>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li><strong>NACE-code</strong>
+        <ul>
+            <li>zie de betreffende pagina van de <a href="https://www.socialsecurity.be/employer/instructions/dmfa/nl/latest/instructions/fill_in_dmfa/occupationrecord/sector_specific_characteristics/nace_code.html"> administratieve instructies DmfA</a></li>
+        </ul>
+    </li>
+    <li><strong>wekelijkse arbeidsduur</strong>
+        <ul>
+            <li>er zijn 3 <strong>types </strong>tewerkstellingsbreuken (Q en S steeds te&nbsp;vermelden):&nbsp;
+                <ul>
+                    <li>S = maatpersoon&nbsp;van toepassing op de werknemer = de theoretische referentiepersoon die voltijds tewerkgesteld is in dezelfde onderneming (of bij gebrek hieraan, in dezelfde activiteitstak) in een gelijkaardige functie; meerdere maatpersonen binnen &eacute;&eacute;n onderneming zijn mogelijk</li>
+                    <li>Q = gegevens van de natuurlijke persoon zonder rekening te houden met een eventuele schorsing van de prestaties</li>
+                    <li>M = gegevens van de natuurlijke persoon rekening houdend met een eventuele volledige of gedeeltelijke schorsing van de prestaties</li>
+                </ul>
+            </li>
+            <li>de gemiddelde wekelijkse arbeidsduur moet op 2 manieren worden uitgedrukt:
+                <ul>
+                    <li><strong>effectief gemiddelde wekelijkse arbeidsduur</strong> =&nbsp;aantal te presteren uren per week per cyclus, inclusief eventuele betaalde inhaalrust en <strong>inclusief </strong>eventuele onbetaalde inhaalrust</li>
+                    <li><strong>jaarlijks gemiddelde wekelijkse betaalde arbeidsduur</strong> =&nbsp;aantal te presteren uren per week op jaarbasis, inclusief eventuele betaalde inhaalrust en <strong>exclusief </strong>eventuele onbetaalde inhaalrust&nbsp;</li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li><strong>maatregel reorganisatie arbeidstijd (MRA)</strong>
+        <ul>
+            <li>een maatregel tot reorganisatie van de arbeidstijd (MRA) is een structurele afwezigheid die leidt tot een daling van de gemiddelde wekelijkse arbeidsduur; meerdere MRA kunnen gelijktijdig van toepassing zijn waarbij meerdere blokken &#39;maatregel tot reorganisatie van de arbeidstijd&#39; worden&nbsp;aangegeven telkens met volgende gegevens:
+                <ul>
+                    <li>MRA-code
+                        <ul>
+                            <li>voor aangepaste arbeid met loonverlies bestaat geen MRA-code maar wordt het maximale aantal uren toegestane arbeid in het kader van de progressieve werkhervatting meegegeven</li>
+                        </ul>
+                    </li>
+                    <li>percentage van maatregel tot reorganisatie van arbeidstijd
+                        <ul>
+                            <li>voor elke maatregel tot reorganisatie van de arbeidstijd wordt het percentage waarmee de prestaties verminderd worden, vermeld; het gaat om het percentage van de afwezigheid als gevolg van de betreffende MRA</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+</ul>
+
+<h2>Voorbeelden van de wekelijkse arbeidstijd zonder MRA</h2>
+
+<p>Indien geen maatregel tot reorganisatie van de arbeidstijd van toepassing is, dan worden er steeds <strong>twee blokken &#39;wekelijkse arbeidsduur&#39;</strong> aangegeven:</p>
+
+<ul>
+    <li>&eacute;&eacute;n blok met de gegevens van de werknemer en</li>
+    <li>&eacute;&eacute;n blok met de gegevens van de maatpersoon.</li>
+</ul>
+
+<p>1) Een voltijdse werknemer heeft een werkweek van 5 dagen en werkt effectief 38 uren per week (7,6 uren per dag). Er bestaat geen ADV-regeling.</p>
+
+<table align="left" class="table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>Zone in blok &#39;wekelijkse arbeidsduur&#39;</th>
+        <th>Waarden in blok #1</th>
+        <th>Waarden in blok #2</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Type</td>
+        <td>Werknemer (Q)</td>
+        <td>Maatpersoon (S)</td>
+    </tr>
+    <tr>
+        <td>Effectieve gemiddelde wekelijkse arbeidsduur</td>
+        <td>38</td>
+        <td>38</td>
+    </tr>
+    <tr>
+        <td>Jaarlijks gemiddelde wekelijkse betaalde arbeidsduur</td>
+        <td>38</td>
+        <td>38</td>
+    </tr>
+    </tbody>
+</table>
+
+<p>&nbsp;</p>
+
+<p>2) Een halftijdse werknemer werkt effectief 19 uren per week zonder ADV-regeling.</p>
+
+<table align="left" class="table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>Zone in blok &#39;wekelijkse arbeidsduur&#39;</th>
+        <th>Waarden in blok #1</th>
+        <th>Waarden in blok #2</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Type</td>
+        <td>Werknemer (Q)</td>
+        <td>Maatpersoon (S)</td>
+    </tr>
+    <tr>
+        <td>Effectieve gemiddelde wekelijkse arbeidsduur</td>
+        <td>19</td>
+        <td>38</td>
+    </tr>
+    <tr>
+        <td>Jaarlijks gemiddelde wekelijkse betaalde arbeidsduur</td>
+        <td>19</td>
+        <td>38</td>
+    </tr>
+    </tbody>
+</table>
+
+<p>3) Een voltijdse werknemer werkt effectief 40 uren per week. Hij heeft 12 betaalde inhaalrustdagen per jaar.</p>
+
+<table align="left" class="table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>Zone in blok &#39;wekelijkse arbeidsduur&#39;</th>
+        <th>Waarden in blok #1</th>
+        <th>Waarden in blok #2</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Type</td>
+        <td>Werknemer (Q)</td>
+        <td>Maatpersoon (S)</td>
+    </tr>
+    <tr>
+        <td>Effectieve gemiddelde wekelijkse arbeidsduur</td>
+        <td>40</td>
+        <td>40</td>
+    </tr>
+    <tr>
+        <td>Jaarlijks gemiddelde wekelijkse betaalde arbeidsduur</td>
+        <td>40</td>
+        <td>40</td>
+    </tr>
+    </tbody>
+</table>
+
+<p>4) Een halftijdse werknemer werkt effectief 20 uren per week. Hij heeft 6 betaalde inhaalrustdagen per jaar.</p>
+
+<table align="left" class="table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>Zone in blok &#39;wekelijkse arbeidsduur&#39;</th>
+        <th>Waarden in blok #1</th>
+        <th>Waarden in blok #2</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Type</td>
+        <td>Werknemer (Q)</td>
+        <td>Maatpersoon (S)</td>
+    </tr>
+    <tr>
+        <td>Effectieve gemiddelde wekelijkse arbeidsduur</td>
+        <td>20</td>
+        <td>40</td>
+    </tr>
+    <tr>
+        <td>Jaarlijks gemiddelde wekelijkse betaalde arbeidsduur</td>
+        <td>20</td>
+        <td>40</td>
+    </tr>
+    </tbody>
+</table>
+
+<p>5) Een voltijdse werknemer werkt effectief 40 uren per week. Hij heeft 12 onbetaalde inhaalrustdagen per jaar.</p>
+
+<table align="left" class="table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>Zone in blok &#39;wekelijkse arbeidsduur&#39;</th>
+        <th>Waarden in blok #1</th>
+        <th>Waarden in blok #2</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Type</td>
+        <td>Werknemer (Q)</td>
+        <td>Maatpersoon (S)</td>
+    </tr>
+    <tr>
+        <td>Effectieve gemiddelde wekelijkse arbeidsduur</td>
+        <td>40</td>
+        <td>40</td>
+    </tr>
+    <tr>
+        <td>Jaarlijks gemiddelde wekelijkse betaalde arbeidsduur</td>
+        <td>38</td>
+        <td>38</td>
+    </tr>
+    </tbody>
+</table>
+
+<p>6) Een halftijdse werknemer werkt effectief 20 uren per week. Hij heeft 6 onbetaalde inhaalrustdagen per jaar.</p>
+
+<table align="left" class="table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>Zone in blok &#39;wekelijkse arbeidsduur&#39;</th>
+        <th>Waarden in blok #1</th>
+        <th>Waarden in blok #2</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Type</td>
+        <td>Werknemer (Q)</td>
+        <td>Maatpersoon (S)</td>
+    </tr>
+    <tr>
+        <td>Effectieve gemiddelde wekelijkse arbeidsduur</td>
+        <td>20</td>
+        <td>40</td>
+    </tr>
+    <tr>
+        <td>Jaarlijks gemiddelde wekelijkse betaalde arbeidsduur</td>
+        <td>19</td>
+        <td>38</td>
+    </tr>
+    </tbody>
+</table>
+
+<p>7) Een voltijdse werknemer werkt effectief 40 uren per week. Hij heeft 6 onbetaalde inhaalrustdagen en 6 betaalde inhaalrustdagen per jaar.</p>
+
+<table align="left" class="table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>Zone in blok &#39;wekelijkse arbeidsduur&#39;</th>
+        <th>Waarden in blok #1</th>
+        <th>Waarden in blok #2</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Type</td>
+        <td>Werknemer (Q)</td>
+        <td>Maatpersoon (S)</td>
+    </tr>
+    <tr>
+        <td>Effectieve gemiddelde wekelijkse arbeidsduur</td>
+        <td>40</td>
+        <td>40</td>
+    </tr>
+    <tr>
+        <td>Jaarlijks gemiddelde wekelijkse betaalde arbeidsduur</td>
+        <td>39</td>
+        <td>39</td>
+    </tr>
+    </tbody>
+</table>
+
+<p>8) Een halftijdse werknemer werkt effectief 20 uren per week. Hij heeft 3 onbetaalde inhaalrustdagen en 3 betaalde inhaalrustdagen per jaar.</p>
+
+<table align="left" class="table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>Zone in blok &#39;wekelijkse arbeidsduur&#39;</th>
+        <th>Waarden in blok #1</th>
+        <th>Waarden in blok #2</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Type</td>
+        <td>Werknemer (Q)</td>
+        <td>Maatpersoon (S)</td>
+    </tr>
+    <tr>
+        <td>Effectieve gemiddelde wekelijkse arbeidsduur</td>
+        <td>20</td>
+        <td>40</td>
+    </tr>
+    <tr>
+        <td>Jaarlijks gemiddelde wekelijkse betaalde arbeidsduur</td>
+        <td>19,5</td>
+        <td>39</td>
+    </tr>
+    </tbody>
+</table>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<h2>Voorbeelden van de wekelijkse arbeidstijd met een MRA</h2>
+
+<p>Indien een maatregel tot reorganisatie van de arbeidstijd van toepassing is, dan worden er steeds <strong>drie blokken &#39;wekelijkse arbeidsduur&#39;</strong> aangegeven:</p>
+
+<ul>
+    <li>&eacute;&eacute;n blok met de gegevens van de werknemer zonder rekening te houden met de schorsing van de prestaties en</li>
+    <li>&eacute;&eacute;n blok met de gegevens van de werknemer rekening houdend met de schorsing van de prestaties en</li>
+    <li>&eacute;&eacute;n blok met de gegevens van de maatpersoon.</li>
+</ul>
+
+<p>Daarnaast wordt de schorsing gedetailleerd in het blok &#39;maatregel tot reorganisatie van de arbeidstijd&#39;.</p>
+
+<p>1) Een voltijdse werknemer werkt effectief 38 uren per week gedurende 5 dagen per week (7,6 uren per dag). Er bestaat geen ADV-regeling. De werknemer neemt deeltijds tijdskrediet: hij vermindert zijn prestaties met 1/5<sup>de</sup>. Hij werkt niet op woensdagnamiddag en niet op vrijdagnamiddag.</p>
+
+<table align="left" class="table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>Zone in blok &#39;wekelijkse arbeidsduur&#39;</th>
+        <th>Waarden in blok #1</th>
+        <th>Waarden in blok #2</th>
+        <th>Waarden in blok #3</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Type</td>
+        <td>Werknemer zonder schorsing (Q)</td>
+        <td>Werknemer met schorsing (M)</td>
+        <td>Maatpersoon (S)</td>
+    </tr>
+    <tr>
+        <td>Effectieve gemiddelde wekelijkse arbeidsduur</td>
+        <td>38</td>
+        <td>30,4</td>
+        <td>38</td>
+    </tr>
+    <tr>
+        <td>Jaarlijks gemiddelde wekelijkse betaalde arbeidsduur</td>
+        <td>38</td>
+        <td>30,4</td>
+        <td>38</td>
+    </tr>
+    </tbody>
+</table>
+
+<p>&nbsp;</p>
+
+<p>Aan blok #2 gekoppeld blok &#39;maatregel tot reorganisatie van de arbeidstijd&#39;:</p>
+
+<table align="left" class="table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>Zone in blok &#39;maatregel tot reorganisatie van de arbeidstijd&#39;</th>
+        <th>Waarden gekoppeld aan blok #2</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>MRA-code</td>
+        <td>9 (= volledige of gedeeltelijke onderbreking van de loopbaan)</td>
+    </tr>
+    <tr>
+        <td>Percentage&nbsp;</td>
+        <td>20 %</td>
+    </tr>
+    </tbody>
+</table>
+
+<p>In het luik &#39;prestaties&#39; wordt voor elke woensdag en vrijdag gedurende de periode van het tijdskrediet het volgende vermeld:</p>
+
+<ul>
+    <li>Blok met prestatie in de voormiddag:
+        <ul>
+            <li>Datum of begindatum van de prestatie of afwezigheid = woensdag of vrijdag</li>
+            <li>Prestatie- of afwezigheidscode = 1101001 (normale arbeid)</li>
+            <li>Aantal uren = 3,8</li>
+        </ul>
+    </li>
+    <li>Blok met afwezigheid in de namiddag in het kader van het deeltijds tijdskrediet:
+        <ul>
+            <li>Datum of begindatum van de prestatie of afwezigheid = woensdag of vrijdag</li>
+            <li>Prestatie- of afwezigheidscode = 2208001 (afwezigheid i.h.k.v. een maatregel tot reorganisatie van de arbeidstijd)</li>
+            <li>Aantal uren = 3,8</li>
+        </ul>
+    </li>
+</ul>
+
+<p>2) Een voltijdse werknemer werkt effectief 40 uren per week gedurende 5 dagen per week (8 uren per dag). Hij heeft 6 onbetaalde inhaalrustdagen en 6 betaalde inhaalrustdagen per jaar. Hij neemt voltijds tijdskrediet.</p>
+
+<table align="left" class="table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>Zone in blok &#39;wekelijkse arbeidsduur&#39;</th>
+        <th>Waarden in blok #1</th>
+        <th>Waarden in blok #2</th>
+        <th>Waarden in blok #3</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Type</td>
+        <td>Werknemer zonder schorsing (Q)</td>
+        <td>Werknemer met schorsing (M)</td>
+        <td>Maatpersoon (S)</td>
+    </tr>
+    <tr>
+        <td>Effectieve gemiddelde wekelijkse arbeidsduur</td>
+        <td>40</td>
+        <td>0</td>
+        <td>40</td>
+    </tr>
+    <tr>
+        <td>Jaarlijks gemiddelde wekelijkse betaalde arbeidsduur</td>
+        <td>39</td>
+        <td>0</td>
+        <td>39</td>
+    </tr>
+    </tbody>
+</table>
+
+<p>&nbsp;</p>
+
+<p>Aan blok #2 gekoppeld blok &#39;maatregel tot reorganisatie van de arbeidstijd&#39;:</p>
+
+<table align="left" class="table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>Zone in blok &#39;maatregel tot reorganisatie van de arbeidstijd&#39;</th>
+        <th>Waarden gekoppeld aan blok #2</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>MRA-code</td>
+        <td>9 (= volledige of gedeeltelijke onderbreking van de loopbaan)</td>
+    </tr>
+    <tr>
+        <td>Percentage&nbsp;</td>
+        <td>100 %</td>
+    </tr>
+    </tbody>
+</table>
+
+<ul>
+    <li>In het luik &#39;prestaties&#39; wordt voor elke dag afwezigheid in het kader van het tijdskrediet het volgende vermeld:
+        <ul>
+            <li>Datum of begindatum van de prestatie of afwezigheid = datum waarop de werknemer afwezig is in het kader van het tijdskrediet</li>
+            <li>Prestatie- of afwezigheidscode = 2208001 (afwezigheid i.h.k.v. een maatregel tot reorganisatie van de arbeidstijd)</li>
+            <li>Aantal uren = 8</li>
+        </ul>
+    </li>
+</ul>
+
+<p>3) Een voltijdse werknemer werkt effectief 40 uren per week gedurende 5 dagen per week (8 uren per dag). Hij heeft 12 onbetaalde inhaalrustdagen. Hij neemt halftijds tijdskrediet. Hij alterneert een week prestaties met een week volledige afwezigheid (prestaties in week 1, afwezig in week 2, prestaties in week 3, afwezig in week 4, &hellip;).</p>
+
+<table align="left" class="table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>Zone in blok &#39;wekelijkse arbeidsduur&#39;</th>
+        <th>Waarden in blok #1</th>
+        <th>Waarden in blok #2</th>
+        <th>Waarden in blok #3</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Type</td>
+        <td>Werknemer zonder schorsing (Q)</td>
+        <td>Werknemer met schorsing (M)</td>
+        <td>Maatpersoon (S)</td>
+    </tr>
+    <tr>
+        <td>Effectieve gemiddelde wekelijkse arbeidsduur</td>
+        <td>40</td>
+        <td>20</td>
+        <td>40</td>
+    </tr>
+    <tr>
+        <td>Jaarlijks gemiddelde wekelijkse betaalde arbeidsduur</td>
+        <td>38</td>
+        <td>19</td>
+        <td>38</td>
+    </tr>
+    </tbody>
+</table>
+
+<p>&nbsp;</p>
+
+<p>Aan blok #2 gekoppeld blok &#39;maatregel tot reorganisatie van de arbeidstijd&#39;:</p>
+
+<table align="left" class="table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>Zone in blok &#39;maatregel tot reorganisatie van de arbeidstijd&#39;</th>
+        <th>Waarden gekoppeld aan blok #2</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>MRA-code</td>
+        <td>9 (= volledige of gedeeltelijke onderbreking van de loopbaan)</td>
+    </tr>
+    <tr>
+        <td>Percentage&nbsp;</td>
+        <td>50 %</td>
+    </tr>
+    </tbody>
+</table>
+
+<p>&nbsp;</p>
+
+<p>In het luik prestaties wordt voor elke dag in een week met prestaties het volgende vermeld:</p>
+
+<ul>
+    <li>Datum of begindatum van de prestatie of afwezigheid = datum waarop de werknemer afwezig is in het kader van het tijdskrediet</li>
+    <li>Prestatie- of afwezigheidscode = 1101001 (normale arbeid)</li>
+    <li>Aantal uren = 8</li>
+</ul>
+
+<p>Voor elke dag in een week met een afwezigheid in het kader van het tijdskrediet wordt het volgende vermeld:</p>
+
+<ul>
+    <li>Datum of begindatum van de prestatie of afwezigheid = datum waarop de werknemer afwezig is in het kader van het tijdskrediet</li>
+    <li>Prestatie- of afwezigheidscode = 2208001 (afwezigheid i.h.k.v. een maatregel tot reorganisatie van de arbeidstijd)</li>
+    <li>Aantal uren = 8</li>
+</ul>
+
+<p>4) Een voltijdse werknemer werkt effectief 40 uren per week. Hij heeft 12 betaalde inhaalrustdagen per jaar. De werknemer neemt halftijds tijdskrediet. Door het feit dat hij nog maar halftijds werkt heeft hij geen recht meer op compensatiedagen. Hij zal dan wel dagelijks effectief minder lang moeten werken. Hierdoor wijzigt de wekelijkse arbeidsduur van de werknemer en van de maatpersoon.</p>
+
+<p>Periodieke sociale signalitiek #1 betreffende de periode zonder tijdskrediet:</p>
+
+<table align="left" class="table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>Zone in blok &#39;wekelijkse arbeidsduur&#39;</th>
+        <th>Waarden in blok #1</th>
+        <th>Waarden in blok #2</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Type</td>
+        <td>Werknemer zonder schorsing (Q)</td>
+        <td>Maatpersoon (S)</td>
+    </tr>
+    <tr>
+        <td>Effectieve gemiddelde wekelijkse arbeidsduur</td>
+        <td>40</td>
+        <td>40</td>
+    </tr>
+    <tr>
+        <td>Jaarlijks gemiddelde wekelijkse betaalde arbeidsduur</td>
+        <td>40</td>
+        <td>40</td>
+    </tr>
+    </tbody>
+</table>
+
+<p>Periodieke sociale signalitiek #2 betreffende de periode met tijdskrediet:</p>
+
+<table align="left" class="table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>Zone in blok &#39;wekelijkse arbeidsduur&#39;</th>
+        <th>Waarden in blok #1</th>
+        <th>Waarden in blok #2</th>
+        <th>Waarden in blok #3</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Type</td>
+        <td>Werknemer zonder schorsing (Q)</td>
+        <td>Werknemer met schorsing (M)</td>
+        <td>Maatpersoon (S)</td>
+    </tr>
+    <tr>
+        <td>Effectieve gemiddelde wekelijkse arbeidsduur</td>
+        <td>38</td>
+        <td>19</td>
+        <td>38</td>
+    </tr>
+    <tr>
+        <td>Jaarlijks gemiddelde wekelijkse betaalde arbeidsduur</td>
+        <td>38</td>
+        <td>19</td>
+        <td>38</td>
+    </tr>
+    </tbody>
+</table>
+
+<p>&nbsp;</p>
+
+<p>Aan blok #2 gekoppeld blok &#39;maatregel tot reorganisatie van de arbeidstijd&#39;:</p>
+
+<table align="left" class="table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>Zone in blok &#39;maatregel tot reorganisatie van de arbeidstijd&#39;</th>
+        <th>Waarden gekoppeld aan blok #2</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>MRA-code</td>
+        <td>9 (= volledige of gedeeltelijke onderbreking van de loopbaan)</td>
+    </tr>
+    <tr>
+        <td>Percentage&nbsp;</td>
+        <td>50 %</td>
+    </tr>
+    </tbody>
+</table>
+
+<p>&nbsp;</p>

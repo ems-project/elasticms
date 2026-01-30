@@ -21,7 +21,7 @@ final class Filter
     private readonly string $type;
     private string $field;
     private ?string $secondaryField = null;
-    private ?string $nestedPath = null;
+    private ?string $parentField = null;
 
     private ?string $sortField = null;
     private readonly string $sortOrder;
@@ -69,6 +69,7 @@ final class Filter
      *     'field'?: string,
      *     'secondary_field'?: string,
      *     'nested_path'?: string,
+     *     'parent_field'?: string,
      *     'clause'?: string,
      *     'public'?: bool,
      *     'active'?: bool,
@@ -89,7 +90,13 @@ final class Filter
         $this->type = $options['type'];
         $this->field = $options['field'] ?? $name;
         $this->secondaryField = $options['secondary_field'] ?? null;
-        $this->nestedPath = $options['nested_path'] ?? null;
+
+        if (isset($options['nested_path'])) {
+            @\trigger_error('The "nested_path" option is deprecated and will be removed in ems 7. Please use "parent_field" instead.', E_USER_DEPRECATED);
+            $options['parent_field'] = $options['nested_path'];
+        }
+
+        $this->parentField = $options['parent_field'] ?? null;
         $this->clause = $options['clause'] ?? 'must';
 
         $this->public = (bool) ($options['public'] ?? true);
@@ -129,7 +136,7 @@ final class Filter
 
     public function getField(): string
     {
-        return $this->isNested() ? $this->nestedPath.'.'.$this->field : $this->field;
+        return $this->isNested() ? $this->parentField.'.'.$this->field : $this->field;
     }
 
     public function getValue(): mixed
@@ -188,7 +195,8 @@ final class Filter
             }
         }
 
-        $requestValue = $request->get($this->name, false);
+        $query = $request->query->all();
+        $requestValue = $query[$this->name];
         if (\is_array($requestValue) && 1 === \count($requestValue) && '' === ($requestValue[0] ?? false)) {
             $requestValue = false;
         }
@@ -257,12 +265,12 @@ final class Filter
 
     public function isNested(): bool
     {
-        return null !== $this->nestedPath;
+        return null !== $this->parentField;
     }
 
     public function getNestedPath(): ?string
     {
-        return $this->nestedPath;
+        return $this->parentField;
     }
 
     public function isReversedNested(): bool
@@ -281,12 +289,13 @@ final class Filter
             case self::TYPE_TERM:
                 $this->value = $value;
                 $term = new Term();
-                $term->setTerm($this->getField(), $value);
+                $term->setTerm($this->getField(), $value, 0.0);
                 $this->query = $term;
                 break;
             case self::TYPE_TERMS:
                 $this->value = \is_array($value) ? $value : [$value];
                 $term = new Terms($this->getField(), $value);
+                $term->setBoost(0.0);
                 $this->query = $term;
                 break;
             case self::TYPE_DATE_RANGE:
@@ -329,6 +338,7 @@ final class Filter
         return new Range($this->getField(), \array_filter([
             'gte' => $start,
             'lte' => $end,
+            'boost' => 0.0,
             'time_zone' => new \DateTime()->format('P'),
             'format' => self::TYPE_DATE_TIME_RANGE === $this->type ? 'yyyy-MM-dd HH:mm:ss' : 'yyyy-MM-dd',
         ]));
@@ -355,8 +365,16 @@ final class Filter
         $toField = $this->secondaryField ?? 'version_to_date';
 
         $boolQuery = new BoolQuery();
-        $before = new Range($this->field, ['lte' => $dateString, 'format' => 'yyyy-MM-dd']);
-        $after = new Range($toField, ['gt' => $dateString, 'format' => 'yyyy-MM-dd']);
+        $before = new Range($this->field, [
+            'lte' => $dateString,
+            'format' => 'yyyy-MM-dd',
+            'boost' => 0.0,
+        ]);
+        $after = new Range($toField, [
+            'gt' => $dateString,
+            'format' => 'yyyy-MM-dd',
+            'boost' => 0.0,
+        ]);
         $boolQuery->addMust($before);
         $boolQuery->addMust($this->getQueryOptional($toField, $after));
 

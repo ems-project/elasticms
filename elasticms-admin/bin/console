@@ -8,6 +8,10 @@ file_exists(dirname(__DIR__).'/vendor/autoload_runtime.php') ?
     require_once dirname(__DIR__).'/vendor/autoload_runtime.php' :
     require_once dirname(__DIR__).'/../vendor/autoload_runtime.php';
 
+if ('true' === ($_SERVER['APP_DISABLE_DOTENV'] ?? false)) {
+    $_SERVER['APP_ENV'] ??= 'prod';
+}
+
 $_SERVER['ELASTICMS_PATH'] = file_exists(dirname(__DIR__).'/vendor/elasticms') ?
     dirname(__DIR__).'/vendor/elasticms' :
     dirname(__DIR__).'/../EMS';

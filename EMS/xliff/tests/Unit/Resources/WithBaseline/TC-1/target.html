@@ -1,0 +1,1260 @@
+<h2>
+    <ins class="newWord">Daten zur periodischen
+        Sozialkennzeichnung</ins>
+</h2>
+<p>
+    Die Felder „<strong>Beginn der periodischen
+    Sozialkennzeichnung</strong>” und „<strong>Ende der
+    periodischen Sozialkennzeichnung</strong>” begrenzen den
+    Zeitraum, auf den sich die Angaben im Block
+    „<strong>Periodische Sozialkennzeichnung</strong>” beziehen.
+</p>
+<p>
+    Dieser Zeitraum liegt immer innerhalb des Zeitraums, der durch
+    die Felder „Beginn der Sozialkennzeichnung” und „Ende der
+    Sozialkennzeichnung” im Block „Sozialkennzeichnung” abgegrenzt
+    ist.
+</p>
+<p>
+    Wie beim Block „Sozialkennzeichnung” dürfen sich verschiedene
+    Blöcke „periodische Sozialkennzeichnung” zeitlich nicht
+    überschneiden und somit auch nicht innerhalb desselben Lohn-
+    und Gehaltsabrechnungszeitraums. Wenn sich die Situation
+    ergibt, dass sich überschneidende Daten aufgenommen werden
+    müssen, muss eine <strong>separate LTDS-Nachricht</strong>
+    folgen, in die alles aus der zusätzlichen Situation aufgenommen
+    wird.
+</p>
+<p>
+    Die folgenden Daten bestimmen die periodische
+    Sozialkennzeichnung:
+</p>
+<ul>
+    <li>
+        <strong>Volumen</strong>
+        <ul>
+            <li>Vollzeit- oder Teilzeitvertrag
+            </li>
+        </ul>
+    </li>
+    <li>
+        <strong>Identifizierungsnummer der lokalen
+            Niederlassungseinheit (NE)</strong>
+        <ul>
+            <li>Identifikationsnummer, die von der Zentralen Datenbank
+                der Unternehmen vergeben wird und eine
+                Niederlassungseinheit eindeutig identifiziert.
+                <ul>
+                    <li>In Ausnahmefällen muss eine fiktive Nummer
+                        angegeben werden: siehe „zusätzliche Informationen“ auf
+                        der entsprechenden Seite der <a href=
+                                                            "https://www.socialsecurity.be/employer/instructions/dmfa/nl/latest/instructions/fill_in_dmfa/occupationrecord/exploitation_site.html">
+                            Verwaltungsanweisungen der DmfA</a>.
+                    </li>
+                </ul>
+            </li>
+            <li>Im Falle einer Kündigungsentschädigung in monatlichen
+                Raten wird die Identifikationsnummer der letzten bekannten
+                lokalen Niederlassungseinheit angegeben.
+            </li>
+        </ul>
+    </li>
+    <li>
+        <strong>Nummer der paritätischen Kommission</strong>
+        <ul>
+            <li>siehe die entsprechende Seite in den <a href=
+                                                            "https://www.socialsecurity.be/employer/instructions/dmfa/nl/latest/instructions/fill_in_dmfa/occupationrecord/joint_committee.html">
+                Verwaltungsanweisungen der DmfA</a>
+                <ul>
+                    <li>Es ist natürlich möglich, dass eine Änderung der
+                        paritätischen Kommission auch eine Änderung der
+                        Arbeitgeberkategorie bedeutet (da ein anderer
+                        Beitragssatz gilt). Sollte dies innerhalb des üblichen
+                        Lohn- und Gehaltsabrechnungszeitraums geschehen, müssen
+                        die Daten, wie bereits oben erläutert, in eine neue
+                        periodische Kennzeichnung aufgenommen und muss somit
+                        eine separate Lohn- und Gehaltsabrechnung durchgeführt
+                        werden.
+                    </li>
+                    <li>Es darf keine neue Nachricht gesendet werden, wenn
+                        die periodische Kennzeichnung mit der paritätischen
+                        Kommission A auf den Zeitraum der Kennzeichnung mit der
+                        paritätischen Kommission B folgt, ohne dass es zu einer
+                        zeitlichen Überschneidung kommt:
+                        <ul>
+                            <li>Lohn- und Gehaltsabrechnung vom 1. Januar bis
+                                zum 31. Januar<br>
+                                &gt; Sozialkennzeichnung vom 1. Januar bis zum
+                                31. Januar
+                                <p>
+                                    &gt;&gt; Periodische Sozialkennzeichnung vom 1.
+                                    Januar bis zum 15. Januar mit der paritätischen
+                                    Kommission A<br>
+                                    &gt;&gt; Periodische Sozialkennzeichnung vom
+                                    15. Januar bis zum 31. Januar mit der
+                                    paritätischen Kommission B
+                                </p>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <strong>NACE-Code</strong>
+        <ul>
+            <li>siehe die entsprechende Seite in den <a href=
+                                                            "https://www.socialsecurity.be/employer/instructions/dmfa/nl/latest/instructions/fill_in_dmfa/occupationrecord/sector_specific_characteristics/nace_code.html">
+                Verwaltungsanweisungen der DmfA</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <strong>Wochenarbeitszeit</strong>
+        <ul>
+            <li>Es gibt drei <strong>Arten</strong> von
+                Beschäftigungsbruchzahlen (Q und S sind immer
+                anzugeben):&nbsp;
+                <ul>
+                    <li>S = Referenzperson für den Arbeitnehmer = die
+                        theoretische Referenzperson, die in derselben Firma
+                        (oder, falls dies nicht möglich ist, in derselben
+                        Branche) in einer ähnlichen Funktion in Vollzeit
+                        beschäftigt ist; mehrere Referenzpersonen innerhalb
+                        eines Unternehmens sind möglich
+                    </li>
+                    <li>Q = Daten der natürlichen Person ohne
+                        Berücksichtigung einer möglichen Aussetzung der
+                        Leistungen
+                    </li>
+                    <li>M = Daten der natürlichen Person unter
+                        Berücksichtigung einer möglichen vollständigen oder
+                        teilweisen Aussetzung der Leistungen
+                    </li>
+                </ul>
+            </li>
+            <li>Die durchschnittliche Wochenarbeitszeit muss auf zwei
+                Arten ausgedrückt werden:
+                <ul>
+                    <li>
+                        <strong>effektive durchschnittliche
+                            Wochenarbeitszeit</strong> = Anzahl der pro Woche und
+                        Zyklus zu leistenden Stunden, einschließlich etwaiger
+                        bezahlter Ausgleichsruhezeiten und
+                        <strong>einschließlich</strong> unbezahlter
+                        Ausgleichsruhezeiten
+                    </li>
+                    <li>
+                        <strong>Jahresdurchschnitt der bezahlten
+                            Wochenarbeitszeit</strong> = Anzahl der pro Woche zu
+                        leistenden Stunden auf Jahresbasis, einschließlich
+                        etwaiger bezahlter Ausgleichsruhezeiten und
+                        <strong>ausschließlich</strong> etwaiger unbezahlter
+                        Ausgleichsruhezeiten&nbsp;
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <strong>Maßnahme zur Neuverteilung der Arbeitszeit
+            (MNA)</strong>
+        <ul>
+            <li>Eine Maßnahme zur Neuverteilung der Arbeitszeit (MNA)
+                ist eine strukturelle Abwesenheit, die zu einer
+                Verringerung der durchschnittlichen Wochenarbeitszeit
+                führt. Es können mehrere MNA gleichzeitig gelten, wobei
+                mehrere Blöcke „Maßnahme zur Neuverteilung der Arbeitszeit”
+                jeweils mit folgenden Angaben angegeben werden:
+                <ul>
+                    <li>MNA-Code
+                        <ul>
+                            <li>Für angepasste Arbeit mit Lohnausfall gibt es
+                                keinen MNA-Code, aber die maximale Anzahl der im
+                                Rahmen der schrittweisen Wiederaufnahme der Arbeit
+                                zulässigen Arbeitsstunden wird angegeben.
+                            </li>
+                        </ul>
+                    </li>
+                    <li>Prozentsatz der Maßnahme zur Neuverteilung der
+                        Arbeitszeit
+                        <ul>
+                            <li>Für jede Maßnahme zur Neuverteilung der
+                                Arbeitszeit wird der Prozentsatz angegeben, um den
+                                die Arbeitsleistung reduziert wird; dabei handelt
+                                es sich um den Prozentsatz der Abwesenheit aufgrund
+                                der betreffenden MNA.
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+</ul>
+<h2>
+    Beispiele für die wöchentliche Arbeitszeit ohne MNA
+</h2>
+<p>
+    Wenn keine Maßnahme zur Neuverteilung der Arbeitszeit gilt,
+    werden immer <strong>zwei Blöcke „wöchentliche
+    Arbeitszeit”</strong> angegeben:
+</p>
+<ul>
+    <li>ein Block mit den Daten des Arbeitnehmers und
+    </li>
+    <li>ein Block mit den Daten der Referenzperson.
+    </li>
+</ul>
+<p>
+    1) Ein Vollzeitbeschäftigter hat eine Arbeitswoche von 5 Tagen
+    und arbeitet effektiv 38 Stunden pro Woche (7,6 Stunden pro
+    Tag). Es gibt keine Regelung zur Arbeitszeitverkürzung (AZV).
+</p>
+<table align="left" class="table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>
+            Feld im Block „Wöchentliche Arbeitszeit“
+        </th>
+        <th>
+            Werte in Block #1
+        </th>
+        <th>
+            Werte in Block #2
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>
+            Art
+        </td>
+        <td>
+            Arbeitnehmer (Q)
+        </td>
+        <td>
+            Referenzperson (S)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Effektive durchschnittliche Wochenarbeitszeit
+        </td>
+        <td>
+            38
+        </td>
+        <td>
+            38
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Jährliche durchschnittliche bezahlte Wochenarbeitszeit
+        </td>
+        <td>
+            38
+        </td>
+        <td>
+            38
+        </td>
+    </tr>
+    </tbody>
+</table>
+<p>
+    &nbsp;
+</p>
+<p>
+    2) Eine Halbtagskraft arbeitet effektiv 19 Stunden pro Woche,
+    ohne dass eine Regelung zur Arbeitszeitverkürzung (AZV)
+    besteht.
+</p>
+<table align="left" class="table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>
+            Feld im Block „Wöchentliche Arbeitszeit“
+        </th>
+        <th>
+            Werte in Block #1
+        </th>
+        <th>
+            Werte in Block #2
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>
+            Art
+        </td>
+        <td>
+            Arbeitnehmer (Q)
+        </td>
+        <td>
+            Referenzperson (S)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Effektive durchschnittliche Wochenarbeitszeit
+        </td>
+        <td>
+            19
+        </td>
+        <td>
+            38
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Jährliche durchschnittliche bezahlte Wochenarbeitszeit
+        </td>
+        <td>
+            19
+        </td>
+        <td>
+            38
+        </td>
+    </tr>
+    </tbody>
+</table>
+<p>
+    3) Ein Vollzeitarbeitnehmer arbeitet effektiv 40 Stunden pro
+    Woche. Er hat 12 bezahlte Ausgleichsruhetage pro Jahr.
+</p>
+<table align="left" class="table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>
+            Feld im Block „Wöchentliche Arbeitszeit“
+        </th>
+        <th>
+            Werte in Block #1
+        </th>
+        <th>
+            Werte in Block #2
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>
+            Art
+        </td>
+        <td>
+            Arbeitnehmer (Q)
+        </td>
+        <td>
+            Referenzperson (S)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Effektive durchschnittliche Wochenarbeitszeit
+        </td>
+        <td>
+            40
+        </td>
+        <td>
+            40
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Jährliche durchschnittliche bezahlte Wochenarbeitszeit
+        </td>
+        <td>
+            40
+        </td>
+        <td>
+            40
+        </td>
+    </tr>
+    </tbody>
+</table>
+<p>
+    4) Eine Halbtagskraft arbeitet effektiv 20 Stunden pro Woche.
+    Sie hat 6 bezahlte Ausgleichsruhetage pro Jahr.
+</p>
+<table align="left" class="table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>
+            Feld im Block „Wöchentliche Arbeitszeit“
+        </th>
+        <th>
+            Werte in Block #1
+        </th>
+        <th>
+            Werte in Block #2
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>
+            Art
+        </td>
+        <td>
+            Arbeitnehmer (Q)
+        </td>
+        <td>
+            Referenzperson (S)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Effektive durchschnittliche Wochenarbeitszeit
+        </td>
+        <td>
+            20
+        </td>
+        <td>
+            40
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Jährliche durchschnittliche bezahlte Wochenarbeitszeit
+        </td>
+        <td>
+            20
+        </td>
+        <td>
+            40
+        </td>
+    </tr>
+    </tbody>
+</table>
+<p>
+    5) Ein Vollzeitarbeitnehmer arbeitet effektiv 40 Stunden pro
+    Woche. Er hat 12 unbezahlte Ausgleichsurlaubstage pro Jahr.
+</p>
+<table align="left" class="table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>
+            Feld im Block „Wöchentliche Arbeitszeit“
+        </th>
+        <th>
+            Werte in Block #1
+        </th>
+        <th>
+            Werte in Block #2
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>
+            Art
+        </td>
+        <td>
+            Arbeitnehmer (Q)
+        </td>
+        <td>
+            Referenzperson (S)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Effektive durchschnittliche Wochenarbeitszeit
+        </td>
+        <td>
+            40
+        </td>
+        <td>
+            40
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Jährliche durchschnittliche bezahlte Wochenarbeitszeit
+        </td>
+        <td>
+            38
+        </td>
+        <td>
+            38
+        </td>
+    </tr>
+    </tbody>
+</table>
+<p>
+    6) Eine Halbtagskraft arbeitet effektiv 20 Stunden pro Woche.
+    Sie hat 6 unbezahlte Ausgleichsurlaubstage pro Jahr.
+</p>
+<table align="left" class="table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>
+            Feld im Block „Wöchentliche Arbeitszeit“
+        </th>
+        <th>
+            Werte in Block #1
+        </th>
+        <th>
+            Werte in Block #2
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>
+            Art
+        </td>
+        <td>
+            Arbeitnehmer (Q)
+        </td>
+        <td>
+            Referenzperson (S)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Effektive durchschnittliche Wochenarbeitszeit
+        </td>
+        <td>
+            20
+        </td>
+        <td>
+            40
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Jährliche durchschnittliche bezahlte Wochenarbeitszeit
+        </td>
+        <td>
+            19
+        </td>
+        <td>
+            38
+        </td>
+    </tr>
+    </tbody>
+</table>
+<p>
+    7) Ein Vollzeitarbeitnehmer arbeitet effektiv 40 Stunden pro
+    Woche. Er hat 6 unbezahlte Ausgleichsurlaubstage und 6 bezahlte
+    Ausgleichsurlaubstage pro Jahr.
+</p>
+<table align="left" class="table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>
+            Feld im Block „Wöchentliche Arbeitszeit“
+        </th>
+        <th>
+            Werte in Block #1
+        </th>
+        <th>
+            Werte in Block #2
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>
+            Art
+        </td>
+        <td>
+            Arbeitnehmer (Q)
+        </td>
+        <td>
+            Referenzperson (S)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Effektive durchschnittliche Wochenarbeitszeit
+        </td>
+        <td>
+            40
+        </td>
+        <td>
+            40
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Jährliche durchschnittliche bezahlte Wochenarbeitszeit
+        </td>
+        <td>
+            39
+        </td>
+        <td>
+            39
+        </td>
+    </tr>
+    </tbody>
+</table>
+<p>
+    8) Eine Halbtagskraft arbeitet effektiv 20 Stunden pro Woche.
+    Sie hat 3 unbezahlte Ausgleichsurlaubstage und 3 bezahlte
+    Ausgleichsurlaubstage pro Jahr.
+</p>
+<table align="left" class="table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>
+            Feld im Block „Wöchentliche Arbeitszeit“
+        </th>
+        <th>
+            Werte in Block #1
+        </th>
+        <th>
+            Werte in Block #2
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>
+            Art
+        </td>
+        <td>
+            Arbeitnehmer (Q)
+        </td>
+        <td>
+            Referenzperson (S)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Effektive durchschnittliche Wochenarbeitszeit
+        </td>
+        <td>
+            20
+        </td>
+        <td>
+            40
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Jährliche durchschnittliche bezahlte Wochenarbeitszeit
+        </td>
+        <td>
+            19,5
+        </td>
+        <td>
+            39
+        </td>
+    </tr>
+    </tbody>
+</table>
+<p>
+    &nbsp;
+</p>
+<p>
+    &nbsp;
+</p>
+<p>
+    &nbsp;
+</p>
+<p>
+    &nbsp;
+</p>
+<h2>
+    Beispiele für die wöchentliche Arbeitszeit mit MNA
+</h2>
+<p>
+    Wenn eine Maßnahme zur Neuverteilung der Arbeitszeit gilt,
+    werden immer <strong>drei Blöcke „wöchentliche
+    Arbeitszeit”</strong> angegeben:
+</p>
+<ul>
+    <li>ein Block mit den Daten des Arbeitnehmers, ohne
+        Berücksichtigung der Aussetzung der Leistungen und
+    </li>
+    <li>ein Block mit den Daten des Arbeitnehmers, mit
+        Berücksichtigung der Aussetzung der Leistungen und
+    </li>
+    <li>ein Block mit den Daten der Referenzperson.
+    </li>
+</ul>
+<p>
+    Darüber hinaus wird die Aussetzung im Abschnitt „Maßnahme zur
+    Neuverteilung der Arbeitszeit” detailliert beschrieben.
+</p>
+<p>
+    1) Ein Vollzeitarbeitnehmer arbeitet effektiv 38 Stunden pro
+    Woche an 5 Tagen pro Woche (7,6 Stunden pro Tag). Es gibt keine
+    Regelung zur Arbeitszeitverkürzung (AZV). Der Arbeitnehmer
+    nimmt einen Teilzeit-Zeitkredit in Anspruch: Er reduziert seine
+    Arbeitsleistung um 1/5.<sup></sup> Er arbeitet nicht am
+    Mittwochnachmittag und nicht am Freitagnachmittag.
+</p>
+<table align="left" class="table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>
+            Feld im Block „Wöchentliche Arbeitszeit“
+        </th>
+        <th>
+            Werte in Block #1
+        </th>
+        <th>
+            Werte in Block #2
+        </th>
+        <th>
+            Werte in Block #3
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>
+            Art
+        </td>
+        <td>
+            Arbeitnehmer ohne Aussetzung (Q)
+        </td>
+        <td>
+            Arbeitnehmer mit Aussetzung (M)
+        </td>
+        <td>
+            Referenzperson (S)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Effektive durchschnittliche Wochenarbeitszeit
+        </td>
+        <td>
+            38
+        </td>
+        <td>
+            30,4
+        </td>
+        <td>
+            38
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Jährliche durchschnittliche bezahlte Wochenarbeitszeit
+        </td>
+        <td>
+            38
+        </td>
+        <td>
+            30,4
+        </td>
+        <td>
+            38
+        </td>
+    </tr>
+    </tbody>
+</table>
+<p>
+    &nbsp;
+</p>
+<p>
+    Mit Block #2 verknüpfter Block „Maßnahme zur Neuverteilung der
+    Arbeitszeit”:
+</p>
+<table align="left" class="table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>
+            Feld im Block „Maßnahme zur Neuverteilung der
+            Arbeitszeit“
+        </th>
+        <th>
+            Mit Block #2 verbundene Werte
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>
+            MNA-Code
+        </td>
+        <td>
+            9 (= vollständige oder teilweise Unterbrechung der
+            Beschäftigung)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Prozentsatz&nbsp;
+        </td>
+        <td>
+            20 %
+        </td>
+    </tr>
+    </tbody>
+</table>
+<p>
+    Im Abschnitt „Leistungen“ wird für jeden Mittwoch und Freitag
+    während des Zeitkreditzeitraums Folgendes angegeben:
+</p>
+<ul>
+    <li>Block mit Leistung am Vormittag:
+        <ul>
+            <li>Datum oder Anfangsdatum der Leistung oder Abwesenheit =
+                Mittwoch oder Freitag
+            </li>
+            <li>Leistungs- oder Abwesenheitscode = 1101001 (normale
+                Arbeit)
+            </li>
+            <li>Anzahl Stunden = 3,8
+            </li>
+        </ul>
+    </li>
+    <li>Block mit Abwesenheit am Nachmittag im Rahmen des
+        Teilzeit-Zeitkredits
+        <ul>
+            <li>Datum oder Anfangsdatum der Leistung oder Abwesenheit =
+                Mittwoch oder Freitag
+            </li>
+            <li>Leistungs- oder Abwesenheitscode = 2208001 (Abwesenheit
+                im Rahmen einer Maßnahme zur Neuverteilung der Arbeitszeit)
+            </li>
+            <li>Anzahl Stunden = 3,8
+            </li>
+        </ul>
+    </li>
+</ul>
+<p>
+    1) Ein Vollzeitarbeitnehmer arbeitet effektiv 40 Stunden pro
+    Woche an 5 Tagen pro Woche (8 Stunden pro Tag). Er hat 6
+    unbezahlte Ausgleichsurlaubstage und 6 bezahlte
+    Ausgleichsurlaubstage pro Jahr. Er nimmt einen
+    Vollzeit-Zeitkredit in Anspruch.
+</p>
+<table align="left" class="table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>
+            Feld im Block „Wöchentliche Arbeitszeit“
+        </th>
+        <th>
+            Werte in Block #1
+        </th>
+        <th>
+            Werte in Block #2
+        </th>
+        <th>
+            Werte in Block #3
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>
+            Art
+        </td>
+        <td>
+            Arbeitnehmer ohne Aussetzung (Q)
+        </td>
+        <td>
+            Arbeitnehmer mit Aussetzung (M)
+        </td>
+        <td>
+            Referenzperson (S)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Effektive durchschnittliche Wochenarbeitszeit
+        </td>
+        <td>
+            40
+        </td>
+        <td>
+            0
+        </td>
+        <td>
+            40
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Jährliche durchschnittliche bezahlte Wochenarbeitszeit
+        </td>
+        <td>
+            39
+        </td>
+        <td>
+            0
+        </td>
+        <td>
+            39
+        </td>
+    </tr>
+    </tbody>
+</table>
+<p>
+    &nbsp;
+</p>
+<p>
+    Mit Block #2 verknüpfter Block „Maßnahme zur Neuverteilung der
+    Arbeitszeit”:
+</p>
+<table align="left" class="table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>
+            Feld im Block „Maßnahme zur Neuverteilung der
+            Arbeitszeit“
+        </th>
+        <th>
+            Mit Block #2 verbundene Werte
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>
+            MNA-Code
+        </td>
+        <td>
+            9 (= vollständige oder teilweise Unterbrechung der
+            Beschäftigung)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Prozentsatz&nbsp;
+        </td>
+        <td>
+            100 %
+        </td>
+    </tr>
+    </tbody>
+</table>
+<ul>
+    <li>Im Abschnitt „Leistungen“ wird für jeden Tag der
+        Abwesenheit im Rahmen des Zeitkredits Folgendes angegeben:
+        <ul>
+            <li>Datum oder Anfangsdatum der Leistung oder Abwesenheit =
+                Datum, an dem der Arbeitnehmer im Rahmen des Zeitkredits
+                abwesend ist
+            </li>
+            <li>Leistungs- oder Abwesenheitscode = 2208001 (Abwesenheit
+                im Rahmen einer Maßnahme zur Neuverteilung der Arbeitszeit)
+            </li>
+            <li>Anzahl Stunden = 8
+            </li>
+        </ul>
+    </li>
+</ul>
+<p>
+    3) Ein Vollzeitarbeitnehmer arbeitet effektiv 40 Stunden pro
+    Woche an 5 Tagen pro Woche (8 Stunden pro Tag). Er hat 12
+    unbezahlte Ausgleichsurlaubstage. Er nimmt einen
+    Halbzeit-Zeitkredit in Anspruch. Er wechselt zwischen einer
+    Woche mit Leistungen und einer Woche vollständiger Abwesenheit
+    (Leistungen in Woche 1, abwesend in Woche 2, Leistungen in
+    Woche 3, abwesend in Woche 4…).
+</p>
+<table align="left" class="table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>
+            Feld im Block „Wöchentliche Arbeitszeit“
+        </th>
+        <th>
+            Werte in Block #1
+        </th>
+        <th>
+            Werte in Block #2
+        </th>
+        <th>
+            Werte in Block #3
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>
+            Art
+        </td>
+        <td>
+            Arbeitnehmer ohne Aussetzung (Q)
+        </td>
+        <td>
+            Arbeitnehmer mit Aussetzung (M)
+        </td>
+        <td>
+            Referenzperson (S)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Effektive durchschnittliche Wochenarbeitszeit
+        </td>
+        <td>
+            40
+        </td>
+        <td>
+            20
+        </td>
+        <td>
+            40
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Jährliche durchschnittliche bezahlte Wochenarbeitszeit
+        </td>
+        <td>
+            38
+        </td>
+        <td>
+            19
+        </td>
+        <td>
+            38
+        </td>
+    </tr>
+    </tbody>
+</table>
+<p>
+    &nbsp;
+</p>
+<p>
+    Mit Block #2 verknüpfter Block „Maßnahme zur Neuverteilung der
+    Arbeitszeit”:
+</p>
+<table align="left" class="table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>
+            Feld im Block „Maßnahme zur Neuverteilung der
+            Arbeitszeit“
+        </th>
+        <th>
+            Mit Block #2 verbundene Werte
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>
+            MNA-Code
+        </td>
+        <td>
+            9 (= vollständige oder teilweise Unterbrechung der
+            Beschäftigung)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Prozentsatz&nbsp;
+        </td>
+        <td>
+            50 %
+        </td>
+    </tr>
+    </tbody>
+</table>
+<p>
+    &nbsp;
+</p>
+<p>
+    Im Abschnitt „Leistungen“ wird für jeden Tag einer Woche mit
+    Leistungen Folgendes angegeben:
+</p>
+<ul>
+    <li>Datum oder Anfangsdatum der Leistung oder Abwesenheit =
+        Datum, an dem der Arbeitnehmer im Rahmen des Zeitkredits
+        abwesend ist
+    </li>
+    <li>Leistungs- oder Abwesenheitscode = 1101001 (normale Arbeit)
+    </li>
+    <li>Anzahl Stunden = 8
+    </li>
+</ul>
+<p>
+    Für jeden Tag in einer Woche, an dem eine Abwesenheit im Rahmen
+    des Zeitkredits vorliegt, wird Folgendes angegeben:
+</p>
+<ul>
+    <li>Datum oder Anfangsdatum der Leistung oder Abwesenheit =
+        Datum, an dem der Arbeitnehmer im Rahmen des Zeitkredits
+        abwesend ist
+    </li>
+    <li>Leistungs- oder Abwesenheitscode = 2208001 (Abwesenheit im
+        Rahmen einer Maßnahme zur Neuverteilung der Arbeitszeit)
+    </li>
+    <li>Anzahl Stunden = 8
+    </li>
+</ul>
+<p>
+    4) Ein Vollzeitarbeitnehmer arbeitet effektiv 40 Stunden pro
+    Woche. Er hat 12 bezahlte Ausgleichsruhetage pro Jahr. Der
+    Arbeitnehmer nimmt einen Halbzeit-Zeitkredit in Anspruch. Da er
+    nur noch halbtags arbeitet, hat er keinen Anspruch mehr auf
+    Ausgleichsruhetage. Er wird dann allerdings täglich effektiv
+    weniger lange arbeiten müssen. Dadurch ändert sich die
+    wöchentliche Arbeitszeit des Arbeitnehmers und der
+    Referenzperson.
+</p>
+<p>
+    Regelmäßige soziale Kennzeichnung #1 bezüglich des Zeitraums
+    ohne Zeitkredit:
+</p>
+<table align="left" class="table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>
+            Feld im Block „Wöchentliche Arbeitszeit“
+        </th>
+        <th>
+            Werte in Block #1
+        </th>
+        <th>
+            Werte in Block #2
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>
+            Art
+        </td>
+        <td>
+            Arbeitnehmer ohne Aussetzung (Q)
+        </td>
+        <td>
+            Referenzperson (S)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Effektive durchschnittliche Wochenarbeitszeit
+        </td>
+        <td>
+            40
+        </td>
+        <td>
+            40
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Jährliche durchschnittliche bezahlte Wochenarbeitszeit
+        </td>
+        <td>
+            40
+        </td>
+        <td>
+            40
+        </td>
+    </tr>
+    </tbody>
+</table>
+<p>
+    Regelmäßige soziale Kennzeichnung #2 bezüglich des Zeitraums
+    mit Zeitkredit:
+</p>
+<table align="left" class="table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>
+            Feld im Block „Wöchentliche Arbeitszeit“
+        </th>
+        <th>
+            Werte in Block #1
+        </th>
+        <th>
+            Werte in Block #2
+        </th>
+        <th>
+            Werte in Block #3
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>
+            Art
+        </td>
+        <td>
+            Arbeitnehmer ohne Aussetzung (Q)
+        </td>
+        <td>
+            Arbeitnehmer mit Aussetzung (M)
+        </td>
+        <td>
+            Referenzperson (S)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Effektive durchschnittliche Wochenarbeitszeit
+        </td>
+        <td>
+            38
+        </td>
+        <td>
+            19
+        </td>
+        <td>
+            38
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Jährliche durchschnittliche bezahlte Wochenarbeitszeit
+        </td>
+        <td>
+            38
+        </td>
+        <td>
+            19
+        </td>
+        <td>
+            38
+        </td>
+    </tr>
+    </tbody>
+</table>
+<p>
+    &nbsp;
+</p>
+<p>
+    Mit Block #2 verknüpfter Block „Maßnahme zur Neuverteilung der
+    Arbeitszeit”:
+</p>
+<table align="left" class="table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>
+            Feld im Block „Maßnahme zur Neuverteilung der
+            Arbeitszeit“
+        </th>
+        <th>
+            Mit Block #2 verbundene Werte
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>
+            MNA-Code
+        </td>
+        <td>
+            9 (= vollständige oder teilweise Unterbrechung der
+            Beschäftigung)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Prozentsatz&nbsp;
+        </td>
+        <td>
+            50 %
+        </td>
+    </tr>
+    </tbody>
+</table>
+<p>
+    &nbsp;
+</p>

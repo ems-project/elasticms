@@ -15,6 +15,8 @@ use EMS\ClientHelperBundle\Helper\ContentType\ContentTypeHelper;
 use EMS\ClientHelperBundle\Helper\Environment\Environment;
 use EMS\ClientHelperBundle\Helper\Environment\EnvironmentHelper;
 use EMS\CommonBundle\Common\EMSLink;
+use EMS\CommonBundle\Elasticsearch\Document\Document;
+use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
 use EMS\CommonBundle\Elasticsearch\Exception\NotFoundException;
 use EMS\CommonBundle\Search\Search;
@@ -220,7 +222,7 @@ final class ClientRequest implements ClientRequestInterface
             $ids = [];
             foreach ($result['hits']['hits'] ?? [] as $document) {
                 $items[\sprintf('%s:%s', $emsLink->getContentType(), $document['_id'])] = $document;
-                $ids = \array_merge($ids, \array_filter(\array_map(fn (string $a): EMSLink => EMSLink::fromText($a), $document['_source'][$childrenField] ?? []), fn (EMSLink $a): bool => $emsLink->getContentType() !== $a->getContentType()));
+                $ids = \array_merge($ids, \array_filter(\array_map(EMSLink::fromText(...), $document['_source'][$childrenField] ?? []), fn (EMSLink $a): bool => $emsLink->getContentType() !== $a->getContentType()));
             }
             $contentTypes = \array_keys(\array_reduce($ids, function (array $carry, $l): array {
                 $carry[$l->getContentType()] = $l->getContentType();
@@ -453,6 +455,19 @@ final class ClientRequest implements ClientRequestInterface
     public function commonSearch(Search $search): ResultSet
     {
         return $this->elasticaService->search($search);
+    }
+
+    /**
+     * @return \Generator<DocumentInterface>
+     */
+    public function commonScroll(Search $search, string $scrollTimeout = '1m'): iterable
+    {
+        $scroll = $this->elasticaService->scroll($search, $scrollTimeout);
+        foreach ($scroll as $resultSet) {
+            foreach ($resultSet as $result) {
+                yield Document::fromResult($result);
+            }
+        }
     }
 
     /**

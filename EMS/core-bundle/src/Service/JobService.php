@@ -15,6 +15,7 @@ use EMS\CoreBundle\Core\Metric\JobMetricCollector;
 use EMS\CoreBundle\Entity\Helper\JsonClass;
 use EMS\CoreBundle\Entity\Job;
 use EMS\CoreBundle\Repository\JobRepository;
+use EMS\Helpers\Env\RuntimeEnvPlaceholderResolver;
 use EMS\Helpers\Standard\DateTime;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
@@ -81,7 +82,7 @@ class JobService implements EntityServiceInterface
             return null;
         }
 
-        return $this->initJob($username, $nextScheduled->getCommand(), $nextScheduled->givePreviousRun());
+        return $this->initJob($username, $nextScheduled->getCommand(), $nextScheduled->givePreviousRun(), $tag);
     }
 
     public function clean(): void
@@ -124,6 +125,11 @@ class JobService implements EntityServiceInterface
         return $this->repository->countPendingJobs();
     }
 
+    public function countFailed(): int
+    {
+        return $this->repository->countFailedJobs();
+    }
+
     public function newJob(UserInterface $user): Job
     {
         $job = new Job();
@@ -164,12 +170,13 @@ class JobService implements EntityServiceInterface
 
         try {
             $application = new Application($this->kernel);
+            $envVarResolver = new RuntimeEnvPlaceholderResolver();
             $application->setAutoExit(false);
 
             $command = ($job->getCommand() ?? 'list');
             $escapedCommand = u($command)->replace('\\', '\\\\')->toString();
-
-            $input = new StringInput($escapedCommand);
+            $resolvedCommand = $envVarResolver->resolve($escapedCommand);
+            $input = new StringInput($resolvedCommand);
 
             $returnCode = $application->run($input, $output);
             if (Command::SUCCESS !== $returnCode) {
@@ -198,10 +205,7 @@ class JobService implements EntityServiceInterface
         $job->setStarted(true);
         $this->repository->save($job);
 
-        $output = $this->getJobOutput($job);
-        $output->writeln('Job ready to be launch');
-
-        return $output;
+        return $this->getJobOutput($job);
     }
 
     public function finish(int $jobId, ?string $errorMessage = null): void
@@ -220,11 +224,12 @@ class JobService implements EntityServiceInterface
         $this->logger->info('Job '.$job->getCommand().' completed.');
     }
 
-    public function initJob(string $username, ?string $command, \DateTime $startDate): Job
+    public function initJob(string $username, ?string $command, \DateTime $startDate, ?string $tag): Job
     {
         $job = new Job();
         $job->setCommand($command);
         $job->setUser($username);
+        $job->setTag($tag);
         $job->setStarted(true);
         $job->setDone(false);
         $job->setCreated($startDate);

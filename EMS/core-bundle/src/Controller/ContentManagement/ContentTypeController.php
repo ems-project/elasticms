@@ -69,14 +69,6 @@ class ContentTypeController extends AbstractController
     ) {
     }
 
-    #[\Deprecated]
-    public static function isValidName(string $name): bool
-    {
-        @\trigger_error('Deprecated isValidName function, please use the FieldTypeManager::isValidName function', E_USER_DEPRECATED);
-
-        return FieldTypeManager::isValidName($name);
-    }
-
     public function updateFromJson(ContentType $contentType, Request $request): Response
     {
         $jsonUpdate = new ContentTypeJsonUpdate();
@@ -104,6 +96,7 @@ class ContentTypeController extends AbstractController
             'breadcrumb' => Navigation::admin()->contentType($contentType)->add(
                 t('action.update_content_type_from_json', ['name' => $contentType->getName()], 'emsco-core')
             ),
+            'contentType' => $contentType,
         ]);
     }
 
@@ -184,7 +177,7 @@ class ContentTypeController extends AbstractController
                 $form->get('name')->addError(new FormError('Another content type named '.$contentTypeAdded->getName().' already exists'));
             }
 
-            if (!static::isValidName($contentTypeAdded->getName())) {
+            if (!FieldTypeManager::isValidName($contentTypeAdded->getName())) {
                 $form->get('name')->addError(new FormError('The content type name is malformed (format: [a-z][a-z0-9_-]*)'));
             }
 
@@ -442,6 +435,7 @@ class ContentTypeController extends AbstractController
     public function editStructure(ContentType $id, Request $request): Response
     {
         $contentType = $id;
+        $id = $contentType->getId();
 
         $inputContentType = $request->request->all('content_type_structure');
 
@@ -487,16 +481,15 @@ class ContentTypeController extends AbstractController
                 return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_STRUCTURE, [
                     'id' => $id,
                 ]);
-            } else {
-                $openModal = $this->fieldTypeManager->handleRequest($contentType->getFieldType(), $inputContentType['fieldType']);
-                $contentType->getFieldType()->updateOrderKeys();
-                $this->contentTypeService->update($contentType, false);
-
-                return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_STRUCTURE, \array_filter([
-                    'id' => $id,
-                    'open' => $openModal,
-                ]));
             }
+            $openModal = $this->fieldTypeManager->handleRequest($contentType->getFieldType(), $inputContentType['fieldType']);
+            $contentType->getFieldType()->updateOrderKeys();
+            $this->contentTypeService->update($contentType, false);
+
+            return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_STRUCTURE, \array_filter([
+                'id' => $id,
+                'open' => $openModal,
+            ]));
         }
 
         if ($contentType->getDirty()) {
@@ -550,7 +543,7 @@ class ContentTypeController extends AbstractController
         } else {
             switch ($action) {
                 case 'subfield':
-                    if (static::isValidName($subFieldName)) {
+                    if (FieldTypeManager::isValidName($subFieldName)) {
                         try {
                             $child = new FieldType();
                             $child->setName($subFieldName);

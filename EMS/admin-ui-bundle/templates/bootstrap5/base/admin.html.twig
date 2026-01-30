@@ -6,15 +6,15 @@
 {%- set all_types = false %}
 {%- if emsco_get_content_types()|length > 0 -%}
     {%- for contentType in emsco_get_content_types()|filter(contentType => contentType.webContent) -%}
-        {%- if all_types  -%}
-            {% set all_types = all_types~','~contentType.name -%}
+        {%- if all_types -%}
+            {% set all_types = all_types ~ ',' ~ contentType.name -%}
         {%- else %}
             {% set all_types = contentType.name -%}
         {%- endif -%}
-        {%- set type_filters = type_filters|merge([[contentType.singularName, contentType.name ]]) -%}
+        {%- set type_filters = type_filters|merge([[contentType.singularName, contentType.name]]) -%}
     {%- endfor -%}
 {%- endif -%}
-{%- set type_filters = [['All content types'|trans, all_types ]]|merge(type_filters) -%}
+{%- set type_filters = [['All content types'|trans, all_types]]|merge(type_filters) -%}
 
 {% set body_attr = {
     class: 'hold-transition sidebar-mini sidebar-mini-md layout-fixed layout-navbar-fixed',
@@ -23,18 +23,18 @@
     'data-search-api': path('elasticsearch.api.search'),
     'data-init-upload': path('emsco_file_data_init_upload'),
     'data-revision-url': path('emsco_view_revisions', {
-        'type': '__type__',
-        'ouuid': '__ouuid__',
+        type: '__type__',
+        ouuid: '__ouuid__',
     }),
     'data-ems-link-info': path('emsco_ems_link_info'),
-    'data-file-view': path('ems.file.view', { sha1: '__file_identifier__', name: '__file_name__' }),
-    'data-file-extract': path('ems_file_extract', { sha1: '__file_identifier__', name: '__file_name__' }),
-    'data-file-extract-forced': path('ems_file_extract_forced', { sha1: '__file_identifier__', name: '__file_name__' }),
+    'data-file-view': path('ems.file.view', {sha1: '__file_identifier__', name: '__file_name__'}),
+    'data-file-extract': path('ems_file_extract', {sha1: '__file_identifier__', name: '__file_name__'}),
+    'data-file-extract-forced': path('ems_file_extract_forced', {sha1: '__file_identifier__', name: '__file_name__'}),
     'data-wysiwyg-type-filters': type_filters|json_encode,
     'data-wysiwyg-info': wysiwygInfo,
     'data-asset-path': asset(''),
 } %}
-{% set theme_color_contrast = theme_color in ['yellow','lime','white','cyan'] ? 'light' : 'dark' %}
+{% set theme_color_contrast = theme_color in ['yellow', 'lime', 'white', 'cyan'] ? 'light' : 'dark' %}
 
 {% block breadcrumb %}
     {% if breadcrumb is defined %}
@@ -45,7 +45,7 @@
                     {% if item.icon %}<i class="{{ item.icon }}"></i>&nbsp;{% endif %}
                     {{ item.label ? item.label|trans : item.text|default('...') }}
                 {%- endset -%}
-                <li class="{{ html_classes('breadcrumb-item', { 'active': loop.last }) }}">
+                <li class="{{ html_classes('breadcrumb-item', {active: loop.last}) }}">
                     {% if item.route and loop.last == false %}
                         <a href="{{ path(item.route, item.routeParams) }}">{{ label }}</a>
                     {% else %}
@@ -68,9 +68,9 @@
             {{ include('@EMSAdminUI/bootstrap5/elements/toasts.html.twig') }}
             <div class="content-header">
                 <div class="container-fluid">
-                    <div class="row mb-2">
+                    <div class="row mb-3">
                         <div class="col-sm-6">
-                            <h1 class="m-0">{% block pagetitle %}{{ block('title') }}{% endblock %}{% block subtitle %}{% if subTitle is defined %}<small>{{ subTitle|trans }}</small>{% endif %}{% endblock %}</h1>
+                            <h1>{% block pagetitle %}{{ block('title') }}{% endblock %}{% block subtitle %}{% if subTitle is defined %}<small>{{ subTitle|trans }}</small>{% endif %}{% endblock %}</h1>
                         </div>
                         <div class="col-sm-6">
                             {{ block('breadcrumb') }}

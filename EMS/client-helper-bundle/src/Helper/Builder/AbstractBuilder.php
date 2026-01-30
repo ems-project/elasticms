@@ -9,6 +9,9 @@ use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequest;
 use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequestManager;
 use EMS\ClientHelperBundle\Helper\Elasticsearch\Settings;
 use EMS\ClientHelperBundle\Helper\Environment\Environment;
+use EMS\ClientHelperBundle\Helper\Routing\RoutingBuilder;
+use EMS\ClientHelperBundle\Helper\Templating\TemplateBuilder;
+use EMS\ClientHelperBundle\Helper\Translation\TranslationBuilder;
 use EMS\CommonBundle\Elasticsearch\Response\Response;
 use EMS\CommonBundle\Elasticsearch\Response\ResponseInterface;
 use EMS\CommonBundle\Search\Search;
@@ -17,9 +20,9 @@ use Psr\Log\LoggerInterface;
 /**
  * Abstract class for client builders.
  *
- * @see \EMS\ClientHelperBundle\Helper\Routing\RoutingBuilder
- * @see \EMS\ClientHelperBundle\Helper\Templating\TemplateBuilder
- * @see \EMS\ClientHelperBundle\Helper\Translation\TranslationBuilder
+ * @see RoutingBuilder
+ * @see TemplateBuilder
+ * @see TranslationBuilder
  */
 abstract class AbstractBuilder
 {

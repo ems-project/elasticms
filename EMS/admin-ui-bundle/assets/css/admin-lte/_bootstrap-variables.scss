@@ -113,7 +113,7 @@ $yiq-text-light: $white !default;
 
 $enable-caret: true !default;
 $enable-rounded: true !default;
-$enable-shadows: true !default;
+$enable-shadows: false;
 $enable-gradients: false !default;
 $enable-transitions: true !default;
 $enable-prefers-reduced-motion-media-query: true !default;
@@ -253,7 +253,7 @@ $font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mon
 $font-family-base: $font-family-sans-serif !default;
 // stylelint-enable value-keyword-case
 
-$font-size-base: 1rem !default; // Assumes the browser default, typically `16px`
+$font-size-base: 0.875rem; // Assumes the browser default, typically `16px`
 $font-size-lg: ($font-size-base * 1.25) !default;
 $font-size-sm: ($font-size-base * .875) !default;
 $font-weight-light: 300 !default;

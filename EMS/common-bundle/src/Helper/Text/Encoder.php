@@ -39,13 +39,12 @@ class Encoder
 
     /**
      * Detect telephone information using the '"tel:xxx"' pattern
-     * <a href="tel:02/123.45.23">02/123.45.23</a>.
+     * <a href="tel:+3221234523">02/123.45.23</a>.
      */
     private function encodePhone(string $text): string
     {
-        $telRegex = '/(?P<tel>"tel:.*")/i';
-
-        $encodedText = \preg_replace_callback($telRegex, fn ($match) => $this->htmlEncode($match['tel']), $text);
+        $telRegex = '~href\s*=\s*["\']tel:(?P<tel>[^"\']+)["\']~i';
+        $encodedText = \preg_replace_callback($telRegex, fn ($match) => \sprintf('href="tel:%s"', $this->htmlEncode($match['tel'])), $text);
 
         if (null === $encodedText) {
             return $text;

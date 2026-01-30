@@ -51,6 +51,8 @@ interface DataInterface
      */
     public function index(?string $ouuid, array $rawData, bool $merge = false, bool $refresh = false): Index;
 
+    public function indexFromAsset(?string $ouuid, string $hash, bool $merge = false, bool $refresh = false): Index;
+
     public function initDraft(string $ouuid): DraftInterface;
 
     /**
@@ -62,6 +64,11 @@ interface DataInterface
      * @throws CoreApiExceptionInterface
      */
     public function get(string $ouuid): RevisionInterface;
+
+    /**
+     * @return array<int, array{ name: string, label: string, snapshot: bool }>
+     */
+    public function getEnvironments(string $ouuid): array;
 
     /**
      * @throws CoreApiExceptionInterface

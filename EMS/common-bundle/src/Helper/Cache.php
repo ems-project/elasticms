@@ -31,14 +31,11 @@ class Cache
             $rewritedEtags[] = \preg_replace('/\-gzip"$/i', '"', (string) $requestEtag);
         }
         $request->headers->replace([Headers::IF_NONE_MATCH => $rewritedEtags]);
-        $response->setCache([
-            'etag' => $etag,
-            'max_age' => $immutableRoute ? 604800 : $maxAge,
-            's_maxage' => $immutableRoute ? 2_678_400 : ($maxAge * 6),
-            'public' => true,
-            'private' => false,
-            'immutable' => $immutableRoute,
-        ]);
+        $response->setEtag($etag, false);
+        $response->setMaxAge($immutableRoute ? 604800 : $maxAge);
+        $response->setSharedMaxAge($immutableRoute ? 3_628_800 : ($maxAge * 6));
+        $response->setPublic();
+        $response->setImmutable($immutableRoute);
 
         if (null !== $lastUpdateDate) {
             $response->setLastModified($lastUpdateDate);

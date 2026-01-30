@@ -12,6 +12,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -104,6 +105,9 @@ class EmschFormType extends AbstractType
         return '';
     }
 
+    /**
+     * @return class-string<FormTypeInterface<mixed>>
+     */
     private function getElementType(string $type): string
     {
         return match ($type) {
@@ -142,7 +146,16 @@ class EmschFormType extends AbstractType
     }
 
     /**
-     * @param array<int, array<mixed>> $constraints
+     * @param array<int, array{
+     *     type: string,
+     *     min: ?int<0, max>,
+     *     minMessage?: string,
+     *     max: ?int<1, max>,
+     *     maxMessage?: string,
+     *     pattern: ?string,
+     *     message?: string,
+     *     value: ?mixed
+     * }> $constraints
      *
      * @return Constraint[]
      */

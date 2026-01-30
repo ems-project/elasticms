@@ -21,7 +21,7 @@ class Guard
 
     public function checkForm(Request $request): bool
     {
-        $formData = $request->get('form', []);
+        $formData = $request->request->all('form');
         $submittedToken = $formData['_token'] ?? null;
 
         return $this->checkToken($request, $submittedToken);

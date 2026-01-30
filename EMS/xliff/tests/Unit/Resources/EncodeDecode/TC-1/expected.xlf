@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" original="content_type:fakeOuuid:fakeRevisionId" datatype="database" target-language="fr">
+    <body>
+      <group resname="[body]" id="grp1">
+        <trans-unit restype="x-html-p" id="tu2" resname="/html/body/p">
+          <source xml:lang="en"> This HTML break element<x id="x3" ctype="x-html-br" equiv-text=" "/> is not followed by a white space character </source>
+          <target xml:lang="fr" state="new"/>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

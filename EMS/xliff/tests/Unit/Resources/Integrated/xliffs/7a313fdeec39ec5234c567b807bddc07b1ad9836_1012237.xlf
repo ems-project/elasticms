@@ -1,116 +1,120 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 https://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file source-language="nl" original="content_type:7a313fdeec39ec5234c567b807bddc07b1ad9836:1012237" datatype="database" target-language="de">
     <body>
-      <trans-unit id="[title]">
+      <trans-unit id="tu1" resname="[title]">
         <source xml:lang="nl">Oudere werknemers</source>
         <target xml:lang="de" state="final">Ältere Arbeitnehmer</target>
       </trans-unit>
-      <trans-unit id="[title_short]">
+      <trans-unit id="tu2" resname="[title_short]">
         <source xml:lang="nl">Oudere werknemers</source>
         <target xml:lang="de" state="final">Ältere Arbeitnehmer</target>
       </trans-unit>
-      <group id="[introduction]">
-        <trans-unit restype="x-html-p" id="/html/body/p">
-          <source xml:lang="nl"> <g ctype="lb"/> </source>
-          <target xml:lang="de" state="final"> <g ctype="lb"/> </target>
+      <group resname="[introduction]" id="grp3">
+        <trans-unit restype="x-html-p" id="tu4" resname="/html/body/p">
+          <source xml:lang="nl"> <x id="x5" ctype="x-html-br" equiv-text=" "/> </source>
+          <target xml:lang="de" state="final"> <x id="x6" ctype="x-html-br" equiv-text=" "/> </target>
         </trans-unit>
       </group>
-      <group id="[description]">
-        <trans-unit restype="x-html-p" id="/html/body/p[1]">
+      <group resname="[description]" id="grp7">
+        <trans-unit restype="x-html-p" id="tu8" resname="/html/body/p[1]">
           <source xml:lang="nl"> Deze doelgroepvermindering is in elke regio aangepast en/of vervangen. U vindt meer op de desbetreffende pagina's. </source>
           <target xml:lang="de" state="final"> Diese Zielgruppenermäßigung wurde in jeder Region angepasst und/oder ersetzt. Weitere Informationen finden Sie auf den entsprechenden Seiten. </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[2]">
-          <source xml:lang="nl"> <g ctype="lb"/> </source>
-          <target xml:lang="de" state="final"> <g ctype="lb"/> </target>
+        <trans-unit restype="x-html-p" id="tu9" resname="/html/body/p[2]">
+          <source xml:lang="nl"> <x id="x10" ctype="x-html-br" equiv-text=" "/> </source>
+          <target xml:lang="de" state="final"> <x id="x11" ctype="x-html-br" equiv-text=" "/> </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[3]">
+        <trans-unit restype="x-html-p" id="tu12" resname="/html/body/p[3]">
           <source xml:lang="nl"/>
           <target xml:lang="de" state="final"/>
         </trans-unit>
-        <trans-unit restype="x-html-ul" id="/html/body/ul">
+        <trans-unit restype="x-html-ul" id="tu13" resname="/html/body/ul">
           <source xml:lang="nl"/>
           <target xml:lang="de" state="final"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[4]">
+        <trans-unit restype="x-html-p" id="tu14" resname="/html/body/p[4]">
           <source xml:lang="nl"/>
           <target xml:lang="de" state="final"/>
         </trans-unit>
-        <group restype="x-html-div" html:class="message alert" id="/html/body/div[1]">
-          <trans-unit restype="x-html-h3" id="/html/body/div[1]/h3">
+        <group restype="x-html-div" id="tu15" resname="/html/body/div[1]">
+          <note from="class">message alert</note>
+          <trans-unit restype="x-html-h3" id="tu16" resname="/html/body/div[1]/h3">
             <source xml:lang="nl"> Vlaams Gewest: </source>
             <target xml:lang="de" state="final"> Flämische Region: </target>
           </trans-unit>
-          <trans-unit restype="x-html-p" id="/html/body/div[1]/p">
-            <source xml:lang="nl"> Vanaf <g ctype="x-html-strong">1 juli 2016</g> kan voor werknemers die tewerkgesteld worden in <g ctype="x-html-strong">Vlaanderen</g> niet langer de 'doelgroepvermindering oudere werknemers' toegepast worden maar wel de '<g ctype="x-html-a" html:href="%{BASE_URL_CURRENT}%/instructions/deductions/structuralreduction_targetgroupreductions/elderlyworkers_vl.html">doelgroepvermindering oudere werknemers - Vlaanderen</g>'. Er zijn geen overgangsmaatregelen voorzien. </source>
-            <target xml:lang="de" state="final"> Ab <g ctype="x-html-strong">01.07.2016</g> kann für Arbeitnehmer, die in <g ctype="x-html-strong">Flandern</g> beschäftigt werden, nicht mehr die ,Zielgruppenermäßigung ältere Arbeitnehmer‘ angewandt werden, sondern die ,<g ctype="x-html-a" html:href="%{BASE_URL_CURRENT}%/instructions/deductions/structuralreduction_targetgroupreductions/elderlyworkers_vl.html">Zielgruppenermäßigung ältere Arbeitnehmer – Flandern</g>‘. Es sind keine Übergangsmaßnahmen vorgesehen. </target>
+          <trans-unit restype="x-html-p" id="tu17" resname="/html/body/div[1]/p">
+            <source xml:lang="nl"> Vanaf <g id="g18" ctype="x-html-strong">1 juli 2016</g> kan voor werknemers die tewerkgesteld worden in <g id="g19" ctype="x-html-strong">Vlaanderen</g> niet langer de 'doelgroepvermindering oudere werknemers' toegepast worden maar wel de '<bx id="bx21" rid="rid20" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/deductions/structuralreduction_targetgroupreductions/elderlyworkers_vl.html&amp;quot;&amp;gt;"/>doelgroepvermindering oudere werknemers - Vlaanderen<ex id="ex22" rid="rid20" equiv-text="&amp;lt;/a&amp;gt;"/>'. Er zijn geen overgangsmaatregelen voorzien. </source>
+            <target xml:lang="de" state="final"> Ab <g id="g23" ctype="x-html-strong">01.07.2016</g> kann für Arbeitnehmer, die in <g id="g24" ctype="x-html-strong">Flandern</g> beschäftigt werden, nicht mehr die ,Zielgruppenermäßigung ältere Arbeitnehmer‘ angewandt werden, sondern die ,<bx id="bx26" rid="rid25" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/deductions/structuralreduction_targetgroupreductions/elderlyworkers_vl.html&amp;quot;&amp;gt;"/>Zielgruppenermäßigung ältere Arbeitnehmer – Flandern<ex id="ex27" rid="rid25" equiv-text="&amp;lt;/a&amp;gt;"/>‘. Es sind keine Übergangsmaßnahmen vorgesehen. </target>
           </trans-unit>
         </group>
-        <trans-unit restype="x-html-p" id="/html/body/p[5]">
+        <trans-unit restype="x-html-p" id="tu28" resname="/html/body/p[5]">
           <source xml:lang="nl"/>
           <target xml:lang="de" state="final"/>
         </trans-unit>
-        <group restype="x-html-div" html:class="message alert" id="/html/body/div[2]">
-          <trans-unit restype="x-html-h3" id="/html/body/div[2]/h3">
+        <group restype="x-html-div" id="tu29" resname="/html/body/div[2]">
+          <note from="class">message alert</note>
+          <trans-unit restype="x-html-h3" id="tu30" resname="/html/body/div[2]/h3">
             <source xml:lang="nl"> Brussels Hoofdstedelijk Gewest: </source>
             <target xml:lang="de" state="final"> Region Brüssel-Hauptstadt: </target>
           </trans-unit>
-          <trans-unit restype="x-html-p" id="/html/body/div[2]/p">
-            <source xml:lang="nl"> Vanaf <g ctype="x-html-strong">1 oktober 2016</g> kan voor werknemers die tewerkgesteld worden in <g ctype="x-html-strong">Brussel</g> niet langer de 'doelgroepvermindering oudere werknemers' toegepast worden maar wel de '<g ctype="x-html-a" html:href="%{BASE_URL_CURRENT}%/instructions/deductions/structuralreduction_targetgroupreductions/elderlyworkers_br.html">doelgroepvermindering oudere werknemers - Brussel</g>'. Er zijn geen overgangsmaatregelen voorzien. </source>
-            <target xml:lang="de" state="final"> Ab <g ctype="x-html-strong">01.10.2016</g> kann für Arbeitnehmer, die in <g ctype="x-html-strong">Brüssel</g> beschäftigt werden, nicht mehr die ,Zielgruppenermäßigung ältere Arbeitnehmer‘ angewandt werden, sondern die ,<g ctype="x-html-a" html:href="%{BASE_URL_CURRENT}%/instructions/deductions/structuralreduction_targetgroupreductions/elderlyworkers_br.html">Zielgruppenermäßigung ältere Arbeitnehmer – Brüssel</g>‘. Es sind keine Übergangsmaßnahmen vorgesehen. </target>
+          <trans-unit restype="x-html-p" id="tu31" resname="/html/body/div[2]/p">
+            <source xml:lang="nl"> Vanaf <g id="g32" ctype="x-html-strong">1 oktober 2016</g> kan voor werknemers die tewerkgesteld worden in <g id="g33" ctype="x-html-strong">Brussel</g> niet langer de 'doelgroepvermindering oudere werknemers' toegepast worden maar wel de '<bx id="bx35" rid="rid34" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/deductions/structuralreduction_targetgroupreductions/elderlyworkers_br.html&amp;quot;&amp;gt;"/>doelgroepvermindering oudere werknemers - Brussel<ex id="ex36" rid="rid34" equiv-text="&amp;lt;/a&amp;gt;"/>'. Er zijn geen overgangsmaatregelen voorzien. </source>
+            <target xml:lang="de" state="final"> Ab <g id="g37" ctype="x-html-strong">01.10.2016</g> kann für Arbeitnehmer, die in <g id="g38" ctype="x-html-strong">Brüssel</g> beschäftigt werden, nicht mehr die ,Zielgruppenermäßigung ältere Arbeitnehmer‘ angewandt werden, sondern die ,<bx id="bx40" rid="rid39" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/deductions/structuralreduction_targetgroupreductions/elderlyworkers_br.html&amp;quot;&amp;gt;"/>Zielgruppenermäßigung ältere Arbeitnehmer – Brüssel<ex id="ex41" rid="rid39" equiv-text="&amp;lt;/a&amp;gt;"/>‘. Es sind keine Übergangsmaßnahmen vorgesehen. </target>
           </trans-unit>
         </group>
-        <trans-unit restype="x-html-p" id="/html/body/p[6]">
+        <trans-unit restype="x-html-p" id="tu42" resname="/html/body/p[6]">
           <source xml:lang="nl"/>
           <target xml:lang="de" state="final"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[7]">
+        <trans-unit restype="x-html-p" id="tu43" resname="/html/body/p[7]">
           <source xml:lang="nl"/>
           <target xml:lang="de" state="final"/>
         </trans-unit>
-        <group restype="x-html-div" html:class="message alert" id="/html/body/div[3]">
-          <trans-unit restype="x-html-h3" id="/html/body/div[3]/h3">
+        <group restype="x-html-div" id="tu44" resname="/html/body/div[3]">
+          <note from="class">message alert</note>
+          <trans-unit restype="x-html-h3" id="tu45" resname="/html/body/div[3]/h3">
             <source xml:lang="nl"> Waals Gewest (zonder de Duitstalige Gemeenschap): </source>
             <target xml:lang="de" state="final"> Wallonische Region (außer die Deutschsprachige Gemeinschaft): </target>
           </trans-unit>
-          <trans-unit restype="x-html-p" id="/html/body/div[3]/p">
-            <source xml:lang="nl"> Vanaf <g ctype="x-html-strong">1 juli 2017</g> kan voor werknemers die tewerkgesteld worden in <g ctype="x-html-strong">Wallonië</g> niet langer de 'doelgroepvermindering oudere werknemers' toegepast worden maar wel de '<g ctype="x-html-a" html:href="%{BASE_URL_CURRENT}%/instructions/deductions/structuralreduction_targetgroupreductions/elderlyworkers_wal.html">doelgroepvermindering oudere werknemers - Wallonië</g>'. Er zijn overgangsmaatregelen voorzien voor 54-jarigen in dienst op 30 juni 2017. </source>
-            <target xml:lang="de" state="final"> Ab <g ctype="x-html-strong">01.07.2017</g> kann für Arbeitnehmer, die in der <g ctype="x-html-strong">Wallonie</g> beschäftigt werden, nicht mehr die ,Zielgruppenermäßigung ältere Arbeitnehmer‘ angewandt werden, sondern die ,<g ctype="x-html-a" html:href="%{BASE_URL_CURRENT}%/instructions/deductions/structuralreduction_targetgroupreductions/elderlyworkers_wal.html">Zielgruppenermäßigung ältere Arbeitnehmer – Wallonie</g>‘. Es gelten Übergangsregelungen für 54-Jährige, die am 30. Juni 2017 beschäftigt sind. </target>
+          <trans-unit restype="x-html-p" id="tu46" resname="/html/body/div[3]/p">
+            <source xml:lang="nl"> Vanaf <g id="g47" ctype="x-html-strong">1 juli 2017</g> kan voor werknemers die tewerkgesteld worden in <g id="g48" ctype="x-html-strong">Wallonië</g> niet langer de 'doelgroepvermindering oudere werknemers' toegepast worden maar wel de '<bx id="bx50" rid="rid49" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/deductions/structuralreduction_targetgroupreductions/elderlyworkers_wal.html&amp;quot;&amp;gt;"/>doelgroepvermindering oudere werknemers - Wallonië<ex id="ex51" rid="rid49" equiv-text="&amp;lt;/a&amp;gt;"/>'. Er zijn overgangsmaatregelen voorzien voor 54-jarigen in dienst op 30 juni 2017. </source>
+            <target xml:lang="de" state="final"> Ab <g id="g52" ctype="x-html-strong">01.07.2017</g> kann für Arbeitnehmer, die in der <g id="g53" ctype="x-html-strong">Wallonie</g> beschäftigt werden, nicht mehr die ,Zielgruppenermäßigung ältere Arbeitnehmer‘ angewandt werden, sondern die ,<bx id="bx55" rid="rid54" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/deductions/structuralreduction_targetgroupreductions/elderlyworkers_wal.html&amp;quot;&amp;gt;"/>Zielgruppenermäßigung ältere Arbeitnehmer – Wallonie<ex id="ex56" rid="rid54" equiv-text="&amp;lt;/a&amp;gt;"/>‘. Es gelten Übergangsregelungen für 54-Jährige, die am 30. Juni 2017 beschäftigt sind. </target>
           </trans-unit>
         </group>
-        <trans-unit restype="x-html-p" id="/html/body/p[8]">
+        <trans-unit restype="x-html-p" id="tu57" resname="/html/body/p[8]">
           <source xml:lang="nl"/>
           <target xml:lang="de" state="final"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[9]">
+        <trans-unit restype="x-html-p" id="tu58" resname="/html/body/p[9]">
           <source xml:lang="nl"/>
           <target xml:lang="de" state="final"/>
         </trans-unit>
-        <trans-unit restype="x-html-h3" id="/html/body/h3">
+        <trans-unit restype="x-html-h3" id="tu59" resname="/html/body/h3">
           <source xml:lang="nl"/>
           <target xml:lang="de" state="final"/>
         </trans-unit>
-        <group restype="x-html-div" html:class="message alert" id="/html/body/div[4]">
-          <trans-unit restype="x-html-h3" id="/html/body/div[4]/h3">
+        <group restype="x-html-div" id="tu60" resname="/html/body/div[4]">
+          <note from="class">message alert</note>
+          <trans-unit restype="x-html-h3" id="tu61" resname="/html/body/div[4]/h3">
             <source xml:lang="nl"> Duitstalige Gemeenschap: </source>
             <target xml:lang="de" state="final"> Deutschsprachige Gemeinschaft: </target>
           </trans-unit>
-          <trans-unit restype="x-html-p" id="/html/body/div[4]/p[1]">
-            <source xml:lang="nl"> Vanaf <g ctype="x-html-strong">1 januari 2019</g> kan voor werknemers die tewerkgesteld worden in het <g ctype="x-html-strong">Duitstalige landsgedeelte</g> niet langer de 'doelgroepvermindering oudere werknemers' toegepast worden maar wel de '<g ctype="x-html-a" html:href="%{BASE_URL_CURRENT}%/instructions/deductions/structuralreduction_targetgroupreductions/elderlyworkers_du.html">doelgroepvermindering oudere werknemers - Duitstalige Gemeenschap</g>'. Er zijn <g ctype="x-html-strong">overgangsmaatregelen met een specifieke verminderingscode</g> voorzien voor 54- en 58-jarigen in dienst op 31 december 2018. </source>
-            <target xml:lang="de" state="final"> Ab <g ctype="x-html-strong">01. Januar 2019</g> kann für Arbeitnehmer, die im <g ctype="x-html-strong">deutschsprachigen Landesteil</g> beschäftigt werden, nicht mehr die ‚Zielgruppenermäßigung ältere Arbeitnehmer‘ angewandt werden, sondern die ‚<g ctype="x-html-a" html:href="%{BASE_URL_CURRENT}%/instructions/deductions/structuralreduction_targetgroupreductions/elderlyworkers_du.html">Zielgruppenermäßigung ältere Arbeitnehmer – Deutschsprachige Gemeinschaft</g>‘. Für die am 31. Dezember 2018 beschäftigten 54- und 58-Jährigen sind <g ctype="x-html-strong">Übergangsmaßnahmen mit einem spezifischen Ermäßigungscode</g> vorgesehen. </target>
+          <trans-unit restype="x-html-p" id="tu62" resname="/html/body/div[4]/p[1]">
+            <source xml:lang="nl"> Vanaf <g id="g63" ctype="x-html-strong">1 januari 2019</g> kan voor werknemers die tewerkgesteld worden in het <g id="g64" ctype="x-html-strong">Duitstalige landsgedeelte</g> niet langer de 'doelgroepvermindering oudere werknemers' toegepast worden maar wel de '<bx id="bx66" rid="rid65" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/deductions/structuralreduction_targetgroupreductions/elderlyworkers_du.html&amp;quot;&amp;gt;"/>doelgroepvermindering oudere werknemers - Duitstalige Gemeenschap<ex id="ex67" rid="rid65" equiv-text="&amp;lt;/a&amp;gt;"/>'. Er zijn <g id="g68" ctype="x-html-strong">overgangsmaatregelen met een specifieke verminderingscode</g> voorzien voor 54- en 58-jarigen in dienst op 31 december 2018. </source>
+            <target xml:lang="de" state="final"> Ab <g id="g69" ctype="x-html-strong">01. Januar 2019</g> kann für Arbeitnehmer, die im <g id="g70" ctype="x-html-strong">deutschsprachigen Landesteil</g> beschäftigt werden, nicht mehr die ‚Zielgruppenermäßigung ältere Arbeitnehmer‘ angewandt werden, sondern die ‚<bx id="bx72" rid="rid71" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/deductions/structuralreduction_targetgroupreductions/elderlyworkers_du.html&amp;quot;&amp;gt;"/>Zielgruppenermäßigung ältere Arbeitnehmer – Deutschsprachige Gemeinschaft<ex id="ex73" rid="rid71" equiv-text="&amp;lt;/a&amp;gt;"/>‘. Für die am 31. Dezember 2018 beschäftigten 54- und 58-Jährigen sind <g id="g74" ctype="x-html-strong">Übergangsmaßnahmen mit einem spezifischen Ermäßigungscode</g> vorgesehen. </target>
           </trans-unit>
-          <trans-unit restype="x-html-p" id="/html/body/div[4]/p[2]">
+          <trans-unit restype="x-html-p" id="tu75" resname="/html/body/div[4]/p[2]">
             <source xml:lang="nl"/>
             <target xml:lang="de" state="final"/>
           </trans-unit>
         </group>
-        <trans-unit id="/html/body/br">
+        <trans-unit id="tu76" resname="/html/body/br">
           <source xml:lang="nl">
-            <g ctype="lb"/>
+            <x id="x77" ctype="x-html-br" equiv-text=" "/>
           </source>
           <target xml:lang="de" state="final">
-            <g ctype="lb"/>
+            <x id="x78" ctype="x-html-br" equiv-text=" "/>
           </target>
         </trans-unit>
       </group>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0" srcLang="en" trgLang="fr">
   <file id="contentType:ouuid_1:revisionId_1">
-    <unit id="[title_%locale%]">
+    <unit id="tu1" name="[title_%locale%]">
       <segment>
         <source>Foo</source>
         <target>Bar</target>
@@ -9,75 +9,75 @@
     </unit>
   </file>
   <file id="contentType:ouuid_2:revisionId_2">
-    <unit id="[title_%locale%]">
+    <unit id="tu2" name="[title_%locale%]">
       <segment>
         <source>Hello</source>
         <target>Bonjour</target>
       </segment>
     </unit>
-    <unit id="[keywords_%locale%]">
+    <unit id="tu3" name="[keywords_%locale%]">
       <segment>
         <source>test xliff</source>
         <target/>
       </segment>
     </unit>
-    <unit id="[empty]">
+    <unit id="tu4" name="[empty]">
       <segment>
         <source/>
         <target/>
       </segment>
     </unit>
-    <group id="[%locale%][body]">
-      <unit id="/html/body/p[1]">
-        <segment id="/html/body/p[1]">
+    <group name="[%locale%][body]" id="grp5">
+      <unit id="tu6" name="/html/body/p[1]">
+        <segment id="tu7" name="/html/body/p[1]">
           <source> Deze doelgroepvermindering is in elke regio aangepast en/of vervangen. U vindt meer op de desbetreffende pagina's. </source>
           <target/>
         </segment>
       </unit>
-      <unit id="/html/body/p[2]">
-        <segment id="/html/body/p[2]">
-          <source> <g ctype="lb"/> </source>
+      <unit id="tu8" name="/html/body/p[2]">
+        <segment id="tu9" name="/html/body/p[2]">
+          <source> <x id="x10" ctype="x-html-br" equiv-text=" "/> </source>
           <target/>
         </segment>
       </unit>
-      <group id="/html/body/div">
-        <unit id="/html/body/div/h3">
-          <segment id="/html/body/div/h3">
+      <group id="tu11" name="/html/body/div">
+        <unit id="tu12" name="/html/body/div/h3">
+          <segment id="tu13" name="/html/body/div/h3">
             <source> Vlaams Gewest: </source>
             <target/>
           </segment>
         </unit>
-        <unit id="/html/body/div/p">
-          <segment id="/html/body/div/p">
-            <source> Vanaf <g ctype="x-html-strong">1 juli 2016</g> kan voor werknemers die tewerkgesteld worden in <g ctype="x-html-strong">Vlaanderen</g> niet langer de 'doelgroepvermindering oudere werknemers' toegepast worden maar wel de '<g ctype="x-html-a" html:href="%{BASE_URL_CURRENT}%/instructions/deductions/structuralreduction_targetgroupreductions/elderlyworkers_vl.html">doelgroepvermindering oudere werknemers - Vlaanderen</g>'. Er zijn geen overgangsmaatregelen voorzien. </source>
+        <unit id="tu14" name="/html/body/div/p">
+          <segment id="tu15" name="/html/body/div/p">
+            <source> Vanaf <g id="g16" ctype="x-html-strong">1 juli 2016</g> kan voor werknemers die tewerkgesteld worden in <g id="g17" ctype="x-html-strong">Vlaanderen</g> niet langer de 'doelgroepvermindering oudere werknemers' toegepast worden maar wel de '<bx id="bx19" rid="rid18" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/deductions/structuralreduction_targetgroupreductions/elderlyworkers_vl.html&amp;quot;&amp;gt;"/>doelgroepvermindering oudere werknemers - Vlaanderen<ex id="ex20" rid="rid18" equiv-text="&amp;lt;/a&amp;gt;"/>'. Er zijn geen overgangsmaatregelen voorzien. </source>
             <target/>
           </segment>
         </unit>
       </group>
     </group>
-    <group id="[%locale%][body2]">
-      <unit id="/html/body/p[1]">
-        <segment id="/html/body/p[1]">
+    <group name="[%locale%][body2]" id="grp21">
+      <unit id="tu22" name="/html/body/p[1]">
+        <segment id="tu23" name="/html/body/p[1]">
           <source> Deze doelgroepvermindering is in elke regio aangepast en/of vervangen. U vindt meer op de desbetreffende pagina's. </source>
           <target/>
         </segment>
       </unit>
-      <unit id="/html/body/p[2]">
-        <segment id="/html/body/p[2]">
-          <source> <g ctype="lb"/> </source>
+      <unit id="tu24" name="/html/body/p[2]">
+        <segment id="tu25" name="/html/body/p[2]">
+          <source> <x id="x26" ctype="x-html-br" equiv-text=" "/> </source>
           <target/>
         </segment>
       </unit>
-      <group id="/html/body/div">
-        <unit id="/html/body/div/h3">
-          <segment id="/html/body/div/h3">
+      <group id="tu27" name="/html/body/div">
+        <unit id="tu28" name="/html/body/div/h3">
+          <segment id="tu29" name="/html/body/div/h3">
             <source> Vlaams Gewest: </source>
             <target/>
           </segment>
         </unit>
-        <unit id="/html/body/div/p">
-          <segment id="/html/body/div/p">
-            <source> Vanaf <g ctype="x-html-strong">1 juli 2016</g> kan voor werknemers die tewerkgesteld worden in <g ctype="x-html-strong">Vlaanderen</g> niet langer de 'doelgroepvermindering oudere werknemers' toegepast worden maar wel de '<g ctype="x-html-a" html:href="%{BASE_URL_CURRENT}%/instructions/deductions/structuralreduction_targetgroupreductions/elderlyworkers_vl.html">doelgroepvermindering oudere werknemers - Vlaanderen</g>'. Er zijn geen overgangsmaatregelen voorzien. </source>
+        <unit id="tu30" name="/html/body/div/p">
+          <segment id="tu31" name="/html/body/div/p">
+            <source> Vanaf <g id="g32" ctype="x-html-strong">1 juli 2016</g> kan voor werknemers die tewerkgesteld worden in <g id="g33" ctype="x-html-strong">Vlaanderen</g> niet langer de 'doelgroepvermindering oudere werknemers' toegepast worden maar wel de '<bx id="bx35" rid="rid34" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/deductions/structuralreduction_targetgroupreductions/elderlyworkers_vl.html&amp;quot;&amp;gt;"/>doelgroepvermindering oudere werknemers - Vlaanderen<ex id="ex36" rid="rid34" equiv-text="&amp;lt;/a&amp;gt;"/>'. Er zijn geen overgangsmaatregelen voorzien. </source>
             <target/>
           </segment>
         </unit>

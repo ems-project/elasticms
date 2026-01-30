@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace EMS\CommonBundle\Tests\Unit\Common\PropertyAccess;
+namespace EMS\Helpers\Tests\Unit\PropertyAccess;
 
-use EMS\CommonBundle\Common\PropertyAccess\PropertyPathElement;
+use EMS\Helpers\PropertyAccess\PropertyPathElement;
 use PHPUnit\Framework\TestCase;
 
 class PropertyPathElementAiTest extends TestCase

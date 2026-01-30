@@ -10,6 +10,7 @@ use EMS\CommonBundle\Storage\Service\StorageInterface;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\Helpers\File\TempDirectory;
 use EMS\Helpers\File\TempFile;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Config\FileLocator;
@@ -45,6 +46,7 @@ class StorageManagerTest extends WebTestCase
         $this->hash = \sha1(self::FOO.self::BAR);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testHash(): void
     {
         $this->assertEquals('sha1', $this->storageManager->getHashAlgo());
@@ -52,6 +54,7 @@ class StorageManagerTest extends WebTestCase
         $this->assertEquals($this->hash, $this->storageManager->computeFileHash($this->tempFile->path));
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testHealthStatuses(): void
     {
         foreach ($this->storageManager->getHealthStatuses() as $status) {
@@ -59,6 +62,7 @@ class StorageManagerTest extends WebTestCase
         }
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testFoobarFileByChunkUpload(): void
     {
         $this->assertFalse($this->storageManager->head($this->hash));
@@ -87,6 +91,7 @@ class StorageManagerTest extends WebTestCase
         $this->assertFalse($this->storageManager->head($this->hash));
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testFoobarFileBySingleUpload(): void
     {
         $temp = TempFile::create();
@@ -111,6 +116,7 @@ class StorageManagerTest extends WebTestCase
         $this->assertEquals(3, $this->storageManager->remove($this->hash));
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testSaveConfig(): void
     {
         $data = [
@@ -123,6 +129,7 @@ class StorageManagerTest extends WebTestCase
         $this->assertEquals(3, $this->storageManager->remove($configHash));
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testHotSynchronize(): void
     {
         $fsDirSource = $this->getFsDir();

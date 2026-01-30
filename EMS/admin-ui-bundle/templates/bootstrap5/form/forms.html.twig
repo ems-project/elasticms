@@ -289,14 +289,10 @@
 
 {% block emsco_form_table_type_widget %}
     {% set table = form.vars.data %}
-    <div class="row">
-        <div class="col-md-12">
             {{ form_start(form) }}
-            <div class="card card-{{ theme_color }} card-outline card-outline-tabs">
                 {% if table_title is defined or form.vars.title_label|default(false) or toolbar is defined or (table.sortable and table.supportsTableActions) or table.toolbarActions|length > 0 %}
-                    <div class="card-header d-flex align-items-center">
                         {% if table_title is defined or form.vars.title_label|default(false) %}
-                            <h2 class="card-title">
+                            <h2>
                                 {% if table_title_icon is defined %}<i class="{{ table_title_icon }}"></i>&nbsp;{% endif %}
                                 {{ table_title|default(form.vars.title_label|trans) }}
                             </h2>
@@ -316,9 +312,7 @@
                                 </button>
                             {% endif %}
                         </div>
-                    </div>
                 {% endif %}
-                <div class="box-body with-border">
                     <div class="table-responsive mt-2">
                         <table class="table table-condensed table-striped" data-datatable="{{ table.frontendOptions|json_encode|e('html_attr') }}">
                             <thead>
@@ -368,9 +362,7 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
                 {% if table.supportsTableActions or toolbar is defined or table.tableMassActions|length > 0 %}
-                    <div class="card-footer">
                         {% if table.supportsTableActions %}
                             {% for action in table.tableActions %}
                                 {{ form_widget(attribute(form, action.name)) }}
@@ -388,7 +380,6 @@
                                 {% endif %}
                             {% endfor %}
                         </div>
-                    </div>
                 {% endif %}
             </div>
             {% if attribute(form, 'reordered') is defined %}

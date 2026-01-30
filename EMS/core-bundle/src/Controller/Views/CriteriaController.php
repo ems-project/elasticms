@@ -60,7 +60,7 @@ class CriteriaController extends AbstractController
 
     public function align(View $view, Request $request): Response
     {
-        $criteriaUpdateConfig = new CriteriaUpdateConfig($view, $this->logger);
+        $criteriaUpdateConfig = new CriteriaUpdateConfig($view, $this->contentTypeService, $this->logger);
         $form = $this->createForm(CriteriaFilterType::class, $criteriaUpdateConfig, [
             'view' => $view,
         ]);
@@ -102,8 +102,12 @@ class CriteriaController extends AbstractController
                             }
                         }
                         if (!$found) {
-                            $filters[$criteriaUpdateConfig->getRowCriteria()] = $rowId;
-                            $filters[$criteriaUpdateConfig->getColumnCriteria()] = $colId;
+                            if (null !== $rowCriteria = $criteriaUpdateConfig->getRowCriteria()) {
+                                $filters[$rowCriteria] = $rowId;
+                            }
+                            if (null !== $columnCriteria = $criteriaUpdateConfig->getColumnCriteria()) {
+                                $filters[$columnCriteria] = $colId;
+                            }
 
                             if ('internal' == $view->getOptions()['criteriaMode']) {
                                 if (isset($itemToFinalize[$toremove->getValue()])) {
@@ -155,8 +159,12 @@ class CriteriaController extends AbstractController
                             }
                         }
                         if (!$found) {
-                            $filters[$criteriaUpdateConfig->getRowCriteria()] = $rowId;
-                            $filters[$criteriaUpdateConfig->getColumnCriteria()] = $colId;
+                            if (null !== $rowCriteria = $criteriaUpdateConfig->getRowCriteria()) {
+                                $filters[$rowCriteria] = $rowId;
+                            }
+                            if (null !== $columnCriteria = $criteriaUpdateConfig->getColumnCriteria()) {
+                                $filters[$columnCriteria] = $colId;
+                            }
 
                             if ('internal' == $view->getOptions()['criteriaMode']) {
                                 if (isset($itemToFinalize[$toadd->getValue()])) {
@@ -187,7 +195,7 @@ class CriteriaController extends AbstractController
 
                                 $revision = $this->addCriteriaRevision($view, $rawData, $targetFieldName, $itemToFinalize);
                                 if ($revision) {
-                                    $itemToFinalize[$revision->getOuuid()] = $revision;
+                                    $itemToFinalize[$revision->giveOuuid()] = $revision;
                                 }
                             }
                         }
@@ -234,7 +242,7 @@ class CriteriaController extends AbstractController
             }
         }
 
-        $criteriaUpdateConfig = new CriteriaUpdateConfig($view, $this->logger);
+        $criteriaUpdateConfig = new CriteriaUpdateConfig($view, $this->contentTypeService, $this->logger);
 
         $form = $this->createForm(CriteriaFilterType::class, $criteriaUpdateConfig, [
             'view' => $view,
@@ -290,8 +298,7 @@ class CriteriaController extends AbstractController
         $authorized = $this->isAuthorized($criteriaField, $this->authorizationChecker) && $this->authorizationChecker->isGranted($view->getContentType()->role(ContentTypeRoles::EDIT));
 
         foreach ($fieldPaths as $path) {
-            /** @var false|FieldType $child */
-            $child = $criteriaField->getChildByPath($path);
+            $child = $this->contentTypeService->getChildByPath($criteriaField, $path);
             if ($child) {
                 if ($child->getName() == $criteriaUpdateConfig->getColumnCriteria()) {
                     $columnField = $child;
@@ -413,12 +420,18 @@ class CriteriaController extends AbstractController
         //        $rowField = $criteriaField->getChildByPath($criteriaUpdateConfig->getRowCriteria());
 
         $table = [];
-        /** @var ObjectChoiceListItem $rowItem */
-        foreach ($criteriaChoiceLists[$criteriaUpdateConfig->getRowCriteria()] as $rowItem) {
-            $table[$rowItem->getValue()] = [];
-            /** @var ObjectChoiceListItem $columnItem */
-            foreach ($criteriaChoiceLists[$criteriaUpdateConfig->getColumnCriteria()] as $columnItem) {
-                $table[$rowItem->getValue()][$columnItem->getValue()] = null;
+
+        $rowCriteria = $criteriaUpdateConfig->getRowCriteria();
+        $columnCriteria = $criteriaUpdateConfig->getColumnCriteria();
+
+        if (null !== $rowCriteria && null !== $columnCriteria) {
+            foreach ($criteriaChoiceLists[$rowCriteria] as $rowItem) {
+                /* @var ObjectChoiceListItem $rowItem */
+                $table[$rowItem->getValue()] = [];
+                /** @var ObjectChoiceListItem $columnItem */
+                foreach ($criteriaChoiceLists[$columnCriteria] as $columnItem) {
+                    $table[$rowItem->getValue()][$columnItem->getValue()] = null;
+                }
             }
         }
 
@@ -440,7 +453,7 @@ class CriteriaController extends AbstractController
         $loaderTypes = $view->getContentType()->getName();
         $targetContentType = null;
         if ($view->getOptions()['targetField']) {
-            $targetField = $contentType->getFieldType()->getChildByPath($view->getOptions()['targetField']);
+            $targetField = $this->contentTypeService->getChildByPath($contentType->getFieldType(), $view->getOptions()['targetField']);
             if ($targetField && isset($targetField->getOptions()['displayOptions']['type'])) {
                 $loaderTypes = $targetField->getOptions()['displayOptions']['type'];
                 $targetContentType = $this->contentTypeService->getByName($loaderTypes);
@@ -681,22 +694,21 @@ class CriteriaController extends AbstractController
             }
 
             return $revision;
-        } else {
-            $message = false;
-            /** @var Document $document */
-            foreach ($response->getDocuments() as $document) {
-                if ($message) {
-                    $message .= ', ';
-                } else {
-                    $message = '';
-                }
-                $message .= $document->getId();
-            }
-            $this->logger->error('log.view.criteria.too_may_criteria', [
-                'total' => $response->getTotal(),
-                'message' => $message,
-            ]);
         }
+        $message = false;
+        /** @var Document $document */
+        foreach ($response->getDocuments() as $document) {
+            if ($message) {
+                $message .= ', ';
+            } else {
+                $message = '';
+            }
+            $message .= $document->getId();
+        }
+        $this->logger->error('log.view.criteria.too_may_criteria', [
+            'total' => $response->getTotal(),
+            'message' => $message,
+        ]);
 
         return null;
     }
@@ -716,13 +728,7 @@ class CriteriaController extends AbstractController
 
         $found = false;
         foreach ($rawData[$criteriaField] as &$criteriaSet) {
-            $found = true;
-            foreach ($filters as $criterion => $value) {
-                if ($criterion != $multipleField && $value != $criteriaSet[$criterion]) {
-                    $found = false;
-                    break;
-                }
-            }
+            $found = \array_all($filters, fn ($value, $criterion) => !($criterion != $multipleField && $value != $criteriaSet[$criterion]));
             if ($found) {
                 if ($multipleField && false === \array_search($filters[$multipleField], $criteriaSet[$multipleField])) {
                     $criteriaSet[$multipleField][] = $filters[$multipleField];
@@ -739,15 +745,15 @@ class CriteriaController extends AbstractController
                     ]);
 
                     return $revision;
-                } else {
-                    $this->logger->notice('log.view.criteria.already_exists', [
-                        EmsFields::LOG_CONTENTTYPE_FIELD => $revision->giveContentType()->getName(),
-                        EmsFields::LOG_OUUID_FIELD => $revision->giveOuuid(),
-                        EmsFields::LOG_REVISION_ID_FIELD => $revision->getId(),
-                        'field_name' => $multipleField,
-                        'field_data' => $filters[$multipleField],
-                    ]);
                 }
+                $this->logger->notice('log.view.criteria.already_exists', [
+                    EmsFields::LOG_CONTENTTYPE_FIELD => $revision->giveContentType()->getName(),
+                    EmsFields::LOG_OUUID_FIELD => $revision->giveOuuid(),
+                    EmsFields::LOG_REVISION_ID_FIELD => $revision->getId(),
+                    'field_name' => $multipleField,
+                    'field_data' => $filters[$multipleField],
+                ]);
+
                 break;
             }
         }
@@ -928,15 +934,14 @@ class CriteriaController extends AbstractController
                 ]);
 
                 return $revision;
-            } else {
-                $this->logger->warning('log.view.criteria.already_missing', [
-                    EmsFields::LOG_CONTENTTYPE_FIELD => $revision->getContentType()->getName(),
-                    EmsFields::LOG_OUUID_FIELD => $revision->getOuuid(),
-                    EmsFields::LOG_REVISION_ID_FIELD => $revision->getId(),
-                    'field_name' => $targetFieldName,
-                    'field_data' => $rawData[$targetFieldName],
-                ]);
             }
+            $this->logger->warning('log.view.criteria.already_missing', [
+                EmsFields::LOG_CONTENTTYPE_FIELD => $revision->getContentType()->getName(),
+                EmsFields::LOG_OUUID_FIELD => $revision->getOuuid(),
+                EmsFields::LOG_REVISION_ID_FIELD => $revision->getId(),
+                'field_name' => $targetFieldName,
+                'field_data' => $rawData[$targetFieldName],
+            ]);
         } else {
             $message = false;
             /** @var Document $document */
@@ -973,13 +978,7 @@ class CriteriaController extends AbstractController
 
         $found = false;
         foreach ($rawData[$criteriaField] as $index => $criteriaSet) {
-            $found = true;
-            foreach ($filters as $criterion => $value) {
-                if ($criterion != $multipleField && $value != $criteriaSet[$criterion]) {
-                    $found = false;
-                    break;
-                }
-            }
+            $found = \array_all($filters, fn ($value, $criterion) => !($criterion != $multipleField && $value != $criteriaSet[$criterion]));
             if ($found) {
                 if ($multipleField) {
                     $indexKey = \array_search($filters[$multipleField], $criteriaSet[$multipleField]);
@@ -1055,6 +1054,14 @@ class CriteriaController extends AbstractController
         if (!\is_array($criterionList)) {
             $criterionList = [$criterionList];
         }
+
+        $rowCriteria = $config->getRowCriteria();
+        $columnCriteria = $config->getColumnCriteria();
+
+        if (null === $rowCriteria || null === $columnCriteria) {
+            return;
+        }
+
         foreach ($criterionList as $value) {
             if (isset($criteriaChoiceLists[$criteriaName][$value])) {
                 $context[$criteriaName] = $value;
@@ -1063,10 +1070,10 @@ class CriteriaController extends AbstractController
                     $this->addToTable($choice, $table, $criterion, $criteriaNames, $criteriaChoiceLists, $config, $context);
                 } else {
                     // all criterion apply the current choice can be added to the table depending the context
-                    if (!isset($table[$context[$config->getRowCriteria()]][$context[$config->getColumnCriteria()]])) {
-                        $table[$context[$config->getRowCriteria()]][$context[$config->getColumnCriteria()]] = [];
+                    if (!isset($table[$context[$rowCriteria]][$context[$columnCriteria]])) {
+                        $table[$context[$rowCriteria]][$context[$columnCriteria]] = [];
                     }
-                    $table[$context[$config->getRowCriteria()]][$context[$config->getColumnCriteria()]][] = $choice;
+                    $table[$context[$rowCriteria]][$context[$columnCriteria]][] = $choice;
                 }
             }
         }

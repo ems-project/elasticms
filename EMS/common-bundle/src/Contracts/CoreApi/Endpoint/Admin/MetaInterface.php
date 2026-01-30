@@ -20,4 +20,25 @@ interface MetaInterface
      *  }>
      */
     public function getInfoDocuments(array $environments, array $emsLinks): array;
+
+    /**
+     * @param string[] $circles
+     *
+     * @return array<int, array{
+     *     id: string,
+     *     ouuid: ?string,
+     *     circles: string[],
+     *     save_date: string,
+     *     created: string,
+     *     raw_data?: array<mixed>
+     * }>
+     */
+    public function getDrafts(bool $includeRawData = false, array $circles = []): array;
+
+    /**
+     * @return array<int, array{ name: string, managed: bool, snapshot: bool}>
+     */
+    public function getEnvironments(?bool $managed = null, ?bool $snapshot = null): array;
+
+    public function aliasAttachEnvironment(string $alias, string $environment): bool;
 }

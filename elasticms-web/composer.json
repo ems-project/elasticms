@@ -8,42 +8,42 @@
         }
     ],
     "type": "project",
-    "license": "LGPL-3.0",
-    "minimum-stability": "stable",
+    "license": "LGPL-3.0-or-later",
+    "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": "^8.4",
+        "php": "^8.5",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-intl": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
-        "doctrine/doctrine-bundle": "^2.11",
-        "doctrine/doctrine-migrations-bundle": "^3.2",
+        "doctrine/doctrine-bundle": "^3.2",
+        "doctrine/doctrine-migrations-bundle": "^4.0",
         "doctrine/orm": "^3.3",
-        "elasticms/client-helper-bundle": "6.6.*",
-        "elasticms/form-bundle": "6.6.*",
-        "elasticms/submission-bundle": "6.6.*",
+        "elasticms/client-helper-bundle": "7.x-dev",
+        "elasticms/form-bundle": "7.x-dev",
+        "elasticms/submission-bundle": "7.x-dev",
         "endroid/qr-code-bundle": "^6.0",
-        "symfony/console": "6.4.*",
-        "symfony/dotenv": "6.4.*",
-        "symfony/expression-language": "6.4.*",
+        "symfony/console": "7.4.*",
+        "symfony/dotenv": "7.4.*",
+        "symfony/expression-language": "7.4.*",
         "symfony/flex": "^2.4",
-        "symfony/form": "6.4.*",
-        "symfony/framework-bundle": "6.4.*",
-        "symfony/mailer": "6.4.*",
+        "symfony/form": "7.4.*",
+        "symfony/framework-bundle": "7.4.*",
+        "symfony/mailer": "7.4.*",
         "symfony/monolog-bundle": "^3.8",
-        "symfony/runtime": "6.4.*",
-        "symfony/security-bundle": "6.4.*",
-        "symfony/twig-bundle": "6.4.*",
-        "symfony/var-exporter": "6.4.*",
-        "symfony/web-link": "6.4.*",
+        "symfony/runtime": "7.4.*",
+        "symfony/security-bundle": "7.4.*",
+        "symfony/twig-bundle": "7.4.*",
+        "symfony/var-exporter": "7.4.*",
+        "symfony/web-link": "7.4.*",
         "twig/extra-bundle": "^3.8",
         "twig/intl-extra": "^3.8"
     },
     "require-dev": {
-        "symfony/debug-bundle": "6.4.*",
-        "symfony/web-profiler-bundle": "6.4.*"
+        "symfony/debug-bundle": "7.4.*",
+        "symfony/web-profiler-bundle": "7.4.*"
     },
     "config": {
         "allow-plugins": {
@@ -102,7 +102,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "6.4.*"
+            "require": "7.4.*"
         }
     }
 }

@@ -523,14 +523,19 @@ class ContentTypeService implements EntityServiceInterface
         $contentTypeRepository = $em->getRepository(ContentType::class);
         if ($mustBeReset) {
             $contentType->reset($contentTypeRepository->nextOrderKey());
+        } elseif (null === $contentType->getOrderKey()) {
+            $contentType->setOrderKey($contentTypeRepository->nextOrderKey());
         }
-        $this->persist($contentType);
-        $em->flush();
+        $contentTypeRepository->save($contentType);
     }
 
     public function getCircleContentType(): ?ContentType
     {
-        return $this->contentTypeArrayByName[$this->circleContentTypeName] ?? null;
+        if (null === $circleContentTypeName = $this->circleContentTypeName) {
+            return null;
+        }
+
+        return $this->contentTypeArrayByName[$circleContentTypeName] ?? null;
     }
 
     public function getContentTypeMenu(): Menu

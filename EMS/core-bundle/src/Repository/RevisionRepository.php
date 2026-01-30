@@ -11,6 +11,7 @@ use Doctrine\DBAL\Query\QueryBuilder as DBALQueryBuilder;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\Query\Parameter;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -536,7 +537,7 @@ class RevisionRepository extends EntityRepository
         return $this->deleteByQueryBuilder($qb);
     }
 
-    public function lockRevisions(?ContentType $contentType, \DateTime $until, string $by, bool $force = false, ?string $ouuid = null, bool $onlyCurrentRevision = true): int
+    public function lockRevisions(?ContentType $contentType, \DateTimeInterface $until, string $by, bool $force = false, ?string $ouuid = null, bool $onlyCurrentRevision = true): int
     {
         $qbSelect = $this->createQueryBuilder('s');
         $qbSelect
@@ -723,6 +724,23 @@ class RevisionRepository extends EntityRepository
         return new Paginator($qb->getQuery());
     }
 
+    public function countLockedRevisions(ContentType $contentType, string $lockBy): int
+    {
+        $qb = $this->createQueryBuilder('r');
+        $qb
+            ->select('count(r.id)')
+            ->andWhere($qb->expr()->eq('r.contentType', ':content_type'))
+            ->andWhere($qb->expr()->eq('r.lockBy', ':username'))
+            ->andWhere($qb->expr()->isNull('r.endTime'))
+            ->setParameters(new ArrayCollection([
+                new Parameter('content_type', $contentType),
+                new Parameter('username', $lockBy),
+            ]))
+        ;
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
     /**
      * @return array<string, Revision[]>
      */
@@ -779,11 +797,24 @@ class RevisionRepository extends EntityRepository
     }
 
     /**
+     * @param string[] $circles
+     *
      * @return Revision[]
      */
-    public function findAllDrafts(): array
+    public function findAllDrafts(array $circles = []): array
     {
-        return $this->makeQueryBuilder(isDraft: true)->orderBy('r.id', 'asc')->getQuery()->execute();
+        $qb = $this->makeQueryBuilder(isDraft: true)->orderBy('r.id', 'asc');
+
+        if (\count($circles) > 0) {
+            $inCircles = $qb->expr()->orX();
+            foreach ($circles as $counter => $circle) {
+                $inCircles->add($qb->expr()->like('r.circles', ':circle'.$counter));
+                $qb->setParameter('circle'.$counter, '%'.$circle.'%');
+            }
+            $qb->andWhere($inCircles);
+        }
+
+        return $qb->getQuery()->execute();
     }
 
     /**
@@ -908,15 +939,22 @@ class RevisionRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('r');
         $qb
-            ->addSelect('er')
+            ->addSelect('er_all')
             ->join('r.contentType', 'c')
-            ->join('r.environmentRevisions', 'er')
-            ->andWhere($qb->expr()->eq('er.environment', ':environment'))
+            ->leftJoin('r.environmentRevisions', 'er_all', Join::WITH, $qb->expr()->isNull('er_all.deleted'))
+            ->join(
+                'r.environmentRevisions',
+                'er_env',
+                Join::WITH,
+                $qb->expr()->andX(
+                    $qb->expr()->eq('er_env.environment', ':environment'),
+                    $qb->expr()->isNull('er_env.deleted')
+                )
+            )
             ->andWhere($qb->expr()->eq('r.versionUuid', ':version_uuid'))
             ->andWhere($qb->expr()->eq('c.deleted', $qb->expr()->literal(false)))
             ->andWhere($qb->expr()->eq('c.active', $qb->expr()->literal(true)))
             ->andWhere($qb->expr()->eq('r.deleted', $qb->expr()->literal(false)))
-            ->andWhere($qb->expr()->isNull('er.deleted'))
             ->setParameters(new ArrayCollection([
                 new Parameter('version_uuid', $versionUuid),
                 new Parameter('environment', $defaultEnvironment),

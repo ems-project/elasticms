@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" original="content_type:fakeOuuid:fakeRevisionId" datatype="database" target-language="fr">
+    <body>
+      <group resname="[body]" id="grp1">
+        <trans-unit restype="x-html-p" id="tu2" resname="/html/body/p">
+          <source xml:lang="en"/>
+          <target xml:lang="fr" state="new"/>
+        </trans-unit>
+        <trans-unit id="tu3" resname="/html/body/br">
+          <source xml:lang="en">
+            <x id="x4" ctype="lb" equiv-text=" "/>
+          </source>
+          <target xml:lang="fr" state="final">
+            <x id="x5" ctype="lb" equiv-text=" "/>
+          </target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

@@ -212,6 +212,16 @@ class RevisionService implements RevisionServiceInterface
     }
 
     /**
+     * @param string[] $circles
+     *
+     * @return iterable<Revision>
+     */
+    public function findAllDrafts(array $circles = []): iterable
+    {
+        return yield from $this->revisionRepository->findAllDrafts($circles);
+    }
+
+    /**
      * @return iterable|Revision[]
      */
     public function findAllDraftsByContentTypeName(string $contentTypeName): iterable
@@ -555,7 +565,7 @@ class RevisionService implements RevisionServiceInterface
                 continue;
             }
 
-            $results[$version->getOuuid()] = $this->publishService->publish($version, $environment);
+            $results[$version->giveOuuid()] = $this->publishService->publish($version, $environment);
         }
 
         $published = \array_filter($results, static fn ($result) => 1 === $result);

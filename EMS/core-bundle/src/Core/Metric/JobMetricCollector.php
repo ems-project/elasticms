@@ -18,8 +18,10 @@ class JobMetricCollector implements MetricCollectorInterface
         ['last_created', 'Timestamp of the last created job'],
         ['last_modified', 'Timestamp of the last modified job'],
         ['count_jobs', 'Count jobs'],
-        ['count_jobs_done', 'Count jobs done'],
+        ['count_jobs_pending', 'Count jobs pending'],
         ['count_jobs_started', 'Count jobs started'],
+        ['count_jobs_done', 'Count jobs done'],
+        ['count_jobs_failed', 'Count jobs failed'],
     ];
 
     public function __construct(
@@ -47,7 +49,7 @@ class JobMetricCollector implements MetricCollectorInterface
                     $value = (float) $info[$name];
                 }
 
-                $gauge->set($value, [$info['tag'] ?? '']);
+                $gauge->set($value, [$info['tag'] ?? '_admin']);
             }
         }
     }

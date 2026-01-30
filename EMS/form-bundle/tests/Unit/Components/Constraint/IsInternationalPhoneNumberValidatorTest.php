@@ -21,9 +21,7 @@ class IsInternationalPhoneNumberValidatorTest extends ConstraintValidatorTestCas
     #[DataProvider('getInvalidPhoneNumbers')]
     public function testInvalidPhoneNumbers(string $phoneNumber): void
     {
-        $constraint = new IsInternationalPhoneNumber([
-            'message' => 'myMessage',
-        ]);
+        $constraint = new IsInternationalPhoneNumber('myMessage');
 
         $this->validator->validate($phoneNumber, $constraint);
 

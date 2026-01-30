@@ -6,7 +6,7 @@ namespace EMS\CommonBundle\Controller;
 
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Storage\Processor\Processor;
-use EMS\CommonBundle\Twig\RequestRuntime;
+use EMS\CommonBundle\Twig\AssetRuntime;
 use EMS\Helpers\File\File;
 use EMS\Helpers\Html\Headers;
 use EMS\Helpers\Standard\Json;
@@ -21,8 +21,10 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class FileController extends AbstractController
 {
-    public function __construct(private readonly Processor $processor, private readonly RequestRuntime $requestRuntime)
-    {
+    public function __construct(
+        private readonly Processor $processor,
+        private readonly AssetRuntime $assetRuntime
+    ) {
     }
 
     public function asset(Request $request, string $hash, string $hash_config, string $filename): Response
@@ -125,7 +127,7 @@ class FileController extends AbstractController
         $name = $request->query->get('name', 'upload.bin');
         $type = $request->query->get('type', 'application/bin');
 
-        return $this->redirect($this->requestRuntime->assetPath([
+        return $this->redirect($this->assetRuntime->assetPath([
             EmsFields::CONTENT_FILE_HASH_FIELD => $hash,
             EmsFields::CONTENT_FILE_NAME_FIELD => $name,
             EmsFields::CONTENT_MIME_TYPE_FIELD => $type,
@@ -139,7 +141,7 @@ class FileController extends AbstractController
      */
     private function closeSession(Request $request): void
     {
-        if (!$request->hasSession()) {
+        if (!$request->hasSession(true)) {
             return;
         }
 

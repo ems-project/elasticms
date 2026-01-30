@@ -48,16 +48,32 @@ class FormSubmissionRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return FormSubmission[]
+     * @return \Generator<FormSubmission>
      */
-    public function findAllUnprocessed(): array
+    public function findAllUnprocessed(int $batchSize = 500): \Generator
     {
-        $qb = $this->createQueryBuilder('fs');
-        $qb
-            ->andWhere($qb->expr()->isNotNull('fs.data'))
-            ->orderBy('fs.created', 'desc');
+        $em = $this->getEntityManager();
+        $offset = 0;
+        while (true) {
+            $query = $this->createQueryBuilder('fs')
+                ->andWhere('fs.data IS NOT NULL')
+                ->orderBy('fs.created', 'DESC')
+                ->addOrderBy('fs.id', 'DESC')
+                ->setFirstResult($offset)
+                ->setMaxResults($batchSize)
+                ->getQuery();
+            $page = $query->getResult();
 
-        return $qb->getQuery()->execute();
+            if ([] === $page) {
+                break;
+            }
+
+            foreach ($page as $entity) {
+                yield $entity;
+            }
+            $em->clear();
+            $offset += $batchSize;
+        }
     }
 
     public function countAllUnprocessed(string $searchValue): int
@@ -69,24 +85,31 @@ class FormSubmissionRepository extends ServiceEntityRepository
         return (int) $qb->getQuery()->getSingleScalarResult();
     }
 
-    public function removeAllOutdatedSubmission(): int
+    public function deleteAllExpiredSubmission(): int
     {
-        $outdatedSubmissions = $this->createQueryBuilder('fs')
-            ->andWhere('fs.expireDate < :today')
-            ->setParameter('today', new \DateTime())
+        $now = new \DateTimeImmutable();
+
+        return $this->createQueryBuilder('fs')
+            ->delete()
+            ->where('fs.expireDate < :now')
+            ->setParameter('now', $now)
             ->getQuery()
-            ->getResult();
+            ->execute();
+    }
 
-        $removedCount = 0;
+    public function clearDataOnExpiredSubmissions(): int
+    {
+        $now = new \DateTimeImmutable();
 
-        foreach ($outdatedSubmissions as $submission) {
-            $this->remove($submission);
-            ++$removedCount;
-        }
-
-        $this->flush();
-
-        return $removedCount;
+        return $this->createQueryBuilder('fs')
+            ->update()
+            ->set('fs.data', ':nullValue')
+            ->where('fs.expireDate < :now')
+            ->andWhere('fs.data IS NOT NULL')
+            ->setParameter('now', $now)
+            ->setParameter('nullValue', null)
+            ->getQuery()
+            ->execute();
     }
 
     /**

@@ -8,6 +8,7 @@
         {% if contentType.environment.managed %}
             {{ form_row(form.askForOuuid) }}
             {{ form_row(form.autoPublish) }}
+            {{ form_row(form.settings.recompute_on_publish) }}
         {% endif %}
         {{ form_row(form.webContent) }}
         {{ form_row(form.editTwigWithWysiwyg) }}
@@ -65,17 +66,17 @@
         {{ form_row(form.extra) }}
 
         {% if mapping %}
-            {% embed "@EMSAdminUI/bootstrap5/core/collapsed-card.html.twig" with { icon: 'fa fa-sliders'} %}
+            {% embed '@EMSAdminUI/bootstrap5/core/collapsed-card.html.twig' with {icon: 'fa fa-sliders'} %}
                 {% trans_default_domain 'ems-adminui-twigs' %}
                 {% block title %}{{ 'content_type.mapping'|trans }}{% endblock title %}
                 {% block body %}
                     <pre class="ems-code-editor" data-language="ace/mode/json"
                          data-theme="ace/theme/chrome">{{ mapping|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
                 {% endblock body %}
-            {% endembed  %}
+            {% endembed %}
         {% endif %}
 
-        {% embed "@EMSAdminUI/bootstrap5/core/collapsed-card.html.twig" with { icon: 'fa fa-ticket'} %}
+        {% embed '@EMSAdminUI/bootstrap5/core/collapsed-card.html.twig' with {icon: 'fa fa-ticket'} %}
             {% trans_default_domain 'ems-adminui-twigs' %}
             {% block title %}{{ 'content_type.tasks'|trans }}{% endblock title %}
             {% block body %}
@@ -84,10 +85,10 @@
                     <div class="col-md-8">{{ form_row(form.settings.tasks_titles) }}</div>
                 </div>
             {% endblock body %}
-        {% endembed  %}
+        {% endembed %}
 
         {% if form.versioning is defined %}
-            {% embed "@EMSAdminUI/bootstrap5/core/collapsed-card.html.twig" with { icon: 'fa fa-tags'} %}
+            {% embed '@EMSAdminUI/bootstrap5/core/collapsed-card.html.twig' with {icon: 'fa fa-tags'} %}
                 {% trans_default_domain 'ems-adminui-twigs' %}
                 {% block title %}{{ 'content_type.versioning'|trans }}{% endblock title %}
                 {% block body %}
@@ -99,7 +100,7 @@
                         <div class="col-md-8">{{ form_row(form.versioning.options) }}</div>
                     </div>
                 {% endblock body %}
-            {% endembed  %}
+            {% endembed %}
         {% endif %}
 
         <table class="table table-hover">

@@ -7,8 +7,9 @@
             <span class="visually-hidden">{{ 'menu.channel.label'|trans }}</span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
+            {% set homepage = path('homepage') %}
             {% for channel in channels %}
-                <a href="{{ channel.entryPath }}" target="_blank" class="dropdown-item">
+                <a href="{{ channel.getEntryPath(homepage) }}" target="_blank" class="dropdown-item">
                     <i class="fa fa-{{ channel.public|default ? 'unlock-alt' : 'lock' }} me-2"></i>
                     {{ channel.label }}
                 </a>

@@ -39,13 +39,12 @@ class Encoder
 
     /**
      * Detect telephone information using the '"tel:xxx"' pattern
-     * <a href="tel:02/123.45.23">02/123.45.23</a>.
+     * <a href="tel:+3221234523">02/123.45.23</a>.
      */
     private function encodePhone(string $text): string
     {
-        $telRegex = '/(?P<tel>"tel:.*")/i';
-
-        $encodedText = \preg_replace_callback($telRegex, fn ($match) => $this->htmlEncode($match['tel']), $text);
+        $telRegex = '~href\s*=\s*["\']tel:(?P<tel>[^"\']+)["\']~i';
+        $encodedText = \preg_replace_callback($telRegex, fn ($match) => \sprintf('href="tel:%s"', $this->htmlEncode($match['tel'])), $text);
 
         if (null === $encodedText) {
             return $text;
@@ -160,10 +159,10 @@ class Encoder
 
     /**
      * Allow encoding other pii using a class "pii"
-     * <a href="tel:02/123.45.23"><span class="pii">02/123.45.23</span></a>.
+     * <a href="tel:+3221234523"><span class="pii">02/123.45.23</span></a>.
      *
      * The <span> element is consumed and is not kept in the end result.
-     * example browser output: <a href="tel:02/123.45.23">02/123.45.23</a>
+     * example browser output: <a href="tel:+3221234523">02/123.45.23</a>
      *
      * If html tags are used inside a pii span, it will be double encoded and give unexpected results on the browser
      */

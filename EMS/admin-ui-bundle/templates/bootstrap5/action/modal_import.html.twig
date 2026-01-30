@@ -1,7 +1,7 @@
 {% trans_default_domain 'emsco-contenttype' %}
 
 {% block body %}
-    {% include '@EMSAdminUI/bootstrap5/core/alerts.twig' %}
+    {{ include('@EMSAdminUI/bootstrap5/core/alerts.twig') }}
     {{ form(form) }}
 {% endblock %}
 

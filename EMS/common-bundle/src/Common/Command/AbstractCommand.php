@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Common\Command;
 
 use EMS\CommonBundle\Command\CommandInterface;
+use EMS\CommonBundle\Common\EMSLink;
+use EMS\Helpers\Standard\DateTime;
+use EMS\Helpers\Standard\Type;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProcessHelper;
 use Symfony\Component\Console\Helper\QuestionHelper;
@@ -69,13 +72,32 @@ abstract class AbstractCommand extends Command implements CommandInterface
         return (bool) $arg;
     }
 
-    protected function getArgumentString(string $name): string
+    protected function getArgumentString(string $name, ?string $question = null): string
     {
-        if (null === $arg = $this->input->getArgument($name)) {
+        $arg = $this->input->getArgument($name);
+        if (null === $arg && null !== $question) {
+            $arg = $this->io->ask(
+                question: $question,
+                validator: function ($value) use ($name) {
+                    if (null === $value || '' === $value) {
+                        throw new \RuntimeException(\sprintf('Argument %s must be defined.', $name));
+                    }
+
+                    return Type::string($value);
+                }
+            );
+        } elseif (null === $arg) {
             throw new \RuntimeException(\sprintf('Missing argument "%s"', $name));
         }
 
         return (string) $arg;
+    }
+
+    protected function getArgumentDateTime(string $name): \DateTimeInterface
+    {
+        $arg = $this->getArgumentString($name);
+
+        return DateTime::create($arg);
     }
 
     protected function getArgumentStringNull(string $name): ?string
@@ -159,7 +181,7 @@ abstract class AbstractCommand extends Command implements CommandInterface
      */
     protected function getArgumentIntArray(string $name): array
     {
-        return \array_map('\intval', $this->getArgumentStringArray($name));
+        return \array_map(\intval(...), $this->getArgumentStringArray($name));
     }
 
     protected function getOptionBool(string $name): bool
@@ -198,7 +220,7 @@ abstract class AbstractCommand extends Command implements CommandInterface
      */
     protected function getOptionIntArray(string $name): array
     {
-        return \array_map('\intval', $this->getOptionStringArray($name));
+        return \array_map(\intval(...), $this->getOptionStringArray($name));
     }
 
     protected function getOptionIntNull(string $name): ?int
@@ -239,6 +261,34 @@ abstract class AbstractCommand extends Command implements CommandInterface
         $option = $this->input->getOption($name);
 
         return null === $option ? null : (string) $option;
+    }
+
+    protected function getArgumentEmsLink(string $name): EMSLink
+    {
+        $argument = $this->input->getOption($name);
+
+        return EMSLink::fromText(Type::string($argument));
+    }
+
+    protected function getArgumentEmsLinkNull(string $name): ?EMSLink
+    {
+        $argument = $this->input->getOption($name);
+
+        return null === $argument ? null : EMSLink::fromText(Type::string($argument));
+    }
+
+    protected function getOptionEmsLink(string $name): EMSLink
+    {
+        $option = $this->input->getOption($name);
+
+        return EMSLink::fromText(Type::string($option));
+    }
+
+    protected function getOptionEmsLinkNull(string $name): ?EMSLink
+    {
+        $option = $this->input->getOption($name);
+
+        return null === $option ? null : EMSLink::fromText(Type::string($option));
     }
 
     /**

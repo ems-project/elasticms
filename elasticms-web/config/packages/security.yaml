@@ -1,4 +1,17 @@
 security:
+    role_hierarchy:
+        ROLE_AUTHOR: ROLE_USER
+        ROLE_FORM_CRM: ROLE_USER
+        ROLE_TASK_MANAGER: ROLE_USER
+        ROLE_REVIEWER: ROLE_AUTHOR
+        ROLE_TRADUCTOR: ROLE_REVIEWER
+        ROLE_AUDITOR: ROLE_REVIEWER
+        ROLE_COPYWRITER: ROLE_AUDITOR
+        ROLE_PUBLISHER: ROLE_COPYWRITER
+        ROLE_WEBMASTER: ROLE_PUBLISHER
+        ROLE_ADMIN: [ ROLE_WEBMASTER, ROLE_USER_MANAGEMENT ]
+        ROLE_SUPER_ADMIN: ROLE_ADMIN
+
     providers:
         core_api:
             id: emsch.security.core_api.user_provider

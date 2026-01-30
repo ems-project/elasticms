@@ -9,7 +9,7 @@
             "type": "stemmer",
             "name": "light_german"
         },
-        "orderKey": 10
+        "orderKey": 11
     },
     "replaced": []
 }

@@ -18,17 +18,17 @@
         <link rel="manifest" href="{{ path('core-site-webmanifest') }}" />
         {%- block extraheader %}{% endblock %}
     </head>
-    <body{% with { attr: body_attr|default([]) } %}{{ block('attributes', '@EMSAdminUI/bootstrap5/base/helpers.html.twig') }}{% endwith %}>
+    <body{% with {attr: body_attr|default([])} %}{{ block('attributes', '@EMSAdminUI/bootstrap5/base/helpers.html.twig') }}{% endwith %}>
         {% block wrapper %}
             <h1>{% block pagetitle %}{{ block('title') }}{% endblock %}{% block subtitle %}{% endblock %}</h1>
             <section class="content">
                 {% block body %}{% endblock %}
             </section>
         {% endblock wrapper %}
-        {% embed '@EMSAdminUI/bootstrap5/core/modal.html.twig' with {'id': 'ajax-modal'} %}{% endembed %}
+        {% embed '@EMSAdminUI/bootstrap5/core/modal.html.twig' with {id: 'ajax-modal'} %}{% endembed %}
         {% embed '@EMSAdminUI/bootstrap5/core/cke-modal.html.twig' %}{% endembed %}
-        {% embed '@EMSAdminUI/bootstrap5/core/modal.html.twig' with {'id': 'pick-file-server-modal'} %}{% endembed %}
-        {% include '@EMSAdminUI/bootstrap5/core/out-of-sync.html.twig' %}
+        {% embed '@EMSAdminUI/bootstrap5/core/modal.html.twig' with {id: 'pick-file-server-modal'} %}{% endembed %}
+        {{ include('@EMSAdminUI/bootstrap5/core/out-of-sync.html.twig') }}
         {%- if wysiwygInfo is defined and wysiwygInfo|ems_json_decode.editor == constant('EMS\\CoreBundle\\Entity\\WysiwygProfile::CKEDITOR4') -%}
             <script src="{{ asset('ckeditor4.js', 'emscore') }}"></script>
         {%- endif -%}

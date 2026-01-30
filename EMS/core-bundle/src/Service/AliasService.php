@@ -14,14 +14,25 @@ use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CoreBundle\Core\Environment\Index;
 use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Entity\ManagedAlias;
+use EMS\CoreBundle\Event\AliasUpdateEvent;
+use EMS\CoreBundle\Event\NewIndexEvent;
 use EMS\CoreBundle\Repository\EnvironmentRepository;
 use EMS\CoreBundle\Repository\ManagedAliasRepository;
 use Psr\Log\LoggerInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class AliasService
 {
     private const string COUNTER_AGGREGATION = 'counter_aggregation';
-    /** @var array<string, array{name: string, total: int, indexes: Index[], environment: string, managed: bool}> */
+    /** @var array<string, array{
+     *     name: string,
+     *     countIndexes: int,
+     *     total: int,
+     *     indexes: Index[],
+     *     environment: string,
+     *     managed: bool
+     * }>
+     */
     private array $aliases = [];
     /** @var Index[] */
     private array $orphanIndexes = [];
@@ -35,26 +46,29 @@ class AliasService
         private readonly EnvironmentRepository $envRepo,
         private readonly ManagedAliasRepository $managedAliasRepo,
         private readonly ElasticaService $elasticaService,
+        protected EventDispatcherInterface $dispatcher,
     ) {
     }
 
     /**
      * @return array<int, array{ add: array{alias: string, index: string}}>|array<int, array{remove: array{alias: string, index: string}}>
      */
-    public function atomicSwitch(Environment $environment, string $newIndex): array
+    public function atomicSwitch(Environment $environment, string $newIndex, bool $ignoreReferrers = false): array
     {
         $aliasName = $environment->getAlias();
         $actions = [];
         $actions[] = ['add' => ['alias' => $aliasName, 'index' => $newIndex]];
+        $aliases[] = $aliasName;
 
         if ($oldIndex = $this->getEnvironmentIndex($environment)) {
             $actions[] = ['remove' => ['alias' => $aliasName, 'index' => $oldIndex]];
 
-            if ($environment->isUpdateReferrers()) {
+            if (!$ignoreReferrers && $environment->isUpdateReferrers()) {
                 foreach ($this->getReferrers($oldIndex) as $referrerAlias) {
-                    if ($referrerAlias['name'] === $environment->getAlias()) {
+                    if (\in_array($referrerAlias['name'], $aliases)) {
                         continue;
                     }
+                    $aliases[] = $referrerAlias['name'];
 
                     $actions[] = ['remove' => ['alias' => $referrerAlias['name'], 'index' => $oldIndex]];
                     $actions[] = ['add' => ['alias' => $referrerAlias['name'], 'index' => $newIndex]];
@@ -65,6 +79,9 @@ class AliasService
         $endpoint = new UpdateAliases();
         $endpoint->setBody(['actions' => $actions]);
         $this->elasticaClient->requestEndpoint($endpoint);
+
+        $event = new NewIndexEvent($environment, $newIndex, $aliases, $oldIndex);
+        $this->dispatcher->dispatch($event);
 
         return $actions;
     }
@@ -306,20 +323,34 @@ class AliasService
      */
     public function updateAlias(string $alias, array $actions): void
     {
-        if (empty($actions)) {
-            return;
+        if ($this->hasAlias($alias)) {
+            $existingMembers = \array_keys($this->getAlias($alias)['indexes']);
+        } else {
+            $existingMembers = [];
         }
 
         $json = [];
         foreach ($actions as $type => $indexes) {
             foreach ($indexes as $index) {
+                if ('add' === $type && \in_array($index, $existingMembers)) {
+                    continue;
+                }
+                if ('remove' === $type && !\in_array($index, $existingMembers)) {
+                    continue;
+                }
                 $json[] = [$type => ['index' => $index, 'alias' => $alias]];
             }
+        }
+        if (empty($json)) {
+            return;
         }
 
         $endpoint = new UpdateAliases();
         $endpoint->setBody(['actions' => $json]);
         $this->elasticaClient->requestEndpoint($endpoint);
+
+        $event = new AliasUpdateEvent($alias, $actions);
+        $this->dispatcher->dispatch($event);
     }
 
     public function removeAlias(string $name): bool
@@ -347,8 +378,11 @@ class AliasService
     private function addAlias(string $name, string $index, array $env = [], bool $managed = false): void
     {
         if ($this->hasAlias($name)) {
-            $this->aliases[$name]['indexes'][$index] = $this->getIndex($index);
-            $this->aliases[$name]['countIndexes'] = \count($this->aliases[$name]['indexes']);
+            $alias = $this->aliases[$name];
+            $alias['indexes'][$index] = $this->getIndex($index);
+            $alias['countIndexes'] = \count($alias['indexes']);
+
+            $this->aliases[$name] = $alias;
 
             return;
         }

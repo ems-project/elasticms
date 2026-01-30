@@ -48,6 +48,15 @@ class JobRepository extends EntityRepository
         return (int) $qb->getQuery()->getSingleScalarResult();
     }
 
+    public function countFailedJobs(): int
+    {
+        $qb = $this->createQueryBuilder('job')->select('COUNT(job)');
+        $qb->where($qb->expr()->eq('job.status', ':failed'));
+        $qb->setParameter('failed', 'failed');
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
     /**
      * @return Job[]
      */
@@ -113,8 +122,10 @@ class JobRepository extends EntityRepository
      *     'last_created': string,
      *     'last_modified': string,
      *     'count_jobs': int,
-     *     'count_jobs_done': int,
+     *     'count_jobs_pending': int,
      *     'count_jobs_started': int,
+     *     'count_jobs_done': int,
+     *     'count_jobs_failed': int
      * }>|list<array<string, mixed>>
      */
     public function summary(): array
@@ -125,8 +136,10 @@ class JobRepository extends EntityRepository
             ->addSelect('max(created) as last_created')
             ->addSelect('max(modified) as last_modified')
             ->addSelect('count(id) as count_jobs')
-            ->addSelect('count(CASE WHEN done = TRUE THEN 1 END) AS count_jobs_done')
-            ->addSelect('count(CASE WHEN started = TRUE THEN 1 END) AS count_jobs_started')
+            ->addSelect('count(CASE WHEN started = FALSE AND done = FALSE THEN 1 END) AS count_jobs_pending')
+            ->addSelect('count(CASE WHEN started = TRUE AND done = FALSE THEN 1 END) AS count_jobs_started')
+            ->addSelect('count(CASE WHEN done = TRUE and status != \'failed\' THEN 1 END) AS count_jobs_done')
+            ->addSelect('count(CASE WHEN status = \'failed\' THEN 1 END) AS count_jobs_failed')
             ->from('job')
             ->groupBy('tag');
 

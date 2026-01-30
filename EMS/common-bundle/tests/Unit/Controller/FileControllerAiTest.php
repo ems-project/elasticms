@@ -6,8 +6,9 @@ namespace EMS\Tests\CommonBundle\Unit\Controller;
 
 use EMS\CommonBundle\Controller\FileController;
 use EMS\CommonBundle\Storage\Processor\Processor;
-use EMS\CommonBundle\Twig\RequestRuntime;
+use EMS\CommonBundle\Twig\AssetRuntime;
 use GuzzleHttp\Psr7\Stream;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,16 +21,17 @@ class FileControllerAiTest extends TestCase
     private const string TEST_IMAGE_PATH = __DIR__.'/fixtures/image.png';
     private FileController $controller;
     private Processor $processor;
-    private RequestRuntime $requestRuntime;
+    private AssetRuntime $assetRuntime;
 
     #[\Override]
     protected function setUp(): void
     {
         $this->processor = $this->createMock(Processor::class);
-        $this->requestRuntime = $this->createMock(RequestRuntime::class);
-        $this->controller = new FileController($this->processor, $this->requestRuntime);
+        $this->assetRuntime = $this->createMock(AssetRuntime::class);
+        $this->controller = new FileController($this->processor, $this->assetRuntime);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testAsset(): void
     {
         $this->processor->expects($this->once())
@@ -40,6 +42,7 @@ class FileControllerAiTest extends TestCase
         $this->assertInstanceOf(Response::class, $response);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testResolveAsset(): void
     {
         $this->processor->expects($this->once())
@@ -51,9 +54,10 @@ class FileControllerAiTest extends TestCase
     }
 
     #[IgnoreDeprecations]
+    #[AllowMockObjectsWithoutExpectations]
     public function testView(): void
     {
-        $this->requestRuntime->expects($this->once())
+        $this->assetRuntime->expects($this->once())
             ->method('assetPath')
             ->willReturn('/path/to/asset');
 
@@ -62,9 +66,10 @@ class FileControllerAiTest extends TestCase
     }
 
     #[IgnoreDeprecations]
+    #[AllowMockObjectsWithoutExpectations]
     public function testDownload(): void
     {
-        $this->requestRuntime->expects($this->once())
+        $this->assetRuntime->expects($this->once())
             ->method('assetPath')
             ->willReturn('/path/to/asset');
 
@@ -72,6 +77,7 @@ class FileControllerAiTest extends TestCase
         $this->assertInstanceOf(Response::class, $response);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testGenerateLocalImage(): void
     {
         $resource = \fopen(self::TEST_IMAGE_PATH, 'r');
@@ -83,6 +89,7 @@ class FileControllerAiTest extends TestCase
         $this->assertInstanceOf(Response::class, $response);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testCloseSessionWithoutSession(): void
     {
         $request = new Request();
@@ -90,6 +97,7 @@ class FileControllerAiTest extends TestCase
         $this->assertFalse($request->hasSession());
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testCloseSessionWithStartedSession(): void
     {
         $session = $this->createMock(SessionInterface::class);
@@ -104,9 +112,10 @@ class FileControllerAiTest extends TestCase
     }
 
     #[IgnoreDeprecations]
+    #[AllowMockObjectsWithoutExpectations]
     public function testGetFile(): void
     {
-        $this->requestRuntime->expects($this->once())
+        $this->assetRuntime->expects($this->once())
             ->method('assetPath')
             ->willReturn('/path/to/asset');
 

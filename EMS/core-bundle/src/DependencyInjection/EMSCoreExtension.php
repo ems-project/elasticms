@@ -10,9 +10,9 @@ use EMS\CoreBundle\Routes;
 use Ramsey\Uuid\Doctrine\UuidType;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
-use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
 class EMSCoreExtension extends Extension implements PrependExtensionInterface
 {
@@ -27,22 +27,22 @@ class EMSCoreExtension extends Extension implements PrependExtensionInterface
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $xmlLoader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../../config'));
-        $xmlLoader->load('command.xml');
-        $xmlLoader->load('contracts.xml');
-        $xmlLoader->load('controllers.xml');
-        $xmlLoader->load('core.xml');
-        $xmlLoader->load('form.xml');
-        $xmlLoader->load('log.xml');
-        $xmlLoader->load('repositories.xml');
-        $xmlLoader->load('view_types.xml');
-        $xmlLoader->load('dashboards.xml');
-        $xmlLoader->load('datatable.xml');
-        $xmlLoader->load('controllers.xml');
-        $xmlLoader->load('services.xml');
-        $xmlLoader->load('twig.xml');
-        $xmlLoader->load('security/security.xml');
-        $xmlLoader->load('security/ldap.xml');
+        $xmlLoader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../config'));
+        $xmlLoader->load('command.php');
+        $xmlLoader->load('contracts.php');
+        $xmlLoader->load('controllers.php');
+        $xmlLoader->load('core.php');
+        $xmlLoader->load('form.php');
+        $xmlLoader->load('log.php');
+        $xmlLoader->load('repositories.php');
+        $xmlLoader->load('view_types.php');
+        $xmlLoader->load('dashboards.php');
+        $xmlLoader->load('datatable.php');
+        $xmlLoader->load('controllers.php');
+        $xmlLoader->load('services.php');
+        $xmlLoader->load('twig.php');
+        $xmlLoader->load('security/security.php');
+        $xmlLoader->load('security/ldap.php');
 
         $container->setParameter('ems_core.from_email', $config['from_email']);
         $container->setParameter('ems_core.instance_id', $config['instance_id']);
@@ -99,6 +99,7 @@ class EMSCoreExtension extends Extension implements PrependExtensionInterface
             'theme_color' => $configs[0]['theme_color'] ?? Configuration::THEME_COLOR,
             'ems_name' => $configs[0]['name'] ?? Configuration::NAME,
             'ems_shortname' => $configs[0]['shortname'] ?? Configuration::SHORTNAME,
+            'ems_instance_id' => $configs[0]['instance_id'] ?? Configuration::INSTANCE_ID,
             'paging_size' => $configs[0]['paging_size'] ?? Configuration::PAGING_SIZE,
             'circles_object' => $configs[0]['circles_object'] ?? Configuration::CIRCLES_OBJECT,
             'datepicker_daysofweek_highlighted' => $configs[0]['datepicker_daysofweek_highlighted'] ?? Configuration::DATEPICKER_DAYSOFWEEK_HIGHLIGHTED,

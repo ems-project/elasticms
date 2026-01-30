@@ -7,7 +7,7 @@ namespace EMS\CommonBundle\Runner;
 use EMS\CommonBundle\Exception\RunnerNotFoundException;
 use EMS\CommonBundle\Runner\Factory\RunnerFactoryInterface;
 use EMS\CommonBundle\Runner\Service\RunnerInterface;
-use EMS\CoreBundle\Entity\Job;
+use EMS\Helpers\Env\RuntimeEnvPlaceholderResolver;
 use EMS\Helpers\Standard\Text;
 use Psr\Log\LoggerInterface;
 
@@ -81,17 +81,19 @@ class RunnerManager
         return $runner->output($id);
     }
 
-    public function startJob(Job $job): string
+    public function startJob(string $tag, string $id, ?string $jobCommand): string
     {
-        $runner = $this->getRunnerFromConfigs($job->getTag() ?? '');
+        $runner = $this->getRunnerFromConfigs($tag);
         $command = $runner->getWorkerCommand();
         if (null === $command) {
-            $command = $job->getCommand() ?? '';
+            $command = $jobCommand ?? '';
         } else {
-            $command = \str_replace(RunnerFactoryInterface::RUNNER_EMS_JOB_ID_REPLACER, (string) $job->getId(), $command);
+            $command = \str_replace(RunnerFactoryInterface::RUNNER_EMS_JOB_ID_REPLACER, $id, $command);
         }
-        $command = Text::shellWords($command);
+        $envVarResolver = new RuntimeEnvPlaceholderResolver();
+        $resolvedCommand = $envVarResolver->resolve($command);
+        $splitCommand = Text::shellWords($resolvedCommand);
 
-        return $runner->start($command);
+        return $runner->start($splitCommand);
     }
 }

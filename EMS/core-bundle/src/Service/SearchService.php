@@ -5,12 +5,10 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Service;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
-use Elastica\Query\AbstractQuery;
 use Elastica\Query\BoolQuery;
 use Elastica\Query\Term;
 use EMS\CommonBundle\Common\EMSLink;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
-use EMS\CommonBundle\Elasticsearch\Document\Document as ElasticsearchDocument;
 use EMS\CommonBundle\Search\Search as CommonSearch;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CoreBundle\Core\ContentType\Version\VersionFields;
@@ -39,28 +37,10 @@ class SearchService
         return $this->searchRepository->getAll();
     }
 
-    /**
-     * @return array<mixed>
-     */
-    #[\Deprecated]
-    public function generateSearchBody(Search $search): array
-    {
-        @\trigger_error('SearchService::generateSearchBody is deprecated use the SearchService::generateSearch method instead', E_USER_DEPRECATED);
-        $commonSearch = $this->generateSearch($search);
-        $body = [];
-        $query = $commonSearch->getQuery();
-        if (null !== $query) {
-            $body['query'] = $query instanceof AbstractQuery ? $query->toArray() : $query;
-        }
-        $body['sort'] = $commonSearch->getSort();
-
-        return $body;
-    }
-
     public function generateSearch(Search $search): CommonSearch
     {
         $environments = \array_filter(
-            \array_map(fn (string $name) => $this->environmentService->giveByName($name), $search->getEnvironments()),
+            \array_map($this->environmentService->giveByName(...), $search->getEnvironments()),
             fn (Environment $e) => $this->elasticaService->hasIndex($e->getAlias())
         );
 
@@ -73,7 +53,7 @@ class SearchService
                 continue;
             }
 
-            if ($filter->getField() && ($nestedPath = $this->getNestedPath($filter->getField(), $mapping))) {
+            if ($filter->getField() && ($nestedPath = $this->getNestedFieldPath($filter->getField(), $mapping))) {
                 $esFilter = $this->nestFilter($nestedPath, $esFilter);
             }
 
@@ -105,11 +85,11 @@ class SearchService
         $sortBy = $search->getSortBy();
         if (null !== $sortBy && \strlen($sortBy) > 0) {
             $commonSearch->setSort([
-                $search->getSortBy() => \array_filter([
+                $sortBy => \array_filter([
                     'order' => (empty($search->getSortOrder()) ? 'asc' : $search->getSortOrder()),
                     'missing' => '_last',
                     'unmapped_type' => 'long',
-                    'nested_path' => $this->getNestedPath($sortBy, $mapping),
+                    'nested' => $this->getNestedFieldPath($sortBy, $mapping),
                 ]),
             ]);
         }
@@ -117,7 +97,7 @@ class SearchService
         return $commonSearch;
     }
 
-    public function getDocument(ContentType $contentType, string $ouuid, ?Environment $environment = null): ElasticsearchDocument
+    public function getDocument(ContentType $contentType, string $ouuid, ?Environment $environment = null): Document
     {
         $index = $environment?->getAlias() ?? $contentType->giveEnvironment()->getAlias();
         $searchQuery = null;
@@ -137,7 +117,7 @@ class SearchService
         return $this->elasticaService->getDocument($index, $contentType->getName(), $ouuid, [], [], $searchQuery);
     }
 
-    public function getDocumentByEmsLink(EMSLink $emsLink): ElasticsearchDocument
+    public function getDocumentByEmsLink(EMSLink $emsLink): Document
     {
         $contentType = $this->contentTypeService->giveByName($emsLink->getContentType());
 
@@ -145,13 +125,14 @@ class SearchService
     }
 
     /**
-     * @param array<mixed> $esFilter
+     * @param array{'path': string} $nested
+     * @param array<mixed>          $esFilter
      *
      * @return array<mixed>
      */
-    private function nestFilter(string $nestedPath, array $esFilter): array
+    private function nestFilter(array $nested, array $esFilter): array
     {
-        $path = \explode('.', $nestedPath);
+        $path = \explode('.', $nested['path']);
 
         for ($i = \count($path); $i > 0; --$i) {
             $esFilter = [
@@ -167,8 +148,10 @@ class SearchService
 
     /**
      * @param array<mixed> $mapping
+     *
+     * @return ?array{path: string}
      */
-    private function getNestedPath(string $field, ?array $mapping): ?string
+    private function getNestedFieldPath(string $field, ?array $mapping): ?array
     {
         if (!\strpos($field, '.')) {
             return null;
@@ -196,7 +179,7 @@ class SearchService
             }
         }
 
-        return \implode('.', $nestedPath);
+        return \count($nestedPath) > 0 ? ['path' => \implode('.', $nestedPath)] : null;
     }
 
     /**

@@ -9,6 +9,7 @@ use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\Core\Log\LogRevisionContext;
+use EMS\CoreBundle\Core\Revision\EventType;
 use EMS\CoreBundle\Core\UI\Page\Navigation;
 use EMS\CoreBundle\Core\UI\Page\Page;
 use EMS\CoreBundle\DataTable\Type\Revision\RevisionDraftsDataTableType;
@@ -189,11 +190,11 @@ class EditController extends AbstractController
                                 'ouuid' => $revision->getOuuid(),
                                 'type' => $contentType->getName(),
                             ]);
-                        } else {
-                            return $this->redirectToRoute(Routes::EDIT_REVISION, [
-                                'revisionId' => $revision->getId(),
-                            ]);
                         }
+
+                        return $this->redirectToRoute(Routes::EDIT_REVISION, [
+                            'revisionId' => $revision->getId(),
+                        ]);
                     }
                 }
             }
@@ -214,11 +215,11 @@ class EditController extends AbstractController
                         'type' => $contentType->getName(),
                         'revisionId' => $revision->getId(),
                     ]);
-                } else {
-                    return $this->redirectToRoute('data.draft_in_progress', [
-                        'contentTypeId' => $contentType->getId(),
-                    ]);
                 }
+
+                return $this->redirectToRoute('data.draft_in_progress', [
+                    'contentTypeId' => $contentType->getId(),
+                ]);
             }
         } else {
             $objectArray = $revision->getRawData();
@@ -233,7 +234,7 @@ class EditController extends AbstractController
         }
 
         $objectArray = $revision->getRawData();
-        $this->dataService->propagateDataToComputedField($form->get('data'), $objectArray, $contentType, $contentType->getName(), $revision->getOuuid(), false, false);
+        $this->dataService->propagateDataToComputedField($form->get('data'), $objectArray, $contentType, $contentType->getName(), $revision->getOuuid(), EventType::savedAsDraftEvent());
 
         if ($revision->getOuuid()) {
             $this->logger->info('log.data.revision.start_edit', LogRevisionContext::read($revision));

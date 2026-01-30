@@ -8,6 +8,7 @@ use EMS\CommonBundle\Contracts\File\FileReaderInterface;
 use EMS\CommonBundle\Storage\Processor\Processor;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\CommonBundle\Twig\AssetRuntime;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -30,6 +31,7 @@ class AssetRuntimeTest extends TestCase
         $this->fileReader = $this->createMock(FileReaderInterface::class);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testImageInfoTempFileIsNull()
     {
         $assetRuntime = $this->getMockBuilder(AssetRuntime::class)
@@ -54,6 +56,7 @@ class AssetRuntimeTest extends TestCase
         $this->assertNull($assetRuntime->imageInfo($hash));
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testImageInfoCanNotGetImageSize()
     {
         $assetRuntime = $this->getMockBuilder(AssetRuntime::class)
@@ -78,6 +81,7 @@ class AssetRuntimeTest extends TestCase
         $this->assertNull($assetRuntime->imageInfo($hash));
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testImageInfo()
     {
         $assetRuntime = $this->getMockBuilder(AssetRuntime::class)
@@ -111,6 +115,7 @@ class AssetRuntimeTest extends TestCase
         $this->assertEquals($expected, $assetRuntime->imageInfo($hash));
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testImageJpegInfo()
     {
         $assetRuntime = $this->getMockBuilder(AssetRuntime::class)

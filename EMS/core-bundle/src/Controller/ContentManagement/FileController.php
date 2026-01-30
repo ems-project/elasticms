@@ -78,7 +78,7 @@ class FileController extends AbstractController
     public function extractFileContent(Request $request, string $sha1, bool $forced = false): Response
     {
         $this->closeSession($request);
-        $filename = $request->get('name', $sha1);
+        $filename = $request->query->getString('name', $sha1);
 
         try {
             $data = $this->assetExtractorService->extractMetaData($sha1, null, $forced, $filename);
@@ -254,14 +254,15 @@ class FileController extends AbstractController
     {
         /** @var UploadedFile $file */
         $file = $request->files->get('upload');
-        $type = $request->get('type', false);
 
         if (\UPLOAD_ERR_OK === $file->getError()) {
             $name = $file->getClientOriginalName();
 
-            if (false === $type) {
+            if ($request->query->has('type')) {
+                $type = $request->query->getString('type');
+            } else {
                 try {
-                    $type = $file->getMimeType();
+                    $type = $file->getMimeType() ?? 'application/bin';
                 } catch (\Exception) {
                     $type = 'application/bin';
                 }
@@ -297,14 +298,13 @@ class FileController extends AbstractController
                     'type' => $uploadedAsset->getType(),
                 ]),
             ]);
-        } else {
-            $this->logger->warning('log.file.upload_error', [
-                EmsFields::LOG_ERROR_MESSAGE_FIELD => $file->getError(),
-            ]);
-            $this->flashMessageLogger->buildJsonResponse([
-                'success' => false,
-            ]);
         }
+        $this->logger->warning('log.file.upload_error', [
+            EmsFields::LOG_ERROR_MESSAGE_FIELD => $file->getError(),
+        ]);
+        $this->flashMessageLogger->buildJsonResponse([
+            'success' => false,
+        ]);
 
         return $this->flashMessageLogger->buildJsonResponse([
             'success' => false,

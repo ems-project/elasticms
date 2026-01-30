@@ -6,6 +6,7 @@ namespace EMS\CommonBundle\Tests\Unit\Common\Log;
 
 use EMS\CommonBundle\Common\Log\LocalizedLogger;
 use EMS\CommonBundle\Common\Log\LocalizedLoggerFactory;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -22,6 +23,7 @@ class LocalizedLoggerFactoryAiTest extends TestCase
         $this->localizedLoggerFactory = new LocalizedLoggerFactory($this->translator);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testInvoke(): void
     {
         $logger = $this->createMock(LoggerInterface::class);

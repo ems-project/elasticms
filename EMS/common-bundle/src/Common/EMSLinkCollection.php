@@ -33,7 +33,7 @@ class EMSLinkCollection
      */
     public static function fromEmsIds(array $emsIds): self
     {
-        $emsLinks = \array_map(static fn (string $emsId) => EMSLink::fromText($emsId), $emsIds);
+        $emsLinks = \array_map(EMSLink::fromText(...), $emsIds);
 
         return self::fromArray(...$emsLinks);
     }

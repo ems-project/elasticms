@@ -78,7 +78,7 @@ class ImportConfig
                     ->setAllowedTypes('source', 'string')
                     ->setAllowedTypes('target', 'string');
 
-                return \array_map(static fn (mixed $item) => $alignEnvironment->resolve($item), $value);
+                return \array_map($alignEnvironment->resolve(...), $value);
             })
         ;
 

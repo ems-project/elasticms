@@ -7,11 +7,12 @@
         "label": "Dutch for highlighting",
         "options": {
             "filter": [
-                "standard",
+                "acronym_keyword",
                 "lowercase",
                 "dutch_stemmer",
                 "dutch_stop",
-                "empty_elision"
+                "empty_elision",
+                "business_synonyms"
             ],
             "char_filter": [
                 "html_strip"

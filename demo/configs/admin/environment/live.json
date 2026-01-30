@@ -4,7 +4,6 @@
     "properties": {
         "name": "live",
         "label": "Live",
-        "alias": "ems_demo_live",
         "color": "green",
         "baseUrl": null,
         "managed": true,
@@ -13,7 +12,7 @@
         "inDefaultSearch": false,
         "orderKey": 2,
         "updateReferrers": true,
-        "templatePublication": "{% if revision.contentType == 'page' %}\r\n    {% for locale, label in  {'fr': 'French', 'nl': 'Dutch'}|filter((l, k) => attribute(revision.rawData, k).title is not defined) %}\r\n        {% do publication.addWarning(\"A title is required in #{locale}\") %}\r\n    {% endfor %}\r\n{% endif %}",
+        "templatePublication": "{{ block('template_publication', '@EMSCH/template_ems/environment/live.twig') }}",
         "rolePublish": null
     },
     "replaced": []

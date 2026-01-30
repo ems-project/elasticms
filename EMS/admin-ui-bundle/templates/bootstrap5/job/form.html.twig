@@ -1,4 +1,4 @@
-{% use "@EMSAdminUI/bootstrap5/form/fields.html.twig" %}
+{% use '@EMSAdminUI/bootstrap5/form/fields.html.twig' %}
 
 {% block _job_command_row %}
     <div class="col-md-10">{{ block('form_row') }}</div>
@@ -10,7 +10,7 @@
 
 {% block _job_launch_widget %}
     {{ form_widget(form, {
-        'attr': { 'class': 'btn btn-primary btn-sm float-end' },
-        'icon': 'fa fa-save',
+        attr: {class: 'btn btn-primary btn-sm float-end'},
+        icon: 'fa fa-save',
     }) }}
 {% endblock _job_launch_widget %}

@@ -7,11 +7,12 @@
         "label": "English for highlighting",
         "options": {
             "filter": [
-                "standard",
+                "acronym_keyword",
                 "lowercase",
                 "empty_elision",
                 "english_stemmer",
-                "english_stop"
+                "english_stop",
+                "business_synonyms"
             ],
             "char_filter": [
                 "html_strip"

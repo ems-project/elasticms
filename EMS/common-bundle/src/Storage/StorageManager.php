@@ -14,7 +14,6 @@ use EMS\CommonBundle\Storage\File\StorageFile;
 use EMS\CommonBundle\Storage\Processor\Config;
 use EMS\CommonBundle\Storage\Service\StorageInterface;
 use EMS\Helpers\File\File;
-use EMS\Helpers\File\File as FileHelper;
 use EMS\Helpers\File\TempDirectory;
 use EMS\Helpers\File\TempFile;
 use EMS\Helpers\Html\MimeTypes;
@@ -86,13 +85,7 @@ class StorageManager implements FileManagerInterface
 
     public function head(string $hash): bool
     {
-        foreach ($this->adapters as $adapter) {
-            if ($adapter->head($hash)) {
-                return true;
-            }
-        }
-
-        return false;
+        return \array_any($this->adapters, fn ($adapter) => $adapter->head($hash));
     }
 
     #[\Override]
@@ -668,7 +661,7 @@ class StorageManager implements FileManagerInterface
             return $fileHash;
         }
 
-        $file = FileHelper::fromFilename($realPath);
+        $file = File::fromFilename($realPath);
         $mimeType ??= $file->mimeType;
         $filename ??= $file->name;
 
@@ -730,12 +723,33 @@ class StorageManager implements FileManagerInterface
 
     public function addFileInArchiveCache(string $hash, SplFileInfo $file, string $mimeType): bool
     {
-        foreach ($this->adapters as $adapter) {
-            if ($adapter->addFileInArchiveCache($hash, $file, $mimeType)) {
-                return true;
-            }
+        return \array_any($this->adapters, fn ($adapter) => $adapter->addFileInArchiveCache($hash, $file, $mimeType));
+    }
+
+    public function getFilesInArchive(string $hash): Archive
+    {
+        $cacheConfig = new Config($this, $hash, 'emsarchive');
+        $cache = $this->readCache($cacheConfig);
+        if (null !== $cache) {
+            return Archive::fromStructure($cache->getContents(), $this->hashAlgo);
         }
 
-        return false;
+        $archiveFile = TempFile::create()->loadFromStream($this->getStream($hash));
+        $type = MimeTypeHelper::getInstance()->guessMimeType($archiveFile->path);
+        switch ($type) {
+            case MimeTypes::APPLICATION_ZIP->value:
+            case MimeTypes::APPLICATION_GZIP->value:
+                $tempDir = TempDirectory::createFromZipArchive($archiveFile->path);
+                $archive = Archive::fromDirectory($tempDir->path, $this->hashAlgo);
+                break;
+            case MimeTypes::APPLICATION_JSON->value:
+                $archive = Archive::fromStructure($archiveFile->getContents(), $this->hashAlgo);
+                break;
+            default:
+                throw new \RuntimeException(\sprintf('Archive format %s not supported', $type));
+        }
+        $this->saveCache($cacheConfig, $archive);
+
+        return $archive;
     }
 }

@@ -219,9 +219,9 @@ class SmartCrop
         $isSkinBrightness = $lightness > $this->skinBrightnessMin && $lightness <= $this->skinBrightnessMax;
         if ($isSkinColor && $isSkinBrightness) {
             return (int) \round(($skin - $this->skinThreshold) * (255 / (1 - $this->skinThreshold)), 0, \RoundingMode::HalfEven);
-        } else {
-            return 0;
         }
+
+        return 0;
     }
 
     private function saturationDetect(int $r, int $g, int $b, float $lightness): int
@@ -232,9 +232,9 @@ class SmartCrop
         $acceptableLightness = $lightness >= $this->saturationBrightnessMin && $lightness <= $this->saturationBrightnessMax;
         if ($acceptableLightness && $acceptableSaturation) {
             return (int) \round(($sat - $this->saturationThreshold) * (255 / (1 - $this->saturationThreshold)), 0, \RoundingMode::HalfEven);
-        } else {
-            return 0;
         }
+
+        return 0;
     }
 
     /**

@@ -6,9 +6,9 @@
 {% block pagetitle %}{{ 'task.title'|trans }}{% endblock %}
 
 {% block body %}
-{%- set route = app.request.get('_route') -%}
+{%- set route = app.request.attributes.get('_route') -%}
 {%- set requestQuery = app.request.query.all -%}
-{%- set routeParams = app.request.get('_route_params')|merge(requestQuery) -%}
+{%- set routeParams = app.request.attributes.get('_route_params')|merge(requestQuery) -%}
 {%- set showFilters = attribute(requestQuery, 'filters')|default([])|length > 0 -%}
 <div id="task-dashboard" class="card card-{{ theme_color }}">
     <div class="card-header p-0 border-bottom-0">
@@ -18,7 +18,7 @@
                     {% if currentTab == tabName %}
                         <a href="#{{ currentTab }}" data-bs-target="#{{ currentTab }}" data-bs-toggle="pill" class="nav-link active" role="tab" aria-selected="true">{{ "task.dashboard.tab.#{tabName}"|trans }}</a>
                     {% else %}
-                        <a href="{{ path(route, routeParams|merge({'tab': tabName})) }}" class="nav-link"role="tab" aria-selected="false">
+                        <a href="{{ path(route, routeParams|merge({tab: tabName})) }}" class="nav-link"role="tab" aria-selected="false">
                             {{ "task.dashboard.tab.#{tabName}"|trans }}
                         </a>
                     {% endif %}
@@ -40,7 +40,7 @@
             <div class="tab-pane fade active show" id="{{ currentTab }}" role="tabpanel">
                 {{ block('filters') }}
                 {% if table.count > loadMaxRows %}
-                    <div class="alert alert-warning" role="alert">{{ 'task.dashboard.search_warning'|trans({ '%count%': loadMaxRows }) }}</div>
+                    <div class="alert alert-warning" role="alert">{{ 'task.dashboard.search_warning'|trans({'%count%': loadMaxRows}) }}</div>
                 {% endif %}
 
                 {% form_theme formTable '@EMSAdminUI/bootstrap5/form/forms.html.twig' %}
@@ -69,21 +69,21 @@
             <div class="well">
                 <div class="row">
                     {{ form_start(filterForm) }}
-                    {{ form_row(filterForm.status, {'row_attr': { 'class': 'col-md-3' }, 'label': 'task.filter.status'|trans }) }}
+                    {{ form_row(filterForm.status, {row_attr: {class: 'col-md-3'}, label: 'task.filter.status'|trans}) }}
                     {% if filterForm.assignee is defined %}
-                        {{ form_row(filterForm.assignee, {'row_attr': { 'class': 'col-md-3' }, 'label': 'task.filter.assignee'|trans  }) }}
+                        {{ form_row(filterForm.assignee, {row_attr: {class: 'col-md-3'}, label: 'task.filter.assignee'|trans}) }}
                     {% endif %}
                     {% if filterForm.requester is defined %}
-                        {{ form_row(filterForm.requester, {'row_attr': { 'class': 'col-md-3' }, 'label': 'task.filter.requester'|trans  }) }}
+                        {{ form_row(filterForm.requester, {row_attr: {class: 'col-md-3'}, label: 'task.filter.requester'|trans}) }}
                     {% endif %}
                     {% if filterForm.versionNextTag is defined %}
-                        {{ form_row(filterForm.versionNextTag, {'row_attr': { 'class': 'col-md-3' }, 'label': 'task.filter.version_next_tag'|trans  }) }}
+                        {{ form_row(filterForm.versionNextTag, {row_attr: {class: 'col-md-3'}, label: 'task.filter.version_next_tag'|trans}) }}
                     {% endif %}
                     <div class="col-md-12">
                         <input type="hidden" name="tab" value="{{ currentTab }}" />
                         <div class="btn-group">
-                            {{ form_widget(filterForm.submit, { 'attr': { 'class': 'btn btn-primary' } }) }}
-                            <a href="{{ path(route, app.request.get('_route_params')|merge({ 'tab': currentTab }) ) }}"  class="btn btn-default">
+                            {{ form_widget(filterForm.submit, {attr: {class: 'btn btn-primary'}}) }}
+                            <a href="{{ path(route, app.request.attributes.get('_route_params')|merge({tab: currentTab})) }}"  class="btn btn-default">
                                 <i class="fa fa-remove" aria-hidden="true"></i>  {{ 'task.filter.reset'|trans }}
                             </a>
                         </div>

@@ -16,13 +16,16 @@ use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
+use EMS\CoreBundle\Core\ContentType\ContentTypeSettings;
 use EMS\CoreBundle\Core\Log\LogRevisionContext;
+use EMS\CoreBundle\Core\Revision\EventType;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\DataField;
 use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Entity\FieldType;
 use EMS\CoreBundle\Entity\Notification;
 use EMS\CoreBundle\Entity\Revision;
+use EMS\CoreBundle\Event\RevisionDeleteEvent;
 use EMS\CoreBundle\Event\RevisionFinalizeDraftEvent;
 use EMS\CoreBundle\Event\RevisionNewDraftEvent;
 use EMS\CoreBundle\Event\UpdateRevisionReferersEvent;
@@ -139,10 +142,10 @@ class DataService
      */
     public function lockRevision(Revision $revision, ?Environment $publishEnv = null, bool $super = false, ?string $username = null, ?\DateTime $lockTime = null): string
     {
-        if (null !== $publishEnv && !$this->authorizationChecker->isGranted($revision->giveContentType()->role(ContentTypeRoles::PUBLISH))) {
+        if (null === $username && null !== $publishEnv && !$this->authorizationChecker->isGranted($revision->giveContentType()->role(ContentTypeRoles::PUBLISH))) {
             throw new PrivilegeException($revision, 'You don\'t have publisher role for this content');
         }
-        if (null !== $publishEnv && !empty($publishEnv->getCircles()) && !$this->authorizationChecker->isGranted('ROLE_USER_MANAGEMENT') && !$this->userService->inMyCircles($publishEnv->getCircles())) {
+        if (null === $username && null !== $publishEnv && !empty($publishEnv->getCircles()) && !$this->authorizationChecker->isGranted('ROLE_USER_MANAGEMENT') && !$this->userService->inMyCircles($publishEnv->getCircles())) {
             throw new PrivilegeException($revision, 'You don\'t share any circle with this content');
         }
         if (null === $username && null === $publishEnv && !empty($revision->giveContentType()->getCirclesField()) && !empty($revision->getRawData()[$revision->giveContentType()->getCirclesField()])) {
@@ -219,9 +222,8 @@ class DataService
             if (!empty($fieldValue)) {
                 if (\is_array($fieldValue)) {
                     return $fieldValue;
-                } else {
-                    $out[] = $fieldValue;
                 }
+                $out[] = $fieldValue;
             }
         }
 
@@ -239,12 +241,13 @@ class DataService
      *
      * @throws \Throwable
      */
-    public function propagateDataToComputedField(FormInterface $form, array &$objectArray, ContentType $contentType, string $type, ?string $ouuid, bool $migration = false, bool $finalize = true): bool
+    public function propagateDataToComputedField(FormInterface $form, array &$objectArray, ContentType $contentType, string $type, ?string $ouuid, EventType $eventType): bool
     {
         return $this->postProcessingService->postProcessing($form, $contentType, $objectArray, [
             '_id' => $ouuid,
-            'migration' => $migration,
-            'finalize' => $finalize,
+            'migration' => $eventType->isMigrate(),
+            'finalize' => $eventType->isFinalize(),
+            'event' => $eventType,
             'rootObject' => $objectArray,
         ]);
     }
@@ -350,7 +353,7 @@ class DataService
         });
         unset($revisionType);
 
-        return Document::fromData($contentType, $revision->giveOuuid(), $result);
+        return Document::fromData($contentType->getName(), $revision->giveOuuid(), $result);
     }
 
     /**
@@ -701,6 +704,52 @@ class DataService
         return $this->elasticaService->refresh($environment->getAlias());
     }
 
+    public function recomputeOnPublish(Revision $revision, Environment $environment): Revision
+    {
+        if (!$revision->giveContentType()->getSettings()->getSettingBool(ContentTypeSettings::RECOMPUTE_ON_PUBLISH)) {
+            return $revision;
+        }
+        if ($revision->getDeleted()) {
+            throw new \Exception('Can not recomputed a deleted revision');
+        }
+        if (!empty($revision->getAutoSave())) {
+            throw new DataStateException('An auto save is pending, it can not be recomputed.');
+        }
+        if (!$revision->hasOuuid()) {
+            throw new DataStateException('The revision doesn\'t have OUUID, it can not be recomputed.');
+        }
+        if (null == $revision->getDatafield()) {
+            $this->loadDataStructure($revision);
+        }
+        $builder = $this->formFactory->createBuilder(RevisionType::class, $revision, ['raw_data' => $revision->getRawData()]);
+        $form = $builder->getForm();
+        $token = $this->tokenStorage->getToken();
+        if (null === $token) {
+            throw new \RuntimeException('Unexpected null token');
+        }
+        $username = $token->getUserIdentifier();
+        $this->lockRevision($revision, null, false, $username);
+        $objectArray = $revision->getRawData();
+
+        if (!$revision->isLazyIndex()) {
+            $this->updateDataStructure($revision->giveContentType()->getFieldType(), $form->get('data')->getNormData());
+        }
+        if (!$this->propagateDataToComputedField($form->get('data'), $objectArray, $revision->giveContentType(), $revision->giveContentType()->getName(), $revision->getOuuid(), EventType::publishEvent($environment))) {
+            return $revision;
+        }
+        $revision->setRawData($objectArray);
+        $this->sign($revision);
+        $this->setMetaFields($revision);
+        $em = $this->doctrine->getManager();
+        $em->persist($revision);
+        $em->flush();
+        foreach ($revision->getEnvironments() as $environment) {
+            $this->indexService->indexRevision($revision, $environment);
+        }
+
+        return $revision;
+    }
+
     /**
      * @param ?FormInterface<mixed> $form
      *
@@ -752,7 +801,7 @@ class DataService
         if (!$revision->isLazyIndex()) {
             $this->updateDataStructure($revision->giveContentType()->getFieldType(), $form->get('data')->getNormData());
         }
-        if ($computeFields && $this->propagateDataToComputedField($form->get('data'), $objectArray, $revision->giveContentType(), $revision->giveContentType()->getName(), $revision->getOuuid())) {
+        if ($computeFields && $this->propagateDataToComputedField($form->get('data'), $objectArray, $revision->giveContentType(), $revision->giveContentType()->getName(), $revision->getOuuid(), EventType::finalizeEvent())) {
             $revision->setRawData($objectArray);
         }
         $this->setMetaFields($revision);
@@ -906,9 +955,8 @@ class DataService
 
             if (null === $endTime) {
                 return $revisions[0];
-            } else {
-                throw new NotFoundHttpException('Revision for ouuid '.$ouuid.' and contenttype '.$contentType->getName().' with end time '.$endTime->format(\DateTimeInterface::ATOM));
             }
+            throw new NotFoundHttpException('Revision for ouuid '.$ouuid.' and contenttype '.$contentType->getName().' with end time '.$endTime->format(\DateTimeInterface::ATOM));
         } elseif (0 == \count($revisions)) {
             throw new NotFoundHttpException('Revision not found for ouuid '.$ouuid.' and contenttype '.$contentType->getName());
         } else {
@@ -990,7 +1038,7 @@ class DataService
                     $revision->setCircles([$revision->getRawData()[$contentType->getCirclesField()]]);
                 }
             } else {
-                $fieldType = $contentType->getFieldType()->getChildByPath($contentType->getCirclesField());
+                $fieldType = $this->contentTypeService->getChildByPath($contentType->getFieldType(), $contentType->getCirclesField());
 
                 if ($fieldType) {
                     $options = $fieldType->getDisplayOptions();
@@ -1027,13 +1075,7 @@ class DataService
             if (empty($userCircles)) {
                 throw new HasNotCircleException($environment);
             }
-            $found = false;
-            foreach ($userCircles as $userCircle) {
-                if (\in_array($userCircle, $environmentCircles)) {
-                    $found = true;
-                    break;
-                }
-            }
+            $found = \array_any($userCircles, fn ($userCircle) => \in_array($userCircle, $environmentCircles));
             if (!$found) {
                 throw new HasNotCircleException($environment);
             }
@@ -1236,6 +1278,7 @@ class DataService
 
             if (null === $revision->getEndTime()) {
                 $this->auditLogger->notice('log.revision.deleted', LogRevisionContext::delete($revision));
+                $this->dispatcher->dispatch(new RevisionDeleteEvent($revision));
             }
 
             $em->persist($revision);
@@ -1440,7 +1483,7 @@ class DataService
 
         $objectArray = $reloadRevision->getRawData();
         $this->updateDataStructure($reloadRevision->giveContentType()->getFieldType(), $form->get('data')->getNormData());
-        $this->propagateDataToComputedField($form->get('data'), $objectArray, $reloadRevision->giveContentType(), $reloadRevision->giveContentType()->getName(), $reloadRevision->getOuuid(), false, false);
+        $this->propagateDataToComputedField($form->get('data'), $objectArray, $reloadRevision->giveContentType(), $reloadRevision->giveContentType()->getName(), $reloadRevision->getOuuid(), EventType::reloadEvent());
 
         if (false !== $finalizedBy) {
             $objectArray[Mapping::FINALIZED_BY_FIELD] = $finalizedBy;
@@ -1628,9 +1671,8 @@ class DataService
 
             if (null === $endTime) {
                 return $revisions[0];
-            } else {
-                throw new \Exception('Revision for ouuid '.$id.' and contenttype '.$type.' with end time '.$endTime->format(\DateTimeInterface::ATOM));
             }
+            throw new \Exception('Revision for ouuid '.$id.' and contenttype '.$type.' with end time '.$endTime->format(\DateTimeInterface::ATOM));
         } elseif (0 == \count($revisions)) {
             throw new NotFoundHttpException('Revision not found for id '.$id.' and contenttype '.$type);
         } else {
@@ -1684,16 +1726,15 @@ class DataService
             $em->flush();
 
             return $newDraft;
-        } else {
-            $this->logger->error('service.data.not_a_draft', [
-                EmsFields::LOG_CONTENTTYPE_FIELD => $revision->giveContentType()->getName(),
-                EmsFields::LOG_OUUID_FIELD => $revision->getOuuid(),
-                EmsFields::LOG_REVISION_ID_FIELD => $revision->getId(),
-                EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_DELETE,
-                'update_type' => $replaceOrMerge,
-                'label' => $revision->getLabel(),
-            ]);
         }
+        $this->logger->error('service.data.not_a_draft', [
+            EmsFields::LOG_CONTENTTYPE_FIELD => $revision->giveContentType()->getName(),
+            EmsFields::LOG_OUUID_FIELD => $revision->getOuuid(),
+            EmsFields::LOG_REVISION_ID_FIELD => $revision->getId(),
+            EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_DELETE,
+            'update_type' => $replaceOrMerge,
+            'label' => $revision->getLabel(),
+        ]);
 
         return $revision;
     }
@@ -1901,7 +1942,7 @@ class DataService
         });
         unset($revisionType);
 
-        return Document::fromData($contentType, $ouuid, $result);
+        return Document::fromData($contentType->getName(), $ouuid, $result);
     }
 
     public function lockAllRevisions(\DateTime $until, string $by): int
@@ -1919,10 +1960,10 @@ class DataService
         return 0;
     }
 
-    public function lockRevisions(ContentType $contentType, \DateTime $until, string $by): int
+    public function lockRevisions(ContentType $contentType, \DateTimeInterface $until, string $by, bool $force = true, ?string $ouuid = null): int
     {
         try {
-            return $this->revRepository->lockRevisions($contentType, $until, $by, true);
+            return $this->revRepository->lockRevisions($contentType, $until, $by, $force, $ouuid);
         } catch (\Throwable $e) {
             $this->logger->error('service.data.lock_revisions_error', [
                 EmsFields::LOG_CONTENTTYPE_FIELD => $contentType->getName(),
@@ -2004,5 +2045,10 @@ class DataService
         }
 
         return $revision;
+    }
+
+    public function countLockRevisions(ContentType $contentType, string $by): int
+    {
+        return $this->revRepository->findAllLockedRevisions($contentType, $by)->count();
     }
 }

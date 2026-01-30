@@ -57,8 +57,12 @@ class EncoderTest extends TestCase
             ['é', 'é'],
             ['<', '<'],
             ['mailto:example@example.com', \sprintf('mailto:%s', $email)],
-            ['"tel:02/345.67.89"', '&#34;&#116;&#101;&#108;&#58;&#48;&#50;&#47;&#51;&#52;&#53;&#46;&#54;&#55;&#46;&#56;&#57;&#34;'],
+            ['<a href="mailto:example@example.com">example@example.com</a>', \sprintf('<a href="mailto:%s">%s</a>', $email, $email)],
+            ['href="tel:02/345.67.89"', 'href="tel:&#48;&#50;&#47;&#51;&#52;&#53;&#46;&#54;&#55;&#46;&#56;&#57;"'],
+            ['<a href="tel:+3221234523">02/123.45.23</a>', '<a href="tel:&#43;&#51;&#50;&#50;&#49;&#50;&#51;&#52;&#53;&#50;&#51;">02/123.45.23</a>'],
             ['<span class="pii">example</span>', $example],
+            ['<a href="tel:+3221234523">02/123.45.23</a> and another phone <a href="tel:+3221234523">02/123.45.23</a>', '<a href="tel:&#43;&#51;&#50;&#50;&#49;&#50;&#51;&#52;&#53;&#50;&#51;">02/123.45.23</a> and another phone <a href="tel:&#43;&#51;&#50;&#50;&#49;&#50;&#51;&#52;&#53;&#50;&#51;">02/123.45.23</a>'],
+            ['<a href="/index.html">Homepage</a> and a phone <a href="tel:+3221234123">02/123.41.23</a> and another phone <a href="tel:+3221234523">02/123.45.23</a>.', '<a href="/index.html">Homepage</a> and a phone <a href="tel:&#43;&#51;&#50;&#50;&#49;&#50;&#51;&#52;&#49;&#50;&#51;">02/123.41.23</a> and another phone <a href="tel:&#43;&#51;&#50;&#50;&#49;&#50;&#51;&#52;&#53;&#50;&#51;">02/123.45.23</a>.'],
         ];
     }
 

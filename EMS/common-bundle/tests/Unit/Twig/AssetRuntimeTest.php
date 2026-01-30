@@ -138,7 +138,6 @@ class AssetRuntimeTest extends TestCase
             'mimeType' => 'image/jpeg',
             'extension' => 'jpeg',
             'FileName' => 'test_350dpi.jpg',
-            'FileDateTime' => 1708511136,
             'FileSize' => 6935,
             'FileType' => 2,
             'MimeType' => 'image/jpeg',
@@ -153,7 +152,11 @@ class AssetRuntimeTest extends TestCase
             'widthResolution' => 350,
             'heightResolution' => 350,
         ];
+        $actual = $assetRuntime->imageInfo($hash);
+        $this->assertTrue(isset($actual['FileDateTime']));
+        //the FileDateTime on when the file has been actually created on the current file storage
+        unset($actual['FileDateTime']);
 
-        $this->assertEquals($expected, $assetRuntime->imageInfo($hash));
+        $this->assertEquals($expected, $actual);
     }
 }

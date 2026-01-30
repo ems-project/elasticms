@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Json;
 
-use EMS\CommonBundle\Common\PropertyAccess\PropertyAccessor;
+use EMS\Helpers\PropertyAccess\PropertyAccessor;
 use EMS\Helpers\Standard\Base64;
 use EMS\Helpers\Standard\Json;
 use EMS\Helpers\Standard\Type;

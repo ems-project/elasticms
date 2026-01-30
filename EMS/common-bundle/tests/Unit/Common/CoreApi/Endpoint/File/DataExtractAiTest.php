@@ -7,6 +7,7 @@ namespace EMS\CommonBundle\Tests\Unit\Common\CoreApi\Endpoint\File;
 use EMS\CommonBundle\Common\CoreApi\Client;
 use EMS\CommonBundle\Common\CoreApi\Endpoint\File\DataExtract;
 use EMS\CommonBundle\Common\CoreApi\Result;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 
 class DataExtractAiTest extends TestCase
@@ -21,6 +22,7 @@ class DataExtractAiTest extends TestCase
         $this->dataExtract = new DataExtract($this->client);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testGet(): void
     {
         $hash = 'sample-hash';

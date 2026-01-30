@@ -8,6 +8,7 @@ use EMS\CommonBundle\Controller\FileController;
 use EMS\CommonBundle\Storage\Processor\Processor;
 use EMS\CommonBundle\Twig\AssetRuntime;
 use GuzzleHttp\Psr7\Stream;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,6 +31,7 @@ class FileControllerAiTest extends TestCase
         $this->controller = new FileController($this->processor, $this->assetRuntime);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testAsset(): void
     {
         $this->processor->expects($this->once())
@@ -40,6 +42,7 @@ class FileControllerAiTest extends TestCase
         $this->assertInstanceOf(Response::class, $response);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testResolveAsset(): void
     {
         $this->processor->expects($this->once())
@@ -51,6 +54,7 @@ class FileControllerAiTest extends TestCase
     }
 
     #[IgnoreDeprecations]
+    #[AllowMockObjectsWithoutExpectations]
     public function testView(): void
     {
         $this->assetRuntime->expects($this->once())
@@ -62,6 +66,7 @@ class FileControllerAiTest extends TestCase
     }
 
     #[IgnoreDeprecations]
+    #[AllowMockObjectsWithoutExpectations]
     public function testDownload(): void
     {
         $this->assetRuntime->expects($this->once())
@@ -72,6 +77,7 @@ class FileControllerAiTest extends TestCase
         $this->assertInstanceOf(Response::class, $response);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testGenerateLocalImage(): void
     {
         $resource = \fopen(self::TEST_IMAGE_PATH, 'r');
@@ -83,6 +89,7 @@ class FileControllerAiTest extends TestCase
         $this->assertInstanceOf(Response::class, $response);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testCloseSessionWithoutSession(): void
     {
         $request = new Request();
@@ -90,6 +97,7 @@ class FileControllerAiTest extends TestCase
         $this->assertFalse($request->hasSession());
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testCloseSessionWithStartedSession(): void
     {
         $session = $this->createMock(SessionInterface::class);
@@ -104,6 +112,7 @@ class FileControllerAiTest extends TestCase
     }
 
     #[IgnoreDeprecations]
+    #[AllowMockObjectsWithoutExpectations]
     public function testGetFile(): void
     {
         $this->assetRuntime->expects($this->once())

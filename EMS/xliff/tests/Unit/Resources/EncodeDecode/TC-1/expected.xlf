@@ -4,8 +4,8 @@
     <body>
       <group resname="[body]" id="grp1">
         <trans-unit restype="x-html-p" id="tu2" resname="/html/body/p">
-          <source xml:lang="en"> This HTML break element<x id="x3" ctype="x-html-br" equiv-text=" "/> is not followed by a white space character </source>
-          <target xml:lang="fr" state="new"/>
+          <source xml:lang="en"> This HTML break element<x id="x3" ctype="lb" equiv-text=" "/> is not followed by a white space character </source>
+          <target xml:lang="fr" state="final"> This HTML break element<x id="x4" ctype="lb" equiv-text=" "/> is not followed by a white space character </target>
         </trans-unit>
       </group>
     </body>

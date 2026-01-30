@@ -21,9 +21,9 @@
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu8" resname="/html/body/p[3]">
           <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+          <target xml:lang="de" state="new"/>
         </trans-unit>
-        <group restype="x-html-ul" id="tu9" resname="/html/body/ul[1]">
+        <group restype="x-html-ul" id="grp9" resname="/html/body/ul[1]">
           <trans-unit restype="listitem" id="tu10" resname="/html/body/ul[1]/li[1]">
             <source xml:lang="nl">de indiensttreding van een 1<g id="g11" ctype="x-html-sup">ste</g> werknemer opent het recht op een vermindering G<g id="g12" ctype="x-html-sub">7</g> (<g id="g13" ctype="x-html-strong">onbeperkt in de tijd</g>); dit wil zeggen dat na het in mindering brengen van de doelgroepvermindering eerste aanwerving voor een 1<g id="g14" ctype="x-html-sup">ste</g> werknemer er geen socialezekerheidsbijdragen verschuldigd meer zijn van het resterende deel van de werkgeversbijdrage bekomen na afhouding van het forfait sociale maribel en na toepassing van de structurele vermindering, </source>
             <target xml:lang="de" state="final">die Einstellung eines ersten Arbeitnehmers eröffnet das Recht auf eine Ermäßigung G<g id="g15" ctype="x-html-sub">7</g> (<g id="g16" ctype="x-html-strong">zeitlich unbegrenzt</g>); das bedeutet, dass nach Abzug der Zielgruppenermäßigung Ersteinstellung für einen ersten Arbeitnehmer keine Sozialversicherungsbeiträge geschuldet werden für den verbleibenden Teil des Arbeitgeberbeitrags, der nach Einbehaltung der„Maribel Sozial“-Pauschale und nach Anwendung der strukturellen Ermäßigung erhalten wird; <x id="x17" ctype="x-html-sup" equiv-text=" "/><x id="x18" ctype="x-html-sup" equiv-text=" "/> </target>
@@ -39,11 +39,11 @@
         </group>
         <trans-unit restype="x-html-p" id="tu31" resname="/html/body/p[4]">
           <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+          <target xml:lang="de" state="new"/>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu32" resname="/html/body/p[5]">
           <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+          <target xml:lang="de" state="new"/>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu33" resname="/html/body/p[6]">
           <source xml:lang="nl"> Vanaf <g id="g34" ctype="x-html-strong">1 januari 2017</g> worden de verminderingsforfaits en het aantal kwartalen waarvoor ze kunnen worden toegepast verhoogd. Dit geldt enkel voor de opening van het recht vanaf 1 januari 2017. Naargelang de periode waarin het recht geopend werd kan het verminderingsforfait dus verschillen evenals het aantal kwartalen dat de vermindering kan worden toegepast. </source>
@@ -51,23 +51,23 @@
         </trans-unit>
         <trans-unit id="tu36" resname="/html/body/br">
           <source xml:lang="nl">
-            <x id="x37" ctype="x-html-br" equiv-text=" "/>
+            <x id="x37" ctype="lb" equiv-text=" "/>
           </source>
           <target xml:lang="de" state="final">
-            <x id="x38" ctype="x-html-br" equiv-text=" "/>
+            <x id="x38" ctype="lb" equiv-text=" "/>
           </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu39" resname="/html/body/p[7]">
           <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+          <target xml:lang="de" state="new"/>
         </trans-unit>
         <trans-unit restype="x-html-ul" id="tu40" resname="/html/body/ul[2]">
           <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+          <target xml:lang="de" state="new"/>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu41" resname="/html/body/p[8]">
           <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+          <target xml:lang="de" state="new"/>
         </trans-unit>
       </group>
       <group resname="[description]" id="grp42">
@@ -91,7 +91,7 @@
           <source xml:lang="nl"> In de bespreking die volgt wordt voor de kwalificatie ‘<g id="g74" ctype="x-html-strong">nieuwe werkgever</g>’ en voor het toekennen van de vermindering, <g id="g75" ctype="x-html-strong">nooit</g> rekening gehouden met: </source>
           <target xml:lang="de" state="final"> In der folgenden Erläuterung werden für die Qualifikation „<g id="g76" ctype="x-html-strong">neuer Arbeitgeber</g>“ und die Gewährung der Ermäßigung <g id="g77" ctype="x-html-strong">nie</g> folgende Personen berücksichtigt: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu78" resname="/html/body/ul[1]">
+        <group restype="x-html-ul" id="grp78" resname="/html/body/ul[1]">
           <trans-unit restype="listitem" id="tu79" resname="/html/body/ul[1]/li[1]">
             <source xml:lang="nl">jongeren tot 31 december van het jaar dat zij 18 worden; </source>
             <target xml:lang="de" state="final">Jugendliche bis zum 31. Dezember des Kalenderjahres, in dem sie 18 Jahre alt werden; </target>
@@ -193,7 +193,7 @@
           <source xml:lang="nl"> Voorwaarde vervanging: </source>
           <target xml:lang="de" state="final"> Bedingung für den Austausch: </target>
         </trans-unit>
-        <group restype="x-html-div" id="tu196" resname="/html/body/div[1]">
+        <group restype="x-html-div" id="grp196" resname="/html/body/div[1]">
           <note from="class">alert message</note>
           <trans-unit restype="x-html-p" id="tu197" resname="/html/body/div[1]/p">
             <source xml:lang="nl"> Om het recht op de vermindering te openen mag de nieuwe werknemer geen werknemer <g id="g198" ctype="x-html-strong">vervangen</g> binnen <g id="g199" ctype="x-html-strong">dezelfde technische bedrijfseenheid</g>. Het moet dus gaan om een meertewerkstelling. </source>
@@ -208,7 +208,7 @@
           <source xml:lang="nl"> Om na te gaan of er geen <g id="g210" ctype="x-html-strong">'vervanging'</g> is in dezelfde technische bedrijfseenheid, gaat men als volgt te werk: </source>
           <target xml:lang="de" state="final"> Um zu prüfen, ob in derselben technischen Betriebseinheit kein Arbeitnehmer <g id="g211" ctype="x-html-strong">ersetzt</g> wurde, wird wie folgt verfahren: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu212" resname="/html/body/ul[2]">
+        <group restype="x-html-ul" id="grp212" resname="/html/body/ul[2]">
           <trans-unit restype="listitem" id="tu213" resname="/html/body/ul[2]/li[1]">
             <source xml:lang="nl">eerst bepaalt men het maximum aantal werknemers (koppen) dat gelijktijdig in dezelfde technische bedrijfseenheid tewerkgesteld was in de loop van de 12 maanden (dag op dag) die de indienstname voorafgaan (A); </source>
             <target xml:lang="de" state="final">zunächst wird die Höchstzahl der Arbeitnehmer (Personen) bestimmt, die gleichzeitig in der gleichen technischen Betriebseinheit im Laufe der 12 Monate (Tag für Tag)vor der Einstellung (A) beschäftigt war; </target>
@@ -226,17 +226,17 @@
           <source xml:lang="nl"> In het kader van de geharmoniseerde verminderingen is er sprake van <g id="g229" ctype="x-html-strong">dezelfde technische bedrijfseenheid</g> als: </source>
           <target xml:lang="de" state="final"> Im Rahmen der harmonisierten Ermäßigungen handelt es sich um die <g id="g230" ctype="x-html-strong">gleiche technische Betriebseinheit</g>, wenn: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu231" resname="/html/body/ul[3]">
+        <group restype="x-html-ul" id="grp231" resname="/html/body/ul[3]">
           <trans-unit restype="listitem" id="tu232" resname="/html/body/ul[3]/li[1]">
             <source xml:lang="nl">twee (of meerdere) juridische entiteiten (ondernemingen, verenigingen, ...) verbonden zijn door minstens één gemeenschappelijke persoon; dit kan een werknemer zijn, maar ook de bedrijfsleider, ...; </source>
             <target xml:lang="de" state="final">zwei (oder mehrere) Rechtseinheiten (Unternehmen, Vereinigungen…) durch mindestens eine gemeinsame Person gebunden sind; dies kann ein Arbeitnehmer sein, aber auch der Geschäftsführer…; </target>
           </trans-unit>
-          <group restype="listitem" id="tu233" resname="/html/body/ul[3]/li[2]">
+          <group restype="listitem" id="grp233" resname="/html/body/ul[3]/li[2]">
             <trans-unit id="tu234" resname="/html/body/ul[3]/li[2]/text()[1]">
               <source xml:lang="nl">en deze juridische entiteiten een gemeenschappelijke socio-economische basis hebben; elementen die daarop kunnen wijzen zijn: </source>
               <target xml:lang="de" state="final">und diese Rechtseinheiten über eine gemeinsame sozioökonomische Grundlage verfügen; Elemente, die darauf hinweisen können, sind: </target>
             </trans-unit>
-            <group restype="x-html-ul" id="tu235" resname="/html/body/ul[3]/li[2]/ul">
+            <group restype="x-html-ul" id="grp235" resname="/html/body/ul[3]/li[2]/ul">
               <trans-unit restype="listitem" id="tu236" resname="/html/body/ul[3]/li[2]/ul/li[1]">
                 <source xml:lang="nl">plaats: wanneer de gebouwen waar de activiteiten worden uitgeoefend op dezelfde plaats of in elkaars nabijheid liggen; </source>
                 <target xml:lang="de" state="final">Ort: wenn die Gebäude, in denen die Tätigkeiten ausgeübt werden, sich im gleichen Ort oder in unmittelbare Nähe zueinander befinden; </target>
@@ -256,7 +256,7 @@
             </group>
           </group>
         </group>
-        <group restype="x-html-div" id="tu240" resname="/html/body/div[2]">
+        <group restype="x-html-div" id="grp240" resname="/html/body/div[2]">
           <note from="class">readMoreContent</note>
           <trans-unit restype="x-html-p" id="tu241" resname="/html/body/div[2]/p[1]">
             <source xml:lang="nl"> <g id="g242" ctype="x-html-strong">Voorbeeld</g> </source>
@@ -271,7 +271,7 @@
             <target xml:lang="de" state="final"> Arbeitgeber B kann dagegen die Zielgruppenermäßigung Ersteinstellungen für einen ersten Arbeitnehmer nicht mehr beanspruchen, da sein Arbeitnehmer einen Arbeitnehmer von Arbeitgeber A ersetzt, der dort 12 Monate lang vor seiner Einstellung tätig war (nämlich sich selbst). <x id="x261" ctype="x-html-sup" equiv-text=" "/> Arbeitgeber B kann ebenso wenig die Zielgruppenermäßigung Ersteinstellungen für einen zweiten Arbeitnehmer erhalten, da er im Laufe des ersten Quartals 2016 nur einen Arbeitnehmer beschäftigt. <x id="x262" ctype="x-html-sup" equiv-text=" "/><x id="x263" ctype="x-html-sup" equiv-text=" "/> </target>
           </trans-unit>
         </group>
-        <group restype="x-html-div" id="tu264" resname="/html/body/div[3]">
+        <group restype="x-html-div" id="grp264" resname="/html/body/div[3]">
           <note from="class">alert message</note>
           <trans-unit restype="x-html-p" id="tu265" resname="/html/body/div[3]/p">
             <source xml:lang="nl"> De vermindering is niet gebonden aan een bepaalde werknemer. <g id="g266" ctype="x-html-strong">De werkgever kan dus elk kwartaal opnieuw kiezen voor welke werknemer hij de vermindering toepast</g>. Het is dus best mogelijk dat de werknemer die oorspronkelijk het recht opende, niet meer in dienst is. </source>
@@ -298,10 +298,10 @@
           <source xml:lang="nl"> Forfaits en absolute bedragen bij maximale verminderingen en bij volledige prestaties(in EUR): </source>
           <target xml:lang="de" state="final"> Pauschalen und absolute Beträge bei maximalen Ermäßigungen und vollständigen Leistungen (in EUR): </target>
         </trans-unit>
-        <group restype="table" id="tu277" resname="/html/body/table[1]">
+        <group restype="table" id="grp277" resname="/html/body/table[1]">
           <note from="class">table-bordered</note>
-          <group restype="x-html-thead" id="tu278" resname="/html/body/table[1]/thead">
-            <group restype="row" id="tu279" resname="/html/body/table[1]/thead/tr">
+          <group restype="x-html-thead" id="grp278" resname="/html/body/table[1]/thead">
+            <group restype="row" id="grp279" resname="/html/body/table[1]/thead/tr">
               <trans-unit restype="x-html-th" id="tu280" resname="/html/body/table[1]/thead/tr/th[1]">
                 <source xml:lang="nl"> telling </source>
                 <target xml:lang="de" state="final"> Zählung </target>
@@ -318,8 +318,8 @@
               </trans-unit>
             </group>
           </group>
-          <group restype="x-html-tbody" id="tu283" resname="/html/body/table[1]/tbody">
-            <group restype="row" id="tu284" resname="/html/body/table[1]/tbody/tr[1]">
+          <group restype="x-html-tbody" id="grp283" resname="/html/body/table[1]/tbody">
+            <group restype="row" id="grp284" resname="/html/body/table[1]/tbody/tr[1]">
               <trans-unit restype="cell" id="tu285" resname="/html/body/table[1]/tbody/tr[1]/td[1]">
                 <source xml:lang="nl"> 1<g id="g286" ctype="x-html-sup">ste</g> </source>
                 <target xml:lang="de" state="final"> 1.<x id="x287" ctype="x-html-sup" equiv-text=" "/> </target>
@@ -335,7 +335,7 @@
                 <note from="colspan">3</note>
               </trans-unit>
             </group>
-            <group restype="row" id="tu292" resname="/html/body/table[1]/tbody/tr[2]">
+            <group restype="row" id="grp292" resname="/html/body/table[1]/tbody/tr[2]">
               <trans-unit restype="cell" id="tu293" resname="/html/body/table[1]/tbody/tr[2]/td[1]">
                 <source xml:lang="nl"> 2<g id="g294" ctype="x-html-sup">de</g> </source>
                 <target xml:lang="de" state="final"> 2.<x id="x295" ctype="x-html-sup" equiv-text=" "/> </target>
@@ -365,7 +365,7 @@
                 <target xml:lang="de" state="final"> 4 x 450,00 </target>
               </trans-unit>
             </group>
-            <group restype="row" id="tu308" resname="/html/body/table[1]/tbody/tr[3]">
+            <group restype="row" id="grp308" resname="/html/body/table[1]/tbody/tr[3]">
               <trans-unit restype="cell" id="tu309" resname="/html/body/table[1]/tbody/tr[3]/td[1]">
                 <source xml:lang="nl"> 3<g id="g310" ctype="x-html-sup">de</g> </source>
                 <target xml:lang="de" state="final"> 3.<x id="x311" ctype="x-html-sup" equiv-text=" "/> </target>
@@ -395,7 +395,7 @@
                 <target xml:lang="de" state="final"> 4 x 450,00 </target>
               </trans-unit>
             </group>
-            <group restype="row" id="tu326" resname="/html/body/table[1]/tbody/tr[4]">
+            <group restype="row" id="grp326" resname="/html/body/table[1]/tbody/tr[4]">
               <trans-unit restype="cell" id="tu327" resname="/html/body/table[1]/tbody/tr[4]/td[1]">
                 <source xml:lang="nl"> 4<g id="g328" ctype="x-html-sup">de</g> </source>
                 <target xml:lang="de" state="final"> 4.<x id="x329" ctype="x-html-sup" equiv-text=" "/> </target>
@@ -425,7 +425,7 @@
                 <target xml:lang="de" state="final"> 4 x 450,00 </target>
               </trans-unit>
             </group>
-            <group restype="row" id="tu344" resname="/html/body/table[1]/tbody/tr[5]">
+            <group restype="row" id="grp344" resname="/html/body/table[1]/tbody/tr[5]">
               <trans-unit restype="cell" id="tu345" resname="/html/body/table[1]/tbody/tr[5]/td[1]">
                 <source xml:lang="nl"> 5<g id="g346" ctype="x-html-sup">de</g> </source>
                 <target xml:lang="de" state="final"> 5.<x id="x347" ctype="x-html-sup" equiv-text=" "/> </target>
@@ -455,7 +455,7 @@
                 <target xml:lang="de" state="final"> 4 x 450,00 </target>
               </trans-unit>
             </group>
-            <group restype="row" id="tu362" resname="/html/body/table[1]/tbody/tr[6]">
+            <group restype="row" id="grp362" resname="/html/body/table[1]/tbody/tr[6]">
               <trans-unit restype="cell" id="tu363" resname="/html/body/table[1]/tbody/tr[6]/td[1]">
                 <source xml:lang="nl"> 6<g id="g364" ctype="x-html-sup">de</g> </source>
                 <target xml:lang="de" state="final"> 6.<x id="x365" ctype="x-html-sup" equiv-text=" "/> </target>
@@ -531,10 +531,10 @@
           <source xml:lang="nl"> Forfaits en absolute bedragen bij maximale verminderingen en bij volledige prestaties(in EUR): </source>
           <target xml:lang="de" state="final"> Pauschalen und absolute Beträge bei maximalen Ermäßigungen und vollständigen Leistungen (in EUR): </target>
         </trans-unit>
-        <group restype="table" id="tu437" resname="/html/body/table[2]">
+        <group restype="table" id="grp437" resname="/html/body/table[2]">
           <note from="class">table-bordered</note>
-          <group restype="x-html-thead" id="tu438" resname="/html/body/table[2]/thead">
-            <group restype="row" id="tu439" resname="/html/body/table[2]/thead/tr">
+          <group restype="x-html-thead" id="grp438" resname="/html/body/table[2]/thead">
+            <group restype="row" id="grp439" resname="/html/body/table[2]/thead/tr">
               <trans-unit restype="x-html-th" id="tu440" resname="/html/body/table[2]/thead/tr/th[1]">
                 <source xml:lang="nl"> telling </source>
                 <target xml:lang="de" state="final"> Zählung </target>
@@ -551,8 +551,8 @@
               </trans-unit>
             </group>
           </group>
-          <group restype="x-html-tbody" id="tu443" resname="/html/body/table[2]/tbody">
-            <group restype="row" id="tu444" resname="/html/body/table[2]/tbody/tr[1]">
+          <group restype="x-html-tbody" id="grp443" resname="/html/body/table[2]/tbody">
+            <group restype="row" id="grp444" resname="/html/body/table[2]/tbody/tr[1]">
               <trans-unit restype="cell" id="tu445" resname="/html/body/table[2]/tbody/tr[1]/td[1]">
                 <source xml:lang="nl"> 1<g id="g446" ctype="x-html-sup">ste</g> </source>
                 <target xml:lang="de" state="final"> 1.<x id="x447" ctype="x-html-sup" equiv-text=" "/> </target>
@@ -568,7 +568,7 @@
                 <note from="colspan">3</note>
               </trans-unit>
             </group>
-            <group restype="row" id="tu452" resname="/html/body/table[2]/tbody/tr[2]">
+            <group restype="row" id="grp452" resname="/html/body/table[2]/tbody/tr[2]">
               <trans-unit restype="cell" id="tu453" resname="/html/body/table[2]/tbody/tr[2]/td[1]">
                 <source xml:lang="nl"> 2<g id="g454" ctype="x-html-sup">de</g> </source>
                 <target xml:lang="de" state="final"> 2.<x id="x455" ctype="x-html-sup" equiv-text=" "/> </target>
@@ -598,7 +598,7 @@
                 <target xml:lang="de" state="final"> 4 x 450,00 </target>
               </trans-unit>
             </group>
-            <group restype="row" id="tu468" resname="/html/body/table[2]/tbody/tr[3]">
+            <group restype="row" id="grp468" resname="/html/body/table[2]/tbody/tr[3]">
               <trans-unit restype="cell" id="tu469" resname="/html/body/table[2]/tbody/tr[3]/td[1]">
                 <source xml:lang="nl"> 3<g id="g470" ctype="x-html-sup">de</g> </source>
                 <target xml:lang="de" state="final"> 3.<x id="x471" ctype="x-html-sup" equiv-text=" "/> </target>
@@ -628,7 +628,7 @@
                 <target xml:lang="de" state="final"> 4 x 450,00 </target>
               </trans-unit>
             </group>
-            <group restype="row" id="tu484" resname="/html/body/table[2]/tbody/tr[4]">
+            <group restype="row" id="grp484" resname="/html/body/table[2]/tbody/tr[4]">
               <trans-unit restype="cell" id="tu485" resname="/html/body/table[2]/tbody/tr[4]/td[1]">
                 <source xml:lang="nl"> 4<g id="g486" ctype="x-html-sup">de</g> </source>
                 <target xml:lang="de" state="final"> 4.<x id="x487" ctype="x-html-sup" equiv-text=" "/> </target>
@@ -658,7 +658,7 @@
                 <target xml:lang="de" state="final"> --- </target>
               </trans-unit>
             </group>
-            <group restype="row" id="tu498" resname="/html/body/table[2]/tbody/tr[5]">
+            <group restype="row" id="grp498" resname="/html/body/table[2]/tbody/tr[5]">
               <trans-unit restype="cell" id="tu499" resname="/html/body/table[2]/tbody/tr[5]/td[1]">
                 <source xml:lang="nl"> 5<g id="g500" ctype="x-html-sup">de</g> </source>
                 <target xml:lang="de" state="final"> 5.<x id="x501" ctype="x-html-sup" equiv-text=" "/> </target>
@@ -688,7 +688,7 @@
                 <target xml:lang="de" state="final"> --- </target>
               </trans-unit>
             </group>
-            <group restype="row" id="tu512" resname="/html/body/table[2]/tbody/tr[6]">
+            <group restype="row" id="grp512" resname="/html/body/table[2]/tbody/tr[6]">
               <trans-unit restype="cell" id="tu513" resname="/html/body/table[2]/tbody/tr[6]/td[1]">
                 <source xml:lang="nl"> 6<g id="g514" ctype="x-html-sup">de</g> </source>
                 <target xml:lang="de" state="final"> 6.<x id="x515" ctype="x-html-sup" equiv-text=" "/> </target>
@@ -736,7 +736,7 @@
           <source xml:lang="nl"> De forfaitbedragen die gelden vanaf 1 januari 2016 worden gehanteerd voor de werknemers die het <g id="g530" ctype="x-html-strong">recht</g> op de doelgroepvermindering hebben <g id="g531" ctype="x-html-strong">geopend in 2015</g> <g id="g532" ctype="x-html-strong">voor de resterende kwartalen</g> van de doelgroepvermindering, wat wil zeggen dat: </source>
           <target xml:lang="de" state="final"> Als Übergangsmaßnahme werden die neuen Pauschalbeträge angewendet, die ab 01.01.2016 für Arbeitnehmer gelten, die das <g id="g533" ctype="x-html-strong">Recht</g> auf die Zielgruppenermäßigung <g id="g534" ctype="x-html-strong">für die übrigen Quartale der Zielgruppenermäßigung</g> <g id="g535" ctype="x-html-strong">2015</g> eröffnet haben, das heißt: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu536" resname="/html/body/ul[4]">
+        <group restype="x-html-ul" id="grp536" resname="/html/body/ul[4]">
           <trans-unit restype="listitem" id="tu537" resname="/html/body/ul[4]/li[1]">
             <source xml:lang="nl">als een 1<g id="g538" ctype="x-html-sup">ste</g> werknemer werd in dienst genomen in 2015, de werkgever recht heeft op het forfait G7 voor het resterend aantal kwartalen (dus maximaal 13 op te nemen in een periode van 20 kwartalen te rekenen vanaf het kwartaal van opening recht), </source>
             <target xml:lang="de" state="final">wenn ein erster Arbeitnehmer 2015 eingestellt wurde, der dem Arbeitgeber für die Anzahl verbleibender Quartale das Recht auf die Pauschale G7 eröffnet (d. h. maximal 13 Quartale in einer Periode davon 20 Quartalen ab dem Quartal, in dem das Recht eröffnet wurde); <x id="x539" ctype="x-html-sup" equiv-text=" "/> </target>
@@ -758,10 +758,10 @@
           <source xml:lang="nl"> Forfaits en absolute bedragen bij maximaal saldo resterende kwartalen, maximale verminderingen en bij volledige prestaties(in EUR): </source>
           <target xml:lang="de" state="final"> Pauschalen und absolute Beträge bei maximalem Saldo verbleibende Quartale, maximalen Ermäßigungen und vollständigen Leistungen (in EUR): </target>
         </trans-unit>
-        <group restype="table" id="tu558" resname="/html/body/table[3]">
+        <group restype="table" id="grp558" resname="/html/body/table[3]">
           <note from="class">table-bordered</note>
-          <group restype="x-html-thead" id="tu559" resname="/html/body/table[3]/thead">
-            <group restype="row" id="tu560" resname="/html/body/table[3]/thead/tr">
+          <group restype="x-html-thead" id="grp559" resname="/html/body/table[3]/thead">
+            <group restype="row" id="grp560" resname="/html/body/table[3]/thead/tr">
               <trans-unit restype="x-html-th" id="tu561" resname="/html/body/table[3]/thead/tr/th[1]">
                 <source xml:lang="nl"> telling </source>
                 <target xml:lang="de" state="final"> Zählung </target>
@@ -778,8 +778,8 @@
               </trans-unit>
             </group>
           </group>
-          <group restype="x-html-tbody" id="tu564" resname="/html/body/table[3]/tbody">
-            <group restype="row" id="tu565" resname="/html/body/table[3]/tbody/tr[1]">
+          <group restype="x-html-tbody" id="grp564" resname="/html/body/table[3]/tbody">
+            <group restype="row" id="grp565" resname="/html/body/table[3]/tbody/tr[1]">
               <trans-unit restype="cell" id="tu566" resname="/html/body/table[3]/tbody/tr[1]/td[1]">
                 <source xml:lang="nl"> 1<g id="g567" ctype="x-html-sup">ste</g> </source>
                 <target xml:lang="de" state="final"> 1.<x id="x568" ctype="x-html-sup" equiv-text=" "/> </target>
@@ -795,7 +795,7 @@
                 <note from="colspan">3</note>
               </trans-unit>
             </group>
-            <group restype="row" id="tu573" resname="/html/body/table[3]/tbody/tr[2]">
+            <group restype="row" id="grp573" resname="/html/body/table[3]/tbody/tr[2]">
               <trans-unit restype="cell" id="tu574" resname="/html/body/table[3]/tbody/tr[2]/td[1]">
                 <source xml:lang="nl"> 2<g id="g575" ctype="x-html-sup">de</g> </source>
                 <target xml:lang="de" state="final"> 2.<x id="x576" ctype="x-html-sup" equiv-text=" "/> </target>
@@ -825,7 +825,7 @@
                 <target xml:lang="de" state="final"> 4 x 450,00 </target>
               </trans-unit>
             </group>
-            <group restype="row" id="tu589" resname="/html/body/table[3]/tbody/tr[3]">
+            <group restype="row" id="grp589" resname="/html/body/table[3]/tbody/tr[3]">
               <trans-unit restype="cell" id="tu590" resname="/html/body/table[3]/tbody/tr[3]/td[1]">
                 <source xml:lang="nl"> 3<g id="g591" ctype="x-html-sup">de</g> </source>
                 <target xml:lang="de" state="final"> 3.<x id="x592" ctype="x-html-sup" equiv-text=" "/> </target>
@@ -855,7 +855,7 @@
                 <target xml:lang="de" state="final"> --- </target>
               </trans-unit>
             </group>
-            <group restype="row" id="tu603" resname="/html/body/table[3]/tbody/tr[4]">
+            <group restype="row" id="grp603" resname="/html/body/table[3]/tbody/tr[4]">
               <trans-unit restype="cell" id="tu604" resname="/html/body/table[3]/tbody/tr[4]/td[1]">
                 <source xml:lang="nl"> 4<g id="g605" ctype="x-html-sup">de</g> </source>
                 <target xml:lang="de" state="final"> 4.<x id="x606" ctype="x-html-sup" equiv-text=" "/> </target>
@@ -885,7 +885,7 @@
                 <target xml:lang="de" state="final"> --- </target>
               </trans-unit>
             </group>
-            <group restype="row" id="tu617" resname="/html/body/table[3]/tbody/tr[5]">
+            <group restype="row" id="grp617" resname="/html/body/table[3]/tbody/tr[5]">
               <trans-unit restype="cell" id="tu618" resname="/html/body/table[3]/tbody/tr[5]/td[1]">
                 <source xml:lang="nl"> 5<g id="g619" ctype="x-html-sup">de</g> </source>
                 <target xml:lang="de" state="final"> 5.<x id="x620" ctype="x-html-sup" equiv-text=" "/> </target>
@@ -937,10 +937,10 @@
           <source xml:lang="nl"> Forfaits en absolute bedragen bij maximale verminderingen en bij volledige prestaties(in EUR): </source>
           <target xml:lang="de" state="final"> Pauschalen und absolute Beträge bei maximalen Ermäßigungen und vollständigen Leistungen (in EUR): </target>
         </trans-unit>
-        <group restype="table" id="tu638" resname="/html/body/table[4]">
+        <group restype="table" id="grp638" resname="/html/body/table[4]">
           <note from="class">table-bordered</note>
-          <group restype="x-html-thead" id="tu639" resname="/html/body/table[4]/thead">
-            <group restype="row" id="tu640" resname="/html/body/table[4]/thead/tr">
+          <group restype="x-html-thead" id="grp639" resname="/html/body/table[4]/thead">
+            <group restype="row" id="grp640" resname="/html/body/table[4]/thead/tr">
               <trans-unit restype="x-html-th" id="tu641" resname="/html/body/table[4]/thead/tr/th[1]">
                 <source xml:lang="nl"> telling </source>
                 <target xml:lang="de" state="final"> Zählung </target>
@@ -957,8 +957,8 @@
               </trans-unit>
             </group>
           </group>
-          <group restype="x-html-tbody" id="tu644" resname="/html/body/table[4]/tbody">
-            <group restype="row" id="tu645" resname="/html/body/table[4]/tbody/tr[1]">
+          <group restype="x-html-tbody" id="grp644" resname="/html/body/table[4]/tbody">
+            <group restype="row" id="grp645" resname="/html/body/table[4]/tbody/tr[1]">
               <trans-unit restype="cell" id="tu646" resname="/html/body/table[4]/tbody/tr[1]/td[1]">
                 <source xml:lang="nl"> 1<g id="g647" ctype="x-html-sup">ste</g> </source>
                 <target xml:lang="de" state="final"> 1.<x id="x648" ctype="x-html-sup" equiv-text=" "/> </target>
@@ -988,7 +988,7 @@
                 <target xml:lang="de" state="final"> 4 x 450,00 </target>
               </trans-unit>
             </group>
-            <group restype="row" id="tu661" resname="/html/body/table[4]/tbody/tr[2]">
+            <group restype="row" id="grp661" resname="/html/body/table[4]/tbody/tr[2]">
               <trans-unit restype="cell" id="tu662" resname="/html/body/table[4]/tbody/tr[2]/td[1]">
                 <source xml:lang="nl"> 2<g id="g663" ctype="x-html-sup">de</g> </source>
                 <target xml:lang="de" state="final"> 2.<x id="x664" ctype="x-html-sup" equiv-text=" "/> </target>
@@ -1018,7 +1018,7 @@
                 <target xml:lang="de" state="final"> 4 x 450,00 </target>
               </trans-unit>
             </group>
-            <group restype="row" id="tu677" resname="/html/body/table[4]/tbody/tr[3]">
+            <group restype="row" id="grp677" resname="/html/body/table[4]/tbody/tr[3]">
               <trans-unit restype="cell" id="tu678" resname="/html/body/table[4]/tbody/tr[3]/td[1]">
                 <source xml:lang="nl"> 3<g id="g679" ctype="x-html-sup">de</g> </source>
                 <target xml:lang="de" state="final"> 3.<x id="x680" ctype="x-html-sup" equiv-text=" "/> </target>
@@ -1048,7 +1048,7 @@
                 <target xml:lang="de" state="final"> --- </target>
               </trans-unit>
             </group>
-            <group restype="row" id="tu691" resname="/html/body/table[4]/tbody/tr[4]">
+            <group restype="row" id="grp691" resname="/html/body/table[4]/tbody/tr[4]">
               <trans-unit restype="cell" id="tu692" resname="/html/body/table[4]/tbody/tr[4]/td[1]">
                 <source xml:lang="nl"> 4<g id="g693" ctype="x-html-sup">de</g> </source>
                 <target xml:lang="de" state="final"> 4.<x id="x694" ctype="x-html-sup" equiv-text=" "/> </target>
@@ -1078,7 +1078,7 @@
                 <target xml:lang="de" state="final"> --- </target>
               </trans-unit>
             </group>
-            <group restype="row" id="tu705" resname="/html/body/table[4]/tbody/tr[5]">
+            <group restype="row" id="grp705" resname="/html/body/table[4]/tbody/tr[5]">
               <trans-unit restype="cell" id="tu706" resname="/html/body/table[4]/tbody/tr[5]/td[1]">
                 <source xml:lang="nl"> 5<g id="g707" ctype="x-html-sup">de</g> </source>
                 <target xml:lang="de" state="final"> 5.<x id="x708" ctype="x-html-sup" equiv-text=" "/> </target>

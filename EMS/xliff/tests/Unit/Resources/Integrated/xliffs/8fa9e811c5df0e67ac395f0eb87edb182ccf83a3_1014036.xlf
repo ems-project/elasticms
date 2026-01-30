@@ -45,16 +45,16 @@
           <target xml:lang="de" state="final">   </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu15" resname="/html/body/p[7]">
-          <source xml:lang="nl"> <g id="g16" ctype="x-html-strong">Deeltijdse werknemers</g> van wie het loon moet worden aangepast wegens de invoering van de arbeidsduurvermindering komen eveneens in aanmerking. <x id="x17" ctype="x-html-br" equiv-text=" "/> </source>
-          <target xml:lang="de" state="final"> <g id="g18" ctype="x-html-strong">Teilzeitarbeitnehmer</g>, deren Lohn wegen der Einführung der Arbeitszeitverkürzung angepasst werden muss, kommen auch in Betracht. <x id="x19" ctype="x-html-br" equiv-text=" "/> </target>
+          <source xml:lang="nl"> <g id="g16" ctype="x-html-strong">Deeltijdse werknemers</g> van wie het loon moet worden aangepast wegens de invoering van de arbeidsduurvermindering komen eveneens in aanmerking. <x id="x17" ctype="lb" equiv-text=" "/> </source>
+          <target xml:lang="de" state="final"> <g id="g18" ctype="x-html-strong">Teilzeitarbeitnehmer</g>, deren Lohn wegen der Einführung der Arbeitszeitverkürzung angepasst werden muss, kommen auch in Betracht. <x id="x19" ctype="lb" equiv-text=" "/> </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu20" resname="/html/body/p[8]">
           <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+          <target xml:lang="de" state="new"/>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu21" resname="/html/body/p[9]">
           <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+          <target xml:lang="de" state="new"/>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu22" resname="/html/body/p[10]">
           <source xml:lang="nl"> Dit geldt dus enkel wanneer het loon van de absoluut deeltijdse werknemer <g id="g23" ctype="x-html-strong">verplicht</g> verhoogt ten opzichte van een andere werknemer. Wanneer nadien wijzigingen aan de arbeidsovereenkomst worden aangebracht, eindigt het verplichte karakter van de aanpassing. Een verhoging of verlaging van de prestatiebreuk, een verandering van functie, het verlengen van een arbeidsovereenkomst en het hernieuwen van een arbeidsovereenkomst zijn allemaal elementen die het verplichte karakter van de aanpassing teniet doen. </source>
@@ -66,19 +66,19 @@
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu26" resname="/html/body/p[12]">
           <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+          <target xml:lang="de" state="new"/>
         </trans-unit>
         <trans-unit id="tu27" resname="/html/body/br">
           <source xml:lang="nl">
-            <x id="x28" ctype="x-html-br" equiv-text=" "/>
+            <x id="x28" ctype="lb" equiv-text=" "/>
           </source>
           <target xml:lang="de" state="final">
-            <x id="x29" ctype="x-html-br" equiv-text=" "/>
+            <x id="x29" ctype="lb" equiv-text=" "/>
           </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu30" resname="/html/body/p[13]">
           <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+          <target xml:lang="de" state="new"/>
         </trans-unit>
         <trans-unit restype="x-html-h2" id="tu31" resname="/html/body/h2[3]">
           <source xml:lang="nl"> Bedrag van de vermindering </source>
@@ -88,7 +88,7 @@
           <source xml:lang="nl"> De werkgever kan aanspraak maken op een vermindering G<g id="g33" ctype="x-html-sub">2</g> vanaf het kwartaal volgend op het kwartaal waarin de arbeidsduurvermindering of vierdagenweek wordt ingesteld en dit voor: </source>
           <target xml:lang="de" state="final"> Der Arbeitgeber kann eine Ermäßigung G<g id="g34" ctype="x-html-sub">2</g> ab dem Quartal nach dem Quartal beanspruchen, in dem die Arbeitszeitverkürzung oder Viertagewochenregelung eingeführt wird, und dies für: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu35" resname="/html/body/ul">
+        <group restype="x-html-ul" id="grp35" resname="/html/body/ul">
           <trans-unit restype="listitem" id="tu36" resname="/html/body/ul/li[1]">
             <source xml:lang="nl">8 kwartalen bij invoering van een arbeidsduur van 37 uur per week of minder; </source>
             <target xml:lang="de" state="final">8 Quartale bei der Einführung einer Arbeitszeit von 37 Stunden pro Woche oder weniger; </target>
@@ -147,8 +147,8 @@
           <target xml:lang="de" state="final"> Sowohl die durchschnittliche Anzahl der Stunden vor als auch nach der Einführung der Arbeitszeitverkürzung muss in einem separaten Bildschirm der Webanwendung oder in einem separaten Funktionsblock mitgeteilt werden. </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu52" resname="/html/body/p[24]">
-          <source xml:lang="nl"> In wezen kan dit dus verschillen van het gemiddeld <bx id="bx54" rid="rid53" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/fill_in_dmfa/dmfa_fillinrules/workerrecord_occupationrecords/occupationrecord.html&amp;quot;&amp;gt;"/> aantal uren van de maatpersoon<ex id="ex55" rid="rid53" equiv-text="&amp;lt;/a&amp;gt;"/> bij de definiëring van de tewerkstellingslijn, omdat hier de uren inhaalrust ingevolge een arbeidsduurvermindering wel worden opgenomen. Meer uitleg over de wijze van aangifte vindt u terug bij de bespreking van '<bx id="bx57" rid="rid56" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/fill_in_dmfa/dmfa_fillinrules/servicedatadeclaration/declarationmethod_workerservices.html&amp;quot;&amp;gt;"/>aangifte inhaalrust<ex id="ex58" rid="rid56" equiv-text="&amp;lt;/a&amp;gt;"/>'.<x id="x59" ctype="x-html-br" equiv-text=" "/> </source>
-          <target xml:lang="de" state="final"> Im Wesentlichen kann sich dies deshalb von der durchschnittlichen <bx id="bx61" rid="rid60" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/fill_in_dmfa/dmfa_fillinrules/workerrecord_occupationrecords/occupationrecord.html&amp;quot;&amp;gt;"/> Anzahl Stunden der Referenzperson<ex id="ex62" rid="rid60" equiv-text="&amp;lt;/a&amp;gt;"/> bei der Definition der Beschäftigungszeile unterscheiden, da hier die Stunden der Ausgleichsruhe infolge einer Arbeitszeitverkürzung einbezogen werden. Weitere Informationen über die Art der Meldung finden Sie in der Erläuterung der ‚<bx id="bx64" rid="rid63" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/fill_in_dmfa/dmfa_fillinrules/servicedatadeclaration/declarationmethod_workerservices.html&amp;quot;&amp;gt;"/>Meldung der Ausgleichsruhe<ex id="ex65" rid="rid63" equiv-text="&amp;lt;/a&amp;gt;"/>‘.<x id="x66" ctype="x-html-br" equiv-text=" "/> </target>
+          <source xml:lang="nl"> In wezen kan dit dus verschillen van het gemiddeld <bx id="bx54" rid="rid53" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/fill_in_dmfa/dmfa_fillinrules/workerrecord_occupationrecords/occupationrecord.html&amp;quot;&amp;gt;"/> aantal uren van de maatpersoon<ex id="ex55" rid="rid53" equiv-text="&amp;lt;/a&amp;gt;"/> bij de definiëring van de tewerkstellingslijn, omdat hier de uren inhaalrust ingevolge een arbeidsduurvermindering wel worden opgenomen. Meer uitleg over de wijze van aangifte vindt u terug bij de bespreking van '<bx id="bx57" rid="rid56" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/fill_in_dmfa/dmfa_fillinrules/servicedatadeclaration/declarationmethod_workerservices.html&amp;quot;&amp;gt;"/>aangifte inhaalrust<ex id="ex58" rid="rid56" equiv-text="&amp;lt;/a&amp;gt;"/>'.<x id="x59" ctype="lb" equiv-text=" "/> </source>
+          <target xml:lang="de" state="final"> Im Wesentlichen kann sich dies deshalb von der durchschnittlichen <bx id="bx61" rid="rid60" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/fill_in_dmfa/dmfa_fillinrules/workerrecord_occupationrecords/occupationrecord.html&amp;quot;&amp;gt;"/> Anzahl Stunden der Referenzperson<ex id="ex62" rid="rid60" equiv-text="&amp;lt;/a&amp;gt;"/> bei der Definition der Beschäftigungszeile unterscheiden, da hier die Stunden der Ausgleichsruhe infolge einer Arbeitszeitverkürzung einbezogen werden. Weitere Informationen über die Art der Meldung finden Sie in der Erläuterung der ‚<bx id="bx64" rid="rid63" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/fill_in_dmfa/dmfa_fillinrules/servicedatadeclaration/declarationmethod_workerservices.html&amp;quot;&amp;gt;"/>Meldung der Ausgleichsruhe<ex id="ex65" rid="rid63" equiv-text="&amp;lt;/a&amp;gt;"/>‘.<x id="x66" ctype="lb" equiv-text=" "/> </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu67" resname="/html/body/p[25]">
           <source xml:lang="nl"> De datum van inwerkingtreding van het stelsel moet eveneens worden meegedeeld. </source>

@@ -25,7 +25,7 @@
           <source xml:lang="nl"> Het betreft </source>
           <target xml:lang="de" state="final"> Dies betrifft </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu8" resname="/html/body/ul[1]">
+        <group restype="x-html-ul" id="grp8" resname="/html/body/ul[1]">
           <trans-unit restype="listitem" id="tu9" resname="/html/body/ul[1]/li[1]">
             <source xml:lang="nl">de Staat, de Gewesten, de Gemeenschappen en de instellingen van openbaar nut en de openbare instellingen die van de hiervoor genoemde overheden afhangen, </source>
             <target xml:lang="de" state="final">den Staat, die Regionen, Gemeinschaften und gemeinnützige und öffentliche Einrichtungen, die von den o.a. Verwaltungen abhängen, </target>
@@ -39,7 +39,7 @@
             <target xml:lang="de" state="final">Vereinigungen ohne Erwerbszweck und andere Vereinigungen im nichtkommerziellen Sektor. </target>
           </trans-unit>
         </group>
-        <group restype="x-html-div" id="tu12" resname="/html/body/div[1]">
+        <group restype="x-html-div" id="grp12" resname="/html/body/div[1]">
           <note from="class">message alert</note>
           <trans-unit restype="x-html-h3" id="tu13" resname="/html/body/div[1]/h3">
             <source xml:lang="nl"> Vlaams Gewest: </source>
@@ -54,7 +54,7 @@
             <target xml:lang="de" state="final"> Am <g id="g22" ctype="x-html-strong">01. September 2016</g> wird die Zielgruppenermäßigung für <g id="g23" ctype="x-html-strong">Flandern</g> abgeschafft. </target>
           </trans-unit>
         </group>
-        <group restype="x-html-div" id="tu24" resname="/html/body/div[2]">
+        <group restype="x-html-div" id="grp24" resname="/html/body/div[2]">
           <note from="class">message alert</note>
           <trans-unit restype="x-html-h3" id="tu25" resname="/html/body/div[2]/h3">
             <source xml:lang="nl"> Duitstalige Gemeenschap: </source>
@@ -65,7 +65,7 @@
             <target xml:lang="de" state="final"> Ab <g id="g29" ctype="x-html-strong">01.10.2016</g> wird das System der Berufsübergangsprogramme für die <g id="g30" ctype="x-html-strong">Deutschsprachige Gemeinschaft</g> aufgehoben. </target>
           </trans-unit>
         </group>
-        <group restype="x-html-div" id="tu31" resname="/html/body/div[3]">
+        <group restype="x-html-div" id="grp31" resname="/html/body/div[3]">
           <note from="class">message alert</note>
           <trans-unit restype="x-html-h3" id="tu32" resname="/html/body/div[3]/h3">
             <source xml:lang="nl"> Waals Gewest (zonder de Duitstalige Gemeenschap): </source>
@@ -80,7 +80,7 @@
             <target xml:lang="de" state="final"> Ab dem 2.<x id="x39" ctype="x-html-sup" equiv-text=" "/> Quartal 2021 wird die Zielgruppenermäßigung für <g id="g40" ctype="x-html-strong">Wallonien</g> abgeschafft. </target>
           </trans-unit>
         </group>
-        <group restype="x-html-div" id="tu41" resname="/html/body/div[4]">
+        <group restype="x-html-div" id="grp41" resname="/html/body/div[4]">
           <note from="class">message alert</note>
           <trans-unit restype="x-html-h3" id="tu42" resname="/html/body/div[4]/h3">
             <source xml:lang="nl"> Brussels Hoofdstedelijk Gewest: </source>
@@ -107,19 +107,19 @@
           <source xml:lang="nl"> Volgende categorieën komen in aanmerking: </source>
           <target xml:lang="de" state="final"> Folgende Kategorien kommen in Betracht: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu54" resname="/html/body/ul[2]">
-          <group restype="listitem" id="tu55" resname="/html/body/ul[2]/li[1]">
+        <group restype="x-html-ul" id="grp54" resname="/html/body/ul[2]">
+          <group restype="listitem" id="grp55" resname="/html/body/ul[2]/li[1]">
             <trans-unit id="tu56" resname="/html/body/ul[2]/li[1]/text()[1]">
               <source xml:lang="nl">1° hij die op de dag van indienstneming volledig uitkeringsgerechtigd werkloos is en </source>
               <target xml:lang="de" state="final">1° die Person, die beim Dienstantrittsdatum entschädigt vollarbeitslos ist und </target>
             </trans-unit>
-            <group restype="x-html-ul" id="tu57" resname="/html/body/ul[2]/li[1]/ul">
-              <group restype="listitem" id="tu58" resname="/html/body/ul[2]/li[1]/ul/li">
+            <group restype="x-html-ul" id="grp57" resname="/html/body/ul[2]/li[1]/ul">
+              <group restype="listitem" id="grp58" resname="/html/body/ul[2]/li[1]/ul/li">
                 <trans-unit id="tu59" resname="/html/body/ul[2]/li[1]/ul/li/text()[1]">
                   <source xml:lang="nl">minder dan 45 jaar oud is op datum van indienstneming en </source>
                   <target xml:lang="de" state="final">bei Dienstantritt keine 45 Jahre alt ist und </target>
                 </trans-unit>
-                <group restype="x-html-ul" id="tu60" resname="/html/body/ul[2]/li[1]/ul/li/ul">
+                <group restype="x-html-ul" id="grp60" resname="/html/body/ul[2]/li[1]/ul/li/ul">
                   <note from="style">padding-top: 0px; padding-bottom: 0px;</note>
                   <trans-unit restype="listitem" id="tu61" resname="/html/body/ul[2]/li[1]/ul/li/ul/li[1]">
                     <source xml:lang="nl">ofwel geen diploma, getuigschrift of brevet hoger secundair onderwijs heeft, jonger dan 25 is en gedurende minstens 9 maand zonder onderbreking een wacht- (inschakelings-) of werkloosheidsuitkering geniet, </source>
@@ -133,12 +133,12 @@
               </group>
             </group>
           </group>
-          <group restype="listitem" id="tu63" resname="/html/body/ul[2]/li[2]">
+          <group restype="listitem" id="grp63" resname="/html/body/ul[2]/li[2]">
             <trans-unit id="tu64" resname="/html/body/ul[2]/li[2]/text()[1]">
               <source xml:lang="nl">2° hij die op de dag van indienstneming volledig uitkeringsgerechtigd werkloos is en </source>
               <target xml:lang="de" state="final">2° die Person, die beim Dienstantrittsdatum entschädigt vollarbeitslos ist und </target>
             </trans-unit>
-            <group restype="x-html-ul" id="tu65" resname="/html/body/ul[2]/li[2]/ul">
+            <group restype="x-html-ul" id="grp65" resname="/html/body/ul[2]/li[2]/ul">
               <trans-unit restype="listitem" id="tu66" resname="/html/body/ul[2]/li[2]/ul/li[1]">
                 <source xml:lang="nl">minder dan 45 jaar oud is op datum van indienstneming en </source>
                 <target xml:lang="de" state="final">bei Dienstantritt keine 45 Jahre alt ist und </target>
@@ -149,12 +149,12 @@
               </trans-unit>
             </group>
           </group>
-          <group restype="listitem" id="tu68" resname="/html/body/ul[2]/li[3]">
+          <group restype="listitem" id="grp68" resname="/html/body/ul[2]/li[3]">
             <trans-unit id="tu69" resname="/html/body/ul[2]/li[3]/text()[1]">
               <source xml:lang="nl">3° hij die op de dag van indienstneming volledig uitkeringsgerechtigd werkloos is en </source>
               <target xml:lang="de" state="final">3° die Person, die beim Dienstantrittsdatum entschädigt vollarbeitslos ist und </target>
             </trans-unit>
-            <group restype="x-html-ul" id="tu70" resname="/html/body/ul[2]/li[3]/ul">
+            <group restype="x-html-ul" id="grp70" resname="/html/body/ul[2]/li[3]/ul">
               <trans-unit restype="listitem" id="tu71" resname="/html/body/ul[2]/li[3]/ul/li[1]">
                 <source xml:lang="nl">minstens 45 jaar oud is op datum van indienstneming en </source>
                 <target xml:lang="de" state="final">bei Dienstantritt mindestens 45 Jahre alt ist und </target>
@@ -165,12 +165,12 @@
               </trans-unit>
             </group>
           </group>
-          <group restype="listitem" id="tu73" resname="/html/body/ul[2]/li[4]">
+          <group restype="listitem" id="grp73" resname="/html/body/ul[2]/li[4]">
             <trans-unit id="tu74" resname="/html/body/ul[2]/li[4]/text()[1]">
               <source xml:lang="nl">4° hij die op de dag van indienstneming volledig uitkeringsgerechtigd werkloos is en </source>
               <target xml:lang="de" state="final">die Person, die beim Dienstantrittsdatum entschädigt vollarbeitslos ist und </target>
             </trans-unit>
-            <group restype="x-html-ul" id="tu75" resname="/html/body/ul[2]/li[4]/ul">
+            <group restype="x-html-ul" id="grp75" resname="/html/body/ul[2]/li[4]/ul">
               <trans-unit restype="listitem" id="tu76" resname="/html/body/ul[2]/li[4]/ul/li[1]">
                 <source xml:lang="nl">minstens 45 jaar oud is op datum van indienstneming en </source>
                 <target xml:lang="de" state="final">bei Dienstantritt mindestens 45 Jahre alt ist und </target>
@@ -190,7 +190,7 @@
           <source xml:lang="nl"> Volgende werknemers komen niet in aanmerking voor de vermindering : </source>
           <target xml:lang="de" state="final"> Folgende Arbeitnehmer kommen für die Ermäßigung nicht in Betracht: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu80" resname="/html/body/ul[3]">
+        <group restype="x-html-ul" id="grp80" resname="/html/body/ul[3]">
           <trans-unit restype="listitem" id="tu81" resname="/html/body/ul[3]/li[1]">
             <source xml:lang="nl">de werknemer die van het voordeel van de vrijstelling uitgesloten werd door een beslissing van het beheerscomité van de Rijksdienst voor Sociale Zekerheid, genomen op basis van een rapport van de inspectiediensten van de Inspectie van de Sociale Wetten, de Sociale Inspectie, de RVA of de RSZ, indien na klacht werd vastgesteld dat de werknemer werd aangenomen ter vervanging en in eenzelfde functie van een ontslagen werknemer met als hoofdzakelijk doel de voordelen van dit koninklijk besluit te verkrijgen; </source>
             <target xml:lang="de" state="final">Arbeitnehmer, die aufgrund eines Berichts der Inspektionsdienststellen der Inspektion der Sozialgesetze, der Sozialinspektion, des LfA oder des LSS durch den Verwaltungsausschuss des Landesamtes für Soziale Sicherheit gefassten Beschlusses vom Vorteil der Befreiung ausgeschlossen wurden, wenn nach einer Klage festgestellt wurde, dass sie als Ersatz für einen entlassenen Arbeitnehmer und in derselben Funktion hauptsächlich mit dem Ziel eingestellt wurden, die Vorteile dieses Königlichen Erlasses zu beanspruchen. </target>
@@ -208,7 +208,7 @@
           <source xml:lang="nl"> De werkgever kan volgende verminderingen genieten voor de werknemer van: </source>
           <target xml:lang="de" state="final"> Der Arbeitgeber kann folgende Ermäßigungen beanspruchen für Arbeitnehmer der </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu85" resname="/html/body/ul[4]">
+        <group restype="x-html-ul" id="grp85" resname="/html/body/ul[4]">
           <trans-unit restype="listitem" id="tu86" resname="/html/body/ul[4]/li[1]">
             <source xml:lang="nl">categorie 1°: G<g id="g87" ctype="x-html-sub">1</g> gedurende het kwartaal van indienstneming en de 4 daarop volgende kwartalen en vervolgens G<g id="g88" ctype="x-html-sub">2</g> gedurende 4 kwartalen; </source>
             <target xml:lang="de" state="final">Kategorie 1°: G<g id="g89" ctype="x-html-sub">1</g> im Quartal des Dienstantritts und den 4 folgenden Quartalen und danach G<g id="g90" ctype="x-html-sub">2</g> für 4 Quartale; </target>

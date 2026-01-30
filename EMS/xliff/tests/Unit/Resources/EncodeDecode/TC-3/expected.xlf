@@ -4,8 +4,8 @@
     <body>
       <group resname="[body]" id="grp1">
         <trans-unit restype="x-html-p" id="tu2" resname="/html/body/p">
-          <source xml:lang="en"> Mick Jones renewed his interest in the Vintage <g id="g3" ctype="x-html-strong">'72 Telecaster Thinline</g> guitar.<x id="x4" ctype="x-html-br" equiv-text=" "/> He says <g id="g5" ctype="x-html-q">I love 'em</g> <x id="x6" ctype="x-html-img" equiv-text="&amp;lt;img src=&amp;quot;smileface.png&amp;quot;&amp;gt;&amp;lt;/img&amp;gt;"/> </source>
-          <target xml:lang="fr" state="new"/>
+          <source xml:lang="en"> Mick Jones renewed his interest in the Vintage <g id="g3" ctype="x-html-strong">'72 Telecaster Thinline</g> guitar.<x id="x4" ctype="lb" equiv-text=" "/> He says <g id="g5" ctype="x-html-q">I love 'em</g> <x id="x6" ctype="image" equiv-text="&amp;lt;img src=&amp;quot;smileface.png&amp;quot;&amp;gt;&amp;lt;/img&amp;gt;"/> </source>
+          <target xml:lang="fr" state="final"> Mick Jones renewed his interest in the Vintage <g id="g7" ctype="x-html-strong">'72 Telecaster Thinline</g> guitar.<x id="x8" ctype="lb" equiv-text=" "/> He says <g id="g9" ctype="x-html-q">I love 'em</g> <x id="x10" ctype="image" equiv-text="&amp;lt;img src=&amp;quot;smileface.png&amp;quot;&amp;gt;&amp;lt;/img&amp;gt;"/> </target>
         </trans-unit>
       </group>
     </body>

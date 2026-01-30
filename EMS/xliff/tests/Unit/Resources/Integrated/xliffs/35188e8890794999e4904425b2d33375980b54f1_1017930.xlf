@@ -13,7 +13,7 @@
       <group resname="[introduction]" id="grp3">
         <trans-unit restype="x-html-p" id="tu4" resname="/html/body/p[1]">
           <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+          <target xml:lang="de" state="new"/>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu5" resname="/html/body/p[2]">
           <source xml:lang="nl"> Vanaf 1 oktober 2016 introduceert Brussel een nieuwe doelgroepvermindering voor oudere werknemers <g id="g6" ctype="x-html-strong">ter vervanging</g> van de bestaande doelgroepvermindering ouderen. Dit geldt enkel voor de werknemers die werkzaam zijn in of afhangen van een vestigingseenheid in <g id="g7" ctype="x-html-strong">Brussel</g>. Voor de werknemers tewerkgesteld in een andere regio wijzigt er niets. </source>
@@ -33,7 +33,7 @@
           <source xml:lang="nl"> Alle werkgevers die werknemers tewerkstellen die onderworpen zijn aan het <g id="g14" ctype="x-html-strong">geheel der regelingen.</g> Voor de RSZ zijn dit: </source>
           <target xml:lang="de" state="final"> Alle Arbeitgeber, die Arbeitnehmer beschäftigen, die <g id="g15" ctype="x-html-strong">allen Regelungen</g> unterliegen. </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu16" resname="/html/body/ul[1]">
+        <group restype="x-html-ul" id="grp16" resname="/html/body/ul[1]">
           <trans-unit restype="listitem" id="tu17" resname="/html/body/ul[1]/li[1]">
             <source xml:lang="nl">de rust- en overlevingspensioenen voor werknemers; </source>
             <target xml:lang="de" state="final">Alters- und Hinterbliebenenpensionen für Arbeitnehmer; </target>
@@ -68,21 +68,21 @@
           <target xml:lang="de" state="final"> Betroffene Arbeitnehmer </target>
           <note from="id">h21</note>
         </trans-unit>
-        <group restype="x-html-ul" id="tu25" resname="/html/body/ul[2]">
+        <group restype="x-html-ul" id="grp25" resname="/html/body/ul[2]">
           <trans-unit restype="listitem" id="tu26" resname="/html/body/ul[2]/li[1]">
             <source xml:lang="nl">Het gaat (zoals bij het vroegere systeem) enkel om werknemers uit categorie 1 van de structurele vermindering </source>
             <target xml:lang="de" state="final">Es handelt sich (wie beim früheren System) ausschließlich um Arbeitnehmer der Kategorie 1 der Strukturermäßigung, </target>
           </trans-unit>
-          <group restype="listitem" id="tu27" resname="/html/body/ul[2]/li[2]">
+          <group restype="listitem" id="grp27" resname="/html/body/ul[2]/li[2]">
             <trans-unit id="tu28" resname="/html/body/ul[2]/li[2]/text()[1]">
               <source xml:lang="nl">Enkel oudere werknemers van wie het refertekwartaalloon van het lopende kwartaal niet hoger is dan 10.500,00 EUR (plafond vanaf 1 oktober 2017) komen in aanmerking. Vanaf 1 januari 2018 wordt dit plafond aangepast bij de aanpassing van de loonplafonds van de werkbonus, vanaf het kwartaal dat volgt op het kwartaal waarin deze loongrenzen verhoogd worden of, indien deze verhoging samenvalt met het begin van een kwartaal, met ingang van dat kwartaal:  </source>
               <target xml:lang="de" state="final">Nur ältere Arbeitnehmer, deren Referenzquartalslohn des laufenden Quartals weniger als 10.500,00 EUR (Grenze ab dem 01. Oktober 2017) beträgt, kommen in Betracht. Ab 01.01.2018 wird diese Grenze bei der Anpassung der Lohnobergrenzen des Arbeitsbonus ab dem Quartal, das auf das Quartal folgt, in dem diese Lohngrenzen erhöht werden, oder, wenn diese Erhöhung bei Quartalsbeginn erfolgt, ab diesem Quartal, angepasst: </target>
             </trans-unit>
-            <group restype="x-html-ul" id="tu29" resname="/html/body/ul[2]/li[2]/ul">
+            <group restype="x-html-ul" id="grp29" resname="/html/body/ul[2]/li[2]/ul">
               <note from="style">padding-top: 0px; padding-bottom: 0px;</note>
               <trans-unit restype="listitem" id="tu30" resname="/html/body/ul[2]/li[2]/ul/li">
-                <source xml:lang="nl">vanaf het <bx id="bx32" rid="rid31" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>4<g id="g33" ctype="x-html-sup">de</g> kwartaal 2021<ex id="ex34" rid="rid31" equiv-text="&amp;lt;/span&amp;gt;"/> is het plafond gelijk aan <bx id="bx36" rid="rid35" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>11.142,68 EUR<ex id="ex37" rid="rid35" equiv-text="&amp;lt;/span&amp;gt;"/> . </source>
-                <target xml:lang="de" state="final">ab dem <bx id="bx39" rid="rid38" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>4.<x id="x40" ctype="x-html-sup" equiv-text=" "/> Quartal 2021<ex id="ex41" rid="rid38" equiv-text="&amp;lt;/span&amp;gt;"/> entspricht die Grenze <bx id="bx43" rid="rid42" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>11.142,68 EUR<ex id="ex44" rid="rid42" equiv-text="&amp;lt;/span&amp;gt;"/>. </target>
+                <source xml:lang="nl">vanaf het <bx id="bx32" rid="rid31" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>4<g id="g34" ctype="x-html-sup">de</g> kwartaal 2021<ex id="ex33" rid="rid31" equiv-text="&amp;lt;/span&amp;gt;"/> is het plafond gelijk aan <bx id="bx36" rid="rid35" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>11.142,68 EUR<ex id="ex37" rid="rid35" equiv-text="&amp;lt;/span&amp;gt;"/> . </source>
+                <target xml:lang="de" state="final">ab dem <bx id="bx39" rid="rid38" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>4.<x id="x41" ctype="x-html-sup" equiv-text=" "/> Quartal 2021<ex id="ex40" rid="rid38" equiv-text="&amp;lt;/span&amp;gt;"/> entspricht die Grenze <bx id="bx43" rid="rid42" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>11.142,68 EUR<ex id="ex44" rid="rid42" equiv-text="&amp;lt;/span&amp;gt;"/>. </target>
               </trans-unit>
             </group>
           </group>
@@ -94,9 +94,9 @@
         </trans-unit>
         <trans-unit restype="x-html-ul" id="tu46" resname="/html/body/ul[3]">
           <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+          <target xml:lang="de" state="new"/>
         </trans-unit>
-        <group restype="x-html-ul" id="tu47" resname="/html/body/ul[4]">
+        <group restype="x-html-ul" id="grp47" resname="/html/body/ul[4]">
           <trans-unit restype="listitem" id="tu48" resname="/html/body/ul[4]/li">
             <source xml:lang="nl">De oudere werknemer van minstens 57 jaar en jonger dan 65 jaar (op de laatste dag van het kwartaal) opent het recht op een doelgroepvermindering <g id="g49" ctype="x-html-strong">G<g id="g50" ctype="x-html-sub">1</g></g> (1.000,00 EUR). </source>
             <target xml:lang="de" state="final">Der mindestens 57, aber unter 65 Jahre alte Arbeitnehmer (am letzten Tag des Quartals) eröffnet das Recht auf eine Zielgruppenermäßigung <g id="g51" ctype="x-html-strong">G<g id="g52" ctype="x-html-sub">1</g></g> (1.000,00 EUR). </target>

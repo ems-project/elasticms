@@ -30,7 +30,7 @@
                         icon: 'pencil'}) }}
                     {% if is_granted('ROLE_SUPER') %}
                         <div class="btn-group">
-                            <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-bs-toggle="dropdown">
+                            <button type="button" class="btn btn-light btn-sm dropdown-toggle" data-bs-toggle="dropdown">
                                 <span class="fa fa-ellipsis-h"></span>
                             </button>
                             <ul class="dropdown-menu">
@@ -84,7 +84,7 @@
                {% if not instance.contentType.circlesField or attribute(object._source, instance.contentType.circlesField) is not defined or attribute(object._source, instance.contentType.circlesField)|emsco_in_my_circles %}
 
                 <div class="btn-group">
-                    <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-bs-toggle="dropdown">
+                    <button type="button" class="btn btn-light btn-sm dropdown-toggle" data-bs-toggle="dropdown">
                         <span class="visually-hidden">{{ 'views.elements.revision-toolbar-html.other-revision-actions'|trans }}</span>
                         <span class="fa fa-ellipsis-h"></span>
                     </button>
@@ -155,7 +155,7 @@
             <div class="btn-group{% if vertical is defined and vertical %}-vertical{% endif %}">
                 {% if environmentsRevision.publish|length > 0 %}
                     <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="fa fa-toggle-on"></span>&nbsp;
                             {{ 'views.elements.revision-toolbar-html.publish-to-label'|trans }}
                             <span class="caret"></span>
@@ -185,7 +185,7 @@
 
             {% if emsco_is_super() and environmentsRevision.environments|length > 0 %}
                 <div class="btn-group">
-                    <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-bs-toggle="dropdown">
+                    <button type="button" class="btn btn-light btn-sm dropdown-toggle" data-bs-toggle="dropdown">
                         <span class="visually-hidden">{{ 'views.elements.revision-toolbar-html.other-environment-actions'|trans }}</span>
                         <span class="fa fa-ellipsis-h"></span>
                     </button>

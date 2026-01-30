@@ -255,7 +255,7 @@
             </h3>
             {% if revision.giveContentType.versioning.enabled and revision.versionDate('to') != null and latestVersion %}
                 <div class="box-tools float-end">
-                    <a href="{{ path('emsco_view_revisions', {type: latestVersion.contentTypeName, ouuid: latestVersion.ouuid}) }}" class="btn btn-default bg-{{ revision.contentType.color }} btn-sm">
+                    <a href="{{ path('emsco_view_revisions', {type: latestVersion.contentTypeName, ouuid: latestVersion.ouuid}) }}" class="btn btn-light bg-{{ revision.contentType.color }} btn-sm">
                         <i class="{% if revision.contentType.icon %}{{ revision.contentType.icon }} {% else %} fa fa-question {% endif %}"></i>
                         current version
                     </a>
@@ -327,7 +327,7 @@
         </div>
         <div class="box-footer">
             <div class="btn-group">
-                <a href="{{ path('ems_search', {search_form: referrersForm}) }}" class="btn btn-default">
+                <a href="{{ path('ems_search', {search_form: referrersForm}) }}" class="btn btn-light">
                     <i class="fa fa-search"></i>
                     {{ 'views.data.revisions-data-html.all-linked-documents'|trans }}
                 </a>

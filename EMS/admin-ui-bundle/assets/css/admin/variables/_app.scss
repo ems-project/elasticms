@@ -262,12 +262,12 @@ $sidebar-link-padding-y: .625rem;
 $sidebar-link-padding-x: 1rem;
 $sidebar-link-padding: $sidebar-link-padding-y $sidebar-link-padding-x !default;
 $sidebar-link-font-weight: 400 !default;
-$sidebar-link-bg: #222E3C !default;
+$sidebar-link-bg: $sidebar-bg !default;
 $sidebar-link-color: #{rgba($gray-200, 0.75)};
 $sidebar-link-border-left-color: transparent !default;
 
 $sidebar-link-hover-font-weight: $font-weight-normal !default;
-$sidebar-link-hover-bg: #222E3C !default;
+$sidebar-link-hover-bg: $sidebar-bg !default;
 $sidebar-link-hover-color: #fff !default;
 $sidebar-link-hover-border-left-color: transparent !default;
 

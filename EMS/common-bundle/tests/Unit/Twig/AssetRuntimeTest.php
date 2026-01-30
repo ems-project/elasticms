@@ -154,7 +154,7 @@ class AssetRuntimeTest extends TestCase
         ];
         $actual = $assetRuntime->imageInfo($hash);
         $this->assertTrue(isset($actual['FileDateTime']));
-        //the FileDateTime on when the file has been actually created on the current file storage
+        // the FileDateTime on when the file has been actually created on the current file storage
         unset($actual['FileDateTime']);
 
         $this->assertEquals($expected, $actual);

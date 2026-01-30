@@ -16,7 +16,7 @@ CURRENT_HOMEDIR             := $${HOME}
 CURRENT_DIR                 := $(shell pwd)
 
 BUILDER_WORKING_DIR          = /app/src/elasticms
-BUILDER_DOCKER_IMAGE_NAME   ?= docker.io/smalswebtech/base-php:8.4-cli-dev
+BUILDER_DOCKER_IMAGE_NAME   ?= docker.io/smalswebtech/base-php:8.5-cli-dev
 
 COMPOSER_INSTALL_CMDLINE     = "composer -vvv install --no-interaction --no-suggest --no-scripts -o"
 COMPOSER_DIAGNOSE_CMDLINE    = "composer -vvv diagnose --no-interaction --no-scripts"

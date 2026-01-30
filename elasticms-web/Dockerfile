@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1.15
-FROM docker.io/smalswebtech/base-php:8.4-cli-dev AS builder
+FROM docker.io/smalswebtech/base-php:8.5-cli-dev AS builder
 
 ENV PHP_INI_SCAN_DIR="/usr/local/etc/php/conf.d" \
     APP_DISABLE_DOTENV=true \
@@ -18,7 +18,7 @@ RUN mv /tmpfs/.docker /bootstrap \
 # Prd
 #
 
-FROM docker.io/smalswebtech/base-php:8.4-apache AS prd
+FROM docker.io/smalswebtech/base-php:8.5-apache AS prd
 
 USER root
 
@@ -40,7 +40,7 @@ HEALTHCHECK --start-period=1s --interval=1m --timeout=2s --retries=5 \
 # Dev
 #
 
-FROM docker.io/smalswebtech/base-php:8.4-apache-dev AS dev
+FROM docker.io/smalswebtech/base-php:8.5-apache-dev AS dev
 
 USER root
 

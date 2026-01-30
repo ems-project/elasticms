@@ -27,11 +27,9 @@
   position: absolute;
 }
 
-.sidebar-toggle:hover {
-  .hamburger,
-  .hamburger:before,
-  .hamburger:after {
-    background: $primary;
+.sidebar-toggle {
+  .hamburger {
+    z-index: 1;
   }
 }
 

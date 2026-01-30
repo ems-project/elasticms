@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace EMS\CommonBundle\Tests\Unit\Common\PropertyAccess;
+namespace EMS\Helpers\Tests\Unit\PropertyAccess;
 
-use EMS\CommonBundle\Common\PropertyAccess\InvalidPropertyPathException;
-use EMS\CommonBundle\Common\PropertyAccess\PropertyPath;
+use EMS\Helpers\PropertyAccess\InvalidPropertyPathException;
+use EMS\Helpers\PropertyAccess\PropertyPath;
 use PHPUnit\Framework\TestCase;
 
 class PropertyPathTest extends TestCase

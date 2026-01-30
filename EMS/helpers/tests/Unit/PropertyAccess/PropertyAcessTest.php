@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace EMS\CommonBundle\Tests\Unit\Common\PropertyAccess;
+namespace EMS\Helpers\Tests\Unit\PropertyAccess;
 
-use EMS\CommonBundle\Common\PropertyAccess\PropertyAccessor;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
+use EMS\Helpers\PropertyAccess\PropertyAccessor;
 use EMS\Helpers\Standard\Json;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class PropertyAcessTest extends TestCase
@@ -222,5 +223,104 @@ class PropertyAcessTest extends TestCase
         $accessor->setValue($array, '[json:id_key:codes][91d68620-558d-4cdd-8ced-79b622244fa6][object][remarks_nl]', 'Remarks NL');
 
         $this->assertEquals('[{"id":"742a85b3-46f7-4e46-b2e8-444fc29a8ea1","label":"TEST MDK \/ TEST MDK (19\/05\/2023 - )","type":"code","object":{"validity_start":"2023-05-19T11:00:55+0200","title_nl":"TEST MDK","title_fr":"TEST MDK","meaning_nl":"TEST MDK","meaning_fr":"TEST MDK","remarks_nl":"TEST MDK","remarks_fr":"TEST MDK","label":"TEST MDK \/ TEST MDK (19\/05\/2023 - )"},"children":[]},{"id":"91d68620-558d-4cdd-8ced-79b622244fa6","label":"","type":"code","object":{"validity_start":"2023-05-17T12:23:42+0200","validity_end":"2023-05-17T12:23:42+0200","title_fr":"Title FR","meaning_fr":"Meaning FR","remarks_fr":"Remarks FR","label":"","title_nl":"Title NL","meaning_nl":"Meaning NL","remarks_nl":"Remarks NL"},"children":[]}]', $array['codes']);
+    }
+
+    /**
+     * @return array<array<mixed[], string[], int, int>>
+     */
+    public static function fieldsWithAttributesProvider(): array
+    {
+        return [[
+            [
+                'attr1' => [
+                    'A' => 'not',
+                    'B' => 'not',
+                    'C' => 'found',
+                ],
+                'attr2' => [
+                    'C' => 'found',
+                    'D' => 'not',
+                    'E' => 'not',
+                ],
+            ], ['C'], 1, 2,
+        ], [
+            [
+                'attr1' => [
+                    'A' => 'not',
+                    'B' => 'not',
+                    'C' => 'found',
+                ],
+                'attr2' => [
+                    'C' => 'found',
+                    'D' => 'found',
+                    'E' => 'not',
+                ],
+            ], ['C', 'D'], 1, 2,
+        ], [
+            [
+                'attr1' => [
+                    'A' => 'not',
+                    'B' => 'not',
+                    'C' => 'not',
+                ],
+                'attr2' => [
+                    'C' => 'found',
+                    'D' => 'found',
+                    'E' => 'not',
+                ],
+            ], ['C', 'D'], null, 1,
+        ], [
+            [
+                'attr1' => [
+                    'A' => 'not',
+                    'B' => 'not',
+                    'C' => 'not',
+                ],
+                'attr2' => [
+                    'C' => 'not',
+                    'D' => 'not',
+                    'E' => 'not',
+                ],
+            ], ['B', 'C', 'D'], 3, 0,
+        ], [
+            [
+                'attr1' => [
+                    'A' => 'not',
+                    'B' => 'found',
+                    'C' => 'found',
+                ],
+                'attr2' => [
+                    'C' => 'found',
+                    'D' => 'found',
+                    'E' => 'not',
+                ],
+            ], ['B', 'C', 'D'], 2, 2,
+        ]];
+    }
+
+    /**
+     * @param mixed[]  $data
+     * @param string[] $attributeNames
+     */
+    #[DataProvider('fieldsWithAttributesProvider')]
+    public function testGetFieldsWithAttributes(array $data, array $attributeNames, ?int $atLeast, int $expectedFields): void
+    {
+        $accessor = PropertyAccessor::createPropertyAccessor();
+        $counter = 0;
+        foreach ($accessor->fieldsWithAttributes($data, $attributeNames, $atLeast) as $path => $field) {
+            ++$counter;
+            $matchCounter = 0;
+            foreach ($accessor->getValue($data, $path) as $attribute => $foundValue) {
+                $found = \in_array($attribute, $attributeNames, true);
+                if (!$found) {
+                    $this->assertSame('not', $foundValue);
+                    continue;
+                }
+                ++$matchCounter;
+                $this->assertSame('found', $foundValue);
+            }
+            $this->assertGreaterThanOrEqual($atLeast, $matchCounter);
+        }
+        $this->assertSame($expectedFields, $counter);
     }
 }

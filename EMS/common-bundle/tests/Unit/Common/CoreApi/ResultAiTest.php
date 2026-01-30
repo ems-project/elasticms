@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Tests\Unit\Common\CoreApi;
 
 use EMS\CommonBundle\Common\CoreApi\Result;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
@@ -21,6 +22,7 @@ final class ResultAiTest extends TestCase
         $this->logger = $this->createMock(LoggerInterface::class);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testGetData(): void
     {
         $data = ['someKey' => 'someValue'];
@@ -30,6 +32,7 @@ final class ResultAiTest extends TestCase
         $this->assertEquals($data, $result->getData());
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testIsSuccess(): void
     {
         $data = ['success' => true];
@@ -39,6 +42,7 @@ final class ResultAiTest extends TestCase
         $this->assertTrue($result->isSuccess());
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testIsAcknowledged(): void
     {
         $data = ['acknowledged' => true];

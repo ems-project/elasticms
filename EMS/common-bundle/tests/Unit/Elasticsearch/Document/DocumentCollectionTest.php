@@ -7,6 +7,7 @@ namespace EMS\CommonBundle\Tests\Unit\Elasticsearch\Document;
 use EMS\CommonBundle\Elasticsearch\Document\DocumentCollection;
 use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
 use EMS\CommonBundle\Elasticsearch\Response\ResponseInterface;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 
 class DocumentCollectionTest extends TestCase
@@ -25,12 +26,14 @@ class DocumentCollectionTest extends TestCase
         $this->mockResponse = $mockResponse;
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testFromResponse(): void
     {
         $collection = DocumentCollection::fromResponse($this->mockResponse);
         $this->assertEquals(2, $collection->count());
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testGetIterator(): void
     {
         $collection = DocumentCollection::fromResponse($this->mockResponse);

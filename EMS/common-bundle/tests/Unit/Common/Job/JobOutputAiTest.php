@@ -7,6 +7,7 @@ namespace EMS\CommonBundle\Tests\Unit\Common\Job;
 use EMS\CommonBundle\Common\CoreApi\Endpoint\Admin\Message\Job;
 use EMS\CommonBundle\Common\Job\JobOutput;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Admin\AdminInterface;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -27,6 +28,7 @@ class JobOutputAiTest extends TestCase
         $this->jobOutput = new JobOutput($this->admin, $this->job, $this->otherOutput);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testDoWrite(): void
     {
         $message = 'Test message';
@@ -41,6 +43,7 @@ class JobOutputAiTest extends TestCase
         $this->jobOutput->doWrite($message, $newline);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testSetVerbosity(): void
     {
         $verbosity = OutputInterface::VERBOSITY_VERBOSE;

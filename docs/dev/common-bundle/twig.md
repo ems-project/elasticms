@@ -87,23 +87,38 @@ The following example will build 3 variables by using the *ems_nested_search*, t
 ## ems_image_info
 Retrieve information (size, resolution, mime type and extension) about an image, based on its hash.
 If the hash can not be recognized as an image or does not exist, **_null_** is returned.
+If the file supports EXIF, EXIF's meta information will be also retrieved.
 
 Arguments
 - **hash**: hash(sha1) of the image
 
 Where _'4ef5796bb14ce4b711737dc44aa20bff82193cf5'_ is the hash of a jpg
+
 ```twig
 {{ ems_image_info('4ef5796bb14ce4b711737dc44aa20bff82193cf5') }}
 
 // will return
 
 {
-    'width': 128,
-    'height': 245,
-    'mimeType': 'image/jpg',
-    'extension': jpg,
-    'heightResolution': 96,
-    'widthResolution': 96
+    'width': 300,
+    'height': 300,
+    'mimeType': 'image/jpeg',
+    'extension': 'jpeg',
+    'FileName': 'test_350dpi.jpg',
+    'FileDateTime': 1708511136,
+    'FileSize': 6935,
+    'FileType': 2,
+    'MimeType': 'image/jpeg',
+    'SectionsFound': 'COMMENT',
+    'COMPUTED': [
+        'html': 'width="300" height="300"',
+        'Width': 300,
+        'Height': 300,
+        'IsColor': 1,
+    ],
+    'COMMENT': ['Created with GIMP'],
+    'widthResolution': 350,
+    'heightResolution': 350
 }
 ```
 

@@ -177,7 +177,7 @@ class AssetRuntime
     }
 
     /**
-     * @return array<string, int|string>|null
+     * @return array<string, mixed>|null
      */
     public function imageInfo(string $hash): ?array
     {
@@ -199,6 +199,15 @@ class AssetRuntime
             'mimeType' => $imageSize['mime'],
             'extension' => \explode('/', (string) $imageSize['mime'])[1],
         ];
+
+        try {
+            $imageExif = Image::imageExifInfo($tempFile);
+            $imageInfo = \array_merge($imageInfo, $imageExif);
+            if (isset($imageInfo['widthResolution']) && isset($imageInfo['heightResolution'])) {
+                return $imageInfo;
+            }
+        } catch (\Throwable) {
+        }
 
         try {
             $imageResolution = Image::imageResolution($tempFile);

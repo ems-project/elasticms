@@ -41,7 +41,7 @@ jobs:
 
       - name: "Install Composer dependencies"
         if: steps.restore-composer.outputs.cache-hit != 'true'
-        run: composer install --no-progress
+        run: composer install --no-progress --ignore-platform-req=ext-opentelemetry
 
       - name: "Run PHPStan"
         run: vendor/bin/phpstan analyse --configuration=./config/phpstan.neon.dist --error-format=github -vvv

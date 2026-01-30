@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\Xliff\Model;
 
-use EMS\CommonBundle\Common\PropertyAccess\PropertyAccessor;
+use EMS\Helpers\PropertyAccess\PropertyAccessor;
 use EMS\Helpers\Standard\Accessor;
 use EMS\Helpers\Standard\Type;
 use EMS\Xliff\Formater\FormaterInterface;

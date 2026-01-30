@@ -47,7 +47,7 @@ services:
 
     apm-server:
         extends:
-            file: docker-${ELK_VERSION-elk7}.yml
+            file: docker-${ELK_VERSION-elk8}.yml
             service: apm-server
         labels:
             - "traefik.enable=true"
@@ -56,15 +56,15 @@ services:
             - "traefik.http.routers.apm-server.service=apm-server"
             - "traefik.http.services.apm-server.loadbalancer.server.port=8200"
 
-  postgres:
-    image: postgres:17
-#    ports:
-#      - "5432:5432"
-    environment:
-      - POSTGRES_PASSWORD=s3cr3t
-      - TZ=Europe/Brussels
-    volumes:
-      - postgres:/var/lib/postgresql/data
+    postgres:
+        image: postgres:17
+        ports:
+            - "5432:5432"
+        environment:
+            - POSTGRES_PASSWORD=s3cr3t
+            - TZ=Europe/Brussels
+        volumes:
+            - postgres:/var/lib/postgresql/data
 
     tika:
         image: apache/tika

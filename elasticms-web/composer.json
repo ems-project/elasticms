@@ -51,9 +51,11 @@
     },
     "config": {
         "allow-plugins": {
+            "php-http/discovery": true,
             "endroid/installer": false,
             "symfony/flex": true,
-            "symfony/runtime": true
+            "symfony/runtime": true,
+            "tbachert/spi": true
         },
         "preferred-install": {
             "*": "dist"

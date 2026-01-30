@@ -45,7 +45,7 @@ services:
 
     apm-server:
         extends:
-            file: ../demo/docker-${ELK_VERSION-elk7}.yml
+            file: ../demo/docker-${ELK_VERSION-elk8}.yml
             service: apm-server
         labels:
             - "traefik.enable=true"
@@ -56,18 +56,20 @@ services:
         ports:
             - "8200:8200"
 
-  postgres:
-    container_name: ems-mono-postgres
-    image: postgres:${POSTGRES_VERSION-17}
-    ports:
-      - "5432:5432"
-    environment:
-      - POSTGRES_PASSWORD=adminpg
-      - TZ=Europe/Brussels
-      - PUID=1000
-      - PGID=1000
-    volumes:
-      - postgres:/var/lib/postgresql/data
+    postgres:
+        profiles: [ "all","ems" ]
+        labels:
+            - "elasticMS"
+        image: postgres:${POSTGRES_VERSION-17}
+        ports:
+            - "5432:5432"
+        environment:
+            - POSTGRES_PASSWORD=adminpg
+            - TZ=Europe/Brussels
+            - PUID=1000
+            - PGID=1000
+        volumes:
+            - postgres:/var/lib/postgresql/data
 
     mariadb:
         profiles: [ "all","mariadb" ]

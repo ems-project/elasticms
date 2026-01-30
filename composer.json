@@ -150,7 +150,8 @@
             "symfony/flex": true,
             "symfony/runtime": true,
             "endroid/installer": false,
-            "php-http/discovery": true
+            "php-http/discovery": true,
+            "tbachert/spi": true
         }
     },
     "autoload": {

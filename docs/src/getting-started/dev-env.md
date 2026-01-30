@@ -279,20 +279,20 @@ brew update
 brew install gcc make autoconf
 ```
 
-Check that PHP8.4 is installed and running:
+Check that PHP8.5 is installed and running:
 
 ```shell
 php -v
 ```
 
-Must returns something like `PHP 8.4.x`
+Must returns something like `PHP 8.5.x`
 
 Otherwize:
 
 ```shell
 brew tap shivammathur/php
-brew install shivammathur/php/php@8.4
-brew link --force --overwrite php@8.4
+brew install shivammathur/php/php@8.5
+brew link --force --overwrite php@8.5
 ```
 
 Install OpenTelemetry via PECL:

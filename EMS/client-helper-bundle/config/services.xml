@@ -65,6 +65,15 @@
             <argument type="service" id="security.csrf.token_manager" />
         </service>
 
+        <service id="emsch.helper_webhook" class="EMS\ClientHelperBundle\Helper\Webhook\WebhookHelper">
+            <argument type="service" id="request_stack" />
+            <argument type="service" id="ems.common.cache"/>
+        </service>
+        <service id="emsch.runtime_webhook" class="EMS\ClientHelperBundle\Helper\Webhook\WebhookRuntime">
+            <argument type="service" id="emsch.helper_webhook" />
+            <tag name="twig.runtime" />
+        </service>
+
         <service id="emsch.form.extension.view" class="EMS\ClientHelperBundle\Helper\Form\Extension\EmschFormViewExtension">
             <tag name="form.type_extension" priority="1"/>
         </service>
@@ -154,6 +163,13 @@
             <tag name="controller.service_arguments"/>
             <tag name="container.service_subscriber"/>
         </service>
+        <service id="emsch.controller.http_cache" class="EMS\ClientHelperBundle\Controller\HttpCacheController" public="true">
+            <argument type="service" id="ems_common.service.http_cache_manager"/>
+            <argument type="service" id="emsch.helper_webhook"/>
+            <call method="setContainer"/>
+            <tag name="controller.service_arguments"/>
+            <tag name="container.service_subscriber"/>
+        </service>
         <service id="EMS\ClientHelperBundle\Controller\EmbedController" alias="emsch.controller.embed" public="true" />
 
         <!-- commands -->
@@ -161,6 +177,12 @@
             <argument type="service" id="emsch.helper_environment" />
             <argument type="service" id="ems_common.service.elastica"/>
             <argument type="service" id="ems_common.storage.manager" on-invalid="null" />
+            <tag name="console.command" />
+        </service>
+        <service id="emsch.command.http_cache.invalidate" class="EMS\ClientHelperBundle\Command\HttpCache\InvalidateCommand">
+            <argument type="service" id="ems.common.cache" />
+            <argument type="service" id="emsch.manager.client_request" />
+            <argument type="service" id="ems_common.service.http_cache_manager" />
             <tag name="console.command" />
         </service>
     </services>

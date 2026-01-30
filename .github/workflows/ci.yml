@@ -20,6 +20,7 @@ jobs:
         with:
           php-version: ${{ env.PHP_VERSION }}
           coverage: none
+          extensions: opentelemetry
 
       - name: "Get Composer Info"
         id: composer
@@ -41,7 +42,7 @@ jobs:
 
       - name: "Install Composer dependencies"
         if: steps.restore-composer.outputs.cache-hit != 'true'
-        run: composer install --no-progress --ignore-platform-req=ext-opentelemetry
+        run: composer install --no-progress
 
       - name: "Run PHPStan"
         run: vendor/bin/phpstan analyse --configuration=./config/phpstan.neon.dist --error-format=github -vvv

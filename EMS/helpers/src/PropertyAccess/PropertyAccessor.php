@@ -121,8 +121,18 @@ class PropertyAccessor
      * @param  string[]                            $attributeNames
      * @return iterable<array<string, int|string>>
      */
-    public function fieldsWithAttributes(array $rawData, array $attributeNames, int $atLeast = 1): iterable
+    public function fieldsWithAttributes(array $rawData, array $attributeNames, ?int $atLeast = null): iterable
     {
+        if (null === $atLeast) {
+            $atLeast = \count($rawData);
+        }
+        if (0 === \count($rawData)) {
+            throw new \RuntimeException('At least one attribute\'s name is required');
+        } elseif ($atLeast < 1) {
+            throw new \RuntimeException('The atLeast parameter must bigger than 0');
+        } elseif ($atLeast > \count($rawData)) {
+            throw new \RuntimeException('The atLeast can\'t be bigger than the number of looking attributes');
+        }
         yield from $this->returnFieldsWithAttributes($rawData, $attributeNames, $atLeast);
     }
 

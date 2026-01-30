@@ -1,0 +1,41 @@
+.nav-tabs .nav-link {
+    color: $nav-tabs-link-color;
+    padding: $nav-tabs-link-padding;
+}
+
+.tab-content {
+    background-color: $tab-content-background-color;
+    box-shadow: $tab-content-box-shadow;
+    padding: $tab-content-padding;
+
+    .json-menu-nested-component {
+        margin-top: 0;
+    }
+}
+
+.tabs-dark {
+    display: flex;
+    flex-direction: column;
+
+    .nav-tabs {
+        --bs-nav-tabs-link-active-bg: #{$sidebar-bg};
+        --bs-nav-tabs-link-active-color: #{$white};
+        --bs-nav-tabs-link-color: #{$white} ;
+        --bs-nav-tabs-border-radius: 0;
+    }
+
+    .tab-content {
+        --bs-heading-color: #{$white};
+        --bs-text-color: #{$white};
+        --bs-body-color: #{$white};
+        --bs-link-color-rgb: 255, 255, 255;
+        --bs-link-hover-color-rgb: 255, 255, 255;
+
+        background-color: $sidebar-bg;
+        flex: 1 1 auto;
+
+        .tab-pane {
+            color: $white;
+        }
+    }
+}

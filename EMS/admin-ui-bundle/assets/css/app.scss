@@ -32,7 +32,6 @@
 
 // Theme mixins
 @import "admin/mixins/button";
-@import "admin/mixins/tabs";
 
 // Theme components
 @import "admin/components/avatar";
@@ -40,6 +39,7 @@
 @import "admin/components/card";
 @import "admin/components/chart";
 @import "admin/components/content";
+@import "admin/components/control-sidebar";
 @import "admin/components/dropdown";
 @import "admin/components/footer";
 @import "admin/components/hamburger";

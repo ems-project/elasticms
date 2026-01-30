@@ -325,3 +325,13 @@ $hamburger-width-bottom: 16px !default;
 $stat-bg: lighten($primary, 35%) !default;
 $stat-icon-color: $primary !default;
 $stat-padding: $spacer * 0.75 !default;
+
+// Tabs
+$nav-tabs-link-color:               $body-color;
+$nav-tabs-border-width:             0;
+$nav-tabs-link-active-color:        $nav-tabs-link-color;
+$nav-tabs-link-active-bg:           #fff;
+$nav-tabs-link-padding:             .75rem 1rem;
+$tab-content-padding:               1.25rem;
+$tab-content-background-color:      #fff;
+$tab-content-box-shadow:            $box-shadow;

@@ -150,10 +150,5 @@
         &[aria-expanded="true"]::after { @include icon($fa-var-chevron-up); }
         &[aria-expanded="false"]::after { @include icon($fa-var-chevron-down); }
     }
-    .jmn-badge {
-        padding: 5px 10px;
-        border-radius: 10px;
-        line-height: normal;
-    }
 }
 

@@ -8,6 +8,7 @@ use Elastica\Connection;
 use Elastica\Request;
 use Elastica\Response;
 use EMS\CommonBundle\Elasticsearch\ElasticaLogger;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
@@ -23,6 +24,7 @@ final class ElasticaLoggerAiTest extends TestCase
         $this->elasticaLogger = new ElasticaLogger($this->logger, true);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testEnableDisable(): void
     {
         $this->elasticaLogger->disable();
@@ -55,6 +57,7 @@ final class ElasticaLoggerAiTest extends TestCase
         $this->assertSame($data, $queries[0]['data'][0]);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testReset(): void
     {
         $request = new Request('/test_path', 'GET', ['key' => 'value']);

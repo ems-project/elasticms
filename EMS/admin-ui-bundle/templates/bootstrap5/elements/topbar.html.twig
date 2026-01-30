@@ -28,11 +28,11 @@
             </li>
             {% if app.user %}
                 <li class="nav-item dropdown user-menu">
-                    <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
+                    <a class="nav-link dropdown-toggle d-none d-sm-inline-block p-0" href="#" data-bs-toggle="dropdown">
                         {{ include('@EMSAdminUI/bootstrap5/elements/user-image.html.twig', {
-                            class: 'rounded-circle avatar me-1 img-fluid',
-                            width: 32,
-                            height: 32
+                            class: 'rounded-circle avatar ms-3 img-fluid',
+                            width: 37,
+                            height: 37
                         }) }}
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">

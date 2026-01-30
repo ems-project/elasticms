@@ -13,7 +13,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class HttpStorage extends AbstractUrlStorage
+class HttpStorage extends AbstractUrlStorage implements \Stringable
 {
     final public const string INIT_URL = '/api/file/init-upload';
 

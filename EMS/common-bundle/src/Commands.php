@@ -14,6 +14,7 @@ class Commands
     final public const string LOAD_ARCHIVE_IN_CACHE = 'ems:storage:load-archive-in-cache';
     final public const string ADMIN_COMMAND = 'ems:admin:command';
     final public const string ADMIN_NEXT_JOB = 'ems:admin:next-job';
+    final public const string ADMIN_WEBHOOKS_REGISTER = 'ems:admin:webhooks:register';
     final public const string FILE_STRUCTURE_PUBLISH = 'ems:file-structure:publish';
     final public const string FILE_STRUCTURE_PULL = 'ems:file-structure:pull';
     final public const string FILE_STRUCTURE_PUSH = 'ems:file-structure:push';

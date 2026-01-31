@@ -125,7 +125,7 @@
   --vp-custom-block-tip-text: var(--vp-c-text-1);
   --vp-custom-block-tip-bg: var(--vp-c-brand-soft);
   --vp-custom-block-tip-code-bg: var(--vp-c-brand-soft);
-  --vp-layout-max-width: 2000px;
+  --vp-layout-max-width: 100%;
 }
 
 /**

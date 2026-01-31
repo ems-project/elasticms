@@ -2,7 +2,7 @@
 {% trans_default_domain 'EMSCoreBundle' %}
 
 <div class="table-responsive">
-    <table id="{{ datatable.id }}" class="table table-condensed table-striped border" data-datatable="{{ datatable.frontendOptions|json_encode|e('html_attr') }}">
+    <table id="{{ datatable.id }}" class="table table-condensed table-striped" data-datatable="{{ datatable.frontendOptions|json_encode|e('html_attr') }}">
         <thead>
         <tr role="row">
             {% if datatable.supportsTableActions %}

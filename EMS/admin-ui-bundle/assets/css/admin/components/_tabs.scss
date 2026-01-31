@@ -7,37 +7,6 @@
     background-color: $tab-content-background-color;
     box-shadow: $tab-content-box-shadow;
     padding: $tab-content-padding-y $tab-content-padding-x;
-
-    .json-menu-nested-component {
-        margin-top: 0;
-        margin-bottom: 0;
-
-        .jmn-wrapper {
-            --jmn-border-radius: 0;
-
-            margin-left: -$tab-content-padding-x;
-            margin-right: -$tab-content-padding-x;
-            width: calc(100% + calc($tab-content-padding-x * 2));
-            border: 0;
-        }
-
-        & + .json-menu-nested-component {
-            margin-top: 2rem;
-            padding-top: 2rem;
-            border-top: 1px solid var(--bs-border-color);
-        }
-    }
-
-    .table-responsive:has(.dt-layout-row) {
-        margin-left: -$tab-content-padding-x;
-        margin-right: -$tab-content-padding-x;
-        width: calc(100% + calc($tab-content-padding-x * 2));
-
-        .dt-layout-row:not(.dt-layout-table) {
-            padding-left: $tab-content-padding-x;
-            padding-right: $tab-content-padding-x;
-        }
-    }
 }
 
 .tabs-dark {

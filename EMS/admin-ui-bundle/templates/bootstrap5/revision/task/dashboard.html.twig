@@ -24,12 +24,10 @@
             </li>
         {% endfor %}
         {% if filterForm is defined %}
-            <li class="float-end">
-                <div>
-                    <a class="btn btn-sm btn-primary" role="button" data-bs-toggle="collapse" href="#filters" aria-expanded="{{ showFilters ? 'true' : 'false' }}" aria-controls="filters">
-                        <i class="fa fa-filter" aria-hidden="true"></i> {{ 'task.filters'|trans }}
-                    </a>
-                </div>
+            <li class="nav-item ms-auto">
+                <a class="nav-link bg-primary text-white" role="button" data-bs-toggle="collapse" href="#filters" aria-expanded="{{ showFilters ? 'true' : 'false' }}" aria-controls="filters">
+                    <i class="fa fa-filter me-2" aria-hidden="true"></i> {{ 'task.filters'|trans }}
+                </a>
             </li>
         {% endif %}
     </ul>
@@ -77,16 +75,17 @@
                 {% if filterForm.isOverdue is defined %}
                     {{ form_row(filterForm.isOverdue, {row_attr: {class: 'col-12 mb-3'}, label: 'task.filter.is_overdue'|trans}) }}
                 {% endif %}
-                <div class="col-12">
+                <div class="col-12 d-flex justify-content-end">
                     <input type="hidden" name="tab" value="{{ currentTab }}" />
-                    <div class="btn-group">
-                        {{ form_widget(filterForm.submit, {attr: {class: 'btn btn-primary'}}) }}
-                        <a href="{{ path(route, app.request.get('_route_params')|merge({tab: currentTab})) }}"  class="btn btn-light">
-                            <i class="fa fa-remove" aria-hidden="true"></i>  {{ 'task.filter.reset'|trans }}
-                        </a>
-                    </div>
+                    <a href="{{ path(route, app.request.get('_route_params')|merge({tab: currentTab})) }}"  class="btn btn-light me-2">
+                        <i class="fa fa-remove" aria-hidden="true"></i>  {{ 'task.filter.reset'|trans }}
+                    </a>
+                    {{ form_widget(filterForm.submit, {attr: {class: 'btn btn-primary'}}) }}
                 </div>
                 {{ form_end(filterForm) }}
+                <div class="col-12">
+                    <hr class="my-4">
+                </div>
             </div>
         </div>
     {% endif %}

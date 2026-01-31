@@ -15,13 +15,6 @@ use Elastica\Response;
 use Elastica\ResultSet;
 use Elastica\Scroll;
 use Elastica\Search as ElasticaSearch;
-use Elasticsearch\Endpoints\Cluster\Health;
-use Elasticsearch\Endpoints\Count;
-use Elasticsearch\Endpoints\Indices\Analyze;
-use Elasticsearch\Endpoints\Indices\GetFieldMapping;
-use Elasticsearch\Endpoints\Indices\Refresh;
-use Elasticsearch\Endpoints\Info;
-use Elasticsearch\Endpoints\Scroll as ScrollEndpoints;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\HttpCache\TagCollector;
 use EMS\CommonBundle\Elasticsearch\Client;
@@ -34,7 +27,6 @@ use EMS\CommonBundle\Elasticsearch\Response\AnalyzeResponse;
 use EMS\CommonBundle\Elasticsearch\Response\Response as EmsResponse;
 use EMS\CommonBundle\Search\Search;
 use EMS\Helpers\Standard\Json;
-use EMS\Helpers\Standard\Type;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -62,15 +54,13 @@ class ElasticaService
             return $this->adminHelper->getCoreApi()->getBaseUrl();
         }
 
-        $connection = $this->client->getConnection();
+        $hosts = $this->client->getConfig('hosts');
 
-        if ($connection->hasConfig('url')) {
-            $url = $connection->getConfig('url');
-
-            return \is_array($url) ? \implode(' | ', $url) : Type::string($url);
-        }
-
-        return $connection->getHost();
+        return match (true) {
+            \is_array($hosts) => \implode(' | ', $hosts),
+            \is_string($hosts) => $hosts,
+            default => throw new \RuntimeException('Could not detrime url'),
+        };
     }
 
     public function refresh(?string $index): bool
@@ -78,12 +68,13 @@ class ElasticaService
         if ($this->useAdminProxy) {
             return $this->adminHelper->getCoreApi()->search()->refresh($index);
         }
-        $endpoint = new Refresh();
+
+        $params = [];
         if (null !== $index) {
-            $endpoint->setIndex($index);
+            $params['index'] = $index;
         }
 
-        return $this->client->requestEndpoint($endpoint)->isOk();
+        return $this->client->resolveResponse($this->client->indices()->refresh($params))->isOk();
     }
 
     public function getHealthStatus(?string $waitForStatus = null, string $timeout = '10s', ?string $index = null): string
@@ -119,19 +110,14 @@ class ElasticaService
         if ($this->useAdminProxy) {
             throw new \RuntimeException('getClusterHealth not supported in proxy mode');
         }
-        $query = [
-            'timeout' => $timeout,
-        ];
-        if (null !== $waitForStatus) {
-            $query['wait_for_status'] = $waitForStatus;
-        }
-        $endpoint = new Health();
-        if (null !== $index) {
-            $endpoint->setIndex($index);
-        }
-        $endpoint->setParams($query);
 
-        return $this->client->requestEndpoint($endpoint)->getData();
+        $params = \array_filter([
+            'index' => $index,
+            'master_timeout' => $timeout,
+            'wait_for_status' => $waitForStatus,
+        ]);
+
+        return $this->client->resolveResponse($this->client->cluster()->health($params))->getData();
     }
 
     public function singleSearch(Search $search): Document
@@ -157,9 +143,8 @@ class ElasticaService
         if ($this->useAdminProxy) {
             throw new \RuntimeException('getClusterInfo not supported in proxy mode');
         }
-        $endpoint = new Info();
 
-        return $this->client->requestEndpoint($endpoint)->getData();
+        return $this->client->resolveResponse($this->client->info())->getData();
     }
 
     /**
@@ -240,11 +225,11 @@ class ElasticaService
         if ($this->useAdminProxy) {
             throw new \RuntimeException('nextScroll not supported in proxy mode');
         }
-        $endpoint = new ScrollEndpoints();
-        $endpoint->setBody(['scroll' => $expiryTime]);
-        $endpoint->setScrollId($scrollId);
 
-        return $this->client->requestEndpoint($endpoint);
+        return $this->client->resolveResponse($this->client->scroll([
+            'scroll_id' => $scrollId,
+            'body' => ['scroll' => $expiryTime],
+        ]));
     }
 
     public function count(Search $search): int
@@ -262,10 +247,10 @@ class ElasticaService
             unset($body['sort']);
         }
 
-        $endpoint = new Count();
-        $endpoint->setIndex(\implode(',', $elasticSearch->getIndices()));
-        $endpoint->setBody($body);
-        $response = $this->client->requestEndpoint($endpoint)->getData();
+        $response = $this->client->resolveResponse($this->client->count([
+            'index' => \implode(',', $elasticSearch->getIndices()),
+            'body' => $body,
+        ]))->getData();
 
         if (isset($response['count'])) {
             return (int) $response['count'];
@@ -490,15 +475,19 @@ class ElasticaService
             return $this->adminHelper->getCoreApi()->search()->filterStopWords($index, $analyzer, $words);
         }
         $withoutStopWords = [];
-        $endpoint = new Analyze();
-        $endpoint->setIndex($index);
         foreach ($words as $word) {
-            $endpoint->setBody([
-                'analyzer' => $analyzer,
-                'text' => $word,
-            ]);
-            $response = $this->client->requestEndpoint($endpoint);
-            if (!empty($response->getData()['tokens'] ?? null)) {
+            $response = $this->client->resolveResponse(
+                $this->client->indices()->analyze([
+                    'index' => $index,
+                    'body' => [
+                        'analyzer' => $analyzer,
+                        'text' => $word,
+                    ],
+                ])
+            )->getData();
+
+            $tokens = $response['tokens'] ?? [];
+            if (\count($tokens) > 0) {
                 $withoutStopWords[] = $word;
             }
         }
@@ -511,12 +500,11 @@ class ElasticaService
         if ($this->useAdminProxy) {
             throw new \RuntimeException('getFieldAnalyzer not supported in proxy mode');
         }
-        $endpoint = new GetFieldMapping();
-        $endpoint->setIndex($index);
-        $endpoint->setFields($field);
 
-        $response = $this->client->requestEndpoint($endpoint);
-        $info = $response->getData();
+        $info = $this->client->resolveResponse($this->client->indices()->getFieldMapping([
+            'index' => $index,
+            'fields' => $field,
+        ]))->getData();
 
         $analyzer = 'standard';
         while (\is_array($info = \array_shift($info))) {
@@ -811,16 +799,13 @@ class ElasticaService
         if ($this->useAdminProxy) {
             return new AnalyzeResponse($this->adminHelper->getCoreApi()->search()->analyze($text, $parameters, $index));
         }
-        $endpoint = new Analyze();
-        if (null !== $index) {
-            $endpoint->setIndex($index);
-        }
-        $endpoint->setBody(\array_merge($parameters, ['text' => $text]));
 
-        $response = $this->client->requestEndpoint($endpoint)->getData();
-        if (!\is_array($response['tokens'] ?? null)) {
-            throw new \RuntimeException('Unexpected analyze response');
+        $params = ['body' => \array_merge($parameters, ['text' => $text])];
+        if (null !== $index) {
+            $params['index'] = $index;
         }
+
+        $response = $this->client->resolveResponse($this->client->indices()->analyze($params))->getData();
 
         return new AnalyzeResponse($response['tokens']);
     }

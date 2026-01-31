@@ -4,13 +4,17 @@
 {% block pagetitle %}{{ pageTitle|default(title)|trans }}{% endblock %}
 
 {% block body %}
-    {%- if datatable is defined -%}
-        {{ block('render_datatable') }}
-    {%- elseif datatables is defined -%}
-        {{ block('render_datatables') }}
-    {%- elseif form is defined -%}
-        {{ block('render_form') }}
-    {%- endif -%}
+    <div class="card">
+        <div class="card-body">
+            {%- if datatable is defined -%}
+                {{ block('render_datatable') }}
+            {%- elseif datatables is defined -%}
+                {{ block('render_datatables') }}
+            {%- elseif form is defined -%}
+                {{ block('render_form') }}
+            {%- endif -%}
+        </div>
+    </div>
 {% endblock %}
 
 {%- block render_datatable -%}

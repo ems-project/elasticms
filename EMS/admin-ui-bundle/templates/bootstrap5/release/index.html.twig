@@ -12,11 +12,15 @@
 
 {% block body %}
     {% set toolbar %}
-        <a class="btn btn-primary" href="{{ path('emsco_release_add') }}"><i class="fa fa-plus"></i> {{ add_label|default(form.vars.add_label)|trans }}</a>
+        <a class="btn btn-primary mb-3" href="{{ path('emsco_release_add') }}"><i class="fa fa-plus"></i> {{ add_label|default(form.vars.add_label)|trans }}</a>
     {% endset %}
 
-    {% form_theme form '@EMSAdminUI/bootstrap5/form/forms.html.twig' %}
-    {{ form(form, {
-        toolbar: toolbar,
-    }) }}
+    <div class="card">
+        <div class="card-body">
+            {% form_theme form '@EMSAdminUI/bootstrap5/form/forms.html.twig' %}
+            {{ form(form, {
+                toolbar: toolbar,
+            }) }}
+        </div>
+    </div>
 {% endblock %}

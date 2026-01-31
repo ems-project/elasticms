@@ -137,10 +137,26 @@ class AssetRuntimeTest extends TestCase
             'height' => 300,
             'mimeType' => 'image/jpeg',
             'extension' => 'jpeg',
+            'FileName' => 'test_350dpi.jpg',
+            'FileSize' => 6935,
+            'FileType' => 2,
+            'MimeType' => 'image/jpeg',
+            'SectionsFound' => 'COMMENT',
+            'COMPUTED' => [
+                'html' => 'width="300" height="300"',
+                'Width' => 300,
+                'Height' => 300,
+                'IsColor' => 1,
+            ],
+            'COMMENT' => ['Created with GIMP'],
             'widthResolution' => 350,
             'heightResolution' => 350,
         ];
+        $actual = $assetRuntime->imageInfo($hash);
+        $this->assertTrue(isset($actual['FileDateTime']));
+        // the FileDateTime on when the file has been actually created on the current file storage
+        unset($actual['FileDateTime']);
 
-        $this->assertEquals($expected, $assetRuntime->imageInfo($hash));
+        $this->assertEquals($expected, $actual);
     }
 }

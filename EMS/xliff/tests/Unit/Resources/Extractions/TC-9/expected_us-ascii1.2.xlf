@@ -28,10 +28,10 @@
           <target xml:lang="fr" state="new"/>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu7" resname="/html/body/p[2]">
-          <source xml:lang="en"> <x id="x8" ctype="x-html-br" equiv-text=" "/> </source>
+          <source xml:lang="en"> <x id="x8" ctype="lb" equiv-text=" "/> </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <group restype="x-html-div" id="tu9" resname="/html/body/div">
+        <group restype="x-html-div" id="grp9" resname="/html/body/div">
           <note from="class">message alert</note>
           <trans-unit restype="x-html-h3" id="tu10" resname="/html/body/div/h3">
             <source xml:lang="en"> Vlaams Gewest: </source>
@@ -49,10 +49,10 @@
           <target xml:lang="fr" state="new"/>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu19" resname="/html/body/p[2]">
-          <source xml:lang="en"> <x id="x20" ctype="x-html-br" equiv-text=" "/> </source>
+          <source xml:lang="en"> <x id="x20" ctype="lb" equiv-text=" "/> </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <group restype="x-html-div" id="tu21" resname="/html/body/div">
+        <group restype="x-html-div" id="grp21" resname="/html/body/div">
           <note from="class">message alert</note>
           <trans-unit restype="x-html-h3" id="tu22" resname="/html/body/div/h3">
             <source xml:lang="en"> Vlaams Gewest: </source>

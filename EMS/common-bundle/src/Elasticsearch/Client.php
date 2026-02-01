@@ -19,7 +19,7 @@ class Client extends BaseClient
     private ?Stopwatch $stopwatch = null;
 
     /**
-     * @param string[] $headers
+     * @param string[]                 $headers
      * @param array<mixed>|string|null $body
      */
     public function request(string $method, string $url, array $headers, array|string|null $body = null): Response

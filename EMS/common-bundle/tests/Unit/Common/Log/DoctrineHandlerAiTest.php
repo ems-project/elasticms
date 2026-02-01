@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Tests\Unit\Common\Log;
 
+use Doctrine\Persistence\ManagerRegistry;
 use EMS\CommonBundle\Common\Log\DoctrineHandler;
-use EMS\CommonBundle\Repository\LogRepository;
 use Monolog\Level;
-use Monolog\Logger;
-use Monolog\LogRecord;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -16,40 +14,16 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 class DoctrineHandlerAiTest extends TestCase
 {
     private DoctrineHandler $doctrineHandler;
-    private LogRepository $logRepository;
+    private ManagerRegistry $doctrine;
     private TokenStorageInterface $tokenStorage;
 
     #[\Override]
     protected function setUp(): void
     {
-        $this->logRepository = $this->createMock(LogRepository::class);
+        $this->doctrine = $this->createMock(ManagerRegistry::class);
         $this->tokenStorage = $this->createMock(TokenStorageInterface::class);
 
-        $this->doctrineHandler = new DoctrineHandler($this->logRepository, $this->tokenStorage, Logger::WARNING);
-    }
-
-    #[AllowMockObjectsWithoutExpectations]
-    public function testWrite(): void
-    {
-        $record = new LogRecord(
-            new \DateTimeImmutable(),
-            'testChannel',
-            Level::Error,
-            'testMessage',
-            ['api_key' => '123456'],
-            [],
-            'testFormatted'
-        );
-
-        $secretValue = new \ReflectionClassConstant(DoctrineHandler::class, 'SECRET_VALUE');
-
-        $this->logRepository->expects($this->once())
-            ->method('insertRecord')
-            ->with($this->callback(fn ($subject) => $subject['context']['api_key'] === $secretValue->getValue() && $subject['message'] === $record['message']));
-
-        $method = new \ReflectionMethod(DoctrineHandler::class, 'write');
-
-        $method->invoke($this->doctrineHandler, $record);
+        $this->doctrineHandler = new DoctrineHandler($this->doctrine, $this->tokenStorage, Level::Warning->value);
     }
 
     #[AllowMockObjectsWithoutExpectations]

@@ -10,57 +10,28 @@ use EMS\CommonBundle\Helper\MimeTypeHelper;
 use EMS\CommonBundle\Storage\NotFoundException;
 use EMS\CoreBundle\Entity\CacheAssetExtractor;
 use EMS\CoreBundle\Helper\AssetExtractor\ExtractedData;
-use EMS\CoreBundle\Tika\TikaWrapper;
+use EMS\CoreBundle\Tika\TikaJar;
 use EMS\Helpers\File\File;
 use EMS\Helpers\File\TempFile;
 use EMS\Helpers\Standard\Number;
 use EMS\Helpers\Standard\Type;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 
-class AssetExtractorService implements CacheWarmerInterface
+class AssetExtractorService
 {
     private const string CONTENT_EP = '/tika';
     private const string HELLO_EP = '/tika';
     private const string META_EP = '/meta';
-    private ?TikaWrapper $wrapper = null;
 
     public function __construct(
         private readonly RestClientService $rest,
         private readonly LoggerInterface $logger,
         private readonly Registry $doctrine,
         private readonly FileService $fileService,
+        private readonly TikaJar $tikaJar,
         private readonly ?string $tikaServer,
-        private readonly string $projectDir,
-        private readonly ?string $tikaDownloadUrl,
         private readonly int $tikaMaxContent = 5120,
     ) {
-    }
-
-    private function getTikaWrapper(): TikaWrapper
-    {
-        if ($this->wrapper instanceof TikaWrapper) {
-            return $this->wrapper;
-        }
-
-        $filename = $this->projectDir.'/var/tika-app.jar';
-        if (!\file_exists($filename) && $this->tikaDownloadUrl) {
-            try {
-                File::putContents($filename, Type::string(\fopen($this->tikaDownloadUrl, 'r')));
-            } catch (\Throwable) {
-                if (\file_exists($filename)) {
-                    \unlink($filename);
-                }
-            }
-        }
-
-        if (!\file_exists($filename)) {
-            throw new \RuntimeException("Tika's jar not found");
-        }
-
-        $this->wrapper = new TikaWrapper($filename);
-
-        return $this->wrapper;
     }
 
     /**
@@ -83,7 +54,7 @@ class AssetExtractorService implements CacheWarmerInterface
 
         return [
             'code' => 200,
-            'content' => self::cleanString($this->getTikaWrapper()->getText($tempFile->path)),
+            'content' => self::cleanString($this->tikaJar->getWrapper()->getText($tempFile->path)),
         ];
     }
 
@@ -156,9 +127,9 @@ class AssetExtractorService implements CacheWarmerInterface
             }
         } else {
             try {
-                $out = ExtractedData::fromMetaString($this->getTikaWrapper()->getMetadata($file), $this->tikaMaxContent);
+                $out = ExtractedData::fromMetaString($this->tikaJar->getWrapper()->getMetadata($file), $this->tikaMaxContent);
                 if (!$out->hasContent()) {
-                    $text = $this->getTikaWrapper()->getText($file);
+                    $text = $this->tikaJar->getWrapper()->getText($file);
                     if (!\mb_check_encoding($text)) {
                         $text = \mb_convert_encoding($text, \mb_internal_encoding(), 'ASCII');
                     }
@@ -166,7 +137,7 @@ class AssetExtractorService implements CacheWarmerInterface
                     $out->setContent($text ?? '');
                 }
                 if (!empty($out->getLocale())) {
-                    $out->setLocale(self::cleanString($this->getTikaWrapper()->getLanguage($file)));
+                    $out->setLocale(self::cleanString($this->tikaJar->getWrapper()->getLanguage($file)));
                 }
             } catch (\Exception $e) {
                 $this->logger->warning('service.asset_extractor.extract_error', [
@@ -205,22 +176,6 @@ class AssetExtractorService implements CacheWarmerInterface
         return \preg_replace('/\n|\r/', '', $string) ?? '';
     }
 
-    #[\Override]
-    public function isOptional(): bool
-    {
-        return false;
-    }
-
-    #[\Override]
-    public function warmUp($cacheDir, ?string $buildDir = null): array
-    {
-        if (empty($this->tikaServer)) {
-            $this->getTikaWrapper();
-        }
-
-        return [];
-    }
-
     public function getMetaFromText(string $text): ExtractedData
     {
         if (!empty($this->tikaServer)) {
@@ -235,7 +190,7 @@ class AssetExtractorService implements CacheWarmerInterface
         } else {
             $tempFile = TempFile::create();
             File::putContents($tempFile->path, $text);
-            $meta = ExtractedData::fromMetaString($this->getTikaWrapper()->getMetadata($tempFile->path), $this->tikaMaxContent);
+            $meta = ExtractedData::fromMetaString($this->tikaJar->getWrapper()->getMetadata($tempFile->path), $this->tikaMaxContent);
         }
 
         return $meta;

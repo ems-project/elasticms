@@ -113,6 +113,7 @@ use EMS\CoreBundle\Service\WebhookService;
 use EMS\CoreBundle\Service\WebhookSubscriptionService;
 use EMS\CoreBundle\Service\WysiwygProfileService;
 use EMS\CoreBundle\Service\WysiwygStylesSetService;
+use EMS\CoreBundle\Tika\TikaJar;
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
@@ -675,6 +676,14 @@ return static function (ContainerConfigurator $container) {
 
     $services->set('ems.service.rest_client', RestClientService::class);
 
+    $services->set(TikaJar::class)
+        ->args([
+            '%ems_core.tika_server%',
+            '%ems_core.tika_download_url%',
+            '%kernel.project_dir%',
+        ])
+        ->tag('kernel.cache_warmer', ['priority' => -100]);
+
     $services->set('ems.service.asset_extractor', AssetExtractorService::class)
         ->args([
             service('ems.service.rest_client'),
@@ -683,10 +692,8 @@ return static function (ContainerConfigurator $container) {
             service('ems.service.file'),
             '%ems_core.tika_server%',
             '%kernel.project_dir%',
-            '%ems_core.tika_download_url%',
             '%ems_core.tika_max_content%',
-        ])
-        ->tag('kernel.cache_warmer');
+        ]);
 
     $services->set('ems.service.search', SearchService::class)
         ->args([

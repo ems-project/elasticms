@@ -25,7 +25,7 @@ return static function (ContainerConfigurator $container) {
 
     $services->set('ems_common.monolog.doctrine', DoctrineHandler::class)
         ->args([
-            service('ems_common.repository.log'),
+            service('doctrine'),
             service('security.token_storage'),
             '%ems_common.log_level%',
         ]);

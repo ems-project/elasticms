@@ -100,7 +100,7 @@ return static function (ContainerConfigurator $container) {
             service('emsch.helper.translation.builder'),
             service('translator.default'),
         ])
-        ->tag('kernel.cache_warmer');
+        ->tag('kernel.cache_warmer', ['priority' => -100]);
 
     $services->set('emsch.helper_hashcash', HashcashHelper::class)
         ->args([service('security.csrf.token_manager')]);

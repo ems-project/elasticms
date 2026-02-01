@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Common\Log;
 
+use Doctrine\Persistence\ManagerRegistry;
 use EMS\CommonBundle\Repository\LogRepository;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\LogRecord;
@@ -13,11 +14,16 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class DoctrineHandler extends AbstractProcessingHandler
 {
+    private ?LogRepository $logRepository = null;
+
     private const string SECRET_VALUE = '***';
     private const array SECRET_KEYS = ['api_key'];
 
-    public function __construct(private readonly LogRepository $logRepository, private readonly TokenStorageInterface $tokenStorage, private readonly int $minLevel)
-    {
+    public function __construct(
+        private readonly ManagerRegistry $doctrine,
+        private readonly TokenStorageInterface $tokenStorage,
+        private readonly int $minLevel
+    ) {
         parent::__construct();
     }
 
@@ -35,7 +41,7 @@ class DoctrineHandler extends AbstractProcessingHandler
         $logArray['formatted'] = $record->formatted ?? $record->message;
         $logArray['context'] = DoctrineHandler::secretContext($logArray['context']);
 
-        $this->logRepository->insertRecord($logArray);
+        $this->getLogRepository()->insertRecord($logArray);
     }
 
     /**
@@ -53,5 +59,16 @@ class DoctrineHandler extends AbstractProcessingHandler
         }
 
         return $context;
+    }
+
+    private function getLogRepository(): LogRepository
+    {
+        if (null === $this->logRepository) {
+            /** @var LogRepository $logRepository */
+            $logRepository = $this->doctrine->getManager()->getRepository(LogRepository::class);
+            $this->logRepository = $logRepository;
+        }
+
+        return $this->logRepository;
     }
 }

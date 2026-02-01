@@ -76,7 +76,7 @@ target "default" {
     "org.opencontainers.image.version"       = EMS_VERSION
     "org.opencontainers.image.revision"      = GIT_HASH
     "org.opencontainers.image.vendor"        = "elasticMS"
-    "org.opencontainers.image.licenses"      = "Proprietary"
+    "org.opencontainers.image.licenses"      = "LGPL-3.0"
     "be.fgov.elasticms.product"              = "elasticms"
     "be.fgov.elasticms.component"            = "website-skeleton"
     "be.fgov.elasticms.environment"          = tgt

@@ -105,20 +105,20 @@ If needed, this variable can also contain an
 [elastica servers array](https://elastica-docs.readthedocs.io/en/latest/client.html#client-configurations):
 
 ```dotenv
-EMS_ELASTICSEARCH_HOSTS='[{"transport":"Https","host":"elastic:fewl13@localhost","port":9200,"curl":{"64":false}}]'
+EMS_ELASTICSEARCH_HOSTS='[{"transport":"Https","host":"elastic:changeme@localhost","port":9200,"curl":{"64":false}}]'
 ```
 
 In this example the cluster contains only one host accessible via HTTPS on the port 9200. But with
 the CURL option `"64": false` the client doesn't check the validity of the host certificate
 
 ```dotenv
-EMS_ELASTICSEARCH_HOSTS='[{"transport":"Https","host":"elastic:fewl13@localhost","port":9200,"curl":{"10065":"/opt/local/cacert.pem"}}]'
+EMS_ELASTICSEARCH_HOSTS='[{"transport":"Https","host":"elastic:changeme@localhost","port":9200,"curl":{"10065":"/opt/local/cacert.pem"}}]'
 ```
 
 Here the client uses the `/opt/local/cacert.pem` to validate the server certificate.
 
 ```dotenv
-EMS_ELASTICSEARCH_HOSTS='[{"transport":"Https","host":"localhost","port":9200,"headers":{"Authorization":"Basic ZWxhc3RpYzpmZXdsMTM="},"curl":{"64":false}}]'
+EMS_ELASTICSEARCH_HOSTS='[{"transport":"Https","host":"localhost","port":9200,"headers":{"Authorization":"Basic ZWxhc3RpYzpjaGFuZ2VtZQ=="},"curl":{"64":false}}]'
 ```
 
 Another example with an extra HTTP header.

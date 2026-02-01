@@ -18,6 +18,15 @@ services:
               echo "-------------------------------"
               echo
 
+              echo "Update existing indexes to set number_of_replicas=0"
+              curl -sS -u elastic:changeme \
+                   -X PUT "http://es01:9200/*/_settings" \
+                   -H "Content-Type: application/json" \
+                   -d "{\"index\":{\"number_of_replicas\":0}}"
+              echo
+              echo "-------------------------------"
+              echo
+
               echo "Reset the kibana_system user password"
               curl -sS -u elastic:changeme \
                    -X PUT "http://es01:9200/_security/user/kibana_system/_password" \

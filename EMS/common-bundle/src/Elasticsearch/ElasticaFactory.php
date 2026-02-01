@@ -21,8 +21,8 @@ class ElasticaFactory
     {
         if (isset($config['hosts'])) {
             $client = new Client($config, $this->logger);
-        } else{
-            $client = new Client(['hosts' => $config], $this->logger);   
+        } else {
+            $client = new Client(['hosts' => $config], $this->logger);
         }
 
         if ($this->stopwatch) {

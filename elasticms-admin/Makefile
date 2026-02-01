@@ -26,7 +26,11 @@ NPM_CONFIG_CMDLINE           = "npm config set cafile=/etc/ssl/certs/ca-certific
 NPM_INSTALL_CMDLINE          = "npm install --prefix /app/src/elasticms/vendor/elasticms/admin-ui-bundle/assets"
 NPM_RUN_BUILD_CMDLINE        = "npm --prefix /app/src/elasticms/vendor/elasticms/admin-ui-bundle/assets run build"
 
-TARGET_DOCKER_IMAGE_NAME     = docker.io/elasticms/admin
+DOCKER_IMAGE_NAME           ?= docker.io/elasticms/admin
+
+DOCKER_PLATFORM             ?= linux/amd64
+DOCKER_BUILDER              ?= default
+DOCKER_OUTPUT               ?= type=image
 
 # —— ElasticMS build ——————————————————————————————————————————————————————————————————————————————————————————————————
 
@@ -38,9 +42,15 @@ build-app: ## Build ElasticMS Symfony application
 	@$(MAKE) npm-build
 	rm -rf ./vendor/elasticms/admin-ui-bundle/assets/node_modules
 
-build-image: ## Build ElasticMS Docker image
+build-image: ## Build ElasticMS Docker images
 	@$(MAKE) build-app
-	@$(MAKE) docker-build
+	@$(MAKE) docker-build/prd
+	@$(MAKE) docker-build/dev
+
+bake-image: ## bake-image DOCKER_PLATFORM="linux/amd64,linux/arm64" DOCKER_BUILDER="cloud-remote" DOCKER_OUTPUT="type=registry" DOCKER_IMAGE_NAME="elasticms/admin"
+	@$(MAKE) build-app
+	@$(MAKE) docker-bake/prd
+	@$(MAKE) docker-bake/dev
 
 # —— Composer —————————————————————————————————————————————————————————————————————————————————————————————————————————
 
@@ -145,8 +155,16 @@ npm-build:
 
 # —— Docker build —————————————————————————————————————————————————————————————————————————————————————————————————————
 
-docker-build:
+docker-build/%: ## docker-build/(prd|dev)
 	@echo "\n-- Running Docker buildx build --\n"
 	@docker buildx build --progress=plain --no-cache \
-		--target prd \
-		--tag ${TARGET_DOCKER_IMAGE_NAME} .
+		--target ${*} \
+		--tag ${DOCKER_IMAGE_NAME} .
+
+docker-bake/%: ## docker-bake/(prd|dev) DOCKER_PLATFORM="linux/amd64,linux/arm64" DOCKER_BUILDER="cloud-remote" DOCKER_OUTPUT="type=registry" DOCKER_IMAGE_NAME="elasticms/admin"
+	@echo "\n-- Running Docker bake --\n"
+	@docker bake --progress=plain --no-cache \
+		--set *.platform=${DOCKER_PLATFORM} \
+		--set *.output=${DOCKER_OUTPUT} \
+		--builder ${DOCKER_BUILDER} \
+		${*}

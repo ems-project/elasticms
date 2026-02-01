@@ -22,7 +22,11 @@ COMPOSER_INSTALL_CMDLINE     = "composer -vvv install --no-interaction --no-sugg
 COMPOSER_DIAGNOSE_CMDLINE    = "composer -vvv diagnose --no-interaction --no-scripts"
 COMPOSER_SELF_UPDATE_CMDLINE = "composer -vvv self-update --no-interaction"
 
-TARGET_DOCKER_IMAGE_NAME     = docker.io/elasticms/website-skeleton
+TARGET_DOCKER_IMAGE_NAME    ?= docker.io/elasticms/website-skeleton
+
+DOCKER_PLATFORM             ?= linux/amd64
+DOCKER_BUILDER              ?= default
+DOCKER_OUTPUT               ?= type=image
 
 # —— ElasticMS build ——————————————————————————————————————————————————————————————————————————————————————————————————
 
@@ -30,9 +34,15 @@ build-app: ## Build ElasticMS Symfony application
 	@$(MAKE) composer-diagnose
 	@$(MAKE) composer-install
 
-build-image: ## Build ElasticMS Docker image
+build-image: ## Build ElasticMS Docker images
 	@$(MAKE) build-app
-	@$(MAKE) docker-build
+	@$(MAKE) docker-build/prd
+	@$(MAKE) docker-build/dev
+
+bake-image: ## bake-image DOCKER_PLATFORM="linux/amd64,linux/arm64" DOCKER_BUILDER="cloud-remote" DOCKER_OUTPUT="type=registry" DOCKER_IMAGE_NAME="elasticms/website-skeleton"
+	@$(MAKE) build-app
+	@$(MAKE) docker-bake/prd
+	@$(MAKE) docker-bake/dev
 
 # —— Composer —————————————————————————————————————————————————————————————————————————————————————————————————————————
 
@@ -90,8 +100,16 @@ composer-selfupdate:
 
 # —— Docker build —————————————————————————————————————————————————————————————————————————————————————————————————————
 
-docker-build:
+docker-build/%: ## docker-build/(prd|dev)
 	@echo "\n-- Running Docker buildx build --\n"
 	@docker buildx build --progress=plain --no-cache \
-		--target prd \
-		--tag ${TARGET_DOCKER_IMAGE_NAME} .
+		--target ${*} \
+		--tag ${DOCKER_IMAGE_NAME} .
+
+docker-bake/%: ## docker-bake/(prd|dev) DOCKER_PLATFORM="linux/amd64,linux/arm64" DOCKER_BUILDER="cloud-remote" DOCKER_OUTPUT="type=registry" DOCKER_IMAGE_NAME="elasticms/website-skeleton"
+	@echo "\n-- Running Docker bake --\n"
+	@docker bake --progress=plain --no-cache \
+		--set *.platform=${DOCKER_PLATFORM} \
+		--set *.output=${DOCKER_OUTPUT} \
+		--builder ${DOCKER_BUILDER} \
+		${*}

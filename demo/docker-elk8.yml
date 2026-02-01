@@ -11,9 +11,9 @@ services:
 
               echo "Creating dev default template to set number_of_replicas=0 for future indices"
               curl -sS -u elastic:changeme \
-                   -X PUT "http://es01:9200/_template/dev_template" \
+                   -X PUT "http://es01:9200/_index_template/dev-single-node" \
                    -H "Content-Type: application/json" \
-                   -d "{\"index_patterns\": [\"*\"], \"settings\": { \"number_of_replicas\": 0 }}"
+                   -d "{\"index_patterns\":[\"*\"],\"priority\":1,\"template\":{\"settings\":{\"number_of_replicas\":0}}}"
               echo
               echo "-------------------------------"
               echo

@@ -72,6 +72,123 @@ services:
               echo "-------------------------------"
               echo
 
+              echo "Update the metrics-apm.service_summary.10m@custom component template"
+              curl -sS -u elastic:changeme \
+                   -X PUT "http://es01:9200/_component_template/metrics-apm.service_summary.10m@custom" \
+                   -H "Content-Type: application/json" \
+                   -d "{\"template\":{\"settings\":{\"number_of_replicas\":0}}}"
+              echo
+              echo "-------------------------------"
+              echo
+
+              echo "Update the logs-apm.app@custom component template"
+              curl -sS -u elastic:changeme \
+                   -X PUT "http://es01:9200/_component_template/logs-apm.app@custom" \
+                   -H "Content-Type: application/json" \
+                   -d "{\"template\":{\"settings\":{\"number_of_replicas\":0}}}"
+              echo
+              echo "-------------------------------"
+              echo
+
+              echo "Update the metrics-apm.service_transaction.60m@custom component template"
+              curl -sS -u elastic:changeme \
+                   -X PUT "http://es01:9200/_component_template/metrics-apm.service_transaction.60m@custom" \
+                   -H "Content-Type: application/json" \
+                   -d "{\"template\":{\"settings\":{\"number_of_replicas\":0}}}"
+              echo
+              echo "-------------------------------"
+              echo
+
+              echo "Update the metrics-apm.transaction.60m@custom component template"
+              curl -sS -u elastic:changeme \
+                   -X PUT "http://es01:9200/_component_template/metrics-apm.transaction.60m@custom" \
+                   -H "Content-Type: application/json" \
+                   -d "{\"template\":{\"settings\":{\"number_of_replicas\":0}}}"
+              echo
+              echo "-------------------------------"
+              echo
+
+              echo "Update the metrics-apm.service_summary.60m@custom component template"
+              curl -sS -u elastic:changeme \
+                   -X PUT "http://es01:9200/_component_template/metrics-apm.service_summary.60m@custom" \
+                   -H "Content-Type: application/json" \
+                   -d "{\"template\":{\"settings\":{\"number_of_replicas\":0}}}"
+              echo
+              echo "-------------------------------"
+              echo
+
+              echo "Update the metrics-apm.service_destination.1m@custom component template"
+              curl -sS -u elastic:changeme \
+                   -X PUT "http://es01:9200/_component_template/metrics-apm.service_destination.1m@custom" \
+                   -H "Content-Type: application/json" \
+                   -d "{\"template\":{\"settings\":{\"number_of_replicas\":0}}}"
+              echo
+              echo "-------------------------------"
+              echo
+
+              echo "Update the metrics-apm.service_destination.10m@custom component template"
+              curl -sS -u elastic:changeme \
+                   -X PUT "http://es01:9200/_component_template/metrics-apm.service_destination.10m@custom" \
+                   -H "Content-Type: application/json" \
+                   -d "{\"template\":{\"settings\":{\"number_of_replicas\":0}}}"
+              echo
+              echo "-------------------------------"
+              echo
+
+              echo "Update the metrics-apm.transaction.10m@custom component template"
+              curl -sS -u elastic:changeme \
+                   -X PUT "http://es01:9200/_component_template/metrics-apm.transaction.10m@custom" \
+                   -H "Content-Type: application/json" \
+                   -d "{\"template\":{\"settings\":{\"number_of_replicas\":0}}}"
+              echo
+              echo "-------------------------------"
+              echo
+
+              echo "Update the metrics-apm.service_transaction.10m@custom component template"
+              curl -sS -u elastic:changeme \
+                   -X PUT "http://es01:9200/_component_template/metrics-apm.service_transaction.10m@custom" \
+                   -H "Content-Type: application/json" \
+                   -d "{\"template\":{\"settings\":{\"number_of_replicas\":0}}}"
+              echo
+              echo "-------------------------------"
+              echo
+
+              echo "Update the metrics-apm.transaction.1m@custom component template"
+              curl -sS -u elastic:changeme \
+                   -X PUT "http://es01:9200/_component_template/metrics-apm.transaction.1m@custom" \
+                   -H "Content-Type: application/json" \
+                   -d "{\"template\":{\"settings\":{\"number_of_replicas\":0}}}"
+              echo
+              echo "-------------------------------"
+              echo
+
+              echo "Update the metrics-apm.service_destination.60m@custom component template"
+              curl -sS -u elastic:changeme \
+                   -X PUT "http://es01:9200/_component_template/metrics-apm.service_destination.60m@custom" \
+                   -H "Content-Type: application/json" \
+                   -d "{\"template\":{\"settings\":{\"number_of_replicas\":0}}}"
+              echo
+              echo "-------------------------------"
+              echo
+
+              echo "Update the metrics-apm.service_transaction.1m@custom component template"
+              curl -sS -u elastic:changeme \
+                   -X PUT "http://es01:9200/_component_template/metrics-apm.service_transaction.1m@custom" \
+                   -H "Content-Type: application/json" \
+                   -d "{\"template\":{\"settings\":{\"number_of_replicas\":0}}}"
+              echo
+              echo "-------------------------------"
+              echo
+
+              echo "Update the metrics-apm.service_summary.1m@custom component template"
+              curl -sS -u elastic:changeme \
+                   -X PUT "http://es01:9200/_component_template/metrics-apm.service_summary.1m@custom" \
+                   -H "Content-Type: application/json" \
+                   -d "{\"template\":{\"settings\":{\"number_of_replicas\":0}}}"
+              echo
+              echo "-------------------------------"
+              echo
+
               echo "Define a kibana_apm_reader role to read APM indexes"
               curl -sS -u elastic:changeme \
                    -X PUT "http://es01:9200/_security/role/kibana_apm_reader" \

@@ -105,7 +105,7 @@ services:
         entrypoint: >
             /bin/sh -c '
               echo "Setup minio";
-              #/usr/bin/mc alias set minio http://minio:9000 accesskey secretkey;
+              /usr/bin/mc alias set minio http://minio:9000 accesskey secretkey;
               /usr/bin/mc mb --ignore-existing minio/demo;
               echo "All done!";
               exit 0;

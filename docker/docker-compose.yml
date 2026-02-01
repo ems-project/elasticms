@@ -263,8 +263,6 @@ volumes:
     s3:
     mariadb:
     postgres:
-        name: ${POSTGRES_VOLUME-postgres}
-        external: false
     mercure_data:
     mercure_config:
     keycloak_data:

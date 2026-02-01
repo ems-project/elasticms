@@ -15,11 +15,15 @@ class ElasticaFactory
     }
 
     /**
-     * @param string[] $hosts
+     * @param mixed[] $config
      */
-    public function fromConfig(array $hosts): Client
+    public function fromConfig(array $config): Client
     {
-        $client = new Client(['hosts' => $hosts], $this->logger);
+        if (isset($config['hosts'])) {
+            $client = new Client($config, $this->logger);
+        } else {
+            $client = new Client(['hosts' => $config], $this->logger);
+        }
 
         if ($this->stopwatch) {
             $client->setStopwatch($this->stopwatch);

@@ -43,6 +43,20 @@ services:
             - "traefik.http.routers.kibana.service=kibana"
             - "traefik.http.services.kibana.loadbalancer.server.port=5601"
 
+    apm-server:
+        profiles: [ "all","ems" ]
+        extends:
+            file: ../demo/docker-${ELK_VERSION-elk8}.yml
+            service: apm-server
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.apm-server.rule=Host(`apm-server.localhost`)"
+            - "traefik.http.routers.apm-server.entrypoints=web"
+            - "traefik.http.routers.apm-server.service=apm-server"
+            - "traefik.http.services.apm-server.loadbalancer.server.port=8200"
+        ports:
+            - "8200:8200"
+
     postgres:
         profiles: [ "all","ems" ]
         labels:
@@ -249,8 +263,6 @@ volumes:
     s3:
     mariadb:
     postgres:
-        name: ${POSTGRES_VOLUME-postgres}
-        external: false
     mercure_data:
     mercure_config:
     keycloak_data:

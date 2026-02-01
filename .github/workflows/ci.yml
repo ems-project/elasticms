@@ -20,6 +20,7 @@ jobs:
         with:
           php-version: ${{ env.PHP_VERSION }}
           coverage: none
+          extensions: opentelemetry
 
       - name: "Get Composer Info"
         id: composer

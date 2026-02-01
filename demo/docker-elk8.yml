@@ -4,12 +4,10 @@ services:
         command: >
             bash -c '
               echo "Waiting for Elasticsearch availability";
-              until curl -s http://es01:9200 | grep -q "You Know, for Search"; do sleep 5; done;
-
-              echo "Setting number_of_replicas=0 for all indices (dev single-node)";
-              curl -X PUT "http://es01:9200/_all/_settings" \
-                   -H "Content-Type: application/json" \
-                   -d "{\"index\":{\"number_of_replicas\":0}}"
+              until curl -sS -u elastic:changeme http://es01:9200/_cluster/health | grep -q "green"; do sleep 5; done;
+              echo
+              echo "-------------------------------"
+              echo
 
               echo "Creating dev default template to set number_of_replicas=0 for future indices"
               curl -X PUT "http://es01:9200/_template/dev_template" \

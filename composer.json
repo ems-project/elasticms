@@ -55,7 +55,7 @@
         "promphp/prometheus_client_php": "^2.9",
         "psr/simple-cache": "^3.0",
         "ramsey/uuid-doctrine": "^2.1",
-        "ruflin/elastica": "^7.3",
+        "ruflin/elastica": "^8.0",
         "scssphp/scssphp": "^2.0",
         "sensiolabs/ansi-to-html": "^2.0",
         "stevenmaguire/oauth2-keycloak": "^5.1",

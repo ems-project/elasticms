@@ -32,7 +32,6 @@ final class ConfigurationAiTest extends TestCase
             'backend_url' => null,
             'backend_api_key' => null,
             'elasticsearch_proxy_api' => false,
-            'elasticsearch_connection_pool' => null,
             'elasticsearch_hosts' => ['http://localhost:9200'],
             'log_level' => Logger::NOTICE,
             'excluded_content_types' => [],

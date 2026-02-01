@@ -18,11 +18,11 @@ services:
               echo "-------------------------------"
               echo
 
-              echo "Update existing indexes to set number_of_replicas=0"
+              echo "High priority template to set number_of_replicas=0 for apm data stream indexes"
               curl -sS -u elastic:changeme \
-                   -X PUT "http://es01:9200/*/_settings" \
+                   -X PUT "http://es01:9200/_index_template/dev-apm" \
                    -H "Content-Type: application/json" \
-                   -d "{\"index\":{\"number_of_replicas\":0}}"
+                   -d "{\"index_patterns\":[\"traces-apm*\",\"metrics-apm*\",\"logs-apm.*\"],\"priority\":1000,\"template\":{\"settings\":{\"number_of_replicas\":0}},\"data_stream\":{}}"
               echo
               echo "-------------------------------"
               echo

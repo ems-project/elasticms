@@ -18,6 +18,7 @@ use EMS\ClientHelperBundle\Helper\Routing\Url\Generator;
 use EMS\ClientHelperBundle\Helper\Routing\Url\Transformer;
 use EMS\ClientHelperBundle\Twig\RoutingRuntime;
 use EMS\CommonBundle\Contracts\Twig\TemplateFactoryInterface;
+use EMS\CommonBundle\Elasticsearch\Client;
 use Symfony\Cmf\Component\Routing\ChainRouter;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -83,7 +84,7 @@ return static function (ContainerConfigurator $container) {
     $services->set('emsch.controller.elasticsearch', ElasticsearchController::class)
         ->args([
             service('emsch.routing.handler'),
-            service('ems_common.elastica.client'),
+            service(Client::class),
         ])
         ->tag('controller.service_arguments');
 

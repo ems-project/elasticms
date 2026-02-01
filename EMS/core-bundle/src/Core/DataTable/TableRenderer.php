@@ -16,8 +16,8 @@ use Twig\TemplateWrapper;
 final readonly class TableRenderer
 {
     public function __construct(
-        private Environment          $twig,
-        private TranslatorInterface  $translator,
+        private Environment $twig,
+        private TranslatorInterface $translator,
         private QueryLoggerInterface $queryLogger,
     ) {
     }

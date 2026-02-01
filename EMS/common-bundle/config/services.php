@@ -28,7 +28,6 @@ use EMS\CommonBundle\DependencyInjection\EnvVarProcessor\UrlEncodeEnvVarProcesso
 use EMS\CommonBundle\Elasticsearch\Client;
 use EMS\CommonBundle\Elasticsearch\ElasticaFactory;
 use EMS\CommonBundle\Elasticsearch\ElasticaLogger;
-use EMS\CommonBundle\Elasticsearch\Factory;
 use EMS\CommonBundle\Elasticsearch\Mapping;
 use EMS\CommonBundle\EventListener\CommandListener;
 use EMS\CommonBundle\EventListener\IpAddressListener;
@@ -50,13 +49,6 @@ return static function (ContainerConfigurator $container) {
 
     $services->defaults()
         ->private();
-
-    $services->set('ems_common.elasticsearch.elastica_logger', ElasticaLogger::class)
-        ->args([
-            service('logger')->nullOnInvalid(),
-            '%kernel.debug%',
-        ])
-        ->tag('monolog.logger', ['channel' => 'elastica']);
 
     $services->set('ems.vite', ViteService::class)
         ->args([
@@ -94,33 +86,27 @@ return static function (ContainerConfigurator $container) {
             '%ems_common.backend_api_key%',
         ]);
 
-    $services->set('ems_common.elasticsearch.factory', Factory::class)
+    $services->set(ElasticaLogger::class)
         ->args([
-            service('logger'),
-            '%kernel.environment%',
+            service('logger')->nullOnInvalid(),
+            '%kernel.debug%',
         ])
-        ->tag('monolog.logger', ['channel' => 'elasticsearch']);
+        ->tag('monolog.logger', ['channel' => 'elastica']);
 
-    $services->set('ems_common.elastica.factory', ElasticaFactory::class)
+    $services->set(ElasticaFactory::class)
         ->args([
-            service('ems_common.elasticsearch.elastica_logger'),
-            '%kernel.environment%',
-        ])
-        ->tag('monolog.logger', ['channel' => 'elasticsearch']);
+            service(ElasticaLogger::class),
+            service('debug.stopwatch')->nullOnInvalid(),
+        ]);
 
-    $services->alias(Client::class, 'ems_common.elastica.client');
-
-    $services->set('ems_common.elastica.client', Client::class)
-        ->args([
-            '%ems_common.elasticsearch_hosts%',
-            '%ems_common.elasticsearch_connection_pool%',
-        ])
-        ->factory([service('ems_common.elastica.factory'), 'fromConfig']);
+    $services->set(Client::class)
+        ->args(['%ems_common.elasticsearch_hosts%'])
+        ->factory([service(ElasticaFactory::class), 'fromConfig']);
 
     $services->alias(Mapping::class, 'ems_common.service.mapping');
 
     $services->set('ems_common.service.mapping', Mapping::class)
-        ->args([service('ems_common.elastica.client')]);
+        ->args([service(Client::class)]);
 
     $services->set('ems.event_listener.command', CommandListener::class)
         ->tag('kernel.event_subscriber');
@@ -156,7 +142,7 @@ return static function (ContainerConfigurator $container) {
     $services->set('ems_common.service.elastica', ElasticaService::class)
         ->args([
             service('logger'),
-            service('ems_common.elastica.client'),
+            service(Client::class),
             service('ems.helper.admin_api'),
             service('ems_common.cache.tag_collector'),
             '%ems_common.elasticsearch_proxy_api%',

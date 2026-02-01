@@ -49,8 +49,7 @@ final class ElasticaFactoryAiTest extends TestCase
         $this->factory = new ElasticaFactory($this->logger, 'prod');
 
         $hosts = ['http://localhost:9200'];
-        $connectionPool = 'CustomConnectionPool';
-        $client = $this->factory->fromConfig($hosts, $connectionPool);
+        $client = $this->factory->fromConfig($hosts);
 
         $this->assertInstanceOf(Client::class, $client);
     }

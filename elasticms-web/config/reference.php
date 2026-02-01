@@ -409,7 +409,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     backend_url?: scalar|Param|null, // Default: null
  *     backend_api_key?: scalar|Param|null, // Default: null
  *     elasticsearch_proxy_api?: scalar|Param|null, // Default: false
- *     elasticsearch_connection_pool?: scalar|Param|null, // Default: null
  *     elasticsearch_hosts?: mixed, // Default: ["http://localhost:9200"]
  *     log_level?: int|Param, // Default: 250
  *     excluded_content_types?: mixed, // Default: []

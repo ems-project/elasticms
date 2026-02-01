@@ -30,7 +30,6 @@ final class EMSCommonExtensionAiTest extends TestCase
                 'backend_api_key' => 'test_key',
                 'elasticsearch_proxy_api' => true,
                 'elasticsearch_hosts' => ['http://localhost:9200'],
-                'elasticsearch_connection_pool' => 'static',
                 'storages' => ['local'],
                 'store_data_services' => ['file_system'],
                 'log_level' => 200,
@@ -65,7 +64,6 @@ final class EMSCommonExtensionAiTest extends TestCase
         $this->assertEquals('test_key', $this->container->getParameter('ems_common.backend_api_key'));
         $this->assertTrue($this->container->getParameter('ems_common.elasticsearch_proxy_api'));
         $this->assertEquals(['http://localhost:9200'], $this->container->getParameter('ems_common.elasticsearch_hosts'));
-        $this->assertEquals('static', $this->container->getParameter('ems_common.elasticsearch_connection_pool'));
         $this->assertEquals(['local'], $this->container->getParameter('ems_common.storages'));
         $this->assertEquals(['file_system'], $this->container->getParameter('ems_common.store_data_services'));
         $this->assertEquals(200, $this->container->getParameter('ems_common.log_level'));

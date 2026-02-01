@@ -8,7 +8,6 @@ parameters:
 
     #Parameters
     env(EMS_HASH_ALGO): 'sha1'
-    env(EMS_ELASTICSEARCH_CONNECTION_POOL): ~
     env(EMS_ELASTICSEARCH_HOSTS): '%env(string:EMSCH_ELASTICSEARCH_CLUSTER)%'
     env(EMS_STORAGES): '[{"type":"fs","path":"%env(string:STORAGE_PATH)%"},{"type":"s3","credentials":%env(string:S3_CREDENTIALS)%,"bucket":"%env(string:S3_BUCKET)%"},{"type":"http","base-url":"%env(string:EMSCH_BACKEND_URL)%"}]'
     env(EMS_HTTP_CACHES): '[]'
@@ -39,7 +38,6 @@ parameters:
 
 ems_common:
     hash_algo: '%env(string:EMS_HASH_ALGO)%'
-    elasticsearch_connection_pool: '%env(string:EMS_ELASTICSEARCH_CONNECTION_POOL)%'
     elasticsearch_hosts: '%env(json:EMS_ELASTICSEARCH_HOSTS)%'
     http_caches: '%env(json:EMS_HTTP_CACHES)%'
     storages: '%env(json:EMS_STORAGES)%'

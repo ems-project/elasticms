@@ -27,11 +27,20 @@ services:
               echo "-------------------------------"
               echo
 
-              echo "Reset the kibana_system user password"
+              echo "Define a kibana_apm_reader role to read APM indexes"
               curl -sS -u elastic:changeme \
-                   -X PUT "http://es01:9200/_security/user/kibana_system/_password" \
+                   -X PUT "http://es01:9200/_security/role/kibana_apm_reader" \
                    -H "Content-Type: application/json" \
-                   -d "{\"password\":\"changeme\"}"
+                   -d "{\"indices\":[{\"names\":[\"traces-apm*\",\"metrics-apm*\",\"logs-apm*\"],\"privileges\":[\"read\",\"view_index_metadata\"]}]}"
+              echo
+              echo "-------------------------------"
+              echo
+
+              echo "Create a kibana_apm user"
+              curl -sS -u elastic:changeme \
+                   -X PUT "http://es01:9200/_security/user/kibana_apm" \
+                   -H "Content-Type: application/json" \
+                   -d "{\"password\":\"changeme\",\"roles\":[\"kibana_apm_reader\",\"kibana_system\"],\"full_name\":\"Kibana service user for APM\"}"
               echo
               echo "-------------------------------"
               echo
@@ -73,7 +82,7 @@ services:
         environment:
             - SERVERNAME=kibana
             - ELASTICSEARCH_HOSTS=http://es01:9200
-            - ELASTICSEARCH_USERNAME=kibana_system
+            - ELASTICSEARCH_USERNAME=kibana_apm
             - ELASTICSEARCH_PASSWORD=changeme
             - XPACK_FLEET_PACKAGES=[{"name":"apm","version":"latest"}]
         mem_limit: ${MEM_LIMIT}

@@ -57,14 +57,15 @@ services:
 
     kibana:
         depends_on:
-            es01:
-                condition: service_healthy
+            - setup_elk
         image: docker.elastic.co/kibana/kibana:${ELK8_STACK_VERSION}
         volumes:
             - kibana:/usr/share/kibana/data
         environment:
             - SERVERNAME=kibana
             - ELASTICSEARCH_HOSTS=http://es01:9200
+            - ELASTICSEARCH_USERNAME=kibana_system
+            - ELASTICSEARCH_PASSWORD=changeme
         mem_limit: ${MEM_LIMIT}
         healthcheck:
             test: [ "CMD-SHELL", "curl -s -I http://localhost:5601 | grep -q 'HTTP/1.1 302 Found'" ]

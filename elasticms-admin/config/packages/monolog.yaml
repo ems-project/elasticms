@@ -9,7 +9,7 @@ when@dev:
                 type: stream
                 path: '%env(resolve:LOG_OUTPUT)%'
                 level: '%env(resolve:LOG_LEVEL)%'
-                channels: ["!event", "!elastica"]
+                channels: ["!event"]
             console:
                 type: console
                 process_psr_3_messages: false

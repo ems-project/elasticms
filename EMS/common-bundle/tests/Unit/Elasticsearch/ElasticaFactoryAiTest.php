@@ -22,20 +22,9 @@ final class ElasticaFactoryAiTest extends TestCase
     }
 
     #[AllowMockObjectsWithoutExpectations]
-    public function testFromConfigDevEnvironment(): void
+    public function testFromConfig(): void
     {
-        $this->factory = new ElasticaFactory($this->logger, 'dev');
-
-        $hosts = ['http://localhost:9200'];
-        $client = $this->factory->fromConfig($hosts);
-
-        $this->assertInstanceOf(Client::class, $client);
-    }
-
-    #[AllowMockObjectsWithoutExpectations]
-    public function testFromConfigProdEnvironment(): void
-    {
-        $this->factory = new ElasticaFactory($this->logger, 'prod');
+        $this->factory = new ElasticaFactory($this->logger);
 
         $hosts = ['http://localhost:9200'];
         $client = $this->factory->fromConfig($hosts);

@@ -75,6 +75,7 @@ composer-install:
 	@echo "\n-- Running Composer install --\n"
 	@docker run \
 		--env PHP_BYPASS_INI_DEFAULT_VALUES=true \
+		--env PHP_OPENTELEMETRY_ENABLED=true \
 		--env HOME=${CURRENT_HOMEDIR} \
 		--env USER=${CURRENT_USERNAME} \
 		--env COMPOSER_ALLOW_SUPERUSER=1 \

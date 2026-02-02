@@ -10,6 +10,7 @@ const sidebar: DefaultTheme.SidebarMulti = {
                 { text: 'Setup your computer', link: '/getting-started/local-dev' },
                 { text: 'Dev environment', link: '/getting-started/dev-env' },
                 { text: 'Contributing', link: '/getting-started/contributing' },
+                { text: 'Release & Roadmap', link: '/getting-started/roadmap' },
             ]
         },
         {

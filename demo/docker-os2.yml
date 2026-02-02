@@ -31,3 +31,12 @@ services:
         environment:
             OPENSEARCH_HOSTS: '["http://es01:9200"]'
         mem_limit: ${MEM_LIMIT}
+
+    apm-server:
+        user: ${DOCKER_USER:-1001}:0
+        extends:
+            file: docker-elasticms.yml
+            service: admin
+        command: >
+            bash -c '
+              echo "APM server is not supported by OpenSearch for the moment";

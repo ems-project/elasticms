@@ -496,30 +496,11 @@ Define the elasticsearch cluster as an array (JSON encoded) of hosts:
 
 - Default value: EMS_ELASTICSEARCH_HOSTS='["http://localhost:9200"]'
 
-If needed, this variable can also contain an
-[elastica servers array](https://elastica-docs.readthedocs.io/en/latest/client.html#client-configurations):
+If needed, this variable can also contain an Elastica config array:
 
 ```dotenv
-EMS_ELASTICSEARCH_HOSTS='[{"transport":"Https","host":"elastic:fewl13@localhost","port":9200,"curl":{"64":false}}]'
+EMS_ELASTICSEARCH_HOSTS='{"hosts":["localhost:9201"],"scheme":"http","username":"elastic","password":"changeme","curl":{"64":false}}'
 ```
-
-In this example the cluster contains only one host accessible via HTTPS on the port 9200. But with
-the CURL option `"64": false` the client doesn't check the validity of the host certificate
-
-```dotenv
-EMS_ELASTICSEARCH_HOSTS='[{"transport":"Https","host":"elastic:fewl13@localhost","port":9200,"curl":{"10065":"/opt/local/cacert.pem"}}]'
-```
-
-Here the client uses the `/opt/local/cacert.pem` to validate the server certificate.
-
-```dotenv
-EMS_ELASTICSEARCH_HOSTS='[{"transport":"Https","host":"localhost","port":9200,"headers":{"Authorization":"Basic ZWxhc3RpYzpmZXdsMTM="},"curl":{"64":false}}]'
-```
-
-Another example with an extra HTTP header.
-
-[All PHP CURL integer identifier can be found on GitHub](https://github.com/JetBrains/phpstorm-stubs/blob/master/curl/curl_d.php).
-More info on [PHP.net](https://www.php.net/manual/en/function.curl-setopt.php).
 
 ### EMS_STORAGES
 

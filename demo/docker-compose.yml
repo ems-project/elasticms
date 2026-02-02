@@ -45,6 +45,17 @@ services:
             - "traefik.http.routers.kibana.service=kibana"
             - "traefik.http.services.kibana.loadbalancer.server.port=5601"
 
+    apm-server:
+        extends:
+            file: docker-${ELK_VERSION-elk8}.yml
+            service: apm-server
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.apm-server.rule=Host(`apm-server.localhost`)"
+            - "traefik.http.routers.apm-server.entrypoints=web"
+            - "traefik.http.routers.apm-server.service=apm-server"
+            - "traefik.http.services.apm-server.loadbalancer.server.port=8200"
+
     postgres:
         image: postgres:17
         ports:
@@ -94,10 +105,8 @@ services:
         entrypoint: >
             /bin/sh -c '
               echo "Setup minio";
-              /usr/bin/mc config host rm local;
-              /usr/bin/mc config host add local http://minio:9000 accesskey secretkey;
-              /usr/bin/mc mb --ignore-existing local/demo;
-              /usr/bin/mc anonymous set download local/demo;
+              /usr/bin/mc alias set minio http://minio:9000 accesskey secretkey;
+              /usr/bin/mc mb --ignore-existing minio/demo;
               echo "All done!";
               exit 0;
             '

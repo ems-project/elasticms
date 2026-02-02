@@ -76,7 +76,8 @@ jobs:
           } >> "${GITHUB_OUTPUT}"
         env:
           GIT_HASH: ${{ github.sha }}
-          DOCKER_IMAGE_VERSION: ${{ (github.ref_type == 'tag' && github.ref_name) || steps.check.outputs.ref || 'snapshot' }}
+          DOCKER_IMAGE_TAG: ${{ (github.ref_type == 'tag' && github.ref_name) || steps.check.outputs.ref || 'snapshot' }}
+          EMS_VERSION: ${{ (github.ref_type == 'tag' && github.ref_name) || steps.check.outputs.ref || '7.x-snapshot' }}
 
   build:
     runs-on: ${{ startsWith(matrix.platform, 'linux/arm') && 'ubuntu-24.04-arm' || 'ubuntu-24.04' }}
@@ -166,7 +167,8 @@ jobs:
             ${{ fromJson(needs.prepare.outputs.push) && format('*.output=type=image,name={0},push-by-digest=true,name-canonical=true,push=true', env.DOCKER_IMAGE_NAME) || '' }}
         env:
           GIT_HASH: ${{ github.sha }}
-          DOCKER_IMAGE_VERSION: ${{ (github.ref_type == 'tag' && github.ref_name) || needs.prepare.outputs.ref || 'snapshot' }}
+          EMS_VERSION: ${{ (github.ref_type == 'tag' && github.ref_name) || needs.prepare.outputs.ref || '7.x-snapshot' }}
+          DOCKER_IMAGE_TAG: ${{ (github.ref_type == 'tag' && github.ref_name) || needs.prepare.outputs.ref || 'snapshot' }}
 
       - # Workaround for https://github.com/actions/runner/pull/2477#issuecomment-1501003600
         name: Export metadata

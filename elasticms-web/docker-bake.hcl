@@ -3,7 +3,7 @@ group "default" {
 }
 
 variable "EMS_VERSION" {
-  default = "7.0.0"
+  default = "7.x-snapshot"
 }
 
 variable "DOCKER_IMAGE_NAME" {

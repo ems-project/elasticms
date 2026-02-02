@@ -22,7 +22,7 @@ COMPOSER_INSTALL_CMDLINE     = "composer -vvv install --no-interaction --no-sugg
 COMPOSER_DIAGNOSE_CMDLINE    = "composer -vvv diagnose --no-interaction --no-scripts"
 COMPOSER_SELF_UPDATE_CMDLINE = "composer -vvv self-update --no-interaction"
 
-TARGET_DOCKER_IMAGE_NAME    ?= docker.io/elasticms/website-skeleton
+DOCKER_IMAGE_NAME           ?= docker.io/elasticms/website-skeleton
 
 DOCKER_PLATFORM             ?= linux/amd64
 DOCKER_BUILDER              ?= default

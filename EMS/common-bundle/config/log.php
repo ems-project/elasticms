@@ -17,6 +17,7 @@ return static function (ContainerConfigurator $container) {
         ->autoconfigure(false);
 
     $services->set('ems_common.repository.log', LogRepository::class)
+        ->lazy()
         ->public()
         ->args([service('doctrine')]);
 

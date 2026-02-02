@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+export DEBUG=${DEBUG:-false}
+[[ "${DEBUG}" == "true" ]] && set -x
+
+export ELASTICMS_CLI_CROND_COMMAND="$@"
+
+source /usr/local/bin/container-entrypoint.d/entrypoint.d/00-functions.sh
+
+for FILE in $(find /opt/bin/container-entrypoint.d/entrypoint.d -iname \*.sh | sort)
+do
+    source ${FILE}
+done
+
+for FILE in $(find /opt/bin/container-entrypoint.d/elasticms.d -iname \*.sh | sort)
+do
+    source ${FILE}
+done
+
+log "INFO" "+---- ElasticMS CLI Container ( Crontab ) configured succesfully -----"
+
+exec /usr/bin/supervisord -c /opt/etc/supervisord.conf

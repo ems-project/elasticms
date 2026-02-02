@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+export DEBUG=${DEBUG:-false}
+[[ "${DEBUG}" == "true" ]] && set -x
+
+export ELASTICMS_CLI_JOB_COMMAND="$@"
+
+source /usr/local/bin/container-entrypoint.d/entrypoint.d/00-functions.sh
+
+for FILE in $(find /opt/bin/container-entrypoint.d/entrypoint.d -iname \*.sh | sort)
+do
+    source ${FILE}
+done
+
+log "INFO" "+---- ElasticMS CLI Container ( Cronjob ) configured succesfully -----"
+
+exec elasticms-job "${ELASTICMS_CLI_JOB_COMMAND}"

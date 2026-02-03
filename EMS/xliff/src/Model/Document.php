@@ -21,21 +21,19 @@ class Document
     final public const string LOCALE_PLACE_HOLDER = '%locale%';
     /** @var DocumentNodeInterface[] */
     private array $nodes = [];
-    private HtmlExtractor $htmlExtractor;
-    private HtmlFormater $htmlFormater;
-    private TextFormater $textFormater;
-    private PropertyAccessor $propertyAccessor;
-    private HtmlInjector $htmlInjector;
-    private ?InsertReport $insertReport;
+    private readonly HtmlExtractor $htmlExtractor;
+    private readonly HtmlFormater $htmlFormater;
+    private readonly TextFormater $textFormater;
+    private readonly PropertyAccessor $propertyAccessor;
+    private readonly HtmlInjector $htmlInjector;
 
-    public function __construct(private readonly IdGeneratorInterface $idGenerator, public readonly string $id, ?InsertReport $insertReport = null)
+    public function __construct(private readonly IdGeneratorInterface $idGenerator, public readonly string $id, private readonly ?InsertReport $insertReport = null)
     {
         $this->htmlExtractor = new HtmlExtractor($idGenerator);
         $this->htmlFormater = new HtmlFormater();
         $this->textFormater = new TextFormater();
         $this->propertyAccessor = PropertyAccessor::createPropertyAccessor();
         $this->htmlInjector = new HtmlInjector();
-        $this->insertReport = $insertReport;
     }
 
     public function createText(string $resourceName, string $source, ?string $target = null, ?string $baseline = null, bool $isFinal = false): Unit

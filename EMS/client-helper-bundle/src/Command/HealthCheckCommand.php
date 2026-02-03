@@ -20,7 +20,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(
     name: Commands::HEALTH_CHECK,
     description: 'Performs system health check.',
-    hidden: false
+    hidden: false,
+    help: <<<TXT
+        Verify that the assets folder exists and is not empty. Verify that the Elasticsearch cluster is at least yellow and that the configured indexes exist.
+        TXT
 )]
 final class HealthCheckCommand extends AbstractCommand
 {
@@ -36,7 +39,6 @@ final class HealthCheckCommand extends AbstractCommand
     protected function configure(): void
     {
         $this
-            ->setHelp('Verify that the assets folder exists and is not empty. Verify that the Elasticsearch cluster is at least yellow and that the configured indexes exist.')
             ->addOption('green', 'g', InputOption::VALUE_NONE, 'Require a green Elasticsearch cluster health.', null)
             ->addOption('skip-storage', 's', InputOption::VALUE_NONE, 'Skip the storage health check.', null);
     }

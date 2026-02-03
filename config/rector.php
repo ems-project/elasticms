@@ -41,8 +41,8 @@ return RectorConfig::configure()
     ->withImportNames()
     ->withImportNames(importShortClasses: false)
     ->withPhpSets()
+    ->withComposerBased(symfony: true)
     ->withSets([
-        SymfonySetList::SYMFONY_64,
         SymfonySetList::SYMFONY_CODE_QUALITY,
         SymfonySetList::SYMFONY_CONSTRUCTOR_INJECTION,
     ])

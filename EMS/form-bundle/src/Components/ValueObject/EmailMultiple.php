@@ -21,7 +21,7 @@ final readonly class EmailMultiple
         $validator = Validation::createValidator();
         $emails = \explode(',', $this->emails);
         foreach ($emails as $email) {
-            $errors = $validator->validate(\trim($email), new Email(['mode' => Email::VALIDATION_MODE_HTML5]));
+            $errors = $validator->validate(\trim($email), new Email(mode: Email::VALIDATION_MODE_HTML5));
             if (0 < \count($errors)) {
                 return false;
             }

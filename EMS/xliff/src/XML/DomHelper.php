@@ -146,7 +146,7 @@ class DomHelper
         }
         foreach ($result as $node) {
             if (!$node instanceof \DOMElement) {
-                throw new \RuntimeException(\sprintf('Unexpected non \DOMElement object: %s', \get_class($node)));
+                throw new \RuntimeException(\sprintf('Unexpected non \DOMElement object: %s', $node::class));
             }
             yield $node;
         }

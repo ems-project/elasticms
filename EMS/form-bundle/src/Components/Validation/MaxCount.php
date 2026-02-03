@@ -12,6 +12,6 @@ class MaxCount extends AbstractValidation
     #[\Override]
     public function getConstraint(): Constraint
     {
-        return new Count(['max' => $this->value]);
+        return new Count(max: $this->value);
     }
 }

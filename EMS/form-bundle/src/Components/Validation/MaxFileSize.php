@@ -23,6 +23,6 @@ class MaxFileSize extends AbstractValidation
     #[\Override]
     public function getConstraint(): Constraint
     {
-        return new File(['maxSize' => $this->value]);
+        return new File(maxSize: $this->value);
     }
 }

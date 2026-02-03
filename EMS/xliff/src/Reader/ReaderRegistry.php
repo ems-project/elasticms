@@ -7,7 +7,7 @@ namespace EMS\Xliff\Reader;
 class ReaderRegistry
 {
     /** @param ReaderInterface[] $readers */
-    public function __construct(private array $readers)
+    public function __construct(private readonly array $readers)
     {
     }
 

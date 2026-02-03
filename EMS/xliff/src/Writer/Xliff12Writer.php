@@ -200,7 +200,7 @@ class Xliff12Writer implements WriterInterface
                     $this->appendInlineNodes($group, $node->getChildren());
                     break;
                 default:
-                    throw new \RuntimeException(\sprintf('Inline node %s not supported', \get_class($node)));
+                    throw new \RuntimeException(\sprintf('Inline node %s not supported', $node::class));
             }
         }
     }

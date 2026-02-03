@@ -13,6 +13,7 @@ use EMS\Helpers\Standard\Color;
 use EMS\Helpers\Standard\DateTime;
 use EMS\Helpers\Standard\Number;
 use EMS\Helpers\Standard\UuidGenerator;
+use Twig\Attribute\AsTwigFilter;
 use Twig\DeprecatedCallableInfo;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
@@ -58,10 +59,7 @@ class CommonExtension extends AbstractExtension
     public function getFilters(): array
     {
         return [
-            new TwigFilter('ems_array_key', $this->arrayKey(...)),
-            new TwigFilter('ems_file_exists', $this->fileExists(...)),
             new TwigFilter('ems_format_bytes', Number::formatBytes(...)),
-            new TwigFilter('ems_ouuid', $this->getOuuid(...)),
             new TwigFilter('ems_locale_attr', [RequestRuntime::class, 'localeAttribute']),
             new TwigFilter('ems_html_encode', [TextRuntime::class, 'htmlEncode'], ['is_safe' => ['html']]),
             new TwigFilter('ems_html_decode', [TextRuntime::class, 'htmlDecode']),
@@ -134,6 +132,7 @@ class CommonExtension extends AbstractExtension
         ];
     }
 
+    #[AsTwigFilter(name: 'ems_file_exists')]
     public function fileExists(string $filename): bool
     {
         return \file_exists($filename);
@@ -144,6 +143,7 @@ class CommonExtension extends AbstractExtension
      *
      * @return array<mixed>
      */
+    #[AsTwigFilter(name: 'ems_array_key')]
     public function arrayKey(array $array, string $key = 'key'): array
     {
         $out = [];
@@ -159,6 +159,7 @@ class CommonExtension extends AbstractExtension
         return $out;
     }
 
+    #[AsTwigFilter(name: 'ems_ouuid')]
     public function getOuuid(string $emsLink): string
     {
         return EMSLink::fromText($emsLink)->getOuuid();

@@ -18,6 +18,6 @@ class MaxLength extends AbstractValidation
     #[\Override]
     public function getConstraint(): Constraint
     {
-        return new Length(['max' => $this->value]);
+        return new Length(max: $this->value);
     }
 }

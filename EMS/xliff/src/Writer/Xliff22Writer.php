@@ -171,7 +171,7 @@ class Xliff22Writer implements WriterInterface
             //                continue;
             //            }
 
-            throw new \RuntimeException(\sprintf('Inline node %s not supported', \get_class($node)));
+            throw new \RuntimeException(\sprintf('Inline node %s not supported', $node::class));
         }
     }
 }

@@ -703,11 +703,7 @@ class DataController extends AbstractController
         $revision = new Revision();
         $form = $this->createFormBuilder($revision)
             ->add('ouuid', IconTextType::class, [
-                'constraints' => [new Regex([
-                    'pattern' => '/^[A-Za-z0-9_\.\-~]*$/',
-                    'match' => true,
-                    'message' => 'Ouuid has an unauthorized character.',
-                ]),
+                'constraints' => [new Regex(pattern: '/^[A-Za-z0-9_\.\-~]*$/', match: true, message: 'Ouuid has an unauthorized character.'),
                 ],
                 'attr' => [
                     'class' => 'form-control',

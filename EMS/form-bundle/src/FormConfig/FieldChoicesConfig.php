@@ -101,7 +101,7 @@ class FieldChoicesConfig
             if (\is_array($choice) && \count($choice) > 1) {
                 $level = \max(
                     $level,
-                    1 + $this->calculateMaxLevel(array_first($choice))
+                    1 + $this->calculateMaxLevel(\array_first($choice))
                 );
             }
         }

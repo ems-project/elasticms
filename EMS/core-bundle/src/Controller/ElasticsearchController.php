@@ -417,7 +417,7 @@ class ElasticsearchController extends AbstractController
         }
 
         if (null !== $category && 1 === \count($contentTypes)) {
-            $contentType = $this->contentTypeService->getByName(array_first($contentTypes));
+            $contentType = $this->contentTypeService->getByName(\array_first($contentTypes));
             if (false !== $contentType) {
                 if ($contentType->hasCategoryField()) {
                     $categoryField = $contentType->giveCategoryField();

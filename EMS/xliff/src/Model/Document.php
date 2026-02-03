@@ -26,16 +26,14 @@ class Document
     private readonly TextFormater $textFormater;
     private readonly PropertyAccessor $propertyAccessor;
     private readonly HtmlInjector $htmlInjector;
-    private readonly ?InsertReport $insertReport;
 
-    public function __construct(private readonly IdGeneratorInterface $idGenerator, public readonly string $id, ?InsertReport $insertReport = null)
+    public function __construct(private readonly IdGeneratorInterface $idGenerator, public readonly string $id, private readonly ?InsertReport $insertReport = null)
     {
         $this->htmlExtractor = new HtmlExtractor($idGenerator);
         $this->htmlFormater = new HtmlFormater();
         $this->textFormater = new TextFormater();
         $this->propertyAccessor = PropertyAccessor::createPropertyAccessor();
         $this->htmlInjector = new HtmlInjector();
-        $this->insertReport = $insertReport;
     }
 
     public function createText(string $resourceName, string $source, ?string $target = null, ?string $baseline = null, bool $isFinal = false): Unit

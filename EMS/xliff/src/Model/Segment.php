@@ -19,7 +19,7 @@ class Segment
      * @param Node[] $sourceNodes
      * @param Node[] $targetNodes
      */
-    private function __construct(private array $sourceNodes, private array $targetNodes, private readonly ?string $state = null, ?string $source = null, ?string $baselines = null, private bool $isFinal = false)
+    private function __construct(private array $sourceNodes, private array $targetNodes, private readonly ?string $state = null, ?string $source = null, ?string $baselines = null, private readonly bool $isFinal = false)
     {
         if (null !== $source) {
             $this->sources[] = $source;

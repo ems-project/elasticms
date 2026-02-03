@@ -21,12 +21,12 @@ class Document
     final public const string LOCALE_PLACE_HOLDER = '%locale%';
     /** @var DocumentNodeInterface[] */
     private array $nodes = [];
-    private HtmlExtractor $htmlExtractor;
-    private HtmlFormater $htmlFormater;
-    private TextFormater $textFormater;
-    private PropertyAccessor $propertyAccessor;
-    private HtmlInjector $htmlInjector;
-    private ?InsertReport $insertReport;
+    private readonly HtmlExtractor $htmlExtractor;
+    private readonly HtmlFormater $htmlFormater;
+    private readonly TextFormater $textFormater;
+    private readonly PropertyAccessor $propertyAccessor;
+    private readonly HtmlInjector $htmlInjector;
+    private readonly ?InsertReport $insertReport;
 
     public function __construct(private readonly IdGeneratorInterface $idGenerator, public readonly string $id, ?InsertReport $insertReport = null)
     {

@@ -28,7 +28,7 @@ class Admin implements AdminInterface
     public function getJobStatus(string $jobId): array
     {
         /** @var array{id: string, created: string, modified: string, command: string, user: string,started: bool, done: bool, status: string, output: ?string } $status */
-        $status = $this->client->get(\implode('/', ['api', 'admin', 'job-status', $jobId]))->getData();
+        $status = $this->client->get(\implode('/', ['api', 'admin', 'job', $jobId, 'status']))->getData();
 
         return $status;
     }
@@ -92,14 +92,15 @@ class Admin implements AdminInterface
     #[\Override]
     public function runCommand(string $command, ?OutputInterface $output = null): string
     {
-        $job = [
-            'class' => 'EMS\CoreBundle\Entity\Job',
-            'arguments' => [],
-            'properties' => [
-                'command' => $command,
-            ],
-        ];
-        $jobId = $this->getConfig('job')->create($job);
+        $create = $this->client->post('/api/admin/job/create', [
+            'command' => $command,
+        ])->getData();
+
+        $jobId = $create['jobId'] ?? null;
+        if (null === $jobId) {
+            throw new \RuntimeException('Could not create job');
+        }
+
         $this->startJob($jobId);
         if (null !== $output) {
             $this->writeJobOutput($jobId, $output);

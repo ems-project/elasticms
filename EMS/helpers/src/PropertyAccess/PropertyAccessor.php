@@ -257,13 +257,6 @@ class PropertyAccessor
      */
     private function hasAtLeastAttribute(array $rawData, array $attributeNames, int $atLeast): bool
     {
-        $counter = 0;
-        foreach ($attributeNames as $attributeName) {
-            if (isset($rawData[$attributeName]) && (++$counter >= $atLeast)) {
-                return true;
-            }
-        }
-
-        return false;
+        return \count(\array_intersect_key($rawData, \array_flip($attributeNames))) >= $atLeast;
     }
 }

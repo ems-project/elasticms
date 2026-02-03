@@ -21,6 +21,7 @@ use EMS\CoreBundle\Controller\Api\Admin\MetaController;
 use EMS\CoreBundle\Controller\Api\AuthTokenLoginController;
 use EMS\CoreBundle\Controller\Api\File\ExtractDataController;
 use EMS\CoreBundle\Controller\Api\Form\VerificationController;
+use EMS\CoreBundle\Controller\Api\JobApiController;
 use EMS\CoreBundle\Controller\Api\WebhookSubscriptionController;
 use EMS\CoreBundle\Controller\ChannelController;
 use EMS\CoreBundle\Controller\Component\JsonMenuNestedController;
@@ -263,6 +264,10 @@ return static function (ContainerConfigurator $container) {
 
     $services->set(AuthTokenLoginController::class);
 
+    $services->set(JobApiController::class)
+        ->args([service('ems.service.job')])
+        ->tag('controller.service_arguments');
+
     $services->set(\EMS\CoreBundle\Controller\Api\UserController::class)
         ->args([service('emsco.manager.user')])
         ->tag('controller.service_arguments');
@@ -361,6 +366,8 @@ return static function (ContainerConfigurator $container) {
             service(RevisionRepository::class),
             service('ems.service.action'),
             service('ems_core.core_ui.flash_message_logger'),
+            service('ems.service.publish'),
+            service(ContentTypeService::class),
             '%ems_core.template_namespace%',
         ])
         ->call('setContainer')

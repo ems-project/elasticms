@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace EMS\Xliff\Writer;
 
-final class WriterRegistry
+final readonly class WriterRegistry
 {
     /** @param WriterInterface[] $writers */
-    public function __construct(private readonly array $writers)
+    public function __construct(private array $writers)
     {
     }
 

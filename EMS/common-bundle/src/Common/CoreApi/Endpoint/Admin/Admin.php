@@ -28,7 +28,7 @@ class Admin implements AdminInterface
     public function getJobStatus(string $jobId): array
     {
         /** @var array{id: string, created: string, modified: string, command: string, user: string,started: bool, done: bool, status: string, output: ?string } $status */
-        $status = $this->client->get(\implode('/', ['api', 'admin', 'job-status', $jobId]))->getData();
+        $status = $this->client->get(\implode('/', ['api', 'admin', 'job', $jobId, 'status']))->getData();
 
         return $status;
     }

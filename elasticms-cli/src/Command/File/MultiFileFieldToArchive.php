@@ -138,6 +138,12 @@ class MultiFileFieldToArchive extends AbstractCommand
         }
 
         $algo = $this->adminHelper->getCoreApi()->file()->getHashAlgo();
+        $currentTargetValue = $propertyAccessor->getValue($rawData, $this->targetPropertyPath);
+        if (\is_array($currentTargetValue) && $hash === ($currentTargetValue[EmsFields::CONTENT_FILE_HASH_FIELD] ?? $currentTargetValue[EmsFields::CONTENT_FILE_HASH_FIELD_] ?? null)) {
+            $this->io->success(\sprintf('The field %s was already up to date', $this->targetPropertyPath));
+
+            return self::SUCCESS;
+        }
 
         $propertyAccessor->setValue($rawData, $this->targetPropertyPath, [
             EmsFields::CONTENT_FILE_ALGO_FIELD_ => $algo,

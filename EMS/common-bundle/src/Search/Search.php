@@ -71,6 +71,9 @@ class Search
      */
     public function getSources(): array
     {
+        if (\count($this->sourceIncludes) > 0 && !\in_array('_*', $this->sourceIncludes)) {
+            $this->sourceIncludes[] = '_*';
+        }
         if (\count($this->sourceExcludes) > 0) {
             return \array_filter([
                 'includes' => $this->sourceIncludes,

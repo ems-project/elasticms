@@ -313,3 +313,6 @@ Verify the installation with
 php -m | grep opentelemetry
 ```
 
+> [!NOTE]
+> To enable OpenTelemetry, set the `OTEL_ENABLED` environment variable to true in `docker/.env`. A server restart is
+required for the change to take effect (make server-restart).

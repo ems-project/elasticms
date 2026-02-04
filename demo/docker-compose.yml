@@ -169,12 +169,12 @@ services:
                     - local.ems-demo-admin
                     - local.ems-demo-admin-dev
         labels:
-            - "traefik.enable=true"
-            - "traefik.http.routers.admin-local.rule=HostRegexp(`local.{project:[a-z0-9\\-_\\.]+}-admin.localhost`)"
-            - "traefik.http.routers.admin-local.entrypoints=web"
-            - "traefik.http.routers.admin-local-dev.rule=HostRegexp(`local.{project:[a-z0-9\\-_\\.]+}-admin-dev.localhost`)"
-            - "traefik.http.routers.admin-local-dev.entrypoints=web"
-            - "traefik.http.services.admin-local.loadbalancer.server.port=9000"
+            - traefik.enable=true
+            - 'traefik.http.routers.admin-local.rule=HostRegexp(`^local\.([a-z0-9\-_\.]+)\-admin\.localhost$$`)'
+            - traefik.http.routers.admin-local.entrypoints=web
+            - 'traefik.http.routers.admin-local-dev.rule=HostRegexp(`^local\.([a-z0-9\-_\.]+)\-admin\-dev\.localhost$$`)'
+            - traefik.http.routers.admin-local-dev.entrypoints=web
+            - traefik.http.services.admin-local.loadbalancer.server.port=9000
 
     web-local:
         user: ${DOCKER_USER:-1001}:0
@@ -184,15 +184,15 @@ services:
         environment:
             - TRUSTED_HOSTS=localhost,.*\.localhost
         labels:
-            - "traefik.enable=true"
-            - "traefik.http.routers.varnish.rule=HostRegexp(`local.{project:[a-z0-9\\-_\\.]+}-web.localhost`)"
-            - "traefik.http.routers.varnish.entrypoints=web,websecure"
-            - "traefik.http.routers.varnish.service=varnish"
-            - "traefik.http.services.varnish.loadbalancer.server.port=6081"
-            - "traefik.http.routers.skeleton.rule=HostRegexp(`local.{project:[a-z0-9\\-_\\.]+}-web-nocache.localhost`)"
-            - "traefik.http.routers.skeleton.entrypoints=web,websecure"
-            - "traefik.http.routers.skeleton.service=skeleton"
-            - "traefik.http.services.skeleton.loadbalancer.server.port=9000"
+            - traefik.enable=true
+            - 'traefik.http.routers.varnish.rule=HostRegexp(`^local\.([a-z0-9\-_\.]+)\-web\.localhost$$`)'
+            - 'traefik.http.routers.varnish.entrypoints=web,websecure'
+            - traefik.http.routers.varnish.service=varnish
+            - traefik.http.services.varnish.loadbalancer.server.port=6081
+            - 'traefik.http.routers.skeleton.rule=HostRegexp(`^local\.([a-z0-9\-_\.]+)\-web\-nocache\.localhost$$`)'
+            - 'traefik.http.routers.skeleton.entrypoints=web,websecure'
+            - traefik.http.routers.skeleton.service=skeleton
+            - traefik.http.services.skeleton.loadbalancer.server.port=9000
 
     setup_ems:
         user: ${DOCKER_USER:-1001}:0

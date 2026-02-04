@@ -7,6 +7,7 @@ namespace EMS\ClientHelperBundle\Security\Sso\OAuth2;
 use EMS\ClientHelperBundle\Controller\Security\Sso\OAuth2Controller;
 use EMS\ClientHelperBundle\Security\Sso\OAuth2\Provider\AzureOAuth2Provider;
 use EMS\ClientHelperBundle\Security\Sso\OAuth2\Provider\KeycloakOAuth2Provider;
+use EMS\ClientHelperBundle\Security\Sso\OAuth2\Provider\PingIdentityOAuth2Provider;
 use EMS\ClientHelperBundle\Security\Sso\OAuth2\Provider\ProviderInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -102,6 +103,13 @@ class OAuth2Service
                 version: $this->optionalProperty(OAuth2Property::VERSION),
                 encryptionAlgorithm: $this->optionalProperty(OAuth2Property::ENCRYPTION_ALGORITHM),
                 encryptionKey: $this->optionalProperty(OAuth2Property::ENCRYPTION_KEY)
+            ),
+            'ping_identity' => new PingIdentityOAuth2Provider(
+                issuer: $this->property(OAuth2Property::ISSUER),
+                clientId: $this->property(OAuth2Property::CLIENT_ID),
+                clientSecret: $this->property(OAuth2Property::CLIENT_SECRET),
+                redirectUri: $this->property(OAuth2Property::REDIRECT_URI),
+                scopes: $this->config[OAuth2Property::SCOPES->value] ?? null,
             ),
             default => throw new \RuntimeException('invalid provider type'),
         };

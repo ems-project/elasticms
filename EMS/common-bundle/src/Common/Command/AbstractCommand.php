@@ -265,14 +265,14 @@ abstract class AbstractCommand extends Command implements CommandInterface
 
     protected function getArgumentEmsLink(string $name): EMSLink
     {
-        $argument = $this->input->getOption($name);
+        $argument = $this->input->getArgument($name);
 
         return EMSLink::fromText(Type::string($argument));
     }
 
     protected function getArgumentEmsLinkNull(string $name): ?EMSLink
     {
-        $argument = $this->input->getOption($name);
+        $argument = $this->input->getArgument($name);
 
         return null === $argument ? null : EMSLink::fromText(Type::string($argument));
     }

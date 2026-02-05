@@ -22,9 +22,6 @@ final class HelperExtension extends AbstractExtension
             new TwigFilter('emsch_routing', [RoutingRuntime::class, 'transform'], ['is_safe' => ['html']]),
             new TwigFilter('emsch_routing_config', [RoutingRuntime::class, 'transformConfig'], ['is_safe' => ['html']]),
             new TwigFilter('emsch_get', [ClientRequestRuntime::class, 'get']),
-            new TwigFilter('emsch_data', [ClientRequestRuntime::class, 'data'], [
-                'deprecation_info' => new DeprecatedCallableInfo('elasticms/client-helper-bundle', '6.0.0', 'emsch_get'),
-            ]),
         ];
     }
 

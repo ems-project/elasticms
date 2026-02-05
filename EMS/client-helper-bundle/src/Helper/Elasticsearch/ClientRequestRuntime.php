@@ -95,38 +95,6 @@ final class ClientRequestRuntime implements RuntimeExtensionInterface
     }
 
     /**
-     * @return mixed
-     */
-    public function data(string $input)
-    {
-        @\trigger_error(\sprintf('The filter emsch_data is deprecated and should not be used anymore. use the filter emsch_get instead"'), E_USER_DEPRECATED);
-
-        $emsLink = EMSLink::fromText($input);
-        $body = [
-            'query' => [
-                'bool' => [
-                    'must' => [['term' => ['_id' => $emsLink->getOuuid()]]],
-                ],
-            ],
-        ];
-
-        if ($emsLink->hasContentType()) {
-            $body['query']['bool']['must'][] = [
-                'term' => ['_contenttype' => $emsLink->getContentType()],
-            ];
-        }
-
-        $results = $this->manager->getDefault()->searchArgs(['body' => $body]);
-        $response = Response::fromArray($results);
-
-        if (1 === $response->getTotal()) {
-            return $results['hits']['hits'];
-        }
-
-        return ($response->getTotal() > 1) ? false : null;
-    }
-
-    /**
      * @param string[] $source
      */
     public function get(string $input, array $source = []): ?DocumentInterface

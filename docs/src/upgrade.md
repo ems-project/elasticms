@@ -29,20 +29,20 @@ outline: [2, 2]
 
 ### Removed deprecations
 
-- The EMS\ClientHelperBundle\Controller\AssetController has been removed: was only containing 3 proxy methods by calling removed emsUnzip functionality.
-  Should be replace by EMS\CommonBundle\Controller\FileController
+- The `EMS\ClientHelperBundle\Controller\AssetController` has been removed: was only containing 3 proxy methods by
+  calling removed emsUnzip functionality. Should be replace by `EMS\CommonBundle\Controller\FileController`
 - The route `ems_core_asset_proxy` route has been removed
+- Removed `EMS_WEBALIZE_DASHABLE_REGEX` and `EMS_WEBALIZE_REMOVABLE_REGEX` environment variables: was used for
+  `ems_webalize` which has been removed for `ems_slug`.
 
-#### Environment variables
+#### Twig
 
-- EMS_WEBALIZE_DASHABLE_REGEX and EMS_WEBALIZE_REMOVABLE_REGEX: was used for `ems_webalize` which has been removed for `ems_slug`. 
+- The `emsch_assets_version` function now only accepts a single argument: the hash.
+  The saveDir parameter has been removed, and the function no longer returns a value.
+- In the Twig function `emsch_search`, the $sourceExclude argument has been removed.
 
-#### Twig functions
+Removed functions in favor of the following replacements:
 
-The `emsch_assets_version` function now only accepts a single argument: the hash.
-The saveDir parameter has been removed, and the function no longer returns a value.
-
-Removed in favor of the following replacements: 
 - `emsch_assets` → `emsch_assets_version`
 - `emsch_unzip` → `ems_file_from_archive`
 - `ems_unzip` → `ems_file_from_archive`
@@ -65,9 +65,8 @@ Removed in favor of the following replacements:
 - `diff_date` → `emsco_diff_date`
 - `diff_time` → `emsco_diff_time`
 
-#### Twig filters
+Removed filters in favor of the following replacements:
 
-Removed in favor of the following replacements:
 - `emsch_data` → `emsch_get`
 - `ems_webalize` → `ems_slug`
 - `array_key` → `ems_array_key`

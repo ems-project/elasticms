@@ -21,7 +21,7 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
         private readonly AssetRuntime $commonAssetRuntime,
         private readonly ViteService $viteService,
         string $projectDir,
-        private readonly ?string $localFolder
+        private readonly string $localFolder
     ) {
         $this->publicDir = $projectDir.'/public';
     }
@@ -76,7 +76,7 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
     {
         $basePath = $this->getBasePath();
 
-        if (null === $this->localFolder) {
+        if ('' === $this->localFolder) {
             $this->viteService->loadManifestFromEmsArchive($this->getVersionHash());
         } else {
             $this->viteService->loadManifestFromDirectory($basePath);
@@ -106,7 +106,7 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
 
     private function getAssetFilename(string $path): string
     {
-        if (null !== $this->localFolder) {
+        if ('' !== $this->localFolder) {
             return $this->publicDir.DIRECTORY_SEPARATOR.$this->localFolder.DIRECTORY_SEPARATOR.$path;
         }
 

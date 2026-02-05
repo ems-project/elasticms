@@ -31,10 +31,13 @@ class MultiFileFieldToArchive extends AbstractCommand
     private const string ARG_SOURCE_PROPERTY_PATH = 'source-property-path';
     private const string ARG_TARGET_PROPERTY_PATH = 'target-property-path';
     private const string OPTION_ARCHIVE_NAME = 'archive-name';
+    private const string OPTION_LAST_UPDATE_DATETIME = 'last-update';
+    private const string DEFAULT_LAST_UPDATE_DATETIME = '2016-02-09T16:00:00+01:00';
     private EMSLink $emsLink;
     private string $sourcePropertyPath;
     private ?string $targetPropertyPath;
     private string $archiveName;
+    private \DateTimeImmutable $lastUpdateDateTime;
 
     public function __construct(
         private readonly AdminHelper $adminHelper,
@@ -67,6 +70,13 @@ class MultiFileFieldToArchive extends AbstractCommand
                 InputOption::VALUE_OPTIONAL,
                 'Filename of the archive',
                 'archive.zip'
+            )
+            ->addOption(
+                self::OPTION_LAST_UPDATE_DATETIME,
+                '',
+                InputOption::VALUE_OPTIONAL,
+                'Last update datetime of the archive\'s files',
+                self::DEFAULT_LAST_UPDATE_DATETIME
             );
     }
 
@@ -78,6 +88,7 @@ class MultiFileFieldToArchive extends AbstractCommand
         $this->sourcePropertyPath = $this->getArgumentString(self::ARG_SOURCE_PROPERTY_PATH);
         $this->targetPropertyPath = $this->getArgumentStringNull(self::ARG_TARGET_PROPERTY_PATH);
         $this->archiveName = $this->getOptionString(self::OPTION_ARCHIVE_NAME);
+        $this->lastUpdateDateTime = $this->getOptionDateTime(self::OPTION_LAST_UPDATE_DATETIME);
     }
 
     #[\Override]
@@ -100,7 +111,7 @@ class MultiFileFieldToArchive extends AbstractCommand
         $propertyAccessor = PropertyAccessor::createPropertyAccessor();
         $rawData = $this->adminHelper->getCoreApi()->data($this->emsLink->getContentType())->get($this->emsLink->getOuuid())->getRawData();
         $treated = [];
-
+        $forceLastUpdateDate = self::DEFAULT_LAST_UPDATE_DATETIME === $this->lastUpdateDateTime->format('c') ? null : $this->lastUpdateDateTime;
         foreach ($propertyAccessor->iterator($this->sourcePropertyPath, $rawData) as $property => $files) {
             $this->io->section(\sprintf('Add files found in field %s', $property));
             $this->io->progressStart(\count($files));
@@ -114,7 +125,7 @@ class MultiFileFieldToArchive extends AbstractCommand
                 $zip->addFileFromPsr7Stream(
                     fileName: $file[EmsFields::CONTENT_FILE_NAME_FIELD] ?? $file[EmsFields::CONTENT_FILE_NAME_FIELD_] ?? 'filename.bin',
                     stream: $stream,
-                    lastModificationDateTime: new \DateTimeImmutable($file[EmsFields::CONTENT_FILE_DATE] ?? '2016-02-09T16:00:00+01:00'),
+                    lastModificationDateTime: $forceLastUpdateDate ?: new \DateTimeImmutable($file[EmsFields::CONTENT_FILE_DATE] ?? self::DEFAULT_LAST_UPDATE_DATETIME),
                     exactSize: Type::integer($file[EmsFields::CONTENT_FILE_SIZE_FIELD] ?? $file[EmsFields::CONTENT_FILE_SIZE_FIELD_]),
                 );
                 $this->io->progressAdvance();

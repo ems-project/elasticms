@@ -18,12 +18,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(
     name: Commands::UPDATE_FILE_LINKS,
-    description: 'Convert ems file links into ems object link', // TODO Verifier description script
+    description: 'Convert ems file links into ems object link', // TODO Verify script description 
     hidden: false
 )]
 final class UpdateFileLinks extends AbstractCommand
 {
-    //Tous les attributs nécessaires sont-ils présents? 
     private const string ARGUMENT_FOLDER = 'folder';
     private const string OPTION_FOLDER_FIELD = 'folder-field';
     private const string OPTION_CONTENT_TYPE = 'content-type';
@@ -57,7 +56,7 @@ final class UpdateFileLinks extends AbstractCommand
         parent::initialize($input, $output);
         
         $this->options = new MediaLibrarySyncOptions(
-            //TODO If I have to put all args in this method, do I have to init them before or can I simply put a bunch of nulls and false?
+            //TODO If I have to put all args in this method, do I have to declare them before (in the object attributes) or can I simply put a bunch of nulls and false?
             folder: $this->getArgumentString(self::ARGUMENT_FOLDER),
             contentType: $this->getOptionString(self::OPTION_CONTENT_TYPE),
             folderField: $this->getOptionString(self::OPTION_FOLDER_FIELD),

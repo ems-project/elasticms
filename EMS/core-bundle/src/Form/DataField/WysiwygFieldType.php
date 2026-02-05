@@ -81,7 +81,7 @@ class WysiwygFieldType extends DataFieldType
             $hash = $assets['sha1'] ?? null;
             $saveDir = $styleSet->getSaveDir();
             if (null !== $assets && \is_string($hash) && null !== $saveDir) {
-                $this->assetRuntime->unzip($hash, $saveDir);
+                throw new \RuntimeException('saveDir not supported anymore');
             }
             if ($hash && null === $saveDir && $contentCss) {
                 $contentCss = $this->router->generate('ems_asset_in_archive', [

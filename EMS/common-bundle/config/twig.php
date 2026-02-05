@@ -39,7 +39,6 @@ return static function (ContainerConfigurator $container) {
     $services->set(AssetRuntime::class)
         ->args([
             service('ems_common.storage.manager'),
-            service('logger'),
             service(UrlGeneratorInterface::class),
             service(Processor::class),
             service('ems_common.file.reader'),

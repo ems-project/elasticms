@@ -12,59 +12,20 @@ use EMS\CommonBundle\Storage\NotSavedException;
 use EMS\CommonBundle\Storage\Processor\Config;
 use EMS\CommonBundle\Storage\Processor\Processor;
 use EMS\CommonBundle\Storage\StorageManager;
-use EMS\Helpers\File\TempDirectory;
 use EMS\Helpers\File\TempFile;
 use EMS\Helpers\Standard\Json;
 use EMS\Helpers\Standard\Type;
-use Psr\Log\LoggerInterface;
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class AssetRuntime
 {
-    private readonly Filesystem $filesystem;
-
     public function __construct(
         private readonly StorageManager $storageManager,
-        private readonly LoggerInterface $logger,
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly Processor $processor,
         private readonly FileReaderInterface $fileReader,
     ) {
-        $this->filesystem = new Filesystem();
-    }
-
-    /**
-     * @return array<string, SplFileInfo>
-     */
-    public function unzip(string $hash, string $saveDir, bool $mergeContent = false): array
-    {
-        @\trigger_error(\sprintf('The function emsch_unzip is deprecated and should not be used anymore. use the function ems_file_from_archive or the route EMS\CommonBundle\Controller\FileController::assetInArchive instead"'), E_USER_DEPRECATED);
-        try {
-            $checkFilename = $saveDir.\DIRECTORY_SEPARATOR.$hash;
-
-            if (!\file_exists($checkFilename)) {
-                if (!$mergeContent && $this->filesystem->exists($saveDir)) {
-                    $this->filesystem->remove($saveDir);
-                }
-
-                $tempFile = TempFile::create()->loadFromStream($this->storageManager->getStream($hash));
-                $tempDir = TempDirectory::createFromZipArchive($tempFile->path);
-                $tempDir->moveTo($saveDir);
-                $tempDir->touch($hash);
-            }
-
-            $excludeCheckFile = fn (SplFileInfo $f) => $f->getPathname() !== $checkFilename;
-
-            return \iterator_to_array(Finder::create()->in($saveDir)->files()->filter($excludeCheckFile)->getIterator());
-        } catch (\Exception $e) {
-            $this->logger->error('ems_zip failed : %error%', ['error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
-        }
-
-        return [];
     }
 
     public function temporaryFile(string $hash): ?string

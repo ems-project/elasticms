@@ -13,7 +13,6 @@ use EMS\Helpers\Standard\Color;
 use EMS\Helpers\Standard\DateTime;
 use EMS\Helpers\Standard\Number;
 use EMS\Helpers\Standard\UuidGenerator;
-use Twig\DeprecatedCallableInfo;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
@@ -48,9 +47,6 @@ class CommonExtension extends AbstractExtension
             new TwigFunction('ems_file_reader_cells', [AssetRuntime::class, 'fileReaderReadCells']),
             new TwigFunction('ems_check_ip', [RequestRuntime::class, 'checkIp']),
             new TwigFunction('ems_clear_http_caches', [HttpCacheRuntime::class, 'clearCaches']),
-            new TwigFunction('ems_unzip', [AssetRuntime::class, 'unzip'], [
-                'deprecation_info' => new DeprecatedCallableInfo('elasticms/common-bundle', '5.19.0', 'ems_file_from_archive'),
-            ]),
         ];
     }
 

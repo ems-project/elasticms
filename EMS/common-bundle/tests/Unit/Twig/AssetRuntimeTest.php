@@ -25,7 +25,6 @@ class AssetRuntimeTest extends TestCase
     public function setUp(): void
     {
         $this->storageManager = $this->createMock(StorageManager::class);
-        $this->logger = $this->createMock(LoggerInterface::class);
         $this->urlGenerator = $this->createMock(UrlGeneratorInterface::class);
         $this->processor = $this->createMock(Processor::class);
         $this->fileReader = $this->createMock(FileReaderInterface::class);
@@ -37,7 +36,6 @@ class AssetRuntimeTest extends TestCase
         $assetRuntime = $this->getMockBuilder(AssetRuntime::class)
             ->setConstructorArgs([
                 $this->storageManager,
-                $this->logger,
                 $this->urlGenerator,
                 $this->processor,
                 $this->fileReader,
@@ -62,7 +60,6 @@ class AssetRuntimeTest extends TestCase
         $assetRuntime = $this->getMockBuilder(AssetRuntime::class)
             ->setConstructorArgs([
                 $this->storageManager,
-                $this->logger,
                 $this->urlGenerator,
                 $this->processor,
                 $this->fileReader,
@@ -87,7 +84,6 @@ class AssetRuntimeTest extends TestCase
         $assetRuntime = $this->getMockBuilder(AssetRuntime::class)
             ->setConstructorArgs([
                 $this->storageManager,
-                $this->logger,
                 $this->urlGenerator,
                 $this->processor,
                 $this->fileReader,
@@ -121,7 +117,6 @@ class AssetRuntimeTest extends TestCase
         $assetRuntime = $this->getMockBuilder(AssetRuntime::class)
             ->setConstructorArgs([
                 $this->storageManager,
-                $this->logger,
                 $this->urlGenerator,
                 $this->processor,
                 $this->fileReader,

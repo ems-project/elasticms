@@ -27,6 +27,95 @@ outline: [2, 2]
 - phpoffice/phpspreadsheet: `3.10.3 → 5.4.0`
 - kevinrob/guzzle-cache-middleware: `6.0 → 7.0`
 
+### Removed deprecations
+
+- The EMS\ClientHelperBundle\Controller\AssetController has been removed: was only containing 3 proxy methods by calling removed emsUnzip functionality.
+  Should be replace by EMS\CommonBundle\Controller\FileController
+- The route `ems_core_asset_proxy` route has been removed
+
+#### Environment variables
+
+- EMS_WEBALIZE_DASHABLE_REGEX and EMS_WEBALIZE_REMOVABLE_REGEX: was used for `ems_webalize` which has been removed for `ems_slug`. 
+
+#### Twig functions
+
+The `emsch_assets_version` function now only accepts a single argument: the hash.
+The saveDir parameter has been removed, and the function no longer returns a value.
+
+Removed in favor of the following replacements: 
+- `emsch_assets` → `emsch_assets_version`
+- `emsch_unzip` → `ems_file_from_archive`
+- `ems_unzip` → `ems_file_from_archive`
+- `get_default_environments` → `emsco_get_default_environment_names`
+- `emsco_uuid` → `ems_uuid`
+- `cant_be_finalized` → `emsco_cant_be_finalized`
+- `get_content_types` → `emsco_get_content_types`
+- `sequence` → `emsco_sequence`
+- `is_super` → `emsco_is_super`
+- `call_user_func` → `emsco_call_user_func`
+- `diff_text` → `emsco_diff_text`
+- `diff` → `emsco_diff`
+- `diff_html` → `emsco_diff_html`
+- `diff_icon` → `emsco_diff_icon`
+- `diff_raw` → `emsco_diff_raw`
+- `diff_color` → `emsco_diff_color`
+- `diff_boolean` → `emsco_diff_boolean`
+- `diff_choice` → `emsco_diff_choice`
+- `diff_data_link` → `emsco_diff_data_link`
+- `diff_date` → `emsco_diff_date`
+- `diff_time` → `emsco_diff_time`
+
+#### Twig filters
+
+Removed in favor of the following replacements:
+- `emsch_data` → `emsch_get`
+- `ems_webalize` → `ems_slug`
+- `array_key` → `ems_array_key`
+- `format_bytes` → `ems_format_bytes`
+- `locale_attr` → `ems_locale_attr`
+- `emsch_ouuid` → `ems_ouuid`
+- `array_intersect` → `ems_array_intersect`
+- `merge_recursive` → `ems_array_merge_recursive`
+- `inArray` → `ems_in_array`
+- `md5` → `ems_md5`
+- `luma` → `ems_luma`
+- `contrastratio` → `ems_contrast_ratio`
+- `firstInArray` → `ems_first_in_array`
+- `url_generator` → `ems_slug`
+- `emsco_webalize` → `ems_slug`
+- `get_environment` → `emsco_get_environment`
+- `get_content_type` → `emsco_get_content_type`
+- `data_label` → `emsco_display`
+- `data` → `emsco_get`
+- `json_decode` → `ems_json_decode`
+- `search` → `emsco_search_query`
+- `convertJavaDateFormat` → `emsco_convert_java_date_format`
+- `convertJavascriptDateFormat` → `emsco_convert_javascript_date_format`
+- `convertJavascriptDateRangeFormat` → `emsco_convert_javascript_date_range_format`
+- `getTimeFieldTimeFormat` → `emsco_time_field_time_format`
+- `soapRequest` → `emsco_soap_request`
+- `all_granted` → `emsco_all_granted`
+- `one_granted` → `emsco_one_granted`
+- `in_my_circles` → `emsco_in_my_circles`
+- `data_link` → `emsco_data_link`
+- `is_super` → `emsco_is_super`
+- `generate_from_template` → `emsco_generate_from_template`
+- `objectChoiceLoader` → `emsco_object_choice_loader`
+- `groupedObjectLoader` → `emsco_grouped_object_loader`
+- `propertyPath` → `emsco_property_path`
+- `i18n` → `emsco_i18n`
+- `internal_links` → `emsco_internal_links`
+- `src_path` → `emsco_src_path`
+- `get_user` → `emsco_get_user`
+- `displayname` → `emsco_display_name`
+- `date_difference` → `emsco_date_difference`
+- `debug` → `emsco_debug`
+- `call_user_func` → `emsco_call_user_func`
+- `get_string` → `emsco_get_string`
+- `get_file` → `emsco_get_file`
+- `get_field_by_path` → `emsco_get_field_by_path`
+- `get_revision_id` → `emsco_get_revision_id`
+
 ## 6.9.2
 
 - Media library: the "nested_path" option for sorting is deprecated, use "parent_field" instead.

@@ -301,7 +301,7 @@ sudo make install
 
 :::
 
-Add the following to your php.ini 
+Add the following to your php.ini
 
 ```ini
 [opentelemetry]
@@ -309,10 +309,10 @@ extension=opentelemetry.so
 ```
 
 Verify the installation with
+
 ```bash
 php -m | grep opentelemetry
 ```
 
-> [!NOTE]
-> To enable OpenTelemetry, set the `OTEL_ENABLED` environment variable to true in `docker/.env`. A server restart is
-required for the change to take effect (make server-restart).
+> [!NOTE] To enable OpenTelemetry, set the `OTEL_ENABLED` environment variable to true in
+> `docker/.env`. A server restart is required for the change to take effect (make server-restart).

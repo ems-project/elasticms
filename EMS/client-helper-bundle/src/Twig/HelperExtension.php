@@ -41,9 +41,6 @@ final class HelperExtension extends AbstractExtension
             new TwigFunction('emsch_asset_redirect', [AssetHelperRuntime::class, 'assetRedirect']),
             new TwigFunction('emsch_assets_version', [AssetHelperRuntime::class, 'setVersion']),
             new TwigFunction('emsch_webhook_event', [WebhookRuntime::class, 'getWebhook']),
-            new TwigFunction('emsch_assets', [AssetHelperRuntime::class, 'assets'], [
-                'deprecation_info' => new DeprecatedCallableInfo('elasticms/client-helper-bundle', '5.19.0', 'emsch_assets_version'),
-            ]),
             new TwigFunction('emsch_unzip', [AssetRuntime::class, 'unzip'], [
                 'deprecation_info' => new DeprecatedCallableInfo('elasticms/client-helper-bundle', '5.19.0', 'ems_unzip', 'elasticms/common-bundle', '5.19.0'),
             ]),

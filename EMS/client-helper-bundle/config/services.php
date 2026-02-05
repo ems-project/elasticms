@@ -159,7 +159,6 @@ return static function (ContainerConfigurator $container) {
     $services->set('emsch.twig.runtime.asset', AssetHelperRuntime::class)
         ->args([
             service('ems_common.storage.manager'),
-            service('emsch.manager.client_request'),
             service('ems_common.twig.runtime.asset'),
             service('ems.vite'),
             '%kernel.project_dir%',

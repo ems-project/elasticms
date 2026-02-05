@@ -291,6 +291,25 @@ abstract class AbstractCommand extends Command implements CommandInterface
         return null === $option ? null : EMSLink::fromText(Type::string($option));
     }
 
+    protected function getOptionDateTime(string $name): \DateTimeImmutable
+    {
+        return DateTime::create(Type::string($this->input->getOption($name)));
+    }
+
+    protected function getOptionDateTimeNull(string $name): ?\DateTimeImmutable
+    {
+        $option = $this->input->getOption($name);
+
+        return null === $option ? null : DateTime::create(Type::string($option));
+    }
+
+    protected function getArgumentDateTimeNull(string $name): ?\DateTimeImmutable
+    {
+        $option = $this->input->getArgument($name);
+
+        return null === $option ? null : DateTime::create(Type::string($option));
+    }
+
     /**
      * Execute command in real php sub process.
      *

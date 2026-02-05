@@ -14,7 +14,7 @@ outline: [2,2]
 - Support for Elasticsearch 7 has been dropped
 - OpenTelemetry is now required [see install](./getting-started/dev-env.md#install-opentelemetry)
 
-Dependencies upgrades:
+::: details Dependency Upgrades
 - phpunit/phpunit: `11.5 → 12.5`
 - doctrine/doctrine-bundle : `2.18.2 → 3.2.2`
 - doctrine/doctrine-migrations-bundle : `3.7.0 → 4.0.0`
@@ -25,6 +25,7 @@ Dependencies upgrades:
 - symplify/monorepo-builder: `11.2.23 → 12.4.5`
 - phpoffice/phpspreadsheet: `3.10.3 → 5.4.0`
 - kevinrob/guzzle-cache-middleware: `6.0 → 7.0`
+:::
 
 ## 6.9.2
 

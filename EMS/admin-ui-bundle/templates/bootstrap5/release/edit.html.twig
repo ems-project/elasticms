@@ -12,10 +12,12 @@
 {% endblock %}
 
 {% block body %}
-    {{ include('@EMSAdminUI/bootstrap5/release/form.html.twig', {
-        label: 'release.edit.title',
-    }) }}
+    {{ include('@EMSAdminUI/bootstrap5/release/form.html.twig') }}
 
     {% form_theme form '@EMSAdminUI/bootstrap5/form/forms.html.twig' %}
-    {{ form(form) }}
+    <div class="card">
+        <div class="card-body">
+            {{ form(form) }}
+        </div>
+    </div>
 {% endblock %}

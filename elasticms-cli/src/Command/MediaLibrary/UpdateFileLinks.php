@@ -8,6 +8,7 @@ use App\CLI\Client\MediaLibrary\MediaLibrarySyncOptions;
 use App\CLI\Commands;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\CommonBundle\Contracts\CoreApi\Exception\BaseUrlNotDefinedExceptionInterface;
 use EMS\CommonBundle\Contracts\ExpressionServiceInterface;
 use EMS\CommonBundle\Contracts\File\FileReaderInterface;
 use RectorPrefix202601\Symfony\Component\Console\Input\InputArgument;
@@ -70,9 +71,6 @@ final class UpdateFileLinks extends AbstractCommand
             onlyMetadataFile: false,
             hashFolder: false,
             hashMetaDataFile: false,
-            forceExtract: false,
-            maxContentSize: false,
-            maxFileSizeExtract: false,
         );
         
     }
@@ -81,6 +79,15 @@ final class UpdateFileLinks extends AbstractCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io->title(\sprintf('Convert ems file links into ems object link in %s', 'content type name')); //TODO change ctname
+        $coreApi = $this->adminHelper->getCoreApi();
+
+        if (!$coreApi->isAuthenticated()) {
+            $this->io->error(\sprintf('Not authenticated for %s, run ems:admin:login', $this->adminHelper->getCoreApi()->getBaseUrl()));
+
+            return self::EXECUTE_ERROR;
+        }
+        
+        
         
         return self::EXECUTE_SUCCESS;
     }

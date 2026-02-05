@@ -367,10 +367,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         host?: scalar|Param|null,
  *         port?: scalar|Param|null, // Default: null
  *     },
- *     webalize?: array{
- *         removable_regex?: scalar|Param|null, // Default: "/([^a-zA-Z0-9_| \\-.'\\/])|(\\.$)/"
- *         dashable_regex?: scalar|Param|null, // Default: "/[\\/| ']+/"
- *     },
  *     request?: array{
  *         trusted_ips?: mixed, // Default: []
  *     },

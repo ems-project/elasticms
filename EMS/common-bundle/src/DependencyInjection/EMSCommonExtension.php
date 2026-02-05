@@ -51,9 +51,6 @@ class EMSCommonExtension extends Extension implements PrependExtensionInterface
 
         $container->setParameter('ems_common.cache_config', $config['cache']);
 
-        $container->setParameter('ems_common.webalize.removable_regex', $config['webalize']['removable_regex']);
-        $container->setParameter('ems_common.webalize.dashable_regex', $config['webalize']['dashable_regex']);
-
         $container->setParameter('ems_common.core_api.options', $config['core_api']);
 
         $metricsEnabled = $config['metric']['enabled'] ?? false;

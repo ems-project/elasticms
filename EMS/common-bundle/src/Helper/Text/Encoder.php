@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Helper\Text;
 
 use cebe\markdown\GithubMarkdown;
-use EMS\CommonBundle\DependencyInjection\Configuration;
 use Symfony\Component\String\AbstractUnicodeString;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Component\String\Slugger\SluggerInterface;
@@ -18,8 +17,9 @@ class Encoder
     /**
      * @param array<string, array<string, string>>|null $sluggerSymbolMap
      */
-    public function __construct(private readonly string $webalizeRemovableRegex = Configuration::WEBALIZE_REMOVABLE_REGEX, private readonly string $webalizeDashableRegex = Configuration::WEBALIZE_DASHABLE_REGEX, private readonly ?array $sluggerSymbolMap = null)
-    {
+    public function __construct(
+        private readonly ?array $sluggerSymbolMap = null
+    ) {
     }
 
     public function htmlEncode(string $text): string
@@ -68,24 +68,6 @@ class Encoder
         }
 
         return $encodedText;
-    }
-
-    public function webalizeForUsers(string $text, ?string $locale = null): ?string
-    {
-        @\trigger_error('The webalizeForUsers method is deprecated, use the slug method', \E_USER_DEPRECATED);
-
-        return static::webalize($text, $this->webalizeRemovableRegex, $this->webalizeDashableRegex, $locale);
-    }
-
-    public static function webalize(string $text, string $webalizeRemovableRegex = Configuration::WEBALIZE_REMOVABLE_REGEX, string $webalizeDashableRegex = Configuration::WEBALIZE_DASHABLE_REGEX, ?string $locale = null): string
-    {
-        @\trigger_error('The webalize method is deprecated, use the slug method', \E_USER_DEPRECATED);
-        $clean = self::asciiFolding($text, $locale);
-        $clean = \preg_replace($webalizeRemovableRegex, '', $clean) ?? '';
-        $clean = \strtolower(\trim($clean, '-'));
-        $clean = \preg_replace($webalizeDashableRegex, '-', $clean) ?? '';
-
-        return $clean;
     }
 
     public function slug(string $text, ?string $locale = null, string $separator = '-', bool $lower = true, bool $preserveFileExtension = false): AbstractUnicodeString

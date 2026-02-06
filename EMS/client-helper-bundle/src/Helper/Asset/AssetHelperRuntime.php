@@ -15,15 +15,19 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
 {
     private readonly string $publicDir;
     private ?string $versionHash = null;
+    private ?string $localFolder = null;
 
     public function __construct(
         private readonly StorageManager $storageManager,
         private readonly AssetRuntime $commonAssetRuntime,
         private readonly ViteService $viteService,
         string $projectDir,
-        private readonly string $localFolder
+        ?string $localFolder = null
     ) {
         $this->publicDir = $projectDir.'/public';
+        if ($localFolder && \strlen($localFolder) > 0) {
+            $this->localFolder = $localFolder;
+        }
     }
 
     public function setVersion(string $hash): void
@@ -76,7 +80,7 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
     {
         $basePath = $this->getBasePath();
 
-        if ('' === $this->localFolder) {
+        if (null === $this->localFolder) {
             $this->viteService->loadManifestFromEmsArchive($this->getVersionHash());
         } else {
             $this->viteService->loadManifestFromDirectory($basePath);
@@ -106,7 +110,7 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
 
     private function getAssetFilename(string $path): string
     {
-        if ('' !== $this->localFolder) {
+        if (null !== $this->localFolder) {
             return $this->publicDir.DIRECTORY_SEPARATOR.$this->localFolder.DIRECTORY_SEPARATOR.$path;
         }
 

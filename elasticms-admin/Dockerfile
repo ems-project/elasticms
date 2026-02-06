@@ -19,7 +19,7 @@ RUN mv /tmpfs/.docker /bootstrap \
 # Prd
 #
 
-FROM docker.io/smalswebtech/base-php:8.5-apache AS prd
+FROM docker.io/smalswebtech/base-php:8.5-nginx AS prd
 
 USER root
 
@@ -42,7 +42,7 @@ HEALTHCHECK --start-period=1s --interval=1m --timeout=2s --retries=5 \
 # Dev
 #
 
-FROM docker.io/smalswebtech/base-php:8.5-apache-dev AS dev
+FROM docker.io/smalswebtech/base-php:8.5-nginx-dev AS dev
 
 USER root
 

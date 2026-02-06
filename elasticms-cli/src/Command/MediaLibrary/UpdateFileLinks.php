@@ -20,7 +20,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 final class UpdateFileLinks extends AbstractCommand
 {
     private const string ARGUMENT_CONTENT_TYPE = 'content-type';
+    private const string ARGUMENT_FIELDS = 'fields';
     private string $contentTypeName;
+
+    private array $fields;
 
     public function __construct(
         private readonly AdminHelper $adminHelper
@@ -33,6 +36,7 @@ final class UpdateFileLinks extends AbstractCommand
     {
         $this
             ->addArgument(self::ARGUMENT_CONTENT_TYPE, InputArgument::REQUIRED, 'Content type\'s name')
+            ->addArgument(self::ARGUMENT_FIELDS, InputArgument::IS_ARRAY, 'Fields to search for. Write words separated by spaces')
         ;
     }
 
@@ -41,18 +45,23 @@ final class UpdateFileLinks extends AbstractCommand
     {
         parent::initialize($input, $output);
         $this->contentTypeName = $this->getArgumentString(self::ARGUMENT_CONTENT_TYPE);
+        $this->fields = $this->getArgumentStringArray(self::ARGUMENT_FIELDS);
     }
 
     #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->io->title(\sprintf('Convert ems file links into ems object link in %s', $this->contentTypeName)); // TODO change ctname
+        $this->io->title(\sprintf('Convert ems file links into ems object link in %s', $this->contentTypeName));
         $coreApi = $this->adminHelper->getCoreApi();
-
+        
         if (!$coreApi->isAuthenticated()) {
             $this->io->error(\sprintf('Not authenticated for %s, run ems:admin:login', $this->adminHelper->getCoreApi()->getBaseUrl()));
-
             return self::EXECUTE_ERROR;
+        }
+
+        foreach($this->fields as $field) {
+            $this->io->text(\sprintf('Searching for %s...', $field));
+            
         }
 
         return self::EXECUTE_SUCCESS;

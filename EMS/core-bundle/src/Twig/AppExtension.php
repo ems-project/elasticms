@@ -926,7 +926,7 @@ class AppExtension extends AbstractExtension
             $attributes = [...$attributes, 'style="background-color: '.$color.';border-color: '.$color.';"'];
         }
 
-        $link = $this->router->generate('data.revisions', [
+        $link = $this->router->generate('emsco_view_revisions', [
             'type' => $emsLink->getContentType(),
             'ouuid' => $emsLink->getOuuid(),
             'revisionId' => $revisionId,

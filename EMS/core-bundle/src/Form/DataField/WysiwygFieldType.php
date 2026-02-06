@@ -38,8 +38,8 @@ class WysiwygFieldType extends DataFieldType
         ElasticsearchService $elasticsearchService,
         private readonly RouterInterface $router,
         private readonly WysiwygStylesSetService $wysiwygStylesSetService,
-        private readonly AssetRuntime $assetRuntime)
-    {
+        private readonly AssetRuntime $assetRuntime
+    ) {
         parent::__construct($authorizationChecker, $formRegistry, $elasticsearchService);
     }
 

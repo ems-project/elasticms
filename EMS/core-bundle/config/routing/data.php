@@ -142,5 +142,4 @@ return function (RoutingConfigurator $routes): void {
         ->controller('EMS\CoreBundle\Controller\ContentManagement\ReleaseController::addRevisionById')
         ->methods(['POST'])
         ->requirements(['type' => 'publish|unpublish']);
-
 };

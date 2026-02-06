@@ -7,6 +7,7 @@ namespace App\CLI\Command\MediaLibrary;
 use App\CLI\Commands;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\CommonBundle\Search\Search;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -59,9 +60,25 @@ final class UpdateFileLinks extends AbstractCommand
             return self::EXECUTE_ERROR;
         }
 
-        foreach($this->fields as $field) {
-            $this->io->text(\sprintf('Searching for %s...', $field));
+        //Comment obtenir tous les files?
+        $defaultAlias = $coreApi->meta()->getDefaultContentTypeEnvironmentAlias(self::ARGUMENT_CONTENT_TYPE);
+        $search = new Search([$defaultAlias]);
+        $htmlField = ['link_fr', 'link_nl', 'content_fr', 'content_nl'];
+        $search->setSources(['doc_themes', 'label', ...$htmlField]);
+        $search->setContentTypes([self::ARGUMENT_CONTENT_TYPE]);
+
+        $this->io->section('Start analyzing theme document');
+        $this->io->progressStart($coreApi->search()->count($search));
+        $errorTable = [];
+        $files = [];
+        $this->io->section('Start researching');
+        
+        foreach ($coreApi->search()->scroll($search) as $hit) 
+        {
             
+            foreach($this->fields as $field) {
+                $this->io->text(\sprintf('Searching for %s...', $field));
+            }
         }
 
         return self::EXECUTE_SUCCESS;

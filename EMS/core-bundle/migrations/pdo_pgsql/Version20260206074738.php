@@ -10,6 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 
 final class Version20260206074738 extends AbstractMigration
 {
+    #[\Override]
     public function getDescription(): string
     {
         return 'Remove saveDir field from wysiwyg style sets';

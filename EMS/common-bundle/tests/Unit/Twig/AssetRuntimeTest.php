@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class AssetRuntimeTest extends TestCase
 {
     private StorageManager $storageManager;
-    private LoggerInterface $logger;
+    private readonly LoggerInterface $logger;
     private UrlGeneratorInterface $urlGenerator;
     private Processor $processor;
     private FileReaderInterface $fileReader;

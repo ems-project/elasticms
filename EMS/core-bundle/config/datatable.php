@@ -269,7 +269,7 @@ return static function (ContainerConfigurator $container) {
 
     $services->set('emsco.data_table.webhook_subscription', WebhookSubscriptionDataTableType::class)
         ->args([
-            service('ems.webhook_subscription.manager'),
+            service('emsco.webhook_subscription.manager'),
         ])
         ->tag('emsco.datatable');
 };

@@ -811,14 +811,14 @@ return static function (ContainerConfigurator $container) {
         ->args([service('security.token_storage')])
         ->tag('messenger.middleware');
 
-    $services->set('ems_core.core_messenger_handler.webhook_subscription_handler', WebhookSubscriptionHandler::class)
+    $services->set('emsco.core_messenger_handler.webhook_subscription_handler', WebhookSubscriptionHandler::class)
         ->args([
             service('ems.repository.webhook_subscription'),
             service('http_client'),
         ])
         ->tag('messenger.message_handler', ['handles' => WebhookSubscriberMessage::class]);
 
-    $services->set('ems_core.webhook_subscription.manager', WebhookSubscriptionManager::class)
+    $services->set('emsco.webhook_subscription.manager', WebhookSubscriptionManager::class)
         ->args([
             service('ems.repository.webhook_subscription'),
         ]);

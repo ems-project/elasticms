@@ -922,7 +922,7 @@ return static function (ContainerConfigurator $container) {
     $services->set(WebhookController::class)
         ->args([
             service('emsco.logger'),
-            service('ems.webhook_subscription.manager'),
+            service('emsco.webhook_subscription.manager'),
             service('emsco.data_table.factory'),
         ])
         ->call('setContainer')

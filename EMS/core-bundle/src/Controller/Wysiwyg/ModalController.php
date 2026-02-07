@@ -46,7 +46,9 @@ class ModalController extends AbstractController
                     continue;
                 }
                 $id = $node->nodeValue;
-                $targets[$id] = "#$id";
+                if (null !== $id) {
+                    $targets[$id] = "#$id";
+                }
             }
         }
         $anchorTargets = $request->query->get('anchorTargets');
@@ -115,7 +117,7 @@ class ModalController extends AbstractController
         ]);
     }
 
-    public function validate(LoadLinkModalEntity $loadLinkModalEntity, ExecutionContextInterface $context): void
+    private function validate(LoadLinkModalEntity $loadLinkModalEntity, ExecutionContextInterface $context): void
     {
         $loadLinkModalEntity->validate($context);
     }

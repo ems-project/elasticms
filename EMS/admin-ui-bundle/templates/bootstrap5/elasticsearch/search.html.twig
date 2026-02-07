@@ -1,25 +1,24 @@
 {% extends '@EMSAdminUI/bootstrap5/template/card.html.twig' %}
 {% trans_default_domain 'ems-adminui-twigs' %}
 
-
 {% block body %}
 <div class="row">
-	<div id="search-page-form" class="col-12">
-		{% include "@EMSAdminUI/bootstrap5/elasticsearch/search-form-filter.html.twig" with {
-			form: form,
-		} %}
-	</div>
+    <div id="search-page-form" class="col-12">
+        {{ include('@EMSAdminUI/bootstrap5/elasticsearch/search-form-filter.html.twig', {
+            form: form,
+        }) }}
+    </div>
 
     {% if response and response.totalDocuments > 0 %}
         {% set pagination %}
             {% if lastPage > 1 %}
-                {% include '@EMSAdminUI/bootstrap5/elements/pagination.html.twig' with {
-                    'lastPage': lastPage,
-                    'currentPage': page,
-                    'currentFilters': app.request.query,
-                    'paginationPath': paginationPath,
-                    'showAlwaysFirstAndLast': false
-                } %}
+                {{ include('@EMSAdminUI/bootstrap5/elements/pagination.html.twig', {
+                    lastPage: lastPage,
+                    currentPage: page,
+                    currentFilters: app.request.query,
+                    paginationPath: paginationPath,
+                    showAlwaysFirstAndLast: false,
+                }) }}
             {% endif %}
         {% endset %}
         <div id="search-page" class="col-md-9">
@@ -35,7 +34,7 @@
         <div id="search-facets" class="col-md-3">
             {{ block('searchFacets') }}
         </div>
-	{% endif %}
+    {% endif %}
 </div>
 {% endblock %}
 
@@ -46,13 +45,13 @@
 {% endblock %}
 
 {% block footer %}
-    {% if body is defined and searchForm.environments.vars.value|length == 1  and searchForm.contentTypes.vars.value|length == 1  and is_granted(searchForm.contentTypes.vars.value.0|emsco_get_content_type.roles.publish) and searchForm.environments.vars.value|first|emsco_get_environment.managed and response.total > 1 %}
+    {% if body is defined and searchForm.environments.vars.value|length == 1 and searchForm.contentTypes.vars.value|length == 1 and is_granted(searchForm.contentTypes.vars.value.0|emsco_get_content_type.roles.publish) and searchForm.environments.vars.value|first|emsco_get_environment.managed and response.total > 1 %}
         {% set footer %}
-            {% include '@EMSAdminUI/bootstrap5/elements/get-button.html.twig' with {
-                'url':  path('search.publish', app.request.query.all ),
-                'label': 'Publish '~response.formattedTotal|default('key.not-applicable'|trans)~' '~searchForm.contentTypes.vars.value.0|emsco_get_content_type.pluralName,
-                'icon': 'fa fa-upload'
-            } %}
+            {{ include('@EMSAdminUI/bootstrap5/elements/get-button.html.twig', {
+                url: path('search.publish', app.request.query.all),
+                label: 'Publish ' ~ response.formattedTotal|default('key.not-applicable'|trans) ~ ' ' ~ searchForm.contentTypes.vars.value.0|emsco_get_content_type.pluralName,
+                icon: 'fa fa-upload',
+            }) }}
             {{ footer|default('') }}
         {% endset %}
     {% endif %}
@@ -94,18 +93,18 @@
                             environment: attribute(indexes, result.index),
                             contentType: attribute(types, result.contentType),
                             object: result,
-                            source: result.source
+                            source: result.source,
                         })|raw }}
                     </div>
                 </div>
             {% endif %}
             <div class="card-footer">
                 {% if attribute(types, result.contentType) is defined %}
-                    {% include '@EMSAdminUI/bootstrap5/elements/object-toolbar.html.twig' with {
+                    {{ include('@EMSAdminUI/bootstrap5/elements/object-toolbar.html.twig', {
                         environment: attribute(indexes, result.index),
                         contentType: attribute(types, result.contentType),
                         object: result.raw,
-                    } %}
+                    }) }}
                 {% endif %}
             </div>
         </div>
@@ -126,7 +125,7 @@
                     {% if currentFilters.all.search_form.sortOrder is defined %}
                         {% set order = currentFilters.all.search_form.sortOrder %}
                     {% endif %}
-                    {% set order = order=='desc'?'asc':'desc' %}
+                    {% set order = order == 'desc' ? 'asc' : 'desc' %}
                 {% else %}
                     {% if option.inverted %}
                         {% set order = 'desc' %}
@@ -136,13 +135,13 @@
                     <i class="{% if option.icon %}{{ option.icon }}{% else %}fa fa-sort-alpha-asc{% endif %}"></i>
                     {{ option.name }}
                     {% if active %}
-                        <i class="fa fa-sort-{% if option.inverted %}{{ order=='desc'?'asc':'desc' }}{% else %}{{ order }}{% endif %} float-end"></i>
+                        <i class="fa fa-sort-{% if option.inverted %}{{ order == 'desc' ? 'asc' : 'desc' }}{% else %}{{ order }}{% endif %} float-end"></i>
                     {% endif %}
                 </a>
             {% endfor %}
             {% if currentFilters.all.search_form.sortBy is defined and currentFilters.all.search_form.sortBy %}
-                {% set search_form = currentFilters.all.search_form|merge({'sortBy':null, 'sortOrder':null }) %}
-                <a href="{{ path(paginationPath, currentFilters.all|merge({ 'search_form' : search_form})) }}" class="btn btn-block btn-social btn-primary">
+                {% set search_form = currentFilters.all.search_form|merge({sortBy: null, sortOrder: null}) %}
+                <a href="{{ path(paginationPath, currentFilters.all|merge({search_form: search_form})) }}" class="btn btn-block btn-social btn-primary">
                     <i class="fa fa-remove"></i>
                     Clear sort options
                 </a>
@@ -159,18 +158,18 @@
     {% endif %}
 
     {% for id, option in aggregateOptions %}
-        {% if response.getAggregation('agg_'~id) and (response.getAggregation('agg_'~id).buckets|length > 0 or response.getAggregation('agg_'~id).count > 0) %}
+        {% if response.getAggregation('agg_' ~ id) and (response.getAggregation('agg_' ~ id).buckets|length > 0 or response.getAggregation('agg_' ~ id).count > 0) %}
             {% set header %}
                 <i class="fa fa-filter"></i> {{ option.name }}
             {% endset %}
             {% set content %}
                 {{ option.template|emsco_generate_from_template({
-                    'option': option,
-                    'id': id,
-                    'aggregation': response.getAggregation('agg_'~id).raw,
-                    'currentFilters': currentFilters,
-                    'paginationPath': paginationPath,
-                    'search': search
+                    option: option,
+                    id: id,
+                    aggregation: response.getAggregation('agg_' ~ id).raw,
+                    currentFilters: currentFilters,
+                    paginationPath: paginationPath,
+                    search: search,
                 })|raw }}
             {% endset %}
             {% with {
@@ -183,7 +182,6 @@
             {% endwith %}
         {% endif %}
     {% endfor %}
-
 
     {% set header %}
         <i class="fa fa-sitemap"></i> {{ 'key.content_types'|trans }}
@@ -236,7 +234,6 @@
     } %}
         {{ block('card', '@EMSAdminUI/bootstrap5/template/card.html.twig') }}
     {% endwith %}
-
 
     {% set header %}
         <i class="fa fa-database"></i> {{ 'key.environments'|trans }}

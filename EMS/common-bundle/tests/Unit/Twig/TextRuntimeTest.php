@@ -7,6 +7,7 @@ namespace EMS\CommonBundle\Tests\Twig;
 use EMS\CommonBundle\Helper\Text\Encoder;
 use EMS\CommonBundle\Json\Decoder;
 use EMS\CommonBundle\Twig\TextRuntime;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -23,6 +24,7 @@ class TextRuntimeTest extends TestCase
         $this->validator = $this->createMock(ValidatorInterface::class);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testReplaceInDom()
     {
         $textRuntime = new TextRuntime(

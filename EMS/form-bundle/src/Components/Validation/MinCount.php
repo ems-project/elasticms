@@ -12,6 +12,6 @@ class MinCount extends AbstractValidation
     #[\Override]
     public function getConstraint(): Constraint
     {
-        return new Count(['min' => $this->value]);
+        return new Count(min: $this->value);
     }
 }

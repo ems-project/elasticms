@@ -1,10 +1,122 @@
+---
+outline: [2, 2]
+---
+
 # Upgrade
 
-## General remarks
+> [!TIP] It is recommended to rebuild all indexes after an upgrade:
+> `emsco:environment:rebuild --all`
 
-- It's always a good idea to rebuild indexes on upgrade: `emsco:environment:rebuild --all`
+## 7.x
 
-## version 6.9.2
+- Symfony upgraded `6.4 → 7.4`
+- PHP minimum requirement increased from `8.4 → 8.5`
+- Support for Elasticsearch 7 has been dropped
+- OpenTelemetry is now required [see install](./getting-started/dev-env.md#install-opentelemetry)
+
+### Dependency Upgrades
+
+- phpunit/phpunit: `11.5 → 12.5`
+- doctrine/doctrine-bundle : `2.18.2 → 3.2.2`
+- doctrine/doctrine-migrations-bundle : `3.7.0 → 4.0.0`
+- elasticsearch/elasticsearch: `7.17.3 → 8.19.0`
+- ruflin/elastica: `7.3.2 → 8.2.0`
+- giggsey/libphonenumber-for-php: `8.13.55 → 9.0.22`
+- sensiolabs/ansi-to-html: `1.3.0 → 2.0.0`
+- symplify/monorepo-builder: `11.2.23 → 12.4.5`
+- phpoffice/phpspreadsheet: `3.10.3 → 5.4.0`
+- kevinrob/guzzle-cache-middleware: `6.0 → 7.0`
+
+### Removed deprecations
+
+- The `EMS\ClientHelperBundle\Controller\AssetController` has been removed: was only containing 3 proxy methods by
+  calling removed emsUnzip functionality. Should be replace by `EMS\CommonBundle\Controller\FileController`
+- The route `ems_core_asset_proxy` route has been removed
+- Removed `EMS_WEBALIZE_DASHABLE_REGEX` and `EMS_WEBALIZE_REMOVABLE_REGEX` environment variables: was used for
+  `ems_webalize` which has been removed for `ems_slug`.
+
+#### Twig
+
+- The `emsch_assets_version` function now only accepts a single argument: the hash.
+  The saveDir parameter has been removed, and the function no longer returns a value.
+- WysiwygStyleSet the `saveDir` option has been removed.
+- In the Twig function `emsch_search`, the $sourceExclude argument has been removed.
+
+Removed functions in favor of the following replacements:
+
+- `emsch_assets` → `emsch_assets_version`
+- `emsch_unzip` → `ems_file_from_archive`
+- `ems_unzip` → `ems_file_from_archive`
+- `get_default_environments` → `emsco_get_default_environment_names`
+- `emsco_uuid` → `ems_uuid`
+- `cant_be_finalized` → `emsco_cant_be_finalized`
+- `get_content_types` → `emsco_get_content_types`
+- `sequence` → `emsco_sequence`
+- `is_super` → `emsco_is_super`
+- `call_user_func` → `emsco_call_user_func`
+- `diff_text` → `emsco_diff_text`
+- `diff` → `emsco_diff`
+- `diff_html` → `emsco_diff_html`
+- `diff_icon` → `emsco_diff_icon`
+- `diff_raw` → `emsco_diff_raw`
+- `diff_color` → `emsco_diff_color`
+- `diff_boolean` → `emsco_diff_boolean`
+- `diff_choice` → `emsco_diff_choice`
+- `diff_data_link` → `emsco_diff_data_link`
+- `diff_date` → `emsco_diff_date`
+- `diff_time` → `emsco_diff_time`
+
+Removed filters in favor of the following replacements:
+
+- `emsch_data` → `emsch_get`
+- `ems_webalize` → `ems_slug`
+- `array_key` → `ems_array_key`
+- `format_bytes` → `ems_format_bytes`
+- `locale_attr` → `ems_locale_attr`
+- `emsch_ouuid` → `ems_ouuid`
+- `array_intersect` → `ems_array_intersect`
+- `merge_recursive` → `ems_array_merge_recursive`
+- `inArray` → `ems_in_array`
+- `md5` → `ems_md5`
+- `luma` → `ems_luma`
+- `contrastratio` → `ems_contrast_ratio`
+- `firstInArray` → `ems_first_in_array`
+- `url_generator` → `ems_slug`
+- `emsco_webalize` → `ems_slug`
+- `get_environment` → `emsco_get_environment`
+- `get_content_type` → `emsco_get_content_type`
+- `data_label` → `emsco_display`
+- `data` → `emsco_get`
+- `json_decode` → `ems_json_decode`
+- `search` → `emsco_search_query`
+- `convertJavaDateFormat` → `emsco_convert_java_date_format`
+- `convertJavascriptDateFormat` → `emsco_convert_javascript_date_format`
+- `convertJavascriptDateRangeFormat` → `emsco_convert_javascript_date_range_format`
+- `getTimeFieldTimeFormat` → `emsco_time_field_time_format`
+- `soapRequest` → `emsco_soap_request`
+- `all_granted` → `emsco_all_granted`
+- `one_granted` → `emsco_one_granted`
+- `in_my_circles` → `emsco_in_my_circles`
+- `data_link` → `emsco_data_link`
+- `is_super` → `emsco_is_super`
+- `generate_from_template` → `emsco_generate_from_template`
+- `objectChoiceLoader` → `emsco_object_choice_loader`
+- `groupedObjectLoader` → `emsco_grouped_object_loader`
+- `propertyPath` → `emsco_property_path`
+- `i18n` → `emsco_i18n`
+- `internal_links` → `emsco_internal_links`
+- `src_path` → `emsco_src_path`
+- `get_user` → `emsco_get_user`
+- `displayname` → `emsco_display_name`
+- `date_difference` → `emsco_date_difference`
+- `debug` → `emsco_debug`
+- `call_user_func` → `emsco_call_user_func`
+- `get_string` → `emsco_get_string`
+- `get_file` → `emsco_get_file`
+- `get_field_by_path` → `emsco_get_field_by_path`
+- `get_revision_id` → `emsco_get_revision_id`
+
+## 6.9.2
 
 - Media library: the "nested_path" option for sorting is deprecated, use "parent_field" instead.
 - Skeleton search config: filters "nested_path" option is deprecated, use "parent_field" instead.
@@ -12,13 +124,13 @@
   `{ "nested": { "path": "..." } }`, this is why elasticms is not using `nested_path` as option key
   anymore.
 
-## version 6.9.0
+## 6.9.0
 
 - The option --strict will throw an exception in the command `emsco:revision:unlock` use -n instead.
 - The alias `emsco:revisions:unlock` command is deprecated use `emsco:revision:unlock` instead.
 - The alias `emsco:contenttype:lock` command is deprecated use `emsco:revision:lock` instead.
 
-## version 6.5.0
+## 6.5.0
 
 Attention: The following step is no need if you use 6.9.0 or later version.
 
@@ -33,13 +145,13 @@ If your project use a medialibrary, you need to modify your Wysiwyg config and a
 }
 ```
 
-## version 6.4.1
+## 6.4.1
 
 - Add a new twig global `emschLocales` which contains the EMSCH_LOCALES Because it is added by the
   clientHelperBundle it is available in admin and website templates Replace
   `app.request.server.get('EMSCH_LOCALES')|json_decode` by `emschLocales`
 
-## version 6.4.0
+## 6.4.0
 
 - Add [mercure](https://mercure.rocks) (open solution for real-time communications)
     - make sure the
@@ -48,93 +160,12 @@ If your project use a medialibrary, you need to modify your Wysiwyg config and a
     - [more information](/elasticms-admin/async.md)
 - Symfony messenger component [more information](/elasticms-admin/async.md)
 
-## version 6.1.1
+## 6.1.1
 
 We added a new cli command `emscli:import:database`. Good practice to replace
 `emscli:file-reader:import` now alias for `emscli:import:file`
 
-## Switch to CK Editor 5 (still in beta)
-
-Require ElasticMS version >= 6.0.0
-
-First activate Bootstrap 5 theme with the environment variable
-`EMSCO_TEMPLATE_NAMESPACE=EMSAdminUI/bootstrap5`
-
-Then go to your `WYSIWYG` > `WYSIWYG styles sets` configs and change the `attributes.class` by a
-`classes` attribute
-
-So
-
-```json
-[
-    {
-        "name": "Dekstop only",
-        "element": "div",
-        "attributes": {
-            "class": "desktop-only row"
-        }
-    }
-]
-```
-
-becomes
-
-```json
-[
-    {
-        "name": "Dekstop only",
-        "element": "div",
-        "classes": ["desktop-only", "row"]
-    }
-]
-```
-
-Check then
-[CK Editor styles configuration](https://ckeditor.com/docs/ckeditor5/latest/features/style.html#configuration)
-for more details. But defining other HTML attributes than the class attribute is not as easy as it
-was with CKE4.
-
-And for the `WYSIWYG` > `WYSIWYG profiles` the config must be recreate from scratch. But basically
-you can override every default [CK Editor
-config](<https://github.com/ems-project/elasticms/blob/1ea0749ec813ac7bd3afd29a8ce9520654d9a97c/EMS/admin-ui-bundle/assets/js/core/helpers/editor.js#L80>.
-Check the [CK Editor builder](https://ckeditor.com/ckeditor-5/online-builder/). Here is an example.
-
-```json
-{
-    "ems": {
-        "paste": true
-    },
-    "toolbar": {
-        "items": [
-            "undo",
-            "redo",
-            "style",
-            "heading",
-            "|",
-            "bold",
-            "italic",
-            "bulletedList",
-            "numberedList",
-            "removeFormat",
-            "|",
-            "outdent",
-            "indent",
-            "|",
-            "link",
-            "imageUpload",
-            "insertTable",
-            "mediaEmbed",
-            "specialCharacters",
-            "|",
-            "findAndReplace",
-            "sourceEditing"
-        ],
-        "shouldNotGroupWhenFull": true
-    }
-}
-```
-
-## version 6.0.x
+## 6.0.x
 
 ### Postgres 17
 
@@ -232,12 +263,93 @@ You can reactivate the dynamic mapping with this environment variable:
 `EMSCO_DYNAMIC_MAPPING='true'`. But it's not recommended. Check the
 [EMSCO_DYNAMIC_MAPPING documentation](elasticms-admin/environment-variables.md#emscodynamicmapping)
 
-## version 5.25.x
+### Switch to CK Editor 5 (still in beta)
+
+Require ElasticMS version >= 6.0.0
+
+First activate Bootstrap 5 theme with the environment variable
+`EMSCO_TEMPLATE_NAMESPACE=EMSAdminUI/bootstrap5`
+
+Then go to your `WYSIWYG` > `WYSIWYG styles sets` configs and change the `attributes.class` by a
+`classes` attribute
+
+So
+
+```json
+[
+    {
+        "name": "Dekstop only",
+        "element": "div",
+        "attributes": {
+            "class": "desktop-only row"
+        }
+    }
+]
+```
+
+becomes
+
+```json
+[
+    {
+        "name": "Dekstop only",
+        "element": "div",
+        "classes": ["desktop-only", "row"]
+    }
+]
+```
+
+Check then
+[CK Editor styles configuration](https://ckeditor.com/docs/ckeditor5/latest/features/style.html#configuration)
+for more details. But defining other HTML attributes than the class attribute is not as easy as it
+was with CKE4.
+
+And for the `WYSIWYG` > `WYSIWYG profiles` the config must be recreate from scratch. But basically
+you can override every default [CK Editor
+config](<https://github.com/ems-project/elasticms/blob/1ea0749ec813ac7bd3afd29a8ce9520654d9a97c/EMS/admin-ui-bundle/assets/js/core/helpers/editor.js#L80>.
+Check the [CK Editor builder](https://ckeditor.com/ckeditor-5/online-builder/). Here is an example.
+
+```json
+{
+    "ems": {
+        "paste": true
+    },
+    "toolbar": {
+        "items": [
+            "undo",
+            "redo",
+            "style",
+            "heading",
+            "|",
+            "bold",
+            "italic",
+            "bulletedList",
+            "numberedList",
+            "removeFormat",
+            "|",
+            "outdent",
+            "indent",
+            "|",
+            "link",
+            "imageUpload",
+            "insertTable",
+            "mediaEmbed",
+            "specialCharacters",
+            "|",
+            "findAndReplace",
+            "sourceEditing"
+        ],
+        "shouldNotGroupWhenFull": true
+    }
+}
+```
+
+## 5.25.x
 
 - The `emsco:environment:align` will after publication also unpublish documents that are not
   aligned.
 
-## version 5.24.x
+## 5.24.x
 
 There is breaking changes in the options of the
 [File Reader Import](elasticms-cli/commands?id=file-reader) command. Command's options must be
@@ -249,7 +361,7 @@ defined in a json format now, and that JSON can be passed to the `--config` opti
 
 Please update your worker's jobs.
 
-## version 5.23.x
+## 5.23.x
 
 From this version, the upload of web's assets via the command `emsch:local:upload-assets` wont
 upload a zip anymore but each assets independently. The hash provided at the end of the command, is
@@ -306,7 +418,7 @@ in the Admin UI. ElasticMS detects if it's a EMR archive or a zip archive.
 It's not required, but warmly recommended to re-upload your assets and update the asset's hash in
 the website templates.
 
-## version 5.22.x
+## 5.22.x
 
 - Updates on json menu nested template (copy/paste functionality)
 - Removed environment variable: `EMSCO_FALLBACK_LOCALE`
@@ -322,12 +434,12 @@ the website templates.
     {% set languages = ['fr', 'nl']|sort((a, b) => a == app.user.language ? -1 : b == app.user.language ? 1 : 0) %}
     ```
 
-## version 5.21.x
+## 5.21.x
 
 - Core twig component Media library: Removed the option `fieldPathOrder`, use new option `sort`
   (defining all possible sorts)
 
-## version 5.19.x
+## 5.19.x
 
 - The core command `emsco:release:publish` has been removed, `emsco:job:run` will now publish
   releases
@@ -380,13 +492,13 @@ emsch_demo_asset_in_archive:
   archive (e.g. `8ef54d1e170aede4fa78687f466f35bb6292f4ad:img/banners/banner-home.jpg`) instead of
   file on the local file system.
 
-## version 5.17.x
+## 5.17.x
 
 - Check routes single colon is deprecated
 
     Example replace `emsch.controller.router:redirect` by `emsch.controller.router::redirect`
 
-## version 5.15.x
+## 5.15.x
 
 - Form routes are available inside the elasticms-admin
     - Skeleton no longer need to proxy the form routes for making form working inside channels.
@@ -394,7 +506,7 @@ emsch_demo_asset_in_archive:
 - The form debug routes are no longer 'dev' mode only
 - The form debug routes are available inside the elasticms-admin
 
-## version 5.14.x
+## 5.14.x
 
 - All tasks records will be **deleted** after deployment
     - Because we had to upgrade the database schema.
@@ -403,7 +515,7 @@ emsch_demo_asset_in_archive:
 - If you are using revision versions, you should run `ems:environment:updatemetafield` after
   deployment.
 
-## version 5.7.x
+## 5.7.x
 
 - Added twig function [ems_template_exists](./site-building/twig.md#ems_template_exists)
 - Added probe routes `/_readiness` and `/_liveness` for admin and web
@@ -431,7 +543,7 @@ emsch_demo_asset_in_archive:
 
 - Deprecated ~~cant_be_finalized~~ use `emsco_cant_be_finalized`
 
-## version 5.3.x
+## 5.3.x
 
 ### Deprecated emsch_add_environment
 
@@ -458,7 +570,7 @@ After defining remove the following line from all contentType(s) and dashboard(s
 {% do emsch_add_environment('preview'|get_environment.alias) %}
 ```
 
-## version 4.2.x
+## 4.2.x
 
 ### Content type roles in twig
 
@@ -467,7 +579,7 @@ Replace `is_granted(contentType.createRole)` → `is_granted(contentType.roles.c
 - createRole → roles.create
 - editRole → roles.edit
 
-## version 4.x
+## 4.x
 
 ### Deprecated twig functions
 

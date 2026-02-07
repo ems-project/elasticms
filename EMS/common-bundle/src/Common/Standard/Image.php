@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Common\Standard;
 
+use EMS\Helpers\Standard\Type;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 
 final class Image
@@ -75,5 +76,28 @@ final class Image
         }
 
         return $image;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public static function imageExifInfo(string $tempFile): array
+    {
+        $exif = Type::array(@\exif_read_data($tempFile));
+        $exifData = [];
+        if (isset($exif['XResolution'], $exif['YResolution'])) {
+            $x = $exif['XResolution'];
+            $y = $exif['YResolution'];
+
+            $exifData['widthResolution'] = \is_string($x) && \str_contains($x, '/')
+                ? ((int) \explode('/', $x)[0] / (int) \explode('/', $x)[1])
+                : (int) $x;
+
+            $exifData['heightResolution'] = \is_string($y) && \str_contains($y, '/')
+                ? ((int) \explode('/', $y)[0] / (int) \explode('/', $y)[1])
+                : (int) $y;
+        }
+
+        return \array_merge($exifData, $exif);
     }
 }

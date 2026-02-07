@@ -27,7 +27,7 @@
         "_source": ["paths.locale","paths.target","paths.path"],
     }).hits.hits|default([]) %}
         {%  for path in structure._source.paths|default([])|filter(path => path.target|default(null) != null) %}
-            {%  set paths = paths|merge({(path.target): attribute(paths, path.target)|default([])|merge({ (path.locale): path }) }) %}
+            {%  set paths = paths|merge({(path.target): paths.(path.target)|default([])|merge({ (path.locale): path }) }) %}
         {%  endfor %}
     {%  endfor %}
 
@@ -44,14 +44,14 @@
         "_source": ["_finalization_datetime"]|merge(locales|map(l => "#{l}.title"))|merge(locales|map(l => "#{l}.slug"))|merge(locales|map(l => "#{l}.show")),
     }).hits.hits|default([]) %}
         {%  for locale in locales %}
-            {% if attribute(page._source, locale).show|default(false) %}
+            {% if page._source.(locale).show|default(false) %}
                 {%  set loc = false %}
-                {% if attribute(paths, "page:#{page._id}") is defined and attribute(attribute(paths, "page:#{page._id}"), locale) is defined %}
-                    {%  set loc = url('emsch_path', {_locale: locale, path: attribute(attribute(paths, "page:#{page._id}"), locale).path}) %}
-                {% elseif attribute(page._source, locale).slug|default(false) and attribute(page._source, locale).slug == '/' %}
+                {% if paths.("page:#{page._id}") is defined and paths.("page:#{page._id}").(locale) is defined %}
+                    {%  set loc = url('emsch_path', {_locale: locale, path: paths.("page:#{page._id}").(locale).path}) %}
+                {% elseif page._source.(locale).slug|default(false) and page._source.(locale).slug == '/' %}
                     {%  set loc = url('emsch_path', {_locale: locale}) %}
-                {% elseif attribute(page._source, locale).slug|default(false) %}
-                    {%  set loc = url('emsch_page', {_locale: locale, slug: attribute(page._source, locale).slug}) %}
+                {% elseif page._source.(locale).slug|default(false) %}
+                    {%  set loc = url('emsch_page', {_locale: locale, slug: page._source.(locale).slug}) %}
                 {% endif %}
                 {%  if loc %}
                     {% set urls = urls|merge([{

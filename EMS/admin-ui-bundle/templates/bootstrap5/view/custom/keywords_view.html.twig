@@ -2,8 +2,8 @@
 
 {% block body %}
 <div class="row">
-	{% for keyword in keywords %}
-		{{ view.options.template|emsco_generate_from_template({keyword: keyword})|raw }}
-	{% endfor %}
+    {% for keyword in keywords %}
+        {{ view.options.template|emsco_generate_from_template({keyword: keyword})|raw }}
+    {% endfor %}
 </div>
 {% endblock %}

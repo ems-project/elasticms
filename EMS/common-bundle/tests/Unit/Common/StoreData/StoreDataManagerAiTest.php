@@ -8,6 +8,7 @@ use EMS\CommonBundle\Common\StoreData\Factory\StoreDataFactoryInterface;
 use EMS\CommonBundle\Common\StoreData\Service\StoreDataServiceInterface;
 use EMS\CommonBundle\Common\StoreData\StoreDataHelper;
 use EMS\CommonBundle\Common\StoreData\StoreDataManager;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
@@ -23,6 +24,7 @@ class StoreDataManagerAiTest extends TestCase
         $this->factory = $this->createMock(StoreDataFactoryInterface::class);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testSave(): void
     {
         $service = $this->createMock(StoreDataServiceInterface::class);
@@ -35,6 +37,7 @@ class StoreDataManagerAiTest extends TestCase
         $manager->save(new StoreDataHelper('test_key'));
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testRead(): void
     {
         $service = $this->createMock(StoreDataServiceInterface::class);
@@ -49,6 +52,7 @@ class StoreDataManagerAiTest extends TestCase
         $this->assertInstanceOf(StoreDataHelper::class, $result);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testDelete(): void
     {
         $service = $this->createMock(StoreDataServiceInterface::class);
@@ -61,6 +65,7 @@ class StoreDataManagerAiTest extends TestCase
         $manager->delete('test_key');
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testMissingService(): void
     {
         $this->expectException(\RuntimeException::class);
@@ -70,6 +75,7 @@ class StoreDataManagerAiTest extends TestCase
         $manager->save(new StoreDataHelper('test_key'));
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testUnregisteredFactory(): void
     {
         $this->logger->expects($this->once())->method('warning')->with('Store data factory unregistered_type not registered');

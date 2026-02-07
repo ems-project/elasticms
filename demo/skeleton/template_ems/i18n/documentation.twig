@@ -1,0 +1,58 @@
+{%- block template -%}
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">Manuals</h3>
+        </div>
+        <div class="box-body" style="display: block;">
+            {{ emsco_datatable(['default'],['media_file'], {
+                "empty_query": {
+                    "bool": {
+                        "must": [
+                            {
+                                "term": {
+                                    "media_folder": "/manuals/"
+                                }
+                            }
+                        ]
+                    }
+                },
+                "query": {
+                    "bool": {
+                        "must": [
+                            {
+                                "multi_match": {
+                                    "fields": [
+                                        "live_search",
+                                        "live_search._2gram",
+                                        "live_search._3gram"
+                                    ],
+                                    "query": "%query%",
+                                    "operator": "and",
+                                    "type": "bool_prefix"
+                                }
+                            },
+                            {
+                                "term": {
+                                    "media_folder": "/manuals/"
+                                }
+                            }
+                        ]
+                    }
+                },
+                "columns": [{
+                    "label": "Name",
+                    "template": '<a href="{{ ems_asset_path(data.source.media_file) }}">{{ data.source.media_file.filename|default("N/A") }}</a>',
+                    "orderField": "media_path"
+                },{
+                    "label": "Locales",
+                    "template": '{{ data.source.locales|default([])|map(locale => ("locale."~locale)|emsco_i18n)|join(", ") }}'
+    
+                },{
+                    "label": "Size",
+                    "template": '{{ data.source.media_file.filesize|ems_format_bytes }}',
+                    "orderField": "media_file.filesize"
+                }]
+            }) }}
+        </div>
+    </div>
+{%- endblock template -%}

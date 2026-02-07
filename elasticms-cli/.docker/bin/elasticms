@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+php -d memory_limit=${CLI_PHP_MEMORY_LIMIT:-512M} /app/src/elasticms/bin/console "$@"

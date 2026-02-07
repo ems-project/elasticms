@@ -79,7 +79,7 @@ the email object. By default text/plain is used.
 {{ email|json_encode|raw }}
 ```
 
-You can also define a `reply-to` option:
+You can also define a `reply-to` or `priority` (priority range [1,5]) option:
 
 ```twig
 {% autoescape %}
@@ -92,6 +92,7 @@ You can also define a `reply-to` option:
 {% set email = {
     "from": "no-reply@company.com",
     "reply-to": data.email,
+    "priority": 1,
     "subject": "Email Form subject",
     "body": body
 } %}
@@ -117,7 +118,7 @@ You can override the default values for each file using the `map` filter as show
     "subject": "Email Form subject",
     "body": body,
     "attachments": formData.allFiles|map(v => v.toArray)|map(f => {
-        filename: f.originalName|ems_webalize,
+        filename: f.originalName|ems_slug,
         mimeType: f.mimeType,
         pathname: f.pathname,
     })

@@ -1,5 +1,26 @@
 # Changelog 6.x
 
+## 6.9.7 (2026-01-26)
+### Features
+* feat(demo): resolve deprecations and update by @Davidmattei in https://github.com/ems-project/elasticms/pull/1529
+### Bug Fixes
+* fix(common/encoding): ems_anti_spam handle multiple phone numbers by @theus77 in https://github.com/ems-project/elasticms/pull/1523
+* fix(core/form-submission): avoid doctrine out of memory exception by @theus77 in https://github.com/ems-project/elasticms/pull/1518
+* fix(xliff): useless namespace + trans-unit without id by @theus77 in https://github.com/ems-project/elasticms/pull/1526
+* fix(xliff/extract): ctype in bx ex by @theus77 in https://github.com/ems-project/elasticms/pull/1524
+* fix(xliff/extract): format error by @theus77 in https://github.com/ems-project/elasticms/pull/1521
+* fix(xliff/extract): wrong final segment by @theus77 in https://github.com/ems-project/elasticms/pull/1520
+
+## 6.9.6 (2026-01-13)
+### Bug Fixes
+* fix(admin/aliases): allow to remove all indexes from a managed aliases by @theus77 in https://github.com/ems-project/elasticms/pull/1509
+* fix(admin/js): nested modal datatable search not working by @Davidmattei in https://github.com/ems-project/elasticms/pull/1513
+* fix(admin/view): title: '{name} of {plural}' by @theus77 in https://github.com/ems-project/elasticms/pull/1502
+* fix(admin/webalize): align regex with web by @Davidmattei in https://github.com/ems-project/elasticms/pull/1501
+* fix(common/encoding): ems_anti_spam wrong encoding on tel: href by @theus77 in https://github.com/ems-project/elasticms/pull/1505
+* fix(web/security): security listener was starting session by getting token by @theus77 in https://github.com/ems-project/elasticms/pull/1514
+* fix(web/twig):  cache key add count and last published for index updates by @theus77 in https://github.com/ems-project/elasticms/pull/1508
+
 ## 6.9.5 (2025-12-23)
 ### Features
 * feat(core/api): add data environments endpoint by @Davidmattei in https://github.com/ems-project/elasticms/pull/1496
@@ -102,6 +123,10 @@
 ### Chores
 * chore(cli): enable web profile in dev env by @Davidmattei in https://github.com/ems-project/elasticms/pull/1415
 * chore(docker): add prometheus & grafana by @Davidmattei in https://github.com/ems-project/elasticms/pull/1412
+
+## 6.7.4 (2026-01-13)
+### Bug Fixes
+* fix(web/security): security listener was starting session by getting token by @theus77 in https://github.com/ems-project/elasticms/pull/1514
 
 ## 6.7.3 (2025-09-18)
 ### Bug Fixes

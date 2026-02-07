@@ -23,7 +23,7 @@ abstract class AbstractLocalCommand extends AbstractCommand
     protected LocalEnvironment $localEnvironment;
     protected LoggerInterface $logger;
 
-    private const OPTION_EMSCH_ENV = 'emsch_env';
+    private const string OPTION_EMSCH_ENV = 'emsch_env';
 
     public function __construct(protected EnvironmentHelper $environmentHelper, protected LocalHelper $localHelper)
     {

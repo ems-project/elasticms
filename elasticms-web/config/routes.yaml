@@ -1,27 +1,23 @@
 files:
-  resource: '@EMSCommonBundle/config/routing/file.xml'
+    resource: '@EMSCommonBundle/config/routing/file.php'
 
 assets:
-  resource: '@EMSCommonBundle/config/routing/assets.xml'
+    resource: '@EMSCommonBundle/config/routing/assets.php'
 
 probe:
-  resource: '@EMSCommonBundle/config/routing/probe.xml'
+    resource: '@EMSCommonBundle/config/routing/probe.php'
 
 forms:
-  resource: '@EMSFormBundle/config/routing/form.xml'
+    resource: '@EMSFormBundle/config/routing/form.php'
 
 user_api:
-  resource: '@EMSClientHelperBundle/config/routing/user_api.xml'
-  prefix: /user_api
-
-asset:
-  resource: '@EMSClientHelperBundle/config/routing/asset.xml'
-  prefix: /bundles
+    resource: '@EMSClientHelperBundle/config/routing/user_api.php'
+    prefix: /user_api
 
 ems_common:
-  resource: 'ems_common.route.loader::load'
-  type: service
+    resource: 'ems_common.route.loader::load'
+    type: service
 
 emsch_routes:
-  resource: 'emsch.routing.route_loader'
-  type: service
+    resource: 'emsch.routing.route_loader'
+    type: service

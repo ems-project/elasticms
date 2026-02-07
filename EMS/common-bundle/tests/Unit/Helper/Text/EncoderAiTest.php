@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Tests\Unit\Helper\Text;
 
 use EMS\CommonBundle\Helper\Text\Encoder;
-use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\TestCase;
 
 class EncoderAiTest extends TestCase
@@ -46,14 +45,6 @@ class EncoderAiTest extends TestCase
         $this->assertEquals('far fa-file-pdf', $icon);
     }
 
-    #[IgnoreDeprecations]
-    public function testWebalizeForUsers(): void
-    {
-        $text = 'This is a Test';
-        $webalized = $this->encoder->webalizeForUsers($text);
-        $this->assertEquals('this-is-a-test', $webalized);
-    }
-
     public function testAsciiFolding(): void
     {
         $text = 'Crème Brûlée';
@@ -66,6 +57,6 @@ class EncoderAiTest extends TestCase
         $textWithPhone = 'Call me at <a href="tel:123-456-7890">123-456-7890</a>';
         $encoded = $this->encoder->htmlEncodePii($textWithPhone);
 
-        $this->assertStringContainsString('&#34;&#116;&#101;&#108;&#58;&#49;&#50;&#51;&#45;&#52;&#53;&#54;&#45;&#55;&#56;&#57;&#48;&#34;', $encoded);
+        $this->assertEquals('Call me at <a href="tel:&#49;&#50;&#51;&#45;&#52;&#53;&#54;&#45;&#55;&#56;&#57;&#48;">123-456-7890</a>', $encoded);
     }
 }

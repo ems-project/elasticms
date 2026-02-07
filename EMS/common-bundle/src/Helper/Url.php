@@ -6,7 +6,6 @@ namespace EMS\CommonBundle\Helper;
 
 use EMS\CommonBundle\Exception\NotParsableUrlException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 use Symfony\Component\PropertyInfo\PropertyInfoExtractor;
 use Symfony\Component\Serializer\Encoder\JsonEncode;
@@ -115,8 +114,10 @@ class Url
     private static function getSerializer(): Serializer
     {
         $reflectionExtractor = new ReflectionExtractor();
-        $phpDocExtractor = new PhpDocExtractor();
-        $propertyTypeExtractor = new PropertyInfoExtractor([$reflectionExtractor], [$phpDocExtractor, $reflectionExtractor], [$phpDocExtractor], [$reflectionExtractor], [$reflectionExtractor]);
+        $propertyTypeExtractor = new PropertyInfoExtractor(
+            [$reflectionExtractor],
+            [$reflectionExtractor]
+        );
 
         return new Serializer([
             new ArrayDenormalizer(),

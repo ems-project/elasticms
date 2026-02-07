@@ -23,7 +23,7 @@
     {{ template.block('jmn_button_more', _context)|raw }}
 {%- endblock jmn_actions -%}
 
-{%- block jmn_columns  -%}
+{%- block jmn_columns -%}
     {% for column in config.columns %}
         <div class="jmn-column {{ "jmn-column-#{column.name}" }}" style="{{ column.width ? "width:#{column.width}px;" }}" >
             {%- if template.hasBlock("jmn_column_#{column.name}") -%}
@@ -34,7 +34,7 @@
 {%- endblock jmn_columns -%}
 
 {% block jmn_render %}
-    {% with { 'menu': menu } %}{{ template.block('jmn_items', _context)|raw }}{% endwith %}
+    {% with {menu: menu} %}{{ template.block('jmn_items', _context)|raw }}{% endwith %}
 {% endblock jmn_render %}
 
 {% block jmn_items %}
@@ -45,12 +45,12 @@
 {% endblock jmn_items %}
 
 {%- block jmn_item -%}
-    <div class="{{ html_classes('jmn-node', { 'jmn-collapsible': item.hasChildren, 'jmn-node-active': item == render.activeItem }) }}" data-id="{{ item.id }}" data-type="{{ item.type }}">
+    <div class="{{ html_classes('jmn-node', {'jmn-collapsible': item.hasChildren, 'jmn-node-active': item == render.activeItem}) }}" data-id="{{ item.id }}" data-type="{{ item.type }}">
         {{ template.block('jmn_item_row', _context)|raw }}
         {%- if node.leaf == false -%}
             <div id="{{ "children-#{item.id}" }}" class="jmn-children jmn-sortable" data-types="{{ config.nodes.types(item.type)|json_encode|e('html_attr') }}">
                 {% if item in render.loadParents %}
-                    {% with { 'menu': item } %}{{ template.block('jmn_items', _context)|raw }}{% endwith %}
+                    {% with {menu: item} %}{{ template.block('jmn_items', _context)|raw }}{% endwith %}
                 {% endif %}
             </div>
         {%- endif -%}
@@ -114,14 +114,14 @@
         'jmn_button_item_edit',
         'jmn_button_copy',
         'jmn_button_paste',
-        'jmn_button_item_delete'
+        'jmn_button_item_delete',
     ]) -%}
     {{ template.block('jmn_button_more', _context)|raw }}
 {%- endblock jmn_button_item_more -%}
 
 {%- block jmn_button_item_add -%}
     <button class="jmn-btn-add dropdown-item" data-add="{{ addNode.id }}" data-modal-size="{{- buttonModalSize|default('md') -}}">
-        {% if addNode.icon %}<i class="{{ addNode.icon }}"></i>{% endif %}
+        {% if addNode.icon %}<i class="{{ addNode.icon }} me-2"></i>{% endif %}
         {{- buttonLabel|default("New #{addNode.label}") -}}
     </button>
 {%- endblock jmn_button_item_add -%}
@@ -134,7 +134,7 @@
             <button type="button" class="btn btn-sm btn-default dropdown-toggle jmn-dropdown-add" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 {{- buttonLabel|default('Add') -}}
             </button>
-            <ul class="{{ html_classes('dropdown-menu', { 'pull-right': (dropDown|default('right') == 'right') }) }}">
+            <ul class="{{ html_classes('dropdown-menu', {'pull-right': (dropDown|default('right') == 'right')}) }}">
                 {{ addMenu|raw }}
             </ul>
         </div>
@@ -155,11 +155,11 @@
         'jmn_button_copy',
         'jmn_button_paste',
     ]) -%}
-    {% set menuMore = template.block('jmn_button_more_menu', _context)|raw  %}
+    {% set menuMore = template.block('jmn_button_more_menu', _context)|raw %}
     {% if menuMore|length > 0 %}
         <div class="btn-group btn-group-sm">
             <button type="button" class="btn btn-sm btn-default dropdown-toggle jmn-dropdown-more" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-            <ul class="{{ html_classes('dropdown-menu', { 'pull-right': (dropDown|default('right') == 'right') }) }}">
+            <ul class="{{ html_classes('dropdown-menu', {'pull-right': (dropDown|default('right') == 'right')}) }}">
                 {{ menuMore|raw }}
             </ul>
         </div>
@@ -208,7 +208,7 @@
 
 {%- block jmn_modal_footer -%}
     <div class="float-end">
-        {% if form is defined  %}
+        {% if form is defined %}
             <button id="ajax-modal-submit" class="btn btn-sm btn-primary"><i class="fa fa-save"></i>&nbsp;Save</button>
         {% endif %}
         <button type="button" class="btn btn-sm btn-default" data-bs-dismiss="modal">Cancel</button>
@@ -217,7 +217,7 @@
 
 {%- block jmn_modal_view -%}
     {%- if dataFields -%}
-        {%- import "@EMSCore/macros/data-field-type.html.twig" as macros -%}
+        {%- import '@EMSCore/macros/data-field-type.html.twig' as macros -%}
         {{ macros.renderDataField(dataFields, rawData, false, [], config.locale) }}
     {%- else -%}
         <p class="text-red">{{ 'view.data.json-menu-nested-json-preview.field-type-not-found'|trans }}</p>

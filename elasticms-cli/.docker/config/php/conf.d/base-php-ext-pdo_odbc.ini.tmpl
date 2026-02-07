@@ -1,0 +1,5 @@
+{{- if ne (strings.ToLower .Env.PHP_PDO_ODBC_ENABLED) "false" -}}
+
+pdo_odbc.connection_pooling = "{{ .Env.PHP_PDO_ODBC_CONNECTION_POOLING }}"
+
+{{- end -}}

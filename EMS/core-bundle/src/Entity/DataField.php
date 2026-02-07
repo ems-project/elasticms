@@ -198,23 +198,14 @@ class DataField implements \ArrayAccess, \IteratorAggregate, \Stringable
     {
         if (!\str_starts_with($key, 'ems_')) {
             throw new \Exception('unprotected ems set with key '.$key);
-        } else {
-            $key = \substr($key, 4);
         }
+        $key = \substr($key, 4);
 
         if (null === $input || $input instanceof DataField) {
             $found = false;
             if (null !== $input) {
                 /* @var DataField $input */
                 $input->setParent($this);
-            }
-
-            if (null === $this->getFieldType()) {
-                if (null === $parent = $this->getParent()) {
-                    throw new \Exception('null parent !!!!!! '.$key);
-                } else {
-                    $this->updateDataStructure($parent->giveFieldType());
-                }
             }
 
             /** @var DataField $dataField */
@@ -233,27 +224,6 @@ class DataField implements \ArrayAccess, \IteratorAggregate, \Stringable
         } else {
             throw new \Exception('__set a DataField wich is not a valid object'.$key);
         }
-    }
-
-    /**
-     * @throws \Exception
-     */
-    #[\Deprecated]
-    public function updateDataStructure(FieldType $meta): never
-    {
-        throw new \Exception('Deprecated method');
-    }
-
-    /**
-     * Assign data in dataValues based on the elastic index content.
-     *
-     * @param  array<mixed> $elasticIndexDatas
-     * @throws \Exception
-     */
-    #[\Deprecated]
-    public function updateDataValue(array &$elasticIndexDatas, mixed $isMigration = false): never
-    {
-        throw new \Exception('Deprecated method');
     }
 
     /**
@@ -279,23 +249,21 @@ class DataField implements \ArrayAccess, \IteratorAggregate, \Stringable
     {
         if (!\str_starts_with($key, 'ems_')) {
             throw new \Exception('unprotected ems get with key '.$key);
-        } else {
-            $key = \substr($key, 4);
         }
+        $key = \substr($key, 4);
 
         $fieldType = $this->getFieldType();
 
         if ($fieldType && 0 == \strcmp($fieldType->getType(), CollectionFieldType::class)) {
             // Symfony wants iterate on children
             return $this;
-        } else {
-            /** @var DataField $dataField */
-            foreach ($this->children as $dataField) {
-                $childFieldType = $dataField->getFieldType();
+        }
+        /** @var DataField $dataField */
+        foreach ($this->children as $dataField) {
+            $childFieldType = $dataField->getFieldType();
 
-                if (null !== $childFieldType && !$childFieldType->getDeleted() && 0 == \strcmp($key, $childFieldType->getName())) {
-                    return $dataField;
-                }
+            if (null !== $childFieldType && !$childFieldType->getDeleted() && 0 == \strcmp($key, $childFieldType->getName())) {
+                return $dataField;
             }
         }
 

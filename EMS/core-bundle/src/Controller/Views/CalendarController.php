@@ -91,7 +91,8 @@ class CalendarController extends AbstractController
         /* @var Search $search */
         $search->setEnvironments([$view->getContentType()->getName()]);
 
-        $body = $this->searchService->generateSearchBody($search);
+        $esSearch = $this->searchService->generateSearch($search);
+        $body = \array_filter(['query' => $esSearch->getQueryArray(), 'sort' => $esSearch->getSort()]);
 
         $from = new \DateTime(Type::string($request->query->get('from')));
         $to = new \DateTime(Type::string($request->query->get('to')));
@@ -156,7 +157,7 @@ class CalendarController extends AbstractController
             $event = [
                 'id' => $item['id'] ?? null,
                 'title' => $contentType->hasLabelField() && isset($item['_source'][$contentType->giveLabelField()]) ? $item['_source'][$contentType->giveLabelField()] : $item['id'] ?? null,
-                'url' => $this->generateUrl('data.revisions', [
+                'url' => $this->generateUrl('emsco_view_revisions', [
                     'type' => $contentType->getName(),
                     'ouuid' => $item['id'] ?? 'not-found',
                 ]),

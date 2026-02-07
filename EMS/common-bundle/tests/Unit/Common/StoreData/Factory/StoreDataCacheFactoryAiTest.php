@@ -7,6 +7,7 @@ namespace EMS\CommonBundle\Tests\Unit\Common\StoreData\Factory;
 use EMS\CommonBundle\Common\Cache\Cache;
 use EMS\CommonBundle\Common\StoreData\Factory\StoreDataCacheFactory;
 use EMS\CommonBundle\Common\StoreData\Service\StoreDataCacheService;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 
@@ -20,12 +21,14 @@ class StoreDataCacheFactoryAiTest extends TestCase
         $this->cache = $this->createMock(Cache::class);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testGetType(): void
     {
         $factory = new StoreDataCacheFactory($this->cache);
         $this->assertSame(StoreDataCacheFactory::TYPE_CACHE, $factory->getType());
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testCreateService(): void
     {
         $factory = new StoreDataCacheFactory($this->cache);
@@ -34,6 +37,7 @@ class StoreDataCacheFactoryAiTest extends TestCase
         $this->assertInstanceOf(StoreDataCacheService::class, $service);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testCreateServiceWithInvalidType(): void
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -43,6 +47,7 @@ class StoreDataCacheFactoryAiTest extends TestCase
         $factory->createService(['type' => 'invalid']);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testCreateServiceWithoutType(): void
     {
         $this->expectException(MissingOptionsException::class);

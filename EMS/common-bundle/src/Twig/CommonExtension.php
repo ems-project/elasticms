@@ -13,7 +13,6 @@ use EMS\Helpers\Standard\Color;
 use EMS\Helpers\Standard\DateTime;
 use EMS\Helpers\Standard\Number;
 use EMS\Helpers\Standard\UuidGenerator;
-use Twig\DeprecatedCallableInfo;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
@@ -48,9 +47,6 @@ class CommonExtension extends AbstractExtension
             new TwigFunction('ems_file_reader_cells', [AssetRuntime::class, 'fileReaderReadCells']),
             new TwigFunction('ems_check_ip', [RequestRuntime::class, 'checkIp']),
             new TwigFunction('ems_clear_http_caches', [HttpCacheRuntime::class, 'clearCaches']),
-            new TwigFunction('ems_unzip', [AssetRuntime::class, 'unzip'], [
-                'deprecation_info' => new DeprecatedCallableInfo('elasticms/common-bundle', '5.19.0', 'ems_file_from_archive'),
-            ]),
         ];
     }
 
@@ -95,42 +91,6 @@ class CommonExtension extends AbstractExtension
             new TwigFilter('ems_luma', $this->relativeLuminance(...)),
             new TwigFilter('ems_contrast_ratio', $this->contrastRatio(...)),
             new TwigFilter('ems_first_in_array', $this->firstInArray(...)),
-            new TwigFilter('ems_webalize', [Encoder::class, 'webalizeForUsers'], [
-                'deprecation_info' => new DeprecatedCallableInfo('elasticms/common-bundle', '5.17.1', 'ems_slug'),
-            ]),
-            new TwigFilter('array_key', $this->arrayKey(...), [
-                'deprecation_info' => new DeprecatedCallableInfo('elasticms/common-bundle', '6.0.0', 'ems_array_key'),
-            ]),
-            new TwigFilter('format_bytes', Number::formatBytes(...), [
-                'deprecation_info' => new DeprecatedCallableInfo('elasticms/common-bundle', '6.0.0', 'ems_format_bytes'),
-            ]),
-            new TwigFilter('locale_attr', [RequestRuntime::class, 'localeAttribute'], [
-                'deprecation_info' => new DeprecatedCallableInfo('elasticms/common-bundle', '6.0.0', 'ems_locale_attr'),
-            ]),
-            new TwigFilter('emsch_ouuid', $this->getOuuid(...), [
-                'deprecation_info' => new DeprecatedCallableInfo('elasticms/common-bundle', '6.0.0', 'ems_ouuid'),
-            ]),
-            new TwigFilter('array_intersect', $this->arrayIntersect(...), [
-                'deprecation_info' => new DeprecatedCallableInfo('elasticms/common-bundle', '6.0.0', 'ems_array_intersect'),
-            ]),
-            new TwigFilter('merge_recursive', $this->arrayMergeRecursive(...), [
-                'deprecation_info' => new DeprecatedCallableInfo('elasticms/common-bundle', '6.0.0', 'ems_array_merge_recursive'),
-            ]),
-            new TwigFilter('inArray', $this->inArray(...), [
-                'deprecation_info' => new DeprecatedCallableInfo('elasticms/common-bundle', '6.0.0', 'ems_in_array'),
-            ]),
-            new TwigFilter('md5', $this->md5(...), [
-                'deprecation_info' => new DeprecatedCallableInfo('elasticms/common-bundle', '6.0.0', 'ems_md5'),
-            ]),
-            new TwigFilter('luma', $this->relativeLuminance(...), [
-                'deprecation_info' => new DeprecatedCallableInfo('elasticms/common-bundle', '6.0.0', 'ems_luma'),
-            ]),
-            new TwigFilter('contrastratio', $this->contrastRatio(...), [
-                'deprecation_info' => new DeprecatedCallableInfo('elasticms/common-bundle', '6.0.0', 'ems_contrast_ratio'),
-            ]),
-            new TwigFilter('firstInArray', $this->firstInArray(...), [
-                'deprecation_info' => new DeprecatedCallableInfo('elasticms/common-bundle', '6.0.0', 'ems_first_in_array'),
-            ]),
         ];
     }
 

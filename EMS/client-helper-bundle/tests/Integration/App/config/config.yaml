@@ -4,6 +4,7 @@ parameters:
     env(EMSCH_ENVS): '{"preview":{"regex":"/.*/","alias":"test_preview","backend":"https://localhost"}}'
 
 framework:
+    test: true
     http_method_override: false
     handle_all_throwables: true
     secret: 1621180219f163d89dc399e88cfc1807ab6448cf
@@ -21,6 +22,10 @@ framework:
         log: true
     validation:
         email_validation_mode: html5
+    property_info:
+        with_constructor_extractor: true
+    profiler:
+        collect_serializer_data: true
 
 security:
     firewalls:
@@ -31,20 +36,14 @@ doctrine:
     dbal:
         url: 'sqlite:///%kernel.project_dir%/test.db'
     orm:
-        auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         auto_mapping: true
-        enable_lazy_ghost_objects: true
-        enable_native_lazy_objects: true
-        controller_resolver:
-            auto_mapping: false
         identity_generation_preferences:
             Doctrine\DBAL\Platforms\PostgreSQLPlatform: sequence
 
 twig:
     debug: true
     strict_variables: true
-    exception_controller: null
 
 ems_client_helper:
     locales: '%env(json:EMSCH_LOCALES)%'

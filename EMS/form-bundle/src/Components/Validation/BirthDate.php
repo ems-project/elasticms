@@ -12,6 +12,6 @@ class BirthDate extends AbstractValidation
     #[\Override]
     public function getConstraint(): Constraint
     {
-        return new IsBirthDate(['age' => $this->value]);
+        return new IsBirthDate(age: $this->value);
     }
 }

@@ -81,8 +81,8 @@ Options:
 
 #### Environment create
 
-Starting from version 6.9.5, environments can be created at a specific position, automatically adjusting the order of
-other environments as needed.
+Starting from version 6.9.5, environments can be created at a specific position, automatically
+adjusting the order of other environments as needed.
 
 ```bash
 Description:

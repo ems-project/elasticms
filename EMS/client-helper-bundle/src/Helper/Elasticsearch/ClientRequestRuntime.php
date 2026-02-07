@@ -12,7 +12,6 @@ use EMS\CommonBundle\Elasticsearch\Document\Document;
 use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
 use EMS\CommonBundle\Elasticsearch\Exception\NotFoundException;
 use EMS\CommonBundle\Elasticsearch\Exception\NotSingleResultException;
-use EMS\CommonBundle\Elasticsearch\Response\Response;
 use EMS\CommonBundle\Service\ElasticaService;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -38,15 +37,14 @@ final class ClientRequestRuntime implements RuntimeExtensionInterface
     /**
      * @param string|string[]|null $type
      * @param array<mixed>         $body
-     * @param string[]             $sourceExclude
      *
      * @return array<mixed>
      */
-    public function search(string|array|null $type, array $body, int $from = 0, int $size = 10, array $sourceExclude = [], ?string $regex = null, ?string $index = null): array
+    public function search(string|array|null $type, array $body, int $from = 0, int $size = 10, ?string $regex = null, ?string $index = null): array
     {
         $client = $this->manager->getDefault();
 
-        return $client->search($type, $body, $from, $size, $sourceExclude, $regex, $index);
+        return $client->search($type, $body, $from, $size, $regex, $index);
     }
 
     /**
@@ -92,38 +90,6 @@ final class ClientRequestRuntime implements RuntimeExtensionInterface
     public function searchConfigExecute(Search $searchConfig): array
     {
         return $this->searchManager->search($searchConfig);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function data(string $input)
-    {
-        @\trigger_error(\sprintf('The filter emsch_data is deprecated and should not be used anymore. use the filter emsch_get instead"'), E_USER_DEPRECATED);
-
-        $emsLink = EMSLink::fromText($input);
-        $body = [
-            'query' => [
-                'bool' => [
-                    'must' => [['term' => ['_id' => $emsLink->getOuuid()]]],
-                ],
-            ],
-        ];
-
-        if ($emsLink->hasContentType()) {
-            $body['query']['bool']['must'][] = [
-                'term' => ['_contenttype' => $emsLink->getContentType()],
-            ];
-        }
-
-        $results = $this->manager->getDefault()->searchArgs(['body' => $body]);
-        $response = Response::fromArray($results);
-
-        if (1 === $response->getTotal()) {
-            return $results['hits']['hits'];
-        }
-
-        return ($response->getTotal() > 1) ? false : null;
     }
 
     /**

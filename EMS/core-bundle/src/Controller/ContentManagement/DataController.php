@@ -68,6 +68,8 @@ class DataController extends AbstractController
         private readonly RevisionRepository $revisionRepository,
         private readonly ActionService $actionService,
         private readonly FlashMessageLogger $flashMessageLogger,
+        private readonly PublishService $publishService,
+        private readonly ContentTypeService $ctService,
         private readonly string $templateNamespace,
     ) {
     }
@@ -216,7 +218,7 @@ class DataController extends AbstractController
                 EmsFields::LOG_OUUID_FIELD => $ouuid,
             ]);
 
-            return $this->redirectToRoute('data.draft_in_progress', ['contentTypeId' => $contentType->getId()]);
+            return $this->redirectToRoute('emsco_draft_in_progress', ['contentTypeId' => $contentType->getId()]);
         }
     }
 
@@ -252,7 +254,7 @@ class DataController extends AbstractController
                 EmsFields::LOG_CONTENTTYPE_FIELD => $type,
             ]);
 
-            return $this->redirectToRoute('data.view', [
+            return $this->redirectToRoute('emsco_data_view', [
                 'environmentName' => $environment,
                 'type' => $type,
                 'ouuid' => $ouuid,
@@ -295,7 +297,7 @@ class DataController extends AbstractController
             EmsFields::LOG_CONTENTTYPE_FIELD => $type,
         ]);
 
-        return $this->redirectToRoute('data.view', [
+        return $this->redirectToRoute('emsco_data_view', [
             'environmentName' => $environment,
             'type' => $type,
             'ouuid' => $ouuid,
@@ -311,7 +313,7 @@ class DataController extends AbstractController
 
         return $this->redirectToRoute(Routes::EDIT_REVISION, [
             'revisionId' => $this->dataService->initNewDraft($type, $ouuid)->getId(),
-            'item' => $request->get('item'),
+            'item' => $request->query->get('item'),
         ]);
     }
 
@@ -387,12 +389,12 @@ class DataController extends AbstractController
             ]);
         }
 
-        return $this->redirectToRoute('data.draft_in_progress', [
+        return $this->redirectToRoute('emsco_draft_in_progress', [
             'contentTypeId' => $contentTypeId,
         ]);
     }
 
-    public function cancelModifications(Revision $revision, PublishService $publishService): RedirectResponse
+    public function cancelModifications(Revision $revision): RedirectResponse
     {
         $contentTypeId = $revision->giveContentType()->getId();
         $type = $revision->giveContentType()->getName();
@@ -404,7 +406,7 @@ class DataController extends AbstractController
 
         if (null != $ouuid) {
             if ($revision->giveContentType()->isAutoPublish()) {
-                $publishService->silentPublish($revision);
+                $this->publishService->silentPublish($revision);
 
                 $this->logger->warning('log.data.revision.auto_publish_rollback', [
                     EmsFields::LOG_OUUID_FIELD => $ouuid,
@@ -489,7 +491,7 @@ class DataController extends AbstractController
         }
     }
 
-    public function ajaxUpdate(int $revisionId, Request $request, PublishService $publishService): Response
+    public function ajaxUpdate(int $revisionId, Request $request): Response
     {
         $formErrors = [];
 
@@ -568,16 +570,12 @@ class DataController extends AbstractController
             $formErrors = $form->getErrors(true, true);
 
             if (0 === $formErrors->count() && $revision->giveContentType()->isAutoPublish()) {
-                $publishService->silentPublish($revision);
+                $this->publishService->silentPublish($revision);
             }
         }
 
         $serialisedFormErrors = [];
         foreach ($formErrors as $error) {
-            if (!$error instanceof FormError) {
-                continue;
-            }
-
             $serialisedFormErrors[] = [
                 'propertyPath' => AppExtension::propertyPath($error),
                 'message' => $error->getMessage(),
@@ -649,8 +647,7 @@ class DataController extends AbstractController
 
     public function duplicateWithJsonContent(ContentType $contentType, string $ouuid, Request $request): RedirectResponse
     {
-        $content = $request->get('JSON_BODY');
-        $jsonContent = Json::decode((string) $content);
+        $jsonContent = Json::decode($request->request->getString('JSON_BODY', '{}'));
         $jsonContent = \array_merge($this->dataService->getNewestRevision($contentType->getName(), $ouuid)->getRawData(), $jsonContent);
 
         return $this->intNewDocumentFromArray($contentType, $jsonContent);
@@ -659,8 +656,7 @@ class DataController extends AbstractController
     public function addFromJsonContent(ContentType $contentType, Request $request): RedirectResponse
     {
         try {
-            $content = $request->get('JSON_BODY');
-            $jsonContent = Json::decode((string) $content);
+            $jsonContent = Json::decode($request->request->getString('JSON_BODY', '{}'));
         } catch (\Throwable) {
             $this->logger->error('log.data.revision.add_from_json_error', [
                 EmsFields::LOG_CONTENTTYPE_FIELD => $contentType->getName(),
@@ -709,11 +705,7 @@ class DataController extends AbstractController
         $revision = new Revision();
         $form = $this->createFormBuilder($revision)
             ->add('ouuid', IconTextType::class, [
-                'constraints' => [new Regex([
-                    'pattern' => '/^[A-Za-z0-9_\.\-~]*$/',
-                    'match' => true,
-                    'message' => 'Ouuid has an unauthorized character.',
-                ]),
+                'constraints' => [new Regex(pattern: '/^[A-Za-z0-9_\.\-~]*$/', match: true, message: 'Ouuid has an unauthorized character.'),
                 ],
                 'attr' => [
                     'class' => 'form-control',
@@ -768,7 +760,7 @@ class DataController extends AbstractController
         ]);
     }
 
-    public function linkData(string $key, ContentTypeService $ctService): Response
+    public function linkData(string $key): Response
     {
         $category = $type = $ouuid = null;
         $split = \explode(':', $key);
@@ -780,7 +772,7 @@ class DataController extends AbstractController
         }
 
         if (null != $ouuid && null != $type) {
-            $contentType = $ctService->getByName($type);
+            $contentType = $this->ctService->getByName($type);
 
             if (empty($contentType)) {
                 throw new NotFoundHttpException('Content type '.$type.'not found');
@@ -801,14 +793,17 @@ class DataController extends AbstractController
             }
 
             if (\in_array($category, ['asset', 'file'])) {
-                if (empty($contentType->getAssetField()) && empty($revision->getRawData()[$contentType->getAssetField()])) {
+                $rawData = $revision->getRawData();
+                $assetField = $contentType->getAssetField();
+
+                if (null === $assetField || isset($rawData[$assetField])) {
                     throw new NotFoundHttpException('Asset field not found for '.$revision);
                 }
 
                 return $this->redirectToRoute('ems_file_view', [
-                    'sha1' => $revision->getRawData()[$contentType->getAssetField()][EmsFields::CONTENT_FILE_HASH_FIELD_] ?? $revision->getRawData()[$contentType->getAssetField()][EmsFields::CONTENT_FILE_HASH_FIELD],
-                    'type' => $revision->getRawData()[$contentType->getAssetField()][EmsFields::CONTENT_MIME_TYPE_FIELD_] ?? $revision->getRawData()[$contentType->getAssetField()][EmsFields::CONTENT_MIME_TYPE_FIELD],
-                    'name' => $revision->getRawData()[$contentType->getAssetField()][EmsFields::CONTENT_FILE_NAME_FIELD_] ?? $revision->getRawData()[$contentType->getAssetField()][EmsFields::CONTENT_FILE_NAME_FIELD],
+                    'sha1' => $rawData[$assetField][EmsFields::CONTENT_FILE_HASH_FIELD_] ?? $rawData[$assetField][EmsFields::CONTENT_FILE_HASH_FIELD],
+                    'type' => $rawData[$assetField][EmsFields::CONTENT_MIME_TYPE_FIELD_] ?? $rawData[$assetField][EmsFields::CONTENT_MIME_TYPE_FIELD],
+                    'name' => $rawData[$assetField][EmsFields::CONTENT_FILE_NAME_FIELD_] ?? $rawData[$assetField][EmsFields::CONTENT_FILE_NAME_FIELD],
                 ]);
             }
         }

@@ -15,13 +15,18 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\Security\Csrf\CsrfTokenManager;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Twig\Environment;
 
 class FormController extends AbstractFormController
 {
-    public function __construct(private readonly FormFactory $formFactory, private readonly Client $client, private readonly Guard $guard, private readonly Environment $twig, private readonly CsrfTokenManager $csrfTokenManager)
-    {
+    public function __construct(
+        private readonly FormFactory $formFactory,
+        private readonly Client $client,
+        private readonly Guard $guard,
+        private readonly Environment $twig,
+        private readonly CsrfTokenManagerInterface $csrfTokenManager
+    ) {
     }
 
     public function iframe(Request $request, string $ouuid): Response

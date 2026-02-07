@@ -6,12 +6,14 @@ namespace EMS\CommonBundle\Tests\Unit\Common\CoreApi\Exception;
 
 use EMS\CommonBundle\Common\CoreApi\Exception\NotSuccessfulException;
 use EMS\CommonBundle\Common\CoreApi\Result;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class NotSuccessfulExceptionAiTest extends TestCase
 {
+    #[AllowMockObjectsWithoutExpectations]
     public function testExceptionMessage(): void
     {
         $response = $this->createMock(ResponseInterface::class);

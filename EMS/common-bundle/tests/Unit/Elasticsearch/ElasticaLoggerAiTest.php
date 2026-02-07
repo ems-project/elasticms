@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Tests\Elasticsearch;
 
-use Elastica\Connection;
-use Elastica\Request;
 use Elastica\Response;
 use EMS\CommonBundle\Elasticsearch\ElasticaLogger;
+use GuzzleHttp\Psr7\ServerRequest;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
@@ -23,6 +23,7 @@ final class ElasticaLoggerAiTest extends TestCase
         $this->elasticaLogger = new ElasticaLogger($this->logger, true);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testEnableDisable(): void
     {
         $this->elasticaLogger->disable();
@@ -34,19 +35,18 @@ final class ElasticaLoggerAiTest extends TestCase
 
     public function testLogQuery(): void
     {
-        $path = '/test_path';
+        $path = 'test_path';
         $method = 'GET';
         $data = ['key' => 'value'];
 
-        $request = new Request($path, $method, $data);
-        $request->setConnection(new Connection());
+        $request = new ServerRequest($method, $path, [], '{"key":"value"}');
 
         $this->logger->expects($this->once())->method('info')->with(
             $this->stringContains($path),
             $this->equalTo([$data])
         );
 
-        $this->elasticaLogger->logResponse(new Response(''), $request);
+        $this->elasticaLogger->logResponse($request, new Response(''));
 
         $this->assertSame(1, $this->elasticaLogger->getNbQueries());
         $queries = $this->elasticaLogger->getQueries();
@@ -55,12 +55,12 @@ final class ElasticaLoggerAiTest extends TestCase
         $this->assertSame($data, $queries[0]['data'][0]);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testReset(): void
     {
-        $request = new Request('/test_path', 'GET', ['key' => 'value']);
-        $request->setConnection(new Connection());
+        $request = new ServerRequest('/test_path', 'GET', ['key' => 'value']);
 
-        $this->elasticaLogger->logResponse(new Response(''), $request);
+        $this->elasticaLogger->logResponse($request, new Response(''));
         $this->assertSame(1, $this->elasticaLogger->getNbQueries());
 
         $this->elasticaLogger->reset();

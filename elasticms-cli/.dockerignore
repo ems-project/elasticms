@@ -1,0 +1,10 @@
+.github/
+.dockerignore
+.env
+.env.*
+.gitattributes
+.gitignore
+docker-bake.hcl
+Dockerfile
+Makefile
+phpunit.xml.dist

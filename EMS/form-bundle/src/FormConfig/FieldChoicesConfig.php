@@ -98,10 +98,10 @@ class FieldChoicesConfig
     {
         $level = 0;
         foreach ($choices as $choice) {
-            if (\is_array($choice)) {
+            if (\is_array($choice) && \count($choice) > 1) {
                 $level = \max(
                     $level,
-                    1 + $this->calculateMaxLevel($choice[\array_key_first($choice)])
+                    1 + $this->calculateMaxLevel(\array_first($choice))
                 );
             }
         }
@@ -170,8 +170,7 @@ class FieldChoicesConfig
     private function sort(array $list): array
     {
         $firstKey = \array_key_first($list);
-        /** @var string|null $firstValue */
-        $firstValue = $list[$firstKey] ?? null;
+        $firstValue = $firstKey ? ($list[$firstKey] ?? null) : null;
 
         if (null === $firstValue || '' === $firstValue) {
             \array_shift($list); // do not sort placeholder
@@ -186,7 +185,7 @@ class FieldChoicesConfig
             \uasort($list, fn ($a, $b) => (int) $collator->compare($a, $b));
         }
 
-        if (null === $firstValue || '' === $firstValue) {
+        if ($firstKey && (null === $firstValue || '' === $firstValue)) {
             $list = \array_merge([$firstKey => $firstValue], $list); // merge placeholder back
         }
 

@@ -288,7 +288,7 @@
         {% endif %}
         {% set itemLabel = attribute(line.data, table.labelAttribute) %}
         {% if action.post %}
-            {% if action.route != 'EMS_user_apikey' or 'ROLE_API' in line.data.roles  %}
+            {% if action.route != 'emsco_user_api_key' or 'ROLE_API' in line.data.roles  %}
                 {% include '@EMSCore/elements/post-button.html.twig' with {
                     'url': path(action.route, routeParameters),
                     'message': action.messageKey(itemLabel),
@@ -419,7 +419,7 @@
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                 <h4 class="modal-title" id="{{ table.attributeName|e('html_attr') }}_modal_reorder_label">
-                                    <strong>{{ reorder_label|default(form.vars.reorder_label)|trans }}</strong>
+                                    <strong>{{ (reorder_label ?? form.vars.reorder_label)|trans }}</strong>
                                 </h4>
                             </div>
                             <div class="modal-body">

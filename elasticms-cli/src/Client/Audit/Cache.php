@@ -122,7 +122,7 @@ class Cache
 
     public function current(): Url
     {
-        if (!isset($this->urls[$this->current])) {
+        if (null === $this->current || !isset($this->urls[$this->current])) {
             throw new \RuntimeException('Missing next url');
         }
 

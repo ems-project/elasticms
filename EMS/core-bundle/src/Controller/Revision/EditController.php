@@ -190,11 +190,11 @@ class EditController extends AbstractController
                                 'ouuid' => $revision->getOuuid(),
                                 'type' => $contentType->getName(),
                             ]);
-                        } else {
-                            return $this->redirectToRoute(Routes::EDIT_REVISION, [
-                                'revisionId' => $revision->getId(),
-                            ]);
                         }
+
+                        return $this->redirectToRoute(Routes::EDIT_REVISION, [
+                            'revisionId' => $revision->getId(),
+                        ]);
                     }
                 }
             }
@@ -215,11 +215,11 @@ class EditController extends AbstractController
                         'type' => $contentType->getName(),
                         'revisionId' => $revision->getId(),
                     ]);
-                } else {
-                    return $this->redirectToRoute('data.draft_in_progress', [
-                        'contentTypeId' => $contentType->getId(),
-                    ]);
                 }
+
+                return $this->redirectToRoute('emsco_draft_in_progress', [
+                    'contentTypeId' => $contentType->getId(),
+                ]);
             }
         } else {
             $objectArray = $revision->getRawData();
@@ -244,7 +244,7 @@ class EditController extends AbstractController
 
         if (!$revision->getDraft()) {
             $this->logger->warning('controller.revision.edit-controller.warning.edit-draft', [
-                'path' => $this->generateUrl('revision.new-draft', [
+                'path' => $this->generateUrl('emsco_data_new_draft', [
                     'type' => $revision->giveContentType(),
                     'ouuid' => $revision->giveOuuid(),
                 ], UrlGeneratorInterface::ABSOLUTE_PATH),

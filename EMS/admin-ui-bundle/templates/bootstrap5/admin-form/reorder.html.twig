@@ -2,8 +2,8 @@
 
 {% block form %}
     <ol class="nested-sortable vertical" id="root-list" data-nested-max-level="15" data-nested-is-tree="true">
-        {% include "@EMSAdminUI/bootstrap5/contenttype/reorder_item.html.twig" with {
-            parent: entity.fieldType
-        } %}
+        {{ include('@EMSAdminUI/bootstrap5/contenttype/reorder_item.html.twig', {
+            parent: entity.fieldType,
+        }) }}
     </ol>
 {% endblock %}

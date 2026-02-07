@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Controller;
 
-use Elasticsearch\Common\Exceptions\ElasticsearchException;
-use Elasticsearch\Common\Exceptions\NoNodesAvailableException;
+use Elastic\Transport\Exception\NoNodeAvailableException;
 use EMS\CommonBundle\Common\EMSLink;
 use EMS\CommonBundle\Elasticsearch\Aggregation\Bucket;
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
@@ -334,8 +333,7 @@ class ElasticsearchController extends AbstractController
         return $this->redirectToRoute('elasticsearch.search', ['searchId' => $id]);
     }
 
-    #[\Deprecated]
-    public function deprecatedSearchApi(Request $request, DataLinks $dataLinks): void
+    public function legacySearch(Request $request, DataLinks $dataLinks): void
     {
         @\trigger_error('QuerySearch not defined, you should refer to one', E_USER_DEPRECATED);
         $environments = Type::string($request->query->get('environment', ''));
@@ -419,7 +417,7 @@ class ElasticsearchController extends AbstractController
         }
 
         if (null !== $category && 1 === \count($contentTypes)) {
-            $contentType = $this->contentTypeService->getByName(\array_values($contentTypes)[0]);
+            $contentType = $this->contentTypeService->getByName(\array_first($contentTypes));
             if (false !== $contentType) {
                 if ($contentType->hasCategoryField()) {
                     $categoryField = $contentType->giveCategoryField();
@@ -472,7 +470,7 @@ class ElasticsearchController extends AbstractController
 
         $job = $this->jobService->createCommand($user, $command);
 
-        return $this->redirectToRoute('job.status', [
+        return $this->redirectToRoute('emsco_job_status', [
             'job' => $job->getId(),
         ]);
     }
@@ -576,6 +574,8 @@ class ElasticsearchController extends AbstractController
             $esSearch->addTermsAggregation(AggregateOptionService::INDEXES_AGGREGATION, '_index', 15);
             $esSearch->addAggregations($this->aggregateOptionService->getAllAggregations());
 
+            $searchBody = \array_filter(['query' => $esSearch->getQueryArray(), 'sort' => $esSearch->getSort()]);
+
             try {
                 $response = CommonResponse::fromResultSet($this->elasticaService->search($esSearch));
                 if ($response->getTotal() >= 50000) {
@@ -587,7 +587,7 @@ class ElasticsearchController extends AbstractController
                 } else {
                     $lastPage = \ceil($response->getTotal() / $this->pagingSize);
                 }
-            } catch (ElasticsearchException $e) {
+            } catch (\Throwable $e) {
                 $this->logger->warning('log.error', [
                     EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
                     EmsFields::LOG_EXCEPTION_FIELD => $e,
@@ -610,13 +610,15 @@ class ElasticsearchController extends AbstractController
                 $exportForms = [];
                 $contentTypes = $this->getAllContentType($response);
                 foreach ($contentTypes as $bucket) {
-                    $name = $bucket->getKey();
+                    if (null === $name = $bucket->getKey()) {
+                        continue;
+                    }
                     $contentType = $types[$name];
 
                     $exportForm = $this->createForm(ExportDocumentsType::class, new ExportDocuments(
                         $contentType,
                         $this->generateUrl('emsco_search_export', ['contentType' => $contentType->getId()]),
-                        Json::encode($this->searchService->generateSearchBody($search))
+                        Json::encode($searchBody)
                     ));
 
                     $exportForms[] = [
@@ -667,7 +669,7 @@ class ElasticsearchController extends AbstractController
                 'page' => $page,
                 'searchId' => $searchId,
                 'currentFilters' => $request->query,
-                'body' => $this->searchService->generateSearchBody($search),
+                'body' => $searchBody,
                 'openSearchForm' => $openSearchForm,
                 'search' => $search,
                 'sortOptions' => $this->sortOptionService->getAll(),
@@ -676,7 +678,7 @@ class ElasticsearchController extends AbstractController
                 'subTitle' => t('type.title_sub', ['type' => 'search'], 'emsco-core'),
                 'breadcrumb' => $this->breadcrumb($search),
             ]);
-        } catch (NoNodesAvailableException) {
+        } catch (NoNodeAvailableException) {
             return $this->redirectToRoute('elasticsearch.status');
         }
     }

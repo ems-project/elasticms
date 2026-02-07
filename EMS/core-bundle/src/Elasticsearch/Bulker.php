@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Elasticsearch;
 
+use Elastic\Transport\Exception\NoNodeAvailableException;
 use Elastica\Bulk;
 use Elastica\Bulk\Action;
 use Elastica\Bulk\ResponseSet;
 use Elastica\Exception\Bulk\ResponseException;
 use Elastica\JSON;
-use Elasticsearch\Common\Exceptions\NoNodesAvailableException;
 use EMS\CommonBundle\Elasticsearch\Client;
 use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
 use EMS\CoreBundle\Service\DataService;
@@ -124,7 +124,7 @@ class Bulker
     }
 
     /**
-     * @throws NoNodesAvailableException
+     * @throws NoNodeAvailableException
      */
     public function send(bool $force = false, bool $retry = false): bool
     {
@@ -142,15 +142,14 @@ class Bulker
             $this->bulk = new Bulk($this->client);
             $this->counter = 0;
             unset($response);
-        } catch (NoNodesAvailableException $e) {
+        } catch (NoNodeAvailableException $e) {
             if (!$retry) {
                 $this->logger->info('No nodes available retry');
                 \sleep(10);
 
                 return $this->send($force, true);
-            } else {
-                throw $e;
             }
+            throw $e;
         } catch (ResponseException $e) {
             $this->counter = 0;
             $exceptions = $e->getActionExceptions();
@@ -197,7 +196,7 @@ class Bulker
 
         $this->logger->notice('bulked {count} items in {took}ms', [
             'count' => $response,
-            'took' => $response->getQueryTime(),
+            'took' => $response->getEngineTime(),
         ]);
     }
 }

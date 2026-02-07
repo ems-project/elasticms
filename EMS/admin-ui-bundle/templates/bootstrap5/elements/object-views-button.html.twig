@@ -6,88 +6,88 @@
 
     {% for template in contentType.templates %}
         {% if currentTemplate is not defined or template != currentTemplate %}
-            {% if (template.role == "not-defined" or is_granted(template.role)) and (template.environments is empty or environment in template.environments or template.isEnvironmentExist(environment.name)) %}
+            {% if (template.role == 'not-defined' or is_granted(template.role)) and (template.environments is empty or environment in template.environments or template.isEnvironmentExist(environment.name)) %}
                 {% if template.renderOption is constant('EMS\\CoreBundle\\Form\\Field\\RenderOptionType::EXTERNALLINK') %}
                     {% set link = template.body|emsco_generate_from_template({
                         environment: environment,
                         contentType: contentType,
                         object: object,
-                        source: source
+                        source: source,
                     }) %}
 
                     {% set action = {
                         link: link,
-                        link_attributes: [ { name: 'target', value: '_blank' } ],
+                        link_attributes: [{name: 'target', value: '_blank'}],
                         icon: template.icon,
                         label: template.label,
-                        suffix_icon: 'fa fa-external-link pull-right'
+                        suffix_icon: 'fa fa-external-link pull-right',
                     } %}
                     {% if not link %}
-                        {% set action = action|merge({ list_item_classes: ['disabled'] }) %}
+                        {% set action = action|merge({list_item_classes: ['disabled']}) %}
                     {% endif %}
                     {% set contentTypeActions = contentTypeActions|merge([action]) %}
                 {% elseif template.renderOption is constant('EMS\\CoreBundle\\Form\\Field\\RenderOptionType::RAW_HTML') %}
-                    {%- if (is_granted(template.role)) or template.role == "not-defined" -%}
+                    {%- if (is_granted(template.role)) or template.role == 'not-defined' -%}
                         {%- set rawHTML = template.body|emsco_generate_from_template({
                             environment: environment,
                             contentType: contentType,
                             object: object,
-                            source: source
+                            source: source,
                         }) -%}
                         {%- if rawHTML != '' -%}
-                            {% set contentTypeActions = contentTypeActions|merge([{ label: rawHTML|raw }]) %}
+                            {% set contentTypeActions = contentTypeActions|merge([{label: rawHTML|raw}]) %}
                         {%- endif -%}
                     {%- endif -%}
                 {% elseif template.renderOption is constant('EMS\\CoreBundle\\Form\\Field\\RenderOptionType::NOTIFICATION') %}
-                    {% if ( is_granted(template.role) and ((attribute(source, contentType.circlesField) is not defined) or (source and attribute(source, contentType.circlesField)|emsco_in_my_circles) or (environment.circles|emsco_in_my_circles and is_granted('ROLE_PUBLISHER')) ) ) %}
+                    {% if (is_granted(template.role) and ((attribute(source, contentType.circlesField) is not defined) or (source and attribute(source, contentType.circlesField)|emsco_in_my_circles) or (environment.circles|emsco_in_my_circles and is_granted('ROLE_PUBLISHER')))) %}
                         {% set action = {
                             link: '#',
                             link_attributes: [
-                                { name: 'class', value: 'request_notification' },
-                                { name: 'onclick', value: "requestNotification(this, #{template.id}, '#{environment.name}', '#{contentType.id}' , '#{ouuid}'); return false;" },
-                                { name: 'data-url', value: path('notification.ajaxnotification', {'objectId' : ouuid}) }
+                                {name: 'class', value: 'request_notification'},
+                                {name: 'onclick', value: "requestNotification(this, #{template.id}, '#{environment.name}', '#{contentType.id}' , '#{ouuid}'); return false;"},
+                                {name: 'data-url', value: path('notification.ajaxnotification', {objectId: ouuid})},
                             ],
                             icon: template.icon,
-                            label: template.label
+                            label: template.label,
                         } %}
                         {% set contentTypeActions = contentTypeActions|merge([action]) %}
                     {% endif %}
                 {% elseif template.renderOption is constant('EMS\\CoreBundle\\Form\\Field\\RenderOptionType::JOB') %}
-                    {% if (is_granted(template.role)) or template.role == "not-defined" %}
+                    {% if (is_granted(template.role)) or template.role == 'not-defined' %}
                         {% set action = {
                             link: '#',
                             link_attributes: [
-                                { name: 'class', value: 'request_job' },
-                                { name: 'data-url', value: path('ems_job_custom_view', {'environmentName': environment.name, 'templateId': template.id, 'ouuid': ouuid}) }
+                                {name: 'class', value: 'request_job'},
+                                {name: 'data-url', value: path('emsco_job_custom_view', {environmentName: environment.name, templateId: template.id, ouuid: ouuid})},
                             ],
                             icon: template.icon,
-                            label: template.label
+                            label: template.label,
                         } %}
                         {% set contentTypeActions = contentTypeActions|merge([action]) %}
                     {% endif %}
                 {% elseif template.renderOption is constant('EMS\\CoreBundle\\Form\\Field\\RenderOptionType::IMPORT') %}
-                    {%- if (is_granted(template.role)) or template.role == "not-defined" -%}
-                        {%- set importModalUrl = path('emsco_data_action_import', { 'actionId': template.id, 'ouuid': ouuid}) -%}
+                    {%- if (is_granted(template.role)) or template.role == 'not-defined' -%}
+                        {%- set importModalUrl = path('emsco_data_action_import', {actionId: template.id, ouuid: ouuid}) -%}
                         {% set action = {
                             link: '#',
                             link_attributes: [
-                                { name: 'data-ajax-modal-url', value: importModalUrl },
-                                { name: 'data-ajax-modal-size', value: 'md' },
+                                {name: 'data-ajax-modal-url', value: importModalUrl},
+                                {name: 'data-ajax-modal-size', value: 'md'},
                             ],
                             icon: template.icon,
-                            label: template.label
+                            label: template.label,
                         } %}
                         {% set contentTypeActions = contentTypeActions|merge([action]) %}
                     {%- endif -%}
                 {% elseif template.renderOption not in [constant('EMS\\CoreBundle\\Form\\Field\\RenderOptionType::EVENT')] %}
                     {% set action = {
-                        link: path(template.public?'ems_data_custom_template_public':'ems_data_custom_template_protected', {
+                        link: path(template.public ? 'emsco_data_public_action' : 'emsco_data_private_action', {
                             environmentName: environment.name,
                             ouuid: ouuid,
-                            templateId: template.id
+                            templateId: template.id,
                         }),
                         icon: template.icon,
-                        label: template.label
+                        label: template.label,
                     } %}
                     {% set contentTypeActions = contentTypeActions|merge([action]) %}
                 {% endif %}
@@ -97,22 +97,22 @@
 
     {% if is_granted('ROLE_COPY_PASTE') %}
         {% set contentTypeActions = contentTypeActions|merge([{
-            link: path('revision.copy', {'environment': environment.name, 'type': contentType.name, 'ouuid': ouuid} ),
+            link: path('emsco_data_copy', {environment: environment.name, type: contentType.name, ouuid: ouuid}),
             icon: 'views.elements.object-views-button.copy-data-icon-class'|trans,
-            label: 'views.elements.object-views-button.copy-data'|trans
+            label: 'views.elements.object-views-button.copy-data'|trans,
         }]) %}
-        {% if not contentType.askForOuuid  %}
+        {% if not contentType.askForOuuid %}
             {% set contentTypeActions = contentTypeActions|merge([{
-                link: path('emsco_duplicate_revision', {'environment': environment.name, 'type': contentType.name, 'ouuid': ouuid}),
+                link: path('emsco_duplicate_revision', {environment: environment.name, type: contentType.name, ouuid: ouuid}),
                 icon: 'clone',
                 label: 'Duplicate',
-                post_button: true
+                post_button: true,
             }]) %}
         {% endif %}
         {% set contentTypeActions = contentTypeActions|merge([{
-            link: path('data.view', {'environmentName': environment.name, 'type': contentType.name, 'ouuid': ouuid} ),
+            link: path('emsco_data_view', {environmentName: environment.name, type: contentType.name, ouuid: ouuid}),
             icon: 'views.elements.object-views-button.raw-view-icon-class'|trans,
-            label: 'views.elements.object-views-button.raw-view'|trans
+            label: 'views.elements.object-views-button.raw-view'|trans,
         }]) %}
     {% endif %}
 
@@ -128,12 +128,12 @@
                 {% for a in contentTypeActions %}
                     <li class="{{ a.list_item_classes|default([])|length > 0 ? a.list_item_classes|join(' ') }}">
                         {% if a.post_button|default %}
-                            {% include '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' with {
-                                'url': a.link,
-                                'label': a.label,
-                                'icon': a.icon,
-                                'btnClass': ''
-                            }%}
+                            {{ include('@EMSAdminUI/bootstrap5/elements/post-button.html.twig', {
+                                url: a.link,
+                                label: a.label,
+                                icon: a.icon,
+                                btnClass: '',
+                            }) }}
                         {% else %}
                             {% if a.link|default %}
                                 <a href="{{ a.link }}" {% for attribute in a.link_attributes|default([]) %}{{ attribute.name }}="{{ attribute.value }}" {% endfor %}>
@@ -156,9 +156,8 @@
         {% endif %}
     </div>
 {% else %}
-    <a class="btn btn-sm btn-outline-primary" href="{{ path('data.view', {'environmentName': environment.name, 'type': contentType.name, 'ouuid': object.ouuid} ) }}">
+    <a class="btn btn-sm btn-outline-primary" href="{{ path('emsco_data_view', {environmentName: environment.name, type: contentType.name, ouuid: object.ouuid}) }}">
         <i class="{{ 'views.elements.object-views-button.raw-view-icon-class'|trans }}"></i>
         {{ 'views.elements.object-views-button.raw-view'|trans }}
     </a>
 {% endif %}
-

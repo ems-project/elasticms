@@ -120,8 +120,6 @@ return static function (ContainerConfigurator $container) {
 
     $services->set('ems_common.text.encoder', Encoder::class)
         ->args([
-            '%ems_common.webalize.removable_regex%',
-            '%ems_common.webalize.dashable_regex%',
             '%ems_common.slug_symbol_map%',
         ])
         ->tag('twig.runtime');

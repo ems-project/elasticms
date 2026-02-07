@@ -6,7 +6,6 @@ namespace EMS\CommonBundle\Tests\Unit\Helper\Text;
 
 use EMS\CommonBundle\Helper\Text\Encoder;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\TestCase;
 
 class EncoderTest extends TestCase
@@ -96,14 +95,6 @@ class EncoderTest extends TestCase
     public function testHtmlEncodeUrl(string $text, string $expected)
     {
         self::assertSame($expected, $this->encoder->encodeUrl($text));
-    }
-
-    #[IgnoreDeprecations]
-    public function testWebalize(): void
-    {
-        self::assertSame('l-iphone', Encoder::webalize('l\'iphone'));
-        self::assertSame('a_a-a-a-a-a', Encoder::webalize('a_a-a a\'a A'));
-        self::assertSame('coucou-comment-vas-tu', Encoder::webalize('Coucou/Comment-vas tu?'));
     }
 
     public function testAsciiFolding(): void

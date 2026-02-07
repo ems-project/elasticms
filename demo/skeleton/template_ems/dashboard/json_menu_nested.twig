@@ -142,7 +142,7 @@
             {% endif %}
             {% set contentType = contentTypes|filter(ct => ct.name == item.type)|first|default() %}
             {% if contentType and is_granted(contentType.roles.edit) %}
-                {% set editPath = path('revision.new-draft', {'ouuid': page.id, 'type': contentType.name}) %}
+                {% set editPath = path('emsco_data_new_draft', {'ouuid': page.id, 'type': contentType.name}) %}
                 <a class="btn btn-sm btn-primary" href="{{ editPath }}">
                     <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;Edit
                 </a>
@@ -240,7 +240,7 @@
 
 {% block table_existing_column_label %}
 {%- verbatim -%}
-    <a href="{{ path('data.revisions', {ouuid: data.id, type: data.contentType} ) }}">{{ data.source.label }}</a>
+    <a href="{{ path('emsco_view_revisions', {ouuid: data.id, type: data.contentType} ) }}">{{ data.source.label }}</a>
 {%- endverbatim -%}
 {% endblock table_existing_column_label %}
 

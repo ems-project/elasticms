@@ -9,8 +9,7 @@
         "tableDefaultCss": "table table-border",
         "contentCss": null,
         "contentJs": null,
-        "assets": null,
-        "saveDir": null
+        "assets": null
     },
     "replaced": []
 }

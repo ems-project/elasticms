@@ -339,7 +339,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     bind_locale?: bool|Param,
  *     handle_exceptions?: bool|Param, // Default: true
  *     etag_hash_algo?: scalar|Param|null,
- *     asset_local_folder?: scalar|Param|null,
+ *     asset_local_folder?: scalar|Param|null, // Default: null
  *     search_limit?: int|Param, // search limit to get local documents // Default: 1000
  *     templates?: array{
  *         error?: scalar|Param|null, // Default: "@EMSCH/template/error{code}.html.twig"
@@ -431,10 +431,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         enabled?: scalar|Param|null,
  *         host?: scalar|Param|null,
  *         port?: scalar|Param|null, // Default: null
- *     },
- *     webalize?: array{
- *         removable_regex?: scalar|Param|null, // Default: "/([^a-zA-Z0-9_| \\-.'\\/])|(\\.$)/"
- *         dashable_regex?: scalar|Param|null, // Default: "/[\\/| ']+/"
  *     },
  *     request?: array{
  *         trusted_ips?: mixed, // Default: []

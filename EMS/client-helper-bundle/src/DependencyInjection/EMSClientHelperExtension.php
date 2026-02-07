@@ -35,7 +35,7 @@ final class EMSClientHelperExtension extends Extension implements PrependExtensi
         $container->setParameter('emsch.bind_locale', $config['bind_locale'] ?? true);
         $container->setParameter('emsch.handle_exceptions', $config['handle_exceptions'] ?? true);
         $container->setParameter('emsch.etag_hash_algo', $config['etag_hash_algo'] ?? 'sha1');
-        $container->setParameter('emsch.asset_local_folder', $config['asset_local_folder'] ?? null);
+        $container->setParameter('emsch.asset_local_folder', $config['asset_local_folder']);
         $container->setParameter('emsch.request_environments', $config['request_environments']);
         $container->setParameter('emsch.search_limit', $config['search_limit']);
         $container->setParameter('emsch.security.sso.core_user', $config['security']['sso']['core_user'] ?? false);

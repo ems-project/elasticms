@@ -8,7 +8,6 @@ use EMS\ClientHelperBundle\Command\HealthCheckCommand;
 use EMS\ClientHelperBundle\Command\HttpCache\InvalidateCommand;
 use EMS\ClientHelperBundle\Contracts\Elasticsearch\ClientRequestManagerInterface;
 use EMS\ClientHelperBundle\Contracts\Environment\EnvironmentHelperInterface;
-use EMS\ClientHelperBundle\Controller\AssetController;
 use EMS\ClientHelperBundle\Controller\CoreBridgeController;
 use EMS\ClientHelperBundle\Controller\EmbedController;
 use EMS\ClientHelperBundle\Controller\HttpCacheController;
@@ -36,7 +35,6 @@ use EMS\ClientHelperBundle\Twig\AdminMenuRuntime;
 use EMS\ClientHelperBundle\Twig\HelperExtension;
 use EMS\CommonBundle\Contracts\Bridge\Core\CoreBridgeInterface;
 use EMS\CommonBundle\Contracts\Elasticsearch\QueryLoggerInterface;
-use EMS\CommonBundle\Twig\AssetRuntime;
 use Psr\Cache\CacheItemPoolInterface;
 
 return static function (ContainerConfigurator $container) {
@@ -159,7 +157,6 @@ return static function (ContainerConfigurator $container) {
     $services->set('emsch.twig.runtime.asset', AssetHelperRuntime::class)
         ->args([
             service('ems_common.storage.manager'),
-            service('emsch.manager.client_request'),
             service('ems_common.twig.runtime.asset'),
             service('ems.vite'),
             '%kernel.project_dir%',
@@ -202,16 +199,6 @@ return static function (ContainerConfigurator $container) {
             service('emsch.manager.client_request'),
             service('emsch.helper_cache'),
             service('twig'),
-        ])
-        ->call('setContainer')
-        ->tag('controller.service_arguments')
-        ->tag('container.service_subscriber');
-
-    $services->set(AssetController::class)
-        ->public()
-        ->args([
-            service(AssetRuntime::class),
-            '%kernel.project_dir%',
         ])
         ->call('setContainer')
         ->tag('controller.service_arguments')

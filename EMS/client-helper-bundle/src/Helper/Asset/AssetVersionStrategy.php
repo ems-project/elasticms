@@ -12,20 +12,14 @@ final readonly class AssetVersionStrategy implements VersionStrategyInterface
     {
     }
 
-    /**
-     * @param string $path
-     */
     #[\Override]
-    public function getVersion($path): string
+    public function getVersion(string $path): string
     {
         return $this->assetHelperRuntime->getVersionHash();
     }
 
-    /**
-     * @param string $path
-     */
     #[\Override]
-    public function applyVersion($path): string
+    public function applyVersion(string $path): string
     {
         return $this->assetHelperRuntime->applyVersion($path);
     }

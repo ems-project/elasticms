@@ -46,10 +46,6 @@ final class EMSCommonExtensionAiTest extends TestCase
                         'port' => '6379',
                     ],
                 ],
-                'webalize' => [
-                    'removable_regex' => '/[^a-zA-Z0-9\_\|\ \-\.]/',
-                    'dashable_regex' => '/[\/\|\ ]+/',
-                ],
                 'metric' => [
                     'enabled' => true,
                     'host' => 'localhost',
@@ -68,8 +64,6 @@ final class EMSCommonExtensionAiTest extends TestCase
         $this->assertEquals(['file_system'], $this->container->getParameter('ems_common.store_data_services'));
         $this->assertEquals(200, $this->container->getParameter('ems_common.log_level'));
         $this->assertEquals(['test'], $this->container->getParameter('ems_common.excluded_content_types'));
-        $this->assertEquals('/[^a-zA-Z0-9\_\|\ \-\.]/', $this->container->getParameter('ems_common.webalize.removable_regex'));
-        $this->assertEquals('/[\/\|\ ]+/', $this->container->getParameter('ems_common.webalize.dashable_regex'));
         $this->assertTrue($this->container->getParameter('ems.metric.enabled'));
         $this->assertEquals('localhost', $this->container->getParameter('ems.metric.host'));
         $this->assertEquals('9100', $this->container->getParameter('ems.metric.port'));

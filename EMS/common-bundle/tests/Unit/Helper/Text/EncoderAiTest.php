@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Tests\Unit\Helper\Text;
 
 use EMS\CommonBundle\Helper\Text\Encoder;
-use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\TestCase;
 
 class EncoderAiTest extends TestCase
@@ -44,14 +43,6 @@ class EncoderAiTest extends TestCase
         $mimeType = 'application/pdf';
         $icon = Encoder::getFontAwesomeFromMimeType($mimeType, '5');
         $this->assertEquals('far fa-file-pdf', $icon);
-    }
-
-    #[IgnoreDeprecations]
-    public function testWebalizeForUsers(): void
-    {
-        $text = 'This is a Test';
-        $webalized = $this->encoder->webalizeForUsers($text);
-        $this->assertEquals('this-is-a-test', $webalized);
     }
 
     public function testAsciiFolding(): void

@@ -63,6 +63,7 @@ use EMS\CoreBundle\Controller\UserController;
 use EMS\CoreBundle\Controller\Views\CalendarController;
 use EMS\CoreBundle\Controller\Views\CriteriaController;
 use EMS\CoreBundle\Controller\Views\HierarchicalController;
+use EMS\CoreBundle\Controller\Webhook\WebhookController;
 use EMS\CoreBundle\Controller\Wysiwyg\AjaxPasteController;
 use EMS\CoreBundle\Controller\Wysiwyg\ModalController;
 use EMS\CoreBundle\Controller\Wysiwyg\StylesetController;
@@ -913,6 +914,16 @@ return static function (ContainerConfigurator $container) {
         ->args([
             service('emsco.service.webhook_subscription'),
             service('event_dispatcher'),
+        ])
+        ->call('setContainer')
+        ->tag('container.service_subscriber')
+        ->tag('controller.service_arguments');
+
+    $services->set(WebhookController::class)
+        ->args([
+            service('emsco.logger'),
+            service('ems.webhook_subscription.manager'),
+            service('emsco.data_table.factory'),
         ])
         ->call('setContainer')
         ->tag('container.service_subscriber')

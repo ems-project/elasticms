@@ -12,7 +12,6 @@ use Elastica\Aggregation\Terms as TermsAggregation;
 use Elastica\Query\AbstractQuery;
 use Elastica\Query\BoolQuery;
 use Elastica\Query\Nested;
-use Elastica\Query\Terms;
 use Elastica\Suggest;
 use Elastica\Suggest\Term;
 use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequest;

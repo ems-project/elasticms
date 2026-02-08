@@ -128,7 +128,7 @@
     </button>
     <ul class="dropdown-menu" role="menu">
         <li>
-            <a href="{{ path("data.revisions", {ouuid: data.id, type: data.contentType} ) }}">Revision</a>
+            <a href="{{ path("emsco_view_revisions", {ouuid: data.id, type: data.contentType} ) }}">Revision</a>
         </li>
         {% if docInfo.draft %}
             <li><a href="{{ path("revision.publish_to", {revisionId: revisionId, envId: previewId}) }}">Publish in preview</a></li>

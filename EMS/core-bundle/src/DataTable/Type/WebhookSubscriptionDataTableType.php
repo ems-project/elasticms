@@ -37,7 +37,8 @@ class WebhookSubscriptionDataTableType extends AbstractEntityTableType
         $table->addColumn(t('field.error', [], 'emsco-core'), 'errorMessage');
         $this
             ->addColumnsCreatedModifiedDate($table)
-            ->addTableActionDelete($table, 'webhook_subscription')
-            ->addItemDelete($table, 'webhook_subscription', Routes::WEBHOOK_SUBSCRIPTION_DELETE);
+            ->addTableActionDelete($table, 'webhook_subscription');
+        $table->addItemPostAction(Routes::WEBHOOK_SUBSCRIPTION_TEST, t('webhook.test.action', [], 'emsco-core'), 'check', t('action.confirmation', [], 'emsco-core'));
+        $this->addItemDelete($table, 'webhook_subscription', Routes::WEBHOOK_SUBSCRIPTION_DELETE);
     }
 }

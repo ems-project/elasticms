@@ -40,6 +40,8 @@ outline: [2, 2]
 - Web search config `nested_path` option removed, use `parent_field`.
 - Common coreApi remove methods: hashFile, initUpload, addChunk. Use the file endpoint instead.
 - Common remove `_type` fallback for EMSLink and document, use `_contenttype`
+- Remove `EMS\\CommonBundle\\Controller\\FileController::download` use the ems_asset twig filter to generate the route.
+- Remove `EMS\\CommonBundle\\Controller\\FileController::view` use the ems_asset twig filter to generate the route.
 
 #### Twig
 

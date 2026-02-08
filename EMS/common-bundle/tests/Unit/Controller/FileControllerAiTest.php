@@ -9,11 +9,9 @@ use EMS\CommonBundle\Storage\Processor\Processor;
 use EMS\CommonBundle\Twig\AssetRuntime;
 use GuzzleHttp\Psr7\Stream;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
-use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class FileControllerAiTest extends TestCase
@@ -53,30 +51,6 @@ class FileControllerAiTest extends TestCase
         $this->assertInstanceOf(Response::class, $response);
     }
 
-    #[IgnoreDeprecations]
-    #[AllowMockObjectsWithoutExpectations]
-    public function testView(): void
-    {
-        $this->assetRuntime->expects($this->once())
-            ->method('assetPath')
-            ->willReturn('/path/to/asset');
-
-        $response = $this->controller->view(new Request(), 'sha1');
-        $this->assertInstanceOf(Response::class, $response);
-    }
-
-    #[IgnoreDeprecations]
-    #[AllowMockObjectsWithoutExpectations]
-    public function testDownload(): void
-    {
-        $this->assetRuntime->expects($this->once())
-            ->method('assetPath')
-            ->willReturn('/path/to/asset');
-
-        $response = $this->controller->download(new Request(), 'sha1');
-        $this->assertInstanceOf(Response::class, $response);
-    }
-
     #[AllowMockObjectsWithoutExpectations]
     public function testGenerateLocalImage(): void
     {
@@ -109,19 +83,6 @@ class FileControllerAiTest extends TestCase
 
         $this->invokeMethod($this->controller, 'closeSession', [$request]);
         $this->assertTrue($request->hasSession());
-    }
-
-    #[IgnoreDeprecations]
-    #[AllowMockObjectsWithoutExpectations]
-    public function testGetFile(): void
-    {
-        $this->assetRuntime->expects($this->once())
-            ->method('assetPath')
-            ->willReturn('/path/to/asset');
-
-        $request = new Request();
-        $response = $this->invokeMethod($this->controller, 'getFile', [$request, 'sha1', ResponseHeaderBag::DISPOSITION_ATTACHMENT]);
-        $this->assertInstanceOf(Response::class, $response);
     }
 
     private function invokeMethod(object $object, string $methodName, array $parameters = []): mixed

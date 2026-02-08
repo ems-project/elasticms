@@ -135,4 +135,35 @@ class WebhookSubscriptionRepository extends ServiceEntityRepository
         $this->getEntityManager()->persist($webhookSubscription);
         $this->getEntityManager()->flush();
     }
+
+    /**
+     * @param string[] $events
+     */
+    public function findByEndpointUrlAndEvents(string $endpointUrl, array $events): ?WebhookSubscription
+    {
+        \sort($events);
+        $qb = $this->createQueryBuilder('ws')
+            ->where('ws.endpointUrl = :endpointUrl')
+            ->setParameter(':endpointUrl', $endpointUrl);
+        $result = $qb->getQuery()->execute();
+        foreach ($result as $webhookSubscription) {
+            if (!$webhookSubscription instanceof WebhookSubscription) {
+                throw new \RuntimeException('Unexpected WebhookSubscription type');
+            }
+            $currentEvents = $webhookSubscription->getEvents();
+            \sort($currentEvents);
+            if ($events !== $currentEvents) {
+                continue;
+            }
+            if ($webhookSubscription->isEnabled()) {
+                return $webhookSubscription;
+            }
+            $webhookSubscription->setEnabled(true);
+            $this->update($webhookSubscription);
+
+            return $webhookSubscription;
+        }
+
+        return null;
+    }
 }

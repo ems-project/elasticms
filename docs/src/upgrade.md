@@ -35,8 +35,9 @@ outline: [2, 2]
 - Removed `EMS_WEBALIZE_DASHABLE_REGEX` and `EMS_WEBALIZE_REMOVABLE_REGEX` environment variables: was used for
   `ems_webalize` which has been removed for `ems_slug`.
 - Support for `%locale%` in skeleton routes and search configuration has been removed. Please use `%_locale%` instead.
-- Removed `facets` configuration from the search config. Use filter(s) instead.
-- The `sizes` and `sorts` option in the search config only accepts predefined values.
+- Web search config removed `facets` config, use filter(s) instead.
+- Web search config `sizes` and `sorts` options only accepts predefined values.
+- Web search config `nested_path` option removed, use `parent_field`.
 
 #### Twig
 

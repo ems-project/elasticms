@@ -42,6 +42,7 @@ outline: [2, 2]
 - Common remove `_type` fallback for EMSLink and document, use `_contenttype`
 - Remove `EMS\\CommonBundle\\Controller\\FileController::download` use the ems_asset twig filter to generate the route.
 - Remove `EMS\\CommonBundle\\Controller\\FileController::view` use the ems_asset twig filter to generate the route.
+- Remove form field `SendConfirmation`, use numberType or HiddenType with VerificationCode validator.
 
 #### Twig
 

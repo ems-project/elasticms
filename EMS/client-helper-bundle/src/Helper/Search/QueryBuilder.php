@@ -108,10 +108,6 @@ final readonly class QueryBuilder
             $query->setMinimumShouldMatch($minimumShouldMatch);
         }
 
-        foreach ($this->search->getQueryFacets() as $field => $terms) {
-            $query->addMust(new Terms($field, $terms));
-        }
-
         foreach ($this->search->getFilters() as $filter) {
             if (!$filter->isActive() || $filter->isPostFilter()) {
                 continue;
@@ -179,13 +175,6 @@ final readonly class QueryBuilder
     private function getAggs(bool $hasPostFilter = false): array
     {
         $aggs = [];
-
-        foreach ($this->search->getQueryFacets() as $facet => $size) {
-            $terms = new TermsAggregation($facet);
-            $terms->setField($facet);
-            $terms->setSize($size);
-            $aggs[$facet] = $terms;
-        }
 
         foreach ($this->search->getFilters() as $filter) {
             if (!$filter->hasAggSize()) {

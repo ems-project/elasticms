@@ -20,8 +20,6 @@ final class Search
     private ?string $indexRegex;
     /** @var string[] */
     private readonly array $types;
-    /** @var array<string, int> [facet_name => size], used for aggregation */
-    private readonly array $facets;
     /** @var Synonym[] */
     private array $synonyms = [];
     /** @var string[] */
@@ -45,8 +43,6 @@ final class Search
 
     /** @var string|null free text search */
     private ?string $queryString = null;
-    /** @var array<string, mixed> */
-    private array $queryFacets = [];
 
     private int $page = 0;
     private int $size = 100;
@@ -62,10 +58,6 @@ final class Search
     {
         $options ??= $this->getOptions($request, $clientRequest);
 
-        if (isset($options['facets'])) {
-            @\trigger_error('Deprecated facets, please use filters setting', E_USER_DEPRECATED);
-        }
-
         if (isset($options['fields']) && isset($options['query_search'])) {
             throw new \RuntimeException('Cannot combine "fields" and "query" search config');
         }
@@ -73,7 +65,6 @@ final class Search
         $this->indexRegex = $options['index_regex'] ?? null;
         $this->types = $options['types']; // required
         $this->querySearch = $options['query_search'] ?? null;
-        $this->facets = $options['facets'] ?? [];
         $this->sizes = $options['sizes'] ?? [];
         $this->minimumShouldMatch = $options['minimum_should_match'] ?? null;
         $this->defaultSorts = $this->parseSorts($options['default_sorts'] ?? []);
@@ -102,11 +93,6 @@ final class Search
     private function bindRequest(Request $request): void
     {
         $this->queryString = $request->query->get('q', $request->query->get('q', $this->queryString));
-        $requestFacets = $request->query->all()['f'] ?? $request->query->get('f');
-
-        if (\is_array($requestFacets)) {
-            $this->queryFacets = $requestFacets;
-        }
 
         $all = [...$request->query->all(), ...$request->attributes->all()];
         $this->page = isset($all['p']) ? (int) $all['p'] : $this->page;
@@ -202,22 +188,6 @@ final class Search
     public function getQueryString(): ?string
     {
         return $this->queryString ? QueryStringEscaper::escape($this->queryString) : null;
-    }
-
-    /**
-     * @return array<string, mixed>
-     */
-    public function getQueryFacets(): array
-    {
-        $queryFacets = [];
-
-        foreach ($this->queryFacets as $field => $terms) {
-            if (\array_key_exists($field, $this->facets) && !empty($terms)) {
-                $queryFacets[$field] = $terms;
-            }
-        }
-
-        return $queryFacets;
     }
 
     public function hasFilter(string $name): bool

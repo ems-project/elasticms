@@ -218,28 +218,6 @@ abstract class DataFieldType extends AbstractType
     }
 
     /**
-     * get the data value(s), as string, for the symfony form) in the context of this field.
-     *
-     * @param array<mixed> $options
-     */
-    public function getDataValue(DataField &$dataValues, array $options): never
-    {
-        // TODO: should be abstract ??
-        throw new \Exception('This function should never be called');
-    }
-
-    /**
-     * set the data value(s) from a string recieved from the symfony form) in the context of this field.
-     *
-     * @param array<mixed> $options
-     */
-    public function setDataValue(mixed $input, DataField &$dataValues, array $options): never
-    {
-        // TODO: should be abstract ??
-        throw new \Exception('This function should never be called');
-    }
-
-    /**
      * get the list of all possible values (if it means something) filter by the values array if not empty.
      *
      * @param array<mixed> $choices

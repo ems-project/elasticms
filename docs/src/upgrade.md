@@ -29,16 +29,17 @@ outline: [2, 2]
 
 ### Removed deprecations
 
-- The `EMS\ClientHelperBundle\Controller\AssetController` has been removed: was only containing 3 proxy methods by
-  calling removed emsUnzip functionality. Should be replace by `EMS\CommonBundle\Controller\FileController`
+- The `EMS\ClientHelperBundle\Controller\AssetController` has been removed: was only containing 3
+  proxy methods by calling removed emsUnzip functionality. Should be replace by
+  `EMS\CommonBundle\Controller\FileController`
 - The route `ems_core_asset_proxy` route has been removed
-- Removed `EMS_WEBALIZE_DASHABLE_REGEX` and `EMS_WEBALIZE_REMOVABLE_REGEX` environment variables: was used for
-  `ems_webalize` which has been removed for `ems_slug`.
+- Removed `EMS_WEBALIZE_DASHABLE_REGEX` and `EMS_WEBALIZE_REMOVABLE_REGEX` environment variables:
+  was used for `ems_webalize` which has been removed for `ems_slug`.
 
 #### Twig
 
-- The `emsch_assets_version` function now only accepts a single argument: the hash.
-  The saveDir parameter has been removed, and the function no longer returns a value.
+- The `emsch_assets_version` function now only accepts a single argument: the hash. The saveDir
+  parameter has been removed, and the function no longer returns a value.
 - WysiwygStyleSet the `saveDir` option has been removed.
 - In the Twig function `emsch_search`, the $sourceExclude argument has been removed.
 

@@ -26,6 +26,9 @@ Also, around 40 seconds after the registration, a
 [`validate_webhook_subscription`](#validate-subscription) webhook event is sent to the provided
 `endpointUrl`.
 
+Be careful, if you register for one or more events, it is still possible to receive
+[ping or test events](#ping-and-test-events).
+
 ## Delete a subscription (unsubscribe)
 
 This HTTP call will unsubscribe the subscription for the provided UUID:
@@ -162,3 +165,15 @@ The structure of the webhook `data` is:
 - `actions`: object of added and removed indexes:
     - `add`: string array of added indexes
     - `remove`: string array of removed indexes
+
+### Ping and test events
+
+Any service that registers can receive either of these events. A `200 OK` response is required. Name
+of those events:
+
+- `webhook_test`
+- `webhook_ping`
+
+The structure of the webhook `data` is:
+
+- `message`: just a dummy message

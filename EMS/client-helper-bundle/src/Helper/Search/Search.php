@@ -398,16 +398,12 @@ final class Search
 
     private function setSortBy(?string $name): void
     {
-        if (null === $name) {
+        if (null === $name || !\array_key_exists($name, $this->sorts)) {
             return;
         }
 
-        if (null == $this->sorts) {
-            @\trigger_error('Define possible sort fields with the search option "sorts"', \E_USER_DEPRECATED);
-        } elseif (\array_key_exists($name, $this->sorts)) {
-            $this->sortBy = $name;
-            $this->sortOrder = $this->sorts[$name]['order'] ?? $this->sortOrder;
-        }
+        $this->sortBy = $name;
+        $this->sortOrder = $this->sorts[$name]['order'] ?? $this->sortOrder;
     }
 
     private function setSortOrder(string $o): void

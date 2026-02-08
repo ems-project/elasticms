@@ -39,6 +39,7 @@ outline: [2, 2]
 - Web search config `sizes` and `sorts` options only accepts predefined values.
 - Web search config `nested_path` option removed, use `parent_field`.
 - Common coreApi remove methods: hashFile, initUpload, addChunk. Use the file endpoint instead.
+- Common remove `_type` fallback for EMSLink and document, use `_contenttype`
 
 #### Twig
 

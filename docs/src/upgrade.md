@@ -38,6 +38,7 @@ outline: [2, 2]
 - Web search config removed `facets` config, use filter(s) instead.
 - Web search config `sizes` and `sorts` options only accepts predefined values.
 - Web search config `nested_path` option removed, use `parent_field`.
+- Common coreApi remove methods: hashFile, initUpload, addChunk. Use the file endpoint instead.
 
 #### Twig
 

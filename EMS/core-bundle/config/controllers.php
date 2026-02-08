@@ -924,6 +924,7 @@ return static function (ContainerConfigurator $container) {
             service('emsco.logger'),
             service('emsco.webhook_subscription.manager'),
             service('emsco.data_table.factory'),
+            service('emsco.service.webhook'),
         ])
         ->call('setContainer')
         ->tag('container.service_subscriber')

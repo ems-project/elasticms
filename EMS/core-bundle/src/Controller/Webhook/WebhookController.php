@@ -72,7 +72,7 @@ class WebhookController extends AbstractController
             throw new MethodNotAllowedHttpException([Request::METHOD_POST]);
         }
         if (!$webhookSubscription->isEnabled()) {
-            $this->logger->messageNotice(t('webhook.test.re-enabled', [
+            $this->logger->messageNotice(t('webhook.enable.re-enabled', [
                 'id' => $webhookSubscription->getId(),
             ], 'emsco-core'));
             $this->webhookService->enable($webhookSubscription);
@@ -93,12 +93,12 @@ class WebhookController extends AbstractController
             throw new MethodNotAllowedHttpException([Request::METHOD_POST]);
         }
         if (!$webhookSubscription->isEnabled()) {
-            $this->logger->messageNotice(t('webhook.test.re-enabled', [
+            $this->logger->messageNotice(t('webhook.enable.re-enabled', [
                 'id' => $webhookSubscription->getId(),
             ], 'emsco-core'));
             $this->webhookService->enable($webhookSubscription);
         } else {
-            $this->logger->messageNotice(t('webhook.test.disabled', [
+            $this->logger->messageNotice(t('webhook.enable.disabled', [
                 'id' => $webhookSubscription->getId(),
             ], 'emsco-core'));
             $this->webhookService->enable($webhookSubscription, false);

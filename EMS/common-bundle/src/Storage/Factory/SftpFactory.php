@@ -33,7 +33,7 @@ class SftpFactory extends AbstractFactory implements StorageFactoryInterface
 
         $host = $config[self::STORAGE_CONFIG_HOST];
         if (null === $host || '' === $host) {
-            @\trigger_error('You should consider to migrate you storage service configuration to the EMS_STORAGES variable', \E_USER_DEPRECATED);
+            $this->logger->error('Missing `host` config for SFTP storage');
 
             return null;
         }

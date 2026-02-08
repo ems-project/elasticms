@@ -77,4 +77,10 @@ class WebhookService
             [new DelayStamp(40_000)]
         );
     }
+
+    public function enable(WebhookSubscription $webhookSubscription, bool $enabled = true): void
+    {
+        $webhookSubscription->setEnabled($enabled);
+        $this->repository->update($webhookSubscription);
+    }
 }

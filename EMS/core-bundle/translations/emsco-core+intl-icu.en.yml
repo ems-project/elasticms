@@ -544,7 +544,10 @@ type:
 view:
     title: '{name} of {plural}'
 webhook:
+    enable:
+        action: Enable
     test:
         action: Test
+        disabled: 'The subscription {id} has been disabled'
         dispatched: 'A webhook_test event has been sent to the subscription {id}'
         re-enabled: 'The subscription {id} has been re-enabled'

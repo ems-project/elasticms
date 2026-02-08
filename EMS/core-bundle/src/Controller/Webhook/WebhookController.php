@@ -87,6 +87,26 @@ class WebhookController extends AbstractController
         return $this->redirectToRoute(Routes::WEBHOOK_SUBSCRIPTION_INDEX);
     }
 
+    public function toggleEnable(Request $request, WebhookSubscription $webhookSubscription): Response
+    {
+        if (Request::METHOD_POST !== $request->getMethod()) {
+            throw new MethodNotAllowedHttpException([Request::METHOD_POST]);
+        }
+        if (!$webhookSubscription->isEnabled()) {
+            $this->logger->messageNotice(t('webhook.test.re-enabled', [
+                'id' => $webhookSubscription->getId(),
+            ], 'emsco-core'));
+            $this->webhookService->enable($webhookSubscription);
+        } else {
+            $this->logger->messageNotice(t('webhook.test.disabled', [
+                'id' => $webhookSubscription->getId(),
+            ], 'emsco-core'));
+            $this->webhookService->enable($webhookSubscription, false);
+        }
+
+        return $this->redirectToRoute(Routes::WEBHOOK_SUBSCRIPTION_INDEX);
+    }
+
     private function breadcrumb(): Navigation
     {
         return Navigation::admin()->add(

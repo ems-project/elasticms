@@ -18,4 +18,8 @@ return function (RoutingConfigurator $routes) {
     $routes->add(Routes::WEBHOOK_SUBSCRIPTION_TEST, '/test/{webhookSubscription}')
         ->controller([WebhookController::class, 'test'])
         ->methods(['POST']);
+
+    $routes->add(Routes::WEBHOOK_SUBSCRIPTION_TOGGLE_ENABLE, '/toggle-enable/{webhookSubscription}')
+        ->controller([WebhookController::class, 'toggleEnable'])
+        ->methods(['POST']);
 };

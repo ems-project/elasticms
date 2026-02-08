@@ -129,4 +129,10 @@ class WebhookSubscriptionRepository extends ServiceEntityRepository
 
         return $webhookSubscription;
     }
+
+    public function update(WebhookSubscription $webhookSubscription): void
+    {
+        $this->getEntityManager()->persist($webhookSubscription);
+        $this->getEntityManager()->flush();
+    }
 }

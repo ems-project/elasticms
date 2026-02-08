@@ -36,6 +36,7 @@ outline: [2, 2]
   `ems_webalize` which has been removed for `ems_slug`.
 - Support for `%locale%` in skeleton routes and search configuration has been removed. Please use `%_locale%` instead.
 - Removed `facets` configuration from the search config. Use filter(s) instead.
+- The sizes option in the search config only accepts predefined sizes.
 
 #### Twig
 

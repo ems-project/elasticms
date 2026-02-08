@@ -417,11 +417,8 @@ final class Search
 
     private function setSize(int $l): void
     {
-        if (null == $this->sizes) {
-            @\trigger_error('Define allow sizes with the search option "sizes"', \E_USER_DEPRECATED);
-            $this->size = (int) ((int) $l > 0 ? $l : $this->size);
-        } elseif (\in_array($l, $this->sizes)) {
-            $this->size = (int) $l;
+        if (\in_array($l, $this->sizes)) {
+            $this->size = $l;
         } else {
             $this->size = (int) \reset($this->sizes);
         }

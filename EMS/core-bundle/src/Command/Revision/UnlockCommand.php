@@ -27,7 +27,6 @@ final class UnlockCommand extends AbstractCommand
     private const string ARGUMENT_USERNAME = 'username';
     private const string ARGUMENT_CONTENT_TYPE = 'content-type';
     private const string OPTION_ALL = 'all';
-    private const string OPTION_STRICT = 'strict';
     private ?string $contentTypeName = null;
     private string $username;
     private ?bool $all = null;
@@ -57,12 +56,6 @@ final class UnlockCommand extends AbstractCommand
                 InputOption::VALUE_NONE,
                 'If set, all the content-types will be unlocked for the user.'
             )
-            ->addOption(
-                self::OPTION_STRICT,
-                null,
-                InputOption::VALUE_NONE,
-                'Deprecated, use the -n option instead.'
-            )
         ;
     }
 
@@ -77,11 +70,6 @@ final class UnlockCommand extends AbstractCommand
         } else {
             $this->choiceArgumentString(self::ARGUMENT_CONTENT_TYPE, 'Select an existing content type', $this->contentTypeService->getAllNames());
             $this->contentTypeName = $this->getArgumentString(self::ARGUMENT_CONTENT_TYPE);
-        }
-
-        if ($this->getOptionBool(self::OPTION_STRICT)) {
-            $this->logger->error('The "--strict" option is deprecated, use "-n" option instead.');
-            throw new \RuntimeException('The "--strict" option is deprecated, use "-n" option instead.');
         }
     }
 

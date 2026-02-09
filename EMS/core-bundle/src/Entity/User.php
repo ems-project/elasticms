@@ -324,6 +324,7 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
     }
 
     #[\Override]
+    #[\Deprecated]
     public function eraseCredentials(): void
     {
     }

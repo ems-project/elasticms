@@ -328,7 +328,6 @@ class ElasticsearchController extends AbstractController
 
     public function legacySearch(Request $request, DataLinks $dataLinks): void
     {
-        @\trigger_error('QuerySearch not defined, you should refer to one', E_USER_DEPRECATED);
         $environments = Type::string($request->query->get('environment', ''));
         $searchId = $dataLinks->getSearchId();
         $category = $request->query->get('category');

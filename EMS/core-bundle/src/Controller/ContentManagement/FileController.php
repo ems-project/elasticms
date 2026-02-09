@@ -99,16 +99,8 @@ class FileController extends AbstractController
         return $response;
     }
 
-    /**
-     * @param int $size
-     */
-    #[\Deprecated]
-    public function initUploadFile(?string $sha1, $size, bool $apiRoute, Request $request): Response
+    public function initUploadFile(bool $apiRoute, Request $request): Response
     {
-        if ($sha1 || $size) {
-            @\trigger_error('You should use the routes emsco_file_data_init_upload or emsco_file_api_init_upload which doesn\'t require url parameters', E_USER_DEPRECATED);
-        }
-
         $requestContent = $request->getContent();
         if (!\is_string($requestContent)) {
             throw new \RuntimeException('Unexpected body content');
@@ -117,13 +109,13 @@ class FileController extends AbstractController
         $params = Json::decode($requestContent);
         $name = $params['name'] ?? 'upload.bin';
         $type = $params['type'] ?? 'application/bin';
-        $hash = $params['hash'] ?? $sha1;
-        $size = $params['size'] ?? $size;
+        $hash = $params['hash'] ?? null;
+        $size = $params['size'] ?? null;
         $algo = $params['algo'] ?? 'sha1';
 
         $user = $this->getUsername();
 
-        if (empty($hash) || empty($algo) || (empty($size) && 0 !== $size)) {
+        if (null === $hash || null === $size) {
             throw new BadRequestHttpException('Bad Request, invalid json parameters');
         }
 

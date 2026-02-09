@@ -26,15 +26,9 @@ return function (RoutingConfigurator $routes) {
         ->methods(['GET', 'HEAD'])
         ->options(['openapi' => true]);
 
-    $routes->add('file.api.init-upload', '/init-upload/{sha1}/{size}')
-        ->controller([FileController::class, 'initUploadFile'])
-        ->defaults(['_format' => 'json', 'apiRoute' => true])
-        ->methods(['POST'])
-        ->options(['openapi' => true]);
-
     $routes->add('emsco_file_api_init_upload', '/init-upload')
         ->controller([FileController::class, 'initUploadFile'])
-        ->defaults(['_format' => 'json', 'apiRoute' => true, 'sha1' => null, 'size' => null])
+        ->defaults(['_format' => 'json', 'apiRoute' => true])
         ->methods(['POST'])
         ->options(['openapi' => true]);
 

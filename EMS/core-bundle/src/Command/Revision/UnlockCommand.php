@@ -9,7 +9,6 @@ use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\DataService;
 use EMS\Helpers\Standard\Type;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -19,8 +18,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(
     name: Commands::REVISIONS_UNLOCK,
     description: 'Unlock revisions for a user.',
-    hidden: false,
-    aliases: ['ems:revisions:unlock']
+    aliases: ['ems:revisions:unlock'],
+    hidden: false
 )]
 final class UnlockCommand extends AbstractCommand
 {
@@ -31,8 +30,10 @@ final class UnlockCommand extends AbstractCommand
     private string $username;
     private ?bool $all = null;
 
-    public function __construct(private readonly LoggerInterface $logger, private readonly DataService $dataService, private readonly ContentTypeService $contentTypeService)
-    {
+    public function __construct(
+        private readonly DataService $dataService,
+        private readonly ContentTypeService $contentTypeService
+    ) {
         parent::__construct();
     }
 

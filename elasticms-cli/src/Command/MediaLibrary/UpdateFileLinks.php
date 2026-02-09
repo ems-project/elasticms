@@ -73,6 +73,7 @@ final class UpdateFileLinks extends AbstractCommand
         foreach($this->coreApi->search()->scroll($search) as $hit) {
             $propertyAccessor = PropertyAccessor::createPropertyAccessor();
             dump($hit);
+            
             $this->io->progressAdvance();
         }$this->io->progressFinish();
         

@@ -4,41 +4,17 @@ log "INFO" "| Configure ElasticMS Nginx VirtualHosts ..."
 
 if [[ ! -z ${NGINX_ENABLED} ]] && [[ ${NGINX_ENABLED,,} = true ]]; then
 
+    ALIASES_TEMP_JSON_FILE="${TMPDIR}/${ELASTICMS_INSTANCE_NAME}-aliases.json"
+    SYMFONY_SCRIPT_NAME_NGINX_VARIABLE_NAME="\$${ELASTICMS_INSTANCE_NAME//-/_}_symfony_script_name"
+
     log "INFO" "+ Configure [ ${ELASTICMS_INSTANCE_NAME} ] VirtualHost for ElasticMS Admin on [ ${SERVER_NAME} ]."
 
-    gomplate -f /opt/config/nginx/sites-enabled/elasticms.conf.gtpl \
-             -o /opt/etc/nginx/sites-enabled/${ELASTICMS_INSTANCE_NAME}.conf
+    for FILE in $(find /opt/bin/container-entrypoint.d/elasticms.d/nginx.d -iname \*.sh | sort)
+    do
+        SYMFONY_SCRIPT_NAME_NGINX_VARIABLE_NAME=${SYMFONY_SCRIPT_NAME_NGINX_VARIABLE_NAME} \
+        source ${FILE}
+    done
 
-    gomplate -f /opt/config/nginx/conf.d/security-headers.conf.gtpl \
-             -o /opt/etc/nginx/conf.d/${ELASTICMS_INSTANCE_NAME}.security-headers.conf;
-
-    cat ${APP_CONFIG_DIR}/${ELASTICMS_INSTANCE_NAME} | sed '/^\s*$/d' | grep  -v '^#' | sed "s/\([a-zA-Z0-9_]*\)\=\(.*\)/fastcgi_param \1 \2;/g" >> /opt/etc/nginx/conf.d/${ELASTICMS_INSTANCE_NAME}.fastcgi_params
-
-    if [[ ! -z ${EMS_METRIC_ENABLED} ]] && [[ ${EMS_METRIC_ENABLED,,} = true ]]; then
-
-        if [ ! -f /opt/etc/nginx/sites-enabled/__metrics_elasticms.conf ] ; then
-
-            log "INFO" "+ Configure [ ${ELASTICMS_INSTANCE_NAME} metrics ] VirtualHost for ElasticMS WebSite on [ ${METRICS_VHOST_SERVER_NAME} ]."
-
-            gomplate -f /opt/config/nginx/sites-enabled/elasticms-metrics.conf.gtpl \
-                     -o /opt/etc/nginx/sites-enabled/__metrics_elasticms.conf
-
-        fi
-
-    fi
-
-    if [[ ! -z ${METRICS_ENABLED} ]] && [[ ${METRICS_ENABLED,,} = true ]]; then
-
-        if [ ! -f /opt/etc/nginx/sites-enabled/__metrics.conf ] ; then
-
-            log "INFO" "+ Configure [ nginx/fpm metrics ] VirtualHost for ElasticMS WebSite on [ ${METRICS_VHOST_SERVER_NAME} ]."
-
-            gomplate -f /opt/config/nginx/sites-enabled/__metrics.conf.gtpl \
-                     -o /opt/etc/nginx/sites-enabled/__metrics.conf
-
-        fi
-
-    fi
+    rm "${ALIASES_TEMP_JSON_FILE}"
 
 fi
-

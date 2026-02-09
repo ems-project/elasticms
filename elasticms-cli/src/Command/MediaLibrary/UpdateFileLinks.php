@@ -7,13 +7,16 @@ namespace App\CLI\Command\MediaLibrary;
 use App\CLI\Commands;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\CommonBundle\Common\EMSLink;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
+use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
 use EMS\CommonBundle\Search\Search;
 use EMS\Helpers\PropertyAccess\PropertyAccessor;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 
 #[AsCommand(
     name: Commands::UPDATE_FILE_LINKS,
@@ -72,11 +75,61 @@ final class UpdateFileLinks extends AbstractCommand
         
         foreach($this->coreApi->search()->scroll($search) as $hit) {
             $propertyAccessor = PropertyAccessor::createPropertyAccessor();
-            dump($hit);
+            
+            $this->updateFile($hit);
             
             $this->io->progressAdvance();
         }$this->io->progressFinish();
         
         return self::EXECUTE_SUCCESS;
     }
+
+    private function updateFile(DocumentInterface $file): void
+    {
+          dump($file);
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

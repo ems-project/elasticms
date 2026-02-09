@@ -135,19 +135,9 @@ class FileController extends AbstractController
         return $this->jsonResponse($uploadedAsset, $apiRoute);
     }
 
-    #[\Deprecated]
-    public function uploadChunk(?string $sha1, ?string $hash, bool $apiRoute, Request $request): Response
+    public function uploadChunk(string $hash, bool $apiRoute, Request $request): Response
     {
-        if (null !== $sha1) {
-            $hash = $sha1;
-            @\trigger_error('You should use the routes emsco_file_data_chunk_upload or emsco_file_api_chunk_upload which use a hash parameter', E_USER_DEPRECATED);
-        }
-        if (null === $hash) {
-            throw new \RuntimeException('Unexpected null hash');
-        }
-
         $chunk = $request->getContent();
-
         if (!\is_string($chunk)) {
             throw new \RuntimeException('Unexpected body request');
         }

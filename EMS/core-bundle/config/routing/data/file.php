@@ -37,13 +37,8 @@ return function (RoutingConfigurator $routes) {
         ->defaults(['_format' => 'json', 'apiRoute' => false])
         ->methods(['POST']);
 
-    $routes->add('file.uploadchunk', '/upload-chunk/{sha1}')
-        ->controller([FileController::class, 'uploadChunk'])
-        ->defaults(['_format' => 'json', 'apiRoute' => false, 'hash' => null])
-        ->methods(['POST']);
-
     $routes->add('emsco_file_data_chunk_upload', '/chunk/{hash}')
         ->controller([FileController::class, 'uploadChunk'])
-        ->defaults(['_format' => 'json', 'apiRoute' => false, 'sha1' => null])
+        ->defaults(['_format' => 'json', 'apiRoute' => false])
         ->methods(['POST']);
 };

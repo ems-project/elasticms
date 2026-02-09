@@ -32,15 +32,9 @@ return function (RoutingConfigurator $routes) {
         ->methods(['POST'])
         ->options(['openapi' => true]);
 
-    $routes->add('file.api.uploadchunk', '/upload-chunk/{sha1}')
-        ->controller([FileController::class, 'uploadChunk'])
-        ->defaults(['_format' => 'json', 'apiRoute' => true, 'hash' => null])
-        ->methods(['POST'])
-        ->options(['openapi' => true]);
-
     $routes->add('emsco_file_api_chunk_upload', '/chunk/{hash}')
         ->controller([FileController::class, 'uploadChunk'])
-        ->defaults(['_format' => 'json', 'apiRoute' => true, 'sha1' => null])
+        ->defaults(['_format' => 'json', 'apiRoute' => true])
         ->methods(['POST'])
         ->options(['openapi' => true]);
 

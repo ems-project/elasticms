@@ -49,25 +49,22 @@ final class UpdateFileLinks extends AbstractCommand
         parent::initialize($input, $output);
         $this->contentTypeName = $this->getArgumentString(self::ARGUMENT_CONTENT_TYPE);
         $this->fields = $this->getArgumentStringArray(self::ARGUMENT_FIELDS);
+        $this->coreApi = $this->adminHelper->getCoreApi();
     }
 
     #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io->title(\sprintf('Convert ems file links into ems object link in %s', $this->contentTypeName));
-        $coreApi = $this->adminHelper->getCoreApi();
         
-        if (!$coreApi->isAuthenticated()) {
+        if (!$this->coreApi->isAuthenticated()) {
             $this->io->error(\sprintf('Not authenticated for %s, run ems:admin:login', $this->adminHelper->getCoreApi()->getBaseUrl()));
             return self::EXECUTE_ERROR;
         }
-
-        //Comment obtenir tous les files?
-        $defaultAlias = $coreApi->meta()->getDefaultContentTypeEnvironmentAlias(self::ARGUMENT_CONTENT_TYPE);
+        
+        $defaultAlias = $this->coreApi->meta()->getDefaultContentTypeEnvironmentAlias($this->contentTypeName);
         $search = new Search([$defaultAlias]);
-        $htmlField = ['link_fr', 'link_nl', 'content_fr', 'content_nl'];
-        $search->setSources(['doc_themes', 'label', ...$htmlField]);
-        $search->setContentTypes([self::ARGUMENT_CONTENT_TYPE]);
+        $search->setContentTypes([$this->contentTypeName]);
 
         $this->io->section('Start analyzing theme document');
         $this->io->progressStart($this->coreApi->search()->count($search));
@@ -75,10 +72,9 @@ final class UpdateFileLinks extends AbstractCommand
         
         foreach($this->coreApi->search()->scroll($search) as $hit) {
             $propertyAccessor = PropertyAccessor::createPropertyAccessor();
-            foreach($this->fields as $field) {
-                $this->io->text(\sprintf('Searching for %s...', $field));
-            }
-        }
+            dump($hit);
+            $this->io->progressAdvance();
+        }$this->io->progressFinish();
         
         return self::EXECUTE_SUCCESS;
     }

@@ -86,7 +86,7 @@ final class UpdateFileLinks extends AbstractCommand
 
     private function updateFile(DocumentInterface $file): void
     {
-          dump($file);
+        dump($file);
     }
 }
 

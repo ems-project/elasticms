@@ -104,7 +104,7 @@
 
 {% block emsco_form_table_column_data_value_string_array %}
     {%- set value = attribute(line.data, column.attribute)|default([]) -%}
-    {%- if value is iterable and column.valid(line.data)  -%}
+    {%- if value is iterable and column.valid(line.data) -%}
         <ul>
         {%- for string in value -%}
             <li>{{- string -}}</li>

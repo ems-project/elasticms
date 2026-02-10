@@ -241,6 +241,7 @@
             "APP_DEBUG=1 php elasticms-web/bin/console lint:container"
         ],
         "lint-twig": [
+            "twig-cs-fixer fix -c ./config/.twig-cs-fixer.php",
             "@lint-twig-bundles",
             "@lint-twig-demo"
         ],

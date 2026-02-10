@@ -68,7 +68,6 @@ final class Filter
      *     'type': string,
      *     'field'?: string,
      *     'secondary_field'?: string,
-     *     'nested_path'?: string,
      *     'parent_field'?: string,
      *     'clause'?: string,
      *     'public'?: bool,
@@ -90,12 +89,6 @@ final class Filter
         $this->type = $options['type'];
         $this->field = $options['field'] ?? $name;
         $this->secondaryField = $options['secondary_field'] ?? null;
-
-        if (isset($options['nested_path'])) {
-            @\trigger_error('The "nested_path" option is deprecated and will be removed in ems 7. Please use "parent_field" instead.', E_USER_DEPRECATED);
-            $options['parent_field'] = $options['nested_path'];
-        }
-
         $this->parentField = $options['parent_field'] ?? null;
         $this->clause = $options['clause'] ?? 'must';
 

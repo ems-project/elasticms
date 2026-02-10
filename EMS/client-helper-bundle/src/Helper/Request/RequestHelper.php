@@ -12,8 +12,6 @@ final class RequestHelper
 
     public static function replace(Request $request, string $subject): string
     {
-        $subject = self::replaceLocale($subject, $request->getLocale());
-
         $all = [...$request->query->all(), ...$request->attributes->all()];
         $result = \preg_replace_callback(self::PATTERN, fn ($match) => $all[$match['parameter']] ?? $match[0], $subject);
 
@@ -22,16 +20,5 @@ final class RequestHelper
         }
 
         return $result;
-    }
-
-    private static function replaceLocale(string $subject, string $locale): string
-    {
-        if (\strpos($subject, '%locale%')) {
-            @\trigger_error('%locale% is deprecated please use %_locale%', E_USER_DEPRECATED);
-
-            return \str_replace('%locale%', $locale, $subject);
-        }
-
-        return $subject;
     }
 }

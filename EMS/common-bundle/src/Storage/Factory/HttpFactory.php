@@ -32,7 +32,7 @@ class HttpFactory extends AbstractFactory implements StorageFactoryInterface
         $authKey = $config[self::STORAGE_CONFIG_AUTH_KEY];
 
         if (null === $baseUrl || '' === $baseUrl) {
-            @\trigger_error('You should consider to migrate you storage service configuration to the EMS_STORAGES variable', \E_USER_DEPRECATED);
+            $this->logger->error('Missing `baseUrl` config for HTTP storage');
 
             return null;
         }

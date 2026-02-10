@@ -105,7 +105,7 @@ emsch_media_file:
 emsch_news_details:
     config:
         path: { fr: '/fr/news/{year}-{month}-{day}/{slug}', nl: '/nl/news/{year}-{month}-{day}/{slug}' }
-    query: '{"query":{"bool":{"must":[{"terms":{"_contenttype":["news"]}},{"terms":{"%locale%.slug":["%slug%"]}}]}},"size":1}'
+    query: '{"query":{"bool":{"must":[{"terms":{"_contenttype":["news"]}},{"terms":{"%_locale%.slug":["%slug%"]}}]}},"size":1}'
     template_static: template/news/details.html.twig
 emsch_path:
     config:

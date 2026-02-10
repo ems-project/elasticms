@@ -313,7 +313,6 @@ return static function (ContainerConfigurator $container) {
         ->public()
         ->args([
             service('ems_common.storage.processor'),
-            service('ems.repository.channel'),
             '%ems_core.asset_config%',
         ])
         ->call('setContainer')

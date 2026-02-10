@@ -96,11 +96,7 @@ class EMSLink implements \Stringable, \JsonSerializable
         $link->ouuid = $document['_id'];
 
         $contentType = $document['_source'][EMSSource::FIELD_CONTENT_TYPE] ?? null;
-        if (null == $contentType) {
-            $contentType = $document['_type'] ?? null;
-            @\trigger_error(\sprintf('The field %s is missing in the document %s', EMSSource::FIELD_CONTENT_TYPE, $link->getEmsId()), E_USER_DEPRECATED);
-        }
-        if (null == $contentType) {
+        if (null === $contentType) {
             throw new \RuntimeException(\sprintf('Unable to determine the content type for document %s', $link->ouuid));
         }
         $link->contentType = $contentType;

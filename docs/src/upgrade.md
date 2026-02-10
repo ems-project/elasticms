@@ -29,21 +29,26 @@ outline: [2, 2]
 
 ### Removed deprecations
 
-- The `EMS\ClientHelperBundle\Controller\AssetController` has been removed: was only containing 3 proxy methods by
-  calling removed emsUnzip functionality. Should be replace by `EMS\CommonBundle\Controller\FileController`.
+- The `EMS\ClientHelperBundle\Controller\AssetController` has been removed: was only containing 3
+  proxy methods by calling removed emsUnzip functionality. Should be replace by
+  `EMS\CommonBundle\Controller\FileController`.
 - The route `ems_core_asset_proxy` route has been removed.
-- Removed `EMS_WEBALIZE_DASHABLE_REGEX` and `EMS_WEBALIZE_REMOVABLE_REGEX` environment variables: was used for
-  `ems_webalize` which has been removed for `ems_slug`.
-- Support for `%locale%` in skeleton routes and search configuration has been removed. Please use `%_locale%` instead.
+- Removed `EMS_WEBALIZE_DASHABLE_REGEX` and `EMS_WEBALIZE_REMOVABLE_REGEX` environment variables:
+  was used for `ems_webalize` which has been removed for `ems_slug`.
+- Support for `%locale%` in skeleton routes and search configuration has been removed. Please use
+  `%_locale%` instead.
 - Web search config removed `facets` config, use filter(s) instead.
 - Web search config `sizes` and `sorts` options only accepts predefined values.
 - Web search config `nested_path` option removed, use `parent_field`.
 - Admin media library `nested_path` option removed, use `parent_field`.
 - Common coreApi remove methods: hashFile, initUpload, addChunk. Use the file endpoint instead.
 - Common remove `_type` fallback for EMSLink and document, use `_contenttype`.
-- Remove `EMS\\CommonBundle\\Controller\\FileController::download` use the ems_asset twig filter to generate the route.
-- Remove `EMS\\CommonBundle\\Controller\\FileController::view` use the ems_asset twig filter to generate the route.
-- Remove form field `SendConfirmation`, use numberType or HiddenType with VerificationCode validator.
+- Remove `EMS\\CommonBundle\\Controller\\FileController::download` use the ems_asset twig filter to
+  generate the route.
+- Remove `EMS\\CommonBundle\\Controller\\FileController::view` use the ems_asset twig filter to
+  generate the route.
+- Remove form field `SendConfirmation`, use numberType or HiddenType with VerificationCode
+  validator.
 
 #### Twig
 

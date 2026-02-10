@@ -384,6 +384,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *                 version?: scalar|Param|null,
  *                 encryption_algorithm?: scalar|Param|null,
  *                 encryption_key?: scalar|Param|null,
+ *                 issuer?: scalar|Param|null,
  *             },
  *             saml?: bool|array{
  *                 enabled?: bool|Param, // Default: false

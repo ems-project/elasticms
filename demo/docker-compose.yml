@@ -76,7 +76,7 @@ services:
             - "traefik.http.services.tika.loadbalancer.server.port=9998"
 
     minio:
-        image: minio/minio
+        image: minio/minio:RELEASE.2025-09-07T16-13-09Z
         volumes:
             - s3:/data
         environment:
@@ -98,7 +98,7 @@ services:
             - "traefik.http.services.minio.loadbalancer.server.port=9001"
 
     setup_minio:
-        image: minio/mc
+        image: minio/mc:RELEASE.2025-08-13T08-35-41Z
         depends_on:
             minio:
                 condition: service_healthy

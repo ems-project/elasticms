@@ -69,21 +69,38 @@ final class UpdateFileLinks extends AbstractCommand
         $search = new Search([$defaultAlias]);
         $search->setContentTypes([$this->contentTypeName]);
 
-        $this->io->section('Start analyzing theme document');
+        $this->io->section(sprintf('Start analyzing %s', $this->contentTypeName));
         $this->io->progressStart($this->coreApi->search()->count($search));
         $errorTable = [];
         
         foreach($this->coreApi->search()->scroll($search) as $hit) {
-            $propertyAccessor = PropertyAccessor::createPropertyAccessor();
-            $this->updateFile($hit);
+            $this->updateDocument($hit);
             $this->io->progressAdvance();
         }$this->io->progressFinish();
         
         return self::EXECUTE_SUCCESS;
     }
 
-    private function updateFile(DocumentInterface $file): void
+    private function updateDocument(DocumentInterface $document): void
     {
-        dump($file);
+        $fields = $document->getEMSSource();
+        foreach($this->fields as $field) {
+            $this->updateField($document, $field);
+        }
     }
+
+    private function updateField(DocumentInterface $document, string $propertyPath): void
+    {
+        $propertyAccessor = PropertyAccessor::createPropertyAccessor();
+        $rawData = $document->getSource();
+        foreach ($propertyAccessor->iterator($propertyPath, $rawData) as $key => $value) {
+            $this->updateProperty($rawData, $key, $value);
+        }
+    }
+
+    private function updateProperty(array $rawData, mixed $key, mixed $value) : void
+    {
+        dump($value);
+    }
+    
 }

@@ -47,8 +47,8 @@ outline: [2, 2]
 
 #### Twig
 
-- The `emsch_assets_version` function now only accepts a single argument: the hash.
-  The saveDir parameter has been removed, and the function no longer returns a value.
+- The `emsch_assets_version` function now only accepts a single argument: the hash. The saveDir
+  parameter has been removed, and the function no longer returns a value.
 - WysiwygStyleSet the `saveDir` option has been removed.
 - In the Twig function `emsch_search`, the $sourceExclude argument has been removed.
 

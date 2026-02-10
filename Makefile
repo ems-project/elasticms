@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 
-include ./docker/.env
+-include ./docker/.env
 
 PWD					= $(shell pwd)
 DOCKER_USER			?= $(shell id -u)

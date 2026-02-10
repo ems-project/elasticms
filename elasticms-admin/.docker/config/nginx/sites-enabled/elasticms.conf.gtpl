@@ -24,90 +24,19 @@ server {
     # BUNDLES ASSETS (bundles Symfony)
     # ============================================================
 
-    location ^~ /bundles/ {
-        include conf.d/{{ .Env.ELASTICMS_INSTANCE_NAME }}.security-headers.conf;
-
-        expires {{ .Env.NGINX_BUNDLES_LOCATION_EXPIRES }};
-        access_log {{ .Env.NGINX_BUNDLES_LOCATION_ACCESS_LOG }};
-        add_header Cache-Control "{{ .Env.NGINX_BUNDLES_LOCATION_CACHE_CONTROL }}" always;
-
-        try_files $uri =404;
-    }
-
-{{- range (datasource "aliases") }}
-{{- $a := strings.TrimSuffix "/" . | strings.TrimPrefix "/" }}
-
-    location ^~ /{{ $a }}/bundles/ {
-        alias {{ $.Env.NGINX_PUBLIC_DIR }}/bundles/;
-
-        include conf.d/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.security-headers.conf;
-
-        expires {{ $.Env.NGINX_BUNDLES_LOCATION_EXPIRES }};
-        access_log {{ $.Env.NGINX_BUNDLES_LOCATION_ACCESS_LOG }};
-        add_header Cache-Control "{{ $.Env.NGINX_BUNDLES_LOCATION_CACHE_CONTROL }}" always;
-
-        try_files $uri =404;
-    }
-
-{{- end }}
-
-{{ if ne .Env.NGINX_STATIC_LOCATION_REGEXP "" }}
-    # ============================================================
-    # OTHER STATIC ASSETS (images, fonts, etc.)
-    # ============================================================
-
-    location ~* {{ .Env.NGINX_STATIC_LOCATION_REGEXP }} {
-        include /opt/etc/nginx/conf.d/{{ .Env.ELASTICMS_INSTANCE_NAME }}.security-headers.conf;
-        expires {{ .Env.NGINX_STATIC_LOCATION_EXPIRES }};
-        access_log {{ .Env.NGINX_STATIC_LOCATION_ACCESS_LOG }};
-        add_header Cache-Control "{{ .Env.NGINX_STATIC_LOCATION_CACHE_CONTROL }}" always;
-
-        try_files $uri =404;
-    }
-{{- end }}
+    include conf.d/{{ .Env.ELASTICMS_INSTANCE_NAME }}.assets.conf;
 
     # ============================================================
     # ROOT Symfony
     # ============================================================
 
-    location / {
-        try_files $uri /index.php$is_args$args;
-    }
+    include conf.d/{{ .Env.ELASTICMS_INSTANCE_NAME }}.symfony.conf;
 
     # ============================================================
     # PHP-FPM
     # ============================================================
 
-    location ~ ^/index\.php(/|$) {
-        fastcgi_pass unix:/app/var/run/php-fpm/php-fpm.sock;
-        fastcgi_split_path_info ^(.+\.php)(/.*)$;
-
-        include fastcgi_params;
-        include conf.d/{{ .Env.ELASTICMS_INSTANCE_NAME }}.fastcgi_params;
-
-        fastcgi_param SCRIPT_NAME {{ .Env.FASTCGI_SCRIPT_NAME_VARIABLE_NAME }};
-        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
-        fastcgi_param DOCUMENT_ROOT $realpath_root;
-        fastcgi_param HTTP_AUTHORIZATION $http_authorization;
-
-{{- if ne .Env.NGINX_FASTCGI_CACHE_ENABLED "false" }}
-        fastcgi_cache        {{ .Env.NGINX_FASTCGI_CACHE_NAME }};
-        fastcgi_cache_key    {{ .Env.NGINX_FASTCGI_CACHE_KEY }};
-        fastcgi_cache_valid  {{ .Env.NGINX_FASTCGI_CACHE_VALID_OK_CODE }} {{ .Env.NGINX_FASTCGI_CACHE_VALID_OK_DURATION }};
-        fastcgi_cache_valid  {{ .Env.NGINX_FASTCGI_CACHE_VALID_NOK_CODE }} {{ .Env.NGINX_FASTCGI_CACHE_VALID_NOK_DURATION }};
-
-        fastcgi_cache_bypass {{ .Env.NGINX_FASTCGI_NO_CACHE_METHOD_MAP_VAR_NAME }} {{ .Env.NGINX_FASTCGI_NO_CACHE_COOKIE_MAP_VAR_NAME }};
-        fastcgi_no_cache     {{ .Env.NGINX_FASTCGI_NO_CACHE_METHOD_MAP_VAR_NAME }} {{ .Env.NGINX_FASTCGI_NO_CACHE_COOKIE_MAP_VAR_NAME }};
-
-        include /opt/etc/nginx/conf.d/{{ .Env.ELASTICMS_INSTANCE_NAME }}.security-headers.conf;
-        add_header X-Cache $upstream_cache_status always;
-{{- end }}
-
-        # Prevents URIs that include the front controller. This will 404:
-        # http://example.com/index.php/some-path
-        # Remove the internal directive to allow URIs like this
-        internal;
-    }
+    include conf.d/{{ .Env.ELASTICMS_INSTANCE_NAME }}.php-fpm.conf;
 
     # ============================================================
     # BLOCKING

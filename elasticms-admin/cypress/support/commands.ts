@@ -1,4 +1,3 @@
-///<reference path="../../node_modules/cypress/types/cypress-global-vars.d.ts"/>
 // ─── Interfaces ──────────────────────────────────────────────────────
 
 interface Product {
@@ -21,12 +20,9 @@ Cypress.Commands.add('login', (login: string, password: string): void => {
 })
 
 Cypress.Commands.add('loginAsAdmin', (): void => {
-  cy.login(
-    Cypress.env('adminLogin'),
-    Cypress.env('adminPassword')
-  )
+  cy.login(Cypress.env('adminLogin'), Cypress.env('adminPassword'))
 })
 
 Cypress.Commands.add('dataTest', (value: string): Cypress.Chainable<JQuery<HTMLElement>> => {
-    return cy.get(`[data-test="${value}"]`)
+  return cy.get(`[data-test="${value}"]`)
 })

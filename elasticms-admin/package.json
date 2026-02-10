@@ -7,13 +7,15 @@
     "cy:open": "cypress open",
     "cy:run": "cypress run",
     "cy:run:chrome": "cypress run --browser chrome",
-    "cy:run:firefox": "cypress run --browser firefox"
+    "cy:run:firefox": "cypress run --browser firefox",
+    "format": "prettier --write cypress/"
   },
   "keywords": [],
   "author": "",
   "license": "LGPL-2.0-or-later",
   "devDependencies": {
     "cypress": "^15.10.0",
+    "prettier": "^3.8.1",
     "typescript": "^5.9.3"
   }
 }

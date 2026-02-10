@@ -7,6 +7,7 @@ namespace App\CLI\Command\MediaLibrary;
 use App\CLI\Commands;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\CommonBundle\Common\CoreApi\Endpoint\Admin\Admin;
 use EMS\CommonBundle\Common\EMSLink;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
 use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
@@ -16,7 +17,7 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\PropertyAccess\PropertyAccess;
+use function JmesPath\search;
 
 #[AsCommand(
     name: Commands::UPDATE_FILE_LINKS,
@@ -67,7 +68,9 @@ final class UpdateFileLinks extends AbstractCommand
         
         $defaultAlias = $this->coreApi->meta()->getDefaultContentTypeEnvironmentAlias($this->contentTypeName);
         $search = new Search([$defaultAlias]);
+        $search->setSources(['_source', 'fr', 'nl']);
         $search->setContentTypes([$this->contentTypeName]);
+//        dump($search);
 
         $this->io->section(sprintf('Start analyzing %s', $this->contentTypeName));
         $this->io->progressStart($this->coreApi->search()->count($search));
@@ -75,6 +78,7 @@ final class UpdateFileLinks extends AbstractCommand
         
         foreach($this->coreApi->search()->scroll($search) as $hit) {
             $this->updateDocument($hit);
+            dump($hit);
             $this->io->progressAdvance();
         }$this->io->progressFinish();
         
@@ -83,7 +87,6 @@ final class UpdateFileLinks extends AbstractCommand
 
     private function updateDocument(DocumentInterface $document): void
     {
-        $fields = $document->getEMSSource();
         foreach($this->fields as $field) {
             $this->updateField($document, $field);
         }
@@ -93,6 +96,7 @@ final class UpdateFileLinks extends AbstractCommand
     {
         $propertyAccessor = PropertyAccessor::createPropertyAccessor();
         $rawData = $document->getSource();
+        
         foreach ($propertyAccessor->iterator($propertyPath, $rawData) as $key => $value) {
             $this->updateProperty($rawData, $key, $value);
         }
@@ -100,7 +104,16 @@ final class UpdateFileLinks extends AbstractCommand
 
     private function updateProperty(array $rawData, mixed $key, mixed $value) : void
     {
-        dump($value);
+        if (!is_string($value)) {
+            return;
+        }
+
+        if (preg_match_all(EMSLink::PATTERN, $value, $matches, PREG_SET_ORDER)) {
+            //dump("FOUND in $key", $matches);
+        }
+
+        
+
     }
     
 }

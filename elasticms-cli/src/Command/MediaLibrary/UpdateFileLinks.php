@@ -68,9 +68,8 @@ final class UpdateFileLinks extends AbstractCommand
         
         $defaultAlias = $this->coreApi->meta()->getDefaultContentTypeEnvironmentAlias($this->contentTypeName);
         $search = new Search([$defaultAlias]);
-        $search->setSources(['_source', 'fr', 'nl']);
         $search->setContentTypes([$this->contentTypeName]);
-//        dump($search);
+        $search->setSources(['_source', 'fr', 'nl']);
 
         $this->io->section(sprintf('Start analyzing %s', $this->contentTypeName));
         $this->io->progressStart($this->coreApi->search()->count($search));
@@ -78,7 +77,6 @@ final class UpdateFileLinks extends AbstractCommand
         
         foreach($this->coreApi->search()->scroll($search) as $hit) {
             $this->updateDocument($hit);
-            dump($hit);
             $this->io->progressAdvance();
         }$this->io->progressFinish();
         
@@ -107,13 +105,19 @@ final class UpdateFileLinks extends AbstractCommand
         if (!is_string($value)) {
             return;
         }
-
-        if (preg_match_all(EMSLink::PATTERN, $value, $matches, PREG_SET_ORDER)) {
-            //dump("FOUND in $key", $matches);
+        if(!preg_match_all(EMSLink::PATTERN, $value, $matches, PREG_SET_ORDER)){
+            return;
         }
-
-        
-
+        foreach($matches as $match){
+            if ($match['link_type'] !== 'asset') {
+                continue;
+            }
+            dump("Match found : ", $match);
+        }
     }
-    
+
+    private function logMediaLibraryLink()
+    {
+        //TODO stub
+    }
 }

@@ -7,7 +7,6 @@ namespace App\CLI\Command\MediaLibrary;
 use App\CLI\Commands;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
-use EMS\CommonBundle\Common\CoreApi\Endpoint\Admin\Admin;
 use EMS\CommonBundle\Common\EMSLink;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
 use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
@@ -17,7 +16,6 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use function JmesPath\search;
 
 #[AsCommand(
     name: Commands::UPDATE_FILE_LINKS,
@@ -30,6 +28,7 @@ final class UpdateFileLinks extends AbstractCommand
     private const string ARGUMENT_FIELDS = 'fields';
     private CoreApiInterface $coreApi;
     private string $contentTypeName;
+    private array $logReports = [];
     private array $fields;
 
     public function __construct(
@@ -73,13 +72,17 @@ final class UpdateFileLinks extends AbstractCommand
 
         $this->io->section(sprintf('Start analyzing %s', $this->contentTypeName));
         $this->io->progressStart($this->coreApi->search()->count($search));
-        $errorTable = [];
-        
+
         foreach($this->coreApi->search()->scroll($search) as $hit) {
             $this->updateDocument($hit);
             $this->io->progressAdvance();
         }$this->io->progressFinish();
-        
+
+        if($this->logReports !== []) {
+            $this->io->section('Found Media Library files');
+            dump($this->logReports);
+        }
+
         return self::EXECUTE_SUCCESS;
     }
 
@@ -102,22 +105,31 @@ final class UpdateFileLinks extends AbstractCommand
 
     private function updateProperty(array $rawData, mixed $key, mixed $value) : void
     {
-        if (!is_string($value)) {
+        if (!is_string($value) || !preg_match_all(EMSLink::PATTERN, $value, $matches, PREG_SET_ORDER)) {
             return;
         }
-        if(!preg_match_all(EMSLink::PATTERN, $value, $matches, PREG_SET_ORDER)){
-            return;
-        }
-        foreach($matches as $match){
-            if ($match['link_type'] !== 'asset') {
-                continue;
+        foreach($matches as $match)
+        {
+            if($match['content_type'] === 'media_file') {
+                $emsLink = EMSLink::fromMatch($match);
+                $this->logMediaLibraryLink($key, $emsLink, $value);
+            }elseif($match['link_type'] === 'asset') {
+                $this->replaceAssetLink($match);
             }
-            dump("Match found : ", $match);
         }
     }
-
-    private function logMediaLibraryLink()
+    
+    private function logMediaLibraryLink(mixed $key, EMSLink $emsLink, string $value) : void
     {
-        //TODO stub
+        $this->logReports[] = [
+            'key' => $key,
+            'emsLink' => $emsLink,
+            'value' => $value,
+        ];
+    }
+
+    private function replaceAssetLink(array $match): void
+    {
+        
     }
 }

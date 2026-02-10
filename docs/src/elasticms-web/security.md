@@ -143,13 +143,25 @@ These clients are just an implementation of
 | EMSCH_OAUTH2_REALM                | Keycloak REALM                   |
 | EMSCH_OAUTH2_CLIENT_ID            | Keycloak client id               |
 | EMSCH_OAUTH2_CLIENT_SECRET        | Keycloak client secret           |
-| EMSCH_OAUTH2_REDIRECT_URI         | <https://mywebsite/callback-url> |
+| EMSCH_OAUTH2_REDIRECT_URI         | <https://mywebsite/oauth2/connect> |
 | EMSCH_OAUTH2_VERSION              | Optional: keycloak version       |
 | EMSCH_OAUTH2_ENCRYPTION_ALGORITHM | Optional: RS256,ES256,...        |
 | EMSCH_OAUTH2_ENCRYPTION_KEY       | Optional: base64 encode          |
 
 > For encryption see
 > [Identity provider (IDP) (Keycloak)](http://localhost:3000/#/getting-started/dev-env?id=identity-provider-idp-keycloak)
+
+### Ping Identity
+
+| Name                       | Description                            |
+| -------------------------- | -------------------------------------- |
+| EMSCH_OAUTH2               | bool for enabling OAUTH2               |
+| EMSCH_OAUTH2_PROVIDER      | 'ping_identity' (default = 'keycloak') |
+| EMSCH_OAUTH2_ISSUER        | ping identity issuer url               |
+| EMSCH_OAUTH2_CLIENT_ID     | client id                              |
+| EMSCH_OAUTH2_CLIENT_SECRET | client secret                          |
+| EMSCH_OAUTH2_REDIRECT_URI  | <https://mywebsite/oauth2/connect>       |
+| EMSCH_OAUTH2_SCOPES        | default openid profile email           |
 
 ### Azure
 
@@ -160,7 +172,7 @@ These clients are just an implementation of
 | EMSCH_OAUTH2_REALM         | Tenant id                                             |
 | EMSCH_OAUTH2_CLIENT_ID     | Client id                                             |
 | EMSCH_OAUTH2_CLIENT_SECRET | Client secret value                                   |
-| EMSCH_OAUTH2_REDIRECT_URI  | <https://mywebsite/callback-url>                      |
+| EMSCH_OAUTH2_REDIRECT_URI  | <https://mywebsite/oauth2/connect>                      |
 | EMSCH_OAUTH2_VERSION       | Default value = 2.0                                   |
 | EMSCH_OAUTH2_SCOPES        | Default value = ["openid","profile","offline_access"] |
 

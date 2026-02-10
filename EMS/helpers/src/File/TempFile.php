@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\Helpers\File;
 
 use EMS\Helpers\Standard\Type;
+use GuzzleHttp\Psr7\Utils;
 use Psr\Http\Message\StreamInterface;
 
 class TempFile
@@ -90,5 +91,15 @@ class TempFile
         if ($numberOfBytes !== \strlen($contents)) {
             throw new \RuntimeException(\sprintf('Size mismatched! %d were written, %d were expected.', $numberOfBytes, \strlen($contents)));
         }
+    }
+
+    public function getOutputStream(): StreamInterface
+    {
+        $resource = \fopen($this->path, 'wb');
+        if (false === $resource) {
+            throw new \RuntimeException('Unable to open the temporary file in wr');
+        }
+
+        return Utils::streamFor($resource);
     }
 }

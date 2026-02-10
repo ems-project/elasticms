@@ -265,14 +265,14 @@ abstract class AbstractCommand extends Command implements CommandInterface
 
     protected function getArgumentEmsLink(string $name): EMSLink
     {
-        $argument = $this->input->getOption($name);
+        $argument = $this->input->getArgument($name);
 
         return EMSLink::fromText(Type::string($argument));
     }
 
     protected function getArgumentEmsLinkNull(string $name): ?EMSLink
     {
-        $argument = $this->input->getOption($name);
+        $argument = $this->input->getArgument($name);
 
         return null === $argument ? null : EMSLink::fromText(Type::string($argument));
     }
@@ -289,6 +289,25 @@ abstract class AbstractCommand extends Command implements CommandInterface
         $option = $this->input->getOption($name);
 
         return null === $option ? null : EMSLink::fromText(Type::string($option));
+    }
+
+    protected function getOptionDateTime(string $name): \DateTimeImmutable
+    {
+        return DateTime::create(Type::string($this->input->getOption($name)));
+    }
+
+    protected function getOptionDateTimeNull(string $name): ?\DateTimeImmutable
+    {
+        $option = $this->input->getOption($name);
+
+        return null === $option ? null : DateTime::create(Type::string($option));
+    }
+
+    protected function getArgumentDateTimeNull(string $name): ?\DateTimeImmutable
+    {
+        $option = $this->input->getArgument($name);
+
+        return null === $option ? null : DateTime::create(Type::string($option));
     }
 
     /**

@@ -79,8 +79,8 @@ final class UpdateFileLinks extends AbstractCommand
         }$this->io->progressFinish();
 
         if($this->logReports !== []) {
-            $this->io->section('Found Media Library files');
-            dump($this->logReports);
+            $this->io->section('Files found');
+//            dump($this->logReports);
         }
 
         return self::EXECUTE_SUCCESS;
@@ -108,28 +108,40 @@ final class UpdateFileLinks extends AbstractCommand
         if (!is_string($value) || !preg_match_all(EMSLink::PATTERN, $value, $matches, PREG_SET_ORDER)) {
             return;
         }
-        foreach($matches as $match)
-        {
-            if($match['content_type'] === 'media_file') {
-                $emsLink = EMSLink::fromMatch($match);
-                $this->logMediaLibraryLink($key, $emsLink, $value);
-            }elseif($match['link_type'] === 'asset') {
-                $this->replaceAssetLink($match);
+        foreach($matches as $match) {
+            if($match['link_type'] === 'asset') {
+                $this->replaceAssetLink($key, $match, $value);
             }
         }
     }
     
-    private function logMediaLibraryLink(mixed $key, EMSLink $emsLink, string $value) : void
+
+    private function replaceAssetLink(mixed $key, array $match, mixed $value): void
+    {
+        $link = EMSLink::fromMatch($match);
+        $sha1 = $link->getOuuid();
+        
+        $found = $this->findMediaFileBySha1($sha1);
+        dump($found);
+        if($found) {
+            $newLink = EMSLink::fromContentTypeOuuid($found->getContentType(), $found->getId());
+            //TODO replace link
+        }else{
+            $this->logAssetLink($key, EMSLink::fromMatch($match), $value);
+        }
+    }
+    
+    private function findMediaFileBySha1(string $sha1): ?DocumentInterface
+    {
+        return null;
+    }
+
+    private function logAssetLink(mixed $key, EMSLink $emsLink, string $value) : void
     {
         $this->logReports[] = [
             'key' => $key,
             'emsLink' => $emsLink,
             'value' => $value,
         ];
-    }
-
-    private function replaceAssetLink(array $match): void
-    {
-        
     }
 }

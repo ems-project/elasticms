@@ -24,5 +24,5 @@ Cypress.Commands.add('loginAsAdmin', (): void => {
 })
 
 Cypress.Commands.add('dataTest', (value: string): Cypress.Chainable<JQuery<HTMLElement>> => {
-  return cy.get(`[data-test="${value}"]`)
+  return cy.get(`[data-testid="${value}"]`)
 })

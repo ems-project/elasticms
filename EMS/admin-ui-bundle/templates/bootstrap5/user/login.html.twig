@@ -10,7 +10,7 @@
 {% block wrapper %}
     <div class="login-box">
         <div class="card card-outline card-{{ theme_color }}">
-            <div class="card-header text-center" data-test="logo">
+            <div class="card-header text-center" data-testid="logo">
                 <a href="{{ path('homepage') }}" class="h1">
                     <img alt="{{ 'user.login.alt_logo'|trans }}" src="{{ asset('images/logo.svg', 'emsadminui') }}" class="img-fluid" width="360">
                 </a>
@@ -28,13 +28,13 @@
                     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="{{ 'user.login.user_placeholder'|trans }}" name="_username" aria-label="{{ 'user.login.user_aria_label'|trans }}" data-test="username"/>
+                        <input type="text" class="form-control" placeholder="{{ 'user.login.user_placeholder'|trans }}" name="_username" aria-label="{{ 'user.login.user_aria_label'|trans }}" data-testid="username"/>
                         <div class="input-group-text">
                             <span class="fas fa-user"></span>
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="password" class="form-control" placeholder="{{ 'user.login.password_placeholder'|trans }}" name="_password" aria-label="{{ 'user.login.password1_aria_label'|trans }}" data-test="password"/>
+                        <input type="password" class="form-control" placeholder="{{ 'user.login.password_placeholder'|trans }}" name="_password" aria-label="{{ 'user.login.password1_aria_label'|trans }}" data-testid="password"/>
                         <div class="input-group-text">
                             <span class="fas fa-lock"></span>
                         </div>
@@ -48,7 +48,7 @@
                         </div>
                         <div class="col-4">
                             <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-primary" data-test="login">{{ 'user.login.submit'|trans }}</button>
+                                <button type="submit" class="btn btn-primary" data-testid="login">{{ 'user.login.submit'|trans }}</button>
                             </div>
                         </div>
                     </div>

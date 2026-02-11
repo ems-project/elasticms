@@ -40,7 +40,6 @@ use EMS\CommonBundle\Service\ExpressionService;
 use EMS\CommonBundle\Service\Pdf\DomPdfPrinter;
 use EMS\CommonBundle\Service\Pdf\PdfGenerator;
 use EMS\CommonBundle\Service\Pdf\PdfPrinterInterface;
-use EMS\CommonBundle\Twig\SearchRuntime;
 use EMS\CommonBundle\Twig\TextRuntime;
 use Psr\Cache\CacheItemPoolInterface;
 
@@ -160,10 +159,6 @@ return static function (ContainerConfigurator $container) {
             service('validator'),
             service('logger'),
         ])
-        ->tag('twig.runtime');
-
-    $services->set('ems_common.twig.runtime.search', SearchRuntime::class)
-        ->args([service('ems_common.service.elastica')])
         ->tag('twig.runtime');
 
     $services->set('ems.common.twig.htp_cache', HttpCacheRuntime::class)

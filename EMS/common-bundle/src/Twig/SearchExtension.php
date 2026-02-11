@@ -12,9 +12,9 @@ use EMS\CommonBundle\Elasticsearch\Response\AnalyzeResponse;
 use EMS\CommonBundle\Search\Search;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\Helpers\Standard\Hash;
-use Twig\Extension\RuntimeExtensionInterface;
+use Twig\Attribute\AsTwigFunction;
 
-final class SearchRuntime implements RuntimeExtensionInterface
+class SearchExtension
 {
     /** @var array<mixed> */
     private array $nestedCache = [];
@@ -29,6 +29,7 @@ final class SearchRuntime implements RuntimeExtensionInterface
      *
      * @return array<mixed>
      */
+    #[AsTwigFunction(name: 'ems_nested_search')]
     public function nestedSearch(string $alias, string|array $contentTypeNames, string $nestedFieldName, array $search): array
     {
         $choices = $this->getNestedSearchChoices($alias, $contentTypeNames, $nestedFieldName);
@@ -39,6 +40,7 @@ final class SearchRuntime implements RuntimeExtensionInterface
     /**
      * @param array<string, string|string[]> $parameters
      */
+    #[AsTwigFunction(name: 'ems_analyze')]
     public function analyze(string $text, array $parameters, ?string $index = null): AnalyzeResponse
     {
         return $this->elasticaService->analyze($text, $parameters, $index);

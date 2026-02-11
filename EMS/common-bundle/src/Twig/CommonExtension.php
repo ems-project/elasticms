@@ -24,8 +24,6 @@ class CommonExtension extends AbstractExtension
     {
         return [
             new TwigFunction('ems_html', [TextRuntime::class, 'emsHtml'], ['is_safe' => ['all']]),
-            new TwigFunction('ems_nested_search', [SearchRuntime::class, 'nestedSearch']),
-            new TwigFunction('ems_analyze', [SearchRuntime::class, 'analyze']),
             new TwigFunction('ems_uuid', UuidGenerator::random(...)),
             new TwigFunction('ems_store_read', [StoreDataRuntime::class, 'read']),
             new TwigFunction('ems_store_save', [StoreDataRuntime::class, 'save']),

@@ -13,6 +13,7 @@ use EMS\CommonBundle\Twig\HttpClientExtension;
 use EMS\CommonBundle\Twig\InfoExtension;
 use EMS\CommonBundle\Twig\ManifestExtension;
 use EMS\CommonBundle\Twig\RequestExtension;
+use EMS\CommonBundle\Twig\SearchExtension;
 use EMS\CommonBundle\Twig\StoreDataRuntime;
 use EMS\CommonBundle\Twig\TemplateRuntime;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -59,6 +60,11 @@ return static function (ContainerConfigurator $container) {
         ->args([
             service('request_stack'),
         ])
+        ->tag('twig.attribute_extension')
+        ->tag('twig.runtime');
+
+    $services->set('ems.twig_extension.search', SearchExtension::class)
+        ->args([service('ems_common.service.elastica')])
         ->tag('twig.attribute_extension')
         ->tag('twig.runtime');
 

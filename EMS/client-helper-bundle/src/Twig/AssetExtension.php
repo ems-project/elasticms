@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace EMS\ClientHelperBundle\Helper\Asset;
+namespace EMS\ClientHelperBundle\Twig;
 
 use EMS\CommonBundle\Common\Asset\ViteService;
 use EMS\CommonBundle\Controller\FileController;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\CommonBundle\Twig\AssetRuntime;
-use Twig\Extension\RuntimeExtensionInterface;
+use Twig\Attribute\AsTwigFunction;
 
-final class AssetHelperRuntime implements RuntimeExtensionInterface
+final class AssetExtension
 {
     private readonly string $publicDir;
     private ?string $versionHash = null;
@@ -30,17 +30,25 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
         }
     }
 
-    public function setVersion(string $hash): void
+    public function applyVersion(string $path): string
     {
-        if (null !== $this->versionHash && $this->versionHash !== $hash) {
-            throw new \RuntimeException('Another hash version has been already defined');
+        $basePath = $this->getBasePath();
+
+        if (null === $this->localFolder) {
+            $this->viteService->loadManifestFromEmsArchive($this->getVersionHash());
+        } else {
+            $this->viteService->loadManifestFromDirectory($basePath);
         }
-        $this->versionHash = $hash;
+
+        $devPath = $this->viteService->devPath($path);
+
+        return $devPath ?? $basePath.\DIRECTORY_SEPARATOR.$this->viteService->path($path);
     }
 
     /**
      * @param array<string, mixed> $assetConfig
      */
+    #[AsTwigFunction(name: 'emsch_asset', isSafe: ['html'])]
     public function asset(string $path, array $assetConfig = []): string
     {
         $filename = $this->getAssetFilename($path);
@@ -58,6 +66,7 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
      *
      * @return array{controller: string, path: array{hash_config: string, hash: string, filename: string }}
      */
+    #[AsTwigFunction(name: 'emsch_asset_redirect')]
     public function assetRedirect(string $path, array $assetConfig = []): array
     {
         $filename = $this->getAssetFilename($path);
@@ -76,21 +85,6 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
         ];
     }
 
-    public function applyVersion(string $path): string
-    {
-        $basePath = $this->getBasePath();
-
-        if (null === $this->localFolder) {
-            $this->viteService->loadManifestFromEmsArchive($this->getVersionHash());
-        } else {
-            $this->viteService->loadManifestFromDirectory($basePath);
-        }
-
-        $devPath = $this->viteService->devPath($path);
-
-        return $devPath ?? $basePath.\DIRECTORY_SEPARATOR.$this->viteService->path($path);
-    }
-
     public function getVersionHash(): string
     {
         if (null === $this->versionHash) {
@@ -100,12 +94,13 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
         return $this->versionHash;
     }
 
-    private function getBasePath(): string
+    #[AsTwigFunction(name: 'emsch_assets_version')]
+    public function setVersion(string $hash): void
     {
-        return match (true) {
-            !empty($this->localFolder) => $this->localFolder,
-            default => \sprintf('bundles/%s', $this->getVersionHash()),
-        };
+        if (null !== $this->versionHash && $this->versionHash !== $hash) {
+            throw new \RuntimeException('Another hash version has been already defined');
+        }
+        $this->versionHash = $hash;
     }
 
     private function getAssetFilename(string $path): string
@@ -115,5 +110,13 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
         }
 
         return \sprintf('%s:%s', $this->getVersionHash(), $path);
+    }
+
+    private function getBasePath(): string
+    {
+        return match (true) {
+            !empty($this->localFolder) => $this->localFolder,
+            default => \sprintf('bundles/%s', $this->getVersionHash()),
+        };
     }
 }

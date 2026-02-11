@@ -31,7 +31,7 @@ use EMS\ClientHelperBundle\Helper\Request\LocaleHelper;
 use EMS\ClientHelperBundle\Helper\Translation\Translator;
 use EMS\ClientHelperBundle\Helper\Webhook\WebhookHelper;
 use EMS\ClientHelperBundle\Helper\Webhook\WebhookRuntime;
-use EMS\ClientHelperBundle\Twig\AdminMenuRuntime;
+use EMS\ClientHelperBundle\Twig\AdminMenuExtension;
 use EMS\ClientHelperBundle\Twig\HelperExtension;
 use EMS\CommonBundle\Contracts\Bridge\Core\CoreBridgeInterface;
 use EMS\CommonBundle\Contracts\Elasticsearch\QueryLoggerInterface;
@@ -150,8 +150,9 @@ return static function (ContainerConfigurator $container) {
     $services->set('emsch.twig.extension.helper', HelperExtension::class)
         ->tag('twig.extension');
 
-    $services->set('emsch.twig.runtime.request_helper', AdminMenuRuntime::class)
+    $services->set('emsch.twig.admin_menu_extension', AdminMenuExtension::class)
         ->args([service('emsch.helper_environment')])
+        ->tag('twig.attribute_extension')
         ->tag('twig.runtime');
 
     $services->set('emsch.twig.runtime.asset', AssetHelperRuntime::class)

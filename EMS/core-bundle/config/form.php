@@ -176,15 +176,6 @@ return static function (ContainerConfigurator $container) {
         ->tag('ems.form.datafieldtype', ['alias' => 'computed'])
         ->tag('form.type');
 
-    $services->set('ems.fieldtype.json', JSONFieldType::class)
-        ->args([
-            service('security.authorization_checker'),
-            service('form.registry'),
-            service('ems.service.elasticsearch'),
-        ])
-        ->tag('ems.form.datafieldtype', ['alias' => 'json'])
-        ->tag('form.type');
-
     $services->set('ems.fieldtype.dataLink', DataLinkFieldType::class)
         ->args([
             service('security.authorization_checker'),

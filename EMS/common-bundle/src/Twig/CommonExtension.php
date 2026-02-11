@@ -31,8 +31,6 @@ class CommonExtension extends AbstractExtension
             new TwigFunction('ems_store_save', [StoreDataRuntime::class, 'save']),
             new TwigFunction('ems_store_delete', [StoreDataRuntime::class, 'delete']),
             new TwigFunction('ems_template_exists', [TemplateRuntime::class, 'templateExists']),
-            new TwigFunction('ems_flash', [RequestRuntime::class, 'flash']),
-            new TwigFunction('ems_check_ip', [RequestRuntime::class, 'checkIp']),
             new TwigFunction('ems_clear_http_caches', [HttpCacheRuntime::class, 'clearCaches']),
         ];
     }
@@ -45,7 +43,6 @@ class CommonExtension extends AbstractExtension
             new TwigFilter('ems_file_exists', $this->fileExists(...)),
             new TwigFilter('ems_format_bytes', Number::formatBytes(...)),
             new TwigFilter('ems_ouuid', $this->getOuuid(...)),
-            new TwigFilter('ems_locale_attr', [RequestRuntime::class, 'localeAttribute']),
             new TwigFilter('ems_html_encode', [TextRuntime::class, 'htmlEncode'], ['is_safe' => ['html']]),
             new TwigFilter('ems_html_decode', [TextRuntime::class, 'htmlDecode']),
             new TwigFilter('ems_anti_spam', [TextRuntime::class, 'htmlEncodePii'], ['is_safe' => ['html']]),

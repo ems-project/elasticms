@@ -44,7 +44,7 @@ return static function (ContainerConfigurator $container) {
             service('logger'),
             service('form.factory'),
             service('ems.service.file'),
-            service('ems_common.twig.runtime.request'),
+            service('ems.twig_extension.request'),
             service('ems_core.core_mail.mailer_service'),
             service('ems_common.service.elastica'),
             service('ems.service.search'),

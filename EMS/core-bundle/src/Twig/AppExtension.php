@@ -16,7 +16,7 @@ use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CommonBundle\Storage\Processor\Config;
 use EMS\CommonBundle\Storage\Service\StorageInterface;
 use EMS\CommonBundle\Twig\AssetExtension;
-use EMS\CommonBundle\Twig\RequestRuntime;
+use EMS\CommonBundle\Twig\RequestExtension;
 use EMS\CoreBundle\Core\ContentType\ContentTypeFields;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Core\Mail\MailerService;
@@ -72,7 +72,7 @@ class AppExtension extends AbstractExtension
         private readonly LoggerInterface $logger,
         protected FormFactory $formFactory,
         protected FileService $fileService,
-        protected RequestRuntime $commonRequestRuntime,
+        protected RequestExtension $commonRequestExtension,
         private readonly MailerService $mailer,
         private readonly ElasticaService $elasticaService,
         private readonly SearchService $searchService,

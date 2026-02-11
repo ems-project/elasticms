@@ -7,14 +7,16 @@ namespace EMS\CommonBundle\Twig;
 use Symfony\Component\HttpFoundation\IpUtils;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\FlashBagAwareSessionInterface;
-use Twig\Extension\RuntimeExtensionInterface;
+use Twig\Attribute\AsTwigFilter;
+use Twig\Attribute\AsTwigFunction;
 
-class RequestRuntime implements RuntimeExtensionInterface
+readonly class RequestExtension
 {
-    public function __construct(private readonly RequestStack $requestStack)
+    public function __construct(private RequestStack $requestStack)
     {
     }
 
+    #[AsTwigFunction(name: 'ems_flash')]
     public function flash(string $type, string $message): void
     {
         $session = $this->requestStack->getSession();
@@ -28,10 +30,9 @@ class RequestRuntime implements RuntimeExtensionInterface
 
     /**
      * @param array<mixed> $source
-     *
-     * @return mixed
      */
-    public function localeAttribute(array $source, string $attribute)
+    #[AsTwigFilter(name: 'ems_locale_attr')]
+    public function localeAttribute(array $source, string $attribute): mixed
     {
         $request = $this->requestStack->getCurrentRequest();
         if (null === $request) {
@@ -46,6 +47,7 @@ class RequestRuntime implements RuntimeExtensionInterface
     /**
      * @param string[]|string $ipsOrSubnets
      */
+    #[AsTwigFunction(name: 'ems_check_ip')]
     public function checkIp(string $requestIp, string|array $ipsOrSubnets): bool
     {
         $request = $this->requestStack->getCurrentRequest();

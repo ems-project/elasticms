@@ -12,7 +12,7 @@ use EMS\CommonBundle\Twig\CoreBridgeExtension;
 use EMS\CommonBundle\Twig\HttpClientExtension;
 use EMS\CommonBundle\Twig\InfoExtension;
 use EMS\CommonBundle\Twig\ManifestExtension;
-use EMS\CommonBundle\Twig\RequestRuntime;
+use EMS\CommonBundle\Twig\RequestExtension;
 use EMS\CommonBundle\Twig\StoreDataRuntime;
 use EMS\CommonBundle\Twig\TemplateRuntime;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -46,8 +46,6 @@ return static function (ContainerConfigurator $container) {
         ->tag('twig.attribute_extension')
         ->tag('twig.runtime');
 
-    $services->alias('ems_common.twig.runtime.request', RequestRuntime::class);
-
     $services->set('ems.twig_extension.manifest', ManifestExtension::class)
         ->tag('twig.attribute_extension')
         ->tag('twig.runtime');
@@ -57,10 +55,11 @@ return static function (ContainerConfigurator $container) {
         ->tag('twig.attribute_extension')
         ->tag('twig.runtime');
 
-    $services->set(RequestRuntime::class)
+    $services->set('ems.twig_extension.request', RequestExtension::class)
         ->args([
             service('request_stack'),
         ])
+        ->tag('twig.attribute_extension')
         ->tag('twig.runtime');
 
     $services->set(StoreDataRuntime::class)

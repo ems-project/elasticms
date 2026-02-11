@@ -2,11 +2,11 @@
 
 server {
 
-    listen {{ .Env.EMS_METRIC_PORT }} default_server;
+    listen {{ $.Env.EMS_METRIC_PORT }} default_server;
 
     server_name _;
 
-    root {{ .Env.NGINX_PUBLIC_DIR }};
+    root {{ $.Env.NGINX_PUBLIC_DIR }};
 
     index index.php;
 
@@ -35,7 +35,7 @@ server {
         fastcgi_split_path_info ^(.+\.php)(/.*)$;
 
         include fastcgi_params;
-        include conf.d/{{ .Env.ELASTICMS_INSTANCE_NAME }}.fastcgi_params;
+        include conf.d/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.fastcgi_params;
 
         fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
         fastcgi_param DOCUMENT_ROOT $realpath_root;

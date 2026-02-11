@@ -2,52 +2,60 @@
 
 {{- $aliases := datasource "aliases" }}
 
-include conf.d/{{ .Env.ELASTICMS_INSTANCE_NAME }}.symfony-script-name.map;
+include conf.d/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.symfony-script-name.map;
 
 server {
 
     listen 9000;
 
-{{ if eq .Env.SERVER_NAME "" }}
+{{ if eq $.Env.SERVER_NAME "" }}
     server_name _;
 {{ else }}
-    server_name {{ .Env.SERVER_NAME }}{{ with .Env.SERVER_ALIASES }} {{ . }}{{ end }};
+    server_name {{ $.Env.SERVER_NAME }}{{ with $.Env.SERVER_ALIASES }} {{ . }}{{ end }};
 {{- end }}
 
-    root {{ .Env.NGINX_PUBLIC_DIR }};
+    root {{ $.Env.NGINX_PUBLIC_DIR }};
 
     index index.php;
 
-    include conf.d/{{ .Env.ELASTICMS_INSTANCE_NAME }}.security-headers.conf;
+    include conf.d/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.security-headers.conf;
 
     # ============================================================
     # BUNDLES ASSETS (bundles Symfony)
     # ============================================================
 
-    include conf.d/{{ .Env.ELASTICMS_INSTANCE_NAME }}.assets.conf;
+    include conf.d/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.assets.conf;
 
     # ============================================================
     # ROOT Symfony
     # ============================================================
 
-    include conf.d/{{ .Env.ELASTICMS_INSTANCE_NAME }}.symfony.conf;
+    include conf.d/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.symfony.conf;
 
     # ============================================================
     # PHP-FPM
     # ============================================================
 
-    include conf.d/{{ .Env.ELASTICMS_INSTANCE_NAME }}.php-fpm.conf;
+    include conf.d/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.php-fpm.conf;
 
     # ============================================================
     # BLOCKING
     # ============================================================
 
     location ~ \.php$ {
+
+{{- if ne $.Env.DEBUG "false" }}
+        set $debug_nginx_location "star.php";
+        set $debug_nginx_uri "$uri";
+        add_header X-Debug-Nginx-Uri "$debug_nginx_uri" always;
+        add_header X-Debug-Nginx-Symfony-Location "$debug_nginx_location" always;
+{{- end }}
+
         return 404;
     }
 
-{{ if ne .Env.NGINX_DENY_LOCATION_REGEXP "" }}
-    location ~ {{ .Env.NGINX_DENY_LOCATION_REGEXP }} {
+{{ if ne $.Env.NGINX_DENY_LOCATION_REGEXP "" }}
+    location ~ {{ $.Env.NGINX_DENY_LOCATION_REGEXP }} {
         deny all;
     }
 {{- end }}

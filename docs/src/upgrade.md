@@ -49,6 +49,8 @@ outline: [2, 2]
   generate the route.
 - Remove form field `SendConfirmation`, use numberType or HiddenType with VerificationCode
   validator.
+- Removed `EMSCH_BACKEND_URL` use `EMS_BACKEND_URL`
+- Removed `EMSCH_ELASTICSEARCH_CLUSTER` use `EMS_ELASTICSEARCH_HOSTS`
 
 #### Twig
 

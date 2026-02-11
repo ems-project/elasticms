@@ -1,14 +1,6 @@
 parameters:
-    #Deprecated parameters
-    env(EMSCH_ELASTICSEARCH_CLUSTER): '["http://localhost:9200"]'
-    env(STORAGE_PATH): ''
-    env(EMSCH_BACKEND_URL): ~
-    env(S3_BUCKET): ''
-    env(S3_CREDENTIALS): '[]'
-
-    #Parameters
     env(EMS_HASH_ALGO): 'sha1'
-    env(EMS_ELASTICSEARCH_HOSTS): '%env(string:EMSCH_ELASTICSEARCH_CLUSTER)%'
+    env(EMS_ELASTICSEARCH_HOSTS): '["http://localhost:9200"]'
     env(EMS_STORAGES): '[]'
     env(EMS_HTTP_CACHES): '[]'
     env(EMS_RUNNERS): '[]'

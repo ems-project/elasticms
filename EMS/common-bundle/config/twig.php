@@ -8,10 +8,10 @@ use EMS\CommonBundle\Contracts\Bridge\Core\CoreBridgeInterface;
 use EMS\CommonBundle\Storage\Processor\Processor;
 use EMS\CommonBundle\Twig\AssetExtension;
 use EMS\CommonBundle\Twig\CommonExtension;
-use EMS\CommonBundle\Twig\CoreBridgeRuntime;
-use EMS\CommonBundle\Twig\HttpClientRuntime;
-use EMS\CommonBundle\Twig\InfoRuntime;
-use EMS\CommonBundle\Twig\ManifestRuntime;
+use EMS\CommonBundle\Twig\CoreBridgeExtension;
+use EMS\CommonBundle\Twig\HttpClientExtension;
+use EMS\CommonBundle\Twig\InfoExtension;
+use EMS\CommonBundle\Twig\ManifestExtension;
 use EMS\CommonBundle\Twig\RequestRuntime;
 use EMS\CommonBundle\Twig\StoreDataRuntime;
 use EMS\CommonBundle\Twig\TemplateRuntime;
@@ -26,15 +26,17 @@ return static function (ContainerConfigurator $container) {
     $services->set('ems_common.twig.extension.common', CommonExtension::class)
         ->tag('twig.extension');
 
-    $services->set('ems.twig.extension.core_bridge', CoreBridgeRuntime::class)
+    $services->set('ems.twig_extension.core_bridge', CoreBridgeExtension::class)
         ->args([service(CoreBridgeInterface::class)])
+        ->tag('twig.attribute_extension')
         ->tag('twig.runtime');
 
-    $services->set('ems.twig.extension.http_client', HttpClientRuntime::class)
+    $services->set('ems.twig_extension.http_client', HttpClientExtension::class)
         ->args([service('http_client')])
+        ->tag('twig.attribute_extension')
         ->tag('twig.runtime');
 
-    $services->set('ems.twig.asset_extension', AssetExtension::class)
+    $services->set('ems.twig_extension.asset', AssetExtension::class)
         ->args([
             service('ems_common.storage.manager'),
             service(UrlGeneratorInterface::class),
@@ -46,11 +48,13 @@ return static function (ContainerConfigurator $container) {
 
     $services->alias('ems_common.twig.runtime.request', RequestRuntime::class);
 
-    $services->set('ems_common.twig.runtime.manifest', ManifestRuntime::class)
+    $services->set('ems.twig_extension.manifest', ManifestExtension::class)
+        ->tag('twig.attribute_extension')
         ->tag('twig.runtime');
 
-    $services->set('ems_common.twig.runtime.info', InfoRuntime::class)
+    $services->set('ems.twig_extension.info', InfoExtension::class)
         ->args([service('ems_common.composer.info')])
+        ->tag('twig.attribute_extension')
         ->tag('twig.runtime');
 
     $services->set(RequestRuntime::class)

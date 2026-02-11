@@ -410,7 +410,7 @@ return static function (ContainerConfigurator $container) {
             service('ems.service.asset_extractor'),
             service('emsco.logger'),
             service('ems_core.core_ui.flash_message_logger'),
-            service('ems.twig.asset_extension'),
+            service('ems.twig_extension.asset'),
             '%ems_core.asset_config%',
             '%ems_core.theme_color%',
         ])

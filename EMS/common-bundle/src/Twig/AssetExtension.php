@@ -23,12 +23,11 @@ use Twig\Attribute\AsTwigFunction;
 class AssetExtension
 {
     public function __construct(
-        private readonly StorageManager        $storageManager,
+        private readonly StorageManager $storageManager,
         private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly Processor             $processor,
-        private readonly FileReaderInterface   $fileReader,
-    )
-    {
+        private readonly Processor $processor,
+        private readonly FileReaderInterface $fileReader,
+    ) {
     }
 
     #[AsTwigFilter(name: 'ems_asset_average_color', isSafe: ['html'])]
@@ -73,7 +72,7 @@ class AssetExtension
     {
         $config = $assetConfig;
 
-        $hash = Config::extractHash($fileField, $fileHashField, (string)($assetConfig[EmsFields::ASSET_CONFIG_TYPE] ?? 'none'));
+        $hash = Config::extractHash($fileField, $fileHashField, (string) ($assetConfig[EmsFields::ASSET_CONFIG_TYPE] ?? 'none'));
         $filename = Config::extractFilename($fileField, $config, $filenameField, $mimeTypeField);
         $mimeType = Config::extractMimetype($fileField, $config, $filename, $mimeTypeField);
         $referenceType = Config::extractUrlType($fileField, $referenceType);
@@ -234,7 +233,7 @@ class AssetExtension
             'width' => $imageSize[0],
             'height' => $imageSize[1],
             'mimeType' => $imageSize['mime'],
-            'extension' => \explode('/', (string)$imageSize['mime'])[1],
+            'extension' => \explode('/', (string) $imageSize['mime'])[1],
         ];
 
         try {

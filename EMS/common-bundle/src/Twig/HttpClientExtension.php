@@ -6,9 +6,9 @@ namespace EMS\CommonBundle\Twig;
 
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
-use Twig\Extension\RuntimeExtensionInterface;
+use Twig\Attribute\AsTwigFunction;
 
-class HttpClientRuntime implements RuntimeExtensionInterface
+class HttpClientExtension
 {
     public function __construct(private readonly HttpClientInterface $httpClient)
     {
@@ -17,6 +17,7 @@ class HttpClientRuntime implements RuntimeExtensionInterface
     /**
      * @param array<string, mixed> $options
      */
+    #[AsTwigFunction(name: 'ems_http')]
     public function request(string $url, string $method = 'GET', array $options = []): ResponseInterface
     {
         return $this->httpClient->request($method, $url, $options);

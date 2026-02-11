@@ -200,7 +200,7 @@ return static function (ContainerConfigurator $container) {
             service('ems.service.elasticsearch'),
             service('router'),
             service('ems.service.wysiwyg_styles_set'),
-            service('ems.twig.asset_extension'),
+            service('ems.twig_extension.asset'),
         ])
         ->tag('ems.form.datafieldtype', ['alias' => 'wysiwyg'])
         ->tag('form.type');

@@ -162,7 +162,7 @@ return static function (ContainerConfigurator $container) {
     $services->set('emsch.twig.asset_extension', AssetExtension::class)
         ->args([
             service('ems_common.storage.manager'),
-            service('ems.twig.asset_extension'),
+            service('ems.twig_extension.asset'),
             service('ems.vite'),
             '%kernel.project_dir%',
             '%emsch.asset_local_folder%',

@@ -48,7 +48,7 @@ return static function (ContainerConfigurator $container) {
             service('ems_core.core_mail.mailer_service'),
             service('ems_common.service.elastica'),
             service('ems.service.search'),
-            service('ems.twig.asset_extension'),
+            service('ems.twig_extension.asset'),
             '%ems_core.asset_config%',
         ])
         ->tag('twig.extension', ['priority' => -2000]);

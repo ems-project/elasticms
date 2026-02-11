@@ -17,8 +17,6 @@ final class HelperExtension extends AbstractExtension
     public function getFilters(): array
     {
         return [
-            new TwigFilter('emsch_routing', [RoutingRuntime::class, 'transform'], ['is_safe' => ['html']]),
-            new TwigFilter('emsch_routing_config', [RoutingRuntime::class, 'transformConfig'], ['is_safe' => ['html']]),
             new TwigFilter('emsch_get', [ClientRequestRuntime::class, 'get']),
         ];
     }
@@ -27,7 +25,6 @@ final class HelperExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('emsch_route', [RoutingRuntime::class, 'createUrl']),
             new TwigFunction('emsch_search', [ClientRequestRuntime::class, 'search']),
             new TwigFunction('emsch_search_one', [ClientRequestRuntime::class, 'searchOne']),
             new TwigFunction('emsch_add_environment', [ClientRequestRuntime::class, 'addEnvironment']),

@@ -40,7 +40,7 @@ location ^~ /{{ $a }}/bundles/ {
     set $debug_nginx_location "/{{ $a }}/bundles/";
 {{- end }}
 
-    try_files $uri =404;
+    try_files $uri /index.php$is_args$args;
 }
 
 {{- end }}
@@ -75,5 +75,5 @@ location ^~ /bundles/ {
     set $debug_nginx_location "/bundles/";
 {{- end }}
 
-    try_files $uri =404;
+    try_files $uri /index.php$is_args$args;
 }

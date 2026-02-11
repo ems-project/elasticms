@@ -12,7 +12,7 @@ location ^~ /{{ $a }}/robots.txt {
     set $debug_nginx_location "/{{ $a }}/robots.txt";
 {{- end }}
 
-    try_files /robots.txt /{{ $a }}/index.php$is_args$args;
+    try_files /robots.txt /index.php$is_args$args;
 }
 
 location ^~ /{{ $a }}/favicon.ico {
@@ -26,7 +26,7 @@ location ^~ /{{ $a }}/favicon.ico {
     set $debug_nginx_location "/{{ $a }}/favicon.ico";
 {{- end }}
 
-    try_files /favicon.ico /{{ $a }}/index.php$is_args$args;
+    try_files /favicon.ico /index.php$is_args$args;
 }
 
 location ^~ /{{ $a }}/bundles/ {

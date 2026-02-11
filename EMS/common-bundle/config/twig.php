@@ -14,8 +14,8 @@ use EMS\CommonBundle\Twig\InfoExtension;
 use EMS\CommonBundle\Twig\ManifestExtension;
 use EMS\CommonBundle\Twig\RequestExtension;
 use EMS\CommonBundle\Twig\SearchExtension;
-use EMS\CommonBundle\Twig\StoreDataRuntime;
-use EMS\CommonBundle\Twig\TemplateRuntime;
+use EMS\CommonBundle\Twig\StoreDataExtension;
+use EMS\CommonBundle\Twig\TemplateExtension;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 return static function (ContainerConfigurator $container) {
@@ -68,14 +68,16 @@ return static function (ContainerConfigurator $container) {
         ->tag('twig.attribute_extension')
         ->tag('twig.runtime');
 
-    $services->set(StoreDataRuntime::class)
+    $services->set('ems.twig_extension.store_date', StoreDataExtension::class)
         ->args([
             service('request_stack'),
             service('ems_common.store_data.manager'),
         ])
+        ->tag('twig.attribute_extension')
         ->tag('twig.runtime');
 
-    $services->set(TemplateRuntime::class)
+    $services->set('ems.twig_extension.template', TemplateExtension::class)
         ->args([service('twig')])
+        ->tag('twig.attribute_extension')
         ->tag('twig.runtime');
 };

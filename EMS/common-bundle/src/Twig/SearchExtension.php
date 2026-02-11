@@ -24,6 +24,15 @@ class SearchExtension
     }
 
     /**
+     * @param array<string, string|string[]> $parameters
+     */
+    #[AsTwigFunction(name: 'ems_analyze')]
+    public function analyze(string $text, array $parameters, ?string $index = null): AnalyzeResponse
+    {
+        return $this->elasticaService->analyze($text, $parameters, $index);
+    }
+
+    /**
      * @param string|string[]       $contentTypeNames
      * @param array<string, string> $search
      *
@@ -35,15 +44,6 @@ class SearchExtension
         $choices = $this->getNestedSearchChoices($alias, $contentTypeNames, $nestedFieldName);
 
         return \array_values(\array_filter($choices, fn (array $choice) => \array_all($search, fn ($searchValue, $searchKey) => !(!isset($choice[$searchKey]) || $choice[$searchKey] !== $searchValue))));
-    }
-
-    /**
-     * @param array<string, string|string[]> $parameters
-     */
-    #[AsTwigFunction(name: 'ems_analyze')]
-    public function analyze(string $text, array $parameters, ?string $index = null): AnalyzeResponse
-    {
-        return $this->elasticaService->analyze($text, $parameters, $index);
     }
 
     /**

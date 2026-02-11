@@ -6,7 +6,7 @@ namespace EMS\CommonBundle\Tests\Twig;
 
 use EMS\CommonBundle\Helper\Text\Encoder;
 use EMS\CommonBundle\Json\Decoder;
-use EMS\CommonBundle\Twig\TextRuntime;
+use EMS\CommonBundle\Twig\TextExtension;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -27,7 +27,7 @@ class TextRuntimeTest extends TestCase
     #[AllowMockObjectsWithoutExpectations]
     public function testReplaceInDom()
     {
-        $textRuntime = new TextRuntime(
+        $textExtension = new TextExtension(
             new Encoder(),
             new Decoder(),
             $this->validator,
@@ -49,7 +49,7 @@ class TextRuntimeTest extends TestCase
             <div id="vid_4e2af1bc-a4bc-4079-8549-f774e7ad0225" unselectable="on" style="display:none;"></div></div>
             HTML;
 
-        $crawler = $textRuntime->domCrawler($source);
+        $crawler = $textExtension->domCrawler($source);
         $webparts = $crawler->filter('div[webpartid]');
 
         for ($i = 0; $i < $webparts->count(); ++$i) {
@@ -62,7 +62,7 @@ class TextRuntimeTest extends TestCase
                 $parent = $parent->parentNode;
                 $parentName = $parent->localName;
             }
-            $node = $parent->ownerDocument->createElement('a', $textRuntime->domCrawler($parent)->filter('h2')->text());
+            $node = $parent->ownerDocument->createElement('a', $textExtension->domCrawler($parent)->filter('h2')->text());
             $node->setAttribute('href', "ems://object:webpart:$webpartId");
             $parent->parentNode->replaceChild($node, $parent);
         }

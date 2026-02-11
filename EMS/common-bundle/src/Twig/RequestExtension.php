@@ -16,6 +16,20 @@ readonly class RequestExtension
     {
     }
 
+    /**
+     * @param string[]|string $ipsOrSubnets
+     */
+    #[AsTwigFunction(name: 'ems_check_ip')]
+    public function checkIp(string $requestIp, string|array $ipsOrSubnets): bool
+    {
+        $request = $this->requestStack->getCurrentRequest();
+        if (null !== $request && $request->isMethodSafe()) {
+            throw new \RuntimeException(\sprintf('The safe method %s is not allowed with ems_check_ip()', $request->getMethod()));
+        }
+
+        return IpUtils::checkIp($requestIp, $ipsOrSubnets);
+    }
+
     #[AsTwigFunction(name: 'ems_flash')]
     public function flash(string $type, string $message): void
     {
@@ -42,19 +56,5 @@ readonly class RequestExtension
         $locale = $request->getLocale();
 
         return $source[$attribute.$locale] ?? '';
-    }
-
-    /**
-     * @param string[]|string $ipsOrSubnets
-     */
-    #[AsTwigFunction(name: 'ems_check_ip')]
-    public function checkIp(string $requestIp, string|array $ipsOrSubnets): bool
-    {
-        $request = $this->requestStack->getCurrentRequest();
-        if (null !== $request && $request->isMethodSafe()) {
-            throw new \RuntimeException(\sprintf('The safe method %s is not allowed with ems_check_ip()', $request->getMethod()));
-        }
-
-        return IpUtils::checkIp($requestIp, $ipsOrSubnets);
     }
 }

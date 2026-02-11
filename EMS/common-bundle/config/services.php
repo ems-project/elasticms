@@ -40,7 +40,6 @@ use EMS\CommonBundle\Service\ExpressionService;
 use EMS\CommonBundle\Service\Pdf\DomPdfPrinter;
 use EMS\CommonBundle\Service\Pdf\PdfGenerator;
 use EMS\CommonBundle\Service\Pdf\PdfPrinterInterface;
-use EMS\CommonBundle\Twig\TextRuntime;
 use Psr\Cache\CacheItemPoolInterface;
 
 return static function (ContainerConfigurator $container) {
@@ -151,15 +150,6 @@ return static function (ContainerConfigurator $container) {
             service('ems_common.core_api.token_store'),
             service('logger'),
         ]);
-
-    $services->set('ems_common.twig.runtime.text', TextRuntime::class)
-        ->args([
-            service('ems_common.text.encoder'),
-            service('ems_common.json.decoder'),
-            service('validator'),
-            service('logger'),
-        ])
-        ->tag('twig.runtime');
 
     $services->set('ems.common.twig.htp_cache', HttpCacheRuntime::class)
         ->args([service('ems_common.service.http_cache_manager')])

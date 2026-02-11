@@ -16,6 +16,7 @@ use EMS\CommonBundle\Twig\RequestExtension;
 use EMS\CommonBundle\Twig\SearchExtension;
 use EMS\CommonBundle\Twig\StoreDataExtension;
 use EMS\CommonBundle\Twig\TemplateExtension;
+use EMS\CommonBundle\Twig\TextExtension;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 return static function (ContainerConfigurator $container) {
@@ -27,16 +28,6 @@ return static function (ContainerConfigurator $container) {
     $services->set('ems_common.twig.extension.common', CommonExtension::class)
         ->tag('twig.extension');
 
-    $services->set('ems.twig_extension.core_bridge', CoreBridgeExtension::class)
-        ->args([service(CoreBridgeInterface::class)])
-        ->tag('twig.attribute_extension')
-        ->tag('twig.runtime');
-
-    $services->set('ems.twig_extension.http_client', HttpClientExtension::class)
-        ->args([service('http_client')])
-        ->tag('twig.attribute_extension')
-        ->tag('twig.runtime');
-
     $services->set('ems.twig_extension.asset', AssetExtension::class)
         ->args([
             service('ems_common.storage.manager'),
@@ -47,12 +38,22 @@ return static function (ContainerConfigurator $container) {
         ->tag('twig.attribute_extension')
         ->tag('twig.runtime');
 
-    $services->set('ems.twig_extension.manifest', ManifestExtension::class)
+    $services->set('ems.twig_extension.core_bridge', CoreBridgeExtension::class)
+        ->args([service(CoreBridgeInterface::class)])
+        ->tag('twig.attribute_extension')
+        ->tag('twig.runtime');
+
+    $services->set('ems.twig_extension.http_client', HttpClientExtension::class)
+        ->args([service('http_client')])
         ->tag('twig.attribute_extension')
         ->tag('twig.runtime');
 
     $services->set('ems.twig_extension.info', InfoExtension::class)
         ->args([service('ems_common.composer.info')])
+        ->tag('twig.attribute_extension')
+        ->tag('twig.runtime');
+
+    $services->set('ems.twig_extension.manifest', ManifestExtension::class)
         ->tag('twig.attribute_extension')
         ->tag('twig.runtime');
 
@@ -78,6 +79,16 @@ return static function (ContainerConfigurator $container) {
 
     $services->set('ems.twig_extension.template', TemplateExtension::class)
         ->args([service('twig')])
+        ->tag('twig.attribute_extension')
+        ->tag('twig.runtime');
+
+    $services->set('ems.twig_extension.text', TextExtension::class)
+        ->args([
+            service('ems_common.text.encoder'),
+            service('ems_common.json.decoder'),
+            service('validator'),
+            service('logger'),
+        ])
         ->tag('twig.attribute_extension')
         ->tag('twig.runtime');
 };

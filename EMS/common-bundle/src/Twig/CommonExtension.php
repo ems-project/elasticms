@@ -23,7 +23,6 @@ class CommonExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('ems_html', [TextRuntime::class, 'emsHtml'], ['is_safe' => ['all']]),
             new TwigFunction('ems_uuid', UuidGenerator::random(...)),
             new TwigFunction('ems_clear_http_caches', [HttpCacheRuntime::class, 'clearCaches']),
         ];
@@ -37,24 +36,15 @@ class CommonExtension extends AbstractExtension
             new TwigFilter('ems_file_exists', $this->fileExists(...)),
             new TwigFilter('ems_format_bytes', Number::formatBytes(...)),
             new TwigFilter('ems_ouuid', $this->getOuuid(...)),
-            new TwigFilter('ems_html_encode', [TextRuntime::class, 'htmlEncode'], ['is_safe' => ['html']]),
-            new TwigFilter('ems_html_decode', [TextRuntime::class, 'htmlDecode']),
-            new TwigFilter('ems_anti_spam', [TextRuntime::class, 'htmlEncodePii'], ['is_safe' => ['html']]),
-            new TwigFilter('ems_json_menu_decode', [TextRuntime::class, 'jsonMenuDecode']),
-            new TwigFilter('ems_json_menu_nested_decode', [TextRuntime::class, 'jsonMenuNestedDecode']),
-            new TwigFilter('ems_json_decode', [TextRuntime::class, 'jsonDecode']),
             new TwigFilter('ems_ascii_folding', Encoder::asciiFolding(...)),
             new TwigFilter('ems_markdown', Encoder::markdownToHtml(...), ['is_safe' => ['html']]),
             new TwigFilter('ems_slug', [Encoder::class, 'slug']),
             new TwigFilter('ems_stringify', Converter::stringify(...)),
-            new TwigFilter('ems_replace_regex', [TextRuntime::class, 'replaceRegex'], ['is_safe' => ['html']]),
-            new TwigFilter('ems_dom_crawler', [TextRuntime::class, 'domCrawler']),
             new TwigFilter('ems_base64_encode', Base64::encode(...)),
             new TwigFilter('ems_base64_decode', Base64::decode(...)),
             new TwigFilter('ems_preg_match', Encoder::pregMatch(...)),
             new TwigFilter('ems_color', fn ($color) => new Color($color)),
             new TwigFilter('ems_link', EMSLink::fromText(...)),
-            new TwigFilter('ems_valid_mail', [TextRuntime::class, 'isValidEmail']),
             new TwigFilter('ems_uuid', UuidGenerator::fromValue(...)),
             new TwigFilter('ems_date', DateTime::createFromFormat(...)),
             new TwigFilter('ems_int', intval(...)),

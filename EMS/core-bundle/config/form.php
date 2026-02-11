@@ -26,7 +26,6 @@ use EMS\CoreBundle\Form\DataField\HolderFieldType;
 use EMS\CoreBundle\Form\DataField\IconFieldType;
 use EMS\CoreBundle\Form\DataField\IndexedAssetFieldType;
 use EMS\CoreBundle\Form\DataField\IntegerFieldType;
-use EMS\CoreBundle\Form\DataField\JSONFieldType;
 use EMS\CoreBundle\Form\DataField\JsonMenuEditorFieldType;
 use EMS\CoreBundle\Form\DataField\JsonMenuLinkFieldType;
 use EMS\CoreBundle\Form\DataField\JsonMenuNestedEditorFieldType;

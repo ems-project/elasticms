@@ -79,10 +79,9 @@ final class UpdateFileLinks extends AbstractCommand
         }$this->io->progressFinish();
 
         if($this->logReports !== []) {
-            $this->io->section('Files found');
-//            dump($this->logReports);
+            $this->io->section('Generating log report');
+            
         }
-
         return self::EXECUTE_SUCCESS;
     }
 
@@ -116,7 +115,7 @@ final class UpdateFileLinks extends AbstractCommand
     }
     
 
-    private function replaceAssetLink(mixed $key, array $match, mixed $value): void
+    private function replaceAssetLink(mixed $key, array $match, mixed &$value): void
     {
         $link = EMSLink::fromMatch($match);
         $sha1 = $link->getOuuid();
@@ -125,15 +124,23 @@ final class UpdateFileLinks extends AbstractCommand
         dump($found);
         if($found) {
             $newLink = EMSLink::fromContentTypeOuuid($found->getContentType(), $found->getId());
-            //TODO replace link
+            $value = str_replace($found->getOuuid(), $newLink, $value);
         }else{
             $this->logAssetLink($key, EMSLink::fromMatch($match), $value);
         }
     }
-    
-    private function findMediaFileBySha1(string $sha1): ?DocumentInterface
+
+    private function findMediaFileBySha1(string $sha1): ?DocumentInterface //check Search.setQueryArray pour réduire la recherche
     {
-        return null;
+        $alias = $this->coreApi->meta()->getDefaultContentTypeEnvironmentAlias('media_file');
+        $search = new Search([$alias]);
+        $search->setContentTypes(['media_file']);
+        $result = $this->coreApi->search()->scroll($search);
+        foreach ($result as $item) {
+            if ($item->getOuuid() === $sha1){
+                return $item;
+            }
+        } return null;
     }
 
     private function logAssetLink(mixed $key, EMSLink $emsLink, string $value) : void

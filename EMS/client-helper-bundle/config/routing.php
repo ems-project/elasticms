@@ -100,7 +100,7 @@ return static function (ContainerConfigurator $container) {
 
     $services->set('emsch.routing.url.transformer', Transformer::class)
         ->args([
-            service('ems_common.twig.runtime.asset'),
+            service('ems.twig.asset_extension'),
             service('emsch.manager.client_request'),
             service('emsch.routing.url.generator'),
             service('twig'),

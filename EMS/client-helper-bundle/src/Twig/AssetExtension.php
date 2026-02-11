@@ -8,7 +8,7 @@ use EMS\CommonBundle\Common\Asset\ViteService;
 use EMS\CommonBundle\Controller\FileController;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Storage\StorageManager;
-use EMS\CommonBundle\Twig\AssetRuntime;
+use EMS\CommonBundle\Twig\AssetExtension as CommonAssetExtension;
 use Twig\Attribute\AsTwigFunction;
 
 final class AssetExtension
@@ -19,7 +19,7 @@ final class AssetExtension
 
     public function __construct(
         private readonly StorageManager $storageManager,
-        private readonly AssetRuntime $commonAssetRuntime,
+        private readonly CommonAssetExtension $commonAssetExtension,
         private readonly ViteService $viteService,
         string $projectDir,
         ?string $localFolder = null
@@ -54,7 +54,7 @@ final class AssetExtension
         $filename = $this->getAssetFilename($path);
         $basename = \basename($path);
 
-        return $this->commonAssetRuntime->assetPath([
+        return $this->commonAssetExtension->assetPath([
             EmsFields::CONTENT_FILE_NAME_FIELD => $basename,
         ], \array_merge([
             EmsFields::ASSET_CONFIG_FILE_NAMES => [$filename],

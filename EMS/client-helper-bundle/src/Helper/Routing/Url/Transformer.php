@@ -8,7 +8,7 @@ use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequest;
 use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequestManager;
 use EMS\CommonBundle\Common\EMSLink;
 use EMS\CommonBundle\Helper\EmsFields;
-use EMS\CommonBundle\Twig\AssetRuntime;
+use EMS\CommonBundle\Twig\AssetExtension;
 use EMS\Helpers\Html\MimeTypes;
 use EMS\Helpers\Standard\Json;
 use Psr\Log\LoggerInterface;
@@ -22,8 +22,14 @@ final class Transformer
     /** @var array<string, mixed> */
     private array $documents = [];
 
-    public function __construct(private readonly AssetRuntime $assetRuntime, ClientRequestManager $clientRequestManager, private readonly Generator $generator, private readonly Environment $twig, private readonly LoggerInterface $logger, ?string $template)
-    {
+    public function __construct(
+        private readonly AssetExtension $assetExtension,
+        ClientRequestManager $clientRequestManager,
+        private readonly Generator $generator,
+        private readonly Environment $twig,
+        private readonly LoggerInterface $logger,
+        ?string $template
+    ) {
         $this->clientRequest = $clientRequestManager->getDefault();
         $this->template = $template ?? '@EMSCH/template/{type}.ems_link.twig';
     }
@@ -112,7 +118,7 @@ final class Transformer
             $assetConfig = [EmsFields::ASSET_CONFIG_URL_TYPE => UrlGeneratorInterface::NETWORK_PATH];
         }
 
-        return $this->assetRuntime->assetPath([
+        return $this->assetExtension->assetPath([
             EmsFields::CONTENT_FILE_HASH_FIELD => $emsLink->getOuuid(),
             EmsFields::CONTENT_FILE_NAME_FIELD => $emsLink->getQuery()['name'] ?? 'asset',
             EmsFields::CONTENT_MIME_TYPE_FIELD => $emsLink->getQuery()['type'] ?? MimeTypes::APPLICATION_OCTET_STREAM->value,

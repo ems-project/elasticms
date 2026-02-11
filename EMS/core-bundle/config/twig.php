@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
-use EMS\CommonBundle\Twig\AssetRuntime;
 use EMS\CoreBundle\Core\Revision\Wysiwyg\WysiwygRuntime;
 use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\JobService;
@@ -49,7 +48,7 @@ return static function (ContainerConfigurator $container) {
             service('ems_core.core_mail.mailer_service'),
             service('ems_common.service.elastica'),
             service('ems.service.search'),
-            service(AssetRuntime::class),
+            service('ems.twig.asset_extension'),
             '%ems_core.asset_config%',
         ])
         ->tag('twig.extension', ['priority' => -2000]);

@@ -6,7 +6,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use EMS\CommonBundle\Contracts\Bridge\Core\CoreBridgeInterface;
 use EMS\CommonBundle\Storage\Processor\Processor;
-use EMS\CommonBundle\Twig\AssetRuntime;
+use EMS\CommonBundle\Twig\AssetExtension;
 use EMS\CommonBundle\Twig\CommonExtension;
 use EMS\CommonBundle\Twig\CoreBridgeRuntime;
 use EMS\CommonBundle\Twig\HttpClientRuntime;
@@ -34,15 +34,14 @@ return static function (ContainerConfigurator $container) {
         ->args([service('http_client')])
         ->tag('twig.runtime');
 
-    $services->alias('ems_common.twig.runtime.asset', AssetRuntime::class);
-
-    $services->set(AssetRuntime::class)
+    $services->set('ems.twig.asset_extension', AssetExtension::class)
         ->args([
             service('ems_common.storage.manager'),
             service(UrlGeneratorInterface::class),
             service(Processor::class),
             service('ems_common.file.reader'),
         ])
+        ->tag('twig.attribute_extension')
         ->tag('twig.runtime');
 
     $services->alias('ems_common.twig.runtime.request', RequestRuntime::class);

@@ -15,7 +15,7 @@ use EMS\CommonBundle\Search\Search as CommonSearch;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CommonBundle\Storage\Processor\Config;
 use EMS\CommonBundle\Storage\Service\StorageInterface;
-use EMS\CommonBundle\Twig\AssetRuntime;
+use EMS\CommonBundle\Twig\AssetExtension;
 use EMS\CommonBundle\Twig\RequestRuntime;
 use EMS\CoreBundle\Core\ContentType\ContentTypeFields;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
@@ -76,7 +76,7 @@ class AppExtension extends AbstractExtension
         private readonly MailerService $mailer,
         private readonly ElasticaService $elasticaService,
         private readonly SearchService $searchService,
-        private readonly AssetRuntime $assetRuntime,
+        private readonly AssetExtension $assetExtension,
         protected array $assetConfig,
     ) {
     }
@@ -214,7 +214,7 @@ class AppExtension extends AbstractExtension
             unset($config['_published_datetime']);
         }
 
-        return $this->assetRuntime->assetPath($fileField, $assetConfig, $route, $fileHashField, $filenameField, $mimeTypeField, $referenceType);
+        return $this->assetExtension->assetPath($fileField, $assetConfig, $route, $fileHashField, $filenameField, $mimeTypeField, $referenceType);
     }
 
     public function getFieldByPath(ContentType $contentType, string $path, bool $skipVirtualFields = false): ?FieldType
@@ -769,7 +769,7 @@ class AppExtension extends AbstractExtension
                 $query = \html_entity_decode($matches['query'] ?? '');
                 \parse_str($query, $parameters);
                 if (\is_string($parameters['name'] ?? null) && \is_string($parameters['type'] ?? null)) {
-                    return $this->assetRuntime->assetPath(
+                    return $this->assetExtension->assetPath(
                         [
                             EmsFields::CONTENT_FILE_HASH_FIELD => $matches['hash'],
                             EmsFields::CONTENT_FILE_NAME_FIELD => $parameters['name'],

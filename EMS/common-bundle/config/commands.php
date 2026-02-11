@@ -56,7 +56,7 @@ return static function (ContainerConfigurator $container) {
             service('controller_resolver'),
             service('request_stack'),
             service('ems_common.storage.manager'),
-            service('ems_common.twig.runtime.asset'),
+            service('ems.twig.asset_extension'),
         ])
         ->tag('console.command');
 

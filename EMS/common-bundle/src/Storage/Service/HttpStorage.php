@@ -24,7 +24,7 @@ class HttpStorage extends AbstractUrlStorage implements \Stringable
 
     public static function addChunkUrl(string $hash): string
     {
-        return '/api/file/upload-chunk/'.\urlencode($hash);
+        return '/api/file/chunk/'.\urlencode($hash);
     }
 
     /**

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Tests\Unit\Twig;
 
+use EMS\CommonBundle\Tests\Integration\App\Kernel;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Twig\Environment;
-use EMS\CommonBundle\Tests\Integration\App\Kernel;
 
 class CommonExtensionTest extends KernelTestCase
 {

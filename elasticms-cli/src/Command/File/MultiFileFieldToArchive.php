@@ -35,7 +35,7 @@ class MultiFileFieldToArchive extends AbstractCommand
     private const string DEFAULT_LAST_UPDATE_DATETIME = '2016-02-09T16:00:00+01:00';
     private EMSLink $emsLink;
     private string $sourcePropertyPath;
-    private ?string $targetPropertyPath;
+    private ?string $targetPropertyPath = null;
     private string $archiveName;
     private \DateTimeImmutable $lastUpdateDateTime;
 

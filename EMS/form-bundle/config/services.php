@@ -27,7 +27,6 @@ use EMS\FormBundle\Service\Confirmation\Endpoint\HttpEndpointType;
 use EMS\FormBundle\Service\Confirmation\VerificationCodeGenerator;
 use EMS\FormBundle\Service\Endpoint\EndpointManager;
 use EMS\FormBundle\Submission\Client;
-use EMS\FormBundle\Twig\EndpointRuntime;
 use EMS\FormBundle\Twig\FormExtension;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
@@ -150,13 +149,11 @@ return static function (ContainerConfigurator $container) {
             service('logger'),
         ]);
 
-    $services->set('emsf.twig.extension.form', FormExtension::class)
-        ->tag('twig.extension');
-
-    $services->set('emsf.twig.endpoint_runtime', EndpointRuntime::class)
+    $services->set('emsf.twig_extension.form', FormExtension::class)
         ->args([
             service('logger'),
             service('emsf.endpoint_manager'),
         ])
+        ->tag('twig.attribute_extension')
         ->tag('twig.runtime');
 };

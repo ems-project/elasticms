@@ -111,7 +111,6 @@ class AppExtension extends AbstractExtension
             new TwigFunction('emsco_json_menu_nested', [JsonMenuRenderer::class, 'generateNested'], ['is_safe' => ['html']]),
             new TwigFunction('emsco_job', [JobRuntime::class, 'create']),
             new TwigFunction('emsco_wysiwyg_info', [WysiwygRuntime::class, 'getInfo']),
-            new TwigFunction('emsco_i18n_all', [I18nRuntime::class, 'findAll']),
             new TwigFunction('emsco_skip_notification', $this->skipNotificationException(...), ['is_safe' => ['html']]),
             new TwigFunction('emsco_save_contents', $this->saveContents(...)),
             new TwigFunction('emsco_notice', $this->notice(...)),
@@ -138,7 +137,7 @@ class AppExtension extends AbstractExtension
             new TwigFilter('emsco_object_choice_loader', $this->objectChoiceLoader(...)),
             new TwigFilter('emsco_grouped_object_loader', $this->groupedObjectLoader(...)),
             new TwigFilter('emsco_property_path', $this->propertyPath(...)),
-            new TwigFilter('emsco_i18n', [I18nRuntime::class, 'i18n']),
+
             new TwigFilter('emsco_internal_links', $this->internalLinks(...)),
             new TwigFilter('emsco_get_user', $this->getUser(...)),
             new TwigFilter('emsco_display_name', $this->displayName(...)),

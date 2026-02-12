@@ -11,8 +11,7 @@ use EMS\SubmissionBundle\FilesystemFactory;
 use EMS\SubmissionBundle\Metric\SubmissionMetricCollector;
 use EMS\SubmissionBundle\Repository\FormSubmissionRepository;
 use EMS\SubmissionBundle\Response\ResponseTransformer;
-use EMS\SubmissionBundle\Twig\ConnectionExtension;
-use EMS\SubmissionBundle\Twig\ConnectionRuntime;
+use EMS\SubmissionBundle\Twig\SubmissionExtension;
 use EMS\SubmissionBundle\Twig\TwigRenderer;
 
 return static function (ContainerConfigurator $container) {
@@ -47,11 +46,9 @@ return static function (ContainerConfigurator $container) {
 
     $services->set('emss.filesystem.factory', FilesystemFactory::class);
 
-    $services->set('emss.twig.extension.connection', ConnectionExtension::class)
-        ->tag('twig.extension');
-
-    $services->set('emss.twig.runtime.connection', ConnectionRuntime::class)
+    $services->set('emss.twig_extension.submission', SubmissionExtension::class)
         ->args([service('emss.connection.transformer')])
+        ->tag('twig.attribute_extension')
         ->tag('twig.runtime');
 
     $services->set('emss.metric.submission_metric_collector', SubmissionMetricCollector::class)

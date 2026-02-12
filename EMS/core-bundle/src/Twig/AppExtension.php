@@ -104,17 +104,12 @@ class AppExtension extends AbstractExtension
             new TwigFunction('emsco_generate_email', $this->generateEmailMessage(...)),
             new TwigFunction('emsco_send_email', $this->sendEmail(...)),
             new TwigFunction('emsco_users_enabled', [UserRuntime::class, 'getUsersEnabled']),
-            new TwigFunction('emsco_revisions_draft', [RevisionRuntime::class, 'getRevisionsInDraft']),
-            new TwigFunction('emsco_revision_create', [RevisionRuntime::class, 'createRevision']),
-            new TwigFunction('emsco_revision_update', [RevisionRuntime::class, 'updateRevision']),
-            new TwigFunction('emsco_revision_merge', [RevisionRuntime::class, 'mergeRevision']),
             new TwigFunction('emsco_json_menu_nested', [JsonMenuRenderer::class, 'generateNested'], ['is_safe' => ['html']]),
             new TwigFunction('emsco_wysiwyg_info', [WysiwygRuntime::class, 'getInfo']),
             new TwigFunction('emsco_skip_notification', $this->skipNotificationException(...), ['is_safe' => ['html']]),
             new TwigFunction('emsco_save_contents', $this->saveContents(...)),
             new TwigFunction('emsco_notice', $this->notice(...)),
             new TwigFunction('emsco_warning', $this->warning(...)),
-            new TwigFunction('emsco_get_revision_id', [RevisionRuntime::class, 'getRevisionId']),
             new TwigFunction('emsco_search', $this->search(...)),
         ];
     }
@@ -148,9 +143,6 @@ class AppExtension extends AbstractExtension
             new TwigFilter('emsco_call_user_func', $this->callUserFunc(...)),
             new TwigFilter('emsco_get_string', $this->getString(...)),
             new TwigFilter('emsco_get_field_by_path', $this->getFieldByPath(...)),
-            new TwigFilter('emsco_document_info', [RevisionRuntime::class, 'getDocumentInfo']),
-            new TwigFilter('emsco_documents_info', [RevisionRuntime::class, 'getDocumentsInfo']),
-            new TwigFilter('emsco_display', [RevisionRuntime::class, 'display']),
             new TwigFilter('emsco_get', $this->get(...)),
             new TwigFilter('emsco_get_file', $this->getFile(...)),
         ];

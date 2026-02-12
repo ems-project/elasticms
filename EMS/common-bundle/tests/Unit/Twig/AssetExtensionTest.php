@@ -7,13 +7,13 @@ namespace EMS\CommonBundle\Tests\Twig;
 use EMS\CommonBundle\Contracts\File\FileReaderInterface;
 use EMS\CommonBundle\Storage\Processor\Processor;
 use EMS\CommonBundle\Storage\StorageManager;
-use EMS\CommonBundle\Twig\AssetRuntime;
+use EMS\CommonBundle\Twig\AssetExtension;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class AssetRuntimeTest extends TestCase
+class AssetExtensionTest extends TestCase
 {
     private StorageManager $storageManager;
     private readonly LoggerInterface $logger;
@@ -33,7 +33,7 @@ class AssetRuntimeTest extends TestCase
     #[AllowMockObjectsWithoutExpectations]
     public function testImageInfoTempFileIsNull()
     {
-        $assetRuntime = $this->getMockBuilder(AssetRuntime::class)
+        $assetExtension = $this->getMockBuilder(AssetExtension::class)
             ->setConstructorArgs([
                 $this->storageManager,
                 $this->urlGenerator,
@@ -45,19 +45,19 @@ class AssetRuntimeTest extends TestCase
 
         $hash = \sha1('testImageInfo');
 
-        $assetRuntime
+        $assetExtension
             ->expects($this->once())
             ->method('temporaryFile')
             ->with($hash)
             ->willReturn(null);
 
-        $this->assertNull($assetRuntime->imageInfo($hash));
+        $this->assertNull($assetExtension->imageInfo($hash));
     }
 
     #[AllowMockObjectsWithoutExpectations]
     public function testImageInfoCanNotGetImageSize()
     {
-        $assetRuntime = $this->getMockBuilder(AssetRuntime::class)
+        $assetExtension = $this->getMockBuilder(AssetExtension::class)
             ->setConstructorArgs([
                 $this->storageManager,
                 $this->urlGenerator,
@@ -69,19 +69,19 @@ class AssetRuntimeTest extends TestCase
 
         $hash = \sha1('testImageInfo');
 
-        $assetRuntime
+        $assetExtension
             ->expects($this->once())
             ->method('temporaryFile')
             ->with($hash)
             ->willReturn(__DIR__.'/ems.svg');
 
-        $this->assertNull($assetRuntime->imageInfo($hash));
+        $this->assertNull($assetExtension->imageInfo($hash));
     }
 
     #[AllowMockObjectsWithoutExpectations]
     public function testImageInfo()
     {
-        $assetRuntime = $this->getMockBuilder(AssetRuntime::class)
+        $assetExtension = $this->getMockBuilder(AssetExtension::class)
             ->setConstructorArgs([
                 $this->storageManager,
                 $this->urlGenerator,
@@ -93,7 +93,7 @@ class AssetRuntimeTest extends TestCase
 
         $hash = \sha1('testImageInfo');
 
-        $assetRuntime
+        $assetExtension
             ->expects($this->once())
             ->method('temporaryFile')
             ->with($hash)
@@ -108,13 +108,13 @@ class AssetRuntimeTest extends TestCase
             'heightResolution' => 96,
         ];
 
-        $this->assertEquals($expected, $assetRuntime->imageInfo($hash));
+        $this->assertEquals($expected, $assetExtension->imageInfo($hash));
     }
 
     #[AllowMockObjectsWithoutExpectations]
     public function testImageJpegInfo()
     {
-        $assetRuntime = $this->getMockBuilder(AssetRuntime::class)
+        $assetExtension = $this->getMockBuilder(AssetExtension::class)
             ->setConstructorArgs([
                 $this->storageManager,
                 $this->urlGenerator,
@@ -126,7 +126,7 @@ class AssetRuntimeTest extends TestCase
 
         $hash = \sha1('testImageInfo');
 
-        $assetRuntime
+        $assetExtension
             ->expects($this->once())
             ->method('temporaryFile')
             ->with($hash)
@@ -152,7 +152,7 @@ class AssetRuntimeTest extends TestCase
             'widthResolution' => 350,
             'heightResolution' => 350,
         ];
-        $actual = $assetRuntime->imageInfo($hash);
+        $actual = $assetExtension->imageInfo($hash);
         $this->assertTrue(isset($actual['FileDateTime']));
         // the FileDateTime on when the file has been actually created on the current file storage
         unset($actual['FileDateTime']);

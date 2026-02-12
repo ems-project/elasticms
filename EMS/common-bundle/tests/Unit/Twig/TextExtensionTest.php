@@ -6,34 +6,34 @@ namespace EMS\CommonBundle\Tests\Twig;
 
 use EMS\CommonBundle\Helper\Text\Encoder;
 use EMS\CommonBundle\Json\Decoder;
-use EMS\CommonBundle\Twig\TextRuntime;
+use EMS\CommonBundle\Twig\TextExtension;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class TextRuntimeTest extends TestCase
+class TextExtensionTest extends TestCase
 {
-    private LoggerInterface $logger;
-    private ValidatorInterface $validator;
+    private TextExtension $textExtension;
 
     #[\Override]
     public function setUp(): void
     {
-        $this->logger = $this->createMock(LoggerInterface::class);
-        $this->validator = $this->createMock(ValidatorInterface::class);
+        $logger = $this->createMock(LoggerInterface::class);
+        $validator = $this->createMock(ValidatorInterface::class);
+
+        $this->textExtension = new TextExtension(
+            new Encoder(),
+            new Decoder(),
+            $validator,
+            $logger
+        );
     }
 
     #[AllowMockObjectsWithoutExpectations]
     public function testReplaceInDom()
     {
-        $textRuntime = new TextRuntime(
-            new Encoder(),
-            new Decoder(),
-            $this->validator,
-            $this->logger
-        );
-
         $source = <<<'HTML'
             <div class="ms-rtestate-read ms-rte-wpbox"><div class="ms-rtestate-notify  ms-rtestate-read 4e2af1bc-a4bc-4079-8549-f774e7ad0225" id="div_4e2af1bc-a4bc-4079-8549-f774e7ad0225" unselectable="on"><table style="width:100%" cellpadding="0" cellspacing="0"><tbody><tr><td id="MSOZoneCell_WebPartWPQ2" valign="top" class="s4-wpcell-plain "><table class="s4-wpTopTable " border="0" cellpadding="0" cellspacing="0" width="100%">
             	<tbody><tr>
@@ -49,7 +49,7 @@ class TextRuntimeTest extends TestCase
             <div id="vid_4e2af1bc-a4bc-4079-8549-f774e7ad0225" unselectable="on" style="display:none;"></div></div>
             HTML;
 
-        $crawler = $textRuntime->domCrawler($source);
+        $crawler = $this->textExtension->domCrawler($source);
         $webparts = $crawler->filter('div[webpartid]');
 
         for ($i = 0; $i < $webparts->count(); ++$i) {
@@ -62,12 +62,61 @@ class TextRuntimeTest extends TestCase
                 $parent = $parent->parentNode;
                 $parentName = $parent->localName;
             }
-            $node = $parent->ownerDocument->createElement('a', $textRuntime->domCrawler($parent)->filter('h2')->text());
+            $node = $parent->ownerDocument->createElement('a', $this->textExtension->domCrawler($parent)->filter('h2')->text());
             $node->setAttribute('href', "ems://object:webpart:$webpartId");
             $parent->parentNode->replaceChild($node, $parent);
         }
 
         $this->assertEquals('<div class="ms-rtestate-read ms-rte-wpbox"><a href="ems://object:webpart:33cf0d11-13f2-4859-ad4c-b2085a8f6f77"> Van meest recent naar oudst</a>
 <div id="vid_4e2af1bc-a4bc-4079-8549-f774e7ad0225" unselectable="on" style="display:none;"></div></div>', $crawler->filter('body')->html());
+    }
+
+    #[AllowMockObjectsWithoutExpectations]
+    public function testMarkdownToHtml(): void
+    {
+        $markdown = "# Heading\n\nThis is a *markdown* text.";
+        $html = $this->textExtension->markdownToHtml($markdown);
+        $this->assertEquals("<h1>Heading</h1>\n<p>This is a <em>markdown</em> text.</p>\n", $html);
+    }
+
+    #[AllowMockObjectsWithoutExpectations]
+    public function testAsciiFolding(): void
+    {
+        $text = 'Crème Brûlée';
+        $folded = $this->textExtension->asciiFolding($text);
+        $this->assertEquals('Creme Brulee', $folded);
+
+        self::assertSame('l\'iphone', $this->textExtension->asciiFolding('l\'iphone'));
+        self::assertSame('a_a-a a\'a A', $this->textExtension->asciiFolding('a_a-a a\'a A'));
+        self::assertSame('aiea', $this->textExtension->asciiFolding('äîéà'));
+        self::assertSame('ue UE ss SS ae oe AE OE', $this->textExtension->asciiFolding('ü Ü ß ẞ ä ö Ä Ö', 'de'));
+        self::assertSame('u U ss SS a o A O', $this->textExtension->asciiFolding('ü Ü ß ẞ ä ö Ä Ö'));
+        self::assertSame('Hello comment allez-vous ?', $this->textExtension->asciiFolding('Hello comment allez-vous ?', 'fr'));
+    }
+
+    /**
+     * format: [text, text;].
+     */
+    public static function asciiProvider(): array
+    {
+        $a = ['―', '—', '–', '‒', '‹', '›', '′', '‘', '’', '‚', '‛', '″', '“', '”', '„', '‟', '«', '»', 'ß', 'ẞ', 'À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'Æ', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 'Ð', 'Ñ', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö', 'Ø', 'Ù', 'Ú', 'Û', 'Ü', 'Ý', 'à', 'á', 'â', 'ã', 'ä', 'å', 'æ', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï', 'ñ', 'ò', 'ó', 'ô', 'õ', 'ö', 'ø', 'ù', 'ú', 'û', 'ü', 'ý', 'ÿ', 'Ā', 'ā', 'Ă', 'ă', 'Ą', 'ą', 'Ć', 'ć', 'Ĉ', 'ĉ', 'Ċ', 'ċ', 'Č', 'č', 'Ď', 'ď', 'Đ', 'đ', 'Ē', 'ē', 'Ĕ', 'ĕ', 'Ė', 'ė', 'Ę', 'ę', 'Ě', 'ě', 'Ĝ', 'ĝ', 'Ğ', 'ğ', 'Ġ', 'ġ', 'Ģ', 'ģ', 'Ĥ', 'ĥ', 'Ħ', 'ħ', 'Ĩ', 'ĩ', 'Ī', 'ī', 'Ĭ', 'ĭ', 'Į', 'į', 'İ', 'ı', 'Ĳ', 'ĳ', 'Ĵ', 'ĵ', 'Ķ', 'ķ', 'Ĺ', 'ĺ', 'Ļ', 'ļ', 'Ľ', 'ľ', 'Ŀ', 'ŀ', 'Ł', 'ł', 'Ń', 'ń', 'Ņ', 'ņ', 'Ň', 'ň', 'ŉ', 'Ō', 'ō', 'Ŏ', 'ŏ', 'Ő', 'ő', 'Œ', 'œ', 'Ŕ', 'ŕ', 'Ŗ', 'ŗ', 'Ř', 'ř', 'Ś', 'ś', 'Ŝ', 'ŝ', 'Ş', 'ş', 'Š', 'š', 'Ţ', 'ţ', 'Ť', 'ť', 'Ŧ', 'ŧ', 'Ũ', 'ũ', 'Ū', 'ū', 'Ŭ', 'ŭ', 'Ů', 'ů', 'Ű', 'ű', 'Ų', 'ų', 'Ŵ', 'ŵ', 'Ŷ', 'ŷ', 'Ÿ', 'Ź', 'ź', 'Ż', 'ż', 'Ž', 'ž', 'ſ', 'ƒ', 'Ơ', 'ơ', 'Ư', 'ư', 'Ǎ', 'ǎ', 'Ǐ', 'ǐ', 'Ǒ', 'ǒ', 'Ǔ', 'ǔ', 'Ǖ', 'ǖ', 'Ǘ', 'ǘ', 'Ǚ', 'ǚ', 'Ǜ', 'ǜ', 'Ǻ', 'ǻ', 'Ǽ', 'ǽ', 'Ǿ', 'ǿ'];
+        $b = ['-', '-', '-', '-', '<', '>', '\'', '\'', '\'', ',', '\'', '"', '"', '"', ',,', '"', '<<', '>>', 'ss', 'SS', 'A', 'A', 'A', 'A', 'A', 'A', 'AE', 'C', 'E', 'E', 'E', 'E', 'I', 'I', 'I', 'I', 'D', 'N', 'O', 'O', 'O', 'O', 'O', 'O', 'U', 'U', 'U', 'U', 'Y', 'a', 'a', 'a', 'a', 'a', 'a', 'ae', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'n', 'o', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'y', 'y', 'A', 'a', 'A', 'a', 'A', 'a', 'C', 'c', 'C', 'c', 'C', 'c', 'C', 'c', 'D', 'd', 'D', 'd', 'E', 'e', 'E', 'e', 'E', 'e', 'E', 'e', 'E', 'e', 'G', 'g', 'G', 'g', 'G', 'g', 'G', 'g', 'H', 'h', 'H', 'h', 'I', 'i', 'I', 'i', 'I', 'i', 'I', 'i', 'I', 'i', 'IJ', 'ij', 'J', 'j', 'K', 'k', 'L', 'l', 'L', 'l', 'L', 'l', 'L', 'l', 'L', 'l', 'N', 'n', 'N', 'n', 'N', 'n', '\'n', 'O', 'o', 'O', 'o', 'O', 'o', 'OE', 'oe', 'R', 'r', 'R', 'r', 'R', 'r', 'S', 's', 'S', 's', 'S', 's', 'S', 's', 'T', 't', 'T', 't', 'T', 't', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'W', 'w', 'Y', 'y', 'Y', 'Z', 'z', 'Z', 'z', 'Z', 'z', 's', 'f', 'O', 'o', 'U', 'u', 'A', 'a', 'I', 'i', 'O', 'o', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'A', 'a', 'AE', 'ae', 'O', 'o'];
+
+        $cases = [];
+        foreach ($a as $key => $value) {
+            $cases[] = [
+                $value,
+                $b[$key] ?? null,
+            ];
+        }
+
+        return $cases;
+    }
+
+    #[DataProvider('asciiProvider')]
+    #[AllowMockObjectsWithoutExpectations]
+    public function testLegacyAsciiFolding(string $text, string $expected): void
+    {
+        self::assertSame($expected, $this->textExtension->asciiFolding($text));
     }
 }

@@ -4,41 +4,149 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Twig;
 
-use EMS\ClientHelperBundle\Helper\Asset\AssetHelperRuntime;
-use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequestRuntime;
-use EMS\ClientHelperBundle\Helper\Webhook\WebhookRuntime;
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFilter;
-use Twig\TwigFunction;
+use EMS\ClientHelperBundle\Exception\SingleResultException;
+use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequestManager;
+use EMS\ClientHelperBundle\Helper\Search\Manager;
+use EMS\ClientHelperBundle\Helper\Search\Search;
+use EMS\ClientHelperBundle\Helper\Webhook\Webhook;
+use EMS\ClientHelperBundle\Helper\Webhook\WebhookHelper;
+use EMS\CommonBundle\Common\EMSLink;
+use EMS\CommonBundle\Elasticsearch\Document\Document;
+use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
+use EMS\CommonBundle\Elasticsearch\Exception\NotFoundException;
+use EMS\CommonBundle\Elasticsearch\Exception\NotSingleResultException;
+use EMS\CommonBundle\Service\ElasticaService;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Twig\Attribute\AsTwigFilter;
+use Twig\Attribute\AsTwigFunction;
 
-final class HelperExtension extends AbstractExtension
+class HelperExtension
 {
-    #[\Override]
-    public function getFilters(): array
-    {
-        return [
-            new TwigFilter('emsch_routing', [RoutingRuntime::class, 'transform'], ['is_safe' => ['html']]),
-            new TwigFilter('emsch_routing_config', [RoutingRuntime::class, 'transformConfig'], ['is_safe' => ['html']]),
-            new TwigFilter('emsch_get', [ClientRequestRuntime::class, 'get']),
-        ];
+    /** @var DocumentInterface[] */
+    private array $documents = [];
+
+    public function __construct(
+        private readonly ClientRequestManager $manager,
+        private readonly RequestStack $requestStack,
+        private readonly LoggerInterface $logger,
+        private readonly ElasticaService $elasticaService,
+        private readonly Manager $searchManager,
+        private readonly WebhookHelper $webhookHelper
+    ) {
     }
 
-    #[\Override]
-    public function getFunctions(): array
+    /**
+     * @param mixed[] $config
+     */
+    #[AsTwigFunction(name: 'emsch_add_environment')]
+    public function addEnvironment(string $name, array $config = [], string $website = 'website'): void
     {
-        return [
-            new TwigFunction('emsch_admin_menu', [AdminMenuRuntime::class, 'showAdminMenu'], ['is_safe' => ['html']]),
-            new TwigFunction('emsch_route', [RoutingRuntime::class, 'createUrl']),
-            new TwigFunction('emsch_search', [ClientRequestRuntime::class, 'search']),
-            new TwigFunction('emsch_search_one', [ClientRequestRuntime::class, 'searchOne']),
-            new TwigFunction('emsch_add_environment', [ClientRequestRuntime::class, 'addEnvironment']),
-            new TwigFunction('emsch_search_config', [ClientRequestRuntime::class, 'searchConfig']),
-            new TwigFunction('emsch_search_config_execute', [ClientRequestRuntime::class, 'searchConfigExecute']),
-            new TwigFunction('emsch_http_error', [ClientRequestRuntime::class, 'httpException']),
-            new TwigFunction('emsch_asset', [AssetHelperRuntime::class, 'asset'], ['is_safe' => ['html']]),
-            new TwigFunction('emsch_asset_redirect', [AssetHelperRuntime::class, 'assetRedirect']),
-            new TwigFunction('emsch_assets_version', [AssetHelperRuntime::class, 'setVersion']),
-            new TwigFunction('emsch_webhook_event', [WebhookRuntime::class, 'getWebhook']),
-        ];
+        $clientRequest = $this->manager->get($website);
+        $clientRequest->addEnvironment($name, $config);
+    }
+
+    /**
+     * @param string[] $source
+     */
+    #[AsTwigFilter(name: 'emsch_get')]
+    public function get(string $input, array $source = []): ?DocumentInterface
+    {
+        $emsLink = EMSLink::fromText($input);
+
+        if (isset($this->documents[$emsLink->__toString()])) {
+            return $this->documents[$emsLink->__toString()];
+        }
+
+        try {
+            $document = $this->elasticaService->getDocument($this->manager->getDefault()->getAlias(), $emsLink->hasContentType() ? $emsLink->getContentType() : null, $emsLink->getOuuid(), $source);
+            $this->documents[$emsLink->__toString()] = $document;
+
+            return $document;
+        } catch (NotSingleResultException $e) {
+            $this->logger->error(\sprintf('emsch_get filter found %d results for the ems key %s', $e->getTotal(), $input));
+            $resultSet = $e->getResultSet();
+            if (0 === $e->getTotal() || null === $resultSet) {
+                return null;
+            }
+            $document = Document::fromResult($resultSet->offsetGet(0));
+            $this->documents[$emsLink->__toString()] = $document;
+
+            return $document;
+        } catch (NotFoundException) {
+            return null;
+        }
+    }
+
+    #[AsTwigFunction(name: 'emsch_webhook_event')]
+    public function getWebhook(): Webhook
+    {
+        return $this->webhookHelper->getWebhook();
+    }
+
+    /**
+     * @param mixed[] $headers
+     */
+    #[AsTwigFunction(name: 'emsch_http_error')]
+    public function httpException(int $statusCode, ?string $message = null, array $headers = [], int $code = 0): never
+    {
+        if (null === $message) {
+            $message = SymfonyResponse::$statusTexts[$statusCode] ?? 'Unknown status';
+        }
+        throw new HttpException($statusCode, $message, null, $headers, $code);
+    }
+
+    /**
+     * @param string|string[]|null $type
+     * @param array<mixed>         $body
+     *
+     * @return array<mixed>
+     */
+    #[AsTwigFunction(name: 'emsch_search')]
+    public function search(string|array|null $type, array $body, int $from = 0, int $size = 10, ?string $regex = null, ?string $index = null): array
+    {
+        $client = $this->manager->getDefault();
+
+        return $client->search($type, $body, $from, $size, $regex, $index);
+    }
+
+    /**
+     * @param array<mixed> $options
+     */
+    #[AsTwigFunction(name: 'emsch_search_config')]
+    public function searchConfig(array $options): Search
+    {
+        $currentRequest = $this->requestStack->getCurrentRequest();
+        if (null === $currentRequest) {
+            throw new \RuntimeException('Unexpected null request');
+        }
+
+        return new Search($currentRequest, $this->manager->getDefault(), $options);
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    #[AsTwigFunction(name: 'emsch_search_config_execute')]
+    public function searchConfigExecute(Search $searchConfig): array
+    {
+        return $this->searchManager->search($searchConfig);
+    }
+
+    /**
+     * @param string|string[]|null $type
+     * @param array<mixed>         $body
+     */
+    #[AsTwigFunction(name: 'emsch_search_one')]
+    public function searchOne(string|array|null $type, array $body, ?string $indexRegex = null): DocumentInterface
+    {
+        try {
+            return Document::fromArray($this->manager->getDefault()->searchOne($type, $body, $indexRegex));
+        } catch (SingleResultException) {
+            throw new NotFoundHttpException('Page not found');
+        }
     }
 }

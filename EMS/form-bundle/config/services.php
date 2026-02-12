@@ -42,7 +42,7 @@ return static function (ContainerConfigurator $container) {
             service(ClientRequestManagerInterface::class),
             service('cache.app'),
             service('logger'),
-            service('ems_common.twig.runtime.text'),
+            service('ems.twig_extension.text'),
             '%emsf.ems_config%',
         ])
         ->tag('monolog.logger', ['channel' => 'ems_common']);

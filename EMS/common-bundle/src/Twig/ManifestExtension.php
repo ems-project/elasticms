@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Twig;
 
 use EMS\Helpers\Standard\Json;
-use Twig\Extension\RuntimeExtensionInterface;
+use Twig\Attribute\AsTwigFilter;
 
-class ManifestRuntime implements RuntimeExtensionInterface
+class ManifestExtension
 {
+    #[AsTwigFilter(name: 'ems_manifest')]
     public function manifest(string $manifestUrl, string $resource): string
     {
         $contents = \file_get_contents($manifestUrl);

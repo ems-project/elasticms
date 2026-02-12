@@ -9,7 +9,7 @@ use EMS\ClientHelperBundle\Contracts\Elasticsearch\ClientRequestManagerInterface
 use EMS\CommonBundle\Common\EMSLink;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
 use EMS\CommonBundle\Json\JsonMenuNested;
-use EMS\CommonBundle\Twig\TextRuntime;
+use EMS\CommonBundle\Twig\TextExtension;
 use EMS\FormBundle\DependencyInjection\Configuration;
 use EMS\Helpers\Standard\Json;
 use Psr\Log\LoggerInterface;
@@ -29,7 +29,7 @@ class FormConfigFactory
         ClientRequestManagerInterface $manager,
         private readonly AdapterInterface $cache,
         private readonly LoggerInterface $logger,
-        private readonly TextRuntime $textRuntime,
+        private readonly TextExtension $textRuntime,
         array $emsConfig,
     ) {
         $this->client = $manager->getDefault();

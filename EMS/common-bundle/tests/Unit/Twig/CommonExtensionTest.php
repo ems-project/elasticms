@@ -4,24 +4,25 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Tests\Unit\Twig;
 
-use EMS\CommonBundle\Twig\CommonExtension;
-use Monolog\Test\TestCase;
+use EMS\CommonBundle\Tests\Integration\App\Kernel;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Twig\Environment;
-use Twig\Loader\ArrayLoader;
 
-class CommonExtensionTest extends TestCase
+class CommonExtensionTest extends KernelTestCase
 {
     private Environment $twig;
 
     #[\Override]
     public function setUp(): void
     {
-        $twig = new Environment(
-            new ArrayLoader([]),
-            ['debug' => true, 'cache' => false, 'autoescape' => 'html', 'optimizations' => 0]
-        );
-        $twig->addExtension(new CommonExtension());
-        $this->twig = $twig;
+        self::bootKernel();
+        $this->twig = static::getContainer()->get('twig');
+    }
+
+    #[\Override]
+    protected static function getKernelClass(): string
+    {
+        return Kernel::class;
     }
 
     public function testFilterEmsLink(): void

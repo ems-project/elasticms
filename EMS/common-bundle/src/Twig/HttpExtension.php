@@ -2,11 +2,17 @@
 
 declare(strict_types=1);
 
-namespace EMS\CommonBundle\Common\HttpCache;
+namespace EMS\CommonBundle\Twig;
 
-class HttpCacheRuntime
+use EMS\CommonBundle\Common\HttpCache\HttpCacheManager;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Contracts\HttpClient\ResponseInterface;
+use Twig\Attribute\AsTwigFunction;
+
+class HttpExtension
 {
     public function __construct(
+        private readonly HttpClientInterface $httpClient,
         private readonly HttpCacheManager $httpCacheManager,
     ) {
     }
@@ -14,6 +20,7 @@ class HttpCacheRuntime
     /**
      * @param string|string[] $urlOrTags
      */
+    #[AsTwigFunction(name: 'ems_clear_http_caches')]
     public function clearCaches(array|string $urlOrTags = []): void
     {
         if (empty($urlOrTags)) {
@@ -26,5 +33,14 @@ class HttpCacheRuntime
             }
             $this->httpCacheManager->purgeByTags(...$urlOrTags);
         }
+    }
+
+    /**
+     * @param array<string, mixed> $options
+     */
+    #[AsTwigFunction(name: 'ems_http')]
+    public function request(string $url, string $method = 'GET', array $options = []): ResponseInterface
+    {
+        return $this->httpClient->request($method, $url, $options);
     }
 }

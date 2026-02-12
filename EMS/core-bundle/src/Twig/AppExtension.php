@@ -19,7 +19,6 @@ use EMS\CommonBundle\Twig\AssetExtension;
 use EMS\CommonBundle\Twig\RequestExtension;
 use EMS\CoreBundle\Core\ContentType\ContentTypeFields;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
-use EMS\CoreBundle\Core\Revision\Json\JsonMenuRenderer;
 use EMS\CoreBundle\Core\Revision\Wysiwyg\WysiwygRuntime;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Environment;
@@ -96,7 +95,6 @@ class AppExtension extends AbstractExtension
             new TwigFunction('emsco_is_super', $this->isSuper(...)),
             new TwigFunction('emsco_asset_path', $this->assetPath(...), ['is_safe' => ['html']]),
             new TwigFunction('emsco_call_user_func', $this->callUserFunc(...)),
-            new TwigFunction('emsco_json_menu_nested', [JsonMenuRenderer::class, 'generateNested'], ['is_safe' => ['html']]),
             new TwigFunction('emsco_wysiwyg_info', [WysiwygRuntime::class, 'getInfo']),
             new TwigFunction('emsco_skip_notification', $this->skipNotificationException(...), ['is_safe' => ['html']]),
             new TwigFunction('emsco_save_contents', $this->saveContents(...)),

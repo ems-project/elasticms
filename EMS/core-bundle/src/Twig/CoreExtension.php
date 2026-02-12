@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Twig;
 
 use EMS\CoreBundle\Core\Mail\MailerService;
+use EMS\CoreBundle\Core\Revision\Json\JsonMenuRenderer;
 use EMS\CoreBundle\Event\DispatchToWebhookEvent;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Mime\Email;
@@ -16,9 +17,19 @@ readonly class CoreExtension
 {
     public function __construct(
         private MailerService $mailer,
+        private JsonMenuRenderer $jsonMenuRenderer,
         private LoggerInterface $logger,
         private EventDispatcherInterface $dispatcher,
     ) {
+    }
+
+    /**
+     * @param array<mixed> $options
+     */
+    #[AsTwigFunction(name: 'emsco_json_menu_nested', isSafe: ['html'])]
+    public function generateNested(array $options, string $type = JsonMenuRenderer::TYPE_VIEW): string
+    {
+        return $this->jsonMenuRenderer->generateNested($options, $type);
     }
 
     /**

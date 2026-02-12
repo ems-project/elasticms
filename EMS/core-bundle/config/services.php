@@ -410,8 +410,7 @@ return static function (ContainerConfigurator $container) {
             service(ContentTypeRepository::class),
             service('ems.service.revision'),
             '%ems_core.template_namespace%',
-        ])
-        ->tag('twig.runtime');
+        ]);
 
     $services->set('ems.log.manager', LogManager::class)
         ->args([

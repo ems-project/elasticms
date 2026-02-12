@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
+use EMS\CoreBundle\Core\Revision\Json\JsonMenuRenderer;
 use EMS\CoreBundle\Core\Revision\Wysiwyg\WysiwygRuntime;
 use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\JobService;
@@ -62,6 +63,7 @@ return static function (ContainerConfigurator $container) {
     $services->set('emsco.twig_extension.core', CoreExtension::class)
         ->args([
             service('ems_core.core_mail.mailer_service'),
+            service(JsonMenuRenderer::class),
             service('logger'),
             service('event_dispatcher'),
         ])

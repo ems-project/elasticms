@@ -10,10 +10,10 @@ use EMS\CoreBundle\Service\JobService;
 use EMS\CoreBundle\Twig\AppExtension;
 use EMS\CoreBundle\Twig\Components\JsonMenuNestedComponent;
 use EMS\CoreBundle\Twig\Components\MediaLibraryComponent;
-use EMS\CoreBundle\Twig\ContentTypeRuntime;
-use EMS\CoreBundle\Twig\CoreRuntime;
-use EMS\CoreBundle\Twig\DataExtractorRuntime;
-use EMS\CoreBundle\Twig\DatatableRuntime;
+use EMS\CoreBundle\Twig\ContentTypeExtension;
+use EMS\CoreBundle\Twig\CoreExtension;
+use EMS\CoreBundle\Twig\DataExtractorExtension;
+use EMS\CoreBundle\Twig\DatatableExtension;
 use EMS\CoreBundle\Twig\EnvironmentRuntime;
 use EMS\CoreBundle\Twig\FormRuntime;
 use EMS\CoreBundle\Twig\I18nRuntime;
@@ -68,29 +68,35 @@ return static function (ContainerConfigurator $container) {
     $services->set('app.twig.extension.stringloader', StringLoaderExtension::class)
         ->tag('twig.extension');
 
-    $services->alias('ems.twig.runtime.datatable', DatatableRuntime::class);
+    $services->set('emsco.twig_extension.content_type', ContentTypeExtension::class)
+        ->args([service(ContentTypeService::class)])
+        ->tag('twig.attribute_extension')
+        ->tag('twig.runtime');
 
-    $services->set(DatatableRuntime::class)
+    $services->set('emsco.twig_extension.core', CoreExtension::class)
+        ->args([
+            service('logger'),
+            service('event_dispatcher'),
+        ])
+        ->tag('twig.attribute_extension')
+        ->tag('twig.runtime');
+
+    $services->set('emsco.twig_extension.data_extractor', DataExtractorExtension::class)
+        ->args([service('ems.service.asset_extractor')])
+        ->tag('twig.attribute_extension')
+        ->tag('twig.runtime');
+
+    $services->set('emsco.twig_extension.datatable', DatatableExtension::class)
         ->args([
             service('ems.service.datatable'),
             service('twig'),
             '%ems_core.template_namespace%',
         ])
-        ->tag('twig.runtime');
-
-    $services->set('emsco.twig.content_type_runtime', ContentTypeRuntime::class)
-        ->args([service(ContentTypeService::class)])
+        ->tag('twig.attribute_extension')
         ->tag('twig.runtime');
 
     $services->set('emsco.twig.environment_runtime', EnvironmentRuntime::class)
         ->args([service('ems.service.environment')])
-        ->tag('twig.runtime');
-
-    $services->set('ems_core.twig.core_runtime', CoreRuntime::class)
-        ->args([
-            service('logger'),
-            service('event_dispatcher'),
-        ])
         ->tag('twig.runtime');
 
     $services->set('ems_core.core_revision_wysiwyg.wysiwyg_runtime', WysiwygRuntime::class)
@@ -115,10 +121,6 @@ return static function (ContainerConfigurator $container) {
             service('emsco.manager.user'),
             service('router'),
         ])
-        ->tag('twig.runtime');
-
-    $services->set('ems.twig.runtime.data_extractor', DataExtractorRuntime::class)
-        ->args([service('ems.service.asset_extractor')])
         ->tag('twig.runtime');
 
     $services->set('emsco.twig_components.json_menu_nested', JsonMenuNestedComponent::class)

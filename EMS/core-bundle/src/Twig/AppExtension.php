@@ -104,9 +104,6 @@ class AppExtension extends AbstractExtension
             new TwigFunction('emsco_generate_email', $this->generateEmailMessage(...)),
             new TwigFunction('emsco_send_email', $this->sendEmail(...)),
             new TwigFunction('emsco_users_enabled', [UserRuntime::class, 'getUsersEnabled']),
-            new TwigFunction('emsco_datatable', [DatatableRuntime::class, 'generateDatatable'], ['is_safe' => ['html']]),
-            new TwigFunction('emsco_datatable_excel_path', [DatatableRuntime::class, 'getExcelPath'], ['is_safe' => ['html']]),
-            new TwigFunction('emsco_datatable_csv_path', [DatatableRuntime::class, 'getCsvPath'], ['is_safe' => ['html']]),
             new TwigFunction('emsco_revisions_draft', [RevisionRuntime::class, 'getRevisionsInDraft']),
             new TwigFunction('emsco_revision_create', [RevisionRuntime::class, 'createRevision']),
             new TwigFunction('emsco_revision_update', [RevisionRuntime::class, 'updateRevision']),
@@ -118,8 +115,6 @@ class AppExtension extends AbstractExtension
             new TwigFunction('emsco_get_environments', [EnvironmentRuntime::class, 'getEnvironments']),
             new TwigFunction('emsco_get_environments_revision', [EnvironmentRuntime::class, 'getEnvironmentsRevision']),
             new TwigFunction('emsco_get_default_environment_names', [EnvironmentRuntime::class, 'getDefaultEnvironmentNames']),
-            new TwigFunction('emsco_get_content_types', [ContentTypeRuntime::class, 'getContentTypes']),
-            new TwigFunction('emsco_get_content_type_version_tags', [ContentTypeRuntime::class, 'getContentTypeVersionTags']),
             new TwigFunction('emsco_skip_notification', $this->skipNotificationException(...), ['is_safe' => ['html']]),
             new TwigFunction('emsco_get_form', [FormRuntime::class, 'getFormByName']),
             new TwigFunction('emsco_form', [FormRuntime::class, 'handleForm']),
@@ -129,7 +124,6 @@ class AppExtension extends AbstractExtension
             new TwigFunction('emsco_warning', $this->warning(...)),
             new TwigFunction('emsco_get_revision_id', [RevisionRuntime::class, 'getRevisionId']),
             new TwigFunction('emsco_search', $this->search(...)),
-            new TwigFunction('emsco_webhook', [CoreRuntime::class, 'dispatchWebhook']),
         ];
     }
 
@@ -166,13 +160,7 @@ class AppExtension extends AbstractExtension
             new TwigFilter('emsco_document_info', [RevisionRuntime::class, 'getDocumentInfo']),
             new TwigFilter('emsco_documents_info', [RevisionRuntime::class, 'getDocumentsInfo']),
             new TwigFilter('emsco_display', [RevisionRuntime::class, 'display']),
-            new TwigFilter('emsco_log_notice', [CoreRuntime::class, 'logNotice']),
-            new TwigFilter('emsco_log_warning', [CoreRuntime::class, 'logWarning']),
-            new TwigFilter('emsco_log_error', [CoreRuntime::class, 'logError']),
-            new TwigFilter('emsco_guess_locale', [DataExtractorRuntime::class, 'guessLocale']),
-            new TwigFilter('emsco_asset_meta', [DataExtractorRuntime::class, 'assetMeta']),
             new TwigFilter('emsco_get', $this->get(...)),
-            new TwigFilter('emsco_get_content_type', [ContentTypeRuntime::class, 'getContentType']),
             new TwigFilter('emsco_get_file', $this->getFile(...)),
         ];
     }

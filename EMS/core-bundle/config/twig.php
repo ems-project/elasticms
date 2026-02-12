@@ -14,7 +14,7 @@ use EMS\CoreBundle\Twig\ContentTypeExtension;
 use EMS\CoreBundle\Twig\CoreExtension;
 use EMS\CoreBundle\Twig\DataExtractorExtension;
 use EMS\CoreBundle\Twig\DatatableExtension;
-use EMS\CoreBundle\Twig\EnvironmentRuntime;
+use EMS\CoreBundle\Twig\EnvironmentExtension;
 use EMS\CoreBundle\Twig\FormRuntime;
 use EMS\CoreBundle\Twig\I18nRuntime;
 use EMS\CoreBundle\Twig\JobRuntime;
@@ -95,8 +95,9 @@ return static function (ContainerConfigurator $container) {
         ->tag('twig.attribute_extension')
         ->tag('twig.runtime');
 
-    $services->set('emsco.twig.environment_runtime', EnvironmentRuntime::class)
+    $services->set('emsco.twig_extension.environment', EnvironmentExtension::class)
         ->args([service('ems.service.environment')])
+        ->tag('twig.attribute_extension')
         ->tag('twig.runtime');
 
     $services->set('ems_core.core_revision_wysiwyg.wysiwyg_runtime', WysiwygRuntime::class)

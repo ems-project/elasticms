@@ -13,6 +13,7 @@ class SubmissionExtensionTest extends KernelTestCase
 {
     private Environment $twig;
 
+    #[\Override]
     protected static function getKernelClass(): string
     {
         return Kernel::class;

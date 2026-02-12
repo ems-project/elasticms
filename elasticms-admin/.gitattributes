@@ -11,6 +11,12 @@
 /docker-bake.hcl export-ignore
 /Dockerfile export-ignore
 /Makefile export-ignore
+/cypress export-ignore
+/.prettierrc.json export-ignore
+/cypress.config.ts export-ignore
+/package.json export-ignore
+/package-lock.json export-ignore
+/tsconfig.json export-ignore
 
 # Set the default behavior, in case people don't have core.autocrlf set.
 * text=auto

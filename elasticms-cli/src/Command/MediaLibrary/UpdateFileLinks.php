@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\CLI\Command\MediaLibrary;
 
 use App\CLI\Commands;
-use Elastica\Query\BoolQuery;
-use Elastica\Query\Exists;
 use Elastica\Query\Nested;
 use Elastica\Query\Term;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
@@ -137,14 +135,14 @@ final class UpdateFileLinks extends AbstractCommand
         $propertyAccessor = PropertyAccessor::createPropertyAccessor();
         $rawData = $document->getSource();
         foreach ($propertyAccessor->iterator($propertyPath, $rawData) as $key => $value) {
-            $this->updateProperty($rawData, $key, $value);
+            $this->updateProperty($key, $value);
         }
     }
 
     /**
-     * @param mixed[] $rawData
+     * @param string $value
      */
-    private function updateProperty(array $rawData, string $key, string $value): void
+    private function updateProperty(string $key, string $value): void
     {
         if (!\preg_match_all(EMSLink::PATTERN, $value, $matches, PREG_SET_ORDER)) {
             return;
@@ -163,7 +161,7 @@ final class UpdateFileLinks extends AbstractCommand
     {
         $link = EMSLink::fromMatch($match);
         $hash = $link->getOuuid();
-        $found = $this->findMediaFileByHash($key, $link, $hash, $value);
+        $found = $this->findMediaFileByHash($link, $hash, $value);
         if ($found) {
             $value = str_replace($match[0], $found->jsonSerialize(), $value);
         } else {
@@ -171,7 +169,7 @@ final class UpdateFileLinks extends AbstractCommand
         }
     }
 
-    private function findMediaFileByHash(mixed $key, EMSLink $link, string $hash, mixed $value): ?EmsLink
+    private function findMediaFileByHash(EMSLink $link, string $hash, mixed $value): ?EmsLink
     {
         $alias = $this->coreApi->meta()->getDefaultContentTypeEnvironmentAlias($this->contentType);
         $term = new Term();
@@ -213,7 +211,7 @@ final class UpdateFileLinks extends AbstractCommand
             'value' => $value,
         ];
     }
-
+    
     private function buildUrl(string $hash, string $type, string $filename): string
     {
         return \sprintf('%sdata/file/%s?type=%s&name=%s', $this->coreApi->getBaseUrl(), $hash, \urlencode($type), \urlencode($filename));

@@ -141,7 +141,23 @@ return static function (ContainerConfigurator $container) {
         ])
         ->tag('kernel.event_subscriber');
 
-    $services->set('emsch.twig.extension.helper', HelperExtension::class)
+    $services->set('emsch.twig_extension.admin_menu', AdminMenuExtension::class)
+        ->args([service('emsch.helper_environment')])
+        ->tag('twig.attribute_extension')
+        ->tag('twig.runtime');
+
+    $services->set('emsch.twig_extension.asset', AssetExtension::class)
+        ->args([
+            service('ems_common.storage.manager'),
+            service('ems.twig_extension.asset'),
+            service('ems.vite'),
+            '%kernel.project_dir%',
+            '%emsch.asset_local_folder%',
+        ])
+        ->tag('twig.attribute_extension')
+        ->tag('twig.runtime');
+
+    $services->set('emsch.twig_extension.helper', HelperExtension::class)
         ->args([
             service('emsch.manager.client_request'),
             service('request_stack'),
@@ -154,24 +170,8 @@ return static function (ContainerConfigurator $container) {
         ->tag('twig.attribute_extension')
         ->tag('twig.runtime');
 
-    $services->set('emsch.twig.admin_menu_extension', AdminMenuExtension::class)
-        ->args([service('emsch.helper_environment')])
-        ->tag('twig.attribute_extension')
-        ->tag('twig.runtime');
-
-    $services->set('emsch.twig.asset_extension', AssetExtension::class)
-        ->args([
-            service('ems_common.storage.manager'),
-            service('ems.twig_extension.asset'),
-            service('ems.vite'),
-            '%kernel.project_dir%',
-            '%emsch.asset_local_folder%',
-        ])
-        ->tag('twig.attribute_extension')
-        ->tag('twig.runtime');
-
     $services->set('emsch.asset.version_strategy', AssetVersionStrategy::class)
-        ->args([service('emsch.twig.asset_extension')]);
+        ->args([service('emsch.twig_extension.asset')]);
 
     $services->set(CoreBridgeController::class)
         ->public()

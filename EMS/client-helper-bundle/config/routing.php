@@ -109,7 +109,7 @@ return static function (ContainerConfigurator $container) {
         ])
         ->tag('monolog.logger', ['channel' => 'emsch_routing']);
 
-    $services->set('emsch.twig.routing_extension', RoutingExtension::class)
+    $services->set('emsch.twig_extension.routing', RoutingExtension::class)
         ->args([service('emsch.routing.url.transformer')])
         ->tag('twig.attribute_extension')
         ->tag('twig.runtime');

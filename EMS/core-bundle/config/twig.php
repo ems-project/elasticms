@@ -15,7 +15,7 @@ use EMS\CoreBundle\Twig\CoreExtension;
 use EMS\CoreBundle\Twig\DataExtractorExtension;
 use EMS\CoreBundle\Twig\DatatableExtension;
 use EMS\CoreBundle\Twig\EnvironmentExtension;
-use EMS\CoreBundle\Twig\FormRuntime;
+use EMS\CoreBundle\Twig\FormExtension;
 use EMS\CoreBundle\Twig\I18nRuntime;
 use EMS\CoreBundle\Twig\JobRuntime;
 use EMS\CoreBundle\Twig\RevisionRuntime;
@@ -100,6 +100,17 @@ return static function (ContainerConfigurator $container) {
         ->tag('twig.attribute_extension')
         ->tag('twig.runtime');
 
+    $services->set('emsco.twig_extension.form', FormExtension::class)
+        ->args([
+            service('ems.form.manager'),
+            service('ems.service.data'),
+            service('ems.service.revision'),
+            service('form.factory'),
+            service('request_stack'),
+        ])
+        ->tag('twig.attribute_extension')
+        ->tag('twig.runtime');
+
     $services->set('ems_core.core_revision_wysiwyg.wysiwyg_runtime', WysiwygRuntime::class)
         ->args([
             service('ems.service.wysiwyg_styles_set'),
@@ -137,14 +148,4 @@ return static function (ContainerConfigurator $container) {
             service('emsco.core.media_library.template_factory'),
         ])
         ->tag('twig.component', ['key' => 'media_library', 'template' => '@%ems_core.template_namespace%/components/media_library/component.html.twig']);
-
-    $services->set('ems.twig.runtime.form', FormRuntime::class)
-        ->args([
-            service('ems.form.manager'),
-            service('ems.service.data'),
-            service('ems.service.revision'),
-            service('form.factory'),
-            service('request_stack'),
-        ])
-        ->tag('twig.runtime');
 };

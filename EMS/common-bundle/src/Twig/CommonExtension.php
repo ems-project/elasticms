@@ -37,9 +37,9 @@ class CommonExtension extends AbstractExtension
     }
 
     #[AsTwigFilter('ems_format_bytes')]
-    public static function formatBytes(int $bytes): string
+    public static function formatBytes(int $bytes, int $precision = 2): string
     {
-        return Number::formatBytes($bytes);
+        return Number::formatBytes($bytes, $precision);
     }
 
     #[AsTwigFilter('ems_link')]
@@ -72,7 +72,7 @@ class CommonExtension extends AbstractExtension
      * @return array<mixed>
      */
     #[AsTwigFilter(name: 'ems_array_key')]
-    public function arrayKey(array $array, string $key = 'key'): array
+    public function arrayKey(array $array, string $key): array
     {
         $out = [];
 

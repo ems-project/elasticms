@@ -19,7 +19,7 @@ use EMS\CoreBundle\Twig\FormExtension;
 use EMS\CoreBundle\Twig\I18nExtension;
 use EMS\CoreBundle\Twig\JobExtension;
 use EMS\CoreBundle\Twig\RevisionExtension;
-use EMS\CoreBundle\Twig\UserRuntime;
+use EMS\CoreBundle\Twig\UserExtension;
 use Twig\Extension\StringLoaderExtension;
 
 return static function (ContainerConfigurator $container) {
@@ -52,12 +52,6 @@ return static function (ContainerConfigurator $container) {
             '%ems_core.asset_config%',
         ])
         ->tag('twig.extension', ['priority' => -2000]);
-
-    $services->alias('app.twig_extension_user', UserRuntime::class);
-
-    $services->set(UserRuntime::class)
-        ->args([service('ems.repository.user')])
-        ->tag('twig.runtime', ['priority' => -2000]);
 
     $services->set('app.twig.extension.stringloader', StringLoaderExtension::class)
         ->tag('twig.extension');
@@ -124,6 +118,11 @@ return static function (ContainerConfigurator $container) {
 
     $services->set('emsco.twig_extension.revision', RevisionExtension::class)
         ->args([service('ems.service.revision')])
+        ->tag('twig.attribute_extension')
+        ->tag('twig.runtime');
+
+    $services->set('emsco.twig_extension.user', UserExtension::class)
+        ->args([service('ems.repository.user')])
         ->tag('twig.attribute_extension')
         ->tag('twig.runtime');
 

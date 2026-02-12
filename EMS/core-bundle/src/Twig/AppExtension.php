@@ -103,7 +103,6 @@ class AppExtension extends AbstractExtension
             new TwigFunction('emsco_call_user_func', $this->callUserFunc(...)),
             new TwigFunction('emsco_generate_email', $this->generateEmailMessage(...)),
             new TwigFunction('emsco_send_email', $this->sendEmail(...)),
-            new TwigFunction('emsco_users_enabled', [UserRuntime::class, 'getUsersEnabled']),
             new TwigFunction('emsco_json_menu_nested', [JsonMenuRenderer::class, 'generateNested'], ['is_safe' => ['html']]),
             new TwigFunction('emsco_wysiwyg_info', [WysiwygRuntime::class, 'getInfo']),
             new TwigFunction('emsco_skip_notification', $this->skipNotificationException(...), ['is_safe' => ['html']]),

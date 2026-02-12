@@ -27,37 +27,31 @@ outline: [2, 2]
 - phpoffice/phpspreadsheet: `3.10.3 → 5.4.0`
 - kevinrob/guzzle-cache-middleware: `6.0 → 7.0`
 
-### Removed deprecations
+### Breaking Changes
 
-- The `EMS\ClientHelperBundle\Controller\AssetController` has been removed: was only containing 3
-  proxy methods by calling removed emsUnzip functionality. Should be replace by
-  `EMS\CommonBundle\Controller\FileController`.
-- The route `ems_core_asset_proxy` route has been removed.
-- Removed `EMS_WEBALIZE_DASHABLE_REGEX` and `EMS_WEBALIZE_REMOVABLE_REGEX` environment variables:
-  was used for `ems_webalize` which has been removed for `ems_slug`.
-- Support for `%locale%` in skeleton routes and search configuration has been removed. Please use
-  `%_locale%` instead.
-- Web search config removed `facets` config, use filter(s) instead.
-- Web search config `sizes` and `sorts` options only accepts predefined values.
-- Web search config `nested_path` option removed, use `parent_field`.
-- Admin media library `nested_path` option removed, use `parent_field`.
-- Common coreApi remove methods: hashFile, initUpload, addChunk. Use the file endpoint instead.
-- Common remove `_type` fallback for EMSLink and document, use `_contenttype`.
-- Remove `EMS\\CommonBundle\\Controller\\FileController::download` use the ems_asset twig filter to
-  generate the route.
-- Remove `EMS\\CommonBundle\\Controller\\FileController::view` use the ems_asset twig filter to
-  generate the route.
-- Remove form field `SendConfirmation`, use numberType or HiddenType with VerificationCode
-  validator.
+- `emsch_assets_version` now only accepts the hash argument; `saveDir` removed and no longer returns
+  a value.
+- Web search: removed `facets` (use filters), removed `nested_path` (use `parent_field`), `sizes`
+  and `sorts` now only accept predefined values.
+- Admin media library: removed `nested_path` (use `parent_field`).
+- Removed `saveDir` option from `WysiwygStyleSet`.
+- Removed `$sourceExclude` argument from Twig function `emsch_search`.
+- Removed `EMS\ClientHelperBundle\Controller\AssetController` (use
+  `EMS\CommonBundle\Controller\FileController` instead).
+- Removed `FileController::download` and `FileController::view` (use `ems_asset` Twig filter).
+- Removed `EMS_WEBALIZE_DASHABLE_REGEX` and `EMS_WEBALIZE_REMOVABLE_REGEX` (use `ems_slug` instead
+  of `ems_webalize`).
 - Removed `EMSCH_BACKEND_URL` use `EMS_BACKEND_URL`
 - Removed `EMSCH_ELASTICSEARCH_CLUSTER` use `EMS_ELASTICSEARCH_HOSTS`
+- Removed support for `%locale%` in skeleton routes and search config (use `%_locale%`).
+- Removed form field `SendConfirmation` (use `NumberType` or `HiddenType` with `VerificationCode`
+  validator).
+- Removed admin field `JsonFieldType` (use `CodeFieldType`).
+- Removed route `ems_core_asset_proxy`.
+- Removed Core API methods `hashFile`, `initUpload`, `addChunk` (use file endpoint).
+- Removed `_type` fallback for `EMSLink` and document (use `_contenttype`).
 
 #### Twig
-
-- The `emsch_assets_version` function now only accepts a single argument: the hash. The saveDir
-  parameter has been removed, and the function no longer returns a value.
-- WysiwygStyleSet the `saveDir` option has been removed.
-- In the Twig function `emsch_search`, the $sourceExclude argument has been removed.
 
 Removed functions in favor of the following replacements:
 

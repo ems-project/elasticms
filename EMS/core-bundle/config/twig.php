@@ -17,7 +17,7 @@ use EMS\CoreBundle\Twig\DatatableExtension;
 use EMS\CoreBundle\Twig\EnvironmentExtension;
 use EMS\CoreBundle\Twig\FormExtension;
 use EMS\CoreBundle\Twig\I18nExtension;
-use EMS\CoreBundle\Twig\JobRuntime;
+use EMS\CoreBundle\Twig\JobExtension;
 use EMS\CoreBundle\Twig\RevisionRuntime;
 use EMS\CoreBundle\Twig\UserRuntime;
 use Twig\Extension\StringLoaderExtension;
@@ -119,20 +119,21 @@ return static function (ContainerConfigurator $container) {
         ->tag('twig.attribute_extension')
         ->tag('twig.runtime');
 
+    $services->set('emsco.twig_extension.job', JobExtension::class)
+        ->args([
+            service(JobService::class),
+            service('emsco.manager.user'),
+            service('router'),
+        ])
+        ->tag('twig.attribute_extension')
+        ->tag('twig.runtime');
+
     $services->set('ems_core.core_revision_wysiwyg.wysiwyg_runtime', WysiwygRuntime::class)
         ->args([
             service('ems.service.wysiwyg_styles_set'),
             service('emsco.manager.user'),
             service('router'),
             service('ems.dashboard.manager'),
-        ])
-        ->tag('twig.runtime');
-
-    $services->set('ems.twig.runtime.job', JobRuntime::class)
-        ->args([
-            service(JobService::class),
-            service('emsco.manager.user'),
-            service('router'),
         ])
         ->tag('twig.runtime');
 

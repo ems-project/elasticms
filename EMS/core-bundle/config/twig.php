@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use EMS\CoreBundle\Core\Revision\Json\JsonMenuRenderer;
-use EMS\CoreBundle\DependencyInjection\EMSCoreExtension;
 use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\JobService;
-use EMS\CoreBundle\Twig\AppExtension;
 use EMS\CoreBundle\Twig\Components\JsonMenuNestedComponent;
 use EMS\CoreBundle\Twig\Components\MediaLibraryComponent;
 use EMS\CoreBundle\Twig\ContentTypeExtension;
@@ -30,30 +28,7 @@ return static function (ContainerConfigurator $container) {
     $services->defaults()
         ->private();
 
-    $services->alias('app.twig_extension', AppExtension::class)
-        ->public();
-
-    $services->set(AppExtension::class)
-        ->args([
-            service('doctrine'),
-            service('security.authorization_checker'),
-            service('ems.service.user'),
-            service('ems.service.revision'),
-            service('ems.service.contenttype'),
-            service('router'),
-            service('twig'),
-            service('ems.form.factories.objectChoiceListFactory'),
-            service('form.factory'),
-            service('ems.service.file'),
-            service('ems.twig_extension.request'),
-            service('ems_common.service.elastica'),
-            service('ems.service.search'),
-            service('ems.twig_extension.asset'),
-            '%ems_core.asset_config%',
-        ])
-        ->tag('twig.extension', ['priority' => -2000]);
-
-    $services->set('emsco.twig_extension.string_loader', StringLoaderExtension::class);
+    $services->set('emsco.twig_extension.string_loader', StringLoaderExtension::class)->tag('twig.extension');
 
     $services->set('emsco.twig_extension.content_type', ContentTypeExtension::class)
         ->args([service(ContentTypeService::class)])
@@ -66,6 +41,18 @@ return static function (ContainerConfigurator $container) {
             service(JsonMenuRenderer::class),
             service('logger'),
             service('event_dispatcher'),
+            service('doctrine'),
+            service('security.authorization_checker'),
+            service('ems.service.revision'),
+            service('ems.service.contenttype'),
+            service('router'),
+            service('twig'),
+            service('ems.form.factories.objectChoiceListFactory'),
+            service('ems.service.file'),
+            service('ems_common.service.elastica'),
+            service('ems.service.search'),
+            service('ems.twig_extension.asset'),
+            '%ems_core.asset_config%',
         ])
         ->tag('twig.attribute_extension')
         ->tag('twig.runtime');
@@ -123,7 +110,9 @@ return static function (ContainerConfigurator $container) {
         ->tag('twig.runtime');
 
     $services->set('emsco.twig_extension.user', UserExtension::class)
-        ->args([service('ems.repository.user')])
+        ->args([
+            service('ems.service.user'),
+        ])
         ->tag('twig.attribute_extension')
         ->tag('twig.runtime');
 

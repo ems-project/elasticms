@@ -461,7 +461,6 @@ return static function (ContainerConfigurator $container) {
             service('ems.service.mapping'),
             '%ems_core.instance_id%',
             service('form.factory'),
-            service('service_container'),
             service('form.registry'),
             service('event_dispatcher'),
             service('ems.service.contenttype'),

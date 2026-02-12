@@ -19,7 +19,6 @@ use EMS\CommonBundle\Twig\AssetExtension;
 use EMS\CommonBundle\Twig\RequestExtension;
 use EMS\CoreBundle\Core\ContentType\ContentTypeFields;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
-use EMS\CoreBundle\Core\Mail\MailerService;
 use EMS\CoreBundle\Core\Revision\Json\JsonMenuRenderer;
 use EMS\CoreBundle\Core\Revision\Wysiwyg\WysiwygRuntime;
 use EMS\CoreBundle\Entity\ContentType;
@@ -43,10 +42,8 @@ use EMS\Helpers\Standard\Color;
 use EMS\Helpers\Standard\DateTime;
 use EMS\Helpers\Standard\Json;
 use EMS\Helpers\Standard\Type;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactory;
-use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -69,11 +66,9 @@ class AppExtension extends AbstractExtension
         private readonly RouterInterface $router,
         private readonly TwigEnvironment $twig,
         private readonly ObjectChoiceListFactory $objectChoiceListFactory,
-        private readonly LoggerInterface $logger,
         protected FormFactory $formFactory,
         protected FileService $fileService,
         protected RequestExtension $commonRequestExtension,
-        private readonly MailerService $mailer,
         private readonly ElasticaService $elasticaService,
         private readonly SearchService $searchService,
         private readonly AssetExtension $assetExtension,
@@ -101,8 +96,6 @@ class AppExtension extends AbstractExtension
             new TwigFunction('emsco_is_super', $this->isSuper(...)),
             new TwigFunction('emsco_asset_path', $this->assetPath(...), ['is_safe' => ['html']]),
             new TwigFunction('emsco_call_user_func', $this->callUserFunc(...)),
-            new TwigFunction('emsco_generate_email', $this->generateEmailMessage(...)),
-            new TwigFunction('emsco_send_email', $this->sendEmail(...)),
             new TwigFunction('emsco_json_menu_nested', [JsonMenuRenderer::class, 'generateNested'], ['is_safe' => ['html']]),
             new TwigFunction('emsco_wysiwyg_info', [WysiwygRuntime::class, 'getInfo']),
             new TwigFunction('emsco_skip_notification', $this->skipNotificationException(...), ['is_safe' => ['html']]),
@@ -132,7 +125,6 @@ class AppExtension extends AbstractExtension
             new TwigFilter('emsco_get_user', $this->getUser(...)),
             new TwigFilter('emsco_display_name', $this->displayName(...)),
             new TwigFilter('emsco_date_difference', $this->dateDifference(...)),
-            new TwigFilter('emsco_debug', $this->debug(...)),
             new TwigFilter('emsco_src_path', $this->srcPath(...)),
             new TwigFilter('emsco_search', $this->search(...)),
             new TwigFilter('emsco_search_query', $this->searchQuery(...)),
@@ -142,19 +134,6 @@ class AppExtension extends AbstractExtension
             new TwigFilter('emsco_get', $this->get(...)),
             new TwigFilter('emsco_get_file', $this->getFile(...)),
         ];
-    }
-
-    public function generateEmailMessage(string $title): Email
-    {
-        $mail = new Email();
-        $mail->subject($title);
-
-        return $mail;
-    }
-
-    public function sendEmail(Email $email): void
-    {
-        $this->mailer->sendMail($email);
     }
 
     /**
@@ -679,15 +658,6 @@ class AppExtension extends AbstractExtension
         }
 
         return $this->elasticaService->search($search);
-    }
-
-    /**
-     * @param array<mixed> $context
-     */
-    public function debug(string $message, array $context = []): void
-    {
-        $context['twig'] = 'twig';
-        $this->logger->debug($message, $context);
     }
 
     public function dateDifference(string $date1, string $date2, bool $detailed = false): string

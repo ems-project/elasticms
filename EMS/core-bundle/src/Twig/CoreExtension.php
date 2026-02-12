@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Twig;
 
+use EMS\CoreBundle\Core\Mail\MailerService;
 use EMS\CoreBundle\Event\DispatchToWebhookEvent;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Twig\Attribute\AsTwigFilter;
 use Twig\Attribute\AsTwigFunction;
@@ -13,6 +15,7 @@ use Twig\Attribute\AsTwigFunction;
 readonly class CoreExtension
 {
     public function __construct(
+        private MailerService $mailer,
         private LoggerInterface $logger,
         private EventDispatcherInterface $dispatcher,
     ) {
@@ -25,6 +28,31 @@ readonly class CoreExtension
     public function dispatchWebhook(string $eventName, array $data = []): void
     {
         $this->dispatcher->dispatch(new DispatchToWebhookEvent($eventName, $data));
+    }
+
+    #[AsTwigFunction(name: 'emsco_generate_email')]
+    public function emailGenerate(string $title): Email
+    {
+        $mail = new Email();
+        $mail->subject($title);
+
+        return $mail;
+    }
+
+    #[AsTwigFunction(name: 'emsco_send_email')]
+    public function emailSend(Email $email): void
+    {
+        $this->mailer->sendMail($email);
+    }
+
+    /**
+     * @param array<mixed> $context
+     */
+    #[AsTwigFilter(name: 'emsco_debug')]
+    public function logDebug(string $message, array $context = []): void
+    {
+        $context['twig'] = 'twig';
+        $this->logger->debug($message, $context);
     }
 
     #[AsTwigFilter(name: 'emsco_log_error')]

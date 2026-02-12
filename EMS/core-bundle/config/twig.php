@@ -41,11 +41,9 @@ return static function (ContainerConfigurator $container) {
             service('router'),
             service('twig'),
             service('ems.form.factories.objectChoiceListFactory'),
-            service('logger'),
             service('form.factory'),
             service('ems.service.file'),
             service('ems.twig_extension.request'),
-            service('ems_core.core_mail.mailer_service'),
             service('ems_common.service.elastica'),
             service('ems.service.search'),
             service('ems.twig_extension.asset'),
@@ -63,6 +61,7 @@ return static function (ContainerConfigurator $container) {
 
     $services->set('emsco.twig_extension.core', CoreExtension::class)
         ->args([
+            service('ems_core.core_mail.mailer_service'),
             service('logger'),
             service('event_dispatcher'),
         ])

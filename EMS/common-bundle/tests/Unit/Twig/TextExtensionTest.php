@@ -12,28 +12,27 @@ use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class TextRuntimeTest extends TestCase
+class TextExtensionTest extends TestCase
 {
-    private LoggerInterface $logger;
-    private ValidatorInterface $validator;
+    private TextExtension $textExtension;
 
     #[\Override]
     public function setUp(): void
     {
-        $this->logger = $this->createMock(LoggerInterface::class);
-        $this->validator = $this->createMock(ValidatorInterface::class);
+        $logger = $this->createMock(LoggerInterface::class);
+        $validator = $this->createMock(ValidatorInterface::class);
+
+        $this->textExtension = new TextExtension(
+            new Encoder(),
+            new Decoder(),
+            $validator,
+            $logger
+        );
     }
 
     #[AllowMockObjectsWithoutExpectations]
     public function testReplaceInDom()
     {
-        $textExtension = new TextExtension(
-            new Encoder(),
-            new Decoder(),
-            $this->validator,
-            $this->logger
-        );
-
         $source = <<<'HTML'
             <div class="ms-rtestate-read ms-rte-wpbox"><div class="ms-rtestate-notify  ms-rtestate-read 4e2af1bc-a4bc-4079-8549-f774e7ad0225" id="div_4e2af1bc-a4bc-4079-8549-f774e7ad0225" unselectable="on"><table style="width:100%" cellpadding="0" cellspacing="0"><tbody><tr><td id="MSOZoneCell_WebPartWPQ2" valign="top" class="s4-wpcell-plain "><table class="s4-wpTopTable " border="0" cellpadding="0" cellspacing="0" width="100%">
             	<tbody><tr>
@@ -49,7 +48,7 @@ class TextRuntimeTest extends TestCase
             <div id="vid_4e2af1bc-a4bc-4079-8549-f774e7ad0225" unselectable="on" style="display:none;"></div></div>
             HTML;
 
-        $crawler = $textExtension->domCrawler($source);
+        $crawler = $this->textExtension->domCrawler($source);
         $webparts = $crawler->filter('div[webpartid]');
 
         for ($i = 0; $i < $webparts->count(); ++$i) {
@@ -62,12 +61,26 @@ class TextRuntimeTest extends TestCase
                 $parent = $parent->parentNode;
                 $parentName = $parent->localName;
             }
-            $node = $parent->ownerDocument->createElement('a', $textExtension->domCrawler($parent)->filter('h2')->text());
+            $node = $parent->ownerDocument->createElement('a', $this->textExtension->domCrawler($parent)->filter('h2')->text());
             $node->setAttribute('href', "ems://object:webpart:$webpartId");
             $parent->parentNode->replaceChild($node, $parent);
         }
 
         $this->assertEquals('<div class="ms-rtestate-read ms-rte-wpbox"><a href="ems://object:webpart:33cf0d11-13f2-4859-ad4c-b2085a8f6f77"> Van meest recent naar oudst</a>
 <div id="vid_4e2af1bc-a4bc-4079-8549-f774e7ad0225" unselectable="on" style="display:none;"></div></div>', $crawler->filter('body')->html());
+    }
+
+    public function testMarkdownToHtml(): void
+    {
+        $markdown = "# Heading\n\nThis is a *markdown* text.";
+        $html = $this->textExtension->markdownToHtml($markdown);
+        $this->assertEquals("<h1>Heading</h1>\n<p>This is a <em>markdown</em> text.</p>\n", $html);
+    }
+
+    public function testAsciiFolding(): void
+    {
+        $text = 'Crème Brûlée';
+        $folded = $this->textExtension->asciiFolding($text);
+        $this->assertEquals('Creme Brulee', $folded);
     }
 }

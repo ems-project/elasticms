@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Twig;
 
+use cebe\markdown\GithubMarkdown;
 use EMS\CommonBundle\Common\Text\EmsHtml;
 use EMS\CommonBundle\Helper\Text\Encoder;
 use EMS\CommonBundle\Json\Decoder;
@@ -11,6 +12,8 @@ use EMS\CommonBundle\Json\JsonMenu;
 use EMS\CommonBundle\Json\JsonMenuNested;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\String\AbstractUnicodeString;
+use Symfony\Component\String\UnicodeString;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Twig\Attribute\AsTwigFilter;
@@ -24,6 +27,17 @@ class TextExtension
         private readonly ValidatorInterface $validator,
         private readonly LoggerInterface $logger,
     ) {
+    }
+
+    #[AsTwigFilter(name: 'ems_ascii_folding')]
+    public function asciiFolding(string $text, ?string $locale = null): string
+    {
+        $rules = [];
+        if ($locale && ('de' === $locale || \str_starts_with($locale, 'de_'))) {
+            $rules = ['de-ASCII'];
+        }
+
+        return new UnicodeString($text)->ascii($rules)->toString();
     }
 
     /**
@@ -89,6 +103,31 @@ class TextExtension
         return $this->decoder->jsonMenuNestedDecode($json);
     }
 
+    #[AsTwigFilter(name: 'ems_markdown', isSafe: ['html'])]
+    public function markdownToHtml(string $markdown): string
+    {
+        static $parser;
+        if (null === $parser) {
+            $parser = new GithubMarkdown();
+        }
+
+        return $parser->parse($markdown);
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    #[AsTwigFilter(name: 'ems_preg_match')]
+    public function pregMatch(string $subject, string $pattern, int $flags = PREG_SET_ORDER, int $offset = 0): array
+    {
+        $matches = [];
+        if (false === \preg_match_all($pattern, $subject, $matches, $flags, $offset)) {
+            return [];
+        }
+
+        return $matches;
+    }
+
     /**
      * @return string|string[]|null
      */
@@ -107,5 +146,11 @@ class TextExtension
 
             return $text;
         }
+    }
+
+    #[AsTwigFilter(name: 'ems_slug')]
+    public function slug(string $text, ?string $locale = null, string $separator = '-', bool $lower = true, bool $preserveFileExtension = false): AbstractUnicodeString
+    {
+        return $this->encoder->slug($text, $locale, $separator, $lower, $preserveFileExtension);
     }
 }

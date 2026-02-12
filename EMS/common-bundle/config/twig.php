@@ -9,7 +9,7 @@ use EMS\CommonBundle\Storage\Processor\Processor;
 use EMS\CommonBundle\Twig\AssetExtension;
 use EMS\CommonBundle\Twig\CommonExtension;
 use EMS\CommonBundle\Twig\CoreBridgeExtension;
-use EMS\CommonBundle\Twig\HttpClientExtension;
+use EMS\CommonBundle\Twig\HttpExtension;
 use EMS\CommonBundle\Twig\InfoExtension;
 use EMS\CommonBundle\Twig\ManifestExtension;
 use EMS\CommonBundle\Twig\RequestExtension;
@@ -25,9 +25,6 @@ return static function (ContainerConfigurator $container) {
     $services->defaults()
         ->private();
 
-    $services->set('ems_common.twig.extension.common', CommonExtension::class)
-        ->tag('twig.extension');
-
     $services->set('ems.twig_extension.asset', AssetExtension::class)
         ->args([
             service('ems_common.storage.manager'),
@@ -38,13 +35,20 @@ return static function (ContainerConfigurator $container) {
         ->tag('twig.attribute_extension')
         ->tag('twig.runtime');
 
+    $services->set('ems.twig_extension.common', CommonExtension::class)
+        ->tag('twig.attribute_extension')
+        ->tag('twig.runtime');
+
     $services->set('ems.twig_extension.core_bridge', CoreBridgeExtension::class)
         ->args([service(CoreBridgeInterface::class)])
         ->tag('twig.attribute_extension')
         ->tag('twig.runtime');
 
-    $services->set('ems.twig_extension.http_client', HttpClientExtension::class)
-        ->args([service('http_client')])
+    $services->set('ems.twig_extension.http', HttpExtension::class)
+        ->args([
+            service('http_client'),
+            service('ems_common.service.http_cache_manager'),
+        ])
         ->tag('twig.attribute_extension')
         ->tag('twig.runtime');
 
@@ -69,7 +73,7 @@ return static function (ContainerConfigurator $container) {
         ->tag('twig.attribute_extension')
         ->tag('twig.runtime');
 
-    $services->set('ems.twig_extension.store_date', StoreDataExtension::class)
+    $services->set('ems.twig_extension.store_data', StoreDataExtension::class)
         ->args([
             service('request_stack'),
             service('ems_common.store_data.manager'),

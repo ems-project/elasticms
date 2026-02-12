@@ -31,25 +31,11 @@ class EncoderAiTest extends TestCase
         $this->assertEquals('Test & Encode', $decoded);
     }
 
-    public function testMarkdownToHtml(): void
-    {
-        $markdown = "# Heading\n\nThis is a *markdown* text.";
-        $html = $this->encoder->markdownToHtml($markdown);
-        $this->assertEquals("<h1>Heading</h1>\n<p>This is a <em>markdown</em> text.</p>\n", $html);
-    }
-
     public function testGetFontAwesomeFromMimeType(): void
     {
         $mimeType = 'application/pdf';
         $icon = Encoder::getFontAwesomeFromMimeType($mimeType, '5');
         $this->assertEquals('far fa-file-pdf', $icon);
-    }
-
-    public function testAsciiFolding(): void
-    {
-        $text = 'Crème Brûlée';
-        $folded = Encoder::asciiFolding($text);
-        $this->assertEquals('Creme Brulee', $folded);
     }
 
     public function testHtmlEncodePiiEncodesPhoneNumbers(): void

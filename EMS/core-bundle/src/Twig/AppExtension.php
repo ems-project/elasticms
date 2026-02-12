@@ -107,8 +107,6 @@ class AppExtension extends AbstractExtension
             new TwigFunction('emsco_wysiwyg_info', [WysiwygRuntime::class, 'getInfo']),
             new TwigFunction('emsco_skip_notification', $this->skipNotificationException(...), ['is_safe' => ['html']]),
             new TwigFunction('emsco_save_contents', $this->saveContents(...)),
-            new TwigFunction('emsco_notice', $this->notice(...)),
-            new TwigFunction('emsco_warning', $this->warning(...)),
             new TwigFunction('emsco_search', $this->search(...)),
         ];
     }
@@ -130,7 +128,6 @@ class AppExtension extends AbstractExtension
             new TwigFilter('emsco_object_choice_loader', $this->objectChoiceLoader(...)),
             new TwigFilter('emsco_grouped_object_loader', $this->groupedObjectLoader(...)),
             new TwigFilter('emsco_property_path', $this->propertyPath(...)),
-
             new TwigFilter('emsco_internal_links', $this->internalLinks(...)),
             new TwigFilter('emsco_get_user', $this->getUser(...)),
             new TwigFilter('emsco_display_name', $this->displayName(...)),
@@ -996,29 +993,8 @@ class AppExtension extends AbstractExtension
         return $soapClient->$function();
     }
 
-    public function getName(): string
-    {
-        return 'app_extension';
-    }
-
     public function skipNotificationException(string $message = 'This notification has been skipped'): never
     {
         throw new SkipNotificationException($message);
-    }
-
-    /**
-     * @param mixed[] $context
-     */
-    public function notice(string $message, array $context = []): void
-    {
-        $this->logger->notice($message, $context);
-    }
-
-    /**
-     * @param mixed[] $context
-     */
-    public function warning(string $message, array $context = []): void
-    {
-        $this->logger->warning($message, $context);
     }
 }

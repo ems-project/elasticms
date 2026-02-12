@@ -15,7 +15,7 @@ class ContentTypeExtension
     {
     }
 
-    #[AsTwigFilter('emsco_get_content_type')]
+    #[AsTwigFilter(name: 'emsco_get_content_type')]
     public function getContentType(string $name): ?ContentType
     {
         $contentType = $this->contentTypeService->getByName($name);
@@ -26,7 +26,7 @@ class ContentTypeExtension
     /**
      * @return array<string, ?string>
      */
-    #[AsTwigFunction('emsco_get_content_type_version_tags')]
+    #[AsTwigFunction(name: 'emsco_get_content_type_version_tags')]
     public function getContentTypeVersionTags(string $contentTypeName): array
     {
         $contentType = $this->contentTypeService->giveByName($contentTypeName);
@@ -37,7 +37,7 @@ class ContentTypeExtension
     /**
      * @return ContentType[]
      */
-    #[AsTwigFunction('emsco_get_content_types')]
+    #[AsTwigFunction(name: 'emsco_get_content_types')]
     public function getContentTypes(): array
     {
         return $this->contentTypeService->getAll();

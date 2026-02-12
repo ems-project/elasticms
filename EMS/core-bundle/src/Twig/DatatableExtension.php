@@ -22,7 +22,7 @@ readonly class DatatableExtension
      * @param list<string>         $contentTypeNames
      * @param array<string, mixed> $options
      */
-    #[AsTwigFunction('emsco_datatable', isSafe: ['html'])]
+    #[AsTwigFunction(name: 'emsco_datatable', isSafe: ['html'])]
     public function generateDatatable(array $environmentNames, array $contentTypeNames, array $options): string
     {
         $datatable = $this->datatableService->generateDatatable($environmentNames, $contentTypeNames, $options);
@@ -38,7 +38,7 @@ readonly class DatatableExtension
      * @param string[]             $contentTypeNames
      * @param array<string, mixed> $options
      */
-    #[AsTwigFunction('emsco_datatable_csv_path', isSafe: ['html'])]
+    #[AsTwigFunction(name: 'emsco_datatable_csv_path', isSafe: ['html'])]
     public function getCsvPath(array $environmentNames, array $contentTypeNames, array $options): string
     {
         return $this->datatableService->getCsvPath($environmentNames, $contentTypeNames, $options);

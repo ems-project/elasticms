@@ -21,25 +21,28 @@ readonly class CoreExtension
     /**
      * @param mixed[] $data
      */
-    #[AsTwigFunction('emsco_webhook')]
+    #[AsTwigFunction(name: 'emsco_webhook')]
     public function dispatchWebhook(string $eventName, array $data = []): void
     {
         $this->dispatcher->dispatch(new DispatchToWebhookEvent($eventName, $data));
     }
 
-    #[AsTwigFilter('emsco_log_error')]
+    #[AsTwigFilter(name: 'emsco_log_error')]
+    #[AsTwigFunction(name: 'emsco_error')]
     public function logError(string $error): void
     {
         $this->logger->error($error);
     }
 
-    #[AsTwigFilter('emsco_log_notice')]
+    #[AsTwigFilter(name: 'emsco_log_notice')]
+    #[AsTwigFunction(name: 'emsco_notice')]
     public function logNotice(string $notice): void
     {
         $this->logger->notice($notice);
     }
 
-    #[AsTwigFilter('emsco_log_warning')]
+    #[AsTwigFilter(name: 'emsco_log_warning')]
+    #[AsTwigFunction(name: 'emsco_warning')]
     public function logWarning(string $warning): void
     {
         $this->logger->warning($warning);

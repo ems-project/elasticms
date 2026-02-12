@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use EMS\CoreBundle\Core\Revision\Json\JsonMenuRenderer;
+use EMS\CoreBundle\DependencyInjection\EMSCoreExtension;
 use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\JobService;
 use EMS\CoreBundle\Twig\AppExtension;
@@ -52,8 +53,7 @@ return static function (ContainerConfigurator $container) {
         ])
         ->tag('twig.extension', ['priority' => -2000]);
 
-    $services->set('app.twig.extension.stringloader', StringLoaderExtension::class)
-        ->tag('twig.extension');
+    $services->set('emsco.twig_extension.string_loader', StringLoaderExtension::class);
 
     $services->set('emsco.twig_extension.content_type', ContentTypeExtension::class)
         ->args([service(ContentTypeService::class)])

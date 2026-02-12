@@ -41,6 +41,8 @@ outline: [2, 2]
 - Removed `FileController::download` and `FileController::view` (use `ems_asset` Twig filter).
 - Removed `EMS_WEBALIZE_DASHABLE_REGEX` and `EMS_WEBALIZE_REMOVABLE_REGEX` (use `ems_slug` instead
   of `ems_webalize`).
+- Removed `EMSCH_BACKEND_URL` use `EMS_BACKEND_URL`
+- Removed `EMSCH_ELASTICSEARCH_CLUSTER` use `EMS_ELASTICSEARCH_HOSTS`
 - Removed support for `%locale%` in skeleton routes and search config (use `%_locale%`).
 - Removed form field `SendConfirmation` (use `NumberType` or `HiddenType` with `VerificationCode`
   validator).

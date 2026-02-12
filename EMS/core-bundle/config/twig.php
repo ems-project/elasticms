@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use EMS\CoreBundle\Core\Revision\Json\JsonMenuRenderer;
-use EMS\CoreBundle\Core\Revision\Wysiwyg\WysiwygRuntime;
 use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\JobService;
 use EMS\CoreBundle\Twig\AppExtension;
@@ -21,6 +20,7 @@ use EMS\CoreBundle\Twig\I18nExtension;
 use EMS\CoreBundle\Twig\JobExtension;
 use EMS\CoreBundle\Twig\RevisionExtension;
 use EMS\CoreBundle\Twig\UserExtension;
+use EMS\CoreBundle\Twig\WysiwygExtension;
 use Twig\Extension\StringLoaderExtension;
 
 return static function (ContainerConfigurator $container) {
@@ -127,13 +127,14 @@ return static function (ContainerConfigurator $container) {
         ->tag('twig.attribute_extension')
         ->tag('twig.runtime');
 
-    $services->set('ems_core.core_revision_wysiwyg.wysiwyg_runtime', WysiwygRuntime::class)
+    $services->set('emsco.twig_extension.wysiwyg', WysiwygExtension::class)
         ->args([
             service('ems.service.wysiwyg_styles_set'),
             service('emsco.manager.user'),
             service('router'),
             service('ems.dashboard.manager'),
         ])
+        ->tag('twig.attribute_extension')
         ->tag('twig.runtime');
 
     $services->set('emsco.twig_components.json_menu_nested', JsonMenuNestedComponent::class)

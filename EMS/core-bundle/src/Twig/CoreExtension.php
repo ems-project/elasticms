@@ -120,6 +120,7 @@ readonly class CoreExtension
     }
 
     #[AsTwigFilter(name: 'emsco_call_user_func')]
+    #[AsTwigFunction(name: 'emsco_call_user_func')]
     public function callUserFunc(mixed $function, mixed ...$parameter): mixed
     {
         return \call_user_func($function, $parameter);
@@ -780,25 +781,34 @@ readonly class CoreExtension
         $this->logger->debug($message, $context);
     }
 
+    /**
+     * @param array<mixed> $context
+     */
     #[AsTwigFilter(name: 'emsco_log_error')]
     #[AsTwigFunction(name: 'emsco_error')]
-    public function logError(string $error): void
+    public function logError(string $error, array $context = []): void
     {
-        $this->logger->error($error);
+        $this->logger->error($error, $context);
     }
 
+    /**
+     * @param array<mixed> $context
+     */
     #[AsTwigFilter(name: 'emsco_log_notice')]
     #[AsTwigFunction(name: 'emsco_notice')]
-    public function logNotice(string $notice): void
+    public function logNotice(string $notice, array $context = []): void
     {
-        $this->logger->notice($notice);
+        $this->logger->notice($notice, $context);
     }
 
+    /**
+     * @param array<mixed> $context
+     */
     #[AsTwigFilter(name: 'emsco_log_warning')]
     #[AsTwigFunction(name: 'emsco_warning')]
-    public function logWarning(string $warning): void
+    public function logWarning(string $warning, array $context = []): void
     {
-        $this->logger->warning($warning);
+        $this->logger->warning($warning, $context);
     }
 
     /**
@@ -834,6 +844,7 @@ readonly class CoreExtension
      * @param string[]|null       $sources
      */
     #[AsTwigFunction(name: 'emsco_search')]
+    #[AsTwigFilter(name: 'emsco_search')]
     public function search(string|array $indexes, string|array $body = [], string|array $contentTypes = [], ?int $size = null, int $from = 0, ?array $sort = null, ?array $sources = null): ResultSet
     {
         if (\is_string($contentTypes)) {

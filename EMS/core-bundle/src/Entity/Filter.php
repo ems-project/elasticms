@@ -51,7 +51,7 @@ class Filter extends JsonDeserializer implements \JsonSerializable, EntityInterf
     {
         $this->options = $options;
 
-        foreach ($this->options as $key => $data) {
+        foreach (\array_keys($this->options) as $key) {
             if ('type' != $key && !\in_array($key, FilterOptionsType::FIELDS_BY_TYPE[$this->options['type']])) {
                 unset($this->options[$key]);
             } elseif (null === $this->options[$key]) {

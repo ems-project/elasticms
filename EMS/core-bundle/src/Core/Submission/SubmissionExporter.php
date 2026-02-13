@@ -69,7 +69,7 @@ final readonly class SubmissionExporter
             SpreadsheetGeneratorServiceInterface::WRITER => $extension,
         ], $tempFile->path);
 
-        if (!empty($config->emailsTo)) {
+        if ([] !== $config->emailsTo) {
             $this->sendEmail($tempFile, $config);
         }
 

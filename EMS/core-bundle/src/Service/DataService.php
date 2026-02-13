@@ -1069,8 +1069,8 @@ class DataService
         $userCircles = $this->userService->getCurrentUser()->getCircles();
         $environment = $contentType->giveEnvironment();
         $environmentCircles = $environment->getCircles();
-        if (!$this->authorizationChecker->isGranted('ROLE_USER_MANAGEMENT') && !empty($environmentCircles)) {
-            if (empty($userCircles)) {
+        if (!$this->authorizationChecker->isGranted('ROLE_USER_MANAGEMENT') && [] !== $environmentCircles) {
+            if ([] === $userCircles) {
                 throw new HasNotCircleException($environment);
             }
             $found = \array_any($userCircles, fn ($userCircle) => \in_array($userCircle, $environmentCircles));

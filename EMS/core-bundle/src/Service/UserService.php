@@ -273,7 +273,7 @@ class UserService implements EntityServiceInterface
         $menu = new Menu('view.elements.side-menu.user.name', ['%name%' => $user->getDisplayName()]);
 
         $searches = $this->searchRepository->getByUsername($user->getUsername());
-        if (!empty($searches)) {
+        if ([] !== $searches) {
             $link = $menu->addChild('view.elements.side-menu.user.searches', 'fa fa-search', 'elasticsearch.search');
             $link->setTranslation([]);
             foreach ($searches as $search) {

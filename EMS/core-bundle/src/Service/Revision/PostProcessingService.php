@@ -178,7 +178,7 @@ final readonly class PostProcessingService
                     ]);
                 }
             }
-            if (null !== $out && false !== $out && (!\is_array($out) || !empty($out))) {
+            if (null !== $out && false !== $out && (!\is_array($out) || [] !== $out)) {
                 $objectArray[$fieldType->getName()] = $out;
             } elseif (\array_key_exists($fieldType->getName(), $objectArray)) {
                 unset($objectArray[$fieldType->getName()]);

@@ -51,7 +51,7 @@ class CrudController extends AbstractController
         }
 
         $rawdata = Json::decode(Type::string($request->getContent()));
-        if (empty($rawdata)) {
+        if ([] === $rawdata) {
             throw new BadRequestHttpException('Not a valid JSON message');
         }
 
@@ -269,7 +269,7 @@ class CrudController extends AbstractController
         }
 
         $rawdata = Json::decode(Type::string($request->getContent()));
-        if (empty($rawdata)) {
+        if ([] === $rawdata) {
             throw new BadRequestHttpException('Not a valid JSON message');
         }
 
@@ -312,7 +312,7 @@ class CrudController extends AbstractController
         }
 
         $rawdata = Json::decode(Type::string($request->getContent()));
-        if (empty($rawdata)) {
+        if ([] === $rawdata) {
             throw new BadRequestHttpException('Not a valid JSON message for revision '.$ouuid.' and contenttype '.$contentType->getName());
         }
 

@@ -147,7 +147,7 @@ class EnvironmentController extends AbstractController
         if (!$form->isSubmitted()) {
             $form->get('contentTypes')->setData($contentTypes);
         }
-        if (empty($contentTypes)) {
+        if ([] === $contentTypes) {
             $contentTypes = $form->get('contentTypes')->getConfig()->getOption('choices', []);
         }
 

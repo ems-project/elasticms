@@ -102,7 +102,7 @@ final class UserRepository extends ServiceEntityRepository implements UserReposi
 
         $resultSet = \array_filter($resultSet, static fn (User $user) => \in_array($role, $user->getRoles()));
 
-        if (!empty($circles)) {
+        if ([] !== $circles) {
             /** @var UserInterface $user */
             foreach ($resultSet as $idx => $user) {
                 if (empty(\array_intersect($circles, $user->getCircles()))) {

@@ -159,7 +159,7 @@ $dataField->getRawData()
             throw new NotFoundHttpException('Parent menu not found: '.$view->getOptions()['parent']);
         }
 
-        if (empty($parent)) {
+        if ([] === $parent) {
             throw new NotFoundHttpException('Parent menu not found: '.$view->getOptions()['parent']);
         }
 

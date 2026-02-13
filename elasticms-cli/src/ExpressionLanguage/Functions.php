@@ -53,7 +53,7 @@ class Functions
      */
     private static function addNodeToJsonMenu(\DOMDocument $document, array $current, array &$output, string $tag, string $fieldName, string $typeName, ?string $labelField): void
     {
-        if (empty($current)) {
+        if ([] === $current) {
             return;
         }
         $label = '';

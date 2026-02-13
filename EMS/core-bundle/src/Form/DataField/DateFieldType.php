@@ -73,7 +73,7 @@ class DateFieldType extends DataFieldType
             $format = \DateTimeInterface::ATOM;
         }
         $out = [];
-        if (\is_iterable($data) && !empty($data)) {
+        if (\is_iterable($data) && [] !== $data) {
             foreach ($data as $item) {
                 if ($item instanceof \DateTime) {
                     $out[] = $item->format($format);
@@ -81,7 +81,7 @@ class DateFieldType extends DataFieldType
             }
         }
         if (!$dataField->giveFieldType()->getDisplayBoolOption('multidate', false)) {
-            if (empty($out)) {
+            if ([] === $out) {
                 return null;
             }
 
@@ -97,7 +97,7 @@ class DateFieldType extends DataFieldType
         $data = parent::viewTransform($dataField);
         $out = [];
         $format = DateTime::convertFormat('js', $dataField->giveFieldType()->getDisplayOption('displayFormat', 'dd/mm/yyyy'));
-        if (\is_iterable($data) && !empty($data)) {
+        if (\is_iterable($data) && [] !== $data) {
             foreach ($data as $date) {
                 if ($date) {
                     $out[] = $date->format($format);
@@ -137,7 +137,7 @@ class DateFieldType extends DataFieldType
     public function importData(DataField $dataField, array|string|int|float|bool|null $sourceArray, bool $isMigration): array
     {
         $migrationOptions = $dataField->giveFieldType()->getMigrationOptions();
-        if (!$isMigration || empty($migrationOptions) || !$migrationOptions['protected']) {
+        if (!$isMigration || [] === $migrationOptions || !$migrationOptions['protected']) {
             $format = DateTime::convertFormat('java', $dataField->giveFieldType()->getMappingOption('format'));
 
             if (null == $sourceArray) {

@@ -65,7 +65,7 @@ class MergeCommand extends AbstractCommand
         }
         $defaultAlias = $coreApi->meta()->getDefaultContentTypeEnvironmentAlias($this->contentType);
         $contentTypeApi = $coreApi->data($this->contentType);
-        $search = new Search([$defaultAlias], empty($this->query) ? null : $this->query);
+        $search = new Search([$defaultAlias], [] === $this->query ? null : $this->query);
         $search->setContentTypes([$this->contentType]);
         $search->setSources(['_id']);
 

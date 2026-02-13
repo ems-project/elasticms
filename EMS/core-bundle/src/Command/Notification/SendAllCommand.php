@@ -85,7 +85,7 @@ final class SendAllCommand extends Command
             'status' => 'pending',
             'emailed' => null,
         ]);
-        if (!empty($notifications)) {
+        if ([] !== $notifications) {
             $output->writeln('Sending new notifications');
             $this->sendEmails($notifications, $output);
         }
@@ -94,13 +94,13 @@ final class SendAllCommand extends Command
         $date->sub(new \DateInterval($this->notificationPendingTimeout));
         $notifications = $notificationRepository->findReminders($date);
 
-        if (!empty($notifications)) {
+        if ([] !== $notifications) {
             $output->writeln('Sending reminders');
             $this->sendEmails($notifications, $output);
         }
 
         $notifications = $notificationRepository->findResponses();
-        if (!empty($notifications)) {
+        if ([] !== $notifications) {
             $output->writeln('Sending responses');
             $this->sendEmails($notifications, $output);
         }

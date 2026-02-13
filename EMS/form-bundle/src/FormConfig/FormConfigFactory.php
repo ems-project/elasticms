@@ -469,7 +469,7 @@ class FormConfigFactory
             }
         }
 
-        if (!empty($values) && null !== $id) {
+        if ([] !== $values && null !== $id) {
             $fieldChoicesConfig = new FieldChoicesConfig(
                 $id,
                 $values,

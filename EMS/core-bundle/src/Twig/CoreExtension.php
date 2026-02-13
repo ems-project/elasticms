@@ -315,7 +315,7 @@ readonly class CoreExtension
             $a = $rawData;
         } elseif (\is_scalar($rawData)) {
             $tag = 'span';
-            if (!empty($b)) {
+            if ([] !== $b) {
                 $insColor = $delColor = 'orange';
             }
             $a = [$rawData];
@@ -445,7 +445,7 @@ readonly class CoreExtension
             $a = $rawData;
         } elseif (\is_scalar($rawData)) {
             $tag = 'span';
-            if (!empty($b)) {
+            if ([] !== $b) {
                 $insColor = $delColor = 'orange';
             }
             $a = [$rawData];
@@ -720,7 +720,7 @@ readonly class CoreExtension
     #[AsTwigFilter(name: 'emsco_get_string')]
     public function getString(array $rawData, string $field): ?string
     {
-        if (empty($rawData) or !isset($rawData[$field])) {
+        if ([] === $rawData or !isset($rawData[$field])) {
             return null;
         }
         if (\is_string($rawData[$field])) {
@@ -856,9 +856,9 @@ readonly class CoreExtension
             $body = Json::decode($body);
         }
         $boolQuery = $this->elasticaService->getBoolQuery();
-        if (!empty($body) && $query instanceof $boolQuery) {
+        if ([] !== $body && $query instanceof $boolQuery) {
             $query->addMust($body);
-        } elseif (!empty($body)) {
+        } elseif ([] !== $body) {
             if (null !== $query) {
                 $boolQuery->addMust($query);
             }

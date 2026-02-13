@@ -206,7 +206,7 @@ class IndexFileCommand extends AbstractCommand
     private function migrate(array &$rawData, OutputInterface $output): bool
     {
         $updated = false;
-        if (!empty($rawData)) {
+        if ([] !== $rawData) {
             if (isset($rawData['sha1'])) {
                 $file = $this->fileService->getFile($rawData['sha1']);
 
@@ -234,7 +234,7 @@ class IndexFileCommand extends AbstractCommand
                 if ($file) {
                     $data = $this->extractorService->extractMetaData($rawData['sha1'], $file)->getSource();
 
-                    if (!empty($data)) {
+                    if ([] !== $data) {
                         if (isset($data['date']) && $data['date']) {
                             $rawData['_date'] = $data['date'];
                             $updated = true;

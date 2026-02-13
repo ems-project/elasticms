@@ -332,7 +332,7 @@ class AliasService
                 $json[] = [$type => ['index' => $index, 'alias' => $alias]];
             }
         }
-        if (empty($json)) {
+        if ([] === $json) {
             return;
         }
 

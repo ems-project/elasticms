@@ -214,7 +214,7 @@ final class ClientRequest implements ClientRequestInterface
         $this->logger->debug('ClientRequest : getHierarchy for {emsKey}', ['emsKey' => $emsKey]);
         $emsLink = EMSLink::fromText($emsKey);
         $items = $cache;
-        if (empty($items)) {
+        if ([] === $items) {
             $result = $this->search($emsLink->getContentType(), [
                 '_source' => $sourceFields,
             ], 0, $querySize);

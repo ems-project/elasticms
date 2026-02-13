@@ -157,7 +157,7 @@ class ConfigManager
      */
     public function getHosts(): array
     {
-        if (empty($this->hosts)) {
+        if ([] === $this->hosts) {
             foreach ($this->documents as $document) {
                 foreach ($document->getResources() as $resource) {
                     $url = new Url($resource->getUrl());
@@ -353,7 +353,7 @@ class ConfigManager
     {
         $assetArray = $this->urlToAssetArray($url, $rapport);
 
-        if (empty($assetArray)) {
+        if ([] === $assetArray) {
             return null;
         }
 

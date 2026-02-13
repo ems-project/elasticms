@@ -91,7 +91,7 @@ final class LockCommand extends AbstractCommand
         }
 
         $query = Json::decode($this->query);
-        if (!empty($query)) {
+        if ([] !== $query) {
             $search = $this->elasticaService->convertElasticsearchSearch([
                 'index' => (null !== $this->contentType->getEnvironment()) ? $this->contentType->getEnvironment()->getAlias() : '',
                 '_source' => false,

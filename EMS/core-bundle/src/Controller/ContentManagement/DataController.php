@@ -815,7 +815,7 @@ class DataController extends AbstractController
      */
     private function reorderCollection(array &$input): void
     {
-        if (empty($input)) {
+        if ([] === $input) {
             return;
         }
         $keys = \array_keys($input);

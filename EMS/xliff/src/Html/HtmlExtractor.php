@@ -178,7 +178,7 @@ class HtmlExtractor
         if (null !== $foundTargetNode) {
             $targetNodes = $this->buildNodes($foundTargetNode);
         }
-        if (!empty($targetNodes)) {
+        if ([] !== $targetNodes) {
             $segment->addTargetNodes($targetNodes);
         }
 

@@ -32,7 +32,7 @@ class StoreDataManager
 
     public function save(StoreDataHelper $data): void
     {
-        if (empty($this->services)) {
+        if ([] === $this->services) {
             throw new \RuntimeException('No Store Data service is defined');
         }
 
@@ -43,7 +43,7 @@ class StoreDataManager
 
     public function read(string $key): StoreDataHelper
     {
-        if (empty($this->services)) {
+        if ([] === $this->services) {
             throw new \RuntimeException('No Store Data service is defined');
         }
 

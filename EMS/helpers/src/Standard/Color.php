@@ -289,13 +289,13 @@ class Color
 
     public function bestContrast(string|Color ...$colors): self
     {
-        if (empty($colors)) {
+        if ([] === $colors) {
             throw new \InvalidArgumentException('Empty color list');
         }
 
         $colors = \array_map(fn ($color) => \is_string($color) ? new Color($color) : $color, $colors);
         $bestColor = \array_shift($colors);
-        if (empty($colors)) {
+        if ([] === $colors) {
             $colors[] = $bestColor->getComplementary();
         }
 

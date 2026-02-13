@@ -299,7 +299,7 @@ class RevisionRepository extends EntityRepository
             $qb->andWhere($or);
         }
 
-        if (!empty($contentTypes)) {
+        if ([] !== $contentTypes) {
             $qb->andWhere('c.name in (\''.\implode("','", $contentTypes).'\')');
         }
 

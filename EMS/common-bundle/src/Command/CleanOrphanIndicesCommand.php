@@ -112,7 +112,7 @@ final class CleanOrphanIndicesCommand extends AbstractCommand
             }
         }
 
-        if (empty($orphans)) {
+        if ([] === $orphans) {
             $this->io->success('No orphan indices found. The cluster is clean 👍');
 
             return Command::SUCCESS;
@@ -152,10 +152,10 @@ final class CleanOrphanIndicesCommand extends AbstractCommand
         }
 
         $this->io->newLine();
-        if (!empty($deleted)) {
+        if ([] !== $deleted) {
             $this->io->success(\sprintf('%d indices deleted successfully.', \count($deleted)));
         }
-        if (!empty($failed)) {
+        if ([] !== $failed) {
             $this->io->warning(\sprintf('%d deletions failed.', \count($failed)));
 
             return Command::FAILURE;

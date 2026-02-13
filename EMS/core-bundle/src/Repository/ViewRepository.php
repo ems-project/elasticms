@@ -93,7 +93,7 @@ class ViewRepository extends ServiceEntityRepository
             ->setParameter('contentType', $contentType);
         $this->addSearchFilters($qb, $searchValue);
 
-        if (\in_array($orderField, ['name'])) {
+        if ('name' == $orderField) {
             $qb->orderBy(\sprintf('view.%s', $orderField), $orderDirection);
         } else {
             $qb->orderBy('view.orderKey', $orderDirection);

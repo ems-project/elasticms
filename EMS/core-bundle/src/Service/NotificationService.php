@@ -144,7 +144,7 @@ class NotificationService
     {
         $out = false;
         try {
-            if (!\in_array($template->getRenderOption(), [RenderOptionType::NOTIFICATION])) {
+            if (RenderOptionType::NOTIFICATION != $template->getRenderOption()) {
                 throw new \RuntimeException(\sprintf('Unexpected %s action', $template->getRenderOption()));
             }
             $notification = new Notification();

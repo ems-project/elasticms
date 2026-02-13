@@ -156,7 +156,7 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
     /**
      * @return array<string, mixed>
      */
-    private static function getDefaults(): array
+    private function getDefaults(): array
     {
         return [
             self::CONTENT_FILENAME => 'spreadsheet',
@@ -175,7 +175,7 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
      */
     private function resolveOptions(array $config): array
     {
-        $defaults = self::getDefaults();
+        $defaults = $this->getDefaults();
 
         $resolver = new OptionsResolver();
         $resolver->setDefaults($defaults);

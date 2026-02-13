@@ -434,7 +434,7 @@ class NotificationService
      *
      * @return array<string, Address>
      */
-    private static function usersToEmailAddresses(array $users): array
+    private function usersToEmailAddresses(array $users): array
     {
         $out = [];
 
@@ -456,9 +456,9 @@ class NotificationService
 
         $toCircles = \array_unique(\array_merge($fromCircles, $notification->getTemplate()->getCirclesTo()));
 
-        $fromUser = self::usersToEmailAddresses(\array_filter([$this->userService->getUser($notification->getUsername())]));
-        $toUsers = self::usersToEmailAddresses($this->userService->getUsersForRoleAndCircles($notification->getTemplate()->getRoleTo(), $toCircles));
-        $ccUsers = self::usersToEmailAddresses($this->userService->getUsersForRoleAndCircles($notification->getTemplate()->getRoleCc(), $toCircles));
+        $fromUser = $this->usersToEmailAddresses(\array_filter([$this->userService->getUser($notification->getUsername())]));
+        $toUsers = $this->usersToEmailAddresses($this->userService->getUsersForRoleAndCircles($notification->getTemplate()->getRoleTo(), $toCircles));
+        $ccUsers = $this->usersToEmailAddresses($this->userService->getUsersForRoleAndCircles($notification->getTemplate()->getRoleCc(), $toCircles));
 
         $email = new Email();
         $params = [

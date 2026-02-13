@@ -415,6 +415,6 @@ class AliasService
 
     private function validIndexName(string $index): bool
     {
-        return \strlen($index) > 0 && !\str_starts_with($index, '.');
+        return '' !== $index && !\str_starts_with($index, '.');
     }
 }

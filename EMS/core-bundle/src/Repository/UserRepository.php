@@ -152,7 +152,7 @@ final class UserRepository extends ServiceEntityRepository implements UserReposi
 
     private function addSearchFilters(QueryBuilder $qb, string $searchValue): void
     {
-        if (\strlen($searchValue) > 0) {
+        if ('' !== $searchValue) {
             $or = $qb->expr()->orX(
                 $qb->expr()->like('user.username', ':term'),
                 $qb->expr()->like('user.displayName', ':term'),

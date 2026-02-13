@@ -40,7 +40,7 @@ abstract class DataFieldType extends AbstractType
      */
     public static function textAreaToArray(?string $textArea): array
     {
-        if (null === $textArea || 0 === \strlen($textArea)) {
+        if (null === $textArea || '' === $textArea) {
             return [];
         }
         $cleaned = \str_replace("\r", '', $textArea);

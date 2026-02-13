@@ -93,7 +93,7 @@ final class Transformer
                 $baseUrl = $config['baseUrl'] ?? '';
             }
             $transformed = $baseUrl.$route;
-            if (\strlen($match['query'] ?? '') > 0) {
+            if (($match['query'] ?? '') !== '') {
                 $transformed = \implode('?', [$transformed, $match['query']]);
             }
 

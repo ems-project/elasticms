@@ -224,7 +224,7 @@ class ElasticsearchController extends AbstractController
         };
         $response->setStatusCode($statusCode);
         $allowOrigin = $this->healthCheckAllowOrigin;
-        if (\is_string($allowOrigin) && \strlen($allowOrigin) > 0) {
+        if (\is_string($allowOrigin) && '' !== $allowOrigin) {
             $response->headers->set('Access-Control-Allow-Origin', $allowOrigin);
         }
 

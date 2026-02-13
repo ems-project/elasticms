@@ -365,7 +365,7 @@ class CriteriaController extends AbstractController
         if (null !== $criteriaUpdateConfig->getCategory()) {
             $dataField = $criteriaUpdateConfig->getCategory();
 
-            if ($dataField->getRawData() && \strlen($dataField->getTextValue() ?? '') > 0) {
+            if ($dataField->getRawData() && '' !== (string) ($dataField->getTextValue() ?? '')) {
                 $categoryFieldTypeName = $dataField->giveFieldType()->getType();
                 /** @var DataFieldType $categoryFieldType */
                 $categoryFieldType = $this->getDataFieldType($categoryFieldTypeName);

@@ -370,9 +370,9 @@ class MediaLibraryService
         $query = $this->elasticaService->getBoolQuery();
         $query->addMust(new NestedQuery()->setPath($this->getConfig()->fieldFile)->setQuery(new Exists($hashField)));
 
-        if (MediaLibraryConfig::PREFIX_SEARCH_TYPE === $searchType && null !== $searchValue && \strlen($searchValue) > 0) {
+        if (MediaLibraryConfig::PREFIX_SEARCH_TYPE === $searchType && null !== $searchValue && '' !== $searchValue) {
             $query->addMust(new Prefix()->setPrefix($this->getConfig()->fieldFolder, $path));
-        } elseif (MediaLibraryConfig::ALL_SEARCH_TYPE !== $searchType || null === $searchValue || 0 === \strlen($searchValue)) {
+        } elseif (MediaLibraryConfig::ALL_SEARCH_TYPE !== $searchType || null === $searchValue || '' === $searchValue) {
             $query->addMust(new Term()->setTerm($this->getConfig()->fieldFolder, $path));
         }
 

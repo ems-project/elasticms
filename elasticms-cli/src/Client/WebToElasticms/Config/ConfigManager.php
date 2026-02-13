@@ -337,7 +337,7 @@ class ConfigManager
             return [];
         }
 
-        if (0 === \strlen($hash)) {
+        if ('' === $hash) {
             throw new \RuntimeException('Unexpected empty hash');
         }
 

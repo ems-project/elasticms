@@ -199,7 +199,7 @@ final class JsonMenuNestedController extends AbstractController
     {
         if ('json' === $request->getContentTypeFormat()) {
             $requestContent = $request->getContent();
-            $decoded = \is_string($requestContent) && \strlen($requestContent) > 0 ? Json::decode($requestContent) : [];
+            $decoded = \is_string($requestContent) && '' !== $requestContent ? Json::decode($requestContent) : [];
 
             $data = $decoded['_data'] ?? [];
         } else {

@@ -95,7 +95,7 @@ final readonly class PostProcessingService
                 $out = $this->twig->createTemplate($extraOption['postProcessing'])->render($context);
                 $out = \trim($out);
 
-                if (\strlen($out) > 0) {
+                if ('' !== $out) {
                     try {
                         $json = Json::mixedDecode($out);
                         if (null === $fieldType->getParent()) {

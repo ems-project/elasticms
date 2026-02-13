@@ -107,7 +107,7 @@ class UpdateCommand extends AbstractCommand
 
         $lineCount = 0;
         while (($line = \fgets($handle)) !== false) {
-            if (0 === \strlen($line)) {
+            if ('' === $line) {
                 continue;
             }
             ++$lineCount;
@@ -115,7 +115,7 @@ class UpdateCommand extends AbstractCommand
         \rewind($handle);
         $this->io->progressStart($lineCount);
         while (($line = \fgets($handle)) !== false) {
-            if (0 === \strlen($line)) {
+            if ('' === $line) {
                 continue;
             }
             $json = Json::decode($line);

@@ -164,7 +164,7 @@ class CrudController extends AbstractController
             $revision = $this->dataService->getRevisionById($id, $contentType);
 
             $content = $request->getContent();
-            $rawData = \strlen($content) > 0 ? Json::decode(Type::string($content)) : [];
+            $rawData = '' !== (string) $content ? Json::decode(Type::string($content)) : [];
             if (\count($rawData) > 0) {
                 $this->revisionService->autoSave($revision, $rawData);
             }

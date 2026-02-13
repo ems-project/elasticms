@@ -289,7 +289,7 @@ class RevisionRepository extends EntityRepository
             $qb->andWhere($qb->expr()->notIn('r.ouuid', $ouuids));
         }
 
-        if (\strlen($searchValue) > 0) {
+        if ('' !== $searchValue) {
             $literal = $qb->expr()->literal('%'.\strtolower($searchValue).'%');
             $or = $qb->expr()->orX(
                 $qb->expr()->like('LOWER(r.lockBy)', $literal),

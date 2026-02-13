@@ -162,7 +162,7 @@ class TableColumn
 
     public function setIconClass(string $iconClass): void
     {
-        $this->iconClass = \strlen($iconClass) > 0 ? $iconClass : null;
+        $this->iconClass = '' !== $iconClass ? $iconClass : null;
     }
 
     public function getIconClass(): ?string

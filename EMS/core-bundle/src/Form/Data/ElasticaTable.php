@@ -184,7 +184,7 @@ class ElasticaTable extends TableAbstract
 
     private function getSearch(string $searchValue): Search
     {
-        if (\strlen($searchValue) > 0) {
+        if ('' !== $searchValue) {
             $search = $this->elasticaService->convertElasticsearchBody($this->aliases, $this->contentTypeNames, ['query' => $this->getQuery($searchValue)]);
         } else {
             $search = $this->elasticaService->convertElasticsearchBody($this->aliases, $this->contentTypeNames, ['query' => $this->emptyQuery]);

@@ -84,7 +84,7 @@ class ObjectChoiceCacheService
 
                     $search->setContentTypes([$type]);
 
-                    if (\is_string($currentType->getSortBy()) && \strlen($currentType->getSortBy()) > 0) {
+                    if (\is_string($currentType->getSortBy()) && '' !== $currentType->getSortBy()) {
                         $search->setSort([
                             $currentType->getSortBy() => [
                                 'order' => $currentType->getSortOrder() ?? 'asc',

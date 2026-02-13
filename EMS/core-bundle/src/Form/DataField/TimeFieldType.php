@@ -45,7 +45,7 @@ class TimeFieldType extends DataFieldType
         if (!$isMigration || [] === $migrationOptions || !$migrationOptions['protected']) {
             $format = DateTime::convertFormat('java', $dataField->giveFieldType()->getMappingOption('format'));
 
-            $timeObject = !\is_array($sourceArray) ? \DateTime::createFromFormat($format, (string) $sourceArray) : false;
+            $timeObject = \is_array($sourceArray) ? false : \DateTime::createFromFormat($format, (string) $sourceArray);
             if ($timeObject) {
                 $dataField->setRawData($timeObject->format(\DateTimeInterface::ATOM));
             } else {
@@ -100,8 +100,8 @@ class TimeFieldType extends DataFieldType
     {
         $format = static::getFormat($fieldType->getOptions());
 
-        $converted = !\is_array($data) ? \DateTime::createFromFormat($format, (string) $data) : false;
-        $convertedFromStoreFormat = !\is_array($data) ? \DateTime::createFromFormat($this::STOREFORMAT, (string) $data) : false;
+        $converted = \is_array($data) ? false : \DateTime::createFromFormat($format, (string) $data);
+        $convertedFromStoreFormat = \is_array($data) ? false : \DateTime::createFromFormat($this::STOREFORMAT, (string) $data);
         if ($converted) {
             $out = $converted->format($this::STOREFORMAT);
         } elseif ($convertedFromStoreFormat) {

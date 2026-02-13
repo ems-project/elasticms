@@ -72,7 +72,7 @@ class JsonMenuLinkFieldType extends DataFieldType
             ]);
 
             $isMigration = $options['migration'] ?? false;
-            $alreadyAssignedUuids = !$isMigration ? $this->collectAlreadyAssignedJsonUuids($fieldType, $options['raw_data'] ?? []) : [];
+            $alreadyAssignedUuids = $isMigration ? [] : $this->collectAlreadyAssignedJsonUuids($fieldType, $options['raw_data'] ?? []);
 
             $scroll = $this->elasticaService->scroll($search);
             foreach ($scroll as $resultSet) {

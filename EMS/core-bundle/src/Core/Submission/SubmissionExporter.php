@@ -89,9 +89,9 @@ final readonly class SubmissionExporter
         if (!empty($column['template'])) {
             $template = $this->templating->load($column['template']);
 
-            return !empty($column['block'])
-                ? $template->renderBlock($column['block'], \compact('data'))
-                : $template->render(\compact('data'));
+            return empty($column['block'])
+                ? $template->render(\compact('data'))
+                : $template->renderBlock($column['block'], \compact('data'));
         }
 
         return '';

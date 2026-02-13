@@ -59,12 +59,15 @@ class SamlAuthenticator extends AbstractAuthenticator
     #[\Override]
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
+        $relayState = $request->request->get('RelayState');
+
+        if (\is_string($relayState) && \strlen($relayState) > 0) {
+            return $this->httpUtils->createRedirectResponse($request, $relayState);
+        }
+
         $loginPath = $this->httpUtils->generateUri($request, SamlService::ROUTE_LOGIN);
 
-        $targetPath = $this->getTargetPath($request->getSession(), $firewallName);
-        $path = ($targetPath && $loginPath !== $targetPath ? $targetPath : '/');
-
-        return $this->httpUtils->createRedirectResponse($request, $path);
+        return $this->httpUtils->createRedirectResponse($request, $loginPath);
     }
 
     #[\Override]

@@ -213,7 +213,7 @@ class SmartCrop
 
     private function skinDetect(int $r, int $g, int $b, float $lightness): int
     {
-        $lightness = $lightness / 255;
+        $lightness /= 255;
         $skin = $this->skinColor($r, $g, $b);
         $isSkinColor = $skin > $this->skinThreshold;
         $isSkinBrightness = $lightness > $this->skinBrightnessMin && $lightness <= $this->skinBrightnessMax;
@@ -226,7 +226,7 @@ class SmartCrop
 
     private function saturationDetect(int $r, int $g, int $b, float $lightness): int
     {
-        $lightness = $lightness / 255;
+        $lightness /= 255;
         $sat = $this->saturation($r, $g, $b);
         $acceptableSaturation = $sat > $this->saturationThreshold;
         $acceptableLightness = $lightness >= $this->saturationBrightnessMin && $lightness <= $this->saturationBrightnessMax;

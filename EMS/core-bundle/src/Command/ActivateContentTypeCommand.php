@@ -47,25 +47,25 @@ class ActivateContentTypeCommand extends Command
             ->addArgument(
                 self::ARGUMENT_CONTENTTYPES,
                 InputArgument::IS_ARRAY,
-                \sprintf('Optional array of contenttypes to create')
+                'Optional array of contenttypes to create'
             )
             ->addOption(
                 self::OPTION_ALL,
                 null,
                 InputOption::VALUE_NONE,
-                \sprintf('Make all contenttypes')
+                'Make all contenttypes'
             )
             ->addOption(
                 self::DEACTIVATE,
                 null,
                 InputOption::VALUE_NONE,
-                \sprintf('Deactivate contenttypes')
+                'Deactivate contenttypes'
             )
             ->addOption(
                 self::FORCE,
                 null,
                 InputOption::VALUE_NONE,
-                \sprintf('Activate the contenttypes even if the mapping is not up to date (flagged as draft)')
+                'Activate the contenttypes even if the mapping is not up to date (flagged as draft)'
             );
     }
 

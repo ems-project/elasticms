@@ -94,9 +94,9 @@ class MultiFileFieldToArchive extends AbstractCommand
     #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->io->title(\sprintf('Multi-files fields to archive'));
+        $this->io->title('Multi-files fields to archive');
         if (!$this->adminHelper->getCoreApi()->isAuthenticated()) {
-            $this->io->error(\sprintf('Not authenticated, run ems:admin:login'));
+            $this->io->error('Not authenticated, run ems:admin:login');
 
             return self::EXECUTE_ERROR;
         }

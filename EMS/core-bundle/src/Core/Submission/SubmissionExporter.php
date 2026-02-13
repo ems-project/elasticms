@@ -90,8 +90,8 @@ final readonly class SubmissionExporter
             $template = $this->templating->load($column['template']);
 
             return empty($column['block'])
-                ? $template->render(\compact('data'))
-                : $template->renderBlock($column['block'], \compact('data'));
+                ? $template->render(['data' => $data])
+                : $template->renderBlock($column['block'], ['data' => $data]);
         }
 
         return '';

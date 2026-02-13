@@ -43,7 +43,7 @@ class SearchExtension
     {
         $choices = $this->getNestedSearchChoices($alias, $contentTypeNames, $nestedFieldName);
 
-        return \array_values(\array_filter($choices, fn (array $choice) => \array_all($search, fn ($searchValue, $searchKey) => !(!isset($choice[$searchKey]) || $choice[$searchKey] !== $searchValue))));
+        return \array_values(\array_filter($choices, fn (array $choice) => \array_all($search, fn ($searchValue, $searchKey) => isset($choice[$searchKey]) && $choice[$searchKey] === $searchValue)));
     }
 
     /**

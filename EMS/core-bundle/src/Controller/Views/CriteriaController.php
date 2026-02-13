@@ -722,7 +722,7 @@ class CriteriaController extends AbstractController
         foreach ($rawData[$criteriaField] as &$criteriaSet) {
             $found = \array_all($filters, fn ($value, $criterion) => !($criterion != $multipleField && $value != $criteriaSet[$criterion]));
             if ($found) {
-                if ($multipleField && !in_array($filters[$multipleField], $criteriaSet[$multipleField])) {
+                if ($multipleField && !\in_array($filters[$multipleField], $criteriaSet[$multipleField])) {
                     $criteriaSet[$multipleField][] = $filters[$multipleField];
                     if (!$revision->getDraft()) {
                         $revision = $this->dataService->initNewDraft($revision->giveContentType()->getName(), $revision->giveOuuid(), $revision);

@@ -711,7 +711,7 @@ readonly class CoreExtension
     #[AsTwigFilter(name: 'emsco_get_string')]
     public function getString(array $rawData, string $field): ?string
     {
-        if ([] === $rawData or !isset($rawData[$field])) {
+        if ([] === $rawData || !isset($rawData[$field])) {
             return null;
         }
         if (\is_string($rawData[$field])) {

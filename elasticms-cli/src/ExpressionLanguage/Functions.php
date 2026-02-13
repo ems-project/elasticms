@@ -171,7 +171,7 @@ class Functions
         $data = [];
         foreach ($keys as $key => $key_val) {
             if (\is_array($key_val)) {
-                if (\is_array($values) and \array_key_exists($key, $values)) {
+                if (\is_array($values) && \array_key_exists($key, $values)) {
                     $results = self::mergeArrayForJsonMenuNested($values[$key], $key_val);
                     $array = [];
                     foreach ($results as $k => $result) {
@@ -181,7 +181,7 @@ class Functions
                 } else {
                     $data = \array_merge_recursive($data, self::mergeArrayForJsonMenuNested($values, $key_val));
                 }
-            } elseif (\is_array($values) and \array_key_exists($key_val, $values) and \is_array($values[$key_val])) {
+            } elseif (\is_array($values) && \array_key_exists($key_val, $values) && \is_array($values[$key_val])) {
                 foreach ($values[$key_val] as $k => $value) {
                     if (\array_key_exists($k, $data)) {
                         $data[$k] = \array_merge($data[$k], [$key_val => $value]);

@@ -56,7 +56,7 @@ class Analyzer extends JsonDeserializer implements \JsonSerializable, EntityInte
         $this->options = $options;
 
         foreach ($this->options as $key => $data) {
-            if ('type' != $key and !\in_array($key, AnalyzerOptionsType::FIELDS_BY_TYPE[$this->options['type']])) {
+            if ('type' != $key && !\in_array($key, AnalyzerOptionsType::FIELDS_BY_TYPE[$this->options['type']])) {
                 unset($this->options[$key]);
             } elseif (null === $this->options[$key]) {
                 unset($this->options[$key]);

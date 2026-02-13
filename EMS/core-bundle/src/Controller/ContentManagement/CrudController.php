@@ -102,7 +102,7 @@ class CrudController extends AbstractController
         try {
             $revision = $this->dataService->getNewestRevision($contentType->getName(), $ouuid);
         } catch (\Exception $e) {
-            if (($e instanceof NotFoundHttpException) or ($e instanceof BadRequestHttpException)) {
+            if ($e instanceof NotFoundHttpException || $e instanceof BadRequestHttpException) {
                 throw $e;
             }
             $this->logger->error('log.crud.read_error', [
@@ -207,7 +207,7 @@ class CrudController extends AbstractController
             $isDiscard = ($revision->getId() !== $id) ? true : false;
         } catch (\Exception $e) {
             $isDiscard = false;
-            if (($e instanceof NotFoundHttpException) or ($e instanceof BadRequestHttpException)) {
+            if ($e instanceof NotFoundHttpException || $e instanceof BadRequestHttpException) {
                 throw $e;
             }
             $this->logger->error('log.crud.discard_error', [

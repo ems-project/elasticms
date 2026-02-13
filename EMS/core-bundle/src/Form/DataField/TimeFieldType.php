@@ -63,11 +63,7 @@ class TimeFieldType extends DataFieldType
      */
     public static function getFormat(array $options): string
     {
-        if ($options['displayOptions']['showMeridian']) {
-            $format = 'g:i';
-        } else {
-            $format = 'G:i';
-        }
+        $format = $options['displayOptions']['showMeridian'] ? 'g:i' : 'G:i';
 
         if ($options['displayOptions']['showSeconds']) {
             $format .= ':s';

@@ -250,11 +250,7 @@ readonly class CoreExtension
                 }
 
                 if (null !== $a) {
-                    if ($textClass) {
-                        $textClass = 'text-orange';
-                    } else {
-                        $textClass = 'text-green';
-                    }
+                    $textClass = $textClass ? 'text-orange' : 'text-green';
                     $textLabel .= ' <ins class="diffmod">'.($escape ? \htmlentities($a) : $this->internalLinks($a)).'</ins>';
                 }
             }
@@ -580,11 +576,7 @@ readonly class CoreExtension
             $a = Type::getAsNullableString($rawData);
         }
         $b = $compareRawData[$fieldName] ?? null;
-        if (\is_array($b)) {
-            $b = Json::encode($b);
-        } else {
-            $b = Type::getAsNullableString($b);
-        }
+        $b = \is_array($b) ? Json::encode($b) : Type::getAsNullableString($b);
 
         return $this->diff($a, $b, $compare);
     }

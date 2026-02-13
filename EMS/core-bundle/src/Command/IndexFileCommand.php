@@ -295,11 +295,7 @@ class IndexFileCommand extends AbstractCommand
         $result = $stmt->executeQuery();
         $size = $result->fetchAllAssociative();
 
-        if (\is_array($size) && isset($size[0]['size'])) {
-            $row = "The database size is {$size[0]['size']} MB";
-        } else {
-            $row = 'Undefined';
-        }
+        $row = \is_array($size) && isset($size[0]['size']) ? "The database size is {$size[0]['size']} MB" : 'Undefined';
 
         $output->writeln($row);
     }

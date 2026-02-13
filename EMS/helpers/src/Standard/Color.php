@@ -246,11 +246,7 @@ class Color
             'b' => $this->blue / 255.0,
         ];
         foreach ($components as $c => $v) {
-            if ($v <= 0.03928) {
-                $components[$c] = $v / 12.92;
-            } else {
-                $components[$c] = (($v + 0.055) / 1.055) ** 2.4;
-            }
+            $components[$c] = $v <= 0.03928 ? $v / 12.92 : (($v + 0.055) / 1.055) ** 2.4;
         }
 
         return ($components['r'] * 0.2126) + ($components['g'] * 0.7152) + ($components['b'] * 0.0722);

@@ -54,11 +54,7 @@ class FormConfigFactory
             }
         }
 
-        if ($this->loadFromJson) {
-            $formConfig = $this->buildFromJson($ouuid, $locale);
-        } else {
-            $formConfig = $this->buildFromDocuments($ouuid, $locale);
-        }
+        $formConfig = $this->loadFromJson ? $this->buildFromJson($ouuid, $locale) : $this->buildFromDocuments($ouuid, $locale);
 
         $this->cache->save($cacheItem->set([
             'validity_tags' => $validityTags,

@@ -761,11 +761,7 @@ class CriteriaController extends AbstractController
         if (!$found) {
             $newCriterion = [];
             foreach ($filters as $criterion => $value) {
-                if ($criterion == $multipleField) {
-                    $newCriterion[$criterion] = [$value];
-                } else {
-                    $newCriterion[$criterion] = $value;
-                }
+                $newCriterion[$criterion] = $criterion == $multipleField ? [$value] : $value;
             }
             $rawData[$criteriaField][] = $newCriterion;
             if (!$revision->getDraft()) {

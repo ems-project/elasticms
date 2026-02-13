@@ -201,11 +201,7 @@ class AssetFieldType extends DataFieldType
         }
 
         $isMultiple = true === $fieldType->getDisplayOption('multiple', false);
-        if ($isMultiple) {
-            $data = $rawData['files'] ?? [];
-        } else {
-            $data = [$rawData];
-        }
+        $data = $isMultiple ? $rawData['files'] ?? [] : [$rawData];
 
         $mandatory = (bool) $dataField->giveFieldType()->getRestrictionOption('mandatory', false);
 

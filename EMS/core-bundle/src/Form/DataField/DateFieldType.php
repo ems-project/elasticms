@@ -36,11 +36,7 @@ class DateFieldType extends DataFieldType
         }
         $dates = [];
         $format = $fieldType->getMappingOption('format', false);
-        if (false !== $format) {
-            $format = DateTime::convertFormat('java', $format);
-        } else {
-            $format = \DateTimeInterface::ATOM;
-        }
+        $format = false !== $format ? DateTime::convertFormat('java', $format) : \DateTimeInterface::ATOM;
         if (\is_string($data)) {
             $dates[] = \DateTime::createFromFormat($format, $data);
 
@@ -67,11 +63,7 @@ class DateFieldType extends DataFieldType
     {
         $data = parent::reverseModelTransform($dataField);
         $format = $dataField->giveFieldType()->getMappingOption('format', false);
-        if (false !== $format) {
-            $format = DateTime::convertFormat('java', $format);
-        } else {
-            $format = \DateTimeInterface::ATOM;
-        }
+        $format = false !== $format ? DateTime::convertFormat('java', $format) : \DateTimeInterface::ATOM;
         $out = [];
         if (\is_iterable($data) && [] !== $data) {
             foreach ($data as $item) {

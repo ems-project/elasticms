@@ -491,11 +491,7 @@ class DataService
      */
     public function sign(Revision $revision, bool $silentPublish = false): array
     {
-        if ($silentPublish && $revision->getAutoSave()) {
-            $objectArray = $revision->getAutoSave();
-        } else {
-            $objectArray = $revision->getRawData();
-        }
+        $objectArray = $silentPublish && $revision->getAutoSave() ? $revision->getAutoSave() : $revision->getRawData();
 
         $objectArray[Mapping::CONTENT_TYPE_FIELD] = $revision->giveContentType()->getName();
 
@@ -1456,11 +1452,7 @@ class DataService
 
     public function reloadData(Revision $revision, bool $flush = true): int
     {
-        if ($revision->hasHash()) {
-            $revisionHash = $revision->getHash();
-        } else {
-            $revisionHash = null;
-        }
+        $revisionHash = $revision->hasHash() ? $revision->getHash() : null;
         $reloadRevision = clone $revision;
 
         $finalizedBy = false;
@@ -1519,11 +1511,7 @@ class DataService
     {
         $out = $form->getViewData();
 
-        if ($form instanceof Form) {
-            $iteratedOn = $form->getIterator();
-        } else {
-            $iteratedOn = $form->all();
-        }
+        $iteratedOn = $form instanceof Form ? $form->getIterator() : $form->all();
 
         foreach ($iteratedOn as $subForm) {
             if ($subForm->getConfig()->getCompound()) {

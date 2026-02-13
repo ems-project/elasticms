@@ -61,11 +61,7 @@ class FormController extends AbstractFormController
         if (!\is_string($content)) {
             throw new \RuntimeException('Unexpected non-string request content');
         }
-        if (Json::isEmpty($content)) {
-            $data = [];
-        } else {
-            $data = Json::decode($content);
-        }
+        $data = Json::isEmpty($content) ? [] : Json::decode($content);
 
         $form = $this->formFactory->create(Form::class, $data, ['ouuid' => $ouuid, 'locale' => $request->getLocale()]);
 

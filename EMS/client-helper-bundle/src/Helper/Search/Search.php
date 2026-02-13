@@ -367,11 +367,7 @@ final class Search
      */
     private function setSuggestFields(array $suggestFields, string $locale): void
     {
-        if (isset($suggestFields[$locale])) {
-            $this->suggestFields = $suggestFields[$locale];
-        } else {
-            $this->suggestFields = [];
-        }
+        $this->suggestFields = $suggestFields[$locale] ?? [];
     }
 
     /**
@@ -408,11 +404,7 @@ final class Search
 
     private function setSize(int $l): void
     {
-        if (\in_array($l, $this->sizes)) {
-            $this->size = $l;
-        } else {
-            $this->size = (int) \reset($this->sizes);
-        }
+        $this->size = \in_array($l, $this->sizes) ? $l : (int) \reset($this->sizes);
     }
 
     /**

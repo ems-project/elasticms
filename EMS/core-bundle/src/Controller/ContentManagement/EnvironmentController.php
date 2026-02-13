@@ -192,7 +192,8 @@ class EnvironmentController extends AbstractController
                     $orderField,
                     $orderDirection
                 );
-                for ($index = 0; $index < \count($results); ++$index) {
+                $counter = \count($results);
+                for ($index = 0; $index < $counter; ++$index) {
                     $results[$index]['contentType'] = $this->contentTypeService->getByName($results[$index]['content_type_name']);
                     //                     $results[$index]['revisionEnvironment'] = $repository->findOneById($results[$index]['rId']);
                     // TODO: is it the better options? to concatenate and split things?

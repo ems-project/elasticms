@@ -29,12 +29,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
-#[AsCommand(
-    name: Commands::REVISIONS_INDEX_FILE_FIELDS,
-    description: 'Migrate an ingested file field from an elasticsearch index.',
-    hidden: false,
-    aliases: ['ems:revisions:index-file-fields']
-)]
+#[AsCommand(name: Commands::REVISIONS_INDEX_FILE_FIELDS, description: 'Migrate an ingested file field from an elasticsearch index.', aliases: ['ems:revisions:index-file-fields'], hidden: false)]
 class IndexFileCommand extends AbstractCommand
 {
     /** @var string */

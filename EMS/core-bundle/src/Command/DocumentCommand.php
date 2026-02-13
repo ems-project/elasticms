@@ -22,12 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Finder\Finder;
 
-#[AsCommand(
-    name: Commands::CONTENT_TYPE_IMPORT,
-    description: 'Import json files from a zip file as content type\'s documents.',
-    hidden: false,
-    aliases: ['ems:contenttype:import']
-)]
+#[AsCommand(name: Commands::CONTENT_TYPE_IMPORT, description: 'Import json files from a zip file as content type\'s documents.', aliases: ['ems:contenttype:import'], hidden: false)]
 class DocumentCommand extends Command
 {
     final public const string COMMAND = 'ems:contenttype:import';

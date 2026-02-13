@@ -21,12 +21,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(
-    name: Commands::ENVIRONMENT_UPDATE_META_FIELD,
-    description: 'Update meta fields for all revisions of an environment.',
-    hidden: false,
-    aliases: ['ems:environment:updatemetafield']
-)]
+#[AsCommand(name: Commands::ENVIRONMENT_UPDATE_META_FIELD, description: 'Update meta fields for all revisions of an environment.', aliases: ['ems:environment:updatemetafield'], hidden: false)]
 class UpdateMetaFieldCommand extends AbstractCommand
 {
     public function __construct(protected Registry $doctrine, protected LoggerInterface $logger, protected DataService $dataService)

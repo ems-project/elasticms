@@ -28,12 +28,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Error\Error;
 
-#[AsCommand(
-    name: Commands::CONTENT_TYPE_EXPORT,
-    description: 'Export a search result of a content type to a specific format.',
-    hidden: false,
-    aliases: ['ems:contenttype:export']
-)]
+#[AsCommand(name: Commands::CONTENT_TYPE_EXPORT, description: 'Export a search result of a content type to a specific format.', aliases: ['ems:contenttype:export'], hidden: false)]
 class ExportDocumentsCommand extends AbstractCommand
 {
     private const string ARGUMENT_QUERY = 'query';

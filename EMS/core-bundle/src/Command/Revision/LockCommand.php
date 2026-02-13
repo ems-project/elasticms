@@ -20,12 +20,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(
-    name: Commands::CONTENT_TYPE_LOCK,
-    description: 'Lock a content type.',
-    hidden: false,
-    aliases: ['ems:contenttype:lock']
-)]
+#[AsCommand(name: Commands::CONTENT_TYPE_LOCK, description: 'Lock a content type.', aliases: ['ems:contenttype:lock'], hidden: false)]
 final class LockCommand extends AbstractCommand
 {
     private string $by;

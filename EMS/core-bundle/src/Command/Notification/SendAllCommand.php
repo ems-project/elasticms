@@ -16,12 +16,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(
-    name: Commands::NOTIFICATION_SEND,
-    description: 'Send all notifications and notification\'s responses emails.',
-    hidden: false,
-    aliases: ['ems:notification:send']
-)]
+#[AsCommand(name: Commands::NOTIFICATION_SEND, description: 'Send all notifications and notification\'s responses emails.', aliases: ['ems:notification:send'], hidden: false)]
 final class SendAllCommand extends Command
 {
     public function __construct(private readonly Registry $doctrine, private readonly NotificationService $notificationService, private readonly string $notificationPendingTimeout)

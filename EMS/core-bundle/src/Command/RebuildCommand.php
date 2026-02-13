@@ -24,12 +24,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(
-    name: Commands::ENVIRONMENT_REBUILD,
-    description: 'Rebuild an environment in a brand new index.',
-    hidden: false,
-    aliases: ['ems:environment:rebuild']
-)]
+#[AsCommand(name: Commands::ENVIRONMENT_REBUILD, description: 'Rebuild an environment in a brand new index.', aliases: ['ems:environment:rebuild'], hidden: false)]
 class RebuildCommand extends AbstractCommand
 {
     private const string ARGUMENT_NAME = 'name';

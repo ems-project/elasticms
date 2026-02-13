@@ -18,12 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-#[AsCommand(
-    name: Commands::CONTENT_TYPE_ACTIVATE,
-    description: 'Activate a content type.',
-    hidden: false,
-    aliases: ['ems:contenttype:activate']
-)]
+#[AsCommand(name: Commands::CONTENT_TYPE_ACTIVATE, description: 'Activate a content type.', aliases: ['ems:contenttype:activate'], hidden: false)]
 class ActivateContentTypeCommand extends Command
 {
     private ?SymfonyStyle $io = null;

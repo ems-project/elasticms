@@ -13,7 +13,7 @@ class StoreDataManager
     /** @var StoreDataFactoryInterface[] */
     private array $factories = [];
     /** @var StoreDataServiceInterface[] */
-    private array $services;
+    private array $services = [];
 
     /**
      * @param iterable<StoreDataFactoryInterface> $factories

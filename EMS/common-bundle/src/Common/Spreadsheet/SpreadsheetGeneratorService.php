@@ -117,7 +117,7 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
                     $this->addCell($sheet, $cellCoordinate, $this->buildCellFromValue($value));
 
                     ++$k;
-                    $maxCol = $k > $maxCol ? $k : $maxCol;
+                    $maxCol = \max($k, $maxCol);
                 }
                 for ($z = 1; $z <= $maxCol; ++$z) {
                     $sheet->getColumnDimension(Coordinate::stringFromColumnIndex($z))->setAutoSize(true);

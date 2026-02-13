@@ -188,7 +188,7 @@ class NotificationController extends AbstractController
         } else {
             $notifications = $this->notificationService->listInboxNotifications(($page - 1) * $paging_size, $paging_size, $filters);
             $rejectedNotifications = $this->notificationService->listRejectedNotifications(($page - 1) * $paging_size, $paging_size, $filters);
-            $lastPage = \ceil(($countRejected > $countPending ? $countRejected : $countPending) / $paging_size);
+            $lastPage = \ceil(\max($countRejected, $countPending) / $paging_size);
         }
 
         $treatNotification = new TreatNotifications();

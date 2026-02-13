@@ -11,6 +11,7 @@ use EMS\CommonBundle\Storage\StorageManager;
 use EMS\Helpers\File\TempDirectory;
 use EMS\Helpers\File\TempFile;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
+use PHPUnit\Framework\MockObject\Stub;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Config\FileLocator;
@@ -22,12 +23,12 @@ class StorageManagerTest extends WebTestCase
     private StorageManager $storageManager;
     private TempFile $tempFile;
     private string $hash;
-    private LoggerInterface $mockLogger;
+    private Stub $mockLogger;
 
     #[\Override]
     protected function setUp(): void
     {
-        $this->mockLogger = $this->createMock(LoggerInterface::class);
+        $this->mockLogger = $this->createStub(LoggerInterface::class);
         $this->storageManager = new StorageManager($this->mockLogger, new FileLocator(), [$this->getFsFactory()], 'sha1', [[
             'type' => 'fs',
             'path' => $this->getFsDir(),

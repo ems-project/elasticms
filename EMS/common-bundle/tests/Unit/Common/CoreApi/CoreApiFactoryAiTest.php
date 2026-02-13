@@ -9,23 +9,24 @@ use EMS\CommonBundle\Common\CoreApi\CoreApi;
 use EMS\CommonBundle\Common\CoreApi\CoreApiFactory;
 use EMS\CommonBundle\Storage\StorageManager;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 final class CoreApiFactoryAiTest extends TestCase
 {
-    private HttpClientInterface $httpClient;
-    private LoggerInterface $logger;
-    private StorageManager $storageManager;
+    private Stub $httpClient;
+    private Stub $logger;
+    private Stub $storageManager;
     private CoreApiFactory $factory;
 
     #[\Override]
     protected function setUp(): void
     {
-        $this->httpClient = $this->createMock(HttpClientInterface::class);
-        $this->logger = $this->createMock(LoggerInterface::class);
-        $this->storageManager = $this->createMock(StorageManager::class);
+        $this->httpClient = $this->createStub(HttpClientInterface::class);
+        $this->logger = $this->createStub(LoggerInterface::class);
+        $this->storageManager = $this->createStub(StorageManager::class);
         $this->factory = new CoreApiFactory($this->httpClient, $this->logger, $this->storageManager, [
             'headers' => [],
             'verify' => true,

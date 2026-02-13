@@ -8,17 +8,18 @@ use EMS\CommonBundle\Common\StoreData\Factory\StoreDataEntityFactory;
 use EMS\CommonBundle\Common\StoreData\Service\StoreDataEntityService;
 use EMS\CommonBundle\Repository\StoreDataRepository;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 
 class StoreDataEntityFactoryAiTest extends TestCase
 {
-    private StoreDataRepository $repository;
+    private Stub $repository;
 
     #[\Override]
     protected function setUp(): void
     {
-        $this->repository = $this->createMock(StoreDataRepository::class);
+        $this->repository = $this->createStub(StoreDataRepository::class);
     }
 
     #[AllowMockObjectsWithoutExpectations]

@@ -9,25 +9,26 @@ use EMS\CommonBundle\Storage\Processor\Processor;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\CommonBundle\Twig\AssetExtension;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class AssetExtensionTest extends TestCase
 {
-    private StorageManager $storageManager;
+    private Stub $storageManager;
     private readonly LoggerInterface $logger;
-    private UrlGeneratorInterface $urlGenerator;
-    private Processor $processor;
-    private FileReaderInterface $fileReader;
+    private Stub $urlGenerator;
+    private Stub $processor;
+    private Stub $fileReader;
 
     #[\Override]
     public function setUp(): void
     {
-        $this->storageManager = $this->createMock(StorageManager::class);
-        $this->urlGenerator = $this->createMock(UrlGeneratorInterface::class);
-        $this->processor = $this->createMock(Processor::class);
-        $this->fileReader = $this->createMock(FileReaderInterface::class);
+        $this->storageManager = $this->createStub(StorageManager::class);
+        $this->urlGenerator = $this->createStub(UrlGeneratorInterface::class);
+        $this->processor = $this->createStub(Processor::class);
+        $this->fileReader = $this->createStub(FileReaderInterface::class);
     }
 
     #[AllowMockObjectsWithoutExpectations]

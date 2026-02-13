@@ -81,7 +81,7 @@ final readonly class PostProcessingService
         }
         $options = $fieldType->getOptions();
 
-        if (!$dataFieldType::isVirtual(!$options ? [] : $options)) {
+        if (!$dataFieldType::isVirtual([] === $options ? [] : $options)) {
             $path .= ('' == $path ? '' : '.').$form->getConfig()->getName();
         }
 

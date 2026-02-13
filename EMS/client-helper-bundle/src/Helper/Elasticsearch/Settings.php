@@ -41,7 +41,7 @@ final class Settings
         $this->templateContentTypeNames[] = $contentTypeName;
         $this->templateMapping[$contentTypeName] = $mapping;
 
-        if ($contentType) {
+        if ($contentType instanceof ContentType) {
             $this->templateContentTypes[$contentTypeName] = $contentType;
         }
     }

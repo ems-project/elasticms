@@ -178,7 +178,7 @@ class EnvironmentController extends AbstractController
             $withEnvi = $this->environmentService->giveByName($withEnvironment);
 
             $total = $this->revisionRepository->countDifferencesBetweenEnvironment($env->getId(), $withEnvi->getId(), $contentTypes);
-            if ($total) {
+            if (0 !== $total) {
                 $lastPage = \ceil($total / $paging_size);
                 if ($page > $lastPage) {
                     $page = $lastPage;

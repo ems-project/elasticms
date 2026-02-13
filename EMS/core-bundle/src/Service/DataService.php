@@ -1140,7 +1140,7 @@ class DataService
         if (!$revision->getDraft()) {
             $now = new \DateTime();
 
-            if ($fromRev) {
+            if ($fromRev instanceof Revision) {
                 $newDraft = new Revision($fromRev);
             } else {
                 $newDraft = new Revision($revision);
@@ -2026,9 +2026,9 @@ class DataService
         $this->em->getConnection()->beginTransaction();
 
         try {
-            $restoredDraft = $currentRevision ? $this->trashPutBackAsDraft($contentType, $currentRevision->giveOuuid()) : null;
+            $restoredDraft = $currentRevision instanceof Revision ? $this->trashPutBackAsDraft($contentType, $currentRevision->giveOuuid()) : null;
 
-            if ($restoredDraft) {
+            if ($restoredDraft instanceof Revision) {
                 $restoredDraft->setDraft(false);
                 $restoredDraft->setEndTime($revision->getStartTime());
                 $this->unlockRevision($restoredDraft);

@@ -362,7 +362,7 @@ abstract class DataFieldType extends AbstractType
         // Get FieldType mandatory option
         $restrictionOptions = $dataField->giveFieldType()->getRestrictionOptions();
         if (isset($restrictionOptions['mandatory']) && true == $restrictionOptions['mandatory']) {
-            $parentRawData = $parent ? $parent->getRawData() : [];
+            $parentRawData = $parent instanceof DataField ? $parent->getRawData() : [];
             $parentRawDataArray = \is_array($parentRawData) ? $parentRawData : [];
 
             if (null === $parent || !isset($restrictionOptions['mandatory_if'])
@@ -404,7 +404,7 @@ abstract class DataFieldType extends AbstractType
 
     public function hasDeletedParent(?DataField $parent = null): bool
     {
-        if (!$parent) {
+        if (!$parent instanceof DataField) {
             return false;
         }
 

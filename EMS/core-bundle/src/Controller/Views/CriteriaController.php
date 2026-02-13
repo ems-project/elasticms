@@ -194,7 +194,7 @@ class CriteriaController extends AbstractController
                                 }
 
                                 $revision = $this->addCriteriaRevision($view, $rawData, $targetFieldName, $itemToFinalize);
-                                if ($revision) {
+                                if ($revision instanceof Revision) {
                                     $itemToFinalize[$revision->giveOuuid()] = $revision;
                                 }
                             }
@@ -573,7 +573,7 @@ class CriteriaController extends AbstractController
                 $rawData[$targetFieldName] = $target;
             }
             $revision = $this->addCriteriaRevision($view, $rawData, $targetFieldName);
-            if ($revision) {
+            if ($revision instanceof Revision) {
                 $this->dataService->finalizeDraft($revision);
             }
         }

@@ -158,7 +158,7 @@ class FieldTypeManager
                 if (static::isValidName($formArray['ems:internal:add:subfield:target_name'])) {
                     $new = clone $fieldType;
                     $new->setName($formArray['ems:internal:add:subfield:target_name']);
-                    if ($parent = $new->getParent()) {
+                    if (($parent = $new->getParent()) instanceof FieldType) {
                         $parent->addChild($new);
                     }
 

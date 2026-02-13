@@ -53,7 +53,7 @@ class RestrictionOptionsType extends AbstractType
     private function addJsonMenuNestedRestrictionFields(FormBuilderInterface $builder, FieldType $fieldType): void
     {
         if ($fieldType->isJsonMenuNestedEditor() || $fieldType->isJsonMenuNestedEditorNode()) {
-            if ($jsonMenuNestedEditor = $fieldType->getJsonMenuNestedEditor()) {
+            if (($jsonMenuNestedEditor = $fieldType->getJsonMenuNestedEditor()) instanceof FieldType) {
                 $choices = [];
 
                 foreach ($jsonMenuNestedEditor->getChildren() as $child) {

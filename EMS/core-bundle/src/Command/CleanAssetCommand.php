@@ -71,10 +71,10 @@ class CleanAssetCommand extends AbstractCommand
 
         $progress->finish();
         $output->writeln('');
-        if ($filesDereference) {
+        if (0 !== $filesDereference) {
             $output->writeln("<comment>$filesDereference files have been dereferenced</comment>");
         }
-        if ($filesInUsed) {
+        if (0 !== $filesInUsed) {
             $output->writeln("<comment>$filesInUsed files are referenced $totalCounter times</comment>");
         }
 

@@ -107,7 +107,7 @@ class UserService implements EntityServiceInterface
 
     public function getCurrentUser(bool $detach = true): UserInterface
     {
-        if ($this->currentUser) {
+        if ($this->currentUser instanceof UserInterface) {
             return $this->currentUser;
         }
 

@@ -23,6 +23,7 @@ use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Core\Component\ComponentModal;
 use EMS\CoreBundle\Core\Component\MediaLibrary\Config\MediaLibraryConfig;
 use EMS\CoreBundle\Core\Component\MediaLibrary\Config\MediaLibraryConfigFactory;
+use EMS\CoreBundle\Core\Component\MediaLibrary\Config\MediaLibraryConfigSort;
 use EMS\CoreBundle\Core\Component\MediaLibrary\File\MediaLibraryFile;
 use EMS\CoreBundle\Core\Component\MediaLibrary\File\MediaLibraryFileFactory;
 use EMS\CoreBundle\Core\Component\MediaLibrary\Folder\MediaLibraryFolder;
@@ -233,7 +234,7 @@ class MediaLibraryService
 
     public function moveFile(MediaLibraryFile $file, ?MediaLibraryFolder $folder): void
     {
-        $moveLocation = $folder ? $folder->getPath()->getValue() : '/';
+        $moveLocation = $folder instanceof MediaLibraryFolder ? $folder->getPath()->getValue() : '/';
         $newPath = $file->getPath()->move($moveLocation);
         $file->setPath($newPath);
     }
@@ -312,7 +313,7 @@ class MediaLibraryService
         $mediaFolder = \is_string($folder) ? $this->getFolder($folder) : $folder;
         $mediaFile = \is_string($file) ? $this->getFile($file) : $file;
 
-        if ($mediaFile) {
+        if ($mediaFile instanceof MediaLibraryFile) {
             $selectionFiles = 1;
         }
 
@@ -363,7 +364,7 @@ class MediaLibraryService
 
     private function buildFileSearch(?MediaLibraryFolder $folder = null, ?string $searchValue = null, string $searchType = MediaLibraryConfig::TERM_SEARCH_TYPE): Search
     {
-        $path = $folder ? $folder->getPath()->getValue().'/' : '/';
+        $path = $folder instanceof MediaLibraryFolder ? $folder->getPath()->getValue().'/' : '/';
         $hashField = \sprintf('%s.%s', $this->getConfig()->fieldFile, EmsFields::CONTENT_FILE_HASH_FIELD);
 
         $query = $this->elasticaService->getBoolQuery();
@@ -466,7 +467,7 @@ class MediaLibraryService
         $search->setFrom($from);
         $search->setSize($this->getConfig()->searchSize);
 
-        if ($configSort = $this->getConfig()->getSort($sortId)) {
+        if (($configSort = $this->getConfig()->getSort($sortId)) instanceof MediaLibraryConfigSort) {
             $searchOrder = $configSort->getOrder($sortOrder);
             $search->setSort($configSort->getQuery($searchOrder));
             $sort = ['id' => $configSort->id, 'order' => $searchOrder];

@@ -925,7 +925,7 @@ class Revision implements EntityInterface, \Stringable
 
     private function getVersionTagDefault(): string
     {
-        $versionTags = $this->contentType ? $this->contentType->getVersioning()->getTags() : [];
+        $versionTags = $this->contentType instanceof ContentType ? $this->contentType->getVersioning()->getTags() : [];
 
         if (!isset($versionTags[0])) {
             throw new \RuntimeException(\sprintf('No version tags found for contentType %s', $this->getContentTypeName()));
@@ -936,7 +936,7 @@ class Revision implements EntityInterface, \Stringable
 
     public function setVersionTag(string $versionTag): void
     {
-        $versionTags = $this->contentType ? $this->contentType->getVersioning()->getTags() : [];
+        $versionTags = $this->contentType instanceof ContentType ? $this->contentType->getVersioning()->getTags() : [];
 
         if (\in_array($versionTag, $versionTags, true)) {
             $this->versionTag = $versionTag;

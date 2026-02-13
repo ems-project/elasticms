@@ -252,7 +252,7 @@ class JsonMenuNestedLinkFieldType extends DataFieldType
         $environmentName = $fieldType->getDisplayOption('environment');
         $environment = $environmentName ? $this->environmentService->giveByName($environmentName) : null;
 
-        $index = $environment ? $environment->getAlias() : $fieldType->giveContentType()->giveEnvironment()->getAlias();
+        $index = $environment instanceof \EMS\CoreBundle\Entity\Environment ? $environment->getAlias() : $fieldType->giveContentType()->giveEnvironment()->getAlias();
         $jmnMenu = $this->createJsonMenuNested($index, $jmnQuery, $jmnField);
 
         $items = [];

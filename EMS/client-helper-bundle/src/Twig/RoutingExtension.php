@@ -22,7 +22,7 @@ class RoutingExtension
     {
         $url = $this->transformer->getGenerator()->createUrl($relativePath, $path);
 
-        if ($parameters) {
+        if ([] !== $parameters) {
             $url .= '?'.\http_build_query($parameters);
         }
 

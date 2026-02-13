@@ -258,7 +258,7 @@ final class ClientRequest implements ClientRequestInterface
                 foreach ($item['_source'][$childrenField] as $key) {
                     if ($key) {
                         $child = $this->getHierarchy($key, $childrenField, null === $depth ? null : $depth - 1, $sourceFields, $activeChild, $querySize, $items);
-                        if ($child) {
+                        if ($child instanceof HierarchicalStructure) {
                             $out->addChild($child);
                         }
                     }
@@ -691,7 +691,7 @@ final class ClientRequest implements ClientRequestInterface
 
         foreach (\explode(',', $contentTypeNames) as $contentTypeName) {
             $contentType = $this->getContentType($contentTypeName);
-            $publishDates[] = $contentType ? $contentType->getLastPublished() : null;
+            $publishDates[] = $contentType instanceof ContentType ? $contentType->getLastPublished() : null;
         }
 
         $lastPublishedDate = \max($publishDates);

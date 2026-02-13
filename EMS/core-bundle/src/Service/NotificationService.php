@@ -485,7 +485,7 @@ class NotificationService
                 ->to(...\array_values($toUsers));
 
             $cc = [...$ccUsers, ...$fromUser];
-            if ($cc) {
+            if ([] !== $cc) {
                 $email->cc(...\array_values($cc));
             }
 
@@ -503,7 +503,7 @@ class NotificationService
                 ->to(...\array_values($fromUser));
 
             $cc = [...$ccUsers, ...$toUsers];
-            if ($cc) {
+            if ([] !== $cc) {
                 $email->cc(...\array_values($cc));
             }
 

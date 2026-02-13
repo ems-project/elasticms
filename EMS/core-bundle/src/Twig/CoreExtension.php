@@ -43,6 +43,7 @@ use EMS\Helpers\Standard\Json;
 use EMS\Helpers\Standard\Type;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
@@ -83,7 +84,7 @@ readonly class CoreExtension
         while ($parent) {
             $out = $parent->getName().$out;
             $parent = $parent->getParent();
-            if ($parent) {
+            if ($parent instanceof FormInterface) {
                 $out = '_'.$out;
             }
         }

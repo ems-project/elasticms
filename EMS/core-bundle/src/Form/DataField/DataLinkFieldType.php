@@ -72,7 +72,7 @@ class DataLinkFieldType extends DataFieldType
         $opt = [...[
             'nested' => '',
         ], ...$options];
-        if (\strlen((string) $opt['nested'])) {
+        if (0 !== \strlen((string) $opt['nested'])) {
             $opt['nested'] .= '.';
         }
 

@@ -148,13 +148,13 @@ class DataField implements \ArrayAccess, \IteratorAggregate, \Stringable
             $children = $this->giveFieldType()->getChildren();
         }
 
-        if ($children) {
+        if ($children instanceof Collection) {
             $temp = new ArrayCollection();
             /** @var FieldType $childField */
             foreach ($children as $childField) {
                 if (!$childField->getDeleted()) {
                     $value = $this->__get('ems_'.$childField->getName());
-                    if ($value) {
+                    if ($value instanceof DataField) {
                         $value->setOrderKey($childField->getOrderKey());
                         $temp->add($value);
                     }

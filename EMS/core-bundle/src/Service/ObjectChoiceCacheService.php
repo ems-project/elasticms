@@ -150,7 +150,7 @@ class ObjectChoiceCacheService
                         $contentType = $this->contentTypeService->getByName($objectType);
                         if ($contentType) {
                             $index = $this->contentTypeService->getIndex($contentType);
-                            if ($index) {
+                            if ('' !== $index && '0' !== $index) {
                                 $missingOuuidsPerIndexAndType[$index][$objectType][] = $objectOuuid;
                             } elseif ($withWarning) {
                                 $this->logger->warning('service.object_choice_cache.alias_not_found', [

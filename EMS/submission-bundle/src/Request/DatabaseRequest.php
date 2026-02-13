@@ -74,7 +74,7 @@ final readonly class DatabaseRequest
 
     public function getExpireDate(): ?\DateTimeInterface
     {
-        return $this->expireDate ? \DateTime::createFromImmutable($this->expireDate) : null;
+        return $this->expireDate instanceof \DateTimeImmutable ? \DateTime::createFromImmutable($this->expireDate) : null;
     }
 
     /**

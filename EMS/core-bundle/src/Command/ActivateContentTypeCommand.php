@@ -124,7 +124,7 @@ class ActivateContentTypeCommand extends Command
             throw new \RuntimeException('Unexpected content type names');
         }
 
-        if (!$input->getOption(self::OPTION_ALL) && 0 == (\is_countable($types) ? \count($types) : 0)) {
+        if (!$input->getOption(self::OPTION_ALL) && 0 === (\is_countable($types) ? \count($types) : 0)) {
             $this->chooseTypes($input, $output);
         }
 

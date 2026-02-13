@@ -111,7 +111,7 @@ class EnvironmentController extends AbstractController
                 } elseif (\array_key_exists('alignLeft', $request->request->all('compare_environment_form'))) {
                     foreach ($request->request->all('compare_environment_form')['item_to_align'] as $item) {
                         $exploded = \explode(':', (string) $item);
-                        if (2 == \count($exploded)) {
+                        if (2 === \count($exploded)) {
                             $this->publishService->alignRevision($exploded[0], $exploded[1], Type::string($request->query->get('withEnvironment')), Type::string($request->query->get('environment')));
                         } else {
                             $this->logger->warning('log.environment.wrong_ouuid', [
@@ -122,7 +122,7 @@ class EnvironmentController extends AbstractController
                 } elseif (\array_key_exists('alignRight', $request->request->all('compare_environment_form'))) {
                     foreach ($request->request->all('compare_environment_form')['item_to_align'] as $item) {
                         $exploded = \explode(':', (string) $item);
-                        if (2 == \count($exploded)) {
+                        if (2 === \count($exploded)) {
                             $this->publishService->alignRevision($exploded[0], $exploded[1], Type::string($request->query->get('environment')), Type::string($request->query->get('withEnvironment')));
                         } else {
                             $this->logger->warning('log.environment.wrong_ouuid', [

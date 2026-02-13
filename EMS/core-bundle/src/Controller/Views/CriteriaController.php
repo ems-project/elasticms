@@ -78,7 +78,7 @@ class CriteriaController extends AbstractController
         $filters = [];
         $criteriaField = $view->getOptions()['criteriaField'];
         foreach ($tables['criteriaChoiceLists'] as $name => $criteria) {
-            if (1 == (\is_countable($criteria) ? \count($criteria) : 0)) {
+            if (1 === (\is_countable($criteria) ? \count($criteria) : 0)) {
                 $filters[$name] = \array_keys($criteria)[0];
             }
         }
@@ -605,7 +605,7 @@ class CriteriaController extends AbstractController
         $search = new Search([$view->getContentType()->giveEnvironment()->getAlias()], $query);
         $response = EmsResponse::fromResultSet($this->elasticaService->search($search));
 
-        if (0 == $response->getTotal()) {
+        if (0 === $response->getTotal()) {
             $revision = false;
             foreach ($loadedRevision as $item) {
                 $found = true;
@@ -653,7 +653,7 @@ class CriteriaController extends AbstractController
             ]);
 
             return $revision;
-        } elseif (1 == $response->getTotal()) {
+        } elseif (1 === $response->getTotal()) {
             $revision = null;
             /** @var Document $document */
             foreach ($response->getDocuments() as $document) {
@@ -888,11 +888,11 @@ class CriteriaController extends AbstractController
         ]);
         $response = EmsResponse::fromResultSet($this->elasticaService->search($search));
 
-        if (0 == $response->getTotal()) {
+        if (0 === $response->getTotal()) {
             $this->logger->warning('log.view.criteria.not_found', [
                 'field_name' => $targetFieldName,
             ]);
-        } elseif (1 == $response->getTotal()) {
+        } elseif (1 === $response->getTotal()) {
             $revision = null;
             $queryDocument = null;
             /** @var Document $document */
@@ -985,7 +985,7 @@ class CriteriaController extends AbstractController
                     } else {
                         unset($rawData[$criteriaField][$index][$multipleField][$indexKey]);
                         $rawData[$criteriaField][$index][$multipleField] = \array_values($rawData[$criteriaField][$index][$multipleField]);
-                        if (0 == \count($rawData[$criteriaField][$index][$multipleField])) {
+                        if (0 === \count($rawData[$criteriaField][$index][$multipleField])) {
                             unset($rawData[$criteriaField][$index]);
                             $rawData[$criteriaField] = \array_values($rawData[$criteriaField]);
                         }

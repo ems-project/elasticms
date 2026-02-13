@@ -143,7 +143,7 @@ class ReindexCommand extends AbstractCommand
         $revRepo = $em->getRepository(Revision::class);
         $environment = $envRepo->findBy(['name' => $name, 'managed' => true]);
 
-        if ($environment && 1 == \count($environment)) {
+        if ($environment && 1 === \count($environment)) {
             /** @var Environment $environment */
             $environment = $environment[0];
 

@@ -218,7 +218,7 @@ class DocumentCommand extends Command
             }
 
             ++$loopIndex;
-            if (0 == $loopIndex % $bulkSize) {
+            if (0 === $loopIndex % $bulkSize) {
                 $this->documentService->flushAndSend($importerContext);
                 $loopIndex = 0;
             }

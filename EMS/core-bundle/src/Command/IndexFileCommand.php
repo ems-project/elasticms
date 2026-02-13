@@ -153,7 +153,7 @@ class IndexFileCommand extends AbstractCommand
                 $progress->advance();
             }
 
-            if (\count($revisions) == $limit) {
+            if (\count($revisions) === $limit) {
                 unset($revisions);
                 $offset += $limit;
             } else {

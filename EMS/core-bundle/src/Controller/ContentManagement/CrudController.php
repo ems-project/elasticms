@@ -204,7 +204,7 @@ class CrudController extends AbstractController
         try {
             $revision = $this->dataService->getRevisionById($id, $contentType);
             $this->dataService->discardDraft($revision);
-            $isDiscard = ($revision->getId() != $id) ? true : false;
+            $isDiscard = ($revision->getId() !== $id) ? true : false;
         } catch (\Exception $e) {
             $isDiscard = false;
             if (($e instanceof NotFoundHttpException) or ($e instanceof BadRequestHttpException)) {
@@ -276,7 +276,7 @@ class CrudController extends AbstractController
         try {
             $revision = $this->dataService->getNewestRevision($contentType->getName(), $ouuid);
             $newDraft = $this->dataService->replaceData($revision, $rawdata);
-            $isReplaced = ($revision->getId() != $newDraft->getId()) ? true : false;
+            $isReplaced = ($revision->getId() !== $newDraft->getId()) ? true : false;
         } catch (\Exception $e) {
             $isReplaced = false;
             if ($e instanceof NotFoundHttpException) {
@@ -319,7 +319,7 @@ class CrudController extends AbstractController
         try {
             $revision = $this->dataService->getNewestRevision($contentType->getName(), $ouuid);
             $newDraft = $this->dataService->replaceData($revision, $rawdata, 'merge');
-            $isMerged = ($revision->getId() != $newDraft->getId()) ? true : false;
+            $isMerged = ($revision->getId() !== $newDraft->getId()) ? true : false;
         } catch (\Exception $e) {
             if ($e instanceof NotFoundHttpException) {
                 throw $e;

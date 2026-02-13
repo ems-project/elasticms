@@ -149,7 +149,7 @@ class Revision implements EntityInterface, \Stringable
 
         $a = \func_get_args();
         $i = \func_num_args();
-        if (1 == $i) {
+        if (1 === $i) {
             if ($a[0] instanceof Revision) {
                 $ancestor = $a[0];
                 $this->deleted = $ancestor->deleted;

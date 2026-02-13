@@ -56,9 +56,9 @@ class FieldTypeManager
     {
         if (\array_key_exists('add', $formArray)) {
             if (isset($formArray['ems:internal:add:field:name'])
-                && 0 != \strcmp((string) $formArray['ems:internal:add:field:name'], '')
+                && 0 !== \strcmp((string) $formArray['ems:internal:add:field:name'], '')
                 && isset($formArray['ems:internal:add:field:class'])
-                && 0 != \strcmp((string) $formArray['ems:internal:add:field:class'], '')) {
+                && 0 !== \strcmp((string) $formArray['ems:internal:add:field:class'], '')) {
                 if (static::isValidName($formArray['ems:internal:add:field:name'])) {
                     $fieldTypeNameOrServiceName = $formArray['ems:internal:add:field:class'];
                     $fieldName = $formArray['ems:internal:add:field:name'];

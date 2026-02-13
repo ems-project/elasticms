@@ -161,7 +161,7 @@ class RebuildCommand extends AbstractCommand
 
     private function rebuildEnvironment(Environment $environment, OutputInterface $output): void
     {
-        if ($environment->getAlias() != $this->instanceId.$environment->getName()) {
+        if ($environment->getAlias() !== $this->instanceId.$environment->getName()) {
             $environment->setAlias($this->instanceId.$environment->getName());
             $this->em->persist($environment);
             $this->em->flush();

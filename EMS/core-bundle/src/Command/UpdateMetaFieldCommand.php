@@ -87,7 +87,7 @@ class UpdateMetaFieldCommand extends AbstractCommand
 
                     $em->persist($revision);
                     $progress->advance();
-                    if (0 == $progress->getProgress() % 20) {
+                    if (0 === $progress->getProgress() % 20) {
                         $em->flush();
                     }
                 } catch (NotLockedException $e) {

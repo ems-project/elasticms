@@ -187,10 +187,10 @@ class Color
             $color = self::EMS_COLORS[$color];
         } else {
             $color = \trim($color, '#');
-            if (3 == \strlen($color)) {
+            if (3 === \strlen($color)) {
                 $color = $color[0].$color[0].$color[1].$color[1].$color[2].$color[2];
             }
-            if (4 == \strlen($color)) {
+            if (4 === \strlen($color)) {
                 $color = $color[0].$color[0].$color[1].$color[1].$color[2].$color[2].$color[3].$color[3];
             }
         }

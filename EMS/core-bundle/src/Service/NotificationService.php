@@ -110,7 +110,7 @@ class NotificationService
         $userName = $this->userService->getCurrentUser()->getUserName();
 
         $notification->setStatus($status);
-        if ('acknowledged' != $status) {
+        if ('acknowledged' !== $status) {
             $notification->setResponseBy($userName);
         }
 
@@ -144,7 +144,7 @@ class NotificationService
     {
         $out = false;
         try {
-            if (RenderOptionType::NOTIFICATION != $template->getRenderOption()) {
+            if (RenderOptionType::NOTIFICATION !== $template->getRenderOption()) {
                 throw new \RuntimeException(\sprintf('Unexpected %s action', $template->getRenderOption()));
             }
             $notification = new Notification();

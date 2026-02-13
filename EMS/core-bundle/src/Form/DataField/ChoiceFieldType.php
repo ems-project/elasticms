@@ -231,7 +231,7 @@ class ChoiceFieldType extends DataFieldType
         $labels = \explode("\n", \str_replace("\r", '', (string) $options['labels']));
 
         foreach ($values as $id => $value) {
-            if ('' != $value) {
+            if ('' !== $value) {
                 if (isset($labels[$id]) && !empty($labels[$id])) {
                     $choices[$labels[$id]] = $value;
                 } else {

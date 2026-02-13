@@ -82,7 +82,7 @@ final readonly class PostProcessingService
         $options = $fieldType->getOptions();
 
         if (!$dataFieldType::isVirtual([] === $options ? [] : $options)) {
-            $path .= ('' == $path ? '' : '.').$form->getConfig()->getName();
+            $path .= ('' === $path ? '' : '.').$form->getConfig()->getName();
         }
 
         if ($migration && JsonMenuNestedEditorFieldType::class === $fieldType->getType()) {
@@ -200,7 +200,7 @@ final readonly class PostProcessingService
                     foreach ($child->all() as $collectionChild) {
                         if (isset($objectArray[$fieldName])) {
                             foreach ($objectArray[$fieldName] as &$elementsArray) {
-                                $childPath = $path.('' == $path ? '' : '.').$fieldName;
+                                $childPath = $path.('' === $path ? '' : '.').$fieldName;
                                 $found = $this->postProcessing($collectionChild, $contentType, $elementsArray, $context, $parent, $childPath) || $found;
                             }
                         }

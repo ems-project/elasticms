@@ -473,7 +473,7 @@ class ElasticsearchController extends AbstractController
             $search = new Search();
             $search->setEnvironments($this->environmentService->getEnvironmentNames());
 
-            if ('POST' == $request->getMethod()) {
+            if ('POST' === $request->getMethod()) {
                 $request->request->set('search_form', $request->query->all('search_form'));
 
                 $form = $this->createForm(SearchFormType::class, $search);

@@ -159,7 +159,7 @@ abstract class AbstractUrlStorage implements StorageInterface, \Stringable
         \fflush($file);
         \fclose($file);
 
-        if (false === $result || $result != \strlen($chunk)) {
+        if (false === $result || $result !== \strlen($chunk)) {
             return false;
         }
 

@@ -36,8 +36,9 @@ final class UpdateFileLinks extends AbstractCommand
 {
     private const string ARGUMENT_CONTENT_TYPE = 'content-type';
     private const string ARGUMENT_FIELDS = 'fields';
-    private const string OPTION_CONTENT_TYPE = 'content-type';
+    private const string OPTION_MEDIA_LIBRARY_CONTENT_TYPE = 'content-type';
     private const string OPTION_FILE_FIELD = 'file-field';
+    private const string OPTION_MIME_TYPE = 'mime-type';
     private CoreApiInterface $coreApi;
     private string $contentTypeName;
     /** @var array{key: string, emsLink: EMSLink, url: string, value: string} */
@@ -46,8 +47,9 @@ final class UpdateFileLinks extends AbstractCommand
     private array $logConflictsReports;
     /** @var string[] */
     private array $fields;
-    private string $contentType;
+    private string $mediaLibraryContentType;
     private string $fileField;
+    private string $mimeType;
 
     public function __construct(
         private readonly AdminHelper $adminHelper,
@@ -62,8 +64,9 @@ final class UpdateFileLinks extends AbstractCommand
         $this
             ->addArgument(self::ARGUMENT_CONTENT_TYPE, InputArgument::REQUIRED, 'Content type\'s name')
             ->addArgument(self::ARGUMENT_FIELDS, InputArgument::IS_ARRAY, 'Fields to search for. Write words separated by spaces')
-            ->addOption(self::OPTION_CONTENT_TYPE, null, InputOption::VALUE_OPTIONAL, 'Media library content type\'s name', 'media_file')
+            ->addOption(self::OPTION_MEDIA_LIBRARY_CONTENT_TYPE, null, InputOption::VALUE_OPTIONAL, 'Media library content type\'s name', 'media_file')
             ->addOption(self::OPTION_FILE_FIELD, null, InputOption::VALUE_OPTIONAL, 'File field', 'media_file')
+            ->addOption(self::OPTION_MIME_TYPE, null, InputOption::VALUE_OPTIONAL, 'Type of spreadsheet document', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
         ;
     }
 
@@ -73,9 +76,10 @@ final class UpdateFileLinks extends AbstractCommand
         parent::initialize($input, $output);
         $this->contentTypeName = $this->getArgumentString(self::ARGUMENT_CONTENT_TYPE);
         $this->fields = $this->getArgumentStringArray(self::ARGUMENT_FIELDS);
-        $this->contentType = $this->getOptionString(self::OPTION_CONTENT_TYPE);
+        $this->mediaLibraryContentType = $this->getOptionString(self::OPTION_MEDIA_LIBRARY_CONTENT_TYPE);
         $this->fileField = $this->getOptionString(self::OPTION_FILE_FIELD);
         $this->coreApi = $this->adminHelper->getCoreApi();
+        $this->mimeType = $this->getOptionString(self::OPTION_MIME_TYPE);
     }
 
     #[\Override]
@@ -91,7 +95,7 @@ final class UpdateFileLinks extends AbstractCommand
         $defaultAlias = $this->coreApi->meta()->getDefaultContentTypeEnvironmentAlias($this->contentTypeName);
         $search = new Search([$defaultAlias]);
         $search->setContentTypes([$this->contentTypeName]);
-        $search->setSources(['_source', 'fr', 'nl']);
+        $search->setSources(['*']);
 
         $this->io->section(\sprintf('Start analyzing %s', $this->contentTypeName));
         $this->io->progressStart($this->coreApi->search()->count($search));
@@ -117,8 +121,8 @@ final class UpdateFileLinks extends AbstractCommand
                 ]],
             ], $tempFile->path);
             $filename = \sprintf('UpdateFileLinks - Rapport %s.xlsx', \date('YmdHis'));
-            $hash = $this->coreApi->file()->uploadFile($tempFile->path, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', $filename);
-            $this->io->success($this->buildUrl($hash, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', $filename));
+            $hash = $this->coreApi->file()->uploadFile($tempFile->path, $this->mimeType, $filename);
+            $this->io->success($this->buildUrl($hash, $this->mimeType, $filename));
         }
         return self::EXECUTE_SUCCESS;
     }
@@ -134,8 +138,8 @@ final class UpdateFileLinks extends AbstractCommand
     {
         $propertyAccessor = PropertyAccessor::createPropertyAccessor();
         $rawData = $document->getSource();
-        foreach ($propertyAccessor->iterator($propertyPath, $rawData) as $key => $value) {
-            $this->updateProperty($key, $value);
+        foreach ($propertyAccessor->iterator($propertyPath, $rawData) as $property => $value) {
+            $this->updateProperty($property, $value);
         }
     }
 
@@ -171,14 +175,14 @@ final class UpdateFileLinks extends AbstractCommand
 
     private function findMediaFileByHash(EMSLink $link, string $hash, mixed $value): ?EmsLink
     {
-        $alias = $this->coreApi->meta()->getDefaultContentTypeEnvironmentAlias($this->contentType);
+        $alias = $this->coreApi->meta()->getDefaultContentTypeEnvironmentAlias($this->mediaLibraryContentType);
         $term = new Term();
         $term->setTerm(join('.', [$this->fileField, EmsFields::CONTENT_FILE_HASH_FIELD]), $hash);
         $nested = new Nested();
         $nested->setPath($this->fileField);
         $nested->setQuery($term);
         $search = new Search([$alias], $nested);
-        $search->setContentTypes([$this->contentType]);
+        $search->setContentTypes([$this->mediaLibraryContentType]);
         $search->setSize(1);
         $result = $this->coreApi->search()->search($search);
         if ($result->getTotal() > 1) {

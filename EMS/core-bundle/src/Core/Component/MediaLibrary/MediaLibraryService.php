@@ -108,7 +108,7 @@ class MediaLibraryService
         $search = $this->buildSearch($query, false);
         $count = $this->elasticaService->count($search);
 
-        return !(0 === $count);
+        return 0 !== $count;
     }
 
     /**

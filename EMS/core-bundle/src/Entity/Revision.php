@@ -149,28 +149,25 @@ class Revision implements EntityInterface, \Stringable
 
         $a = \func_get_args();
         $i = \func_num_args();
-        if (1 === $i) {
-            if ($a[0] instanceof Revision) {
-                $ancestor = $a[0];
-                $this->deleted = $ancestor->deleted;
-                $this->draft = true;
-                $this->allFieldsAreThere = $ancestor->allFieldsAreThere;
-                $this->ouuid = $ancestor->ouuid;
-                $this->contentType = $ancestor->contentType;
-                $this->rawData = $ancestor->rawData;
-                $this->circles = $ancestor->circles;
-                $this->dataField = new DataField($ancestor->dataField);
-                $this->taskCurrent = $ancestor->taskCurrent;
-                $this->taskPlannedIds = $ancestor->taskPlannedIds;
-                $this->taskApprovedIds = $ancestor->taskApprovedIds;
-                $this->lazyIndex = $ancestor->lazyIndex;
-
-                if (null !== $versionUuid = $ancestor->getVersionUuid()) {
-                    $this->setVersionId($versionUuid);
-                }
-                if (null !== $versionTag = $ancestor->getVersionTag()) {
-                    $this->setVersionTag($versionTag);
-                }
+        if (1 === $i && $a[0] instanceof Revision) {
+            $ancestor = $a[0];
+            $this->deleted = $ancestor->deleted;
+            $this->draft = true;
+            $this->allFieldsAreThere = $ancestor->allFieldsAreThere;
+            $this->ouuid = $ancestor->ouuid;
+            $this->contentType = $ancestor->contentType;
+            $this->rawData = $ancestor->rawData;
+            $this->circles = $ancestor->circles;
+            $this->dataField = new DataField($ancestor->dataField);
+            $this->taskCurrent = $ancestor->taskCurrent;
+            $this->taskPlannedIds = $ancestor->taskPlannedIds;
+            $this->taskApprovedIds = $ancestor->taskApprovedIds;
+            $this->lazyIndex = $ancestor->lazyIndex;
+            if (null !== $versionUuid = $ancestor->getVersionUuid()) {
+                $this->setVersionId($versionUuid);
+            }
+            if (null !== $versionTag = $ancestor->getVersionTag()) {
+                $this->setVersionTag($versionTag);
             }
         }
         // TODO: Refactoring: Dependency injection of the first Datafield in the Revision.

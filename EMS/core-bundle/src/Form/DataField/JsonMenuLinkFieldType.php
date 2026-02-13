@@ -90,10 +90,8 @@ class JsonMenuLinkFieldType extends DataFieldType
 
                     $jsonMenu = $this->decoder->jsonMenuDecode($result->getSource()[$options['json_menu_field']] ?? '{}', '/');
                     foreach ($jsonMenu->getUids() as $uid) {
-                        if (!\in_array($uid, $alreadyAssignedUuids)) {
-                            if (($jsonMenu->getItem($uid)['contentType'] ?? false) === $fieldType->giveContentType()->getName()) {
-                                $choices[$label.$jsonMenu->getSlug($uid)] = $uid;
-                            }
+                        if (!\in_array($uid, $alreadyAssignedUuids) && ($jsonMenu->getItem($uid)['contentType'] ?? false) === $fieldType->giveContentType()->getName()) {
+                            $choices[$label.$jsonMenu->getSlug($uid)] = $uid;
                         }
                     }
                 }

@@ -253,14 +253,12 @@ final class ClientRequest implements ClientRequestInterface
         }
         $out = new HierarchicalStructure($contentType, $item['_id'], $item['_source'], $activeChild);
 
-        if (null === $depth || $depth) {
-            if (isset($item['_source'][$childrenField]) && \is_array($item['_source'][$childrenField])) {
-                foreach ($item['_source'][$childrenField] as $key) {
-                    if ($key) {
-                        $child = $this->getHierarchy($key, $childrenField, null === $depth ? null : $depth - 1, $sourceFields, $activeChild, $querySize, $items);
-                        if ($child instanceof HierarchicalStructure) {
-                            $out->addChild($child);
-                        }
+        if ((null === $depth || $depth) && (isset($item['_source'][$childrenField]) && \is_array($item['_source'][$childrenField]))) {
+            foreach ($item['_source'][$childrenField] as $key) {
+                if ($key) {
+                    $child = $this->getHierarchy($key, $childrenField, null === $depth ? null : $depth - 1, $sourceFields, $activeChild, $querySize, $items);
+                    if ($child instanceof HierarchicalStructure) {
+                        $out->addChild($child);
                     }
                 }
             }

@@ -150,11 +150,9 @@ final class Transformer
         $context['url'] = $emsLink;
 
         $dynamicTypes = $config['dynamic_types'] ?? [];
-        if (!\in_array($emsLink->getContentType(), $dynamicTypes)) {
-            if ($document = $this->getDocument($emsLink)) {
-                $context['id'] = $document['_id'];
-                $context['source'] = $document['_source'];
-            }
+        if (!\in_array($emsLink->getContentType(), $dynamicTypes) && $document = $this->getDocument($emsLink)) {
+            $context['id'] = $document['_id'];
+            $context['source'] = $document['_source'];
         }
 
         if (isset($config['locale'])) {

@@ -608,15 +608,7 @@ class CriteriaController extends AbstractController
         if (0 === $response->getTotal()) {
             $revision = false;
             foreach ($loadedRevision as $item) {
-                $found = true;
-                foreach ($rawData as $name => $key) {
-                    if ($multipleField != $name) {
-                        if ($item->getRawData()[$name] != $key) {
-                            $found = false;
-                            break;
-                        }
-                    }
-                }
+                $found = \array_all($rawData, fn ($key, $name) => !($multipleField != $name && $item->getRawData()[$name] != $key));
                 if ($found) {
                     $revision = $item;
                 }

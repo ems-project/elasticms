@@ -190,10 +190,8 @@ class IndexFileCommand extends AbstractCommand
                 return false;
             }
 
-            if (\is_array($data)) {
-                if ($this->findField($rawData[$key], $field, $output, $onlyWithIngestedContent, $onlyMissingContent)) {
-                    return true;
-                }
+            if (\is_array($data) && $this->findField($rawData[$key], $field, $output, $onlyWithIngestedContent, $onlyMissingContent)) {
+                return true;
             }
         }
 
@@ -206,63 +204,58 @@ class IndexFileCommand extends AbstractCommand
     private function migrate(array &$rawData, OutputInterface $output): bool
     {
         $updated = false;
-        if ([] !== $rawData) {
-            if (isset($rawData['sha1'])) {
-                $file = $this->fileService->getFile($rawData['sha1']);
+        if ([] !== $rawData && isset($rawData['sha1'])) {
+            $file = $this->fileService->getFile($rawData['sha1']);
+            if (null === $file && isset($rawData['content'])) {
+                $fileContent = \base64_decode((string) $rawData['content']);
 
-                if (null === $file && isset($rawData['content'])) {
-                    $fileContent = \base64_decode((string) $rawData['content']);
-
-                    if (\sha1($fileContent) === $rawData[EmsFields::CONTENT_FILE_HASH_FIELD]) {
-                        $tempFile = TempFile::create();
-                        $file = $tempFile->path;
-                        File::putContents($file, $fileContent);
-                        try {
-                            $this->fileService->uploadFile($rawData[EmsFields::CONTENT_FILE_NAME_FIELD] ?? 'filename.bin', $rawData[EmsFields::CONTENT_MIME_TYPE_FIELD] ?? 'application/bin', $file, self::SYSTEM_USERNAME);
-                            $output->writeln(\sprintf('File restored from DB: %s', $rawData[EmsFields::CONTENT_FILE_HASH_FIELD]));
-                        } catch (\Throwable) {
-                            $file = null;
-                        }
+                if (\sha1($fileContent) === $rawData[EmsFields::CONTENT_FILE_HASH_FIELD]) {
+                    $tempFile = TempFile::create();
+                    $file = $tempFile->path;
+                    File::putContents($file, $fileContent);
+                    try {
+                        $this->fileService->uploadFile($rawData[EmsFields::CONTENT_FILE_NAME_FIELD] ?? 'filename.bin', $rawData[EmsFields::CONTENT_MIME_TYPE_FIELD] ?? 'application/bin', $file, self::SYSTEM_USERNAME);
+                        $output->writeln(\sprintf('File restored from DB: %s', $rawData[EmsFields::CONTENT_FILE_HASH_FIELD]));
+                    } catch (\Throwable) {
+                        $file = null;
                     }
                 }
+            }
+            if (isset($rawData['content'])) {
+                unset($rawData['content']);
+                $updated = true;
+            }
+            if ($file) {
+                $data = $this->extractorService->extractMetaData($rawData['sha1'], $file)->getSource();
 
-                if (isset($rawData['content'])) {
-                    unset($rawData['content']);
-                    $updated = true;
-                }
-
-                if ($file) {
-                    $data = $this->extractorService->extractMetaData($rawData['sha1'], $file)->getSource();
-
-                    if ([] !== $data) {
-                        if (isset($data['date']) && $data['date']) {
-                            $rawData['_date'] = $data['date'];
-                            $updated = true;
-                        }
-                        if (isset($data['content']) && $data['content']) {
-                            $rawData['_content'] = $data['content'];
-                            $updated = true;
-                        }
-                        if (isset($data['Author']) && $data['Author']) {
-                            $rawData['_author'] = $data['Author'];
-                            $updated = true;
-                        }
-                        if (isset($data['author']) && $data['author']) {
-                            $rawData['_author'] = $data['author'];
-                            $updated = true;
-                        }
-                        if (isset($data['language']) && $data['language']) {
-                            $rawData['_language'] = $data['language'];
-                            $updated = true;
-                        }
-                        if (isset($data['title']) && $data['title']) {
-                            $rawData['_title'] = $data['title'];
-                            $updated = true;
-                        }
+                if ([] !== $data) {
+                    if (isset($data['date']) && $data['date']) {
+                        $rawData['_date'] = $data['date'];
+                        $updated = true;
                     }
-                } else {
-                    $output->writeln('File not found:'.$rawData['sha1']);
+                    if (isset($data['content']) && $data['content']) {
+                        $rawData['_content'] = $data['content'];
+                        $updated = true;
+                    }
+                    if (isset($data['Author']) && $data['Author']) {
+                        $rawData['_author'] = $data['Author'];
+                        $updated = true;
+                    }
+                    if (isset($data['author']) && $data['author']) {
+                        $rawData['_author'] = $data['author'];
+                        $updated = true;
+                    }
+                    if (isset($data['language']) && $data['language']) {
+                        $rawData['_language'] = $data['language'];
+                        $updated = true;
+                    }
+                    if (isset($data['title']) && $data['title']) {
+                        $rawData['_title'] = $data['title'];
+                        $updated = true;
+                    }
                 }
+            } else {
+                $output->writeln('File not found:'.$rawData['sha1']);
             }
         }
 

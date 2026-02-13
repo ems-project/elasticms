@@ -410,20 +410,18 @@ class ElasticsearchController extends AbstractController
 
         if (null !== $category && 1 === \count($contentTypes)) {
             $contentType = $this->contentTypeService->getByName(\array_first($contentTypes));
-            if (false !== $contentType) {
-                if ($contentType->hasCategoryField()) {
-                    $categoryField = $contentType->giveCategoryField();
-                    $boolQuery = $this->elasticaService->getBoolQuery();
-                    $query = $commonSearch->getQuery();
-                    if (!$query instanceof $boolQuery) {
-                        if (null !== $query) {
-                            $boolQuery->addMust($query);
-                        }
-                        $query = $boolQuery;
+            if (false !== $contentType && $contentType->hasCategoryField()) {
+                $categoryField = $contentType->giveCategoryField();
+                $boolQuery = $this->elasticaService->getBoolQuery();
+                $query = $commonSearch->getQuery();
+                if (!$query instanceof $boolQuery) {
+                    if (null !== $query) {
+                        $boolQuery->addMust($query);
                     }
-                    $query->addMust($this->elasticaService->getTermsQuery($categoryField, [$category]));
-                    $commonSearch = new CommonSearch($commonSearch->getIndices(), $query);
+                    $query = $boolQuery;
                 }
+                $query->addMust($this->elasticaService->getTermsQuery($categoryField, [$category]));
+                $commonSearch = new CommonSearch($commonSearch->getIndices(), $query);
             }
         }
 

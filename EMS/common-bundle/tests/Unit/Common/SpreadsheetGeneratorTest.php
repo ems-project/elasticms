@@ -89,7 +89,7 @@ class SpreadsheetGeneratorTest extends TestCase
             $className = $object::class;
             $reflection = new \ReflectionClass($className);
         } catch (\ReflectionException $e) {
-            throw new \Exception($e->getMessage());
+            throw new \Exception($e->getMessage(), $e->getCode(), $e);
         }
 
         $method = $reflection->getMethod($method);

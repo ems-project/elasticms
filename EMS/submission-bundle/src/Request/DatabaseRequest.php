@@ -109,7 +109,7 @@ final readonly class DatabaseRequest
 
             return $resolvedDatabaseRecord;
         } catch (ExceptionInterface $e) {
-            throw new \RuntimeException(\sprintf('Invalid database record: %s', $e->getMessage()));
+            throw new \RuntimeException(\sprintf('Invalid database record: %s', $e->getMessage()), $e->getCode(), $e);
         }
     }
 }

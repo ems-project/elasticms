@@ -55,7 +55,7 @@ final readonly class ApiService
                 $dataEndpoint->discard($revisionId);
             }
 
-            throw new \RuntimeException($e->result->getFirstErrorWarning() ?? 'Finalize failed');
+            throw new \RuntimeException($e->result->getFirstErrorWarning() ?? 'Finalize failed', $e->getCode(), $e);
         }
     }
 

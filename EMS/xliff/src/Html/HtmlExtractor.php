@@ -262,11 +262,8 @@ class HtmlExtractor
         if (' ' === $trimmed && $sourceNode->nextSibling instanceof \DOMElement && !\in_array($sourceNode->nextSibling->nodeName, self::INTERNAL_TAGS, true)) {
             return true;
         }
-        if (' ' === $trimmed && $sourceNode->previousSibling instanceof \DOMElement && !\in_array($sourceNode->previousSibling->nodeName, self::INTERNAL_TAGS, true)) {
-            return true;
-        }
 
-        return false;
+        return ' ' === $trimmed && $sourceNode->previousSibling instanceof \DOMElement && !\in_array($sourceNode->previousSibling->nodeName, self::INTERNAL_TAGS, true);
     }
 
     private function trimUselessWhiteSpaces(string $text): string

@@ -203,18 +203,17 @@ class ChoiceFieldType extends DataFieldType
                 $dataField->addMessage('Was not able to import the data : '.Json::encode($out));
                 $out = [];
             }
-        } else { // not mutiple
-            if (null === $temp) {
-                $out = null;
-            } elseif (\is_string($temp) || \is_int($temp)) {
-                $out = $temp;
-            } elseif (\is_array($temp) && null != $temp && (\is_string(\array_first($temp)) || \is_int(\array_first($temp)))) {
-                $out = \array_first($temp);
-                $dataField->addMessage('Only the first item has been imported : '.Json::encode($temp));
-            } else {
-                $dataField->addMessage('Was not able to import the data : '.Json::encode($temp));
-                $out = [];
-            }
+        } elseif (null === $temp) {
+            // not mutiple
+            $out = null;
+        } elseif (\is_string($temp) || \is_int($temp)) {
+            $out = $temp;
+        } elseif (\is_array($temp) && null != $temp && (\is_string(\array_first($temp)) || \is_int(\array_first($temp)))) {
+            $out = \array_first($temp);
+            $dataField->addMessage('Only the first item has been imported : '.Json::encode($temp));
+        } else {
+            $dataField->addMessage('Was not able to import the data : '.Json::encode($temp));
+            $out = [];
         }
 
         return ['value' => $out];

@@ -254,12 +254,10 @@ readonly class CoreExtension
                     $textLabel .= ' <ins class="diffmod">'.($escape ? \htmlentities($a) : $this->internalLinks($a)).'</ins>';
                 }
             }
+        } elseif (null !== $a) {
+            $textLabel = ($escape ? \htmlentities($a) : $this->internalLinks($a));
         } else {
-            if (null !== $a) {
-                $textLabel = ($escape ? \htmlentities($a) : $this->internalLinks($a));
-            } else {
-                return '<span class="text-gray">[not defined]</span>';
-            }
+            return '<span class="text-gray">[not defined]</span>';
         }
 
         if ($raw) {

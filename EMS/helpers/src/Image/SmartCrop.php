@@ -390,10 +390,8 @@ class SmartCrop
             if ((2 - $maximum - $minimum) == 0) {
                 return 0;
             }
-        } else {
-            if (($maximum + $minimum) == 0) {
-                return 0;
-            }
+        } elseif (($maximum + $minimum) == 0) {
+            return 0;
         }
 
         return $l > 0.5 ? $d / (2 - $maximum - $minimum) : $d / ($maximum + $minimum);

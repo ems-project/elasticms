@@ -197,20 +197,18 @@ class ExportDocumentsCommand extends AbstractCommand
                         $errorList[] = 'Error in rendering template for: '.$filename;
                         continue;
                     }
+                } elseif ($accumulateInOneFile) {
+                    $content = Json::encode($document->getSource());
+                } elseif (\str_contains($this->format, (string) TemplateService::JSON_FORMAT)) {
+                    $content = Json::encode($document->getSource(), true);
+                } elseif (\str_contains($this->format, (string) TemplateService::XML_FORMAT)) {
+                    $content = $this->templateService->getXml($contentType, $document->getSource(), false, $document->getOuuid());
                 } else {
-                    if ($accumulateInOneFile) {
-                        $content = Json::encode($document->getSource());
-                    } elseif (\str_contains($this->format, (string) TemplateService::JSON_FORMAT)) {
-                        $content = Json::encode($document->getSource(), true);
-                    } elseif (\str_contains($this->format, (string) TemplateService::XML_FORMAT)) {
-                        $content = $this->templateService->getXml($contentType, $document->getSource(), false, $document->getOuuid());
-                    } else {
-                        $this->logger->error('log.command.export.unknow_format', [
-                            'format' => $this->format,
-                        ]);
-                        $errorList[] = 'Unknow format: '.$this->format;
-                        continue;
-                    }
+                    $this->logger->error('log.command.export.unknow_format', [
+                        'format' => $this->format,
+                    ]);
+                    $errorList[] = 'Unknow format: '.$this->format;
+                    continue;
                 }
 
                 if ($accumulateInOneFile) {

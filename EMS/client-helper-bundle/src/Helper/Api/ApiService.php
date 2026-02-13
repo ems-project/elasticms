@@ -97,17 +97,13 @@ final readonly class ApiService
                     foreach ($collectionOfFields as $fileKey => $file) {
                         if (\is_array($file)) {
                             $body[$fieldKey][$pos] = $this->treatFiles($body[$fieldKey][$pos], $apiName, $collectionOfFields);
-                        } else {
-                            if (null !== $file) {
-                                $body[$fieldKey][$pos][$fileKey] = $this->createContentFileHashField($apiName, $file);
-                            }
+                        } elseif (null !== $file) {
+                            $body[$fieldKey][$pos][$fileKey] = $this->createContentFileHashField($apiName, $file);
                         }
                     }
                 }
-            } else {
-                if (null !== $fileField) {
-                    $body[$fieldKey] = $this->createContentFileHashField($apiName, $fileField);
-                }
+            } elseif (null !== $fileField) {
+                $body[$fieldKey] = $this->createContentFileHashField($apiName, $fileField);
             }
         }
 

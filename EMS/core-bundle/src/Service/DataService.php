@@ -1039,12 +1039,10 @@ class DataService
                     if (isset($options['multiple']) && $options['multiple']) {
                         $revision->setRawData(\array_merge($revision->getRawData(), [$contentType->getCirclesField() => $currentUser->getCircles()]));
                         $revision->setCircles($currentUser->getCircles());
-                    } else {
+                    } elseif (!empty($currentUser->getCircles())) {
                         // set first of my circles
-                        if (!empty($currentUser->getCircles())) {
-                            $revision->setRawData(\array_merge($revision->getRawData(), [$contentType->getCirclesField() => $currentUser->getCircles()[0]]));
-                            $revision->setCircles([$currentUser->getCircles()[0]]);
-                        }
+                        $revision->setRawData(\array_merge($revision->getRawData(), [$contentType->getCirclesField() => $currentUser->getCircles()[0]]));
+                        $revision->setCircles([$currentUser->getCircles()[0]]);
                     }
                 }
             }
@@ -1378,24 +1376,23 @@ class DataService
             }
 
             $fieldNames = $dataFieldType->getJsonNames($fieldType);
-            if (0 === \count($fieldNames)) {// Virtual container
+            if (0 === \count($fieldNames)) {
+                // Virtual container
                 /** @var DataField $child */
                 foreach ($dataField->getChildren() as $child) {
                     $this->updateDataValue($child, $elasticIndexDatas, $isMigration);
                 }
+            } elseif ($dataFieldType->isVirtual($dataField->giveFieldType()->getOptions())) {
+                $treatedFields = $dataFieldType->importData($dataField, $elasticIndexDatas, $isMigration);
+                foreach ($treatedFields as $fieldName) {
+                    unset($elasticIndexDatas[$fieldName]);
+                }
             } else {
-                if ($dataFieldType->isVirtual($dataField->giveFieldType()->getOptions())) {
-                    $treatedFields = $dataFieldType->importData($dataField, $elasticIndexDatas, $isMigration);
-                    foreach ($treatedFields as $fieldName) {
-                        unset($elasticIndexDatas[$fieldName]);
-                    }
-                } else {
-                    foreach ($fieldNames as $fieldName) {
-                        if (\array_key_exists($fieldName, $elasticIndexDatas)) {
-                            $treatedFields = $dataFieldType->importData($dataField, $elasticIndexDatas[$fieldName], $isMigration);
-                            foreach ($treatedFields as $treatedFieldName) {
-                                unset($elasticIndexDatas[$treatedFieldName]);
-                            }
+                foreach ($fieldNames as $fieldName) {
+                    if (\array_key_exists($fieldName, $elasticIndexDatas)) {
+                        $treatedFields = $dataFieldType->importData($dataField, $elasticIndexDatas[$fieldName], $isMigration);
+                        foreach ($treatedFields as $treatedFieldName) {
+                            unset($elasticIndexDatas[$treatedFieldName]);
                         }
                     }
                 }

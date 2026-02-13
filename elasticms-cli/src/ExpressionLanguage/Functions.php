@@ -17,7 +17,7 @@ class Functions
 
         $document = new \DOMDocument('1.0', 'UTF-8');
         \libxml_use_internal_errors(true);
-        if (true !== $document->loadHTML(\sprintf('<?xml encoding="utf-8" ?><body>%s</body>', $html))) {
+        if (!$document->loadHTML(\sprintf('<?xml encoding="utf-8" ?><body>%s</body>', $html))) {
             \libxml_clear_errors();
             throw new \RuntimeException(\sprintf('Unexpected error while loading this html %s', $html));
         }

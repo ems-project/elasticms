@@ -48,7 +48,7 @@ final class SelectUserPropertyType extends AbstractType
 
         $eventDispatcher = $options['event_dispatcher'];
 
-        if ($eventDispatcher instanceof EventDispatcher || false !== (bool) $options['allow_add']) {
+        if ($eventDispatcher instanceof EventDispatcher || (bool) $options['allow_add']) {
             $this->allowDynamicChoices($builder, $eventDispatcher);
         }
     }

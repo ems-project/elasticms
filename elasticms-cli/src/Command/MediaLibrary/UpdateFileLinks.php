@@ -39,6 +39,7 @@ final class UpdateFileLinks extends AbstractCommand
     private const string OPTION_MEDIA_LIBRARY_CONTENT_TYPE = 'content-type';
     private const string OPTION_FILE_FIELD = 'file-field';
     private const string OPTION_MIME_TYPE = 'mime-type';
+    private const string OPTION_FORCE = 'force';
     private CoreApiInterface $coreApi;
     private string $contentTypeName;
     /** @var array{key: string, emsLink: EMSLink, url: string, value: string} */
@@ -50,6 +51,7 @@ final class UpdateFileLinks extends AbstractCommand
     private string $mediaLibraryContentType;
     private string $fileField;
     private string $mimeType;
+    private bool $force;
 
     public function __construct(
         private readonly AdminHelper $adminHelper,
@@ -67,7 +69,7 @@ final class UpdateFileLinks extends AbstractCommand
             ->addOption(self::OPTION_MEDIA_LIBRARY_CONTENT_TYPE, null, InputOption::VALUE_OPTIONAL, 'Media library content type\'s name', 'media_file')
             ->addOption(self::OPTION_FILE_FIELD, null, InputOption::VALUE_OPTIONAL, 'File field', 'media_file')
             ->addOption(self::OPTION_MIME_TYPE, null, InputOption::VALUE_OPTIONAL, 'Type of spreadsheet document', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-        ;
+            ->addOption(self::OPTION_FORCE, null, InputOption::VALUE_NONE, 'Updates links. By default, only writes logs');
     }
 
     #[\Override]
@@ -80,18 +82,20 @@ final class UpdateFileLinks extends AbstractCommand
         $this->fileField = $this->getOptionString(self::OPTION_FILE_FIELD);
         $this->coreApi = $this->adminHelper->getCoreApi();
         $this->mimeType = $this->getOptionString(self::OPTION_MIME_TYPE);
+        $this->force = $input->getOption(self::OPTION_FORCE) ?? false;
     }
 
     #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io->title(\sprintf('Convert ems file links into ems object link in %s', $this->contentTypeName));
-        
+
         if (!$this->coreApi->isAuthenticated()) {
             $this->io->error(\sprintf('Not authenticated for %s, run ems:admin:login', $this->adminHelper->getCoreApi()->getBaseUrl()));
+
             return self::EXECUTE_ERROR;
         }
-        
+
         $defaultAlias = $this->coreApi->meta()->getDefaultContentTypeEnvironmentAlias($this->contentTypeName);
         $search = new Search([$defaultAlias]);
         $search->setContentTypes([$this->contentTypeName]);
@@ -115,7 +119,7 @@ final class UpdateFileLinks extends AbstractCommand
                 SpreadsheetGeneratorService::SHEETS => [[
                     'rows' => [['Key', 'EMSLink', 'Link', 'Value'], ...$this->logReports],
                     'name' => 'elasticMS files',
-                ],[
+                ], [
                     'rows' => [['Conflicting documents', 'EMSLink', 'Link', 'Value'], ...$this->logConflictsReports],
                     'name' => 'Conflicting files',
                 ]],
@@ -124,6 +128,7 @@ final class UpdateFileLinks extends AbstractCommand
             $hash = $this->coreApi->file()->uploadFile($tempFile->path, $this->mimeType, $filename);
             $this->io->success($this->buildUrl($hash, $this->mimeType, $filename));
         }
+
         return self::EXECUTE_SUCCESS;
     }
 
@@ -143,9 +148,6 @@ final class UpdateFileLinks extends AbstractCommand
         }
     }
 
-    /**
-     * @param string $value
-     */
     private function updateProperty(string $key, string $value): void
     {
         if (!\preg_match_all(EMSLink::PATTERN, $value, $matches, PREG_SET_ORDER)) {
@@ -166,18 +168,18 @@ final class UpdateFileLinks extends AbstractCommand
         $link = EMSLink::fromMatch($match);
         $hash = $link->getOuuid();
         $found = $this->findMediaFileByHash($link, $hash, $value);
-        if ($found) {
-            $value = str_replace($match[0], $found->jsonSerialize(), $value);
+        if ($found && $this->force) {
+            $value = \str_replace($match[0], $found->jsonSerialize(), $value);
         } else {
             $this->logAssetLink($key, EMSLink::fromMatch($match), $value);
         }
     }
 
-    private function findMediaFileByHash(EMSLink $link, string $hash, mixed $value): ?EmsLink
+    private function findMediaFileByHash(EMSLink $link, string $hash, mixed $value): ?EMSLink
     {
         $alias = $this->coreApi->meta()->getDefaultContentTypeEnvironmentAlias($this->mediaLibraryContentType);
         $term = new Term();
-        $term->setTerm(join('.', [$this->fileField, EmsFields::CONTENT_FILE_HASH_FIELD]), $hash);
+        $term->setTerm(\implode('.', [$this->fileField, EmsFields::CONTENT_FILE_HASH_FIELD]), $hash);
         $nested = new Nested();
         $nested->setPath($this->fileField);
         $nested->setQuery($term);
@@ -186,16 +188,16 @@ final class UpdateFileLinks extends AbstractCommand
         $search->setSize(1);
         $result = $this->coreApi->search()->search($search);
         if ($result->getTotal() > 1) {
-            $this->logConflict($link, $value, sprintf('%d files(s)', $result->getTotal()));
+            $this->logConflict($link, $value, \sprintf('%d files(s)', $result->getTotal()));
         }
         foreach ($result->getDocuments() as $document) {
             return $document->getEmsLink();
         }
+
         return null;
     }
 
-
-    private function logAssetLink(mixed $key, EMSLink $emsLink, string $value) : void
+    private function logAssetLink(mixed $key, EMSLink $emsLink, string $value): void
     {
         $query = $emsLink->getQuery();
         $this->logReports[] = [
@@ -205,7 +207,8 @@ final class UpdateFileLinks extends AbstractCommand
             'value' => $value,
         ];
     }
-    private function logConflict(EMSLink $emsLink, string $value, string $message = '') : void
+
+    private function logConflict(EMSLink $emsLink, string $value, string $message = ''): void
     {
         $query = $emsLink->getQuery();
         $this->logConflictsReports[] = [
@@ -215,7 +218,7 @@ final class UpdateFileLinks extends AbstractCommand
             'value' => $value,
         ];
     }
-    
+
     private function buildUrl(string $hash, string $type, string $filename): string
     {
         return \sprintf('%sdata/file/%s?type=%s&name=%s', $this->coreApi->getBaseUrl(), $hash, \urlencode($type), \urlencode($filename));

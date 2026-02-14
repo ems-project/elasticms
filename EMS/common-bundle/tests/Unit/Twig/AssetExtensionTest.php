@@ -21,7 +21,7 @@ class AssetExtensionTest extends TestCase
     private Stub $fileReader;
 
     #[\Override]
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->storageManager = $this->createStub(StorageManager::class);
         $this->urlGenerator = $this->createStub(UrlGeneratorInterface::class);

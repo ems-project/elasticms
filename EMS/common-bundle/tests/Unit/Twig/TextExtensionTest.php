@@ -18,7 +18,7 @@ class TextExtensionTest extends TestCase
     private TextExtension $textExtension;
 
     #[\Override]
-    public function setUp(): void
+    protected function setUp(): void
     {
         $logger = $this->createMock(LoggerInterface::class);
         $validator = $this->createMock(ValidatorInterface::class);

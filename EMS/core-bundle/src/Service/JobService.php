@@ -351,7 +351,7 @@ class JobService implements EntityServiceInterface
         $job = $this->repository->findById($jobId);
 
         $output = $this->getJobOutput($job);
-        $output->doWrite($message, $newLine);
+        $output->write($message, $newLine);
     }
 
     private function getJobOutput(Job $job): JobOutput

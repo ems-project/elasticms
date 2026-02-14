@@ -32,6 +32,7 @@ use Symfony\Component\HttpFoundation\HeaderUtils;
 class DeadLinksCommand extends AbstractCommand
 {
     private const string ARG_FOLDER = 'folder';
+    private const string OPTION_SKIP_WARNING = 'skip-warning';
     private const string OPTION_CACHE_FOLDER = 'cache-folder';
 
     /** @var string[][] */
@@ -40,6 +41,7 @@ class DeadLinksCommand extends AbstractCommand
     private CacheManager $cacheManager;
     private string $folder;
     private ?string $host = null;
+    private bool $skipWarnings;
 
     public function __construct(
         private readonly AdminHelper $adminHelper,
@@ -53,6 +55,7 @@ class DeadLinksCommand extends AbstractCommand
     {
         $this
             ->addArgument(self::ARG_FOLDER, InputArgument::REQUIRED, 'Folder path containing the JSON files for an eMS accessibility (A11Y) audit')
+            ->addOption(self::OPTION_SKIP_WARNING, 's', InputOption::VALUE_OPTIONAL, 'Do not log warnings')
             ->addOption(self::OPTION_CACHE_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Path to a folder where cache will stored', \implode(DIRECTORY_SEPARATOR, [\getcwd(), 'var']));
     }
 
@@ -61,6 +64,7 @@ class DeadLinksCommand extends AbstractCommand
     {
         parent::initialize($input, $output);
         $this->folder = $this->getArgumentString(self::ARG_FOLDER);
+        $this->skipWarnings = $this->getOptionBool(self::OPTION_SKIP_WARNING);
         $this->cacheFolder = $this->getOptionString(self::OPTION_CACHE_FOLDER);
         $this->cacheManager = new CacheManager($this->cacheFolder, false);
     }
@@ -154,6 +158,9 @@ class DeadLinksCommand extends AbstractCommand
 
     private function logWarning(string $url, int $status, string $error, string $referer, string $text): void
     {
+        if ($this->skipWarnings) {
+            return;
+        }
         $this->log('Warning', $url, $status, $error, $referer, $text);
     }
 

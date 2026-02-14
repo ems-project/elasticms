@@ -30,9 +30,6 @@ class AuditManager
             return $audit;
         }
         $this->addHtmlAudit($audit, $result, $report);
-        if ($alreadyAudited) {
-            return $audit;
-        }
 
         return $audit;
     }

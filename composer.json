@@ -210,10 +210,10 @@
         "symfony/polyfill-php84": "*"
     },
     "scripts": {
-        "rector": "rector --config=./config/rector.php",
+        "rector": "rector --memory-limit=1G --config=./config/rector.php",
         "monorepo-validate": "monorepo-builder --config=./config/monorepo-builder.php validate",
         "phpcs": "php-cs-fixer --config=./config/php-cs-fixer.php fix",
-        "phpstan": "phpstan --configuration=./config/phpstan.neon.dist --memory-limit=1G analyse",
+        "phpstan": "phpstan --memory-limit=1G --configuration=./config/phpstan.neon.dist analyse",
         "phpstan-baseline": "phpstan --configuration=./config/phpstan.neon.dist --memory-limit=1G --generate-baseline=./config/phpstan-baseline.neon analyse",
         "phpunit": "phpunit -c config/phpunit.xml.dist --display-deprecations --fail-on-notice --fail-on-warning",
         "phpunit-admin": "phpunit -c elasticms-admin/phpunit.xml.dist --display-deprecations",

@@ -168,7 +168,7 @@ final class Transformer
     /**
      * @return array<mixed>
      */
-    private function getDocument(EMSLink $emsLink): ?array
+    private function getDocument(EMSLink $emsLink): array
     {
         if (isset($this->documents[$emsLink->__toString()])) {
             return $this->documents[$emsLink->__toString()];

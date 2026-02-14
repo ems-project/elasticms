@@ -204,11 +204,8 @@ class HttpStorage extends AbstractUrlStorage implements \Stringable
     {
     }
 
-    /**
-     * @return null
-     */
     #[\Override]
-    protected function getContext()
+    protected function getContext(): null
     {
         return null;
     }

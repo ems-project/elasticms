@@ -8,6 +8,9 @@ use Rector\CodeQuality\Rector\BooleanOr\RepeatedOrEqualToInArrayRector;
 use Rector\CodeQuality\Rector\FuncCall\SimplifyRegexPatternRector;
 use Rector\CodeQuality\Rector\Identical\FlipTypeControlToUseExclusiveTypeRector;
 use Rector\Config\RectorConfig;
+use Rector\DeadCode\Rector\ClassMethod\RemoveUselessParamTagRector;
+use Rector\DeadCode\Rector\ClassMethod\RemoveUselessReturnTagRector;
+use Rector\DeadCode\Rector\Property\RemoveUselessVarTagRector;
 use Rector\Php81\Rector\Property\ReadOnlyPropertyRector;
 use Rector\Strict\Rector\Empty_\DisallowedEmptyRuleFixerRector;
 use Rector\Symfony\Set\SymfonySetList;
@@ -32,24 +35,34 @@ return RectorConfig::configure()
         symfony: true
     )
     ->withPreparedSets(
-        codeQuality: true
+        deadCode: true,
+        codeQuality: true,
     )
     ->withSets([
         SymfonySetList::SYMFONY_CODE_QUALITY,
         SymfonySetList::SYMFONY_CONSTRUCTOR_INJECTION,
     ])
     ->withSkip([
+        // Paths
         __DIR__ . '/../*/config/bundles.php',
         __DIR__ . '/../*/public/*',
         __DIR__ . '/../*/var/*',
+        __DIR__ . '/../EMS/*/assets/*',
+        __DIR__ . '/../EMS/*/migrations/*',
+        __DIR__ . '/../EMS/*/public/*',
+        __DIR__ . '/../EMS/*/translations/*',
+        // Rectors
         DisallowedEmptyRuleFixerRector::class,
         FlipTypeControlToUseExclusiveTypeRector::class,
-        SimplifyRegexPatternRector::class,
-        RepeatedAndNotEqualToNotInArrayRector::class,
-        RepeatedOrEqualToInArrayRector::class,
         ReadOnlyPropertyRector::class => [
-            __DIR__ . '/../EMS/core-bundle/src/Entity',
             __DIR__ . '/../EMS/common-bundle/src/Entity',
+            __DIR__ . '/../EMS/core-bundle/src/Entity',
             __DIR__ . '/../EMS/submission-bundle/src/Entity',
         ],
+        RemoveUselessParamTagRector::class,
+        RemoveUselessReturnTagRector::class,
+        RemoveUselessVarTagRector::class,
+        RepeatedAndNotEqualToNotInArrayRector::class,
+        RepeatedOrEqualToInArrayRector::class,
+        SimplifyRegexPatternRector::class,
     ]);

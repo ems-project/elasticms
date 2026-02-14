@@ -138,7 +138,10 @@ class Revision implements EntityInterface, \Stringable
         ];
     }
 
-    public function __construct()
+    /**
+     * @param ?Revision $a
+     */
+    public function __construct(...$a)
     {
         $this->environmentRevisions = new ArrayCollection();
         $this->notifications = new ArrayCollection();
@@ -146,8 +149,6 @@ class Revision implements EntityInterface, \Stringable
         $this->created = new \DateTime();
         $this->modified = new \DateTime();
         $this->startTime = new \DateTime('now');
-
-        $a = \func_get_args();
         $i = \func_num_args();
         if (1 === $i && $a[0] instanceof Revision) {
             $ancestor = $a[0];

@@ -169,14 +169,11 @@ class DataField implements \ArrayAccess, \IteratorAggregate, \Stringable
     }
 
     /**
-     * Constructor.
+     * @param ?DataField $a
      */
-    public function __construct()
+    public function __construct(...$a)
     {
         $this->children = new ArrayCollection();
-
-        // TODO: should use the clone method
-        $a = \func_get_args();
         $i = \func_num_args();
         if ($i >= 1 && $a[0] instanceof DataField) {
             $ancestor = $a[0];

@@ -116,6 +116,17 @@ class Url
         return $url;
     }
 
+    public static function isValidHostname(string $host): bool
+    {
+        $host = \idn_to_ascii($host, IDNA_DEFAULT, INTL_IDNA_VARIANT_UTS46);
+        if (!\is_string($host) || \strlen($host) > 253) {
+            return false;
+        }
+        $pattern = '/^(?=.{1,253}$)(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)(?:\.(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?))*$/i';
+
+        return (bool) \preg_match($pattern, $host);
+    }
+
     private static function getSerializer(): Serializer
     {
         $reflectionExtractor = new ReflectionExtractor();

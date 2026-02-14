@@ -101,6 +101,7 @@ class Url
     public function serialize(string $format = JsonEncoder::FORMAT): string
     {
         return self::getSerializer()->serialize($this, $format, [AbstractNormalizer::IGNORED_ATTRIBUTES => [
+            'absoluteScheme',
             'query',
             'scheme',
             'host',

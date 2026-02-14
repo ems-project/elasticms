@@ -34,6 +34,7 @@ class DeadLinksCommand extends AbstractCommand
     private const string ARG_FOLDER = 'folder';
     private const string OPTION_SKIP_WARNING = 'skip-warning';
     private const string OPTION_CACHE_FOLDER = 'cache-folder';
+    private const string OPTION_RESUME = 'resume';
 
     /** @var string[][] */
     private array $report = [];
@@ -42,6 +43,10 @@ class DeadLinksCommand extends AbstractCommand
     private string $folder;
     private ?string $host = null;
     private bool $skipWarnings;
+    /** @var array<string, array{hasResponse: bool, message: ?string, isValid: bool, statusCode: ?int, location: ?string}> */
+    private array $cache;
+    private string $cacheFilename;
+    private bool $resume;
 
     public function __construct(
         private readonly AdminHelper $adminHelper,
@@ -55,7 +60,8 @@ class DeadLinksCommand extends AbstractCommand
     {
         $this
             ->addArgument(self::ARG_FOLDER, InputArgument::REQUIRED, 'Folder path containing the JSON files for an eMS accessibility (A11Y) audit')
-            ->addOption(self::OPTION_SKIP_WARNING, 's', InputOption::VALUE_OPTIONAL, 'Do not log warnings')
+            ->addOption(self::OPTION_SKIP_WARNING, 's', InputOption::VALUE_NONE, 'Do not log warnings')
+            ->addOption(self::OPTION_RESUME, 'r', InputOption::VALUE_NONE, 'Reload URL status from the cache (if exists)')
             ->addOption(self::OPTION_CACHE_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Path to a folder where cache will stored', \implode(DIRECTORY_SEPARATOR, [\getcwd(), 'var']));
     }
 
@@ -66,6 +72,7 @@ class DeadLinksCommand extends AbstractCommand
         $this->folder = $this->getArgumentString(self::ARG_FOLDER);
         $this->skipWarnings = $this->getOptionBool(self::OPTION_SKIP_WARNING);
         $this->cacheFolder = $this->getOptionString(self::OPTION_CACHE_FOLDER);
+        $this->resume = $this->getOptionBool(self::OPTION_RESUME);
         $this->cacheManager = new CacheManager($this->cacheFolder, false);
     }
 
@@ -80,6 +87,9 @@ class DeadLinksCommand extends AbstractCommand
         foreach ($finder as $file) {
             $this->auditPage(Json::decode($file->getContents()));
             $this->io->progressAdvance();
+            if ([] !== $this->cache) {
+                break;
+            }
         }
         $this->io->progressFinish();
 
@@ -114,6 +124,10 @@ class DeadLinksCommand extends AbstractCommand
     {
         if (null === $this->host) {
             $this->host = Type::string($page['host']);
+            $this->cacheFilename = \sprintf('%s/%s.json', $this->cacheFolder, Type::string($this->host));
+            if ($this->resume && \file_exists($this->cacheFilename)) {
+                $this->cache = Json::decode($this->cacheFilename);
+            }
         }
         $referer = Type::string($page['url']);
         $status = (int) ($page['status_code'] ?? 0);
@@ -123,6 +137,7 @@ class DeadLinksCommand extends AbstractCommand
         foreach ($page['links'] ?? [] as $link) {
             $this->auditLink($referer, $link);
         }
+        $this->saveCache();
     }
 
     /**
@@ -131,7 +146,7 @@ class DeadLinksCommand extends AbstractCommand
     private function auditLink(string $referer, array $link): void
     {
         try {
-            $url = new Url($link['url'], $referer, $link['text']);
+            $url = new Url($link['url'], $referer, $link['text'] ?? null);
         } catch (NotParsableUrlException) {
             $this->logError($link['url'], 0, 'not parsable url', $referer, $link['text'] ?? '');
 
@@ -148,7 +163,28 @@ class DeadLinksCommand extends AbstractCommand
         if (\in_array($link['type'] ?? null, ['link', 'script'])) {
             return;
         }
-        //        $result = $this->cacheManager->get($url->getUrl());
+        if (!isset($this->cache[$url->getUrl()])) {
+            $this->cache[$url->getUrl()] = $this->getRequestStatus($url);
+        }
+        $linkStatus = $this->cache[$url->getUrl()];
+
+        if (!$linkStatus['isValid'] || !$linkStatus['hasResponse'] || !$linkStatus['statusCode'] || $linkStatus['message']) {
+            $this->logError($url->getUrl(), $linkStatus['statusCode'] ?? 0, $linkStatus['message'] ?? 'Broken link', $referer, $link['text'] ?? '');
+
+            return;
+        }
+        if (\in_array($linkStatus['statusCode'], [301, 302, 303, 307, 308], true)) {
+            if ($linkStatus['location']) {
+                $this->logWarning($url->getUrl(), $linkStatus['statusCode'], \sprintf('Redirection to %s', $linkStatus['location']), $referer, $link['text'] ?? '');
+            } else {
+                $this->logError($url->getUrl(), $linkStatus['statusCode'], 'Redirection without location', $referer, $link['text'] ?? '');
+            }
+
+            return;
+        }
+        if ($linkStatus['statusCode'] >= 300) {
+            $this->logError($url->getUrl(), $linkStatus['statusCode'], 'Unexpected status code', $referer, $link['text'] ?? '');
+        }
     }
 
     private function logError(string $url, int $status, string $error, string $referer, string $text): void
@@ -174,5 +210,46 @@ class DeadLinksCommand extends AbstractCommand
             $referer,
             $text,
         ];
+    }
+
+    private function saveCache(): void
+    {
+        if ([] === $this->cache) {
+            return;
+        }
+        File::putContents($this->cacheFilename, Json::encode($this->cache));
+    }
+
+    /**
+     * @return array{hasResponse: bool, message: ?string, isValid: bool, statusCode: ?int, location: ?string}
+     */
+    private function getRequestStatus(Url $url): array
+    {
+        try {
+            $result = $this->cacheManager->get($url->getUrl());
+            $message = $result->getErrorMessage();
+            $hasResponse = $result->hasResponse();
+            $isValid = $result->isValid();
+            if ($hasResponse) {
+                $statusCode = $result->getResponse()->getStatusCode();
+                $location = $result->getResponse()->hasHeader('Location') ? $result->getResponse()->getHeader('Location')[0] ?? null : null;
+            }
+
+            return [
+                'hasResponse' => $hasResponse,
+                'message' => $message,
+                'isValid' => $isValid,
+                'statusCode' => $statusCode ?? null,
+                'location' => $location ?? null,
+            ];
+        } catch (\Throwable $e) {
+            return [
+                'hasResponse' => false,
+                'message' => $e->getMessage(),
+                'isValid' => false,
+                'statusCode' => null,
+                'location' => null,
+            ];
+        }
     }
 }

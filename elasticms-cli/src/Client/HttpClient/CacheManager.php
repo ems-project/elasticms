@@ -24,7 +24,7 @@ class CacheManager
     /** @var UrlReport[] */
     private array $cachedReport = [];
 
-    public function __construct(private readonly string $cacheFolder, bool $allowRedirect = true)
+    public function __construct(private readonly string $cacheFolder, bool $allowRedirect = true, bool $verify = true)
     {
         $stack = HandlerStack::create();
         $stack->push(
@@ -44,6 +44,7 @@ class CacheManager
             RequestOptions::CONNECT_TIMEOUT => 10,
             RequestOptions::TIMEOUT => 60,
             RequestOptions::READ_TIMEOUT => 10,
+            RequestOptions::VERIFY => $verify,
         ]);
     }
 

@@ -36,6 +36,7 @@ class DeadLinksCommand extends AbstractCommand
     private const string OPTION_SKIP_WARNING = 'skip-warning';
     private const string OPTION_CACHE_FOLDER = 'cache-folder';
     private const string OPTION_CLEAR_CACHE = 'clear-cache';
+    private const string OPTION_IGNORE_SSL = 'ignore-ssl';
 
     /** @var string[][] */
     private array $report = [];
@@ -60,6 +61,7 @@ class DeadLinksCommand extends AbstractCommand
             ->addArgument(self::ARG_FOLDER, InputArgument::REQUIRED, 'Folder path containing the JSON files for an eMS accessibility (A11Y) audit')
             ->addOption(self::OPTION_SKIP_WARNING, 's', InputOption::VALUE_NONE, 'Do not log warnings')
             ->addOption(self::OPTION_CLEAR_CACHE, null, InputOption::VALUE_NONE, 'Clear the existing caches')
+            ->addOption(self::OPTION_IGNORE_SSL, null, InputOption::VALUE_NONE, 'Ignore SSL certificates')
             ->addOption(self::OPTION_CACHE_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Path to a folder where cache will stored', \implode(DIRECTORY_SEPARATOR, [\getcwd(), 'var']));
     }
 
@@ -71,7 +73,8 @@ class DeadLinksCommand extends AbstractCommand
         $this->skipWarnings = $this->getOptionBool(self::OPTION_SKIP_WARNING);
         $this->cacheFolder = $this->getOptionString(self::OPTION_CACHE_FOLDER);
         $clearCache = $this->getOptionBool(self::OPTION_CLEAR_CACHE);
-        $this->cacheManager = new CacheManager($this->cacheFolder, false);
+        $verify = !$this->getOptionBool(self::OPTION_IGNORE_SSL);
+        $this->cacheManager = new CacheManager($this->cacheFolder, false, $verify);
         $filesystem = new Filesystem();
         $this->requestCacheFolder = \sprintf('%s/requests', $this->cacheFolder);
         $filesystem->mkdir($this->requestCacheFolder);

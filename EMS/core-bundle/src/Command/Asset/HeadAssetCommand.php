@@ -37,7 +37,8 @@ final class HeadAssetCommand extends Command
 
         $counter = $this->fileService->count();
         $this->io->progressStart($counter);
-        $found = $from = 0;
+        $found = 0;
+        $from = 0;
         while ($from < $counter) {
             foreach ($this->fileService->get($from, 100, 'created', 'asc', '') as $assetUpload) {
                 if (!$assetUpload instanceof UploadedAsset) {

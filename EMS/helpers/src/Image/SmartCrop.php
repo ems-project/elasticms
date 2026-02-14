@@ -106,8 +106,10 @@ class SmartCrop
     public function analyse(): array
     {
         $result = [];
-        $w = $this->w = \imagesx($this->image);
-        $h = $this->h = \imagesy($this->image);
+        $w = \imagesx($this->image);
+        $this->w = $w;
+        $h = \imagesy($this->image);
+        $this->h = $h;
 
         $this->od = new \SplFixedArray($h * $w * 3);
         $this->aSample = new \SplFixedArray($h * $w);

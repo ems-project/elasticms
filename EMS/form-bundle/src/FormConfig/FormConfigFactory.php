@@ -440,9 +440,10 @@ class FormConfigFactory
         if (0 === \count($choiceChildren)) {
             return;
         }
-
-        $values = $labels = [];
-        $id = $sort = null;
+        $values = [];
+        $labels = [];
+        $id = null;
+        $sort = null;
 
         foreach ($choiceChildren as $child) {
             try {

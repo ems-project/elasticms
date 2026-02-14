@@ -69,7 +69,8 @@ class Synchronizer
         if (1 !== \count($response)) {
             throw new \RuntimeException(\sprintf('SimpleIndexClient does not support multiple indexes alias. This alias contains %d indexes', \count($response)));
         }
-        $indexClient->previousIndex = $indexClient->index = Type::string(\array_key_first($response));
+        $indexClient->previousIndex = Type::string(\array_key_first($response));
+        $indexClient->index = $indexClient->previousIndex;
         $indexClient->mappings = $response[$indexClient->index]['mappings'];
         $indexClient->settings = $response[$indexClient->index]['settings']['index'];
         $indexClient->settings = \array_filter($indexClient->settings, fn ($v, $k) => 'analysis' === $k, ARRAY_FILTER_USE_BOTH);

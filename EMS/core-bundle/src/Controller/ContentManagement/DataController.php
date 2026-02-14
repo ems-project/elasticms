@@ -762,7 +762,9 @@ class DataController extends AbstractController
 
     public function linkData(string $key): Response
     {
-        $category = $type = $ouuid = null;
+        $category = null;
+        $type = null;
+        $ouuid = null;
         $split = \explode(':', $key);
 
         if (3 === \count($split)) {

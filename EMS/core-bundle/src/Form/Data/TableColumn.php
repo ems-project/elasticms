@@ -34,7 +34,8 @@ class TableColumn
 
     public function __construct(private readonly string|TranslatableMessage $titleKey, string $attribute)
     {
-        $this->orderField = $this->attribute = $attribute;
+        $this->orderField = $attribute;
+        $this->attribute = $attribute;
     }
 
     public function addCondition(ConditionInterface $condition): void

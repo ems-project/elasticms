@@ -311,8 +311,8 @@ final class Filter
         if (!isset($value['start']) && !isset($value['end'])) {
             return null;
         }
-
-        $start = $end = null;
+        $start = null;
+        $end = null;
         $format = self::TYPE_DATE_TIME_RANGE === $this->type ? 'Y-m-d H:i:s' : 'Y-m-d';
 
         if (!empty($value['start'])) {

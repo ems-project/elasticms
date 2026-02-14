@@ -1086,7 +1086,7 @@ class DataService
         if (!empty($revision->giveContentType()->getCirclesField()) && isset($objectArray[$revision->giveContentType()->getCirclesField()]) && !empty($objectArray[$revision->giveContentType()->getCirclesField()])) {
             $revision->setCircles(\is_array($objectArray[$revision->giveContentType()->getCirclesField()]) ? $objectArray[$revision->giveContentType()->getCirclesField()] : [$objectArray[$revision->giveContentType()->getCirclesField()]]);
         } else {
-            $revision->setCircles(null);
+            $revision->setCircles();
         }
     }
 

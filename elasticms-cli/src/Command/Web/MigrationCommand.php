@@ -67,7 +67,7 @@ class MigrationCommand extends AbstractCommand
                 InputOption::VALUE_NONE,
                 'Continue import from last know updated document'
             )
-            ->addArgument(self::ARG_OUUID, InputArgument::OPTIONAL, 'ouuid', null)
+            ->addArgument(self::ARG_OUUID, InputArgument::OPTIONAL, 'ouuid')
             ->addOption(self::OPTION_FORCE, null, InputOption::VALUE_NONE, 'force update all documents')
             ->addOption(self::OPTION_DRY_RUN, null, InputOption::VALUE_NONE, 'don\'t update elasticms')
             ->addOption(self::OPTION_DUMP, null, InputOption::VALUE_NONE, 'dump computed arrays')

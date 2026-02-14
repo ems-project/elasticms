@@ -55,7 +55,7 @@ class ReorganizeType extends AbstractType
                     'metadata' => $fieldType,
                     'label' => 'Add item',
                     'required' => false,
-                    'type' => $fieldType->getDisplayOption('type', null),
+                    'type' => $fieldType->getDisplayOption('type'),
                 ]);
 
                 $builder->get('addItem')->addModelTransformer(new CallbackTransformer(

@@ -124,7 +124,7 @@ class Url
             new ObjectNormalizer(null, null, null, $propertyTypeExtractor),
         ], [
             new XmlEncoder(),
-            new JsonEncoder(new JsonEncode([JsonEncode::OPTIONS => JSON_UNESCAPED_SLASHES]), null),
+            new JsonEncoder(new JsonEncode([JsonEncode::OPTIONS => JSON_UNESCAPED_SLASHES])),
         ]);
     }
 

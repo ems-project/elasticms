@@ -64,7 +64,7 @@ class CollectionFieldType extends DataFieldType
             foreach ($sourceArray as $idx => $item) {
                 $colItem = new DataField();
                 $colItem->setOrderKey($idx);
-                $colItem->setFieldType(null); // it's a collection item
+                $colItem->setFieldType(); // it's a collection item
                 foreach ($dataField->giveFieldType()->getChildren() as $grandChildKey => $childFieldType) {
                     /** @var FieldType $childFieldType */
                     if (!$childFieldType->getDeleted()) {

@@ -20,4 +20,5 @@ class Commands
     final public const string USERS_COLLECT_USERS = 'emscli:users:collect';
 
     final public const string MULTI_FILES_FIELD_TO_ARCHIVE = 'emscli:files-field:to-archive';
+    final public const string DEAD_LINKS_REPORT = 'emscli:web:dead-links-report';
 }

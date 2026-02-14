@@ -21,6 +21,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\HeaderUtils;
 
@@ -34,7 +35,7 @@ class DeadLinksCommand extends AbstractCommand
     private const string ARG_FOLDER = 'folder';
     private const string OPTION_SKIP_WARNING = 'skip-warning';
     private const string OPTION_CACHE_FOLDER = 'cache-folder';
-    private const string OPTION_RESUME = 'resume';
+    private const string OPTION_CLEAR_CACHE = 'clear-cache';
 
     /** @var string[][] */
     private array $report = [];
@@ -43,10 +44,7 @@ class DeadLinksCommand extends AbstractCommand
     private string $folder;
     private ?string $host = null;
     private bool $skipWarnings;
-    /** @var array<string, array{hasResponse: bool, message: ?string, isValid: bool, statusCode: ?int, location: ?string}> */
-    private array $cache;
-    private string $cacheFilename;
-    private bool $resume;
+    private string $requestCacheFolder;
 
     public function __construct(
         private readonly AdminHelper $adminHelper,
@@ -61,7 +59,7 @@ class DeadLinksCommand extends AbstractCommand
         $this
             ->addArgument(self::ARG_FOLDER, InputArgument::REQUIRED, 'Folder path containing the JSON files for an eMS accessibility (A11Y) audit')
             ->addOption(self::OPTION_SKIP_WARNING, 's', InputOption::VALUE_NONE, 'Do not log warnings')
-            ->addOption(self::OPTION_RESUME, 'r', InputOption::VALUE_NONE, 'Reload URL status from the cache (if exists)')
+            ->addOption(self::OPTION_CLEAR_CACHE, null, InputOption::VALUE_NONE, 'Clear the existing caches')
             ->addOption(self::OPTION_CACHE_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Path to a folder where cache will stored', \implode(DIRECTORY_SEPARATOR, [\getcwd(), 'var']));
     }
 
@@ -72,8 +70,20 @@ class DeadLinksCommand extends AbstractCommand
         $this->folder = $this->getArgumentString(self::ARG_FOLDER);
         $this->skipWarnings = $this->getOptionBool(self::OPTION_SKIP_WARNING);
         $this->cacheFolder = $this->getOptionString(self::OPTION_CACHE_FOLDER);
-        $this->resume = $this->getOptionBool(self::OPTION_RESUME);
+        $clearCache = $this->getOptionBool(self::OPTION_CLEAR_CACHE);
         $this->cacheManager = new CacheManager($this->cacheFolder, false);
+        $filesystem = new Filesystem();
+        $this->requestCacheFolder = \sprintf('%s/requests', $this->cacheFolder);
+        $filesystem->mkdir($this->requestCacheFolder);
+        if ($clearCache) {
+            $this->cacheManager->clear();
+            $filesystem = new Filesystem();
+            $finder = new Finder();
+            $finder->in($this->requestCacheFolder);
+            foreach ($finder as $file) {
+                $filesystem->remove($file->getRealPath());
+            }
+        }
     }
 
     #[\Override]
@@ -87,9 +97,6 @@ class DeadLinksCommand extends AbstractCommand
         foreach ($finder as $file) {
             $this->auditPage(Json::decode($file->getContents()));
             $this->io->progressAdvance();
-            if ([] !== $this->cache) {
-                break;
-            }
         }
         $this->io->progressFinish();
 
@@ -124,10 +131,6 @@ class DeadLinksCommand extends AbstractCommand
     {
         if (null === $this->host) {
             $this->host = Type::string($page['host']);
-            $this->cacheFilename = \sprintf('%s/%s.json', $this->cacheFolder, Type::string($this->host));
-            if ($this->resume && \file_exists($this->cacheFilename)) {
-                $this->cache = Json::decode($this->cacheFilename);
-            }
         }
         $referer = Type::string($page['url']);
         $status = (int) ($page['status_code'] ?? 0);
@@ -137,7 +140,6 @@ class DeadLinksCommand extends AbstractCommand
         foreach ($page['links'] ?? [] as $link) {
             $this->auditLink($referer, $link);
         }
-        $this->saveCache();
     }
 
     /**
@@ -163,10 +165,7 @@ class DeadLinksCommand extends AbstractCommand
         if (\in_array($link['type'] ?? null, ['link', 'script'])) {
             return;
         }
-        if (!isset($this->cache[$url->getUrl()])) {
-            $this->cache[$url->getUrl()] = $this->getRequestStatus($url);
-        }
-        $linkStatus = $this->cache[$url->getUrl()];
+        $linkStatus = $this->getRequestStatus($url);
 
         if (!$linkStatus['isValid'] || !$linkStatus['hasResponse'] || !$linkStatus['statusCode'] || $linkStatus['message']) {
             $this->logError($url->getUrl(), $linkStatus['statusCode'] ?? 0, $linkStatus['message'] ?? 'Broken link', $referer, $link['text'] ?? '');
@@ -212,19 +211,23 @@ class DeadLinksCommand extends AbstractCommand
         ];
     }
 
-    private function saveCache(): void
-    {
-        if ([] === $this->cache) {
-            return;
-        }
-        File::putContents($this->cacheFilename, Json::encode($this->cache));
-    }
-
     /**
-     * @return array{hasResponse: bool, message: ?string, isValid: bool, statusCode: ?int, location: ?string}
+     * @return array{url: string, hasResponse: bool, message: ?string, isValid: bool, statusCode: ?int, location: ?string, timestamp: int}
      */
     private function getRequestStatus(Url $url): array
     {
+        $hashName = \hash('sha256', $url->getUrl());
+        $cacheFilename = \sprintf('%s/%s.json', $this->requestCacheFolder, $hashName);
+        $now = new \DateTimeImmutable();
+        if (\file_exists($cacheFilename)) {
+            /** @var array{url: string, hasResponse: bool, message: ?string, isValid: bool, statusCode: ?int, location: ?string, timestamp: int} $cache */
+            $cache = Json::decode(File::fromFilename($cacheFilename)->getContents());
+            $age = $now->diff(\DateTimeImmutable::createFromTimestamp($cache['timestamp']))->m;
+            if ($cache['url'] === $url->getUrl() && $age < 1) {
+                return $cache;
+            }
+        }
+
         try {
             $result = $this->cacheManager->get($url->getUrl());
             $message = $result->getErrorMessage();
@@ -235,21 +238,28 @@ class DeadLinksCommand extends AbstractCommand
                 $location = $result->getResponse()->hasHeader('Location') ? $result->getResponse()->getHeader('Location')[0] ?? null : null;
             }
 
-            return [
+            $data = [
+                'url' => $url->getUrl(),
                 'hasResponse' => $hasResponse,
                 'message' => $message,
                 'isValid' => $isValid,
                 'statusCode' => $statusCode ?? null,
                 'location' => $location ?? null,
+                'timestamp' => $now->getTimestamp(),
             ];
         } catch (\Throwable $e) {
-            return [
+            $data = [
+                'url' => $url->getUrl(),
                 'hasResponse' => false,
                 'message' => $e->getMessage(),
                 'isValid' => false,
                 'statusCode' => null,
                 'location' => null,
+                'timestamp' => $now->getTimestamp(),
             ];
         }
+        File::putContents($cacheFilename, Json::encode($data));
+
+        return $data;
     }
 }

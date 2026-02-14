@@ -141,7 +141,7 @@ class ElasticSearchController extends AbstractController
     private function deleteOrphanIndexes(string ...$indexes): void
     {
         try {
-            if (0 === \count($indexes)) {
+            if ([] === $indexes) {
                 $this->indexService->deleteOrphanIndexes();
             } else {
                 $this->indexService->deleteIndexes(...$indexes);

@@ -287,7 +287,7 @@ class AliasService
         foreach ($data as $index => $info) {
             $aliases = \array_keys($info['aliases']);
 
-            if (0 === \count($aliases)) {
+            if ([] === $aliases) {
                 $this->addOrphanIndex($index);
                 continue;
             }

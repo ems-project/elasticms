@@ -374,7 +374,7 @@ class ElasticsearchController extends AbstractController
             }
         }
 
-        if (\count($contentTypes) > 0) {
+        if ([] !== $contentTypes) {
             $search->setContentTypes($contentTypes);
         }
 

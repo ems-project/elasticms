@@ -81,7 +81,7 @@ final readonly class QueryBuilder
         $queryFields = new BoolQuery();
         foreach ($this->search->getFields() as $field) {
             $textValues = $analyzer->getTextValues($field, $this->search->getAnalyzer(), $tokens, $this->search->getSynonyms());
-            if (0 === \count($textValues)) {
+            if ([] === $textValues) {
                 continue;
             }
 

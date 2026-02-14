@@ -91,7 +91,7 @@ abstract class DataFieldType extends AbstractType
             ->setFieldType($fieldType)
             ->setFormOptions($this->formOptions);
 
-        if ('' === $data || (\is_array($data) && 0 === \count($data))) {
+        if ('' === $data || (\is_array($data) && [] === $data)) {
             $out->setRawData(null);
         } else {
             $out->setRawData($data);
@@ -350,7 +350,7 @@ abstract class DataFieldType extends AbstractType
             return true;
         }
 
-        return 0 === \count($dataField->getMessages()) && $this->isMandatory($dataField, $parent, $masterRawData);
+        return [] === $dataField->getMessages() && $this->isMandatory($dataField, $parent, $masterRawData);
     }
 
     /**
@@ -369,7 +369,7 @@ abstract class DataFieldType extends AbstractType
                 || null === $parent->getRawData()
                 || $this->isSet($masterRawData ?? [], $parentRawDataArray, $restrictionOptions['mandatory_if'])) {
                 $rawData = $dataField->getRawData();
-                if (null === $rawData || (\is_string($rawData) && '' === $rawData) || (\is_array($rawData) && 0 === \count($rawData))) {
+                if (null === $rawData || (\is_string($rawData) && '' === $rawData) || (\is_array($rawData) && [] === $rawData)) {
                     $isValidMandatory = false;
                     $dataField->addMessage('Empty field');
                 }

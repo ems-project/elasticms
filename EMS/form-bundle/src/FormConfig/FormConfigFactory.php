@@ -437,7 +437,7 @@ class FormConfigFactory
         $choiceType = $this->emsConfig[Configuration::TYPE_FORM_CHOICE];
         $choiceChildren = \array_filter($children, static fn (JsonMenuNested $c) => $c->getType() === $choiceType);
 
-        if (0 === \count($choiceChildren)) {
+        if ([] === $choiceChildren) {
             return;
         }
         $values = [];

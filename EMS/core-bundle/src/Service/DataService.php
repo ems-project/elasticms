@@ -500,7 +500,7 @@ class DataService
         if ($versioning->enabled()) {
             $objectArray[Mapping::VERSION_UUID] = $revision->getVersionUuid();
         }
-        if ($versioning->enabled() && \count($versioning->getTags()) > 0) {
+        if ($versioning->enabled() && [] !== $versioning->getTags()) {
             $objectArray[Mapping::VERSION_TAG] = $revision->getVersionTag();
             $revision->updateVersionNextTag();
         }
@@ -1375,7 +1375,7 @@ class DataService
             }
 
             $fieldNames = $dataFieldType->getJsonNames($fieldType);
-            if (0 === \count($fieldNames)) {
+            if ([] === $fieldNames) {
                 // Virtual container
                 /** @var DataField $child */
                 foreach ($dataField->getChildren() as $child) {
@@ -1433,7 +1433,7 @@ class DataService
             return;
         }
 
-        if (\count($object) > 0) {
+        if ([] !== $object) {
             $html = self::arrayToHtml($object);
 
             $this->logger->warning('service.data.data_not_consumed', [
@@ -1845,7 +1845,7 @@ class DataService
                 continue;
             }
 
-            if ($contentType->getBusinessIdField() && \count($ouuids) > 0) {
+            if ($contentType->getBusinessIdField() && [] !== $ouuids) {
                 $search = $this->elasticaService->convertElasticsearchSearch([
                     'index' => $contentType->giveEnvironment()->getAlias(),
                     'body' => [
@@ -1901,7 +1901,7 @@ class DataService
 
         $revisionType = $this->formFactory->create(RevisionType::class, $revision, ['migration' => true, 'raw_data' => $revision->getRawData(), 'with_warning' => false]);
         $result = $this->walkRecursive($revisionType->get('data'), $rawData, function (string $name, $data, DataFieldType $dataFieldType, DataField $dataField) {
-            if (null !== $data && (!\is_array($data) || \count($data) > 0)) {
+            if (null !== $data && (!\is_array($data) || [] !== $data)) {
                 if ($dataFieldType->isVirtual()) {
                     return $data;
                 }

@@ -278,7 +278,7 @@ class DataField implements \ArrayAccess, \IteratorAggregate, \Stringable
      */
     public function getTextValue()
     {
-        if (\is_array($this->rawData) && 0 === \count($this->rawData)) {
+        if (\is_array($this->rawData) && [] === $this->rawData) {
             return null; // empty array means null/empty
         }
 
@@ -449,7 +449,7 @@ class DataField implements \ArrayAccess, \IteratorAggregate, \Stringable
 
     public function getBooleanValue(): ?bool
     {
-        if (\is_array($this->rawData) && 0 === \count($this->rawData)) {
+        if (\is_array($this->rawData) && [] === $this->rawData) {
             return null; // empty array means null/empty
         }
 

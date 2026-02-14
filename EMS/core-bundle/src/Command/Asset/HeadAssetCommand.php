@@ -44,7 +44,7 @@ final class HeadAssetCommand extends Command
                 if (!$assetUpload instanceof UploadedAsset) {
                     throw new \RuntimeException('Unexpected UploadedAsset type');
                 }
-                if (\count($this->fileService->headIn($assetUpload)) > 0) {
+                if ([] !== $this->fileService->headIn($assetUpload)) {
                     ++$found;
                 }
                 ++$from;

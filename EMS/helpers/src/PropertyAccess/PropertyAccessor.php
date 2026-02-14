@@ -126,7 +126,7 @@ class PropertyAccessor
         if (null === $atLeast) {
             $atLeast = \count($attributeNames);
         }
-        if (0 === \count($attributeNames)) {
+        if ([] === $attributeNames) {
             throw new \RuntimeException('At least one attribute\'s name is required');
         } elseif ($atLeast < 1) {
             throw new \RuntimeException('The atLeast parameter must bigger than 0');

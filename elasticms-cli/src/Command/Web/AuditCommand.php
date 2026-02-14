@@ -325,11 +325,11 @@ class AuditCommand extends AbstractCommand
             $report->addBrokenLink($auditResult->getUrlReport());
             $this->logger->notice('Broken links added');
         }
-        if (\count($auditResult->getSecurityWarnings()) > 0) {
+        if ([] !== $auditResult->getSecurityWarnings()) {
             $report->addSecurityError($url->getUrl(), \count($auditResult->getSecurityWarnings()));
             $this->logger->notice('Security warnings added');
         }
-        if (\count($auditResult->getWarnings()) > 0) {
+        if ([] !== $auditResult->getWarnings()) {
             $report->addWarning($url, $auditResult->getWarnings());
             $this->logger->notice('Warnings added');
         }

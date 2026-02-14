@@ -391,7 +391,7 @@ class CriteriaController extends AbstractController
                 continue;
             }
 
-            if (\count($rawData) > 0) {
+            if ([] !== $rawData) {
                 if ($criteriaFieldName) {
                     $criteriaFilters[] = $dataFieldType->getElasticsearchQuery($criteria, ['nested' => $criteriaFieldName]);
                 } else {
@@ -977,7 +977,7 @@ class CriteriaController extends AbstractController
                     } else {
                         unset($rawData[$criteriaField][$index][$multipleField][$indexKey]);
                         $rawData[$criteriaField][$index][$multipleField] = \array_values($rawData[$criteriaField][$index][$multipleField]);
-                        if (0 === \count($rawData[$criteriaField][$index][$multipleField])) {
+                        if ([] === $rawData[$criteriaField][$index][$multipleField]) {
                             unset($rawData[$criteriaField][$index]);
                             $rawData[$criteriaField] = \array_values($rawData[$criteriaField]);
                         }
@@ -1053,7 +1053,7 @@ class CriteriaController extends AbstractController
         foreach ($criterionList as $value) {
             if (isset($criteriaChoiceLists[$criteriaName][$value])) {
                 $context[$criteriaName] = $value;
-                if (\count($criteriaNames) > 0) {
+                if ([] !== $criteriaNames) {
                     // let see (recursively) if the other criterion applies to find a matching context
                     $this->addToTable($choice, $table, $criterion, $criteriaNames, $criteriaChoiceLists, $config, $context);
                 } else {

@@ -282,7 +282,7 @@ class ElasticaService
      */
     public function filterByContentTypes($query, array $contentTypes)
     {
-        if (0 === \count($contentTypes)) {
+        if ([] === $contentTypes) {
             if (\is_array($query) && !isset($query['query'])) {
                 return ['query' => $query];
             }
@@ -591,7 +591,7 @@ class ElasticaService
         }
 
         $highlightArgs = $search->getHighlight();
-        if (null !== $highlightArgs && \count($highlightArgs) > 0) {
+        if (null !== $highlightArgs && [] !== $highlightArgs) {
             $query->setHighlight($highlightArgs);
         }
 
@@ -628,13 +628,13 @@ class ElasticaService
         if (null !== $regex = $search->getRegex()) {
             $regex = \sprintf('/%s/', $regex);
         }
-        if (0 === \count($search->getContentTypes()) && null === $regex) {
+        if ([] === $search->getContentTypes() && null === $regex) {
             return $search->getIndices();
         }
 
         $filteredIndices = [];
         foreach ($this->getIndicesForContentTypes($search->getIndices()) as $contentType => $indices) {
-            if (!\in_array($contentType, $search->getContentTypes(), true) && \count($search->getContentTypes()) > 0) {
+            if (!\in_array($contentType, $search->getContentTypes(), true) && [] !== $search->getContentTypes()) {
                 continue;
             }
 
@@ -654,7 +654,7 @@ class ElasticaService
             $filteredIndices = [...$filteredIndices, ...\preg_filter($regex, '$0', $this->getIndicesFromAliases($search->getIndices()))];
         }
 
-        return \count($filteredIndices) > 0 ? \array_unique($filteredIndices) : $search->getIndices();
+        return [] !== $filteredIndices ? \array_unique($filteredIndices) : $search->getIndices();
     }
 
     /**

@@ -82,7 +82,7 @@ class LogRepository extends ServiceEntityRepository
             ->andWhere($qb->expr()->lt('log.created', ':before'))
             ->setParameter('before', $before);
 
-        if (\count($channels) > 0) {
+        if ([] !== $channels) {
             $qb
                 ->andWhere($qb->expr()->in('log.channel', ':channels'))
                 ->setParameter(':channels', $channels, Types::SIMPLE_ARRAY);

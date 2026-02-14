@@ -235,7 +235,7 @@ final readonly class TaskManager
      */
     public function tasksReorder(Revision $revision, array $orderedTaskIds): void
     {
-        if (0 === \count($orderedTaskIds)) {
+        if ([] === $orderedTaskIds) {
             return;
         }
 

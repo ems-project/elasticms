@@ -141,7 +141,7 @@ abstract class AbstractImportCommand extends AbstractCommand
             $this->io->warning(\sprintf('Could not read %d records', $notReadable));
         }
 
-        if (!$this->dryRun && $config->deleteMissingDocuments && \count($ouuids) > 0) {
+        if (!$this->dryRun && $config->deleteMissingDocuments && [] !== $ouuids) {
             $this->deleteMissingDocuments($contentTypeApi, ...$ouuids);
         }
 
@@ -215,7 +215,7 @@ abstract class AbstractImportCommand extends AbstractCommand
             }
         }
 
-        if (\count($chunks) > 0) {
+        if ([] !== $chunks) {
             yield $chunks;
         }
     }
@@ -350,7 +350,7 @@ abstract class AbstractImportCommand extends AbstractCommand
     {
         $alignEnvironments = $config->alignEnvironments;
 
-        if (0 === \count($alignEnvironments)) {
+        if ([] === $alignEnvironments) {
             return;
         }
 

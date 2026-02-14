@@ -136,7 +136,7 @@ class UserController extends AbstractController
     {
         $user = new User();
         $result = $this->wysiwygProfileRepository->findBy([], ['orderKey' => 'asc'], 1);
-        if (\count($result) > 0) {
+        if ([] !== $result) {
             $user->setWysiwygProfile($result[0]);
         }
 

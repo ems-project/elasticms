@@ -286,7 +286,7 @@ class RevisionRepository extends EntityRepository
             new Parameter('false', false),
         ]));
 
-        if (\count($ouuids) > 0) {
+        if ([] !== $ouuids) {
             $qb->andWhere($qb->expr()->notIn('r.ouuid', $ouuids));
         }
 
@@ -693,7 +693,7 @@ class RevisionRepository extends EntityRepository
                 ->setParameter('deadline_end', $deadlineEnd->setTime(23, 59, 59)->format(\DATE_ATOM));
         }
 
-        if (\count($status) > 0) {
+        if ([] !== $status) {
             $statuses = \array_map(static fn (TaskStatus $s) => $s->value, $status);
             $qb
                 ->andWhere($qb->expr()->in('t.status', ':status'))
@@ -806,7 +806,7 @@ class RevisionRepository extends EntityRepository
     {
         $qb = $this->makeQueryBuilder(isDraft: true)->orderBy('r.id', 'asc');
 
-        if (\count($circles) > 0) {
+        if ([] !== $circles) {
             $inCircles = $qb->expr()->orX();
             foreach ($circles as $counter => $circle) {
                 $inCircles->add($qb->expr()->like('r.circles', ':circle'.$counter));

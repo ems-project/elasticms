@@ -53,7 +53,7 @@ final readonly class SubmissionExporter
             $sheet[] = $line;
         }
 
-        if (0 === \count($sheet)) {
+        if ([] === $sheet) {
             return new ExportResult($unprocessedSubmissionsCount, 0);
         }
 

@@ -61,7 +61,7 @@ class Html
 
             switch ($extractor->getStrategy()) {
                 case Extractor::FIRST:
-                    if (0 === \count($basket)) {
+                    if ([] === $basket) {
                         $this->rapport->addExtractError($resource, $extractor, $content->count());
                     } else {
                         if (\count($basket) > 1) {
@@ -85,7 +85,7 @@ class Html
                     }
                     break;
                 case Extractor::N:
-                    if (\count($basket) > 0) {
+                    if ([] !== $basket) {
                         $this->assignExtractedProperty($resource, $extractor, $data, $basket);
                     }
                     break;

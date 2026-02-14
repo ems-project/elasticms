@@ -112,7 +112,7 @@ class RevisionTasksDataTableType extends AbstractQueryTableType implements DataT
     {
         $taskContentTypes = $this->taskRepository->findTaskContentTypes();
         $countVersionTags = $taskContentTypes
-            ->filter(fn (ContentType $c) => \count($c->getVersioning()->getTags()) > 0)
+            ->filter(fn (ContentType $c) => [] !== $c->getVersioning()->getTags())
             ->count();
 
         return new TasksDataTableContext(

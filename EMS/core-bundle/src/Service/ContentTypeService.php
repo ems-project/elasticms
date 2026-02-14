@@ -743,7 +743,7 @@ class ContentTypeService implements EntityServiceInterface
     public function getVersionDefault(ContentType $contentType): array
     {
         $versionTags = $contentType->getVersioning()->getTags();
-        if (0 === \count($versionTags)) {
+        if ([] === $versionTags) {
             return [];
         }
 
@@ -763,7 +763,7 @@ class ContentTypeService implements EntityServiceInterface
     public function getVersionTagsByContentType(ContentType $contentType, ?bool $notBlankNewVersion = false): array
     {
         $versionTags = $contentType->getVersioning()->getTags();
-        if (0 === \count($versionTags)) {
+        if ([] === $versionTags) {
             return [];
         }
 

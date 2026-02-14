@@ -129,7 +129,7 @@ class Synchronizer
         ]);
         $sourceMappings['_meta'] = $metas;
         $body = ['mappings' => $sourceMappings];
-        if (\count($settings) > 0) {
+        if ([] !== $settings) {
             $body['settings'] = $settings;
         }
 

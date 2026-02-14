@@ -80,7 +80,7 @@ final class Transformer
         $transform = \preg_replace_callback(EMSLink::PATTERN, function ($match) use ($config) {
             $cleanMatch = \array_filter($match);
 
-            if (0 === \count($cleanMatch)) {
+            if ([] === $cleanMatch) {
                 return $match[0];
             }
 

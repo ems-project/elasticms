@@ -73,7 +73,7 @@ class JobCommand extends AbstractCommand
     private function processReleases(): bool
     {
         $releases = $this->releaseService->findReadyAndDue();
-        if (0 === \count($releases)) {
+        if ([] === $releases) {
             $this->io->comment('No releases scheduled to treat');
 
             return false;

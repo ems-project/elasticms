@@ -63,7 +63,7 @@ class ViteService
 
     public function path(string $path): string
     {
-        if (0 === \count($this->manifest)) {
+        if ([] === $this->manifest) {
             return $path;
         }
 

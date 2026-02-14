@@ -257,7 +257,7 @@ class FileService implements EntityServiceInterface
     public function headIn(UploadedAsset $uploadedAsset): array
     {
         $headIn = $this->storageManager->headIn($uploadedAsset->getSha1());
-        if (0 === \count($headIn)) {
+        if ([] === $headIn) {
             return $headIn;
         }
 

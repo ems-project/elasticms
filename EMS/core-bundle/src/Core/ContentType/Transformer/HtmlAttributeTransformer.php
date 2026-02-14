@@ -119,7 +119,7 @@ final class HtmlAttributeTransformer extends BaseHtmlTransformer
                 ++$result;
             }
 
-            if (0 === \count($filter)) {
+            if ([] === $filter) {
                 $element->removeAttribute('class');
                 continue;
             }
@@ -153,7 +153,7 @@ final class HtmlAttributeTransformer extends BaseHtmlTransformer
                 ++$result;
             }
 
-            if (0 === \count($filter)) {
+            if ([] === $filter) {
                 $element->removeAttribute('style');
                 continue;
             }

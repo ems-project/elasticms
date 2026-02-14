@@ -59,7 +59,7 @@ final class Response implements ResponseInterface
     #[\Override]
     public function hasDocuments(): bool
     {
-        return \count($this->hits) > 0;
+        return [] !== $this->hits;
     }
 
     /**

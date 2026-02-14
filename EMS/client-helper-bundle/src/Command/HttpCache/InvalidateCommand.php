@@ -131,7 +131,7 @@ class InvalidateCommand extends AbstractCommand
             }
             $this->io->progressAdvance();
         }
-        if (\count($tags) > 0) {
+        if ([] !== $tags) {
             $this->httpCacheManager->purgeByTags(...$tags);
         }
         $this->io->progressFinish();

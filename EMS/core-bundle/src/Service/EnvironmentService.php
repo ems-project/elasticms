@@ -213,7 +213,7 @@ class EnvironmentService implements EntityServiceInterface
     /** @return Environment[] */
     public function getByNames(string ...$names): array
     {
-        return \count($names) > 0 ? $this->environmentRepository->findBy(['name' => $names]) : [];
+        return [] !== $names ? $this->environmentRepository->findBy(['name' => $names]) : [];
     }
 
     /** @return array<int|string, mixed> */

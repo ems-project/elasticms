@@ -107,10 +107,10 @@ final readonly class IndexService
     public function updateAlias(string $aliasName, array $indexesToRemove, array $indexesToAdd): void
     {
         $actions = [];
-        if (\count($indexesToRemove) > 0) {
+        if ([] !== $indexesToRemove) {
             $actions['remove'] = $indexesToRemove;
         }
-        if (\count($indexesToAdd) > 0) {
+        if ([] !== $indexesToAdd) {
             $actions['add'] = $indexesToAdd;
         }
         $this->aliasService->updateAlias($aliasName, $actions);

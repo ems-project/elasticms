@@ -96,7 +96,7 @@ final class MediaLibrarySync
         $path = $this->options->targetFolder.$file->getRelativePathname();
         $metaData = $this->getMetadata($path);
 
-        if ($this->options->onlyMetadataFile && 0 === \count($metaData)) {
+        if ($this->options->onlyMetadataFile && [] === $metaData) {
             $this->io->warning(\sprintf('Skipped "%s" with reason metadata was not found', $path));
 
             return;
@@ -105,7 +105,7 @@ final class MediaLibrarySync
         $this->uploadMedia($path, [self::SYNC_METADATA => $metaData], $file);
 
         $exploded = \explode('/', $file->getRelativePath());
-        while (\count($exploded) > 0) {
+        while ([] !== $exploded) {
             $folder = '/'.\implode('/', $exploded);
             if (!\in_array($folder, $this->knownFolders)) {
                 $this->uploadMedia($folder, [

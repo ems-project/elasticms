@@ -42,7 +42,7 @@ final readonly class TaskEventSubscriber implements EventSubscriberInterface
 
     public function onTaskUpdate(TaskEvent $event): void
     {
-        if (0 === \count($event->changeSet)) {
+        if ([] === $event->changeSet) {
             return;
         }
 

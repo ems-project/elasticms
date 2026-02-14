@@ -59,15 +59,11 @@ class ReorganizeType extends AbstractType
                 ]);
 
                 $builder->get('addItem')->addModelTransformer(new CallbackTransformer(
-                    function ($raw) {
-                        return new DataField();
-                    },
+                    fn ($raw) => new DataField(),
                     fn (DataField $tagsAsString) => null
                 ))->addViewTransformer(new CallbackTransformer(
                     fn (DataField $tagsAsString) => null,
-                    function ($raw) {
-                        return new DataField();
-                    }
+                    fn ($raw) => new DataField()
                 ));
             }
         }

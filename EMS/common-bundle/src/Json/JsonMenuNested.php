@@ -454,7 +454,7 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
             return 0;
         }
 
-        return Type::integer(\array_search($this, $parent->getChildren()));
+        return Type::integer(\array_search($this, $parent->getChildren(), true));
     }
 
     /**

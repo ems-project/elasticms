@@ -902,7 +902,7 @@ class CriteriaController extends AbstractController
 
             $multipleValueToRemove = $rawData[$multipleField];
             $rawData = $revision->getRawData();
-            if (($key = \array_search($multipleValueToRemove, $rawData[$multipleField])) !== false) {
+            if (($key = \array_search($multipleValueToRemove, $rawData[$multipleField], true)) !== false) {
                 $revision = $this->dataService->initNewDraft($view->getContentType()->getName(), $queryDocument->getId());
                 unset($rawData[$multipleField][$key]);
                 $rawData[$multipleField] = \array_values($rawData[$multipleField]);
@@ -969,7 +969,7 @@ class CriteriaController extends AbstractController
             $found = \array_all($filters, fn ($value, $criterion) => !($criterion != $multipleField && $value != $criteriaSet[$criterion]));
             if ($found) {
                 if ($multipleField) {
-                    $indexKey = \array_search($filters[$multipleField], $criteriaSet[$multipleField]);
+                    $indexKey = \array_search($filters[$multipleField], $criteriaSet[$multipleField], true);
                     if (false === $indexKey) {
                         $this->logger->notice('log.view.criteria.not_found', [
                             'field_name' => $multipleField,

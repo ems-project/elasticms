@@ -131,7 +131,7 @@ class CommonExtension extends AbstractExtension
     #[AsTwigFilter(name: 'ems_first_in_array')]
     public function firstInArray(mixed $needle, array $haystack): bool
     {
-        return 0 === \array_search($needle, $haystack);
+        return 0 === \array_search($needle, $haystack, true);
     }
 
     #[AsTwigFilter(name: 'ems_ouuid')]

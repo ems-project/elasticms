@@ -24,10 +24,6 @@ use EMS\Xliff\XML\DomHelper;
 
 class Xliff12Reader implements ReaderInterface
 {
-    public function __construct()
-    {
-    }
-
     public function supports(string $xml): bool
     {
         return \str_contains($xml, Version::V12_VERSION) || \str_contains($xml, Version::V12_NAMESPACE);

@@ -17,10 +17,6 @@ class SearchFilter implements \JsonSerializable
     public string $operator = 'query_and';
     public ?string $boost = null;
 
-    public function __construct()
-    {
-    }
-
     /**
      * @return array<string, mixed>
      */

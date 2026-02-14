@@ -1,0 +1,163 @@
+<?php
+
+declare(strict_types=1);
+
+namespace EMS\CommonBundle\Tests\Twig;
+
+use EMS\CommonBundle\Contracts\File\FileReaderInterface;
+use EMS\CommonBundle\Storage\Processor\Processor;
+use EMS\CommonBundle\Storage\StorageManager;
+use EMS\CommonBundle\Twig\AssetExtension;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
+use PHPUnit\Framework\MockObject\Stub;
+use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+
+class AssetExtensionTest extends TestCase
+{
+    private Stub $storageManager;
+    private readonly LoggerInterface $logger;
+    private Stub $urlGenerator;
+    private Stub $processor;
+    private Stub $fileReader;
+
+    #[\Override]
+    public function setUp(): void
+    {
+        $this->storageManager = $this->createStub(StorageManager::class);
+        $this->urlGenerator = $this->createStub(UrlGeneratorInterface::class);
+        $this->processor = $this->createStub(Processor::class);
+        $this->fileReader = $this->createStub(FileReaderInterface::class);
+    }
+
+    #[AllowMockObjectsWithoutExpectations]
+    public function testImageInfoTempFileIsNull()
+    {
+        $assetExtension = $this->getMockBuilder(AssetExtension::class)
+            ->setConstructorArgs([
+                $this->storageManager,
+                $this->urlGenerator,
+                $this->processor,
+                $this->fileReader,
+            ])
+            ->onlyMethods(['temporaryFile'])
+            ->getMock();
+
+        $hash = \sha1('testImageInfo');
+
+        $assetExtension
+            ->expects($this->once())
+            ->method('temporaryFile')
+            ->with($hash)
+            ->willReturn(null);
+
+        $this->assertNull($assetExtension->imageInfo($hash));
+    }
+
+    #[AllowMockObjectsWithoutExpectations]
+    public function testImageInfoCanNotGetImageSize()
+    {
+        $assetExtension = $this->getMockBuilder(AssetExtension::class)
+            ->setConstructorArgs([
+                $this->storageManager,
+                $this->urlGenerator,
+                $this->processor,
+                $this->fileReader,
+            ])
+            ->onlyMethods(['temporaryFile'])
+            ->getMock();
+
+        $hash = \sha1('testImageInfo');
+
+        $assetExtension
+            ->expects($this->once())
+            ->method('temporaryFile')
+            ->with($hash)
+            ->willReturn(__DIR__.'/ems.svg');
+
+        $this->assertNull($assetExtension->imageInfo($hash));
+    }
+
+    #[AllowMockObjectsWithoutExpectations]
+    public function testImageInfo()
+    {
+        $assetExtension = $this->getMockBuilder(AssetExtension::class)
+            ->setConstructorArgs([
+                $this->storageManager,
+                $this->urlGenerator,
+                $this->processor,
+                $this->fileReader,
+            ])
+            ->onlyMethods(['temporaryFile'])
+            ->getMock();
+
+        $hash = \sha1('testImageInfo');
+
+        $assetExtension
+            ->expects($this->once())
+            ->method('temporaryFile')
+            ->with($hash)
+            ->willReturn(__DIR__.'/ems.png');
+
+        $expected = [
+            'width' => 128,
+            'height' => 128,
+            'mimeType' => 'image/png',
+            'extension' => 'png',
+            'widthResolution' => 96,
+            'heightResolution' => 96,
+        ];
+
+        $this->assertEquals($expected, $assetExtension->imageInfo($hash));
+    }
+
+    #[AllowMockObjectsWithoutExpectations]
+    public function testImageJpegInfo()
+    {
+        $assetExtension = $this->getMockBuilder(AssetExtension::class)
+            ->setConstructorArgs([
+                $this->storageManager,
+                $this->urlGenerator,
+                $this->processor,
+                $this->fileReader,
+            ])
+            ->onlyMethods(['temporaryFile'])
+            ->getMock();
+
+        $hash = \sha1('testImageInfo');
+
+        $assetExtension
+            ->expects($this->once())
+            ->method('temporaryFile')
+            ->with($hash)
+            ->willReturn(__DIR__.'/test_350dpi.jpg');
+
+        $expected = [
+            'width' => 300,
+            'height' => 300,
+            'mimeType' => 'image/jpeg',
+            'extension' => 'jpeg',
+            'FileName' => 'test_350dpi.jpg',
+            'FileSize' => 6935,
+            'FileType' => 2,
+            'MimeType' => 'image/jpeg',
+            'SectionsFound' => 'COMMENT',
+            'COMPUTED' => [
+                'html' => 'width="300" height="300"',
+                'Width' => 300,
+                'Height' => 300,
+                'IsColor' => 1,
+            ],
+            'COMMENT' => ['Created with GIMP'],
+            'widthResolution' => 350,
+            'heightResolution' => 350,
+        ];
+        $actual = $assetExtension->imageInfo($hash);
+        $this->assertTrue(isset($actual['FileDateTime']));
+        // the FileDateTime on when the file has been actually created on the current file storage
+        unset($actual['FileDateTime']);
+
+        $this->assertEquals($expected, $actual);
+    }
+}

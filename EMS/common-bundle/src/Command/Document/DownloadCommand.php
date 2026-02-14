@@ -45,7 +45,7 @@ class DownloadCommand extends AbstractCommand
     protected function configure(): void
     {
         parent::configure();
-        $this->addArgument(self::CONTENT_TYPE, InputArgument::REQUIRED, \sprintf('Content-type\'s name to download'));
+        $this->addArgument(self::CONTENT_TYPE, InputArgument::REQUIRED, 'Content-type\'s name to download');
         $this->addOption(self::FOLDER, null, InputOption::VALUE_OPTIONAL, 'Export folder');
     }
 

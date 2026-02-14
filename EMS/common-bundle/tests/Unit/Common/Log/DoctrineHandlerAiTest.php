@@ -10,6 +10,7 @@ use Monolog\Level;
 use Monolog\Logger;
 use Monolog\LogRecord;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -17,13 +18,13 @@ class DoctrineHandlerAiTest extends TestCase
 {
     private DoctrineHandler $doctrineHandler;
     private LogRepository $logRepository;
-    private TokenStorageInterface $tokenStorage;
+    private Stub $tokenStorage;
 
     #[\Override]
     protected function setUp(): void
     {
         $this->logRepository = $this->createMock(LogRepository::class);
-        $this->tokenStorage = $this->createMock(TokenStorageInterface::class);
+        $this->tokenStorage = $this->createStub(TokenStorageInterface::class);
 
         $this->doctrineHandler = new DoctrineHandler($this->logRepository, $this->tokenStorage, Logger::WARNING);
     }

@@ -60,7 +60,7 @@ final readonly class QueryBuilder
             return $this->getQueryWithStringAnalyzed($queryString);
         }
 
-        if ($this->getQueryFilters()) {
+        if ($this->getQueryFilters() instanceof BoolQuery) {
             $querySearch->addMust($this->getQueryFilters());
         }
 
@@ -70,7 +70,7 @@ final readonly class QueryBuilder
     private function getQueryWithStringAnalyzed(string $queryString): ?AbstractQuery
     {
         $query = new BoolQuery();
-        if ($this->getQueryFilters()) {
+        if ($this->getQueryFilters() instanceof BoolQuery) {
             $query->addMust($this->getQueryFilters());
         }
 

@@ -85,16 +85,16 @@ class Segment
             return $this->state;
         }
 
-        if (empty($this->targetNodes) && 1 === \count($this->sourceNodes) && $this->sourceNodes[0] instanceof Text && '' === $this->sourceNodes[0]->text) {
+        if ([] === $this->targetNodes && 1 === \count($this->sourceNodes) && $this->sourceNodes[0] instanceof Text && '' === $this->sourceNodes[0]->text) {
             return Xliff::STATE_FINAL;
         }
         if ($this->isFinal) {
-            return empty($this->targetNodes) ? Xliff::STATE_NEW : Xliff::STATE_FINAL;
+            return [] === $this->targetNodes ? Xliff::STATE_NEW : Xliff::STATE_FINAL;
         }
-        if (empty($this->targetNodes)) {
+        if ([] === $this->targetNodes) {
             return Xliff::STATE_NEW;
         }
-        if (empty($this->baselines)) {
+        if ([] === $this->baselines) {
             return Xliff::STATE_NEEDS_TRANSLATION;
         }
         if (\count($this->sources) !== \count($this->baselines)) {

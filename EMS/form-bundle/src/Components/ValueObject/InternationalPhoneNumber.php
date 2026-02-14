@@ -22,11 +22,7 @@ final readonly class InternationalPhoneNumber
 
     public function validate(): bool
     {
-        if ($this->validateNumber()) {
-            return true;
-        }
-
-        return false;
+        return $this->validateNumber();
     }
 
     private function validateNumber(): bool

@@ -115,7 +115,7 @@ abstract class AbstractCommand extends Command implements CommandInterface
     protected function getArgumentStringArray(string $name): array
     {
         $arg = $this->input->getArgument($name);
-        if (!\is_array($arg) || empty($arg)) {
+        if (!\is_array($arg) || [] === $arg) {
             throw new \RuntimeException(\sprintf('Missing array argument "%s"', $name));
         }
 
@@ -249,7 +249,7 @@ abstract class AbstractCommand extends Command implements CommandInterface
     protected function getOptionStringArray(string $name, bool $required = true): array
     {
         $option = $this->input->getOption($name);
-        if ($required && (!\is_array($option) || empty($option))) {
+        if ($required && (!\is_array($option) || [] === $option)) {
             throw new \RuntimeException(\sprintf('Missing array option "%s"', $name));
         }
 

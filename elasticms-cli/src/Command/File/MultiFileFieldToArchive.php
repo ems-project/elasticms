@@ -35,7 +35,7 @@ class MultiFileFieldToArchive extends AbstractCommand
     private const string DEFAULT_LAST_UPDATE_DATETIME = '2016-02-09T16:00:00+01:00';
     private EMSLink $emsLink;
     private string $sourcePropertyPath;
-    private ?string $targetPropertyPath;
+    private ?string $targetPropertyPath = null;
     private string $archiveName;
     private \DateTimeImmutable $lastUpdateDateTime;
 
@@ -94,9 +94,9 @@ class MultiFileFieldToArchive extends AbstractCommand
     #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->io->title(\sprintf('Multi-files fields to archive'));
+        $this->io->title('Multi-files fields to archive');
         if (!$this->adminHelper->getCoreApi()->isAuthenticated()) {
-            $this->io->error(\sprintf('Not authenticated, run ems:admin:login'));
+            $this->io->error('Not authenticated, run ems:admin:login');
 
             return self::EXECUTE_ERROR;
         }

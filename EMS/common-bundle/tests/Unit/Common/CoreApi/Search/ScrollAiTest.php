@@ -28,7 +28,7 @@ class ScrollAiTest extends TestCase
     #[AllowMockObjectsWithoutExpectations]
     public function testCurrent(): void
     {
-        $document = $this->createMock(Document::class);
+        $document = $this->createStub(Document::class);
         $response = $this->createConfiguredMock(ResponseInterface::class, [
             'getDocument' => $document,
             'getTotalDocuments' => 1,

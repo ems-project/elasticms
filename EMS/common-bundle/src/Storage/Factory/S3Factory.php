@@ -33,7 +33,7 @@ class S3Factory extends AbstractFactory implements StorageFactoryInterface
 
             return null;
         }
-        if (null === $bucket || 0 === \strlen($bucket)) {
+        if (null === $bucket || '' === (string) $bucket) {
             $this->logger->error('Missing `bucket` config for S3 storage');
 
             return null;

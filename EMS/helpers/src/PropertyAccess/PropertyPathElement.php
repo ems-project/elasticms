@@ -28,7 +28,7 @@ class PropertyPathElement
 
     public function getOperatorsAsString(): string
     {
-        if (empty($this->operators)) {
+        if ([] === $this->operators) {
             return '';
         }
 

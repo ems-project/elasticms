@@ -74,7 +74,7 @@ final readonly class DatabaseRequest
 
     public function getExpireDate(): ?\DateTimeInterface
     {
-        return $this->expireDate ? \DateTime::createFromImmutable($this->expireDate) : null;
+        return $this->expireDate instanceof \DateTimeImmutable ? \DateTime::createFromImmutable($this->expireDate) : null;
     }
 
     /**
@@ -109,7 +109,7 @@ final readonly class DatabaseRequest
 
             return $resolvedDatabaseRecord;
         } catch (ExceptionInterface $e) {
-            throw new \RuntimeException(\sprintf('Invalid database record: %s', $e->getMessage()));
+            throw new \RuntimeException(\sprintf('Invalid database record: %s', $e->getMessage()), $e->getCode(), $e);
         }
     }
 }

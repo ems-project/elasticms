@@ -97,7 +97,7 @@ class PropertyAccessor
         $index = $propertyPath->getIndex();
         foreach ($fields as $field) {
             $propertyPath->setIndex($index);
-            $realFieldName = empty($replacers) ? $field : \str_replace(\array_keys($replacers), \array_values($replacers), $field);
+            $realFieldName = [] === $replacers ? $field : \str_replace(\array_keys($replacers), \array_values($replacers), $field);
             if (!isset($array[$realFieldName])) {
                 continue;
             }

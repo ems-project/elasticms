@@ -62,13 +62,13 @@ final readonly class TemplateName
         }
         \preg_match(self::REGEX_MATCH_OUUID, $name, $matchOuuid);
 
-        if ($matchOuuid) {
+        if ([] !== $matchOuuid) {
             return [$matchOuuid['content_type'], $matchOuuid['search_val'], '_id'];
         }
 
         \preg_match(self::REGEX_MATCH_NAME, $name, $matchName);
 
-        if ($matchName) {
+        if ([] !== $matchName) {
             return [$matchName['content_type'], $matchName['search_val'], null];
         }
 

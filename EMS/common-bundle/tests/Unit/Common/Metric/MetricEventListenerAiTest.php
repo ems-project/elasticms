@@ -45,9 +45,9 @@ class MetricEventListenerAiTest extends TestCase
         $request->attributes->set('_controller', MetricController::METRICS);
 
         $event = new TerminateEvent(
-            $this->createMock(HttpKernelInterface::class),
+            $this->createStub(HttpKernelInterface::class),
             $request,
-            $this->createMock(Response::class)
+            $this->createStub(Response::class)
         );
 
         $this->metricCollector->expects($this->once())

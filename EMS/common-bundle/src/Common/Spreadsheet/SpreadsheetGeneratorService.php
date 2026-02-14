@@ -117,7 +117,7 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
                     $this->addCell($sheet, $cellCoordinate, $this->buildCellFromValue($value));
 
                     ++$k;
-                    $maxCol = $k > $maxCol ? $k : $maxCol;
+                    $maxCol = \max($k, $maxCol);
                 }
                 for ($z = 1; $z <= $maxCol; ++$z) {
                     $sheet->getColumnDimension(Coordinate::stringFromColumnIndex($z))->setAutoSize(true);
@@ -156,7 +156,7 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
     /**
      * @return array<string, mixed>
      */
-    private static function getDefaults(): array
+    private function getDefaults(): array
     {
         return [
             self::CONTENT_FILENAME => 'spreadsheet',
@@ -175,7 +175,7 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
      */
     private function resolveOptions(array $config): array
     {
-        $defaults = self::getDefaults();
+        $defaults = $this->getDefaults();
 
         $resolver = new OptionsResolver();
         $resolver->setDefaults($defaults);

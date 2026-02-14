@@ -46,7 +46,7 @@ class InternalLink implements HtmlInterface
                 continue;
             }
 
-            if (\in_array($url->getScheme(), ['mailto'])) {
+            if ('mailto' === $url->getScheme()) {
                 continue;
             }
             if (!\in_array($url->getHost(), $this->config->getHosts())) {

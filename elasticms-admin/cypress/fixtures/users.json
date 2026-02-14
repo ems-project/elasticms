@@ -1,0 +1,20 @@
+{
+  "admin": {
+    "email": "admin@example.com",
+    "password": "password",
+    "firstName": "Admin",
+    "lastName": "Utopios",
+    "role": "ROLE_ADMIN"
+  },
+  "user": {
+    "email": "user@example.com",
+    "password": "password",
+    "firstName": "Jean",
+    "lastName": "Dupont",
+    "role": "ROLE_USER"
+  },
+  "invalid": {
+    "email": "invalid@example.com",
+    "password": "wrongpassword"
+  }
+}

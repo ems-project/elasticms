@@ -26,7 +26,7 @@ class HtmlHelper
         for ($i = 0; $i < $content->count(); ++$i) {
             $item = $content->eq($i);
             $href = $item->attr('href');
-            if (null === $href || 0 === \strlen($href) || \str_starts_with($href, '#')) {
+            if (null === $href || '' === $href || \str_starts_with($href, '#')) {
                 continue;
             }
             yield $href => \html_entity_decode($item->text());
@@ -43,7 +43,7 @@ class HtmlHelper
     public function getUniqueTextValue(Report $report, string $selector): ?string
     {
         $tag = $this->crawler->filter($selector);
-        if (0 === $tag->count() || 0 === \strlen(\trim($tag->eq(0)->text()))) {
+        if (0 === $tag->count() || '' === \trim($tag->eq(0)->text())) {
             $report->addWarning($this->referer, [\sprintf('%s is missing', $selector)]);
 
             return null;
@@ -58,7 +58,7 @@ class HtmlHelper
     public function getUniqueTextAttr(Report $report, string $selector, string $attr, bool $withWarnings = true): ?string
     {
         $tag = $this->crawler->filter($selector);
-        if (0 === $tag->count() || 0 === \strlen(\trim($tag->eq(0)->attr($attr) ?? ''))) {
+        if (0 === $tag->count() || '' === \trim($tag->eq(0)->attr($attr) ?? '')) {
             if ($withWarnings) {
                 $report->addWarning($this->referer, [\sprintf('%s is missing', $selector)]);
             }
@@ -69,7 +69,7 @@ class HtmlHelper
             $report->addWarning($this->referer, [\sprintf('%s is present %d times', $selector, $tag->count())]);
         }
 
-        return \trim($tag->eq(0)->attr($attr) ?? '');
+        return \trim($tag->eq(0)->attr($attr));
     }
 
     public function getReferer(): Url

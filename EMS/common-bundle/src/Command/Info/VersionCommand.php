@@ -32,7 +32,7 @@ class VersionCommand extends AbstractCommand
     protected function configure(): void
     {
         parent::configure();
-        $this->addArgument(self::SHORT_NAME, InputArgument::OPTIONAL, \sprintf('Package composer short name'), self::DEFAULT_SHORT_NAME);
+        $this->addArgument(self::SHORT_NAME, InputArgument::OPTIONAL, 'Package composer short name', self::DEFAULT_SHORT_NAME);
     }
 
     #[\Override]

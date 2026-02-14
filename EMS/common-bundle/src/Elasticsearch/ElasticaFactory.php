@@ -25,7 +25,7 @@ class ElasticaFactory
             $client = new Client(['hosts' => $config], $this->logger);
         }
 
-        if ($this->stopwatch) {
+        if ($this->stopwatch instanceof Stopwatch) {
             $client->setStopwatch($this->stopwatch);
         }
 

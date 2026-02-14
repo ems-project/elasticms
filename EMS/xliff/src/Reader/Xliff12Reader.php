@@ -281,7 +281,7 @@ class Xliff12Reader implements ReaderInterface
         }
         $equivalentOpeningText = null;
         $equivalentClosingText = null;
-        if (\strlen($legacyAttributes) > 0) {
+        if ('' !== $legacyAttributes) {
             $equivalentOpeningText = "<$type$legacyAttributes>";
             $equivalentClosingText = "</$type>";
         }

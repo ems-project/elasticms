@@ -90,7 +90,7 @@ readonly class SecurityListener implements EventSubscriberInterface
 
     private function firewallMatch(Request $request): bool
     {
-        if (0 === \strlen($this->firewallRegex ?? '')) {
+        if (($this->firewallRegex ?? '') === '') {
             return false;
         }
 
@@ -98,11 +98,7 @@ readonly class SecurityListener implements EventSubscriberInterface
             return false;
         }
 
-        if (\preg_match('#'.$this->firewallRegex.'#', $request->getPathInfo())) {
-            return true;
-        }
-
-        return false;
+        return (bool) \preg_match('#'.$this->firewallRegex.'#', $request->getPathInfo());
     }
 
     private function isAuthenticatedRequest(Request $request): bool

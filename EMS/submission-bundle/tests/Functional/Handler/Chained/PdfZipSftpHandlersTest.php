@@ -10,7 +10,6 @@ use EMS\SubmissionBundle\Handler\SftpHandler;
 use EMS\SubmissionBundle\Handler\ZipHandler;
 use EMS\SubmissionBundle\Response\PdfHandleResponse;
 use EMS\SubmissionBundle\Response\SftpHandleResponse;
-use EMS\SubmissionBundle\Response\ZipHandleResponse;
 use EMS\SubmissionBundle\Tests\Functional\App\FilesystemFactory;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -51,7 +50,6 @@ final class PdfZipSftpHandlersTest extends AbstractChainedTestCase
         $zipEndpointJson = \json_encode(['filename' => 'chain.zip']);
         $zipMessage = \file_get_contents(__DIR__.'/../../fixtures/twig/chainedPdfZipSftp/message_zip.twig');
         $zipHandleRequest = $this->createRequest(ZipHandler::class, $zipEndpointJson, $zipMessage);
-        /** @var ZipHandleResponse $zipHandleRespsonse */
         $zipHandleResponse = $this->zipHandler->handle($zipHandleRequest);
 
         $this->responseCollector->addResponse($zipHandleResponse);

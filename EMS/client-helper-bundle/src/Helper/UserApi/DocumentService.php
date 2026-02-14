@@ -55,7 +55,7 @@ final readonly class DocumentService
 
         $draftResponse = $client->post(
             $endpoint,
-            \compact('body')
+            ['body' => $body]
         );
 
         $draft = Json::decode($draftResponse->getBody()->getContents());

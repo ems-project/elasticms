@@ -468,7 +468,7 @@ class StorageManager implements FileManagerInterface
      */
     private function hotSynchronize(string $hash, StorageInterface $source, array $missingIn): void
     {
-        if (empty($missingIn)) {
+        if ([] === $missingIn) {
             return;
         }
         try {
@@ -480,7 +480,7 @@ class StorageManager implements FileManagerInterface
                 }
             }
 
-            if (empty($filteredAdapters)) {
+            if ([] === $filteredAdapters) {
                 return;
             }
 

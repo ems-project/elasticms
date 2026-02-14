@@ -10,7 +10,7 @@ use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CommonBundle\Storage\Service\StorageInterface;
 use EMS\CommonBundle\Storage\StorageManager;
-use EMS\CommonBundle\Twig\AssetRuntime;
+use EMS\CommonBundle\Twig\AssetExtension;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\DataService;
@@ -28,12 +28,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Error\Error;
 
-#[AsCommand(
-    name: Commands::CONTENT_TYPE_EXPORT,
-    description: 'Export a search result of a content type to a specific format.',
-    hidden: false,
-    aliases: ['ems:contenttype:export']
-)]
+#[AsCommand(name: Commands::CONTENT_TYPE_EXPORT, description: 'Export a search result of a content type to a specific format.', aliases: ['ems:contenttype:export'], hidden: false)]
 class ExportDocumentsCommand extends AbstractCommand
 {
     private const string ARGUMENT_QUERY = 'query';
@@ -64,7 +59,7 @@ class ExportDocumentsCommand extends AbstractCommand
         protected readonly DataService $dataService,
         protected readonly ContentTypeService $contentTypeService,
         protected readonly EnvironmentService $environmentService,
-        protected readonly AssetRuntime $runtime,
+        protected readonly AssetExtension $assetExtension,
         private readonly ElasticaService $elasticaService,
         private readonly StorageManager $storageManager,
         protected readonly string $instanceId
@@ -197,20 +192,18 @@ class ExportDocumentsCommand extends AbstractCommand
                         $errorList[] = 'Error in rendering template for: '.$filename;
                         continue;
                     }
+                } elseif ($accumulateInOneFile) {
+                    $content = Json::encode($document->getSource());
+                } elseif (\str_contains($this->format, (string) TemplateService::JSON_FORMAT)) {
+                    $content = Json::encode($document->getSource(), true);
+                } elseif (\str_contains($this->format, (string) TemplateService::XML_FORMAT)) {
+                    $content = $this->templateService->getXml($contentType, $document->getSource(), false, $document->getOuuid());
                 } else {
-                    if ($accumulateInOneFile) {
-                        $content = Json::encode($document->getSource());
-                    } elseif (\str_contains($this->format, (string) TemplateService::JSON_FORMAT)) {
-                        $content = Json::encode($document->getSource(), true);
-                    } elseif (\str_contains($this->format, (string) TemplateService::XML_FORMAT)) {
-                        $content = $this->templateService->getXml($contentType, $document->getSource(), false, $document->getOuuid());
-                    } else {
-                        $this->logger->error('log.command.export.unknow_format', [
-                            'format' => $this->format,
-                        ]);
-                        $errorList[] = 'Unknow format: '.$this->format;
-                        continue;
-                    }
+                    $this->logger->error('log.command.export.unknow_format', [
+                        'format' => $this->format,
+                    ]);
+                    $errorList[] = 'Unknow format: '.$this->format;
+                    continue;
                 }
 
                 if ($accumulateInOneFile) {
@@ -256,7 +249,7 @@ class ExportDocumentsCommand extends AbstractCommand
         }
 
         $hash = $this->storageManager->saveFile($outZipPath, StorageInterface::STORAGE_USAGE_CONFIG);
-        $url = ($this->baseUrl ?? '').$this->runtime->assetPath(
+        $url = ($this->baseUrl ?? '').$this->assetExtension->assetPath(
             [
                 EmsFields::CONTENT_FILE_HASH_FIELD => $hash,
                 EmsFields::CONTENT_FILE_NAME_FIELD => 'export.zip',

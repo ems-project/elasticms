@@ -24,7 +24,7 @@ class WebhookHelper
     public function getWebhook(): Webhook
     {
         $request = $this->requestStack->getCurrentRequest();
-        if (!$request) {
+        if (!$request instanceof Request) {
             throw new \RuntimeException('No request available');
         }
 

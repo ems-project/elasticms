@@ -15,7 +15,6 @@ use EMS\CommonBundle\Common\CoreApi\CoreApiFactory;
 use EMS\CommonBundle\Common\CoreApi\TokenStore;
 use EMS\CommonBundle\Common\File\FileReader;
 use EMS\CommonBundle\Common\HttpCache\HttpCacheManager;
-use EMS\CommonBundle\Common\HttpCache\HttpCacheRuntime;
 use EMS\CommonBundle\Common\HttpCache\TagCollector;
 use EMS\CommonBundle\Common\Job\JobManager;
 use EMS\CommonBundle\Common\KeyStore;
@@ -40,8 +39,6 @@ use EMS\CommonBundle\Service\ExpressionService;
 use EMS\CommonBundle\Service\Pdf\DomPdfPrinter;
 use EMS\CommonBundle\Service\Pdf\PdfGenerator;
 use EMS\CommonBundle\Service\Pdf\PdfPrinterInterface;
-use EMS\CommonBundle\Twig\SearchRuntime;
-use EMS\CommonBundle\Twig\TextRuntime;
 use Psr\Cache\CacheItemPoolInterface;
 
 return static function (ContainerConfigurator $container) {
@@ -121,8 +118,7 @@ return static function (ContainerConfigurator $container) {
     $services->set('ems_common.text.encoder', Encoder::class)
         ->args([
             '%ems_common.slug_symbol_map%',
-        ])
-        ->tag('twig.runtime');
+        ]);
 
     $services->set('ems_common.helper.cache', Cache::class)
         ->args(['%ems_common.hash_algo%']);
@@ -152,23 +148,6 @@ return static function (ContainerConfigurator $container) {
             service('ems_common.core_api.token_store'),
             service('logger'),
         ]);
-
-    $services->set('ems_common.twig.runtime.text', TextRuntime::class)
-        ->args([
-            service('ems_common.text.encoder'),
-            service('ems_common.json.decoder'),
-            service('validator'),
-            service('logger'),
-        ])
-        ->tag('twig.runtime');
-
-    $services->set('ems_common.twig.runtime.search', SearchRuntime::class)
-        ->args([service('ems_common.service.elastica')])
-        ->tag('twig.runtime');
-
-    $services->set('ems.common.twig.htp_cache', HttpCacheRuntime::class)
-        ->args([service('ems_common.service.http_cache_manager')])
-        ->tag('twig.runtime');
 
     $services->set('ems.common.twig.template_factory', TemplateFactory::class)
         ->args([service('twig')]);

@@ -202,7 +202,7 @@ final class MediaLibrarySync
 
                 return [];
             }
-            if (0 === \strlen($hash)) {
+            if ('' === $hash) {
                 $this->io->error(\sprintf('Unexpected empty hash for "%s"', $file->getRealPath()));
 
                 return [];

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Helper\Routing;
 
+use EMS\ClientHelperBundle\Helper\Templating\TemplateFile;
 use EMS\ClientHelperBundle\Helper\Templating\TemplateFiles;
 use EMS\ClientHelperBundle\Helper\Templating\TemplateName;
 use EMS\Helpers\Standard\Json;
@@ -45,7 +46,7 @@ final class RoutingFile implements \Countable
             $data = $document->getDataSource();
             if (isset($data['template_static'])) {
                 $templateFile = $templateFiles->find(new TemplateName($data['template_static']));
-                $data['template_static'] = $templateFile ? $templateFile->getPathName() : $data['template_static'];
+                $data['template_static'] = $templateFile instanceof TemplateFile ? $templateFile->getPathName() : $data['template_static'];
             }
 
             if (isset($data['config'])) {
@@ -59,7 +60,7 @@ final class RoutingFile implements \Countable
 
         $fileName = $directory.\DIRECTORY_SEPARATOR.self::FILE_NAME;
         $fs = new Filesystem();
-        $fs->dumpFile($fileName, $routes ? Yaml::dump($routes, 3) : '');
+        $fs->dumpFile($fileName, [] !== $routes ? Yaml::dump($routes, 3) : '');
 
         return new self($directory, $templateFiles);
     }
@@ -75,7 +76,7 @@ final class RoutingFile implements \Countable
         foreach ($this->routes as $name => $route) {
             if (isset($route['template_static'])) {
                 $template = $this->templateFiles->find(new TemplateName($route['template_static']));
-                if ($template) {
+                if ($template instanceof TemplateFile) {
                     $route['template_static'] = $template->getPathOuuid();
                 }
             }
@@ -103,7 +104,7 @@ final class RoutingFile implements \Countable
         foreach ($this->routes as $name => $data) {
             if (isset($data['template_static'])) {
                 $template = $this->templateFiles->find(new TemplateName($data['template_static']));
-                $data['template_static'] = $template ? $template->getPathName() : $data['template_static'];
+                $data['template_static'] = $template instanceof TemplateFile ? $template->getPathName() : $data['template_static'];
             }
 
             $routes[] = Route::fromData($name, $data);

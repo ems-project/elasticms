@@ -77,7 +77,7 @@ class ForwardCommand extends AbstractCommand
         }
 
         $data = $submission['data'] ?? [];
-        $data = \array_filter($data, fn ($field) => !\is_array($field) || !empty($field));
+        $data = \array_filter($data, fn ($field) => !\is_array($field) || [] !== $field);
         $locale = Type::string($submission['locale']);
         $client = new CurlHttpClient();
         $request = $client->request('POST', $this->toUrl->getUrl($locale), [

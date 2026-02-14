@@ -111,7 +111,7 @@ final class UploadAssetsCommand extends AbstractLocalCommand
         }
         $styleSetClient = $this->coreApi->admin()->getConfig(ConfigTypes::WYSIWYG_STYLE_SET->value);
         $styleSetNames = $styleSetClient->index();
-        if (empty($styleSetNames)) {
+        if ([] === $styleSetNames) {
             return;
         }
         $archive = match ($this->archiveType) {

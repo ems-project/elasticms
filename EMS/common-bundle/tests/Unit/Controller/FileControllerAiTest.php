@@ -6,7 +6,6 @@ namespace EMS\Tests\CommonBundle\Unit\Controller;
 
 use EMS\CommonBundle\Controller\FileController;
 use EMS\CommonBundle\Storage\Processor\Processor;
-use EMS\CommonBundle\Twig\AssetRuntime;
 use GuzzleHttp\Psr7\Stream;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
@@ -19,14 +18,12 @@ class FileControllerAiTest extends TestCase
     private const string TEST_IMAGE_PATH = __DIR__.'/fixtures/image.png';
     private FileController $controller;
     private Processor $processor;
-    private AssetRuntime $assetRuntime;
 
     #[\Override]
     protected function setUp(): void
     {
         $this->processor = $this->createMock(Processor::class);
-        $this->assetRuntime = $this->createMock(AssetRuntime::class);
-        $this->controller = new FileController($this->processor, $this->assetRuntime);
+        $this->controller = new FileController($this->processor);
     }
 
     #[AllowMockObjectsWithoutExpectations]

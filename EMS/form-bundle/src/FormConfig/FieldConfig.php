@@ -57,13 +57,13 @@ class FieldConfig implements ElementInterface
 
     public function getChoicePlaceholder(): ?string
     {
-        return $this->choices ? $this->choices->getPlaceHolder() : null;
+        return $this->choices instanceof FieldChoicesConfig ? $this->choices->getPlaceHolder() : null;
     }
 
     /** @return mixed[] */
     public function getChoiceList(): array
     {
-        return $this->choices ? $this->choices->list() : [];
+        return $this->choices instanceof FieldChoicesConfig ? $this->choices->list() : [];
     }
 
     public function getChoices(): ?FieldChoicesConfig

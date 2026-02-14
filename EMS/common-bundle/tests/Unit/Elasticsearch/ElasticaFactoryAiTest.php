@@ -8,17 +8,18 @@ use EMS\CommonBundle\Elasticsearch\Client;
 use EMS\CommonBundle\Elasticsearch\ElasticaFactory;
 use EMS\CommonBundle\Elasticsearch\ElasticaLogger;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 
 final class ElasticaFactoryAiTest extends TestCase
 {
-    private ElasticaLogger $logger;
+    private Stub $logger;
     private ElasticaFactory $factory;
 
     #[\Override]
     protected function setUp(): void
     {
-        $this->logger = $this->createMock(ElasticaLogger::class);
+        $this->logger = $this->createStub(ElasticaLogger::class);
     }
 
     #[AllowMockObjectsWithoutExpectations]

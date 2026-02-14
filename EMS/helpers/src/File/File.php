@@ -59,10 +59,8 @@ class File
     {
         $handle = $this->getHandler();
 
-        if ($fromByte > 0) {
-            if (0 !== \fseek($handle, $fromByte)) {
-                throw new \RuntimeException(\sprintf('Unexpected error while seeking the file pointer at position %s', $fromByte));
-            }
+        if ($fromByte > 0 && 0 !== \fseek($handle, $fromByte)) {
+            throw new \RuntimeException(\sprintf('Unexpected error while seeking the file pointer at position %s', $fromByte));
         }
         if ($chunkSize < 1) {
             throw new \RuntimeException(\sprintf('Unexpected chunk size %d', $chunkSize));

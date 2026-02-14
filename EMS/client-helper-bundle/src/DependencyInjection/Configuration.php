@@ -73,7 +73,7 @@ final class Configuration implements ConfigurationInterface
                                 }
                             }
 
-                            if (empty($default)) {
+                            if ([] === $default) {
                                 throw new \InvalidArgumentException('no default elasticms configured');
                             }
 

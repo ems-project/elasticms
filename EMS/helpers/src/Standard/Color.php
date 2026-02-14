@@ -187,10 +187,10 @@ class Color
             $color = self::EMS_COLORS[$color];
         } else {
             $color = \trim($color, '#');
-            if (3 == \strlen($color)) {
+            if (3 === \strlen($color)) {
                 $color = $color[0].$color[0].$color[1].$color[1].$color[2].$color[2];
             }
-            if (4 == \strlen($color)) {
+            if (4 === \strlen($color)) {
                 $color = $color[0].$color[0].$color[1].$color[1].$color[2].$color[2].$color[3].$color[3];
             }
         }
@@ -246,11 +246,7 @@ class Color
             'b' => $this->blue / 255.0,
         ];
         foreach ($components as $c => $v) {
-            if ($v <= 0.03928) {
-                $components[$c] = $v / 12.92;
-            } else {
-                $components[$c] = (($v + 0.055) / 1.055) ** 2.4;
-            }
+            $components[$c] = $v <= 0.03928 ? $v / 12.92 : (($v + 0.055) / 1.055) ** 2.4;
         }
 
         return ($components['r'] * 0.2126) + ($components['g'] * 0.7152) + ($components['b'] * 0.0722);
@@ -289,13 +285,13 @@ class Color
 
     public function bestContrast(string|Color ...$colors): self
     {
-        if (empty($colors)) {
+        if ([] === $colors) {
             throw new \InvalidArgumentException('Empty color list');
         }
 
         $colors = \array_map(fn ($color) => \is_string($color) ? new Color($color) : $color, $colors);
         $bestColor = \array_shift($colors);
-        if (empty($colors)) {
+        if ([] === $colors) {
             $colors[] = $bestColor->getComplementary();
         }
 

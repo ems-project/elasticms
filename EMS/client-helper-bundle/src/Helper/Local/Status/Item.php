@@ -33,11 +33,7 @@ final class Item
             return false;
         }
 
-        if (!$this->hasDataLocal() || $this->dataLocal === $this->dataOrigin) {
-            return false;
-        }
-
-        return true;
+        return $this->hasDataLocal() && $this->dataLocal !== $this->dataOrigin;
     }
 
     public function isDeleted(): bool

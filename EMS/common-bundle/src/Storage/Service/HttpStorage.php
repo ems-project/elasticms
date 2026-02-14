@@ -24,7 +24,7 @@ class HttpStorage extends AbstractUrlStorage implements \Stringable
 
     public static function addChunkUrl(string $hash): string
     {
-        return '/api/file/upload-chunk/'.\urlencode($hash);
+        return '/api/file/chunk/'.\urlencode($hash);
     }
 
     /**
@@ -67,7 +67,7 @@ class HttpStorage extends AbstractUrlStorage implements \Stringable
     {
         try {
             $result = $this->getClient()->get('/status.json');
-            if (200 == $result->getStatusCode()) {
+            if (200 === $result->getStatusCode()) {
                 $status = Json::decode($result->getBody()->getContents());
                 if (isset($status['status']) && \in_array($status['status'], ['green', 'yellow'])) {
                     return true;

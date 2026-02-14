@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
-use EMS\CommonBundle\Twig\AssetRuntime;
 use EMS\CoreBundle\Form\DataField\ActionFieldType;
 use EMS\CoreBundle\Form\DataField\AssetFieldType;
 use EMS\CoreBundle\Form\DataField\CheckboxFieldType;
@@ -26,7 +25,6 @@ use EMS\CoreBundle\Form\DataField\HolderFieldType;
 use EMS\CoreBundle\Form\DataField\IconFieldType;
 use EMS\CoreBundle\Form\DataField\IndexedAssetFieldType;
 use EMS\CoreBundle\Form\DataField\IntegerFieldType;
-use EMS\CoreBundle\Form\DataField\JSONFieldType;
 use EMS\CoreBundle\Form\DataField\JsonMenuEditorFieldType;
 use EMS\CoreBundle\Form\DataField\JsonMenuLinkFieldType;
 use EMS\CoreBundle\Form\DataField\JsonMenuNestedEditorFieldType;
@@ -176,15 +174,6 @@ return static function (ContainerConfigurator $container) {
         ->tag('ems.form.datafieldtype', ['alias' => 'computed'])
         ->tag('form.type');
 
-    $services->set('ems.fieldtype.json', JSONFieldType::class)
-        ->args([
-            service('security.authorization_checker'),
-            service('form.registry'),
-            service('ems.service.elasticsearch'),
-        ])
-        ->tag('ems.form.datafieldtype', ['alias' => 'json'])
-        ->tag('form.type');
-
     $services->set('ems.fieldtype.dataLink', DataLinkFieldType::class)
         ->args([
             service('security.authorization_checker'),
@@ -211,7 +200,7 @@ return static function (ContainerConfigurator $container) {
             service('ems.service.elasticsearch'),
             service('router'),
             service('ems.service.wysiwyg_styles_set'),
-            service(AssetRuntime::class),
+            service('ems.twig_extension.asset'),
         ])
         ->tag('ems.form.datafieldtype', ['alias' => 'wysiwyg'])
         ->tag('form.type');

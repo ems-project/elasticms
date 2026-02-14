@@ -32,10 +32,10 @@ class PublishCommand extends AbstractCommand
     {
         parent::configure();
         $this
-            ->addArgument(self::ARGUMENT_CONTENT_TYPE, InputArgument::REQUIRED, \sprintf('Content-type\'s name'))
-            ->addArgument(self::ARGUMENT_OUUID, InputArgument::REQUIRED, \sprintf('OUUID of the document to publish'))
-            ->addArgument(self::ARGUMENT_TARGET_ENVIRONMENT, InputArgument::REQUIRED, \sprintf('Environment\'s name to publish in'))
-            ->addArgument(self::ARGUMENT_REVISION_ID, InputArgument::OPTIONAL, \sprintf('Revision ID of the revision to publish, will take the revision publish in the default environment otherwise.'))
+            ->addArgument(self::ARGUMENT_CONTENT_TYPE, InputArgument::REQUIRED, 'Content-type\'s name')
+            ->addArgument(self::ARGUMENT_OUUID, InputArgument::REQUIRED, 'OUUID of the document to publish')
+            ->addArgument(self::ARGUMENT_TARGET_ENVIRONMENT, InputArgument::REQUIRED, 'Environment\'s name to publish in')
+            ->addArgument(self::ARGUMENT_REVISION_ID, InputArgument::OPTIONAL, 'Revision ID of the revision to publish, will take the revision publish in the default environment otherwise.')
         ;
     }
 

@@ -36,7 +36,7 @@ use EMS\CoreBundle\Service\EnvironmentService;
 use EMS\CoreBundle\Service\IndexService;
 use EMS\CoreBundle\Service\PublishService;
 use EMS\CoreBundle\Service\SearchService;
-use EMS\CoreBundle\Twig\AppExtension;
+use EMS\CoreBundle\Twig\CoreExtension;
 use EMS\Helpers\Standard\Json;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -577,7 +577,7 @@ class DataController extends AbstractController
         $serialisedFormErrors = [];
         foreach ($formErrors as $error) {
             $serialisedFormErrors[] = [
-                'propertyPath' => AppExtension::propertyPath($error),
+                'propertyPath' => CoreExtension::propertyPath($error),
                 'message' => $error->getMessage(),
             ];
         }
@@ -705,7 +705,7 @@ class DataController extends AbstractController
         $revision = new Revision();
         $form = $this->createFormBuilder($revision)
             ->add('ouuid', IconTextType::class, [
-                'constraints' => [new Regex(pattern: '/^[A-Za-z0-9_\.\-~]*$/', match: true, message: 'Ouuid has an unauthorized character.'),
+                'constraints' => [new Regex(pattern: '/^[A-Za-z0-9_\.\-~]*$/', message: 'Ouuid has an unauthorized character.', match: true),
                 ],
                 'attr' => [
                     'class' => 'form-control',
@@ -815,7 +815,7 @@ class DataController extends AbstractController
      */
     private function reorderCollection(array &$input): void
     {
-        if (empty($input)) {
+        if ([] === $input) {
             return;
         }
         $keys = \array_keys($input);

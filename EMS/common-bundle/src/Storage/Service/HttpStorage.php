@@ -67,7 +67,7 @@ class HttpStorage extends AbstractUrlStorage implements \Stringable
     {
         try {
             $result = $this->getClient()->get('/status.json');
-            if (200 == $result->getStatusCode()) {
+            if (200 === $result->getStatusCode()) {
                 $status = Json::decode($result->getBody()->getContents());
                 if (isset($status['status']) && \in_array($status['status'], ['green', 'yellow'])) {
                     return true;

@@ -82,7 +82,7 @@ class IntegratedTest extends TestCase
         $document->unitToAssociativeArray($package, $source, $inserted);
         $inserted['locale'] = 'de';
 
-        foreach ($source as $field => $value) {
+        foreach (\array_keys($source) as $field) {
             if (\in_array($field, ['introduction', 'description'])) {
                 $this->assertEquals(HtmlHelper::prettyPrint($inserted[$field]), HtmlHelper::prettyPrint($target[$field] ?? null), \sprintf('Field %s for inserted document : %s', $field, $ouuid));
             } else {

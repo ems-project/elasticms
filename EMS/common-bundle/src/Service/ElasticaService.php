@@ -153,7 +153,7 @@ class ElasticaService
      */
     public function generateSearch(array $indexes, AbstractQuery $query, array $contentTypes = []): Search
     {
-        if (empty($contentTypes)) {
+        if ([] === $contentTypes) {
             $query = $this->filterByContentTypes($query, $contentTypes);
         }
 
@@ -168,7 +168,7 @@ class ElasticaService
     public function generateTermsSearch(array $indexes, string $field, array $terms, array $contentTypes = []): Search
     {
         $query = new Terms($field, $terms);
-        if (!empty($contentTypes)) {
+        if ([] !== $contentTypes) {
             $query = $this->filterByContentTypes($query, $contentTypes);
         }
 
@@ -644,7 +644,7 @@ class ElasticaService
             }
         }
 
-        if (empty($filteredIndices) && null !== $regex) {
+        if ([] === $filteredIndices && null !== $regex) {
             $filteredIndices = [...$filteredIndices, ...\preg_filter($regex, '$0', $this->getIndicesFromAliases($search->getIndices()))];
         }
 

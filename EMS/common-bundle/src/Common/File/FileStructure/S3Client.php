@@ -86,7 +86,7 @@ class S3Client implements FileStructureClientInterface
             'CopySource' => \urlencode("$this->bucket/$key"),
         ]);
         unset($this->existingFiles[self::EMS_ARCHIVE_IDENTIFIER_FILE]);
-        foreach ($this->existingFiles as $key => $object) {
+        foreach (\array_keys($this->existingFiles) as $key) {
             $this->batch[] = $this->client->getCommand('DeleteObject', [
                 'Bucket' => $this->bucket,
                 'Key' => $key,

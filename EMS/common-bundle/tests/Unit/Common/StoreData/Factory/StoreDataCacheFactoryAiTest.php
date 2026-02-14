@@ -8,17 +8,18 @@ use EMS\CommonBundle\Common\Cache\Cache;
 use EMS\CommonBundle\Common\StoreData\Factory\StoreDataCacheFactory;
 use EMS\CommonBundle\Common\StoreData\Service\StoreDataCacheService;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 
 class StoreDataCacheFactoryAiTest extends TestCase
 {
-    private Cache $cache;
+    private Stub $cache;
 
     #[\Override]
     protected function setUp(): void
     {
-        $this->cache = $this->createMock(Cache::class);
+        $this->cache = $this->createStub(Cache::class);
     }
 
     #[AllowMockObjectsWithoutExpectations]

@@ -25,7 +25,7 @@ class NotSuccessfulExceptionAiTest extends TestCase
         $response->method('getStatusCode')->willReturn(404);
         $response->method('getContent')->willReturn('{}');
 
-        $logger = $this->createMock(LoggerInterface::class);
+        $logger = $this->createStub(LoggerInterface::class);
         $result = new Result($response, $logger);
 
         $exception = new NotSuccessfulException($result);

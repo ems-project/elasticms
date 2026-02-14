@@ -39,7 +39,7 @@ final class FormData
     /** @return FormDataFile[] */
     public function getAllFiles(): array
     {
-        if (!empty($this->allFiles)) {
+        if ([] !== $this->allFiles) {
             return $this->allFiles;
         }
 

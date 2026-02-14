@@ -214,7 +214,7 @@ final class ClientRequest implements ClientRequestInterface
         $this->logger->debug('ClientRequest : getHierarchy for {emsKey}', ['emsKey' => $emsKey]);
         $emsLink = EMSLink::fromText($emsKey);
         $items = $cache;
-        if (empty($items)) {
+        if ([] === $items) {
             $result = $this->search($emsLink->getContentType(), [
                 '_source' => $sourceFields,
             ], 0, $querySize);
@@ -253,14 +253,12 @@ final class ClientRequest implements ClientRequestInterface
         }
         $out = new HierarchicalStructure($contentType, $item['_id'], $item['_source'], $activeChild);
 
-        if (null === $depth || $depth) {
-            if (isset($item['_source'][$childrenField]) && \is_array($item['_source'][$childrenField])) {
-                foreach ($item['_source'][$childrenField] as $key) {
-                    if ($key) {
-                        $child = $this->getHierarchy($key, $childrenField, null === $depth ? null : $depth - 1, $sourceFields, $activeChild, $querySize, $items);
-                        if ($child) {
-                            $out->addChild($child);
-                        }
+        if ((null === $depth || $depth) && (isset($item['_source'][$childrenField]) && \is_array($item['_source'][$childrenField]))) {
+            foreach ($item['_source'][$childrenField] as $key) {
+                if ($key) {
+                    $child = $this->getHierarchy($key, $childrenField, null === $depth ? null : $depth - 1, $sourceFields, $activeChild, $querySize, $items);
+                    if ($child instanceof HierarchicalStructure) {
+                        $out->addChild($child);
                     }
                 }
             }
@@ -691,7 +689,7 @@ final class ClientRequest implements ClientRequestInterface
 
         foreach (\explode(',', $contentTypeNames) as $contentTypeName) {
             $contentType = $this->getContentType($contentTypeName);
-            $publishDates[] = $contentType ? $contentType->getLastPublished() : null;
+            $publishDates[] = $contentType instanceof ContentType ? $contentType->getLastPublished() : null;
         }
 
         $lastPublishedDate = \max($publishDates);

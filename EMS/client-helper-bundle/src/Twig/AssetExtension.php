@@ -25,7 +25,7 @@ final class AssetExtension
         ?string $localFolder = null
     ) {
         $this->publicDir = $projectDir.'/public';
-        if ($localFolder && \strlen($localFolder) > 0) {
+        if (\is_string($localFolder) && '' !== $localFolder) {
             $this->localFolder = $localFolder;
         }
     }

@@ -53,7 +53,7 @@ class UpdateCommand extends AbstractCommand
     protected function configure(): void
     {
         parent::configure();
-        $this->addArgument(self::CONTENT_TYPE, InputArgument::REQUIRED, \sprintf('Content-type\'s name to update'));
+        $this->addArgument(self::CONTENT_TYPE, InputArgument::REQUIRED, 'Content-type\'s name to update');
         $this->addOption(self::FOLDER, null, InputOption::VALUE_OPTIONAL, 'Folder to scan for JSON files');
         $this->addOption(self::DUMP_FILE, null, InputOption::VALUE_OPTIONAL, 'Will upload the specified elasticdump file instead of the JSON files in the folder');
         $this->addOption(self::ONLY_MISSING, null, InputOption::VALUE_NONE, 'Only create missing documents');
@@ -107,7 +107,7 @@ class UpdateCommand extends AbstractCommand
 
         $lineCount = 0;
         while (($line = \fgets($handle)) !== false) {
-            if (0 === \strlen($line)) {
+            if ('' === $line) {
                 continue;
             }
             ++$lineCount;
@@ -115,7 +115,7 @@ class UpdateCommand extends AbstractCommand
         \rewind($handle);
         $this->io->progressStart($lineCount);
         while (($line = \fgets($handle)) !== false) {
-            if (0 === \strlen($line)) {
+            if ('' === $line) {
                 continue;
             }
             $json = Json::decode($line);

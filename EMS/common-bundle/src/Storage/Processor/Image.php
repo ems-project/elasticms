@@ -117,12 +117,10 @@ class Image
                 // recalculate width
                 $width = \ceil($ratio * (float) $height);
             }
+        } elseif (($originalHeight / $height) > ($originalWidth / $width)) {
+            $width = \ceil($ratio * (float) $height);
         } else {
-            if (($originalHeight / $height) > ($originalWidth / $width)) {
-                $width = \ceil($ratio * (float) $height);
-            } else {
-                $height = \ceil((float) $width / $ratio);
-            }
+            $height = \ceil((float) $width / $ratio);
         }
 
         return [(int) $width, (int) $height];

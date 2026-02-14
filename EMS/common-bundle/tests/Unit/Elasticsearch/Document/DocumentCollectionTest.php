@@ -10,6 +10,7 @@ use EMS\CommonBundle\Elasticsearch\Response\ResponseInterface;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 
+#[AllowMockObjectsWithoutExpectations]
 class DocumentCollectionTest extends TestCase
 {
     private ResponseInterface $mockResponse;
@@ -20,8 +21,8 @@ class DocumentCollectionTest extends TestCase
         $mockResponse = $this->createMock(ResponseInterface::class);
         $mockResponse->method('getDocuments')
             ->willReturn([
-                $this->createMock(DocumentInterface::class),
-                $this->createMock(DocumentInterface::class),
+                $this->createStub(DocumentInterface::class),
+                $this->createStub(DocumentInterface::class),
             ]);
         $this->mockResponse = $mockResponse;
     }

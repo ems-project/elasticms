@@ -37,7 +37,7 @@ class HtmlSanitizerClassAiTest extends TestCase
     #[AllowMockObjectsWithoutExpectations]
     public function testSanitizeAttribute(): void
     {
-        $config = $this->createMock(HtmlSanitizerConfig::class);
+        $config = $this->createStub(HtmlSanitizerConfig::class);
         $element = 'div';
         $attribute = 'class';
 

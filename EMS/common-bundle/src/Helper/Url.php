@@ -161,11 +161,7 @@ class Url
         } else {
             $url = \sprintf('%s://%s', $this->scheme, $this->host);
         }
-        if (null !== $this->port) {
-            $url = \sprintf('%s:%d%s', $url, $this->port, $this->path);
-        } else {
-            $url = \sprintf('%s%s', $url, $this->path);
-        }
+        $url = null !== $this->port ? \sprintf('%s:%d%s', $url, $this->port, $this->path) : \sprintf('%s%s', $url, $this->path);
         if ($withQuery && null !== $this->query) {
             $url = \sprintf('%s?%s', $url, $this->query);
         }

@@ -19,7 +19,7 @@ class BelgiumCompanyNumberMultiple
 
     public function validate(): bool
     {
-        if (\strlen($this->number->getDigits()) % 10) {
+        if (0 !== \strlen($this->number->getDigits()) % 10) {
             return false;
         }
 

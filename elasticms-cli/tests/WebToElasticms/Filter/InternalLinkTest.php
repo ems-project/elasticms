@@ -10,16 +10,14 @@ use App\CLI\Client\WebToElasticms\Config\WebResource;
 use App\CLI\Client\WebToElasticms\Filter\Html\InternalLink;
 use App\CLI\Client\WebToElasticms\Rapport\Rapport;
 use PHPUnit\Framework\TestCase;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\DomCrawler\Crawler;
 
-class InternaleLinkTest extends TestCase
+class InternalLinkTest extends TestCase
 {
     public function testInternalLink(): void
     {
         $webResource = new WebResource('mock', 'mock', 'mock');
         $config = $this->createMock(ConfigManager::class);
-        $logger = $this->createMock(LoggerInterface::class);
         $config->method('getHosts')
             ->willReturn(['demo.com']);
         $config->method('findInternalLink')
@@ -59,7 +57,6 @@ class InternaleLinkTest extends TestCase
         $cacheManager = new CacheManager(\sys_get_temp_dir());
         $rapport = new Rapport($cacheManager, \sys_get_temp_dir());
         $config = $this->createMock(ConfigManager::class);
-        $logger = $this->createMock(LoggerInterface::class);
         $config->method('getHosts')
             ->willReturn(['demo.com']);
         $config->method('findInternalLink')

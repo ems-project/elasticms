@@ -157,7 +157,7 @@ class ConfigManager
      */
     public function getHosts(): array
     {
-        if (empty($this->hosts)) {
+        if ([] === $this->hosts) {
             foreach ($this->documents as $document) {
                 foreach ($document->getResources() as $resource) {
                     $url = new Url($resource->getUrl());
@@ -319,7 +319,7 @@ class ConfigManager
     public function urlToAssetArray(Url $url, Rapport $rapport): array
     {
         $asset = $this->cacheManager->get($url->getUrl());
-        if (!$asset->hasResponse() || 200 != $asset->getResponse()->getStatusCode() || $asset->isHtml()) {
+        if (!$asset->hasResponse() || 200 !== $asset->getResponse()->getStatusCode() || $asset->isHtml()) {
             $this->logger->warning(\sprintf('Impossible to download the asset %s', $url->getUrl()));
             $rapport->inAssetsError($url->getUrl(), $url->getReferer(), 'Impossible to download the asset');
 
@@ -337,7 +337,7 @@ class ConfigManager
             return [];
         }
 
-        if (0 === \strlen($hash)) {
+        if ('' === $hash) {
             throw new \RuntimeException('Unexpected empty hash');
         }
 
@@ -353,7 +353,7 @@ class ConfigManager
     {
         $assetArray = $this->urlToAssetArray($url, $rapport);
 
-        if (empty($assetArray)) {
+        if ([] === $assetArray) {
             return null;
         }
 

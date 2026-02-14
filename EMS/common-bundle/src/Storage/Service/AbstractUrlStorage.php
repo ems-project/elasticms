@@ -79,20 +79,12 @@ abstract class AbstractUrlStorage implements StorageInterface, \Stringable
     #[\Override]
     public function read(string $hash, bool $confirmed = true): StreamInterface
     {
-        if ($confirmed) {
-            $out = $this->getPath($hash);
-        } else {
-            $out = $this->getUploadPath($hash);
-        }
+        $out = $confirmed ? $this->getPath($hash) : $this->getUploadPath($hash);
         if (!\file_exists($out)) {
             throw new NotFoundHttpException($hash);
         }
         $context = $this->getContext();
-        if (null === $context) {
-            $resource = \fopen($out, 'rb');
-        } else {
-            $resource = \fopen($out, 'rb', false, $context);
-        }
+        $resource = null === $context ? \fopen($out, 'rb') : \fopen($out, 'rb', false, $context);
         if (!\is_resource($resource)) {
             throw new NotFoundHttpException($hash);
         }
@@ -167,7 +159,7 @@ abstract class AbstractUrlStorage implements StorageInterface, \Stringable
         \fflush($file);
         \fclose($file);
 
-        if (false === $result || $result != \strlen($chunk)) {
+        if (false === $result || $result !== \strlen($chunk)) {
             return false;
         }
 

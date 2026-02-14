@@ -73,11 +73,11 @@ class Encoder
         $extension = null;
         if ($preserveFileExtension) {
             $extension = \pathinfo($text, PATHINFO_EXTENSION);
-            $text = \strlen($extension) > 0 ? \substr($text, 0, -\strlen($extension)) : $text;
+            $text = '' !== (string) $extension ? \substr($text, 0, -\strlen($extension)) : $text;
         }
         $slugger = $this->getSlugger($locale ?? 'en');
         $slug = $slugger->slug($text, $separator, $locale);
-        if (null !== $extension && \strlen($extension) > 0) {
+        if (null !== $extension && '' !== (string) $extension) {
             $slug = $slug->append('.'.$extension);
         }
         if ($lower) {

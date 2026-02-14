@@ -46,7 +46,7 @@ class MergeCommand extends AbstractCommand
     protected function configure(): void
     {
         parent::configure();
-        $this->addArgument(self::CONTENT_TYPE_ARGUMENT, InputArgument::REQUIRED, 'Content-type\'s name');
+        $this->addArgument(self::CONTENT_TYPE_ARGUMENT, InputArgument::REQUIRED, "Content-type's name");
         $this->addArgument(self::DATA_ARGUMENT, InputArgument::REQUIRED, 'Data to merge with in a JSON format');
         $this->addOption(self::QUERY_OPTION, null, InputOption::VALUE_OPTIONAL, 'Elasticsearch query to filter the documents in a JSON format', '{}');
     }

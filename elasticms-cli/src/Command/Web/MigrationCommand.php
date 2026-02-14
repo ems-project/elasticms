@@ -69,7 +69,7 @@ class MigrationCommand extends AbstractCommand
             )
             ->addArgument(self::ARG_OUUID, InputArgument::OPTIONAL, 'ouuid')
             ->addOption(self::OPTION_FORCE, null, InputOption::VALUE_NONE, 'force update all documents')
-            ->addOption(self::OPTION_DRY_RUN, null, InputOption::VALUE_NONE, 'don\'t update elasticms')
+            ->addOption(self::OPTION_DRY_RUN, null, InputOption::VALUE_NONE, "don't update elasticms")
             ->addOption(self::OPTION_DUMP, null, InputOption::VALUE_NONE, 'dump computed arrays')
             ->addOption(self::OPTION_RAPPORTS_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Path to a folder where rapports stored', \getcwd())
             ->addOption(self::OPTION_CACHE_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Path to a folder where cache will stored', \implode(DIRECTORY_SEPARATOR, [\getcwd(), 'cache']))

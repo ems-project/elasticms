@@ -142,10 +142,10 @@ class DataService
     public function lockRevision(Revision $revision, ?Environment $publishEnv = null, bool $super = false, ?string $username = null, ?\DateTime $lockTime = null): string
     {
         if (null === $username && null !== $publishEnv && !$this->authorizationChecker->isGranted($revision->giveContentType()->role(ContentTypeRoles::PUBLISH))) {
-            throw new PrivilegeException($revision, 'You don\'t have publisher role for this content');
+            throw new PrivilegeException($revision, "You don't have publisher role for this content");
         }
         if (null === $username && null !== $publishEnv && !empty($publishEnv->getCircles()) && !$this->authorizationChecker->isGranted('ROLE_USER_MANAGEMENT') && !$this->userService->inMyCircles($publishEnv->getCircles())) {
-            throw new PrivilegeException($revision, 'You don\'t share any circle with this content');
+            throw new PrivilegeException($revision, "You don't share any circle with this content");
         }
         if (null === $username && null === $publishEnv && !empty($revision->giveContentType()->getCirclesField()) && !empty($revision->getRawData()[$revision->giveContentType()->getCirclesField()]) && !$this->userService->inMyCircles($revision->getRawData()[$revision->giveContentType()->getCirclesField()] ?? [])) {
             throw new PrivilegeException($revision);
@@ -709,7 +709,7 @@ class DataService
             throw new DataStateException('An auto save is pending, it can not be recomputed.');
         }
         if (!$revision->hasOuuid()) {
-            throw new DataStateException('The revision doesn\'t have OUUID, it can not be recomputed.');
+            throw new DataStateException("The revision doesn't have OUUID, it can not be recomputed.");
         }
         if (null == $revision->getDatafield()) {
             $this->loadDataStructure($revision);

@@ -313,14 +313,14 @@ class JobService implements EntityServiceInterface
     #[\Override]
     public function updateEntityFromJson(EntityInterface $entity, string $json): EntityInterface
     {
-        throw new \RuntimeException('Job entities doesn\'t support JSON update');
+        throw new \RuntimeException("Job entities doesn't support JSON update");
     }
 
     #[\Override]
     public function createEntityFromJson(string $json, ?string $name = null): EntityInterface
     {
         if (null !== $name) {
-            throw new \RuntimeException('Job entities doesn\'t support JSON update');
+            throw new \RuntimeException("Job entities doesn't support JSON update");
         }
         $meta = JsonClass::fromJsonString($json);
         $job = $meta->jsonDeserialize();

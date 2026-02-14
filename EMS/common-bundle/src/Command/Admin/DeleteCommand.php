@@ -37,7 +37,7 @@ class DeleteCommand extends AbstractCommand
     {
         parent::configure();
         $this->addArgument(self::CONFIG_TYPE, InputArgument::REQUIRED, 'Type of config to update');
-        $this->addArgument(self::ENTITY_NAME, InputArgument::REQUIRED, 'Entity\'s name to update');
+        $this->addArgument(self::ENTITY_NAME, InputArgument::REQUIRED, "Entity's name to update");
     }
 
     #[\Override]

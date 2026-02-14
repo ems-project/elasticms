@@ -175,7 +175,7 @@ class FileService implements EntityServiceInterface
         $hash = $this->storageManager->computeFileHash($filename);
         $size = \filesize($filename);
         if (false === $size) {
-            throw new \RuntimeException(\sprintf('Can\'t get file size of %s', $filename));
+            throw new \RuntimeException(\sprintf("Can't get file size of %s", $filename));
         }
         $uploadedAsset = $this->initUploadFile($hash, $size, $name, $type, $user, $this->storageManager->getHashAlgo());
         if (!$uploadedAsset->getAvailable()) {

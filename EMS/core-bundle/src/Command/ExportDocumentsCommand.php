@@ -71,8 +71,8 @@ class ExportDocumentsCommand extends AbstractCommand
     protected function configure(): void
     {
         $this
-            ->addArgument(self::ARGUMENT_CONTENT_TYPE_NAME, InputArgument::REQUIRED, 'The document\'s content type name to export')
-            ->addArgument(self::ARGUMENT_FORMAT, InputArgument::OPTIONAL, \sprintf('The format of the output: %s or the name of the content type\'s action', \implode(', ', TemplateService::EXPORT_FORMATS)), 'json')
+            ->addArgument(self::ARGUMENT_CONTENT_TYPE_NAME, InputArgument::REQUIRED, "The document's content type name to export")
+            ->addArgument(self::ARGUMENT_FORMAT, InputArgument::OPTIONAL, \sprintf("The format of the output: %s or the name of the content type's action", \implode(', ', TemplateService::EXPORT_FORMATS)), 'json')
             ->addArgument(self::ARGUMENT_QUERY, InputArgument::OPTIONAL, 'The query to run', '{}')
             ->addArgument(self::ARGUMENT_OUTPUT_FILE, InputArgument::OPTIONAL, 'The zip output file')
             ->addOption(self::OPTION_ENVIRONMENT, null, InputArgument::OPTIONAL, 'The environment to use for the query, it will use the default environment if not defined')

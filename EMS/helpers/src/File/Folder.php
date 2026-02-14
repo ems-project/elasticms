@@ -14,14 +14,14 @@ class Folder
         }
 
         if (false === \mkdir($path, 0o777, true)) {
-            throw new \RuntimeException(\sprintf('The path %s can\'t be created', $path));
+            throw new \RuntimeException(\sprintf("The path %s can't be created", $path));
         }
 
         $realPath = \realpath($path);
         if (\is_string($realPath)) {
             return $realPath;
         }
-        throw new \RuntimeException(\sprintf('The path %s parameter can\'t be converted into a real path nor created', $path));
+        throw new \RuntimeException(\sprintf("The path %s parameter can't be converted into a real path nor created", $path));
     }
 
     public static function createFileDirectories(string $filename): string

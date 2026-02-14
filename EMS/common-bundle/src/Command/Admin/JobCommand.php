@@ -39,7 +39,7 @@ class JobCommand extends AbstractCommand
     protected function configure(): void
     {
         parent::configure();
-        $this->addArgument(self::JOB_ID, InputArgument::REQUIRED, 'Job\'s ID or path to a json file or to a job admin\'s file name');
+        $this->addArgument(self::JOB_ID, InputArgument::REQUIRED, "Job's ID or path to a json file or to a job admin's file name");
     }
 
     #[\Override]
@@ -69,7 +69,7 @@ class JobCommand extends AbstractCommand
             $this->io->section(\sprintf('A job %s has been created', $this->jobIdOrJsonFile));
         }
 
-        $this->io->title('Admin - Job\'s status');
+        $this->io->title("Admin - Job's status");
         $this->io->section(\sprintf('Getting information about Job #%s', $this->jobIdOrJsonFile));
 
         $status = $this->coreApi->admin()->getJobStatus($this->jobIdOrJsonFile);
@@ -80,10 +80,10 @@ class JobCommand extends AbstractCommand
             $this->coreApi->admin()->startJob($this->jobIdOrJsonFile);
             $this->io->section(\sprintf('Job #%s has been started', $this->jobIdOrJsonFile));
         }
-        $this->io->section('Job\'s output:');
+        $this->io->section("Job's output:");
         $this->coreApi->admin()->writeJobOutput($this->jobIdOrJsonFile, $this->output);
 
-        $this->io->section('Job\'s status:');
+        $this->io->section("Job's status:");
         $this->echoStatus($this->coreApi->admin()->getJobStatus($this->jobIdOrJsonFile));
 
         return self::EXECUTE_SUCCESS;

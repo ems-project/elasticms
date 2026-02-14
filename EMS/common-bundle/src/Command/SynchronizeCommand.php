@@ -174,7 +174,7 @@ class SynchronizeCommand extends AbstractCommand
         unset($sourceMapping['_meta']);
         unset($targetMapping['_meta']);
         if (ArrayHelper::arrays_are_equal_recursive($sourceMapping, $targetMapping)) {
-            $this->io->info('Target\'s mappings are aligned');
+            $this->io->info("Target's mappings are aligned");
 
             return;
         }

@@ -122,7 +122,7 @@ class EditController extends AbstractController
             'has_copy' => $this->isGranted('ROLE_COPY_PASTE'),
             'raw_data' => $revision->getRawData(),
         ]);
-        $this->logger->debug('Revision\'s form created');
+        $this->logger->debug("Revision's form created");
 
         /** @var array<string, mixed> $requestRevision */
         $requestRevision = $request->request->all('revision');

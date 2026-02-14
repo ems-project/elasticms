@@ -33,7 +33,7 @@ final class HeadAssetCommand extends Command
     #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->io->title('Update asset\'s seen information');
+        $this->io->title("Update asset's seen information");
 
         $counter = $this->fileService->count();
         $this->io->progressStart($counter);

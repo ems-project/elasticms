@@ -57,7 +57,7 @@ class GetCommand extends AbstractCommand
     {
         $this->coreApi = $this->adminHelper->getCoreApi();
         $this->io->title('Admin - get');
-        $this->io->section(\sprintf('Getting %s\'s configurations from %s', $this->configType, $this->coreApi->getBaseUrl()));
+        $this->io->section(\sprintf("Getting %s's configurations from %s", $this->configType, $this->coreApi->getBaseUrl()));
 
         if (!$this->coreApi->isAuthenticated()) {
             $this->io->error(\sprintf('Not authenticated for %s, run ems:admin:login', $this->coreApi->getBaseUrl()));

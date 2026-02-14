@@ -99,15 +99,15 @@ class EncoderTest extends TestCase
 
     public function testSlug(): void
     {
-        self::assertSame('l-iphone', $this->encoder->slug('l\'iphone')->toString());
-        self::assertSame('a-a-a-a-a-a', $this->encoder->slug('a_a-a a\'a A')->toString());
+        self::assertSame('l-iphone', $this->encoder->slug("l'iphone")->toString());
+        self::assertSame('a-a-a-a-a-a', $this->encoder->slug("a_a-a a'a A")->toString());
         self::assertSame('aiea', $this->encoder->slug('äîéà')->toString());
         self::assertSame('ueuessssaeoeae', $this->encoder->slug('üÜßẞäöÄ', 'de')->toString());
         self::assertSame('How/do/you/do', $this->encoder->slug('How do you do ? ', 'en', '/', false, true)->toString());
         self::assertSame('Wie/faehrst/du/deinen/grossen/LKW', $this->encoder->slug('Wie fährst du deinen großen LKW?', 'de', '/', false, true)->toString());
-        self::assertSame('l-iphone.pdf', $this->encoder->slug('l\'Iphone.pDf', 'en', '-', true, true)->toString());
-        self::assertSame('with-a-path-l-iphone.pdf', $this->encoder->slug('/With/A Path/l\'Iphone.pdf', 'en', '-', true, true)->toString());
-        self::assertSame('l-iphone-pdf', $this->encoder->slug('l\'Iphone.pDf', 'en', '-', true)->toString());
-        self::assertSame('with-a-path-l-iphone-pdf', $this->encoder->slug('/With/A Path/l\'Iphone.pdf', 'en', '-', true)->toString());
+        self::assertSame('l-iphone.pdf', $this->encoder->slug("l'Iphone.pDf", 'en', '-', true, true)->toString());
+        self::assertSame('with-a-path-l-iphone.pdf', $this->encoder->slug("/With/A Path/l'Iphone.pdf", 'en', '-', true, true)->toString());
+        self::assertSame('l-iphone-pdf', $this->encoder->slug("l'Iphone.pDf", 'en', '-', true)->toString());
+        self::assertSame('with-a-path-l-iphone-pdf', $this->encoder->slug("/With/A Path/l'Iphone.pdf", 'en', '-', true)->toString());
     }
 }

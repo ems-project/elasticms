@@ -33,7 +33,7 @@ final readonly class FileService
         try {
             $encodedResponse = Json::encode($responses);
         } catch (\Throwable $throwable) {
-            $this->logger->error('Unexpected error of file upload\'s response messages : {error}', ['error' => $throwable->getMessage()]);
+            $this->logger->error("Unexpected error of file upload's response messages : {error}", ['error' => $throwable->getMessage()]);
             $encodedResponse = '{}';
         }
 

@@ -74,8 +74,8 @@ class RestoreCommand extends AbstractCommand
         $this->addOption(self::IMPORT_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Global import folder (can be overwritten per type of exports)');
         $this->addOption(self::CONFIGS_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Import configs folder');
         $this->addOption(self::DOCUMENTS_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Import documents folder');
-        $this->addOption(self::CONFIGS_OPTION, null, InputOption::VALUE_NONE, 'Restore elasticMS\'s configs only');
-        $this->addOption(self::DOCUMENTS_OPTION, null, InputOption::VALUE_NONE, 'Restore elasticMS\'s documents only');
+        $this->addOption(self::CONFIGS_OPTION, null, InputOption::VALUE_NONE, "Restore elasticMS's configs only");
+        $this->addOption(self::DOCUMENTS_OPTION, null, InputOption::VALUE_NONE, "Restore elasticMS's documents only");
     }
 
     #[\Override]

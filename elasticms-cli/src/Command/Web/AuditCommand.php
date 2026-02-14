@@ -77,10 +77,10 @@ class AuditCommand extends AbstractCommand
     protected function configure(): void
     {
         $this
-            ->addArgument(self::ARG_URL, InputArgument::REQUIRED, 'Website landing page\'s URL')
+            ->addArgument(self::ARG_URL, InputArgument::REQUIRED, "Website landing page's URL")
             ->addOption(self::OPTION_CONTINUE, null, InputOption::VALUE_NONE, 'Continue import from last know updated document')
-            ->addOption(self::OPTION_DRY_RUN, null, InputOption::VALUE_NONE, 'don\'t update elasticms')
-            ->addOption(self::OPTION_CONTENT_TYPE, null, InputOption::VALUE_OPTIONAL, 'Audit\'s content type', 'audit')
+            ->addOption(self::OPTION_DRY_RUN, null, InputOption::VALUE_NONE, "don't update elasticms")
+            ->addOption(self::OPTION_CONTENT_TYPE, null, InputOption::VALUE_OPTIONAL, "Audit's content type", 'audit')
             ->addOption(self::OPTION_CACHE_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Path to a folder where cache will stored', \implode(DIRECTORY_SEPARATOR, [\getcwd(), 'var']))
             ->addOption(self::OPTION_SAVE_FOLDER, null, InputOption::VALUE_OPTIONAL, 'If defined, the audit document will be also saved as JSON in the specified folder')
             ->addOption(self::OPTION_MAX_UPDATES, null, InputOption::VALUE_OPTIONAL, 'Maximum number of document that can be updated in 1 batch (if the continue option is activated)', 500)

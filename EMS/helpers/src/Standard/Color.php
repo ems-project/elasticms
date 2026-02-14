@@ -275,12 +275,12 @@ class Color
 
     public function getRGB(): string
     {
-        return \sprintf('#%\'.02X%\'.02X%\'.02X', $this->red, $this->green, $this->blue);
+        return \sprintf("#%'.02X%'.02X%'.02X", $this->red, $this->green, $this->blue);
     }
 
     public function getRGBA(): string
     {
-        return \sprintf('#%\'.02X%\'.02X%\'.02X%\'.02X', $this->red, $this->green, $this->blue, $this->alpha);
+        return \sprintf("#%'.02X%'.02X%'.02X%'.02X", $this->red, $this->green, $this->blue, $this->alpha);
     }
 
     public function bestContrast(string|Color ...$colors): self

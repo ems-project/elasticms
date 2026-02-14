@@ -19,7 +19,7 @@ final class PushCommand extends AbstractLocalCommand
     protected function configure(): void
     {
         parent::configure();
-        $this->addOption(self::OPTION_FORCE, null, InputOption::VALUE_NONE, 'Ignore environment\'s up-to --date chacks');
+        $this->addOption(self::OPTION_FORCE, null, InputOption::VALUE_NONE, "Ignore environment's up-to --date chacks");
     }
 
     #[\Override]

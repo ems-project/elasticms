@@ -41,7 +41,7 @@ class JobCommand extends AbstractCommand
     {
         $this
             ->addArgument(self::ARGUMENT_JOB_ID, InputArgument::OPTIONAL, 'Job ID to execute')
-            ->addOption(self::OPTION_DUMP, null, InputOption::VALUE_NONE, 'Shows the job\'s output at the end of the execution')
+            ->addOption(self::OPTION_DUMP, null, InputOption::VALUE_NONE, "Shows the job's output at the end of the execution")
             ->addOption(self::OPTION_TAG, null, InputOption::VALUE_OPTIONAL, 'Will treat the next scheduled job flagged with the provided tag (do not execute pending jobs)')
         ;
     }
@@ -164,9 +164,9 @@ class JobCommand extends AbstractCommand
         if (null === $jobLog) {
             $this->io->write('Empty output');
         } else {
-            $this->io->section('Job\'s output:');
+            $this->io->section("Job's output:");
             $this->io->write($jobLog);
-            $this->io->section('End of job\'s output');
+            $this->io->section("End of job's output");
         }
     }
 }

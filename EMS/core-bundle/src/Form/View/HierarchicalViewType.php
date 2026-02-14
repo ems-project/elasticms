@@ -88,12 +88,12 @@ class HierarchicalViewType extends ViewType
             ],
         ])
         ->add('maxDepth', IntegerType::class, [
-            'label' => 'Limit the menu\'s depth',
+            'label' => "Limit the menu's depth",
             'attr' => [
             ],
         ])
         ->add('maxDepth', IntegerType::class, [
-            'label' => 'Limit the menu\'s depth',
+            'label' => "Limit the menu's depth",
             'attr' => [
             ],
         ])

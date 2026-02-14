@@ -45,7 +45,7 @@ class DownloadCommand extends AbstractCommand
     protected function configure(): void
     {
         parent::configure();
-        $this->addArgument(self::CONTENT_TYPE, InputArgument::REQUIRED, 'Content-type\'s name to download');
+        $this->addArgument(self::CONTENT_TYPE, InputArgument::REQUIRED, "Content-type's name to download");
         $this->addOption(self::FOLDER, null, InputOption::VALUE_OPTIONAL, 'Export folder');
     }
 
@@ -55,7 +55,7 @@ class DownloadCommand extends AbstractCommand
         $coreApi = $this->adminHelper->getCoreApi();
         $searchApi = $coreApi->search();
         $this->io->title('Document - download');
-        $this->io->section(\sprintf('Getting %s\'s documents from %s', $this->contentType, $coreApi->getBaseUrl()));
+        $this->io->section(\sprintf("Getting %s's documents from %s", $this->contentType, $coreApi->getBaseUrl()));
 
         if (!$coreApi->isAuthenticated()) {
             $this->io->error(\sprintf('Not authenticated for %s, run emsch:local:login', $coreApi->getBaseUrl()));

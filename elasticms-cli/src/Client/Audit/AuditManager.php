@@ -38,7 +38,7 @@ class AuditManager
     {
         $audit->setErrorMessage($result->getErrorMessage());
         if (0 !== \strcmp(\strtolower($audit->getUrl()->getPath()), $audit->getUrl()->getPath())) {
-            $audit->addWarning('The URL\'s path is case sensitive');
+            $audit->addWarning("The URL's path is case sensitive");
         }
         if (!$result->hasResponse()) {
             $audit->setValid(false);

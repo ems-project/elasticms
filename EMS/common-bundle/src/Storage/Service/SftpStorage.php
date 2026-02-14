@@ -57,11 +57,8 @@ class SftpStorage extends AbstractUrlStorage implements \Stringable
         return SftpStorage::class." ($this->host)";
     }
 
-    /**
-     * @return null
-     */
     #[\Override]
-    protected function getContext()
+    protected function getContext(): null
     {
         return null;
     }

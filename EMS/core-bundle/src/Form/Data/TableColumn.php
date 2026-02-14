@@ -34,8 +34,7 @@ class TableColumn
     public function __construct(
         private readonly string|TranslatableMessage $titleKey,
         private string $attribute
-    )
-    {
+    ) {
         $this->orderField = $attribute;
     }
 

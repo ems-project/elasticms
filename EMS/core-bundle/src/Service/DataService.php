@@ -472,7 +472,7 @@ class DataService
         $hash = $this->storageManager->computeStringHash($json);
         $objectArray[Mapping::HASH_FIELD] = $hash;
 
-        if ($this->privateKey) {
+        if ($this->privateKey instanceof \OpenSSLAsymmetricKey) {
             $signature = null;
             if (\openssl_sign($json, $signature, $this->privateKey, OPENSSL_ALGO_SHA1)) {
                 $objectArray[Mapping::SIGNATURE_FIELD] = \base64_encode((string) $signature);
@@ -629,7 +629,7 @@ class DataService
                         }
                     } else {
                         $data = Json::encode($indexedItem);
-                        if ($this->privateKey) {
+                        if ($this->privateKey instanceof \OpenSSLAsymmetricKey) {
                             $this->logger->info('service.data.revision_not_signed', [
                                 EmsFields::LOG_REVISION_ID_FIELD => $revision->getId(),
                                 EmsFields::LOG_CONTENTTYPE_FIELD => $revision->giveContentType()->getName(),

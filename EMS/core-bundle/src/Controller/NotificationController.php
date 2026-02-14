@@ -132,7 +132,7 @@ class NotificationController extends AbstractController
                 continue;
             }
 
-            if ($publishIn) {
+            if ($publishIn instanceof Environment) {
                 $this->publishService->publish($notification->getRevision(), $publishIn);
             }
 

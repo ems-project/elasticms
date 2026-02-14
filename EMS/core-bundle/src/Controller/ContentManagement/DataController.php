@@ -7,6 +7,7 @@ namespace EMS\CoreBundle\Controller\ContentManagement;
 use Doctrine\ORM\NoResultException;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Helper\MimeTypeHelper;
+use EMS\CoreBundle\Controller\ElasticsearchController;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Core\ContentType\ViewTypes;
 use EMS\CoreBundle\Core\Log\LogRevisionContext;
@@ -89,7 +90,7 @@ class DataController extends AbstractController
             'contentType' => $contentType->getId(),
         ]);
         foreach ($searches as $search) {
-            return $this->forward('EMS\CoreBundle\Controller\ElasticsearchController::search', [
+            return $this->forward(ElasticsearchController::class.'::search', [
                 'query' => null,
             ], [
                 'search_form' => $search->jsonSerialize(),
@@ -108,7 +109,7 @@ class DataController extends AbstractController
             $searchForm->setSortOrder($contentType->getSortOrder());
         }
 
-        return $this->forward('EMS\CoreBundle\Controller\ElasticsearchController::search', [
+        return $this->forward(ElasticsearchController::class.'::search', [
             'query' => null,
         ], [
             'search_form' => $searchForm->jsonSerialize(),
@@ -158,7 +159,7 @@ class DataController extends AbstractController
 
         $formEncoded = Json::encode($searchForm);
 
-        return $this->forward('EMS\CoreBundle\Controller\ElasticsearchController::search', [
+        return $this->forward(ElasticsearchController::class.'::search', [
             'query' => null,
         ], [
             'search_form' => Json::decode($formEncoded),

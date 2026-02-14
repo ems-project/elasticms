@@ -278,7 +278,7 @@ class ElasticsearchController extends AbstractController
             }
         }
 
-        return $this->forward('EMS\CoreBundle\Controller\ElasticsearchController::search', [
+        return $this->forward(ElasticsearchController::class.'::search', [
             'query' => null,
         ], [
             'search_form' => $search->jsonSerialize(),

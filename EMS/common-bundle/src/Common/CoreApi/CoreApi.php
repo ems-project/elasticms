@@ -108,7 +108,7 @@ final readonly class CoreApi implements CoreApiInterface
     #[\Override]
     public function isAuthenticated(): bool
     {
-        return $this->client->hasHeader(self::HEADER_TOKEN);
+        return $this->client->hasBaseUrlDefined() && $this->client->hasHeader(self::HEADER_TOKEN);
     }
 
     #[\Override]

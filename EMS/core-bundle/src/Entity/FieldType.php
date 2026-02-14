@@ -80,7 +80,7 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
     {
         if (null != $this->children) {
             /** @var FieldType $child */
-            foreach ($this->children as $key => $child) {
+            foreach ($this->children as $child) {
                 $child->removeCircularReference();
             }
             $this->setContentType();

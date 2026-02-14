@@ -142,7 +142,7 @@ class DateFieldType extends DataFieldType
                 throw new \RuntimeException('Unexpected non-iterable source array');
             }
             $data = [];
-            foreach ($sourceArray as $idx => $child) {
+            foreach ($sourceArray as $child) {
                 $dateObject = \DateTime::createFromFormat($format, $child);
                 if ($dateObject) {
                     $data[] = $dateObject->format(\DateTimeInterface::ATOM);

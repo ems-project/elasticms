@@ -240,7 +240,7 @@ class EnvironmentController extends AbstractController
             $lastPage = 0;
         }
 
-        return $this->render("@$this->templateNamespace/environment/align.html.twig", [
+        return $this->render(\sprintf('@%s/environment/align.html.twig', $this->templateNamespace), [
             'form' => $form->createView(),
             'results' => $results,
             'lastPage' => $lastPage,

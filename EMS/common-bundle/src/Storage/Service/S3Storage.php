@@ -42,13 +42,13 @@ class S3Storage extends AbstractUrlStorage implements \Stringable
             $this->streamWrapperRegistered = true;
         }
 
-        return "s3://$this->bucket";
+        return 's3://'.$this->bucket;
     }
 
     #[\Override]
     public function __toString(): string
     {
-        return S3Storage::class." ($this->bucket)";
+        return S3Storage::class.\sprintf(' (%s)', $this->bucket);
     }
 
     #[\Override]
@@ -99,7 +99,7 @@ class S3Storage extends AbstractUrlStorage implements \Stringable
             'Key' => $uploadKey,
             'PartNumber' => 1,
             'UploadId' => $uploadId,
-            'CopySource' => "$this->bucket/$uploadKey",
+            'CopySource' => \sprintf('%s/%s', $this->bucket, $uploadKey),
         ]);
         $parts[] = [
             'PartNumber' => 1,
@@ -255,14 +255,14 @@ class S3Storage extends AbstractUrlStorage implements \Stringable
 
     private function uploadKey(string $hash): string
     {
-        return "uploads/$hash";
+        return 'uploads/'.$hash;
     }
 
     private function key(string $hash): string
     {
         $folder = \substr($hash, 0, 3);
 
-        return "$folder/$hash";
+        return \sprintf('%s/%s', $folder, $hash);
     }
 
     #[\Override]

@@ -189,7 +189,7 @@ $dataField->getRawData()
         }
 
         $response = new Response();
-        $response->setContent($this->twig->render("@$this->templateNamespace/view/custom/".$this->getBlockPrefix().'.html.twig', [
+        $response->setContent($this->twig->render(\sprintf('@%s/view/custom/', $this->templateNamespace).$this->getBlockPrefix().'.html.twig', [
             'parent' => $parent,
             'view' => $view,
             'form' => $form->createView(),

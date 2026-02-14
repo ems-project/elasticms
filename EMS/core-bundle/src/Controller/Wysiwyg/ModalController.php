@@ -47,7 +47,7 @@ class ModalController extends AbstractController
                 }
                 $id = $node->nodeValue;
                 if (null !== $id) {
-                    $targets[$id] = "#$id";
+                    $targets[$id] = '#'.$id;
                 }
             }
         }
@@ -68,7 +68,7 @@ class ModalController extends AbstractController
         $form->handleRequest($request);
 
         $response = [
-            'body' => $this->twig->render("@$this->templateNamespace/modal/default.html.twig", [
+            'body' => $this->twig->render(\sprintf('@%s/modal/default.html.twig', $this->templateNamespace), [
                 'form' => $form->createView(),
             ]),
         ];
@@ -95,7 +95,7 @@ class ModalController extends AbstractController
         $form->handleRequest($request);
 
         $response = [
-            'body' => $this->twig->render("@$this->templateNamespace/modal/default.html.twig", [
+            'body' => $this->twig->render(\sprintf('@%s/modal/default.html.twig', $this->templateNamespace), [
                 'form' => $form->createView(),
             ]),
         ];

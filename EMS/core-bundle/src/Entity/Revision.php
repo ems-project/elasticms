@@ -189,7 +189,7 @@ class Revision implements EntityInterface, \Stringable
         }
 
         if (null !== $this->contentType && $this->contentType->getLabelField() && $this->rawData && isset($this->rawData[$this->contentType->getLabelField()])) {
-            return $this->rawData[$this->contentType->getLabelField()]." ($out)";
+            return $this->rawData[$this->contentType->getLabelField()].\sprintf(' (%s)', $out);
         }
 
         return $out;

@@ -89,7 +89,7 @@ class EditController extends AbstractController
             ]);
         }
 
-        return $this->render("@$this->templateNamespace/data/edit-json-revision.html.twig", [
+        return $this->render(\sprintf('@%s/data/edit-json-revision.html.twig', $this->templateNamespace), [
             'revision' => $revision,
             'form' => $form->createView(),
         ]);
@@ -251,7 +251,7 @@ class EditController extends AbstractController
             ]);
         }
 
-        return $this->render("@$this->templateNamespace/data/edit-revision.html.twig", [
+        return $this->render(\sprintf('@%s/data/edit-revision.html.twig', $this->templateNamespace), [
             'revision' => $revision,
             'form' => $form->createView(),
         ]);

@@ -144,7 +144,7 @@ final readonly class Data implements DataInterface
     {
         $encoded = Json::encode($rawData);
         if (\strlen($encoded) > File::DEFAULT_CHUNK_SIZE) {
-            $hash = $this->file->uploadContents($encoded, MimeTypes::APPLICATION_JSON->value, "$ouuid.json");
+            $hash = $this->file->uploadContents($encoded, MimeTypes::APPLICATION_JSON->value, $ouuid.'.json');
 
             return $this->indexFromAsset($ouuid, $hash, $merge, $refresh);
         }

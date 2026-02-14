@@ -148,7 +148,7 @@ class RevisionTasksDataTableType extends AbstractQueryTableType implements DataT
 
     private function buildTable(QueryTable $table, TasksDataTableContext $context): void
     {
-        $columnTemplate = "@$table->templateNamespace/revision/task/columns.twig";
+        $columnTemplate = \sprintf('@%s/revision/task/columns.twig', $table->templateNamespace);
 
         foreach ($this->getColumns($context) as [$name, $field, $label]) {
             $def = new TemplateBlockTableColumn(

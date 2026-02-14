@@ -169,7 +169,7 @@ class RevisionRepository extends EntityRepository
         $connection = $this->getEntityManager()->getConnection();
 
         if ($connection->getDatabasePlatform() instanceof PostgreSQLPlatform) {
-            $result = $this->getEntityManager()->getConnection()->fetchAllAssociative("select count(*) as counter FROM public.revision where raw_data::text like '%$hash%'");
+            $result = $this->getEntityManager()->getConnection()->fetchAllAssociative(\sprintf("select count(*) as counter FROM public.revision where raw_data::text like '%%%s%%'", $hash));
 
             return (int) $result[0]['counter'];
         }
@@ -178,7 +178,7 @@ class RevisionRepository extends EntityRepository
             $qb = $this->createQueryBuilder('r')
                 ->select('count(r)')
                 ->where('r.rawData like :hash')
-                ->setParameter('hash', "%$hash%");
+                ->setParameter('hash', \sprintf('%%%s%%', $hash));
             $query = $qb->getQuery();
 
             return (int) $query->getSingleScalarResult();

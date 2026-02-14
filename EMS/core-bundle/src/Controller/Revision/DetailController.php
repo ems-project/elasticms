@@ -153,7 +153,7 @@ class DetailController extends AbstractController
             $auditTableForm->handleRequest($request);
         }
 
-        return $this->render("@$this->templateNamespace/data/revisions-data.html.twig", [
+        return $this->render(\sprintf('@%s/data/revisions-data.html.twig', $this->templateNamespace), [
             'revision' => $revision,
             'revisionsSummary' => $revisionsSummary,
             'latestVersion' => $latestVersion ?? null,

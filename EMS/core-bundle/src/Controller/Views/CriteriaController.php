@@ -275,7 +275,7 @@ class CriteriaController extends AbstractController
         }
 
         if (!$valid) {
-            return $this->render("@$this->templateNamespace/view/custom/criteria_view.html.twig", [
+            return $this->render(\sprintf('@%s/view/custom/criteria_view.html.twig', $this->templateNamespace), [
                 'view' => $view,
                 'form' => $form->createView(),
                 'contentType' => $contentType,
@@ -316,7 +316,7 @@ class CriteriaController extends AbstractController
 
         $tables = $this->generateCriteriaTableContext($view, $criteriaUpdateConfig);
 
-        return $this->render("@$this->templateNamespace/view/custom/criteria_table.html.twig", [
+        return $this->render(\sprintf('@%s/view/custom/criteria_table.html.twig', $this->templateNamespace), [
             'table' => $tables['table'],
             'rowFieldType' => $rowField,
             'columnFieldType' => $columnField,

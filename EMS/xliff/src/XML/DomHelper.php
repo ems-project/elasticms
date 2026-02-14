@@ -158,7 +158,7 @@ class DomHelper
         $sourceDom = new \DOMDocument('1.0', 'UTF-8');
         \libxml_use_internal_errors(true);
         $sourceDom->loadHTML(
-            "<div>$html</div>",
+            \sprintf('<div>%s</div>', $html),
             LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD
         );
         \libxml_clear_errors();

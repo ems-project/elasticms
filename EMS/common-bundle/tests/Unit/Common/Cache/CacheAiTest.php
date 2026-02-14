@@ -31,7 +31,7 @@ class CacheAiTest extends TestCase
     #[\Override]
     protected function tearDown(): void
     {
-        \array_map(unlink(...), \glob("$this->cacheDir/*.*"));
+        \array_map(unlink(...), \glob($this->cacheDir.'/*.*'));
         $this->removeDirectory($this->cacheDir);
     }
 

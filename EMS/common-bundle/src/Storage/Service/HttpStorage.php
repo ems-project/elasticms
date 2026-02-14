@@ -190,7 +190,7 @@ class HttpStorage extends AbstractUrlStorage implements \Stringable
     #[\Override]
     public function __toString(): string
     {
-        return HttpStorage::class." ($this->baseUrl)";
+        return HttpStorage::class.\sprintf(' (%s)', $this->baseUrl);
     }
 
     #[\Override]

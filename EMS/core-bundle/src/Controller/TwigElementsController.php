@@ -42,7 +42,7 @@ class TwigElementsController extends AbstractController
         }
 
         return $this->render(
-            "@$this->templateNamespace/elements/side-menu.html.twig",
+            \sprintf('@%s/elements/side-menu.html.twig', $this->templateNamespace),
             [
                 'status' => $status,
                 'menu' => [
@@ -62,7 +62,7 @@ class TwigElementsController extends AbstractController
     public function jobs(string $username): Response
     {
         return $this->render(
-            "@$this->templateNamespace/elements/jobs-list.html.twig",
+            \sprintf('@%s/elements/jobs-list.html.twig', $this->templateNamespace),
             [
                 'jobs' => $this->jobService->findByUser($username),
             ]

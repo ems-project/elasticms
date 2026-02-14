@@ -183,7 +183,7 @@ class DataController extends AbstractController
             throw new NotFoundHttpException(\sprintf('Document %s with identifier %s not found in environment %s', $contentType->getSingularName(), $ouuid, $environmentName));
         }
 
-        return $this->render("@$this->templateNamespace/data/view-data.html.twig", [
+        return $this->render(\sprintf('@%s/data/view-data.html.twig', $this->templateNamespace), [
             'document' => $document,
             'object' => $document->getRaw(),
             'environment' => $environment,
@@ -737,7 +737,7 @@ class DataController extends AbstractController
             }
         }
 
-        return $this->render("@$this->templateNamespace/data/add.html.twig", [
+        return $this->render(\sprintf('@%s/data/add.html.twig', $this->templateNamespace), [
             'contentType' => $contentType,
             'form' => $form->createView(),
         ]);

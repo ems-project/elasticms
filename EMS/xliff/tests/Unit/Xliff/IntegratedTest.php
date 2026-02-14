@@ -46,12 +46,12 @@ class IntegratedTest extends TestCase
         $xliff = Xliff::create(new Options(Version::V12));
         $xliff->init('nl', 'de');
 
-        $document = $xliff->getPackage()->addDocument("content_type:$ouuid:$revisionId");
+        $document = $xliff->getPackage()->addDocument(\sprintf('content_type:%s:%s', $ouuid, $revisionId));
         foreach (['title', 'title_short'] as $field) {
-            $document->createText("[$field]", $source[$field] ?? null, $target[$field] ?? null, null, true);
+            $document->createText(\sprintf('[%s]', $field), $source[$field] ?? null, $target[$field] ?? null, null, true);
         }
         foreach (['introduction', 'description'] as $field) {
-            $document->createHtml("[$field]", $source[$field] ?? '', $target[$field] ?? null, null, true);
+            $document->createHtml(\sprintf('[%s]', $field), $source[$field] ?? '', $target[$field] ?? null, null, true);
         }
 
         return $xliff;

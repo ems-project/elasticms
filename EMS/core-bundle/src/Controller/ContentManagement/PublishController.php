@@ -163,7 +163,7 @@ class PublishController extends AbstractController
             ]);
         }
 
-        return $this->render("@$this->templateNamespace/publish/publish-search-result.html.twig", [
+        return $this->render(\sprintf('@%s/publish/publish-search-result.html.twig', $this->templateNamespace), [
             'form' => $form->createView(),
             'fromEnvironment' => $environment,
             'contentType' => $contentType,

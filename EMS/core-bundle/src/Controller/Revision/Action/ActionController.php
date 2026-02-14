@@ -76,7 +76,7 @@ class ActionController
             };
         }
 
-        return new Response($this->twig->render("@$this->templateNamespace/data/custom-view.html.twig", [
+        return new Response($this->twig->render(\sprintf('@%s/data/custom-view.html.twig', $this->templateNamespace), [
             'template' => $action,
             'environment' => $environment,
             'contentType' => $action->getContentType(),

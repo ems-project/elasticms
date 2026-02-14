@@ -63,7 +63,7 @@ class TextExtensionTest extends TestCase
                 $parentName = $parent->localName;
             }
             $node = $parent->ownerDocument->createElement('a', $this->textExtension->domCrawler($parent)->filter('h2')->text());
-            $node->setAttribute('href', "ems://object:webpart:$webpartId");
+            $node->setAttribute('href', 'ems://object:webpart:'.$webpartId);
             $parent->parentNode->replaceChild($node, $parent);
         }
 

@@ -100,7 +100,7 @@ class Processor
         ]);
         $canonical = $config->getCanonical();
         if (null !== $canonical) {
-            $response->headers->set(Headers::LINK, "$canonical; rel=\"canonical\"");
+            $response->headers->set(Headers::LINK, $canonical.'; rel="canonical"');
         }
 
         if ($immutableRoute) {

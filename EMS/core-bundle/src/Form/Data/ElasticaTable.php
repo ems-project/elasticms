@@ -322,7 +322,7 @@ class ElasticaTable extends TableAbstract
     #[\Override]
     public function getRowTemplate(): string
     {
-        return \sprintf("{%%- use '@$this->templateNamespace/datatable/row.json.twig' -%%}%s{{ block('emsco_datatable_row') }}", $this->getRowContext());
+        return \sprintf(\sprintf("{%%%%- use '@%s/datatable/row.json.twig' -%%%%}%%s{{ block('emsco_datatable_row') }}", $this->templateNamespace), $this->getRowContext());
     }
 
     public function isProtected(): bool

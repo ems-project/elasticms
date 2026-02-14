@@ -84,6 +84,11 @@ class Url
         $this->path = $this->getAbsolutePath($parsed['path'] ?? '/', $relativeTo);
     }
 
+    public function isAbsoluteScheme(): bool
+    {
+        return \in_array($this->scheme, self::ABSOLUTE_SCHEME, true);
+    }
+
     public function serialize(string $format = JsonEncoder::FORMAT): string
     {
         return self::getSerializer()->serialize($this, $format, [AbstractNormalizer::IGNORED_ATTRIBUTES => [

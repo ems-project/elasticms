@@ -13,7 +13,7 @@ class EmsFieldsAiTest extends TestCase
     #[DataProvider('constantsProvider')]
     public function testConstants($constantName, $expectedValue): void
     {
-        $this->assertEquals($expectedValue, \constant(EmsFields::class.'::'.$constantName));
+        $this->assertEquals($expectedValue, EmsFields::{$constantName});
     }
 
     public static function constantsProvider(): array

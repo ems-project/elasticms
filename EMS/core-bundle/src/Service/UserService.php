@@ -315,7 +315,7 @@ class UserService implements EntityServiceInterface
 
     public function isCliSession(): bool
     {
-        return 'cli' === \php_sapi_name();
+        return 'cli' === PHP_SAPI;
     }
 
     public function getEnabledUsers(): UserList

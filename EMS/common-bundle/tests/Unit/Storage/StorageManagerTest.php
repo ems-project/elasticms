@@ -167,15 +167,11 @@ class StorageManagerTest extends WebTestCase
 
     protected function getFsDir(): string
     {
-        $fsDir = TempDirectory::create()->path;
-
-        return $fsDir;
+        return TempDirectory::create()->path;
     }
 
     protected function getFsFactory(): FileSystemFactory
     {
-        $fsFactory = new FileSystemFactory($this->mockLogger, $this->getFsDir());
-
-        return $fsFactory;
+        return new FileSystemFactory($this->mockLogger, $this->getFsDir());
     }
 }

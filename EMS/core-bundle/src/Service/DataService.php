@@ -686,9 +686,8 @@ class DataService
 
         // Get the form from Factory
         $builder = $this->formFactory->createBuilder(RevisionType::class, $revision, ['raw_data' => $revision->getRawData()]);
-        $form = $builder->getForm();
 
-        return $form;
+        return $builder->getForm();
     }
 
     public function refresh(Environment $environment): bool

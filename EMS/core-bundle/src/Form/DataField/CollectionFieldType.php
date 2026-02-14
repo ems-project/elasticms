@@ -268,9 +268,8 @@ class CollectionFieldType extends DataFieldType
                 }
             }
         }
-        $out = parent::reverseViewTransform($cleaned, $fieldType);
 
-        return $out;
+        return parent::reverseViewTransform($cleaned, $fieldType);
     }
 
     #[\Override]

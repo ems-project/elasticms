@@ -96,9 +96,8 @@ class DateFieldType extends DataFieldType
                 }
             }
         }
-        $temp = ['value' => \implode(',', $out)];
 
-        return $temp;
+        return ['value' => \implode(',', $out)];
     }
 
     /**
@@ -114,9 +113,8 @@ class DateFieldType extends DataFieldType
                 $dates[] = \DateTime::createFromFormat($format, $date);
             }
         }
-        $dataField = parent::reverseViewTransform($dates, $fieldType);
 
-        return $dataField;
+        return parent::reverseViewTransform($dates, $fieldType);
     }
 
     #[\Override]

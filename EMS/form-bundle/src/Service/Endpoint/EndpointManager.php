@@ -59,9 +59,8 @@ final class EndpointManager implements EndpointManagerInterface, RuntimeExtensio
             throw new \RuntimeException('Unexpected non HTTP endpoint');
         }
         $response = $httpEndpoint->request($endpoint, $replaceBody, $timeout);
-        $result = Json::decode($response->getContent());
 
-        return $result;
+        return Json::decode($response->getContent());
     }
 
     /**

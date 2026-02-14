@@ -141,8 +141,6 @@ class GroupController extends AbstractController
             'group-id' => $group->getId(),
         ]);
 
-        $form = $this->createForm(TableType::class, $table);
-
-        return $form;
+        return $this->createForm(TableType::class, $table);
     }
 }

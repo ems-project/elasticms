@@ -106,7 +106,7 @@ class Image
 
         if (0 === $width && 0 === $height) {
             // unable to calculate ratio, silently return original size (backward compatibility)
-            return [(int) $originalWidth, (int) $originalHeight];
+            return [$originalWidth, $originalHeight];
         }
 
         if (0 === $width || 0 === $height) {

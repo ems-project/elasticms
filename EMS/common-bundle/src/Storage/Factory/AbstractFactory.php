@@ -48,7 +48,7 @@ abstract class AbstractFactory implements StorageFactoryInterface
             \preg_match('/^\s*(?P<number>\d+)\s*(?:(?P<prefix>[kmgt]?)b?)?\s*$/i', $value, $matches);
 
             $limit = (int) ($matches['number'] ?? 0);
-            $prefix = \strtolower((string) ($matches['prefix'] ?? ''));
+            $prefix = \strtolower($matches['prefix'] ?? '');
             switch ($prefix) {
                 case 't': $limit *= 1024;
                     // no break

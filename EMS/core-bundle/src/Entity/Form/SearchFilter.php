@@ -210,7 +210,7 @@ class SearchFilter implements \JsonSerializable
 
     public function setBoost(?string $boost): self
     {
-        $this->boost = $boost ? (string) $boost : null;
+        $this->boost = $boost;
 
         return $this;
     }

@@ -140,9 +140,9 @@ class ExportDocumentsCommand extends AbstractCommand
         } else {
             $accumulateInOneFile = \in_array($this->format, [TemplateService::MERGED_JSON_FORMAT, TemplateService::MERGED_XML_FORMAT]);
             $useTemplate = false;
-            if (\str_contains($this->format, (string) TemplateService::JSON_FORMAT)) {
+            if (\str_contains($this->format, TemplateService::JSON_FORMAT)) {
                 $extension = '.json';
-            } elseif (\str_contains($this->format, (string) TemplateService::XML_FORMAT)) {
+            } elseif (\str_contains($this->format, TemplateService::XML_FORMAT)) {
                 $extension = '.xml';
             } else {
                 $output->writeln(\sprintf('WARNING: Format %s not found', $this->format));
@@ -194,9 +194,9 @@ class ExportDocumentsCommand extends AbstractCommand
                     }
                 } elseif ($accumulateInOneFile) {
                     $content = Json::encode($document->getSource());
-                } elseif (\str_contains($this->format, (string) TemplateService::JSON_FORMAT)) {
+                } elseif (\str_contains($this->format, TemplateService::JSON_FORMAT)) {
                     $content = Json::encode($document->getSource(), true);
-                } elseif (\str_contains($this->format, (string) TemplateService::XML_FORMAT)) {
+                } elseif (\str_contains($this->format, TemplateService::XML_FORMAT)) {
                     $content = $this->templateService->getXml($contentType, $document->getSource(), false, $document->getOuuid());
                 } else {
                     $this->logger->error('log.command.export.unknow_format', [
@@ -222,9 +222,9 @@ class ExportDocumentsCommand extends AbstractCommand
         if ($accumulateInOneFile) {
             if ($useTemplate) {
                 $accumulatedContent = \implode('', $accumulatedContent);
-            } elseif (\str_contains($this->format, (string) TemplateService::JSON_FORMAT)) {
+            } elseif (\str_contains($this->format, TemplateService::JSON_FORMAT)) {
                 $accumulatedContent = Json::encode($accumulatedContent);
-            } elseif (\str_contains($this->format, (string) TemplateService::XML_FORMAT)) {
+            } elseif (\str_contains($this->format, TemplateService::XML_FORMAT)) {
                 $accumulatedContent = $this->templateService->getXml($contentType, $accumulatedContent, true);
             } else {
                 $output->writeln(\sprintf('WARNING: Format %s not found', $this->format));

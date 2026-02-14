@@ -11,13 +11,11 @@ use EMS\CommonBundle\Twig\AssetExtension;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class AssetExtensionTest extends TestCase
 {
     private Stub $storageManager;
-    private readonly LoggerInterface $logger;
     private Stub $urlGenerator;
     private Stub $processor;
     private Stub $fileReader;

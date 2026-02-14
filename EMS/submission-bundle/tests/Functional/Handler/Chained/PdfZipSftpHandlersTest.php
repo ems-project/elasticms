@@ -16,8 +16,6 @@ use Symfony\Component\Filesystem\Filesystem;
 
 final class PdfZipSftpHandlersTest extends AbstractChainedTestCase
 {
-    /** @var FilesystemFactory */
-    private $filesystemFactory;
     /** @var PdfHandler */
     private $pdfHandler;
     /** @var SftpHandler */
@@ -30,8 +28,6 @@ final class PdfZipSftpHandlersTest extends AbstractChainedTestCase
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->filesystemFactory = $this->container->get('emss.filesystem.factory');
         $this->pdfHandler = $this->container->get('functional_test.emss.handler.pdf');
         $this->sftpHandler = $this->container->get('functional_test.emss.handler.sftp');
         $this->zipHandler = $this->container->get('functional_test.emss.handler.zip');

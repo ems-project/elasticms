@@ -220,12 +220,12 @@ $dataField->getRawData()
             }
             $revision->setRawData($data);
             $this->dataService->finalizeDraft($revision);
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             $this->logger->warning('form.view.hierarchical.error_with_document', [
                 EmsFields::LOG_CONTENTTYPE_FIELD => $type,
                 EmsFields::LOG_OUUID_FIELD => $ouuid,
-                EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
-                EmsFields::LOG_EXCEPTION_FIELD => $e,
+                EmsFields::LOG_ERROR_MESSAGE_FIELD => $exception->getMessage(),
+                EmsFields::LOG_EXCEPTION_FIELD => $exception,
             ]);
         }
     }

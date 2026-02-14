@@ -46,8 +46,8 @@ readonly class CoreApiUserProvider implements UserProviderInterface
             $profile = $this->coreApi->user()->getProfileAuthenticated();
 
             return new CoreApiUser($profile, $identifier);
-        } catch (\Throwable $e) {
-            $this->logger->error($e->getMessage(), ['trace' => $e->getTraceAsString(), 'code' => $e->getCode()]);
+        } catch (\Throwable $throwable) {
+            $this->logger->error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString(), 'code' => $throwable->getCode()]);
             throw new CustomUserMessageAuthenticationException('emsch.security.exception.error');
         }
     }

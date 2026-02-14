@@ -135,11 +135,11 @@ class HttpStorage extends AbstractUrlStorage implements \Stringable
     {
         try {
             return Response::HTTP_OK === $this->getClient()->head($this->getUrl.$hash)->getStatusCode();
-        } catch (\Throwable $e) {
-            if (Response::HTTP_NOT_FOUND === $e->getCode()) {
+        } catch (\Throwable $throwable) {
+            if (Response::HTTP_NOT_FOUND === $throwable->getCode()) {
                 return false;
             }
-            throw $e;
+            throw $throwable;
         }
     }
 

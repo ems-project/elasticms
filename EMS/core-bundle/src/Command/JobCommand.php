@@ -138,9 +138,9 @@ class JobCommand extends AbstractCommand
         $start = new \DateTime();
         try {
             $this->jobService->run($job);
-        } catch (\Throwable $e) {
+        } catch (\Throwable $throwable) {
             $this->jobService->finish($job->getId());
-            throw $e;
+            throw $throwable;
         }
 
         $interval = \date_diff($start, new \DateTime());

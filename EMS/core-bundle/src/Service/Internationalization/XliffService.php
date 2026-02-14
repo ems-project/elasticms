@@ -174,10 +174,10 @@ class XliffService
         $search = new Search([$targetEnvironment->getAlias()], $boolQuery);
         try {
             return $this->elasticaService->singleSearch($search);
-        } catch (NotSingleResultException $e) {
-            if ($e->getTotal() > 1) {
+        } catch (NotSingleResultException $notSingleResultException) {
+            if ($notSingleResultException->getTotal() > 1) {
                 $this->logger->warning('log.service.xliff.to-many-current-translations', [
-                    'counter' => $e->getTotal(),
+                    'counter' => $notSingleResultException->getTotal(),
                     'environment' => $targetEnvironment->getName(),
                     'translationField' => $translationField,
                     'translationId' => $translationId,

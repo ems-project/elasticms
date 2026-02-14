@@ -33,8 +33,8 @@ final readonly class ConfirmationService
             }
 
             return $endpointType->getVerificationCode($endpoint, $confirmValue);
-        } catch (\Exception $e) {
-            $this->logger->error($e->getMessage());
+        } catch (\Exception $exception) {
+            $this->logger->error($exception->getMessage());
 
             return null;
         }
@@ -57,8 +57,8 @@ final readonly class ConfirmationService
 
         try {
             return $endpointType->confirm($endpoint, $formConfig, $confirmationRequest->getValue());
-        } catch (\Exception $e) {
-            $this->logger->error($e->getMessage());
+        } catch (\Exception $exception) {
+            $this->logger->error($exception->getMessage());
 
             return false;
         }

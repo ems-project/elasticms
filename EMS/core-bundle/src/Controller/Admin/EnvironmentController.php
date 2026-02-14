@@ -155,10 +155,10 @@ class EnvironmentController extends AbstractController
     {
         try {
             $info = $this->mapping->getMapping($environment);
-        } catch (NotFoundException $e) {
+        } catch (NotFoundException $notFoundException) {
             $this->logger->error('log.environment.alias_missing', [
-                EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
-                EmsFields::LOG_EXCEPTION_FIELD => $e,
+                EmsFields::LOG_ERROR_MESSAGE_FIELD => $notFoundException->getMessage(),
+                EmsFields::LOG_EXCEPTION_FIELD => $notFoundException,
                 EmsFields::LOG_ENVIRONMENT_FIELD => $environment->getName(),
                 'alias' => $environment->getAlias(),
             ]);

@@ -641,8 +641,8 @@ readonly class CoreExtension
         }
         try {
             $out = $this->twig->createTemplate($template)->render($params);
-        } catch (\Exception $e) {
-            $out = 'Error in template: '.$e->getMessage();
+        } catch (\Exception $exception) {
+            $out = 'Error in template: '.$exception->getMessage();
         }
 
         return $out;

@@ -253,8 +253,8 @@ class AuditCommand extends AbstractCommand
             $this->logger->notice('Document saved');
 
             return true;
-        } catch (\Throwable $e) {
-            $this->logger->error(\sprintf('Error while saving the report for %s, go sleep for 60s: %s', $url, $e->getMessage()));
+        } catch (\Throwable $throwable) {
+            $this->logger->error(\sprintf('Error while saving the report for %s, go sleep for 60s: %s', $url, $throwable->getMessage()));
             \sleep(60);
 
             return false;

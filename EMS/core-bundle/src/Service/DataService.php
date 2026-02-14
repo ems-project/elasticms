@@ -1929,11 +1929,11 @@ class DataService
     {
         try {
             return $this->revRepository->lockAllRevisions($until, $by);
-        } catch (\Throwable $e) {
+        } catch (\Throwable $throwable) {
             $this->logger->error('service.data.lock_revisions_error', [
                 EmsFields::LOG_USERNAME_FIELD => $by,
-                EmsFields::LOG_EXCEPTION_FIELD => $e,
-                EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
+                EmsFields::LOG_EXCEPTION_FIELD => $throwable,
+                EmsFields::LOG_ERROR_MESSAGE_FIELD => $throwable->getMessage(),
             ]);
         }
 
@@ -1944,12 +1944,12 @@ class DataService
     {
         try {
             return $this->revRepository->lockRevisions($contentType, $until, $by, $force, $ouuid);
-        } catch (\Throwable $e) {
+        } catch (\Throwable $throwable) {
             $this->logger->error('service.data.lock_revisions_error', [
                 EmsFields::LOG_CONTENTTYPE_FIELD => $contentType->getName(),
                 EmsFields::LOG_USERNAME_FIELD => $by,
-                EmsFields::LOG_EXCEPTION_FIELD => $e,
-                EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
+                EmsFields::LOG_EXCEPTION_FIELD => $throwable,
+                EmsFields::LOG_ERROR_MESSAGE_FIELD => $throwable->getMessage(),
             ]);
         }
 
@@ -1960,11 +1960,11 @@ class DataService
     {
         try {
             return $this->revRepository->unlockAllRevisions($by);
-        } catch (\Throwable $e) {
+        } catch (\Throwable $throwable) {
             $this->logger->error('service.data.unlock_revisions_error', [
                 EmsFields::LOG_USERNAME_FIELD => $by,
-                EmsFields::LOG_EXCEPTION_FIELD => $e,
-                EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
+                EmsFields::LOG_EXCEPTION_FIELD => $throwable,
+                EmsFields::LOG_ERROR_MESSAGE_FIELD => $throwable->getMessage(),
             ]);
         }
 
@@ -1975,12 +1975,12 @@ class DataService
     {
         try {
             return $this->revRepository->unlockRevisions($contentType, $by);
-        } catch (\Throwable $e) {
+        } catch (\Throwable $throwable) {
             $this->logger->error('service.data.unlock_revisions_error', [
                 EmsFields::LOG_CONTENTTYPE_FIELD => $contentType->getName(),
                 EmsFields::LOG_USERNAME_FIELD => $by,
-                EmsFields::LOG_EXCEPTION_FIELD => $e,
-                EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
+                EmsFields::LOG_EXCEPTION_FIELD => $throwable,
+                EmsFields::LOG_ERROR_MESSAGE_FIELD => $throwable->getMessage(),
             ]);
         }
 
@@ -2019,9 +2019,9 @@ class DataService
             $this->em->persist($revision);
             $this->em->flush();
             $this->em->getConnection()->commit();
-        } catch (\Throwable $e) {
+        } catch (\Throwable $throwable) {
             $this->em->getConnection()->rollBack();
-            throw $e;
+            throw $throwable;
         }
 
         return $revision;

@@ -32,8 +32,8 @@ final readonly class FileService
         }
         try {
             $encodedResponse = Json::encode($responses);
-        } catch (\Throwable $e) {
-            $this->logger->error('Unexpected error of file upload\'s response messages : {error}', ['error' => $e->getMessage()]);
+        } catch (\Throwable $throwable) {
+            $this->logger->error('Unexpected error of file upload\'s response messages : {error}', ['error' => $throwable->getMessage()]);
             $encodedResponse = '{}';
         }
 
@@ -62,8 +62,8 @@ final readonly class FileService
             if (!$success) {
                 throw UserApiResponseException::forFileUpload($response, $file);
             }
-        } catch (\Exception $e) {
-            $this->logger->error($e->getMessage());
+        } catch (\Exception $exception) {
+            $this->logger->error($exception->getMessage());
         }
 
         return (isset($json)) ? $this->parseEmsResponse($json) : [];

@@ -256,8 +256,8 @@ final readonly class FormSubmissionService implements EntityServiceInterface
             }
 
             return $this->twig->render("@$this->templateNamespace/email/submissions.email.twig", ['submissions' => $submissions]);
-        } catch (\Exception $e) {
-            return $this->twig->createTemplate('Error in body template: '.$e->getMessage())->render();
+        } catch (\Exception $exception) {
+            return $this->twig->createTemplate('Error in body template: '.$exception->getMessage())->render();
         }
     }
 

@@ -151,8 +151,8 @@ class ActionController
                 '_download' => $_download,
             ]);
             $filename = \preg_replace('~[\r\n]+~', '', $filename);
-        } catch (\Throwable $e) {
-            $this->logger->error($e->getMessage());
+        } catch (\Throwable $throwable) {
+            $this->logger->error($throwable->getMessage());
         }
 
         return $filename ?? 'error-in-filename-template';

@@ -449,10 +449,10 @@ class DataController extends AbstractController
                     }
                 }
             }
-        } catch (\Throwable $e) {
+        } catch (\Throwable $throwable) {
             $this->logger->warning('log.data.revision.reindex_failed', \array_merge(LogRevisionContext::update($revision), [
-                EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
-                EmsFields::LOG_EXCEPTION_FIELD => $e,
+                EmsFields::LOG_ERROR_MESSAGE_FIELD => $throwable->getMessage(),
+                EmsFields::LOG_EXCEPTION_FIELD => $throwable,
             ]));
         }
 
@@ -623,14 +623,14 @@ class DataController extends AbstractController
                     'revisionId' => $revision->getId(),
                 ]);
             }
-        } catch (\Throwable $e) {
+        } catch (\Throwable $throwable) {
             $this->logger->error('log.data.revision.can_finalized_error', [
                 EmsFields::LOG_CONTENTTYPE_FIELD => $revision->giveContentType()->getName(),
                 EmsFields::LOG_OUUID_FIELD => $revision->getOuuid(),
                 EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_READ,
                 EmsFields::LOG_REVISION_ID_FIELD => $revision->getId(),
-                EmsFields::LOG_EXCEPTION_FIELD => $e,
-                EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
+                EmsFields::LOG_EXCEPTION_FIELD => $throwable,
+                EmsFields::LOG_ERROR_MESSAGE_FIELD => $throwable->getMessage(),
             ]);
 
             return $this->redirectToRoute(Routes::EDIT_REVISION, [
@@ -682,12 +682,12 @@ class DataController extends AbstractController
             return $this->redirectToRoute(Routes::EDIT_REVISION, [
                 'revisionId' => $revision->getId(),
             ]);
-        } catch (\Throwable $e) {
+        } catch (\Throwable $throwable) {
             $this->logger->error('log.data.revision.init_document_from_array', [
                 EmsFields::LOG_CONTENTTYPE_FIELD => $contentType->getName(),
                 EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_CREATE,
-                EmsFields::LOG_EXCEPTION_FIELD => $e,
-                EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
+                EmsFields::LOG_EXCEPTION_FIELD => $throwable,
+                EmsFields::LOG_ERROR_MESSAGE_FIELD => $throwable->getMessage(),
             ]);
 
             return $this->contentTypeService->redirectOverview($contentType);

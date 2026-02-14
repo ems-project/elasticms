@@ -370,9 +370,9 @@ class Image
             }
             $image = $this->rotate($image, $angle);
             $this->applyFlips($image, $mirrored, false);
-        } catch (\Throwable $e) {
+        } catch (\Throwable $throwable) {
             if (null !== $this->logger) {
-                $this->logger->warning(\sprintf('Not able to autorotate a file due to: %s', $e->getMessage()));
+                $this->logger->warning(\sprintf('Not able to autorotate a file due to: %s', $throwable->getMessage()));
             }
         }
 

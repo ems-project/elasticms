@@ -31,9 +31,9 @@ class Template implements DashboardInterface
                     icon: $dashboard->getIcon(),
                 ),
             ]));
-        } catch (\Throwable $e) {
+        } catch (\Throwable $throwable) {
             $response->setContent($this->twig->render("@$this->templateNamespace/dashboard/services/error.html.twig", [
-                'exception' => $e,
+                'exception' => $throwable,
                 'dashboard' => $dashboard,
                 'options' => $dashboard->getOptions(),
                 'title' => t('core.dashboard.exception.title', [], 'emsco-core'),

@@ -140,9 +140,9 @@ class ElasticsearchController extends AbstractController
             if ('red' === $status) {
                 $statusCode = 500;
             }
-        } catch (\Throwable $e) {
+        } catch (\Throwable $throwable) {
             $status = 'red';
-            $context['cluster']['title'] = $e->getMessage();
+            $context['cluster']['title'] = $throwable->getMessage();
             $statusCode = 503;
         }
         $context['status'] = $status;

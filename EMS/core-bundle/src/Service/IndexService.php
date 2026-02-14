@@ -47,11 +47,11 @@ final readonly class IndexService
             }
 
             $index->delete();
-        } catch (ClientResponseException $e) {
-            if (Response::HTTP_NOT_FOUND === $e->getResponse()->getStatusCode()) {
+        } catch (ClientResponseException $clientResponseException) {
+            if (Response::HTTP_NOT_FOUND === $clientResponseException->getResponse()->getStatusCode()) {
                 throw throw NotFoundException::index($indexName);
             }
-            throw $e;
+            throw $clientResponseException;
         }
     }
 
@@ -201,11 +201,11 @@ final readonly class IndexService
             return $this->client->resolveResponse(
                 $this->client->indices()->getAlias(['index' => $indexName])
             )->getData();
-        } catch (ClientResponseException $e) {
-            if (Response::HTTP_NOT_FOUND === $e->getResponse()->getStatusCode()) {
+        } catch (ClientResponseException $clientResponseException) {
+            if (Response::HTTP_NOT_FOUND === $clientResponseException->getResponse()->getStatusCode()) {
                 return [];
             }
-            throw $e;
+            throw $clientResponseException;
         }
     }
 }

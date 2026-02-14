@@ -500,8 +500,8 @@ class StorageManager implements FileManagerInterface
                 $adapter->initFinalize($hash);
                 $adapter->finalizeUpload($hash);
             }
-        } catch (\Throwable $e) {
-            $this->logger->warning(\sprintf('It was not possible to hot synchronize the asset %s: %s', $hash, $e->getMessage()));
+        } catch (\Throwable $throwable) {
+            $this->logger->warning(\sprintf('It was not possible to hot synchronize the asset %s: %s', $hash, $throwable->getMessage()));
         }
     }
 

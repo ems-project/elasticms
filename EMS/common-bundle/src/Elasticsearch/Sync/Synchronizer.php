@@ -58,9 +58,9 @@ class Synchronizer
         try {
             $response = Json::decode($indexClient->client->request('GET', '')->getContent());
             $indexClient->defined = true;
-        } catch (ClientException $e) {
-            if (404 !== $e->getCode()) {
-                throw $e;
+        } catch (ClientException $clientException) {
+            if (404 !== $clientException->getCode()) {
+                throw $clientException;
             }
             $indexClient->defined = false;
 
@@ -246,11 +246,11 @@ class Synchronizer
                     'scroll_id' => $scrollId,
                 ],
             ]);
-        } catch (ClientExceptionInterface $e) {
-            if (404 === $e->getCode()) {
+        } catch (ClientExceptionInterface $clientException) {
+            if (404 === $clientException->getCode()) {
                 return;
             }
-            throw $e;
+            throw $clientException;
         }
     }
 }

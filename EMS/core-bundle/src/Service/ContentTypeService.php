@@ -176,11 +176,11 @@ class ContentTypeService implements EntityServiceInterface
             }
 
             $this->contentTypeRepository->save($contentType);
-        } catch (\Throwable $e) {
+        } catch (\Throwable $throwable) {
             $contentType->setDirty(true);
-            $message = $e->getMessage();
-            if (!empty($e->getPrevious())) {
-                $message = $e->getPrevious()->getMessage();
+            $message = $throwable->getMessage();
+            if (!empty($throwable->getPrevious())) {
+                $message = $throwable->getPrevious()->getMessage();
             }
 
             $this->logger->error('service.contenttype.update_mapping_exception', [

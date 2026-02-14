@@ -184,8 +184,8 @@ class JobService implements EntityServiceInterface
             }
 
             $this->finish($job->getId());
-        } catch (\Exception $e) {
-            $this->finish($job->getId(), $e->getMessage());
+        } catch (\Exception $exception) {
+            $this->finish($job->getId(), $exception->getMessage());
         }
     }
 
@@ -245,15 +245,15 @@ class JobService implements EntityServiceInterface
     {
         try {
             $olderDate = DateTime::create($stringTime);
-        } catch (\Throwable $e) {
-            $this->logger->warning(\sprintf('Invalid string to time format: %s (%s)', $stringTime, $e->getMessage()));
+        } catch (\Throwable $throwable) {
+            $this->logger->warning(\sprintf('Invalid string to time format: %s (%s)', $stringTime, $throwable->getMessage()));
 
             return 0;
         }
         try {
             $jobsCleaned = $this->repository->clean($username, $olderDate);
-        } catch (\Throwable $e) {
-            $this->logger->warning(\sprintf('Error during cleaning jobs: %s', $e->getMessage()));
+        } catch (\Throwable $throwable) {
+            $this->logger->warning(\sprintf('Error during cleaning jobs: %s', $throwable->getMessage()));
 
             return 0;
         }

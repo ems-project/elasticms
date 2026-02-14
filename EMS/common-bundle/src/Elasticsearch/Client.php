@@ -28,11 +28,11 @@ class Client extends BaseClient
             $request = $this->createRequest($method, $url, $headers, $body);
 
             return $this->resolveResponse($this->sendRequest($request));
-        } catch (\Throwable $e) {
-            if ($e instanceof ClientResponseException || $e instanceof ServerResponseException) {
-                return $this->toElasticaResponse($e->getResponse());
+        } catch (\Throwable $throwable) {
+            if ($throwable instanceof ClientResponseException || $throwable instanceof ServerResponseException) {
+                return $this->toElasticaResponse($throwable->getResponse());
             }
-            throw $e;
+            throw $throwable;
         }
     }
 
@@ -58,12 +58,12 @@ class Client extends BaseClient
         try {
             $elasticResponse = parent::sendRequest($request);
             $response = $this->toElasticaResponse($elasticResponse);
-        } catch (\Throwable $e) {
-            if ($e instanceof ClientResponseException || $e instanceof ServerResponseException) {
-                $this->logResponse($this->toElasticaResponse($e->getResponse()));
+        } catch (\Throwable $throwable) {
+            if ($throwable instanceof ClientResponseException || $throwable instanceof ServerResponseException) {
+                $this->logResponse($this->toElasticaResponse($throwable->getResponse()));
             }
-            $this->getLogger()->error($e->getMessage());
-            throw $e;
+            $this->getLogger()->error($throwable->getMessage());
+            throw $throwable;
         }
         $end = \microtime(true);
         $this->stopwatch?->stop('es_request');

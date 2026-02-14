@@ -252,8 +252,8 @@ final class MediaLibrarySync
             $assetArray[EmsFields::CONTENT_FILE_AUTHOR] = $meta->getCreator();
             $assetArray[EmsFields::CONTENT_FILE_TITLE] = $meta->getTitle();
             $assetArray[EmsFields::CONTENT_FILE_LANGUAGE] = $meta->getLocale();
-        } catch (\Throwable $e) {
-            $this->io->warning($e->getMessage());
+        } catch (\Throwable $throwable) {
+            $this->io->warning($throwable->getMessage());
         }
 
         return $assetArray;

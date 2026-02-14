@@ -148,9 +148,9 @@ class ElasticSearchController extends AbstractController
             }
 
             $this->logger->messageNotice(t('log.notice.deleted_orphan_indexes', [], 'emsco-core'));
-        } catch (\Throwable $e) {
+        } catch (\Throwable $throwable) {
             $this->logger->messageError(t('log.error.delete_failed', [], 'emsco-core'), [
-                'error' => $e->getMessage(),
+                'error' => $throwable->getMessage(),
             ]);
         }
     }

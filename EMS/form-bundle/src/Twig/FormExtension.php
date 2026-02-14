@@ -26,11 +26,11 @@ class FormExtension
     {
         try {
             return $this->endpointManager->callHttpEndpoint($fieldName, $replaceBody, $timeout);
-        } catch (\Throwable $e) {
+        } catch (\Throwable $throwable) {
             $this->logger->error('Error during the HTTP request', [
                 'field' => $fieldName,
                 'config' => $replaceBody,
-                'error' => $e->getMessage(),
+                'error' => $throwable->getMessage(),
             ]);
 
             return null;

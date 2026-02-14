@@ -103,8 +103,8 @@ class AuditManager
                 $report->addWarning($audit->getUrl(), [\sprintf('Meta description is probably too long: %d', \strlen($description))]);
             }
             $audit->setDescription($description);
-        } catch (\Throwable $e) {
-            $this->logger->critical(\sprintf('Crawler audit for %s failed: %s', $audit->getUrl()->getUrl(), $e->getMessage()));
+        } catch (\Throwable $throwable) {
+            $this->logger->critical(\sprintf('Crawler audit for %s failed: %s', $audit->getUrl()->getUrl(), $throwable->getMessage()));
         }
         $this->logger->notice('HTML parsed');
     }

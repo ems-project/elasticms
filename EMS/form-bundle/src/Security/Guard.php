@@ -33,8 +33,8 @@ class Guard
             $this->validateHashcash($request, $token);
 
             return true;
-        } catch (\Exception $e) {
-            $this->logger->error('guard check valid', [$e]);
+        } catch (\Exception $exception) {
+            $this->logger->error('guard check valid', [$exception]);
 
             return false;
         }

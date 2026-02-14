@@ -94,8 +94,8 @@ class ElasticaService
                 throw new \RuntimeException('Unexpected not string status');
             }
             $this->healthStatus = $status;
-        } catch (\Throwable $e) {
-            $this->logger->error($e->getMessage(), ['trace' => $e->getTraceAsString()]);
+        } catch (\Throwable $throwable) {
+            $this->logger->error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString()]);
             $this->healthStatus = 'red';
         }
 
@@ -456,11 +456,11 @@ class ElasticaService
 
         try {
             return $this->singleSearch($search);
-        } catch (NotSingleResultException $e) {
-            if (0 === $e->getTotal()) {
+        } catch (NotSingleResultException $notSingleResultException) {
+            if (0 === $notSingleResultException->getTotal()) {
                 throw new NotFoundException($id, $index);
             }
-            throw $e;
+            throw $notSingleResultException;
         }
     }
 

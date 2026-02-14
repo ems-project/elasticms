@@ -121,10 +121,10 @@ class FileController extends AbstractController
 
         try {
             $uploadedAsset = $this->fileService->initUploadFile($hash, $size, $name, $type, $user, $algo);
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             $this->logger->error('log.error', [
-                EmsFields::LOG_EXCEPTION_FIELD => $e,
-                EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
+                EmsFields::LOG_EXCEPTION_FIELD => $exception,
+                EmsFields::LOG_ERROR_MESSAGE_FIELD => $exception->getMessage(),
             ]);
 
             return $this->flashMessageLogger->buildJsonResponse([
@@ -146,10 +146,10 @@ class FileController extends AbstractController
 
         try {
             $uploadedAsset = $this->fileService->addChunk($hash, $chunk, $user);
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             $this->logger->error('log.error', [
-                EmsFields::LOG_EXCEPTION_FIELD => $e,
-                EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
+                EmsFields::LOG_EXCEPTION_FIELD => $exception,
+                EmsFields::LOG_ERROR_MESSAGE_FIELD => $exception->getMessage(),
             ]);
 
             return $this->flashMessageLogger->buildJsonResponse([

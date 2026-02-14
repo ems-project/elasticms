@@ -79,8 +79,8 @@ final class FileImportCommand extends AbstractImportCommand
             $this->import($config, $cells);
 
             return self::EXECUTE_SUCCESS;
-        } catch (\Throwable $e) {
-            $this->io->error($e->getMessage());
+        } catch (\Throwable $throwable) {
+            $this->io->error($throwable->getMessage());
 
             return self::EXECUTE_ERROR;
         }

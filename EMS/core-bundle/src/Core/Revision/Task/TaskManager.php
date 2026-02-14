@@ -285,9 +285,9 @@ final readonly class TaskManager
                 $this->dataService->unlockRevision($revision);
 
                 return $result;
-            } catch (\Throwable $e) {
-                $this->logger->error($e->getMessage());
-                throw $e;
+            } catch (\Throwable $throwable) {
+                $this->logger->error($throwable->getMessage());
+                throw $throwable;
             }
         };
     }

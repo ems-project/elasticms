@@ -32,7 +32,7 @@ final class PdfZipSftpHandlersTest extends AbstractChainedTestCase
         $this->sftpHandler = $this->container->get('functional_test.emss.handler.sftp');
         $this->zipHandler = $this->container->get('functional_test.emss.handler.zip');
 
-        $filesystem = new Filesystem();
+        new Filesystem();
         $this->tempFile = TempFile::create();
 
         // $this->filesystemFactory->setFlagNullAdapter(false); uncomment for enabling sftp

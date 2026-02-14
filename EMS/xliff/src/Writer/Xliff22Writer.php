@@ -30,6 +30,7 @@ class Xliff22Writer implements WriterInterface
     {
         $dom = DomHelper::initDocument($this->options->preserveWhitespace, $this->options->formatOutput);
         $dom->encoding = $encoding;
+
         $xliff = DomHelper::initXliff($dom, Version::V22, Version::V22_NAMESPACE);
         $xliff->setAttribute('srcLang', $package->getSourceLocale());
         $xliff->setAttribute('trgLang', $package->getTargetLocale());

@@ -184,6 +184,7 @@ class DocumentCommand extends Command
         $finder->files()->in($directory->path)->name('*.json');
         $progress = $this->io->createProgressBar($finder->count());
         $progress->start();
+
         $importerContext = $this->documentService->initDocumentImporterContext($this->contentType, 'SYSTEM_IMPORT', $rawImport, $signData, true, $bulkSize, $finalize, $force);
 
         $loopIndex = 0;

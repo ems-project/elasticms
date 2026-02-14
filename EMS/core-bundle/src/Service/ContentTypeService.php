@@ -495,6 +495,7 @@ class ContentTypeService implements EntityServiceInterface
         $search = new Search([$environment->getAlias()]);
         $search->setSize(0);
         $search->addTermsAggregation(self::CONTENT_TYPE_AGGREGATION_NAME, EMSSource::FIELD_CONTENT_TYPE, 30);
+
         $resultSet = $this->elasticaService->search($search);
         $aggregationBuckets = $resultSet->getAggregation(self::CONTENT_TYPE_AGGREGATION_NAME)['buckets'] ?? [];
         $unreferencedContentTypes = [];

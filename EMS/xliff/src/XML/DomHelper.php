@@ -77,6 +77,7 @@ class DomHelper
         $xliff = new \DOMElement('xliff');
         $xliff->setAttribute('xmlns', $namespace);
         $xliff->setAttribute('version', $version);
+
         $dom->appendChild($xliff);
 
         return $xliff;

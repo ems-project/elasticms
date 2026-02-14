@@ -33,6 +33,7 @@ class HtmlHelper
         $html2 ??= '';
         $formatterHtml1 = new \tidy();
         $formatterHtml1->parseString($html1);
+
         $formatterHtml2 = new \tidy();
         $formatterHtml2->parseString($html2);
 

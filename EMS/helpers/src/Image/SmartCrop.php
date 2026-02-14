@@ -108,6 +108,7 @@ class SmartCrop
         $result = [];
         $w = \imagesx($this->image);
         $this->w = $w;
+
         $h = \imagesy($this->image);
         $this->h = $h;
 
@@ -366,6 +367,7 @@ class SmartCrop
     {
         $mag = \sqrt($r * $r + $g * $g + $b * $b);
         $mag = $mag > 0 ? $mag : 1;
+
         $rd = ($r / $mag - $this->skinColor[0]);
         $gd = ($g / $mag - $this->skinColor[1]);
         $bd = ($b / $mag - $this->skinColor[2]);

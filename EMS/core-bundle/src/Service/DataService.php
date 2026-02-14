@@ -327,6 +327,7 @@ class DataService
         $revision = $this->getEmptyRevision($contentType, 'hitToBusinessDocument');
         $revision->setRawData($hit['_source']);
         $revision->setOuuid($hit['_id']);
+
         $revisionType = $this->formFactory->create(RevisionType::class, $revision, ['migration' => false, 'raw_data' => $revision->getRawData()]);
         $result = $this->walkRecursive($revisionType->get('data'), $hit['_source'], function (string $name, $data, DataFieldType $dataFieldType, DataField $dataField) {
             if (null !== $data) {
@@ -445,6 +446,7 @@ class DataService
         $newRevision->setEndTime(null);
         $newRevision->setDeleted(false);
         $newRevision->setDraft(true);
+
         $lockBy = $this->userService->getCurrentUser()->getUserIdentifier();
         $newRevision->setLockBy($lockBy);
 
@@ -1410,6 +1412,7 @@ class DataService
         $data->setFieldType($revision->giveContentType()->getFieldType());
         $data->setOrderKey($revision->giveContentType()->getFieldType()->getOrderKey());
         $data->setRawData($revision->getRawData());
+
         $revision->setDataField($data);
 
         if ($revision->isLazyIndex()) {
@@ -1895,6 +1898,7 @@ class DataService
         $revision = $this->getEmptyRevision($contentType, 'hitFromBusinessIdToDataLink');
         $revision->setRawData($rawData);
         $revision->setOuuid($ouuid);
+
         $revisionType = $this->formFactory->create(RevisionType::class, $revision, ['migration' => true, 'raw_data' => $revision->getRawData(), 'with_warning' => false]);
         $result = $this->walkRecursive($revisionType->get('data'), $rawData, function (string $name, $data, DataFieldType $dataFieldType, DataField $dataField) {
             if (null !== $data && (!\is_array($data) || \count($data) > 0)) {

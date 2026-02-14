@@ -251,6 +251,7 @@ class AliasService
         $terms = new Terms(self::COUNTER_AGGREGATION);
         $terms->setField('_index');
         $terms->setSize(2000);
+
         $search->addAggregation($terms);
         $search->setSize(0);
 

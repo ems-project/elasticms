@@ -25,6 +25,7 @@ class Xliff22Reader implements ReaderInterface
         $dom = DomHelper::loadXml($xml);
         $xpath = new \DOMXPath($dom);
         $xpath->registerNamespace('x', Version::V22_NAMESPACE);
+
         $result = $xpath->query('/x:xliff');
         if (!$result instanceof \DOMNodeList) {
             throw new \RuntimeException('Root <xliff> element not found.');

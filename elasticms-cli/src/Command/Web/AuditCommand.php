@@ -223,11 +223,14 @@ class AuditCommand extends AbstractCommand
 
         $boolQuery->setMinimumShouldMatch(1);
         $boolQuery->addShould(new Terms('base_url', [$this->baseUrl]));
+
         $boolMustNotBase = new BoolQuery();
         $boolMustNotBase->addMustNot(new Exists('base_url'));
+
         $boolQuery->addShould(new Terms('base_url', [$this->baseUrl]));
         $search = new Search([$alias], $boolQuery->toArray());
         $search->setSources(['url', 'referer', 'referer_label']);
+
         $searchApi = $this->adminHelper->getCoreApi()->search();
 
         $this->io->section('Audit already know URLs');
@@ -357,6 +360,7 @@ class AuditCommand extends AbstractCommand
         }
         $this->auditCache->setReport($report);
         $this->auditCache->save($this->jsonPath);
+
         $this->logger->notice('Cache saved');
     }
 }

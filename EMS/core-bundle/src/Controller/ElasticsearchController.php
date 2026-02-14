@@ -223,6 +223,7 @@ class ElasticsearchController extends AbstractController
             ]))),
         };
         $response->setStatusCode($statusCode);
+
         $allowOrigin = $this->healthCheckAllowOrigin;
         if (\is_string($allowOrigin) && '' !== $allowOrigin) {
             $response->headers->set('Access-Control-Allow-Origin', $allowOrigin);
@@ -427,6 +428,7 @@ class ElasticsearchController extends AbstractController
 
         $commonSearch->setFrom($dataLinks->getFrom());
         $commonSearch->setSize($dataLinks->getSize());
+
         $response = CommonResponse::fromResultSet($this->elasticaService->search($commonSearch));
 
         $dataLinks->setTotal($response->getTotal());

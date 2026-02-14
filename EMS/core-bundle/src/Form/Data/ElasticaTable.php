@@ -116,6 +116,7 @@ class ElasticaTable extends TableAbstract
     {
         $search = $this->getSearch($this->getSearchValue());
         $search->setSize(100);
+
         $scroll = $this->elasticaService->scroll($search);
 
         foreach ($scroll as $resultSet) {
@@ -191,6 +192,7 @@ class ElasticaTable extends TableAbstract
         }
         $search->setFrom($this->getFrom());
         $search->setSize($this->getSize());
+
         $orderField = $this->getOrderField();
         if (null !== $orderField) {
             $search->setSort([

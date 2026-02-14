@@ -214,6 +214,7 @@ class Revision implements EntityInterface, \Stringable
     {
         $draft = clone $this;
         $draft->environmentRevisions = new ArrayCollection();
+
         $now = new \DateTime('now');
         $draft->addEnvironment($this->giveContentType()->giveEnvironment(), $username);
         $draft->setStartTime($now);

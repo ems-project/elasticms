@@ -259,6 +259,7 @@ class UserController extends AbstractController
     {
         $user = $this->userService->giveUser($this->userService->getCurrentUser()->getUsername(), false);
         $user->setSidebarCollapse($collapsed);
+
         $this->userService->updateUser($user);
 
         return $this->flashMessageLogger->buildJsonResponse([

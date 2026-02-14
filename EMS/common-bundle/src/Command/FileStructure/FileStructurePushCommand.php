@@ -86,6 +86,7 @@ class FileStructurePushCommand extends AbstractCommand
         $this->io->newLine();
 
         $this->io->section('Comparing with previous archive');
+
         $previousArchive = null;
         $hashFilename = \implode(DIRECTORY_SEPARATOR, [$this->folderPath, $this->saveHashFilename]);
         if (\file_exists($hashFilename)) {

@@ -235,6 +235,7 @@ class JobService implements EntityServiceInterface
         $job->setCreated($startDate);
         $job->setModified(new \DateTime());
         $job->setProgress(0);
+
         $this->em->persist($job);
         $this->em->flush();
 

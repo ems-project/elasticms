@@ -129,6 +129,7 @@ class ExportDocumentsCommand extends AbstractCommand
         }
         $zip = new \ZipArchive();
         $zip->open($outZipPath, \ZipArchive::CREATE);
+
         $extension = '';
         if (!\in_array($this->format, TemplateService::EXPORT_FORMATS)) {
             $this->templateService->init($this->format, $contentType);

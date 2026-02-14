@@ -87,6 +87,7 @@ final class SendAllCommand extends Command
 
         $date = new \DateTime();
         $date->sub(new \DateInterval($this->notificationPendingTimeout));
+
         $notifications = $notificationRepository->findReminders($date);
 
         if ([] !== $notifications) {

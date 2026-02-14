@@ -39,6 +39,7 @@ class Html
     {
         $stream = $result->getResponse()->getBody();
         $stream->rewind();
+
         $crawler = new Crawler($stream->getContents());
         $this->autoDiscoverResources($crawler, $resource);
         foreach ($analyzer->getExtractors() as $extractor) {

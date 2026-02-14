@@ -31,6 +31,7 @@ final class HtmlAttributeTransformer extends BaseHtmlTransformer
 
         $crawler = new Crawler();
         $crawler->addContent($context->getData());
+
         $options = $this->resolveOptions($context->getOptions());
         $results = 0;
 

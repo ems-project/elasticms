@@ -33,6 +33,7 @@ final readonly class QueryBuilder
         $query = $this->getQuery();
         $search = $this->clientRequest->initializeCommonSearch($types, $query);
         $search->setPostFilter($this->getPostFilters());
+
         $hasPostFilter = (null !== $search->getPostFilter());
         foreach ($this->getAggs($hasPostFilter) as $aggregation) {
             $search->addAggregation($aggregation);
@@ -191,6 +192,7 @@ final readonly class QueryBuilder
     {
         $agg = new TermsAggregation($filter->getName());
         $agg->setField($filter->getField());
+
         $aggSize = $filter->getAggSize();
         if (null !== $aggSize) {
             $agg->setSize($aggSize);

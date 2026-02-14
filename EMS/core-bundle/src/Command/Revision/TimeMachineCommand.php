@@ -107,6 +107,7 @@ final class TimeMachineCommand extends Command
         $revertedRevision->setRawData($inTimeRaw);
         $revertedRevision->setDraft(false);
         $revertedRevision->setFinalizedBy(self::SYSTEM_TIME_MACHINE);
+
         $this->dataService->sign($revertedRevision);
 
         $currentRevision->close(new \DateTime('now'), self::SYSTEM_TIME_MACHINE);

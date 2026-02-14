@@ -205,6 +205,7 @@ class ElasticaService
     {
         $search = clone $search;
         $search->setSort(null);
+
         $elasticaSearch = $this->createElasticaSearch($search, $search->getScrollOptions());
 
         return new EmsScroll($elasticaSearch, $expiryTime);
@@ -214,6 +215,7 @@ class ElasticaService
     {
         $search = clone $search;
         $search->setSort(null);
+
         $elasticaSearch = $this->createElasticaSearch($search, $search->getScrollOptions());
         $elasticaSearch->setOption(ElasticaSearch::OPTION_SCROLL, $expiryTime);
 
@@ -368,12 +370,16 @@ class ElasticaService
         $terms = new TermsAggregation('indexes');
         $terms->setSize(self::MAX_INDICES_BY_ALIAS);
         $terms->setField('_index');
+
         $esSearch = new ElasticaSearch($this->client);
         $esSearch->setOption(ElasticaSearch::OPTION_SIZE, 0);
+
         $query = new Query();
         $query->addAggregation($terms);
+
         $esSearch->setQuery($query);
         $esSearch->addIndicesByName($aliases);
+
         $buckets = $esSearch->search()->getAggregation('indexes')['buckets'] ?? [];
 
         $indices = [];
@@ -781,6 +787,7 @@ class ElasticaService
     {
         $search->setSize($options['size']);
         $search->setFrom($options['from']);
+
         $sort = $options['sort'];
         if (null !== $sort && !empty($sort)) {
             $search->setSort($sort);

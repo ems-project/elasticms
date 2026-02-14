@@ -110,6 +110,7 @@ class DetailController extends AbstractController
         $filter->setField($contentType->getRefererFieldName());
         $filter->setPattern(\sprintf('%s\\:%s', $type, $ouuid));
         $filter->setOperator('query_and');
+
         $searchForm->addFilter($filter);
 
         $filter = new SearchFilter();
@@ -117,6 +118,7 @@ class DetailController extends AbstractController
         $filter->setField($contentType->getRefererFieldName());
         $filter->setPattern(\sprintf('object\\:%s\\:%s', $type, $ouuid));
         $filter->setOperator('query_and');
+
         $searchForm->addFilter($filter);
 
         if (null !== $versionOuuid = $revision->getVersionUuid()) {

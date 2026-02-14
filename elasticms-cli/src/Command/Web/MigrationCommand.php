@@ -107,6 +107,7 @@ class MigrationCommand extends AbstractCommand
         $this->io->title('Starting updating elasticms');
 
         $this->io->section('Load config');
+
         $cacheManager = new CacheManager($this->cacheFolder);
         $configManager = $this->loadConfigManager($cacheManager);
         $rapport = new Rapport($cacheManager, $this->rapportsFolder);
@@ -135,6 +136,7 @@ class MigrationCommand extends AbstractCommand
         $this->io->section('Start updates');
         $this->io->progressStart($extractor->extractDataCount());
         $this->io->progressAdvance($extractor->currentStep());
+
         $counter = 0;
         $finish = true;
         foreach ($extractor->extractData($rapport, $this->ouuid) as $extractedData) {
@@ -154,6 +156,7 @@ class MigrationCommand extends AbstractCommand
         $this->io->writeln('');
 
         $this->io->section('Save config');
+
         $configManager->save($this->jsonPath, $finish);
         $rapport->save();
 

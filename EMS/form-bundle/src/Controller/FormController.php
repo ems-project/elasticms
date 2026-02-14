@@ -46,6 +46,7 @@ class FormController extends AbstractFormController
 
         $form = $this->formFactory->create(Form::class, [], ['ouuid' => $ouuid, 'locale' => $request->getLocale()]);
         $form->handleRequest($request);
+
         $this->csrfTokenManager->removeToken('form');
 
         if ($form->isSubmitted() && $form->isValid()) {

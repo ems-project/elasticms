@@ -171,6 +171,7 @@ class XliffService
         $boolQuery = $this->elasticaService->getBoolQuery();
         $boolQuery->addMust($this->elasticaService->getTermsQuery($translationField, [$translationId]));
         $boolQuery->addMust($this->elasticaService->getTermsQuery($localeField, [$targetLocale]));
+
         $search = new Search([$targetEnvironment->getAlias()], $boolQuery);
         try {
             return $this->elasticaService->singleSearch($search);

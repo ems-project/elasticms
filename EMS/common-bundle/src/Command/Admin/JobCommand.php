@@ -71,6 +71,7 @@ class JobCommand extends AbstractCommand
 
         $this->io->title('Admin - Job\'s status');
         $this->io->section(\sprintf('Getting information about Job #%s', $this->jobIdOrJsonFile));
+
         $status = $this->coreApi->admin()->getJobStatus($this->jobIdOrJsonFile);
         if (!$status['done']) {
             $this->echoStatus($status);

@@ -264,6 +264,7 @@ class FileService implements EntityServiceInterface
         $uploadedAsset->setHeadIn(\array_unique(\array_merge($headIn, $uploadedAsset->getHeadIn() ?? [])));
         $uploadedAsset->setHeadLast(new \DateTime());
         $uploadedAsset->setAvailable(true);
+
         $this->uploadedAssetRepository->update($uploadedAsset);
 
         return $headIn;

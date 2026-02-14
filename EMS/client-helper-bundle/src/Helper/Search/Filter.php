@@ -393,8 +393,10 @@ final class Filter
     {
         $boolQuery = new BoolQuery();
         $boolQuery->setMinimumShouldMatch(1);
+
         $orMustNotExists = new BoolQuery();
         $orMustNotExists->addMustNot(new Exists($field));
+
         $boolQuery->addShould($query);
         $boolQuery->addShould($orMustNotExists);
 

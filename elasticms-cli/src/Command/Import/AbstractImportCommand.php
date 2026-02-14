@@ -104,6 +104,7 @@ abstract class AbstractImportCommand extends AbstractCommand
 
         $progressBar = $this->io->createProgressBar();
         $progressBar->start();
+
         $queue = $coreApi->queue($this->flushSize);
 
         foreach ($this->processInChunk($config, $records) as $docs) {
@@ -287,6 +288,7 @@ abstract class AbstractImportCommand extends AbstractCommand
     {
         $this->io->newLine(2);
         $this->io->section(\sprintf('%d documents have not been updated and will be deleted', \count($ouuids)));
+
         $progressBar = $this->io->createProgressBar(\count($ouuids));
         foreach ($ouuids as $ouuid) {
             $api->delete($ouuid);

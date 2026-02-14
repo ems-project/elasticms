@@ -36,6 +36,7 @@ final readonly class TaskEventSubscriber implements EventSubscriberInterface
     {
         $task = $event->task;
         $task->addLog(TaskLog::logCreate($task, $event->username));
+
         $this->taskManager->taskSave($task);
     }
 
@@ -48,6 +49,7 @@ final readonly class TaskEventSubscriber implements EventSubscriberInterface
         $changeSet = $event->changeSet;
         $task = $event->task;
         $task->addLog(TaskLog::logUpdate($task, $event->username, $changeSet));
+
         $this->taskManager->taskSave($task);
 
         if ($event->isTaskCurrent()) {
@@ -119,6 +121,7 @@ final readonly class TaskEventSubscriber implements EventSubscriberInterface
         $task->setStatus($status->value);
 
         $task->addLog(TaskLog::logStatusUpdate($event->task, $event->username, $event->comment));
+
         $this->taskManager->taskSave($task);
     }
 }

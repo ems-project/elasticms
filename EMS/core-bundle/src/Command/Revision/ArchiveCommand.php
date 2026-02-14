@@ -88,6 +88,7 @@ final class ArchiveCommand extends AbstractCommand
 
         $this->io->comment(\sprintf('Found %s hits', $search->getTotal()));
         $this->io->progressStart($search->getTotal());
+
         $counterNotModifiedBefore = 0;
         $counterSuccess = 0;
 

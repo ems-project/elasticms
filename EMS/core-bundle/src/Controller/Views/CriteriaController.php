@@ -1092,6 +1092,7 @@ class CriteriaController extends AbstractController
         $field = $this->fieldTypeRepository->find($request->query->get('targetField'));
         $choices = $field->getDisplayOptions()['choices'];
         $choices = \explode("\n", \str_replace("\r", '', (string) $choices));
+
         $labels = $field->getDisplayOptions()['labels'];
         $labels = \explode("\n", \str_replace("\r", '', (string) $labels));
 

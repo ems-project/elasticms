@@ -131,6 +131,7 @@ final class MediaLibrarySync
         $term = new Terms($this->options->pathField, [$path]);
         $search = new Search([$this->defaultAlias], $term->toArray());
         $search->setContentTypes([$this->options->contentType]);
+
         $result = $this->coreApi->search()->search($search);
         $document = null;
         foreach ($result->getDocuments() as $item) {
@@ -176,6 +177,7 @@ final class MediaLibrarySync
     {
         $mimeType = \mime_content_type($file->getRealPath());
         $mimeType = $mimeType ?: 'application/bin';
+
         $hash = '';
 
         $filename = $file->getFilename();

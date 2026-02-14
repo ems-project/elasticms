@@ -138,6 +138,7 @@ class RestoreCommand extends AbstractCommand
 
         $updateNames = \array_intersect($remoteNames, $localNames);
         $updateNames = $configHelper->needUpdate($updateNames);
+
         $deleteNames = \array_diff($remoteNames, $localNames);
         $addNames = \array_diff($localNames, $remoteNames);
 

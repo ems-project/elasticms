@@ -249,6 +249,7 @@ class RevisionRepository extends EntityRepository
     {
         $sqb = $this->getCompareQueryBuilder($source, $target, $contentTypes);
         $sqb->select('max(r.id)');
+
         $qb = $this->createQueryBuilder('rev');
         $qb->select('count(rev)');
         $qb->where($qb->expr()->in('rev.id', $sqb->getDQL()));

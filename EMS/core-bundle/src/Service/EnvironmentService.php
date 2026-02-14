@@ -394,6 +394,7 @@ class EnvironmentService implements EntityServiceInterface
         $position = $environment->getOrderKey();
         $this->environmentRepository->delete($environment);
         $this->environmentRepository->shiftOrderKeyFrom($position + 1, -1);
+
         $this->logger->notice('log.environment.deleted', [
             EmsFields::LOG_ENVIRONMENT_FIELD => $environment->getName(),
         ]);

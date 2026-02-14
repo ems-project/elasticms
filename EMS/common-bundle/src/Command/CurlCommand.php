@@ -99,6 +99,7 @@ class CurlCommand extends AbstractCommand
         $kernel = new HttpKernel($this->eventDispatcher, $this->controllerResolver);
         $request = Request::create($this->url, $this->method);
         $request->setSession($this->getSession());
+
         $this->requestStack->push($request);
         $handle = \fopen($this->filename, 'w');
         if (false === $handle) {

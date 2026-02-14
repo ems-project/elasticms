@@ -52,6 +52,7 @@ class EnvironmentController extends AbstractController
         ]);
 
         $form->handleRequest($request);
+
         $paging_size = $this->pagingSize;
 
         if ($form->isSubmitted() && $form->isValid()) {

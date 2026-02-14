@@ -73,6 +73,7 @@ class AuditManager
         }
         $audit->setHash(\hash_final($hashContext));
         $audit->setSize($size);
+
         $this->logger->notice(\sprintf('Size: %d', $size));
     }
 

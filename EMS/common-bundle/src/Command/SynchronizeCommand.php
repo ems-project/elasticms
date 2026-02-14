@@ -222,11 +222,14 @@ class SynchronizeCommand extends AbstractCommand
         $aggregation = new TermsAggregation(self::AGGREGATION_CONTENT_TYPE);
         $aggregation->setSize($this->aggsSize);
         $aggregation->setField($this->keywordField);
+
         $maxPublished = new Max(self::AGGREGATION_PUBLISHED);
         $maxPublished->setField(EMSSource::FIELD_PUBLICATION_DATETIME);
+
         $aggregation->addAggregation($maxPublished);
         $maxFinalized = new Max(self::AGGREGATION_FINALIZED);
         $maxFinalized->setField(EMSSource::FIELD_FINALIZATION_DATETIME);
+
         $aggregation->addAggregation($maxFinalized);
         $query = new Query(['query' => ['bool' => ['must' => []]]]);
         $query->setSize(0);
@@ -244,6 +247,7 @@ class SynchronizeCommand extends AbstractCommand
         $search = new Query\Terms($this->keywordField, [$contentType->getKey()]);
         $query = new Query($search);
         $query->setSize($this->bulkSize);
+
         $documents = $this->sourceClient->search($query, $this->keepAlive);
         $this->io->progressStart($documents->getTotal());
         $status = [];
@@ -308,6 +312,7 @@ class SynchronizeCommand extends AbstractCommand
         $query = new Query($search);
         $query->setSource(false);
         $query->setSize($this->bulkSize);
+
         $documents = $this->targetClient->search($query, $this->keepAlive);
         if ($documents->getTotal() <= \count($butIds)) {
             $this->sourceClient->closeScroll($documents->getScrollId());

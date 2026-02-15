@@ -126,12 +126,12 @@ class PropertyAccessor
         if (null === $atLeast) {
             $atLeast = \count($attributeNames);
         }
-        if (0 === \count($attributeNames)) {
-            throw new \RuntimeException('At least one attribute\'s name is required');
+        if ([] === $attributeNames) {
+            throw new \RuntimeException("At least one attribute's name is required");
         } elseif ($atLeast < 1) {
             throw new \RuntimeException('The atLeast parameter must bigger than 0');
         } elseif ($atLeast > \count($attributeNames)) {
-            throw new \RuntimeException('The atLeast can\'t be bigger than the number of looking attributes');
+            throw new \RuntimeException("The atLeast can't be bigger than the number of looking attributes");
         }
         yield from $this->returnFieldsWithAttributes($rawData, $attributeNames, $atLeast);
     }

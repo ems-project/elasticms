@@ -278,8 +278,8 @@ class Xliff12Reader implements ReaderInterface
         $equivalentOpeningText = null;
         $equivalentClosingText = null;
         if ('' !== $legacyAttributes) {
-            $equivalentOpeningText = "<$type$legacyAttributes>";
-            $equivalentClosingText = "</$type>";
+            $equivalentOpeningText = \sprintf('<%s%s>', $type, $legacyAttributes);
+            $equivalentClosingText = \sprintf('</%s>', $type);
         }
         $group = new Group(
             id: $child->getAttribute('id'),
@@ -330,7 +330,7 @@ class Xliff12Reader implements ReaderInterface
             endId: $child->getAttribute('id'),
             resourceName: $tag,
             equivalentOpeningText: $rawHtml,
-            equivalentClosingText: "</$tag>",
+            equivalentClosingText: \sprintf('</%s>', $tag),
         );
     }
 

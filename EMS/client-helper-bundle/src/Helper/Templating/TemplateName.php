@@ -58,7 +58,7 @@ final readonly class TemplateName
     private function match(string $name): array
     {
         if (!\str_starts_with($name, '@')) {
-            $name = "@EMSCH/$name";
+            $name = '@EMSCH/'.$name;
         }
         \preg_match(self::REGEX_MATCH_OUUID, $name, $matchOuuid);
 

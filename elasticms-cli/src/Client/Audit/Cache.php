@@ -221,7 +221,7 @@ class Cache
     private function currentPos(): int
     {
         $keys = \array_keys($this->urls);
-        $position = \array_search($this->current, $keys);
+        $position = \array_search($this->current, $keys, true);
 
         return $position ?: 0;
     }

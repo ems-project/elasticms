@@ -46,7 +46,7 @@ class DockerRemote implements RunnerInterface
 
         $response = $this->httpClient->post('containers/create', [
             'json' => [
-                'Image' => "$this->image:$imageTag",
+                'Image' => \sprintf('%s:%s', $this->image, $imageTag),
                 'Cmd' => $command,
                 'Env' => $this->env,
                 'Tty' => true,
@@ -57,14 +57,14 @@ class DockerRemote implements RunnerInterface
         if (null === $id) {
             throw new \RuntimeException('No Docker Remote Id found');
         }
-        $this->httpClient->post("/containers/$id/start");
+        $this->httpClient->post(\sprintf('/containers/%s/start', $id));
 
         return $id;
     }
 
     public function status(string $id): RunnerStatus
     {
-        $response = $this->httpClient->get("containers/$id/json");
+        $response = $this->httpClient->get(\sprintf('containers/%s/json', $id));
         $data = Json::decode($response->getBody()->getContents());
         $status = $data['State']['Status'];
 
@@ -79,7 +79,7 @@ class DockerRemote implements RunnerInterface
 
     public function output(string $id): string
     {
-        $response = $this->httpClient->get("containers/$id/logs", [
+        $response = $this->httpClient->get(\sprintf('containers/%s/logs', $id), [
             'query' => [
                 'stdout' => 'true',
                 'stderr' => 'false',

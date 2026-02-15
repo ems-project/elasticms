@@ -30,7 +30,7 @@ class ElasticsearchController
         $query = $request->query->all();
 
         if (null !== $index && !\preg_match('/^(?![_-])[a-z0-9_-]{1,255}$/', (string) $index)) {
-            throw new \InvalidArgumentException("Invalid index name: $index");
+            throw new \InvalidArgumentException('Invalid index name: '.$index);
         }
 
         return $this->request($index.$path, 'GET', $data, $query);

@@ -26,7 +26,7 @@ use Symfony\Component\Mime\Part\Multipart\FormDataPart;
 
 #[AsCommand(
     name: Commands::SUBMISSION_FORWARD,
-    description: 'Forward a form submission form the admin to a form\'s url.',
+    description: "Forward a form submission form the admin to a form's url.",
     hidden: false
 )]
 class ForwardCommand extends AbstractCommand
@@ -48,7 +48,7 @@ class ForwardCommand extends AbstractCommand
             ->addArgument(
                 self::ARG_FORM_UUID_FROM,
                 InputArgument::REQUIRED,
-                'Source form\'s UUID'
+                "Source form's UUID"
             )->addArgument(
                 self::ARG_FORM_URL_TO,
                 InputArgument::REQUIRED,
@@ -78,6 +78,7 @@ class ForwardCommand extends AbstractCommand
 
         $data = $submission['data'] ?? [];
         $data = \array_filter($data, fn ($field) => !\is_array($field) || [] !== $field);
+
         $locale = Type::string($submission['locale']);
         $client = new CurlHttpClient();
         $request = $client->request('POST', $this->toUrl->getUrl($locale), [

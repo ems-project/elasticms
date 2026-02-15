@@ -420,7 +420,7 @@ class ConfigManager
 
         $this->expressionLanguage->register(
             'uuid',
-            fn () => '(\\Ramsey\\Uuid\\Uuid::uuid4()->toString())',
+            fn () => '('.Uuid::class.'::uuid4()->toString())',
             fn ($arguments) => Uuid::uuid4()->toString()
         );
 

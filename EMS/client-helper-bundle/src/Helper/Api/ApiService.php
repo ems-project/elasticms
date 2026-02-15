@@ -47,15 +47,15 @@ final readonly class ApiService
             $ouuid ??= Uuid::uuid4()->toString();
 
             return $dataEndpoint->index($ouuid, $rawData, $merge, true)->getOuuid();
-        } catch (NotSuccessfulException $e) {
-            $data = $e->result->getData();
+        } catch (NotSuccessfulException $notSuccessfulException) {
+            $data = $notSuccessfulException->result->getData();
             $revisionId = $data['revision_id'] ?? null;
 
             if ($revisionId) {
                 $dataEndpoint->discard($revisionId);
             }
 
-            throw new \RuntimeException($e->result->getFirstErrorWarning() ?? 'Finalize failed', $e->getCode(), $e);
+            throw new \RuntimeException($notSuccessfulException->result->getFirstErrorWarning() ?? 'Finalize failed', $notSuccessfulException->getCode(), $notSuccessfulException);
         }
     }
 

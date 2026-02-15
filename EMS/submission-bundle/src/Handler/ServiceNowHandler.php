@@ -46,8 +46,8 @@ final class ServiceNowHandler extends AbstractHandler
             }
 
             return $serviceNowResponse;
-        } catch (\Throwable $exception) {
-            return new FailedHandleResponse($exception);
+        } catch (\Throwable $throwable) {
+            return new FailedHandleResponse($throwable);
         }
     }
 

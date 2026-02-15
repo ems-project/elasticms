@@ -136,12 +136,12 @@ class TextExtension
     {
         try {
             return \preg_replace($pattern, $replacement, $text);
-        } catch (\Throwable $e) {
+        } catch (\Throwable $throwable) {
             $this->logger->warning('EMS replace regex failed', [
                 'text' => $text,
                 'pattern' => $pattern,
                 'replacement' => $replacement,
-                'exception' => $e,
+                'exception' => $throwable,
             ]);
 
             return $text;

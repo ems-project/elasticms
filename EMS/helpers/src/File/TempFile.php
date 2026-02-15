@@ -39,13 +39,13 @@ class TempFile
     public function loadFromStream(StreamInterface $stream, ?callable $callback = null): self
     {
         if (!$handle = \fopen($this->path, 'w')) {
-            throw new \RuntimeException(\sprintf('Can\'t open a temporary file %s', $this->path));
+            throw new \RuntimeException(\sprintf("Can't open a temporary file %s", $this->path));
         }
 
         while (!$stream->eof()) {
             $size = \fwrite($handle, $stream->read(File::DEFAULT_CHUNK_SIZE));
             if (false === $size) {
-                throw new \RuntimeException(\sprintf('Can\'t write in temporary file %s', $this->path));
+                throw new \RuntimeException(\sprintf("Can't write in temporary file %s", $this->path));
             }
             if (null !== $callback) {
                 $callback($size);
@@ -53,7 +53,7 @@ class TempFile
         }
 
         if (false === \fclose($handle)) {
-            throw new \RuntimeException(\sprintf('Can\'t close the temporary file %s', $this->path));
+            throw new \RuntimeException(\sprintf("Can't close the temporary file %s", $this->path));
         }
 
         return $this;

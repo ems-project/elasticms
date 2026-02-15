@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Tests\Unit\Helper;
 
+use EMS\CommonBundle\Helper\EmsFields;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
@@ -12,7 +13,7 @@ class EmsFieldsAiTest extends TestCase
     #[DataProvider('constantsProvider')]
     public function testConstants($constantName, $expectedValue): void
     {
-        $this->assertEquals($expectedValue, \constant("EMS\CommonBundle\Helper\EmsFields::$constantName"));
+        $this->assertEquals($expectedValue, EmsFields::{$constantName});
     }
 
     public static function constantsProvider(): array

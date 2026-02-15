@@ -46,8 +46,8 @@ final class EmailHandler extends AbstractHandler
             $this->addAttachments($emailRequest, $message);
 
             $this->mailer->send($message);
-        } catch (\Throwable $exception) {
-            return new FailedHandleResponse($exception);
+        } catch (\Throwable $throwable) {
+            return new FailedHandleResponse($throwable);
         }
 
         return new EmailHandleResponse($message);

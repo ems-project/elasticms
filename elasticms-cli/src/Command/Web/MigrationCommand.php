@@ -69,7 +69,7 @@ class MigrationCommand extends AbstractCommand
             )
             ->addArgument(self::ARG_OUUID, InputArgument::OPTIONAL, 'ouuid')
             ->addOption(self::OPTION_FORCE, null, InputOption::VALUE_NONE, 'force update all documents')
-            ->addOption(self::OPTION_DRY_RUN, null, InputOption::VALUE_NONE, 'don\'t update elasticms')
+            ->addOption(self::OPTION_DRY_RUN, null, InputOption::VALUE_NONE, "don't update elasticms")
             ->addOption(self::OPTION_DUMP, null, InputOption::VALUE_NONE, 'dump computed arrays')
             ->addOption(self::OPTION_RAPPORTS_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Path to a folder where rapports stored', \getcwd())
             ->addOption(self::OPTION_CACHE_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Path to a folder where cache will stored', \implode(DIRECTORY_SEPARATOR, [\getcwd(), 'cache']))
@@ -107,6 +107,7 @@ class MigrationCommand extends AbstractCommand
         $this->io->title('Starting updating elasticms');
 
         $this->io->section('Load config');
+
         $cacheManager = new CacheManager($this->cacheFolder);
         $configManager = $this->loadConfigManager($cacheManager);
         $rapport = new Rapport($cacheManager, $this->rapportsFolder);
@@ -135,6 +136,7 @@ class MigrationCommand extends AbstractCommand
         $this->io->section('Start updates');
         $this->io->progressStart($extractor->extractDataCount());
         $this->io->progressAdvance($extractor->currentStep());
+
         $counter = 0;
         $finish = true;
         foreach ($extractor->extractData($rapport, $this->ouuid) as $extractedData) {
@@ -154,6 +156,7 @@ class MigrationCommand extends AbstractCommand
         $this->io->writeln('');
 
         $this->io->section('Save config');
+
         $configManager->save($this->jsonPath, $finish);
         $rapport->save();
 

@@ -83,8 +83,8 @@ class AssetExtension
 
         try {
             $hashConfig = $this->storageManager->saveConfig($config);
-        } catch (NotSavedException $e) {
-            $hashConfig = $e->getHash();
+        } catch (NotSavedException $notSavedException) {
+            $hashConfig = $notSavedException->getHash();
         }
         if (!($config[EmsFields::ASSET_CONFIG_GET_FILE_PATH] ?? false)) {
             $basename = new Encoder()->slug(text: \basename($filename), preserveFileExtension: true);
@@ -116,9 +116,9 @@ class AssetExtension
             $streamWrapper = $this->storageManager->getStreamFromArchive($hash, $path, $extract);
             $tempFile = TempFile::create();
             $tempFile->loadFromStream($streamWrapper->getStream());
-        } catch (NotFoundHttpException $e) {
+        } catch (NotFoundHttpException $notFoundHttpException) {
             if ($extract) {
-                throw $e;
+                throw $notFoundHttpException;
             }
 
             return null;

@@ -35,7 +35,7 @@ class UpdateCommand extends AbstractCommand
     }
 
     #[\Override]
-    public function initialize(InputInterface $input, OutputInterface $output): void
+    protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
         $this->adminHelper->setLogger(new ConsoleLogger($output));
@@ -53,7 +53,7 @@ class UpdateCommand extends AbstractCommand
     protected function configure(): void
     {
         parent::configure();
-        $this->addArgument(self::CONTENT_TYPE, InputArgument::REQUIRED, 'Content-type\'s name to update');
+        $this->addArgument(self::CONTENT_TYPE, InputArgument::REQUIRED, "Content-type's name to update");
         $this->addOption(self::FOLDER, null, InputOption::VALUE_OPTIONAL, 'Folder to scan for JSON files');
         $this->addOption(self::DUMP_FILE, null, InputOption::VALUE_OPTIONAL, 'Will upload the specified elasticdump file instead of the JSON files in the folder');
         $this->addOption(self::ONLY_MISSING, null, InputOption::VALUE_NONE, 'Only create missing documents');
@@ -65,7 +65,7 @@ class UpdateCommand extends AbstractCommand
         $coreApi = $this->adminHelper->getCoreApi();
         $dataApi = $coreApi->data($this->contentType);
         $this->io->title('Document - update');
-        $this->io->section(\sprintf('Updating %s\'s documents from %s', $this->contentType, $coreApi->getBaseUrl()));
+        $this->io->section(\sprintf("Updating %s's documents from %s", $this->contentType, $coreApi->getBaseUrl()));
 
         if (!$coreApi->isAuthenticated()) {
             $this->io->error(\sprintf('Not authenticated for %s, run emsch:local:login', $coreApi->getBaseUrl()));

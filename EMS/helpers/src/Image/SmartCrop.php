@@ -106,8 +106,11 @@ class SmartCrop
     public function analyse(): array
     {
         $result = [];
-        $w = $this->w = \imagesx($this->image);
-        $h = $this->h = \imagesy($this->image);
+        $w = \imagesx($this->image);
+        $this->w = $w;
+
+        $h = \imagesy($this->image);
+        $this->h = $h;
 
         $this->od = new \SplFixedArray($h * $w * 3);
         $this->aSample = new \SplFixedArray($h * $w);
@@ -364,6 +367,7 @@ class SmartCrop
     {
         $mag = \sqrt($r * $r + $g * $g + $b * $b);
         $mag = $mag > 0 ? $mag : 1;
+
         $rd = ($r / $mag - $this->skinColor[0]);
         $gd = ($g / $mag - $this->skinColor[1]);
         $bd = ($b / $mag - $this->skinColor[2]);

@@ -63,7 +63,7 @@ class Search
 
     public function hasSources(): bool
     {
-        return \count($this->sourceIncludes) > 0 || \count($this->sourceExcludes) > 0;
+        return [] !== $this->sourceIncludes || [] !== $this->sourceExcludes;
     }
 
     /**
@@ -71,7 +71,7 @@ class Search
      */
     public function getSources(): array
     {
-        if (\count($this->sourceExcludes) > 0) {
+        if ([] !== $this->sourceExcludes) {
             return \array_filter([
                 'includes' => \array_values(\array_unique(\array_merge($this->sourceIncludes, EMSSource::REQUIRED_FIELDS))),
                 'excludes' => $this->sourceExcludes,
@@ -122,7 +122,7 @@ class Search
      */
     public function setSources(array $sources): void
     {
-        if (0 === \count($sources)) {
+        if ([] === $sources) {
             $this->sourceIncludes = [];
 
             return;

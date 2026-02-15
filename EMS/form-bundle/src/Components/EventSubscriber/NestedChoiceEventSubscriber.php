@@ -102,7 +102,7 @@ class NestedChoiceEventSubscriber implements EventSubscriberInterface
             return;
         }
 
-        if (0 === \count($this->choices->list())) {
+        if ([] === $this->choices->list()) {
             return;
         }
 

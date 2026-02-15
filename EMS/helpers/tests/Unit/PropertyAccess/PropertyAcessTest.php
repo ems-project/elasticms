@@ -88,7 +88,7 @@ class PropertyAcessTest extends TestCase
             'de',
         ];
         foreach ($accessor->iterator('[nl|fr|de|en]', $array) as $path => $value) {
-            $this->assertEquals("[$expected[$counter]]", $path);
+            $this->assertEquals(\sprintf('[%s]', $expected[$counter]), $path);
             $this->assertEquals($array[$expected[$counter]], $value);
             ++$counter;
         }

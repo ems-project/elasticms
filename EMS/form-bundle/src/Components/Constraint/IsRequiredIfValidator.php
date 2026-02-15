@@ -43,9 +43,9 @@ class IsRequiredIfValidator extends ConstraintValidator
             $result = $expressionLanguage->evaluate($expression, $values);
 
             return \is_bool($result) && $result;
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             $this->logger->error('Required if failed: {message}', [
-                'message' => $e->getMessage(),
+                'message' => $exception->getMessage(),
                 'values' => $values,
             ]);
 

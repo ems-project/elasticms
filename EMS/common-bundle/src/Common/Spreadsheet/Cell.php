@@ -25,7 +25,7 @@ readonly class Cell
 
     public function hasStyle(): bool
     {
-        return \count($this->style) > 0;
+        return [] !== $this->style;
     }
 
     public function isType(string $type): bool

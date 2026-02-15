@@ -36,7 +36,7 @@ class StartCommand extends AbstractCommand
     protected function configure(): void
     {
         $this
-            ->addArgument(self::ARGUMENT_TAG, InputArgument::REQUIRED, 'Runner\'s tag')
+            ->addArgument(self::ARGUMENT_TAG, InputArgument::REQUIRED, "Runner's tag")
             ->addArgument(self::ARGUMENT_COMMAND, InputArgument::IS_ARRAY, 'Command to run')
         ;
     }

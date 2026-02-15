@@ -75,7 +75,7 @@ class MultiFileFieldToArchive extends AbstractCommand
                 self::OPTION_LAST_UPDATE_DATETIME,
                 '',
                 InputOption::VALUE_OPTIONAL,
-                'Last update datetime of the archive\'s files',
+                "Last update datetime of the archive's files",
                 self::DEFAULT_LAST_UPDATE_DATETIME
             );
     }

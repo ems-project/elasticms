@@ -7,6 +7,8 @@ use Rector\CodeQuality\Rector\BooleanAnd\RepeatedAndNotEqualToNotInArrayRector;
 use Rector\CodeQuality\Rector\BooleanOr\RepeatedOrEqualToInArrayRector;
 use Rector\CodeQuality\Rector\FuncCall\SimplifyRegexPatternRector;
 use Rector\CodeQuality\Rector\Identical\FlipTypeControlToUseExclusiveTypeRector;
+use Rector\CodingStyle\Rector\ClassLike\NewlineBetweenClassLikeStmtsRector;
+use Rector\CodingStyle\Rector\Stmt\NewlineAfterStatementRector;
 use Rector\Config\RectorConfig;
 use Rector\DeadCode\Rector\ClassMethod\RemoveUselessParamTagRector;
 use Rector\DeadCode\Rector\ClassMethod\RemoveUselessReturnTagRector;
@@ -37,6 +39,7 @@ return RectorConfig::configure()
     ->withPreparedSets(
         deadCode: true,
         codeQuality: true,
+        codingStyle: true
     )
     ->withSets([
         SymfonySetList::SYMFONY_CODE_QUALITY,
@@ -47,6 +50,7 @@ return RectorConfig::configure()
         __DIR__ . '/../*/config/bundles.php',
         __DIR__ . '/../*/public/*',
         __DIR__ . '/../*/var/*',
+        __DIR__ . '/../*/migrations/*',
         __DIR__ . '/../EMS/*/assets/*',
         __DIR__ . '/../EMS/*/migrations/*',
         __DIR__ . '/../EMS/*/public/*',
@@ -54,6 +58,8 @@ return RectorConfig::configure()
         // Rectors
         DisallowedEmptyRuleFixerRector::class,
         FlipTypeControlToUseExclusiveTypeRector::class,
+        NewlineAfterStatementRector::class,
+        NewlineBetweenClassLikeStmtsRector::class,
         ReadOnlyPropertyRector::class => [
             __DIR__ . '/../EMS/common-bundle/src/Entity',
             __DIR__ . '/../EMS/core-bundle/src/Entity',

@@ -82,7 +82,7 @@ final readonly class DocumentUpdater
             $rawData[$updateMap->field] = $updateValue;
         }
 
-        if (0 === \count($rawData)) {
+        if ([] === $rawData) {
             throw new \RuntimeException('No update found!');
         }
 

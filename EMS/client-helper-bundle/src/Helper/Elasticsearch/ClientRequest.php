@@ -160,6 +160,7 @@ final class ClientRequest implements ClientRequestInterface
 
         $query = $this->elasticaService->getTermsQuery('_id', $ouuids);
         $query = $this->elasticaService->filterByContentTypes($query, [$type]);
+
         $search = new Search([$this->getAlias()], $query);
         $search->setContentTypes([$type]);
         $search->setSize(\count($ouuids));
@@ -174,9 +175,11 @@ final class ClientRequest implements ClientRequestInterface
     {
         $search = new Search([$this->getAlias()]);
         $search->setSize(0);
+
         $terms = new Terms(EMSSource::FIELD_CONTENT_TYPE);
         $terms->setField(EMSSource::FIELD_CONTENT_TYPE);
         $terms->setSize(self::CONTENT_TYPE_LIMIT);
+
         $search->addAggregation($terms);
         $resultSet = $this->elasticaService->search($search);
         $aggregation = $resultSet->getAggregation(EMSSource::FIELD_CONTENT_TYPE);
@@ -430,6 +433,7 @@ final class ClientRequest implements ClientRequestInterface
         $search = $this->elasticaService->convertElasticsearchSearch($arguments);
         $search->setContentTypes($types);
         $search->setRegex($regex);
+
         $resultSet = $this->elasticaService->search($search);
 
         return $resultSet->getResponse()->getData();

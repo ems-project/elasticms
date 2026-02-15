@@ -65,8 +65,8 @@ class ApplePhotosLibrary implements PhotosLibraryInterface
         $zuuid = \strtoupper($photo->getOuuid());
         $firstChar = \substr($zuuid, 0, 1);
         $finder = new Finder();
-        $finder->name("$zuuid*");
-        foreach ($finder->in("$this->libraryPath/resources/derivatives/$firstChar") as $file) {
+        $finder->name($zuuid.'*');
+        foreach ($finder->in(\sprintf('%s/resources/derivatives/%s', $this->libraryPath, $firstChar)) as $file) {
             return $file;
         }
 
@@ -79,8 +79,8 @@ class ApplePhotosLibrary implements PhotosLibraryInterface
         $zuuid = \strtoupper($photo->getOuuid());
         $firstChar = \substr($zuuid, 0, 1);
         $finder = new Finder();
-        $finder->name("$zuuid*");
-        foreach ($finder->in("$this->libraryPath/originals/$firstChar") as $file) {
+        $finder->name($zuuid.'*');
+        foreach ($finder->in(\sprintf('%s/originals/%s', $this->libraryPath, $firstChar)) as $file) {
             return $file;
         }
 
@@ -92,7 +92,7 @@ class ApplePhotosLibrary implements PhotosLibraryInterface
      */
     private function getAlbums(int $assetId): array
     {
-        $results = $this->photosDatabase->query("SELECT * FROM Z_28ASSETS, ZGENERICALBUM WHERE Z_3ASSETS = $assetId AND Z_PK = Z_28ALBUMS");
+        $results = $this->photosDatabase->query(\sprintf('SELECT * FROM Z_28ASSETS, ZGENERICALBUM WHERE Z_3ASSETS = %d AND Z_PK = Z_28ALBUMS', $assetId));
         if (false === $results) {
             throw new \RuntimeException('Unexpected false result');
         }
@@ -116,7 +116,7 @@ class ApplePhotosLibrary implements PhotosLibraryInterface
     {
         $date = \DateTimeImmutable::createFromFormat('U.u', \sprintf('%F', $cocoaDate + 978_307_200));
         if (false === $date) {
-            throw new \RuntimeException("Unexpected false result: $cocoaDate");
+            throw new \RuntimeException('Unexpected false result: '.$cocoaDate);
         }
 
         return $date;

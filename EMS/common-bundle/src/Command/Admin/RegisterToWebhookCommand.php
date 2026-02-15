@@ -59,6 +59,7 @@ class RegisterToWebhookCommand extends AbstractCommand
         $subscription = $this->adminHelper->getCoreApi()->admin()->registerToWebhooks($this->endpoint, $this->events);
         $secret = $this->cacheManager->getItem(\sprintf('webhook_secret_%s', $subscription['id']));
         $secret->set($subscription['secret']);
+
         $this->cacheManager->save($secret);
         $output->writeln(\sprintf('Subscription ID: %s, ', $subscription['id']));
         if ($this->io->isQuiet()) {

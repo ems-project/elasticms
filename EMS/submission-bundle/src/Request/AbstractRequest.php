@@ -20,8 +20,8 @@ abstract class AbstractRequest
     {
         try {
             return $this->getEndpointOptionResolver()->resolve($endpoint);
-        } catch (ExceptionInterface $e) {
-            throw new \RuntimeException(\sprintf('Invalid endpoint configuration: %s', $e->getMessage()), $e->getCode(), $e);
+        } catch (ExceptionInterface $exception) {
+            throw new \RuntimeException(\sprintf('Invalid endpoint configuration: %s', $exception->getMessage()), $exception->getCode(), $exception);
         }
     }
 

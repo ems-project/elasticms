@@ -318,6 +318,7 @@ abstract class AbstractCommand extends Command implements CommandInterface
         $process = new Process($processCommand);
         $process->setTimeout(null);
         $process->setIdleTimeout(null);
+
         $this->io->write(\implode(' ', [$command, ...$args]).': ');
 
         $this->processHelper->run($this->output, $process, 'Something went wrong!', function () {

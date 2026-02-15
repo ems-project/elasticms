@@ -26,6 +26,7 @@ class InserterTest extends TestCase
         $body->appendChild($link);
         $body->appendChild(new \DOMText(' '));
         $body->appendChild($supp);
+
         $link->setAttribute('href', '%{BASE_URL_CURRENT}%/instructions/persons/specific/childsitter.html');
 
         $formated = HtmlHelper::prettyPrint(HtmlHelper::stripZeroWidthCharacters($document->saveXML($body)));

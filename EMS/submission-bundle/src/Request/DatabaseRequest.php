@@ -108,8 +108,8 @@ final readonly class DatabaseRequest
             $resolvedDatabaseRecord['files'] = \array_map($fileResolver->resolve(...), $resolvedDatabaseRecord['files']);
 
             return $resolvedDatabaseRecord;
-        } catch (ExceptionInterface $e) {
-            throw new \RuntimeException(\sprintf('Invalid database record: %s', $e->getMessage()), $e->getCode(), $e);
+        } catch (ExceptionInterface $exception) {
+            throw new \RuntimeException(\sprintf('Invalid database record: %s', $exception->getMessage()), $exception->getCode(), $exception);
         }
     }
 }

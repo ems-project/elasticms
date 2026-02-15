@@ -63,10 +63,10 @@ class CoreApiAuthenticator extends AbstractAuthenticator
 
         try {
             $this->coreApi->authenticate($credentials->giveUsername(), $credentials->givePassword());
-        } catch (\Throwable $e) {
-            $key = $e instanceof NotAuthenticatedExceptionInterface ? 'emsch.security.exception.bad_credentials' : 'emsch.security.exception.error';
-            $this->logger->error($e->getMessage(), ['trace' => $e->getTraceAsString(), 'code' => $e->getCode()]);
-            throw new AuthenticationException($key, 0, $e);
+        } catch (\Throwable $throwable) {
+            $key = $throwable instanceof NotAuthenticatedExceptionInterface ? 'emsch.security.exception.bad_credentials' : 'emsch.security.exception.error';
+            $this->logger->error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString(), 'code' => $throwable->getCode()]);
+            throw new AuthenticationException($key, 0, $throwable);
         }
 
         return new SelfValidatingPassport(

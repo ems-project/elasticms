@@ -68,7 +68,7 @@ final class EndpointManager implements EndpointManagerInterface, RuntimeExtensio
      */
     private function loadEndpoints(): array
     {
-        if (\count($this->endpoints) > 0) {
+        if ([] !== $this->endpoints) {
             return $this->endpoints;
         }
 

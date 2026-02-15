@@ -1,8 +1,7 @@
-fastcgi_pass unix:/app/var/run/php-fpm/php-fpm.sock;
+fastcgi_pass unix:/app/var/run/php-fpm/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.php-fpm.sock;
 fastcgi_split_path_info ^(.+\.php)(/.*)$;
 
 include fastcgi_params;
-include conf.d/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.fastcgi_params;
 
 fastcgi_param SCRIPT_NAME {{ $.Env.SYMFONY_SCRIPT_NAME_NGINX_VARIABLE_NAME }};
 fastcgi_param SCRIPT_FILENAME {{ $.Env.NGINX_PUBLIC_DIR }}/index.php;

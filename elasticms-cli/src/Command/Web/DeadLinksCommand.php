@@ -139,7 +139,7 @@ class DeadLinksCommand extends AbstractCommand
         try {
             $scheme = new Url($referer)->getScheme();
         } catch (\Throwable) {
-            $scheme = str_starts_with($referer, 'ems://') ? 'ems' : '';
+            $scheme = \str_starts_with($referer, 'ems://') ? 'ems' : '';
         }
         $status = (int) ($page['status_code'] ?? 0);
         if ($status < 200 || $status > 299) {

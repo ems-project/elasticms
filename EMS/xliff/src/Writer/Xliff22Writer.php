@@ -55,7 +55,7 @@ class Xliff22Writer implements WriterInterface
                     $this->addUnit($file, $node);
                     break;
                 case UnitGroup::class:
-                    $this->addUnitGroup($file, $node);
+                    $this->addUnitGroup();
                     break;
                 default:
                     throw new \LogicException('Unsupported document node');
@@ -63,7 +63,7 @@ class Xliff22Writer implements WriterInterface
         }
     }
 
-    private function addUnitGroup(\DOMElement $file, UnitGroup $unit): void
+    private function addUnitGroup(): void
     {
     }
 

@@ -23,9 +23,8 @@ class Converter
 
         $clean = (string) \preg_replace("/[^a-zA-Z0-9\_\|\ \-\.]/", '', $clean);
         $clean = \strtolower(\trim($clean, '-'));
-        $clean = (string) \preg_replace("/[\/\_\|\ \-]+/", '-', $clean);
 
-        return $clean;
+        return (string) \preg_replace("/[\/\_\|\ \-]+/", '-', $clean);
     }
 
     public static function formatBytes(int $bytes, int $precision = 2): string

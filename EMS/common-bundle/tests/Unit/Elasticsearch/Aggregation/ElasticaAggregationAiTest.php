@@ -26,9 +26,7 @@ final class ElasticaAggregationAiTest extends TestCase
             ],
         ];
 
-        if ('reverse_nested' === $basename) {
-            $expectedArray[$name][$basename] = (object) $params;
-        }
+        $expectedArray[$name][$basename] = (object) $params;
 
         $this->assertEquals($expectedArray[$name], $aggregation->toArray());
     }

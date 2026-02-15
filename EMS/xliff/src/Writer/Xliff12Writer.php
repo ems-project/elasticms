@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace EMS\Xliff\Writer;
 
 use EMS\Helpers\Standard\Type;
-use EMS\Xliff\Html\HtmlExtractor;
-use EMS\Xliff\Id\SequentialIdGenerator;
 use EMS\Xliff\Model\Document;
 use EMS\Xliff\Model\DocumentNodeInterface;
 use EMS\Xliff\Model\Inline\Group;
@@ -44,7 +42,6 @@ class Xliff12Writer implements WriterInterface
 
     public function __construct(private readonly Options $options)
     {
-        $extractor = new HtmlExtractor(new SequentialIdGenerator());
     }
 
     public function supportsVersion(string $version): bool

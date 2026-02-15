@@ -72,7 +72,6 @@ final class PdfHandlerTest extends AbstractHandlerTestCase
         $message = \file_get_contents(__DIR__.'/../fixtures/pdf/pdf.html');
         $form = $this->createForm();
 
-        /** @var PdfHandleResponse $response */
         $pdfResponse = $this->handle($form, '{ "filename": "test.pdf" }', $message);
 
         /** @var EmailHandler $emailHandler */

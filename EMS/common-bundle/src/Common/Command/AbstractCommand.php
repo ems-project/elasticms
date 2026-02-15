@@ -25,11 +25,6 @@ abstract class AbstractCommand extends Command implements CommandInterface
     protected OutputInterface $output;
     protected ProcessHelper $processHelper;
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     #[\Override]
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {

@@ -171,7 +171,7 @@ final class Environment
 
     public function isLocalPulled(): bool
     {
-        return null !== $this->local ? $this->local->isPulled() : false;
+        return null !== $this->local && $this->local->isPulled();
     }
 
     public function getLocal(): LocalEnvironment

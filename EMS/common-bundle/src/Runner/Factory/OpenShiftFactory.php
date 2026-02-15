@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Runner\Factory;
 
-use EMS\CommonBundle\Common\Composer\ComposerInfo;
 use EMS\CommonBundle\Runner\Service\OpenShift;
 use EMS\CommonBundle\Runner\Service\RunnerInterface;
-use Psr\Log\LoggerInterface;
 
 class OpenShiftFactory extends AbstractFactory
 {
@@ -24,11 +22,6 @@ class OpenShiftFactory extends AbstractFactory
     final public const string RUNNER_OPENSHIFT_LABELS = 'labels';
     final public const string RUNNER_OPENSHIFT_ENV = 'env';
     final public const string RUNNER_OPENSHIFT_VERIFY_SSL = 'verify-ssl';
-
-    public function __construct(LoggerInterface $logger, ComposerInfo $composerInfo)
-    {
-        parent::__construct($logger, $composerInfo);
-    }
 
     public function getRunnerType(): string
     {

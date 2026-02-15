@@ -25,7 +25,6 @@ class StoreDataEntityServiceAiTest extends TestCase
     public function testSave(): void
     {
         $dataHelper = new StoreDataHelper('key', ['data' => 'value']);
-        $entity = new StoreData();
 
         $this->repository->expects($this->once())
             ->method('getByKey')

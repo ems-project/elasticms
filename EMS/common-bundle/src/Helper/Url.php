@@ -83,13 +83,13 @@ class Url
         }
         $this->host = (string) $host;
 
-        $this->user = $parsed['user'] ?? (isset($relativeParsed['user']) ? (string) $relativeParsed['user'] : null);
-        $this->password = $parsed['pass'] ?? (isset($relativeParsed['pass']) ? (string) $relativeParsed['pass'] : null);
-        $this->port = $parsed['port'] ?? (isset($relativeParsed['port']) ? (int) $relativeParsed['port'] : null);
+        $this->user = $parsed['user'] ?? ($relativeParsed['user'] ?? null);
+        $this->password = $parsed['pass'] ?? ($relativeParsed['pass'] ?? null);
+        $this->port = $parsed['port'] ?? ($relativeParsed['port'] ?? null);
         $this->query = $parsed['query'] ?? null;
         $this->fragment = $parsed['fragment'] ?? null;
 
-        $relativeTo = isset($relativeParsed['path']) ? (string) $relativeParsed['path'] : '/';
+        $relativeTo = $relativeParsed['path'] ?? '/';
         $this->path = $this->getAbsolutePath($parsed['path'] ?? '/', $relativeTo);
     }
 
@@ -150,7 +150,7 @@ class Url
             new ObjectNormalizer(null, null, null, $propertyTypeExtractor),
         ], [
             new XmlEncoder(),
-            new JsonEncoder(new JsonEncode([JsonEncode::OPTIONS => JSON_UNESCAPED_SLASHES]), null),
+            new JsonEncoder(new JsonEncode([JsonEncode::OPTIONS => JSON_UNESCAPED_SLASHES])),
         ]);
     }
 
@@ -266,7 +266,7 @@ class Url
     {
         $enc_url = \preg_replace_callback(
             '%[^:/@?&=#]+%usD',
-            fn ($matches) => \urlencode((string) $matches[0]),
+            fn ($matches) => \urlencode($matches[0]),
             $url
         );
 

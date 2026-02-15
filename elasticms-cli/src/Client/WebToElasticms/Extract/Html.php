@@ -100,7 +100,7 @@ class Html
     protected function assignExtractedProperty(WebResource $resource, Extractor $extractor, array &$data, mixed $content): void
     {
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
-        $property = \str_replace(['%locale%'], [$resource->getLocale()], (string) $extractor->getProperty());
+        $property = \str_replace(['%locale%'], [$resource->getLocale()], $extractor->getProperty());
         $propertyAccessor->setValue($data, $property, $content);
     }
 

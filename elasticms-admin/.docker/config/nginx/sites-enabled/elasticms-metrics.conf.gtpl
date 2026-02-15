@@ -2,27 +2,23 @@
 
 server {
 
+{{- if ne $.Env.METRICS_DEFAULT_SERVER "false" }}
     listen {{ $.Env.EMS_METRIC_PORT }} default_server;
-
-    server_name _;
+    server_name {{ $.Env.SERVER_NAME }} _;
+{{- else }}
+    listen {{ $.Env.EMS_METRIC_PORT }};
+    server_name {{ $.Env.SERVER_NAME }};
+{{- end }}
 
     root {{ $.Env.NGINX_PUBLIC_DIR }};
 
     index index.php;
 
     # ============================================================
-    # BUNDLES ASSETS (bundles Symfony)
-    # ============================================================
-
-    location ^~ /bundles/ {
-        try_files $uri =404;
-    }
-
-    # ============================================================
     # ROOT Symfony
     # ============================================================
 
-    location / {
+    location /metrics {
         try_files $uri /index.php$is_args$args;
     }
 
@@ -30,27 +26,21 @@ server {
     # PHP-FPM
     # ============================================================
 
-    location ~ ^/index\.php(/|$) {
-        fastcgi_pass unix:/app/var/run/php-fpm/php-fpm.sock;
-        fastcgi_split_path_info ^(.+\.php)(/.*)$;
-
-        include fastcgi_params;
-        include conf.d/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.fastcgi_params;
-
-        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
-        fastcgi_param DOCUMENT_ROOT $realpath_root;
-
-        # Prevents URIs that include the front controller. This will 404:
-        # http://example.com/index.php/some-path
-        # Remove the internal directive to allow URIs like this
-        internal;
-    }
+    include conf.d/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.php-fpm.conf;
 
     # ============================================================
     # BLOCKING
     # ============================================================
 
     location ~ \.php$ {
+
+{{- if ne $.Env.DEBUG "false" }}
+        set $debug_nginx_location "star.php";
+        set $debug_nginx_uri "$uri";
+        add_header X-Debug-Nginx-Uri "$debug_nginx_uri" always;
+        add_header X-Debug-Nginx-Symfony-Location "$debug_nginx_location" always;
+{{- end }}
+
         return 404;
     }
 

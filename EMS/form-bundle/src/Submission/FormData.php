@@ -25,7 +25,6 @@ final class FormData
      */
     public function __construct(private readonly FormConfig $formConfig, FormInterface $form)
     {
-        /** @var mixed $formData */
         $formData = $form->getData();
         $this->raw = \is_array($formData) ? $formData : [];
     }

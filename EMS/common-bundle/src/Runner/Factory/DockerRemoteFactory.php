@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Runner\Factory;
 
-use EMS\CommonBundle\Common\Composer\ComposerInfo;
 use EMS\CommonBundle\Runner\Service\DockerRemote;
 use EMS\CommonBundle\Runner\Service\RunnerInterface;
-use Psr\Log\LoggerInterface;
 
 class DockerRemoteFactory extends AbstractFactory
 {
@@ -17,11 +15,6 @@ class DockerRemoteFactory extends AbstractFactory
     final public const string RUNNER_REMOTE_DOCKER_IMAGE_TAG = 'image-tag';
     final public const string RUNNER_REMOTE_DOCKER_ENV = 'env';
     final public const string RUNNER_REMOTE_DOCKER_SOCKET_PATH = 'socket-path';
-
-    public function __construct(LoggerInterface $logger, ComposerInfo $composerInfo)
-    {
-        parent::__construct($logger, $composerInfo);
-    }
 
     public function getRunnerType(): string
     {

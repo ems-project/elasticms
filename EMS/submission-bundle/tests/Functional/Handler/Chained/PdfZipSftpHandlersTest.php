@@ -10,14 +10,11 @@ use EMS\SubmissionBundle\Handler\SftpHandler;
 use EMS\SubmissionBundle\Handler\ZipHandler;
 use EMS\SubmissionBundle\Response\PdfHandleResponse;
 use EMS\SubmissionBundle\Response\SftpHandleResponse;
-use EMS\SubmissionBundle\Response\ZipHandleResponse;
 use EMS\SubmissionBundle\Tests\Functional\App\FilesystemFactory;
 use Symfony\Component\Filesystem\Filesystem;
 
 final class PdfZipSftpHandlersTest extends AbstractChainedTestCase
 {
-    /** @var FilesystemFactory */
-    private $filesystemFactory;
     /** @var PdfHandler */
     private $pdfHandler;
     /** @var SftpHandler */
@@ -30,13 +27,11 @@ final class PdfZipSftpHandlersTest extends AbstractChainedTestCase
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->filesystemFactory = $this->container->get('emss.filesystem.factory');
         $this->pdfHandler = $this->container->get('functional_test.emss.handler.pdf');
         $this->sftpHandler = $this->container->get('functional_test.emss.handler.sftp');
         $this->zipHandler = $this->container->get('functional_test.emss.handler.zip');
 
-        $filesystem = new Filesystem();
+        new Filesystem();
         $this->tempFile = TempFile::create();
 
         // $this->filesystemFactory->setFlagNullAdapter(false); uncomment for enabling sftp
@@ -55,7 +50,6 @@ final class PdfZipSftpHandlersTest extends AbstractChainedTestCase
         $zipEndpointJson = \json_encode(['filename' => 'chain.zip']);
         $zipMessage = \file_get_contents(__DIR__.'/../../fixtures/twig/chainedPdfZipSftp/message_zip.twig');
         $zipHandleRequest = $this->createRequest(ZipHandler::class, $zipEndpointJson, $zipMessage);
-        /** @var ZipHandleResponse $zipHandleRespsonse */
         $zipHandleResponse = $this->zipHandler->handle($zipHandleRequest);
 
         $this->responseCollector->addResponse($zipHandleResponse);

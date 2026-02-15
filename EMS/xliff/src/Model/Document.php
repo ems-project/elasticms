@@ -41,7 +41,6 @@ class Document
         $unit = new Unit(
             id: $this->idGenerator->nextUnitId(),
             resourceName: $resourceName,
-            type: null,
         );
 
         $sourceNodes = [

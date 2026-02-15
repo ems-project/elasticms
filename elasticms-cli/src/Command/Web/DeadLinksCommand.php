@@ -110,7 +110,7 @@ class DeadLinksCommand extends AbstractCommand
             SpreadsheetGeneratorService::CONTENT_FILENAME => $filename,
             SpreadsheetGeneratorService::WRITER => SpreadsheetGeneratorService::XLSX_WRITER,
             SpreadsheetGeneratorService::SHEETS => [[
-                'rows' => [['Level', 'Status', 'Message', 'URL', 'Referer', 'Text'], ...$this->report],
+                'rows' => [['Level', 'Status', 'Message', 'Scheme', 'URL', 'Location', 'Referer', 'Text', 'Error'], ...$this->report],
                 'name' => 'dead-links',
             ]],
         ], $tempFile->path);
@@ -136,9 +136,14 @@ class DeadLinksCommand extends AbstractCommand
             $this->host = Type::string($page['host']);
         }
         $referer = Type::string($page['url']);
+        try {
+            $scheme = new Url($referer)->getScheme();
+        } catch (\Throwable) {
+            $scheme = str_starts_with($referer, 'ems://') ? 'ems' : '';
+        }
         $status = (int) ($page['status_code'] ?? 0);
         if ($status < 200 || $status > 299) {
-            $this->logError($referer, $status, 'Wrong return code', 'n/a', 'n/a');
+            $this->logError($referer, $scheme, $status, 'Broken links', 'n/a', 'n/a');
         }
         foreach ($page['links'] ?? [] as $link) {
             $this->auditLink($referer, $link);
@@ -153,12 +158,12 @@ class DeadLinksCommand extends AbstractCommand
         try {
             $url = new Url($link['url'], $referer, $link['text'] ?? null);
         } catch (NotParsableUrlException) {
-            $this->logError($link['url'], 0, 'not parsable url', $referer, $link['text'] ?? '');
+            $this->logError($link['url'], '', 0, 'not parsable url', $referer, $link['text'] ?? '');
 
             return;
         }
         if (!$url->isCrawlable()) {
-            $this->logWarning($link['url'], 0, 'not crawlable url', $referer, $link['text'] ?? '');
+            $this->logWarning($link['url'], $url->getScheme(), 0, 'not crawlable url', $referer, $link['text'] ?? '');
 
             return;
         }
@@ -171,46 +176,49 @@ class DeadLinksCommand extends AbstractCommand
         $linkStatus = $this->getRequestStatus($url);
 
         if (!$linkStatus['isValid'] || !$linkStatus['hasResponse'] || !$linkStatus['statusCode'] || $linkStatus['message']) {
-            $this->logError($url->getUrl(), $linkStatus['statusCode'] ?? 0, $linkStatus['message'] ?? 'Broken link', $referer, $link['text'] ?? '');
+            $this->logError($url->getUrl(), $url->getScheme(), $linkStatus['statusCode'] ?? 0, 'Broken link', $referer, $link['text'] ?? '', $linkStatus['location'] ?? null, $linkStatus['message'] ?? null);
 
             return;
         }
         if (\in_array($linkStatus['statusCode'], [301, 302, 303, 307, 308], true)) {
             if ($linkStatus['location']) {
-                $this->logWarning($url->getUrl(), $linkStatus['statusCode'], \sprintf('Redirection to %s', $linkStatus['location']), $referer, $link['text'] ?? '');
+                $this->logWarning($url->getUrl(), $url->getScheme(), $linkStatus['statusCode'], \sprintf('Redirection to location'), $referer, $link['text'] ?? '', $linkStatus['location'] ?? null, $linkStatus['message'] ?? null);
             } else {
-                $this->logError($url->getUrl(), $linkStatus['statusCode'], 'Redirection without location', $referer, $link['text'] ?? '');
+                $this->logError($url->getUrl(), $url->getScheme(), $linkStatus['statusCode'], 'Redirection without location', $referer, $link['text'] ?? '', null, $linkStatus['message'] ?? null);
             }
 
             return;
         }
         if ($linkStatus['statusCode'] >= 300) {
-            $this->logError($url->getUrl(), $linkStatus['statusCode'], 'Unexpected status code', $referer, $link['text'] ?? '');
+            $this->logError($url->getUrl(), $url->getScheme(), $linkStatus['statusCode'], 'Unexpected status code', $referer, $link['text'] ?? '', $linkStatus['location'] ?? null, $linkStatus['message'] ?? null);
         }
     }
 
-    private function logError(string $url, int $status, string $error, string $referer, string $text): void
+    private function logError(string $url, string $scheme, int $status, string $message, string $referer, string $text, ?string $location = null, ?string $error = null): void
     {
-        $this->log('Error', $url, $status, $error, $referer, $text);
+        $this->log('Error', $url, $scheme, $status, $message, $referer, $text, $location, $error);
     }
 
-    private function logWarning(string $url, int $status, string $error, string $referer, string $text): void
+    private function logWarning(string $url, string $scheme, int $status, string $message, string $referer, string $text, ?string $location = null, ?string $error = null): void
     {
         if ($this->skipWarnings) {
             return;
         }
-        $this->log('Warning', $url, $status, $error, $referer, $text);
+        $this->log('Warning', $url, $scheme, $status, $message, $referer, $text, $location, $error);
     }
 
-    private function log(string $level, string $url, int $status, string $error, string $referer, string $text): void
+    private function log(string $level, string $url, string $scheme, int $status, string $message, string $referer, string $text, ?string $location, ?string $error): void
     {
         $this->report[] = [
             $level,
             (string) $status,
-            $error,
+            $message,
+            $scheme,
             $url,
+            $location ?? '',
             $referer,
             $text,
+            $error ?? '',
         ];
     }
 

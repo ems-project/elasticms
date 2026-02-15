@@ -73,7 +73,7 @@ class S3Client implements FileStructureClientInterface
     public function finalize(): void
     {
         $key = "$this->hash/".self::EMS_ARCHIVE_IDENTIFIER_FILE;
-        $result = $this->client->putObject([
+        $this->client->putObject([
             'Bucket' => $this->bucket,
             'Key' => $key,
             'Body' => $this->hash,

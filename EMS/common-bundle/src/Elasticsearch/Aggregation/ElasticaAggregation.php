@@ -10,11 +10,6 @@ class ElasticaAggregation extends AbstractAggregation
 {
     private ?string $basename = null;
 
-    public function __construct(string $name)
-    {
-        parent::__construct($name);
-    }
-
     /**
      * @param array<string, mixed> $param
      */

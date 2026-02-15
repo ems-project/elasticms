@@ -34,11 +34,8 @@ class FileSystemStorage extends AbstractUrlStorage implements \Stringable
         return FileSystemStorage::class." ($this->storagePath)";
     }
 
-    /**
-     * @return null
-     */
     #[\Override]
-    protected function getContext()
+    protected function getContext(): null
     {
         return null;
     }

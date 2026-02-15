@@ -105,7 +105,7 @@ class ConfigManager
             new ObjectNormalizer(null, null, null, $propertyTypeExtractor),
         ], [
             new XmlEncoder(),
-            new JsonEncoder(new JsonEncode([JsonEncode::OPTIONS => JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES]), null),
+            new JsonEncoder(new JsonEncode([JsonEncode::OPTIONS => JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES])),
         ]);
     }
 
@@ -680,7 +680,7 @@ class ConfigManager
                 $path = '/'.$path;
             }
 
-            return $this->uploadMediaFile($config, $url, $rapport, $path, $attribute);
+            return $this->uploadMediaFile($config, $url, $rapport, $path);
         }
 
         return null;
@@ -689,7 +689,7 @@ class ConfigManager
     /**
      * @param array{regex: string, content_type: string, file_field: string, folder_field: string, path_field: string} $config
      */
-    private function uploadMediaFile(array $config, Url $url, Rapport $rapport, string $path, string $attribute): string
+    private function uploadMediaFile(array $config, Url $url, Rapport $rapport, string $path): string
     {
         $exploded = \explode('/', $path);
         $ouuid = null;

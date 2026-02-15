@@ -326,9 +326,7 @@ class Search
         $encoders = [new XmlEncoder(), new JsonEncoder()];
         $normalizers = [new ObjectNormalizer()];
 
-        $serializer = new Serializer($normalizers, $encoders);
-
-        return $serializer;
+        return new Serializer($normalizers, $encoders);
     }
 
     /**

@@ -21,7 +21,7 @@ final class ExpressionService implements ExpressionServiceInterface
     {
         $evaluate = $this->evaluate($expression, $values);
 
-        return \is_bool($evaluate) ? $evaluate : false;
+        return \is_bool($evaluate) && $evaluate;
     }
 
     #[\Override]

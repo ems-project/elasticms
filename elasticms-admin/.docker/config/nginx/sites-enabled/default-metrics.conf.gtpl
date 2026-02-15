@@ -4,11 +4,14 @@ server {
 
     listen 9090 default_server;
 
-    server_name _;
+    server_name {{ $.Env.METRICS_VHOST_SERVER_NAME }} _;
 
     location /metrics {
       access_log off;
       vhost_traffic_status_bypass_stats on;
+
+      include conf.d/default.metrics-permissions.conf;
+
       vhost_traffic_status_display;
       vhost_traffic_status_display_format prometheus;
     }
@@ -16,6 +19,9 @@ server {
     location /vts-status {
       access_log off;
       vhost_traffic_status_bypass_stats on;
+
+      include conf.d/default.metrics-permissions.conf;
+
       vhost_traffic_status_display;
       vhost_traffic_status_display_format html;
     }
@@ -23,22 +29,23 @@ server {
     location = /stub-status {
       access_log off;
       vhost_traffic_status_bypass_stats on;
-      allow 127.0.0.1;
-      allow all;
-      deny all;
+
+      include conf.d/default.metrics-permissions.conf;
+
       stub_status;
     }
 
     location ~ ^/(status|ping)$ {
       access_log off;
-      allow 127.0.0.1;
-      allow all;
-      deny all;
+
+      include conf.d/default.metrics-permissions.conf;
 
       include fastcgi_params;
       fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
 
       fastcgi_pass unix:/app/var/run/php-fpm/php-fpm.sock;
     }
+
+    include conf.d/metrics/*.conf;
 
 }

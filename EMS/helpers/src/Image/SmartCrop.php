@@ -173,11 +173,9 @@ class SmartCrop
                         $pR = $this->od[$p];
                         $pG = $this->od[$p + 1];
                         $pB = $this->od[$p + 2];
-                        $pA = 0;
                         $r += $pR;
                         $g += $pG;
                         $b += $pB;
-                        $a += $pA;
                         $mr = \max($mr, $pR);
                         $mg = \max($mg, $pG);
                         $mb = \max($mb, $pB);

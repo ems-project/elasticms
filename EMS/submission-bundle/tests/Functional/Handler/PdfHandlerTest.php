@@ -81,6 +81,7 @@ final class PdfHandlerTest extends AbstractHandlerTestCase
 
         $responseCollector = new HandleResponseCollector();
         $responseCollector->addResponse($pdfResponse);
+
         $formData = new FormData($this->formConfig, $form);
 
         $emailHandleRequest = new HandleRequest($form, $this->formConfig, $formData, $responseCollector, $emailSubmission);

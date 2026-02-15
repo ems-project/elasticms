@@ -57,7 +57,7 @@ class LoginCommand extends AbstractCommand
     }
 
     #[\Override]
-    public function initialize(InputInterface $input, OutputInterface $output): void
+    protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
         $this->adminHelper->setLogger(new ConsoleLogger($output));
@@ -68,7 +68,7 @@ class LoginCommand extends AbstractCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if (null === $this->backendUrl) {
-            throw new \RuntimeException('Backend\'s URL not defined');
+            throw new \RuntimeException("Backend's URL not defined");
         }
 
         if (null === $input->getOption(self::OPTION_PASSWORD) && $this->adminHelper->alreadyConnected($this->backendUrl, $this->username)) {

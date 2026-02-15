@@ -31,7 +31,7 @@ class FileSystemStorage extends AbstractUrlStorage implements \Stringable
     #[\Override]
     public function __toString(): string
     {
-        return FileSystemStorage::class." ($this->storagePath)";
+        return FileSystemStorage::class.\sprintf(' (%s)', $this->storagePath);
     }
 
     #[\Override]

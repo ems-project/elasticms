@@ -311,8 +311,8 @@ final class Filter
         if (!isset($value['start']) && !isset($value['end'])) {
             return null;
         }
-
-        $start = $end = null;
+        $start = null;
+        $end = null;
         $format = self::TYPE_DATE_TIME_RANGE === $this->type ? 'Y-m-d H:i:s' : 'Y-m-d';
 
         if (!empty($value['start'])) {
@@ -393,8 +393,10 @@ final class Filter
     {
         $boolQuery = new BoolQuery();
         $boolQuery->setMinimumShouldMatch(1);
+
         $orMustNotExists = new BoolQuery();
         $orMustNotExists->addMustNot(new Exists($field));
+
         $boolQuery->addShould($query);
         $boolQuery->addShould($orMustNotExists);
 

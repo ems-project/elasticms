@@ -27,6 +27,7 @@ class StoreDataSessionHandler extends AbstractSessionHandler
     {
         $dataHelper = $this->storeDataManager->read($sessionId);
         $dataHelper->set(self::SESSION, $data);
+
         $this->storeDataManager->save($dataHelper);
 
         return true;

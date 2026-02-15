@@ -65,8 +65,8 @@ final class Transformer
             }
 
             return null;
-        } catch (\Exception $ex) {
-            $this->logger->error(\sprintf('%s match (%s)', $ex->getMessage(), Json::encode($match)));
+        } catch (\Exception $exception) {
+            $this->logger->error(\sprintf('%s match (%s)', $exception->getMessage(), Json::encode($match)));
 
             return null;
         }
@@ -80,7 +80,7 @@ final class Transformer
         $transform = \preg_replace_callback(EMSLink::PATTERN, function ($match) use ($config) {
             $cleanMatch = \array_filter($match);
 
-            if (0 === \count($cleanMatch)) {
+            if ([] === $cleanMatch) {
                 return $match[0];
             }
 
@@ -132,8 +132,8 @@ final class Transformer
     {
         try {
             return $this->twig->render($template, $context);
-        } catch (\Throwable $ex) {
-            $this->logger->error($ex->getMessage());
+        } catch (\Throwable $throwable) {
+            $this->logger->error($throwable->getMessage());
         }
 
         return null;

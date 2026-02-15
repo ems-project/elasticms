@@ -78,23 +78,23 @@ class FileController extends AbstractController
 
         try {
             return $this->processor->getResponseFromArchive($request, $hash, $path, $maxAge, $extract, $indexResource);
-        } catch (NotFoundHttpException $e) {
+        } catch (NotFoundHttpException $notFoundHttpException) {
             if (null === $notFoundTemplate) {
-                throw $e;
+                throw $notFoundHttpException;
             }
         }
 
         try {
             return $this->render($notFoundTemplate, [
-                'error' => $e,
+                'error' => $notFoundHttpException,
                 'hash' => $hash,
                 'path' => $path,
                 'maxAge' => $maxAge,
                 'extract' => $extract,
                 'indexResource' => $indexResource,
             ]);
-        } catch (\Throwable $e) {
-            throw $e->getPrevious() instanceof HttpException ? $e->getPrevious() : $e;
+        } catch (\Throwable $throwable) {
+            throw $throwable->getPrevious() instanceof HttpException ? $throwable->getPrevious() : $throwable;
         }
     }
 

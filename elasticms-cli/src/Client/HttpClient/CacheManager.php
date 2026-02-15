@@ -38,6 +38,7 @@ class CacheManager
             'cache'
         );
         $stack->push(new CacheMiddleware(), 'cache');
+
         $this->client = new Client([
             'handler' => $stack,
             RequestOptions::ALLOW_REDIRECTS => $allowRedirect,

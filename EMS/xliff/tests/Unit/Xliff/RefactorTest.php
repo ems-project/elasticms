@@ -96,7 +96,7 @@ class RefactorTest extends TestCase
                         } else {
                             $this->assertCount(1, $segment->getTargetNodes());
                             $this->assertSame(\sprintf('titre%d', $i), $segment->getTargetNodes()[0]->text);
-                            match ("$i") {
+                            match (''.$i) {
                                 '1' => $this->assertSame(Xliff::STATE_FINAL, $segment->getState()),
                                 '2', '3' => $this->assertSame(Xliff::STATE_NEEDS_TRANSLATION, $segment->getState()),
                             };

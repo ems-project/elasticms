@@ -16,7 +16,7 @@ final readonly class FormDataFile
     {
         $filename = $file->getClientOriginalName();
         $extension = MimeTypes::getDefault()->getExtensions($file->getClientMimeType())[0] ?? null;
-        if (null !== $extension && !\str_ends_with(\strtolower($filename), ".$extension")) {
+        if (null !== $extension && !\str_ends_with(\strtolower($filename), '.'.$extension)) {
             $filename .= \sprintf('.%s', $extension);
         }
         $this->filename = \sprintf('%s.%s', \uniqid(\sprintf('%s.', $this->formElement->getName()), false), $filename);

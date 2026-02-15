@@ -412,7 +412,7 @@ class StorageManager implements FileManagerInterface
      */
     public function saveConfig(array $config, int $usageType = StorageInterface::STORAGE_USAGE_CONFIG): string
     {
-        if (\is_array($config[EmsFields::ASSET_CONFIG_FILE_NAMES] ?? null) && \count($config[EmsFields::ASSET_CONFIG_FILE_NAMES]) > 0) {
+        if (\is_array($config[EmsFields::ASSET_CONFIG_FILE_NAMES] ?? null) && [] !== $config[EmsFields::ASSET_CONFIG_FILE_NAMES]) {
             $hashContext = \hash_init('sha1');
             foreach ($config[EmsFields::ASSET_CONFIG_FILE_NAMES] as $filename) {
                 if (!\file_exists($filename)) {
@@ -500,8 +500,8 @@ class StorageManager implements FileManagerInterface
                 $adapter->initFinalize($hash);
                 $adapter->finalizeUpload($hash);
             }
-        } catch (\Throwable $e) {
-            $this->logger->warning(\sprintf('It was not possible to hot synchronize the asset %s: %s', $hash, $e->getMessage()));
+        } catch (\Throwable $throwable) {
+            $this->logger->warning(\sprintf('It was not possible to hot synchronize the asset %s: %s', $hash, $throwable->getMessage()));
         }
     }
 

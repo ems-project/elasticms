@@ -52,7 +52,7 @@ class S3Client implements FileStructureClientInterface
     #[\Override]
     public function createFile(string $path, StreamInterface $stream, string $contentType): void
     {
-        $key = "$this->hash/$path";
+        $key = \sprintf('%s/%s', $this->hash, $path);
         unset($this->existingFiles[$path]);
         $uploader = new MultipartUploader($this->client, $stream, [
             'Bucket' => $this->bucket,
@@ -63,7 +63,7 @@ class S3Client implements FileStructureClientInterface
         $this->batch[] = $this->client->getCommand('CopyObject', [
             'Bucket' => $this->bucket,
             'Key' => $path,
-            'CopySource' => \urlencode("$this->bucket/$key"),
+            'CopySource' => \urlencode(\sprintf('%s/%s', $this->bucket, $key)),
             'MetadataDirective' => 'REPLACE',
             'ContentType' => $contentType,
         ]);
@@ -72,7 +72,7 @@ class S3Client implements FileStructureClientInterface
     #[\Override]
     public function finalize(): void
     {
-        $key = "$this->hash/".self::EMS_ARCHIVE_IDENTIFIER_FILE;
+        $key = $this->hash.'/'.self::EMS_ARCHIVE_IDENTIFIER_FILE;
         $this->client->putObject([
             'Bucket' => $this->bucket,
             'Key' => $key,
@@ -83,7 +83,7 @@ class S3Client implements FileStructureClientInterface
         $this->batch[] = $this->client->getCommand('CopyObject', [
             'Bucket' => $this->bucket,
             'Key' => self::EMS_ARCHIVE_IDENTIFIER_FILE,
-            'CopySource' => \urlencode("$this->bucket/$key"),
+            'CopySource' => \urlencode(\sprintf('%s/%s', $this->bucket, $key)),
         ]);
         unset($this->existingFiles[self::EMS_ARCHIVE_IDENTIFIER_FILE]);
         foreach (\array_keys($this->existingFiles) as $key) {

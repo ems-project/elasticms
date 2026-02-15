@@ -51,6 +51,7 @@ class ExtractorTest extends TestCase
         $options = new Options(Version::V12);
         $xliffPackage = Xliff::create($options);
         $xliffPackage->init('nl', 'de');
+
         $package = $xliffPackage->getPackage();
         $document = $package->addDocument('contentType:ouuid_1:revisionId_1');
         $document->createText('[title]', 'titre', 'titre', 'titre');
@@ -152,6 +153,7 @@ class ExtractorTest extends TestCase
         $options = new Options(Version::V12);
         $xliffPackage = Xliff::create($options);
         $xliffPackage->init('nl', 'de');
+
         $package = $xliffPackage->getPackage();
         $document = $package->addDocument('content_type:fakeOuuid:fakeRevisionId');
         $document->createHtml('[body]', $sourceHtml, $targetHtml, $baselineHtml);

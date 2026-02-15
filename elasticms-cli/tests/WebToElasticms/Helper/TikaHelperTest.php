@@ -17,6 +17,7 @@ class TikaHelperTest extends TestCase
     {
         $streamFrench = new BufferStream();
         $streamFrench->write('Bonjour, comment allez-vous?');
+
         $streamDutch = new BufferStream();
         $streamDutch->write('Hoi, hoe gaat het met je vanmorgen?');
 
@@ -40,6 +41,7 @@ class TikaHelperTest extends TestCase
         $promise = $helper->extract($bonjourDocx, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
 
         $promise->startMeta();
+
         $meta = $promise->getMeta();
 
         $promise->startText();
@@ -69,6 +71,7 @@ class TikaHelperTest extends TestCase
         $promise = $helper->extract($bonjourPdf, 'application/pdf');
 
         $promise->startMeta();
+
         $meta = $promise->getMeta();
 
         $promise->startText();

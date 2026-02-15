@@ -26,6 +26,7 @@ class NestedChoiceType extends Form
         /** @var FieldConfig $config */
         $config = $this->getFieldConfig($options);
         $config->setClassName(ChoiceSelect::class);
+
         $choices = $config->getChoices();
         $field = $this->createField($config);
         $fieldOptions = $field->getOptions();

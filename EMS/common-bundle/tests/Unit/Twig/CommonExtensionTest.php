@@ -13,7 +13,7 @@ class CommonExtensionTest extends KernelTestCase
     private Environment $twig;
 
     #[\Override]
-    public function setUp(): void
+    protected function setUp(): void
     {
         self::bootKernel();
         $this->twig = static::getContainer()->get('twig');

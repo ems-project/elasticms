@@ -33,15 +33,14 @@ class JobOutputAiTest extends TestCase
     public function testDoWrite(): void
     {
         $message = 'Test message';
-        $newline = true;
 
         $this->admin->expects($this->once())->method('jobDoWrite')
-            ->with($this->job, $message, $newline);
+            ->with($this->job, $message, true);
 
         $this->otherOutput->expects($this->once())->method('write')
-            ->with($message, $newline);
+            ->with($message, true);
 
-        $this->jobOutput->doWrite($message, $newline);
+        $this->jobOutput->write($message, true);
     }
 
     #[AllowMockObjectsWithoutExpectations]

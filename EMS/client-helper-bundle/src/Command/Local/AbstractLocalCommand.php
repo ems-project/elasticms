@@ -75,8 +75,8 @@ abstract class AbstractLocalCommand extends AbstractCommand
 
         try {
             $this->localHelper->tryIndexSearch();
-        } catch (\Throwable $e) {
-            $this->io->error($e->getMessage());
+        } catch (\Throwable $throwable) {
+            $this->io->error($throwable->getMessage());
 
             return false;
         }

@@ -39,9 +39,9 @@ final class ExpressionService implements ExpressionServiceInterface
     {
         try {
             return $this->getExpressionLanguage()->evaluate($expression, $values);
-        } catch (\Throwable $e) {
+        } catch (\Throwable $throwable) {
             $this->logger->error('Expression failed: {message}', [
-                'message' => $e->getMessage(),
+                'message' => $throwable->getMessage(),
                 'values' => $values,
                 'expression' => $expression,
                 'noFlash' => true,

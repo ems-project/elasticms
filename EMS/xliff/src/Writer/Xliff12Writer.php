@@ -53,6 +53,7 @@ class Xliff12Writer implements WriterInterface
     {
         $dom = DomHelper::initDocument($this->options->preserveWhitespace, $this->options->formatOutput);
         $dom->encoding = $encoding;
+
         $xliff = DomHelper::initXliff($dom, Version::V12, Version::V12_NAMESPACE);
         foreach ($package->getDocuments() as $document) {
             $this->addDocument($xliff, $package, $document);

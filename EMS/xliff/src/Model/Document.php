@@ -162,6 +162,7 @@ class Document
 
         $expectedSource = $this->propertyAccessor->getValue($extractData, $sourcePropertyPath);
         $expectedSource = $formater->format($expectedSource ?? '');
+
         $source = $formater->format($source);
 
         if (\trim($expectedSource) !== \trim($source)) {

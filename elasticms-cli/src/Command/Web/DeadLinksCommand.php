@@ -139,7 +139,12 @@ class DeadLinksCommand extends AbstractCommand
         try {
             $scheme = new Url($referer)->getScheme();
         } catch (\Throwable) {
-            $scheme = \str_starts_with($referer, 'ems://') ? 'ems' : '';
+            $position = \strpos($referer, '://');
+            if (false === $position || $position <= 0 || $position > 10) {
+                $scheme = '';
+            } else {
+                $scheme = \substr($referer, 0, $position);
+            }
         }
         $status = (int) ($page['status_code'] ?? 0);
         if ($status < 200 || $status > 299) {
@@ -158,7 +163,14 @@ class DeadLinksCommand extends AbstractCommand
         try {
             $url = new Url($link['url'], $referer, $link['text'] ?? null);
         } catch (NotParsableUrlException) {
-            $this->logError($link['url'], '', 0, 'not parsable url', $referer, $link['text'] ?? '');
+            $url = $link['url'];
+            $position = \strpos($url, '://');
+            if (false === $position || $position <= 0 || $position >= 10) {
+                $scheme = '';
+            } else {
+                $scheme = \substr($url, 0, $position);
+            }
+            $this->logError($url, $scheme, 0, 'not parsable url', $referer, $link['text'] ?? '');
 
             return;
         }

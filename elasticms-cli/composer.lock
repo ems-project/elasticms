@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bc56be95a6288fa00e5fecff88751e1b",
+    "content-hash": "afcb3bdc4a76993b4e69785c2f95aa15",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -1765,16 +1765,16 @@
         },
         {
             "name": "elasticms/common-bundle",
-            "version": "7.x-dev",
+            "version": "7.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSCommonBundle.git",
-                "reference": "dcdb05c8b7a8cfd6fc270b8959211d03929a1679"
+                "reference": "317abbd57192765c286e4de0fd53558e0c2f6f69"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSCommonBundle/zipball/dcdb05c8b7a8cfd6fc270b8959211d03929a1679",
-                "reference": "dcdb05c8b7a8cfd6fc270b8959211d03929a1679",
+                "url": "https://api.github.com/repos/ems-project/EMSCommonBundle/zipball/317abbd57192765c286e4de0fd53558e0c2f6f69",
+                "reference": "317abbd57192765c286e4de0fd53558e0c2f6f69",
                 "shasum": ""
             },
             "require": {
@@ -1783,7 +1783,7 @@
                 "doctrine/doctrine-bundle": "^3.2",
                 "doctrine/orm": "^3.3",
                 "dompdf/dompdf": "^v3.1",
-                "elasticms/helpers": "7.x-dev",
+                "elasticms/helpers": "7.0.*",
                 "ext-curl": "*",
                 "ext-dom": "*",
                 "ext-exif": "*",
@@ -1847,13 +1847,13 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSCommonBundle/tree/7.x"
+                "source": "https://github.com/ems-project/EMSCommonBundle/tree/7.0.0"
             },
-            "time": "2026-02-16T08:46:56+00:00"
+            "time": "2026-02-16T10:09:40+00:00"
         },
         {
             "name": "elasticms/helpers",
-            "version": "7.x-dev",
+            "version": "7.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/helpers.git",
@@ -1897,7 +1897,7 @@
                 "php"
             ],
             "support": {
-                "source": "https://github.com/ems-project/helpers/tree/7.x"
+                "source": "https://github.com/ems-project/helpers/tree/7.0.0"
             },
             "time": "2026-02-15T13:16:56+00:00"
         },
@@ -10056,9 +10056,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "elasticms/common-bundle": 20
-    },
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

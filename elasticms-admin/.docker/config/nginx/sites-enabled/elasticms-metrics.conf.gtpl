@@ -4,10 +4,10 @@ server {
 
 {{- if ne $.Env.METRICS_DEFAULT_SERVER "false" }}
     listen {{ $.Env.EMS_METRIC_PORT }} default_server;
-    server_name {{ $.Env.SERVER_NAME }} _;
+    server_name {{ $.Env.NGINX_SERVER_NAME }} _;
 {{- else }}
     listen {{ $.Env.EMS_METRIC_PORT }};
-    server_name {{ $.Env.SERVER_NAME }};
+    server_name {{ $.Env.NGINX_SERVER_NAME }};
 {{- end }}
 
     root {{ $.Env.NGINX_PUBLIC_DIR }};

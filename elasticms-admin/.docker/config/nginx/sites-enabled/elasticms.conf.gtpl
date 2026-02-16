@@ -6,7 +6,7 @@ server {
 
     listen 9000;
 
-    server_name {{ $.Env.SERVER_NAME }};
+    server_name {{ $.Env.NGINX_SERVER_NAME }};
 
     root {{ $.Env.NGINX_PUBLIC_DIR }};
 

@@ -148,7 +148,7 @@ class DeadLinksCommand extends AbstractCommand
         }
         $status = (int) ($page['status_code'] ?? 0);
         if ($status < 200 || $status > 299) {
-            $this->logError($referer, $scheme, $status, 'Broken links', 'n/a', 'n/a');
+            $this->logError($referer, $scheme, $status, 'Broken link', 'n/a', 'n/a');
         }
         foreach ($page['links'] ?? [] as $link) {
             $this->auditLink($referer, $link);
@@ -170,12 +170,12 @@ class DeadLinksCommand extends AbstractCommand
             } else {
                 $scheme = \substr($url, 0, $position);
             }
-            $this->logError($url, $scheme, 0, 'not parsable url', $referer, $link['text'] ?? '');
+            $this->logError($url, $scheme, 0, 'Not parsable url', $referer, $link['text'] ?? '');
 
             return;
         }
         if (!$url->isCrawlable()) {
-            $this->logWarning($link['url'], $url->getScheme(), 0, 'not crawlable url', $referer, $link['text'] ?? '');
+            $this->logWarning($link['url'], $url->getScheme(), 0, 'Not crawlable url', $referer, $link['text'] ?? '');
 
             return;
         }
@@ -194,7 +194,7 @@ class DeadLinksCommand extends AbstractCommand
         }
         if (\in_array($linkStatus['statusCode'], [301, 302, 303, 307, 308], true)) {
             if ($linkStatus['location']) {
-                $this->logWarning($url->getUrl(), $url->getScheme(), $linkStatus['statusCode'], \sprintf('Redirection to location'), $referer, $link['text'] ?? '', $linkStatus['location'] ?? null, $linkStatus['message'] ?? null);
+                $this->logWarning($url->getUrl(), $url->getScheme(), $linkStatus['statusCode'], \sprintf('Redirection to location'), $referer, $link['text'] ?? '', $linkStatus['location'], $linkStatus['message'] ?? null);
             } else {
                 $this->logError($url->getUrl(), $url->getScheme(), $linkStatus['statusCode'], 'Redirection without location', $referer, $link['text'] ?? '', null, $linkStatus['message'] ?? null);
             }

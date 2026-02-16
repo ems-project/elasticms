@@ -105,7 +105,7 @@ $command = static function (InputInterface $input, OutputInterface $output): int
         $progressBar = $io->createProgressBar($files->count());
         foreach ($files as $file) {
             $extractor->extract($file->getRealPath(), $extractedCatalogue);
-            $progressBar?->advance();
+            $progressBar->advance();
         }
 
         $progressBar->finish();

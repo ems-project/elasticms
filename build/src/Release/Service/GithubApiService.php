@@ -18,8 +18,8 @@ class GithubApiService
     /** @var ?string[] */
     private ?array $tags = null;
 
-    protected const ORG = 'ems-project';
-    protected const REPO = 'elasticms';
+    protected const string ORG = 'ems-project';
+    protected const string REPO = 'elasticms';
 
     public function __construct()
     {

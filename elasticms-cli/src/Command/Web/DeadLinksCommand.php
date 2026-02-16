@@ -140,11 +140,7 @@ class DeadLinksCommand extends AbstractCommand
             $scheme = new Url($referer)->getScheme();
         } catch (\Throwable) {
             $position = \strpos($referer, '://');
-            if (false === $position || $position <= 0 || $position > 10) {
-                $scheme = '';
-            } else {
-                $scheme = \substr($referer, 0, $position);
-            }
+            $scheme = false === $position || $position <= 0 || $position > 10 ? '' : \substr($referer, 0, $position);
         }
         $status = (int) ($page['status_code'] ?? 0);
         if ($status < 200 || $status > 299) {
@@ -164,12 +160,8 @@ class DeadLinksCommand extends AbstractCommand
             $url = new Url($link['url'], $referer, $link['text'] ?? null);
         } catch (NotParsableUrlException) {
             $url = $link['url'];
-            $position = \strpos($url, '://');
-            if (false === $position || $position <= 0 || $position >= 10) {
-                $scheme = '';
-            } else {
-                $scheme = \substr($url, 0, $position);
-            }
+            $position = \strpos((string) $url, '://');
+            $scheme = false === $position || $position <= 0 || $position >= 10 ? '' : \substr((string) $url, 0, $position);
             $this->logError($url, $scheme, 0, 'Not parsable url', $referer, $link['text'] ?? '');
 
             return;
@@ -194,7 +186,7 @@ class DeadLinksCommand extends AbstractCommand
         }
         if (\in_array($linkStatus['statusCode'], [301, 302, 303, 307, 308], true)) {
             if ($linkStatus['location']) {
-                $this->logWarning($url->getUrl(), $url->getScheme(), $linkStatus['statusCode'], \sprintf('Redirection to location'), $referer, $link['text'] ?? '', $linkStatus['location'], $linkStatus['message'] ?? null);
+                $this->logWarning($url->getUrl(), $url->getScheme(), $linkStatus['statusCode'], 'Redirection to location', $referer, $link['text'] ?? '', $linkStatus['location'], $linkStatus['message'] ?? null);
             } else {
                 $this->logError($url->getUrl(), $url->getScheme(), $linkStatus['statusCode'], 'Redirection without location', $referer, $link['text'] ?? '', null, $linkStatus['message'] ?? null);
             }
@@ -270,11 +262,11 @@ class DeadLinksCommand extends AbstractCommand
                 'location' => $location ?? null,
                 'timestamp' => $now->getTimestamp(),
             ];
-        } catch (\Throwable $e) {
+        } catch (\Throwable $throwable) {
             $data = [
                 'url' => $url->getUrl(),
                 'hasResponse' => false,
-                'message' => $e->getMessage(),
+                'message' => $throwable->getMessage(),
                 'isValid' => false,
                 'statusCode' => null,
                 'location' => null,

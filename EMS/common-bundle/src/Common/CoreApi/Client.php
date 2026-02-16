@@ -57,6 +57,15 @@ class Client
         return $this->baseUrl;
     }
 
+    public function hasBaseUrlDefined(): bool
+    {
+        if ('' === $this->baseUrl || null === $this->baseUrl) {
+            return false;
+        }
+
+        return true;
+    }
+
     public function getHeader(string $name): string
     {
         return $this->headers[$name];

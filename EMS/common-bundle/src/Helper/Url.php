@@ -21,12 +21,12 @@ class Url
     private const array ABSOLUTE_SCHEME = ['mailto', 'javascript', 'tel'];
     private string $scheme;
     private string $host;
-    private ?int $port;
-    private ?string $user;
-    private ?string $password;
+    private ?int $port = null;
+    private ?string $user = null;
+    private ?string $password = null;
     private string $path;
-    private ?string $query;
-    private ?string $fragment;
+    private ?string $query = null;
+    private ?string $fragment = null;
     private readonly ?string $referer;
 
     public function __construct(string $url, ?string $referer = null, private readonly ?string $refererLabel = null)
@@ -48,9 +48,18 @@ class Url
                 throw new NotParsableUrlException($url, $referer, 'unexpected null scheme');
             }
             $this->scheme = (string) $scheme;
-            $host = $parsed['host'] ?? null;
-            if (null === $host) {
-                throw new NotParsableUrlException($url, $referer, 'unexpected null host');
+            if ($this->isAbsoluteScheme()) {
+                $path = $parsed['path'] ?? null;
+                if (!\is_string($path) || '' === $path) {
+                    throw new NotParsableUrlException($url, $referer, 'Absolute scheme without path');
+                }
+                $this->path = $path;
+
+                return;
+            }
+            $host = $parsed['host'] ?? $relativeParsed['host'] ?? null;
+            if (null === $host || !self::isValidHostname($host)) {
+                throw new NotParsableUrlException($url, $referer, \sprintf('unexpected host %s', $host ?? 'null'));
             }
             $this->host = $host;
             $this->user = $parsed['user'] ?? null;
@@ -84,9 +93,15 @@ class Url
         $this->path = $this->getAbsolutePath($parsed['path'] ?? '/', $relativeTo);
     }
 
+    public function isAbsoluteScheme(): bool
+    {
+        return \in_array($this->scheme, self::ABSOLUTE_SCHEME, true);
+    }
+
     public function serialize(string $format = JsonEncoder::FORMAT): string
     {
         return self::getSerializer()->serialize($this, $format, [AbstractNormalizer::IGNORED_ATTRIBUTES => [
+            'absoluteScheme',
             'query',
             'scheme',
             'host',
@@ -109,6 +124,17 @@ class Url
         }
 
         return $url;
+    }
+
+    public static function isValidHostname(string $host): bool
+    {
+        $host = \idn_to_ascii($host, IDNA_DEFAULT, INTL_IDNA_VARIANT_UTS46);
+        if (!\is_string($host) || \strlen($host) > 253) {
+            return false;
+        }
+        $pattern = '/^(?=.{1,253}$)(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)(?:\.(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?))*$/i';
+
+        return (bool) \preg_match($pattern, $host);
     }
 
     private static function getSerializer(): Serializer

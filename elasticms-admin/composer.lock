@@ -62,16 +62,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.369.31",
+            "version": "3.369.34",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "c7bf53dfb09bea3ebfd19b89213625aa134dcc71"
+                "reference": "5db21cd0e5c8a5b5344596649033acf861a5e117"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/c7bf53dfb09bea3ebfd19b89213625aa134dcc71",
-                "reference": "c7bf53dfb09bea3ebfd19b89213625aa134dcc71",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/5db21cd0e5c8a5b5344596649033acf861a5e117",
+                "reference": "5db21cd0e5c8a5b5344596649033acf861a5e117",
                 "shasum": ""
             },
             "require": {
@@ -153,9 +153,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.369.31"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.369.34"
             },
-            "time": "2026-02-10T19:13:30+00:00"
+            "time": "2026-02-13T19:09:12+00:00"
         },
         {
             "name": "brick/math",
@@ -2033,12 +2033,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSAdminUIBundle.git",
-                "reference": "1cbaf836428dc49c7df28349583b15363ed1dc02"
+                "reference": "8a8cdf1fb1f3600ecc3d127ee25419f8fea2c950"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSAdminUIBundle/zipball/1cbaf836428dc49c7df28349583b15363ed1dc02",
-                "reference": "1cbaf836428dc49c7df28349583b15363ed1dc02",
+                "url": "https://api.github.com/repos/ems-project/EMSAdminUIBundle/zipball/8a8cdf1fb1f3600ecc3d127ee25419f8fea2c950",
+                "reference": "8a8cdf1fb1f3600ecc3d127ee25419f8fea2c950",
                 "shasum": ""
             },
             "require": {
@@ -2070,7 +2070,7 @@
             "support": {
                 "source": "https://github.com/ems-project/EMSAdminUIBundle/tree/7.x"
             },
-            "time": "2026-02-10T14:50:14+00:00"
+            "time": "2026-02-12T07:15:10+00:00"
         },
         {
             "name": "elasticms/client-helper-bundle",
@@ -2078,12 +2078,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSClientHelperBundle.git",
-                "reference": "d24b5aa54cb619f9703ee3cef421c21e382713b3"
+                "reference": "4b3a4185dd33a6144957499d6619644de9d6c0fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSClientHelperBundle/zipball/d24b5aa54cb619f9703ee3cef421c21e382713b3",
-                "reference": "d24b5aa54cb619f9703ee3cef421c21e382713b3",
+                "url": "https://api.github.com/repos/ems-project/EMSClientHelperBundle/zipball/4b3a4185dd33a6144957499d6619644de9d6c0fb",
+                "reference": "4b3a4185dd33a6144957499d6619644de9d6c0fb",
                 "shasum": ""
             },
             "require": {
@@ -2127,7 +2127,7 @@
             "support": {
                 "source": "https://github.com/ems-project/EMSClientHelperBundle/tree/7.x"
             },
-            "time": "2026-02-10T06:28:57+00:00"
+            "time": "2026-02-15T13:16:56+00:00"
         },
         {
             "name": "elasticms/common-bundle",
@@ -2135,12 +2135,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSCommonBundle.git",
-                "reference": "b2126771dc8a9e3208f377483eb9426b72331086"
+                "reference": "dcdb05c8b7a8cfd6fc270b8959211d03929a1679"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSCommonBundle/zipball/b2126771dc8a9e3208f377483eb9426b72331086",
-                "reference": "b2126771dc8a9e3208f377483eb9426b72331086",
+                "url": "https://api.github.com/repos/ems-project/EMSCommonBundle/zipball/dcdb05c8b7a8cfd6fc270b8959211d03929a1679",
+                "reference": "dcdb05c8b7a8cfd6fc270b8959211d03929a1679",
                 "shasum": ""
             },
             "require": {
@@ -2215,7 +2215,7 @@
             "support": {
                 "source": "https://github.com/ems-project/EMSCommonBundle/tree/7.x"
             },
-            "time": "2026-02-11T08:02:14+00:00"
+            "time": "2026-02-16T08:46:56+00:00"
         },
         {
             "name": "elasticms/core-bundle",
@@ -2223,12 +2223,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSCoreBundle.git",
-                "reference": "9fb7d506d6d4ed8632a274cefc542cae49ab9e1d"
+                "reference": "f66680c2d331f6c6e2b362fd89f23e2eca85e17b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSCoreBundle/zipball/9fb7d506d6d4ed8632a274cefc542cae49ab9e1d",
-                "reference": "9fb7d506d6d4ed8632a274cefc542cae49ab9e1d",
+                "url": "https://api.github.com/repos/ems-project/EMSCoreBundle/zipball/f66680c2d331f6c6e2b362fd89f23e2eca85e17b",
+                "reference": "f66680c2d331f6c6e2b362fd89f23e2eca85e17b",
                 "shasum": ""
             },
             "require": {
@@ -2288,7 +2288,7 @@
             "support": {
                 "source": "https://github.com/ems-project/EMSCoreBundle/tree/7.x"
             },
-            "time": "2026-02-11T08:03:40+00:00"
+            "time": "2026-02-15T13:16:56+00:00"
         },
         {
             "name": "elasticms/form-bundle",
@@ -2296,12 +2296,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSFormBundle.git",
-                "reference": "7ddf7835bdf2fa35db526404fad5919c1a41636a"
+                "reference": "6b3c46a77b815088875f2b1eb69f177d71756363"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSFormBundle/zipball/7ddf7835bdf2fa35db526404fad5919c1a41636a",
-                "reference": "7ddf7835bdf2fa35db526404fad5919c1a41636a",
+                "url": "https://api.github.com/repos/ems-project/EMSFormBundle/zipball/6b3c46a77b815088875f2b1eb69f177d71756363",
+                "reference": "6b3c46a77b815088875f2b1eb69f177d71756363",
                 "shasum": ""
             },
             "require": {
@@ -2337,7 +2337,7 @@
             "support": {
                 "source": "https://github.com/ems-project/EMSFormBundle/tree/7.x"
             },
-            "time": "2026-02-10T06:09:51+00:00"
+            "time": "2026-02-15T13:16:56+00:00"
         },
         {
             "name": "elasticms/helpers",
@@ -2345,12 +2345,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/helpers.git",
-                "reference": "af45c956be27aff89ebe4975d8282f0849aec916"
+                "reference": "571bf5bb986f9a69ba343e8098ae803c43a66188"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/helpers/zipball/af45c956be27aff89ebe4975d8282f0849aec916",
-                "reference": "af45c956be27aff89ebe4975d8282f0849aec916",
+                "url": "https://api.github.com/repos/ems-project/helpers/zipball/571bf5bb986f9a69ba343e8098ae803c43a66188",
+                "reference": "571bf5bb986f9a69ba343e8098ae803c43a66188",
                 "shasum": ""
             },
             "require": {
@@ -2387,7 +2387,7 @@
             "support": {
                 "source": "https://github.com/ems-project/helpers/tree/7.x"
             },
-            "time": "2026-02-10T06:16:24+00:00"
+            "time": "2026-02-15T13:16:56+00:00"
         },
         {
             "name": "elasticms/submission-bundle",
@@ -2395,12 +2395,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSSubmissionBundle.git",
-                "reference": "ff358f5a9e2c92d2d8ef8b8d85810b2d4428beb0"
+                "reference": "736323523efbfc25aed37519681b699cbb1a3524"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSSubmissionBundle/zipball/ff358f5a9e2c92d2d8ef8b8d85810b2d4428beb0",
-                "reference": "ff358f5a9e2c92d2d8ef8b8d85810b2d4428beb0",
+                "url": "https://api.github.com/repos/ems-project/EMSSubmissionBundle/zipball/736323523efbfc25aed37519681b699cbb1a3524",
+                "reference": "736323523efbfc25aed37519681b699cbb1a3524",
                 "shasum": ""
             },
             "require": {
@@ -2439,7 +2439,7 @@
             "support": {
                 "source": "https://github.com/ems-project/EMSSubmissionBundle/tree/7.x"
             },
-            "time": "2026-01-30T07:46:55+00:00"
+            "time": "2026-02-15T13:16:56+00:00"
         },
         {
             "name": "elasticms/xliff",
@@ -2447,12 +2447,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/xliff.git",
-                "reference": "921f4b97cf3e6f398cb5ed0a97e690343653c745"
+                "reference": "8258e944db1649c1873c5006423165616fc08201"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/xliff/zipball/921f4b97cf3e6f398cb5ed0a97e690343653c745",
-                "reference": "921f4b97cf3e6f398cb5ed0a97e690343653c745",
+                "url": "https://api.github.com/repos/ems-project/xliff/zipball/8258e944db1649c1873c5006423165616fc08201",
+                "reference": "8258e944db1649c1873c5006423165616fc08201",
                 "shasum": ""
             },
             "require": {
@@ -2486,7 +2486,7 @@
             "support": {
                 "source": "https://github.com/ems-project/xliff/tree/7.x"
             },
-            "time": "2026-02-03T15:05:33+00:00"
+            "time": "2026-02-15T13:16:56+00:00"
         },
         {
             "name": "elasticsearch/elasticsearch",
@@ -12265,16 +12265,16 @@
         },
         {
             "name": "thecodingmachine/safe",
-            "version": "v3.3.0",
+            "version": "v3.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thecodingmachine/safe.git",
-                "reference": "2cdd579eeaa2e78e51c7509b50cc9fb89a956236"
+                "reference": "705683a25bacf0d4860c7dea4d7947bfd09eea19"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thecodingmachine/safe/zipball/2cdd579eeaa2e78e51c7509b50cc9fb89a956236",
-                "reference": "2cdd579eeaa2e78e51c7509b50cc9fb89a956236",
+                "url": "https://api.github.com/repos/thecodingmachine/safe/zipball/705683a25bacf0d4860c7dea4d7947bfd09eea19",
+                "reference": "705683a25bacf0d4860c7dea4d7947bfd09eea19",
                 "shasum": ""
             },
             "require": {
@@ -12384,7 +12384,7 @@
             "description": "PHP core functions that throw exceptions instead of returning FALSE on error",
             "support": {
                 "issues": "https://github.com/thecodingmachine/safe/issues",
-                "source": "https://github.com/thecodingmachine/safe/tree/v3.3.0"
+                "source": "https://github.com/thecodingmachine/safe/tree/v3.4.0"
             },
             "funding": [
                 {
@@ -12396,11 +12396,15 @@
                     "type": "github"
                 },
                 {
+                    "url": "https://github.com/silasjoisten",
+                    "type": "github"
+                },
+                {
                     "url": "https://github.com/staabm",
                     "type": "github"
                 }
             ],
-            "time": "2025-05-14T06:15:44+00:00"
+            "time": "2026-02-04T18:08:13+00:00"
         },
         {
             "name": "thenetworg/oauth2-azure",

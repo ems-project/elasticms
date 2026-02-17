@@ -31,6 +31,7 @@ use EMS\ClientHelperBundle\Helper\Webhook\WebhookHelper;
 use EMS\ClientHelperBundle\Twig\AdminMenuExtension;
 use EMS\ClientHelperBundle\Twig\AssetExtension;
 use EMS\ClientHelperBundle\Twig\HelperExtension;
+use EMS\ClientHelperBundle\Twig\InlineEditExtension;
 use EMS\CommonBundle\Contracts\Bridge\Core\CoreBridgeInterface;
 use EMS\CommonBundle\Contracts\Elasticsearch\QueryLoggerInterface;
 use Psr\Cache\CacheItemPoolInterface;
@@ -167,6 +168,10 @@ return static function (ContainerConfigurator $container) {
             service('emsch.helper_webhook'),
         ])
         ->tag('monolog.logger', ['channel' => 'emsch_request'])
+        ->tag('twig.attribute_extension')
+        ->tag('twig.runtime');
+
+    $services->set('emsch.twig_extension.inline_edit', InlineEditExtension::class)
         ->tag('twig.attribute_extension')
         ->tag('twig.runtime');
 

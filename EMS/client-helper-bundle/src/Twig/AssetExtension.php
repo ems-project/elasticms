@@ -35,14 +35,14 @@ final class AssetExtension
         $basePath = $this->getBasePath();
 
         if (null === $this->localFolder) {
-            $this->viteService->loadManifestFromEmsArchive($this->getVersionHash());
+            $manifestId = $this->viteService->loadManifestFromEmsArchive($this->getVersionHash());
         } else {
-            $this->viteService->loadManifestFromDirectory($basePath);
+            $manifestId = $this->viteService->loadManifestFromDirectory($basePath);
         }
 
         $devPath = $this->viteService->devPath($path);
 
-        return $devPath ?? $basePath.\DIRECTORY_SEPARATOR.$this->viteService->path($path);
+        return $devPath ?? $basePath.\DIRECTORY_SEPARATOR.$this->viteService->path($path, $manifestId);
     }
 
     /**

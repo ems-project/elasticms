@@ -25,12 +25,12 @@ readonly class ClientHelperAssetVersionStrategy implements VersionStrategyInterf
     #[\Override]
     public function applyVersion(string $path): string
     {
-        $this->viteService->loadManifestFromDirectory(
+        $manifestId = $this->viteService->loadManifestFromDirectory(
             directory: $this->fileLocator->locate('@EMSClientHelperBundle/public')
         );
 
         $devPath = $this->viteService->devPath($path);
 
-        return $devPath ?? 'bundles/emsclienthelper/'.$this->viteService->path($path);
+        return $devPath ?? 'bundles/emsclienthelper/'.$this->viteService->path($path, $manifestId);
     }
 }

@@ -18,7 +18,7 @@ RUN mv /tmpfs/.docker /bootstrap \
 # Prd
 #
 
-FROM docker.io/smalswebtech/base-php:8.5-apache AS prd
+FROM docker.io/smalswebtech/base-php:8.5-nginx AS prd
 
 USER root
 
@@ -28,20 +28,20 @@ COPY --from=builder --chmod=775 --chown=1001:0 /app/ /app/
 ENV PHP_BYPASS_INI_DEFAULT_VALUES=true \
     PHP_OPENTELEMETRY_ENABLED=true \
     APP_DISABLE_DOTENV=true \
-    EMS_METRIC_PORT="9090"
+    EMS_METRIC_PORT="9099"
 
 USER 1001
 
 EXPOSE 9090/tcp
 
-HEALTHCHECK --start-period=1s --interval=1m --timeout=2s --retries=5 \
+HEALTHCHECK --start-period=1s --interval=10s --timeout=1s --retries=5 \
         CMD curl --fail --header "Host: default.localhost" http://localhost:9000/index.php || exit 1
 
 #
 # Dev
 #
 
-FROM docker.io/smalswebtech/base-php:8.5-apache-dev AS dev
+FROM docker.io/smalswebtech/base-php:8.5-nginx-dev AS dev
 
 USER root
 
@@ -57,5 +57,5 @@ USER 1001
 
 EXPOSE 9090/tcp
 
-HEALTHCHECK --start-period=1s --interval=1m --timeout=2s --retries=5 \
+HEALTHCHECK --start-period=1s --interval=10s --timeout=1s --retries=5 \
         CMD curl --fail --header "Host: default.localhost" http://localhost:9000/index.php || exit 1

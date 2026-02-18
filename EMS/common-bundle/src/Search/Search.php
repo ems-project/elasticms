@@ -71,14 +71,19 @@ class Search
      */
     public function getSources(): array
     {
-        if (\count($this->sourceExcludes) > 0) {
+        $includes = [];
+        if ([] !== $this->sourceIncludes) {
+            $includes = \array_values(\array_unique(\array_merge($this->sourceIncludes, EMSSource::REQUIRED_FIELDS)));
+        }
+
+        if ([] !== $this->sourceExcludes) {
             return \array_filter([
-                'includes' => \array_values(\array_unique(\array_merge($this->sourceIncludes, EMSSource::REQUIRED_FIELDS))),
+                'includes' => $includes,
                 'excludes' => $this->sourceExcludes,
             ]);
         }
 
-        return \array_values(\array_unique(\array_merge($this->sourceIncludes, EMSSource::REQUIRED_FIELDS)));
+        return $includes;
     }
 
     /**

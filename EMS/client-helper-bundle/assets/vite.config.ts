@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite'
+import liveReload from 'vite-plugin-live-reload'
 
 export default defineConfig({
   base: './',
@@ -10,7 +11,7 @@ export default defineConfig({
     copyPublicDir: true,
     rollupOptions: {
       input: {
-        live_editor: 'src/live_editor.js'
+        live_editor: 'src/inline_editor.js'
       }
     }
   },
@@ -20,6 +21,9 @@ export default defineConfig({
   resolve: {
     extensions: ['.js', '.ts'],
   },
+  plugins: [
+    liveReload('../templates/**/*.twig'),
+  ],
   server: {
     host: '0.0.0.0',
     origin: 'http://localhost:5173',

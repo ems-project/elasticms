@@ -7,14 +7,22 @@
     "dev": "vite",
     "dev-host": "vite --host",
     "format": "prettier --write src/",
-    "lint": "eslint . --ext .js,.ts --fix --ignore-path .gitignore",
+    "lint": "eslint . --ext .ts,.js --fix",
     "preview": "vite preview",
     "watch": "tsc && vite build --watch"
   },
   "license": "LGPL-3.0-or-later",
   "dependencies": {
+    "vite": "^7.3.1",
+    "vite-plugin-live-reload": "^3.0.5"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^25.2.3",
     "eslint": "^10.0.0",
+    "jiti": "^2.6.1",
+    "ts-node": "^10.9.2",
     "typescript": "^5.9.3",
-    "vite": "^7.3.1"
+    "typescript-eslint": "^8.56.0"
   }
 }

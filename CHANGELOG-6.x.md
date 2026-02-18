@@ -1,6 +1,6 @@
 # Changelog 6.x
 
-## 6.9.8 (2026-02-16)
+## 6.9.8 (2026-02-18)
 ### Features
 * feat(web/security): sso oauth2 ping identity by @Davidmattei in https://github.com/ems-project/elasticms/pull/1569
 ### Bug Fixes
@@ -10,6 +10,7 @@
 * fix(common/image): the resolution might be set in the EXIF meta (but not only) by @theus77 in https://github.com/ems-project/elasticms/pull/1553
 * fix(demo): traefik v3 update hostRegex admin and web by @Davidmattei in https://github.com/ems-project/elasticms/pull/1563
 * fix(docker): minio do not use semver by @theus77 in https://github.com/ems-project/elasticms/pull/1578
+* fix(web/routing): routing include only required field by @Davidmattei in https://github.com/ems-project/elasticms/pull/1600
 * fix(web/security): ping identity http basic auth by @Davidmattei in https://github.com/ems-project/elasticms/pull/1585
 * fix(web/security): saml redirect with RelayState by @Davidmattei in https://github.com/ems-project/elasticms/pull/1589
 * fix(web/submission): email handler support priority by @theus77 in https://github.com/ems-project/elasticms/pull/1539

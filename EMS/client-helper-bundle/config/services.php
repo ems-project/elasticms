@@ -16,6 +16,7 @@ use EMS\ClientHelperBundle\EventListener\CacheListener;
 use EMS\ClientHelperBundle\EventListener\KernelListener;
 use EMS\ClientHelperBundle\EventListener\SecurityListener;
 use EMS\ClientHelperBundle\Helper\Asset\AssetVersionStrategy;
+use EMS\ClientHelperBundle\Helper\Asset\ClientHelperAssetVersionStrategy;
 use EMS\ClientHelperBundle\Helper\Cache\CacheHelper;
 use EMS\ClientHelperBundle\Helper\ContentType\ContentTypeHelper;
 use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequestManager;
@@ -177,6 +178,11 @@ return static function (ContainerConfigurator $container) {
 
     $services->set('emsch.asset.version_strategy', AssetVersionStrategy::class)
         ->args([service('emsch.twig_extension.asset')]);
+    $services->set('emsch.asset.client_helper_version_strategy', ClientHelperAssetVersionStrategy::class)
+        ->args([
+            service('file_locator'),
+            service('ems.vite'),
+        ]);
 
     $services->set(CoreBridgeController::class)
         ->public()

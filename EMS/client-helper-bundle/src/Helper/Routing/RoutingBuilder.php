@@ -102,6 +102,7 @@ final class RoutingBuilder extends AbstractBuilder
     private function addEmschRoutes(RouteCollection $routes, ?string $routePrefix): RouteCollection
     {
         $routes->addCollection($this->getEmschRoutesFromFile(self::CONFIG_PATH.'core_bridge.php', $routePrefix));
+        $routes->addCollection($this->getEmschRoutesFromFile(self::CONFIG_PATH.'inline_edit.php', $routePrefix));
 
         return $routes;
     }

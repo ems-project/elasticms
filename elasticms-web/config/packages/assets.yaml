@@ -5,3 +5,5 @@ framework:
                 json_manifest_path: '%kernel.project_dir%/public/bundles/emsform/manifest.json'
             emsch:
                 version_strategy: 'emsch.asset.version_strategy'
+            emsclienthelper:
+                version_strategy: 'emsch.asset.client_helper_version_strategy'

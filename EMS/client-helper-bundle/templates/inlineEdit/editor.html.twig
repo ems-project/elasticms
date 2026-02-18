@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Inline Editor</title>
+        <link rel="stylesheet" href="{{ asset('src/live_editor.ts.css', 'emsclienthelper') }}">
+        {%- if vite.isDevServerRunning -%}
+            <script type="module" src="{{- vite.devServerClient -}}"></script>
+        {%- endif -%}
+        <script src="{{ asset('src/live_editor.ts', 'emsclienthelper') }}" type="module"></script>
+    </head>
+    <body>
+        <h1>Editor</h1>
+        <iframe
+                id="preview"
+                src="{{ iframeSrc }}"
+                style="width:100%; height:100vh; border:0;">
+        </iframe>
+    </body>
+</html>

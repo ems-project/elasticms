@@ -9,3 +9,5 @@ framework:
                 version_strategy: 'emsadminui.helper.asset_version_strategy'
             emsch:
                 version_strategy: 'emsch.asset.version_strategy'
+            emsclienthelper:
+                version_strategy: 'emsch.asset.client_helper_version_strategy'

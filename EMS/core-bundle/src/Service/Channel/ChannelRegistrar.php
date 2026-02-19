@@ -68,7 +68,7 @@ final readonly class ChannelRegistrar
 
             return;
         }
-        $options = [
+        $environmentOptions = [
             Environment::ALIAS_CONFIG => $alias,
             Environment::ROUTE_PREFIX => \sprintf('channel/%s', $channelName),
             Environment::REGEX_CONFIG => \sprintf('/^%s.*/', \preg_quote($baseUrl, '/')),
@@ -76,11 +76,15 @@ final readonly class ChannelRegistrar
             'search_config' => $searchConfig,
         ];
 
-        if ([] !== $attributes) {
-            $options[Environment::REQUEST_CONFIG] = $attributes;
+        if (isset($options['inline_editor']) && true === $options['inline_editor']) {
+            $attributes['inline_editor'] = true;
         }
 
-        $this->environmentHelper->addEnvironment($channelName, $options);
+        if ([] !== $attributes) {
+            $environmentOptions[Environment::REQUEST_CONFIG] = $attributes;
+        }
+
+        $this->environmentHelper->addEnvironment($channelName, $environmentOptions);
     }
 
     private function isAnonymousUser(Request $request): bool

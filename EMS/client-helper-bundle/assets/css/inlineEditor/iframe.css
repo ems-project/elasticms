@@ -1,0 +1,13 @@
+[contenteditable] {
+    outline: none;
+    display: inline-block;
+}
+
+[contenteditable]:focus {
+    background-color: rgba(0, 150, 255, 0.1);
+    border-radius: 4px;
+}
+
+[contenteditable]::selection {
+    background: rgba(0, 150, 255, 0.3);
+}

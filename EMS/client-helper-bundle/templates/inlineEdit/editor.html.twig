@@ -4,11 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Inline Editor</title>
-    <link rel="stylesheet" href="{{ asset('src/inline_editor.ts.css', 'emsclienthelper') }}">
+    <link rel="stylesheet" href="{{ asset('src/inlineEditor/editor.ts.css', 'emsclienthelper') }}">
     {%- if vite.isDevServerRunning -%}
         <script type="module" src="{{- vite.devServerClient -}}"></script>
     {%- endif -%}
-    <script src="{{ asset('src/inline_editor.ts', 'emsclienthelper') }}" type="module"></script>
+    <script src="{{ asset('src/inlineEditor/editor.ts', 'emsclienthelper') }}" type="module"></script>
 </head>
 <body>
 <div class="editor" id="editor">
@@ -17,10 +17,13 @@
     </header>
     <div class="editor-body" id="editorBody">
         <main class="editor-preview">
-            <iframe id="preview" src="{{ iframeSrc }}"></iframe>
+            <iframe id="preview-iframe" src="{{ iframeSrc }}"></iframe>
         </main>
         <aside class="editor-sidebar" id="sidebar">
             <div class="editor-resize-handle" id="resizeHandle"></div>
+
+            <button id="edit-btn">EDIT</button>
+
         </aside>
     </div>
 </div>

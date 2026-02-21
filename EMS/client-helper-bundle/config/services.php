@@ -188,6 +188,9 @@ return static function (ContainerConfigurator $container) {
         ->tag('twig.runtime');
 
     $services->set('emsch.twig_extension.inline_edit', InlineEditExtension::class)
+        ->args([
+            service('request_stack'),
+        ])
         ->tag('twig.attribute_extension')
         ->tag('twig.runtime');
 

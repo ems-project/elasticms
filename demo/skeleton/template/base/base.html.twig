@@ -29,7 +29,6 @@
         {% block head %}
             <link rel="stylesheet" href="{{ asset('src/index.js.css', 'emsch') }}">
         {% endblock %}
-        <link rel="stylesheet" href="{{ asset('src/inlineEditor/iframe.ts.css', 'emsclienthelper') }}">
     </head>
     <body class="{% block body_class %}{% endblock %}" data-translations="{{ {
         file_selected: 'js.file_selected'|trans,
@@ -48,8 +47,6 @@
             <script type="application/javascript" src="{{ path('emsch_js_translations') }}"></script>
             <script type="application/javascript" src="{{ asset('form.js', 'emsform') }}"></script>
             <script type="module" src="{{ asset('src/index.js', 'emsch') }}"></script>
-
-            <script src="{{ asset('src/inlineEditor/iframe.ts', 'emsclienthelper') }}" type="module"></script>
     {%- endblock %}
     </body>
     </html>

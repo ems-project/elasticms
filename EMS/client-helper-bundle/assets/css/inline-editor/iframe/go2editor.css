@@ -1,0 +1,40 @@
+:root {
+    --go2editor-size: 54px;
+
+    --go2editor-bg: #ffc107;
+    --go2editor-bg-hover: #e0a800;
+    --go2editor-color: #212529;
+
+    --go2editor-font-size: 25px;
+
+    --go2editor-right: 154px;
+    --go2editor-bottom: 40px;
+    --go2editor-z: 1050;
+}
+
+#go2editor {
+    position: fixed;
+    right: var(--go2editor-right);
+    bottom: var(--go2editor-bottom);
+
+    width: var(--go2editor-size);
+    height: var(--go2editor-size);
+
+    border-radius: 50%;
+    background: var(--go2editor-bg);
+    color: var(--go2editor-color);
+
+    font-size: var(--go2editor-font-size);
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    text-decoration: none;
+    z-index: var(--go2editor-z);
+}
+
+#go2editor:hover {
+    background: var(--go2editor-bg-hover);
+}

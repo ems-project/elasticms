@@ -27,7 +27,7 @@ readonly class InlineEditHelper
 
     public function renderInjectHead(): string
     {
-        return $this->getTemplateButton()->renderBlock('head');
+        return $this->getTemplateInject()->renderBlock('head');
     }
 
     public function renderInjectBody(EmschRequest $request): string
@@ -36,13 +36,13 @@ readonly class InlineEditHelper
             'path' => $request->getEmschPath(),
         ]);
 
-        return $this->getTemplateButton()->renderBlock('body', [
+        return $this->getTemplateInject()->renderBlock('body', [
             'editorUrl' => $editorUrl,
         ]);
     }
 
-    private function getTemplateButton(): TemplateWrapper
+    private function getTemplateInject(): TemplateWrapper
     {
-        return $this->twig->load('@EMSClientHelper/inlineEdit/editor_button.html.twig');
+        return $this->twig->load('@EMSClientHelper/inlineEdit/inject.html.twig');
     }
 }

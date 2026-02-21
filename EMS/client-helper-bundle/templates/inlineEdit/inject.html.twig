@@ -1,0 +1,10 @@
+{%- block head -%}
+    <link rel="stylesheet" href="{{ asset('src/inline-editor/iframe.ts.css', 'emsclienthelper') }}">
+{%- endblock head -%}
+
+{%- block body -%}
+    <script src="{{ asset('src/inline-editor/iframe.ts', 'emsclienthelper') }}" type="module"></script>
+    <a id="go2editor" href="{{ editorUrl }}">
+        <i class="fas fa-pen"></i>
+    </a>
+{%- endblock body -%}

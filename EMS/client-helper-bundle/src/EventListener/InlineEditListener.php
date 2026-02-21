@@ -38,11 +38,11 @@ readonly class InlineEditListener implements EventSubscriberInterface
         }
 
         if ($request->isInlineEditorEnabled()) {
-            $this->injectInlineEditorButton($request, $response);
+            $this->injectIframe($request, $response);
         }
     }
 
-    private function injectInlineEditorButton(EmschRequest $request, Response $response): void
+    private function injectIframe(EmschRequest $request, Response $response): void
     {
         if (false === $content = $response->getContent()) {
             return;

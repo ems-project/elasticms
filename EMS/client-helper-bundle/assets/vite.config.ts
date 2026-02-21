@@ -12,8 +12,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         editor: 'src/inline-editor/editor.js',
-        iframe: 'src/inline-editor/iframe.js',
-        button: 'src/inline-editor/button.js'
+        iframe: 'src/inline-editor/iframe.js'
       }
     }
   },

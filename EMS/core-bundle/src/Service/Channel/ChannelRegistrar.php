@@ -50,7 +50,7 @@ final readonly class ChannelRegistrar
         $baseUrl = \vsprintf('%s://%s%s', [$request->getScheme(), $request->getHttpHost(), $request->getBasePath()]);
 
         $options = $channel->getOptions();
-
+        $inlineEditor = $options['inline_editor'] ?? false;
         $prefixInstanceId = $options['prefix_instance_id'] ?? false;
         if (true === $prefixInstanceId) {
             $alias = $this->instanceId.$alias;
@@ -60,6 +60,9 @@ final readonly class ChannelRegistrar
         $searchConfig = Json::decode((string) $defaultSearchConfigOption);
         $defaultAttributesOption = (isset($options['attributes']) && '' !== $options['attributes']) ? $options['attributes'] : '{}';
         $attributes = Json::decode((string) $defaultAttributesOption);
+        if ($inlineEditor) {
+            $attributes[EmschRequest::ATTRIBUTE_INLINE_EDITOR] = true;
+        }
 
         if (!$this->indexService->hasIndex($alias)) {
             $this->logger->warning('log.channel.alias_not_found', [
@@ -76,10 +79,6 @@ final readonly class ChannelRegistrar
             Environment::DEFAULT => false,
             'search_config' => $searchConfig,
         ];
-
-        if (isset($options['inline_editor']) && true === $options['inline_editor']) {
-            $attributes[EmschRequest::ATTRIBUTE_INLINE_EDITOR] = true;
-        }
 
         if ([] !== $attributes) {
             $environmentOptions[Environment::REQUEST_CONFIG] = $attributes;

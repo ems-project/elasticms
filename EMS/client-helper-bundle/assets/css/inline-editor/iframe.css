@@ -1,3 +1,5 @@
+@import "iframe/go2editor.css";
+
 [contenteditable] {
     outline: none;
     display: inline-block;

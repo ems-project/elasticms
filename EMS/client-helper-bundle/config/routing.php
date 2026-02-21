@@ -77,7 +77,7 @@ return static function (ContainerConfigurator $container) {
 
     $services->set(InlineEditController::class)
         ->args([
-            service('twig'),
+            service('emsch.helper.inline_edit'),
         ])
         ->tag('controller.service_arguments');
 

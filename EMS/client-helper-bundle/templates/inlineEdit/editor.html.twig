@@ -4,11 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Inline Editor</title>
-    <link rel="stylesheet" href="{{ asset('src/inlineEditor/editor.ts.css', 'emsclienthelper') }}">
+    <link rel="stylesheet" href="{{ asset('src/inline-editor/editor.ts.css', 'emsclienthelper') }}">
     {%- if vite.isDevServerRunning -%}
         <script type="module" src="{{- vite.devServerClient -}}"></script>
     {%- endif -%}
-    <script src="{{ asset('src/inlineEditor/editor.ts', 'emsclienthelper') }}" type="module"></script>
+    <script src="{{ asset('src/inline-editor/editor.ts', 'emsclienthelper') }}" type="module"></script>
 </head>
 <body>
 <div class="editor" id="editor">

@@ -6,6 +6,7 @@ namespace EMS\CoreBundle\Service\Channel;
 
 use EMS\ClientHelperBundle\Contracts\Environment\EnvironmentHelperInterface;
 use EMS\ClientHelperBundle\Helper\Environment\Environment;
+use EMS\ClientHelperBundle\Helper\Request\EmschRequest;
 use EMS\CoreBundle\Repository\ChannelRepository;
 use EMS\CoreBundle\Service\IndexService;
 use EMS\Helpers\Standard\Json;
@@ -77,7 +78,7 @@ final readonly class ChannelRegistrar
         ];
 
         if (isset($options['inline_editor']) && true === $options['inline_editor']) {
-            $attributes['inline_editor'] = true;
+            $attributes[EmschRequest::ATTRIBUTE_INLINE_EDITOR] = true;
         }
 
         if ([] !== $attributes) {

@@ -11,8 +11,9 @@ export default defineConfig({
     copyPublicDir: true,
     rollupOptions: {
       input: {
-        editor: 'src/inlineEditor/editor.js',
-        iframe: 'src/inlineEditor/iframe.js'
+        editor: 'src/inline-editor/editor.js',
+        iframe: 'src/inline-editor/iframe.js',
+        button: 'src/inline-editor/button.js'
       }
     }
   },

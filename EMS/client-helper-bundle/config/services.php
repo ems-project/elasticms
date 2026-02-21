@@ -13,6 +13,7 @@ use EMS\ClientHelperBundle\Controller\EmbedController;
 use EMS\ClientHelperBundle\Controller\HttpCacheController;
 use EMS\ClientHelperBundle\Controller\SearchController;
 use EMS\ClientHelperBundle\EventListener\CacheListener;
+use EMS\ClientHelperBundle\EventListener\InlineEditListener;
 use EMS\ClientHelperBundle\EventListener\KernelListener;
 use EMS\ClientHelperBundle\EventListener\SecurityListener;
 use EMS\ClientHelperBundle\Helper\Asset\AssetVersionStrategy;
@@ -24,6 +25,7 @@ use EMS\ClientHelperBundle\Helper\Environment\EnvironmentFactory;
 use EMS\ClientHelperBundle\Helper\Environment\EnvironmentHelper;
 use EMS\ClientHelperBundle\Helper\Form\Extension\EmschFormViewExtension;
 use EMS\ClientHelperBundle\Helper\Hashcash\HashcashHelper;
+use EMS\ClientHelperBundle\Helper\InlineEdit\InlineEditHelper;
 use EMS\ClientHelperBundle\Helper\Request\EmschRequestResolver;
 use EMS\ClientHelperBundle\Helper\Request\ExceptionHelper;
 use EMS\ClientHelperBundle\Helper\Request\LocaleHelper;
@@ -36,6 +38,7 @@ use EMS\ClientHelperBundle\Twig\InlineEditExtension;
 use EMS\CommonBundle\Contracts\Bridge\Core\CoreBridgeInterface;
 use EMS\CommonBundle\Contracts\Elasticsearch\QueryLoggerInterface;
 use Psr\Cache\CacheItemPoolInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 return static function (ContainerConfigurator $container) {
     $services = $container->services();
@@ -111,6 +114,18 @@ return static function (ContainerConfigurator $container) {
 
     $services->set('emsch.form.extension.view', EmschFormViewExtension::class)
         ->tag('form.type_extension', ['priority' => 1]);
+
+    $services->set('emsch.helper.inline_edit', InlineEditHelper::class)
+        ->args([
+            service('twig'),
+            service(UrlGeneratorInterface::class),
+        ]);
+
+    $services->set('emsch.event_listener.inline_edit', InlineEditListener::class)
+        ->args([
+            service('emsch.helper.inline_edit'),
+        ])
+        ->tag('kernel.event_subscriber');
 
     $services->set('emsch.event_listener.security', SecurityListener::class)
         ->args([

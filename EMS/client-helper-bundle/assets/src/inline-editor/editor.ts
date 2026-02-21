@@ -1,6 +1,6 @@
-import "../../css/inlineEditor/editor.css";
-import { initSidebarResize } from './editor/sidebarResize';
-import { EditorBridge } from './editor/editorBridge';
+import "../../css/inline-editor/editor.css";
+import { initSidebarResize } from './editor/sidebar-resize';
+import { EditorBridge } from './editor/editor-bridge';
 
 initSidebarResize();
 

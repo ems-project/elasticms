@@ -4,26 +4,24 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
+use EMS\ClientHelperBundle\Helper\InlineEdit\InlineEditHelper;
+use EMS\ClientHelperBundle\Helper\Request\EmschRequest;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Twig\Environment;
 
-class InlineEditController
+readonly class InlineEditController
 {
     public function __construct(
-        private readonly Environment $twig,
+        private InlineEditHelper $inlineEditHelper,
     ) {
     }
 
-    public function editor(Request $request): Response
+    public function editor(EmschRequest $request, string $path): Response
     {
-        if (!$request->attributes->getBoolean('inline_editor')) {
+        if (!$request->isInlineEditorEnabled()) {
             throw new NotFoundHttpException();
         }
 
-        return new Response($this->twig->render('@EMSClientHelper/inlineEdit/editor.html.twig', [
-            'iframeSrc' => \preg_replace('#/editor/#', '/', $request->getPathInfo(), 1),
-        ]));
+        return new Response($this->inlineEditHelper->renderEditor($request, $path));
     }
 }

@@ -14,16 +14,17 @@
 <div class="editor" id="editor">
     <header class="editor-topbar">
         <strong>Inline Editor</strong>
+        <div class="editor-actions">
+            <button class="btn"><i class="fas fa-pen"></i> Edit</button>
+            <a href="{{ url }}" class="btn"><i class="fas fa-close"></i> Close</a>
+        </div>
     </header>
     <div class="editor-body" id="editorBody">
         <main class="editor-preview">
-            <iframe id="preview-iframe" src="{{ iframeSrc }}"></iframe>
+            <iframe id="preview-iframe" src="{{ url }}"></iframe>
         </main>
         <aside class="editor-sidebar" id="sidebar">
             <div class="editor-resize-handle" id="resizeHandle"></div>
-
-            <button id="edit-btn">EDIT</button>
-
         </aside>
     </div>
 </div>

@@ -20,8 +20,10 @@ readonly class InlineEditHelper
 
     public function renderEditor(EmschRequest $request, string $path): string
     {
+        $url = $request->getEmschRoutePrefix().$path;
+
         return $this->twig->render('@EMSClientHelper/inlineEdit/editor.html.twig', [
-            'iframeSrc' => $request->getEmschRoutePrefix().$path,
+            'url' => $url,
         ]);
     }
 

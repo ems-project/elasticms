@@ -8,6 +8,10 @@ html, body {
     font-family: system-ui, -apple-system, sans-serif;
 }
 
+a {
+    text-decoration: none;
+}
+
 .editor {
     display: grid;
     grid-template-rows: 60px 1fr;
@@ -17,10 +21,34 @@ html, body {
 .editor-topbar {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     padding: 0 20px;
     background: #111827;
     color: white;
+}
+
+.editor-actions {
+    margin-left: auto;
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    background: #374151;
+    color: white;
+    border: none;
+    padding: 6px 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.btn > i {
+    padding-right: 5px;
+    font-size: 12px;
+}
+
+.btn:hover {
+    background: #4b5563;
 }
 
 .editor-body {

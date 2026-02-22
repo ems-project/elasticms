@@ -1,3 +1,4 @@
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import "../../css/inline-editor/editor.css";
 import { initSidebarResize } from './editor/sidebar-resize';
 import { EditorBridge } from './editor/editor-bridge';

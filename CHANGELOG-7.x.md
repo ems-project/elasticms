@@ -1,6 +1,6 @@
 # Changelog 7.x
 
-## 7.0.0 (2026-02-16)
+## 7.0.0 (2026-02-23)
 ### Features
 * feat(admin): manage webhooks by @theus77 in https://github.com/ems-project/elasticms/pull/1512
 * feat(admin/api): index data from asset by @theus77 in https://github.com/ems-project/elasticms/pull/1472
@@ -17,6 +17,7 @@
 * feat(doc): add prettier and linter by @Davidmattei in https://github.com/ems-project/elasticms/pull/1461
 * feat(doc): use vitepress instead of docsify by @Davidmattei in https://github.com/ems-project/elasticms/pull/1452
 * feat(docker): replaces Apache with Nginx for Admin Docker image by @zebby76 in https://github.com/ems-project/elasticms/pull/1587
+* feat(docker): replaces Apache with Nginx for Website Docker image by @zebby76 in https://github.com/ems-project/elasticms/pull/1601
 * feat(elasticSearch): upgrade support eleasticSearch 8 by @Davidmattei in https://github.com/ems-project/elasticms/pull/1557
 * feat(elasticms): php8.5 and symfony7.4 by @Davidmattei in https://github.com/ems-project/elasticms/pull/1522
 * feat(phpunit): upgrade 11.5 to 12.5 by @Davidmattei in https://github.com/ems-project/elasticms/pull/1549
@@ -31,6 +32,7 @@
 * fix(admin/form): form label empty calling deprecated __toString by @Davidmattei in https://github.com/ems-project/elasticms/pull/1576
 * fix(admin/web): remove default values for EMS_STORAGES by @Davidmattei in https://github.com/ems-project/elasticms/pull/1583
 * fix(admin/web): remove deprecation twig and routes by @Davidmattei in https://github.com/ems-project/elasticms/pull/1573
+* fix(build): fork stevenmaguire/oauth2-keycloak for jwt 7 support by @Davidmattei in https://github.com/ems-project/elasticms/pull/1602
 * fix(build): setup 7 series release by @Davidmattei in https://github.com/ems-project/elasticms/pull/1597
 * fix(cli): remove deprecated TextHelper by @Davidmattei in https://github.com/ems-project/elasticms/pull/1595
 * fix(common/api): /upload-chunk/{sha1} replaced by /chunk/{hash} by @theus77 in https://github.com/ems-project/elasticms/pull/1580
@@ -39,6 +41,7 @@
 * fix(docker): optional include docker .env file by @Davidmattei in https://github.com/ems-project/elasticms/pull/1577
 * fix(docker): upgrade traefik v2.2 to v3.6 (issue with docker API version >= 1.52) by @theus77 in https://github.com/ems-project/elasticms/pull/1480
 * fix(elasticms): remove bundles deprecations by @Davidmattei in https://github.com/ems-project/elasticms/pull/1574
+* fix(nginx): Fix incorrect SERVER_NAME passed to PHP by @zebby76 in https://github.com/ems-project/elasticms/pull/1598
 * fix(phpstan): deprecations and baseline issues by @Davidmattei in https://github.com/ems-project/elasticms/pull/1538
 * fix(phpstan): request get method and array offsetAccess by @Davidmattei in https://github.com/ems-project/elasticms/pull/1536
 * fix(rector): coding style by @Davidmattei in https://github.com/ems-project/elasticms/pull/1593

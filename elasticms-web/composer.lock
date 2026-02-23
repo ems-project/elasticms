@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "77c803d9b60e835697436a347cf79755",
+    "content-hash": "bfd1c47f93b99e265f589a4a2ece2eff",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -62,16 +62,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.369.34",
+            "version": "3.370.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "5db21cd0e5c8a5b5344596649033acf861a5e117"
+                "reference": "3cfb2c787c43efa546ba3b6b596956cbef5cdd53"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/5db21cd0e5c8a5b5344596649033acf861a5e117",
-                "reference": "5db21cd0e5c8a5b5344596649033acf861a5e117",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/3cfb2c787c43efa546ba3b6b596956cbef5cdd53",
+                "reference": "3cfb2c787c43efa546ba3b6b596956cbef5cdd53",
                 "shasum": ""
             },
             "require": {
@@ -153,9 +153,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.369.34"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.370.0"
             },
-            "time": "2026-02-13T19:09:12+00:00"
+            "time": "2026-02-20T19:09:33+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -2013,12 +2013,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSClientHelperBundle.git",
-                "reference": "6527f7929c060e48c26dc06bfeec09156c7adf04"
+                "reference": "d4a71b3737a48565e5bf5e052bff7459e62e6afa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSClientHelperBundle/zipball/6527f7929c060e48c26dc06bfeec09156c7adf04",
-                "reference": "6527f7929c060e48c26dc06bfeec09156c7adf04",
+                "url": "https://api.github.com/repos/ems-project/EMSClientHelperBundle/zipball/d4a71b3737a48565e5bf5e052bff7459e62e6afa",
+                "reference": "d4a71b3737a48565e5bf5e052bff7459e62e6afa",
                 "shasum": ""
             },
             "require": {
@@ -2027,7 +2027,7 @@
                 "league/oauth2-client": "^2.8",
                 "onelogin/php-saml": "^4.1",
                 "php": "^8.5",
-                "stevenmaguire/oauth2-keycloak": "^5.1",
+                "stevenmaguire/oauth2-keycloak": "dev-jwt7-support as 5.1.1",
                 "symfony-cmf/routing": "^3.0",
                 "symfony/asset": "7.4.*",
                 "symfony/console": "7.4.*",
@@ -2062,7 +2062,7 @@
             "support": {
                 "source": "https://github.com/ems-project/EMSClientHelperBundle/tree/7.0.0"
             },
-            "time": "2026-02-16T10:09:40+00:00"
+            "time": "2026-02-23T09:13:54+00:00"
         },
         {
             "name": "elasticms/common-bundle",
@@ -2070,12 +2070,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSCommonBundle.git",
-                "reference": "317abbd57192765c286e4de0fd53558e0c2f6f69"
+                "reference": "debb631e68aa6fcfe221944e256c89462f6de468"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSCommonBundle/zipball/317abbd57192765c286e4de0fd53558e0c2f6f69",
-                "reference": "317abbd57192765c286e4de0fd53558e0c2f6f69",
+                "url": "https://api.github.com/repos/ems-project/EMSCommonBundle/zipball/debb631e68aa6fcfe221944e256c89462f6de468",
+                "reference": "debb631e68aa6fcfe221944e256c89462f6de468",
                 "shasum": ""
             },
             "require": {
@@ -2150,7 +2150,7 @@
             "support": {
                 "source": "https://github.com/ems-project/EMSCommonBundle/tree/7.0.0"
             },
-            "time": "2026-02-16T10:09:40+00:00"
+            "time": "2026-02-18T14:25:35+00:00"
         },
         {
             "name": "elasticms/form-bundle",
@@ -2158,12 +2158,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSFormBundle.git",
-                "reference": "580048b357cac91e17d5b527023355b939e81e5b"
+                "reference": "891b9a8df5c5fb85323bd2566b02c4bb478dc003"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSFormBundle/zipball/580048b357cac91e17d5b527023355b939e81e5b",
-                "reference": "580048b357cac91e17d5b527023355b939e81e5b",
+                "url": "https://api.github.com/repos/ems-project/EMSFormBundle/zipball/891b9a8df5c5fb85323bd2566b02c4bb478dc003",
+                "reference": "891b9a8df5c5fb85323bd2566b02c4bb478dc003",
                 "shasum": ""
             },
             "require": {
@@ -2199,7 +2199,7 @@
             "support": {
                 "source": "https://github.com/ems-project/EMSFormBundle/tree/7.0.0"
             },
-            "time": "2026-02-16T10:09:40+00:00"
+            "time": "2026-02-18T14:25:35+00:00"
         },
         {
             "name": "elasticms/helpers",
@@ -2257,12 +2257,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSSubmissionBundle.git",
-                "reference": "ba81ae7bf199700474237024ce3a4fa07f19f691"
+                "reference": "d6eacbab90b463e100c79c29b0f0ee978e3ad0df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSSubmissionBundle/zipball/ba81ae7bf199700474237024ce3a4fa07f19f691",
-                "reference": "ba81ae7bf199700474237024ce3a4fa07f19f691",
+                "url": "https://api.github.com/repos/ems-project/EMSSubmissionBundle/zipball/d6eacbab90b463e100c79c29b0f0ee978e3ad0df",
+                "reference": "d6eacbab90b463e100c79c29b0f0ee978e3ad0df",
                 "shasum": ""
             },
             "require": {
@@ -2301,7 +2301,7 @@
             "support": {
                 "source": "https://github.com/ems-project/EMSSubmissionBundle/tree/7.0.0"
             },
-            "time": "2026-02-16T10:09:40+00:00"
+            "time": "2026-02-18T14:25:35+00:00"
         },
         {
             "name": "elasticsearch/elasticsearch",
@@ -2362,16 +2362,16 @@
         },
         {
             "name": "endroid/installer",
-            "version": "1.5.1",
+            "version": "1.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/endroid/installer.git",
-                "reference": "20ecb9cf11c9e6b98aa045e9099e7290ebd8aa6c"
+                "reference": "32eacb1759b52c775cafa61a9da45e564d86de8a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/endroid/installer/zipball/20ecb9cf11c9e6b98aa045e9099e7290ebd8aa6c",
-                "reference": "20ecb9cf11c9e6b98aa045e9099e7290ebd8aa6c",
+                "url": "https://api.github.com/repos/endroid/installer/zipball/32eacb1759b52c775cafa61a9da45e564d86de8a",
+                "reference": "32eacb1759b52c775cafa61a9da45e564d86de8a",
                 "shasum": ""
             },
             "require": {
@@ -2410,7 +2410,7 @@
             "description": "Composer plugin for installing configuration files",
             "support": {
                 "issues": "https://github.com/endroid/installer/issues",
-                "source": "https://github.com/endroid/installer/tree/1.5.1"
+                "source": "https://github.com/endroid/installer/tree/1.5.2"
             },
             "funding": [
                 {
@@ -2418,7 +2418,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-11-23T20:15:07+00:00"
+            "time": "2026-02-23T06:20:05+00:00"
         },
         {
             "name": "endroid/qr-code",
@@ -2565,16 +2565,16 @@
         },
         {
             "name": "firebase/php-jwt",
-            "version": "v6.11.1",
+            "version": "v7.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/firebase/php-jwt.git",
-                "reference": "d1e91ecf8c598d073d0995afa8cd5c75c6e19e66"
+                "reference": "5645b43af647b6947daac1d0f659dd1fbe8d3b65"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/d1e91ecf8c598d073d0995afa8cd5c75c6e19e66",
-                "reference": "d1e91ecf8c598d073d0995afa8cd5c75c6e19e66",
+                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/5645b43af647b6947daac1d0f659dd1fbe8d3b65",
+                "reference": "5645b43af647b6947daac1d0f659dd1fbe8d3b65",
                 "shasum": ""
             },
             "require": {
@@ -2622,9 +2622,9 @@
             ],
             "support": {
                 "issues": "https://github.com/firebase/php-jwt/issues",
-                "source": "https://github.com/firebase/php-jwt/tree/v6.11.1"
+                "source": "https://github.com/firebase/php-jwt/tree/v7.0.2"
             },
-            "time": "2025-04-09T20:32:01+00:00"
+            "time": "2025-12-16T22:17:28+00:00"
         },
         {
             "name": "giggsey/libphonenumber-for-php",
@@ -6240,33 +6240,35 @@
         },
         {
             "name": "sabberworm/php-css-parser",
-            "version": "v9.1.0",
+            "version": "v9.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/MyIntervals/PHP-CSS-Parser.git",
-                "reference": "1b363fdbdc6dd0ca0f4bf98d3a4d7f388133f1fb"
+                "reference": "59373045e11ad47b5c18fc615feee0219e42f6d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/MyIntervals/PHP-CSS-Parser/zipball/1b363fdbdc6dd0ca0f4bf98d3a4d7f388133f1fb",
-                "reference": "1b363fdbdc6dd0ca0f4bf98d3a4d7f388133f1fb",
+                "url": "https://api.github.com/repos/MyIntervals/PHP-CSS-Parser/zipball/59373045e11ad47b5c18fc615feee0219e42f6d3",
+                "reference": "59373045e11ad47b5c18fc615feee0219e42f6d3",
                 "shasum": ""
             },
             "require": {
                 "ext-iconv": "*",
                 "php": "^7.2.0 || ~8.0.0 || ~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0",
-                "thecodingmachine/safe": "^1.3 || ^2.5 || ^3.3"
+                "thecodingmachine/safe": "^1.3 || ^2.5 || ^3.4"
             },
             "require-dev": {
                 "php-parallel-lint/php-parallel-lint": "1.4.0",
                 "phpstan/extension-installer": "1.4.3",
-                "phpstan/phpstan": "1.12.28 || 2.1.25",
-                "phpstan/phpstan-phpunit": "1.4.2 || 2.0.7",
-                "phpstan/phpstan-strict-rules": "1.6.2 || 2.0.6",
-                "phpunit/phpunit": "8.5.46",
+                "phpstan/phpstan": "1.12.32 || 2.1.32",
+                "phpstan/phpstan-phpunit": "1.4.2 || 2.0.8",
+                "phpstan/phpstan-strict-rules": "1.6.2 || 2.0.7",
+                "phpunit/phpunit": "8.5.52",
                 "rawr/phpunit-data-provider": "3.3.1",
-                "rector/rector": "1.2.10 || 2.1.7",
-                "rector/type-perfect": "1.0.0 || 2.1.0"
+                "rector/rector": "1.2.10 || 2.2.8",
+                "rector/type-perfect": "1.0.0 || 2.1.0",
+                "squizlabs/php_codesniffer": "4.0.1",
+                "thecodingmachine/phpstan-safe-rule": "1.2.0 || 1.4.1"
             },
             "suggest": {
                 "ext-mbstring": "for parsing UTF-8 CSS"
@@ -6274,10 +6276,14 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "9.2.x-dev"
+                    "dev-main": "9.3.x-dev"
                 }
             },
             "autoload": {
+                "files": [
+                    "src/Rule/Rule.php",
+                    "src/RuleSet/RuleContainer.php"
+                ],
                 "psr-4": {
                     "Sabberworm\\CSS\\": "src/"
                 }
@@ -6308,26 +6314,26 @@
             ],
             "support": {
                 "issues": "https://github.com/MyIntervals/PHP-CSS-Parser/issues",
-                "source": "https://github.com/MyIntervals/PHP-CSS-Parser/tree/v9.1.0"
+                "source": "https://github.com/MyIntervals/PHP-CSS-Parser/tree/v9.2.0"
             },
-            "time": "2025-09-14T07:37:21+00:00"
+            "time": "2026-02-21T17:12:03+00:00"
         },
         {
             "name": "stevenmaguire/oauth2-keycloak",
-            "version": "5.1.0",
+            "version": "dev-jwt7-support",
             "source": {
                 "type": "git",
-                "url": "https://github.com/stevenmaguire/oauth2-keycloak.git",
-                "reference": "1b690b7377dfe7a23e1590373f37e12cf40a6d75"
+                "url": "git@github.com:ems-project/oauth2-keycloak.git",
+                "reference": "107c24beea7c58bf4d4aa905fb3c4d302c75d603"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stevenmaguire/oauth2-keycloak/zipball/1b690b7377dfe7a23e1590373f37e12cf40a6d75",
-                "reference": "1b690b7377dfe7a23e1590373f37e12cf40a6d75",
+                "url": "https://api.github.com/repos/ems-project/oauth2-keycloak/zipball/107c24beea7c58bf4d4aa905fb3c4d302c75d603",
+                "reference": "107c24beea7c58bf4d4aa905fb3c4d302c75d603",
                 "shasum": ""
             },
             "require": {
-                "firebase/php-jwt": "^6.0",
+                "firebase/php-jwt": "^7.0",
                 "league/oauth2-client": "^2.0",
                 "php": "~7.2 || ~8.0"
             },
@@ -6347,7 +6353,17 @@
                     "Stevenmaguire\\OAuth2\\Client\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Stevenmaguire\\OAuth2\\Client\\Test\\": "test/src/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "@putenv XDEBUG_MODE=coverage",
+                    "phpunit --colors=always"
+                ]
+            },
             "license": [
                 "MIT"
             ],
@@ -6367,11 +6383,7 @@
                 "oauth",
                 "oauth2"
             ],
-            "support": {
-                "issues": "https://github.com/stevenmaguire/oauth2-keycloak/issues",
-                "source": "https://github.com/stevenmaguire/oauth2-keycloak/tree/5.1.0"
-            },
-            "time": "2023-10-24T06:10:44+00:00"
+            "time": "2026-02-23T08:38:05+00:00"
         },
         {
             "name": "symfony-cmf/routing",
@@ -11533,16 +11545,16 @@
         },
         {
             "name": "thenetworg/oauth2-azure",
-            "version": "v2.2.3",
+            "version": "v2.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TheNetworg/oauth2-azure.git",
-                "reference": "074b57e19f4aa9634d20b2e4eda909e1127e4e66"
+                "reference": "a897d60b6b127daa2f27b1b4e62e7af40829d02f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TheNetworg/oauth2-azure/zipball/074b57e19f4aa9634d20b2e4eda909e1127e4e66",
-                "reference": "074b57e19f4aa9634d20b2e4eda909e1127e4e66",
+                "url": "https://api.github.com/repos/TheNetworg/oauth2-azure/zipball/a897d60b6b127daa2f27b1b4e62e7af40829d02f",
+                "reference": "a897d60b6b127daa2f27b1b4e62e7af40829d02f",
                 "shasum": ""
             },
             "require": {
@@ -11587,9 +11599,9 @@
             ],
             "support": {
                 "issues": "https://github.com/TheNetworg/oauth2-azure/issues",
-                "source": "https://github.com/TheNetworg/oauth2-azure/tree/v2.2.3"
+                "source": "https://github.com/TheNetworg/oauth2-azure/tree/v2.2.4"
             },
-            "time": "2025-12-22T06:30:10+00:00"
+            "time": "2026-01-29T12:43:59+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",

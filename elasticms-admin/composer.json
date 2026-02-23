@@ -49,6 +49,12 @@
         "symfony/debug-bundle": "7.4.*",
         "symfony/web-profiler-bundle": "7.4.*"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:ems-project/oauth2-keycloak.git"
+        }
+    ],
     "config": {
         "allow-plugins": {
             "php-http/discovery": true,

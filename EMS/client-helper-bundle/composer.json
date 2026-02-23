@@ -18,7 +18,7 @@
         "elasticms/common-bundle": "7.0.*",
         "league/oauth2-client": "^2.8",
         "onelogin/php-saml": "^4.1",
-        "stevenmaguire/oauth2-keycloak": "^5.1",
+        "stevenmaguire/oauth2-keycloak": "dev-jwt7-support as 5.1.1",
         "symfony-cmf/routing": "^3.0",
         "symfony/asset": "7.4.*",
         "symfony/console": "7.4.*",

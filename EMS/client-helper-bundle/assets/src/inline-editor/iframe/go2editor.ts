@@ -1,4 +1,4 @@
-export function go2editor(): void {
+export function init(): void {
     if (window.self !== window.top) {
         return;
     }

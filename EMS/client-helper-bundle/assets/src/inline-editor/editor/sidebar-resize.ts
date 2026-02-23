@@ -1,4 +1,4 @@
-export function initSidebarResize() {
+export function init() {
     const editorBody = document.getElementById('editorBody') as HTMLElement | null;
     const sidebar = document.getElementById('sidebar') as HTMLElement | null;
     const handle = document.getElementById('resizeHandle') as HTMLElement | null;

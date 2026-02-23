@@ -9,7 +9,7 @@ PWD				= $(shell pwd)
 RUN_ADMIN		= docker compose exec admin-${ENVIRONMENT} ems-demo
 RUN_WEB			= docker compose exec -u ${DOCKER_USER} web-${ENVIRONMENT} preview
 RUN_POSTGRES 	= docker compose exec -e PGUSER=postgres -e PGPASSWORD=adminpg -T postgres
-RUN_NPM			= docker run -u ${DOCKER_USER}:0 --rm -it -v ${PWD}:/opt/src --workdir /opt/src elasticms/base-php:8.1-cli-dev npm
+RUN_NPM			= docker run -u ${DOCKER_USER}:0 --rm -it -v ${PWD}:/app --workdir /app smalswebtech/base-php:8.5-cli-dev npm
 
 .DEFAULT_GOAL := help
 .PHONY: help npm

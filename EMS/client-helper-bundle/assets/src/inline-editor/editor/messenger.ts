@@ -2,7 +2,7 @@ import {
     EditorToIframeMessage,
     IframeToEditorMessage,
     MESSAGE_SOURCE
-} from '../messages';
+} from '../types';
 
 type EventHandler = (message: IframeToEditorMessage) => void;
 

@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Controller;
 
+use EMS\ClientHelperBundle\Helper\InlineEdit\Dto\RenderPayload;
 use EMS\ClientHelperBundle\Helper\InlineEdit\InlineEditHelper;
 use EMS\ClientHelperBundle\Helper\Request\EmschRequest;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Serializer\SerializerInterface;
 
 readonly class InlineEditController
 {
@@ -23,5 +27,21 @@ readonly class InlineEditController
         }
 
         return new Response($this->inlineEditHelper->renderEditor($request, $path));
+    }
+
+    public function render(EmschRequest $request, SerializerInterface $serializer): JsonResponse
+    {
+        if (!$request->isInlineEditorEnabled()) {
+            throw new NotFoundHttpException();
+        }
+
+        if ('json' !== $request->getContentTypeFormat()) {
+            throw new BadRequestException('Unsupported content format');
+        }
+
+        $jsonData = $request->getContent();
+        $payload = $serializer->deserialize($jsonData, RenderPayload::class, 'json');
+
+        return new JsonResponse($this->inlineEditHelper->render($payload));
     }
 }

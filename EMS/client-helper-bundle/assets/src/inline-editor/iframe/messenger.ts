@@ -2,7 +2,7 @@ import {
     EditorToIframeMessage,
     IframeToEditorMessage,
     MESSAGE_SOURCE
-} from '../messages';
+} from '../types';
 
 type EventHandler = (message: EditorToIframeMessage) => void;
 
@@ -11,13 +11,6 @@ export class Messenger {
 
     constructor() {
         window.addEventListener('message', this.handleMessage);
-        window.addEventListener('load', () => {
-            this.send({
-                type: 'IFRAME_READY',
-                url: window.location.href,
-                title: document.title
-            });
-        });
     }
 
     private handleMessage = (event: MessageEvent) => {

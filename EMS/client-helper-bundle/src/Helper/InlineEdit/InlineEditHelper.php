@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Helper\InlineEdit;
 
+use EMS\ClientHelperBundle\Helper\InlineEdit\Dto\RenderPayload;
 use EMS\ClientHelperBundle\Helper\Request\EmschRequest;
 use EMS\ClientHelperBundle\Routes;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -18,12 +19,25 @@ readonly class InlineEditHelper
     ) {
     }
 
+    /**
+     * @return array<string, string>
+     */
+    public function render(RenderPayload $payload): array
+    {
+        $template = $this->twig->load('@EMSClientHelper/inlineEdit/render.html.twig');
+
+        return [
+            '.editor-topbar' => $template->renderBlock('header'),
+            '.editor-sidebar' => $template->renderBlock('sidebar', [
+                'payload' => $payload,
+            ]),
+        ];
+    }
+
     public function renderEditor(EmschRequest $request, string $path): string
     {
-        $url = $request->getEmschRoutePrefix().$path;
-
         return $this->twig->render('@EMSClientHelper/inlineEdit/editor.html.twig', [
-            'url' => $url,
+            'iframeUrl' => $request->getEmschRoutePrefix().$path,
         ]);
     }
 

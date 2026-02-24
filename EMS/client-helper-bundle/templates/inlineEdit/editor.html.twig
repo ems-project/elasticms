@@ -1,3 +1,4 @@
+{% use "@EMSClientHelper/inlineEdit/render.html.twig" %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -10,21 +11,18 @@
     {%- endif -%}
     <script src="{{ asset('src/inline-editor/editor.ts', 'emsclienthelper') }}" type="module"></script>
 </head>
-<body>
+<body data-render-url="{{ path(constant('EMS\\ClientHelperBundle\\Routes::INLINE_EDIT_RENDER')) }}">
 <div class="editor" id="editor">
-    <header class="editor-topbar">
-        <strong>Inline Editor</strong>
-        <div class="editor-actions">
-            <button class="btn" id="btn-edit"><i class="fas fa-pen"></i> Edit</button>
-            <a href="{{ url }}" class="btn"><i class="fas fa-close"></i> Close</a>
-        </div>
-    </header>
+    <header class="editor-topbar"></header>
     <div class="editor-body" id="editorBody">
         <main class="editor-preview">
-            <iframe id="preview-iframe" src="{{ url }}"></iframe>
+            <iframe id="preview-iframe" src="{{ iframeUrl }}"></iframe>
         </main>
-        <aside class="editor-sidebar" id="sidebar">
+        <aside id="sidebar">
             <div class="editor-resize-handle" id="resizeHandle"></div>
+            <div class="editor-sidebar">
+
+            </div>
         </aside>
     </div>
 </div>

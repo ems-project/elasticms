@@ -43,6 +43,6 @@ readonly class InlineEditExtension
 
         $content = $document->getValue($path);
 
-        return \sprintf('<%1$s%2$s>%3$s</%1$s>', $element, $attrString, \htmlspecialchars((string) $content));
+        return \sprintf('<%1$s%2$s>%3$s</%1$s>', $element, $attrString, $content);
     }
 }

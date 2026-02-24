@@ -41,9 +41,14 @@
         <div class="container-fluid container-lg">
             <section class="py-5 py-lg-8">
                 <div class="row">
-                    <div class="col-12 col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
-                        {{ wysiwyg.transform(source.(locale).body|emsch_routing) }}
-                    </div>
+                    {{ emsch_inline_edit(
+                        element: 'div',
+                        document: target,
+                        path: "[#{locale}].body",
+                        attributes: {
+                            class: 'col-12 col-lg-10 offset-lg-1 col-xl-8 offset-xl-2'
+                        }
+                    ) }}
                 </div>
             </section>
         </div>

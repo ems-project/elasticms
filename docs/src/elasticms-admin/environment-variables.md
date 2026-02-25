@@ -499,7 +499,7 @@ Define the elasticsearch cluster as an array (JSON encoded) of hosts:
 If needed, this variable can also contain an Elastica config array:
 
 ```dotenv
-EMS_ELASTICSEARCH_HOSTS='{"hosts":["localhost:9201"],"scheme":"http","username":"elastic","password":"changeme","curl":{"64":false}}'
+EMS_ELASTICSEARCH_HOSTS='{"hosts":["http://localhost:9201"],"username":"elastic","password":"changeme","transport_config":{"http_client_options":{"verify_peer":false}}}'
 ```
 
 ### EMS_STORAGES

@@ -1,6 +1,6 @@
 # Changelog 7.x
 
-## 7.0.0 (2026-02-23)
+## 7.0.0 (2026-02-25)
 ### Features
 * feat(admin): manage webhooks by @theus77 in https://github.com/ems-project/elasticms/pull/1512
 * feat(admin/api): index data from asset by @theus77 in https://github.com/ems-project/elasticms/pull/1472
@@ -27,6 +27,7 @@
 * feat(webhooks): add emsco_webhook, emsch_webhook_event, ems_clear_http_caches twig functions by @theus77 in https://github.com/ems-project/elasticms/pull/1477
 * feat: open telemetry by @theus77 in https://github.com/ems-project/elasticms/pull/1413
 ### Bug Fixes
+* fix(admin): small regression bugs by @Davidmattei in https://github.com/ems-project/elasticms/pull/1604
 * fix(admin/cache): doctrine meta cache warmup with lazy repositories by @Davidmattei in https://github.com/ems-project/elasticms/pull/1560
 * fix(admin/fields): remove deprecated JsonFieldFype by @Davidmattei in https://github.com/ems-project/elasticms/pull/1582
 * fix(admin/form): form label empty calling deprecated __toString by @Davidmattei in https://github.com/ems-project/elasticms/pull/1576
@@ -41,6 +42,7 @@
 * fix(docker): optional include docker .env file by @Davidmattei in https://github.com/ems-project/elasticms/pull/1577
 * fix(docker): upgrade traefik v2.2 to v3.6 (issue with docker API version >= 1.52) by @theus77 in https://github.com/ems-project/elasticms/pull/1480
 * fix(elasticms): remove bundles deprecations by @Davidmattei in https://github.com/ems-project/elasticms/pull/1574
+* fix(env): correct EMS_ELASTICSEARCH_HOSTS by @Davidmattei in https://github.com/ems-project/elasticms/pull/1605
 * fix(nginx): Fix incorrect SERVER_NAME passed to PHP by @zebby76 in https://github.com/ems-project/elasticms/pull/1598
 * fix(phpstan): deprecations and baseline issues by @Davidmattei in https://github.com/ems-project/elasticms/pull/1538
 * fix(phpstan): request get method and array offsetAccess by @Davidmattei in https://github.com/ems-project/elasticms/pull/1536
@@ -70,6 +72,7 @@
 ### Tests
 * test: cypress first tests by @theus77 in https://github.com/ems-project/elasticms/pull/1579
 ### Chores
+* chore(demo): update docker and elasticms configuration for 7.x by @zebby76 in https://github.com/ems-project/elasticms/pull/1603
 * chore(docker): drop elk7 and new single node setup by @Davidmattei in https://github.com/ems-project/elasticms/pull/1525
 * chore(lincense): use LGPL-3.0-or-later by @Davidmattei in https://github.com/ems-project/elasticms/pull/1543
 * chore(rector): rector symfony7.4 php8.5 by @Davidmattei in https://github.com/ems-project/elasticms/pull/1565

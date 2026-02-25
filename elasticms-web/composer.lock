@@ -62,16 +62,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.370.0",
+            "version": "3.371.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "3cfb2c787c43efa546ba3b6b596956cbef5cdd53"
+                "reference": "80bafcdc7f22362e204f49c5adfea66e85939cc8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/3cfb2c787c43efa546ba3b6b596956cbef5cdd53",
-                "reference": "3cfb2c787c43efa546ba3b6b596956cbef5cdd53",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/80bafcdc7f22362e204f49c5adfea66e85939cc8",
+                "reference": "80bafcdc7f22362e204f49c5adfea66e85939cc8",
                 "shasum": ""
             },
             "require": {
@@ -153,9 +153,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.370.0"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.371.0"
             },
-            "time": "2026-02-20T19:09:33+00:00"
+            "time": "2026-02-24T19:08:17+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -2628,16 +2628,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "9.0.23",
+            "version": "9.0.24",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "c415b68b44f8f6d7bb0de79769de8b2189d8a055"
+                "reference": "6c31b050e667641cdc1cd1dc38497901f62c1d3c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/c415b68b44f8f6d7bb0de79769de8b2189d8a055",
-                "reference": "c415b68b44f8f6d7bb0de79769de8b2189d8a055",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/6c31b050e667641cdc1cd1dc38497901f62c1d3c",
+                "reference": "6c31b050e667641cdc1cd1dc38497901f62c1d3c",
                 "shasum": ""
             },
             "require": {
@@ -2700,20 +2700,20 @@
                 "issues": "https://github.com/giggsey/libphonenumber-for-php/issues",
                 "source": "https://github.com/giggsey/libphonenumber-for-php"
             },
-            "time": "2026-01-30T13:34:38+00:00"
+            "time": "2026-02-23T10:46:03+00:00"
         },
         {
             "name": "giggsey/locale",
-            "version": "2.8.0",
+            "version": "2.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/Locale.git",
-                "reference": "1cd8b3ad2d43e04f4c2c6a240495af44780f809b"
+                "reference": "fe741e99ae6ccbe8132f3d63d8ec89924e689778"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/Locale/zipball/1cd8b3ad2d43e04f4c2c6a240495af44780f809b",
-                "reference": "1cd8b3ad2d43e04f4c2c6a240495af44780f809b",
+                "url": "https://api.github.com/repos/giggsey/Locale/zipball/fe741e99ae6ccbe8132f3d63d8ec89924e689778",
+                "reference": "fe741e99ae6ccbe8132f3d63d8ec89924e689778",
                 "shasum": ""
             },
             "require": {
@@ -2722,14 +2722,16 @@
             "require-dev": {
                 "ext-json": "*",
                 "friendsofphp/php-cs-fixer": "^3.66",
-                "pear/pear-core-minimal": "^1.10",
-                "pear/pear_exception": "^1.0",
-                "pear/versioncontrol_git": "^0.5",
-                "phing/phing": "^2.17.4",
+                "infection/infection": "^0.29|^0.32.0",
                 "php-coveralls/php-coveralls": "^2.7",
+                "phpstan/extension-installer": "^1.4.3",
+                "phpstan/phpstan": "^2.1.7",
+                "phpstan/phpstan-deprecation-rules": "^2.0.1",
+                "phpstan/phpstan-phpunit": "^2.0.4",
+                "phpstan/phpstan-strict-rules": "^2.0.3",
                 "phpunit/phpunit": "^10.5.45",
                 "symfony/console": "^6.4",
-                "symfony/filesystem": "6.4",
+                "symfony/filesystem": "^6.4",
                 "symfony/finder": "^6.4",
                 "symfony/process": "^6.4",
                 "symfony/var-exporter": "^6.4"
@@ -2754,9 +2756,9 @@
             "description": "Locale functions required by libphonenumber-for-php",
             "support": {
                 "issues": "https://github.com/giggsey/Locale/issues",
-                "source": "https://github.com/giggsey/Locale/tree/2.8.0"
+                "source": "https://github.com/giggsey/Locale/tree/2.9.0"
             },
-            "time": "2025-03-20T14:25:27+00:00"
+            "time": "2026-02-24T15:32:13+00:00"
         },
         {
             "name": "google/protobuf",
@@ -6323,7 +6325,7 @@
             "version": "dev-jwt7-support",
             "source": {
                 "type": "git",
-                "url": "git@github.com:ems-project/oauth2-keycloak.git",
+                "url": "https://github.com/ems-project/oauth2-keycloak.git",
                 "reference": "107c24beea7c58bf4d4aa905fb3c4d302c75d603"
             },
             "dist": {
@@ -6383,6 +6385,9 @@
                 "oauth",
                 "oauth2"
             ],
+            "support": {
+                "source": "https://github.com/ems-project/oauth2-keycloak/tree/jwt7-support"
+            },
             "time": "2026-02-23T08:38:05+00:00"
         },
         {

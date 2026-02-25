@@ -7,7 +7,7 @@ location ^~ /{{ $a }}/robots.txt {
 
     include conf.d/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.statics.conf;
 
-{{- if ne $.Env.DEBUG "false" }}
+{{- if ne $.Env.NGINX_DEBUG_ENABLED "false" }}
     set $debug_nginx_uri "$uri";
     set $debug_nginx_location "/{{ $a }}/robots.txt";
 {{- end }}
@@ -21,7 +21,7 @@ location ^~ /{{ $a }}/favicon.ico {
 
     include conf.d/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.statics.conf;
 
-{{- if ne $.Env.DEBUG "false" }}
+{{- if ne $.Env.NGINX_DEBUG_ENABLED "false" }}
     set $debug_nginx_uri "$uri";
     set $debug_nginx_location "/{{ $a }}/favicon.ico";
 {{- end }}
@@ -35,7 +35,7 @@ location ^~ /{{ $a }}/bundles/ {
 
     include conf.d/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.statics.conf;
 
-{{- if ne $.Env.DEBUG "false" }}
+{{- if ne $.Env.NGINX_DEBUG_ENABLED "false" }}
     set $debug_nginx_uri "$uri";
     set $debug_nginx_location "/{{ $a }}/bundles/";
 {{- end }}
@@ -48,7 +48,7 @@ location ^~ /{{ $a }}/bundles/ {
 location ^~ /robots.txt {
     include conf.d/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.statics.conf;
 
-{{- if ne $.Env.DEBUG "false" }}
+{{- if ne $.Env.NGINX_DEBUG_ENABLED "false" }}
     set $debug_nginx_uri "$uri";
     set $debug_nginx_location "/robots.txt";
 {{- end }}
@@ -59,7 +59,7 @@ location ^~ /robots.txt {
 location ^~ /favicon.ico {
     include conf.d/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.statics.conf;
 
-{{- if ne $.Env.DEBUG "false" }}
+{{- if ne $.Env.NGINX_DEBUG_ENABLED "false" }}
     set $debug_nginx_uri "$uri";
     set $debug_nginx_location "/favicon.ico";
 {{- end }}
@@ -70,7 +70,7 @@ location ^~ /favicon.ico {
 location ^~ /bundles/ {
     include conf.d/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.statics.conf;
 
-{{- if ne $.Env.DEBUG "false" }}
+{{- if ne $.Env.NGINX_DEBUG_ENABLED "false" }}
     set $debug_nginx_uri "$uri";
     set $debug_nginx_location "/bundles/";
 {{- end }}

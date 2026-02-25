@@ -4,7 +4,7 @@
 location /{{ $a }}/ {
     alias {{ $.Env.NGINX_PUBLIC_DIR }}/;
 
-{{- if ne $.Env.DEBUG "false" }}
+{{- if ne $.Env.NGINX_DEBUG_ENABLED "false" }}
     set $debug_nginx_location "/{{ $a }}/";
     set $debug_nginx_uri "$uri";
     add_header X-Debug-Nginx-Uri "$debug_nginx_uri" always;
@@ -20,7 +20,7 @@ location /{{ $a }}/ {
 
 location / {
 
-{{- if ne $.Env.DEBUG "false" }}
+{{- if ne $.Env.NGINX_DEBUG_ENABLED "false" }}
     set $debug_nginx_location "/";
     set $debug_nginx_uri "$uri";
     add_header X-Debug-Nginx-Uri "$debug_nginx_uri" always;

@@ -9,7 +9,7 @@ fastcgi_param SCRIPT_FILENAME {{ $.Env.NGINX_PUBLIC_DIR }}/index.php;
 fastcgi_param DOCUMENT_ROOT $realpath_root;
 fastcgi_param HTTP_AUTHORIZATION $http_authorization;
 
-{{- if ne $.Env.DEBUG "false" }}
+{{- if ne $.Env.NGINX_DEBUG_ENABLED "false" }}
 add_header X-Debug-FastCGI-Script-Filename "{{ $.Env.NGINX_PUBLIC_DIR }}/index.php" always;
 add_header X-Debug-FastCGI-Script-Document-Root "$realpath_root" always;
 add_header X-Debug-FastCGI-Script-Name "{{ $.Env.SYMFONY_SCRIPT_NAME_NGINX_VARIABLE_NAME }}" always;

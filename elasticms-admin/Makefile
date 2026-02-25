@@ -19,6 +19,7 @@ BUILDER_WORKING_DIR          = /app/src/elasticms
 BUILDER_DOCKER_IMAGE_NAME   ?= docker.io/smalswebtech/base-php:8.5-cli-dev
 
 COMPOSER_INSTALL_CMDLINE     = "composer -vvv install --no-interaction --no-suggest --no-scripts -o"
+COMPOSER_UPDATE_CMDLINE      = "composer -vvv update --no-interaction --no-suggest --no-scripts -o"
 COMPOSER_DIAGNOSE_CMDLINE    = "composer -vvv diagnose --no-interaction --no-scripts"
 COMPOSER_SELF_UPDATE_CMDLINE = "composer -vvv self-update --no-interaction"
 
@@ -70,6 +71,25 @@ composer-diagnose:
 		--rm \
 		${BUILDER_DOCKER_IMAGE_NAME} \
 		bash -c ${COMPOSER_DIAGNOSE_CMDLINE}
+
+composer-update:
+	@echo "\n-- Running Composer update --\n"
+	@docker run \
+		--env PHP_BYPASS_INI_DEFAULT_VALUES=true \
+		--env PHP_OPENTELEMETRY_ENABLED=true \
+		--env HOME=${CURRENT_HOMEDIR} \
+		--env USER=${CURRENT_USERNAME} \
+		--env COMPOSER_ALLOW_SUPERUSER=1 \
+		--env COMPOSER_PROCESS_TIMEOUT=900 \
+		--env COMPOSER_MEMORY_LIMIT=-1 \
+		--user ${CURRENT_UID}:${CURRENT_GID} \
+		--volume /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt \
+		--volume ${CURRENT_HOMEDIR}:${CURRENT_HOMEDIR}:rw \
+		--volume ${CURRENT_DIR}:${BUILDER_WORKING_DIR}:rw \
+		--workdir ${BUILDER_WORKING_DIR} \
+		--rm \
+		${BUILDER_DOCKER_IMAGE_NAME} \
+		bash -c ${COMPOSER_UPDATE_CMDLINE}
 
 composer-install:
 	@echo "\n-- Running Composer install --\n"

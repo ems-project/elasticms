@@ -23,8 +23,8 @@ readonly class CoreInfoServiceBridge implements CoreInfoBridgeInterface
     public function documents(array $environments, EMSLink ...$emsLinks): CoreBridgeResponse
     {
         return $this->response(fn () => $this->revisionService->getInfos(
+            EMSLinkCollection::fromArray(...$emsLinks),
             $environments,
-            EMSLinkCollection::fromArray(...$emsLinks)
         ));
     }
 }

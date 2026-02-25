@@ -402,9 +402,14 @@ class RevisionService implements RevisionServiceInterface
      *     'status': array<string, 'not_published'|'outdated'|'published'>
      * }>
      */
-    public function getInfos(array $environmentNames, EMSLinkCollection $emsLinks): array
+    public function getInfos(EMSLinkCollection $emsLinks, array $environmentNames = []): array
     {
-        $environments = $this->environmentService->getByNames(...$environmentNames);
+        if ([] === $environmentNames) {
+            $environments = $this->environmentService->getUserPublishEnvironments()->toArray();
+        } else {
+            $environments = $this->environmentService->getByNames(...$environmentNames);
+        }
+
         $contentTypes = $this->contentTypeService->getByNames(...$emsLinks->getContentTypes());
 
         $infos = [];

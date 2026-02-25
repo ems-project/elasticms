@@ -19,6 +19,14 @@ server {
     # ============================================================
 
     location /metrics {
+
+{{- if ne $.Env.NGINX_DEBUG_ENABLED "false" }}
+        set $debug_nginx_location "/metrics";
+        set $debug_nginx_uri "$uri";
+        add_header X-Debug-Nginx-Uri "$debug_nginx_uri" always;
+        add_header X-Debug-Nginx-Symfony-Location "$debug_nginx_location" always;
+{{- end }}
+
         try_files $uri /index.php$is_args$args;
     }
 

@@ -35,8 +35,8 @@ USER 1001
 
 EXPOSE 9099/tcp
 
-HEALTHCHECK --start-period=1s --interval=10s --timeout=1s --retries=5 \
-        CMD curl --fail --header "Host: default.localhost" http://localhost:9000/index.php || exit 1
+HEALTHCHECK --start-period=5s --interval=10s --timeout=2s --retries=3 \
+        CMD [ $(supervisorctl -c /opt/etc/supervisord.conf status php-fpm nginx | grep -c 'RUNNING') -eq 2 ] || exit 1
 
 #
 # Dev
@@ -58,5 +58,5 @@ USER 1001
 
 EXPOSE 9099/tcp
 
-HEALTHCHECK --start-period=1s --interval=10s --timeout=1s --retries=5 \
-        CMD curl --fail --header "Host: default.localhost" http://localhost:9000/index.php || exit 1
+HEALTHCHECK --start-period=5s --interval=10s --timeout=2s --retries=3 \
+        CMD [ $(supervisorctl -c /opt/etc/supervisord.conf status php-fpm nginx | grep -c 'RUNNING') -eq 2 ] || exit 1

@@ -33,7 +33,7 @@ ENV PHP_BYPASS_INI_DEFAULT_VALUES=true \
 
 USER 1001
 
-EXPOSE 9090/tcp
+EXPOSE 9099/tcp
 
 HEALTHCHECK --start-period=1s --interval=10s --timeout=1s --retries=5 \
         CMD curl --fail --header "Host: default.localhost" http://localhost:9000/index.php || exit 1
@@ -56,7 +56,7 @@ ENV PHP_BYPASS_INI_DEFAULT_VALUES=true \
 
 USER 1001
 
-EXPOSE 9090/tcp
+EXPOSE 9099/tcp
 
 HEALTHCHECK --start-period=1s --interval=10s --timeout=1s --retries=5 \
         CMD curl --fail --header "Host: default.localhost" http://localhost:9000/index.php || exit 1

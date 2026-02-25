@@ -12,7 +12,7 @@ services:
             - EMSCO_TIKA_SERVER=http://tika:9998
             - EMS_BACKEND_URL=${EMS_BACKEND_URL:-~}
             - INSTANCE_ID=${INSTANCE_ID:-demo_}
-            - 'EMS_ELASTICSEARCH_HOSTS={"hosts":["es01:9200"],"scheme":"http","username":"elastic","password":"changeme","curl":{"64":false}}'
+            - 'EMS_ELASTICSEARCH_HOSTS={"hosts":["http://es01:9200"],"username":"elastic","password":"changeme","transport_config":{"http_client_options":{"verify_peer":false}}}'
             - REDIS_HOST=redis
             - REDIS_PORT=6379
             - DB_HOST=postgres
@@ -61,7 +61,7 @@ services:
             - EMS_BACKEND_URL=${EMS_BACKEND_URL:-~}
             - INSTANCE_ID=${INSTANCE_ID:-demo_}
             - EMSF_AUTHKEY=${EMSF_AUTHKEY:-~}
-            - 'EMS_ELASTICSEARCH_HOSTS={"hosts":["es01:9200"],"scheme":"http","username":"elastic","password":"changeme","curl":{"64":false}}'
+            - 'EMS_ELASTICSEARCH_HOSTS={"hosts":["http://es01:9200"],"username":"elastic","password":"changeme","transport_config":{"http_client_options":{"verify_peer":false}}}'
             - REDIS_HOST=redis
             - REDIS_PORT=6379
             - S3_ACCESS_KEY_ID=accesskey

@@ -15,7 +15,7 @@
     "require": {
         "php": "^8.5",
         "composer/ca-bundle": "^1.4",
-        "elasticms/common-bundle": "7.0.*",
+        "elasticms/common-bundle": "7.x-dev",
         "league/oauth2-client": "^2.8",
         "onelogin/php-saml": "^4.1",
         "stevenmaguire/oauth2-keycloak": "dev-jwt7-support as 5.1.1",

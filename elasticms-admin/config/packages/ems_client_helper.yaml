@@ -1,6 +1,5 @@
 parameters:
-  env(EMSCH_ELASTICSEARCH_CLUSTER):   '["http://localhost:9200"]'
-  env(EMS_ELASTICSEARCH_HOSTS):       '%env(string:EMSCH_ELASTICSEARCH_CLUSTER)%'
+  env(EMS_ELASTICSEARCH_HOSTS):       '[]'
   env(EMSCH_LOCALES):                 '["fr","nl"]'
   env(EMSCH_BIND_LOCALE):             false
   env(EMSCH_ENVS):                    '{}'

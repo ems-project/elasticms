@@ -25,7 +25,7 @@ if [[ ! -z ${EMS_METRIC_ENABLED} ]] && [[ ${EMS_METRIC_ENABLED,,} = true ]]; the
 
     METRICS_DEFAULT_SERVER="false"
 
-    log "INFO" "+ Configure [ ${ELASTICMS_INSTANCE_NAME} metrics ] VirtualHost for ElasticMS Admin on [ ${SERVER_NAME} ]."
+    log "INFO" "+ Configure [ ${ELASTICMS_INSTANCE_NAME} metrics ] VirtualHost for ElasticMS Admin on [ ${NGINX_SERVER_NAME} ]."
 
     if [ ! -f ${TMPDIR}/elasticms-metrics-${EMS_METRIC_PORT}-is-configured ] ; then
         METRICS_DEFAULT_SERVER="true"

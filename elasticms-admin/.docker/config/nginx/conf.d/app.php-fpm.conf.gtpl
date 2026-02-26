@@ -6,7 +6,7 @@ location = /{{ $a }}/index.php {
     include conf.d/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.fastcgi.conf;
     include conf.d/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.security-headers.conf;
 
-{{- if ne $.Env.DEBUG "false" }}
+{{- if ne $.Env.NGINX_DEBUG_ENABLED "false" }}
     add_header X-Debug-Nginx-PHP-FPM-Location "/{{ $a }}/index.php" always;
     add_header X-Debug-Nginx-Symfony-Location "$debug_nginx_location" always;
     add_header X-Debug-Nginx-Uri "$debug_nginx_uri" always;
@@ -26,7 +26,7 @@ location = /index.php {
     include conf.d/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.fastcgi.conf;
     include conf.d/{{ $.Env.ELASTICMS_INSTANCE_NAME }}.security-headers.conf;
 
-{{- if ne .Env.DEBUG "false" }}
+{{- if ne .Env.NGINX_DEBUG_ENABLED "false" }}
     add_header X-Debug-Nginx-PHP-FPM-Location "/index.php" always;
     add_header X-Debug-Nginx-Symfony-Location "$debug_nginx_location" always;
     add_header X-Debug-Nginx-Uri "$debug_nginx_uri" always;

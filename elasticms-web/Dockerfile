@@ -32,10 +32,10 @@ ENV PHP_BYPASS_INI_DEFAULT_VALUES=true \
 
 USER 1001
 
-EXPOSE 9090/tcp
+EXPOSE 9099/tcp
 
-HEALTHCHECK --start-period=1s --interval=10s --timeout=1s --retries=5 \
-        CMD curl --fail --header "Host: default.localhost" http://localhost:9000/index.php || exit 1
+HEALTHCHECK --start-period=5s --interval=10s --timeout=2s --retries=3 \
+        CMD [ $(supervisorctl -c /opt/etc/supervisord.conf status php-fpm nginx | grep -c 'RUNNING') -eq 2 ] || exit 1
 
 #
 # Dev
@@ -51,11 +51,11 @@ COPY --from=builder --chmod=775 --chown=1001:0 /app/ /app/
 ENV PHP_BYPASS_INI_DEFAULT_VALUES=true \
     PHP_OPENTELEMETRY_ENABLED=true \
     APP_DISABLE_DOTENV=true \
-    EMS_METRIC_PORT="9090"
+    EMS_METRIC_PORT="9099"
 
 USER 1001
 
-EXPOSE 9090/tcp
+EXPOSE 9099/tcp
 
-HEALTHCHECK --start-period=1s --interval=10s --timeout=1s --retries=5 \
-        CMD curl --fail --header "Host: default.localhost" http://localhost:9000/index.php || exit 1
+HEALTHCHECK --start-period=5s --interval=10s --timeout=2s --retries=3 \
+        CMD [ $(supervisorctl -c /opt/etc/supervisord.conf status php-fpm nginx | grep -c 'RUNNING') -eq 2 ] || exit 1

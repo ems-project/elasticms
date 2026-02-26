@@ -62,16 +62,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.371.0",
+            "version": "3.371.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "80bafcdc7f22362e204f49c5adfea66e85939cc8"
+                "reference": "26cd04f9f47ca0d66baa59303f70bff5a5d48706"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/80bafcdc7f22362e204f49c5adfea66e85939cc8",
-                "reference": "80bafcdc7f22362e204f49c5adfea66e85939cc8",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/26cd04f9f47ca0d66baa59303f70bff5a5d48706",
+                "reference": "26cd04f9f47ca0d66baa59303f70bff5a5d48706",
                 "shasum": ""
             },
             "require": {
@@ -153,9 +153,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.371.0"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.371.1"
             },
-            "time": "2026-02-24T19:08:17+00:00"
+            "time": "2026-02-25T19:05:28+00:00"
         },
         {
             "name": "brick/math",
@@ -1769,12 +1769,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSCommonBundle.git",
-                "reference": "debb631e68aa6fcfe221944e256c89462f6de468"
+                "reference": "d76ba52fb4e602c0508a72c7dc1417338021c075"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSCommonBundle/zipball/debb631e68aa6fcfe221944e256c89462f6de468",
-                "reference": "debb631e68aa6fcfe221944e256c89462f6de468",
+                "url": "https://api.github.com/repos/ems-project/EMSCommonBundle/zipball/d76ba52fb4e602c0508a72c7dc1417338021c075",
+                "reference": "d76ba52fb4e602c0508a72c7dc1417338021c075",
                 "shasum": ""
             },
             "require": {
@@ -1849,7 +1849,7 @@
             "support": {
                 "source": "https://github.com/ems-project/EMSCommonBundle/tree/7.0.0"
             },
-            "time": "2026-02-18T14:25:35+00:00"
+            "time": "2026-02-26T08:33:09+00:00"
         },
         {
             "name": "elasticms/helpers",

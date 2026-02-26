@@ -62,16 +62,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.371.0",
+            "version": "3.371.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "80bafcdc7f22362e204f49c5adfea66e85939cc8"
+                "reference": "26cd04f9f47ca0d66baa59303f70bff5a5d48706"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/80bafcdc7f22362e204f49c5adfea66e85939cc8",
-                "reference": "80bafcdc7f22362e204f49c5adfea66e85939cc8",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/26cd04f9f47ca0d66baa59303f70bff5a5d48706",
+                "reference": "26cd04f9f47ca0d66baa59303f70bff5a5d48706",
                 "shasum": ""
             },
             "require": {
@@ -153,9 +153,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.371.0"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.371.1"
             },
-            "time": "2026-02-24T19:08:17+00:00"
+            "time": "2026-02-25T19:05:28+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -2013,12 +2013,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSClientHelperBundle.git",
-                "reference": "d4a71b3737a48565e5bf5e052bff7459e62e6afa"
+                "reference": "9d0431cc2694e4b1343e6fb6a4930cbb64e8bfc6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSClientHelperBundle/zipball/d4a71b3737a48565e5bf5e052bff7459e62e6afa",
-                "reference": "d4a71b3737a48565e5bf5e052bff7459e62e6afa",
+                "url": "https://api.github.com/repos/ems-project/EMSClientHelperBundle/zipball/9d0431cc2694e4b1343e6fb6a4930cbb64e8bfc6",
+                "reference": "9d0431cc2694e4b1343e6fb6a4930cbb64e8bfc6",
                 "shasum": ""
             },
             "require": {
@@ -2062,7 +2062,7 @@
             "support": {
                 "source": "https://github.com/ems-project/EMSClientHelperBundle/tree/7.0.0"
             },
-            "time": "2026-02-23T09:13:54+00:00"
+            "time": "2026-02-26T08:33:09+00:00"
         },
         {
             "name": "elasticms/common-bundle",
@@ -2070,12 +2070,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSCommonBundle.git",
-                "reference": "debb631e68aa6fcfe221944e256c89462f6de468"
+                "reference": "d76ba52fb4e602c0508a72c7dc1417338021c075"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSCommonBundle/zipball/debb631e68aa6fcfe221944e256c89462f6de468",
-                "reference": "debb631e68aa6fcfe221944e256c89462f6de468",
+                "url": "https://api.github.com/repos/ems-project/EMSCommonBundle/zipball/d76ba52fb4e602c0508a72c7dc1417338021c075",
+                "reference": "d76ba52fb4e602c0508a72c7dc1417338021c075",
                 "shasum": ""
             },
             "require": {
@@ -2150,7 +2150,7 @@
             "support": {
                 "source": "https://github.com/ems-project/EMSCommonBundle/tree/7.0.0"
             },
-            "time": "2026-02-18T14:25:35+00:00"
+            "time": "2026-02-26T08:33:09+00:00"
         },
         {
             "name": "elasticms/form-bundle",
@@ -2158,12 +2158,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSFormBundle.git",
-                "reference": "891b9a8df5c5fb85323bd2566b02c4bb478dc003"
+                "reference": "6299b5664b1836e4a47408b2b67b9ac25256cf16"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSFormBundle/zipball/891b9a8df5c5fb85323bd2566b02c4bb478dc003",
-                "reference": "891b9a8df5c5fb85323bd2566b02c4bb478dc003",
+                "url": "https://api.github.com/repos/ems-project/EMSFormBundle/zipball/6299b5664b1836e4a47408b2b67b9ac25256cf16",
+                "reference": "6299b5664b1836e4a47408b2b67b9ac25256cf16",
                 "shasum": ""
             },
             "require": {
@@ -2199,7 +2199,7 @@
             "support": {
                 "source": "https://github.com/ems-project/EMSFormBundle/tree/7.0.0"
             },
-            "time": "2026-02-18T14:25:35+00:00"
+            "time": "2026-02-26T08:33:09+00:00"
         },
         {
             "name": "elasticms/helpers",
@@ -2257,12 +2257,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSSubmissionBundle.git",
-                "reference": "d6eacbab90b463e100c79c29b0f0ee978e3ad0df"
+                "reference": "a2670459f99f47925b83ff9c0a10ddda7f185b03"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSSubmissionBundle/zipball/d6eacbab90b463e100c79c29b0f0ee978e3ad0df",
-                "reference": "d6eacbab90b463e100c79c29b0f0ee978e3ad0df",
+                "url": "https://api.github.com/repos/ems-project/EMSSubmissionBundle/zipball/a2670459f99f47925b83ff9c0a10ddda7f185b03",
+                "reference": "a2670459f99f47925b83ff9c0a10ddda7f185b03",
                 "shasum": ""
             },
             "require": {
@@ -2301,7 +2301,7 @@
             "support": {
                 "source": "https://github.com/ems-project/EMSSubmissionBundle/tree/7.0.0"
             },
-            "time": "2026-02-18T14:25:35+00:00"
+            "time": "2026-02-26T08:33:09+00:00"
         },
         {
             "name": "elasticsearch/elasticsearch",
@@ -2565,16 +2565,16 @@
         },
         {
             "name": "firebase/php-jwt",
-            "version": "v7.0.2",
+            "version": "v7.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/firebase/php-jwt.git",
-                "reference": "5645b43af647b6947daac1d0f659dd1fbe8d3b65"
+                "reference": "28aa0694bcfdfa5e2959c394d5a1ee7a5083629e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/5645b43af647b6947daac1d0f659dd1fbe8d3b65",
-                "reference": "5645b43af647b6947daac1d0f659dd1fbe8d3b65",
+                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/28aa0694bcfdfa5e2959c394d5a1ee7a5083629e",
+                "reference": "28aa0694bcfdfa5e2959c394d5a1ee7a5083629e",
                 "shasum": ""
             },
             "require": {
@@ -2622,9 +2622,9 @@
             ],
             "support": {
                 "issues": "https://github.com/firebase/php-jwt/issues",
-                "source": "https://github.com/firebase/php-jwt/tree/v7.0.2"
+                "source": "https://github.com/firebase/php-jwt/tree/v7.0.3"
             },
-            "time": "2025-12-16T22:17:28+00:00"
+            "time": "2026-02-25T22:16:40+00:00"
         },
         {
             "name": "giggsey/libphonenumber-for-php",
@@ -3131,16 +3131,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "3.31.0",
+            "version": "3.32.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "1717e0b3642b0df65ecb0cc89cdd99fa840672ff"
+                "reference": "254b1595b16b22dbddaaef9ed6ca9fdac4956725"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/1717e0b3642b0df65ecb0cc89cdd99fa840672ff",
-                "reference": "1717e0b3642b0df65ecb0cc89cdd99fa840672ff",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/254b1595b16b22dbddaaef9ed6ca9fdac4956725",
+                "reference": "254b1595b16b22dbddaaef9ed6ca9fdac4956725",
                 "shasum": ""
             },
             "require": {
@@ -3208,9 +3208,9 @@
             ],
             "support": {
                 "issues": "https://github.com/thephpleague/flysystem/issues",
-                "source": "https://github.com/thephpleague/flysystem/tree/3.31.0"
+                "source": "https://github.com/thephpleague/flysystem/tree/3.32.0"
             },
-            "time": "2026-01-23T15:38:47+00:00"
+            "time": "2026-02-25T17:01:41+00:00"
         },
         {
             "name": "league/flysystem-local",
@@ -11550,16 +11550,16 @@
         },
         {
             "name": "thenetworg/oauth2-azure",
-            "version": "v2.2.4",
+            "version": "v2.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TheNetworg/oauth2-azure.git",
-                "reference": "a897d60b6b127daa2f27b1b4e62e7af40829d02f"
+                "reference": "06f1aa023e18cc3ea80df6410c7c2dc5502a3655"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TheNetworg/oauth2-azure/zipball/a897d60b6b127daa2f27b1b4e62e7af40829d02f",
-                "reference": "a897d60b6b127daa2f27b1b4e62e7af40829d02f",
+                "url": "https://api.github.com/repos/TheNetworg/oauth2-azure/zipball/06f1aa023e18cc3ea80df6410c7c2dc5502a3655",
+                "reference": "06f1aa023e18cc3ea80df6410c7c2dc5502a3655",
                 "shasum": ""
             },
             "require": {
@@ -11604,9 +11604,9 @@
             ],
             "support": {
                 "issues": "https://github.com/TheNetworg/oauth2-azure/issues",
-                "source": "https://github.com/TheNetworg/oauth2-azure/tree/v2.2.4"
+                "source": "https://github.com/TheNetworg/oauth2-azure/tree/v2.2.5"
             },
-            "time": "2026-01-29T12:43:59+00:00"
+            "time": "2026-02-26T08:05:57+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",

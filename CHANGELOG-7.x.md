@@ -1,6 +1,6 @@
 # Changelog 7.x
 
-## 7.0.0 (2026-02-25)
+## 7.0.0 (2026-02-26)
 ### Features
 * feat(admin): manage webhooks by @theus77 in https://github.com/ems-project/elasticms/pull/1512
 * feat(admin/api): index data from asset by @theus77 in https://github.com/ems-project/elasticms/pull/1472
@@ -39,6 +39,7 @@
 * fix(common/api): /upload-chunk/{sha1} replaced by /chunk/{hash} by @theus77 in https://github.com/ems-project/elasticms/pull/1580
 * fix(common/coreApi): runCommand use new core JobApiController by @Davidmattei in https://github.com/ems-project/elasticms/pull/1566
 * fix(docker): add OTEL_ENABLED variable by @Davidmattei in https://github.com/ems-project/elasticms/pull/1564
+* fix(docker): fix and improve NGINX / PHP configuration by @zebby76 in https://github.com/ems-project/elasticms/pull/1606
 * fix(docker): optional include docker .env file by @Davidmattei in https://github.com/ems-project/elasticms/pull/1577
 * fix(docker): upgrade traefik v2.2 to v3.6 (issue with docker API version >= 1.52) by @theus77 in https://github.com/ems-project/elasticms/pull/1480
 * fix(elasticms): remove bundles deprecations by @Davidmattei in https://github.com/ems-project/elasticms/pull/1574

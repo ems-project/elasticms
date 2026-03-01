@@ -64,7 +64,7 @@
                 "label": "Action",
                 "template": '
                 <div class="btn-group btn-group-sm" style="width: 130px;">
-                  <a href="{{ docInfo.draft ? path("emsco_edit_revision", {revisionId: revisionId}) : docInfo.aligned("live") ? path("emsco_data_new_draft", {type: data.contentType, ouuid: data.id }) : path("revision.publish_to", {revisionId: revisionId, envId: liveId, redirectToUrl: path("data.customindexview", {viewId: viewId})}) }}" class="btn btn-default" style="width: 100px;">
+                  <a href="{{ docInfo.draft ? path("emsco_edit_revision", {revisionId: revisionId}) : docInfo.aligned("live") ? path("emsco_data_new_draft", {type: data.contentType, ouuid: data.id }) : path("revision.publish_to", {revisionId: revisionId, envId: liveId, redirectToUrl: path("emsco_data_private_view", {viewId: viewId})}) }}" class="btn btn-default" style="width: 100px;">
                     {{ docInfo.draft ? "Edit draft" : docInfo.aligned("live") ? "Edit" : "Publish in live" }}
                   </a>
                   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">

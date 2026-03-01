@@ -8,20 +8,21 @@ use Symfony\Component\Validator\Constraint;
 
 final class IsBirthDate extends Constraint
 {
+    public string $age;
+    public string $message;
+    public string $messageAge;
+
     public function __construct(
-        public string $age = 'now',
-        public string $message = 'The date must be in the past.',
-        public string $messageAge = 'The date must be earlier than "{{age}}".',
+        ?string $age = null,
+        ?string $message = null,
+        ?string $messageAge = null,
         ?array $groups = null,
         mixed $payload = null,
     ) {
-        parent::__construct(groups: $groups, payload: $payload);
-    }
+        $this->age = $age ?? 'now';
+        $this->message = $message ?? 'The date must be in the past.';
+        $this->messageAge = $messageAge ?? 'The date must be earlier than "{{age}}".';
 
-    /** @return string[] */
-    #[\Override]
-    public function getRequiredOptions(): array
-    {
-        return ['age'];
+        parent::__construct(groups: $groups, payload: $payload);
     }
 }

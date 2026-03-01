@@ -4,23 +4,22 @@ declare(strict_types=1);
 
 namespace EMS\FormBundle\Components\Constraint;
 
+use Symfony\Component\Validator\Attribute\HasNamedArguments;
 use Symfony\Component\Validator\Constraint;
 
 class IsExpression extends Constraint
 {
+    public string $message;
+
+    #[HasNamedArguments]
     public function __construct(
-        public ?string $expression = null,
-        public string $message = 'This value is not valid.',
+        public string $expression,
+        ?string $message = null,
         ?array $groups = null,
         mixed $payload = null,
     ) {
-        parent::__construct(groups: $groups, payload: $payload);
-    }
+        $this->message = $message ?? 'This value is not valid.';
 
-    /** @return string[] */
-    #[\Override]
-    public function getRequiredOptions(): array
-    {
-        return ['expression'];
+        parent::__construct(groups: $groups, payload: $payload);
     }
 }

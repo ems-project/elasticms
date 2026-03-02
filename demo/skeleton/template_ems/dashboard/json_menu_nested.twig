@@ -1,4 +1,4 @@
-{% extends '@EMSAdminUI/bootstrap5/components/json_menu_nested/template.twig' %}
+{% extends '@EMSCore/components/json_menu_nested/template.twig' %}
 
 {% block build_context %}
     {% set contentTypeNames = ['page','link'] %}
@@ -125,7 +125,7 @@
         {% elseif itemPages|length == 1 %}
             {% if contentInfo and (contentInfo.published('preview') or contentInfo.published('live')) and item.object.(locale).title is defined %}
                 <div class="btn-group btn-group-sm">
-                    <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                         <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;View
                     </button>
                     <ul class="dropdown-menu">

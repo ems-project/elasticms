@@ -3,6 +3,7 @@ fastcgi_split_path_info ^(.+\.php)(/.*)$;
 
 include fastcgi_params;
 
+fastcgi_param SERVER_NAME $host;
 fastcgi_param SCRIPT_NAME {{ $.Env.SYMFONY_SCRIPT_NAME_NGINX_VARIABLE_NAME }};
 fastcgi_param SCRIPT_FILENAME {{ $.Env.NGINX_PUBLIC_DIR }}/index.php;
 

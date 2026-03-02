@@ -43,7 +43,7 @@ final readonly class ApiController
         try {
             return $coreApi->form()->getSubmissionFileAsStreamResponse($submissionId, $submissionFileId);
         } catch (ClientException $clientException) {
-            return throw new HttpException($clientException->getCode());
+            return throw new HttpException($clientException->getCode(), '', $clientException);
         }
     }
 

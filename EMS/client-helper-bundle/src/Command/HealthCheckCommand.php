@@ -86,7 +86,7 @@ final class HealthCheckCommand extends AbstractCommand
                 $countIndices += \count($this->elasticaService->getIndicesFromAlias($environment->getAlias()));
             } catch (\Throwable $e) {
                 $this->io->error(\sprintf('Alias %s not found with error: %s', $environment->getAlias(), $e->getMessage()));
-                throw new IndexNotFoundException();
+                throw new IndexNotFoundException($e->getMessage(), $e->getCode(), $e);
             }
         }
 

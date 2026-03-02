@@ -1,6 +1,6 @@
 # Changelog 7.x
 
-## 7.0.0 (2026-02-26)
+## 7.0.0 (2026-03-02)
 ### Features
 * feat(admin): manage webhooks by @theus77 in https://github.com/ems-project/elasticms/pull/1512
 * feat(admin/api): index data from asset by @theus77 in https://github.com/ems-project/elasticms/pull/1472
@@ -16,6 +16,7 @@
 * feat(demo): add emsch_archive route by @theus77 in https://github.com/ems-project/elasticms/pull/1451
 * feat(doc): add prettier and linter by @Davidmattei in https://github.com/ems-project/elasticms/pull/1461
 * feat(doc): use vitepress instead of docsify by @Davidmattei in https://github.com/ems-project/elasticms/pull/1452
+* feat(docker): enable opcache preload by @Davidmattei in https://github.com/ems-project/elasticms/pull/1614
 * feat(docker): replaces Apache with Nginx for Admin Docker image by @zebby76 in https://github.com/ems-project/elasticms/pull/1587
 * feat(docker): replaces Apache with Nginx for Website Docker image by @zebby76 in https://github.com/ems-project/elasticms/pull/1601
 * feat(elasticSearch): upgrade support eleasticSearch 8 by @Davidmattei in https://github.com/ems-project/elasticms/pull/1557
@@ -38,6 +39,7 @@
 * fix(cli): remove deprecated TextHelper by @Davidmattei in https://github.com/ems-project/elasticms/pull/1595
 * fix(common/api): /upload-chunk/{sha1} replaced by /chunk/{hash} by @theus77 in https://github.com/ems-project/elasticms/pull/1580
 * fix(common/coreApi): runCommand use new core JobApiController by @Davidmattei in https://github.com/ems-project/elasticms/pull/1566
+* fix(docker): NGINX / PHP-FPM configuration  by @zebby76 in https://github.com/ems-project/elasticms/pull/1611
 * fix(docker): add OTEL_ENABLED variable by @Davidmattei in https://github.com/ems-project/elasticms/pull/1564
 * fix(docker): fix and improve NGINX / PHP configuration by @zebby76 in https://github.com/ems-project/elasticms/pull/1606
 * fix(docker): optional include docker .env file by @Davidmattei in https://github.com/ems-project/elasticms/pull/1577
@@ -49,6 +51,7 @@
 * fix(phpstan): request get method and array offsetAccess by @Davidmattei in https://github.com/ems-project/elasticms/pull/1536
 * fix(rector): coding style by @Davidmattei in https://github.com/ems-project/elasticms/pull/1593
 * fix(rector): deadCode rules by @Davidmattei in https://github.com/ems-project/elasticms/pull/1592
+* fix(security): admin & web trusted hosts & proxies by @Davidmattei in https://github.com/ems-project/elasticms/pull/1613
 * fix(symfony): xmlFileLoader deprecated by @Davidmattei in https://github.com/ems-project/elasticms/pull/1537
 * fix(twig): clientHelper and common bundle attribute extensions by @Davidmattei in https://github.com/ems-project/elasticms/pull/1586
 * fix(twig): core, form and  submission bundle attribute extensions by @Davidmattei in https://github.com/ems-project/elasticms/pull/1588
@@ -56,6 +59,7 @@
 * fix(twig): symfony request::get() is deprecated by @Davidmattei in https://github.com/ems-project/elasticms/pull/1544
 * fix(twig): translatableMessage __toString deprecated by @Davidmattei in https://github.com/ems-project/elasticms/pull/1546
 * fix(web): SearchController is deprecated by @theus77 in https://github.com/ems-project/elasticms/pull/1510
+* fix(web/admin): regression bugs form and jsonMenuNested by @Davidmattei in https://github.com/ems-project/elasticms/pull/1610
 * fix(web/form): browser plugin false warning and webpack upgrade by @theus77 in https://github.com/ems-project/elasticms/pull/1499
 * fix(xliff): replace commonBundle dependency with ems helpers by @theus77 in https://github.com/ems-project/elasticms/pull/1550
 * fix: resolve symfony 7.4 deprections by @Davidmattei in https://github.com/ems-project/elasticms/pull/1542

@@ -1,6 +1,6 @@
 import { init as initGo2editor } from "./go2editor";
 import { Messenger } from "./messenger";
-import { Editables, EditableElement } from "../types"
+import { ElementInfo } from "../types"
 
 export function initIframe() {
     if (window.self === window.top) {
@@ -14,8 +14,7 @@ export function initIframe() {
         messenger.send({
             type: 'IFRAME_READY',
             url: window.location.href,
-            title: document.title,
-            editables: findEditables()
+            elements: findElements()
         });
     });
 
@@ -35,29 +34,19 @@ function toggleInlineEdit(enabled: boolean): void {
         });
 }
 
-function findEditables(): Editables[]
-{
-    const nodes = document.querySelectorAll<HTMLElement>('.inline-edit-element');
-    const editableElements: EditableElement[] = Array.from(nodes)
-        .filter((el): el is HTMLElement & { dataset: { emsId: string; path: string } } =>
-            Boolean(el.dataset.emsId && el.dataset.path)
-        )
-        .map(el => ({
-            tag: el.tagName,
-            emsId: el.dataset.emsId,
-            path: el.dataset.path
-        }));
+function findElements(): ElementInfo[] {
+    const result: ElementInfo[] = [];
 
-    const mapEditables = new Map<string, { tag: string; path: string }[]>();
-    editableElements.forEach(el => {
-        if (!mapEditables.has(el.emsId)) {
-            mapEditables.set(el.emsId, []);
-        }
-        mapEditables.get(el.emsId)!.push({ tag: el.tag, path: el.path });
-    })
+    document.querySelectorAll<HTMLElement>('.inline-edit-element').forEach(el => {
+        const { emsId, path } = el.dataset;
+        if (!emsId || !path) return;
 
-    return Array.from(mapEditables.entries()).map(([emsId, elements]) => ({
-        emsId,
-        elements
-    }));
+        result.push({
+            emsId,
+            path,
+            tag: el.tagName.toLowerCase()
+        });
+    });
+
+    return result;
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Controller;
 
-use EMS\ClientHelperBundle\Helper\InlineEdit\Dto\RenderPayload;
+use EMS\ClientHelperBundle\Helper\InlineEdit\Dto\RenderPayloadDto;
 use EMS\ClientHelperBundle\Helper\InlineEdit\InlineEditHelper;
 use EMS\ClientHelperBundle\Helper\Request\EmschRequest;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
@@ -40,7 +40,7 @@ readonly class InlineEditController
         }
 
         $jsonData = $request->getContent();
-        $payload = $serializer->deserialize($jsonData, RenderPayload::class, 'json');
+        $payload = $serializer->deserialize($jsonData, RenderPayloadDto::class, 'json');
 
         return new JsonResponse($this->inlineEditHelper->render($payload));
     }

@@ -1,29 +1,17 @@
 import { init as initSidebarResize } from './sidebar-resize';
 import {Messenger} from "./messenger";
-import {IframeToEditorMessage} from "../types";
+import {IframeReadyMessage, IframeToEditorMessage} from "../types";
 
 export function initEditor() {
-    initSidebarResize();
-
     const iframe = document.getElementById('preview-iframe') as HTMLIFrameElement;
     const messenger = new Messenger(iframe);
 
-    messenger.on(async (message) => {
-        if (message.type === 'IFRAME_READY') {
-            await render(message);
-           toggleEdit();
-        }
+    messenger.on('IFRAME_READY', async (msg) => {
+        await render(msg);
+        initSidebarResize();
     });
 
-    function toggleEdit(): void
-    {
-        const editButton = document.getElementById('btn-edit') as HTMLIFrameElement;
-        editButton.addEventListener('click', function () {
-            messenger.send({ type: 'EDITOR_TOGGLE_EDIT' })
-        });
-    }
-
-    async function render(message: IframeToEditorMessage): Promise<void>
+    async function render(message: IframeReadyMessage): Promise<void>
     {
         const renderUrl = <string>document.body.dataset.renderUrl;
 
@@ -33,8 +21,8 @@ export function initEditor() {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                title: message.title,
-                editables: message.editables
+                url: message.url,
+                elements: message.elements
             })
         });
 

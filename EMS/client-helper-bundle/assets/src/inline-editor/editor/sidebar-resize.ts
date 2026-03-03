@@ -1,14 +1,14 @@
 export function init() {
-    const editorBody = document.getElementById('editorBody') as HTMLElement | null;
-    const sidebar = document.getElementById('sidebar') as HTMLElement | null;
-    const handle = document.getElementById('resizeHandle') as HTMLElement | null;
+    const editorBody = document.querySelector('.editor-body') as HTMLElement | null;
+    const editorSidebar = document.querySelector('.editor-sidebar') as HTMLElement | null;
+    const handle = editorSidebar?.querySelector('.editor-sidebar-resize-handle') as HTMLElement | null;
 
     let isResizing = false;
     let lastWidth = 0;
     let animationFrame: number | null = null;
     let overlay: HTMLDivElement | null = null;
 
-    if (handle && editorBody && sidebar) {
+    if (handle && editorBody && editorSidebar) {
         const min = 200;
 
         handle.addEventListener('pointerdown', (e) => {

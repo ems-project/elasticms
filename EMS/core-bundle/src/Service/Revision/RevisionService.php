@@ -396,10 +396,11 @@ class RevisionService implements RevisionServiceInterface
      * @param list<string> $environmentNames
      *
      * @return array<string, array{
-     *     'id': int,
-     *     'draft': bool,
-     *     'revisions': array<string, ?int>,
-     *     'status': array<string, 'not_published'|'outdated'|'published'>
+     *     id: int,
+     *     emsLink: string,
+     *     draft: bool,
+     *     revisions: array<string, ?int>,
+     *     status: array<string, 'not_published'|'outdated'|'published'>
      * }>
      */
     public function getInfos(EMSLinkCollection $emsLinks, array $environmentNames = []): array
@@ -435,6 +436,9 @@ class RevisionService implements RevisionServiceInterface
 
                 $infos[$ouuid] = [
                     'id' => $revision->getId(),
+                    'emsLink' => $revision->getEmsLink(),
+                    'label' => $this->display($revision),
+                    'contentType' => ['singularName' => $contentType->getSingularName()],
                     'draft' => $revision->isDraft(),
                     'revisions' => [$defaultEnv->getName() => $defaultRevisionId],
                 ];

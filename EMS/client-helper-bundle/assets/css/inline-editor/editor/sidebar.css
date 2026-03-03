@@ -1,0 +1,52 @@
+.editor-sidebar-resize-handle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 100%;
+    cursor: col-resize;
+}
+
+.editor-sidebar-resize-handle:hover {
+    background: rgba(0, 0, 0, 0.08);
+}
+
+.list-documents {
+    margin: 12px;
+}
+
+.document-card {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    padding: 12px;
+}
+
+.document-header {
+    display: flex;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.meta {
+    display: grid;
+    grid-template-columns: auto auto;
+    column-gap: 8px;
+    row-gap: 4px;
+    margin: 0;
+    margin-bottom: 24px;
+}
+
+.meta dt {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #6c757d;
+}
+
+.meta dd {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 500;
+}

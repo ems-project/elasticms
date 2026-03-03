@@ -12,15 +12,15 @@
     <script src="{{ asset('src/inline-editor/editor.ts', 'emsclienthelper') }}" type="module"></script>
 </head>
 <body data-render-url="{{ path(constant('EMS\\ClientHelperBundle\\Routes::INLINE_EDIT_RENDER')) }}">
-<div class="editor" id="editor">
+<div class="editor">
     <header class="editor-topbar"></header>
-    <div class="editor-body" id="editorBody">
+    <div class="editor-body">
         <main class="editor-preview">
             <iframe id="preview-iframe" src="{{ iframeUrl }}"></iframe>
         </main>
-        <aside id="sidebar">
-            <div class="editor-resize-handle" id="resizeHandle"></div>
-            <div class="editor-sidebar">
+        <aside class="editor-sidebar">
+            <div class="editor-sidebar-resize-handle"></div>
+            <div class="editor-sidebar-content">
 
             </div>
         </aside>

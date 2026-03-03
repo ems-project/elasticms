@@ -119,6 +119,7 @@ return static function (ContainerConfigurator $container) {
         ->args([
             service('twig'),
             service(UrlGeneratorInterface::class),
+            service(CoreBridgeInterface::class),
         ]);
 
     $services->set('emsch.event_listener.inline_edit', InlineEditListener::class)

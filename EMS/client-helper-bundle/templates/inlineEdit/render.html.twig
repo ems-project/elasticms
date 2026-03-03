@@ -1,14 +1,47 @@
 {%- block header -%}
-    <strong>Inline Editor</strong>
+    <strong>{{ render.title }}</strong>
     <div class="editor-actions">
-        <button class="btn" id="btn-edit"><i class="fas fa-pen"></i> Edit</button>
-{#            <a href="{{ url }}" class="btn"><i class="fas fa-close"></i> Close</a>#}
+        <a href="{{ render.closeUrl }}" class="btn"><i class="fas fa-close"></i> Close</a>
     </div>
 {%- endblock header -%}
 
 {%- block sidebar -%}
-    {%- if payload is defined -%}
-        {{ dump(payload) }}
-    {%- endif -%}
+    {{ block('printDocuments') }}
 {%- endblock sidebar -%}
+
+{%- block printDocuments -%}
+    {%- if render.documents|length > 0 -%}
+        {% dump render.documents %}
+        <ul class="list-documents">
+            {%- for doc in render.documents -%}
+                <li class="document-card">
+                    <div class="document-header">
+                        <span class="document-name">{{ doc.info.label }}</span>
+                        <span class="badge warning"></span>
+                    </div>
+                    <dl class="meta">
+                        <dt>Content type</dt>
+                        <dd>{{ doc.info.contentType.singularName }}</dd>
+                        <dt>Draft</dt>
+                        <dd>{{ doc.info.draft ? 'Yes' : 'No' }}</dd>
+                        {% for env,status in doc.info.status %}
+                            <dt>{{ env|capitalize }}</dt>
+                            <dd><span class="{{ html_classes('badge', {
+                                'success': status === 'published',
+                                'warning': status === 'outdated',
+                                'danger': status === 'not_published'
+                            }) }}">{{ status }}</span></dd>
+                        {% endfor %}
+                    </dl>
+                    <ul>
+                        {%- for element in doc.elements -%}
+                            <li>{{ element.path }}</li>
+                        {%- endfor -%}
+                    </ul>
+                </li>
+            {%- endfor -%}
+        </ul>
+    {%- endif -%}
+{%- endblock printDocuments -%}
+
 

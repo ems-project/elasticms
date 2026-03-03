@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Helper\InlineEdit;
 
-use EMS\ClientHelperBundle\Helper\InlineEdit\Dto\RenderPayload;
+use EMS\ClientHelperBundle\Helper\InlineEdit\Dto\RenderDto;
+use EMS\ClientHelperBundle\Helper\InlineEdit\Dto\RenderPayloadDto;
 use EMS\ClientHelperBundle\Helper\Request\EmschRequest;
 use EMS\ClientHelperBundle\Routes;
+use EMS\CommonBundle\Contracts\Bridge\Core\CoreBridgeInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Environment;
 use Twig\TemplateWrapper;
@@ -16,21 +18,24 @@ readonly class InlineEditHelper
     public function __construct(
         private Environment $twig,
         private UrlGeneratorInterface $urlGenerator,
+        private CoreBridgeInterface $coreBridge
     ) {
     }
 
     /**
      * @return array<string, string>
      */
-    public function render(RenderPayload $payload): array
+    public function render(RenderPayloadDto $payload): array
     {
+        $emsLinks = $payload->getEmsLinks();
+        $info = [] !== $emsLinks ? $this->coreBridge->info()->documents([], ...$emsLinks) : null;
+
         $template = $this->twig->load('@EMSClientHelper/inlineEdit/render.html.twig');
+        $context = ['render' => new RenderDto($payload, $info)];
 
         return [
-            '.editor-topbar' => $template->renderBlock('header'),
-            '.editor-sidebar' => $template->renderBlock('sidebar', [
-                'payload' => $payload,
-            ]),
+            '.editor-topbar' => $template->renderBlock('header', $context),
+            '.editor-sidebar-content' => $template->renderBlock('sidebar', $context),
         ];
     }
 

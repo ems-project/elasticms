@@ -1,6 +1,6 @@
 # Changelog 7.x
 
-## 7.0.0 (2026-03-02)
+## 7.0.0 (2026-03-04)
 ### Features
 * feat(admin): manage webhooks by @theus77 in https://github.com/ems-project/elasticms/pull/1512
 * feat(admin/api): index data from asset by @theus77 in https://github.com/ems-project/elasticms/pull/1472
@@ -62,6 +62,7 @@
 * fix(web/admin): regression bugs form and jsonMenuNested by @Davidmattei in https://github.com/ems-project/elasticms/pull/1610
 * fix(web/form): browser plugin false warning and webpack upgrade by @theus77 in https://github.com/ems-project/elasticms/pull/1499
 * fix(xliff): replace commonBundle dependency with ems helpers by @theus77 in https://github.com/ems-project/elasticms/pull/1550
+* fix: remove fork stevenmaguire/oauth2-keycloak by @Davidmattei in https://github.com/ems-project/elasticms/pull/1615
 * fix: resolve symfony 7.4 deprections by @Davidmattei in https://github.com/ems-project/elasticms/pull/1542
 ### Documentation
 * docs(dev): install OpenTelemetry (linux,macOS,source) by @Davidmattei in https://github.com/ems-project/elasticms/pull/1561

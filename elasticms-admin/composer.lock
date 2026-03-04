@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "73d1d205e07ca654c89d52227c321af2",
+    "content-hash": "2e1a8c07cc4baa4c3ed1e7766ea4fa67",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -62,16 +62,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.371.3",
+            "version": "3.371.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "d300ec1c861e52dc8f17ca3d75dc754da949f065"
+                "reference": "957f8a5ecc30670c95dfc37a9d04660899fc44e0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/d300ec1c861e52dc8f17ca3d75dc754da949f065",
-                "reference": "d300ec1c861e52dc8f17ca3d75dc754da949f065",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/957f8a5ecc30670c95dfc37a9d04660899fc44e0",
+                "reference": "957f8a5ecc30670c95dfc37a9d04660899fc44e0",
                 "shasum": ""
             },
             "require": {
@@ -153,9 +153,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.371.3"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.371.4"
             },
-            "time": "2026-02-27T19:05:40+00:00"
+            "time": "2026-03-03T19:52:06+00:00"
         },
         {
             "name": "brick/math",
@@ -1685,16 +1685,16 @@
         },
         {
             "name": "dompdf/dompdf",
-            "version": "v3.1.4",
+            "version": "v3.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dompdf/dompdf.git",
-                "reference": "db712c90c5b9868df3600e64e68da62e78a34623"
+                "reference": "f11ead23a8a76d0ff9bbc6c7c8fd7e05ca328496"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dompdf/dompdf/zipball/db712c90c5b9868df3600e64e68da62e78a34623",
-                "reference": "db712c90c5b9868df3600e64e68da62e78a34623",
+                "url": "https://api.github.com/repos/dompdf/dompdf/zipball/f11ead23a8a76d0ff9bbc6c7c8fd7e05ca328496",
+                "reference": "f11ead23a8a76d0ff9bbc6c7c8fd7e05ca328496",
                 "shasum": ""
             },
             "require": {
@@ -1743,9 +1743,9 @@
             "homepage": "https://github.com/dompdf/dompdf",
             "support": {
                 "issues": "https://github.com/dompdf/dompdf/issues",
-                "source": "https://github.com/dompdf/dompdf/tree/v3.1.4"
+                "source": "https://github.com/dompdf/dompdf/tree/v3.1.5"
             },
-            "time": "2025-10-29T12:43:30+00:00"
+            "time": "2026-03-03T13:54:37+00:00"
         },
         {
             "name": "dompdf/php-font-lib",
@@ -2078,12 +2078,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSClientHelperBundle.git",
-                "reference": "2da6069b5f3576deb713dd9ed23c4d56ac5c6b60"
+                "reference": "3248fa2fca7e2bc8cde493b2e2f0565b49f86caf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSClientHelperBundle/zipball/2da6069b5f3576deb713dd9ed23c4d56ac5c6b60",
-                "reference": "2da6069b5f3576deb713dd9ed23c4d56ac5c6b60",
+                "url": "https://api.github.com/repos/ems-project/EMSClientHelperBundle/zipball/3248fa2fca7e2bc8cde493b2e2f0565b49f86caf",
+                "reference": "3248fa2fca7e2bc8cde493b2e2f0565b49f86caf",
                 "shasum": ""
             },
             "require": {
@@ -2092,7 +2092,7 @@
                 "league/oauth2-client": "^2.8",
                 "onelogin/php-saml": "^4.1",
                 "php": "^8.5",
-                "stevenmaguire/oauth2-keycloak": "dev-jwt7-support as 5.1.1",
+                "stevenmaguire/oauth2-keycloak": "^6.1",
                 "symfony-cmf/routing": "^3.0",
                 "symfony/asset": "7.4.*",
                 "symfony/console": "7.4.*",
@@ -2127,7 +2127,7 @@
             "support": {
                 "source": "https://github.com/ems-project/EMSClientHelperBundle/tree/7.0.0"
             },
-            "time": "2026-03-02T07:50:51+00:00"
+            "time": "2026-03-04T09:38:27+00:00"
         },
         {
             "name": "elasticms/common-bundle",
@@ -6358,16 +6358,16 @@
         },
         {
             "name": "sabberworm/php-css-parser",
-            "version": "v9.2.0",
+            "version": "v9.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/MyIntervals/PHP-CSS-Parser.git",
-                "reference": "59373045e11ad47b5c18fc615feee0219e42f6d3"
+                "reference": "88dbd0f7f91abbfe4402d0a3071e9ff4d81ed949"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/MyIntervals/PHP-CSS-Parser/zipball/59373045e11ad47b5c18fc615feee0219e42f6d3",
-                "reference": "59373045e11ad47b5c18fc615feee0219e42f6d3",
+                "url": "https://api.github.com/repos/MyIntervals/PHP-CSS-Parser/zipball/88dbd0f7f91abbfe4402d0a3071e9ff4d81ed949",
+                "reference": "88dbd0f7f91abbfe4402d0a3071e9ff4d81ed949",
                 "shasum": ""
             },
             "require": {
@@ -6394,7 +6394,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "9.3.x-dev"
+                    "dev-main": "9.4.x-dev"
                 }
             },
             "autoload": {
@@ -6432,9 +6432,9 @@
             ],
             "support": {
                 "issues": "https://github.com/MyIntervals/PHP-CSS-Parser/issues",
-                "source": "https://github.com/MyIntervals/PHP-CSS-Parser/tree/v9.2.0"
+                "source": "https://github.com/MyIntervals/PHP-CSS-Parser/tree/v9.3.0"
             },
-            "time": "2026-02-21T17:12:03+00:00"
+            "time": "2026-03-03T17:31:43+00:00"
         },
         {
             "name": "scssphp/scssphp",
@@ -6619,25 +6619,26 @@
         },
         {
             "name": "stevenmaguire/oauth2-keycloak",
-            "version": "dev-jwt7-support",
+            "version": "6.1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/ems-project/oauth2-keycloak.git",
-                "reference": "107c24beea7c58bf4d4aa905fb3c4d302c75d603"
+                "url": "https://github.com/stevenmaguire/oauth2-keycloak.git",
+                "reference": "459cc58576d37f5823de2a677a7b17667b85ba7f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/oauth2-keycloak/zipball/107c24beea7c58bf4d4aa905fb3c4d302c75d603",
-                "reference": "107c24beea7c58bf4d4aa905fb3c4d302c75d603",
+                "url": "https://api.github.com/repos/stevenmaguire/oauth2-keycloak/zipball/459cc58576d37f5823de2a677a7b17667b85ba7f",
+                "reference": "459cc58576d37f5823de2a677a7b17667b85ba7f",
                 "shasum": ""
             },
             "require": {
                 "firebase/php-jwt": "^7.0",
-                "league/oauth2-client": "^2.0",
-                "php": "~7.2 || ~8.0"
+                "league/oauth2-client": "^2.8",
+                "php": "^8.0"
             },
             "require-dev": {
-                "mockery/mockery": "~1.5.0",
+                "mockery/mockery": "^1.6",
+                "phpstan/phpstan": "^1.12",
                 "phpunit/phpunit": "~9.6.4",
                 "squizlabs/php_codesniffer": "~3.7.0"
             },
@@ -6652,17 +6653,7 @@
                     "Stevenmaguire\\OAuth2\\Client\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Stevenmaguire\\OAuth2\\Client\\Test\\": "test/src/"
-                }
-            },
-            "scripts": {
-                "test": [
-                    "@putenv XDEBUG_MODE=coverage",
-                    "phpunit --colors=always"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -6683,9 +6674,10 @@
                 "oauth2"
             ],
             "support": {
-                "source": "https://github.com/ems-project/oauth2-keycloak/tree/jwt7-support"
+                "issues": "https://github.com/stevenmaguire/oauth2-keycloak/issues",
+                "source": "https://github.com/stevenmaguire/oauth2-keycloak/tree/6.1.0"
             },
-            "time": "2026-02-23T08:38:05+00:00"
+            "time": "2026-03-03T11:50:29+00:00"
         },
         {
             "name": "symfony-cmf/routing",

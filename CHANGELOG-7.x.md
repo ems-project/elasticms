@@ -1,6 +1,6 @@
 # Changelog 7.x
 
-## 7.0.0 (2026-03-02)
+## 7.0.0 (2026-03-04)
 ### Features
 * feat(admin): manage webhooks by @theus77 in https://github.com/ems-project/elasticms/pull/1512
 * feat(admin/api): index data from asset by @theus77 in https://github.com/ems-project/elasticms/pull/1472
@@ -41,6 +41,7 @@
 * fix(common/coreApi): runCommand use new core JobApiController by @Davidmattei in https://github.com/ems-project/elasticms/pull/1566
 * fix(docker): NGINX / PHP-FPM configuration  by @zebby76 in https://github.com/ems-project/elasticms/pull/1611
 * fix(docker): add OTEL_ENABLED variable by @Davidmattei in https://github.com/ems-project/elasticms/pull/1564
+* fix(docker): correct script execution order by @zebby76 in https://github.com/ems-project/elasticms/pull/1616
 * fix(docker): fix and improve NGINX / PHP configuration by @zebby76 in https://github.com/ems-project/elasticms/pull/1606
 * fix(docker): optional include docker .env file by @Davidmattei in https://github.com/ems-project/elasticms/pull/1577
 * fix(docker): upgrade traefik v2.2 to v3.6 (issue with docker API version >= 1.52) by @theus77 in https://github.com/ems-project/elasticms/pull/1480
@@ -62,6 +63,7 @@
 * fix(web/admin): regression bugs form and jsonMenuNested by @Davidmattei in https://github.com/ems-project/elasticms/pull/1610
 * fix(web/form): browser plugin false warning and webpack upgrade by @theus77 in https://github.com/ems-project/elasticms/pull/1499
 * fix(xliff): replace commonBundle dependency with ems helpers by @theus77 in https://github.com/ems-project/elasticms/pull/1550
+* fix: remove fork stevenmaguire/oauth2-keycloak by @Davidmattei in https://github.com/ems-project/elasticms/pull/1615
 * fix: resolve symfony 7.4 deprections by @Davidmattei in https://github.com/ems-project/elasticms/pull/1542
 ### Documentation
 * docs(dev): install OpenTelemetry (linux,macOS,source) by @Davidmattei in https://github.com/ems-project/elasticms/pull/1561

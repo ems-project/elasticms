@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-ELASTICMS_INSTANCE_CONFIG_JSON_FILE="${TMPDIR}/elasticms.d/${ELASTICMS_INSTANCE_NAME}.json"
+ELASTICMS_INSTANCE_CONFIG_JSON_FILE="${APP_CONFIG_JSON_DIR}/${ELASTICMS_INSTANCE_NAME}.json"
 
 while IFS= read -r line || [[ -n "$line" ]]; do
     [[ -z "$line" || "$line" =~ ^[[:space:]]*# ]] && continue

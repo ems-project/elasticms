@@ -35,6 +35,7 @@ function sendLoadMessage(url: string = window.location.href) {
         type: 'IFRAME_LOAD',
         url: url,
         path: realPath,
+        title: document.title,
         elements: findElements()
     });
 }

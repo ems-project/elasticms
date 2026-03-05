@@ -9,6 +9,7 @@ const messenger = new Messenger(iframe);
 export function initEditor() {
     messenger.on('IFRAME_LOAD', async (msg) => {
         const newUrl = `${baseUrl}${msg.path}`;
+        document.title = `Inline Editor: ${msg.title}`;
 
         if (window.location.pathname !== newUrl) {
             window.history.replaceState({ path: msg.path }, '', newUrl);

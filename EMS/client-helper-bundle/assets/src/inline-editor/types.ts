@@ -4,6 +4,7 @@ export type IframeLoadMessage = {
     type: 'IFRAME_LOAD';
     url: string;
     path: string;
+    title: string;
     elements: ElementInfo[];
 };
 

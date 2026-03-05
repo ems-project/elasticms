@@ -4,45 +4,45 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Twig;
 
+use EMS\ClientHelperBundle\Helper\InlineEdit\InlineEditConfigFactory;
 use EMS\ClientHelperBundle\Helper\Request\EmschRequest;
-use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
+use EMS\Helpers\Standard\UuidGenerator;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Attribute\AsTwigFunction;
+use Twig\Extension\AbstractExtension;
 
-readonly class InlineEditExtension
+class InlineEditExtension extends AbstractExtension
 {
-    public function __construct(private RequestStack $requestStack)
-    {
+    public function __construct(
+        private readonly RequestStack $requestStack,
+    ) {
     }
 
     /**
-     * @param array<string, string> $attributes
+     * @param array<mixed> $options
      */
     #[AsTwigFunction(name: 'emsch_inline_edit', isSafe: ['html'])]
-    public function renderElement(string $element, DocumentInterface $document, string $path, array $attributes = []): string
+    public function renderElement(array $options): string
     {
+        $config = InlineEditConfigFactory::fromArray($options);
+
         $request = $this->requestStack->getCurrentRequest();
         $emschRequest = $request ? EmschRequest::fromRequest($request) : null;
-        $inlineEdit = $emschRequest && $emschRequest->isInlineEditorEnabled();
+        $attributes = $config->attributes;
 
-        if ($inlineEdit) {
-            if (isset($attributes['class'])) {
-                $attributes['class'] .= ' inline-edit-element';
-            } else {
-                $attributes['class'] = 'inline-edit-element';
-            }
-
-            $attributes['data-ems-id'] = (string) $document->getEmsLink();
-            $attributes['data-path'] = $path;
+        if ($emschRequest && $emschRequest->isInlineEditorEnabled()) {
+            $attributes['data-ems-id'] = (string) $config->document->getEmsLink();
+            $attributes['data-path'] = $config->path;
+            $attributes['data-inline-id'] = UuidGenerator::random();
         }
 
         $attrString = '';
         foreach ($attributes as $key => $value) {
-            $attrString .= \sprintf(' %s="%s"', $key, \htmlspecialchars($value, ENT_QUOTES));
+            $attrString .= \sprintf(' %s="%s"', $key, \htmlspecialchars((string) $value, ENT_QUOTES));
         }
 
-        $content = $document->getValue($path);
+        $content = $config->document->getValue($config->path);
 
-        return \sprintf('<%1$s%2$s>%3$s</%1$s>', $element, $attrString, $content);
+        return \sprintf('<%1$s%2$s>%3$s</%1$s>', $config->element, $attrString, $content);
     }
 }

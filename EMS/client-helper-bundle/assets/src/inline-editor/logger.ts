@@ -1,5 +1,5 @@
-export const debug = (...args: any[]): void => {
-    if ((import.meta as any).env.DEV) {
+export const debug = (...args: unknown[]): void => {
+    if ((import.meta as ImportMeta).env?.DEV) {
         console.debug(...args);
     }
 };

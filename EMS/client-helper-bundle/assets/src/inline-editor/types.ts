@@ -5,19 +5,30 @@ export type IframeLoadMessage = {
     url: string;
     path: string;
     title: string;
-    elements: ElementInfo[];
+    elements: InlineElement[];
 };
+export type IframeRequestDraft = {
+    type: 'IFRAME_REQUEST_DRAFT';
+    element: InlineElement;
+}
+
+export type EditorElements = {
+    type: 'EDITOR_ELEMENTS',
+    selectors: string[]
+}
 
 export type EditorToIframeMessage =
-    | { type: 'EDITOR_READY' };
+    | EditorElements;
 
 export type IframeToEditorMessage =
     | IframeLoadMessage
     | { type: 'IFRAME_UNLOAD' }
+    | IframeRequestDraft
 ;
 
-export interface ElementInfo {
+export interface InlineElement {
     emsId: string;
     path: string;
     tag: string;
+    selector: string;
 }

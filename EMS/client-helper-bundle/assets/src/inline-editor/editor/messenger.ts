@@ -23,7 +23,7 @@ export class Messenger {
         }
 
         const message = event.data as IframeToEditorMessage;
-        debug('Iframe received:', message);
+        debug('Editor received:', message);
 
         this.handlers.forEach((h) => h(message));
     }

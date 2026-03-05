@@ -19,7 +19,7 @@ export function initEditor() {
         initSidebarResize();
     });
 
-    messenger.on('IFRAME_UNLOAD', (msg) => {
+    messenger.on('IFRAME_UNLOAD', () => {
         ['.editor-sidebar-content', '.editor-topbar'].forEach(s =>
             document.querySelector(s)?.replaceChildren()
         );
@@ -37,14 +37,24 @@ async function render(message: IframeLoadMessage): Promise<void>
         })
     });
 
-    const json: Record<string, string> = await response.json();
+    const data: {
+        render: Record<string, string>,
+        elements: string[]
+    } = await response.json();
 
-    for (const selector in json) {
-        const html = json[selector];
+    for (const selector in data.render) {
+        const html = data.render[selector];
         const element = document.querySelector<HTMLElement>(selector);
 
         if (element && html) {
             element.innerHTML = html;
         }
+    }
+
+    if (data.elements && data.elements.length > 0) {
+        messenger.send({
+            type: 'EDITOR_ELEMENTS',
+            selectors: data.elements
+        });
     }
 }

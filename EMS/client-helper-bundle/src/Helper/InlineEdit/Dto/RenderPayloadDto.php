@@ -9,10 +9,10 @@ use EMS\CommonBundle\Common\EMSLink;
 class RenderPayloadDto
 {
     public string $url;
-    /** @var array<int, array{ emsId: string, path: string, tag: string }> */
+    /** @var array<int, array{ emsId: string, path: string, tag: string, selector: string }> */
     public array $elements = [];
 
-    /** @return array<int, array{ path: string, tag: string }> */
+    /** @return array<int, array{ path: string, tag: string, selector: string }> */
     public function getElementsByEmsLink(mixed $emsId): array
     {
         $elements = \array_filter($this->elements, fn (array $element) => $element['emsId'] === $emsId);

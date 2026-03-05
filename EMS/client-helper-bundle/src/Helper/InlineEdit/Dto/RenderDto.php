@@ -12,6 +12,8 @@ class RenderDto
     public string $closeUrl;
     /** @var array<mixed> */
     public array $documents = [];
+    /** @var string[] */
+    public array $elements = [];
 
     public function __construct(
         RenderPayloadDto $payload,
@@ -24,6 +26,11 @@ class RenderDto
         foreach ($infos as $info) {
             $emsLink = $info['emsLink'];
             $elements = $payload->getElementsByEmsLink($emsLink);
+
+            foreach ($elements as $element) {
+                $this->elements[] = $element['selector'];
+            }
+
             $this->documents[] = [
                 'label' => \sprintf('%s: %s', $info['contentType']['singularName'], $info['label']),
                 'elements' => $elements,

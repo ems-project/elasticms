@@ -1,5 +1,5 @@
 import { Messenger } from "./messenger";
-import { ElementInfo } from "../types"
+import {EditorElements, InlineElement} from "../types"
 import { NavigationObserver } from "./navigation";
 
 const messenger = new Messenger();
@@ -14,6 +14,30 @@ export function initIframe()
     new NavigationObserver({
         onUpdate: (url) => sendLoadMessage(url),
         onLeave: () => messenger.send({ type: 'IFRAME_UNLOAD' }),
+    });
+
+    messenger.on('EDITOR_ELEMENTS', (message) => onEditorElements(message))
+}
+
+function setupInlineEdit(element: HTMLElement) {
+    const inlineElement = getInlineElement(element);
+    if (null === inlineElement) return;
+
+    element.addEventListener('click', (e) => {
+        e.preventDefault();
+        messenger.send({
+            type: 'IFRAME_REQUEST_DRAFT',
+            element: inlineElement
+        });
+    })
+}
+
+function onEditorElements(message: EditorElements) {
+    message.selectors.forEach(selector => {
+        const element = document.querySelector<HTMLElement>(selector);
+        if (element) {
+            setupInlineEdit(element);
+        }
     });
 }
 
@@ -36,23 +60,34 @@ function sendLoadMessage(url: string = window.location.href) {
         url: url,
         path: realPath,
         title: document.title,
-        elements: findElements()
+        elements: findInlineElements()
     });
 }
 
-function findElements(): ElementInfo[] {
-    const result: ElementInfo[] = [];
+function findInlineElements(): InlineElement[] {
+    const inlineElements: InlineElement[] = [];
+    const query = '[data-ems-id][data-path][data-inline-id]';
 
-    document.querySelectorAll<HTMLElement>('.inline-edit-element').forEach(el => {
-        const { emsId, path } = el.dataset;
-        if (!emsId || !path) return;
-
-        result.push({
-            emsId,
-            path,
-            tag: el.tagName.toLowerCase()
-        });
+    document.querySelectorAll<HTMLElement>(query).forEach(element => {
+        const inlineElement = getInlineElement(element);
+        if (inlineElement) {
+            inlineElements.push(inlineElement);
+        }
     });
 
-    return result;
+    return inlineElements;
+}
+
+function getInlineElement(element: HTMLElement): InlineElement | null {
+    const { emsId, path, inlineId } = element.dataset;
+    if (!emsId || !path || !inlineId) return null;
+
+    const tag = element.tagName.toLowerCase();
+
+    return {
+        emsId: emsId,
+        path: path,
+        tag: tag,
+        selector: `${tag}[data-inline-id="${inlineId}"]`
+    }
 }

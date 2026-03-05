@@ -23,19 +23,26 @@ readonly class InlineEditHelper
     }
 
     /**
-     * @return array<string, string>
+     * @return array{
+     *     render: array<string, string>,
+     *     elements: string[]
+     * }
      */
     public function render(RenderPayloadDto $payload): array
     {
         $emsLinks = $payload->getEmsLinks();
         $info = [] !== $emsLinks ? $this->coreBridge->info()->documents([], ...$emsLinks) : null;
 
+        $dto = new RenderDto($payload, $info);
         $template = $this->twig->load('@EMSClientHelper/inlineEdit/render.html.twig');
-        $context = ['render' => new RenderDto($payload, $info)];
+        $context = ['render' => $dto];
 
         return [
-            '.editor-topbar' => $template->renderBlock('header', $context),
-            '.editor-sidebar-content' => $template->renderBlock('sidebar', $context),
+            'render' => [
+                '.editor-topbar' => $template->renderBlock('header', $context),
+                '.editor-sidebar-content' => $template->renderBlock('sidebar', $context),
+            ],
+            'elements' => $dto->elements,
         ];
     }
 

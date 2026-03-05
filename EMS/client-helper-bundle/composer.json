@@ -24,6 +24,7 @@
         "symfony/console": "7.4.*",
         "symfony/event-dispatcher": "7.4.*",
         "symfony/mime": "7.4.*",
+        "symfony/serializer": "7.4.*",
         "symfony/security-bundle": "7.4.*",
         "symfony/security-csrf": "7.4.*",
         "symfony/twig-bundle": "7.4.*",

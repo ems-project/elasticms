@@ -7,7 +7,7 @@
 } -%}
 {%- if 400 == status_code -%}
     {%- set message = message|merge({
-        body: app.request.content|default(null)
+        request_content: app.request.content|default(null)
     }) -%}
 {%- endif -%}
 {{- message|json_encode(constant('JSON_PRETTY_PRINT'))|raw -}}

@@ -3,6 +3,7 @@ import {
     IframeToEditorMessage,
     MESSAGE_SOURCE
 } from '../types';
+import {debug} from "../logger";
 
 type EventHandler = (message: IframeToEditorMessage) => void;
 
@@ -22,7 +23,7 @@ export class Messenger {
         }
 
         const message = event.data as IframeToEditorMessage;
-        console.debug('Editor received:', message);
+        debug('Iframe received:', message);
 
         this.handlers.forEach((h) => h(message));
     }

@@ -1,30 +1,28 @@
 {% use "@EMSClientHelper/inlineEdit/render.html.twig" %}
 <!doctype html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Inline Editor</title>
-    <link rel="stylesheet" href="{{ asset('src/inline-editor/editor.ts.css', 'emsclienthelper') }}">
-    {%- if vite.isDevServerRunning -%}
-        <script type="module" src="{{- vite.devServerClient -}}"></script>
-    {%- endif -%}
-    <script src="{{ asset('src/inline-editor/editor.ts', 'emsclienthelper') }}" type="module"></script>
-</head>
-<body data-render-url="{{ path(constant('EMS\\ClientHelperBundle\\Routes::INLINE_EDIT_RENDER')) }}">
-<div class="editor">
-    <header class="editor-topbar"></header>
-    <div class="editor-body">
-        <main class="editor-preview">
-            <iframe id="preview-iframe" src="{{ iframeUrl }}"></iframe>
-        </main>
-        <aside class="editor-sidebar">
-            <div class="editor-sidebar-resize-handle"></div>
-            <div class="editor-sidebar-content">
-
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Inline Editor</title>
+        <link rel="stylesheet" href="{{ asset('src/inline-editor/editor.ts.css', 'emsclienthelper') }}">
+        {%- if vite.isDevServerRunning -%}
+            <script type="module" src="{{- vite.devServerClient -}}"></script>
+        {%- endif -%}
+        <script src="{{ asset('src/inline-editor/editor.ts', 'emsclienthelper') }}" type="module"></script>
+    </head>
+    <body data-base-url="{{ path(constant('EMS\\ClientHelperBundle\\Routes::INLINE_EDIT_EDITOR')) }}">
+        <div class="editor">
+            <header class="editor-topbar"></header>
+            <div class="editor-body">
+                <main class="editor-preview">
+                    <iframe id="preview-iframe" src="{{ iframeUrl }}" data-prefix="{{ routePrefix }}"></iframe>
+                </main>
+                <aside class="editor-sidebar">
+                    <div class="editor-sidebar-resize-handle"></div>
+                    <div class="editor-sidebar-content"></div>
+                </aside>
             </div>
-        </aside>
-    </div>
-</div>
-</body>
+        </div>
+    </body>
 </html>

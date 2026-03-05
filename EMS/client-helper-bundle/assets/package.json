@@ -4,12 +4,12 @@
   "description": "EMSClientHelperBundle",
   "scripts": {
     "build": "tsc && vite build",
-    "dev": "vite",
+    "dev": "NODE_ENV=development vite",
     "dev-host": "vite --host",
     "format": "prettier --write src/",
     "lint": "eslint . --ext .ts,.js --fix",
     "preview": "vite preview",
-    "watch": "tsc && vite build --watch"
+    "watch": "tsc && NODE_ENV=development vite build --watch --mode development"
   },
   "license": "LGPL-3.0-or-later",
   "dependencies": {

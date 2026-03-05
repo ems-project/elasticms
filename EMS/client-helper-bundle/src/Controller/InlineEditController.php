@@ -20,7 +20,7 @@ readonly class InlineEditController
     ) {
     }
 
-    public function editor(EmschRequest $request, string $path): Response
+    public function editor(EmschRequest $request, ?string $path): Response
     {
         if (!$request->isInlineEditorEnabled()) {
             throw new NotFoundHttpException();

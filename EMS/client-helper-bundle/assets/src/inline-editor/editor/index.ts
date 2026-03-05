@@ -1,40 +1,49 @@
 import { init as initSidebarResize } from './sidebar-resize';
 import {Messenger} from "./messenger";
-import {IframeReadyMessage, IframeToEditorMessage} from "../types";
+import {IframeLoadMessage} from "../types";
+
+const iframe = document.getElementById('preview-iframe') as HTMLIFrameElement;
+const baseUrl = <string>document.body.dataset.baseUrl;
+const messenger = new Messenger(iframe);
 
 export function initEditor() {
-    const iframe = document.getElementById('preview-iframe') as HTMLIFrameElement;
-    const messenger = new Messenger(iframe);
+    messenger.on('IFRAME_LOAD', async (msg) => {
+        const newUrl = `${baseUrl}${msg.path}`;
 
-    messenger.on('IFRAME_READY', async (msg) => {
+        if (window.location.pathname !== newUrl) {
+            window.history.replaceState({ path: msg.path }, '', newUrl);
+        }
+
         await render(msg);
         initSidebarResize();
     });
 
-    async function render(message: IframeReadyMessage): Promise<void>
-    {
-        const renderUrl = <string>document.body.dataset.renderUrl;
+    messenger.on('IFRAME_UNLOAD', (msg) => {
+        ['.editor-sidebar-content', '.editor-topbar'].forEach(s =>
+            document.querySelector(s)?.replaceChildren()
+        );
+    })
+}
 
-        const response = await fetch(renderUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                url: message.url,
-                elements: message.elements
-            })
-        });
+async function render(message: IframeLoadMessage): Promise<void>
+{
+    const response = await fetch(baseUrl + '/render', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            url: message.url,
+            elements: message.elements
+        })
+    });
 
-        const json: Record<string, string> = await response.json();
+    const json: Record<string, string> = await response.json();
 
-        for (const selector in json) {
-            const html = json[selector];
-            const element = document.querySelector<HTMLElement>(selector);
+    for (const selector in json) {
+        const html = json[selector];
+        const element = document.querySelector<HTMLElement>(selector);
 
-            if (element && html) {
-                element.innerHTML = html;
-            }
+        if (element && html) {
+            element.innerHTML = html;
         }
     }
 }

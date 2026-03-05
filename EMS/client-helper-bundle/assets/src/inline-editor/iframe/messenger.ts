@@ -3,6 +3,7 @@ import {
     IframeToEditorMessage,
     MESSAGE_SOURCE
 } from '../types';
+import {debug} from "../logger";
 
 type EventHandler = (message: EditorToIframeMessage) => void;
 
@@ -20,7 +21,7 @@ export class Messenger {
         }
 
         const message = event.data as EditorToIframeMessage;
-        console.debug('Iframe received:', message);
+        debug('Iframe received:', message);
 
         this.handlers.forEach((h) => h(message));
     }
@@ -29,7 +30,15 @@ export class Messenger {
         window.parent.postMessage({ ...message, source: MESSAGE_SOURCE}, '*');
     }
 
-    public on(handler: EventHandler) {
-        this.handlers.push(handler);
+    public on<K extends EditorToIframeMessage['type']>(
+        type: K,
+        handler: (message: Extract<EditorToIframeMessage, { type: K }>) => void
+    ) {
+        const wrapper: EventHandler = (msg) => {
+            if (msg.type === type) {
+                handler(msg as Extract<EditorToIframeMessage, { type: K }>);
+            }
+        };
+        this.handlers.push(wrapper);
     }
 }

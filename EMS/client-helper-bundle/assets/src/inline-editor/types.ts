@@ -1,16 +1,19 @@
 export const MESSAGE_SOURCE = 'inline-editor';
 
-export type IframeReadyMessage = {
-    type: 'IFRAME_READY';
+export type IframeLoadMessage = {
+    type: 'IFRAME_LOAD';
     url: string;
+    path: string;
     elements: ElementInfo[];
 };
 
 export type EditorToIframeMessage =
-    | { type: 'EDITOR_TOGGLE_EDIT' };
+    | { type: 'EDITOR_READY' };
 
 export type IframeToEditorMessage =
-    | IframeReadyMessage;
+    | IframeLoadMessage
+    | { type: 'IFRAME_UNLOAD' }
+;
 
 export interface ElementInfo {
     emsId: string;

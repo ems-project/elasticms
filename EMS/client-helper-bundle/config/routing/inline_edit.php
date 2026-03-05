@@ -13,6 +13,7 @@ return function (RoutingConfigurator $routes): void {
 
     $routes->add(Routes::INLINE_EDIT_EDITOR, '/editor{path}')
         ->controller([InlineEditController::class, 'editor'])
-        ->requirements(['path' => '.+'])
+        ->defaults(['path' => null])
+        ->requirements(['path' => '.*'])
         ->methods(['GET']);
 };

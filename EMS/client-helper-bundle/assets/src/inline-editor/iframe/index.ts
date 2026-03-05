@@ -1,37 +1,42 @@
-import { init as initGo2editor } from "./go2editor";
 import { Messenger } from "./messenger";
 import { ElementInfo } from "../types"
+import { NavigationObserver } from "./navigation";
 
-export function initIframe() {
-    if (window.self === window.top) {
-        initGo2editor();
+const messenger = new Messenger();
+const iframe = window.frameElement as HTMLIFrameElement | null;
+const locationPrefix = iframe?.dataset.prefix ?? '';
+
+
+export function initIframe()
+{
+    sendLoadMessage();
+
+    new NavigationObserver({
+        onUpdate: (url) => sendLoadMessage(url),
+        onLeave: () => messenger.send({ type: 'IFRAME_UNLOAD' }),
+    });
+}
+
+function sendLoadMessage(url: string = window.location.href) {
+    const loc = new URL(url);
+    const path = loc.pathname;
+
+    if (!path.startsWith(locationPrefix)) {
+        console.warn(`Invalid path, does not start with prefix: ${path}`);
         return;
     }
 
-    const messenger = new Messenger();
+    let realPath = path.slice(locationPrefix.length);
+    if (!realPath.startsWith('/')) {
+        realPath = '/' + realPath;
+    }
 
-    window.addEventListener('load', () => {
-        messenger.send({
-            type: 'IFRAME_READY',
-            url: window.location.href,
-            elements: findElements()
-        });
+    messenger.send({
+        type: 'IFRAME_LOAD',
+        url: url,
+        path: realPath,
+        elements: findElements()
     });
-
-    messenger.on((message) => {
-        if (message.type === 'EDITOR_TOGGLE_EDIT') {
-            toggleInlineEdit(true)
-        }
-    })
-}
-
-function toggleInlineEdit(enabled: boolean): void {
-    document
-    .querySelectorAll<HTMLElement>('.inline-edit-element')
-        .forEach(el => {
-            el.contentEditable = enabled.toString();
-            el.classList.toggle('is-editing', enabled);
-        });
 }
 
 function findElements(): ElementInfo[] {

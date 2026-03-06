@@ -1,7 +1,7 @@
 import {IframeContentChanged, IframeLoadMessage, IframeRequestInlineEdit} from "../types";
 import {ApiService, RenderResponse} from "./api";
 import {Messenger} from "./messenger";
-import { init as initSidebarResize } from './sidebar-resize';
+import {SidebarResizer} from './sidebar';
 
 interface EditorOptions {
     baseUrl: string,
@@ -24,6 +24,14 @@ export class InlineEditor {
         this.setupListeners();
     }
 
+    private setupListeners() {
+        this.messenger
+            .on('IFRAME_LOAD', (msg) => this.onIframeLoad(msg))
+            .on('IFRAME_UNLOAD', () => this.onIframeUnload())
+            .on('IFRAME_REQUEST_INLINE_EDIT', (msg) => this.onIframeRequestInlineEdit(msg))
+            .on('IFRAME_CONTENT_CHANGED', (msg) => this.onIframeContentChanged(msg))
+    }
+
     private render(response: RenderResponse) {
         for (const selector in response.render) {
             const html = response.render[selector];
@@ -35,12 +43,13 @@ export class InlineEditor {
         }
     }
 
-    private setupListeners() {
-        this.messenger
-            .on('IFRAME_LOAD', (msg) => this.onIframeLoad(msg))
-            .on('IFRAME_UNLOAD', () => this.onIframeUnload())
-            .on('IFRAME_REQUEST_INLINE_EDIT', (msg) => this.onIframeRequestInlineEdit(msg))
-            .on('IFRAME_CONTENT_CHANGED', (msg) => this.onIframeContentChanged(msg))
+    private setupSidebar() {
+        const container = document.querySelector('.editor-body') as HTMLElement;
+        const handle = document.querySelector('.editor-sidebar-resize-handle') as HTMLElement;
+
+        if (container && handle) {
+            new SidebarResizer(container, handle);
+        }
     }
 
     private async onIframeLoad(msg: IframeLoadMessage) {
@@ -56,7 +65,7 @@ export class InlineEditor {
             this.messenger.send({ type: 'EDITOR_ELEMENTS', selectors: data.elements });
         }
 
-        initSidebarResize();
+        this.setupSidebar();
     }
 
     private onIframeUnload() {

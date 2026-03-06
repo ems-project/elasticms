@@ -1,10 +1,18 @@
 import "../../css/inline-editor/iframe.css";
+import { Iframe } from './iframe/iframe';
 
-import { initIframe } from './iframe/index';
-import {init as initGo2editor} from "./iframe/go2editor";
+function setup() {
+    const isIframe = window.self !== window.top;
 
-if (window.self === window.top) {
-    initGo2editor();
-} else {
-    initIframe();
+    document.addEventListener('DOMContentLoaded', () => {
+        if (isIframe) {
+            const frame = window.frameElement as HTMLIFrameElement | null;
+            new Iframe({ prefix: frame?.dataset.prefix ?? '' });
+        } else {
+            const btn = document.getElementById('go2editor');
+            if (btn) btn.style.display = 'flex';
+        }
+    });
 }
+
+setup();

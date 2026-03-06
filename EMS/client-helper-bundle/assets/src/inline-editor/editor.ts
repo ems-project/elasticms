@@ -1,6 +1,12 @@
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import "../../css/inline-editor/editor.css";
 
-import { initEditor } from './editor/index';
+import { InlineEditor } from './editor/editor';
 
-initEditor();
+const iframe = document.getElementById('preview-iframe') as HTMLIFrameElement;
+const baseUrl = document.body.dataset.baseUrl as string;
+
+new InlineEditor({
+    baseUrl: baseUrl,
+    iframe: iframe
+})

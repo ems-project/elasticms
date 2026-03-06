@@ -29,7 +29,7 @@ readonly class InlineEditController
         return new Response($this->inlineEditHelper->renderEditor($request, $path));
     }
 
-    public function render(EmschRequest $request, SerializerInterface $serializer): JsonResponse
+    public function apiRender(EmschRequest $request, SerializerInterface $serializer): JsonResponse
     {
         if (!$request->isInlineEditorEnabled()) {
             throw new NotFoundHttpException();
@@ -44,4 +44,18 @@ readonly class InlineEditController
 
         return new JsonResponse($this->inlineEditHelper->render($payload));
     }
+
+    public function apiDraft(EmschRequest $request): JsonResponse
+    {
+        if (!$request->isInlineEditorEnabled()) {
+            throw new NotFoundHttpException();
+        }
+
+        if ('json' !== $request->getContentTypeFormat()) {
+            throw new BadRequestException('Unsupported content format');
+        }
+
+        return new JsonResponse(['success' => true]);
+    }
+
 }

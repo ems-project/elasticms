@@ -7,23 +7,35 @@ export type IframeLoadMessage = {
     title: string;
     elements: InlineElement[];
 };
-export type IframeRequestDraft = {
-    type: 'IFRAME_REQUEST_DRAFT';
+export type IframeRequestInlineEdit = {
+    type: 'IFRAME_REQUEST_INLINE_EDIT';
     element: InlineElement;
 }
+export type IframeContentChanged = {
+    type: 'IFRAME_CONTENT_CHANGED'
+    element: InlineElement,
+    content: string
+}
 
-export type EditorElements = {
+export type EditorElementsMessage = {
     type: 'EDITOR_ELEMENTS',
     selectors: string[]
 }
+export type EditorInlineEditMessage = {
+    type: 'EDITOR_INLINE_EDIT',
+    element: InlineElement
+}
 
 export type EditorToIframeMessage =
-    | EditorElements;
+    | EditorElementsMessage
+    | EditorInlineEditMessage
+;
 
 export type IframeToEditorMessage =
     | IframeLoadMessage
     | { type: 'IFRAME_UNLOAD' }
-    | IframeRequestDraft
+    | IframeRequestInlineEdit
+    | IframeContentChanged
 ;
 
 export interface InlineElement {

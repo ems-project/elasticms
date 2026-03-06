@@ -33,12 +33,14 @@ export class Messenger {
     public on<K extends EditorToIframeMessage['type']>(
         type: K,
         handler: (message: Extract<EditorToIframeMessage, { type: K }>) => void
-    ) {
+    ): this {
         const wrapper: EventHandler = (msg) => {
             if (msg.type === type) {
                 handler(msg as Extract<EditorToIframeMessage, { type: K }>);
             }
         };
         this.handlers.push(wrapper);
+
+        return this;
     }
 }

@@ -7,8 +7,12 @@ use EMS\ClientHelperBundle\Routes;
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
 return function (RoutingConfigurator $routes): void {
-    $routes->add(Routes::INLINE_EDIT_RENDER, '/editor/render')
-        ->controller([InlineEditController::class, 'render'])
+    $routes->add(Routes::INLINE_EDIT_API_RENDER, '/editor/api/render')
+        ->controller([InlineEditController::class, 'apiRender'])
+        ->methods(['POST']);
+
+    $routes->add(Routes::INLINE_EDIT_API_DRAFT, '/editor/api/draft')
+        ->controller([InlineEditController::class, 'apiDraft'])
         ->methods(['POST']);
 
     $routes->add(Routes::INLINE_EDIT_EDITOR, '/editor{path}')

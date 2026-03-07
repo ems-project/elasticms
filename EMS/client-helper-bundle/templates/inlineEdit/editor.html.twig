@@ -13,7 +13,11 @@
     </head>
     <body data-base-url="{{ path(constant('EMS\\ClientHelperBundle\\Routes::INLINE_EDIT_EDITOR')) }}">
         <div class="editor">
-            <header class="editor-topbar"></header>
+            <header class="editor-topbar">
+                <div class="editor-title">Inline Editor</div>
+                <div class="editor-actions"></div>
+                <button class="btn btn-close"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
+            </header>
             <div class="editor-body">
                 <main class="editor-preview">
                     <iframe id="preview-iframe" src="{{ iframeUrl }}" data-prefix="{{ routePrefix }}"></iframe>

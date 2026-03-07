@@ -9,7 +9,6 @@ use EMS\CommonBundle\Common\Bridge\Core\CoreBridgeResponse;
 class RenderDto
 {
     private const string DEFAULT_TITLE = 'Inline Editor';
-    public string $closeUrl;
     /** @var array<mixed> */
     public array $documents = [];
     /** @var string[] */
@@ -21,7 +20,6 @@ class RenderDto
     ) {
         /** @var array<string, array<mixed>> $infos */
         $infos = $infoDocuments?->response() ?? [];
-        $this->closeUrl = $payload->url;
 
         foreach ($infos as $info) {
             $emsLink = $info['emsLink'];

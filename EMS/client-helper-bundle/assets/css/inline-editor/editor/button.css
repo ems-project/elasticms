@@ -8,11 +8,6 @@
     font-size: 14px;
 }
 
-.btn > i {
-    padding-right: 5px;
-    font-size: 12px;
-}
-
 .btn:hover {
     background: #4b5563;
 }

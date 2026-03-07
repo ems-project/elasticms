@@ -39,7 +39,7 @@ readonly class InlineEditHelper
 
         return [
             'render' => [
-                '.editor-topbar' => $template->renderBlock('header', $context),
+                '.editor-title' => $template->renderBlock('title', $context),
                 '.editor-sidebar-content' => $template->renderBlock('sidebar', $context),
             ],
             'elements' => $dto->elements,

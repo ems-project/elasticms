@@ -69,7 +69,7 @@ export class InlineEditor {
     }
 
     private onIframeUnload() {
-        ['.editor-sidebar-content', '.editor-topbar'].forEach(s =>
+        ['.editor-sidebar-content', '.editor-title'].forEach(s =>
             document.querySelector(s)?.replaceChildren()
         );
     }

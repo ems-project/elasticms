@@ -1,9 +1,6 @@
-{%- block header -%}
-    <strong>{{ render.title }}</strong>
-    <div class="editor-actions">
-        <a href="{{ render.closeUrl }}" class="btn"><i class="fas fa-close"></i> Close</a>
-    </div>
-{%- endblock header -%}
+{%- block title -%}
+    {{ render.title }}
+{%- endblock title -%}
 
 {%- block sidebar -%}
     {{ block('printDocuments') }}

@@ -35,6 +35,10 @@ ul {
     color: white;
 }
 
+.editor-title {
+    font-weight: bold;
+}
+
 .editor-body {
     display: grid;
     grid-template-columns: 1fr 320px;

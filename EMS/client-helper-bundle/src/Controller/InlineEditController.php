@@ -57,5 +57,4 @@ readonly class InlineEditController
 
         return new JsonResponse(['success' => true]);
     }
-
 }

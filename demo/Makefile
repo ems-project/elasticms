@@ -25,7 +25,7 @@ help: # Show help for each of the Makefile recipes.
 	@echo "WEB LIVE:	http://local.live-ems-demo-web.localhost"
 	@echo "MINIO:		http://minio.localhost"
 	@echo "KIBANA:		http://kibana.localhost"
-	@echo "MAIL:		http://mailhog.localhost"
+	@echo "MAIL:		http://mailserver.localhost"
 	@echo "---------------------------"
 	@echo ""
 	@echo "Usage: make [target]"

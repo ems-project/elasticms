@@ -138,13 +138,13 @@ services:
             - "traefik.http.routers.redis-commander.entrypoints=web"
             - "traefik.http.services.redis-commander.loadbalancer.server.port=8081"
 
-    mailhog:
+    mailserver:
         profiles: [ "all","ems" ]
         labels:
             - "elasticMS"
         extends:
             file: ../demo/docker-compose.yml
-            service: mailhog
+            service: mailserver
         ports:
             - "1025:1025"
 

@@ -42,9 +42,9 @@ final class UpdateFileLinks extends AbstractCommand
     private const string OPTION_FORCE = 'force';
     private CoreApiInterface $coreApi;
     private string $contentTypeName;
-    /** @var array{key: string, emsLink: EMSLink, url: string, value: string} */
+    /** @var array<array{key: string, emsLink: EMSLink, url: string, value: string}> */
     private array $logReports;
-    /** @var array{message: string, emsLink: EMSLink, url: string, value: string} */
+    /** @var array<array{message: string, emsLink: EMSLink, url: string, value: string}> */
     private array $logConflictsReports;
     /** @var string[] */
     private array $fields;
@@ -83,6 +83,8 @@ final class UpdateFileLinks extends AbstractCommand
         $this->coreApi = $this->adminHelper->getCoreApi();
         $this->mimeType = $this->getOptionString(self::OPTION_MIME_TYPE);
         $this->force = $input->getOption(self::OPTION_FORCE) ?? false;
+        $this->logReports = [];
+        $this->logConflictsReports = [];
     }
 
     #[\Override]
@@ -109,7 +111,9 @@ final class UpdateFileLinks extends AbstractCommand
             $this->io->progressAdvance();
         }$this->io->progressFinish();
 
-        if ([] !== $this->logReports || [] !== $this->logConflictsReports) {
+        if ([] === $this->logReports && [] === $this->logConflictsReports) {
+            $this->io->success('No conflicting nor asset file links found.');
+        } else {
             $this->io->section('Generating log report');
             $tempFile = TempFile::create();
             $this->spreadsheetGeneratorService->generateSpreadsheetFile([
@@ -144,6 +148,7 @@ final class UpdateFileLinks extends AbstractCommand
         $propertyAccessor = PropertyAccessor::createPropertyAccessor();
         $rawData = $document->getSource();
         foreach ($propertyAccessor->iterator($propertyPath, $rawData) as $property => $value) {
+            dump($property, $value);
             $this->updateProperty($property, $value);
         }
     }

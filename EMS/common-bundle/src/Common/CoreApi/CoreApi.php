@@ -86,7 +86,7 @@ final readonly class CoreApi implements CoreApiInterface
     #[\Override]
     public function getBaseUrl(): string
     {
-        return $this->client->getBaseUrl();
+        return \rtrim($this->client->getBaseUrl(), '/').'/';
     }
 
     #[\Override]

@@ -50,9 +50,10 @@ class Admin implements AdminInterface
         $currentLine = 0;
         while (true) {
             $status = $this->getJobStatus($jobId);
-            if (\strlen($status['output'] ?? '') > 0) {
+            $statusOutput = $status['output'] ?? '';
+            if ('' !== $statusOutput) {
                 $counter = 0;
-                $lines = \preg_split("/((\r?\n)|(\r\n?))/", $status['output']);
+                $lines = \preg_split("/((\r?\n)|(\r\n?))/", $statusOutput);
                 if (false === $lines) {
                     throw new \RuntimeException('Unexpected false split lines');
                 }

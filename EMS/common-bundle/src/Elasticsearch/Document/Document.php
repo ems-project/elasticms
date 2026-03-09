@@ -26,18 +26,13 @@ class Document implements DocumentInterface
     /**
      * @param array<mixed> $document
      */
-    private function __construct($document)
+    private function __construct(array $document)
     {
         $this->id = $document['_id'];
         $this->source = $document['_source'] ?? [];
         $this->index = $document['_index'];
         $this->highlight = $document['highlight'] ?? null;
         $contentType = $document['_source'][EMSSource::FIELD_CONTENT_TYPE] ?? null;
-        if (null === $contentType) {
-            $contentType = $document['_type'] ?? null;
-            $this->source[EMSSource::FIELD_CONTENT_TYPE] = $contentType;
-            @\trigger_error(\sprintf('The field %s is missing in the document %s', EMSSource::FIELD_CONTENT_TYPE, $this->getEmsId()), E_USER_DEPRECATED);
-        }
         if (null === $contentType) {
             throw new \RuntimeException(\sprintf('Unable to determine the content type for document %s', $this->id));
         }

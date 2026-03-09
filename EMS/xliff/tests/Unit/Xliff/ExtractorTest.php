@@ -51,10 +51,11 @@ class ExtractorTest extends TestCase
         $options = new Options(Version::V12);
         $xliffPackage = Xliff::create($options);
         $xliffPackage->init('nl', 'de');
+
         $package = $xliffPackage->getPackage();
         $document = $package->addDocument('contentType:ouuid_1:revisionId_1');
         $document->createText('[title]', 'titre', 'titre', 'titre');
-        $document->createHtml('[%locale%][body]', $rawData['nl']['body'], $existing['de']['body'], null);
+        $document->createHtml('[%locale%][body]', $rawData['nl']['body'], $existing['de']['body']);
 
         $readerPackage = Xliff::create($options);
         $readerPackage->readXml($xliffPackage->toXml());
@@ -107,7 +108,7 @@ class ExtractorTest extends TestCase
                 $document->createText('[title_%locale%]', 'Hello', 'Bonjour');
                 $document->createText('[keywords_%locale%]', 'test xliff');
                 $document->createText('[empty]', '', isFinal: true);
-                $document->createHtml('[%locale%][body]', $htmlSource, $htmlTarget ?: null, null);
+                $document->createHtml('[%locale%][body]', $htmlSource, $htmlTarget ?: null);
                 $document->createHtml('[%locale%][body2]', $htmlSource, $htmlTarget ?: null, null, true);
 
                 $this->saveAndCompare($absoluteFilePath, $version, $xliffPackage, $fileNameWithExtension, 'UTF-8');
@@ -152,6 +153,7 @@ class ExtractorTest extends TestCase
         $options = new Options(Version::V12);
         $xliffPackage = Xliff::create($options);
         $xliffPackage->init('nl', 'de');
+
         $package = $xliffPackage->getPackage();
         $document = $package->addDocument('content_type:fakeOuuid:fakeRevisionId');
         $document->createHtml('[body]', $sourceHtml, $targetHtml, $baselineHtml);

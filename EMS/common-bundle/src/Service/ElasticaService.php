@@ -94,8 +94,8 @@ class ElasticaService
                 throw new \RuntimeException('Unexpected not string status');
             }
             $this->healthStatus = $status;
-        } catch (\Throwable $e) {
-            $this->logger->error($e->getMessage(), ['trace' => $e->getTraceAsString()]);
+        } catch (\Throwable $throwable) {
+            $this->logger->error($throwable->getMessage(), ['trace' => $throwable->getTraceAsString()]);
             $this->healthStatus = 'red';
         }
 
@@ -153,7 +153,7 @@ class ElasticaService
      */
     public function generateSearch(array $indexes, AbstractQuery $query, array $contentTypes = []): Search
     {
-        if (empty($contentTypes)) {
+        if ([] === $contentTypes) {
             $query = $this->filterByContentTypes($query, $contentTypes);
         }
 
@@ -168,7 +168,7 @@ class ElasticaService
     public function generateTermsSearch(array $indexes, string $field, array $terms, array $contentTypes = []): Search
     {
         $query = new Terms($field, $terms);
-        if (!empty($contentTypes)) {
+        if ([] !== $contentTypes) {
             $query = $this->filterByContentTypes($query, $contentTypes);
         }
 
@@ -205,6 +205,7 @@ class ElasticaService
     {
         $search = clone $search;
         $search->setSort(null);
+
         $elasticaSearch = $this->createElasticaSearch($search, $search->getScrollOptions());
 
         return new EmsScroll($elasticaSearch, $expiryTime);
@@ -214,6 +215,7 @@ class ElasticaService
     {
         $search = clone $search;
         $search->setSort(null);
+
         $elasticaSearch = $this->createElasticaSearch($search, $search->getScrollOptions());
         $elasticaSearch->setOption(ElasticaSearch::OPTION_SCROLL, $expiryTime);
 
@@ -280,7 +282,7 @@ class ElasticaService
      */
     public function filterByContentTypes($query, array $contentTypes)
     {
-        if (0 === \count($contentTypes)) {
+        if ([] === $contentTypes) {
             if (\is_array($query) && !isset($query['query'])) {
                 return ['query' => $query];
             }
@@ -368,12 +370,16 @@ class ElasticaService
         $terms = new TermsAggregation('indexes');
         $terms->setSize(self::MAX_INDICES_BY_ALIAS);
         $terms->setField('_index');
+
         $esSearch = new ElasticaSearch($this->client);
         $esSearch->setOption(ElasticaSearch::OPTION_SIZE, 0);
+
         $query = new Query();
         $query->addAggregation($terms);
+
         $esSearch->setQuery($query);
         $esSearch->addIndicesByName($aliases);
+
         $buckets = $esSearch->search()->getAggregation('indexes')['buckets'] ?? [];
 
         $indices = [];
@@ -456,11 +462,11 @@ class ElasticaService
 
         try {
             return $this->singleSearch($search);
-        } catch (NotSingleResultException $e) {
-            if (0 === $e->getTotal()) {
+        } catch (NotSingleResultException $notSingleResultException) {
+            if (0 === $notSingleResultException->getTotal()) {
                 throw new NotFoundException($id, $index);
             }
-            throw $e;
+            throw $notSingleResultException;
         }
     }
 
@@ -585,7 +591,7 @@ class ElasticaService
         }
 
         $highlightArgs = $search->getHighlight();
-        if (null !== $highlightArgs && \count($highlightArgs) > 0) {
+        if (null !== $highlightArgs && [] !== $highlightArgs) {
             $query->setHighlight($highlightArgs);
         }
 
@@ -622,13 +628,13 @@ class ElasticaService
         if (null !== $regex = $search->getRegex()) {
             $regex = \sprintf('/%s/', $regex);
         }
-        if (0 === \count($search->getContentTypes()) && null === $regex) {
+        if ([] === $search->getContentTypes() && null === $regex) {
             return $search->getIndices();
         }
 
         $filteredIndices = [];
         foreach ($this->getIndicesForContentTypes($search->getIndices()) as $contentType => $indices) {
-            if (!\in_array($contentType, $search->getContentTypes(), true) && \count($search->getContentTypes()) > 0) {
+            if (!\in_array($contentType, $search->getContentTypes(), true) && [] !== $search->getContentTypes()) {
                 continue;
             }
 
@@ -644,11 +650,11 @@ class ElasticaService
             }
         }
 
-        if (empty($filteredIndices) && null !== $regex) {
+        if ([] === $filteredIndices && null !== $regex) {
             $filteredIndices = [...$filteredIndices, ...\preg_filter($regex, '$0', $this->getIndicesFromAliases($search->getIndices()))];
         }
 
-        return \count($filteredIndices) > 0 ? \array_unique($filteredIndices) : $search->getIndices();
+        return [] !== $filteredIndices ? \array_unique($filteredIndices) : $search->getIndices();
     }
 
     /**
@@ -781,6 +787,7 @@ class ElasticaService
     {
         $search->setSize($options['size']);
         $search->setFrom($options['from']);
+
         $sort = $options['sort'];
         if (null !== $sort && !empty($sort)) {
             $search->setSort($sort);

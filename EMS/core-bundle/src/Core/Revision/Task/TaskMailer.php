@@ -48,7 +48,7 @@ class TaskMailer
         $context = [
             'receiver' => $receiver,
             'senderUsername' => $senderUsername,
-            'senderRole' => $sender ? $this->getSenderRole($task, $sender) : null,
+            'senderRole' => $sender instanceof UserInterface ? $this->getSenderRole($task, $sender) : null,
             'type' => $type,
             'action' => $this->translator->trans(\sprintf('task.mail.%s.action', $type), [], EMSCoreBundle::TRANS_DOMAIN),
             'task' => $task,
@@ -101,7 +101,7 @@ class TaskMailer
     private function getMailTemplate(UserInterface $receiver): MailTemplate
     {
         return $this->mailerService
-            ->makeMailTemplate("@$this->templateNamespace".self::MAIL_TEMPLATE)
+            ->makeMailTemplate('@'.$this->templateNamespace.self::MAIL_TEMPLATE)
             ->addTo($receiver->getEmail());
     }
 

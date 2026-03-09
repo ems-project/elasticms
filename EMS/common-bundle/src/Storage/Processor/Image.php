@@ -106,7 +106,7 @@ class Image
 
         if (0 === $width && 0 === $height) {
             // unable to calculate ratio, silently return original size (backward compatibility)
-            return [(int) $originalWidth, (int) $originalHeight];
+            return [$originalWidth, $originalHeight];
         }
 
         if (0 === $width || 0 === $height) {
@@ -117,12 +117,10 @@ class Image
                 // recalculate width
                 $width = \ceil($ratio * (float) $height);
             }
+        } elseif (($originalHeight / $height) > ($originalWidth / $width)) {
+            $width = \ceil($ratio * (float) $height);
         } else {
-            if (($originalHeight / $height) > ($originalWidth / $width)) {
-                $width = \ceil($ratio * (float) $height);
-            } else {
-                $height = \ceil((float) $width / $ratio);
-            }
+            $height = \ceil((float) $width / $ratio);
         }
 
         return [(int) $width, (int) $height];
@@ -372,9 +370,9 @@ class Image
             }
             $image = $this->rotate($image, $angle);
             $this->applyFlips($image, $mirrored, false);
-        } catch (\Throwable $e) {
+        } catch (\Throwable $throwable) {
             if (null !== $this->logger) {
-                $this->logger->warning(\sprintf('Not able to autorotate a file due to: %s', $e->getMessage()));
+                $this->logger->warning(\sprintf('Not able to autorotate a file due to: %s', $throwable->getMessage()));
             }
         }
 

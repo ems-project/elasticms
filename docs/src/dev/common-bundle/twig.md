@@ -51,8 +51,8 @@ build once and cached.
 ### ems_image_info
 
 Retrieve information (size, resolution, mime type and extension) about an image, based on its hash.
-If the hash can not be recognized as an image or does not exist, **_null_** is returned.
-If the file supports EXIF, EXIF's meta information will be also retrieved.
+If the hash can not be recognized as an image or does not exist, **_null_** is returned. If the file
+supports EXIF, EXIF's meta information will be also retrieved.
 
 Arguments
 

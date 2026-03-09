@@ -111,7 +111,7 @@ class ElasticsearchController extends AbstractController
             return $this->redirectToRoute(Routes::ADMIN_ENVIRONMENT_INDEX);
         }
 
-        return $this->render("@$this->templateNamespace/elasticsearch/add-alias.html.twig", [
+        return $this->render(\sprintf('@%s/elasticsearch/add-alias.html.twig', $this->templateNamespace), [
             'form' => $form->createView(),
             'name' => $name,
             'title' => t('type.title_create', ['type' => 'alias', 'label' => $name], 'emsco-core'),
@@ -123,13 +123,6 @@ class ElasticsearchController extends AbstractController
             )->add(t('type.title_create', ['type' => 'alias', 'label' => $name], 'emsco-core')),
             'notice' => t('type.notice_message', ['type' => 'alias'], 'emsco-core'),
         ]);
-    }
-
-    public function healthCheck(Request $request, string $_format): Response
-    {
-        @\trigger_error(\sprintf('The controller method %s::healthCheck is deprecated, please use %s::status with detailed=false', self::class, self::class), E_USER_DEPRECATED);
-
-        return $this->status($request, $_format, false);
     }
 
     public function status(Request $request, string $_format, bool $detailed = true): Response
@@ -147,9 +140,9 @@ class ElasticsearchController extends AbstractController
             if ('red' === $status) {
                 $statusCode = 500;
             }
-        } catch (\Throwable $e) {
+        } catch (\Throwable $throwable) {
             $status = 'red';
-            $context['cluster']['title'] = $e->getMessage();
+            $context['cluster']['title'] = $throwable->getMessage();
             $statusCode = 503;
         }
         $context['status'] = $status;
@@ -214,7 +207,7 @@ class ElasticsearchController extends AbstractController
             }
         }
 
-        $htmlTemplate = "@$this->templateNamespace/elasticsearch/status.html.twig";
+        $htmlTemplate = \sprintf('@%s/elasticsearch/status.html.twig', $this->templateNamespace);
         $response = match ($_format) {
             'json' => new JsonResponse(\array_filter(\array_merge($context, [
                 'body' => $this->renderBlock($htmlTemplate, 'status', $context)->getContent(),
@@ -230,8 +223,9 @@ class ElasticsearchController extends AbstractController
             ]))),
         };
         $response->setStatusCode($statusCode);
+
         $allowOrigin = $this->healthCheckAllowOrigin;
-        if (\is_string($allowOrigin) && \strlen($allowOrigin) > 0) {
+        if (\is_string($allowOrigin) && '' !== $allowOrigin) {
             $response->headers->set('Access-Control-Allow-Origin', $allowOrigin);
         }
 
@@ -240,7 +234,7 @@ class ElasticsearchController extends AbstractController
 
     public function indexSearch(): Response
     {
-        return $this->render("@$this->templateNamespace/elasticsearch/index.html.twig", [
+        return $this->render(\sprintf('@%s/elasticsearch/index.html.twig', $this->templateNamespace), [
             'data' => $this->searchService->getAll(),
         ]);
     }
@@ -284,7 +278,7 @@ class ElasticsearchController extends AbstractController
             }
         }
 
-        return $this->forward('EMS\CoreBundle\Controller\ElasticsearchController::search', [
+        return $this->forward(ElasticsearchController::class.'::search', [
             'query' => null,
         ], [
             'search_form' => $search->jsonSerialize(),
@@ -335,7 +329,6 @@ class ElasticsearchController extends AbstractController
 
     public function legacySearch(Request $request, DataLinks $dataLinks): void
     {
-        @\trigger_error('QuerySearch not defined, you should refer to one', E_USER_DEPRECATED);
         $environments = Type::string($request->query->get('environment', ''));
         $searchId = $dataLinks->getSearchId();
         $category = $request->query->get('category');
@@ -381,7 +374,7 @@ class ElasticsearchController extends AbstractController
             }
         }
 
-        if (\count($contentTypes) > 0) {
+        if ([] !== $contentTypes) {
             $search->setContentTypes($contentTypes);
         }
 
@@ -418,25 +411,24 @@ class ElasticsearchController extends AbstractController
 
         if (null !== $category && 1 === \count($contentTypes)) {
             $contentType = $this->contentTypeService->getByName(\array_first($contentTypes));
-            if (false !== $contentType) {
-                if ($contentType->hasCategoryField()) {
-                    $categoryField = $contentType->giveCategoryField();
-                    $boolQuery = $this->elasticaService->getBoolQuery();
-                    $query = $commonSearch->getQuery();
-                    if (!$query instanceof $boolQuery) {
-                        if (null !== $query) {
-                            $boolQuery->addMust($query);
-                        }
-                        $query = $boolQuery;
+            if (false !== $contentType && $contentType->hasCategoryField()) {
+                $categoryField = $contentType->giveCategoryField();
+                $boolQuery = $this->elasticaService->getBoolQuery();
+                $query = $commonSearch->getQuery();
+                if (!$query instanceof $boolQuery) {
+                    if (null !== $query) {
+                        $boolQuery->addMust($query);
                     }
-                    $query->addMust($this->elasticaService->getTermsQuery($categoryField, [$category]));
-                    $commonSearch = new CommonSearch($commonSearch->getIndices(), $query);
+                    $query = $boolQuery;
                 }
+                $query->addMust($this->elasticaService->getTermsQuery($categoryField, [$category]));
+                $commonSearch = new CommonSearch($commonSearch->getIndices(), $query);
             }
         }
 
         $commonSearch->setFrom($dataLinks->getFrom());
         $commonSearch->setSize($dataLinks->getSize());
+
         $response = CommonResponse::fromResultSet($this->elasticaService->search($commonSearch));
 
         $dataLinks->setTotal($response->getTotal());
@@ -470,7 +462,7 @@ class ElasticsearchController extends AbstractController
 
         $job = $this->jobService->createCommand($user, $command);
 
-        return $this->redirectToRoute('job.status', [
+        return $this->redirectToRoute('emsco_job_status', [
             'job' => $job->getId(),
         ]);
     }
@@ -481,7 +473,7 @@ class ElasticsearchController extends AbstractController
             $search = new Search();
             $search->setEnvironments($this->environmentService->getEnvironmentNames());
 
-            if ('POST' == $request->getMethod()) {
+            if ('POST' === $request->getMethod()) {
                 $request->request->set('search_form', $request->query->all('search_form'));
 
                 $form = $this->createForm(SearchFormType::class, $search);
@@ -546,7 +538,7 @@ class ElasticsearchController extends AbstractController
                     ])
                     ->getForm();
 
-                return $this->render("@$this->templateNamespace/elasticsearch/save-search.html.twig", [
+                return $this->render(\sprintf('@%s/elasticsearch/save-search.html.twig', $this->templateNamespace), [
                     'form' => $form->createView(),
                     'title' => t('type.title_create', ['type' => 'search'], 'emsco-core'),
                     'subTitle' => t('type.title_sub', ['type' => 'search'], 'emsco-core'),
@@ -628,7 +620,7 @@ class ElasticsearchController extends AbstractController
                     ];
                 }
 
-                return $this->render("@$this->templateNamespace/elasticsearch/export-search.html.twig", [
+                return $this->render(\sprintf('@%s/elasticsearch/export-search.html.twig', $this->templateNamespace), [
                     'forms' => $exportForms,
                     'title' => t('key.export_documents', [], 'emsco-core'),
                     'subTitle' => t('type.title_sub', ['type' => 'search'], 'emsco-core'),
@@ -659,7 +651,7 @@ class ElasticsearchController extends AbstractController
                 }
             }
 
-            return $this->render("@$this->templateNamespace/elasticsearch/search.html.twig", [
+            return $this->render(\sprintf('@%s/elasticsearch/search.html.twig', $this->templateNamespace), [
                 'response' => $response ?? null,
                 'lastPage' => $lastPage,
                 'paginationPath' => 'elasticsearch.search',

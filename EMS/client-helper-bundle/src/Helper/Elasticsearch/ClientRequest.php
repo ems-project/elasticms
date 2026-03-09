@@ -160,6 +160,7 @@ final class ClientRequest implements ClientRequestInterface
 
         $query = $this->elasticaService->getTermsQuery('_id', $ouuids);
         $query = $this->elasticaService->filterByContentTypes($query, [$type]);
+
         $search = new Search([$this->getAlias()], $query);
         $search->setContentTypes([$type]);
         $search->setSize(\count($ouuids));
@@ -174,9 +175,11 @@ final class ClientRequest implements ClientRequestInterface
     {
         $search = new Search([$this->getAlias()]);
         $search->setSize(0);
+
         $terms = new Terms(EMSSource::FIELD_CONTENT_TYPE);
         $terms->setField(EMSSource::FIELD_CONTENT_TYPE);
         $terms->setSize(self::CONTENT_TYPE_LIMIT);
+
         $search->addAggregation($terms);
         $resultSet = $this->elasticaService->search($search);
         $aggregation = $resultSet->getAggregation(EMSSource::FIELD_CONTENT_TYPE);
@@ -214,7 +217,7 @@ final class ClientRequest implements ClientRequestInterface
         $this->logger->debug('ClientRequest : getHierarchy for {emsKey}', ['emsKey' => $emsKey]);
         $emsLink = EMSLink::fromText($emsKey);
         $items = $cache;
-        if (empty($items)) {
+        if ([] === $items) {
             $result = $this->search($emsLink->getContentType(), [
                 '_source' => $sourceFields,
             ], 0, $querySize);
@@ -253,14 +256,12 @@ final class ClientRequest implements ClientRequestInterface
         }
         $out = new HierarchicalStructure($contentType, $item['_id'], $item['_source'], $activeChild);
 
-        if (null === $depth || $depth) {
-            if (isset($item['_source'][$childrenField]) && \is_array($item['_source'][$childrenField])) {
-                foreach ($item['_source'][$childrenField] as $key) {
-                    if ($key) {
-                        $child = $this->getHierarchy($key, $childrenField, null === $depth ? null : $depth - 1, $sourceFields, $activeChild, $querySize, $items);
-                        if ($child) {
-                            $out->addChild($child);
-                        }
+        if ((null === $depth || $depth) && (isset($item['_source'][$childrenField]) && \is_array($item['_source'][$childrenField]))) {
+            foreach ($item['_source'][$childrenField] as $key) {
+                if ($key) {
+                    $child = $this->getHierarchy($key, $childrenField, null === $depth ? null : $depth - 1, $sourceFields, $activeChild, $querySize, $items);
+                    if ($child instanceof HierarchicalStructure) {
+                        $out->addChild($child);
                     }
                 }
             }
@@ -403,11 +404,10 @@ final class ClientRequest implements ClientRequestInterface
     /**
      * @param string|string[]|null $type
      * @param array<mixed>         $body
-     * @param string[]             $sourceExclude
      *
      * @return array<mixed>
      */
-    public function search(string|array|null $type, array $body, int $from = 0, int $size = 10, array $sourceExclude = [], ?string $regex = null, ?string $index = null)
+    public function search(string|array|null $type, array $body, int $from = 0, int $size = 10, ?string $regex = null, ?string $index = null)
     {
         if (null === $type) {
             $types = [];
@@ -429,14 +429,11 @@ final class ClientRequest implements ClientRequestInterface
             'from' => $body['from'] ?? $from,
         ];
 
-        if (!empty($sourceExclude)) {
-            @\trigger_error('_source_exclude field are not supported anymore', E_USER_DEPRECATED);
-        }
-
         $this->logger->debug('ClientRequest : search for {type}', $arguments);
         $search = $this->elasticaService->convertElasticsearchSearch($arguments);
         $search->setContentTypes($types);
         $search->setRegex($regex);
+
         $resultSet = $this->elasticaService->search($search);
 
         return $resultSet->getResponse()->getData();
@@ -531,7 +528,7 @@ final class ClientRequest implements ClientRequestInterface
     public function searchOne(string|array|null $type, array $body, ?string $indexRegex = null): array
     {
         $this->logger->debug('ClientRequest : searchOne for {type}', ['type' => $type, 'body' => $body, 'indexRegex' => $indexRegex]);
-        $search = $this->search($type, $body, 0, 2, [], $indexRegex);
+        $search = $this->search($type, $body, 0, 2, $indexRegex);
 
         $hits = $search['hits'];
 
@@ -696,7 +693,7 @@ final class ClientRequest implements ClientRequestInterface
 
         foreach (\explode(',', $contentTypeNames) as $contentTypeName) {
             $contentType = $this->getContentType($contentTypeName);
-            $publishDates[] = $contentType ? $contentType->getLastPublished() : null;
+            $publishDates[] = $contentType instanceof ContentType ? $contentType->getLastPublished() : null;
         }
 
         $lastPublishedDate = \max($publishDates);

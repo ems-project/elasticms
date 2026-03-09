@@ -118,7 +118,7 @@ You can override the default values for each file using the `map` filter as show
     "subject": "Email Form subject",
     "body": body,
     "attachments": formData.allFiles|map(v => v.toArray)|map(f => {
-        filename: f.originalName|ems_webalize,
+        filename: f.originalName|ems_slug,
         mimeType: f.mimeType,
         pathname: f.pathname,
     })

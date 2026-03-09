@@ -33,7 +33,7 @@ class Bulker
 
     public function hasErrors(): bool
     {
-        return !empty($this->errors);
+        return [] !== $this->errors;
     }
 
     /**
@@ -154,7 +154,7 @@ class Bulker
             $this->counter = 0;
             $exceptions = $e->getActionExceptions();
 
-            if (\count($exceptions) > 0) {
+            if ([] !== $exceptions) {
                 $this->logger->critical('Bulk response exceptions ({count}) ', [
                     'count' => \count($exceptions),
                 ]);

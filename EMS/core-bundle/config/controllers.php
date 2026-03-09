@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use EMS\CommonBundle\Contracts\Spreadsheet\SpreadsheetGeneratorServiceInterface;
-use EMS\CommonBundle\Twig\AssetRuntime;
 use EMS\CoreBundle\Controller\ActionController;
 use EMS\CoreBundle\Controller\Admin\AnalyzerController;
 use EMS\CoreBundle\Controller\Admin\EnvironmentController;
@@ -63,6 +62,7 @@ use EMS\CoreBundle\Controller\UserController;
 use EMS\CoreBundle\Controller\Views\CalendarController;
 use EMS\CoreBundle\Controller\Views\CriteriaController;
 use EMS\CoreBundle\Controller\Views\HierarchicalController;
+use EMS\CoreBundle\Controller\Webhook\WebhookController;
 use EMS\CoreBundle\Controller\Wysiwyg\AjaxPasteController;
 use EMS\CoreBundle\Controller\Wysiwyg\ModalController;
 use EMS\CoreBundle\Controller\Wysiwyg\StylesetController;
@@ -312,7 +312,6 @@ return static function (ContainerConfigurator $container) {
         ->public()
         ->args([
             service('ems_common.storage.processor'),
-            service('ems.repository.channel'),
             '%ems_core.asset_config%',
         ])
         ->call('setContainer')
@@ -411,7 +410,7 @@ return static function (ContainerConfigurator $container) {
             service('ems.service.asset_extractor'),
             service('emsco.logger'),
             service('ems_core.core_ui.flash_message_logger'),
-            service(AssetRuntime::class),
+            service('ems.twig_extension.asset'),
             '%ems_core.asset_config%',
             '%ems_core.theme_color%',
         ])
@@ -913,6 +912,17 @@ return static function (ContainerConfigurator $container) {
         ->args([
             service('emsco.service.webhook_subscription'),
             service('event_dispatcher'),
+        ])
+        ->call('setContainer')
+        ->tag('container.service_subscriber')
+        ->tag('controller.service_arguments');
+
+    $services->set(WebhookController::class)
+        ->args([
+            service('emsco.logger'),
+            service('emsco.webhook_subscription.manager'),
+            service('emsco.data_table.factory'),
+            service('emsco.service.webhook'),
         ])
         ->call('setContainer')
         ->tag('container.service_subscriber')

@@ -3,7 +3,7 @@ parameters:
     env(EMS_HASH_ALGO): 'sha1'
     env(EMS_STORAGES): '[{"type":"fs","path":""}]'
     env(EMS_RUNNERS): '[]'
-    env(EMS_ELASTICSEARCH_HOSTS): '{"hosts":["localhost:9201"],"scheme":"http","username":"elastic","password":"changeme","curl":{"64":false}}'
+    env(EMS_ELASTICSEARCH_HOSTS): '[]'
     env(EMS_STORE_DATA_SERVICES): '[]'
     env(EMS_KEY_STORE): '{}'
     env(EMS_LOG_LEVEL): '250'
@@ -17,8 +17,6 @@ parameters:
     env(EMS_CACHE_PREFIX): 'emscli_'
     env(EMS_REDIS_HOST): 'localhost'
     env(EMS_REDIS_PORT): '6379'
-    env(EMS_WEBALIZE_REMOVABLE_REGEX): '/([^a-zA-Z0-9\_\|\ \-\.])|(\.$)/'
-    env(EMS_WEBALIZE_DASHABLE_REGEX): '/[\/\_\|\ \-]+/'
     env(EMS_EXCLUDED_CONTENT_TYPES): '[]'
     env(EMS_SLUG_SYMBOL_MAP): ~
 
@@ -38,9 +36,6 @@ ems_common:
         headers: '%env(json:EMS_CORE_API_HEADERS)%'
         verify: '%env(bool:EMS_BACKEND_API_VERIFY)%'
         timeout: '%env(int:EMS_BACKEND_API_TIMEOUT)%'
-    webalize:
-        removable_regex: '%env(string:EMS_WEBALIZE_REMOVABLE_REGEX)%'
-        dashable_regex: '%env(string:EMS_WEBALIZE_DASHABLE_REGEX)%'
     cache:
         type: '%env(EMS_CACHE)%'
         prefix: '%env(string:EMS_CACHE_PREFIX)%'

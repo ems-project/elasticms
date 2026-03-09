@@ -7,9 +7,11 @@ namespace EMS\FormBundle\Tests\Unit\Components\Constraint;
 use EMS\FormBundle\Components\Constraint\IsInternationalPhoneNumber;
 use EMS\FormBundle\Components\Constraint\IsInternationalPhoneNumberValidator;
 use EMS\FormBundle\Components\ValueObject\InternationalPhoneNumber;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
+#[AllowMockObjectsWithoutExpectations]
 class IsInternationalPhoneNumberValidatorTest extends ConstraintValidatorTestCase
 {
     #[\Override]

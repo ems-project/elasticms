@@ -92,7 +92,7 @@ class LogRepository extends ServiceEntityRepository
 
     private function addSearchFilters(QueryBuilder $qb, LogEntityTableContext $context): void
     {
-        if (\strlen($context->searchValue) > 0) {
+        if ('' !== $context->searchValue) {
             $qb
                 ->andWhere($qb->expr()->orX(
                     $qb->expr()->like('log.message', ':term'),
@@ -108,7 +108,7 @@ class LogRepository extends ServiceEntityRepository
                 ->setParameter('ouuid', $revision->giveOuuid());
         }
 
-        if (\count($context->channels) > 0) {
+        if ([] !== $context->channels) {
             $qb
                 ->andWhere($qb->expr()->in('log.channel', ':channels'))
                 ->setParameter('channels', $context->channels, Types::SIMPLE_ARRAY);

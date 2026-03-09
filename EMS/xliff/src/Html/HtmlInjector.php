@@ -84,7 +84,7 @@ class HtmlInjector
     private function appendGroup(\DOMNode $dom, Group $node): void
     {
         if (null !== $node->equivalentOpeningText) {
-            $element = DomHelper::createElementFromString($dom, "$node->equivalentOpeningText</$node->type>", $node->type);
+            $element = DomHelper::createElementFromString($dom, \sprintf('%s</%s>', $node->equivalentOpeningText, $node->type), $node->type);
         } else {
             $element = DomHelper::createElement($dom, $node->type);
         }
@@ -123,7 +123,7 @@ class HtmlInjector
 
     private function appendPairedCode(\DOMElement $parent, PairedCode $node): void
     {
-        $pairedCode = DomHelper::createElementFromString($parent, "$node->equivalentOpeningText$node->equivalentClosingText", $node->resourceName);
+        $pairedCode = DomHelper::createElementFromString($parent, $node->equivalentOpeningText.$node->equivalentClosingText, $node->resourceName);
         foreach ($node->getChildren() as $child) {
             $this->nodeToHtmlDom($pairedCode, $child);
         }

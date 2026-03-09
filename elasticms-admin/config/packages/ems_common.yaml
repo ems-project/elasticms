@@ -1,22 +1,7 @@
 parameters:
-    #Deprecated parameters
-    env(ELASTICSEARCH_CLUSTER): '["http://localhost:9200"]'
-    env(EMS_PRIVATE_KEY): ''
-    env(EMS_PUBLIC_KEY): ''
-    env(S3_BUCKET): ''
-    env(S3_CREDENTIALS): '[]'
-    env(STORAGE_FOLDER): ''
-    env(EMS_SFTP_SERVEUR): ''
-    env(EMS_SFTP_PATH): ''
-    env(EMS_SFTP_USER): ''
-    env(EMS_EMS_REMOTE_SERVER): ''
-    env(EMS_EMS_REMOTE_AUTHKEY): ''
-    env(EMS_SAVE_ASSETS_IN_DB): 'false'
-
-    #Parameters
     env(EMS_HASH_ALGO): 'sha1'
-    env(EMS_ELASTICSEARCH_HOSTS): '%env(ELASTICSEARCH_CLUSTER)%'
-    env(EMS_STORAGES): '[{"type":"fs","path":"%env(STORAGE_FOLDER)%"},{"type":"s3","credentials":%env(S3_CREDENTIALS)%,"bucket":"%env(S3_BUCKET)%"},{"type":"db","activate":%env(EMS_SAVE_ASSETS_IN_DB)%},{"type":"http","base-url":"%env(EMS_EMS_REMOTE_SERVER)%","auth-key":"%env(EMS_EMS_REMOTE_AUTHKEY)%"},{"type":"sftp","host":"%env(EMS_SFTP_SERVEUR)%","path":"%env(EMS_SFTP_PATH)%","username":"%env(EMS_SFTP_USER)%","public-key-file":"%env(EMS_PUBLIC_KEY)%","private-key-file":"%env(EMS_PRIVATE_KEY)%"}]'
+    env(EMS_ELASTICSEARCH_HOSTS): '[]'
+    env(EMS_STORAGES): '[]'
     env(EMS_RUNNERS): '[]'
     env(EMS_STORE_DATA_SERVICES): '[{"type":"db"}]'
     env(EMS_KEY_STORE): '{}'
@@ -34,8 +19,6 @@ parameters:
     env(EMS_METRIC_ENABLED): false
     env(EMS_METRIC_HOST): ''
     env(EMS_METRIC_PORT): ~
-    env(EMS_WEBALIZE_REMOVABLE_REGEX): '/([^a-zA-Z0-9\_\|\ \-\.])|(\.$)/'
-    env(EMS_WEBALIZE_DASHABLE_REGEX): '/[\/\_\|\ \-]+/'
     env(EMS_EXCLUDED_CONTENT_TYPES): '[]'
     env(EMS_SLUG_SYMBOL_MAP): ~
     env(EMS_TRUSTED_IPS): '[]'
@@ -57,9 +40,6 @@ ems_common:
         headers: '%env(json:EMS_CORE_API_HEADERS)%'
         verify: '%env(bool:EMS_BACKEND_API_VERIFY)%'
         timeout: '%env(int:EMS_BACKEND_API_TIMEOUT)%'
-    webalize:
-        removable_regex: '%env(string:EMS_WEBALIZE_REMOVABLE_REGEX)%'
-        dashable_regex: '%env(string:EMS_WEBALIZE_DASHABLE_REGEX)%'
     cache:
         type: '%env(EMS_CACHE)%'
         prefix: '%env(string:EMS_CACHE_PREFIX)%'

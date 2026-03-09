@@ -39,8 +39,8 @@ final class HealthCheckCommand extends AbstractCommand
     protected function configure(): void
     {
         $this
-            ->addOption('green', 'g', InputOption::VALUE_NONE, 'Require a green Elasticsearch cluster health.', null)
-            ->addOption('skip-storage', 's', InputOption::VALUE_NONE, 'Skip the storage health check.', null);
+            ->addOption('green', 'g', InputOption::VALUE_NONE, 'Require a green Elasticsearch cluster health.')
+            ->addOption('skip-storage', 's', InputOption::VALUE_NONE, 'Skip the storage health check.');
     }
 
     #[\Override]
@@ -86,7 +86,7 @@ final class HealthCheckCommand extends AbstractCommand
                 $countIndices += \count($this->elasticaService->getIndicesFromAlias($environment->getAlias()));
             } catch (\Throwable $e) {
                 $this->io->error(\sprintf('Alias %s not found with error: %s', $environment->getAlias(), $e->getMessage()));
-                throw new IndexNotFoundException();
+                throw new IndexNotFoundException($e->getMessage(), $e->getCode(), $e);
             }
         }
 

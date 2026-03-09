@@ -116,6 +116,7 @@ class ElasticaTable extends TableAbstract
     {
         $search = $this->getSearch($this->getSearchValue());
         $search->setSize(100);
+
         $scroll = $this->elasticaService->scroll($search);
 
         foreach ($scroll as $resultSet) {
@@ -149,7 +150,7 @@ class ElasticaTable extends TableAbstract
             $this->count = Response::fromResultSet($resultSet)->getTotal();
         }
 
-        return $this->count > 0 ? $this->count : 0;
+        return \max($this->count, 0);
     }
 
     #[\Override]
@@ -184,13 +185,14 @@ class ElasticaTable extends TableAbstract
 
     private function getSearch(string $searchValue): Search
     {
-        if (\strlen($searchValue) > 0) {
+        if ('' !== $searchValue) {
             $search = $this->elasticaService->convertElasticsearchBody($this->aliases, $this->contentTypeNames, ['query' => $this->getQuery($searchValue)]);
         } else {
             $search = $this->elasticaService->convertElasticsearchBody($this->aliases, $this->contentTypeNames, ['query' => $this->emptyQuery]);
         }
         $search->setFrom($this->getFrom());
         $search->setSize($this->getSize());
+
         $orderField = $this->getOrderField();
         if (null !== $orderField) {
             $search->setSort([
@@ -320,7 +322,7 @@ class ElasticaTable extends TableAbstract
     #[\Override]
     public function getRowTemplate(): string
     {
-        return \sprintf("{%%- use '@$this->templateNamespace/datatable/row.json.twig' -%%}%s{{ block('emsco_datatable_row') }}", $this->getRowContext());
+        return \sprintf(\sprintf("{%%%%- use '@%s/datatable/row.json.twig' -%%%%}%%s{{ block('emsco_datatable_row') }}", $this->templateNamespace), $this->getRowContext());
     }
 
     public function isProtected(): bool

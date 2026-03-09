@@ -35,29 +35,13 @@ class Client
     }
 
     /**
-     * @param  array<mixed> $body
-     * @return array<mixed>
-     */
-    #[\Deprecated]
-    public function createDraft(string $type, array $body, ?string $ouuid = null): array
-    {
-        @\trigger_error('Deprecated use the initNewDocument or initNewDraftRevision functions', E_USER_DEPRECATED);
-
-        return $this->initNewDocument($type, $body, $ouuid);
-    }
-
-    /**
      * @param array<mixed> $body
      *
      * @return array<mixed>
      */
     public function initNewDocument(string $type, array $body, ?string $ouuid = null): array
     {
-        if (null === $ouuid) {
-            $url = \sprintf('api/data/%s/draft', $type);
-        } else {
-            $url = \sprintf('api/data/%s/draft/%s', $type, $ouuid);
-        }
+        $url = null === $ouuid ? \sprintf('api/data/%s/draft', $type) : \sprintf('api/data/%s/draft/%s', $type, $ouuid);
 
         $response = $this->getClient()->post(
             $url,

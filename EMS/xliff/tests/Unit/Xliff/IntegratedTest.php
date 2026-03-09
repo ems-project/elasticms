@@ -45,12 +45,13 @@ class IntegratedTest extends TestCase
     {
         $xliff = Xliff::create(new Options(Version::V12));
         $xliff->init('nl', 'de');
-        $document = $xliff->getPackage()->addDocument("content_type:$ouuid:$revisionId");
+
+        $document = $xliff->getPackage()->addDocument(\sprintf('content_type:%s:%s', $ouuid, $revisionId));
         foreach (['title', 'title_short'] as $field) {
-            $document->createText("[$field]", $source[$field] ?? null, $target[$field] ?? null, null, true);
+            $document->createText(\sprintf('[%s]', $field), $source[$field] ?? null, $target[$field] ?? null, null, true);
         }
         foreach (['introduction', 'description'] as $field) {
-            $document->createHtml("[$field]", $source[$field] ?? '', $target[$field] ?? null, null, true);
+            $document->createHtml(\sprintf('[%s]', $field), $source[$field] ?? '', $target[$field] ?? null, null, true);
         }
 
         return $xliff;
@@ -82,7 +83,7 @@ class IntegratedTest extends TestCase
         $document->unitToAssociativeArray($package, $source, $inserted);
         $inserted['locale'] = 'de';
 
-        foreach ($source as $field => $value) {
+        foreach (\array_keys($source) as $field) {
             if (\in_array($field, ['introduction', 'description'])) {
                 $this->assertEquals(HtmlHelper::prettyPrint($inserted[$field]), HtmlHelper::prettyPrint($target[$field] ?? null), \sprintf('Field %s for inserted document : %s', $field, $ouuid));
             } else {

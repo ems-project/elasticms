@@ -16,12 +16,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-#[AsCommand(
-    name: Commands::MANAGED_ALIAS_CHECK,
-    description: 'Checks that all managed environments have their corresponding alias and index present in the cluster.',
-    hidden: false,
-    aliases: ['ems:check:aliases']
-)]
+#[AsCommand(name: Commands::MANAGED_ALIAS_CHECK, description: 'Checks that all managed environments have their corresponding alias and index present in the cluster.', aliases: ['ems:check:aliases'], hidden: false)]
 final class AliasesCheckCommand extends Command
 {
     private const string OPTION_REPAIR = 'repair';
@@ -50,23 +45,23 @@ final class AliasesCheckCommand extends Command
     #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->io->section('Start checking environment\'s aliase');
+        $this->io->section("Start checking environment's aliase");
         foreach ($this->environmentService->getEnvironments() as $environment) {
             if (!$environment->getManaged()) {
                 continue;
             }
             if ($this->aliasService->hasAliasInCluster($environment->getAlias())) {
-                $this->io->writeln(\sprintf('Environment\'s alias %s is present', $environment->getName()));
+                $this->io->writeln(\sprintf("Environment's alias %s is present", $environment->getName()));
                 continue;
             }
-            $this->io->warning(\sprintf('The %s environment\'s alias is missing', $environment->getName()));
+            $this->io->warning(\sprintf("The %s environment's alias is missing", $environment->getName()));
 
             if (!$this->repair) {
                 continue;
             }
 
             if ($this->jobService->countPending() > 0) {
-                $this->io->warning('The job\'s queue is not empty');
+                $this->io->warning("The job's queue is not empty");
                 break;
             }
 

@@ -29,15 +29,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
-#[AsCommand(
-    name: Commands::REVISIONS_INDEX_FILE_FIELDS,
-    description: 'Migrate an ingested file field from an elasticsearch index.',
-    hidden: false,
-    aliases: ['ems:revisions:index-file-fields']
-)]
+#[AsCommand(name: Commands::REVISIONS_INDEX_FILE_FIELDS, description: 'Migrate an ingested file field from an elasticsearch index.', aliases: ['ems:revisions:index-file-fields'], hidden: false)]
 class IndexFileCommand extends AbstractCommand
 {
-    /** @var string */
     private const string SYSTEM_USERNAME = 'SYSTEM_FILE_INDEXER';
     /** @var string */
     protected $databaseName;
@@ -153,7 +147,7 @@ class IndexFileCommand extends AbstractCommand
                 $progress->advance();
             }
 
-            if (\count($revisions) == $limit) {
+            if (\count($revisions) === $limit) {
                 unset($revisions);
                 $offset += $limit;
             } else {
@@ -190,10 +184,8 @@ class IndexFileCommand extends AbstractCommand
                 return false;
             }
 
-            if (\is_array($data)) {
-                if ($this->findField($rawData[$key], $field, $output, $onlyWithIngestedContent, $onlyMissingContent)) {
-                    return true;
-                }
+            if (\is_array($data) && $this->findField($rawData[$key], $field, $output, $onlyWithIngestedContent, $onlyMissingContent)) {
+                return true;
             }
         }
 
@@ -206,63 +198,58 @@ class IndexFileCommand extends AbstractCommand
     private function migrate(array &$rawData, OutputInterface $output): bool
     {
         $updated = false;
-        if (!empty($rawData)) {
-            if (isset($rawData['sha1'])) {
-                $file = $this->fileService->getFile($rawData['sha1']);
+        if ([] !== $rawData && isset($rawData['sha1'])) {
+            $file = $this->fileService->getFile($rawData['sha1']);
+            if (null === $file && isset($rawData['content'])) {
+                $fileContent = \base64_decode((string) $rawData['content']);
 
-                if (null === $file && isset($rawData['content'])) {
-                    $fileContent = \base64_decode((string) $rawData['content']);
-
-                    if (\sha1($fileContent) === $rawData[EmsFields::CONTENT_FILE_HASH_FIELD]) {
-                        $tempFile = TempFile::create();
-                        $file = $tempFile->path;
-                        File::putContents($file, $fileContent);
-                        try {
-                            $this->fileService->uploadFile($rawData[EmsFields::CONTENT_FILE_NAME_FIELD] ?? 'filename.bin', $rawData[EmsFields::CONTENT_MIME_TYPE_FIELD] ?? 'application/bin', $file, self::SYSTEM_USERNAME);
-                            $output->writeln(\sprintf('File restored from DB: %s', $rawData[EmsFields::CONTENT_FILE_HASH_FIELD]));
-                        } catch (\Throwable) {
-                            $file = null;
-                        }
+                if (\sha1($fileContent) === $rawData[EmsFields::CONTENT_FILE_HASH_FIELD]) {
+                    $tempFile = TempFile::create();
+                    $file = $tempFile->path;
+                    File::putContents($file, $fileContent);
+                    try {
+                        $this->fileService->uploadFile($rawData[EmsFields::CONTENT_FILE_NAME_FIELD] ?? 'filename.bin', $rawData[EmsFields::CONTENT_MIME_TYPE_FIELD] ?? 'application/bin', $file, self::SYSTEM_USERNAME);
+                        $output->writeln(\sprintf('File restored from DB: %s', $rawData[EmsFields::CONTENT_FILE_HASH_FIELD]));
+                    } catch (\Throwable) {
+                        $file = null;
                     }
                 }
+            }
+            if (isset($rawData['content'])) {
+                unset($rawData['content']);
+                $updated = true;
+            }
+            if ($file) {
+                $data = $this->extractorService->extractMetaData($rawData['sha1'], $file)->getSource();
 
-                if (isset($rawData['content'])) {
-                    unset($rawData['content']);
-                    $updated = true;
-                }
-
-                if ($file) {
-                    $data = $this->extractorService->extractMetaData($rawData['sha1'], $file)->getSource();
-
-                    if (!empty($data)) {
-                        if (isset($data['date']) && $data['date']) {
-                            $rawData['_date'] = $data['date'];
-                            $updated = true;
-                        }
-                        if (isset($data['content']) && $data['content']) {
-                            $rawData['_content'] = $data['content'];
-                            $updated = true;
-                        }
-                        if (isset($data['Author']) && $data['Author']) {
-                            $rawData['_author'] = $data['Author'];
-                            $updated = true;
-                        }
-                        if (isset($data['author']) && $data['author']) {
-                            $rawData['_author'] = $data['author'];
-                            $updated = true;
-                        }
-                        if (isset($data['language']) && $data['language']) {
-                            $rawData['_language'] = $data['language'];
-                            $updated = true;
-                        }
-                        if (isset($data['title']) && $data['title']) {
-                            $rawData['_title'] = $data['title'];
-                            $updated = true;
-                        }
+                if ([] !== $data) {
+                    if (isset($data['date']) && $data['date']) {
+                        $rawData['_date'] = $data['date'];
+                        $updated = true;
                     }
-                } else {
-                    $output->writeln('File not found:'.$rawData['sha1']);
+                    if (isset($data['content']) && $data['content']) {
+                        $rawData['_content'] = $data['content'];
+                        $updated = true;
+                    }
+                    if (isset($data['Author']) && $data['Author']) {
+                        $rawData['_author'] = $data['Author'];
+                        $updated = true;
+                    }
+                    if (isset($data['author']) && $data['author']) {
+                        $rawData['_author'] = $data['author'];
+                        $updated = true;
+                    }
+                    if (isset($data['language']) && $data['language']) {
+                        $rawData['_language'] = $data['language'];
+                        $updated = true;
+                    }
+                    if (isset($data['title']) && $data['title']) {
+                        $rawData['_title'] = $data['title'];
+                        $updated = true;
+                    }
                 }
+            } else {
+                $output->writeln('File not found:'.$rawData['sha1']);
             }
         }
 
@@ -285,9 +272,9 @@ class IndexFileCommand extends AbstractCommand
         $platform = $connection->getDatabasePlatform();
 
         if ($platform instanceof PostgreSQLPlatform) {
-            $query = "SELECT pg_size_pretty(pg_database_size('$dbName')) AS size";
+            $query = \sprintf("SELECT pg_size_pretty(pg_database_size('%s')) AS size", $dbName);
         } elseif ($platform instanceof MySQLPlatform) {
-            $query = "SELECT SUM(data_length + index_length)/1024/1024 AS size FROM information_schema.TABLES WHERE table_schema='$dbName' GROUP BY table_schema";
+            $query = \sprintf("SELECT SUM(data_length + index_length)/1024/1024 AS size FROM information_schema.TABLES WHERE table_schema='%s' GROUP BY table_schema", $dbName);
         } else {
             throw new \RuntimeException('Not supported driver');
         }
@@ -295,11 +282,7 @@ class IndexFileCommand extends AbstractCommand
         $result = $stmt->executeQuery();
         $size = $result->fetchAllAssociative();
 
-        if (\is_array($size) && isset($size[0]['size'])) {
-            $row = "The database size is {$size[0]['size']} MB";
-        } else {
-            $row = 'Undefined';
-        }
+        $row = \is_array($size) && isset($size[0]['size']) ? \sprintf('The database size is %s MB', $size[0]['size']) : 'Undefined';
 
         $output->writeln($row);
     }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Form\DataField;
 
-use EMS\CommonBundle\Twig\AssetRuntime;
+use EMS\CommonBundle\Twig\AssetExtension;
 use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Entity\DataField;
 use EMS\CoreBundle\Entity\FieldType;
@@ -32,8 +32,14 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class WysiwygFieldType extends DataFieldType
 {
-    public function __construct(AuthorizationCheckerInterface $authorizationChecker, FormRegistryInterface $formRegistry, ElasticsearchService $elasticsearchService, private readonly RouterInterface $router, private readonly WysiwygStylesSetService $wysiwygStylesSetService, private readonly AssetRuntime $assetRuntime)
-    {
+    public function __construct(
+        AuthorizationCheckerInterface $authorizationChecker,
+        FormRegistryInterface $formRegistry,
+        ElasticsearchService $elasticsearchService,
+        private readonly RouterInterface $router,
+        private readonly WysiwygStylesSetService $wysiwygStylesSetService,
+        private readonly AssetExtension $assetExtension
+    ) {
         parent::__construct($authorizationChecker, $formRegistry, $elasticsearchService);
     }
 
@@ -79,11 +85,7 @@ class WysiwygFieldType extends DataFieldType
             $contentCss ??= $styleSet->getContentCss();
             $assets = $styleSet->getAssets();
             $hash = $assets['sha1'] ?? null;
-            $saveDir = $styleSet->getSaveDir();
-            if (null !== $assets && \is_string($hash) && null !== $saveDir) {
-                $this->assetRuntime->unzip($hash, $saveDir);
-            }
-            if ($hash && null === $saveDir && $contentCss) {
+            if ($hash && $contentCss) {
                 $contentCss = $this->router->generate('ems_asset_in_archive', [
                     'hash' => $hash,
                     'path' => $contentCss,
@@ -156,6 +158,7 @@ class WysiwygFieldType extends DataFieldType
         }
         $path = $this->router->generate('ems_file_view', ['sha1' => '__SHA1__'], UrlGeneratorInterface::ABSOLUTE_PATH);
         $path = \substr($path, 0, \strlen($path) - 8);
+
         $collectedAssets = [];
         $out = \preg_replace_callback(
             '/(ems:\/\/asset:)([^\n\r"\'\?]*)(\?[^\n\r"\']*)?/i',
@@ -174,7 +177,7 @@ class WysiwygFieldType extends DataFieldType
             Type::string($out)
         );
 
-        foreach ($this->assetRuntime->heads(...\array_keys($collectedAssets)) as $hash) {
+        foreach ($this->assetExtension->heads(...\array_keys($collectedAssets)) as $hash) {
             if (true === $hash) {
                 continue;
             }

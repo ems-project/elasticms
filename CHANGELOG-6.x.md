@@ -1,5 +1,24 @@
 # Changelog 6.x
 
+## 6.9.8 (2026-02-18)
+### Features
+* feat(web/security): sso oauth2 ping identity by @Davidmattei in https://github.com/ems-project/elasticms/pull/1569
+### Bug Fixes
+* fix(admin/environment): color argument can be null by @Davidmattei in https://github.com/ems-project/elasticms/pull/1545
+* fix(admin/user):  authToken user provider not using group defined roles by @theus77 in https://github.com/ems-project/elasticms/pull/1575
+* fix(common/es): include ems internal fields in _source by @theus77 in https://github.com/ems-project/elasticms/pull/1567
+* fix(common/image): the resolution might be set in the EXIF meta (but not only) by @theus77 in https://github.com/ems-project/elasticms/pull/1553
+* fix(demo): traefik v3 update hostRegex admin and web by @Davidmattei in https://github.com/ems-project/elasticms/pull/1563
+* fix(docker): minio do not use semver by @theus77 in https://github.com/ems-project/elasticms/pull/1578
+* fix(web/routing): routing include only required field by @Davidmattei in https://github.com/ems-project/elasticms/pull/1600
+* fix(web/security): ping identity http basic auth by @Davidmattei in https://github.com/ems-project/elasticms/pull/1585
+* fix(web/security): saml redirect with RelayState by @Davidmattei in https://github.com/ems-project/elasticms/pull/1589
+* fix(web/submission): email handler support priority by @theus77 in https://github.com/ems-project/elasticms/pull/1539
+### Code Refactoring
+* refactor: data-test to data-testid by @theus77 in https://github.com/ems-project/elasticms/pull/1584
+### Tests
+* test(e2e-tests): new data-test attributes by @theus77 in https://github.com/ems-project/elasticms/pull/1581
+
 ## 6.9.7 (2026-01-26)
 ### Features
 * feat(demo): resolve deprecations and update by @Davidmattei in https://github.com/ems-project/elasticms/pull/1529

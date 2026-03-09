@@ -30,6 +30,7 @@ class Xliff22Writer implements WriterInterface
     {
         $dom = DomHelper::initDocument($this->options->preserveWhitespace, $this->options->formatOutput);
         $dom->encoding = $encoding;
+
         $xliff = DomHelper::initXliff($dom, Version::V22, Version::V22_NAMESPACE);
         $xliff->setAttribute('srcLang', $package->getSourceLocale());
         $xliff->setAttribute('trgLang', $package->getTargetLocale());
@@ -55,7 +56,7 @@ class Xliff22Writer implements WriterInterface
                     $this->addUnit($file, $node);
                     break;
                 case UnitGroup::class:
-                    $this->addUnitGroup($file, $node);
+                    $this->addUnitGroup();
                     break;
                 default:
                     throw new \LogicException('Unsupported document node');
@@ -63,7 +64,7 @@ class Xliff22Writer implements WriterInterface
         }
     }
 
-    private function addUnitGroup(\DOMElement $file, UnitGroup $unit): void
+    private function addUnitGroup(): void
     {
     }
 

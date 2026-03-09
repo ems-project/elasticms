@@ -14,12 +14,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-#[AsCommand(
-    name: Commands::ASSET_HEAD,
-    description: 'Loop over all known uploaded assets and update the seen information if the file is connected.',
-    hidden: false,
-    aliases: ['ems:asset:head']
-)]
+#[AsCommand(name: Commands::ASSET_HEAD, description: 'Loop over all known uploaded assets and update the seen information if the file is connected.', aliases: ['ems:asset:head'], hidden: false)]
 final class HeadAssetCommand extends Command
 {
     private SymfonyStyle $io;
@@ -38,17 +33,18 @@ final class HeadAssetCommand extends Command
     #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->io->title('Update asset\'s seen information');
+        $this->io->title("Update asset's seen information");
 
         $counter = $this->fileService->count();
         $this->io->progressStart($counter);
-        $found = $from = 0;
+        $found = 0;
+        $from = 0;
         while ($from < $counter) {
             foreach ($this->fileService->get($from, 100, 'created', 'asc', '') as $assetUpload) {
                 if (!$assetUpload instanceof UploadedAsset) {
                     throw new \RuntimeException('Unexpected UploadedAsset type');
                 }
-                if (\count($this->fileService->headIn($assetUpload)) > 0) {
+                if ([] !== $this->fileService->headIn($assetUpload)) {
                     ++$found;
                 }
                 ++$from;

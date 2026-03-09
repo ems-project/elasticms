@@ -16,7 +16,7 @@ use EMS\ClientHelperBundle\Helper\Routing\RouteLoader;
 use EMS\ClientHelperBundle\Helper\Routing\Router;
 use EMS\ClientHelperBundle\Helper\Routing\Url\Generator;
 use EMS\ClientHelperBundle\Helper\Routing\Url\Transformer;
-use EMS\ClientHelperBundle\Twig\RoutingRuntime;
+use EMS\ClientHelperBundle\Twig\RoutingExtension;
 use EMS\CommonBundle\Contracts\Twig\TemplateFactoryInterface;
 use EMS\CommonBundle\Elasticsearch\Client;
 use Symfony\Cmf\Component\Routing\ChainRouter;
@@ -100,7 +100,7 @@ return static function (ContainerConfigurator $container) {
 
     $services->set('emsch.routing.url.transformer', Transformer::class)
         ->args([
-            service('ems_common.twig.runtime.asset'),
+            service('ems.twig_extension.asset'),
             service('emsch.manager.client_request'),
             service('emsch.routing.url.generator'),
             service('twig'),
@@ -109,7 +109,8 @@ return static function (ContainerConfigurator $container) {
         ])
         ->tag('monolog.logger', ['channel' => 'emsch_routing']);
 
-    $services->set('emsch.twig.runtime.routing', RoutingRuntime::class)
+    $services->set('emsch.twig_extension.routing', RoutingExtension::class)
         ->args([service('emsch.routing.url.transformer')])
+        ->tag('twig.attribute_extension')
         ->tag('twig.runtime');
 };

@@ -16,4 +16,5 @@ enum OAuth2Property: string
     case VERSION = 'version';
     case ENCRYPTION_ALGORITHM = 'encryption_algorithm';
     case ENCRYPTION_KEY = 'encryption_key';
+    case ISSUER = 'issuer';
 }

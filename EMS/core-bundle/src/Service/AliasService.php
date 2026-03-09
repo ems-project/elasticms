@@ -251,6 +251,7 @@ class AliasService
         $terms = new Terms(self::COUNTER_AGGREGATION);
         $terms->setField('_index');
         $terms->setSize(2000);
+
         $search->addAggregation($terms);
         $search->setSize(0);
 
@@ -286,7 +287,7 @@ class AliasService
         foreach ($data as $index => $info) {
             $aliases = \array_keys($info['aliases']);
 
-            if (0 === \count($aliases)) {
+            if ([] === $aliases) {
                 $this->addOrphanIndex($index);
                 continue;
             }
@@ -314,11 +315,7 @@ class AliasService
      */
     public function updateAlias(string $alias, array $actions): void
     {
-        if ($this->hasAlias($alias)) {
-            $existingMembers = \array_keys($this->getAlias($alias)['indexes']);
-        } else {
-            $existingMembers = [];
-        }
+        $existingMembers = $this->hasAlias($alias) ? \array_keys($this->getAlias($alias)['indexes']) : [];
 
         $json = [];
         foreach ($actions as $type => $indexes) {
@@ -332,7 +329,7 @@ class AliasService
                 $json[] = [$type => ['index' => $index, 'alias' => $alias]];
             }
         }
-        if (empty($json)) {
+        if ([] === $json) {
             return;
         }
 
@@ -419,6 +416,6 @@ class AliasService
 
     private function validIndexName(string $index): bool
     {
-        return \strlen($index) > 0 && !\str_starts_with($index, '.');
+        return '' !== $index && !\str_starts_with($index, '.');
     }
 }

@@ -24,10 +24,6 @@ use EMS\Xliff\XML\DomHelper;
 
 class Xliff12Reader implements ReaderInterface
 {
-    public function __construct()
-    {
-    }
-
     public function supports(string $xml): bool
     {
         return \str_contains($xml, Version::V12_VERSION) || \str_contains($xml, Version::V12_NAMESPACE);
@@ -281,9 +277,9 @@ class Xliff12Reader implements ReaderInterface
         }
         $equivalentOpeningText = null;
         $equivalentClosingText = null;
-        if (\strlen($legacyAttributes) > 0) {
-            $equivalentOpeningText = "<$type$legacyAttributes>";
-            $equivalentClosingText = "</$type>";
+        if ('' !== $legacyAttributes) {
+            $equivalentOpeningText = \sprintf('<%s%s>', $type, $legacyAttributes);
+            $equivalentClosingText = \sprintf('</%s>', $type);
         }
         $group = new Group(
             id: $child->getAttribute('id'),
@@ -334,7 +330,7 @@ class Xliff12Reader implements ReaderInterface
             endId: $child->getAttribute('id'),
             resourceName: $tag,
             equivalentOpeningText: $rawHtml,
-            equivalentClosingText: "</$tag>",
+            equivalentClosingText: \sprintf('</%s>', $tag),
         );
     }
 

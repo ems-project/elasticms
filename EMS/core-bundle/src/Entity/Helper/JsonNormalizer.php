@@ -78,7 +78,7 @@ class JsonNormalizer implements NormalizerInterface, DenormalizerInterface
 
             $property = \lcfirst(('get' === \strtolower(\substr($reflectionMethod->getName(), 0, 3))) ? \substr($reflectionMethod->getName(), 3) : \substr($reflectionMethod->getName(), 2));
             $value = $reflectionMethod->invoke($data);
-            if ('deleted' == $property && true == $value) {
+            if ('deleted' === $property && true == $value) {
                 break;
             }
             if (null != $value) {
@@ -90,14 +90,14 @@ class JsonNormalizer implements NormalizerInterface, DenormalizerInterface
                     if ($value instanceof FieldType) {
                         $value = $this->normalize($value, $format, $context);
                     }
-                    if ('views' == $property) {
+                    if ('views' === $property) {
                         $arrayValues = [];
                         foreach ($value as $index => $view) {
                             $arrayValues[$index] = $this->normalize($view, $format, $context); // Recursive
                         }
                         $value = $arrayValues;
                     }
-                    if ('templates' == $property) {
+                    if ('templates' === $property) {
                         $arrayValues = [];
                         foreach ($value as $index => $template) {
                             $arrayValues[$index] = $this->normalize($template, $format, $context); // Recursive
@@ -108,7 +108,7 @@ class JsonNormalizer implements NormalizerInterface, DenormalizerInterface
                     if (\in_array($property, $this->toSkip['FieldType'])) {
                         continue;
                     }
-                    if ('validChildren' == $property) {
+                    if ('validChildren' === $property) {
                         $arrayValues = [];
                         foreach ($value as $index => $subElement) {// subElement is always FieldType
                             if (!$subElement->getDeleted()) {
@@ -152,19 +152,19 @@ class JsonNormalizer implements NormalizerInterface, DenormalizerInterface
             if ('fieldType' == $property && \method_exists($object, 'setFieldType')) {
                 $object->setFieldType($this->denormalize($value, $class, $format, $context));
             } elseif ('validChildren' == $property && \method_exists($object, 'addChild')) {
-                foreach ($value as $index => $subElement) {
+                foreach ($value as $subElement) {
                     if (!empty($subElement)) {
                         $object->addChild($this->denormalize($subElement, $class, $format, $context));
                     }
                 }
             } elseif ('views' == $property && \method_exists($object, 'addView')) {
-                foreach ($value as $index => $view) {
+                foreach ($value as $view) {
                     if (!empty($view)) {
                         $object->addView($this->denormalize($view, View::class, $format, ['contentType' => $object]));
                     }
                 }
             } elseif ('templates' == $property && \method_exists($object, 'addTemplate')) {
-                foreach ($value as $index => $template) {
+                foreach ($value as $template) {
                     if (!empty($template)) {
                         $object->addTemplate($this->denormalize($template, Template::class, $format, ['contentType' => $object]));
                     }

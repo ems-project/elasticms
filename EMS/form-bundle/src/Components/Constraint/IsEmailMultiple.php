@@ -8,11 +8,15 @@ use Symfony\Component\Validator\Constraint;
 
 final class IsEmailMultiple extends Constraint
 {
+    public string $message;
+
     public function __construct(
-        public string $message = 'At least one email "{{string}}" is invalid.',
+        ?string $message = null,
         ?array $groups = null,
         mixed $payload = null,
     ) {
+        $this->message = $message ?? 'At least one email "{{string}}" is invalid.';
+
         parent::__construct(groups: $groups, payload: $payload);
     }
 }

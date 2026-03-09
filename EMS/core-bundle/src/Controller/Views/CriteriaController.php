@@ -78,7 +78,7 @@ class CriteriaController extends AbstractController
         $filters = [];
         $criteriaField = $view->getOptions()['criteriaField'];
         foreach ($tables['criteriaChoiceLists'] as $name => $criteria) {
-            if (1 == (\is_countable($criteria) ? \count($criteria) : 0)) {
+            if (1 === (\is_countable($criteria) ? \count($criteria) : 0)) {
                 $filters[$name] = \array_keys($criteria)[0];
             }
         }
@@ -194,7 +194,7 @@ class CriteriaController extends AbstractController
                                 }
 
                                 $revision = $this->addCriteriaRevision($view, $rawData, $targetFieldName, $itemToFinalize);
-                                if ($revision) {
+                                if ($revision instanceof Revision) {
                                     $itemToFinalize[$revision->giveOuuid()] = $revision;
                                 }
                             }
@@ -248,7 +248,7 @@ class CriteriaController extends AbstractController
             'view' => $view,
             'attr' => [
                 'id' => 'criteria_filter',
-                'action' => $this->generateUrl('data.customindexview', ['viewId' => $view->getId()], UrlGeneratorInterface::RELATIVE_PATH),
+                'action' => $this->generateUrl('emsco_data_private_view', ['viewId' => $view->getId()], UrlGeneratorInterface::RELATIVE_PATH),
             ],
         ]);
 
@@ -275,7 +275,7 @@ class CriteriaController extends AbstractController
         }
 
         if (!$valid) {
-            return $this->render("@$this->templateNamespace/view/custom/criteria_view.html.twig", [
+            return $this->render(\sprintf('@%s/view/custom/criteria_view.html.twig', $this->templateNamespace), [
                 'view' => $view,
                 'form' => $form->createView(),
                 'contentType' => $contentType,
@@ -316,7 +316,7 @@ class CriteriaController extends AbstractController
 
         $tables = $this->generateCriteriaTableContext($view, $criteriaUpdateConfig);
 
-        return $this->render("@$this->templateNamespace/view/custom/criteria_table.html.twig", [
+        return $this->render(\sprintf('@%s/view/custom/criteria_table.html.twig', $this->templateNamespace), [
             'table' => $tables['table'],
             'rowFieldType' => $rowField,
             'columnFieldType' => $columnField,
@@ -365,7 +365,7 @@ class CriteriaController extends AbstractController
         if (null !== $criteriaUpdateConfig->getCategory()) {
             $dataField = $criteriaUpdateConfig->getCategory();
 
-            if ($dataField->getRawData() && \strlen($dataField->getTextValue() ?? '') > 0) {
+            if ($dataField->getRawData() && '' !== (string) ($dataField->getTextValue() ?? '')) {
                 $categoryFieldTypeName = $dataField->giveFieldType()->getType();
                 /** @var DataFieldType $categoryFieldType */
                 $categoryFieldType = $this->getDataFieldType($categoryFieldTypeName);
@@ -391,7 +391,7 @@ class CriteriaController extends AbstractController
                 continue;
             }
 
-            if (\count($rawData) > 0) {
+            if ([] !== $rawData) {
                 if ($criteriaFieldName) {
                     $criteriaFilters[] = $dataFieldType->getElasticsearchQuery($criteria, ['nested' => $criteriaFieldName]);
                 } else {
@@ -573,7 +573,7 @@ class CriteriaController extends AbstractController
                 $rawData[$targetFieldName] = $target;
             }
             $revision = $this->addCriteriaRevision($view, $rawData, $targetFieldName);
-            if ($revision) {
+            if ($revision instanceof Revision) {
                 $this->dataService->finalizeDraft($revision);
             }
         }
@@ -605,18 +605,10 @@ class CriteriaController extends AbstractController
         $search = new Search([$view->getContentType()->giveEnvironment()->getAlias()], $query);
         $response = EmsResponse::fromResultSet($this->elasticaService->search($search));
 
-        if (0 == $response->getTotal()) {
+        if (0 === $response->getTotal()) {
             $revision = false;
             foreach ($loadedRevision as $item) {
-                $found = true;
-                foreach ($rawData as $name => $key) {
-                    if ($multipleField != $name) {
-                        if ($item->getRawData()[$name] != $key) {
-                            $found = false;
-                            break;
-                        }
-                    }
-                }
+                $found = \array_all($rawData, fn ($key, $name) => !($multipleField != $name && $item->getRawData()[$name] != $key));
                 if ($found) {
                     $revision = $item;
                 }
@@ -653,7 +645,7 @@ class CriteriaController extends AbstractController
             ]);
 
             return $revision;
-        } elseif (1 == $response->getTotal()) {
+        } elseif (1 === $response->getTotal()) {
             $revision = null;
             /** @var Document $document */
             foreach ($response->getDocuments() as $document) {
@@ -730,7 +722,7 @@ class CriteriaController extends AbstractController
         foreach ($rawData[$criteriaField] as &$criteriaSet) {
             $found = \array_all($filters, fn ($value, $criterion) => !($criterion != $multipleField && $value != $criteriaSet[$criterion]));
             if ($found) {
-                if ($multipleField && false === \array_search($filters[$multipleField], $criteriaSet[$multipleField])) {
+                if ($multipleField && !\in_array($filters[$multipleField], $criteriaSet[$multipleField])) {
                     $criteriaSet[$multipleField][] = $filters[$multipleField];
                     if (!$revision->getDraft()) {
                         $revision = $this->dataService->initNewDraft($revision->giveContentType()->getName(), $revision->giveOuuid(), $revision);
@@ -761,11 +753,7 @@ class CriteriaController extends AbstractController
         if (!$found) {
             $newCriterion = [];
             foreach ($filters as $criterion => $value) {
-                if ($criterion == $multipleField) {
-                    $newCriterion[$criterion] = [$value];
-                } else {
-                    $newCriterion[$criterion] = $value;
-                }
+                $newCriterion[$criterion] = $criterion == $multipleField ? [$value] : $value;
             }
             $rawData[$criteriaField][] = $newCriterion;
             if (!$revision->getDraft()) {
@@ -892,11 +880,11 @@ class CriteriaController extends AbstractController
         ]);
         $response = EmsResponse::fromResultSet($this->elasticaService->search($search));
 
-        if (0 == $response->getTotal()) {
+        if (0 === $response->getTotal()) {
             $this->logger->warning('log.view.criteria.not_found', [
                 'field_name' => $targetFieldName,
             ]);
-        } elseif (1 == $response->getTotal()) {
+        } elseif (1 === $response->getTotal()) {
             $revision = null;
             $queryDocument = null;
             /** @var Document $document */
@@ -914,7 +902,7 @@ class CriteriaController extends AbstractController
 
             $multipleValueToRemove = $rawData[$multipleField];
             $rawData = $revision->getRawData();
-            if (($key = \array_search($multipleValueToRemove, $rawData[$multipleField])) !== false) {
+            if (($key = \array_search($multipleValueToRemove, $rawData[$multipleField], true)) !== false) {
                 $revision = $this->dataService->initNewDraft($view->getContentType()->getName(), $queryDocument->getId());
                 unset($rawData[$multipleField][$key]);
                 $rawData[$multipleField] = \array_values($rawData[$multipleField]);
@@ -981,7 +969,7 @@ class CriteriaController extends AbstractController
             $found = \array_all($filters, fn ($value, $criterion) => !($criterion != $multipleField && $value != $criteriaSet[$criterion]));
             if ($found) {
                 if ($multipleField) {
-                    $indexKey = \array_search($filters[$multipleField], $criteriaSet[$multipleField]);
+                    $indexKey = \array_search($filters[$multipleField], $criteriaSet[$multipleField], true);
                     if (false === $indexKey) {
                         $this->logger->notice('log.view.criteria.not_found', [
                             'field_name' => $multipleField,
@@ -989,7 +977,7 @@ class CriteriaController extends AbstractController
                     } else {
                         unset($rawData[$criteriaField][$index][$multipleField][$indexKey]);
                         $rawData[$criteriaField][$index][$multipleField] = \array_values($rawData[$criteriaField][$index][$multipleField]);
-                        if (0 == \count($rawData[$criteriaField][$index][$multipleField])) {
+                        if ([] === $rawData[$criteriaField][$index][$multipleField]) {
                             unset($rawData[$criteriaField][$index]);
                             $rawData[$criteriaField] = \array_values($rawData[$criteriaField]);
                         }
@@ -1065,7 +1053,7 @@ class CriteriaController extends AbstractController
         foreach ($criterionList as $value) {
             if (isset($criteriaChoiceLists[$criteriaName][$value])) {
                 $context[$criteriaName] = $value;
-                if (\count($criteriaNames) > 0) {
+                if ([] !== $criteriaNames) {
                     // let see (recursively) if the other criterion applies to find a matching context
                     $this->addToTable($choice, $table, $criterion, $criteriaNames, $criteriaChoiceLists, $config, $context);
                 } else {
@@ -1104,6 +1092,7 @@ class CriteriaController extends AbstractController
         $field = $this->fieldTypeRepository->find($request->query->get('targetField'));
         $choices = $field->getDisplayOptions()['choices'];
         $choices = \explode("\n", \str_replace("\r", '', (string) $choices));
+
         $labels = $field->getDisplayOptions()['labels'];
         $labels = \explode("\n", \str_replace("\r", '', (string) $labels));
 

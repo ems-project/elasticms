@@ -24,12 +24,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(
-    name: Commands::ENVIRONMENT_REBUILD,
-    description: 'Rebuild an environment in a brand new index.',
-    hidden: false,
-    aliases: ['ems:environment:rebuild']
-)]
+#[AsCommand(name: Commands::ENVIRONMENT_REBUILD, description: 'Rebuild an environment in a brand new index.', aliases: ['ems:environment:rebuild'], hidden: false)]
 class RebuildCommand extends AbstractCommand
 {
     private const string ARGUMENT_NAME = 'name';
@@ -37,7 +32,6 @@ class RebuildCommand extends AbstractCommand
     private const string OPTION_IGNORE_REFERRERS = 'ignore-referrers';
     private const string OPTION_BULK_SIZE = 'bulk-size';
     private const string OPTION_DONT_SIGN = 'dont-sign';
-    private const string OPTION_SIGN_DATA = 'sign-data';
     private const string OPTION_YELLOW_OK = 'yellow-ok';
     private bool $signData;
     private int $bulkSize;
@@ -74,16 +68,10 @@ class RebuildCommand extends AbstractCommand
                 'Agree to rebuild on a yellow status cluster'
             )
             ->addOption(
-                self::OPTION_SIGN_DATA,
-                null,
-                InputOption::VALUE_NONE,
-                'Deprecated: the data are signed by default'
-            )
-            ->addOption(
                 self::OPTION_DONT_SIGN,
                 null,
                 InputOption::VALUE_NONE,
-                'Don\'t (re)signed the documents during the rebuilding process'
+                "Don't (re)signed the documents during the rebuilding process"
             )
             ->addOption(
                 self::OPTION_BULK_SIZE,
@@ -96,7 +84,7 @@ class RebuildCommand extends AbstractCommand
                 self::OPTION_IGNORE_REFERRERS,
                 null,
                 InputOption::VALUE_NONE,
-                'Don\'t update other aliases that refers to the previous index'
+                "Don't update other aliases that refers to the previous index"
             )
         ;
     }
@@ -122,11 +110,6 @@ class RebuildCommand extends AbstractCommand
     {
         $this->aliasService->build();
         $this->waitFor($this->yellowOk, $output);
-
-        if ($input->getOption(self::OPTION_SIGN_DATA)) {
-            $this->logger->warning('command.rebuild.sign-data');
-            $output->writeln('The option --sign-data is deprecated');
-        }
 
         $this->em = $this->doctrine->getManager();
         $envRepo = $this->em->getRepository(Environment::class);
@@ -173,7 +156,7 @@ class RebuildCommand extends AbstractCommand
 
     private function rebuildEnvironment(Environment $environment, OutputInterface $output): void
     {
-        if ($environment->getAlias() != $this->instanceId.$environment->getName()) {
+        if ($environment->getAlias() !== $this->instanceId.$environment->getName()) {
             $environment->setAlias($this->instanceId.$environment->getName());
             $this->em->persist($environment);
             $this->em->flush();

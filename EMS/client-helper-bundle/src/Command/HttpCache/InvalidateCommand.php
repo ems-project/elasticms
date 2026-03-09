@@ -89,6 +89,7 @@ class InvalidateCommand extends AbstractCommand
         $search->setSize(1);
         $search->setSort([EmsFields::CONTENT_PUBLISHED_DATETIME_FIELD => 'desc']);
         $search->setSize($this->bulkSize);
+
         $results = $this->client->commonSearch($search)->getResults();
         if (!isset($results[0])) {
             throw new \RuntimeException('No results found');
@@ -108,6 +109,7 @@ class InvalidateCommand extends AbstractCommand
         ]);
         $search = $this->getSearch($range);
         $search->setSize(0);
+
         $total = $this->client->commonSearch($search)->getTotalHits();
         if (0 === $total) {
             $this->io->note('No hits found');
@@ -129,7 +131,7 @@ class InvalidateCommand extends AbstractCommand
             }
             $this->io->progressAdvance();
         }
-        if (\count($tags) > 0) {
+        if ([] !== $tags) {
             $this->httpCacheManager->purgeByTags(...$tags);
         }
         $this->io->progressFinish();

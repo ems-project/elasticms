@@ -106,8 +106,11 @@ class SmartCrop
     public function analyse(): array
     {
         $result = [];
-        $w = $this->w = \imagesx($this->image);
-        $h = $this->h = \imagesy($this->image);
+        $w = \imagesx($this->image);
+        $this->w = $w;
+
+        $h = \imagesy($this->image);
+        $this->h = $h;
 
         $this->od = new \SplFixedArray($h * $w * 3);
         $this->aSample = new \SplFixedArray($h * $w);
@@ -173,11 +176,9 @@ class SmartCrop
                         $pR = $this->od[$p];
                         $pG = $this->od[$p + 1];
                         $pB = $this->od[$p + 2];
-                        $pA = 0;
                         $r += $pR;
                         $g += $pG;
                         $b += $pB;
-                        $a += $pA;
                         $mr = \max($mr, $pR);
                         $mg = \max($mg, $pG);
                         $mb = \max($mb, $pB);
@@ -213,7 +214,7 @@ class SmartCrop
 
     private function skinDetect(int $r, int $g, int $b, float $lightness): int
     {
-        $lightness = $lightness / 255;
+        $lightness /= 255;
         $skin = $this->skinColor($r, $g, $b);
         $isSkinColor = $skin > $this->skinThreshold;
         $isSkinBrightness = $lightness > $this->skinBrightnessMin && $lightness <= $this->skinBrightnessMax;
@@ -226,7 +227,7 @@ class SmartCrop
 
     private function saturationDetect(int $r, int $g, int $b, float $lightness): int
     {
-        $lightness = $lightness / 255;
+        $lightness /= 255;
         $sat = $this->saturation($r, $g, $b);
         $acceptableSaturation = $sat > $this->saturationThreshold;
         $acceptableLightness = $lightness >= $this->saturationBrightnessMin && $lightness <= $this->saturationBrightnessMax;
@@ -366,6 +367,7 @@ class SmartCrop
     {
         $mag = \sqrt($r * $r + $g * $g + $b * $b);
         $mag = $mag > 0 ? $mag : 1;
+
         $rd = ($r / $mag - $this->skinColor[0]);
         $gd = ($g / $mag - $this->skinColor[1]);
         $bd = ($b / $mag - $this->skinColor[2]);
@@ -390,10 +392,8 @@ class SmartCrop
             if ((2 - $maximum - $minimum) == 0) {
                 return 0;
             }
-        } else {
-            if (($maximum + $minimum) == 0) {
-                return 0;
-            }
+        } elseif (($maximum + $minimum) == 0) {
+            return 0;
         }
 
         return $l > 0.5 ? $d / (2 - $maximum - $minimum) : $d / ($maximum + $minimum);

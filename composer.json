@@ -58,7 +58,7 @@
         "ruflin/elastica": "^8.0",
         "scssphp/scssphp": "^2.0",
         "sensiolabs/ansi-to-html": "^2.0",
-        "stevenmaguire/oauth2-keycloak": "^5.1",
+        "stevenmaguire/oauth2-keycloak": "^6.1",
         "symfony-cmf/routing": "^3.0",
         "symfony/asset": "7.4.*",
         "symfony/cache": "7.4.*",
@@ -210,10 +210,10 @@
         "symfony/polyfill-php84": "*"
     },
     "scripts": {
-        "rector": "rector --config=./config/rector.php",
+        "rector": "rector --memory-limit=1G --config=./config/rector.php",
         "monorepo-validate": "monorepo-builder --config=./config/monorepo-builder.php validate",
         "phpcs": "php-cs-fixer --config=./config/php-cs-fixer.php fix",
-        "phpstan": "phpstan --configuration=./config/phpstan.neon.dist --memory-limit=1G analyse",
+        "phpstan": "phpstan --memory-limit=1G --configuration=./config/phpstan.neon.dist analyse",
         "phpstan-baseline": "phpstan --configuration=./config/phpstan.neon.dist --memory-limit=1G --generate-baseline=./config/phpstan-baseline.neon analyse",
         "phpunit": "phpunit -c config/phpunit.xml.dist --display-deprecations --fail-on-notice --fail-on-warning",
         "phpunit-admin": "phpunit -c elasticms-admin/phpunit.xml.dist --display-deprecations",
@@ -241,6 +241,7 @@
             "APP_DEBUG=1 php elasticms-web/bin/console lint:container"
         ],
         "lint-twig": [
+            "twig-cs-fixer fix -c ./config/.twig-cs-fixer.php",
             "@lint-twig-bundles",
             "@lint-twig-demo"
         ],

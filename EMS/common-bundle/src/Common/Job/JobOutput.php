@@ -25,7 +25,7 @@ class JobOutput extends Output
     }
 
     #[\Override]
-    public function doWrite(string $message, bool $newline): void
+    protected function doWrite(string $message, bool $newline): void
     {
         $this->admin->jobDoWrite($this->job, $message, $newline);
         if (null !== $this->otherOutput) {

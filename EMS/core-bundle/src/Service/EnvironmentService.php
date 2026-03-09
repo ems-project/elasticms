@@ -35,8 +35,6 @@ class EnvironmentService implements EntityServiceInterface
 {
     /** @var array<string, Environment> */
     private array $environments = [];
-    /** @var array<string, Environment> */
-    private array $notSnapshotEnvironments = [];
     /** @var array<int, Environment> */
     private array $environmentsById = [];
 
@@ -195,35 +193,6 @@ class EnvironmentService implements EntityServiceInterface
     }
 
     /**
-     * @return array<string, Environment>
-     */
-    #[\Deprecated(message: 'https://github.com/ems-project/EMSCoreBundle/issues/281')]
-    public function getNotSnapshotEnvironments(): array
-    {
-        if ([] !== $this->notSnapshotEnvironments) {
-            return $this->notSnapshotEnvironments;
-        }
-
-        $environments = $this->doctrine->getManager()->getRepository(Environment::class)->findBy(['snapshot' => false]);
-
-        /** @var Environment $environment */
-        foreach ($environments as $environment) {
-            $this->notSnapshotEnvironments[$environment->getName()] = $environment;
-        }
-
-        return $this->notSnapshotEnvironments;
-    }
-
-    /**
-     * @return string[]
-     */
-    #[\Deprecated(message: 'https://github.com/ems-project/EMSCoreBundle/issues/281')]
-    public function getNotSnapshotEnvironmentsNames(): array
-    {
-        return \array_keys($this->getNotSnapshotEnvironments());
-    }
-
-    /**
      * @return array<int, Environment>
      */
     public function getEnvironmentsById(): array
@@ -244,7 +213,7 @@ class EnvironmentService implements EntityServiceInterface
     /** @return Environment[] */
     public function getByNames(string ...$names): array
     {
-        return \count($names) > 0 ? $this->environmentRepository->findBy(['name' => $names]) : [];
+        return [] !== $names ? $this->environmentRepository->findBy(['name' => $names]) : [];
     }
 
     /** @return array<int|string, mixed> */
@@ -357,7 +326,6 @@ class EnvironmentService implements EntityServiceInterface
     public function clearCache(): self
     {
         $this->environments = [];
-        $this->notSnapshotEnvironments = [];
         $this->environmentsById = [];
 
         return $this;
@@ -426,6 +394,7 @@ class EnvironmentService implements EntityServiceInterface
         $position = $environment->getOrderKey();
         $this->environmentRepository->delete($environment);
         $this->environmentRepository->shiftOrderKeyFrom($position + 1, -1);
+
         $this->logger->notice('log.environment.deleted', [
             EmsFields::LOG_ENVIRONMENT_FIELD => $environment->getName(),
         ]);

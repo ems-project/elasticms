@@ -48,6 +48,7 @@ class DocumentService
         $revisionType->setData($previousRevision);
 
         $revisionType->submit(['data' => $viewData]);
+
         $data = $revisionType->get('data')->getData();
         $revision->setData($data);
         $objectArray = $revision->getRawData();
@@ -79,7 +80,7 @@ class DocumentService
         if ($currentRevision && $currentRevision->getDraft()) {
             if (!$documentImportContext->shouldForce()) {
                 // TODO: activate the newRevision when it's available
-                throw new CantBeFinalizedException('a draft is already in progress for the document', 0, null/* , $newRevision */);
+                throw new CantBeFinalizedException('a draft is already in progress for the document', 0/* , $newRevision */);
             }
 
             $this->dataService->discardDraft($currentRevision, true, $documentImportContext->getLockUser());
@@ -90,7 +91,7 @@ class DocumentService
             $this->dataService->sign($newRevision);
         }
 
-        if ($currentRevision) {
+        if ($currentRevision instanceof Revision) {
             $currentRevision->setLockBy($documentImportContext->getLockUser());
             $currentRevision->setLockUntil(new \DateTime('now')->add(new \DateInterval('PT5M')));
 

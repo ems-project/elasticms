@@ -52,7 +52,7 @@ final class Synonym
         $query = new BoolQuery();
         $query->addMust($queryTextValue);
 
-        if (\count($this->types) > 0) {
+        if ([] !== $this->types) {
             $terms = new Terms(EMSSource::FIELD_CONTENT_TYPE, $this->types);
             $query->addMust($terms);
         }

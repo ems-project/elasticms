@@ -53,7 +53,7 @@ class TagCollector
 
     public function isEmpty(): bool
     {
-        return empty($this->uuids);
+        return [] === $this->uuids;
     }
 
     /**
@@ -61,7 +61,7 @@ class TagCollector
      */
     public function cacheConfigs(): iterable
     {
-        if (empty($this->jsonConfig)) {
+        if ([] === $this->jsonConfig) {
             return;
         }
         $resolver = new OptionsResolver();

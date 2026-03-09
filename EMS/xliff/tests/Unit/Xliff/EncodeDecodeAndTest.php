@@ -43,6 +43,7 @@ class EncodeDecodeAndTest extends TestCase
         $option = new Options(Version::V12);
         $readerPackage = Xliff::create($option);
         $readerPackage->init('en', 'fr');
+
         $document = $readerPackage->getPackage()->addDocument('content_type:fakeOuuid:fakeRevisionId');
         $document->createHtml('[body]', $sourceHtml, $sourceHtml, $sourceHtml);
 

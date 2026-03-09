@@ -15,6 +15,7 @@ class BaselineTest extends TestCase
     {
         $readerPackage = Xliff::create();
         $readerPackage->fromFile(\implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'Baseline', 'baseline2.xlf']));
+
         $insertReport = $readerPackage->getPackage()->getInsertReport();
         foreach ($readerPackage->getPackage()->getDocuments() as $document) {
             [$contentType, $uuid, $revisionId] = \explode(':', $document->id);
@@ -41,6 +42,7 @@ class BaselineTest extends TestCase
         $option = new Options(Version::V12);
         $readerPackage = Xliff::create($option);
         $readerPackage->init('nl', 'de');
+
         $document = $readerPackage->getPackage()->addDocument('contentType:ouuid_1:revisionId_1');
         $document->createHtml('[%locale%][body]', $source, $target, null, true);
 

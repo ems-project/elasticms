@@ -35,7 +35,7 @@ final class EMSClientHelperExtension extends Extension implements PrependExtensi
         $container->setParameter('emsch.bind_locale', $config['bind_locale'] ?? true);
         $container->setParameter('emsch.handle_exceptions', $config['handle_exceptions'] ?? true);
         $container->setParameter('emsch.etag_hash_algo', $config['etag_hash_algo'] ?? 'sha1');
-        $container->setParameter('emsch.asset_local_folder', $config['asset_local_folder'] ?? null);
+        $container->setParameter('emsch.asset_local_folder', $config['asset_local_folder']);
         $container->setParameter('emsch.request_environments', $config['request_environments']);
         $container->setParameter('emsch.search_limit', $config['search_limit']);
         $container->setParameter('emsch.security.sso.core_user', $config['security']['sso']['core_user'] ?? false);
@@ -48,7 +48,7 @@ final class EMSClientHelperExtension extends Extension implements PrependExtensi
         $container->getDefinition('emsch.helper_exception')->replaceArgument(5, $templates['error']);
         $container->getDefinition('emsch.routing.url.transformer')->replaceArgument(5, $templates['ems_link']);
 
-        $this->processElasticms($container, $loader, $config['elasticms']);
+        $this->processElasticms($container, $config['elasticms']);
         $this->processApi($container, $config['api']);
 
         if ($config['local']['enabled']) {
@@ -85,10 +85,10 @@ final class EMSClientHelperExtension extends Extension implements PrependExtensi
     /**
      * @param array<string, mixed> $config
      */
-    private function processElasticms(ContainerBuilder $container, PhpFileLoader $loader, array $config): void
+    private function processElasticms(ContainerBuilder $container, array $config): void
     {
         foreach ($config as $name => $options) {
-            $this->defineClientRequest($container, $loader, $name, $options);
+            $this->defineClientRequest($container, $name, $options);
 
             if (isset($options['templates'])) {
                 $this->defineTwigLoader($container, $name);
@@ -116,7 +116,7 @@ final class EMSClientHelperExtension extends Extension implements PrependExtensi
     /**
      * @param array<string, mixed> $options
      */
-    private function defineClientRequest(ContainerBuilder $container, PhpFileLoader $loader, string $name, array $options): void
+    private function defineClientRequest(ContainerBuilder $container, string $name, array $options): void
     {
         $definition = new Definition(ClientRequest::class);
         $definition->setArguments([

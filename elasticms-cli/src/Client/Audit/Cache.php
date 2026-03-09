@@ -68,7 +68,7 @@ class Cache
             new ObjectNormalizer(null, null, null, $propertyTypeExtractor),
         ], [
             new XmlEncoder(),
-            new JsonEncoder(new JsonEncode([JsonEncode::OPTIONS => JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES]), null),
+            new JsonEncoder(new JsonEncode([JsonEncode::OPTIONS => JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES])),
         ]);
     }
 
@@ -221,7 +221,7 @@ class Cache
     private function currentPos(): int
     {
         $keys = \array_keys($this->urls);
-        $position = \array_search($this->current, $keys);
+        $position = \array_search($this->current, $keys, true);
 
         return $position ?: 0;
     }

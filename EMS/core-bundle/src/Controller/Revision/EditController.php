@@ -89,7 +89,7 @@ class EditController extends AbstractController
             ]);
         }
 
-        return $this->render("@$this->templateNamespace/data/edit-json-revision.html.twig", [
+        return $this->render(\sprintf('@%s/data/edit-json-revision.html.twig', $this->templateNamespace), [
             'revision' => $revision,
             'form' => $form->createView(),
         ]);
@@ -122,7 +122,7 @@ class EditController extends AbstractController
             'has_copy' => $this->isGranted('ROLE_COPY_PASTE'),
             'raw_data' => $revision->getRawData(),
         ]);
-        $this->logger->debug('Revision\'s form created');
+        $this->logger->debug("Revision's form created");
 
         /** @var array<string, mixed> $requestRevision */
         $requestRevision = $request->request->all('revision');
@@ -217,7 +217,7 @@ class EditController extends AbstractController
                     ]);
                 }
 
-                return $this->redirectToRoute('data.draft_in_progress', [
+                return $this->redirectToRoute('emsco_draft_in_progress', [
                     'contentTypeId' => $contentType->getId(),
                 ]);
             }
@@ -244,14 +244,14 @@ class EditController extends AbstractController
 
         if (!$revision->getDraft()) {
             $this->logger->warning('controller.revision.edit-controller.warning.edit-draft', [
-                'path' => $this->generateUrl('revision.new-draft', [
+                'path' => $this->generateUrl('emsco_data_new_draft', [
                     'type' => $revision->giveContentType(),
                     'ouuid' => $revision->giveOuuid(),
                 ], UrlGeneratorInterface::ABSOLUTE_PATH),
             ]);
         }
 
-        return $this->render("@$this->templateNamespace/data/edit-revision.html.twig", [
+        return $this->render(\sprintf('@%s/data/edit-revision.html.twig', $this->templateNamespace), [
             'revision' => $revision,
             'form' => $form->createView(),
         ]);
@@ -311,7 +311,7 @@ class EditController extends AbstractController
 
     private function reorderCollection(mixed &$input): void
     {
-        if (!\is_array($input) || empty($input)) {
+        if (!\is_array($input) || [] === $input) {
             return;
         }
 

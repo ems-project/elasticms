@@ -19,12 +19,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-#[AsCommand(
-    name: Commands::REVISIONS_TIME_MACHINE,
-    description: 'Revert to a copy of the revision wich was the current one for a given timestamp.',
-    hidden: false,
-    aliases: ['ems:revision:time-machine']
-)]
+#[AsCommand(name: Commands::REVISIONS_TIME_MACHINE, description: 'Revert to a copy of the revision wich was the current one for a given timestamp.', aliases: ['ems:revision:time-machine'], hidden: false)]
 final class TimeMachineCommand extends Command
 {
     private SymfonyStyle $style;
@@ -112,6 +107,7 @@ final class TimeMachineCommand extends Command
         $revertedRevision->setRawData($inTimeRaw);
         $revertedRevision->setDraft(false);
         $revertedRevision->setFinalizedBy(self::SYSTEM_TIME_MACHINE);
+
         $this->dataService->sign($revertedRevision);
 
         $currentRevision->close(new \DateTime('now'), self::SYSTEM_TIME_MACHINE);
@@ -152,7 +148,7 @@ final class TimeMachineCommand extends Command
             return $currentRaw;
         }
 
-        if (\is_array($currentProperty) && \count($path) > 0) {
+        if (\is_array($currentProperty) && [] !== $path) {
             if (\count($currentProperty) !== (\is_countable($historyProperty) ? \count($historyProperty) : 0)) {
                 $this->style->warning('Could not go back in time for different sized collections!');
 
@@ -164,7 +160,7 @@ final class TimeMachineCommand extends Command
             }
         }
 
-        if (0 === \count($path)) {
+        if ([] === $path) {
             $currentRaw[$property] = $historyProperty;
         }
 

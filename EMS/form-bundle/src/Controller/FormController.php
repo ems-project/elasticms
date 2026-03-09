@@ -46,6 +46,7 @@ class FormController extends AbstractFormController
 
         $form = $this->formFactory->create(Form::class, [], ['ouuid' => $ouuid, 'locale' => $request->getLocale()]);
         $form->handleRequest($request);
+
         $this->csrfTokenManager->removeToken('form');
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -61,11 +62,7 @@ class FormController extends AbstractFormController
         if (!\is_string($content)) {
             throw new \RuntimeException('Unexpected non-string request content');
         }
-        if (Json::isEmpty($content)) {
-            $data = [];
-        } else {
-            $data = Json::decode($content);
-        }
+        $data = Json::isEmpty($content) ? [] : Json::decode($content);
 
         $form = $this->formFactory->create(Form::class, $data, ['ouuid' => $ouuid, 'locale' => $request->getLocale()]);
 

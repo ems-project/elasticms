@@ -9,7 +9,7 @@ use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Storage\Service\StorageInterface;
 use EMS\CommonBundle\Storage\StorageManager;
-use EMS\CommonBundle\Twig\AssetRuntime;
+use EMS\CommonBundle\Twig\AssetExtension;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -45,7 +45,7 @@ class CurlCommand extends AbstractCommand
     private ?string $baseUrl = null;
     private bool $save;
 
-    public function __construct(private readonly EventDispatcherInterface $eventDispatcher, private readonly ControllerResolverInterface $controllerResolver, private readonly RequestStack $requestStack, private readonly StorageManager $storageManager, private readonly AssetRuntime $assetRuntime)
+    public function __construct(private readonly EventDispatcherInterface $eventDispatcher, private readonly ControllerResolverInterface $controllerResolver, private readonly RequestStack $requestStack, private readonly StorageManager $storageManager, private readonly AssetExtension $assetRuntime)
     {
         parent::__construct();
     }
@@ -99,6 +99,7 @@ class CurlCommand extends AbstractCommand
         $kernel = new HttpKernel($this->eventDispatcher, $this->controllerResolver);
         $request = Request::create($this->url, $this->method);
         $request->setSession($this->getSession());
+
         $this->requestStack->push($request);
         $handle = \fopen($this->filename, 'w');
         if (false === $handle) {

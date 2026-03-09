@@ -47,15 +47,15 @@ final readonly class ApiService
             $ouuid ??= Uuid::uuid4()->toString();
 
             return $dataEndpoint->index($ouuid, $rawData, $merge, true)->getOuuid();
-        } catch (NotSuccessfulException $e) {
-            $data = $e->result->getData();
+        } catch (NotSuccessfulException $notSuccessfulException) {
+            $data = $notSuccessfulException->result->getData();
             $revisionId = $data['revision_id'] ?? null;
 
             if ($revisionId) {
                 $dataEndpoint->discard($revisionId);
             }
 
-            throw new \RuntimeException($e->result->getFirstErrorWarning() ?? 'Finalize failed');
+            throw new \RuntimeException($notSuccessfulException->result->getFirstErrorWarning() ?? 'Finalize failed', $notSuccessfulException->getCode(), $notSuccessfulException);
         }
     }
 
@@ -97,17 +97,13 @@ final readonly class ApiService
                     foreach ($collectionOfFields as $fileKey => $file) {
                         if (\is_array($file)) {
                             $body[$fieldKey][$pos] = $this->treatFiles($body[$fieldKey][$pos], $apiName, $collectionOfFields);
-                        } else {
-                            if (null !== $file) {
-                                $body[$fieldKey][$pos][$fileKey] = $this->createContentFileHashField($apiName, $file);
-                            }
+                        } elseif (null !== $file) {
+                            $body[$fieldKey][$pos][$fileKey] = $this->createContentFileHashField($apiName, $file);
                         }
                     }
                 }
-            } else {
-                if (null !== $fileField) {
-                    $body[$fieldKey] = $this->createContentFileHashField($apiName, $fileField);
-                }
+            } elseif (null !== $fileField) {
+                $body[$fieldKey] = $this->createContentFileHashField($apiName, $fileField);
             }
         }
 

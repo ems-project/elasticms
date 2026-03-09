@@ -41,7 +41,6 @@ class Document
         $unit = new Unit(
             id: $this->idGenerator->nextUnitId(),
             resourceName: $resourceName,
-            type: null,
         );
 
         $sourceNodes = [
@@ -163,6 +162,7 @@ class Document
 
         $expectedSource = $this->propertyAccessor->getValue($extractData, $sourcePropertyPath);
         $expectedSource = $formater->format($expectedSource ?? '');
+
         $source = $formater->format($source);
 
         if (\trim($expectedSource) !== \trim($source)) {

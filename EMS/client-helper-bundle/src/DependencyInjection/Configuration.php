@@ -27,7 +27,7 @@ final class Configuration implements ConfigurationInterface
                 ->booleanNode('bind_locale')->end()
                 ->booleanNode('handle_exceptions')->defaultTrue()->end()
                 ->scalarNode('etag_hash_algo')->end()
-                ->scalarNode('asset_local_folder')->end()
+                ->scalarNode('asset_local_folder')->defaultValue(null)->end()
                 ->integerNode('search_limit')
                     ->info('search limit to get local documents')
                     ->defaultValue(1000)
@@ -73,7 +73,7 @@ final class Configuration implements ConfigurationInterface
                                 }
                             }
 
-                            if (empty($default)) {
+                            if ([] === $default) {
                                 throw new \InvalidArgumentException('no default elasticms configured');
                             }
 

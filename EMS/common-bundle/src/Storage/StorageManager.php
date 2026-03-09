@@ -412,7 +412,7 @@ class StorageManager implements FileManagerInterface
      */
     public function saveConfig(array $config, int $usageType = StorageInterface::STORAGE_USAGE_CONFIG): string
     {
-        if (\is_array($config[EmsFields::ASSET_CONFIG_FILE_NAMES] ?? null) && \count($config[EmsFields::ASSET_CONFIG_FILE_NAMES]) > 0) {
+        if (\is_array($config[EmsFields::ASSET_CONFIG_FILE_NAMES] ?? null) && [] !== $config[EmsFields::ASSET_CONFIG_FILE_NAMES]) {
             $hashContext = \hash_init('sha1');
             foreach ($config[EmsFields::ASSET_CONFIG_FILE_NAMES] as $filename) {
                 if (!\file_exists($filename)) {
@@ -468,7 +468,7 @@ class StorageManager implements FileManagerInterface
      */
     private function hotSynchronize(string $hash, StorageInterface $source, array $missingIn): void
     {
-        if (empty($missingIn)) {
+        if ([] === $missingIn) {
             return;
         }
         try {
@@ -480,7 +480,7 @@ class StorageManager implements FileManagerInterface
                 }
             }
 
-            if (empty($filteredAdapters)) {
+            if ([] === $filteredAdapters) {
                 return;
             }
 
@@ -500,8 +500,8 @@ class StorageManager implements FileManagerInterface
                 $adapter->initFinalize($hash);
                 $adapter->finalizeUpload($hash);
             }
-        } catch (\Throwable $e) {
-            $this->logger->warning(\sprintf('It was not possible to hot synchronize the asset %s: %s', $hash, $e->getMessage()));
+        } catch (\Throwable $throwable) {
+            $this->logger->warning(\sprintf('It was not possible to hot synchronize the asset %s: %s', $hash, $throwable->getMessage()));
         }
     }
 
@@ -564,31 +564,6 @@ class StorageManager implements FileManagerInterface
             MimeTypes::APPLICATION_JSON->value => $this->getStreamFromJsonArchive($hash, $path, $archiveFile),
             default => throw new \RuntimeException(\sprintf('Archive format %s not supported', $mimeType)),
         };
-    }
-
-    public function extractFromArchive(string $hash): TempDirectory
-    {
-        $archiveFile = TempFile::create()->loadFromStream($this->getStream($hash));
-        $type = MimeTypeHelper::getInstance()->guessMimeType($archiveFile->path);
-        switch ($type) {
-            case MimeTypes::APPLICATION_ZIP->value:
-            case MimeTypes::APPLICATION_GZIP->value:
-                $tempDir = TempDirectory::createFromZipArchive($archiveFile->path);
-                break;
-            case MimeTypes::APPLICATION_JSON->value:
-                $archive = Archive::fromStructure($archiveFile->getContents(), $this->hashAlgo);
-                $tempDir = TempDirectory::create();
-                foreach ($archive->iterator() as $file) {
-                    $tempDir->add($this->getStream($file->hash), $file->filename);
-                }
-                break;
-            default:
-                throw new \RuntimeException(\sprintf('Archive format %s not supported', $type));
-        }
-        $tempDir->touch($hash);
-        $archiveFile->clean();
-
-        return $tempDir;
     }
 
     private function getStreamFromZipArchive(string $hash, string $path, TempFile $zipFile): StreamWrapper

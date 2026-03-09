@@ -45,7 +45,7 @@ class FieldChoicesConfig
 
     public function getLabel(string $value): string
     {
-        $index = \array_search($value, $this->values);
+        $index = \array_search($value, $this->values, true);
         if (!\is_string($this->labels[$index] ?? null)) {
             return $value;
         }
@@ -138,7 +138,7 @@ class FieldChoicesConfig
     private function combineValuesAndLabels(array $values, array $labels, array $choices): array
     {
         foreach ($choices as $choice) {
-            $idx = \array_search($choice, $this->getTopLevel($values));
+            $idx = \array_search($choice, $this->getTopLevel($values), true);
             if (false === $idx) {
                 continue;
             }

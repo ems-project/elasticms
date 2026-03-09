@@ -42,8 +42,8 @@ final readonly class ApiController
 
         try {
             return $coreApi->form()->getSubmissionFileAsStreamResponse($submissionId, $submissionFileId);
-        } catch (ClientException $e) {
-            return throw new HttpException($e->getCode());
+        } catch (ClientException $clientException) {
+            return throw new HttpException($clientException->getCode(), '', $clientException);
         }
     }
 
@@ -65,8 +65,8 @@ final readonly class ApiController
             $ouuid = $this->service->index($apiName, $contentType, $ouuid, $rawData);
 
             return new JsonResponse(['success' => true, 'ouuid' => $ouuid]);
-        } catch (\RuntimeException $e) {
-            return new JsonResponse(['success' => false, 'message' => $e->getMessage()]);
+        } catch (\RuntimeException $runtimeException) {
+            return new JsonResponse(['success' => false, 'message' => $runtimeException->getMessage()]);
         }
     }
 

@@ -6,14 +6,11 @@ namespace EMS\Tests\CommonBundle\Unit\Controller;
 
 use EMS\CommonBundle\Controller\FileController;
 use EMS\CommonBundle\Storage\Processor\Processor;
-use EMS\CommonBundle\Twig\AssetRuntime;
 use GuzzleHttp\Psr7\Stream;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
-use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class FileControllerAiTest extends TestCase
@@ -21,14 +18,12 @@ class FileControllerAiTest extends TestCase
     private const string TEST_IMAGE_PATH = __DIR__.'/fixtures/image.png';
     private FileController $controller;
     private Processor $processor;
-    private AssetRuntime $assetRuntime;
 
     #[\Override]
     protected function setUp(): void
     {
         $this->processor = $this->createMock(Processor::class);
-        $this->assetRuntime = $this->createMock(AssetRuntime::class);
-        $this->controller = new FileController($this->processor, $this->assetRuntime);
+        $this->controller = new FileController($this->processor);
     }
 
     #[AllowMockObjectsWithoutExpectations]
@@ -50,30 +45,6 @@ class FileControllerAiTest extends TestCase
             ->willReturn(new Response());
 
         $response = $this->controller->resolveAsset(new Request(), [], []);
-        $this->assertInstanceOf(Response::class, $response);
-    }
-
-    #[IgnoreDeprecations]
-    #[AllowMockObjectsWithoutExpectations]
-    public function testView(): void
-    {
-        $this->assetRuntime->expects($this->once())
-            ->method('assetPath')
-            ->willReturn('/path/to/asset');
-
-        $response = $this->controller->view(new Request(), 'sha1');
-        $this->assertInstanceOf(Response::class, $response);
-    }
-
-    #[IgnoreDeprecations]
-    #[AllowMockObjectsWithoutExpectations]
-    public function testDownload(): void
-    {
-        $this->assetRuntime->expects($this->once())
-            ->method('assetPath')
-            ->willReturn('/path/to/asset');
-
-        $response = $this->controller->download(new Request(), 'sha1');
         $this->assertInstanceOf(Response::class, $response);
     }
 
@@ -109,19 +80,6 @@ class FileControllerAiTest extends TestCase
 
         $this->invokeMethod($this->controller, 'closeSession', [$request]);
         $this->assertTrue($request->hasSession());
-    }
-
-    #[IgnoreDeprecations]
-    #[AllowMockObjectsWithoutExpectations]
-    public function testGetFile(): void
-    {
-        $this->assetRuntime->expects($this->once())
-            ->method('assetPath')
-            ->willReturn('/path/to/asset');
-
-        $request = new Request();
-        $response = $this->invokeMethod($this->controller, 'getFile', [$request, 'sha1', ResponseHeaderBag::DISPOSITION_ATTACHMENT]);
-        $this->assertInstanceOf(Response::class, $response);
     }
 
     private function invokeMethod(object $object, string $methodName, array $parameters = []): mixed

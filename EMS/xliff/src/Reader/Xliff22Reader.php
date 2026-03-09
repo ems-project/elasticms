@@ -15,10 +15,6 @@ use EMS\Xliff\XML\DomHelper;
 
 class Xliff22Reader implements ReaderInterface
 {
-    public function __construct()
-    {
-    }
-
     public function supports(string $xml): bool
     {
         return \str_contains($xml, Version::V22_VERSION) || \str_contains($xml, Version::V22_NAMESPACE);
@@ -29,6 +25,7 @@ class Xliff22Reader implements ReaderInterface
         $dom = DomHelper::loadXml($xml);
         $xpath = new \DOMXPath($dom);
         $xpath->registerNamespace('x', Version::V22_NAMESPACE);
+
         $result = $xpath->query('/x:xliff');
         if (!$result instanceof \DOMNodeList) {
             throw new \RuntimeException('Root <xliff> element not found.');

@@ -12,7 +12,7 @@ use EMS\CommonBundle\Search\Search;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CommonBundle\Storage\Service\StorageInterface;
 use EMS\CommonBundle\Storage\StorageManager;
-use EMS\CommonBundle\Twig\AssetRuntime;
+use EMS\CommonBundle\Twig\AssetExtension;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Core\Mail\MailerService;
 use EMS\CoreBundle\Entity\Environment;
@@ -86,7 +86,7 @@ final class ExtractCommand extends AbstractCommand
         private readonly EnvironmentService $environmentService,
         private readonly ElasticaService $elasticaService,
         private readonly XliffService $xliffService,
-        private readonly AssetRuntime $assetRuntime,
+        private readonly AssetExtension $assetExtension,
         private readonly MailerService $mailerService,
         private readonly StorageManager $storageManager,
         private readonly int $defaultBulkSize,
@@ -108,9 +108,9 @@ final class ExtractCommand extends AbstractCommand
             ->addOption(self::OPTION_XLIFF_VERSION, null, InputOption::VALUE_OPTIONAL, 'XLIFF format version: '.\implode(' ', Version::ALL), Version::V12)
             ->addOption(self::OPTION_BASENAME, null, InputOption::VALUE_OPTIONAL, 'XLIFF export file basename', 'ems-extract.xlf')
             ->addOption(self::OPTION_BASE_URL, null, InputOption::VALUE_OPTIONAL, 'Base url, in order to generate a download link to the XLIFF file')
-            ->addOption(self::OPTION_LOCALE_FIELD, null, InputOption::VALUE_OPTIONAL, 'Field containing the locale', null)
+            ->addOption(self::OPTION_LOCALE_FIELD, null, InputOption::VALUE_OPTIONAL, 'Field containing the locale')
             ->addOption(self::OPTION_ENCODING, null, InputOption::VALUE_OPTIONAL, 'Encoding used to generate the XLIFF file', 'UTF-8')
-            ->addOption(self::OPTION_TRANSLATION_FIELD, null, InputOption::VALUE_OPTIONAL, 'Field containing the translation field', null)
+            ->addOption(self::OPTION_TRANSLATION_FIELD, null, InputOption::VALUE_OPTIONAL, 'Field containing the translation field')
             ->addOption(self::OPTION_WITH_BASELINE, null, InputOption::VALUE_NONE, 'The baseline has been checked and can be used to flag field as final')
             ->addOption(self::OPTION_MAIL_SUBJECT, null, InputOption::VALUE_OPTIONAL, 'Mail subject', 'A new XLIFF has been generated')
             ->addOption(self::OPTION_MAIL_TO, null, InputOption::VALUE_OPTIONAL, 'A comma seperated list of emails where to send the XLIFF')
@@ -164,6 +164,7 @@ final class ExtractCommand extends AbstractCommand
         $search = new Search([$this->sourceEnvironment->getAlias()], $this->searchQuery);
         $search->setSources(EMSSource::REQUIRED_FIELDS);
         $search->setSize($this->bulkSize);
+
         $scroll = $this->elasticaService->scroll($search);
         $total = $this->elasticaService->count($search);
         $this->io->progressStart($total);
@@ -190,7 +191,7 @@ final class ExtractCommand extends AbstractCommand
 
         $hash = $this->storageManager->saveFile($tempFile->path, StorageInterface::STORAGE_USAGE_CONFIG);
 
-        $url = ($this->baseUrl ?? '').$this->assetRuntime->assetPath(
+        $url = ($this->baseUrl ?? '').$this->assetExtension->assetPath(
             [
                 EmsFields::CONTENT_FILE_HASH_FIELD => $hash,
                 EmsFields::CONTENT_FILE_NAME_FIELD => \basename($this->xliffBasename),

@@ -23,6 +23,7 @@ use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Core\Component\ComponentModal;
 use EMS\CoreBundle\Core\Component\MediaLibrary\Config\MediaLibraryConfig;
 use EMS\CoreBundle\Core\Component\MediaLibrary\Config\MediaLibraryConfigFactory;
+use EMS\CoreBundle\Core\Component\MediaLibrary\Config\MediaLibraryConfigSort;
 use EMS\CoreBundle\Core\Component\MediaLibrary\File\MediaLibraryFile;
 use EMS\CoreBundle\Core\Component\MediaLibrary\File\MediaLibraryFileFactory;
 use EMS\CoreBundle\Core\Component\MediaLibrary\Folder\MediaLibraryFolder;
@@ -62,6 +63,7 @@ class MediaLibraryService
     {
         $query = $this->elasticaService->getBoolQuery();
         $query->addMust(new Prefix([$this->getConfig()->fieldFolder => $folder]));
+
         $search = $this->buildSearch($query);
         $search->setSize(0);
 
@@ -107,7 +109,7 @@ class MediaLibraryService
         $search = $this->buildSearch($query, false);
         $count = $this->elasticaService->count($search);
 
-        return !(0 === $count);
+        return 0 !== $count;
     }
 
     /**
@@ -233,7 +235,7 @@ class MediaLibraryService
 
     public function moveFile(MediaLibraryFile $file, ?MediaLibraryFolder $folder): void
     {
-        $moveLocation = $folder ? $folder->getPath()->getValue() : '/';
+        $moveLocation = $folder instanceof MediaLibraryFolder ? $folder->getPath()->getValue() : '/';
         $newPath = $file->getPath()->move($moveLocation);
         $file->setPath($newPath);
     }
@@ -312,7 +314,7 @@ class MediaLibraryService
         $mediaFolder = \is_string($folder) ? $this->getFolder($folder) : $folder;
         $mediaFile = \is_string($file) ? $this->getFile($file) : $file;
 
-        if ($mediaFile) {
+        if ($mediaFile instanceof MediaLibraryFile) {
             $selectionFiles = 1;
         }
 
@@ -363,15 +365,15 @@ class MediaLibraryService
 
     private function buildFileSearch(?MediaLibraryFolder $folder = null, ?string $searchValue = null, string $searchType = MediaLibraryConfig::TERM_SEARCH_TYPE): Search
     {
-        $path = $folder ? $folder->getPath()->getValue().'/' : '/';
+        $path = $folder instanceof MediaLibraryFolder ? $folder->getPath()->getValue().'/' : '/';
         $hashField = \sprintf('%s.%s', $this->getConfig()->fieldFile, EmsFields::CONTENT_FILE_HASH_FIELD);
 
         $query = $this->elasticaService->getBoolQuery();
         $query->addMust(new NestedQuery()->setPath($this->getConfig()->fieldFile)->setQuery(new Exists($hashField)));
 
-        if (MediaLibraryConfig::PREFIX_SEARCH_TYPE === $searchType && null !== $searchValue && \strlen($searchValue) > 0) {
+        if (MediaLibraryConfig::PREFIX_SEARCH_TYPE === $searchType && null !== $searchValue && '' !== $searchValue) {
             $query->addMust(new Prefix()->setPrefix($this->getConfig()->fieldFolder, $path));
-        } elseif (MediaLibraryConfig::ALL_SEARCH_TYPE !== $searchType || null === $searchValue || 0 === \strlen($searchValue)) {
+        } elseif (MediaLibraryConfig::ALL_SEARCH_TYPE !== $searchType || null === $searchValue || '' === $searchValue) {
             $query->addMust(new Term()->setTerm($this->getConfig()->fieldFolder, $path));
         }
 
@@ -416,6 +418,7 @@ class MediaLibraryService
 
         $filesAgg = new NestedAgg('files', $this->getConfig()->fieldFile);
         $filesAgg->addAggregation(new Sum('size')->setField($fileSizeField));
+
         $search->addAggregation($filesAgg);
 
         if ($searchValue) {
@@ -466,7 +469,7 @@ class MediaLibraryService
         $search->setFrom($from);
         $search->setSize($this->getConfig()->searchSize);
 
-        if ($configSort = $this->getConfig()->getSort($sortId)) {
+        if (($configSort = $this->getConfig()->getSort($sortId)) instanceof MediaLibraryConfigSort) {
             $searchOrder = $configSort->getOrder($sortOrder);
             $search->setSort($configSort->getQuery($searchOrder));
             $sort = ['id' => $configSort->id, 'order' => $searchOrder];

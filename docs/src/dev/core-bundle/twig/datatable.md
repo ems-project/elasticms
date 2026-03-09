@@ -200,7 +200,7 @@ be available in your column's template:
     "row_context": "{% set docInfo = [data.contentType, data.id]|join(':')|emsco_document_info %}",
     "columns": [{
         "label": "Label",
-        "template": '<a href="' ~ "{{path('data.revisions', {ouuid: data.id, type: data.contentType} ) }}"~'">' ~"{{ data.source.label }}</a>",
+        "template": '<a href="' ~ "{{path('emsco_view_revisions', {ouuid: data.id, type: data.contentType} ) }}"~'">' ~"{{ data.source.label }}</a>",
         "orderField": "label.alpha_order"
     },{
         "label": "Locale",

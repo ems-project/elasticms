@@ -32,12 +32,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 
-#[AsCommand(
-    name: Commands::CONTENT_TYPE_RECOMPUTE,
-    description: 'Recompute a content type.',
-    hidden: false,
-    aliases: ['ems:contenttype:recompute']
-)]
+#[AsCommand(name: Commands::CONTENT_TYPE_RECOMPUTE, description: 'Recompute a content type.', aliases: ['ems:contenttype:recompute'], hidden: false)]
 final class RecomputeCommand extends AbstractCommand
 {
     private EntityManager $em;
@@ -108,6 +103,7 @@ final class RecomputeCommand extends AbstractCommand
         /** @var EntityManager $em */
         $em = $this->doctrine->getManager();
         $this->em = $em;
+
         $this->conn = $em->getConnection();
 
         $contentTypeName = $this->getArgumentString(self::ARGUMENT_CONTENT_TYPE);

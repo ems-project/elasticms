@@ -383,7 +383,7 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
 
     public function hasChildren(): bool
     {
-        return \count($this->children) > 0;
+        return [] !== $this->children;
     }
 
     public function hasChild(JsonMenuNested $jsonMenuNested, bool $recursive = true): bool
@@ -454,7 +454,7 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
             return 0;
         }
 
-        return Type::integer(\array_search($this, $parent->getChildren()));
+        return Type::integer(\array_search($this, $parent->getChildren(), true));
     }
 
     /**

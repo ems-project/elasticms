@@ -120,7 +120,7 @@ class DataField implements \ArrayAccess, \IteratorAggregate, \Stringable
     {
         $fieldType = $this->getFieldType();
 
-        if (null !== $fieldType && 0 == \strcmp(OuuidFieldType::class, $fieldType->getType())) {
+        if (null !== $fieldType && 0 === \strcmp(OuuidFieldType::class, $fieldType->getType())) {
             $this->setTextValue($ouuid);
         }
         foreach ($this->children as $child) {
@@ -144,17 +144,17 @@ class DataField implements \ArrayAccess, \IteratorAggregate, \Stringable
 
         if (null == $this->getFieldType() && null !== $parent = $this->getParent()) {
             $children = $parent->giveFieldType()->getChildren();
-        } elseif (0 != \strcmp($this->giveFieldType()->getType(), CollectionFieldType::class)) {
+        } elseif (0 !== \strcmp($this->giveFieldType()->getType(), CollectionFieldType::class)) {
             $children = $this->giveFieldType()->getChildren();
         }
 
-        if ($children) {
+        if ($children instanceof Collection) {
             $temp = new ArrayCollection();
             /** @var FieldType $childField */
             foreach ($children as $childField) {
                 if (!$childField->getDeleted()) {
                     $value = $this->__get('ems_'.$childField->getName());
-                    if ($value) {
+                    if ($value instanceof DataField) {
                         $value->setOrderKey($childField->getOrderKey());
                         $temp->add($value);
                     }
@@ -169,17 +169,13 @@ class DataField implements \ArrayAccess, \IteratorAggregate, \Stringable
     }
 
     /**
-     * Constructor.
+     * @param ?DataField $a
      */
-    public function __construct()
+    public function __construct(...$a)
     {
         $this->children = new ArrayCollection();
-
-        // TODO: should use the clone method
-        $a = \func_get_args();
         $i = \func_num_args();
         if ($i >= 1 && $a[0] instanceof DataField) {
-            /** @var DataField $ancestor */
             $ancestor = $a[0];
             $this->fieldType = $ancestor->getFieldType();
             $this->orderKey = $ancestor->orderKey;
@@ -212,7 +208,7 @@ class DataField implements \ArrayAccess, \IteratorAggregate, \Stringable
             foreach ($this->children as &$dataField) {
                 $fieldType = $dataField->getFieldType();
 
-                if (null !== $fieldType && !$fieldType->getDeleted() && 0 == \strcmp($key, $fieldType->getName())) {
+                if (null !== $fieldType && !$fieldType->getDeleted() && 0 === \strcmp($key, $fieldType->getName())) {
                     $found = true;
                     $dataField = $input;
                     break;
@@ -254,7 +250,7 @@ class DataField implements \ArrayAccess, \IteratorAggregate, \Stringable
 
         $fieldType = $this->getFieldType();
 
-        if ($fieldType && 0 == \strcmp($fieldType->getType(), CollectionFieldType::class)) {
+        if ($fieldType && 0 === \strcmp($fieldType->getType(), CollectionFieldType::class)) {
             // Symfony wants iterate on children
             return $this;
         }
@@ -262,7 +258,7 @@ class DataField implements \ArrayAccess, \IteratorAggregate, \Stringable
         foreach ($this->children as $dataField) {
             $childFieldType = $dataField->getFieldType();
 
-            if (null !== $childFieldType && !$childFieldType->getDeleted() && 0 == \strcmp($key, $childFieldType->getName())) {
+            if (null !== $childFieldType && !$childFieldType->getDeleted() && 0 === \strcmp($key, $childFieldType->getName())) {
                 return $dataField;
             }
         }
@@ -282,7 +278,7 @@ class DataField implements \ArrayAccess, \IteratorAggregate, \Stringable
      */
     public function getTextValue()
     {
-        if (\is_array($this->rawData) && 0 === \count($this->rawData)) {
+        if (\is_array($this->rawData) && [] === $this->rawData) {
             return null; // empty array means null/empty
         }
 
@@ -346,20 +342,6 @@ class DataField implements \ArrayAccess, \IteratorAggregate, \Stringable
         }
 
         throw new DataFormatException('Float or double expected: '.\print_r($this->rawData, true));
-    }
-
-    /**
-     * Set dataValue, the set of field is delegated to the corresponding fieldType class.
-     *
-     * @throws \Exception
-     */
-    public function setDataValue(mixed $inputString): self
-    {
-        if ($fieldType = $this->getFieldType()) {
-            $fieldType->setDataValue($inputString, $this);
-        }
-
-        return $this;
     }
 
     /**
@@ -467,7 +449,7 @@ class DataField implements \ArrayAccess, \IteratorAggregate, \Stringable
 
     public function getBooleanValue(): ?bool
     {
-        if (\is_array($this->rawData) && 0 === \count($this->rawData)) {
+        if (\is_array($this->rawData) && [] === $this->rawData) {
             return null; // empty array means null/empty
         }
 

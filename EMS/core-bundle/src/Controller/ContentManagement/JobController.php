@@ -87,13 +87,13 @@ class JobController extends AbstractController
             ]);
         }
 
-        return $this->render("@$this->templateNamespace/job/status.html.twig", [
+        return $this->render(\sprintf('@%s/job/status.html.twig', $this->templateNamespace), [
             'title' => t('type.title_status', ['type' => 'job', 'job_id' => $job->getId()], 'emsco-core'),
             'subTitle' => t('type.title_sub', ['type' => 'job'], 'emsco-core'),
             'job' => $job,
             'status' => $encoder->encodeUrl($job->getStatus()),
             'output' => $jobOutput ? $encoder->encodeUrl($converter->convert($jobOutput)) : null,
-            'launchJob' => true === $this->triggerJobFromWeb && false === $job->getStarted() && !$job->hasTag(),
+            'launchJob' => $this->triggerJobFromWeb && false === $job->getStarted() && !$job->hasTag(),
             'breadcrumb' => $this->breadcrumb()->add(
                 t('type.title_status', ['type' => 'job', 'job_id' => $job->getId()], 'emsco-core'),
             ),
@@ -109,10 +109,10 @@ class JobController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->jobService->save($job);
 
-            return $this->redirectToRoute('job.status', ['job' => $job->getId()]);
+            return $this->redirectToRoute('emsco_job_status', ['job' => $job->getId()]);
         }
 
-        return $this->render("@$this->templateNamespace/job/add.html.twig", [
+        return $this->render(\sprintf('@%s/job/add.html.twig', $this->templateNamespace), [
             'form' => $form->createView(),
             'title' => t('type.title_create', ['type' => 'job'], 'emsco-core'),
             'subTitle' => t('type.title_sub', ['type' => 'job'], 'emsco-core'),

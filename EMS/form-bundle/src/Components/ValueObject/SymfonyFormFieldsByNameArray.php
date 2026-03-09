@@ -16,7 +16,7 @@ class SymfonyFormFieldsByNameArray
     /** @param string[] $exclude */
     public function getFieldIdsJson(array $exclude = []): string
     {
-        if (0 === \count($this->fields)) {
+        if ([] === $this->fields) {
             return '';
         }
 

@@ -30,7 +30,7 @@ final class RoutingBuilder extends AbstractBuilder
             $routes = $this->createRoutes($contentType);
         }
 
-        if (0 === \count($routes)) {
+        if ([] === $routes) {
             return $routeCollection;
         }
 

@@ -89,11 +89,7 @@ class Extractor
                 continue;
             }
 
-            if ($emptyExtractor) {
-                $hash = $this->hashFromUrls($document);
-            } else {
-                $hash = \sha1(Json::encode($data));
-            }
+            $hash = $emptyExtractor ? $this->hashFromUrls($document) : \sha1(Json::encode($data));
 
             $type = $this->config->getType($document->getType());
             foreach ($type->getComputers() as $computer) {

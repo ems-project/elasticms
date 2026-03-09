@@ -9,7 +9,7 @@ use EMS\ClientHelperBundle\Contracts\Elasticsearch\ClientRequestManagerInterface
 use EMS\CommonBundle\Common\EMSLink;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
 use EMS\CommonBundle\Json\JsonMenuNested;
-use EMS\CommonBundle\Twig\TextRuntime;
+use EMS\CommonBundle\Twig\TextExtension;
 use EMS\FormBundle\DependencyInjection\Configuration;
 use EMS\Helpers\Standard\Json;
 use Psr\Log\LoggerInterface;
@@ -29,7 +29,7 @@ class FormConfigFactory
         ClientRequestManagerInterface $manager,
         private readonly AdapterInterface $cache,
         private readonly LoggerInterface $logger,
-        private readonly TextRuntime $textRuntime,
+        private readonly TextExtension $textRuntime,
         array $emsConfig,
     ) {
         $this->client = $manager->getDefault();
@@ -54,11 +54,7 @@ class FormConfigFactory
             }
         }
 
-        if ($this->loadFromJson) {
-            $formConfig = $this->buildFromJson($ouuid, $locale);
-        } else {
-            $formConfig = $this->buildFromDocuments($ouuid, $locale);
-        }
+        $formConfig = $this->loadFromJson ? $this->buildFromJson($ouuid, $locale) : $this->buildFromDocuments($ouuid, $locale);
 
         $this->cache->save($cacheItem->set([
             'validity_tags' => $validityTags,
@@ -441,12 +437,13 @@ class FormConfigFactory
         $choiceType = $this->emsConfig[Configuration::TYPE_FORM_CHOICE];
         $choiceChildren = \array_filter($children, static fn (JsonMenuNested $c) => $c->getType() === $choiceType);
 
-        if (0 === \count($choiceChildren)) {
+        if ([] === $choiceChildren) {
             return;
         }
-
-        $values = $labels = [];
-        $id = $sort = null;
+        $values = [];
+        $labels = [];
+        $id = null;
+        $sort = null;
 
         foreach ($choiceChildren as $child) {
             try {
@@ -469,7 +466,7 @@ class FormConfigFactory
             }
         }
 
-        if (!empty($values) && null !== $id) {
+        if ([] !== $values && null !== $id) {
             $fieldChoicesConfig = new FieldChoicesConfig(
                 $id,
                 $values,

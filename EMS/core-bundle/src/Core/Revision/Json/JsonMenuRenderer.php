@@ -15,10 +15,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Twig\Environment;
-use Twig\Extension\RuntimeExtensionInterface;
 use Twig\TemplateWrapper;
 
-final readonly class JsonMenuRenderer implements RuntimeExtensionInterface
+final readonly class JsonMenuRenderer
 {
     public const string TYPE_MODAL = 'modal';
     public const string TYPE_PASTE = 'paste';
@@ -108,7 +107,7 @@ final readonly class JsonMenuRenderer implements RuntimeExtensionInterface
 
     private function template(): TemplateWrapper
     {
-        return $this->twig->load("@$this->templateNamespace".self::NESTED_TEMPLATE);
+        return $this->twig->load('@'.$this->templateNamespace.self::NESTED_TEMPLATE);
     }
 
     /**
@@ -199,23 +198,21 @@ final readonly class JsonMenuRenderer implements RuntimeExtensionInterface
 
     private function getOptionsResolver(): OptionsResolver
     {
+        $defaultActions = [];
+        foreach (self::ITEM_ACTIONS as $action) {
+            $defaultActions[$action] = ['allow' => [], 'deny' => []];
+        }
+
         $optionsResolver = new OptionsResolver();
         $optionsResolver
             ->setRequired(['id', 'field_type'])
             ->setDefaults([
+                'actions' => $defaultActions,
                 'revision' => null,
                 'structure' => '{}',
                 'blocks' => [],
                 'context' => [],
             ])
-            ->setDefault('actions', function () {
-                $actions = [];
-                foreach (self::ITEM_ACTIONS as $action) {
-                    $actions[$action] = ['allow' => [], 'deny' => []];
-                }
-
-                return $actions;
-            })
             ->setNormalizer('actions', function (Options $options, $value) {
                 $actionResolver = new OptionsResolver();
                 $actionResolver

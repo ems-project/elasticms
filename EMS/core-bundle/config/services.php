@@ -53,6 +53,7 @@ use EMS\CoreBundle\Core\UI\FlashMessageLogger;
 use EMS\CoreBundle\Core\User\GroupManager;
 use EMS\CoreBundle\Core\User\UserManager;
 use EMS\CoreBundle\Core\View\ViewManager;
+use EMS\CoreBundle\Core\Webhook\WebhookSubscriptionManager;
 use EMS\CoreBundle\Elasticsearch\Bulker;
 use EMS\CoreBundle\Elasticsearch\Indexer;
 use EMS\CoreBundle\Entity\Revision;
@@ -409,8 +410,7 @@ return static function (ContainerConfigurator $container) {
             service(ContentTypeRepository::class),
             service('ems.service.revision'),
             '%ems_core.template_namespace%',
-        ])
-        ->tag('twig.runtime');
+        ]);
 
     $services->set('ems.log.manager', LogManager::class)
         ->args([
@@ -461,7 +461,6 @@ return static function (ContainerConfigurator $container) {
             service('ems.service.mapping'),
             '%ems_core.instance_id%',
             service('form.factory'),
-            service('service_container'),
             service('form.registry'),
             service('event_dispatcher'),
             service('ems.service.contenttype'),
@@ -810,12 +809,17 @@ return static function (ContainerConfigurator $container) {
         ->args([service('security.token_storage')])
         ->tag('messenger.middleware');
 
-    $services->set('ems_core.core_messenger_handler.webhook_subscription_handler', WebhookSubscriptionHandler::class)
+    $services->set('emsco.core_messenger_handler.webhook_subscription_handler', WebhookSubscriptionHandler::class)
         ->args([
             service('ems.repository.webhook_subscription'),
             service('http_client'),
         ])
         ->tag('messenger.message_handler', ['handles' => WebhookSubscriberMessage::class]);
+
+    $services->set('emsco.webhook_subscription.manager', WebhookSubscriptionManager::class)
+        ->args([
+            service('ems.repository.webhook_subscription'),
+        ]);
 
     $services->alias('ems.service.data', DataService::class)
         ->public();

@@ -18,6 +18,6 @@ final readonly class WriterRegistry
                 return $w;
             }
         }
-        throw new \InvalidArgumentException("Unsupported XLIFF version: $version");
+        throw new \InvalidArgumentException('Unsupported XLIFF version: '.$version);
     }
 }

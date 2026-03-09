@@ -41,10 +41,6 @@ class IsRequiredWithoutValidator extends AbstractConstraintValidator
             return false;
         }
 
-        if (\is_null($value) && \is_null($otherFieldValue)) {
-            return false;
-        }
-
-        return true;
+        return !(\is_null($value) && \is_null($otherFieldValue));
     }
 }

@@ -8,6 +8,8 @@ framework:
     http_method_override: false
     handle_all_throwables: true
     secret: '%env(APP_SECRET)%'
+    trusted_hosts: '%env(default::TRUSTED_HOSTS)%'
+    trusted_proxies: '%env(default::TRUSTED_PROXIES)%'
 
     http_client:
         max_host_connections: '%env(int:HTTP_CLIENT_MAX_CONNECTIONS)%'

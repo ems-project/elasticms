@@ -34,8 +34,8 @@ final class SoapHandler extends AbstractHandler
             $handleResponse = new SoapHandleResponse($soapRequest, $soapResponse);
 
             return $this->responseTransformer->transform($handleRequest, $handleResponse);
-        } catch (\Throwable $exception) {
-            return new FailedHandleResponse($exception);
+        } catch (\Throwable $throwable) {
+            return new FailedHandleResponse($throwable);
         }
     }
 }

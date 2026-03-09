@@ -7,7 +7,7 @@ namespace EMS\CoreBundle\Controller\ContentManagement;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Storage\NotFoundException;
 use EMS\CommonBundle\Storage\Processor\Config;
-use EMS\CommonBundle\Twig\AssetRuntime;
+use EMS\CommonBundle\Twig\AssetExtension;
 use EMS\CoreBundle\Core\UI\FlashMessageLogger;
 use EMS\CoreBundle\Entity\UploadedAsset;
 use EMS\CoreBundle\Entity\UserInterface;
@@ -40,7 +40,7 @@ class FileController extends AbstractController
         private readonly AssetExtractorService $assetExtractorService,
         private readonly LoggerInterface $logger,
         private readonly FlashMessageLogger $flashMessageLogger,
-        private readonly AssetRuntime $assetRuntime,
+        private readonly AssetExtension $assetExtension,
         protected array $assetConfig,
         private readonly string $themeColor,
     ) {
@@ -99,16 +99,8 @@ class FileController extends AbstractController
         return $response;
     }
 
-    /**
-     * @param int $size
-     */
-    #[\Deprecated]
-    public function initUploadFile(?string $sha1, $size, bool $apiRoute, Request $request): Response
+    public function initUploadFile(bool $apiRoute, Request $request): Response
     {
-        if ($sha1 || $size) {
-            @\trigger_error('You should use the routes emsco_file_data_init_upload or emsco_file_api_init_upload which doesn\'t require url parameters', E_USER_DEPRECATED);
-        }
-
         $requestContent = $request->getContent();
         if (!\is_string($requestContent)) {
             throw new \RuntimeException('Unexpected body content');
@@ -117,22 +109,22 @@ class FileController extends AbstractController
         $params = Json::decode($requestContent);
         $name = $params['name'] ?? 'upload.bin';
         $type = $params['type'] ?? 'application/bin';
-        $hash = $params['hash'] ?? $sha1;
-        $size = $params['size'] ?? $size;
+        $hash = $params['hash'] ?? null;
+        $size = $params['size'] ?? null;
         $algo = $params['algo'] ?? 'sha1';
 
         $user = $this->getUsername();
 
-        if (empty($hash) || empty($algo) || (empty($size) && 0 !== $size)) {
+        if (null === $hash || null === $size) {
             throw new BadRequestHttpException('Bad Request, invalid json parameters');
         }
 
         try {
             $uploadedAsset = $this->fileService->initUploadFile($hash, $size, $name, $type, $user, $algo);
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             $this->logger->error('log.error', [
-                EmsFields::LOG_EXCEPTION_FIELD => $e,
-                EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
+                EmsFields::LOG_EXCEPTION_FIELD => $exception,
+                EmsFields::LOG_ERROR_MESSAGE_FIELD => $exception->getMessage(),
             ]);
 
             return $this->flashMessageLogger->buildJsonResponse([
@@ -143,19 +135,9 @@ class FileController extends AbstractController
         return $this->jsonResponse($uploadedAsset, $apiRoute);
     }
 
-    #[\Deprecated]
-    public function uploadChunk(?string $sha1, ?string $hash, bool $apiRoute, Request $request): Response
+    public function uploadChunk(string $hash, bool $apiRoute, Request $request): Response
     {
-        if (null !== $sha1) {
-            $hash = $sha1;
-            @\trigger_error('You should use the routes emsco_file_data_chunk_upload or emsco_file_api_chunk_upload which use a hash parameter', E_USER_DEPRECATED);
-        }
-        if (null === $hash) {
-            throw new \RuntimeException('Unexpected null hash');
-        }
-
         $chunk = $request->getContent();
-
         if (!\is_string($chunk)) {
             throw new \RuntimeException('Unexpected body request');
         }
@@ -164,10 +146,10 @@ class FileController extends AbstractController
 
         try {
             $uploadedAsset = $this->fileService->addChunk($hash, $chunk, $user);
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             $this->logger->error('log.error', [
-                EmsFields::LOG_EXCEPTION_FIELD => $e,
-                EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
+                EmsFields::LOG_EXCEPTION_FIELD => $exception,
+                EmsFields::LOG_ERROR_MESSAGE_FIELD => $exception->getMessage(),
             ]);
 
             return $this->flashMessageLogger->buildJsonResponse([
@@ -210,7 +192,7 @@ class FileController extends AbstractController
                 EmsFields::ASSET_CONFIG_WIDTH => $width,
                 EmsFields::ASSET_CONFIG_HEIGHT => $height,
                 EmsFields::ASSET_CONFIG_QUALITY => 0,
-                EmsFields::ASSET_CONFIG_BACKGROUND => $background ?? "ems-$this->themeColor",
+                EmsFields::ASSET_CONFIG_BACKGROUND => $background ?? 'ems-'.$this->themeColor,
                 EmsFields::ASSET_CONFIG_RADIUS => $width / 6,
                 EmsFields::ASSET_CONFIG_BORDER_COLOR => '#000000FF',
             ];
@@ -219,7 +201,7 @@ class FileController extends AbstractController
                 EmsFields::ASSET_CONFIG_WIDTH => $width,
                 EmsFields::ASSET_CONFIG_HEIGHT => $height,
                 EmsFields::ASSET_CONFIG_QUALITY => 0,
-                EmsFields::ASSET_CONFIG_COLOR => "ems-$this->themeColor",
+                EmsFields::ASSET_CONFIG_COLOR => 'ems-'.$this->themeColor,
             ];
         }
         $image = $this->fileService->generateImage('@EMSCommonBundle/public/images/ems-logo.png', $config);
@@ -385,9 +367,9 @@ class FileController extends AbstractController
             'uploaded' => $asset->getUploaded(),
             'user' => $asset->getUser(),
             'fileName' => $asset->getName(),
-            'previewUrl' => $this->assetRuntime->assetPath($asset->getData(), $config, 'ems_asset', EmsFields::CONTENT_FILE_HASH_FIELD, EmsFields::CONTENT_FILE_NAME_FIELD, EmsFields::CONTENT_MIME_TYPE_FIELD, UrlGeneratorInterface::ABSOLUTE_PATH),
+            'previewUrl' => $this->assetExtension->assetPath($asset->getData(), $config, 'ems_asset', EmsFields::CONTENT_FILE_HASH_FIELD, EmsFields::CONTENT_FILE_NAME_FIELD, EmsFields::CONTENT_MIME_TYPE_FIELD, UrlGeneratorInterface::ABSOLUTE_PATH),
             'chunkUrl' => $this->generateUrl($apiRoute ? 'emsco_file_api_chunk_upload' : 'emsco_file_data_chunk_upload', ['hash' => $asset->getSha1()]),
-            'url' => $this->assetRuntime->assetPath($asset->getData(), [], 'ems_asset', EmsFields::CONTENT_FILE_HASH_FIELD, EmsFields::CONTENT_FILE_NAME_FIELD, EmsFields::CONTENT_MIME_TYPE_FIELD, UrlGeneratorInterface::ABSOLUTE_PATH),
+            'url' => $this->assetExtension->assetPath($asset->getData(), [], 'ems_asset', EmsFields::CONTENT_FILE_HASH_FIELD, EmsFields::CONTENT_FILE_NAME_FIELD, EmsFields::CONTENT_MIME_TYPE_FIELD, UrlGeneratorInterface::ABSOLUTE_PATH),
         ]);
     }
 }

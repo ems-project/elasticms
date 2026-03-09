@@ -1,4 +1,3 @@
-import '@fortawesome/fontawesome-free/css/all.min.css';
 import "../../css/inline-editor/editor.css";
 
 import { InlineEditor } from './editor/editor';
@@ -8,5 +7,6 @@ const baseUrl = document.body.dataset.baseUrl as string;
 
 new InlineEditor({
     baseUrl: baseUrl,
-    iframe: iframe
+    iframe: iframe,
+    currentUrl: iframe.src
 })

@@ -5,13 +5,16 @@ import {SidebarResizer} from './sidebar';
 
 interface EditorOptions {
     baseUrl: string,
-    iframe: HTMLIFrameElement
+    iframe: HTMLIFrameElement,
+    currentUrl: string
 }
 
 export class InlineEditor {
     private readonly api: ApiService
     private readonly messenger: Messenger
     private readonly baseUrl: string
+    private currentUrl: string
+    private readonly defaultTitle: string;
 
     constructor(options: EditorOptions) {
         this.api = new ApiService({
@@ -20,6 +23,8 @@ export class InlineEditor {
         })
         this.messenger = new Messenger(options.iframe);
         this.baseUrl = options.baseUrl;
+        this.currentUrl = options.currentUrl;
+        this.defaultTitle = document.querySelector('.editor-title')?.innerHTML ?? '';
 
         this.setupListeners();
     }
@@ -30,6 +35,8 @@ export class InlineEditor {
             .on('IFRAME_UNLOAD', () => this.onIframeUnload())
             .on('IFRAME_REQUEST_INLINE_EDIT', (msg) => this.onIframeRequestInlineEdit(msg))
             .on('IFRAME_CONTENT_CHANGED', (msg) => this.onIframeContentChanged(msg))
+
+        document.addEventListener('click', (event) => this.onClick(event));
     }
 
     private render(response: RenderResponse) {
@@ -52,7 +59,25 @@ export class InlineEditor {
         }
     }
 
+    private onClick(event: PointerEvent): void {
+        const target = event.target as HTMLElement;
+        const element = target.closest<HTMLElement>('[data-editor-action]');
+        if (!element) return;
+
+        const action = element.dataset.editorAction;
+
+        switch (action) {
+            case 'close':
+                window.location.href = this.currentUrl;
+                break;
+            default:
+                throw new Error('Invalid action');
+        }
+    }
+
     private async onIframeLoad(msg: IframeLoadMessage) {
+        this.currentUrl = msg.url;
+
         const newUrl = `${this.baseUrl}${msg.path}`;
         document.title = `Inline Editor: ${msg.title}`;
 
@@ -69,9 +94,12 @@ export class InlineEditor {
     }
 
     private onIframeUnload() {
-        ['.editor-sidebar-content', '.editor-title'].forEach(s =>
-            document.querySelector(s)?.replaceChildren()
-        );
+        document.querySelector('.editor-sidebar-content')?.replaceChildren();
+
+        const title = document.querySelector('.editor-title') as HTMLElement | null;
+        if (title) {
+            title.textContent = this.defaultTitle;
+        }
     }
 
     private onIframeContentChanged(msg: IframeContentChanged) {

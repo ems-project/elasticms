@@ -15,7 +15,7 @@ class RenderDto
     public array $elements = [];
 
     public function __construct(
-        RenderPayloadDto $payload,
+        PayloadDto $payload,
         ?CoreBridgeResponse $infoDocuments
     ) {
         /** @var array<string, array<mixed>> $infos */
@@ -26,7 +26,7 @@ class RenderDto
             $elements = $payload->getElementsByEmsLink($emsLink);
 
             foreach ($elements as $element) {
-                $this->elements[] = $element['selector'];
+                $this->elements[] = $element->selector;
             }
 
             $this->documents[] = [
@@ -41,7 +41,7 @@ class RenderDto
     {
         foreach ($this->documents as $document) {
             $elements = $document['elements'];
-            $hasH1 = [] !== \array_filter($elements, fn (array $e) => 'h1' === $e['tag']);
+            $hasH1 = [] !== \array_filter($elements, fn (ElementDto $e) => 'h1' === $e->tag);
 
             if ($hasH1) {
                 return $document['label'];

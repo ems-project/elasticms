@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Controller;
 
-use EMS\ClientHelperBundle\Helper\InlineEdit\Dto\RenderPayloadDto;
+use EMS\ClientHelperBundle\Helper\InlineEdit\Dto\PayloadDto;
 use EMS\ClientHelperBundle\Helper\InlineEdit\InlineEditHelper;
 use EMS\ClientHelperBundle\Helper\Request\EmschRequest;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
@@ -17,6 +17,7 @@ readonly class InlineEditController
 {
     public function __construct(
         private InlineEditHelper $inlineEditHelper,
+        private SerializerInterface $serializer,
     ) {
     }
 
@@ -29,24 +30,22 @@ readonly class InlineEditController
         return new Response($this->inlineEditHelper->renderEditor($request, $path));
     }
 
-    public function apiRender(EmschRequest $request, SerializerInterface $serializer): JsonResponse
+    public function apiRender(EmschRequest $request): JsonResponse
     {
-        if (!$request->isInlineEditorEnabled()) {
-            throw new NotFoundHttpException();
-        }
-
-        if ('json' !== $request->getContentTypeFormat()) {
-            throw new BadRequestException('Unsupported content format');
-        }
-
-        $jsonData = $request->getContent();
-        $payload = $serializer->deserialize($jsonData, RenderPayloadDto::class, 'json');
-
-        return new JsonResponse($this->inlineEditHelper->render($payload));
+        return new JsonResponse($this->inlineEditHelper->render(
+            payload: $this->getPayload($request)
+        ));
     }
 
     public function apiDraft(EmschRequest $request): JsonResponse
     {
+        return new JsonResponse($this->inlineEditHelper->createDraft(
+            payload: $this->getPayload($request)
+        ));
+    }
+
+    private function getPayload(EmschRequest $request): PayloadDto
+    {
         if (!$request->isInlineEditorEnabled()) {
             throw new NotFoundHttpException();
         }
@@ -55,6 +54,6 @@ readonly class InlineEditController
             throw new BadRequestException('Unsupported content format');
         }
 
-        return new JsonResponse(['success' => true]);
+        return $this->serializer->deserialize($request->getContent(), PayloadDto::class, 'json');
     }
 }

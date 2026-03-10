@@ -78,6 +78,7 @@ return static function (ContainerConfigurator $container) {
     $services->set(InlineEditController::class)
         ->args([
             service('emsch.helper.inline_edit'),
+            service('serializer'),
         ])
         ->tag('controller.service_arguments');
 

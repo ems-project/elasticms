@@ -33,6 +33,7 @@ ul {
     padding: 0 20px;
     background: #111827;
     color: white;
+    gap: 10px;
 }
 
 .editor-title {

@@ -6,6 +6,16 @@
     {{ block('printDocuments') }}
 {%- endblock sidebar -%}
 
+{%- block actions -%}
+    <button class="btn" title="Discard" data-editor-action="discard">
+        <i class="fa-solid fa-trash-can"></i>Discard
+    </button>
+{%- endblock actions -%}
+
+{%- block sidebarDraft -%}
+    {{ dump(element) }}
+{%- endblock sidebarDraft -%}
+
 {%- block printDocuments -%}
     {%- if render.documents|length > 0 -%}
         {% dump render.documents %}

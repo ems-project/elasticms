@@ -6,6 +6,12 @@
     cursor: pointer;
     border-radius: 4px;
     font-size: 14px;
+    line-height: 14px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
 .btn:hover {

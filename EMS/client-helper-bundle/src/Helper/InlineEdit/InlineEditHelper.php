@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Helper\InlineEdit;
 
+use EMS\ClientHelperBundle\Helper\InlineEdit\Dto\PayloadDto;
 use EMS\ClientHelperBundle\Helper\InlineEdit\Dto\RenderDto;
-use EMS\ClientHelperBundle\Helper\InlineEdit\Dto\RenderPayloadDto;
 use EMS\ClientHelperBundle\Helper\Request\EmschRequest;
 use EMS\ClientHelperBundle\Routes;
 use EMS\CommonBundle\Contracts\Bridge\Core\CoreBridgeInterface;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Environment;
 use Twig\TemplateWrapper;
@@ -23,24 +24,48 @@ readonly class InlineEditHelper
     }
 
     /**
+     * @return array<mixed>
+     */
+    public function createDraft(PayloadDto $payload): array
+    {
+        if (null === $element = $payload->element) {
+            throw new BadRequestHttpException('element not found');
+        }
+
+        $draft = $this->coreBridge->data($element->emsLink->getContentType())->initDraft($element->emsLink->getOuuid());
+        /** @var array{revisionId: int} $response */
+        $response = $draft->response();
+
+        return [
+            'draftId' => $response['revisionId'],
+            'render' => [
+                '.editor-actions' => $this->getTemplateRender()->renderBlock('actions', [
+                    'draftId' => $response['revisionId'],
+                ]),
+                '.editor-sidebar-content' => $this->getTemplateRender()->renderBlock('sidebarDraft', [
+                    'element' => $element,
+                ]),
+            ],
+        ];
+    }
+
+    /**
      * @return array{
      *     render: array<string, string>,
      *     elements: string[]
      * }
      */
-    public function render(RenderPayloadDto $payload): array
+    public function render(PayloadDto $payload): array
     {
         $emsLinks = $payload->getEmsLinks();
         $info = [] !== $emsLinks ? $this->coreBridge->info()->documents([], ...$emsLinks) : null;
 
         $dto = new RenderDto($payload, $info);
-        $template = $this->twig->load('@EMSClientHelper/inlineEdit/render.html.twig');
-        $context = ['render' => $dto];
 
         return [
             'render' => [
-                '.editor-title' => $template->renderBlock('title', $context),
-                '.editor-sidebar-content' => $template->renderBlock('sidebar', $context),
+                '.editor-title' => $this->getTemplateRender()->renderBlock('title', ['render' => $dto]),
+                '.editor-sidebar-content' => $this->getTemplateRender()->renderBlock('sidebar', ['render' => $dto]),
             ],
             'elements' => $dto->elements,
         ];
@@ -73,5 +98,10 @@ readonly class InlineEditHelper
     private function getTemplateInject(): TemplateWrapper
     {
         return $this->twig->load('@EMSClientHelper/inlineEdit/inject.html.twig');
+    }
+
+    private function getTemplateRender(): TemplateWrapper
+    {
+        return $this->twig->load('@EMSClientHelper/inlineEdit/render.html.twig');
     }
 }

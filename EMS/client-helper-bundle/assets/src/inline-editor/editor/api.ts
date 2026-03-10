@@ -12,7 +12,6 @@ interface ApiRequest {
 }
 
 export interface DraftResponse extends RenderResponse {
-    success: boolean;
     draftId: string;
 }
 export interface InitResponse extends RenderResponse {

@@ -3,18 +3,35 @@ import {ApiService, RenderResponse} from "./api";
 import {Messenger} from "./messenger";
 import {SidebarResizer} from './sidebar';
 
+type EditorStatus = 'idle' | 'loading' | 'draft';
+type EditorAction = 'close' | 'discard';
+
 interface EditorOptions {
     baseUrl: string,
     iframe: HTMLIFrameElement,
     currentUrl: string
 }
 
+interface EditorState {
+    url: string;
+    draftId?: string | null;
+    status: EditorStatus;
+}
+
 export class InlineEditor {
     private readonly api: ApiService
     private readonly messenger: Messenger
     private readonly baseUrl: string
-    private currentUrl: string
     private readonly defaultTitle: string;
+
+    private state: EditorState;
+
+    private readonly actions: Record<EditorAction, (element: HTMLElement) => void> = {
+        close: () => {
+            window.location.href = this.state.url
+        },
+        discard: () => this.actionDiscard()
+    }
 
     constructor(options: EditorOptions) {
         this.api = new ApiService({
@@ -23,8 +40,12 @@ export class InlineEditor {
         })
         this.messenger = new Messenger(options.iframe);
         this.baseUrl = options.baseUrl;
-        this.currentUrl = options.currentUrl;
         this.defaultTitle = document.querySelector('.editor-title')?.innerHTML ?? '';
+
+        this.state = {
+            url: options.currentUrl,
+            status: 'idle'
+        }
 
         this.setupListeners();
     }
@@ -39,6 +60,15 @@ export class InlineEditor {
         document.addEventListener('click', (event) => this.onClick(event));
     }
 
+    private setupSidebar() {
+        const container = document.querySelector('.editor-body') as HTMLElement;
+        const handle = document.querySelector('.editor-sidebar-resize-handle') as HTMLElement;
+
+        if (container && handle) {
+            new SidebarResizer(container, handle);
+        }
+    }
+
     private render(response: RenderResponse) {
         for (const selector in response.render) {
             const html = response.render[selector];
@@ -50,34 +80,18 @@ export class InlineEditor {
         }
     }
 
-    private setupSidebar() {
-        const container = document.querySelector('.editor-body') as HTMLElement;
-        const handle = document.querySelector('.editor-sidebar-resize-handle') as HTMLElement;
-
-        if (container && handle) {
-            new SidebarResizer(container, handle);
-        }
-    }
-
     private onClick(event: PointerEvent): void {
         const target = event.target as HTMLElement;
         const element = target.closest<HTMLElement>('[data-editor-action]');
         if (!element) return;
 
-        const action = element.dataset.editorAction;
+        const action = element.dataset.editorAction as EditorAction;
+        if (!action || !this.actions[action]) return;
 
-        switch (action) {
-            case 'close':
-                window.location.href = this.currentUrl;
-                break;
-            default:
-                throw new Error('Invalid action');
-        }
+        this.actions[action](element);
     }
 
     private async onIframeLoad(msg: IframeLoadMessage) {
-        this.currentUrl = msg.url;
-
         const newUrl = `${this.baseUrl}${msg.path}`;
         document.title = `Inline Editor: ${msg.title}`;
 
@@ -91,15 +105,22 @@ export class InlineEditor {
         }
 
         this.setupSidebar();
+
+        this.state.url = msg.url;
+        this.state.status = 'idle';
     }
 
     private onIframeUnload() {
-        document.querySelector('.editor-sidebar-content')?.replaceChildren();
+        this.state.status = 'loading';
 
         const title = document.querySelector('.editor-title') as HTMLElement | null;
         if (title) {
             title.textContent = this.defaultTitle;
         }
+
+        document.querySelectorAll<HTMLElement>('[data-editor-clear="true"]').forEach(
+            (element) => element.replaceChildren()
+        );
     }
 
     private onIframeContentChanged(msg: IframeContentChanged) {
@@ -107,8 +128,19 @@ export class InlineEditor {
     }
 
     private async onIframeRequestInlineEdit(msg: IframeRequestInlineEdit) {
-        await this.api.draft(msg.element);
+        const draft = await this.api.draft(msg.element);
 
+        this.state.status = 'draft';
+        this.state.draftId = draft.draftId;
         this.messenger.send({ type: 'EDITOR_INLINE_EDIT', element: msg.element });
+    }
+
+    private actionDiscard()
+    {
+        const draftId = this.state.draftId ?? null;
+
+
+
+        console.debug(draftId);
     }
 }

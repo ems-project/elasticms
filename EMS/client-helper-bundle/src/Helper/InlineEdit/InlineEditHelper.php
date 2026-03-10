@@ -7,10 +7,8 @@ namespace EMS\ClientHelperBundle\Helper\InlineEdit;
 use EMS\ClientHelperBundle\Helper\InlineEdit\Dto\PayloadDto;
 use EMS\ClientHelperBundle\Helper\InlineEdit\Dto\RenderDto;
 use EMS\ClientHelperBundle\Helper\Request\EmschRequest;
-use EMS\ClientHelperBundle\Routes;
 use EMS\CommonBundle\Contracts\Bridge\Core\CoreBridgeInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Environment;
 use Twig\TemplateWrapper;
 
@@ -18,7 +16,6 @@ readonly class InlineEditHelper
 {
     public function __construct(
         private Environment $twig,
-        private UrlGeneratorInterface $urlGenerator,
         private CoreBridgeInterface $coreBridge
     ) {
     }
@@ -77,27 +74,6 @@ readonly class InlineEditHelper
             'iframeUrl' => $request->getEmschRoutePrefix().$path,
             'routePrefix' => $request->getEmschRoutePrefix(),
         ]);
-    }
-
-    public function renderInjectHead(): string
-    {
-        return $this->getTemplateInject()->renderBlock('head');
-    }
-
-    public function renderInjectBody(EmschRequest $request): string
-    {
-        $editorUrl = $this->urlGenerator->generate(Routes::INLINE_EDIT_EDITOR, [
-            'path' => $request->getEmschPath(),
-        ]);
-
-        return $this->getTemplateInject()->renderBlock('body', [
-            'editorUrl' => $editorUrl,
-        ]);
-    }
-
-    private function getTemplateInject(): TemplateWrapper
-    {
-        return $this->twig->load('@EMSClientHelper/inlineEdit/inject.html.twig');
     }
 
     private function getTemplateRender(): TemplateWrapper

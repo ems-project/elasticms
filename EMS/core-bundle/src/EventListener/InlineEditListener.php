@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace EMS\ClientHelperBundle\EventListener;
+namespace EMS\CoreBundle\EventListener;
 
-use EMS\ClientHelperBundle\Helper\InlineEdit\InlineEditHelper;
 use EMS\ClientHelperBundle\Helper\Request\EmschRequest;
+use EMS\CoreBundle\Core\InlineEditor\InlineEditor;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-readonly class InlineEditListener implements EventSubscriberInterface
+class InlineEditListener implements EventSubscriberInterface
 {
-    public function __construct(private InlineEditHelper $inlineEditHelper)
+    public function __construct(private readonly InlineEditor $inlineEditor)
     {
     }
 
@@ -52,7 +52,7 @@ readonly class InlineEditListener implements EventSubscriberInterface
         if (false !== $headPos) {
             $content =
                 \substr($content, 0, $headPos)
-                ."\n".$this->inlineEditHelper->renderInjectHead()."\n"
+                ."\n".$this->inlineEditor->renderInjectHead()."\n"
                 .\substr($content, $headPos);
         }
 
@@ -60,7 +60,7 @@ readonly class InlineEditListener implements EventSubscriberInterface
         if (false !== $bodyPos) {
             $content =
                 \substr($content, 0, $bodyPos)
-                ."\n".$this->inlineEditHelper->renderInjectBody($request)."\n"
+                ."\n".$this->inlineEditor->renderInjectBody($request)."\n"
                 .\substr($content, $bodyPos);
         }
 

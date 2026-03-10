@@ -13,7 +13,6 @@ use EMS\ClientHelperBundle\Controller\EmbedController;
 use EMS\ClientHelperBundle\Controller\HttpCacheController;
 use EMS\ClientHelperBundle\Controller\SearchController;
 use EMS\ClientHelperBundle\EventListener\CacheListener;
-use EMS\ClientHelperBundle\EventListener\InlineEditListener;
 use EMS\ClientHelperBundle\EventListener\KernelListener;
 use EMS\ClientHelperBundle\EventListener\SecurityListener;
 use EMS\ClientHelperBundle\Helper\Asset\AssetVersionStrategy;
@@ -37,7 +36,6 @@ use EMS\ClientHelperBundle\Twig\InlineEditExtension;
 use EMS\CommonBundle\Contracts\Bridge\Core\CoreBridgeInterface;
 use EMS\CommonBundle\Contracts\Elasticsearch\QueryLoggerInterface;
 use Psr\Cache\CacheItemPoolInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 return static function (ContainerConfigurator $container) {
     $services = $container->services();
@@ -117,15 +115,8 @@ return static function (ContainerConfigurator $container) {
     $services->set('emsch.helper.inline_edit', InlineEditHelper::class)
         ->args([
             service('twig'),
-            service(UrlGeneratorInterface::class),
             service(CoreBridgeInterface::class),
         ]);
-
-    $services->set('emsch.event_listener.inline_edit', InlineEditListener::class)
-        ->args([
-            service('emsch.helper.inline_edit'),
-        ])
-        ->tag('kernel.event_subscriber');
 
     $services->set('emsch.event_listener.security', SecurityListener::class)
         ->args([

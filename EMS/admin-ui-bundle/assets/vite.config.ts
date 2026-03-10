@@ -20,7 +20,9 @@ export default defineConfig({
         'criteria-view': 'src/criteria-view.js',
         'edit-revision': 'src/edit-revision.js',
         hierarchical: 'src/hierarchical.js',
-        'managed-alias': 'src/managed-alias.js'
+        'managed-alias': 'src/managed-alias.js',
+        inline_editor: 'src/core/inline-editor/editor.ts',
+        inline_editor_iframe: 'src/core/inline-editor/iframe.ts'
       }
     }
   },

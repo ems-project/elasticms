@@ -80,7 +80,7 @@ export class InlineEditor {
         }
     }
 
-    private onClick(event: PointerEvent): void {
+    private onClick(event: MouseEvent): void {
         const target = event.target as HTMLElement;
         const element = target.closest<HTMLElement>('[data-editor-action]');
         if (!element) return;

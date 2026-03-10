@@ -5,11 +5,11 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Inline Editor</title>
-        <link rel="stylesheet" href="{{ asset('src/inline-editor/editor.ts.css', 'emsclienthelper') }}">
+        <link rel="stylesheet" href="{{ asset('src/core/inline-editor/editor.ts.css', 'emsadminui') }}">
         {%- if vite.isDevServerRunning -%}
             <script type="module" src="{{- vite.devServerClient -}}"></script>
         {%- endif -%}
-        <script src="{{ asset('src/inline-editor/editor.ts', 'emsclienthelper') }}" type="module"></script>
+        <script src="{{ asset('src/core/inline-editor/editor.ts', 'emsadminui') }}" type="module"></script>
     </head>
     <body data-base-url="{{ path(constant('EMS\\ClientHelperBundle\\Routes::INLINE_EDIT_EDITOR')) }}">
         <div class="editor">

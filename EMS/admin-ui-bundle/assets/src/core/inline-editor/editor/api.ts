@@ -51,6 +51,14 @@ export class ApiService {
     })
   }
 
+  public async autoSave(draftId: string, element: InlineElement, content: string): Promise<SuccessResponse> {
+    return this.request({
+      method: 'POST',
+      endpoint: `/inline-edit/api/auto-save/${draftId}`,
+      body: { draftId, element, content }
+    })
+  }
+
   private async request<T>(request: ApiRequest): Promise<T> {
     const response = await fetch(`${request.endpoint}`, {
       method: request.method,

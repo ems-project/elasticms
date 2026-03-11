@@ -30,7 +30,7 @@
                     {{ emsch_inline_edit({
                         element: 'h1',
                         document: target,
-                        path: "[#{locale}].title",
+                        path: "[#{locale}][title]",
                     }) }}
                     {{ source.(locale).summary|default('')|emsch_routing }}
                 </div>
@@ -43,7 +43,7 @@
                 <div class="row">
                     {{ emsch_inline_edit({
                         document: target,
-                        path: "[#{locale}].body",
+                        path: "[#{locale}][body]",
                         attributes: {
                             class: 'col-12 col-lg-10 offset-lg-1 col-xl-8 offset-xl-2'
                         }

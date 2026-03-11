@@ -53,4 +53,21 @@ readonly class InlineEditorController
             'success' => $this->inlineEditor->apiDiscard($draftId),
         ]);
     }
+
+    public function apiAutoSave(Request $request): JsonResponse
+    {
+        if ('json' !== $request->getContentTypeFormat()) {
+            throw new BadRequestException('Unsupported content format');
+        }
+
+        $data = Json::decode($request->getContent());
+
+        return new JsonResponse([
+            'success' => $this->inlineEditor->apiAutoSave(
+                draftId: $data['draftId'],
+                element: ElementDto::fromArray($data['element']),
+                content: $data['content'],
+            ),
+        ]);
+    }
 }

@@ -20,6 +20,11 @@ return function (RoutingConfigurator $routes): void {
         ->methods(['DELETE'])
         ->requirements(['draftId' => '\d+']);
 
+    $routes->add(Routes::INLINE_EDIT_API_AUTO_SAVE, '/inline-edit/api/auto-save/{draftId}')
+        ->controller([InlineEditorController::class, 'apiAutoSave'])
+        ->methods(['POST'])
+        ->requirements(['draftId' => '\d+']);
+
     $routes->add(Routes::INLINE_EDIT_EDITOR, '/inline-edit/{channel}{path}')
         ->controller([InlineEditorController::class, 'editor'])
         ->methods(['GET'])

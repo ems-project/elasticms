@@ -132,8 +132,13 @@ export class InlineEditor {
     this.clear()
   }
 
-  private onIframeContentChanged(msg: IframeContentChanged) {
-    console.debug(msg.content)
+  private async onIframeContentChanged(msg: IframeContentChanged) {
+    const { inlineEdit, draftId } = this.state;
+    if (!inlineEdit || !draftId) return;
+
+    if (msg.element.selector !== inlineEdit.selector) return;
+
+    await this.api.autoSave(draftId, inlineEdit, msg.content);
   }
 
   private async onIframeRequestInlineEdit(msg: IframeRequestInlineEdit) {
@@ -146,16 +151,11 @@ export class InlineEditor {
   }
 
   private async actionDiscard() {
-    const inlineEdit = this.state.inlineEdit ?? null;
-    if (null === inlineEdit) return;
+    const { inlineEdit, draftId } = this.state;
+    if (!inlineEdit || !draftId) return;
 
     this.messenger.send({ type: 'EDITOR_DISCARD' })
-
-    const draftId = this.state.draftId ?? null;
-    if (draftId) {
-      await this.api.discard(draftId);
-    }
-
+    await this.api.discard(draftId);
     await this.reload()
   }
 }

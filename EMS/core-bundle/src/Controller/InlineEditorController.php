@@ -46,4 +46,11 @@ readonly class InlineEditorController
 
         return new JsonResponse($this->inlineEditor->apiEdit(ElementDto::fromArray($data['element'])));
     }
+
+    public function apiDiscard(int $draftId): JsonResponse
+    {
+        return new JsonResponse([
+            'success' => $this->inlineEditor->apiDiscard($draftId),
+        ]);
+    }
 }

@@ -25,6 +25,15 @@ readonly class InlineEditor
     ) {
     }
 
+    public function apiDiscard(int $draftId): bool
+    {
+        $this->dataService->discardDraft(
+            revision: $this->revisionService->find($draftId),
+        );
+
+        return true;
+    }
+
     public function apiEdit(ElementDto $element): InlineEditorResponse
     {
         $draft = $this->dataService->initNewDraft($element->emsLink->getContentType(), $element->emsLink->getOuuid());
@@ -45,7 +54,7 @@ readonly class InlineEditor
     public function apiInit(array $elements): InlineEditorResponse
     {
         $emsIds = \array_values(\array_map(fn (ElementDto $element) => $element->emsId, $elements));
-        $infos = $emsIds !== [] ? $this->revisionService->getInfos(EMSLinkCollection::fromEmsIds($emsIds)) : [];
+        $infos = [] !== $emsIds ? $this->revisionService->getInfos(EMSLinkCollection::fromEmsIds($emsIds)) : [];
         $validSelectors = [];
         $title = 'Inline Editor';
 

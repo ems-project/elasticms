@@ -9,7 +9,9 @@ class InlineEditorResponse implements \JsonSerializable
     /**
      * @param array<mixed> $data
      */
-    public function __construct(private array $data = []){}
+    public function __construct(private array $data = [])
+    {
+    }
 
     public function render(string $className, string $content): self
     {

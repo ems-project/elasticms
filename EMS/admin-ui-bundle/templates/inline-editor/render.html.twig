@@ -1,11 +1,3 @@
-{%- block title -%}
-    {{ render.title }}
-{%- endblock title -%}
-
-{%- block sidebar -%}
-    {{ block('printDocuments') }}
-{%- endblock sidebar -%}
-
 {%- block actions -%}
     <button class="btn" title="Discard" data-editor-action="discard">
         <i class="fa-solid fa-trash-can"></i>Discard
@@ -16,22 +8,21 @@
     {{ dump(element) }}
 {%- endblock sidebarDraft -%}
 
-{%- block printDocuments -%}
-    {%- if render.documents|length > 0 -%}
-        {% dump render.documents %}
+{%- block elements -%}
+    {%- if infos|length > 0 -%}
         <ul class="list-documents">
-            {%- for doc in render.documents -%}
+            {%- for info in infos -%}
                 <li class="document-card">
                     <div class="document-header">
-                        <span class="document-name">{{ doc.info.label }}</span>
+                        <span class="document-name">{{ info.label }}</span>
                         <span class="badge warning"></span>
                     </div>
                     <dl class="meta">
                         <dt>Content type</dt>
-                        <dd>{{ doc.info.contentType.singularName }}</dd>
+                        <dd>{{ info.contentType.singularName }}</dd>
                         <dt>Draft</dt>
-                        <dd>{{ doc.info.draft ? 'Yes' : 'No' }}</dd>
-                        {% for env,status in doc.info.status %}
+                        <dd>{{ info.draft ? 'Yes' : 'No' }}</dd>
+                        {% for env,status in info.status %}
                             <dt>{{ env|capitalize }}</dt>
                             <dd><span class="{{ html_classes('badge', {
                                 'success': status === 'published',
@@ -41,7 +32,7 @@
                         {% endfor %}
                     </dl>
                     <ul>
-                        {%- for element in doc.elements -%}
+                        {%- for element in info.elements -%}
                             <li>{{ element.path }}</li>
                         {%- endfor -%}
                     </ul>
@@ -49,6 +40,6 @@
             {%- endfor -%}
         </ul>
     {%- endif -%}
-{%- endblock printDocuments -%}
+{%- endblock elements -%}
 
 

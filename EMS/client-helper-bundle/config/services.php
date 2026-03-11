@@ -23,7 +23,6 @@ use EMS\ClientHelperBundle\Helper\Environment\EnvironmentFactory;
 use EMS\ClientHelperBundle\Helper\Environment\EnvironmentHelper;
 use EMS\ClientHelperBundle\Helper\Form\Extension\EmschFormViewExtension;
 use EMS\ClientHelperBundle\Helper\Hashcash\HashcashHelper;
-use EMS\ClientHelperBundle\Helper\InlineEdit\InlineEditHelper;
 use EMS\ClientHelperBundle\Helper\Request\EmschRequestResolver;
 use EMS\ClientHelperBundle\Helper\Request\ExceptionHelper;
 use EMS\ClientHelperBundle\Helper\Request\LocaleHelper;
@@ -111,12 +110,6 @@ return static function (ContainerConfigurator $container) {
 
     $services->set('emsch.form.extension.view', EmschFormViewExtension::class)
         ->tag('form.type_extension', ['priority' => 1]);
-
-    $services->set('emsch.helper.inline_edit', InlineEditHelper::class)
-        ->args([
-            service('twig'),
-            service(CoreBridgeInterface::class),
-        ]);
 
     $services->set('emsch.event_listener.security', SecurityListener::class)
         ->args([

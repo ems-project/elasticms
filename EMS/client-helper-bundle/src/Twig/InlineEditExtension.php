@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace EMS\ClientHelperBundle\Twig;
 
 use EMS\ClientHelperBundle\Helper\InlineEdit\InlineEditConfigFactory;
-use EMS\ClientHelperBundle\Helper\Request\EmschRequest;
 use EMS\Helpers\Standard\UuidGenerator;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Attribute\AsTwigFunction;
@@ -13,6 +12,8 @@ use Twig\Extension\AbstractExtension;
 
 class InlineEditExtension extends AbstractExtension
 {
+    public const REQUEST_INLINE_EDIT = '_emsch_inline_edit';
+
     public function __construct(
         private readonly RequestStack $requestStack,
     ) {
@@ -24,13 +25,13 @@ class InlineEditExtension extends AbstractExtension
     #[AsTwigFunction(name: 'emsch_inline_edit', isSafe: ['html'])]
     public function renderElement(array $options): string
     {
-        $config = InlineEditConfigFactory::fromArray($options);
-
         $request = $this->requestStack->getCurrentRequest();
-        $emschRequest = $request ? EmschRequest::fromRequest($request) : null;
+        $requestInline = $request?->attributes->getBoolean(self::REQUEST_INLINE_EDIT) ?? false;
+
+        $config = InlineEditConfigFactory::fromArray($options);
         $attributes = $config->attributes;
 
-        if ($emschRequest && $emschRequest->isInlineEditorEnabled()) {
+        if ($requestInline) {
             $attributes['data-ems-id'] = (string) $config->document->getEmsLink();
             $attributes['data-path'] = $config->path;
             $attributes['data-inline-id'] = UuidGenerator::random();

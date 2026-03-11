@@ -398,6 +398,8 @@ class RevisionService implements RevisionServiceInterface
      * @return array<string, array{
      *     id: int,
      *     emsLink: string,
+     *     label: string,
+     *     contentType: array{ singularName: string },
      *     draft: bool,
      *     revisions: array<string, ?int>,
      *     status: array<string, 'not_published'|'outdated'|'published'>

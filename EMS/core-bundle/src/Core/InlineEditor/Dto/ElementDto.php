@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EMS\ClientHelperBundle\Helper\InlineEdit\Dto;
+namespace EMS\CoreBundle\Core\InlineEditor\Dto;
 
 use EMS\CommonBundle\Common\EMSLink;
 
@@ -20,7 +20,7 @@ readonly class ElementDto
     }
 
     /**
-     * @param array{ emsId: string, path: string, tag: string, selector: string } $element
+     * @param array<mixed> $element
      */
     public static function fromArray(array $element): ElementDto
     {

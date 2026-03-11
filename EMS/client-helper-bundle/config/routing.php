@@ -8,7 +8,6 @@ use EMS\ClientHelperBundle\Contracts\Request\HandlerInterface;
 use EMS\ClientHelperBundle\Controller\CacheController;
 use EMS\ClientHelperBundle\Controller\ElasticsearchController;
 use EMS\ClientHelperBundle\Controller\FormController;
-use EMS\ClientHelperBundle\Controller\InlineEditController;
 use EMS\ClientHelperBundle\Controller\PdfController;
 use EMS\ClientHelperBundle\Controller\RouterController;
 use EMS\ClientHelperBundle\Controller\SpreadsheetController;
@@ -72,13 +71,6 @@ return static function (ContainerConfigurator $container) {
         ->args([
             service('emsch.routing.handler'),
             service('form.factory'),
-        ])
-        ->tag('controller.service_arguments');
-
-    $services->set(InlineEditController::class)
-        ->args([
-            service('emsch.helper.inline_edit'),
-            service('serializer'),
         ])
         ->tag('controller.service_arguments');
 

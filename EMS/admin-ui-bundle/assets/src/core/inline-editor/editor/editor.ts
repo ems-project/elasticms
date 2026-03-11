@@ -35,7 +35,6 @@ export class InlineEditor {
 
     constructor(options: EditorOptions) {
         this.api = new ApiService({
-            baseUrl: `${options.baseUrl}/api`,
             onRenderResponse: (response) => this.render(response)
         })
         this.messenger = new Messenger(options.iframe);
@@ -99,7 +98,7 @@ export class InlineEditor {
             window.history.replaceState({ path: msg.path }, '', newUrl);
         }
 
-        const data = await this.api.init(msg.url, msg.elements);
+        const data = await this.api.init(msg.elements);
         if (data.elements && data.elements.length > 0) {
             this.messenger.send({ type: 'EDITOR_ELEMENTS', selectors: data.elements });
         }
@@ -138,8 +137,6 @@ export class InlineEditor {
     private actionDiscard()
     {
         const draftId = this.state.draftId ?? null;
-
-
 
         console.debug(draftId);
     }

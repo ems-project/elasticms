@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace EMS\ClientHelperBundle\Helper\Environment;
 
 use EMS\ClientHelperBundle\Helper\Local\LocalEnvironment;
-use EMS\ClientHelperBundle\Helper\Request\EmschRequest;
 use EMS\Helpers\Standard\Hash;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PropertyAccess\PropertyAccess;
@@ -134,12 +133,8 @@ final class Environment
 
     public function modifyRequest(Request $request): void
     {
-        $request->attributes->add([
-            self::ENVIRONMENT_ATTRIBUTE => $this->name,
-            self::BACKEND_ATTRIBUTE => $this->backend,
-            EmschRequest::ATTRIBUTE_PATH => $this->getEmschPath($request),
-            EmschRequest::ATTRIBUTE_ROUTE_PREFIX => $this->routePrefix,
-        ]);
+        $request->attributes->set(self::ENVIRONMENT_ATTRIBUTE, $this->name);
+        $request->attributes->set(self::BACKEND_ATTRIBUTE, $this->backend);
 
         foreach ($this->request as $key => $value) {
             if (self::ENVIRONMENT_ATTRIBUTE === $key) {
@@ -191,14 +186,5 @@ final class Environment
     public function setLocal(?LocalEnvironment $local): void
     {
         $this->local = $local;
-    }
-
-    private function getEmschPath(Request $request): string
-    {
-        if (null !== $this->routePrefix) {
-            return \substr($request->getPathInfo(), \strlen($this->routePrefix) + 1);
-        }
-
-        return $request->getPathInfo();
     }
 }

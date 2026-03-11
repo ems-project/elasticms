@@ -1,4 +1,4 @@
-{% use "@EMSClientHelper/inlineEdit/render.html.twig" %}
+{% use "@EMSAdminUI/inline-editor/render.html.twig" %}
 <!doctype html>
 <html lang="en">
     <head>
@@ -11,7 +11,7 @@
         {%- endif -%}
         <script src="{{ asset('src/core/inline-editor/editor.ts', 'emsadminui') }}" type="module"></script>
     </head>
-    <body data-base-url="{{ path(constant('EMS\\ClientHelperBundle\\Routes::INLINE_EDIT_EDITOR')) }}">
+    <body data-base-url="{{ baseUrl }}">
         <div class="editor">
             <header class="editor-topbar">
                 <div class="editor-title">Inline Editor</div>

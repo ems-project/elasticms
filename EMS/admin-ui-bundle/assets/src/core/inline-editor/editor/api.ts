@@ -1,7 +1,6 @@
 import {InlineElement} from "../types";
 
 interface ApiServiceOptions {
-    baseUrl: string,
     onRenderResponse: (response: RenderResponse) => void
 }
 
@@ -23,14 +22,15 @@ export interface RenderResponse {
 }
 
 export class ApiService {
-    constructor(private readonly options: ApiServiceOptions) {
+    constructor(private readonly options: ApiServiceOptions)
+    {
     }
 
-    public async init(url: string, elements: InlineElement[]): Promise<InitResponse> {
+    public async init(elements: InlineElement[]): Promise<InitResponse> {
         return this.request<InitResponse>({
             method: 'POST',
-            endpoint: '/render',
-            body: { url, elements}
+            endpoint: '/inline-edit/api/init',
+            body: { elements}
         })
     }
 
@@ -44,7 +44,7 @@ export class ApiService {
     }
 
     private async request<T>(request: ApiRequest): Promise<T> {
-        const response = await fetch(`${this.options.baseUrl}${request.endpoint}`, {
+        const response = await fetch(`${request.endpoint}`, {
             method: request.method,
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(request.body)

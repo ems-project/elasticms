@@ -130,5 +130,6 @@ return static function (ContainerConfigurator $container) {
         ->args([
             service('twig'),
             service(UrlGeneratorInterface::class),
+            service('ems.service.revision'),
         ]);
 };

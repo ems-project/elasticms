@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\EventListener;
 
-use EMS\ClientHelperBundle\Helper\Request\EmschRequest;
+use EMS\ClientHelperBundle\Twig\InlineEditExtension;
 use EMS\CoreBundle\Core\InlineEditor\InlineEditor;
+use EMS\CoreBundle\Routes;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -30,19 +32,21 @@ class InlineEditListener implements EventSubscriberInterface
 
     public function onKernelResponse(ResponseEvent $event): void
     {
-        $request = EmschRequest::fromRequest($event->getRequest());
+        $request = $event->getRequest();
         $response = $event->getResponse();
+        $route = $request->attributes->get('_route');
 
-        if (!$this->isHtmlRequestResponse($request, $response) || $request->isInlineEditor()) {
+        if (!$this->isHtmlRequestResponse($request, $response) || Routes::INLINE_EDIT_EDITOR === $route) {
             return;
         }
 
-        if ($request->isInlineEditorEnabled()) {
+        $inlineEditor = $request->attributes->getBoolean(InlineEditExtension::REQUEST_INLINE_EDIT);
+        if ($inlineEditor) {
             $this->injectIframe($request, $response);
         }
     }
 
-    private function injectIframe(EmschRequest $request, Response $response): void
+    private function injectIframe(Request $request, Response $response): void
     {
         if (false === $content = $response->getContent()) {
             return;
@@ -67,7 +71,7 @@ class InlineEditListener implements EventSubscriberInterface
         $response->setContent($content);
     }
 
-    private function isHtmlRequestResponse(EmschRequest $request, Response $response): bool
+    private function isHtmlRequestResponse(Request $request, Response $response): bool
     {
         if ('html' !== $request->getRequestFormat()) {
             return false;

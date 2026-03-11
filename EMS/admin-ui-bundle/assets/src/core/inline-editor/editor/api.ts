@@ -10,7 +10,7 @@ interface ApiRequest {
     body?: object
 }
 
-export interface DraftResponse extends RenderResponse {
+export interface EditResponse extends RenderResponse {
     draftId: string;
 }
 export interface InitResponse extends RenderResponse {
@@ -34,11 +34,11 @@ export class ApiService {
         })
     }
 
-    public async draft(element: InlineElement): Promise<DraftResponse>
+    public async edit(element: InlineElement): Promise<EditResponse>
     {
         return this.request({
             method: 'POST',
-            endpoint: '/draft',
+            endpoint: '/inline-edit/api/edit',
             body: { element }
         });
     }

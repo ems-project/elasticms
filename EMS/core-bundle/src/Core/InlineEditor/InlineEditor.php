@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Core\InlineEditor;
 
-use EMS\CommonBundle\Common\EMSLink;
 use EMS\CommonBundle\Common\EMSLinkCollection;
 use EMS\CoreBundle\Core\InlineEditor\Dto\ElementDto;
 use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\Channel\ChannelRegistrar;
+use EMS\CoreBundle\Service\DataService;
 use EMS\CoreBundle\Service\Revision\RevisionService;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Environment;
 use Twig\TemplateWrapper;
@@ -22,49 +21,31 @@ readonly class InlineEditor
         private Environment $twig,
         private UrlGeneratorInterface $urlGenerator,
         private RevisionService $revisionService,
+        private DataService $dataService,
     ) {
     }
 
-    /**
-     * @return array<mixed>
-     */
-    public function createDraft(): array
+    public function apiEdit(ElementDto $element): InlineEditorResponse
     {
-        //        if (null === $element = $payload->element) {
-        //            throw new BadRequestHttpException('element not found');
-        //        }
+        $draft = $this->dataService->initNewDraft($element->emsLink->getContentType(), $element->emsLink->getOuuid());
 
-        return [];
-
-        //        $draft = $this->coreBridge->data($element->emsLink->getContentType())->initDraft($element->emsLink->getOuuid());
-        //        /** @var array{revisionId: int} $response */
-        //        $response = $draft->response();
-        //
-        //        return [
-        //            'draftId' => $response['revisionId'],
-        //            'render' => [
-        //                '.editor-actions' => $this->getTemplateRender()->renderBlock('actions', [
-        //                    'draftId' => $response['revisionId'],
-        //                ]),
-        //                '.editor-sidebar-content' => $this->getTemplateRender()->renderBlock('sidebarDraft', [
-        //                    'element' => $element,
-        //                ]),
-        //            ],
-        //        ];
+        return new InlineEditorResponse(['draftId' => $draft->getId()])
+            ->render('.editor-actions', $this->getTemplateRender()->renderBlock('actions', [
+                'draftId' => $draft->getId(),
+            ]))
+            ->render('.editor-sidebar-content', $this->getTemplateRender()->renderBlock('edit', [
+                'element' => $element,
+            ]))
+        ;
     }
 
     /**
      * @param ElementDto[] $elements
-     *
-     * @return array{
-     *     render: array<string, string>,
-     *     elements: string[]
-     * }
      */
-    public function apiInit(array $elements): array
+    public function apiInit(array $elements): InlineEditorResponse
     {
         $emsIds = \array_values(\array_map(fn (ElementDto $element) => $element->emsId, $elements));
-        $infos = $this->revisionService->getInfos(EMSLinkCollection::fromEmsIds($emsIds));
+        $infos = $emsIds !== [] ? $this->revisionService->getInfos(EMSLinkCollection::fromEmsIds($emsIds)) : [];
         $validSelectors = [];
         $title = 'Inline Editor';
 
@@ -82,15 +63,11 @@ readonly class InlineEditor
             $validSelectors[] = $element->selector;
         }
 
-        return [
-            'render' => [
-                '.editor-title' => $title,
-                '.editor-sidebar-content' => $this->getTemplateRender()->renderBlock('elements', [
-                    'infos' => $infos,
-                ]),
-            ],
-            'elements' => $validSelectors,
-        ];
+        return new InlineEditorResponse(['elements' => $validSelectors])
+            ->render('.editor-title', $title)
+            ->render('.editor-sidebar-content', $this->getTemplateRender()->renderBlock('elements', [
+                'infos' => $infos,
+            ]));
     }
 
     public function renderEditor(string $channel, ?string $path): string

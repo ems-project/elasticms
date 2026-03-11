@@ -3,7 +3,7 @@ import {ApiService, RenderResponse} from "./api";
 import {Messenger} from "./messenger";
 import {SidebarResizer} from './sidebar';
 
-type EditorStatus = 'idle' | 'loading' | 'draft';
+type EditorStatus = 'idle' | 'loading' | 'edit';
 type EditorAction = 'close' | 'discard';
 
 interface EditorOptions {
@@ -127,9 +127,9 @@ export class InlineEditor {
     }
 
     private async onIframeRequestInlineEdit(msg: IframeRequestInlineEdit) {
-        const draft = await this.api.draft(msg.element);
+        const draft = await this.api.edit(msg.element);
 
-        this.state.status = 'draft';
+        this.state.status = 'edit';
         this.state.draftId = draft.draftId;
         this.messenger.send({ type: 'EDITOR_INLINE_EDIT', element: msg.element });
     }

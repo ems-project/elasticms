@@ -36,12 +36,14 @@ readonly class InlineEditorController
         return new JsonResponse($this->inlineEditor->apiInit($elements));
     }
 
-    public function apiDraft(Request $request): JsonResponse
+    public function apiEdit(Request $request): JsonResponse
     {
         if ('json' !== $request->getContentTypeFormat()) {
             throw new BadRequestException('Unsupported content format');
         }
 
-        return new JsonResponse($this->inlineEditor->createDraft());
+        $data = Json::decode($request->getContent());
+
+        return new JsonResponse($this->inlineEditor->apiEdit(ElementDto::fromArray($data['element'])));
     }
 }

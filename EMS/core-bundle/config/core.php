@@ -131,5 +131,6 @@ return static function (ContainerConfigurator $container) {
             service('twig'),
             service(UrlGeneratorInterface::class),
             service('ems.service.revision'),
+            service('ems.service.data'),
         ]);
 };

@@ -11,8 +11,8 @@ return function (RoutingConfigurator $routes): void {
         ->controller([InlineEditorController::class, 'apiInit'])
         ->methods(['POST']);
 
-    $routes->add(Routes::INLINE_EDIT_API_DRAFT, '/inline-edit/api/draft')
-        ->controller([InlineEditorController::class, 'apiDraft'])
+    $routes->add(Routes::INLINE_EDIT_API_DRAFT, '/inline-edit/api/edit')
+        ->controller([InlineEditorController::class, 'apiEdit'])
         ->methods(['POST']);
 
     $routes->add(Routes::INLINE_EDIT_EDITOR, '/inline-edit/{channel}{path}')

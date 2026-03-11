@@ -1,4 +1,4 @@
-import { EditorElementsMessage, EditorInlineEditMessage, InlineElement } from '../types'
+import { InlineElement } from '../types'
 import { Messenger } from '../iframe/messenger'
 import { NavigationObserver } from './navigation'
 
@@ -9,7 +9,11 @@ interface IframeOptions {
 export class Iframe {
   private readonly messenger: Messenger
   private readonly prefix: string
-  private inlineEditElement: HTMLElement | null = null
+  private inlineSelectors: string[] = []
+
+  private editObserver: MutationObserver | null = null;
+  private editOriginalContent: string = '';
+  private editElement: HTMLElement | null = null
 
   constructor(options: IframeOptions) {
     this.messenger = new Messenger()
@@ -25,8 +29,17 @@ export class Iframe {
       onLeave: () => this.messenger.send({ type: 'IFRAME_UNLOAD' })
     })
 
-    this.messenger.on('EDITOR_ELEMENTS', (msg) => this.onEditorElements(msg))
-    this.messenger.on('EDITOR_INLINE_EDIT', (msg) => this.onEditorInlineEdit(msg))
+    document.addEventListener('click', (event) => this.onClick(event))
+
+    this.messenger.on('EDITOR_ELEMENTS', (msg) => {
+       this.inlineSelectors = msg.selectors;
+    })
+    this.messenger.on('EDITOR_INLINE_EDIT', (msg) => {
+      this.setupInlineEdit(msg.element);
+    })
+    this.messenger.on('EDITOR_DISCARD', () => {
+      this.discardInlineEdit();
+    })
   }
 
   private sendLoadMessage(url: string = window.location.href) {
@@ -52,58 +65,67 @@ export class Iframe {
     })
   }
 
-  private onEditorElements(msg: EditorElementsMessage) {
-    msg.selectors.forEach((selector) => {
-      const element = document.querySelector<HTMLElement>(selector)
-      if (element) {
-        this.setupInlineEdit(element)
-      }
-    })
+  private onClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement
+
+    if (target.matches(this.inlineSelectors.join(','))) {
+      const inlineElement = this.getInlineElement(target);
+      if (null === inlineElement) return;
+
+      this.messenger.send({
+        type: 'IFRAME_REQUEST_INLINE_EDIT',
+        element: inlineElement
+      });
+    }
   }
 
-  private onEditorInlineEdit(msg: EditorInlineEditMessage) {
-    const element = document.querySelector(msg.element.selector) as HTMLElement | null
-    if (null === element) return
+  private setupInlineEdit(inlineElement: InlineElement)
+  {
+    const element = document.querySelector(inlineElement.selector) as HTMLElement | null;
+    if (!element) return;
 
-    this.inlineEditElement = element
+    if (this.editElement) this.discardInlineEdit();
 
-    element.contentEditable = 'true'
-    element.focus()
-    element.classList.add('inline-is-editing')
+    this.editElement = element;
+    this.editOriginalContent = element.innerHTML;
+
+    element.contentEditable = 'true';
+    element.focus();
+    element.classList.add('inline-is-editing');
 
     let debounceTimer: number | undefined
-    const activeObserver = new MutationObserver(() => {
-      clearTimeout(debounceTimer)
+    this.editObserver = new MutationObserver(() => {
+      clearTimeout(debounceTimer);
       debounceTimer = window.setTimeout(() => {
         this.messenger.send({
           type: 'IFRAME_CONTENT_CHANGED',
-          element: msg.element,
+          element: inlineElement,
           content: element.innerHTML
-        })
-      }, 500)
-    })
-
-    activeObserver.observe(element, {
+        });
+      }, 500);
+    });
+    this.editObserver.observe(element, {
       characterData: true,
       childList: true,
       subtree: true
-    })
+    });
   }
 
-  private setupInlineEdit(element: HTMLElement) {
-    const inlineElement = this.getInlineElement(element)
-    if (null === inlineElement) return
+  private discardInlineEdit()
+  {
+    if (!this.editElement) return;
 
-    element.addEventListener('click', (e) => {
-      e.preventDefault()
+    if (this.editObserver) {
+      this.editObserver.disconnect();
+      this.editObserver = null;
+    }
 
-      if (null === this.inlineEditElement) {
-        this.messenger.send({
-          type: 'IFRAME_REQUEST_INLINE_EDIT',
-          element: inlineElement
-        })
-      }
-    })
+    this.editElement.innerHTML = this.editOriginalContent;
+    this.editElement.contentEditable = 'false';
+    this.editElement.classList.remove('inline-is-editing');
+
+    this.editElement = null;
+    this.editOriginalContent = '';
   }
 
   private findInlineElements(): InlineElement[] {

@@ -25,8 +25,14 @@ export type EditorInlineEditMessage = {
   type: 'EDITOR_INLINE_EDIT'
   element: InlineElement
 }
+export type EditorDiscardMessage = {
+  type: 'EDITOR_DISCARD'
+}
 
-export type EditorToIframeMessage = EditorElementsMessage | EditorInlineEditMessage
+export type EditorToIframeMessage =
+  | EditorElementsMessage
+  | EditorInlineEditMessage
+  | EditorDiscardMessage
 
 export type IframeToEditorMessage =
   | IframeLoadMessage

@@ -1,4 +1,9 @@
-import { IframeContentChanged, IframeLoadMessage, IframeRequestInlineEdit } from '../types'
+import {
+  IframeContentChanged,
+  IframeLoadMessage,
+  IframeRequestInlineEdit,
+  InlineElement
+} from '../types'
 import { ApiService, RenderResponse } from './api'
 import { Messenger } from './messenger'
 import { SidebarResizer } from './sidebar'
@@ -11,21 +16,11 @@ interface EditorOptions {
   currentUrl: string
 }
 
-interface IdleState {
-  type: 'idle'
-  url: string
+interface EditorState {
+  elements: InlineElement[]
+  draftId?: string
+  inlineEdit?: InlineElement
 }
-
-interface LoadingState {
-  type: 'loading'
-}
-
-interface EditState {
-  type: 'edit'
-  draftId: string
-}
-
-type EditorState = IdleState | LoadingState | EditState
 
 export class InlineEditor {
   private readonly api: ApiService
@@ -33,8 +28,7 @@ export class InlineEditor {
   private readonly iframe: HTMLIFrameElement
   private readonly baseUrl: string
   private readonly defaultTitle: string
-
-  private state: EditorState
+  private readonly state: EditorState
 
   private readonly actions: Record<EditorAction, (element: HTMLElement) => void> = {
     close: () => {
@@ -51,23 +45,22 @@ export class InlineEditor {
     this.iframe = options.iframe
     this.baseUrl = options.baseUrl
     this.defaultTitle = document.querySelector('.editor-title')?.innerHTML ?? ''
-
     this.state = {
-      type: 'idle',
-      url: options.currentUrl
+      elements: []
     }
 
     this.setupListeners()
+    this.setupSidebar()
   }
 
   private setupListeners() {
+    document.addEventListener('click', (event) => this.onClick(event))
+
     this.messenger
       .on('IFRAME_LOAD', (msg) => this.onIframeLoad(msg))
       .on('IFRAME_UNLOAD', () => this.onIframeUnload())
       .on('IFRAME_REQUEST_INLINE_EDIT', (msg) => this.onIframeRequestInlineEdit(msg))
       .on('IFRAME_CONTENT_CHANGED', (msg) => this.onIframeContentChanged(msg))
-
-    document.addEventListener('click', (event) => this.onClick(event))
   }
 
   private setupSidebar() {
@@ -111,28 +104,32 @@ export class InlineEditor {
 
     const data = await this.api.init(msg.elements)
     if (data.elements && data.elements.length > 0) {
+      this.state.elements = msg.elements.filter((element) => {
+        return data.elements.includes(element.selector)
+      })
+
       this.messenger.send({ type: 'EDITOR_ELEMENTS', selectors: data.elements })
-    }
-
-    this.setupSidebar()
-
-    this.state = {
-      type: 'idle',
-      url: msg.url
     }
   }
 
-  private onIframeUnload() {
-    this.state = { type: 'loading' }
+  private async reload() {
+    this.clear()
+    await this.api.init(this.state.elements)
+  }
 
+  private clear() {
+    document
+      .querySelectorAll<HTMLElement>('[data-editor-clear="true"]')
+      .forEach((element) => element.replaceChildren())
+  }
+
+  private onIframeUnload() {
     const title = document.querySelector('.editor-title') as HTMLElement | null
     if (title) {
       title.textContent = this.defaultTitle
     }
 
-    document
-      .querySelectorAll<HTMLElement>('[data-editor-clear="true"]')
-      .forEach((element) => element.replaceChildren())
+    this.clear()
   }
 
   private onIframeContentChanged(msg: IframeContentChanged) {
@@ -142,21 +139,23 @@ export class InlineEditor {
   private async onIframeRequestInlineEdit(msg: IframeRequestInlineEdit) {
     const response = await this.api.edit(msg.element)
 
-    this.state = {
-      type: 'edit',
-      draftId: response.draftId
-    }
+    this.state.inlineEdit = msg.element
+    this.state.draftId = response.draftId
 
     this.messenger.send({ type: 'EDITOR_INLINE_EDIT', element: msg.element })
   }
 
   private async actionDiscard() {
-    if (this.state.type !== 'edit') {
-      return
+    const inlineEdit = this.state.inlineEdit ?? null;
+    if (null === inlineEdit) return;
+
+    this.messenger.send({ type: 'EDITOR_DISCARD' })
+
+    const draftId = this.state.draftId ?? null;
+    if (draftId) {
+      await this.api.discard(draftId);
     }
 
-   // await this.api.discard(this.state.draftId);
-
-
+    await this.reload()
   }
 }

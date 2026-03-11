@@ -29,6 +29,8 @@
 }
 
 .btn-default {
+  --bs-btn-active-border-color: var(--bs-border-color);
+  
   @extend .btn-white;
   border: 1px solid var(--bs-border-color);
 }

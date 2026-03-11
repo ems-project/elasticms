@@ -29,7 +29,7 @@ export class NavigationObserver {
   }
 
   private patchHistory(): void {
-    ;['pushState', 'replaceState'].forEach((method) => {
+    ['pushState', 'replaceState'].forEach((method) => {
       const m = method as 'pushState' | 'replaceState'
       const original = history[m]
       history[m] = (...args) => {

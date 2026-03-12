@@ -55,18 +55,15 @@
 {% endblock holder_field_type_row %}
 
 {% block container_field_type_row %}
-<div id="{{ form.vars.id }}" class="container-fluid">
-    <div class="row">
-        <div class="card card-default">
-            <div class="card-heading with-border">
-                <h3 class="card-title text-">{{- form_label(form) -}}</h3>
-            </div>
-
-              <div class="card-body">
-                  {{- form_widget(form) -}}
-              </div>
-            {{- form_errors(form) -}}
+<div id="{{ form.vars.id }}">
+    <div class="card border">
+        <div class="card-header pb-0">
+            <h3 class="card-title mb-0">{{- form_label(form) -}}</h3>
         </div>
+        <div class="card-body">
+            {{- form_widget(form) -}}
+        </div>
+        {{- form_errors(form) -}}
     </div>
 </div>
 {% endblock container_field_type_row %}
@@ -524,64 +521,58 @@
 {% endblock tabsfieldtype_widget_tab_panel_per_item %}
 
 {% block tabsfieldtype_widget -%}
-    <div class="card card-{{ theme_color }} card-outline card-outline-tabs">
-        <div class="card-header p-0 border-bottom-0">
-            <ul class="nav nav-tabs" role="tablist">
-                {% set counter = 1 %}
-                {% for tab in form.iterator %}
-                    {% if 'EMS\\CoreBundle\\Form\\DataField\\MultiplexedTabContainerFieldType' == tab.vars.data.fieldType.type and form.vars.data.fieldType.type == 'EMS\\CoreBundle\\Form\\DataField\\TabsFieldType' %}
-                        {% for item in tab.iterator %}
-                            {% with {
-                                tab: item,
-                                counter: counter,
-                                }
-                            %}
-                                {{ block('tabsfieldtype_widget_tab_label_per_item') }}
-                            {% endwith %}
-                            {% set counter = counter + 1 %}
-                        {% endfor %}
-                    {% else %}
-                        {% with {
-                              tab: tab,
-                              counter: counter,
-                              }
-                          %}
-                            {{ block('tabsfieldtype_widget_tab_label_per_item') }}
-                        {% endwith %}
-                        {% set counter = counter + 1 %}
-                    {% endif %}
+    <ul class="nav nav-tabs" role="tablist">
+        {% set counter = 1 %}
+        {% for tab in form.iterator %}
+            {% if 'EMS\\CoreBundle\\Form\\DataField\\MultiplexedTabContainerFieldType' == tab.vars.data.fieldType.type and form.vars.data.fieldType.type == 'EMS\\CoreBundle\\Form\\DataField\\TabsFieldType' %}
+                {% for item in tab.iterator %}
+                    {% with {
+                        tab: item,
+                        counter: counter,
+                        }
+                    %}
+                        {{ block('tabsfieldtype_widget_tab_label_per_item') }}
+                    {% endwith %}
+                    {% set counter = counter + 1 %}
                 {% endfor %}
-            </ul>
-        </div>
-        <div class="card-body">
-            <div class="tab-content">
-              {% set counter = 1 %}
-              {% for tab in form.iterator %}
-                  {% if 'EMS\\CoreBundle\\Form\\DataField\\MultiplexedTabContainerFieldType' == tab.vars.data.fieldType.type and form.vars.data.fieldType.type == 'EMS\\CoreBundle\\Form\\DataField\\TabsFieldType' %}
-                      {% for item in tab.iterator %}
-                          {% with {
-                              tab: item,
-                              counter: counter,
-                              }
-                          %}
-                              {{ block('tabsfieldtype_widget_tab_panel_per_item') }}
-                          {% endwith %}
-                          {% set counter = counter + 1 %}
-                      {% endfor %}
-                  {% else %}
-                      {% with {
-                          tab: tab,
-                          counter: counter,
-                          }
-                      %}
-                          {{ block('tabsfieldtype_widget_tab_panel_per_item') }}
-                      {% endwith %}
-                      {% set counter = counter + 1 %}
-                  {% endif %}
-              {% endfor %}
-            </div>
-        </div>
-     </div>
+            {% else %}
+                {% with {
+                        tab: tab,
+                        counter: counter,
+                        }
+                    %}
+                    {{ block('tabsfieldtype_widget_tab_label_per_item') }}
+                {% endwith %}
+                {% set counter = counter + 1 %}
+            {% endif %}
+        {% endfor %}
+    </ul>
+    <div class="tab-content">
+        {% set counter = 1 %}
+        {% for tab in form.iterator %}
+            {% if 'EMS\\CoreBundle\\Form\\DataField\\MultiplexedTabContainerFieldType' == tab.vars.data.fieldType.type and form.vars.data.fieldType.type == 'EMS\\CoreBundle\\Form\\DataField\\TabsFieldType' %}
+                {% for item in tab.iterator %}
+                    {% with {
+                        tab: item,
+                        counter: counter,
+                        }
+                    %}
+                        {{ block('tabsfieldtype_widget_tab_panel_per_item') }}
+                    {% endwith %}
+                    {% set counter = counter + 1 %}
+                {% endfor %}
+            {% else %}
+                {% with {
+                    tab: tab,
+                    counter: counter,
+                    }
+                %}
+                    {{ block('tabsfieldtype_widget_tab_panel_per_item') }}
+                {% endwith %}
+                {% set counter = counter + 1 %}
+            {% endif %}
+        {% endfor %}
+    </div>
 {%- endblock tabsfieldtype_widget %}
 
 {% block collectionfieldtype_widget -%}
@@ -709,7 +700,7 @@
 {% endblock holder_field_type_widget %}
 
 {% block container_field_type_widget %}
-    <div id="{{ form.vars.id }}" class="container-fluid">
+    <div id="{{ form.vars.id }}">
         <div class="{{ html_classes('row', {
             'has-error': form.vars.errors|length > 0,
         }) }}">
@@ -823,7 +814,7 @@
                 <span class="input-group">
                     {% if item.type|default('node') == 'node' %}
                         <span class="input-group-btn">
-                            <button href="#" type="button" title="{{ 'field_type.json_menu_editor.collapse_button'|trans }}" aria-expanded="false" class="btn btn-light button-collapse"></button>
+                            <button href="#" type="button" title="{{ 'field_type.json_menu_editor.collapse_button'|trans }}" aria-expanded="false" class="btn btn-default button-collapse"></button>
                         </span>
                     {% endif %}
                     <span class="input-group-addon" >
@@ -902,7 +893,7 @@
          data-prototype-node="{{ block('json_menu_editor_fieldtype_node')|e('html_attr') }}">
         <div class="input-group">
                 <span class="input-group-btn">
-                    <button type="#" title="{{ 'field_type.json_menu_editor.collapse_all_button'|trans }}" aria-expanded="false" class="btn btn-light button-collapse-all">
+                    <button type="#" title="{{ 'field_type.json_menu_editor.collapse_all_button'|trans }}" aria-expanded="false" class="btn btn-default button-collapse-all">
                     </button>
                     {{ addMenu }}
                 </span>
@@ -1006,7 +997,7 @@
                 <div class="input-group input-group-sm">
                     {{- form_widget(fileItem.filename) -}}
                     <span class="input-group-btn">
-                        <button type="button" class="btn btn-light" title="{{ 'fields.asset.info-modal-button'|trans }}" data-bs-toggle="modal" data-bs-target="#asst-details-{{ form.vars.id }}-__name__">
+                        <button type="button" class="btn btn-default" title="{{ 'fields.asset.info-modal-button'|trans }}" data-bs-toggle="modal" data-bs-target="#asst-details-{{ form.vars.id }}-__name__">
                             <i class="fa fa-info"></i>
                             <span class="visually-hidden">{{ 'fields.asset.info-modal-button'|trans }}</span>
                         </button>
@@ -1039,14 +1030,14 @@
         {% endif %}
     {% endset %}
 
-<div class="card card-default file-uploader-row{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}"{% if form.vars.multiple|default(false) %} data-multiple="{{ multipleTemplate|e('html_attr') }}"{% endif %}>
-    <div class="card-heading">
-        <h3 class="card-title m-2">
+<div class="card border file-uploader-row{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}"{% if form.vars.multiple|default(false) %} data-multiple="{{ multipleTemplate|e('html_attr') }}"{% endif %}>
+    <div class="card-header pb-0">
+        <h3 class="card-title mb-0">
             <i class="fa fa-file"></i>
             {{ form_label(form) }}
         </h3>
     </div>
-    <div class="card-body" >
+    <div class="card-body">
         {% if form.children.files is not defined %}
             <div class="modal" tabindex="-1" role="dialog" id="asst-details-{{ form.vars.id }}">
               <div class="modal-dialog" role="document">
@@ -1070,7 +1061,7 @@
             </div>
         {% endif %}
       <!-- Tab panes -->
-      <div class="" id="asset-tabs-{{ form.vars.id }}">
+      <div id="asset-tabs-{{ form.vars.id }}">
         <div class="tab-pane {% if (form.vars.value.sha1 is defined and form.vars.value.sha1) or (form.children.files is defined and form.vars.value|length > 0) %}hidden{% endif %} asset-upload-tab" id="asset-upload-tab-{{ form.vars.id }}">
             {% if not form.vars.disabled %}
                 <p class="text-center asset-preview">
@@ -1114,27 +1105,27 @@
         {{- form_errors(form) -}}
       </div>
     </div>
-    <div class="card-footer">
+    <div class="card-footer pt-0">
         {% if form.vars.multiple|default(false) %}
             <div class="btn-group">
                 <input type="file" id="file-upload-{{ form.vars.id }}" class="file-uploader-input" {% if form.vars.disabled %}disabled="disabled"{% endif %} multiple="multiple">
-                <label class="btn btn-light" for="file-upload-{{ form.vars.id }}"><i class="fa fa-upload"></i> {{ 'fields.asset.upload-files'|trans|e('html_attr') }}</label>
+                <label class="btn btn-default" for="file-upload-{{ form.vars.id }}"><i class="fa fa-upload"></i> {{ 'fields.asset.upload-files'|trans|e('html_attr') }}</label>
             </div>
         {% else %}
             <div class="btn-group">
-                <label class="btn btn-light" for="file-upload-{{ form.vars.id }}"><i class="fa fa-upload"></i> {{ 'fields.asset.upload-file'|trans|e('html_attr') }}</label>
+                <label class="btn btn-default" for="file-upload-{{ form.vars.id }}"><i class="fa fa-upload"></i> {{ 'fields.asset.upload-file'|trans|e('html_attr') }}</label>
                 <input type="file" id="file-upload-{{ form.vars.id }}" class="file-uploader-input" {% if form.vars.disabled %}disabled="disabled"{% endif %}>
-                <button type="button" data-href="{{ path('ems_core_uploaded_file_wysiwyg_modal') }}"  class="btn btn-small btn-light file-browse-server">
+                <button type="button" data-href="{{ path('ems_core_uploaded_file_wysiwyg_modal') }}"  class="btn btn-small btn-default file-browse-server">
                     <i class="fa fa-folder-open"></i><span class="visually-hidden">{{ 'fields.asset.browse-server'|trans }}</span>
                 </button>
             </div>
             <div class="btn-group">
-                <button type="button" class="btn btn-small btn-light asset-details" data-bs-toggle="modal" data-bs-target="#asst-details-{{ form.vars.id }}">
+                <button type="button" class="btn btn-small btn-default asset-details" data-bs-toggle="modal" data-bs-target="#asst-details-{{ form.vars.id }}">
                       <i class="fa fa-info"></i>
                     {{ 'fields.asset.info-modal-button'|trans }}
                 </button>
-                <a href="{% if form.vars.value.sha1 is defined and form.vars.value.sha1 %}{{ ems_asset_path(form.vars.value) }}{% endif %}" class="btn btn-small btn-light view-asset-button {% if not form.children.sha1.vars.value %}disabled{% endif %}" target="_blank" alt="{{ 'fields.asset.view-button'|trans }}"><i class="fa fa-eye"></i> {{ 'fields.asset.view-button'|trans }}</a>
-                <a href="#" class="btn btn-small btn-light clear-asset-button  {% if not form.children.sha1.vars.value %}disabled{% endif %}" alt="{{ 'fields.asset.clear-button'|trans }}"><i class="fa fa-remove"></i>&nbsp;{{ 'fields.asset.clear-button'|trans }}</a>
+                <a href="{% if form.vars.value.sha1 is defined and form.vars.value.sha1 %}{{ ems_asset_path(form.vars.value) }}{% endif %}" class="btn btn-small btn-default view-asset-button {% if not form.children.sha1.vars.value %}disabled{% endif %}" target="_blank" alt="{{ 'fields.asset.view-button'|trans }}"><i class="fa fa-eye"></i> {{ 'fields.asset.view-button'|trans }}</a>
+                <a href="#" class="btn btn-small btn-default clear-asset-button  {% if not form.children.sha1.vars.value %}disabled{% endif %}" alt="{{ 'fields.asset.clear-button'|trans }}"><i class="fa fa-remove"></i>&nbsp;{{ 'fields.asset.clear-button'|trans }}</a>
             </div>
         {% endif %}
     </div>
@@ -1167,12 +1158,12 @@
               <div class="modal-footer">
                 <div class="btn-group">
                     {% if form.vars.meta_fields %}
-                        <button type="button" class="btn btn-small btn-light extract-file-info" >
+                        <button type="button" class="btn btn-small btn-default extract-file-info" >
                             <i class="fa fa-bolt"></i>
                             {{ 'Extract content'|trans }}
                         </button>
                     {% endif %}
-                    <button type="button" class="btn btn-small btn-light " data-bs-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+                    <button type="button" class="btn btn-small btn-default " data-bs-dismiss="modal"><i class="fa fa-close"></i> Close</button>
                 </div>
               </div>
             </div>
@@ -1207,19 +1198,19 @@
     </div>
     <div class="card-footer">
         <div class="btn-group">
-            <label for="upload-{{ form.vars.id }}" class="btn btn-light"><i class="fa fa-upload"></i> Upload file</label>
+            <label for="upload-{{ form.vars.id }}" class="btn btn-default"><i class="fa fa-upload"></i> Upload file</label>
             <input type="file" id="upload-{{ form.vars.id }}" class="file-uploader-input">
-            <button type="button" data-href="{{ path('ems_core_uploaded_file_wysiwyg_modal') }}"  class="btn btn-small btn-light file-browse-server">
+            <button type="button" data-href="{{ path('ems_core_uploaded_file_wysiwyg_modal') }}"  class="btn btn-small btn-default file-browse-server">
                 <i class="fa fa-folder-open"></i><span class="visually-hidden">{{ 'fields.asset.browse-server'|trans }}</span>
             </button>
         </div>
         <div class="btn-group">
-            <button type="button" class="btn btn-small btn-light asset-details" data-bs-toggle="modal" data-bs-target="#asst-details-{{ form.vars.id }}">
+            <button type="button" class="btn btn-small btn-default asset-details" data-bs-toggle="modal" data-bs-target="#asst-details-{{ form.vars.id }}">
               <i class="fa fa-info"></i>
               {{ 'Info'|trans }}
             </button>
-            <a href="#" class="btn btn-small btn-light view-asset-button {% if not form.children.sha1.vars.value %}disabled{% endif %}" target="_blank" alt="{{ 'View'|trans }}"><i class="fa fa-eye"></i>&nbsp;{{ 'View'|trans }}</a>
-            <a href="#" class="btn btn-small btn-light clear-asset-button  {% if not form.children.sha1.vars.value %}disabled{% endif %}" alt="{{ 'Clear'|trans }}"><i class="fa fa-remove"></i>&nbsp;{{ 'Clear'|trans }}</a>
+            <a href="#" class="btn btn-small btn-default view-asset-button {% if not form.children.sha1.vars.value %}disabled{% endif %}" target="_blank" alt="{{ 'View'|trans }}"><i class="fa fa-eye"></i>&nbsp;{{ 'View'|trans }}</a>
+            <a href="#" class="btn btn-small btn-default clear-asset-button  {% if not form.children.sha1.vars.value %}disabled{% endif %}" alt="{{ 'Clear'|trans }}"><i class="fa fa-remove"></i>&nbsp;{{ 'Clear'|trans }}</a>
         </div>
     </div>
 </div>
@@ -1482,7 +1473,7 @@
     <button type="button"
         data-field-id="{{ form.vars.fieldId }}"
         data-revision-id="{{ form.vars.revisionId }}"
-        class="btn btn-light field-action">
+        class="btn btn-default field-action">
         {{ form.vars.label|emsco_i18n }}
     </button>
 {%- endblock action_row -%}

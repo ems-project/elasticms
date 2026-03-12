@@ -7,6 +7,10 @@
     background-color: $tab-content-background-color;
     box-shadow: $tab-content-box-shadow;
     padding: $tab-content-padding-y $tab-content-padding-x;
+    
+    .card {
+        border: 1px solid var(--bs-border-color);
+    }
 }
 
 .tabs-dark {

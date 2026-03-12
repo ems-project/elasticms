@@ -13,12 +13,14 @@
     </head>
     <body data-base-url="{{ baseUrl }}">
         <div class="editor">
-            <header class="editor-topbar">
-                <div class="editor-title">Inline Editor</div>
-                <div class="editor-actions" data-editor-clear="true"></div>
-                <button class="btn" title="Close" data-editor-action="close">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
+            <header class="editor-topbar d-flex align-items-center justify-content-between px-3">
+                <div class="editor-title fw-bold">Inline Editor</div>
+                <div class="d-flex gap-2">
+                    <div class="editor-actions" data-editor-clear="true"></div>
+                    <button type="button" class="btn btn-sm btn-secondary">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
             </header>
             <div class="editor-body">
                 <main class="editor-preview">

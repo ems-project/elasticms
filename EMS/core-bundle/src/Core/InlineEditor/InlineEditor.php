@@ -56,6 +56,8 @@ readonly class InlineEditor
     public function apiEdit(ElementDto $element): InlineEditorResponse
     {
         $draft = $this->dataService->initNewDraft($element->emsLink->getContentType(), $element->emsLink->getOuuid());
+        $infos = $this->revisionService->getInfos(EMSLinkCollection::fromEmsIds([$draft->getEmsLink()]));
+        $info = $infos[$draft->getOuuid()];
 
         return new InlineEditorResponse(['draftId' => $draft->getId()])
             ->render('.editor-actions', $this->getTemplateRender()->renderBlock('actions', [
@@ -63,6 +65,7 @@ readonly class InlineEditor
             ]))
             ->render('.editor-sidebar-content', $this->getTemplateRender()->renderBlock('edit', [
                 'element' => $element,
+                'info' => $info,
             ]))
         ;
     }

@@ -1,26 +1,8 @@
 @import "../libraries/fontawesome";
 
-* {
-  box-sizing: border-box;
-}
-
 html, body {
   margin: 0;
   height: 100%;
-  font-family: system-ui, -apple-system, sans-serif;
-}
-
-a {
-  text-decoration: none;
-}
-
-ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
 }
 
 .editor {
@@ -30,16 +12,8 @@ ul {
 }
 
 .editor-topbar {
-  display: flex;
-  align-items: center;
-  padding: 0 20px;
   background: #111827;
   color: white;
-  gap: 10px;
-}
-
-.editor-title {
-  font-weight: bold;
 }
 
 .editor-body {
@@ -69,48 +43,6 @@ ul {
   display: block;
 }
 
-.badge {
-  padding: 2px 8px;
-  border-radius: 10px;
-  font-size: 11px;
-  font-weight: 600;
-}
-
-.success {
-  background: #e6f4ea;
-  color: #1e7e34;
-}
-
-.warning {
-  background: #fff3cd;
-  color: #856404;
-}
-
-.danger {
-  background: #f8d7da;
-  color: #842029;
-}
-
-.btn {
-  background: #374151;
-  color: white;
-  border: none;
-  padding: 6px 14px;
-  cursor: pointer;
-  border-radius: 4px;
-  font-size: 14px;
-  line-height: 14px;
-
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.btn:hover {
-  background: #4b5563;
-}
-
 .editor-sidebar-resize-handle {
   position: absolute;
   top: 0;
@@ -122,50 +54,4 @@ ul {
 
 .editor-sidebar-resize-handle:hover {
   background: rgba(0, 0, 0, 0.08);
-}
-
-.list-documents {
-  margin: 12px;
-}
-
-.document-card {
-  background: #f8f9fa;
-  border: 1px solid #e9ecef;
-  border-radius: 6px;
-  padding: 12px;
-}
-
-.document-header {
-  display: flex;
-  grid-template-columns: 1fr auto;
-  align-items: center;
-  margin-bottom: 24px;
-}
-
-.meta {
-  display: grid;
-  grid-template-columns: auto auto;
-  column-gap: 8px;
-  row-gap: 4px;
-  margin: 0;
-  margin-bottom: 24px;
-}
-
-.meta dt {
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: #6c757d;
-}
-
-.meta dd {
-  margin: 0;
-  font-size: 12px;
-  font-weight: 500;
-}
-
-.editor-actions {
-  margin-left: auto;
-  display: flex;
-  gap: 10px;
 }

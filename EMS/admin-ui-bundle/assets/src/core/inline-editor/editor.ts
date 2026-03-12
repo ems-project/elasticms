@@ -1,3 +1,6 @@
+import 'bootstrap'
+import "bootstrap/scss/bootstrap.scss";
+
 import '../../../css/core/components/_inline_editor.scss'
 
 import { InlineEditor } from './editor/editor'

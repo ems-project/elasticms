@@ -55,7 +55,7 @@ readonly class InlineEditor
     {
         $draft = $this->dataService->initNewDraft($element->emsLink->getContentType(), $element->emsLink->getOuuid());
         $infos = $this->revisionService->getInfos(EMSLinkCollection::fromEmsIds([$draft->getEmsLink()]));
-        $info = $infos[$draft->getOuuid()];
+        $info = $infos[$draft->giveOuuid()];
 
         return new InlineEditorResponse(['draftId' => $draft->getId()])
             ->render('.editor-actions', $this->getTemplateRender()->renderBlock('actions', [

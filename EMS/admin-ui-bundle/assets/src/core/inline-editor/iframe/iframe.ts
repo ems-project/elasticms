@@ -76,10 +76,13 @@ export class Iframe {
   }
 
   private onClick(event: MouseEvent): void {
-    const target = event.target as HTMLElement
+    const target = event.target as HTMLElement;
+    const selectors = this.inlineSelectors.join(',');
 
-    if (this.inlineSelectors.length > 0 && target.matches(this.inlineSelectors.join(',')) && target !== this.editElement) {
-      const inlineElement = this.getInlineElement(target);
+    const matchedElement = target.closest(selectors) as HTMLElement;
+
+    if (matchedElement && matchedElement !== this.editElement) {
+      const inlineElement = this.getInlineElement(matchedElement);
       if (null === inlineElement) return;
 
       this.messenger.send({

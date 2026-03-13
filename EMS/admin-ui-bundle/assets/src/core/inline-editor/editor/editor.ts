@@ -9,7 +9,7 @@ import { ApiService, RenderResponse } from './api'
 import { Messenger } from './messenger'
 import { SidebarResizer } from './sidebar'
 
-type EditorAction = 'close' | 'discard' | 'save'
+type EditorAction = 'close' | 'toggleSidebar' | 'discard' | 'save'
 
 interface EditorOptions {
   baseUrl: string
@@ -43,7 +43,8 @@ export class InlineEditor {
       window.location.href = this.iframeUrl
     },
     discard: () => this.actionDiscard(),
-    save: () => this.actionSave()
+    save: () => this.actionSave(),
+    toggleSidebar: (element) => this.actionToggleSidebar(element)
   }
 
   constructor(options: EditorOptions) {
@@ -187,5 +188,19 @@ export class InlineEditor {
     this.state.action = 'save';
 
     this.messenger.send({ type: 'EDITOR_REQUEST_CONTENT', element: this.state.inlineEdit });
+  }
+
+  private actionToggleSidebar(button: HTMLElement) {
+    const editorBody = document.querySelector('.editor-body') as HTMLElement;
+    const isHidden = editorBody.getAttribute('data-sidebar-hidden') === 'true';
+    const newStatus = !isHidden;
+
+    editorBody.setAttribute('data-sidebar-hidden', String(newStatus));
+
+    const icon = button.querySelector('i');
+    if (icon) {
+      icon.classList.toggle('fa-angles-left', newStatus);
+      icon.classList.toggle('fa-angles-right', !newStatus);
+    }
   }
 }

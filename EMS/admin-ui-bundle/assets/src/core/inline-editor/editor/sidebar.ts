@@ -23,17 +23,19 @@ export class SidebarResizer {
   }
 
   private onPointerDown = (e: PointerEvent) => {
-    this.isResizing = true
-    document.body.style.cursor = 'col-resize'
-    this.createOverlay()
-    e.preventDefault()
+    this.isResizing = true;
+    this.container.style.transition = 'none';
+    document.body.style.cursor = 'col-resize';
+    this.createOverlay();
+    e.preventDefault();
   }
 
   private onPointerUp = () => {
-    if (!this.isResizing) return
-    this.isResizing = false
-    document.body.style.cursor = 'default'
-    this.removeOverlay()
+    if (!this.isResizing) return;
+    this.isResizing = false;
+    this.container.style.transition = '';
+    document.body.style.cursor = 'default';
+    this.removeOverlay();
   }
 
   private onPointerMove = (e: PointerEvent) => {
@@ -52,7 +54,7 @@ export class SidebarResizer {
   }
 
   private applyWidth(width: number) {
-    this.container.style.gridTemplateColumns = `1fr ${width}px`
+    this.container.style.setProperty('--sidebar-resizer-width', `${width}px`);
   }
 
   private createOverlay() {

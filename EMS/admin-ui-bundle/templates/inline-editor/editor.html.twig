@@ -15,14 +15,12 @@
         <div class="editor">
             <header class="editor-topbar d-flex align-items-center justify-content-between px-3">
                 <div class="editor-title fw-bold">Inline Editor</div>
-                <div class="d-flex gap-2">
-                    <div class="editor-actions" data-editor-clear="true"></div>
+                <div class="d-flex gap-2 align-items-center">
+                    <div class="editor-actions d-flex gap-2" data-editor-clear="true"></div>
                     <button type="button" class="btn btn-sm btn-secondary" data-editor-action="toggleSidebar">
                         <i class="fa-solid fa-angles-right"></i>
                     </button>
-                    <button type="button" class="btn btn-sm btn-secondary" data-editor-action="close">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
+                    <a href="{{ iframeUrl }}" class="text-white" data-editor-action="close">Exit</a>
                 </div>
             </header>
             <div class="editor-body">

@@ -26,17 +26,15 @@ readonly class InlineEditor
     ) {
     }
 
-    public function apiAutoSave(int $draftId, ElementDto $element, mixed $content): bool
+    public function apiSave(int $draftId, ElementDto $element, string $content): bool
     {
         if (null === $revision = $this->revisionService->find($draftId)) {
             throw new \RuntimeException('Revision not found');
         }
 
-        $autoSave = [];
-
+        $autoSave = $revision->getAutoSave() ?? [];
         $propertyAccess = PropertyAccess::createPropertyAccessor();
         $propertyAccess->setValue($autoSave, $element->path, $content);
-
         $this->revisionService->autoSave($revision, $autoSave);
 
         return true;

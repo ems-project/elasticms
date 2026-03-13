@@ -40,6 +40,16 @@ export class Iframe {
     this.messenger.on('EDITOR_DISCARD', () => {
       this.discardInlineEdit();
     })
+    this.messenger.on('EDITOR_REQUEST_CONTENT', (msg) => {
+      const element = this.getElement(msg.element);
+      if (!element) return;
+
+      this.messenger.send({
+        type: 'IFRAME_RESPONSE_CONTENT',
+        element: msg.element,
+        content: element.innerHTML
+      })
+    });
   }
 
   private sendLoadMessage(url: string = window.location.href) {
@@ -73,7 +83,7 @@ export class Iframe {
       if (null === inlineElement) return;
 
       this.messenger.send({
-        type: 'IFRAME_REQUEST_INLINE_EDIT',
+        type: 'IFRAME_REQUEST_EDIT',
         element: inlineElement
       });
     }
@@ -81,7 +91,7 @@ export class Iframe {
 
   private setupInlineEdit(inlineElement: InlineElement)
   {
-    const element = document.querySelector(inlineElement.selector) as HTMLElement | null;
+    const element = this.getElement(inlineElement);
     if (!element) return;
 
     if (this.editElement) this.discardInlineEdit();
@@ -140,6 +150,10 @@ export class Iframe {
     })
 
     return inlineElements
+  }
+
+  private getElement(inlineElement: InlineElement): HTMLElement | null {
+    return document.querySelector(inlineElement.selector) as HTMLElement | null
   }
 
   private getInlineElement(element: HTMLElement): InlineElement | null {

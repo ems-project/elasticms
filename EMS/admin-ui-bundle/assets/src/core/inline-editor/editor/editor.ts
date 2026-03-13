@@ -1,14 +1,15 @@
 import {
-  IframeContentChanged,
+  IframeContentChangedMessage,
   IframeLoadMessage,
-  IframeRequestInlineEdit,
+  IframeRequestEditMessage,
+  IframeResponseContentMessage,
   InlineElement
 } from '../types'
 import { ApiService, RenderResponse } from './api'
 import { Messenger } from './messenger'
 import { SidebarResizer } from './sidebar'
 
-type EditorAction = 'close' | 'discard'
+type EditorAction = 'close' | 'discard' | 'save'
 
 interface EditorOptions {
   baseUrl: string
@@ -16,25 +17,33 @@ interface EditorOptions {
   currentUrl: string
 }
 
-interface EditorState {
-  elements: InlineElement[]
-  draftId?: string
-  inlineEdit?: InlineElement
+interface EditState {
+  type: 'edit'
+  draftId: string
+  inlineEdit: InlineElement
+  action?: 'save'
 }
+interface IdleState {
+  type: 'idle'
+}
+
+type EditorState = IdleState | EditState;
 
 export class InlineEditor {
   private readonly api: ApiService
   private readonly messenger: Messenger
-  private readonly iframe: HTMLIFrameElement
   private readonly baseUrl: string
   private readonly defaultTitle: string
-  private readonly state: EditorState
+  private state: EditorState = { type: 'idle' }
+  private elements: InlineElement[] = [];
+  private iframeUrl: string;
 
   private readonly actions: Record<EditorAction, (element: HTMLElement) => void> = {
     close: () => {
-      window.location.href = this.iframe.src
+      window.location.href = this.iframeUrl
     },
-    discard: () => this.actionDiscard()
+    discard: () => this.actionDiscard(),
+    save: () => this.actionSave()
   }
 
   constructor(options: EditorOptions) {
@@ -42,12 +51,9 @@ export class InlineEditor {
       onRenderResponse: (response) => this.render(response)
     })
     this.messenger = new Messenger(options.iframe)
-    this.iframe = options.iframe
     this.baseUrl = options.baseUrl
     this.defaultTitle = document.querySelector('.editor-title')?.innerHTML ?? ''
-    this.state = {
-      elements: []
-    }
+    this.iframeUrl = options.iframe.src;
 
     this.setupListeners()
     this.setupSidebar()
@@ -59,8 +65,9 @@ export class InlineEditor {
     this.messenger
       .on('IFRAME_LOAD', (msg) => this.onIframeLoad(msg))
       .on('IFRAME_UNLOAD', () => this.onIframeUnload())
-      .on('IFRAME_REQUEST_INLINE_EDIT', (msg) => this.onIframeRequestInlineEdit(msg))
+      .on('IFRAME_REQUEST_EDIT', (msg) => this.onIframeRequestEdit(msg))
       .on('IFRAME_CONTENT_CHANGED', (msg) => this.onIframeContentChanged(msg))
+      .on('IFRAME_RESPONSE_CONTENT', (msg) => this.onIframeResponseContent(msg))
   }
 
   private setupSidebar() {
@@ -70,6 +77,19 @@ export class InlineEditor {
     if (container && handle) {
       new SidebarResizer(container, handle)
     }
+  }
+
+  private async reload() {
+    this.clear()
+    await this.api.init(this.elements)
+
+    this.state = { type: 'idle' };
+  }
+
+  private clear() {
+    document
+        .querySelectorAll<HTMLElement>('[data-editor-clear="true"]')
+        .forEach((element) => element.replaceChildren())
   }
 
   private render(response: RenderResponse) {
@@ -104,23 +124,14 @@ export class InlineEditor {
 
     const data = await this.api.init(msg.elements)
     if (data.elements && data.elements.length > 0) {
-      this.state.elements = msg.elements.filter((element) => {
+      this.elements = msg.elements.filter((element) => {
         return data.elements.includes(element.selector)
       })
 
       this.messenger.send({ type: 'EDITOR_ELEMENTS', selectors: data.elements })
     }
-  }
 
-  private async reload() {
-    this.clear()
-    await this.api.init(this.state.elements)
-  }
-
-  private clear() {
-    document
-      .querySelectorAll<HTMLElement>('[data-editor-clear="true"]')
-      .forEach((element) => element.replaceChildren())
+    this.iframeUrl = msg.url;
   }
 
   private onIframeUnload() {
@@ -132,30 +143,49 @@ export class InlineEditor {
     this.clear()
   }
 
-  private async onIframeContentChanged(msg: IframeContentChanged) {
-    const { inlineEdit, draftId } = this.state;
-    if (!inlineEdit || !draftId) return;
-
-    if (msg.element.selector !== inlineEdit.selector) return;
-
-    await this.api.autoSave(draftId, inlineEdit, msg.content);
-  }
-
-  private async onIframeRequestInlineEdit(msg: IframeRequestInlineEdit) {
+  private async onIframeRequestEdit(msg: IframeRequestEditMessage) {
     const response = await this.api.edit(msg.element)
 
-    this.state.inlineEdit = msg.element
-    this.state.draftId = response.draftId
+    this.state = {
+      type: 'edit',
+      draftId: response.draftId,
+      inlineEdit:  msg.element,
+    }
 
     this.messenger.send({ type: 'EDITOR_INLINE_EDIT', element: msg.element })
   }
 
+  private async onIframeContentChanged(msg: IframeContentChangedMessage) {
+    if (this.state.type !== 'edit') return;
+
+    if (msg.element.selector !== this.state.inlineEdit.selector) return;
+
+    await this.api.save(this.state.draftId, this.state.inlineEdit, msg.content);
+  }
+
+  private async onIframeResponseContent(msg: IframeResponseContentMessage)
+  {
+    if (this.state.type !== 'edit') return;
+    if (this.state.action == 'save') {
+      await this.api.save(this.state.draftId, this.state.inlineEdit, msg.content);
+      this.messenger.send({ type: 'EDITOR_DISCARD' });
+      await this.reload();
+    }
+  }
+
   private async actionDiscard() {
-    const { inlineEdit, draftId } = this.state;
-    if (!inlineEdit || !draftId) return;
+    if (this.state.type !== 'edit') return;
 
     this.messenger.send({ type: 'EDITOR_DISCARD' })
-    await this.api.discard(draftId);
+    await this.api.discard(this.state.draftId);
     await this.reload()
+  }
+
+  private async actionSave() {
+    if (this.state.type !== 'edit') return;
+
+    this.state.action = 'save';
+
+    this.messenger.send({ type: 'EDITOR_REQUEST_CONTENT', element: this.state.inlineEdit });
   }
 }

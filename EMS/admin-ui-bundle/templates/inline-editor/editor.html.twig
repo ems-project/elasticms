@@ -17,9 +17,6 @@
                 <div class="editor-title fw-bold">Inline Editor</div>
                 <div class="d-flex gap-2">
                     <div class="editor-actions" data-editor-clear="true"></div>
-                    <button type="button" class="btn btn-sm btn-secondary" data-editor-action="toggleFullscreen">
-                        <i class="fa-solid fa-expand"></i>
-                    </button>
                     <button type="button" class="btn btn-sm btn-secondary" data-editor-action="toggleSidebar">
                         <i class="fa-solid fa-angles-right"></i>
                     </button>
@@ -30,7 +27,7 @@
             </header>
             <div class="editor-body">
                 <main class="editor-preview">
-                    <iframe id="preview-iframe" src="{{ iframeUrl }}" data-prefix="{{ routePrefix }}"></iframe>
+                    <iframe id="preview-iframe" src="{{ iframeUrl }}" data-prefix="{{ routePrefix }}" allow="fullscreen" allowfullscreen></iframe>
                 </main>
                 <aside class="editor-sidebar">
                     <div class="editor-sidebar-resize-handle"></div>

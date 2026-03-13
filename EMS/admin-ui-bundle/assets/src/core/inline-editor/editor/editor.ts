@@ -9,7 +9,7 @@ import { ApiService, RenderResponse } from './api'
 import { Messenger } from './messenger'
 import { SidebarResizer } from './sidebar'
 
-type EditorAction = 'close' | 'toggleFullscreen' | 'toggleSidebar' | 'discard' | 'save'
+type EditorAction = 'close' | 'toggleSidebar' | 'discard' | 'save'
 
 interface EditorOptions {
   baseUrl: string
@@ -44,7 +44,6 @@ export class InlineEditor {
     },
     discard: () => this.actionDiscard(),
     save: () => this.actionSave(),
-    toggleFullscreen: (element) => this.actionToggleFullscreen(element),
     toggleSidebar: (element) => this.actionToggleSidebar(element)
   }
 
@@ -189,17 +188,6 @@ export class InlineEditor {
     this.state.action = 'save';
 
     this.messenger.send({ type: 'EDITOR_REQUEST_CONTENT', element: this.state.inlineEdit });
-  }
-
-  private actionToggleFullscreen(button: HTMLElement) {
-    const editor = document.querySelector('.editor') as HTMLElement;
-    const icon = button.querySelector('i') as HTMLElement;
-
-    if (!document.fullscreenElement) {
-      editor.requestFullscreen().then(() => icon.classList.replace('fa-expand', 'fa-compress'));
-    } else {
-      document.exitFullscreen().then(() => icon.classList.replace('fa-compress', 'fa-expand'));
-    }
   }
 
   private actionToggleSidebar(button: HTMLElement) {

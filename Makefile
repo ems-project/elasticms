@@ -32,7 +32,7 @@ help: # Show help for each of the Makefile recipes.
 	@echo "WEB:           http://localhost:8882"
 	@echo "KIBANA:        http://kibana.localhost"
 	@echo "MINIO:         http://minio.localhost"
-	@echo "MAIL:          http://mailhog.localhost"
+	@echo "MAIL:          http://mailserver.localhost"
 	@echo "---------------------------"
 	@echo ""
 	@echo "Usage: make [target]"

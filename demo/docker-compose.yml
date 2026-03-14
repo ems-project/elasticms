@@ -145,18 +145,18 @@ services:
             - "traefik.http.routers.mercure-tls.tls=true"
             - "traefik.http.services.mercure.loadbalancer.server.port=80"
 
-    mailhog:
-        image: mailhog/mailhog
+    mailserver:
+        image: axllent/mailpit
         labels:
             - "traefik.enable=true"
-            - "traefik.http.routers.mailhog.rule=Host(`mailhog.localhost`)"
-            - "traefik.http.routers.mailhog.service=mailhog"
-            - "traefik.http.routers.mailhog.entrypoints=web"
-            - "traefik.http.routers.mailhog-tls.rule=Host(`mailhog.localhost`)"
-            - "traefik.http.routers.mailhog-tls.service=mailhog"
-            - "traefik.http.routers.mailhog-tls.entrypoints=websecure"
-            - "traefik.http.routers.mailhog-tls.tls=true"
-            - "traefik.http.services.mailhog.loadbalancer.server.port=8025"
+            - "traefik.http.routers.mailserver.rule=Host(`mailserver.localhost`)"
+            - "traefik.http.routers.mailserver.service=mailserver"
+            - "traefik.http.routers.mailserver.entrypoints=web"
+            - "traefik.http.routers.mailserver-tls.rule=Host(`mailserver.localhost`)"
+            - "traefik.http.routers.mailserver-tls.service=mailserver"
+            - "traefik.http.routers.mailserver-tls.entrypoints=websecure"
+            - "traefik.http.routers.mailserver-tls.tls=true"
+            - "traefik.http.services.mailserver.loadbalancer.server.port=8025"
 
     admin-local:
         user: ${DOCKER_USER:-1001}:0

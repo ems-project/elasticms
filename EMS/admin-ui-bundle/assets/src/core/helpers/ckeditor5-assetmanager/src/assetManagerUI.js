@@ -136,14 +136,12 @@ export default class AssetManagerUI extends Plugin {
     const selection = editor.model.document.selection
     const imageUtils = editor.plugins.get('ImageUtils')
     const selectedElement = selection.getSelectedElement()
-    let currentPath = null
     if (!imageUtils.isImage(selectedElement)) {
       return
     }
     if (!this.formModal) {
       this._createModal()
     }
-    currentPath = selectedElement.getAttribute('src')
-    this.formModal.show({ path: currentPath })
+    this.formModal.show({ path: selectedElement.getAttribute('src') })
   }
 }

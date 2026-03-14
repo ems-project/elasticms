@@ -513,7 +513,7 @@ export default class CodeEditor {
       const inputField = container.querySelector('input')
       const disabled = null === inputField
       const language = container.getAttribute('data-language') || 'ace/mode/twig'
-      let theme = container.getAttribute('data-theme') || 'ace/theme/chrome'
+      const theme = container.getAttribute('data-theme') || 'ace/theme/chrome'
       const maxLines = Number.parseInt(container.getAttribute('data-max-lines') || '15')
       const minLines = Number.parseInt(container.getAttribute('data-min-lines') || '1')
 

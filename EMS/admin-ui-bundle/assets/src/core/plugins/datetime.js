@@ -2,8 +2,6 @@ import { TempusDominus } from '@eonasdan/tempus-dominus'
 import ChangeEvent from '../events/changeEvent'
 
 class Datetime {
-  #iframes = []
-
   load(target) {
     this.loadDatetime(target)
     this.loadDate(target)

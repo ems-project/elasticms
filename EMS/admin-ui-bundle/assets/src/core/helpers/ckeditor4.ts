@@ -3,7 +3,7 @@ import { EditorProfile } from './editorProfile.ts'
 import { CKEditorConfig } from './ck4/CKEditorConfig.ts'
 import { ChangeEvent } from '../events/changeEvent'
 
-declare var CKEDITOR: {
+declare let CKEDITOR: {
   replace: (
     element: HTMLElement,
     config: CKEditorConfig
@@ -87,8 +87,8 @@ export default class Ckeditor4 {
         )
           return
 
-        let emsTranslationsLang = emsTranslations[editor.langCode]
-        let ckeditorSections = [
+        const emsTranslationsLang = emsTranslations[editor.langCode]
+        const ckeditorSections = [
           ...Object.getOwnPropertyNames(editor.lang),
           ...Object.getOwnPropertyNames(Object.getPrototypeOf(editor.lang))
         ]
@@ -155,9 +155,9 @@ export default class Ckeditor4 {
       config.emsAjaxPaste &&
       Object.prototype.hasOwnProperty.call(CKEDITOR.instances, this.element.id)
     ) {
-      let editor = CKEDITOR.instances[this.element.id]
+      const editor = CKEDITOR.instances[this.element.id]
       editor.on('beforePaste', (event: BeforePasteEvent) => {
-        let pastedText = event.data.dataTransfer.getData('text/html')
+        const pastedText = event.data.dataTransfer.getData('text/html')
         if (!pastedText || pastedText === '' || !config.emsAjaxPaste) {
           return
         }
@@ -229,8 +229,8 @@ export default class Ckeditor4 {
         'dialogDefinition',
         function (e) {
           if (e.data.name !== 'link') return
-          let infoTab = e.data.definition.getContents('info')
-          let localPageOptions = infoTab.get('localPageOptions')
+          const infoTab = e.data.definition.getContents('info')
+          const localPageOptions = infoTab.get('localPageOptions')
           if (!self.profile.config.emsBrowsers || !self.profile.config.emsBrowsers.browser_object) {
             return
           }
@@ -254,13 +254,13 @@ export default class Ckeditor4 {
     }
 
     if (this.profile.config.emsBrowsers.browser_file) {
-      let browserFile = this.profile.config.emsBrowsers.browser_file
+      const browserFile = this.profile.config.emsBrowsers.browser_file
       CKEDITOR.on(
         'dialogDefinition',
         function (e) {
           if (e.data.name !== 'link') return
-          let infoTab = e.data.definition.getContents('info')
-          let fileBrowseButton = infoTab.get('fileBrowse')
+          const infoTab = e.data.definition.getContents('info')
+          const fileBrowseButton = infoTab.get('fileBrowse')
           if (fileBrowseButton) {
             fileBrowseButton.label = browserFile.label
             fileBrowseButton.filebrowser = { action: 'Browse', url: browserFile.url }
@@ -273,13 +273,13 @@ export default class Ckeditor4 {
     }
 
     if (this.profile.config.emsBrowsers.browser_image) {
-      let browserImage = this.profile.config.emsBrowsers.browser_image
+      const browserImage = this.profile.config.emsBrowsers.browser_image
       CKEDITOR.on(
         'dialogDefinition',
         function (e) {
           if (e.data.name !== 'image2') return
-          let infoTab = e.data.definition.getContents('info')
-          let imageBrowseButton = infoTab.get('browse')
+          const infoTab = e.data.definition.getContents('info')
+          const imageBrowseButton = infoTab.get('browse')
           if (imageBrowseButton) {
             imageBrowseButton.label = browserImage.label
             imageBrowseButton.filebrowser = { action: 'Browse', url: browserImage.url }

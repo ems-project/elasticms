@@ -54,7 +54,7 @@ export default class JsonMenuNestedComponent {
       this.#loadParentIds = loadParentIds
       this.#tree!.innerHTML = tree
 
-      let eventCanceled = this._dispatchEvent('jmn-load', {
+      const eventCanceled = this._dispatchEvent('jmn-load', {
         data: json,
         elements: this._sortables()
       })
@@ -69,7 +69,7 @@ export default class JsonMenuNestedComponent {
   }
   itemDelete(itemId: string) {
     this._post(`/item/${itemId}/delete`).then((json) => {
-      let eventCanceled = this._dispatchEvent('jmn-delete', { data: json, itemId: itemId })
+      const eventCanceled = this._dispatchEvent('jmn-delete', { data: json, itemId: itemId })
       if (!eventCanceled) this.load()
     })
   }
@@ -165,7 +165,7 @@ export default class JsonMenuNestedComponent {
   _addClickLongPressListeners(): void {
     let delay: ReturnType<typeof setTimeout>
     let longPressed = false
-    let longPressTime = 300
+    const longPressTime = 300
 
     this.element.addEventListener(
       'mousedown',
@@ -227,7 +227,7 @@ export default class JsonMenuNestedComponent {
 
     const allowedMove = types.includes(type)
 
-    let eventCanceled = this._dispatchEvent('jmn-move', {
+    const eventCanceled = this._dispatchEvent('jmn-move', {
       dragged: dragged,
       from: event.from,
       to: event.to,
@@ -297,14 +297,14 @@ export default class JsonMenuNestedComponent {
     let activeItemId: string | null = null
     const modalSize = element.dataset.modalSize ?? this.modalSize
 
-    let handlerClose = () => {
+    const handlerClose = () => {
       this.load({ activeItemId: activeItemId })
       ajaxModal.modal.removeEventListener('ajax-modal-close', handlerClose)
     }
 
     ajaxModal.modal.addEventListener('ajax-modal-close', handlerClose)
     ajaxModal.load({ url: `${this.#pathPrefix}${path}`, size: modalSize }, (json: any) => {
-      let eventCanceled = this._dispatchEvent(eventType, { data: json, ajaxModal: ajaxModal })
+      const eventCanceled = this._dispatchEvent(eventType, { data: json, ajaxModal: ajaxModal })
       if (eventCanceled) ajaxModal.modal.removeEventListener('ajax-modal-close', handlerClose)
 
       if (eventType === 'jmn-add' || eventType === 'jmn-edit') {

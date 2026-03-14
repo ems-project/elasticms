@@ -19,7 +19,7 @@
 // >>demos: http://jqueryui.com/sortable/
 // >>css.structure: ../../themes/base/sortable.css
 
-/* eslint-disable */
+ 
 
 ;(function (factory) {
   if (typeof define === 'function' && define.amd) {
@@ -565,7 +565,7 @@
 
       $(items).each(function () {
         const res = ($(o.item || this).attr(o.attribute || 'id') || '').match(
-          o.expression || /(.+)[\-=_](.+)/
+          o.expression || /(.+)[-=_](.+)/
         )
         if (res) {
           str.push((o.key || res[1] + '[]') + '=' + (o.key && o.expression ? res[1] : res[2]))

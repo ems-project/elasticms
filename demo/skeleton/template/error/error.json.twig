@@ -1,8 +1,13 @@
 {%- set message = {
     code: status_code,
-    test: status_text,
+    text: status_text,
     exception: {
         message: exception.message
     }
 } -%}
+{%- if 400 == status_code -%}
+    {%- set message = message|merge({
+        request_content: app.request.content|default(null)
+    }) -%}
+{%- endif -%}
 {{- message|json_encode(constant('JSON_PRETTY_PRINT'))|raw -}}

@@ -42,18 +42,18 @@ files_browse: 'Kiezen bestanden'
 footer:
     join-us-github: 'Join-us on GitHub'
 js:
-  file_selected: '1 bestand geselecteerd'
-  files_selected: '%count% geselecteerde bestanden'
-  form_error: 'Het formulier is op een probleem gestoten : %message%'
-  form_error_try_later: 'Het formulier is op een probleem gestoten, probeer het later opnieuw.'
-  form_processed: 'Uw bericht is verzonden.'
-  form_saved: 'Uw bericht is verzonden.'
-  format_not_supported: 'Fout: Onjuist formaat.'
-  incorrect_format: 'Onjuist formaat'
-  max_size_reached: 'De bestanden zijn te groot. Toegestane maximum grootte is %fileSize%.'
-  required_field: '(*) Verplicht veld'
-  remove: Verwijderen
-  remove_all: 'Alles verwijderen'
+    file_selected: '1 bestand geselecteerd'
+    files_selected: '%count% geselecteerde bestanden'
+    form_error: 'Het formulier is op een probleem gestoten : %message%'
+    form_error_try_later: 'Het formulier is op een probleem gestoten, probeer het later opnieuw.'
+    form_processed: 'Uw bericht is verzonden.'
+    form_saved: 'Uw bericht is verzonden.'
+    format_not_supported: 'Fout: Onjuist formaat.'
+    incorrect_format: 'Onjuist formaat'
+    max_size_reached: 'De bestanden zijn te groot. Toegestane maximum grootte is %fileSize%.'
+    remove: Verwijderen
+    remove_all: 'Alles verwijderen'
+    required_field: '(*) Verplicht veld'
 language:
     selection: 'select language'
 locale: Nederlands
@@ -89,7 +89,7 @@ site:
     copy: 'Copyright %year%'
     lead: 'Een CMS op maat voor de openbare sector'
     name: elasticMS
-    news_title: 'What''s new?'
+    news_title: "What's new?"
     short_name: elasticMS
 usergroup:
     facilitator: 'Facilitator van de volgende User Group'

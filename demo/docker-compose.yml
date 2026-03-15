@@ -112,7 +112,7 @@ services:
             '
 
     redis:
-        image: centos/redis-5-centos7
+        image: redis:7
         volumes:
             - redis:/var/lib/redis/data
 

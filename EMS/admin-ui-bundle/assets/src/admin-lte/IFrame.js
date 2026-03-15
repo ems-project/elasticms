@@ -448,7 +448,7 @@ class IFrame {
   }
 
   // Static
-   
+
   static _jQueryInterface(config, name, link, id, reload) {
     if ($(SELECTOR_DATA_TOGGLE).length > 0) {
       let data = $(this).data(DATA_KEY)

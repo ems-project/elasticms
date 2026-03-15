@@ -138,30 +138,30 @@ class Datetime {
 
   convertMomentToTempusFormat(momentFormat) {
     const map = {
-      'YYYY': 'yyyy',
-      'YY': 'yy',
-      'MMMM': 'MMMM',
-      'MMM': 'MMM',
-      'MM': 'MM',
-      'M': 'M',
-      'DD': 'dd',
-      'D': 'd',
-      'dddd': 'EEEE',
-      'ddd': 'EEE',
-      'HH': 'HH',
-      'H': 'H',
-      'hh': 'hh',
-      'h': 'h',
-      'mm': 'mm',
-      'm': 'm',
-      'ss': 'ss',
-      's': 's',
-      'A': 'a'
-    };
-    const sortedKeys = Object.keys(map).sort((a, b) => b.length - a.length);
-    const regex = new RegExp(sortedKeys.join('|'), 'g');
+      YYYY: 'yyyy',
+      YY: 'yy',
+      MMMM: 'MMMM',
+      MMM: 'MMM',
+      MM: 'MM',
+      M: 'M',
+      DD: 'dd',
+      D: 'd',
+      dddd: 'EEEE',
+      ddd: 'EEE',
+      HH: 'HH',
+      H: 'H',
+      hh: 'hh',
+      h: 'h',
+      mm: 'mm',
+      m: 'm',
+      ss: 'ss',
+      s: 's',
+      A: 'a'
+    }
+    const sortedKeys = Object.keys(map).sort((a, b) => b.length - a.length)
+    const regex = new RegExp(sortedKeys.join('|'), 'g')
 
-    return momentFormat.replace(regex, match => map[match] || match);
+    return momentFormat.replace(regex, (match) => map[match] || match)
   }
 }
 

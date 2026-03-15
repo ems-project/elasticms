@@ -19,8 +19,6 @@
 // >>demos: http://jqueryui.com/sortable/
 // >>css.structure: ../../themes/base/sortable.css
 
- 
-
 ;(function (factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.

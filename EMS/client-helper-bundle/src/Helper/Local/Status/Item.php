@@ -33,7 +33,7 @@ final class Item
             return false;
         }
 
-        if (!$this->hasDataLocal() || $this->dataLocal === $this->dataOrigin) {
+        if (!$this->hasDataLocal() || \array_filter($this->dataLocal, fn ($v) => null !== $v) === $this->dataOrigin) {
             return false;
         }
 

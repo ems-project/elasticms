@@ -80,6 +80,12 @@ final class RoutingFile implements \Countable
                     $route['template_static'] = $template->getPathOuuid();
                 }
             }
+            foreach (['template_static', 'template_source', 'query', 'index_regex'] as $field) {
+                if (isset($route[$field])) {
+                    continue;
+                }
+                $route[$field] = null;
+            }
 
             $route['order'] = ++$order;
             $data[$name] = $route;

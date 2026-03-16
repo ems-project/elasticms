@@ -16,9 +16,9 @@ blog:
     title: 'What’s new?'
 breadcrumb:
     back-to: 'Retour à la page %title%'
-    homepage: 'd''accueil'
+    homepage: "d'accueil"
 cookie:
-    close: 'J''ai compris !'
+    close: "J'ai compris !"
     closeAll: 'les cookies sociaux'
     closeSite: 'les cookies fonctionnels'
     link: 'En savoir plus'
@@ -30,12 +30,12 @@ ems_form:
 emsch:
     security:
         exception:
-            bad_credentials: 'Nom d''utilisateur ou mot de passe invalide'
-            error: 'Une erreur s''est produite !'
+            bad_credentials: "Nom d'utilisateur ou mot de passe invalide"
+            error: "Une erreur s'est produite !"
         form:
             password: 'Mot de passe'
             submit: 'Se connecter'
-            username: 'Nom d''utilisateur'
+            username: "Nom d'utilisateur"
 features:
     discover: 'Découvrez toutes les fonctionnalités'
 files_browse: 'Glisser-déposer des fichiers ici ou'
@@ -51,16 +51,16 @@ js:
     format_not_supported: 'Erreur: Format incorrect.'
     incorrect_format: 'Format incorrect'
     max_size_reached: 'Les fichiers sont trop volumineux. La taille maximale autorisée est de %fileSize%.'
-    required_field: '(*) Champ obligatoire'
     remove: Supprimer
     remove_all: 'Supprimer tout'
+    required_field: '(*) Champ obligatoire'
 language:
     selection: 'select language'
 locale: Français
 login: 'Se connecter'
 missing:
     description: 'Changer de langue pour voir les versions alternatives.'
-    title: 'Ce contenu n''est pas disponible en français'
+    title: "Ce contenu n'est pas disponible en français"
 month:
     April: Avril
     August: Août
@@ -89,7 +89,7 @@ site:
     copy: 'Copyright %year%'
     lead: 'Un CMS sur mesure au service du secteur public'
     name: elasticMS
-    news_title: 'What''s new?'
+    news_title: "What's new?"
     short_name: elasticMS
 usergroup:
     facilitator: 'Présentateur du prochain User Group'

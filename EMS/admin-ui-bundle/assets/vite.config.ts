@@ -11,7 +11,8 @@ export default defineConfig({
     sourcemap: false,
     emptyOutDir: true,
     copyPublicDir: true,
-    rollupOptions: {
+    cssMinify: 'esbuild',
+    rolldownOptions: {
       input: {
         app: 'src/app.js',
         swaggerui: 'src/swagger-ui.js',
@@ -27,11 +28,6 @@ export default defineConfig({
     }
   },
   css: {
-    preprocessorOptions: {
-      scss: {
-        api: 'modern-compiler',
-      }
-    },
     devSourcemap: true
   },
   plugins: [
@@ -56,7 +52,7 @@ export default defineConfig({
     strictPort: true,
     hmr: true,
     watch: {
-      usePolling: true,
+      usePolling: true
     }
   }
 })

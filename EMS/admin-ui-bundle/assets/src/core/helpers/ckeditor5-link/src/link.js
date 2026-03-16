@@ -16,17 +16,17 @@ import AutoLink from './autolink.js'
  * and {@link module:link/linkui~LinkUI link UI feature}.
  */
 export default class Link extends Plugin {
-  /**
-   * @inheritDoc
-   */
-  static get requires() {
-    return [LinkEditing, LinkUI, AutoLink]
-  }
+    /**
+     * @inheritDoc
+     */
+    static get requires() {
+        return [LinkEditing, LinkUI, AutoLink]
+    }
 
-  /**
-   * @inheritDoc
-   */
-  static get pluginName() {
-    return 'Link'
-  }
+    /**
+     * @inheritDoc
+     */
+    static get pluginName() {
+        return 'Link'
+    }
 }

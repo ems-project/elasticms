@@ -32,79 +32,88 @@ const Default = {}
  */
 
 class Dropdown {
-  constructor(element, config) {
-    this._config = config
-    this._element = element
-  }
-
-  // Public
-
-  toggleSubmenu() {
-    this._element.siblings().show().toggleClass('show')
-
-    if (!this._element.next().hasClass('show')) {
-      this._element.parents(SELECTOR_DROPDOWN_MENU).first().find('.show').removeClass('show').hide()
+    constructor(element, config) {
+        this._config = config
+        this._element = element
     }
 
-    this._element.parents('li.nav-item.dropdown.show').on('hidden.bs.dropdown', () => {
-      $('.dropdown-submenu .show').removeClass('show').hide()
-    })
-  }
+    // Public
 
-  fixPosition() {
-    const $element = $(SELECTOR_DROPDOWN_MENU_ACTIVE)
+    toggleSubmenu() {
+        this._element.siblings().show().toggleClass('show')
 
-    if ($element.length === 0) {
-      return
-    }
-
-    if ($element.hasClass(CLASS_NAME_DROPDOWN_RIGHT)) {
-      $element.css({
-        left: 'inherit',
-        right: 0
-      })
-    } else {
-      $element.css({
-        left: 0,
-        right: 'inherit'
-      })
-    }
-
-    const offset = $element.offset()
-    const width = $element.width()
-    const visiblePart = $(window).width() - offset.left
-
-    if (offset.left < 0) {
-      $element.css({
-        left: 'inherit',
-        right: offset.left - 5
-      })
-    } else if (visiblePart < width) {
-      $element.css({
-        left: 'inherit',
-        right: 0
-      })
-    }
-  }
-
-  // Static
-  static _jQueryInterface(config) {
-    return this.each(function () {
-      let data = $(this).data(DATA_KEY)
-      const _config = $.extend({}, Default, typeof config === 'object' ? config : $(this).data())
-
-      if (!data) {
-        data = new Dropdown($(this), _config)
-        $(this).data(DATA_KEY, data)
-      } else if (typeof config === 'string') {
-        if (typeof data[config] === 'undefined') {
-          throw new TypeError(`No method named "${config}"`)
+        if (!this._element.next().hasClass('show')) {
+            this._element
+                .parents(SELECTOR_DROPDOWN_MENU)
+                .first()
+                .find('.show')
+                .removeClass('show')
+                .hide()
         }
 
-        data[config]()
-      }
-    })
-  }
+        this._element.parents('li.nav-item.dropdown.show').on('hidden.bs.dropdown', () => {
+            $('.dropdown-submenu .show').removeClass('show').hide()
+        })
+    }
+
+    fixPosition() {
+        const $element = $(SELECTOR_DROPDOWN_MENU_ACTIVE)
+
+        if ($element.length === 0) {
+            return
+        }
+
+        if ($element.hasClass(CLASS_NAME_DROPDOWN_RIGHT)) {
+            $element.css({
+                left: 'inherit',
+                right: 0
+            })
+        } else {
+            $element.css({
+                left: 0,
+                right: 'inherit'
+            })
+        }
+
+        const offset = $element.offset()
+        const width = $element.width()
+        const visiblePart = $(window).width() - offset.left
+
+        if (offset.left < 0) {
+            $element.css({
+                left: 'inherit',
+                right: offset.left - 5
+            })
+        } else if (visiblePart < width) {
+            $element.css({
+                left: 'inherit',
+                right: 0
+            })
+        }
+    }
+
+    // Static
+    static _jQueryInterface(config) {
+        return this.each(function () {
+            let data = $(this).data(DATA_KEY)
+            const _config = $.extend(
+                {},
+                Default,
+                typeof config === 'object' ? config : $(this).data()
+            )
+
+            if (!data) {
+                data = new Dropdown($(this), _config)
+                $(this).data(DATA_KEY, data)
+            } else if (typeof config === 'string') {
+                if (typeof data[config] === 'undefined') {
+                    throw new TypeError(`No method named "${config}"`)
+                }
+
+                data[config]()
+            }
+        })
+    }
 }
 
 /**
@@ -113,22 +122,22 @@ class Dropdown {
  */
 
 $(`${SELECTOR_DROPDOWN_MENU} ${SELECTOR_DROPDOWN_TOGGLE}`).on('click', function (event) {
-  event.preventDefault()
-  event.stopPropagation()
+    event.preventDefault()
+    event.stopPropagation()
 
-  Dropdown._jQueryInterface.call($(this), 'toggleSubmenu')
+    Dropdown._jQueryInterface.call($(this), 'toggleSubmenu')
 })
 
 $(`${SELECTOR_NAVBAR} ${SELECTOR_DROPDOWN_TOGGLE}`).on('click', (event) => {
-  event.preventDefault()
+    event.preventDefault()
 
-  if ($(event.target).parent().hasClass(CLASS_NAME_DROPDOWN_SUBMENU)) {
-    return
-  }
+    if ($(event.target).parent().hasClass(CLASS_NAME_DROPDOWN_SUBMENU)) {
+        return
+    }
 
-  setTimeout(function () {
-    Dropdown._jQueryInterface.call($(this), 'fixPosition')
-  }, 1)
+    setTimeout(function () {
+        Dropdown._jQueryInterface.call($(this), 'fixPosition')
+    }, 1)
 })
 
 /**
@@ -139,8 +148,8 @@ $(`${SELECTOR_NAVBAR} ${SELECTOR_DROPDOWN_TOGGLE}`).on('click', (event) => {
 $.fn[NAME] = Dropdown._jQueryInterface
 $.fn[NAME].Constructor = Dropdown
 $.fn[NAME].noConflict = function () {
-  $.fn[NAME] = JQUERY_NO_CONFLICT
-  return Dropdown._jQueryInterface
+    $.fn[NAME] = JQUERY_NO_CONFLICT
+    return Dropdown._jQueryInterface
 }
 
 export default Dropdown

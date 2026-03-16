@@ -30,7 +30,7 @@ make start
   hearts of elasticMS
 - [Traefik](http://localhost:8888): The middleware application used to route packages
 - [Kibana](http://kibana.localhost): Power tools for elasticsearch
-- [Mailhog](http://mailhog.localhost): A mail catcher
+- [Mailpit](http://mailserver.localhost): A mail catcher
 - [MinIO](http://minio.localhost): A S3 like service
 - [Tika](http://tika.localhost): Text extraction service
 - [Mercure](http://mercure.localhost/.well-known/mercure): A real-time communication solution

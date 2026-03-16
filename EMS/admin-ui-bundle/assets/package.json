@@ -9,7 +9,7 @@
     "dev": "vite",
     "dev-host": "vite --host",
     "format": "prettier --write src/",
-    "lint": "eslint . --ext .js,.ts --fix --ignore-path .gitignore",
+    "lint": "eslint --fix",
     "preview": "vite preview",
     "watch": "tsc && vite build --watch"
   },
@@ -20,18 +20,26 @@
     "@types/sortablejs": "^1.15.8",
     "@typescript-eslint/eslint-plugin": "^8.18.2",
     "@typescript-eslint/parser": "^8.8.1",
-    "eslint": "^8.57.1",
+    "esbuild": "^0.27.4",
+    "eslint": "^10.0.3",
     "eslint-plugin-cypress": "^3.3.0",
     "prettier": "^3.2.5",
     "sass-embedded": "1.77.5",
     "typescript": "^5.5.3",
-    "vite": "^6.0.0",
-    "vite-plugin-live-reload": "^3.0.4"
+    "vite": "^8.0.0",
+    "vite-plugin-live-reload": "^3.0.5"
+  },
+  "overrides": {
+    "vite-plugin-live-reload": {
+      "vite": "$vite"
+    }
   },
   "dependencies": {
     "@a2lix/symfony-collection": "^0.6.1",
     "@elasticms/file-uploader": "^1.0.2",
     "@eonasdan/tempus-dominus": "^6.9.11",
+    "@eslint/compat": "^2.0.3",
+    "@eslint/js": "^10.0.1",
     "@fortawesome/fontawesome-free": "^6.6.0",
     "@popperjs/core": "^2.11.8",
     "ace-builds": "^1.36.2",
@@ -48,6 +56,7 @@
     "promise": "^8.3.0",
     "sortablejs": "^1.15.3",
     "swagger-ui": "^5.20.8",
+    "typescript-eslint": "^8.57.0",
     "uuid": "^10.0.0"
   }
 }

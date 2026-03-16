@@ -16,17 +16,17 @@ import '../theme/linkimage.css'
  * and {@link module:link/linkimageui~LinkImageUI link image UI feature}.
  */
 export default class LinkImage extends Plugin {
-  /**
-   * @inheritDoc
-   */
-  static get requires() {
-    return [LinkImageEditing, LinkImageUI]
-  }
+    /**
+     * @inheritDoc
+     */
+    static get requires() {
+        return [LinkImageEditing, LinkImageUI]
+    }
 
-  /**
-   * @inheritDoc
-   */
-  static get pluginName() {
-    return 'LinkImage'
-  }
+    /**
+     * @inheritDoc
+     */
+    static get pluginName() {
+        return 'LinkImage'
+    }
 }

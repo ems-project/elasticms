@@ -32,7 +32,10 @@
                         document: target,
                         path: "[#{locale}][title]",
                     }) }}
-                    {{ source.(locale).summary|default('')|emsch_routing }}
+                    {{ emsch_inline_edit({
+                        document: target,
+                        path: "[#{locale}][summary]",
+                    }) }}
                 </div>
             </div>
         </div>

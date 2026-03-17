@@ -65,6 +65,7 @@ export class skeletonForm
         if ($firstInvalid.length > 0) {
             this.focus_on_invalid($firstInvalid);
         }
+        console.log('My onload function');
     }
 
     onSubmit(elementForm, elementMessage) {

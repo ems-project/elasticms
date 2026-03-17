@@ -63,7 +63,7 @@ readonly class InlineEditorController
 
     private function getCollection(Request $request): InlineCollectionDto
     {
-        return new InlineCollectionDto($this->getJsonData($request));
+        return new InlineCollectionDto($this->getJsonData($request)['collection']);
     }
 
     /**

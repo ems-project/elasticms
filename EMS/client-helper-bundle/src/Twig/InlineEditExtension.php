@@ -12,7 +12,7 @@ use Twig\Extension\AbstractExtension;
 
 class InlineEditExtension extends AbstractExtension
 {
-    public const REQUEST_INLINE_EDIT = '_emsch_inline_edit';
+    public const string REQUEST_INLINE_EDIT = '_emsch_inline_edit';
 
     public function __construct(
         private readonly RequestStack $requestStack,

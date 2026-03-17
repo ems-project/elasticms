@@ -31,3 +31,5 @@ $(document).ready(function() {
     cookiesBanner(Cookies);
     newsFilters();
 });
+
+console.log('Demo website loaded!');

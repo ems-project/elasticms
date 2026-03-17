@@ -396,23 +396,15 @@ class RevisionService implements RevisionServiceInterface
      * @param list<string> $environmentNames
      *
      * @return array<string, array{
-     *     id: int,
-     *     emsLink: string,
-     *     label: string,
-     *     contentType: array{ singularName: string },
-     *     draft: bool,
-     *     revisions: array<string, ?int>,
-     *     status: array<string, 'not_published'|'outdated'|'published'>
+     *     'id': int,
+     *     'draft': bool,
+     *     'revisions': array<string, ?int>,
+     *     'status': array<string, 'not_published'|'outdated'|'published'>
      * }>
      */
-    public function getInfos(EMSLinkCollection $emsLinks, array $environmentNames = []): array
+    public function getInfos(array $environmentNames, EMSLinkCollection $emsLinks): array
     {
-        if ([] === $environmentNames) {
-            $environments = $this->environmentService->getUserPublishEnvironments()->toArray();
-        } else {
-            $environments = $this->environmentService->getByNames(...$environmentNames);
-        }
-
+        $environments = $this->environmentService->getByNames(...$environmentNames);
         $contentTypes = $this->contentTypeService->getByNames(...$emsLinks->getContentTypes());
 
         $infos = [];
@@ -438,9 +430,6 @@ class RevisionService implements RevisionServiceInterface
 
                 $infos[$ouuid] = [
                     'id' => $revision->getId(),
-                    'emsLink' => $revision->getEmsLink(),
-                    'label' => $this->display($revision),
-                    'contentType' => ['singularName' => $contentType->getSingularName()],
                     'draft' => $revision->isDraft(),
                     'revisions' => [$defaultEnv->getName() => $defaultRevisionId],
                 ];

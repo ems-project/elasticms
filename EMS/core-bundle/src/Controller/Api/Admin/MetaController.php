@@ -31,7 +31,7 @@ class MetaController
         $environments = $content['environments'] ?? [];
         $emsLinks = EMSLinkCollection::fromEmsIds($content['emsLinks'] ?? []);
 
-        return new JsonResponse(['info' => $this->revisionService->getInfos($emsLinks, $environments)]);
+        return new JsonResponse(['info' => $this->revisionService->getInfos($environments, $emsLinks)]);
     }
 
     public function contentType(string $contentTypeName): JsonResponse

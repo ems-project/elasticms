@@ -808,9 +808,7 @@ return static function (ContainerConfigurator $container) {
 
     $services->set(InlineEditorController::class)
         ->public()
-        ->args([
-            service('emsco.core.inline_editor'),
-        ]);
+        ->args([service('emsco.core.inline_editor')]);
 
     $services->set(MercureController::class)
         ->public()

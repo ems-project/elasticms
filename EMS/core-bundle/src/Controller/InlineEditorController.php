@@ -41,7 +41,7 @@ readonly class InlineEditorController
         $data = $this->getJsonData($request);
 
         $emsLink = EMSLink::fromText($data['emsId']);
-        $elements = \array_map(fn (array $element) => InlineElementDto::fromArray($element), $data['elements']);
+        $elements = \array_map(InlineElementDto::fromArray(...), $data['elements']);
 
         return $this->inlineEditor->apiEdit($emsLink, $elements);
     }

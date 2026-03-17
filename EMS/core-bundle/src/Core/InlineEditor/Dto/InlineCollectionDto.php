@@ -30,6 +30,6 @@ class InlineCollectionDto
     {
         $emsIds = \array_keys($this->data);
 
-        return \array_map(fn (string $emsId) => EMSLink::fromText($emsId), $emsIds);
+        return \array_map(EMSLink::fromText(...), $emsIds);
     }
 }

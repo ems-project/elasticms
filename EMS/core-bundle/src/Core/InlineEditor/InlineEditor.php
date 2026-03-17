@@ -47,6 +47,7 @@ readonly class InlineEditor
         $autoSave = $revision->getAutoSave() ?? $revision->getRawData();
         $propertyAccess = PropertyAccess::createPropertyAccessor();
         $propertyAccess->setValue($autoSave, $element->path, $content);
+
         $this->revisionService->autoSave($revision, $autoSave);
 
         return new JsonResponse(['success' => true]);

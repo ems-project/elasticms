@@ -4,12 +4,18 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Core\InlineEditor;
 
-use EMS\CommonBundle\Common\EMSLinkCollection;
-use EMS\CoreBundle\Core\InlineEditor\Dto\ElementDto;
+use EMS\CommonBundle\Common\EMSLink;
+use EMS\CoreBundle\Common\DocumentInfo;
+use EMS\CoreBundle\Core\InlineEditor\Dto\InlineCollectionDto;
+use EMS\CoreBundle\Core\InlineEditor\Dto\InlineElementDto;
+use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\Channel\ChannelRegistrar;
 use EMS\CoreBundle\Service\DataService;
+use EMS\CoreBundle\Service\EnvironmentService;
 use EMS\CoreBundle\Service\Revision\RevisionService;
+use EMS\CoreBundle\Service\UserService;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -23,80 +29,119 @@ readonly class InlineEditor
         private UrlGeneratorInterface $urlGenerator,
         private RevisionService $revisionService,
         private DataService $dataService,
+        private EnvironmentService $environmentService,
+        private UserService $userService,
     ) {
     }
 
-    public function apiSave(int $draftId, ElementDto $element, string $content): bool
+    public function apiAutoSave(InlineElementDto $element, string $content): JsonResponse
     {
-        if (null === $revision = $this->revisionService->find($draftId)) {
+        if (null === $revision = $this->revisionService->getByEmsLink($element->emsLink)) {
             throw new \RuntimeException('Revision not found');
         }
 
-        $autoSave = $revision->getAutoSave() ?? [];
+        if (!$revision->isDraft()) {
+            throw new \RuntimeException('Not in draft');
+        }
+
+        $autoSave = $revision->getAutoSave() ?? $revision->getRawData();
         $propertyAccess = PropertyAccess::createPropertyAccessor();
         $propertyAccess->setValue($autoSave, $element->path, $content);
         $this->revisionService->autoSave($revision, $autoSave);
 
-        return true;
+        return new JsonResponse(['success' => true]);
     }
 
-    public function apiDiscard(int $draftId): bool
+    public function apiDiscard(InlineCollectionDto $collection): JsonResponse
     {
-        if (null === $revision = $this->revisionService->find($draftId)) {
-            throw new \RuntimeException('Revision not found');
+        $drafts = $this->getDrafts($collection);
+        foreach ($drafts as $draft) {
+            $this->dataService->discardDraft($draft);
         }
 
-        $this->dataService->discardDraft($revision);
-
-        return true;
-    }
-
-    public function apiEdit(ElementDto $element): InlineEditorResponse
-    {
-        $draft = $this->dataService->initNewDraft($element->emsLink->getContentType(), $element->emsLink->getOuuid());
-        $infos = $this->revisionService->getInfos(EMSLinkCollection::fromEmsIds([$draft->getEmsLink()]));
-        $info = $infos[$draft->giveOuuid()];
-
-        return new InlineEditorResponse(['draftId' => $draft->getId()])
-            ->render('.editor-actions', $this->getTemplateRender()->renderBlock('actions', [
-                'draftId' => $draft->getId(),
-            ]))
-            ->render('.editor-sidebar-content', $this->getTemplateRender()->renderBlock('edit', [
-                'element' => $element,
-                'info' => $info,
-            ]))
-        ;
+        return new JsonResponse(['success' => true]);
     }
 
     /**
-     * @param ElementDto[] $elements
+     * @param InlineElementDto[] $elements
      */
-    public function apiInit(array $elements): InlineEditorResponse
+    public function apiEdit(EMSLink $emsLink, array $elements): JsonResponse
     {
-        $emsIds = \array_values(\array_map(fn (ElementDto $element) => $element->emsId, $elements));
-        $infos = [] !== $emsIds ? $this->revisionService->getInfos(EMSLinkCollection::fromEmsIds($emsIds)) : [];
-        $validSelectors = [];
-        $title = 'Inline Editor';
+        $draft = $this->dataService->initNewDraft($emsLink->getContentType(), $emsLink->getOuuid());
+
+        $data = [];
+        $autoSave = $draft->getAutoSave() ?? [];
+        $propertyAccess = PropertyAccess::createPropertyAccessor();
 
         foreach ($elements as $element) {
-            $elementInfo = $infos[$element->emsLink->getOuuid()] ?? null;
-            if (null === $elementInfo) {
+            $data[$element->selector] = $propertyAccess->getValue($autoSave, $element->path);
+        }
+
+        return new JsonResponse([
+            'data' => $data,
+            'render' => [
+                '.editor-actions' => $this->getTemplateRender()->renderBlock('actions', [
+                    'draftId' => $draft->getId(),
+                ]),
+            ],
+        ]);
+    }
+
+    public function apiInit(InlineCollectionDto $collection): JsonResponse
+    {
+        $title = 'Inline Editor';
+        $records = [];
+        $validSelectors = [];
+        $documentsInfo = $this->revisionService->getDocumentsInfo(...$collection->getEMSLinks());
+
+        foreach ($collection->data as $emsId => $elements) {
+            $emsLink = EMSLink::fromText($emsId);
+            $documentInfo = $documentsInfo[$emsLink->getEmsId()] ?? null;
+
+            if (null === $documentInfo || null === $revision = $documentInfo->getCurrentRevision()) {
                 continue;
             }
 
-            if ('h1' === $element->tag) {
-                $title = $elementInfo['label'];
+            $label = $this->revisionService->display($revision);
+
+            foreach ($elements as $element) {
+                $validSelectors[] = $element->selector;
+
+                if ('h1' === $element->tag) {
+                    $title = $label;
+                }
             }
 
-            $infos[$element->emsLink->getOuuid()]['elements'][] = $element;
-            $validSelectors[] = $element->selector;
+            $records[] = [
+                'label' => $label,
+                'revision' => $revision,
+                'info' => $documentInfo,
+                'elements' => $elements,
+            ];
         }
 
-        return new InlineEditorResponse(['elements' => $validSelectors])
-            ->render('.editor-title', $title)
-            ->render('.editor-sidebar-content', $this->getTemplateRender()->renderBlock('elements', [
-                'infos' => $infos,
-            ]));
+        return new JsonResponse([
+            'elements' => $validSelectors,
+            'render' => [
+                '.editor-title' => $title,
+                '.editor-sidebar-content' => $this->getTemplateRender()->renderBlock('elements', [
+                    'records' => $records,
+                    'environments' => $this->environmentService->getUserPublishEnvironments(),
+                ]),
+            ],
+        ]);
+    }
+
+    public function apiPublish(InlineCollectionDto $collection): JsonResponse
+    {
+        $drafts = $this->getDrafts($collection);
+
+        foreach ($drafts as $draft) {
+            $this->dataService->finalizeDraft($draft->autoSaveToRawData());
+            $this->dataService->refresh($draft->giveContentType()->giveEnvironment());
+        }
+
+        return new JsonResponse(['success' => true]);
     }
 
     public function renderEditor(string $channel, ?string $path): string
@@ -138,5 +183,19 @@ readonly class InlineEditor
     private function getTemplateRender(): TemplateWrapper
     {
         return $this->twig->load('@EMSAdminUI/inline-editor/render.html.twig');
+    }
+
+    /**
+     * @return Revision[]
+     */
+    private function getDrafts(InlineCollectionDto $collection): array
+    {
+        $username = $this->userService->getCurrentUser()->getUsername();
+
+        $documentsInfo = $this->revisionService->getDocumentsInfo(...$collection->getEMSLinks());
+        /** @var Revision[] $revisions */
+        $revisions = \array_values(\array_map(fn (DocumentInfo $info) => $info->getCurrentRevision(), $documentsInfo));
+
+        return \array_filter($revisions, fn (Revision $revision) => $revision->isDraftForUser($username));
     }
 }

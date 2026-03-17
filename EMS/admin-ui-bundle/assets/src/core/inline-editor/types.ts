@@ -5,7 +5,7 @@ export type IframeLoadMessage = {
     url: string
     path: string
     title: string
-    elements: InlineElement[]
+    collection: InlineCollection
 }
 export type IframeRequestEditMessage = {
     type: 'IFRAME_REQUEST_EDIT'
@@ -16,44 +16,43 @@ export type IframeContentChangedMessage = {
     element: InlineElement
     content: string
 }
-export type IframeResponseContentMessage = {
-    type: 'IFRAME_RESPONSE_CONTENT'
-    element: InlineElement
-    content: string
-}
 
 export type IframeToEditorMessage =
     | IframeLoadMessage
     | { type: 'IFRAME_UNLOAD' }
     | IframeRequestEditMessage
     | IframeContentChangedMessage
-    | IframeResponseContentMessage
 
 export type EditorElementsMessage = {
     type: 'EDITOR_ELEMENTS'
     selectors: string[]
 }
-export type EditorInlineEditMessage = {
-    type: 'EDITOR_INLINE_EDIT'
-    element: InlineElement
+export type EditorEditMessage = {
+    type: 'EDITOR_EDIT'
+    element: InlineElement,
+    data: Record<string, null | string>
 }
 export type EditorDiscardMessage = {
     type: 'EDITOR_DISCARD'
 }
-export type EditorRequestContentMessage = {
-    type: 'EDITOR_REQUEST_CONTENT'
-    element: InlineElement
+export type EditorRefreshMessage = {
+    type: 'EDITOR_REFRESH'
 }
 
 export type EditorToIframeMessage =
     | EditorElementsMessage
-    | EditorInlineEditMessage
+    | EditorEditMessage
     | EditorDiscardMessage
-    | EditorRequestContentMessage
+    | EditorRefreshMessage
+
+export type EmsId = string
+
+export type InlineCollection = Record<EmsId, InlineElement[]>;
 
 export interface InlineElement {
-    emsId: string
+    emsId: EmsId
     path: string
+    id: string
     tag: string
     selector: string
 }

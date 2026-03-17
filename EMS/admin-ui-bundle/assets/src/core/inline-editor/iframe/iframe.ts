@@ -1,4 +1,4 @@
-import { InlineElement } from '../types'
+import { EditorEditMessage, InlineCollection, InlineElement } from '../types'
 import { Messenger } from '../iframe/messenger'
 import { NavigationObserver } from './navigation'
 
@@ -6,14 +6,18 @@ interface IframeOptions {
     prefix: string
 }
 
+interface EditSession {
+    element: HTMLElement,
+    observer: MutationObserver,
+    originalContent: string
+}
+
 export class Iframe {
     private readonly messenger: Messenger
     private readonly prefix: string
     private inlineSelectors: string[] = []
 
-    private editObserver: MutationObserver | null = null
-    private editOriginalContent: string = ''
-    private editElement: HTMLElement | null = null
+    private activeSessions = new Map<string, EditSession>()
 
     constructor(options: IframeOptions) {
         this.messenger = new Messenger()
@@ -34,21 +38,10 @@ export class Iframe {
         this.messenger.on('EDITOR_ELEMENTS', (msg) => {
             this.inlineSelectors = msg.selectors
         })
-        this.messenger.on('EDITOR_INLINE_EDIT', (msg) => {
-            this.setupInlineEdit(msg.element)
-        })
-        this.messenger.on('EDITOR_DISCARD', () => {
-            this.discardInlineEdit()
-        })
-        this.messenger.on('EDITOR_REQUEST_CONTENT', (msg) => {
-            const element = this.getElement(msg.element)
-            if (!element) return
-
-            this.messenger.send({
-                type: 'IFRAME_RESPONSE_CONTENT',
-                element: msg.element,
-                content: element.innerHTML
-            })
+        this.messenger.on('EDITOR_EDIT', (msg) => this.onEditorEdit(msg))
+        this.messenger.on('EDITOR_DISCARD', () => this.onEditorDiscard())
+        this.messenger.on('EDITOR_REFRESH', () => {
+            window.location.reload();
         })
     }
 
@@ -66,12 +59,20 @@ export class Iframe {
             realPath = '/' + realPath
         }
 
+        const collection: InlineCollection = {};
+        document.querySelectorAll<HTMLElement>('[data-ems-id][data-path][data-inline-id]').forEach((element) => {
+            const item = this.getInlineElement(element);
+            if (item) {
+                (collection[item.emsId] ??= []).push(item);
+            }
+        });
+
         this.messenger.send({
             type: 'IFRAME_LOAD',
             url: url,
             path: realPath,
             title: document.title,
-            elements: this.findInlineElements()
+            collection: collection
         })
     }
 
@@ -81,9 +82,11 @@ export class Iframe {
 
         const matchedElement = target.closest(selectors) as HTMLElement
 
-        if (matchedElement && matchedElement !== this.editElement) {
+        if (matchedElement) {
             const inlineElement = this.getInlineElement(matchedElement)
             if (null === inlineElement) return
+
+            if (this.activeSessions.has(inlineElement.selector)) return
 
             this.messenger.send({
                 type: 'IFRAME_REQUEST_EDIT',
@@ -92,21 +95,51 @@ export class Iframe {
         }
     }
 
-    private setupInlineEdit(inlineElement: InlineElement) {
-        const element = this.getElement(inlineElement)
-        if (!element) return
+    private onEditorEdit(msg: EditorEditMessage)
+    {
+        Object.entries(msg.data).forEach(([selector, data])  => {
+           if (!this.inlineSelectors.includes(selector)) return;
 
-        if (this.editElement) this.discardInlineEdit()
+           const element = document.querySelector(selector) as HTMLElement | null;
+           if (null === element) return;
 
-        this.editElement = element
-        this.editOriginalContent = element.innerHTML
+           this.setupInlineEdit(element, data);
 
+           if (selector === msg.element.selector) {
+                element.focus()
+           }
+        })
+    }
+
+    private onEditorDiscard() {
+        this.activeSessions.forEach((session) => {
+            session.observer.disconnect()
+            session.element.innerHTML =  session.originalContent
+            session.element.contentEditable = 'false'
+            session.element.classList.remove('inline-is-editing')
+        })
+
+        this.activeSessions.clear()
+    }
+
+    private setupInlineEdit(element: HTMLElement, draftData : string | null = null) {
+        const inlineElement = this.getInlineElement(element);
+        if (null === inlineElement) return;
+
+        const id = inlineElement.selector;
+
+        if (!element || this.activeSessions.has(id)) return
+
+        const originalContent = element.innerHTML;
         element.contentEditable = 'true'
-        element.focus()
         element.classList.add('inline-is-editing')
 
+        if (draftData) {
+            element.innerHTML = draftData;
+        }
+
         let debounceTimer: number | undefined
-        this.editObserver = new MutationObserver(() => {
+        const observer = new MutationObserver(() => {
             clearTimeout(debounceTimer)
             debounceTimer = window.setTimeout(() => {
                 this.messenger.send({
@@ -116,45 +149,13 @@ export class Iframe {
                 })
             }, 500)
         })
-        this.editObserver.observe(element, {
+        observer.observe(element, {
             characterData: true,
             childList: true,
             subtree: true
         })
-    }
 
-    private discardInlineEdit() {
-        if (!this.editElement) return
-
-        if (this.editObserver) {
-            this.editObserver.disconnect()
-            this.editObserver = null
-        }
-
-        this.editElement.innerHTML = this.editOriginalContent
-        this.editElement.contentEditable = 'false'
-        this.editElement.classList.remove('inline-is-editing')
-
-        this.editElement = null
-        this.editOriginalContent = ''
-    }
-
-    private findInlineElements(): InlineElement[] {
-        const inlineElements: InlineElement[] = []
-        const query = '[data-ems-id][data-path][data-inline-id]'
-
-        document.querySelectorAll<HTMLElement>(query).forEach((element) => {
-            const inlineElement = this.getInlineElement(element)
-            if (inlineElement) {
-                inlineElements.push(inlineElement)
-            }
-        })
-
-        return inlineElements
-    }
-
-    private getElement(inlineElement: InlineElement): HTMLElement | null {
-        return document.querySelector(inlineElement.selector) as HTMLElement | null
+        this.activeSessions.set(id, { element, observer, originalContent})
     }
 
     private getInlineElement(element: HTMLElement): InlineElement | null {
@@ -166,6 +167,7 @@ export class Iframe {
         return {
             emsId: emsId,
             path: path,
+            id: inlineId,
             tag: tag,
             selector: `${tag}[data-inline-id="${inlineId}"]`
         }

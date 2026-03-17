@@ -1,4 +1,4 @@
-import { InlineElement } from '../types'
+import { EmsId, InlineCollection, InlineElement } from '../types'
 
 interface ApiServiceOptions {
     onRenderResponse: (response: RenderResponse) => void
@@ -15,7 +15,7 @@ export interface SuccessResponse {
 }
 
 export interface EditResponse extends RenderResponse {
-    draftId: string
+    data: Record<string, string>
 }
 export interface InitResponse extends RenderResponse {
     render: Record<string, string>
@@ -28,38 +28,46 @@ export interface RenderResponse {
 export class ApiService {
     constructor(private readonly options: ApiServiceOptions) {}
 
-    public async init(elements: InlineElement[]): Promise<InitResponse> {
+    public async init(collection: InlineCollection): Promise<InitResponse> {
         return this.request<InitResponse>({
             method: 'POST',
             endpoint: '/inline-edit/api/init',
-            body: { elements }
+            body: { collection }
         })
     }
 
-    public async edit(element: InlineElement): Promise<EditResponse> {
+    public async edit(emsId: EmsId, elements: InlineElement[]): Promise<EditResponse> {
         return this.request({
             method: 'POST',
             endpoint: '/inline-edit/api/edit',
-            body: { element }
+            body: { emsId, elements }
         })
     }
 
-    public async discard(draftId: string): Promise<SuccessResponse> {
+    public async publish(collection: InlineCollection): Promise<SuccessResponse> {
+        return this.request({
+            method: 'POST',
+            endpoint: `/inline-edit/api/publish`,
+            body: { collection }
+        })
+    }
+
+    public async discard(collection: InlineCollection): Promise<SuccessResponse> {
         return this.request({
             method: 'DELETE',
-            endpoint: `/inline-edit/api/discard/${draftId}`
+            endpoint: `/inline-edit/api/discard`,
+            body: { collection }
         })
     }
 
-    public async save(
-        draftId: string,
+    public async autoSave(
         element: InlineElement,
         content: string
     ): Promise<SuccessResponse> {
         return this.request({
             method: 'POST',
-            endpoint: `/inline-edit/api/save/${draftId}`,
-            body: { draftId, element, content }
+            endpoint: `/inline-edit/api/auto-save`,
+            body: { element, content }
         })
     }
 

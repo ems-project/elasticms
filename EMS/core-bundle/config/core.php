@@ -132,5 +132,7 @@ return static function (ContainerConfigurator $container) {
             service(UrlGeneratorInterface::class),
             service('ems.service.revision'),
             service('ems.service.data'),
+            service('ems.service.environment'),
+            service('ems.service.user'),
         ]);
 };

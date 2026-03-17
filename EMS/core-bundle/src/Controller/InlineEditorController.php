@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Controller;
 
-use EMS\CoreBundle\Core\InlineEditor\Dto\ElementDto;
+use EMS\CommonBundle\Common\EMSLink;
+use EMS\CoreBundle\Core\InlineEditor\Dto\InlineCollectionDto;
+use EMS\CoreBundle\Core\InlineEditor\Dto\InlineElementDto;
 use EMS\CoreBundle\Core\InlineEditor\InlineEditor;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
@@ -19,55 +21,60 @@ readonly class InlineEditorController
     ) {
     }
 
+    public function apiAutoSave(Request $request): JsonResponse
+    {
+        $data = $this->getJsonData($request);
+
+        return $this->inlineEditor->apiAutoSave(
+            element: InlineElementDto::fromArray($data['element']),
+            content: $data['content'],
+        );
+    }
+
+    public function apiDiscard(Request $request): JsonResponse
+    {
+        return $this->inlineEditor->apiDiscard(collection: $this->getCollection($request));
+    }
+
+    public function apiEdit(Request $request): JsonResponse
+    {
+        $data = $this->getJsonData($request);
+
+        $emsLink = EMSLink::fromText($data['emsId']);
+        $elements = \array_map(fn (array $element) => InlineElementDto::fromArray($element), $data['elements']);
+
+        return $this->inlineEditor->apiEdit($emsLink, $elements);
+    }
+
+    public function apiInit(Request $request): JsonResponse
+    {
+        return $this->inlineEditor->apiInit(collection: $this->getCollection($request));
+    }
+
+    public function apiPublish(Request $request): JsonResponse
+    {
+        return $this->inlineEditor->apiPublish(collection: $this->getCollection($request));
+    }
+
     public function editor(string $channel, ?string $path): Response
     {
         return new Response($this->inlineEditor->renderEditor($channel, $path));
     }
 
-    public function apiInit(Request $request): JsonResponse
+    private function getCollection(Request $request): InlineCollectionDto
+    {
+        return new InlineCollectionDto($this->getJsonData($request));
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    private function getJsonData(Request $request): array
     {
         if ('json' !== $request->getContentTypeFormat()) {
             throw new BadRequestException('Unsupported content format');
         }
 
-        $data = Json::decode($request->getContent());
-        $elements = \array_map(fn (array $element) => ElementDto::fromArray($element), $data['elements'] ?? []);
-
-        return new JsonResponse($this->inlineEditor->apiInit($elements));
-    }
-
-    public function apiEdit(Request $request): JsonResponse
-    {
-        if ('json' !== $request->getContentTypeFormat()) {
-            throw new BadRequestException('Unsupported content format');
-        }
-
-        $data = Json::decode($request->getContent());
-
-        return new JsonResponse($this->inlineEditor->apiEdit(ElementDto::fromArray($data['element'])));
-    }
-
-    public function apiDiscard(int $draftId): JsonResponse
-    {
-        return new JsonResponse([
-            'success' => $this->inlineEditor->apiDiscard($draftId),
-        ]);
-    }
-
-    public function apiSave(Request $request): JsonResponse
-    {
-        if ('json' !== $request->getContentTypeFormat()) {
-            throw new BadRequestException('Unsupported content format');
-        }
-
-        $data = Json::decode($request->getContent());
-
-        return new JsonResponse([
-            'success' => $this->inlineEditor->apiSave(
-                draftId: $data['draftId'],
-                element: ElementDto::fromArray($data['element']),
-                content: $data['content'],
-            ),
-        ]);
+        return Json::decode($request->getContent());
     }
 }

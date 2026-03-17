@@ -28,42 +28,36 @@
 {%- endblock edit -%}
 
 {%- block elements -%}
-    {%- if infos|length > 0 or editing_element -%}
-        <div class="py-3 px-2 fw-bold bg-white border-bottom text-primary">
-            <i class="fas fa-tags fa-xs me-2"></i>Elements
-        </div>
+    {%- if records|length > 0 -%}
         <div class="list-group list-group-flush border-bottom">
-            {%- for info in infos -%}
+            {%- for record in records -%}
+                {%- set icon = record.revision.contentType.icon -%}
+                {%- set type = record.revision.contentType.singularName -%}
                 <div class="list-group-item py-3 px-3">
                     <div class="d-flex justify-content-between align-items-center mb-2">
                         <span class="fw-bold text-dark small">
-                            <i class="fas fa-file-alt text-muted me-2"></i>{{ info.label }}
+                            <i class="{{ icon }} text-muted me-2"></i>{{ type }}: {{ record.label }}
                         </span>
                     </div>
                     <div>
-                        <div class="d-flex justify-content-between x-small mb-1">
-                            <span class="text-muted small">Type</span>
-                            <span class="text-dark small fw-medium">{{ info.contentType.singularName }}</span>
-                        </div>
-                        {% for env, status in info.status %}
-                            <div class="d-flex justify-content-between align-items-center mb-1">
-                                <span class="text-muted small text-capitalize">{{ env }}</span>
-                                <span class="badge {{ html_classes('', {
-                                    'text-success': status === 'published',
-                                    'text-warning': status === 'outdated',
-                                    'text-danger': status === 'not_published'
-                                }) }} p-0 bg-transparent fw-bold" style="font-size: 0.75rem;">
-                                    {% if status == 'published' %}<i class="fas fa-check-circle me-1"></i>{% endif %}
-                                    {{ status|replace({'_': ' '}) }}
-                                </span>
-                            </div>
-                        {% endfor %}
-
-                        {% if info.elements|length > 0 %}
+                        {%- if record.revision.isDraft -%}
+                            <span class="badge bg-warning text-dark">
+                                In draft by {{ record.revision.lockBy|emsco_display_name }}
+                            </span>
+                        {%- endif -%}
+                        {%- for env in environments -%}
+                            {% set publishedStatus = record.info.getPublishedStatus(env) %}
+                            <span class="{{ html_classes('badge', {
+                                'bg-secondary': publishedStatus == 'not_published',
+                                'bg-success': publishedStatus == 'published',
+                                'bg-warning text-dark': publishedStatus == 'outdated'
+                            }) }}">{{ env.name }}</span>
+                        {%- endfor -%}
+                        {% if record.elements|length > 0 %}
                             <div class="mt-3 p-2 bg-light rounded border-start border-3 border-info">
                                 <p class="x-small fw-bold mb-1 text-uppercase text-muted" style="font-size: 0.7rem;">Elements</p>
                                 <ul class="list-unstyled mb-0 small text-break">
-                                    {%- for element in info.elements -%}
+                                    {%- for element in record.elements -%}
                                         <li class="text-muted mb-1">
                                             <i class="fas fa-tag fa-xs me-1 text-info"></i> {{ element.path }}
                                         </li>

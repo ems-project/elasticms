@@ -2,14 +2,14 @@ import {
     IframeContentChangedMessage,
     IframeLoadMessage,
     IframeRequestEditMessage,
-    IframeResponseContentMessage,
-    InlineElement
+    InlineCollection,
 } from '../types'
+
 import { ApiService, RenderResponse } from './api'
 import { Messenger } from './messenger'
 import { SidebarResizer } from './sidebar'
 
-type EditorAction = 'close' | 'toggleSidebar' | 'discard' | 'save'
+type EditorAction = 'close' | 'toggleSidebar' | 'discard' | 'save' | 'publish'
 
 interface EditorOptions {
     baseUrl: string
@@ -17,25 +17,12 @@ interface EditorOptions {
     currentUrl: string
 }
 
-interface EditState {
-    type: 'edit'
-    draftId: string
-    inlineEdit: InlineElement
-    action?: 'save'
-}
-interface IdleState {
-    type: 'idle'
-}
-
-type EditorState = IdleState | EditState
-
 export class InlineEditor {
     private readonly api: ApiService
     private readonly messenger: Messenger
     private readonly baseUrl: string
     private readonly defaultTitle: string
-    private state: EditorState = { type: 'idle' }
-    private elements: InlineElement[] = []
+    private collection: InlineCollection = {}
     private iframeUrl: string
 
     private readonly actions: Record<EditorAction, (element: HTMLElement) => void> = {
@@ -44,6 +31,7 @@ export class InlineEditor {
         },
         discard: () => this.actionDiscard(),
         save: () => this.actionSave(),
+        publish: () => this.actionPublish(),
         toggleSidebar: (element) => this.actionToggleSidebar(element)
     }
 
@@ -68,7 +56,6 @@ export class InlineEditor {
             .on('IFRAME_UNLOAD', () => this.onIframeUnload())
             .on('IFRAME_REQUEST_EDIT', (msg) => this.onIframeRequestEdit(msg))
             .on('IFRAME_CONTENT_CHANGED', (msg) => this.onIframeContentChanged(msg))
-            .on('IFRAME_RESPONSE_CONTENT', (msg) => this.onIframeResponseContent(msg))
     }
 
     private setupSidebar() {
@@ -81,10 +68,7 @@ export class InlineEditor {
     }
 
     private async reload() {
-        this.clear()
-        await this.api.init(this.elements)
-
-        this.state = { type: 'idle' }
+        await this.api.init(this.collection)
     }
 
     private clear() {
@@ -123,15 +107,12 @@ export class InlineEditor {
             window.history.replaceState({ path: msg.path }, '', newUrl)
         }
 
-        const data = await this.api.init(msg.elements)
+        const data = await this.api.init(msg.collection)
         if (data.elements && data.elements.length > 0) {
-            this.elements = msg.elements.filter((element) => {
-                return data.elements.includes(element.selector)
-            })
-
             this.messenger.send({ type: 'EDITOR_ELEMENTS', selectors: data.elements })
         }
 
+        this.collection = msg.collection;
         this.iframeUrl = msg.url
     }
 
@@ -145,48 +126,43 @@ export class InlineEditor {
     }
 
     private async onIframeRequestEdit(msg: IframeRequestEditMessage) {
-        const response = await this.api.edit(msg.element)
+        const emsId = msg.element.emsId;
+        const elements = this.collection[msg.element.emsId];
 
-        this.state = {
-            type: 'edit',
-            draftId: response.draftId,
-            inlineEdit: msg.element
-        }
+        const response = await this.api.edit(emsId, elements)
+        this.messenger.send({
+            type: 'EDITOR_EDIT',
+            element: msg.element,
+            data: response.data
+        })
 
-        this.messenger.send({ type: 'EDITOR_INLINE_EDIT', element: msg.element })
-    }
-
-    private async onIframeContentChanged(msg: IframeContentChangedMessage) {
-        if (this.state.type !== 'edit') return
-
-        if (msg.element.selector !== this.state.inlineEdit.selector) return
-
-        await this.api.save(this.state.draftId, this.state.inlineEdit, msg.content)
-    }
-
-    private async onIframeResponseContent(msg: IframeResponseContentMessage) {
-        if (this.state.type !== 'edit') return
-        if (this.state.action == 'save') {
-            await this.api.save(this.state.draftId, this.state.inlineEdit, msg.content)
-            this.messenger.send({ type: 'EDITOR_DISCARD' })
-            await this.reload()
-        }
-    }
-
-    private async actionDiscard() {
-        if (this.state.type !== 'edit') return
-
-        this.messenger.send({ type: 'EDITOR_DISCARD' })
-        await this.api.discard(this.state.draftId)
         await this.reload()
     }
 
-    private async actionSave() {
-        if (this.state.type !== 'edit') return
+    private async onIframeContentChanged(msg: IframeContentChangedMessage) {
+        await this.api.autoSave(msg.element, msg.content)
+    }
 
-        this.state.action = 'save'
+    private async actionDiscard() {
+        this.messenger.send({ type: 'EDITOR_DISCARD' })
 
-        this.messenger.send({ type: 'EDITOR_REQUEST_CONTENT', element: this.state.inlineEdit })
+        await this.api.discard(this.collection)
+        this.clear()
+        await this.reload()
+    }
+
+    private async actionSave()
+    {
+        this.messenger.send({ type: 'EDITOR_DISCARD' })
+
+        this.clear()
+        await this.reload()
+    }
+
+    private async actionPublish()
+    {
+        await this.api.publish(this.collection);
+        this.messenger.send({ type: 'EDITOR_REFRESH' })
     }
 
     private actionToggleSidebar(button: HTMLElement) {

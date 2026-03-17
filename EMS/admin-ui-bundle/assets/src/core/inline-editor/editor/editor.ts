@@ -2,7 +2,7 @@ import {
     IframeContentChangedMessage,
     IframeLoadMessage,
     IframeRequestEditMessage,
-    InlineCollection,
+    InlineCollection
 } from '../types'
 
 import { ApiService, RenderResponse } from './api'
@@ -112,7 +112,7 @@ export class InlineEditor {
             this.messenger.send({ type: 'EDITOR_ELEMENTS', selectors: data.elements })
         }
 
-        this.collection = msg.collection;
+        this.collection = msg.collection
         this.iframeUrl = msg.url
     }
 
@@ -126,8 +126,8 @@ export class InlineEditor {
     }
 
     private async onIframeRequestEdit(msg: IframeRequestEditMessage) {
-        const emsId = msg.element.emsId;
-        const elements = this.collection[msg.element.emsId];
+        const emsId = msg.element.emsId
+        const elements = this.collection[msg.element.emsId]
 
         const response = await this.api.edit(emsId, elements)
         this.messenger.send({
@@ -151,17 +151,15 @@ export class InlineEditor {
         await this.reload()
     }
 
-    private async actionSave()
-    {
+    private async actionSave() {
         this.messenger.send({ type: 'EDITOR_DISCARD' })
 
         this.clear()
         await this.reload()
     }
 
-    private async actionPublish()
-    {
-        await this.api.publish(this.collection);
+    private async actionPublish() {
+        await this.api.publish(this.collection)
         this.messenger.send({ type: 'EDITOR_REFRESH' })
     }
 

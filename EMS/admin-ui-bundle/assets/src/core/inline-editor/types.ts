@@ -29,7 +29,7 @@ export type EditorElementsMessage = {
 }
 export type EditorEditMessage = {
     type: 'EDITOR_EDIT'
-    element: InlineElement,
+    element: InlineElement
     data: Record<string, null | string>
 }
 export type EditorDiscardMessage = {
@@ -47,7 +47,7 @@ export type EditorToIframeMessage =
 
 export type EmsId = string
 
-export type InlineCollection = Record<EmsId, InlineElement[]>;
+export type InlineCollection = Record<EmsId, InlineElement[]>
 
 export interface InlineElement {
     emsId: EmsId

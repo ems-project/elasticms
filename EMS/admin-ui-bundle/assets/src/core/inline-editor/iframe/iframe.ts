@@ -7,8 +7,8 @@ interface IframeOptions {
 }
 
 interface EditSession {
-    element: HTMLElement,
-    observer: MutationObserver,
+    element: HTMLElement
+    observer: MutationObserver
     originalContent: string
 }
 
@@ -41,7 +41,7 @@ export class Iframe {
         this.messenger.on('EDITOR_EDIT', (msg) => this.onEditorEdit(msg))
         this.messenger.on('EDITOR_DISCARD', () => this.onEditorDiscard())
         this.messenger.on('EDITOR_REFRESH', () => {
-            window.location.reload();
+            window.location.reload()
         })
     }
 
@@ -59,13 +59,15 @@ export class Iframe {
             realPath = '/' + realPath
         }
 
-        const collection: InlineCollection = {};
-        document.querySelectorAll<HTMLElement>('[data-ems-id][data-path][data-inline-id]').forEach((element) => {
-            const item = this.getInlineElement(element);
-            if (item) {
-                (collection[item.emsId] ??= []).push(item);
-            }
-        });
+        const collection: InlineCollection = {}
+        document
+            .querySelectorAll<HTMLElement>('[data-ems-id][data-path][data-inline-id]')
+            .forEach((element) => {
+                const item = this.getInlineElement(element)
+                if (item) {
+                    ;(collection[item.emsId] ??= []).push(item)
+                }
+            })
 
         this.messenger.send({
             type: 'IFRAME_LOAD',
@@ -95,26 +97,25 @@ export class Iframe {
         }
     }
 
-    private onEditorEdit(msg: EditorEditMessage)
-    {
-        Object.entries(msg.data).forEach(([selector, data])  => {
-           if (!this.inlineSelectors.includes(selector)) return;
+    private onEditorEdit(msg: EditorEditMessage) {
+        Object.entries(msg.data).forEach(([selector, data]) => {
+            if (!this.inlineSelectors.includes(selector)) return
 
-           const element = document.querySelector(selector) as HTMLElement | null;
-           if (null === element) return;
+            const element = document.querySelector(selector) as HTMLElement | null
+            if (null === element) return
 
-           this.setupInlineEdit(element, data);
+            this.setupInlineEdit(element, data)
 
-           if (selector === msg.element.selector) {
+            if (selector === msg.element.selector) {
                 element.focus()
-           }
+            }
         })
     }
 
     private onEditorDiscard() {
         this.activeSessions.forEach((session) => {
             session.observer.disconnect()
-            session.element.innerHTML =  session.originalContent
+            session.element.innerHTML = session.originalContent
             session.element.contentEditable = 'false'
             session.element.classList.remove('inline-is-editing')
         })
@@ -122,20 +123,20 @@ export class Iframe {
         this.activeSessions.clear()
     }
 
-    private setupInlineEdit(element: HTMLElement, draftData : string | null = null) {
-        const inlineElement = this.getInlineElement(element);
-        if (null === inlineElement) return;
+    private setupInlineEdit(element: HTMLElement, draftData: string | null = null) {
+        const inlineElement = this.getInlineElement(element)
+        if (null === inlineElement) return
 
-        const id = inlineElement.selector;
+        const id = inlineElement.selector
 
         if (!element || this.activeSessions.has(id)) return
 
-        const originalContent = element.innerHTML;
+        const originalContent = element.innerHTML
         element.contentEditable = 'true'
         element.classList.add('inline-is-editing')
 
         if (draftData) {
-            element.innerHTML = draftData;
+            element.innerHTML = draftData
         }
 
         let debounceTimer: number | undefined
@@ -155,7 +156,7 @@ export class Iframe {
             subtree: true
         })
 
-        this.activeSessions.set(id, { element, observer, originalContent})
+        this.activeSessions.set(id, { element, observer, originalContent })
     }
 
     private getInlineElement(element: HTMLElement): InlineElement | null {

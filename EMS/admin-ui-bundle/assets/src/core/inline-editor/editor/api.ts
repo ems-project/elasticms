@@ -60,10 +60,7 @@ export class ApiService {
         })
     }
 
-    public async autoSave(
-        element: InlineElement,
-        content: string
-    ): Promise<SuccessResponse> {
+    public async autoSave(element: InlineElement, content: string): Promise<SuccessResponse> {
         return this.request({
             method: 'POST',
             endpoint: `/inline-edit/api/auto-save`,

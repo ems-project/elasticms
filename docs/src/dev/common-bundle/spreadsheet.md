@@ -136,3 +136,24 @@ Define:
     ]
 }
 ```
+
+## String cells 
+
+Force text mode on a cell that contains only numbers
+
+Define:
+
+- Type: s
+
+```json
+{
+    "rows": [
+        [
+            {
+                "data": "12345",
+                "type": "s"
+            }
+        ]
+    ]
+}
+```

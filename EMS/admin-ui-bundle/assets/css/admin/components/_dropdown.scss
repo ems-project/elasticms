@@ -71,6 +71,9 @@
   font-size: $font-size-sm;
 }
 
-[data-bs-toggle="dropdown"].jmn-dropdown-more:empty::after {
-  content: none;
+[data-bs-toggle="dropdown"].jmn-dropdown-more:empty,
+[data-bs-toggle="dropdown"]:has(.fa-ellipsis-h) {
+  &::after {
+    content: none;
+  }
 }

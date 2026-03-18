@@ -318,7 +318,7 @@
                                                         "extraOptions": {
                                                             "extra": null,
                                                             "clear_on_copy": false,
-                                                            "postProcessing": "{{ block(\"form_instance_field_label\", \"@EMSCH/template_ems/content_type/post_processing.twig\") }}"
+                                                            "postProcessing": "{{ block('form_instance_field_label', '@EMSCH/template_ems/content_type/post_processing.twig') }}"
                                                         },
                                                         "raw_data": [],
                                                         "migrationOptions": {
@@ -1138,7 +1138,7 @@
                                                         "extraOptions": {
                                                             "extra": null,
                                                             "clear_on_copy": false,
-                                                            "postProcessing": "{{ block(\"form_instance_validation_label\", \"@EMSCH/template_ems/content_type/post_processing.twig\") }}"
+                                                            "postProcessing": "{{ block('form_instance_validation_label', '@EMSCH/template_ems/content_type/post_processing.twig') }}"
                                                         },
                                                         "raw_data": [],
                                                         "migrationOptions": {
@@ -2091,7 +2091,7 @@
                                                         "extraOptions": {
                                                             "extra": null,
                                                             "clear_on_copy": false,
-                                                            "postProcessing": "{{ block(\"form_instance_submission_label\", \"@EMSCH/template_ems/content_type/post_processing.twig\") }}"
+                                                            "postProcessing": "{{ block('form_instance_submission_label', '@EMSCH/template_ems/content_type/post_processing.twig') }}"
                                                         },
                                                         "raw_data": [],
                                                         "migrationOptions": {
@@ -2374,9 +2374,9 @@
                     "options": {
                         "body": "{}",
                         "size": 0,
-                        "template": "{{ block(\"template\", \"@EMSCH/template_ems/view/overview.twig\") }}",
-                        "header": "{{ block(\"css\", \"@EMSCH/template_ems/view/overview.twig\") }}",
-                        "javascript": "{{ block(\"javascript\", \"@EMSCH/template_ems/view/overview.twig\") }}"
+                        "template": "{{ block('template', '@EMSCH/template_ems/view/overview.twig') }}",
+                        "header": "{{ block('css', '@EMSCH/template_ems/view/overview.twig') }}",
+                        "javascript": "{{ block('javascript', '@EMSCH/template_ems/view/overview.twig') }}"
                     },
                     "orderKey": 1,
                     "public": false,

@@ -8,7 +8,7 @@ use EMS\CommonBundle\Common\CoreApi\Client;
 use EMS\CommonBundle\Common\CoreApi\Endpoint\Admin\Message\Job;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Admin\AdminInterface;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Admin\ConfigInterface;
-use EMS\CoreBundle\Entity\Job as JobEntity;
+use EMS\Helpers\Standard\Type;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpClient\Exception\TransportException;
 
@@ -24,13 +24,10 @@ class Admin implements AdminInterface
         return new Config($this->client, $typeName);
     }
 
-    /**
-     * @return array{id: string, created: string, modified: string, command: string, user: string, started: bool, done: bool, output: ?string}
-     */
     #[\Override]
     public function getJobStatus(string $jobId): array
     {
-        /** @var array{id: string, created: string, modified: string, command: string, user: string, started: bool, done: bool, output: ?string} $status */
+        /** @var array{id: string, created: string, modified: string, command: string, user: string,started: bool, done: bool, status: string, output: ?string } $status */
         $status = $this->client->get(\implode('/', ['api', 'admin', 'job-status', $jobId]))->getData();
 
         return $status;
@@ -93,10 +90,10 @@ class Admin implements AdminInterface
     }
 
     #[\Override]
-    public function runCommand(string $command, ?OutputInterface $output = null): void
+    public function runCommand(string $command, ?OutputInterface $output = null): string
     {
         $job = [
-            'class' => JobEntity::class,
+            'class' => 'EMS\CoreBundle\Entity\Job',
             'arguments' => [],
             'properties' => [
                 'command' => $command,
@@ -107,6 +104,8 @@ class Admin implements AdminInterface
         if (null !== $output) {
             $this->writeJobOutput($jobId, $output);
         }
+
+        return $jobId;
     }
 
     #[\Override]
@@ -168,5 +167,24 @@ class Admin implements AdminInterface
     public function getCoreVersion(): string
     {
         return $this->getVersions()['core'];
+    }
+
+    /**
+     * @param  string[]                          $events
+     * @return array{id: string, secret: string}
+     */
+    public function registerToWebhooks(string $endpointUrl, array $events): array
+    {
+        $webhookSubscriptions = $this->client->post(\implode('/', ['api', 'webhook-subscriptions']), [
+            'endpointUrl' => $endpointUrl,
+            'events' => $events,
+        ])->getData();
+        $subscriptionId = Type::string($webhookSubscriptions['id']);
+        $secret = Type::string($webhookSubscriptions['secret']);
+
+        return [
+            'id' => $subscriptionId,
+            'secret' => $secret,
+        ];
     }
 }

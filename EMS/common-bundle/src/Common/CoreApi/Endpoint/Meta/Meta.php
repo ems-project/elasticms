@@ -32,4 +32,32 @@ final readonly class Meta implements MetaInterface
 
         return $data['info'] ?? [];
     }
+
+    #[\Override]
+    public function getDrafts(bool $includeRawData = false, array $circles = []): array
+    {
+        return $this->client->get('/api/meta/drafts', [
+            'includeRawData' => $includeRawData,
+            'circles' => $circles,
+        ])->getData();
+    }
+
+    #[\Override]
+    public function getEnvironments(?bool $managed = null, ?bool $snapshot = null): array
+    {
+        $query = \array_filter([
+            'managed' => $managed,
+            'snapshot' => $snapshot,
+        ], static fn ($value) => null !== $value);
+
+        return $this->client->get('/api/meta/environments', $query)->getData();
+    }
+
+    public function aliasAttachEnvironment(string $alias, string $environment): bool
+    {
+        return $this->client->post(\implode('/', ['api', 'meta', 'alias-attach-environment']), [
+            'alias' => $alias,
+            'environment' => $environment,
+        ])->isSuccess();
+    }
 }

@@ -40,6 +40,7 @@ class EMSCommonExtension extends Extension implements PrependExtensionInterface
         $container->setParameter('ems_common.elasticsearch_hosts', $config['elasticsearch_hosts']);
         $container->setParameter('ems_common.elasticsearch_connection_pool', $config['elasticsearch_connection_pool']);
         $container->setParameter('ems_common.storages', $config['storages']);
+        $container->setParameter('ems_common.http_caches', $config['http_caches']);
         $container->setParameter('ems_common.runners', $config['runners']);
         $container->setParameter('ems_common.store_data_services', $config['store_data_services']);
         $container->setParameter('ems_common.key_store', $config['key_store']);

@@ -35,6 +35,7 @@ parameters:
     env(EMSCH_OAUTH2_SCOPES):               ~
     env(EMSCH_OAUTH2_ENCRYPTION_ALGORITHM): ~
     env(EMSCH_OAUTH2_ENCRYPTION_KEY):       ~
+    env(EMSCH_OAUTH2_ISSUER):               ~
 
     env(EMSCH_SAML):                    false
     env(EMSCH_SAML_SP_ENTITY_ID):       ~
@@ -86,6 +87,7 @@ ems_client_helper:
                 scopes: '%env(json:EMSCH_OAUTH2_SCOPES)%'
                 encryption_key: '%env(string:EMSCH_OAUTH2_ENCRYPTION_KEY)%'
                 encryption_algorithm: '%env(string:EMSCH_OAUTH2_ENCRYPTION_ALGORITHM)%'
+                issuer: '%env(string:EMSCH_OAUTH2_ISSUER)%'
             saml:
                 enabled: '%env(bool:EMSCH_SAML)%'
                 sp_entity_id: '%env(string:EMSCH_SAML_SP_ENTITY_ID)%'

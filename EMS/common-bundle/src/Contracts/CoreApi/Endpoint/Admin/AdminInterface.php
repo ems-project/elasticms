@@ -12,7 +12,17 @@ interface AdminInterface
     public function getConfig(string $typeName): ConfigInterface;
 
     /**
-     * @return array{id: string, created: string, modified: string, command: string, user: string, started: bool, done: bool, output: ?string}
+     * @return array{
+     *     id: string,
+     *     created: string,
+     *     modified: string,
+     *     command: string,
+     *     user: string,
+     *     started: bool,
+     *     done: bool,
+     *     status: string,
+     *     output: ?string
+     * }
      */
     public function getJobStatus(string $jobId): array;
 
@@ -30,7 +40,7 @@ interface AdminInterface
 
     public function writeJobOutput(string $jobId, OutputInterface $output): void;
 
-    public function runCommand(string $command, OutputInterface $output): void;
+    public function runCommand(string $command, ?OutputInterface $output = null): string;
 
     public function getNextJob(string $tag, ?string $jobId): ?Job;
 
@@ -46,4 +56,10 @@ interface AdminInterface
     public function getVersions(): array;
 
     public function getCoreVersion(): string;
+
+    /**
+     * @param  string[]                          $events
+     * @return array{id: string, secret: string}
+     */
+    public function registerToWebhooks(string $endpointUrl, array $events): array;
 }

@@ -6,7 +6,6 @@ namespace EMS\CommonBundle\Elasticsearch\Document;
 
 use Elastica\Result;
 use EMS\CommonBundle\Common\EMSLink;
-use EMS\CoreBundle\Entity\ContentType;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class Document implements DocumentInterface
@@ -62,12 +61,10 @@ class Document implements DocumentInterface
     /**
      * @param array<string, mixed> $rawData
      */
-    public static function fromData(ContentType|string $contentType, string $ouuid, array $rawData, string $index = 'not_available'): Document
+    public static function fromData(string $contentType, string $ouuid, array $rawData, string $index = 'not_available'): Document
     {
         return new self([
-            '_source' => \array_merge($rawData, [
-                EMSSource::FIELD_CONTENT_TYPE => \is_string($contentType) ? $contentType : $contentType->getName(),
-            ]),
+            '_source' => \array_merge($rawData, [EMSSource::FIELD_CONTENT_TYPE => $contentType]),
             '_id' => $ouuid,
             '_index' => $index,
         ]);

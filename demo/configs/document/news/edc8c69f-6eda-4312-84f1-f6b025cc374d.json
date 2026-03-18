@@ -8,6 +8,11 @@
         "body": "<p>Il est tr&egrave;s fr&eacute;quent de travailler &agrave; plusieurs sur un m&ecirc;me eMS. La nouvelle fonctionnalit&eacute; de <strong>gestion des t&acirc;ches</strong> vous permet de d&eacute;l&eacute;guer des t&acirc;ches tout en contr&ocirc;lant les <strong>processus d&rsquo;approbation et de publication de contenu</strong>.</p>\r\n\r\n<p>Les fonctions avanc&eacute;es d&rsquo;&eacute;dition permettent &eacute;galement aux utilisateurs un contr&ocirc;le total de publication.</p>",
         "description": "<p>Il est tr&egrave;s fr&eacute;quent de travailler &agrave; plusieurs sur un m&ecirc;me eMS. La nouvelle fonctionnalit&eacute; de <strong>gestion des t&acirc;ches</strong> vous permet de d&eacute;l&eacute;guer des t&acirc;ches tout en contr&ocirc;lant les <strong>processus d&rsquo;approbation et de publication de contenu</strong>.</p>",
         "image": {
+            "_algo": "sha1",
+            "_hash": "149e75b081570f972229fb9457687e99e7719434",
+            "_name": "ems-task.jpg",
+            "_size": 405940,
+            "_type": "image/jpeg",
             "filename": "ems-task.jpg",
             "filesize": 405940,
             "mimetype": "image/jpeg",
@@ -19,11 +24,15 @@
         "summary": "<p>Il est tr&egrave;s fr&eacute;quent de travailler &agrave; plusieurs sur un m&ecirc;me eMS. La nouvelle fonctionnalit&eacute; de <strong>gestion des t&acirc;ches</strong> vous permet de d&eacute;l&eacute;guer des t&acirc;ches tout en contr&ocirc;lant les <strong>processus d&rsquo;approbation et de publication de contenu</strong>.</p>",
         "title": "Une gestion collaborative"
     },
-    "label": "Une gestion collaborative / Taakbeheer",
     "nl": {
         "body": "<p>Vaak werkt u met meerdere gebruikers in dezelfde eMS. Met de nieuwe functionaliteit voor <strong>taakbeheer</strong> kunt u taken delegeren en tegelijkertijd de <strong>processen voor het goedkeuren en publiceren van inhoud controleren</strong>.</p>\r\n\r\n<p>Met de nieuwe&nbsp;<strong>Task Manager</strong> delegeert u taken en volgt u het goedkeurings- en publicatieproces nauwgezet op.</p>",
         "description": "<p>Vaak werkt u met meerdere gebruikers in dezelfde eMS. Met de nieuwe functionaliteit voor <strong>taakbeheer</strong> kunt u taken delegeren en tegelijkertijd de <strong>processen voor het goedkeuren en publiceren van inhoud controleren</strong>.</p>",
         "image": {
+            "_algo": "sha1",
+            "_hash": "149e75b081570f972229fb9457687e99e7719434",
+            "_name": "ems-task.jpg",
+            "_size": 405940,
+            "_type": "image/jpeg",
             "filename": "ems-task.jpg",
             "filesize": 405940,
             "mimetype": "image/jpeg",

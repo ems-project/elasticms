@@ -1,0 +1,1525 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="nl" original="content_type:fakeOuuid:fakeRevisionId" datatype="database" target-language="de">
+    <body>
+      <group resname="[body]" id="grp1">
+        <trans-unit restype="x-html-h2" id="tu2" resname="/html/body/h2[1]">
+          <source xml:lang="nl"> <g id="g3" ctype="x-html-ins">Gegevens periodieke sociale signalitiek</g> </source>
+          <target xml:lang="de" state="needs-translation"> <bx id="bx5" rid="rid4" equiv-text="&amp;lt;ins class=&amp;quot;newWord&amp;quot;&amp;gt;"/>Daten zur periodischen Sozialkennzeichnung<ex id="ex6" rid="rid4" equiv-text="&amp;lt;/ins&amp;gt;"/> </target>
+        </trans-unit>
+        <trans-unit restype="x-html-p" id="tu7" resname="/html/body/p[1]">
+          <source xml:lang="nl"> De velden '<g id="g8" ctype="x-html-strong">begindatum van de periodieke sociale signalitiek</g>' en '<g id="g9" ctype="x-html-strong">einddatum van de periodieke sociale signalitiek</g>' bakenen de periode af waarop de gegevens in het blok '<g id="g10" ctype="x-html-strong">periodieke sociale signalitiek</g>' betrekking hebben. </source>
+          <target xml:lang="de" state="final"> Die Felder „<g id="g11" ctype="x-html-strong">Beginn der periodischen Sozialkennzeichnung</g>” und „<g id="g12" ctype="x-html-strong">Ende der periodischen Sozialkennzeichnung</g>” begrenzen den Zeitraum, auf den sich die Angaben im Block „<g id="g13" ctype="x-html-strong">Periodische Sozialkennzeichnung</g>” beziehen. </target>
+        </trans-unit>
+        <trans-unit restype="x-html-p" id="tu14" resname="/html/body/p[2]">
+          <source xml:lang="nl"> Deze periode situeert zich steeds binnen de periode afgebakend door de velden 'begindatum van de sociale signalitiek' en 'einddatum van de sociale signalitiek' in het blok 'sociale signalitiek'. </source>
+          <target xml:lang="de" state="final"> Dieser Zeitraum liegt immer innerhalb des Zeitraums, der durch die Felder „Beginn der Sozialkennzeichnung” und „Ende der Sozialkennzeichnung” im Block „Sozialkennzeichnung” abgegrenzt ist. </target>
+        </trans-unit>
+        <trans-unit restype="x-html-p" id="tu15" resname="/html/body/p[3]">
+          <source xml:lang="nl"> Zoals bij het blok 'sociale signalitiek' kunnen verschillende blokken 'periodieke sociale signalitiek' niet overlappen in de tijd en dus bij uitbreiding evenmin binnen eenzelfde loonberekeningsperiode. Als de situatie zich voordoet dat er overlappende gegevens zouden moeten worden opgenomen, moet een <g id="g16" ctype="x-html-strong">afzonderlijk LTDS-bericht</g> volgen waarin alles opgenomen wordt van de bijkomende situatie. </source>
+          <target xml:lang="de" state="final"> Wie beim Block „Sozialkennzeichnung” dürfen sich verschiedene Blöcke „periodische Sozialkennzeichnung” zeitlich nicht überschneiden und somit auch nicht innerhalb desselben Lohn- und Gehaltsabrechnungszeitraums. Wenn sich die Situation ergibt, dass sich überschneidende Daten aufgenommen werden müssen, muss eine <g id="g17" ctype="x-html-strong">separate LTDS-Nachricht</g> folgen, in die alles aus der zusätzlichen Situation aufgenommen wird. </target>
+        </trans-unit>
+        <trans-unit restype="x-html-p" id="tu18" resname="/html/body/p[4]">
+          <source xml:lang="nl"> Volgende gegevens bepalen de periodieke sociale signalitiek: </source>
+          <target xml:lang="de" state="final"> Die folgenden Daten bestimmen die periodische Sozialkennzeichnung: </target>
+        </trans-unit>
+        <group restype="x-html-ul" id="tu19" resname="/html/body/ul[1]">
+          <group restype="listitem" id="tu20" resname="/html/body/ul[1]/li[1]">
+            <trans-unit id="tu21" resname="/html/body/ul[1]/li[1]/text()[1]">
+              <source xml:lang="nl"> <g id="g22" ctype="x-html-strong">volume</g></source>
+              <target xml:lang="de" state="final"> <g id="g23" ctype="x-html-strong">Volumen</g></target>
+            </trans-unit>
+            <group restype="x-html-ul" id="tu24" resname="/html/body/ul[1]/li[1]/ul">
+              <trans-unit restype="listitem" id="tu25" resname="/html/body/ul[1]/li[1]/ul/li">
+                <source xml:lang="nl">voltijdse of deeltijdse overeenkomst </source>
+                <target xml:lang="de" state="final">Vollzeit- oder Teilzeitvertrag </target>
+              </trans-unit>
+            </group>
+          </group>
+          <group restype="listitem" id="tu26" resname="/html/body/ul[1]/li[2]">
+            <trans-unit id="tu27" resname="/html/body/ul[1]/li[2]/text()[1]">
+              <source xml:lang="nl"> <g id="g28" ctype="x-html-strong">identificatienummer van de lokale vestigingseenheid (VE)</g></source>
+              <target xml:lang="de" state="final"> <g id="g29" ctype="x-html-strong">Identifizierungsnummer der lokalen Niederlassungseinheit (NE)</g></target>
+            </trans-unit>
+            <group restype="x-html-ul" id="tu30" resname="/html/body/ul[1]/li[2]/ul">
+              <group restype="listitem" id="tu31" resname="/html/body/ul[1]/li[2]/ul/li[1]">
+                <trans-unit id="tu32" resname="/html/body/ul[1]/li[2]/ul/li[1]/text()[1]">
+                  <source xml:lang="nl">identificatienummer toegekend door de Kruispuntbank van Ondernemingen dat een vestigingseenheid eenduidig identificeert. </source>
+                  <target xml:lang="de" state="final">Identifikationsnummer, die von der Zentralen Datenbank der Unternehmen vergeben wird und eine Niederlassungseinheit eindeutig identifiziert. </target>
+                </trans-unit>
+                <group restype="x-html-ul" id="tu33" resname="/html/body/ul[1]/li[2]/ul/li[1]/ul">
+                  <trans-unit restype="listitem" id="tu34" resname="/html/body/ul[1]/li[2]/ul/li[1]/ul/li">
+                    <source xml:lang="nl">in uitzonderlijke gevallen moet een fictief nummer worden aangegeven: zie de 'bijkomende info' op de betreffende pagina van de <bx id="bx36" rid="rid35" equiv-text="&amp;lt;a href=&amp;quot;https://www.socialsecurity.be/employer/instructions/dmfa/nl/latest/instructions/fill_in_dmfa/occupationrecord/exploitation_site.html&amp;quot;&amp;gt;"/> administratieve instructies DmfA<ex id="ex37" rid="rid35" equiv-text="&amp;lt;/a&amp;gt;"/> </source>
+                    <target xml:lang="de" state="final">In Ausnahmefällen muss eine fiktive Nummer angegeben werden: siehe „zusätzliche Informationen“ auf der entsprechenden Seite der <bx id="bx39" rid="rid38" equiv-text="&amp;lt;a href=&amp;quot;https://www.socialsecurity.be/employer/instructions/dmfa/nl/latest/instructions/fill_in_dmfa/occupationrecord/exploitation_site.html&amp;quot;&amp;gt;"/> Verwaltungsanweisungen der DmfA<ex id="ex40" rid="rid38" equiv-text="&amp;lt;/a&amp;gt;"/>. </target>
+                  </trans-unit>
+                </group>
+              </group>
+              <trans-unit restype="listitem" id="tu41" resname="/html/body/ul[1]/li[2]/ul/li[2]">
+                <source xml:lang="nl">in geval van een verbrekingsvergoeding in maandelijkse schijven wordt het identificatienummer van de lokale vestigingseenheid van de laatst gekende prestaties vermeld </source>
+                <target xml:lang="de" state="final">Im Falle einer Kündigungsentschädigung in monatlichen Raten wird die Identifikationsnummer der letzten bekannten lokalen Niederlassungseinheit angegeben. </target>
+              </trans-unit>
+            </group>
+          </group>
+          <group restype="listitem" id="tu42" resname="/html/body/ul[1]/li[3]">
+            <trans-unit id="tu43" resname="/html/body/ul[1]/li[3]/text()[1]">
+              <source xml:lang="nl"> <g id="g44" ctype="x-html-strong">nummer van het paritair comité</g></source>
+              <target xml:lang="de" state="final"> <g id="g45" ctype="x-html-strong">Nummer der paritätischen Kommission</g></target>
+            </trans-unit>
+            <group restype="x-html-ul" id="tu46" resname="/html/body/ul[1]/li[3]/ul">
+              <group restype="listitem" id="tu47" resname="/html/body/ul[1]/li[3]/ul/li">
+                <trans-unit id="tu48" resname="/html/body/ul[1]/li[3]/ul/li/text()[1]">
+                  <source xml:lang="nl">zie de betreffende pagina van de <bx id="bx50" rid="rid49" equiv-text="&amp;lt;a href=&amp;quot;https://www.socialsecurity.be/employer/instructions/dmfa/nl/latest/instructions/fill_in_dmfa/occupationrecord/joint_committee.html&amp;quot;&amp;gt;"/> administratieve instructies DmfA<ex id="ex51" rid="rid49" equiv-text="&amp;lt;/a&amp;gt;"/></source>
+                  <target xml:lang="de" state="final">siehe die entsprechende Seite in den <bx id="bx53" rid="rid52" equiv-text="&amp;lt;a href=&amp;quot;https://www.socialsecurity.be/employer/instructions/dmfa/nl/latest/instructions/fill_in_dmfa/occupationrecord/joint_committee.html&amp;quot;&amp;gt;"/> Verwaltungsanweisungen der DmfA<ex id="ex54" rid="rid52" equiv-text="&amp;lt;/a&amp;gt;"/></target>
+                </trans-unit>
+                <group restype="x-html-ul" id="tu55" resname="/html/body/ul[1]/li[3]/ul/li/ul">
+                  <trans-unit restype="listitem" id="tu56" resname="/html/body/ul[1]/li[3]/ul/li/ul/li[1]">
+                    <source xml:lang="nl">het is uiteraard mogelijk dat een verandering van paritair comité tevens een wijziging van de werkgeverscategorie betekent (omdat er een ander bijdragepercentage van toepassing wordt); als zich dat zou voordoen binnen de gewoonlijke loonberekeningsperiode moet men, zoals hiervoor reeds werd uitgelegd, de gegevens opnemen in een nieuwe periodieke signalitiek en dus een aparte loonberekening uitvoeren </source>
+                    <target xml:lang="de" state="final">Es ist natürlich möglich, dass eine Änderung der paritätischen Kommission auch eine Änderung der Arbeitgeberkategorie bedeutet (da ein anderer Beitragssatz gilt). Sollte dies innerhalb des üblichen Lohn- und Gehaltsabrechnungszeitraums geschehen, müssen die Daten, wie bereits oben erläutert, in eine neue periodische Kennzeichnung aufgenommen und muss somit eine separate Lohn- und Gehaltsabrechnung durchgeführt werden. </target>
+                  </trans-unit>
+                  <group restype="listitem" id="tu57" resname="/html/body/ul[1]/li[3]/ul/li/ul/li[2]">
+                    <trans-unit id="tu58" resname="/html/body/ul[1]/li[3]/ul/li/ul/li[2]/text()[1]">
+                      <source xml:lang="nl">er moet geen nieuw bericht worden verzonden als de periodieke signalitiek met paritair comité A volgt op de periode signalitiek met parirair comité B zonder overlap in de tijd: </source>
+                      <target xml:lang="de" state="final">Es darf keine neue Nachricht gesendet werden, wenn die periodische Kennzeichnung mit der paritätischen Kommission A auf den Zeitraum der Kennzeichnung mit der paritätischen Kommission B folgt, ohne dass es zu einer zeitlichen Überschneidung kommt: </target>
+                    </trans-unit>
+                    <group restype="x-html-ul" id="tu59" resname="/html/body/ul[1]/li[3]/ul/li/ul/li[2]/ul">
+                      <group restype="listitem" id="tu60" resname="/html/body/ul[1]/li[3]/ul/li/ul/li[2]/ul/li">
+                        <trans-unit id="tu61" resname="/html/body/ul[1]/li[3]/ul/li/ul/li[2]/ul/li/text()[1]">
+                          <source xml:lang="nl">loonberekening van 1 januari tot en met 31 januari<x id="x62" ctype="x-html-br" equiv-text=" "/> &gt; sociale signalitiek van 1 januari tot en met 31 januari </source>
+                          <target xml:lang="de" state="final">Lohn- und Gehaltsabrechnung vom 1. Januar bis zum 31. Januar<x id="x63" ctype="x-html-br" equiv-text=" "/> &gt; Sozialkennzeichnung vom 1. Januar bis zum 31. Januar </target>
+                        </trans-unit>
+                        <trans-unit restype="x-html-p" id="tu64" resname="/html/body/ul[1]/li[3]/ul/li/ul/li[2]/ul/li/p">
+                          <source xml:lang="nl"> &gt;&gt; periodieke sociale signalitiek van 1 januari tot en met 15 januari met paritair comité A<x id="x65" ctype="x-html-br" equiv-text=" "/> &gt;&gt; periodieke sociale signalitiek vanaf 15 januari tot en met 31 januari met paritair comité B </source>
+                          <target xml:lang="de" state="final"> &gt;&gt; Periodische Sozialkennzeichnung vom 1. Januar bis zum 15. Januar mit der paritätischen Kommission A<x id="x66" ctype="x-html-br" equiv-text=" "/> &gt;&gt; Periodische Sozialkennzeichnung vom 15. Januar bis zum 31. Januar mit der paritätischen Kommission B </target>
+                        </trans-unit>
+                      </group>
+                    </group>
+                  </group>
+                </group>
+              </group>
+            </group>
+          </group>
+          <group restype="listitem" id="tu67" resname="/html/body/ul[1]/li[4]">
+            <trans-unit id="tu68" resname="/html/body/ul[1]/li[4]/text()[1]">
+              <source xml:lang="nl"> <g id="g69" ctype="x-html-strong">NACE-code</g></source>
+              <target xml:lang="de" state="final"> <g id="g70" ctype="x-html-strong">NACE-Code</g></target>
+            </trans-unit>
+            <group restype="x-html-ul" id="tu71" resname="/html/body/ul[1]/li[4]/ul">
+              <trans-unit restype="listitem" id="tu72" resname="/html/body/ul[1]/li[4]/ul/li">
+                <source xml:lang="nl">zie de betreffende pagina van de <bx id="bx74" rid="rid73" equiv-text="&amp;lt;a href=&amp;quot;https://www.socialsecurity.be/employer/instructions/dmfa/nl/latest/instructions/fill_in_dmfa/occupationrecord/sector_specific_characteristics/nace_code.html&amp;quot;&amp;gt;"/> administratieve instructies DmfA<ex id="ex75" rid="rid73" equiv-text="&amp;lt;/a&amp;gt;"/> </source>
+                <target xml:lang="de" state="final">siehe die entsprechende Seite in den <bx id="bx77" rid="rid76" equiv-text="&amp;lt;a href=&amp;quot;https://www.socialsecurity.be/employer/instructions/dmfa/nl/latest/instructions/fill_in_dmfa/occupationrecord/sector_specific_characteristics/nace_code.html&amp;quot;&amp;gt;"/> Verwaltungsanweisungen der DmfA<ex id="ex78" rid="rid76" equiv-text="&amp;lt;/a&amp;gt;"/> </target>
+              </trans-unit>
+            </group>
+          </group>
+          <group restype="listitem" id="tu79" resname="/html/body/ul[1]/li[5]">
+            <trans-unit id="tu80" resname="/html/body/ul[1]/li[5]/text()[1]">
+              <source xml:lang="nl"> <bx id="bx82" rid="rid81" equiv-text="&amp;lt;ins class=&amp;quot;newWord&amp;quot;&amp;gt;"/><g id="g83" ctype="x-html-strong">betalingswijze in het onderwijs</g><ex id="ex84" rid="rid81" equiv-text="&amp;lt;/ins&amp;gt;"/></source>
+              <target xml:lang="de" state="new"> </target>
+            </trans-unit>
+            <group restype="x-html-ul" id="tu85" resname="/html/body/ul[1]/li[5]/ul">
+              <trans-unit restype="listitem" id="tu86" resname="/html/body/ul[1]/li[5]/ul/li">
+                <source xml:lang="nl"> <bx id="bx88" rid="rid87" equiv-text="&amp;lt;ins class=&amp;quot;newWord&amp;quot;&amp;gt;"/>betaling in 10-den of 12-den<ex id="ex89" rid="rid87" equiv-text="&amp;lt;/ins&amp;gt;"/> </source>
+                <target xml:lang="de" state="new"/>
+              </trans-unit>
+            </group>
+          </group>
+          <group restype="listitem" id="tu90" resname="/html/body/ul[1]/li[6]">
+            <trans-unit id="tu91" resname="/html/body/ul[1]/li[6]/text()[1]">
+              <source xml:lang="nl"> <g id="g92" ctype="x-html-strong">wekelijkse arbeidsduur</g></source>
+              <target xml:lang="de" state="needs-translation"> <g id="g93" ctype="x-html-strong">Maßnahme zur Neuverteilung der Arbeitszeit (MNA)</g></target>
+            </trans-unit>
+            <group restype="x-html-ul" id="tu94" resname="/html/body/ul[1]/li[6]/ul">
+              <group restype="listitem" id="tu95" resname="/html/body/ul[1]/li[6]/ul/li[1]">
+                <trans-unit id="tu96" resname="/html/body/ul[1]/li[6]/ul/li[1]/text()[1]">
+                  <source xml:lang="nl">er zijn 3 <g id="g97" ctype="x-html-strong">types</g> tewerkstellingsbreuken (Q en S steeds te vermelden):  </source>
+                  <target xml:lang="de" state="needs-translation">Eine Maßnahme zur Neuverteilung der Arbeitszeit (MNA) ist eine strukturelle Abwesenheit, die zu einer Verringerung der durchschnittlichen Wochenarbeitszeit führt. Es können mehrere MNA gleichzeitig gelten, wobei mehrere Blöcke „Maßnahme zur Neuverteilung der Arbeitszeit” jeweils mit folgenden Angaben angegeben werden:  </target>
+                </trans-unit>
+                <group restype="x-html-ul" id="tu98" resname="/html/body/ul[1]/li[6]/ul/li[1]/ul">
+                  <trans-unit restype="listitem" id="tu99" resname="/html/body/ul[1]/li[6]/ul/li[1]/ul/li[1]">
+                    <source xml:lang="nl">S = maatpersoon van toepassing op de werknemer = de theoretische referentiepersoon die voltijds tewerkgesteld is in dezelfde onderneming (of bij gebrek hieraan, in dezelfde activiteitstak) in een gelijkaardige functie; meerdere maatpersonen binnen één onderneming zijn mogelijk </source>
+                    <target xml:lang="de" state="needs-translation">MNA-Code  Für angepasste Arbeit mit Lohnausfall gibt es keinen MNA-Code, aber die maximale Anzahl der im Rahmen der schrittweisen Wiederaufnahme der Arbeit zulässigen Arbeitsstunden wird angegeben.   </target>
+                  </trans-unit>
+                  <trans-unit restype="listitem" id="tu100" resname="/html/body/ul[1]/li[6]/ul/li[1]/ul/li[2]">
+                    <source xml:lang="nl">Q = gegevens van de natuurlijke persoon zonder rekening te houden met een eventuele schorsing van de prestaties </source>
+                    <target xml:lang="de" state="needs-translation">Prozentsatz der Maßnahme zur Neuverteilung der Arbeitszeit  Für jede Maßnahme zur Neuverteilung der Arbeitszeit wird der Prozentsatz angegeben, um den die Arbeitsleistung reduziert wird; dabei handelt es sich um den Prozentsatz der Abwesenheit aufgrund der betreffenden MNA.   </target>
+                  </trans-unit>
+                  <trans-unit restype="listitem" id="tu101" resname="/html/body/ul[1]/li[6]/ul/li[1]/ul/li[3]">
+                    <source xml:lang="nl">M = gegevens van de natuurlijke persoon rekening houdend met een eventuele volledige of gedeeltelijke schorsing van de prestaties </source>
+                    <target xml:lang="de" state="new"/>
+                  </trans-unit>
+                </group>
+              </group>
+              <group restype="listitem" id="tu102" resname="/html/body/ul[1]/li[6]/ul/li[2]">
+                <trans-unit id="tu103" resname="/html/body/ul[1]/li[6]/ul/li[2]/text()[1]">
+                  <source xml:lang="nl">de gemiddelde wekelijkse arbeidsduur moet op 2 manieren worden uitgedrukt: </source>
+                  <target xml:lang="de" state="new"/>
+                </trans-unit>
+                <group restype="x-html-ul" id="tu104" resname="/html/body/ul[1]/li[6]/ul/li[2]/ul">
+                  <trans-unit restype="listitem" id="tu105" resname="/html/body/ul[1]/li[6]/ul/li[2]/ul/li[1]">
+                    <source xml:lang="nl"> <g id="g106" ctype="x-html-strong">effectief gemiddelde wekelijkse arbeidsduur</g> = aantal te presteren uren per week per cyclus, inclusief eventuele betaalde inhaalrust en <g id="g107" ctype="x-html-strong">inclusief</g> eventuele onbetaalde inhaalrust </source>
+                    <target xml:lang="de" state="new"/>
+                  </trans-unit>
+                  <trans-unit restype="listitem" id="tu108" resname="/html/body/ul[1]/li[6]/ul/li[2]/ul/li[2]">
+                    <source xml:lang="nl"> <g id="g109" ctype="x-html-strong">jaarlijks gemiddelde wekelijkse betaalde arbeidsduur</g> = aantal te presteren uren per week op jaarbasis, inclusief eventuele betaalde inhaalrust en <g id="g110" ctype="x-html-strong">exclusief</g> eventuele onbetaalde inhaalrust  </source>
+                    <target xml:lang="de" state="new"/>
+                  </trans-unit>
+                </group>
+              </group>
+            </group>
+          </group>
+          <group restype="listitem" id="tu111" resname="/html/body/ul[1]/li[7]">
+            <trans-unit id="tu112" resname="/html/body/ul[1]/li[7]/text()[1]">
+              <source xml:lang="nl"> <g id="g113" ctype="x-html-strong">maatregel reorganisatie arbeidstijd (MRA)</g></source>
+              <target xml:lang="de" state="new"/>
+            </trans-unit>
+            <group restype="x-html-ul" id="tu114" resname="/html/body/ul[1]/li[7]/ul">
+              <group restype="listitem" id="tu115" resname="/html/body/ul[1]/li[7]/ul/li">
+                <trans-unit id="tu116" resname="/html/body/ul[1]/li[7]/ul/li/text()[1]">
+                  <source xml:lang="nl">een maatregel tot reorganisatie van de arbeidstijd (MRA) is een structurele afwezigheid die leidt tot een daling van de gemiddelde wekelijkse arbeidsduur; meerdere MRA kunnen gelijktijdig van toepassing zijn waarbij meerdere blokken 'maatregel tot reorganisatie van de arbeidstijd' worden aangegeven telkens met volgende gegevens: </source>
+                  <target xml:lang="de" state="new"/>
+                </trans-unit>
+                <group restype="x-html-ul" id="tu117" resname="/html/body/ul[1]/li[7]/ul/li/ul">
+                  <group restype="listitem" id="tu118" resname="/html/body/ul[1]/li[7]/ul/li/ul/li[1]">
+                    <trans-unit id="tu119" resname="/html/body/ul[1]/li[7]/ul/li/ul/li[1]/text()[1]">
+                      <source xml:lang="nl">MRA-code </source>
+                      <target xml:lang="de" state="new"/>
+                    </trans-unit>
+                    <group restype="x-html-ul" id="tu120" resname="/html/body/ul[1]/li[7]/ul/li/ul/li[1]/ul">
+                      <trans-unit restype="listitem" id="tu121" resname="/html/body/ul[1]/li[7]/ul/li/ul/li[1]/ul/li">
+                        <source xml:lang="nl">voor aangepaste arbeid met loonverlies bestaat geen MRA-code maar wordt het maximale aantal uren toegestane arbeid in het kader van de progressieve werkhervatting meegegeven </source>
+                        <target xml:lang="de" state="new"/>
+                      </trans-unit>
+                    </group>
+                  </group>
+                  <group restype="listitem" id="tu122" resname="/html/body/ul[1]/li[7]/ul/li/ul/li[2]">
+                    <trans-unit id="tu123" resname="/html/body/ul[1]/li[7]/ul/li/ul/li[2]/text()[1]">
+                      <source xml:lang="nl">percentage van maatregel tot reorganisatie van arbeidstijd </source>
+                      <target xml:lang="de" state="new"/>
+                    </trans-unit>
+                    <group restype="x-html-ul" id="tu124" resname="/html/body/ul[1]/li[7]/ul/li/ul/li[2]/ul">
+                      <trans-unit restype="listitem" id="tu125" resname="/html/body/ul[1]/li[7]/ul/li/ul/li[2]/ul/li">
+                        <source xml:lang="nl">voor elke maatregel tot reorganisatie van de arbeidstijd wordt het percentage waarmee de prestaties verminderd worden, vermeld; het gaat om het percentage van de afwezigheid als gevolg van de betreffende MRA </source>
+                        <target xml:lang="de" state="new"/>
+                      </trans-unit>
+                    </group>
+                  </group>
+                </group>
+              </group>
+            </group>
+          </group>
+        </group>
+        <trans-unit restype="x-html-h2" id="tu126" resname="/html/body/h2[2]">
+          <source xml:lang="nl"> Voorbeelden van de wekelijkse arbeidstijd zonder MRA </source>
+          <target xml:lang="de" state="final"> Beispiele für die wöchentliche Arbeitszeit ohne MNA </target>
+        </trans-unit>
+        <trans-unit restype="x-html-p" id="tu127" resname="/html/body/p[5]">
+          <source xml:lang="nl"> Indien geen maatregel tot reorganisatie van de arbeidstijd van toepassing is, dan worden er steeds <g id="g128" ctype="x-html-strong">twee blokken 'wekelijkse arbeidsduur'</g> aangegeven: </source>
+          <target xml:lang="de" state="final"> Wenn keine Maßnahme zur Neuverteilung der Arbeitszeit gilt, werden immer <g id="g129" ctype="x-html-strong">zwei Blöcke „wöchentliche Arbeitszeit”</g> angegeben: </target>
+        </trans-unit>
+        <group restype="x-html-ul" id="tu130" resname="/html/body/ul[2]">
+          <trans-unit restype="listitem" id="tu131" resname="/html/body/ul[2]/li[1]">
+            <source xml:lang="nl">één blok met de gegevens van de werknemer en </source>
+            <target xml:lang="de" state="final">ein Block mit den Daten des Arbeitnehmers und </target>
+          </trans-unit>
+          <trans-unit restype="listitem" id="tu132" resname="/html/body/ul[2]/li[2]">
+            <source xml:lang="nl">één blok met de gegevens van de maatpersoon. </source>
+            <target xml:lang="de" state="final">ein Block mit den Daten der Referenzperson. </target>
+          </trans-unit>
+        </group>
+        <trans-unit restype="x-html-p" id="tu133" resname="/html/body/p[6]">
+          <source xml:lang="nl"> 1) Een voltijdse werknemer heeft een werkweek van 5 dagen en werkt effectief 38 uren per week (7,6 uren per dag). Er bestaat geen ADV-regeling. </source>
+          <target xml:lang="de" state="final"> 1) Ein Vollzeitbeschäftigter hat eine Arbeitswoche von 5 Tagen und arbeitet effektiv 38 Stunden pro Woche (7,6 Stunden pro Tag). Es gibt keine Regelung zur Arbeitszeitverkürzung (AZV). </target>
+        </trans-unit>
+        <group restype="table" id="tu134" resname="/html/body/table[1]">
+          <note from="align">left</note>
+          <note from="class">table-bordered table-striped</note>
+          <group restype="x-html-thead" id="tu135" resname="/html/body/table[1]/thead">
+            <group restype="row" id="tu136" resname="/html/body/table[1]/thead/tr">
+              <trans-unit restype="x-html-th" id="tu137" resname="/html/body/table[1]/thead/tr/th[1]">
+                <source xml:lang="nl"> Zone in blok 'wekelijkse arbeidsduur' </source>
+                <target xml:lang="de" state="final"> Feld im Block „Wöchentliche Arbeitszeit“ </target>
+              </trans-unit>
+              <trans-unit restype="x-html-th" id="tu138" resname="/html/body/table[1]/thead/tr/th[2]">
+                <source xml:lang="nl"> Waarden in blok #1 </source>
+                <target xml:lang="de" state="final"> Werte in Block #1 </target>
+              </trans-unit>
+              <trans-unit restype="x-html-th" id="tu139" resname="/html/body/table[1]/thead/tr/th[3]">
+                <source xml:lang="nl"> Waarden in blok #2 </source>
+                <target xml:lang="de" state="final"> Werte in Block #2 </target>
+              </trans-unit>
+            </group>
+          </group>
+          <group restype="x-html-tbody" id="tu140" resname="/html/body/table[1]/tbody">
+            <group restype="row" id="tu141" resname="/html/body/table[1]/tbody/tr[1]">
+              <trans-unit restype="cell" id="tu142" resname="/html/body/table[1]/tbody/tr[1]/td[1]">
+                <source xml:lang="nl"> Type </source>
+                <target xml:lang="de" state="final"> Art </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu143" resname="/html/body/table[1]/tbody/tr[1]/td[2]">
+                <source xml:lang="nl"> Werknemer (Q) </source>
+                <target xml:lang="de" state="final"> Arbeitnehmer (Q) </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu144" resname="/html/body/table[1]/tbody/tr[1]/td[3]">
+                <source xml:lang="nl"> Maatpersoon (S) </source>
+                <target xml:lang="de" state="final"> Referenzperson (S) </target>
+              </trans-unit>
+            </group>
+            <group restype="row" id="tu145" resname="/html/body/table[1]/tbody/tr[2]">
+              <trans-unit restype="cell" id="tu146" resname="/html/body/table[1]/tbody/tr[2]/td[1]">
+                <source xml:lang="nl"> Effectieve gemiddelde wekelijkse arbeidsduur </source>
+                <target xml:lang="de" state="final"> Effektive durchschnittliche Wochenarbeitszeit </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu147" resname="/html/body/table[1]/tbody/tr[2]/td[2]">
+                <source xml:lang="nl"> 38 </source>
+                <target xml:lang="de" state="final"> 38 </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu148" resname="/html/body/table[1]/tbody/tr[2]/td[3]">
+                <source xml:lang="nl"> 38 </source>
+                <target xml:lang="de" state="final"> 38 </target>
+              </trans-unit>
+            </group>
+            <group restype="row" id="tu149" resname="/html/body/table[1]/tbody/tr[3]">
+              <trans-unit restype="cell" id="tu150" resname="/html/body/table[1]/tbody/tr[3]/td[1]">
+                <source xml:lang="nl"> Jaarlijks gemiddelde wekelijkse betaalde arbeidsduur </source>
+                <target xml:lang="de" state="final"> Jährliche durchschnittliche bezahlte Wochenarbeitszeit </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu151" resname="/html/body/table[1]/tbody/tr[3]/td[2]">
+                <source xml:lang="nl"> 38 </source>
+                <target xml:lang="de" state="final"> 38 </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu152" resname="/html/body/table[1]/tbody/tr[3]/td[3]">
+                <source xml:lang="nl"> 38 </source>
+                <target xml:lang="de" state="final"> 38 </target>
+              </trans-unit>
+            </group>
+          </group>
+        </group>
+        <trans-unit restype="x-html-p" id="tu153" resname="/html/body/p[7]">
+          <source xml:lang="nl">   </source>
+          <target xml:lang="de" state="final">   </target>
+        </trans-unit>
+        <trans-unit restype="x-html-p" id="tu154" resname="/html/body/p[8]">
+          <source xml:lang="nl"> 2) Een halftijdse werknemer werkt effectief 19 uren per week zonder ADV-regeling. </source>
+          <target xml:lang="de" state="final"> 2) Eine Halbtagskraft arbeitet effektiv 19 Stunden pro Woche, ohne dass eine Regelung zur Arbeitszeitverkürzung (AZV) besteht. </target>
+        </trans-unit>
+        <group restype="table" id="tu155" resname="/html/body/table[2]">
+          <note from="align">left</note>
+          <note from="class">table-bordered table-striped</note>
+          <group restype="x-html-thead" id="tu156" resname="/html/body/table[2]/thead">
+            <group restype="row" id="tu157" resname="/html/body/table[2]/thead/tr">
+              <trans-unit restype="x-html-th" id="tu158" resname="/html/body/table[2]/thead/tr/th[1]">
+                <source xml:lang="nl"> Zone in blok 'wekelijkse arbeidsduur' </source>
+                <target xml:lang="de" state="final"> Feld im Block „Wöchentliche Arbeitszeit“ </target>
+              </trans-unit>
+              <trans-unit restype="x-html-th" id="tu159" resname="/html/body/table[2]/thead/tr/th[2]">
+                <source xml:lang="nl"> Waarden in blok #1 </source>
+                <target xml:lang="de" state="final"> Werte in Block #1 </target>
+              </trans-unit>
+              <trans-unit restype="x-html-th" id="tu160" resname="/html/body/table[2]/thead/tr/th[3]">
+                <source xml:lang="nl"> Waarden in blok #2 </source>
+                <target xml:lang="de" state="final"> Werte in Block #2 </target>
+              </trans-unit>
+            </group>
+          </group>
+          <group restype="x-html-tbody" id="tu161" resname="/html/body/table[2]/tbody">
+            <group restype="row" id="tu162" resname="/html/body/table[2]/tbody/tr[1]">
+              <trans-unit restype="cell" id="tu163" resname="/html/body/table[2]/tbody/tr[1]/td[1]">
+                <source xml:lang="nl"> Type </source>
+                <target xml:lang="de" state="final"> Art </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu164" resname="/html/body/table[2]/tbody/tr[1]/td[2]">
+                <source xml:lang="nl"> Werknemer (Q) </source>
+                <target xml:lang="de" state="final"> Arbeitnehmer (Q) </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu165" resname="/html/body/table[2]/tbody/tr[1]/td[3]">
+                <source xml:lang="nl"> Maatpersoon (S) </source>
+                <target xml:lang="de" state="final"> Referenzperson (S) </target>
+              </trans-unit>
+            </group>
+            <group restype="row" id="tu166" resname="/html/body/table[2]/tbody/tr[2]">
+              <trans-unit restype="cell" id="tu167" resname="/html/body/table[2]/tbody/tr[2]/td[1]">
+                <source xml:lang="nl"> Effectieve gemiddelde wekelijkse arbeidsduur </source>
+                <target xml:lang="de" state="final"> Effektive durchschnittliche Wochenarbeitszeit </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu168" resname="/html/body/table[2]/tbody/tr[2]/td[2]">
+                <source xml:lang="nl"> 19 </source>
+                <target xml:lang="de" state="final"> 19 </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu169" resname="/html/body/table[2]/tbody/tr[2]/td[3]">
+                <source xml:lang="nl"> 38 </source>
+                <target xml:lang="de" state="final"> 38 </target>
+              </trans-unit>
+            </group>
+            <group restype="row" id="tu170" resname="/html/body/table[2]/tbody/tr[3]">
+              <trans-unit restype="cell" id="tu171" resname="/html/body/table[2]/tbody/tr[3]/td[1]">
+                <source xml:lang="nl"> Jaarlijks gemiddelde wekelijkse betaalde arbeidsduur </source>
+                <target xml:lang="de" state="final"> Jährliche durchschnittliche bezahlte Wochenarbeitszeit </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu172" resname="/html/body/table[2]/tbody/tr[3]/td[2]">
+                <source xml:lang="nl"> 19 </source>
+                <target xml:lang="de" state="final"> 19 </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu173" resname="/html/body/table[2]/tbody/tr[3]/td[3]">
+                <source xml:lang="nl"> 38 </source>
+                <target xml:lang="de" state="final"> 38 </target>
+              </trans-unit>
+            </group>
+          </group>
+        </group>
+        <trans-unit restype="x-html-p" id="tu174" resname="/html/body/p[9]">
+          <source xml:lang="nl"> 3) Een voltijdse werknemer werkt effectief 40 uren per week. Hij heeft 12 betaalde inhaalrustdagen per jaar. </source>
+          <target xml:lang="de" state="final"> 3) Ein Vollzeitarbeitnehmer arbeitet effektiv 40 Stunden pro Woche. Er hat 12 bezahlte Ausgleichsruhetage pro Jahr. </target>
+        </trans-unit>
+        <group restype="table" id="tu175" resname="/html/body/table[3]">
+          <note from="align">left</note>
+          <note from="class">table-bordered table-striped</note>
+          <group restype="x-html-thead" id="tu176" resname="/html/body/table[3]/thead">
+            <group restype="row" id="tu177" resname="/html/body/table[3]/thead/tr">
+              <trans-unit restype="x-html-th" id="tu178" resname="/html/body/table[3]/thead/tr/th[1]">
+                <source xml:lang="nl"> Zone in blok 'wekelijkse arbeidsduur' </source>
+                <target xml:lang="de" state="final"> Feld im Block „Wöchentliche Arbeitszeit“ </target>
+              </trans-unit>
+              <trans-unit restype="x-html-th" id="tu179" resname="/html/body/table[3]/thead/tr/th[2]">
+                <source xml:lang="nl"> Waarden in blok #1 </source>
+                <target xml:lang="de" state="final"> Werte in Block #1 </target>
+              </trans-unit>
+              <trans-unit restype="x-html-th" id="tu180" resname="/html/body/table[3]/thead/tr/th[3]">
+                <source xml:lang="nl"> Waarden in blok #2 </source>
+                <target xml:lang="de" state="final"> Werte in Block #2 </target>
+              </trans-unit>
+            </group>
+          </group>
+          <group restype="x-html-tbody" id="tu181" resname="/html/body/table[3]/tbody">
+            <group restype="row" id="tu182" resname="/html/body/table[3]/tbody/tr[1]">
+              <trans-unit restype="cell" id="tu183" resname="/html/body/table[3]/tbody/tr[1]/td[1]">
+                <source xml:lang="nl"> Type </source>
+                <target xml:lang="de" state="final"> Art </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu184" resname="/html/body/table[3]/tbody/tr[1]/td[2]">
+                <source xml:lang="nl"> Werknemer (Q) </source>
+                <target xml:lang="de" state="final"> Arbeitnehmer (Q) </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu185" resname="/html/body/table[3]/tbody/tr[1]/td[3]">
+                <source xml:lang="nl"> Maatpersoon (S) </source>
+                <target xml:lang="de" state="final"> Referenzperson (S) </target>
+              </trans-unit>
+            </group>
+            <group restype="row" id="tu186" resname="/html/body/table[3]/tbody/tr[2]">
+              <trans-unit restype="cell" id="tu187" resname="/html/body/table[3]/tbody/tr[2]/td[1]">
+                <source xml:lang="nl"> Effectieve gemiddelde wekelijkse arbeidsduur </source>
+                <target xml:lang="de" state="final"> Effektive durchschnittliche Wochenarbeitszeit </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu188" resname="/html/body/table[3]/tbody/tr[2]/td[2]">
+                <source xml:lang="nl"> 40 </source>
+                <target xml:lang="de" state="final"> 40 </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu189" resname="/html/body/table[3]/tbody/tr[2]/td[3]">
+                <source xml:lang="nl"> 40 </source>
+                <target xml:lang="de" state="final"> 40 </target>
+              </trans-unit>
+            </group>
+            <group restype="row" id="tu190" resname="/html/body/table[3]/tbody/tr[3]">
+              <trans-unit restype="cell" id="tu191" resname="/html/body/table[3]/tbody/tr[3]/td[1]">
+                <source xml:lang="nl"> Jaarlijks gemiddelde wekelijkse betaalde arbeidsduur </source>
+                <target xml:lang="de" state="final"> Jährliche durchschnittliche bezahlte Wochenarbeitszeit </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu192" resname="/html/body/table[3]/tbody/tr[3]/td[2]">
+                <source xml:lang="nl"> 40 </source>
+                <target xml:lang="de" state="final"> 40 </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu193" resname="/html/body/table[3]/tbody/tr[3]/td[3]">
+                <source xml:lang="nl"> 40 </source>
+                <target xml:lang="de" state="final"> 40 </target>
+              </trans-unit>
+            </group>
+          </group>
+        </group>
+        <trans-unit restype="x-html-p" id="tu194" resname="/html/body/p[10]">
+          <source xml:lang="nl"> 4) Een halftijdse werknemer werkt effectief 20 uren per week. Hij heeft 6 betaalde inhaalrustdagen per jaar. </source>
+          <target xml:lang="de" state="final"> 4) Eine Halbtagskraft arbeitet effektiv 20 Stunden pro Woche. Sie hat 6 bezahlte Ausgleichsruhetage pro Jahr. </target>
+        </trans-unit>
+        <group restype="table" id="tu195" resname="/html/body/table[4]">
+          <note from="align">left</note>
+          <note from="class">table-bordered table-striped</note>
+          <group restype="x-html-thead" id="tu196" resname="/html/body/table[4]/thead">
+            <group restype="row" id="tu197" resname="/html/body/table[4]/thead/tr">
+              <trans-unit restype="x-html-th" id="tu198" resname="/html/body/table[4]/thead/tr/th[1]">
+                <source xml:lang="nl"> Zone in blok 'wekelijkse arbeidsduur' </source>
+                <target xml:lang="de" state="final"> Feld im Block „Wöchentliche Arbeitszeit“ </target>
+              </trans-unit>
+              <trans-unit restype="x-html-th" id="tu199" resname="/html/body/table[4]/thead/tr/th[2]">
+                <source xml:lang="nl"> Waarden in blok #1 </source>
+                <target xml:lang="de" state="final"> Werte in Block #1 </target>
+              </trans-unit>
+              <trans-unit restype="x-html-th" id="tu200" resname="/html/body/table[4]/thead/tr/th[3]">
+                <source xml:lang="nl"> Waarden in blok #2 </source>
+                <target xml:lang="de" state="final"> Werte in Block #2 </target>
+              </trans-unit>
+            </group>
+          </group>
+          <group restype="x-html-tbody" id="tu201" resname="/html/body/table[4]/tbody">
+            <group restype="row" id="tu202" resname="/html/body/table[4]/tbody/tr[1]">
+              <trans-unit restype="cell" id="tu203" resname="/html/body/table[4]/tbody/tr[1]/td[1]">
+                <source xml:lang="nl"> Type </source>
+                <target xml:lang="de" state="final"> Art </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu204" resname="/html/body/table[4]/tbody/tr[1]/td[2]">
+                <source xml:lang="nl"> Werknemer (Q) </source>
+                <target xml:lang="de" state="final"> Arbeitnehmer (Q) </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu205" resname="/html/body/table[4]/tbody/tr[1]/td[3]">
+                <source xml:lang="nl"> Maatpersoon (S) </source>
+                <target xml:lang="de" state="final"> Referenzperson (S) </target>
+              </trans-unit>
+            </group>
+            <group restype="row" id="tu206" resname="/html/body/table[4]/tbody/tr[2]">
+              <trans-unit restype="cell" id="tu207" resname="/html/body/table[4]/tbody/tr[2]/td[1]">
+                <source xml:lang="nl"> Effectieve gemiddelde wekelijkse arbeidsduur </source>
+                <target xml:lang="de" state="final"> Effektive durchschnittliche Wochenarbeitszeit </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu208" resname="/html/body/table[4]/tbody/tr[2]/td[2]">
+                <source xml:lang="nl"> 20 </source>
+                <target xml:lang="de" state="final"> 20 </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu209" resname="/html/body/table[4]/tbody/tr[2]/td[3]">
+                <source xml:lang="nl"> 40 </source>
+                <target xml:lang="de" state="final"> 40 </target>
+              </trans-unit>
+            </group>
+            <group restype="row" id="tu210" resname="/html/body/table[4]/tbody/tr[3]">
+              <trans-unit restype="cell" id="tu211" resname="/html/body/table[4]/tbody/tr[3]/td[1]">
+                <source xml:lang="nl"> Jaarlijks gemiddelde wekelijkse betaalde arbeidsduur </source>
+                <target xml:lang="de" state="final"> Jährliche durchschnittliche bezahlte Wochenarbeitszeit </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu212" resname="/html/body/table[4]/tbody/tr[3]/td[2]">
+                <source xml:lang="nl"> 20 </source>
+                <target xml:lang="de" state="final"> 20 </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu213" resname="/html/body/table[4]/tbody/tr[3]/td[3]">
+                <source xml:lang="nl"> 40 </source>
+                <target xml:lang="de" state="final"> 40 </target>
+              </trans-unit>
+            </group>
+          </group>
+        </group>
+        <trans-unit restype="x-html-p" id="tu214" resname="/html/body/p[11]">
+          <source xml:lang="nl"> 5) Een voltijdse werknemer werkt effectief 40 uren per week. Hij heeft 12 onbetaalde inhaalrustdagen per jaar. </source>
+          <target xml:lang="de" state="final"> 5) Ein Vollzeitarbeitnehmer arbeitet effektiv 40 Stunden pro Woche. Er hat 12 unbezahlte Ausgleichsurlaubstage pro Jahr. </target>
+        </trans-unit>
+        <group restype="table" id="tu215" resname="/html/body/table[5]">
+          <note from="align">left</note>
+          <note from="class">table-bordered table-striped</note>
+          <group restype="x-html-thead" id="tu216" resname="/html/body/table[5]/thead">
+            <group restype="row" id="tu217" resname="/html/body/table[5]/thead/tr">
+              <trans-unit restype="x-html-th" id="tu218" resname="/html/body/table[5]/thead/tr/th[1]">
+                <source xml:lang="nl"> Zone in blok 'wekelijkse arbeidsduur' </source>
+                <target xml:lang="de" state="final"> Feld im Block „Wöchentliche Arbeitszeit“ </target>
+              </trans-unit>
+              <trans-unit restype="x-html-th" id="tu219" resname="/html/body/table[5]/thead/tr/th[2]">
+                <source xml:lang="nl"> Waarden in blok #1 </source>
+                <target xml:lang="de" state="final"> Werte in Block #1 </target>
+              </trans-unit>
+              <trans-unit restype="x-html-th" id="tu220" resname="/html/body/table[5]/thead/tr/th[3]">
+                <source xml:lang="nl"> Waarden in blok #2 </source>
+                <target xml:lang="de" state="final"> Werte in Block #2 </target>
+              </trans-unit>
+            </group>
+          </group>
+          <group restype="x-html-tbody" id="tu221" resname="/html/body/table[5]/tbody">
+            <group restype="row" id="tu222" resname="/html/body/table[5]/tbody/tr[1]">
+              <trans-unit restype="cell" id="tu223" resname="/html/body/table[5]/tbody/tr[1]/td[1]">
+                <source xml:lang="nl"> Type </source>
+                <target xml:lang="de" state="final"> Art </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu224" resname="/html/body/table[5]/tbody/tr[1]/td[2]">
+                <source xml:lang="nl"> Werknemer (Q) </source>
+                <target xml:lang="de" state="final"> Arbeitnehmer (Q) </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu225" resname="/html/body/table[5]/tbody/tr[1]/td[3]">
+                <source xml:lang="nl"> Maatpersoon (S) </source>
+                <target xml:lang="de" state="final"> Referenzperson (S) </target>
+              </trans-unit>
+            </group>
+            <group restype="row" id="tu226" resname="/html/body/table[5]/tbody/tr[2]">
+              <trans-unit restype="cell" id="tu227" resname="/html/body/table[5]/tbody/tr[2]/td[1]">
+                <source xml:lang="nl"> Effectieve gemiddelde wekelijkse arbeidsduur </source>
+                <target xml:lang="de" state="final"> Effektive durchschnittliche Wochenarbeitszeit </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu228" resname="/html/body/table[5]/tbody/tr[2]/td[2]">
+                <source xml:lang="nl"> 40 </source>
+                <target xml:lang="de" state="final"> 40 </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu229" resname="/html/body/table[5]/tbody/tr[2]/td[3]">
+                <source xml:lang="nl"> 40 </source>
+                <target xml:lang="de" state="final"> 40 </target>
+              </trans-unit>
+            </group>
+            <group restype="row" id="tu230" resname="/html/body/table[5]/tbody/tr[3]">
+              <trans-unit restype="cell" id="tu231" resname="/html/body/table[5]/tbody/tr[3]/td[1]">
+                <source xml:lang="nl"> Jaarlijks gemiddelde wekelijkse betaalde arbeidsduur </source>
+                <target xml:lang="de" state="final"> Jährliche durchschnittliche bezahlte Wochenarbeitszeit </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu232" resname="/html/body/table[5]/tbody/tr[3]/td[2]">
+                <source xml:lang="nl"> 38 </source>
+                <target xml:lang="de" state="final"> 38 </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu233" resname="/html/body/table[5]/tbody/tr[3]/td[3]">
+                <source xml:lang="nl"> 38 </source>
+                <target xml:lang="de" state="final"> 38 </target>
+              </trans-unit>
+            </group>
+          </group>
+        </group>
+        <trans-unit restype="x-html-p" id="tu234" resname="/html/body/p[12]">
+          <source xml:lang="nl"> 6) Een halftijdse werknemer werkt effectief 20 uren per week. Hij heeft 6 onbetaalde inhaalrustdagen per jaar. </source>
+          <target xml:lang="de" state="final"> 6) Eine Halbtagskraft arbeitet effektiv 20 Stunden pro Woche. Sie hat 6 unbezahlte Ausgleichsurlaubstage pro Jahr. </target>
+        </trans-unit>
+        <group restype="table" id="tu235" resname="/html/body/table[6]">
+          <note from="align">left</note>
+          <note from="class">table-bordered table-striped</note>
+          <group restype="x-html-thead" id="tu236" resname="/html/body/table[6]/thead">
+            <group restype="row" id="tu237" resname="/html/body/table[6]/thead/tr">
+              <trans-unit restype="x-html-th" id="tu238" resname="/html/body/table[6]/thead/tr/th[1]">
+                <source xml:lang="nl"> Zone in blok 'wekelijkse arbeidsduur' </source>
+                <target xml:lang="de" state="final"> Feld im Block „Wöchentliche Arbeitszeit“ </target>
+              </trans-unit>
+              <trans-unit restype="x-html-th" id="tu239" resname="/html/body/table[6]/thead/tr/th[2]">
+                <source xml:lang="nl"> Waarden in blok #1 </source>
+                <target xml:lang="de" state="final"> Werte in Block #1 </target>
+              </trans-unit>
+              <trans-unit restype="x-html-th" id="tu240" resname="/html/body/table[6]/thead/tr/th[3]">
+                <source xml:lang="nl"> Waarden in blok #2 </source>
+                <target xml:lang="de" state="final"> Werte in Block #2 </target>
+              </trans-unit>
+            </group>
+          </group>
+          <group restype="x-html-tbody" id="tu241" resname="/html/body/table[6]/tbody">
+            <group restype="row" id="tu242" resname="/html/body/table[6]/tbody/tr[1]">
+              <trans-unit restype="cell" id="tu243" resname="/html/body/table[6]/tbody/tr[1]/td[1]">
+                <source xml:lang="nl"> Type </source>
+                <target xml:lang="de" state="final"> Art </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu244" resname="/html/body/table[6]/tbody/tr[1]/td[2]">
+                <source xml:lang="nl"> Werknemer (Q) </source>
+                <target xml:lang="de" state="final"> Arbeitnehmer (Q) </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu245" resname="/html/body/table[6]/tbody/tr[1]/td[3]">
+                <source xml:lang="nl"> Maatpersoon (S) </source>
+                <target xml:lang="de" state="final"> Referenzperson (S) </target>
+              </trans-unit>
+            </group>
+            <group restype="row" id="tu246" resname="/html/body/table[6]/tbody/tr[2]">
+              <trans-unit restype="cell" id="tu247" resname="/html/body/table[6]/tbody/tr[2]/td[1]">
+                <source xml:lang="nl"> Effectieve gemiddelde wekelijkse arbeidsduur </source>
+                <target xml:lang="de" state="final"> Effektive durchschnittliche Wochenarbeitszeit </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu248" resname="/html/body/table[6]/tbody/tr[2]/td[2]">
+                <source xml:lang="nl"> 20 </source>
+                <target xml:lang="de" state="final"> 20 </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu249" resname="/html/body/table[6]/tbody/tr[2]/td[3]">
+                <source xml:lang="nl"> 40 </source>
+                <target xml:lang="de" state="final"> 40 </target>
+              </trans-unit>
+            </group>
+            <group restype="row" id="tu250" resname="/html/body/table[6]/tbody/tr[3]">
+              <trans-unit restype="cell" id="tu251" resname="/html/body/table[6]/tbody/tr[3]/td[1]">
+                <source xml:lang="nl"> Jaarlijks gemiddelde wekelijkse betaalde arbeidsduur </source>
+                <target xml:lang="de" state="final"> Jährliche durchschnittliche bezahlte Wochenarbeitszeit </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu252" resname="/html/body/table[6]/tbody/tr[3]/td[2]">
+                <source xml:lang="nl"> 19 </source>
+                <target xml:lang="de" state="final"> 19 </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu253" resname="/html/body/table[6]/tbody/tr[3]/td[3]">
+                <source xml:lang="nl"> 38 </source>
+                <target xml:lang="de" state="final"> 38 </target>
+              </trans-unit>
+            </group>
+          </group>
+        </group>
+        <trans-unit restype="x-html-p" id="tu254" resname="/html/body/p[13]">
+          <source xml:lang="nl"> 7) Een voltijdse werknemer werkt effectief 40 uren per week. Hij heeft 6 onbetaalde inhaalrustdagen en 6 betaalde inhaalrustdagen per jaar. </source>
+          <target xml:lang="de" state="final"> 7) Ein Vollzeitarbeitnehmer arbeitet effektiv 40 Stunden pro Woche. Er hat 6 unbezahlte Ausgleichsurlaubstage und 6 bezahlte Ausgleichsurlaubstage pro Jahr. </target>
+        </trans-unit>
+        <group restype="table" id="tu255" resname="/html/body/table[7]">
+          <note from="align">left</note>
+          <note from="class">table-bordered table-striped</note>
+          <group restype="x-html-thead" id="tu256" resname="/html/body/table[7]/thead">
+            <group restype="row" id="tu257" resname="/html/body/table[7]/thead/tr">
+              <trans-unit restype="x-html-th" id="tu258" resname="/html/body/table[7]/thead/tr/th[1]">
+                <source xml:lang="nl"> Zone in blok 'wekelijkse arbeidsduur' </source>
+                <target xml:lang="de" state="final"> Feld im Block „Wöchentliche Arbeitszeit“ </target>
+              </trans-unit>
+              <trans-unit restype="x-html-th" id="tu259" resname="/html/body/table[7]/thead/tr/th[2]">
+                <source xml:lang="nl"> Waarden in blok #1 </source>
+                <target xml:lang="de" state="final"> Werte in Block #1 </target>
+              </trans-unit>
+              <trans-unit restype="x-html-th" id="tu260" resname="/html/body/table[7]/thead/tr/th[3]">
+                <source xml:lang="nl"> Waarden in blok #2 </source>
+                <target xml:lang="de" state="final"> Werte in Block #2 </target>
+              </trans-unit>
+            </group>
+          </group>
+          <group restype="x-html-tbody" id="tu261" resname="/html/body/table[7]/tbody">
+            <group restype="row" id="tu262" resname="/html/body/table[7]/tbody/tr[1]">
+              <trans-unit restype="cell" id="tu263" resname="/html/body/table[7]/tbody/tr[1]/td[1]">
+                <source xml:lang="nl"> Type </source>
+                <target xml:lang="de" state="final"> Art </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu264" resname="/html/body/table[7]/tbody/tr[1]/td[2]">
+                <source xml:lang="nl"> Werknemer (Q) </source>
+                <target xml:lang="de" state="final"> Arbeitnehmer (Q) </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu265" resname="/html/body/table[7]/tbody/tr[1]/td[3]">
+                <source xml:lang="nl"> Maatpersoon (S) </source>
+                <target xml:lang="de" state="final"> Referenzperson (S) </target>
+              </trans-unit>
+            </group>
+            <group restype="row" id="tu266" resname="/html/body/table[7]/tbody/tr[2]">
+              <trans-unit restype="cell" id="tu267" resname="/html/body/table[7]/tbody/tr[2]/td[1]">
+                <source xml:lang="nl"> Effectieve gemiddelde wekelijkse arbeidsduur </source>
+                <target xml:lang="de" state="final"> Effektive durchschnittliche Wochenarbeitszeit </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu268" resname="/html/body/table[7]/tbody/tr[2]/td[2]">
+                <source xml:lang="nl"> 40 </source>
+                <target xml:lang="de" state="final"> 40 </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu269" resname="/html/body/table[7]/tbody/tr[2]/td[3]">
+                <source xml:lang="nl"> 40 </source>
+                <target xml:lang="de" state="final"> 40 </target>
+              </trans-unit>
+            </group>
+            <group restype="row" id="tu270" resname="/html/body/table[7]/tbody/tr[3]">
+              <trans-unit restype="cell" id="tu271" resname="/html/body/table[7]/tbody/tr[3]/td[1]">
+                <source xml:lang="nl"> Jaarlijks gemiddelde wekelijkse betaalde arbeidsduur </source>
+                <target xml:lang="de" state="final"> Jährliche durchschnittliche bezahlte Wochenarbeitszeit </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu272" resname="/html/body/table[7]/tbody/tr[3]/td[2]">
+                <source xml:lang="nl"> 39 </source>
+                <target xml:lang="de" state="final"> 39 </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu273" resname="/html/body/table[7]/tbody/tr[3]/td[3]">
+                <source xml:lang="nl"> 39 </source>
+                <target xml:lang="de" state="final"> 39 </target>
+              </trans-unit>
+            </group>
+          </group>
+        </group>
+        <trans-unit restype="x-html-p" id="tu274" resname="/html/body/p[14]">
+          <source xml:lang="nl"> 8) Een halftijdse werknemer werkt effectief 20 uren per week. Hij heeft 3 onbetaalde inhaalrustdagen en 3 betaalde inhaalrustdagen per jaar. </source>
+          <target xml:lang="de" state="final"> 8) Eine Halbtagskraft arbeitet effektiv 20 Stunden pro Woche. Sie hat 3 unbezahlte Ausgleichsurlaubstage und 3 bezahlte Ausgleichsurlaubstage pro Jahr. </target>
+        </trans-unit>
+        <group restype="table" id="tu275" resname="/html/body/table[8]">
+          <note from="align">left</note>
+          <note from="class">table-bordered table-striped</note>
+          <group restype="x-html-thead" id="tu276" resname="/html/body/table[8]/thead">
+            <group restype="row" id="tu277" resname="/html/body/table[8]/thead/tr">
+              <trans-unit restype="x-html-th" id="tu278" resname="/html/body/table[8]/thead/tr/th[1]">
+                <source xml:lang="nl"> Zone in blok 'wekelijkse arbeidsduur' </source>
+                <target xml:lang="de" state="final"> Feld im Block „Wöchentliche Arbeitszeit“ </target>
+              </trans-unit>
+              <trans-unit restype="x-html-th" id="tu279" resname="/html/body/table[8]/thead/tr/th[2]">
+                <source xml:lang="nl"> Waarden in blok #1 </source>
+                <target xml:lang="de" state="final"> Werte in Block #1 </target>
+              </trans-unit>
+              <trans-unit restype="x-html-th" id="tu280" resname="/html/body/table[8]/thead/tr/th[3]">
+                <source xml:lang="nl"> Waarden in blok #2 </source>
+                <target xml:lang="de" state="final"> Werte in Block #2 </target>
+              </trans-unit>
+            </group>
+          </group>
+          <group restype="x-html-tbody" id="tu281" resname="/html/body/table[8]/tbody">
+            <group restype="row" id="tu282" resname="/html/body/table[8]/tbody/tr[1]">
+              <trans-unit restype="cell" id="tu283" resname="/html/body/table[8]/tbody/tr[1]/td[1]">
+                <source xml:lang="nl"> Type </source>
+                <target xml:lang="de" state="final"> Art </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu284" resname="/html/body/table[8]/tbody/tr[1]/td[2]">
+                <source xml:lang="nl"> Werknemer (Q) </source>
+                <target xml:lang="de" state="final"> Arbeitnehmer (Q) </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu285" resname="/html/body/table[8]/tbody/tr[1]/td[3]">
+                <source xml:lang="nl"> Maatpersoon (S) </source>
+                <target xml:lang="de" state="final"> Referenzperson (S) </target>
+              </trans-unit>
+            </group>
+            <group restype="row" id="tu286" resname="/html/body/table[8]/tbody/tr[2]">
+              <trans-unit restype="cell" id="tu287" resname="/html/body/table[8]/tbody/tr[2]/td[1]">
+                <source xml:lang="nl"> Effectieve gemiddelde wekelijkse arbeidsduur </source>
+                <target xml:lang="de" state="final"> Effektive durchschnittliche Wochenarbeitszeit </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu288" resname="/html/body/table[8]/tbody/tr[2]/td[2]">
+                <source xml:lang="nl"> 20 </source>
+                <target xml:lang="de" state="final"> 20 </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu289" resname="/html/body/table[8]/tbody/tr[2]/td[3]">
+                <source xml:lang="nl"> 40 </source>
+                <target xml:lang="de" state="final"> 40 </target>
+              </trans-unit>
+            </group>
+            <group restype="row" id="tu290" resname="/html/body/table[8]/tbody/tr[3]">
+              <trans-unit restype="cell" id="tu291" resname="/html/body/table[8]/tbody/tr[3]/td[1]">
+                <source xml:lang="nl"> Jaarlijks gemiddelde wekelijkse betaalde arbeidsduur </source>
+                <target xml:lang="de" state="final"> Jährliche durchschnittliche bezahlte Wochenarbeitszeit </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu292" resname="/html/body/table[8]/tbody/tr[3]/td[2]">
+                <source xml:lang="nl"> 19,5 </source>
+                <target xml:lang="de" state="final"> 19,5 </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu293" resname="/html/body/table[8]/tbody/tr[3]/td[3]">
+                <source xml:lang="nl"> 39 </source>
+                <target xml:lang="de" state="final"> 39 </target>
+              </trans-unit>
+            </group>
+          </group>
+        </group>
+        <trans-unit restype="x-html-p" id="tu294" resname="/html/body/p[15]">
+          <source xml:lang="nl">   </source>
+          <target xml:lang="de" state="final">   </target>
+        </trans-unit>
+        <trans-unit restype="x-html-p" id="tu295" resname="/html/body/p[16]">
+          <source xml:lang="nl">   </source>
+          <target xml:lang="de" state="final">   </target>
+        </trans-unit>
+        <trans-unit restype="x-html-p" id="tu296" resname="/html/body/p[17]">
+          <source xml:lang="nl">   </source>
+          <target xml:lang="de" state="final">   </target>
+        </trans-unit>
+        <trans-unit restype="x-html-p" id="tu297" resname="/html/body/p[18]">
+          <source xml:lang="nl">   </source>
+          <target xml:lang="de" state="final">   </target>
+        </trans-unit>
+        <trans-unit restype="x-html-h2" id="tu298" resname="/html/body/h2[3]">
+          <source xml:lang="nl"> Voorbeelden van de wekelijkse arbeidstijd met een MRA </source>
+          <target xml:lang="de" state="final"> Beispiele für die wöchentliche Arbeitszeit mit MNA </target>
+        </trans-unit>
+        <trans-unit restype="x-html-p" id="tu299" resname="/html/body/p[19]">
+          <source xml:lang="nl"> Indien een maatregel tot reorganisatie van de arbeidstijd van toepassing is, dan worden er steeds <g id="g300" ctype="x-html-strong">drie blokken 'wekelijkse arbeidsduur'</g> aangegeven: </source>
+          <target xml:lang="de" state="final"> Wenn eine Maßnahme zur Neuverteilung der Arbeitszeit gilt, werden immer <g id="g301" ctype="x-html-strong">drei Blöcke „wöchentliche Arbeitszeit”</g> angegeben: </target>
+        </trans-unit>
+        <group restype="x-html-ul" id="tu302" resname="/html/body/ul[3]">
+          <trans-unit restype="listitem" id="tu303" resname="/html/body/ul[3]/li[1]">
+            <source xml:lang="nl">één blok met de gegevens van de werknemer zonder rekening te houden met de schorsing van de prestaties en </source>
+            <target xml:lang="de" state="final">ein Block mit den Daten des Arbeitnehmers, ohne Berücksichtigung der Aussetzung der Leistungen und </target>
+          </trans-unit>
+          <trans-unit restype="listitem" id="tu304" resname="/html/body/ul[3]/li[2]">
+            <source xml:lang="nl">één blok met de gegevens van de werknemer rekening houdend met de schorsing van de prestaties en </source>
+            <target xml:lang="de" state="final">ein Block mit den Daten des Arbeitnehmers, mit Berücksichtigung der Aussetzung der Leistungen und </target>
+          </trans-unit>
+          <trans-unit restype="listitem" id="tu305" resname="/html/body/ul[3]/li[3]">
+            <source xml:lang="nl">één blok met de gegevens van de maatpersoon. </source>
+            <target xml:lang="de" state="final">ein Block mit den Daten der Referenzperson. </target>
+          </trans-unit>
+        </group>
+        <trans-unit restype="x-html-p" id="tu306" resname="/html/body/p[20]">
+          <source xml:lang="nl"> Daarnaast wordt de schorsing gedetailleerd in het blok 'maatregel tot reorganisatie van de arbeidstijd'. </source>
+          <target xml:lang="de" state="final"> Darüber hinaus wird die Aussetzung im Abschnitt „Maßnahme zur Neuverteilung der Arbeitszeit” detailliert beschrieben. </target>
+        </trans-unit>
+        <trans-unit restype="x-html-p" id="tu307" resname="/html/body/p[21]">
+          <source xml:lang="nl"> 1) Een voltijdse werknemer werkt effectief 38 uren per week gedurende 5 dagen per week (7,6 uren per dag). Er bestaat geen ADV-regeling. De werknemer neemt deeltijds tijdskrediet: hij vermindert zijn prestaties met 1/5<g id="g308" ctype="x-html-sup">de</g>. Hij werkt niet op woensdagnamiddag en niet op vrijdagnamiddag. </source>
+          <target xml:lang="de" state="final"> 1) Ein Vollzeitarbeitnehmer arbeitet effektiv 38 Stunden pro Woche an 5 Tagen pro Woche (7,6 Stunden pro Tag). Es gibt keine Regelung zur Arbeitszeitverkürzung (AZV). Der Arbeitnehmer nimmt einen Teilzeit-Zeitkredit in Anspruch: Er reduziert seine Arbeitsleistung um 1/5.<x id="x309" ctype="x-html-sup" equiv-text=" "/> Er arbeitet nicht am Mittwochnachmittag und nicht am Freitagnachmittag. </target>
+        </trans-unit>
+        <group restype="table" id="tu310" resname="/html/body/table[9]">
+          <note from="align">left</note>
+          <note from="class">table-bordered table-striped</note>
+          <group restype="x-html-thead" id="tu311" resname="/html/body/table[9]/thead">
+            <group restype="row" id="tu312" resname="/html/body/table[9]/thead/tr">
+              <trans-unit restype="x-html-th" id="tu313" resname="/html/body/table[9]/thead/tr/th[1]">
+                <source xml:lang="nl"> Zone in blok 'wekelijkse arbeidsduur' </source>
+                <target xml:lang="de" state="final"> Feld im Block „Wöchentliche Arbeitszeit“ </target>
+              </trans-unit>
+              <trans-unit restype="x-html-th" id="tu314" resname="/html/body/table[9]/thead/tr/th[2]">
+                <source xml:lang="nl"> Waarden in blok #1 </source>
+                <target xml:lang="de" state="final"> Werte in Block #1 </target>
+              </trans-unit>
+              <trans-unit restype="x-html-th" id="tu315" resname="/html/body/table[9]/thead/tr/th[3]">
+                <source xml:lang="nl"> Waarden in blok #2 </source>
+                <target xml:lang="de" state="final"> Werte in Block #2 </target>
+              </trans-unit>
+              <trans-unit restype="x-html-th" id="tu316" resname="/html/body/table[9]/thead/tr/th[4]">
+                <source xml:lang="nl"> Waarden in blok #3 </source>
+                <target xml:lang="de" state="final"> Werte in Block #3 </target>
+              </trans-unit>
+            </group>
+          </group>
+          <group restype="x-html-tbody" id="tu317" resname="/html/body/table[9]/tbody">
+            <group restype="row" id="tu318" resname="/html/body/table[9]/tbody/tr[1]">
+              <trans-unit restype="cell" id="tu319" resname="/html/body/table[9]/tbody/tr[1]/td[1]">
+                <source xml:lang="nl"> Type </source>
+                <target xml:lang="de" state="final"> Art </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu320" resname="/html/body/table[9]/tbody/tr[1]/td[2]">
+                <source xml:lang="nl"> Werknemer zonder schorsing (Q) </source>
+                <target xml:lang="de" state="final"> Arbeitnehmer ohne Aussetzung (Q) </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu321" resname="/html/body/table[9]/tbody/tr[1]/td[3]">
+                <source xml:lang="nl"> Werknemer met schorsing (M) </source>
+                <target xml:lang="de" state="final"> Arbeitnehmer mit Aussetzung (M) </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu322" resname="/html/body/table[9]/tbody/tr[1]/td[4]">
+                <source xml:lang="nl"> Maatpersoon (S) </source>
+                <target xml:lang="de" state="final"> Referenzperson (S) </target>
+              </trans-unit>
+            </group>
+            <group restype="row" id="tu323" resname="/html/body/table[9]/tbody/tr[2]">
+              <trans-unit restype="cell" id="tu324" resname="/html/body/table[9]/tbody/tr[2]/td[1]">
+                <source xml:lang="nl"> Effectieve gemiddelde wekelijkse arbeidsduur </source>
+                <target xml:lang="de" state="final"> Effektive durchschnittliche Wochenarbeitszeit </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu325" resname="/html/body/table[9]/tbody/tr[2]/td[2]">
+                <source xml:lang="nl"> 38 </source>
+                <target xml:lang="de" state="final"> 38 </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu326" resname="/html/body/table[9]/tbody/tr[2]/td[3]">
+                <source xml:lang="nl"> 30,4 </source>
+                <target xml:lang="de" state="final"> 30,4 </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu327" resname="/html/body/table[9]/tbody/tr[2]/td[4]">
+                <source xml:lang="nl"> 38 </source>
+                <target xml:lang="de" state="final"> 38 </target>
+              </trans-unit>
+            </group>
+            <group restype="row" id="tu328" resname="/html/body/table[9]/tbody/tr[3]">
+              <trans-unit restype="cell" id="tu329" resname="/html/body/table[9]/tbody/tr[3]/td[1]">
+                <source xml:lang="nl"> Jaarlijks gemiddelde wekelijkse betaalde arbeidsduur </source>
+                <target xml:lang="de" state="final"> Jährliche durchschnittliche bezahlte Wochenarbeitszeit </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu330" resname="/html/body/table[9]/tbody/tr[3]/td[2]">
+                <source xml:lang="nl"> 38 </source>
+                <target xml:lang="de" state="final"> 38 </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu331" resname="/html/body/table[9]/tbody/tr[3]/td[3]">
+                <source xml:lang="nl"> 30,4 </source>
+                <target xml:lang="de" state="final"> 30,4 </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu332" resname="/html/body/table[9]/tbody/tr[3]/td[4]">
+                <source xml:lang="nl"> 38 </source>
+                <target xml:lang="de" state="final"> 38 </target>
+              </trans-unit>
+            </group>
+          </group>
+        </group>
+        <trans-unit restype="x-html-p" id="tu333" resname="/html/body/p[22]">
+          <source xml:lang="nl">   </source>
+          <target xml:lang="de" state="final">   </target>
+        </trans-unit>
+        <trans-unit restype="x-html-p" id="tu334" resname="/html/body/p[23]">
+          <source xml:lang="nl"> Aan blok #2 gekoppeld blok 'maatregel tot reorganisatie van de arbeidstijd': </source>
+          <target xml:lang="de" state="final"> Mit Block #2 verknüpfter Block „Maßnahme zur Neuverteilung der Arbeitszeit”: </target>
+        </trans-unit>
+        <group restype="table" id="tu335" resname="/html/body/table[10]">
+          <note from="align">left</note>
+          <note from="class">table-bordered table-striped</note>
+          <group restype="x-html-thead" id="tu336" resname="/html/body/table[10]/thead">
+            <group restype="row" id="tu337" resname="/html/body/table[10]/thead/tr">
+              <trans-unit restype="x-html-th" id="tu338" resname="/html/body/table[10]/thead/tr/th[1]">
+                <source xml:lang="nl"> Zone in blok 'maatregel tot reorganisatie van de arbeidstijd' </source>
+                <target xml:lang="de" state="final"> Feld im Block „Maßnahme zur Neuverteilung der Arbeitszeit“ </target>
+              </trans-unit>
+              <trans-unit restype="x-html-th" id="tu339" resname="/html/body/table[10]/thead/tr/th[2]">
+                <source xml:lang="nl"> Waarden gekoppeld aan blok #2 </source>
+                <target xml:lang="de" state="final"> Mit Block #2 verbundene Werte </target>
+              </trans-unit>
+            </group>
+          </group>
+          <group restype="x-html-tbody" id="tu340" resname="/html/body/table[10]/tbody">
+            <group restype="row" id="tu341" resname="/html/body/table[10]/tbody/tr[1]">
+              <trans-unit restype="cell" id="tu342" resname="/html/body/table[10]/tbody/tr[1]/td[1]">
+                <source xml:lang="nl"> MRA-code </source>
+                <target xml:lang="de" state="final"> MNA-Code </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu343" resname="/html/body/table[10]/tbody/tr[1]/td[2]">
+                <source xml:lang="nl"> 9 (= volledige of gedeeltelijke onderbreking van de loopbaan) </source>
+                <target xml:lang="de" state="final"> 9 (= vollständige oder teilweise Unterbrechung der Beschäftigung) </target>
+              </trans-unit>
+            </group>
+            <group restype="row" id="tu344" resname="/html/body/table[10]/tbody/tr[2]">
+              <trans-unit restype="cell" id="tu345" resname="/html/body/table[10]/tbody/tr[2]/td[1]">
+                <source xml:lang="nl"> Percentage  </source>
+                <target xml:lang="de" state="final"> Prozentsatz  </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu346" resname="/html/body/table[10]/tbody/tr[2]/td[2]">
+                <source xml:lang="nl"> 20 % </source>
+                <target xml:lang="de" state="final"> 20 % </target>
+              </trans-unit>
+            </group>
+          </group>
+        </group>
+        <trans-unit restype="x-html-p" id="tu347" resname="/html/body/p[24]">
+          <source xml:lang="nl"> In het luik 'prestaties' wordt voor elke woensdag en vrijdag gedurende de periode van het tijdskrediet het volgende vermeld: </source>
+          <target xml:lang="de" state="final"> Im Abschnitt „Leistungen“ wird für jeden Mittwoch und Freitag während des Zeitkreditzeitraums Folgendes angegeben: </target>
+        </trans-unit>
+        <group restype="x-html-ul" id="tu348" resname="/html/body/ul[4]">
+          <group restype="listitem" id="tu349" resname="/html/body/ul[4]/li[1]">
+            <trans-unit id="tu350" resname="/html/body/ul[4]/li[1]/text()[1]">
+              <source xml:lang="nl">Blok met prestatie in de voormiddag: </source>
+              <target xml:lang="de" state="final">Block mit Leistung am Vormittag: </target>
+            </trans-unit>
+            <group restype="x-html-ul" id="tu351" resname="/html/body/ul[4]/li[1]/ul">
+              <trans-unit restype="listitem" id="tu352" resname="/html/body/ul[4]/li[1]/ul/li[1]">
+                <source xml:lang="nl">Datum of begindatum van de prestatie of afwezigheid = woensdag of vrijdag </source>
+                <target xml:lang="de" state="final">Datum oder Anfangsdatum der Leistung oder Abwesenheit = Mittwoch oder Freitag </target>
+              </trans-unit>
+              <trans-unit restype="listitem" id="tu353" resname="/html/body/ul[4]/li[1]/ul/li[2]">
+                <source xml:lang="nl">Prestatie- of afwezigheidscode = 1101001 (normale arbeid) </source>
+                <target xml:lang="de" state="final">Leistungs- oder Abwesenheitscode = 1101001 (normale Arbeit) </target>
+              </trans-unit>
+              <trans-unit restype="listitem" id="tu354" resname="/html/body/ul[4]/li[1]/ul/li[3]">
+                <source xml:lang="nl">Aantal uren = 3,8 </source>
+                <target xml:lang="de" state="final">Anzahl Stunden = 3,8 </target>
+              </trans-unit>
+            </group>
+          </group>
+          <group restype="listitem" id="tu355" resname="/html/body/ul[4]/li[2]">
+            <trans-unit id="tu356" resname="/html/body/ul[4]/li[2]/text()[1]">
+              <source xml:lang="nl">Blok met afwezigheid in de namiddag in het kader van het deeltijds tijdskrediet: </source>
+              <target xml:lang="de" state="final">Block mit Abwesenheit am Nachmittag im Rahmen des Teilzeit-Zeitkredits </target>
+            </trans-unit>
+            <group restype="x-html-ul" id="tu357" resname="/html/body/ul[4]/li[2]/ul">
+              <trans-unit restype="listitem" id="tu358" resname="/html/body/ul[4]/li[2]/ul/li[1]">
+                <source xml:lang="nl">Datum of begindatum van de prestatie of afwezigheid = woensdag of vrijdag </source>
+                <target xml:lang="de" state="final">Datum oder Anfangsdatum der Leistung oder Abwesenheit = Mittwoch oder Freitag </target>
+              </trans-unit>
+              <trans-unit restype="listitem" id="tu359" resname="/html/body/ul[4]/li[2]/ul/li[2]">
+                <source xml:lang="nl">Prestatie- of afwezigheidscode = 2208001 (afwezigheid i.h.k.v. een maatregel tot reorganisatie van de arbeidstijd) </source>
+                <target xml:lang="de" state="final">Leistungs- oder Abwesenheitscode = 2208001 (Abwesenheit im Rahmen einer Maßnahme zur Neuverteilung der Arbeitszeit) </target>
+              </trans-unit>
+              <trans-unit restype="listitem" id="tu360" resname="/html/body/ul[4]/li[2]/ul/li[3]">
+                <source xml:lang="nl">Aantal uren = 3,8 </source>
+                <target xml:lang="de" state="final">Anzahl Stunden = 3,8 </target>
+              </trans-unit>
+            </group>
+          </group>
+        </group>
+        <trans-unit restype="x-html-p" id="tu361" resname="/html/body/p[25]">
+          <source xml:lang="nl"> 2) Een voltijdse werknemer werkt effectief 40 uren per week gedurende 5 dagen per week (8 uren per dag). Hij heeft 6 onbetaalde inhaalrustdagen en 6 betaalde inhaalrustdagen per jaar. Hij neemt voltijds tijdskrediet. </source>
+          <target xml:lang="de" state="final"> 1) Ein Vollzeitarbeitnehmer arbeitet effektiv 40 Stunden pro Woche an 5 Tagen pro Woche (8 Stunden pro Tag). Er hat 6 unbezahlte Ausgleichsurlaubstage und 6 bezahlte Ausgleichsurlaubstage pro Jahr. Er nimmt einen Vollzeit-Zeitkredit in Anspruch. </target>
+        </trans-unit>
+        <group restype="table" id="tu362" resname="/html/body/table[11]">
+          <note from="align">left</note>
+          <note from="class">table-bordered table-striped</note>
+          <group restype="x-html-thead" id="tu363" resname="/html/body/table[11]/thead">
+            <group restype="row" id="tu364" resname="/html/body/table[11]/thead/tr">
+              <trans-unit restype="x-html-th" id="tu365" resname="/html/body/table[11]/thead/tr/th[1]">
+                <source xml:lang="nl"> Zone in blok 'wekelijkse arbeidsduur' </source>
+                <target xml:lang="de" state="final"> Feld im Block „Wöchentliche Arbeitszeit“ </target>
+              </trans-unit>
+              <trans-unit restype="x-html-th" id="tu366" resname="/html/body/table[11]/thead/tr/th[2]">
+                <source xml:lang="nl"> Waarden in blok #1 </source>
+                <target xml:lang="de" state="final"> Werte in Block #1 </target>
+              </trans-unit>
+              <trans-unit restype="x-html-th" id="tu367" resname="/html/body/table[11]/thead/tr/th[3]">
+                <source xml:lang="nl"> Waarden in blok #2 </source>
+                <target xml:lang="de" state="final"> Werte in Block #2 </target>
+              </trans-unit>
+              <trans-unit restype="x-html-th" id="tu368" resname="/html/body/table[11]/thead/tr/th[4]">
+                <source xml:lang="nl"> Waarden in blok #3 </source>
+                <target xml:lang="de" state="final"> Werte in Block #3 </target>
+              </trans-unit>
+            </group>
+          </group>
+          <group restype="x-html-tbody" id="tu369" resname="/html/body/table[11]/tbody">
+            <group restype="row" id="tu370" resname="/html/body/table[11]/tbody/tr[1]">
+              <trans-unit restype="cell" id="tu371" resname="/html/body/table[11]/tbody/tr[1]/td[1]">
+                <source xml:lang="nl"> Type </source>
+                <target xml:lang="de" state="final"> Art </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu372" resname="/html/body/table[11]/tbody/tr[1]/td[2]">
+                <source xml:lang="nl"> Werknemer zonder schorsing (Q) </source>
+                <target xml:lang="de" state="final"> Arbeitnehmer ohne Aussetzung (Q) </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu373" resname="/html/body/table[11]/tbody/tr[1]/td[3]">
+                <source xml:lang="nl"> Werknemer met schorsing (M) </source>
+                <target xml:lang="de" state="final"> Arbeitnehmer mit Aussetzung (M) </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu374" resname="/html/body/table[11]/tbody/tr[1]/td[4]">
+                <source xml:lang="nl"> Maatpersoon (S) </source>
+                <target xml:lang="de" state="final"> Referenzperson (S) </target>
+              </trans-unit>
+            </group>
+            <group restype="row" id="tu375" resname="/html/body/table[11]/tbody/tr[2]">
+              <trans-unit restype="cell" id="tu376" resname="/html/body/table[11]/tbody/tr[2]/td[1]">
+                <source xml:lang="nl"> Effectieve gemiddelde wekelijkse arbeidsduur </source>
+                <target xml:lang="de" state="final"> Effektive durchschnittliche Wochenarbeitszeit </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu377" resname="/html/body/table[11]/tbody/tr[2]/td[2]">
+                <source xml:lang="nl"> 40 </source>
+                <target xml:lang="de" state="final"> 40 </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu378" resname="/html/body/table[11]/tbody/tr[2]/td[3]">
+                <source xml:lang="nl"> 0 </source>
+                <target xml:lang="de" state="final"> 0 </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu379" resname="/html/body/table[11]/tbody/tr[2]/td[4]">
+                <source xml:lang="nl"> 40 </source>
+                <target xml:lang="de" state="final"> 40 </target>
+              </trans-unit>
+            </group>
+            <group restype="row" id="tu380" resname="/html/body/table[11]/tbody/tr[3]">
+              <trans-unit restype="cell" id="tu381" resname="/html/body/table[11]/tbody/tr[3]/td[1]">
+                <source xml:lang="nl"> Jaarlijks gemiddelde wekelijkse betaalde arbeidsduur </source>
+                <target xml:lang="de" state="final"> Jährliche durchschnittliche bezahlte Wochenarbeitszeit </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu382" resname="/html/body/table[11]/tbody/tr[3]/td[2]">
+                <source xml:lang="nl"> 39 </source>
+                <target xml:lang="de" state="final"> 39 </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu383" resname="/html/body/table[11]/tbody/tr[3]/td[3]">
+                <source xml:lang="nl"> 0 </source>
+                <target xml:lang="de" state="final"> 0 </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu384" resname="/html/body/table[11]/tbody/tr[3]/td[4]">
+                <source xml:lang="nl"> 39 </source>
+                <target xml:lang="de" state="final"> 39 </target>
+              </trans-unit>
+            </group>
+          </group>
+        </group>
+        <trans-unit restype="x-html-p" id="tu385" resname="/html/body/p[26]">
+          <source xml:lang="nl">   </source>
+          <target xml:lang="de" state="final">   </target>
+        </trans-unit>
+        <trans-unit restype="x-html-p" id="tu386" resname="/html/body/p[27]">
+          <source xml:lang="nl"> Aan blok #2 gekoppeld blok 'maatregel tot reorganisatie van de arbeidstijd': </source>
+          <target xml:lang="de" state="final"> Mit Block #2 verknüpfter Block „Maßnahme zur Neuverteilung der Arbeitszeit”: </target>
+        </trans-unit>
+        <group restype="table" id="tu387" resname="/html/body/table[12]">
+          <note from="align">left</note>
+          <note from="class">table-bordered table-striped</note>
+          <group restype="x-html-thead" id="tu388" resname="/html/body/table[12]/thead">
+            <group restype="row" id="tu389" resname="/html/body/table[12]/thead/tr">
+              <trans-unit restype="x-html-th" id="tu390" resname="/html/body/table[12]/thead/tr/th[1]">
+                <source xml:lang="nl"> Zone in blok 'maatregel tot reorganisatie van de arbeidstijd' </source>
+                <target xml:lang="de" state="final"> Feld im Block „Maßnahme zur Neuverteilung der Arbeitszeit“ </target>
+              </trans-unit>
+              <trans-unit restype="x-html-th" id="tu391" resname="/html/body/table[12]/thead/tr/th[2]">
+                <source xml:lang="nl"> Waarden gekoppeld aan blok #2 </source>
+                <target xml:lang="de" state="final"> Mit Block #2 verbundene Werte </target>
+              </trans-unit>
+            </group>
+          </group>
+          <group restype="x-html-tbody" id="tu392" resname="/html/body/table[12]/tbody">
+            <group restype="row" id="tu393" resname="/html/body/table[12]/tbody/tr[1]">
+              <trans-unit restype="cell" id="tu394" resname="/html/body/table[12]/tbody/tr[1]/td[1]">
+                <source xml:lang="nl"> MRA-code </source>
+                <target xml:lang="de" state="final"> MNA-Code </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu395" resname="/html/body/table[12]/tbody/tr[1]/td[2]">
+                <source xml:lang="nl"> 9 (= volledige of gedeeltelijke onderbreking van de loopbaan) </source>
+                <target xml:lang="de" state="final"> 9 (= vollständige oder teilweise Unterbrechung der Beschäftigung) </target>
+              </trans-unit>
+            </group>
+            <group restype="row" id="tu396" resname="/html/body/table[12]/tbody/tr[2]">
+              <trans-unit restype="cell" id="tu397" resname="/html/body/table[12]/tbody/tr[2]/td[1]">
+                <source xml:lang="nl"> Percentage  </source>
+                <target xml:lang="de" state="final"> Prozentsatz  </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu398" resname="/html/body/table[12]/tbody/tr[2]/td[2]">
+                <source xml:lang="nl"> 100 % </source>
+                <target xml:lang="de" state="final"> 100 % </target>
+              </trans-unit>
+            </group>
+          </group>
+        </group>
+        <group restype="x-html-ul" id="tu399" resname="/html/body/ul[5]">
+          <group restype="listitem" id="tu400" resname="/html/body/ul[5]/li">
+            <trans-unit id="tu401" resname="/html/body/ul[5]/li/text()[1]">
+              <source xml:lang="nl">In het luik 'prestaties' wordt voor elke dag afwezigheid in het kader van het tijdskrediet het volgende vermeld: </source>
+              <target xml:lang="de" state="final">Im Abschnitt „Leistungen“ wird für jeden Tag der Abwesenheit im Rahmen des Zeitkredits Folgendes angegeben: </target>
+            </trans-unit>
+            <group restype="x-html-ul" id="tu402" resname="/html/body/ul[5]/li/ul">
+              <trans-unit restype="listitem" id="tu403" resname="/html/body/ul[5]/li/ul/li[1]">
+                <source xml:lang="nl">Datum of begindatum van de prestatie of afwezigheid = datum waarop de werknemer afwezig is in het kader van het tijdskrediet </source>
+                <target xml:lang="de" state="final">Datum oder Anfangsdatum der Leistung oder Abwesenheit = Datum, an dem der Arbeitnehmer im Rahmen des Zeitkredits abwesend ist </target>
+              </trans-unit>
+              <trans-unit restype="listitem" id="tu404" resname="/html/body/ul[5]/li/ul/li[2]">
+                <source xml:lang="nl">Prestatie- of afwezigheidscode = 2208001 (afwezigheid i.h.k.v. een maatregel tot reorganisatie van de arbeidstijd) </source>
+                <target xml:lang="de" state="final">Leistungs- oder Abwesenheitscode = 2208001 (Abwesenheit im Rahmen einer Maßnahme zur Neuverteilung der Arbeitszeit) </target>
+              </trans-unit>
+              <trans-unit restype="listitem" id="tu405" resname="/html/body/ul[5]/li/ul/li[3]">
+                <source xml:lang="nl">Aantal uren = 8 </source>
+                <target xml:lang="de" state="final">Anzahl Stunden = 8 </target>
+              </trans-unit>
+            </group>
+          </group>
+        </group>
+        <trans-unit restype="x-html-p" id="tu406" resname="/html/body/p[28]">
+          <source xml:lang="nl"> 3) Een voltijdse werknemer werkt effectief 40 uren per week gedurende 5 dagen per week (8 uren per dag). Hij heeft 12 onbetaalde inhaalrustdagen. Hij neemt halftijds tijdskrediet. Hij alterneert een week prestaties met een week volledige afwezigheid (prestaties in week 1, afwezig in week 2, prestaties in week 3, afwezig in week 4, …). </source>
+          <target xml:lang="de" state="final"> 3) Ein Vollzeitarbeitnehmer arbeitet effektiv 40 Stunden pro Woche an 5 Tagen pro Woche (8 Stunden pro Tag). Er hat 12 unbezahlte Ausgleichsurlaubstage. Er nimmt einen Halbzeit-Zeitkredit in Anspruch. Er wechselt zwischen einer Woche mit Leistungen und einer Woche vollständiger Abwesenheit (Leistungen in Woche 1, abwesend in Woche 2, Leistungen in Woche 3, abwesend in Woche 4…). </target>
+        </trans-unit>
+        <group restype="table" id="tu407" resname="/html/body/table[13]">
+          <note from="align">left</note>
+          <note from="class">table-bordered table-striped</note>
+          <group restype="x-html-thead" id="tu408" resname="/html/body/table[13]/thead">
+            <group restype="row" id="tu409" resname="/html/body/table[13]/thead/tr">
+              <trans-unit restype="x-html-th" id="tu410" resname="/html/body/table[13]/thead/tr/th[1]">
+                <source xml:lang="nl"> Zone in blok 'wekelijkse arbeidsduur' </source>
+                <target xml:lang="de" state="final"> Feld im Block „Wöchentliche Arbeitszeit“ </target>
+              </trans-unit>
+              <trans-unit restype="x-html-th" id="tu411" resname="/html/body/table[13]/thead/tr/th[2]">
+                <source xml:lang="nl"> Waarden in blok #1 </source>
+                <target xml:lang="de" state="final"> Werte in Block #1 </target>
+              </trans-unit>
+              <trans-unit restype="x-html-th" id="tu412" resname="/html/body/table[13]/thead/tr/th[3]">
+                <source xml:lang="nl"> Waarden in blok #2 </source>
+                <target xml:lang="de" state="final"> Werte in Block #2 </target>
+              </trans-unit>
+              <trans-unit restype="x-html-th" id="tu413" resname="/html/body/table[13]/thead/tr/th[4]">
+                <source xml:lang="nl"> Waarden in blok #3 </source>
+                <target xml:lang="de" state="final"> Werte in Block #3 </target>
+              </trans-unit>
+            </group>
+          </group>
+          <group restype="x-html-tbody" id="tu414" resname="/html/body/table[13]/tbody">
+            <group restype="row" id="tu415" resname="/html/body/table[13]/tbody/tr[1]">
+              <trans-unit restype="cell" id="tu416" resname="/html/body/table[13]/tbody/tr[1]/td[1]">
+                <source xml:lang="nl"> Type </source>
+                <target xml:lang="de" state="final"> Art </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu417" resname="/html/body/table[13]/tbody/tr[1]/td[2]">
+                <source xml:lang="nl"> Werknemer zonder schorsing (Q) </source>
+                <target xml:lang="de" state="final"> Arbeitnehmer ohne Aussetzung (Q) </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu418" resname="/html/body/table[13]/tbody/tr[1]/td[3]">
+                <source xml:lang="nl"> Werknemer met schorsing (M) </source>
+                <target xml:lang="de" state="final"> Arbeitnehmer mit Aussetzung (M) </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu419" resname="/html/body/table[13]/tbody/tr[1]/td[4]">
+                <source xml:lang="nl"> Maatpersoon (S) </source>
+                <target xml:lang="de" state="final"> Referenzperson (S) </target>
+              </trans-unit>
+            </group>
+            <group restype="row" id="tu420" resname="/html/body/table[13]/tbody/tr[2]">
+              <trans-unit restype="cell" id="tu421" resname="/html/body/table[13]/tbody/tr[2]/td[1]">
+                <source xml:lang="nl"> Effectieve gemiddelde wekelijkse arbeidsduur </source>
+                <target xml:lang="de" state="final"> Effektive durchschnittliche Wochenarbeitszeit </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu422" resname="/html/body/table[13]/tbody/tr[2]/td[2]">
+                <source xml:lang="nl"> 40 </source>
+                <target xml:lang="de" state="final"> 40 </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu423" resname="/html/body/table[13]/tbody/tr[2]/td[3]">
+                <source xml:lang="nl"> 20 </source>
+                <target xml:lang="de" state="final"> 20 </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu424" resname="/html/body/table[13]/tbody/tr[2]/td[4]">
+                <source xml:lang="nl"> 40 </source>
+                <target xml:lang="de" state="final"> 40 </target>
+              </trans-unit>
+            </group>
+            <group restype="row" id="tu425" resname="/html/body/table[13]/tbody/tr[3]">
+              <trans-unit restype="cell" id="tu426" resname="/html/body/table[13]/tbody/tr[3]/td[1]">
+                <source xml:lang="nl"> Jaarlijks gemiddelde wekelijkse betaalde arbeidsduur </source>
+                <target xml:lang="de" state="final"> Jährliche durchschnittliche bezahlte Wochenarbeitszeit </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu427" resname="/html/body/table[13]/tbody/tr[3]/td[2]">
+                <source xml:lang="nl"> 38 </source>
+                <target xml:lang="de" state="final"> 38 </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu428" resname="/html/body/table[13]/tbody/tr[3]/td[3]">
+                <source xml:lang="nl"> 19 </source>
+                <target xml:lang="de" state="final"> 19 </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu429" resname="/html/body/table[13]/tbody/tr[3]/td[4]">
+                <source xml:lang="nl"> 38 </source>
+                <target xml:lang="de" state="final"> 38 </target>
+              </trans-unit>
+            </group>
+          </group>
+        </group>
+        <trans-unit restype="x-html-p" id="tu430" resname="/html/body/p[29]">
+          <source xml:lang="nl">   </source>
+          <target xml:lang="de" state="final">   </target>
+        </trans-unit>
+        <trans-unit restype="x-html-p" id="tu431" resname="/html/body/p[30]">
+          <source xml:lang="nl"> Aan blok #2 gekoppeld blok 'maatregel tot reorganisatie van de arbeidstijd': </source>
+          <target xml:lang="de" state="final"> Mit Block #2 verknüpfter Block „Maßnahme zur Neuverteilung der Arbeitszeit”: </target>
+        </trans-unit>
+        <group restype="table" id="tu432" resname="/html/body/table[14]">
+          <note from="align">left</note>
+          <note from="class">table-bordered table-striped</note>
+          <group restype="x-html-thead" id="tu433" resname="/html/body/table[14]/thead">
+            <group restype="row" id="tu434" resname="/html/body/table[14]/thead/tr">
+              <trans-unit restype="x-html-th" id="tu435" resname="/html/body/table[14]/thead/tr/th[1]">
+                <source xml:lang="nl"> Zone in blok 'maatregel tot reorganisatie van de arbeidstijd' </source>
+                <target xml:lang="de" state="final"> Feld im Block „Maßnahme zur Neuverteilung der Arbeitszeit“ </target>
+              </trans-unit>
+              <trans-unit restype="x-html-th" id="tu436" resname="/html/body/table[14]/thead/tr/th[2]">
+                <source xml:lang="nl"> Waarden gekoppeld aan blok #2 </source>
+                <target xml:lang="de" state="final"> Mit Block #2 verbundene Werte </target>
+              </trans-unit>
+            </group>
+          </group>
+          <group restype="x-html-tbody" id="tu437" resname="/html/body/table[14]/tbody">
+            <group restype="row" id="tu438" resname="/html/body/table[14]/tbody/tr[1]">
+              <trans-unit restype="cell" id="tu439" resname="/html/body/table[14]/tbody/tr[1]/td[1]">
+                <source xml:lang="nl"> MRA-code </source>
+                <target xml:lang="de" state="final"> MNA-Code </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu440" resname="/html/body/table[14]/tbody/tr[1]/td[2]">
+                <source xml:lang="nl"> 9 (= volledige of gedeeltelijke onderbreking van de loopbaan) </source>
+                <target xml:lang="de" state="final"> 9 (= vollständige oder teilweise Unterbrechung der Beschäftigung) </target>
+              </trans-unit>
+            </group>
+            <group restype="row" id="tu441" resname="/html/body/table[14]/tbody/tr[2]">
+              <trans-unit restype="cell" id="tu442" resname="/html/body/table[14]/tbody/tr[2]/td[1]">
+                <source xml:lang="nl"> Percentage  </source>
+                <target xml:lang="de" state="final"> Prozentsatz  </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu443" resname="/html/body/table[14]/tbody/tr[2]/td[2]">
+                <source xml:lang="nl"> 50 % </source>
+                <target xml:lang="de" state="final"> 50 % </target>
+              </trans-unit>
+            </group>
+          </group>
+        </group>
+        <trans-unit restype="x-html-p" id="tu444" resname="/html/body/p[31]">
+          <source xml:lang="nl">   </source>
+          <target xml:lang="de" state="final">   </target>
+        </trans-unit>
+        <trans-unit restype="x-html-p" id="tu445" resname="/html/body/p[32]">
+          <source xml:lang="nl"> In het luik prestaties wordt voor elke dag in een week met prestaties het volgende vermeld: </source>
+          <target xml:lang="de" state="final"> Im Abschnitt „Leistungen“ wird für jeden Tag einer Woche mit Leistungen Folgendes angegeben: </target>
+        </trans-unit>
+        <group restype="x-html-ul" id="tu446" resname="/html/body/ul[6]">
+          <trans-unit restype="listitem" id="tu447" resname="/html/body/ul[6]/li[1]">
+            <source xml:lang="nl">Datum of begindatum van de prestatie of afwezigheid = datum waarop de werknemer afwezig is in het kader van het tijdskrediet </source>
+            <target xml:lang="de" state="final">Datum oder Anfangsdatum der Leistung oder Abwesenheit = Datum, an dem der Arbeitnehmer im Rahmen des Zeitkredits abwesend ist </target>
+          </trans-unit>
+          <trans-unit restype="listitem" id="tu448" resname="/html/body/ul[6]/li[2]">
+            <source xml:lang="nl">Prestatie- of afwezigheidscode = 1101001 (normale arbeid) </source>
+            <target xml:lang="de" state="final">Leistungs- oder Abwesenheitscode = 1101001 (normale Arbeit) </target>
+          </trans-unit>
+          <trans-unit restype="listitem" id="tu449" resname="/html/body/ul[6]/li[3]">
+            <source xml:lang="nl">Aantal uren = 8 </source>
+            <target xml:lang="de" state="final">Anzahl Stunden = 8 </target>
+          </trans-unit>
+        </group>
+        <trans-unit restype="x-html-p" id="tu450" resname="/html/body/p[33]">
+          <source xml:lang="nl"> Voor elke dag in een week met een afwezigheid in het kader van het tijdskrediet wordt het volgende vermeld: </source>
+          <target xml:lang="de" state="final"> Für jeden Tag in einer Woche, an dem eine Abwesenheit im Rahmen des Zeitkredits vorliegt, wird Folgendes angegeben: </target>
+        </trans-unit>
+        <group restype="x-html-ul" id="tu451" resname="/html/body/ul[7]">
+          <trans-unit restype="listitem" id="tu452" resname="/html/body/ul[7]/li[1]">
+            <source xml:lang="nl">Datum of begindatum van de prestatie of afwezigheid = datum waarop de werknemer afwezig is in het kader van het tijdskrediet </source>
+            <target xml:lang="de" state="final">Datum oder Anfangsdatum der Leistung oder Abwesenheit = Datum, an dem der Arbeitnehmer im Rahmen des Zeitkredits abwesend ist </target>
+          </trans-unit>
+          <trans-unit restype="listitem" id="tu453" resname="/html/body/ul[7]/li[2]">
+            <source xml:lang="nl">Prestatie- of afwezigheidscode = 2208001 (afwezigheid i.h.k.v. een maatregel tot reorganisatie van de arbeidstijd) </source>
+            <target xml:lang="de" state="final">Leistungs- oder Abwesenheitscode = 2208001 (Abwesenheit im Rahmen einer Maßnahme zur Neuverteilung der Arbeitszeit) </target>
+          </trans-unit>
+          <trans-unit restype="listitem" id="tu454" resname="/html/body/ul[7]/li[3]">
+            <source xml:lang="nl">Aantal uren = 8 </source>
+            <target xml:lang="de" state="final">Anzahl Stunden = 8 </target>
+          </trans-unit>
+        </group>
+        <trans-unit restype="x-html-p" id="tu455" resname="/html/body/p[34]">
+          <source xml:lang="nl"> 4) Een voltijdse werknemer werkt effectief 40 uren per week. Hij heeft 12 betaalde inhaalrustdagen per jaar. De werknemer neemt halftijds tijdskrediet. Door het feit dat hij nog maar halftijds werkt heeft hij geen recht meer op compensatiedagen. Hij zal dan wel dagelijks effectief minder lang moeten werken. Hierdoor wijzigt de wekelijkse arbeidsduur van de werknemer en van de maatpersoon. </source>
+          <target xml:lang="de" state="final"> 4) Ein Vollzeitarbeitnehmer arbeitet effektiv 40 Stunden pro Woche. Er hat 12 bezahlte Ausgleichsruhetage pro Jahr. Der Arbeitnehmer nimmt einen Halbzeit-Zeitkredit in Anspruch. Da er nur noch halbtags arbeitet, hat er keinen Anspruch mehr auf Ausgleichsruhetage. Er wird dann allerdings täglich effektiv weniger lange arbeiten müssen. Dadurch ändert sich die wöchentliche Arbeitszeit des Arbeitnehmers und der Referenzperson. </target>
+        </trans-unit>
+        <trans-unit restype="x-html-p" id="tu456" resname="/html/body/p[35]">
+          <source xml:lang="nl"> Periodieke sociale signalitiek #1 betreffende de periode zonder tijdskrediet: </source>
+          <target xml:lang="de" state="final"> Regelmäßige soziale Kennzeichnung #1 bezüglich des Zeitraums ohne Zeitkredit: </target>
+        </trans-unit>
+        <group restype="table" id="tu457" resname="/html/body/table[15]">
+          <note from="align">left</note>
+          <note from="class">table-bordered table-striped</note>
+          <group restype="x-html-thead" id="tu458" resname="/html/body/table[15]/thead">
+            <group restype="row" id="tu459" resname="/html/body/table[15]/thead/tr">
+              <trans-unit restype="x-html-th" id="tu460" resname="/html/body/table[15]/thead/tr/th[1]">
+                <source xml:lang="nl"> Zone in blok 'wekelijkse arbeidsduur' </source>
+                <target xml:lang="de" state="final"> Feld im Block „Wöchentliche Arbeitszeit“ </target>
+              </trans-unit>
+              <trans-unit restype="x-html-th" id="tu461" resname="/html/body/table[15]/thead/tr/th[2]">
+                <source xml:lang="nl"> Waarden in blok #1 </source>
+                <target xml:lang="de" state="final"> Werte in Block #1 </target>
+              </trans-unit>
+              <trans-unit restype="x-html-th" id="tu462" resname="/html/body/table[15]/thead/tr/th[3]">
+                <source xml:lang="nl"> Waarden in blok #2 </source>
+                <target xml:lang="de" state="final"> Werte in Block #2 </target>
+              </trans-unit>
+            </group>
+          </group>
+          <group restype="x-html-tbody" id="tu463" resname="/html/body/table[15]/tbody">
+            <group restype="row" id="tu464" resname="/html/body/table[15]/tbody/tr[1]">
+              <trans-unit restype="cell" id="tu465" resname="/html/body/table[15]/tbody/tr[1]/td[1]">
+                <source xml:lang="nl"> Type </source>
+                <target xml:lang="de" state="final"> Art </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu466" resname="/html/body/table[15]/tbody/tr[1]/td[2]">
+                <source xml:lang="nl"> Werknemer zonder schorsing (Q) </source>
+                <target xml:lang="de" state="final"> Arbeitnehmer ohne Aussetzung (Q) </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu467" resname="/html/body/table[15]/tbody/tr[1]/td[3]">
+                <source xml:lang="nl"> Maatpersoon (S) </source>
+                <target xml:lang="de" state="final"> Referenzperson (S) </target>
+              </trans-unit>
+            </group>
+            <group restype="row" id="tu468" resname="/html/body/table[15]/tbody/tr[2]">
+              <trans-unit restype="cell" id="tu469" resname="/html/body/table[15]/tbody/tr[2]/td[1]">
+                <source xml:lang="nl"> Effectieve gemiddelde wekelijkse arbeidsduur </source>
+                <target xml:lang="de" state="final"> Effektive durchschnittliche Wochenarbeitszeit </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu470" resname="/html/body/table[15]/tbody/tr[2]/td[2]">
+                <source xml:lang="nl"> 40 </source>
+                <target xml:lang="de" state="final"> 40 </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu471" resname="/html/body/table[15]/tbody/tr[2]/td[3]">
+                <source xml:lang="nl"> 40 </source>
+                <target xml:lang="de" state="final"> 40 </target>
+              </trans-unit>
+            </group>
+            <group restype="row" id="tu472" resname="/html/body/table[15]/tbody/tr[3]">
+              <trans-unit restype="cell" id="tu473" resname="/html/body/table[15]/tbody/tr[3]/td[1]">
+                <source xml:lang="nl"> Jaarlijks gemiddelde wekelijkse betaalde arbeidsduur </source>
+                <target xml:lang="de" state="final"> Jährliche durchschnittliche bezahlte Wochenarbeitszeit </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu474" resname="/html/body/table[15]/tbody/tr[3]/td[2]">
+                <source xml:lang="nl"> 40 </source>
+                <target xml:lang="de" state="final"> 40 </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu475" resname="/html/body/table[15]/tbody/tr[3]/td[3]">
+                <source xml:lang="nl"> 40 </source>
+                <target xml:lang="de" state="final"> 40 </target>
+              </trans-unit>
+            </group>
+          </group>
+        </group>
+        <trans-unit restype="x-html-p" id="tu476" resname="/html/body/p[36]">
+          <source xml:lang="nl"> Periodieke sociale signalitiek #2 betreffende de periode met tijdskrediet: </source>
+          <target xml:lang="de" state="final"> Regelmäßige soziale Kennzeichnung #2 bezüglich des Zeitraums mit Zeitkredit: </target>
+        </trans-unit>
+        <group restype="table" id="tu477" resname="/html/body/table[16]">
+          <note from="align">left</note>
+          <note from="class">table-bordered table-striped</note>
+          <group restype="x-html-thead" id="tu478" resname="/html/body/table[16]/thead">
+            <group restype="row" id="tu479" resname="/html/body/table[16]/thead/tr">
+              <trans-unit restype="x-html-th" id="tu480" resname="/html/body/table[16]/thead/tr/th[1]">
+                <source xml:lang="nl"> Zone in blok 'wekelijkse arbeidsduur' </source>
+                <target xml:lang="de" state="final"> Feld im Block „Wöchentliche Arbeitszeit“ </target>
+              </trans-unit>
+              <trans-unit restype="x-html-th" id="tu481" resname="/html/body/table[16]/thead/tr/th[2]">
+                <source xml:lang="nl"> Waarden in blok #1 </source>
+                <target xml:lang="de" state="final"> Werte in Block #1 </target>
+              </trans-unit>
+              <trans-unit restype="x-html-th" id="tu482" resname="/html/body/table[16]/thead/tr/th[3]">
+                <source xml:lang="nl"> Waarden in blok #2 </source>
+                <target xml:lang="de" state="final"> Werte in Block #2 </target>
+              </trans-unit>
+              <trans-unit restype="x-html-th" id="tu483" resname="/html/body/table[16]/thead/tr/th[4]">
+                <source xml:lang="nl"> Waarden in blok #3 </source>
+                <target xml:lang="de" state="final"> Werte in Block #3 </target>
+              </trans-unit>
+            </group>
+          </group>
+          <group restype="x-html-tbody" id="tu484" resname="/html/body/table[16]/tbody">
+            <group restype="row" id="tu485" resname="/html/body/table[16]/tbody/tr[1]">
+              <trans-unit restype="cell" id="tu486" resname="/html/body/table[16]/tbody/tr[1]/td[1]">
+                <source xml:lang="nl"> Type </source>
+                <target xml:lang="de" state="final"> Art </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu487" resname="/html/body/table[16]/tbody/tr[1]/td[2]">
+                <source xml:lang="nl"> Werknemer zonder schorsing (Q) </source>
+                <target xml:lang="de" state="final"> Arbeitnehmer ohne Aussetzung (Q) </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu488" resname="/html/body/table[16]/tbody/tr[1]/td[3]">
+                <source xml:lang="nl"> Werknemer met schorsing (M) </source>
+                <target xml:lang="de" state="final"> Arbeitnehmer mit Aussetzung (M) </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu489" resname="/html/body/table[16]/tbody/tr[1]/td[4]">
+                <source xml:lang="nl"> Maatpersoon (S) </source>
+                <target xml:lang="de" state="final"> Referenzperson (S) </target>
+              </trans-unit>
+            </group>
+            <group restype="row" id="tu490" resname="/html/body/table[16]/tbody/tr[2]">
+              <trans-unit restype="cell" id="tu491" resname="/html/body/table[16]/tbody/tr[2]/td[1]">
+                <source xml:lang="nl"> Effectieve gemiddelde wekelijkse arbeidsduur </source>
+                <target xml:lang="de" state="final"> Effektive durchschnittliche Wochenarbeitszeit </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu492" resname="/html/body/table[16]/tbody/tr[2]/td[2]">
+                <source xml:lang="nl"> 38 </source>
+                <target xml:lang="de" state="final"> 38 </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu493" resname="/html/body/table[16]/tbody/tr[2]/td[3]">
+                <source xml:lang="nl"> 19 </source>
+                <target xml:lang="de" state="final"> 19 </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu494" resname="/html/body/table[16]/tbody/tr[2]/td[4]">
+                <source xml:lang="nl"> 38 </source>
+                <target xml:lang="de" state="final"> 38 </target>
+              </trans-unit>
+            </group>
+            <group restype="row" id="tu495" resname="/html/body/table[16]/tbody/tr[3]">
+              <trans-unit restype="cell" id="tu496" resname="/html/body/table[16]/tbody/tr[3]/td[1]">
+                <source xml:lang="nl"> Jaarlijks gemiddelde wekelijkse betaalde arbeidsduur </source>
+                <target xml:lang="de" state="final"> Jährliche durchschnittliche bezahlte Wochenarbeitszeit </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu497" resname="/html/body/table[16]/tbody/tr[3]/td[2]">
+                <source xml:lang="nl"> 38 </source>
+                <target xml:lang="de" state="final"> 38 </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu498" resname="/html/body/table[16]/tbody/tr[3]/td[3]">
+                <source xml:lang="nl"> 19 </source>
+                <target xml:lang="de" state="final"> 19 </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu499" resname="/html/body/table[16]/tbody/tr[3]/td[4]">
+                <source xml:lang="nl"> 38 </source>
+                <target xml:lang="de" state="final"> 38 </target>
+              </trans-unit>
+            </group>
+          </group>
+        </group>
+        <trans-unit restype="x-html-p" id="tu500" resname="/html/body/p[37]">
+          <source xml:lang="nl">   </source>
+          <target xml:lang="de" state="final">   </target>
+        </trans-unit>
+        <trans-unit restype="x-html-p" id="tu501" resname="/html/body/p[38]">
+          <source xml:lang="nl"> Aan blok #2 gekoppeld blok 'maatregel tot reorganisatie van de arbeidstijd': </source>
+          <target xml:lang="de" state="final"> Mit Block #2 verknüpfter Block „Maßnahme zur Neuverteilung der Arbeitszeit”: </target>
+        </trans-unit>
+        <group restype="table" id="tu502" resname="/html/body/table[17]">
+          <note from="align">left</note>
+          <note from="class">table-bordered table-striped</note>
+          <group restype="x-html-thead" id="tu503" resname="/html/body/table[17]/thead">
+            <group restype="row" id="tu504" resname="/html/body/table[17]/thead/tr">
+              <trans-unit restype="x-html-th" id="tu505" resname="/html/body/table[17]/thead/tr/th[1]">
+                <source xml:lang="nl"> Zone in blok 'maatregel tot reorganisatie van de arbeidstijd' </source>
+                <target xml:lang="de" state="final"> Feld im Block „Maßnahme zur Neuverteilung der Arbeitszeit“ </target>
+              </trans-unit>
+              <trans-unit restype="x-html-th" id="tu506" resname="/html/body/table[17]/thead/tr/th[2]">
+                <source xml:lang="nl"> Waarden gekoppeld aan blok #2 </source>
+                <target xml:lang="de" state="final"> Mit Block #2 verbundene Werte </target>
+              </trans-unit>
+            </group>
+          </group>
+          <group restype="x-html-tbody" id="tu507" resname="/html/body/table[17]/tbody">
+            <group restype="row" id="tu508" resname="/html/body/table[17]/tbody/tr[1]">
+              <trans-unit restype="cell" id="tu509" resname="/html/body/table[17]/tbody/tr[1]/td[1]">
+                <source xml:lang="nl"> MRA-code </source>
+                <target xml:lang="de" state="final"> MNA-Code </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu510" resname="/html/body/table[17]/tbody/tr[1]/td[2]">
+                <source xml:lang="nl"> 9 (= volledige of gedeeltelijke onderbreking van de loopbaan) </source>
+                <target xml:lang="de" state="final"> 9 (= vollständige oder teilweise Unterbrechung der Beschäftigung) </target>
+              </trans-unit>
+            </group>
+            <group restype="row" id="tu511" resname="/html/body/table[17]/tbody/tr[2]">
+              <trans-unit restype="cell" id="tu512" resname="/html/body/table[17]/tbody/tr[2]/td[1]">
+                <source xml:lang="nl"> Percentage  </source>
+                <target xml:lang="de" state="final"> Prozentsatz  </target>
+              </trans-unit>
+              <trans-unit restype="cell" id="tu513" resname="/html/body/table[17]/tbody/tr[2]/td[2]">
+                <source xml:lang="nl"> 50 % </source>
+                <target xml:lang="de" state="final"> 50 % </target>
+              </trans-unit>
+            </group>
+          </group>
+        </group>
+        <trans-unit restype="x-html-p" id="tu514" resname="/html/body/p[39]">
+          <source xml:lang="nl">   </source>
+          <target xml:lang="de" state="final">   </target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

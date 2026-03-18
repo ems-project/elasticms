@@ -17,7 +17,7 @@
 {%- endblock form_instance_submission_label -%}
 
 {%- block media_file_date_creation -%}
-    {% if attribute(_source, 'date_creation') is not defined %}
+    {% if _source.('date_creation') is not defined %}
         {{ 'now'|date(constant('DateTimeInterface::ATOM'))|json_encode|raw }}
     {% endif %}
 {%- endblock media_file_date_creation -%}

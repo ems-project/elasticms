@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 https://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file source-language="en" original="contentType:ouuid_1:revisionId_1" datatype="database" target-language="fr">
     <body>
-      <trans-unit id="[title_%locale%]">
+      <trans-unit id="tu1" resname="[title_%locale%]">
         <source xml:lang="en">Foo</source>
         <target xml:lang="fr" state="needs-translation">Bar</target>
       </trans-unit>
@@ -10,28 +10,30 @@
   </file>
   <file source-language="en" original="contentType:ouuid_2:revisionId_2" datatype="database" target-language="fr">
     <body>
-      <trans-unit id="[title_%locale%]">
+      <trans-unit id="tu2" resname="[title_%locale%]">
         <source xml:lang="en">Hello</source>
         <target xml:lang="fr" state="needs-translation">Bonjour</target>
       </trans-unit>
-      <trans-unit id="[keywords_%locale%]">
+      <trans-unit id="tu3" resname="[keywords_%locale%]">
         <source xml:lang="en">test xliff</source>
         <target xml:lang="fr" state="new"/>
       </trans-unit>
-      <trans-unit id="[empty]">
+      <trans-unit id="tu4" resname="[empty]">
         <source xml:lang="en"/>
         <target xml:lang="fr" state="final"/>
       </trans-unit>
-      <group id="[%locale%][body]">
-        <trans-unit restype="x-html-p" html:title="Information about Mount Hood" id="/html/body/p">
-          <source xml:lang="en"> This is Mount Hood: <g ctype="image" html:src="mthood.jpg" html:alt="Mount Hood with its snow-covered top"/> </source>
-          <target xml:lang="fr" state="needs-translation"> Ceci est Mount Hood: <g ctype="image" html:src="mthood.jpg" html:alt="Mount Hood avec son sommet enneigé"/> </target>
+      <group resname="[%locale%][body]" id="grp5">
+        <trans-unit restype="x-html-p" id="tu6" resname="/html/body/p">
+          <source xml:lang="en"> This is Mount Hood: <x id="x7" ctype="x-html-img" equiv-text="&amp;lt;img src=&amp;quot;mthood.jpg&amp;quot; alt=&amp;quot;Mount Hood with its snow-covered top&amp;quot;&amp;gt;&amp;lt;/img&amp;gt;"/> </source>
+          <target xml:lang="fr" state="needs-translation"> Ceci est Mount Hood: <x id="x8" ctype="x-html-img" equiv-text="&amp;lt;img src=&amp;quot;mthood.jpg&amp;quot; alt=&amp;quot;Mount Hood avec son sommet enneig&amp;amp;#xE9;&amp;quot;&amp;gt;&amp;lt;/img&amp;gt;"/> </target>
+          <note from="title">Information about Mount Hood</note>
         </trans-unit>
       </group>
-      <group id="[%locale%][body2]">
-        <trans-unit restype="x-html-p" html:title="Information about Mount Hood" id="/html/body/p">
-          <source xml:lang="en"> This is Mount Hood: <g ctype="image" html:src="mthood.jpg" html:alt="Mount Hood with its snow-covered top"/> </source>
-          <target xml:lang="fr" state="final"> Ceci est Mount Hood: <g ctype="image" html:src="mthood.jpg" html:alt="Mount Hood avec son sommet enneigé"/> </target>
+      <group resname="[%locale%][body2]" id="grp9">
+        <trans-unit restype="x-html-p" id="tu10" resname="/html/body/p">
+          <source xml:lang="en"> This is Mount Hood: <x id="x11" ctype="x-html-img" equiv-text="&amp;lt;img src=&amp;quot;mthood.jpg&amp;quot; alt=&amp;quot;Mount Hood with its snow-covered top&amp;quot;&amp;gt;&amp;lt;/img&amp;gt;"/> </source>
+          <target xml:lang="fr" state="final"> Ceci est Mount Hood: <x id="x12" ctype="x-html-img" equiv-text="&amp;lt;img src=&amp;quot;mthood.jpg&amp;quot; alt=&amp;quot;Mount Hood avec son sommet enneig&amp;amp;#xE9;&amp;quot;&amp;gt;&amp;lt;/img&amp;gt;"/> </target>
+          <note from="title">Information about Mount Hood</note>
         </trans-unit>
       </group>
     </body>

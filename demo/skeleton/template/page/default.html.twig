@@ -3,19 +3,19 @@
 
 {% import '@EMSCH/template/macros/wysiwyg.twig' as wysiwyg %}
 
-{% block title %}{{ attribute(source, locale).title|default('') }}{% endblock %}
+{% block title %}{{ source.(locale).title|default('') }}{% endblock %}
 
 {% block metatitle -%}
-    {%- if attribute(source, locale).meta_title|default(false) -%}
-        {{- attribute(source, locale).meta_title -}}
+    {%- if source.(locale).meta_title|default(false) -%}
+        {{- source.(locale).meta_title -}}
     {%- else -%}
         {{- parent() -}}
     {%- endif -%}
 {%- endblock -%}
 
 {%- block meta_description -%}
-    {%- if attribute(source, locale).description|default(false) -%}
-        {{- attribute(source, locale).description|striptags|ems_html_decode|trim -}}
+    {%- if source.(locale).description|default(false) -%}
+        {{- source.(locale).description|striptags|ems_html_decode|trim -}}
     {%- else -%}
         {{- parent() -}}
     {%- endif -%}
@@ -30,17 +30,17 @@
                     <h1 {{ emsch_admin_menu(target.getEmsLink|default(emsLink|default(''))) }}>
                         {{ block('title') }}
                     </h1>
-                    {{ attribute(source, locale).summary|default('')|emsch_routing }}
+                    {{ source.(locale).summary|default('')|emsch_routing }}
                 </div>
             </div>
         </div>
     </div>
-    {% if attribute(source, locale).body|default(false) %}
+    {% if source.(locale).body|default(false) %}
         <div class="container-fluid container-lg">
             <section class="py-5 py-lg-8">
                 <div class="row">
                     <div class="col-12 col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
-                        {{ wysiwyg.transform(attribute(source, locale).body|emsch_routing) }}
+                        {{ wysiwyg.transform(source.(locale).body|emsch_routing) }}
                     </div>
                 </div>
             </section>

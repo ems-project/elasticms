@@ -151,6 +151,21 @@ services:
       service: mercure
     container_name: ems-mono-mercure
 
+  varnish:
+      image: varnish:7.7
+      environment:
+          - VARNISH_SIZE=256M
+      volumes:
+          - ./varnish/default.vcl:/etc/varnish/default.vcl:ro
+      extra_hosts:
+          - "host.docker.internal:host-gateway"
+      labels:
+          - "traefik.enable=true"
+          - "traefik.http.routers.varnish.rule=Host(`varnish.localhost`)"
+          - "traefik.http.routers.varnish.service=varnish"
+          - "traefik.http.routers.varnish.entrypoints=web"
+          - "traefik.http.services.varnish.loadbalancer.server.port=80"
+
 volumes:
   elk7_data01:
   elk7_data02:

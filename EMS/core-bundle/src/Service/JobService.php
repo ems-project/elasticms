@@ -125,6 +125,11 @@ class JobService implements EntityServiceInterface
         return $this->repository->countPendingJobs();
     }
 
+    public function countFailed(): int
+    {
+        return $this->repository->countFailedJobs();
+    }
+
     public function newJob(UserInterface $user): Job
     {
         $job = new Job();
@@ -200,10 +205,7 @@ class JobService implements EntityServiceInterface
         $job->setStarted(true);
         $this->repository->save($job);
 
-        $output = $this->getJobOutput($job);
-        $output->writeln('Job ready to be launch');
-
-        return $output;
+        return $this->getJobOutput($job);
     }
 
     public function finish(int $jobId, ?string $errorMessage = null): void

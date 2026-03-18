@@ -1,9 +1,4 @@
-{% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}{% trans_default_domain 'EMSCoreBundle' %}
-
-{% block title %}{{ view.name }} for {{view.contentType.pluralName}}{% endblock %}
-{% block pagetitle %}{{ view.name }} for {{view.contentType.pluralName}}{% endblock %}
-{# {% block subtitle %}<!-- TODO -->{% endblock %} #}
-
+{% extends '@EMSAdminUI/bootstrap5/view/custom/abstract.html.twig' %}
 
 {% block body %}
 
@@ -42,10 +37,9 @@
 				</div>
 				<!-- /.box-body -->
 				<div class="box-footer">
-							{{ form_row(form.manage) }}
-{# 					<button type="submit" class="btn btn-primary" id="applyConfig">Apply</button>#}
+                    {{ form_row(form.manage) }}
 				</div>
-				{{ form_end(form) }}
+            {{ form_end(form) }}
 		</div>
 	</div>
 </div>

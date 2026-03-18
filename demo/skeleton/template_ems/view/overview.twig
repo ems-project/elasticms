@@ -12,7 +12,7 @@
     {% set columns = [] %}
     {% if contentType.name == 'label' %}
         {%- set languages = {'nl': 'Dutch', 'fr': 'French'} -%}
-        {%- set selectedLanguages = app.request.query.get('l', ['nl', 'fr']) -%}
+        {%- set selectedLanguages = app.request.query.all('l')|default(['nl', 'fr']) -%}
 
         {% set columns = [{ "label": "Key", "template": (block('columnKey')),  "orderField": "key"}] %}
 
@@ -49,7 +49,7 @@
     }|json_encode %}
 
     {% set env = 'preview'|emsco_get_environment %}
-    {% set rowContext = "{% set docInfo = [line.data.contentType, line.data.id]|join(':')|emsco_document_info %}{% set revisionId = line.data.id|get_revision_id(line.data.contentType) %}{% set viewId = #{view.id} %}{% set liveId = 'live'|emsco_get_environment.id %}{% set previewId = 'preview'|get_environment.id %} {% set infoEnv = #{infoEnv} %}" %}
+    {% set rowContext = "{% set docInfo = [line.data.contentType, line.data.id]|join(':')|emsco_document_info %}{% set revisionId = emsco_get_revision_id(line.data.id, line.data.contentType) %}{% set viewId = #{view.id} %}{% set liveId = 'live'|emsco_get_environment.id %}{% set previewId = 'preview'|emsco_get_environment.id %} {% set infoEnv = #{infoEnv} %}" %}
 
     {{ block('renderDatatable') }}
 {% endblock %}
@@ -86,7 +86,8 @@
 
 {% block columnPath %}
 {% verbatim %}
-    {% set path = attribute(data.source.config|default({})|ems_json_decode, 'path')|default('N/A') %}
+    {% set config = data.source.config|default({})|ems_json_decode %}
+    {% set path = config.('path')|default(false) %}
     {% if path is iterable %}
         <ul>
             {% for l, item in path %}
@@ -94,7 +95,7 @@
             {% endfor %}
         </ul>
     {% else %}
-        <span class="{% if attribute(data.source.config|default({})|ems_json_decode, 'path') is not defined %}text-gray{% endif %}">{{ path }}</span>
+        <span class="{% if false == path %}text-gray{% endif %}">{{ path|default('N/A') }}</span>
     {% endif %}
 {% endverbatim %}
 {% endblock columnPath %}

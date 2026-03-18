@@ -1,6 +1,6 @@
 {%- set url = null -%}
-{%- if attribute(source, locale) is defined and attribute(source, locale).target is defined -%}
-    {%- set url = attribute(source, locale).target -%}
+{%- if source.(locale) is defined and source.(locale).target is defined -%}
+    {%- set url = source.(locale).target -%}
 {%- endif -%}
 {%- if url -%}
     {{- url -}}

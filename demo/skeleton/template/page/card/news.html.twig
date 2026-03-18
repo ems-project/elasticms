@@ -2,8 +2,8 @@
 
 
 {% block description %}
-    {% if attribute(target.source, locale).title|default(false) %}
-        <h3 class="h2 news-heading">{{ attribute(target.source, locale).title }}</h3>
+    {% if target.source.(locale).title|default(false) %}
+        <h3 class="h2 news-heading">{{ target.source.(locale).title }}</h3>
     {% endif %}
-    {{ attribute(target.source, locale).summary|default('')|emsch_routing }}
+    {{ target.source.(locale).summary|default('')|emsch_routing }}
 {% endblock description %}

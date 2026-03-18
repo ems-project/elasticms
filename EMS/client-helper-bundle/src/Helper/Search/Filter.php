@@ -288,12 +288,13 @@ final class Filter
             case self::TYPE_TERM:
                 $this->value = $value;
                 $term = new Term();
-                $term->setTerm($this->getField(), $value);
+                $term->setTerm($this->getField(), $value, 0.0);
                 $this->query = $term;
                 break;
             case self::TYPE_TERMS:
                 $this->value = \is_array($value) ? $value : [$value];
                 $term = new Terms($this->getField(), $value);
+                $term->setBoost(0.0);
                 $this->query = $term;
                 break;
             case self::TYPE_DATE_RANGE:
@@ -336,6 +337,7 @@ final class Filter
         return new Range($this->getField(), \array_filter([
             'gte' => $start,
             'lte' => $end,
+            'boost' => 0.0,
             'time_zone' => new \DateTime()->format('P'),
             'format' => self::TYPE_DATE_TIME_RANGE === $this->type ? 'yyyy-MM-dd HH:mm:ss' : 'yyyy-MM-dd',
         ]));
@@ -362,8 +364,16 @@ final class Filter
         $toField = $this->secondaryField ?? 'version_to_date';
 
         $boolQuery = new BoolQuery();
-        $before = new Range($this->field, ['lte' => $dateString, 'format' => 'yyyy-MM-dd']);
-        $after = new Range($toField, ['gt' => $dateString, 'format' => 'yyyy-MM-dd']);
+        $before = new Range($this->field, [
+            'lte' => $dateString,
+            'format' => 'yyyy-MM-dd',
+            'boost' => 0.0,
+        ]);
+        $after = new Range($toField, [
+            'gt' => $dateString,
+            'format' => 'yyyy-MM-dd',
+            'boost' => 0.0,
+        ]);
         $boolQuery->addMust($before);
         $boolQuery->addMust($this->getQueryOptional($toField, $after));
 

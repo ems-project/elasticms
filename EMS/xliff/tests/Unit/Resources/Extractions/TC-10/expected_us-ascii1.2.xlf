@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="us-ascii"?>
-<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 https://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file source-language="en" original="contentType:ouuid_1:revisionId_1" datatype="database" target-language="fr">
     <body>
-      <trans-unit id="[title_%locale%]">
+      <trans-unit id="tu1" resname="[title_%locale%]">
         <source xml:lang="en">Foo</source>
         <target xml:lang="fr" state="needs-translation">Bar</target>
       </trans-unit>
@@ -10,52 +10,54 @@
   </file>
   <file source-language="en" original="contentType:ouuid_2:revisionId_2" datatype="database" target-language="fr">
     <body>
-      <trans-unit id="[title_%locale%]">
+      <trans-unit id="tu2" resname="[title_%locale%]">
         <source xml:lang="en">Hello</source>
         <target xml:lang="fr" state="needs-translation">Bonjour</target>
       </trans-unit>
-      <trans-unit id="[keywords_%locale%]">
+      <trans-unit id="tu3" resname="[keywords_%locale%]">
         <source xml:lang="en">test xliff</source>
         <target xml:lang="fr" state="new"/>
       </trans-unit>
-      <trans-unit id="[empty]">
+      <trans-unit id="tu4" resname="[empty]">
         <source xml:lang="en"/>
         <target xml:lang="fr" state="final"/>
       </trans-unit>
-      <group id="[%locale%][body]">
-        <group restype="x-html-ul" id="/html/body/ul">
-          <group restype="listitem" id="/html/body/ul/li">
-            <trans-unit id="/html/body/ul/li/text()[1]">
-              <source xml:lang="en">Voor elke <g ctype="x-html-strong">erg laaggeschoolde jongere</g> die hij in dienst neemt met een startbaanovereenkomst </source>
+      <group resname="[%locale%][body]" id="grp5">
+        <group restype="x-html-ul" id="tu6" resname="/html/body/ul">
+          <group restype="listitem" id="tu7" resname="/html/body/ul/li">
+            <trans-unit id="tu8" resname="/html/body/ul/li/text()[1]">
+              <source xml:lang="en">Voor elke <g id="g9" ctype="x-html-strong">erg laaggeschoolde jongere</g> die hij in dienst neemt met een startbaanovereenkomst </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
-            <group restype="x-html-ul" html:style="padding-top: 0px; padding-bottom: 0px;" id="/html/body/ul/li/ul">
-              <trans-unit restype="listitem" id="/html/body/ul/li/ul/li[1]">
-                <source xml:lang="en"> <g ctype="x-html-strong">G<g ctype="x-html-sub">1</g></g> voor het kwartaal van indienstneming en de 15 daarop volgende kwartalen </source>
+            <group restype="x-html-ul" id="tu10" resname="/html/body/ul/li/ul">
+              <note from="style">padding-top: 0px; padding-bottom: 0px;</note>
+              <trans-unit restype="listitem" id="tu11" resname="/html/body/ul/li/ul/li[1]">
+                <source xml:lang="en"> <g id="g12" ctype="x-html-strong">G<g id="g13" ctype="x-html-sub">1</g></g> voor het kwartaal van indienstneming en de 15 daarop volgende kwartalen </source>
                 <target xml:lang="fr" state="new"/>
               </trans-unit>
-              <trans-unit restype="listitem" id="/html/body/ul/li/ul/li[2]">
-                <source xml:lang="en"> <g ctype="x-html-strong">G<g ctype="x-html-sub">2</g></g> voor de daaropvolgende kwartalen, en dit voor zolang hij in dienst is met een startbaanovereenkomst (de vermindering eindigt dus in elk geval in het kwartaal waarin de jongere 26 jaar wordt). </source>
+              <trans-unit restype="listitem" id="tu14" resname="/html/body/ul/li/ul/li[2]">
+                <source xml:lang="en"> <g id="g15" ctype="x-html-strong">G<g id="g16" ctype="x-html-sub">2</g></g> voor de daaropvolgende kwartalen, en dit voor zolang hij in dienst is met een startbaanovereenkomst (de vermindering eindigt dus in elk geval in het kwartaal waarin de jongere 26 jaar wordt). </source>
                 <target xml:lang="fr" state="new"/>
               </trans-unit>
             </group>
           </group>
         </group>
       </group>
-      <group id="[%locale%][body2]">
-        <group restype="x-html-ul" id="/html/body/ul">
-          <group restype="listitem" id="/html/body/ul/li">
-            <trans-unit id="/html/body/ul/li/text()[1]">
-              <source xml:lang="en">Voor elke <g ctype="x-html-strong">erg laaggeschoolde jongere</g> die hij in dienst neemt met een startbaanovereenkomst </source>
+      <group resname="[%locale%][body2]" id="grp17">
+        <group restype="x-html-ul" id="tu18" resname="/html/body/ul">
+          <group restype="listitem" id="tu19" resname="/html/body/ul/li">
+            <trans-unit id="tu20" resname="/html/body/ul/li/text()[1]">
+              <source xml:lang="en">Voor elke <g id="g21" ctype="x-html-strong">erg laaggeschoolde jongere</g> die hij in dienst neemt met een startbaanovereenkomst </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
-            <group restype="x-html-ul" html:style="padding-top: 0px; padding-bottom: 0px;" id="/html/body/ul/li/ul">
-              <trans-unit restype="listitem" id="/html/body/ul/li/ul/li[1]">
-                <source xml:lang="en"> <g ctype="x-html-strong">G<g ctype="x-html-sub">1</g></g> voor het kwartaal van indienstneming en de 15 daarop volgende kwartalen </source>
+            <group restype="x-html-ul" id="tu22" resname="/html/body/ul/li/ul">
+              <note from="style">padding-top: 0px; padding-bottom: 0px;</note>
+              <trans-unit restype="listitem" id="tu23" resname="/html/body/ul/li/ul/li[1]">
+                <source xml:lang="en"> <g id="g24" ctype="x-html-strong">G<g id="g25" ctype="x-html-sub">1</g></g> voor het kwartaal van indienstneming en de 15 daarop volgende kwartalen </source>
                 <target xml:lang="fr" state="new"/>
               </trans-unit>
-              <trans-unit restype="listitem" id="/html/body/ul/li/ul/li[2]">
-                <source xml:lang="en"> <g ctype="x-html-strong">G<g ctype="x-html-sub">2</g></g> voor de daaropvolgende kwartalen, en dit voor zolang hij in dienst is met een startbaanovereenkomst (de vermindering eindigt dus in elk geval in het kwartaal waarin de jongere 26 jaar wordt). </source>
+              <trans-unit restype="listitem" id="tu26" resname="/html/body/ul/li/ul/li[2]">
+                <source xml:lang="en"> <g id="g27" ctype="x-html-strong">G<g id="g28" ctype="x-html-sub">2</g></g> voor de daaropvolgende kwartalen, en dit voor zolang hij in dienst is met een startbaanovereenkomst (de vermindering eindigt dus in elk geval in het kwartaal waarin de jongere 26 jaar wordt). </source>
                 <target xml:lang="fr" state="new"/>
               </trans-unit>
             </group>

@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite';
+import {defineConfig} from 'vite';
 import inject from '@rollup/plugin-inject'
 import liveReload from 'vite-plugin-live-reload'
 

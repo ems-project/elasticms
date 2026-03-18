@@ -55,7 +55,7 @@ class CacheTest extends TestCase
     {
         $request = new Request();
         $this->cache->makeResponseCacheable($request, $this->response, 'test', null, true);
-        self::assertSame(2_678_400, $this->response->getMaxAge());
+        self::assertSame(3_628_800, $this->response->getMaxAge());
     }
 
     public function testMakeResponseCacheableReturnSameLastUpdateDateNotNull(): void

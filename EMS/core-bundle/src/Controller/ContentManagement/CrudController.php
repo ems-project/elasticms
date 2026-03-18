@@ -5,13 +5,16 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Controller\ContentManagement;
 
 use EMS\CommonBundle\Helper\EmsFields;
+use EMS\CommonBundle\Storage\StorageManager;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Core\UI\FlashMessageLogger;
 use EMS\CoreBundle\Entity\ContentType;
+use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Entity\User;
 use EMS\CoreBundle\Exception\DataStateException;
 use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\DataService;
+use EMS\CoreBundle\Service\EnvironmentService;
 use EMS\CoreBundle\Service\Revision\RevisionService;
 use EMS\CoreBundle\Service\UserService;
 use EMS\Helpers\Standard\Json;
@@ -35,6 +38,8 @@ class CrudController extends AbstractController
         private readonly ContentTypeService $contentTypeService,
         private readonly FlashMessageLogger $flashMessageLogger,
         private readonly RevisionService $revisionService,
+        private readonly StorageManager $storageManager,
+        private readonly EnvironmentService $environmentService,
     ) {
     }
 
@@ -122,6 +127,18 @@ class CrudController extends AbstractController
         ]);
     }
 
+    public function environments(string $name, string $ouuid): JsonResponse
+    {
+        $revision = $this->dataService->getNewestRevision($name, $ouuid);
+        $environments = $this->environmentService->getPublishedForRevision($revision, true);
+
+        return new JsonResponse($environments->map(fn (Environment $e) => [
+            'name' => $e->getName(),
+            'label' => $e->getLabel(),
+            'snapshot' => $e->getSnapshot(),
+        ])->toArray());
+    }
+
     public function getDraft(int $revisionId): JsonResponse
     {
         try {
@@ -147,7 +164,8 @@ class CrudController extends AbstractController
             $contentType = $this->giveContentType($name)->validate();
             $revision = $this->dataService->getRevisionById($id, $contentType);
 
-            $rawData = Json::decode(Type::string($request->getContent()));
+            $content = $request->getContent();
+            $rawData = \strlen($content) > 0 ? Json::decode(Type::string($content)) : [];
             if (\count($rawData) > 0) {
                 $this->revisionService->autoSave($revision, $rawData);
             }
@@ -383,7 +401,10 @@ class CrudController extends AbstractController
         return $this->json($users);
     }
 
-    public function index(Request $request, string $name, ?string $ouuid = null, string $replaceOrMerge = 'replace'): JsonResponse
+    /**
+     * @param mixed[] $rawData
+     */
+    private function indexInternal(Request $request, array $rawData, string $name, ?string $ouuid, string $replaceOrMerge): JsonResponse
     {
         $lazyIndex = $request->query->getBoolean('lazy');
         $revision = null;
@@ -395,7 +416,6 @@ class CrudController extends AbstractController
             }
         }
 
-        $rawData = Json::decode(Type::string($request->getContent()));
         if (null === $revision) {
             $contentType = $this->contentTypeService->giveByName($name);
             $revision = $this->dataService->createData($ouuid, $rawData, $contentType);
@@ -416,6 +436,22 @@ class CrudController extends AbstractController
             'type' => $revision->giveContentType()->getName(),
             'revision_id' => $revision->getId(),
         ]);
+    }
+
+    public function index(Request $request, string $name, ?string $ouuid = null, string $replaceOrMerge = 'replace'): JsonResponse
+    {
+        $rawData = Json::decode(Type::string($request->getContent()));
+
+        return $this->indexInternal($request, $rawData, $name, $ouuid, $replaceOrMerge);
+    }
+
+    public function indexFromAsset(Request $request, string $name, ?string $ouuid = null, string $replaceOrMerge = 'replace'): JsonResponse
+    {
+        $data = Json::decode(Type::string($request->getContent()));
+        $hash = Type::string($data['hash'] ?? null);
+        $rawData = Json::decode($this->storageManager->getContents($hash));
+
+        return $this->indexInternal($request, $rawData, $name, $ouuid, $replaceOrMerge);
     }
 
     public function initDraft(string $uuid, string $name): JsonResponse

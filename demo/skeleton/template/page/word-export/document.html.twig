@@ -2,7 +2,7 @@
 {% trans_default_domain trans_default_domain %}
 
 {#{% block title %}#}
-{#    {{- attribute(page.source, locale).title|default('error.page-not-found'|trans) -}}#}
+{#    {{- page.source.(locale).title|default('error.page-not-found'|trans) -}}#}
 {#{% endblock %}#}
 
 {% block request %}
@@ -40,7 +40,7 @@
                 </div>
                 <div class="content-wysiwyg">
                     {% with {
-                        'structure': attribute(page.source, locale).structure|default('{}')|ems_json_decode,
+                        'structure': page.source.(locale).structure|default('{}')|ems_json_decode,
                         'isWordExport': true,
                         'trans_default_domain': trans_default_domain
                     } %}
@@ -58,11 +58,11 @@
                         <td>
                             <div class="new-content">
                                 <h1><a name="anchor_{{ childPage.ouuid }}">
-                                        {{ 'annexe'|trans }} {{ index+1 }}: {{ attribute(childPage.source, locale).title|default(childPage.source.label) }}
+                                        {{ 'annexe'|trans }} {{ index+1 }}: {{ childPage.source.(locale).title|default(childPage.source.label) }}
                                     </a>
                                 </h1>
                                 {% with {
-                                    'structure': attribute(childPage.source, locale).content|default('{}')|ems_json_decode,
+                                    'structure': childPage.source.(locale).content|default('{}')|ems_json_decode,
                                     'isWordExport': true,
                                     'trans_default_domain': trans_default_domain,
                                 } %}

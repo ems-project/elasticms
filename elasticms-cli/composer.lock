@@ -1632,16 +1632,16 @@
         },
         {
             "name": "elasticms/common-bundle",
-            "version": "6.9.2",
+            "version": "6.9.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSCommonBundle.git",
-                "reference": "3e44171d086d8b5f5e50a094eb2d5162b0f6745b"
+                "reference": "cb29066d670c48093e94c7939204beda18a506b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSCommonBundle/zipball/3e44171d086d8b5f5e50a094eb2d5162b0f6745b",
-                "reference": "3e44171d086d8b5f5e50a094eb2d5162b0f6745b",
+                "url": "https://api.github.com/repos/ems-project/EMSCommonBundle/zipball/cb29066d670c48093e94c7939204beda18a506b0",
+                "reference": "cb29066d670c48093e94c7939204beda18a506b0",
                 "shasum": ""
             },
             "require": {
@@ -1714,13 +1714,13 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSCommonBundle/tree/6.9.2"
+                "source": "https://github.com/ems-project/EMSCommonBundle/tree/6.9.8"
             },
-            "time": "2025-10-27T09:30:49+00:00"
+            "time": "2026-02-18T08:25:59+00:00"
         },
         {
             "name": "elasticms/helpers",
-            "version": "6.9.2",
+            "version": "6.9.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/helpers.git",
@@ -1764,7 +1764,7 @@
                 "php"
             ],
             "support": {
-                "source": "https://github.com/ems-project/helpers/tree/6.9.2"
+                "source": "https://github.com/ems-project/helpers/tree/6.9.8"
             },
             "time": "2025-10-27T09:29:21+00:00"
         },
@@ -9002,5 +9002,5 @@
         "ext-sqlite3": "*"
     },
     "platform-dev": {},
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }

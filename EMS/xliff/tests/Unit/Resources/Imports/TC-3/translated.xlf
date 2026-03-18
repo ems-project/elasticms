@@ -2,7 +2,7 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 https://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
   <file source-language="en" original="contentType:ouuid_3:revisionId_1" datatype="database" target-language="fr">
     <body>
-      <trans-unit id="[title_%locale%]">
+      <trans-unit id="tu1" resname="[title_%locale%]">
         <source xml:lang="en">Foo</source>
         <target xml:lang="fr" state="needs-translation">Bar</target>
       </trans-unit>
@@ -10,32 +10,32 @@
   </file>
   <file source-language="en" original="contentType:ouuid_3:revisionId_2" datatype="database" target-language="fr">
     <body>
-      <trans-unit id="[title_%locale%]">
+      <trans-unit id="tu2" resname="[title_%locale%]">
         <source xml:lang="en">Hello</source>
         <target xml:lang="fr" state="needs-translation">Bonjour</target>
       </trans-unit>
-      <trans-unit id="[keywords_%locale%]">
+      <trans-unit id="tu3" resname="[keywords_%locale%]">
         <source xml:lang="en">test xliff</source>
         <target xml:lang="fr" state="new">test xliff</target>
       </trans-unit>
-      <trans-unit id="[empty]">
+      <trans-unit id="tu4" resname="[empty]">
         <source xml:lang="en"/>
         <target xml:lang="fr" state="final"/>
       </trans-unit>
-      <group id="[%locale%][body]">
-        <trans-unit>
+      <group id="tu5" resname="[%locale%][body]">
+        <trans-unit id="tu6">
           <source xml:lang="en"/>
           <target xml:lang="fr" state="final"/>
         </trans-unit>
       </group>
-      <group id="[%locale%][body2]">
-        <trans-unit>
+      <group id="tu10" resname="[%locale%][body2]">
+        <trans-unit id="tu7">
           <source xml:lang="en"/>
           <target xml:lang="fr" state="final"/>
         </trans-unit>
       </group>
-      <group id="[%locale%][body3]">
-        <trans-unit>
+      <group id="[%locale%][body3]" resname="[%locale%][body3]">
+        <trans-unit id="tu9">
           <source xml:lang="en"/>
           <target xml:lang="fr" state="final"/>
         </trans-unit>

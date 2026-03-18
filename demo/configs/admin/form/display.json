@@ -42,7 +42,7 @@
                                     "class": "col-md-12 hidden d-none",
                                     "lastOfRow": false,
                                     "helptext": null,
-                                    "valueTemplate": "{{ block(\"value_nl\", \"@EMSCH/template_ems/content_type/display.twig\") }}",
+                                    "valueTemplate": "{{ block('value_nl', '@EMSCH/template_ems/content_type/display.twig') }}",
                                     "json": true,
                                     "displayTemplate": null
                                 },
@@ -106,7 +106,7 @@
                                     "class": "col-md-12 hidden d-none",
                                     "lastOfRow": false,
                                     "helptext": null,
-                                    "valueTemplate": "{{ block(\"value_fr\", \"@EMSCH/template_ems/content_type/display.twig\") }}",
+                                    "valueTemplate": "{{ block('value_fr', '@EMSCH/template_ems/content_type/display.twig') }}",
                                     "json": true,
                                     "displayTemplate": null
                                 },

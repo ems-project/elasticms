@@ -10,7 +10,7 @@ use EMS\Helpers\Standard\Accessor;
 use EMS\Xliff\Xliff\Entity\InsertReport;
 use EMS\Xliff\XML\DomHelper;
 
-class InsertionRevision
+class InsertionRevision extends XliffVersion
 {
     private const string HTML_FIELD = 'html_field';
     private const string SIMPLE_FIELD = 'simple_field';
@@ -23,18 +23,14 @@ class InsertionRevision
     /**
      * @param string[] $nameSpaces
      */
-    public function __construct(private readonly \DOMElement $document, private readonly string $version, private array $nameSpaces, private readonly ?string $sourceLocale, private ?string $targetLocale)
+    public function __construct(private readonly \DOMElement $document, string $version, private array $nameSpaces, private readonly ?string $sourceLocale, private ?string $targetLocale)
     {
-        if (\version_compare($this->version, '2.0') < 0) {
+        parent::__construct($version);
+        if (\version_compare($this->xliffVersion, '2.0') < 0) {
             [$this->contentType, $this->ouuid, $this->revisionId] = \explode(':', DomHelper::getStringAttr($document, 'original'));
         } else {
             [$this->contentType, $this->ouuid, $this->revisionId] = \explode(':', DomHelper::getStringAttr($document, 'id'));
         }
-    }
-
-    public function getVersion(): string
-    {
-        return $this->version;
     }
 
     public function getContentType(): string
@@ -72,7 +68,7 @@ class InsertionRevision
      */
     public function getTranslatedFields(): iterable
     {
-        if (\version_compare($this->version, '2.0') < 0) {
+        if (\version_compare($this->xliffVersion, '2.0') < 0) {
             $fields = DomHelper::getSingleElement($this->document, 'body');
         } else {
             $fields = $this->document;
@@ -91,9 +87,9 @@ class InsertionRevision
         $nodeName = $field->nodeName;
         if ('group' === $nodeName) {
             return self::HTML_FIELD;
-        } elseif ('trans-unit' === $nodeName && \version_compare($this->version, '2.0') < 0) {
+        } elseif ('trans-unit' === $nodeName && \version_compare($this->xliffVersion, '2.0') < 0) {
             return self::SIMPLE_FIELD;
-        } elseif ('unit' === $nodeName && \version_compare($this->version, '2.0') >= 0) {
+        } elseif ('unit' === $nodeName && \version_compare($this->xliffVersion, '2.0') >= 0) {
             return self::SIMPLE_FIELD;
         } else {
             return self::UNKNOWN_FIELD_TYPE;
@@ -322,6 +318,19 @@ class InsertionRevision
             }
             $tag->setAttribute($attributeLocalName, $attribute->value);
         }
+        foreach ($child->childNodes as $node) {
+            if ('note' !== $node->nodeName) {
+                continue;
+            }
+            if (!$node instanceof \DOMElement) {
+                throw new \RuntimeException('Unexpected attribute object');
+            }
+            if (!$node->hasAttribute('from')) {
+                continue;
+            }
+            $from = $node->getAttribute('from');
+            $tag->setAttribute($from, $node->textContent);
+        }
     }
 
     /**
@@ -330,7 +339,7 @@ class InsertionRevision
      */
     private function importField(InsertReport $insertReport, \DOMElement $segment, string $sourceLocale, string $targetLocale, array &$extractedRawData, string $sourceValue, array &$insertRawData, string $targetValue, ?string $format): void
     {
-        $propertyPath = Accessor::fieldPathToPropertyPath(DomHelper::getStringAttr($segment, 'id'));
+        $propertyPath = Accessor::fieldPathToPropertyPath(DomHelper::getStringAttr($segment, $this->getResourceNameAttribute()));
         $sourcePropertyPath = \str_replace(self::LOCALE_PLACE_HOLDER, $sourceLocale, $propertyPath);
         $targetPropertyPath = \str_replace(self::LOCALE_PLACE_HOLDER, $targetLocale, $propertyPath);
 
@@ -354,16 +363,86 @@ class InsertionRevision
 
     private function rebuildInline(\DOMElement $tagDom, \DOMElement $grandChild): void
     {
+        /** @var \DOMElement[] $stack */
+        $stack = [];
         foreach ($grandChild->childNodes as $node) {
             if ($node instanceof \DOMText) {
                 $tagDom->appendChild(new \DOMText($node->textContent));
+            } elseif ($node instanceof \DOMElement && 'x' === $node->nodeName) {
+                if ($node->hasAttribute('equiv-text') && ' ' !== $node->getAttribute('equiv-text')) {
+                    $equivText = $node->getAttribute('equiv-text');
+                    $rawHtml = \html_entity_decode(
+                        $equivText,
+                        ENT_QUOTES | ENT_XML1,
+                        'UTF-8'
+                    );
+                    $xml = "<wrapper>$rawHtml</wrapper>";
+                    $copy = $this->xmlToNode($xml);
+                    $tagDom->appendChild($copy);
+                } else {
+                    $tag = $this->getTagFromCType($node);
+                    $tag = new \DOMElement($tag);
+                    $tagDom->appendChild($tag);
+                }
+            } elseif ($node instanceof \DOMElement && 'bx' === $node->nodeName) {
+                $rid = $node->getAttribute('rid');
+                $equivText = $node->getAttribute('equiv-text');
+                $rawHtml = \html_entity_decode(
+                    $equivText,
+                    ENT_QUOTES | ENT_XML1,
+                    'UTF-8'
+                );
+                if (!\preg_match('/^<\s*(?P<tag>[a-zA-Z][a-zA-Z0-9:-]*)\b[^>]*\/?>$/', $rawHtml, $matches)) {
+                    throw new \RuntimeException(\sprintf('Unexpected %s tag', $equivText));
+                }
+                $tag = $matches['tag'];
+                $xml = "<wrapper>$rawHtml</$tag></wrapper>";
+                $copy = $this->xmlToNode($xml);
+                $tagDom->appendChild($copy);
+                $stack[$rid] = $tagDom;
+                $tagDom = $copy;
+            } elseif ($node instanceof \DOMElement && 'ex' === $node->nodeName) {
+                $rid = $node->getAttribute('rid');
+                if (!isset($stack[$rid])) {
+                    throw new \RuntimeException(\sprintf('Unexpected closing tag with id %s', $rid));
+                }
+                $tagDom = $stack[$rid];
+                unset($stack[$rid]);
             } elseif ($node instanceof \DOMElement && 'g' === $node->nodeName) {
                 $tag = $this->restypeToTag(DomHelper::getStringAttr($node, 'ctype'));
                 $tag = new \DOMElement($tag);
                 $tagDom->appendChild($tag);
                 $this->copyHtmlAttribute($node, $tag);
                 $this->rebuildInline($tag, $node);
+            } else {
+                throw new \RuntimeException(\sprintf('Unexpected child: %s', \get_class($node)));
             }
         }
+    }
+
+    private function getTagFromCType(\DOMElement $node): string
+    {
+        $cType = $node->getAttribute('ctype');
+        if (!\str_starts_with($cType, 'x-html-')) {
+            throw new \RuntimeException(\sprintf('Unexpected node "%s" ctype for id %s', $cType, $node->getAttribute('id')));
+        }
+
+        return \substr($cType, 7);
+    }
+
+    private function xmlToNode(string $xml): \DOMElement
+    {
+        $tmp = new \DOMDocument('1.0', 'UTF-8');
+        $tmp->loadXML($xml, LIBXML_NOERROR | LIBXML_NOWARNING);
+        if (null === $tmp->documentElement || null === $tmp->documentElement->firstChild) {
+            throw new \RuntimeException(\sprintf('Unable to parse XML: %s', $xml));
+        }
+        $element = $tmp->documentElement->firstChild;
+        $copy = new \DOMElement($element->nodeName);
+        foreach ($element->attributes ?? [] as $attribute) {
+            $copy->setAttribute($attribute->name, $attribute->value);
+        }
+
+        return $copy;
     }
 }

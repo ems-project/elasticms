@@ -4,34 +4,38 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command;
 
+use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CoreBundle\Commands;
+use EMS\CoreBundle\Roles;
 use EMS\CoreBundle\Service\DataService;
 use EMS\CoreBundle\Service\EnvironmentService;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
     name: Commands::ENVIRONMENT_CREATE,
     description: 'Create a new environment.',
-    hidden: false,
-    aliases: ['ems:environment:create']
+    aliases: ['ems:environment:create'],
+    hidden: false
 )]
-class CreateEnvironmentCommand extends Command
+class CreateEnvironmentCommand extends AbstractCommand
 {
-    private ?SymfonyStyle $io = null;
-
     final public const string ARGUMENT_ENV_NAME = 'name';
     final public const string OPTION_STRICT = 'strict';
     final public const string OPTION_UPDATE_REFERRERS = 'update-referrers';
+    final public const string OPTION_POSITION = 'position';
+    final public const string OPTION_ROLE_PUBLISH = 'role-publish';
+    final public const string OPTION_COLOR = 'color';
 
-    public function __construct(private readonly LoggerInterface $logger, protected EnvironmentService $environmentService, protected DataService $dataService)
-    {
+    public function __construct(
+        private readonly LoggerInterface $logger,
+        protected EnvironmentService $environmentService,
+        protected DataService $dataService
+    ) {
         parent::__construct();
     }
 
@@ -56,24 +60,32 @@ class CreateEnvironmentCommand extends Command
                 InputOption::VALUE_NONE,
                 'If set, update referrers is true'
             )
+            ->addOption(
+                self::OPTION_POSITION,
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Specifies the position at which the environment should be created'
+            )
+            ->addOption(
+                self::OPTION_COLOR,
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Specifies the color of the environment',
+                'default'
+            )
+            ->addOption(
+                self::OPTION_ROLE_PUBLISH,
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Sets the publishing role for the environment (use false to disable publishing)'
+            )
         ;
-    }
-
-    #[\Override]
-    protected function initialize(InputInterface $input, OutputInterface $output): void
-    {
-        $this->io = new SymfonyStyle($input, $output);
-        $this->io->title('Create a environment');
     }
 
     #[\Override]
     protected function interact(InputInterface $input, OutputInterface $output): void
     {
-        if (null === $this->io) {
-            throw new \RuntimeException('Unexpected null SymfonyStyle');
-        }
         $this->logger->info('Interact with the CreateEnvironment command');
-
         $this->io->section('Check environment name argument');
         $this->checkEnvironmentNameArgument($input);
     }
@@ -81,9 +93,7 @@ class CreateEnvironmentCommand extends Command
     #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if (null === $this->io) {
-            throw new \RuntimeException('Unexpected null SymfonyStyle');
-        }
+        $this->io->title('EMSCO - Environment - Create');
         $this->logger->info('Execute the CreateEnvironment command');
 
         $this->io->section('Execute');
@@ -97,12 +107,15 @@ class CreateEnvironmentCommand extends Command
             $updateReferrers = (bool) $input->getOption(self::OPTION_UPDATE_REFERRERS);
             $environment = $this->environmentService->createEnvironment(
                 name: $environmentName,
-                updateReferrers: $updateReferrers
+                color: $this->getOptionString(self::OPTION_COLOR),
+                updateReferrers: $updateReferrers,
+                position: $this->getOptionIntNull(self::OPTION_POSITION),
+                rolePublish: $this->getRolePublish(),
             );
         } catch (\Exception $e) {
             $this->io->error($e->getMessage());
 
-            return -1;
+            return self::FAILURE;
         }
 
         try {
@@ -110,14 +123,14 @@ class CreateEnvironmentCommand extends Command
         } catch (\Exception $e) {
             $this->io->error($e->getMessage());
 
-            return -1;
+            return self::FAILURE;
         }
 
         $this->io->success(\sprintf('The environment "%s" was created.', $environmentName));
 
         $this->environmentService->clearCache();
 
-        return 0;
+        return self::SUCCESS;
     }
 
     private function checkEnvironmentNameArgument(InputInterface $input): void
@@ -147,11 +160,19 @@ class CreateEnvironmentCommand extends Command
         }
     }
 
+    private function getRolePublish(): ?string
+    {
+        $rolePublish = $this->input->getOption(self::OPTION_ROLE_PUBLISH);
+
+        return match (true) {
+            'false' === $rolePublish => Roles::NOT_DEFINED,
+            \is_string($rolePublish) => $rolePublish,
+            default => null,
+        };
+    }
+
     private function setEnvironmentNameArgument(InputInterface $input, string $message): string
     {
-        if (null === $this->io) {
-            throw new \RuntimeException('Unexpected null SymfonyStyle');
-        }
         if ($input->getOption(self::OPTION_STRICT)) {
             $this->logger->error($message);
             throw new \Exception($message);

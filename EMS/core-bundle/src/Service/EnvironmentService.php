@@ -16,6 +16,7 @@ use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Core\Environment\EnvironmentsRevision;
+use EMS\CoreBundle\Core\Environment\Index;
 use EMS\CoreBundle\Entity\Analyzer;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Environment;
@@ -27,6 +28,7 @@ use EMS\CoreBundle\Repository\EnvironmentRepository;
 use EMS\CoreBundle\Repository\EnvironmentRevisionRepository;
 use EMS\CoreBundle\Repository\FilterRepository;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class EnvironmentService implements EntityServiceInterface
@@ -57,7 +59,25 @@ class EnvironmentService implements EntityServiceInterface
         $this->environmentRepository = $environmentRepository;
     }
 
-    public function createEnvironment(string $name, string $color = 'default', bool $updateReferrers = false): Environment
+    public function attachToAlias(string $environmentName, string $targetAlias): void
+    {
+        $aliases = $this->aliasService->getAliases();
+
+        $environment = $this->giveByName($environmentName);
+        $indexes = $aliases[$environment->getAlias()]['indexes'] ?? [];
+        $index = \array_shift($indexes);
+
+        if (!$index instanceof Index) {
+            throw new \RuntimeException(\sprintf('Could not find index for environment %s', $environment->getName()));
+        }
+        if (!isset($aliases[$targetAlias])) {
+            throw new NotFoundHttpException(\sprintf('Alias "%s" does not exist', $targetAlias));
+        }
+
+        $this->aliasService->updateAlias($targetAlias, ['add' => [$index->name]]);
+    }
+
+    public function createEnvironment(string $name, ?string $color = 'default', bool $updateReferrers = false, ?int $position = null, ?string $rolePublish = null): Environment
     {
         if (!$this->validateEnvironmentName($name)) {
             throw new \Exception('An environment name must respects the following regex /^[a-z][a-z0-9\-_]*$/');
@@ -65,11 +85,20 @@ class EnvironmentService implements EntityServiceInterface
 
         $environment = new Environment();
         $environment->setName($name);
-        $environment->setColor($color);
+        $environment->setColor($color ?? 'default');
         $environment->setAlias($this->generateAlias($environment));
         $environment->setManaged(true);
         $environment->setUpdateReferrers($updateReferrers);
         $environment->setOrderKey($this->count(context: ['managed' => true]));
+        $environment->setRolePublish($rolePublish);
+
+        if (null !== $position) {
+            $max = $this->environmentRepository->getMaxOrder();
+            $position = \max(1, \min($position, $max + 1));
+            $this->environmentRepository->shiftOrderKeyFrom($position, 1);
+            $environment->setOrderKey($position);
+        }
+
         $this->environmentRepository->save($environment);
 
         $this->logger->notice('log.environment.created', [
@@ -89,6 +118,19 @@ class EnvironmentService implements EntityServiceInterface
         $environment->setSnapshot($value);
 
         $this->environmentRepository->save($environment);
+    }
+
+    /**
+     * @return array<Environment>
+     */
+    public function findEnvironments(?bool $managed = null, ?bool $snapshot = null): array
+    {
+        $criteria = \array_filter([
+            'managed' => $managed,
+            'snapshot' => $snapshot,
+        ], static fn ($value) => null !== $value);
+
+        return $this->environmentRepository->findBy($criteria, ['orderKey' => 'ASC']);
     }
 
     /**
@@ -380,7 +422,10 @@ class EnvironmentService implements EntityServiceInterface
             $em->persist($contentType->getFieldType());
             $em->remove($contentType);
         }
+
+        $position = $environment->getOrderKey();
         $this->environmentRepository->delete($environment);
+        $this->environmentRepository->shiftOrderKeyFrom($position + 1, -1);
         $this->logger->notice('log.environment.deleted', [
             EmsFields::LOG_ENVIRONMENT_FIELD => $environment->getName(),
         ]);

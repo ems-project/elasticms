@@ -1,5 +1,87 @@
 # Changelog 6.x
 
+## 6.9.8 (2026-02-18)
+### Features
+* feat(web/security): sso oauth2 ping identity by @Davidmattei in https://github.com/ems-project/elasticms/pull/1569
+### Bug Fixes
+* fix(admin/environment): color argument can be null by @Davidmattei in https://github.com/ems-project/elasticms/pull/1545
+* fix(admin/user):  authToken user provider not using group defined roles by @theus77 in https://github.com/ems-project/elasticms/pull/1575
+* fix(common/es): include ems internal fields in _source by @theus77 in https://github.com/ems-project/elasticms/pull/1567
+* fix(common/image): the resolution might be set in the EXIF meta (but not only) by @theus77 in https://github.com/ems-project/elasticms/pull/1553
+* fix(demo): traefik v3 update hostRegex admin and web by @Davidmattei in https://github.com/ems-project/elasticms/pull/1563
+* fix(docker): minio do not use semver by @theus77 in https://github.com/ems-project/elasticms/pull/1578
+* fix(web/routing): routing include only required field by @Davidmattei in https://github.com/ems-project/elasticms/pull/1600
+* fix(web/security): ping identity http basic auth by @Davidmattei in https://github.com/ems-project/elasticms/pull/1585
+* fix(web/security): saml redirect with RelayState by @Davidmattei in https://github.com/ems-project/elasticms/pull/1589
+* fix(web/submission): email handler support priority by @theus77 in https://github.com/ems-project/elasticms/pull/1539
+### Code Refactoring
+* refactor: data-test to data-testid by @theus77 in https://github.com/ems-project/elasticms/pull/1584
+### Tests
+* test(e2e-tests): new data-test attributes by @theus77 in https://github.com/ems-project/elasticms/pull/1581
+
+## 6.9.7 (2026-01-26)
+### Features
+* feat(demo): resolve deprecations and update by @Davidmattei in https://github.com/ems-project/elasticms/pull/1529
+### Bug Fixes
+* fix(common/encoding): ems_anti_spam handle multiple phone numbers by @theus77 in https://github.com/ems-project/elasticms/pull/1523
+* fix(core/form-submission): avoid doctrine out of memory exception by @theus77 in https://github.com/ems-project/elasticms/pull/1518
+* fix(xliff): useless namespace + trans-unit without id by @theus77 in https://github.com/ems-project/elasticms/pull/1526
+* fix(xliff/extract): ctype in bx ex by @theus77 in https://github.com/ems-project/elasticms/pull/1524
+* fix(xliff/extract): format error by @theus77 in https://github.com/ems-project/elasticms/pull/1521
+* fix(xliff/extract): wrong final segment by @theus77 in https://github.com/ems-project/elasticms/pull/1520
+
+## 6.9.6 (2026-01-13)
+### Bug Fixes
+* fix(admin/aliases): allow to remove all indexes from a managed aliases by @theus77 in https://github.com/ems-project/elasticms/pull/1509
+* fix(admin/js): nested modal datatable search not working by @Davidmattei in https://github.com/ems-project/elasticms/pull/1513
+* fix(admin/view): title: '{name} of {plural}' by @theus77 in https://github.com/ems-project/elasticms/pull/1502
+* fix(admin/webalize): align regex with web by @Davidmattei in https://github.com/ems-project/elasticms/pull/1501
+* fix(common/encoding): ems_anti_spam wrong encoding on tel: href by @theus77 in https://github.com/ems-project/elasticms/pull/1505
+* fix(web/security): security listener was starting session by getting token by @theus77 in https://github.com/ems-project/elasticms/pull/1514
+* fix(web/twig):  cache key add count and last published for index updates by @theus77 in https://github.com/ems-project/elasticms/pull/1508
+
+## 6.9.5 (2025-12-23)
+### Features
+* feat(core/api): add data environments endpoint by @Davidmattei in https://github.com/ems-project/elasticms/pull/1496
+* feat(core/api): add meta findAll drafts endpoint by @Davidmattei in https://github.com/ems-project/elasticms/pull/1488
+* feat(core/api): add meta get environments endpoint by @Davidmattei in https://github.com/ems-project/elasticms/pull/1491
+* feat(core/api): new meta attach alias to environment endpoint by @Davidmattei in https://github.com/ems-project/elasticms/pull/1493
+* feat(core/cli): (un)lock all commands by @Davidmattei in https://github.com/ems-project/elasticms/pull/1492
+* feat(core/cli): create environment new position option by @Davidmattei in https://github.com/ems-project/elasticms/pull/1494
+* feat(core/cli): create environment new role and color option by @Davidmattei in https://github.com/ems-project/elasticms/pull/1497
+* feat(core/job): show created user in job overview by @Davidmattei in https://github.com/ems-project/elasticms/pull/1490
+### Bug Fixes
+* fix(admin/view): calendar,criteria gallery findChildByName by @Davidmattei in https://github.com/ems-project/elasticms/pull/1500
+* fix(common): reference to CoreBundle namespace are not allowed by @Davidmattei in https://github.com/ems-project/elasticms/pull/1487
+* fix(core/api): job status return status value by @Davidmattei in https://github.com/ems-project/elasticms/pull/1489
+* fix(core/api): run command output can be null by @Davidmattei in https://github.com/ems-project/elasticms/pull/1495
+* fix(web): rollback asset path must take the baseUrl by @theus77 in https://github.com/ems-project/elasticms/pull/1486
+
+## 6.9.4 (2025-12-10)
+### Bug Fixes
+* fix(admin/api): finalize draft without rawData by @Davidmattei in https://github.com/ems-project/elasticms/pull/1481
+* fix(admin/publish): excluded deleted environment revisions by @Davidmattei in https://github.com/ems-project/elasticms/pull/1485
+* fix(admin/publish): load all version environment revisions by @Davidmattei in https://github.com/ems-project/elasticms/pull/1484
+* fix(admin/twig): alternative twig filter emco_src_path by @Davidmattei in https://github.com/ems-project/elasticms/pull/1483
+* fix(admin/wysiwyg): style set check hash exists by @Davidmattei in https://github.com/ems-project/elasticms/pull/1482
+
+## 6.9.3 (2025-11-25)
+### Features
+* feat(admin/status): jobs & bus status by @theus77 in https://github.com/ems-project/elasticms/pull/1463
+### Bug Fixes
+* fix(admin): user profile add translation key by @theus77 in https://github.com/ems-project/elasticms/pull/1462
+* fix(admin/contentType): remove cascade delete contentType environment by @Davidmattei in https://github.com/ems-project/elasticms/pull/1466
+* fix(admin/core): revert npm audit fix by @Davidmattei in https://github.com/ems-project/elasticms/pull/1476
+* fix(admin/field): JSONFieldType allow null value by @Davidmattei in https://github.com/ems-project/elasticms/pull/1469
+* fix(admin/form-submissions): remove confirm key for download and export by @Davidmattei in https://github.com/ems-project/elasticms/pull/1475
+* fix(admin/icons): load only legacy icon sets by @Davidmattei in https://github.com/ems-project/elasticms/pull/1467
+* fix(admin/notification): treat accept button stays disabled by @Davidmattei in https://github.com/ems-project/elasticms/pull/1473
+* fix(admin/revision): locking skip granted checks when a username is pass by @Davidmattei in https://github.com/ems-project/elasticms/pull/1471
+* fix(admin/view): hierarchical correct print label from labelField by @Davidmattei in https://github.com/ems-project/elasticms/pull/1464
+* fix(admin/view): hierarchical reorder clears children by @Davidmattei in https://github.com/ems-project/elasticms/pull/1465
+* fix(web): the asset path must take the baseUrl into account by @theus77 in https://github.com/ems-project/elasticms/pull/1459
+* fix(web/search): boost must be disabled in order to avoid impact on the _score by @theus77 in https://github.com/ems-project/elasticms/pull/1470
+
 ## 6.9.2 (2025-11-07)
 ### Bug Fixes
 * fix(admin/contentType): getSortOrder -> getOrderKey by @Davidmattei in https://github.com/ems-project/elasticms/pull/1457
@@ -60,6 +142,10 @@
 ### Chores
 * chore(cli): enable web profile in dev env by @Davidmattei in https://github.com/ems-project/elasticms/pull/1415
 * chore(docker): add prometheus & grafana by @Davidmattei in https://github.com/ems-project/elasticms/pull/1412
+
+## 6.7.4 (2026-01-13)
+### Bug Fixes
+* fix(web/security): security listener was starting session by getting token by @theus77 in https://github.com/ems-project/elasticms/pull/1514
 
 ## 6.7.3 (2025-09-18)
 ### Bug Fixes

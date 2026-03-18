@@ -2,15 +2,15 @@
 {% trans_default_domain trans_default_domain %}
 
 {% block item %}
-    {% if attribute(urls, section.id) is defined and attribute(section.object, locale).title is defined %}
+    {% if urls.(section.id) is defined and section.object.(locale).title is defined %}
         <li class="nav-item">
-            <a class="nav-link text-dark" href="{{ attribute(urls, section.id) }}" target="{{ section.type == 'link' ? '_blank' : '_self' }}"><span>{{ attribute(section.object, locale).title }}</span></a>
+            <a class="nav-link text-dark" href="{{ urls.(section.id) }}" target="{{ section.type == 'link' ? '_blank' : '_self' }}"><span>{{ section.object.(locale).title }}</span></a>
         </li>
     {% endif %}
 {% endblock %}
 
 {% block request %}
-    {% for section in structure.children|filter(p => attribute(pages, p.id) is defined) %}
+    {% for section in structure.children|filter(p => pages.(p.id) is defined) %}
         {{ block('item') }}
     {% endfor %}
 {% endblock request %}

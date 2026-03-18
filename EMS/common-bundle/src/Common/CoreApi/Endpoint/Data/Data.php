@@ -8,6 +8,10 @@ use EMS\CommonBundle\Common\CoreApi\Client;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Data\DataInterface;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Data\DraftInterface;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Data\RevisionInterface;
+use EMS\CommonBundle\Contracts\CoreApi\Endpoint\File\FileInterface;
+use EMS\Helpers\File\File;
+use EMS\Helpers\Html\MimeTypes;
+use EMS\Helpers\Standard\Json;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\HttpClient\ResponseInterface;
@@ -17,7 +21,7 @@ final readonly class Data implements DataInterface
     /** @var string[] */
     private array $endPoint;
 
-    public function __construct(private Client $client, string $contentType)
+    public function __construct(private Client $client, private FileInterface $file, string $contentType)
     {
         $this->endPoint = ['api', 'data', $contentType];
     }
@@ -73,6 +77,12 @@ final readonly class Data implements DataInterface
         $resource = $this->makeResource($ouuid);
 
         return new Revision($this->client->get($resource));
+    }
+
+    #[\Override]
+    public function getEnvironments(string $ouuid): array
+    {
+        return $this->client->get($this->makeResource('environments', $ouuid))->getData();
     }
 
     #[\Override]
@@ -132,6 +142,12 @@ final readonly class Data implements DataInterface
     #[\Override]
     public function index(?string $ouuid, array $rawData, bool $merge = false, bool $refresh = false): Index
     {
+        $encoded = Json::encode($rawData);
+        if (\strlen($encoded) > File::DEFAULT_CHUNK_SIZE) {
+            $hash = $this->file->uploadContents($encoded, MimeTypes::APPLICATION_JSON->value, "$ouuid.json");
+
+            return $this->indexFromAsset($ouuid, $hash, $merge, $refresh);
+        }
         $resource = $this->makeResource($merge && $ouuid ? 'update' : 'index', $ouuid);
 
         if ($refresh) {
@@ -139,6 +155,20 @@ final readonly class Data implements DataInterface
         }
 
         return new Index($this->client->post($resource, $rawData));
+    }
+
+    #[\Override]
+    public function indexFromAsset(?string $ouuid, string $hash, bool $merge = false, bool $refresh = false): Index
+    {
+        $resource = $this->makeResource($merge && $ouuid ? 'update-from-asset' : 'index-fron-asset', $ouuid);
+
+        if ($refresh) {
+            $resource .= '?refresh=true';
+        }
+
+        return new Index($this->client->post($resource, [
+            'hash' => $hash,
+        ]));
     }
 
     public function initDraft(string $ouuid): DraftInterface

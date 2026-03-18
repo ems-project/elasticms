@@ -4,7 +4,7 @@
 {% block request %}
     {% set switchUrls = {} %}
     {% for l in locales|filter(p => p != locale) %}
-        {% set switchUrls = {(l): path(app.request.get('_route')|split('.')|map(p => p == locale ? l : p)|join('.'), attribute(route_parameters, l)|default({}))} %}
+        {% set switchUrls = {(l): path(app.request.get('_route')|split('.')|map(p => p == locale ? l : p)|join('.'), route_parameters.(l)|default({}))} %}
     {% endfor %}
     {{ parent() }}
 {% endblock request %}

@@ -15,8 +15,8 @@
                     <h1 {{ emsch_admin_menu(target.getEmsLink|default(emsLink|default(''))) }}>
                         {{ block('title') }}
                     </h1>
-                    {%- if attribute(source, locale).body is defined -%}
-                        {{ wysiwyg.transform(attribute(source, locale).body|default('')|emsch_routing) }}
+                    {%- if source.(locale).body is defined -%}
+                        {{ wysiwyg.transform(source.(locale).body|default('')|emsch_routing) }}
                     {%- endif -%}
                 </div>
             </div>

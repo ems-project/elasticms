@@ -15,6 +15,8 @@ use EMS\ClientHelperBundle\Helper\ContentType\ContentTypeHelper;
 use EMS\ClientHelperBundle\Helper\Environment\Environment;
 use EMS\ClientHelperBundle\Helper\Environment\EnvironmentHelper;
 use EMS\CommonBundle\Common\EMSLink;
+use EMS\CommonBundle\Elasticsearch\Document\Document;
+use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
 use EMS\CommonBundle\Elasticsearch\Exception\NotFoundException;
 use EMS\CommonBundle\Search\Search;
@@ -453,6 +455,19 @@ final class ClientRequest implements ClientRequestInterface
     public function commonSearch(Search $search): ResultSet
     {
         return $this->elasticaService->search($search);
+    }
+
+    /**
+     * @return \Generator<DocumentInterface>
+     */
+    public function commonScroll(Search $search, string $scrollTimeout = '1m'): iterable
+    {
+        $scroll = $this->elasticaService->scroll($search, $scrollTimeout);
+        foreach ($scroll as $resultSet) {
+            foreach ($resultSet as $result) {
+                yield Document::fromResult($result);
+            }
+        }
     }
 
     /**

@@ -21,7 +21,7 @@ use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Finder\SplFileInfo;
 
-class S3Storage extends AbstractUrlStorage
+class S3Storage extends AbstractUrlStorage implements \Stringable
 {
     private ?S3Client $s3Client = null;
     private bool $streamWrapperRegistered = false;

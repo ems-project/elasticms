@@ -13,12 +13,12 @@
             {%- set path = [] -%}
             {%- for p in item.path -%}
                 {%- for locale in locales -%}
-                    {%- set path = path|merge({(locale): attribute(path, locale)|default([])|merge([attribute(p.object, locale).title|default(null)])}) -%}
+                    {%- set path = path|merge({(locale): path.(locale)|default([])|merge([p.object.(locale).title|default(null)])}) -%}
                 {%- endfor -%}
             {%- endfor -%}
 
-            {%- for locale in locales|filter(locale => attribute(path, locale)|length > 0 and null not in attribute(path, locale)) -%}
-                {%- if homeAttached == false and _source.is_main|default(false) == true and attribute(item.object, locale).title|default|ems_slug != 'home' -%}
+            {%- for locale in locales|filter(locale => path.(locale)|length > 0 and null not in path.(locale)) -%}
+                {%- if homeAttached == false and _source.is_main|default(false) == true and item.object.(locale).title|default|ems_slug != 'home' -%}
                     {%- set paths = paths|merge([{
                         'uid': (item.id),
                         'path' : "home",
@@ -28,7 +28,7 @@
 
                 {%- set paths = paths|merge([{
                     'uid': (item.id),
-                    'path' : attribute(baseUrl, locale) ~ (attribute(path, locale)|map(p => p|ems_slug)|join('/')|default('/')),
+                    'path' : baseUrl.(locale) ~ (path.(locale)|map(p => p|ems_slug)|join('/')|default('/')),
                     'locale' : locale,
                 }]) -%}
             {%- endfor -%}

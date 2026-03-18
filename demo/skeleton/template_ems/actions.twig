@@ -15,7 +15,7 @@
 {% endblock show_page_nl %}
 
 {% block show %}
-    {% if attribute(source, 'menu') is defined and source.menu|default(false) %}
+    {% if source.('menu') is defined and source.menu|default(false) %}
         {% set search = {
         'index': environment.alias,
         'size': 1,
@@ -45,8 +45,8 @@
         {% if path is defined and path|length > 0 %}
             {% set slug = path|first.path %}
         {% endif %}
-    {% elseif attribute(source, locale)|default([]).slug is defined %}
-        {% set slug = attribute(source, locale).slug %}
+    {% elseif source.(locale)|default([]).slug is defined %}
+        {% set slug = source.(locale).slug %}
     {% endif %}
 
     {% if slug is defined %}
@@ -61,3 +61,14 @@
     {{ "/channel/#{environment.name}/_emsch/go-to/nl/#{contentType.name}/#{object._id}" }}
 {% endblock asset_download_link %}
 
+{% block clear_caches -%}
+    {%- if environment == contentType.environment.name -%}
+        emsco:webhook:dispatch content.finalize '{"ouuid":"{{ object.id }}"}'
+    {%- else -%}
+        emsco:webhook:dispatch content.published.{{ environment }} '{"ouuid":"{{ object.id }}"}'
+    {%- endif -%}
+{%- endblock clear_caches %}
+
+{% block clear_all_caches -%}
+    emsco:webhook:dispatch clear-cache
+{%- endblock clear_all_caches %}

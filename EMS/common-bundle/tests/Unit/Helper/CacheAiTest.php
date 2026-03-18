@@ -48,7 +48,7 @@ class CacheAiTest extends TestCase
         $this->cache->makeResponseCacheable($request, $response, $etag, $lastUpdateDate, $immutableRoute);
 
         $this->assertEquals($etag, $response->getEtag());
-        $this->assertEquals(2_678_400, $response->getMaxAge());
+        $this->assertEquals(3_628_800, $response->getMaxAge());
         $this->assertTrue($response->headers->hasCacheControlDirective('immutable'));
         $this->assertEquals($lastUpdateDate, $response->getLastModified());
     }

@@ -1,0 +1,16 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\WysiwygStylesSet",
+    "arguments": [],
+    "properties": {
+        "name": "test",
+        "config": "[\r\n  {\r\n    \"name\": \"Pie Table\",\r\n    \"element\": \"table\",\r\n    \"attributes\": {\r\n      \"class\": \"highcharts-pie table highcharts\"\r\n    }\r\n  },\r\n  {\r\n    \"name\": \"Column data\",\r\n    \"element\": \"th\",\r\n    \"attributes\": {\r\n      \"class\": \"highcharts-data-column\"\r\n    }\r\n  },\r\n  {\r\n    \"name\": \"Image mobile\",\r\n    \"type\": \"widget\",\r\n    \"widget\": \"image\",\r\n    \"attributes\": {\r\n      \"class\": \"d-block d-sm-none\"\r\n    }\r\n  },\r\n  {\r\n    \"name\": \"Image desktop\",\r\n    \"type\": \"widget\",\r\n    \"widget\": \"image\",\r\n    \"attributes\": {\r\n      \"class\": \"d-none d-sm-block\"\r\n    }\r\n  }\r\n]",
+        "orderKey": 101,
+        "formatTags": "p;h1;h2;h3;h4;h5;h6;pre;address;div",
+        "tableDefaultCss": "table table-border",
+        "contentCss": null,
+        "contentJs": null,
+        "assets": null,
+        "saveDir": null
+    },
+    "replaced": []
+}

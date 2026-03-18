@@ -533,7 +533,7 @@
                                 "extraOptions": {
                                     "extra": null,
                                     "clear_on_copy": false,
-                                    "postProcessing": "{{ block(\"media_file_date_creation\", \"@EMSCH/template_ems/content_type/post_processing.twig\") }}"
+                                    "postProcessing": "{{ block('media_file_date_creation', '@EMSCH/template_ems/content_type/post_processing.twig') }}"
                                 },
                                 "raw_data": [],
                                 "migrationOptions": {
@@ -570,9 +570,9 @@
                     "options": {
                         "body": "{}",
                         "size": 0,
-                        "template": "{{ block(\"template\", \"@EMSCH/template_ems/view/overview_media_library.twig\") }}",
-                        "header": "{{ block(\"css\", \"@EMSCH/template_ems/view/overview_media_library.twig\") }}",
-                        "javascript": "{{ block(\"javascript\", \"@EMSCH/template_ems/view/overview_media_library.twig\") }}"
+                        "template": "{{ block('template', '@EMSCH/template_ems/view/overview_media_library.twig') }}",
+                        "header": "{{ block('css', '@EMSCH/template_ems/view/overview_media_library.twig') }}",
+                        "javascript": "{{ block('javascript', '@EMSCH/template_ems/view/overview_media_library.twig') }}"
                     },
                     "orderKey": 1,
                     "public": false,

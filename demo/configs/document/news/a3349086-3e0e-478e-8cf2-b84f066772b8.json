@@ -8,25 +8,36 @@
         "body": "<p>Avec&nbsp;<strong>Orejime</strong>, vous g&eacute;rez les cookies en toute simplicit&eacute; et transparence. Orejime est un syst&egrave;me que vous pouvez utiliser sur votre site Web afin de permettre aux utilisateurs de choisir <strong>les cookies optionnels qu&rsquo;ils autorisent</strong> via un pop-up d&rsquo;accueil.</p>\r\n\r\n<p>Il a &eacute;t&eacute; sp&eacute;cialement con&ccedil;u pour se conformer au&nbsp;<strong>RGPD</strong>. En un clic, l&rsquo;utilisateur renseigne ses choix de cookies et ses pr&eacute;f&eacute;rences sont sauvegard&eacute;es.</p>",
         "description": "<p>Avec&nbsp;<strong>Orejime</strong>, vous g&eacute;rez les cookies en toute simplicit&eacute; et transparence. Orejime est un syst&egrave;me que vous pouvez utiliser sur votre site Web afin de permettre aux utilisateurs de choisir <strong>les cookies optionnels qu&rsquo;ils autorisent</strong> via un pop-up d&rsquo;accueil.</p>",
         "image": {
+            "_algo": "sha1",
+            "_hash": "d960369920ad02a70bc34caf1e1792d6e2fa9947",
+            "_name": "ems-orejime-gba-fr.jpg",
+            "_size": 391950,
+            "_type": "image/jpeg",
             "filename": "ems-orejime-gba-fr.jpg",
             "filesize": 391950,
             "mimetype": "image/jpeg",
             "sha1": "d960369920ad02a70bc34caf1e1792d6e2fa9947"
         },
+        "noindex": false,
         "slug": "un-gestionnaire-accessible",
         "summary": "<p>Avec&nbsp;<strong>Orejime</strong>, vous g&eacute;rez les cookies en toute simplicit&eacute; et transparence. Orejime est un syst&egrave;me que vous pouvez utiliser sur votre site Web afin de permettre aux utilisateurs de choisir <strong>les cookies optionnels qu&rsquo;ils autorisent</strong> via un pop-up d&rsquo;accueil.</p>",
         "title": "Orejime et cookies"
     },
-    "label": "Orejime et cookies / Orejime en cookies",
     "nl": {
         "body": "<p>Met <strong>Orejime</strong> beheert u cookies op een eenvoudige en transparante manier. Het laat toe om webbezoekers via een welkomstpop-up te laten kiezen <strong>welke optionele cookies ze toestaan</strong>.</p>\r\n\r\n<p>Het is speciaal ontworpen om te voldoen aan de&nbsp;<strong>GDPR</strong>-richtlijnen. In &eacute;&eacute;n muisklik geven gebruikers hun cookievoorkeuren in.</p>",
         "description": "<p>Met <strong>Orejime</strong> beheert u cookies op een eenvoudige en transparante manier. Het laat toe om webbezoekers via een welkomstpop-up te laten kiezen <strong>welke optionele cookies ze toestaan</strong>.</p>",
         "image": {
+            "_algo": "sha1",
+            "_hash": "c0eb35c04483e9a6a71387bbb1b6e52234dadefd",
+            "_name": "ems-orejime-gba-nl.jpg",
+            "_size": 388667,
+            "_type": "image/jpeg",
             "filename": "ems-orejime-gba-nl.jpg",
             "filesize": 388667,
             "mimetype": "image/jpeg",
             "sha1": "c0eb35c04483e9a6a71387bbb1b6e52234dadefd"
         },
+        "noindex": false,
         "slug": "een-toegankelijk-beheer",
         "summary": "<p>Met <strong>Orejime</strong> beheert u cookies op een eenvoudige en transparante manier. Het laat toe om webbezoekers via een welkomstpop-up te laten kiezen <strong>welke optionele cookies ze toestaan</strong>.</p>",
         "title": "Orejime en cookies"

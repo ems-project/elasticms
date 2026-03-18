@@ -8,9 +8,11 @@ use EMS\ClientHelperBundle\Security\CoreApi\User\CoreApiUser;
 use EMS\ClientHelperBundle\Security\Sso\OAuth2\OAuth2Service;
 use EMS\ClientHelperBundle\Security\Sso\OAuth2\OAuth2Token;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
+use EMS\Helpers\Standard\Type;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
+use Symfony\Component\HttpKernel\Event\KernelEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -46,8 +48,11 @@ readonly class SecurityListener implements EventSubscriberInterface
         ];
     }
 
-    public function setToken(): void
+    public function setToken(KernelEvent $event): void
     {
+        if (!$this->isAuthenticatedRequest($event->getRequest())) {
+            return;
+        }
         $user = $this->tokenStorage->getToken()?->getUser();
         if ($user instanceof CoreApiUser) {
             $this->coreApi->setToken($user->getToken());
@@ -56,6 +61,9 @@ readonly class SecurityListener implements EventSubscriberInterface
 
     public function refreshToken(ControllerEvent $event): void
     {
+        if (!$this->isAuthenticatedRequest($event->getRequest())) {
+            return;
+        }
         $token = $this->tokenStorage->getToken();
 
         if ($token instanceof OAuth2Token && $token->isExpired() && $token->hasRefreshToken()) {
@@ -75,7 +83,7 @@ readonly class SecurityListener implements EventSubscriberInterface
             return;
         }
 
-        if ($request->attributes->get('_authenticated', false) || $this->firewallMatch($request)) {
+        if ($this->isAuthenticatedRequest($event->getRequest()) || $this->firewallMatch($request)) {
             throw new AccessDeniedException();
         }
     }
@@ -95,5 +103,10 @@ readonly class SecurityListener implements EventSubscriberInterface
         }
 
         return false;
+    }
+
+    private function isAuthenticatedRequest(Request $request): bool
+    {
+        return Type::bool($request->attributes->get('_authenticated', false));
     }
 }

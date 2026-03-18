@@ -4,20 +4,20 @@
 {% import '@EMSCH/template/macros/wysiwyg.twig' as wysiwyg %}
 
 {% block title %}
-    {%- if attribute(source, locale).meta_title|default(false) -%}
-        {{- attribute(source, locale).meta_title -}}
-    {%- elseif attribute(source, locale).title|default(false) -%}
-        {{- attribute(source, locale).title -}}
+    {%- if source.(locale).meta_title|default(false) -%}
+        {{- source.(locale).meta_title -}}
+    {%- elseif source.(locale).title|default(false) -%}
+        {{- source.(locale).title -}}
     {%- else -%}
         {{- parent() -}}
     {%- endif -%}
 {% endblock %}
 
 {% block meta_description %}
-    {%- if attribute(source, locale).description|default(false) -%}
-        {{- attribute(source, locale).description|striptags|ems_html_decode|trim -}}
-    {%- elseif attribute(source, locale).summary|default(false) -%}
-        {{- attribute(source, locale).summary|striptags|ems_html_decode|trim -}}
+    {%- if source.(locale).description|default(false) -%}
+        {{- source.(locale).description|striptags|ems_html_decode|trim -}}
+    {%- elseif source.(locale).summary|default(false) -%}
+        {{- source.(locale).summary|striptags|ems_html_decode|trim -}}
     {%- else -%}
         {{- parent() -}}
     {%- endif -%}
@@ -29,12 +29,12 @@
 
 {% block request %}
     {% set route_parameters = {} %}
-    {% for locale in locales|filter(p => attribute(source, p).slug is defined) %}
+    {% for locale in locales|filter(p => source.(p).slug is defined) %}
         {% set route_parameters = route_parameters|merge({(locale): {
             month: source.publication_date|date('m'),
             day: source.publication_date|date('d'),
             year: source.publication_date|date('Y'),
-            slug: attribute(source, locale).slug,
+            slug: source.(locale).slug,
         }}) %}
     {% endfor %}
     {{ parent() }}
@@ -45,8 +45,8 @@
         <section class="py-5 py-lg-8">
             <div class="row">
                 <div class="col-12 col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
-                    {%- if attribute(source, locale).body is defined -%}
-                        {{ wysiwyg.transform(attribute(source, locale).body|emsch_routing) }}
+                    {%- if source.(locale).body is defined -%}
+                        {{ wysiwyg.transform(source.(locale).body|emsch_routing) }}
                     {%- endif -%}
                 </div>
                 <div class="col-12 col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">

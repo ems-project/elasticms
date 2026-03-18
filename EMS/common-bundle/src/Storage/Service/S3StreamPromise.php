@@ -8,7 +8,7 @@ use Aws\S3\S3Client;
 use EMS\Helpers\Standard\Type;
 use Psr\Http\Message\StreamInterface;
 
-class S3StreamPromise implements StreamInterface
+class S3StreamPromise implements \Stringable, StreamInterface
 {
     private ?int $size = null;
     private int $offset = 0;

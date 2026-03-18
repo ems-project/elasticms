@@ -26,6 +26,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->variableNode('storages')->defaultValue([])->end()
+                ->variableNode('http_caches')->defaultValue([])->end()
                 ->variableNode('runners')->defaultValue([])->end()
                 ->variableNode('store_data_services')->defaultValue([])->end()
                 ->variableNode('key_store')->defaultValue([])->end()

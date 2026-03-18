@@ -31,7 +31,7 @@
     <ul>
         {%- for l in locales -%}
             {%- for item in items|default([]) -%}
-                {%- set itemLabel = item.path[1:]|map(i => attribute(i.object, l).title|default(i.label))|join(' > ')  -%}
+                {%- set itemLabel = item.path[1:]|map(i => i.object.(l).title|default(i.label))|join(' > ')  -%}
                 <li>
                     <a href="{{ path('emsco_dashboard', {'name': 'sitemap', 'activeItemId': item.id, 'locale': l }) }}">
                         {{ l|upper }}: {{ itemLabel }}

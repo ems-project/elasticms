@@ -111,6 +111,7 @@
         <service id="EMS\CoreBundle\Controller\Api\Admin\MetaController">
             <argument type="service" id="ems.service.contenttype" />
             <argument type="service" id="ems.service.revision" />
+            <argument type="service" id="EMS\CoreBundle\Service\EnvironmentService" />
             <tag name="controller.service_arguments"/>
         </service>
         <service id="EMS\CoreBundle\Controller\Api\Admin\InfoController">
@@ -219,6 +220,8 @@
             <argument type="service" id="ems.service.contenttype" />
             <argument type="service" id="ems_core.core_ui.flash_message_logger" />
             <argument type="service" id="ems.service.revision" />
+            <argument type="service" id="ems_common.storage.manager" />
+            <argument type="service" id="EMS\CoreBundle\Service\EnvironmentService" />
             <call method="setContainer"/>
             <tag name="container.service_subscriber"/>
         </service>
@@ -589,6 +592,7 @@
             <argument type="service" id="EMS\CoreBundle\Repository\EnvironmentRepository" />
             <argument type="service" id="translator" />
             <argument type="service" id="serializer" />
+            <argument type="service" id="ems.repository.messenger_messages_repository" />
             <argument>%ems_core.paging_size%</argument>
             <argument>%ems_core.health_check_allow_origin%</argument>
             <argument>%ems_core.template_namespace%</argument>
@@ -676,6 +680,13 @@
             <argument type="service" id="ems.service.revision" />
             <argument type="service" id="ems.service.contenttype" />
             <argument type="service" id="ems.service.environment" />
+            <tag name="controller.service_arguments"/>
+        </service>
+        <service id="EMS\CoreBundle\Controller\Api\WebhookSubscriptionController">
+            <argument type="service" id="emsco.service.webhook_subscription" />
+            <argument type="service" id="event_dispatcher" />
+            <call method="setContainer"/>
+            <tag name="container.service_subscriber"/>
             <tag name="controller.service_arguments"/>
         </service>
 

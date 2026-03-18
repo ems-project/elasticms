@@ -44,14 +44,7 @@ final readonly class TemplateLoader implements LoaderInterface
     #[\Override]
     public function getCacheKey($name): string
     {
-        $environment = $this->getEnvironment();
-        $key = ['twig', $environment->getAlias(), $name];
-
-        if ($environment->isLocalPulled()) {
-            $key[] = 'local';
-        }
-
-        return \implode('_', $key);
+        return $this->builder->getCacheKey($this->getEnvironment(), new TemplateName($name));
     }
 
     /**

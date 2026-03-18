@@ -36,16 +36,16 @@
     },
     _source: ['menu',"#{locale}.target"],
     size: 1000,
-}).hits.hits|default([])|map(p => {menu: p._source.menu, target: attribute(p._source, locale)|default({}).target|default(null)})|ems_array_key('menu') %}
+}).hits.hits|default([])|map(p => {menu: p._source.menu, target: p._source.(locale)|default({}).target|default(null)})|ems_array_key('menu') %}
 
 {% for item in structure %}
-    {% set pathInfo = attribute(paths, item.id)|default(false) %}
-    {% if pathInfo and attribute(pages, item.id) is defined %}
-        {% set urls = urls|merge({(item.id): attribute(pages, item.id).target ? attribute(pages, item.id).target : path('emsch_path', {path: pathInfo.path})}) %}
+    {% set pathInfo = paths.(item.id)|default(false) %}
+    {% if pathInfo and pages.(item.id) is defined %}
+        {% set urls = urls|merge({(item.id): pages.(item.id).target ? pages.(item.id).target : path('emsch_path', {path: pathInfo.path})}) %}
     {% endif %}
-    {% if item.type == 'section' and attribute(sections, item.id) %}
-        {% set paths = paths|merge(attribute(sections, item.id).paths|filter(p => p.locale == locale)|ems_array_key('uid')) %}
-        {% do item.setChildren(attribute(sections, item.id).structure|default('{}')|ems_json_menu_nested_decode.children) %}
+    {% if item.type == 'section' and sections.(item.id) %}
+        {% set paths = paths|merge(sections.(item.id).paths|filter(p => p.locale == locale)|ems_array_key('uid')) %}
+        {% do item.setChildren(sections.(item.id).structure|default('{}')|ems_json_menu_nested_decode.children) %}
     {% endif %}
 {% endfor %}
 

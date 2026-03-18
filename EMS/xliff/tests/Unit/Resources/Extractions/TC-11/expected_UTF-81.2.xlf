@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 https://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file source-language="en" original="contentType:ouuid_1:revisionId_1" datatype="database" target-language="fr">
     <body>
-      <trans-unit id="[title_%locale%]">
+      <trans-unit id="tu1" resname="[title_%locale%]">
         <source xml:lang="en">Foo</source>
         <target xml:lang="fr" state="needs-translation">Bar</target>
       </trans-unit>
@@ -10,234 +10,240 @@
   </file>
   <file source-language="en" original="contentType:ouuid_2:revisionId_2" datatype="database" target-language="fr">
     <body>
-      <trans-unit id="[title_%locale%]">
+      <trans-unit id="tu2" resname="[title_%locale%]">
         <source xml:lang="en">Hello</source>
         <target xml:lang="fr" state="needs-translation">Bonjour</target>
       </trans-unit>
-      <trans-unit id="[keywords_%locale%]">
+      <trans-unit id="tu3" resname="[keywords_%locale%]">
         <source xml:lang="en">test xliff</source>
         <target xml:lang="fr" state="new"/>
       </trans-unit>
-      <trans-unit id="[empty]">
+      <trans-unit id="tu4" resname="[empty]">
         <source xml:lang="en"/>
         <target xml:lang="fr" state="final"/>
       </trans-unit>
-      <group id="[%locale%][body]">
-        <trans-unit restype="x-html-p" id="/html/body/p[1]">
+      <group resname="[%locale%][body]" id="grp5">
+        <trans-unit restype="x-html-p" id="tu6" resname="/html/body/p[1]">
           <source xml:lang="en">   </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[2]">
+        <trans-unit restype="x-html-p" id="tu7" resname="/html/body/p[2]">
           <source xml:lang="en"> Een speciale uitsluitingsregeling is - op basis van artikel 17quater van het koninklijk besluit van 28 november 1969 - van toepassing op de volgende personen: </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <group restype="x-html-ul" id="/html/body/ul[1]">
-          <trans-unit restype="listitem" id="/html/body/ul[1]/li[1]">
+        <group restype="x-html-ul" id="tu8" resname="/html/body/ul[1]">
+          <trans-unit restype="listitem" id="tu9" resname="/html/body/ul[1]/li[1]">
             <source xml:lang="en">de vrijwillige brandweerlieden en de vrijwillige ambulanciers van een hulpverleningszone; </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
-          <trans-unit restype="listitem" id="/html/body/ul[1]/li[2]">
+          <trans-unit restype="listitem" id="tu10" resname="/html/body/ul[1]/li[2]">
             <source xml:lang="en">de vrijwillige hulpverleners-ambulanciers van een door de Minister van Volksgezondheid erkende ambulancedienst die in het bezit zijn van een brevet afgeleverd door een opleidings- en vervolmakingscentrum voor hulpverleners; </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
-          <trans-unit restype="listitem" id="/html/body/ul[1]/li[3]">
+          <trans-unit restype="listitem" id="tu11" resname="/html/body/ul[1]/li[3]">
             <source xml:lang="en">de vrijwilligers van de Civiele Bescherming. </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
         </group>
-        <trans-unit restype="x-html-p" id="/html/body/p[3]">
-          <source xml:lang="en"> De <g ctype="x-html-strong">vergoedingen voor 'uitzonderlijke' prestaties</g> die de vrijwillige brandweerlieden, de vrijwilligers van de Civiele Bescherming en de vrijwillige ambulanciers uitvoeren bij de organisaties die hen tewerkstellen, zijn altijd vrijgesteld van socialezekerheidsbijdragen, ongeacht het bedrag van de vergoeding.  </source>
+        <trans-unit restype="x-html-p" id="tu12" resname="/html/body/p[3]">
+          <source xml:lang="en"> De <g id="g13" ctype="x-html-strong">vergoedingen voor 'uitzonderlijke' prestaties</g> die de vrijwillige brandweerlieden, de vrijwilligers van de Civiele Bescherming en de vrijwillige ambulanciers uitvoeren bij de organisaties die hen tewerkstellen, zijn altijd vrijgesteld van socialezekerheidsbijdragen, ongeacht het bedrag van de vergoeding.  </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[4]">
+        <trans-unit restype="x-html-p" id="tu14" resname="/html/body/p[4]">
           <source xml:lang="en"> Als 'uitzonderlijke' prestaties worden beschouwd: </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <group restype="x-html-ul" id="/html/body/ul[2]">
-          <group restype="listitem" id="/html/body/ul[2]/li[1]">
-            <trans-unit id="/html/body/ul[2]/li[1]/text()[1]">
-              <source xml:lang="en">de opdrachten en taken van civiele veiligheid, uitgevoerd door de vrijwillige brandweerlieden en de vrijwilligers van de Civiele Bescherming en vermeld in de bijlage van het <g ctype="x-html-a" html:href="http://www.ejustice.just.fgov.be/cgi_loi/loi_a1.pl?language=nl&amp;la=N&amp;cn=2014061012&amp;table_name=wet&amp;&amp;caller=list&amp;N&amp;fromtab=wet&amp;tri=dd+AS+RANK&amp;rech=1&amp;numero=1&amp;sql=(text+contains+(%27%27))#LNK0007" html:title="ambulance">koninklijk besluit van 10 juni 2014</g>, meer bepaald </source>
+        <group restype="x-html-ul" id="tu15" resname="/html/body/ul[2]">
+          <group restype="listitem" id="tu16" resname="/html/body/ul[2]/li[1]">
+            <trans-unit id="tu17" resname="/html/body/ul[2]/li[1]/text()[1]">
+              <source xml:lang="en">de opdrachten en taken van civiele veiligheid, uitgevoerd door de vrijwillige brandweerlieden en de vrijwilligers van de Civiele Bescherming en vermeld in de bijlage van het <bx id="bx19" rid="rid18" equiv-text="&amp;lt;a href=&amp;quot;http://www.ejustice.just.fgov.be/cgi_loi/loi_a1.pl?language=nl&amp;amp;amp;la=N&amp;amp;amp;cn=2014061012&amp;amp;amp;table_name=wet&amp;amp;amp;&amp;amp;amp;caller=list&amp;amp;amp;N&amp;amp;amp;fromtab=wet&amp;amp;amp;tri=dd+AS+RANK&amp;amp;amp;rech=1&amp;amp;amp;numero=1&amp;amp;amp;sql=(text+contains+(%27%27))#LNK0007&amp;quot; title=&amp;quot;ambulance&amp;quot;&amp;gt;"/>koninklijk besluit van 10 juni 2014<ex id="ex20" rid="rid18" equiv-text="&amp;lt;/a&amp;gt;"/>, meer bepaald </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
-            <group restype="x-html-ul" html:style="padding-top: 0px; padding-bottom: 0px;" id="/html/body/ul[2]/li[1]/ul">
-              <trans-unit restype="listitem" id="/html/body/ul[2]/li[1]/ul/li[1]">
+            <group restype="x-html-ul" id="tu21" resname="/html/body/ul[2]/li[1]/ul">
+              <note from="style">padding-top: 0px; padding-bottom: 0px;</note>
+              <trans-unit restype="listitem" id="tu22" resname="/html/body/ul[2]/li[1]/ul/li[1]">
                 <source xml:lang="en">kolom 1 en punt 6 voor de vrijwillige brandweerlieden; </source>
                 <target xml:lang="fr" state="new"/>
               </trans-unit>
-              <trans-unit restype="listitem" id="/html/body/ul[2]/li[1]/ul/li[2]">
+              <trans-unit restype="listitem" id="tu23" resname="/html/body/ul[2]/li[1]/ul/li[2]">
                 <source xml:lang="en">kolom 2 en de punten 5 en 6 voor de vrijwilligers van de Civiele Bescherming; </source>
                 <target xml:lang="fr" state="new"/>
               </trans-unit>
             </group>
           </group>
-          <group restype="listitem" id="/html/body/ul[2]/li[2]">
-            <trans-unit id="/html/body/ul[2]/li[2]/text()[1]">
+          <group restype="listitem" id="tu24" resname="/html/body/ul[2]/li[2]">
+            <trans-unit id="tu25" resname="/html/body/ul[2]/li[2]/text()[1]">
               <source xml:lang="en">de prestaties van dringende medische hulpverlening, verricht door de vrijwillige ambulanciers, de vrijwillige brandweerlieden of de vrijwilligers van de Civiele Bescherming; </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
-            <group restype="x-html-ul" html:style="padding-top: 0px; padding-bottom: 0px;" id="/html/body/ul[2]/li[2]/ul">
-              <trans-unit restype="listitem" id="/html/body/ul[2]/li[2]/ul/li">
+            <group restype="x-html-ul" id="tu26" resname="/html/body/ul[2]/li[2]/ul">
+              <note from="style">padding-top: 0px; padding-bottom: 0px;</note>
+              <trans-unit restype="listitem" id="tu27" resname="/html/body/ul[2]/li[2]/ul/li">
                 <source xml:lang="en">het betreft het onmiddellijk verstrekken van aangepaste hulp aan alle personen van wie de gezondheidstoestand ten gevolge van een ongeval, een plotse aandoening of een plotse verwikkeling van een ziekte een dringende tussenkomst vereist na een oproep via het eenvormig oproepstelsel waardoor de hulpverlening, het vervoer en de opvang in een aangepaste ziekenhuisdienst worden verzekerd. </source>
                 <target xml:lang="fr" state="new"/>
               </trans-unit>
             </group>
           </group>
         </group>
-        <trans-unit restype="x-html-p" id="/html/body/p[5]">
-          <source xml:lang="en"> De <g ctype="x-html-strong">vergoedingen voor 'niet-uitzonderlijke' prestaties</g> zijn vrijgesteld voor zover het bedrag van 785,95 EUR per kwartaal (niet geïndexeerd) niet overschreden wordt. Het geïndexeerd bedrag van de vergoedingen dat vrijgesteld is van socialezekerheidsbijdragen, bedraagt <g ctype="x-html-span" html:class="newWord">1.191,26 EUR</g> per kwartaal vanaf het <g ctype="x-html-span" html:class="newWord">2<g ctype="x-html-sup">de</g> kwartaal van 2022</g>. </source>
+        <trans-unit restype="x-html-p" id="tu28" resname="/html/body/p[5]">
+          <source xml:lang="en"> De <g id="g29" ctype="x-html-strong">vergoedingen voor 'niet-uitzonderlijke' prestaties</g> zijn vrijgesteld voor zover het bedrag van 785,95 EUR per kwartaal (niet geïndexeerd) niet overschreden wordt. Het geïndexeerd bedrag van de vergoedingen dat vrijgesteld is van socialezekerheidsbijdragen, bedraagt <bx id="bx31" rid="rid30" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>1.191,26 EUR<ex id="ex32" rid="rid30" equiv-text="&amp;lt;/span&amp;gt;"/> per kwartaal vanaf het <bx id="bx34" rid="rid33" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>2<g id="g35" ctype="x-html-sup">de</g> kwartaal van 2022<ex id="ex36" rid="rid33" equiv-text="&amp;lt;/span&amp;gt;"/>. </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[6]">
+        <trans-unit restype="x-html-p" id="tu37" resname="/html/body/p[6]">
           <source xml:lang="en">   </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <group restype="x-html-div" html:class="readMoreContent" id="/html/body/div">
-          <trans-unit restype="x-html-p" id="/html/body/div/p">
-            <source xml:lang="en"> <g ctype="x-html-strong">Voorgaande kwartalen</g> </source>
+        <group restype="x-html-div" id="tu38" resname="/html/body/div">
+          <note from="class">readMoreContent</note>
+          <trans-unit restype="x-html-p" id="tu39" resname="/html/body/div/p">
+            <source xml:lang="en"> <g id="g40" ctype="x-html-strong">Voorgaande kwartalen</g> </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
-          <group restype="x-html-ul" id="/html/body/div/ul">
-            <trans-unit restype="listitem" id="/html/body/div/ul/li[1]">
-              <source xml:lang="en">1.078,95 EUR van het 1<g ctype="x-html-sup">ste</g> kwartaal van 2018 tot het 3<g ctype="x-html-sup">de</g> kwartaal van 2018 (alle categorieën); </source>
+          <group restype="x-html-ul" id="tu41" resname="/html/body/div/ul">
+            <trans-unit restype="listitem" id="tu42" resname="/html/body/div/ul/li[1]">
+              <source xml:lang="en">1.078,95 EUR van het 1<g id="g43" ctype="x-html-sup">ste</g> kwartaal van 2018 tot het 3<g id="g44" ctype="x-html-sup">de</g> kwartaal van 2018 (alle categorieën); </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
-            <trans-unit restype="listitem" id="/html/body/div/ul/li[2]">
-              <source xml:lang="en">1.100,49 EUR van het 4<g ctype="x-html-sup">de</g> kwartaal van 2018 tot het 1<g ctype="x-html-sup">ste</g> kwartaal van 2020 (alle categorieën); </source>
+            <trans-unit restype="listitem" id="tu45" resname="/html/body/div/ul/li[2]">
+              <source xml:lang="en">1.100,49 EUR van het 4<g id="g46" ctype="x-html-sup">de</g> kwartaal van 2018 tot het 1<g id="g47" ctype="x-html-sup">ste</g> kwartaal van 2020 (alle categorieën); </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
-            <trans-unit restype="listitem" id="/html/body/div/ul/li[3]">
-              <source xml:lang="en">1.122,49 EUR van het 2<g ctype="x-html-sup">de</g> kwartaal van 2020 tot het 3<g ctype="x-html-sup">de</g> kwartaal van 2021 (alle categorieën); </source>
+            <trans-unit restype="listitem" id="tu48" resname="/html/body/div/ul/li[3]">
+              <source xml:lang="en">1.122,49 EUR van het 2<g id="g49" ctype="x-html-sup">de</g> kwartaal van 2020 tot het 3<g id="g50" ctype="x-html-sup">de</g> kwartaal van 2021 (alle categorieën); </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
-            <trans-unit restype="listitem" id="/html/body/div/ul/li[4]">
-              <source xml:lang="en">1.144,97 EUR voor het 4<g ctype="x-html-sup">de</g> kwartaal van 2021 (alle categorieën); </source>
+            <trans-unit restype="listitem" id="tu51" resname="/html/body/div/ul/li[4]">
+              <source xml:lang="en">1.144,97 EUR voor het 4<g id="g52" ctype="x-html-sup">de</g> kwartaal van 2021 (alle categorieën); </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
-            <trans-unit restype="listitem" id="/html/body/div/ul/li[5]">
-              <source xml:lang="en">1.167,84 EUR voor het 1<g ctype="x-html-sup">ste</g> kwartaal van 2022 (alle categorieën). </source>
+            <trans-unit restype="listitem" id="tu53" resname="/html/body/div/ul/li[5]">
+              <source xml:lang="en">1.167,84 EUR voor het 1<g id="g54" ctype="x-html-sup">ste</g> kwartaal van 2022 (alle categorieën). </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
           </group>
         </group>
-        <trans-unit restype="x-html-p" id="/html/body/p[7]">
-          <source xml:lang="en"> Indien het maximumbedrag van <g ctype="x-html-span" html:class="newWord">1.191,26 EUR</g> overschreden wordt, zijn er persoonlijke en patronale socialezekerheidsbijdragen verschuldigd op het totale bedrag van de vergoedingen voor 'niet-uitzonderlijke' prestaties en niet enkel op het gedeelte boven het drempelbedrag. </source>
+        <trans-unit restype="x-html-p" id="tu55" resname="/html/body/p[7]">
+          <source xml:lang="en"> Indien het maximumbedrag van <bx id="bx57" rid="rid56" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>1.191,26 EUR<ex id="ex58" rid="rid56" equiv-text="&amp;lt;/span&amp;gt;"/> overschreden wordt, zijn er persoonlijke en patronale socialezekerheidsbijdragen verschuldigd op het totale bedrag van de vergoedingen voor 'niet-uitzonderlijke' prestaties en niet enkel op het gedeelte boven het drempelbedrag. </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[8]">
+        <trans-unit restype="x-html-p" id="tu59" resname="/html/body/p[8]">
           <source xml:lang="en">   </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[9]">
+        <trans-unit restype="x-html-p" id="tu60" resname="/html/body/p[9]">
           <source xml:lang="en"> Een persoon die bij een hulpverleningszone, een erkende ambulancedienst of de Civiele Bescherming  operationele prestaties levert en verbonden is met een arbeidsovereenkomst, een statutaire aanstelling of een dienstencontract, kan bij dezelfde organisatie geen prestaties als vrijwillige brandweerman, vrijwillige ambulancier of vrijwilliger van de Civiele Bescherming meer verrichten. Als de RSZ de cumulatie vaststelt, dan worden alle vergoedingen uit hoofde van de beroepsactiviteit onderworpen aan socialezekerheidsbijdragen.  </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
       </group>
-      <group id="[%locale%][body2]">
-        <trans-unit restype="x-html-p" id="/html/body/p[1]">
+      <group resname="[%locale%][body2]" id="grp61">
+        <trans-unit restype="x-html-p" id="tu62" resname="/html/body/p[1]">
           <source xml:lang="en">   </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[2]">
+        <trans-unit restype="x-html-p" id="tu63" resname="/html/body/p[2]">
           <source xml:lang="en"> Een speciale uitsluitingsregeling is - op basis van artikel 17quater van het koninklijk besluit van 28 november 1969 - van toepassing op de volgende personen: </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <group restype="x-html-ul" id="/html/body/ul[1]">
-          <trans-unit restype="listitem" id="/html/body/ul[1]/li[1]">
+        <group restype="x-html-ul" id="tu64" resname="/html/body/ul[1]">
+          <trans-unit restype="listitem" id="tu65" resname="/html/body/ul[1]/li[1]">
             <source xml:lang="en">de vrijwillige brandweerlieden en de vrijwillige ambulanciers van een hulpverleningszone; </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
-          <trans-unit restype="listitem" id="/html/body/ul[1]/li[2]">
+          <trans-unit restype="listitem" id="tu66" resname="/html/body/ul[1]/li[2]">
             <source xml:lang="en">de vrijwillige hulpverleners-ambulanciers van een door de Minister van Volksgezondheid erkende ambulancedienst die in het bezit zijn van een brevet afgeleverd door een opleidings- en vervolmakingscentrum voor hulpverleners; </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
-          <trans-unit restype="listitem" id="/html/body/ul[1]/li[3]">
+          <trans-unit restype="listitem" id="tu67" resname="/html/body/ul[1]/li[3]">
             <source xml:lang="en">de vrijwilligers van de Civiele Bescherming. </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
         </group>
-        <trans-unit restype="x-html-p" id="/html/body/p[3]">
-          <source xml:lang="en"> De <g ctype="x-html-strong">vergoedingen voor 'uitzonderlijke' prestaties</g> die de vrijwillige brandweerlieden, de vrijwilligers van de Civiele Bescherming en de vrijwillige ambulanciers uitvoeren bij de organisaties die hen tewerkstellen, zijn altijd vrijgesteld van socialezekerheidsbijdragen, ongeacht het bedrag van de vergoeding.  </source>
+        <trans-unit restype="x-html-p" id="tu68" resname="/html/body/p[3]">
+          <source xml:lang="en"> De <g id="g69" ctype="x-html-strong">vergoedingen voor 'uitzonderlijke' prestaties</g> die de vrijwillige brandweerlieden, de vrijwilligers van de Civiele Bescherming en de vrijwillige ambulanciers uitvoeren bij de organisaties die hen tewerkstellen, zijn altijd vrijgesteld van socialezekerheidsbijdragen, ongeacht het bedrag van de vergoeding.  </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[4]">
+        <trans-unit restype="x-html-p" id="tu70" resname="/html/body/p[4]">
           <source xml:lang="en"> Als 'uitzonderlijke' prestaties worden beschouwd: </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <group restype="x-html-ul" id="/html/body/ul[2]">
-          <group restype="listitem" id="/html/body/ul[2]/li[1]">
-            <trans-unit id="/html/body/ul[2]/li[1]/text()[1]">
-              <source xml:lang="en">de opdrachten en taken van civiele veiligheid, uitgevoerd door de vrijwillige brandweerlieden en de vrijwilligers van de Civiele Bescherming en vermeld in de bijlage van het <g ctype="x-html-a" html:href="http://www.ejustice.just.fgov.be/cgi_loi/loi_a1.pl?language=nl&amp;la=N&amp;cn=2014061012&amp;table_name=wet&amp;&amp;caller=list&amp;N&amp;fromtab=wet&amp;tri=dd+AS+RANK&amp;rech=1&amp;numero=1&amp;sql=(text+contains+(%27%27))#LNK0007" html:title="ambulance">koninklijk besluit van 10 juni 2014</g>, meer bepaald </source>
+        <group restype="x-html-ul" id="tu71" resname="/html/body/ul[2]">
+          <group restype="listitem" id="tu72" resname="/html/body/ul[2]/li[1]">
+            <trans-unit id="tu73" resname="/html/body/ul[2]/li[1]/text()[1]">
+              <source xml:lang="en">de opdrachten en taken van civiele veiligheid, uitgevoerd door de vrijwillige brandweerlieden en de vrijwilligers van de Civiele Bescherming en vermeld in de bijlage van het <bx id="bx75" rid="rid74" equiv-text="&amp;lt;a href=&amp;quot;http://www.ejustice.just.fgov.be/cgi_loi/loi_a1.pl?language=nl&amp;amp;amp;la=N&amp;amp;amp;cn=2014061012&amp;amp;amp;table_name=wet&amp;amp;amp;&amp;amp;amp;caller=list&amp;amp;amp;N&amp;amp;amp;fromtab=wet&amp;amp;amp;tri=dd+AS+RANK&amp;amp;amp;rech=1&amp;amp;amp;numero=1&amp;amp;amp;sql=(text+contains+(%27%27))#LNK0007&amp;quot; title=&amp;quot;ambulance&amp;quot;&amp;gt;"/>koninklijk besluit van 10 juni 2014<ex id="ex76" rid="rid74" equiv-text="&amp;lt;/a&amp;gt;"/>, meer bepaald </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
-            <group restype="x-html-ul" html:style="padding-top: 0px; padding-bottom: 0px;" id="/html/body/ul[2]/li[1]/ul">
-              <trans-unit restype="listitem" id="/html/body/ul[2]/li[1]/ul/li[1]">
+            <group restype="x-html-ul" id="tu77" resname="/html/body/ul[2]/li[1]/ul">
+              <note from="style">padding-top: 0px; padding-bottom: 0px;</note>
+              <trans-unit restype="listitem" id="tu78" resname="/html/body/ul[2]/li[1]/ul/li[1]">
                 <source xml:lang="en">kolom 1 en punt 6 voor de vrijwillige brandweerlieden; </source>
                 <target xml:lang="fr" state="new"/>
               </trans-unit>
-              <trans-unit restype="listitem" id="/html/body/ul[2]/li[1]/ul/li[2]">
+              <trans-unit restype="listitem" id="tu79" resname="/html/body/ul[2]/li[1]/ul/li[2]">
                 <source xml:lang="en">kolom 2 en de punten 5 en 6 voor de vrijwilligers van de Civiele Bescherming; </source>
                 <target xml:lang="fr" state="new"/>
               </trans-unit>
             </group>
           </group>
-          <group restype="listitem" id="/html/body/ul[2]/li[2]">
-            <trans-unit id="/html/body/ul[2]/li[2]/text()[1]">
+          <group restype="listitem" id="tu80" resname="/html/body/ul[2]/li[2]">
+            <trans-unit id="tu81" resname="/html/body/ul[2]/li[2]/text()[1]">
               <source xml:lang="en">de prestaties van dringende medische hulpverlening, verricht door de vrijwillige ambulanciers, de vrijwillige brandweerlieden of de vrijwilligers van de Civiele Bescherming; </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
-            <group restype="x-html-ul" html:style="padding-top: 0px; padding-bottom: 0px;" id="/html/body/ul[2]/li[2]/ul">
-              <trans-unit restype="listitem" id="/html/body/ul[2]/li[2]/ul/li">
+            <group restype="x-html-ul" id="tu82" resname="/html/body/ul[2]/li[2]/ul">
+              <note from="style">padding-top: 0px; padding-bottom: 0px;</note>
+              <trans-unit restype="listitem" id="tu83" resname="/html/body/ul[2]/li[2]/ul/li">
                 <source xml:lang="en">het betreft het onmiddellijk verstrekken van aangepaste hulp aan alle personen van wie de gezondheidstoestand ten gevolge van een ongeval, een plotse aandoening of een plotse verwikkeling van een ziekte een dringende tussenkomst vereist na een oproep via het eenvormig oproepstelsel waardoor de hulpverlening, het vervoer en de opvang in een aangepaste ziekenhuisdienst worden verzekerd. </source>
                 <target xml:lang="fr" state="new"/>
               </trans-unit>
             </group>
           </group>
         </group>
-        <trans-unit restype="x-html-p" id="/html/body/p[5]">
-          <source xml:lang="en"> De <g ctype="x-html-strong">vergoedingen voor 'niet-uitzonderlijke' prestaties</g> zijn vrijgesteld voor zover het bedrag van 785,95 EUR per kwartaal (niet geïndexeerd) niet overschreden wordt. Het geïndexeerd bedrag van de vergoedingen dat vrijgesteld is van socialezekerheidsbijdragen, bedraagt <g ctype="x-html-span" html:class="newWord">1.191,26 EUR</g> per kwartaal vanaf het <g ctype="x-html-span" html:class="newWord">2<g ctype="x-html-sup">de</g> kwartaal van 2022</g>. </source>
+        <trans-unit restype="x-html-p" id="tu84" resname="/html/body/p[5]">
+          <source xml:lang="en"> De <g id="g85" ctype="x-html-strong">vergoedingen voor 'niet-uitzonderlijke' prestaties</g> zijn vrijgesteld voor zover het bedrag van 785,95 EUR per kwartaal (niet geïndexeerd) niet overschreden wordt. Het geïndexeerd bedrag van de vergoedingen dat vrijgesteld is van socialezekerheidsbijdragen, bedraagt <bx id="bx87" rid="rid86" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>1.191,26 EUR<ex id="ex88" rid="rid86" equiv-text="&amp;lt;/span&amp;gt;"/> per kwartaal vanaf het <bx id="bx90" rid="rid89" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>2<g id="g91" ctype="x-html-sup">de</g> kwartaal van 2022<ex id="ex92" rid="rid89" equiv-text="&amp;lt;/span&amp;gt;"/>. </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[6]">
+        <trans-unit restype="x-html-p" id="tu93" resname="/html/body/p[6]">
           <source xml:lang="en">   </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <group restype="x-html-div" html:class="readMoreContent" id="/html/body/div">
-          <trans-unit restype="x-html-p" id="/html/body/div/p">
-            <source xml:lang="en"> <g ctype="x-html-strong">Voorgaande kwartalen</g> </source>
+        <group restype="x-html-div" id="tu94" resname="/html/body/div">
+          <note from="class">readMoreContent</note>
+          <trans-unit restype="x-html-p" id="tu95" resname="/html/body/div/p">
+            <source xml:lang="en"> <g id="g96" ctype="x-html-strong">Voorgaande kwartalen</g> </source>
             <target xml:lang="fr" state="new"/>
           </trans-unit>
-          <group restype="x-html-ul" id="/html/body/div/ul">
-            <trans-unit restype="listitem" id="/html/body/div/ul/li[1]">
-              <source xml:lang="en">1.078,95 EUR van het 1<g ctype="x-html-sup">ste</g> kwartaal van 2018 tot het 3<g ctype="x-html-sup">de</g> kwartaal van 2018 (alle categorieën); </source>
+          <group restype="x-html-ul" id="tu97" resname="/html/body/div/ul">
+            <trans-unit restype="listitem" id="tu98" resname="/html/body/div/ul/li[1]">
+              <source xml:lang="en">1.078,95 EUR van het 1<g id="g99" ctype="x-html-sup">ste</g> kwartaal van 2018 tot het 3<g id="g100" ctype="x-html-sup">de</g> kwartaal van 2018 (alle categorieën); </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
-            <trans-unit restype="listitem" id="/html/body/div/ul/li[2]">
-              <source xml:lang="en">1.100,49 EUR van het 4<g ctype="x-html-sup">de</g> kwartaal van 2018 tot het 1<g ctype="x-html-sup">ste</g> kwartaal van 2020 (alle categorieën); </source>
+            <trans-unit restype="listitem" id="tu101" resname="/html/body/div/ul/li[2]">
+              <source xml:lang="en">1.100,49 EUR van het 4<g id="g102" ctype="x-html-sup">de</g> kwartaal van 2018 tot het 1<g id="g103" ctype="x-html-sup">ste</g> kwartaal van 2020 (alle categorieën); </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
-            <trans-unit restype="listitem" id="/html/body/div/ul/li[3]">
-              <source xml:lang="en">1.122,49 EUR van het 2<g ctype="x-html-sup">de</g> kwartaal van 2020 tot het 3<g ctype="x-html-sup">de</g> kwartaal van 2021 (alle categorieën); </source>
+            <trans-unit restype="listitem" id="tu104" resname="/html/body/div/ul/li[3]">
+              <source xml:lang="en">1.122,49 EUR van het 2<g id="g105" ctype="x-html-sup">de</g> kwartaal van 2020 tot het 3<g id="g106" ctype="x-html-sup">de</g> kwartaal van 2021 (alle categorieën); </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
-            <trans-unit restype="listitem" id="/html/body/div/ul/li[4]">
-              <source xml:lang="en">1.144,97 EUR voor het 4<g ctype="x-html-sup">de</g> kwartaal van 2021 (alle categorieën); </source>
+            <trans-unit restype="listitem" id="tu107" resname="/html/body/div/ul/li[4]">
+              <source xml:lang="en">1.144,97 EUR voor het 4<g id="g108" ctype="x-html-sup">de</g> kwartaal van 2021 (alle categorieën); </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
-            <trans-unit restype="listitem" id="/html/body/div/ul/li[5]">
-              <source xml:lang="en">1.167,84 EUR voor het 1<g ctype="x-html-sup">ste</g> kwartaal van 2022 (alle categorieën). </source>
+            <trans-unit restype="listitem" id="tu109" resname="/html/body/div/ul/li[5]">
+              <source xml:lang="en">1.167,84 EUR voor het 1<g id="g110" ctype="x-html-sup">ste</g> kwartaal van 2022 (alle categorieën). </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
           </group>
         </group>
-        <trans-unit restype="x-html-p" id="/html/body/p[7]">
-          <source xml:lang="en"> Indien het maximumbedrag van <g ctype="x-html-span" html:class="newWord">1.191,26 EUR</g> overschreden wordt, zijn er persoonlijke en patronale socialezekerheidsbijdragen verschuldigd op het totale bedrag van de vergoedingen voor 'niet-uitzonderlijke' prestaties en niet enkel op het gedeelte boven het drempelbedrag. </source>
+        <trans-unit restype="x-html-p" id="tu111" resname="/html/body/p[7]">
+          <source xml:lang="en"> Indien het maximumbedrag van <bx id="bx113" rid="rid112" equiv-text="&amp;lt;span class=&amp;quot;newWord&amp;quot;&amp;gt;"/>1.191,26 EUR<ex id="ex114" rid="rid112" equiv-text="&amp;lt;/span&amp;gt;"/> overschreden wordt, zijn er persoonlijke en patronale socialezekerheidsbijdragen verschuldigd op het totale bedrag van de vergoedingen voor 'niet-uitzonderlijke' prestaties en niet enkel op het gedeelte boven het drempelbedrag. </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[8]">
+        <trans-unit restype="x-html-p" id="tu115" resname="/html/body/p[8]">
           <source xml:lang="en">   </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[9]">
+        <trans-unit restype="x-html-p" id="tu116" resname="/html/body/p[9]">
           <source xml:lang="en"> Een persoon die bij een hulpverleningszone, een erkende ambulancedienst of de Civiele Bescherming  operationele prestaties levert en verbonden is met een arbeidsovereenkomst, een statutaire aanstelling of een dienstencontract, kan bij dezelfde organisatie geen prestaties als vrijwillige brandweerman, vrijwillige ambulancier of vrijwilliger van de Civiele Bescherming meer verrichten. Als de RSZ de cumulatie vaststelt, dan worden alle vergoedingen uit hoofde van de beroepsactiviteit onderworpen aan socialezekerheidsbijdragen.  </source>
           <target xml:lang="fr" state="new"/>
         </trans-unit>

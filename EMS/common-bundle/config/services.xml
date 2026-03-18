@@ -102,6 +102,7 @@
             <argument type="service" id="logger" />
             <argument type="service" id="ems_common.elastica.client" />
             <argument type="service" id="ems.helper.admin_api" />
+            <argument type="service" id="ems_common.cache.tag_collector" />
             <argument type="string">%ems_common.elasticsearch_proxy_api%</argument>
         </service>
         <service id="ems.helper.admin_api" class="EMS\CommonBundle\Common\Admin\AdminHelper">
@@ -120,6 +121,10 @@
         </service>
         <service id="ems_common.twig.runtime.search" class="EMS\CommonBundle\Twig\SearchRuntime">
             <argument type="service" id="ems_common.service.elastica" />
+            <tag name="twig.runtime" />
+        </service>
+        <service id="ems.common.twig.htp_cache" class="EMS\CommonBundle\Common\HttpCache\HttpCacheRuntime">
+            <argument type="service" id="ems_common.service.http_cache_manager" />
             <tag name="twig.runtime" />
         </service>
         <service id="ems.common.twig.template_factory" class="EMS\CommonBundle\Common\Twig\TemplateFactory">
@@ -177,6 +182,18 @@
         <service id="ems_common.ai.open_ai" class="EMS\CommonBundle\Common\Ai\OpenAiService">
             <argument type="service" id="http_client"/>
             <argument type="service" id="ems_common.key_store"/>
+        </service>
+        <service id="ems_common.cache.tag_collector" class="EMS\CommonBundle\Common\HttpCache\TagCollector">
+            <argument type="service" id="request_stack" />
+            <argument type="string">%ems_common.http_caches%</argument>
+        </service>
+        <service id="ems.event_listener.tag_response_subscriber" class="EMS\CommonBundle\EventListener\TagResponseSubscriber">
+            <argument type="service" id="ems_common.cache.tag_collector"/>
+            <tag name="kernel.event_subscriber" />
+        </service>
+        <service id="ems_common.service.http_cache_manager" class="EMS\CommonBundle\Common\HttpCache\HttpCacheManager">
+            <argument type="service" id="logger" />
+            <argument type="service" id="ems_common.cache.tag_collector" />
         </service>
     </services>
 </container>

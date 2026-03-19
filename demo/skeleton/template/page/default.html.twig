@@ -27,10 +27,15 @@
             <div class="row">
                 <div class="col-12 col-lg-10 offset-lg-1 col-xl-8 offset-xl-2 mb-2">
                     {% block breadcrumb %}{% endblock %}
-                    <h1 {{ emsch_admin_menu(target.getEmsLink|default(emsLink|default(''))) }}>
-                        {{ block('title') }}
-                    </h1>
-                    {{ source.(locale).summary|default('')|emsch_routing }}
+                    {{ emsch_inline_edit({
+                        element: 'h1',
+                        document: target,
+                        path: "[#{locale}][title]",
+                    }) }}
+                    {{ emsch_inline_edit({
+                        document: target,
+                        path: "[#{locale}][summary]",
+                    }) }}
                 </div>
             </div>
         </div>
@@ -39,9 +44,13 @@
         <div class="container-fluid container-lg">
             <section class="py-5 py-lg-8">
                 <div class="row">
-                    <div class="col-12 col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
-                        {{ wysiwyg.transform(source.(locale).body|emsch_routing) }}
-                    </div>
+                    {{ emsch_inline_edit({
+                        document: target,
+                        path: "[#{locale}][body]",
+                        attributes: {
+                            class: 'col-12 col-lg-10 offset-lg-1 col-xl-8 offset-xl-2'
+                        }
+                    }) }}
                 </div>
             </section>
         </div>

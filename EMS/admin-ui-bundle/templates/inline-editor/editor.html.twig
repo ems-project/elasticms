@@ -1,0 +1,37 @@
+{% use "@EMSAdminUI/inline-editor/render.html.twig" %}
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Inline Editor</title>
+        <link rel="stylesheet" href="{{ asset('src/core/inline-editor/editor.ts.css', 'emsadminui') }}">
+        {%- if vite.isDevServerRunning -%}
+            <script type="module" src="{{- vite.devServerClient -}}"></script>
+        {%- endif -%}
+        <script src="{{ asset('src/core/inline-editor/editor.ts', 'emsadminui') }}" type="module"></script>
+    </head>
+    <body data-base-url="{{ baseUrl }}">
+        <div class="editor">
+            <header class="editor-topbar d-flex align-items-center justify-content-between px-3">
+                <div class="editor-title fw-bold">Inline Editor</div>
+                <div class="d-flex gap-2 align-items-center">
+                    <div class="editor-actions d-flex gap-2" data-editor-clear="true"></div>
+                    <button type="button" class="btn btn-sm btn-secondary" data-editor-action="toggleSidebar">
+                        <i class="fa-solid fa-angles-right"></i>
+                    </button>
+                    <a href="{{ iframeUrl }}" class="text-white" data-editor-action="close">Exit</a>
+                </div>
+            </header>
+            <div class="editor-body">
+                <main class="editor-preview">
+                    <iframe id="preview-iframe" src="{{ iframeUrl }}" data-prefix="{{ routePrefix }}" allow="fullscreen" allowfullscreen></iframe>
+                </main>
+                <aside class="editor-sidebar">
+                    <div class="editor-sidebar-resize-handle"></div>
+                    <div class="editor-sidebar-content" data-editor-clear="true"></div>
+                </aside>
+            </div>
+        </div>
+    </body>
+</html>

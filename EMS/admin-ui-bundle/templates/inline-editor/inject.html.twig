@@ -1,0 +1,8 @@
+{%- block head -%}
+    <link rel="stylesheet" href="{{ asset('src/core/inline-editor/iframe.ts.css', 'emsadminui') }}">
+{%- endblock head -%}
+
+{%- block body -%}
+    <script src="{{ asset('src/core/inline-editor/iframe.ts', 'emsadminui') }}" type="module"></script>
+    <a id="go2editor" href="{{ editorUrl }}"></a>
+{%- endblock body -%}

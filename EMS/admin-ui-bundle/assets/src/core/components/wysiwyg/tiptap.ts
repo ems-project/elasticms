@@ -21,6 +21,8 @@ export interface ToolbarAction {
 }
 
 export class Tiptap {
+    isSourceView: boolean = false;
+
     element: HTMLTextAreaElement
     options: EditorRevisionOptions | null
     profile: EditorProfile
@@ -78,7 +80,10 @@ export class Tiptap {
             toolbar.appendChild(sectionDiv);
         });
 
-        this.element.parentNode?.insertBefore(toolbar, this.element.nextSibling);
+        const container = this.element.parentElement;
+        if (container) {
+            container.insertBefore(toolbar, container.firstChild);
+        }
     }
 
     private createButton(key: string, action: ToolbarAction): HTMLButtonElement {
@@ -86,10 +91,14 @@ export class Tiptap {
         btn.type = 'button';
         btn.innerHTML = action.label;
         btn.dataset.action = key;
+
         btn.onclick = (event) => {
             event.preventDefault();
             event.stopPropagation();
-            if (this.innerEditor) {
+
+            if (btn.dataset.action === 'source') {
+                this.toggleSourceView();
+            } else if (this.innerEditor && !this.isSourceView) {
                 action.command(this.innerEditor);
                 this.updateToolbarUI(this.innerEditor);
             }
@@ -114,12 +123,18 @@ export class Tiptap {
     }
 
     private initIframe() {
+        const container = document.createElement('div');
+        container.className = 'wysiwyg-container';
+
+        this.element.parentNode?.insertBefore(container, this.element);
+
+        container.appendChild(this.element);
+        this.element.className = 'wysiwyg-source-view';
         this.element.style.display = 'none';
 
         this.iframe = document.createElement('iframe');
-        this.iframe.className = 'wysiwyg-iframe'
-
-        this.element.parentNode?.insertBefore(this.iframe, this.element.nextSibling);
+        this.iframe.className = 'wysiwyg-iframe';
+        container.appendChild(this.iframe);
 
         const doc = this.iframe.contentDocument;
         if (!doc) return;
@@ -195,9 +210,40 @@ export class Tiptap {
             }
         })
     }
+
+    private toggleSourceView() {
+        this.isSourceView = !this.isSourceView;
+        const toolbar = this.element.parentElement?.querySelector('.wysiwyg-toolbar') as HTMLElement;
+        const sourceBtn = toolbar?.querySelector('[data-action="source"]');
+
+        if (this.isSourceView) {
+            this.element.value = this.innerEditor?.getHTML() || '';
+            this.element.style.display = 'block';
+            if (this.iframe) this.iframe.style.display = 'none';
+            sourceBtn?.classList.add('is-active');
+            this.setToolbarDisabled(toolbar, true);
+        } else {
+            this.innerEditor?.commands.setContent(this.element.value);
+            this.element.style.display = 'none';
+            if (this.iframe) this.iframe.style.display = 'block';
+            sourceBtn?.classList.remove('is-active');
+            this.setToolbarDisabled(toolbar, false);
+        }
+    }
+
+    private setToolbarDisabled(toolbar: HTMLElement, disabled: boolean) {
+        const buttons = toolbar.querySelectorAll('button:not([data-action="source"])');
+        buttons.forEach(btn => {
+            const b = btn as HTMLButtonElement;
+            b.disabled = disabled;
+            b.style.opacity = disabled ? '0.4' : '1';
+            b.style.cursor = disabled ? 'not-allowed' : 'pointer';
+        });
+    }
 }
 
 const GroupRegistry: Record<string, string[]> = {
+    'mode': ['source'],
     'undo': ['undo', 'redo'],
     'basicstyles': ['bold', 'italic', 'underline', 'strike'],
     'cleanup': ['clear'],
@@ -207,6 +253,11 @@ const GroupRegistry: Record<string, string[]> = {
 };
 
 const ActionRegistry: Record<string, ToolbarAction> = {
+    source: {
+        label: '<i class="fa-solid fa-code"></i>',
+        command: () => {},
+        isActive: () => false
+    },
     bold: {
         label: '<i class="fa-solid fa-bold"></i>',
         command: (e) => e.chain().focus().toggleBold().run(),

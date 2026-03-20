@@ -16,7 +16,8 @@ interface ConfigGroup {
 
 export interface ToolbarAction {
     label: string;
-    command: (editor: Editor) => void;
+    tooltip?: string;
+    command?: (editor: Editor) => void;
     isActive: (editor: Editor) => boolean;
 }
 
@@ -93,6 +94,10 @@ export class Tiptap {
         btn.innerHTML = action.label;
         btn.dataset.action = key;
 
+        if (action.tooltip) {
+            btn.title = action.tooltip;
+        }
+
         btn.onclick = (event) => {
             event.preventDefault();
             event.stopPropagation();
@@ -103,7 +108,7 @@ export class Tiptap {
             else if (btn.dataset.action === 'maximize') {
                 this.toggleMaximize();
             }
-            else if (this.innerEditor && !this.isSourceView) {
+            else if (this.innerEditor && !this.isSourceView && action.command) {
                 action.command(this.innerEditor);
                 this.updateToolbarUI(this.innerEditor);
             }
@@ -262,66 +267,77 @@ const GroupRegistry: Record<string, string[]> = {
 const ActionRegistry: Record<string, ToolbarAction> = {
     source: {
         label: '<i class="fa-solid fa-code"></i>',
-        command: () => {},
+        tooltip: 'Source Code',
         isActive: () => false
     },
     maximize: {
         label: '<i class="fa-solid fa-expand"></i>',
-        command: () => {},
+        tooltip: 'Maximize / Fullscreen',
         isActive: () => false
     },
     bold: {
         label: '<i class="fa-solid fa-bold"></i>',
+        tooltip: 'Bold (Ctrl+B)',
         command: (e) => e.chain().focus().toggleBold().run(),
         isActive: (e) => e.isActive('bold')
     },
     italic: {
         label: '<i class="fa-solid fa-italic"></i>',
+        tooltip: 'Italic (Ctrl+I)',
         command: (e) => e.chain().focus().toggleItalic().run(),
         isActive: (e) => e.isActive('italic')
     },
     underline: {
         label: '<i class="fa-solid fa-underline"></i>',
+        tooltip: 'Underline (Ctrl+U)',
         command: (e) => e.chain().focus().toggleUnderline().run(),
         isActive: (e) => e.isActive('underline')
     },
     strike: {
         label: '<i class="fa-solid fa-strikethrough"></i>',
+        tooltip: 'Strikethrough',
         command: (e) => e.chain().focus().toggleStrike().run(),
         isActive: (e) => e.isActive('strike')
     },
     undo: {
         label: '<i class="fa-solid fa-rotate-left"></i>',
+        tooltip: 'Undo (Ctrl+Z)',
         command: (e) => e.chain().focus().undo().run(),
         isActive: () => false
     },
     redo: {
         label: '<i class="fa-solid fa-rotate-right"></i>',
+        tooltip: 'Redo (Ctrl+Y)',
         command: (e) => e.chain().focus().redo().run(),
         isActive: () => false
     },
     clear: {
         label: '<i class="fa-solid fa-remove-format"></i>',
+        tooltip: 'Remove Formatting',
         command: (e) => e.chain().focus().unsetAllMarks().clearNodes().run(),
         isActive: () => false
     },
     horizontalRule: {
         label: '<i class="fa-solid fa-grip-lines"></i>',
+        tooltip: 'Insert Horizontal Line',
         command: (e) => e.chain().focus().setHorizontalRule().run(),
         isActive: () => false
     },
     bulletList: {
         label: '<i class="fa-solid fa-list-ul"></i>',
+        tooltip: 'Bullet List',
         command: (e) => e.chain().focus().toggleBulletList().run(),
         isActive: (e) => e.isActive('bulletList')
     },
     orderedList: {
         label: '<i class="fa-solid fa-list-ol"></i>',
+        tooltip: 'Numbered List',
         command: (e) => e.chain().focus().toggleOrderedList().run(),
         isActive: (e) => e.isActive('orderedList')
     },
     indent: {
         label: '<i class="fa-solid fa-indent"></i>',
+        tooltip: 'Increase Indent',
         command: (e) => {
             return e.chain().focus().command(({ tr, state }) => {
                 const { selection } = state;
@@ -338,6 +354,7 @@ const ActionRegistry: Record<string, ToolbarAction> = {
     },
     outdent: {
         label: '<i class="fa-solid fa-outdent"></i>',
+        tooltip: 'Decrease Indent',
         command: (e) => {
             return e.chain().focus().command(({ tr, state }) => {
                 const { selection } = state;
@@ -356,21 +373,25 @@ const ActionRegistry: Record<string, ToolbarAction> = {
     },
     alignLeft: {
         label: '<i class="fa-solid fa-align-left"></i>',
+        tooltip: 'Align Left',
         command: (e) => e.chain().focus().setTextAlign('left').run(),
         isActive: (e) => e.isActive({ textAlign: 'left' })
     },
     alignCenter: {
         label: '<i class="fa-solid fa-align-center"></i>',
+        tooltip: 'Align Center',
         command: (e) => e.chain().focus().setTextAlign('center').run(),
         isActive: (e) => e.isActive({ textAlign: 'center' })
     },
     alignRight: {
         label: '<i class="fa-solid fa-align-right"></i>',
+        tooltip: 'Align Right',
         command: (e) => e.chain().focus().setTextAlign('right').run(),
         isActive: (e) => e.isActive({ textAlign: 'right' })
     },
     alignJustify: {
         label: '<i class="fa-solid fa-align-justify"></i>',
+        tooltip: 'Justify',
         command: (e) => e.chain().focus().setTextAlign('justify').run(),
         isActive: (e) => e.isActive({ textAlign: 'justify' })
     }

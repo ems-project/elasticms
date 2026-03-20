@@ -6,6 +6,8 @@ import StarterKit from '@tiptap/starter-kit'
 import Paragraph from '@tiptap/extension-paragraph'
 
 import './../../../../css/core/components/wysiwyg.scss'
+import Underline from '@tiptap/extension-underline'
+import TextAlign from '@tiptap/extension-text-align'
 
 interface ConfigGroup {
     name: string;
@@ -138,6 +140,10 @@ export class Tiptap {
             min-height: 100%; 
             outline: none; 
         }
+        .ProseMirror p {
+            margin-bottom: 1em;
+            line-height: 1.5;
+        }
     `;
         doc.head.appendChild(style);
 
@@ -171,6 +177,12 @@ export class Tiptap {
                 StarterKit.configure({
                     paragraph: false
                 }),
+                Underline,
+                TextAlign.configure({
+                    types: ['heading', 'paragraph'],
+                    alignments: ['left', 'center', 'right', 'justify'],
+                    defaultAlignment: 'left',
+                }),
                 CustomParagraph,
             ],
            content: this.element.value,
@@ -187,10 +199,11 @@ export class Tiptap {
 
 const GroupRegistry: Record<string, string[]> = {
     'undo': ['undo', 'redo'],
-    'basicstyles': ['bold', 'italic', 'strike'],
+    'basicstyles': ['bold', 'italic', 'underline', 'strike'],
     'cleanup': ['clear'],
     'list': ['bulletList', 'orderedList'],
     'indent': ['outdent', 'indent'],
+    'align': ['alignLeft', 'alignCenter', 'alignRight', 'alignJustify'],
 };
 
 const ActionRegistry: Record<string, ToolbarAction> = {
@@ -203,6 +216,11 @@ const ActionRegistry: Record<string, ToolbarAction> = {
         label: '<i class="fa-solid fa-italic"></i>',
         command: (e) => e.chain().focus().toggleItalic().run(),
         isActive: (e) => e.isActive('italic')
+    },
+    underline: {
+        label: '<i class="fa-solid fa-underline"></i>',
+        command: (e) => e.chain().focus().toggleUnderline().run(),
+        isActive: (e) => e.isActive('underline')
     },
     strike: {
         label: '<i class="fa-solid fa-strikethrough"></i>',
@@ -267,5 +285,25 @@ const ActionRegistry: Record<string, ToolbarAction> = {
             }).run();
         },
         isActive: () => false
+    },
+    alignLeft: {
+        label: '<i class="fa-solid fa-align-left"></i>',
+        command: (e) => e.chain().focus().setTextAlign('left').run(),
+        isActive: (e) => e.isActive({ textAlign: 'left' })
+    },
+    alignCenter: {
+        label: '<i class="fa-solid fa-align-center"></i>',
+        command: (e) => e.chain().focus().setTextAlign('center').run(),
+        isActive: (e) => e.isActive({ textAlign: 'center' })
+    },
+    alignRight: {
+        label: '<i class="fa-solid fa-align-right"></i>',
+        command: (e) => e.chain().focus().setTextAlign('right').run(),
+        isActive: (e) => e.isActive({ textAlign: 'right' })
+    },
+    alignJustify: {
+        label: '<i class="fa-solid fa-align-justify"></i>',
+        command: (e) => e.chain().focus().setTextAlign('justify').run(),
+        isActive: (e) => e.isActive({ textAlign: 'justify' })
     }
 };

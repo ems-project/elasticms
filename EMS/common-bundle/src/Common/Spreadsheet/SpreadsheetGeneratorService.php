@@ -10,6 +10,7 @@ use EMS\Helpers\File\TempFile;
 use EMS\Helpers\Standard\DateTime;
 use PhpOffice\PhpSpreadsheet\Cell\AdvancedValueBinder;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\Cell\DefaultValueBinder;
 use PhpOffice\PhpSpreadsheet\Cell\StringValueBinder;
 use PhpOffice\PhpSpreadsheet\Settings;
@@ -142,6 +143,10 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
             $valueBinder = new DefaultValueBinder();
         }
 
+        if ($cell->isType(DataType::TYPE_STRING)) {
+            $valueBinder = new StringValueBinder();
+        }
+
         $value = $cell->isType(Cell::TYPE_DATE) ? Date::PHPToExcel($data) : Converter::stringify($data);
         $sheet->setCellValue($cellCoordinate, $value, $valueBinder ?? null);
 
@@ -204,7 +209,7 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
                 Cell::CELL_FORMAT_DISPLAY => null,
             ])
             ->setRequired([Cell::CELL_DATA])
-            ->setAllowedValues(Cell::CELL_TYPE, [null, 'date'])
+            ->setAllowedValues(Cell::CELL_TYPE, [null, 'date', DataType::TYPE_STRING])
             ->setAllowedTypes(Cell::CELL_STYLE, ['array'])
             ->setAllowedTypes(Cell::CELL_FORMAT_INPUT, ['null', 'string'])
             ->setAllowedTypes(Cell::CELL_FORMAT_DISPLAY, ['null', 'string'])

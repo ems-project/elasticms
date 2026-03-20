@@ -1,8 +1,9 @@
-import {EditorRevisionOptions} from './editorRevisionOptions.ts'
-import {EditorProfile} from './editorProfile.ts'
+import {EditorRevisionOptions} from './../../helpers/editorRevisionOptions.ts'
+import {EditorProfile} from './../../helpers/editorProfile.ts'
 
 import { Editor } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
+import './../../../../css/core/components/wysiwyg.scss'
 
 interface ConfigGroup {
     name: string;
@@ -45,18 +46,11 @@ export class Tiptap {
 
     private initToolbar() {
         const toolbar = document.createElement('div');
-        toolbar.className = 'editor-toolbar';
-        toolbar.style.display = 'flex';
-        toolbar.style.gap = '10px';
-        toolbar.style.padding = '5px';
-        toolbar.style.border = '1px solid #ccc';
+        toolbar.className = 'wysiwyg-toolbar';
 
         this.config.forEach(configGroup => {
             const groupDiv = document.createElement('div');
-            groupDiv.className = `toolbar-group-${configGroup.name}`;
-            groupDiv.style.display = 'flex';
-            groupDiv.style.borderRight = '1px solid #ddd';
-            groupDiv.style.paddingRight = '5px';
+            groupDiv.className = `wysiwyg-toolbar-group-${configGroup.name}`;
 
             configGroup.groups.forEach(actionKey => {
                 const action = ActionRegistry[actionKey];
@@ -90,14 +84,15 @@ export class Tiptap {
     }
 
     public updateToolbarUI(editor: Editor) {
+        const toolbar = this.element.nextSibling as HTMLElement;
+
         this.config.forEach(configGroup => {
             configGroup.groups.forEach(actionKey => {
                 const action = ActionRegistry[actionKey];
-                const btn = document.querySelector(`button[data-action="${actionKey}"]`) as HTMLButtonElement;
+                const btn = toolbar.querySelector(`button[data-action="${actionKey}"]`) as HTMLButtonElement;
 
                 if (btn && action) {
                     const active = action.isActive(editor);
-                    btn.style.backgroundColor = active ? '#ccc' : '';
                     btn.classList.toggle('is-active', active);
                 }
             });
@@ -108,9 +103,7 @@ export class Tiptap {
         this.element.style.display = 'none';
 
         this.iframe = document.createElement('iframe');
-        this.iframe.style.width = '100%';
-        this.iframe.style.minHeight = '200px';
-        this.iframe.style.border = '1px solid #ccc';
+        this.iframe.className = 'wysiwyg-iframe'
 
         this.element.parentNode?.insertBefore(this.iframe, this.element.nextSibling);
 
@@ -164,22 +157,22 @@ export class Tiptap {
 
 const ActionRegistry: Record<string, ToolbarAction> = {
     bold: {
-        label: '<b>B</b>',
+        label: '<i class="fa-solid fa-bold"></i>',
         command: (e) => e.chain().focus().toggleBold().run(),
         isActive: (e) => e.isActive('bold')
     },
     italic: {
-        label: '<i>I</i>',
+        label: '<i class="fa-solid fa-italic"></i>',
         command: (e) => e.chain().focus().toggleItalic().run(),
         isActive: (e) => e.isActive('italic')
     },
     undo: {
-        label: 'Undo',
+        label: '<i class="fa-solid fa-rotate-left"></i>',
         command: (e) => e.chain().focus().undo().run(),
         isActive: () => false
     },
     redo: {
-        label: 'Redo',
+        label: '<i class="fa-solid fa-rotate-right"></i>',
         command: (e) => e.chain().focus().redo().run(),
         isActive: () => false
     }

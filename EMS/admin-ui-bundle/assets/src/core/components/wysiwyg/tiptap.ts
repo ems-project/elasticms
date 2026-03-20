@@ -135,7 +135,6 @@ export class Tiptap {
 
         container.appendChild(this.element);
         this.element.className = 'wysiwyg-source-view';
-        this.element.style.display = 'none';
 
         this.iframe = document.createElement('iframe');
         this.iframe.className = 'wysiwyg-iframe';
@@ -240,18 +239,19 @@ export class Tiptap {
         const toolbar = container?.querySelector('.wysiwyg-toolbar') as HTMLElement;
         const sourceBtn = toolbar?.querySelector('[data-action="source"]');
 
-        if (this.isSourceView) {
-            this.element.value = this.innerEditor?.getHTML() || '';
-            this.element.style.display = 'block';
-            if (this.iframe) this.iframe.style.display = 'none';
-            sourceBtn?.classList.add('is-active');
-            this.setToolbarDisabled(toolbar, true);
-        } else {
-            this.innerEditor?.commands.setContent(this.element.value);
-            this.element.style.display = 'none';
-            if (this.iframe) this.iframe.style.display = 'block';
-            sourceBtn?.classList.remove('is-active');
-            this.setToolbarDisabled(toolbar, false);
+        if (container) {
+            container.classList.toggle('is-source-mode', this.isSourceView);
+            if (this.isSourceView) {
+                this.element.value = this.innerEditor?.getHTML() || '';
+                sourceBtn?.classList.add('is-active');
+                this.setToolbarDisabled(toolbar, true);
+                setTimeout(() => this.element.focus(), 10);
+            } else {
+                this.innerEditor?.commands.setContent(this.element.value);
+                sourceBtn?.classList.remove('is-active');
+                this.setToolbarDisabled(toolbar, false);
+                this.innerEditor?.commands.focus();
+            }
         }
     }
 

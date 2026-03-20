@@ -7,7 +7,16 @@
   resize: vertical;
   min-height: 150px;
   height: 250px;
-  transition: all 0.2s ease-in-out;
+
+  &.is-source-mode {
+    .wysiwyg-iframe {
+      display: none;
+    }
+
+    .wysiwyg-source-view {
+      display: block;
+    }
+  }
 
   &.is-maximized {
     position: fixed;
@@ -83,6 +92,7 @@
   }
 
   .wysiwyg-source-view {
+    display: none;
     resize: none;
     font-family: 'Courier New', monospace;
     padding: 15px;

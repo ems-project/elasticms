@@ -6,6 +6,7 @@ namespace EMS\CommonBundle\Tests\Unit\Common;
 
 use EMS\CommonBundle\Common\Spreadsheet\SpreadsheetGeneratorService;
 use EMS\CommonBundle\Common\Spreadsheet\SpreadsheetValidation;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -29,6 +30,16 @@ class SpreadsheetGeneratorTest extends TestCase
         $configColor = \json_decode('{"filename":"export_with_color","writer":"xlsx","active_sheet":0,"sheets":[{"name":"Export form with Color","color":"#FF0000","rows":[[{"data":"apple"},{"data":"banana","style":{"fill":{"fillType":"solid","color":{"rgb":"F9D73F"}}}}],[{"data":"pineapple","style":{"fill":{"fillType":"solid","color":{"rgb":"F9D73F"}}}},{"data":"strawberry","style":{}}]]}]}', true);
         $this->assertSame('Export form with Color', $this->callMethod($this->spreadSheetGenerator, 'buildUpSheets', [$configColor])->getActiveSheet()->getTitle());
         $this->assertSame('pineapple', $this->callMethod($this->spreadSheetGenerator, 'buildUpSheets', [$configColor])->getActiveSheet()->getCell('A2')->getValue());
+    }
+
+    public function testConfigWithTypeToExcel(): void
+    {
+        $config = \json_decode('{"filename":"export","writer":"xlsx","active_sheet":0,"sheets":[{"name":"Export form","color":"#FF0000","rows":[[{"data":"123","type":"s"},{"data":"apple"}],[{"data":"123"},{"data":"banana"}],[{"data":"23/08/2025","type":"date","format_input": "d/m/Y","format_display": "dd/mm/yyyy"},{"data":"banana"}]]}]}', true);
+        $this->assertSame('Export form', $this->callMethod($this->spreadSheetGenerator, 'buildUpSheets', [$config])->getActiveSheet()->getTitle());
+        $this->assertIsString($this->callMethod($this->spreadSheetGenerator, 'buildUpSheets', [$config])->getActiveSheet()->getCell('A1')->getValue());
+        $this->assertIsInt($this->callMethod($this->spreadSheetGenerator, 'buildUpSheets', [$config])->getActiveSheet()->getCell('A2')->getValue());
+        $date = $this->callMethod($this->spreadSheetGenerator, 'buildUpSheets', [$config])->getActiveSheet()->getCell('A3');
+        $this->assertTrue(Date::isDateTime($date));
     }
 
     public function testConfigWithValidationToExcel(): void

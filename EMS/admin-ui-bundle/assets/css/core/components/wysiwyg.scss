@@ -5,6 +5,7 @@
   border-radius: 4px;
   background: #fff;
   resize: vertical;
+  overflow: hidden;
   min-height: 150px;
   height: 250px;
 
@@ -27,6 +28,7 @@
     z-index: 9999;
     border-radius: 0;
     resize: none;
+    overflow: hidden;
   }
 
   .wysiwyg-toolbar {
@@ -84,11 +86,14 @@
 
   .wysiwyg-source-view,
   .wysiwyg-iframe {
-    flex-grow: 1;
-    height: 100%;
+    flex: 1;
+    height: auto;
+    min-height: 0;
     border: none !important;
     outline: none;
     display: block;
+    width: 100%;
+    margin: 0;
   }
 
   .wysiwyg-source-view {
@@ -96,7 +101,7 @@
     resize: none;
     font-family: 'Courier New', monospace;
     padding: 15px;
-    width: 100% !important;
     box-sizing: border-box;
+    color: #f8f8f2;
   }
 }

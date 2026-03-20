@@ -150,9 +150,8 @@ export class Tiptap {
         if (doc) {
             const style = doc.createElement('style');
             style.textContent = `
-                body { padding: 15px; font-family: sans-serif; }
+                body { margin: 0; font-family: sans-serif; margin: 10px }
                 .ProseMirror { outline: none; min-height: 100%; }
-                .ProseMirror p { margin-bottom: 1em; line-height: 1.5; }
             `;
             doc.head.appendChild(style);
             this.setupEditorInsideIframe(doc.body);

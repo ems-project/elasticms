@@ -5,46 +5,51 @@
   border: 1px solid #ced4da;
   border-bottom: none;
   border-radius: 4px 4px 0 0;
-  padding: 6px 0;
+  padding: 4px;
   flex-wrap: wrap;
-}
 
-[class^="wysiwyg-toolbar-"] {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  padding: 0 8px;
-  border-right: 1px solid #dee2e6;
-}
+  .wysiwyg-toolbar-section {
+    display: flex;
+    align-items: center;
+  }
 
-[class^="wysiwyg-toolbar-"]:last-child {
-  border-right: none;
-}
+  .wysiwyg-toolbar-group {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding: 0 8px;
+    border-right: 1px solid #dee2e6;
+  }
 
-.wysiwyg-toolbar button {
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  color: #495057;
-  cursor: pointer;
-  font-size: 14px;
-  height: 32px;
-  width: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-}
+  .wysiwyg-toolbar-section:last-child {
+    .wysiwyg-toolbar-group:last-child {
+      border-right: none;
+    }
+  }
 
-.wysiwyg-toolbar button:hover {
-  background-color: #e9ecef;
-  color: #000;
-}
+  button {
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    color: #495057;
+    cursor: pointer;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
 
-.wysiwyg-toolbar button.is-active {
-  background-color: #e2e6ea;
-  color: #007bff;
-  border-color: #adb5bd;
+    &:hover {
+      background-color: #e9ecef;
+    }
+
+    &.is-active {
+      background-color: #fff;
+      color: #007bff;
+      border-color: #adb5bd;
+    }
+  }
 }
 
 .wysiwyg-iframe {

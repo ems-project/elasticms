@@ -36,9 +36,11 @@ export class Tiptap {
         this.profile = profile
 
         this.config = [
-            { name: 'clipboard', groups: ['undo', 'redo'] },
-            { name: 'basicstyles', groups: ['bold', 'italic'] }
-        ];
+            {
+                name: 'default',
+                groups: Object.keys(GroupRegistry)
+            }
+        ];;
 
         this.initIframe()
         this.initToolbar()
@@ -48,54 +50,62 @@ export class Tiptap {
         const toolbar = document.createElement('div');
         toolbar.className = 'wysiwyg-toolbar';
 
-        this.config.forEach(configGroup => {
-            const groupDiv = document.createElement('div');
-            groupDiv.className = `wysiwyg-toolbar-group-${configGroup.name}`;
+        this.config.forEach(section => {
+            const sectionDiv = document.createElement('div');
+            sectionDiv.className = `wysiwyg-toolbar-section`;
 
-            configGroup.groups.forEach(actionKey => {
-                const action = ActionRegistry[actionKey];
+            section.groups.forEach(groupName => {
+                const groupDiv = document.createElement('div');
+                groupDiv.className = 'wysiwyg-toolbar-group';
 
-                if (action) {
-                    const btn = document.createElement('button');
-                    btn.type = 'button';
-                    btn.innerHTML = action.label;
-                    btn.dataset.action = actionKey;
+                const items = GroupRegistry[groupName] || [];
+                items.forEach(actionKey => {
+                    const action = ActionRegistry[actionKey];
+                    if (action) {
+                        groupDiv.appendChild(this.createButton(actionKey, action));
+                    }
+                });
 
-                    btn.onclick = (event) => {
-                        event.preventDefault();
-                        event.stopPropagation();
-
-                        if (this.innerEditor) {
-                            action.command(this.innerEditor);
-                            this.updateToolbarUI(this.innerEditor);
-                        }
-                    };
-
-                    groupDiv.appendChild(btn);
-                } else {
-                    console.warn(`Actie "${actionKey}" niet gevonden in ActionRegistry.`);
+                if (groupDiv.children.length > 0) {
+                    sectionDiv.appendChild(groupDiv);
                 }
             });
 
-            toolbar.appendChild(groupDiv);
+            toolbar.appendChild(sectionDiv);
         });
 
         this.element.parentNode?.insertBefore(toolbar, this.element.nextSibling);
     }
 
+    private createButton(key: string, action: ToolbarAction): HTMLButtonElement {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.innerHTML = action.label;
+        btn.dataset.action = key;
+        btn.onclick = (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            if (this.innerEditor) {
+                action.command(this.innerEditor);
+                this.updateToolbarUI(this.innerEditor);
+            }
+        };
+        return btn;
+    }
+
     public updateToolbarUI(editor: Editor) {
         const toolbar = this.element.nextSibling as HTMLElement;
+        if (!toolbar || !toolbar.classList.contains('wysiwyg-toolbar')) return;
 
-        this.config.forEach(configGroup => {
-            configGroup.groups.forEach(actionKey => {
-                const action = ActionRegistry[actionKey];
-                const btn = toolbar.querySelector(`button[data-action="${actionKey}"]`) as HTMLButtonElement;
+        const buttons = toolbar.querySelectorAll('button[data-action]');
+        buttons.forEach(btn => {
+            const actionKey = (btn as HTMLElement).dataset.action;
+            const action = actionKey ? ActionRegistry[actionKey] : null;
 
-                if (btn && action) {
-                    const active = action.isActive(editor);
-                    btn.classList.toggle('is-active', active);
-                }
-            });
+            if (action) {
+                const active = action.isActive(editor);
+                btn.classList.toggle('is-active', active);
+            }
         });
     }
 
@@ -155,6 +165,13 @@ export class Tiptap {
     }
 }
 
+const GroupRegistry: Record<string, string[]> = {
+    'undo': ['undo', 'redo'],
+    'basicstyles': ['bold', 'italic', 'strike'],
+    'cleanup': ['clear'],
+    'list': ['bulletList', 'orderedList']
+};
+
 const ActionRegistry: Record<string, ToolbarAction> = {
     bold: {
         label: '<i class="fa-solid fa-bold"></i>',
@@ -166,6 +183,11 @@ const ActionRegistry: Record<string, ToolbarAction> = {
         command: (e) => e.chain().focus().toggleItalic().run(),
         isActive: (e) => e.isActive('italic')
     },
+    strike: {
+        label: '<i class="fa-solid fa-strikethrough"></i>',
+        command: (e) => e.chain().focus().toggleStrike().run(),
+        isActive: (e) => e.isActive('strike')
+    },
     undo: {
         label: '<i class="fa-solid fa-rotate-left"></i>',
         command: (e) => e.chain().focus().undo().run(),
@@ -175,5 +197,20 @@ const ActionRegistry: Record<string, ToolbarAction> = {
         label: '<i class="fa-solid fa-rotate-right"></i>',
         command: (e) => e.chain().focus().redo().run(),
         isActive: () => false
+    },
+    clear: {
+        label: '<i class="fa-solid fa-remove-format"></i>',
+        command: (e) => e.chain().focus().unsetAllMarks().clearNodes().run(),
+        isActive: () => false
+    },
+    bulletList: {
+        label: '<i class="fa-solid fa-list-ul"></i>',
+        command: (e) => e.chain().focus().toggleBulletList().run(),
+        isActive: (e) => e.isActive('bulletList')
+    },
+    orderedList: {
+        label: '<i class="fa-solid fa-list-ol"></i>',
+        command: (e) => e.chain().focus().toggleOrderedList().run(),
+        isActive: (e) => e.isActive('orderedList')
     }
 };

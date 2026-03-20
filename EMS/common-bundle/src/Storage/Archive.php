@@ -210,4 +210,27 @@ class Archive implements \JsonSerializable, FileInterface
 
         return $this->tempFile->path;
     }
+
+    public function isFilePathExists(string $path): bool
+    {
+        return isset($this->files[$path]) ? true : false;
+    }
+
+    public function addOrReplaceFileByPath(ArchiveItem $file): void
+    {
+        if ($this->isFilePathExists($file->filename)) {
+            $this->addArchiveItem($file);
+        } else {
+            throw new \RuntimeException(\sprintf('The file path %s no exists', $file->filename));
+        }
+    }
+
+    public function removeFilePath(string $path): void
+    {
+        if ($this->isFilePathExists($path)) {
+
+        } else {
+            throw new \RuntimeException(\sprintf('The file path %s no exists', $path));
+        }
+    }
 }

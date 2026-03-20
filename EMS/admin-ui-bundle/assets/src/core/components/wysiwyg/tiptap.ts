@@ -3,6 +3,8 @@ import {EditorProfile} from './../../helpers/editorProfile.ts'
 
 import { Editor } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
+import Paragraph from '@tiptap/extension-paragraph'
+
 import './../../../../css/core/components/wysiwyg.scss'
 
 interface ConfigGroup {
@@ -40,7 +42,7 @@ export class Tiptap {
                 name: 'default',
                 groups: Object.keys(GroupRegistry)
             }
-        ];;
+        ];
 
         this.initIframe()
         this.initToolbar()
@@ -148,10 +150,28 @@ export class Tiptap {
         const doc = this.iframe.contentDocument
         if (!doc) return;
 
+        const CustomParagraph = Paragraph.extend({
+            addAttributes() {
+                return {
+                    indent: {
+                        default: 0,
+                        renderHTML: attributes => {
+                            if (attributes.indent === 0) return {}
+                            return { style: `margin-left: ${attributes.indent * 20}px` }
+                        },
+                        parseHTML: element => parseInt(element.style.marginLeft) / 20 || 0,
+                    },
+                }
+            },
+        })
+
         this.innerEditor = new Editor({
            element: mountElement,
             extensions: [
-                StarterKit,
+                StarterKit.configure({
+                    paragraph: false
+                }),
+                CustomParagraph,
             ],
            content: this.element.value,
             onUpdate: ({ editor }) => {
@@ -169,7 +189,8 @@ const GroupRegistry: Record<string, string[]> = {
     'undo': ['undo', 'redo'],
     'basicstyles': ['bold', 'italic', 'strike'],
     'cleanup': ['clear'],
-    'list': ['bulletList', 'orderedList']
+    'list': ['bulletList', 'orderedList'],
+    'indent': ['outdent', 'indent'],
 };
 
 const ActionRegistry: Record<string, ToolbarAction> = {
@@ -212,5 +233,39 @@ const ActionRegistry: Record<string, ToolbarAction> = {
         label: '<i class="fa-solid fa-list-ol"></i>',
         command: (e) => e.chain().focus().toggleOrderedList().run(),
         isActive: (e) => e.isActive('orderedList')
+    },
+    indent: {
+        label: '<i class="fa-solid fa-indent"></i>',
+        command: (e) => {
+            return e.chain().focus().command(({ tr, state }) => {
+                const { selection } = state;
+                tr.doc.nodesBetween(selection.from, selection.to, (node, pos) => {
+                    if (node.type.name === 'paragraph' || node.type.name === 'heading') {
+                        const currentIndent = node.attrs.indent || 0;
+                        tr.setNodeMarkup(pos, undefined, { ...node.attrs, indent: currentIndent + 1 });
+                    }
+                });
+                return true;
+            }).run();
+        },
+        isActive: () => false
+    },
+    outdent: {
+        label: '<i class="fa-solid fa-outdent"></i>',
+        command: (e) => {
+            return e.chain().focus().command(({ tr, state }) => {
+                const { selection } = state;
+                tr.doc.nodesBetween(selection.from, selection.to, (node, pos) => {
+                    if (node.type.name === 'paragraph' || node.type.name === 'heading') {
+                        const currentIndent = node.attrs.indent || 0;
+                        if (currentIndent > 0) {
+                            tr.setNodeMarkup(pos, undefined, { ...node.attrs, indent: currentIndent - 1 });
+                        }
+                    }
+                });
+                return true;
+            }).run();
+        },
+        isActive: () => false
     }
 };

@@ -260,7 +260,8 @@ const GroupRegistry: Record<string, string[]> = {
     'list': ['bulletList', 'orderedList'],
     'indent': ['outdent', 'indent'],
     'align': ['alignLeft', 'alignCenter', 'alignRight', 'alignJustify'],
-    'insert': ['horizontalRule']
+    'insert': ['horizontalRule'],
+    'blocks': ['blockquote']
 };
 
 const ActionRegistry: Record<string, ToolbarAction> = {
@@ -321,6 +322,12 @@ const ActionRegistry: Record<string, ToolbarAction> = {
         tooltip: 'Insert Horizontal Line',
         command: (e) => e.chain().focus().setHorizontalRule().run(),
         isActive: () => false
+    },
+    blockquote: {
+        label: '<i class="fa-solid fa-quote-right"></i>',
+        tooltip: 'Blockquote (Ctrl+Shift+B)',
+        command: (e) => e.chain().focus().toggleBlockquote().run(),
+        isActive: (e) => e.isActive('blockquote')
     },
     bulletList: {
         label: '<i class="fa-solid fa-list-ul"></i>',

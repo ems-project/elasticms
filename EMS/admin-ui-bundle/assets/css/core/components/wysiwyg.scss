@@ -4,9 +4,13 @@
   border: 1px solid #ced4da;
   border-radius: 4px;
   overflow: hidden;
+  resize: vertical;
+  min-height: 150px;
+  height: 250px;
 
   .wysiwyg-toolbar {
     display: flex;
+    flex-shrink: 0;
     align-items: center;
     background-color: #f8f9fa;
     border-bottom: 1px solid #ced4da;
@@ -57,19 +61,20 @@
     }
   }
 
-  .wysiwyg-source-view {
+  .wysiwyg-source-view,
+  .wysiwyg-iframe {
+    flex-grow: 1;
+    height: 100%;
     border: none !important;
     outline: none;
+    display: block;
+  }
+
+  .wysiwyg-source-view {
+    resize: none;
     font-family: 'Courier New', monospace;
     padding: 15px;
     width: 100% !important;
     box-sizing: border-box;
-    resize: vertical;
-  }
-
-  .wysiwyg-iframe {
-    border: none !important;
-    width: 100%;
-    display: block;
   }
 }

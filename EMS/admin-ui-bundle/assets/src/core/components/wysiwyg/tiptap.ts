@@ -213,7 +213,8 @@ export class Tiptap {
 
     private toggleSourceView() {
         this.isSourceView = !this.isSourceView;
-        const toolbar = this.element.parentElement?.querySelector('.wysiwyg-toolbar') as HTMLElement;
+        const container = this.element.parentElement;
+        const toolbar = container?.querySelector('.wysiwyg-toolbar') as HTMLElement;
         const sourceBtn = toolbar?.querySelector('[data-action="source"]');
 
         if (this.isSourceView) {

@@ -22,6 +22,7 @@ export interface ToolbarAction {
 
 export class Tiptap {
     isSourceView: boolean = false;
+    isMaximized: boolean = false;
 
     element: HTMLTextAreaElement
     options: EditorRevisionOptions | null
@@ -98,7 +99,11 @@ export class Tiptap {
 
             if (btn.dataset.action === 'source') {
                 this.toggleSourceView();
-            } else if (this.innerEditor && !this.isSourceView) {
+            }
+            else if (btn.dataset.action === 'maximize') {
+                this.toggleMaximize();
+            }
+            else if (this.innerEditor && !this.isSourceView) {
                 action.command(this.innerEditor);
                 this.updateToolbarUI(this.innerEditor);
             }
@@ -211,6 +216,24 @@ export class Tiptap {
         })
     }
 
+    private toggleMaximize() {
+        this.isMaximized = !this.isMaximized;
+        const container = this.element.parentElement;
+        const btn = container?.querySelector('[data-action="maximize"]') as HTMLElement;
+
+        if (container) {
+            container.classList.toggle('is-maximized', this.isMaximized);
+
+            if (this.isMaximized) {
+                btn.innerHTML = '<i class="fa-solid fa-compress"></i>';
+                document.body.style.overflow = 'hidden';
+            } else {
+                btn.innerHTML = '<i class="fa-solid fa-expand"></i>';
+                document.body.style.overflow = '';
+            }
+        }
+    }
+
     private toggleSourceView() {
         this.isSourceView = !this.isSourceView;
         const container = this.element.parentElement;
@@ -244,7 +267,7 @@ export class Tiptap {
 }
 
 const GroupRegistry: Record<string, string[]> = {
-    'mode': ['source'],
+    'mode': ['source', 'maximize'],
     'undo': ['undo', 'redo'],
     'basicstyles': ['bold', 'italic', 'underline', 'strike'],
     'cleanup': ['clear'],
@@ -256,6 +279,11 @@ const GroupRegistry: Record<string, string[]> = {
 const ActionRegistry: Record<string, ToolbarAction> = {
     source: {
         label: '<i class="fa-solid fa-code"></i>',
+        command: () => {},
+        isActive: () => false
+    },
+    maximize: {
+        label: '<i class="fa-solid fa-expand"></i>',
         command: () => {},
         isActive: () => false
     },

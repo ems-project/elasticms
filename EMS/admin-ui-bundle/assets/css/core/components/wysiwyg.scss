@@ -3,10 +3,22 @@
   flex-direction: column;
   border: 1px solid #ced4da;
   border-radius: 4px;
-  overflow: hidden;
+  background: #fff;
   resize: vertical;
   min-height: 150px;
   height: 250px;
+  transition: all 0.2s ease-in-out;
+
+  &.is-maximized {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 9999;
+    border-radius: 0;
+    resize: none;
+  }
 
   .wysiwyg-toolbar {
     display: flex;

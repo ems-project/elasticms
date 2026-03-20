@@ -4,10 +4,10 @@ import {EditorProfile} from './../../helpers/editorProfile.ts'
 import { Editor } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
 import Paragraph from '@tiptap/extension-paragraph'
-
-import './../../../../css/core/components/wysiwyg.scss'
 import Underline from '@tiptap/extension-underline'
 import TextAlign from '@tiptap/extension-text-align'
+
+import './../../../../css/core/components/wysiwyg.scss'
 
 interface ConfigGroup {
     name: string;
@@ -112,8 +112,10 @@ export class Tiptap {
     }
 
     public updateToolbarUI(editor: Editor) {
-        const toolbar = this.element.nextSibling as HTMLElement;
-        if (!toolbar || !toolbar.classList.contains('wysiwyg-toolbar')) return;
+        const container = this.element.parentElement;
+        const toolbar = container?.querySelector('.wysiwyg-toolbar') as HTMLElement;
+
+        if (!toolbar) return;
 
         const buttons = toolbar.querySelectorAll('button[data-action]');
         buttons.forEach(btn => {
@@ -130,7 +132,6 @@ export class Tiptap {
     private initIframe() {
         const container = document.createElement('div');
         container.className = 'wysiwyg-container';
-
         this.element.parentNode?.insertBefore(container, this.element);
 
         container.appendChild(this.element);
@@ -141,32 +142,16 @@ export class Tiptap {
         container.appendChild(this.iframe);
 
         const doc = this.iframe.contentDocument;
-        if (!doc) return;
-
-        const style = doc.createElement('style');
-        style.textContent = `
-        html, body{
-            height: auto; 
-            margin: 0; 
-            padding: 0; 
+        if (doc) {
+            const style = doc.createElement('style');
+            style.textContent = `
+                body { padding: 15px; font-family: sans-serif; }
+                .ProseMirror { outline: none; min-height: 100%; }
+                .ProseMirror p { margin-bottom: 1em; line-height: 1.5; }
+            `;
+            doc.head.appendChild(style);
+            this.setupEditorInsideIframe(doc.body);
         }
-        body{
-            padding: 15px; 
-            font-family: sans-serif; 
-            cursor: text; 
-        }
-        .ProseMirror{
-            min-height: 100%; 
-            outline: none; 
-        }
-        .ProseMirror p {
-            margin-bottom: 1em;
-            line-height: 1.5;
-        }
-    `;
-        doc.head.appendChild(style);
-
-        this.setupEditorInsideIframe(doc.body);
     }
 
     private setupEditorInsideIframe(mountElement: HTMLElement) {
@@ -211,26 +196,11 @@ export class Tiptap {
             },
             onSelectionUpdate: ({ editor }) => {
                 this.updateToolbarUI(editor);
+            },
+            onTransaction: ({ editor }) => {
+                this.updateToolbarUI(editor);
             }
         })
-    }
-
-    private toggleMaximize() {
-        this.isMaximized = !this.isMaximized;
-        const container = this.element.parentElement;
-        const btn = container?.querySelector('[data-action="maximize"]') as HTMLElement;
-
-        if (container) {
-            container.classList.toggle('is-maximized', this.isMaximized);
-
-            if (this.isMaximized) {
-                btn.innerHTML = '<i class="fa-solid fa-compress"></i>';
-                document.body.style.overflow = 'hidden';
-            } else {
-                btn.innerHTML = '<i class="fa-solid fa-expand"></i>';
-                document.body.style.overflow = '';
-            }
-        }
     }
 
     private toggleSourceView() {
@@ -245,13 +215,25 @@ export class Tiptap {
                 this.element.value = this.innerEditor?.getHTML() || '';
                 sourceBtn?.classList.add('is-active');
                 this.setToolbarDisabled(toolbar, true);
-                setTimeout(() => this.element.focus(), 10);
             } else {
                 this.innerEditor?.commands.setContent(this.element.value);
                 sourceBtn?.classList.remove('is-active');
                 this.setToolbarDisabled(toolbar, false);
-                this.innerEditor?.commands.focus();
             }
+        }
+    }
+
+    private toggleMaximize() {
+        this.isMaximized = !this.isMaximized;
+        const container = this.element.parentElement;
+        const btn = container?.querySelector('[data-action="maximize"]') as HTMLElement;
+
+        if (container) {
+            container.classList.toggle('is-maximized', this.isMaximized);
+            btn.innerHTML = this.isMaximized
+                ? '<i class="fa-solid fa-compress"></i>'
+                : '<i class="fa-solid fa-expand"></i>';
+            document.body.style.overflow = this.isMaximized ? 'hidden' : '';
         }
     }
 
@@ -274,6 +256,7 @@ const GroupRegistry: Record<string, string[]> = {
     'list': ['bulletList', 'orderedList'],
     'indent': ['outdent', 'indent'],
     'align': ['alignLeft', 'alignCenter', 'alignRight', 'alignJustify'],
+    'insert': ['horizontalRule']
 };
 
 const ActionRegistry: Record<string, ToolbarAction> = {
@@ -320,6 +303,11 @@ const ActionRegistry: Record<string, ToolbarAction> = {
     clear: {
         label: '<i class="fa-solid fa-remove-format"></i>',
         command: (e) => e.chain().focus().unsetAllMarks().clearNodes().run(),
+        isActive: () => false
+    },
+    horizontalRule: {
+        label: '<i class="fa-solid fa-grip-lines"></i>',
+        command: (e) => e.chain().focus().setHorizontalRule().run(),
         isActive: () => false
     },
     bulletList: {

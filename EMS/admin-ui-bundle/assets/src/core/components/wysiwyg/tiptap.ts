@@ -260,7 +260,7 @@ const GroupRegistry: Record<string, string[]> = {
     'list': ['bulletList', 'orderedList'],
     'indent': ['outdent', 'indent'],
     'align': ['alignLeft', 'alignCenter', 'alignRight', 'alignJustify'],
-    'insert': ['horizontalRule'],
+    'insert': ['link', 'unlink','horizontalRule'],
     'blocks': ['blockquote']
 };
 
@@ -321,6 +321,17 @@ const ActionRegistry: Record<string, ToolbarAction> = {
         label: '<i class="fa-solid fa-grip-lines"></i>',
         tooltip: 'Insert Horizontal Line',
         command: (e) => e.chain().focus().setHorizontalRule().run(),
+        isActive: () => false
+    },
+    link: {
+        label: '<i class="fa-solid fa-link"></i>',
+        tooltip: 'Insert Link',
+        isActive: (e) => e.isActive('link')
+    },
+    unlink: {
+        label: '<i class="fa-solid fa-link-slash"></i>',
+        tooltip: 'Remove Link',
+        command: (e) => e.chain().focus().unsetLink().run(),
         isActive: () => false
     },
     blockquote: {

@@ -174,7 +174,7 @@ class Archive implements \JsonSerializable, FileInterface
         return $newArchive;
     }
 
-    private function addArchiveItem(ArchiveItem $file): void
+    public function addArchiveItem(ArchiveItem $file): void
     {
         $this->files[$file->filename] = $file;
     }
@@ -213,20 +213,13 @@ class Archive implements \JsonSerializable, FileInterface
 
     public function isFilePathExists(string $path): bool
     {
-        return isset($this->files[$path]) ? true : false;
-    }
-
-    public function addOrReplaceFileByPath(ArchiveItem $file): void
-    {
-        $this->addArchiveItem($file);
+        return null !== ($this->files[$path] ?? null);
     }
 
     public function removeFilePath(string $path): void
     {
         if ($this->isFilePathExists($path)) {
             unset($this->files[$path]);
-        } else {
-            throw new \RuntimeException(\sprintf('The file path %s no exists', $path));
         }
     }
 }

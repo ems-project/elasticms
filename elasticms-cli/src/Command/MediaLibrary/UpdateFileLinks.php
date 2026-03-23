@@ -38,7 +38,6 @@ final class UpdateFileLinks extends AbstractCommand
     private const string ARGUMENT_FIELDS = 'fields';
     private const string OPTION_MEDIA_LIBRARY_CONTENT_TYPE = 'content-type';
     private const string OPTION_FILE_FIELD = 'file-field';
-    private const string OPTION_MIME_TYPE = 'mime-type';
     private const string OPTION_FORCE = 'force';
     private CoreApiInterface $coreApi;
     private string $contentTypeName;
@@ -47,9 +46,10 @@ final class UpdateFileLinks extends AbstractCommand
     /** @var array<array{message: string, emsLink: EMSLink, url: string, value: string}> */
     private array $logConflictsReports;
     /** @var string[] */
-    private array $fields;
-    private string $mediaLibraryContentType;
-    private string $fileField;
+    private array $fieldNames;
+    private string $mediaLibraryContentTypeName;
+    private string $mediaLibraryContentTypeEnvironmentAlias;
+    private string $fileFieldName;
     private string $mimeType;
     private bool $force;
 
@@ -68,7 +68,6 @@ final class UpdateFileLinks extends AbstractCommand
             ->addArgument(self::ARGUMENT_FIELDS, InputArgument::IS_ARRAY, 'Fields to search for. Write words separated by spaces')
             ->addOption(self::OPTION_MEDIA_LIBRARY_CONTENT_TYPE, null, InputOption::VALUE_OPTIONAL, 'Media library content type\'s name', 'media_file')
             ->addOption(self::OPTION_FILE_FIELD, null, InputOption::VALUE_OPTIONAL, 'File field', 'media_file')
-            ->addOption(self::OPTION_MIME_TYPE, null, InputOption::VALUE_OPTIONAL, 'Type of spreadsheet document', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
             ->addOption(self::OPTION_FORCE, null, InputOption::VALUE_NONE, 'Updates links. By default, only writes logs');
     }
 
@@ -77,14 +76,15 @@ final class UpdateFileLinks extends AbstractCommand
     {
         parent::initialize($input, $output);
         $this->contentTypeName = $this->getArgumentString(self::ARGUMENT_CONTENT_TYPE);
-        $this->fields = $this->getArgumentStringArray(self::ARGUMENT_FIELDS);
-        $this->mediaLibraryContentType = $this->getOptionString(self::OPTION_MEDIA_LIBRARY_CONTENT_TYPE);
-        $this->fileField = $this->getOptionString(self::OPTION_FILE_FIELD);
+        $this->fieldNames = $this->getArgumentStringArray(self::ARGUMENT_FIELDS);
+        $this->mediaLibraryContentTypeName = $this->getOptionString(self::OPTION_MEDIA_LIBRARY_CONTENT_TYPE);
+        $this->fileFieldName = $this->getOptionString(self::OPTION_FILE_FIELD);
         $this->coreApi = $this->adminHelper->getCoreApi();
-        $this->mimeType = $this->getOptionString(self::OPTION_MIME_TYPE);
+        $this->mimeType = MimeTypes::APPLICATION_XLSX->value;
         $this->force = $input->getOption(self::OPTION_FORCE) ?? false;
         $this->logReports = [];
         $this->logConflictsReports = [];
+        $this->mediaLibraryContentTypeEnvironmentAlias = $this->coreApi->meta()->getDefaultContentTypeEnvironmentAlias($this->mediaLibraryContentTypeName);
     }
 
     #[\Override]
@@ -101,7 +101,7 @@ final class UpdateFileLinks extends AbstractCommand
         $defaultAlias = $this->coreApi->meta()->getDefaultContentTypeEnvironmentAlias($this->contentTypeName);
         $search = new Search([$defaultAlias]);
         $search->setContentTypes([$this->contentTypeName]);
-        $search->setSources(['*']);
+        $search->setSources(\array_map(fn (string $field) => \preg_replace('/\[([^\]]+)\]/', '.$1', $field), $this->fieldNames));
 
         $this->io->section(\sprintf('Start analyzing %s', $this->contentTypeName));
         $this->io->progressStart($this->coreApi->search()->count($search));
@@ -109,7 +109,8 @@ final class UpdateFileLinks extends AbstractCommand
         foreach ($this->coreApi->search()->scroll($search) as $hit) {
             $this->updateDocument($hit);
             $this->io->progressAdvance();
-        }$this->io->progressFinish();
+        }
+        $this->io->progressFinish();
 
         if ([] === $this->logReports && [] === $this->logConflictsReports) {
             $this->io->success('No conflicting nor asset file links found.');
@@ -138,7 +139,7 @@ final class UpdateFileLinks extends AbstractCommand
 
     private function updateDocument(DocumentInterface $document): void
     {
-        foreach ($this->fields as $field) {
+        foreach ($this->fieldNames as $field) {
             $this->updateField($document, $field);
         }
     }
@@ -148,7 +149,6 @@ final class UpdateFileLinks extends AbstractCommand
         $propertyAccessor = PropertyAccessor::createPropertyAccessor();
         $rawData = $document->getSource();
         foreach ($propertyAccessor->iterator($propertyPath, $rawData) as $property => $value) {
-            dump($property, $value);
             $this->updateProperty($property, $value);
         }
     }
@@ -173,23 +173,23 @@ final class UpdateFileLinks extends AbstractCommand
         $link = EMSLink::fromMatch($match);
         $hash = $link->getOuuid();
         $found = $this->findMediaFileByHash($link, $hash, $value);
-        if ($found && $this->force) {
-            $value = \str_replace($match[0], $found->jsonSerialize(), $value);
-        } else {
+        if ($found) {
+            if ($this->force) {
+                $value = \str_replace($match[0], $found->jsonSerialize(), $value);
+            }
             $this->logAssetLink($key, EMSLink::fromMatch($match), $value);
         }
     }
 
     private function findMediaFileByHash(EMSLink $link, string $hash, mixed $value): ?EMSLink
     {
-        $alias = $this->coreApi->meta()->getDefaultContentTypeEnvironmentAlias($this->mediaLibraryContentType);
         $term = new Term();
-        $term->setTerm(\implode('.', [$this->fileField, EmsFields::CONTENT_FILE_HASH_FIELD]), $hash);
+        $term->setTerm(\implode('.', [$this->fileFieldName, EmsFields::CONTENT_FILE_HASH_FIELD]), $hash);
         $nested = new Nested();
-        $nested->setPath($this->fileField);
+        $nested->setPath($this->fileFieldName);
         $nested->setQuery($term);
-        $search = new Search([$alias], $nested);
-        $search->setContentTypes([$this->mediaLibraryContentType]);
+        $search = new Search([$this->mediaLibraryContentTypeEnvironmentAlias], $nested);
+        $search->setContentTypes([$this->mediaLibraryContentTypeName]);
         $search->setSize(1);
         $result = $this->coreApi->search()->search($search);
         if ($result->getTotal() > 1) {
@@ -205,12 +205,16 @@ final class UpdateFileLinks extends AbstractCommand
     private function logAssetLink(mixed $key, EMSLink $emsLink, string $value): void
     {
         $query = $emsLink->getQuery();
-        $this->logReports[] = [
+        $report = [
             'key' => $key,
             'emsLink' => $emsLink,
             'url' => $this->buildUrl($emsLink->getOuuid(), Type::string($query['type'] ?? MimeTypes::APPLICATION_BIN->value), Type::string($query['name'] ?? 'filename.bin')),
             'value' => $value,
         ];
+        if ($this->force) {
+            $report['status'] = 'Existing asset link successfully replaced.';
+        }
+        $this->logReports[] = $report;
     }
 
     private function logConflict(EMSLink $emsLink, string $value, string $message = ''): void

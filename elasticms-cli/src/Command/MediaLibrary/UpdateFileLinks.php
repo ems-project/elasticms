@@ -122,7 +122,7 @@ final class UpdateFileLinks extends AbstractCommand
                 SpreadsheetGeneratorService::CONTENT_FILENAME => 'UpdateFileLinks - Rapport.xlsx',
                 SpreadsheetGeneratorService::WRITER => SpreadsheetGeneratorService::XLSX_WRITER,
                 SpreadsheetGeneratorService::SHEETS => [[
-                    'rows' => [['Key', 'EMSLink', 'Link', 'Value'], ...$this->logReports],
+                    'rows' => [['Status', 'Key', 'EMSLink', 'Link', 'Value'], ...$this->logReports],
                     'name' => 'elasticMS files',
                 ], [
                     'rows' => [['Conflicting documents', 'EMSLink', 'Link', 'Value'], ...$this->logConflictsReports],
@@ -173,12 +173,15 @@ final class UpdateFileLinks extends AbstractCommand
         $link = EMSLink::fromMatch($match);
         $hash = $link->getOuuid();
         $found = $this->findMediaFileByHash($link, $hash, $value);
+        $status = 'No Media Library object link found.';
         if ($found) {
+            $status = 'Asset link found but not replaced.';
             if ($this->force) {
                 $value = \str_replace($match[0], $found->jsonSerialize(), $value);
+                $status = 'Existing asset link successfully replaced.';
             }
-            $this->logAssetLink($key, EMSLink::fromMatch($match), $value);
         }
+        $this->logAssetLink($key, EMSLink::fromMatch($match), $value, $status);
     }
 
     private function findMediaFileByHash(EMSLink $link, string $hash, mixed $value): ?EMSLink
@@ -202,19 +205,16 @@ final class UpdateFileLinks extends AbstractCommand
         return null;
     }
 
-    private function logAssetLink(mixed $key, EMSLink $emsLink, string $value): void
+    private function logAssetLink(mixed $key, EMSLink $emsLink, string $value, string $status = ''): void
     {
         $query = $emsLink->getQuery();
-        $report = [
+        $this->logReports[] = [
+            'status' => $status,
             'key' => $key,
             'emsLink' => $emsLink,
             'url' => $this->buildUrl($emsLink->getOuuid(), Type::string($query['type'] ?? MimeTypes::APPLICATION_BIN->value), Type::string($query['name'] ?? 'filename.bin')),
             'value' => $value,
         ];
-        if ($this->force) {
-            $report['status'] = 'Existing asset link successfully replaced.';
-        }
-        $this->logReports[] = $report;
     }
 
     private function logConflict(EMSLink $emsLink, string $value, string $message = ''): void

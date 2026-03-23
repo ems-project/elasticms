@@ -1,5 +1,17 @@
 # Changelog 7.x
 
+## 7.1.0 (2026-03-23)
+### Features
+* feat(adminUI): vite8 and eslint 10 by @Davidmattei in https://github.com/ems-project/elasticms/pull/1624
+* feat(common/spreadsheet): cell type option 's' for string by @IsaMic in https://github.com/ems-project/elasticms/pull/1626
+* feat(demo): json error template (+add content if 400 bad request) by @theus77 in https://github.com/ems-project/elasticms/pull/1617
+* feat(web/inline-edit): implement a inline editor by @Davidmattei in https://github.com/ems-project/elasticms/pull/1599
+### Bug Fixes
+* fix(web): local push route without query by @theus77 in https://github.com/ems-project/elasticms/pull/1622
+### Chores
+* chore: redis multi archi image by @theus77 in https://github.com/ems-project/elasticms/pull/1623
+* chore: replace mailhog by mailpit by @theus77 in https://github.com/ems-project/elasticms/pull/1618
+
 ## 7.0.0 (2026-03-04)
 ### Features
 * feat(admin): manage webhooks by @theus77 in https://github.com/ems-project/elasticms/pull/1512

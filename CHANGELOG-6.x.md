@@ -1,5 +1,13 @@
 # Changelog 6.x
 
+## 6.9.9 (2026-03-23)
+### Features
+* feat(common/archive): new functions add/replace and remove archive by @IsaMic in https://github.com/ems-project/elasticms/pull/1627
+* feat(common/spreadsheet): cell type option 's' for string by @IsaMic in https://github.com/ems-project/elasticms/pull/1626
+* feat(demo): json error template (+add content if 400 bad request) by @theus77 in https://github.com/ems-project/elasticms/pull/1617
+### Bug Fixes
+* fix(web): local push route without query by @theus77 in https://github.com/ems-project/elasticms/pull/1622
+
 ## 6.9.8 (2026-02-18)
 ### Features
 * feat(web/security): sso oauth2 ping identity by @Davidmattei in https://github.com/ems-project/elasticms/pull/1569

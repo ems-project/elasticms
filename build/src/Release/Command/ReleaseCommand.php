@@ -183,7 +183,7 @@ class ReleaseCommand extends AbstractCommand
      */
     private function composerUpdate(Deploy $deploy, array $packageReleases): void
     {
-        $command = 'composer update --no-scripts --no-progress --quiet';
+        $command = 'composer update --no-scripts --no-progress --with-dependencies --quiet';
         if ('patch' === $deploy->version->getType()) {
             $command .= ' -- elasticms/*';
         }

@@ -61,8 +61,8 @@ export class CKEditorConfig {
         | undefined
         | null
         | {
-        translations: any[]
-    } = undefined
+              translations: any[]
+          } = undefined
 }
 
 export default class Ckeditor4 {
@@ -78,19 +78,19 @@ export default class Ckeditor4 {
         this.profile = profile
 
         if (options === null) {
-            CKEDITOR.replace(element);
+            CKEDITOR.replace(element)
         } else {
             this.createForRevision(options)
         }
     }
 
     private createForRevision(opt: WysiwygRevisionOptions) {
-        const config = this.getDefaultConfig();
+        const config = this.getDefaultConfig()
         const self = this
 
-        if (opt.height !== null) config.height = opt.height;
-        if (opt.formatTags !== null) config.format_tags = opt.formatTags;
-        if (opt.styleSet !== null) config.stylesSet = opt.styleSet;
+        if (opt.height !== null) config.height = opt.height
+        if (opt.formatTags !== null) config.format_tags = opt.formatTags
+        if (opt.styleSet !== null) config.stylesSet = opt.styleSet
         if (opt.contentCss !== null) config.contentsCss = opt.contentCss
         if (opt.lang !== null) config.language = opt.lang
         if (opt.referrerEmsId !== null) config.referrerEmsId = opt.referrerEmsId

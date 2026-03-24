@@ -8,25 +8,25 @@ export class WysiwygProfile {
         emsBrowsers:
             | undefined
             | {
-            browser_object:
-                | undefined
-                | {
-                url: string
-                label: string
-            }
-            browser_file:
-                | undefined
-                | {
-                url: string
-                label: string
-            }
-            browser_image:
-                | undefined
-                | {
-                url: string
-                label: string
-            }
-        }
+                  browser_object:
+                      | undefined
+                      | {
+                            url: string
+                            label: string
+                        }
+                  browser_file:
+                      | undefined
+                      | {
+                            url: string
+                            label: string
+                        }
+                  browser_image:
+                      | undefined
+                      | {
+                            url: string
+                            label: string
+                        }
+              }
     } = {
         emsBrowsers: undefined
     }

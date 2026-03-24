@@ -37,7 +37,9 @@ export default class WYSIWYG {
     }
 
     async loadInRevision(target: HTMLElement) {
-        const elements = target.querySelectorAll<HTMLTextAreaElement>('textarea.ems-wysiwyg-revision')
+        const elements = target.querySelectorAll<HTMLTextAreaElement>(
+            'textarea.ems-wysiwyg-revision'
+        )
         for (const element of elements) {
             const height = element.getAttribute('data-height')
             await this.createEditor(element, {
@@ -53,7 +55,10 @@ export default class WYSIWYG {
         }
     }
 
-    async createEditor(element: HTMLTextAreaElement, options: WysiwygRevisionOptions | null = null) {
+    async createEditor(
+        element: HTMLTextAreaElement,
+        options: WysiwygRevisionOptions | null = null
+    ) {
         const name = this.profile.editor
         const Editor = await import(`../components/wysiwyg/${name}.ts`)
 

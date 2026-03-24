@@ -4,7 +4,7 @@ import { WysiwygProfile, WysiwygRevisionOptions } from './types.ts'
 declare let CKEDITOR: {
     replace: (
         element: HTMLElement,
-        config: CKEditorConfig
+        config?: CKEditorConfig
     ) => {
         on: (
             eventName: string,
@@ -66,7 +66,6 @@ export class CKEditorConfig {
 }
 
 export default class Ckeditor4 {
-    private options: WysiwygRevisionOptions
     private readonly element: HTMLElement
     private profile: WysiwygProfile
     private static config: null | CKEditorConfig = null
@@ -75,21 +74,26 @@ export default class Ckeditor4 {
         options: WysiwygRevisionOptions | null,
         profile: WysiwygProfile
     ) {
-        this.options = options ?? ({} as WysiwygRevisionOptions)
         this.element = element
         this.profile = profile
-        this.create(this.getDefaultConfig())
+
+        if (options === null) {
+            CKEDITOR.replace(element);
+        } else {
+            this.createForRevision(options)
+        }
     }
 
-    private create(config: CKEditorConfig) {
+    private createForRevision(opt: WysiwygRevisionOptions) {
+        const config = this.getDefaultConfig();
         const self = this
-        config.height = parseInt(this.element.dataset.height ?? '' + config.height)
-        config.format_tags = this.element.dataset.formatTags ?? config.format_tags
-        config.stylesSet = this.element.dataset.stylesSet ?? config.stylesSet
-        config.contentsCss = this.element.dataset.contentCss ?? config.contentsCss
-        config.language = this.element.dataset.lang ?? config.language
-        config.referrerEmsId = this.element.dataset.referrerEmsId ?? config.referrerEmsId
-        config.referrerEmsId = this.element.dataset.referrerEmsId ?? config.referrerEmsId
+
+        if (opt.height !== null) config.height = opt.height;
+        if (opt.formatTags !== null) config.format_tags = opt.formatTags;
+        if (opt.styleSet !== null) config.stylesSet = opt.styleSet;
+        if (opt.contentCss !== null) config.contentsCss = opt.contentCss
+        if (opt.lang !== null) config.language = opt.lang
+        if (opt.referrerEmsId !== null) config.referrerEmsId = opt.referrerEmsId
 
         //http://stackoverflow.com/questions/18250404/ckeditor-strips-i-tag
         config.allowedContent = true
@@ -133,7 +137,7 @@ export default class Ckeditor4 {
 
         const editor = CKEDITOR.replace(this.element, { ...config, ...this.profile.config })
         if (!this.element.classList.contains('ignore-ems-update')) {
-            editor.on(this.options.onChangeEvent ?? 'key', () => {
+            editor.on(opt.onChangeEvent ?? 'key', () => {
                 const changeEvent = new ChangeEvent(self.element)
                 changeEvent.dispatch()
             })

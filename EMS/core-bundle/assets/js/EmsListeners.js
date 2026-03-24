@@ -7,7 +7,6 @@ import FileUploader from "@elasticms/file-uploader";
 import Datatables from "./module/datatables";
 import {tooltipDataLinks} from "./helper/tooltip";
 import {resizeImage} from "./helper/resizeImage";
-import {CKEditorConfig} from "./CKEditorConfig";
 
 
 export default class EmsListeners {

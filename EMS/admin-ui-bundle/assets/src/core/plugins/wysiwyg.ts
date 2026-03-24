@@ -30,14 +30,14 @@ export default class WYSIWYG {
     }
 
     async loadInAdminUI(target: HTMLElement) {
-        const elements = target.querySelectorAll<HTMLTextAreaElement>('textarea.ckeditor')
+        const elements = target.querySelectorAll<HTMLTextAreaElement>('textarea.ems-wysiwyg')
         for (const element of elements) {
             await this.createEditor(element)
         }
     }
 
     async loadInRevision(target: HTMLElement) {
-        const elements = target.querySelectorAll<HTMLTextAreaElement>('textarea.ckeditor_ems')
+        const elements = target.querySelectorAll<HTMLTextAreaElement>('textarea.ems-wysiwyg-revision')
         for (const element of elements) {
             const height = element.getAttribute('data-height')
             await this.createEditor(element, {

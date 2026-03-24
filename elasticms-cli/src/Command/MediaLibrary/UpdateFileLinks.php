@@ -172,7 +172,7 @@ final class UpdateFileLinks extends AbstractCommand
         $hash = $link->getOuuid();
         $found = $this->findMediaFileByHash($link, $hash, $value);
         $status = \sprintf('No Media Library object link found for %s.', $hash);
-        if($found && $this->force) {
+        if ($found && $this->force) {
             $value = \str_replace($match[0], $found->jsonSerialize(), $value);
             $status = \sprintf('Existing asset link successfully replaced for %s.', $hash);
         } elseif ($found) {

@@ -50,7 +50,6 @@ final class UpdateFileLinks extends AbstractCommand
     private string $mediaLibraryContentTypeName;
     private string $mediaLibraryContentTypeEnvironmentAlias;
     private string $fileFieldName;
-    private string $mimeType;
     private bool $force;
 
     public function __construct(
@@ -80,7 +79,6 @@ final class UpdateFileLinks extends AbstractCommand
         $this->mediaLibraryContentTypeName = $this->getOptionString(self::OPTION_MEDIA_LIBRARY_CONTENT_TYPE);
         $this->fileFieldName = $this->getOptionString(self::OPTION_FILE_FIELD);
         $this->coreApi = $this->adminHelper->getCoreApi();
-        $this->mimeType = MimeTypes::APPLICATION_XLSX->value;
         $this->force = $input->getOption(self::OPTION_FORCE) ?? false;
         $this->logReports = [];
         $this->logConflictsReports = [];
@@ -130,8 +128,8 @@ final class UpdateFileLinks extends AbstractCommand
                 ]],
             ], $tempFile->path);
             $filename = \sprintf('UpdateFileLinks - Rapport %s.xlsx', \date('YmdHis'));
-            $hash = $this->coreApi->file()->uploadFile($tempFile->path, $this->mimeType, $filename);
-            $this->io->success($this->buildUrl($hash, $this->mimeType, $filename));
+            $hash = $this->coreApi->file()->uploadFile($tempFile->path, MimeTypes::APPLICATION_XLSX->value, $filename);
+            $this->io->success($this->buildUrl($hash, MimeTypes::APPLICATION_XLSX->value, $filename));
         }
 
         return self::EXECUTE_SUCCESS;
@@ -173,13 +171,12 @@ final class UpdateFileLinks extends AbstractCommand
         $link = EMSLink::fromMatch($match);
         $hash = $link->getOuuid();
         $found = $this->findMediaFileByHash($link, $hash, $value);
-        $status = 'No Media Library object link found.';
-        if ($found) {
-            $status = 'Asset link found but not replaced.';
-            if ($this->force) {
-                $value = \str_replace($match[0], $found->jsonSerialize(), $value);
-                $status = 'Existing asset link successfully replaced.';
-            }
+        $status = \sprintf('No Media Library object link found for %s.', $hash);
+        if($found && $this->force) {
+            $value = \str_replace($match[0], $found->jsonSerialize(), $value);
+            $status = \sprintf('Existing asset link successfully replaced for %s.', $hash);
+        } elseif ($found) {
+            $status = \sprintf('Asset link found but not replaced for %s.', $hash);
         }
         $this->logAssetLink($key, EMSLink::fromMatch($match), $value, $status);
     }

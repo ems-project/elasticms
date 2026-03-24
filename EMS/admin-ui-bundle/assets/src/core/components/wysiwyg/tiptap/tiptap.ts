@@ -1,13 +1,11 @@
-import {EditorRevisionOptions} from './../../helpers/editorRevisionOptions.ts'
-import {EditorProfile} from './../../helpers/editorProfile.ts'
-
 import { Editor } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
 import Paragraph from '@tiptap/extension-paragraph'
 import Underline from '@tiptap/extension-underline'
 import TextAlign from '@tiptap/extension-text-align'
 
-import './../../../../css/core/components/wysiwyg.scss'
+import './../../../../../css/core/components/wysiwyg.scss'
+import { WysiwygProfile, WysiwygRevisionOptions } from '../wysiwyg.ts'
 
 interface ConfigGroup {
     name: string;
@@ -21,140 +19,137 @@ export interface ToolbarAction {
     isActive: (editor: Editor) => boolean;
 }
 
-export class Tiptap {
-    isSourceView: boolean = false;
-    isMaximized: boolean = false;
+export default class Tiptap {
+    isSourceView: boolean = false
+    isMaximized: boolean = false
 
     element: HTMLTextAreaElement
-    options: EditorRevisionOptions | null
-    profile: EditorProfile
     iframe: HTMLIFrameElement | null = null
     innerEditor: Editor | null = null
 
-    config: ConfigGroup[];
+    config: ConfigGroup[]
+    options: WysiwygRevisionOptions
+    profile: WysiwygProfile
 
     constructor(
         element: HTMLTextAreaElement,
-        options: EditorRevisionOptions | null,
-        profile: EditorProfile
+        options: WysiwygRevisionOptions | null,
+        profile: WysiwygProfile
     ) {
-        this.element = element
-
-        this.options = options
+        this.options = options ?? ({} as WysiwygRevisionOptions)
         this.profile = profile
 
+        this.element = element
         this.config = [
             {
                 name: 'default',
                 groups: Object.keys(GroupRegistry)
             }
-        ];
+        ]
 
         this.initIframe()
         this.initToolbar()
     }
 
     private initToolbar() {
-        const toolbar = document.createElement('div');
-        toolbar.className = 'wysiwyg-toolbar';
+        const toolbar = document.createElement('div')
+        toolbar.className = 'wysiwyg-toolbar'
 
-        this.config.forEach(section => {
-            const sectionDiv = document.createElement('div');
-            sectionDiv.className = `wysiwyg-toolbar-section`;
+        this.config.forEach((section) => {
+            const sectionDiv = document.createElement('div')
+            sectionDiv.className = `wysiwyg-toolbar-section`
 
-            section.groups.forEach(groupName => {
-                const groupDiv = document.createElement('div');
-                groupDiv.className = 'wysiwyg-toolbar-group';
+            section.groups.forEach((groupName) => {
+                const groupDiv = document.createElement('div')
+                groupDiv.className = 'wysiwyg-toolbar-group'
 
-                const items = GroupRegistry[groupName] || [];
-                items.forEach(actionKey => {
-                    const action = ActionRegistry[actionKey];
+                const items = GroupRegistry[groupName] || []
+                items.forEach((actionKey) => {
+                    const action = ActionRegistry[actionKey]
                     if (action) {
-                        groupDiv.appendChild(this.createButton(actionKey, action));
+                        groupDiv.appendChild(this.createButton(actionKey, action))
                     }
-                });
+                })
 
                 if (groupDiv.children.length > 0) {
-                    sectionDiv.appendChild(groupDiv);
+                    sectionDiv.appendChild(groupDiv)
                 }
-            });
+            })
 
-            toolbar.appendChild(sectionDiv);
-        });
+            toolbar.appendChild(sectionDiv)
+        })
 
-        const container = this.element.parentElement;
+        const container = this.element.parentElement
         if (container) {
-            container.insertBefore(toolbar, container.firstChild);
+            container.insertBefore(toolbar, container.firstChild)
         }
     }
 
     private createButton(key: string, action: ToolbarAction): HTMLButtonElement {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.innerHTML = action.label;
-        btn.dataset.action = key;
+        const btn = document.createElement('button')
+        btn.type = 'button'
+        btn.innerHTML = action.label
+        btn.dataset.action = key
 
         if (action.tooltip) {
-            btn.title = action.tooltip;
+            btn.title = action.tooltip
         }
 
         btn.onclick = (event) => {
-            event.preventDefault();
-            event.stopPropagation();
+            event.preventDefault()
+            event.stopPropagation()
 
             if (btn.dataset.action === 'source') {
-                this.toggleSourceView();
+                this.toggleSourceView()
+            } else if (btn.dataset.action === 'maximize') {
+                this.toggleMaximize()
+            } else if (this.innerEditor && !this.isSourceView && action.command) {
+                action.command(this.innerEditor)
+                this.updateToolbarUI(this.innerEditor)
             }
-            else if (btn.dataset.action === 'maximize') {
-                this.toggleMaximize();
-            }
-            else if (this.innerEditor && !this.isSourceView && action.command) {
-                action.command(this.innerEditor);
-                this.updateToolbarUI(this.innerEditor);
-            }
-        };
-        return btn;
+        }
+        return btn
     }
 
     public updateToolbarUI(editor: Editor) {
-        const container = this.element.parentElement;
-        const toolbar = container?.querySelector('.wysiwyg-toolbar') as HTMLElement;
+        const container = this.element.parentElement
+        const toolbar = container?.querySelector('.wysiwyg-toolbar') as HTMLElement
 
-        if (!toolbar) return;
+        if (!toolbar) return
 
-        const buttons = toolbar.querySelectorAll('button[data-action]');
-        buttons.forEach(btn => {
-            const actionKey = (btn as HTMLElement).dataset.action;
-            const action = actionKey ? ActionRegistry[actionKey] : null;
+        const buttons = toolbar.querySelectorAll('button[data-action]')
+        buttons.forEach((btn) => {
+            const actionKey = (btn as HTMLElement).dataset.action
+            const action = actionKey ? ActionRegistry[actionKey] : null
 
             if (action) {
-                const active = action.isActive(editor);
-                btn.classList.toggle('is-active', active);
+                const active = action.isActive(editor)
+                btn.classList.toggle('is-active', active)
             }
-        });
+        })
     }
 
     private initIframe() {
-        const container = document.createElement('div');
-        container.className = 'wysiwyg-container';
-        this.element.parentNode?.insertBefore(container, this.element);
+        const container = document.createElement('div')
+        container.className = 'wysiwyg-container'
+        this.element.parentNode?.insertBefore(container, this.element)
 
-        container.appendChild(this.element);
-        this.element.className = 'wysiwyg-source-view';
+        container.appendChild(this.element)
+        this.element.className = 'wysiwyg-source-view'
 
-        this.iframe = document.createElement('iframe');
-        this.iframe.className = 'wysiwyg-iframe';
-        container.appendChild(this.iframe);
+        this.iframe = document.createElement('iframe')
+        this.iframe.className = 'wysiwyg-iframe'
+        container.appendChild(this.iframe)
 
-        const doc = this.iframe.contentDocument;
+        const doc = this.iframe.contentDocument
         if (doc) {
-            const style = doc.createElement('style');
+            const style = doc.createElement('style')
             style.textContent = `
                 body { margin: 0; font-family: sans-serif; margin: 10px }
                 .ProseMirror { outline: none; min-height: 100%; }
-            `;
-            doc.head.appendChild(style);
-            this.setupEditorInsideIframe(doc.body);
+            `
+            doc.head.appendChild(style)
+            this.setupEditorInsideIframe(doc.body)
         }
     }
 
@@ -162,25 +157,25 @@ export class Tiptap {
         if (!this.iframe?.contentWindow) return
 
         const doc = this.iframe.contentDocument
-        if (!doc) return;
+        if (!doc) return
 
         const CustomParagraph = Paragraph.extend({
             addAttributes() {
                 return {
                     indent: {
                         default: 0,
-                        renderHTML: attributes => {
+                        renderHTML: (attributes) => {
                             if (attributes.indent === 0) return {}
                             return { style: `margin-left: ${attributes.indent * 20}px` }
                         },
-                        parseHTML: element => parseInt(element.style.marginLeft) / 20 || 0,
-                    },
+                        parseHTML: (element) => parseInt(element.style.marginLeft) / 20 || 0
+                    }
                 }
-            },
+            }
         })
 
         this.innerEditor = new Editor({
-           element: mountElement,
+            element: mountElement,
             extensions: [
                 StarterKit.configure({
                     paragraph: false
@@ -189,66 +184,68 @@ export class Tiptap {
                 TextAlign.configure({
                     types: ['heading', 'paragraph'],
                     alignments: ['left', 'center', 'right', 'justify'],
-                    defaultAlignment: 'left',
+                    defaultAlignment: 'left'
                 }),
-                CustomParagraph,
+                CustomParagraph
             ],
-           content: this.element.value,
+            content: this.element.value,
             onUpdate: ({ editor }) => {
-                this.element.value = editor.getHTML();
-                this.updateToolbarUI(editor);
+                this.element.value = editor.getHTML()
+
+                console.debug(this.element.value);
+                this.updateToolbarUI(editor)
             },
             onSelectionUpdate: ({ editor }) => {
-                this.updateToolbarUI(editor);
+                this.updateToolbarUI(editor)
             },
             onTransaction: ({ editor }) => {
-                this.updateToolbarUI(editor);
+                this.updateToolbarUI(editor)
             }
         })
     }
 
     private toggleSourceView() {
-        this.isSourceView = !this.isSourceView;
-        const container = this.element.parentElement;
-        const toolbar = container?.querySelector('.wysiwyg-toolbar') as HTMLElement;
-        const sourceBtn = toolbar?.querySelector('[data-action="source"]');
+        this.isSourceView = !this.isSourceView
+        const container = this.element.parentElement
+        const toolbar = container?.querySelector('.wysiwyg-toolbar') as HTMLElement
+        const sourceBtn = toolbar?.querySelector('[data-action="source"]')
 
         if (container) {
-            container.classList.toggle('is-source-mode', this.isSourceView);
+            container.classList.toggle('is-source-mode', this.isSourceView)
             if (this.isSourceView) {
-                this.element.value = this.innerEditor?.getHTML() || '';
-                sourceBtn?.classList.add('is-active');
-                this.setToolbarDisabled(toolbar, true);
+                this.element.value = this.innerEditor?.getHTML() || ''
+                sourceBtn?.classList.add('is-active')
+                this.setToolbarDisabled(toolbar, true)
             } else {
-                this.innerEditor?.commands.setContent(this.element.value);
-                sourceBtn?.classList.remove('is-active');
-                this.setToolbarDisabled(toolbar, false);
+                this.innerEditor?.commands.setContent(this.element.value)
+                sourceBtn?.classList.remove('is-active')
+                this.setToolbarDisabled(toolbar, false)
             }
         }
     }
 
     private toggleMaximize() {
-        this.isMaximized = !this.isMaximized;
-        const container = this.element.parentElement;
-        const btn = container?.querySelector('[data-action="maximize"]') as HTMLElement;
+        this.isMaximized = !this.isMaximized
+        const container = this.element.parentElement
+        const btn = container?.querySelector('[data-action="maximize"]') as HTMLElement
 
         if (container) {
-            container.classList.toggle('is-maximized', this.isMaximized);
+            container.classList.toggle('is-maximized', this.isMaximized)
             btn.innerHTML = this.isMaximized
                 ? '<i class="fa-solid fa-compress"></i>'
-                : '<i class="fa-solid fa-expand"></i>';
-            document.body.style.overflow = this.isMaximized ? 'hidden' : '';
+                : '<i class="fa-solid fa-expand"></i>'
+            document.body.style.overflow = this.isMaximized ? 'hidden' : ''
         }
     }
 
     private setToolbarDisabled(toolbar: HTMLElement, disabled: boolean) {
-        const buttons = toolbar.querySelectorAll('button:not([data-action="source"])');
-        buttons.forEach(btn => {
-            const b = btn as HTMLButtonElement;
-            b.disabled = disabled;
-            b.style.opacity = disabled ? '0.4' : '1';
-            b.style.cursor = disabled ? 'not-allowed' : 'pointer';
-        });
+        const buttons = toolbar.querySelectorAll('button:not([data-action="source"])')
+        buttons.forEach((btn) => {
+            const b = btn as HTMLButtonElement
+            b.disabled = disabled
+            b.style.opacity = disabled ? '0.4' : '1'
+            b.style.cursor = disabled ? 'not-allowed' : 'pointer'
+        })
     }
 }
 

@@ -1,7 +1,5 @@
-import { EditorRevisionOptions } from './editorRevisionOptions.ts'
-import { EditorProfile } from './editorProfile.ts'
-import { CKEditorConfig } from './ck4/CKEditorConfig.ts'
-import { ChangeEvent } from '../events/changeEvent'
+import ChangeEvent from '../../events/changeEvent.ts'
+import { WysiwygProfile, WysiwygRevisionOptions } from './types.ts'
 
 declare let CKEDITOR: {
     replace: (
@@ -48,17 +46,36 @@ declare class BeforePasteEvent {
     }
 }
 
+export class CKEditorConfig {
+    public height: number = 400
+    public format_tags: undefined | string = undefined
+    public emsAjaxPaste: undefined | string = undefined
+    public language: string = 'en'
+    public stylesSet: undefined | string = undefined
+    public contentsCss: undefined | string = undefined
+    public referrerEmsId: undefined | string = undefined
+    public div_wrapTable: string = 'true'
+    public allowedContent: boolean | undefined = undefined
+    public extraAllowedContent: string | undefined = undefined
+    public ems:
+        | undefined
+        | null
+        | {
+        translations: any[]
+    } = undefined
+}
+
 export default class Ckeditor4 {
-    private options: EditorRevisionOptions
-    private element: HTMLElement
-    private profile: EditorProfile
+    private options: WysiwygRevisionOptions
+    private readonly element: HTMLElement
+    private profile: WysiwygProfile
     private static config: null | CKEditorConfig = null
     constructor(
         element: HTMLElement,
-        options: EditorRevisionOptions | null,
-        profile: EditorProfile
+        options: WysiwygRevisionOptions | null,
+        profile: WysiwygProfile
     ) {
-        this.options = options ?? ({} as EditorRevisionOptions)
+        this.options = options ?? ({} as WysiwygRevisionOptions)
         this.element = element
         this.profile = profile
         this.create(this.getDefaultConfig())

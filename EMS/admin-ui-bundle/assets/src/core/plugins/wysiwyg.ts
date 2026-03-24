@@ -1,4 +1,4 @@
-import { EditorRevisionOptions } from '../helpers/editorRevisionOptions.ts'
+import { WysiwygRevisionOptions } from '../components/wysiwyg/types.ts'
 
 class WYSIWYG {
     editors: object[] = []
@@ -40,7 +40,7 @@ class WYSIWYG {
 
     async createEditor(
         element: HTMLElement,
-        options: EditorRevisionOptions | null = null
+        options: WysiwygRevisionOptions | null = null
     ): Promise<void> {
         if (undefined === document.body.dataset.wysiwygInfo) {
             console.error('WysiwygInfo is missing')
@@ -51,7 +51,7 @@ class WYSIWYG {
             console.error('Editor is not defined')
             return
         }
-        const Editor = await import(`../helpers/${profile.editor}.ts`)
+        const Editor = await import(`../components/wysiwyg/${profile.editor}.ts`)
         this.editors.push(new Editor.default(element, options, profile))
     }
 }

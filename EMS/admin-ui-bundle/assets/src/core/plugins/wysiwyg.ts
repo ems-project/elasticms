@@ -1,24 +1,51 @@
 import { WysiwygRevisionOptions } from '../components/wysiwyg/types.ts'
 
-class WYSIWYG {
-    editors: object[] = []
+export default class WYSIWYG {
+    editors: any[] = []
+    profile: any = null
 
-    load(target: HTMLElement) {
-        this.loadInAdminUI(target)
-        this.loadInRevision(target)
+    async load(target: HTMLElement) {
+        if (!this.setProfile()) return
+
+        await this.loadInAdminUI(target)
+        await this.loadInRevision(target)
     }
 
-    loadInRevision(target: HTMLElement) {
-        const wysiwygs = target.querySelectorAll('.ckeditor_ems')
-        for (let i = 0; i < wysiwygs.length; ++i) {
-            const element = wysiwygs.item(i)
+    private setProfile(): boolean {
+        if (this.profile) return true
+
+        const info = document.body.dataset.wysiwygInfo
+        if (!info) {
+            console.error('WysiwygInfo is missing')
+            return false
+        }
+
+        try {
+            this.profile = JSON.parse(info)
+            return typeof this.profile.editor === 'string'
+        } catch (e) {
+            console.error('Invalid WysiwygInfo JSON', e)
+            return false
+        }
+    }
+
+    async loadInAdminUI(target: HTMLElement) {
+        const elements = target.querySelectorAll<HTMLTextAreaElement>('textarea.ckeditor')
+        for (const element of elements) {
+            await this.createEditor(element)
+        }
+    }
+
+    async loadInRevision(target: HTMLElement) {
+        const elements = target.querySelectorAll<HTMLTextAreaElement>('textarea.ckeditor_ems')
+        for (const element of elements) {
             const height = element.getAttribute('data-height')
-            this.createEditor(element as HTMLElement, {
+            await this.createEditor(element, {
                 onChangeEvent: 'keyup',
                 styleSet: element.getAttribute('data-styles-set'),
                 formatTags: element.getAttribute('data-format-tags'),
                 contentCss: element.getAttribute('data-content-css'),
-                height: null === height ? null : Number.parseInt(height),
+                height: height ? Number.parseInt(height) : null,
                 referrerEmsId: element.getAttribute('data-referrer-ems-id'),
                 tableDefaultCss: element.getAttribute('data-table-default-css'),
                 lang: element.getAttribute('data-lang')
@@ -26,34 +53,10 @@ class WYSIWYG {
         }
     }
 
-    loadInAdminUI(target: HTMLElement): void {
-        const wysiwygs = target.querySelectorAll('.ckeditor')
-        for (let i = 0; i < wysiwygs.length; ++i) {
-            const element = wysiwygs.item(i)
-            if (!(element instanceof HTMLElement)) {
-                console.warn('Unexpected non HTMLElement object')
-                continue
-            }
-            this.createEditor(element)
-        }
-    }
+    async createEditor(element: HTMLTextAreaElement, options: WysiwygRevisionOptions | null = null) {
+        const name = this.profile.editor
+        const Editor = await import(`../components/wysiwyg/${name}.ts`)
 
-    async createEditor(
-        element: HTMLElement,
-        options: WysiwygRevisionOptions | null = null
-    ): Promise<void> {
-        if (undefined === document.body.dataset.wysiwygInfo) {
-            console.error('WysiwygInfo is missing')
-            return
-        }
-        const profile = JSON.parse(document.body.dataset.wysiwygInfo)
-        if (typeof profile.editor !== 'string') {
-            console.error('Editor is not defined')
-            return
-        }
-        const Editor = await import(`../components/wysiwyg/${profile.editor}.ts`)
-        this.editors.push(new Editor.default(element, options, profile))
+        this.editors.push(new Editor.default(element, options, this.profile))
     }
 }
-
-export default WYSIWYG

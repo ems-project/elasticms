@@ -73,6 +73,6 @@ export default class Link {
                     console.error(`Link type ${this.linkType} not supported`)
             }
         }
-        return this.href;
+        return this.href
     }
 }

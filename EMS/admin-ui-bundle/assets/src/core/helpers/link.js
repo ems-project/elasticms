@@ -1,4 +1,3 @@
-import { ensureSafeUrl } from './ckeditor5-link/src/utils'
 import queryString from './queryString'
 
 export default class Link {
@@ -9,7 +8,7 @@ export default class Link {
         )
         if (undefined !== href && href.startsWith(startBy)) {
             const regex = /([0-9a-zA-Z]*)(\?(.*))?/
-            const match = href.substr(startBy.length).match(regex)
+            const match = href.slice(startBy.length).match(regex)
             const parameters = queryString(match[3])
             this.href = `ems://asset:${match[1]}?type=${encodeURI(parameters.type)}&name=${encodeURI(parameters.name)}`
         } else {
@@ -74,6 +73,6 @@ export default class Link {
                     console.error(`Link type ${this.linkType} not supported`)
             }
         }
-        return this.href && ensureSafeUrl(this.href)
+        return this.href;
     }
 }

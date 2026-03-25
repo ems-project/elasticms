@@ -29,6 +29,32 @@ export interface ToolbarAction {
     isActive: (editor: Editor) => boolean;
 }
 
+const indentExtension = {
+    indent: {
+        default: 0,
+        renderHTML: (attributes: Record<string, unknown>) => {
+            if (attributes.indent === 0) return {}
+            return { style: `margin-left: ${(attributes.indent as number) * 20}px` }
+        },
+        parseHTML: (element: HTMLElement) => parseInt(element.style.marginLeft) / 20 || 0
+    }
+}
+
+const CustomParagraph = Paragraph.extend({
+    addAttributes() {
+        return indentExtension
+    }
+})
+
+const CustomHeading = Heading.extend({
+    addAttributes() {
+        return {
+            ...this.parent?.(),
+            ...indentExtension
+        }
+    }
+})
+
 export default class Tiptap {
     isSourceView: boolean = false
     isMaximized: boolean = false
@@ -38,17 +64,12 @@ export default class Tiptap {
     innerEditor: Editor | null = null
 
     config: ConfigGroup[]
-    options: WysiwygRevisionOptions
-    profile: WysiwygProfile
 
     constructor(
         element: HTMLTextAreaElement,
-        options: WysiwygRevisionOptions | null,
-        profile: WysiwygProfile
+        _options: WysiwygRevisionOptions | null,
+        _profile: WysiwygProfile
     ) {
-        this.options = options ?? ({} as WysiwygRevisionOptions)
-        this.profile = profile
-
         this.element = element
         this.config = [
             {
@@ -67,7 +88,7 @@ export default class Tiptap {
 
         this.config.forEach((section) => {
             const sectionDiv = document.createElement('div')
-            sectionDiv.className = `wysiwyg-toolbar-section`
+            sectionDiv.className = 'wysiwyg-toolbar-section'
 
             section.groups.forEach((groupName) => {
                 const groupDiv = document.createElement('div')
@@ -166,24 +187,6 @@ export default class Tiptap {
     private setupEditorInsideIframe(mountElement: HTMLElement) {
         if (!this.iframe?.contentWindow) return
 
-        const doc = this.iframe.contentDocument
-        if (!doc) return
-
-        const CustomParagraph = Paragraph.extend({
-            addAttributes() {
-                return {
-                    indent: {
-                        default: 0,
-                        renderHTML: (attributes) => {
-                            if (attributes.indent === 0) return {}
-                            return { style: `margin-left: ${attributes.indent * 20}px` }
-                        },
-                        parseHTML: (element) => parseInt(element.style.marginLeft) / 20 || 0
-                    }
-                }
-            }
-        })
-
         this.innerEditor = new Editor({
             element: mountElement,
             extensions: [
@@ -192,7 +195,7 @@ export default class Tiptap {
                 Bold,
                 Italic,
                 Strike,
-                Heading,
+                CustomHeading,
                 BulletList,
                 OrderedList,
                 ListItem,
@@ -273,9 +276,9 @@ const GroupRegistry: Record<string, string[]> = {
     'list': ['bulletList', 'orderedList'],
     'indent': ['outdent', 'indent'],
     'align': ['alignLeft', 'alignCenter', 'alignRight', 'alignJustify'],
-    'insert': ['link', 'unlink','horizontalRule'],
+    'insert': ['horizontalRule'],
     'blocks': ['blockquote']
-};
+}
 
 const ActionRegistry: Record<string, ToolbarAction> = {
     source: {
@@ -353,15 +356,15 @@ const ActionRegistry: Record<string, ToolbarAction> = {
         tooltip: 'Increase Indent',
         command: (e) => {
             return e.chain().focus().command(({ tr, state }) => {
-                const { selection } = state;
+                const { selection } = state
                 tr.doc.nodesBetween(selection.from, selection.to, (node, pos) => {
                     if (node.type.name === 'paragraph' || node.type.name === 'heading') {
-                        const currentIndent = node.attrs.indent || 0;
-                        tr.setNodeMarkup(pos, undefined, { ...node.attrs, indent: currentIndent + 1 });
+                        const currentIndent = node.attrs.indent || 0
+                        tr.setNodeMarkup(pos, undefined, { ...node.attrs, indent: currentIndent + 1 })
                     }
-                });
-                return true;
-            }).run();
+                })
+                return true
+            }).run()
         },
         isActive: () => false
     },
@@ -370,17 +373,17 @@ const ActionRegistry: Record<string, ToolbarAction> = {
         tooltip: 'Decrease Indent',
         command: (e) => {
             return e.chain().focus().command(({ tr, state }) => {
-                const { selection } = state;
+                const { selection } = state
                 tr.doc.nodesBetween(selection.from, selection.to, (node, pos) => {
                     if (node.type.name === 'paragraph' || node.type.name === 'heading') {
-                        const currentIndent = node.attrs.indent || 0;
+                        const currentIndent = node.attrs.indent || 0
                         if (currentIndent > 0) {
-                            tr.setNodeMarkup(pos, undefined, { ...node.attrs, indent: currentIndent - 1 });
+                            tr.setNodeMarkup(pos, undefined, { ...node.attrs, indent: currentIndent - 1 })
                         }
                     }
-                });
-                return true;
-            }).run();
+                })
+                return true
+            }).run()
         },
         isActive: () => false
     },
@@ -408,4 +411,4 @@ const ActionRegistry: Record<string, ToolbarAction> = {
         command: (e) => e.chain().focus().setTextAlign('justify').run(),
         isActive: (e) => e.isActive({ textAlign: 'justify' })
     }
-};
+}

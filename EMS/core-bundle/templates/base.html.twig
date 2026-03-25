@@ -182,10 +182,10 @@
 {#               </li>#}
               <!-- Menu Footer-->
               <li class="user-footer">
-                <div class="pull-left">
+                <div class="pull-left" data-testid="user-footer-edit-profile">
                   <a href="{{ path(routes.USER_PROFILE) }}" class="btn btn-default btn-flat">{{ 'user.profile.title'|trans({}, 'emsco-user') }}</a>
                 </div>
-                <div class="pull-right">
+                <div class="pull-right" data-testid="user-footer-logout">
                		{% if is_granted('IS_IMPERSONATOR') %}
                			<a href="{{ path('emsco_user_index', {'_switch_user': '_exit'}) }}" class="btn btn-default btn-flat" data-testid="logout">{{ 'user.logout.exit'|trans({}, 'emsco-user') }}</a>
                		{% else %}

@@ -4,8 +4,8 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Underline from '@tiptap/extension-underline'
 import TextAlign from '@tiptap/extension-text-align'
 
-import './../../../../../css/core/components/wysiwyg.scss'
-import { WysiwygProfile, WysiwygRevisionOptions } from '../wysiwyg.ts'
+import './../../../../css/core/components/wysiwyg.scss'
+import { WysiwygProfile, WysiwygRevisionOptions } from './types.ts'
 
 interface ConfigGroup {
     name: string;
@@ -180,7 +180,6 @@ export default class Tiptap {
                 StarterKit.configure({
                     paragraph: false
                 }),
-                Underline,
                 TextAlign.configure({
                     types: ['heading', 'paragraph'],
                     alignments: ['left', 'center', 'right', 'justify'],
@@ -252,7 +251,7 @@ export default class Tiptap {
 const GroupRegistry: Record<string, string[]> = {
     'mode': ['source', 'maximize'],
     'undo': ['undo', 'redo'],
-    'basicstyles': ['bold', 'italic', 'underline', 'strike'],
+    'basicstyles': ['bold', 'italic', 'strike'],
     'cleanup': ['clear'],
     'list': ['bulletList', 'orderedList'],
     'indent': ['outdent', 'indent'],
@@ -283,12 +282,6 @@ const ActionRegistry: Record<string, ToolbarAction> = {
         tooltip: 'Italic (Ctrl+I)',
         command: (e) => e.chain().focus().toggleItalic().run(),
         isActive: (e) => e.isActive('italic')
-    },
-    underline: {
-        label: '<i class="fa-solid fa-underline"></i>',
-        tooltip: 'Underline (Ctrl+U)',
-        command: (e) => e.chain().focus().toggleUnderline().run(),
-        isActive: (e) => e.isActive('underline')
     },
     strike: {
         label: '<i class="fa-solid fa-strikethrough"></i>',

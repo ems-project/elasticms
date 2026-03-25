@@ -28,7 +28,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpFoundation\HeaderUtils;
 
 #[AsCommand(
-    name: Commands::UPDATE_FILE_LINKS,
+    name: Commands::MEDIA_LIBRARY_UPDATE_FILE_LINKS,
     description: 'Convert ems file links into ems object link',
     hidden: false
 )]

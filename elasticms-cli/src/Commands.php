@@ -13,6 +13,7 @@ class Commands
     final public const string DOCUMENTS_UPDATE = 'emscli:documents:update';
     final public const string MEDIA_LIBRARY_SYNC = 'emscli:media-library:synchronize';
     final public const string MEDIA_LIBRARY_TIKA_CACHE = 'emscli:media-library:load-tika-cache';
+    final public const string MEDIA_LIBRARY_UPDATE_FILE_LINKS = 'emscli:media-library:update-file-links';
 
     final public const string IMPORT_FILE = 'emscli:import:file';
     final public const string IMPORT_DATABASE = 'emscli:import:database';

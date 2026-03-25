@@ -1,7 +1,17 @@
 import { Editor } from '@tiptap/core'
-import StarterKit from '@tiptap/starter-kit'
+import Bold from '@tiptap/extension-bold'
+import Italic from '@tiptap/extension-italic'
+import Strike from '@tiptap/extension-strike'
+import Heading from '@tiptap/extension-heading'
+import BulletList from '@tiptap/extension-bullet-list'
+import OrderedList from '@tiptap/extension-ordered-list'
+import ListItem from '@tiptap/extension-list-item'
+import Blockquote from '@tiptap/extension-blockquote'
+import HorizontalRule from '@tiptap/extension-horizontal-rule'
+import { UndoRedo } from '@tiptap/extensions'
+import Document from '@tiptap/extension-document'
+import Text from '@tiptap/extension-text'
 import Paragraph from '@tiptap/extension-paragraph'
-import Underline from '@tiptap/extension-underline'
 import TextAlign from '@tiptap/extension-text-align'
 
 import './../../../../css/core/components/wysiwyg.scss'
@@ -177,9 +187,18 @@ export default class Tiptap {
         this.innerEditor = new Editor({
             element: mountElement,
             extensions: [
-                StarterKit.configure({
-                    paragraph: false
-                }),
+                Document,
+                Text,
+                Bold,
+                Italic,
+                Strike,
+                Heading,
+                BulletList,
+                OrderedList,
+                ListItem,
+                Blockquote,
+                HorizontalRule,
+                UndoRedo,
                 TextAlign.configure({
                     types: ['heading', 'paragraph'],
                     alignments: ['left', 'center', 'right', 'justify'],
@@ -190,8 +209,6 @@ export default class Tiptap {
             content: this.element.value,
             onUpdate: ({ editor }) => {
                 this.element.value = editor.getHTML()
-
-                console.debug(this.element.value);
                 this.updateToolbarUI(editor)
             },
             onSelectionUpdate: ({ editor }) => {
@@ -311,17 +328,6 @@ const ActionRegistry: Record<string, ToolbarAction> = {
         label: '<i class="fa-solid fa-grip-lines"></i>',
         tooltip: 'Insert Horizontal Line',
         command: (e) => e.chain().focus().setHorizontalRule().run(),
-        isActive: () => false
-    },
-    link: {
-        label: '<i class="fa-solid fa-link"></i>',
-        tooltip: 'Insert Link',
-        isActive: (e) => e.isActive('link')
-    },
-    unlink: {
-        label: '<i class="fa-solid fa-link-slash"></i>',
-        tooltip: 'Remove Link',
-        command: (e) => e.chain().focus().unsetLink().run(),
         isActive: () => false
     },
     blockquote: {

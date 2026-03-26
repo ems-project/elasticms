@@ -1,85 +1,75 @@
-import { Editor } from '@tiptap/core'
-import Bold from '@tiptap/extension-bold'
-import Italic from '@tiptap/extension-italic'
-import Strike from '@tiptap/extension-strike'
-import Heading from '@tiptap/extension-heading'
-import BulletList from '@tiptap/extension-bullet-list'
-import OrderedList from '@tiptap/extension-ordered-list'
-import ListItem from '@tiptap/extension-list-item'
-import Blockquote from '@tiptap/extension-blockquote'
-import HorizontalRule from '@tiptap/extension-horizontal-rule'
-import { UndoRedo } from '@tiptap/extensions'
+import { Editor, Extension, Mark, Node } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Text from '@tiptap/extension-text'
-import Paragraph from '@tiptap/extension-paragraph'
-import TextAlign from '@tiptap/extension-text-align'
 
 import './../../../../css/core/components/wysiwyg.scss'
 import { WysiwygProfile, WysiwygRevisionOptions } from './types.ts'
+import {
+    DefaultModules,
+    fa5Icons,
+    IconSet,
+    TiptapContext,
+    TiptapModule,
+    ToolbarAction
+} from '../tiptap/types.ts'
 
 interface ConfigGroup {
-    name: string;
-    groups: string[];
+    name: string
+    groups: string[]
 }
 
-export interface ToolbarAction {
-    label: string;
-    tooltip?: string;
-    command?: (editor: Editor) => void;
-    isActive: (editor: Editor) => boolean;
+export interface TiptapOptions {
+    modules?: TiptapModule[]
+    icons?: IconSet
 }
 
-const indentExtension = {
-    indent: {
-        default: 0,
-        renderHTML: (attributes: Record<string, unknown>) => {
-            if (attributes.indent === 0) return {}
-            return { style: `margin-left: ${(attributes.indent as number) * 20}px` }
-        },
-        parseHTML: (element: HTMLElement) => parseInt(element.style.marginLeft) / 20 || 0
-    }
-}
-
-const CustomParagraph = Paragraph.extend({
-    addAttributes() {
-        return indentExtension
-    }
-})
-
-const CustomHeading = Heading.extend({
-    addAttributes() {
-        return {
-            ...this.parent?.(),
-            ...indentExtension
-        }
-    }
-})
-
-export default class Tiptap {
+export default class Tiptap implements TiptapContext {
     isSourceView: boolean = false
     isMaximized: boolean = false
 
     element: HTMLTextAreaElement
     iframe: HTMLIFrameElement | null = null
     innerEditor: Editor | null = null
+    icons: IconSet
 
     config: ConfigGroup[]
+
+    private readonly modules: TiptapModule[]
+    private groupRegistry: Record<string, string[]> = {}
+    private actionRegistry: Record<string, ToolbarAction> = {}
+    private extensions: (Extension | Mark | Node)[] = []
 
     constructor(
         element: HTMLTextAreaElement,
         _options: WysiwygRevisionOptions | null,
-        _profile: WysiwygProfile
+        _profile: WysiwygProfile,
+        tiptapOptions?: TiptapOptions
     ) {
         this.element = element
+        this.modules = tiptapOptions?.modules || DefaultModules
+        this.icons = tiptapOptions?.icons || fa5Icons
+
+        this.resolveModules()
+
         this.config = [
             {
                 name: 'default',
-                groups: Object.keys(GroupRegistry)
+                groups: Object.keys(this.groupRegistry)
             }
         ]
 
         this.initIframe()
         this.initToolbar()
+    }
+
+    private resolveModules() {
+        this.extensions = [Document, Text]
+
+        for (const mod of this.modules) {
+            this.extensions.push(...mod.extensions)
+            Object.assign(this.groupRegistry, mod.groups)
+            Object.assign(this.actionRegistry, mod.actions)
+        }
     }
 
     private initToolbar() {
@@ -94,9 +84,9 @@ export default class Tiptap {
                 const groupDiv = document.createElement('div')
                 groupDiv.className = 'wysiwyg-toolbar-group'
 
-                const items = GroupRegistry[groupName] || []
+                const items = this.groupRegistry[groupName] || []
                 items.forEach((actionKey) => {
-                    const action = ActionRegistry[actionKey]
+                    const action = this.actionRegistry[actionKey]
                     if (action) {
                         groupDiv.appendChild(this.createButton(actionKey, action))
                     }
@@ -119,7 +109,7 @@ export default class Tiptap {
     private createButton(key: string, action: ToolbarAction): HTMLButtonElement {
         const btn = document.createElement('button')
         btn.type = 'button'
-        btn.innerHTML = action.label
+        btn.innerHTML = this.icons[action.icon]
         btn.dataset.action = key
 
         if (action.tooltip) {
@@ -130,13 +120,11 @@ export default class Tiptap {
             event.preventDefault()
             event.stopPropagation()
 
-            if (btn.dataset.action === 'source') {
-                this.toggleSourceView()
-            } else if (btn.dataset.action === 'maximize') {
-                this.toggleMaximize()
-            } else if (this.innerEditor && !this.isSourceView && action.command) {
-                action.command(this.innerEditor)
-                this.updateToolbarUI(this.innerEditor)
+            if (action.command) {
+                action.command(this.innerEditor!, this)
+                if (this.innerEditor) {
+                    this.updateToolbarUI(this.innerEditor)
+                }
             }
         }
         return btn
@@ -151,10 +139,10 @@ export default class Tiptap {
         const buttons = toolbar.querySelectorAll('button[data-action]')
         buttons.forEach((btn) => {
             const actionKey = (btn as HTMLElement).dataset.action
-            const action = actionKey ? ActionRegistry[actionKey] : null
+            const action = actionKey ? this.actionRegistry[actionKey] : null
 
             if (action) {
-                const active = action.isActive(editor)
+                const active = action.isActive(editor, this)
                 btn.classList.toggle('is-active', active)
             }
         })
@@ -189,26 +177,7 @@ export default class Tiptap {
 
         this.innerEditor = new Editor({
             element: mountElement,
-            extensions: [
-                Document,
-                Text,
-                Bold,
-                Italic,
-                Strike,
-                CustomHeading,
-                BulletList,
-                OrderedList,
-                ListItem,
-                Blockquote,
-                HorizontalRule,
-                UndoRedo,
-                TextAlign.configure({
-                    types: ['heading', 'paragraph'],
-                    alignments: ['left', 'center', 'right', 'justify'],
-                    defaultAlignment: 'left'
-                }),
-                CustomParagraph
-            ],
+            extensions: this.extensions,
             content: this.element.value,
             onUpdate: ({ editor }) => {
                 this.element.value = editor.getHTML()
@@ -223,192 +192,15 @@ export default class Tiptap {
         })
     }
 
-    private toggleSourceView() {
-        this.isSourceView = !this.isSourceView
-        const container = this.element.parentElement
-        const toolbar = container?.querySelector('.wysiwyg-toolbar') as HTMLElement
-        const sourceBtn = toolbar?.querySelector('[data-action="source"]')
-
-        if (container) {
-            container.classList.toggle('is-source-mode', this.isSourceView)
-            if (this.isSourceView) {
-                this.element.value = this.innerEditor?.getHTML() || ''
-                sourceBtn?.classList.add('is-active')
-                this.setToolbarDisabled(toolbar, true)
-            } else {
-                this.innerEditor?.commands.setContent(this.element.value)
-                sourceBtn?.classList.remove('is-active')
-                this.setToolbarDisabled(toolbar, false)
-            }
-        }
-    }
-
-    private toggleMaximize() {
-        this.isMaximized = !this.isMaximized
-        const container = this.element.parentElement
-        const btn = container?.querySelector('[data-action="maximize"]') as HTMLElement
-
-        if (container) {
-            container.classList.toggle('is-maximized', this.isMaximized)
-            btn.innerHTML = this.isMaximized
-                ? '<i class="fa-solid fa-compress"></i>'
-                : '<i class="fa-solid fa-expand"></i>'
-            document.body.style.overflow = this.isMaximized ? 'hidden' : ''
-        }
-    }
-
-    private setToolbarDisabled(toolbar: HTMLElement, disabled: boolean) {
-        const buttons = toolbar.querySelectorAll('button:not([data-action="source"])')
+    public setToolbarDisabled(toolbar: HTMLElement, disabled: boolean) {
+        const buttons = toolbar.querySelectorAll(
+            'button:not([data-action="source"]):not([data-action="maximize"])'
+        )
         buttons.forEach((btn) => {
             const b = btn as HTMLButtonElement
             b.disabled = disabled
             b.style.opacity = disabled ? '0.4' : '1'
             b.style.cursor = disabled ? 'not-allowed' : 'pointer'
         })
-    }
-}
-
-const GroupRegistry: Record<string, string[]> = {
-    'mode': ['source', 'maximize'],
-    'undo': ['undo', 'redo'],
-    'basicstyles': ['bold', 'italic', 'strike'],
-    'cleanup': ['clear'],
-    'list': ['bulletList', 'orderedList'],
-    'indent': ['outdent', 'indent'],
-    'align': ['alignLeft', 'alignCenter', 'alignRight', 'alignJustify'],
-    'insert': ['horizontalRule'],
-    'blocks': ['blockquote']
-}
-
-const ActionRegistry: Record<string, ToolbarAction> = {
-    source: {
-        label: '<i class="fa-solid fa-code"></i>',
-        tooltip: 'Source Code',
-        isActive: () => false
-    },
-    maximize: {
-        label: '<i class="fa-solid fa-expand"></i>',
-        tooltip: 'Maximize / Fullscreen',
-        isActive: () => false
-    },
-    bold: {
-        label: '<i class="fa-solid fa-bold"></i>',
-        tooltip: 'Bold (Ctrl+B)',
-        command: (e) => e.chain().focus().toggleBold().run(),
-        isActive: (e) => e.isActive('bold')
-    },
-    italic: {
-        label: '<i class="fa-solid fa-italic"></i>',
-        tooltip: 'Italic (Ctrl+I)',
-        command: (e) => e.chain().focus().toggleItalic().run(),
-        isActive: (e) => e.isActive('italic')
-    },
-    strike: {
-        label: '<i class="fa-solid fa-strikethrough"></i>',
-        tooltip: 'Strikethrough',
-        command: (e) => e.chain().focus().toggleStrike().run(),
-        isActive: (e) => e.isActive('strike')
-    },
-    undo: {
-        label: '<i class="fa-solid fa-rotate-left"></i>',
-        tooltip: 'Undo (Ctrl+Z)',
-        command: (e) => e.chain().focus().undo().run(),
-        isActive: () => false
-    },
-    redo: {
-        label: '<i class="fa-solid fa-rotate-right"></i>',
-        tooltip: 'Redo (Ctrl+Y)',
-        command: (e) => e.chain().focus().redo().run(),
-        isActive: () => false
-    },
-    clear: {
-        label: '<i class="fa-solid fa-remove-format"></i>',
-        tooltip: 'Remove Formatting',
-        command: (e) => e.chain().focus().unsetAllMarks().clearNodes().run(),
-        isActive: () => false
-    },
-    horizontalRule: {
-        label: '<i class="fa-solid fa-grip-lines"></i>',
-        tooltip: 'Insert Horizontal Line',
-        command: (e) => e.chain().focus().setHorizontalRule().run(),
-        isActive: () => false
-    },
-    blockquote: {
-        label: '<i class="fa-solid fa-quote-right"></i>',
-        tooltip: 'Blockquote (Ctrl+Shift+B)',
-        command: (e) => e.chain().focus().toggleBlockquote().run(),
-        isActive: (e) => e.isActive('blockquote')
-    },
-    bulletList: {
-        label: '<i class="fa-solid fa-list-ul"></i>',
-        tooltip: 'Bullet List',
-        command: (e) => e.chain().focus().toggleBulletList().run(),
-        isActive: (e) => e.isActive('bulletList')
-    },
-    orderedList: {
-        label: '<i class="fa-solid fa-list-ol"></i>',
-        tooltip: 'Numbered List',
-        command: (e) => e.chain().focus().toggleOrderedList().run(),
-        isActive: (e) => e.isActive('orderedList')
-    },
-    indent: {
-        label: '<i class="fa-solid fa-indent"></i>',
-        tooltip: 'Increase Indent',
-        command: (e) => {
-            return e.chain().focus().command(({ tr, state }) => {
-                const { selection } = state
-                tr.doc.nodesBetween(selection.from, selection.to, (node, pos) => {
-                    if (node.type.name === 'paragraph' || node.type.name === 'heading') {
-                        const currentIndent = node.attrs.indent || 0
-                        tr.setNodeMarkup(pos, undefined, { ...node.attrs, indent: currentIndent + 1 })
-                    }
-                })
-                return true
-            }).run()
-        },
-        isActive: () => false
-    },
-    outdent: {
-        label: '<i class="fa-solid fa-outdent"></i>',
-        tooltip: 'Decrease Indent',
-        command: (e) => {
-            return e.chain().focus().command(({ tr, state }) => {
-                const { selection } = state
-                tr.doc.nodesBetween(selection.from, selection.to, (node, pos) => {
-                    if (node.type.name === 'paragraph' || node.type.name === 'heading') {
-                        const currentIndent = node.attrs.indent || 0
-                        if (currentIndent > 0) {
-                            tr.setNodeMarkup(pos, undefined, { ...node.attrs, indent: currentIndent - 1 })
-                        }
-                    }
-                })
-                return true
-            }).run()
-        },
-        isActive: () => false
-    },
-    alignLeft: {
-        label: '<i class="fa-solid fa-align-left"></i>',
-        tooltip: 'Align Left',
-        command: (e) => e.chain().focus().setTextAlign('left').run(),
-        isActive: (e) => e.isActive({ textAlign: 'left' })
-    },
-    alignCenter: {
-        label: '<i class="fa-solid fa-align-center"></i>',
-        tooltip: 'Align Center',
-        command: (e) => e.chain().focus().setTextAlign('center').run(),
-        isActive: (e) => e.isActive({ textAlign: 'center' })
-    },
-    alignRight: {
-        label: '<i class="fa-solid fa-align-right"></i>',
-        tooltip: 'Align Right',
-        command: (e) => e.chain().focus().setTextAlign('right').run(),
-        isActive: (e) => e.isActive({ textAlign: 'right' })
-    },
-    alignJustify: {
-        label: '<i class="fa-solid fa-align-justify"></i>',
-        tooltip: 'Justify',
-        command: (e) => e.chain().focus().setTextAlign('justify').run(),
-        isActive: (e) => e.isActive({ textAlign: 'justify' })
     }
 }

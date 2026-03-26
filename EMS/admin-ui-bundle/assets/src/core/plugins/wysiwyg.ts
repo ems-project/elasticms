@@ -5,16 +5,16 @@ export default class WYSIWYG {
     profile: WysiwygProfile | null = null
 
     constructor() {
-        this.profile = this.getProfile();
+        this.profile = this.getProfile()
     }
 
     async load(target: HTMLElement) {
-        if (!this.profile) return;
+        if (!this.profile) return
 
         await Promise.all([
             this.loadInAdminUI(target, this.profile),
             this.loadInRevision(target, this.profile)
-        ]);
+        ])
     }
 
     private getProfile(): WysiwygProfile | null {
@@ -54,9 +54,9 @@ export default class WYSIWYG {
                 referrerEmsId: element.getAttribute('data-referrer-ems-id'),
                 tableDefaultCss: element.getAttribute('data-table-default-css'),
                 lang: element.getAttribute('data-lang')
-            };
+            }
 
-            await this.createEditor(element, options, profile);
+            await this.createEditor(element, options, profile)
         }
     }
 

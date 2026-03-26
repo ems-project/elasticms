@@ -1,4 +1,4 @@
-publiccodeYmlVersion: "0.2"
+publiccodeYmlVersion: "0"
 name: elasticMS
 applicationSuite: elasticMS
 url: https://github.com/ems-project/elasticms
@@ -16,7 +16,6 @@ developmentStatus: stable
 softwareType: standalone/web
 description:
   en:
-    genericName: Content Management System
     shortDescription: Modular open-source headless CMS for public-sector websites
     longDescription: >
       elasticMS is a modular open-source headless CMS designed to manage,

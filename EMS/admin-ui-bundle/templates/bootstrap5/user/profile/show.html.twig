@@ -5,8 +5,8 @@
 {% block body %}
     {% set footer %}
         <div class="btn-group">
-            <a href="{{ path(routes.USER_PROFILE_EDIT) }}" class="btn btn-primary"><i class="fa fa-pencil"></i> {{ 'user.profile.show.action.edit'|trans }}</a>
-            <a href="{{ path(routes.USER_CHANGE_PASSWORD) }}" class="btn btn-primary"><i class="fa fa-lock"></i> {{ 'user.profile.change_password.title'|trans }}</a>
+            <a href="{{ path(routes.USER_PROFILE_EDIT) }}" class="btn btn-primary" data-testid="profile-edit"><i class="fa fa-pencil"></i> {{ 'user.profile.show.action.edit'|trans }}</a>
+            <a href="{{ path(routes.USER_CHANGE_PASSWORD) }}" class="btn btn-primary" data-testid="profile-change-password"><i class="fa fa-lock"></i> {{ 'user.profile.change_password.title'|trans }}</a>
         </div>
     {% endset %}
     <div class="row justify-content-md-center">
@@ -27,7 +27,7 @@
         <h3 class="profile-username text-center">{{ user.displayName }}</h3>
 
         {% if user.group %}
-            <p class="text-muted text-center">{{ user.group.label }}</p>
+            <p class="text-muted text-center" data-testid="profile-group">{{ user.group.label }}</p>
         {% endif %}
 
     {% set emailNotification %}

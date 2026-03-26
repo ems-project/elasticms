@@ -87,7 +87,7 @@
           <!-- User Account Menu -->
           <li class="dropdown user user-menu">
             <!-- Menu Toggle Button -->
-            <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
+            <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" data-testid="user-menu">
               <!-- The user image in the navbar-->
               	{% include '@EMSAdminUI/bootstrap5/elements/user-image.html.twig' with {
 					'class': 'user-image'
@@ -113,10 +113,10 @@
                 </p>
               </li>
               <li class="user-footer">
-                <div class="pull-left">
+                <div class="pull-left" data-testid="user-footer-edit-profile">
                   <a href="{{ path(routes.USER_PROFILE) }}" class="btn btn-default btn-flat">{{ 'user.profile.title'|trans({}, 'emsco-user') }}</a>
                 </div>
-                <div class="float-end">
+                <div class="float-end" data-testid="user-footer-logout">
                		{% if is_granted('IS_IMPERSONATOR') %}
                			<a href="{{ path('emsco_user_index', {'_switch_user': '_exit'}) }}" class="btn btn-default btn-flat">{{ 'user.logout.exit'|trans({}, 'emsco-user') }}</a>
                		{% else %}

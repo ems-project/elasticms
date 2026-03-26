@@ -2,7 +2,7 @@
     {# @var menu \EMS\CoreBundle\Core\UI\MenuEntry #}
 
     {% trans_default_domain 'emsco-twigs' %}
-    <li {% if menu.hasChildren %}class="treeview"{% endif %}>
+    <li {% if menu.hasChildren %}class="treeview"{% endif %} data-testid="sidebar-menu-tree-item">
         {% set menuLabel = menu.labelTranslation is not null ? menu.labelTranslation|trans : menu.label %}
         <a href="{{ path(menu.route, menu.routeParameters) }}"{% if menu.color %} class="text-{{ menu.color }}"{% endif %}>
             <i class="{{ menu.icon }}"></i>&nbsp;<span>{{ menuLabel }}</span>
@@ -13,7 +13,7 @@
             {% endif %}
         </a>
         {% if menu.hasChildren %}
-            <ul class="treeview-menu">
+            <ul class="treeview-menu" data-testid="sidebar-menu-tree-item-tree">
                 {% for menu in menu.children %}
                     {{ block('sidebarMenu') }}
                 {% endfor %}

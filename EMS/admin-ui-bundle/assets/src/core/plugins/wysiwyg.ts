@@ -67,6 +67,6 @@ export default class WYSIWYG {
     ) {
         const Editor = await import(`../components/wysiwyg/${profile.editor}.ts`)
 
-        this.editors.push(new Editor.default(element, options, profile.editor))
+        this.editors.push(new Editor.default(element, options, profile))
     }
 }

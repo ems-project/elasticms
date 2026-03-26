@@ -1,10 +1,6 @@
 import './../../../../css/core/components/wysiwyg.scss'
 import { WysiwygProfile, WysiwygRevisionOptions } from './types.ts'
-import {
-    DefaultModules,
-    IconSet,
-    TiptapModule,
-} from '../tiptap/types.ts'
+import { DefaultModules, IconSet, TiptapModule } from '../tiptap/types.ts'
 
 import { TiptapEditor } from '../tiptap/editor.ts'
 

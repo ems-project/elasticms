@@ -74,21 +74,21 @@ export class Toolbar {
     }
 
     setDisabled(disabled: boolean, exclude: string[] = []) {
-        const buttons = this.element.querySelectorAll<HTMLButtonElement>('button[data-action]');
+        const buttons = this.element.querySelectorAll<HTMLButtonElement>('button[data-action]')
 
         buttons.forEach((btn) => {
-            const actionKey = btn.dataset.action;
+            const actionKey = btn.dataset.action
 
             if (actionKey && exclude.includes(actionKey)) {
-                btn.disabled = false;
-                btn.style.opacity = '1';
-                btn.style.cursor = 'pointer';
-                return;
+                btn.disabled = false
+                btn.style.opacity = '1'
+                btn.style.cursor = 'pointer'
+                return
             }
 
-            btn.disabled = disabled;
-            btn.style.opacity = disabled ? '0.4' : '1';
-            btn.style.cursor = disabled ? 'not-allowed' : 'pointer';
-        });
+            btn.disabled = disabled
+            btn.style.opacity = disabled ? '0.4' : '1'
+            btn.style.cursor = disabled ? 'not-allowed' : 'pointer'
+        })
     }
 }

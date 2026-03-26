@@ -28,8 +28,8 @@ export class TiptapEditor {
     constructor(options: TiptapEditorOptions) {
         const modules = options.modules || DefaultModules
         this.icons = options.icons || fa5Icons
-        this.element = options.element;
-        this.textarea = options.textarea ?? null;
+        this.element = options.element
+        this.textarea = options.textarea ?? null
 
         const extensions = this.resolveModules(modules)
 
@@ -46,7 +46,7 @@ export class TiptapEditor {
             extensions,
             content: this.textarea?.value || this.element.innerHTML,
             onUpdate: ({ editor }) => {
-                this.toolbar.update();
+                this.toolbar.update()
                 if (this.textarea) {
                     this.textarea.value = editor.getHTML()
                 }

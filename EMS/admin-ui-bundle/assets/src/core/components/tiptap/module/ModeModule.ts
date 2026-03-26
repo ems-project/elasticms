@@ -11,7 +11,7 @@ export const ModeModule: TiptapModule = {
             icon: 'source',
             tooltip: 'Source Code',
             command: (e) => {
-                const textarea = e.textarea;
+                const textarea = e.textarea
                 if (null === textarea) return
 
                 const container = e.toolbar.element.parentElement

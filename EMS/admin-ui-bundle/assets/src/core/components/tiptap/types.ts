@@ -1,4 +1,3 @@
-import { Editor } from '@tiptap/core'
 import { Extension, Mark, Node } from '@tiptap/core'
 import { ModeModule } from './module/ModeModule.ts'
 import { HistoryModule } from './module/HistoryModule.ts'
@@ -8,6 +7,7 @@ import { ListModule } from './module/ListModule.ts'
 import { IndentModule } from './module/IndentModule.ts'
 import { AlignModule } from './module/AlignModule.ts'
 import { BlockModule } from './module/BlockModule.ts'
+import { TiptapEditor } from './editor.ts'
 
 export interface TiptapModule {
     name: string
@@ -19,19 +19,8 @@ export interface TiptapModule {
 export interface ToolbarAction {
     icon: IconKey
     tooltip?: string
-    command?: (editor: Editor, context: TiptapContext) => void
-    isActive: (editor: Editor, context?: TiptapContext) => boolean
-}
-
-export interface TiptapContext {
-    isSourceView: boolean
-    isMaximized: boolean
-    element: HTMLTextAreaElement
-    iframe: HTMLIFrameElement | null
-    innerEditor: Editor | null
-    icons: IconSet
-    updateToolbarUI(editor: Editor): void
-    setToolbarDisabled(toolbar: HTMLElement, disabled: boolean): void
+    command?: (editor: TiptapEditor) => void
+    isActive: (editor: TiptapEditor) => boolean
 }
 
 export const DefaultModules: TiptapModule[] = [

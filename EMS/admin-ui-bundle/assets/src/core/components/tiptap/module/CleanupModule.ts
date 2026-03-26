@@ -10,7 +10,7 @@ export const CleanupModule: TiptapModule = {
         clear: {
             icon: 'clear',
             tooltip: 'Remove Formatting',
-            command: (e) => e.chain().focus().unsetAllMarks().clearNodes().run(),
+            command: (e) => e.tiptap.chain().focus().unsetAllMarks().clearNodes().run(),
             isActive: () => false
         }
     }

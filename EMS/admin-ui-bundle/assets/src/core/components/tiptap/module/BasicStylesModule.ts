@@ -13,20 +13,20 @@ export const BasicStylesModule: TiptapModule = {
         bold: {
             icon: 'bold',
             tooltip: 'Bold (Ctrl+B)',
-            command: (e) => e.chain().focus().toggleBold().run(),
-            isActive: (e) => e.isActive('bold')
+            command: (e) => e.tiptap.chain().focus().toggleBold().run(),
+            isActive: (e) => e.tiptap.isActive('bold')
         },
         italic: {
             icon: 'italic',
             tooltip: 'Italic (Ctrl+I)',
-            command: (e) => e.chain().focus().toggleItalic().run(),
-            isActive: (e) => e.isActive('italic')
+            command: (e) => e.tiptap.chain().focus().toggleItalic().run(),
+            isActive: (e) => e.tiptap.isActive('italic')
         },
         strike: {
             icon: 'strike',
             tooltip: 'Strikethrough',
-            command: (e) => e.chain().focus().toggleStrike().run(),
-            isActive: (e) => e.isActive('strike')
+            command: (e) => e.tiptap.chain().focus().toggleStrike().run(),
+            isActive: (e) => e.tiptap.isActive('strike')
         }
     }
 }

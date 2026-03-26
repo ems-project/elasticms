@@ -39,7 +39,7 @@ export const IndentModule: TiptapModule = {
             icon: 'indent',
             tooltip: 'Increase Indent',
             command: (e) => {
-                return e
+                return e.tiptap
                     .chain()
                     .focus()
                     .command(({ tr, state }) => {
@@ -63,7 +63,7 @@ export const IndentModule: TiptapModule = {
             icon: 'outdent',
             tooltip: 'Decrease Indent',
             command: (e) => {
-                return e
+                return e.tiptap
                     .chain()
                     .focus()
                     .command(({ tr, state }) => {

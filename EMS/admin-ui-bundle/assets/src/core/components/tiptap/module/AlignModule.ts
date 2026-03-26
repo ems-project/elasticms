@@ -17,26 +17,26 @@ export const AlignModule: TiptapModule = {
         alignLeft: {
             icon: 'alignLeft',
             tooltip: 'Align Left',
-            command: (e) => e.chain().focus().setTextAlign('left').run(),
-            isActive: (e) => e.isActive({ textAlign: 'left' })
+            command: (e) => e.tiptap.chain().focus().setTextAlign('left').run(),
+            isActive: (e) => e.tiptap.isActive({ textAlign: 'left' })
         },
         alignCenter: {
             icon: 'alignCenter',
             tooltip: 'Align Center',
-            command: (e) => e.chain().focus().setTextAlign('center').run(),
-            isActive: (e) => e.isActive({ textAlign: 'center' })
+            command: (e) => e.tiptap.chain().focus().setTextAlign('center').run(),
+            isActive: (e) => e.tiptap.isActive({ textAlign: 'center' })
         },
         alignRight: {
             icon: 'alignRight',
             tooltip: 'Align Right',
-            command: (e) => e.chain().focus().setTextAlign('right').run(),
-            isActive: (e) => e.isActive({ textAlign: 'right' })
+            command: (e) => e.tiptap.chain().focus().setTextAlign('right').run(),
+            isActive: (e) => e.tiptap.isActive({ textAlign: 'right' })
         },
         alignJustify: {
             icon: 'alignJustify',
             tooltip: 'Justify',
-            command: (e) => e.chain().focus().setTextAlign('justify').run(),
-            isActive: (e) => e.isActive({ textAlign: 'justify' })
+            command: (e) => e.tiptap.chain().focus().setTextAlign('justify').run(),
+            isActive: (e) => e.tiptap.isActive({ textAlign: 'justify' })
         }
     }
 }

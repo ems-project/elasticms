@@ -10,42 +10,42 @@ export const ModeModule: TiptapModule = {
         source: {
             icon: 'source',
             tooltip: 'Source Code',
-            command: (_editor, ctx) => {
-                ctx.isSourceView = !ctx.isSourceView
-                const container = ctx.element.parentElement
-                const toolbar = container?.querySelector('.wysiwyg-toolbar') as HTMLElement
-                const sourceBtn = toolbar?.querySelector('[data-action="source"]')
+            command: (e) => {
+                const textarea = e.textarea;
+                if (null === textarea) return
 
-                if (container) {
-                    container.classList.toggle('is-source-mode', ctx.isSourceView)
-                    if (ctx.isSourceView) {
-                        ctx.element.value = ctx.innerEditor?.getHTML() || ''
-                        sourceBtn?.classList.add('is-active')
-                        ctx.setToolbarDisabled(toolbar, true)
-                    } else {
-                        ctx.innerEditor?.commands.setContent(ctx.element.value)
-                        sourceBtn?.classList.remove('is-active')
-                        ctx.setToolbarDisabled(toolbar, false)
-                    }
+                const container = e.toolbar.element.parentElement
+                if (!container?.classList.contains('wysiwyg-container')) return
+
+                e.isSourceView = !e.isSourceView
+                container.classList.toggle('is-source-mode', e.isSourceView)
+
+                if (e.isSourceView) {
+                    textarea.value = e.tiptap.getHTML()
+                    e.toolbar.setDisabled(true, ['source', 'maximize'])
+                } else {
+                    e.tiptap.commands.setContent(textarea.value)
+                    e.toolbar.setDisabled(false, ['source', 'maximize'])
                 }
             },
-            isActive: (_editor, ctx) => ctx?.isSourceView ?? false
+            isActive: (e) => e.isSourceView
         },
         maximize: {
             icon: 'maximize',
             tooltip: 'Maximize / Fullscreen',
-            command: (_editor, ctx) => {
-                ctx.isMaximized = !ctx.isMaximized
-                const container = ctx.element.parentElement
-                const btn = container?.querySelector('[data-action="maximize"]') as HTMLElement
+            command: (e) => {
+                const container = e.toolbar.element.parentElement
+                if (!container?.classList.contains('wysiwyg-container')) return
 
-                if (container) {
-                    container.classList.toggle('is-maximized', ctx.isMaximized)
-                    btn.innerHTML = ctx.isMaximized ? ctx.icons.minimize : ctx.icons.maximize
-                    document.body.style.overflow = ctx.isMaximized ? 'hidden' : ''
-                }
+                e.isMaximized = !e.isMaximized
+                container.classList.toggle('is-maximized', e.isMaximized)
+
+                const btn = container.querySelector('[data-action="maximize"]') as HTMLElement
+                btn.innerHTML = e.isMaximized ? e.icons.minimize : e.icons.maximize
+
+                document.body.style.overflow = e.isMaximized ? 'hidden' : ''
             },
-            isActive: (_editor, ctx) => ctx?.isMaximized ?? false
+            isActive: (e) => e.isMaximized
         }
     }
 }

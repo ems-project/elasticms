@@ -13,14 +13,14 @@ export const BlockModule: TiptapModule = {
         horizontalRule: {
             icon: 'horizontalRule',
             tooltip: 'Insert Horizontal Line',
-            command: (e) => e.chain().focus().setHorizontalRule().run(),
+            command: (e) => e.tiptap.chain().focus().setHorizontalRule().run(),
             isActive: () => false
         },
         blockquote: {
             icon: 'blockquote',
             tooltip: 'Blockquote (Ctrl+Shift+B)',
-            command: (e) => e.chain().focus().toggleBlockquote().run(),
-            isActive: (e) => e.isActive('blockquote')
+            command: (e) => e.tiptap.chain().focus().toggleBlockquote().run(),
+            isActive: (e) => e.tiptap.isActive('blockquote')
         }
     }
 }

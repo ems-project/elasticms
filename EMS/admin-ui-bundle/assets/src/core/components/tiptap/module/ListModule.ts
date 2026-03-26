@@ -13,14 +13,14 @@ export const ListModule: TiptapModule = {
         bulletList: {
             icon: 'bulletList',
             tooltip: 'Bullet List',
-            command: (e) => e.chain().focus().toggleBulletList().run(),
-            isActive: (e) => e.isActive('bulletList')
+            command: (e) => e.tiptap.chain().focus().toggleBulletList().run(),
+            isActive: (e) => e.tiptap.isActive('bulletList')
         },
         orderedList: {
             icon: 'orderedList',
             tooltip: 'Numbered List',
-            command: (e) => e.chain().focus().toggleOrderedList().run(),
-            isActive: (e) => e.isActive('orderedList')
+            command: (e) => e.tiptap.chain().focus().toggleOrderedList().run(),
+            isActive: (e) => e.tiptap.isActive('orderedList')
         }
     }
 }

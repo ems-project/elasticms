@@ -1,0 +1,64 @@
+.wysiwyg-container {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    background: #fff;
+    resize: vertical;
+    overflow: auto;
+    min-height: 100px;
+
+    .wysiwyg-toolbar {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #ced4da;
+        padding: 4px;
+        flex-wrap: wrap;
+    }
+
+    &.is-source-mode {
+        .wysiwyg-iframe {
+            display: none;
+        }
+
+        .wysiwyg-source-view {
+            display: block;
+        }
+    }
+
+    &.is-maximized {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw !important;
+        height: 100vh !important;
+        z-index: 9999;
+        border-radius: 0;
+        resize: none;
+        overflow: hidden;
+    }
+
+    .wysiwyg-source-view,
+    .wysiwyg-iframe {
+        flex: 1;
+        height: auto;
+        border: none !important;
+        outline: none;
+        display: block;
+        width: 100%;
+        margin: 0;
+    }
+
+    .wysiwyg-source-view {
+        display: none;
+        resize: none;
+        font-family: 'Courier New', monospace;
+        padding: 15px;
+        box-sizing: border-box;
+    }
+}

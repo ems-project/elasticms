@@ -1,4 +1,4 @@
-import './../../../../css/core/components/wysiwyg.scss'
+import './tiptap.css'
 import { WysiwygProfile, WysiwygRevisionOptions } from './types.ts'
 import { DefaultModules, IconSet, TiptapModule } from '../tiptap/types.ts'
 
@@ -20,14 +20,16 @@ export default class Tiptap {
 
     private groupRegistry: Record<string, string[]> = {}
     tiptapOptions: TiptapOptions | null = null
+    options: WysiwygRevisionOptions | null
 
     constructor(
         element: HTMLTextAreaElement,
-        _options: WysiwygRevisionOptions | null,
+        options: WysiwygRevisionOptions | null,
         _profile: WysiwygProfile,
         tiptapOptions?: TiptapOptions
     ) {
         this.element = element
+        this.options = options
         this.tiptapOptions = tiptapOptions ?? null
 
         this.config = [
@@ -41,8 +43,11 @@ export default class Tiptap {
     }
 
     private init() {
+        const height = this.options?.height ?? this.element.offsetHeight;
+
         const container = document.createElement('div')
         container.className = 'wysiwyg-container'
+        container.style.height = `${height}px`
         this.element.parentNode?.insertBefore(container, this.element)
 
         const toolbar = document.createElement('div')

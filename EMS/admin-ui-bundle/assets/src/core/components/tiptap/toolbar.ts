@@ -1,3 +1,4 @@
+import './toolbar.css';
 import type { TiptapEditor } from './editor.ts'
 import { IconSet, ToolbarAction } from './types.ts'
 
@@ -15,6 +16,8 @@ export class Toolbar {
         actionRegistry: Record<string, ToolbarAction>,
         tiptapEditor: TiptapEditor
     ) {
+        element.classList.add('tiptap-toolbar')
+
         this.element = element
         this.icons = icons
         this.actionRegistry = actionRegistry
@@ -27,7 +30,7 @@ export class Toolbar {
     private build() {
         Object.keys(this.groupRegistry).forEach((groupName) => {
             const groupDiv = document.createElement('div')
-            groupDiv.className = 'wysiwyg-toolbar-group'
+            groupDiv.className = 'tiptap-toolbar-group'
 
             const items = this.groupRegistry[groupName] || []
             items.forEach((actionKey) => {

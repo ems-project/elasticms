@@ -9,7 +9,7 @@ interface TiptapEditorOptions {
     toolbarElement: HTMLElement
     textarea?: HTMLTextAreaElement
     onUpdate?: (editor: Editor) => void
-    onReady?: () => void,
+    onReady?: () => void
     modules?: TiptapModule[]
     icons?: IconSet
 }

@@ -107,9 +107,11 @@ export class InlineEditor {
             window.history.replaceState({ path: msg.path }, '', newUrl)
         }
 
-        const data = await this.api.init(msg.collection)
-        if (data.elements && data.elements.length > 0) {
-            this.messenger.send({ type: 'EDITOR_ELEMENTS', selectors: data.elements })
+        if (Object.keys(msg.collection).length > 0) {
+            const data = await this.api.init(msg.collection)
+            if (data.elements && data.elements.length > 0) {
+                this.messenger.send({ type: 'EDITOR_ELEMENTS', selectors: data.elements })
+            }
         }
 
         this.collection = msg.collection

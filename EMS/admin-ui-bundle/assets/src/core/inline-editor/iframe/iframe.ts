@@ -79,9 +79,10 @@ export class Iframe {
     }
 
     private onClick(event: MouseEvent): void {
-        const target = event.target as HTMLElement
+        if (this.inlineSelectors.length == 0) return
         const selectors = this.inlineSelectors.join(',')
 
+        const target = event.target as HTMLElement
         const matchedElement = target.closest(selectors) as HTMLElement
 
         if (matchedElement) {

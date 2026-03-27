@@ -7,9 +7,10 @@ import { Toolbar } from './toolbar.ts'
 interface TiptapEditorOptions {
     element: HTMLElement
     toolbarElement: HTMLElement
+    textarea?: HTMLTextAreaElement
+    onUpdate?: (editor: Editor) => void
     modules?: TiptapModule[]
     icons?: IconSet
-    textarea?: HTMLTextAreaElement
 }
 
 export class TiptapEditor {
@@ -50,6 +51,7 @@ export class TiptapEditor {
                 if (this.textarea) {
                     this.textarea.value = editor.getHTML()
                 }
+                options.onUpdate?.(editor)
             },
             onSelectionUpdate: () => this.toolbar.update(),
             onTransaction: () => this.toolbar.update()

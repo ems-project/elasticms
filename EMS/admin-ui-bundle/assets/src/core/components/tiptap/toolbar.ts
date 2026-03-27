@@ -1,4 +1,4 @@
-import './toolbar.css';
+import './toolbar.css'
 import type { TiptapEditor } from './editor.ts'
 import { IconSet, ToolbarAction } from './types.ts'
 

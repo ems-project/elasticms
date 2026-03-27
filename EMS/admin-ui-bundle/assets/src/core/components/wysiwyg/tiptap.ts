@@ -3,6 +3,7 @@ import { WysiwygProfile, WysiwygRevisionOptions } from './types.ts'
 import { DefaultModules, IconSet, TiptapModule } from '../tiptap/types.ts'
 
 import { TiptapEditor } from '../tiptap/editor.ts'
+import ChangeEvent from '../../events/changeEvent.ts'
 
 interface ConfigGroup {
     name: string
@@ -43,7 +44,7 @@ export default class Tiptap {
     }
 
     private init() {
-        const height = this.options?.height ?? this.element.offsetHeight;
+        const height = this.options?.height ?? this.element.offsetHeight
 
         const container = document.createElement('div')
         container.className = 'wysiwyg-container'
@@ -74,9 +75,17 @@ export default class Tiptap {
         new TiptapEditor({
             element: doc.body,
             textarea: this.element,
+            toolbarElement: toolbar,
+            onUpdate: () => this.onUpdate(),
             icons: this.tiptapOptions?.icons,
-            modules: DefaultModules,
-            toolbarElement: toolbar
+            modules: DefaultModules
         })
+    }
+
+    private onUpdate() {
+        if (this.options === null) return
+
+        const changeEvent = new ChangeEvent(this.element)
+        changeEvent.dispatch()
     }
 }

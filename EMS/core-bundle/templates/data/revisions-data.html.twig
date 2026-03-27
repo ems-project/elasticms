@@ -79,7 +79,7 @@
 
 {% block revisionToolbar %}
 	<div class="box box-primary">
-		<div class="box-footer">
+		<div class="box-footer" data-testid="revision-toolbar">
 			{% include '@EMSCore/elements/revision-toolbar.html.twig' with {
 				'revisionId' : revision.id,
 				'environmentsRevision': emsco_get_environments_revision(revision),
@@ -230,13 +230,13 @@
 {% endblock %}
 
 {% block revisionBody %}
-	<div class="box revision-view">
+	<div class="box revision-view" data-testid="revision-view">
 		{% if revision.giveContentType.versioning.tags|length > 0 and newVersionTag is not null and newVersionTag != 'silent' %}
-		<div class="box-header with-border bg-green color-palette">
+		<div class="box-header with-border bg-green color-palette" data-testid="revision-view-header-version">
 			<h3 class="box-title">New version <strong>{{ newVersionTag }}</strong></h3>
 		</div>
 		{% endif %}
-		<div class="box-header with-border bg-{{ revisionColor }} color-palette">
+		<div class="box-header with-border bg-{{ revisionColor }} color-palette" data-testid="revision-view-header">
 			<h3 class="box-title">
 				{% if revision.draft %}
 					<i class="fa fa-fire"></i>
@@ -261,11 +261,11 @@
 			{% endif %}
 		</div>
 
-		<div class="box-body">
+		<div class="box-body" data-testid="revision-view-body">
 			{% set compare = compareData != null ? true : false %}
 			{{ macros.renderDataField(dataFields, revision.rawData, compare, compareData) }}
 		</div>
-		<div class="box-footer">
+		<div class="box-footer" data-testid="revision-view-footer">
 			{% include '@EMSCore/elements/revision-toolbar.html.twig' with {
 				'revisionId' : revision.id,
 				'environmentsRevision': emsco_get_environments_revision(revision),
@@ -283,10 +283,10 @@
 {% block revisionFooterTabs %}
 	<div class="nav-tabs-custom">
 		<ul class="nav nav-tabs">
-			<li class="active"><a href="#tab_referrers" data-toggle="tab" aria-expanded="true">{{ 'views.data.revisions-data-html.linked-documents-in'|trans({'%environment%': revision.contentType.environment.label, '%length%': referrerResponse.documents|length, '%total%': referrerResponse.formattedTotal }) }}</a></li>
-			<li class=""><a href="#tab_revisions" data-toggle="tab" aria-expanded="false">Revisions <small>{{ revisionsSummary|length }}/{{ counter }}</small></a></li>
+			<li class="active"><a href="#tab_referrers" data-toggle="tab" aria-expanded="true" data-testid="revision-tab-referrers">{{ 'views.data.revisions-data-html.linked-documents-in'|trans({'%environment%': revision.contentType.environment.label, '%length%': referrerResponse.documents|length, '%total%': referrerResponse.formattedTotal }) }}</a></li>
+			<li class=""><a href="#tab_revisions" data-toggle="tab" aria-expanded="false" data-testid="revision-tab-revisions">Revisions <small>{{ revisionsSummary|length }}/{{ counter }}</small></a></li>
 			{% if auditTable|default(false) %}
-				<li class=""><a href="#tab_audit" data-toggle="tab" aria-expanded="false">Audit <small>({{ auditCount }})</small></a></li>
+				<li class=""><a href="#tab_audit" data-toggle="tab" aria-expanded="false" data-testid="revision-tab-audit">Audit <small>({{ auditCount }})</small></a></li>
 			{% endif %}
 		</ul>
 		<div class="tab-content">

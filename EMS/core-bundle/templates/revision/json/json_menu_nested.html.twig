@@ -162,7 +162,7 @@
     {%- if 'add' in node.actions and node.addNodes|length > 0 and (def.maxDepth == 0 or level < def.maxDepth)  -%}
         <div class="btn-group btn-group-sm">
             <button type="button" class="btn btn-sm btn-default dropdown-toggle json-menu-nested-add-button"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-testid="json-menu-nested-{{ def.defName }}-add-button">
                 <span class="fa fa-plus"></span>
                 {{ 'field_type.json_menu_editor.add'|trans }}
                 <span class="caret"></span>
@@ -175,7 +175,8 @@
                                 title="{{ 'field_type.json_menu_editor.add_item'|trans({'%singular%': addNode.label}) }}"
                                 data-item-id="{{ item.id }}"
                                 data-node-id="{{ addNode.id }}"
-                                data-level="{{ level }}">
+                                data-level="{{ level }}"
+                                data-testid="json-menu-nested-add-{{ addNode.name|replace({'_':'-'}) }}">
                             {%- if addNode.icon|default(false) -%}<i class="{{ addNode.icon }}"></i>{%- endif -%}
                             {{ 'field_type.json_menu_editor.add_item'|trans({'%singular%': addNode.label}) }}
                         </button>
@@ -242,8 +243,8 @@
 
 {% block modalSaveFooter %}
     <div class="pull-right">
-        <button id="ajax-modal-submit" class="btn btn-sm btn-primary"><i class="fa fa-save"></i>&nbsp;Save</button>
-        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Cancel</button>
+        <button id="ajax-modal-submit" class="btn btn-sm btn-primary" data-testid="modal-submit"><i class="fa fa-save"></i>&nbsp;Save</button>
+        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" data-testid="modal-cancel">Cancel</button>
     </div>
 {% endblock %}
 

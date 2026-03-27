@@ -488,14 +488,14 @@
 
 {% block tabsfieldtype_widget_tab_label_per_item %}
 	<li id="{{ tab.vars.id}}__label" class="form-group{% if tab.vars.errors|length %} has-error{% endif %}{% if counter == 1%} active{% endif %}{% if tab.vars.class is defined and tab.vars.class != 'col-md-12' %} {{tab.vars.class}}{% endif %}">
-		<a href="#{{ tab.vars.id}}__tab" data-toggle="tab" aria-expanded="{% if counter == 1%}true{%else%}false{% endif %}">
+		<a href="#{{ tab.vars.id}}__tab" data-toggle="tab" aria-expanded="{% if counter == 1%}true{%else%}false{% endif %}" data-testid="{{ tab.vars.id|replace({'_': '-'}) }}-a">
 			{{- form_label(tab) -}}
 		</a>
 	</li>
 {% endblock tabsfieldtype_widget_tab_label_per_item %}
 
 {% block tabsfieldtype_widget_tab_panel_per_item %}
-	<div class="tab-pane{% if counter == 1%} active{% endif %}" id="{{ tab.vars.id}}__tab">
+	<div class="tab-pane{% if counter == 1%} active{% endif %}" id="{{ tab.vars.id}}__tab" data-testid="{{ tab.vars.id|replace({'_': '-'}) }}-div">
 		<div class="form-group has-error"  id="{{ tab.vars.id}}__error">
 			{{ form_errors(tab) }}
 		</div>
@@ -911,7 +911,7 @@
 
 {% block json_menu_nested_editor_fieldtype_row %}
 	<div class="form-group {% if form.vars.errors|length %} has-error{% endif %}"
-		data-name="{{ form.vars.name }}" data-block-prefix="{{ form.vars.unique_block_prefix }}">
+		data-name="{{ form.vars.name }}" data-block-prefix="{{ form.vars.unique_block_prefix }}" data-testid="json-menu-nested-{{ form.vars.name }}">
 		{{ form_label(form) }}
 		{{ form_widget(form) }}
 		{{ form_errors(form) }}

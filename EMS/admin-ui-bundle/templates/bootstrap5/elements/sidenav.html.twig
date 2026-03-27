@@ -7,7 +7,7 @@
         <span class="brand-text font-weight-light">{{ ems_name|raw }}</span>
     </a>
 
-    <div class="sidebar" data-testid="sidebar">
+    <div class="sidebar">
         {% if app.user %}
             {{ render(controller('EMS\\CoreBundle\\Controller\\TwigElementsController::sideMenu')) }}
         {% else %}

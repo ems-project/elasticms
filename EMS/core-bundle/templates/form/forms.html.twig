@@ -237,7 +237,7 @@
                         {% if action.label|default(false) %}{{ action.label|trans }}{% endif %}
                         <span class="caret"></span>
                     </button>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu>
                         {% for childAction in action %}
                             <li>
                                 {% with { 'action': childAction, 'btnClass': '' } %}
@@ -256,6 +256,7 @@
 
 {% block emsco_form_table_item_action %}
     {% if action.valid(line.data) %}
+    {% dump action %}
         {%  if action.dynamic == true %}
             {% set routeParameters = {} %}
             {% for name, property in action.routeParameters %}
@@ -277,7 +278,8 @@
                     'label': action.labelKey(itemLabel),
                     'btnType': action.buttonType,
                     'icon': action.icon,
-                    'group_class': loop.last ? 'pull-right' : ''
+                    'group_class': loop.last ? 'pull-right' : '',
+                    'attributes': action.attributes
                 } %}
             {% endif %}
         {% else %}
@@ -286,6 +288,7 @@
                 'label': action.labelKey(itemLabel),
                 'btnType': action.buttonType,
                 'icon': action.icon,
+                'attributes': action.attributes
             }%}
         {% endif %}
     {% endif %}
@@ -325,7 +328,8 @@
                 {% endif %}
                 <div class="box-body with-border">
                     <div class="table-responsive">
-                        <table class="table table-condensed table-striped" data-datatable="{{ table.frontendOptions|json_encode|e('html_attr') }}">
+
+                        <table class="table table-condensed table-striped" data-datatable="{{ table.frontendOptions|json_encode|e('html_attr') }}"{% if table_id|default(false) %} data-testid="table-id-{{ table_id }}"{% endif %}>
                             <thead>
                             <tr role="row">
                                 {% if table.supportsTableActions %}

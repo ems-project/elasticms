@@ -67,7 +67,7 @@ export default class Tiptap {
         const style = doc.createElement('style')
         style.textContent = `
             body { margin: 0; font-family: sans-serif; margin: 10px }
-            .ProseMirror { outline: none; min-height: 100%; }
+            .ProseMirror { outline: none; min-height: 100%; white-space: pre-wrap; }
         `
         doc.head.appendChild(style)
 

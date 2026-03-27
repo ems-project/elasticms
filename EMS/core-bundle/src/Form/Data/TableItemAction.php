@@ -16,6 +16,7 @@ final class TableItemAction
 
     /**
      * @param array<string, mixed> $routeParameters
+     * @param array<string, string> $attributes
      */
     private function __construct(
         private readonly bool $post,
@@ -25,6 +26,7 @@ final class TableItemAction
         private readonly ?TranslatableMessage $messageKey,
         private readonly array $routeParameters,
         private bool $dynamic = false,
+        private readonly array $attributes = [],
     ) {
     }
 
@@ -53,25 +55,27 @@ final class TableItemAction
 
     /**
      * @param array<string, string|int> $routeParameters
+     * @param array<string, string> $attributes
      */
-    public static function postDynamicAction(string $route, string|TranslatableMessage $labelKey, string $icon, string|TranslatableMessage|null $messageKey, array $routeParameters = []): TableItemAction
+    public static function postDynamicAction(string $route, string|TranslatableMessage $labelKey, string $icon, string|TranslatableMessage|null $messageKey, array $routeParameters = [], array $attributes = []): TableItemAction
     {
         $labelKey = $labelKey instanceof TranslatableMessage ? $labelKey : new TranslatableMessage($labelKey, [], EMSCoreBundle::TRANS_DOMAIN);
         if (null !== $messageKey) {
             $messageKey = $messageKey instanceof TranslatableMessage ? $messageKey : new TranslatableMessage($messageKey, [], EMSCoreBundle::TRANS_DOMAIN);
         }
 
-        return new self(true, $route, $labelKey, $icon, $messageKey, $routeParameters, true);
+        return new self(true, $route, $labelKey, $icon, $messageKey, $routeParameters, true, $attributes);
     }
 
     /**
      * @param array<string, string> $routeParameters
+     * @param array<string, string> $attributes
      */
-    public static function getDynamicAction(string $route, string|TranslatableMessage $labelKey, string $icon, array $routeParameters = []): TableItemAction
+    public static function getDynamicAction(string $route, string|TranslatableMessage $labelKey, string $icon, array $routeParameters = [], array $attributes = []): TableItemAction
     {
         $labelKey = $labelKey instanceof TranslatableMessage ? $labelKey : new TranslatableMessage($labelKey, [], EMSCoreBundle::TRANS_DOMAIN);
 
-        return new self(false, $route, $labelKey, $icon, null, $routeParameters, true);
+        return new self(false, $route, $labelKey, $icon, null, $routeParameters, true, $attributes);
     }
 
     public function isPost(): bool
@@ -104,6 +108,15 @@ final class TableItemAction
     public function getIcon(): string
     {
         return $this->icon;
+    }
+    
+    public function getAttributes(): string
+    {
+        $attributes = '';
+        foreach ($this->attributes as $key => $value) {
+            $attributes .= $key . '="' . $value . '" ';
+        }
+        return $attributes;
     }
 
     public function getMessageKey(?string $itemLabel = null): ?TranslatableMessage

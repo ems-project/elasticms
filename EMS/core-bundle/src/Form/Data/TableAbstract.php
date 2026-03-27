@@ -208,18 +208,20 @@ abstract class TableAbstract implements TableInterface
 
     /**
      * @param array<string, string|int> $routeParameters
+     * @param array<string, string> $attributes
      */
-    public function addDynamicItemPostAction(string $route, string|TranslatableMessage $labelKey, string $icon, string|TranslatableMessage|null $messageKey = null, array $routeParameters = []): TableItemAction
+    public function addDynamicItemPostAction(string $route, string|TranslatableMessage $labelKey, string $icon, string|TranslatableMessage|null $messageKey = null, array $routeParameters = [], array $attributes = []): TableItemAction
     {
-        return $this->itemActionCollection->addDynamicItemPostAction($route, $labelKey, $icon, $messageKey, $routeParameters);
+        return $this->itemActionCollection->addDynamicItemPostAction($route, $labelKey, $icon, $messageKey, $routeParameters, $attributes);
     }
 
     /**
      * @param array<string, string> $routeParameters
+     * @param array<string, string> $attributes
      */
-    public function addDynamicItemGetAction(string $route, string|TranslatableMessage $labelKey, string $icon, array $routeParameters = []): TableItemAction
+    public function addDynamicItemGetAction(string $route, string|TranslatableMessage $labelKey, string $icon, array $routeParameters = [], array $attributes = []): TableItemAction
     {
-        return $this->itemActionCollection->addDynamicItemGetAction($route, $labelKey, $icon, $routeParameters);
+        return $this->itemActionCollection->addDynamicItemGetAction($route, $labelKey, $icon, $routeParameters, $attributes);
     }
 
     #[\Override]

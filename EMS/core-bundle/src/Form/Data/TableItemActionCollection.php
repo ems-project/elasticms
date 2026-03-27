@@ -62,10 +62,11 @@ final class TableItemActionCollection implements \IteratorAggregate, \Countable
 
     /**
      * @param array<string, string|int> $routeParameters
+     * @param array<string, string> $attributes
      */
-    public function addDynamicItemPostAction(string $route, string|TranslatableMessage $labelKey, string $icon, string|TranslatableMessage|null $messageKey = null, array $routeParameters = []): TableItemAction
+    public function addDynamicItemPostAction(string $route, string|TranslatableMessage $labelKey, string $icon, string|TranslatableMessage|null $messageKey = null, array $routeParameters = [], array $attributes = []): TableItemAction
     {
-        $action = TableItemAction::postDynamicAction($route, $labelKey, $icon, $messageKey, $routeParameters);
+        $action = TableItemAction::postDynamicAction($route, $labelKey, $icon, $messageKey, $routeParameters, $attributes);
         $this->itemActions[] = $action;
 
         return $action;
@@ -73,10 +74,11 @@ final class TableItemActionCollection implements \IteratorAggregate, \Countable
 
     /**
      * @param array<string, string> $routeParameters
+     * @param array<string, string> $attributes
      */
-    public function addDynamicItemGetAction(string $route, string|TranslatableMessage $labelKey, string $icon, array $routeParameters = []): TableItemAction
+    public function addDynamicItemGetAction(string $route, string|TranslatableMessage $labelKey, string $icon, array $routeParameters = [], array $attributes = []): TableItemAction
     {
-        $action = TableItemAction::getDynamicAction($route, $labelKey, $icon, $routeParameters);
+        $action = TableItemAction::getDynamicAction($route, $labelKey, $icon, $routeParameters, $attributes);
         $this->itemActions[] = $action;
 
         return $action;

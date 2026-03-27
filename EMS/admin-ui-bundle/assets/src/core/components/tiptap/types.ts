@@ -35,6 +35,7 @@ export const DefaultModules: TiptapModule[] = [
 ]
 
 export type IconKey =
+    | 'loading'
     | 'bold'
     | 'italic'
     | 'strike'
@@ -58,6 +59,7 @@ export type IconKey =
 export type IconSet = Record<IconKey, string>
 
 export const fa4Icons: IconSet = {
+    loading: '<i class="fa fa-spinner fa-spin"></i>',
     bold: '<i class="fa fa-bold"></i>',
     italic: '<i class="fa fa-italic"></i>',
     strike: '<i class="fa fa-strikethrough"></i>',
@@ -80,6 +82,7 @@ export const fa4Icons: IconSet = {
 }
 
 export const fa5Icons: IconSet = {
+    loading: '<i class="fa-solid fa-spinner fa-spin"></i>',
     bold: '<i class="fa-solid fa-bold"></i>',
     italic: '<i class="fa-solid fa-italic"></i>',
     strike: '<i class="fa-solid fa-strikethrough"></i>',

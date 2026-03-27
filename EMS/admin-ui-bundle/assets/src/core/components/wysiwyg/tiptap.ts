@@ -1,6 +1,6 @@
 import './tiptap.css'
 import { WysiwygProfile, WysiwygRevisionOptions } from './types.ts'
-import { DefaultModules, IconSet, TiptapModule } from '../tiptap/types.ts'
+import { DefaultModules, fa5Icons, IconSet, TiptapModule } from '../tiptap/types.ts'
 
 import { TiptapEditor } from '../tiptap/editor.ts'
 import ChangeEvent from '../../events/changeEvent.ts'
@@ -18,9 +18,7 @@ export interface TiptapOptions {
 export default class Tiptap {
     element: HTMLTextAreaElement
     config: ConfigGroup[]
-
     private groupRegistry: Record<string, string[]> = {}
-    tiptapOptions: TiptapOptions | null = null
     options: WysiwygRevisionOptions | null
 
     constructor(
@@ -31,7 +29,6 @@ export default class Tiptap {
     ) {
         this.element = element
         this.options = options
-        this.tiptapOptions = tiptapOptions ?? null
 
         this.config = [
             {
@@ -40,16 +37,23 @@ export default class Tiptap {
             }
         ]
 
-        this.init()
+        const height = this.options?.height ?? this.element.offsetHeight
+        this.element.style.display = 'none'
+
+        const icons = tiptapOptions?.icons ?? fa5Icons
+        this.init(height, icons)
     }
 
-    private init() {
-        const height = this.options?.height ?? this.element.offsetHeight
-
+    private init(height: number, icons: IconSet) {
         const container = document.createElement('div')
         container.className = 'wysiwyg-container'
         container.style.height = `${height}px`
         this.element.parentNode?.insertBefore(container, this.element)
+
+        const loading = document.createElement('div')
+        loading.className = 'wysiwyg-loading'
+        loading.innerHTML = icons.loading
+        container.appendChild(loading)
 
         const toolbar = document.createElement('div')
         toolbar.className = 'wysiwyg-toolbar'
@@ -77,7 +81,8 @@ export default class Tiptap {
             textarea: this.element,
             toolbarElement: toolbar,
             onUpdate: () => this.onUpdate(),
-            icons: this.tiptapOptions?.icons,
+            onReady: () => loading.remove(),
+            icons: icons,
             modules: DefaultModules
         })
     }

@@ -9,6 +9,7 @@ interface TiptapEditorOptions {
     toolbarElement: HTMLElement
     textarea?: HTMLTextAreaElement
     onUpdate?: (editor: Editor) => void
+    onReady?: () => void,
     modules?: TiptapModule[]
     icons?: IconSet
 }
@@ -46,6 +47,7 @@ export class TiptapEditor {
             element: options.element,
             extensions,
             content: this.textarea?.value || this.element.innerHTML,
+            onCreate: () => options.onReady?.(),
             onUpdate: ({ editor }) => {
                 this.toolbar.update()
                 if (this.textarea) {

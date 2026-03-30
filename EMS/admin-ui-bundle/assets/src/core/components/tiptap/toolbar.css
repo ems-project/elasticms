@@ -28,6 +28,12 @@
             background-color: #e9ecef;
         }
 
+        svg {
+            stroke: #000000;
+            stroke-width: 2;
+            fill: none;
+        }
+
         &.is-active {
             background-color: #fff;
             color: #007bff;

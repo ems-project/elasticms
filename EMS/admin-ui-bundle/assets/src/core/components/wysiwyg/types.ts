@@ -5,28 +5,26 @@ export class WysiwygProfile {
         config: object
     }[] = []
     config: {
-        emsBrowsers:
-            | undefined
-            | {
-                  browser_object:
-                      | undefined
-                      | {
-                            url: string
-                            label: string
-                        }
-                  browser_file:
-                      | undefined
-                      | {
-                            url: string
-                            label: string
-                        }
-                  browser_image:
-                      | undefined
-                      | {
-                            url: string
-                            label: string
-                        }
-              }
+        emsBrowsers?: {
+            browser_object?: {
+                url: string
+                label: string
+            }
+            browser_file?: {
+                url: string
+                label: string
+            }
+            browser_image?: {
+                url: string
+                label: string
+            }
+        }
+        removeButtons?: string
+        language?: string
+        toolbarGroups?: {
+            name: string
+            groups?: string[]
+        }[]
     } = {
         emsBrowsers: undefined
     }

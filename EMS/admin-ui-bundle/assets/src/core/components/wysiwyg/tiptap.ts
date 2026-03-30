@@ -1,6 +1,5 @@
 import './tiptap.css'
 import { WysiwygRevisionOptions } from './types.ts'
-import { DefaultModules } from '../tiptap/types.ts'
 
 import { TiptapEditor } from '../tiptap/editor.ts'
 import ChangeEvent from '../../events/changeEvent.ts'
@@ -16,10 +15,7 @@ export default class Tiptap {
     private groupRegistry: Record<string, string[]> = {}
     options: WysiwygRevisionOptions | null
 
-    constructor(
-        element: HTMLTextAreaElement,
-        options: WysiwygRevisionOptions | null
-    ) {
+    constructor(element: HTMLTextAreaElement, options: WysiwygRevisionOptions | null) {
         this.element = element
         this.options = options
 
@@ -73,8 +69,7 @@ export default class Tiptap {
             textarea: this.element,
             toolbarElement: toolbar,
             onUpdate: () => this.onUpdate(),
-            onReady: () => loading.remove(),
-            modules: DefaultModules
+            onReady: () => loading.remove()
         })
     }
 

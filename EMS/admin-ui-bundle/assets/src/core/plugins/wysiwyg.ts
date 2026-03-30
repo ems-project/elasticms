@@ -32,20 +32,14 @@ export default class WYSIWYG {
         }
     }
 
-    async loadInAdminUI(
-        target: HTMLElement,
-        profile: WysiwygProfile,
-    ) {
+    async loadInAdminUI(target: HTMLElement, profile: WysiwygProfile) {
         const elements = target.querySelectorAll<HTMLTextAreaElement>('textarea.ems-wysiwyg')
         for (const element of elements) {
             await this.createEditor(element, null, profile)
         }
     }
 
-    async loadInRevision(
-        target: HTMLElement,
-        profile: WysiwygProfile
-    ) {
+    async loadInRevision(target: HTMLElement, profile: WysiwygProfile) {
         const elements = target.querySelectorAll<HTMLTextAreaElement>(
             'textarea.ems-wysiwyg-revision'
         )

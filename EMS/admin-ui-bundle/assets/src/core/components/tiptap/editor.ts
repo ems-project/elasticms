@@ -10,7 +10,6 @@ interface TiptapEditorOptions {
     textarea?: HTMLTextAreaElement
     onUpdate?: (editor: Editor) => void
     onReady?: () => void
-    modules?: TiptapModule[]
 }
 
 export class TiptapEditor {
@@ -26,11 +25,10 @@ export class TiptapEditor {
     private actionRegistry: Record<string, ToolbarAction> = {}
 
     constructor(options: TiptapEditorOptions) {
-        const modules = options.modules || DefaultModules
         this.element = options.element
         this.textarea = options.textarea ?? null
 
-        const extensions = this.resolveModules(modules)
+        const extensions = this.resolveModules(DefaultModules)
 
         this.toolbar = new Toolbar(
             options.toolbarElement,

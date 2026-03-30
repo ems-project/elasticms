@@ -1,5 +1,6 @@
 import ChangeEvent from '../../events/changeEvent.ts'
-import { WysiwygProfile, WysiwygRevisionOptions } from './types.ts'
+import { WysiwygRevisionOptions } from './types.ts'
+import { getWysiwygProfile, WysiwygProfile } from './WysiwygProfile.ts'
 
 declare let CKEDITOR: {
     replace: (
@@ -69,13 +70,9 @@ export default class Ckeditor4 {
     private readonly element: HTMLElement
     private profile: WysiwygProfile
     private static config: null | CKEditorConfig = null
-    constructor(
-        element: HTMLElement,
-        options: WysiwygRevisionOptions | null,
-        profile: WysiwygProfile
-    ) {
+    constructor(element: HTMLElement, options: WysiwygRevisionOptions | null) {
         this.element = element
-        this.profile = profile
+        this.profile = getWysiwygProfile()
 
         if (options === null) {
             CKEDITOR.replace(element)

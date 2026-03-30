@@ -1,8 +1,8 @@
 import WYSIWYG from './core/plugins/wysiwyg.ts'
+import { getWysiwygProfile } from './core/components/wysiwyg/WysiwygProfile.ts'
 
 window.addEventListener('emsReady', async function () {
-    const wysiwyg = new WYSIWYG()
-    if ('tiptap' !== wysiwyg.profile?.editor) return
+    if ('tiptap' !== getWysiwygProfile().editor) return
 
-    await wysiwyg.load(document.body)
+    await new WYSIWYG().load(document.body)
 })

@@ -1,45 +1,21 @@
-import { WysiwygProfile, WysiwygRevisionOptions } from '../components/wysiwyg/types.ts'
+import { WysiwygRevisionOptions } from '../components/wysiwyg/types.ts'
+import { getWysiwygProfile } from '../components/wysiwyg/WysiwygProfile.ts'
 
 export default class WYSIWYG {
     editors: any[] = []
-    profile: WysiwygProfile | null = null
-
-    constructor() {
-        this.profile = this.getProfile()
-    }
 
     async load(target: HTMLElement) {
-        if (!this.profile) return
-
-        await Promise.all([
-            this.loadInAdminUI(target, this.profile),
-            this.loadInRevision(target, this.profile)
-        ])
+        await Promise.all([this.loadInAdminUI(target), this.loadInRevision(target)])
     }
 
-    private getProfile(): WysiwygProfile | null {
-        const info = document.body.dataset.wysiwygInfo
-        if (!info) {
-            console.error('WysiwygInfo is missing from body dataset')
-            return null
-        }
-
-        try {
-            return JSON.parse(info) as WysiwygProfile
-        } catch (e) {
-            console.error('Invalid WysiwygInfo JSON format', e)
-            return null
-        }
-    }
-
-    async loadInAdminUI(target: HTMLElement, profile: WysiwygProfile) {
+    async loadInAdminUI(target: HTMLElement) {
         const elements = target.querySelectorAll<HTMLTextAreaElement>('textarea.ems-wysiwyg')
         for (const element of elements) {
-            await this.createEditor(element, null, profile)
+            await this.createEditor(element, null)
         }
     }
 
-    async loadInRevision(target: HTMLElement, profile: WysiwygProfile) {
+    async loadInRevision(target: HTMLElement) {
         const elements = target.querySelectorAll<HTMLTextAreaElement>(
             'textarea.ems-wysiwyg-revision'
         )
@@ -56,17 +32,17 @@ export default class WYSIWYG {
                 lang: element.getAttribute('data-lang')
             }
 
-            await this.createEditor(element, options, profile)
+            await this.createEditor(element, options)
         }
     }
 
     async createEditor(
         element: HTMLTextAreaElement,
-        options: WysiwygRevisionOptions | null = null,
-        profile: WysiwygProfile
+        options: WysiwygRevisionOptions | null = null
     ) {
-        const Editor = await import(`../components/wysiwyg/${profile.editor}.ts`)
+        const editorName = getWysiwygProfile().editor
+        const Editor = await import(`../components/wysiwyg/${editorName}.ts`)
 
-        this.editors.push(new Editor.default(element, options, profile))
+        this.editors.push(new Editor.default(element, options))
     }
 }

@@ -1,35 +1,3 @@
-export class WysiwygProfile {
-    editor: string = ''
-    styles: {
-        name: string
-        config: object
-    }[] = []
-    config: {
-        emsBrowsers?: {
-            browser_object?: {
-                url: string
-                label: string
-            }
-            browser_file?: {
-                url: string
-                label: string
-            }
-            browser_image?: {
-                url: string
-                label: string
-            }
-        }
-        removeButtons?: string
-        language?: string
-        toolbarGroups?: {
-            name: string
-            groups?: string[]
-        }[]
-    } = {
-        emsBrowsers: undefined
-    }
-}
-
 export class WysiwygRevisionOptions {
     styleSet: null | string = null
     onChangeEvent: null | string = null

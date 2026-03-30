@@ -1,6 +1,6 @@
 import './tiptap.css'
-import { WysiwygProfile, WysiwygRevisionOptions } from './types.ts'
-import { DefaultModules, fa5Icons, IconSet, TiptapModule } from '../tiptap/types.ts'
+import { WysiwygRevisionOptions } from './types.ts'
+import { DefaultModules } from '../tiptap/types.ts'
 
 import { TiptapEditor } from '../tiptap/editor.ts'
 import ChangeEvent from '../../events/changeEvent.ts'
@@ -8,11 +8,6 @@ import ChangeEvent from '../../events/changeEvent.ts'
 interface ConfigGroup {
     name: string
     groups: string[]
-}
-
-export interface TiptapOptions {
-    modules?: TiptapModule[]
-    icons?: IconSet
 }
 
 export default class Tiptap {
@@ -23,9 +18,7 @@ export default class Tiptap {
 
     constructor(
         element: HTMLTextAreaElement,
-        options: WysiwygRevisionOptions | null,
-        _profile: WysiwygProfile,
-        tiptapOptions?: TiptapOptions
+        options: WysiwygRevisionOptions | null
     ) {
         this.element = element
         this.options = options
@@ -40,11 +33,10 @@ export default class Tiptap {
         const height = this.options?.height ?? this.element.offsetHeight
         this.element.style.display = 'none'
 
-        const icons = tiptapOptions?.icons ?? fa5Icons
-        this.init(height, icons)
+        this.init(height)
     }
 
-    private init(height: number, icons: IconSet) {
+    private init(height: number) {
         const container = document.createElement('div')
         container.className = 'wysiwyg-container'
         container.style.height = `${height}px`
@@ -52,7 +44,7 @@ export default class Tiptap {
 
         const loading = document.createElement('div')
         loading.className = 'wysiwyg-loading'
-        loading.innerHTML = icons.loading
+        // loading.innerHTML = icons.loading
         container.appendChild(loading)
 
         const toolbar = document.createElement('div')
@@ -82,7 +74,6 @@ export default class Tiptap {
             toolbarElement: toolbar,
             onUpdate: () => this.onUpdate(),
             onReady: () => loading.remove(),
-            icons: icons,
             modules: DefaultModules
         })
     }

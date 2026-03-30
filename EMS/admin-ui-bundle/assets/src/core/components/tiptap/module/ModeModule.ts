@@ -1,3 +1,6 @@
+import IconSource from '@tabler/icons/outline/code.svg?raw'
+import IconMaximize from '@tabler/icons/outline/maximize.svg?raw'
+import IconMinimize from '@tabler/icons/outline/minimize.svg?raw'
 import { TiptapModule } from '../types.ts'
 
 export const ModeModule: TiptapModule = {
@@ -8,7 +11,7 @@ export const ModeModule: TiptapModule = {
     },
     actions: {
         source: {
-            icon: 'source',
+            icon: IconSource,
             tooltip: 'Source Code',
             command: (e) => {
                 const textarea = e.textarea
@@ -31,7 +34,7 @@ export const ModeModule: TiptapModule = {
             isActive: (e) => e.isSourceView
         },
         maximize: {
-            icon: 'maximize',
+            icon: IconMaximize,
             tooltip: 'Maximize / Fullscreen',
             command: (e) => {
                 const container = e.toolbar.element.parentElement
@@ -41,7 +44,7 @@ export const ModeModule: TiptapModule = {
                 container.classList.toggle('is-maximized', e.isMaximized)
 
                 const btn = container.querySelector('[data-action="maximize"]') as HTMLElement
-                btn.innerHTML = e.isMaximized ? e.icons.minimize : e.icons.maximize
+                btn.innerHTML = e.isMaximized ? IconMinimize : IconMaximize
 
                 document.body.style.overflow = e.isMaximized ? 'hidden' : ''
             },

@@ -1,17 +1,15 @@
 import './toolbar.css'
 import type { TiptapEditor } from './editor.ts'
-import { IconSet, ToolbarAction } from './types.ts'
+import { ToolbarAction } from './types.ts'
 
 export class Toolbar {
     element: HTMLElement
-    private icons: IconSet
     private actionRegistry: Record<string, ToolbarAction>
     private groupRegistry: Record<string, string[]>
     private tiptapEditor: TiptapEditor
 
     constructor(
         element: HTMLElement,
-        icons: IconSet,
         groupRegistry: Record<string, string[]>,
         actionRegistry: Record<string, ToolbarAction>,
         tiptapEditor: TiptapEditor
@@ -19,7 +17,6 @@ export class Toolbar {
         element.classList.add('tiptap-toolbar')
 
         this.element = element
-        this.icons = icons
         this.actionRegistry = actionRegistry
         this.groupRegistry = groupRegistry
         this.tiptapEditor = tiptapEditor
@@ -49,7 +46,7 @@ export class Toolbar {
     private createButton(key: string, action: ToolbarAction): HTMLButtonElement {
         const btn = document.createElement('button')
         btn.type = 'button'
-        btn.innerHTML = this.icons[action.icon]
+        btn.innerHTML = action.icon
         btn.dataset.action = key
 
         if (action.tooltip) {

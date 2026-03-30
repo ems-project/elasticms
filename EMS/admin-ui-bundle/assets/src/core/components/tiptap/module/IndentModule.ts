@@ -1,5 +1,7 @@
 import Paragraph from '@tiptap/extension-paragraph'
 import Heading from '@tiptap/extension-heading'
+import IconIdent from '@tabler/icons/outline/indent-increase.svg?raw'
+import IconOutdent from '@tabler/icons/outline/indent-decrease.svg?raw'
 import { TiptapModule } from '../types.ts'
 
 const indentExtension = {
@@ -36,7 +38,7 @@ export const IndentModule: TiptapModule = {
     },
     actions: {
         indent: {
-            icon: 'indent',
+            icon: IconIdent,
             tooltip: 'Increase Indent',
             command: (e) => {
                 return e.tiptap
@@ -60,7 +62,7 @@ export const IndentModule: TiptapModule = {
             isActive: () => false
         },
         outdent: {
-            icon: 'outdent',
+            icon: IconOutdent,
             tooltip: 'Decrease Indent',
             command: (e) => {
                 return e.tiptap

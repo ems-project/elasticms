@@ -1,7 +1,7 @@
 import { Editor, Extension, Mark, Node } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Text from '@tiptap/extension-text'
-import { DefaultModules, fa5Icons, IconSet, TiptapModule, ToolbarAction } from './types.ts'
+import { DefaultModules, TiptapModule, ToolbarAction } from './types.ts'
 import { Toolbar } from './toolbar.ts'
 
 interface TiptapEditorOptions {
@@ -11,13 +11,11 @@ interface TiptapEditorOptions {
     onUpdate?: (editor: Editor) => void
     onReady?: () => void
     modules?: TiptapModule[]
-    icons?: IconSet
 }
 
 export class TiptapEditor {
     tiptap: Editor
     toolbar: Toolbar
-    icons: IconSet
     element: HTMLElement
     textarea: HTMLTextAreaElement | null = null
 
@@ -29,7 +27,6 @@ export class TiptapEditor {
 
     constructor(options: TiptapEditorOptions) {
         const modules = options.modules || DefaultModules
-        this.icons = options.icons || fa5Icons
         this.element = options.element
         this.textarea = options.textarea ?? null
 
@@ -37,7 +34,6 @@ export class TiptapEditor {
 
         this.toolbar = new Toolbar(
             options.toolbarElement,
-            this.icons,
             this.groupRegistry,
             this.actionRegistry,
             this

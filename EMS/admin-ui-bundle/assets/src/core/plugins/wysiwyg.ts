@@ -8,12 +8,12 @@ export default class WYSIWYG {
         this.profile = this.getProfile()
     }
 
-    async load(target: HTMLElement, editorOptions?: Record<string, unknown>) {
+    async load(target: HTMLElement) {
         if (!this.profile) return
 
         await Promise.all([
-            this.loadInAdminUI(target, this.profile, editorOptions),
-            this.loadInRevision(target, this.profile, editorOptions)
+            this.loadInAdminUI(target, this.profile),
+            this.loadInRevision(target, this.profile)
         ])
     }
 
@@ -35,18 +35,16 @@ export default class WYSIWYG {
     async loadInAdminUI(
         target: HTMLElement,
         profile: WysiwygProfile,
-        editorOptions?: Record<string, unknown>
     ) {
         const elements = target.querySelectorAll<HTMLTextAreaElement>('textarea.ems-wysiwyg')
         for (const element of elements) {
-            await this.createEditor(element, null, profile, editorOptions)
+            await this.createEditor(element, null, profile)
         }
     }
 
     async loadInRevision(
         target: HTMLElement,
-        profile: WysiwygProfile,
-        editorOptions?: Record<string, unknown>
+        profile: WysiwygProfile
     ) {
         const elements = target.querySelectorAll<HTMLTextAreaElement>(
             'textarea.ems-wysiwyg-revision'
@@ -64,18 +62,17 @@ export default class WYSIWYG {
                 lang: element.getAttribute('data-lang')
             }
 
-            await this.createEditor(element, options, profile, editorOptions)
+            await this.createEditor(element, options, profile)
         }
     }
 
     async createEditor(
         element: HTMLTextAreaElement,
         options: WysiwygRevisionOptions | null = null,
-        profile: WysiwygProfile,
-        editorOptions?: Record<string, unknown>
+        profile: WysiwygProfile
     ) {
         const Editor = await import(`../components/wysiwyg/${profile.editor}.ts`)
 
-        this.editors.push(new Editor.default(element, options, profile, editorOptions))
+        this.editors.push(new Editor.default(element, options, profile))
     }
 }

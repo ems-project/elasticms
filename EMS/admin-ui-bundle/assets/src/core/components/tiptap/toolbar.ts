@@ -1,53 +1,73 @@
 import './toolbar.css'
+import { Extension, Mark, Node } from '@tiptap/core'
 import type { TiptapEditor } from './editor.ts'
-import { ToolbarAction } from './types.ts'
+import { ActionMap, getActionsByGroup, ToolbarAction, ToolbarConfigItem } from './types.ts'
 
 export class Toolbar {
     element: HTMLElement
-    private actionRegistry: Record<string, ToolbarAction>
-    private groupRegistry: Record<string, string[]>
-    private tiptapEditor: TiptapEditor
+    private extensions: (Extension | Mark | Node)[] = []
+    private tiptapEditor!: TiptapEditor
 
-    constructor(
-        element: HTMLElement,
-        groupRegistry: Record<string, string[]>,
-        actionRegistry: Record<string, ToolbarAction>,
-        tiptapEditor: TiptapEditor
-    ) {
+    constructor(element: HTMLElement, config: ToolbarConfigItem[]) {
         element.classList.add('tiptap-toolbar')
-
         this.element = element
-        this.actionRegistry = actionRegistry
-        this.groupRegistry = groupRegistry
+        this.build(config)
+    }
+
+    bind(tiptapEditor: TiptapEditor) {
         this.tiptapEditor = tiptapEditor
-
-        this.build()
     }
 
-    private build() {
-        Object.keys(this.groupRegistry).forEach((groupName) => {
-            const groupDiv = document.createElement('div')
-            groupDiv.className = 'tiptap-toolbar-group'
+    getExtensions(): (Extension | Mark | Node)[] {
+        return this.extensions
+    }
 
-            const items = this.groupRegistry[groupName] || []
-            items.forEach((actionKey) => {
-                const action = this.actionRegistry[actionKey]
-                if (action) {
-                    groupDiv.appendChild(this.createButton(actionKey, action))
-                }
-            })
+    private build(config: ToolbarConfigItem[]) {
+        this.element.innerHTML = ''
+        let currentRow = this.createRow()
 
-            if (groupDiv.children.length > 0) {
-                this.element.appendChild(groupDiv)
+        for (const item of config) {
+            if (item === '/') {
+                currentRow = this.createRow()
+                continue
             }
-        })
+
+            const groups = item.groups ?? [item.name]
+
+            groups.forEach((groupName) => {
+                const groupDiv = document.createElement('div')
+                groupDiv.className = 'tiptap-toolbar-group'
+
+                getActionsByGroup(groupName).forEach((action) => {
+                    groupDiv.appendChild(this.createButton(action))
+
+                    action.extensions?.forEach((ext) => {
+                        if (
+                            ext.name &&
+                            !this.extensions.some((e) => (e as any).name === ext.name)
+                        ) {
+                            this.extensions.push(ext)
+                        }
+                    })
+                })
+
+                if (groupDiv.children.length > 0) currentRow.appendChild(groupDiv)
+            })
+        }
     }
 
-    private createButton(key: string, action: ToolbarAction): HTMLButtonElement {
+    private createRow(): HTMLElement {
+        const row = document.createElement('div')
+        row.className = 'tiptap-toolbar-row'
+        this.element.appendChild(row)
+        return row
+    }
+
+    private createButton(action: ToolbarAction): HTMLButtonElement {
         const btn = document.createElement('button')
         btn.type = 'button'
-        btn.innerHTML = action.icon
-        btn.dataset.action = key
+        btn.innerHTML = action.icon ?? ''
+        btn.dataset.action = action.name
 
         if (action.tooltip) {
             btn.title = action.tooltip
@@ -64,31 +84,21 @@ export class Toolbar {
     }
 
     update() {
-        this.element.querySelectorAll('button[data-action]').forEach((btn) => {
-            const actionKey = (btn as HTMLElement).dataset.action
-            const action = actionKey ? this.actionRegistry[actionKey] : null
-            if (action) {
-                btn.classList.toggle('is-active', action.isActive(this.tiptapEditor))
-            }
+        this.element.querySelectorAll<HTMLButtonElement>('button[data-action]').forEach((btn) => {
+            const name = btn.dataset.action
+            if (!name) return
+
+            const action = ActionMap.get(name)
+            if (!action) return
+
+            btn.classList.toggle('is-active', action.isActive(this.tiptapEditor))
         })
     }
 
     setDisabled(disabled: boolean, exclude: string[] = []) {
-        const buttons = this.element.querySelectorAll<HTMLButtonElement>('button[data-action]')
-
-        buttons.forEach((btn) => {
-            const actionKey = btn.dataset.action
-
-            if (actionKey && exclude.includes(actionKey)) {
-                btn.disabled = false
-                btn.style.opacity = '1'
-                btn.style.cursor = 'pointer'
-                return
-            }
-
-            btn.disabled = disabled
-            btn.style.opacity = disabled ? '0.4' : '1'
-            btn.style.cursor = disabled ? 'not-allowed' : 'pointer'
+        this.element.querySelectorAll<HTMLButtonElement>('button[data-action]').forEach((btn) => {
+            const name = btn.dataset.action
+            if (name) btn.disabled = disabled && !exclude.includes(name)
         })
     }
 }

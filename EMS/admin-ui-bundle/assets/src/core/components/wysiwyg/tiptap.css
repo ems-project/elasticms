@@ -1,12 +1,10 @@
 .wysiwyg-container {
-    display: flex;
-    flex-direction: column;
     border: 1px solid #ced4da;
     border-radius: 4px;
     background: #fff;
     resize: vertical;
     overflow: auto;
-    min-height: 100px;
+    min-height: 150px;
 
     .wysiwyg-loading {
         position: absolute;
@@ -18,19 +16,6 @@
         z-index: 10;
         font-size: 1.5rem;
         color: #64748b;
-    }
-
-    .wysiwyg-toolbar {
-        position: sticky;
-        top: 0;
-        z-index: 1;
-        display: flex;
-        flex-shrink: 0;
-        align-items: center;
-        background-color: #f8f9fa;
-        border-bottom: 1px solid #ced4da;
-        padding: 4px;
-        flex-wrap: wrap;
     }
 
     &.is-source-mode {
@@ -70,7 +55,6 @@
         display: none;
         resize: none;
         font-family: 'Courier New', monospace;
-        padding: 15px;
         box-sizing: border-box;
     }
 }

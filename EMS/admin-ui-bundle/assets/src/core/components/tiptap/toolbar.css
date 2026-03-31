@@ -1,14 +1,32 @@
 .tiptap-toolbar {
-    .tiptap-toolbar-group {
+    display: flex;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+    flex-direction: column;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #ced4da;
+    padding: 4px;
+
+    .tiptap-toolbar-row {
         display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
         align-items: center;
         gap: 2px;
-        padding: 0 8px;
+    }
+
+    .tiptap-toolbar-group {
+        display: flex;
+        padding-right: 2px;
         border-right: 1px solid #dee2e6;
     }
 
     .tiptap-toolbar-group:last-child {
         border-right: none;
+        padding-right: 0;
     }
 
     button {
@@ -18,7 +36,7 @@
         color: #495057;
         cursor: pointer;
         width: 28px;
-        height: 28px;
+        height: 30px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -26,6 +44,11 @@
 
         &:hover {
             background-color: #e9ecef;
+        }
+
+        &:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
         }
 
         svg {

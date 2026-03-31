@@ -26,32 +26,29 @@ export default class Tiptap {
             }
         ]
 
-        const height = this.options?.height ?? this.element.offsetHeight
-        this.element.style.display = 'none'
+        console.debug(this.element.offsetHeight)
 
-        this.init(height)
+        this.init()
     }
 
-    private init(height: number) {
+    private init() {
+        const height = this.options?.height ?? this.element.offsetHeight
+
         const container = document.createElement('div')
         container.className = 'wysiwyg-container'
-        container.style.height = `${height}px`
-        this.element.parentNode?.insertBefore(container, this.element)
 
-        const loading = document.createElement('div')
-        loading.className = 'wysiwyg-loading'
-        // loading.innerHTML = icons.loading
-        container.appendChild(loading)
+        this.element.parentNode?.insertBefore(container, this.element)
 
         const toolbar = document.createElement('div')
         toolbar.className = 'wysiwyg-toolbar'
         container.appendChild(toolbar)
 
         container.appendChild(this.element)
-        this.element.className = 'wysiwyg-source-view'
+        this.element.classList.add('wysiwyg-source-view')
 
         const iframe = document.createElement('iframe')
         iframe.className = 'wysiwyg-iframe'
+        iframe.style.height = `${height}px`
         container.appendChild(iframe)
 
         const doc = iframe.contentDocument
@@ -68,8 +65,7 @@ export default class Tiptap {
             element: doc.body,
             textarea: this.element,
             toolbarElement: toolbar,
-            onUpdate: () => this.onUpdate(),
-            onReady: () => loading.remove()
+            onUpdate: () => this.onUpdate()
         })
     }
 

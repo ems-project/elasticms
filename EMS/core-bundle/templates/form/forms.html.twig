@@ -256,7 +256,6 @@
 
 {% block emsco_form_table_item_action %}
     {% if action.valid(line.data) %}
-    {% dump action %}
         {%  if action.dynamic == true %}
             {% set routeParameters = {} %}
             {% for name, property in action.routeParameters %}

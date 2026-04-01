@@ -41,9 +41,9 @@ final class TableItemActionCollection implements \IteratorAggregate, \Countable
     /**
      * @param array<mixed> $routeParameters
      */
-    public function addItemGetAction(string $route, string|TranslatableMessage $labelKey, string $icon, array $routeParameters = []): TableItemAction
+    public function addItemGetAction(string $route, string|TranslatableMessage $labelKey, string $icon, array $routeParameters = [], array $attributes = []): TableItemAction
     {
-        $action = TableItemAction::getAction($route, $labelKey, $icon, $routeParameters);
+        $action = TableItemAction::getAction($route, $labelKey, $icon, $routeParameters, $attributes);
         $this->itemActions[] = $action;
 
         return $action;
@@ -52,9 +52,9 @@ final class TableItemActionCollection implements \IteratorAggregate, \Countable
     /**
      * @param array<string, mixed> $routeParameters
      */
-    public function addItemPostAction(string $route, string|TranslatableMessage $labelKey, string $icon, string|TranslatableMessage|null $messageKey = null, array $routeParameters = []): TableItemAction
+    public function addItemPostAction(string $route, string|TranslatableMessage $labelKey, string $icon, string|TranslatableMessage|null $messageKey = null, array $routeParameters = [], array $attributes = []): TableItemAction
     {
-        $action = TableItemAction::postAction($route, $labelKey, $icon, $messageKey, $routeParameters);
+        $action = TableItemAction::postAction($route, $labelKey, $icon, $messageKey, $routeParameters, $attributes);
         $this->itemActions[] = $action;
 
         return $action;

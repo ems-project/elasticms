@@ -33,24 +33,24 @@ final class TableItemAction
     /**
      * @param array<string, mixed> $routeParameters
      */
-    public static function postAction(string $route, string|TranslatableMessage $labelKey, string $icon, string|TranslatableMessage|null $messageKey, array $routeParameters = []): TableItemAction
+    public static function postAction(string $route, string|TranslatableMessage $labelKey, string $icon, string|TranslatableMessage|null $messageKey, array $routeParameters = [], array $attributes = []): TableItemAction
     {
         $labelKey = $labelKey instanceof TranslatableMessage ? $labelKey : new TranslatableMessage($labelKey, [], EMSCoreBundle::TRANS_DOMAIN);
         if (null !== $messageKey) {
             $messageKey = $messageKey instanceof TranslatableMessage ? $messageKey : new TranslatableMessage($messageKey, [], EMSCoreBundle::TRANS_DOMAIN);
         }
 
-        return new self(true, $route, $labelKey, $icon, $messageKey, $routeParameters);
+        return new self(true, $route, $labelKey, $icon, $messageKey, $routeParameters, false, $attributes);
     }
 
     /**
      * @param array<string, mixed> $routeParameters
      */
-    public static function getAction(string $route, string|TranslatableMessage $labelKey, string $icon, array $routeParameters = []): TableItemAction
+    public static function getAction(string $route, string|TranslatableMessage $labelKey, string $icon, array $routeParameters = [], array $attributes = []): TableItemAction
     {
         $labelKey = $labelKey instanceof TranslatableMessage ? $labelKey : new TranslatableMessage($labelKey, [], EMSCoreBundle::TRANS_DOMAIN);
 
-        return new self(false, $route, $labelKey, $icon, null, $routeParameters);
+        return new self(false, $route, $labelKey, $icon, null, $routeParameters, false, $attributes);
     }
 
     /**
@@ -114,8 +114,9 @@ final class TableItemAction
     {
         $attributes = '';
         foreach ($this->attributes as $key => $value) {
-            $attributes .= $key . '="' . $value . '" ';
+            $attributes .= $key . '=' . $value;
         }
+        dump($attributes);
         return $attributes;
     }
 

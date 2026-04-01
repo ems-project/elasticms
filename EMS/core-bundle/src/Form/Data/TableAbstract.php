@@ -193,17 +193,17 @@ abstract class TableAbstract implements TableInterface
     /**
      * @param array<mixed> $routeParameters
      */
-    public function addItemGetAction(string $route, string|TranslatableMessage $labelKey, string $icon, array $routeParameters = []): TableItemAction
+    public function addItemGetAction(string $route, string|TranslatableMessage $labelKey, string $icon, array $routeParameters = [], array $attributes = []): TableItemAction
     {
-        return $this->itemActionCollection->addItemGetAction($route, $labelKey, $icon, $routeParameters);
+        return $this->itemActionCollection->addItemGetAction($route, $labelKey, $icon, $routeParameters, $attributes);
     }
 
     /**
      * @param array<string, mixed> $routeParameters
      */
-    public function addItemPostAction(string $route, string|TranslatableMessage $labelKey, string $icon, string|TranslatableMessage $messageKey, array $routeParameters = []): TableItemAction
+    public function addItemPostAction(string $route, string|TranslatableMessage $labelKey, string $icon, string|TranslatableMessage $messageKey, array $routeParameters = [], array $attributes = []): TableItemAction
     {
-        return $this->itemActionCollection->addItemPostAction($route, $labelKey, $icon, $messageKey, $routeParameters);
+        return $this->itemActionCollection->addItemPostAction($route, $labelKey, $icon, $messageKey, $routeParameters, $attributes);
     }
 
     /**

@@ -5,11 +5,11 @@
 	'name': (name is defined  ? name|json_encode : false),
 	'value': (value is defined  ? value|json_encode : false),
 }|filter(v => v != false) -%}
-{% set attributes = attributes|default([])|map((v,k) => "#{k}=#{v}")|join(' ') %}
+{% set testId = attributes|default('')|split(' ')|filter(a => 'data-testid=' in a) %}
 
 {% if message is defined and message != null %}
 	<div class="btn-group{% if group_class is defined %} {{ group_class }}{% endif %}">
-	  <button type="button" class="{% if btnClass is defined %}{{ btnClass }}{% else %}btn btn-sm btn-{{ btnType|default('primary') }}{% endif %} dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	  <button type="button" class="{% if btnClass is defined %}{{ btnClass }}{% else %}btn btn-sm btn-{{ btnType|default('primary') }}{% endif %} dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" {{ attributes|default('') }}>
 			{% if icon is defined %}
 				<span class="{{ icon starts with 'glyphicon-' ? "glyphicon #{icon}" : "fa fa-#{icon}" }}"></span>&nbsp;
 			{% endif %}
@@ -25,9 +25,9 @@
 			{% if url is defined %}
 				<a href="{{ url }}"
 				   data-post-settings="{{ settings|json_encode|escape('html_attr') }}"
-				   class="core-post-button" {{ attributes }}>{{ message|trans }}</a>
+				   class="core-post-button"{% if testId|length > 0 %}{{ testId|first  ~ '-message' }}{% endif %}>{{ message|trans }}</a>
 			{% else %}
-				<button {{ attributes }}>{{ message|trans }}</button>
+				<button{% if testId|length > 0 %}{{ testId|first  ~ '-message' }}{% endif %}>{{ message|trans }}</button>
 			{% endif %}
 		</li>
 	  </ul>
@@ -36,14 +36,14 @@
 	{% if url is defined %}
 		<a class="core-post-button {% if btnClass is defined %}{{ btnClass }}{% else %}btn btn-sm btn-{{ btnType|default('primary') }}{% endif %}"
 			data-post-settings="{{ settings|json_encode|escape('html_attr') }}"
-			href="{{ url }}" {{ attributes }}>
+			href="{{ url }}" {{ attributes|default('') }}>
 			{% if icon is defined %}
 				<span class="{{ icon starts with 'glyphicon-' ? "glyphicon #{icon}" : "fa fa-#{icon}" }}"></span>&nbsp;
 			{% endif %}
 			{% if label is defined %}{{ label|trans }}{% endif %}
 		</a>
 	{% else %}
-		<button class="{% if btnClass is defined %}{{ btnClass }}{% else %}btn btn-sm btn-{{ btnType|default('primary') }}{% endif %}" {{ attributes }}>
+		<button class="{% if btnClass is defined %}{{ btnClass }}{% else %}btn btn-sm btn-{{ btnType|default('primary') }}{% endif %}" {{ attributes|default('') }}>
 			{% if icon is defined %}
 				<span class="{{ icon starts with 'glyphicon-' ? "glyphicon #{icon}" : "fa fa-#{icon}" }}"></span>&nbsp;
 			{% endif %}

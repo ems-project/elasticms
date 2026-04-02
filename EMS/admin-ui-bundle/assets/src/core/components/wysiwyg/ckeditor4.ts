@@ -1,6 +1,6 @@
 import ChangeEvent from '../../events/changeEvent.ts'
 import { WysiwygRevisionOptions } from './types.ts'
-import { getWysiwygProfile, WysiwygProfile } from './WysiwygProfile.ts'
+import { getWysiwygProfile, WysiwygProfile } from './wysiwygProfile.ts'
 
 declare let CKEDITOR: {
     replace: (

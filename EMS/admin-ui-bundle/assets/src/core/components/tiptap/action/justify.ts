@@ -19,11 +19,11 @@ export const justifyActions: ToolbarAction[] = [
         extensions: [CustomTextAlign],
         command: (e) => e.tiptap.chain().focus().unsetTextAlign().run(),
         isActive: (e) => {
-            const isCenter = e.tiptap.isActive({ textAlign: 'center' });
-            const isRight = e.tiptap.isActive({ textAlign: 'right' });
-            const isJustify = e.tiptap.isActive({ textAlign: 'justify' });
+            const isCenter = e.tiptap.isActive({ textAlign: 'center' })
+            const isRight = e.tiptap.isActive({ textAlign: 'right' })
+            const isJustify = e.tiptap.isActive({ textAlign: 'justify' })
 
-            return !isCenter && !isRight && !isJustify;
+            return !isCenter && !isRight && !isJustify
         }
     },
     {

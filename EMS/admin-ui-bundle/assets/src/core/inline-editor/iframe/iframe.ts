@@ -166,7 +166,12 @@ export class Iframe {
     }
 
     private initTiptap(element: HTMLElement, info: InlineElement) {
-        const editor = new TiptapEditor({ element })
+        const editor = new TiptapEditor({
+            element,
+            toolbarConfig: {
+                removeButtons: ['Source', 'Maximize']
+            }
+        })
 
         editor.tiptap.on('update', ({ editor }) => {
             this.sendContentChanged(info, editor.getHTML())

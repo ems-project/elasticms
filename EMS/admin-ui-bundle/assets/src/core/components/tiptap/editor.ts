@@ -2,14 +2,13 @@ import { Editor } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { DefaultToolbarConfig, ToolbarConfigItem } from './types.ts'
-import { Toolbar } from './toolbar.ts'
+import { Toolbar, ToolbarConfig } from './toolbar.ts'
 
 interface TiptapEditorOptions {
     element: HTMLElement
-    toolbarElement?: HTMLElement | null
     textarea?: HTMLTextAreaElement
-    toolbarConfig?: ToolbarConfigItem[]
+    toolbarElement?: HTMLElement | null
+    toolbarConfig?: ToolbarConfig
 }
 
 export class TiptapEditor {
@@ -25,8 +24,7 @@ export class TiptapEditor {
         this.element = options.element
         this.textarea = options.textarea ?? null
 
-        const config = options.toolbarConfig ?? DefaultToolbarConfig
-        this.toolbar = new Toolbar(config)
+        this.toolbar = new Toolbar(options.toolbarConfig ?? {})
         this.toolbar.bind(this)
 
         this.tiptap = new Editor({

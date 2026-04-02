@@ -37,9 +37,9 @@ export interface ToolbarAction {
     isActive: (editor: TiptapEditor) => boolean
 }
 
-export type ToolbarConfigItem = { name: string; groups?: string[] } | '/'
+export type ToolbarGroup = { name: string; groups?: string[] } | '/'
 
-export const DefaultToolbarConfig: ToolbarConfigItem[] = [
+export const DefaultToolbarGroups: ToolbarGroup[] = [
     { name: 'undo' },
     { name: 'insert' },
     { name: 'links' },

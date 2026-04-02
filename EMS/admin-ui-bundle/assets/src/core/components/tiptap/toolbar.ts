@@ -1,16 +1,31 @@
 import './../../../../css/core/components/_tiptap_toolbar.scss'
 import { Extension, Mark, Node } from '@tiptap/core'
-import { ActionMap, getActionsByGroup, ToolbarAction, ToolbarConfigItem } from './types.ts'
+import {
+    ActionMap,
+    DefaultToolbarGroups,
+    getActionsByGroup,
+    ToolbarAction,
+    ToolbarGroup
+} from './types.ts'
 import { TiptapEditor } from './editor.ts'
+
+export interface ToolbarConfig {
+    toolbarGroups?: ToolbarGroup[]
+    removeButtons?: string[]
+}
+type InternalConfig = Required<ToolbarConfig>
 
 export class Toolbar {
     readonly container: HTMLElement
     private extensions: (Extension | Mark | Node)[] = []
     private tiptapEditor!: TiptapEditor
-    private readonly config: ToolbarConfigItem[]
+    private readonly config: InternalConfig
 
-    constructor(config: ToolbarConfigItem[]) {
-        this.config = config
+    constructor(config: ToolbarConfig) {
+        this.config = {
+            toolbarGroups: config.toolbarGroups ?? DefaultToolbarGroups,
+            removeButtons: config.removeButtons ?? []
+        }
 
         this.container = document.createElement('div')
         this.container.className = 'tiptap-toolbar'
@@ -21,8 +36,7 @@ export class Toolbar {
 
     private build() {
         let currentRow = this.createRow(this.container)
-
-        for (const item of this.config) {
+        for (const item of this.config.toolbarGroups) {
             if (item === '/') {
                 currentRow = this.createRow(this.container)
                 continue
@@ -34,6 +48,8 @@ export class Toolbar {
                 groupDiv.className = 'tiptap-toolbar-group'
 
                 getActionsByGroup(groupName).forEach((action) => {
+                    if (this.config.removeButtons.includes(action.name)) return
+
                     groupDiv.appendChild(this.createButton(action))
 
                     action.extensions?.forEach((ext) => {

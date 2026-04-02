@@ -6,7 +6,9 @@ export default class WYSIWYG {
     private readonly selector = 'textarea.ems-wysiwyg, textarea.ems-wysiwyg-revision'
 
     async load(target: HTMLElement) {
-        const elements = target.matches(this.selector)
+        const isElement = target instanceof Element;
+
+        const elements = (isElement && target.matches(this.selector))
             ? [target as HTMLTextAreaElement]
             : Array.from(target.querySelectorAll<HTMLTextAreaElement>(this.selector))
 

@@ -7,16 +7,14 @@ import { Toolbar } from './toolbar.ts'
 
 interface TiptapEditorOptions {
     element: HTMLElement
-    toolbarElement?: HTMLElement
+    toolbarElement?: HTMLElement | null
     textarea?: HTMLTextAreaElement
     toolbarConfig?: ToolbarConfigItem[]
-    onUpdate?: (editor: Editor) => void
-    onReady?: () => void
 }
 
 export class TiptapEditor {
     tiptap: Editor
-    toolbar: Toolbar | null = null
+    toolbar: Toolbar
     element: HTMLElement
     textarea: HTMLTextAreaElement | null = null
 
@@ -27,25 +25,34 @@ export class TiptapEditor {
         this.element = options.element
         this.textarea = options.textarea ?? null
 
-        if (options.toolbarElement) {
-            const config = options.toolbarConfig ?? DefaultToolbarConfig
-            this.toolbar = new Toolbar(options.toolbarElement, config)
-            this.toolbar.bind(this)
-        }
+        const config = options.toolbarConfig ?? DefaultToolbarConfig
+        this.toolbar = new Toolbar(config)
+        this.toolbar.bind(this)
 
         this.tiptap = new Editor({
-            element: options.element,
-            extensions: [Document, Paragraph, Text, ...(this.toolbar?.getExtensions() ?? [])],
-            content: this.textarea?.value || this.element.innerHTML,
-            onUpdate: ({ editor }) => {
-                this.toolbar?.update()
-                if (this.textarea) {
-                    this.textarea.value = editor.getHTML()
-                }
-                options.onUpdate?.(editor)
+            element: {
+                mount: options.element
             },
-            onSelectionUpdate: () => this.toolbar?.update(),
-            onTransaction: () => this.toolbar?.update()
+            extensions: [Document, Paragraph, Text, ...this.toolbar.getExtensions()],
+            content: this.textarea?.value || this.element.innerHTML,
+            onUpdate: () => this.toolbar.update(),
+            onSelectionUpdate: () => this.toolbar.update(),
+            onTransaction: () => this.toolbar.update()
         })
+
+        if (options.toolbarElement) {
+            this.attachToolbar(options.toolbarElement)
+        }
+    }
+
+    attachToolbar(target: HTMLElement) {
+        target.innerHTML = ''
+        this.toolbar.mount(target)
+    }
+
+    destroy() {
+        this.tiptap.destroy()
+        this.toolbar.destroy()
+        this.element.innerHTML = ''
     }
 }

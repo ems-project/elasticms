@@ -1,4 +1,4 @@
-import './tiptap.css'
+import './../../../../css/core/components/_wysiwyg_tiptap.scss'
 import { WysiwygRevisionOptions } from './types.ts'
 
 import { TiptapEditor } from '../tiptap/editor.ts'
@@ -25,8 +25,6 @@ export default class Tiptap {
                 groups: Object.keys(this.groupRegistry)
             }
         ]
-
-        console.debug(this.element.offsetHeight)
 
         this.init()
     }
@@ -61,18 +59,19 @@ export default class Tiptap {
         `
         doc.head.appendChild(style)
 
-        new TiptapEditor({
+        const tiptapEditor = new TiptapEditor({
             element: doc.body,
             textarea: this.element,
-            toolbarElement: toolbar,
-            onUpdate: () => this.onUpdate()
+            toolbarElement: toolbar
         })
-    }
 
-    private onUpdate() {
-        if (this.options === null) return
+        tiptapEditor.tiptap.on('update', ({ editor }) => {
+            this.element.value = editor.getHTML()
 
-        const changeEvent = new ChangeEvent(this.element)
-        changeEvent.dispatch()
+            if (this.options === null) return
+
+            const changeEvent = new ChangeEvent(this.element)
+            changeEvent.dispatch()
+        })
     }
 }

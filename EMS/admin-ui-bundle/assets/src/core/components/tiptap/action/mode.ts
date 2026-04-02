@@ -12,7 +12,7 @@ export const modeActions: ToolbarAction[] = [
         command: (e) => {
             if (!e.textarea || !e.toolbar) return
 
-            const container = e.toolbar.element.parentElement
+            const container = e.toolbar.container.closest('.wysiwyg-container')
             if (!container?.classList.contains('wysiwyg-container')) return
 
             e.isSourceView = !e.isSourceView
@@ -37,7 +37,7 @@ export const modeActions: ToolbarAction[] = [
         tooltip: 'Maximize',
         command: (e) => {
             if (!e.toolbar) return
-            const container = e.toolbar.element.parentElement
+            const container = e.toolbar.container.closest('.wysiwyg-container')
             if (!container?.classList.contains('wysiwyg-container')) return
 
             e.isMaximized = !e.isMaximized

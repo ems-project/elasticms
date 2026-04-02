@@ -1,15 +1,4 @@
 .tiptap-toolbar {
-    display: flex;
-    flex-wrap: wrap;
-    flex-shrink: 0;
-    flex-direction: column;
-    position: sticky;
-    top: 0;
-    z-index: 1;
-    background-color: #f8f9fa;
-    border-bottom: 1px solid #ced4da;
-    padding: 4px;
-
     .tiptap-toolbar-row {
         display: flex;
         flex-direction: row;

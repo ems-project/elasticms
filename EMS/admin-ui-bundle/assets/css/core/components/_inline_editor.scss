@@ -18,6 +18,15 @@ html, body {
   color: white;
 }
 
+#editor-toolbar {
+  background: #f3f4f6;
+  border-bottom: 1px solid #e5e7eb;
+
+  .tiptap-toolbar {
+    padding: 4px;
+  }
+}
+
 .editor-body {
   display: grid;
   grid-template-columns: 1fr var(--sidebar-resizer-width, 320px);

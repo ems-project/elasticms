@@ -14,6 +14,7 @@ export class Toolbar {
 
         this.container = document.createElement('div')
         this.container.className = 'tiptap-toolbar'
+        this.container.onmousedown = (e) => e.preventDefault()
 
         this.build()
     }
@@ -77,7 +78,6 @@ export class Toolbar {
         btn.dataset.action = action.name
         if (action.tooltip) btn.title = action.tooltip
 
-        btn.onmousedown = (e) => e.preventDefault()
         btn.onclick = (e) => {
             e.preventDefault()
             e.stopPropagation()

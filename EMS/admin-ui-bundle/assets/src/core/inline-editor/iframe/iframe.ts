@@ -18,8 +18,10 @@ export class Iframe {
     private readonly messenger = new Messenger()
     private readonly prefix: string
     private inlineSelectors: string[] = []
+
+    private focusSession: EditSession | null = null
     private activeSessions = new Map<string, EditSession>()
-    private toolbar: HTMLElement
+    private readonly toolbar: HTMLElement
 
     constructor(options: IframeOptions) {
         this.prefix = options.prefix
@@ -42,14 +44,12 @@ export class Iframe {
 
     private setupEventListeners() {
         document.addEventListener('click', (e) => this.onClick(e))
+        document.addEventListener('focusin', (e) => this.onFocus(e))
 
         this.messenger.on('EDITOR_ELEMENTS', (msg) => (this.inlineSelectors = msg.selectors))
         this.messenger.on('EDITOR_EDIT', (msg) => this.onEditorEdit(msg))
         this.messenger.on('EDITOR_DISCARD', () => this.onEditorDiscard())
-        this.messenger.on('EDITOR_REFRESH', () => {
-            this.toolbar.innerHTML = ''
-            window.location.reload()
-        })
+        this.messenger.on('EDITOR_REFRESH', () => this.onEditorRefresh())
     }
 
     private sendLoadMessage(url: string = window.location.href) {
@@ -75,23 +75,50 @@ export class Iframe {
         })
     }
 
-    private onClick(event: MouseEvent) {
-        if (!this.inlineSelectors.length) return
+    private onFocus(event: FocusEvent) {
+        this.toolbar.innerHTML = ''
 
         const target = event.target as HTMLElement
-        const editableElement = target.closest(this.inlineSelectors.join(',')) as HTMLElement
+        const inlineElement = this.getTargetInlineElement(target)
+        const session = inlineElement ? this.activeSessions.get(inlineElement.selector) : null
 
-        if (!editableElement) return
+        if (!session) return
 
-        const inlineElement = this.getInlineElement(editableElement)
-        if (!inlineElement) return
-
-        const session = this.activeSessions.get(inlineElement.selector)
-        if (session) {
-            this.syncToolbar(session)
-        } else {
-            this.messenger.send({ type: 'IFRAME_REQUEST_EDIT', element: inlineElement })
+        this.focusSession = session
+        if (target.dataset.fieldType === 'wysiwyg') {
+            session.tiptapEditor?.attachToolbar(this.toolbar)
         }
+    }
+
+    private onClick(event: MouseEvent) {
+        const target = event.target as HTMLElement
+        const inlineElement = this.getTargetInlineElement(target)
+
+        if (inlineElement && !this.activeSessions.has(inlineElement.selector)) {
+            this.messenger.send({ type: 'IFRAME_REQUEST_EDIT', element: inlineElement })
+            return
+        }
+
+        if (inlineElement) return
+
+        const focusElement = this.focusSession?.element
+        if (focusElement && target.contains(focusElement)) return
+
+        this.toolbar.innerHTML = ''
+    }
+
+    private onEditorDiscard() {
+        this.activeSessions.forEach((session) => {
+            session.element.classList.remove('inline-is-editing')
+
+            session.observer?.disconnect()
+            session.tiptapEditor?.destroy()
+
+            session.element.innerHTML = session.originalContent
+            session.element.contentEditable = 'false'
+        })
+        this.activeSessions.clear()
+        this.toolbar.innerHTML = ''
     }
 
     private onEditorEdit(msg: EditorEditMessage) {
@@ -104,10 +131,14 @@ export class Iframe {
             this.startEditSession(element, draftContent)
 
             if (selector === msg.element.selector) {
-                this.syncToolbar(this.activeSessions.get(selector))
                 element.focus()
             }
         })
+    }
+
+    private onEditorRefresh() {
+        this.toolbar.innerHTML = ''
+        window.location.reload()
     }
 
     private startEditSession(element: HTMLElement, draftData: string | null) {
@@ -138,10 +169,7 @@ export class Iframe {
         const editor = new TiptapEditor({ element })
 
         editor.tiptap.on('update', ({ editor }) => {
-            this.notifyContentChange(info, editor.getHTML())
-        })
-        editor.tiptap.on('focus', () => {
-            this.syncToolbar(this.activeSessions.get(info.selector))
+            this.sendContentChanged(info, editor.getHTML())
         })
 
         return editor
@@ -152,7 +180,7 @@ export class Iframe {
         const observer = new MutationObserver(() => {
             window.clearTimeout(debounce)
             debounce = window.setTimeout(() => {
-                this.notifyContentChange(info, element.innerHTML)
+                this.sendContentChanged(info, element.innerHTML)
             }, 500)
         })
 
@@ -160,30 +188,15 @@ export class Iframe {
         return observer
     }
 
-    private onEditorDiscard() {
-        this.activeSessions.forEach((session) => {
-            session.element.classList.remove('inline-is-editing')
-
-            session.observer?.disconnect()
-            session.tiptapEditor?.destroy()
-
-            session.element.innerHTML = session.originalContent
-            session.element.contentEditable = 'false'
-        })
-        this.activeSessions.clear()
-        this.toolbar.innerHTML = ''
-    }
-
-    private notifyContentChange(element: InlineElement, content: string) {
+    private sendContentChanged(element: InlineElement, content: string) {
         this.messenger.send({ type: 'IFRAME_CONTENT_CHANGED', element, content })
     }
 
-    private syncToolbar(session?: EditSession) {
-        if (session?.tiptapEditor) {
-            session.tiptapEditor.attachToolbar(this.toolbar)
-        } else {
-            this.toolbar.innerHTML = ''
-        }
+    private getTargetInlineElement(target: HTMLElement): InlineElement | null {
+        if (!this.inlineSelectors.length) return null
+        const selector = this.inlineSelectors.join(',')
+        const editableElement = target.closest(selector) as HTMLElement
+        return editableElement ? this.getInlineElement(editableElement) : null
     }
 
     private getInlineElement(element: HTMLElement): InlineElement | null {

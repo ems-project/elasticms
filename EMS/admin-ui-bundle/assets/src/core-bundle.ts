@@ -1,5 +1,5 @@
 import WYSIWYG from './core/plugins/wysiwyg.ts'
-import { getWysiwygProfile } from './core/components/wysiwyg/WysiwygProfile.ts'
+import { getWysiwygProfile } from './core/components/wysiwyg/wysiwygProfile.ts'
 
 window.addEventListener('emsReady', async function () {
     if ('tiptap' !== getWysiwygProfile().editor) return

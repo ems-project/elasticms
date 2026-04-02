@@ -1,16 +1,17 @@
 import { WysiwygRevisionOptions } from '../components/wysiwyg/types.ts'
-import { getWysiwygProfile } from '../components/wysiwyg/WysiwygProfile.ts'
+import { getWysiwygProfile } from '../components/wysiwyg/wysiwygProfile.ts'
 
 export default class WYSIWYG {
     editors: any[] = []
     private readonly selector = 'textarea.ems-wysiwyg, textarea.ems-wysiwyg-revision'
 
     async load(target: HTMLElement) {
-        const isElement = target instanceof Element;
+        const isElement = target instanceof Element
 
-        const elements = (isElement && target.matches(this.selector))
-            ? [target as HTMLTextAreaElement]
-            : Array.from(target.querySelectorAll<HTMLTextAreaElement>(this.selector))
+        const elements =
+            isElement && target.matches(this.selector)
+                ? [target as HTMLTextAreaElement]
+                : Array.from(target.querySelectorAll<HTMLTextAreaElement>(this.selector))
 
         for (const element of elements) {
             await this.initElement(element)

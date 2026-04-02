@@ -1,12 +1,6 @@
 import './../../../../css/core/components/_tiptap_toolbar.scss'
 import { Extension, Mark, Node } from '@tiptap/core'
-import {
-    ActionMap,
-    DefaultToolbarGroups,
-    getActionsByGroup,
-    ToolbarAction,
-    ToolbarGroup
-} from './types.ts'
+import { Actions, DefaultToolbarGroups, ToolbarAction, ToolbarGroup } from './types.ts'
 import { TiptapEditor } from './editor.ts'
 
 export interface ToolbarConfig {
@@ -20,6 +14,7 @@ export class Toolbar {
     private extensions: (Extension | Mark | Node)[] = []
     private tiptapEditor!: TiptapEditor
     private readonly config: InternalConfig
+    private actions: Map<string, ToolbarAction> = new Map(Actions.map((a) => [a.name, a]))
 
     constructor(config: ToolbarConfig) {
         this.config = {
@@ -27,8 +22,8 @@ export class Toolbar {
             customActions: config.customActions ?? []
         }
 
-        this.config.customActions.forEach(action => {
-            ActionMap.set(action.name, action)
+        this.config.customActions.forEach((action) => {
+            this.actions.set(action.name, action)
         })
 
         this.container = document.createElement('div')
@@ -51,7 +46,7 @@ export class Toolbar {
                 const groupDiv = document.createElement('div')
                 groupDiv.className = 'tiptap-toolbar-group'
 
-                getActionsByGroup(groupName).forEach((action) => {
+                this.getActionsByGroup(groupName).forEach((action) => {
                     groupDiv.appendChild(this.createButton(action))
 
                     action.extensions?.forEach((ext) => {
@@ -75,6 +70,9 @@ export class Toolbar {
 
     getExtensions(): (Extension | Mark | Node)[] {
         return this.extensions
+    }
+    getActionsByGroup(groupName: string): ToolbarAction[] {
+        return Array.from(this.actions.values()).filter((action) => action.group === groupName)
     }
 
     mount(target: HTMLElement) {
@@ -106,10 +104,14 @@ export class Toolbar {
         return btn
     }
 
+    getButton(name: string): HTMLElement | null {
+        return this.container.querySelector<HTMLButtonElement>(`[data-action="${name}"]`)
+    }
+
     update() {
         if (!this.container) return
         this.container.querySelectorAll<HTMLButtonElement>('button[data-action]').forEach((btn) => {
-            const action = ActionMap.get(btn.dataset.action!)
+            const action = this.actions.get(btn.dataset.action!)
             if (action) {
                 btn.classList.toggle('is-active', action.isActive(this.tiptapEditor))
             }

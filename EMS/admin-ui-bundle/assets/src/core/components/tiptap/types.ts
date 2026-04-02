@@ -19,12 +19,6 @@ export const Actions: ToolbarAction[] = [
     ...insertActions
 ]
 
-export const ActionMap = new Map(Actions.map((a) => [a.name, a]))
-
-export function getActionsByGroup(groupName: string): ToolbarAction[] {
-    return Array.from(ActionMap.values()).filter((action) => action.group === groupName)
-}
-
 export interface ToolbarAction {
     name: string
     group: string

@@ -6,7 +6,7 @@ import { Toolbar, ToolbarConfig } from './toolbar.ts'
 
 interface TiptapEditorOptions {
     element: HTMLElement
-    textarea?: HTMLTextAreaElement
+    content?: string
     toolbarElement?: HTMLElement | null
     toolbarConfig?: ToolbarConfig
 }
@@ -15,11 +15,9 @@ export class TiptapEditor {
     tiptap: Editor
     toolbar: Toolbar
     element: HTMLElement
-    textarea: HTMLTextAreaElement | null = null
 
     constructor(options: TiptapEditorOptions) {
         this.element = options.element
-        this.textarea = options.textarea ?? null
 
         this.toolbar = new Toolbar(options.toolbarConfig ?? {})
         this.toolbar.bind(this)
@@ -29,7 +27,7 @@ export class TiptapEditor {
                 mount: options.element
             },
             extensions: [Document, Paragraph, Text, ...this.toolbar.getExtensions()],
-            content: this.textarea?.value || this.element.innerHTML,
+            content: options.content,
             onUpdate: () => this.toolbar.update(),
             onSelectionUpdate: () => this.toolbar.update(),
             onTransaction: () => this.toolbar.update()

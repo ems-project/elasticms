@@ -2,140 +2,138 @@ import './../../../../css/core/components/_wysiwyg_tiptap.scss'
 import { WysiwygRevisionOptions } from './types.ts'
 
 import { TiptapEditor } from '../tiptap/editor.ts'
-import ChangeEvent from '../../events/changeEvent.ts'
 import { ToolbarAction } from '../tiptap/types.ts'
+import ChangeEvent from '../../events/changeEvent.ts'
 import IconSource from '@tabler/icons/outline/code.svg?raw'
 import IconMaximize from '@tabler/icons/outline/maximize.svg?raw'
 import IconMinimize from '@tabler/icons/outline/minimize.svg?raw'
 
-interface ConfigGroup {
-    name: string
-    groups: string[]
-}
-
 export default class Tiptap {
-    element: HTMLTextAreaElement
-    config: ConfigGroup[]
-    private groupRegistry: Record<string, string[]> = {}
+    textarea: HTMLTextAreaElement
     options: WysiwygRevisionOptions | null
 
     isSourceView: boolean = false
     isMaximized: boolean = false
+    container: HTMLDivElement
 
     constructor(element: HTMLTextAreaElement, options: WysiwygRevisionOptions | null) {
-        this.element = element
+        this.textarea = element
         this.options = options
 
-        this.config = [
-            {
-                name: 'default',
-                groups: Object.keys(this.groupRegistry)
-            }
-        ]
+        this.container = document.createElement('div')
 
         this.init()
     }
 
     private init() {
-        const height = this.options?.height ?? this.element.offsetHeight
+        const height = this.options?.height ?? this.textarea.offsetHeight
 
-        const container = document.createElement('div')
-        container.className = 'wysiwyg-container'
-
-        this.element.parentNode?.insertBefore(container, this.element)
+        this.container.className = 'wysiwyg-container'
+        this.textarea.parentNode?.insertBefore(this.container, this.textarea)
 
         const toolbar = document.createElement('div')
         toolbar.className = 'wysiwyg-toolbar'
-        container.appendChild(toolbar)
+        this.container.appendChild(toolbar)
 
-        container.appendChild(this.element)
-        this.element.classList.add('wysiwyg-source-view')
+        this.container.appendChild(this.textarea)
+        this.textarea.classList.add('wysiwyg-source-view')
 
-        const iframe = document.createElement('iframe')
-        iframe.className = 'wysiwyg-iframe'
-        iframe.style.height = `${height}px`
-        container.appendChild(iframe)
-
-        const doc = iframe.contentDocument
-        if (null === doc) return
-
-        const style = doc.createElement('style')
-        style.textContent = `
-            body { margin: 0; font-family: sans-serif; margin: 10px }
-            .ProseMirror { outline: none; min-height: 100%; white-space: pre-wrap; }
-        `
-        doc.head.appendChild(style)
+        const iframe = this.createIframe()
 
         const tiptapEditor = new TiptapEditor({
-            element: doc.body,
-            textarea: this.element,
+            element: iframe.body,
+            content: this.textarea.value,
             toolbarElement: toolbar,
             toolbarConfig: {
-                customActions: [
-                    this.getSourceAction(),
-                    this.getMaximizeAction(),
-                ]
+                customActions: [this.getSourceAction(), this.getMaximizeAction()]
             }
         })
 
+        const toolbarHeight = toolbar.offsetHeight || 0
+        this.container.style.height = `${height + toolbarHeight}px`
+
         tiptapEditor.tiptap.on('update', ({ editor }) => {
-            this.element.value = editor.getHTML()
+            this.textarea.value = editor.getHTML()
             if (this.options === null) return
 
-            const changeEvent = new ChangeEvent(this.element)
+            const changeEvent = new ChangeEvent(this.textarea)
             changeEvent.dispatch()
         })
     }
 
-    private getSourceAction(): ToolbarAction
-    {
+    private createIframe(): Document {
+        const iframe = document.createElement('iframe')
+        iframe.className = 'wysiwyg-iframe'
+        this.container.appendChild(iframe)
+
+        const doc = iframe.contentDocument as Document
+        const style = doc.createElement('style')
+        style.textContent = `
+            html {
+                height: 100%;
+            }
+            
+            body {
+                margin: 0;
+                padding: 0;
+                min-height: 100%;
+                font-family: sans-serif;
+                overflow-y: auto;
+            }
+            
+            .ProseMirror {
+                outline: none;
+                white-space: pre-wrap;
+                box-sizing: border-box;
+                padding: 10px;
+                min-height: 100%;
+            }
+        `
+        doc.head.appendChild(style)
+
+        return doc
+    }
+
+    private getSourceAction(): ToolbarAction {
         return {
             name: 'Source',
             group: 'mode',
             icon: IconSource,
             tooltip: 'Source Code',
             command: (e) => {
-                if (!e.textarea || !e.toolbar) return
-
-                const container = e.toolbar.container.closest('.wysiwyg-container')
-                if (!container?.classList.contains('wysiwyg-container')) return
-
                 this.isSourceView = !this.isSourceView
-                container.classList.toggle('is-source-mode', this.isSourceView)
+                this.container.classList.toggle('is-source-mode', this.isSourceView)
 
                 if (this.isSourceView) {
-                    e.textarea.value = e.tiptap.getHTML()
+                    this.textarea.value = e.tiptap.getHTML()
                     e.toolbar.setDisabled(true, ['Source', 'Maximize'])
-
-                    console.debug(e.textarea.value)
                 } else {
-                    e.tiptap.commands.setContent(e.textarea.value)
+                    e.tiptap.commands.setContent(this.textarea.value)
                     e.toolbar.setDisabled(false, ['Source', 'Maximize'])
                 }
+
+                e.toolbar.update()
             },
             isActive: () => this.isSourceView
         }
     }
 
-    private getMaximizeAction(): ToolbarAction
-    {
-        return  {
+    private getMaximizeAction(): ToolbarAction {
+        return {
             name: 'Maximize',
             group: 'tools',
             icon: IconMaximize,
             tooltip: 'Maximize',
             command: (e) => {
-                if (!e.toolbar) return
-                const container = e.toolbar.container.closest('.wysiwyg-container')
-                if (!container?.classList.contains('wysiwyg-container')) return
+                this.isMaximized = !this.isMaximized
 
-                this.isMaximized = !this.isMaximized;
+                document.body.classList.toggle('wysiwyg-maximized-active', this.isMaximized)
+                this.container.classList.toggle('is-maximized', this.isMaximized)
 
-                document.body.classList.toggle('wysiwyg-maximized-active', this.isMaximized);
-                container.classList.toggle('is-maximized', this.isMaximized);
+                const button = e.toolbar.getButton('Maximize')
+                if (button) button.innerHTML = this.isMaximized ? IconMinimize : IconMaximize
 
-                const btn = container.querySelector('[data-action="Maximize"]');
-                if (btn) btn.innerHTML = this.isMaximized ? IconMinimize : IconMaximize;
+                e.toolbar.update()
             },
             isActive: () => this.isMaximized
         }

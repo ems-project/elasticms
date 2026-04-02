@@ -167,7 +167,8 @@ export class Iframe {
 
     private initTiptap(element: HTMLElement, info: InlineElement) {
         const editor = new TiptapEditor({
-            element
+            element,
+            content: element.innerHTML
         })
 
         editor.tiptap.on('update', ({ editor }) => {

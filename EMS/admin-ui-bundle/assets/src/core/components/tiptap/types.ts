@@ -1,7 +1,6 @@
 import { Extension, Mark, Node } from '@tiptap/core'
 import type { TiptapEditor } from './editor.ts'
 
-import { modeActions } from './action/mode.ts'
 import { historyActions } from './action/history.ts'
 import { basicStyleActions } from './action/basicstyles.ts'
 import { cleanupActions } from './action/cleanup.ts'
@@ -11,7 +10,6 @@ import { justifyActions } from './action/justify.ts'
 import { insertActions } from './action/insert.ts'
 
 export const Actions: ToolbarAction[] = [
-    ...modeActions,
     ...historyActions,
     ...basicStyleActions,
     ...cleanupActions,
@@ -24,7 +22,7 @@ export const Actions: ToolbarAction[] = [
 export const ActionMap = new Map(Actions.map((a) => [a.name, a]))
 
 export function getActionsByGroup(groupName: string): ToolbarAction[] {
-    return Actions.filter((action) => action.group === groupName)
+    return Array.from(ActionMap.values()).filter((action) => action.group === groupName)
 }
 
 export interface ToolbarAction {

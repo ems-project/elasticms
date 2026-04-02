@@ -17,9 +17,6 @@ export class TiptapEditor {
     element: HTMLElement
     textarea: HTMLTextAreaElement | null = null
 
-    isSourceView: boolean = false
-    isMaximized: boolean = false
-
     constructor(options: TiptapEditorOptions) {
         this.element = options.element
         this.textarea = options.textarea ?? null

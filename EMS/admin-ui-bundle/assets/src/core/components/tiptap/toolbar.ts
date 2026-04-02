@@ -11,7 +11,7 @@ import { TiptapEditor } from './editor.ts'
 
 export interface ToolbarConfig {
     toolbarGroups?: ToolbarGroup[]
-    removeButtons?: string[]
+    customActions?: ToolbarAction[]
 }
 type InternalConfig = Required<ToolbarConfig>
 
@@ -24,8 +24,12 @@ export class Toolbar {
     constructor(config: ToolbarConfig) {
         this.config = {
             toolbarGroups: config.toolbarGroups ?? DefaultToolbarGroups,
-            removeButtons: config.removeButtons ?? []
+            customActions: config.customActions ?? []
         }
+
+        this.config.customActions.forEach(action => {
+            ActionMap.set(action.name, action)
+        })
 
         this.container = document.createElement('div')
         this.container.className = 'tiptap-toolbar'
@@ -48,8 +52,6 @@ export class Toolbar {
                 groupDiv.className = 'tiptap-toolbar-group'
 
                 getActionsByGroup(groupName).forEach((action) => {
-                    if (this.config.removeButtons.includes(action.name)) return
-
                     groupDiv.appendChild(this.createButton(action))
 
                     action.extensions?.forEach((ext) => {

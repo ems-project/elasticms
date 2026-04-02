@@ -1,3 +1,14 @@
+body.wysiwyg-maximized-active {
+    overflow: hidden; // Geen scroll op de pagina zelf
+
+    // Zoek de containers van je modal (pas de classes aan naar jouw framework, bijv. .modal of .dialog)
+    .modal, .modal-dialog, .modal-content {
+        transform: none !important; // Transforms zorgen voor een nieuwe stacking context
+        position: static !important; // Maakt de z-index van de editor dominant
+        overflow: visible !important;
+    }
+}
+
 .wysiwyg-container {
     display: flex;
     flex-direction: column;
@@ -25,15 +36,15 @@
     }
 
     &.is-maximized {
-        position: fixed;
-        top: 0;
-        left: 0;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
         width: 100vw !important;
         height: 100vh !important;
-        z-index: 9999;
-        border-radius: 0;
-        resize: none;
-        overflow: hidden;
+        z-index: 999999 !important;
+        background: white;
+        display: flex;
+        flex-direction: column;
     }
 
     .wysiwyg-source-view,

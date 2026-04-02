@@ -7,8 +7,7 @@ import { ToolbarAction } from '../types.ts'
 
 const CustomTextAlign = TextAlign.configure({
     types: ['heading', 'paragraph'],
-    alignments: ['left', 'center', 'right', 'justify'],
-    defaultAlignment: 'left'
+    alignments: ['left', 'center', 'right', 'justify']
 })
 
 export const justifyActions: ToolbarAction[] = [
@@ -18,8 +17,14 @@ export const justifyActions: ToolbarAction[] = [
         icon: IconJustifyLeft,
         tooltip: 'Align Left',
         extensions: [CustomTextAlign],
-        command: (e) => e.tiptap.chain().focus().setTextAlign('left').run(),
-        isActive: (e) => e.tiptap.isActive({ textAlign: 'left' })
+        command: (e) => e.tiptap.chain().focus().unsetTextAlign().run(),
+        isActive: (e) => {
+            const isCenter = e.tiptap.isActive({ textAlign: 'center' });
+            const isRight = e.tiptap.isActive({ textAlign: 'right' });
+            const isJustify = e.tiptap.isActive({ textAlign: 'justify' });
+
+            return !isCenter && !isRight && !isJustify;
+        }
     },
     {
         name: 'JustifyCenter',

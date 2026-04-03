@@ -45,7 +45,9 @@ export const basicStyleActions: ToolbarAction[] = [
         tooltip: 'Subscript',
         extensions: [Subscript],
         command: (e) => e.tiptap.chain().focus().toggleSubscript().run(),
-        isActive: (e) => e.tiptap.isActive('subscript')
+        isActive: (e) => e.tiptap.isActive('subscript'),
+        isEnabled: (wysiwygProfile) =>
+            wysiwygProfile.config.extraPlugins?.includes('basicstyles') ?? false
     },
     {
         name: 'Superscript',
@@ -54,6 +56,8 @@ export const basicStyleActions: ToolbarAction[] = [
         tooltip: 'Superscript',
         extensions: [Superscript],
         command: (e) => e.tiptap.chain().focus().toggleSuperscript().run(),
-        isActive: (e) => e.tiptap.isActive('superscript')
-    },
+        isActive: (e) => e.tiptap.isActive('superscript'),
+        isEnabled: (wysiwygProfile) =>
+            wysiwygProfile.config.extraPlugins?.includes('basicstyles') ?? false
+    }
 ]

@@ -8,6 +8,7 @@ import { listActions } from './action/list.ts'
 import { indentActions } from './action/indent.ts'
 import { justifyActions } from './action/justify.ts'
 import { insertActions } from './action/insert.ts'
+import { WysiwygProfile } from '../wysiwyg/wysiwygProfile.ts'
 
 export const Actions: ToolbarAction[] = [
     ...historyActions,
@@ -27,19 +28,5 @@ export interface ToolbarAction {
     extensions?: (Extension | Mark | Node)[]
     command?: (editor: TiptapEditor) => void
     isActive: (editor: TiptapEditor) => boolean
+    isEnabled?: (profile: WysiwygProfile) => boolean
 }
-
-export type ToolbarGroup = { name: string; groups?: string[] } | '/'
-
-export const DefaultToolbarGroups: ToolbarGroup[] = [
-    { name: 'undo' },
-    { name: 'insert' },
-    { name: 'links' },
-    { name: 'tools' },
-    { name: 'document', groups: ['mode'] },
-    '/',
-    { name: 'basicstyles', groups: ['basicstyles', 'cleanup'] },
-    { name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align'] },
-    { name: 'styles' },
-    { name: 'colors' }
-]

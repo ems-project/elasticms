@@ -44,9 +44,7 @@ export default class Tiptap {
             element: iframe.body,
             content: this.textarea.value,
             toolbarElement: toolbar,
-            toolbarConfig: {
-                customActions: [this.getSourceAction(), this.getMaximizeAction()]
-            }
+            customActions: [this.getSourceAction(), this.getMaximizeAction()]
         })
 
         const toolbarHeight = toolbar.offsetHeight || 0

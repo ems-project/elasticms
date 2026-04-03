@@ -42,11 +42,11 @@ export class WysiwygProfile {
 
 let cached: WysiwygProfile | undefined = undefined
 
-export function getWysiwygProfile(): WysiwygProfile {
+export function getWysiwygProfile(doc: Document = document): WysiwygProfile {
     if (cached) return cached
 
     const defaultProfile = new WysiwygProfile()
-    const info = document.body.dataset.wysiwygInfo
+    const info = doc.body.dataset.wysiwygInfo
 
     if (!info) {
         cached = defaultProfile

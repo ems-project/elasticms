@@ -11,7 +11,7 @@
         {%- endif -%}
         <script src="{{ asset('src/core/inline-editor/editor.ts', 'emsadminui') }}" type="module"></script>
     </head>
-    <body data-base-url="{{ baseUrl }}">
+    <body data-base-url="{{ baseUrl }}" data-wysiwyg-info="{{ emsco_wysiwyg_info()|e('html_attr') }}">
         <div class="editor">
             <header class="editor-topbar d-flex align-items-center justify-content-between px-3">
                 <div class="editor-title fw-bold">Inline Editor</div>

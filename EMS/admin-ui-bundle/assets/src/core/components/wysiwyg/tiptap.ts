@@ -1,5 +1,5 @@
 import './../../../../css/core/components/_wysiwyg_tiptap.scss'
-import iframeCssUrl from './../../../../css/core/components/_wysiwyg_tiptap_iframe.scss?url'
+import tiptapIframeCss from './../../../../css/core/components/_wysiwyg_tiptap_iframe.scss?inline'
 
 import { TiptapEditor } from '../tiptap/editor.ts'
 import { ToolbarAction } from '../tiptap/types.ts'
@@ -7,7 +7,7 @@ import ChangeEvent from '../../events/changeEvent.ts'
 import IconSource from '@tabler/icons/outline/code.svg?raw'
 import IconMaximize from '@tabler/icons/outline/maximize.svg?raw'
 import IconMinimize from '@tabler/icons/outline/minimize.svg?raw'
-import { getWysiwygOptions, getWysiwygProfile } from './wysiwyg.ts'
+import { getWysiwygOptions, getWysiwygProfile, WysiwygOptions } from './wysiwyg.ts'
 
 export default class Tiptap {
     textarea: HTMLTextAreaElement
@@ -15,17 +15,18 @@ export default class Tiptap {
     isSourceView: boolean = false
     isMaximized: boolean = false
     container: HTMLDivElement
+    wysiwygOptions: WysiwygOptions
 
     constructor(element: HTMLTextAreaElement) {
         this.textarea = element
         this.container = document.createElement('div')
+        this.wysiwygOptions = getWysiwygOptions(element)
 
         this.init()
     }
 
     private init() {
-        const wysiwygOptions = getWysiwygOptions(this.textarea)
-        const height = wysiwygOptions?.height ?? this.textarea.offsetHeight
+        const height = this.wysiwygOptions?.height ?? this.textarea.offsetHeight
 
         this.container.className = 'wysiwyg-container'
         this.textarea.parentNode?.insertBefore(this.container, this.textarea)
@@ -45,7 +46,7 @@ export default class Tiptap {
             toolbarElement: toolbar,
             toolbarConfig: {
                 customActions: [this.getSourceAction(), this.getMaximizeAction()],
-                wysiwygProfile: wysiwygOptions.inRevision ? getWysiwygProfile() : null
+                wysiwygProfile: this.wysiwygOptions.inRevision ? getWysiwygProfile() : null
             }
         })
 
@@ -55,7 +56,7 @@ export default class Tiptap {
         tiptapEditor.tiptap.on('update', ({ editor }) => {
             this.textarea.value = editor.getHTML()
 
-            if (wysiwygOptions.inRevision) {
+            if (this.wysiwygOptions.inRevision) {
                 const changeEvent = new ChangeEvent(this.textarea)
                 changeEvent.dispatch()
             }
@@ -68,10 +69,16 @@ export default class Tiptap {
         this.container.appendChild(iframe)
 
         const doc = iframe.contentDocument as Document
-        const link = doc.createElement('link')
-        link.rel = 'stylesheet'
-        link.href = iframeCssUrl
-        doc.head.appendChild(link)
+        const style = doc.createElement('style');
+        style.textContent = tiptapIframeCss
+        doc.head.appendChild(style);
+
+        if (this.wysiwygOptions.contentCss) {
+            const linkContentCSS = doc.createElement('link');
+            linkContentCSS.rel = 'stylesheet'
+            linkContentCSS.href = this.wysiwygOptions.contentCss
+            doc.head.appendChild(linkContentCSS);
+        }
 
         return doc
     }

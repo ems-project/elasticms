@@ -171,7 +171,7 @@ export class Iframe {
             element,
             content: element.innerHTML,
             toolbarConfig: {
-                wysiwygProfile: getWysiwygProfile()
+                wysiwygProfile: getWysiwygProfile(window.parent.document)
             }
         })
 

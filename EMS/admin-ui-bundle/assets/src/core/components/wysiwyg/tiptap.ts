@@ -69,15 +69,15 @@ export default class Tiptap {
         this.container.appendChild(iframe)
 
         const doc = iframe.contentDocument as Document
-        const style = doc.createElement('style');
+        const style = doc.createElement('style')
         style.textContent = tiptapIframeCss
-        doc.head.appendChild(style);
+        doc.head.appendChild(style)
 
         if (this.wysiwygOptions.contentCss) {
-            const linkContentCSS = doc.createElement('link');
+            const linkContentCSS = doc.createElement('link')
             linkContentCSS.rel = 'stylesheet'
             linkContentCSS.href = this.wysiwygOptions.contentCss
-            doc.head.appendChild(linkContentCSS);
+            doc.head.appendChild(linkContentCSS)
         }
 
         return doc

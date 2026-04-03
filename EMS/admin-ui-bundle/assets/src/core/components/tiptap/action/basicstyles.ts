@@ -1,9 +1,13 @@
 import Bold from '@tiptap/extension-bold'
 import Italic from '@tiptap/extension-italic'
 import Strike from '@tiptap/extension-strike'
+import Superscript from '@tiptap/extension-superscript'
+import Subscript from '@tiptap/extension-subscript'
 import IconBold from '@tabler/icons/outline/bold.svg?raw'
 import IconItalic from '@tabler/icons/outline/italic.svg?raw'
 import IconStrike from '@tabler/icons/outline/strikethrough.svg?raw'
+import IconSubscript from '@tabler/icons/outline/subscript.svg?raw'
+import IconSuperscript from '@tabler/icons/outline/superscript.svg?raw'
 import { ToolbarAction } from '../types.ts'
 
 export const basicStyleActions: ToolbarAction[] = [
@@ -33,5 +37,23 @@ export const basicStyleActions: ToolbarAction[] = [
         extensions: [Strike],
         command: (e) => e.tiptap.chain().focus().toggleStrike().run(),
         isActive: (e) => e.tiptap.isActive('strike')
-    }
+    },
+    {
+        name: 'Subscript',
+        group: 'basicstyles',
+        icon: IconSubscript,
+        tooltip: 'Subscript',
+        extensions: [Subscript],
+        command: (e) => e.tiptap.chain().focus().toggleSubscript().run(),
+        isActive: (e) => e.tiptap.isActive('subscript')
+    },
+    {
+        name: 'Superscript',
+        group: 'basicstyles',
+        icon: IconSuperscript,
+        tooltip: 'Superscript',
+        extensions: [Superscript],
+        command: (e) => e.tiptap.chain().focus().toggleSuperscript().run(),
+        isActive: (e) => e.tiptap.isActive('superscript')
+    },
 ]

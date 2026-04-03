@@ -169,7 +169,7 @@ final class UserType extends AbstractType
         if (self::MODE_UPDATE === $mode) {
             $builder->add('update', SubmitEmsType::class, [
                 'attr' => [
-                    'class' => 'btn btn-primary btn-sm ', 
+                    'class' => 'btn btn-primary btn-sm ',
                     'data-testid' => 'user-update',
                 ],
                 'icon' => 'fa fa-save',

@@ -15,7 +15,7 @@ final class TableItemAction
     private array $conditions = [];
 
     /**
-     * @param array<string, mixed> $routeParameters
+     * @param array<string, mixed>  $routeParameters
      * @param array<string, string> $attributes
      */
     private function __construct(
@@ -31,7 +31,8 @@ final class TableItemAction
     }
 
     /**
-     * @param array<string, mixed> $routeParameters
+     * @param array<string, mixed>  $routeParameters
+     * @param array<string, string> $attributes
      */
     public static function postAction(string $route, string|TranslatableMessage $labelKey, string $icon, string|TranslatableMessage|null $messageKey, array $routeParameters = [], array $attributes = []): TableItemAction
     {
@@ -44,7 +45,8 @@ final class TableItemAction
     }
 
     /**
-     * @param array<string, mixed> $routeParameters
+     * @param array<string, mixed>  $routeParameters
+     * @param array<string, string> $attributes
      */
     public static function getAction(string $route, string|TranslatableMessage $labelKey, string $icon, array $routeParameters = [], array $attributes = []): TableItemAction
     {
@@ -55,7 +57,7 @@ final class TableItemAction
 
     /**
      * @param array<string, string|int> $routeParameters
-     * @param array<string, string> $attributes
+     * @param array<string, string>     $attributes
      */
     public static function postDynamicAction(string $route, string|TranslatableMessage $labelKey, string $icon, string|TranslatableMessage|null $messageKey, array $routeParameters = [], array $attributes = []): TableItemAction
     {
@@ -109,14 +111,14 @@ final class TableItemAction
     {
         return $this->icon;
     }
-    
+
     public function getAttributes(): string
     {
         $attributes = '';
         foreach ($this->attributes as $key => $value) {
-            $attributes .= $key . '=' . $value;
+            $attributes .= $key.'='.$value;
         }
-        dump($attributes);
+
         return $attributes;
     }
 

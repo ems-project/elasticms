@@ -106,9 +106,9 @@ final class JsonMenuNestedDefinition
     {
         return $this->menu;
     }
-    
+
     public function getDefName(): string
-    {   
+    {
         return $this->fieldType->getName();
     }
 

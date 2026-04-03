@@ -39,7 +39,8 @@ final class TableItemActionCollection implements \IteratorAggregate, \Countable
     }
 
     /**
-     * @param array<mixed> $routeParameters
+     * @param array<mixed>          $routeParameters
+     * @param array<string, string> $attributes
      */
     public function addItemGetAction(string $route, string|TranslatableMessage $labelKey, string $icon, array $routeParameters = [], array $attributes = []): TableItemAction
     {
@@ -50,7 +51,8 @@ final class TableItemActionCollection implements \IteratorAggregate, \Countable
     }
 
     /**
-     * @param array<string, mixed> $routeParameters
+     * @param array<string, mixed>  $routeParameters
+     * @param array<string, string> $attributes
      */
     public function addItemPostAction(string $route, string|TranslatableMessage $labelKey, string $icon, string|TranslatableMessage|null $messageKey = null, array $routeParameters = [], array $attributes = []): TableItemAction
     {
@@ -62,7 +64,7 @@ final class TableItemActionCollection implements \IteratorAggregate, \Countable
 
     /**
      * @param array<string, string|int> $routeParameters
-     * @param array<string, string> $attributes
+     * @param array<string, string>     $attributes
      */
     public function addDynamicItemPostAction(string $route, string|TranslatableMessage $labelKey, string $icon, string|TranslatableMessage|null $messageKey = null, array $routeParameters = [], array $attributes = []): TableItemAction
     {

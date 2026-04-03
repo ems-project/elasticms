@@ -110,7 +110,7 @@
 									'btnClass': '',
 									'label': 'views.elements.revision-toolbar-html.cancel-last-updates-label'|trans,
 									'icon': 'remove',
-                                    'attributes': 'data-testid=revision-cancel'
+                                    'attributes': 'data-testid=revision-action-cancel'
 								}%}</li>
 							{% endif %}
 						{% else %}
@@ -120,7 +120,7 @@
 										'btnClass': '',
 										'label': 'views.elements.revision-toolbar-html.add-to-release'|trans(),
 										'icon': 'glyphicon glyphicon-pushpin',
-                                        'attributes': 'data-testid=revision-pick-release' }%}</li>
+                                        'attributes': 'data-testid=revision-action-pick-release' }%}</li>
 							{% endif %}
 							{% if is_granted('ROLE_SUPER') and instance.contentType.environment not in environmentsRevision.environments %}
 								<li>{% include '@EMSCore/elements/get-button.html.twig' with {
@@ -128,7 +128,7 @@
 									'btnClass': ' ',
 									'label': 'views.elements.revision-toolbar-html.edit-revision-label'|trans,
 									'icon': 'pencil',
-                                    'attributes': 'data-testid=revision-edit' }%}</li>
+                                    'attributes': 'data-testid=revision-action-edit' }%}</li>
 							{% endif %}
 							{% if autoSave  %}
 								<li>{% include '@EMSCore/elements/post-button.html.twig' with {
@@ -137,7 +137,7 @@
 									'message': 'views.elements.revision-toolbar-html.cancel-last-updates-message'|trans,
 									'label': 'views.elements.revision-toolbar-html.cancel-last-updates-label'|trans,
 									'icon': 'remove',
-                                    'attributes': 'data-testid="revision-cancel"'
+                                    'attributes': 'data-testid=revision-action-cancel'
 								}%}</li>
 							{% endif %}
 								<li>{% include '@EMSCore/elements/post-button.html.twig' with {
@@ -145,7 +145,7 @@
 									'btnClass': '',
 									'label': 'views.elements.revision-toolbar-html.revert-revision-label'|trans,
 									'icon': 'undo',
-                                    'attributes': 'data-testid="revision-revert"' }%}</li>
+                                    'attributes': 'data-testid=revision-action-revert-revision' }%}</li>
 						{% endif %}
 						{% if rev is defined and revision is defined and compareId is defined and rev.id != revision.id and compareId != rev.id and compareId != revision.id %}
 							<li>{% include '@EMSCore/elements/get-button.html.twig' with {
@@ -159,7 +159,7 @@
 								'btnClass': '',
 								'label': 'views.elements.revision-toolbar-html.compare-label'|trans,
 								'icon': 'compress',
-                                'attributes': 'data-testid=revision-compare' }%}</li>
+                                'attributes': 'data-testid=revision-action-compare' }%}</li>
 						{% endif %}
 					</ul>
 				</div>
@@ -177,7 +177,7 @@
 						</button>
 						<ul class="dropdown-menu">
 							{% for env in environmentsRevision.publish %}
-								<li><a href="{{ path('revision.publish_to', {'revisionId': revisionId, 'envId': env.id}) }}" data-testid="revision-action-publish-to-{{ env.label }}">{{ env.label }}</a></li>
+								<li><a href="{{ path('revision.publish_to', {'revisionId': revisionId, 'envId': env.id}) }}" data-testid="revision-action-publish-to-{{ env.label|lower }}">{{ env.label }}</a></li>
 							{% endfor %}
 					   </ul>
 					  </div>
@@ -185,14 +185,14 @@
 
 			  {% if environmentsRevision.unpublish|length > 0 %}
 				<div class="btn-group">
-					  <button type="button" class="btn btn-sm btn-outline-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-testid="revision-action-unpublish-to">
+					  <button type="button" class="btn btn-sm btn-outline-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-testid="revision-action-unpublish-from">
 							<span class="fa fa-toggle-off"></span>&nbsp;
 							{{ 'views.elements.revision-toolbar-html.unpublish-from-label'|trans }}
 							<span class="caret"></span>
 					  </button>
 					   <ul class="dropdown-menu">
 							{% for env in environmentsRevision.unpublish %}
-								<li><a href="{{ path('revision.unpublish', {'revisionId': revisionId, 'envId': env.id}) }}" data-testid="revision-action-unpublish-to-{{ env.label }}">{{ env.label }}</a></li>
+								<li><a href="{{ path('revision.unpublish', {'revisionId': revisionId, 'envId': env.id}) }}" data-testid="revision-action-unpublish-from-{{ env.label|lower }}">{{ env.label }}</a></li>
 							{% endfor %}
 					   </ul>
 				</div>

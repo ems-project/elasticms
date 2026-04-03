@@ -65,7 +65,8 @@ class RevisionTrashDataTableType extends AbstractTableType implements QueryServi
                 routeParameters: [
                     'contentType' => $contentType->getId(),
                     'ouuid' => 'ouuid',
-                ]
+                ],
+                attributes: ['data-testid' => 'revision-trash-action-put-back'],
             );
             $table->addTableAction(
                 name: self::ACTION_PUT_BACK,
@@ -82,7 +83,8 @@ class RevisionTrashDataTableType extends AbstractTableType implements QueryServi
             routeParameters: [
                 'contentType' => $contentType->getId(),
                 'ouuid' => 'ouuid',
-            ]
+            ],
+            attributes: ['data-testid' => 'revision-trash-action-delete'],
         )->setButtonType('outline-danger');
 
         $this->addTableActionDelete($table, 'trash', self::ACTION_EMPTY_TRASH);

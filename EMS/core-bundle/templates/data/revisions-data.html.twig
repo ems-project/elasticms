@@ -301,7 +301,7 @@
 			{% if auditTable|default(false) %}
 				<div class="tab-pane" id="tab_audit">
 					{% form_theme auditTable '@EMSCore/form/forms.html.twig' %}
-					{{ form(auditTable) }}
+					{{ form(auditTable, { table_id : 'revision-audit' }) }}
 				</div>
 			{% endif %}
 		</div>
@@ -336,7 +336,7 @@
 	<div class="box">
 		<div class="box-body">
 			<div class="table-responsive">
-				<table class="table table-bordered">
+				<table class="table table-bordered" data-testid="table-id-revisions-data">
 					<tbody>
 					<tr>
 						<th style="width: 10px">{{ 'views.data.revisions-data-html.revisions.th.id'|trans }}</th>

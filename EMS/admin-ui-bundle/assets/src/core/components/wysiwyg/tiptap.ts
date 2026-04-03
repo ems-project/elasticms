@@ -1,4 +1,5 @@
 import './../../../../css/core/components/_wysiwyg_tiptap.scss'
+import iframeCssUrl from './../../../../css/core/components/_wysiwyg_tiptap_iframe.scss?url'
 
 import { TiptapEditor } from '../tiptap/editor.ts'
 import { ToolbarAction } from '../tiptap/types.ts'
@@ -67,29 +68,10 @@ export default class Tiptap {
         this.container.appendChild(iframe)
 
         const doc = iframe.contentDocument as Document
-        const style = doc.createElement('style')
-        style.textContent = `
-            html {
-                height: 100%;
-            }
-            
-            body {
-                margin: 0;
-                padding: 0;
-                min-height: 100%;
-                font-family: sans-serif;
-                overflow-y: auto;
-            }
-            
-            .ProseMirror {
-                outline: none;
-                white-space: pre-wrap;
-                box-sizing: border-box;
-                padding: 10px;
-                min-height: 100%;
-            }
-        `
-        doc.head.appendChild(style)
+        const link = doc.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = iframeCssUrl
+        doc.head.appendChild(link)
 
         return doc
     }

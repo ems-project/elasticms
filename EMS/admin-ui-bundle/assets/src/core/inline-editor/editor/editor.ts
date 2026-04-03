@@ -5,6 +5,9 @@ import {
     InlineCollection
 } from '../types'
 
+import IconSidebarCollapse from '@tabler/icons/outline/layout-sidebar-right-collapse.svg?raw'
+import IconSidebarExpand from '@tabler/icons/outline/layout-sidebar-right-expand.svg?raw'
+
 import { ApiService, RenderResponse } from './api'
 import { Messenger } from './messenger'
 import { SidebarResizer } from './sidebar'
@@ -172,8 +175,6 @@ export class InlineEditor {
 
         editorBody.setAttribute('data-sidebar-hidden', String(newStatus))
 
-        const icon = button.querySelector('i') as HTMLElement
-        icon.classList.toggle('fa-angles-left', newStatus)
-        icon.classList.toggle('fa-angles-right', !newStatus)
+        button.innerHTML = newStatus ? IconSidebarExpand : IconSidebarCollapse
     }
 }

@@ -10,23 +10,6 @@
     </button>
 {%- endblock actions -%}
 
-{%- block edit -%}
-    <div class="py-3 px-2 fw-bold bg-white border-bottom text-primary">
-        <i class="fas fa-pencil fa-xs me-2"></i>Editing
-    </div>
-    <div class="bg-white py-3 px-3">
-        <div class="d-flex justify-content-between align-items-center mb-2">
-            <span class="fw-bold text-dark small">
-                <i class="fas fa-file-alt text-muted me-2"></i>{{ info.label }}
-            </span>
-        </div>
-        <div class="d-flex justify-content-between x-small mb-1">
-            <span class="text-muted small">Element</span>
-            <span class="text-dark small fw-medium">{{ element.path }}</span>
-        </div>
-    </div>
-{%- endblock edit -%}
-
 {%- block elements -%}
     {%- if records|length > 0 -%}
         <div class="list-group list-group-flush border-bottom">
@@ -59,7 +42,8 @@
                                 <ul class="list-unstyled mb-0 small text-break">
                                     {%- for element in record.elements -%}
                                         <li class="text-muted mb-1">
-                                            <i class="fas fa-tag fa-xs me-1 text-info"></i> {{ element.path }}
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-tag"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M6.5 7.5a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M3 6v5.172a2 2 0 0 0 .586 1.414l7.71 7.71a2.41 2.41 0 0 0 3.408 0l5.592 -5.592a2.41 2.41 0 0 0 0 -3.408l-7.71 -7.71a2 2 0 0 0 -1.414 -.586h-5.172a3 3 0 0 0 -3 3" /></svg>
+                                            {{ element.path }}
                                         </li>
                                     {%- endfor -%}
                                 </ul>

@@ -5,15 +5,9 @@
     --go2editor-bg-hover: #e0a800;
     --go2editor-color: #212529;
 
-    --go2editor-font-size: 20px;
-
     --go2editor-right: 154px;
     --go2editor-bottom: 40px;
     --go2editor-z: 1050;
-
-    --go2editor-icon-font-family: 'Font Awesome 6 Free';
-    --go2editor-icon-font-weight: 900;
-    --go2editor-icon-content: '\f303';
 }
 
 [contenteditable] {
@@ -42,8 +36,6 @@
     background: var(--go2editor-bg);
     color: var(--go2editor-color);
 
-    font-size: var(--go2editor-font-size);
-
     display: none;
 
     align-items: center;
@@ -51,13 +43,6 @@
 
     text-decoration: none;
     z-index: var(--go2editor-z);
-}
-
-#go2editor::before {
-    font-family: var(--go2editor-icon-font-family), sans-serif;
-    font-weight: var(--go2editor-icon-font-weight);
-    content: var(--go2editor-icon-content);
-    display: inline-block;
 }
 
 #go2editor:hover {

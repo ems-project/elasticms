@@ -1,5 +1,4 @@
 import './../../../../css/core/components/_wysiwyg_tiptap.scss'
-import { WysiwygRevisionOptions } from './types.ts'
 
 import { TiptapEditor } from '../tiptap/editor.ts'
 import { ToolbarAction } from '../tiptap/types.ts'
@@ -7,26 +6,25 @@ import ChangeEvent from '../../events/changeEvent.ts'
 import IconSource from '@tabler/icons/outline/code.svg?raw'
 import IconMaximize from '@tabler/icons/outline/maximize.svg?raw'
 import IconMinimize from '@tabler/icons/outline/minimize.svg?raw'
+import { getWysiwygOptions, getWysiwygProfile } from './wysiwyg.ts'
 
 export default class Tiptap {
     textarea: HTMLTextAreaElement
-    options: WysiwygRevisionOptions | null
 
     isSourceView: boolean = false
     isMaximized: boolean = false
     container: HTMLDivElement
 
-    constructor(element: HTMLTextAreaElement, options: WysiwygRevisionOptions | null) {
+    constructor(element: HTMLTextAreaElement) {
         this.textarea = element
-        this.options = options
-
         this.container = document.createElement('div')
 
         this.init()
     }
 
     private init() {
-        const height = this.options?.height ?? this.textarea.offsetHeight
+        const wysiwygOptions = getWysiwygOptions(this.textarea)
+        const height = wysiwygOptions?.height ?? this.textarea.offsetHeight
 
         this.container.className = 'wysiwyg-container'
         this.textarea.parentNode?.insertBefore(this.container, this.textarea)
@@ -44,7 +42,10 @@ export default class Tiptap {
             element: iframe.body,
             content: this.textarea.value,
             toolbarElement: toolbar,
-            customActions: [this.getSourceAction(), this.getMaximizeAction()]
+            toolbarConfig: {
+                customActions: [this.getSourceAction(), this.getMaximizeAction()],
+                wysiwygProfile: wysiwygOptions.inRevision ? getWysiwygProfile() : null
+            }
         })
 
         const toolbarHeight = toolbar.offsetHeight || 0
@@ -52,10 +53,11 @@ export default class Tiptap {
 
         tiptapEditor.tiptap.on('update', ({ editor }) => {
             this.textarea.value = editor.getHTML()
-            if (this.options === null) return
 
-            const changeEvent = new ChangeEvent(this.textarea)
-            changeEvent.dispatch()
+            if (wysiwygOptions.inRevision) {
+                const changeEvent = new ChangeEvent(this.textarea)
+                changeEvent.dispatch()
+            }
         })
     }
 

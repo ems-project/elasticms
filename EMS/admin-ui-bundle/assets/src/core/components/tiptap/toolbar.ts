@@ -2,10 +2,11 @@ import './../../../../css/core/components/_tiptap_toolbar.scss'
 import { Extension, Mark, Node } from '@tiptap/core'
 import { Actions, ToolbarAction } from './types.ts'
 import { TiptapEditor } from './editor.ts'
-import { getWysiwygProfile } from '../wysiwyg/wysiwygProfile.ts'
+import { WysiwygProfile } from '../wysiwyg/wysiwyg.ts'
 
 export interface ToolbarConfig {
     customActions?: ToolbarAction[]
+    wysiwygProfile?: WysiwygProfile | null
 }
 
 export class Toolbar {
@@ -13,9 +14,12 @@ export class Toolbar {
     private extensions: (Extension | Mark | Node)[] = []
     private tiptapEditor!: TiptapEditor
     private actions: Map<string, ToolbarAction> = new Map(Actions.map((a) => [a.name, a]))
+    private readonly wysiwygProfile: WysiwygProfile
 
     constructor(config: ToolbarConfig) {
         config.customActions?.forEach((action) => this.actions.set(action.name, action))
+
+        this.wysiwygProfile = config.wysiwygProfile ?? new WysiwygProfile()
 
         this.container = document.createElement('div')
         this.container.className = 'tiptap-toolbar'
@@ -25,11 +29,10 @@ export class Toolbar {
     }
 
     private build() {
-        const profile = getWysiwygProfile()
-        const removed = profile.config.removeButtons?.split(',') || []
+        const removed = this.wysiwygProfile.config.removeButtons?.split(',') || []
 
         let currentRow = this.createRow(this.container)
-        for (const item of profile.config.toolbarGroups) {
+        for (const item of this.wysiwygProfile.config.toolbarGroups) {
             if (item === '/') {
                 currentRow = this.createRow(this.container)
                 continue
@@ -42,7 +45,7 @@ export class Toolbar {
 
                 this.getActionsByGroup(groupName).forEach((action) => {
                     if (removed.includes(action.name)) return
-                    if (action.isEnabled && !action.isEnabled(profile)) return
+                    if (action.isEnabled && !action.isEnabled(this.wysiwygProfile)) return
 
                     groupDiv.appendChild(this.createButton(action))
 

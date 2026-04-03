@@ -1,6 +1,5 @@
 import ChangeEvent from '../../events/changeEvent.ts'
-import { WysiwygRevisionOptions } from './types.ts'
-import { getWysiwygProfile, WysiwygProfile } from './wysiwygProfile.ts'
+import { getWysiwygProfile, getWysiwygOptions, WysiwygProfile, WysiwygOptions } from './wysiwyg.ts'
 
 declare let CKEDITOR: {
     replace: (
@@ -69,19 +68,22 @@ export class CKEditorConfig {
 export default class Ckeditor4 {
     private readonly element: HTMLElement
     private profile: WysiwygProfile
+
     private static config: null | CKEditorConfig = null
-    constructor(element: HTMLElement, options: WysiwygRevisionOptions | null) {
+    constructor(element: HTMLElement) {
         this.element = element
         this.profile = getWysiwygProfile()
 
-        if (options === null) {
-            CKEDITOR.replace(element)
-        } else {
+        const options = getWysiwygOptions(this.element)
+
+        if (options.inRevision) {
             this.createForRevision(options)
+        } else {
+            CKEDITOR.replace(element)
         }
     }
 
-    private createForRevision(opt: WysiwygRevisionOptions) {
+    private createForRevision(opt: WysiwygOptions) {
         const config = this.getDefaultConfig()
         const self = this
 

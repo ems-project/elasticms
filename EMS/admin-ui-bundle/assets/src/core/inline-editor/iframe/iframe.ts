@@ -2,6 +2,7 @@ import { EditorEditMessage, InlineCollection, InlineElement } from '../types'
 import { Messenger } from '../iframe/messenger'
 import { NavigationObserver } from './navigation'
 import { TiptapEditor } from '../../components/tiptap/editor.ts'
+import { getWysiwygProfile } from '../../components/wysiwyg/wysiwyg.ts'
 
 interface IframeOptions {
     prefix: string
@@ -168,7 +169,10 @@ export class Iframe {
     private initTiptap(element: HTMLElement, info: InlineElement) {
         const editor = new TiptapEditor({
             element,
-            content: element.innerHTML
+            content: element.innerHTML,
+            toolbarConfig: {
+                wysiwygProfile: getWysiwygProfile()
+            }
         })
 
         editor.tiptap.on('update', ({ editor }) => {

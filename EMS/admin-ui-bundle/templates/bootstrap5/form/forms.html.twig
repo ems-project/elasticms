@@ -158,17 +158,17 @@
 {% endblock emsco_form_table_column_data_user %}
 
 {% block emsco_form_table_column_data_label_prefix -%}
-{%- if export|default(false) == false -%}
-    <div{{ block('emsco_form_table_column_data_html_atributes') }}>
-    {%- if column.routeName and column.getRouteProperties(line.data) -%}
-        <a href="{{ path(column.routeName, column.getRouteProperties(line.data)) }}" {% if column.routeTarget %}target="{{ column.routeTarget }}"{% endif %}>
-    {%- elseif column.hasPath(line.data, app.request.baseUrl) -%}
-        <a href="{{ column.path(line.data, app.request.baseUrl) }}" target="{{ column.pathTarget }}">
+    {%- if export|default(false) == false -%}
+        <div{{ block('emsco_form_table_column_data_html_atributes') }}>
+            {%- if column.routeName and column.getRouteProperties(line.data) -%}
+                <a href="{{ path(column.routeName, column.getRouteProperties(line.data)) }}" {% if column.routeTarget %}target="{{ column.routeTarget }}"{% endif %}>
+            {%- elseif column.hasPath(line.data, app.request.baseUrl) -%}
+                <a href="{{ column.path(line.data, app.request.baseUrl) }}" target="{{ column.pathTarget }}">
+            {%- endif -%}
+            {%- if column.itemIconClass(line.data) -%}
+                <i class="{{ column.itemIconClass(line.data) }}"></i>&nbsp;
+            {%- endif -%}
     {%- endif -%}
-    {%- if column.itemIconClass(line.data) -%}
-        <i class="{{ column.itemIconClass(line.data) }}"></i>&nbsp;
-    {%- endif -%}
-{%- endif -%}
 {%- endblock emsco_form_table_column_data_label_prefix %}
 
 {% block emsco_form_table_column_data_label_suffix -%}
@@ -289,134 +289,135 @@
 
 {% block emsco_form_table_type_widget %}
     {% set table = form.vars.data %}
-            {{ form_start(form) }}
-                {% if table_title is defined or form.vars.title_label|default(false) or toolbar is defined or (table.sortable and table.supportsTableActions) or table.toolbarActions|length > 0 %}
-                        {% if table_title is defined or form.vars.title_label|default(false) %}
-                            <h2>
-                                {% if table_title_icon is defined %}<i class="{{ table_title_icon }}"></i>&nbsp;{% endif %}
-                                {{ table_title|default(form.vars.title_label|trans) }}
-                            </h2>
-                        {% endif %}
-                        <div class="btn-group" style="margin-left: auto;">
-                            {% if toolbar is defined %}
-                                {{ toolbar }}
-                            {% endif %}
-                            {% for toolbarAction in table.toolbarActions %}
-                                <a class="{{ toolbarAction.cssClass }}" href="{{ path(toolbarAction.routeName, toolbarAction.routeParams) }}">
-                                    <i class="{{ toolbarAction.icon }}"></i>&nbsp;{{ toolbarAction.labelKey|trans }}
-                                </a>
-                            {% endfor %}
-                            {% if attribute(form, 'reorderAction') is defined %}
-                                <button type="button" class="btn btn-sm btn-light" data-toggle="modal" data-target="#{{ table.attributeName|e('html_attr') }}_modal_reorder">
-                                    <i class="fa fa-reorder"></i>&nbsp;{{ form.reorderAction.vars.label|trans }}
-                                </button>
-                            {% endif %}
+    {{ form_start(form) }}
+    {% if table_title is defined or form.vars.title_label|default(false) or toolbar is defined or (table.sortable and table.supportsTableActions) or table.toolbarActions|length > 0 %}
+        {% if table_title is defined or form.vars.title_label|default(false) %}
+            <h2>
+                {% if table_title_icon is defined %}<i class="{{ table_title_icon }}"></i>&nbsp;{% endif %}
+                {{ table_title|default(form.vars.title_label|trans) }}
+            </h2>
+        {% endif %}
+        <div class="btn-group" style="margin-left: auto;">
+            {% if toolbar is defined %}
+                {{ toolbar }}
+            {% endif %}
+            {% for toolbarAction in table.toolbarActions %}
+                <a class="{{ toolbarAction.cssClass }}" href="{{ path(toolbarAction.routeName, toolbarAction.routeParams) }}">
+                    <i class="{{ toolbarAction.icon }}"></i>&nbsp;{{ toolbarAction.labelKey|trans }}
+                </a>
+            {% endfor %}
+            {% if attribute(form, 'reorderAction') is defined %}
+                <button type="button" class="btn btn-sm btn-light" data-toggle="modal" data-target="#{{ table.attributeName|e('html_attr') }}_modal_reorder">
+                    <i class="fa fa-reorder"></i>&nbsp;{{ form.reorderAction.vars.label|trans }}
+                </button>
+            {% endif %}
+        </div>
+    {% endif %}
+    <div class="table-responsive mt-2">
+        <table class="table table-condensed table-striped" data-datatable="{{ table.frontendOptions|json_encode|e('html_attr') }}">
+            <thead>
+            <tr role="row">
+                {% if table.supportsTableActions %}
+                    <th class="fit" data-orderable="false" data-name="_checkbox">
+                        <div class="icheck-primary">
+                            <input type="checkbox" id="select-all" class="form-check-input" value="" aria-label="{{ 'action.select_all'|trans }}" data-grouped-checkbox-target=".{{ table.attributeName|e('html_attr') }}-to-select">
+                            <label class="form-check-label" for="select-all"></label>
                         </div>
+                    </th>
                 {% endif %}
-                    <div class="table-responsive mt-2">
-                        <table class="table table-condensed table-striped" data-datatable="{{ table.frontendOptions|json_encode|e('html_attr') }}">
-                            <thead>
-                            <tr role="row">
-                                {% if table.supportsTableActions %}
-                                    <th class="fit" data-orderable="false" data-name="_checkbox">
-                                        <div class="icheck-primary">
-                                            <input type="checkbox" id="select-all" class="form-check-input" value="" aria-label="{{ 'action.select_all'|trans }}" data-grouped-checkbox-target=".{{ table.attributeName|e('html_attr') }}-to-select">
-                                            <label class="form-check-label" for="select-all"></label>
-                                        </div>
-                                    </th>
-                                {% endif %}
-                                {% for column in table.columns %}
-                                    <th class="nowrap text-center" data-orderable="{{ column.orderable ? 'true' : 'false' }}" data-name="{{ column.attribute }}">
-                                        {% set columnTitle = column.titleKey|trans %}
-                                        {% if column.iconClass %}
-                                            <i class="{{ column.iconClass }}" aria-hidden="true" title="{{ columnTitle|e('html_attr') }}"></i>
-                                            <span class="visually-hidden">{{ columnTitle }}</span>
-                                        {% else %}
-                                            {{ columnTitle }}
-                                        {% endif %}
-                                    </th>
-                                {% endfor %}
-                                {% if table.itemActions|length > 0 %}
-                                    <th class="nowrap" data-orderable="false">{{ 'key.actions'|trans({}, 'emsco-core') }}</th>
-                                {% endif %}
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for line in table %}
-                                <tr>
-                                    {% if table.supportsTableActions %}
-                                        <td class="{{ table.attributeName|e('html_attr') }}-to-select">
-                                            {{ block('emsco_form_table_column_action_checkbox') }}
-                                        </td>
-                                    {% endif %}
-                                    {% for column in table.columns %}
-                                        {{ block(column.tableDataBlock()) }}
-                                    {% endfor %}
-                                    {% if table.itemActions|length > 0 %}
-                                        <td>
-                                            {{ block('emsco_form_table_column_row_actions') }}
-                                        </td>
-                                    {% endif %}
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
+                {% for column in table.columns %}
+                    <th class="nowrap text-center" data-orderable="{{ column.orderable ? 'true' : 'false' }}" data-name="{{ column.attribute }}">
+                        {% set columnTitle = column.titleKey|trans %}
+                        {% if column.iconClass %}
+                            <i class="{{ column.iconClass }}" aria-hidden="true" title="{{ columnTitle|e('html_attr') }}"></i>
+                            <span class="visually-hidden">{{ columnTitle }}</span>
+                        {% else %}
+                            {{ columnTitle }}
+                        {% endif %}
+                    </th>
+                {% endfor %}
+                {% if table.itemActions|length > 0 %}
+                    <th class="nowrap" data-orderable="false">{{ 'key.actions'|trans({}, 'emsco-core') }}</th>
+                {% endif %}
+            </tr>
+            </thead>
+            <tbody>
+            {% for line in table %}
+                <tr>
+                    {% if table.supportsTableActions %}
+                        <td class="{{ table.attributeName|e('html_attr') }}-to-select">
+                            {{ block('emsco_form_table_column_action_checkbox') }}
+                        </td>
+                    {% endif %}
+                    {% for column in table.columns %}
+                        {{ block(column.tableDataBlock()) }}
+                    {% endfor %}
+                    {% if table.itemActions|length > 0 %}
+                        <td>
+                            {{ block('emsco_form_table_column_row_actions') }}
+                        </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% if table.supportsTableActions or toolbar is defined or table.tableMassActions|length > 0 %}
+        <div class="mt-3">
+            {% if table.supportsTableActions %}
+                {% for action in table.tableActions %}
+                    {{ form_widget(attribute(form, action.name)) }}
+                {% endfor %}
+            {% endif %}
+            {% if toolbar is defined %}
+                <div class="btn-group btn-group-sm mt-3">
+                    {{ toolbar }}
+                </div>
+            {% endif %}
+            {% if table.tableMassActions|length > 0 %}
+                <div class="btn-group">
+                    {% for massAction in table.tableMassActions %}
+                        {% if attribute(form, massAction.name) is defined %}
+                            {{ form_widget(attribute(form, massAction.name)) }}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+    {% if attribute(form, 'reordered') is defined %}
+        <div class="modal fade" id="{{ table.attributeName|e('html_attr') }}_modal_reorder" tabindex="-1" role="dialog" aria-labelledby="{{ table.attributeName|e('html_attr') }}_modal_reorder_label">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="{{ table.attributeName|e('html_attr') }}_modal_reorder_label">
+                            <strong>{{ reorder_label|default(form.vars.reorder_label)|trans }}</strong>
+                        </h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'action.close'|trans({}, 'emsco-core') }}"></button>
                     </div>
-                {% if table.supportsTableActions or toolbar is defined or table.tableMassActions|length > 0 %}
-                        {% if table.supportsTableActions %}
-                            {% for action in table.tableActions %}
-                                {{ form_widget(attribute(form, action.name)) }}
-                            {% endfor %}
-                        {% endif %}
-                        {% if toolbar is defined %}
-                            <div class="btn-group btn-group-sm mt-3">
-                                {{ toolbar }}
-                            </div>
-                        {% endif %}
-                        <div class="btn-group">
-                            {% for massAction in table.tableMassActions %}
-                                {% if attribute(form, massAction.name) is defined %}
-                                    {{ form_widget(attribute(form, massAction.name)) }}
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                {% endif %}
-            </div>
-            {% if attribute(form, 'reordered') is defined %}
-                <div class="modal fade" id="{{ table.attributeName|e('html_attr') }}_modal_reorder" tabindex="-1" role="dialog" aria-labelledby="{{ table.attributeName|e('html_attr') }}_modal_reorder_label">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title" id="{{ table.attributeName|e('html_attr') }}_modal_reorder_label">
-                                    <strong>{{ reorder_label|default(form.vars.reorder_label)|trans }}</strong>
-                                </h4>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'action.close'|trans({}, 'emsco-core') }}"></button>
-                            </div>
-                            <div class="modal-body">
-                                <ul class="list-group sortable" id="{{ table.attributeName|e('html_attr') }}_modal_reorder_list">
-                                    {% for child in form.reordered %}
-                                        <li class="list-group-item">
-                                            <i class="fa-solid fa-up-down-left-right" aria-hidden="true"></i>
+                    <div class="modal-body">
+                        <ul class="list-group sortable" id="{{ table.attributeName|e('html_attr') }}_modal_reorder_list">
+                            {% for child in form.reordered %}
+                                <li class="list-group-item">
+                                    <i class="fa-solid fa-up-down-left-right" aria-hidden="true"></i>
 
-                                            {% for line in table|filter(line => child.vars.value == line.data.id) %}
-                                                {{ attribute(line.data, table.labelAttribute) }}
-                                            {% endfor %}
-                                            {{ form_row(child) }}
-                                        </li>
+                                    {% for line in table|filter(line => child.vars.value == line.data.id) %}
+                                        {{ attribute(line.data, table.labelAttribute) }}
                                     {% endfor %}
-                                </ul>
-                            </div>
-                            <div class="modal-footer">
-                                <div class="btn-group">
-                                    {{ form_widget(form.reorderAction, {attr: {class: 'btn btn-sm btn-primary'}}) }}
-                                    <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal"><i class="fa fa-close"></i> {{ t('action.close', [], 'emsco-core')|trans }}</button>
-                                </div>
-                            </div>
+                                    {{ form_row(child) }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="btn-group">
+                            {{ form_widget(form.reorderAction, {attr: {class: 'btn btn-sm btn-primary'}}) }}
+                            <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal"><i class="fa fa-close"></i> {{ t('action.close', [], 'emsco-core')|trans }}</button>
                         </div>
                     </div>
                 </div>
-            {% endif %}
-            {{ form_end(form) }}
+            </div>
         </div>
-    </div>
+    {% endif %}
+    {{ form_end(form) }}
 {% endblock %}

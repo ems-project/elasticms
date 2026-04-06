@@ -12,20 +12,20 @@
 <div class="row">
     <div class="col-md-12">
         <!-- general form elements -->
-        <div class="box box-primary">
-            <div class="box-header with-border">
+        <div class="card box-primary">
+            <div class="card-header with-border">
                 <h3 class="box-title">{% block box_title %}{% endblock %}</h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->
             {{ form_start(form) }}
-                <div class="box-body">
+                <div class="card-body">
                     {% for formItem in form.children|filter(formItem => formItem.vars.name not in ['save', 'remove']) %}
                         {{ form_row(formItem) }}
                     {% endfor %}
                 </div>
                 <!-- /.box-body -->
-                <div class="box-footer">
+                <div class="card-footer">
                     <div class="btn-group">
                     {% block save_buton %}
                         {{ form_widget(form.save) }}

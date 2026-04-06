@@ -64,16 +64,18 @@ $elasticms-lagoon: #00BCB1;
 $elasticms-green: #A5D13C;
 
 // Theme colors
-$blue:    #3375d5;
-$indigo:  #0a0a0a !default;
-$purple:  #6f42c1 !default;
-$pink:    #e83e8c !default;
-$red:     #dc3545 !default;
-$orange:  #fd7e14 !default;
-$yellow:  #fcb92c !default;
-$green:   #00875f !default;
-$teal:    #20c997 !default;
-$cyan:    #17a2b8 !default;
+$blue:        #0072ed !default;
+$light-blue:  #3c8dbc !default;
+$indigo:      #6610f2 !default;
+$purple:      #6f42c1 !default;
+$pink:        #e83e8c !default;
+$red:         #dc3545 !default;
+$orange:      #fd7e14 !default;
+$yellow:      #ffc107 !default;
+$green:       #28a745 !default;
+$teal:        #20c997 !default;
+$cyan:        #17a2b8 !default;
+$aqua:        #00c0ef !default;
 
 $white:    #fff !default;
 $gray-100: #f8f9fa !default;
@@ -105,8 +107,18 @@ $theme-colors: (
   "danger": $danger,
   "light": $light,
   "dark": $dark,
+  "white": $white,
+  "light-blue": $light-blue,
+  "indigo": $indigo,
   "purple": $purple,
-  "white": $white
+  "pink": $pink,
+  "red": $red,
+  "orange": $orange,
+  "yellow": $yellow,
+  "green": $green,
+  "teal": $teal,
+  "cyan": $cyan,
+  "aqua": $aqua
 ) !default;
 
 // Social colors

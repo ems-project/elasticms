@@ -138,10 +138,12 @@ function onChange(allowAutoPublish = false) {
     }
 
     synch = true
-    // update ckeditor's text areas
-    for (let i in CKEDITOR.instances) {
-        if (Object.hasOwn(CKEDITOR.instances, i)) {
-            CKEDITOR.instances[i].updateElement()
+    if (typeof CKEDITOR !== 'undefined') {
+        // update ckeditor's text areas
+        for (let i in CKEDITOR.instances) {
+            if (Object.hasOwn(CKEDITOR.instances, i)) {
+                CKEDITOR.instances[i].updateElement()
+            }
         }
     }
 

@@ -1,6 +1,8 @@
 import { EditorEditMessage, InlineCollection, InlineElement } from '../types'
 import { Messenger } from '../iframe/messenger'
 import { NavigationObserver } from './navigation'
+import { TiptapEditor } from '../../components/tiptap/editor.ts'
+import { getWysiwygProfile } from '../../components/wysiwyg/wysiwyg.ts'
 
 interface IframeOptions {
     prefix: string
@@ -8,103 +10,126 @@ interface IframeOptions {
 
 interface EditSession {
     element: HTMLElement
-    observer: MutationObserver
     originalContent: string
+    observer?: MutationObserver
+    tiptapEditor?: TiptapEditor
 }
 
 export class Iframe {
-    private readonly messenger: Messenger
+    private readonly messenger = new Messenger()
     private readonly prefix: string
     private inlineSelectors: string[] = []
 
+    private focusSession: EditSession | null = null
     private activeSessions = new Map<string, EditSession>()
+    private readonly toolbar: HTMLElement
 
     constructor(options: IframeOptions) {
-        this.messenger = new Messenger()
         this.prefix = options.prefix
-
-        this.sendLoadMessage()
-        this.setupListeners()
+        this.toolbar = window.parent.document.getElementById('editor-toolbar') as HTMLElement
+        this.init()
     }
 
-    private setupListeners() {
+    private init() {
+        this.setupNavigation()
+        this.setupEventListeners()
+        this.sendLoadMessage()
+    }
+
+    private setupNavigation() {
         new NavigationObserver({
             onUpdate: (url) => this.sendLoadMessage(url),
             onLeave: () => this.messenger.send({ type: 'IFRAME_UNLOAD' })
         })
+    }
 
-        document.addEventListener('click', (event) => this.onClick(event))
+    private setupEventListeners() {
+        document.addEventListener('click', (e) => this.onClick(e))
+        document.addEventListener('focusin', (e) => this.onFocus(e))
 
-        this.messenger.on('EDITOR_ELEMENTS', (msg) => {
-            this.inlineSelectors = msg.selectors
-        })
+        this.messenger.on('EDITOR_ELEMENTS', (msg) => (this.inlineSelectors = msg.selectors))
         this.messenger.on('EDITOR_EDIT', (msg) => this.onEditorEdit(msg))
         this.messenger.on('EDITOR_DISCARD', () => this.onEditorDiscard())
-        this.messenger.on('EDITOR_REFRESH', () => {
-            window.location.reload()
-        })
+        this.messenger.on('EDITOR_REFRESH', () => this.onEditorRefresh())
     }
 
     private sendLoadMessage(url: string = window.location.href) {
-        const loc = new URL(url)
-        const path = loc.pathname
+        const path = new URL(url).pathname
+        if (!path.startsWith(this.prefix)) return
 
-        if (!path.startsWith(this.prefix)) {
-            console.warn(`Invalid path, does not start with prefix: ${path}`)
-            return
-        }
-
-        let realPath = path.slice(this.prefix.length)
-        if (!realPath.startsWith('/')) {
-            realPath = '/' + realPath
-        }
-
+        const normalizedPath = path.slice(this.prefix.length).replace(/^(?!\/)/, '/')
         const collection: InlineCollection = {}
+
         document
             .querySelectorAll<HTMLElement>('[data-ems-id][data-path][data-inline-id]')
-            .forEach((element) => {
-                const item = this.getInlineElement(element)
-                if (item) {
-                    ;(collection[item.emsId] ??= []).push(item)
-                }
+            .forEach((el) => {
+                const item = this.getInlineElement(el)
+                if (item) (collection[item.emsId] ??= []).push(item)
             })
 
         this.messenger.send({
             type: 'IFRAME_LOAD',
-            url: url,
-            path: realPath,
+            url,
+            path: normalizedPath,
             title: document.title,
-            collection: collection
+            collection
         })
     }
 
-    private onClick(event: MouseEvent): void {
+    private onFocus(event: FocusEvent) {
+        this.toolbar.innerHTML = ''
+
         const target = event.target as HTMLElement
-        const selectors = this.inlineSelectors.join(',')
+        const inlineElement = this.getTargetInlineElement(target)
+        const session = inlineElement ? this.activeSessions.get(inlineElement.selector) : null
 
-        const matchedElement = target.closest(selectors) as HTMLElement
+        if (!session) return
 
-        if (matchedElement) {
-            const inlineElement = this.getInlineElement(matchedElement)
-            if (null === inlineElement) return
-
-            if (this.activeSessions.has(inlineElement.selector)) return
-
-            this.messenger.send({
-                type: 'IFRAME_REQUEST_EDIT',
-                element: inlineElement
-            })
+        this.focusSession = session
+        if (target.dataset.fieldType === 'wysiwyg') {
+            session.tiptapEditor?.attachToolbar(this.toolbar)
         }
     }
 
+    private onClick(event: MouseEvent) {
+        const target = event.target as HTMLElement
+        const inlineElement = this.getTargetInlineElement(target)
+
+        if (inlineElement && !this.activeSessions.has(inlineElement.selector)) {
+            this.messenger.send({ type: 'IFRAME_REQUEST_EDIT', element: inlineElement })
+            return
+        }
+
+        if (inlineElement) return
+
+        const focusElement = this.focusSession?.element
+        if (focusElement && target.contains(focusElement)) return
+
+        this.toolbar.innerHTML = ''
+    }
+
+    private onEditorDiscard() {
+        this.activeSessions.forEach((session) => {
+            session.element.classList.remove('inline-is-editing')
+
+            session.observer?.disconnect()
+            session.tiptapEditor?.destroy()
+
+            session.element.innerHTML = session.originalContent
+            session.element.contentEditable = 'false'
+        })
+        this.activeSessions.clear()
+        this.toolbar.innerHTML = ''
+    }
+
     private onEditorEdit(msg: EditorEditMessage) {
-        Object.entries(msg.data).forEach(([selector, data]) => {
+        Object.entries(msg.data).forEach(([selector, draftContent]) => {
             if (!this.inlineSelectors.includes(selector)) return
 
-            const element = document.querySelector(selector) as HTMLElement | null
-            if (null === element) return
+            const element = document.querySelector(selector) as HTMLElement
+            if (!element) return
 
-            this.setupInlineEdit(element, data)
+            this.startEditSession(element, draftContent)
 
             if (selector === msg.element.selector) {
                 element.focus()
@@ -112,51 +137,73 @@ export class Iframe {
         })
     }
 
-    private onEditorDiscard() {
-        this.activeSessions.forEach((session) => {
-            session.observer.disconnect()
-            session.element.innerHTML = session.originalContent
-            session.element.contentEditable = 'false'
-            session.element.classList.remove('inline-is-editing')
-        })
-
-        this.activeSessions.clear()
+    private onEditorRefresh() {
+        this.toolbar.innerHTML = ''
+        window.location.reload()
     }
 
-    private setupInlineEdit(element: HTMLElement, draftData: string | null = null) {
-        const inlineElement = this.getInlineElement(element)
-        if (null === inlineElement) return
+    private startEditSession(element: HTMLElement, draftData: string | null) {
+        const inlineData = this.getInlineElement(element)
+        if (!inlineData || this.activeSessions.has(inlineData.selector)) return
 
-        const id = inlineElement.selector
-
-        if (!element || this.activeSessions.has(id)) return
-
-        const originalContent = element.innerHTML
-        element.contentEditable = 'true'
-        element.classList.add('inline-is-editing')
-
-        if (draftData) {
-            element.innerHTML = draftData
+        const session: EditSession = {
+            element,
+            originalContent: element.innerHTML
         }
 
-        let debounceTimer: number | undefined
-        const observer = new MutationObserver(() => {
-            clearTimeout(debounceTimer)
-            debounceTimer = window.setTimeout(() => {
-                this.messenger.send({
-                    type: 'IFRAME_CONTENT_CHANGED',
-                    element: inlineElement,
-                    content: element.innerHTML
-                })
-            }, 500)
-        })
-        observer.observe(element, {
-            characterData: true,
-            childList: true,
-            subtree: true
+        element.classList.add('inline-is-editing')
+        if (draftData) element.innerHTML = draftData
+
+        const isWysiwyg = element.dataset.fieldType === 'wysiwyg'
+
+        if (isWysiwyg) {
+            session.tiptapEditor = this.initTiptap(element, inlineData)
+        } else {
+            session.observer = this.initNativeObserver(element, inlineData)
+            element.contentEditable = 'true'
+        }
+
+        this.activeSessions.set(inlineData.selector, session)
+    }
+
+    private initTiptap(element: HTMLElement, info: InlineElement) {
+        const editor = new TiptapEditor({
+            element,
+            content: element.innerHTML,
+            toolbarConfig: {
+                wysiwygProfile: getWysiwygProfile(window.parent.document)
+            }
         })
 
-        this.activeSessions.set(id, { element, observer, originalContent })
+        editor.tiptap.on('update', ({ editor }) => {
+            this.sendContentChanged(info, editor.getHTML())
+        })
+
+        return editor
+    }
+
+    private initNativeObserver(element: HTMLElement, info: InlineElement) {
+        let debounce: number
+        const observer = new MutationObserver(() => {
+            window.clearTimeout(debounce)
+            debounce = window.setTimeout(() => {
+                this.sendContentChanged(info, element.innerHTML)
+            }, 500)
+        })
+
+        observer.observe(element, { characterData: true, childList: true, subtree: true })
+        return observer
+    }
+
+    private sendContentChanged(element: InlineElement, content: string) {
+        this.messenger.send({ type: 'IFRAME_CONTENT_CHANGED', element, content })
+    }
+
+    private getTargetInlineElement(target: HTMLElement): InlineElement | null {
+        if (!this.inlineSelectors.length) return null
+        const selector = this.inlineSelectors.join(',')
+        const editableElement = target.closest(selector) as HTMLElement
+        return editableElement ? this.getInlineElement(editableElement) : null
     }
 
     private getInlineElement(element: HTMLElement): InlineElement | null {
@@ -164,12 +211,11 @@ export class Iframe {
         if (!emsId || !path || !inlineId) return null
 
         const tag = element.tagName.toLowerCase()
-
         return {
-            emsId: emsId,
-            path: path,
+            emsId,
+            path,
             id: inlineId,
-            tag: tag,
+            tag,
             selector: `${tag}[data-inline-id="${inlineId}"]`
         }
     }

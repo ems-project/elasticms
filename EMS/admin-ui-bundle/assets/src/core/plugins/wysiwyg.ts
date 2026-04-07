@@ -1,67 +1,28 @@
-import { WysiwygRevisionOptions } from '../components/wysiwyg/types.ts'
+import { getWysiwygProfile } from '../components/wysiwyg/wysiwyg.ts'
 
 export default class WYSIWYG {
     editors: any[] = []
-    profile: any = null
+    private readonly selector = 'textarea.ems-wysiwyg, textarea.ems-wysiwyg-revision'
 
     async load(target: HTMLElement) {
-        if (!this.setProfile()) return
+        const isElement = target instanceof Element
 
-        await this.loadInAdminUI(target)
-        await this.loadInRevision(target)
-    }
+        const elements =
+            isElement && target.matches(this.selector)
+                ? [target as HTMLTextAreaElement]
+                : Array.from(target.querySelectorAll<HTMLTextAreaElement>(this.selector))
 
-    private setProfile(): boolean {
-        if (this.profile) return true
-
-        const info = document.body.dataset.wysiwygInfo
-        if (!info) {
-            console.error('WysiwygInfo is missing')
-            return false
-        }
-
-        try {
-            this.profile = JSON.parse(info)
-            return typeof this.profile.editor === 'string'
-        } catch (e) {
-            console.error('Invalid WysiwygInfo JSON', e)
-            return false
-        }
-    }
-
-    async loadInAdminUI(target: HTMLElement) {
-        const elements = target.querySelectorAll<HTMLTextAreaElement>('textarea.ems-wysiwyg')
         for (const element of elements) {
-            await this.createEditor(element)
+            await this.initElement(element)
         }
     }
 
-    async loadInRevision(target: HTMLElement) {
-        const elements = target.querySelectorAll<HTMLTextAreaElement>(
-            'textarea.ems-wysiwyg-revision'
-        )
-        for (const element of elements) {
-            const height = element.getAttribute('data-height')
-            await this.createEditor(element, {
-                onChangeEvent: 'keyup',
-                styleSet: element.getAttribute('data-styles-set'),
-                formatTags: element.getAttribute('data-format-tags'),
-                contentCss: element.getAttribute('data-content-css'),
-                height: height ? Number.parseInt(height) : null,
-                referrerEmsId: element.getAttribute('data-referrer-ems-id'),
-                tableDefaultCss: element.getAttribute('data-table-default-css'),
-                lang: element.getAttribute('data-lang')
-            })
-        }
-    }
+    private async initElement(element: HTMLTextAreaElement) {
+        if (element.hasAttribute('data-wysiwyg-initialized')) return
+        element.setAttribute('data-wysiwyg-initialized', 'true')
 
-    async createEditor(
-        element: HTMLTextAreaElement,
-        options: WysiwygRevisionOptions | null = null
-    ) {
-        const name = this.profile.editor
-        const Editor = await import(`../components/wysiwyg/${name}.ts`)
-
-        this.editors.push(new Editor.default(element, options, this.profile))
+        const editorName = getWysiwygProfile().editor
+        const Editor = await import(`../components/wysiwyg/${editorName}.ts`)
+        this.editors.push(new Editor.default(element))
     }
 }

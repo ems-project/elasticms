@@ -85,7 +85,7 @@ class FileController extends AbstractController
         }
 
         try {
-            return $this->render($notFoundTemplate, [
+            $response = $this->render($notFoundTemplate, [
                 'error' => $notFoundHttpException,
                 'hash' => $hash,
                 'path' => $path,
@@ -93,6 +93,9 @@ class FileController extends AbstractController
                 'extract' => $extract,
                 'indexResource' => $indexResource,
             ]);
+            $response->setStatusCode(404);
+
+            return $response;
         } catch (\Throwable $throwable) {
             throw $throwable->getPrevious() instanceof HttpException ? $throwable->getPrevious() : $throwable;
         }

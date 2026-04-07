@@ -45,7 +45,7 @@ Available Blocks:
 {% endblock body %}
 
 {% block card %}
-<div class="card card-outline {{ class|default("card-#{theme_color} mb-4 shadow") }}">
+<div class="card {{ class|default("border border-#{theme_color} mb-4") }}">
     {% if form is defined and form %}
         {{ form_start(form) }}
     {% endif %}

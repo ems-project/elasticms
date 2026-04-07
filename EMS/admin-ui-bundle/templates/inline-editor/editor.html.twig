@@ -11,20 +11,21 @@
         {%- endif -%}
         <script src="{{ asset('src/core/inline-editor/editor.ts', 'emsadminui') }}" type="module"></script>
     </head>
-    <body data-base-url="{{ baseUrl }}">
+    <body data-base-url="{{ baseUrl }}" data-wysiwyg-info="{{ emsco_wysiwyg_info()|e('html_attr') }}">
         <div class="editor">
             <header class="editor-topbar d-flex align-items-center justify-content-between px-3">
                 <div class="editor-title fw-bold">Inline Editor</div>
                 <div class="d-flex gap-2 align-items-center">
                     <div class="editor-actions d-flex gap-2" data-editor-clear="true"></div>
                     <button type="button" class="btn btn-sm btn-secondary" data-editor-action="toggleSidebar">
-                        <i class="fa-solid fa-angles-right"></i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-layout-sidebar-right-collapse"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 6a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2l0 -12" /><path d="M15 4v16" /><path d="M9 10l2 2l-2 2" /></svg>
                     </button>
                     <a href="{{ iframeUrl }}" class="text-white" data-editor-action="close">Exit</a>
                 </div>
             </header>
             <div class="editor-body">
                 <main class="editor-preview">
+                    <div id="editor-toolbar"></div>
                     <iframe id="preview-iframe" src="{{ iframeUrl }}" data-prefix="{{ routePrefix }}" allow="fullscreen" allowfullscreen></iframe>
                 </main>
                 <aside class="editor-sidebar">

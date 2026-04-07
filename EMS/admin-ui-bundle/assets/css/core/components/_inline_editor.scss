@@ -1,5 +1,5 @@
-@import "../libraries/fontawesome";
 @import "bootstrap/scss/bootstrap.scss";
+@import "_tiptap_toolbar.scss";
 
 html, body {
   margin: 0;
@@ -15,6 +15,15 @@ html, body {
 .editor-topbar {
   background: #111827;
   color: white;
+}
+
+#editor-toolbar {
+  background: #f3f4f6;
+  border-bottom: 1px solid #e5e7eb;
+
+  .tiptap-toolbar {
+    padding: 4px;
+  }
 }
 
 .editor-body {

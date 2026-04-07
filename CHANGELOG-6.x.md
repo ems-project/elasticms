@@ -1,5 +1,9 @@
 # Changelog 6.x
 
+## 6.9.10 (2026-04-07)
+### Bug Fixes
+* fix(web): not found page should return a 404 code by @theus77 in https://github.com/ems-project/elasticms/pull/1633
+
 ## 6.9.9 (2026-03-23)
 ### Features
 * feat(common/archive): new functions add/replace and remove archive by @IsaMic in https://github.com/ems-project/elasticms/pull/1627

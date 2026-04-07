@@ -1,13 +1,19 @@
 # Changelog 7.x
 
-## 7.1.0 (2026-03-23)
+## 7.1.0 (2026-04-07)
 ### Features
+* feat(admin): tiptap basic implementation by @Davidmattei in https://github.com/ems-project/elasticms/pull/1632
 * feat(adminUI): vite8 and eslint 10 by @Davidmattei in https://github.com/ems-project/elasticms/pull/1624
+* feat(common/archive): new functions add/replace and remove archive by @IsaMic in https://github.com/ems-project/elasticms/pull/1627
 * feat(common/spreadsheet): cell type option 's' for string by @IsaMic in https://github.com/ems-project/elasticms/pull/1626
 * feat(demo): json error template (+add content if 400 bad request) by @theus77 in https://github.com/ems-project/elasticms/pull/1617
 * feat(web/inline-edit): implement a inline editor by @Davidmattei in https://github.com/ems-project/elasticms/pull/1599
 ### Bug Fixes
 * fix(web): local push route without query by @theus77 in https://github.com/ems-project/elasticms/pull/1622
+* fix(web): not found page should return a 404 code by @theus77 in https://github.com/ems-project/elasticms/pull/1633
+* fix(wysiwyg): correct load in core & adminUI bundle by @Davidmattei in https://github.com/ems-project/elasticms/pull/1630
+### Code Refactoring
+* refactor(admin): remove ckeditor5 beta implementation by @Davidmattei in https://github.com/ems-project/elasticms/pull/1629
 ### Chores
 * chore: redis multi archi image by @theus77 in https://github.com/ems-project/elasticms/pull/1623
 * chore: replace mailhog by mailpit by @theus77 in https://github.com/ems-project/elasticms/pull/1618

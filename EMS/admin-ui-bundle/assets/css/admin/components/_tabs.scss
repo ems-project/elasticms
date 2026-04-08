@@ -39,3 +39,15 @@
         }
     }
 }
+
+.card {
+    .nav-tabs {
+        --bs-nav-tabs-border-width: 1px;
+    }
+
+    .tab-content {
+        border-left: 1px solid var(--bs-border-color);
+        border-right: 1px solid var(--bs-border-color);
+        border-bottom: 1px solid var(--bs-border-color);
+    }
+}

@@ -129,7 +129,7 @@
                     <li class="{{ a.list_item_classes|default([])|length > 0 ? a.list_item_classes|join(' ') }}" data-testid="revision-actions-in-{{ environment.label|lower }}-message">
                         {% if a.rawHtml|default %}
                             {{ a.label|raw }}
-                        {% elseif a.post_button|default %}{% dump %}
+                        {% elseif a.post_button|default %}
                             {% include '@EMSCore/elements/post-button.html.twig' with {
                                 'url': a.link,
                                 'label': a.label,

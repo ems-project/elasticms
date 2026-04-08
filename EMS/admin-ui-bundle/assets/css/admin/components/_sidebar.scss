@@ -37,6 +37,7 @@ a.sidebar-link {
   position: relative;
   text-decoration: none;
   cursor: pointer;
+  border-left-width: 0;
   border-left-style: solid;
   color: $sidebar-link-color;
   background: $sidebar-link-bg;
@@ -52,19 +53,19 @@ a.sidebar-link {
   outline: 0;
 }
 
-.sidebar-item.active > .sidebar-link {
+// .sidebar-item.active > .sidebar-link {
+//   border-left-width: 0;
+// }
+
+.sidebar-dropdown .sidebar-item.active > .sidebar-link {
   border-left-width: 3px;
 }
 
+.sidebar-item.active > .sidebar-link,
 .sidebar-link:hover {
   color: $sidebar-link-active-color;
   background: $sidebar-link-active-bg;
   border-left-color: $sidebar-link-active-border-left-color;
-
-  i,
-  svg {
-    color: $sidebar-link-icon-active-color;
-  }
 }
 
 // Sidebar brand

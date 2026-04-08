@@ -307,7 +307,7 @@
                 </a>
             {% endfor %}
             {% if attribute(form, 'reorderAction') is defined %}
-                <button type="button" class="btn btn-sm btn-light" data-toggle="modal" data-target="#{{ table.attributeName|e('html_attr') }}_modal_reorder">
+                <button type="button" class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#{{ table.attributeName|e('html_attr') }}_modal_reorder">
                     <i class="fa fa-reorder"></i>&nbsp;{{ form.reorderAction.vars.label|trans }}
                 </button>
             {% endif %}

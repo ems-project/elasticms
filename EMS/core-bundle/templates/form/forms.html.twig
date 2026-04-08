@@ -237,7 +237,7 @@
                         {% if action.label|default(false) %}{{ action.label|trans }}{% endif %}
                         <span class="caret"></span>
                     </button>
-                    <ul class="dropdown-menu>
+                    <ul class="dropdown-menu">
                         {% for childAction in action %}
                             <li>
                                 {% with { 'action': childAction, 'btnClass': '' } %}
@@ -327,8 +327,7 @@
                 {% endif %}
                 <div class="box-body with-border">
                     <div class="table-responsive">
-
-                        <table class="table table-condensed table-striped" data-datatable="{{ table.frontendOptions|json_encode|e('html_attr') }}"{% if table_id|default(false) %} data-testid="table-id-{{ table_id }}"{% endif %}>
+                        <table class="table table-condensed table-striped" style="width:100%" data-datatable="{{ table.frontendOptions|json_encode|e('html_attr') }}"{% if table_id|default(false) %} data-testid="table-id-{{ table_id }}"{% endif %}>
                             <thead>
                             <tr role="row">
                                 {% if table.supportsTableActions %}

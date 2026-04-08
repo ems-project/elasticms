@@ -53,12 +53,12 @@ a.sidebar-link {
   outline: 0;
 }
 
-// .sidebar-item.active > .sidebar-link {
-//   border-left-width: 0;
-// }
+.sidebar-item.active > .sidebar-link {
+  border-left-width: 3px;
+}
 
 .sidebar-dropdown .sidebar-item.active > .sidebar-link {
-  border-left-width: 3px;
+  border-left-width: 0;
 }
 
 .sidebar-item.active > .sidebar-link,

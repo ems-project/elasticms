@@ -117,6 +117,10 @@
 {% endblock %}
 
 {% block columnAction %}
+    {{ app.request.server.get('EMSCO_TEMPLATE_NAMESPACE') in ['EMSAdminUI/bootstrap5'] ? block('columnActionBS5') : block('columnActionBS3') }}
+{% endblock %}
+
+{% block columnActionBS3 %}
 {% verbatim %}
 <div class="btn-group btn-group-sm" style="width: 130px;">
     <a href="{{ docInfo.draft ? path("ems_revision_edit", {revisionId: revisionId}) : docInfo.aligned("live") ? path("revision.new-draft", {type: data.contentType, ouuid: data.id }) : path("revision.publish_to", {revisionId: revisionId, envId: liveId, redirectToUrl: path("data.customindexview", {viewId: viewId })}) }}" class="btn btn-default" style="width: 100px;">
@@ -134,6 +138,27 @@
             <li><a href="{{ path("revision.publish_to", {revisionId: revisionId, envId: previewId}) }}">Publish in preview</a></li>
         {% elseif not docInfo.aligned('live') %}
             <li><a href="{{ path("revision.new-draft", {type: data.contentType, ouuid: data.id }) }}">Edit</a></li>
+        {% endif %}
+    </ul>
+</div>
+{% endverbatim %}
+{% endblock %}
+
+{% block columnActionBS5 %}
+{% verbatim %}
+<div class="btn-group btn-group-sm" style="width: 130px;">
+    <a href="{{ docInfo.draft ? path("ems_revision_edit", {revisionId: revisionId}) : docInfo.aligned("live") ? path("revision.new-draft", {type: data.contentType, ouuid: data.id }) : path("revision.publish_to", {revisionId: revisionId, envId: liveId, redirectToUrl: path("data.customindexview", {viewId: viewId })}) }}" class="btn btn-default" style="width: 100px;">
+        {{ docInfo.draft ? "Edit draft" : docInfo.aligned("live") ? "Edit" : "Publish in live" }}
+    </a>
+    <button type="button" class="btn btn-default dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Toggle Dropdown"></button>
+    <ul class="dropdown-menu" role="menu">
+        <li>
+            <a href="{{ path("data.revisions", {ouuid: data.id, type: data.contentType} ) }}" class="dropdown-item">Revision</a>
+        </li>
+        {% if docInfo.draft %}
+            <li><a href="{{ path("revision.publish_to", {revisionId: revisionId, envId: previewId}) }}" class="dropdown-item">Publish in preview</a></li>
+        {% elseif not docInfo.aligned('live') %}
+            <li><a href="{{ path("revision.new-draft", {type: data.contentType, ouuid: data.id }) }}" class="dropdown-item">Edit</a></li>
         {% endif %}
     </ul>
 </div>

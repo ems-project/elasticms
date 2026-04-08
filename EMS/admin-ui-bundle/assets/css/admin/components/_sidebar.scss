@@ -38,7 +38,6 @@ a.sidebar-link {
   text-decoration: none;
   cursor: pointer;
   border-left-style: solid;
-  border-left-width: 3px;
   color: $sidebar-link-color;
   background: $sidebar-link-bg;
   border-left-color: $sidebar-link-border-left-color;
@@ -53,14 +52,11 @@ a.sidebar-link {
   outline: 0;
 }
 
-.sidebar-link:hover {
-  color: $sidebar-link-hover-color;
-  background: $sidebar-link-hover-bg;
-  border-left-color: $sidebar-link-hover-border-left-color;
+.sidebar-item.active > .sidebar-link {
+  border-left-width: 3px;
 }
 
-.sidebar-item.active > .sidebar-link,
-.sidebar-item.active .sidebar-link:hover {
+.sidebar-link:hover {
   color: $sidebar-link-active-color;
   background: $sidebar-link-active-bg;
   border-left-color: $sidebar-link-active-border-left-color;
@@ -184,8 +180,6 @@ a.sidebar-link {
 }
 
 .sidebar-dropdown .sidebar-link {
-  background: transparent;
-  border-left: 0;
   font-size: 90%;
   font-weight: 400;
   padding: $sidebar-link-padding-y $sidebar-link-padding-x $sidebar-link-padding-y calc($sidebar-link-padding-x * 2.5);

@@ -55,6 +55,7 @@
             <div class="col-12">
                 {{ block('revisionToolbar') }}
                 {{ block('revisionBody') }}
+                {{ block('revisionToolbar') }}
             </div>
         {% else %}
             <div class="col-md-3">
@@ -63,6 +64,7 @@
             <div class="col-md-9">
                 {{ block('revisionToolbar') }}
                 {{ block('revisionBody') }}
+                {{ block('revisionToolbar') }}
             </div>
         {% endif %}
     </div>
@@ -226,44 +228,35 @@
 {% endblock %}
 
 {% block revisionBody %}
-    {% if revision.giveContentType.versioning.tags|length > 0 and newVersionTag is not null and newVersionTag != 'silent' %}
-        <h3 class="card-title">New version <strong>{{ newVersionTag }}</strong></h3>
-    {% endif %}
-    <h3 class="card-title">
-        {% if revision.draft %}
-            <i class="fa fa-fire"></i>
-            {{ 'views.data.revisions-data-html.draft-in-progress'|trans }}
-        {% elseif revision.giveContentType.versioning.enabled %}
-            {{ revisionVersionTitle|raw }}
-        {% elseif not revision.endTime %}
-            <i class="fa fa-thumbs-up"></i>
-            {{ 'views.data.revisions-data-html.current-revision'|trans }}
-        {% else %}
-            <i class="fa fa-clock-o"></i>
-            {{ 'views.data.revisions-data-html.previous-revision'|trans({'%timestamp%': revision.created|date(date_time_format)}) }}
-        {% endif %}
-    </h3>
-    {% if revision.giveContentType.versioning.enabled and revision.versionDate('to') != null and latestVersion %}
-        <div class="box-tools float-end">
-            <a href="{{ path('emsco_view_revisions', {type: latestVersion.contentTypeName, ouuid: latestVersion.ouuid}) }}" class="btn btn-light bg-{{ revision.contentType.color }} btn-sm">
-                <i class="{% if revision.contentType.icon %}{{ revision.contentType.icon }} {% else %} fa fa-question {% endif %}"></i>
-                current version
-            </a>
-        </div>
-    {% endif %}
-    {% set compare = compareData != null ? true : false %}
-    {{ macros.renderDataField(dataFields, revision.rawData, compare, compareData) }}
-    <div class="card mt-4">
+    <div class="card mb-4">
         <div class="card-body">
-            {{ include('@EMSAdminUI/bootstrap5/elements/revision-toolbar.html.twig', {
-                revisionId: revision.id,
-                environmentsRevision: emsco_get_environments_revision(revision),
-                draft: revision.draft,
-                current: not revision.endTime,
-                autoSave: revision.autoSave,
-                instance: revision,
-                withView: false,
-            }) }}
+            {% if revision.giveContentType.versioning.tags|length > 0 and newVersionTag is not null and newVersionTag != 'silent' %}
+                <h3 class="card-title">New version <strong>{{ newVersionTag }}</strong></h3>
+            {% endif %}
+            <h3 class="card-title">
+                {% if revision.draft %}
+                    <i class="fa fa-fire"></i>
+                    {{ 'views.data.revisions-data-html.draft-in-progress'|trans }}
+                {% elseif revision.giveContentType.versioning.enabled %}
+                    {{ revisionVersionTitle|raw }}
+                {% elseif not revision.endTime %}
+                    <i class="fa fa-thumbs-up"></i>
+                    {{ 'views.data.revisions-data-html.current-revision'|trans }}
+                {% else %}
+                    <i class="fa fa-clock-o"></i>
+                    {{ 'views.data.revisions-data-html.previous-revision'|trans({'%timestamp%': revision.created|date(date_time_format)}) }}
+                {% endif %}
+            </h3>
+            {% if revision.giveContentType.versioning.enabled and revision.versionDate('to') != null and latestVersion %}
+                <div class="box-tools float-end">
+                    <a href="{{ path('emsco_view_revisions', {type: latestVersion.contentTypeName, ouuid: latestVersion.ouuid}) }}" class="btn btn-light bg-{{ revision.contentType.color }} btn-sm">
+                        <i class="{% if revision.contentType.icon %}{{ revision.contentType.icon }} {% else %} fa fa-question {% endif %}"></i>
+                        current version
+                    </a>
+                </div>
+            {% endif %}
+            {% set compare = compareData != null ? true : false %}
+            {{ macros.renderDataField(dataFields, revision.rawData, compare, compareData) }}
         </div>
     </div>
 {% endblock %}

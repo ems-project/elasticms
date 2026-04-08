@@ -321,11 +321,7 @@
 {% block EMS_CoreBundle_Form_DataField_ContainerFieldType %}
     {% set parent = dataField.fieldType.parent %}
     {% set parentType = parent ? parent.type : false %}
-    {% set hasDirectTabsChild = dataField.getChildren|filter(c => c.fieldType.type in ['EMS\\CoreBundle\\Form\\DataField\\TabsFieldType', 'EMS\\CoreBundle\\Form\\DataField\\MultiplexedTabContainerFieldType'])|length > 0 %}
 
-    {% if not hasDirectTabsChild %}
-        <div class="card">
-    {% endif %}
     {% if dataField.fieldType.displayOptions.label is defined and dataField.fieldType.displayOptions.label %}
         {% if parentType not in ['EMS\\CoreBundle\\Form\\DataField\\TabsFieldType', 'EMS\\CoreBundle\\Form\\DataField\\MultiplexedTabContainerFieldType'] %}
             <div class="card-header">
@@ -342,28 +338,21 @@
             </div>
         {% endif %}
     {% endif %}
-    {% if not hasDirectTabsChild %}
-        <div class="card-body container-fluid">
-    {% endif %}
-            <div class="row">
-                {% for child in dataField.getChildren|filter(c => false == c.fieldType.deleted) %}
-                    {% if child.fieldType.type in ['EMS\\CoreBundle\\Form\\DataField\\FormFieldType'] %}
-                        {{ _self.renderDataFieldBlock(child, source, compare, compareRawData, '', path, locale) }}
-                    {% else %}
-                        <div class="{% if child.fieldType.displayOptions.class is defined and child.fieldType.displayOptions.class %}{{ child.fieldType.displayOptions.class }}{% else %}col-md-12{% endif %}">
-                            {{ _self.renderDataFieldBlock(child, source, compare, compareRawData, '', path, locale) }}
-                        </div>
-                    {% endif %}
-                    {% if child.fieldType.displayOptions.lastOfRow is defined and child.fieldType.displayOptions.lastOfRow %}
-                        <div class="clearfix"></div>
-                    {% endif %}
-                {% endfor %}
-            </div>
+    <div class="row">
+        {% for child in dataField.getChildren|filter(c => false == c.fieldType.deleted) %}
+            {% if child.fieldType.type in ['EMS\\CoreBundle\\Form\\DataField\\FormFieldType'] %}
+                {{ _self.renderDataFieldBlock(child, source, compare, compareRawData, '', path, locale) }}
+            {% else %}
+                <div class="{% if child.fieldType.displayOptions.class is defined and child.fieldType.displayOptions.class %}{{ child.fieldType.displayOptions.class }}{% else %}col-md-12{% endif %}">
+                    {{ _self.renderDataFieldBlock(child, source, compare, compareRawData, '', path, locale) }}
+                </div>
+            {% endif %}
+            {% if child.fieldType.displayOptions.lastOfRow is defined and child.fieldType.displayOptions.lastOfRow %}
+                <div class="clearfix"></div>
+            {% endif %}
+        {% endfor %}
+    </div>
             
-    {% if not hasDirectTabsChild %}
-            </div>
-        </div>
-    {% endif %}
     {{ _self.messages(dataField) }}
 {% endblock %}
 

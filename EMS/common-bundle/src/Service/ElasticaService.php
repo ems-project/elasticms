@@ -605,9 +605,8 @@ class ElasticaService
             $query->addAggregation($aggregation);
         }
 
-        $suggest = $search->getSuggest();
-        if (null !== $suggest && \count($suggest) > 0) {
-            $query->setSuggest($suggest);
+        if ([] !== $search->getSuggest()) {
+            $query->setParam('suggest', $search->getSuggest());
         }
 
         $esSearch = new ElasticaSearch($this->client);

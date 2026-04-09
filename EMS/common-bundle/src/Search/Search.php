@@ -32,7 +32,8 @@ class Search
     /** @var array<mixed>|null */
     private ?array $sort = null;
     private ?AbstractQuery $postFilter = null;
-    private ?Suggest $suggest = null;
+    /** @var array<mixed> */
+    private array $suggest = [];
     /** @var array<mixed>|null */
     private ?array $highlight = null;
 
@@ -48,7 +49,7 @@ class Search
 
     public function serialize(string $format = 'json'): string
     {
-        return self::getSerializer()->serialize($this, $format, [AbstractNormalizer::IGNORED_ATTRIBUTES => ['query', 'aggregations']]);
+        return self::getSerializer()->serialize($this, $format, [AbstractNormalizer::IGNORED_ATTRIBUTES => ['query', 'aggregations', 'suggest']]);
     }
 
     public static function deserialize(string $data, string $format = 'json'): Search
@@ -290,14 +291,17 @@ class Search
         return $this->postFilter;
     }
 
-    public function getSuggest(): ?Suggest
+    /**
+     * @return array<mixed>
+     */
+    public function getSuggest(): array
     {
         return $this->suggest;
     }
 
     public function setSuggest(?Suggest $suggest): void
     {
-        $this->suggest = $suggest;
+        $this->suggest = $suggest?->toArray() ?? [];
     }
 
     /**

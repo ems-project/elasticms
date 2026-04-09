@@ -26,6 +26,8 @@ final class Response implements ResponseInterface
     private bool $accurate = true;
     /** @var array<mixed> */
     private array $aggregations;
+    /** @var array<mixed> */
+    private array $suggest;
 
     /**
      * @param array<mixed> $response
@@ -40,6 +42,7 @@ final class Response implements ResponseInterface
         }
         $this->hits = $response['hits']['hits'] ?? [];
         $this->aggregations = $response['aggregations'] ?? [];
+        $this->suggest = $response['suggest'] ?? [];
         $this->scrollId = $response['_scroll_id'] ?? null;
     }
 
@@ -161,5 +164,13 @@ final class Response implements ResponseInterface
         $response->getData();
 
         return new ResultSet($response, $query, \array_map(fn (array $p) => new Result($p), $this->hits));
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    public function getSuggest(): array
+    {
+        return $this->suggest;
     }
 }

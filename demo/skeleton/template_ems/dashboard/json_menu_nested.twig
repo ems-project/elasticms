@@ -54,7 +54,7 @@
 {%- block jmn_button_add_menu -%}
     {{ parent() }}
     <li>
-        <button class="ems-add-existing-page dropdown-item" data-modal-size="lg" data-jmn-modal-custom="modal_existing_page">
+        <button class="ems-add-existing-page dropdown-item" data-modal-size="lg" data-jmn-modal-custom="modal_existing_page" data-testid="jmn-btn-add-existing-content">
             <i class="fa fa-sign-in" aria-hidden="true"></i>Existing content
         </button>
     </li>
@@ -89,7 +89,7 @@
 
 {%- block button_detach -%}
     {%- if contentInfo is defined and contentInfo -%}
-        <button class="btn-detach-content dropdown-item" data-item-id="{{ item.id }}" data-content-id="{{ contentInfo.id.ouuid }}" data-content-type="{{ item.type }}">Detach content</button>
+        <button class="btn-detach-content dropdown-item" data-item-id="{{ item.id }}" data-content-id="{{ contentInfo.id.ouuid }}" data-content-type="{{ item.type }}" data-testid="jmn-btn-detach">Detach content</button>
     {%- endif -%}
 {%- endblock button_detach -%}
 
@@ -102,7 +102,7 @@
 {%- block jmn_item_title -%}
     {% if item.type in contentTypeNames %}
         {% if page and contentInfo %}
-            <a href="{{ path('emsco_view_revisions', { 'type': item.type, 'ouuid': page.id })  }}">
+            <a href="{{ path('emsco_view_revisions', { 'type': item.type, 'ouuid': page.id })  }}" data-testid="jmn-row-view-revision">
                 {{ item.object.(locale).title|default(item.object.label) }}
             </a>
         {% else %}
@@ -118,7 +118,7 @@
 {% block jmn_cell_content %}
     {% if item.type in contentTypeNames %}
         {% if itemPages|length == 0 %}
-            <button class="json-post-button btn btn-sm btn-default btn-new-content" data-item="{{ item.data|json_encode|e('html_attr') }}">
+            <button class="json-post-button btn btn-sm btn-default btn-new-content" data-item="{{ item.data|json_encode|e('html_attr') }}" data-testid="jmn-btn-create-content">
                 <i class="fa fa-plus"></i>&nbsp;
                 Create {{ item.type }}
             </button>
@@ -132,7 +132,7 @@
                         {% set path = item.path|map(p => p.object.(locale).title|ems_slug) %}
                         {% for env in environments|filter(e => contentInfo.published(e.name)) %}
                             <li>
-                                <a class="dropdown-item" href="/channel/{{ env.name }}/{{ locale }}/{{ path|join('/') }}" target="_blank">
+                                <a class="dropdown-item" href="/channel/{{ env.name }}/{{ locale }}/{{ path|join('/') }}" target="_blank" data-testid="jmn-action-show-{{ env.name }}-{{ locale }}">
                                     <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;Show {{ env.name }}
                                 </a>
                             </li>
@@ -143,7 +143,7 @@
             {% set contentType = contentTypes|filter(ct => ct.name == item.type)|first|default() %}
             {% if contentType and is_granted(contentType.roles.edit) %}
                 {% set editPath = path('revision.new-draft', {'ouuid': page.id, 'type': contentType.name}) %}
-                <a class="btn btn-sm btn-primary" href="{{ editPath }}">
+                <a class="btn btn-sm btn-primary" href="{{ editPath }}" data-testid="jmn-btn-revision-edit">
                     <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;Edit
                 </a>
             {% endif %}
@@ -165,17 +165,17 @@
         {% for env in environments %}
             {% if contentInfo.defaultEnvironment.name == env %}
                 {% if contentInfo.hasDraft %}
-                    <span class="jmn-badge badge bg-warning">Draft</span>
+                    <span class="jmn-badge badge bg-warning" data-testid="jmn-cell-status-{{ env }}">Draft</span>
                 {% else %}
-                    <span class="jmn-badge badge bg-success">Published</span>
+                    <span class="jmn-badge badge bg-success" data-testid="jmn-cell-status-{{ env }}">Published</span>
                 {% endif %}
             {% else %}
                 {% if contentInfo.aligned(env) %}
-                    <span class="jmn-badge badge bg-success">Published</span>
+                    <span class="jmn-badge badge bg-success" data-testid="jmn-cell-status-{{ env }}">Published</span>
                 {% elseif contentInfo.published(env) %}
-                    <span class="jmn-badge badge bg-warning">Outdated</span>
+                    <span class="jmn-badge badge bg-warning" data-testid="jmn-cell-status-{{ env }}">Outdated</span>
                 {% else %}
-                    <span class="jmn-badge badge bg-default">Unavailable</span>
+                    <span class="jmn-badge badge bg-default" data-testid="jmn-cell-status-{{ env }}">Unavailable</span>
                 {% endif %}
             {% endif %}
         {% endfor %}
@@ -201,6 +201,7 @@
     {% set rowContext = "{% set docInfo = [line.data.contentType, line.data.id]|join(':')|emsco_document_info %}" %}
     <div id="jmn-existing-page-table">
         {{ emsco_datatable(['preview'],contentTypeNames, {
+            'id': 'jmn-table-existing-content',
             "frontendOptions": { "order": [[3, 'desc']] },
             'row_context': rowContext,
             "columns": columns,
@@ -232,7 +233,7 @@
         {% if docInfo.hasDraft %}
             <span class="badge bg-default">In draft</span>
         {% else %}
-            <button class="btn btn-sm btn-default btn-add-existing-content" data-content-id="{{ data.id }}" data-content-type="{{ data.contentType }}">Select</button>
+            <button class="btn btn-sm btn-default btn-add-existing-content" data-content-id="{{ data.id }}" data-content-type="{{ data.contentType }}" data-testid="jmn-existing-content-select">Select</button>
         {% endif %}
     </div>
 {%- endverbatim -%}

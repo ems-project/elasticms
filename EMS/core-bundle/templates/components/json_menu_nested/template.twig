@@ -48,7 +48,7 @@
     <div class="{{ html_classes('jmn-node', { 'jmn-collapsible': item.hasChildren, 'jmn-node-active': item == render.activeItem }) }}" data-id="{{ item.id }}" data-type="{{ item.type }}" data-testid="menu-item-{{ item.id }}">
         {{ template.block('jmn_item_row', _context)|raw }}
         {%- if node.leaf == false -%}
-            <div id="{{ "children-#{item.id}" }}" class="jmn-children jmn-sortable" data-types="{{ config.nodes.types(item.type)|json_encode|e('html_attr') }}">
+            <div id="{{ "children-#{item.id}" }}" class="jmn-children jmn-sortable" data-types="{{ config.nodes.types(item.type)|json_encode|e('html_attr') }}" data-testid="menu-item-{{ item.id }}-children">
                 {% if item in render.loadParents %}
                     {% with { 'menu': item } %}{{ template.block('jmn_items', _context)|raw }}{% endwith %}
                 {% endif %}
@@ -60,7 +60,7 @@
 {%- block jmn_item_row -%}
     <div class="jmn-row" data-testid="jmn-row">
         {%- for column in config.columns -%}
-            <div class="{{- "jmn-cell jmn-cell-#{column.name}" -}}" style="{{- column.width ? "width:#{column.width}px;" -}}" >
+            <div class="{{- "jmn-cell jmn-cell-#{column.name}" -}}" style="{{- column.width ? "width:#{column.width}px;" -}}" data-testid="jmn-cell-{{ column.name }}">
                 {%- if template.hasBlock("jmn_cell_#{column.name}") -%}
                     {{- template.block("jmn_cell_#{column.name}", _context)|raw -}}
                 {%- endif -%}
@@ -74,7 +74,7 @@
 
 {%- block jmn_cell_title -%}
     {% if item.hasChildren %}
-        <button class="jmn-item-icon jmn-btn-collapse" aria-expanded="{{- item in render.loadParents ? 'true' : 'false' -}}"></button>
+        <button class="jmn-item-icon jmn-btn-collapse" aria-expanded="{{- item in render.loadParents ? 'true' : 'false' -}}" data-testid="jmn-btn-collapse"></button>
     {% endif %}
     {% if node.icon %}
         <div class="jmn-item-icon"><i class="{{ node.icon }}"></i></div>
@@ -93,19 +93,19 @@
 {%- endblock jmn_item_title -%}
 
 {%- block jmn_button_item_edit -%}
-    <button class="jmn-btn-edit" data-modal-size="{{- buttonModalSize|default('md') -}}">{{- buttonLabel|default('Edit') -}}</button>
+    <button class="jmn-btn-edit" data-modal-size="{{- buttonModalSize|default('md') -}}" data-testid="jmn-btn-edit">{{- buttonLabel|default('Edit') -}}</button>
 {%- endblock jmn_button_item_edit -%}
 
 {%- block jmn_button_item_delete -%}
-    <button class="jmn-btn-delete">{{- buttonLabel|default('Delete') -}}</button>
+    <button class="jmn-btn-delete" data-testid="jmn-btn-delete">{{- buttonLabel|default('Delete') -}}</button>
 {%- endblock jmn_button_item_delete -%}
 
 {%- block jmn_button_item_move -%}
-    <button class="btn btn-sm btn-default jmn-btn-move">{{- buttonLabel|default('Move') -}}</button>
+    <button class="btn btn-sm btn-default jmn-btn-move" data-testid="jmn-btn-move">{{- buttonLabel|default('Move') -}}</button>
 {%- endblock jmn_button_item_move -%}
 
 {%- block jmn_button_item_view -%}
-    <button class="jmn-btn-view" data-modal-size="{{- buttonModalSize|default('md') -}}">{{- buttonLabel|default('View') -}}</button>
+    <button class="jmn-btn-view" data-modal-size="{{- buttonModalSize|default('md') -}}" data-testid="jmn-btn-view">{{- buttonLabel|default('View') -}}</button>
 {%- endblock jmn_button_item_view -%}
 
 {%- block jmn_button_item_more -%}
@@ -158,7 +158,7 @@
     {% set menuMore = template.block('jmn_button_more_menu', _context)|raw  %}
     {% if menuMore|length > 0 %}
         <div class="btn-group btn-group-sm">
-            <button type="button" class="btn btn-sm btn-default dropdown-toggle jmn-dropdown-more" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+            <button type="button" class="btn btn-sm btn-default dropdown-toggle jmn-dropdown-more" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-testid="jmn-dropdown-more-btn"></button>
             <ul class="{{ html_classes('dropdown-menu', { 'pull-right': (dropDown|default('right') == 'right') }) }}">
                 {{ menuMore|raw }}
             </ul>

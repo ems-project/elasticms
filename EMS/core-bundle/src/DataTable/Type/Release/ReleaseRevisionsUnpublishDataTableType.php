@@ -91,7 +91,7 @@ class ReleaseRevisionsUnpublishDataTableType extends AbstractTableType implement
                 'emsLinkToAdd' => 'documentEmsId',
             ],
             attributes: [
-                'data-testid' => 'release-action-unpublish',
+                'data-testid' => 'release-action-add-for-unpublish',
             ]
         );
     }

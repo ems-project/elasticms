@@ -56,7 +56,7 @@ class GroupController extends AbstractController
         }
 
         return new Page([
-            'datatable' => ['form' => $form->createView()],
+            'datatable' => ['form' => $form->createView(), 'table_id' => 'group'],
             'title' => t('type.title_overview', ['type' => 'group'], 'emsco-core'),
             'subTitle' => t('type.title_sub', ['type' => 'group'], 'emsco-core'),
             'breadcrumb' => $this->breadcrumb(),
@@ -94,7 +94,7 @@ class GroupController extends AbstractController
     public function editGroup(Group $group, Request $request): Response
     {
         $form = $this->createForm(GroupType::class, $group, [
-            'mode' => UserType::MODE_UPDATE,
+            'mode' => UserType::MODE_UPDATE
         ]);
         $form->handleRequest($request);
 

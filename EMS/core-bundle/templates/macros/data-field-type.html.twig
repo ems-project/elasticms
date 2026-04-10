@@ -88,7 +88,7 @@
 	<div class="panel-body row">
 
     {% if showB %}
-		<div class="{% if showA and showB %} col-md-6{% endif %} asset-preview-tab" >
+		<div class="{% if showA and showB %} col-md-6{% endif %} asset-preview-tab" data-testid="asset-preview-{{ dataField.fieldType.name }}">
 
             {% if attribute(compareRawData, dataField.fieldType.name).mimetype starts with 'image/' %}
                 {% set path = path('ems.file.view', {'sha1':attribute(compareRawData, dataField.fieldType.name).sha1, 'type':attribute(compareRawData, dataField.fieldType.name).mimetype, 'name':attribute(compareRawData, dataField.fieldType.name).filename }) %}
@@ -110,7 +110,7 @@
 		</div>
     {% endif %}
 	{% if showA %}
-		<div class="{% if showA and showB %} col-md-6{% endif %} asset-preview-tab" >
+		<div class="{% if showA and showB %} col-md-6{% endif %} asset-preview-tab" data-testid="asset-preview-{{ dataField.fieldType.name }}">
 			{% if dataField.rawData and dataField.rawData.sha1 is defined %}
 				{% if dataField.rawData.sha1 and dataField.rawData.mimetype|default('missing') starts with 'image/' %}
 					{% set path = emsco_asset_path(dataField.rawData, 'preview') %}
@@ -159,11 +159,11 @@
 
 				{% set tempId = dataField.fieldType.name~'_'~random() %}
 				<div class="btn-group">
-					<button type="button" class="btn btn-small btn-default asset-details" data-toggle="modal" data-target="#indexed-details-revision_{{ tempId }}">
+					<button type="button" class="btn btn-small btn-default asset-details" data-toggle="modal" data-target="#indexed-details-revision_{{ tempId }}" data-testid="asset-info-{{ dataField.fieldType.name }}">
 						<i class="fa fa-info"></i>
 						{{ 'Info'|trans }}
 					</button>
-					<a href="{{ ems_asset_path(dataField.rawData, {'_disposition':'attachment'}) }}" class="btn btn-small btn-default"><i class="fa fa-download"></i>&nbsp;{{'Download'|trans}}</a>
+					<a href="{{ ems_asset_path(dataField.rawData, {'_disposition':'attachment'}) }}" class="btn btn-small btn-default" data-testid="asset-download-{{ dataField.fieldType.name }}"><i class="fa fa-download"></i>&nbsp;{{'Download'|trans}}</a>
 					{#<a href="{{ path('ems.file.view', {'sha1':dataField.rawData.sha1, 'type':dataField.rawData.mimetype, 'name':dataField.rawData.filename }) }}" class="btn btn-small btn-default"><i class="fa fa-eye"></i>&nbsp;{{'View'|trans}}</a>#}
 				</div>
 				<div class="modal" tabindex="-1" role="dialog" id="indexed-details-revision_{{ tempId }}">

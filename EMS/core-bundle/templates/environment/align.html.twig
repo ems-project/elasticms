@@ -226,10 +226,10 @@
             {% if is_granted('ROLE_ALLOW_ALIGN')  %}
               	<div class="btn-group">
               		{%  if toInMyCircles %}
-                		<button type="submit" name="compare_environment_form[alignRight]" class="btn-primary btn-md btn"><span class="fa fa-chevron-right"></span>&nbsp;Align {{ withEnvironment }} with {{ environment }}</button>
+                		<button type="submit" name="compare_environment_form[alignRight]" class="btn-primary btn-md btn" data-testid="table-mass-align-withenv-with-env"><span class="fa fa-chevron-right"></span>&nbsp;Align {{ withEnvironment }} with {{ environment }}</button>
                 	{% endif %}
               		{%  if fromInMyCircles %}
-                		<button type="submit" name="compare_environment_form[alignLeft]" class="btn-danger btn-md btn"><span class="fa fa-chevron-left"></span>&nbsp;Align {{ environment }} with {{ withEnvironment }}</button>
+                		<button type="submit" name="compare_environment_form[alignLeft]" class="btn-danger btn-md btn" data-testid="table-mass-align-env-with-withenv"><span class="fa fa-chevron-left"></span>&nbsp;Align {{ environment }} with {{ withEnvironment }}</button>
               	    {% endif %}
               	</div>
             {% endif %}

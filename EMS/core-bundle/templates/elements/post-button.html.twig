@@ -25,9 +25,9 @@
 			{% if url is defined %}
 				<a href="{{ url }}"
 				   data-post-settings="{{ settings|json_encode|escape('html_attr') }}"
-				   class="core-post-button"{% if testId|length > 0 %}{{ testId|first  ~ '-message' }}{% endif %}>{{ message|trans }}</a>
+				   class="core-post-button"{% if testId|length > 0 %}{{ testId|first  ~ '-message' }}{% endif %} {{ attributes|default('') }}>{{ message|trans }}</a>
 			{% else %}
-				<button{% if testId|length > 0 %}{{ testId|first  ~ '-message' }}{% endif %}>{{ message|trans }}</button>
+				<button{% if testId|length > 0 %}{{ testId|first  ~ '-message' }}{% endif %} {{ attributes|default('') }}>{{ message|trans }}</button>
 			{% endif %}
 		</li>
 	  </ul>

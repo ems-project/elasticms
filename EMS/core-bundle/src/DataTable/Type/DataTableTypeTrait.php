@@ -45,7 +45,8 @@ trait DataTableTypeTrait
             route: $route,
             labelKey: t('action.edit', [], 'emsco-core'),
             icon: 'pencil',
-            routeParameters: $routeParams
+            routeParameters: $routeParams,
+            attributes: ['data-testid' => 'group-action-edit']
         )->setButtonType('primary');
 
         return $this;
@@ -61,7 +62,8 @@ trait DataTableTypeTrait
             labelKey: t('action.delete', [], 'emsco-core'),
             icon: 'trash',
             messageKey: t('type.delete_confirm', ['type' => $type], 'emsco-core'),
-            routeParameters: $routeParams
+            routeParameters: $routeParams,
+            attributes: ['data-testid' => 'group-action-delete']
         )->setButtonType('outline-danger');
 
         return $this;
@@ -76,7 +78,7 @@ trait DataTableTypeTrait
             label: t('action.add', [], 'emsco-core'),
             icon: 'fa fa-plus',
             routeName: $route,
-            routeParams: $routeParams
+            routeParams: $routeParams,
         )->setCssClass('btn btn-sm btn-primary');
 
         return $this;

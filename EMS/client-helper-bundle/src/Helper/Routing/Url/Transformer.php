@@ -93,7 +93,7 @@ final class Transformer
                 $baseUrl = $config['baseUrl'] ?? '';
             }
             $transformed = $baseUrl.$route;
-            if (($match['query'] ?? '') !== '') {
+            if ('asset' !== $match['link_type'] && ($match['query'] ?? '') !== '') {
                 $transformed = \implode('?', [$transformed, $match['query']]);
             }
 

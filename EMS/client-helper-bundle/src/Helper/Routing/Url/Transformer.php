@@ -22,13 +22,17 @@ final class Transformer
     /** @var array<string, mixed> */
     private array $documents = [];
 
+    /**
+     * @param array<string, mixed> $wysiwygImageConfig
+     */
     public function __construct(
         private readonly AssetExtension $assetExtension,
         ClientRequestManager $clientRequestManager,
         private readonly Generator $generator,
         private readonly Environment $twig,
         private readonly LoggerInterface $logger,
-        ?string $template
+        ?string $template,
+        private readonly array $wysiwygImageConfig,
     ) {
         $this->clientRequest = $clientRequestManager->getDefault();
         $this->template = $template ?? '@EMSCH/template/{type}.ems_link.twig';
@@ -118,11 +122,14 @@ final class Transformer
     {
         $assetConfig = [];
         $assetFilePaths = $config['asset_file_path'] ?? false;
+        $mimetype = $emsLink->getQuery()['type'] ?? null;
 
         if ($assetFilePaths && isset($match['src'])) {
             $assetConfig = [EmsFields::ASSET_CONFIG_GET_FILE_PATH => true];
         } elseif ($assetFilePaths) {
             $assetConfig = [EmsFields::ASSET_CONFIG_URL_TYPE => UrlGeneratorInterface::NETWORK_PATH];
+        } elseif (isset($match['src']) && \is_string($mimetype) && \str_starts_with($mimetype, 'image/')) {
+            $assetConfig = $this->wysiwygImageConfig;
         }
 
         return $this->assetExtension->assetPath([

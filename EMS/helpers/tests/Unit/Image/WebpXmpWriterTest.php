@@ -59,7 +59,6 @@ class WebpXmpWriterTest extends TestCase
         $tempFile = TempFile::create();
         $filename = \implode(DIRECTORY_SEPARATOR, [__DIR__, '..', '..', 'Resources', 'WebpXmlWriter', 'avatar.webp']);
         $writer->writeFile($filename, $tempFile->path, $xmp);
-        $writer->writeFile($filename, 'output.webp', $xmp);
         $hash = \hash_file('sha256', $tempFile->path);
         $this->assertSame('461befc280478df0b6c487d804bb167a755a7b1f7f7ea07b28614e1e4eac121e', $hash);
     }

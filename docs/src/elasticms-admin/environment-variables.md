@@ -467,6 +467,12 @@ Example for locally loading the demo inside local elasticms-admin.
 EMSCH_LOCAL_PATH='../demo/skeleton'
 ```
 
+### EMSCH_WYSIWYG_IMAGE_CONFIG
+
+Allow you to overwrite the [processor config](../dev/common-bundle/processors.md) applied to the
+images integrated in WYSIWYG fields. Default value
+`{"_image_format":"webp","_config_type":"image","_width":0,"_height":0,"_quality":90}`
+
 ## Elasticms Common Bundle variables
 
 ### EMS_LOG_LEVEL

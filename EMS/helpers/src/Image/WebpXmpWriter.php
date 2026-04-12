@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\Helpers\Image;
 
+use EMS\Helpers\Standard\Type;
+
 final class WebpXmpWriter
 {
     /**
@@ -161,6 +163,9 @@ final class WebpXmpWriter
 
         $firstByte = \ord($vp8xData[0]);
         $firstByte |= self::VP8X_FLAG_XMP;
+        if ($firstByte < 0 || $firstByte > 255) {
+            throw new \RuntimeException(\sprintf('First byte out of range: %d.', $firstByte));
+        }
 
         return \chr($firstByte).\substr($vp8xData, 1);
     }
@@ -208,8 +213,8 @@ final class WebpXmpWriter
             throw new \RuntimeException('En-tête VP8 non reconnu.');
         }
 
-        $widthRaw = \unpack('v', \substr($data, $pos + 3, 2))[1];
-        $heightRaw = \unpack('v', \substr($data, $pos + 5, 2))[1];
+        $widthRaw = Type::array(\unpack('v', \substr($data, $pos + 3, 2)))[1];
+        $heightRaw = Type::array(\unpack('v', \substr($data, $pos + 5, 2)))[1];
 
         $width = $widthRaw & 0x3FFF;
         $height = $heightRaw & 0x3FFF;
@@ -265,6 +270,10 @@ final class WebpXmpWriter
     {
         if ($width < 1 || $height < 1) {
             throw new \InvalidArgumentException('Dimensions invalides pour VP8X.');
+        }
+
+        if ($flags < 0 || $flags > 255) {
+            throw new \InvalidArgumentException(\sprintf('Flag byte out of range: %d.', $flags));
         }
 
         $payload =

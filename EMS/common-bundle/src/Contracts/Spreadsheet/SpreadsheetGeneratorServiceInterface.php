@@ -23,7 +23,7 @@ interface SpreadsheetGeneratorServiceInterface
     /**
      * @param array<mixed> $config
      */
-    public function generateSpreadsheetFile(array $config, string $filename): void;
+    public function generateSpreadsheetFile(array $config, string $filename, bool $normalized = false): void;
 
     /**
      * @param array<mixed> $config

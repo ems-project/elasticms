@@ -6,6 +6,8 @@ namespace EMS\CommonBundle\Tests\Unit\Common;
 
 use EMS\CommonBundle\Common\Spreadsheet\SpreadsheetGeneratorService;
 use EMS\CommonBundle\Common\Spreadsheet\SpreadsheetValidation;
+use EMS\CommonBundle\Contracts\Spreadsheet\SpreadsheetGeneratorServiceInterface;
+use EMS\Helpers\File\TempFile;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -87,6 +89,20 @@ class SpreadsheetGeneratorTest extends TestCase
         $this->assertSame('pineapple,strawberry', $lines[1]);
         $this->assertSame('"àï$@,& & "" \' ! @ # $ €",foobar', $lines[2]);
         $this->assertSame('', $lines[3]);
+    }
+
+    public function testSameHash(): void
+    {
+        $tempFile = TempFile::create();
+        $sheetParams = [
+            SpreadsheetGeneratorServiceInterface::WRITER => SpreadsheetGeneratorServiceInterface::XLSX_WRITER,
+            SpreadsheetGeneratorServiceInterface::SHEETS => [[
+                'rows' => [['A1', 'B1']],
+                'name' => 'Worksheet',
+            ]]];
+        $this->spreadSheetGenerator->generateSpreadsheetFile($sheetParams, $tempFile->path, true);
+        $hash = \hash_file('sha256', $tempFile->path);
+        $this->assertSame('a2c719036576bcf6eac53ee44db09566fca058c4eaaf7e57046b266b305ea42d', $hash);
     }
 
     /**

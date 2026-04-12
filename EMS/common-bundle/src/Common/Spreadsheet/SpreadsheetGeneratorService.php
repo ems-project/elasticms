@@ -33,12 +33,12 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
      * @param array{writer: string, filename: string, disposition: string, sheets: array<mixed>} $config
      */
     #[\Override]
-    public function generateSpreadsheetFile(array $config, string $filename): void
+    public function generateSpreadsheetFile(array $config, string $filename, bool $normalized = false): void
     {
         $config = $this->resolveOptions($config);
 
         match ($config[self::WRITER]) {
-            self::XLSX_WRITER => $this->getXlsxStreamedFile($config, $filename),
+            self::XLSX_WRITER => $this->getXlsxStreamedFile($config, $filename, $normalized),
             self::CSV_WRITER => $this->getCsvStreamedFile($config, $filename),
             default => throw new \RuntimeException('Unknown Spreadsheet writer'),
         };
@@ -230,11 +230,31 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
     /**
      * @param array{writer: string, filename: string, disposition: string, sheets: array<mixed>} $config
      */
-    private function getXlsxStreamedFile(array $config, string $filename): void
+    private function getXlsxStreamedFile(array $config, string $filename, bool $normalized): void
     {
         $spreadsheet = $this->buildUpSheets($config);
+        if ($normalized) {
+            $spreadsheet->getProperties()
+                ->setCreator('Normalized')
+                ->setLastModifiedBy('Normalized')
+                ->setCreated('2000-01-01 00:00:00')
+                ->setModified('2000-01-01 00:00:00');
+        }
         $writer = new Xlsx($spreadsheet);
-        $writer->save($filename);
+        if (!$normalized) {
+            $writer->save($filename);
+
+            return;
+        }
+
+        $tempFile = TempFile::create();
+        $writer->setPreCalculateFormulas(false);
+        $writer->save($tempFile->path);
+        $normalizer = new DeterministicXlsxNormalizer();
+        $normalizer->normalize(
+            $tempFile->path,
+            $filename
+        );
     }
 
     /**

@@ -29,49 +29,49 @@ final readonly class XmpMetadata
 
         $parts = [];
 
-        if ($author !== null && $author !== '') {
+        if (null !== $author && '' !== $author) {
             $parts[] = <<<XML
-      <dc:creator>
-        <rdf:Seq>
-          <rdf:li>{$author}</rdf:li>
-        </rdf:Seq>
-      </dc:creator>
-XML;
+                      <dc:creator>
+                        <rdf:Seq>
+                          <rdf:li>{$author}</rdf:li>
+                        </rdf:Seq>
+                      </dc:creator>
+                XML;
         }
 
-        if ($copyright !== null && $copyright !== '') {
+        if (null !== $copyright && '' !== $copyright) {
             $parts[] = <<<XML
-      <dc:rights>
-        <rdf:Alt>
-          <rdf:li xml:lang="x-default">{$copyright}</rdf:li>
-        </rdf:Alt>
-      </dc:rights>
-XML;
+                      <dc:rights>
+                        <rdf:Alt>
+                          <rdf:li xml:lang="x-default">{$copyright}</rdf:li>
+                        </rdf:Alt>
+                      </dc:rights>
+                XML;
         }
 
-        $descriptionContent = implode("\n", $parts);
+        $descriptionContent = \implode("\n", $parts);
 
         return <<<XML
-<?xpacket begin="" id="W5M0MpCehiHzreSzNTczkc9d"?>
-<x:xmpmeta xmlns:x="adobe:ns:meta/">
-  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-    <rdf:Description
-      rdf:about=""
-      xmlns:dc="http://purl.org/dc/elements/1.1/">
-{$descriptionContent}
-    </rdf:Description>
-  </rdf:RDF>
-</x:xmpmeta>
-<?xpacket end="w"?>
-XML;
+            <?xpacket begin="" id="W5M0MpCehiHzreSzNTczkc9d"?>
+            <x:xmpmeta xmlns:x="adobe:ns:meta/">
+              <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+                <rdf:Description
+                  rdf:about=""
+                  xmlns:dc="http://purl.org/dc/elements/1.1/">
+            {$descriptionContent}
+                </rdf:Description>
+              </rdf:RDF>
+            </x:xmpmeta>
+            <?xpacket end="w"?>
+            XML;
     }
 
     private function escapeXml(?string $value): ?string
     {
-        if ($value === null) {
+        if (null === $value) {
             return null;
         }
 
-        return htmlspecialchars($value, ENT_XML1 | ENT_COMPAT, 'UTF-8');
+        return \htmlspecialchars($value, ENT_XML1 | ENT_COMPAT, 'UTF-8');
     }
 }

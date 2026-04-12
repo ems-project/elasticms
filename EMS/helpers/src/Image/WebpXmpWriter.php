@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 namespace EMS\Helpers\Image;
 
 final class WebpXmpWriter
@@ -13,14 +15,14 @@ final class WebpXmpWriter
 
     public function writeFile(string $inputPath, string $outputPath, string $xmpXml): void
     {
-        $data = @file_get_contents($inputPath);
-        if ($data === false) {
+        $data = @\file_get_contents($inputPath);
+        if (false === $data) {
             throw new \RuntimeException("Impossible de lire le fichier: {$inputPath}");
         }
 
         $result = $this->upsertXmp($data, $xmpXml);
 
-        if (@file_put_contents($outputPath, $result) === false) {
+        if (false === @\file_put_contents($outputPath, $result)) {
             throw new \RuntimeException("Impossible d'écrire le fichier: {$outputPath}");
         }
     }
@@ -36,18 +38,18 @@ final class WebpXmpWriter
         $newChunks = [];
 
         foreach ($chunks as $chunk) {
-            if ($chunk['fourcc'] === 'VP8X') {
+            if ('VP8X' === $chunk['fourcc']) {
                 $hasVp8x = true;
                 $chunk['data'] = $this->setVp8xXmpFlag($chunk['data']);
-                $chunk['size'] = strlen($chunk['data']);
+                $chunk['size'] = \strlen($chunk['data']);
                 $newChunks[] = $chunk;
                 continue;
             }
 
-            if ($chunk['fourcc'] === 'XMP ') {
+            if ('XMP ' === $chunk['fourcc']) {
                 if (!$hasXmp) {
                     $chunk['data'] = $xmpXml;
-                    $chunk['size'] = strlen($xmpXml);
+                    $chunk['size'] = \strlen($xmpXml);
                     $newChunks[] = $chunk;
                     $hasXmp = true;
                 }
@@ -60,13 +62,13 @@ final class WebpXmpWriter
 
         if (!$hasVp8x) {
             $vp8xChunk = $this->buildMinimalVp8xChunkFromImageChunk($chunks);
-            array_unshift($newChunks, $vp8xChunk);
+            \array_unshift($newChunks, $vp8xChunk);
         }
 
         if (!$hasXmp) {
             $newChunks[] = [
                 'fourcc' => 'XMP ',
-                'size' => strlen($xmpXml),
+                'size' => \strlen($xmpXml),
                 'data' => $xmpXml,
             ];
         }
@@ -79,17 +81,17 @@ final class WebpXmpWriter
      */
     private function parseChunks(string $data): array
     {
-        $length = strlen($data);
+        $length = \strlen($data);
         $offset = 12; // RIFF + size + WEBP
         $chunks = [];
 
         while ($offset + 8 <= $length) {
-            $fourcc = substr($data, $offset, 4);
-            $size = $this->unpackUint32LE(substr($data, $offset + 4, 4));
+            $fourcc = \substr($data, $offset, 4);
+            $size = $this->unpackUint32LE(\substr($data, $offset + 4, 4));
             $payloadOffset = $offset + 8;
-            $payload = substr($data, $payloadOffset, $size);
+            $payload = \substr($data, $payloadOffset, $size);
 
-            if (strlen($payload) !== $size) {
+            if (\strlen($payload) !== $size) {
                 throw new \RuntimeException("Chunk tronqué: {$fourcc}");
             }
 
@@ -116,10 +118,10 @@ final class WebpXmpWriter
 
         foreach ($chunks as $chunk) {
             $payload = $chunk['data'];
-            $size = strlen($payload);
+            $size = \strlen($payload);
 
             $body .= $chunk['fourcc'];
-            $body .= pack('V', $size);
+            $body .= \pack('V', $size);
             $body .= $payload;
 
             if (($size % 2) === 1) {
@@ -127,59 +129,61 @@ final class WebpXmpWriter
             }
         }
 
-        return 'RIFF' . pack('V', strlen($body)) . $body;
+        return 'RIFF'.\pack('V', \strlen($body)).$body;
     }
 
     private function assertWebp(string $data): void
     {
-        if (strlen($data) < 12) {
+        if (\strlen($data) < 12) {
             throw new \RuntimeException('Fichier trop court.');
         }
 
-        if (substr($data, 0, 4) !== 'RIFF' || substr($data, 8, 4) !== 'WEBP') {
+        if ('RIFF' !== \substr($data, 0, 4) || 'WEBP' !== \substr($data, 8, 4)) {
             throw new \RuntimeException('Le fichier n’est pas un WebP RIFF valide.');
         }
     }
 
     private function unpackUint32LE(string $bytes): int
     {
-        $value = unpack('V', $bytes);
-        if (!is_array($value) || !isset($value[1])) {
+        $value = \unpack('V', $bytes);
+        if (!\is_array($value) || !isset($value[1])) {
             throw new \RuntimeException('Impossible de lire un uint32 little-endian.');
         }
 
-        return (int)$value[1];
+        return (int) $value[1];
     }
 
     private function setVp8xXmpFlag(string $vp8xData): string
     {
-        if (strlen($vp8xData) < 10) {
+        if (\strlen($vp8xData) < 10) {
             throw new \RuntimeException('Chunk VP8X invalide: payload < 10 octets.');
         }
 
-        $firstByte = ord($vp8xData[0]);
+        $firstByte = \ord($vp8xData[0]);
         $firstByte |= self::VP8X_FLAG_XMP;
 
-        return chr($firstByte) . substr($vp8xData, 1);
+        return \chr($firstByte).\substr($vp8xData, 1);
     }
 
     /**
      * Builds a minimal VP8X chunk from VP8 / VP8L dimensions.
      * Limited to still images.
      *
-     * @param array<int, array{fourcc:string,size:int,data:string}> $chunks
+     * @param  array<int, array{fourcc:string,size:int,data:string}> $chunks
      * @return array{fourcc:string,size:int,data:string}
      */
     private function buildMinimalVp8xChunkFromImageChunk(array $chunks): array
     {
         foreach ($chunks as $chunk) {
-            if ($chunk['fourcc'] === 'VP8 ') {
+            if ('VP8 ' === $chunk['fourcc']) {
                 [$width, $height] = $this->extractDimensionsFromVp8($chunk['data']);
+
                 return $this->makeVp8xChunk($width, $height, self::VP8X_FLAG_XMP);
             }
 
-            if ($chunk['fourcc'] === 'VP8L') {
+            if ('VP8L' === $chunk['fourcc']) {
                 [$width, $height] = $this->extractDimensionsFromVp8l($chunk['data']);
+
                 return $this->makeVp8xChunk($width, $height, self::VP8X_FLAG_XMP);
             }
         }
@@ -195,17 +199,17 @@ final class WebpXmpWriter
      */
     private function extractDimensionsFromVp8(string $data): array
     {
-        if (strlen($data) < 10) {
+        if (\strlen($data) < 10) {
             throw new \RuntimeException('Chunk VP8 trop court.');
         }
 
-        $pos = strpos($data, "\x9d\x01\x2a");
-        if ($pos === false || ($pos + 7) > strlen($data)) {
+        $pos = \strpos($data, "\x9d\x01\x2a");
+        if (false === $pos || ($pos + 7) > \strlen($data)) {
             throw new \RuntimeException('En-tête VP8 non reconnu.');
         }
 
-        $widthRaw = unpack('v', substr($data, $pos + 3, 2))[1];
-        $heightRaw = unpack('v', substr($data, $pos + 5, 2))[1];
+        $widthRaw = \unpack('v', \substr($data, $pos + 3, 2))[1];
+        $heightRaw = \unpack('v', \substr($data, $pos + 5, 2))[1];
 
         $width = $widthRaw & 0x3FFF;
         $height = $heightRaw & 0x3FFF;
@@ -225,18 +229,18 @@ final class WebpXmpWriter
      */
     private function extractDimensionsFromVp8l(string $data): array
     {
-        if (strlen($data) < 5) {
+        if (\strlen($data) < 5) {
             throw new \RuntimeException('Chunk VP8L trop court.');
         }
 
-        if (ord($data[0]) !== 0x2f) {
+        if (0x2F !== \ord($data[0])) {
             throw new \RuntimeException('Signature VP8L invalide.');
         }
 
-        $b1 = ord($data[1]);
-        $b2 = ord($data[2]);
-        $b3 = ord($data[3]);
-        $b4 = ord($data[4]);
+        $b1 = \ord($data[1]);
+        $b2 = \ord($data[2]);
+        $b3 = \ord($data[3]);
+        $b4 = \ord($data[4]);
 
         $widthMinus1 = $b1 | (($b2 & 0x3F) << 8);
         $heightMinus1 = (($b2 >> 6) & 0x03) | ($b3 << 2) | (($b4 & 0x0F) << 10);
@@ -264,9 +268,9 @@ final class WebpXmpWriter
         }
 
         $payload =
-            chr($flags) .
-            "\x00\x00\x00" .
-            $this->packUint24LE($width - 1) .
+            \chr($flags).
+            "\x00\x00\x00".
+            $this->packUint24LE($width - 1).
             $this->packUint24LE($height - 1);
 
         return [
@@ -282,8 +286,8 @@ final class WebpXmpWriter
             throw new \InvalidArgumentException('Valeur uint24 hors limite.');
         }
 
-        return chr($value & 0xFF)
-            . chr(($value >> 8) & 0xFF)
-            . chr(($value >> 16) & 0xFF);
+        return \chr($value & 0xFF)
+            .\chr(($value >> 8) & 0xFF)
+            .\chr(($value >> 16) & 0xFF);
     }
 }

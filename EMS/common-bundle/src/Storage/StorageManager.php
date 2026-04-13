@@ -18,6 +18,7 @@ use EMS\Helpers\File\TempDirectory;
 use EMS\Helpers\File\TempFile;
 use EMS\Helpers\Html\MimeTypes;
 use EMS\Helpers\Standard\Json;
+use EMS\Helpers\Standard\Type;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Config\FileLocatorInterface;
@@ -751,5 +752,30 @@ class StorageManager implements FileManagerInterface
         $this->saveCache($cacheConfig, $archive);
 
         return $archive;
+    }
+
+    /**
+     * @return array{sha1: string, _hash: string, filesize: int, _size: int, filename: string, _name: string, mimetype: string, _type: string, _algo: string}
+     */
+    public function getFileObject(string $hash, string $filename = 'filename.bin'): array
+    {
+        $file = $this->getFile($hash);
+        $mimeTypeHelper = MimeTypeHelper::getInstance();
+        $type = $mimeTypeHelper->guessMimeType($file->getFilename());
+        $name = Config::fixFileExtension($filename, $type);
+        $algo = $this->getHashAlgo();
+        $size = Type::integer(\filesize($file->getFilename()));
+
+        return [
+            EmsFields::CONTENT_FILE_HASH_FIELD => $hash,
+            EmsFields::CONTENT_FILE_HASH_FIELD_ => $hash,
+            EmsFields::CONTENT_FILE_SIZE_FIELD => $size,
+            EmsFields::CONTENT_FILE_SIZE_FIELD_ => $size,
+            EmsFields::CONTENT_FILE_NAME_FIELD => $name,
+            EmsFields::CONTENT_FILE_NAME_FIELD_ => $name,
+            EmsFields::CONTENT_MIME_TYPE_FIELD => $type,
+            EmsFields::CONTENT_MIME_TYPE_FIELD_ => $type,
+            EmsFields::CONTENT_FILE_ALGO_FIELD_ => $algo,
+        ];
     }
 }

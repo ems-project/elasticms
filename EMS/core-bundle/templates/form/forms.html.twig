@@ -230,7 +230,7 @@
         {% for action in table.itemActions %}
             {% if action is iterable and action|length > 0 %}
                 <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" {{ action.attributes|default('') }} >
                         {% if action.icon|default(false) %}
                             <span class="{{ action.icon starts with 'glyphicon-' ? "glyphicon #{action.icon}" : "fa fa-#{action.icon}" }}"></span>&nbsp;
                         {% endif %}
@@ -318,7 +318,7 @@
                                 </a>
                             {% endfor %}
                             {%  if attribute(form, 'reorderAction') is defined %}
-                                <button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#{{ table.attributeName|e('html_attr') }}_modal_reorder">
+                                <button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#{{ table.attributeName|e('html_attr') }}_modal_reorder" data-testid="btn-{{ form.vars.name }}-reorder">
                                     <i class="fa fa-reorder"></i>&nbsp;{{ form.reorderAction.vars.label|trans }}
                                 </button>
                             {% endif %}
@@ -409,7 +409,7 @@
                             <div class="modal-body">
                                 <ul class="list-group sortable" id="{{ table.attributeName|e('html_attr') }}_modal_reorder_list">
                                     {% for child in form.reordered %}
-                                        <li class="list-group-item">
+                                        <li class="list-group-item" data-testid="reorder-item">
                                             <i class="glyphicon glyphicon-move"></i>
 
                                             {% for line in table|filter(line => child.vars.value == line.data.id) %}
@@ -422,8 +422,8 @@
                             </div>
                             <div class="modal-footer">
                                 <div class="btn-group">
-                                    {{ form_widget(form.reorderAction, { 'attr': { 'class': 'btn btn-sm btn-primary' } }) }}
-                                    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal"><i class="fa fa-close"></i> {{ t('action.close', [], 'emsco-core')|trans }}</button>
+                                    {{ form_widget(form.reorderAction, { 'attr': { 'class': 'btn btn-sm btn-primary', 'data-testid': 'btn-reorder' } }) }}
+                                    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" data-testid="btn-close"><i class="fa fa-close"></i> {{ t('action.close', [], 'emsco-core')|trans }}</button>
                                 </div>
                             </div>
                         </div>

@@ -94,7 +94,7 @@ class GroupController extends AbstractController
     public function editGroup(Group $group, Request $request): Response
     {
         $form = $this->createForm(GroupType::class, $group, [
-            'mode' => UserType::MODE_UPDATE
+            'mode' => UserType::MODE_UPDATE,
         ]);
         $form->handleRequest($request);
 

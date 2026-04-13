@@ -15,9 +15,13 @@ final class TableItemActionCollection implements \IteratorAggregate, \Countable
      */
     private array $itemActions = [];
 
+    /**
+     * @param array<string, string> $attributes
+     */
     public function __construct(
         public string|TranslatableMessage|null $label = null,
         public ?string $icon = null,
+        private array $attributes = [],
     ) {
     }
 
@@ -25,6 +29,16 @@ final class TableItemActionCollection implements \IteratorAggregate, \Countable
     public function getIterator(): \Traversable
     {
         return new \ArrayIterator($this->itemActions);
+    }
+
+    public function getAttributes(): string
+    {
+        $attributes = '';
+        foreach ($this->attributes as $key => $value) {
+            $attributes .= $key.'='.$value;
+        }
+
+        return $attributes;
     }
 
     #[\Override]

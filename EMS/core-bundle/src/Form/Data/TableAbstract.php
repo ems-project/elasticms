@@ -182,9 +182,12 @@ abstract class TableAbstract implements TableInterface
         return $validations;
     }
 
-    public function addItemActionCollection(string|TranslatableMessage|null $labelKey = null, ?string $icon = null): TableItemActionCollection
+    /**
+     * @param array<string, string> $attributes
+     */
+    public function addItemActionCollection(string|TranslatableMessage|null $labelKey = null, ?string $icon = null, array $attributes = []): TableItemActionCollection
     {
-        $itemActionCollection = new TableItemActionCollection($labelKey, $icon);
+        $itemActionCollection = new TableItemActionCollection($labelKey, $icon, $attributes);
         $this->itemActionCollection->addItemActionCollection($itemActionCollection);
 
         return $itemActionCollection;

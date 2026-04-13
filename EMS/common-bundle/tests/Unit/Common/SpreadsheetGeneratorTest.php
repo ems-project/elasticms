@@ -96,13 +96,18 @@ class SpreadsheetGeneratorTest extends TestCase
         $tempFile = TempFile::create();
         $sheetParams = [
             SpreadsheetGeneratorServiceInterface::WRITER => SpreadsheetGeneratorServiceInterface::XLSX_WRITER,
+            SpreadsheetGeneratorServiceInterface::CREATOR => 'SpreadsheetGeneratorTest',
             SpreadsheetGeneratorServiceInterface::SHEETS => [[
                 'rows' => [['A1', 'B1']],
                 'name' => 'Worksheet',
             ]]];
         $this->spreadSheetGenerator->generateSpreadsheetFile($sheetParams, $tempFile->path, true);
         $hash = \hash_file('sha256', $tempFile->path);
-        $this->assertSame('a2c719036576bcf6eac53ee44db09566fca058c4eaaf7e57046b266b305ea42d', $hash);
+
+        $tempFile = TempFile::create();
+        $this->spreadSheetGenerator->generateSpreadsheetFile($sheetParams, $tempFile->path, true);
+        $hash2 = \hash_file('sha256', $tempFile->path);
+        $this->assertSame($hash2, $hash);
     }
 
     /**

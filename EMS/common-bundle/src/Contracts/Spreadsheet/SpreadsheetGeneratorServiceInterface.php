@@ -18,13 +18,14 @@ interface SpreadsheetGeneratorServiceInterface
     public const string SHEETS = 'sheets';
     public const string CONTENT_FILENAME = 'filename';
     public const string CREATOR = 'creator';
+    public const string NORMALIZED = 'normalized';
     public const string CONTENT_DISPOSITION = 'disposition';
     public const string VALUE_BINDER = 'value_binder';
 
     /**
      * @param array<mixed> $config
      */
-    public function generateSpreadsheetFile(array $config, string $filename, bool $normalized = false): void;
+    public function generateSpreadsheetFile(array $config, string $filename): void;
 
     /**
      * @param array<mixed> $config

@@ -106,7 +106,7 @@ return static function (ContainerConfigurator $container) {
             service('twig'),
             service('logger'),
             '',
-            '%emsch.wysiwyg_image_config%',
+            '%emsch.asset_src_image_config%',
         ])
         ->tag('monolog.logger', ['channel' => 'emsch_routing']);
 

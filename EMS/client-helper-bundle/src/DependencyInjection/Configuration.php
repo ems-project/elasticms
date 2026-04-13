@@ -48,7 +48,7 @@ final class Configuration implements ConfigurationInterface
                         ->scalarNode('ems_link')->defaultValue('@EMSCH/template/emsLinks/{type}.ems_link.twig')->end()
                     ->end()
                 ->end()
-                ->variableNode('wysiwyg_image_config')->defaultValue(self::DEFAULT_WYSIWYG_IMAGE_CONFIG)->end()
+                ->variableNode('asset_src_image_config')->defaultValue(self::DEFAULT_WYSIWYG_IMAGE_CONFIG)->end()
             ->end()
         ;
 

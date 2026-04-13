@@ -19,13 +19,13 @@ final class WebpXmpWriter
     {
         $data = @\file_get_contents($inputPath);
         if (false === $data) {
-            throw new \RuntimeException("Impossible de lire le fichier: {$inputPath}");
+            throw new \RuntimeException("Impossible to read the file: {$inputPath}");
         }
 
         $result = $this->upsertXmp($data, $xmpXml);
 
         if (false === @\file_put_contents($outputPath, $result)) {
-            throw new \RuntimeException("Impossible d'écrire le fichier: {$outputPath}");
+            throw new \RuntimeException("Impossible to write the file: {$outputPath}");
         }
     }
 
@@ -55,7 +55,6 @@ final class WebpXmpWriter
                     $newChunks[] = $chunk;
                     $hasXmp = true;
                 }
-                // Si plusieurs XMP existent, on ignore les suivants.
                 continue;
             }
 
@@ -113,7 +112,7 @@ final class WebpXmpWriter
             $payload = \substr($data, $payloadOffset, $size);
 
             if (\strlen($payload) !== $size) {
-                throw new \RuntimeException("Chunk tronqué: {$fourcc}");
+                throw new \RuntimeException("Trunked chunk: {$fourcc}");
             }
 
             $chunks[] = [
@@ -156,11 +155,11 @@ final class WebpXmpWriter
     private function assertWebp(string $data): void
     {
         if (\strlen($data) < 12) {
-            throw new \RuntimeException('Fichier trop court.');
+            throw new \RuntimeException('File too short.');
         }
 
         if ('RIFF' !== \substr($data, 0, 4) || 'WEBP' !== \substr($data, 8, 4)) {
-            throw new \RuntimeException('Le fichier n’est pas un WebP RIFF valide.');
+            throw new \RuntimeException('The file is not a valid WebP RIFF file.');
         }
     }
 
@@ -168,7 +167,7 @@ final class WebpXmpWriter
     {
         $value = \unpack('V', $bytes);
         if (!\is_array($value) || !isset($value[1])) {
-            throw new \RuntimeException('Impossible de lire un uint32 little-endian.');
+            throw new \RuntimeException('Impossible to read uint32 little-endian.');
         }
 
         return (int) $value[1];
@@ -177,7 +176,7 @@ final class WebpXmpWriter
     private function setVp8xXmpFlag(string $vp8xData): string
     {
         if (\strlen($vp8xData) < 10) {
-            throw new \RuntimeException('Chunk VP8X invalide: payload < 10 octets.');
+            throw new \RuntimeException('Invalid VP8X chunk: payload < 10 octets.');
         }
 
         $firstByte = \ord($vp8xData[0]);
@@ -212,7 +211,7 @@ final class WebpXmpWriter
             }
         }
 
-        throw new \RuntimeException('Impossible de créer VP8X: chunk VP8/VP8L introuvable.');
+        throw new \RuntimeException('Impossible to create VP8X: chunk VP8/VP8L is missing.');
     }
 
     /**
@@ -224,12 +223,12 @@ final class WebpXmpWriter
     private function extractDimensionsFromVp8(string $data): array
     {
         if (\strlen($data) < 10) {
-            throw new \RuntimeException('Chunk VP8 trop court.');
+            throw new \RuntimeException('Chunk VP8 too short.');
         }
 
         $pos = \strpos($data, "\x9d\x01\x2a");
         if (false === $pos || ($pos + 7) > \strlen($data)) {
-            throw new \RuntimeException('En-tête VP8 non reconnu.');
+            throw new \RuntimeException('Corrupted VP8 header.');
         }
 
         $widthRaw = Type::array(\unpack('v', \substr($data, $pos + 3, 2)))[1];
@@ -239,7 +238,7 @@ final class WebpXmpWriter
         $height = $heightRaw & 0x3FFF;
 
         if ($width < 1 || $height < 1) {
-            throw new \RuntimeException('Dimensions VP8 invalides.');
+            throw new \RuntimeException('Sizes VP8 are missing.');
         }
 
         return [$width, $height];
@@ -254,11 +253,11 @@ final class WebpXmpWriter
     private function extractDimensionsFromVp8l(string $data): array
     {
         if (\strlen($data) < 5) {
-            throw new \RuntimeException('Chunk VP8L trop court.');
+            throw new \RuntimeException('VP8L chunk too short.');
         }
 
         if (0x2F !== \ord($data[0])) {
-            throw new \RuntimeException('Signature VP8L invalide.');
+            throw new \RuntimeException('Invalid VP8L signature VP8L.');
         }
 
         $b1 = \ord($data[1]);
@@ -273,7 +272,7 @@ final class WebpXmpWriter
         $height = $heightMinus1 + 1;
 
         if ($width < 1 || $height < 1) {
-            throw new \RuntimeException('Dimensions VP8L invalides.');
+            throw new \RuntimeException('Invalid VP8L dimensions.');
         }
 
         return [$width, $height];
@@ -288,7 +287,7 @@ final class WebpXmpWriter
     private function makeVp8xChunk(int $width, int $height, int $flags): array
     {
         if ($width < 1 || $height < 1) {
-            throw new \InvalidArgumentException('Dimensions invalides pour VP8X.');
+            throw new \InvalidArgumentException('Invalid VP8X dimensions.');
         }
 
         if ($flags < 0 || $flags > 255) {
@@ -311,7 +310,7 @@ final class WebpXmpWriter
     private function packUint24LE(int $value): string
     {
         if ($value < 0 || $value > 0xFFFFFF) {
-            throw new \InvalidArgumentException('Valeur uint24 hors limite.');
+            throw new \InvalidArgumentException('Out of range uint24 value.');
         }
 
         return \chr($value & 0xFF)

@@ -757,14 +757,18 @@ class StorageManager implements FileManagerInterface
     /**
      * @return array{sha1: string, _hash: string, filesize: int, _size: int, filename: string, _name: string, mimetype: string, _type: string, _algo: string}
      */
-    public function getFileObject(string $hash, string $filename = 'filename.bin'): array
+    public function getFileObject(string $hash, ?string $filename = null, ?string $type = null): array
     {
-        $file = $this->getFile($hash);
-        $mimeTypeHelper = MimeTypeHelper::getInstance();
-        $type = $mimeTypeHelper->guessMimeType($file->getFilename());
-        $name = Config::fixFileExtension($filename, $type);
+        if (null === $type) {
+            $file = $this->getFile($hash);
+            $mimeTypeHelper = MimeTypeHelper::getInstance();
+            $type = $mimeTypeHelper->guessMimeType($file->getFilename());
+            $size = Type::integer(\filesize($file->getFilename()));
+        } else {
+            $size = $this->getSize($hash);
+        }
+        $name = Config::fixFileExtension($filename ?? 'filename.bin', $type);
         $algo = $this->getHashAlgo();
-        $size = Type::integer(\filesize($file->getFilename()));
 
         return [
             EmsFields::CONTENT_FILE_HASH_FIELD => $hash,

@@ -30,7 +30,7 @@ use Symfony\Component\Serializer\Serializer;
 final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceInterface
 {
     /**
-     * @param array{writer: string, filename: string, disposition: string, sheets: array<mixed>} $config
+     * @param array{writer: string, filename: string, disposition: string, sheets: array<mixed>, creator: string} $config
      */
     #[\Override]
     public function generateSpreadsheetFile(array $config, string $filename, bool $normalized = false): void
@@ -165,6 +165,7 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
     {
         return [
             self::CONTENT_FILENAME => 'spreadsheet',
+            self::CREATOR => 'Normalized',
             self::CONTENT_DISPOSITION => 'attachment',
             self::WRITER => self::XLSX_WRITER,
             self::CSV_SEPARATOR => ',',
@@ -176,7 +177,7 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
     /**
      * @param array<mixed> $config
      *
-     * @return array{writer: string, filename: string, disposition: string, sheets: array<mixed>, csv_separator: string}
+     * @return array{writer: string, filename: string, disposition: string, sheets: array<mixed>, csv_separator: string, creator: string}
      */
     private function resolveOptions(array $config): array
     {
@@ -184,13 +185,14 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
 
         $resolver = new OptionsResolver();
         $resolver->setDefaults($defaults);
-        $resolver->setRequired([self::WRITER, self::CONTENT_FILENAME, self::SHEETS, self::CONTENT_DISPOSITION]);
+        $resolver->setRequired([self::WRITER, self::CONTENT_FILENAME, self::SHEETS, self::CONTENT_DISPOSITION, self::CREATOR]);
         $resolver->setAllowedTypes(self::CONTENT_DISPOSITION, ['string']);
+        $resolver->setAllowedTypes(self::CREATOR, ['string']);
         $resolver->setAllowedValues(self::WRITER, [self::XLSX_WRITER, self::CSV_WRITER]);
         $resolver->setAllowedValues(self::CONTENT_DISPOSITION, ['attachment', 'inline']);
         $resolver->setAllowedValues(self::VALUE_BINDER, [null, 'string', 'advanced']);
 
-        /** @var array{writer: string, filename: string, disposition: string, sheets: array<mixed>, csv_separator: string} $resolved */
+        /** @var array{writer: string, filename: string, disposition: string, sheets: array<mixed>, csv_separator: string, creator: string} $resolved */
         $resolved = $resolver->resolve($config);
 
         return $resolved;
@@ -228,15 +230,15 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
     }
 
     /**
-     * @param array{writer: string, filename: string, disposition: string, sheets: array<mixed>} $config
+     * @param array{writer: string, filename: string, disposition: string, sheets: array<mixed>, creator: string} $config
      */
     private function getXlsxStreamedFile(array $config, string $filename, bool $normalized): void
     {
         $spreadsheet = $this->buildUpSheets($config);
         if ($normalized) {
             $spreadsheet->getProperties()
-                ->setCreator('Normalized')
-                ->setLastModifiedBy('Normalized')
+                ->setCreator($config[self::CREATOR])
+                ->setLastModifiedBy($config[self::CREATOR])
                 ->setCreated('2000-01-01 00:00:00')
                 ->setModified('2000-01-01 00:00:00');
         }

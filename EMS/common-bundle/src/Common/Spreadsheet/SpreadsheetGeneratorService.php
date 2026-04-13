@@ -30,7 +30,7 @@ use Symfony\Component\Serializer\Serializer;
 final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceInterface
 {
     /**
-     * @param array{writer: string, filename: string, disposition: string, sheets: array<mixed>, creator: string, normalized: bool} $config
+     * @param array{writer: string, filename: string, disposition: string, sheets: array<mixed>, creator?: string, normalized?: bool} $config
      */
     #[\Override]
     public function generateSpreadsheetFile(array $config, string $filename): void

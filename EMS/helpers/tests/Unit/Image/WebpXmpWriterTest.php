@@ -34,18 +34,6 @@ class WebpXmpWriterTest extends TestCase
         <?xpacket end="w"?>
         XML;
 
-    public function testFirst(): void
-    {
-        $xmp = self::XML_SAMPLE;
-
-        $writer = new WebpXmpWriter();
-        $tempFile = TempFile::create();
-        $filename = \implode(DIRECTORY_SEPARATOR, [__DIR__, '..', '..', 'Resources', 'WebpXmlWriter', 'avatar.webp']);
-        $writer->writeFile($filename, $tempFile->path, $xmp);
-        $hash = \hash_file('sha256', $tempFile->path);
-        $this->assertSame('461befc280478df0b6c487d804bb167a755a7b1f7f7ea07b28614e1e4eac121e', $hash);
-    }
-
     public function testWithXmpMetadata(): void
     {
         $metadata = new XmpMetadata(
@@ -55,11 +43,16 @@ class WebpXmpWriterTest extends TestCase
         $xmp = $metadata->toXmp();
         $this->assertSame(self::XML_SAMPLE, $xmp);
 
-        $writer = new WebpXmpWriter();
+        $webpXmpWriter = new WebpXmpWriter();
         $tempFile = TempFile::create();
         $filename = \implode(DIRECTORY_SEPARATOR, [__DIR__, '..', '..', 'Resources', 'WebpXmlWriter', 'avatar.webp']);
-        $writer->writeFile($filename, $tempFile->path, $xmp);
-        $hash = \hash_file('sha256', $tempFile->path);
-        $this->assertSame('461befc280478df0b6c487d804bb167a755a7b1f7f7ea07b28614e1e4eac121e', $hash);
+        $webpXmpWriter->writeFile($filename, $tempFile->path, $xmp);
+
+        $taggedImage = \imagecreatefromwebp($tempFile->path);
+        $this->assertNotFalse($taggedImage);
+        $imageSize = \getimagesize($tempFile->path);
+        $this->assertSame(400, $imageSize['0']);
+        $this->assertSame(400, $imageSize['1']);
+        $this->assertSame($xmp, $webpXmpWriter->extractXmp($tempFile->getContents()));
     }
 }

@@ -78,6 +78,25 @@ final class WebpXmpWriter
         return $this->buildWebp($newChunks);
     }
 
+    public function extractXmp(string $data): ?string
+    {
+        $offset = 12;
+        $length = \strlen($data);
+
+        while ($offset + 8 <= $length) {
+            $fourcc = \substr($data, $offset, 4);
+            $size = Type::array(\unpack('V', \substr($data, $offset + 4, 4)))[1];
+
+            if ('XMP ' === $fourcc) {
+                return \substr($data, $offset + 8, $size);
+            }
+
+            $offset += 8 + $size + ($size % 2);
+        }
+
+        return null;
+    }
+
     /**
      * @return array<int, array{fourcc:string,size:int,data:string}>
      */

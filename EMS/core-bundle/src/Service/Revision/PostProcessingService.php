@@ -65,7 +65,7 @@ final readonly class PostProcessingService
             'path' => $path,
             'form' => $form,
             'revisionId' => $revision?->getId(),
-            'revisionEnvironments' => $revision->getEnvironments()->map(fn (Environment $e) => $e->getName())->toArray(),
+            'revisionEnvironments' => $revision?->getEnvironments()->map(fn (Environment $e) => $e->getName())->toArray() ?? [],
         ]);
 
         $found = false;

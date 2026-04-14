@@ -31,6 +31,8 @@ use EMS\CoreBundle\Repository\RevisionRepository;
 use EMS\CoreBundle\Repository\TemplateRepository;
 use EMS\CoreBundle\Repository\ViewRepository;
 use EMS\CoreBundle\Routes;
+use EMS\Helpers\PropertyAccess\PropertyPath;
+use EMS\Helpers\PropertyAccess\PropertyPathElement;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -92,6 +94,22 @@ class ContentTypeService implements EntityServiceInterface
         }
 
         return false;
+    }
+
+    public function getChildByDataPath(FieldType $fieldType, string $path): ?FieldType
+    {
+        $propertyPath = new PropertyPath($path);
+        foreach ($propertyPath as $childName) {
+            if (\ctype_digit($childName->getName())) {
+                continue;
+            }
+            $fieldType = $this->getChildByDataFieldName($fieldType, $childName);
+            if (null === $fieldType) {
+                return null;
+            }
+        }
+
+        return $fieldType;
     }
 
     private function loadEnvironment(): void
@@ -897,5 +915,30 @@ class ContentTypeService implements EntityServiceInterface
         }
 
         return $firstEnvironment;
+    }
+
+    private function getChildByDataFieldName(FieldType $fieldType, PropertyPathElement $dataFieldName): ?FieldType
+    {
+        /** @var FieldType $child */
+        foreach ($fieldType->getChildren() as $child) {
+            if ($child->getDeleted()) {
+                continue;
+            }
+            $type = $child->getType();
+            if ($child->getName() == $dataFieldName->getName()) {
+                return $child;
+            }
+            if ($type::isVirtual($child->getOptions())) {
+                if (\in_array($dataFieldName->getName(), $type::getJsonNames($child))) {
+                    return $child;
+                }
+                $fieldTypeByPath = $this->getChildByDataFieldName($child, $dataFieldName);
+                if ($fieldTypeByPath) {
+                    return $fieldTypeByPath;
+                }
+            }
+        }
+
+        return null;
     }
 }

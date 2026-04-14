@@ -345,6 +345,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         error?: scalar|Param|null, // Default: "@EMSCH/template/error{code}.html.twig"
  *         ems_link?: scalar|Param|null, // Default: "@EMSCH/template/emsLinks/{type}.ems_link.twig"
  *     },
+ *     asset_src_image_config?: mixed, // Default: {"_image_format":"webp","_config_type":"image","_width":0,"_height":0,"_quality":90}
  *     elasticms?: list<array{ // name for the ems-project // Default: []
  *         hosts?: mixed, // elasticsearch hosts
  *         default?: bool|Param,

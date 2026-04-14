@@ -467,6 +467,14 @@ Example for locally loading the demo inside local elasticms-admin.
 EMSCH_LOCAL_PATH='../demo/skeleton'
 ```
 
+### EMSCH_ASSET_SRC_IMAGE_CONFIG
+
+Allow you to overwrite the [processor config](../dev/common-bundle/processors.md) applied, by the
+`emch_route` Twig filter, to eMS image asset links used as assets (`src` attibute). E.g.
+`<img alt="Alt text" src="ems://asset:1efefd3aed01be8b54383d35b4be15df0517a9b3?name=image.png&type=image/png"/>`
+Default value:
+`{"_image_format":"webp","_config_type":"image","_width":0,"_height":0,"_quality":90}`
+
 ## Elasticms Common Bundle variables
 
 ### EMS_LOG_LEVEL

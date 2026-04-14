@@ -22,13 +22,17 @@ final class Transformer
     /** @var array<string, mixed> */
     private array $documents = [];
 
+    /**
+     * @param array<string, mixed> $assetSrcImageConfig
+     */
     public function __construct(
         private readonly AssetExtension $assetExtension,
         ClientRequestManager $clientRequestManager,
         private readonly Generator $generator,
         private readonly Environment $twig,
         private readonly LoggerInterface $logger,
-        ?string $template
+        ?string $template,
+        private readonly array $assetSrcImageConfig,
     ) {
         $this->clientRequest = $clientRequestManager->getDefault();
         $this->template = $template ?? '@EMSCH/template/{type}.ems_link.twig';
@@ -85,6 +89,13 @@ final class Transformer
             }
 
             $generation = $this->generate($cleanMatch, $config);
+            if ('asset' === $match['link_type'] && ($match['query'] ?? null)) {
+                $query = \str_replace('&amp;', '&', $match['query']);
+                \parse_str($query, $params);
+                unset($params['name']);
+                unset($params['type']);
+                $match['query'] = \http_build_query($params);
+            }
             $route = ($generation ?? $match[0]);
             $srcAttribute = '' !== $match['src'];
             if ('asset' === $match['link_type'] && ($config['asset_file_path'] ?? false) && $srcAttribute) {
@@ -111,11 +122,14 @@ final class Transformer
     {
         $assetConfig = [];
         $assetFilePaths = $config['asset_file_path'] ?? false;
+        $mimetype = $emsLink->getQuery()['type'] ?? null;
 
         if ($assetFilePaths && isset($match['src'])) {
             $assetConfig = [EmsFields::ASSET_CONFIG_GET_FILE_PATH => true];
         } elseif ($assetFilePaths) {
             $assetConfig = [EmsFields::ASSET_CONFIG_URL_TYPE => UrlGeneratorInterface::NETWORK_PATH];
+        } elseif (isset($match['src']) && \is_string($mimetype) && \str_starts_with($mimetype, 'image/')) {
+            $assetConfig = $this->assetSrcImageConfig;
         }
 
         return $this->assetExtension->assetPath([

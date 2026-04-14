@@ -136,6 +136,7 @@ Define:
     ]
 }
 ```
+
 ## String cells
 
 Force text mode on a cell that contains only numbers

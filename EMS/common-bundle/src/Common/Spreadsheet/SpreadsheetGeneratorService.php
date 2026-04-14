@@ -30,7 +30,7 @@ use Symfony\Component\Serializer\Serializer;
 final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceInterface
 {
     /**
-     * @param array{writer: string, filename: string, disposition: string, sheets: array<mixed>} $config
+     * @param array{writer: string, filename: string, disposition: string, sheets: array<mixed>, creator?: string, normalized?: bool} $config
      */
     #[\Override]
     public function generateSpreadsheetFile(array $config, string $filename): void
@@ -131,6 +131,14 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
         if (isset($config['active_sheet'])) {
             $spreadsheet->setActiveSheetIndex($config['active_sheet']);
         }
+        $spreadsheet->getProperties()
+            ->setCreator($config[self::CREATOR])
+            ->setLastModifiedBy($config[self::CREATOR]);
+        if ($config[self::NORMALIZED]) {
+            $spreadsheet->getProperties()
+                ->setCreated('2000-01-01 00:00:00')
+                ->setModified('2000-01-01 00:00:00');
+        }
 
         return $spreadsheet;
     }
@@ -165,6 +173,8 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
     {
         return [
             self::CONTENT_FILENAME => 'spreadsheet',
+            self::CREATOR => 'Normalized',
+            self::NORMALIZED => false,
             self::CONTENT_DISPOSITION => 'attachment',
             self::WRITER => self::XLSX_WRITER,
             self::CSV_SEPARATOR => ',',
@@ -176,7 +186,7 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
     /**
      * @param array<mixed> $config
      *
-     * @return array{writer: string, filename: string, disposition: string, sheets: array<mixed>, csv_separator: string}
+     * @return array{writer: string, filename: string, disposition: string, sheets: array<mixed>, csv_separator: string, creator: string, normalized: bool}
      */
     private function resolveOptions(array $config): array
     {
@@ -184,13 +194,15 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
 
         $resolver = new OptionsResolver();
         $resolver->setDefaults($defaults);
-        $resolver->setRequired([self::WRITER, self::CONTENT_FILENAME, self::SHEETS, self::CONTENT_DISPOSITION]);
+        $resolver->setRequired([self::WRITER, self::CONTENT_FILENAME, self::SHEETS, self::CONTENT_DISPOSITION, self::CREATOR, self::NORMALIZED]);
         $resolver->setAllowedTypes(self::CONTENT_DISPOSITION, ['string']);
+        $resolver->setAllowedTypes(self::CREATOR, ['string']);
+        $resolver->setAllowedTypes(self::NORMALIZED, ['boolean']);
         $resolver->setAllowedValues(self::WRITER, [self::XLSX_WRITER, self::CSV_WRITER]);
         $resolver->setAllowedValues(self::CONTENT_DISPOSITION, ['attachment', 'inline']);
         $resolver->setAllowedValues(self::VALUE_BINDER, [null, 'string', 'advanced']);
 
-        /** @var array{writer: string, filename: string, disposition: string, sheets: array<mixed>, csv_separator: string} $resolved */
+        /** @var array{writer: string, filename: string, disposition: string, sheets: array<mixed>, csv_separator: string, creator: string, normalized: bool} $resolved */
         $resolved = $resolver->resolve($config);
 
         return $resolved;
@@ -228,13 +240,26 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
     }
 
     /**
-     * @param array{writer: string, filename: string, disposition: string, sheets: array<mixed>} $config
+     * @param array{writer: string, filename: string, disposition: string, sheets: array<mixed>, creator: string, normalized: bool} $config
      */
     private function getXlsxStreamedFile(array $config, string $filename): void
     {
         $spreadsheet = $this->buildUpSheets($config);
         $writer = new Xlsx($spreadsheet);
-        $writer->save($filename);
+        if (!$config[self::NORMALIZED]) {
+            $writer->save($filename);
+
+            return;
+        }
+
+        $tempFile = TempFile::create();
+        $writer->setPreCalculateFormulas(false);
+        $writer->save($tempFile->path);
+        $normalizer = new DeterministicXlsxNormalizer();
+        $normalizer->normalize(
+            $tempFile->path,
+            $filename
+        );
     }
 
     /**

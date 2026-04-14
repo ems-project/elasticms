@@ -37,6 +37,8 @@ final class EmsFields
     public const string ASSET_CONFIG_HEIGHT = '_height';
     public const string ASSET_CONFIG_QUALITY = '_quality';
     public const string ASSET_CONFIG_IMAGE_FORMAT = '_image_format';
+    public const string ASSET_CONFIG_AUTHOR = '_author';
+    public const string ASSET_CONFIG_COPYRIGHT = '_copyright';
     public const string ASSET_CONFIG_WEBP_IMAGE_FORMAT = 'webp';
     public const string ASSET_CONFIG_GIF_IMAGE_FORMAT = 'gif';
     public const string ASSET_CONFIG_BMP_IMAGE_FORMAT = 'bmp';

@@ -269,64 +269,171 @@ Start a new job, the body should be the command with arguments and options.
 Similar to the export render option, but will always generate a pdf.
 
 # Transformers
-In the "Migration Options" of contenttype field you can add one or more transformers.
+
+In the "Migration Options" of a contenttype field you can add one or more transformers.
 For each transformer you need to define a JSON config.
 When running the transform command these transformers will be applied.
 
-| Name                                                          | Description                                       | Field   |
-|---------------------------------------------------------------|---------------------------------------------------|---------|
-| [Html Attribute Transformer](#html-attribute-transformer)     | Remove html attribute or remove attribute values. | wysiwyg | 
-| [Html Empty Transformer](#html-empty-transformer)             | Clean empty html content                          | wysiwyg | 
-| [Html Remove Node Transformer](#html-remove-node-transformer) | Clean empty html content                          | wysiwyg | 
+| Name                                                          | Description                                 | Field   |
+|---------------------------------------------------------------|---------------------------------------------|---------|
+| [Html Attribute Transformer](#html-attribute-transformer)     | Remove html attributes or attribute values. | wysiwyg |
+| [Html Empty Transformer](#html-empty-transformer)             | Clean empty html content.                   | wysiwyg |
+| [Html Remove Node Transformer](#html-remove-node-transformer) | Remove html nodes.                          | wysiwyg |
 
 ## Html Attribute Transformer
+
 Only available for WYSIWYG field types.
+
+Removes an attribute (or specific values inside `class` / `style`) from matching elements. When an element has no
+attributes left after the transformation, it is automatically **unwrapped**: its children are moved to the parent and
+the element itself is removed, along with the surrounding whitespace of the removed line.
+
+Unwrapping is skipped for structural elements to avoid breaking the document layout. The following tags are never
+unwrapped:
+`table`, `thead`, `tbody`, `tfoot`, `tr`, `td`, `th`, `ul`, `ol`, `li`, `dl`, `dt`, `dd`, `p`, `section`, `article`,
+`header`, `footer`, `nav`, `aside`, `h1`–`h6`, `figure`, `figcaption`, `blockquote`, `pre`.
+
 ### Config
-* **attribute** : required, which attribute you want to transform
-* **element** : default (*), which html element
-* **remove** : default (false), remove the attribute
-* **remove_value_prefix** : default (null), remove all values starting by from **class** or **style** attributes.
+
+* **attribute**: required, which attribute you want to transform.
+* **element**: default `*`, which html element to target.
+* **remove**: default `false`, remove the attribute entirely.
+* **remove_value_prefix**: default `null`, remove values starting with this prefix from `class` or `style` attributes.
 
 ### Examples
-> Remove all style attributes for all table elements
+
+> Remove all style attributes from table elements
+
 ```json
-{"attribute": "style", "element": "table", "remove": "true"}
+{
+  "attribute": "style",
+  "element": "table",
+  "remove": true
+}
 ```
-> Remove all cellpadding attributes for all table elements
+
+> Remove all cellpadding attributes from table elements
+
 ```json
-{"attribute": "cellpadding", "element": "table", "remove": "true"}
+{
+  "attribute": "cellpadding",
+  "element": "table",
+  "remove": true
+}
 ```
+
 > Remove all style values related to font-size
+
 ```json
-{"attribute": "style", "element": "*", "remove_value_prefix": "font-size"}
+{
+  "attribute": "style",
+  "element": "*",
+  "remove_value_prefix": "font-size"
+}
 ```
-> Remove all class values starting with 'font' from all divs
+
+> Remove all class values starting with `font-` from all divs
+
 ```json
-{"attribute": "class", "element": "div", "remove_value_prefix": "font-"}
+{
+  "attribute": "class",
+  "element": "div",
+  "remove_value_prefix": "font-"
+}
+```
+
+### Unwrap behavior
+
+Given the config `{"attribute": "class", "remove_value_prefix": "newWord"}`:
+
+Input:
+
+```html
+
+<p>Test
+  <ins class="newWord">new word</ins>
+</p>
+```
+
+Output:
+
+```html
+<p>Test new word</p>
+```
+
+Empty elements are removed together with the blank line they were on. Given
+`{"attribute": "style", "element": "span", "remove_value_prefix": "background"}`:
+
+Input:
+
+```html
+
+<div class="test">
+  <h1>Test</h1>
+  <span style="background: red;"></span>
+</div>
+```
+
+Output:
+
+```html
+
+<div class="test">
+  <h1>Test</h1>
+</div>
 ```
 
 ## Html Empty Transformer
-Only available for WYSIWYG field types.
-Clean content without textual content
+
+Only available for WYSIWYG field types. Cleans content without textual content.
+
 ### Config
-> No config required
 
-Example transformer to null
+> No config required.
+
+Example, transformed to `null`:
+
 ```html
-<p style="text-align: justify;"> </p> <div class="example" style="text-align: justify;"> </div> <p> </p>
-```
-```html
-<html lang="en"><body><h1>            </h1><p>&nbsp;       </p></body>        </html>
+<p style="text-align: justify;"></p>
+<div class="example" style="text-align: justify;"></div> <p></p>
 ```
 
-## Html remove node transformer
+```html
+
+<html lang="en">
+<body><h1></h1>
+<p>&nbsp; </p></body>
+</html>
+```
+
+## Html Remove Node Transformer
+
+Only available for WYSIWYG field types. Removes matching html nodes.
+
+### Config
+
+* **element**: required, which html element to remove.
+* **attribute**: optional, only remove elements that have this attribute.
+* **attribute_contains**: optional, only remove elements whose attribute value contains this string.
+
+### Examples
+
 > Remove all span elements
+
 ```json
-{"element": "span"}
+{
+  "element": "span"
+}
 ```
-> Remove all span that have a class attribute containing *delete*
+
+> Remove all spans that have a class attribute containing `delete`
+
 ```json
-{"element": "span", "attribute": "class", "attribute_contains": "delete"}
+{
+  "element": "span",
+  "attribute": "class",
+  "attribute_contains": "delete"
+}
 ```
 
 # Views

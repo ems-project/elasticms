@@ -79,7 +79,7 @@ final class RoutingBuilder extends AbstractBuilder
             try {
                 $routes[] = Route::fromData($document->getName(), $document->getRouteData());
             } catch (\Throwable $e) {
-                $this->logger->error(\sprintf('Error with route %s: %s', $document->getId(), $e->getMessage()));
+                $this->logger->error(\sprintf('Error with route %s: %s', $document->getName(), $e->getMessage()));
             }
         }
 
@@ -97,7 +97,11 @@ final class RoutingBuilder extends AbstractBuilder
         $documents = [];
 
         foreach ($this->search($contentType)->getDocuments() as $document) {
-            $documents[] = new RoutingDocument($document);
+            try {
+                $documents[] = new RoutingDocument($document);
+            } catch (\Throwable $e) {
+                $this->logger->error(\sprintf('Error with route %s: %s', $document->getEmsLink(), $e->getMessage()));
+            }
         }
 
         return $documents;

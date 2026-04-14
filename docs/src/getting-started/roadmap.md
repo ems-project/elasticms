@@ -109,12 +109,12 @@ gantt
     7.13                               :v713, 2027-06, 61d
     7.14                               :v714, 2027-07, 92d
     7.15                               :v715, 2027-09, 61d
-    7.20 LTS (Bugfix + Security) until December 2029        :lts720, 2027-10, 2028-06
+    7.16 LTS (Bugfix + Security) until December 2029        :lts716, 2027-10, 2028-07
 
     section 8.x
-    8.0                                :major, 2028-02, 61d
-    8.1                                :v81, 2028-03, 61d
-    8.2                                :v82, 2028-04, 61d
+    8.0                                :major, 2028-02, 92d
+    8.1                                :v81, 2028-04, 61d
+    8.2                                :v82, 2028-05, 61d
 ```
 
 Remarks:

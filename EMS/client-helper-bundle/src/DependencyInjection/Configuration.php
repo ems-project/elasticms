@@ -14,7 +14,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 final class Configuration implements ConfigurationInterface
 {
-    private const array DEFAULT_WYSIWYG_IMAGE_CONFIG = [
+    private const array DEFAULT_ASSET_SRC_IMAGE_CONFIG = [
         EmsFields::ASSET_CONFIG_IMAGE_FORMAT => EmsFields::ASSET_CONFIG_WEBP_IMAGE_FORMAT,
         EmsFields::ASSET_CONFIG_TYPE => EmsFields::ASSET_CONFIG_TYPE_IMAGE,
         EmsFields::ASSET_CONFIG_WIDTH => 0,
@@ -48,7 +48,7 @@ final class Configuration implements ConfigurationInterface
                         ->scalarNode('ems_link')->defaultValue('@EMSCH/template/emsLinks/{type}.ems_link.twig')->end()
                     ->end()
                 ->end()
-                ->variableNode('asset_src_image_config')->defaultValue(self::DEFAULT_WYSIWYG_IMAGE_CONFIG)->end()
+                ->variableNode('asset_src_image_config')->defaultValue(self::DEFAULT_ASSET_SRC_IMAGE_CONFIG)->end()
             ->end()
         ;
 

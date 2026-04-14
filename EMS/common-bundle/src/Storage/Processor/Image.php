@@ -9,6 +9,8 @@ use EMS\CommonBundle\Storage\File\FileInterface;
 use EMS\CommonBundle\Storage\File\LocalFile;
 use EMS\Helpers\File\TempFile;
 use EMS\Helpers\Image\SmartCrop;
+use EMS\Helpers\Image\WebpXmpWriter;
+use EMS\Helpers\Image\XmpMetadata;
 use EMS\Helpers\Standard\Color;
 use EMS\Helpers\Standard\Type;
 use Psr\Log\LoggerInterface;
@@ -82,6 +84,11 @@ class Image
             \imagejpeg($image, $tempFile->path, $this->config->getQuality());
         } else {
             \imagepng($image, $tempFile->path);
+        }
+        try {
+            $tempFile = $this->setMetadata($tempFile);
+        } catch (\Throwable $e) {
+            $this->logger?->warning(\sprintf('Unable to set metadata for image: %s', $e->getMessage()));
         }
 
         return LocalFile::fromTempFile($tempFile);
@@ -435,5 +442,30 @@ class Image
                 \imagesetpixel($image, $x, $y, $colors[$alpha]);
             }
         }
+    }
+
+    private function setMetadata(TempFile $tempFile): TempFile
+    {
+        $author = $this->config->getAuthor();
+        $copyright = $this->config->getCopyright();
+        if (null === $author && null == $copyright) {
+            return $tempFile;
+        }
+
+        if (EmsFields::ASSET_CONFIG_WEBP_IMAGE_FORMAT !== $this->config->getImageFormat()) {
+            $this->logger?->warning('Image format not supported for metadata');
+
+            return $tempFile;
+        }
+
+        $metadata = new XmpMetadata(
+            author: $author,
+            copyright: $copyright,
+        );
+        $writer = new WebpXmpWriter();
+        $newFile = TempFile::create();
+        $writer->writeFile($tempFile->path, $newFile->path, $metadata->toXmp());
+
+        return $newFile;
     }
 }

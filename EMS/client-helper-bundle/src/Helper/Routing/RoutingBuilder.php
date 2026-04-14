@@ -76,7 +76,11 @@ final class RoutingBuilder extends AbstractBuilder
 
         $routes = [];
         foreach ($this->searchDocuments($contentType) as $document) {
-            $routes[] = Route::fromData($document->getName(), $document->getRouteData());
+            try {
+                $routes[] = Route::fromData($document->getName(), $document->getRouteData());
+            } catch (\Throwable $e) {
+                $this->logger->error(\sprintf('Error with route %s: %s', $document->getId(), $e->getMessage()));
+            }
         }
 
         $contentType->setCache($routes);

@@ -71,7 +71,8 @@ class RevisionTrashDataTableType extends AbstractTableType implements QueryServi
             $table->addTableAction(
                 name: self::ACTION_PUT_BACK,
                 icon: 'fa fa-recycle',
-                labelKey: t('revision.trash.put_back_selected', [], 'emsco-core')
+                labelKey: t('revision.trash.put_back_selected', [], 'emsco-core'),
+                attributes: ['data-testid' => 'revision-trash-action-put-back-all'],
             );
         }
 

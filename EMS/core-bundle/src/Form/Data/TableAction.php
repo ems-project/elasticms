@@ -13,12 +13,14 @@ final class TableAction
     private ?string $routeName = null;
     /** @var array<mixed> */
     private array $routeParams = [];
+    /** @var array <string, string> */
+    private array $attributes = [];
 
     public function __construct(
         private readonly string $name,
         private readonly string $icon,
         private readonly TranslatableMessage $labelKey,
-        private readonly ?TranslatableMessage $confirmationKey = null
+        private readonly ?TranslatableMessage $confirmationKey = null,
     ) {
     }
 
@@ -80,7 +82,22 @@ final class TableAction
     {
         return $this->routeParams;
     }
+    
+    public function getAttributes(): string
+    {
+        $attributes = '';
+        foreach ($this->attributes as $key => $value) {
+            $attributes .= $key.'='.$value;
+        }
 
+        return $attributes;
+    }
+
+    /** @return array <string, string> */
+    public function getAttr(): array
+    {
+       return $this->attributes;
+    }
     /**
      * @param array<string, string> $routeParams
      */
@@ -88,5 +105,13 @@ final class TableAction
     {
         $this->routeName = $routeName;
         $this->routeParams = $routeParams;
+    }
+
+    /**
+     * @param array<string, string> $attributes
+     */
+    public function setAttributes(array $attributes = []): void
+    {
+        $this->attributes = $attributes;
     }
 }

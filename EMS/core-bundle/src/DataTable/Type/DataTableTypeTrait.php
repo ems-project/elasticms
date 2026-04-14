@@ -79,6 +79,7 @@ trait DataTableTypeTrait
             icon: 'fa fa-plus',
             routeName: $route,
             routeParams: $routeParams,
+            attributes: ['data-testid' => 'btn-action-add']
         )->setCssClass('btn btn-sm btn-primary');
 
         return $this;
@@ -90,7 +91,8 @@ trait DataTableTypeTrait
             name: $name,
             icon: 'fa fa-trash',
             labelKey: t('action.delete_selected', [], 'emsco-core'),
-            confirmationKey: t('type.delete_selected_confirm', ['type' => $type], 'emsco-core')
+            confirmationKey: t('type.delete_selected_confirm', ['type' => $type], 'emsco-core'),
+            attributes: ['data-testid' => 'btn-action-delete-all']
         )->setCssClass('btn btn-sm btn-outline-danger');
 
         return $this;

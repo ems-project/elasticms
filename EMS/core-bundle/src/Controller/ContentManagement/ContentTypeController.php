@@ -172,7 +172,7 @@ class ContentTypeController extends AbstractController
             'label' => 'Create',
             'attr' => [
                 'class' => 'btn btn-primary pull-right',
-                'data-testid' => 'btn-action-create',
+                'data-testid' => 'btn-action-save',
             ],
         ])->getForm();
 

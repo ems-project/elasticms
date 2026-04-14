@@ -127,6 +127,7 @@
 {%- endblock selectpicker_widget %}
 
 {%- block submitems_widget -%}
+
     {%- if label is empty -%}
         {%- if label_format is not empty -%}
             {% set label = label_format|replace({
@@ -138,8 +139,9 @@
         {%- endif -%}
     {%- endif -%}
 	{% if confirm is defined and confirm != null %}
+        {% set testId = attr|filter((a,k) => 'data-testid' is same as(k)) %}
 		<div class="btn-group">
-			<button type="button" class="{{ confirm_class|default('btn btn-outline-danger') }} dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<button type="button" class="{{ confirm_class|default('btn btn-outline-danger') }} dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"{% if testId|length > 0 %} data-testid="{{ testId|first }}"{% endif %}>
 				{%- if icon -%}
 					<span class="{{ icon }}"></span>&nbsp;
 				{% endif %}
@@ -147,6 +149,9 @@
 				<span class="caret"></span>
 			</button>
 			<ul class="dropdown-menu">
+                {% if  testId|length > 0 %}
+                     {% set attr = attr|merge({ 'data-testid' : (testId|first ~ '-message')}) %}
+                {% endif %}
 				<li>
 					<button type="{{ type|default('submit') }}" {{ block('button_attributes') }}>{{ confirm|trans }}</button>
 				</li>
@@ -1207,17 +1212,17 @@
 	</div>
 	<div class="panel-footer">
 		<div class="btn-group">
-			<input type="file" id="upload-{{ form.vars.id }}" class="file-uploader-input">
+			<input type="file" id="upload-{{ form.vars.id }}" class="file-uploader-input" data-testid="file-btn-upload-file-{{ form.vars.name }}">
 			<label class="btn btn-default" for="upload-{{ form.vars.id }}"><i class="fa fa-upload"></i> Upload file</label>
 		</div>
-		<button type="button" data-href="{{ path('ems_core_uploaded_file_wysiwyg_modal') }}" class="btn btn-small btn-default file-browse-server"><i class="fa fa-folder-open-o"></i><span class="sr-only">{{ 'view.form.fields.asset.browse-server'|trans }}</span></button>
+		<button type="button" data-href="{{ path('ems_core_uploaded_file_wysiwyg_modal') }}" class="btn btn-small btn-default file-browse-server" data-testid="file-btn-browser-serer-{{ form.vars.name }}"><i class="fa fa-folder-open-o"></i><span class="sr-only">{{ 'view.form.fields.asset.browse-server'|trans }}</span></button>
 		<div class="btn-group">
-			<button type="button" class="btn btn-small btn-default asset-details" data-toggle="modal" data-target="#asst-details-{{ form.vars.id }}">
+			<button type="button" class="btn btn-small btn-default asset-details" data-toggle="modal" data-target="#asst-details-{{ form.vars.id }}" data-testid="file-btn-info-{{ form.vars.name }}">
               <i class="fa fa-info"></i>
               {{ 'Info'|trans }}
             </button>
-			<a href="#" class="btn btn-small btn-default view-asset-button {% if not form.children.sha1.vars.value %}disabled{% endif %}" target="_blank" alt="{{'View'|trans}}"><i class="fa fa-eye">&nbsp;{{'View'|trans}}</i></a>
-			<a href="#" class="btn btn-small btn-default clear-asset-button  {% if not form.children.sha1.vars.value %}disabled{% endif %}" alt="{{'Clear'|trans}}"><i class="fa fa-remove"></i>&nbsp;{{'Clear'|trans}}</a>
+			<a href="#" class="btn btn-small btn-default view-asset-button {% if not form.children.sha1.vars.value %}disabled{% endif %}" target="_blank" alt="{{'View'|trans}}" data-testid="file-btn-view-{{ form.vars.name }}"><i class="fa fa-eye">&nbsp;{{'View'|trans}}</i></a>
+			<a href="#" class="btn btn-small btn-default clear-asset-button  {% if not form.children.sha1.vars.value %}disabled{% endif %}" alt="{{'Clear'|trans}}" data-testid="file-btn-clear-{{ form.vars.name }}"><i class="fa fa-remove"></i>&nbsp;{{'Clear'|trans}}</a>
 		</div>
 	</div>
 </div>

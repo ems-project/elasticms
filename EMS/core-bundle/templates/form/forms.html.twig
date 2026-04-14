@@ -313,7 +313,7 @@
                                 {{ toolbar }}
                             {% endif %}
                             {% for toolbarAction in table.toolbarActions %}
-                                <a class="{{ toolbarAction.cssClass }}" href="{{ path(toolbarAction.routeName, toolbarAction.routeParams) }}">
+                                <a class="{{ toolbarAction.cssClass }}" href="{{ path(toolbarAction.routeName, toolbarAction.routeParams) }}" {{ toolbarAction.attributes|default('') }}>
                                     <i class="{{ toolbarAction.icon }}"></i>&nbsp;{{ toolbarAction.labelKey|trans }}
                                 </a>
                             {% endfor %}
@@ -378,6 +378,7 @@
                     <div class="box-footer with-border">
                         {% if table.supportsTableActions %}
                             {% for action in table.tableActions %}
+                             {% dump action %}
                                 {{ form_widget(attribute(form, action.name)) }}
                             {% endfor %}
                         {% endif %}

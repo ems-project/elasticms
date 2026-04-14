@@ -7,6 +7,7 @@ namespace EMS\CoreBundle\Form\Form;
 use EMS\CoreBundle\Form\Data\TableAction;
 use EMS\CoreBundle\Form\Data\TableInterface;
 use EMS\CoreBundle\Form\Field\SubmitEmsType;
+use phpseclib3\File\ASN1\Maps\Attribute;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -83,7 +84,7 @@ final class TableType extends AbstractType
                 'entry_options' => [],
                 'data' => $choices,
             ])->add(self::REORDER_ACTION, SubmitEmsType::class, [
-                'attr' => ['class' => 'btn btn-sm btn-default'],
+                'attr' => ['class' => 'btn btn-sm btn-default', 'data-testid' => 'btn-action-reorder'],
                 'icon' => 'fa fa-reorder',
                 'label' => t('action.reorder', [], 'emsco-core'),
             ]);
@@ -139,7 +140,12 @@ final class TableType extends AbstractType
         } else {
             $submitOptions['attr'] = ['class' => $action->getCssClass()];
         }
-
+    
+        if (\count($action->getAttr()))
+        {
+            $submitOptions['attr'] = array_merge($submitOptions['attr'] ?? [], $action->getAttr());
+        }
+        
         $builder->add($action->getName(), SubmitEmsType::class, $submitOptions);
     }
 }

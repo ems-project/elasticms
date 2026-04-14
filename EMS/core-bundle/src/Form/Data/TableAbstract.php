@@ -235,9 +235,13 @@ abstract class TableAbstract implements TableInterface
         return $this->itemActionCollection;
     }
 
-    public function addTableAction(string $name, string $icon, string|TranslatableMessage $labelKey, string|TranslatableMessage|null $confirmationKey = null): TableAction
+    /**
+     * @param array<string, string> $attributes
+     */
+    public function addTableAction(string $name, string $icon, string|TranslatableMessage $labelKey, string|TranslatableMessage|null $confirmationKey = null, array $attributes = []): TableAction
     {
         $action = TableAction::create($name, $icon, $labelKey, $confirmationKey);
+        $action->setAttributes($attributes);
         $this->tableActions[] = $action;
 
         return $action;
@@ -245,21 +249,27 @@ abstract class TableAbstract implements TableInterface
 
     /**
      * @param array<string, string> $routeParams
+     * @param array<string, string> $attributes
      */
-    public function addToolbarAction(TranslatableMessage $label, string $icon, string $routeName, array $routeParams = []): TableAction
+    public function addToolbarAction(TranslatableMessage $label, string $icon, string $routeName, array $routeParams = [], array $attributes = []): TableAction
     {
         $toolbarAction = TableAction::create($label->getMessage(), $icon, $label);
         $toolbarAction->setRoute($routeName, $routeParams);
         $toolbarAction->setCssClass('btn btn-sm btn-primary');
+        $toolbarAction->setAttributes($attributes);
 
         $this->toolbarActions[] = $toolbarAction;
 
         return $toolbarAction;
     }
-
-    public function addMassAction(string $name, TranslatableMessage|string $label, string $icon, string|TranslatableMessage|null $confirmationKey = null): TableAction
+    
+    /**
+     * @param array<string, string> $attributes
+     */
+    public function addMassAction(string $name, TranslatableMessage|string $label, string $icon, string|TranslatableMessage|null $confirmationKey = null, array $attributes = []): TableAction
     {
         $massAction = TableAction::create($name, $icon, $label, $confirmationKey);
+        $massAction->setAttributes($attributes);
         $massAction->setCssClass('btn btn-sm btn-outline-danger');
 
         $this->massActions[] = $massAction;

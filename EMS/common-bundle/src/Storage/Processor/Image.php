@@ -87,8 +87,8 @@ class Image
         }
         try {
             $tempFile = $this->setMetadata($tempFile);
-        } catch (\Throwable $e) {
-            $this->logger?->warning(\sprintf('Unable to set metadata for image: %s', $e->getMessage()));
+        } catch (\Throwable $throwable) {
+            $this->logger?->warning(\sprintf('Unable to set metadata for image: %s', $throwable->getMessage()));
         }
 
         return LocalFile::fromTempFile($tempFile);

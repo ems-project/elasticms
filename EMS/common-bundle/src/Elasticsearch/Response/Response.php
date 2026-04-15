@@ -27,7 +27,7 @@ final class Response implements ResponseInterface
     /** @var array<mixed> */
     private array $aggregations;
     /** @var array<mixed> */
-    private array $suggest;
+    private readonly array $suggest;
 
     /**
      * @param array<mixed> $response

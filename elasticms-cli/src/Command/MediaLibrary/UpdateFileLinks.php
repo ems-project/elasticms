@@ -63,9 +63,9 @@ final class UpdateFileLinks extends AbstractCommand
     protected function configure(): void
     {
         $this
-            ->addArgument(self::ARGUMENT_CONTENT_TYPE, InputArgument::REQUIRED, 'Content type\'s name')
+            ->addArgument(self::ARGUMENT_CONTENT_TYPE, InputArgument::REQUIRED, "Content type's name")
             ->addArgument(self::ARGUMENT_FIELDS, InputArgument::IS_ARRAY, 'Fields to search for. Write words separated by spaces')
-            ->addOption(self::OPTION_MEDIA_LIBRARY_CONTENT_TYPE, null, InputOption::VALUE_OPTIONAL, 'Media library content type\'s name', 'media_file')
+            ->addOption(self::OPTION_MEDIA_LIBRARY_CONTENT_TYPE, null, InputOption::VALUE_OPTIONAL, "Media library content type's name", 'media_file')
             ->addOption(self::OPTION_FILE_FIELD, null, InputOption::VALUE_OPTIONAL, 'File field', 'media_file')
             ->addOption(self::OPTION_FORCE, null, InputOption::VALUE_NONE, 'Updates links. By default, only writes logs');
     }
@@ -175,7 +175,7 @@ final class UpdateFileLinks extends AbstractCommand
         if ($found && $this->force) {
             $value = \str_replace($match[0], $found->jsonSerialize(), $value);
             $status = \sprintf('Existing asset link successfully replaced for %s.', $hash);
-        } elseif ($found) {
+        } elseif ($found instanceof EMSLink) {
             $status = \sprintf('Asset link found but not replaced for %s.', $hash);
         }
         $this->logAssetLink($key, EMSLink::fromMatch($match), $value, $status);
@@ -185,12 +185,15 @@ final class UpdateFileLinks extends AbstractCommand
     {
         $term = new Term();
         $term->setTerm(\implode('.', [$this->fileFieldName, EmsFields::CONTENT_FILE_HASH_FIELD]), $hash);
+
         $nested = new Nested();
         $nested->setPath($this->fileFieldName);
         $nested->setQuery($term);
+
         $search = new Search([$this->mediaLibraryContentTypeEnvironmentAlias], $nested);
         $search->setContentTypes([$this->mediaLibraryContentTypeName]);
         $search->setSize(1);
+
         $result = $this->coreApi->search()->search($search);
         if ($result->getTotal() > 1) {
             $this->logConflict($link, $value, \sprintf('%d files(s)', $result->getTotal()));

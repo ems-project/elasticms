@@ -451,7 +451,7 @@ final class ClientRequest implements ClientRequestInterface
         $resultSet = $this->elasticaService->search($search);
 
         $data = $resultSet->getResponse()->getData();
-        if ($cacheItem) {
+        if ($cacheItem instanceof CacheItemInterface) {
             $this->saveCacheItem($cacheItem, $data);
         }
 
@@ -771,6 +771,7 @@ final class ClientRequest implements ClientRequestInterface
     {
         $cacheItem->set($data);
         $cacheItem->expiresAfter(new \DateInterval('P1D'));
+
         $this->cache->save($cacheItem);
     }
 }

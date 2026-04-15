@@ -246,6 +246,7 @@ will be applied.
 | [Html Attribute Transformer](#html-attribute-transformer)     | Remove html attributes or  attribute values. | wysiwyg |
 | [Html Empty Transformer](#html-empty-transformer)             | Clean empty html content       .                   | wysiwyg |
 | [Html Remove Node Transformer](#html-remove-node-transformer) | Remove html nodes.                          | wysiwyg |
+| [Html Unwrap Transformer](#html-unwrap-transformer)           | Unwrap html elements without attributes.    | wysiwyg |
 
 ### #Html Attribute Transformer
 Only available for WYSIWYG field types.
@@ -304,14 +305,12 @@ Given the config `{"attribute": "class", "remove_value_prefix": "newWord"}`:
 Input:
 
 ```html
-
 <p>Test
   <ins class="newWord">new word</ins>
 </p>
 ```
 
 Output:
-
 ```html
 <p>Test new word</p>
 ```
@@ -322,7 +321,6 @@ Empty elements are removed together with the blank line they were on. Given
 Input:
 
 ```html
-
 <div class="test">
   <h1>Test</h1>
   <span style="background: red;"></span>
@@ -332,7 +330,6 @@ Input:
 Output:
 
 ```html
-
 <div class="test">
   <h1>Test</h1>
 </div>
@@ -386,7 +383,58 @@ Only available for WYSIWYG field types. Removes matching html nodes.
 { "element": "span", "attribute": "class", "attribute_contains": "delete" }
 ```
 
-## Views
+## Html Unwrap Transformer
+
+Only available for WYSIWYG field types.
+
+Unwraps configured html elements that have **no attributes**: the element itself is removed but its children are kept in
+place. Elements with attributes are left untouched. The same unwrap logic as
+the [Html Attribute Transformer](#html-attribute-transformer) is used, so the structural blacklist applies and
+surrounding whitespace/indentation is cleaned up.
+
+### Config
+
+* **elements**: required, list of html elements to unwrap.
+
+### Examples
+
+> Unwrap empty `div`, `span` and `ins` elements
+
+```json
+{
+  "elements": [
+    "div",
+    "span",
+    "ins"
+  ]
+}
+```
+
+### Example
+
+Given the config `{"elements": ["div"]}`:
+
+Input:
+
+```html
+<section>
+  <div>
+    <h1>Title</h1>
+    <p>Paragraph</p>
+  </div>
+</section>
+```
+
+Output:
+
+```html
+<section>
+  <h1>Title</h1>
+  <p>Paragraph</p>
+</section>
+```
+
+# Views
 
 | Name                                       | Description                                                                       |
 | ------------------------------------------ | --------------------------------------------------------------------------------- |

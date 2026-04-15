@@ -106,11 +106,11 @@ class HelperExtension
      * @return array<mixed>
      */
     #[AsTwigFunction(name: 'emsch_search')]
-    public function search(string|array|null $type, array $body, int $from = 0, int $size = 10, ?string $regex = null, ?string $index = null): array
+    public function search(string|array|null $type, array $body, int $from = 0, int $size = 10, ?string $regex = null, ?string $index = null, bool $cache = false): array
     {
         $client = $this->manager->getDefault();
 
-        return $client->search($type, $body, $from, $size, $regex, $index);
+        return $client->search($type, $body, $from, $size, $regex, $index, $cache);
     }
 
     /**

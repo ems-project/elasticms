@@ -241,31 +241,34 @@ In the "Migration Options" of a contenttype field you can add one or more transf
 transformer you need to define a JSON config. When running the transform command these transformers
 will be applied.
 
-| Name                                                          | Description                                       | Field   |
+| Name                                                          | Description                                 | Field   |
 | ------------------------------------------------------------- | ------------------------------------------- | ------- |
-| [Html Attribute Transformer](#html-attribute-transformer)     | Remove html attributes or  attribute values. | wysiwyg |
-| [Html Empty Transformer](#html-empty-transformer)             | Clean empty html content       .                   | wysiwyg |
+| [Html Attribute Transformer](#html-attribute-transformer)     | Remove html attributes or attribute values. | wysiwyg |
+| [Html Empty Transformer](#html-empty-transformer)             | Clean empty html content .                  | wysiwyg |
 | [Html Remove Node Transformer](#html-remove-node-transformer) | Remove html nodes.                          | wysiwyg |
 | [Html Unwrap Transformer](#html-unwrap-transformer)           | Unwrap html elements without attributes.    | wysiwyg |
 
 ### #Html Attribute Transformer
+
 Only available for WYSIWYG field types.
 
-Removes an attribute (or specific values inside `class` / `style`) from matching elements. When an element has no
-attributes left after the transformation, it is automatically **unwrapped**: its children are moved to the parent and
-the element itself is removed, along with the surrounding whitespace of the removed line.
+Removes an attribute (or specific values inside `class` / `style`) from matching elements. When an
+element has no attributes left after the transformation, it is automatically **unwrapped**: its
+children are moved to the parent and the element itself is removed, along with the surrounding
+whitespace of the removed line.
 
-Unwrapping is skipped for structural elements to avoid breaking the document layout. The following tags are never
-unwrapped:
-`table`, `thead`, `tbody`, `tfoot`, `tr`, `td`, `th`, `ul`, `ol`, `li`, `dl`, `dt`, `dd`, `p`, `section`, `article`,
-`header`, `footer`, `nav`, `aside`, `h1`–`h6`, `figure`, `figcaption`, `blockquote`, `pre`.
+Unwrapping is skipped for structural elements to avoid breaking the document layout. The following
+tags are never unwrapped: `table`, `thead`, `tbody`, `tfoot`, `tr`, `td`, `th`, `ul`, `ol`, `li`,
+`dl`, `dt`, `dd`, `p`, `section`, `article`, `header`, `footer`, `nav`, `aside`, `h1`–`h6`,
+`figure`, `figcaption`, `blockquote`, `pre`.
 
 ### Config
 
-* **attribute**: required, which attribute you want to transform.
-* **element**: default `*`, which html element to target.
-* **remove**: default `false`, remove the attribute entirely.
-* **remove_value_prefix**: default `null`, remove values starting with this prefix from `class` or `style` attributes.
+- **attribute**: required, which attribute you want to transform.
+- **element**: default `*`, which html element to target.
+- **remove**: default `false`, remove the attribute entirely.
+- **remove_value_prefix**: default `null`, remove values starting with this prefix from `class` or
+  `style` attributes.
 
 - **attribute** : required, which attribute you want to transform
 - **element** : default (\*), which html element
@@ -276,15 +279,15 @@ unwrapped:
 #### Examples
 
 > Remove all style attributes from table elements
+
 ```json
-{ "attribute": "style", "element": "table", "remove": true
- }
+{ "attribute": "style", "element": "table", "remove": true }
 ```
 
 > Remove all cellpadding attributes from table elements
+
 ```json
-{ "attribute": "cellpadding", "element": "table", "remove": true
- }
+{ "attribute": "cellpadding", "element": "table", "remove": true }
 ```
 
 > Remove all style values related to font-size
@@ -294,6 +297,7 @@ unwrapped:
 ```
 
 > Remove all class values starting with `font-` from all divs
+
 ```json
 { "attribute": "class", "element": "div", "remove_value_prefix": "font-" }
 ```
@@ -305,12 +309,14 @@ Given the config `{"attribute": "class", "remove_value_prefix": "newWord"}`:
 Input:
 
 ```html
-<p>Test
-  <ins class="newWord">new word</ins>
+<p>
+    Test
+    <ins class="newWord">new word</ins>
 </p>
 ```
 
 Output:
+
 ```html
 <p>Test new word</p>
 ```
@@ -322,8 +328,8 @@ Input:
 
 ```html
 <div class="test">
-  <h1>Test</h1>
-  <span style="background: red;"></span>
+    <h1>Test</h1>
+    <span style="background: red;"></span>
 </div>
 ```
 
@@ -331,7 +337,7 @@ Output:
 
 ```html
 <div class="test">
-  <h1>Test</h1>
+    <h1>Test</h1>
 </div>
 ```
 
@@ -339,12 +345,10 @@ Output:
 
 Only available for WYSIWYG field types. Cleans content without textual content.
 
-
-
 > No config required.
 
-Example, transformed to `null
-`:
+Example, transformed to `null`:
+
 ```html
 <p style="text-align: justify;"></p>
 <div class="example" style="text-align: justify;"></div>
@@ -366,11 +370,12 @@ Only available for WYSIWYG field types. Removes matching html nodes.
 
 ### Config
 
-* **element**: required, which html element to remove.
-* **attribute**: optional, only remove elements that have this attribute.
-* **attribute_contains**: optional, only remove elements whose attribute value contains this string.
+- **element**: required, which html element to remove.
+- **attribute**: optional, only remove elements that have this attribute.
+- **attribute_contains**: optional, only remove elements whose attribute value contains this string.
 
 ### Examples
+
 > Remove all span elements
 
 ```json
@@ -387,14 +392,14 @@ Only available for WYSIWYG field types. Removes matching html nodes.
 
 Only available for WYSIWYG field types.
 
-Unwraps configured html elements that have **no attributes**: the element itself is removed but its children are kept in
-place. Elements with attributes are left untouched. The same unwrap logic as
-the [Html Attribute Transformer](#html-attribute-transformer) is used, so the structural blacklist applies and
-surrounding whitespace/indentation is cleaned up.
+Unwraps configured html elements that have **no attributes**: the element itself is removed but its
+children are kept in place. Elements with attributes are left untouched. The same unwrap logic as
+the [Html Attribute Transformer](#html-attribute-transformer) is used, so the structural blacklist
+applies and surrounding whitespace/indentation is cleaned up.
 
 ### Config
 
-* **elements**: required, list of html elements to unwrap.
+- **elements**: required, list of html elements to unwrap.
 
 ### Examples
 
@@ -402,11 +407,7 @@ surrounding whitespace/indentation is cleaned up.
 
 ```json
 {
-  "elements": [
-    "div",
-    "span",
-    "ins"
-  ]
+    "elements": ["div", "span", "ins"]
 }
 ```
 
@@ -418,10 +419,10 @@ Input:
 
 ```html
 <section>
-  <div>
-    <h1>Title</h1>
-    <p>Paragraph</p>
-  </div>
+    <div>
+        <h1>Title</h1>
+        <p>Paragraph</p>
+    </div>
 </section>
 ```
 
@@ -429,8 +430,8 @@ Output:
 
 ```html
 <section>
-  <h1>Title</h1>
-  <p>Paragraph</p>
+    <h1>Title</h1>
+    <p>Paragraph</p>
 </section>
 ```
 

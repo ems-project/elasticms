@@ -42,11 +42,11 @@ final class ClientRequestRuntime implements RuntimeExtensionInterface
      *
      * @return array<mixed>
      */
-    public function search(string|array|null $type, array $body, int $from = 0, int $size = 10, array $sourceExclude = [], ?string $regex = null, ?string $index = null): array
+    public function search(string|array|null $type, array $body, int $from = 0, int $size = 10, array $sourceExclude = [], ?string $regex = null, ?string $index = null, bool $cache = false): array
     {
         $client = $this->manager->getDefault();
 
-        return $client->search($type, $body, $from, $size, $sourceExclude, $regex, $index);
+        return $client->search($type, $body, $from, $size, $sourceExclude, $regex, $index, $cache);
     }
 
     /**

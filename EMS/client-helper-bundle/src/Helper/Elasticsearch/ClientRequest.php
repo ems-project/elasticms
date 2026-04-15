@@ -416,7 +416,6 @@ final class ClientRequest implements ClientRequestInterface
                 'body' => $body,
                 'from' => $from,
                 'size' => $size,
-                'source_exclude' => $sourceExclude,
                 'regex' => $regex,
                 'index' => $index,
             ]);

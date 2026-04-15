@@ -50,7 +50,7 @@ class AggregateOptionType extends AbstractType
             $builder->add('remove', SubmitEmsType::class, [
                 'attr' => [
                     'class' => 'btn btn-primary btn-sm ',
-                    'data-testid' => 'btn-action-remove'
+                    'data-testid' => 'btn-action-remove',
                 ],
                 'icon' => 'fa fa-trash',
             ]);

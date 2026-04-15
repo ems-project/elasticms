@@ -229,19 +229,19 @@ class EnvironmentController extends AbstractController
                         'title' => t('key.environments_local', [], 'emsco-core'),
                         'icon' => 'fa fa-database',
                         'form' => $datatableEnvironment->createView(),
-                        'table_id' => 'environments-local'
+                        'table_id' => 'environments-local',
                     ],
                     [
                         'title' => t('key.environments_external', [], 'emsco-core'),
                         'icon' => 'fa fa-plug',
                         'form' => $this->dataTableExternalEnvironment()->createView(),
-                        'table_id' => 'environments-external'
+                        'table_id' => 'environments-external',
                     ],
                     [
                         'title' => t('key.managed_aliases', [], 'emsco-core'),
                         'icon' => 'fa fa-code-fork',
                         'form' => $this->dataTableManagedAlias()->createView(),
-                        'table_id' => 'environments-managed-alias'
+                        'table_id' => 'environments-managed-alias',
                     ],
                 ],
                 'breadcrumb' => Navigation::admin()->environments()->add(

@@ -7,7 +7,6 @@ namespace EMS\CoreBundle\Form\Form;
 use EMS\CoreBundle\Form\Data\TableAction;
 use EMS\CoreBundle\Form\Data\TableInterface;
 use EMS\CoreBundle\Form\Field\SubmitEmsType;
-use phpseclib3\File\ASN1\Maps\Attribute;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -140,12 +139,11 @@ final class TableType extends AbstractType
         } else {
             $submitOptions['attr'] = ['class' => $action->getCssClass()];
         }
-    
-        if (\count($action->getAttr()))
-        {
-            $submitOptions['attr'] = array_merge($submitOptions['attr'] ?? [], $action->getAttr());
+
+        if (\count($action->getAttr())) {
+            $submitOptions['attr'] = \array_merge($submitOptions['attr'] ?? [], $action->getAttr());
         }
-        
+
         $builder->add($action->getName(), SubmitEmsType::class, $submitOptions);
     }
 }

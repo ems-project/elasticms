@@ -163,7 +163,7 @@ class ContentTypeDataTableType extends AbstractTableType implements QueryService
                 name: self::ACTION_UPDATE_MAPPING,
                 icon: 'fa fa-refresh',
                 labelKey: t('type.selection', ['type' => 'content_type_mapping'], 'emsco-core'),
-                confirmationKey: t('type.confirm', ['type' => 'content_type_mapping_all'], 'emsco-core'), 
+                confirmationKey: t('type.confirm', ['type' => 'content_type_mapping_all'], 'emsco-core'),
                 attributes: ['data-testid' => 'btn-action-update-mapping-all']
             )->setCssClass('btn btn-sm btn-primary');
         }

@@ -20,7 +20,7 @@ final class TableAction
         private readonly string $name,
         private readonly string $icon,
         private readonly TranslatableMessage $labelKey,
-        private readonly ?TranslatableMessage $confirmationKey = null,
+        private readonly ?TranslatableMessage $confirmationKey = null
     ) {
     }
 
@@ -82,7 +82,7 @@ final class TableAction
     {
         return $this->routeParams;
     }
-    
+
     public function getAttributes(): string
     {
         $attributes = '';
@@ -96,8 +96,9 @@ final class TableAction
     /** @return array <string, string> */
     public function getAttr(): array
     {
-       return $this->attributes;
+        return $this->attributes;
     }
+
     /**
      * @param array<string, string> $routeParams
      */

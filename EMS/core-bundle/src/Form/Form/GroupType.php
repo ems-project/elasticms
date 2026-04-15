@@ -66,7 +66,7 @@ final class GroupType extends AbstractType
                 'label' => t('action.save', [], 'emsco-core'),
                 'attr' => [
                     'class' => 'btn btn-primary btn-sm ',
-                    'data-testid' => 'btn-action-update'
+                    'data-testid' => 'btn-action-update',
                 ],
                 'icon' => 'fa fa-save',
                 'translation_domain' => EMSCoreBundle::TRANS_DOMAIN,

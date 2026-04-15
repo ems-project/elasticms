@@ -53,15 +53,15 @@ class DashboardDataTableType extends AbstractEntityTableType
                 route: Routes::DASHBOARD_ADMIN_DEFINE,
                 labelKey: t('core.dashboard.define', ['define' => $dashboardDefinition->value], 'emsco-core'),
                 icon: $dashboardDefinition->getIcon(),
-                routeParameters: ['definition' => $dashboardDefinition->value], 
-                attributes: ['data-testid' => 'btn-action-define-' . $dashboardDefinition->value],
+                routeParameters: ['definition' => $dashboardDefinition->value],
+                attributes: ['data-testid' => 'btn-action-define-'.$dashboardDefinition->value],
             );
         }
         $defineAction->addItemPostAction(
             route: Routes::DASHBOARD_ADMIN_UNDEFINE,
             labelKey: t('core.dashboard.define', ['define' => null], 'emsco-core'),
             icon: 'eraser',
-            attributes: ['data-testid' => 'btn-action-undefine' ],
+            attributes: ['data-testid' => 'btn-action-undefine'],
         );
 
         $this

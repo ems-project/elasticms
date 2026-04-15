@@ -5,6 +5,8 @@
 	'name': (name is defined  ? name|json_encode : false),
 	'value': (value is defined  ? value|json_encode : false),
 }|filter(v => v != false) -%}
+{% dump attributes %}
+{% set attributes = attributes|default([])|map((v,k) => "#{k}=#{v}")|join(' ') %}
 {% set testId = attributes|default('')|split(' ')|filter(a => 'data-testid=' in a) %}
 
 {% if message is defined and message != null %}

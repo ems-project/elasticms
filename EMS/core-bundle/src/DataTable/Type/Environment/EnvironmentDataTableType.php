@@ -69,7 +69,7 @@ class EnvironmentDataTableType extends AbstractEntityTableType
             $table->addItemGetAction(
                 route: Routes::ADMIN_ENVIRONMENT_REBUILD,
                 labelKey: t('action.rebuild', [], 'emsco-core'),
-                icon: 'recycle', 
+                icon: 'recycle',
                 attributes: ['data-testid' => 'btn-action-rebuild'],
             )->setButtonType('primary');
         }

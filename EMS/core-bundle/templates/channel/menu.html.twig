@@ -8,7 +8,6 @@
     <ul class="dropdown-menu">
         {% set homepage = path('homepage') %}
         {% for channel in channels %}
-            {% dump channel %}
         <li>
             <a href="{{ channel.getEntryPath(homepage) }}" target="_blank" data-testid="channel-menu-{{ channel.name }}">
                 <i class="fa fa-{{ channel.public|default ? 'unlock-alt' : 'lock' }}" aria-hidden="true"></i>

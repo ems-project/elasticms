@@ -378,7 +378,6 @@
                     <div class="box-footer with-border">
                         {% if table.supportsTableActions %}
                             {% for action in table.tableActions %}
-                             {% dump action %}
                                 {{ form_widget(attribute(form, action.name)) }}
                             {% endfor %}
                         {% endif %}

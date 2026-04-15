@@ -262,7 +262,7 @@ abstract class TableAbstract implements TableInterface
 
         return $toolbarAction;
     }
-    
+
     /**
      * @param array<string, string> $attributes
      */

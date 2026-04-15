@@ -140,8 +140,8 @@ final class TableType extends AbstractType
             $submitOptions['attr'] = ['class' => $action->getCssClass()];
         }
 
-        if (\count($action->getAttr())) {
-            $submitOptions['attr'] = \array_merge($submitOptions['attr'] ?? [], $action->getAttr());
+        if (\count($action->getAttributes())) {
+            $submitOptions['attr'] = \array_merge($submitOptions['attr'] ?? [], $action->getAttributes());
         }
 
         $builder->add($action->getName(), SubmitEmsType::class, $submitOptions);

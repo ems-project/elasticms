@@ -83,18 +83,8 @@ final class TableAction
         return $this->routeParams;
     }
 
-    public function getAttributes(): string
-    {
-        $attributes = '';
-        foreach ($this->attributes as $key => $value) {
-            $attributes .= $key.'='.$value;
-        }
-
-        return $attributes;
-    }
-
     /** @return array <string, string> */
-    public function getAttr(): array
+    public function getAttributes(): array
     {
         return $this->attributes;
     }

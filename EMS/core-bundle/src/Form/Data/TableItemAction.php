@@ -112,14 +112,10 @@ final class TableItemAction
         return $this->icon;
     }
 
-    public function getAttributes(): string
+    /** @return array <string, string> */
+    public function getAttributes(): array
     {
-        $attributes = '';
-        foreach ($this->attributes as $key => $value) {
-            $attributes .= $key.'='.$value;
-        }
-
-        return $attributes;
+        return $this->attributes;
     }
 
     public function getMessageKey(?string $itemLabel = null): ?TranslatableMessage

@@ -135,7 +135,7 @@
                                 'label': a.label,
                                 'icon': a.icon,
                                 'btnClass': '',
-                                'attributes': "data-testid=revision-actions-in-#{environment.label|lower}-#{a.label|ems_slug}"
+                                'attributes': { 'data-testid': "revision-actions-in-#{environment.label|lower}-#{a.label|ems_slug}"}
                             }%}
                         {% else %}
                             <a href="{{ a.link|default('#') }}" {% for attribute in a.link_attributes|default([]) %}{{ attribute.name }}="{{ attribute.value }}" {% endfor %} data-testid="revision-actions-in-{{ environment.label|lower }}-{{ a.label|ems_slug }}">

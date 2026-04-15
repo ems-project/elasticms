@@ -21,7 +21,7 @@ final class TableItemActionCollection implements \IteratorAggregate, \Countable
     public function __construct(
         public string|TranslatableMessage|null $label = null,
         public ?string $icon = null,
-        private array $attributes = [],
+        private readonly array $attributes = [],
     ) {
     }
 
@@ -31,14 +31,10 @@ final class TableItemActionCollection implements \IteratorAggregate, \Countable
         return new \ArrayIterator($this->itemActions);
     }
 
-    public function getAttributes(): string
+    /** @return array <string, string> */
+    public function getAttributes(): array
     {
-        $attributes = '';
-        foreach ($this->attributes as $key => $value) {
-            $attributes .= $key.'='.$value;
-        }
-
-        return $attributes;
+        return $this->attributes;
     }
 
     #[\Override]

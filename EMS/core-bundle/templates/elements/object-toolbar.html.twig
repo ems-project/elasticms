@@ -20,7 +20,9 @@
 					'url':  path('emsco_view_revisions', {'type': contentType.name, 'ouuid': ouuid} ),
 					'label': info.draft ? 'views.elements.object-toolbar-html.view-draft-in-progress'|trans : 'views.elements.object-toolbar-html.view-current-revision'|trans,
 					'icon': 'archive',
-                    'attributes': "data-testid=revision-view-current"
+                    'attributes': {
+                        'data-testid': 'revision-view-current'
+                    }
 				}%}
 				{% if is_granted(contentType.roles.edit) %}
 					{% if not  contentType.circlesField or attribute(source, contentType.circlesField) is not defined or attribute(source, contentType.circlesField)|emsco_in_my_circles %}
@@ -28,7 +30,7 @@
 							'url': path('revision.new-draft', {'ouuid': ouuid, 'type': contentType.name}),
 							'label': info.draft ? 'views.elements.object-toolbar-html.edit-draft'|trans : 'views.elements.object-toolbar-html.new-draft'|trans,
 							'icon': 'pencil',
-                            'attributes': "data-testid=revision-new-draft"
+                            'attributes': {'data-testid': 'revision-new-draft'}
                         }%}
 					{% endif %}
 				{% endif %}

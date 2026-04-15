@@ -100,7 +100,9 @@
 						'icon': 'archive',
 						'btnType': 'outline-danger',
 						'message': 'Do you confirm?',
-                        'attributes': 'data-testid=revision-action-archive'
+                        'attributes': {
+                            'data-testid': 'revision-action-archive'
+                        }
 					}%}
 				{% endif %}
 
@@ -112,7 +114,9 @@
 							'icon': 'trash',
 							'btnType': 'outline-danger',
 							'message': 'Do you confirm?',
-                            'attributes': 'data-testid=revision-action-delete'
+                            'attributes': {
+                                'data-testid': 'revision-action-delete'
+                            }
 						}%}
 					{% endif %}
 				{% endif %}

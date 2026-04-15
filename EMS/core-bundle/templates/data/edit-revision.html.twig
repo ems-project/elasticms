@@ -49,7 +49,9 @@
 									'btnClass': '',
 									'label': 'views.data.edit-revision-html.cancel-label'|trans,
 									'icon': 'remove',
-                                    'attributes': 'data-testid=revision-action-cancel'
+                                    'attributes': {
+                                        'data-testid': 'revision-action-cancel'
+                                    }
 								}%}
 							</li>
 						</ul>
@@ -65,7 +67,9 @@
 					'label': 'views.data.edit-revision-html.discard-draft-label'|trans,
 					'icon': 'trash',
 					'group_class': 'pull-right',
-                    'attributes': 'data-testid=revision-action-discard-draft'
+                    'attributes': {
+                        'data-testid': 'revision-action-discard-draft'
+                    }
                 }%}
 			{% endif %}
 		</div>

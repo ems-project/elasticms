@@ -229,8 +229,9 @@
     <div class="btn-group {{ table.rowActionsClass }}">
         {% for action in table.itemActions %}
             {% if action is iterable and action|length > 0 %}
+               {% set attr = action.attributes|default([])|map((v,k) => "#{k}=#{v}")|join(' ') %}
                 <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" {{ action.attributes|default('') }} >
+                    <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" {{ attr }} >
                         {% if action.icon|default(false) %}
                             <span class="{{ action.icon starts with 'glyphicon-' ? "glyphicon #{action.icon}" : "fa fa-#{action.icon}" }}"></span>&nbsp;
                         {% endif %}
@@ -313,7 +314,8 @@
                                 {{ toolbar }}
                             {% endif %}
                             {% for toolbarAction in table.toolbarActions %}
-                                <a class="{{ toolbarAction.cssClass }}" href="{{ path(toolbarAction.routeName, toolbarAction.routeParams) }}" {{ toolbarAction.attributes|default('') }}>
+                               {% set attr = toolbarAction.attributes|default([])|map((v,k) => "#{k}=#{v}")|join(' ') %}
+                                <a class="{{ toolbarAction.cssClass }}" href="{{ path(toolbarAction.routeName, toolbarAction.routeParams) }}" {{ attr }}>
                                     <i class="{{ toolbarAction.icon }}"></i>&nbsp;{{ toolbarAction.labelKey|trans }}
                                 </a>
                             {% endfor %}

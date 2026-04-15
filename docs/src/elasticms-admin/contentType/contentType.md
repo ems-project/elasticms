@@ -248,7 +248,7 @@ will be applied.
 | [Html Remove Node Transformer](#html-remove-node-transformer) | Remove html nodes.                          | wysiwyg |
 | [Html Unwrap Transformer](#html-unwrap-transformer)           | Unwrap html elements without attributes.    | wysiwyg |
 
-### #Html Attribute Transformer
+### Html Attribute Transformer
 
 Only available for WYSIWYG field types.
 
@@ -262,7 +262,7 @@ tags are never unwrapped: `table`, `thead`, `tbody`, `tfoot`, `tr`, `td`, `th`, 
 `dl`, `dt`, `dd`, `p`, `section`, `article`, `header`, `footer`, `nav`, `aside`, `h1`–`h6`,
 `figure`, `figcaption`, `blockquote`, `pre`.
 
-### Config
+Config:
 
 - **attribute**: required, which attribute you want to transform.
 - **element**: default `*`, which html element to target.
@@ -276,7 +276,7 @@ tags are never unwrapped: `table`, `thead`, `tbody`, `tfoot`, `tr`, `td`, `th`, 
 - **remove_value_prefix** : default (null), remove all values starting by from **class** or
   **style** attributes.
 
-#### Examples
+Examples:
 
 > Remove all style attributes from table elements
 
@@ -302,7 +302,7 @@ tags are never unwrapped: `table`, `thead`, `tbody`, `tfoot`, `tr`, `td`, `th`, 
 { "attribute": "class", "element": "div", "remove_value_prefix": "font-" }
 ```
 
-### Unwrap behavior
+Unwrap behavior
 
 Given the config `{"attribute": "class", "remove_value_prefix": "newWord"}`:
 
@@ -368,13 +368,13 @@ Example, transformed to `null`:
 
 Only available for WYSIWYG field types. Removes matching html nodes.
 
-### Config
+Config:
 
 - **element**: required, which html element to remove.
 - **attribute**: optional, only remove elements that have this attribute.
 - **attribute_contains**: optional, only remove elements whose attribute value contains this string.
 
-### Examples
+Examples:
 
 > Remove all span elements
 
@@ -388,7 +388,7 @@ Only available for WYSIWYG field types. Removes matching html nodes.
 { "element": "span", "attribute": "class", "attribute_contains": "delete" }
 ```
 
-## Html Unwrap Transformer
+### Html Unwrap Transformer
 
 Only available for WYSIWYG field types.
 
@@ -397,11 +397,11 @@ children are kept in place. Elements with attributes are left untouched. The sam
 the [Html Attribute Transformer](#html-attribute-transformer) is used, so the structural blacklist
 applies and surrounding whitespace/indentation is cleaned up.
 
-### Config
+Config:
 
 - **elements**: required, list of html elements to unwrap.
 
-### Examples
+Examples:
 
 > Unwrap empty `div`, `span` and `ins` elements
 
@@ -411,7 +411,7 @@ applies and surrounding whitespace/indentation is cleaned up.
 }
 ```
 
-### Example
+Example:
 
 Given the config `{"elements": ["div"]}`:
 
@@ -435,7 +435,7 @@ Output:
 </section>
 ```
 
-# Views
+## Views
 
 | Name                                       | Description                                                                       |
 | ------------------------------------------ | --------------------------------------------------------------------------------- |

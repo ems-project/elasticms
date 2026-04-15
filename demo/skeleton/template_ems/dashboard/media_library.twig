@@ -76,14 +76,14 @@
 
 {%- block media_lib_button_files_delete -%}
     {% trans_default_domain 'emsco-component' %}
-    <button class="btn btn-sm btn-default btn-files-delete" data-modal-size="md">
+    <button class="btn btn-sm btn-default btn-files-delete" data-modal-size="md" data-testid="media-lib-button-files-delete">
         <i class="fa fa-trash" aria-hidden="true"></i> {{- buttonLabel|default('media_library.files.delete.title'|trans({ '%count%': selectionFiles })) -}}
     </button>
 {%- endblock media_lib_button_files_delete -%}
 
 {%- block media_lib_button_file_delete -%}
     {% trans_default_domain 'emsco-component' %}
-    <button class="btn btn-sm btn-default btn-file-delete" data-id="{{- mediaFile.id -}}">
+    <button class="btn btn-sm btn-default btn-file-delete" data-id="{{- mediaFile.id -}}" data-testid="media-lib-button-file-delete">
         <i class="fa fa-trash" aria-hidden="true"></i> {{- buttonLabel|default('media_library.file.delete.title'|trans) -}}
     </button>
 {%- endblock media_lib_button_file_delete -%}
@@ -108,7 +108,7 @@
 
 {%- block media_lib_button_file_rename -%}
     {% trans_default_domain 'emsco-component' %}
-    <button class="btn btn-sm btn-default btn-file-rename" data-id="{{- mediaFile.id -}}">
+    <button class="btn btn-sm btn-default btn-file-rename" data-id="{{- mediaFile.id -}}" data-testid="media-lib-button-file-rename">
         <i class="fa fa-i-cursor" aria-hidden="true"></i> {{- buttonLabel|default('media_library.file.rename.title'|trans) -}}
     </button>
 {%- endblock media_lib_button_file_rename -%}

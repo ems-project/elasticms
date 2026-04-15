@@ -17,7 +17,7 @@
     },
     _source: ['label', 'menu', 'structure', 'paths'],
     size: 100,
-}).hits.hits|default([])|filter(p => p._source.menu|default(false))|map(p => {
+}, cache: true).hits.hits|default([])|filter(p => p._source.menu|default(false))|map(p => {
     id: p._id,
     contenttype: p._source._contenttype,
     label: p._source.label,
@@ -36,7 +36,7 @@
     },
     _source: ['menu',"#{locale}.target"],
     size: 1000,
-}).hits.hits|default([])|map(p => {menu: p._source.menu, target: p._source.(locale)|default({}).target|default(null)})|ems_array_key('menu') %}
+}, cache: true).hits.hits|default([])|map(p => {menu: p._source.menu, target: p._source.(locale)|default({}).target|default(null)})|ems_array_key('menu') %}
 
 {% for item in structure %}
     {% set pathInfo = paths.(item.id)|default(false) %}

@@ -16,6 +16,7 @@ final class AssetExtension
     private readonly string $publicDir;
     private ?string $versionHash = null;
     private ?string $localFolder = null;
+    private string $publishPath = 'bundles';
 
     public function __construct(
         private readonly StorageManager $storageManager,
@@ -95,12 +96,13 @@ final class AssetExtension
     }
 
     #[AsTwigFunction(name: 'emsch_assets_version')]
-    public function setVersion(string $hash): void
+    public function setVersion(string $hash, ?string $publishPath = null): void
     {
         if (null !== $this->versionHash && $this->versionHash !== $hash) {
             throw new \RuntimeException('Another hash version has been already defined');
         }
         $this->versionHash = $hash;
+        $this->publishPath = $publishPath ?? $this->publishPath;
     }
 
     private function getAssetFilename(string $path): string
@@ -116,7 +118,7 @@ final class AssetExtension
     {
         return match (true) {
             !empty($this->localFolder) => $this->localFolder,
-            default => \sprintf('bundles/%s', $this->getVersionHash()),
+            default => \sprintf('%s/%s', $this->publishPath, $this->getVersionHash()),
         };
     }
 }

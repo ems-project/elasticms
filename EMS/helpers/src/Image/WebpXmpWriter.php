@@ -13,19 +13,19 @@ final class WebpXmpWriter
      * Layout: Rsv|I|L|E|X|A|R|Reserved...
      * In byte form, XMP = 0x04, EXIF = 0x08, ALPHA = 0x10, ICCP = 0x20, ANIM = 0x02.
      */
-    private const VP8X_FLAG_XMP = 0x04;
+    private const int VP8X_FLAG_XMP = 0x04;
 
     public function writeFile(string $inputPath, string $outputPath, string $xmpXml): void
     {
         $data = @\file_get_contents($inputPath);
         if (false === $data) {
-            throw new \RuntimeException("Impossible to read the file: {$inputPath}");
+            throw new \RuntimeException('Impossible to read the file: '.$inputPath);
         }
 
         $result = $this->upsertXmp($data, $xmpXml);
 
         if (false === @\file_put_contents($outputPath, $result)) {
-            throw new \RuntimeException("Impossible to write the file: {$outputPath}");
+            throw new \RuntimeException('Impossible to write the file: '.$outputPath);
         }
     }
 
@@ -112,7 +112,7 @@ final class WebpXmpWriter
             $payload = \substr($data, $payloadOffset, $size);
 
             if (\strlen($payload) !== $size) {
-                throw new \RuntimeException("Trunked chunk: {$fourcc}");
+                throw new \RuntimeException('Trunked chunk: '.$fourcc);
             }
 
             $chunks[] = [
@@ -158,7 +158,7 @@ final class WebpXmpWriter
             throw new \RuntimeException('File too short.');
         }
 
-        if ('RIFF' !== \substr($data, 0, 4) || 'WEBP' !== \substr($data, 8, 4)) {
+        if (!\str_starts_with($data, 'RIFF') || 'WEBP' !== \substr($data, 8, 4)) {
             throw new \RuntimeException('The file is not a valid WebP RIFF file.');
         }
     }

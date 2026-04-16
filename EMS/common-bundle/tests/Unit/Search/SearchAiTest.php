@@ -123,6 +123,7 @@ class SearchAiTest extends TestCase
         $suggest = new Suggest();
         $term = new Term('suggestTest', 'title');
         $term->setText('test');
+
         $suggest->addSuggestion($term);
         $search->setSuggest($suggest);
 

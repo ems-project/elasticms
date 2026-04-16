@@ -33,7 +33,7 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
         $this->filesystem = new Filesystem();
     }
 
-    public function setVersion(string $hash, ?string $saveDir = 'bundles'): ?string
+    public function setVersion(string $hash, ?string $saveDir = 'bundles', bool $skipUnzip = false): ?string
     {
         if (null !== $this->versionHash && $this->versionHash !== $hash) {
             throw new \RuntimeException('Another hash version has been already defined');
@@ -43,8 +43,11 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
             return null;
         }
 
-        \trigger_error('Specify a save directory and retrieving a path to the assets are deprecated, use emsch_assets_version with a null saveDir parameter', E_USER_DEPRECATED);
         $this->versionSaveDir = $saveDir;
+        if ($skipUnzip) {
+            return null;
+        }
+        \trigger_error('Specify a save directory and retrieving a path to the assets are deprecated, use emsch_assets_version with a null saveDir parameter. Or activate the skipUnzip flag, the saveDir will be renamed to publishPath', E_USER_DEPRECATED);
         if (!empty($this->localFolder)) {
             return $this->publicDir.DIRECTORY_SEPARATOR.$this->localFolder;
         }

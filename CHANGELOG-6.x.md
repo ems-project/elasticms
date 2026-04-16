@@ -18,6 +18,7 @@
 * fix(common/spreadsheets): generate normalized xlsx files by @theus77 in https://github.com/ems-project/elasticms/pull/1646
 * fix(web/asset): add $skipUnzip flag to use the $saveDir as $publishPath by @theus77 in https://github.com/ems-project/elasticms/pull/1662
 * fix(web/routing): avoid to break everything if one route is broken by @theus77 in https://github.com/ems-project/elasticms/pull/1654
+* fix(web/search): empty suggest in search by @Davidmattei in https://github.com/ems-project/elasticms/pull/1664
 
 ## 6.9.10 (2026-04-07)
 ### Bug Fixes

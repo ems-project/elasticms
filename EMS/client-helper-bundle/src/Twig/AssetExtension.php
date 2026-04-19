@@ -41,7 +41,9 @@ final class AssetExtension
         $symlink = $this->publicDir.'/bundles/emssymlink';
         if (\is_link($symlink)) {
             $target = \readlink($symlink);
-            if ($target === $symlink) {
+            if ($target === $folder) {
+                $this->localFolder = 'bundles/emssymlink';
+
                 return;
             }
             $filesystem->remove($symlink);

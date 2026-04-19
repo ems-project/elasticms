@@ -31,11 +31,15 @@ final class AssetExtension
             return;
         }
         $filesystem = new Filesystem();
-        $folder = $this->publicDir.'/'.$localFolder;
-        if (!\str_starts_with($localFolder, '../') || !$filesystem->exists($folder)) {
+        if (!\str_starts_with($localFolder, '../') && !\str_starts_with($localFolder, '/')) {
             $this->localFolder = $localFolder;
 
             return;
+        }
+
+        $folder = $localFolder;
+        if (\str_starts_with($localFolder, '../')) {
+            $folder = $this->publicDir.'/'.$localFolder;
         }
 
         $symlink = $this->publicDir.'/bundles/emssymlink';

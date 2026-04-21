@@ -9,6 +9,7 @@ use EMS\CommonBundle\Controller\FileController;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\CommonBundle\Twig\AssetExtension as CommonAssetExtension;
+use Symfony\Component\Filesystem\Filesystem;
 use Twig\Attribute\AsTwigFunction;
 
 final class AssetExtension
@@ -26,9 +27,37 @@ final class AssetExtension
         ?string $localFolder = null
     ) {
         $this->publicDir = $projectDir.'/public';
-        if (\is_string($localFolder) && '' !== $localFolder) {
-            $this->localFolder = $localFolder;
+        if (!\is_string($localFolder) || '' === $localFolder) {
+            return;
         }
+        $filesystem = new Filesystem();
+        if (!\str_starts_with($localFolder, '../') && !\str_starts_with($localFolder, '/')) {
+            $this->localFolder = $localFolder;
+
+            return;
+        }
+
+        $folder = $localFolder;
+        if (\str_starts_with($localFolder, '../')) {
+            $folder = $this->publicDir.'/'.$localFolder;
+        }
+
+        $symlink = $this->publicDir.'/bundles/emssymlink';
+        if (\is_link($symlink)) {
+            $target = \readlink($symlink);
+            if ($target === $folder) {
+                $this->localFolder = 'bundles/emssymlink';
+
+                return;
+            }
+            $filesystem->remove($symlink);
+        }
+
+        if ($filesystem->exists($symlink)) {
+            throw new \RuntimeException('The /bundles/emssymlink already exists.');
+        }
+        $filesystem->symlink($folder, $symlink);
+        $this->localFolder = 'bundles/emssymlink';
     }
 
     public function applyVersion(string $path): string

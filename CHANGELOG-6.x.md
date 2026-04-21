@@ -1,5 +1,25 @@
 # Changelog 6.x
 
+## 6.9.11 (2026-04-16)
+### Features
+* feat(admin): add tags data-testid for test by @IsaMic in https://github.com/ems-project/elasticms/pull/1637
+* feat(admin/contenttype): add html unwrap transformer by @Davidmattei in https://github.com/ems-project/elasticms/pull/1656
+* feat(admin/contenttype): add unwrap for html attribute transformer by @Davidmattei in https://github.com/ems-project/elasticms/pull/1652
+* feat(web/search): save emsch search response in cache by @theus77 in https://github.com/ems-project/elasticms/pull/1658
+### Bug Fixes
+* fix(admin): audit table full width by @Davidmattei in https://github.com/ems-project/elasticms/pull/1638
+* fix(admin): data link for archived documents by @Davidmattei in https://github.com/ems-project/elasticms/pull/1649
+* fix(admin/dashboard): add data-skip-click-event attribute by @Davidmattei in https://github.com/ems-project/elasticms/pull/1653
+* fix(admin/form-submissions): add batch size on delete (avoid out of memory) by @theus77 in https://github.com/ems-project/elasticms/pull/1647
+* fix(admin/menu): invalid test id on dashboard menu by @Davidmattei in https://github.com/ems-project/elasticms/pull/1661
+* fix(admin/post-processing): add revision environments in context by @Davidmattei in https://github.com/ems-project/elasticms/pull/1650
+* fix(admin/storage): add getFileObject on storageManager and fileService by @theus77 in https://github.com/ems-project/elasticms/pull/1648
+* fix(common/search): correct serialization suggest by @Davidmattei in https://github.com/ems-project/elasticms/pull/1639
+* fix(common/spreadsheets): generate normalized xlsx files by @theus77 in https://github.com/ems-project/elasticms/pull/1646
+* fix(web/asset): add $skipUnzip flag to use the $saveDir as $publishPath by @theus77 in https://github.com/ems-project/elasticms/pull/1662
+* fix(web/routing): avoid to break everything if one route is broken by @theus77 in https://github.com/ems-project/elasticms/pull/1654
+* fix(web/search): empty suggest in search by @Davidmattei in https://github.com/ems-project/elasticms/pull/1664
+
 ## 6.9.10 (2026-04-07)
 ### Bug Fixes
 * fix(web): not found page should return a 404 code by @theus77 in https://github.com/ems-project/elasticms/pull/1633

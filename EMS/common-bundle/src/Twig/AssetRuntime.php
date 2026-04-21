@@ -301,4 +301,12 @@ class AssetRuntime
 
         return $output;
     }
+
+    /**
+     * @return array{sha1: string, _hash: string, filesize: int, _size: int, filename: string, _name: string, mimetype: string, _type: string, _algo: string}
+     */
+    public function getFileObject(string $hash, ?string $filename = null, ?string $type = null): array
+    {
+        return $this->storageManager->getFileObject($hash, $filename, $type);
+    }
 }

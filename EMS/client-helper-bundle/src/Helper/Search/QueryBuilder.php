@@ -253,6 +253,10 @@ final readonly class QueryBuilder
             return null;
         }
 
+        if ([] === $this->search->getSuggestFields()) {
+            return null;
+        }
+
         $suggest = new Suggest();
         foreach ($this->search->getSuggestFields() as $field) {
             $term = new Term('suggest-'.$field, $field);

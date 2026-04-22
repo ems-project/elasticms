@@ -43,4 +43,25 @@ abstract class AbstractCoreCommand extends AbstractCommand
     {
         return $this->username;
     }
+
+    protected function addDeprecatedUsernameOption(string $optionName = 'user', ?string $shortcut = null, ?string $default = null): void
+    {
+        $this->addOption(
+            $optionName,
+            $shortcut,
+            InputOption::VALUE_REQUIRED,
+            \sprintf('Deprecated, use --%s instead.', self::OPTION_USERNAME),
+            $default ?? $this->defaultUsernameOption
+        );
+    }
+
+    protected function handleDeprecatedUsernameOption(InputInterface $input, string $optionName = 'user', ?string $shortcut = null): void
+    {
+        if (!$input->hasParameterOption('--'.$optionName, true) && !($shortcut && $input->hasParameterOption('-'.$shortcut, true))) {
+            return;
+        }
+
+        @\trigger_error(\sprintf('Option "--%s" is deprecated, use "--%s" instead.', $optionName, self::OPTION_USERNAME), \E_USER_DEPRECATED);
+        $this->username = $this->getOptionString($optionName);
+    }
 }

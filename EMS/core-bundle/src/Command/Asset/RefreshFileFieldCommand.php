@@ -46,6 +46,12 @@ class RefreshFileFieldCommand extends AbstractCoreCommand
     }
 
     #[\Override]
+    protected function configure(): void
+    {
+        parent::configure();
+    }
+
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $revisions = $this->revisionService->search([]);
@@ -136,7 +142,7 @@ class RefreshFileFieldCommand extends AbstractCoreCommand
             return $resizedFileHash;
         }
         $resizedFilename = \sprintf('%s_%dx%d.%s', $pathInfo['filename'], $resizedImageSize[0], $resizedImageSize[1], $pathInfo['extension'] ?? $extension);
-        $uploadedAsset = $this->fileService->uploadFile($resizedFilename, $type, $resizedImage->getFilename(), self::DEFAULT_USERNAME);
+        $uploadedAsset = $this->fileService->uploadFile($resizedFilename, $type, $resizedImage->getFilename(), $this->getUsername());
 
         return $uploadedAsset->getSha1();
     }

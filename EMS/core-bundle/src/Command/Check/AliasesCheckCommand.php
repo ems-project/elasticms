@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command\Check;
 
-use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\CoreBundle\Command\AbstractCoreCommand;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Entity\User;
 use EMS\CoreBundle\Service\AliasService;
@@ -16,14 +16,14 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: Commands::MANAGED_ALIAS_CHECK, description: 'Checks that all managed environments have their corresponding alias and index present in the cluster.', aliases: ['ems:check:aliases'], hidden: false)]
-final class AliasesCheckCommand extends AbstractCommand
+final class AliasesCheckCommand extends AbstractCoreCommand
 {
     private const string OPTION_REPAIR = 'repair';
     private bool $repair = false;
 
     public function __construct(private readonly EnvironmentService $environmentService, private readonly AliasService $aliasService, private readonly JobService $jobService)
     {
-        parent::__construct();
+        parent::__construct(Commands::MANAGED_ALIAS_CHECK);
     }
 
     #[\Override]
@@ -31,6 +31,7 @@ final class AliasesCheckCommand extends AbstractCommand
     {
         $this
             ->addOption(self::OPTION_REPAIR, null, InputOption::VALUE_NONE, 'If an environment does not have its alias present and if they are no pending job a rebuild job is queued.');
+        parent::configure();
     }
 
     #[\Override]
@@ -63,13 +64,13 @@ final class AliasesCheckCommand extends AbstractCommand
                 break;
             }
 
-            $fakeUser = new User();
-            $fakeUser->setUsername(Commands::MANAGED_ALIAS_CHECK);
+            $jobUser = new User();
+            $jobUser->setUsername($this->getUsername());
             $command = \implode(' ', [
                 Commands::ENVIRONMENT_REBUILD,
                 $environment->getName(),
             ]);
-            $this->jobService->createCommand($fakeUser, $command);
+            $this->jobService->createCommand($jobUser, $command);
             $this->io->writeln(\sprintf('A command `%s` has been initialized', $command));
             break;
         }

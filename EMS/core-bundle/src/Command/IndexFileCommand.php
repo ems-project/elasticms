@@ -74,7 +74,7 @@ class IndexFileCommand extends AbstractCommand
     #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $output->writeln('Please do a backup of your DB first!');
+        $this->io->warning('Please do a backup of your DB first!');
         /** @var QuestionHelper $helper */
         $helper = $this->getHelper('question');
         $question = new ConfirmationQuestion('Continue?', false);
@@ -92,7 +92,7 @@ class IndexFileCommand extends AbstractCommand
             throw new \RuntimeException('Unexpected field name');
         }
 
-        $output->write('DB size before the migration : ');
+        $this->io->write('DB size before the migration : ');
         $this->dbSize($output);
 
         $contentType = $this->contentTypeService->getByName($contentTypeName);
@@ -156,11 +156,11 @@ class IndexFileCommand extends AbstractCommand
         }
 
         $progress->finish();
-        $output->writeln('');
-        $output->writeln('Migration done');
-        $output->writeln('Please rebuild your environments and update your field type');
+        $this->io->newLine();
+        $this->io->success('Migration done');
+        $this->io->text('Please rebuild your environments and update your field type');
 
-        $output->write('DB size after the migration : ');
+        $this->io->write('DB size after the migration : ');
         $this->dbSize($output);
 
         return 0;
@@ -209,7 +209,7 @@ class IndexFileCommand extends AbstractCommand
                     File::putContents($file, $fileContent);
                     try {
                         $this->fileService->uploadFile($rawData[EmsFields::CONTENT_FILE_NAME_FIELD] ?? 'filename.bin', $rawData[EmsFields::CONTENT_MIME_TYPE_FIELD] ?? 'application/bin', $file, self::SYSTEM_USERNAME);
-                        $output->writeln(\sprintf('File restored from DB: %s', $rawData[EmsFields::CONTENT_FILE_HASH_FIELD]));
+                        $this->io->text(\sprintf('File restored from DB: %s', $rawData[EmsFields::CONTENT_FILE_HASH_FIELD]));
                     } catch (\Throwable) {
                         $file = null;
                     }
@@ -249,7 +249,7 @@ class IndexFileCommand extends AbstractCommand
                     }
                 }
             } else {
-                $output->writeln('File not found:'.$rawData['sha1']);
+                $this->io->warning('File not found:'.$rawData['sha1']);
             }
         }
 
@@ -284,6 +284,6 @@ class IndexFileCommand extends AbstractCommand
 
         $row = \is_array($size) && isset($size[0]['size']) ? \sprintf('The database size is %s MB', $size[0]['size']) : 'Undefined';
 
-        $output->writeln($row);
+        $this->io->text($row);
     }
 }

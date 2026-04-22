@@ -43,30 +43,30 @@ final class SendAllCommand extends AbstractCommand
     {
         $count = \count($resultSet);
         $progress = new ProgressBar($output, $count);
-        if (!$output->isVerbose()) {
+        if (!$this->output->isVerbose()) {
             $progress->start();
         }
 
         foreach ($resultSet as $idx => $item) {
-            if ($output->isVerbose()) {
-                $output->writeln(($idx + 1).'/'.$count.' : '.$item.' for '.$item->getRevision());
+            if ($this->output->isVerbose()) {
+                $this->io->text(($idx + 1).'/'.$count.' : '.$item.' for '.$item->getRevision());
             }
 
             $this->notificationService->sendEmail($item);
-            if (!$output->isVerbose()) {
+            if (!$this->output->isVerbose()) {
                 $progress->advance();
             }
         }
-        if (!$output->isVerbose()) {
+        if (!$this->output->isVerbose()) {
             $progress->finish();
-            $output->writeln('');
+            $this->io->newLine();
         }
     }
 
     #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $output->writeln('Sending pending notification and response emails to enabled users');
+        $this->io->text('Sending pending notification and response emails to enabled users');
 
         $this->notificationService->setDryRun((bool) $input->getOption('dry-run'));
 
@@ -81,7 +81,7 @@ final class SendAllCommand extends AbstractCommand
             'emailed' => null,
         ]);
         if ([] !== $notifications) {
-            $output->writeln('Sending new notifications');
+            $this->io->text('Sending new notifications');
             $this->sendEmails($notifications, $output);
         }
 
@@ -91,13 +91,13 @@ final class SendAllCommand extends AbstractCommand
         $notifications = $notificationRepository->findReminders($date);
 
         if ([] !== $notifications) {
-            $output->writeln('Sending reminders');
+            $this->io->text('Sending reminders');
             $this->sendEmails($notifications, $output);
         }
 
         $notifications = $notificationRepository->findResponses();
         if ([] !== $notifications) {
-            $output->writeln('Sending responses');
+            $this->io->text('Sending responses');
             $this->sendEmails($notifications, $output);
         }
 

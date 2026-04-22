@@ -120,7 +120,7 @@ class RebuildCommand extends AbstractCommand
         if (null !== $this->environmentName) {
             $environment = $envRepo->findOneBy(['name' => $this->environmentName, 'managed' => true]);
             if (!$environment instanceof Environment) {
-                $output->writeln('WARNING: Managed environment named '.$this->environmentName.' not found');
+                $this->io->warning('Managed environment named '.$this->environmentName.' not found');
 
                 return -1;
             }
@@ -146,10 +146,10 @@ class RebuildCommand extends AbstractCommand
     private function waitFor(bool $yellowOk, OutputInterface $output): void
     {
         if ($yellowOk) {
-            $output->writeln('Waiting for yellow...');
+            $this->io->text('Waiting for yellow...');
             $this->elasticaService->getClusterHealth('yellow', '30s');
         } else {
-            $output->writeln('Waiting for green...');
+            $this->io->text('Waiting for green...');
             $this->elasticaService->getClusterHealth('green', '30s');
         }
     }
@@ -160,7 +160,7 @@ class RebuildCommand extends AbstractCommand
             $environment->setAlias($this->instanceId.$environment->getName());
             $this->em->persist($environment);
             $this->em->flush();
-            $output->writeln('Alias has been aligned to '.$environment->getAlias());
+            $this->io->text('Alias has been aligned to '.$environment->getAlias());
         }
 
         $contentTypeRepository = $this->em->getRepository(ContentType::class);
@@ -174,9 +174,9 @@ class RebuildCommand extends AbstractCommand
         $newIndexName = $environment->getNewIndexName();
         $this->mapping->createIndex($newIndexName, $body);
 
-        $output->writeln('A new index '.$newIndexName.' has been created');
+        $this->io->text('A new index '.$newIndexName.' has been created');
         $this->waitFor($this->yellowOk, $output);
-        $output->writeln(\count($contentTypes).' content types will be re-indexed');
+        $this->io->text(\count($contentTypes).' content types will be re-indexed');
 
         $countContentType = 1;
 
@@ -186,7 +186,7 @@ class RebuildCommand extends AbstractCommand
             }
             if (!$contentType->getDeleted() && $contentType->getEnvironment() && $contentType->giveEnvironment()->getManaged()) {
                 $this->contentTypeService->updateMapping($contentType, $newIndexName);
-                $output->writeln('A mapping has been defined for '.$contentType->getSingularName());
+                $this->io->text('A mapping has been defined for '.$contentType->getSingularName());
                 ++$countContentType;
             }
         }
@@ -197,8 +197,8 @@ class RebuildCommand extends AbstractCommand
             }
             if (!$contentType->getDeleted() && $contentType->giveEnvironment()->getManaged()) {
                 $this->reindexCommand->reindex($environment->getName(), $contentType, $newIndexName, $output, $this->signData, $this->bulkSize);
-                $output->writeln('');
-                $output->writeln($contentType->getPluralName().' have been re-indexed ');
+                $this->io->newLine();
+                $this->io->text($contentType->getPluralName().' have been re-indexed ');
             }
         }
 
@@ -208,7 +208,7 @@ class RebuildCommand extends AbstractCommand
 
         foreach ($atomicSwitch as $action) {
             if (isset($action['add'])) {
-                $output->writeln(\sprintf('The alias <info>%s</info> is now point to : %s', $action['add']['alias'], $action['add']['index']));
+                $this->io->text(\sprintf('The alias %s is now point to : %s', $action['add']['alias'], $action['add']['index']));
             }
         }
     }

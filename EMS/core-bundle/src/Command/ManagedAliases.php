@@ -36,10 +36,10 @@ class ManagedAliases extends AbstractCommand
         $detailed = $input->getOption('detailed');
         /** @var ManagedAlias $alias */
         foreach ($this->aliasService->getManagedAliases() as $alias) {
-            $output->writeln($alias->getName());
+            $this->io->text($alias->getName());
             if ($detailed) {
                 foreach ($alias->getIndexes() as $index) {
-                    $output->writeln(\sprintf(' - Index: %s (%d)', $index['name'], $index['count']));
+                    $this->io->text(\sprintf(' - Index: %s (%d)', $index['name'], $index['count']));
                 }
             }
         }

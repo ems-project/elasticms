@@ -45,7 +45,7 @@ class EnvironmentCommand extends AbstractCommand
 
         /** @var Environment $environment */
         foreach ($environments as $environment) {
-            $output->writeln($environment->getName());
+            $this->io->text($environment->getName());
         }
 
         return 0;

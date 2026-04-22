@@ -204,8 +204,8 @@ final class ExtractCommand extends AbstractCommand
             EmsFields::CONTENT_MIME_TYPE_FIELD,
             UrlGeneratorInterface::ABSOLUTE_PATH
         );
-        $output->writeln('');
-        $output->writeln(\sprintf('The XLIFF export is available at %s', $url));
+        $this->io->newLine();
+        $this->io->success(\sprintf('The XLIFF export is available at %s', $url));
 
         return self::EXECUTE_SUCCESS;
     }

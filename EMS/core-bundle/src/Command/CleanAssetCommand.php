@@ -65,12 +65,12 @@ class CleanAssetCommand extends AbstractCommand
         }
 
         $progress->finish();
-        $output->writeln('');
+        $this->io->newLine();
         if (0 !== $filesDereference) {
-            $output->writeln(\sprintf('<comment>%d files have been dereferenced</comment>', $filesDereference));
+            $this->io->note(\sprintf('%d files have been dereferenced', $filesDereference));
         }
         if (0 !== $filesInUsed) {
-            $output->writeln(\sprintf('<comment>%d files are referenced %d times</comment>', $filesInUsed, $totalCounter));
+            $this->io->note(\sprintf('%d files are referenced %d times', $filesInUsed, $totalCounter));
         }
 
         return 0;

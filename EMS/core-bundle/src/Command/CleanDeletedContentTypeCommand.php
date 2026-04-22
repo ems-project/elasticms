@@ -49,7 +49,7 @@ class CleanDeletedContentTypeCommand extends AbstractCommand
         /** @var ViewRepository $viewRepo */
         $viewRepo = $em->getRepository(View::class);
 
-        $output->writeln('Cleaning deleted fields');
+        $this->io->title('Cleaning deleted fields');
         $fields = $fieldRepo->findBy(['deleted' => true]);
         foreach ($fields as $field) {
             $em->remove($field);
@@ -61,7 +61,7 @@ class CleanDeletedContentTypeCommand extends AbstractCommand
         ]);
 
         foreach ($contentTypes as $contentType) {
-            $output->writeln('Remove deleted content type '.$contentType->getName());
+            $this->io->text('Remove deleted content type '.$contentType->getName());
             if ($contentType->hasFieldType()) {
                 $contentType->unsetFieldType();
                 $em->persist($contentType);
@@ -71,21 +71,21 @@ class CleanDeletedContentTypeCommand extends AbstractCommand
                 'contentType' => $contentType,
             ]);
 
-            $output->writeln('Remove '.\count($fields).' assosiated fields');
+            $this->io->text('Remove '.\count($fields).' assosiated fields');
             foreach ($fields as $field) {
                 $em->remove($field);
                 $em->flush();
             }
 
             $revisions = $revisionRepo->findBy(['contentType' => $contentType]);
-            $output->writeln('Remove '.\count($revisions).' assosiated revisions');
+            $this->io->text('Remove '.\count($revisions).' assosiated revisions');
             foreach ($revisions as $revision) {
                 $em->remove($revision);
                 $em->flush();
             }
 
             $templates = $templateRepo->findBy(['contentType' => $contentType]);
-            $output->writeln('Remove '.\count($templates).' assosiated templates');
+            $this->io->text('Remove '.\count($templates).' assosiated templates');
             /** @var Template $template */
             foreach ($templates as $template) {
                 $em->remove($template);
@@ -93,7 +93,7 @@ class CleanDeletedContentTypeCommand extends AbstractCommand
             }
 
             $views = $viewRepo->findBy(['contentType' => $contentType]);
-            $output->writeln('Remove '.\count($views).' assosiated views');
+            $this->io->text('Remove '.\count($views).' assosiated views');
             foreach ($views as $view) {
                 $em->remove($view);
                 $em->flush();
@@ -103,7 +103,7 @@ class CleanDeletedContentTypeCommand extends AbstractCommand
             $em->flush();
         }
 
-        $output->writeln('Remove deleted revisions');
+        $this->io->text('Remove deleted revisions');
         /** @var Revision $revision */
         $revisions = $revisionRepo->findBy([
             'deleted' => true,
@@ -113,7 +113,7 @@ class CleanDeletedContentTypeCommand extends AbstractCommand
         }
         $em->flush();
 
-        $output->writeln('Done');
+        $this->io->success('Done');
 
         return 0;
     }

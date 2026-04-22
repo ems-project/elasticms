@@ -68,12 +68,12 @@ class AlignManagedAliases extends AbstractCommand
         }
 
         if (empty($actions['add']) && empty($actions['remove'])) {
-            $output->writeln(\sprintf('The alias %s was already aligned to the alias %s', $targetName, $sourceName));
+            $this->io->text(\sprintf('The alias %s was already aligned to the alias %s', $targetName, $sourceName));
 
             return 0;
         }
         $this->aliasService->updateAlias($target->getAlias(), $actions);
-        $output->writeln(\sprintf('The alias %s has been aligned to the alias %s', $targetName, $sourceName));
+        $this->io->success(\sprintf('The alias %s has been aligned to the alias %s', $targetName, $sourceName));
 
         return 0;
     }

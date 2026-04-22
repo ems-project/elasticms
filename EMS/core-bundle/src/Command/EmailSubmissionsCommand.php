@@ -55,7 +55,7 @@ class EmailSubmissionsCommand extends AbstractCommand
         $this->mailerService->send($emails, self::TITLE, $body);
 
         $this->logger->notice('Submission list was sent');
-        $output->writeln('Submission list was sent');
+        $this->io->success('Submission list was sent');
 
         return 0;
     }

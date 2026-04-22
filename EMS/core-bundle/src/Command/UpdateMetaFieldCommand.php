@@ -58,7 +58,7 @@ class UpdateMetaFieldCommand extends AbstractCommand
         $environment = $envRepo->findOneBy(['name' => $name, 'managed' => true]);
 
         if (null === $environment) {
-            $output->writeln(\sprintf('WARNING: Environment named %s not found', $name));
+            $this->io->warning(\sprintf('Environment named %s not found', $name));
 
             return -1;
         }
@@ -86,7 +86,7 @@ class UpdateMetaFieldCommand extends AbstractCommand
                         $em->flush();
                     }
                 } catch (NotLockedException $e) {
-                    $output->writeln(\sprintf("<error>'.%s.'</error>", $e));
+                    $this->io->error($e->getMessage());
                 }
             }
 

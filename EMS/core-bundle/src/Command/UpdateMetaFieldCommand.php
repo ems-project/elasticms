@@ -33,13 +33,13 @@ class UpdateMetaFieldCommand extends AbstractCoreCommand
     #[\Override]
     protected function configure(): void
     {
-        parent::configure();
         $this
             ->addArgument(
                 'name',
                 InputArgument::REQUIRED,
                 'Environment name'
             );
+        parent::configure();
     }
 
     #[\Override]

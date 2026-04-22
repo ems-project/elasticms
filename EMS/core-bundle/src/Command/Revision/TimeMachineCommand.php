@@ -47,12 +47,12 @@ final class TimeMachineCommand extends AbstractCoreCommand
     #[\Override]
     protected function configure(): void
     {
-        parent::configure();
         $this
             ->addArgument('emsLink', InputArgument::REQUIRED, 'ems link ems://object:company:ouuid')
             ->addArgument('datetime', InputArgument::REQUIRED, 'Y-m-dTH:i:s (2019-07-15T11:38:16)')
             ->addArgument('propertyPath', InputArgument::REQUIRED, 'property to compare')
         ;
+        parent::configure();
     }
 
     #[\Override]

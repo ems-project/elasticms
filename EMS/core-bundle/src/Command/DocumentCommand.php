@@ -45,7 +45,6 @@ class DocumentCommand extends AbstractCoreCommand
     #[\Override]
     protected function configure(): void
     {
-        parent::configure();
         $this
             ->addArgument(
                 self::ARGUMENT_CONTENT_TYPE,
@@ -94,6 +93,7 @@ class DocumentCommand extends AbstractCoreCommand
                 InputOption::VALUE_NONE,
                 'Try to identify documents by their business keys'
             );
+        parent::configure();
     }
 
     #[\Override]

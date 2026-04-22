@@ -45,7 +45,6 @@ class IndexFileCommand extends AbstractCoreCommand
     #[\Override]
     protected function configure(): void
     {
-        parent::configure();
         $this
             ->addArgument(
                 'contentType',
@@ -69,6 +68,7 @@ class IndexFileCommand extends AbstractCoreCommand
                 InputOption::VALUE_NONE,
                 'Will migrated filed only without _content'
             );
+        parent::configure();
     }
 
     #[\Override]

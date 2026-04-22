@@ -77,7 +77,6 @@ class MigrateCommand extends AbstractCoreCommand
     #[\Override]
     protected function configure(): void
     {
-        parent::configure();
         $this
             ->addArgument(
                 self::ARGUMENT_ELASTICSEARCH_INDEX,
@@ -157,6 +156,7 @@ class MigrateCommand extends AbstractCoreCommand
                 'Will archive revisions that were not modified (see changed option)'
             )
         ;
+        parent::configure();
     }
 
     #[\Override]

@@ -26,7 +26,7 @@ abstract class AbstractCoreCommand extends AbstractCommand
         $this->addOption(
             self::OPTION_USERNAME,
             'u',
-            InputOption::VALUE_NONE,
+            InputOption::VALUE_OPTIONAL,
             'elasticMS\'s username',
             $this->defaultUsernameOption
         );

@@ -14,7 +14,7 @@ abstract class AbstractCoreCommand extends AbstractCommand
     public const string OPTION_USERNAME = 'username';
     private string $username;
 
-    public function __construct(private readonly string $defaultUsernameOption)
+    public function __construct(private readonly ?string $defaultUsernameOption)
     {
         parent::__construct();
     }
@@ -26,7 +26,7 @@ abstract class AbstractCoreCommand extends AbstractCommand
         $this->addOption(
             self::OPTION_USERNAME,
             'u',
-            InputOption::VALUE_OPTIONAL,
+            null === $this->defaultUsernameOption ? InputOption::VALUE_REQUIRED : InputOption::VALUE_OPTIONAL,
             'elasticMS\'s username',
             $this->defaultUsernameOption
         );

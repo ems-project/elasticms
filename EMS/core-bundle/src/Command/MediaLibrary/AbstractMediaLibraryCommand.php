@@ -20,7 +20,7 @@ abstract class AbstractMediaLibraryCommand extends AbstractCoreCommand
         private readonly MediaLibraryConfigFactory $configFactory,
         protected readonly MediaLibraryService $mediaLibraryService,
     ) {
-        parent::__construct('');
+        parent::__construct(null);
     }
 
     #[\Override]
@@ -35,10 +35,6 @@ abstract class AbstractMediaLibraryCommand extends AbstractCoreCommand
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
-
-        if ('' === $this->getUsername()) {
-            throw new \RuntimeException(\sprintf('Option "--%s" must be defined.', self::OPTION_USERNAME));
-        }
 
         $hash = $this->getOptionString(self::OPTION_HASH);
 

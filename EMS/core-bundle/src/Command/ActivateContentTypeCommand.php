@@ -4,24 +4,22 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command;
 
+use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Service\ContentTypeService;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
-use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(name: Commands::CONTENT_TYPE_ACTIVATE, description: 'Activate a content type.', aliases: ['ems:contenttype:activate'], hidden: false)]
-class ActivateContentTypeCommand extends Command
+class ActivateContentTypeCommand extends AbstractCommand
 {
-    private ?SymfonyStyle $io = null;
     private ?bool $deactivate = null;
 
     final public const string ARGUMENT_CONTENTTYPES = 'contenttypes';
@@ -67,9 +65,6 @@ class ActivateContentTypeCommand extends Command
     #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if (null === $this->io) {
-            throw new \RuntimeException('Unexpected null SymfonyStyle');
-        }
         /** @var string[] $types */
         $types = $input->getArgument(self::ARGUMENT_CONTENTTYPES);
         $force = $input->getOption(self::FORCE);
@@ -101,15 +96,12 @@ class ActivateContentTypeCommand extends Command
     #[\Override]
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
-        $this->io = new SymfonyStyle($input, $output);
+        parent::initialize($input, $output);
     }
 
     #[\Override]
     protected function interact(InputInterface $input, OutputInterface $output): void
     {
-        if (null === $this->io) {
-            throw new \RuntimeException('Unexpected null SymfonyStyle');
-        }
         $this->deactivate = true === $input->getOption(self::DEACTIVATE);
         $this->io->title($this->deactivate ? 'Deactivate contenttypes' : 'Activate contenttypes');
         $this->io->section('Checking input');
@@ -130,9 +122,6 @@ class ActivateContentTypeCommand extends Command
 
     private function chooseTypes(InputInterface $input, OutputInterface $output): void
     {
-        if (null === $this->io) {
-            throw new \RuntimeException('Unexpected null SymfonyStyle');
-        }
         /** @var QuestionHelper $helper */
         $helper = $this->getHelper('question');
         $question = new ChoiceQuestion(
@@ -153,9 +142,6 @@ class ActivateContentTypeCommand extends Command
 
     private function optionAll(InputInterface $input): void
     {
-        if (null === $this->io) {
-            throw new \RuntimeException('Unexpected null SymfonyStyle');
-        }
         $types = $this->contentTypeService->getAllNames();
         $input->setArgument(self::ARGUMENT_CONTENTTYPES, $types);
         $this->io->note(['Continuing with contenttypes:', \implode(', ', $types)]);

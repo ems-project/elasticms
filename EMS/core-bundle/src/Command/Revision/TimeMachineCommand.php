@@ -6,6 +6,7 @@ namespace EMS\CoreBundle\Command\Revision;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Persistence\ObjectManager;
+use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Common\EMSLink;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Service\DataService;
@@ -13,16 +14,13 @@ use EMS\CoreBundle\Service\IndexService;
 use EMS\CoreBundle\Service\Revision\RevisionService;
 use EMS\Helpers\Standard\DateTime;
 use Symfony\Component\Console\Attribute\AsCommand;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(name: Commands::REVISIONS_TIME_MACHINE, description: 'Revert to a copy of the revision wich was the current one for a given timestamp.', aliases: ['ems:revision:time-machine'], hidden: false)]
-final class TimeMachineCommand extends Command
+final class TimeMachineCommand extends AbstractCommand
 {
-    private SymfonyStyle $style;
     private readonly ObjectManager $em;
 
     private const string SYSTEM_TIME_MACHINE = 'SYSTEM_TIME_MACHINE';
@@ -59,8 +57,8 @@ final class TimeMachineCommand extends Command
     #[\Override]
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
-        $this->style = new SymfonyStyle($input, $output);
-        $this->style->title('EMS - Revision - TimeMachine');
+        parent::initialize($input, $output);
+        $this->io->title('EMS - Revision - TimeMachine');
     }
 
     #[\Override]
@@ -71,18 +69,18 @@ final class TimeMachineCommand extends Command
         $emsLink = EMSLink::fromText((string) $input->getArgument('emsLink'));
         $dateTime = DateTime::create((string) $input->getArgument('datetime'));
 
-        $this->style->note(\sprintf('Searching for history revision on %s', $dateTime->format('d/m/Y H:i:s')));
+        $this->io->note(\sprintf('Searching for history revision on %s', $dateTime->format('d/m/Y H:i:s')));
 
         $currentRevision = $this->revisionService->getByEmsLink($emsLink);
         if (null === $currentRevision) {
-            $this->style->note(\sprintf('Revision not found for %s', $emsLink));
+            $this->io->note(\sprintf('Revision not found for %s', $emsLink));
 
             return self::RESULT_NOT_FOUND;
         }
 
         $historyRevision = $this->revisionService->getByEmsLink($emsLink, $dateTime);
         if (null === $historyRevision) {
-            $this->style->note(\sprintf('Could not find revision on %s', $dateTime->format(\DATE_ATOM)));
+            $this->io->note(\sprintf('Could not find revision on %s', $dateTime->format(\DATE_ATOM)));
 
             return self::RESULT_NOT_FOUND;
         }
@@ -94,12 +92,12 @@ final class TimeMachineCommand extends Command
         $inTimeDate = $historyRevision->getStartTime()->format(\DATE_ATOM);
 
         if ($inTimeRaw === $currentRevision->getRawData()) {
-            $this->style->note(\sprintf('Revision in time on %s for property "%s" equals the current', $inTimeDate, $propertyPath));
+            $this->io->note(\sprintf('Revision in time on %s for property "%s" equals the current', $inTimeDate, $propertyPath));
 
             return self::RESULT_EQUALS_IN_TIME;
         }
 
-        $this->style->success(\sprintf('Revision %d has been updated with in time "%s" property', $currentRevision->getId(), $propertyPath));
+        $this->io->success(\sprintf('Revision %d has been updated with in time "%s" property', $currentRevision->getId(), $propertyPath));
 
         $this->dataService->lockRevision($currentRevision, null, false, self::SYSTEM_TIME_MACHINE);
 
@@ -134,7 +132,7 @@ final class TimeMachineCommand extends Command
         $property = \array_shift($path);
 
         if (!\is_string($property)) {
-            $this->style->error('Property path is empty');
+            $this->io->error('Property path is empty');
 
             return $currentRaw;
         }
@@ -143,14 +141,14 @@ final class TimeMachineCommand extends Command
         $historyProperty = $historyRaw[$property] ?? null;
 
         if (null === $historyProperty) {
-            $this->style->warning(\sprintf('Could not find data in time for property %s', $property));
+            $this->io->warning(\sprintf('Could not find data in time for property %s', $property));
 
             return $currentRaw;
         }
 
         if (\is_array($currentProperty) && [] !== $path) {
             if (\count($currentProperty) !== (\is_countable($historyProperty) ? \count($historyProperty) : 0)) {
-                $this->style->warning('Could not go back in time for different sized collections!');
+                $this->io->warning('Could not go back in time for different sized collections!');
 
                 return $currentRaw;
             }

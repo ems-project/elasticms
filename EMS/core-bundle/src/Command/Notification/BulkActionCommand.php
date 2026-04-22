@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command\Notification;
 
+use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
 use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
 use EMS\CommonBundle\Search\Search;
@@ -15,18 +16,15 @@ use EMS\CoreBundle\Service\NotificationService;
 use EMS\CoreBundle\Service\Revision\RevisionService;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\Console\Attribute\AsCommand;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(name: Commands::NOTIFICATION_BULK_ACTION, description: 'Bulk all notifications actions for the passed query.', aliases: ['ems:notification:bulk-action'], hidden: false)]
-final class BulkActionCommand extends Command
+final class BulkActionCommand extends AbstractCommand
 {
     private const string CONTENT_TYPE_NAME = 'contentTypeName';
-    private SymfonyStyle $io;
 
     public function __construct(
         private readonly NotificationService $notificationService,
@@ -53,7 +51,7 @@ final class BulkActionCommand extends Command
     #[\Override]
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
-        $this->io = new SymfonyStyle($input, $output);
+        parent::initialize($input, $output);
         $this->io->title('Bulk action notifications');
     }
 

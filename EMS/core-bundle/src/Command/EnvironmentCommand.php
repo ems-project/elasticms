@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command;
 
+use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Service\EnvironmentService;
 use Symfony\Component\Console\Attribute\AsCommand;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: Commands::ENVIRONMENT_LIST, description: 'List the environments defined.', aliases: ['ems:environment:list'], hidden: false)]
-class EnvironmentCommand extends Command
+class EnvironmentCommand extends AbstractCommand
 {
     public function __construct(private readonly EnvironmentService $environmentService)
     {

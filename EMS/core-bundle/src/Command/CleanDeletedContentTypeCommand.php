@@ -6,6 +6,7 @@ namespace EMS\CoreBundle\Command;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
+use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\FieldType;
@@ -20,13 +21,12 @@ use EMS\CoreBundle\Repository\ViewRepository;
 use EMS\CoreBundle\Service\Mapping;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 #[AsCommand(name: Commands::CONTENT_TYPE_CLEAN, description: 'Clean all deleted content types.', aliases: ['ems:contenttype:clean'], hidden: false)]
-class CleanDeletedContentTypeCommand extends Command
+class CleanDeletedContentTypeCommand extends AbstractCommand
 {
     public function __construct(protected Registry $doctrine, protected LoggerInterface $logger, protected Mapping $mapping, protected ContainerInterface $container)
     {

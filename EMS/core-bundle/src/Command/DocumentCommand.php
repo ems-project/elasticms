@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command;
 
+use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Exception\CantBeFinalizedException;
@@ -14,16 +15,14 @@ use EMS\CoreBundle\Service\DocumentService;
 use EMS\Helpers\File\TempDirectory;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\Console\Attribute\AsCommand;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Finder\Finder;
 
 #[AsCommand(name: Commands::CONTENT_TYPE_IMPORT, description: "Import json files from a zip file as content type's documents.", aliases: ['ems:contenttype:import'], hidden: false)]
-class DocumentCommand extends Command
+class DocumentCommand extends AbstractCommand
 {
     final public const string COMMAND = 'ems:contenttype:import';
 
@@ -35,7 +34,6 @@ class DocumentCommand extends Command
     private const string OPTION_FORCE = 'force';
     private const string OPTION_DONT_FINALIZE = 'dont-finalize';
     private const string OPTION_BUSINESS_KEY = 'business-key';
-    private ?SymfonyStyle $io = null;
     private ?ContentType $contentType = null;
     private ?string $archiveFilename = null;
 
@@ -100,15 +98,12 @@ class DocumentCommand extends Command
     #[\Override]
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
-        $this->io = new SymfonyStyle($input, $output);
+        parent::initialize($input, $output);
     }
 
     #[\Override]
     protected function interact(InputInterface $input, OutputInterface $output): void
     {
-        if (null === $this->io) {
-            throw new \RuntimeException('Unexpected null SymfonyStyle');
-        }
         $contentTypeName = $input->getArgument(self::ARGUMENT_CONTENT_TYPE);
         $archiveFilename = $input->getArgument(self::ARGUMENT_ARCHIVE);
         if (!\is_string($contentTypeName)) {
@@ -140,9 +135,6 @@ class DocumentCommand extends Command
     #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if (null === $this->io) {
-            throw new \RuntimeException('Unexpected null SymfonyStyle');
-        }
         if (null === $this->contentType) {
             throw new \RuntimeException('Unexpected null contentType');
         }

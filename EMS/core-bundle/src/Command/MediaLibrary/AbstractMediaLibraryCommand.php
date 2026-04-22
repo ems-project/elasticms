@@ -26,9 +26,9 @@ abstract class AbstractMediaLibraryCommand extends AbstractCoreCommand
     #[\Override]
     protected function configure(): void
     {
-        parent::configure();
         $this
             ->addOption(self::OPTION_HASH, null, InputOption::VALUE_REQUIRED, 'media config hash');
+        parent::configure();
     }
 
     #[\Override]

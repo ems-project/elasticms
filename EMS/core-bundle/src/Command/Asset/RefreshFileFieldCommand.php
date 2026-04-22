@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command\Asset;
 
-use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Common\Standard\Image;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Storage\Processor\Config;
 use EMS\CommonBundle\Storage\Processor\Image as ProcessorImage;
 use EMS\CommonBundle\Storage\StorageManager;
+use EMS\CoreBundle\Command\AbstractCoreCommand;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Entity\User;
@@ -27,14 +27,14 @@ use Symfony\Component\Console\Output\OutputInterface;
     description: 'Refresh file field and regenerate resized images base on the EMSCO_IMAGE_MAX_SIZE environment variable.',
     hidden: false
 )]
-class RefreshFileFieldCommand extends AbstractCommand
+class RefreshFileFieldCommand extends AbstractCoreCommand
 {
-    private const string USER = 'SYSTEM_REFRESH_FILE_FIELDS';
+    private const string DEFAULT_USERNAME = 'SYSTEM_REFRESH_FILE_FIELDS';
     private User $fakeUser;
 
     public function __construct(private readonly RevisionService $revisionService, private readonly StorageManager $storageManager, private readonly FileService $fileService, private readonly int $imageMaxSize)
     {
-        parent::__construct();
+        parent::__construct(self::DEFAULT_USERNAME);
     }
 
     #[\Override]
@@ -42,7 +42,7 @@ class RefreshFileFieldCommand extends AbstractCommand
     {
         parent::initialize($input, $output);
         $this->fakeUser = new User();
-        $this->fakeUser->setUsername(self::USER);
+        $this->fakeUser->setUsername($this->getUsername());
     }
 
     #[\Override]
@@ -136,7 +136,7 @@ class RefreshFileFieldCommand extends AbstractCommand
             return $resizedFileHash;
         }
         $resizedFilename = \sprintf('%s_%dx%d.%s', $pathInfo['filename'], $resizedImageSize[0], $resizedImageSize[1], $pathInfo['extension'] ?? $extension);
-        $uploadedAsset = $this->fileService->uploadFile($resizedFilename, $type, $resizedImage->getFilename(), self::USER);
+        $uploadedAsset = $this->fileService->uploadFile($resizedFilename, $type, $resizedImage->getFilename(), self::DEFAULT_USERNAME);
 
         return $uploadedAsset->getSha1();
     }

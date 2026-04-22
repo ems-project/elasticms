@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command\MediaLibrary;
 
-use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\CoreBundle\Command\AbstractCoreCommand;
 use EMS\CoreBundle\Core\Component\MediaLibrary\Config\MediaLibraryConfig;
 use EMS\CoreBundle\Core\Component\MediaLibrary\Config\MediaLibraryConfigFactory;
 use EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryService;
@@ -12,7 +12,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-abstract class AbstractMediaLibraryCommand extends AbstractCommand
+abstract class AbstractMediaLibraryCommand extends AbstractCoreCommand
 {
     public const OPTION_HASH = 'hash';
 
@@ -20,12 +20,13 @@ abstract class AbstractMediaLibraryCommand extends AbstractCommand
         private readonly MediaLibraryConfigFactory $configFactory,
         protected readonly MediaLibraryService $mediaLibraryService,
     ) {
-        parent::__construct();
+        parent::__construct('');
     }
 
     #[\Override]
     protected function configure(): void
     {
+        parent::configure();
         $this
             ->addOption(self::OPTION_HASH, null, InputOption::VALUE_REQUIRED, 'media config hash');
     }
@@ -34,6 +35,10 @@ abstract class AbstractMediaLibraryCommand extends AbstractCommand
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
+
+        if ('' === $this->getUsername()) {
+            throw new \RuntimeException(\sprintf('Option "--%s" must be defined.', self::OPTION_USERNAME));
+        }
 
         $hash = $this->getOptionString(self::OPTION_HASH);
 

@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class AbstractCoreCommand extends AbstractCommand
+abstract class AbstractCoreCommand extends AbstractCommand
 {
     public const string OPTION_USERNAME = 'username';
     private string $username;

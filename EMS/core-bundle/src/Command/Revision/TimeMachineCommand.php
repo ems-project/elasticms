@@ -6,8 +6,8 @@ namespace EMS\CoreBundle\Command\Revision;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Persistence\ObjectManager;
-use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Common\EMSLink;
+use EMS\CoreBundle\Command\AbstractCoreCommand;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Service\DataService;
 use EMS\CoreBundle\Service\IndexService;
@@ -19,11 +19,11 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: Commands::REVISIONS_TIME_MACHINE, description: 'Revert to a copy of the revision wich was the current one for a given timestamp.', aliases: ['ems:revision:time-machine'], hidden: false)]
-final class TimeMachineCommand extends AbstractCommand
+final class TimeMachineCommand extends AbstractCoreCommand
 {
     private readonly ObjectManager $em;
 
-    private const string SYSTEM_TIME_MACHINE = 'SYSTEM_TIME_MACHINE';
+    private const string DEFAULT_USERNAME = 'SYSTEM_TIME_MACHINE';
     public const int RESULT_NOT_FOUND = 1;
     public const int RESULT_EQUALS_IN_TIME = 2;
     public const int RESULT_SUCCESS = 3;
@@ -40,13 +40,14 @@ final class TimeMachineCommand extends AbstractCommand
         Registry $doctrine,
         private readonly IndexService $indexService,
     ) {
-        parent::__construct();
+        parent::__construct(self::DEFAULT_USERNAME);
         $this->em = $doctrine->getManager();
     }
 
     #[\Override]
     protected function configure(): void
     {
+        parent::configure();
         $this
             ->addArgument('emsLink', InputArgument::REQUIRED, 'ems link ems://object:company:ouuid')
             ->addArgument('datetime', InputArgument::REQUIRED, 'Y-m-dTH:i:s (2019-07-15T11:38:16)')
@@ -99,23 +100,23 @@ final class TimeMachineCommand extends AbstractCommand
 
         $this->io->success(\sprintf('Revision %d has been updated with in time "%s" property', $currentRevision->getId(), $propertyPath));
 
-        $this->dataService->lockRevision($currentRevision, null, false, self::SYSTEM_TIME_MACHINE);
+        $this->dataService->lockRevision($currentRevision, null, false, $this->getUsername());
 
-        $revertedRevision = $currentRevision->convertToDraft(self::SYSTEM_TIME_MACHINE);
+        $revertedRevision = $currentRevision->convertToDraft($this->getUsername());
         $revertedRevision->setRawData($inTimeRaw);
         $revertedRevision->setDraft(false);
-        $revertedRevision->setFinalizedBy(self::SYSTEM_TIME_MACHINE);
+        $revertedRevision->setFinalizedBy($this->getUsername());
 
         $this->dataService->sign($revertedRevision);
 
-        $currentRevision->close(new \DateTime('now'), self::SYSTEM_TIME_MACHINE);
+        $currentRevision->close(new \DateTime('now'), $this->getUsername());
 
         $this->em->persist($currentRevision);
         $this->em->persist($revertedRevision);
         $this->em->flush();
 
         $this->indexService->indexRevision($revertedRevision);
-        $this->dataService->unlockRevision($currentRevision, self::SYSTEM_TIME_MACHINE);
+        $this->dataService->unlockRevision($currentRevision, $this->getUsername());
 
         return self::RESULT_SUCCESS;
     }

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command\Notification;
 
-use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
 use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
 use EMS\CommonBundle\Search\Search;
 use EMS\CommonBundle\Service\ElasticaService;
+use EMS\CoreBundle\Command\AbstractCoreCommand;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\EnvironmentService;
@@ -22,9 +22,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: Commands::NOTIFICATION_BULK_ACTION, description: 'Bulk all notifications actions for the passed query.', aliases: ['ems:notification:bulk-action'], hidden: false)]
-final class BulkActionCommand extends AbstractCommand
+final class BulkActionCommand extends AbstractCoreCommand
 {
     private const string CONTENT_TYPE_NAME = 'contentTypeName';
+    private const string DEFAULT_USERNAME = 'ems';
 
     public function __construct(
         private readonly NotificationService $notificationService,
@@ -33,17 +34,17 @@ final class BulkActionCommand extends AbstractCommand
         private readonly ElasticaService $elasticaService,
         private readonly RevisionService $revisionService,
     ) {
-        parent::__construct();
+        parent::__construct(self::DEFAULT_USERNAME);
     }
 
     #[\Override]
     protected function configure(): void
     {
+        parent::configure();
         $this
             ->addArgument(self::CONTENT_TYPE_NAME, InputArgument::REQUIRED, 'Content type name')
             ->addArgument('actionName', InputArgument::REQUIRED, 'Notification action name')
             ->addArgument('query', InputArgument::REQUIRED, 'ES query')
-            ->addOption('username', null, InputOption::VALUE_REQUIRED, 'notification user', 'ems')
             ->addOption('environment', null, InputOption::VALUE_REQUIRED, 'EMS environment')
             ->addOption('force', null, InputOption::VALUE_NONE, 'Do the bulk');
     }
@@ -101,7 +102,7 @@ final class BulkActionCommand extends AbstractCommand
             return 0;
         }
 
-        $username = (string) $input->getOption('username');
+        $username = $this->getUsername();
         $countSend = 0;
         $progress = $this->io->createProgressBar($countDocuments);
         $progress->start();

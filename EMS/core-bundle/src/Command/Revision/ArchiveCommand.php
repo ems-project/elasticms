@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command\Revision;
 
-use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\CoreBundle\Command\AbstractCoreCommand;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Core\Revision\Search\RevisionSearcher;
 use EMS\CoreBundle\Entity\ContentType;
@@ -22,12 +22,12 @@ use Symfony\Component\Console\Output\OutputInterface;
     description: 'Archive documents for a given content type.',
     hidden: false
 )]
-final class ArchiveCommand extends AbstractCommand
+final class ArchiveCommand extends AbstractCoreCommand
 {
     private ContentType $contentType;
     private string $searchQuery;
     private ?\DateTimeInterface $modifiedBefore = null;
-    private const string USER = 'SYSTEM_ARCHIVE';
+    private const string DEFAULT_USERNAME = 'SYSTEM_ARCHIVE';
 
     public const string ARGUMENT_CONTENT_TYPE = 'content-type';
     public const string OPTION_FORCE = 'force';
@@ -42,12 +42,13 @@ final class ArchiveCommand extends AbstractCommand
         private readonly RevisionService $revisionService,
         private readonly ContentTypeService $contentTypeService,
     ) {
-        parent::__construct();
+        parent::__construct(self::DEFAULT_USERNAME);
     }
 
     #[\Override]
     protected function configure(): void
     {
+        parent::configure();
         $this
             ->addArgument(self::ARGUMENT_CONTENT_TYPE, InputArgument::REQUIRED, 'ContentType name')
             ->addOption(self::OPTION_MODIFIED_BEFORE, null, InputOption::VALUE_REQUIRED, 'Y-m-dTH:i:s (2019-07-15T11:38:16)')
@@ -93,7 +94,7 @@ final class ArchiveCommand extends AbstractCommand
         $counterSuccess = 0;
 
         foreach ($this->revisionSearcher->search($environment, $search) as $revisions) {
-            $this->revisionSearcher->lock($revisions, self::USER);
+            $this->revisionSearcher->lock($revisions, $this->getUsername());
 
             foreach ($revisions->transaction() as $revision) {
                 $revisionModified = $revision->getModified()->getTimestamp();
@@ -102,7 +103,7 @@ final class ArchiveCommand extends AbstractCommand
                     continue;
                 }
 
-                $this->revisionService->archive($revision, self::USER, true);
+                $this->revisionService->archive($revision, $this->getUsername(), true);
                 ++$counterSuccess;
 
                 $this->io->progressAdvance();

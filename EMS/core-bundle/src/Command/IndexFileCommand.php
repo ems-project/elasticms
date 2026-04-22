@@ -9,7 +9,6 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\ORM\EntityManager;
-use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Entity\Revision;
@@ -30,9 +29,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 #[AsCommand(name: Commands::REVISIONS_INDEX_FILE_FIELDS, description: 'Migrate an ingested file field from an elasticsearch index.', aliases: ['ems:revisions:index-file-fields'], hidden: false)]
-class IndexFileCommand extends AbstractCommand
+class IndexFileCommand extends AbstractCoreCommand
 {
-    private const string SYSTEM_USERNAME = 'SYSTEM_FILE_INDEXER';
+    private const string DEFAULT_USERNAME = 'SYSTEM_FILE_INDEXER';
     /** @var string */
     protected $databaseName;
     /** @var string */
@@ -40,12 +39,13 @@ class IndexFileCommand extends AbstractCommand
 
     public function __construct(protected LoggerInterface $logger, protected Registry $doctrine, protected ContentTypeService $contentTypeService, protected AssetExtractorService $extractorService, protected FileService $fileService)
     {
-        parent::__construct();
+        parent::__construct(self::DEFAULT_USERNAME);
     }
 
     #[\Override]
     protected function configure(): void
     {
+        parent::configure();
         $this
             ->addArgument(
                 'contentType',
@@ -135,7 +135,7 @@ class IndexFileCommand extends AbstractCommand
                 unset($rawData);
 
                 if ($update) {
-                    $revision->setLockBy(self::SYSTEM_USERNAME);
+                    $revision->setLockBy($this->getUsername());
                     $date = new \DateTime();
                     $date->modify('+5 minutes');
                     $revision->setLockUntil($date);
@@ -208,7 +208,7 @@ class IndexFileCommand extends AbstractCommand
                     $file = $tempFile->path;
                     File::putContents($file, $fileContent);
                     try {
-                        $this->fileService->uploadFile($rawData[EmsFields::CONTENT_FILE_NAME_FIELD] ?? 'filename.bin', $rawData[EmsFields::CONTENT_MIME_TYPE_FIELD] ?? 'application/bin', $file, self::SYSTEM_USERNAME);
+                        $this->fileService->uploadFile($rawData[EmsFields::CONTENT_FILE_NAME_FIELD] ?? 'filename.bin', $rawData[EmsFields::CONTENT_MIME_TYPE_FIELD] ?? 'application/bin', $file, $this->getUsername());
                         $this->io->text(\sprintf('File restored from DB: %s', $rawData[EmsFields::CONTENT_FILE_HASH_FIELD]));
                     } catch (\Throwable) {
                         $file = null;

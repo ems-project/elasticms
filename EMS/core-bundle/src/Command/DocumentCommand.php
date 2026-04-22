@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command;
 
-use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Exception\CantBeFinalizedException;
@@ -22,9 +21,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
 
 #[AsCommand(name: Commands::CONTENT_TYPE_IMPORT, description: "Import json files from a zip file as content type's documents.", aliases: ['ems:contenttype:import'], hidden: false)]
-class DocumentCommand extends AbstractCommand
+class DocumentCommand extends AbstractCoreCommand
 {
     final public const string COMMAND = 'ems:contenttype:import';
+    private const string DEFAULT_USERNAME = 'SYSTEM_IMPORT';
 
     private const string ARGUMENT_CONTENT_TYPE = 'content-type-name';
     private const string ARGUMENT_ARCHIVE = 'archive';
@@ -39,12 +39,13 @@ class DocumentCommand extends AbstractCommand
 
     public function __construct(private readonly ContentTypeService $contentTypeService, private readonly DocumentService $documentService, private readonly DataService $dataService, private readonly string $defaultBulkSize)
     {
-        parent::__construct();
+        parent::__construct(self::DEFAULT_USERNAME);
     }
 
     #[\Override]
     protected function configure(): void
     {
+        parent::configure();
         $this
             ->addArgument(
                 self::ARGUMENT_CONTENT_TYPE,
@@ -177,7 +178,7 @@ class DocumentCommand extends AbstractCommand
         $progress = $this->io->createProgressBar($finder->count());
         $progress->start();
 
-        $importerContext = $this->documentService->initDocumentImporterContext($this->contentType, 'SYSTEM_IMPORT', $rawImport, $signData, true, $bulkSize, $finalize, $force);
+        $importerContext = $this->documentService->initDocumentImporterContext($this->contentType, $this->getUsername(), $rawImport, $signData, true, $bulkSize, $finalize, $force);
 
         $loopIndex = 0;
         foreach ($finder as $file) {

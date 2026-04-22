@@ -6,7 +6,6 @@ namespace EMS\CoreBundle\Command;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
-use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Entity\Revision;
@@ -22,16 +21,19 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: Commands::ENVIRONMENT_UPDATE_META_FIELD, description: 'Update meta fields for all revisions of an environment.', aliases: ['ems:environment:updatemetafield'], hidden: false)]
-class UpdateMetaFieldCommand extends AbstractCommand
+class UpdateMetaFieldCommand extends AbstractCoreCommand
 {
+    private const string DEFAULT_USERNAME = 'SYSTEM_UPDATE_META';
+
     public function __construct(protected Registry $doctrine, protected LoggerInterface $logger, protected DataService $dataService)
     {
-        parent::__construct();
+        parent::__construct(self::DEFAULT_USERNAME);
     }
 
     #[\Override]
     protected function configure(): void
     {
+        parent::configure();
         $this
             ->addArgument(
                 'name',
@@ -75,7 +77,7 @@ class UpdateMetaFieldCommand extends AbstractCommand
                 try {
                     $this->dataService->setMetaFields($revision);
 
-                    $revision->setLockBy('SYSTEM_UPDATE_META');
+                    $revision->setLockBy($this->getUsername());
                     $now = new \DateTime();
                     $until = $now->add(new \DateInterval('PT5M')); // +5 minutes
                     $revision->setLockUntil($until);
@@ -97,7 +99,7 @@ class UpdateMetaFieldCommand extends AbstractCommand
 
         $em->flush();
         $progress->finish();
-        $this->dataService->unlockAllRevisions('SYSTEM_UPDATE_META');
+        $this->dataService->unlockAllRevisions($this->getUsername());
 
         return 0;
     }

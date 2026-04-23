@@ -255,6 +255,18 @@ services:
             - "traefik.http.routers.grafana.service=grafana"
             - "traefik.http.services.grafana.loadbalancer.server.port=3000"
 
+    sandbox:
+        profiles: [ "all","sandbox" ]
+        image: docker.io/smalswebtech/base-php:8.5-cli-dev
+        user: '501'
+        volumes:
+            - ./.sandbox:/home/default:rw
+            - ../:/workspace:rw
+        working_dir: /workspace
+        command: bash
+        stdin_open: true
+        tty: true
+
 volumes:
     elk8_data1:
     os2_data1:

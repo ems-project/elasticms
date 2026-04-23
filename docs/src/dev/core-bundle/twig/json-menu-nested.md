@@ -25,7 +25,7 @@ the requested item.
   updates
 - **actions** : allow or deny actions by default everything is enabled
 - **blocks** : overwrite item actions, append item information
-- **context** : extra context for the blocks rendering
+- **context** : extra context for the blocks rendering, the context may define a `testId` attribute that will be used to specify custom `data-testid` (default value `main`)
 
 ### Simple render
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command;
 
-use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\CoreBundle\Command\AbstractCoreCommand;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Service\Form\Submission\FormSubmissionService;
 use Psr\Log\LoggerInterface;
@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
     aliases: ['ems:submissions:remove-expired'],
     hidden: false
 )]
-class RemoveExpiredSubmissionsCommand extends AbstractCommand
+class RemoveExpiredSubmissionsCommand extends AbstractCoreCommand
 {
     private const string OPTION_METADATA = 'metadata';
     private bool $metadata;

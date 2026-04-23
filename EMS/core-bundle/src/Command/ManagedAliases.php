@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command;
 
-use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\CoreBundle\Command\AbstractCoreCommand;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Entity\ManagedAlias;
 use EMS\CoreBundle\Service\AliasService;
@@ -15,7 +15,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: Commands::MANAGED_ALIAS_LIST, description: 'List managed aliases.', aliases: ['ems:managedalias:list'], hidden: false)]
-class ManagedAliases extends AbstractCommand
+class ManagedAliases extends AbstractCoreCommand
 {
     public function __construct(protected LoggerInterface $logger, protected AliasService $aliasService)
     {

@@ -6,7 +6,7 @@ namespace EMS\CoreBundle\Command;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
-use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\CoreBundle\Command\AbstractCoreCommand;
 use EMS\CommonBundle\Storage\NotFoundException;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Entity\UploadedAsset;
@@ -21,7 +21,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: Commands::ASSET_SYNCHRONIZE, description: 'Synchronize registered assets on storage services.', aliases: ['ems:asset:synchronize'], hidden: false)]
-class SynchronizeAssetCommand extends AbstractCommand
+class SynchronizeAssetCommand extends AbstractCoreCommand
 {
     /** @var string */
     protected $databaseName;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command;
 
-use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\CoreBundle\Command\AbstractCoreCommand;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Core\Mail\MailerService;
 use EMS\CoreBundle\Service\Form\Submission\FormSubmissionService;
@@ -16,7 +16,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: Commands::SUBMISSIONS_EMAIL, description: 'Send a list of form submissions to the specified email address or addresses.', aliases: ['ems:submissions:email'], hidden: false)]
-class EmailSubmissionsCommand extends AbstractCommand
+class EmailSubmissionsCommand extends AbstractCoreCommand
 {
     private const string TITLE = 'Form submissions';
 

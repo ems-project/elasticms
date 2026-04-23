@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command\Release;
 
-use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\CoreBundle\Command\AbstractCoreCommand;
 use EMS\CommonBundle\Common\EMSLink;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
 use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
@@ -31,7 +31,7 @@ use Symfony\Component\Console\Output\OutputInterface;
     description: 'Add documents for a given contenttype in a release.',
     hidden: false
 )]
-class CreateReleaseCommand extends AbstractCommand
+class CreateReleaseCommand extends AbstractCoreCommand
 {
     private ContentType $contentType;
     private Environment $target;

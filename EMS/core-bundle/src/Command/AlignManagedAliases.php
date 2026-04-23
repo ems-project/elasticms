@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command;
 
-use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\CoreBundle\Command\AbstractCoreCommand;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Service\AliasService;
 use Psr\Log\LoggerInterface;
@@ -14,7 +14,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: Commands::MANAGED_ALIAS_ALIGN, description: 'Align a managed alias to another.', aliases: ['ems:managedalias:align'], hidden: false)]
-class AlignManagedAliases extends AbstractCommand
+class AlignManagedAliases extends AbstractCoreCommand
 {
     public function __construct(protected LoggerInterface $logger, protected AliasService $aliasService)
     {

@@ -6,7 +6,7 @@ namespace EMS\CoreBundle\Command;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
-use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\CoreBundle\Command\AbstractCoreCommand;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Elasticsearch\Bulker;
@@ -28,7 +28,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: Commands::ENVIRONMENT_REINDEX, description: "Reindex an environment in it's existing index.", aliases: ['ems:environment:reindex'], hidden: false)]
-class ReindexCommand extends AbstractCommand
+class ReindexCommand extends AbstractCoreCommand
 {
     private int $count = 0;
     private int $deleted = 0;

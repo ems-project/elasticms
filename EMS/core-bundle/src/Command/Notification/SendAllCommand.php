@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Command\Notification;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
-use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\CoreBundle\Command\AbstractCoreCommand;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Entity\Notification;
 use EMS\CoreBundle\Repository\NotificationRepository;
@@ -17,7 +17,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: Commands::NOTIFICATION_SEND, description: "Send all notifications and notification's responses emails.", aliases: ['ems:notification:send'], hidden: false)]
-final class SendAllCommand extends AbstractCommand
+final class SendAllCommand extends AbstractCoreCommand
 {
     public function __construct(private readonly Registry $doctrine, private readonly NotificationService $notificationService, private readonly string $notificationPendingTimeout)
     {

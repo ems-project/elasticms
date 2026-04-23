@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command\Xliff;
 
-use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\CoreBundle\Command\AbstractCoreCommand;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Storage\Service\StorageInterface;
 use EMS\CommonBundle\Storage\StorageManager;
@@ -31,7 +31,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
     description: 'Update documents from a given XLIFF file.',
     hidden: false
 )]
-final class UpdateCommand extends AbstractCommand
+final class UpdateCommand extends AbstractCoreCommand
 {
     private const string XLIFF_UPLOAD_COMMAND = 'XLIFF_UPLOAD_COMMAND';
     public const string ARGUMENT_XLIFF_FILE = 'xliff-file';

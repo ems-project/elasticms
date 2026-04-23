@@ -6,7 +6,7 @@ namespace EMS\CoreBundle\Command;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Persistence\ObjectManager;
-use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\CoreBundle\Command\AbstractCoreCommand;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Entity\ContentType;
@@ -25,7 +25,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: Commands::ENVIRONMENT_REBUILD, description: 'Rebuild an environment in a brand new index.', aliases: ['ems:environment:rebuild'], hidden: false)]
-class RebuildCommand extends AbstractCommand
+class RebuildCommand extends AbstractCoreCommand
 {
     private const string ARGUMENT_NAME = 'name';
     private const string OPTION_ALL = 'all';

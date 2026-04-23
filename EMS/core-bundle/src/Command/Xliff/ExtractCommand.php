@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command\Xliff;
 
-use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\CoreBundle\Command\AbstractCoreCommand;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
 use EMS\CommonBundle\Helper\EmsFields;
@@ -36,7 +36,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
     name: Commands::XLIFF_EXTRACT,
     hidden: false
 )]
-final class ExtractCommand extends AbstractCommand
+final class ExtractCommand extends AbstractCoreCommand
 {
     private string $sourceLocale;
     private Environment $sourceEnvironment;

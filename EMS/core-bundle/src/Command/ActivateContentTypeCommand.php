@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command;
 
-use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\CoreBundle\Command\AbstractCoreCommand;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Service\ContentTypeService;
@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 
 #[AsCommand(name: Commands::CONTENT_TYPE_ACTIVATE, description: 'Activate a content type.', aliases: ['ems:contenttype:activate'], hidden: false)]
-class ActivateContentTypeCommand extends AbstractCommand
+class ActivateContentTypeCommand extends AbstractCoreCommand
 {
     private ?bool $deactivate = null;
 

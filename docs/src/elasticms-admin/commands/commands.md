@@ -74,7 +74,7 @@ Options:
       --scroll-timeout=SCROLL-TIMEOUT  Time to migrate "scrollSize" items i.e. 30s or 2m
       --search-query[=SEARCH-QUERY]    Query used to find elasticsearch records to transform [default: "{}"]
       --dry-run                        Dry run
-      --user=USER                      Lock user [default: "SYSTEM_CONTENT_TRANSFORM"]
+      --username=USER                  Lock user [default: "SYSTEM_CONTENT_TRANSFORM"]
 ```
 
 ### Environment
@@ -121,7 +121,7 @@ Options:
       --scroll-size=SCROLL-SIZE        Size of the elasticsearch scroll request
       --scroll-timeout=SCROLL-TIMEOUT  Time to migrate "scrollSize" items i.e. 30s or 2m
       --search-query[=SEARCH-QUERY]    Query used to find elasticsearch records to import [default: "{}"]
-      --user=USER                      Lock user [default: "SYSTEM_ALIGN"]
+      --username=USER                      Lock user [default: "SYSTEM_ALIGN"]
       --dry-run                        Dry run
 ```
 
@@ -147,7 +147,7 @@ Options:
       --scroll-size=SCROLL-SIZE        Size of the elasticsearch scroll request
       --scroll-timeout=SCROLL-TIMEOUT  Time to migrate "scrollSize" items i.e. 30s or 2m
       --search-query[=SEARCH-QUERY]    Query used to find elasticsearch records to import [default: "{}"]
-      --user=USER                      Lock user [default: "SYSTEM_ALIGN"]
+      --username=USER                      Lock user [default: "SYSTEM_ALIGN"]
       --dry-run                        Dry run
 ```
 

@@ -65,7 +65,7 @@ abstract class AbstractCoreCommand extends AbstractCommand
             $optionName,
             $shortcut,
             InputOption::VALUE_REQUIRED,
-            \sprintf('Deprecated, use --%s instead.', self::OPTION_USERNAME),
+            \sprintf('Deprecated, use --%s instead. This option will be removed in elasticMS 8.x', self::OPTION_USERNAME),
             $default
         );
     }

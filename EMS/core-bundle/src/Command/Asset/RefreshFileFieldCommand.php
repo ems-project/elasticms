@@ -30,7 +30,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class RefreshFileFieldCommand extends AbstractCoreCommand
 {
     private const string DEFAULT_USERNAME = 'SYSTEM_REFRESH_FILE_FIELDS';
-    private User $fakeUser;
+    private User $lockUser;
 
     public function __construct(private readonly RevisionService $revisionService, private readonly StorageManager $storageManager, private readonly FileService $fileService, private readonly int $imageMaxSize)
     {
@@ -41,8 +41,8 @@ class RefreshFileFieldCommand extends AbstractCoreCommand
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
-        $this->fakeUser = new User();
-        $this->fakeUser->setUsername($this->getUsername());
+        $this->lockUser = new User();
+        $this->lockUser->setUsername($this->getUsername());
     }
 
     #[\Override]
@@ -102,7 +102,7 @@ class RefreshFileFieldCommand extends AbstractCoreCommand
         if (!$fieldsFound) {
             return;
         }
-        $this->revisionService->lock($revision, $this->fakeUser);
+        $this->revisionService->lock($revision, $this->lockUser);
         $this->revisionService->save($revision, $rawData);
     }
 

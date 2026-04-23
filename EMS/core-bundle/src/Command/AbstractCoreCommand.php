@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Command;
 
 use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\Helpers\Standard\Type;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -12,7 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 abstract class AbstractCoreCommand extends AbstractCommand
 {
     public const string OPTION_USERNAME = 'username';
-    private string $username;
+    private ?string $username;
     private bool $initialized = false;
 
     public function __construct()
@@ -45,12 +46,17 @@ abstract class AbstractCoreCommand extends AbstractCommand
     {
         $this->initialized = true;
         parent::initialize($input, $output);
-        $this->username = $this->getOptionString(self::OPTION_USERNAME);
+        $this->username = $this->getOptionStringNull(self::OPTION_USERNAME);
     }
 
     public function getUsername(): string
     {
-        return $this->username;
+        return Type::string($this->username);
+    }
+
+    public function hasUsername(): bool
+    {
+        return null !== $this->username;
     }
 
     protected function addDeprecatedUsernameOption(string $optionName = 'user', ?string $shortcut = null, ?string $default = null): void

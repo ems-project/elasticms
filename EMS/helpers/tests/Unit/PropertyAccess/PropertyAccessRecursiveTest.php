@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace EMS\CommonBundle\Tests\Unit\Common\PropertyAccess;
+namespace EMS\Helpers\Tests\Unit\PropertyAccess;
 
-use EMS\CommonBundle\Common\PropertyAccess\PropertyAccessor;
+use EMS\Helpers\PropertyAccess\PropertyAccessor;
 use EMS\Helpers\Standard\Json;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;

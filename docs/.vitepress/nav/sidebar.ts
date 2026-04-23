@@ -108,6 +108,7 @@ const sidebar: DefaultTheme.SidebarMulti = {
                         { text: 'JSON Menu', link: '/dev/common-bundle/json-menu' },
                         { text: 'Metrics', link: '/dev/common-bundle/metrics' },
                         { text: 'Processors', link: '/dev/common-bundle/processors' },
+                        { text: 'Property accessor', link: '/dev/common-bundle/property-accessor' },
                         { text: 'Spreadsheet', link: '/dev/common-bundle/spreadsheet' },
                         { text: 'Storages', link: '/dev/common-bundle/storages' },
                     ]

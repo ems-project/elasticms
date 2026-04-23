@@ -34,19 +34,20 @@ final class BulkActionCommand extends AbstractCoreCommand
         private readonly ElasticaService $elasticaService,
         private readonly RevisionService $revisionService,
     ) {
-        parent::__construct(self::DEFAULT_USERNAME);
+        parent::__construct();
     }
 
     #[\Override]
     protected function configure(): void
     {
+        parent::configure();
         $this
             ->addArgument(self::CONTENT_TYPE_NAME, InputArgument::REQUIRED, 'Content type name')
             ->addArgument('actionName', InputArgument::REQUIRED, 'Notification action name')
             ->addArgument('query', InputArgument::REQUIRED, 'ES query')
             ->addOption('environment', null, InputOption::VALUE_REQUIRED, 'EMS environment')
             ->addOption('force', null, InputOption::VALUE_NONE, 'Do the bulk');
-        parent::configure();
+        $this->addUsernameOption(self::DEFAULT_USERNAME);
     }
 
     #[\Override]

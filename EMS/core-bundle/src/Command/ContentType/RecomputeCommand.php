@@ -72,12 +72,13 @@ final class RecomputeCommand extends AbstractCoreCommand
         private readonly IndexService $indexService,
         private readonly SearchService $searchService,
     ) {
-        parent::__construct(self::DEFAULT_USERNAME);
+        parent::__construct();
     }
 
     #[\Override]
     protected function configure(): void
     {
+        parent::configure();
         $this
 
             ->addArgument(self::ARGUMENT_CONTENT_TYPE, InputArgument::REQUIRED, 'content type to recompute')
@@ -91,7 +92,7 @@ final class RecomputeCommand extends AbstractCoreCommand
             ->addOption(self::OPTION_DEEP, null, InputOption::VALUE_NONE, 'deep recompute form will be submitted and transformers triggered')
             ->addOption(self::OPTION_QUERY, null, InputOption::VALUE_OPTIONAL, 'ES query', '{}')
         ;
-        parent::configure();
+        $this->addUsernameOption(self::DEFAULT_USERNAME);
     }
 
     #[\Override]

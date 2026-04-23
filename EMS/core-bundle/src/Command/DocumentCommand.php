@@ -39,12 +39,13 @@ class DocumentCommand extends AbstractCoreCommand
 
     public function __construct(private readonly ContentTypeService $contentTypeService, private readonly DocumentService $documentService, private readonly DataService $dataService, private readonly string $defaultBulkSize)
     {
-        parent::__construct(self::DEFAULT_USERNAME);
+        parent::__construct();
     }
 
     #[\Override]
     protected function configure(): void
     {
+        parent::configure();
         $this
             ->addArgument(
                 self::ARGUMENT_CONTENT_TYPE,
@@ -93,7 +94,7 @@ class DocumentCommand extends AbstractCoreCommand
                 InputOption::VALUE_NONE,
                 'Try to identify documents by their business keys'
             );
-        parent::configure();
+        $this->addUsernameOption(self::DEFAULT_USERNAME);
     }
 
     #[\Override]

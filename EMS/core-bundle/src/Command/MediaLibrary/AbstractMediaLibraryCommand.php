@@ -20,15 +20,16 @@ abstract class AbstractMediaLibraryCommand extends AbstractCoreCommand
         private readonly MediaLibraryConfigFactory $configFactory,
         protected readonly MediaLibraryService $mediaLibraryService,
     ) {
-        parent::__construct(null);
+        parent::__construct();
     }
 
     #[\Override]
     protected function configure(): void
     {
+        parent::configure();
         $this
             ->addOption(self::OPTION_HASH, null, InputOption::VALUE_REQUIRED, 'media config hash');
-        parent::configure();
+        $this->addUsernameOption(mode: InputOption::VALUE_REQUIRED);
     }
 
     #[\Override]

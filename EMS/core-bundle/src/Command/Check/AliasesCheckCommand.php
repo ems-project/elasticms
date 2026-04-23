@@ -23,15 +23,16 @@ final class AliasesCheckCommand extends AbstractCoreCommand
 
     public function __construct(private readonly EnvironmentService $environmentService, private readonly AliasService $aliasService, private readonly JobService $jobService)
     {
-        parent::__construct(Commands::MANAGED_ALIAS_CHECK);
+        parent::__construct();
     }
 
     #[\Override]
     protected function configure(): void
     {
+        parent::configure();
         $this
             ->addOption(self::OPTION_REPAIR, null, InputOption::VALUE_NONE, 'If an environment does not have its alias present and if they are no pending job a rebuild job is queued.');
-        parent::configure();
+        $this->addUsernameOption(Commands::MANAGED_ALIAS_CHECK);
     }
 
     #[\Override]

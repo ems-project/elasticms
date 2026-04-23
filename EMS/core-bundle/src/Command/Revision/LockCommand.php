@@ -44,12 +44,13 @@ final class LockCommand extends AbstractCoreCommand
         private readonly ElasticaService $elasticaService,
         private readonly DataService $dataService,
     ) {
-        parent::__construct(self::DEFAULT_USERNAME);
+        parent::__construct();
     }
 
     #[\Override]
     protected function configure(): void
     {
+        parent::configure();
         $this
             ->addArgument(self::ARGUMENT_CONTENT_TYPE, InputArgument::REQUIRED, 'Content type to lock')
             ->addArgument(self::ARGUMENT_TIME, InputArgument::REQUIRED, 'Lock until (+1day, +5min, now)')
@@ -58,7 +59,7 @@ final class LockCommand extends AbstractCoreCommand
             ->addOption(self::OPTION_IF_EMPTY, null, InputOption::VALUE_NONE, 'Lock if there are no pending locks for the same user')
             ->addOption(self::OPTION_OUUID, null, InputOption::VALUE_OPTIONAL, 'Lock a specific ouuid')
         ;
-        parent::configure();
+        $this->addUsernameOption(self::DEFAULT_USERNAME);
 
         $this->addDeprecatedUsernameOption(self::OPTION_USER, null, self::DEFAULT_USERNAME);
     }

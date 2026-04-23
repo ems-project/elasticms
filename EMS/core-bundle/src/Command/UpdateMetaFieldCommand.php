@@ -27,19 +27,20 @@ class UpdateMetaFieldCommand extends AbstractCoreCommand
 
     public function __construct(protected Registry $doctrine, protected LoggerInterface $logger, protected DataService $dataService)
     {
-        parent::__construct(self::DEFAULT_USERNAME);
+        parent::__construct();
     }
 
     #[\Override]
     protected function configure(): void
     {
+        parent::configure();
         $this
             ->addArgument(
                 'name',
                 InputArgument::REQUIRED,
                 'Environment name'
             );
-        parent::configure();
+        $this->addUsernameOption(self::DEFAULT_USERNAME);
     }
 
     #[\Override]

@@ -33,14 +33,15 @@ abstract class AbstractEnvironmentCommand extends AbstractCoreCommand
         protected RevisionSearcher $revisionSearcher,
         protected EnvironmentService $environmentService,
         protected PublishService $publishService,
-        string $defaultUsernameOption,
+        protected ?string $defaultUsernameOption = null,
     ) {
-        parent::__construct($defaultUsernameOption);
+        parent::__construct();
     }
 
     protected function configureForceProtection(): void
     {
         $this->addOption(self::OPTION_FORCE, null, InputOption::VALUE_NONE, 'If set, the task will be performed (protection)');
+        $this->addUsernameOption($this->defaultUsernameOption);
     }
 
     protected function configureRevisionSearcher(): void

@@ -39,12 +39,13 @@ final class TransformCommand extends AbstractCoreCommand
         private readonly ContentTypeService $contentTypeService,
         private readonly ContentTransformer $contentTransformer,
     ) {
-        parent::__construct(self::DEFAULT_USERNAME);
+        parent::__construct();
     }
 
     #[\Override]
     protected function configure(): void
     {
+        parent::configure();
         $this
             ->addArgument(self::ARGUMENT_CONTENT_TYPE, InputArgument::REQUIRED, 'ContentType name')
             ->addOption(self::OPTION_SCROLL_SIZE, null, InputOption::VALUE_REQUIRED, 'Size of the elasticsearch scroll request')
@@ -52,7 +53,7 @@ final class TransformCommand extends AbstractCoreCommand
             ->addOption(self::OPTION_SEARCH_QUERY, null, InputOption::VALUE_OPTIONAL, 'Query used to find elasticsearch records to transform', '{}')
             ->addOption(self::OPTION_DRY_RUN, '', InputOption::VALUE_NONE, 'Dry run')
         ;
-        parent::configure();
+        $this->addUsernameOption(self::DEFAULT_USERNAME);
 
         $this->addDeprecatedUsernameOption(self::OPTION_USER, null, self::DEFAULT_USERNAME);
     }

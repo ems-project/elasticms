@@ -71,12 +71,13 @@ class MigrateCommand extends AbstractCoreCommand
         }
 
         $this->contentTypeRepository = $contentTypeRepository;
-        parent::__construct(self::DEFAULT_USERNAME);
+        parent::__construct();
     }
 
     #[\Override]
     protected function configure(): void
     {
+        parent::configure();
         $this
             ->addArgument(
                 self::ARGUMENT_ELASTICSEARCH_INDEX,
@@ -156,7 +157,7 @@ class MigrateCommand extends AbstractCoreCommand
                 'Will archive revisions that were not modified (see changed option)'
             )
         ;
-        parent::configure();
+        $this->addUsernameOption(self::DEFAULT_USERNAME);
     }
 
     #[\Override]

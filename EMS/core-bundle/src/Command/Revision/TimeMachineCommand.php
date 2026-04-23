@@ -40,19 +40,20 @@ final class TimeMachineCommand extends AbstractCoreCommand
         Registry $doctrine,
         private readonly IndexService $indexService,
     ) {
-        parent::__construct(self::DEFAULT_USERNAME);
+        parent::__construct();
         $this->em = $doctrine->getManager();
     }
 
     #[\Override]
     protected function configure(): void
     {
+        parent::configure();
         $this
             ->addArgument('emsLink', InputArgument::REQUIRED, 'ems link ems://object:company:ouuid')
             ->addArgument('datetime', InputArgument::REQUIRED, 'Y-m-dTH:i:s (2019-07-15T11:38:16)')
             ->addArgument('propertyPath', InputArgument::REQUIRED, 'property to compare')
         ;
-        parent::configure();
+        $this->addUsernameOption(self::DEFAULT_USERNAME);
     }
 
     #[\Override]

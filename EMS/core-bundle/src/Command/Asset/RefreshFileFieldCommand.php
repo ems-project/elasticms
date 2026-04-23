@@ -34,7 +34,7 @@ class RefreshFileFieldCommand extends AbstractCoreCommand
 
     public function __construct(private readonly RevisionService $revisionService, private readonly StorageManager $storageManager, private readonly FileService $fileService, private readonly int $imageMaxSize)
     {
-        parent::__construct(self::DEFAULT_USERNAME);
+        parent::__construct();
     }
 
     #[\Override]
@@ -49,6 +49,7 @@ class RefreshFileFieldCommand extends AbstractCoreCommand
     protected function configure(): void
     {
         parent::configure();
+        $this->addUsernameOption(self::DEFAULT_USERNAME);
     }
 
     #[\Override]

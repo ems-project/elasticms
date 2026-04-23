@@ -13,8 +13,9 @@ abstract class AbstractCoreCommand extends AbstractCommand
 {
     public const string OPTION_USERNAME = 'username';
     private string $username;
+    private bool $initialized = false;
 
-    public function __construct(private readonly ?string $defaultUsernameOption)
+    public function __construct()
     {
         parent::__construct();
     }
@@ -23,18 +24,26 @@ abstract class AbstractCoreCommand extends AbstractCommand
     protected function configure(): void
     {
         parent::configure();
+    }
+
+    public function addUsernameOption(?string $defaultValue = null, ?int $mode = InputOption::VALUE_OPTIONAL): void
+    {
+        if ($this->initialized) {
+            throw new \RuntimeException('The command has been already initialized, this method must be called in the from the configure() method.');
+        }
         $this->addOption(
             self::OPTION_USERNAME,
             'u',
-            null === $this->defaultUsernameOption ? InputOption::VALUE_REQUIRED : InputOption::VALUE_OPTIONAL,
+            $mode,
             'elasticMS\'s username',
-            $this->defaultUsernameOption
+            $defaultValue
         );
     }
 
     #[\Override]
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
+        $this->initialized = true;
         parent::initialize($input, $output);
         $this->username = $this->getOptionString(self::OPTION_USERNAME);
     }
@@ -51,7 +60,7 @@ abstract class AbstractCoreCommand extends AbstractCommand
             $shortcut,
             InputOption::VALUE_REQUIRED,
             \sprintf('Deprecated, use --%s instead.', self::OPTION_USERNAME),
-            $default ?? $this->defaultUsernameOption
+            $default
         );
     }
 

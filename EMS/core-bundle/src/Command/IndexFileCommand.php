@@ -39,12 +39,13 @@ class IndexFileCommand extends AbstractCoreCommand
 
     public function __construct(protected LoggerInterface $logger, protected Registry $doctrine, protected ContentTypeService $contentTypeService, protected AssetExtractorService $extractorService, protected FileService $fileService)
     {
-        parent::__construct(self::DEFAULT_USERNAME);
+        parent::__construct();
     }
 
     #[\Override]
     protected function configure(): void
     {
+        parent::configure();
         $this
             ->addArgument(
                 'contentType',
@@ -68,7 +69,7 @@ class IndexFileCommand extends AbstractCoreCommand
                 InputOption::VALUE_NONE,
                 'Will migrated filed only without _content'
             );
-        parent::configure();
+        $this->addUsernameOption(self::DEFAULT_USERNAME);
     }
 
     #[\Override]

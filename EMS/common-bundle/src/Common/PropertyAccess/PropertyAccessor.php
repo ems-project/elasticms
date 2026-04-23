@@ -36,6 +36,29 @@ class PropertyAccessor
     {
         $propertyPath = $this->getPropertyPath($propertyPath);
         $currentElement = $propertyPath->current();
+
+        if ('**' === $currentElement->getName()) {
+            if ($propertyPath->last()) {
+                return $array;
+            }
+
+            $propertyPath->next();
+            $targetId = $propertyPath->current()->getName();
+
+            $found = $this->findRecursive($array, $targetId);
+            if (null === $found) {
+                return null;
+            }
+
+            if ($propertyPath->last()) {
+                return $found;
+            }
+
+            $propertyPath->next();
+
+            return $this->getValue($found, $propertyPath);
+        }
+
         if (!isset($array[$currentElement->getName()])) {
             return null;
         }
@@ -52,6 +75,35 @@ class PropertyAccessor
     }
 
     /**
+     * @param array<mixed> $array
+     *
+     * @return ?array<mixed>
+     */
+    private function findRecursive(array $array, string $targetId): ?array
+    {
+        if (isset($array['id']) && (string) $array['id'] === $targetId) {
+            return $array;
+        }
+
+        foreach ($array as $item) {
+            if (!\is_array($item)) {
+                continue;
+            }
+
+            if (isset($item['id']) && (string) $item['id'] === $targetId) {
+                return $item;
+            }
+
+            $res = $this->findRecursive($item, $targetId);
+            if ($res) {
+                return $res;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * @param mixed[] $array
      */
     public function setValue(array &$array, PropertyPath|string $propertyPath, mixed $value): void
@@ -63,6 +115,21 @@ class PropertyAccessor
 
             return;
         }
+
+        if ('**' === $currentElement->getName()) {
+            $propertyPath->next();
+            $targetId = $propertyPath->current()->getName();
+
+            if ($propertyPath->last()) {
+                return;
+            }
+
+            $propertyPath->next();
+            $this->setValueRecursive($array, $targetId, $propertyPath, $value);
+
+            return;
+        }
+
         if (!isset($array[$currentElement->getName()])) {
             $array[$currentElement->getName()] = [];
         } else {
@@ -74,20 +141,64 @@ class PropertyAccessor
     }
 
     /**
-     * @param mixed[]               $array
-     * @param array<string, string> $replacers
+     * @param array<mixed> $array
+     */
+    private function setValueRecursive(array &$array, string $targetId, PropertyPath $propertyPath, mixed $value): bool
+    {
+        if (isset($array['id']) && (string) $array['id'] === $targetId) {
+            $this->setValue($array, $propertyPath, $value);
+
+            return true;
+        }
+
+        foreach ($array as &$item) {
+            if (!\is_array($item)) {
+                continue;
+            }
+
+            if (isset($item['id']) && (string) $item['id'] === $targetId) {
+                $this->setValue($item, $propertyPath, $value);
+
+                return true;
+            }
+
+            if ($this->setValueRecursive($item, $targetId, $propertyPath, $value)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @param mixed[]                 $array
+     * @param array<string, string>   $replacers
+     * @param array{id_as_key?: bool} $options
      *
      * @return \Generator<string, mixed>
      */
-    public function iterator(PropertyPath|string $propertyPath, array $array, array $replacers = [], string $basePath = ''): \Generator
+    public function iterator(PropertyPath|string $propertyPath, array $array, array $replacers = [], string $basePath = '', array $options = []): \Generator
     {
         $propertyPath = $this->getPropertyPath($propertyPath);
         $currentElement = $propertyPath->current();
+        $currentName = $currentElement->getName();
 
-        if ('*' === $currentElement->getName()) {
+        if (\in_array('id_key', $currentElement->getOperators())) {
+            $options['id_as_key'] = true;
+        }
+
+        if ('*' === $currentName) {
             foreach ($this->iterateOnAllChildren($propertyPath, $array, $replacers, $basePath) as $key => $value) {
                 yield $key => $value;
             }
+        } elseif ('**' === $currentName) {
+            $last = $propertyPath->last();
+            $propertyPath->next();
+            $index = $propertyPath->getIndex();
+
+            yield from $this->iterateRecursive($propertyPath, $array, $replacers, $basePath, $last, $index, $options);
+
+            return;
         }
 
         $last = $propertyPath->last();
@@ -110,7 +221,7 @@ class PropertyAccessor
                 if (!\is_array($decoded)) {
                     throw new \RuntimeException('Unexpected non decoded array');
                 }
-                foreach ($this->iterator($propertyPath, $decoded, $replacers, $path) as $key => $value) {
+                foreach ($this->iterator($propertyPath, $decoded, $replacers, $path, $options) as $key => $value) {
                     yield $key => $value;
                 }
             }
@@ -198,6 +309,43 @@ class PropertyAccessor
                     yield $path => $childValue;
                 }
             }
+        }
+    }
+
+    /**
+     * @param mixed[]                 $array
+     * @param array<string,string>    $replacers
+     * @param array{id_as_key?: bool} $options
+     *
+     * @return \Generator<string, mixed>
+     */
+    private function iterateRecursive(PropertyPath $propertyPath, array $array, array $replacers, string $basePath, bool $last, int $index, array $options = [], ?string $parentPath = null): \Generator
+    {
+        foreach ($array as $key => $item) {
+            if (!\is_array($item)) {
+                continue;
+            }
+
+            $useIdAsKey = $options['id_as_key'] ?? false;
+
+            if ($useIdAsKey && isset($item['id']) && \is_scalar($item['id'])) {
+                $currentPath = \sprintf('%s[**][%s]', $basePath, $item['id']);
+            } else {
+                $effectiveParent = $parentPath ?? $basePath;
+                $currentPath = \sprintf('%s[%s]', $effectiveParent, $key);
+            }
+
+            $propertyPath->setIndex($index);
+
+            if ($last) {
+                yield $currentPath => $item;
+            } else {
+                yield from $this->iterator($propertyPath, $item, $replacers, $currentPath, $options);
+            }
+
+            $nextParentPath = ($useIdAsKey && isset($item['id']) && \is_scalar($item['id'])) ? $currentPath : $parentPath;
+
+            yield from $this->iterateRecursive($propertyPath, $item, $replacers, $basePath, $last, $index, $options, $nextParentPath);
         }
     }
 

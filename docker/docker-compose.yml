@@ -256,7 +256,7 @@ services:
             - "traefik.http.services.grafana.loadbalancer.server.port=3000"
 
     sandbox:
-        profiles: [ "all","ems" ]
+        profiles: [ "all","sandbox" ]
         image: docker.io/smalswebtech/base-php:8.5-cli-dev
         user: '501'
         volumes:

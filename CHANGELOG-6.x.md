@@ -1,5 +1,12 @@
 # Changelog 6.x
 
+## 6.9.12 (2026-04-23)
+### Features
+* feat(admin/twig): add filter ems_get_file_object and emsco_get_file_object by @theus77 in https://github.com/ems-project/elasticms/pull/1665
+* feat(common/property-accessor): recursive get/set and iterate by @Davidmattei in https://github.com/ems-project/elasticms/pull/1672
+### Bug Fixes
+* fix(common/json-menu-nested): context may define testId by @theus77 in https://github.com/ems-project/elasticms/pull/1669
+
 ## 6.9.11 (2026-04-16)
 ### Features
 * feat(admin): add tags data-testid for test by @IsaMic in https://github.com/ems-project/elasticms/pull/1637

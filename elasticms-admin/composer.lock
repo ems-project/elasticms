@@ -62,16 +62,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.379.0",
+            "version": "3.379.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "a50c3cc2c59f5ebeb56cbe170e6f144034b252b6"
+                "reference": "c81342df6e09bbc30d28ea57cc4644bb35c53ce2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/a50c3cc2c59f5ebeb56cbe170e6f144034b252b6",
-                "reference": "a50c3cc2c59f5ebeb56cbe170e6f144034b252b6",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/c81342df6e09bbc30d28ea57cc4644bb35c53ce2",
+                "reference": "c81342df6e09bbc30d28ea57cc4644bb35c53ce2",
                 "shasum": ""
             },
             "require": {
@@ -153,9 +153,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.379.0"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.379.5"
             },
-            "time": "2026-04-13T18:11:10+00:00"
+            "time": "2026-04-22T18:13:16+00:00"
         },
         {
             "name": "brick/math",
@@ -1896,7 +1896,7 @@
         },
         {
             "name": "elasticms/admin-ui-bundle",
-            "version": "6.9.11",
+            "version": "6.9.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSAdminUIBundle.git",
@@ -1935,13 +1935,13 @@
                 "ui"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSAdminUIBundle/tree/6.9.11"
+                "source": "https://github.com/ems-project/EMSAdminUIBundle/tree/6.9.12"
             },
             "time": "2026-04-15T12:05:37+00:00"
         },
         {
             "name": "elasticms/client-helper-bundle",
-            "version": "6.9.11",
+            "version": "6.9.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSClientHelperBundle.git",
@@ -1992,22 +1992,22 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSClientHelperBundle/tree/6.9.11"
+                "source": "https://github.com/ems-project/EMSClientHelperBundle/tree/6.9.12"
             },
             "time": "2026-04-16T15:16:13+00:00"
         },
         {
             "name": "elasticms/common-bundle",
-            "version": "6.9.11",
+            "version": "6.9.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSCommonBundle.git",
-                "reference": "93d86b37a923ab85c218b86d2d3a09981531327c"
+                "reference": "90ef08408ea16dc61e5bba0093e96feff3bf632c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSCommonBundle/zipball/93d86b37a923ab85c218b86d2d3a09981531327c",
-                "reference": "93d86b37a923ab85c218b86d2d3a09981531327c",
+                "url": "https://api.github.com/repos/ems-project/EMSCommonBundle/zipball/90ef08408ea16dc61e5bba0093e96feff3bf632c",
+                "reference": "90ef08408ea16dc61e5bba0093e96feff3bf632c",
                 "shasum": ""
             },
             "require": {
@@ -2080,22 +2080,22 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSCommonBundle/tree/6.9.11"
+                "source": "https://github.com/ems-project/EMSCommonBundle/tree/6.9.12"
             },
-            "time": "2026-04-14T06:25:40+00:00"
+            "time": "2026-04-21T06:50:03+00:00"
         },
         {
             "name": "elasticms/core-bundle",
-            "version": "6.9.11",
+            "version": "6.9.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSCoreBundle.git",
-                "reference": "ad58ca77b26e3035bb8558531a2f7e20ec620153"
+                "reference": "165add4a43ccedcca14e2eba582c4d8ef8b9be1b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSCoreBundle/zipball/ad58ca77b26e3035bb8558531a2f7e20ec620153",
-                "reference": "ad58ca77b26e3035bb8558531a2f7e20ec620153",
+                "url": "https://api.github.com/repos/ems-project/EMSCoreBundle/zipball/165add4a43ccedcca14e2eba582c4d8ef8b9be1b",
+                "reference": "165add4a43ccedcca14e2eba582c4d8ef8b9be1b",
                 "shasum": ""
             },
             "require": {
@@ -2153,13 +2153,13 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSCoreBundle/tree/6.9.11"
+                "source": "https://github.com/ems-project/EMSCoreBundle/tree/6.9.12"
             },
-            "time": "2026-04-15T13:24:25+00:00"
+            "time": "2026-04-23T06:46:38+00:00"
         },
         {
             "name": "elasticms/form-bundle",
-            "version": "6.9.11",
+            "version": "6.9.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSFormBundle.git",
@@ -2202,13 +2202,13 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSFormBundle/tree/6.9.11"
+                "source": "https://github.com/ems-project/EMSFormBundle/tree/6.9.12"
             },
             "time": "2025-10-27T09:30:49+00:00"
         },
         {
             "name": "elasticms/helpers",
-            "version": "6.9.11",
+            "version": "6.9.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/helpers.git",
@@ -2252,13 +2252,13 @@
                 "php"
             ],
             "support": {
-                "source": "https://github.com/ems-project/helpers/tree/6.9.11"
+                "source": "https://github.com/ems-project/helpers/tree/6.9.12"
             },
             "time": "2025-10-27T09:29:21+00:00"
         },
         {
             "name": "elasticms/submission-bundle",
-            "version": "6.9.11",
+            "version": "6.9.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSSubmissionBundle.git",
@@ -2304,13 +2304,13 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSSubmissionBundle/tree/6.9.11"
+                "source": "https://github.com/ems-project/EMSSubmissionBundle/tree/6.9.12"
             },
             "time": "2026-01-27T14:06:38+00:00"
         },
         {
             "name": "elasticms/xliff",
-            "version": "6.9.11",
+            "version": "6.9.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/xliff.git",
@@ -2352,7 +2352,7 @@
                 "xliff"
             ],
             "support": {
-                "source": "https://github.com/ems-project/xliff/tree/6.9.11"
+                "source": "https://github.com/ems-project/xliff/tree/6.9.12"
             },
             "time": "2026-01-22T07:21:39+00:00"
         },
@@ -4445,16 +4445,16 @@
         },
         {
             "name": "phpoffice/phpspreadsheet",
-            "version": "3.10.4",
+            "version": "3.10.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPOffice/PhpSpreadsheet.git",
-                "reference": "3dfa34f1af992c1db139872fab8186e5b4e021b9"
+                "reference": "13f709c73e417c3c8cadc87ac88f809fd8d1fa45"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/3dfa34f1af992c1db139872fab8186e5b4e021b9",
-                "reference": "3dfa34f1af992c1db139872fab8186e5b4e021b9",
+                "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/13f709c73e417c3c8cadc87ac88f809fd8d1fa45",
+                "reference": "13f709c73e417c3c8cadc87ac88f809fd8d1fa45",
                 "shasum": ""
             },
             "require": {
@@ -4545,9 +4545,9 @@
             ],
             "support": {
                 "issues": "https://github.com/PHPOffice/PhpSpreadsheet/issues",
-                "source": "https://github.com/PHPOffice/PhpSpreadsheet/tree/3.10.4"
+                "source": "https://github.com/PHPOffice/PhpSpreadsheet/tree/3.10.5"
             },
-            "time": "2026-04-10T03:35:12+00:00"
+            "time": "2026-04-19T05:54:30+00:00"
         },
         {
             "name": "phpseclib/phpseclib",

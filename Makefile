@@ -2,9 +2,9 @@
 
 -include ./docker/.env
 
-PWD					= $(shell pwd)
-DOCKER_USER			?= $(shell id -u)
-DOCKER_COMPOSE		= docker compose --project-directory=docker
+PWD					   = $(shell pwd)
+DOCKER_USER    = $(id -u)
+DOCKER_COMPOSE = docker compose --project-directory=docker
 
 PORT_admin 			= 8881
 PORT_web 			= 8882
@@ -71,6 +71,8 @@ cache-clear: ## cache clear
 	@$(RUN_WEB) c:cl
 status: ## status
 	@docker ps --filter="label=elasticMS" --format "table {{.Label \"com.docker.compose.service\"}}\t{{.Status}}\t{{.Ports}}"
+sandbox: ## open a terminal in a development sandbox container
+	@$(DOCKER_COMPOSE)  exec sandbox bash
 
 ## —— Symfony server ———————————————————————————————————————————————————————————————————————————————————————————————————
 server-start/%: ## server-start/(admin|web|cli)

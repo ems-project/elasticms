@@ -7,6 +7,14 @@ outline: [2, 2]
 > [!TIP] It is recommended to rebuild all indexes after an upgrade:
 > `emsco:environment:rebuild --all`
 
+## 7.2
+
+- The command option `--user` is deprecated, use `--username` instead for the following commands
+  - `emsco:contenttype:transform`
+  - `emsco:revision:lock`
+  - `emsco:environment:align`
+  - `emsco:environment:unpublish`
+
 ## 7.x
 
 - Symfony upgraded `6.4 → 7.4`

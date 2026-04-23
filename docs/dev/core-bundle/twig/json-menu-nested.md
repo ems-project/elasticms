@@ -22,7 +22,7 @@ Loading the page with the request parameter **item** and value a item id, will s
 - **structure** : pass a json string of a part of the structure. Silent publish will now do partial updates
 - **actions** : allow or deny actions by default everything is enabled
 - **blocks** : overwrite item actions, append item information
-- **context** : extra context for the blocks rendering
+- **context** : extra context for the blocks rendering, the context may define a `testId` attribute that will be used to specify custom `data-testid` (default value `main`)
 
 ### Simple render
 ```twig

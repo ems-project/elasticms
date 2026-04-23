@@ -6,7 +6,6 @@ namespace EMS\CoreBundle\Command;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
-use EMS\CoreBundle\Command\AbstractCoreCommand;
 use EMS\CommonBundle\Storage\NotFoundException;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Entity\UploadedAsset;

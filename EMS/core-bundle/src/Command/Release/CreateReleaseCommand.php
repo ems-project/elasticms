@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command\Release;
 
-use EMS\CoreBundle\Command\AbstractCoreCommand;
 use EMS\CommonBundle\Common\EMSLink;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
 use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
 use EMS\CommonBundle\Search\Search;
 use EMS\CommonBundle\Service\ElasticaService;
+use EMS\CoreBundle\Command\AbstractCoreCommand;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Core\Revision\Release\ReleaseRevisionType;
 use EMS\CoreBundle\Entity\ContentType;

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command\Submission;
 
-use EMS\CoreBundle\Command\AbstractCoreCommand;
 use EMS\CommonBundle\Common\Config\ConfigResolver;
+use EMS\CoreBundle\Command\AbstractCoreCommand;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Core\Submission\ExportConfig;
 use EMS\CoreBundle\Core\Submission\SubmissionExporter;

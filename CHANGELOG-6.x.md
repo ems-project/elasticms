@@ -1,6 +1,6 @@
 # Changelog 6.x
 
-## 6.9.12 (2026-04-23)
+## 6.9.12 (2026-04-24)
 ### Features
 * feat(admin/twig): add filter ems_get_file_object and emsco_get_file_object by @theus77 in https://github.com/ems-project/elasticms/pull/1665
 * feat(common/property-accessor): recursive get/set and iterate by @Davidmattei in https://github.com/ems-project/elasticms/pull/1672

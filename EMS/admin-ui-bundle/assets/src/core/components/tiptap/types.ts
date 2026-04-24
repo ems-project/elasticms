@@ -9,6 +9,7 @@ import { indentActions } from './action/indent.ts'
 import { justifyActions } from './action/justify.ts'
 import { insertActions } from './action/insert.ts'
 import { WysiwygProfile } from '../wysiwyg/wysiwyg.ts'
+import { tableActions } from './action/table.ts'
 
 export const Actions: ToolbarAction[] = [
     ...historyActions,
@@ -17,7 +18,8 @@ export const Actions: ToolbarAction[] = [
     ...listActions,
     ...indentActions,
     ...justifyActions,
-    ...insertActions
+    ...insertActions,
+    ...tableActions,
 ]
 
 export interface ToolbarAction {

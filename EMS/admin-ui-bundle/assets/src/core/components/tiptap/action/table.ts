@@ -56,9 +56,6 @@ export const tableActions: ToolbarAction[] = [
                         <input type="number" id="table-rows" class="form-control" value="3" min="1" max="20">
                     </div>
                 </div>
-                <div class="checkbox">
-                    <label><input type="checkbox" id="table-header" checked> Include header row</label>
-                </div>
             `);
 
             dialog.addButton({
@@ -73,11 +70,10 @@ export const tableActions: ToolbarAction[] = [
                 onClick: (d) => {
                     const rows = parseInt(d.getFieldValue('table-rows')) || 3;
                     const cols = parseInt(d.getFieldValue('table-cols')) || 2;
-                    const withHeaderRow = (document.getElementById('table-header') as HTMLInputElement)?.checked;
 
                     e.tiptap.chain()
                         .focus()
-                        .insertTable({ rows, cols, withHeaderRow })
+                        .insertTable({ rows, cols })
                         .run();
                     d.close();
                 }

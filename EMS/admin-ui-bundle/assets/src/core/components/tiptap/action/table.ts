@@ -5,14 +5,14 @@ import { Dialog } from '../../dialog.ts'
 
 const CleanTable = Table.extend({
     renderHTML({ HTMLAttributes }) {
-        const { style, ...rest } = HTMLAttributes
+        const { ...rest } = HTMLAttributes
         return ['table', rest, ['tbody', 0]]
     }
 })
 
 const CleanTableCell = TableCell.extend({
     renderHTML({ HTMLAttributes }) {
-        const { style, colspan, rowspan, ...rest } = HTMLAttributes as any
+        const { colspan, rowspan, ...rest } = HTMLAttributes as any
         const attrs: any = { ...rest }
         if (colspan && colspan > 1) attrs.colspan = colspan
         if (rowspan && rowspan > 1) attrs.rowspan = rowspan
@@ -22,7 +22,7 @@ const CleanTableCell = TableCell.extend({
 
 const CleanTableHeader = TableHeader.extend({
     renderHTML({ HTMLAttributes }) {
-        const { style, colspan, rowspan, ...rest } = HTMLAttributes as any
+        const { colspan, rowspan, ...rest } = HTMLAttributes as any
         const attrs: any = { ...rest }
         if (colspan && colspan > 1) attrs.colspan = colspan
         if (rowspan && rowspan > 1) attrs.rowspan = rowspan
@@ -71,7 +71,7 @@ export const tableActions: ToolbarAction[] = [
                     const rows = parseInt(d.getFieldValue('table-rows')) || 3
                     const cols = parseInt(d.getFieldValue('table-cols')) || 2
 
-                    e.tiptap.chain().focus().insertTable({ rows, cols }).run()
+                    e.tiptap.chain().focus().insertTable({ rows, cols, withHeaderRow: false }).run()
                     d.close()
                 }
             })

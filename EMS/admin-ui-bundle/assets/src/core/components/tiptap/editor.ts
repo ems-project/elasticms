@@ -1,7 +1,5 @@
 import { Editor } from '@tiptap/core'
-import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
+import { DEFAULT_EXTENSIONS } from './extensions.ts'
 import { Toolbar, ToolbarConfig } from './toolbar.ts'
 
 interface TiptapEditorOptions {
@@ -26,7 +24,7 @@ export class TiptapEditor {
             element: {
                 mount: options.element
             },
-            extensions: [Document, Paragraph, Text, ...this.toolbar.getExtensions()],
+            extensions: [...DEFAULT_EXTENSIONS, ...this.toolbar.getExtensions()],
             content: options.content,
             onUpdate: () => this.toolbar.update(),
             onSelectionUpdate: () => this.toolbar.update(),

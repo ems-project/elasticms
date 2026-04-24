@@ -3,7 +3,7 @@ import IconIndent from '@tabler/icons/outline/indent-increase.svg?raw'
 import IconOutdent from '@tabler/icons/outline/indent-decrease.svg?raw'
 import { ToolbarAction } from '../types.ts'
 
-const INDENTABLE = ['paragraph', 'heading', 'bulletList', 'orderedList']
+const INDENTABLE = ['paragraph', 'heading']
 
 const IndentExtension = Extension.create({
     name: 'indent',
@@ -27,9 +27,26 @@ const IndentExtension = Extension.create({
     }
 })
 
+function isInList(state: any): boolean {
+    const { $from } = state.selection
+    for (let d = $from.depth; d > 0; d--) {
+        if ($from.node(d).type.name === 'listItem') return true
+    }
+    return false
+}
+
 function changeIndent(delta: number) {
     return (e: { tiptap: any }) => {
-        e.tiptap
+        const editor = e.tiptap
+        if (isInList(editor.state)) {
+            if (delta > 0) {
+                editor.chain().focus().sinkListItem('listItem').run()
+            } else {
+                editor.chain().focus().liftListItem('listItem').run()
+            }
+            return
+        }
+        editor
             .chain()
             .focus()
             .command(({ tr, state }: { tr: any; state: any }) => {
@@ -37,11 +54,6 @@ function changeIndent(delta: number) {
                 for (let d = $from.depth; d > 0; d--) {
                     const node = $from.node(d)
                     if (!INDENTABLE.includes(node.type.name)) continue
-                    if (
-                        (node.type.name === 'paragraph' || node.type.name === 'heading') &&
-                        $from.node(d - 1)?.type.name === 'listItem'
-                    )
-                        continue
                     const pos = $from.before(d)
                     const indent = node.attrs.indent || 0
                     const next = indent + delta

@@ -3,12 +3,14 @@ import IconIndent from '@tabler/icons/outline/indent-increase.svg?raw'
 import IconOutdent from '@tabler/icons/outline/indent-decrease.svg?raw'
 import { ToolbarAction } from '../types.ts'
 
+const INDENTABLE = ['paragraph', 'heading', 'bulletList', 'orderedList']
+
 const IndentExtension = Extension.create({
     name: 'indent',
     addGlobalAttributes() {
         return [
             {
-                types: ['paragraph', 'heading'],
+                types: INDENTABLE,
                 attributes: {
                     indent: {
                         default: 0,
@@ -25,6 +27,38 @@ const IndentExtension = Extension.create({
     }
 })
 
+function changeIndent(delta: number) {
+    return (e: { tiptap: any }) => {
+        e.tiptap
+            .chain()
+            .focus()
+            .command(({ tr, state }: { tr: any; state: any }) => {
+                const { $from } = state.selection
+                for (let d = $from.depth; d > 0; d--) {
+                    const node = $from.node(d)
+                    if (!INDENTABLE.includes(node.type.name)) continue
+                    if (
+                        (node.type.name === 'paragraph' || node.type.name === 'heading') &&
+                        $from.node(d - 1)?.type.name === 'listItem'
+                    )
+                        continue
+                    const pos = $from.before(d)
+                    const indent = node.attrs.indent || 0
+                    const next = indent + delta
+                    if (next >= 0) {
+                        tr.setNodeMarkup(pos, undefined, {
+                            ...node.attrs,
+                            indent: next
+                        })
+                    }
+                    break
+                }
+                return true
+            })
+            .run()
+    }
+}
+
 export const indentActions: ToolbarAction[] = [
     {
         name: 'Outdent',
@@ -32,30 +66,7 @@ export const indentActions: ToolbarAction[] = [
         icon: IconOutdent,
         tooltip: 'Decrease Indent',
         extensions: [IndentExtension],
-        command: (e) => {
-            e.tiptap
-                .chain()
-                .focus()
-                .command(({ tr, state }) => {
-                    state.doc.nodesBetween(
-                        state.selection.from,
-                        state.selection.to,
-                        (node, pos) => {
-                            if (node.type.name === 'paragraph' || node.type.name === 'heading') {
-                                const indent = node.attrs.indent || 0
-                                if (indent > 0) {
-                                    tr.setNodeMarkup(pos, undefined, {
-                                        ...node.attrs,
-                                        indent: indent - 1
-                                    })
-                                }
-                            }
-                        }
-                    )
-                    return true
-                })
-                .run()
-        },
+        command: changeIndent(-1),
         isActive: () => false
     },
     {
@@ -64,28 +75,7 @@ export const indentActions: ToolbarAction[] = [
         icon: IconIndent,
         tooltip: 'Increase Indent',
         extensions: [IndentExtension],
-        command: (e) => {
-            e.tiptap
-                .chain()
-                .focus()
-                .command(({ tr, state }) => {
-                    state.doc.nodesBetween(
-                        state.selection.from,
-                        state.selection.to,
-                        (node, pos) => {
-                            if (node.type.name === 'paragraph' || node.type.name === 'heading') {
-                                const indent = node.attrs.indent || 0
-                                tr.setNodeMarkup(pos, undefined, {
-                                    ...node.attrs,
-                                    indent: indent + 1
-                                })
-                            }
-                        }
-                    )
-                    return true
-                })
-                .run()
-        },
+        command: changeIndent(1),
         isActive: () => false
     }
 ]

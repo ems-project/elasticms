@@ -19,7 +19,7 @@ export const Actions: ToolbarAction[] = [
     ...indentActions,
     ...justifyActions,
     ...insertActions,
-    ...tableActions,
+    ...tableActions
 ]
 
 export interface ToolbarAction {

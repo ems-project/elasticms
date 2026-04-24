@@ -7,7 +7,7 @@ const CleanTable = Table.extend({
     renderHTML({ HTMLAttributes }) {
         const { style, ...rest } = HTMLAttributes
         return ['table', rest, ['tbody', 0]]
-    },
+    }
 })
 
 const CleanTableCell = TableCell.extend({
@@ -17,7 +17,7 @@ const CleanTableCell = TableCell.extend({
         if (colspan && colspan > 1) attrs.colspan = colspan
         if (rowspan && rowspan > 1) attrs.rowspan = rowspan
         return ['td', attrs, 0]
-    },
+    }
 })
 
 const CleanTableHeader = TableHeader.extend({
@@ -27,7 +27,7 @@ const CleanTableHeader = TableHeader.extend({
         if (colspan && colspan > 1) attrs.colspan = colspan
         if (rowspan && rowspan > 1) attrs.rowspan = rowspan
         return ['th', attrs, 0]
-    },
+    }
 })
 
 export const tableActions: ToolbarAction[] = [
@@ -40,10 +40,10 @@ export const tableActions: ToolbarAction[] = [
             CleanTable.configure({ resizable: false, allowTableNodeSelection: true }),
             TableRow,
             CleanTableCell,
-            CleanTableHeader,
+            CleanTableHeader
         ],
         command: (e) => {
-            const dialog = new Dialog('Table Properties');
+            const dialog = new Dialog('Table Properties')
 
             dialog.setContent(`
                 <div style="display: flex; gap: 15px;">
@@ -56,30 +56,27 @@ export const tableActions: ToolbarAction[] = [
                         <input type="number" id="table-rows" class="form-control" value="3" min="1" max="20">
                     </div>
                 </div>
-            `);
+            `)
 
             dialog.addButton({
                 label: 'Cancel',
                 className: 'btn-default btn-outline-secondary',
                 onClick: (d) => d.close()
-            });
+            })
 
             dialog.addButton({
                 label: 'Insert table',
                 className: 'btn-primary',
                 onClick: (d) => {
-                    const rows = parseInt(d.getFieldValue('table-rows')) || 3;
-                    const cols = parseInt(d.getFieldValue('table-cols')) || 2;
+                    const rows = parseInt(d.getFieldValue('table-rows')) || 3
+                    const cols = parseInt(d.getFieldValue('table-cols')) || 2
 
-                    e.tiptap.chain()
-                        .focus()
-                        .insertTable({ rows, cols })
-                        .run();
-                    d.close();
+                    e.tiptap.chain().focus().insertTable({ rows, cols }).run()
+                    d.close()
                 }
-            });
+            })
 
-            dialog.open();
+            dialog.open()
         },
         isActive: (e) => e.tiptap.isActive('table')
     }

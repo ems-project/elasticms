@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\Admin\Command;
 
 use App\Admin\Commands;
+use EMS\Helpers\File\File;
+use EMS\Helpers\File\Folder;
+use EMS\Helpers\File\Path;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -96,7 +99,7 @@ final class FakeProjectBuilder extends Command
     private function assertDestination(string $destination, bool $force): void
     {
         if (\is_dir($destination)) {
-            if (!$force && !$this->isDirectoryEmpty($destination)) {
+            if (!$force && !Folder::isEmpty($destination)) {
                 throw new \RuntimeException(\sprintf('Destination directory "%s" already exists and is not empty. Use --force to overwrite generated files.', $destination));
             }
 
@@ -140,41 +143,22 @@ final class FakeProjectBuilder extends Command
 
     private function writeFile(string $path, string $contents, bool $force): void
     {
-        $directory = \dirname($path);
-        if (!\is_dir($directory) && !@\mkdir($directory, 0o777, true) && !\is_dir($directory)) {
-            throw new \RuntimeException(\sprintf('Unable to create directory "%s".', $directory));
-        }
-
         if (\is_file($path) && !$force) {
             throw new \RuntimeException(\sprintf('File "%s" already exists. Use --force to overwrite generated files.', $path));
         }
 
-        if (false === \file_put_contents($path, $contents)) {
-            throw new \RuntimeException(\sprintf('Unable to write file "%s".', $path));
-        }
+        File::putContents(Folder::createFileDirectories($path), $contents);
     }
 
     private function resolveDestination(string $destination, string $projectDir): string
     {
-        if ($this->isAbsolutePath($destination)) {
+        if (Path::isAbsolutePath($destination)) {
             return \rtrim($destination, '/');
         }
 
         $baseDir = \getcwd() ?: $projectDir;
 
         return \rtrim($baseDir.'/'.$destination, '/');
-    }
-
-    private function isAbsolutePath(string $path): bool
-    {
-        return '' !== $path && ('/' === $path[0] || 1 === \preg_match('/^[A-Za-z]:\\\\/', $path));
-    }
-
-    private function isDirectoryEmpty(string $path): bool
-    {
-        $iterator = new \FilesystemIterator($path);
-
-        return !$iterator->valid();
     }
 
     /**

@@ -247,14 +247,13 @@ final class File implements FileInterface
         return new StorageFile($this->getStream($hash));
     }
 
-    /**
-     * @return mixed[]
-     */
     #[\Override]
-    public function getFileInfo(string $hash, bool $firstSeen = true): array
+    public function getFileInfo(string $hash, bool $firstSeen = true): FileInfo
     {
-        return $this->client->get('/api/file/info/'.$hash, [
+        $data = $this->client->get('/api/file/info/'.$hash, [
             'first-seen' => $firstSeen,
         ])->getData();
+
+        return FileInfo::deserialize($data);
     }
 }

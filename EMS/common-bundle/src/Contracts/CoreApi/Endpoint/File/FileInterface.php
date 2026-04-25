@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Contracts\CoreApi\Endpoint\File;
 
+use EMS\CommonBundle\Common\File\FileInfo;
 use EMS\CommonBundle\Contracts\File\FileManagerInterface;
 use Psr\Http\Message\StreamInterface;
 
@@ -25,8 +26,5 @@ interface FileInterface extends FileManagerInterface
 
     public function headHash(string $hash): bool;
 
-    /**
-     * @return mixed[]
-     */
-    public function getFileInfo(string $hash, bool $firstSeen = true): array;
+    public function getFileInfo(string $hash, bool $firstSeen = true): FileInfo;
 }

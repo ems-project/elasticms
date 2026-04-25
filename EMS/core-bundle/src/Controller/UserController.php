@@ -229,7 +229,10 @@ class UserController extends AbstractController
 
     public function apiKey(string $username): Response
     {
-        $user = $this->userService->giveUser($username, false);
+        $user = $this->userManager->getUserByUsername($username);
+        if (null === $user) {
+            throw new \RuntimeException(\sprintf('User %s not found', $username));
+        }
 
         $roles = $user->getRoles();
         if (!\in_array('ROLE_API', $roles)) {

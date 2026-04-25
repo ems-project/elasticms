@@ -58,16 +58,6 @@ class UserService implements EntityServiceInterface
         return $user;
     }
 
-    public function giveUser(string $username, bool $detachIt = true): UserInterface
-    {
-        $user = $this->getUser($username, $detachIt);
-        if (null === $user) {
-            throw new \RuntimeException('Unexpected null user object');
-        }
-
-        return $user;
-    }
-
     public function getUser(string $username, bool $detachIt = true): ?UserInterface
     {
         $user = $this->userRepository->findOneBy(['username' => $username]);

@@ -7,7 +7,10 @@ namespace EMS\CommonBundle\Command\Admin;
 use EMS\CommonBundle\Commands;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\CommonBundle\Common\File\FileInfo;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\File\FileInterface;
+use EMS\Helpers\Standard\DateTime;
+use EMS\Helpers\Standard\Json;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -52,9 +55,28 @@ class GetFileInfoCommand extends AbstractCommand
     #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->io->title(\sprintf('Information of asset %s', $this->fileHash));
         $fileInfo = $this->fileApi->getFileInfo($this->fileHash, !$this->lastUploaded);
-        dump($fileInfo);
+
+        if ($this->io->isQuiet()) {
+            $fileObject = $fileInfo->getFileObject();
+            echo $fileObject ? Json::encode($fileObject) : 'null';
+
+            return self::SUCCESS;
+        }
+
+        $this->io->title(\sprintf('Information of asset %s', $this->fileHash));
+        $this->io->definitionList(
+            ['Hash' => $fileInfo->getHash()],
+            ['Name' => $fileInfo->getName() ?? 'N/A'],
+            ['Type' => $fileInfo->getType() ?? 'N/A'],
+            ['Uploaded by' => $fileInfo->getUploadedBy() ?? 'N/A'],
+            ['Hidden' => $fileInfo->getHidden() ? 'yes' : 'no'],
+            ['Size' => null !== $fileInfo->getSize() ? (string) $fileInfo->getSize() : 'N/A'],
+            ['Uploads' => null !== $fileInfo->getUploads() ? (string) $fileInfo->getUploads() : 'N/A'],
+            ['Head counter' => null !== $fileInfo->getHeadCounter() ? (string) $fileInfo->getHeadCounter() : 'N/A'],
+            ['First seen' => DateTime::format($fileInfo->getFirstSeen())],
+            ['Last seen' => DateTime::format($fileInfo->getLastUploaded())],
+        );
 
         return self::SUCCESS;
     }

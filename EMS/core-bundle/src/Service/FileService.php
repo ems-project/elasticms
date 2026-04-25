@@ -77,17 +77,7 @@ class FileService implements EntityServiceInterface
             return $this->storageManager->getFileObject($hash, $filename, $type);
         }
 
-        return [
-            EmsFields::CONTENT_FILE_HASH_FIELD => $hash,
-            EmsFields::CONTENT_FILE_HASH_FIELD_ => $hash,
-            EmsFields::CONTENT_FILE_SIZE_FIELD => $lastUploaded->getSize(),
-            EmsFields::CONTENT_FILE_SIZE_FIELD_ => $lastUploaded->getSize(),
-            EmsFields::CONTENT_FILE_NAME_FIELD => $filename ?? $lastUploaded->getName(),
-            EmsFields::CONTENT_FILE_NAME_FIELD_ => $filename ?? $lastUploaded->getName(),
-            EmsFields::CONTENT_MIME_TYPE_FIELD => $type ?? $lastUploaded->getType(),
-            EmsFields::CONTENT_MIME_TYPE_FIELD_ => $type ?? $lastUploaded->getType(),
-            EmsFields::CONTENT_FILE_ALGO_FIELD_ => $lastUploaded->getHashAlgo(),
-        ];
+        return $lastUploaded->getFileObject($filename, $type);
     }
 
     public function getStreamResponse(string $hash, string $disposition, Request $request): Response

@@ -36,6 +36,13 @@ sudo mv ~/.symfony5/bin/symfony /usr/local/bin/symfony
 sudo apt install make
 ```
 
+If you are using a mac with [brew](https://brew.sh/):
+
+```bash
+brew install php@85 php@85-curl php@85-gd php@85-iconv php@85-intl php@85-ldap php@85-mbstring php@85-mysql php@85-soap php@85-tidy php@85-zip
+brew link --force --overwrite php@8.5
+```
+
 If you are using a mac with [mac port](https://www.macports.org/):
 
 ```bash

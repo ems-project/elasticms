@@ -324,6 +324,23 @@ class FileController extends AbstractController
         return $response;
     }
 
+    public function info(string $hash): Response
+    {
+        $fileInfo = $this->fileService->getFileInfo($hash);
+
+        $response = new JsonResponse(
+            $fileInfo->getFileObject(),
+        );
+        $response->setCache([
+            'max_age' => 3600,
+            's_maxage' => 36000,
+            'public' => true,
+            'private' => false,
+        ]);
+
+        return $response;
+    }
+
     private function getUsername(): string
     {
         $userObject = $this->getUser();

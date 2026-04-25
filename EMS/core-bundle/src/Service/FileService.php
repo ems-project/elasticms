@@ -6,6 +6,7 @@ namespace EMS\CoreBundle\Service;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
+use EMS\CommonBundle\Common\File\FileInfo;
 use EMS\CommonBundle\Entity\EntityInterface;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Storage\HashMismatchException;
@@ -485,5 +486,14 @@ class FileService implements EntityServiceInterface
     public function getAlgo(): string
     {
         return $this->storageManager->getHashAlgo();
+    }
+
+    public function getFileInfo(string $hash): FileInfo
+    {
+        $fileInfo = new FileInfo($hash);
+        $fileObject = $this->getFileObject($hash);
+        $fileInfo->setFileObject($fileObject);
+
+        return $fileInfo;
     }
 }

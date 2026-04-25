@@ -72,8 +72,10 @@ cache-clear: ## cache clear
 	@$(RUN_WEB) c:cl
 status: ## status
 	@docker ps --filter="label=elasticMS" --format "table {{.Label \"com.docker.compose.service\"}}\t{{.Status}}\t{{.Ports}}"
+pull: ## Pull service images
+	@$(DOCKER_COMPOSE) pull
 sandbox: ## open a terminal in a development sandbox container
-	@$(DOCKER_COMPOSE)  exec sandbox bash
+	@$(DOCKER_COMPOSE) exec sandbox bash
 
 ## —— Symfony server ———————————————————————————————————————————————————————————————————————————————————————————————————
 server-start/%: ## server-start/(admin|web|cli)

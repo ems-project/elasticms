@@ -28,7 +28,6 @@ class UserService implements EntityServiceInterface
      * @param array<mixed> $securityRoles
      */
     public function __construct(
-        private readonly Registry $doctrine,
         private readonly TokenStorageInterface $tokenStorage,
         private readonly Security $security,
         private readonly UserRepository $userRepository,
@@ -139,10 +138,7 @@ class UserService implements EntityServiceInterface
 
     public function deleteUser(UserInterface $user): void
     {
-        /** @var EntityManagerInterface $em */
-        $em = $this->doctrine->getManager();
-        $em->remove($user);
-        $em->flush();
+        $this->userRepository->remove($user);
     }
 
     /**

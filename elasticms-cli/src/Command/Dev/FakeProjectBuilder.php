@@ -252,12 +252,12 @@ final class FakeProjectBuilder extends AbstractCommand
         }
 
         foreach (self::REQUIRED_PACKAGES as $package) {
-            if (\str_starts_with($package, 'elasticms/')) {
+            if (isset($sourceRequire[$package])) {
+                $require[$package] = $sourceRequire[$package];
+            } elseif (\str_starts_with($package, 'elasticms/')) {
                 $require[$package] = $elasticmsVersion;
             } elseif (\str_starts_with($package, 'symfony/')) {
                 $require[$package] = $symfonyVersion;
-            } elseif (isset($sourceRequire[$package])) {
-                $require[$package] = $sourceRequire[$package];
             } else {
                 throw new \RuntimeException(\sprintf('The source composer.json file does not specify a "%s" version constraint.', $package));
             }

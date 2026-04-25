@@ -119,7 +119,17 @@ class UploadedAssetRepository extends EntityRepository
         $this->getEntityManager()->flush();
     }
 
+    public function getFirstUploadedByHash(string $hash): ?UploadedAsset
+    {
+        return $this->uploadedByHash($hash, 'ASC');
+    }
+
     public function getLastUploadedByHash(string $hash): ?UploadedAsset
+    {
+        return $this->uploadedByHash($hash, 'DESC');
+    }
+
+    private function uploadedByHash(string $hash, string $modifiedOrder): ?UploadedAsset
     {
         $qb = $this->createQueryBuilder('ua');
         $qb->where($qb->expr()->eq('ua.available', ':true'));
@@ -128,7 +138,7 @@ class UploadedAssetRepository extends EntityRepository
             new Parameter('true', true),
             new Parameter('hash', $hash),
         ]));
-        $qb->orderBy('ua.modified', 'DESC');
+        $qb->orderBy('ua.modified', $modifiedOrder);
         $qb->setMaxResults(1);
 
         $uploadedAsset = $qb->getQuery()->getOneOrNullResult();

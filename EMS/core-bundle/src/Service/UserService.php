@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Service;
 
-use Doctrine\Bundle\DoctrineBundle\Registry;
-use Doctrine\ORM\EntityManagerInterface;
 use EMS\CommonBundle\Entity\EntityInterface;
 use EMS\CoreBundle\Core\UI\Menu;
 use EMS\CoreBundle\Core\User\UserList;

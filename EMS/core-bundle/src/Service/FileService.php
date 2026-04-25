@@ -478,11 +478,22 @@ class FileService implements EntityServiceInterface
         return $this->storageManager->getHashAlgo();
     }
 
-    public function getFileInfo(string $hash): FileInfo
+    public function getFileInfo(string $hash, bool $firstSeen = true): FileInfo
     {
         $fileInfo = new FileInfo($hash);
-        $fileObject = $this->getFileObject($hash);
-        $fileInfo->setFileObject($fileObject);
+        $uploadedAsset = $firstSeen ? $this->uploadedAssetRepository->getFirstUploadedByHash($hash) : $this->uploadedAssetRepository->getLastUploadedByHash($hash);
+        if (null !== $uploadedAsset) {
+            $fileInfo->setFileObject($uploadedAsset->getFileObject());
+            $fileInfo->setName($uploadedAsset->getName());
+            $fileInfo->setType($uploadedAsset->getType());
+            $fileInfo->setSize($uploadedAsset->getSize());
+            $fileInfo->setUploadedBy($uploadedAsset->getUser());
+            $fileInfo->setHidden($uploadedAsset->isHidden());
+        }
+        $uploadStatistics = $this->uploadedAssetRepository->getStatistics($hash);
+        $fileInfo->setFirstSeen($uploadStatistics['firstUploadedAt']);
+        $fileInfo->setLastUploaded($uploadStatistics['lastUploadedAt']);
+        $fileInfo->setUploads($uploadStatistics['count']);
 
         return $fileInfo;
     }

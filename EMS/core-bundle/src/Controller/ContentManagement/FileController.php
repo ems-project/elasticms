@@ -324,9 +324,10 @@ class FileController extends AbstractController
         return $response;
     }
 
-    public function info(string $hash): Response
+    public function info(string $hash, Request $request): Response
     {
-        $fileInfo = $this->fileService->getFileInfo($hash);
+        $firstSeen = (bool) $request->query->get('first-seen', true);
+        $fileInfo = $this->fileService->getFileInfo($hash, $firstSeen);
         $response = new JsonResponse($fileInfo);
         $response->setCache([
             'max_age' => 3600,

@@ -3,14 +3,14 @@ import IconTable from '@tabler/icons/outline/table.svg?raw'
 import { ToolbarAction } from '../types.ts'
 import { Dialog } from '../../dialog.ts'
 
-const CleanTable = Table.extend({
+const CustomTable = Table.extend({
     renderHTML({ HTMLAttributes }) {
         const { ...rest } = HTMLAttributes
         return ['table', rest, ['tbody', 0]]
     }
 })
 
-const CleanTableCell = TableCell.extend({
+const CustomTableCell = TableCell.extend({
     renderHTML({ HTMLAttributes }) {
         const { colspan, rowspan, ...rest } = HTMLAttributes as any
         const attrs: any = { ...rest }
@@ -20,7 +20,7 @@ const CleanTableCell = TableCell.extend({
     }
 })
 
-const CleanTableHeader = TableHeader.extend({
+const CustomTableHeader = TableHeader.extend({
     renderHTML({ HTMLAttributes }) {
         const { colspan, rowspan, ...rest } = HTMLAttributes as any
         const attrs: any = { ...rest }
@@ -37,10 +37,10 @@ export const tableActions: ToolbarAction[] = [
         icon: IconTable,
         tooltip: 'Insert Table',
         extensions: [
-            CleanTable.configure({ resizable: false, allowTableNodeSelection: true }),
+            CustomTable.configure({ resizable: false, allowTableNodeSelection: true }),
             TableRow,
-            CleanTableCell,
-            CleanTableHeader
+            CustomTableCell,
+            CustomTableHeader
         ],
         command: (e) => {
             const dialog = new Dialog('Table Properties')

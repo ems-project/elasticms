@@ -89,6 +89,11 @@ class StorageManager implements FileManagerInterface
         return \array_any($this->adapters, fn ($adapter) => $adapter->head($hash));
     }
 
+    public function headCounter(string $hash): int
+    {
+        return \array_reduce($this->adapters, fn ($carry, $adapter) => $carry + $adapter->head($hash) ? 1 : 0, 0);
+    }
+
     #[\Override]
     public function heads(string ...$fileHashes): \Traversable
     {

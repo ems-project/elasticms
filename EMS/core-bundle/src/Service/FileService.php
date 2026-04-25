@@ -494,6 +494,7 @@ class FileService implements EntityServiceInterface
         $fileInfo->setFirstSeen($uploadStatistics['firstUploadedAt']);
         $fileInfo->setLastUploaded($uploadStatistics['lastUploadedAt']);
         $fileInfo->setUploads($uploadStatistics['count']);
+        $fileInfo->setHeadCounter($this->storageManager->headCounter($hash));
 
         return $fileInfo;
     }

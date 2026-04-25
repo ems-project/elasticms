@@ -16,6 +16,7 @@ class FileInfo implements \JsonSerializable
     private ?bool $hidden = null;
     private ?int $size = null;
     private ?int $uploads = null;
+    private ?int $headCounter = null;
 
     public function __construct(private readonly string $hash)
     {
@@ -56,6 +57,7 @@ class FileInfo implements \JsonSerializable
             'first-seen' => $this->firstSeen,
             'last-seen' => $this->lastUploaded,
             'uploads' => $this->uploads,
+            'head-counter' => $this->headCounter,
         ];
     }
 
@@ -137,5 +139,15 @@ class FileInfo implements \JsonSerializable
     public function setUploads(?int $uploads): void
     {
         $this->uploads = $uploads;
+    }
+
+    public function getHeadCounter(): ?int
+    {
+        return $this->headCounter;
+    }
+
+    public function setHeadCounter(?int $headCounter): void
+    {
+        $this->headCounter = $headCounter;
     }
 }

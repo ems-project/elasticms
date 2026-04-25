@@ -1,6 +1,6 @@
 import './../../../../css/core/components/_tiptap_toolbar.scss'
 import { Extension, Mark, Node } from '@tiptap/core'
-import { Actions, ToolbarAction } from './types.ts'
+import { Actions, HtmlTransform, ToolbarAction } from './types.ts'
 import { TiptapEditor } from './editor.ts'
 import { WysiwygProfile } from '../wysiwyg/wysiwyg.ts'
 
@@ -12,6 +12,7 @@ export interface ToolbarConfig {
 export class Toolbar {
     readonly container: HTMLElement
     private extensions: (Extension | Mark | Node)[] = []
+    private htmlTransforms: HtmlTransform[] = []
     private tiptapEditor!: TiptapEditor
     private actions: Map<string, ToolbarAction> = new Map(Actions.map((a) => [a.name, a]))
     private readonly wysiwygProfile: WysiwygProfile
@@ -57,6 +58,12 @@ export class Toolbar {
                             this.extensions.push(ext)
                         }
                     })
+
+                    action.htmlTransforms?.forEach((t) => {
+                        if (!this.htmlTransforms.some((x) => x.name === t.name)) {
+                            this.htmlTransforms.push(t)
+                        }
+                    })
                 })
 
                 if (groupDiv.children.length > 0) currentRow.appendChild(groupDiv)
@@ -70,6 +77,9 @@ export class Toolbar {
 
     getExtensions(): (Extension | Mark | Node)[] {
         return this.extensions
+    }
+    getHtmlTransforms(): HtmlTransform[] {
+        return this.htmlTransforms
     }
     getActionsByGroup(groupName: string): ToolbarAction[] {
         return Array.from(this.actions.values()).filter((action) => action.group === groupName)

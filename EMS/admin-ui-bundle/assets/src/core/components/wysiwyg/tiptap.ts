@@ -53,8 +53,8 @@ export default class Tiptap {
         const toolbarHeight = toolbar.offsetHeight || 0
         this.container.style.height = `${height + toolbarHeight}px`
 
-        tiptapEditor.tiptap.on('update', ({ editor }) => {
-            this.textarea.value = editor.getHTML()
+        tiptapEditor.tiptap.on('update', () => {
+            this.textarea.value = tiptapEditor.getHTML()
 
             if (this.wysiwygOptions.inRevision) {
                 const changeEvent = new ChangeEvent(this.textarea)
@@ -89,19 +89,19 @@ export default class Tiptap {
             group: 'mode',
             icon: IconSource,
             tooltip: 'Source Code',
-            command: (e) => {
+            command: (tiptapEditor) => {
                 this.isSourceView = !this.isSourceView
                 this.container.classList.toggle('is-source-mode', this.isSourceView)
 
                 if (this.isSourceView) {
-                    this.textarea.value = e.tiptap.getHTML()
-                    e.toolbar.setDisabled(true, ['Source', 'Maximize'])
+                    this.textarea.value = tiptapEditor.getHTML()
+                    tiptapEditor.toolbar.setDisabled(true, ['Source', 'Maximize'])
                 } else {
-                    e.tiptap.commands.setContent(this.textarea.value)
-                    e.toolbar.setDisabled(false, ['Source', 'Maximize'])
+                    tiptapEditor.setContent(this.textarea.value)
+                    tiptapEditor.toolbar.setDisabled(false, ['Source', 'Maximize'])
                 }
 
-                e.toolbar.update()
+                tiptapEditor.toolbar.update()
             },
             isActive: () => this.isSourceView
         }
@@ -113,16 +113,16 @@ export default class Tiptap {
             group: 'tools',
             icon: IconMaximize,
             tooltip: 'Maximize',
-            command: (e) => {
+            command: (tiptapEditor) => {
                 this.isMaximized = !this.isMaximized
 
                 document.body.classList.toggle('wysiwyg-maximized-active', this.isMaximized)
                 this.container.classList.toggle('is-maximized', this.isMaximized)
 
-                const button = e.toolbar.getButton('Maximize')
+                const button = tiptapEditor.toolbar.getButton('Maximize')
                 if (button) button.innerHTML = this.isMaximized ? IconMinimize : IconMaximize
 
-                e.toolbar.update()
+                tiptapEditor.toolbar.update()
             },
             isActive: () => this.isMaximized
         }

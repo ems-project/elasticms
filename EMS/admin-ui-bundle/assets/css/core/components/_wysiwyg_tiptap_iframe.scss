@@ -25,6 +25,18 @@ body {
         margin-top: 0.5em;
     }
 
+    figure[data-type="table"] {
+        margin: 0;
+        padding: 0;
+
+        > figcaption {
+            text-align: center;
+            font-style: italic;
+            padding: 5px;
+            color: #555;
+        }
+    }
+
     table {
         border-collapse: collapse;
         table-layout: fixed;

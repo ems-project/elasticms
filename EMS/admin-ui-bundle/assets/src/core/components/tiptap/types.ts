@@ -22,12 +22,19 @@ export const Actions: ToolbarAction[] = [
     ...tableActions
 ]
 
+export interface HtmlTransform {
+    name: string
+    toEditor?: (doc: Document) => void
+    toOutput?: (doc: Document) => void
+}
+
 export interface ToolbarAction {
     name: string
     group: string
     icon: string
     tooltip?: string
     extensions?: (Extension | Mark | Node)[]
+    htmlTransforms?: HtmlTransform[]
     command?: (editor: TiptapEditor) => void
     isActive: (editor: TiptapEditor) => boolean
     isEnabled?: (profile: WysiwygProfile) => boolean

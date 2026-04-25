@@ -253,7 +253,7 @@ final class File implements FileInterface
     #[\Override]
     public function getFileInfo(string $hash, bool $firstSeen = true): array
     {
-        return $this->client->get('/api/file/file-object/'.$hash, [
+        return $this->client->get('/api/file/info/'.$hash, [
             'first-seen' => $firstSeen,
         ])->getData();
     }

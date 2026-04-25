@@ -1,3 +1,4 @@
 /.env
 /.sandbox/*
 !/.sandbox/.gitignore
+/sandbox.env

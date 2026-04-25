@@ -129,6 +129,32 @@ class UploadedAssetRepository extends EntityRepository
         return $this->uploadedByHash($hash, 'DESC');
     }
 
+    /**
+     * @return array{count:int, firstUploadedAt:?\DateTimeImmutable, lastUploadedAt:?\DateTimeImmutable}
+     */
+    public function getStatistics(string $hash): array
+    {
+        $qb = $this->createQueryBuilder('ua');
+        $qb->select('COUNT(ua.id) AS count')
+            ->addSelect('MIN(ua.created) AS firstUploadedAt')
+            ->addSelect('MAX(ua.created) AS lastUploadedAt')
+            ->where($qb->expr()->eq('ua.available', ':true'))
+            ->andWhere($qb->expr()->eq('ua.sha1', ':hash'))
+            ->setParameters(new ArrayCollection([
+                new Parameter('true', true),
+                new Parameter('hash', $hash),
+            ]));
+
+        /** @var array{count:numeric-string|int, firstUploadedAt:?string, lastUploadedAt:?string}|null $result */
+        $result = $qb->getQuery()->getOneOrNullResult();
+
+        return [
+            'count' => (int) ($result['count'] ?? 0),
+            'firstUploadedAt' => \is_string($result['firstUploadedAt'] ?? null) ? new \DateTimeImmutable($result['firstUploadedAt']) : null,
+            'lastUploadedAt' => \is_string($result['lastUploadedAt'] ?? null) ? new \DateTimeImmutable($result['lastUploadedAt']) : null,
+        ];
+    }
+
     private function uploadedByHash(string $hash, string $modifiedOrder): ?UploadedAsset
     {
         $qb = $this->createQueryBuilder('ua');

@@ -55,4 +55,33 @@ final class FileInfoTest extends TestCase
         $this->assertSame('2026-04-14 19:10:59', $fileInfo->getLastUploaded()?->format('Y-m-d H:i:s'));
         $this->assertSame('ems-hashcash.png', $fileInfo->getFileObject()['filename'] ?? null);
     }
+
+    public function testDeserializeWhenFileInfoWasNotFoundInAdmin(): void
+    {
+        $fileInfo = FileInfo::deserialize([
+            'hash' => '1322c1902365afc55f783c692915d4365b29c',
+            'name' => null,
+            'type' => null,
+            'file-object' => null,
+            'first-seen' => null,
+            'last-seen' => null,
+            'uploaded-by' => null,
+            'hidden' => null,
+            'size' => null,
+            'uploads' => 0,
+            'head-counter' => 0,
+        ]);
+
+        $this->assertSame('1322c1902365afc55f783c692915d4365b29c', $fileInfo->getHash());
+        $this->assertNull($fileInfo->getName());
+        $this->assertNull($fileInfo->getType());
+        $this->assertNull($fileInfo->getFileObject());
+        $this->assertNull($fileInfo->getFirstSeen());
+        $this->assertNull($fileInfo->getLastUploaded());
+        $this->assertNull($fileInfo->getUploadedBy());
+        $this->assertNull($fileInfo->getHidden());
+        $this->assertNull($fileInfo->getSize());
+        $this->assertSame(0, $fileInfo->getUploads());
+        $this->assertSame(0, $fileInfo->getHeadCounter());
+    }
 }

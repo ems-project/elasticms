@@ -80,7 +80,7 @@ class FileInfo implements \JsonSerializable
     /**
      * @param array{sha1: string, _hash: string, filesize: int, _size: int, filename: string, _name: string, mimetype: string, _type: string, _algo: string} $fileObject
      */
-    public function setFileObject(array $fileObject): void
+    public function setFileObject(?array $fileObject): void
     {
         $this->fileObject = $fileObject;
     }
@@ -156,12 +156,12 @@ class FileInfo implements \JsonSerializable
         return $this->lastUploaded;
     }
 
-    public function setName(string $name): void
+    public function setName(?string $name): void
     {
         $this->name = $name;
     }
 
-    public function setType(string $type): void
+    public function setType(?string $type): void
     {
         $this->type = $type;
     }

@@ -16,4 +16,12 @@ body {
     box-sizing: border-box;
     padding: 5px;
     min-height: 100%;
+
+    li p {
+        margin: 0;
+    }
+
+    li p + p {
+        margin-top: 0.5em;
+    }
 }

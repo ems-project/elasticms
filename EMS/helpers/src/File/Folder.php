@@ -41,4 +41,11 @@ class Folder
 
         return \implode(DIRECTORY_SEPARATOR, [$path, $basename]);
     }
+
+    public static function isEmpty(string $path): bool
+    {
+        $iterator = new \FilesystemIterator($path);
+
+        return !$iterator->valid();
+    }
 }

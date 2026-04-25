@@ -7,7 +7,7 @@ export const cleanupActions: ToolbarAction[] = [
         group: 'cleanup',
         icon: IconClear,
         tooltip: 'Remove Format',
-        command: (e) => e.tiptap.chain().focus().unsetAllMarks().clearNodes().run(),
+        command: (e) => e.tiptap.chain().focus().unsetAllMarks().run(),
         isActive: () => false
     }
 ]

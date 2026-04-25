@@ -42,6 +42,7 @@ help: # Show help for each of the Makefile recipes.
 ## —— Mono —————————————————————————————————————————————————————————————————————————————————————————————————————————————
 init: ## init mono repo (copy .env)
 	@cp -fp ./docker/.env.dist ./docker/.env
+	@cp -fp ./docker/sandbox.env.dist ./docker/sandbox.env
 	@cp -fp ./elasticms-admin/.env.dist ./elasticms-admin/.env
 	@cp -fp ./elasticms-admin/.env.local.dist ./elasticms-admin/.env.local
 	@cp -fp ./elasticms-web/.env.dist ./elasticms-web/.env

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Admin\Command;
+namespace App\CLI\Command\Dev;
 
-use App\Admin\Commands;
+use App\CLI\Commands;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\Helpers\File\File;
 use EMS\Helpers\File\Folder;
@@ -17,7 +17,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(
-    name: Commands::EMSADMIN_FAKE_PROJECT_BUILD,
+    name: Commands::FAKE_PROJECT_BUILD,
     description: 'Generate a lightweight Symfony project for IDE autocompletion from elasticms-admin versions.',
 )]
 final class FakeProjectBuilder extends AbstractCommand
@@ -242,23 +242,24 @@ final class FakeProjectBuilder extends AbstractCommand
         /** @var array<string, string> $sourceRequire */
         $sourceRequire = \is_array($composer['require'] ?? null) ? $composer['require'] : [];
 
+        $elasticmsVersion = $sourceRequire['elasticms/common-bundle'] ?? null;
+        if (!$elasticmsVersion) {
+            throw new \RuntimeException('The source composer.json file does not specify an "elasticms/common-bundle" version constraint.');
+        }
+        $symfonyVersion = $sourceRequire['symfony/console'] ?? null;
+        if (!$symfonyVersion) {
+            throw new \RuntimeException('The source composer.json file does not specify a "symfony/console" version constraint.');
+        }
+
         foreach (self::REQUIRED_PACKAGES as $package) {
-            if (isset($sourceRequire[$package])) {
+            if (\str_starts_with($package, 'elasticms/')) {
+                $require[$package] = $elasticmsVersion;
+            } elseif (\str_starts_with($package, 'symfony/')) {
+                $require[$package] = $symfonyVersion;
+            } elseif (isset($sourceRequire[$package])) {
                 $require[$package] = $sourceRequire[$package];
-            }
-        }
-
-        if (!isset($require['php'])) {
-            throw new \RuntimeException('The source composer.json does not define a PHP version constraint.');
-        }
-
-        foreach ([
-            'symfony/framework-bundle',
-            'symfony/twig-bundle',
-            'elasticms/core-bundle',
-        ] as $requiredPackage) {
-            if (!isset($require[$requiredPackage])) {
-                throw new \RuntimeException(\sprintf('The source composer.json does not define the required package "%s".', $requiredPackage));
+            } else {
+                throw new \RuntimeException(\sprintf('The source composer.json file does not specify a "%s" version constraint.', $package));
             }
         }
 

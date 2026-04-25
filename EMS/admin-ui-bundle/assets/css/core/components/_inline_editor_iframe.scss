@@ -1,0 +1,50 @@
+:root {
+    --go2editor-size: 54px;
+
+    --go2editor-bg: #ffc107;
+    --go2editor-bg-hover: #e0a800;
+    --go2editor-color: #212529;
+
+    --go2editor-right: 154px;
+    --go2editor-bottom: 40px;
+    --go2editor-z: 1050;
+}
+
+[contenteditable] {
+    outline: none;
+    display: inline-block;
+}
+
+[contenteditable]:focus {
+    background-color: rgba(0, 150, 255, 0.1);
+    border-radius: 4px;
+}
+
+[contenteditable]::selection {
+    background: rgba(0, 150, 255, 0.3);
+}
+
+#go2editor {
+    position: fixed;
+    right: var(--go2editor-right);
+    bottom: var(--go2editor-bottom);
+
+    width: var(--go2editor-size);
+    height: var(--go2editor-size);
+
+    border-radius: 50%;
+    background: var(--go2editor-bg);
+    color: var(--go2editor-color);
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    text-decoration: none;
+    z-index: var(--go2editor-z);
+}
+
+#go2editor:hover {
+    background: var(--go2editor-bg-hover);
+}

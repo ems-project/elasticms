@@ -11,24 +11,26 @@ use Build\Release\File\ComposerLockFile;
 use Build\Release\Service\GithubRelease;
 use Build\Release\Service\PackagistService;
 use Build\Release\Version;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Process\Process;
 
+#[AsCommand(
+    name: 'create',
+    description: 'Release a new version',
+    hidden: false
+)]
 class ReleaseCommand extends AbstractCommand
 {
-    protected static $defaultName = 'create';
-
     private Version $version;
     private PackagistService $packagist;
 
     protected function configure(): void
     {
-        $this
-            ->setDescription('release a new version')
-            ->addArgument('version', InputArgument::OPTIONAL, 'version number');
+        $this->addArgument('version', InputArgument::OPTIONAL, 'version number');
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output): void
@@ -74,7 +76,7 @@ class ReleaseCommand extends AbstractCommand
             $this->checkPackagist(...$packageReleases);
 
             $this->io->section('Composer update applications');
-            $this->composerUpdate($deploy, Config::APPLICATIONS, $packageReleases);
+            $this->composerUpdate($deploy, $packageReleases);
 
             $this->io->section('Commit release');
             $sha = $this->commitRelease($deploy);
@@ -88,9 +90,6 @@ class ReleaseCommand extends AbstractCommand
 
             $this->io->section('Release applications');
             $this->release($deploy, Config::APPLICATIONS);
-
-            $this->io->section('Release docker');
-            $this->release($deploy, Config::DOCKER);
 
             return self::SUCCESS;
         } catch (\Throwable $e) {
@@ -180,10 +179,9 @@ class ReleaseCommand extends AbstractCommand
     }
 
     /**
-     * @param string[]                     $applications
      * @param array<string, GithubRelease> $packageReleases
      */
-    private function composerUpdate(Deploy $deploy, array $applications, array $packageReleases): void
+    private function composerUpdate(Deploy $deploy, array $packageReleases): void
     {
         $command = 'composer update --no-scripts --no-progress --with-dependencies --quiet';
         if ('patch' === $deploy->version->getType()) {
@@ -191,7 +189,7 @@ class ReleaseCommand extends AbstractCommand
         }
         $process = Process::fromShellCommandline($command);
 
-        foreach ($applications as $application) {
+        foreach (Config::APPLICATIONS as $application) {
             if ('elasticms-demo' === $application) {
                 continue;
             }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command\Xliff;
 
-use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
 use EMS\CommonBundle\Helper\EmsFields;
@@ -12,7 +11,8 @@ use EMS\CommonBundle\Search\Search;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CommonBundle\Storage\Service\StorageInterface;
 use EMS\CommonBundle\Storage\StorageManager;
-use EMS\CommonBundle\Twig\AssetRuntime;
+use EMS\CommonBundle\Twig\AssetExtension;
+use EMS\CoreBundle\Command\AbstractCoreCommand;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Core\Mail\MailerService;
 use EMS\CoreBundle\Entity\Environment;
@@ -22,7 +22,9 @@ use EMS\CoreBundle\Service\Internationalization\XliffService;
 use EMS\Helpers\File\TempFile;
 use EMS\Helpers\Html\MimeTypes;
 use EMS\Helpers\Standard\Json;
-use EMS\Xliff\Xliff\Extractor;
+use EMS\Xliff\Options;
+use EMS\Xliff\Version;
+use EMS\Xliff\Xliff;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -34,7 +36,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
     name: Commands::XLIFF_EXTRACT,
     hidden: false
 )]
-final class ExtractCommand extends AbstractCommand
+final class ExtractCommand extends AbstractCoreCommand
 {
     private string $sourceLocale;
     private Environment $sourceEnvironment;
@@ -84,7 +86,7 @@ final class ExtractCommand extends AbstractCommand
         private readonly EnvironmentService $environmentService,
         private readonly ElasticaService $elasticaService,
         private readonly XliffService $xliffService,
-        private readonly AssetRuntime $assetRuntime,
+        private readonly AssetExtension $assetExtension,
         private readonly MailerService $mailerService,
         private readonly StorageManager $storageManager,
         private readonly int $defaultBulkSize,
@@ -103,12 +105,12 @@ final class ExtractCommand extends AbstractCommand
             ->addArgument(self::ARGUMENT_FIELDS, InputArgument::IS_ARRAY, 'List of content type\s fields to extract. Use the pattern %locale% if required. Use the `.` to separate nested fields from their parent. Use `json:` `id_key:` and/or `base64;` to decode a field. You can also use `*` as wild char and `|` to list children fields  E.g. `%locale%.json:id_key:content.object.title|content` or `[%locale%][json:id_key:content][object][title|content]`')
             ->addOption(self::OPTION_BULK_SIZE, null, InputOption::VALUE_REQUIRED, 'Size of the elasticsearch scroll request', $this->defaultBulkSize)
             ->addOption(self::OPTION_TARGET_ENVIRONMENT, null, InputOption::VALUE_OPTIONAL, 'Environment with the target documents')
-            ->addOption(self::OPTION_XLIFF_VERSION, null, InputOption::VALUE_OPTIONAL, 'XLIFF format version: '.\implode(' ', Extractor::XLIFF_VERSIONS), Extractor::XLIFF_1_2)
+            ->addOption(self::OPTION_XLIFF_VERSION, null, InputOption::VALUE_OPTIONAL, 'XLIFF format version: '.\implode(' ', Version::ALL), Version::V12)
             ->addOption(self::OPTION_BASENAME, null, InputOption::VALUE_OPTIONAL, 'XLIFF export file basename', 'ems-extract.xlf')
             ->addOption(self::OPTION_BASE_URL, null, InputOption::VALUE_OPTIONAL, 'Base url, in order to generate a download link to the XLIFF file')
-            ->addOption(self::OPTION_LOCALE_FIELD, null, InputOption::VALUE_OPTIONAL, 'Field containing the locale', null)
+            ->addOption(self::OPTION_LOCALE_FIELD, null, InputOption::VALUE_OPTIONAL, 'Field containing the locale')
             ->addOption(self::OPTION_ENCODING, null, InputOption::VALUE_OPTIONAL, 'Encoding used to generate the XLIFF file', 'UTF-8')
-            ->addOption(self::OPTION_TRANSLATION_FIELD, null, InputOption::VALUE_OPTIONAL, 'Field containing the translation field', null)
+            ->addOption(self::OPTION_TRANSLATION_FIELD, null, InputOption::VALUE_OPTIONAL, 'Field containing the translation field')
             ->addOption(self::OPTION_WITH_BASELINE, null, InputOption::VALUE_NONE, 'The baseline has been checked and can be used to flag field as final')
             ->addOption(self::OPTION_MAIL_SUBJECT, null, InputOption::VALUE_OPTIONAL, 'Mail subject', 'A new XLIFF has been generated')
             ->addOption(self::OPTION_MAIL_TO, null, InputOption::VALUE_OPTIONAL, 'A comma seperated list of emails where to send the XLIFF')
@@ -155,21 +157,27 @@ final class ExtractCommand extends AbstractCommand
             \sprintf('Starting the XLIFF export for fields: %s', \implode(' ', $this->fields)),
         ]);
 
+        if (Version::V22 === $this->xliffVersion) {
+            $this->io->warning('XLIFF 2.2 is not yet supported by elasticMS');
+        }
+
         $search = new Search([$this->sourceEnvironment->getAlias()], $this->searchQuery);
         $search->setSources(EMSSource::REQUIRED_FIELDS);
         $search->setSize($this->bulkSize);
+
         $scroll = $this->elasticaService->scroll($search);
         $total = $this->elasticaService->count($search);
         $this->io->progressStart($total);
 
-        $extractor = new Extractor($this->sourceLocale, $this->targetLocale, $this->xliffVersion);
+        $xliff = Xliff::create(new Options($this->xliffVersion));
+        $xliff->init($this->sourceLocale, $this->targetLocale);
 
         foreach ($scroll as $resultSet) {
             foreach ($resultSet as $result) {
                 $source = Document::fromResult($result);
                 try {
                     $contentType = $this->contentTypeService->giveByName($source->getContentType());
-                    $this->xliffService->extract($contentType, $source, $extractor, $this->fields, $this->sourceEnvironment, $this->targetEnvironment, $this->targetLocale, $this->localeField, $this->translationField, $this->withBaseline);
+                    $this->xliffService->extract($contentType, $source, $xliff, $this->fields, $this->sourceEnvironment, $this->targetEnvironment, $this->targetLocale, $this->localeField, $this->translationField, $this->withBaseline);
                 } catch (\Throwable $e) {
                     $this->io->warning($e->getMessage());
                 }
@@ -178,14 +186,12 @@ final class ExtractCommand extends AbstractCommand
         }
         $this->io->progressFinish();
         $tempFile = TempFile::create();
-        if (!$extractor->saveXML($tempFile->path, $this->encoding)) {
-            throw new \RuntimeException(\sprintf('Unexpected error while saving the XLIFF to the file %s', $this->xliffBasename));
-        }
+        $xliff->saveXML($tempFile->path, $this->xliffVersion, $this->encoding);
         $this->sendEmail($tempFile);
 
         $hash = $this->storageManager->saveFile($tempFile->path, StorageInterface::STORAGE_USAGE_CONFIG);
 
-        $url = ($this->baseUrl ?? '').$this->assetRuntime->assetPath(
+        $url = ($this->baseUrl ?? '').$this->assetExtension->assetPath(
             [
                 EmsFields::CONTENT_FILE_HASH_FIELD => $hash,
                 EmsFields::CONTENT_FILE_NAME_FIELD => \basename($this->xliffBasename),
@@ -198,8 +204,8 @@ final class ExtractCommand extends AbstractCommand
             EmsFields::CONTENT_MIME_TYPE_FIELD,
             UrlGeneratorInterface::ABSOLUTE_PATH
         );
-        $output->writeln('');
-        $output->writeln(\sprintf('The XLIFF export is available at %s', $url));
+        $this->io->newLine();
+        $this->io->success(\sprintf('The XLIFF export is available at %s', $url));
 
         return self::EXECUTE_SUCCESS;
     }
@@ -243,7 +249,7 @@ final class ExtractCommand extends AbstractCommand
     private function getMimetype(): string
     {
         return match ($this->xliffVersion) {
-            Extractor::XLIFF_1_2 => MimeTypes::APPLICATION_XLIFF_LEGACY->value,
+            Version::V12 => MimeTypes::APPLICATION_XLIFF_LEGACY->value,
             default => MimeTypes::APPLICATION_XLIFF->value,
         };
     }

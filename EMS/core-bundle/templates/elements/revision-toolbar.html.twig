@@ -2,7 +2,7 @@
 <div class="btn-group{% if vertical is defined and vertical %}-vertical{% endif %}">
 	{% if withView is not defined or withView %}
         {% include '@EMSCore/elements/get-button.html.twig' with {
-			'url': path('data.revisions', {
+			'url': path('emsco_view_revisions', {
 				'type': instance.contentType.name,
 				'ouuid': instance.ouuid,
 				'revisionId': revisionId,
@@ -17,7 +17,7 @@
 	{% endif %}
 	{% if current and not draft and is_granted(instance.contentType.roles.edit) %}
 		{% include '@EMSCore/elements/post-button.html.twig' with {
-			'url': path('revision.new-draft', {'ouuid': revision.ouuid, 'type':revision.contentType.name, 'item': app.request.get('item') }),
+			'url': path('emsco_data_new_draft', {'ouuid': revision.ouuid, 'type':revision.contentType.name, 'item': app.request.query.get('item') }),
 			'label': 'views.elements.revision-toolbar-html.new-draft-label'|trans,
 			'btnType': 'primary',
 			'icon': 'pencil',
@@ -30,7 +30,7 @@
 			{% if not  instance.contentType.circlesField or attribute(instance.rawData, instance.contentType.circlesField) is not defined or attribute(instance.rawData, instance.contentType.circlesField)|emsco_in_my_circles %}
 				<div class="btn-group">
 					{% include '@EMSCore/elements/get-button.html.twig' with {
-						'url': path('emsco_edit_revision', {'revisionId': revisionId, 'item': app.request.get('item') }),
+						'url': path('emsco_edit_revision', {'revisionId': revisionId, 'item': app.request.query.get('item') }),
 						'label': 'views.elements.revision-toolbar-html.edit-draft-label'|trans,
 						'btnType': 'primary',
 						'icon': 'pencil',
@@ -51,7 +51,7 @@
 				</div>
 				{% if autoSave  %}
                     {% include '@EMSCore/elements/post-button.html.twig' with {
-						'url': path('revision.cancel', {'revision': revisionId}),
+						'url': path('emsco_data_cancel_modifications', {'revision': revisionId}),
 						'message': 'views.elements.revision-toolbar-html.cancel-message'|trans,
 						'label': 'views.elements.revision-toolbar-html.cancel-label'|trans,
 						'btnType': 'default',
@@ -65,7 +65,7 @@
 				<div class="btn-group">
                     {% if not autoSave  %}
 						{% include '@EMSCore/elements/post-button.html.twig' with {
-							'url': path('revision.finalize', {'revision': revisionId}),
+							'url': path('emsco_data_finalize', {'revision': revisionId}),
 							'message': 'views.elements.revision-toolbar-html.finalize-draft-message'|trans,
 							'label': 'views.elements.revision-toolbar-html.finalize-draft-label'|trans({'%environment%': instance.contentType.environment.label|default('')}),
 							'btnType': 'default',
@@ -76,7 +76,7 @@
 						}%}
                     {% endif %}
                     {% include '@EMSCore/elements/post-button.html.twig' with {
-                        'url': path('revision.discard', {'revisionId': revisionId}),
+                        'url': path('emsco_discard_draft', {'revisionId': revisionId}),
                         'label': 'views.elements.revision-toolbar-html.discard-draft-label'|trans,
                         'message': 'views.elements.revision-toolbar-html.discard-draft-message'|trans,
                         'btnType': 'outline-danger',
@@ -119,7 +119,7 @@
                                     } }%}</li>
 							{% if autoSave  %}
 								<li>{% include '@EMSCore/elements/post-button.html.twig' with {
-                                        'url': path('revision.cancel', {'revision': revisionId}),
+                                        'url': path('emsco_data_cancel_modifications', {'revision': revisionId}),
                                         'btnClass': '',
                                         'label': 'views.elements.revision-toolbar-html.cancel-last-updates-label'|trans,
                                         'icon': 'remove',
@@ -151,7 +151,7 @@
 							{% endif %}
 							{% if autoSave  %}
 								<li>{% include '@EMSCore/elements/post-button.html.twig' with {
-                                        'url': path('revision.cancel', {'revision': revisionId}),
+                                        'url': path('emsco_data_cancel_modifications', {'revision': revisionId}),
                                         'btnClass': '',
                                         'message': 'views.elements.revision-toolbar-html.cancel-last-updates-message'|trans,
                                         'label': 'views.elements.revision-toolbar-html.cancel-last-updates-label'|trans,
@@ -161,7 +161,7 @@
                                         } }%}</li>
 							{% endif %}
 								<li>{% include '@EMSCore/elements/post-button.html.twig' with {
-                                        'url': path('revision.revert', {'id': revisionId}),
+                                        'url': path('emsco_data_revert', {'id': revisionId}),
                                         'btnClass': '',
                                         'label': 'views.elements.revision-toolbar-html.revert-revision-label'|trans,
                                         'icon': 'undo',
@@ -229,7 +229,7 @@
 					</button>
 					<ul class="dropdown-menu">
 						<li>{% include '@EMSCore/elements/post-button.html.twig' with {
-							'url': path('revision.reindex', {'revisionId': revisionId}),
+							'url': path('emsco_data_reindex', {'revisionId': revisionId}),
 							'btnClass': '',
 							'label': 'views.elements.revision-toolbar-html.re-index-label'|trans,
 							'icon': 'recycle',

@@ -1,6 +1,5 @@
 parameters:
-    env(EMSCH_ELASTICSEARCH_CLUSTER):   '["http://localhost:9200"]'
-    env(EMS_ELASTICSEARCH_HOSTS):       '%env(string:EMSCH_ELASTICSEARCH_CLUSTER)%'
+    env(EMS_ELASTICSEARCH_HOSTS):       '[]'
     env(EMSCH_LOCALES):                 '["fr","nl"]'
     env(EMSCH_BIND_LOCALE):             true
     env(EMSCH_ENVS):                    '{}'
@@ -10,6 +9,7 @@ parameters:
     env(EMSCH_ASSET_CONFIG_TYPE):       ~
     env(EMSCH_SEARCH_CONFIG):           '{}'
     env(EMSCH_TEMPLATES):               '{"template": {"name": "name","code": "body"}}'
+    env(EMSCH_ASSET_SRC_IMAGE_CONFIG):    '{"_image_format":"webp","_config_type":"image","_width":0,"_height":0,"_quality":90}'
 
     env(EMSCH_TEMPLATE_ERROR):          '@@EMSCH/template/error{code}.html.twig'
     env(EMSCH_TEMPLATE_EMS_LINK):       '@@EMSCH/template/{type}.ems_link.twig'
@@ -56,6 +56,7 @@ ems_client_helper:
     asset_local_folder: '%env(string:EMSCH_ASSET_LOCAL_FOLDER)%'
     request_environments: '%env(json:EMSCH_ENVS)%'
     search_limit: '%env(int:EMSCH_SEARCH_LIMIT)%'
+    asset_src_image_config: '%env(json:EMSCH_ASSET_SRC_IMAGE_CONFIG)%'
     elasticms:
         website:
             api: {"enable": true, "name": "backend"}

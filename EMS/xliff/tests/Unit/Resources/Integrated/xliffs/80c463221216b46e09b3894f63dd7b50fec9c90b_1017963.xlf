@@ -11,7 +11,7 @@
         <target xml:lang="de" state="final">Vorübergehende Zielgruppenermäßigung im Hotelsektor – Corona-Maßnahme</target>
       </trans-unit>
       <group resname="[introduction]" id="grp3">
-        <group restype="x-html-div" id="tu4" resname="/html/body/div">
+        <group restype="x-html-div" id="grp4" resname="/html/body/div">
           <note from="class">intro</note>
           <trans-unit restype="x-html-p" id="tu5" resname="/html/body/div/p[1]">
             <source xml:lang="nl">   </source>
@@ -44,7 +44,7 @@
           <source xml:lang="nl"> Deze maatregel is van toepassing op de werkgevers </source>
           <target xml:lang="de" state="final"> Diese Maßnahme gilt für Arbeitnehmer </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu19" resname="/html/body/ul[1]">
+        <group restype="x-html-ul" id="grp19" resname="/html/body/ul[1]">
           <trans-unit restype="listitem" id="tu20" resname="/html/body/ul[1]/li[1]">
             <source xml:lang="nl">uit de privésector </source>
             <target xml:lang="de" state="final">aus dem privaten Sektor </target>
@@ -66,17 +66,17 @@
           <source xml:lang="nl"> Concreet betreft het de werkgevers </source>
           <target xml:lang="de" state="final"> Konkret betrifft dies die Arbeitgeber, </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu37" resname="/html/body/ul[2]">
+        <group restype="x-html-ul" id="grp37" resname="/html/body/ul[2]">
           <trans-unit restype="listitem" id="tu38" resname="/html/body/ul[2]/li[1]">
             <source xml:lang="nl">die vallen onder het Paritair Comité voor het hotelbedrijf (PC 302), d.w.z. aan wie de RSZ-werkgeverscategorie <g id="g39" ctype="x-html-strong">017</g> of <g id="g40" ctype="x-html-strong">317</g> werd toegekend </source>
             <target xml:lang="de" state="final">die unter die Paritätischen Kommission für das Hotelgewerbe (PK 302) fallen, d. h. die der LSS–Arbeitgeberkategorie <g id="g41" ctype="x-html-strong">017</g> oder <g id="g42" ctype="x-html-strong">317</g> zugeordnet sind </target>
           </trans-unit>
-          <group restype="listitem" id="tu43" resname="/html/body/ul[2]/li[2]">
+          <group restype="listitem" id="grp43" resname="/html/body/ul[2]/li[2]">
             <trans-unit id="tu44" resname="/html/body/ul[2]/li[2]/text()[1]">
               <source xml:lang="nl"> <g id="g45" ctype="x-html-strong">en</g> wier hoofdactiviteit onder één van volgende NACE-codes valt: </source>
               <target xml:lang="de" state="final"> <g id="g46" ctype="x-html-strong">und</g> deren Haupttätigkeit unter einen der folgenden NACE-Codes fällt: </target>
             </trans-unit>
-            <group restype="x-html-ul" id="tu47" resname="/html/body/ul[2]/li[2]/ul">
+            <group restype="x-html-ul" id="grp47" resname="/html/body/ul[2]/li[2]/ul">
               <trans-unit restype="listitem" id="tu48" resname="/html/body/ul[2]/li[2]/ul/li[1]">
                 <source xml:lang="nl">55.100: Hotels en dergelijke accommodatie </source>
                 <target xml:lang="de" state="final">55.100: Hotels, Gasthöfe und Pensionen </target>
@@ -111,24 +111,24 @@
               </trans-unit>
             </group>
           </group>
-          <group restype="listitem" id="tu56" resname="/html/body/ul[2]/li[3]">
+          <group restype="listitem" id="grp56" resname="/html/body/ul[2]/li[3]">
             <trans-unit id="tu57" resname="/html/body/ul[2]/li[3]/text()[1]">
               <source xml:lang="nl"> <g id="g58" ctype="x-html-strong">en</g> die in het <g id="g60" ctype="x-html-strong">2<g id="g61" ctype="x-html-sup">de</g> kwartaal 2021</g>, een effectieve  omzetdaling van minstens 60% hebben geleden ten opzichte van het <g id="g64" ctype="x-html-strong">2<g id="g65" ctype="x-html-sup">de</g> kwartaal 2019</g> voor de werkgevers die een periodieke BTW-aangifte indienen, </source>
               <target xml:lang="de" state="final"> <g id="g59" ctype="x-html-strong">und</g> die im <g id="g62" ctype="x-html-strong">2.<x id="x63" ctype="x-html-sup" equiv-text=" "/> Quartal 2021</g> einen effektiven Umsatzrückgang von mindestens 60 % gegenüber dem <g id="g66" ctype="x-html-strong">2.<x id="x67" ctype="x-html-sup" equiv-text=" "/> Quartal 2019</g>, erlitten haben, für die Arbeitgeber, die eine periodische Mehrwertsteuererklärung einreichen, </target>
             </trans-unit>
-            <group restype="x-html-ul" id="tu68" resname="/html/body/ul[2]/li[3]/ul">
+            <group restype="x-html-ul" id="grp68" resname="/html/body/ul[2]/li[3]/ul">
               <trans-unit restype="listitem" id="tu69" resname="/html/body/ul[2]/li[3]/ul/li">
                 <source xml:lang="nl"> <g id="g70" ctype="x-html-strong">of</g> die in het <g id="g71" ctype="x-html-strong">2<g id="g72" ctype="x-html-sup">de</g> kwartaal 2021</g> een effectieve daling hebben van minstens 60 % van de bij de RSZ aangegeven loonmassa ten opzichte van het <g id="g73" ctype="x-html-strong">2<g id="g74" ctype="x-html-sup">de</g> kwartaal 2019</g> voor de werkgevers die geen periodieke BTW-aangifte doen <g id="g75" ctype="x-html-strong">om van de vermindering te kunnen genieten voor het 2<g id="g76" ctype="x-html-sup">de</g> kwartaal 2021</g>. </source>
                 <target xml:lang="de" state="final"> <g id="g77" ctype="x-html-strong">oder</g> die im <g id="g78" ctype="x-html-strong">2.<x id="x79" ctype="x-html-sup" equiv-text=" "/> Quartal 2021</g> einen effektiven Rückgang der beim LSS gemeldeten Lohnsumme von mindestens 60 % gegenüber dem <g id="g80" ctype="x-html-strong">2.<x id="x81" ctype="x-html-sup" equiv-text=" "/> Quartal 2019</g>, erlitten haben, für die Arbeitgeber, die keine periodische Mehrwertsteuererklärung vornehmen, <g id="g82" ctype="x-html-strong">um die Ermäßigung für das 2.<x id="x83" ctype="x-html-sup" equiv-text=" "/> Quartal 2021 in Anspruch nehmen zu können</g> </target>
               </trans-unit>
             </group>
           </group>
-          <group restype="listitem" id="tu84" resname="/html/body/ul[2]/li[4]">
+          <group restype="listitem" id="grp84" resname="/html/body/ul[2]/li[4]">
             <trans-unit id="tu85" resname="/html/body/ul[2]/li[4]/text()[1]">
               <source xml:lang="nl"> <g id="g86" ctype="x-html-strong"><bx id="bx88" rid="rid87" equiv-text="&amp;lt;span style=&amp;quot;display: none;&amp;quot;&amp;gt;"/> <ex id="ex89" rid="rid87" equiv-text="&amp;lt;/span&amp;gt;"/>en</g> die in het <g id="g92" ctype="x-html-strong">3<g id="g93" ctype="x-html-sup">de</g> kwartaal 2021</g>, een effectieve  omzetdaling van minstens 60% hebben geleden ten opzichte van het <g id="g96" ctype="x-html-strong">3<g id="g97" ctype="x-html-sup">de</g> kwartaal 2019</g> voor de werkgevers die een periodieke BTW-aangifte indienen, </source>
               <target xml:lang="de" state="final"> <g id="g90" ctype="x-html-strong"><x id="x91" ctype="x-html-span" equiv-text="&amp;lt;span style=&amp;quot;display: none;&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;"/>und</g> die im <g id="g94" ctype="x-html-strong">3.<x id="x95" ctype="x-html-sup" equiv-text=" "/> Quartal 2021</g> einen effektiven Umsatzrückgang von mindestens 60 % gegenüber dem <g id="g98" ctype="x-html-strong">3.<x id="x99" ctype="x-html-sup" equiv-text=" "/> Quartal 2019</g>, erlitten haben, für die Arbeitgeber, die eine periodische Mehrwertsteuererklärung einreichen, </target>
             </trans-unit>
-            <group restype="x-html-ul" id="tu100" resname="/html/body/ul[2]/li[4]/ul">
+            <group restype="x-html-ul" id="grp100" resname="/html/body/ul[2]/li[4]/ul">
               <trans-unit restype="listitem" id="tu101" resname="/html/body/ul[2]/li[4]/ul/li">
                 <source xml:lang="nl"> <g id="g102" ctype="x-html-strong">of</g> die in het <g id="g103" ctype="x-html-strong">3<g id="g104" ctype="x-html-sup">de</g> kwartaal 2021</g> een effectieve daling hebben van minstens 60 % van de bij de RSZ aangegeven loonmassa ten opzichte van het <g id="g105" ctype="x-html-strong">3<g id="g106" ctype="x-html-sup">de</g> kwartaal 2019</g> voor de werkgevers die geen periodieke BTW-aangifte doen <g id="g107" ctype="x-html-strong">om van de vermindering te kunnen genieten voor het 3<g id="g108" ctype="x-html-sup">de</g> kwartaal 2021</g>.<bx id="bx110" rid="rid109" equiv-text="&amp;lt;span style=&amp;quot;display: none;&amp;quot;&amp;gt;"/> <ex id="ex111" rid="rid109" equiv-text="&amp;lt;/span&amp;gt;"/> </source>
                 <target xml:lang="de" state="final"> <g id="g112" ctype="x-html-strong">oder</g> die im <g id="g113" ctype="x-html-strong">3.<x id="x114" ctype="x-html-sup" equiv-text=" "/> Quartal 2021</g> einen effektiven Rückgang der beim LSS gemeldeten Lohnsumme von mindestens 60 % gegenüber dem <g id="g115" ctype="x-html-strong">3.<x id="x116" ctype="x-html-sup" equiv-text=" "/> Quartal 2019</g>, erlitten haben, für die Arbeitgeber, die keine periodische Mehrwertsteuererklärung vornehmen<g id="g117" ctype="x-html-strong">, um die Entschädigung für das 3.<x id="x118" ctype="x-html-sup" equiv-text=" "/> Quartal 2021</g> in Anspruch nehmen zu können.<bx id="bx120" rid="rid119" equiv-text="&amp;lt;span style=&amp;quot;display: none;&amp;quot;&amp;gt;"/> <ex id="ex121" rid="rid119" equiv-text="&amp;lt;/span&amp;gt;"/> </target>
@@ -136,7 +136,7 @@
             </group>
           </group>
         </group>
-        <group restype="x-html-div" id="tu122" resname="/html/body/div">
+        <group restype="x-html-div" id="grp122" resname="/html/body/div">
           <note from="class">message</note>
           <trans-unit restype="x-html-p" id="tu123" resname="/html/body/div/p">
             <source xml:lang="nl"> Enkel de <g id="g124" ctype="x-html-strong">vestigingseenheden</g> die een hotel uitbaten of accommodatie verschaffen zoals omschreven in de voormelde NACE-codes, komen in aanmerking. </source>
@@ -157,7 +157,7 @@
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu139" resname="/html/body/p[5]">
           <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+          <target xml:lang="de" state="new"/>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu140" resname="/html/body/p[6]">
           <source xml:lang="nl"> Deze werkgevers kunnen voor de maatregel in aanmerking komen voor het 3<g id="g141" ctype="x-html-sup">de</g> kwartaal 2021 als ze in het 3<g id="g142" ctype="x-html-sup">de</g> kwartaal 2021 een effectieve daling van minstens 60 % van de omzet hebben geleden, resulterend uit verrichtingen die moeten worden opgenomen in kader 2 van de periodieke BTW-aangifte, bedoeld in artikel 53, §1, eerste lid, 2°, van het BTW-wetboek, ten opzichte van de omzet resulterend uit dezelfde verrichtingen die in de periodieke BTW-aangifte voor het 3<g id="g143" ctype="x-html-sup">de</g> kwartaal 2019 moesten worden opgenomen. </source>
@@ -165,7 +165,7 @@
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu147" resname="/html/body/p[7]">
           <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+          <target xml:lang="de" state="new"/>
         </trans-unit>
         <trans-unit restype="x-html-h4" id="tu148" resname="/html/body/h4[2]">
           <source xml:lang="nl"> <g id="g149" ctype="x-html-strong">Categorie 2:</g> BTW-plichtige werkgevers die geen periodieke BTW-aangifte indienen </source>
@@ -175,7 +175,7 @@
           <source xml:lang="nl"> Het betreft </source>
           <target xml:lang="de" state="final"> Dies betrifft </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu152" resname="/html/body/ul[3]">
+        <group restype="x-html-ul" id="grp152" resname="/html/body/ul[3]">
           <trans-unit restype="listitem" id="tu153" resname="/html/body/ul[3]/li[1]">
             <source xml:lang="nl">kleine ondernemingen die hebben geopteerd voor de vrijstellingsregeling indien hun jaarlijkse omzet niet meer dan 25.000 EUR bedraagt </source>
             <target xml:lang="de" state="final">kleine Unternehmen, die sich für die Befreiungsregelung entschieden haben, wenn ihr Jahresumsatz 25.000 EUR nicht übersteigt </target>
@@ -195,7 +195,7 @@
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu163" resname="/html/body/p[10]">
           <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+          <target xml:lang="de" state="new"/>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu164" resname="/html/body/p[11]">
           <source xml:lang="nl"> Deze werkgevers kunnen aanspraak maken op de maatregel voor het 3<g id="g165" ctype="x-html-sup">de</g> kwartaal 2021 als zij in het 3<g id="g166" ctype="x-html-sup">de</g> kwartaal 2021 een effectieve daling hebben geleden van minstens 60% van de bij de RSZ aangegeven loonmassa ten opzichte van het 3<g id="g167" ctype="x-html-sup">de</g> kwartaal 2019. </source>
@@ -203,7 +203,7 @@
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu171" resname="/html/body/p[12]">
           <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+          <target xml:lang="de" state="new"/>
         </trans-unit>
         <trans-unit restype="x-html-h4" id="tu172" resname="/html/body/h4[3]">
           <source xml:lang="nl"> <g id="g173" ctype="x-html-strong">Categorie 3:</g> werkgevers die niet BTW-plichtig zijn </source>
@@ -215,7 +215,7 @@
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu182" resname="/html/body/p[14]">
           <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+          <target xml:lang="de" state="new"/>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu183" resname="/html/body/p[15]">
           <source xml:lang="nl"> Deze werkgevers kunnen aanspraak maken op de maatregel voor het 3<g id="g184" ctype="x-html-sup">de</g> kwartaal 2021 als zij in het 3<g id="g185" ctype="x-html-sup">de</g> kwartaal 2021 een effectieve daling hebben geleden van minstens 60% van de bij de RSZ aangegeven loonmassa ten opzichte van het 3<g id="g186" ctype="x-html-sup">de</g>kwartaal 2019. </source>
@@ -223,7 +223,7 @@
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu190" resname="/html/body/p[16]">
           <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+          <target xml:lang="de" state="new"/>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu191" resname="/html/body/p[17]">
           <source xml:lang="nl"> De RSZ zal a posteriori controles op het naleven van deze voorwaarde uitvoeren. </source>
@@ -237,7 +237,7 @@
           <source xml:lang="nl"> Om voor de doelgroepvermindering in aanmerking te komen, moet de werkgever aan de volgende bijkomende voorwaarden voldoen: </source>
           <target xml:lang="de" state="final"> Um die Zielgruppenermäßigung in Anspruch nehmen zu können, muss der Arbeitgeber die folgenden zusätzlichen Bedingungen erfüllen: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu194" resname="/html/body/ul[4]">
+        <group restype="x-html-ul" id="grp194" resname="/html/body/ul[4]">
           <trans-unit restype="listitem" id="tu195" resname="/html/body/ul[4]/li[1]">
             <source xml:lang="nl">de werknemers voor wie hij de doelgroepvermindering toepast, ononderbroken in dienst houden gedurende het betrokken kwartaal, behalve als de werknemer zelf ontslag heeft genomen (dus <g id="g196" ctype="x-html-strong">niet</g> als met wederzijds akkoord), om dringende redenen ontslagen werd of als hij een tijdskrediet of een thematisch verlof opgenomen heeft; </source>
             <target xml:lang="de" state="final">die Arbeitnehmer/-innen, für die er die Zielgruppenermäßigung anwendet, im betreffenden Quartal ununterbrochen weiterbeschäftigen, es sei denn, der/die Arbeitnehmer/-in hat selbst gekündigt (also <g id="g197" ctype="x-html-strong">nicht</g> im gegenseitigen Einvernehmen), wurde aus schwerwiegenden Gründen entlassen oder hat einen Zeitkredit oder thematischen Urlaub genommen; </target>
@@ -246,12 +246,12 @@
             <source xml:lang="nl">in 2021 aan al zijn werknemers een concrete en individuele <g id="g199" ctype="x-html-strong">opleiding aanbieden gedurende ten minste 5 volledige dagen per voltijds equivalente werknemer in 2021</g>. Het betreft zowel de werknemers die de doelgroepvermindering genieten, als de andere werknemers, of ze nu in tijdelijke werkloosheid werden geplaatst of niet; Voor deeltijdse werknemers heeft de werkgever de mogelijkheid om het aandeel opleidingsdagen te verminderen in verhouding tot hun contractuele arbeidsduur; </source>
             <target xml:lang="de" state="final">im Jahr 2021 allen Arbeitnehmerinnen und Arbeitnehmern eine konkrete und individuelle <g id="g200" ctype="x-html-strong">Schulung für mindestens 5 volle Tage pro Vollzeitkraft anbieten</g>. Dies betrifft sowohl die Arbeitnehmer/-innen, die von der Zielgruppenermäßigung profitieren, als auch die anderen Arbeitnehmer/-innen, unabhängig davon, ob sie als vorübergehend arbeitslos erklärt wurden oder nicht; bei Teilzeitbeschäftigten hat der Arbeitgeber die Möglichkeit, den Anteil der Schulungstage im Verhältnis zur vertraglichen Arbeitszeit zu reduzieren; </target>
           </trans-unit>
-          <group restype="listitem" id="tu201" resname="/html/body/ul[4]/li[3]">
+          <group restype="listitem" id="grp201" resname="/html/body/ul[4]/li[3]">
             <trans-unit id="tu202" resname="/html/body/ul[4]/li[3]/text()[1]">
               <source xml:lang="nl">zich in 2021 van het volgende onthouden: </source>
               <target xml:lang="de" state="final">im Jahr 2021 Folgendes zu unterlassen: </target>
             </trans-unit>
-            <group restype="x-html-ul" id="tu203" resname="/html/body/ul[4]/li[3]/ul">
+            <group restype="x-html-ul" id="grp203" resname="/html/body/ul[4]/li[3]/ul">
               <trans-unit restype="listitem" id="tu204" resname="/html/body/ul[4]/li[3]/ul/li[1]">
                 <source xml:lang="nl">de uitkering van dividenden aan de aandeelhouders; </source>
                 <target xml:lang="de" state="final">die Ausschüttung von Dividenden an die Aktionäre; </target>
@@ -287,7 +287,7 @@
           <source xml:lang="nl"> Deze doelgroepvermindering wordt aangevraagd via de gewone aangifte DmfA van het 2<g id="g224" ctype="x-html-sup">de</g> kwartaal 2021 en van het 3<g id="g225" ctype="x-html-sup">de</g> kwartaal 2021 met: </source>
           <target xml:lang="de" state="final"> Diese Zielgruppenermäßigung wird über die reguläre DmfA-Meldung des 2.<x id="x226" ctype="x-html-sup" equiv-text=" "/> Quartals 2021 und des 3.<x id="x227" ctype="x-html-sup" equiv-text=" "/> Quartals 2021 beantragt: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu228" resname="/html/body/ul[5]">
+        <group restype="x-html-ul" id="grp228" resname="/html/body/ul[5]">
           <trans-unit restype="listitem" id="tu229" resname="/html/body/ul[5]/li[1]">
             <source xml:lang="nl">als nieuwe verminderingscode: <g id="g230" ctype="x-html-strong">3704</g>; </source>
             <target xml:lang="de" state="final">mit dem neuen Ermäßigungscode: <g id="g231" ctype="x-html-strong">3704</g>; </target>

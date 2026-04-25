@@ -90,9 +90,8 @@ class DateRangeFieldType extends DataFieldType
             }
 
             $dataField->setRawData($convertedDates);
-        } else {
-            // TODO: log warnign
         }
+        // TODO: log warnign
 
         return $dataField;
     }
@@ -133,7 +132,7 @@ class DateRangeFieldType extends DataFieldType
     public function importData(DataField $dataField, array|string|int|float|bool|null $sourceArray, bool $isMigration): array
     {
         $migrationOptions = $dataField->giveFieldType()->getMigrationOptions();
-        if (!$isMigration || empty($migrationOptions) || !$migrationOptions['protected']) {
+        if (!$isMigration || [] === $migrationOptions || !$migrationOptions['protected']) {
             $mappingOptions = $dataField->giveFieldType()->getMappingOptions();
 
             if (!$mappingOptions['nested']) {
@@ -156,9 +155,9 @@ class DateRangeFieldType extends DataFieldType
                 $dataField->setRawData($in);
 
                 return $out;
-            } else {
-                return parent::importData($dataField, $sourceArray, $isMigration);
             }
+
+            return parent::importData($dataField, $sourceArray, $isMigration);
         }
 
         return [$dataField->giveFieldType()->getName()];
@@ -260,7 +259,7 @@ class DateRangeFieldType extends DataFieldType
                 $out[$data->giveFieldType()->getName()] = $data->getRawData();
             } else {
                 $rawData = $data->getRawData();
-                if (!\is_array($rawData) || empty($rawData)) {
+                if (!\is_array($rawData) || [] === $rawData) {
                     $rawData = [];
                 }
 

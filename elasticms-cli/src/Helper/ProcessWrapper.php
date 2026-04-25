@@ -26,6 +26,7 @@ class ProcessWrapper
         $this->initialize();
         $this->process = new Process($this->command);
         $this->process->setTimeout($this->timeout);
+
         $input = new InputStream();
         $this->process->setInput($input);
         $this->process->start(function () {

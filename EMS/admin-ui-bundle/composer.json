@@ -7,7 +7,7 @@
         "admin",
         "ui"
     ],
-    "license": "LGPL-3.0",
+    "license": "LGPL-3.0-or-later",
     "authors": [
         {
             "name": "EMS Community",
@@ -15,8 +15,8 @@
         }
     ],
     "require": {
-        "php": "^8.4",
-        "elasticms/core-bundle": "6.9.*"
+        "php": "^8.5",
+        "elasticms/core-bundle": "7.1.*"
     },
     "autoload": {
         "psr-4": {

@@ -3,4 +3,3 @@ twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     auto_reload: true
-    exception_controller: null

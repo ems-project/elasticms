@@ -6,11 +6,13 @@ namespace EMS\CommonBundle\Tests\Common\Unit\CoreApi\Endpoint\Admin\Message;
 
 use EMS\CommonBundle\Common\CoreApi\Endpoint\Admin\Message\Job;
 use EMS\CommonBundle\Common\CoreApi\Result;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException as InvalidOptionsExceptionAlias;
 
 final class JobAiTest extends TestCase
 {
+    #[AllowMockObjectsWithoutExpectations]
     public function testConstructAndGetters(): void
     {
         $data = [
@@ -33,6 +35,7 @@ final class JobAiTest extends TestCase
         $this->assertSame('Some output', $job->getOutput());
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testConstructWithMissingCommand(): void
     {
         $data = [
@@ -55,6 +58,7 @@ final class JobAiTest extends TestCase
         $this->assertSame('Some output', $job->getOutput());
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testConstructWithInvalidData(): void
     {
         $this->expectException(InvalidOptionsExceptionAlias::class);

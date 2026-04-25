@@ -12,6 +12,6 @@ class RequiredWithout extends AbstractValidation
     #[\Override]
     public function getConstraint(): Constraint
     {
-        return new IsRequiredWithout(['otherField' => $this->value]);
+        return new IsRequiredWithout(otherField: $this->value);
     }
 }

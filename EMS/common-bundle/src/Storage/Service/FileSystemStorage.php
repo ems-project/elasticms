@@ -15,7 +15,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\SplFileInfo;
 
-class FileSystemStorage extends AbstractUrlStorage
+class FileSystemStorage extends AbstractUrlStorage implements \Stringable
 {
     public function __construct(LoggerInterface $logger, private readonly string $storagePath, int $usage, int $hotSynchronizeLimit = 0)
     {
@@ -31,14 +31,11 @@ class FileSystemStorage extends AbstractUrlStorage
     #[\Override]
     public function __toString(): string
     {
-        return FileSystemStorage::class." ($this->storagePath)";
+        return FileSystemStorage::class.\sprintf(' (%s)', $this->storagePath);
     }
 
-    /**
-     * @return null
-     */
     #[\Override]
-    protected function getContext()
+    protected function getContext(): null
     {
         return null;
     }

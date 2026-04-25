@@ -1,18 +1,18 @@
 
 {% if attribute(parent, view.options.field) is defined %}
     {% for child in attribute(parent, view.options.field) %}
-    	{% set data = child|emsco_get %}
-    	{% if data %}
-    		{% set key = child|split(':') %}
-    	    {% set contentType = key[0]|emsco_get_content_type %}
+        {% set data = child|emsco_get %}
+        {% if data %}
+            {% set key = child|split(':') %}
+            {% set contentType = key[0]|emsco_get_content_type %}
 
-            {% include "@EMSAdminUI/bootstrap5/view/custom/hierarchical_add_item.html.twig" with {
-        		parent: data.source,
-            	view: view,
-            	key: key,
-            	contentType: contentType,
-            	child: child
-        	} %}
+            {{ include('@EMSAdminUI/bootstrap5/view/custom/hierarchical_add_item.html.twig', {
+                parent: data.source,
+                view: view,
+                key: key,
+                contentType: contentType,
+                child: child,
+            }) }}
         {% endif %}
 
     {% endfor %}

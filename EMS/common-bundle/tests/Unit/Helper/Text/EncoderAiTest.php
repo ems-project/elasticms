@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Tests\Unit\Helper\Text;
 
 use EMS\CommonBundle\Helper\Text\Encoder;
-use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\TestCase;
 
 class EncoderAiTest extends TestCase
@@ -32,33 +31,11 @@ class EncoderAiTest extends TestCase
         $this->assertEquals('Test & Encode', $decoded);
     }
 
-    public function testMarkdownToHtml(): void
-    {
-        $markdown = "# Heading\n\nThis is a *markdown* text.";
-        $html = $this->encoder->markdownToHtml($markdown);
-        $this->assertEquals("<h1>Heading</h1>\n<p>This is a <em>markdown</em> text.</p>\n", $html);
-    }
-
     public function testGetFontAwesomeFromMimeType(): void
     {
         $mimeType = 'application/pdf';
         $icon = Encoder::getFontAwesomeFromMimeType($mimeType, '5');
         $this->assertEquals('far fa-file-pdf', $icon);
-    }
-
-    #[IgnoreDeprecations]
-    public function testWebalizeForUsers(): void
-    {
-        $text = 'This is a Test';
-        $webalized = $this->encoder->webalizeForUsers($text);
-        $this->assertEquals('this-is-a-test', $webalized);
-    }
-
-    public function testAsciiFolding(): void
-    {
-        $text = 'Crème Brûlée';
-        $folded = Encoder::asciiFolding($text);
-        $this->assertEquals('Creme Brulee', $folded);
     }
 
     public function testHtmlEncodePiiEncodesPhoneNumbers(): void

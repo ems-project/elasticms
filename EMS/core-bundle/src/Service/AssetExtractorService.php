@@ -77,24 +77,14 @@ class AssetExtractorService implements CacheWarmerInterface
                 'content' => $result->getBody()->__toString(),
                 'client' => 'Tika',
             ];
-        } else {
-            $tempFile = TempFile::create();
-            File::putContents($tempFile->path, "elasticms's built in TikaWrapper : àêïôú");
-
-            return [
-                'code' => 200,
-                'content' => self::cleanString($this->getTikaWrapper()->getText($tempFile->path)),
-            ];
         }
-    }
+        $tempFile = TempFile::create();
+        File::putContents($tempFile->path, "elasticms's built in TikaWrapper : àêïôú");
 
-    /**
-     * @return mixed[]
-     */
-    #[\Deprecated]
-    public function extractData(string $hash, ?string $file = null, bool $forced = false): array
-    {
-        return $this->extractMetaData($hash, $file, $forced)->getSource();
+        return [
+            'code' => 200,
+            'content' => $this->cleanString($this->getTikaWrapper()->getText($tempFile->path)),
+        ];
     }
 
     public function findCachedExtractedData(string $hash): ?ExtractedData
@@ -176,7 +166,7 @@ class AssetExtractorService implements CacheWarmerInterface
                     $out->setContent($text ?? '');
                 }
                 if (!empty($out->getLocale())) {
-                    $out->setLocale(self::cleanString($this->getTikaWrapper()->getLanguage($file)));
+                    $out->setLocale($this->cleanString($this->getTikaWrapper()->getLanguage($file)));
                 }
             } catch (\Exception $e) {
                 $this->logger->warning('service.asset_extractor.extract_error', [
@@ -190,7 +180,7 @@ class AssetExtractorService implements CacheWarmerInterface
             }
         }
 
-        if ($canBePersisted && isset($out)) {
+        if ($canBePersisted) {
             $cacheData = new CacheAssetExtractor();
             $cacheData->setHash($hash);
             $cacheData->setData($out->getSource());
@@ -203,7 +193,7 @@ class AssetExtractorService implements CacheWarmerInterface
         return $out ?? new ExtractedData([], $this->tikaMaxContent);
     }
 
-    private static function cleanString(string $string): string
+    private function cleanString(string $string): string
     {
         if (!\mb_check_encoding($string)) {
             $string = \mb_convert_encoding($string, \mb_internal_encoding(), 'ASCII');

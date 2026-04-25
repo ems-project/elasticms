@@ -9,6 +9,7 @@ use EMS\CommonBundle\Common\CoreApi\Endpoint\File\File;
 use EMS\CommonBundle\Common\CoreApi\Result;
 use EMS\CommonBundle\Storage\StorageManager;
 use GuzzleHttp\Psr7\Stream;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\StreamInterface;
 
@@ -26,6 +27,7 @@ class FileAiTest extends TestCase
         $this->file = new File($this->client, $this->storageManager);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testUploadStream(): void
     {
         $stream = $this->createMock(StreamInterface::class);
@@ -49,6 +51,7 @@ class FileAiTest extends TestCase
         $this->assertEquals('sample-hash', $hash);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testDownloadLink(): void
     {
         $hash = 'sample-hash';
@@ -59,6 +62,7 @@ class FileAiTest extends TestCase
         $this->assertEquals($expectedLink, $result);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testHashFile(): void
     {
         $filename = 'sample.txt';
@@ -74,6 +78,7 @@ class FileAiTest extends TestCase
         $this->assertEquals($hash, $result);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testHashStream(): void
     {
         $stream = new Stream(\fopen('php://temp', 'r+'));
@@ -110,6 +115,7 @@ class FileAiTest extends TestCase
         $this->assertTrue($result);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testHeadHash(): void
     {
         $hash = 'sample-hash';
@@ -124,6 +130,7 @@ class FileAiTest extends TestCase
         $this->assertTrue($result);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testInitUpload(): void
     {
         $hash = 'sample-hash';
@@ -140,6 +147,7 @@ class FileAiTest extends TestCase
         $this->assertEquals(0, $result);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testAddChunk(): void
     {
         $hash = 'sample-hash';

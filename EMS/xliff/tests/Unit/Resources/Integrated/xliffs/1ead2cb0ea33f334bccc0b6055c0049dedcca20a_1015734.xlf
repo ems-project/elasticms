@@ -16,8 +16,8 @@
           <target xml:lang="de" state="final"> Diese Zielgruppenermäßigung betrifft die Einstellung junger Arbeitnehmer. Es handelt sich dabei um 2 außerordentliche Ermäßigungen: </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu5" resname="/html/body/p[2]">
-          <source xml:lang="nl"> - de doelgroepvermindering jonge werknemers – middengeschoolden, laaggeschoolden en erg laaggeschoolden<x id="x6" ctype="x-html-br" equiv-text=" "/> - de doelgroepvermindering jonge werknemers – min 19-jarigen </source>
-          <target xml:lang="de" state="final"> - Zielgruppenermäßigung „junge Arbeitnehmer“ – Jugendliche mit Sekundarabschluss, gering Qualifizierte und sehr gering Qualifizierte<x id="x7" ctype="x-html-br" equiv-text=" "/> - Zielgruppenermäßigung „junge Arbeitnehmer“ – unter 19-Jährige </target>
+          <source xml:lang="nl"> - de doelgroepvermindering jonge werknemers – middengeschoolden, laaggeschoolden en erg laaggeschoolden<x id="x6" ctype="lb" equiv-text=" "/> - de doelgroepvermindering jonge werknemers – min 19-jarigen </source>
+          <target xml:lang="de" state="final"> - Zielgruppenermäßigung „junge Arbeitnehmer“ – Jugendliche mit Sekundarabschluss, gering Qualifizierte und sehr gering Qualifizierte<x id="x7" ctype="lb" equiv-text=" "/> - Zielgruppenermäßigung „junge Arbeitnehmer“ – unter 19-Jährige </target>
         </trans-unit>
       </group>
       <group resname="[description]" id="grp8">
@@ -53,7 +53,7 @@
           <source xml:lang="nl"> Tot deze groep behoren de jongeren (tot en met het kwartaal dat ze 26 jaar worden) tewerkgesteld met een startbaanovereenkomst in dienst getreden met een werkkaart die attesteert dat ze aan de rechtopenende voorwaarden voldoen. Onder <g id="g23" ctype="x-html-strong">startbaanovereenkomst</g> moet worden verstaan elke overeenkomst gesloten met een jongere, zoals hieronder opgedeeld in verschillende types: </source>
           <target xml:lang="de" state="final"> Zu dieser Gruppe gehören Jugendliche (bis einschließlich des Quartals, in dem sie 26 Jahre alt werden), die mit einem Erstbeschäftigungsvertrag beschäftigt sind und deren Arbeitskarte bescheinigt, dass sie die Bedingungen erfüllen, die den Anspruch verleihen. Mit <g id="g24" ctype="x-html-strong">Erstbeschäftigungsabkommen</g>ist jeder Vertrag gemeint, der wie nachstehend in verschiedene Arten aufgeteilt und mit einem Jugendlichen abgeschlossen wird: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu25" resname="/html/body/ul[1]">
+        <group restype="x-html-ul" id="grp25" resname="/html/body/ul[1]">
           <trans-unit restype="listitem" id="tu26" resname="/html/body/ul[1]/li[1]">
             <source xml:lang="nl">I. een minstens halftijdse arbeidsovereenkomst; </source>
             <target xml:lang="de" state="final">I. ein Arbeitsvertrag mit zumindest halber Stelle; </target>
@@ -103,7 +103,7 @@
           <source xml:lang="nl">   </source>
           <target xml:lang="de" state="final">   </target>
         </trans-unit>
-        <group restype="x-html-div" id="tu50" resname="/html/body/div[1]">
+        <group restype="x-html-div" id="grp50" resname="/html/body/div[1]">
           <note from="class">message alert</note>
           <trans-unit restype="x-html-p" id="tu51" resname="/html/body/div[1]/p[1]">
             <source xml:lang="nl">   </source>
@@ -126,7 +126,7 @@
           <source xml:lang="nl">   </source>
           <target xml:lang="de" state="final">   </target>
         </trans-unit>
-        <group restype="x-html-div" id="tu66" resname="/html/body/div[2]">
+        <group restype="x-html-div" id="grp66" resname="/html/body/div[2]">
           <note from="class">message alert</note>
           <trans-unit restype="x-html-h3" id="tu67" resname="/html/body/div[2]/h3">
             <source xml:lang="nl"> Waals Gewest (zonder de Duitstalige Gemeenschap): </source>
@@ -149,7 +149,7 @@
           <source xml:lang="nl">   </source>
           <target xml:lang="de" state="final">   </target>
         </trans-unit>
-        <group restype="x-html-div" id="tu76" resname="/html/body/div[3]">
+        <group restype="x-html-div" id="grp76" resname="/html/body/div[3]">
           <note from="class">message alert</note>
           <trans-unit restype="x-html-h3" id="tu77" resname="/html/body/div[3]/h3">
             <source xml:lang="nl"> Brussels Hoofdstedelijk Gewest: </source>
@@ -176,7 +176,7 @@
           <source xml:lang="nl">   </source>
           <target xml:lang="de" state="final">   </target>
         </trans-unit>
-        <group restype="x-html-div" id="tu87" resname="/html/body/div[4]">
+        <group restype="x-html-div" id="grp87" resname="/html/body/div[4]">
           <note from="class">message alert</note>
           <trans-unit restype="x-html-h3" id="tu88" resname="/html/body/div[4]/h3">
             <source xml:lang="nl"> Duitstalige Gemeenschap: </source>
@@ -219,13 +219,13 @@
           <source xml:lang="nl"> <g id="g108" ctype="x-html-strong">Voor de jongeren, in dienst genomen met een startbaanovereenkomst vanaf 1 januari 2013,</g> gelden volgende forfaits voor zolang hij in dienst is met een startbaanovereenkomst (de vermindering eindigt dus in elk geval in het kwartaal waarin de jongere 26 jaar wordt): </source>
           <target xml:lang="de" state="final"> <g id="g109" ctype="x-html-strong">Für junge Arbeitnehmer, die mit einem Erstbeschäftigungsvertrag ab dem 1.1.2013 beschäftigt sind,</g> gelten die folgenden Pauschalen, solange die Beschäftigung im Rahmen des Erstbeschäftigungsvertrags andauert (die Ermäßigung endet in einem solchen Fall in dem Quartal, in dem der junge Arbeitnehmer 26 Jahre alt wird): </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu110" resname="/html/body/ul[2]">
-          <group restype="listitem" id="tu111" resname="/html/body/ul[2]/li">
+        <group restype="x-html-ul" id="grp110" resname="/html/body/ul[2]">
+          <group restype="listitem" id="grp111" resname="/html/body/ul[2]/li">
             <trans-unit id="tu112" resname="/html/body/ul[2]/li/text()[1]">
               <source xml:lang="nl">Voor elke <g id="g113" ctype="x-html-strong">middengeschoolde jongere</g>: </source>
               <target xml:lang="de" state="final">Für alle <g id="g114" ctype="x-html-strong">jungen Arbeitnehmer mit mittlerer Qualifikation</g>: </target>
             </trans-unit>
-            <group restype="x-html-ul" id="tu115" resname="/html/body/ul[2]/li/ul">
+            <group restype="x-html-ul" id="grp115" resname="/html/body/ul[2]/li/ul">
               <trans-unit restype="listitem" id="tu116" resname="/html/body/ul[2]/li/ul/li[1]">
                 <source xml:lang="nl"> <g id="g117" ctype="x-html-strong">G<g id="g118" ctype="x-html-sub">1</g></g> voor het kwartaal van indienstneming en de 3 daarop volgende kwartalen </source>
                 <target xml:lang="de" state="final"> <g id="g119" ctype="x-html-strong">G<g id="g120" ctype="x-html-sub">1</g></g> im Quartal des Dienstantritts und den 3 darauf folgenden Quartalen </target>
@@ -237,13 +237,13 @@
             </group>
           </group>
         </group>
-        <group restype="x-html-ul" id="tu126" resname="/html/body/ul[3]">
-          <group restype="listitem" id="tu127" resname="/html/body/ul[3]/li">
+        <group restype="x-html-ul" id="grp126" resname="/html/body/ul[3]">
+          <group restype="listitem" id="grp127" resname="/html/body/ul[3]/li">
             <trans-unit id="tu128" resname="/html/body/ul[3]/li/text()[1]">
               <source xml:lang="nl">Voor elke <g id="g129" ctype="x-html-strong">laaggeschoolde jongere</g>: </source>
               <target xml:lang="de" state="final">Für jeden <g id="g130" ctype="x-html-strong">jungen Arbeitnehmer mit geringer Qualifikation</g>: </target>
             </trans-unit>
-            <group restype="x-html-ul" id="tu131" resname="/html/body/ul[3]/li/ul">
+            <group restype="x-html-ul" id="grp131" resname="/html/body/ul[3]/li/ul">
               <note from="style">padding-top: 0px; padding-bottom: 0px;</note>
               <trans-unit restype="listitem" id="tu132" resname="/html/body/ul[3]/li/ul/li[1]">
                 <source xml:lang="nl"> <g id="g133" ctype="x-html-strong">G<g id="g134" ctype="x-html-sub">8</g></g> voor het kwartaal van indienstneming en de 7 daarop volgende kwartalen </source>
@@ -256,13 +256,13 @@
             </group>
           </group>
         </group>
-        <group restype="x-html-ul" id="tu142" resname="/html/body/ul[4]">
-          <group restype="listitem" id="tu143" resname="/html/body/ul[4]/li">
+        <group restype="x-html-ul" id="grp142" resname="/html/body/ul[4]">
+          <group restype="listitem" id="grp143" resname="/html/body/ul[4]/li">
             <trans-unit id="tu144" resname="/html/body/ul[4]/li/text()[1]">
               <source xml:lang="nl">Voor elke <g id="g145" ctype="x-html-strong">erg laaggeschoolde jongere</g>: </source>
               <target xml:lang="de" state="final">Für jeden <g id="g146" ctype="x-html-strong">jungen Arbeitnehmer mit sehr geringer Qualifikation</g>: </target>
             </trans-unit>
-            <group restype="x-html-ul" id="tu147" resname="/html/body/ul[4]/li/ul">
+            <group restype="x-html-ul" id="grp147" resname="/html/body/ul[4]/li/ul">
               <note from="style">padding-top: 0px; padding-bottom: 0px;</note>
               <trans-unit restype="listitem" id="tu148" resname="/html/body/ul[4]/li/ul/li[1]">
                 <source xml:lang="nl"> <g id="g149" ctype="x-html-strong">G</g><g id="g150" ctype="x-html-sub"><g id="g151" ctype="x-html-strong">8</g></g> voor het kwartaal van indienstneming en de 11 daarop volgende kwartalen </source>
@@ -275,13 +275,13 @@
             </group>
           </group>
         </group>
-        <group restype="x-html-ul" id="tu160" resname="/html/body/ul[5]">
-          <group restype="listitem" id="tu161" resname="/html/body/ul[5]/li">
+        <group restype="x-html-ul" id="grp160" resname="/html/body/ul[5]">
+          <group restype="listitem" id="grp161" resname="/html/body/ul[5]/li">
             <trans-unit id="tu162" resname="/html/body/ul[5]/li/text()[1]">
               <source xml:lang="nl">Voor elke <g id="g163" ctype="x-html-strong"><bx id="bx165" rid="rid164" equiv-text="&amp;lt;a href=&amp;quot;startingjobobligation-nl_1&amp;quot;&amp;gt;"/>gehandicapte<ex id="ex166" rid="rid164" equiv-text="&amp;lt;/a&amp;gt;"/></g> of van <g id="g171" ctype="x-html-strong"><bx id="bx173" rid="rid172" equiv-text="&amp;lt;a href=&amp;quot;startingjobobligation-nl_1&amp;quot;&amp;gt;"/>buitenlandse afkomst<ex id="ex174" rid="rid172" equiv-text="&amp;lt;/a&amp;gt;"/></g> zijnde, <g id="g179" ctype="x-html-strong">laaggeschoolde jongere</g></source>
               <target xml:lang="de" state="final">Für jeden <g id="g167" ctype="x-html-strong"><bx id="bx169" rid="rid168" equiv-text="&amp;lt;a href=&amp;quot;startingjobobligation-nl_1&amp;quot;&amp;gt;"/>behinderten<ex id="ex170" rid="rid168" equiv-text="&amp;lt;/a&amp;gt;"/></g> Arbeitnehmer oder <g id="g175" ctype="x-html-strong"><bx id="bx177" rid="rid176" equiv-text="&amp;lt;a href=&amp;quot;startingjobobligation-nl_1&amp;quot;&amp;gt;"/> ausländischen<ex id="ex178" rid="rid176" equiv-text="&amp;lt;/a&amp;gt;"/></g> Arbeitnehmer, <g id="g180" ctype="x-html-strong">die junge Arbeitnehmer mit geringer Qualifikation sind</g></target>
             </trans-unit>
-            <group restype="x-html-ul" id="tu181" resname="/html/body/ul[5]/li/ul">
+            <group restype="x-html-ul" id="grp181" resname="/html/body/ul[5]/li/ul">
               <note from="style">padding-top: 0px; padding-bottom: 0px;</note>
               <trans-unit restype="listitem" id="tu182" resname="/html/body/ul[5]/li/ul/li[1]">
                 <source xml:lang="nl"> <g id="g183" ctype="x-html-strong">G<g id="g184" ctype="x-html-sub">8</g></g> voor het kwartaal van indienstneming en de 11 daarop volgende kwartalen </source>
@@ -302,19 +302,19 @@
           <source xml:lang="nl"> De vermindering voor middengeschoolde jongeren, kan dus enkel worden toegepast voor jongeren die bij de werkgever voor het eerst in dienst genomen worden vanaf het 1<g id="g194" ctype="x-html-sup">ste</g> kwartaal van 2013. </source>
           <target xml:lang="de" state="final"> Die Ermäßigung für Jugendliche mit Sekundarabschluss kann daher nur für Jugendliche angewandt werden, die bei dem Arbeitgeber zum ersten Mal ab dem 1. Quartal 2013 ihren Dienst antreten. <x id="x195" ctype="x-html-sup" equiv-text=" "/> </target>
         </trans-unit>
-        <group restype="x-html-div" id="tu196" resname="/html/body/div[5]">
+        <group restype="x-html-div" id="grp196" resname="/html/body/div[5]">
           <note from="class">readMoreContent</note>
           <trans-unit restype="x-html-p" id="tu197" resname="/html/body/div[5]/p[1]">
             <source xml:lang="nl"> <g id="g198" ctype="x-html-strong">Indien de jongere vóór 1 januari 2013 reeds in dienst genomen werd, blijven de vroegere verminderingsforfaits en periodes van toepassing :</g> </source>
             <target xml:lang="de" state="final"> <g id="g199" ctype="x-html-strong">Falls der Jugendliche bereits vor dem 01.01.2013 eingestellt wurde, bleiben die früheren Ermäßigungspauschalen und Perioden anwendbar:</g> </target>
           </trans-unit>
-          <group restype="x-html-ul" id="tu200" resname="/html/body/div[5]/ul[1]">
-            <group restype="listitem" id="tu201" resname="/html/body/div[5]/ul[1]/li">
+          <group restype="x-html-ul" id="grp200" resname="/html/body/div[5]/ul[1]">
+            <group restype="listitem" id="grp201" resname="/html/body/div[5]/ul[1]/li">
               <trans-unit id="tu202" resname="/html/body/div[5]/ul[1]/li/text()[1]">
                 <source xml:lang="nl">Voor elke <g id="g203" ctype="x-html-strong">laaggeschoolde jongere</g> die hij in dienst neemt met een startbaanovereenkomst: </source>
                 <target xml:lang="de" state="final">Für jeden <g id="g204" ctype="x-html-strong">jungen Arbeitnehmer mit geringer Qualifikation</g>, den er mit einem Erstbeschäftigungsvertrag einstellt: </target>
               </trans-unit>
-              <group restype="x-html-ul" id="tu205" resname="/html/body/div[5]/ul[1]/li/ul">
+              <group restype="x-html-ul" id="grp205" resname="/html/body/div[5]/ul[1]/li/ul">
                 <note from="style">padding-top: 0px; padding-bottom: 0px;</note>
                 <trans-unit restype="listitem" id="tu206" resname="/html/body/div[5]/ul[1]/li/ul/li[1]">
                   <source xml:lang="nl"> <g id="g207" ctype="x-html-strong">G</g><g id="g208" ctype="x-html-sub"><g id="g209" ctype="x-html-strong">1</g></g> voor het kwartaal van indienstneming en de 7 daarop volgende kwartalen </source>
@@ -327,13 +327,13 @@
               </group>
             </group>
           </group>
-          <group restype="x-html-ul" id="tu218" resname="/html/body/div[5]/ul[2]">
-            <group restype="listitem" id="tu219" resname="/html/body/div[5]/ul[2]/li">
+          <group restype="x-html-ul" id="grp218" resname="/html/body/div[5]/ul[2]">
+            <group restype="listitem" id="grp219" resname="/html/body/div[5]/ul[2]/li">
               <trans-unit id="tu220" resname="/html/body/div[5]/ul[2]/li/text()[1]">
                 <source xml:lang="nl">Voor elke <g id="g221" ctype="x-html-strong">erg laaggeschoolde jongere</g> die hij in dienst neemt met een startbaanovereenkomst </source>
                 <target xml:lang="de" state="final">Für <g id="g222" ctype="x-html-strong">jeden jungen Arbeitnehmer mit sehr geringer Qualifikation</g>, den er mit einem Erstbeschäftigungsvertrag einstellt </target>
               </trans-unit>
-              <group restype="x-html-ul" id="tu223" resname="/html/body/div[5]/ul[2]/li/ul">
+              <group restype="x-html-ul" id="grp223" resname="/html/body/div[5]/ul[2]/li/ul">
                 <note from="style">padding-top: 0px; padding-bottom: 0px;</note>
                 <trans-unit restype="listitem" id="tu224" resname="/html/body/div[5]/ul[2]/li/ul/li[1]">
                   <source xml:lang="nl"> <g id="g225" ctype="x-html-strong">G<g id="g226" ctype="x-html-sub">1</g></g> voor het kwartaal van indienstneming en de 15 daarop volgende kwartalen </source>
@@ -346,13 +346,13 @@
               </group>
             </group>
           </group>
-          <group restype="x-html-ul" id="tu234" resname="/html/body/div[5]/ul[3]">
-            <group restype="listitem" id="tu235" resname="/html/body/div[5]/ul[3]/li">
+          <group restype="x-html-ul" id="grp234" resname="/html/body/div[5]/ul[3]">
+            <group restype="listitem" id="grp235" resname="/html/body/div[5]/ul[3]/li">
               <trans-unit id="tu236" resname="/html/body/div[5]/ul[3]/li/text()[1]">
                 <source xml:lang="nl">Voor elke <g id="g237" ctype="x-html-strong">gehandicapte</g> of van <g id="g239" ctype="x-html-strong">buitenlandse afkomst</g> zijnde, <g id="g241" ctype="x-html-strong">laaggeschoolde jongere</g></source>
                 <target xml:lang="de" state="final">Für jeden <g id="g238" ctype="x-html-strong">behinderten</g> Arbeitnehmer oder <g id="g240" ctype="x-html-strong">ausländischen</g> Arbeitnehmer, <g id="g242" ctype="x-html-strong">die junge Arbeitnehmer mit geringer Qualifikation sind</g></target>
               </trans-unit>
-              <group restype="x-html-ul" id="tu243" resname="/html/body/div[5]/ul[3]/li/ul">
+              <group restype="x-html-ul" id="grp243" resname="/html/body/div[5]/ul[3]/li/ul">
                 <note from="style">padding-top: 0px; padding-bottom: 0px;</note>
                 <trans-unit restype="listitem" id="tu244" resname="/html/body/div[5]/ul[3]/li/ul/li[1]">
                   <source xml:lang="nl"> <g id="g245" ctype="x-html-strong">G<g id="g246" ctype="x-html-sub">1</g></g> die hij in dienst neemt met een startbaanovereenkomst voor het kwartaal van indienstneming en de 15 daarop volgende kwartalen </source>

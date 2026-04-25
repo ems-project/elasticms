@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command;
 
-use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CommonBundle\Storage\Service\StorageInterface;
 use EMS\CommonBundle\Storage\StorageManager;
-use EMS\CommonBundle\Twig\AssetRuntime;
+use EMS\CommonBundle\Twig\AssetExtension;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\DataService;
@@ -28,13 +27,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Error\Error;
 
-#[AsCommand(
-    name: Commands::CONTENT_TYPE_EXPORT,
-    description: 'Export a search result of a content type to a specific format.',
-    hidden: false,
-    aliases: ['ems:contenttype:export']
-)]
-class ExportDocumentsCommand extends AbstractCommand
+#[AsCommand(name: Commands::CONTENT_TYPE_EXPORT, description: 'Export a search result of a content type to a specific format.', aliases: ['ems:contenttype:export'], hidden: false)]
+class ExportDocumentsCommand extends AbstractCoreCommand
 {
     private const string ARGUMENT_QUERY = 'query';
     private const string OPTION_ENVIRONMENT = 'environment';
@@ -64,7 +58,7 @@ class ExportDocumentsCommand extends AbstractCommand
         protected readonly DataService $dataService,
         protected readonly ContentTypeService $contentTypeService,
         protected readonly EnvironmentService $environmentService,
-        protected readonly AssetRuntime $runtime,
+        protected readonly AssetExtension $assetExtension,
         private readonly ElasticaService $elasticaService,
         private readonly StorageManager $storageManager,
         protected readonly string $instanceId
@@ -76,15 +70,15 @@ class ExportDocumentsCommand extends AbstractCommand
     protected function configure(): void
     {
         $this
-            ->addArgument(self::ARGUMENT_CONTENT_TYPE_NAME, InputArgument::REQUIRED, 'The document\'s content type name to export')
-            ->addArgument(self::ARGUMENT_FORMAT, InputArgument::OPTIONAL, \sprintf('The format of the output: %s or the name of the content type\'s action', \implode(', ', TemplateService::EXPORT_FORMATS)), 'json')
+            ->addArgument(self::ARGUMENT_CONTENT_TYPE_NAME, InputArgument::REQUIRED, "The document's content type name to export")
+            ->addArgument(self::ARGUMENT_FORMAT, InputArgument::OPTIONAL, \sprintf("The format of the output: %s or the name of the content type's action", \implode(', ', TemplateService::EXPORT_FORMATS)), 'json')
             ->addArgument(self::ARGUMENT_QUERY, InputArgument::OPTIONAL, 'The query to run', '{}')
-            ->addArgument(self::ARGUMENT_OUTPUT_FILE, InputArgument::OPTIONAL, 'The zip output file', null)
+            ->addArgument(self::ARGUMENT_OUTPUT_FILE, InputArgument::OPTIONAL, 'The zip output file')
             ->addOption(self::OPTION_ENVIRONMENT, null, InputArgument::OPTIONAL, 'The environment to use for the query, it will use the default environment if not defined')
             ->addOption(self::OPTION_WITH_BUSINESS_ID, null, InputOption::VALUE_NONE, 'Replace internal OUUIDs by business values')
             ->addOption(self::OPTION_SCROLL_SIZE, null, InputArgument::OPTIONAL, 'Size of the elasticsearch scroll request', '100')
             ->addOption(self::OPTION_SCROLL_TIMEOUT, null, InputArgument::OPTIONAL, 'Time to migrate "scrollSize" items i.e. 30s or 2m', '1m')
-            ->addOption(self::OPTION_BASE_URL, null, InputArgument::OPTIONAL, 'Base url of the application (in order to generate a link)', null);
+            ->addOption(self::OPTION_BASE_URL, null, InputArgument::OPTIONAL, 'Base url of the application (in order to generate a link)');
     }
 
     #[\Override]
@@ -134,6 +128,7 @@ class ExportDocumentsCommand extends AbstractCommand
         }
         $zip = new \ZipArchive();
         $zip->open($outZipPath, \ZipArchive::CREATE);
+
         $extension = '';
         if (!\in_array($this->format, TemplateService::EXPORT_FORMATS)) {
             $this->templateService->init($this->format, $contentType);
@@ -145,12 +140,12 @@ class ExportDocumentsCommand extends AbstractCommand
         } else {
             $accumulateInOneFile = \in_array($this->format, [TemplateService::MERGED_JSON_FORMAT, TemplateService::MERGED_XML_FORMAT]);
             $useTemplate = false;
-            if (\str_contains($this->format, (string) TemplateService::JSON_FORMAT)) {
+            if (\str_contains($this->format, TemplateService::JSON_FORMAT)) {
                 $extension = '.json';
-            } elseif (\str_contains($this->format, (string) TemplateService::XML_FORMAT)) {
+            } elseif (\str_contains($this->format, TemplateService::XML_FORMAT)) {
                 $extension = '.xml';
             } else {
-                $output->writeln(\sprintf('WARNING: Format %s not found', $this->format));
+                $this->io->warning(\sprintf('Format %s not found', $this->format));
 
                 return -1;
             }
@@ -197,20 +192,18 @@ class ExportDocumentsCommand extends AbstractCommand
                         $errorList[] = 'Error in rendering template for: '.$filename;
                         continue;
                     }
+                } elseif ($accumulateInOneFile) {
+                    $content = Json::encode($document->getSource());
+                } elseif (\str_contains($this->format, TemplateService::JSON_FORMAT)) {
+                    $content = Json::encode($document->getSource(), true);
+                } elseif (\str_contains($this->format, TemplateService::XML_FORMAT)) {
+                    $content = $this->templateService->getXml($contentType, $document->getSource(), false, $document->getOuuid());
                 } else {
-                    if ($accumulateInOneFile) {
-                        $content = Json::encode($document->getSource());
-                    } elseif (\str_contains($this->format, (string) TemplateService::JSON_FORMAT)) {
-                        $content = Json::encode($document->getSource(), true);
-                    } elseif (\str_contains($this->format, (string) TemplateService::XML_FORMAT)) {
-                        $content = $this->templateService->getXml($contentType, $document->getSource(), false, $document->getOuuid());
-                    } else {
-                        $this->logger->error('log.command.export.unknow_format', [
-                            'format' => $this->format,
-                        ]);
-                        $errorList[] = 'Unknow format: '.$this->format;
-                        continue;
-                    }
+                    $this->logger->error('log.command.export.unknow_format', [
+                        'format' => $this->format,
+                    ]);
+                    $errorList[] = 'Unknow format: '.$this->format;
+                    continue;
                 }
 
                 if ($accumulateInOneFile) {
@@ -229,34 +222,33 @@ class ExportDocumentsCommand extends AbstractCommand
         if ($accumulateInOneFile) {
             if ($useTemplate) {
                 $accumulatedContent = \implode('', $accumulatedContent);
-            } elseif (\str_contains($this->format, (string) TemplateService::JSON_FORMAT)) {
+            } elseif (\str_contains($this->format, TemplateService::JSON_FORMAT)) {
                 $accumulatedContent = Json::encode($accumulatedContent);
-            } elseif (\str_contains($this->format, (string) TemplateService::XML_FORMAT)) {
+            } elseif (\str_contains($this->format, TemplateService::XML_FORMAT)) {
                 $accumulatedContent = $this->templateService->getXml($contentType, $accumulatedContent, true);
             } else {
-                $output->writeln(\sprintf('WARNING: Format %s not found', $this->format));
+                $this->io->warning(\sprintf('Format %s not found', $this->format));
 
                 return -1;
             }
             $zip->addFromString('emsExport'.$extension, $accumulatedContent);
         }
 
-        if (\count($errorList) > 0) {
+        if ([] !== $errorList) {
             $zip->addFromString('All-Errors.txt', \implode("\n", $errorList));
         }
 
         $zip->close();
         $this->io->progressFinish();
-
-        $output->writeln('');
+        $this->io->newLine();
         if (null !== $this->zipFilename) {
-            $output->writeln('Export: '.$outZipPath);
+            $this->io->success('Export: '.$outZipPath);
 
             return self::EXECUTE_SUCCESS;
         }
 
         $hash = $this->storageManager->saveFile($outZipPath, StorageInterface::STORAGE_USAGE_CONFIG);
-        $url = ($this->baseUrl ?? '').$this->runtime->assetPath(
+        $url = ($this->baseUrl ?? '').$this->assetExtension->assetPath(
             [
                 EmsFields::CONTENT_FILE_HASH_FIELD => $hash,
                 EmsFields::CONTENT_FILE_NAME_FIELD => 'export.zip',
@@ -269,7 +261,7 @@ class ExportDocumentsCommand extends AbstractCommand
             EmsFields::CONTENT_MIME_TYPE_FIELD,
             UrlGeneratorInterface::ABSOLUTE_PATH
         );
-        $output->writeln('Export is available at: '.$url);
+        $this->io->success('Export is available at: '.$url);
 
         return self::EXECUTE_SUCCESS;
     }

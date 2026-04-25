@@ -13,7 +13,7 @@
       <group resname="[introduction]" id="grp3">
         <trans-unit restype="x-html-p" id="tu4" resname="/html/body/p[1]">
           <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+          <target xml:lang="de" state="new"/>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu5" resname="/html/body/p[2]">
           <source xml:lang="nl"> Het KB nr. 46 van 26 juni 2020 voorziet in de mogelijkheid dat ondernemingen erkend in moeilijkheden en/of in herstructurering waarvan de begindatum van de erkenning valt in de periode 1 maart 2020 - 31 december 2020, overgaan tot een tijdelijke collectieve vermindering van de arbeidsduur al dan niet in combinatie met de invoering van een vierdagenweek (dit laatste enkel voor de voltijdse werknemers). </source>
@@ -27,7 +27,7 @@
       <group resname="[description]" id="grp7">
         <trans-unit restype="x-html-p" id="tu8" resname="/html/body/p[1]">
           <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+          <target xml:lang="de" state="new"/>
         </trans-unit>
         <trans-unit restype="x-html-h2" id="tu9" resname="/html/body/h2[1]">
           <source xml:lang="nl"> Betrokken werkgevers </source>
@@ -46,7 +46,7 @@
           <source xml:lang="nl"> De werkgever kan de arbeidsduurvermindering, al dan niet met vierdagenweek, invoeren voor gans zijn personeel of enkel voor (een) bepaalde categorie(ën) van werknemers (voorbeeld: enkel arbeiders, 45-plussers, ...). De tijdelijke aanpassing van de arbeidsduur en invoering van de vierdagenweek moeten worden vastgesteld </source>
           <target xml:lang="de" state="final"> Der Arbeitgeber kann die Arbeitszeitverkürzung, gegebenenfalls mit Viertagewoche, für sein gesamtes Personal oder nur für (eine) bestimmte Kategorie(n) von Arbeitnehmern einführen (Beispiel: nur Arbeiter, Mitarbeiter über 45 usw.). Die vorübergehende Anpassung der Arbeitsdauer und die Einführung der Viertagewoche müssen </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu31" resname="/html/body/ul[1]">
+        <group restype="x-html-ul" id="grp31" resname="/html/body/ul[1]">
           <trans-unit restype="listitem" id="tu32" resname="/html/body/ul[1]/li[1]">
             <source xml:lang="nl">bij CAO op ondernemingsniveau of </source>
             <target xml:lang="de" state="final">auf Unternehmensebene in einem kollektiven Arbeitsabkommen oder </target>
@@ -96,7 +96,7 @@
           <source xml:lang="nl"> De werkgever kan aanspraak maken al naar het geval op volgende vermindering vanaf het moment van invoering van de arbeidsduurvermindering: </source>
           <target xml:lang="de" state="final"> Ab dem Zeitpunkt der Einführung der Arbeitszeitverkürzung kann der Arbeitgeber die folgende Ermäßigung geltend machen: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu53" resname="/html/body/ul[2]">
+        <group restype="x-html-ul" id="grp53" resname="/html/body/ul[2]">
           <trans-unit restype="listitem" id="tu54" resname="/html/body/ul[2]/li[1]">
             <source xml:lang="nl"> <g id="g55" ctype="x-html-strong">G</g><g id="g56" ctype="x-html-strong"><g id="g57" ctype="x-html-sub">4</g></g> (600,00 EUR) vanaf het moment waarop de arbeidsduur verminderd wordt met 1/5<g id="g58" ctype="x-html-sup">de</g> </source>
             <target xml:lang="de" state="final"> <g id="g59" ctype="x-html-strong">G</g><g id="g60" ctype="x-html-strong"><g id="g61" ctype="x-html-sub">4</g></g> (600,00 EUR) ab dem Zeitpunkt, an dem die Arbeitszeit um 1/5<x id="x62" ctype="x-html-sup" equiv-text=" "/> verkürzt wird </target>
@@ -134,7 +134,7 @@
           <source xml:lang="nl"> U moet er rekening mee houden dat het complement niet altijd 3/4 van het forfait kan bedragen maar dat het soms lager en soms hoger zal moeten zijn: </source>
           <target xml:lang="de" state="final"> Sie müssen berücksichtigen, dass die Aufstockung nicht immer 3/4 der Pauschale betragen kann, sondern dass sie manchmal niedriger und manchmal höher sein muss: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu115" resname="/html/body/ul[3]">
+        <group restype="x-html-ul" id="grp115" resname="/html/body/ul[3]">
           <trans-unit restype="listitem" id="tu116" resname="/html/body/ul[3]/li[1]">
             <source xml:lang="nl">het complement voor een individuele werknemer mag nooit tot gevolg hebben dat de werknemer tijdens de arbeidsduurvermindering meer brutoloon heeft dan voordien. In dat geval moet het complement beperkt worden tot het verschil. </source>
             <target xml:lang="de" state="final">die Aufstockung für einen einzelnen Arbeitnehmer darf niemals zur Folge haben, dass der Arbeitnehmer während der Arbeitszeitverkürzung einen höheren Bruttolohn erhält als zuvor. In diesem Fall muss die Aufstockung auf die Differenz begrenzt werden. </target>
@@ -161,7 +161,7 @@
           <source xml:lang="nl"> Onder <g id="g122" ctype="x-html-strong">arbeidsduur</g> verstaat men de normale<g id="g123" ctype="x-html-sup">(1)</g> gemiddelde<g id="g124" ctype="x-html-sup">(2)</g> wekelijkse arbeidsduur van de werknemers. De arbeidsduur van de voltijdse maatman zowel vóór als na de invoering van het stelsel van crisis arbeidsduurvermindering moet worden meegedeeld in een apart scherm van de webapplicatie of in een apart functioneel blok: </source>
           <target xml:lang="de" state="final"> Unter <g id="g125" ctype="x-html-strong">Arbeitszeit</g> versteht man die normale <g id="g126" ctype="x-html-sup">(1)</g> durchschnittliche<g id="g127" ctype="x-html-sup">(2)</g> Wochenarbeitszeit des Arbeitnehmers. Die Arbeitszeit einer vollzeitlich beschäftigten Referenzperson sowohl vor als auch nach der Einführung der Krisenarbeitszeitverkürzung muss in einem separaten Bildschirm der Webanwendung oder in einem separaten Funktionsblock mitgeteilt werden: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu128" resname="/html/body/ul[4]">
+        <group restype="x-html-ul" id="grp128" resname="/html/body/ul[4]">
           <trans-unit restype="listitem" id="tu129" resname="/html/body/ul[4]/li[1]">
             <source xml:lang="nl"> <g id="g130" ctype="x-html-sup">(1)</g> Normaal betekent rekening houdend met de theoretische gemiddelde wekelijkse arbeidsduur, dus zonder rekening te houden met de gepresteerde overuren, en ongeacht eventuele afwezigheden wegens ziekte, tijdelijke werkloosheid, gewettigde of ongewettigde afwezigheid,... In feite is dit de arbeidsduur die staat in de arbeidsovereenkomst of de eventuele aanpassingen daarvan. </source>
             <target xml:lang="de" state="final"> <g id="g131" ctype="x-html-sup">(1)</g>Normal bedeutet: unter Berücksichtigung der theoretischen, durchschnittlichen, wöchentlichen Arbeitszeit, d. h. ohne Berücksichtigung der geleisteten Überstunden und ungeachtet etwaiger Abwesenheiten wegen Krankheit, vorübergehender Arbeitslosigkeit, berechtigter oder unberechtigter Abwesenheit usw. Im Grunde ist dies die Arbeitsdauer, die im Arbeitsvertrag oder den etwaigen Anpassungen angegeben wird. </target>
@@ -175,7 +175,7 @@
           <source xml:lang="nl"> In de aangifte moet bij de karakteristieken van de tewerkstellingslijn ook het <g id="g136" ctype="x-html-strong">gemiddeld aantal uren per week</g> van de werknemer (Q) en de voltijdse maatman (S) worden ingevuld. Het gaat om de normale gemiddelde wekelijkse arbeidsduur, verhoogd met de betaalde uren inhaalrust<g id="g137" ctype="x-html-sup">(3)</g> ingevolge een klassieke regeling tot vermindering van de arbeidsduur (zie ook de uitleg van deze ‘dubbeltelling’ bij de bespreking van het invullen van ‘<bx id="bx139" rid="rid138" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/fill_in_dmfa/dmfa_fillinrules/workerrecord_occupationrecords/occupationrecord.html&amp;quot;&amp;gt;"/>het gemiddeld aantal uren per week’<ex id="ex140" rid="rid138" equiv-text="&amp;lt;/a&amp;gt;"/> ). In sommige gevallen (bijvoorbeeld in de bouwsector) zal S dus verschillen met de arbeidsduur van de voltijdse maatman. </source>
           <target xml:lang="de" state="final"> In der Meldung müssen in den Eigenschaften der Beschäftigungszeile auch die <g id="g141" ctype="x-html-strong">durchschnittliche Anzahl der Stunden pro Woche</g> des Arbeitnehmers (Q) und der vollzeitlich beschäftigten Referenzperson (S) eingetragen werden. Es geht um die normale durchschnittliche Wochenarbeitszeit, erhöht um die bezahlten Ausgleichsruhezeiten<g id="g142" ctype="x-html-sup">(3)</g> infolge einer herkömmlichen Regelung zur Verringerung der Arbeitszeit (siehe auch die Erklärung zu diese ‚Doppelzählung‘ bei der Besprechung des Eintrags der ‚<bx id="bx144" rid="rid143" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/fill_in_dmfa/dmfa_fillinrules/workerrecord_occupationrecords/occupationrecord.html&amp;quot;&amp;gt;"/>durchschnittlichen Anzahl Stunden pro Woche‘<ex id="ex145" rid="rid143" equiv-text="&amp;lt;/a&amp;gt;"/>). In einigen Fällen (beispielsweise im Bausektor) wird S von der Arbeitszeit der vollzeitlich beschäftigten Referenzperson abweichen. </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu146" resname="/html/body/ul[5]">
+        <group restype="x-html-ul" id="grp146" resname="/html/body/ul[5]">
           <trans-unit restype="listitem" id="tu147" resname="/html/body/ul[5]/li">
             <source xml:lang="nl"> <g id="g148" ctype="x-html-sup">(3)</g> Zowel voor de werknemer als voor de maatpersoon wordt rekening gehouden met uren inhaalrust ingevolge een ‘klassieke’ regeling tot vermindering van de arbeidstijd, indien het gaat om inhaalrust die betaald wordt op het moment dat hij opgenomen wordt. De eventuele uren inhaalrust van de tijdelijke arbeidsduurvermindering wordt hier niet meegerekend. </source>
             <target xml:lang="de" state="final"> <g id="g149" ctype="x-html-sup">(3)</g>Sowohl für den Arbeitnehmer als auch für die Referenzperson werden Ausgleichsruhezeiten infolge einer ‚herkömmlichen‘ Regelung zur Arbeitszeitverkürzung berücksichtigt, wenn es sich um Ausgleichsruhezeit handelt, die zu dem Zeitpunkt bezahlt wird, zu dem sie genommen wird. Die eventuellen Ausgleichsruhezeiten der vorübergehenden Arbeitszeitverringerung werden hier nicht eingerechnet. </target>
@@ -187,9 +187,9 @@
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu153" resname="/html/body/p[20]">
           <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+          <target xml:lang="de" state="new"/>
         </trans-unit>
-        <group restype="x-html-div" id="tu154" resname="/html/body/div[3]">
+        <group restype="x-html-div" id="grp154" resname="/html/body/div[3]">
           <note from="class">readMoreContent</note>
           <trans-unit restype="x-html-p" id="tu155" resname="/html/body/div[3]/p[1]">
             <source xml:lang="nl"> <g id="g156" ctype="x-html-strong">Voorbeeld 1:</g> </source>
@@ -202,9 +202,9 @@
         </group>
         <trans-unit restype="x-html-p" id="tu161" resname="/html/body/p[21]">
           <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+          <target xml:lang="de" state="new"/>
         </trans-unit>
-        <group restype="x-html-div" id="tu162" resname="/html/body/div[4]">
+        <group restype="x-html-div" id="grp162" resname="/html/body/div[4]">
           <note from="class">readMoreContent</note>
           <trans-unit restype="x-html-p" id="tu163" resname="/html/body/div[4]/p[1]">
             <source xml:lang="nl"> <g id="g164" ctype="x-html-strong">Voorbeeld 2:</g> </source>
@@ -217,7 +217,7 @@
         </group>
         <trans-unit restype="x-html-p" id="tu169" resname="/html/body/p[22]">
           <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+          <target xml:lang="de" state="new"/>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu170" resname="/html/body/p[23]">
           <source xml:lang="nl"> De <g id="g171" ctype="x-html-strong">datum van inwerkingtreding en beëindiging</g> van het stelsel moet eveneens worden meegedeeld. </source>

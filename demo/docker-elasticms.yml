@@ -8,11 +8,11 @@ services:
             - PHP_FPM_MAX_CHILDREN=4
             - PHP_FPM_REQUEST_MAX_MEMORY_IN_MEGABYTES=256
             - CONTAINER_HEAP_PERCENT=0.8
-            - MAILER_URL=smtp://mailhog:1025
+            - MAILER_URL=smtp://mailserver:1025
             - EMSCO_TIKA_SERVER=http://tika:9998
             - EMS_BACKEND_URL=${EMS_BACKEND_URL:-~}
             - INSTANCE_ID=${INSTANCE_ID:-demo_}
-            - 'EMS_ELASTICSEARCH_HOSTS=["http://es01:9200","http://es02:9200","http://es03:9200"]'
+            - 'EMS_ELASTICSEARCH_HOSTS={"hosts":["http://es01:9200"],"username":"elastic","password":"changeme","transport_config":{"http_client_options":{"verify_peer":false}}}'
             - REDIS_HOST=redis
             - REDIS_PORT=6379
             - DB_HOST=postgres
@@ -31,25 +31,37 @@ services:
             - TRUSTED_PROXIES=127.0.0.1,REMOTE_ADDR
             - TRUSTED_HOSTS=localhost,*.localhost
             - APP_SECRET=ThisIsSecret
+            - PHP_OPENTELEMETRY_ENABLED=true
+            - METRICS_ENABLED=true
+            - MESSENGER_ENABLED=false
+            - MESSENGER_TRANSPORT_DSN=redis://redis:6379/messages
+            - APP_LOG_DIR=/app/var/log/elasticms
+            - APP_CACHE_DIR=/app/var/cache/elasticms
+        tmpfs:
+            - /opt/sbin:rw,exec,size=8m,mode=1777
+            - /opt/etc:rw,noexec,size=8m,mode=1777
+            - /app/var:rw,exec,size=1g,mode=1777
+            - /app/tmp:rw,noexec,size=64m,mode=1777
         volumes:
             - ./configs/admin:/app/src/elasticms/admin
             - ./configs/document:/app/src/elasticms/document
-            - ./configs/admin:/app/config/elasticms
+            - ./configs/elasticms-admin:/opt/config/elasticms
             - ./skeleton:/app/src/elasticms/local/${INSTANCE_ID:-demo_}preview
 
     web:
         image: elasticms/website-skeleton:${EMS_VERSION}
         environment:
             - APP_ENV=dev
+            - APP_SECRET=ThisIsSecret
             - TZ=Europe/Brussels
             - PHP_FPM_MAX_CHILDREN=8
             - PHP_FPM_REQUEST_MAX_MEMORY_IN_MEGABYTES=64
             - CONTAINER_HEAP_PERCENT=0.8
-            - MAILER_URL=smtp://mailhog:1025
+            - MAILER_URL=smtp://mailserver:1025
             - EMS_BACKEND_URL=${EMS_BACKEND_URL:-~}
             - INSTANCE_ID=${INSTANCE_ID:-demo_}
             - EMSF_AUTHKEY=${EMSF_AUTHKEY:-~}
-            - 'EMS_ELASTICSEARCH_HOSTS=["http://es01:9200","http://es02:9200","http://es03:9200"]'
+            - 'EMS_ELASTICSEARCH_HOSTS={"hosts":["http://es01:9200"],"username":"elastic","password":"changeme","transport_config":{"http_client_options":{"verify_peer":false}}}'
             - REDIS_HOST=redis
             - REDIS_PORT=6379
             - S3_ACCESS_KEY_ID=accesskey
@@ -60,11 +72,24 @@ services:
             - TRUSTED_PROXIES=127.0.0.1,REMOTE_ADDR
             - TRUSTED_HOSTS=localhost,*.localhost
             - EMSCH_ASSET_LOCAL_FOLDER=skeleton
+            - PHP_OPENTELEMETRY_ENABLED=true
             - VARNISH_ENABLED=true
+            - VARNISH_STORAGE_FILE_ENABLED=true
+            - VARNISH_STORAGE_FILE_SIZE=128M
+            - METRICS_ENABLED=true
+            - MESSENGER_ENABLED=false
+            - APP_LOG_DIR=/app/var/log/elasticms
+            - APP_CACHE_DIR=/app/var/cache/elasticms
+        tmpfs:
+            - /opt/sbin:rw,exec,size=8m,mode=1777
+            - /opt/etc:rw,noexec,size=8m,mode=1777
+            - /app/var:rw,exec,size=512m,mode=1777
+            - /app/tmp:rw,noexec,size=64m,mode=1777
         volumes:
             - ./configs/admin:/app/src/elasticms/admin
             - ./configs/document:/app/src/elasticms/document
-            - ./configs/elasticms-web:/app/config/elasticms
+            - ./configs/elasticms-web:/opt/config/elasticms
             - ./dist:/app/src/elasticms/public/skeleton:ro
             - ./skeleton:/app/src/elasticms/local/${INSTANCE_ID:-demo_}ma_preview
             - ./skeleton:/app/src/elasticms/local/${INSTANCE_ID:-demo_}ma_live
+            - ./skeleton:/app/src/elasticms/local/skeleton

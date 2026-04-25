@@ -4,16 +4,36 @@ declare(strict_types=1);
 
 namespace EMS\FormBundle\Twig;
 
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFunction;
+use EMS\FormBundle\Service\Endpoint\EndpointManager;
+use Psr\Log\LoggerInterface;
+use Twig\Attribute\AsTwigFunction;
 
-class FormExtension extends AbstractExtension
+class FormExtension
 {
-    #[\Override]
-    public function getFunctions(): array
+    public function __construct(
+        private readonly LoggerInterface $logger,
+        private readonly EndpointManager $endpointManager
+    ) {
+    }
+
+    /**
+     * @param array<string, string> $replaceBody
+     *
+     * @return array<string, mixed>|null
+     */
+    #[AsTwigFunction(name: 'emsf_http_call')]
+    public function callHttpEndpoint(string $fieldName, array $replaceBody, int $timeout = 5): ?array
     {
-        return [
-            new TwigFunction('emsf_http_call', [EndpointRuntime::class, 'callHttpEndpoint']),
-        ];
+        try {
+            return $this->endpointManager->callHttpEndpoint($fieldName, $replaceBody, $timeout);
+        } catch (\Throwable $throwable) {
+            $this->logger->error('Error during the HTTP request', [
+                'field' => $fieldName,
+                'config' => $replaceBody,
+                'error' => $throwable->getMessage(),
+            ]);
+
+            return null;
+        }
     }
 }

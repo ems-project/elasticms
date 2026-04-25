@@ -21,6 +21,7 @@ class Result
     ) {
         $data = Json::decode($response->getContent());
         $this->data = $data;
+
         $this->acknowledged = isset($data['acknowledged']) ? (bool) ($data['acknowledged']) : null;
         $this->success = isset($data['success']) ? (bool) ($data['success']) : null;
 

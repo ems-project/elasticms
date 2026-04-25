@@ -8,6 +8,7 @@ use Elastica\Result;
 use EMS\CommonBundle\Common\EMSLink;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 
 final class DocumentAiTest extends TestCase
@@ -21,6 +22,7 @@ final class DocumentAiTest extends TestCase
         ],
     ];
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testFromResult(): void
     {
         $result = $this->createMock(Result::class);

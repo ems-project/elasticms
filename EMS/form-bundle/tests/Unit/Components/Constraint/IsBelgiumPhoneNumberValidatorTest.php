@@ -7,9 +7,11 @@ namespace EMS\FormBundle\Tests\Unit\Components\Constraint;
 use EMS\FormBundle\Components\Constraint\IsBelgiumPhoneNumber;
 use EMS\FormBundle\Components\Constraint\IsBelgiumPhoneNumberValidator;
 use EMS\FormBundle\Components\ValueObject\BelgiumPhoneNumber;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
+#[AllowMockObjectsWithoutExpectations]
 class IsBelgiumPhoneNumberValidatorTest extends ConstraintValidatorTestCase
 {
     #[\Override]
@@ -21,9 +23,7 @@ class IsBelgiumPhoneNumberValidatorTest extends ConstraintValidatorTestCase
     #[DataProvider('getInvalidPhoneNumbers')]
     public function testInvalidPhoneNumbers(string $phoneNumber): void
     {
-        $constraint = new IsBelgiumPhoneNumber([
-            'message' => 'myMessage',
-        ]);
+        $constraint = new IsBelgiumPhoneNumber('myMessage');
 
         $this->validator->validate($phoneNumber, $constraint);
 

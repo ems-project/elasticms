@@ -105,7 +105,7 @@ emsch_media_file:
 emsch_news_details:
     config:
         path: { fr: '/fr/news/{year}-{month}-{day}/{slug}', nl: '/nl/news/{year}-{month}-{day}/{slug}' }
-    query: '{"query":{"bool":{"must":[{"terms":{"_contenttype":["news"]}},{"terms":{"%locale%.slug":["%slug%"]}}]}},"size":1}'
+    query: '{"query":{"bool":{"must":[{"terms":{"_contenttype":["news"]}},{"terms":{"%_locale%.slug":["%slug%"]}}]}},"size":1}'
     template_static: template/news/details.html.twig
 emsch_path:
     config:
@@ -113,12 +113,18 @@ emsch_path:
         requirements: { path: '^(?!(fr/|nl/|de/|_wdt/|_profiler/|_error/|metric|file|logout/saml|oauth/)(.*$)?).+' }
         defaults: { path: home }
     template_static: template/structure/by_path.html.twig
+emsch_archive:
+    config:
+        path: '/_archive/{hash}/{path}'
+        controller: 'EMS\CommonBundle\Controller\FileController::assetInArchive'
+        requirements: { path: .* }
+        defaults: { _format: html, indexResource: 'index.html', _authenticated: true }
 emsch_error:
     config:
         path: '/_error/{statusCode}.{_format}'
         controller: 'emsch.controller.router::errorPreview'
         requirements: { statusCode: '[0-9]{3}', _format: html|json }
-        defaults: { _format: html }
+        defaults: { _format: html, _authenticated: true }
         method: [POST, GET]
 emsch_login:
     config:
@@ -136,3 +142,15 @@ ems_check_asset:
         path: '/file/{config}/{hash}/{filename}'
         controller: 'emsch.controller.router::redirect'
     template_static: template/redirects/asset.json.twig
+emsch_admin_webhook:
+  config:
+    path: '/_admin_webhook'
+    method: [POST]
+    host: 'localhost'
+    controller: 'emsch.controller.http_cache::adminWebhook'
+emsch_clear_cache:
+  config:
+    path: '/_clear_cache'
+    method: [POST]
+    host: 'localhost'
+  template_static: template/admin/clear-cache.html.twig

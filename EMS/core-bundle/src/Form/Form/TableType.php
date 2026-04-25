@@ -16,6 +16,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Translation\TranslatableMessage;
 
 use function Symfony\Component\Translation\t;
 
@@ -32,7 +33,8 @@ final class TableType extends AbstractType
     public static function getReorderedKeys(string $formName, Request $request): array
     {
         $newOrder = [];
-        foreach ($request->get($formName, [])['reordered'] ?? [] as $id) {
+
+        foreach ($request->request->all($formName)['reordered'] ?? [] as $id) {
             if (!\is_string($id)) {
                 throw new \RuntimeException('Unexpected type for id');
             }
@@ -133,14 +135,14 @@ final class TableType extends AbstractType
     {
         $submitOptions = ['icon' => $action->getIcon(), 'label' => $action->getLabelKey()];
 
-        if ($confirmationKey = $action->getConfirmationKey()) {
+        if (($confirmationKey = $action->getConfirmationKey()) instanceof TranslatableMessage) {
             $submitOptions['confirm'] = $confirmationKey;
             $submitOptions['confirm_class'] = $action->getCssClass();
         } else {
             $submitOptions['attr'] = ['class' => $action->getCssClass()];
         }
 
-        if (\count($action->getAttributes())) {
+        if ([] !== $action->getAttributes()) {
             $submitOptions['attr'] = \array_merge($submitOptions['attr'] ?? [], $action->getAttributes());
         }
 

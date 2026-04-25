@@ -80,7 +80,7 @@ final class FileReader implements FileReaderInterface
             }
 
             $rowData = \array_filter(\array_combine($headings, $row), static fn ($v) => '' !== $v && null !== $v);
-            if (\count($rowData) > 0) {
+            if ([] !== $rowData) {
                 yield $rowData;
             }
 

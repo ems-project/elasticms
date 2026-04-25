@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Controller\Component;
 
 use EMS\CoreBundle\Core\Component\MediaLibrary\Config\MediaLibraryConfig;
+use EMS\CoreBundle\Core\Component\MediaLibrary\Folder\MediaLibraryFolder;
 use EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryService;
 use EMS\CoreBundle\Core\UI\AjaxModal;
 use EMS\CoreBundle\Core\UI\AjaxService;
@@ -39,9 +40,8 @@ class MediaLibraryController
     ) {
     }
 
-    public function addFile(Request $request): JsonResponse
+    public function addFile(Request $request, ?string $folderId): JsonResponse
     {
-        $folderId = $request->get('folderId');
         $parentFolder = $folderId ? $this->mediaLibraryService->getFolder($folderId) : null;
 
         $newFile = $this->mediaLibraryService->newFile($parentFolder);
@@ -65,9 +65,8 @@ class MediaLibraryController
         return new JsonResponse([], Response::HTTP_CREATED);
     }
 
-    public function addFolder(Request $request): JsonResponse
+    public function addFolder(Request $request, ?string $folderId): JsonResponse
     {
-        $folderId = $request->get('folderId');
         $parentFolder = $folderId ? $this->mediaLibraryService->getFolder($folderId) : null;
 
         $newFolder = $this->mediaLibraryService->newFolder($parentFolder);
@@ -78,7 +77,7 @@ class MediaLibraryController
         if ($form->isSubmitted() && $form->isValid()) {
             $folder = $this->mediaLibraryService->createFolder($newFolder);
 
-            if ($folder) {
+            if ($folder instanceof MediaLibraryFolder) {
                 $this->flashBag($request)->clear();
 
                 return $this->getAjaxModal()->getSuccessResponse(['path' => $folder->getPath()->getValue()]);
@@ -103,10 +102,9 @@ class MediaLibraryController
         return new JsonResponse(['success' => true]);
     }
 
-    public function deleteFiles(Request $request): JsonResponse
+    public function deleteFiles(Request $request, ?string $folderId): JsonResponse
     {
         $selectionFiles = $request->query->getInt('selectionFiles');
-        $folderId = $request->get('folderId');
         $folder = $folderId ? $this->mediaLibraryService->getFolder($folderId) : null;
 
         $componentModal = $this->mediaLibraryService->modal([
@@ -179,11 +177,9 @@ class MediaLibraryController
         return new JsonResponse($componentModal->render());
     }
 
-    public function getFiles(Request $request): JsonResponse
+    public function getFiles(Request $request, ?string $folderId): JsonResponse
     {
         $query = $request->query;
-
-        $folderId = $request->get('folderId');
         $folder = $folderId ? $this->mediaLibraryService->getFolder($folderId) : null;
 
         $sortOrder = $query->get('sortOrder');
@@ -249,12 +245,11 @@ class MediaLibraryController
         return new JsonResponse(['success' => true]);
     }
 
-    public function moveFiles(Request $request): JsonResponse
+    public function moveFiles(Request $request, ?string $folderId): JsonResponse
     {
         $selectionFiles = $request->query->getInt('selectionFiles');
-        $folderId = $request->get('folderId');
         $folder = $folderId ? $this->mediaLibraryService->getFolder($folderId) : null;
-        $currentPath = ($folder ? $folder->getPath()->getLabel() : 'Home');
+        $currentPath = ($folder instanceof MediaLibraryFolder ? $folder->getPath()->getLabel() : 'Home');
 
         $componentModal = $this->mediaLibraryService->modal([
             'type' => 'move_files',
@@ -291,7 +286,7 @@ class MediaLibraryController
                 'infoMessage' => $this->translator->trans('media_library.files.move.success', [
                     '%count%' => $selectionFiles,
                     '%from%' => $currentPath,
-                    '%to%' => $targetFolder ? $targetFolder->getPath()->getLabel() : 'Home',
+                    '%to%' => $targetFolder instanceof MediaLibraryFolder ? $targetFolder->getPath()->getLabel() : 'Home',
                 ], EMSCoreBundle::TRANS_COMPONENT),
             ]);
 
@@ -475,6 +470,6 @@ class MediaLibraryController
 
     private function getAjaxModal(): AjaxModal
     {
-        return $this->ajax->newAjaxModel("@$this->templateNamespace/components/media_library/modal.html.twig");
+        return $this->ajax->newAjaxModel(\sprintf('@%s/components/media_library/modal.html.twig', $this->templateNamespace));
     }
 }

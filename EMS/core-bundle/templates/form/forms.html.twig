@@ -106,6 +106,24 @@
     </td>
 {% endblock emsco_form_table_column_data_roles %}
 
+{% block emsco_form_table_column_data_value_string_array %}
+    {%- set value = attribute(line.data, column.attribute)|default([]) -%}
+    {%- if value is iterable and column.valid(line.data)  -%}
+        <ul>
+        {%- for string in value -%}
+            <li>{{- string -}}</li>
+        {%- endfor -%}
+        </ul>
+    {%- endif -%}
+{% endblock emsco_form_table_column_data_value_string_array %}
+
+{% block emsco_form_table_column_data_string_array %}
+    {%- set value = attribute(line.data, column.attribute)|default([]) -%}
+    <td>
+        {{- block(column.tableDataValueBlock()) -}}
+    </td>
+{% endblock emsco_form_table_column_data_string_array %}
+
 {% block emsco_form_table_column_data_value_bytes %}
     {%- set value = attribute(line.data, column.attribute)|default(false) -%}
     {%- if value and column.valid(line.data)  -%}
@@ -271,7 +289,7 @@
         {% endif %}
         {% set itemLabel = attribute(line.data, table.labelAttribute) %}
         {% if action.post %}
-            {% if action.route != 'EMS_user_apikey' or 'ROLE_API' in line.data.roles  %}
+            {% if action.route != 'emsco_user_api_key' or 'ROLE_API' in line.data.roles  %}
                 {% include '@EMSCore/elements/post-button.html.twig' with {
                     'url': path(action.route, routeParameters),
                     'message': action.messageKey(itemLabel),
@@ -405,7 +423,7 @@
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                 <h4 class="modal-title" id="{{ table.attributeName|e('html_attr') }}_modal_reorder_label">
-                                    <strong>{{ reorder_label|default(form.vars.reorder_label)|trans }}</strong>
+                                    <strong>{{ (reorder_label ?? form.vars.reorder_label)|trans }}</strong>
                                 </h4>
                             </div>
                             <div class="modal-body">

@@ -31,7 +31,7 @@ class FileSystemFactory extends AbstractFactory implements StorageFactoryInterfa
         $path = $config[self::STORAGE_CONFIG_PATH] ?? null;
 
         if ('' === $path || null === $path) {
-            @\trigger_error('You should consider to migrate you storage service configuration to the EMS_STORAGES variable', \E_USER_DEPRECATED);
+            $this->logger->error('Missing `path` config for FileSystem storage');
 
             return null;
         }

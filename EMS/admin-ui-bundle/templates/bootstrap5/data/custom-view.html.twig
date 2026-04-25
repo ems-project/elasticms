@@ -2,95 +2,92 @@
 
 {% set label = object|emsco_display %}
 
-{% block title %}{{ 'data.custom-view.pagetitle'|trans({ '%name%':template.label, '%contentType%': contentType.singularName, '%label%': label, '%environment%': environment.label  }) }}{% endblock %}
+{% block title %}{{ 'data.custom-view.pagetitle'|trans({'%name%': template.label, '%contentType%': contentType.singularName, '%label%': label, '%environment%': environment.label}) }}{% endblock %}
 {% block pagetitle %}
-	<i class="{% if contentType.icon %}{{ contentType.icon }} {% else %} fa fa-question {% endif %} "></i>
-	{{ block('title') }}
+    <i class="{% if contentType.icon %}{{ contentType.icon }} {% else %} fa fa-question {% endif %} "></i>
+    {{ block('title') }}
 {% endblock %}
 
 {% block subtitle %}{% endblock %}
 
-
 {% block extraheader %}
-	{% if template.header is defined and template.body %}
-		{{ template.header|emsco_generate_from_template({
-				environment: environment,
-				contentType: contentType,
-				object: object,
-				source: object.source
-			})|raw }}
-	{% endif %}
+    {% if template.header is defined and template.body %}
+        {{ template.header|emsco_generate_from_template({
+                environment: environment,
+                contentType: contentType,
+                object: object,
+                source: object.source,
+            })|raw }}
+    {% endif %}
 {% endblock %}
 
-
-
 {% block body %}
-{% import "@EMSAdminUI/bootstrap5/macros/data-field-type.html.twig" as macros %}
+{% import '@EMSAdminUI/bootstrap5/macros/data-field-type.html.twig' as macros %}
 <div class="row">
-	<div class="col-12">
-		<div class="card card-{{ theme_color }} card-outline card-outline-tabs">
-			<div class="card-header d-print-none">
-				<h3 class="card-title">View {{ template.label }}</h3>
-			</div>
-			<div class="card-body">
-				{% if template.renderOption in [constant('EMS\\CoreBundle\\Form\\Field\\RenderOptionType::EMBED'), constant('EMS\\CoreBundle\\Form\\Field\\RenderOptionType::EXPORT'), constant('EMS\\CoreBundle\\Form\\Field\\RenderOptionType::PDF')] %}
-					{{ template.body|emsco_generate_from_template({
-						environment: environment,
-						contentType: contentType,
-						object: object,
-						source: object.source,
-						_download: false
-					})|raw }}
-				{% endif %}
+    <div class="col-12">
+        <div class="card card-{{ theme_color }} card-outline card-outline-tabs">
+            <div class="card-header d-print-none">
+                <h3 class="card-title">View {{ template.label }}</h3>
+            </div>
+            <div class="card-body">
+                {% if template.renderOption in [constant('EMS\\CoreBundle\\Form\\Field\\RenderOptionType::EMBED'), constant('EMS\\CoreBundle\\Form\\Field\\RenderOptionType::EXPORT'), constant('EMS\\CoreBundle\\Form\\Field\\RenderOptionType::PDF')] %}
+                    {{ template.body|emsco_generate_from_template({
+                        environment: environment,
+                        contentType: contentType,
+                        object: object,
+                        source: object.source,
+                        _download: false,
+                    })|raw }}
+                {% endif %}
 
-				{% if template.filename and template.renderOption is constant('EMS\\CoreBundle\\Form\\Field\\RenderOptionType::EXPORT') %}
-					<br/><br/>
-					{{ template.filename|emsco_generate_from_template({
-						environment: environment,
-						contentType: contentType,
-						object: object,
-						source: object.source
-					}) }}
-				{% endif %}
-			</div>
-			<!-- /.box-body -->
-			<div class="card-footer d-print-none">
-                {% include '@EMSAdminUI/bootstrap5/elements/object-toolbar.html.twig' with {
-					'object':  object,
-					'contentType': contentType,
-					'recursiveView': true
-				}%}
+                {% if template.filename and template.renderOption is constant('EMS\\CoreBundle\\Form\\Field\\RenderOptionType::EXPORT') %}
+                    <br/><br/>
+                    {{ template.filename|emsco_generate_from_template({
+                        environment: environment,
+                        contentType: contentType,
+                        object: object,
+                        source: object.source,
+                    }) }}
+                {% endif %}
+            </div>
+            <!-- /.box-body -->
+            <div class="card-footer d-print-none">
+                {{ include('@EMSAdminUI/bootstrap5/elements/object-toolbar.html.twig', {
+                    object: object,
+                    contentType: contentType,
+                    recursiveView: true,
+                }) }}
 
-				<div class="btn-toolbar float-end" role="toolbar">
-					<div class="btn-group">
-						{% if template.renderOption is constant('EMS\\CoreBundle\\Form\\Field\\RenderOptionType::PDF') %}
-							{% include '@EMSAdminUI/bootstrap5/elements/get-button.html.twig' with {
-								'url':  path(template.public?'ems_data_custom_template_public':'ems_data_custom_template_protected', {
-									'environmentName': environment.name ,
-									'templateId': template.id,
-									'ouuid': object.ouuid,
-									'_download': true}),
-								'label': 'Download PDF',
-								'icon': 'file-pdf-o',
-								'target': '_blank'
-							} %}
-						{% endif %}
-						{% if template.body and template.renderOption is constant('EMS\\CoreBundle\\Form\\Field\\RenderOptionType::EXPORT') %}
-							{% include '@EMSAdminUI/bootstrap5/elements/get-button.html.twig' with {
-								'url':  path(template.public?'ems_data_custom_template_public':'ems_data_custom_template_protected', {
-									'environmentName': environment.name ,
-									'templateId': template.id,
-									'ouuid': object.ouuid,
-									'_download': true}),
-								'label': 'Download',
-								'icon': 'download',
-								'target': '_blank'
-							} %}
-						{% endif %}
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                <div class="btn-toolbar float-end" role="toolbar">
+                    <div class="btn-group">
+                        {% if template.renderOption is constant('EMS\\CoreBundle\\Form\\Field\\RenderOptionType::PDF') %}
+                            {{ include('@EMSAdminUI/bootstrap5/elements/get-button.html.twig', {
+                                url: path(template.public ? 'emsco_data_public_action' : 'emsco_data_private_action', {
+                                    environmentName: environment.name,
+                                    templateId: template.id,
+                                    ouuid: object.ouuid,
+                                    _download: true}),
+                                label: 'Download PDF',
+                                icon: 'file-pdf-o',
+                                target: '_blank',
+                            }) }}
+                        {% endif %}
+                        {% if template.body and template.renderOption is constant('EMS\\CoreBundle\\Form\\Field\\RenderOptionType::EXPORT') %}
+                            {{ include('@EMSAdminUI/bootstrap5/elements/get-button.html.twig', {
+                                url: path(template.public ? 'emsco_data_public_action' : 'emsco_data_private_action', {
+                                    environmentName: environment.name,
+                                    templateId: template.id,
+                                    ouuid: object.ouuid,
+                                    _download: true}),
+                                label: 'Download',
+                                icon: 'download',
+                                target: '_blank',
+                            }) }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

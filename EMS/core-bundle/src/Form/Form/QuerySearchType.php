@@ -90,7 +90,7 @@ final class QuerySearchType extends AbstractType
         $resolver->setDefaults([
             'data_class' => QuerySearch::class,
             'constraints' => [
-                new UniqueEntity(['fields' => ['name']]),
+                new UniqueEntity(fields: ['name']),
             ],
         ]);
     }

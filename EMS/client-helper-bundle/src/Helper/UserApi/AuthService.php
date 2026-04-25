@@ -17,8 +17,8 @@ final readonly class AuthService
     public function getUserAuthToken(Request $request): JsonResponse
     {
         $credentials = [
-            'username' => $request->get('username'),
-            'password' => $request->get('password'),
+            'username' => $request->request->getString('username'),
+            'password' => $request->request->getString('password'),
         ];
 
         $client = $this->client->createClient(['Content-Type' => 'application/json']);

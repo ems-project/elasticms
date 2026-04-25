@@ -1,0 +1,8 @@
+{{- if ne (strings.ToLower .Env.PHP_PDO_SQLSRV_ENABLED) "false" -}}
+
+pdo_sqlsrv.client_buffer_max_kb_size = {{ .Env.PHP_PDO_SQLSRV_CLIENT_BUFFER_MAX_KB_SIZE }}
+pdo_sqlsrv.log_severity = {{ .Env.PHP_PDO_SQLSRV_LOG_SEVERITY }}
+pdo_sqlsrv.report_additional_errors = {{ .Env.PHP_PDO_SQLSRV_REPORT_ADDITIONAL_ERRORS }}
+pdo_sqlsrv.set_locale_info = {{ .Env.PHP_PDO_SQLSRV_SET_LOCALE_INFO }}
+
+{{- end -}}

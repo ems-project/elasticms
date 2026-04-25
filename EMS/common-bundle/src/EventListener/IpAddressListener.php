@@ -53,7 +53,7 @@ class IpAddressListener implements EventSubscriberInterface
 
     private function getRequestMatcher(): ?RequestMatcherInterface
     {
-        if (0 === \count($this->trustedIps)) {
+        if ([] === $this->trustedIps) {
             return null;
         }
 

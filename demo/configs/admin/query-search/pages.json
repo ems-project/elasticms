@@ -10,7 +10,7 @@
         "options": {
             "query": "{\r\n    \"query\": {\r\n        \"bool\": {\r\n            \"must\": [\r\n                {\r\n                    \"terms\": {\r\n                        \"_contenttype\": [\r\n                            \"page\",\r\n                            \"route\"\r\n                        ]\r\n                    }\r\n                }\r\n            ]\r\n        }\r\n    }\r\n}"
         },
-        "orderKey": 9999
+        "orderKey": 4
     },
     "replaced": [
         "environments"

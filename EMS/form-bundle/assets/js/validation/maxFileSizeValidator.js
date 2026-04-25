@@ -1,5 +1,4 @@
-export class MaxFileSizeValidator
-{
+export class MaxFileSizeValidator {
   constructor(files, maxAllowedSize) {
     this.files = files
     this.maxAllowedSize = maxAllowedSize
@@ -11,7 +10,7 @@ export class MaxFileSizeValidator
 
       Array.from(this.files).forEach(function (file) {
         currentFileSize += file.size
-      });
+      })
 
       if (currentFileSize > this.maxAllowedSize) {
         return false

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\Helpers\Tests\Unit\File;
 
 use EMS\Helpers\File\TempFile;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\StreamInterface;
 
@@ -19,6 +20,7 @@ class TempFileAiTest extends TestCase
         $this->assertFalse(\file_exists($tempFile->path));
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testLoadFromStream()
     {
         $tempFile = TempFile::create();

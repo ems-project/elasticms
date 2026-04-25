@@ -7,12 +7,21 @@ namespace EMS\ClientHelperBundle\DependencyInjection;
 use EMS\ClientHelperBundle\Security\Sso\OAuth2\OAuth2Property;
 use EMS\ClientHelperBundle\Security\Sso\OAuth2\Provider\AzureOAuth2Provider;
 use EMS\ClientHelperBundle\Security\Sso\Saml\SamlProperty;
+use EMS\CommonBundle\Helper\EmsFields;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 final class Configuration implements ConfigurationInterface
 {
+    private const array DEFAULT_ASSET_SRC_IMAGE_CONFIG = [
+        EmsFields::ASSET_CONFIG_IMAGE_FORMAT => EmsFields::ASSET_CONFIG_WEBP_IMAGE_FORMAT,
+        EmsFields::ASSET_CONFIG_TYPE => EmsFields::ASSET_CONFIG_TYPE_IMAGE,
+        EmsFields::ASSET_CONFIG_WIDTH => 0,
+        EmsFields::ASSET_CONFIG_HEIGHT => 0,
+        EmsFields::ASSET_CONFIG_QUALITY => 90,
+    ];
+
     #[\Override]
     public function getConfigTreeBuilder(): TreeBuilder
     {
@@ -27,7 +36,7 @@ final class Configuration implements ConfigurationInterface
                 ->booleanNode('bind_locale')->end()
                 ->booleanNode('handle_exceptions')->defaultTrue()->end()
                 ->scalarNode('etag_hash_algo')->end()
-                ->scalarNode('asset_local_folder')->end()
+                ->scalarNode('asset_local_folder')->defaultValue(null)->end()
                 ->integerNode('search_limit')
                     ->info('search limit to get local documents')
                     ->defaultValue(1000)
@@ -39,6 +48,7 @@ final class Configuration implements ConfigurationInterface
                         ->scalarNode('ems_link')->defaultValue('@EMSCH/template/emsLinks/{type}.ems_link.twig')->end()
                     ->end()
                 ->end()
+                ->variableNode('asset_src_image_config')->defaultValue(self::DEFAULT_ASSET_SRC_IMAGE_CONFIG)->end()
             ->end()
         ;
 
@@ -73,7 +83,7 @@ final class Configuration implements ConfigurationInterface
                                 }
                             }
 
-                            if (empty($default)) {
+                            if ([] === $default) {
                                 throw new \InvalidArgumentException('no default elasticms configured');
                             }
 

@@ -11,12 +11,14 @@ use App\CLI\Client\Document\Update\DocumentUpdateConfig;
 use App\CLI\Client\Document\Update\DocumentUpdater;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Data\DataInterface;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[AllowMockObjectsWithoutExpectations]
 final class DocumentUpdaterTest extends TestCase
 {
     private MockObject $coreApi;

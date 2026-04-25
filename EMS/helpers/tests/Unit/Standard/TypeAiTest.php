@@ -46,7 +46,6 @@ class TypeAiTest extends TestCase
     {
         $image = \imagecreatetruecolor(100, 100);
         $this->assertInstanceOf(\GdImage::class, Type::gdImage($image));
-        \imagedestroy($image);
     }
 
     public function testGdImageWithInvalidType()

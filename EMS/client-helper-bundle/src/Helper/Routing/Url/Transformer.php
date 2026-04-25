@@ -8,7 +8,7 @@ use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequest;
 use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequestManager;
 use EMS\CommonBundle\Common\EMSLink;
 use EMS\CommonBundle\Helper\EmsFields;
-use EMS\CommonBundle\Twig\AssetRuntime;
+use EMS\CommonBundle\Twig\AssetExtension;
 use EMS\Helpers\Html\MimeTypes;
 use EMS\Helpers\Standard\Json;
 use Psr\Log\LoggerInterface;
@@ -22,8 +22,18 @@ final class Transformer
     /** @var array<string, mixed> */
     private array $documents = [];
 
-    public function __construct(private readonly AssetRuntime $assetRuntime, ClientRequestManager $clientRequestManager, private readonly Generator $generator, private readonly Environment $twig, private readonly LoggerInterface $logger, ?string $template)
-    {
+    /**
+     * @param array<string, mixed> $assetSrcImageConfig
+     */
+    public function __construct(
+        private readonly AssetExtension $assetExtension,
+        ClientRequestManager $clientRequestManager,
+        private readonly Generator $generator,
+        private readonly Environment $twig,
+        private readonly LoggerInterface $logger,
+        ?string $template,
+        private readonly array $assetSrcImageConfig,
+    ) {
         $this->clientRequest = $clientRequestManager->getDefault();
         $this->template = $template ?? '@EMSCH/template/{type}.ems_link.twig';
     }
@@ -59,8 +69,8 @@ final class Transformer
             }
 
             return null;
-        } catch (\Exception $ex) {
-            $this->logger->error(\sprintf('%s match (%s)', $ex->getMessage(), Json::encode($match)));
+        } catch (\Exception $exception) {
+            $this->logger->error(\sprintf('%s match (%s)', $exception->getMessage(), Json::encode($match)));
 
             return null;
         }
@@ -74,11 +84,18 @@ final class Transformer
         $transform = \preg_replace_callback(EMSLink::PATTERN, function ($match) use ($config) {
             $cleanMatch = \array_filter($match);
 
-            if (0 === \count($cleanMatch)) {
+            if ([] === $cleanMatch) {
                 return $match[0];
             }
 
             $generation = $this->generate($cleanMatch, $config);
+            if ('asset' === $match['link_type'] && ($match['query'] ?? null)) {
+                $query = \str_replace('&amp;', '&', $match['query']);
+                \parse_str($query, $params);
+                unset($params['name']);
+                unset($params['type']);
+                $match['query'] = \http_build_query($params);
+            }
             $route = ($generation ?? $match[0]);
             $srcAttribute = '' !== $match['src'];
             if ('asset' === $match['link_type'] && ($config['asset_file_path'] ?? false) && $srcAttribute) {
@@ -87,7 +104,7 @@ final class Transformer
                 $baseUrl = $config['baseUrl'] ?? '';
             }
             $transformed = $baseUrl.$route;
-            if (\strlen($match['query'] ?? '') > 0) {
+            if (($match['query'] ?? '') !== '') {
                 $transformed = \implode('?', [$transformed, $match['query']]);
             }
 
@@ -105,14 +122,17 @@ final class Transformer
     {
         $assetConfig = [];
         $assetFilePaths = $config['asset_file_path'] ?? false;
+        $mimetype = $emsLink->getQuery()['type'] ?? null;
 
         if ($assetFilePaths && isset($match['src'])) {
             $assetConfig = [EmsFields::ASSET_CONFIG_GET_FILE_PATH => true];
         } elseif ($assetFilePaths) {
             $assetConfig = [EmsFields::ASSET_CONFIG_URL_TYPE => UrlGeneratorInterface::NETWORK_PATH];
+        } elseif (isset($match['src']) && \is_string($mimetype) && \str_starts_with($mimetype, 'image/')) {
+            $assetConfig = $this->assetSrcImageConfig;
         }
 
-        return $this->assetRuntime->assetPath([
+        return $this->assetExtension->assetPath([
             EmsFields::CONTENT_FILE_HASH_FIELD => $emsLink->getOuuid(),
             EmsFields::CONTENT_FILE_NAME_FIELD => $emsLink->getQuery()['name'] ?? 'asset',
             EmsFields::CONTENT_MIME_TYPE_FIELD => $emsLink->getQuery()['type'] ?? MimeTypes::APPLICATION_OCTET_STREAM->value,
@@ -126,8 +146,8 @@ final class Transformer
     {
         try {
             return $this->twig->render($template, $context);
-        } catch (\Throwable $ex) {
-            $this->logger->error($ex->getMessage());
+        } catch (\Throwable $throwable) {
+            $this->logger->error($throwable->getMessage());
         }
 
         return null;
@@ -144,11 +164,9 @@ final class Transformer
         $context['url'] = $emsLink;
 
         $dynamicTypes = $config['dynamic_types'] ?? [];
-        if (!\in_array($emsLink->getContentType(), $dynamicTypes)) {
-            if ($document = $this->getDocument($emsLink)) {
-                $context['id'] = $document['_id'];
-                $context['source'] = $document['_source'];
-            }
+        if (!\in_array($emsLink->getContentType(), $dynamicTypes) && $document = $this->getDocument($emsLink)) {
+            $context['id'] = $document['_id'];
+            $context['source'] = $document['_source'];
         }
 
         if (isset($config['locale'])) {
@@ -164,7 +182,7 @@ final class Transformer
     /**
      * @return array<mixed>
      */
-    private function getDocument(EMSLink $emsLink): ?array
+    private function getDocument(EMSLink $emsLink): array
     {
         if (isset($this->documents[$emsLink->__toString()])) {
             return $this->documents[$emsLink->__toString()];

@@ -4,29 +4,24 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Helper\Asset;
 
+use EMS\ClientHelperBundle\Twig\AssetExtension;
 use Symfony\Component\Asset\VersionStrategy\VersionStrategyInterface;
 
 final readonly class AssetVersionStrategy implements VersionStrategyInterface
 {
-    public function __construct(private AssetHelperRuntime $assetHelperRuntime)
+    public function __construct(private AssetExtension $assetExtension)
     {
     }
 
-    /**
-     * @param string $path
-     */
     #[\Override]
-    public function getVersion($path): string
+    public function getVersion(string $path): string
     {
-        return $this->assetHelperRuntime->getVersionHash();
+        return $this->assetExtension->getVersionHash();
     }
 
-    /**
-     * @param string $path
-     */
     #[\Override]
-    public function applyVersion($path): string
+    public function applyVersion(string $path): string
     {
-        return $this->assetHelperRuntime->applyVersion($path);
+        return $this->assetExtension->applyVersion($path);
     }
 }

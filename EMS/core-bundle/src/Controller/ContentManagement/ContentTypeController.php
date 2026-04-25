@@ -69,14 +69,6 @@ class ContentTypeController extends AbstractController
     ) {
     }
 
-    #[\Deprecated]
-    public static function isValidName(string $name): bool
-    {
-        @\trigger_error('Deprecated isValidName function, please use the FieldTypeManager::isValidName function', E_USER_DEPRECATED);
-
-        return FieldTypeManager::isValidName($name);
-    }
-
     public function updateFromJson(ContentType $contentType, Request $request): Response
     {
         $jsonUpdate = new ContentTypeJsonUpdate();
@@ -97,7 +89,7 @@ class ContentTypeController extends AbstractController
             ]);
         }
 
-        return $this->render("@$this->templateNamespace/contenttype/json_update.html.twig", [
+        return $this->render(\sprintf('@%s/contenttype/json_update.html.twig', $this->templateNamespace), [
             'form' => $form->createView(),
             'title' => t('action.update_content_type_from_json', ['name' => $contentType->getName()], 'emsco-core'),
             'subTitle' => t('type.title_sub', ['type' => 'content_type'], 'emsco-core'),
@@ -186,7 +178,7 @@ class ContentTypeController extends AbstractController
                 $form->get('name')->addError(new FormError('Another content type named '.$contentTypeAdded->getName().' already exists'));
             }
 
-            if (!static::isValidName($contentTypeAdded->getName())) {
+            if (!FieldTypeManager::isValidName($contentTypeAdded->getName())) {
                 $form->get('name')->addError(new FormError('The content type name is malformed (format: [a-z][a-z0-9_-]*)'));
             }
 
@@ -230,7 +222,7 @@ class ContentTypeController extends AbstractController
             }
         }
 
-        return $this->render("@$this->templateNamespace/contenttype/add.html.twig", [
+        return $this->render(\sprintf('@%s/contenttype/add.html.twig', $this->templateNamespace), [
             'form' => $form->createView(),
             'title' => t('type.title_create', ['type' => 'content_type'], 'emsco-core'),
             'subTitle' => t('type.title_sub', ['type' => 'content_type'], 'emsco-core'),
@@ -332,7 +324,7 @@ class ContentTypeController extends AbstractController
             return $this->treatFieldSubmit($contentType, $field, $action, $subFieldName);
         }
 
-        return $this->render("@$this->templateNamespace/contenttype/field.html.twig", [
+        return $this->render(\sprintf('@%s/contenttype/field.html.twig', $this->templateNamespace), [
             'form' => $form->createView(),
             'field' => $field,
             'contentType' => $contentType,
@@ -360,7 +352,7 @@ class ContentTypeController extends AbstractController
             return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_EDIT, ['contentType' => $contentType->getId()]);
         }
 
-        return $this->render("@$this->templateNamespace/contenttype/reorder.html.twig", [
+        return $this->render(\sprintf('@%s/contenttype/reorder.html.twig', $this->templateNamespace), [
             'form' => $form->createView(),
             'contentType' => $contentType,
             'title' => t('action.reorder', ['type' => 'content_type'], 'emsco-core'),
@@ -431,7 +423,7 @@ class ContentTypeController extends AbstractController
             ]);
         }
 
-        return $this->render("@$this->templateNamespace/contenttype/edit.html.twig", [
+        return $this->render(\sprintf('@%s/contenttype/edit.html.twig', $this->templateNamespace), [
             'form' => $form->createView(),
             'contentType' => $contentType,
             'mapping' => $mapping,
@@ -490,16 +482,15 @@ class ContentTypeController extends AbstractController
                 return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_STRUCTURE, [
                     'id' => $id,
                 ]);
-            } else {
-                $openModal = $this->fieldTypeManager->handleRequest($contentType->getFieldType(), $inputContentType['fieldType']);
-                $contentType->getFieldType()->updateOrderKeys();
-                $this->contentTypeService->update($contentType, false);
-
-                return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_STRUCTURE, \array_filter([
-                    'id' => $id,
-                    'open' => $openModal,
-                ]));
             }
+            $openModal = $this->fieldTypeManager->handleRequest($contentType->getFieldType(), $inputContentType['fieldType']);
+            $contentType->getFieldType()->updateOrderKeys();
+            $this->contentTypeService->update($contentType, false);
+
+            return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_STRUCTURE, \array_filter([
+                'id' => $id,
+                'open' => $openModal,
+            ]));
         }
 
         if ($contentType->getDirty()) {
@@ -508,7 +499,7 @@ class ContentTypeController extends AbstractController
             ]);
         }
 
-        return $this->render("@$this->templateNamespace/contenttype/structure.html.twig", [
+        return $this->render(\sprintf('@%s/contenttype/structure.html.twig', $this->templateNamespace), [
             'form' => $form->createView(),
             'contentType' => $contentType,
             'title' => t('action.reorder', ['type' => 'content_type'], 'emsco-core'),
@@ -553,7 +544,7 @@ class ContentTypeController extends AbstractController
         } else {
             switch ($action) {
                 case 'subfield':
-                    if (static::isValidName($subFieldName)) {
+                    if (FieldTypeManager::isValidName($subFieldName)) {
                         try {
                             $child = new FieldType();
                             $child->setName($subFieldName);
@@ -567,7 +558,7 @@ class ContentTypeController extends AbstractController
                                 EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_CREATE,
                             ]);
                         } catch (OptimisticLockException|ORMException $e) {
-                            throw new ElasticmsException($e->getMessage());
+                            throw new ElasticmsException($e->getMessage(), $e->getCode(), $e);
                         }
                     } else {
                         $this->logger->error('log.contenttype.field.name_not_valid', [

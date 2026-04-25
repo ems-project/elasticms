@@ -19,20 +19,20 @@
         icon: 'fa fa-user',
         label: 'job.user'|trans,
         value: job.user|emsco_display_name,
-    },{
+    }, {
         icon: 'fa fa-terminal',
         label: 'job.command'|trans,
         content: job.command|default('list'),
-        contentClass: 'console'
-    },{
+        contentClass: 'console',
+    }, {
         icon: 'fa fa-clock',
         label: 'job.started'|trans,
         value: job.created|date(date_time_format),
-    },{
+    }, {
         icon: 'fa fa-hourglass',
         label: 'job.modified'|trans,
         value: job.modified|date(date_time_format),
-    },{
+    }, {
         icon: 'fa fa-percent',
         label: 'job.progress'|trans,
         value: job.done ? 'job.completed'|trans : "#{job.progress}%",
@@ -46,9 +46,9 @@
     {% endif %}
 
     {% set listGroup %}
-        {% include '@EMSAdminUI/bootstrap5/core/list-group.html.twig' with {
-            'list':  list
-        }%}
+        {{ include('@EMSAdminUI/bootstrap5/core/list-group.html.twig', {
+            list: list,
+        }) }}
     {% endset %}
 
     {% with {
@@ -78,24 +78,24 @@
     {% set footer %}
         <div class="btn-group float-end">
             {% if not job.done %}
-                {% include '@EMSAdminUI/bootstrap5/elements/get-button.html.twig' with {
-                    'url':  path('emsco_job_status', {'job': job.id}),
-                    'label': 'button.reload_page'|trans,
-                    'icon': 'refresh'
-                }%}
+                {{ include('@EMSAdminUI/bootstrap5/elements/get-button.html.twig', {
+                    url: path('emsco_job_status', {job: job.id}),
+                    label: 'button.reload_page'|trans,
+                    icon: 'refresh',
+                }) }}
             {% endif %}
             {% if is_granted('ROLE_ADMIN') %}
-                {% include '@EMSAdminUI/bootstrap5/elements/get-button.html.twig' with {
-                    'url':  path('emsco_job_index'),
-                    'label': 'job.list'|trans,
-                    'icon': 'chevron-circle-right'
-                }%}
-                {% include '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' with {
-                    'url':  path('emsco_job_delete', {'job': job.id}),
-                    'message': 'button.confirm'|trans,
-                    'label': 'button.delete'|trans,
-                    'icon': 'trash'
-                }%}
+                {{ include('@EMSAdminUI/bootstrap5/elements/get-button.html.twig', {
+                    url: path('emsco_job_index'),
+                    label: 'job.list'|trans,
+                    icon: 'chevron-circle-right',
+                }) }}
+                {{ include('@EMSAdminUI/bootstrap5/elements/post-button.html.twig', {
+                    url: path('emsco_job_delete', {job: job.id}),
+                    message: 'button.confirm'|trans,
+                    label: 'button.delete'|trans,
+                    icon: 'trash',
+                }) }}
             {% endif %}
         </div>
     {% endset %}

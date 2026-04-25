@@ -38,7 +38,7 @@ class ComposerInfo
         $composerLockFile = Json::decodeFile($path);
 
         $allPackages = $composerLockFile['packages'] ?? [];
-        $packages = \array_filter($allPackages, fn (array $p) => \array_key_exists($p['name'], self::PACKAGES));
+        $packages = \array_filter($allPackages, fn (array $p) => \array_key_exists((string) $p['name'], self::PACKAGES));
 
         foreach ($packages as $p) {
             $shortname = self::PACKAGES[$p['name']];

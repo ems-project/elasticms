@@ -9,10 +9,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use EMS\CommonBundle\Entity\EntityInterface;
 use EMS\CoreBundle\Core\Security\Canonicalizer;
 use EMS\CoreBundle\Core\UI\Menu;
+use EMS\CoreBundle\Core\User\UserList;
 use EMS\CoreBundle\Entity\User;
 use EMS\CoreBundle\Entity\UserInterface;
 use EMS\CoreBundle\Repository\SearchRepository;
 use EMS\CoreBundle\Repository\UserRepository;
+use EMS\CoreBundle\Roles;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -39,7 +41,7 @@ class UserService implements EntityServiceInterface
 
     public function isSuper(): bool
     {
-        return $this->authorizationChecker->isGranted('ROLE_SUPER');
+        return $this->authorizationChecker->isGranted(Roles::ROLE_SUPER);
     }
 
     public function searchUser(string $search): ?UserInterface
@@ -111,7 +113,7 @@ class UserService implements EntityServiceInterface
 
     public function getCurrentUser(bool $detach = true): UserInterface
     {
-        if ($this->currentUser) {
+        if ($this->currentUser instanceof UserInterface) {
             return $this->currentUser;
         }
 
@@ -226,7 +228,7 @@ class UserService implements EntityServiceInterface
     {
         $users = $this->userRepository->findBy(['enabled' => true]);
 
-        if (0 === \count($roles)) {
+        if ([] === $roles) {
             return $users;
         }
 
@@ -277,7 +279,7 @@ class UserService implements EntityServiceInterface
         $menu = new Menu('view.elements.side-menu.user.name', ['%name%' => $user->getDisplayName()]);
 
         $searches = $this->searchRepository->getByUsername($user->getUsername());
-        if (!empty($searches)) {
+        if ([] !== $searches) {
             $link = $menu->addChild('view.elements.side-menu.user.searches', 'fa fa-search', 'elasticsearch.search');
             $link->setTranslation([]);
             foreach ($searches as $search) {
@@ -319,12 +321,17 @@ class UserService implements EntityServiceInterface
 
     public function isCliSession(): bool
     {
-        return 'cli' === \php_sapi_name();
+        return 'cli' === PHP_SAPI;
+    }
+
+    public function getEnabledUsers(): UserList
+    {
+        return $this->userRepository->getUsersEnabled();
     }
 
     public function inMyCircles(mixed $circles): bool
     {
-        if (\is_array($circles) && 0 === \count($circles)) {
+        if (\is_array($circles) && [] === $circles) {
             return true;
         }
 
@@ -335,7 +342,7 @@ class UserService implements EntityServiceInterface
         $user = $this->getCurrentUser(UserService::DONT_DETACH);
 
         if (\is_array($circles)) {
-            return \count(\array_intersect($circles, $user->getCircles())) > 0;
+            return [] !== \array_intersect($circles, $user->getCircles());
         }
 
         return \in_array($circles, $user->getCircles());

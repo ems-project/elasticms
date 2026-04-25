@@ -56,9 +56,9 @@ class FieldTypeManager
     {
         if (\array_key_exists('add', $formArray)) {
             if (isset($formArray['ems:internal:add:field:name'])
-                && 0 != \strcmp((string) $formArray['ems:internal:add:field:name'], '')
+                && 0 !== \strcmp((string) $formArray['ems:internal:add:field:name'], '')
                 && isset($formArray['ems:internal:add:field:class'])
-                && 0 != \strcmp((string) $formArray['ems:internal:add:field:class'], '')) {
+                && 0 !== \strcmp((string) $formArray['ems:internal:add:field:class'], '')) {
                 if (static::isValidName($formArray['ems:internal:add:field:name'])) {
                     $fieldTypeNameOrServiceName = $formArray['ems:internal:add:field:class'];
                     $fieldName = $formArray['ems:internal:add:field:name'];
@@ -75,27 +75,25 @@ class FieldTypeManager
                     ]);
 
                     return '_ems_'.$child->getName().'_modal_options';
-                } else {
-                    $this->logger->error('log.contenttype.field.name_not_valid', [
-                        'field_format' => '/[a-z][a-z0-9_-]*/ !'.Mapping::HASH_FIELD.' !'.Mapping::HASH_FIELD,
-                    ]);
                 }
+                $this->logger->error('log.contenttype.field.name_not_valid', [
+                    'field_format' => '/[a-z][a-z0-9_-]*/ !'.Mapping::HASH_FIELD.' !'.Mapping::HASH_FIELD,
+                ]);
             } else {
                 $this->logger->error('log.contenttype.field.name_mandatory', [
                 ]);
             }
 
             return true;
-        } else {
-            foreach ($fieldType->getChildren() as $child) {
-                if (!$child instanceof FieldType) {
-                    throw new \RuntimeException('Unexpected FieldType object');
-                }
-                if (!$child->getDeleted()) {
-                    $out = $this->addNewField($formArray['ems_'.$child->getName()], $child);
-                    if (false !== $out) {
-                        return '_ems_'.$child->getName().$out;
-                    }
+        }
+        foreach ($fieldType->getChildren() as $child) {
+            if (!$child instanceof FieldType) {
+                throw new \RuntimeException('Unexpected FieldType object');
+            }
+            if (!$child->getDeleted()) {
+                $out = $this->addNewField($formArray['ems_'.$child->getName()], $child);
+                if (false !== $out) {
+                    return '_ems_'.$child->getName().$out;
                 }
             }
         }
@@ -123,27 +121,25 @@ class FieldTypeManager
                     ]);
 
                     return '_ems_'.$child->getName().'_modal_options';
-                } else {
-                    $this->logger->error('log.contenttype.subfield.name_not_valid', [
-                        'field_format' => '/[a-z][a-z0-9_-]*/',
-                    ]);
                 }
+                $this->logger->error('log.contenttype.subfield.name_not_valid', [
+                    'field_format' => '/[a-z][a-z0-9_-]*/',
+                ]);
             } else {
                 $this->logger->error('log.contenttype.subfield.name_mandatory', [
                 ]);
             }
 
             return true;
-        } else {
-            foreach ($fieldType->getChildren() as $child) {
-                if (!$child instanceof FieldType) {
-                    throw new \RuntimeException('Unexpected FieldType object');
-                }
-                if (!$child->getDeleted()) {
-                    $out = $this->addNewSubfield($formArray['ems_'.$child->getName()], $child);
-                    if (false !== $out) {
-                        return '_ems_'.$child->getName().$out;
-                    }
+        }
+        foreach ($fieldType->getChildren() as $child) {
+            if (!$child instanceof FieldType) {
+                throw new \RuntimeException('Unexpected FieldType object');
+            }
+            if (!$child->getDeleted()) {
+                $out = $this->addNewSubfield($formArray['ems_'.$child->getName()], $child);
+                if (false !== $out) {
+                    return '_ems_'.$child->getName().$out;
                 }
             }
         }
@@ -162,7 +158,7 @@ class FieldTypeManager
                 if (static::isValidName($formArray['ems:internal:add:subfield:target_name'])) {
                     $new = clone $fieldType;
                     $new->setName($formArray['ems:internal:add:subfield:target_name']);
-                    if ($parent = $new->getParent()) {
+                    if (($parent = $new->getParent()) instanceof FieldType) {
                         $parent->addChild($new);
                     }
 
@@ -172,31 +168,29 @@ class FieldTypeManager
                     ]);
 
                     return 'first_ems_'.$new->getName().'_modal_options';
-                } else {
-                    $this->logger->error('log.contenttype.field.name_not_valid', [
-                        'field_format' => '/[a-z][a-z0-9_-]*/ !'.Mapping::HASH_FIELD.' !'.Mapping::HASH_FIELD,
-                    ]);
                 }
+                $this->logger->error('log.contenttype.field.name_not_valid', [
+                    'field_format' => '/[a-z][a-z0-9_-]*/ !'.Mapping::HASH_FIELD.' !'.Mapping::HASH_FIELD,
+                ]);
             } else {
                 $this->logger->error('log.contenttype.field.name_mandatory', [
                 ]);
             }
 
             return true;
-        } else {
-            foreach ($fieldType->getChildren() as $child) {
-                if (!$child instanceof FieldType) {
-                    throw new \RuntimeException('Unexpected FieldType object');
-                }
-                if (!$child->getDeleted()) {
-                    $out = $this->duplicateField($formArray['ems_'.$child->getName()], $child);
-                    if (false !== $out) {
-                        if (\is_string($out) && \str_starts_with($out, 'first')) {
-                            return \substr($out, 5);
-                        }
-
-                        return '_ems_'.$child->getName().$out;
+        }
+        foreach ($fieldType->getChildren() as $child) {
+            if (!$child instanceof FieldType) {
+                throw new \RuntimeException('Unexpected FieldType object');
+            }
+            if (!$child->getDeleted()) {
+                $out = $this->duplicateField($formArray['ems_'.$child->getName()], $child);
+                if (false !== $out) {
+                    if (\is_string($out) && \str_starts_with($out, 'first')) {
+                        return \substr($out, 5);
                     }
+
+                    return '_ems_'.$child->getName().$out;
                 }
             }
         }
@@ -217,14 +211,13 @@ class FieldTypeManager
             ]);
 
             return true;
-        } else {
-            foreach ($fieldType->getChildren() as $child) {
-                if (!$child instanceof FieldType) {
-                    throw new \RuntimeException('Unexpected FieldType object');
-                }
-                if (!$child->getDeleted() && $this->removeField($formArray['ems_'.$child->getName()], $child)) {
-                    return true;
-                }
+        }
+        foreach ($fieldType->getChildren() as $child) {
+            if (!$child instanceof FieldType) {
+                throw new \RuntimeException('Unexpected FieldType object');
+            }
+            if (!$child->getDeleted() && $this->removeField($formArray['ems_'.$child->getName()], $child)) {
+                return true;
             }
         }
 
@@ -264,14 +257,13 @@ class FieldTypeManager
             ]);
 
             return true;
-        } else {
-            foreach ($fieldType->getChildren() as $child) {
-                if (!$child instanceof FieldType) {
-                    throw new \RuntimeException('Unexpected FieldType object');
-                }
-                if (!$child->getDeleted() && $this->reorderFields($formArray['ems_'.$child->getName()], $child)) {
-                    return true;
-                }
+        }
+        foreach ($fieldType->getChildren() as $child) {
+            if (!$child instanceof FieldType) {
+                throw new \RuntimeException('Unexpected FieldType object');
+            }
+            if (!$child->getDeleted() && $this->reorderFields($formArray['ems_'.$child->getName()], $child)) {
+                return true;
             }
         }
 

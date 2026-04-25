@@ -1,26 +1,26 @@
 {% trans_default_domain 'EMSCoreBundle' %}
 {% for child in parent.children|filter(child => not child.deleted) %}
-	<li id="{{ child.id }}" data-id="{{ child.id }}">
-		<div class="card-header">
-			<strong>{{ child.name }}</strong> {{ child.type }}
-			<div class="btn-group float-end">
-				{% if contentType is defined %}
-					<a class="btn btn-xs btn-primary" href="{{ path('emsco_admin_content_type_edit_field', { contentType: contentType.id, field: child.id }) }}">
-						<i class="fa fa-edit"></i>
-						{{ 'view.contenttype.reorder_item.edit_field_button'|trans({'%name%': child.name}) }}
-					</a>
-				{% endif %}
-			</div>
-		</div>
-		{% if (child.type~'::isContainer')|emsco_call_user_func %}
-			<ol data-parent-id="{{ child.id }}">
-                {% if child.children|length > 0 %}
-                    {% include "@EMSAdminUI/bootstrap5/contenttype/reorder_item.html.twig" with {
-                        parent: child
-                    } %}
+    <li id="{{ child.id }}" data-id="{{ child.id }}">
+        <div class="card-header">
+            <strong>{{ child.name }}</strong> {{ child.type }}
+            <div class="btn-group float-end">
+                {% if contentType is defined %}
+                    <a class="btn btn-xs btn-primary" href="{{ path('emsco_admin_content_type_edit_field', {contentType: contentType.id, field: child.id}) }}">
+                        <i class="fa fa-edit"></i>
+                        {{ 'view.contenttype.reorder_item.edit_field_button'|trans({'%name%': child.name}) }}
+                    </a>
                 {% endif %}
-			</ol>
-		{% endif %}
-	</li>
+            </div>
+        </div>
+        {% if (child.type ~ '::isContainer')|emsco_call_user_func %}
+            <ol data-parent-id="{{ child.id }}">
+                {% if child.children|length > 0 %}
+                    {{ include('@EMSAdminUI/bootstrap5/contenttype/reorder_item.html.twig', {
+                        parent: child,
+                    }) }}
+                {% endif %}
+            </ol>
+        {% endif %}
+    </li>
 
 {% endfor %}

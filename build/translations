@@ -47,7 +47,7 @@ $command = static function (InputInterface $input, OutputInterface $output): int
     $format = $input->getOption('format');
 
     if (!\in_array($format, ['yml', 'xlf'], true)) {
-        throw new RuntimeException('Invalid format');
+        throw new \RuntimeException('Invalid format');
     }
 
     $io->writeln('Booting admin kernel');
@@ -72,7 +72,7 @@ $command = static function (InputInterface $input, OutputInterface $output): int
     $catalogueDomains = $currentCatalogue->getDomains();
     \array_walk($domains, static function (string $d) use ($catalogueDomains) {
         if (!\in_array($d, $catalogueDomains, true)) {
-            throw new RuntimeException(\sprintf('Invalid domain: %s', $d));
+            throw new \RuntimeException(\sprintf('Invalid domain: %s', $d));
         }
     });
 
@@ -105,7 +105,7 @@ $command = static function (InputInterface $input, OutputInterface $output): int
         $progressBar = $io->createProgressBar($files->count());
         foreach ($files as $file) {
             $extractor->extract($file->getRealPath(), $extractedCatalogue);
-            $progressBar?->advance();
+            $progressBar->advance();
         }
 
         $progressBar->finish();
@@ -132,7 +132,7 @@ $command = static function (InputInterface $input, OutputInterface $output): int
     $result = $operation->getResult();
 
     if (0 === \count($result->all())) {
-        throw new RuntimeException('No translations found');
+        throw new \RuntimeException('No translations found');
     }
 
     $sortedMessages = new MessageCatalogue($result->getLocale());

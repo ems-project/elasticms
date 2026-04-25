@@ -12,7 +12,7 @@ class VerificationCode extends AbstractValidation
     #[\Override]
     public function getConstraint(): Constraint
     {
-        return new IsVerificationCode(['field' => $this->getField()]);
+        return new IsVerificationCode(field: $this->getField());
     }
 
     public function getField(): string

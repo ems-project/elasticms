@@ -1,8 +1,8 @@
 {% trans_default_domain 'emsco-twigs' %}
 {{ form_start(form) }}
-	<div class="card card-{{ theme_color }} card-outline">
-		<div id="searchFormBoxBody" class="collapse {% if openSearchForm is defined and openSearchForm %}in{% endif %}" aria-expanded="{% if openSearchForm is not defined or not openSearchForm %}false{%else%}true{% endif %}">
-			<div class="card-body" >
+    <div class="card card-{{ theme_color }} card-outline">
+        <div id="searchFormBoxBody" class="collapse {% if openSearchForm is defined and openSearchForm %}in{% endif %}" aria-expanded="{% if openSearchForm is not defined or not openSearchForm %}false{% else %}true{% endif %}">
+            <div class="card-body" >
                 <div class="row">
                     {% if form.environments is defined %}
                         <div class=" col-md-3 col-6">
@@ -78,89 +78,89 @@
                 </div>
             </div>
 
-			<div class="card-footer">
-				<div class="form-group">
-					<div class="btn-group float-end">
-						<a class="btn btn-primary" href="#" id="add-search-filter-button"><i class="fa fa-plus"></i> Add filter</a>
-						{% if form.search is defined %}
-							{{ form_widget(form.search) }}
-						{% endif %}
-						{% if form.applyFilters is defined %}
-							{{ form_widget(form.applyFilters) }}
-						{% endif %}
-					</div>
-					<div class="btn-group">
-						{% if searchId is defined and searchId %}
-							{% if is_granted('ROLE_DEFAULT_SEARCH') %}
-								{% include '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' with {
-									'url':  path('ems_search_set_default_search_from', {'id': searchId, 'search': app.request.query}),
-									'message': 'Set as default search ?',
-									'label': 'Set default',
-									'icon': 'check-square',
-									'class': 'btn'
-								} %}
-								{% if form.contentTypes.vars.value|length == 1 %}
-									{% set contentType = form.contentTypes.vars.value|first|emsco_get_content_type %}
-									{% if contentType %}
-										{% include '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' with {
-											'url':  path('ems_search_set_default_search_from', {
-												'id': searchId,
-												'search': app.request.query,
-												'contentType': form.contentTypes.vars.value|first
-											}),
-											'message': 'Set as default '~contentType.singularName~' search ?',
-											'label': 'Set for '~contentType.singularName,
-											'icon': contentType.icon|default('check-square'),
-											'icon': 'check-square',
-											'class': 'btn'
-										} %}
-									{% endif %}
-								{% endif %}
-							{% endif %}
-							{% include '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' with {
-								'url':  path('elasticsearch.search.delete', {'id': searchId, 'search': app.request.query}),
-								'message': 'Do you confirm ?',
-								'label': 'Delete',
-								'icon': 'trash',
-								'class': 'btn'
-							} %}
-						{% endif %}
+            <div class="card-footer">
+                <div class="form-group">
+                    <div class="btn-group float-end">
+                        <a class="btn btn-primary" href="#" id="add-search-filter-button"><i class="fa fa-plus"></i> Add filter</a>
+                        {% if form.search is defined %}
+                            {{ form_widget(form.search) }}
+                        {% endif %}
+                        {% if form.applyFilters is defined %}
+                            {{ form_widget(form.applyFilters) }}
+                        {% endif %}
+                    </div>
+                    <div class="btn-group">
+                        {% if searchId is defined and searchId %}
+                            {% if is_granted('ROLE_DEFAULT_SEARCH') %}
+                                {{ include('@EMSAdminUI/bootstrap5/elements/post-button.html.twig', {
+                                    url: path('ems_search_set_default_search_from', {id: searchId, search: app.request.query}),
+                                    message: 'Set as default search ?',
+                                    label: 'Set default',
+                                    icon: 'check-square',
+                                    class: 'btn',
+                                }) }}
+                                {% if form.contentTypes.vars.value|length == 1 %}
+                                    {% set contentType = form.contentTypes.vars.value|first|emsco_get_content_type %}
+                                    {% if contentType %}
+                                        {{ include('@EMSAdminUI/bootstrap5/elements/post-button.html.twig', {
+                                            url: path('ems_search_set_default_search_from', {
+                                                id: searchId,
+                                                search: app.request.query,
+                                                contentType: form.contentTypes.vars.value|first,
+                                            }),
+                                            message: 'Set as default ' ~ contentType.singularName ~ ' search ?',
+                                            label: 'Set for ' ~ contentType.singularName,
+                                            icon: contentType.icon|default('check-square'),
+                                            icon: 'check-square',
+                                            class: 'btn',
+                                        }) }}
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
+                            {{ include('@EMSAdminUI/bootstrap5/elements/post-button.html.twig', {
+                                url: path('elasticsearch.search.delete', {id: searchId, search: app.request.query}),
+                                message: 'Do you confirm ?',
+                                label: 'Delete',
+                                icon: 'trash',
+                                class: 'btn',
+                            }) }}
+                        {% endif %}
 
-						{% if form.save is defined %}
-							{{ form_widget(form.save) }}
-						{% endif %}
-					</div>
-				</div>
-			</div>
-		</div>
-		{% if body is defined %}
-			<div id="queryElasticsearchBoxBody" class="collapse">
-				<div class="box-body" >
-					<div class="row">
-						<div class=" col-md-12">
-							<pre class="ems-code-editor" data-language="ace/mode/json"
-								 data-theme="ace/theme/chrome">
-								{{- body|json_encode(constant('JSON_PRETTY_PRINT')) -}}
-							</pre>
-					    </div>
-					</div>
-				</div>
-			</div>
-		{% endif %}
-		<div class="card-footer">
-			<div class="btn-group">
-				<a class="toggle-button {% if openSearchForm is not defined or not openSearchForm %}collapsed{% endif %} btn btn-primary btn-sm" role="button" data-bs-toggle="collapse" href="#searchFormBoxBody" aria-expanded="{% if openSearchForm is not defined or not openSearchForm %}false{%else%}true{% endif %}" aria-controls="searchFormBoxBody">
-					<i class="fa fa-search"></i> Search form
-				</a>
-				{% if is_granted('ROLE_SUPER_ADMIN') and body is defined %}
-					<a class="toggle-button collapsed btn btn-primary btn-sm" role="button" data-bs-toggle="collapse" href="#queryElasticsearchBoxBody" aria-expanded="false" aria-controls="queryElasticsearchBoxBody">
-						<i class="fa fa-eye"></i> Query
-					</a>
-				{% endif %}
-				{% if form.exportResults is defined %}
-				    {{ form_widget(form.exportResults) }}
-				{% endif %}
-			</div>
-		</div>
-	</div>
+                        {% if form.save is defined %}
+                            {{ form_widget(form.save) }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if body is defined %}
+            <div id="queryElasticsearchBoxBody" class="collapse">
+                <div class="box-body" >
+                    <div class="row">
+                        <div class=" col-md-12">
+                            <pre class="ems-code-editor" data-language="ace/mode/json"
+                                 data-theme="ace/theme/chrome">
+                                {{- body|json_encode(constant('JSON_PRETTY_PRINT')) -}}
+                            </pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        <div class="card-footer">
+            <div class="btn-group">
+                <a class="toggle-button {% if openSearchForm is not defined or not openSearchForm %}collapsed{% endif %} btn btn-primary btn-sm" role="button" data-bs-toggle="collapse" href="#searchFormBoxBody" aria-expanded="{% if openSearchForm is not defined or not openSearchForm %}false{% else %}true{% endif %}" aria-controls="searchFormBoxBody">
+                    <i class="fa fa-search"></i> Search form
+                </a>
+                {% if is_granted('ROLE_SUPER_ADMIN') and body is defined %}
+                    <a class="toggle-button collapsed btn btn-primary btn-sm" role="button" data-bs-toggle="collapse" href="#queryElasticsearchBoxBody" aria-expanded="false" aria-controls="queryElasticsearchBoxBody">
+                        <i class="fa fa-eye"></i> Query
+                    </a>
+                {% endif %}
+                {% if form.exportResults is defined %}
+                    {{ form_widget(form.exportResults) }}
+                {% endif %}
+            </div>
+        </div>
+    </div>
 {{ form_end(form) }}

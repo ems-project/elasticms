@@ -29,7 +29,7 @@
           <source xml:lang="nl"> De OCMW’s die gerechtigden op een leefloon of op financiële maatschappelijke dienstverlening met een arbeidsovereenkomst in dienst hebben genomen in het kader van artikel 60, §7 kunnen deze ter beschikking stellen van de volgende <g id="g13" ctype="x-html-strong">derden-gebruikers</g>: </source>
           <target xml:lang="de" state="final"> ÖSHZ, die im Rahmen von Artikel 60, § 7 Berechtigte eines Eingliederungseinkommens oder finanzieller Sozialhilfe mit einem Arbeitsvertrag eingestellt haben, können diese folgenden <g id="g14" ctype="x-html-strong">Drittbenutzern</g> überlassen: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu15" resname="/html/body/ul[1]">
+        <group restype="x-html-ul" id="grp15" resname="/html/body/ul[1]">
           <trans-unit restype="listitem" id="tu16" resname="/html/body/ul[1]/li[1]">
             <source xml:lang="nl">een gemeente (deze waartoe het OCMW behoort of een andere); </source>
             <target xml:lang="de" state="final">einer Gemeinde (der des ÖSHZ oder einer anderen), </target>
@@ -79,7 +79,7 @@
           <source xml:lang="nl"> Het OCMW kan de volgende personen in het kader van artikel 60, §7 van de OCMW-wet aanwerven: </source>
           <target xml:lang="de" state="final"> Das ÖSHZ kann folgende Personen im Rahmen von Artikel 60 §7 des ÖSHZ-Gesetzes einstellen: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu28" resname="/html/body/ul[2]">
+        <group restype="x-html-ul" id="grp28" resname="/html/body/ul[2]">
           <trans-unit restype="listitem" id="tu29" resname="/html/body/ul[2]/li[1]">
             <source xml:lang="nl">de personen die gerechtigd zijn op een leefloon in de zin van de wet van 26 mei 2002 betreffende het recht op maatschappelijke integratie (= personen die de Belgische nationaliteit bezitten evenals vreemdelingen die ingeschreven zijn in het bevolkingsregister); </source>
             <target xml:lang="de" state="final">Personen mit Anspruch auf ein Eingliederungseinkommen im Sinne des Gesetzes vom 26.05.2002 über das Recht auf soziale Eingliederung (= Personen mit belgischer Staatsangehörigkeit sowie Ausländer, die beim Bevölkerungsregister gemeldet sind); </target>
@@ -97,7 +97,7 @@
           <source xml:lang="nl"> Zijn uitgesloten: </source>
           <target xml:lang="de" state="final"> Sind ausgeschlossen: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu33" resname="/html/body/ul[3]">
+        <group restype="x-html-ul" id="grp33" resname="/html/body/ul[3]">
           <trans-unit restype="listitem" id="tu34" resname="/html/body/ul[3]/li[1]">
             <source xml:lang="nl">de gesco's; </source>
             <target xml:lang="de" state="final">die bezuschussten Vertragsbediensteten; </target>
@@ -113,9 +113,9 @@
         </group>
         <trans-unit restype="x-html-p" id="tu37" resname="/html/body/p[8]">
           <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+          <target xml:lang="de" state="new"/>
         </trans-unit>
-        <group restype="x-html-div" id="tu38" resname="/html/body/div">
+        <group restype="x-html-div" id="grp38" resname="/html/body/div">
           <note from="class">alert message</note>
           <trans-unit restype="x-html-h3" id="tu39" resname="/html/body/div/h3">
             <source xml:lang="nl"> Vlaams Gewest: </source>
@@ -132,11 +132,11 @@
         </group>
         <trans-unit restype="x-html-p" id="tu46" resname="/html/body/p[9]">
           <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+          <target xml:lang="de" state="new"/>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu47" resname="/html/body/p[10]">
           <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+          <target xml:lang="de" state="new"/>
         </trans-unit>
         <trans-unit restype="x-html-h2" id="tu48" resname="/html/body/h2[3]">
           <source xml:lang="nl"> Bedrag van de vermindering </source>
@@ -148,23 +148,23 @@
         </trans-unit>
         <trans-unit id="tu54" resname="/html/body/br">
           <source xml:lang="nl">
-            <x id="x55" ctype="x-html-br" equiv-text=" "/>
+            <x id="x55" ctype="lb" equiv-text=" "/>
           </source>
           <target xml:lang="de" state="final">
-            <x id="x56" ctype="x-html-br" equiv-text=" "/>
+            <x id="x56" ctype="lb" equiv-text=" "/>
           </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu57" resname="/html/body/p[12]">
           <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+          <target xml:lang="de" state="new"/>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu58" resname="/html/body/p[13]">
           <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+          <target xml:lang="de" state="new"/>
         </trans-unit>
         <trans-unit restype="x-html-p" id="tu59" resname="/html/body/p[14]">
           <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+          <target xml:lang="de" state="new"/>
         </trans-unit>
         <trans-unit restype="x-html-h2" id="tu60" resname="/html/body/h2[4]">
           <source xml:lang="nl"> Te vervullen formaliteiten </source>
@@ -174,10 +174,10 @@
           <source xml:lang="nl"> Om te kunnen genieten van de vrijstelling van de werkgeversbijdragen moet het OCMW: </source>
           <target xml:lang="de" state="final"> Um die Befreiung von der Lohnsteuer beanspruchen zu können, muss das ÖSHZ: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu62" resname="/html/body/ul[4]">
+        <group restype="x-html-ul" id="grp62" resname="/html/body/ul[4]">
           <trans-unit restype="listitem" id="tu63" resname="/html/body/ul[4]/li[1]">
-            <source xml:lang="nl">de juiste verminderingscode aanduiden in de DmfAPPL. ;<x id="x64" ctype="x-html-br" equiv-text=" "/> </source>
-            <target xml:lang="de" state="final">den korrekten Ermäßigungscode in der DmfAPPL angeben;<x id="x65" ctype="x-html-br" equiv-text=" "/> </target>
+            <source xml:lang="nl">de juiste verminderingscode aanduiden in de DmfAPPL. ;<x id="x64" ctype="lb" equiv-text=" "/> </source>
+            <target xml:lang="de" state="final">den korrekten Ermäßigungscode in der DmfAPPL angeben;<x id="x65" ctype="lb" equiv-text=" "/> </target>
           </trans-unit>
           <trans-unit restype="listitem" id="tu66" resname="/html/body/ul[4]/li[2]">
             <source xml:lang="nl">het bewijs ter beschikking houden dat deze werknemer in dienst werd genomen onder de voorwaarden vermeld in artikel 33 van de wet van 22 december 1995. </source>

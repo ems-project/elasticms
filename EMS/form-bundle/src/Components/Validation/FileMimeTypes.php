@@ -18,6 +18,6 @@ class FileMimeTypes extends AbstractValidation
     #[\Override]
     public function getConstraint(): Constraint
     {
-        return new File(['mimeTypes' => \explode(',', (string) $this->value)]);
+        return new File(mimeTypes: \explode(',', (string) $this->value));
     }
 }

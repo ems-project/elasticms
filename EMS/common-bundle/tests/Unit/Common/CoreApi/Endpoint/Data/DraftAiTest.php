@@ -6,10 +6,12 @@ namespace EMS\CommonBundle\Tests\Unit\Common\CoreApi\Endpoint\Data;
 
 use EMS\CommonBundle\Common\CoreApi\Endpoint\Data\Draft;
 use EMS\CommonBundle\Common\CoreApi\Result;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 
 class DraftAiTest extends TestCase
 {
+    #[AllowMockObjectsWithoutExpectations]
     public function testConstructAndGetters(): void
     {
         $resultData = [
@@ -26,6 +28,7 @@ class DraftAiTest extends TestCase
         $this->assertEquals('test-ouuid', $draft->getOuuid());
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testConstructWithMissingOuuid(): void
     {
         $resultData = [

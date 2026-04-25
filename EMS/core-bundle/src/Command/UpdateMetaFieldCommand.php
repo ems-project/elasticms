@@ -6,7 +6,6 @@ namespace EMS\CoreBundle\Command;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
-use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Entity\Revision;
@@ -21,14 +20,11 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(
-    name: Commands::ENVIRONMENT_UPDATE_META_FIELD,
-    description: 'Update meta fields for all revisions of an environment.',
-    hidden: false,
-    aliases: ['ems:environment:updatemetafield']
-)]
-class UpdateMetaFieldCommand extends AbstractCommand
+#[AsCommand(name: Commands::ENVIRONMENT_UPDATE_META_FIELD, description: 'Update meta fields for all revisions of an environment.', aliases: ['ems:environment:updatemetafield'], hidden: false)]
+class UpdateMetaFieldCommand extends AbstractCoreCommand
 {
+    private const string DEFAULT_USERNAME = 'SYSTEM_UPDATE_META';
+
     public function __construct(protected Registry $doctrine, protected LoggerInterface $logger, protected DataService $dataService)
     {
         parent::__construct();
@@ -37,12 +33,14 @@ class UpdateMetaFieldCommand extends AbstractCommand
     #[\Override]
     protected function configure(): void
     {
+        parent::configure();
         $this
             ->addArgument(
                 'name',
                 InputArgument::REQUIRED,
                 'Environment name'
             );
+        $this->addUsernameOption(self::DEFAULT_USERNAME);
     }
 
     #[\Override]
@@ -63,7 +61,7 @@ class UpdateMetaFieldCommand extends AbstractCommand
         $environment = $envRepo->findOneBy(['name' => $name, 'managed' => true]);
 
         if (null === $environment) {
-            $output->writeln(\sprintf('WARNING: Environment named %s not found', $name));
+            $this->io->warning(\sprintf('Environment named %s not found', $name));
 
             return -1;
         }
@@ -80,18 +78,18 @@ class UpdateMetaFieldCommand extends AbstractCommand
                 try {
                     $this->dataService->setMetaFields($revision);
 
-                    $revision->setLockBy('SYSTEM_UPDATE_META');
+                    $revision->setLockBy($this->getUsername());
                     $now = new \DateTime();
                     $until = $now->add(new \DateInterval('PT5M')); // +5 minutes
                     $revision->setLockUntil($until);
 
                     $em->persist($revision);
                     $progress->advance();
-                    if (0 == $progress->getProgress() % 20) {
+                    if (0 === $progress->getProgress() % 20) {
                         $em->flush();
                     }
                 } catch (NotLockedException $e) {
-                    $output->writeln("<error>'.$e.'</error>");
+                    $this->io->error($e->getMessage());
                 }
             }
 
@@ -102,7 +100,7 @@ class UpdateMetaFieldCommand extends AbstractCommand
 
         $em->flush();
         $progress->finish();
-        $this->dataService->unlockAllRevisions('SYSTEM_UPDATE_META');
+        $this->dataService->unlockAllRevisions($this->getUsername());
 
         return 0;
     }

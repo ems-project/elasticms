@@ -1,7 +1,6 @@
 {% extends '@EMSAdminUI/bootstrap5/template/card.html.twig' %}
 {%- trans_default_domain 'user' -%}
 
-
 {% block body %}
     {% set footer %}
         <div class="btn-group">
@@ -16,12 +15,11 @@
     </div>
 {% endblock body %}
 
-
 {% block content %}
         <div class="text-center">
-            {% include '@EMSAdminUI/bootstrap5/elements/user-image.html.twig' with {
-                'class': 'profile-user-img img-responsive img-circle'
-            } %}
+            {{ include('@EMSAdminUI/bootstrap5/elements/user-image.html.twig', {
+                class: 'profile-user-img img-responsive img-circle',
+            }) }}
         </div>
 
         <h3 class="profile-username text-center">{{ user.displayName }}</h3>
@@ -43,38 +41,37 @@
         }) }}"></i>
     {% endset %}
     {% set circles %}
-        {% for circle in user.circles|default([])  -%}
+        {% for circle in user.circles|default([]) -%}
             <span class="badge bg-primary text-nowrap">{{- circle|emsco_display|raw -}}</span>
         {%- endfor %}
     {% endset %}
     {% set roles %}
-        {% for role in user.userRoles|default([])  -%}
+        {% for role in user.userRoles|default([]) -%}
             <span class="badge bg-primary text-nowrap">{{- role|trans({}, 'EMSCoreBundle') -}}</span>
         {%- endfor %}
     {% endset %}
 
     {% set items = [
-        { icon: 'fas fa-user', label: 'user.profile.show.username'|trans, value: user.displayName },
-        { icon: 'fas fa-envelope', label: 'user.profile.show.email'|trans, value: user.email },
-        { icon: 'fas fa-bell', label: 'user.profile.show.email_notification'|trans, value: emailNotification },
-        { icon: 'fas fa-person-walking-with-cane', label: 'user.option.simplified_ui'|trans, value: simplifiedUI },
-        { icon: 'fas fa-language', label: 'user.profile.show.locale'|trans, value: user.locale|language_name },
-        { icon: 'fas fa-house-flag', label: 'user.profile.show.locale_preferred'|trans, value: user.localePreferred|language_name },
-        { icon: 'fa-solid fa-pen-to-square', label: 'user.profile.show.wysiwyg'|trans, value: user.wysiwygProfile.name|default('') },
+        {icon: 'fas fa-user', label: 'user.profile.show.username'|trans, value: user.displayName},
+        {icon: 'fas fa-envelope', label: 'user.profile.show.email'|trans, value: user.email},
+        {icon: 'fas fa-bell', label: 'user.profile.show.email_notification'|trans, value: emailNotification},
+        {icon: 'fas fa-person-walking-with-cane', label: 'user.option.simplified_ui'|trans, value: simplifiedUI},
+        {icon: 'fas fa-language', label: 'user.profile.show.locale'|trans, value: user.locale|language_name},
+        {icon: 'fas fa-house-flag', label: 'user.profile.show.locale_preferred'|trans, value: user.localePreferred|language_name},
+        {icon: 'fa-solid fa-pen-to-square', label: 'user.profile.show.wysiwyg'|trans, value: user.wysiwygProfile.name|default('')},
     ] %}
 
     {% if circles_object and circles_object|emsco_get_content_type %}
         {% set items = items|merge([
-            { icon: 'fa-regular fa-circle-dot', label: circles_object|emsco_get_content_type.pluralName, content: circles },
+            {icon: 'fa-regular fa-circle-dot', label: circles_object|emsco_get_content_type.pluralName, content: circles},
         ]) %}
     {% endif %}
 
     {% if user.userRoles|default([])|length > 0 %}
         {% set items = items|merge([
-            { icon: 'fa-solid fa-id-card-clip', label: 'user.profile.show.extra_roles'|trans, content: roles },
+            {icon: 'fa-solid fa-id-card-clip', label: 'user.profile.show.extra_roles'|trans, content: roles},
         ]) %}
     {% endif %}
 
-
-    {% include '@EMSAdminUI/bootstrap5/core/list-group.html.twig' with { list: items } %}
+    {{ include('@EMSAdminUI/bootstrap5/core/list-group.html.twig', {list: items}) }}
 {% endblock content %}

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Service;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
-use Elastica\Exception\ResponseException;
 use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
 use EMS\CommonBundle\Entity\EntityInterface;
@@ -177,11 +176,11 @@ class ContentTypeService implements EntityServiceInterface
             }
 
             $this->contentTypeRepository->save($contentType);
-        } catch (ResponseException $e) {
+        } catch (\Throwable $throwable) {
             $contentType->setDirty(true);
-            $message = $e->getMessage();
-            if (!empty($e->getPrevious())) {
-                $message = $e->getPrevious()->getMessage();
+            $message = $throwable->getMessage();
+            if (!empty($throwable->getPrevious())) {
+                $message = $throwable->getPrevious()->getMessage();
             }
 
             $this->logger->error('service.contenttype.update_mapping_exception', [
@@ -496,6 +495,7 @@ class ContentTypeService implements EntityServiceInterface
         $search = new Search([$environment->getAlias()]);
         $search->setSize(0);
         $search->addTermsAggregation(self::CONTENT_TYPE_AGGREGATION_NAME, EMSSource::FIELD_CONTENT_TYPE, 30);
+
         $resultSet = $this->elasticaService->search($search);
         $aggregationBuckets = $resultSet->getAggregation(self::CONTENT_TYPE_AGGREGATION_NAME)['buckets'] ?? [];
         $unreferencedContentTypes = [];
@@ -531,7 +531,11 @@ class ContentTypeService implements EntityServiceInterface
 
     public function getCircleContentType(): ?ContentType
     {
-        return $this->contentTypeArrayByName[$this->circleContentTypeName] ?? null;
+        if (null === $circleContentTypeName = $this->circleContentTypeName) {
+            return null;
+        }
+
+        return $this->contentTypeArrayByName[$circleContentTypeName] ?? null;
     }
 
     public function getContentTypeMenu(): Menu
@@ -739,7 +743,7 @@ class ContentTypeService implements EntityServiceInterface
     public function getVersionDefault(ContentType $contentType): array
     {
         $versionTags = $contentType->getVersioning()->getTags();
-        if (0 === \count($versionTags)) {
+        if ([] === $versionTags) {
             return [];
         }
 
@@ -759,7 +763,7 @@ class ContentTypeService implements EntityServiceInterface
     public function getVersionTagsByContentType(ContentType $contentType, ?bool $notBlankNewVersion = false): array
     {
         $versionTags = $contentType->getVersioning()->getTags();
-        if (0 === \count($versionTags)) {
+        if ([] === $versionTags) {
             return [];
         }
 
@@ -861,7 +865,7 @@ class ContentTypeService implements EntityServiceInterface
     {
         $defaultOverviewView = $contentType->getViewByDefinition(ViewDefinition::DEFAULT_OVERVIEW);
 
-        if ($defaultOverviewView) {
+        if ($defaultOverviewView instanceof View) {
             return [
                 $defaultOverviewView->isPublic() ? Routes::DATA_PUBLIC_VIEW : Routes::DATA_PRIVATE_VIEW,
                 ['viewId' => $defaultOverviewView->getId()],

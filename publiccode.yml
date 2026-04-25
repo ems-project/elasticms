@@ -1,0 +1,105 @@
+publiccodeYmlVersion: "0"
+name: elasticMS
+applicationSuite: elasticMS
+url: https://github.com/ems-project/elasticms
+landingURL: https://elasticms.fgov.be/
+softwareVersion: 6.9.7
+releaseDate: 2026-01-26
+logo: https://raw.githubusercontent.com/ems-project/elasticms/6.x/EMS/core-bundle/public/images/logo.svg
+platforms:
+  - web
+  - linux
+categories:
+  - content-management
+  - website-builder
+developmentStatus: stable
+softwareType: standalone/web
+description:
+  en:
+    shortDescription: Modular open-source headless CMS for public-sector websites
+    longDescription: >
+      elasticMS is a modular open-source headless CMS designed to manage,
+      publish, and distribute structured content for public-sector digital
+      services.
+
+
+      The solution is composed of three applications:
+
+
+      - **elasticMS Admin**, a back-office application and API used to model,
+      manage, and validate content;
+
+      - **elasticMS Web**, a web frontend framework used to deliver content to
+      end users and integrate it into public websites and applications;
+
+      - **elasticMS CLI**, a command-line tool that supports automation tasks
+      such as deployment, configuration, data synchronization, and maintenance.
+
+
+      elasticMS Admin allows content managers to create and manage generic,
+      reusable content models. Content can be handled through a web-based user
+      interface or via APIs, and is published to one or more Elasticsearch
+      indexes for consumption by downstream applications.
+
+
+      elasticMS Web consumes these indexes to render accessible, performant, and
+      scalable public-facing websites, while elasticMS CLI enables technical
+      teams to automate operational workflows and integrate elasticMS into CI/CD
+      pipelines.
+
+
+      ## Advanced customization
+
+
+      elasticMS is highly configurable and extensible. Its modular architecture
+      allows public administrations to adapt the solution to advanced use cases
+      and specific organisational needs without vendor lock-in.
+
+
+      ## Accessibility and data protection
+
+
+      elasticMS is designed with accessibility and data protection in mind. It
+      supports the implementation of WCAG-compliant user interfaces and follows
+      GDPR principles regarding the handling and protection of personal data.
+
+
+      ## Scalable and evolving platform
+
+
+      elasticMS is a scalable platform that continuously evolves through
+      technical improvements driven by real public-sector needs, with a focus on
+      long-term maintainability and interoperability.
+
+
+      ## Secure by design
+
+
+      The authoritative source of content is stored in a traditional relational
+      database (such as PostgreSQL or MariaDB). Public applications and websites
+      access content exclusively through Elasticsearch indexes, ensuring a clear
+      separation between content management and content delivery layers, and
+      reducing the exposure of authoritative data sources.
+    documentation: https://ems-project.github.io/#/
+    features:
+      - Secure by design
+      - WCAG and GDPR Oriented
+      - Modular and extensible architecture
+legal:
+  license: LGPL-3.0-or-later
+maintenance:
+  type: internal
+  contacts:
+    - name: Mathieu De Keyzer
+      email: mathieu.dekeyzer@smals.be
+      phone: "+32478670047"
+localisation:
+  localisationReady: true
+  availableLanguages:
+    - en
+dependsOn:
+  open:
+    - name: elasticsearch
+      versionMin: 7.x
+      versionMax: 8.x
+      optional: false

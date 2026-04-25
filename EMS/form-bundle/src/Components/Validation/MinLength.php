@@ -18,6 +18,6 @@ class MinLength extends AbstractValidation
     #[\Override]
     public function getConstraint(): Constraint
     {
-        return new Length(['min' => $this->value]);
+        return new Length(min: $this->value);
     }
 }

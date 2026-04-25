@@ -169,7 +169,7 @@ class RevisionRepository extends EntityRepository
         $connection = $this->getEntityManager()->getConnection();
 
         if ($connection->getDatabasePlatform() instanceof PostgreSQLPlatform) {
-            $result = $this->getEntityManager()->getConnection()->fetchAllAssociative("select count(*) as counter FROM public.revision where raw_data::text like '%$hash%'");
+            $result = $this->getEntityManager()->getConnection()->fetchAllAssociative(\sprintf("select count(*) as counter FROM public.revision where raw_data::text like '%%%s%%'", $hash));
 
             return (int) $result[0]['counter'];
         }
@@ -178,7 +178,7 @@ class RevisionRepository extends EntityRepository
             $qb = $this->createQueryBuilder('r')
                 ->select('count(r)')
                 ->where('r.rawData like :hash')
-                ->setParameter('hash', "%$hash%");
+                ->setParameter('hash', \sprintf('%%%s%%', $hash));
             $query = $qb->getQuery();
 
             return (int) $query->getSingleScalarResult();
@@ -249,6 +249,7 @@ class RevisionRepository extends EntityRepository
     {
         $sqb = $this->getCompareQueryBuilder($source, $target, $contentTypes);
         $sqb->select('max(r.id)');
+
         $qb = $this->createQueryBuilder('rev');
         $qb->select('count(rev)');
         $qb->where($qb->expr()->in('rev.id', $sqb->getDQL()));
@@ -268,7 +269,7 @@ class RevisionRepository extends EntityRepository
     private function getCompareQueryBuilder(int $source, int $target, array $contentTypes, array $ouuids = [], string $searchValue = ''): QueryBuilder
     {
         $qb = $this->createQueryBuilder('r');
-        $qb->select('c.id', 'c.color', 'c.name content_type_name', 'c.singularName content_type_singular_name', 'c.icon', 'r.ouuid', "CONCAT(c.name, ':', r.ouuid) AS emsLink", 'max(r.labelField) as item_labelField', 'count(c.id) counter', 'min(concat(e.id, \'/\',r.id, \'/\', r.created, \'/\', r.finalizedBy)) minrevid', 'max(concat(e.id, \'/\',r.id, \'/\', r.created, \'/\', r.finalizedBy)) maxrevid', 'max(r.id) lastRevId')
+        $qb->select('c.id', 'c.color', 'c.name content_type_name', 'c.singularName content_type_singular_name', 'c.icon', 'r.ouuid', "CONCAT(c.name, ':', r.ouuid) AS emsLink", 'max(r.labelField) as item_labelField', 'count(c.id) counter', "min(concat(e.id, '/',r.id, '/', r.created, '/', r.finalizedBy)) minrevid", "max(concat(e.id, '/',r.id, '/', r.created, '/', r.finalizedBy)) maxrevid", 'max(r.id) lastRevId')
         ->join('r.contentType', 'c')
         ->join('r.environmentRevisions', 'er')
         ->join('er.environment', 'e')
@@ -285,11 +286,11 @@ class RevisionRepository extends EntityRepository
             new Parameter('false', false),
         ]));
 
-        if (\count($ouuids) > 0) {
+        if ([] !== $ouuids) {
             $qb->andWhere($qb->expr()->notIn('r.ouuid', $ouuids));
         }
 
-        if (\strlen($searchValue) > 0) {
+        if ('' !== $searchValue) {
             $literal = $qb->expr()->literal('%'.\strtolower($searchValue).'%');
             $or = $qb->expr()->orX(
                 $qb->expr()->like('LOWER(r.lockBy)', $literal),
@@ -299,8 +300,8 @@ class RevisionRepository extends EntityRepository
             $qb->andWhere($or);
         }
 
-        if (!empty($contentTypes)) {
-            $qb->andWhere('c.name in (\''.\implode("','", $contentTypes).'\')');
+        if ([] !== $contentTypes) {
+            $qb->andWhere("c.name in ('".\implode("','", $contentTypes)."')");
         }
 
         return $qb;
@@ -680,19 +681,19 @@ class RevisionRepository extends EntityRepository
             ->orderBy('t.deadline, t.status')
         ;
 
-        if ($deadlineStart) {
+        if ($deadlineStart instanceof \DateTimeImmutable) {
             $qb
                 ->andWhere($qb->expr()->gte('t.deadline', ':deadline_start'))
                 ->setParameter('deadline_start', $deadlineStart->setTime(0, 0)->format(\DATE_ATOM));
         }
 
-        if ($deadlineEnd) {
+        if ($deadlineEnd instanceof \DateTimeImmutable) {
             $qb
                 ->andWhere($qb->expr()->lte('t.deadline', ':deadline_end'))
                 ->setParameter('deadline_end', $deadlineEnd->setTime(23, 59, 59)->format(\DATE_ATOM));
         }
 
-        if (\count($status) > 0) {
+        if ([] !== $status) {
             $statuses = \array_map(static fn (TaskStatus $s) => $s->value, $status);
             $qb
                 ->andWhere($qb->expr()->in('t.status', ':status'))
@@ -744,7 +745,7 @@ class RevisionRepository extends EntityRepository
     /**
      * @return array<string, Revision[]>
      */
-    public function findAllPublishedRevision(EMSLink ...$emsIds): array
+    public function findAllCurrentRevisions(EMSLink ...$emsIds): array
     {
         $ouuids = \array_map(static fn (EMSLink $link) => $link->getOuuid(), $emsIds);
 
@@ -754,14 +755,17 @@ class RevisionRepository extends EntityRepository
             ->addSelect('er')
             ->addSelect('e')
             ->join('r.contentType', 'c')
-            ->join('r.environmentRevisions', 'er')
-            ->join('er.environment', 'e')
+            ->leftJoin('r.environmentRevisions', 'er')
+            ->leftJoin('er.environment', 'e')
             ->andWhere($qb->expr()->eq('c.active', $qb->expr()->literal(true)))
             ->andWhere($qb->expr()->eq('c.deleted', $qb->expr()->literal(false)))
             ->andWhere($qb->expr()->eq('r.deleted', $qb->expr()->literal(false)))
-            ->andWhere($qb->expr()->isNotNull('e.id'))
             ->andWhere($qb->expr()->isNull('er.deleted'))
             ->andWhere($qb->expr()->in('r.ouuid', ':ouuids'))
+            ->andWhere($qb->expr()->orX(
+                $qb->expr()->isNotNull('e.id'),
+                $qb->expr()->eq('r.draft', $qb->expr()->literal(true))
+            ))
             ->setParameter('ouuids', $ouuids, ArrayParameterType::STRING);
 
         /** @var Revision[] $revisions */
@@ -805,7 +809,7 @@ class RevisionRepository extends EntityRepository
     {
         $qb = $this->makeQueryBuilder(isDraft: true)->orderBy('r.id', 'asc');
 
-        if (\count($circles) > 0) {
+        if ([] !== $circles) {
             $inCircles = $qb->expr()->orX();
             foreach ($circles as $counter => $circle) {
                 $inCircles->add($qb->expr()->like('r.circles', ':circle'.$counter));
@@ -857,7 +861,7 @@ class RevisionRepository extends EntityRepository
             ->andWhere($qb->expr()->eq('r.versionUuid', ':version_ouuid'))
             ->setParameter('version_ouuid', $versionOuuid);
 
-        if ($environment) {
+        if ($environment instanceof Environment) {
             $qb
                 ->join('r.environmentRevisions', 'er')
                 ->andWhere($qb->expr()->eq('er.environment', ':environment'))
@@ -900,8 +904,8 @@ class RevisionRepository extends EntityRepository
     public function getAvailableRevisionsForRelease(int $from, int $size, Release $release, array $contentTypes, ?string $orderField, string $orderDirection, string $searchValue): array
     {
         $qb = $this->getCompareQueryBuilder($release->getEnvironmentSource()->getId(), $release->getEnvironmentTarget()->getId(), $contentTypes, $release->getRevisionsOuuids(), $searchValue);
-        if (null === $orderField) {
-            $qb->orderBy('r.ouuid', $orderDirection);
+        if ($orderField) {
+            $qb->orderBy('r.'.$orderField, $orderDirection);
         } else {
             $qb->orderBy('r.ouuid', $orderDirection);
         }

@@ -5,7 +5,7 @@
     "keywords": [
         "elasticms"
     ],
-    "license": "LGPL-3.0",
+    "license": "LGPL-3.0-or-later",
     "authors": [
         {
             "name": "EMS Community",
@@ -13,17 +13,17 @@
         }
     ],
     "require": {
-        "php": "^8.4",
-        "elasticms/form-bundle": "6.9.*",
+        "php": "^8.5",
+        "elasticms/form-bundle": "7.1.*",
         "league/flysystem-memory": "^3.19",
         "league/flysystem-sftp-v3": "^3.22",
-        "symfony/console": "6.4.*",
-        "symfony/event-dispatcher": "6.4.*",
-        "symfony/http-client": "6.4.*",
-        "symfony/options-resolver": "6.4.*",
-        "symfony/mailer": "6.4.*",
-        "symfony/mime": "6.4.*",
-        "symfony/twig-bundle": "6.4.*"
+        "symfony/console": "7.4.*",
+        "symfony/event-dispatcher": "7.4.*",
+        "symfony/http-client": "7.4.*",
+        "symfony/options-resolver": "7.4.*",
+        "symfony/mailer": "7.4.*",
+        "symfony/mime": "7.4.*",
+        "symfony/twig-bundle": "7.4.*"
     },
     "autoload": {
         "psr-4": {

@@ -12,6 +12,7 @@ use EMS\CommonBundle\Common\CoreApi\Result;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
 use EMS\CommonBundle\Elasticsearch\Response\ResponseInterface;
 use EMS\CommonBundle\Search\Search as SearchObject;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 
 class SearchAiTest extends TestCase
@@ -27,6 +28,7 @@ class SearchAiTest extends TestCase
         $this->search = new Search($this->client, $admin);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testSearch(): void
     {
         $searchObject = new SearchObject(['index1'], new MatchAll());
@@ -41,6 +43,7 @@ class SearchAiTest extends TestCase
         $this->assertInstanceOf(ResponseInterface::class, $response);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testCount(): void
     {
         $searchObject = new SearchObject(['index1'], new MatchAll());
@@ -55,6 +58,7 @@ class SearchAiTest extends TestCase
         $this->assertEquals(5, $count);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testVersion(): void
     {
         $this->client->expects($this->once())
@@ -67,6 +71,7 @@ class SearchAiTest extends TestCase
         $this->assertEquals('1.0.0', $version);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testHealthStatus(): void
     {
         $this->client->expects($this->once())
@@ -79,6 +84,7 @@ class SearchAiTest extends TestCase
         $this->assertEquals('healthy', $status);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testRefresh(): void
     {
         $this->client->expects($this->once())
@@ -91,6 +97,7 @@ class SearchAiTest extends TestCase
         $this->assertTrue($success);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testGetIndicesFromAlias(): void
     {
         $this->client->expects($this->once())
@@ -103,6 +110,7 @@ class SearchAiTest extends TestCase
         $this->assertEquals(['index1', 'index2'], $indices);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testGetAliasesFromIndex(): void
     {
         $this->client->expects($this->once())
@@ -115,6 +123,7 @@ class SearchAiTest extends TestCase
         $this->assertEquals(['alias1', 'alias2'], $aliases);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testGetDocument(): void
     {
         $documentData = [

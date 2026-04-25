@@ -36,12 +36,12 @@ const CLASS_NAME_CONTROL_SIDEBAR_OPEN = 'control-sidebar-open'
 const CLASS_NAME_IFRAME_MODE = 'iframe-mode'
 
 const Default = {
-  scrollbarTheme: 'os-theme-light',
-  scrollbarAutoHide: 'l',
-  panelAutoHeight: true,
-  panelAutoHeightMode: 'min-height',
-  preloadDuration: 200,
-  loginRegisterAutoHeight: true
+    scrollbarTheme: 'os-theme-light',
+    scrollbarAutoHide: 'l',
+    panelAutoHeight: true,
+    panelAutoHeightMode: 'min-height',
+    preloadDuration: 200,
+    loginRegisterAutoHeight: true
 }
 
 /**
@@ -50,195 +50,204 @@ const Default = {
  */
 
 class Layout {
-  constructor(element, config) {
-    this._config = config
-    this._element = element
-  }
-
-  // Public
-
-  fixLayoutHeight(extra = null) {
-    const $body = $('body')
-    let controlSidebar = 0
-
-    if (
-      $body.hasClass(CLASS_NAME_CONTROL_SIDEBAR_SLIDE_OPEN) ||
-      $body.hasClass(CLASS_NAME_CONTROL_SIDEBAR_OPEN) ||
-      extra === 'control_sidebar'
-    ) {
-      controlSidebar = $(SELECTOR_CONTROL_SIDEBAR_CONTENT).outerHeight()
+    constructor(element, config) {
+        this._config = config
+        this._element = element
     }
 
-    const heights = {
-      window: $(window).height(),
-      header: $(SELECTOR_HEADER).length > 0 ? $(SELECTOR_HEADER).outerHeight() : 0,
-      footer: $(SELECTOR_FOOTER).length > 0 ? $(SELECTOR_FOOTER).outerHeight() : 0,
-      sidebar: $(SELECTOR_SIDEBAR).length > 0 ? $(SELECTOR_SIDEBAR).height() : 0,
-      controlSidebar
-    }
+    // Public
 
-    const max = this._max(heights)
-    let offset = this._config.panelAutoHeight
+    fixLayoutHeight(extra = null) {
+        const $body = $('body')
+        let controlSidebar = 0
 
-    if (offset === true) {
-      offset = 0
-    }
-
-    const $contentSelector = $(SELECTOR_CONTENT)
-
-    if (offset !== false) {
-      if (max === heights.controlSidebar) {
-        $contentSelector.css(this._config.panelAutoHeightMode, max + offset)
-      } else if (max === heights.window) {
-        $contentSelector.css(
-          this._config.panelAutoHeightMode,
-          max + offset - heights.header - heights.footer
-        )
-      } else {
-        $contentSelector.css(this._config.panelAutoHeightMode, max + offset - heights.header)
-      }
-
-      if (this._isFooterFixed()) {
-        $contentSelector.css(
-          this._config.panelAutoHeightMode,
-          parseFloat($contentSelector.css(this._config.panelAutoHeightMode)) + heights.footer
-        )
-      }
-    }
-
-    if (!$body.hasClass(CLASS_NAME_LAYOUT_FIXED)) {
-      return
-    }
-
-    if (typeof $.fn.overlayScrollbars !== 'undefined') {
-      $(SELECTOR_SIDEBAR).overlayScrollbars({
-        className: this._config.scrollbarTheme,
-        sizeAutoCapable: true,
-        scrollbars: {
-          autoHide: this._config.scrollbarAutoHide,
-          clickScrolling: true
+        if (
+            $body.hasClass(CLASS_NAME_CONTROL_SIDEBAR_SLIDE_OPEN) ||
+            $body.hasClass(CLASS_NAME_CONTROL_SIDEBAR_OPEN) ||
+            extra === 'control_sidebar'
+        ) {
+            controlSidebar = $(SELECTOR_CONTROL_SIDEBAR_CONTENT).outerHeight()
         }
-      })
-    } else {
-      $(SELECTOR_SIDEBAR).css('overflow-y', 'auto')
+
+        const heights = {
+            window: $(window).height(),
+            header: $(SELECTOR_HEADER).length > 0 ? $(SELECTOR_HEADER).outerHeight() : 0,
+            footer: $(SELECTOR_FOOTER).length > 0 ? $(SELECTOR_FOOTER).outerHeight() : 0,
+            sidebar: $(SELECTOR_SIDEBAR).length > 0 ? $(SELECTOR_SIDEBAR).height() : 0,
+            controlSidebar
+        }
+
+        const max = this._max(heights)
+        let offset = this._config.panelAutoHeight
+
+        if (offset === true) {
+            offset = 0
+        }
+
+        const $contentSelector = $(SELECTOR_CONTENT)
+
+        if (offset !== false) {
+            if (max === heights.controlSidebar) {
+                $contentSelector.css(this._config.panelAutoHeightMode, max + offset)
+            } else if (max === heights.window) {
+                $contentSelector.css(
+                    this._config.panelAutoHeightMode,
+                    max + offset - heights.header - heights.footer
+                )
+            } else {
+                $contentSelector.css(
+                    this._config.panelAutoHeightMode,
+                    max + offset - heights.header
+                )
+            }
+
+            if (this._isFooterFixed()) {
+                $contentSelector.css(
+                    this._config.panelAutoHeightMode,
+                    parseFloat($contentSelector.css(this._config.panelAutoHeightMode)) +
+                        heights.footer
+                )
+            }
+        }
+
+        if (!$body.hasClass(CLASS_NAME_LAYOUT_FIXED)) {
+            return
+        }
+
+        if (typeof $.fn.overlayScrollbars !== 'undefined') {
+            $(SELECTOR_SIDEBAR).overlayScrollbars({
+                className: this._config.scrollbarTheme,
+                sizeAutoCapable: true,
+                scrollbars: {
+                    autoHide: this._config.scrollbarAutoHide,
+                    clickScrolling: true
+                }
+            })
+        } else {
+            $(SELECTOR_SIDEBAR).css('overflow-y', 'auto')
+        }
     }
-  }
 
-  fixLoginRegisterHeight() {
-    const $body = $('body')
-    const $selector = $(`${SELECTOR_LOGIN_BOX}, ${SELECTOR_REGISTER_BOX}`)
+    fixLoginRegisterHeight() {
+        const $body = $('body')
+        const $selector = $(`${SELECTOR_LOGIN_BOX}, ${SELECTOR_REGISTER_BOX}`)
 
-    if ($body.hasClass(CLASS_NAME_IFRAME_MODE)) {
-      $body.css('height', '100%')
-      $('.wrapper').css('height', '100%')
-      $('html').css('height', '100%')
-    } else if ($selector.length === 0) {
-      $body.css('height', 'auto')
-      $('html').css('height', 'auto')
-    } else {
-      const boxHeight = $selector.height()
+        if ($body.hasClass(CLASS_NAME_IFRAME_MODE)) {
+            $body.css('height', '100%')
+            $('.wrapper').css('height', '100%')
+            $('html').css('height', '100%')
+        } else if ($selector.length === 0) {
+            $body.css('height', 'auto')
+            $('html').css('height', 'auto')
+        } else {
+            const boxHeight = $selector.height()
 
-      if ($body.css(this._config.panelAutoHeightMode) !== boxHeight) {
-        $body.css(this._config.panelAutoHeightMode, boxHeight)
-      }
-    }
-  }
-
-  // Private
-
-  _init() {
-    // Activate layout height watcher
-    this.fixLayoutHeight()
-
-    if (this._config.loginRegisterAutoHeight === true) {
-      this.fixLoginRegisterHeight()
-    } else if (
-      this._config.loginRegisterAutoHeight === parseInt(this._config.loginRegisterAutoHeight, 10)
-    ) {
-      setInterval(this.fixLoginRegisterHeight, this._config.loginRegisterAutoHeight)
+            if ($body.css(this._config.panelAutoHeightMode) !== boxHeight) {
+                $body.css(this._config.panelAutoHeightMode, boxHeight)
+            }
+        }
     }
 
-    $(SELECTOR_SIDEBAR).on('collapsed.lte.treeview expanded.lte.treeview', () => {
-      this.fixLayoutHeight()
-    })
+    // Private
 
-    $(SELECTOR_MAIN_SIDEBAR).on('mouseenter mouseleave', () => {
-      if ($('body').hasClass(CLASS_NAME_SIDEBAR_COLLAPSED)) {
+    _init() {
+        // Activate layout height watcher
         this.fixLayoutHeight()
-      }
-    })
 
-    $(SELECTOR_PUSHMENU_BTN).on('collapsed.lte.pushmenu shown.lte.pushmenu', () => {
-      setTimeout(() => {
-        this.fixLayoutHeight()
-      }, 300)
-    })
+        if (this._config.loginRegisterAutoHeight === true) {
+            this.fixLoginRegisterHeight()
+        } else if (
+            this._config.loginRegisterAutoHeight ===
+            parseInt(this._config.loginRegisterAutoHeight, 10)
+        ) {
+            setInterval(this.fixLoginRegisterHeight, this._config.loginRegisterAutoHeight)
+        }
 
-    $(SELECTOR_CONTROL_SIDEBAR_BTN)
-      .on('collapsed.lte.controlsidebar', () => {
-        this.fixLayoutHeight()
-      })
-      .on('expanded.lte.controlsidebar', () => {
-        this.fixLayoutHeight('control_sidebar')
-      })
+        $(SELECTOR_SIDEBAR).on('collapsed.lte.treeview expanded.lte.treeview', () => {
+            this.fixLayoutHeight()
+        })
 
-    $(window).resize(() => {
-      this.fixLayoutHeight()
-    })
+        $(SELECTOR_MAIN_SIDEBAR).on('mouseenter mouseleave', () => {
+            if ($('body').hasClass(CLASS_NAME_SIDEBAR_COLLAPSED)) {
+                this.fixLayoutHeight()
+            }
+        })
 
-    setTimeout(() => {
-      $('body.hold-transition').removeClass('hold-transition')
-    }, 50)
+        $(SELECTOR_PUSHMENU_BTN).on('collapsed.lte.pushmenu shown.lte.pushmenu', () => {
+            setTimeout(() => {
+                this.fixLayoutHeight()
+            }, 300)
+        })
 
-    setTimeout(() => {
-      const $preloader = $(SELECTOR_PRELOADER)
-      if ($preloader) {
-        $preloader.css('height', 0)
+        $(SELECTOR_CONTROL_SIDEBAR_BTN)
+            .on('collapsed.lte.controlsidebar', () => {
+                this.fixLayoutHeight()
+            })
+            .on('expanded.lte.controlsidebar', () => {
+                this.fixLayoutHeight('control_sidebar')
+            })
+
+        $(window).resize(() => {
+            this.fixLayoutHeight()
+        })
+
         setTimeout(() => {
-          $preloader.children().hide()
-        }, 200)
-      }
-    }, this._config.preloadDuration)
-  }
+            $('body.hold-transition').removeClass('hold-transition')
+        }, 50)
 
-  _max(numbers) {
-    // Calculate the maximum number in a list
-    let max = 0
+        setTimeout(() => {
+            const $preloader = $(SELECTOR_PRELOADER)
+            if ($preloader) {
+                $preloader.css('height', 0)
+                setTimeout(() => {
+                    $preloader.children().hide()
+                }, 200)
+            }
+        }, this._config.preloadDuration)
+    }
 
-    Object.keys(numbers).forEach((key) => {
-      if (numbers[key] > max) {
-        max = numbers[key]
-      }
-    })
+    _max(numbers) {
+        // Calculate the maximum number in a list
+        let max = 0
 
-    return max
-  }
+        Object.keys(numbers).forEach((key) => {
+            if (numbers[key] > max) {
+                max = numbers[key]
+            }
+        })
 
-  _isFooterFixed() {
-    return $(SELECTOR_FOOTER).css('position') === 'fixed'
-  }
+        return max
+    }
 
-  // Static
-  static _jQueryInterface(config) {
-    return this.each(function () {
-      let data = $(this).data(DATA_KEY)
-      const _config = $.extend({}, Default, typeof config === 'object' ? config : $(this).data())
+    _isFooterFixed() {
+        return $(SELECTOR_FOOTER).css('position') === 'fixed'
+    }
 
-      if (!data) {
-        data = new Layout($(this), _config)
-        $(this).data(DATA_KEY, data)
-        data._init()
-      } else if (typeof config === 'string') {
-        if (typeof data[config] === 'undefined') {
-          throw new TypeError(`No method named "${config}"`)
-        }
+    // Static
+    static _jQueryInterface(config) {
+        return this.each(function () {
+            let data = $(this).data(DATA_KEY)
+            const _config = $.extend(
+                {},
+                Default,
+                typeof config === 'object' ? config : $(this).data()
+            )
 
-        data[config]()
-      } else if (typeof config === 'undefined') {
-        data._init()
-      }
-    })
-  }
+            if (!data) {
+                data = new Layout($(this), _config)
+                $(this).data(DATA_KEY, data)
+                data._init()
+            } else if (typeof config === 'string') {
+                if (typeof data[config] === 'undefined') {
+                    throw new TypeError(`No method named "${config}"`)
+                }
+
+                data[config]()
+            } else if (typeof config === 'undefined') {
+                data._init()
+            }
+        })
+    }
 }
 
 /**
@@ -247,16 +256,16 @@ class Layout {
  */
 
 $(window).on('load', () => {
-  Layout._jQueryInterface.call($('body'))
+    Layout._jQueryInterface.call($('body'))
 })
 
 $(`${SELECTOR_SIDEBAR} a`)
-  .on('focusin', () => {
-    $(SELECTOR_MAIN_SIDEBAR).addClass(CLASS_NAME_SIDEBAR_FOCUSED)
-  })
-  .on('focusout', () => {
-    $(SELECTOR_MAIN_SIDEBAR).removeClass(CLASS_NAME_SIDEBAR_FOCUSED)
-  })
+    .on('focusin', () => {
+        $(SELECTOR_MAIN_SIDEBAR).addClass(CLASS_NAME_SIDEBAR_FOCUSED)
+    })
+    .on('focusout', () => {
+        $(SELECTOR_MAIN_SIDEBAR).removeClass(CLASS_NAME_SIDEBAR_FOCUSED)
+    })
 
 /**
  * jQuery API
@@ -266,8 +275,8 @@ $(`${SELECTOR_SIDEBAR} a`)
 $.fn[NAME] = Layout._jQueryInterface
 $.fn[NAME].Constructor = Layout
 $.fn[NAME].noConflict = function () {
-  $.fn[NAME] = JQUERY_NO_CONFLICT
-  return Layout._jQueryInterface
+    $.fn[NAME] = JQUERY_NO_CONFLICT
+    return Layout._jQueryInterface
 }
 
 export default Layout

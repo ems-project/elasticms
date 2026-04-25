@@ -12,13 +12,13 @@
 {% block pagetitle %}{{ block('title') }}{% endblock %}
 
 {% block breadcrumb %}
-	<ol class="breadcrumb float-sm-end">
-		<li class="breadcrumb-item"><a href="{{ path('emsco_release_index') }}"><i class="{{ 'view.icon.class.release'|trans }}"></i> {{ 'release.menu'|trans }}</a></li>
-		<li class="breadcrumb-item">{{ 'release.revision.menu'|trans }}</li>
-   	</ol>
+    <ol class="breadcrumb float-sm-end">
+        <li class="breadcrumb-item"><a href="{{ path('emsco_release_index') }}"><i class="{{ 'view.icon.class.release'|trans }}"></i> {{ 'release.menu'|trans }}</a></li>
+        <li class="breadcrumb-item">{{ 'release.revision.menu'|trans }}</li>
+       </ol>
 {% endblock %}
 
 {% block body %}
-	{% form_theme form '@EMSAdminUI/bootstrap5/form/forms.html.twig' %}
-	{{ form(form) }}
+    {% form_theme form '@EMSAdminUI/bootstrap5/form/forms.html.twig' %}
+    {{ form(form) }}
 {% endblock %}

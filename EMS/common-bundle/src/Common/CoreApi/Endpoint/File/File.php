@@ -7,6 +7,7 @@ namespace EMS\CommonBundle\Common\CoreApi\Endpoint\File;
 use EMS\CommonBundle\Commands;
 use EMS\CommonBundle\Common\CoreApi\Client;
 use EMS\CommonBundle\Common\CoreApi\Endpoint\Admin\Admin;
+use EMS\CommonBundle\Common\File\FileInfo;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\File\FileInterface;
 use EMS\CommonBundle\Storage\Archive;
 use EMS\CommonBundle\Storage\File\FileInterface as StorageFileInterface;
@@ -14,6 +15,7 @@ use EMS\CommonBundle\Storage\File\StorageFile;
 use EMS\CommonBundle\Storage\Service\HttpStorage;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\Helpers\File\File as FileHelper;
+use EMS\Helpers\Standard\Json;
 use Psr\Http\Message\StreamInterface;
 
 final class File implements FileInterface

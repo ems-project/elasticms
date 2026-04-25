@@ -24,4 +24,9 @@ interface FileInterface extends FileManagerInterface
     public function headFile(string $realPath): bool;
 
     public function headHash(string $hash): bool;
+
+    /**
+     * @return mixed[]
+     */
+    public function getFileInfo(string $hash, bool $firstSeen = true): array;
 }

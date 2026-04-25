@@ -171,7 +171,7 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->userService->updateUser($user);
+            $this->userManager->update($user);
             $this->logger->notice('log.user.updated', [
                 'username_managed' => $user->getUsername(),
                 'user_display_name' => $user->getDisplayName(),
@@ -216,7 +216,7 @@ class UserController extends AbstractController
             $user->setEnabled(true);
             $message = 'log.user.enabled';
         }
-        $this->userService->updateUser($user);
+        $this->userManager->update($user);
 
         $this->logger->notice($message, [
             'username_managed' => $user->getUsername(),
@@ -257,10 +257,13 @@ class UserController extends AbstractController
 
     public function sidebarCollapse(bool $collapsed): Response
     {
-        $user = $this->userService->giveUser($this->userService->getCurrentUser()->getUsername(), false);
+        $user = $this->userManager->getUser();
+        if (null === $user) {
+            throw new \RuntimeException('Unexpected null user');
+        }
         $user->setSidebarCollapse($collapsed);
 
-        $this->userService->updateUser($user);
+        $this->userManager->update($user);
 
         return $this->flashMessageLogger->buildJsonResponse([
             'success' => true,
@@ -318,7 +321,7 @@ class UserController extends AbstractController
             throw new \RuntimeException(\sprintf('The user is not in the group "%s".', $groupName));
         }
         $user->setGroup(null);
-        $this->userService->updateUser($user);
+        $this->userManager->update($user);
 
         return $this->redirectToRoute(Routes::GROUP_EDIT, [
             'group' => $groupName,
@@ -333,7 +336,7 @@ class UserController extends AbstractController
         }
 
         $user->setGroup($userGroup);
-        $this->userService->updateUser($user);
+        $this->userManager->update($user);
 
         return $this->redirectToRoute(Routes::GROUP_EDIT, [
             'group' => $userGroup->getId(),

@@ -58,25 +58,6 @@ class UserService implements EntityServiceInterface
         return $user;
     }
 
-    public function getUserById(int $id): ?User
-    {
-        return $this->userRepository->findOneBy(['id' => $id]);
-    }
-
-    public function findUserByEmail(string $email): ?User
-    {
-        return $this->userRepository->findOneBy(['email' => $email]);
-    }
-
-    public function updateUser(UserInterface $user): UserInterface
-    {
-        $em = $this->doctrine->getManager();
-        $em->persist($user);
-        $em->flush();
-
-        return $user;
-    }
-
     public function giveUser(string $username, bool $detachIt = true): UserInterface
     {
         $user = $this->getUser($username, $detachIt);

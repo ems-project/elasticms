@@ -257,10 +257,7 @@ class UserController extends AbstractController
 
     public function sidebarCollapse(bool $collapsed): Response
     {
-        $user = $this->userManager->getUser();
-        if (null === $user) {
-            throw new \RuntimeException('Unexpected null user');
-        }
+        $user = $this->userManager->getAuthenticatedUser();
         $user->setSidebarCollapse($collapsed);
 
         $this->userManager->update($user);

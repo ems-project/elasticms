@@ -10,6 +10,8 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\Query\Parameter;
 use Doctrine\ORM\QueryBuilder;
+use EMS\CoreBundle\Core\Asset\AssetInfo;
+use EMS\CoreBundle\Core\Asset\AssetInfoVariant;
 use EMS\CoreBundle\Entity\UploadedAsset;
 
 /**
@@ -137,6 +139,56 @@ class UploadedAssetRepository extends EntityRepository
             return $uploadedAsset;
         }
         throw new \RuntimeException(\sprintf('Unexpected class object %s', UploadedAsset::class));
+    }
+
+    public function getAssetInfoByHash(string $hash): ?AssetInfo
+    {
+        $firstUploadedAsset = $this->createQueryBuilder('ua')
+            ->where('ua.sha1 = :hash')
+            ->setParameter('hash', $hash)
+            ->orderBy('ua.created', 'ASC')
+            ->addOrderBy('ua.id', 'ASC')
+            ->getQuery()
+            ->setMaxResults(1)
+            ->getOneOrNullResult();
+
+        if (null === $firstUploadedAsset) {
+            return null;
+        }
+
+        if (!$firstUploadedAsset instanceof UploadedAsset) {
+            throw new \RuntimeException(\sprintf('Unexpected class object %s', UploadedAsset::class));
+        }
+
+        $alternativeRows = $this->createQueryBuilder('ua')
+            ->select('ua.name AS name', 'ua.type AS mimeType', 'MIN(ua.created) AS firstCreated', 'MIN(ua.id) AS firstId')
+            ->where('ua.sha1 = :hash')
+            ->andWhere('NOT (ua.name = :firstName AND ua.type = :firstMimeType)')
+            ->setParameter('hash', $hash)
+            ->setParameter('firstName', $firstUploadedAsset->getName())
+            ->setParameter('firstMimeType', $firstUploadedAsset->getType())
+            ->groupBy('ua.name, ua.type')
+            ->orderBy('firstCreated', 'ASC')
+            ->addOrderBy('firstId', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getArrayResult();
+
+        $alternatives = \array_map(
+            static fn (array $row): AssetInfoVariant => new AssetInfoVariant(
+                (string) ($row['name'] ?? ''),
+                (string) ($row['mimeType'] ?? ''),
+            ),
+            $alternativeRows
+        );
+
+        return new AssetInfo(
+            $firstUploadedAsset->getName(),
+            $firstUploadedAsset->getType(),
+            $firstUploadedAsset->getSize(),
+            $firstUploadedAsset->getCreated(),
+            $alternatives,
+        );
     }
 
     public function update(UploadedAsset $UploadedAsset): void

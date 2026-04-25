@@ -31,7 +31,6 @@ final class FakeProjectBuilder extends AbstractCommand
         'elasticms/admin-ui-bundle',
         'elasticms/core-bundle',
         'symfony/framework-bundle',
-        'symfony/monolog-bundle',
         'symfony/security-bundle',
         'symfony/twig-bundle',
     ];

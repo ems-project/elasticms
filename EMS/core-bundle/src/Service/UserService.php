@@ -69,9 +69,11 @@ class UserService implements EntityServiceInterface
 
     public function updateUser(UserInterface $user): UserInterface
     {
-        $user->setUsernameCanonical(Canonicalizer::canonicalize($user->getUsername()));
-        $user->setEmailCanonical(Canonicalizer::canonicalize($user->getEmail()));
-        
+        if ($user instanceof User) {
+            $user->setUsernameCanonical(Canonicalizer::canonicalize($user->getUsername()));
+            $user->setEmailCanonical(Canonicalizer::canonicalize($user->getEmail()));
+        }
+
         $em = $this->doctrine->getManager();
         $em->persist($user);
         $em->flush();

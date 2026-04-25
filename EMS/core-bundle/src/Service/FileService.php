@@ -482,19 +482,27 @@ class FileService implements EntityServiceInterface
     {
         $fileInfo = new FileInfo($hash);
         $uploadedAsset = $firstSeen ? $this->uploadedAssetRepository->getFirstUploadedByHash($hash) : $this->uploadedAssetRepository->getLastUploadedByHash($hash);
-        if (null !== $uploadedAsset) {
-            $fileInfo->setFileObject($uploadedAsset->getFileObject());
-            $fileInfo->setName($uploadedAsset->getName());
-            $fileInfo->setType($uploadedAsset->getType());
-            $fileInfo->setSize($uploadedAsset->getSize());
-            $fileInfo->setUploadedBy($uploadedAsset->getUser());
-            $fileInfo->setHidden($uploadedAsset->isHidden());
-        }
         $uploadStatistics = $this->uploadedAssetRepository->getStatistics($hash);
         $fileInfo->setFirstSeen($uploadStatistics['firstUploadedAt']);
         $fileInfo->setLastUploaded($uploadStatistics['lastUploadedAt']);
         $fileInfo->setUploads($uploadStatistics['count']);
         $fileInfo->setHeadCounter($this->storageManager->headCounter($hash));
+        if (null !== $uploadedAsset) {
+            $fileInfo->setFileObject($uploadedAsset->getFileObject());
+            $fileInfo->setName($uploadedAsset->getName());
+            $fileInfo->setType($uploadedAsset->getType());
+            $fileInfo->setSize($uploadedAsset->getSize());
+            $fileInfo->setAlgo($uploadedAsset->getHashAlgo());
+            $fileInfo->setUploadedBy($uploadedAsset->getUser());
+            $fileInfo->setHidden($uploadedAsset->isHidden());
+        } elseif ($fileInfo->getHeadCounter() > 0) {
+            $fileObject = $this->storageManager->getFileObject($hash);
+            $fileInfo->setFileObject($fileObject);
+            $fileInfo->setName($fileObject[EmsFields::CONTENT_FILE_NAME_FIELD_]);
+            $fileInfo->setType($fileObject[EmsFields::CONTENT_MIME_TYPE_FIELD_]);
+            $fileInfo->setSize($fileObject[EmsFields::CONTENT_FILE_SIZE_FIELD_]);
+            $fileInfo->setAlgo($fileObject[EmsFields::CONTENT_FILE_ALGO_FIELD_]);
+        }
 
         return $fileInfo;
     }

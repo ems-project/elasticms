@@ -12,9 +12,9 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
 use Symfony\Component\Serializer\Mapping\Loader\AttributeLoader;
 use Symfony\Component\Serializer\NameConverter\MetadataAwareNameConverter;
-use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
@@ -31,6 +31,7 @@ class FileInfo implements \JsonSerializable
     private ?string $type = null;
     #[SerializedName('uploaded-by')]
     private ?string $uploadedBy = null;
+    private ?string $algo = null;
     private ?bool $hidden = null;
     private ?int $size = null;
     private ?int $uploads = null;
@@ -101,6 +102,7 @@ class FileInfo implements \JsonSerializable
     {
         return [
             'hash' => $this->hash,
+            'algo' => $this->algo,
             'name' => $this->name,
             'type' => $this->type,
             'file-object' => $this->fileObject,
@@ -224,5 +226,15 @@ class FileInfo implements \JsonSerializable
     public function setHeadCounter(?int $headCounter): void
     {
         $this->headCounter = $headCounter;
+    }
+
+    public function getAlgo(): ?string
+    {
+        return $this->algo;
+    }
+
+    public function setAlgo(?string $algo): void
+    {
+        $this->algo = $algo;
     }
 }

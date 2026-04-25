@@ -7,7 +7,6 @@ namespace EMS\CommonBundle\Command\Admin;
 use EMS\CommonBundle\Commands;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
-use EMS\CommonBundle\Common\File\FileInfo;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\File\FileInterface;
 use EMS\Helpers\Standard\DateTime;
 use EMS\Helpers\Standard\Json;
@@ -67,6 +66,7 @@ class GetFileInfoCommand extends AbstractCommand
         $this->io->title(\sprintf('Information of asset %s', $this->fileHash));
         $this->io->definitionList(
             ['Hash' => $fileInfo->getHash()],
+            ['Algo' => $fileInfo->getAlgo() ?? 'N/A'],
             ['Name' => $fileInfo->getName() ?? 'N/A'],
             ['Type' => $fileInfo->getType() ?? 'N/A'],
             ['Uploaded by' => $fileInfo->getUploadedBy() ?? 'N/A'],

@@ -15,7 +15,6 @@ use EMS\CommonBundle\Storage\File\StorageFile;
 use EMS\CommonBundle\Storage\Service\HttpStorage;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\Helpers\File\File as FileHelper;
-use EMS\Helpers\Standard\Json;
 use Psr\Http\Message\StreamInterface;
 
 final class File implements FileInterface

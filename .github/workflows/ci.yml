@@ -5,7 +5,7 @@ on:
   push:
 
 env:
-  PHP_VERSION: 8.4
+  PHP_VERSION: 8.5
 
 jobs:
   code-quality:
@@ -20,6 +20,7 @@ jobs:
         with:
           php-version: ${{ env.PHP_VERSION }}
           coverage: none
+          extensions: opentelemetry
 
       - name: "Get Composer Info"
         id: composer

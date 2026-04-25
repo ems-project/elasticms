@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+export DEBUG=${DEBUG:-false}
+[[ "${DEBUG}" == "true" ]] && set -x
+
+source /usr/local/bin/container-entrypoint.d/entrypoint.d/00-functions.sh
+source /usr/local/bin/container-entrypoint.d/entrypoint.d/00-php.default.values.sh
+source /usr/local/bin/container-entrypoint.d/entrypoint.d/00-php.ini.values.sh
+source /usr/local/bin/container-entrypoint.d/entrypoint.d/01-php.sh
+source /usr/local/bin/container-entrypoint.d/entrypoint.d/10-supervisor.sh
+source /usr/local/bin/container-entrypoint.d/entrypoint.d/90-app.sh
+source /usr/local/bin/container-entrypoint.d/entrypoint.d/99-export-vars.sh
+
+log "INFO" " ███████╗██╗      █████╗ ███████╗████████╗██╗ ██████╗███╗   ███╗███████╗ "
+log "INFO" " ██╔════╝██║     ██╔══██╗██╔════╝╚══██╔══╝██║██╔════╝████╗ ████║██╔════╝ "
+log "INFO" " █████╗  ██║     ███████║███████╗   ██║   ██║██║     ██╔████╔██║███████╗ "
+log "INFO" " ██╔══╝  ██║     ██╔══██║╚════██║   ██║   ██║██║     ██║╚██╔╝██║╚════██║ "
+log "INFO" " ███████╗███████╗██║  ██║███████║   ██║   ██║╚██████╗██║ ╚═╝ ██║███████║ "
+log "INFO" " ╚══════╝╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝   ╚═╝ ╚═════╝╚═╝     ╚═╝╚══════╝ "
+log "INFO" "                                                                         "
+log "INFO" "                    ( ElasticMS CLI Image )                              "
+log "INFO" "                                                                         "
+log "INFO" "+---- Configure PHP Container -----"
+
+source /usr/local/bin/container-entrypoint.d/base.d/01-php.sh
+source /usr/local/bin/container-entrypoint.d/base.d/10-supervisor.sh
+source /usr/local/bin/container-entrypoint.d/base.d/99-cleanup-vars.sh
+
+log "INFO" "+---- PHP Container configured succesfully -----"
+
+# first arg is a symfony cmd (fe. `ems:version`)
+if [[ $1 =~ ^([A-z0-9\-]+:){1,}([A-z0-9\-]+)$ ]]; then
+    set -- elasticms "$@"
+elif [[ $1 = crontab ]]; then
+    shift
+    set -- elasticms-crontab "$@"
+elif [[ $1 = cronjob ]]; then
+    shift
+    set -- elasticms-cronjob "$@"
+fi
+
+exec "$@"

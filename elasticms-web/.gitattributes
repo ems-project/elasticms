@@ -6,6 +6,11 @@
 /.gitignore export-ignore
 /tests export-ignore
 /phpunit.xml.dist export-ignore
+/.docker export-ignore
+/.dockerginore export-ignore
+/docker-bake.hcl export-ignore
+/Dockerfile export-ignore
+/Makefile export-ignore
 
 # Set the default behavior, in case people don't have core.autocrlf set.
 * text=auto

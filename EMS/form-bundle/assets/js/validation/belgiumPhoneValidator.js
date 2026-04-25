@@ -1,89 +1,92 @@
-export class BelgiumPhoneNumberValidator
-{
+export class BelgiumPhoneNumberValidator {
   constructor(value) {
-    this.value = value;
-    this.numbers = this.value.match(/\d+/g);
+    this.value = value
+    this.numbers = this.value.match(/\d+/g)
   }
 
   validate() {
     if (this.numbers === null) {
-      return false;
+      return false
     }
 
-    this.phone = this.transform();
+    this.phone = this.transform()
 
-    const typeNumber = this.getTypeNumber();
+    const typeNumber = this.getTypeNumber()
 
-    if (this.validateNumberOfDigit(typeNumber) && this.validateCountryCode(typeNumber) && this.validateLongDistanceCode(typeNumber)) {
-      return true;
+    if (
+      this.validateNumberOfDigit(typeNumber) &&
+      this.validateCountryCode(typeNumber) &&
+      this.validateLongDistanceCode(typeNumber)
+    ) {
+      return true
     }
 
-    return false;
+    return false
   }
 
   validateNumberOfDigit(typeNumber) {
     if (typeNumber === 'zeros') {
-      return (this.phone.length === 13) || (this.phone.length === 12);
+      return this.phone.length === 13 || this.phone.length === 12
     }
 
     if (typeNumber === 'plus') {
-      return (this.phone.length === 12) || (this.phone.length === 11);
+      return this.phone.length === 12 || this.phone.length === 11
     }
 
     if (typeNumber === 'local') {
-      return (this.phone.length === 10) || (this.phone.length === 9);
+      return this.phone.length === 10 || this.phone.length === 9
     }
 
-    return false;
+    return false
   }
 
   validateCountryCode(typeNumber) {
     if (typeNumber === 'zeros') {
-      return this.phone.startsWith('32', 2);
+      return this.phone.startsWith('32', 2)
     }
 
     if (typeNumber === 'plus') {
-      return this.phone.startsWith('32', 1);
+      return this.phone.startsWith('32', 1)
     }
 
-    return typeNumber === 'local';
+    return typeNumber === 'local'
   }
 
   validateLongDistanceCode(typeNumber) {
     if (typeNumber === 'zeros') {
-      return !this.phone.startsWith('0', 4);
+      return !this.phone.startsWith('0', 4)
     }
 
     if (typeNumber === 'plus') {
-      return !this.phone.startsWith('0', 3);
+      return !this.phone.startsWith('0', 3)
     }
 
     if (typeNumber === 'local') {
-      return this.phone.startsWith('0');
+      return this.phone.startsWith('0')
     }
 
-    return false;
+    return false
   }
 
   getTypeNumber() {
     if (this.phone.startsWith('+')) {
-      return 'plus';
+      return 'plus'
     }
 
     if (this.phone.startsWith('00')) {
-      return 'zeros';
+      return 'zeros'
     }
 
-    return 'local';
+    return 'local'
   }
 
   transform() {
-    let phone = this.numbers.map(String).join('');
+    let phone = this.numbers.map(String).join('')
 
     if (this.value.startsWith('+')) {
-      phone = ('+').concat(phone);
+      phone = '+'.concat(phone)
     }
 
-    return phone;
+    return phone
   }
 }

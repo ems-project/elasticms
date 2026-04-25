@@ -7,6 +7,7 @@ namespace EMS\SubmissionBundle\Tests\Command;
 use EMS\SubmissionBundle\Dto\FormSubmissionsCountDto;
 use EMS\SubmissionBundle\Repository\FormSubmissionRepository;
 use EMS\SubmissionBundle\Tests\Functional\App\Kernel;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -44,6 +45,7 @@ final class DatabaseStatsCommandTest extends KernelTestCase
         return Kernel::class;
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testExecute()
     {
         $countDto = new FormSubmissionsCountDto('+1 month');

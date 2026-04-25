@@ -61,7 +61,7 @@ class SamlAuthenticator extends AbstractAuthenticator
     {
         $relayState = $request->request->get('RelayState');
 
-        if (\is_string($relayState) && \strlen($relayState) > 0) {
+        if (\is_string($relayState) && '' !== $relayState) {
             return $this->httpUtils->createRedirectResponse($request, $relayState);
         }
 

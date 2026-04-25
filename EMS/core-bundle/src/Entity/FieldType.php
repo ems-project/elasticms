@@ -80,27 +80,12 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
     {
         if (null != $this->children) {
             /** @var FieldType $child */
-            foreach ($this->children as $key => $child) {
+            foreach ($this->children as $child) {
                 $child->removeCircularReference();
             }
-            $this->setContentType(null);
-            $this->setParent(null);
+            $this->setContentType();
+            $this->setParent();
         }
-    }
-
-    /**
-     * @param mixed $input
-     *
-     * set the data value(s) from a string received from the symfony form) in the context of this field
-     */
-    public function setDataValue(mixed $input, DataField &$dataField): never
-    {
-        throw new \Exception('Deprecated method');
-        //         $type = $this->getType();
-        //         /** @var DataFieldType $dataFieldType */
-        //         $dataFieldType = new $type;
-
-        //         $dataFieldType->setDataValue($input, $dataField, $this->getOptions());
     }
 
     /**
@@ -118,11 +103,6 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
         }
 
         return $out;
-    }
-
-    public function getDataValue(DataField &$dataField): never
-    {
-        throw new \Exception('Deprecated method');
     }
 
     /**
@@ -446,13 +426,12 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
     {
         if (!\str_starts_with($key, 'ems_')) {
             throw new \Exception('unprotected ems get with key '.$key);
-        } else {
-            $key = \substr($key, 4);
         }
+        $key = \substr($key, 4);
 
         /** @var FieldType $fieldType */
         foreach ($this->getChildren() as $fieldType) {
-            if (!$fieldType->getDeleted() && 0 == \strcmp($key, $fieldType->getName())) {
+            if (!$fieldType->getDeleted() && 0 === \strcmp($key, $fieldType->getName())) {
                 return $fieldType;
             }
         }
@@ -635,28 +614,6 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
         }
 
         return $result;
-    }
-
-    /**
-     * Get child by path.
-     */
-    #[\Deprecated(message: "it's not clear if its the mapping of the rawdata or of the formdata (with ou without the virtual fields) see the same function in the contenttypeservice")]
-    public function getChildByPath(string $path): FieldType|false
-    {
-        $elem = \explode('.', $path);
-
-        /** @var FieldType $child */
-        foreach ($this->children as $child) {
-            if (!$child->getDeleted() && $child->getName() == $elem[0]) {
-                if (\strpos($path, '.')) {
-                    return $child->getChildByPath(\substr($path, \strpos($path, '.') + 1));
-                }
-
-                return $child;
-            }
-        }
-
-        return false;
     }
 
     /**

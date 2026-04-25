@@ -33,7 +33,7 @@ class OpenAiService
 
         if ($statusCode >= 400) {
             $body = $response->getContent(false);
-            throw new \RuntimeException("Open AI - error ($statusCode): $body");
+            throw new \RuntimeException(\sprintf('Open AI - error (%d): %s', $statusCode, $body));
         }
 
         return new OpenAiResponse($response);

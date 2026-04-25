@@ -15,13 +15,18 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\Security\Csrf\CsrfTokenManager;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Twig\Environment;
 
 class FormController extends AbstractFormController
 {
-    public function __construct(private readonly FormFactory $formFactory, private readonly Client $client, private readonly Guard $guard, private readonly Environment $twig, private readonly CsrfTokenManager $csrfTokenManager)
-    {
+    public function __construct(
+        private readonly FormFactory $formFactory,
+        private readonly Client $client,
+        private readonly Guard $guard,
+        private readonly Environment $twig,
+        private readonly CsrfTokenManagerInterface $csrfTokenManager
+    ) {
     }
 
     public function iframe(Request $request, string $ouuid): Response
@@ -41,6 +46,7 @@ class FormController extends AbstractFormController
 
         $form = $this->formFactory->create(Form::class, [], ['ouuid' => $ouuid, 'locale' => $request->getLocale()]);
         $form->handleRequest($request);
+
         $this->csrfTokenManager->removeToken('form');
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -56,11 +62,7 @@ class FormController extends AbstractFormController
         if (!\is_string($content)) {
             throw new \RuntimeException('Unexpected non-string request content');
         }
-        if (Json::isEmpty($content)) {
-            $data = [];
-        } else {
-            $data = Json::decode($content);
-        }
+        $data = Json::isEmpty($content) ? [] : Json::decode($content);
 
         $form = $this->formFactory->create(Form::class, $data, ['ouuid' => $ouuid, 'locale' => $request->getLocale()]);
 

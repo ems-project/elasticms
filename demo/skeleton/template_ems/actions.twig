@@ -61,3 +61,14 @@
     {{ "/channel/#{environment.name}/_emsch/go-to/nl/#{contentType.name}/#{object._id}" }}
 {% endblock asset_download_link %}
 
+{% block clear_caches -%}
+    {%- if environment == contentType.environment.name -%}
+        emsco:webhook:dispatch content.finalize '{"ouuid":"{{ object.id }}"}'
+    {%- else -%}
+        emsco:webhook:dispatch content.published.{{ environment }} '{"ouuid":"{{ object.id }}"}'
+    {%- endif -%}
+{%- endblock clear_caches %}
+
+{% block clear_all_caches -%}
+    emsco:webhook:dispatch clear-cache
+{%- endblock clear_all_caches %}

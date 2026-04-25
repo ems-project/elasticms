@@ -18,7 +18,7 @@ make init
 ## Links
 
 - [Traefik](http://localhost:8888) : An HTTP reverse proxy
-- [mailhog](http://mailhog.localhost) : A Mail catcher
+- [Mailpit](http://mailserver.localhost) : A Mail catcher
 - [kibana](http://kibana.localhost) : A dev tools to query elasticsearch
 - [elasticsearch](http://es.localhost/_cluster/health) : The search engine, Verify that the status is `green`
 - [minio](http://minio.localhost) : A S3 like storage service
@@ -64,7 +64,6 @@ Run `make` for retrieving information about all make targets.
   > export ELK_VERSION=elk8
   > ```
   > Available stacks:
-  > * `elk7`: elasticsearch 7.17.7
   > * `elk8`: elasticsearch 8.5.3
   > * `os2`: OpenSearch 2.4.1
 

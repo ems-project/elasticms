@@ -8,29 +8,29 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
-use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
 class EMSCommonExtension extends Extension implements PrependExtensionInterface
 {
     #[\Override]
     public function load(array $configs, ContainerBuilder $container): void
     {
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../../config'));
-        $loader->load('contracts.xml');
-        $loader->load('log.xml');
-        $loader->load('services.xml');
-        $loader->load('commands.xml');
-        $loader->load('twig.xml');
+        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../config'));
+        $loader->load('contracts.php');
+        $loader->load('log.php');
+        $loader->load('services.php');
+        $loader->load('commands.php');
+        $loader->load('twig.php');
 
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $loader->load('storage.xml');
-        $loader->load('store_data.xml');
-        $loader->load('runner.xml');
+        $loader->load('storage.php');
+        $loader->load('store_data.php');
+        $loader->load('runner.php');
 
         if ($config['profiler']) {
-            $loader->load('profiler.xml');
+            $loader->load('profiler.php');
         }
 
         $container->setParameter('ems_common.hash_algo', $config['hash_algo']);
@@ -38,8 +38,8 @@ class EMSCommonExtension extends Extension implements PrependExtensionInterface
         $container->setParameter('ems_common.backend_api_key', $config['backend_api_key']);
         $container->setParameter('ems_common.elasticsearch_proxy_api', $config['elasticsearch_proxy_api']);
         $container->setParameter('ems_common.elasticsearch_hosts', $config['elasticsearch_hosts']);
-        $container->setParameter('ems_common.elasticsearch_connection_pool', $config['elasticsearch_connection_pool']);
         $container->setParameter('ems_common.storages', $config['storages']);
+        $container->setParameter('ems_common.http_caches', $config['http_caches']);
         $container->setParameter('ems_common.runners', $config['runners']);
         $container->setParameter('ems_common.store_data_services', $config['store_data_services']);
         $container->setParameter('ems_common.key_store', $config['key_store']);
@@ -51,9 +51,6 @@ class EMSCommonExtension extends Extension implements PrependExtensionInterface
 
         $container->setParameter('ems_common.cache_config', $config['cache']);
 
-        $container->setParameter('ems_common.webalize.removable_regex', $config['webalize']['removable_regex']);
-        $container->setParameter('ems_common.webalize.dashable_regex', $config['webalize']['dashable_regex']);
-
         $container->setParameter('ems_common.core_api.options', $config['core_api']);
 
         $metricsEnabled = $config['metric']['enabled'] ?? false;
@@ -61,7 +58,7 @@ class EMSCommonExtension extends Extension implements PrependExtensionInterface
         if ($metricsEnabled) {
             $container->setParameter('ems.metric.host', $config['metric']['host'] ?? null);
             $container->setParameter('ems.metric.port', $config['metric']['port'] ?? null);
-            $loader->load('metric.xml');
+            $loader->load('metric.php');
         }
     }
 

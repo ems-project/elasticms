@@ -1538,6 +1538,76 @@
                     "allowedRemoteHosts": []
                 },
                 "replaced": []
+            },
+            {
+                "class": "EMS\\CoreBundle\\Entity\\Template",
+                "arguments": [],
+                "properties": {
+                    "name": "clear_cache",
+                    "label": "Clear cache",
+                    "icon": "glyphicon glyphicon-erase",
+                    "body": "{{ block(\"clear_caches\", \"@EMSCH/template_ems/actions.twig\") }}",
+                    "header": null,
+                    "editWithWysiwyg": false,
+                    "renderOption": "job",
+                    "orderKey": 3,
+                    "accumulateInOneFile": false,
+                    "preview": false,
+                    "mimeType": null,
+                    "filename": null,
+                    "extension": null,
+                    "active": false,
+                    "role": "not-defined",
+                    "roleTo": "not-defined",
+                    "roleCc": "not-defined",
+                    "circlesTo": null,
+                    "responseTemplate": null,
+                    "emailContentType": null,
+                    "allowOrigin": null,
+                    "disposition": null,
+                    "orientation": null,
+                    "size": null,
+                    "public": false,
+                    "spreadsheet": false,
+                    "tag": null,
+                    "allowedRemoteHosts": []
+                },
+                "replaced": []
+            },
+            {
+                "class": "EMS\\CoreBundle\\Entity\\Template",
+                "arguments": [],
+                "properties": {
+                    "name": "clear_all_caches",
+                    "label": "Clear all caches",
+                    "icon": "fa fa-exclamation-triangle",
+                    "body": "{{ block(\"clear_all_caches\", \"@EMSCH/template_ems/actions.twig\") }}",
+                    "header": null,
+                    "editWithWysiwyg": false,
+                    "renderOption": "job",
+                    "orderKey": 4,
+                    "accumulateInOneFile": false,
+                    "preview": false,
+                    "mimeType": null,
+                    "filename": null,
+                    "extension": null,
+                    "active": false,
+                    "role": "not-defined",
+                    "roleTo": "not-defined",
+                    "roleCc": "not-defined",
+                    "circlesTo": null,
+                    "responseTemplate": null,
+                    "emailContentType": null,
+                    "allowOrigin": null,
+                    "disposition": null,
+                    "orientation": null,
+                    "size": null,
+                    "public": false,
+                    "spreadsheet": false,
+                    "tag": null,
+                    "allowedRemoteHosts": []
+                },
+                "replaced": []
             }
         ],
         "views": [
@@ -1604,7 +1674,9 @@
                 "Publication request",
                 "Validation request"
             ],
-            "hide_revision_sidebar": false
+            "tasks_helptexts": [],
+            "hide_revision_sidebar": false,
+            "recompute_on_publish": false
         }
     },
     "replaced": []

@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Helper\Text;
 
-use cebe\markdown\GithubMarkdown;
-use EMS\CommonBundle\DependencyInjection\Configuration;
 use Symfony\Component\String\AbstractUnicodeString;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Component\String\Slugger\SluggerInterface;
-use Symfony\Component\String\UnicodeString;
 
 class Encoder
 {
@@ -18,8 +15,9 @@ class Encoder
     /**
      * @param array<string, array<string, string>>|null $sluggerSymbolMap
      */
-    public function __construct(private readonly string $webalizeRemovableRegex = Configuration::WEBALIZE_REMOVABLE_REGEX, private readonly string $webalizeDashableRegex = Configuration::WEBALIZE_DASHABLE_REGEX, private readonly ?array $sluggerSymbolMap = null)
-    {
+    public function __construct(
+        private readonly ?array $sluggerSymbolMap = null
+    ) {
     }
 
     public function htmlEncode(string $text): string
@@ -70,34 +68,16 @@ class Encoder
         return $encodedText;
     }
 
-    public function webalizeForUsers(string $text, ?string $locale = null): ?string
-    {
-        @\trigger_error('The webalizeForUsers method is deprecated, use the slug method', \E_USER_DEPRECATED);
-
-        return static::webalize($text, $this->webalizeRemovableRegex, $this->webalizeDashableRegex, $locale);
-    }
-
-    public static function webalize(string $text, string $webalizeRemovableRegex = Configuration::WEBALIZE_REMOVABLE_REGEX, string $webalizeDashableRegex = Configuration::WEBALIZE_DASHABLE_REGEX, ?string $locale = null): string
-    {
-        @\trigger_error('The webalize method is deprecated, use the slug method', \E_USER_DEPRECATED);
-        $clean = self::asciiFolding($text, $locale);
-        $clean = \preg_replace($webalizeRemovableRegex, '', $clean) ?? '';
-        $clean = \strtolower(\trim($clean, '-'));
-        $clean = \preg_replace($webalizeDashableRegex, '-', $clean) ?? '';
-
-        return $clean;
-    }
-
     public function slug(string $text, ?string $locale = null, string $separator = '-', bool $lower = true, bool $preserveFileExtension = false): AbstractUnicodeString
     {
         $extension = null;
         if ($preserveFileExtension) {
             $extension = \pathinfo($text, PATHINFO_EXTENSION);
-            $text = \strlen($extension) > 0 ? \substr($text, 0, -\strlen($extension)) : $text;
+            $text = '' !== (string) $extension ? \substr($text, 0, -\strlen($extension)) : $text;
         }
         $slugger = $this->getSlugger($locale ?? 'en');
         $slug = $slugger->slug($text, $separator, $locale);
-        if (null !== $extension && \strlen($extension) > 0) {
+        if (null !== $extension && '' !== (string) $extension) {
             $slug = $slug->append('.'.$extension);
         }
         if ($lower) {
@@ -105,39 +85,6 @@ class Encoder
         }
 
         return $slug;
-    }
-
-    public static function asciiFolding(string $text, ?string $locale = null): string
-    {
-        $rules = [];
-        if ($locale && ('de' === $locale || \str_starts_with($locale, 'de_'))) {
-            $rules = ['de-ASCII'];
-        }
-
-        return new UnicodeString($text)->ascii($rules)->toString();
-    }
-
-    public static function markdownToHtml(string $markdown): string
-    {
-        static $parser;
-        if (null === $parser) {
-            $parser = new GithubMarkdown();
-        }
-
-        return $parser->parse($markdown);
-    }
-
-    /**
-     * @return mixed[]
-     */
-    public static function pregMatch(string $subject, string $pattern, int $flags = PREG_SET_ORDER, int $offset = 0): array
-    {
-        $matches = [];
-        if (false === \preg_match_all($pattern, $subject, $matches, $flags, $offset)) {
-            return [];
-        }
-
-        return $matches;
     }
 
     /**
@@ -179,10 +126,7 @@ class Encoder
         return $encodedText;
     }
 
-    /**
-     * @return string
-     */
-    public static function getFontAwesomeFromMimeType(string $mimeType, string $version)
+    public static function getFontAwesomeFromMimeType(string $mimeType, string $version): string
     {
         $versionIndex = 5;
         if (\version_compare($version, '5') < 0) {

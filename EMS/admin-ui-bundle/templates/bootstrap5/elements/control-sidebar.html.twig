@@ -24,8 +24,8 @@
             <ul class="control-sidebar-menu" id="commands-log">
                 {% if app.user %}
                     {{ render(controller('EMS\\CoreBundle\\Controller\\TwigElementsController::jobs', {
-                        'username' : app.user.username
-                    } ) ) }}
+                        username: app.user.username,
+                    })) }}
                 {% endif %}
             </ul>
         </div>

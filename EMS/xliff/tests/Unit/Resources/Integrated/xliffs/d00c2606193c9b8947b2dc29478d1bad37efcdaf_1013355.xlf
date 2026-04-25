@@ -25,22 +25,22 @@
           <source xml:lang="nl"> Alle werkgevers die tegelijk aan alle onderstaande voorwaarden voldoen: </source>
           <target xml:lang="de" state="final"> Alle Arbeitgeber, alle nachfolgenden Bedingungen gleichzeitig erfüllen: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu8" resname="/html/body/ul[1]">
+        <group restype="x-html-ul" id="grp8" resname="/html/body/ul[1]">
           <trans-unit restype="listitem" id="tu9" resname="/html/body/ul[1]/li[1]">
             <source xml:lang="nl">Onder het paritair comité (302) voor het hotelbedrijf vallen. </source>
             <target xml:lang="de" state="final">Sie fallen in den Zuständigkeitsbereich der Paritätischen Kommission (302) des Hotel- und Gaststättengewerbes (Horeca-Sektor). </target>
           </trans-unit>
           <trans-unit restype="listitem" id="tu10" resname="/html/body/ul[1]/li[2]">
-            <source xml:lang="nl">Gemiddeld maximum 49 werknemers tewerkstellen tijdens de referteperiode. Hiervoor wordt de belangrijkheidscode gebruikt, net zoals bij de berekening van de <bx id="bx12" rid="rid11" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/socialsecuritycontributions/contributions.html&amp;quot;&amp;gt;"/> bijdrage van 1,60%<ex id="ex13" rid="rid11" equiv-text="&amp;lt;/a&amp;gt;"/>.<x id="x14" ctype="x-html-br" equiv-text=" "/> Dit wil zeggen dat rekening gehouden wordt met alle werknemers in dienst van de werkgever (rechtspersoon) ongeacht de activiteit of het paritair comité waaronder ze ressorteren. </source>
-            <target xml:lang="de" state="final">Während der Referenzperiode durchschnittlich höchstens 49 Arbeitnehmer beschäftigen. Dazu wird der Wichtigkeitscode verwendet, wie bei der Berechnung des <bx id="bx16" rid="rid15" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/socialsecuritycontributions/contributions.html&amp;quot;&amp;gt;"/> Beitrags von 1,60%<ex id="ex17" rid="rid15" equiv-text="&amp;lt;/a&amp;gt;"/>.<x id="x18" ctype="x-html-br" equiv-text=" "/> Das bedeutet, dass alle vom Arbeitgeber (juristische Person) beschäftigten Arbeitnehmer ungeachtet ihrer Tätigkeit oder der paritätischen Kommission, der sie angehören, berücksichtigt werden. </target>
+            <source xml:lang="nl">Gemiddeld maximum 49 werknemers tewerkstellen tijdens de referteperiode. Hiervoor wordt de belangrijkheidscode gebruikt, net zoals bij de berekening van de <bx id="bx12" rid="rid11" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/socialsecuritycontributions/contributions.html&amp;quot;&amp;gt;"/> bijdrage van 1,60%<ex id="ex13" rid="rid11" equiv-text="&amp;lt;/a&amp;gt;"/>.<x id="x14" ctype="lb" equiv-text=" "/> Dit wil zeggen dat rekening gehouden wordt met alle werknemers in dienst van de werkgever (rechtspersoon) ongeacht de activiteit of het paritair comité waaronder ze ressorteren. </source>
+            <target xml:lang="de" state="final">Während der Referenzperiode durchschnittlich höchstens 49 Arbeitnehmer beschäftigen. Dazu wird der Wichtigkeitscode verwendet, wie bei der Berechnung des <bx id="bx16" rid="rid15" equiv-text="&amp;lt;a href=&amp;quot;%{BASE_URL_CURRENT}%/instructions/socialsecuritycontributions/contributions.html&amp;quot;&amp;gt;"/> Beitrags von 1,60%<ex id="ex17" rid="rid15" equiv-text="&amp;lt;/a&amp;gt;"/>.<x id="x18" ctype="lb" equiv-text=" "/> Das bedeutet, dass alle vom Arbeitgeber (juristische Person) beschäftigten Arbeitnehmer ungeachtet ihrer Tätigkeit oder der paritätischen Kommission, der sie angehören, berücksichtigt werden. </target>
           </trans-unit>
           <trans-unit restype="listitem" id="tu19" resname="/html/body/ul[1]/li[3]">
             <source xml:lang="nl">Gedurende het volledige kwartaal een bij de fiscus geregistreerd kassasysteem (GKS) gebruiken in alle vestigingseenheden met een horeca-activiteit waar er contact is met klanten. Ook wanneer het gebruik van de geregistreerde kassa voor het verkrijgen van het fiscale voordeel niet vereist is, is dit wel noodzakelijk om de doelgroepvermindering te kunnen toepassen. </source>
             <target xml:lang="de" state="final">Während des vollständigen Quartals in allen Niederlassungseinheiten mit einer Horeca-Aktivität ein von der Finanzverwaltung zugelassenes Registerkassensystem (RKS) benutzen. Auch wenn die Registerkassen nicht unbedingt eingesetzt werden müssen, um bestimmte Steuervorteile zu beanspruchen, sind sie auf jeden Fall für die Anwendung der Zielgruppenermäßigung notwendig. </target>
           </trans-unit>
           <trans-unit restype="listitem" id="tu20" resname="/html/body/ul[1]/li[4]">
-            <source xml:lang="nl">Voor alle personeelsleden die werken in een vestigingseenheid waar er een horeca-activiteit wordt uitgevoerd in de brede zin van het woord (dus ook voor werknemers die niet ressorteren onder het paritair comité van de horeca) dagelijks begin- en einduur van de aanwezigheid registreren via het geregistreerd kassasysteem of het <bx id="bx22" rid="rid21" equiv-text="&amp;lt;a href=&amp;quot;https://www.socialsecurity.be/site_nl/employer/infos/horeca/daily-registration.htm&amp;quot;&amp;gt;"/> alternatieve systeem van aanwezigheidsregistratie<ex id="ex23" rid="rid21" equiv-text="&amp;lt;/a&amp;gt;"/> (ASA). De registratie is niet van toepassing op de gelegenheidsarbeiders en ook niet op flexi-werknemers die in Dimona per dag worden aangegeven met vermelding van begin- en einduur.<x id="x24" ctype="x-html-br" equiv-text=" "/> <g id="g25" ctype="x-html-strong">Opgelet</g>: het geregistreerd kassasysteem (GKS) en het alternatieve systeem van aanwezigheidsregistratie (ASA) vervangen de Dimona niet. </source>
-            <target xml:lang="de" state="final">Für alle Personalmitglieder, die in einer Niederlassungseinheit arbeiten, in der eine Aktivität im Hotel- und Gaststättengewerbe (Horeca) im weiteren Sinne ausgeübt wird (d. h. auch für Arbeitnehmer, für die nicht die Paritätische Kommission des Hotel- und Gaststättengewerbes zuständig ist), die tägliche Erfassung der Beginn- und Enduhrzeit der Anwesenheit über das Registerkassensystem oder das <bx id="bx27" rid="rid26" equiv-text="&amp;lt;a href=&amp;quot;https://www.socialsecurity.be/site_nl/employer/infos/horeca/daily-registration.htm&amp;quot;&amp;gt;"/> alternative System der Anwesenheitsregistrierung (ASA)<ex id="ex28" rid="rid26" equiv-text="&amp;lt;/a&amp;gt;"/>. Die Registrierung ist nicht anwendbar für Gelegenheitsarbeitnehmer und Flexi-Arbeitnehmer, die in Dimona pro Tag unter Angabe der Beginn- und Enduhrzeit angegeben werden.<x id="x29" ctype="x-html-br" equiv-text=" "/> <g id="g30" ctype="x-html-strong">Hinweis</g>: Das Registerkassensystem (RKS) und das alternative System der Anwesenheitsregistrierung (ASA) ersetzen nicht die Dimona. </target>
+            <source xml:lang="nl">Voor alle personeelsleden die werken in een vestigingseenheid waar er een horeca-activiteit wordt uitgevoerd in de brede zin van het woord (dus ook voor werknemers die niet ressorteren onder het paritair comité van de horeca) dagelijks begin- en einduur van de aanwezigheid registreren via het geregistreerd kassasysteem of het <bx id="bx22" rid="rid21" equiv-text="&amp;lt;a href=&amp;quot;https://www.socialsecurity.be/site_nl/employer/infos/horeca/daily-registration.htm&amp;quot;&amp;gt;"/> alternatieve systeem van aanwezigheidsregistratie<ex id="ex23" rid="rid21" equiv-text="&amp;lt;/a&amp;gt;"/> (ASA). De registratie is niet van toepassing op de gelegenheidsarbeiders en ook niet op flexi-werknemers die in Dimona per dag worden aangegeven met vermelding van begin- en einduur.<x id="x24" ctype="lb" equiv-text=" "/> <g id="g25" ctype="x-html-strong">Opgelet</g>: het geregistreerd kassasysteem (GKS) en het alternatieve systeem van aanwezigheidsregistratie (ASA) vervangen de Dimona niet. </source>
+            <target xml:lang="de" state="final">Für alle Personalmitglieder, die in einer Niederlassungseinheit arbeiten, in der eine Aktivität im Hotel- und Gaststättengewerbe (Horeca) im weiteren Sinne ausgeübt wird (d. h. auch für Arbeitnehmer, für die nicht die Paritätische Kommission des Hotel- und Gaststättengewerbes zuständig ist), die tägliche Erfassung der Beginn- und Enduhrzeit der Anwesenheit über das Registerkassensystem oder das <bx id="bx27" rid="rid26" equiv-text="&amp;lt;a href=&amp;quot;https://www.socialsecurity.be/site_nl/employer/infos/horeca/daily-registration.htm&amp;quot;&amp;gt;"/> alternative System der Anwesenheitsregistrierung (ASA)<ex id="ex28" rid="rid26" equiv-text="&amp;lt;/a&amp;gt;"/>. Die Registrierung ist nicht anwendbar für Gelegenheitsarbeitnehmer und Flexi-Arbeitnehmer, die in Dimona pro Tag unter Angabe der Beginn- und Enduhrzeit angegeben werden.<x id="x29" ctype="lb" equiv-text=" "/> <g id="g30" ctype="x-html-strong">Hinweis</g>: Das Registerkassensystem (RKS) und das alternative System der Anwesenheitsregistrierung (ASA) ersetzen nicht die Dimona. </target>
           </trans-unit>
         </group>
         <trans-unit restype="x-html-h3" id="tu31" resname="/html/body/h3[1]">
@@ -55,7 +55,7 @@
           <source xml:lang="nl"> Dit betekent dat werkgevers de doelgroepvermindering kunnen toepassen vanaf het eerste kwartaal als: </source>
           <target xml:lang="de" state="final"> Das bedeutet, dass Arbeitgeber die Zielgruppenermäßigung ab dem ersten Quartal anwenden können, wenn: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu34" resname="/html/body/ul[2]">
+        <group restype="x-html-ul" id="grp34" resname="/html/body/ul[2]">
           <trans-unit restype="listitem" id="tu35" resname="/html/body/ul[2]/li[1]">
             <source xml:lang="nl">zij zich vóór 31 december 2013 bij de fiscus hebben aangemeld om vanaf 1 januari 2014 vrijwillig in het systeem te treden </source>
             <target xml:lang="de" state="final">Sie sich bis zum 31.12.2013 bei der Finanzverwaltung angemeldet haben, um ab 01.01.2014 dem System freiwillig beizutreten </target>
@@ -77,17 +77,17 @@
           <source xml:lang="nl"> Hieronder vindt u een overzicht van de verschillende mogelijkheden: </source>
           <target xml:lang="de" state="final"> Nachfolgend finden Sie einen Überblick über die verschiedenen Möglichkeiten: </target>
         </trans-unit>
-        <group restype="table" id="tu40" resname="/html/body/table">
+        <group restype="table" id="grp40" resname="/html/body/table">
           <note from="class">table-bordered table-striped</note>
-          <group restype="x-html-thead" id="tu41" resname="/html/body/table/thead">
-            <group restype="row" id="tu42" resname="/html/body/table/thead/tr">
-              <group restype="x-html-th" id="tu43" resname="/html/body/table/thead/tr/th[1]">
+          <group restype="x-html-thead" id="grp41" resname="/html/body/table/thead">
+            <group restype="row" id="grp42" resname="/html/body/table/thead/tr">
+              <group restype="x-html-th" id="grp43" resname="/html/body/table/thead/tr/th[1]">
                 <trans-unit restype="x-html-p" id="tu44" resname="/html/body/table/thead/tr/th[1]/p">
                   <source xml:lang="nl"> Intentieverklaring vóór 31 december 2013 </source>
                   <target xml:lang="de" state="final"> Absichtserklärung vor 31.12.2013 </target>
                 </trans-unit>
               </group>
-              <group restype="x-html-th" id="tu45" resname="/html/body/table/thead/tr/th[2]">
+              <group restype="x-html-th" id="grp45" resname="/html/body/table/thead/tr/th[2]">
                 <trans-unit restype="x-html-p" id="tu46" resname="/html/body/table/thead/tr/th[2]/p[1]">
                   <source xml:lang="nl"> Kwartaal waarin de kassa geactiveerd werd </source>
                   <target xml:lang="de" state="final"> Quartal, in dem die Kasse aktiviert wurde </target>
@@ -97,7 +97,7 @@
                   <target xml:lang="de" state="final"> * Die Kasse muss an allen Tagen des Quartals, für das die Ermäßigung beantragt wird, in Betrieb sein </target>
                 </trans-unit>
               </group>
-              <group restype="x-html-th" id="tu48" resname="/html/body/table/thead/tr/th[3]">
+              <group restype="x-html-th" id="grp48" resname="/html/body/table/thead/tr/th[3]">
                 <trans-unit restype="x-html-p" id="tu49" resname="/html/body/table/thead/tr/th[3]/p">
                   <source xml:lang="nl"> vermindering vanaf </source>
                   <target xml:lang="de" state="final"> Ermäßigung ab </target>
@@ -105,121 +105,121 @@
               </group>
             </group>
           </group>
-          <group restype="x-html-tbody" id="tu50" resname="/html/body/table/tbody">
-            <group restype="row" id="tu51" resname="/html/body/table/tbody/tr[1]">
-              <group restype="cell" id="tu52" resname="/html/body/table/tbody/tr[1]/td[1]">
+          <group restype="x-html-tbody" id="grp50" resname="/html/body/table/tbody">
+            <group restype="row" id="grp51" resname="/html/body/table/tbody/tr[1]">
+              <group restype="cell" id="grp52" resname="/html/body/table/tbody/tr[1]/td[1]">
                 <trans-unit restype="x-html-p" id="tu53" resname="/html/body/table/tbody/tr[1]/td[1]/p">
                   <source xml:lang="nl"> ja </source>
                   <target xml:lang="de" state="final"> ja </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu54" resname="/html/body/table/tbody/tr[1]/td[2]">
+              <group restype="cell" id="grp54" resname="/html/body/table/tbody/tr[1]/td[2]">
                 <trans-unit restype="x-html-p" id="tu55" resname="/html/body/table/tbody/tr[1]/td[2]/p">
                   <source xml:lang="nl"> 1/2014 </source>
                   <target xml:lang="de" state="final"> 1/2014 </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu56" resname="/html/body/table/tbody/tr[1]/td[3]">
+              <group restype="cell" id="grp56" resname="/html/body/table/tbody/tr[1]/td[3]">
                 <trans-unit restype="x-html-p" id="tu57" resname="/html/body/table/tbody/tr[1]/td[3]/p">
                   <source xml:lang="nl"> 1/2014 </source>
                   <target xml:lang="de" state="final"> 1/2014 </target>
                 </trans-unit>
               </group>
             </group>
-            <group restype="row" id="tu58" resname="/html/body/table/tbody/tr[2]">
-              <group restype="cell" id="tu59" resname="/html/body/table/tbody/tr[2]/td[1]">
+            <group restype="row" id="grp58" resname="/html/body/table/tbody/tr[2]">
+              <group restype="cell" id="grp59" resname="/html/body/table/tbody/tr[2]/td[1]">
                 <trans-unit restype="x-html-p" id="tu60" resname="/html/body/table/tbody/tr[2]/td[1]/p">
                   <source xml:lang="nl"> ja </source>
                   <target xml:lang="de" state="final"> ja </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu61" resname="/html/body/table/tbody/tr[2]/td[2]">
+              <group restype="cell" id="grp61" resname="/html/body/table/tbody/tr[2]/td[2]">
                 <trans-unit restype="x-html-p" id="tu62" resname="/html/body/table/tbody/tr[2]/td[2]/p">
                   <source xml:lang="nl"> 2/2014 </source>
                   <target xml:lang="de" state="final"> 2/2014 </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu63" resname="/html/body/table/tbody/tr[2]/td[3]">
+              <group restype="cell" id="grp63" resname="/html/body/table/tbody/tr[2]/td[3]">
                 <trans-unit restype="x-html-p" id="tu64" resname="/html/body/table/tbody/tr[2]/td[3]/p">
                   <source xml:lang="nl"> 1/2014 </source>
                   <target xml:lang="de" state="final"> 1/2014 </target>
                 </trans-unit>
               </group>
             </group>
-            <group restype="row" id="tu65" resname="/html/body/table/tbody/tr[3]">
-              <group restype="cell" id="tu66" resname="/html/body/table/tbody/tr[3]/td[1]">
+            <group restype="row" id="grp65" resname="/html/body/table/tbody/tr[3]">
+              <group restype="cell" id="grp66" resname="/html/body/table/tbody/tr[3]/td[1]">
                 <trans-unit restype="x-html-p" id="tu67" resname="/html/body/table/tbody/tr[3]/td[1]/p">
                   <source xml:lang="nl"> nee </source>
                   <target xml:lang="de" state="final"> nein </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu68" resname="/html/body/table/tbody/tr[3]/td[2]">
+              <group restype="cell" id="grp68" resname="/html/body/table/tbody/tr[3]/td[2]">
                 <trans-unit restype="x-html-p" id="tu69" resname="/html/body/table/tbody/tr[3]/td[2]/p">
                   <source xml:lang="nl"> 2/2014 - kassa ten laatste actief op 01/04/2014* </source>
                   <target xml:lang="de" state="final"> 2/2014 - Kasse zuletzt in Betrieb am 01.04.2014* </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu70" resname="/html/body/table/tbody/tr[3]/td[3]">
+              <group restype="cell" id="grp70" resname="/html/body/table/tbody/tr[3]/td[3]">
                 <trans-unit restype="x-html-p" id="tu71" resname="/html/body/table/tbody/tr[3]/td[3]/p">
                   <source xml:lang="nl"> 2/2014 </source>
                   <target xml:lang="de" state="final"> 2/2014 </target>
                 </trans-unit>
               </group>
             </group>
-            <group restype="row" id="tu72" resname="/html/body/table/tbody/tr[4]">
-              <group restype="cell" id="tu73" resname="/html/body/table/tbody/tr[4]/td[1]">
+            <group restype="row" id="grp72" resname="/html/body/table/tbody/tr[4]">
+              <group restype="cell" id="grp73" resname="/html/body/table/tbody/tr[4]/td[1]">
                 <trans-unit restype="x-html-p" id="tu74" resname="/html/body/table/tbody/tr[4]/td[1]/p">
                   <source xml:lang="nl"> nee </source>
                   <target xml:lang="de" state="final"> nein </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu75" resname="/html/body/table/tbody/tr[4]/td[2]">
+              <group restype="cell" id="grp75" resname="/html/body/table/tbody/tr[4]/td[2]">
                 <trans-unit restype="x-html-p" id="tu76" resname="/html/body/table/tbody/tr[4]/td[2]/p">
                   <source xml:lang="nl"> 2/2014 kassa actief ná 01/04/2014 * </source>
                   <target xml:lang="de" state="final"> 2/2014 Kasse in Betrieb nach dem 01.04.2014 * </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu77" resname="/html/body/table/tbody/tr[4]/td[3]">
+              <group restype="cell" id="grp77" resname="/html/body/table/tbody/tr[4]/td[3]">
                 <trans-unit restype="x-html-p" id="tu78" resname="/html/body/table/tbody/tr[4]/td[3]/p">
                   <source xml:lang="nl"> 3/2014 </source>
                   <target xml:lang="de" state="final"> 3/2014 </target>
                 </trans-unit>
               </group>
             </group>
-            <group restype="row" id="tu79" resname="/html/body/table/tbody/tr[5]">
-              <group restype="cell" id="tu80" resname="/html/body/table/tbody/tr[5]/td[1]">
+            <group restype="row" id="grp79" resname="/html/body/table/tbody/tr[5]">
+              <group restype="cell" id="grp80" resname="/html/body/table/tbody/tr[5]/td[1]">
                 <trans-unit restype="x-html-p" id="tu81" resname="/html/body/table/tbody/tr[5]/td[1]/p">
                   <source xml:lang="nl"> ja/nee </source>
                   <target xml:lang="de" state="final"> ja/nein </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu82" resname="/html/body/table/tbody/tr[5]/td[2]">
+              <group restype="cell" id="grp82" resname="/html/body/table/tbody/tr[5]/td[2]">
                 <trans-unit restype="x-html-p" id="tu83" resname="/html/body/table/tbody/tr[5]/td[2]/p">
                   <source xml:lang="nl"> 3/2014 en volgende - kassa ten laatste actief op de eerste dag van het kwartaal * </source>
                   <target xml:lang="de" state="final"> 3/2014 und danach - Kasse letztmalig am ersten Tag des Quartals in Betrieb * </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu84" resname="/html/body/table/tbody/tr[5]/td[3]">
+              <group restype="cell" id="grp84" resname="/html/body/table/tbody/tr[5]/td[3]">
                 <trans-unit restype="x-html-p" id="tu85" resname="/html/body/table/tbody/tr[5]/td[3]/p">
                   <source xml:lang="nl"> Kwartaal </source>
                   <target xml:lang="de" state="final"> Quartal </target>
                 </trans-unit>
               </group>
             </group>
-            <group restype="row" id="tu86" resname="/html/body/table/tbody/tr[6]">
-              <group restype="cell" id="tu87" resname="/html/body/table/tbody/tr[6]/td[1]">
+            <group restype="row" id="grp86" resname="/html/body/table/tbody/tr[6]">
+              <group restype="cell" id="grp87" resname="/html/body/table/tbody/tr[6]/td[1]">
                 <trans-unit restype="x-html-p" id="tu88" resname="/html/body/table/tbody/tr[6]/td[1]/p">
                   <source xml:lang="nl"> ja/nee </source>
                   <target xml:lang="de" state="final"> ja/nein </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu89" resname="/html/body/table/tbody/tr[6]/td[2]">
+              <group restype="cell" id="grp89" resname="/html/body/table/tbody/tr[6]/td[2]">
                 <trans-unit restype="x-html-p" id="tu90" resname="/html/body/table/tbody/tr[6]/td[2]/p">
                   <source xml:lang="nl"> 3/2014 en volgende - kassa actief na de eerste dag van het kwartaal * </source>
                   <target xml:lang="de" state="final"> 3/2014 und danach - Kasse nach dem ersten Tag des Quartals in Betrieb * </target>
                 </trans-unit>
               </group>
-              <group restype="cell" id="tu91" resname="/html/body/table/tbody/tr[6]/td[3]">
+              <group restype="cell" id="grp91" resname="/html/body/table/tbody/tr[6]/td[3]">
                 <trans-unit restype="x-html-p" id="tu92" resname="/html/body/table/tbody/tr[6]/td[3]/p">
                   <source xml:lang="nl"> Kwartaal + 1 </source>
                   <target xml:lang="de" state="final"> Quartal + 1 </target>
@@ -252,7 +252,7 @@
           <source xml:lang="nl"> De werkgever kan voor een onbeperkt aantal kwartalen aanspraak maken op de vermindering: </source>
           <target xml:lang="de" state="final"> Der Arbeitgeber kann für eine unbegrenzte Anzahl von Quartalen die Ermäßigung beanspruchen: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu101" resname="/html/body/ul[3]">
+        <group restype="x-html-ul" id="grp101" resname="/html/body/ul[3]">
           <trans-unit restype="listitem" id="tu102" resname="/html/body/ul[3]/li[1]">
             <source xml:lang="nl"> <g id="g103" ctype="x-html-strong">G<g id="g104" ctype="x-html-sub">9</g></g> per kwartaal voor werknemers die op de laatste dag van het kwartaal jonger zijn dan 26. </source>
             <target xml:lang="de" state="final"> <g id="g105" ctype="x-html-strong">G<g id="g106" ctype="x-html-sub">9</g></g> pro Quartal für Arbeitnehmer, die am letzten Tag des Quartals weniger als 26 Jahre alt sind. </target>

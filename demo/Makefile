@@ -2,14 +2,14 @@
 
 include .env
 
-ELK_VERSION  	?= elk7
+ELK_VERSION  	?= elk8
 ENVIRONMENT  	?= local
 DOCKER_USER  	?= $(shell id -u)
 PWD				= $(shell pwd)
 RUN_ADMIN		= docker compose exec admin-${ENVIRONMENT} ems-demo
 RUN_WEB			= docker compose exec -u ${DOCKER_USER} web-${ENVIRONMENT} preview
 RUN_POSTGRES 	= docker compose exec -e PGUSER=postgres -e PGPASSWORD=adminpg -T postgres
-RUN_NPM			= docker run -u ${DOCKER_USER}:0 --rm -it -v ${PWD}:/opt/src --workdir /opt/src elasticms/base-php:8.1-cli-dev npm
+RUN_NPM			= docker run -u ${DOCKER_USER}:0 --rm -it -v ${PWD}:/app --workdir /app smalswebtech/base-php:8.5-cli-dev npm
 
 .DEFAULT_GOAL := help
 .PHONY: help npm
@@ -25,7 +25,7 @@ help: # Show help for each of the Makefile recipes.
 	@echo "WEB LIVE:	http://local.live-ems-demo-web.localhost"
 	@echo "MINIO:		http://minio.localhost"
 	@echo "KIBANA:		http://kibana.localhost"
-	@echo "MAIL:		http://mailhog.localhost"
+	@echo "MAIL:		http://mailserver.localhost"
 	@echo "---------------------------"
 	@echo ""
 	@echo "Usage: make [target]"

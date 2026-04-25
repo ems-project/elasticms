@@ -8,6 +8,7 @@ use EMS\CommonBundle\Common\CoreApi\Client;
 use EMS\CommonBundle\Common\CoreApi\Endpoint\Admin\Message\Job;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Admin\AdminInterface;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Admin\ConfigInterface;
+use EMS\Helpers\Standard\Type;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpClient\Exception\TransportException;
 
@@ -27,7 +28,7 @@ class Admin implements AdminInterface
     public function getJobStatus(string $jobId): array
     {
         /** @var array{id: string, created: string, modified: string, command: string, user: string,started: bool, done: bool, status: string, output: ?string } $status */
-        $status = $this->client->get(\implode('/', ['api', 'admin', 'job-status', $jobId]))->getData();
+        $status = $this->client->get(\implode('/', ['api', 'admin', 'job', $jobId, 'status']))->getData();
 
         return $status;
     }
@@ -49,9 +50,10 @@ class Admin implements AdminInterface
         $currentLine = 0;
         while (true) {
             $status = $this->getJobStatus($jobId);
-            if (\strlen($status['output'] ?? '') > 0) {
+            $statusOutput = $status['output'] ?? '';
+            if ('' !== $statusOutput) {
                 $counter = 0;
-                $lines = \preg_split("/((\r?\n)|(\r\n?))/", $status['output']);
+                $lines = \preg_split("/((\r?\n)|(\r\n?))/", $statusOutput);
                 if (false === $lines) {
                     throw new \RuntimeException('Unexpected false split lines');
                 }
@@ -91,14 +93,15 @@ class Admin implements AdminInterface
     #[\Override]
     public function runCommand(string $command, ?OutputInterface $output = null): string
     {
-        $job = [
-            'class' => 'EMS\CoreBundle\Entity\Job',
-            'arguments' => [],
-            'properties' => [
-                'command' => $command,
-            ],
-        ];
-        $jobId = $this->getConfig('job')->create($job);
+        $create = $this->client->post('/api/admin/job/create', [
+            'command' => $command,
+        ])->getData();
+
+        $jobId = $create['jobId'] ?? null;
+        if (null === $jobId) {
+            throw new \RuntimeException('Could not create job');
+        }
+
         $this->startJob($jobId);
         if (null !== $output) {
             $this->writeJobOutput($jobId, $output);
@@ -166,5 +169,24 @@ class Admin implements AdminInterface
     public function getCoreVersion(): string
     {
         return $this->getVersions()['core'];
+    }
+
+    /**
+     * @param  string[]                          $events
+     * @return array{id: string, secret: string}
+     */
+    public function registerToWebhooks(string $endpointUrl, array $events): array
+    {
+        $webhookSubscriptions = $this->client->post(\implode('/', ['api', 'webhook-subscriptions']), [
+            'endpointUrl' => $endpointUrl,
+            'events' => $events,
+        ])->getData();
+        $subscriptionId = Type::string($webhookSubscriptions['id']);
+        $secret = Type::string($webhookSubscriptions['secret']);
+
+        return [
+            'id' => $subscriptionId,
+            'secret' => $secret,
+        ];
     }
 }

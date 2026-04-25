@@ -10,6 +10,7 @@ use EMS\CommonBundle\Common\CoreApi\Search\Scroll;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
 use EMS\CommonBundle\Elasticsearch\Response\ResponseInterface;
 use EMS\CommonBundle\Search\Search;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 
 class ScrollAiTest extends TestCase
@@ -24,9 +25,10 @@ class ScrollAiTest extends TestCase
         $this->search = $this->createMock(Search::class);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testCurrent(): void
     {
-        $document = $this->createMock(Document::class);
+        $document = $this->createStub(Document::class);
         $response = $this->createConfiguredMock(ResponseInterface::class, [
             'getDocument' => $document,
             'getTotalDocuments' => 1,
@@ -44,6 +46,7 @@ class ScrollAiTest extends TestCase
         $this->assertSame($document, $scroll->current());
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testKeyInvalidScroll(): void
     {
         $this->expectException(\RuntimeException::class);
@@ -53,6 +56,7 @@ class ScrollAiTest extends TestCase
         $scroll->key();
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testRewind(): void
     {
         $this->client

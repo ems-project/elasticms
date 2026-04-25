@@ -5,23 +5,25 @@ declare(strict_types=1);
 namespace Build\Release\Command;
 
 use Build\Release\Version;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[AsCommand(
+    name: 'changelog',
+    description: 'Generate changelog',
+    hidden: false
+)]
 class ChangelogCommand extends AbstractCommand
 {
-    protected static $defaultName = 'changelog';
-
     private Version $version;
 
     protected function configure(): void
     {
-        $this
-            ->setDescription('generate changelog')
-            ->addArgument('version', InputArgument::OPTIONAL, 'version number');
+        $this->addArgument('version', InputArgument::OPTIONAL, 'version number');
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output): void

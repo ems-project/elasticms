@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.2" version="2.2" srcLang="en" trgLang="fr">
+  <file>
+    <metadata>
+      <meta type="original">contentType:ouuid_1:revisionId_1</meta>
+    </metadata>
+    <unit id="tu1" name="[title_%locale%]">
+      <segment>
+        <source>Foo</source>
+        <target state="needs-translation">Bar</target>
+      </segment>
+    </unit>
+  </file>
+  <file>
+    <metadata>
+      <meta type="original">contentType:ouuid_2:revisionId_2</meta>
+    </metadata>
+    <unit id="tu2" name="[title_%locale%]">
+      <segment>
+        <source>Hello</source>
+        <target state="needs-translation">Bonjour</target>
+      </segment>
+    </unit>
+    <unit id="tu3" name="[keywords_%locale%]">
+      <segment>
+        <source>test xliff</source>
+        <target state="new"/>
+      </segment>
+    </unit>
+    <unit id="tu4" name="[empty]">
+      <segment>
+        <source></source>
+        <target state="final"/>
+      </segment>
+    </unit>
+  </file>
+</xliff>

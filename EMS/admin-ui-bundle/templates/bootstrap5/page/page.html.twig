@@ -15,8 +15,8 @@
 
 {%- block render_datatable -%}
     {% set tableOptions = {} %}
-    {% if datatable.icon is defined %}{% set tableOptions = tableOptions|merge({ 'table_title_icon': datatable.icon }) %}{% endif %}
-    {% if datatable.title is defined %}{% set tableOptions = tableOptions|merge({ 'table_title': datatable.title|trans }) %}{% endif %}
+    {% if datatable.icon is defined %}{% set tableOptions = tableOptions|merge({table_title_icon: datatable.icon}) %}{% endif %}
+    {% if datatable.title is defined %}{% set tableOptions = tableOptions|merge({table_title: datatable.title|trans}) %}{% endif %}
 
     {% form_theme datatable.form '@EMSAdminUI/bootstrap5/form/forms.html.twig' %}
     {{ form(datatable.form, tableOptions) }}
@@ -25,7 +25,7 @@
 {% block render_datatables %}
     <div class="row">
         {% for datatable in datatables %}
-            <div class="{{ datatables|length == 2 ? 'col-md-6': 'col-md-12' }}">
+            <div class="{{ datatables|length == 2 ? 'col-md-6' : 'col-md-12' }}">
                 <div>
                     {{ block('render_datatable') }}
                 </div>
@@ -53,7 +53,7 @@
                         </div>
                     </div>
                     <div class="card-footer">
-                        {%- for button in form|filter(c => c.vars.name in ['save', 'save_close'])  -%}
+                        {%- for button in form|filter(c => c.vars.name in ['save', 'save_close']) -%}
                             {{ form_widget(button) }}
                         {%- endfor -%}
                     </div>

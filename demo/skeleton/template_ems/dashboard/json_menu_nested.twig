@@ -1,4 +1,4 @@
-{% extends '@EMSAdminUI/bootstrap5/components/json_menu_nested/template.twig' %}
+{% extends '@EMSCore/components/json_menu_nested/template.twig' %}
 
 {% block build_context %}
     {% set contentTypeNames = ['page','link'] %}
@@ -125,7 +125,7 @@
         {% elseif itemPages|length == 1 %}
             {% if contentInfo and (contentInfo.published('preview') or contentInfo.published('live')) and item.object.(locale).title is defined %}
                 <div class="btn-group btn-group-sm">
-                    <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" data-testid="jmn-action-show">
+                    <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" data-testid="jmn-action-show">
                         <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;View
                     </button>
                     <ul class="dropdown-menu">
@@ -142,7 +142,7 @@
             {% endif %}
             {% set contentType = contentTypes|filter(ct => ct.name == item.type)|first|default() %}
             {% if contentType and is_granted(contentType.roles.edit) %}
-                {% set editPath = path('revision.new-draft', {'ouuid': page.id, 'type': contentType.name}) %}
+                {% set editPath = path('emsco_data_new_draft', {'ouuid': page.id, 'type': contentType.name}) %}
                 <a class="btn btn-sm btn-primary" href="{{ editPath }}" data-testid="jmn-btn-revision-edit">
                     <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;Edit
                 </a>
@@ -241,7 +241,7 @@
 
 {% block table_existing_column_label %}
 {%- verbatim -%}
-    <a href="{{ path('data.revisions', {ouuid: data.id, type: data.contentType} ) }}">{{ data.source.label }}</a>
+    <a href="{{ path('emsco_view_revisions', {ouuid: data.id, type: data.contentType} ) }}">{{ data.source.label }}</a>
 {%- endverbatim -%}
 {% endblock table_existing_column_label %}
 

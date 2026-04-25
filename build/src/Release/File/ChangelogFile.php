@@ -13,7 +13,7 @@ class ChangelogFile
     /** @var array<string, string[]> */
     private array $releases = [];
 
-    public const TYPES = [
+    public const array TYPES = [
         'feat' => 'Features',
         'fix' => 'Bug Fixes',
         'docs' => 'Documentation',
@@ -47,7 +47,7 @@ class ChangelogFile
     {
         $latest = \array_key_first($this->releases);
 
-        if (\str_starts_with((string) $latest, '## '.$changes->version->getTag())) {
+        if (\is_string($latest) && \str_starts_with($latest, '## '.$changes->version->getTag())) {
             unset($this->releases[$latest]);
         }
 
@@ -94,7 +94,7 @@ class ChangelogFile
                 $currentRelease = $line;
                 $this->releases[$currentRelease] = [];
             }
-            if (\str_starts_with($line, '### ') || \str_starts_with($line, '* ')) {
+            if (null !== $currentRelease && (\str_starts_with($line, '### ') || \str_starts_with($line, '* '))) {
                 $this->releases[$currentRelease][] = $line;
             }
         }

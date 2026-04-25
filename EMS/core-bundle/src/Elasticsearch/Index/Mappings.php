@@ -30,7 +30,7 @@ class Mappings
 
     public function isEmpty(): bool
     {
-        return empty($this->mappings);
+        return [] === $this->mappings;
     }
 
     /**
@@ -44,7 +44,7 @@ class Mappings
     /**
      * @param array<mixed> $mapping
      */
-    public function add(string $name, array $mapping, ?string $type = 'doc'): Mappings
+    public function add(string $name, array $mapping, string $type = 'doc'): Mappings
     {
         if (!isset($this->mappings[$type])) {
             $this->mappings[$type] = $this->getDefaults();

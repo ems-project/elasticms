@@ -175,7 +175,7 @@ class DataTableFactory
 
         $grantedRoles = \array_filter($roles, fn (string $role) => $this->security->isGranted($role));
 
-        if (0 === \count($grantedRoles)) {
+        if ([] === $grantedRoles) {
             throw new AccessDeniedException();
         }
     }
@@ -204,7 +204,7 @@ class DataTableFactory
             'optionsCacheKey' => $optionsCacheKey,
         ];
 
-        if ($filterForm) {
+        if ($filterForm instanceof FormInterface) {
             $request = $this->requestStack->getCurrentRequest();
             $name = $filterForm->getConfig()->getName();
             $params[$name] = $request?->query->all($name);
@@ -218,7 +218,7 @@ class DataTableFactory
      */
     private function getOptionsCacheKey(array $options): ?string
     {
-        if (0 === \count($options)) {
+        if ([] === $options) {
             return null;
         }
 

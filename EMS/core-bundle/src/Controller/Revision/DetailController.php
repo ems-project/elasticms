@@ -47,7 +47,7 @@ class DetailController extends AbstractController
         $defaultEnvironment = $contentType->giveEnvironment();
 
         if (!$defaultEnvironment->getManaged()) {
-            return $this->redirectToRoute('data.view', [
+            return $this->redirectToRoute('emsco_data_view', [
                 'environmentName' => $defaultEnvironment->getName(),
                 'type' => $type,
                 'ouuid' => $ouuid,
@@ -110,6 +110,7 @@ class DetailController extends AbstractController
         $filter->setField($contentType->getRefererFieldName());
         $filter->setPattern(\sprintf('%s\\:%s', $type, $ouuid));
         $filter->setOperator('query_and');
+
         $searchForm->addFilter($filter);
 
         $filter = new SearchFilter();
@@ -117,6 +118,7 @@ class DetailController extends AbstractController
         $filter->setField($contentType->getRefererFieldName());
         $filter->setPattern(\sprintf('object\\:%s\\:%s', $type, $ouuid));
         $filter->setOperator('query_and');
+
         $searchForm->addFilter($filter);
 
         if (null !== $versionOuuid = $revision->getVersionUuid()) {
@@ -151,7 +153,7 @@ class DetailController extends AbstractController
             $auditTableForm->handleRequest($request);
         }
 
-        return $this->render("@$this->templateNamespace/data/revisions-data.html.twig", [
+        return $this->render(\sprintf('@%s/data/revisions-data.html.twig', $this->templateNamespace), [
             'revision' => $revision,
             'revisionsSummary' => $revisionsSummary,
             'latestVersion' => $latestVersion ?? null,

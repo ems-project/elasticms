@@ -1,4 +1,4 @@
-{% use "bootstrap_5_layout.html.twig" %}
+{% use 'bootstrap_5_layout.html.twig' %}
 {% trans_default_domain 'form' %}
 
 {# Widgets #}
@@ -20,7 +20,7 @@
     {%- if row_class is not empty -%}
         <div class="{{ row_class }}">
     {%- endif -%}
-    {{- form_label(form, null, { widget: block('checkbox_widget', 'form_div_layout.html.twig') }) -}}
+    {{- form_label(form, null, {widget: block('checkbox_widget', 'form_div_layout.html.twig')}) -}}
     {%- if row_class is not empty -%}
         </div>
     {%- endif -%}
@@ -35,7 +35,7 @@
         {%- if parent_label_class is defined -%}
             {%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' ' ~ parent_label_class)|trim}) -%}
         {%- endif -%}
-        {%- if label is not same as(false) and label is empty -%}
+        {%- if label is not same as(false) and not label -%}
             {%- if label_format is not empty -%}
                 {%- set label = label_format|replace({
                     '%name%': name,
@@ -49,73 +49,68 @@
     {%- endif -%}
 {%- endblock checkbox_radio_label %}
 
-
 {% block holder_field_type_row %}
     {{- form_widget(form) -}}
     {{- form_errors(form) -}}
 {% endblock holder_field_type_row %}
 
-
 {% block container_field_type_row %}
 <div id="{{ form.vars.id }}" class="container-fluid">
-	<div class="row">
-    	<div class="card card-default">
-        	<div class="card-heading with-border">
-        		<h3 class="card-title text-">{{- form_label(form) -}}</h3>
-        	</div>
+    <div class="row">
+        <div class="card card-default">
+            <div class="card-heading with-border">
+                <h3 class="card-title text-">{{- form_label(form) -}}</h3>
+            </div>
 
-    	  	<div class="card-body">
-    	  		{{- form_widget(form) -}}
-    	  	</div>
-    	    {{- form_errors(form) -}}
-    	</div>
-	</div>
+              <div class="card-body">
+                  {{- form_widget(form) -}}
+              </div>
+            {{- form_errors(form) -}}
+        </div>
+    </div>
 </div>
 {% endblock container_field_type_row %}
-
 
 {% block empty_widget -%}
 {%- endblock empty_widget %}
 {% block empty_label -%}
 {%- endblock empty_label %}
-{% block empty_row-%}
+{% block empty_row -%}
 {%- endblock empty_row %}
 
-
 {% block bypassdatafield_row -%}
-	{% if form.value is defined %}
-		{{ form_row(form.value, {
-			data: form.vars.data,
-			help: form.vars.helptext|default(null),
-			help_html: true,
-		}) }}
+    {% if form.value is defined %}
+        {{ form_row(form.value, {
+            data: form.vars.data,
+            help: form.vars.helptext|default(null),
+            help_html: true,
+        }) }}
     {% endif %}
 {%- endblock bypassdatafield_row %}
 
-
 {% block bypassdatafield_widget -%}
-	{% if form.value is defined %}
-        {{form_widget(form.value)}}
+    {% if form.value is defined %}
+        {{ form_widget(form.value) }}
     {% endif %}
 {%- endblock bypassdatafield_widget %}
 
 {% block icontext_widget -%}
-	{% if  prefixIcon or prefixText or suffixIcon or suffixText %}
+    {% if prefixIcon or prefixText or suffixIcon or suffixText %}
         {% if not valid or errors|length > 0 %}
             {% set attr = attr|merge({class: attr.class|default('') ~ ' is-invalid'}) %}
         {% endif %}
-		<div class="input-group">
-			{% if prefixIcon or prefixText %}
-				<span class="input-group-text"><i class="{% if prefixIcon %}{{ prefixIcon }}{% endif %}"></i>{% if prefixText %} &nbsp; {{ prefixText }} {% endif %}</span>
-			{% endif %}
-		 	{{ block('form_widget') }}
-			{% if suffixIcon or suffixText %}
-				<span class="input-group-text"><i class="{% if suffixIcon %}{{ suffixIcon }}{% endif %}"></i>{% if suffixText %} &nbsp; {{ suffixText }} {% endif %}</span>
-			{% endif %}
-		</div>
-	{% else %}
-		{{ block('form_widget') }}
-	{% endif %}
+        <div class="input-group">
+            {% if prefixIcon or prefixText %}
+                <span class="input-group-text"><i class="{% if prefixIcon %}{{ prefixIcon }}{% endif %}"></i>{% if prefixText %} &nbsp; {{ prefixText }} {% endif %}</span>
+            {% endif %}
+             {{ block('form_widget') }}
+            {% if suffixIcon or suffixText %}
+                <span class="input-group-text"><i class="{% if suffixIcon %}{{ suffixIcon }}{% endif %}"></i>{% if suffixText %} &nbsp; {{ suffixText }} {% endif %}</span>
+            {% endif %}
+        </div>
+    {% else %}
+        {{ block('form_widget') }}
+    {% endif %}
 {%- endblock icontext_widget %}
 
 {% block icontext_help %}
@@ -125,9 +120,8 @@
     </div>
 {% endblock icontext_help %}
 
-
 {% block ems_choice_row %}
-	{{form_row(form.value, {'attr': attr, 'required': required, 'disabled': disabled})}}
+    {{ form_row(form.value, {attr: attr, required: required, disabled: disabled}) }}
     {{ block('form_help') }}
 {%- endblock ems_choice_row %}
 
@@ -137,17 +131,17 @@
 {%- endblock colorpicker_widget %}
 
 {% block select2_widget -%}
-	{% set attr = attr|merge({class: (attr.class|default('') ~ ' select2')|trim}) %}
-	{{ block('choice_widget') }}
+    {% set attr = attr|merge({class: (attr.class|default('') ~ ' select2')|trim}) %}
+    {{ block('choice_widget') }}
 {%- endblock select2_widget %}
 
 {% block objectpicker_widget -%}
-	{% set attr = attr|merge({class: (attr.class|default('') ~ ' objectpicker')|trim}) %}
-	{{ block('choice_widget') }}
+    {% set attr = attr|merge({class: (attr.class|default('') ~ ' objectpicker')|trim}) %}
+    {{ block('choice_widget') }}
 {%- endblock objectpicker_widget %}
 
 {%- block submitems_widget -%}
-    {%- if label is empty -%}
+    {%- if label is not defined or label is null -%}
         {%- if label_format is not empty -%}
             {% set label = label_format|replace({
                 '%name%': name,
@@ -157,178 +151,177 @@
             {% set label = name|humanize %}
         {%- endif -%}
     {%- endif -%}
-	{% if confirm is defined and confirm != null %}
-		<div class="btn-group">
-			<button type="button" class="{{ confirm_class|default('btn btn-outline-danger') }} dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				{%- if icon -%}
-					<span class="{{ icon }}"></span>&nbsp;
-				{% endif %}
-				{{ translation_domain is same as(false) ? label : label|trans(label_translation_parameters|default({}), translation_domain) }}
-				<span class="caret"></span>
-			</button>
-			<ul class="dropdown-menu">
-				<li>
-					<button type="{{ type|default('submit') }}" {{ block('button_attributes') }}>{{ confirm|trans }}</button>
-				</li>
-			</ul>
-		</div>
-	{% else %}
-		<button type="{{ type|default('submit') }}" {{ block('button_attributes') }}>
-			{%- if icon -%}
-				<span class="{{ icon }}"></span>&nbsp;
-			{% endif %}
-			{{ translation_domain is same as(false) ? label : label|trans(label_translation_parameters|default({}), translation_domain) }}
-		</button>
-	{% endif %}
+    {% if confirm is defined and confirm != null %}
+        <div class="btn-group">
+            <button type="button" class="{{ confirm_class|default('btn btn-outline-danger') }} dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {%- if icon -%}
+                    <span class="{{ icon }}"></span>&nbsp;
+                {% endif %}
+                {{ translation_domain is same as(false) ? label : label|trans(label_translation_parameters|default({}), translation_domain) }}
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li>
+                    <button type="{{ type|default('submit') }}" {{ block('button_attributes') }}>{{ confirm|trans }}</button>
+                </li>
+            </ul>
+        </div>
+    {% else %}
+        <button type="{{ type|default('submit') }}" {{ block('button_attributes') }}>
+            {%- if icon -%}
+                <span class="{{ icon }}"></span>&nbsp;
+            {% endif %}
+            {{ translation_domain is same as(false) ? label : label|trans(label_translation_parameters|default({}), translation_domain) }}
+        </button>
+    {% endif %}
 {%- endblock submitems_widget -%}
-
 
 {%- block data_field_options_widget -%}
 
-	{% if editSubfields is not defined or editSubfields %}
-		<div class="tab-content">
-			{% set active=' active show' %}
-			{% if form.displayOptions is defined %}
-				<div class="tab-pane fade{{ active }}" id="tab_display_{{ seed }}" role="tabpanel">
-					{{- form_widget(form.displayOptions) -}}
-				</div>
-				{% set active='' %}
-			{% endif %}
-			<!-- /.tab-pane -->
-			{% if form.mappingOptions is defined %}
-				<div class="tab-pane fade{{ active }}" id="tab_mapping_{{ seed }}" role="tabpanel">
-					{{- form_widget(form.mappingOptions) -}}
-				</div>
-				{% set active='' %}
-			{% endif %}
-			<!-- /.tab-pane -->
-			{% if form.restrictionOptions is defined %}
-			  <div class="tab-pane fade{{ active }}" id="tab_restriction_{{ seed }}" role="tabpanel">
-				{{- form_widget(form.restrictionOptions) -}}
-			  </div>
-			  {% set active='' %}
-			{% endif %}
-			<!-- /.tab-pane -->
-			{% if form.migrationOptions is defined %}
-			  <div class="tab-pane fade{{ active }}" id="tab_migration_{{ seed }}" role="tabpanel">
-				{{- form_widget(form.migrationOptions) -}}
-			  </div>
-			  {% set active='' %}
-			{% endif %}
-			<!-- /.tab-pane -->
-			{% if form.extraOptions is defined %}
-			  <div class="tab-pane fade{{ active }}" id="tab_extra_{{ seed }}" role="tabpanel">
-				{{- form_widget(form.extraOptions) -}}
-			  </div>
-			{% endif %}
-			<!-- /.tab-pane -->
-		</div>
-		<!-- /.tab-content -->
-	{% else %}
-		<div class="row">
+    {% if editSubfields is not defined or editSubfields %}
+        <div class="tab-content">
+            {% set active = ' active show' %}
+            {% if form.displayOptions is defined %}
+                <div class="tab-pane fade{{ active }}" id="tab_display_{{ seed }}" role="tabpanel">
+                    {{- form_widget(form.displayOptions) -}}
+                </div>
+                {% set active = '' %}
+            {% endif %}
+            <!-- /.tab-pane -->
+            {% if form.mappingOptions is defined %}
+                <div class="tab-pane fade{{ active }}" id="tab_mapping_{{ seed }}" role="tabpanel">
+                    {{- form_widget(form.mappingOptions) -}}
+                </div>
+                {% set active = '' %}
+            {% endif %}
+            <!-- /.tab-pane -->
+            {% if form.restrictionOptions is defined %}
+              <div class="tab-pane fade{{ active }}" id="tab_restriction_{{ seed }}" role="tabpanel">
+                {{- form_widget(form.restrictionOptions) -}}
+              </div>
+              {% set active = '' %}
+            {% endif %}
+            <!-- /.tab-pane -->
+            {% if form.migrationOptions is defined %}
+              <div class="tab-pane fade{{ active }}" id="tab_migration_{{ seed }}" role="tabpanel">
+                {{- form_widget(form.migrationOptions) -}}
+              </div>
+              {% set active = '' %}
+            {% endif %}
+            <!-- /.tab-pane -->
+            {% if form.extraOptions is defined %}
+              <div class="tab-pane fade{{ active }}" id="tab_extra_{{ seed }}" role="tabpanel">
+                {{- form_widget(form.extraOptions) -}}
+              </div>
+            {% endif %}
+            <!-- /.tab-pane -->
+        </div>
+        <!-- /.tab-content -->
+    {% else %}
+        <div class="row">
         {% if form.displayOptions is defined %}
-			<div class="col-md-4 match-height">
-				<div class="box box-default">
-					<div class="box-header with-border">
-						<h3 class="box-title">
-							<i class="fas fa-eye fa-xs"></i>&nbsp;
+            <div class="col-md-4 match-height">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">
+                            <i class="fas fa-eye fa-xs"></i>&nbsp;
                             {{- form_label(form.displayOptions) -}}
-						</h3>
-					</div>
-					<!-- /.box-header -->
-					<div class="box-body">
+                        </h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
                         {{- form_widget(form.displayOptions) -}}
-					</div>
-					<!-- /.box-body -->
-				</div>
-			</div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
         {% endif %}
-		<!-- /.tab-pane -->
+        <!-- /.tab-pane -->
         {% if form.mappingOptions is defined %}
-			<div class="col-md-4 match-height">
-				<div class="box box-default">
-					<div class="box-header with-border">
-						<h3 class="box-title">
-							<i class="fas fa-sitemap fa-xs"></i>&nbsp;
-							{{- form_label(form.mappingOptions) -}}
-						</h3>
-					</div>
-					<!-- /.box-header -->
-					<div class="box-body">
+            <div class="col-md-4 match-height">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">
+                            <i class="fas fa-sitemap fa-xs"></i>&nbsp;
+                            {{- form_label(form.mappingOptions) -}}
+                        </h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
                         {{- form_widget(form.mappingOptions) -}}
-					</div>
-					<!-- /.box-body -->
-				</div>
-			</div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
         {% endif %}
-		<!-- /.tab-pane -->
+        <!-- /.tab-pane -->
         {% if form.restrictionOptions is defined %}
-			<div class="col-md-4 match-height">
-				<div class="box box-default">
-					<div class="box-header with-border">
-						<h3 class="box-title">
-							<i class="fas fa-shield fa-xs"></i>&nbsp;
-							{{- form_label(form.restrictionOptions) -}}
-						</h3>
-					</div>
-					<!-- /.box-header -->
-					<div class="box-body">
+            <div class="col-md-4 match-height">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">
+                            <i class="fas fa-shield fa-xs"></i>&nbsp;
+                            {{- form_label(form.restrictionOptions) -}}
+                        </h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
                         {{- form_widget(form.restrictionOptions) -}}
-					</div>
-					<!-- /.box-body -->
-				</div>
-			</div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
         {% endif %}
-		<!-- /.tab-pane -->
+        <!-- /.tab-pane -->
         {% if form.migrationOptions is defined %}
-			<div class="col-md-4 match-height">
-				<div class="box box-default">
-					<div class="box-header with-border">
-						<h3 class="box-title">
-							<i class="fas fa-recycle fa-xs"></i>&nbsp;
-							{{- form_label(form.migrationOptions) -}}
-						</h3>
-					</div>
-					<!-- /.box-header -->
-					<div class="box-body">
+            <div class="col-md-4 match-height">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">
+                            <i class="fas fa-recycle fa-xs"></i>&nbsp;
+                            {{- form_label(form.migrationOptions) -}}
+                        </h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
                         {{- form_widget(form.migrationOptions) -}}
-					</div>
-					<!-- /.box-body -->
-				</div>
-			</div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
         {% endif %}
-		<!-- /.tab-pane -->
+        <!-- /.tab-pane -->
         {% if form.extraOptions is defined %}
-			<div class="col-md-4 match-height">
-				<div class="box box-default">
-					<div class="box-header with-border">
-						<h3 class="box-title">
-							<i class="fas fa-plus fa-xs"></i>&nbsp;
-							{{- form_label(form.extraOptions) -}}
-						</h3>
-					</div>
-					<!-- /.box-header -->
-					<div class="box-body">
+            <div class="col-md-4 match-height">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">
+                            <i class="fas fa-plus fa-xs"></i>&nbsp;
+                            {{- form_label(form.extraOptions) -}}
+                        </h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
                         {{- form_widget(form.extraOptions) -}}
-					</div>
-					<!-- /.box-body -->
-				</div>
-			</div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
         {% endif %}
-		</div>
-	{% endif %}
+        </div>
+    {% endif %}
 
 {%- endblock data_field_options_widget -%}
 
 {%- block code_editor_label -%}
     {% if label is not same as(false) -%}
         {% if not compound -%}
-            {% set label_attr = label_attr|merge({'for': id}) %}
+            {% set label_attr = label_attr|merge({for: id}) %}
         {%- endif -%}
         {% if required -%}
-            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+            {% set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' required')|trim}) %}
         {%- endif -%}
-        {% if label is empty -%}
+        {%- if label is not defined or label is null -%}
             {%- if label_format is not empty -%}
                 {% set label = label_format|replace({
                     '%name%': name,
@@ -340,7 +333,7 @@
         {%- endif -%}
         <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}</label>
         {% if form.vars.slug %}
-        	&nbsp;<a href="http://www.elasticms.eu/en/doc/templates/{{ form.vars.slug }}" class="" target="_blank">more info</a>
+            &nbsp;<a href="http://www.elasticms.eu/en/doc/templates/{{ form.vars.slug }}" class="" target="_blank">more info</a>
         {% endif %}
     {%- endif -%}
 {%- endblock code_editor_label -%}
@@ -355,7 +348,6 @@
 {##}</div>
 {%- endblock code_editor_row %}
 
-
 {% block code_editor_widget %}
     <pre>{{ form.vars.data }}</pre>
     <input type="hidden" id="{{ form.vars.id }}" class="{{ attr.class|default('') }}"  name="{{ form.vars.full_name }}" data-language="{{ form.vars.language }}" data-disabled="{{ form.vars.disabled }}" data-min-lines="{{ form.vars.min_lines }}" data-max-lines="{{ form.vars.max_lines }}" value="{{ form.vars.value }}">
@@ -365,303 +357,297 @@
 {% endblock datafieldtype_label %}
 
 {% block container_label -%}
-	{% if data.fieldType.displayOptions.label is defined  %}
-		<div class="card-heading">
-			<h3 class="card-title">
-				{% if data.fieldType.displayOptions.icon is defined %}<i class="{{ data.fieldType.displayOptions.icon }}"></i>&nbsp;{% endif %}
-			</h3>
-		</div>
-	{% endif %}
+    {% if data.fieldType.displayOptions.label is defined %}
+        <div class="card-heading">
+            <h3 class="card-title">
+                {% if data.fieldType.displayOptions.icon is defined %}<i class="{{ data.fieldType.displayOptions.icon }}"></i>&nbsp;{% endif %}
+            </h3>
+        </div>
+    {% endif %}
 {%- endblock container_label %}
 
 {% block holder_label -%}{%- endblock holder_label %}
 
 {% block collectionfieldtype_label -%}
-	{% if data.fieldType.displayOptions.label is defined  %}
-		{% if data.fieldType.displayOptions.icon is defined %}
-			<i class="{{ data.fieldType.displayOptions.icon }}"></i>&nbsp;
-		{% endif %}
-		<label>{{ data.fieldType.displayOptions.label }}</label>
-	{% endif %}
+    {% if data.fieldType.displayOptions.label is defined %}
+        {% if data.fieldType.displayOptions.icon is defined %}
+            <i class="{{ data.fieldType.displayOptions.icon }}"></i>&nbsp;
+        {% endif %}
+        <label>{{ data.fieldType.displayOptions.label }}</label>
+    {% endif %}
 {%- endblock collectionfieldtype_label %}
 
 {%- block collectionitemtype_label -%}
-	{% if form.parent.vars.icon is defined %}<i class="{{ form.parent.vars.icon }}"></i>&nbsp;{% endif %}
-	<label>
-		{{- form.parent.vars.singularLabel }} #
+    {% if form.parent.vars.icon is defined %}<i class="{{ form.parent.vars.icon }}"></i>&nbsp;{% endif %}
+    <label>
+        {{- form.parent.vars.singularLabel }} #
         {%- if name matches '/^\\d+$/' -%}
             {{- name|number_format + 1 -}}
-		{%- else -%}{# placeholder for the prototype #}
-			{{- form.vars.label -}}
+        {%- else -%}{# placeholder for the prototype #}
+            {{- form.vars.label -}}
         {%- endif -%}
-		<span class="collection-label-field"></span>
-	</label>
+        <span class="collection-label-field"></span>
+    </label>
 {%- endblock collectionitemtype_label -%}
 
 {# Rows #}
 {% block bouttongroup_row -%}
 <div class="btn-group">
-	{% for button in buttons %}
-		<a class="btn btn-sm btn-primary" href="/meta/environment/switch/39"> <span
-			class="fa fa-share-square-o"></span>&nbsp; Switch</a>
+    {% for button in buttons %}
+        <a class="btn btn-sm btn-primary" href="/meta/environment/switch/39"> <span
+            class="fa fa-share-square-o"></span>&nbsp; Switch</a>
 
             {{- form_row(button) -}}
 
-	{% endfor %}
+    {% endfor %}
 </div>
 {%- endblock bouttongroup_row %}
 
-
-
 {% block search_filter_row -%}
-	<div class="filter-container ">
-		<div class="row">
-			<div class="col-md-2 col-sm-3 col-xs-4">
-				<div class="form-group">
-					<div class="d-block d-md-none">
-						{{ form_label(form.booleanClause) }}
-					</div>
-					{{- form_widget(form.booleanClause) -}}
-				</div>
-			</div>
-			<div class="col-md-3 col-sm-5 col-xs-4">
-				<div class="form-group">
-					<div class="d-block d-md-none">
-						{{ form_label(form.field) }}
-					</div>
-					{{- form_widget(form.field) -}}
-				</div>
-			</div>
-			<div class="col-md-2 col-sm-4 col-xs-4">
-				<div class="form-group">
-					<div class="d-block d-md-none">
-						{{ form_label(form.operator) }}
-					</div>
-					{{- form_widget(form.operator) -}}
-				</div>
-			</div>
-			<div class="d-block d-md-none"></div>
-			<div class="{% if emsco_is_super() %}col-md-3 col-xs-8{% else %}col-md-4 col-xs-10{% endif %}">
-				<div class="form-group">
-					<div class="d-block d-md-none">
-						{{ form_label(form.pattern) }}
-					</div>
-					{{- form_widget(form.pattern) -}}
-				</div>
-			</div>
-			{% if emsco_is_super() %}
-				<div class="col-md-1 col-xs-2">
-					<div class="form-group">
-						<div class="d-block d-md-none">
-							{{ form_label(form.boost) }}
-						</div>
-						{{- form_widget(form.boost) -}}
-					</div>
-				</div>
-			{% endif %}
-			<div class="col-md-1  col-xs-2">
-				<div class="form-group">
-					<div class="d-block d-md-none">
-						<label class="control-label">&nbsp;</label>
-					</div>
-                    {% if form.vars.name != '0'  %}
+    <div class="filter-container ">
+        <div class="row">
+            <div class="col-md-2 col-sm-3 col-xs-4">
+                <div class="form-group">
+                    <div class="d-block d-md-none">
+                        {{ form_label(form.booleanClause) }}
+                    </div>
+                    {{- form_widget(form.booleanClause) -}}
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-5 col-xs-4">
+                <div class="form-group">
+                    <div class="d-block d-md-none">
+                        {{ form_label(form.field) }}
+                    </div>
+                    {{- form_widget(form.field) -}}
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-4">
+                <div class="form-group">
+                    <div class="d-block d-md-none">
+                        {{ form_label(form.operator) }}
+                    </div>
+                    {{- form_widget(form.operator) -}}
+                </div>
+            </div>
+            <div class="d-block d-md-none"></div>
+            <div class="{% if emsco_is_super() %}col-md-3 col-xs-8{% else %}col-md-4 col-xs-10{% endif %}">
+                <div class="form-group">
+                    <div class="d-block d-md-none">
+                        {{ form_label(form.pattern) }}
+                    </div>
+                    {{- form_widget(form.pattern) -}}
+                </div>
+            </div>
+            {% if emsco_is_super() %}
+                <div class="col-md-1 col-xs-2">
+                    <div class="form-group">
+                        <div class="d-block d-md-none">
+                            {{ form_label(form.boost) }}
+                        </div>
+                        {{- form_widget(form.boost) -}}
+                    </div>
+                </div>
+            {% endif %}
+            <div class="col-md-1  col-xs-2">
+                <div class="form-group">
+                    <div class="d-block d-md-none">
+                        <label class="control-label">&nbsp;</label>
+                    </div>
+                    {% if form.vars.name != '0' %}
                         <a class="btn btn-primary remove-filter form-control" href="#">
                             <i class="fa fa-trash"></i>
                         </a>
                     {% endif %}
-				</div>
-			</div>
+                </div>
+            </div>
 
-			{{- form_errors(form) -}}
-		</div>
-	</div>
+            {{- form_errors(form) -}}
+        </div>
+    </div>
 {%- endblock search_filter_row %}
 
-
-
-
-{# {% block container_row -%}#}
-{# 	<div class="card card-default">#}
-{# 	  	{{- form_label(form) -}}#}
-{# 	  	<div class="card-body">#}
-{# 	  		{{- form_widget(form) -}}#}
-{# 	  	</div>#}
-{# 	    {{- form_errors(form) -}}#}
-{# 	</div>               #}
-{# {%- endblock container_row %}#}
+{# {% block container_row -%} #}
+{# <div class="card card-default"> #}
+{# {{- form_label(form) -}} #}
+{# <div class="card-body"> #}
+{# {{- form_widget(form) -}} #}
+{# </div> #}
+{# {{- form_errors(form) -}} #}
+{# </div> #}
+{# {%- endblock container_row %} #}
 
 {% block tabsfieldtype_errors -%}
 {% endblock tabsfieldtype_errors -%}
 
 {% block form_help %}
-	{% if helptext is defined %}
-		{% set help = helptext %}
-		{% set help_html = true %}
-	{% endif %}
-	{{ parent() }}
+    {% if helptext is defined %}
+        {% set help = helptext %}
+        {% set help_html = true %}
+    {% endif %}
+    {{ parent() }}
 {% endblock form_help %}
 
 {% block tabsfieldtype_row -%}
-{# <div class="form-group{% if class %} {{ class }}{% else %} col-xs-12 {% endif %}{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">#}
-{# 	<div class="card card-default">#}
-{# 		<div class="card-heading">#}
-{# 	  		{{- form_label(form) -}}#}
-{# 	  	</div>#}
-{# 	  	<div  class="card-body">#}
-			{{- form_widget(form) -}}
-{# 		</div>#}
-		{{- form_errors(form) -}}
-{# 	</div>               #}
-{# </div>#}
+{# <div class="form-group{% if class %} {{ class }}{% else %} col-xs-12 {% endif %}{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}"> #}
+{# <div class="card card-default"> #}
+{# <div class="card-heading"> #}
+{# {{- form_label(form) -}} #}
+{# </div> #}
+{# <div  class="card-body"> #}
+            {{- form_widget(form) -}}
+{# </div> #}
+        {{- form_errors(form) -}}
+{# </div> #}
+{# </div> #}
 {% endblock tabsfieldtype_row %}
 
 {% block tabsfieldtype_widget_tab_label_per_item %}
-	<li id="{{ tab.vars.id}}__label" class="nav-item{% if tab.vars.errors|length %} has-error{% endif %}{% if tab.vars.class is defined and tab.vars.class != 'col-md-12' %} {{tab.vars.class}}{% endif %}">
-		<a href="#{{ tab.vars.id}}__tab" data-bs-toggle="pill" class="nav-link{% if counter == 1%} active{% endif %}" id="{{ tab.vars.id}}-tab" data-bs-target="#{{ tab.vars.id}}__tab" role="tab" aria-controls="{{ tab.vars.id}}__tab" aria-selected="{% if counter == 1%}true{%else%}false{% endif %}">
-			{{- form_label(tab) -}}
-		</a>
-	</li>
+    <li id="{{ tab.vars.id }}__label" class="nav-item{% if tab.vars.errors|length %} has-error{% endif %}{% if tab.vars.class is defined and tab.vars.class != 'col-md-12' %} {{ tab.vars.class }}{% endif %}">
+        <a href="#{{ tab.vars.id }}__tab" data-bs-toggle="pill" class="nav-link{% if counter == 1 %} active{% endif %}" id="{{ tab.vars.id }}-tab" data-bs-target="#{{ tab.vars.id }}__tab" role="tab" aria-controls="{{ tab.vars.id }}__tab" aria-selected="{% if counter == 1 %}true{% else %}false{% endif %}">
+            {{- form_label(tab) -}}
+        </a>
+    </li>
 {% endblock tabsfieldtype_widget_tab_label_per_item %}
 
 {% block tabsfieldtype_widget_tab_panel_per_item %}
-	<div class="tab-pane fade{% if counter == 1%} active show{% endif %}" id="{{ tab.vars.id}}__tab" role="tabpanel" aria-labelledby="{{ tab.vars.id}}-tab">
+    <div class="tab-pane fade{% if counter == 1 %} active show{% endif %}" id="{{ tab.vars.id }}__tab" role="tabpanel" aria-labelledby="{{ tab.vars.id }}-tab">
         {{ form_errors(tab) }}
-		<fieldset>
-			{% if counter == 1%}
-				{{- form_widget(tab) -}}
-			{% else %}
-				{{- form_widget(tab) -}}
-			{% endif %}
-		</fieldset>
-	</div>
+        <fieldset>
+            {% if counter == 1 %}
+                {{- form_widget(tab) -}}
+            {% else %}
+                {{- form_widget(tab) -}}
+            {% endif %}
+        </fieldset>
+    </div>
 {% endblock tabsfieldtype_widget_tab_panel_per_item %}
 
 {% block tabsfieldtype_widget -%}
-	<div class="card card-{{ theme_color }} card-outline card-outline-tabs">
-		<div class="card-header p-0 border-bottom-0">
-			<ul class="nav nav-tabs" role="tablist">
-				{% set counter = 1 %}
-				{% for tab in  form.iterator %}
-					{% if 'EMS\\CoreBundle\\Form\\DataField\\MultiplexedTabContainerFieldType' == tab.vars.data.fieldType.type and form.vars.data.fieldType.type == 'EMS\\CoreBundle\\Form\\DataField\\TabsFieldType' %}
-						{% for item in  tab.iterator %}
-							{% with {
-								'tab': item,
-								'counter': counter,
-								}
-							%}
-								{{ block('tabsfieldtype_widget_tab_label_per_item') }}
-							{% endwith %}
-							{% set counter = counter + 1 %}
-						{% endfor %}
-					{% else %}
-						{% with {
-							  'tab': tab,
-							  'counter': counter,
-							  }
-						  %}
-							{{ block('tabsfieldtype_widget_tab_label_per_item') }}
-						{% endwith %}
-						{% set counter = counter + 1 %}
-					{% endif %}
-				{% endfor %}
+    <div class="card card-{{ theme_color }} card-outline card-outline-tabs">
+        <div class="card-header p-0 border-bottom-0">
+            <ul class="nav nav-tabs" role="tablist">
+                {% set counter = 1 %}
+                {% for tab in form.iterator %}
+                    {% if 'EMS\\CoreBundle\\Form\\DataField\\MultiplexedTabContainerFieldType' == tab.vars.data.fieldType.type and form.vars.data.fieldType.type == 'EMS\\CoreBundle\\Form\\DataField\\TabsFieldType' %}
+                        {% for item in tab.iterator %}
+                            {% with {
+                                tab: item,
+                                counter: counter,
+                                }
+                            %}
+                                {{ block('tabsfieldtype_widget_tab_label_per_item') }}
+                            {% endwith %}
+                            {% set counter = counter + 1 %}
+                        {% endfor %}
+                    {% else %}
+                        {% with {
+                              tab: tab,
+                              counter: counter,
+                              }
+                          %}
+                            {{ block('tabsfieldtype_widget_tab_label_per_item') }}
+                        {% endwith %}
+                        {% set counter = counter + 1 %}
+                    {% endif %}
+                {% endfor %}
             </ul>
-		</div>
-		<div class="card-body">
-			<div class="tab-content">
-			  {% set counter = 1 %}
-              {% for tab in  form.iterator %}
-				  {% if 'EMS\\CoreBundle\\Form\\DataField\\MultiplexedTabContainerFieldType' == tab.vars.data.fieldType.type and form.vars.data.fieldType.type == 'EMS\\CoreBundle\\Form\\DataField\\TabsFieldType' %}
-					  {% for item in  tab.iterator %}
-						  {% with {
-							  'tab': item,
-							  'counter': counter,
-							  }
-						  %}
-							  {{ block('tabsfieldtype_widget_tab_panel_per_item') }}
-						  {% endwith %}
-						  {% set counter = counter + 1 %}
-					  {% endfor %}
-				  {% else %}
-					  {% with {
-						  'tab': tab,
-						  'counter': counter,
-						  }
-					  %}
-						  {{ block('tabsfieldtype_widget_tab_panel_per_item') }}
-					  {% endwith %}
-					  {% set counter = counter + 1 %}
-				  {% endif %}
+        </div>
+        <div class="card-body">
+            <div class="tab-content">
+              {% set counter = 1 %}
+              {% for tab in form.iterator %}
+                  {% if 'EMS\\CoreBundle\\Form\\DataField\\MultiplexedTabContainerFieldType' == tab.vars.data.fieldType.type and form.vars.data.fieldType.type == 'EMS\\CoreBundle\\Form\\DataField\\TabsFieldType' %}
+                      {% for item in tab.iterator %}
+                          {% with {
+                              tab: item,
+                              counter: counter,
+                              }
+                          %}
+                              {{ block('tabsfieldtype_widget_tab_panel_per_item') }}
+                          {% endwith %}
+                          {% set counter = counter + 1 %}
+                      {% endfor %}
+                  {% else %}
+                      {% with {
+                          tab: tab,
+                          counter: counter,
+                          }
+                      %}
+                          {{ block('tabsfieldtype_widget_tab_panel_per_item') }}
+                      {% endwith %}
+                      {% set counter = counter + 1 %}
+                  {% endif %}
               {% endfor %}
-			</div>
-		</div>
-	 </div>
+            </div>
+        </div>
+     </div>
 {%- endblock tabsfieldtype_widget %}
 
-
 {% block collectionfieldtype_widget -%}
-	<div class="collection-panel"
-		 data-name="{{ form.vars.name }}"
-		 data-id="{{ form.vars.id }}"
-		 data-label-field="{{ form.vars.labelField|e('html_attr') }}"
-		 data-prototype-label="{{ form.vars.prototype.vars.label|e('html_attr') }}"
-		 data-prototype-name="{{ form.vars.prototype.vars.name|e('html_attr') }}"
-		 data-prototype="{{ form_row(form.vars.prototype)|e('html_attr') }}"
-		{% if (form|last).vars is defined  %}
-			data-index="{{ (form|last).vars.name + 1 }}"
-		{% else %}
-			data-index="0"
-		{% endif %}>
-		{% set tempId = form.vars.name~'_'~random() %}
-		<div class="card-body{% if  form.vars.sortable %} ems-sortable{% endif %}">
-		    {{- form_widget(form, { 'attr': {'class': 'collection-panel-container'} }) -}}
-		</div>
-		<div>
-	  		<div class="btn-group">
-		  		{% if not form.vars.disabled %}
-					<a href="#" class="btn btn-primary add-content-button  btn-sm"><i class="fa fa-plus"></i> {{ 'Add'|trans }}</a>
-				{% endif %}
-			</div>
-		</div>
-	</div>
+    <div class="collection-panel"
+         data-name="{{ form.vars.name }}"
+         data-id="{{ form.vars.id }}"
+         data-label-field="{{ form.vars.labelField|e('html_attr') }}"
+         data-prototype-label="{{ form.vars.prototype.vars.label|e('html_attr') }}"
+         data-prototype-name="{{ form.vars.prototype.vars.name|e('html_attr') }}"
+         data-prototype="{{ form_row(form.vars.prototype)|e('html_attr') }}"
+        {% if (form|last).vars is defined %}
+            data-index="{{ (form|last).vars.name + 1 }}"
+        {% else %}
+            data-index="0"
+        {% endif %}>
+        {% set tempId = form.vars.name ~ '_' ~ random() %}
+        <div class="card-body{% if form.vars.sortable %} ems-sortable{% endif %}">
+            {{- form_widget(form, {attr: {class: 'collection-panel-container'}}) -}}
+        </div>
+        <div>
+              <div class="btn-group">
+                  {% if not form.vars.disabled %}
+                    <a href="#" class="btn btn-primary add-content-button  btn-sm"><i class="fa fa-plus"></i> {{ 'Add'|trans }}</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 {%- endblock collectionfieldtype_widget %}
 
 {% block collectionfieldtype_row -%}
     {% set collapsible = form.vars.data.fieldType.displayOptions.collapsible|default(false) %}
-{# <div class="form-group{% if class %} {{ class }}{% else %} col-xs-12 {% endif %}{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">#}
-	<div class="card card-default {% if collapsible %}collapsible-collection{% endif %}">
-		<div class="card-heading">
-	  		{{- form_label(form) -}}
+{# <div class="form-group{% if class %} {{ class }}{% else %} col-xs-12 {% endif %}{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}"> #}
+    <div class="card card-default {% if collapsible %}collapsible-collection{% endif %}">
+        <div class="card-heading">
+              {{- form_label(form) -}}
 
             {% if collapsible %}
-				<div class="float-end">
-					<div class="btn-group toggle-group" role="group">
-						<button type="button" title="collapse" aria-expanded="false" class="btn btn-sm button-collapse"></button>
-						<button type="button" title="collapse all" aria-expanded="false" class="btn btn-sm button-collapse-all"></button>
-					</div>
-				</div>
-				<div class="clearfix"></div>
+                <div class="float-end">
+                    <div class="btn-group toggle-group" role="group">
+                        <button type="button" title="collapse" aria-expanded="false" class="btn btn-sm button-collapse"></button>
+                        <button type="button" title="collapse all" aria-expanded="false" class="btn btn-sm button-collapse-all"></button>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
             {% endif %}
 
-	  	</div>
-	  	<div  class="card-body {% if collapsible %}collapse{% endif %}">
-			{{- form_widget(form) -}}
-		</div>
-		{{- form_errors(form) -}}
-	</div>
-{# </div>#}
+          </div>
+          <div  class="card-body {% if collapsible %}collapse{% endif %}">
+            {{- form_widget(form) -}}
+        </div>
+        {{- form_errors(form) -}}
+    </div>
+{# </div> #}
 {% endblock collectionfieldtype_row %}
 
 {% block collectionitemtype_row -%}
 {% set collapsible = form.parent.vars.data.fieldType.displayOptions.collapsible|default(false) %}
 
 <div data-index="{{ form.vars.name }}" data-id="{{ form.vars.id }}" class="form-group collection-item-panel{% if form.parent.vars.itemBootstrapClass %} {{ form.parent.vars.itemBootstrapClass }}{% else %} col-xs-12 {% endif %}{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">
-	<div class="card card-default">
-		<div class="card-heading ems-handle">
-			{{ form_label(form) }}
-	  		<div class="btn-group float-end">
-				<button type="button" class="btn btn-danger btn-sm remove-content-button">
-					<span class="fa fa-trash"></span>&nbsp;Remove
-				</button>
+    <div class="card card-default">
+        <div class="card-heading ems-handle">
+            {{ form_label(form) }}
+              <div class="btn-group float-end">
+                <button type="button" class="btn btn-danger btn-sm remove-content-button">
+                    <span class="fa fa-trash"></span>&nbsp;Remove
+                </button>
                 {% if collapsible %}
                     <div class="float-end">
                         <div class="btn-group toggle-group" role="group">
@@ -671,23 +657,23 @@
                     </div>
                     <div class="clearfix"></div>
                 {% endif %}
-			</div>
-	  	</div>
+            </div>
+          </div>
 
-	  	<div class="card-body {% if collapsible %}collapse{% endif %}">
-	  		<div class="row">
-	  		{% for child in form.iterator|filter(c => c.vars.name not in ['_ems_internal_deleted']) %}
-				<div class="{% if child.vars.data.fieldType.options.displayOptions.class is defined %}{{ child.vars.data.fieldType.options.displayOptions.class }}{% endif %}">
-    				{{- form_row(child) -}}
-				</div>
-				{% if child.vars.lastOfRow is defined and child.vars.lastOfRow %}
+          <div class="card-body {% if collapsible %}collapse{% endif %}">
+              <div class="row">
+              {% for child in form.iterator|filter(c => c.vars.name not in ['_ems_internal_deleted']) %}
+                <div class="{% if child.vars.data.fieldType.options.displayOptions.class is defined %}{{ child.vars.data.fieldType.options.displayOptions.class }}{% endif %}">
+                    {{- form_row(child) -}}
+                </div>
+                {% if child.vars.lastOfRow is defined and child.vars.lastOfRow %}
                     <div class="clearfix"></div>
-				{% endif %}
-			{% endfor %}
-			</div>
-	  	</div>
-	  {{- form_errors(form) -}}
-	</div>
+                {% endif %}
+            {% endfor %}
+            </div>
+          </div>
+      {{- form_errors(form) -}}
+    </div>
     {{ form_row(form._ems_internal_deleted) }}
 </div>
 {% endblock collectionitemtype_row %}
@@ -695,7 +681,7 @@
 {% block form_field_type_row %}
     {% for child in form.iterator %}
         {% if not child.vars.isVisible is defined or child.vars.isVisible %}
-            <div class="{% if child.vars.data.fieldType.options.displayOptions.class is defined %}{{ child.vars.data.fieldType.options.displayOptions.class }}{% endif %}{% if child.vars.errors|length > 0 and not child.vars.isContainer|default(false)  %} has-error{% endif %}">
+            <div class="{% if child.vars.data.fieldType.options.displayOptions.class is defined %}{{ child.vars.data.fieldType.options.displayOptions.class }}{% endif %}{% if child.vars.errors|length > 0 and not child.vars.isContainer|default(false) %} has-error{% endif %}">
                 {{- form_row(child) -}}
             </div>
         {% else %}
@@ -710,7 +696,7 @@
 {% block holder_field_type_widget %}
     {% for child in form.iterator %}
         {% if not child.vars.isVisible is defined or child.vars.isVisible %}
-            <div class="{% if child.vars.data.fieldType.options.displayOptions.class is defined %}{{ child.vars.data.fieldType.options.displayOptions.class }}{% endif %}{% if child.vars.errors|length > 0 and not child.vars.isContainer|default(false)  %} has-error{% endif %}">
+            <div class="{% if child.vars.data.fieldType.options.displayOptions.class is defined %}{{ child.vars.data.fieldType.options.displayOptions.class }}{% endif %}{% if child.vars.errors|length > 0 and not child.vars.isContainer|default(false) %} has-error{% endif %}">
                 {{- form_row(child) -}}
             </div>
         {% else %}
@@ -722,13 +708,12 @@
     {% endfor %}
 {% endblock holder_field_type_widget %}
 
-
 {% block container_field_type_widget %}
-	<div id="{{ form.vars.id }}" class="container-fluid">
-		<div class="{{ html_classes('row', {
+    <div id="{{ form.vars.id }}" class="container-fluid">
+        <div class="{{ html_classes('row', {
             'has-error': form.vars.errors|length > 0,
         }) }}">
-			{% for child in form.iterator %}
+            {% for child in form.iterator %}
                 {% if not child.vars.isVisible is defined or child.vars.isVisible %}
                     <div class="{{ child.vars.data.fieldType.options.displayOptions.class|default('') }}">
                         {{- form_row(child) -}}
@@ -736,57 +721,56 @@
                 {% else %}
                     {{- form_row(child) -}}
                 {% endif %}
-				{% if child.vars.lastOfRow is defined and child.vars.lastOfRow %}
+                {% if child.vars.lastOfRow is defined and child.vars.lastOfRow %}
                     <div class="clearfix"></div>
-				{% endif %}
-			{% endfor %}
-		</div>
-	</div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
 {% endblock container_field_type_widget %}
 
-{# {% block datafieldtype_row -%}#}
-{# {# <div class="form-group{% if class %} {{ class }}{% else %} col-xs-12 {% endif %}{% if form.vars.value.fieldType is defined and form.vars.value.fieldType.options.restrictionOptions is defined and form.vars.value.fieldType.options.restrictionOptions.mandatory is defined and form.vars.value.fieldType.options.restrictionOptions.mandatory %} required {% endif %}{% if force_error|default(false) or not valid or form.vars.errors|length > 0 %} has-error{% endif %}">#}#}
-{# 	{% if isContainer and form.vars.data and form.vars.data.fieldType.options.displayOptions.label %}#}
-{# 		<div class="card card-default">#}
-{# 			<div class="card-heading">#}
-{# 		  		{{- form_label(form) -}}#}
-{# 		  	</div>#}
-{# 		  <div class="card-body">#}
-{# 		    {{- form_widget(form) -}}#}
-{# 		  </div>#}
-{# 		  {{- form_errors(form) -}}#}
-{# 		</div>               #}
-{# 	{% else %}#}
-{# 		  {{ form_row(form) }}#}
-{# 	{% endif %}#}
-{# {# </div>#}#}
-{# {% endblock datafieldtype_row %}#}
+{# {% block datafieldtype_row -%} #}
+{# {# <div class="form-group{% if class %} {{ class }}{% else %} col-xs-12 {% endif %}{% if form.vars.value.fieldType is defined and form.vars.value.fieldType.options.restrictionOptions is defined and form.vars.value.fieldType.options.restrictionOptions.mandatory is defined and form.vars.value.fieldType.options.restrictionOptions.mandatory %} required {% endif %}{% if force_error|default(false) or not valid or form.vars.errors|length > 0 %} has-error{% endif %}"> #}#}
+{# {% if isContainer and form.vars.data and form.vars.data.fieldType.options.displayOptions.label %} #}
+{# <div class="card card-default"> #}
+{# <div class="card-heading"> #}
+{# {{- form_label(form) -}} #}
+{# </div> #}
+{# <div class="card-body"> #}
+{# {{- form_widget(form) -}} #}
+{# </div> #}
+{# {{- form_errors(form) -}} #}
+{# </div> #}
+{# {% else %} #}
+{# {{ form_row(form) }} #}
+{# {% endif %} #}
+{# {# </div> #}#}
+{# {% endblock datafieldtype_row %} #}
 
-{# {% block timefieldtype_row %}#}
-{# 	<div class="form-group{% if class %} {{ class }}{% else %} col-xs-12 {% endif %}">#}
-{#     	{{ form_label(form.data_value) }} #}
+{# {% block timefieldtype_row %} #}
+{# <div class="form-group{% if class %} {{ class }}{% else %} col-xs-12 {% endif %}"> #}
+{# {{ form_label(form.data_value) }} #}
 
-{#                   <div class="input-group">#}
-{#                     <div class="input-group-addon">#}
-{#                       <i class="fa fa-clock-o"></i>#}
-{#                     </div>#}
-{#                     {{- form_widget(form.data_value) -}}#}
-{#                   </div>#}
-{#                   <!-- /.input group -->#}
-{#                 </div>#}
-{#                 <!-- /.form group -->#}
-{# {% endblock timefieldtype_row %}#}
-
+{# <div class="input-group"> #}
+{# <div class="input-group-addon"> #}
+{# <i class="fa fa-clock-o"></i> #}
+{# </div> #}
+{# {{- form_widget(form.data_value) -}} #}
+{# </div> #}
+{# <!-- /.input group --> #}
+{# </div> #}
+{# <!-- /.form group --> #}
+{# {% endblock timefieldtype_row %} #}
 
 {%- block form_label -%}
     {% if label is not same as (false) -%}
         {% if not compound -%}
-            {% set label_attr = label_attr|merge({'for': id}) %}
+            {% set label_attr = label_attr|merge({for: id}) %}
         {%- endif -%}
         {% if required -%}
-            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+            {% set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' required')|trim}) %}
         {%- endif -%}
-        {% if label is empty -%}
+        {%- if label is not defined or label is null -%}
             {%- if label_format is not empty -%}
                 {% set label = label_format|replace({
                     '%name%': name,
@@ -800,88 +784,82 @@
     {%- endif -%}
 {%- endblock form_label -%}
 
-
 {% block codefieldtype_widget %}
-	<div class="ems-code-editor" {{ block('widget_attributes') }}>
+    <div class="ems-code-editor" {{ block('widget_attributes') }}>
         {{ form_widget(form) }}
-    	<pre>{{ form.vars.value }}</pre>
-	</div>
+        <pre>{{ form.vars.value }}</pre>
+    </div>
 {% endblock codefieldtype_widget %}
 
-
 {% block codefieldtype_row %}
-	<div class="form-group{% if class %} {{ class }}{% else %} col-xs-12 {% endif %} {% if form.vars.errors|length %} has-error{% endif %}">
-    	{{ form_label(form) }}
-    	{{ form_widget(form) }}
-    	{{ form_errors(form) }}
+    <div class="form-group{% if class %} {{ class }}{% else %} col-xs-12 {% endif %} {% if form.vars.errors|length %} has-error{% endif %}">
+        {{ form_label(form) }}
+        {{ form_widget(form) }}
+        {{ form_errors(form) }}
     </div>
     <!-- /.form group -->
 {% endblock codefieldtype_row %}
 
-
 {% block json_menu_editor_fieldtype_row %}
-	<div class="form-group {% if form.vars.errors|length %} has-error{% endif %} json_menu_editor_fieldtype">
-		{{ form_label(form) }}
-		{{ form_widget(form) }}
-		{{ form_errors(form) }}
-	</div>
-	<!-- /.form group -->
+    <div class="form-group {% if form.vars.errors|length %} has-error{% endif %} json_menu_editor_fieldtype">
+        {{ form_label(form) }}
+        {{ form_widget(form) }}
+        {{ form_errors(form) }}
+    </div>
+    <!-- /.form group -->
 {% endblock json_menu_editor_fieldtype_row %}
 
-
-
 {% block json_menu_editor_fieldtype_node %}
-	{% for item in children %}
-		{% set contentType = item.contentType|default('')|emsco_get_content_type %}
-		{% if contentType %}
-			{% set item = item|merge({
-				icon: contentType.icon,
-				contentType: contentType.name
-			}) %}
-		{% endif %}
-		<li id="{{ item.id }}" data-id="{{ item.id }}" data-type="{{ item.type|default('node') }}" data-label="{{ item.label|default('') }}" data-content-type="{{ item.contentType|default('node') }}" class="collapsible-container nestedSortable">
-			<div class="nestedSortable">
-				<span class="input-group">
-					{% if item.type|default('node') == 'node' %}
-						<span class="input-group-btn">
-							<button href="#" type="button" title="{{ 'field_type.json_menu_editor.collapse_button'|trans }}" aria-expanded="false" class="btn btn-default button-collapse"></button>
-						</span>
-					{% endif %}
-					<span class="input-group-addon" >
+    {% for item in children %}
+        {% set contentType = item.contentType|default('')|emsco_get_content_type %}
+        {% if contentType %}
+            {% set item = item|merge({
+                icon: contentType.icon,
+                contentType: contentType.name,
+            }) %}
+        {% endif %}
+        <li id="{{ item.id }}" data-id="{{ item.id }}" data-type="{{ item.type|default('node') }}" data-label="{{ item.label|default('') }}" data-content-type="{{ item.contentType|default('node') }}" class="collapsible-container nestedSortable">
+            <div class="nestedSortable">
+                <span class="input-group">
+                    {% if item.type|default('node') == 'node' %}
+                        <span class="input-group-btn">
+                            <button href="#" type="button" title="{{ 'field_type.json_menu_editor.collapse_button'|trans }}" aria-expanded="false" class="btn btn-default button-collapse"></button>
+                        </span>
+                    {% endif %}
+                    <span class="input-group-addon" >
                         <i class="{% if item.icon|default(false) %}{{ item.icon }}{% elseif item.type|default('node') == 'node' %}fa fa-folder{% else %}fa fa-file-text{% endif %}"></i>
                     </span>
-					<input type="text" class="form-control itemLabel ignore-ems-update" placeholder="{{ 'field_type.json_menu_editor.item_label_placeholder'|trans }}" value="{{ item.label|default('') }}">
-					<span class="input-group-btn">
-						<a type="button" class="btn btn-primary json_menu_sortable_handle_button" title="{{ 'field_type.json_menu_editor.move_item'|trans }}">
-							<i class="fa fa-arrows"></i>
-							<span class="">{{ 'field_type.json_menu_editor.move_item'|trans }}</span>
-						</a>
-						{% if item.type|default('node') == 'node' %}
+                    <input type="text" class="form-control itemLabel ignore-ems-update" placeholder="{{ 'field_type.json_menu_editor.item_label_placeholder'|trans }}" value="{{ item.label|default('') }}">
+                    <span class="input-group-btn">
+                        <a type="button" class="btn btn-primary json_menu_sortable_handle_button" title="{{ 'field_type.json_menu_editor.move_item'|trans }}">
+                            <i class="fa fa-arrows"></i>
+                            <span class="">{{ 'field_type.json_menu_editor.move_item'|trans }}</span>
+                        </a>
+                        {% if item.type|default('node') == 'node' %}
                             {{ addMenu }}
-						{% endif %}
-						<a type="button" class="btn btn-danger json_menu_sortable_remove_button" title="{{ 'field_type.json_menu_editor.delete_item'|trans }}">
-							<i class="fa fa-trash"></i>
-							<span class="visually-hidden">{{ 'field_type.json_menu_editor.delete_item'|trans }}</span>
-						</a>
-					</span>
-				</span>
+                        {% endif %}
+                        <a type="button" class="btn btn-danger json_menu_sortable_remove_button" title="{{ 'field_type.json_menu_editor.delete_item'|trans }}">
+                            <i class="fa fa-trash"></i>
+                            <span class="visually-hidden">{{ 'field_type.json_menu_editor.delete_item'|trans }}</span>
+                        </a>
+                    </span>
+                </span>
 
-			</div>
-			{% if item.type|default('node') == 'node' and item.children|default({})|length > 0 %}
-				<ol data-parent-id="{{ item.id }}">
-					{% set children = item.children %}
-					{{ block('json_menu_editor_fieldtype_node') }}
-				</ol>
-			{% endif %}
-		</li>
-	{% endfor %}
+            </div>
+            {% if item.type|default('node') == 'node' and item.children|default({})|length > 0 %}
+                <ol data-parent-id="{{ item.id }}">
+                    {% set children = item.children %}
+                    {{ block('json_menu_editor_fieldtype_node') }}
+                </ol>
+            {% endif %}
+        </li>
+    {% endfor %}
 {% endblock json_menu_editor_fieldtype_node %}
 
-
 {% block json_menu_editor_fieldtype_widget %}
-	{{  form_widget(form) }}
-    {% set nodeTypes =  form.vars.node_types|split(',') %}
-    {% set itemTypes =  form.vars.item_types|split(',') %}
+    {{ form_widget(form) }}
+    {% set nodeTypes = form.vars.node_types|split(',') %}
+    {% set itemTypes = form.vars.item_types|split(',') %}
 
     {% set addMenu %}
         <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -893,7 +871,7 @@
             {% for type in itemTypes %}
                 {% set contentType = type|emsco_get_content_type %}
                 {% if contentType %}
-                    {% set contentTypeIcon = contentType.icon|default('fa fa-file')  %}
+                    {% set contentTypeIcon = contentType.icon|default('fa fa-file') %}
                     <li>
                         <a type="button" class="json_menu_sortable_add_item_button" data-label="" data-content-type="{{ type|e('html_attr') }}" data-icon="{{ contentTypeIcon|e('html_attr') }}">
                             <i class="{{ contentTypeIcon }}"></i>
@@ -905,7 +883,7 @@
             {% for type in nodeTypes %}
                 {% set contentType = type|emsco_get_content_type %}
                 {% if contentType %}
-                    {% set contentTypeIcon = contentType.icon|default('fa fa-folder')  %}
+                    {% set contentTypeIcon = contentType.icon|default('fa fa-folder') %}
                     <li>
                         <a type="button" class="json_menu_sortable_add_node_button" data-label="" data-content-type="{{ type|e('html_attr') }}" data-icon="{{ contentTypeIcon|e('html_attr') }}">
                             <i class="{{ contentTypeIcon }}"></i>
@@ -917,287 +895,283 @@
         </ul>
     {% endset %}
 
-
-	<div class="json_menu_editor_fieldtype_widget collapsible-container"
-		{% set children =  [{ id: '%uuid%', type: 'item', label: '%label%', icon: '%icon%', contentType: '%contentType%'}] %}
-		 data-prototype-item="{{ block('json_menu_editor_fieldtype_node')|e('html_attr') }}"
-		{% set children =  [{ id: '%uuid%', type: 'node', label: '%label%', icon: '%icon%', contentType: '%contentType%'}] %}
-		 data-prototype-node="{{ block('json_menu_editor_fieldtype_node')|e('html_attr') }}">
-		<div class="input-group">
-				<span class="input-group-btn">
-					<button type="#" title="{{ 'field_type.json_menu_editor.collapse_all_button'|trans }}" aria-expanded="false" class="btn btn-default button-collapse-all">
-					</button>
+    <div class="json_menu_editor_fieldtype_widget collapsible-container"
+        {% set children = [{id: '%uuid%', type: 'item', label: '%label%', icon: '%icon%', contentType: '%contentType%'}] %}
+         data-prototype-item="{{ block('json_menu_editor_fieldtype_node')|e('html_attr') }}"
+        {% set children = [{id: '%uuid%', type: 'node', label: '%label%', icon: '%icon%', contentType: '%contentType%'}] %}
+         data-prototype-node="{{ block('json_menu_editor_fieldtype_node')|e('html_attr') }}">
+        <div class="input-group">
+                <span class="input-group-btn">
+                    <button type="#" title="{{ 'field_type.json_menu_editor.collapse_all_button'|trans }}" aria-expanded="false" class="btn btn-default button-collapse-all">
+                    </button>
                     {{ addMenu }}
-				</span>
-		</div>
-		<ol class="json_menu_sortable vertical not-collapsible">
-			{% set children =  form.vars.data.rawData |default('[]')|ems_json_decode %}
-			{{ block('json_menu_editor_fieldtype_node') }}
-		</ol>
-		<div class="input-group">
-		</div>
-	</div>
+                </span>
+        </div>
+        <ol class="json_menu_sortable vertical not-collapsible">
+            {% set children = form.vars.data.rawData|default('[]')|ems_json_decode %}
+            {{ block('json_menu_editor_fieldtype_node') }}
+        </ol>
+        <div class="input-group">
+        </div>
+    </div>
 {% endblock json_menu_editor_fieldtype_widget %}
 
 {% block json_menu_nested_editor_fieldtype_row %}
-	<div class="form-group {% if form.vars.errors|length %} has-error{% endif %}"
-		data-name="{{ form.vars.name }}" data-block-prefix="{{ form.vars.unique_block_prefix }}">
-		{{ form_label(form) }}
-		{{ form_widget(form) }}
-		{{ form_errors(form) }}
-	</div>
+    <div class="form-group {% if form.vars.errors|length %} has-error{% endif %}"
+        data-name="{{ form.vars.name }}" data-block-prefix="{{ form.vars.unique_block_prefix }}">
+        {{ form_label(form) }}
+        {{ form_widget(form) }}
+        {{ form_errors(form) }}
+    </div>
 {% endblock json_menu_nested_editor_fieldtype_row %}
 
 {% block json_menu_nested_editor_fieldtype_widget %}
-	{{  form_widget(form) }}
-	{{ emsco_json_menu_nested({
-		'id': form.vars.id,
-		'field_type': data.fieldType,
-		'revision': revision,
-		'structure': data.rawData|default('{}'),
-	}, 'revision_edit') }}
+    {{ form_widget(form) }}
+    {{ emsco_json_menu_nested({
+        id: form.vars.id,
+        field_type: data.fieldType,
+        revision: revision,
+        structure: data.rawData|default('{}'),
+    }, 'revision_edit') }}
 {% endblock json_menu_nested_editor_fieldtype_widget %}
 
 {% block datefieldtype_row %}
 <div class="form-group">
     {{ form_label(form.value) }}
-	<div class="input-group">
+    <div class="input-group">
         <span class="input-group-text">
             <i class="fa fa-calendar"></i>
         </span>
-        {{- form_widget(form.value, { 'attr': {'class': html_classes(form.value.vars.attr.class|default(''), {
+        {{- form_widget(form.value, {attr: {class: html_classes(form.value.vars.attr.class|default(''), {
             'is-invalid': errors|length > 0 or not valid,
-        })} }) -}}
-	</div>
+        })}}) -}}
+    </div>
     {{- form_errors(form) -}}
 </div>
 <!-- /.form group -->
 {% endblock datefieldtype_row %}
 
 {% block date_time_field_type_row %}
-	<div class="mb-3">
+    <div class="mb-3">
         {{ form_label(form.value) }}
-		<div class="input-group">
+        <div class="input-group">
             <span class="input-group-text">
                 <i class="fa fa-calendar"></i>
             </span>
-            {{- form_widget(form.value, { 'attr': {'class': html_classes(form.value.vars.attr.class|default(''), {
+            {{- form_widget(form.value, {attr: {class: html_classes(form.value.vars.attr.class|default(''), {
                 'is-invalid': errors|length > 0 or not valid,
-            })} }) -}}
-		</div>
+            })}}) -}}
+        </div>
         {{- form_errors(form) -}}
-	</div>
+    </div>
 {% endblock date_time_field_type_row %}
-
 
 {% block assettype_multiple_item %}
 
-	{% set prototype = (fileItem.vars.name == '__name__') %}
-	<li class="input-file-entry">
-		<div>
-			<div class="modal" tabindex="-1" role="dialog" id="asst-details-{{ form.vars.id }}-__name__">
-				<div class="modal-dialog" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h4 class="modal-title">{{ 'fields.asset.file-info'|trans }}</h4>
-							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'action.close'|trans({}, 'emsco-core') }}"></button>
-						</div>
-						<div class="modal-body">
-							<div class="form-group">
-								<label>{{ 'fields.asset.file-hash'|trans }}</label>
-								<div class="form-control asset-hash-signature">{% if fileItem.sha1.vars.value is defined %}{{ fileItem.sha1.vars.value }}{% endif %}</div>
-								{{- form_row(fileItem.sha1) -}}
-								{{- form_row(fileItem._image_resized_hash) -}}
-								{{- form_row(fileItem.mimetype) -}}
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ 'fields.asset.close-modal'|trans }}</button>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="asset-upload-tab {% if not prototype %}hidden{% endif %}">
-				<div class="progress-group">
-					<span class="progress-text">{{ 'fields.asset.init-upload'|trans }}</span>
-					<span class="progress-number">&nbsp;</span>
-					<div class="progress sm">
-						<div class="progress-bar" style="width: 0%"></div>
-					</div>
-				</div>
-			</div>
-			<div class="asset-preview-tab {% if prototype %}hidden{% endif %}">
-				<div class="input-group input-group-sm">
-					{{- form_widget(fileItem.filename) -}}
-					<span class="input-group-btn">
-						<button type="button" class="btn btn-default" title="{{ 'fields.asset.info-modal-button'|trans }}" data-bs-toggle="modal" data-bs-target="#asst-details-{{ form.vars.id }}-__name__">
-							<i class="fa fa-info"></i>
-							<span class="visually-hidden">{{ 'fields.asset.info-modal-button'|trans }}</span>
-						</button>
-						<a type="button" class="btn ui-sortable-handle move-handle" title="{{ 'fields.asset.move-button'|trans }}">
-							<i class="fa fa-arrows"></i>
-							<span class="visually-hidden">{{ 'fields.asset.move-button'|trans }}</span>
-						</a>
-						<a href="{% if prototype %}#{% else %}{{ ems_asset_path(fileItem.vars.value) }}{% endif %}" type="button" class="btn btn-primary view-asset-button {% if prototype %}disabled{% endif %}" title="{{ 'fields.asset.view-button'|trans }}" target="_blank">
-							<i class="fa fa-eye"></i>
-							<span class="visually-hidden">{{ 'fields.asset.view-button'|trans }}</span>
-						</a>
-						<button type="button" class="btn btn-danger remove-item" title="{{ 'fields.asset.remove-button'|trans }}">
-							<i class="fa fa-trash"></i>
-							<span class="visually-hidden">{{ 'fields.asset.remove-button'|trans }}</span>
-						</button>
-					</span>
-				</div>
-			</div>
+    {% set prototype = (fileItem.vars.name == '__name__') %}
+    <li class="input-file-entry">
+        <div>
+            <div class="modal" tabindex="-1" role="dialog" id="asst-details-{{ form.vars.id }}-__name__">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">{{ 'fields.asset.file-info'|trans }}</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'action.close'|trans({}, 'emsco-core') }}"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>{{ 'fields.asset.file-hash'|trans }}</label>
+                                <div class="form-control asset-hash-signature">{% if fileItem.sha1.vars.value is defined %}{{ fileItem.sha1.vars.value }}{% endif %}</div>
+                                {{- form_row(fileItem.sha1) -}}
+                                {{- form_row(fileItem._image_resized_hash) -}}
+                                {{- form_row(fileItem.mimetype) -}}
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ 'fields.asset.close-modal'|trans }}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="asset-upload-tab {% if not prototype %}hidden{% endif %}">
+                <div class="progress-group">
+                    <span class="progress-text">{{ 'fields.asset.init-upload'|trans }}</span>
+                    <span class="progress-number">&nbsp;</span>
+                    <div class="progress sm">
+                        <div class="progress-bar" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="asset-preview-tab {% if prototype %}hidden{% endif %}">
+                <div class="input-group input-group-sm">
+                    {{- form_widget(fileItem.filename) -}}
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" title="{{ 'fields.asset.info-modal-button'|trans }}" data-bs-toggle="modal" data-bs-target="#asst-details-{{ form.vars.id }}-__name__">
+                            <i class="fa fa-info"></i>
+                            <span class="visually-hidden">{{ 'fields.asset.info-modal-button'|trans }}</span>
+                        </button>
+                        <a type="button" class="btn ui-sortable-handle move-handle" title="{{ 'fields.asset.move-button'|trans }}">
+                            <i class="fa fa-arrows"></i>
+                            <span class="visually-hidden">{{ 'fields.asset.move-button'|trans }}</span>
+                        </a>
+                        <a href="{% if prototype %}#{% else %}{{ ems_asset_path(fileItem.vars.value) }}{% endif %}" type="button" class="btn btn-primary view-asset-button {% if prototype %}disabled{% endif %}" title="{{ 'fields.asset.view-button'|trans }}" target="_blank">
+                            <i class="fa fa-eye"></i>
+                            <span class="visually-hidden">{{ 'fields.asset.view-button'|trans }}</span>
+                        </a>
+                        <button type="button" class="btn btn-danger remove-item" title="{{ 'fields.asset.remove-button'|trans }}">
+                            <i class="fa fa-trash"></i>
+                            <span class="visually-hidden">{{ 'fields.asset.remove-button'|trans }}</span>
+                        </button>
+                    </span>
+                </div>
+            </div>
 
-		</div>
-	</li>
+        </div>
+    </li>
 {% endblock assettype_multiple_item %}
-
 
 {% block assettype_row %}
 
-	{% set multipleTemplate %}
-		{% if form.children.files is defined %}
-			{% set fileItem = form.children.files.vars.prototype %}
-			{{ block('assettype_multiple_item') }}
-		{% endif %}
-	{% endset %}
+    {% set multipleTemplate %}
+        {% if form.children.files is defined %}
+            {% set fileItem = form.children.files.vars.prototype %}
+            {{ block('assettype_multiple_item') }}
+        {% endif %}
+    {% endset %}
 
 <div class="card card-default file-uploader-row{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}"{% if form.vars.multiple|default(false) %} data-multiple="{{ multipleTemplate|e('html_attr') }}"{% endif %}>
-	<div class="card-heading">
-		<h3 class="card-title m-2">
-			<i class="fa fa-file"></i>
-			{{ form_label(form) }}
-		</h3>
-	</div>
-	<div class="card-body" >
-		{% if form.children.files is not defined %}
-			<div class="modal" tabindex="-1" role="dialog" id="asst-details-{{ form.vars.id }}">
-			  <div class="modal-dialog" role="document">
-				<div class="modal-content">
-				  <div class="modal-header">
-					<h4 class="modal-title" id="myModalLabel">{{ 'fields.asset.file-info'|trans }}</h4>
-				  	<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'action.close'|trans({}, 'emsco-core') }}"></button>
-				  </div>
-				  <div class="modal-body">
-					<div class="form-group">
-						<label>{{ 'fields.asset.file-hash'|trans }}</label>
-						<div class="form-control asset-hash-signature">{% if form.vars.value.sha1 is defined %}{{ form.vars.value.sha1 }}{% endif %}</div>
-					</div>
-					{{- form_widget(form) -}}
-				  </div>
-				  <div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ 'fields.asset.close-modal'|trans }}</button>
-				  </div>
-				</div>
-			  </div>
-			</div>
-		{% endif %}
+    <div class="card-heading">
+        <h3 class="card-title m-2">
+            <i class="fa fa-file"></i>
+            {{ form_label(form) }}
+        </h3>
+    </div>
+    <div class="card-body" >
+        {% if form.children.files is not defined %}
+            <div class="modal" tabindex="-1" role="dialog" id="asst-details-{{ form.vars.id }}">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">{{ 'fields.asset.file-info'|trans }}</h4>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'action.close'|trans({}, 'emsco-core') }}"></button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="form-group">
+                        <label>{{ 'fields.asset.file-hash'|trans }}</label>
+                        <div class="form-control asset-hash-signature">{% if form.vars.value.sha1 is defined %}{{ form.vars.value.sha1 }}{% endif %}</div>
+                    </div>
+                    {{- form_widget(form) -}}
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ 'fields.asset.close-modal'|trans }}</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+        {% endif %}
       <!-- Tab panes -->
       <div class="" id="asset-tabs-{{ form.vars.id }}">
         <div class="tab-pane {% if (form.vars.value.sha1 is defined and form.vars.value.sha1) or (form.children.files is defined and form.vars.value|length > 0) %}hidden{% endif %} asset-upload-tab" id="asset-upload-tab-{{ form.vars.id }}">
-        	{% if not form.vars.disabled %}
-        		<p class="text-center asset-preview">
-					{% if form.vars.multiple|default(false) %}
-						<strong>{{ 'fields.asset.drag-n-drop-files'|trans }}</strong>
-					{% else %}
-						<strong>{{ 'fields.asset.drag-n-drop-file'|trans }}</strong>
-					{% endif %}
+            {% if not form.vars.disabled %}
+                <p class="text-center asset-preview">
+                    {% if form.vars.multiple|default(false) %}
+                        <strong>{{ 'fields.asset.drag-n-drop-files'|trans }}</strong>
+                    {% else %}
+                        <strong>{{ 'fields.asset.drag-n-drop-file'|trans }}</strong>
+                    {% endif %}
                 </p>
-        	{% endif %}
-    		<div class="progress-group">
-            	<span class="progress-text">&nbsp;</span>
-    			<span class="progress-number">&nbsp;</span>
-    			<div class="progress sm">
-    				<div class="progress-bar" style="width: {% if form.children.sha1.vars.value|default(false) %}100{% else %}0{% endif %}%"></div>
-    			</div>
-    		</div>
+            {% endif %}
+            <div class="progress-group">
+                <span class="progress-text">&nbsp;</span>
+                <span class="progress-number">&nbsp;</span>
+                <div class="progress sm">
+                    <div class="progress-bar" style="width: {% if form.children.sha1.vars.value|default(false) %}100{% else %}0{% endif %}%"></div>
+                </div>
+            </div>
         </div>
         <div class="tab-pane asset-preview-tab {% if form.vars.value.sha1 is not defined or not form.vars.value.sha1 %}hidden{% endif %}" id="asset-preview-tab-{{ form.vars.id }}">
-        	<div class="text-center">
-            	<img
-            		data-src="{{ path('ems_asset_processor', {'hash':'_asset_hash_', 'processor': 'preview', 'type':'_asset_mimetype_', 'name': '_asset_name_' }) }}"
-            		{% if form.vars.value.sha1 is defined and form.vars.value.sha1 %}
-            			src="{{ emsco_asset_path(form.vars.value, form.vars.data.fieldType.getDisplayOption('imageAssetConfigIdentifier', 'preview')) }}"
-            		{% endif %}
-            		class="img-responsive center-block" alt="{{ 'view.form.fields.asset.preview'|trans({'%label%': form_label(form)|striptags }) }}"
-            	>
-	        </div>
+            <div class="text-center">
+                <img
+                    data-src="{{ path('ems_asset_processor', {hash: '_asset_hash_', processor: 'preview', type: '_asset_mimetype_', name: '_asset_name_'}) }}"
+                    {% if form.vars.value.sha1 is defined and form.vars.value.sha1 %}
+                        src="{{ emsco_asset_path(form.vars.value, form.vars.data.fieldType.getDisplayOption('imageAssetConfigIdentifier', 'preview')) }}"
+                    {% endif %}
+                    class="img-responsive center-block" alt="{{ 'view.form.fields.asset.preview'|trans({'%label%': form_label(form)|striptags}) }}"
+                >
+            </div>
         </div>
 
-		  {% if form.children.files is defined %}
-			  <div class="tab-pane asset-list-tab{% if form.vars.value|length == 0 %} hidden{% endif %}" id="asset-list-tab-{{ form.vars.id }}">
+          {% if form.children.files is defined %}
+              <div class="tab-pane asset-list-tab{% if form.vars.value|length == 0 %} hidden{% endif %}" id="asset-list-tab-{{ form.vars.id }}">
 
-				  <ol class="nested-sortable vertical" data-nested-max-level="1" data-nested-is-tree="false" data-nested-handle="a.move-handle" data-file-list-index="{{ form.children.files.children|length }}">
-					  {% for fileItem in form.children.files.children %}
-						  {{ block('assettype_multiple_item') }}
-					  {% endfor %}
-				  </ol>
-			  </div>
-		{% endif %}
+                  <ol class="nested-sortable vertical" data-nested-max-level="1" data-nested-is-tree="false" data-nested-handle="a.move-handle" data-file-list-index="{{ form.children.files.children|length }}">
+                      {% for fileItem in form.children.files.children %}
+                          {{ block('assettype_multiple_item') }}
+                      {% endfor %}
+                  </ol>
+              </div>
+        {% endif %}
         {{- form_errors(form) -}}
       </div>
-	</div>
-	<div class="card-footer">
-		{% if form.vars.multiple|default(false) %}
-			<div class="btn-group">
-				<input type="file" id="file-upload-{{ form.vars.id }}" class="file-uploader-input" {% if form.vars.disabled %}disabled="disabled"{% endif %} multiple="multiple">
-				<label class="btn btn-default" for="file-upload-{{ form.vars.id }}"><i class="fa fa-upload"></i> {{ 'fields.asset.upload-files'|trans|e('html_attr') }}</label>
-			</div>
-		{% else %}
-			<div class="btn-group">
+    </div>
+    <div class="card-footer">
+        {% if form.vars.multiple|default(false) %}
+            <div class="btn-group">
+                <input type="file" id="file-upload-{{ form.vars.id }}" class="file-uploader-input" {% if form.vars.disabled %}disabled="disabled"{% endif %} multiple="multiple">
+                <label class="btn btn-default" for="file-upload-{{ form.vars.id }}"><i class="fa fa-upload"></i> {{ 'fields.asset.upload-files'|trans|e('html_attr') }}</label>
+            </div>
+        {% else %}
+            <div class="btn-group">
                 <label class="btn btn-default" for="file-upload-{{ form.vars.id }}"><i class="fa fa-upload"></i> {{ 'fields.asset.upload-file'|trans|e('html_attr') }}</label>
                 <input type="file" id="file-upload-{{ form.vars.id }}" class="file-uploader-input" {% if form.vars.disabled %}disabled="disabled"{% endif %}>
                 <button type="button" data-href="{{ path('ems_core_uploaded_file_wysiwyg_modal') }}"  class="btn btn-small btn-default file-browse-server">
                     <i class="fa fa-folder-open"></i><span class="visually-hidden">{{ 'fields.asset.browse-server'|trans }}</span>
                 </button>
-			</div>
-			<div class="btn-group">
-				<button type="button" class="btn btn-small btn-default asset-details" data-bs-toggle="modal" data-bs-target="#asst-details-{{ form.vars.id }}">
-				  	<i class="fa fa-info"></i>
-					{{ 'fields.asset.info-modal-button'|trans }}
-				</button>
-				<a href="{% if form.vars.value.sha1 is defined and form.vars.value.sha1 %}{{ ems_asset_path(form.vars.value) }}{% endif %}" class="btn btn-small btn-default view-asset-button {% if not form.children.sha1.vars.value %}disabled{% endif %}" target="_blank" alt="{{ 'fields.asset.view-button'|trans }}"><i class="fa fa-eye"></i> {{ 'fields.asset.view-button'|trans }}</a>
-				<a href="#" class="btn btn-small btn-default clear-asset-button  {% if not form.children.sha1.vars.value %}disabled{% endif %}" alt="{{ 'fields.asset.clear-button'|trans }}"><i class="fa fa-remove"></i>&nbsp;{{ 'fields.asset.clear-button'|trans }}</a>
-			</div>
-		{% endif %}
-	</div>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-small btn-default asset-details" data-bs-toggle="modal" data-bs-target="#asst-details-{{ form.vars.id }}">
+                      <i class="fa fa-info"></i>
+                    {{ 'fields.asset.info-modal-button'|trans }}
+                </button>
+                <a href="{% if form.vars.value.sha1 is defined and form.vars.value.sha1 %}{{ ems_asset_path(form.vars.value) }}{% endif %}" class="btn btn-small btn-default view-asset-button {% if not form.children.sha1.vars.value %}disabled{% endif %}" target="_blank" alt="{{ 'fields.asset.view-button'|trans }}"><i class="fa fa-eye"></i> {{ 'fields.asset.view-button'|trans }}</a>
+                <a href="#" class="btn btn-small btn-default clear-asset-button  {% if not form.children.sha1.vars.value %}disabled{% endif %}" alt="{{ 'fields.asset.clear-button'|trans }}"><i class="fa fa-remove"></i>&nbsp;{{ 'fields.asset.clear-button'|trans }}</a>
+            </div>
+        {% endif %}
+    </div>
 </div>
 {% endblock assettype_row %}
 
-
 {% block filetype_row %}
 <div {% with {attr: row_attr|merge({class: 'card card-default file-uploader-row'})} %}{{ block('attributes') }}{% endwith %} {% if form.vars.meta_fields %}data-meta-fields{% endif %}>
-	<div class="card-heading">
-		<h3 class="card-title m-2">
-			<i class="fa fa-file"></i>
-			{{ form_label(form) }}
-		</h3>
-	</div>
-	<div class="card-body" >
-		<div class="modal" tabindex="-1" role="dialog" id="asst-details-{{ form.vars.id }}">
+    <div class="card-heading">
+        <h3 class="card-title m-2">
+            <i class="fa fa-file"></i>
+            {{ form_label(form) }}
+        </h3>
+    </div>
+    <div class="card-body" >
+        <div class="modal" tabindex="-1" role="dialog" id="asst-details-{{ form.vars.id }}">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-        		<h4 class="modal-title" id="myModalLabel">{{ 'Asset options'|trans }}</h4>
-			  	<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'action.close'|trans({}, 'emsco-core') }}"></button>
+                <h4 class="modal-title" id="myModalLabel">{{ 'Asset options'|trans }}</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'action.close'|trans({}, 'emsco-core') }}"></button>
               </div>
               <div class="modal-body">
-              	<div class="form-group">
-              		<label>{{ 'Hash signature'|trans }}</label>
-              		<div class="form-control asset-hash-signature">{% if form.vars.value.sha1 is defined %}{{ form.vars.value.sha1 }}{% endif %}</div>
-              	</div>
-        		{{- form_widget(form) -}}
+                  <div class="form-group">
+                      <label>{{ 'Hash signature'|trans }}</label>
+                      <div class="form-control asset-hash-signature">{% if form.vars.value.sha1 is defined %}{{ form.vars.value.sha1 }}{% endif %}</div>
+                  </div>
+                {{- form_widget(form) -}}
               </div>
               <div class="modal-footer">
-				<div class="btn-group">
-					{% if form.vars.meta_fields %}
-						<button type="button" class="btn btn-small btn-default extract-file-info" >
-							<i class="fa fa-bolt"></i>
-							{{ 'Extract content'|trans }}
-						</button>
-					{% endif %}
+                <div class="btn-group">
+                    {% if form.vars.meta_fields %}
+                        <button type="button" class="btn btn-small btn-default extract-file-info" >
+                            <i class="fa fa-bolt"></i>
+                            {{ 'Extract content'|trans }}
+                        </button>
+                    {% endif %}
                     <button type="button" class="btn btn-small btn-default " data-bs-dismiss="modal"><i class="fa fa-close"></i> Close</button>
                 </div>
               </div>
@@ -1207,51 +1181,49 @@
       <!-- Tab panes -->
       <div class="tab-content" id="asset-tabs-{{ form.vars.id }}">
         <div role="tabpanel" class="tab-pane {% if form.vars.value.sha1 is not defined or not form.vars.value.sha1 %}active{% endif %} asset-upload-tab" id="asset-upload-tab-{{ form.vars.id }}">
-    		<p class="text-center asset-preview">
+            <p class="text-center asset-preview">
                 <strong>{{ 'Drag and drop your file here' }}</strong>
             </p>
-    		<div class="progress-group">
-            	<span class="progress-text">&nbsp;</span>
-    			<span class="progress-number">&nbsp;</span>
-    			<div class="progress sm">
-    				<div class="progress-bar" style="width: {% if form.children.sha1.vars.value %}100{% else %}0{% endif %}%"></div>
-    			</div>
-    		</div>
+            <div class="progress-group">
+                <span class="progress-text">&nbsp;</span>
+                <span class="progress-number">&nbsp;</span>
+                <div class="progress sm">
+                    <div class="progress-bar" style="width: {% if form.children.sha1.vars.value %}100{% else %}0{% endif %}%"></div>
+                </div>
+            </div>
         </div>
         <div role="tabpanel" class="tab-pane asset-preview-tab {% if form.vars.value.sha1 is defined and form.vars.value.sha1 %}active{% endif %}" id="asset-preview-tab-{{ form.vars.id }}">
-        	<div class="text-center">
-            	<img
-            		data-src="{{ path('ems_asset_processor', {'hash':'_asset_hash_', 'processor': 'preview', 'type':'_asset_mimetype_', 'name': '_asset_name_' }) }}"
-            		{% if form.vars.value.sha1 is defined and form.vars.value.sha1 %}
-            			src="{{ path('ems_asset_processor', {'hash': form.vars.value._image_resized_hash ?? form.vars.value.sha1, 'processor': 'preview', 'type':form.vars.value.mimetype, 'name':form.vars.value.filename }) }}"
-            		{% endif %}
-            		class="img-responsive center-block" alt="Preview of the field {{ form_label(form)|striptags }}"
-            	>
-	        </div>
+            <div class="text-center">
+                <img
+                    data-src="{{ path('ems_asset_processor', {hash: '_asset_hash_', processor: 'preview', type: '_asset_mimetype_', name: '_asset_name_'}) }}"
+                    {% if form.vars.value.sha1 is defined and form.vars.value.sha1 %}
+                        src="{{ path('ems_asset_processor', {hash: form.vars.value._image_resized_hash ?? form.vars.value.sha1, processor: 'preview', type: form.vars.value.mimetype, name: form.vars.value.filename}) }}"
+                    {% endif %}
+                    class="img-responsive center-block" alt="Preview of the field {{ form_label(form)|striptags }}"
+                >
+            </div>
         </div>
       </div>
-	</div>
-	<div class="card-footer">
-		<div class="btn-group">
+    </div>
+    <div class="card-footer">
+        <div class="btn-group">
             <label for="upload-{{ form.vars.id }}" class="btn btn-default"><i class="fa fa-upload"></i> Upload file</label>
             <input type="file" id="upload-{{ form.vars.id }}" class="file-uploader-input">
             <button type="button" data-href="{{ path('ems_core_uploaded_file_wysiwyg_modal') }}"  class="btn btn-small btn-default file-browse-server">
                 <i class="fa fa-folder-open"></i><span class="visually-hidden">{{ 'fields.asset.browse-server'|trans }}</span>
             </button>
         </div>
-		<div class="btn-group">
-			<button type="button" class="btn btn-small btn-default asset-details" data-bs-toggle="modal" data-bs-target="#asst-details-{{ form.vars.id }}">
+        <div class="btn-group">
+            <button type="button" class="btn btn-small btn-default asset-details" data-bs-toggle="modal" data-bs-target="#asst-details-{{ form.vars.id }}">
               <i class="fa fa-info"></i>
               {{ 'Info'|trans }}
             </button>
-			<a href="#" class="btn btn-small btn-default view-asset-button {% if not form.children.sha1.vars.value %}disabled{% endif %}" target="_blank" alt="{{'View'|trans}}"><i class="fa fa-eye"></i>&nbsp;{{'View'|trans}}</a>
-			<a href="#" class="btn btn-small btn-default clear-asset-button  {% if not form.children.sha1.vars.value %}disabled{% endif %}" alt="{{'Clear'|trans}}"><i class="fa fa-remove"></i>&nbsp;{{'Clear'|trans}}</a>
-		</div>
-	</div>
+            <a href="#" class="btn btn-small btn-default view-asset-button {% if not form.children.sha1.vars.value %}disabled{% endif %}" target="_blank" alt="{{ 'View'|trans }}"><i class="fa fa-eye"></i>&nbsp;{{ 'View'|trans }}</a>
+            <a href="#" class="btn btn-small btn-default clear-asset-button  {% if not form.children.sha1.vars.value %}disabled{% endif %}" alt="{{ 'Clear'|trans }}"><i class="fa fa-remove"></i>&nbsp;{{ 'Clear'|trans }}</a>
+        </div>
+    </div>
 </div>
 {% endblock filetype_row %}
-
-
 
 {% block fieldTypeType_row -%}
 <div class="col-12 mt-4">
@@ -1280,8 +1252,8 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'action.close'|trans({}, 'emsco-core') }}"></button>
                           </div>
                           <div class="modal-body">
-                            {{ form_row( attribute(form, 'ems:internal:add:field:class')) }}
-                            {{ form_row( attribute(form, 'ems:internal:add:field:name')) }}
+                            {{ form_row(attribute(form, 'ems:internal:add:field:class')) }}
+                            {{ form_row(attribute(form, 'ems:internal:add:field:name')) }}
                           </div>
                           <div class="modal-footer">
                             <div class="btn-group">
@@ -1308,7 +1280,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'action.close'|trans({}, 'emsco-core') }}"></button>
                           </div>
                           <div class="modal-body">
-                            {{ form_row( attribute(form, 'ems:internal:add:subfield:name')) }}
+                            {{ form_row(attribute(form, 'ems:internal:add:subfield:name')) }}
                           </div>
                           <div class="modal-footer">
                             <div class="btn-group">
@@ -1329,7 +1301,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'action.close'|trans({}, 'emsco-core') }}"></button>
                           </div>
                           <div class="modal-body">
-                            {{ form_row( attribute(form, 'ems:internal:add:subfield:target_name')) }}
+                            {{ form_row(attribute(form, 'ems:internal:add:subfield:target_name')) }}
                           </div>
                           <div class="modal-footer">
                             <div class="btn-group">
@@ -1340,7 +1312,7 @@
                         </div>
                       </div>
                     </div>
-                    {% if form.vars.editSubfields  %}
+                    {% if form.vars.editSubfields %}
                         <button type="button" class="btn btn-primary btn-xs" data-bs-toggle="modal" data-bs-target="#{{ form.vars.id }}_modal_add">
                             <i class="fa fa-plus"></i> Subfield
                         </button>
@@ -1365,31 +1337,31 @@
                                 <div class="card card-{{ theme_color }} card-outline card-outline-tabs">
                                     <div class="card-header p-0 border-bottom-0">
                                         <ul class="nav nav-tabs" role="tablist">
-                                            {% set active=' active' %}
+                                            {% set active = ' active' %}
                                             {% if form.options.displayOptions is defined %}
-                                                <li class="nav-item{{ active }}"><a href="#tab_display_{{ form.vars.id }}" data-bs-target="#tab_display_{{ form.vars.id }}" class="nav-link{% if active != ''%} active{% endif %}" data-bs-toggle="pill" aria-selected="{% if active != ''%}true{%else%}false{% endif %}">Display</a></li>
-                                                {% set active='' %}
-                                            {%  endif %}
+                                                <li class="nav-item{{ active }}"><a href="#tab_display_{{ form.vars.id }}" data-bs-target="#tab_display_{{ form.vars.id }}" class="nav-link{% if active != '' %} active{% endif %}" data-bs-toggle="pill" aria-selected="{% if active != '' %}true{% else %}false{% endif %}">Display</a></li>
+                                                {% set active = '' %}
+                                            {% endif %}
                                             {% if form.options.mappingOptions is defined %}
-                                                <li class="nav-item{{ active }}"><a href="#tab_mapping_{{ form.vars.id }}" data-bs-target="#tab_mapping_{{ form.vars.id }}" class="nav-link{% if active != ''%} active{% endif %}" data-bs-toggle="pill" aria-selected="{% if active != ''%}true{%else%}false{% endif %}">Mapping</a></li>
-                                                {% set active='' %}
-                                            {%  endif %}
+                                                <li class="nav-item{{ active }}"><a href="#tab_mapping_{{ form.vars.id }}" data-bs-target="#tab_mapping_{{ form.vars.id }}" class="nav-link{% if active != '' %} active{% endif %}" data-bs-toggle="pill" aria-selected="{% if active != '' %}true{% else %}false{% endif %}">Mapping</a></li>
+                                                {% set active = '' %}
+                                            {% endif %}
                                             {% if form.options.restrictionOptions is defined %}
-                                              <li class="nav-item{{ active }}"><a href="#tab_restriction_{{ form.vars.id }}" data-bs-target="#tab_restriction_{{ form.vars.id }}" class="nav-link{% if active != ''%} active{% endif %}" data-bs-toggle="pill" aria-selected="{% if active != ''%}true{%else%}false{% endif %}">Restriction</a></li>
-                                                {% set active='' %}
-                                            {%  endif %}
+                                              <li class="nav-item{{ active }}"><a href="#tab_restriction_{{ form.vars.id }}" data-bs-target="#tab_restriction_{{ form.vars.id }}" class="nav-link{% if active != '' %} active{% endif %}" data-bs-toggle="pill" aria-selected="{% if active != '' %}true{% else %}false{% endif %}">Restriction</a></li>
+                                                {% set active = '' %}
+                                            {% endif %}
                                             {% if form.options.migrationOptions is defined %}
-                                              <li class="nav-item{{ active }}"><a href="#tab_migration_{{ form.vars.id }}" data-bs-target="#tab_migration_{{ form.vars.id }}" class="nav-link{% if active != ''%} active{% endif %}" data-bs-toggle="pill" aria-selected="{% if active != ''%}true{%else%}false{% endif %}">Migration</a></li>
-                                                {% set active='' %}
-                                            {%  endif %}
+                                              <li class="nav-item{{ active }}"><a href="#tab_migration_{{ form.vars.id }}" data-bs-target="#tab_migration_{{ form.vars.id }}" class="nav-link{% if active != '' %} active{% endif %}" data-bs-toggle="pill" aria-selected="{% if active != '' %}true{% else %}false{% endif %}">Migration</a></li>
+                                                {% set active = '' %}
+                                            {% endif %}
                                             {% if form.options.extraOptions is defined %}
-                                              <li class="nav-item{{ active }}"><a href="#tab_extra_{{ form.vars.id }}" data-bs-target="#tab_extra_{{ form.vars.id }}" class="nav-link{% if active != ''%} active{% endif %}" data-bs-toggle="pill" aria-selected="{% if active != ''%}true{%else%}false{% endif %}">Extra</a></li>
-                                                {% set active='' %}
-                                            {%  endif %}
+                                              <li class="nav-item{{ active }}"><a href="#tab_extra_{{ form.vars.id }}" data-bs-target="#tab_extra_{{ form.vars.id }}" class="nav-link{% if active != '' %} active{% endif %}" data-bs-toggle="pill" aria-selected="{% if active != '' %}true{% else %}false{% endif %}">Extra</a></li>
+                                                {% set active = '' %}
+                                            {% endif %}
                                         </ul>
                                     </div>
                                     <div class="card-body">
-                                        {{- form_widget(form.options, {'seed': form.vars.id} ) -}}
+                                        {{- form_widget(form.options, {seed: form.vars.id}) -}}
                                     </div>
                                 </div>
                           </div>
@@ -1420,7 +1392,7 @@
                                     <li class="list-group-item">
                                         <i class="glyphicon glyphicon-move"></i>
                                         {{ child.name }}
-                                        {{ form_row( attribute(attribute(form, 'ems_'~child.name), 'name')) }}
+                                        {{ form_row(attribute(attribute(form, 'ems_' ~ child.name), 'name')) }}
                                     </li>
                                 {% endfor %}
                             </ul>
@@ -1448,7 +1420,7 @@
         {% endif %}
 
         {% if form.options is defined and not form.vars.editSubfields %}
-            {{- form_widget(form.options, {'seed': form.vars.id, 'editSubfields': false} ) -}}
+            {{- form_widget(form.options, {seed: form.vars.id, editSubfields: false}) -}}
         {% endif %}
 
         {% if form.rendered == false and form.vars.data.children is defined and form.vars.data.children|filter(child => not child.deleted)|length > 0 %}
@@ -1461,16 +1433,16 @@
 {%- endblock fieldTypeType_row %}
 
 {%- block ems_version_tag_row -%}
-	{% if form.value is defined %}
-		{{- form_row(form.value) -}}
-	{% endif %}
+    {% if form.value is defined %}
+        {{- form_row(form.value) -}}
+    {% endif %}
 {%- endblock ems_version_tag_row -%}
 
 {%- block data_field_migration_transformer_row -%}
-	<div>
-		{{ form_row(form.class) }}
-		{{ form_row(form.config) }}
-	</div>
+    <div>
+        {{ form_row(form.class) }}
+        {{ form_row(form.config) }}
+    </div>
 {%- endblock -%}
 
 {% block textarea_help %}
@@ -1481,29 +1453,29 @@
 {% endblock textarea_help %}
 
 {% block edit_image_widget %}
-	<div class="ems-cropper">
-		<div>
-			<img src="{{ ems_asset_path(form.vars.value.file) }}">
-		</div>
-		<div class="btn-toolbar d-flex justify-content-center mt-2" role="toolbar">
-			<div class="btn-group me-2" role="group" aria-label="{{ 'edit_image.rotate.group'|trans }}">
-				<button type="button" class="btn btn-primary ems-cropper-rotate-left" title="{{ 'edit_image.rotate.left'|trans }}"><i class="fa fa-rotate-left"></i><span class="visually-hidden">{{ 'edit_image.rotate.left'|trans }}</span></button>
-				<button type="button" class="btn btn-primary ems-cropper-rotate-right" title="{{ 'edit_image.rotate.right'|trans }}"><i class="fa fa-rotate-right"></i><span class="visually-hidden"{{ 'edit_image.rotate.right'|trans }}</span></button>
-			</div>
-			<div class="btn-group me-2" role="group" aria-label="{{ 'edit_image.flip.group'|trans }}">
-				<button type="button" class="btn btn-primary ems-cropper-flip-horizontal" title="{{ 'edit_image.flip.horizontal'|trans }}"><i class="fa-solid fa-arrows-left-right"></i><span class="visually-hidden">{{ 'edit_image.flip.horizontal'|trans }}</span></button>
-				<button type="button" class="btn btn-primary ems-cropper-flip-vertical" title="{{ 'edit_image.flip.vertical'|trans }}"><i class="fa-solid fa-arrows-up-down"></i><span class="visually-hidden"{{ 'edit_image.flip.vertical'|trans }}</span></i></button>
-			</div>
-			<div class="btn-group me-2" role="group" aria-label="{{ 'edit_image.zoom.group'|trans }}">
-				<button type="button" class="btn btn-primary ems-cropper-zoom-out" title="{{ 'edit_image.zoom.minus'|trans }}"><i class="fa fa-magnifying-glass-minus"></i><span class="visually-hidden">{{ 'edit_image.zoom.minus'|trans }}</span></button>
-				<button type="button" class="btn btn-primary ems-cropper-zoom-in" title="{{ 'edit_image.zoom.plus'|trans }}"><i class="fa fa-magnifying-glass-plus"></i><span class="visually-hidden">{{ 'edit_image.zoom.plus'|trans }}</span></button>
-				<button type="button" class="btn btn-primary ems-cropper-zoom-reset" title="{{ 'edit_image.zoom.reset'|trans }}"><i class="fa-solid fa-expand"></i><span class="visually-hidden">{{ 'edit_image.zoom.reset'|trans }}</span></button>
-			</div>
-		</div>
-		<div>
-			{{ block('form_widget') }}
-		</div>
-	</div>
+    <div class="ems-cropper">
+        <div>
+            <img src="{{ ems_asset_path(form.vars.value.file) }}">
+        </div>
+        <div class="btn-toolbar d-flex justify-content-center mt-2" role="toolbar">
+            <div class="btn-group me-2" role="group" aria-label="{{ 'edit_image.rotate.group'|trans }}">
+                <button type="button" class="btn btn-primary ems-cropper-rotate-left" title="{{ 'edit_image.rotate.left'|trans }}"><i class="fa fa-rotate-left"></i><span class="visually-hidden">{{ 'edit_image.rotate.left'|trans }}</span></button>
+                <button type="button" class="btn btn-primary ems-cropper-rotate-right" title="{{ 'edit_image.rotate.right'|trans }}"><i class="fa fa-rotate-right"></i><span class="visually-hidden"{{ 'edit_image.rotate.right'|trans }}</span></button>
+            </div>
+            <div class="btn-group me-2" role="group" aria-label="{{ 'edit_image.flip.group'|trans }}">
+                <button type="button" class="btn btn-primary ems-cropper-flip-horizontal" title="{{ 'edit_image.flip.horizontal'|trans }}"><i class="fa-solid fa-arrows-left-right"></i><span class="visually-hidden">{{ 'edit_image.flip.horizontal'|trans }}</span></button>
+                <button type="button" class="btn btn-primary ems-cropper-flip-vertical" title="{{ 'edit_image.flip.vertical'|trans }}"><i class="fa-solid fa-arrows-up-down"></i><span class="visually-hidden"{{ 'edit_image.flip.vertical'|trans }}</span></i></button>
+            </div>
+            <div class="btn-group me-2" role="group" aria-label="{{ 'edit_image.zoom.group'|trans }}">
+                <button type="button" class="btn btn-primary ems-cropper-zoom-out" title="{{ 'edit_image.zoom.minus'|trans }}"><i class="fa fa-magnifying-glass-minus"></i><span class="visually-hidden">{{ 'edit_image.zoom.minus'|trans }}</span></button>
+                <button type="button" class="btn btn-primary ems-cropper-zoom-in" title="{{ 'edit_image.zoom.plus'|trans }}"><i class="fa fa-magnifying-glass-plus"></i><span class="visually-hidden">{{ 'edit_image.zoom.plus'|trans }}</span></button>
+                <button type="button" class="btn btn-primary ems-cropper-zoom-reset" title="{{ 'edit_image.zoom.reset'|trans }}"><i class="fa-solid fa-expand"></i><span class="visually-hidden">{{ 'edit_image.zoom.reset'|trans }}</span></button>
+            </div>
+        </div>
+        <div>
+            {{ block('form_widget') }}
+        </div>
+    </div>
 {% endblock edit_image_widget %}
 
 {%- block action_row -%}

@@ -9,7 +9,7 @@ use Build\Release\Application;
 use Build\Release\Command;
 
 $application = new Application();
-$application->add(new Command\ChangelogCommand());
-$application->add(new Command\ReleaseCommand());
+$application->addCommand(new Command\ChangelogCommand());
+$application->addCommand(new Command\ReleaseCommand());
 
 $application->run();

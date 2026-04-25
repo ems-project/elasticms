@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const ESLintPlugin = require("eslint-webpack-plugin");
 
 module.exports = {
     mode: 'production',
@@ -20,13 +21,14 @@ module.exports = {
         })],
     },
     plugins: [
+        new ESLintPlugin({
+          extensions: ["js", "ts"],
+          emitWarning: true, // optionnel
+        }),
         new WebpackManifestPlugin({'publicPath': 'bundles/emsform/'}),
         new CleanWebpackPlugin({
             cleanOnceBeforeBuildPatterns: ['**/*', '!static/**'],
         }),
-        new webpack.ProvidePlugin({
-            Promise: 'core-js-pure/features/promise'
-        })
     ],
     output: {
         filename: 'js/[name].js',
@@ -43,6 +45,10 @@ module.exports = {
     module: {
         rules: [
             {
+                test: /\.m?js$/,
+                resolve: { fullySpecified: false },
+            },
+            {
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader']
             },
@@ -51,17 +57,6 @@ module.exports = {
                 use: [
                     { loader: 'url-loader', options: { limit: 10000, name: 'img/[name].[ext]' } }
                 ]
-            },
-            {
-                enforce: 'pre',
-                test: /\.js$/,
-                exclude: /node_modules/,
-                loader: 'eslint-loader',
-            },
-            {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                use: { loader: 'babel-loader' }
             }
         ],
     }

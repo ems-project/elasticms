@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Tests\Unit\Common\CoreApi\Exception;
 
 use EMS\CommonBundle\Common\CoreApi\Exception\NotAuthenticatedException;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class NotAuthenticatedExceptionAiTest extends TestCase
 {
+    #[AllowMockObjectsWithoutExpectations]
     public function testExceptionMessageAndCode(): void
     {
         $httpCode = 401;

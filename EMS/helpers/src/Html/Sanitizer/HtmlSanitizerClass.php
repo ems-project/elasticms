@@ -46,6 +46,6 @@ class HtmlSanitizerClass implements AttributeSanitizerInterface
             $classNames = \array_filter($classNames, fn (string $className) => !\in_array($className, $this->settings['drop']));
         }
 
-        return \count($classNames) > 0 ? \implode(' ', $classNames) : null;
+        return [] !== $classNames ? \implode(' ', $classNames) : null;
     }
 }

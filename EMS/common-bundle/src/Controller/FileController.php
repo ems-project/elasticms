@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Controller;
 
-use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Storage\Processor\Processor;
-use EMS\CommonBundle\Twig\RequestRuntime;
 use EMS\Helpers\File\File;
 use EMS\Helpers\Html\Headers;
 use EMS\Helpers\Standard\Json;
@@ -14,15 +12,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class FileController extends AbstractController
 {
-    public function __construct(private readonly Processor $processor, private readonly RequestRuntime $requestRuntime)
-    {
+    public function __construct(
+        private readonly Processor $processor
+    ) {
     }
 
     public function asset(Request $request, string $hash, string $hash_config, string $filename): Response
@@ -41,24 +39,6 @@ class FileController extends AbstractController
         $this->closeSession($request);
 
         return $this->processor->resolveAndGetResponse($request, $fileField, $configArray);
-    }
-
-    public function view(Request $request, string $sha1): Response
-    {
-        @\trigger_error('FileController::view is deprecated use the ems_asset twig filter to generate the route', E_USER_DEPRECATED);
-
-        $this->closeSession($request);
-
-        return $this->getFile($request, $sha1, ResponseHeaderBag::DISPOSITION_INLINE);
-    }
-
-    public function download(Request $request, string $sha1): Response
-    {
-        @\trigger_error('FileController::download is deprecated use the ems_asset twig filter to generate the route', E_USER_DEPRECATED);
-
-        $this->closeSession($request);
-
-        return $this->getFile($request, $sha1, ResponseHeaderBag::DISPOSITION_ATTACHMENT);
     }
 
     public function generateLocalImage(Request $request, string $filename, string $config = '[]'): Response
@@ -98,48 +78,29 @@ class FileController extends AbstractController
 
         try {
             return $this->processor->getResponseFromArchive($request, $hash, $path, $maxAge, $extract, $indexResource);
-        } catch (NotFoundHttpException $e) {
+        } catch (NotFoundHttpException $notFoundHttpException) {
             if (null === $notFoundTemplate) {
-                throw $e;
+                throw $notFoundHttpException;
             }
         }
 
         try {
             $response = $this->render($notFoundTemplate, [
-                'error' => $e,
+                'error' => $notFoundHttpException,
                 'hash' => $hash,
                 'path' => $path,
                 'maxAge' => $maxAge,
                 'extract' => $extract,
                 'indexResource' => $indexResource,
             ]);
-            $response->setStatusCode(404);
+            $response->setStatusCode(Response::HTTP_NOT_FOUND);
 
             return $response;
-        } catch (\Throwable $e) {
-            throw $e->getPrevious() instanceof HttpException ? $e->getPrevious() : $e;
+        } catch (\Throwable $throwable) {
+            throw $throwable->getPrevious() instanceof HttpException ? $throwable->getPrevious() : $throwable;
         }
     }
 
-    private function getFile(Request $request, string $hash, string $disposition): Response
-    {
-        @\trigger_error('FileController::download is deprecated use the ems_asset twig filter to generate the route', E_USER_DEPRECATED);
-
-        $name = $request->query->get('name', 'upload.bin');
-        $type = $request->query->get('type', 'application/bin');
-
-        return $this->redirect($this->requestRuntime->assetPath([
-            EmsFields::CONTENT_FILE_HASH_FIELD => $hash,
-            EmsFields::CONTENT_FILE_NAME_FIELD => $name,
-            EmsFields::CONTENT_MIME_TYPE_FIELD => $type,
-        ], [
-            EmsFields::ASSET_CONFIG_DISPOSITION => $disposition,
-        ]));
-    }
-
-    /**
-     * http://blog.alterphp.com/2012/08/how-to-deal-with-asynchronous-request.html.
-     */
     private function closeSession(Request $request): void
     {
         if (!$request->hasSession(true)) {

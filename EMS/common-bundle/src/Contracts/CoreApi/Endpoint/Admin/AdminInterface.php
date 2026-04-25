@@ -56,4 +56,10 @@ interface AdminInterface
     public function getVersions(): array;
 
     public function getCoreVersion(): string;
+
+    /**
+     * @param  string[]                          $events
+     * @return array{id: string, secret: string}
+     */
+    public function registerToWebhooks(string $endpointUrl, array $events): array;
 }

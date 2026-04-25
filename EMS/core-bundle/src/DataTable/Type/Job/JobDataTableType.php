@@ -49,7 +49,7 @@ class JobDataTableType extends AbstractEntityTableType
         $table->addColumnDefinition(new TemplateBlockTableColumn(
             label: t('field.status', [], 'emsco-core'),
             blockName: 'jobStatus',
-            template: "@$this->templateNamespace/datatable/template_block_columns.html.twig",
+            template: \sprintf('@%s/datatable/template_block_columns.html.twig', $this->templateNamespace),
             orderField: 'progress'
         ));
 
@@ -58,6 +58,13 @@ class JobDataTableType extends AbstractEntityTableType
             labelKey: t('action.status', [], 'emsco-core'),
             icon: 'eye',
             attributes: ['data-testid' => 'btn-action-status'],
+        );
+        $table->addItemPostAction(
+            route: 'emsco_job_relaunch',
+            labelKey: t('action.relaunch', [], 'emsco-core'),
+            icon: 'recycle',
+            messageKey: t('type.confirm', ['type' => 'relaunch_job'], 'emsco-core'),
+            attributes: ['data-testid' => 'btn-action-relaunch'],
         );
 
         $this

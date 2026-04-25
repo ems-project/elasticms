@@ -20,6 +20,6 @@ class EMSAdminUIBundle extends AbstractBundle
     #[\Override]
     public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
     {
-        $container->import(__DIR__.'/../config/services.xml');
+        $container->import('../config/services.php');
     }
 }

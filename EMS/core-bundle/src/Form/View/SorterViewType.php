@@ -195,13 +195,13 @@ class SorterViewType extends ViewType
                 'view_label' => $view->getLabel(),
             ]);
 
-            return new RedirectResponse($this->router->generate('data.draft_in_progress', [
+            return new RedirectResponse($this->router->generate('emsco_draft_in_progress', [
                 'contentTypeId' => $view->getContentType()->getId(),
             ], UrlGeneratorInterface::RELATIVE_PATH));
         }
 
         $response = new Response();
-        $response->setContent($this->twig->render("@$this->templateNamespace/view/custom/".$this->getBlockPrefix().'.html.twig', [
+        $response->setContent($this->twig->render(\sprintf('@%s/view/custom/', $this->templateNamespace).$this->getBlockPrefix().'.html.twig', [
             'response' => $emsResponse,
             'view' => $view,
             'form' => $form->createView(),

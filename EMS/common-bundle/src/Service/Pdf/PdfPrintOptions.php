@@ -89,7 +89,7 @@ class PdfPrintOptions
 
     public function isRemoteEnabled(): bool
     {
-        return \count($this->allowedRemoteHosts) > 0;
+        return [] !== $this->allowedRemoteHosts;
     }
 
     /**

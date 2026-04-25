@@ -1,14 +1,14 @@
 {% extends '@EMSAdminUI/bootstrap5/view/custom/abstract.html.twig' %}
 
 {% block body %}
-	<div class="row">
-    	<div class="col-md-12">
-            {% include "@EMSAdminUI/bootstrap5/elasticsearch/search-form-filter.html.twig" with {
-				form: form,
-			} %}
-		</div>
-	</div>
-	<!-- /.row -->
+    <div class="row">
+        <div class="col-md-12">
+            {{ include('@EMSAdminUI/bootstrap5/elasticsearch/search-form-filter.html.twig', {
+                form: form,
+            }) }}
+        </div>
+    </div>
+    <!-- /.row -->
       <div class="row">
         <div class="col-md-12">
           <div class="box box-primary">

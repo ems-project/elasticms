@@ -32,7 +32,7 @@ final readonly class RevisionTask implements DashboardInterface
     public function getResponse(Dashboard $dashboard): Response
     {
         $request = $this->requestStack->getCurrentRequest();
-        $tab = $request?->get('tab', TasksDataTableContext::TAB_USER);
+        $tab = $request?->query->getString('tab', TasksDataTableContext::TAB_USER);
         $tabs = $this->getDashboardTabs();
 
         if (!\in_array($tab, $tabs, true)) {
@@ -43,7 +43,7 @@ final readonly class RevisionTask implements DashboardInterface
         $form = $this->formFactory->create(TableType::class, $table);
         $form->handleRequest($request);
 
-        return new Response($this->twig->render("@$this->templateNamespace/revision/task/dashboard.html.twig", \array_filter([
+        return new Response($this->twig->render(\sprintf('@%s/revision/task/dashboard.html.twig', $this->templateNamespace), \array_filter([
             'table' => $table,
             'formTable' => $form->createView(),
             'currentTab' => $tab,

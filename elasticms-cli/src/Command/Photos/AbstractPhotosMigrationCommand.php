@@ -16,8 +16,8 @@ use Symfony\Component\Mime\MimeTypes;
 
 abstract class AbstractPhotosMigrationCommand extends AbstractCommand
 {
-    private const OPTION_CONTENT_TYPE_NAME = 'content-type-name';
-    private const OPTION_UPLOAD_ORIGINAL = 'upload-original';
+    private const string OPTION_CONTENT_TYPE_NAME = 'content-type-name';
+    private const string OPTION_UPLOAD_ORIGINAL = 'upload-original';
     private string $contentTypeName;
     private PhotosLibraryInterface $library;
     private readonly MimeTypes $mimeTypes;

@@ -12,6 +12,6 @@ class Expression extends AbstractValidation
     #[\Override]
     public function getConstraint(): Constraint
     {
-        return new IsExpression(['expression' => $this->value]);
+        return new IsExpression(expression: $this->value);
     }
 }

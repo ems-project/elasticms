@@ -105,7 +105,7 @@ class ConfigManager
             new ObjectNormalizer(null, null, null, $propertyTypeExtractor),
         ], [
             new XmlEncoder(),
-            new JsonEncoder(new JsonEncode([JsonEncode::OPTIONS => JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES]), null),
+            new JsonEncoder(new JsonEncode([JsonEncode::OPTIONS => JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES])),
         ]);
     }
 
@@ -157,7 +157,7 @@ class ConfigManager
      */
     public function getHosts(): array
     {
-        if (empty($this->hosts)) {
+        if ([] === $this->hosts) {
             foreach ($this->documents as $document) {
                 foreach ($document->getResources() as $resource) {
                     $url = new Url($resource->getUrl());
@@ -319,7 +319,7 @@ class ConfigManager
     public function urlToAssetArray(Url $url, Rapport $rapport): array
     {
         $asset = $this->cacheManager->get($url->getUrl());
-        if (!$asset->hasResponse() || 200 != $asset->getResponse()->getStatusCode() || $asset->isHtml()) {
+        if (!$asset->hasResponse() || 200 !== $asset->getResponse()->getStatusCode() || $asset->isHtml()) {
             $this->logger->warning(\sprintf('Impossible to download the asset %s', $url->getUrl()));
             $rapport->inAssetsError($url->getUrl(), $url->getReferer(), 'Impossible to download the asset');
 
@@ -337,7 +337,7 @@ class ConfigManager
             return [];
         }
 
-        if (0 === \strlen($hash)) {
+        if ('' === $hash) {
             throw new \RuntimeException('Unexpected empty hash');
         }
 
@@ -353,7 +353,7 @@ class ConfigManager
     {
         $assetArray = $this->urlToAssetArray($url, $rapport);
 
-        if (empty($assetArray)) {
+        if ([] === $assetArray) {
             return null;
         }
 
@@ -420,7 +420,7 @@ class ConfigManager
 
         $this->expressionLanguage->register(
             'uuid',
-            fn () => '(\\Ramsey\\Uuid\\Uuid::uuid4()->toString())',
+            fn () => '('.Uuid::class.'::uuid4()->toString())',
             fn ($arguments) => Uuid::uuid4()->toString()
         );
 
@@ -680,7 +680,7 @@ class ConfigManager
                 $path = '/'.$path;
             }
 
-            return $this->uploadMediaFile($config, $url, $rapport, $path, $attribute);
+            return $this->uploadMediaFile($config, $url, $rapport, $path);
         }
 
         return null;
@@ -689,7 +689,7 @@ class ConfigManager
     /**
      * @param array{regex: string, content_type: string, file_field: string, folder_field: string, path_field: string} $config
      */
-    private function uploadMediaFile(array $config, Url $url, Rapport $rapport, string $path, string $attribute): string
+    private function uploadMediaFile(array $config, Url $url, Rapport $rapport, string $path): string
     {
         $exploded = \explode('/', $path);
         $ouuid = null;

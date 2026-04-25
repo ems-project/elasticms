@@ -1,6 +1,3 @@
-includes:
-	- phpstan-baseline.neon
-
 parameters:
     tmpDir: %currentWorkingDirectory%/.cache/phpstan
     treatPhpDocTypesAsCertain: false
@@ -9,13 +6,19 @@ parameters:
         - %currentWorkingDirectory%/elasticms-admin/src
         - %currentWorkingDirectory%/elasticms-cli/src
         - %currentWorkingDirectory%/elasticms-web/src
+        - %currentWorkingDirectory%/EMS/admin-ui-bundle/config
         - %currentWorkingDirectory%/EMS/admin-ui-bundle/src
+        - %currentWorkingDirectory%/EMS/client-helper-bundle/config
         - %currentWorkingDirectory%/EMS/client-helper-bundle/src
+        - %currentWorkingDirectory%/EMS/common-bundle/config
         - %currentWorkingDirectory%/EMS/common-bundle/src
         - %currentWorkingDirectory%/EMS/core-bundle/migrations
+        - %currentWorkingDirectory%/EMS/core-bundle/config
         - %currentWorkingDirectory%/EMS/core-bundle/src
+        - %currentWorkingDirectory%/EMS/form-bundle/config
         - %currentWorkingDirectory%/EMS/form-bundle/src
         - %currentWorkingDirectory%/EMS/helpers/src
+        - %currentWorkingDirectory%/EMS/submission-bundle/config
         - %currentWorkingDirectory%/EMS/submission-bundle/src
         - %currentWorkingDirectory%/EMS/xliff/src
     excludePaths:

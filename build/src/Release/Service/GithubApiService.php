@@ -18,8 +18,8 @@ class GithubApiService
     /** @var ?string[] */
     private ?array $tags = null;
 
-    protected const ORG = 'ems-project';
-    protected const REPO = 'elasticms';
+    protected const string ORG = 'ems-project';
+    protected const string REPO = 'elasticms';
 
     public function __construct()
     {
@@ -117,6 +117,10 @@ class GithubApiService
 
         \usort($tags, static fn (string $a, string $b): int => \version_compare($b, $a));
         $versionIndex = \array_search($versionTag, $tags, true);
+
+        if (!\is_int($versionIndex)) {
+            throw new \RuntimeException('Invalid version index');
+        }
 
         $previousVersion = $tags[++$versionIndex] ?? null;
         if (null === $previousVersion) {

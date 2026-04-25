@@ -1,6 +1,5 @@
 parameters:
     #Deprecated parameters
-    env(ELASTICSEARCH_CLUSTER): '["http://localhost:9200"]'
     env(TIKA_SERVER): ''
     env(TIKA_DOWNLOAD_URL): 'http://apache.belnet.be/tika/tika-app-1.22.jar'
     env(EMS_PRIVATE_KEY): ''
@@ -32,7 +31,7 @@ parameters:
     env(LDAP_UID_KEY): ~
 
     #Parameters
-    env(EMS_ELASTICSEARCH_HOSTS): '%env(string:ELASTICSEARCH_CLUSTER)%'
+    env(EMS_ELASTICSEARCH_HOSTS): '[]'
     env(EMSCO_TIKA_SERVER): '%env(string:TIKA_SERVER)%'
     env(EMSCO_TIKA_DOWNLOAD_URL): '%env(string:TIKA_DOWNLOAD_URL)%'
     env(EMSCO_TIKA_MAX_CONTENT): 5120

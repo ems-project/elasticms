@@ -7,8 +7,8 @@ namespace EMS\CoreBundle\Command\ContentType;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManager;
-use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Elasticsearch\Exception\NotFoundException;
+use EMS\CoreBundle\Command\AbstractCoreCommand;
 use EMS\CoreBundle\Command\Revision\LockCommand;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Core\Revision\EventType;
@@ -32,13 +32,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 
-#[AsCommand(
-    name: Commands::CONTENT_TYPE_RECOMPUTE,
-    description: 'Recompute a content type.',
-    hidden: false,
-    aliases: ['ems:contenttype:recompute']
-)]
-final class RecomputeCommand extends AbstractCommand
+#[AsCommand(name: Commands::CONTENT_TYPE_RECOMPUTE, description: 'Recompute a content type.', aliases: ['ems:contenttype:recompute'], hidden: false)]
+final class RecomputeCommand extends AbstractCoreCommand
 {
     private EntityManager $em;
     private Connection $conn;
@@ -64,7 +59,7 @@ final class RecomputeCommand extends AbstractCommand
     private const string OPTION_DEEP = 'deep';
     private const string OPTION_QUERY = 'query';
 
-    private const string LOCK_BY = 'SYSTEM_RECOMPUTE';
+    private const string DEFAULT_USERNAME = 'SYSTEM_RECOMPUTE';
 
     public function __construct(
         private readonly DataService $dataService,
@@ -83,6 +78,7 @@ final class RecomputeCommand extends AbstractCommand
     #[\Override]
     protected function configure(): void
     {
+        parent::configure();
         $this
 
             ->addArgument(self::ARGUMENT_CONTENT_TYPE, InputArgument::REQUIRED, 'content type to recompute')
@@ -96,6 +92,7 @@ final class RecomputeCommand extends AbstractCommand
             ->addOption(self::OPTION_DEEP, null, InputOption::VALUE_NONE, 'deep recompute form will be submitted and transformers triggered')
             ->addOption(self::OPTION_QUERY, null, InputOption::VALUE_OPTIONAL, 'ES query', '{}')
         ;
+        $this->addUsernameOption(self::DEFAULT_USERNAME);
     }
 
     #[\Override]
@@ -108,6 +105,7 @@ final class RecomputeCommand extends AbstractCommand
         /** @var EntityManager $em */
         $em = $this->doctrine->getManager();
         $this->em = $em;
+
         $this->conn = $em->getConnection();
 
         $contentTypeName = $this->getArgumentString(self::ARGUMENT_CONTENT_TYPE);
@@ -139,7 +137,7 @@ final class RecomputeCommand extends AbstractCommand
 
         $page = 0;
         $limit = 200;
-        $paginator = $this->revisionRepository->findAllLockedRevisions($this->contentType, self::LOCK_BY, $page, $limit);
+        $paginator = $this->revisionRepository->findAllLockedRevisions($this->contentType, $this->getUsername(), $page, $limit);
 
         $progress = $this->io->createProgressBar($paginator->count());
         $progress->start();
@@ -164,7 +162,7 @@ final class RecomputeCommand extends AbstractCommand
                     }
                 }
 
-                $newRevision = $revision->convertToDraft(self::LOCK_BY);
+                $newRevision = $revision->convertToDraft($this->getUsername());
                 $revisionType = $this->formFactory->create(RevisionType::class, $newRevision, [
                     'migration' => true,
                     'content_type' => $this->contentType,
@@ -199,11 +197,11 @@ final class RecomputeCommand extends AbstractCommand
                     continue;
                 }
 
-                $revision->close(new \DateTime('now'), self::LOCK_BY);
+                $revision->close(new \DateTime('now'), $this->getUsername());
                 $newRevision->setDraft(false);
 
-                $newRevision->setFinalizedBy(self::LOCK_BY);
-                $newRevision->setRawDataFinalizedBy(self::LOCK_BY);
+                $newRevision->setFinalizedBy($this->getUsername());
+                $newRevision->setRawDataFinalizedBy($this->getUsername());
                 $this->dataService->sign($newRevision);
 
                 $this->em->persist($revision);
@@ -225,7 +223,7 @@ final class RecomputeCommand extends AbstractCommand
                 if (!$this->isAlign) {
                     foreach ($revision->getEnvironments() as $environment) {
                         $this->logger->info('published to {env}', ['env' => $environment->getName()]);
-                        $this->publishService->publish($newRevision, $environment, self::LOCK_BY);
+                        $this->publishService->publish($newRevision, $environment, $this->getUsername());
                     }
                 }
 
@@ -241,7 +239,7 @@ final class RecomputeCommand extends AbstractCommand
 
             $this->em->clear();
 
-            $paginator = $this->revisionRepository->findAllLockedRevisions($this->contentType, self::LOCK_BY, $page, $limit);
+            $paginator = $this->revisionRepository->findAllLockedRevisions($this->contentType, $this->getUsername(), $page, $limit);
             $iterator = $paginator->getIterator();
         } while ($iterator instanceof \ArrayIterator && $iterator->count());
 
@@ -262,7 +260,7 @@ final class RecomputeCommand extends AbstractCommand
                 LockCommand::ARGUMENT_TIME => '+1day',
             ],
             options: [
-                LockCommand::OPTION_USER => self::LOCK_BY,
+                LockCommand::OPTION_USER => $this->getUsername(),
                 LockCommand::OPTION_FORCE => $force,
                 LockCommand::OPTION_IF_EMPTY => $ifEmpty,
                 LockCommand::OPTION_OUUID => $ouuid,

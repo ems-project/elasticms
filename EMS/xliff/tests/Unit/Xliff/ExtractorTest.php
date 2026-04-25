@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace EMS\Xliff\Tests\Unit\Xliff;
 
 use EMS\Helpers\File\TempFile;
-use EMS\Xliff\Xliff\Entity\InsertReport;
-use EMS\Xliff\Xliff\Extractor;
-use EMS\Xliff\Xliff\Inserter;
+use EMS\Xliff\Options;
+use EMS\Xliff\Version;
+use EMS\Xliff\Xliff;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Finder\Finder;
@@ -48,15 +48,23 @@ class ExtractorTest extends TestCase
 
         $extracted = [];
 
-        $xliffParser = new Extractor('nl', 'de', Extractor::XLIFF_1_2);
-        $document = $xliffParser->addDocument('contentType', 'ouuid_1', 'revisionId_1');
-        $xliffParser->addHtmlField($document, '[%locale%][body]', $rawData['nl']['body'], $existing['de']['body'], null);
-        $insertReport = new InsertReport();
+        $options = new Options(Version::V12);
+        $xliffPackage = Xliff::create($options);
+        $xliffPackage->init('nl', 'de');
 
-        $inserter = new Inserter($xliffParser->getDom());
-        foreach ($inserter->getDocuments() as $document) {
-            $document->extractTranslations($insertReport, $rawData, $extracted);
+        $package = $xliffPackage->getPackage();
+        $document = $package->addDocument('contentType:ouuid_1:revisionId_1');
+        $document->createText('[title]', 'titre', 'titre', 'titre');
+        $document->createHtml('[%locale%][body]', $rawData['nl']['body'], $existing['de']['body']);
+
+        $readerPackage = Xliff::create($options);
+        $readerPackage->readXml($xliffPackage->toXml());
+        foreach ($readerPackage->getPackage()->getDocuments() as $document) {
+            $document->unitToAssociativeArray($readerPackage->getPackage(), $rawData, $extracted);
         }
+        $this->assertSame(1, $readerPackage->getPackage()->getInsertReport()->countErrors());
+        $error = $readerPackage->getPackage()->getInsertReport()->getErrors()['revisionId_1'][0];
+        $this->assertSame('titre', $error->getReceived());
         $this->assertEquals([
             'de' => [
                 'body' => "<p>
@@ -70,6 +78,7 @@ class ExtractorTest extends TestCase
   [de] EOD
 </p>",
             ],
+            'title' => 'titre',
         ], $extracted);
     }
 
@@ -88,32 +97,35 @@ class ExtractorTest extends TestCase
                 $htmlTarget = \file_get_contents($absoluteFilePath.DIRECTORY_SEPARATOR.'target.html');
             }
 
-            foreach (Extractor::XLIFF_VERSIONS as $version) {
-                $xliffParser = new Extractor('en', 'fr', $version);
-                $document = $xliffParser->addDocument('contentType', 'ouuid_1', 'revisionId_1');
-                $xliffParser->addSimpleField($document, '[title_%locale%]', 'Foo', 'Bar');
-                $document = $xliffParser->addDocument('contentType', 'ouuid_2', 'revisionId_2');
-                $xliffParser->addSimpleField($document, '[title_%locale%]', 'Hello', 'Bonjour');
-                $xliffParser->addSimpleField($document, '[keywords_%locale%]', 'test xliff');
-                $xliffParser->addSimpleField($document, '[empty]', '', null, true);
-                $xliffParser->addHtmlField($document, '[%locale%][body]', $htmlSource, $htmlTarget ?: null, null);
-                $xliffParser->addHtmlField($document, '[%locale%][body2]', $htmlSource, $htmlTarget ?: null, null, true);
+            foreach (Version::ALL as $version) {
+                $options = new Options($version);
+                $xliffPackage = Xliff::create($options);
+                $xliffPackage->init('en', 'fr');
+                $package = $xliffPackage->getPackage();
+                $document = $package->addDocument('contentType:ouuid_1:revisionId_1');
+                $document->createText('[title_%locale%]', 'Foo', 'Bar');
+                $document = $package->addDocument('contentType:ouuid_2:revisionId_2');
+                $document->createText('[title_%locale%]', 'Hello', 'Bonjour');
+                $document->createText('[keywords_%locale%]', 'test xliff');
+                $document->createText('[empty]', '', isFinal: true);
+                $document->createHtml('[%locale%][body]', $htmlSource, $htmlTarget ?: null);
+                $document->createHtml('[%locale%][body2]', $htmlSource, $htmlTarget ?: null, null, true);
 
-                $this->saveAndCompare($absoluteFilePath, $version, $xliffParser, $fileNameWithExtension, 'UTF-8');
-                $this->saveAndCompare($absoluteFilePath, $version, $xliffParser, $fileNameWithExtension, 'us-ascii');
+                $this->saveAndCompare($absoluteFilePath, $version, $xliffPackage, $fileNameWithExtension, 'UTF-8');
+                $this->saveAndCompare($absoluteFilePath, $version, $xliffPackage, $fileNameWithExtension, 'us-ascii');
             }
         }
     }
 
-    public function saveAndCompare(string $absoluteFilePath, string $version, Extractor $xliffParser, string $fileNameWithExtension, string $encoding): void
+    public function saveAndCompare(string $absoluteFilePath, string $version, Xliff $xliffPackage, string $fileNameWithExtension, string $encoding): void
     {
         $expectedFilename = $absoluteFilePath.DIRECTORY_SEPARATOR.'expected_'.$encoding.$version.'.xlf';
         if (!\file_exists($expectedFilename)) {
-            $xliffParser->saveXML($expectedFilename, $encoding);
+            $xliffPackage->saveXml($expectedFilename, encoding: $encoding);
         }
 
         $tempFile = TempFile::create();
-        $xliffParser->saveXML($tempFile->path, $encoding);
+        $xliffPackage->saveXML($tempFile->path, encoding: $encoding);
 
         $expected = \file_get_contents($expectedFilename);
         $actual = \file_get_contents($tempFile->path);
@@ -138,17 +150,21 @@ class ExtractorTest extends TestCase
     #[DataProvider('withBaselineProvider')]
     public function testWithBaseline(string $sourceHtml, string $targetHtml, string $baselineHtml, string $expectedPath): void
     {
-        $xliffParser = new Extractor('nl', 'de', Extractor::XLIFF_1_2);
-        $document = $xliffParser->addDocument('content_type', 'fakeOuuid', 'fakeRevisionId');
-        $xliffParser->addHtmlField($document, '[body]', $sourceHtml, $targetHtml, $baselineHtml);
+        $options = new Options(Version::V12);
+        $xliffPackage = Xliff::create($options);
+        $xliffPackage->init('nl', 'de');
+
+        $package = $xliffPackage->getPackage();
+        $document = $package->addDocument('content_type:fakeOuuid:fakeRevisionId');
+        $document->createHtml('[body]', $sourceHtml, $targetHtml, $baselineHtml);
 
         if (!\file_exists($expectedPath)) {
-            $xliffParser->saveXML($expectedPath);
+            $xliffPackage->saveXML($expectedPath);
         }
         $expected = \file_get_contents($expectedPath);
 
         $tempFile = TempFile::create();
-        $xliffParser->saveXML($tempFile->path);
+        $xliffPackage->saveXML($tempFile->path);
         $extracted = \file_get_contents($tempFile->path);
         $this->assertSame($expected, $extracted);
         $tempFile->clean();

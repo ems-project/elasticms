@@ -89,8 +89,8 @@ class FileStructurePublishCommand extends AbstractCommand
 
                 return self::EXECUTE_SUCCESS;
             }
-        } catch (FileStructureNotSyncException $e) {
-            $this->io->error(\sprintf('The file structure might contain manual changes, use the --force option: %s', $e->getMessage()));
+        } catch (FileStructureNotSyncException $fileStructureNotSyncException) {
+            $this->io->error(\sprintf('The file structure might contain manual changes, use the --force option: %s', $fileStructureNotSyncException->getMessage()));
 
             return self::EXECUTE_SUCCESS;
         }

@@ -8,6 +8,9 @@ interface ProfileInterface
 {
     public function getId(): int;
 
+    /**
+     * @return non-empty-string
+     */
     public function getUsername(): string;
 
     public function getEmail(): string;

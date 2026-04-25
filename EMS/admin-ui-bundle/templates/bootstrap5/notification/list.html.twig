@@ -80,13 +80,13 @@
             </div>
         </div>
         <div class="col-md-9 col-sm-12">
-            {% include '@EMSAdminUI/bootstrap5/notification/'~folder~'.html.twig' with {
-                'lastPage': lastPage,
-                'currentPage': page,
-                'currentFilters': app.request.query,
-                'paginationPath': paginationPath,
-                'showAlwaysFirstAndLast': false
-            } %}
+            {{ include('@EMSAdminUI/bootstrap5/notification/' ~ folder ~ '.html.twig', {
+                lastPage: lastPage,
+                currentPage: page,
+                currentFilters: app.request.query,
+                paginationPath: paginationPath,
+                showAlwaysFirstAndLast: false,
+            }) }}
         </div>
 
     </div>

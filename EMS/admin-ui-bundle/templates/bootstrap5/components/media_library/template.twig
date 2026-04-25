@@ -73,7 +73,7 @@
 {% endblock media_lib_folder_rows %}
 
 {% block media_lib_folder_row %}
-    <li class="{{ html_classes({ 'has-children': children|length > 0 }) }}">
+    <li class="{{ html_classes({'has-children': children|length > 0}) }}">
         <div class="media-lib-container">
             <div class="media-lib-folder" data-id="{{ folder.id }}" data-path="{{ folder.path }}">
                 {{- template.block('media_lib_folder', _context)|raw -}}
@@ -81,7 +81,7 @@
         </div>
         {% if children|length > 0 %}
             <ul>
-                {% with { 'structure': children } %}{{ template.block('media_lib_folder_rows', _context)|raw }}{% endwith %}
+                {% with {structure: children} %}{{ template.block('media_lib_folder_rows', _context)|raw }}{% endwith %}
             </ul>
         {% endif %}
     </li>
@@ -153,13 +153,13 @@
 
 {%- block media_lib_button_files_delete -%}
     <button class="btn btn-sm btn-default btn-files-delete" data-modal-size="md">
-        <i class="fa fa-remove" aria-hidden="true"></i> {{- buttonLabel|default('media_library.files.delete.title'|trans({ '%count%': selectionFiles })) -}}
+        <i class="fa fa-remove" aria-hidden="true"></i> {{- buttonLabel|default('media_library.files.delete.title'|trans({'%count%': selectionFiles})) -}}
     </button>
 {%- endblock media_lib_button_files_delete -%}
 
 {%- block media_lib_button_files_move -%}
     <button class="btn btn-sm btn-default btn-files-move" data-modal-size="md">
-        <i class="fa fa-location-arrow" aria-hidden="true"></i> {{- buttonLabel|default('media_library.files.move.title'|trans({ '%count%': selectionFiles })) -}}
+        <i class="fa fa-location-arrow" aria-hidden="true"></i> {{- buttonLabel|default('media_library.files.move.title'|trans({'%count%': selectionFiles})) -}}
     </button>
 {%- endblock media_lib_button_files_move -%}
 
@@ -171,7 +171,7 @@
 
 {%- block media_lib_breadcrumb -%}
     <ul class="media-lib-list-breadcrumb">
-        <li><button class="breadcrumb-item"><i class="fa fa-home"></i> Home</button></li>
+        <li><button class="breadcrumb-item"><i class="fa fa-home me-2"></i>Home</button></li>
         {%- if mediaFolder is defined -%}
             {%- for parent in mediaFolder.parents -%}
                 <li><button class="breadcrumb-item" data-id="{{- parent.id -}}">{{- parent.name -}}</button></li>
@@ -187,7 +187,7 @@
     <label for="media-lib-search-{{- id -}}" class="sr-only">Media library search</label>
     <input id="media-lib-search-{{- id -}}"
            class="{{ html_classes('media-lib-search form-control form-control-sm', {
-               'active': searchValue|default('')|length > 0
+               active: searchValue|default('')|length > 0,
            }) }}"
            type="text"
            value="{{ searchValue|default('') }}"
@@ -211,15 +211,13 @@
 {%- endblock media_lib_modal_body -%}
 
 {%- block media_lib_modal_footer -%}
-    <div class="pull-right">
-        {% if form is defined %}
-            <button id="ajax-modal-submit" class="{{ html_classes('btn btn-sm', submitClass|default('btn-primary')) }}">
-                <i class="{{ html_classes('fa', submitIcon|default('fa-save')) }}"></i>
-                {{ submitLabel|default('media_library.submit'|trans) }}
-            </button>
-        {% endif %}
-        <button type="button" class="btn btn-sm btn-default" data-bs-dismiss="modal">{{ 'media_library.close'|trans }}</button>
-    </div>
+    {% if form is defined %}
+        <button id="ajax-modal-submit" class="{{ html_classes('btn btn-sm', submitClass|default('btn-primary')) }}">
+            <i class="{{ html_classes('fa', submitIcon|default('fa-save')) }}"></i>
+            {{ submitLabel|default('media_library.submit'|trans) }}
+        </button>
+    {% endif %}
+    <button type="button" class="btn btn-sm btn-default" data-bs-dismiss="modal">{{ 'media_library.close'|trans }}</button>
 {%- endblock media_lib_modal_footer -%}
 
 {% block media_lib_modal_preview %}
@@ -228,7 +226,7 @@
         <div class="media-lib-preview-file">
             {% if mediaFile.fileMimetype starts with 'image/' %}
                 <img src="{{ ems_asset_path(mediaFile.file, {
-                    _config_type: 'image'
+                    _config_type: 'image',
                 }) }}" alt="{{ mediaFile.giveName }}"/>
             {% else %}
                 <object data="{{ url }}" type="{{ mediaFile.fileMimetype }}">

@@ -10,7 +10,7 @@ use EMS\ClientHelperBundle\Helper\Environment\Environment;
 use EMS\ClientHelperBundle\Helper\Templating\TemplateFiles;
 use EMS\CommonBundle\Search\Search;
 use Symfony\Component\Config\FileLocator;
-use Symfony\Component\Routing\Loader\XmlFileLoader;
+use Symfony\Component\Routing\Loader\PhpFileLoader;
 use Symfony\Component\Routing\RouteCollection;
 
 final class RoutingBuilder extends AbstractBuilder
@@ -30,7 +30,7 @@ final class RoutingBuilder extends AbstractBuilder
             $routes = $this->createRoutes($contentType);
         }
 
-        if (0 === \count($routes)) {
+        if ([] === $routes) {
             return $routeCollection;
         }
 
@@ -109,7 +109,7 @@ final class RoutingBuilder extends AbstractBuilder
 
     private function addEmschRoutes(RouteCollection $routes, ?string $routePrefix): RouteCollection
     {
-        $routes->addCollection($this->getEmschRoutesFromFile(self::CONFIG_PATH.'core_bridge.xml', $routePrefix));
+        $routes->addCollection($this->getEmschRoutesFromFile(self::CONFIG_PATH.'core_bridge.php', $routePrefix));
 
         return $routes;
     }
@@ -117,7 +117,7 @@ final class RoutingBuilder extends AbstractBuilder
     private function getEmschRoutesFromFile(string $file, ?string $routePrefix = null): RouteCollection
     {
         $routes = new RouteCollection();
-        $configRoutes = new XmlFileLoader(new FileLocator())->load($file);
+        $configRoutes = new PhpFileLoader(new FileLocator())->load($file);
 
         foreach ($configRoutes as $name => $route) {
             $prefixedRoute = $route->setPath($routePrefix.$route->getPath());

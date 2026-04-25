@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Json;
 
-use EMS\CommonBundle\Common\PropertyAccess\PropertyAccessor;
+use EMS\Helpers\PropertyAccess\PropertyAccessor;
 use EMS\Helpers\Standard\Base64;
 use EMS\Helpers\Standard\Json;
+use EMS\Helpers\Standard\Type;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
@@ -382,7 +383,7 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
 
     public function hasChildren(): bool
     {
-        return \count($this->children) > 0;
+        return [] !== $this->children;
     }
 
     public function hasChild(JsonMenuNested $jsonMenuNested, bool $recursive = true): bool
@@ -444,6 +445,16 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
         }
 
         $this->object = \array_filter($this->object);
+    }
+
+    public function getPosition(): int
+    {
+        $parent = $this->getParent();
+        if ($this->isRoot() || null === $parent) {
+            return 0;
+        }
+
+        return Type::integer(\array_search($this, $parent->getChildren(), true));
     }
 
     /**

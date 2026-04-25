@@ -7,10 +7,11 @@ namespace EMS\Xliff\Tests\Unit\Xliff;
 use EMS\Helpers\File\TempFile;
 use EMS\Helpers\Html\HtmlHelper;
 use EMS\Helpers\Standard\Json;
-use EMS\Xliff\Xliff\Entity\InsertReport;
-use EMS\Xliff\Xliff\Extractor;
-use EMS\Xliff\Xliff\Inserter;
-use EMS\Xliff\Xliff\InsertionRevision;
+use EMS\Xliff\Model\Document;
+use EMS\Xliff\Model\Package;
+use EMS\Xliff\Options;
+use EMS\Xliff\Version;
+use EMS\Xliff\Xliff;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Finder\Finder;
 
@@ -31,38 +32,41 @@ class IntegratedTest extends TestCase
 
             $xliffFilename = $this->saveAndCompare($file->getPath(), $xliff, $basename);
 
-            $inserter = Inserter::fromFile($xliffFilename);
-            $this->assertEquals(1, $inserter->count(), 'Only one document is expected');
-            foreach ($inserter->getDocuments() as $document) {
-                $this->insertDocument($document, $source, $target);
+            $xliff = Xliff::create();
+            $xliff->fromFile($xliffFilename);
+            $this->assertCount(1, $xliff->getPackage()->getDocuments(), 'Only one document is expected');
+            foreach ($xliff->getPackage()->getDocuments() as $document) {
+                $this->insertDocument($xliff->getPackage(), $document, $source, $target);
             }
         }
     }
 
-    private function generateXliff(string $ouuid, string $revisionId, array $source, array $target): Extractor
+    private function generateXliff(string $ouuid, string $revisionId, array $source, array $target): Xliff
     {
-        $xliffParser = new Extractor('nl', 'de', Extractor::XLIFF_1_2);
-        $document = $xliffParser->addDocument('content_type', $ouuid, $revisionId);
+        $xliff = Xliff::create(new Options(Version::V12));
+        $xliff->init('nl', 'de');
+
+        $document = $xliff->getPackage()->addDocument(\sprintf('content_type:%s:%s', $ouuid, $revisionId));
         foreach (['title', 'title_short'] as $field) {
-            $xliffParser->addSimpleField($document, "[$field]", $source[$field] ?? null, $target[$field] ?? null, true);
+            $document->createText(\sprintf('[%s]', $field), $source[$field] ?? null, $target[$field] ?? null, null, true);
         }
         foreach (['introduction', 'description'] as $field) {
-            $xliffParser->addHtmlField($document, "[$field]", $source[$field] ?? null, $target[$field] ?? null, null, true);
+            $document->createHtml(\sprintf('[%s]', $field), $source[$field] ?? '', $target[$field] ?? null, null, true);
         }
 
-        return $xliffParser;
+        return $xliff;
     }
 
-    public function saveAndCompare(string $absoluteFilePath, Extractor $xliffParser, string $baseName): string
+    public function saveAndCompare(string $absoluteFilePath, Xliff $xliff, string $baseName): string
     {
         $expectedFilename = \implode(DIRECTORY_SEPARATOR, [$absoluteFilePath, '..', 'xliffs', $baseName.'.xlf']);
         if (!\file_exists($expectedFilename)) {
-            $xliffParser->saveXML($expectedFilename);
+            $xliff->saveXML($expectedFilename);
         }
 
         $temp = TempFile::create();
         $tempFile = $temp->path;
-        $xliffParser->saveXML($tempFile);
+        $xliff->saveXML($tempFile);
 
         $expected = \file_get_contents($expectedFilename);
         $actual = \file_get_contents($tempFile);
@@ -72,47 +76,48 @@ class IntegratedTest extends TestCase
         return $expectedFilename;
     }
 
-    private function insertDocument(InsertionRevision $document, $source, $target)
+    private function insertDocument(Package $package, Document $document, array $source, array $target)
     {
-        $insertReport = new InsertReport();
+        [$contentType, $ouuid, $revisionId] = \explode(':', $document->id);
         $inserted = $source;
-        $document->extractTranslations($insertReport, $source, $inserted);
+        $document->unitToAssociativeArray($package, $source, $inserted);
         $inserted['locale'] = 'de';
 
-        foreach ($source as $field => $value) {
+        foreach (\array_keys($source) as $field) {
             if (\in_array($field, ['introduction', 'description'])) {
-                $this->assertEquals(HtmlHelper::prettyPrint($inserted[$field]), HtmlHelper::prettyPrint($target[$field] ?? null), \sprintf('Field %s for inserted document : %s', $field, $document->getOuuid()));
+                $this->assertEquals(HtmlHelper::prettyPrint($inserted[$field]), HtmlHelper::prettyPrint($target[$field] ?? null), \sprintf('Field %s for inserted document : %s', $field, $ouuid));
             } else {
-                $this->assertEquals($target[$field] ?? null, $inserted[$field], \sprintf('Field %s for inserted document : %s', $field, $document->getOuuid()));
+                $this->assertEquals($target[$field] ?? null, $inserted[$field], \sprintf('Field %s for inserted document : %s', $field, $ouuid));
             }
         }
     }
 
     public function testImportOnliner(): void
     {
-        $inserter = Inserter::fromFile(\implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'new_extract.xlf']));
-        $this->assertEquals(30, $inserter->count(), 'Only one document is expected');
-        foreach ($inserter->getDocuments() as $document) {
-            $this->saveJson($document);
+        $xliff = Xliff::create();
+        $xliff->fromFile(\implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'new_extract.xlf']));
+        $this->assertCount(30, $xliff->getPackage()->getDocuments(), '30 documents are expected');
+        foreach ($xliff->getPackage()->getDocuments() as $document) {
+            $this->saveJson($xliff->getPackage(), $document);
         }
     }
 
-    private function saveJson(InsertionRevision $document)
+    private function saveJson(Package $package, Document $document)
     {
-        $source = Json::decode(\file_get_contents(\implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'TestRevision', \sprintf('%s_%s.json', $document->getOuuid(), $document->getRevisionId())])));
-        $insertReport = new InsertReport();
+        [$contentType, $ouuid, $revisionId] = \explode(':', $document->id);
+        $source = Json::decode(\file_get_contents(\implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'TestRevision', \sprintf('%s_%s.json', $ouuid, $revisionId)])));
         $inserted = $source;
-        $document->extractTranslations($insertReport, $source, $inserted);
+        $document->unitToAssociativeArray($package, $source, $inserted);
         unset($inserted['date_modification']);
         unset($inserted['_contenttype']);
         unset($inserted['_sha1']);
         unset($inserted['_published_datetime']);
         $inserted['locale'] = 'de';
-        $filename = \implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'TestRevisionOut', \sprintf('%s_%s.json', $document->getOuuid(), $document->getRevisionId())]);
+        $filename = \implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'TestRevisionOut', \sprintf('%s_%s.json', $ouuid, $revisionId)]);
         if (!\file_exists($filename)) {
             \file_put_contents($filename, Json::encode($inserted, true));
         }
 
-        $this->assertEquals(\file_get_contents($filename), Json::encode($inserted, true), \sprintf('with test file %s', $document->getOuuid()));
+        $this->assertEquals(\file_get_contents($filename), Json::encode($inserted, true), \sprintf('with test file %s', $ouuid));
     }
 }

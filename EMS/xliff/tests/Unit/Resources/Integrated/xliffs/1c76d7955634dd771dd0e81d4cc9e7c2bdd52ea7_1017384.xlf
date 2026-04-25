@@ -12,8 +12,8 @@
       </trans-unit>
       <group resname="[introduction]" id="grp3">
         <trans-unit restype="x-html-p" id="tu4" resname="/html/body/p">
-          <source xml:lang="nl"> Dit hoofdstuk betreft de herinschakeling van zeer moeilijk te plaatsen werklozen.<x id="x5" ctype="x-html-br" equiv-text=" "/> </source>
-          <target xml:lang="de" state="final"> Dieses Kapitel betrifft die Wiedereingliederung von schwer zu vermittelnden Arbeitslosen.<x id="x6" ctype="x-html-br" equiv-text=" "/> </target>
+          <source xml:lang="nl"> Dit hoofdstuk betreft de herinschakeling van zeer moeilijk te plaatsen werklozen.<x id="x5" ctype="lb" equiv-text=" "/> </source>
+          <target xml:lang="de" state="final"> Dieses Kapitel betrifft die Wiedereingliederung von schwer zu vermittelnden Arbeitslosen.<x id="x6" ctype="lb" equiv-text=" "/> </target>
         </trans-unit>
       </group>
       <group resname="[description]" id="grp7">
@@ -29,7 +29,7 @@
           <source xml:lang="nl"> Het gaat o.a. over volgende, als dusdang erkende, werkgevers: </source>
           <target xml:lang="de" state="final"> Es geht dabei u. a. um die folgenden, als solche anerkannten, Arbeitgeber: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu11" resname="/html/body/ul[1]">
+        <group restype="x-html-ul" id="grp11" resname="/html/body/ul[1]">
           <trans-unit restype="listitem" id="tu12" resname="/html/body/ul[1]/li[1]">
             <source xml:lang="nl">beschutte en sociale werkplaatsen </source>
             <target xml:lang="de" state="final">geschützte und soziale Arbeitsplätze </target>
@@ -79,13 +79,13 @@
           <source xml:lang="nl"> Volgende categorieën komen in aanmerking: </source>
           <target xml:lang="de" state="final"> Folgende Kategorien kommen in Betracht: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu24" resname="/html/body/ul[2]">
-          <group restype="listitem" id="tu25" resname="/html/body/ul[2]/li[1]">
+        <group restype="x-html-ul" id="grp24" resname="/html/body/ul[2]">
+          <group restype="listitem" id="grp25" resname="/html/body/ul[2]/li[1]">
             <trans-unit id="tu26" resname="/html/body/ul[2]/li[1]/text()[1]">
               <source xml:lang="nl">1° hij die op de dag van indienstneming volledig uitkeringsgerechtigd werkloos is en </source>
               <target xml:lang="de" state="final">1° die Person, die beim Dienstantrittsdatum entschädigt vollarbeitslos ist und </target>
             </trans-unit>
-            <group restype="x-html-ul" id="tu27" resname="/html/body/ul[2]/li[1]/ul">
+            <group restype="x-html-ul" id="grp27" resname="/html/body/ul[2]/li[1]/ul">
               <trans-unit restype="listitem" id="tu28" resname="/html/body/ul[2]/li[1]/ul/li[1]">
                 <source xml:lang="nl">minder dan 45 jaar oud is op datum van indienstneming en </source>
                 <target xml:lang="de" state="final">bei Dienstantritt keine 45 Jahre alt ist und </target>
@@ -100,12 +100,12 @@
               </trans-unit>
             </group>
           </group>
-          <group restype="listitem" id="tu31" resname="/html/body/ul[2]/li[2]">
+          <group restype="listitem" id="grp31" resname="/html/body/ul[2]/li[2]">
             <trans-unit id="tu32" resname="/html/body/ul[2]/li[2]/text()[1]">
               <source xml:lang="nl">2° hij die op de dag van indienstneming volledig uitkeringsgerechtigd werkloos is en </source>
               <target xml:lang="de" state="final">2° die Person, die beim Dienstantrittsdatum entschädigt vollarbeitslos ist und </target>
             </trans-unit>
-            <group restype="x-html-ul" id="tu33" resname="/html/body/ul[2]/li[2]/ul">
+            <group restype="x-html-ul" id="grp33" resname="/html/body/ul[2]/li[2]/ul">
               <trans-unit restype="listitem" id="tu34" resname="/html/body/ul[2]/li[2]/ul/li[1]">
                 <source xml:lang="nl">minder dan 45 jaar oud is op datum van indienstneming en </source>
                 <target xml:lang="de" state="final">bei Dienstantritt keine 45 Jahre alt ist und </target>
@@ -120,12 +120,12 @@
               </trans-unit>
             </group>
           </group>
-          <group restype="listitem" id="tu37" resname="/html/body/ul[2]/li[3]">
+          <group restype="listitem" id="grp37" resname="/html/body/ul[2]/li[3]">
             <trans-unit id="tu38" resname="/html/body/ul[2]/li[3]/text()[1]">
               <source xml:lang="nl">3° hij die op de dag van indienstneming volledig uitkeringsgerechtigd werkloos is en </source>
               <target xml:lang="de" state="final">3° die Person, die beim Dienstantrittsdatum entschädigt vollarbeitslos ist und </target>
             </trans-unit>
-            <group restype="x-html-ul" id="tu39" resname="/html/body/ul[2]/li[3]/ul">
+            <group restype="x-html-ul" id="grp39" resname="/html/body/ul[2]/li[3]/ul">
               <trans-unit restype="listitem" id="tu40" resname="/html/body/ul[2]/li[3]/ul/li[1]">
                 <source xml:lang="nl">minstens 45 jaar oud is op datum van indienstneming en </source>
                 <target xml:lang="de" state="final">bei Dienstantritt mindestens 45 Jahre alt ist und </target>
@@ -140,12 +140,12 @@
               </trans-unit>
             </group>
           </group>
-          <group restype="listitem" id="tu43" resname="/html/body/ul[2]/li[4]">
+          <group restype="listitem" id="grp43" resname="/html/body/ul[2]/li[4]">
             <trans-unit id="tu44" resname="/html/body/ul[2]/li[4]/text()[1]">
               <source xml:lang="nl">4° hij die op de dag van indienstneming recht heeft op maatschappelijke integratie of op financiële maatschappelijke hulp en </source>
               <target xml:lang="de" state="final">4° die Person, die beim Dienstantrittsdatum Anspruch auf soziale Eingliederung oder finanzielle Sozialhilfe hat und </target>
             </trans-unit>
-            <group restype="x-html-ul" id="tu45" resname="/html/body/ul[2]/li[4]/ul">
+            <group restype="x-html-ul" id="grp45" resname="/html/body/ul[2]/li[4]/ul">
               <trans-unit restype="listitem" id="tu46" resname="/html/body/ul[2]/li[4]/ul/li[1]">
                 <source xml:lang="nl">minder dan 45 jaar oud is op datum van indienstneming en </source>
                 <target xml:lang="de" state="final">bei Dienstantritt keine 45 Jahre alt ist und </target>
@@ -160,12 +160,12 @@
               </trans-unit>
             </group>
           </group>
-          <group restype="listitem" id="tu49" resname="/html/body/ul[2]/li[5]">
+          <group restype="listitem" id="grp49" resname="/html/body/ul[2]/li[5]">
             <trans-unit id="tu50" resname="/html/body/ul[2]/li[5]/text()[1]">
               <source xml:lang="nl">5° hij die op de dag van indienstneming recht heeft op maatschappelijke integratie of op financiële maatschappelijke hulp en </source>
               <target xml:lang="de" state="final">5° die Person, die beim Dienstantrittsdatum Anspruch auf soziale Eingliederung oder finanzielle Sozialhilfe hat und </target>
             </trans-unit>
-            <group restype="x-html-ul" id="tu51" resname="/html/body/ul[2]/li[5]/ul">
+            <group restype="x-html-ul" id="grp51" resname="/html/body/ul[2]/li[5]/ul">
               <trans-unit restype="listitem" id="tu52" resname="/html/body/ul[2]/li[5]/ul/li[1]">
                 <source xml:lang="nl">minder dan 45 jaar oud is op datum van indienstneming en </source>
                 <target xml:lang="de" state="final">bei Dienstantritt keine 45 Jahre alt ist und </target>
@@ -180,12 +180,12 @@
               </trans-unit>
             </group>
           </group>
-          <group restype="listitem" id="tu55" resname="/html/body/ul[2]/li[6]">
+          <group restype="listitem" id="grp55" resname="/html/body/ul[2]/li[6]">
             <trans-unit id="tu56" resname="/html/body/ul[2]/li[6]/text()[1]">
               <source xml:lang="nl">6° hij die op de dag van indienstneming recht heeft op maatschappelijke integratie of op financiële maatschappelijke hulp en </source>
               <target xml:lang="de" state="final">die Person, die beim Dienstantrittsdatum Anspruch auf soziale Eingliederung oder finanzielle Sozialhilfe hat und </target>
             </trans-unit>
-            <group restype="x-html-ul" id="tu57" resname="/html/body/ul[2]/li[6]/ul">
+            <group restype="x-html-ul" id="grp57" resname="/html/body/ul[2]/li[6]/ul">
               <trans-unit restype="listitem" id="tu58" resname="/html/body/ul[2]/li[6]/ul/li[1]">
                 <source xml:lang="nl">minstens 45 jaar oud is op datum van indienstneming en </source>
                 <target xml:lang="de" state="final">bei Dienstantritt mindestens 45 Jahre alt ist und </target>
@@ -205,7 +205,7 @@
           <source xml:lang="nl"> De voorwaarde dat zij de hoedanigheid van volledig uitkeringsgerechtigd werkloze, gerechtigde op maatschappelijke integratie of rechthebbende op financiële maatschappelijke hulp moeten hebben op het ogenblik van de indienstneming, geldt evenwel niet voor werknemers die verder worden tewerkgesteld na afloop van één van de volgende periodes: </source>
           <target xml:lang="de" state="final"> Die Bedingung, dass sie die Eigenschaft eines entschädigten Vollarbeitslosen, eines Berechtigten für soziale Eingliederung oder finanzielle Sozialhilfe bei Dienstantritt haben müssen, gilt jedoch nicht für Arbeitnehmer, die nach Ablauf einer der folgenden Perioden weiter beschäftigt werden: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu62" resname="/html/body/ul[3]">
+        <group restype="x-html-ul" id="grp62" resname="/html/body/ul[3]">
           <trans-unit restype="listitem" id="tu63" resname="/html/body/ul[3]/li[1]">
             <source xml:lang="nl">de periode van tewerkstelling in toepassing van artikel 60, § 7, van de organieke wet van 8 juli 1976 betreffende de openbare centra voor maatschappelijk welzijn; </source>
             <target xml:lang="de" state="final">die Periode der Beschäftigung in Anwendung von Artikel 60, § 7 des Grundlagengesetzes vom 08.07.1976 über die öffentlichen Sozialhilfezentren; </target>
@@ -231,7 +231,7 @@
           <source xml:lang="nl"> De werknemers van de volgende categorieën komen niet in aanmerking voor de vermindering : </source>
           <target xml:lang="de" state="final"> Die Arbeitnehmer der folgenden Kategorien kommen für die Ermäßigung nicht in Betracht: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu69" resname="/html/body/ul[4]">
+        <group restype="x-html-ul" id="grp69" resname="/html/body/ul[4]">
           <trans-unit restype="listitem" id="tu70" resname="/html/body/ul[4]/li[1]">
             <source xml:lang="nl">voor <g id="g71" ctype="x-html-strong">Vlaanderen</g>: de werknemer die vóór 1 januari 2016 bij de werkgever tewerkgesteld was als gesubsidieerde contractueel; </source>
             <target xml:lang="de" state="final">für <g id="g72" ctype="x-html-strong">Flandern</g>: der Arbeitnehmer, der vor dem 01.01.2016 beim Arbeitgeber als bezuschusster Vertragsbediensteter beschäftigt war; </target>
@@ -245,7 +245,7 @@
           <source xml:lang="nl">   </source>
           <target xml:lang="de" state="final">   </target>
         </trans-unit>
-        <group restype="x-html-div" id="tu77" resname="/html/body/div[1]">
+        <group restype="x-html-div" id="grp77" resname="/html/body/div[1]">
           <note from="class">message alert</note>
           <trans-unit restype="x-html-h3" id="tu78" resname="/html/body/div[1]/h3">
             <source xml:lang="nl"> Duitstalige Gemeenschap: </source>
@@ -262,9 +262,9 @@
         </group>
         <trans-unit restype="x-html-p" id="tu91" resname="/html/body/p[9]">
           <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+          <target xml:lang="de" state="new"/>
         </trans-unit>
-        <group restype="x-html-div" id="tu92" resname="/html/body/div[2]">
+        <group restype="x-html-div" id="grp92" resname="/html/body/div[2]">
           <note from="class">message alert</note>
           <trans-unit restype="x-html-h3" id="tu93" resname="/html/body/div[2]/h3">
             <source xml:lang="nl"> Brussels Hoofdstedelijk Gewest: </source>
@@ -283,7 +283,7 @@
           <source xml:lang="nl"> Naast een tussenkomst in de loonkost van de werknemer via een herinschakelingsuitkering van de RVA of een financiële tussenkomst van het OCMW, kan de werkgever volgende verminderingen genieten voor de werknemer van </source>
           <target xml:lang="de" state="final"> Neben einem Anteil an den Lohnkosten des Arbeitnehmers über eine Wiedereingliederungsunterstützung des LfA oder einer finanziellen Beteiligung des ÖSHZ, kann der Arbeitgeber die folgenden Ermäßigungen für den Arbeitnehmer in Anspruch nehmen </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu101" resname="/html/body/ul[5]">
+        <group restype="x-html-ul" id="grp101" resname="/html/body/ul[5]">
           <trans-unit restype="listitem" id="tu102" resname="/html/body/ul[5]/li[1]">
             <source xml:lang="nl">categorie 1° en 4°: G<g id="g103" ctype="x-html-sub">1</g> gedurende het kwartaal van indienstneming en de 10 daarop volgende kwartalen (wanneer de bevoegde regionale dienst voor arbeidsbemiddeling na afloop van de 10 kwartalen oordeelt dat de werknemer nog altijd niet geschikt is om zich te integreren in de gewone arbeidsmarkt, kan de duur van de doelgroepvermindering verlengd worden met een nieuwe periode van maximum 10 kwartalen); </source>
             <target xml:lang="de" state="final">Kategorie 1° und 4°: G<g id="g104" ctype="x-html-sub">1</g> im Quartal des Dienstantritts und den 10 folgenden Quartalen (wenn das zuständige regionale Arbeitsvermittlungsamt nach den 10 Quartalen der Ansicht ist, dass der Arbeitnehmer immer noch nicht geeignet ist, sich in den normalen Arbeitsmarkt zu integrieren, kann die Dauer der Zielgruppenermäßigung um eine neue Periode von höchstens 10 Quartalen verlängert werden); </target>

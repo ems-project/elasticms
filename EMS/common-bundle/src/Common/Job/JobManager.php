@@ -41,8 +41,8 @@ class JobManager
             }
 
             $this->adminHelper->getCoreApi()->admin()->jobCompleted($job);
-        } catch (\Exception $e) {
-            $this->adminHelper->getCoreApi()->admin()->jobFailed($job, $e->getMessage());
+        } catch (\Exception $exception) {
+            $this->adminHelper->getCoreApi()->admin()->jobFailed($job, $exception->getMessage());
         }
     }
 }

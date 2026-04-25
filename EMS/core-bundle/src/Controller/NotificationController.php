@@ -82,7 +82,7 @@ class NotificationController extends AbstractController
             throw new NotFoundHttpException('Unknown revision');
         }
 
-        $success = $this->notificationService->addNotification($ct->getActionById((int) $templateId), $revision, $env);
+        $success = $this->notificationService->addNotification($ct->getActionById($templateId), $revision, $env);
 
         return $this->flashMessageLogger->buildJsonResponse([
             'success' => $success,
@@ -132,7 +132,7 @@ class NotificationController extends AbstractController
                 continue;
             }
 
-            if ($publishIn) {
+            if ($publishIn instanceof Environment) {
                 $this->publishService->publish($notification->getRevision(), $publishIn);
             }
 
@@ -150,7 +150,7 @@ class NotificationController extends AbstractController
 
     public function menuNotification(): Response
     {
-        return $this->render("@$this->templateNamespace/notification/menu.html.twig", [
+        return $this->render(\sprintf('@%s/notification/menu.html.twig', $this->templateNamespace), [
             'counter' => $this->notificationService->menuNotification(),
             'dashboardMenu' => $this->dashboardManager->getNotificationMenu(),
         ]);
@@ -182,13 +182,13 @@ class NotificationController extends AbstractController
         $page = $request->query->getInt('page', 1);
 
         $rejectedNotifications = [];
-        if ('sent' == $folder) {
+        if ('sent' === $folder) {
             $notifications = $this->notificationService->listSentNotifications(($page - 1) * $paging_size, $paging_size, $notificationFilter);
             $lastPage = \ceil($countSent / $paging_size);
         } else {
             $notifications = $this->notificationService->listInboxNotifications(($page - 1) * $paging_size, $paging_size, $filters);
             $rejectedNotifications = $this->notificationService->listRejectedNotifications(($page - 1) * $paging_size, $paging_size, $filters);
-            $lastPage = \ceil(($countRejected > $countPending ? $countRejected : $countPending) / $paging_size);
+            $lastPage = \ceil(\max($countRejected, $countPending) / $paging_size);
         }
 
         $treatNotification = new TreatNotifications();
@@ -198,7 +198,7 @@ class NotificationController extends AbstractController
             'notifications' => $notifications,
         ]);
 
-        return $this->render("@$this->templateNamespace/notification/list.html.twig", [
+        return $this->render(\sprintf('@%s/notification/list.html.twig', $this->templateNamespace), [
             'counter' => $count,
             'notifications' => $notifications,
             'lastPage' => $lastPage,

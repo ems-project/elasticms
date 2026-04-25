@@ -6,47 +6,29 @@ namespace EMS\CommonBundle\Tests\Elasticsearch;
 
 use EMS\CommonBundle\Elasticsearch\Client;
 use EMS\CommonBundle\Elasticsearch\ElasticaFactory;
+use EMS\CommonBundle\Elasticsearch\ElasticaLogger;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
-use Psr\Log\LoggerInterface;
 
 final class ElasticaFactoryAiTest extends TestCase
 {
-    private LoggerInterface $logger;
+    private Stub $logger;
     private ElasticaFactory $factory;
 
     #[\Override]
     protected function setUp(): void
     {
-        $this->logger = $this->createMock(LoggerInterface::class);
+        $this->logger = $this->createStub(ElasticaLogger::class);
     }
 
-    public function testFromConfigDevEnvironment(): void
+    #[AllowMockObjectsWithoutExpectations]
+    public function testFromConfig(): void
     {
-        $this->factory = new ElasticaFactory($this->logger, 'dev');
+        $this->factory = new ElasticaFactory($this->logger);
 
         $hosts = ['http://localhost:9200'];
         $client = $this->factory->fromConfig($hosts);
-
-        $this->assertInstanceOf(Client::class, $client);
-    }
-
-    public function testFromConfigProdEnvironment(): void
-    {
-        $this->factory = new ElasticaFactory($this->logger, 'prod');
-
-        $hosts = ['http://localhost:9200'];
-        $client = $this->factory->fromConfig($hosts);
-
-        $this->assertInstanceOf(Client::class, $client);
-    }
-
-    public function testFromConfigWithCustomConnectionPool(): void
-    {
-        $this->factory = new ElasticaFactory($this->logger, 'prod');
-
-        $hosts = ['http://localhost:9200'];
-        $connectionPool = 'CustomConnectionPool';
-        $client = $this->factory->fromConfig($hosts, $connectionPool);
 
         $this->assertInstanceOf(Client::class, $client);
     }

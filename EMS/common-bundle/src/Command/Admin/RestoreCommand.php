@@ -44,7 +44,7 @@ class RestoreCommand extends AbstractCommand
     }
 
     #[\Override]
-    public function initialize(InputInterface $input, OutputInterface $output): void
+    protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
         $this->adminHelper->setLogger(new ConsoleLogger($output));
@@ -74,8 +74,8 @@ class RestoreCommand extends AbstractCommand
         $this->addOption(self::IMPORT_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Global import folder (can be overwritten per type of exports)');
         $this->addOption(self::CONFIGS_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Import configs folder');
         $this->addOption(self::DOCUMENTS_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Import documents folder');
-        $this->addOption(self::CONFIGS_OPTION, null, InputOption::VALUE_NONE, 'Restore elasticMS\'s configs only');
-        $this->addOption(self::DOCUMENTS_OPTION, null, InputOption::VALUE_NONE, 'Restore elasticMS\'s documents only');
+        $this->addOption(self::CONFIGS_OPTION, null, InputOption::VALUE_NONE, "Restore elasticMS's configs only");
+        $this->addOption(self::DOCUMENTS_OPTION, null, InputOption::VALUE_NONE, "Restore elasticMS's documents only");
     }
 
     #[\Override]
@@ -116,7 +116,7 @@ class RestoreCommand extends AbstractCommand
         $rows = [];
         $this->io->progressStart(\count($configTypes));
         foreach ($configTypes as $configType) {
-            if (\in_array($configType, ['job'])) {
+            if ('job' == $configType) {
                 continue;
             }
             $rows[] = $this->restoreConfig($configType);
@@ -138,6 +138,7 @@ class RestoreCommand extends AbstractCommand
 
         $updateNames = \array_intersect($remoteNames, $localNames);
         $updateNames = $configHelper->needUpdate($updateNames);
+
         $deleteNames = \array_diff($remoteNames, $localNames);
         $addNames = \array_diff($localNames, $remoteNames);
 

@@ -4,12 +4,12 @@
 {% block title %}{{ 'user.profile.edit.title'|trans }}{% endblock title %}
 
 {% block breadcrumb %}
-    {% set breadcrumb = {(path('emsco_user_profile_edit')): 'user.profile.edit.breadcrumb_title'|trans}|merge(breadcrumb)  %}
+    {% set breadcrumb = {(path('emsco_user_profile_edit')): 'user.profile.edit.breadcrumb_title'|trans}|merge(breadcrumb) %}
     {{ parent() }}
 {% endblock breadcrumb %}
 
 {% block body %}
-    {{ form_start(form, { 'action': path(routes.USER_PROFILE_EDIT) }) }}
+    {{ form_start(form, {action: path(routes.USER_PROFILE_EDIT)}) }}
     <div class="row">
         <div class="col-md-6 offset-md-3">
             <div class="card card-{{ theme_color }} card-outline">

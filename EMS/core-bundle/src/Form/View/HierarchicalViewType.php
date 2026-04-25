@@ -88,12 +88,12 @@ class HierarchicalViewType extends ViewType
             ],
         ])
         ->add('maxDepth', IntegerType::class, [
-            'label' => 'Limit the menu\'s depth',
+            'label' => "Limit the menu's depth",
             'attr' => [
             ],
         ])
         ->add('maxDepth', IntegerType::class, [
-            'label' => 'Limit the menu\'s depth',
+            'label' => "Limit the menu's depth",
             'attr' => [
             ],
         ])
@@ -146,7 +146,7 @@ $dataField->getRawData()
             throw new NotFoundHttpException('Parent menu not found');
         }
         $parentId = \explode(':', (string) $view->getOptions()['parent']);
-        if (2 != \count($parentId)) {
+        if (2 !== \count($parentId)) {
             throw new NotFoundHttpException('Parent menu not found: '.$view->getOptions()['parent']);
         }
 
@@ -159,7 +159,7 @@ $dataField->getRawData()
             throw new NotFoundHttpException('Parent menu not found: '.$view->getOptions()['parent']);
         }
 
-        if (empty($parent)) {
+        if ([] === $parent) {
             throw new NotFoundHttpException('Parent menu not found: '.$view->getOptions()['parent']);
         }
 
@@ -183,13 +183,13 @@ $dataField->getRawData()
                 'view_label' => $view->getLabel(),
             ]);
 
-            return new RedirectResponse($this->router->generate('data.draft_in_progress', [
+            return new RedirectResponse($this->router->generate('emsco_draft_in_progress', [
                 'contentTypeId' => $view->getContentType()->getId(),
             ], UrlGeneratorInterface::RELATIVE_PATH));
         }
 
         $response = new Response();
-        $response->setContent($this->twig->render("@$this->templateNamespace/view/custom/".$this->getBlockPrefix().'.html.twig', [
+        $response->setContent($this->twig->render(\sprintf('@%s/view/custom/', $this->templateNamespace).$this->getBlockPrefix().'.html.twig', [
             'parent' => $parent,
             'view' => $view,
             'form' => $form->createView(),
@@ -220,12 +220,12 @@ $dataField->getRawData()
             }
             $revision->setRawData($data);
             $this->dataService->finalizeDraft($revision);
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             $this->logger->warning('form.view.hierarchical.error_with_document', [
                 EmsFields::LOG_CONTENTTYPE_FIELD => $type,
                 EmsFields::LOG_OUUID_FIELD => $ouuid,
-                EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
-                EmsFields::LOG_EXCEPTION_FIELD => $e,
+                EmsFields::LOG_ERROR_MESSAGE_FIELD => $exception->getMessage(),
+                EmsFields::LOG_EXCEPTION_FIELD => $exception,
             ]);
         }
     }

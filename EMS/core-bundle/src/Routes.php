@@ -85,6 +85,12 @@ class Routes
     final public const string I18N_ADD = 'emsco_i18n_add';
     final public const string I18N_EDIT = 'emsco_i18n_edit';
     final public const string I18N_DELETE = 'emsco_i18n_delete';
+    final public const string INLINE_EDIT_EDITOR = 'emsco_inline_edit_editor';
+    final public const string INLINE_EDIT_API_AUTO_SAVE = 'emsco_inline_edit_api_auto_save';
+    final public const string INLINE_EDIT_API_DISCARD = 'emsco_inline_edit_api_discard';
+    final public const string INLINE_EDIT_API_EDIT = 'emsco_inline_edit_api_edit';
+    final public const string INLINE_EDIT_API_INIT = 'emsco_inline_edit_api_init';
+    final public const string INLINE_EDIT_API_PUBLISH = 'emsco_inline_edit_api_publish';
     final public const string JOB_START = 'emsco_job_start';
     final public const string JOB_STATUS = 'emsco_job_status';
     final public const string RELEASE_INDEX = 'emsco_release_index';
@@ -133,6 +139,10 @@ class Routes
     final public const string LOG_INDEX = 'emsco_log_index';
     final public const string LOG_DELETE = 'emsco_log_delete';
     final public const string LOG_VIEW = 'emsco_log_view';
+    final public const string WEBHOOK_SUBSCRIPTION_INDEX = 'emsco_webhook_subscription_index';
+    final public const string WEBHOOK_SUBSCRIPTION_DELETE = 'emsco_webhook_subscription_delete';
+    final public const string WEBHOOK_SUBSCRIPTION_TEST = 'emsco_webhook_subscription_test';
+    final public const string WEBHOOK_SUBSCRIPTION_TOGGLE_ENABLE = 'emsco_webhook_subscription_toggle_enable';
     final public const string WYSIWYG_INDEX = 'emsco_wysiwyg_index';
     final public const string WYSIWYG_PROFILE_ADD = 'emsco_wysiwyg_profile_add';
     final public const string WYSIWYG_PROFILE_DELETE = 'emsco_wysiwyg_profile_delete';

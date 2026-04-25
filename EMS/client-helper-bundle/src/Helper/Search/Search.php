@@ -20,8 +20,6 @@ final class Search
     private ?string $indexRegex;
     /** @var string[] */
     private readonly array $types;
-    /** @var array<string, int> [facet_name => size], used for aggregation */
-    private readonly array $facets;
     /** @var Synonym[] */
     private array $synonyms = [];
     /** @var string[] */
@@ -45,8 +43,6 @@ final class Search
 
     /** @var string|null free text search */
     private ?string $queryString = null;
-    /** @var array<string, mixed> */
-    private array $queryFacets = [];
 
     private int $page = 0;
     private int $size = 100;
@@ -62,10 +58,6 @@ final class Search
     {
         $options ??= $this->getOptions($request, $clientRequest);
 
-        if (isset($options['facets'])) {
-            @\trigger_error('Deprecated facets, please use filters setting', E_USER_DEPRECATED);
-        }
-
         if (isset($options['fields']) && isset($options['query_search'])) {
             throw new \RuntimeException('Cannot combine "fields" and "query" search config');
         }
@@ -73,7 +65,6 @@ final class Search
         $this->indexRegex = $options['index_regex'] ?? null;
         $this->types = $options['types']; // required
         $this->querySearch = $options['query_search'] ?? null;
-        $this->facets = $options['facets'] ?? [];
         $this->sizes = $options['sizes'] ?? [];
         $this->minimumShouldMatch = $options['minimum_should_match'] ?? null;
         $this->defaultSorts = $this->parseSorts($options['default_sorts'] ?? []);
@@ -101,17 +92,13 @@ final class Search
 
     private function bindRequest(Request $request): void
     {
-        $this->queryString = $request->query->get('q', $request->get('q', $this->queryString));
-        $requestFacets = $request->query->all()['f'] ?? $request->get('f', null);
+        $this->queryString = $request->query->get('q', $request->query->get('q', $this->queryString));
 
-        if (\is_array($requestFacets)) {
-            $this->queryFacets = $requestFacets;
-        }
-
-        $this->page = (int) $request->query->get('p', $request->get('p', $this->page));
-        $this->setSize((int) $request->query->get('l', $request->get('l', $this->size)));
-        $this->setSortBy($request->query->get('s', $request->get('s')));
-        $this->setSortOrder($request->query->all()['o'] ?? $request->get('o', $this->sortOrder));
+        $all = [...$request->query->all(), ...$request->attributes->all()];
+        $this->page = isset($all['p']) ? (int) $all['p'] : $this->page;
+        $this->setSize(isset($all['l']) ? (int) $all['l'] : $this->size);
+        $this->setSortBy(isset($all['s']) ? (string) $all['s'] : null);
+        $this->setSortOrder(isset($all['o']) ? (string) $all['o'] : $this->sortOrder);
 
         if (null !== $this->indexRegex) {
             $requestSearchIndex = RequestHelper::replace($request, $this->indexRegex);
@@ -203,22 +190,6 @@ final class Search
         return $this->queryString ? QueryStringEscaper::escape($this->queryString) : null;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
-    public function getQueryFacets(): array
-    {
-        $queryFacets = [];
-
-        foreach ($this->queryFacets as $field => $terms) {
-            if (\array_key_exists($field, $this->facets) && !empty($terms)) {
-                $queryFacets[$field] = $terms;
-            }
-        }
-
-        return $queryFacets;
-    }
-
     public function hasFilter(string $name): bool
     {
         return isset($this->filters[$name]);
@@ -281,6 +252,10 @@ final class Search
      */
     public function getSort(): ?array
     {
+        if (null === $this->sortBy) {
+            return null;
+        }
+
         return $this->sorts[$this->sortBy] ?? null;
     }
 
@@ -328,13 +303,8 @@ final class Search
      */
     private function getOptions(Request $request, ClientRequest $clientRequest): array
     {
-        if ($requestSearchConfig = $request->get('search_config')) {
-            if (\is_array($requestSearchConfig)) {
-                return $requestSearchConfig;
-            }
-            @\trigger_error('Deprecated search_config as string, please define it as an object in your route\'s config', E_USER_DEPRECATED);
-
-            return Json::decode($requestSearchConfig);
+        if ($requestSearchConfig = $request->attributes->get('search_config')) {
+            return \is_array($requestSearchConfig) ? $requestSearchConfig : Json::decode($requestSearchConfig);
         }
 
         $currentEnvironment = $clientRequest->getCurrentEnvironment();
@@ -397,11 +367,7 @@ final class Search
      */
     private function setSuggestFields(array $suggestFields, string $locale): void
     {
-        if (isset($suggestFields[$locale])) {
-            $this->suggestFields = $suggestFields[$locale];
-        } else {
-            $this->suggestFields = [];
-        }
+        $this->suggestFields = $suggestFields[$locale] ?? [];
     }
 
     /**
@@ -423,16 +389,12 @@ final class Search
 
     private function setSortBy(?string $name): void
     {
-        if (null === $name) {
+        if (null === $name || !\array_key_exists($name, $this->sorts)) {
             return;
         }
 
-        if (null == $this->sorts) {
-            @\trigger_error('Define possible sort fields with the search option "sorts"', \E_USER_DEPRECATED);
-        } elseif (\array_key_exists($name, $this->sorts)) {
-            $this->sortBy = $name;
-            $this->sortOrder = $this->sorts[$name]['order'] ?? $this->sortOrder;
-        }
+        $this->sortBy = $name;
+        $this->sortOrder = $this->sorts[$name]['order'] ?? $this->sortOrder;
     }
 
     private function setSortOrder(string $o): void
@@ -442,14 +404,7 @@ final class Search
 
     private function setSize(int $l): void
     {
-        if (null == $this->sizes) {
-            @\trigger_error('Define allow sizes with the search option "sizes"', \E_USER_DEPRECATED);
-            $this->size = (int) ((int) $l > 0 ? $l : $this->size);
-        } elseif (\in_array($l, $this->sizes)) {
-            $this->size = (int) $l;
-        } else {
-            $this->size = (int) \reset($this->sizes);
-        }
+        $this->size = \in_array($l, $this->sizes) ? $l : (int) \reset($this->sizes);
     }
 
     /**

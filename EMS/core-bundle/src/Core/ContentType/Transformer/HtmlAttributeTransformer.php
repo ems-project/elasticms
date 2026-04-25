@@ -31,14 +31,15 @@ final class HtmlAttributeTransformer extends BaseHtmlTransformer
 
         $crawler = new Crawler();
         $crawler->addContent($context->getData());
+
         $options = $this->resolveOptions($context->getOptions());
         $results = 0;
 
         if ($options['remove_value_prefix']) {
-            $results = $results + $this->removeValue($crawler, $options);
+            $results += $this->removeValue($crawler, $options);
         }
         if ($options['remove']) {
-            $results = $results + $this->removeAttribute($crawler, $options);
+            $results += $this->removeAttribute($crawler, $options);
         }
 
         if ($results > 0) {
@@ -121,7 +122,7 @@ final class HtmlAttributeTransformer extends BaseHtmlTransformer
                 ++$result;
             }
 
-            if (0 === \count($filter)) {
+            if ([] === $filter) {
                 $element->removeAttribute('class');
                 if (0 === $element->attributes->length) {
                     $this->unwrap($element);
@@ -158,7 +159,7 @@ final class HtmlAttributeTransformer extends BaseHtmlTransformer
                 ++$result;
             }
 
-            if (0 === \count($filter)) {
+            if ([] === $filter) {
                 $element->removeAttribute('style');
                 if (0 === $element->attributes->length) {
                     $this->unwrap($element);

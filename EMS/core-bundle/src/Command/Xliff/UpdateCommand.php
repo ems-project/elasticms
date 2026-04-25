@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command\Xliff;
 
-use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Storage\Service\StorageInterface;
 use EMS\CommonBundle\Storage\StorageManager;
-use EMS\CommonBundle\Twig\AssetRuntime;
+use EMS\CommonBundle\Twig\AssetExtension;
+use EMS\CoreBundle\Command\AbstractCoreCommand;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Exception\XliffException;
@@ -18,8 +18,7 @@ use EMS\CoreBundle\Service\PublishService;
 use EMS\CoreBundle\Service\Revision\RevisionService;
 use EMS\Helpers\File\TempFile;
 use EMS\Helpers\Html\MimeTypes;
-use EMS\Xliff\Xliff\Entity\InsertReport;
-use EMS\Xliff\Xliff\Inserter;
+use EMS\Xliff\Xliff;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -32,7 +31,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
     description: 'Update documents from a given XLIFF file.',
     hidden: false
 )]
-final class UpdateCommand extends AbstractCommand
+final class UpdateCommand extends AbstractCoreCommand
 {
     private const string XLIFF_UPLOAD_COMMAND = 'XLIFF_UPLOAD_COMMAND';
     public const string ARGUMENT_XLIFF_FILE = 'xliff-file';
@@ -59,7 +58,7 @@ final class UpdateCommand extends AbstractCommand
         private readonly PublishService $publishService,
         private readonly RevisionService $revisionService,
         private readonly StorageManager $storageManager,
-        private readonly AssetRuntime $assetRuntime,
+        private readonly AssetExtension $assetExtension,
     ) {
         parent::__construct();
     }
@@ -71,8 +70,8 @@ final class UpdateCommand extends AbstractCommand
             ->addArgument(self::ARGUMENT_XLIFF_FILE, InputArgument::REQUIRED, 'Input XLIFF file (filename or hash)')
             ->addOption(self::OPTION_PUBLISH_TO, null, InputOption::VALUE_OPTIONAL, 'If defined the revision will be published in the defined environment')
             ->addOption(self::OPTION_ARCHIVE, null, InputOption::VALUE_NONE, 'If set another revision will be flagged as archived')
-            ->addOption(self::OPTION_LOCALE_FIELD, null, InputOption::VALUE_OPTIONAL, 'Field containing the locale', null)
-            ->addOption(self::OPTION_TRANSLATION_FIELD, null, InputOption::VALUE_OPTIONAL, 'Field containing the translation field', null)
+            ->addOption(self::OPTION_LOCALE_FIELD, null, InputOption::VALUE_OPTIONAL, 'Field containing the locale')
+            ->addOption(self::OPTION_TRANSLATION_FIELD, null, InputOption::VALUE_OPTIONAL, 'Field containing the translation field')
             ->addOption(self::OPTION_DRY_RUN, null, InputOption::VALUE_NONE, 'If set nothing is saved in the database')
             ->addOption(self::OPTION_CURRENT_REVISION_ONLY, null, InputOption::VALUE_NONE, 'Translations will be updated only is the source revision is still a current revision')
             ->addOption(self::OPTION_BASE_URL, null, InputOption::VALUE_OPTIONAL, 'Base url, in order to generate a download link to the error report');
@@ -112,19 +111,20 @@ final class UpdateCommand extends AbstractCommand
         ]);
 
         $fileGetter = $this->storageManager->getFile($this->xliffFilename);
-        $inserter = Inserter::fromFile($fileGetter->getFilename());
-        $this->io->progressStart($inserter->count());
-        $insertReport = new InsertReport();
-        foreach ($inserter->getDocuments() as $document) {
+        $xliff = Xliff::create();
+        $xliff->fromFile($fileGetter->getFilename());
+
+        $this->io->progressStart(\count($xliff->getPackage()->getDocuments()));
+        foreach ($xliff->getPackage()->getDocuments() as $document) {
             if ($this->dryRun) {
-                $this->xliffService->testInsert($insertReport, $document, $this->localeField);
+                $this->xliffService->testInsert($xliff->getPackage(), $document, $this->localeField);
                 $this->io->progressAdvance();
                 continue;
             }
             try {
-                $revision = $this->xliffService->insert($insertReport, $document, $this->localeField, $this->translationField, $this->publishTo, self::XLIFF_UPLOAD_COMMAND, $this->currentRevisionOnly);
+                $revision = $this->xliffService->insert($xliff->getPackage(), $document, $this->localeField, $this->translationField, $this->publishTo, self::XLIFF_UPLOAD_COMMAND, $this->currentRevisionOnly);
             } catch (XliffException $e) {
-                $output->writeln(\sprintf('Update for %s:%s:%s failed :  %s', $document->getContentType(), $document->getOuuid(), $document->getRevisionId(), $e->getMessage()));
+                $this->io->warning(\sprintf('Update for %s failed : %s', $document->id, $e->getMessage()));
                 continue;
             }
             if (null !== $this->publishTo) {
@@ -137,16 +137,16 @@ final class UpdateCommand extends AbstractCommand
         }
         $this->io->progressFinish();
 
-        if (0 === $insertReport->countErrors()) {
+        if (0 === $xliff->getPackage()->getInsertReport()->countErrors()) {
             return self::EXECUTE_SUCCESS;
         }
 
-        $output->writeln(\sprintf('%d documents faced issue(s)', $insertReport->countErrors()));
+        $this->io->warning(\sprintf('%d documents faced issue(s)', $xliff->getPackage()->getInsertReport()->countErrors()));
         $tempFile = TempFile::create();
-        $insertReport->export($tempFile->path);
+        $xliff->getPackage()->getInsertReport()->export($tempFile->path);
         $hash = $this->storageManager->saveFile($tempFile->path, StorageInterface::STORAGE_USAGE_CONFIG);
 
-        $url = ($this->baseUrl ?? '').$this->assetRuntime->assetPath(
+        $url = ($this->baseUrl ?? '').$this->assetExtension->assetPath(
             [
                 EmsFields::CONTENT_FILE_HASH_FIELD => $hash,
                 EmsFields::CONTENT_FILE_NAME_FIELD => 'xliff_update_report.zip',
@@ -159,8 +159,8 @@ final class UpdateCommand extends AbstractCommand
             EmsFields::CONTENT_MIME_TYPE_FIELD,
             UrlGeneratorInterface::ABSOLUTE_PATH
         );
-        $output->writeln('');
-        $output->writeln(\sprintf('The XLIFF export is available at %s', $url));
+        $this->io->newLine();
+        $this->io->success(\sprintf('The XLIFF export is available at %s', $url));
 
         return self::EXECUTE_SUCCESS;
     }

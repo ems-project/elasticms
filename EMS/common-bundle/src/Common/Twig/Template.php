@@ -38,8 +38,8 @@ class Template implements TemplateInterface
     {
         try {
             return $this->template->render($this->context->getRaw());
-        } catch (\Throwable $e) {
-            throw $e->getPrevious() instanceof HttpException ? $e->getPrevious() : $e;
+        } catch (\Throwable $throwable) {
+            throw $throwable->getPrevious() instanceof HttpException ? $throwable->getPrevious() : $throwable;
         }
     }
 
@@ -53,8 +53,8 @@ class Template implements TemplateInterface
             $render = $this->template->renderBlock($name, $this->context->getRaw());
 
             return '' !== \trim($render) ? $render : null;
-        } catch (\Throwable $e) {
-            throw $e->getPrevious() instanceof HttpException ? $e->getPrevious() : $e;
+        } catch (\Throwable $throwable) {
+            throw $throwable->getPrevious() instanceof HttpException ? $throwable->getPrevious() : $throwable;
         }
     }
 }

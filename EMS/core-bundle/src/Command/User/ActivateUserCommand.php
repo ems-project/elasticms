@@ -15,7 +15,12 @@ use Symfony\Component\Console\Question\Question;
 #[AsCommand(
     name: Commands::USER_ACTIVATE,
     description: 'Activate a user.',
-    hidden: false
+    hidden: false,
+    help: <<<TXT
+        The <info>emsco:user:activate</info> command activates a user (so they will be able to log in):
+
+          <info>php %command.full_name% matthieu</info>
+        TXT
 )]
 class ActivateUserCommand extends AbstractUserCommand
 {
@@ -25,14 +30,7 @@ class ActivateUserCommand extends AbstractUserCommand
         $this
             ->setDefinition([
                 new InputArgument('username', InputArgument::REQUIRED, 'The username'),
-            ])
-            ->setHelp(
-                <<<'EOT'
-                    The <info>emsco:user:activate</info> command activates a user (so they will be able to log in):
-
-                      <info>php %command.full_name% matthieu</info>
-                    EOT
-            );
+            ]);
     }
 
     #[\Override]
@@ -45,8 +43,8 @@ class ActivateUserCommand extends AbstractUserCommand
             $this->io->success(\sprintf('User "%s" has been activated.', $username));
 
             return self::EXECUTE_SUCCESS;
-        } catch (\Throwable $e) {
-            $this->io->error($e->getMessage());
+        } catch (\Throwable $throwable) {
+            $this->io->error($throwable->getMessage());
 
             return self::EXECUTE_ERROR;
         }

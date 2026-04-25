@@ -33,15 +33,15 @@ class DocumentationController extends AbstractController
                 $controller = $route->getDefault('_controller') ?? 'Not defined';
 
                 $tag = 'Default';
-                if (\str_contains($controller, 'Controller')) {
-                    $parts = \explode('\\', $controller);
+                if (\str_contains((string) $controller, 'Controller')) {
+                    $parts = \explode('\\', (string) $controller);
                     $controllerName = \end($parts);
                     $tag = \str_replace('Controller', '', \explode('::', $controllerName)[0]);
                 }
 
                 $tags[$tag] = [
                     'name' => $tag,
-                    'description' => "Endpoints related to $tag",
+                    'description' => 'Endpoints related to '.$tag,
                 ];
 
                 foreach ($methods as $method) {
@@ -50,7 +50,7 @@ class DocumentationController extends AbstractController
                         'summary' => $name,
                         'responses' => [
                             '200' => [
-                                'description' => "Success response for route $name",
+                                'description' => 'Success response for route '.$name,
                             ],
                             '401' => [
                                 'description' => 'Unauthorized',
@@ -88,7 +88,7 @@ class DocumentationController extends AbstractController
             return new JsonResponse($openApi);
         }
 
-        return $this->render("@$this->templateNamespace/api/documentation.html.twig");
+        return $this->render(\sprintf('@%s/api/documentation.html.twig', $this->templateNamespace));
     }
 
     /**

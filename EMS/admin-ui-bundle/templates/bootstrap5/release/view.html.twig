@@ -5,25 +5,25 @@
 {% block pagetitle %}{{ block('title') }}{% endblock %}
 
 {% block breadcrumb %}
-	<ol class="breadcrumb float-sm-end">
-		<li class="breadcrumb-item"><a href="{{ path('emsco_release_index') }}"><i class="{{ 'view.icon.class.release'|trans }}"></i> {{ 'release.menu'|trans }}</a></li>
-		<li class="breadcrumb-item">{{ block('title') }}</li>
-   	</ol>
+    <ol class="breadcrumb float-sm-end">
+        <li class="breadcrumb-item"><a href="{{ path('emsco_release_index') }}"><i class="{{ 'view.icon.class.release'|trans }}"></i> {{ 'release.menu'|trans }}</a></li>
+        <li class="breadcrumb-item">{{ block('title') }}</li>
+       </ol>
 {% endblock %}
 
 {% block body %}
-    {%  set toolbar %}
-        {% include '@EMSAdminUI/bootstrap5/elements/get-button.html.twig' with {
-            'url':  path('emsco_release_index'),
-            'label': 'release.all_releases.label',
-            'icon': 'cube'
-        }%}
-    {%  endset %}
+    {% set toolbar %}
+        {{ include('@EMSAdminUI/bootstrap5/elements/get-button.html.twig', {
+            url: path('emsco_release_index'),
+            label: 'release.all_releases.label',
+            icon: 'cube',
+        }) }}
+    {% endset %}
 
     {% if form is not null %}
         {% form_theme form '@EMSAdminUI/bootstrap5/form/forms.html.twig' %}
         {{ form(form, {
-            toolbar: toolbar
+            toolbar: toolbar,
         }) }}
     {% endif %}
 {% endblock %}

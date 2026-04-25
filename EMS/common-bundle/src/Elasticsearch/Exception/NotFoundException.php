@@ -15,7 +15,7 @@ class NotFoundException extends ElasticaNotFoundException
         } elseif (null !== $ouuid) {
             parent::__construct(\sprintf('Document %s not found', $ouuid));
         } else {
-            parent::__construct(\sprintf('Not found exception'));
+            parent::__construct('Not found exception');
         }
     }
 }

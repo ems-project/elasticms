@@ -96,7 +96,7 @@ final class MediaLibrarySync
         $path = $this->options->targetFolder.$file->getRelativePathname();
         $metaData = $this->getMetadata($path);
 
-        if ($this->options->onlyMetadataFile && 0 === \count($metaData)) {
+        if ($this->options->onlyMetadataFile && [] === $metaData) {
             $this->io->warning(\sprintf('Skipped "%s" with reason metadata was not found', $path));
 
             return;
@@ -105,7 +105,7 @@ final class MediaLibrarySync
         $this->uploadMedia($path, [self::SYNC_METADATA => $metaData], $file);
 
         $exploded = \explode('/', $file->getRelativePath());
-        while (\count($exploded) > 0) {
+        while ([] !== $exploded) {
             $folder = '/'.\implode('/', $exploded);
             if (!\in_array($folder, $this->knownFolders)) {
                 $this->uploadMedia($folder, [
@@ -131,6 +131,7 @@ final class MediaLibrarySync
         $term = new Terms($this->options->pathField, [$path]);
         $search = new Search([$this->defaultAlias], $term->toArray());
         $search->setContentTypes([$this->options->contentType]);
+
         $result = $this->coreApi->search()->search($search);
         $document = null;
         foreach ($result->getDocuments() as $item) {
@@ -176,6 +177,7 @@ final class MediaLibrarySync
     {
         $mimeType = \mime_content_type($file->getRealPath());
         $mimeType = $mimeType ?: 'application/bin';
+
         $hash = '';
 
         $filename = $file->getFilename();
@@ -202,7 +204,7 @@ final class MediaLibrarySync
 
                 return [];
             }
-            if (0 === \strlen($hash)) {
+            if ('' === $hash) {
                 $this->io->error(\sprintf('Unexpected empty hash for "%s"', $file->getRealPath()));
 
                 return [];
@@ -252,8 +254,8 @@ final class MediaLibrarySync
             $assetArray[EmsFields::CONTENT_FILE_AUTHOR] = $meta->getCreator();
             $assetArray[EmsFields::CONTENT_FILE_TITLE] = $meta->getTitle();
             $assetArray[EmsFields::CONTENT_FILE_LANGUAGE] = $meta->getLocale();
-        } catch (\Throwable $e) {
-            $this->io->warning($e->getMessage());
+        } catch (\Throwable $throwable) {
+            $this->io->warning($throwable->getMessage());
         }
 
         return $assetArray;

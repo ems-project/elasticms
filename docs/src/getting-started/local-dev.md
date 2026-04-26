@@ -39,15 +39,17 @@ sudo apt install make
 If you are using a mac with [brew](https://brew.sh/):
 
 ```bash
-brew install php@85 php@85-curl php@85-gd php@85-iconv php@85-intl php@85-ldap php@85-mbstring php@85-mysql php@85-soap php@85-tidy php@85-zip
-brew link --force --overwrite php@8.5
-```
-
-If you are using a mac with [mac port](https://www.macports.org/):
-
-```bash
-sudo port install php85 php85-curl php85-gd php85-iconv php85-intl php85-ldap php85-mbstring php85-mysql php85-soap php85-tidy php85-zip php85-opentelemetry
-sudo port select php php85
+brew tap shivammathur/php
+brew tap shivammathur/extensions
+brew install shivammathur/php/php@8.5
+brew install shivammathur/extensions/redis@8.5
+brew link --overwrite --force shivammathur/php/php@8.5
+pecl install opentelemetry
+brew install composer
+brew install prettier
+brew install symfony-cli/tap/symfony-cli
+composer install
+brew install make
 ```
 
 ### Switch between multiple PHP versions

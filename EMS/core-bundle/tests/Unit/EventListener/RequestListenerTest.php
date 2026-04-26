@@ -14,12 +14,19 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 final class RequestListenerTest extends TestCase
 {
+    private HttpKernelInterface $kernel;
+
+    protected function setUp(): void
+    {
+        $this->kernel = $this->createStub(HttpKernelInterface::class);
+    }
+
     public function testItAllowsInternalRedirectTargets(): void
     {
         $listener = $this->createListener();
         $request = Request::create('/login', 'GET', ['redirectToUrl' => '/dashboard?tab=welcome#intro']);
         $response = new RedirectResponse('/default');
-        $event = new ResponseEvent($this->createMock(HttpKernelInterface::class), $request, HttpKernelInterface::MAIN_REQUEST, $response);
+        $event = new ResponseEvent($this->kernel, $request, HttpKernelInterface::MAIN_REQUEST, $response);
 
         $listener->onKernelResponse($event);
 
@@ -39,7 +46,7 @@ final class RequestListenerTest extends TestCase
         ] as $redirectToUrl) {
             $request = Request::create('/login', 'GET', ['redirectToUrl' => $redirectToUrl]);
             $response = new RedirectResponse('/default');
-            $event = new ResponseEvent($this->createMock(HttpKernelInterface::class), $request, HttpKernelInterface::MAIN_REQUEST, $response);
+            $event = new ResponseEvent($this->kernel, $request, HttpKernelInterface::MAIN_REQUEST, $response);
 
             $listener->onKernelResponse($event);
 
@@ -52,7 +59,7 @@ final class RequestListenerTest extends TestCase
         $listener = $this->createListener();
         $request = Request::create('/login', 'GET', ['redirectToUrl' => '/dashboard']);
         $response = new Response();
-        $event = new ResponseEvent($this->createMock(HttpKernelInterface::class), $request, HttpKernelInterface::MAIN_REQUEST, $response);
+        $event = new ResponseEvent($this->kernel, $request, HttpKernelInterface::MAIN_REQUEST, $response);
 
         $listener->onKernelResponse($event);
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Service;
 
 use EMS\CommonBundle\Entity\EntityInterface;
+use EMS\CoreBundle\Core\Security\Canonicalizer;
 use EMS\CoreBundle\Core\UI\Menu;
 use EMS\CoreBundle\Core\User\UserList;
 use EMS\CoreBundle\Entity\User;
@@ -51,6 +52,40 @@ class UserService implements EntityServiceInterface
 
         $user = $this->userRepository->search($search);
         $cache[$search] = $user;
+
+        return $user;
+    }
+
+    public function getUserById(int $id): ?User
+    {
+        return $this->userRepository->findOneBy(['id' => $id]);
+    }
+
+    public function findUserByEmail(string $email): ?User
+    {
+        return $this->userRepository->findOneBy(['email' => $email]);
+    }
+
+    public function updateUser(UserInterface $user): UserInterface
+    {
+        if ($user instanceof User) {
+            $user->setUsernameCanonical(Canonicalizer::canonicalize($user->getUsername()));
+            $user->setEmailCanonical(Canonicalizer::canonicalize($user->getEmail()));
+        }
+
+        $em = $this->doctrine->getManager();
+        $em->persist($user);
+        $em->flush();
+
+        return $user;
+    }
+
+    public function giveUser(string $username, bool $detachIt = true): UserInterface
+    {
+        $user = $this->getUser($username, $detachIt);
+        if (null === $user) {
+            throw new \RuntimeException('Unexpected null user object');
+        }
 
         return $user;
     }

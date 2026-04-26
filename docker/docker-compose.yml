@@ -296,6 +296,21 @@ services:
                 exec "$${SHELL:-bash}"
         stdin_open: true
         tty: true
+        labels:
+            - "sandbox"
+            - "traefik.enable=true"
+            - "traefik.http.routers.sandbox-admin.rule=Host(`sandbox-admin.localhost`)"
+            - "traefik.http.routers.sandbox-admin.entrypoints=web"
+            - "traefik.http.routers.sandbox-admin.service=sandbox-admin"
+            - "traefik.http.services.sandbox-admin.loadbalancer.server.port=8881"
+            - "traefik.http.routers.sandbox-web.rule=Host(`sandbox-web.localhost`)"
+            - "traefik.http.routers.sandbox-web.entrypoints=web"
+            - "traefik.http.routers.sandbox-web.service=sandbox-web"
+            - "traefik.http.services.sandbox-web.loadbalancer.server.port=8882"
+            - "traefik.http.routers.sandbox-cli.rule=Host(`sandbox-cli.localhost`)"
+            - "traefik.http.routers.sandbox-cli.entrypoints=cli"
+            - "traefik.http.routers.sandbox-cli.service=sandbox-cli"
+            - "traefik.http.services.sandbox-cli.loadbalancer.server.port=8883"
 
 volumes:
     elk8_data1:

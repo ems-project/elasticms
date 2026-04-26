@@ -7,6 +7,7 @@ namespace EMS\CommonBundle\Common\CoreApi\Endpoint\File;
 use EMS\CommonBundle\Commands;
 use EMS\CommonBundle\Common\CoreApi\Client;
 use EMS\CommonBundle\Common\CoreApi\Endpoint\Admin\Admin;
+use EMS\CommonBundle\Common\File\FileInfo;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\File\FileInterface;
 use EMS\CommonBundle\Storage\Archive;
 use EMS\CommonBundle\Storage\File\FileInterface as StorageFileInterface;
@@ -245,5 +246,15 @@ final class File implements FileInterface
     public function getFile(string $hash): StorageFileInterface
     {
         return new StorageFile($this->getStream($hash));
+    }
+
+    #[\Override]
+    public function getFileInfo(string $hash, bool $firstSeen = true): FileInfo
+    {
+        $data = $this->client->get('/api/file/info/'.$hash, [
+            'first-seen' => $firstSeen,
+        ])->getData();
+
+        return FileInfo::deserialize($data);
     }
 }

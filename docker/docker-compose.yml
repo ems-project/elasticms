@@ -261,11 +261,21 @@ services:
         user: ${DOCKER_USER-1000}
         env_file:
             -   ./sandbox.env
+        environment:
+            NPM_CONFIG_PREFIX: /home/default/.local/npm
         volumes:
             - ./.sandbox:/home/default:rw
             - ../:/workspace:rw
         working_dir: /workspace
-        command: bash
+        command:
+            - bash
+            - -lc
+            - |
+                mkdir -p /home/default/.local/npm/bin
+                grep -qxF 'export PATH="/home/default/.local/npm/bin:$$PATH"' /home/default/.bashrc || echo 'export PATH="/home/default/.local/npm/bin:$$PATH"' >> /home/default/.bashrc
+                grep -qxF "alias pbc='php bin/console'" /home/default/.bashrc || echo "alias pbc='php bin/console'" >> /home/default/.bashrc
+                npm config set prefix /home/default/.local/npm
+                exec "$${SHELL:-bash}"
         stdin_open: true
         tty: true
 

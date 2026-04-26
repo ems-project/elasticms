@@ -1,8 +1,8 @@
 # PropertyAccessor
 
-The `PropertyAccessor` is a singleton utility for reading, writing, and iterating over deeply nested array structures
-using a bracket-notation path syntax. It supports encoding/decoding operators, wildcard iteration, and recursive
-traversal by ID.
+The `PropertyAccessor` is a singleton utility for reading, writing, and iterating over deeply nested
+array structures using a bracket-notation path syntax. It supports encoding/decoding operators,
+wildcard iteration, and recursive traversal by ID.
 
 ## Path Syntax
 
@@ -17,34 +17,36 @@ Each bracket segment maps to a key in the array. For example, `[settings][theme]
 
 ### Operators
 
-Operators are prefixed to the field name, separated by colons. Multiple operators can be chained and are applied in
-order during decoding and in reverse order during encoding.
+Operators are prefixed to the field name, separated by colons. Multiple operators can be chained and
+are applied in order during decoding and in reverse order during encoding.
 
 | Operator | Description                                                |
-|----------|------------------------------------------------------------|
+| -------- | ---------------------------------------------------------- |
 | `json`   | JSON encodes/decodes the value                             |
 | `base64` | Base64 encodes/decodes the value                           |
 | `id_key` | Re-indexes an array using each item's `id` property as key |
 
-Example: `[json:id_key:structure]` first JSON-decodes the `structure` field, then re-indexes the resulting array by
-`id`.
+Example: `[json:id_key:structure]` first JSON-decodes the `structure` field, then re-indexes the
+resulting array by `id`.
 
 ### Wildcards
 
 | Wildcard | Description                         |
-|----------|-------------------------------------|
+| -------- | ----------------------------------- |
 | `*`      | Iterates over all direct children   |
 | `**`     | Recursively traverses nested arrays |
 
 ### Recursive Traversal (`**`)
 
-The `**` wildcard performs a depth-first search through all nested arrays. When combined with the `id_key` operator, it
-generates "beautiful paths" that include the matched item's `id` instead of numeric indices.
+The `**` wildcard performs a depth-first search through all nested arrays. When combined with the
+`id_key` operator, it generates "beautiful paths" that include the matched item's `id` instead of
+numeric indices.
 
 #### In `getValue` and `setValue`
 
-When used in `getValue` or `setValue`, the segment immediately after `**` is treated as a target ID. The accessor
-searches the tree for an item whose `id` property matches, then continues resolving the remaining path from that item.
+When used in `getValue` or `setValue`, the segment immediately after `**` is treated as a target ID.
+The accessor searches the tree for an item whose `id` property matches, then continues resolving the
+remaining path from that item.
 
 ```php
 $accessor = PropertyAccessor::createPropertyAccessor();
@@ -69,8 +71,8 @@ If no item with the given ID is found, `getValue` returns `null` and `setValue` 
 
 #### In `iterator`
 
-When iterating with `**`, all nested arrays are yielded. Combined with `id_key`, the generated paths use the item's `id`
-instead of numeric keys, producing stable, human-readable paths.
+When iterating with `**`, all nested arrays are yielded. Combined with `id_key`, the generated paths
+use the item's `id` instead of numeric keys, producing stable, human-readable paths.
 
 ```php
 $fieldPath = '[json:id_key:structure][**][title_%locale%]';
@@ -84,8 +86,8 @@ foreach ($accessor->iterator($fieldPath, $data, $replacers) as $path => $value) 
 
 ### Replacers
 
-The `iterator` method accepts a `$replacers` array that performs string substitution on field names. This is useful for
-locale-aware paths:
+The `iterator` method accepts a `$replacers` array that performs string substitution on field names.
+This is useful for locale-aware paths:
 
 ```php
 $replacers = ['%locale%' => 'fr'];

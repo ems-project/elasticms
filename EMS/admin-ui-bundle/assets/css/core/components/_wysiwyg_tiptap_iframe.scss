@@ -28,8 +28,11 @@ body {
     figure[data-type="table"] {
         margin: 0;
         padding: 0;
+        display: flex;
+        flex-direction: column;
 
         > figcaption {
+            order: 1;
             text-align: center;
             font-style: italic;
             padding: 5px;

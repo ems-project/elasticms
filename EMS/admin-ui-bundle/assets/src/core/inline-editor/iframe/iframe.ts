@@ -175,9 +175,7 @@ export class Iframe {
             }
         })
 
-        editor.tiptap.on('update', ({ editor }) => {
-            this.sendContentChanged(info, editor.getHTML())
-        })
+        editor.tiptap.on('update', () => this.sendContentChanged(info, editor.getHTML()))
 
         return editor
     }

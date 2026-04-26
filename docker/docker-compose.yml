@@ -271,10 +271,21 @@ services:
             - bash
             - -lc
             - |
-                mkdir -p /home/default/.local/npm/bin
-                grep -qxF 'export PATH="/home/default/.local/npm/bin:$$PATH"' /home/default/.bashrc || echo 'export PATH="/home/default/.local/npm/bin:$$PATH"' >> /home/default/.bashrc
+                mkdir -p /home/default/.local/bin /home/default/.local/npm/bin /home/default/.config/symfony-cli
+                export PATH="/home/default/.local/bin:/home/default/.local/npm/bin:$$PATH"
+                grep -qxF 'export PATH="/home/default/.local/bin:/home/default/.local/npm/bin:$$PATH"' /home/default/.bashrc || echo 'export PATH="/home/default/.local/bin:/home/default/.local/npm/bin:$$PATH"' >> /home/default/.bashrc
                 grep -qxF "alias pbc='php bin/console'" /home/default/.bashrc || echo "alias pbc='php bin/console'" >> /home/default/.bashrc
                 npm config set prefix /home/default/.local/npm
+                if ! command -v symfony >/dev/null 2>&1; then
+                    curl -sS https://get.symfony.com/cli/installer | bash
+                fi
+                if [ ! -e /home/default/.local/bin/symfony ]; then
+                    if [ -x /home/default/.symfony5/bin/symfony ]; then
+                        ln -s /home/default/.symfony5/bin/symfony /home/default/.local/bin/symfony
+                    elif [ -x /home/default/.symfony/bin/symfony ]; then
+                        ln -s /home/default/.symfony/bin/symfony /home/default/.local/bin/symfony
+                    fi
+                fi
                 exec "$${SHELL:-bash}"
         stdin_open: true
         tty: true

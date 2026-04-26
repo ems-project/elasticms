@@ -10,11 +10,12 @@ outline: [2, 2]
 ## 7.2
 
 - The command option `--user` is deprecated, use `--username` instead for the following commands
-  - `emsco:contenttype:transform`
-  - `emsco:revision:lock`
-  - `emsco:environment:align`
-  - `emsco:environment:unpublish`
-- Redo a `make init` is required in order to initialize a `docker/sandbox.env` file. Also, a `DOCKER_USER` variable has been introduced in the `docker/.env` file.
+    - `emsco:contenttype:transform`
+    - `emsco:revision:lock`
+    - `emsco:environment:align`
+    - `emsco:environment:unpublish`
+- Redo a `make init` is required in order to initialize a `docker/sandbox.env` file. Also, a
+  `DOCKER_USER` variable has been introduced in the `docker/.env` file.
 
 ## 7.x
 

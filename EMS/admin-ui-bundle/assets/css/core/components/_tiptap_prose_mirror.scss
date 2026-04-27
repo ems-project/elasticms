@@ -21,14 +21,29 @@
 
     > figcaption {
       order: 1;
-      text-align: center;
-      font-style: italic;
       padding: 5px;
-      color: #555;
     }
   }
 
-  table {
+  table td,
+  table th {
+    position: relative;
+  }
+
+  table td.selectedCell:after,
+  table th.selectedCell:after {
+    z-index: 2;
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(200, 200, 255, 0.4);
+    pointer-events: none;
+  }
+
+  table:not([class]) {
     border-collapse: collapse;
     table-layout: fixed;
     width: 100%;
@@ -49,19 +64,6 @@
       padding: 3px 5px;
       vertical-align: top;
       box-sizing: border-box;
-      position: relative;
-
-      &.selectedCell:after {
-        z-index: 2;
-        content: "";
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        background: rgba(200, 200, 255, 0.4);
-        pointer-events: none;
-      }
     }
 
     th {

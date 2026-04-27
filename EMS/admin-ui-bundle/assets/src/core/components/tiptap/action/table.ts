@@ -108,6 +108,24 @@ const tableCleanupTransform: HtmlTransform = {
     }
 }
 
+const CustomTable = Table.extend({
+    addAttributes() {
+        return {
+            ...this.parent?.(),
+            class: {
+                default: null,
+                parseHTML: (el) => el.getAttribute('class'),
+                renderHTML: (attrs) => (attrs.class ? { class: attrs.class } : {})
+            },
+            id: {
+                default: null,
+                parseHTML: (el) => el.getAttribute('id'),
+                renderHTML: (attrs) => (attrs.id ? { id: attrs.id } : {})
+            }
+        }
+    }
+})
+
 export const tableActions: ToolbarAction[] = [
     {
         name: 'Table',
@@ -115,7 +133,7 @@ export const tableActions: ToolbarAction[] = [
         icon: IconTable,
         tooltip: 'Insert Table',
         extensions: [
-            Table.configure({ resizable: false, allowTableNodeSelection: true }),
+            CustomTable.configure({ resizable: false, allowTableNodeSelection: true }),
             TableRow,
             TableCell,
             TableHeader,
@@ -141,6 +159,16 @@ export const tableActions: ToolbarAction[] = [
                     <label for="table-caption">Caption</label>
                     <input type="text" id="table-caption" placeholder="Optional">
                 </div>
+                <div style="display: flex; gap: 15px;">
+                    <div style="flex: 1; margin-bottom: 15px;">
+                        <label for="table-id">ID</label>
+                        <input type="text" id="table-id" placeholder="Optional">
+                    </div>
+                    <div style="flex: 1; margin-bottom: 15px;">
+                        <label for="table-class">Class</label>
+                        <input type="text" id="table-class" placeholder="Optional">
+                    </div>
+                </div>
             `)
 
             dialog.addButton({
@@ -150,6 +178,12 @@ export const tableActions: ToolbarAction[] = [
                     const rows = parseInt(d.getFieldValue('table-rows')) || 3
                     const cols = parseInt(d.getFieldValue('table-cols')) || 2
                     const caption = (d.getFieldValue('table-caption') || '').trim()
+                    const tableId = (d.getFieldValue('table-id') || '').trim()
+                    const tableClass = (d.getFieldValue('table-class') || '').trim()
+
+                    const tableAttrs: Record<string, string> = {}
+                    if (tableId) tableAttrs.id = tableId
+                    if (tableClass) tableAttrs.class = tableClass
 
                     const tableRows = Array.from({ length: rows }, () => ({
                         type: 'tableRow',
@@ -170,7 +204,11 @@ export const tableActions: ToolbarAction[] = [
                                         type: 'tableCaption',
                                         content: [{ type: 'text', text: caption }]
                                     },
-                                    { type: 'table', content: tableRows }
+                                    {
+                                        type: 'table',
+                                        attrs: tableAttrs,
+                                        content: tableRows
+                                    }
                                 ]
                             })
                             .run()
@@ -178,7 +216,11 @@ export const tableActions: ToolbarAction[] = [
                         e.tiptap
                             .chain()
                             .focus()
-                            .insertTable({ rows, cols, withHeaderRow: false })
+                            .insertContent({
+                                type: 'table',
+                                attrs: tableAttrs,
+                                content: tableRows
+                            })
                             .run()
                     }
                     d.close()

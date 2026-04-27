@@ -16,6 +16,7 @@ export default class PickFileFromServer {
 
     onClick(button) {
         const browserFileUrl = this.getBrowserFileUrl();
+        const self = this;
         if (browserFileUrl) {
             this.openBrowserFileWindow(browserFileUrl);
             return;
@@ -45,36 +46,12 @@ export default class PickFileFromServer {
             const addClickCallbacks = function(linkList){
                 for (let i = 0; i < linkList.length; i++) {
                     linkList[i].onclick = (event) => {
-                        const primaryBox = $('body')
-                        const initUpload = primaryBox.data('init-upload')
-                        const hashAlgo = primaryBox.data('hash-algo');
                         if (event.target.parentNode === undefined || event.target.parentNode.dataset.json === undefined) {
                             return;
                         }
                         event.preventDefault();
                         const data =  JSON.parse(event.target.parentNode.dataset.json)
-                        fetch(data.view_url, {mode: 'cors'})
-                            .then(res => res.blob())
-                            .then(blob => {
-                                blob.name = data.filename
-                                return resizeImage(hashAlgo, initUpload, blob)
-                            })
-                            .then((response) => {
-                                if (null === response) {
-                                    return
-                                }
-                                data._image_resized_hash = response.hash
-                                data.preview_url = response.url
-                            })
-                            .catch((errorMessage) => {
-                                console.error(errorMessage)
-                            })
-                            .finally(() => {
-                                const row = button.closest('.file-uploader-row');
-                                row.dispatchEvent(new CustomEvent('updateAssetData', {detail: data}));
-                                pickFileModal.close();
-                                observer.disconnect();
-                            })
+                        self.treatData(data, button.closest('.file-uploader-row'), observer);
                     };
                 }
             }
@@ -82,6 +59,35 @@ export default class PickFileFromServer {
             const linkList = modal.querySelectorAll('div[data-json] > a');
             addClickCallbacks(linkList);
         });
+    }
+
+    treatData (data, target, observer = null) {
+      const primaryBox = $('body')
+      const initUpload = primaryBox.data('init-upload')
+      const hashAlgo = primaryBox.data('hash-algo');
+      fetch(data.view_url, {mode: 'cors'})
+        .then(res => res.blob())
+        .then(blob => {
+          blob.name = data.filename
+          return resizeImage(hashAlgo, initUpload, blob)
+        })
+        .then((response) => {
+          if (null === response) {
+            return
+          }
+          data._image_resized_hash = response.hash
+          data.preview_url = response.url
+        })
+        .catch((errorMessage) => {
+          console.error(errorMessage)
+        })
+        .finally(() => {
+          target.dispatchEvent(new CustomEvent('updateAssetData', {detail: data}));
+          pickFileModal.close();
+          if (observer) {
+            observer.disconnect();
+          }
+        })
     }
 
     getBrowserFileUrl() {

@@ -91,7 +91,7 @@ class StorageManager implements FileManagerInterface
 
     public function headCounter(string $hash): int
     {
-        return \array_reduce($this->adapters, fn ($carry, $adapter) => $carry + $adapter->head($hash) !== 0 ? 1 : 0, 0);
+        return \array_reduce($this->adapters, fn ($carry, $adapter) => 0 !== $carry + $adapter->head($hash) ? 1 : 0, 0);
     }
 
     #[\Override]

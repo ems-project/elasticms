@@ -24,6 +24,24 @@ export default class PickFileFromServer {
         pickFileModal.load({ url: button.dataset.href, title: button.textContent, size: 'lg' },
             (json, modal) => {
 
+            const observer = observeDom(modal, function(mutationList) {
+                [].forEach.call(mutationList, function(mutation) {
+                    if(mutation.addedNodes.length < 1) {
+                        return;
+                    }
+                    [].forEach.call(mutation.addedNodes, function (node) {
+                        if (node.nodeType !== Node.ELEMENT_NODE) {
+                            return;
+                        }
+
+                        if (node.matches('div[data-json] > a')) {
+                            addClickCallbacks([node]);
+                        }
+
+                        addClickCallbacks(node.querySelectorAll('div[data-json] > a'));
+                    });
+                });
+            });
             const addClickCallbacks = function(linkList){
                 for (let i = 0; i < linkList.length; i++) {
                     linkList[i].onclick = (event) => {
@@ -63,24 +81,6 @@ export default class PickFileFromServer {
 
             const linkList = modal.querySelectorAll('div[data-json] > a');
             addClickCallbacks(linkList);
-            const observer = observeDom(modal, function(mutationList) {
-                [].forEach.call(mutationList, function(mutation) {
-                    if(mutation.addedNodes.length < 1) {
-                        return;
-                    }
-                    [].forEach.call(mutation.addedNodes, function (node) {
-                        if (node.nodeType !== Node.ELEMENT_NODE) {
-                            return;
-                        }
-
-                        if (node.matches('div[data-json] > a')) {
-                            addClickCallbacks([node]);
-                        }
-
-                        addClickCallbacks(node.querySelectorAll('div[data-json] > a'));
-                    });
-                });
-            });
         });
     }
 

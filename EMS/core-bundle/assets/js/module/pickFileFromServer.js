@@ -7,6 +7,10 @@ export default class PickFileFromServer {
         const buttons = target.querySelectorAll('button.file-browse-server');
         const self = this;
 
+        this.browserFileSelectionTarget = null;
+        this.onBrowserFileSelected = this.onBrowserFileSelected.bind(this);
+        window.addEventListener('message', this.onBrowserFileSelected);
+
         [].forEach.call(buttons, function(button) {
             button.addEventListener('click', function(event) {
                 self.onClick(button);
@@ -18,7 +22,10 @@ export default class PickFileFromServer {
         const browserFileUrl = this.getBrowserFileUrl();
         const self = this;
         if (browserFileUrl) {
-            this.openBrowserFileWindow(browserFileUrl);
+            this.browserFileSelectionTarget = button.closest('.file-uploader-row');
+            if (!this.openBrowserFileWindow(browserFileUrl)) {
+                this.browserFileSelectionTarget = null;
+            }
             return;
         }
 
@@ -128,5 +135,20 @@ export default class PickFileFromServer {
         if (browserWindow) {
             browserWindow.focus();
         }
+
+        return browserWindow;
+    }
+
+    onBrowserFileSelected(event) {
+        if (event.origin !== window.location.origin || !event.data || event.data.type !== 'ems:browser-file:selected') {
+            return;
+        }
+
+        if (!this.browserFileSelectionTarget) {
+            return;
+        }
+
+        this.treatData(event.data.json, this.browserFileSelectionTarget);
+        this.browserFileSelectionTarget = null;
     }
 }

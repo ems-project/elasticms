@@ -25,7 +25,7 @@ final class FakeProjectBuilder extends AbstractCommand
     /**
      * @var array<string>
      */
-    private const REQUIRED_PACKAGES = [
+    private const array REQUIRED_PACKAGES = [
         'php',
         'doctrine/doctrine-bundle',
         'elasticms/admin-ui-bundle',
@@ -54,6 +54,7 @@ final class FakeProjectBuilder extends AbstractCommand
         $this->force = $this->getOptionBool('force');
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $application = $this->getApplication();
@@ -68,8 +69,8 @@ final class FakeProjectBuilder extends AbstractCommand
             $composer = $this->loadComposer(\sprintf('%s/composer.json', $projectDir));
             $this->assertDestination($destination);
             $writtenFiles = $this->writeFakeProject($destination, $composer);
-        } catch (\Throwable $exception) {
-            $this->io->error($exception->getMessage());
+        } catch (\Throwable $throwable) {
+            $this->io->error($throwable->getMessage());
 
             return self::EXECUTE_ERROR;
         }
@@ -181,8 +182,8 @@ final class FakeProjectBuilder extends AbstractCommand
         try {
             /** @var array<string, mixed> $composer */
             $composer = \json_decode((string) \file_get_contents($path), true, flags: \JSON_THROW_ON_ERROR);
-        } catch (\JsonException $exception) {
-            throw new \RuntimeException(\sprintf('Unable to decode "%s": %s', $path, $exception->getMessage()), previous: $exception);
+        } catch (\JsonException $jsonException) {
+            throw new \RuntimeException(\sprintf('Unable to decode "%s": %s', $path, $jsonException->getMessage()), $jsonException->getCode(), previous: $jsonException);
         }
 
         return $composer;

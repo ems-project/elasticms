@@ -156,7 +156,7 @@ class Url
 
     private function getAbsolutePath(string $path, string $relativeToPath): string
     {
-        if (\in_array($this->getScheme(), self::ABSOLUTE_SCHEME)) {
+        if (\in_array($this->getScheme(), self::ABSOLUTE_SCHEME, true)) {
             return $path;
         }
         if ('/' !== \substr($relativeToPath, \strlen($relativeToPath) - 1)) {
@@ -180,7 +180,7 @@ class Url
         if (null !== $path) {
             return new Url($path, $this->getUrl())->getUrl(null, $withFragment);
         }
-        if (\in_array($this->getScheme(), self::ABSOLUTE_SCHEME)) {
+        if (\in_array($this->getScheme(), self::ABSOLUTE_SCHEME, true)) {
             $url = \sprintf('%s:', $this->scheme);
         } elseif (null !== $this->user && null !== $this->password && $withPassword) {
             $url = \sprintf('%s://%s:%s@%s', $this->scheme, $this->user, $this->password, $this->host);
@@ -256,7 +256,7 @@ class Url
 
     public function isCrawlable(): bool
     {
-        return \in_array($this->getScheme(), ['http', 'https']);
+        return \in_array($this->getScheme(), ['http', 'https'], true);
     }
 
     /**

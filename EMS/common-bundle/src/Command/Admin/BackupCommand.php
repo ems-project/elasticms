@@ -141,7 +141,7 @@ class BackupCommand extends AbstractCommand
             if (!\is_string($ouuid)) {
                 throw new \RuntimeException('Unexpected name type');
             }
-            if (\in_array($ouuid, $ouuids)) {
+            if (\in_array($ouuid, $ouuids, true)) {
                 continue;
             }
             \unlink($file->getPathname());

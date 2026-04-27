@@ -155,7 +155,7 @@ class Extractor
         ]);
 
         if ($computer->isJsonDecode() && \is_string($value)) {
-            if (\in_array(\trim($value), ['null', ''])) {
+            if (\in_array(\trim($value), ['null', ''], true)) {
                 return null;
             }
 

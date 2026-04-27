@@ -66,7 +66,7 @@ class CacheManager
             ]));
         } catch (ClientException|RequestException $e) {
             $response = $e->getResponse();
-            if (null === $response || !\in_array($response->getStatusCode(), [405, 404])) {
+            if (null === $response || !\in_array($response->getStatusCode(), [405, 404], true)) {
                 throw $e;
             }
 

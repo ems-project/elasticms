@@ -45,7 +45,7 @@ final class FormData
         foreach ($this->raw as $formField => $value) {
             $element = $this->formConfig->getElementByName($formField);
 
-            if (null === $element || !\in_array($element->getClassName(), [MultipleFile::class, File::class])) {
+            if (null === $element || !\in_array($element->getClassName(), [MultipleFile::class, File::class], true)) {
                 continue;
             }
 

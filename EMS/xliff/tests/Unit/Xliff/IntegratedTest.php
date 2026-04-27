@@ -84,7 +84,7 @@ class IntegratedTest extends TestCase
         $inserted['locale'] = 'de';
 
         foreach (\array_keys($source) as $field) {
-            if (\in_array($field, ['introduction', 'description'])) {
+            if (\in_array($field, ['introduction', 'description'], true)) {
                 $this->assertEquals(HtmlHelper::prettyPrint($inserted[$field]), HtmlHelper::prettyPrint($target[$field] ?? null), \sprintf('Field %s for inserted document : %s', $field, $ouuid));
             } else {
                 $this->assertEquals($target[$field] ?? null, $inserted[$field], \sprintf('Field %s for inserted document : %s', $field, $ouuid));

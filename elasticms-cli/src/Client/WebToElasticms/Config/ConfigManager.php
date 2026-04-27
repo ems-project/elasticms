@@ -161,7 +161,7 @@ class ConfigManager
             foreach ($this->documents as $document) {
                 foreach ($document->getResources() as $resource) {
                     $url = new Url($resource->getUrl());
-                    if (!\in_array($url->getHost(), $this->hosts)) {
+                    if (!\in_array($url->getHost(), $this->hosts, true)) {
                         $this->hosts[] = $url->getHost();
                     }
                 }

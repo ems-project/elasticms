@@ -124,34 +124,28 @@ export const tableActions: ToolbarAction[] = [
         ],
         htmlTransforms: [tableCaptionTransform, tableCleanupTransform],
         command: (e) => {
-            const dialog = new Dialog('Table Properties')
+            const dialog = new Dialog('Table Properties', { draggable: true })
 
             dialog.setContent(`
                 <div style="display: flex; gap: 15px;">
-                    <div class="form-group" style="flex: 1; margin-bottom: 15px;">
-                        <label for="table-cols" style="display: block; margin-bottom: 5px; font-weight: bold;">Columns</label>
-                        <input type="number" id="table-cols" class="form-control" value="2" min="1" max="10">
+                    <div style="flex: 1; margin-bottom: 15px;">
+                        <label for="table-cols">Columns</label>
+                        <input type="number" id="table-cols" value="2" min="1" max="10">
                     </div>
-                    <div class="form-group" style="flex: 1; margin-bottom: 15px;">
-                        <label for="table-rows" style="display: block; margin-bottom: 5px; font-weight: bold;">Rows</label>
-                        <input type="number" id="table-rows" class="form-control" value="3" min="1" max="20">
+                    <div style="flex: 1; margin-bottom: 15px;">
+                        <label for="table-rows">Rows</label>
+                        <input type="number" id="table-rows" value="3" min="1" max="20">
                     </div>
                 </div>
-                <div class="form-group" style="margin-bottom: 15px;">
-                    <label for="table-caption" style="display: block; margin-bottom: 5px; font-weight: bold;">Caption</label>
-                    <input type="text" id="table-caption" class="form-control" placeholder="Optional">
+                <div style="margin-bottom: 15px;">
+                    <label for="table-caption">Caption</label>
+                    <input type="text" id="table-caption" placeholder="Optional">
                 </div>
             `)
 
             dialog.addButton({
-                label: 'Cancel',
-                className: 'btn-default btn-outline-secondary',
-                onClick: (d) => d.close()
-            })
-
-            dialog.addButton({
-                label: 'Insert table',
-                className: 'btn-primary',
+                label: 'Apply',
+                variant: 'primary',
                 onClick: (d) => {
                     const rows = parseInt(d.getFieldValue('table-rows')) || 3
                     const cols = parseInt(d.getFieldValue('table-cols')) || 2
@@ -189,6 +183,12 @@ export const tableActions: ToolbarAction[] = [
                     }
                     d.close()
                 }
+            })
+
+            dialog.addButton({
+                label: 'Cancel',
+                variant: 'secondary',
+                onClick: (d) => d.close()
             })
 
             dialog.open()

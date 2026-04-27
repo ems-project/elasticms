@@ -15,6 +15,12 @@ export default class PickFileFromServer {
     }
 
     onClick(button) {
+        const browserFileUrl = this.getBrowserFileUrl();
+        if (browserFileUrl) {
+            this.openBrowserFileWindow(browserFileUrl);
+            return;
+        }
+
         pickFileModal.load({ url: button.dataset.href, title: button.textContent, size: 'lg' },
             (json, modal) => {
 
@@ -76,5 +82,45 @@ export default class PickFileFromServer {
                 });
             });
         });
+    }
+
+    getBrowserFileUrl() {
+        const wysiwygInfoData = document.querySelector('body').dataset.wysiwygInfo;
+        if (!wysiwygInfoData) {
+            return null;
+        }
+
+        const wysiwygInfo = JSON.parse(wysiwygInfoData);
+        if (wysiwygInfo && wysiwygInfo.config && wysiwygInfo.config.emsBrowsers && wysiwygInfo.config.emsBrowsers.browser_file && wysiwygInfo.config.emsBrowsers.browser_file.url) {
+            return wysiwygInfo.config.emsBrowsers.browser_file.url;
+        }
+
+        return null;
+    }
+
+    openBrowserFileWindow(url) {
+        const width = Math.min(screen.availWidth, 1200);
+        const height = Math.min(screen.availHeight, 800);
+        const left = Math.round((screen.availWidth - width) / 2);
+        const top = Math.round((screen.availHeight - height) / 2);
+        const browserWindow = window.open(url, 'ems_file_browser', [
+            'popup=yes',
+            `width=${width}`,
+            `height=${height}`,
+            `left=${left}`,
+            `top=${top}`,
+            'menubar=no',
+            'toolbar=no',
+            'location=no',
+            'status=no',
+            'directories=no',
+            'titlebar=no',
+            'scrollbars=yes',
+            'resizable=yes',
+        ].join(','));
+
+        if (browserWindow) {
+            browserWindow.focus();
+        }
     }
 }

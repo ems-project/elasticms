@@ -1,5 +1,57 @@
 # Changelog 7.x
 
+## 7.2.0 (2026-04-27)
+### Features
+* feat (media-library): emscli media library update file links by @YanisGroffier in https://github.com/ems-project/elasticms/pull/1572
+* feat(admin): add tags data-testid for test by @IsaMic in https://github.com/ems-project/elasticms/pull/1637
+* feat(admin/asset): get asset info from hash (api+cli) by @theus77 in https://github.com/ems-project/elasticms/pull/1681
+* feat(admin/commands): standardize username option by @theus77 in https://github.com/ems-project/elasticms/pull/1670
+* feat(admin/contenttype): add html unwrap transformer by @Davidmattei in https://github.com/ems-project/elasticms/pull/1656
+* feat(admin/contenttype): add unwrap for html attribute transformer by @Davidmattei in https://github.com/ems-project/elasticms/pull/1652
+* feat(admin/job): relaunch job by @theus77 in https://github.com/ems-project/elasticms/pull/1666
+* feat(admin/twig): add filter ems_get_file_object and emsco_get_file_object by @theus77 in https://github.com/ems-project/elasticms/pull/1665
+* feat(cli/command): add new emscli:dev:fake-project-build by @theus77 in https://github.com/ems-project/elasticms/pull/1673
+* feat(common/image): webp xmp writer by @theus77 in https://github.com/ems-project/elasticms/pull/1644
+* feat(common/property-accessor): recursive get/set and iterate by @Davidmattei in https://github.com/ems-project/elasticms/pull/1672
+* feat(docker): add sandbox dev container (useful for AI agents) by @theus77 in https://github.com/ems-project/elasticms/pull/1671
+* feat(docker/sandbox): add pbc alias and npm i -g by @theus77 in https://github.com/ems-project/elasticms/pull/1688
+* feat(web/asset):  create symlink for relative or absolute EMSCH_ASSET_LOCAL_FOLDER by @theus77 in https://github.com/ems-project/elasticms/pull/1667
+* feat(web/asset): add new EMSCH_ASSET_SRC_IMAGE_CONFIG by @theus77 in https://github.com/ems-project/elasticms/pull/1645
+* feat(web/search): save emsch search response in cache by @theus77 in https://github.com/ems-project/elasticms/pull/1658
+### Bug Fixes
+* fix(admin): audit table full width by @Davidmattei in https://github.com/ems-project/elasticms/pull/1638
+* fix(admin): data link for archived documents by @Davidmattei in https://github.com/ems-project/elasticms/pull/1649
+* fix(admin/cli): username option not defined and rebuild failing by @Davidmattei in https://github.com/ems-project/elasticms/pull/1679
+* fix(admin/dashboard): add data-skip-click-event attribute by @Davidmattei in https://github.com/ems-project/elasticms/pull/1653
+* fix(admin/form-submissions): add batch size on delete (avoid out of memory) by @theus77 in https://github.com/ems-project/elasticms/pull/1647
+* fix(admin/menu): invalid test id on dashboard menu by @Davidmattei in https://github.com/ems-project/elasticms/pull/1660
+* fix(admin/menu): invalid test id on dashboard menu by @Davidmattei in https://github.com/ems-project/elasticms/pull/1661
+* fix(admin/post-processing): add revision environments in context by @Davidmattei in https://github.com/ems-project/elasticms/pull/1650
+* fix(admin/security): API authorization bypass via access_control rule ordering by @theus77 in https://github.com/ems-project/elasticms/pull/1686
+* fix(admin/security): open redirect via unvalidated redirect by @theus77 in https://github.com/ems-project/elasticms/pull/1687
+* fix(admin/storage): add getFileObject on storageManager and fileService by @theus77 in https://github.com/ems-project/elasticms/pull/1648
+* fix(admin/tiptap): remove format only style and indent correct by @Davidmattei in https://github.com/ems-project/elasticms/pull/1676
+* fix(admin/user): canonical fields must be updated on change by @theus77 in https://github.com/ems-project/elasticms/pull/1684
+* fix(common/asset): do not try to get the ems archive if it is missing by @theus77 in https://github.com/ems-project/elasticms/pull/1675
+* fix(common/json-menu-nested): context may define testId by @theus77 in https://github.com/ems-project/elasticms/pull/1669
+* fix(common/search): correct serialization suggest by @Davidmattei in https://github.com/ems-project/elasticms/pull/1639
+* fix(common/spreadsheets): generate normalized xlsx files by @theus77 in https://github.com/ems-project/elasticms/pull/1646
+* fix(docker): allow to overwrite the default sandbox environment variables by @theus77 in https://github.com/ems-project/elasticms/pull/1678
+* fix(web/asset): add $skipUnzip flag to use the $saveDir as $publishPath by @theus77 in https://github.com/ems-project/elasticms/pull/1662
+* fix(web/assets): emsch_assets_version's publishPath parameter by @theus77 in https://github.com/ems-project/elasticms/pull/1663
+* fix(web/routing): avoid to break everything if one route is broken by @theus77 in https://github.com/ems-project/elasticms/pull/1654
+* fix(web/search): empty suggest in search by @Davidmattei in https://github.com/ems-project/elasticms/pull/1664
+* fix: publiccode.yml validation warnings by @bfabio in https://github.com/ems-project/elasticms/pull/1631
+### Documentation
+* docs(dev): install php wih brew on os x by @theus77 in https://github.com/ems-project/elasticms/pull/1682
+* docs: install local dev on os x by @theus77 in https://github.com/ems-project/elasticms/pull/1689
+* docs: new roadmap by @theus77 in https://github.com/ems-project/elasticms/pull/1655
+### Code Refactoring
+* refactor(admin/user): deprecated UserService::update by @theus77 in https://github.com/ems-project/elasticms/pull/1685
+### Chores
+* chore(make): add new target 'make pull' for running docker compose pull by @theus77 in https://github.com/ems-project/elasticms/pull/1683
+* chore: rector, phpstan, phpcs, linting and format docs by @Davidmattei in https://github.com/ems-project/elasticms/pull/1659
+
 ## 7.1.0 (2026-04-07)
 ### Features
 * feat(admin): tiptap basic implementation by @Davidmattei in https://github.com/ems-project/elasticms/pull/1632

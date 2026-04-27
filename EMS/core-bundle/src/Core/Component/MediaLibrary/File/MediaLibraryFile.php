@@ -124,16 +124,16 @@ class MediaLibraryFile extends MediaLibraryDocument
             'name' => $this->giveName(),
         ]);
     }
-    
+
     public function getDataJson(): string
     {
         return Json::encode([
-            "filename" => $this->giveName(),
-            "filesize" => $this->getFilesize(),
-            "mimetype" => $this->getFileMimetype(),
-            "sha1" => $this->getFileHash(),
-            "preview_url" => $this->urlPreview(),
-            "view_url" => $this->urlView(),
+            'filename' => $this->giveName(),
+            'filesize' => $this->getFilesize(),
+            'mimetype' => $this->getFileMimetype(),
+            'sha1' => $this->getFileHash(),
+            'preview_url' => $this->urlPreview(),
+            'view_url' => $this->urlView(),
         ]);
     }
 

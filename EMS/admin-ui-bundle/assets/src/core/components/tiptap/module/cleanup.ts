@@ -4,10 +4,12 @@ import { TiptapModule } from '../types.ts'
 export const cleanupModule: TiptapModule[] = [
     {
         name: 'RemoveFormat',
-        group: 'cleanup',
-        icon: IconClear,
-        tooltip: 'Remove Format',
         command: (e) => e.tiptap.chain().focus().unsetAllMarks().run(),
-        isActive: () => false
+        isActive: () => false,
+        toolbar: {
+            group: 'cleanup',
+            icon: IconClear,
+            tooltip: 'Remove Format'
+        }
     }
 ]

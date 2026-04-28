@@ -13,9 +13,6 @@ const CustomTextAlign = TextAlign.configure({
 export const justifyModule: TiptapModule[] = [
     {
         name: 'JustifyLeft',
-        group: 'align',
-        icon: IconJustifyLeft,
-        tooltip: 'Align Left',
         extensions: [CustomTextAlign],
         command: (e) => e.tiptap.chain().focus().unsetTextAlign().run(),
         isActive: (e) => {
@@ -24,33 +21,44 @@ export const justifyModule: TiptapModule[] = [
             const isJustify = e.tiptap.isActive({ textAlign: 'justify' })
 
             return !isCenter && !isRight && !isJustify
+        },
+        toolbar: {
+            group: 'align',
+            icon: IconJustifyLeft,
+            tooltip: 'Align Left'
         }
     },
     {
         name: 'JustifyCenter',
-        group: 'align',
-        icon: IconJustifyCenter,
-        tooltip: 'Center',
         extensions: [CustomTextAlign],
         command: (e) => e.tiptap.chain().focus().setTextAlign('center').run(),
-        isActive: (e) => e.tiptap.isActive({ textAlign: 'center' })
+        isActive: (e) => e.tiptap.isActive({ textAlign: 'center' }),
+        toolbar: {
+            group: 'align',
+            icon: IconJustifyCenter,
+            tooltip: 'Center'
+        }
     },
     {
         name: 'JustifyRight',
-        group: 'align',
-        icon: IconJustifyRight,
-        tooltip: 'Align Right',
         extensions: [CustomTextAlign],
         command: (e) => e.tiptap.chain().focus().setTextAlign('right').run(),
-        isActive: (e) => e.tiptap.isActive({ textAlign: 'right' })
+        isActive: (e) => e.tiptap.isActive({ textAlign: 'right' }),
+        toolbar: {
+            group: 'align',
+            icon: IconJustifyRight,
+            tooltip: 'Align Right'
+        }
     },
     {
         name: 'JustifyBlock',
-        group: 'align',
-        icon: IconJustifyBlock,
-        tooltip: 'Justify',
         extensions: [CustomTextAlign],
         command: (e) => e.tiptap.chain().focus().setTextAlign('justify').run(),
-        isActive: (e) => e.tiptap.isActive({ textAlign: 'justify' })
+        isActive: (e) => e.tiptap.isActive({ textAlign: 'justify' }),
+        toolbar: {
+            group: 'align',
+            icon: IconJustifyBlock,
+            tooltip: 'Justify'
+        }
     }
 ]

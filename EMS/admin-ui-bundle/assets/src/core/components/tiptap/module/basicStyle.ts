@@ -13,51 +13,61 @@ import { TiptapModule } from '../types.ts'
 export const basicStyleModule: TiptapModule[] = [
     {
         name: 'Bold',
-        group: 'basicstyles',
-        icon: IconBold,
-        tooltip: 'Bold',
         extensions: [Bold],
         command: (e) => e.tiptap.chain().focus().toggleBold().run(),
-        isActive: (e) => e.tiptap.isActive('bold')
+        isActive: (e) => e.tiptap.isActive('bold'),
+        toolbar: {
+            group: 'basicstyles',
+            icon: IconBold,
+            tooltip: 'Bold'
+        }
     },
     {
         name: 'Italic',
-        group: 'basicstyles',
-        icon: IconItalic,
-        tooltip: 'Italic',
         extensions: [Italic],
         command: (e) => e.tiptap.chain().focus().toggleItalic().run(),
-        isActive: (e) => e.tiptap.isActive('italic')
+        isActive: (e) => e.tiptap.isActive('italic'),
+        toolbar: {
+            group: 'basicstyles',
+            icon: IconItalic,
+            tooltip: 'Italic'
+        }
     },
     {
         name: 'Strike',
-        group: 'basicstyles',
-        icon: IconStrike,
-        tooltip: 'Strike Through',
         extensions: [Strike],
         command: (e) => e.tiptap.chain().focus().toggleStrike().run(),
-        isActive: (e) => e.tiptap.isActive('strike')
+        isActive: (e) => e.tiptap.isActive('strike'),
+        toolbar: {
+            group: 'basicstyles',
+            icon: IconStrike,
+            tooltip: 'Strike Through'
+        }
     },
     {
         name: 'Subscript',
-        group: 'basicstyles',
-        icon: IconSubscript,
-        tooltip: 'Subscript',
         extensions: [Subscript],
         command: (e) => e.tiptap.chain().focus().toggleSubscript().run(),
         isActive: (e) => e.tiptap.isActive('subscript'),
         isEnabled: (wysiwygProfile) =>
-            wysiwygProfile.config.extraPlugins?.includes('basicstyles') ?? false
+            wysiwygProfile.config.extraPlugins?.includes('basicstyles') ?? false,
+        toolbar: {
+            group: 'basicstyles',
+            icon: IconSubscript,
+            tooltip: 'Subscript'
+        }
     },
     {
         name: 'Superscript',
-        group: 'basicstyles',
-        icon: IconSuperscript,
-        tooltip: 'Superscript',
         extensions: [Superscript],
         command: (e) => e.tiptap.chain().focus().toggleSuperscript().run(),
         isActive: (e) => e.tiptap.isActive('superscript'),
         isEnabled: (wysiwygProfile) =>
-            wysiwygProfile.config.extraPlugins?.includes('basicstyles') ?? false
+            wysiwygProfile.config.extraPlugins?.includes('basicstyles') ?? false,
+        toolbar: {
+            group: 'basicstyles',
+            icon: IconSuperscript,
+            tooltip: 'Superscript'
+        }
     }
 ]

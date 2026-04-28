@@ -8,20 +8,24 @@ import { TiptapModule } from '../types.ts'
 export const listModule: TiptapModule[] = [
     {
         name: 'NumberedList',
-        group: 'list',
-        icon: IconNumberedList,
-        tooltip: 'Insert/Remove Numbered List',
         extensions: [OrderedList, ListItem],
         command: (e) => e.tiptap.chain().focus().toggleOrderedList().run(),
-        isActive: (e) => e.tiptap.isActive('orderedList')
+        isActive: (e) => e.tiptap.isActive('orderedList'),
+        toolbar: {
+            group: 'list',
+            icon: IconNumberedList,
+            tooltip: 'Insert/Remove Numbered List'
+        }
     },
     {
         name: 'BulletedList',
-        group: 'list',
-        icon: IconBulletedList,
-        tooltip: 'Insert/Remove Bulleted List',
         extensions: [BulletList, ListItem],
         command: (e) => e.tiptap.chain().focus().toggleBulletList().run(),
-        isActive: (e) => e.tiptap.isActive('bulletList')
+        isActive: (e) => e.tiptap.isActive('bulletList'),
+        toolbar: {
+            group: 'list',
+            icon: IconBulletedList,
+            tooltip: 'Insert/Remove Bulleted List'
+        }
     }
 ]

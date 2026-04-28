@@ -74,20 +74,24 @@ function changeIndent(delta: number) {
 export const indentModule: TiptapModule[] = [
     {
         name: 'Outdent',
-        group: 'indent',
-        icon: IconOutdent,
-        tooltip: 'Decrease Indent',
         extensions: [IndentExtension],
         command: changeIndent(-1),
-        isActive: () => false
+        isActive: () => false,
+        toolbar: {
+            group: 'indent',
+            icon: IconOutdent,
+            tooltip: 'Decrease Indent'
+        }
     },
     {
         name: 'Indent',
-        group: 'indent',
-        icon: IconIndent,
-        tooltip: 'Increase Indent',
         extensions: [IndentExtension],
         command: changeIndent(1),
-        isActive: () => false
+        isActive: () => false,
+        toolbar: {
+            group: 'indent',
+            icon: IconIndent,
+            tooltip: 'Increase Indent'
+        }
     }
 ]

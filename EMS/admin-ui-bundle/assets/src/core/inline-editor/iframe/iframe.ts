@@ -170,9 +170,7 @@ export class Iframe {
         const editor = new TiptapEditor({
             element,
             content: element.innerHTML,
-            toolbarConfig: {
-                wysiwygProfile: getWysiwygProfile(window.parent.document)
-            }
+            wysiwygProfile: getWysiwygProfile(window.parent.document)
         })
 
         editor.tiptap.on('update', () => this.sendContentChanged(info, editor.getHTML()))

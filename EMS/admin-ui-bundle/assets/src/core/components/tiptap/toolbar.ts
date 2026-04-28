@@ -1,26 +1,17 @@
 import './../../../../css/core/components/_tiptap_toolbar.scss'
-import { Extension, Mark, Node } from '@tiptap/core'
-import { Actions, HtmlTransform, TiptapModule } from './types.ts'
+import { TiptapModule } from './types.ts'
 import { TiptapEditor } from './editor.ts'
 import { WysiwygProfile } from '../wysiwyg/wysiwyg.ts'
 
-export interface ToolbarConfig {
-    customActions?: TiptapModule[]
-    wysiwygProfile?: WysiwygProfile | null
-}
-
 export class Toolbar {
     readonly container: HTMLElement
-    private extensions: (Extension | Mark | Node)[] = []
-    private htmlTransforms: HtmlTransform[] = []
     private tiptapEditor!: TiptapEditor
-    private actions: Map<string, TiptapModule> = new Map(Actions.map((a) => [a.name, a]))
+    private modules: Map<string, TiptapModule> = new Map()
     private readonly wysiwygProfile: WysiwygProfile
 
-    constructor(config: ToolbarConfig) {
-        config.customActions?.forEach((action) => this.actions.set(action.name, action))
-
-        this.wysiwygProfile = config.wysiwygProfile ?? new WysiwygProfile()
+    constructor(modules: TiptapModule[], wysiwygProfile: WysiwygProfile) {
+        modules.forEach((m) => this.modules.set(m.name, m))
+        this.wysiwygProfile = wysiwygProfile
 
         this.container = document.createElement('div')
         this.container.className = 'tiptap-toolbar'
@@ -44,26 +35,10 @@ export class Toolbar {
                 const groupDiv = document.createElement('div')
                 groupDiv.className = 'tiptap-toolbar-group'
 
-                this.getActionsByGroup(groupName).forEach((action) => {
-                    if (removed.includes(action.name)) return
-                    if (action.isEnabled && !action.isEnabled(this.wysiwygProfile)) return
-
-                    groupDiv.appendChild(this.createButton(action))
-
-                    action.extensions?.forEach((ext) => {
-                        if (
-                            ext.name &&
-                            !this.extensions.some((e) => (e as any).name === ext.name)
-                        ) {
-                            this.extensions.push(ext)
-                        }
-                    })
-
-                    action.htmlTransforms?.forEach((t) => {
-                        if (!this.htmlTransforms.some((x) => x.name === t.name)) {
-                            this.htmlTransforms.push(t)
-                        }
-                    })
+                this.getModulesByToolbarGroup(groupName).forEach((mod) => {
+                    if (removed.includes(mod.name)) return
+                    if (mod.isEnabled && !mod.isEnabled(this.wysiwygProfile)) return
+                    groupDiv.appendChild(this.createButton(mod))
                 })
 
                 if (groupDiv.children.length > 0) currentRow.appendChild(groupDiv)
@@ -75,14 +50,10 @@ export class Toolbar {
         this.tiptapEditor = tiptapEditor
     }
 
-    getExtensions(): (Extension | Mark | Node)[] {
-        return this.extensions
-    }
-    getHtmlTransforms(): HtmlTransform[] {
-        return this.htmlTransforms
-    }
-    getActionsByGroup(groupName: string): TiptapModule[] {
-        return Array.from(this.actions.values()).filter((action) => action.group === groupName)
+    private getModulesByToolbarGroup(groupName: string): TiptapModule[] {
+        return Array.from(this.modules.values()).filter(
+            (m) => m.toolbar && m.toolbar.group === groupName
+        )
     }
 
     mount(target: HTMLElement) {
@@ -97,17 +68,17 @@ export class Toolbar {
         return row
     }
 
-    private createButton(action: TiptapModule): HTMLButtonElement {
+    private createButton(mod: TiptapModule): HTMLButtonElement {
         const btn = document.createElement('button')
         btn.type = 'button'
-        btn.innerHTML = action.icon ?? ''
-        btn.dataset.action = action.name
-        if (action.tooltip) btn.title = action.tooltip
+        btn.innerHTML = mod.toolbar!.icon
+        btn.dataset.action = mod.name
+        if (mod.toolbar!.tooltip) btn.title = mod.toolbar!.tooltip
 
         btn.onclick = (e) => {
             e.preventDefault()
             e.stopPropagation()
-            action.command?.(this.tiptapEditor)
+            mod.command?.(this.tiptapEditor)
             this.update()
         }
 
@@ -121,10 +92,8 @@ export class Toolbar {
     update() {
         if (!this.container) return
         this.container.querySelectorAll<HTMLButtonElement>('button[data-action]').forEach((btn) => {
-            const action = this.actions.get(btn.dataset.action!)
-            if (action) {
-                btn.classList.toggle('is-active', action.isActive(this.tiptapEditor))
-            }
+            const mod = this.modules.get(btn.dataset.action!)
+            if (mod) btn.classList.toggle('is-active', mod.isActive(this.tiptapEditor))
         })
     }
 

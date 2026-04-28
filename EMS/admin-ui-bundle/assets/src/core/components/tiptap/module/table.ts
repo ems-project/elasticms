@@ -162,9 +162,6 @@ const CustomTable = Table.extend({
 export const tableModule: TiptapModule[] = [
     {
         name: 'Table',
-        group: 'insert',
-        icon: IconTable,
-        tooltip: 'Insert Table',
         extensions: [
             CustomTable.configure({ resizable: false, allowTableNodeSelection: true }),
             TableRow,
@@ -291,6 +288,11 @@ export const tableModule: TiptapModule[] = [
 
             dialog.open()
         },
-        isActive: (e) => e.tiptap.isActive('table') || e.tiptap.isActive('tableFigure')
+        isActive: (e) => e.tiptap.isActive('table') || e.tiptap.isActive('tableFigure'),
+        toolbar: {
+            group: 'insert',
+            icon: IconTable,
+            tooltip: 'Insert Table'
+        }
     }
 ]

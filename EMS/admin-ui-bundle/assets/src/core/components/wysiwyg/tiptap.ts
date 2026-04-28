@@ -41,13 +41,11 @@ export default class Tiptap {
         const iframe = this.createIframe()
 
         const tiptapEditor = new TiptapEditor({
-            element: iframe.body,
             content: this.textarea.value,
+            element: iframe.body,
             toolbarElement: toolbar,
-            toolbarConfig: {
-                customActions: [this.getSourceModule(), this.getMaximizeModule()],
-                wysiwygProfile: this.wysiwygOptions.inRevision ? getWysiwygProfile() : null
-            }
+            customModules: [this.getSourceModule(), this.getMaximizeModule()],
+            wysiwygProfile: this.wysiwygOptions.inRevision ? getWysiwygProfile() : null
         })
 
         const toolbarHeight = toolbar.offsetHeight || 0
@@ -86,9 +84,6 @@ export default class Tiptap {
     private getSourceModule(): TiptapModule {
         return {
             name: 'Source',
-            group: 'mode',
-            icon: IconSource,
-            tooltip: 'Source Code',
             command: (tiptapEditor) => {
                 this.isSourceView = !this.isSourceView
                 this.container.classList.toggle('is-source-mode', this.isSourceView)
@@ -103,16 +98,18 @@ export default class Tiptap {
 
                 tiptapEditor.toolbar.update()
             },
-            isActive: () => this.isSourceView
+            isActive: () => this.isSourceView,
+            toolbar: {
+                group: 'mode',
+                icon: IconSource,
+                tooltip: 'Source Code'
+            }
         }
     }
 
     private getMaximizeModule(): TiptapModule {
         return {
             name: 'Maximize',
-            group: 'tools',
-            icon: IconMaximize,
-            tooltip: 'Maximize',
             command: (tiptapEditor) => {
                 this.isMaximized = !this.isMaximized
 
@@ -124,7 +121,12 @@ export default class Tiptap {
 
                 tiptapEditor.toolbar.update()
             },
-            isActive: () => this.isMaximized
+            isActive: () => this.isMaximized,
+            toolbar: {
+                group: 'tools',
+                icon: IconMaximize,
+                tooltip: 'Maximize'
+            }
         }
     }
 }

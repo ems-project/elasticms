@@ -121,6 +121,11 @@ const CustomTable = Table.extend({
                 default: null,
                 parseHTML: (el) => el.getAttribute('id'),
                 renderHTML: (attrs) => (attrs.id ? { id: attrs.id } : {})
+            },
+            summary: {
+                default: null,
+                parseHTML: (el) => el.getAttribute('summary'),
+                renderHTML: (attrs) => (attrs.summary ? { summary: attrs.summary } : {})
             }
         }
     }
@@ -159,6 +164,10 @@ export const tableActions: ToolbarAction[] = [
                     <label for="table-caption">Caption</label>
                     <input type="text" id="table-caption" placeholder="Optional">
                 </div>
+                <div style="margin-bottom: 15px;">
+                    <label for="table-summary">Summary</label>
+                    <input type="text" id="table-summary" placeholder="Optional">
+                </div>
                 <div style="display: flex; gap: 15px;">
                     <div style="flex: 1; margin-bottom: 15px;">
                         <label for="table-id">ID</label>
@@ -180,10 +189,12 @@ export const tableActions: ToolbarAction[] = [
                     const caption = (d.getFieldValue('table-caption') || '').trim()
                     const tableId = (d.getFieldValue('table-id') || '').trim()
                     const tableClass = (d.getFieldValue('table-class') || '').trim()
+                    const tableSummary = (d.getFieldValue('table-summary') || '').trim()
 
                     const tableAttrs: Record<string, string> = {}
                     if (tableId) tableAttrs.id = tableId
                     if (tableClass) tableAttrs.class = tableClass
+                    if (tableSummary) tableAttrs.summary = tableSummary
 
                     const tableRows = Array.from({ length: rows }, () => ({
                         type: 'tableRow',

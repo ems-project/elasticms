@@ -41,8 +41,6 @@ export class TiptapEditor {
     }
 
     private transformToEditor(html: string): string {
-        console.debug('transform to editor')
-
         const transforms = this.toolbar.getHtmlTransforms()
         if (!transforms.length) return html
         const doc = new DOMParser().parseFromString(`<div>${html}</div>`, 'text/html')
@@ -52,8 +50,6 @@ export class TiptapEditor {
     }
 
     private transformToOutput(html: string): string {
-        console.debug('transform to output')
-
         const transforms = this.toolbar.getHtmlTransforms()
         if (!transforms.length) return html
         const doc = new DOMParser().parseFromString(`<div>${html}</div>`, 'text/html')

@@ -1,25 +1,25 @@
 import { Extension, Mark, Node } from '@tiptap/core'
 import type { TiptapEditor } from './editor.ts'
 
-import { historyActions } from './action/history.ts'
-import { basicStyleActions } from './action/basicstyles.ts'
-import { cleanupActions } from './action/cleanup.ts'
-import { listActions } from './action/list.ts'
-import { indentActions } from './action/indent.ts'
-import { justifyActions } from './action/justify.ts'
-import { insertActions } from './action/insert.ts'
+import { historyModule } from './module/history.ts'
+import { basicStyleModule } from './module/basicstyles.ts'
+import { cleanupModule } from './module/cleanup.ts'
+import { listModule } from './module/list.ts'
+import { indentModule } from './module/indent.ts'
+import { justifyModule } from './module/justify.ts'
+import { insertModule } from './module/insert.ts'
 import { WysiwygProfile } from '../wysiwyg/wysiwyg.ts'
-import { tableActions } from './action/table.ts'
+import { tableModule } from './module/table.ts'
 
-export const Actions: ToolbarAction[] = [
-    ...historyActions,
-    ...basicStyleActions,
-    ...cleanupActions,
-    ...listActions,
-    ...indentActions,
-    ...justifyActions,
-    ...insertActions,
-    ...tableActions
+export const Actions: TiptapModule[] = [
+    ...historyModule,
+    ...basicStyleModule,
+    ...cleanupModule,
+    ...listModule,
+    ...indentModule,
+    ...justifyModule,
+    ...insertModule,
+    ...tableModule
 ]
 
 export interface HtmlTransform {
@@ -28,7 +28,7 @@ export interface HtmlTransform {
     toOutput?: (doc: Document) => void
 }
 
-export interface ToolbarAction {
+export interface TiptapModule {
     name: string
     group: string
     icon: string

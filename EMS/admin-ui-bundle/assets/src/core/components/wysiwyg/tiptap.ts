@@ -2,7 +2,7 @@ import './../../../../css/core/components/_wysiwyg_tiptap.scss'
 import tiptapIframeCss from './../../../../css/core/components/_wysiwyg_tiptap_iframe.scss?inline'
 
 import { TiptapEditor } from '../tiptap/editor.ts'
-import { ToolbarAction } from '../tiptap/types.ts'
+import { TiptapModule } from '../tiptap/types.ts'
 import ChangeEvent from '../../events/changeEvent.ts'
 import IconSource from '@tabler/icons/outline/code.svg?raw'
 import IconMaximize from '@tabler/icons/outline/maximize.svg?raw'
@@ -45,7 +45,7 @@ export default class Tiptap {
             content: this.textarea.value,
             toolbarElement: toolbar,
             toolbarConfig: {
-                customActions: [this.getSourceAction(), this.getMaximizeAction()],
+                customActions: [this.getSourceModule(), this.getMaximizeModule()],
                 wysiwygProfile: this.wysiwygOptions.inRevision ? getWysiwygProfile() : null
             }
         })
@@ -83,7 +83,7 @@ export default class Tiptap {
         return doc
     }
 
-    private getSourceAction(): ToolbarAction {
+    private getSourceModule(): TiptapModule {
         return {
             name: 'Source',
             group: 'mode',
@@ -107,7 +107,7 @@ export default class Tiptap {
         }
     }
 
-    private getMaximizeAction(): ToolbarAction {
+    private getMaximizeModule(): TiptapModule {
         return {
             name: 'Maximize',
             group: 'tools',

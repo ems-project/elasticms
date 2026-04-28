@@ -1,9 +1,9 @@
 import { UndoRedo } from '@tiptap/extensions'
 import IconUndo from '@tabler/icons/outline/arrow-back-up.svg?raw'
 import IconRedo from '@tabler/icons/outline/arrow-forward-up.svg?raw'
-import { ToolbarAction } from '../types.ts'
+import { TiptapModule } from '../types.ts'
 
-export const historyActions: ToolbarAction[] = [
+export const historyModule: TiptapModule[] = [
     {
         name: 'Undo',
         group: 'undo',

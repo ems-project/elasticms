@@ -1,7 +1,7 @@
 import { Extension } from '@tiptap/core'
 import IconIndent from '@tabler/icons/outline/indent-increase.svg?raw'
 import IconOutdent from '@tabler/icons/outline/indent-decrease.svg?raw'
-import { ToolbarAction } from '../types.ts'
+import { TiptapModule } from '../types.ts'
 
 const INDENTABLE = ['paragraph', 'heading']
 
@@ -71,7 +71,7 @@ function changeIndent(delta: number) {
     }
 }
 
-export const indentActions: ToolbarAction[] = [
+export const indentModule: TiptapModule[] = [
     {
         name: 'Outdent',
         group: 'indent',

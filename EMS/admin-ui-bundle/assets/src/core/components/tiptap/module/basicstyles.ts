@@ -8,9 +8,9 @@ import IconItalic from '@tabler/icons/outline/italic.svg?raw'
 import IconStrike from '@tabler/icons/outline/strikethrough.svg?raw'
 import IconSubscript from '@tabler/icons/outline/subscript.svg?raw'
 import IconSuperscript from '@tabler/icons/outline/superscript.svg?raw'
-import { ToolbarAction } from '../types.ts'
+import { TiptapModule } from '../types.ts'
 
-export const basicStyleActions: ToolbarAction[] = [
+export const basicStyleModule: TiptapModule[] = [
     {
         name: 'Bold',
         group: 'basicstyles',

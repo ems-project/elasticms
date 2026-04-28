@@ -2,9 +2,9 @@ import Blockquote from '@tiptap/extension-blockquote'
 import HorizontalRule from '@tiptap/extension-horizontal-rule'
 import IconHorizontalRule from '@tabler/icons/outline/separator-horizontal.svg?raw'
 import IconBlockquote from '@tabler/icons/outline/quote.svg?raw'
-import { ToolbarAction } from '../types.ts'
+import { TiptapModule } from '../types.ts'
 
-export const insertActions: ToolbarAction[] = [
+export const insertModule: TiptapModule[] = [
     {
         name: 'HorizontalRule',
         group: 'insert',

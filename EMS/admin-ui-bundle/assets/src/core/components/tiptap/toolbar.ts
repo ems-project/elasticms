@@ -1,11 +1,11 @@
 import './../../../../css/core/components/_tiptap_toolbar.scss'
 import { Extension, Mark, Node } from '@tiptap/core'
-import { Actions, HtmlTransform, ToolbarAction } from './types.ts'
+import { Actions, HtmlTransform, TiptapModule } from './types.ts'
 import { TiptapEditor } from './editor.ts'
 import { WysiwygProfile } from '../wysiwyg/wysiwyg.ts'
 
 export interface ToolbarConfig {
-    customActions?: ToolbarAction[]
+    customActions?: TiptapModule[]
     wysiwygProfile?: WysiwygProfile | null
 }
 
@@ -14,7 +14,7 @@ export class Toolbar {
     private extensions: (Extension | Mark | Node)[] = []
     private htmlTransforms: HtmlTransform[] = []
     private tiptapEditor!: TiptapEditor
-    private actions: Map<string, ToolbarAction> = new Map(Actions.map((a) => [a.name, a]))
+    private actions: Map<string, TiptapModule> = new Map(Actions.map((a) => [a.name, a]))
     private readonly wysiwygProfile: WysiwygProfile
 
     constructor(config: ToolbarConfig) {
@@ -81,7 +81,7 @@ export class Toolbar {
     getHtmlTransforms(): HtmlTransform[] {
         return this.htmlTransforms
     }
-    getActionsByGroup(groupName: string): ToolbarAction[] {
+    getActionsByGroup(groupName: string): TiptapModule[] {
         return Array.from(this.actions.values()).filter((action) => action.group === groupName)
     }
 
@@ -97,7 +97,7 @@ export class Toolbar {
         return row
     }
 
-    private createButton(action: ToolbarAction): HTMLButtonElement {
+    private createButton(action: TiptapModule): HTMLButtonElement {
         const btn = document.createElement('button')
         btn.type = 'button'
         btn.innerHTML = action.icon ?? ''

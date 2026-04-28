@@ -1,7 +1,7 @@
 import { Node, mergeAttributes } from '@tiptap/core'
 import { Table, TableCell, TableHeader, TableRow } from '@tiptap/extension-table'
 import IconTable from '@tabler/icons/outline/table.svg?raw'
-import { HtmlTransform, ToolbarAction } from '../types.ts'
+import { HtmlTransform, TiptapModule } from '../types.ts'
 import { Dialog } from '../../dialog.ts'
 
 const TableFigure = Node.create({
@@ -145,7 +145,10 @@ const CustomTable = Table.extend({
             dataUserStyle: {
                 default: null,
                 parseHTML: (el) => el.getAttribute('data-user-style'),
-                renderHTML: (attrs) => (attrs.dataUserStyle ? { 'data-user-style': attrs.dataUserStyle, style: attrs.dataUserStyle } : {})
+                renderHTML: (attrs) =>
+                    attrs.dataUserStyle
+                        ? { 'data-user-style': attrs.dataUserStyle, style: attrs.dataUserStyle }
+                        : {}
             },
             align: {
                 default: null,
@@ -156,7 +159,7 @@ const CustomTable = Table.extend({
     }
 })
 
-export const tableActions: ToolbarAction[] = [
+export const tableModule: TiptapModule[] = [
     {
         name: 'Table',
         group: 'insert',

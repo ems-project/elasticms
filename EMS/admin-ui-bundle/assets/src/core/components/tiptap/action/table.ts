@@ -130,6 +130,11 @@ const CustomTable = Table.extend({
                 default: null,
                 parseHTML: (el) => el.getAttribute('style'),
                 renderHTML: (attrs) => (attrs.style ? { style: attrs.style } : {})
+            },
+            align: {
+                default: null,
+                parseHTML: (el) => el.getAttribute('align'),
+                renderHTML: (attrs) => (attrs.align ? { align: attrs.align } : {})
             }
         }
     }
@@ -176,6 +181,15 @@ export const tableActions: ToolbarAction[] = [
                     <label for="table-style">Style</label>
                     <input type="text" id="table-style" placeholder="Optional">
                 </div>
+                <div style="margin-bottom: 15px;">
+                    <label for="table-align">Align</label>
+                    <select id="table-align">
+                        <option value="">Not defined</option>
+                        <option value="left">Left</option>
+                        <option value="center">Center</option>
+                        <option value="right">Right</option>
+                    </select>
+                </div>
                 <div style="display: flex; gap: 15px;">
                     <div style="flex: 1; margin-bottom: 15px;">
                         <label for="table-id">ID</label>
@@ -199,12 +213,14 @@ export const tableActions: ToolbarAction[] = [
                     const tableClass = (d.getFieldValue('table-class') || '').trim()
                     const tableSummary = (d.getFieldValue('table-summary') || '').trim()
                     const tableStyle = (d.getFieldValue('table-style') || '').trim()
+                    const tableAlign = (d.getFieldValue('table-align') || '').trim()
 
                     const tableAttrs: Record<string, string> = {}
                     if (tableId) tableAttrs.id = tableId
                     if (tableClass) tableAttrs.class = tableClass
                     if (tableSummary) tableAttrs.summary = tableSummary
                     if (tableStyle) tableAttrs.style = tableStyle
+                    if (tableAlign) tableAttrs.align = tableAlign
 
                     const tableRows = Array.from({ length: rows }, () => ({
                         type: 'tableRow',

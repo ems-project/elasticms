@@ -1,4 +1,3 @@
-import './../../../../css/core/components/tiptap/_context_menu.scss'
 import type { TiptapEditor } from './editor.ts'
 import type { MenuItem } from './types.ts'
 

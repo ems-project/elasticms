@@ -1,4 +1,3 @@
-import './../../../../css/core/components/tiptap/_toolbar.scss'
 import { TiptapModule } from './types.ts'
 import { TiptapEditor } from './editor.ts'
 import { WysiwygProfile } from '../wysiwyg/wysiwyg.ts'

@@ -1,3 +1,5 @@
+import "../../../../css/core/components/_tiptap.scss"
+
 import { Editor, Extension, Mark, Node } from '@tiptap/core'
 import { DEFAULT_EXTENSIONS } from './extensions.ts'
 import { Toolbar } from './toolbar.ts'

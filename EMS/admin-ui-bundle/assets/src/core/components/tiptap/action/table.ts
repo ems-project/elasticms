@@ -89,8 +89,24 @@ const tableCaptionTransform: HtmlTransform = {
 const tableCleanupTransform: HtmlTransform = {
     name: 'tableCleanup',
 
+    toEditor(doc) {
+        doc.querySelectorAll('table').forEach((table) => {
+            const style = table.getAttribute('style')
+            if (style && !table.getAttribute('data-user-style')) {
+                table.setAttribute('data-user-style', style)
+                table.removeAttribute('style')
+            }
+        })
+    },
+
     toOutput(doc) {
         doc.querySelectorAll('table').forEach((table) => {
+            table.removeAttribute('style')
+            const userStyle = table.getAttribute('data-user-style')
+            if (userStyle) {
+                table.setAttribute('style', userStyle)
+                table.removeAttribute('data-user-style')
+            }
             table.querySelector(':scope > colgroup')?.remove()
             table.querySelectorAll('td, th').forEach((cell) => {
                 const style = cell.getAttribute('style')
@@ -126,10 +142,10 @@ const CustomTable = Table.extend({
                 parseHTML: (el) => el.getAttribute('summary'),
                 renderHTML: (attrs) => (attrs.summary ? { summary: attrs.summary } : {})
             },
-            style: {
+            dataUserStyle: {
                 default: null,
-                parseHTML: (el) => el.getAttribute('style'),
-                renderHTML: (attrs) => (attrs.style ? { style: attrs.style } : {})
+                parseHTML: (el) => el.getAttribute('data-user-style'),
+                renderHTML: (attrs) => (attrs.dataUserStyle ? { 'data-user-style': attrs.dataUserStyle, style: attrs.dataUserStyle } : {})
             },
             align: {
                 default: null,
@@ -219,7 +235,7 @@ export const tableActions: ToolbarAction[] = [
                     if (tableId) tableAttrs.id = tableId
                     if (tableClass) tableAttrs.class = tableClass
                     if (tableSummary) tableAttrs.summary = tableSummary
-                    if (tableStyle) tableAttrs.style = tableStyle
+                    if (tableStyle) tableAttrs.dataUserStyle = tableStyle
                     if (tableAlign) tableAttrs.align = tableAlign
 
                     const tableRows = Array.from({ length: rows }, () => ({

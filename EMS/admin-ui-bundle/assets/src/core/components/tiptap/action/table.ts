@@ -91,7 +91,6 @@ const tableCleanupTransform: HtmlTransform = {
 
     toOutput(doc) {
         doc.querySelectorAll('table').forEach((table) => {
-            table.removeAttribute('style')
             table.querySelector(':scope > colgroup')?.remove()
             table.querySelectorAll('td, th').forEach((cell) => {
                 const style = cell.getAttribute('style')
@@ -126,6 +125,11 @@ const CustomTable = Table.extend({
                 default: null,
                 parseHTML: (el) => el.getAttribute('summary'),
                 renderHTML: (attrs) => (attrs.summary ? { summary: attrs.summary } : {})
+            },
+            style: {
+                default: null,
+                parseHTML: (el) => el.getAttribute('style'),
+                renderHTML: (attrs) => (attrs.style ? { style: attrs.style } : {})
             }
         }
     }
@@ -168,6 +172,10 @@ export const tableActions: ToolbarAction[] = [
                     <label for="table-summary">Summary</label>
                     <input type="text" id="table-summary" placeholder="Optional">
                 </div>
+                <div style="margin-bottom: 15px;">
+                    <label for="table-style">Style</label>
+                    <input type="text" id="table-style" placeholder="Optional">
+                </div>
                 <div style="display: flex; gap: 15px;">
                     <div style="flex: 1; margin-bottom: 15px;">
                         <label for="table-id">ID</label>
@@ -190,11 +198,13 @@ export const tableActions: ToolbarAction[] = [
                     const tableId = (d.getFieldValue('table-id') || '').trim()
                     const tableClass = (d.getFieldValue('table-class') || '').trim()
                     const tableSummary = (d.getFieldValue('table-summary') || '').trim()
+                    const tableStyle = (d.getFieldValue('table-style') || '').trim()
 
                     const tableAttrs: Record<string, string> = {}
                     if (tableId) tableAttrs.id = tableId
                     if (tableClass) tableAttrs.class = tableClass
                     if (tableSummary) tableAttrs.summary = tableSummary
+                    if (tableStyle) tableAttrs.style = tableStyle
 
                     const tableRows = Array.from({ length: rows }, () => ({
                         type: 'tableRow',

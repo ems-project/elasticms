@@ -320,7 +320,19 @@ export const tableModule: TiptapModule[] = [
                 context: ['table'],
                 label: 'Delete table',
                 order: 99,
-                command: (e) => e.tiptap.chain().focus().deleteTable().run()
+                command: (e) => {
+                    const { $from } = e.tiptap.state.selection
+                    for (let d = $from.depth; d > 0; d--) {
+                        if ($from.node(d).type.name === 'tableFigure') {
+                            e.tiptap.chain().focus().deleteRange({
+                                from: $from.before(d),
+                                to: $from.after(d)
+                            }).run()
+                            return
+                        }
+                    }
+                    e.tiptap.chain().focus().deleteTable().run()
+                }
             }
         ]
     }

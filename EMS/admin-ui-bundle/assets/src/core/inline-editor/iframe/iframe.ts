@@ -77,9 +77,11 @@ export class Iframe {
     }
 
     private onFocus(event: FocusEvent) {
+        const target = event.target as HTMLElement
+        if (this.isContextMenuClick(target)) return
+
         this.toolbar.innerHTML = ''
 
-        const target = event.target as HTMLElement
         const inlineElement = this.getTargetInlineElement(target)
         const session = inlineElement ? this.activeSessions.get(inlineElement.selector) : null
 
@@ -93,6 +95,8 @@ export class Iframe {
 
     private onClick(event: MouseEvent) {
         const target = event.target as HTMLElement
+        if (this.isContextMenuClick(target)) return
+
         const inlineElement = this.getTargetInlineElement(target)
 
         if (inlineElement && !this.activeSessions.has(inlineElement.selector)) {
@@ -106,6 +110,10 @@ export class Iframe {
         if (focusElement && target.contains(focusElement)) return
 
         this.toolbar.innerHTML = ''
+    }
+
+    private isContextMenuClick(target: HTMLElement): boolean {
+        return !!target.closest('.tiptap-context-menu')
     }
 
     private onEditorDiscard() {

@@ -293,6 +293,35 @@ export const tableModule: TiptapModule[] = [
             group: 'insert',
             icon: IconTable,
             tooltip: 'Insert Table'
-        }
+        },
+        menu: [
+            {
+                context: ['table'],
+                label: 'Insert row above',
+                parent: 'Row',
+                order: 0,
+                command: (e) => e.tiptap.chain().focus().addRowBefore().run()
+            },
+            {
+                context: ['table'],
+                label: 'Insert row below',
+                parent: 'Row',
+                order: 1,
+                command: (e) => e.tiptap.chain().focus().addRowAfter().run()
+            },
+            {
+                context: ['table'],
+                label: 'Delete row',
+                parent: 'Row',
+                order: 2,
+                command: (e) => e.tiptap.chain().focus().deleteRow().run()
+            },
+            {
+                context: ['table'],
+                label: 'Delete table',
+                order: 99,
+                command: (e) => e.tiptap.chain().focus().deleteTable().run()
+            }
+        ]
     }
 ]

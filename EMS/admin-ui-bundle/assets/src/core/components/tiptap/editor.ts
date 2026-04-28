@@ -1,6 +1,7 @@
 import { Editor, Extension, Mark, Node } from '@tiptap/core'
 import { DEFAULT_EXTENSIONS } from './extensions.ts'
 import { Toolbar } from './toolbar.ts'
+import { ContextMenu } from './contextMenu.ts'
 import { Modules, HtmlTransform, TiptapModule } from './types.ts'
 import { WysiwygProfile } from '../wysiwyg/wysiwyg.ts'
 
@@ -15,9 +16,9 @@ interface TiptapEditorOptions {
 export class TiptapEditor {
     tiptap: Editor
     toolbar: Toolbar
+    menu: ContextMenu
     element: HTMLElement
     readonly modules: TiptapModule[]
-
     private readonly extensions: (Extension | Mark | Node)[]
     private readonly htmlTransforms: HtmlTransform[]
 
@@ -43,6 +44,8 @@ export class TiptapEditor {
             onSelectionUpdate: () => this.toolbar.update(),
             onTransaction: () => this.toolbar.update()
         })
+
+        this.menu = new ContextMenu(this)
 
         if (options.toolbarElement) this.attachToolbar(options.toolbarElement)
     }
@@ -96,6 +99,7 @@ export class TiptapEditor {
     destroy() {
         this.tiptap.destroy()
         this.toolbar.destroy()
+        this.menu.destroy()
         this.element.innerHTML = ''
     }
 }

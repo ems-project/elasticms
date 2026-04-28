@@ -11,6 +11,8 @@ import { insertModule } from './module/insert.ts'
 import { WysiwygProfile } from '../wysiwyg/wysiwyg.ts'
 import { tableModule } from './module/table.ts'
 
+export type ContextType = 'table'
+
 export const Modules: TiptapModule[] = [
     ...historyModule,
     ...basicStyleModule,
@@ -28,6 +30,15 @@ export interface HtmlTransform {
     toOutput?: (doc: Document) => void
 }
 
+export interface MenuItem {
+    context: string[]
+    label: string
+    icon?: string
+    parent?: string
+    order?: number
+    command: (editor: TiptapEditor) => void
+}
+
 export interface TiptapModule {
     name: string
     extensions?: (Extension | Mark | Node)[]
@@ -40,4 +51,5 @@ export interface TiptapModule {
         icon: string
         tooltip?: string
     }
+    menu?: MenuItem[]
 }

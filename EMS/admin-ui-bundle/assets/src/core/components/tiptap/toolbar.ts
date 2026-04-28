@@ -37,7 +37,6 @@ export class Toolbar {
 
                 this.getModulesByToolbarGroup(groupName).forEach((mod) => {
                     if (removed.includes(mod.name)) return
-                    if (mod.isEnabled && !mod.isEnabled(this.wysiwygProfile)) return
                     groupDiv.appendChild(this.createButton(mod))
                 })
 

@@ -17,15 +17,20 @@ export class TiptapEditor {
     toolbar: Toolbar
     element: HTMLElement
     readonly modules: TiptapModule[]
-    private extensions: (Extension | Mark | Node)[] = []
-    private htmlTransforms: HtmlTransform[] = []
+
+    private readonly extensions: (Extension | Mark | Node)[]
+    private readonly htmlTransforms: HtmlTransform[]
 
     constructor(options: TiptapEditorOptions) {
         this.element = options.element
-        this.modules = [...Modules, ...(options.customModules ?? [])]
 
         const profile = options.wysiwygProfile ?? new WysiwygProfile()
-        this.collectExtensions(profile)
+        this.modules = [...Modules, ...(options.customModules ?? [])].filter(
+            (m) => !m.isEnabled || m.isEnabled(profile)
+        )
+
+        this.extensions = this.buildExtensions()
+        this.htmlTransforms = this.buildHtmlTransforms()
 
         this.toolbar = new Toolbar(this.modules, profile)
         this.toolbar.bind(this)
@@ -42,22 +47,21 @@ export class TiptapEditor {
         if (options.toolbarElement) this.attachToolbar(options.toolbarElement)
     }
 
-    private collectExtensions(profile: WysiwygProfile) {
-        for (const mod of this.modules) {
-            if (mod.isEnabled && !mod.isEnabled(profile)) continue
-
-            mod.extensions?.forEach((ext) => {
-                if (!this.extensions.some((e) => (e as any).name === (ext as any).name)) {
-                    this.extensions.push(ext)
-                }
+    private buildExtensions(): (Extension | Mark | Node)[] {
+        const seen = new Set<string>()
+        return this.modules
+            .flatMap((m) => m.extensions ?? [])
+            .filter((ext) => {
+                const name = (ext as any).name
+                return name && !seen.has(name) && seen.add(name)
             })
+    }
 
-            mod.htmlTransforms?.forEach((t) => {
-                if (!this.htmlTransforms.some((x) => x.name === t.name)) {
-                    this.htmlTransforms.push(t)
-                }
-            })
-        }
+    private buildHtmlTransforms(): HtmlTransform[] {
+        const seen = new Set<string>()
+        return this.modules
+            .flatMap((m) => m.htmlTransforms ?? [])
+            .filter((t) => !seen.has(t.name) && seen.add(t.name))
     }
 
     getHTML(): string {

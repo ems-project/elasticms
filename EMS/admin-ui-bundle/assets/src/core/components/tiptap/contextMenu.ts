@@ -25,16 +25,16 @@ export class ContextMenu {
         if (e.key === 'Escape') this.close()
     }
     private onMenu = (e: MouseEvent) => {
-        e.preventDefault()
-        this.open(e)
-    }
-
-    private open(e: MouseEvent) {
-        ContextMenu.active?.close()
-        ContextMenu.active = this
-
         const items = this.getItems()
         if (items.length === 0) return
+
+        e.preventDefault()
+        this.open(e, items)
+    }
+
+    private open(e: MouseEvent, items: MenuItem[]) {
+        ContextMenu.active?.close()
+        ContextMenu.active = this
 
         this.el = this.render(items)
         this.position(e)
@@ -185,8 +185,10 @@ export class ContextMenu {
         const x = e.clientX + offset.x + window.scrollX
         const y = e.clientY + offset.y + window.scrollY
         const rect = this.el.getBoundingClientRect()
-        this.el.style.left = (x + rect.width > window.innerWidth + window.scrollX ? x - rect.width : x) + 'px'
-        this.el.style.top = (y + rect.height > window.innerHeight + window.scrollY ? y - rect.height : y) + 'px'
+        this.el.style.left =
+            (x + rect.width > window.innerWidth + window.scrollX ? x - rect.width : x) + 'px'
+        this.el.style.top =
+            (y + rect.height > window.innerHeight + window.scrollY ? y - rect.height : y) + 'px'
     }
 
     destroy() {

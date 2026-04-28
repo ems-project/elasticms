@@ -8,7 +8,6 @@ export const historyModule: TiptapModule[] = [
         name: 'Undo',
         extensions: [UndoRedo],
         command: (e) => e.tiptap.chain().focus().undo().run(),
-        isActive: () => false,
         toolbar: {
             group: 'undo',
             icon: IconUndo,
@@ -19,7 +18,6 @@ export const historyModule: TiptapModule[] = [
         name: 'Redo',
         extensions: [UndoRedo],
         command: (e) => e.tiptap.chain().focus().redo().run(),
-        isActive: () => false,
         toolbar: {
             group: 'undo',
             icon: IconRedo,

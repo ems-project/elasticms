@@ -33,7 +33,7 @@ export interface TiptapModule {
     extensions?: (Extension | Mark | Node)[]
     htmlTransforms?: HtmlTransform[]
     command?: (editor: TiptapEditor) => void
-    isActive: (editor: TiptapEditor) => boolean
+    isActive?: (editor: TiptapEditor) => boolean
     isEnabled?: (profile: WysiwygProfile) => boolean
     toolbar?: {
         group: string

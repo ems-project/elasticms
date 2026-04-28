@@ -5,7 +5,6 @@ export const cleanupModule: TiptapModule[] = [
     {
         name: 'RemoveFormat',
         command: (e) => e.tiptap.chain().focus().unsetAllMarks().run(),
-        isActive: () => false,
         toolbar: {
             group: 'cleanup',
             icon: IconClear,

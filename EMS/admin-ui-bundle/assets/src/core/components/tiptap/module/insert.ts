@@ -9,7 +9,6 @@ export const insertModule: TiptapModule[] = [
         name: 'HorizontalRule',
         extensions: [HorizontalRule],
         command: (e) => e.tiptap.chain().focus().setHorizontalRule().run(),
-        isActive: () => false,
         toolbar: {
             group: 'insert',
             icon: IconHorizontalRule,

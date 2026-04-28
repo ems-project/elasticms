@@ -92,7 +92,7 @@ export class Toolbar {
         if (!this.container) return
         this.container.querySelectorAll<HTMLButtonElement>('button[data-action]').forEach((btn) => {
             const mod = this.modules.get(btn.dataset.action!)
-            if (mod) btn.classList.toggle('is-active', mod.isActive(this.tiptapEditor))
+            if (mod) btn.classList.toggle('is-active', mod.isActive?.(this.tiptapEditor) ?? false)
         })
     }
 

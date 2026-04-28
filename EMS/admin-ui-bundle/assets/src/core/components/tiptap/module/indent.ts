@@ -76,7 +76,6 @@ export const indentModule: TiptapModule[] = [
         name: 'Outdent',
         extensions: [IndentExtension],
         command: changeIndent(-1),
-        isActive: () => false,
         toolbar: {
             group: 'indent',
             icon: IconOutdent,
@@ -87,7 +86,6 @@ export const indentModule: TiptapModule[] = [
         name: 'Indent',
         extensions: [IndentExtension],
         command: changeIndent(1),
-        isActive: () => false,
         toolbar: {
             group: 'indent',
             icon: IconIndent,

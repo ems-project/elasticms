@@ -19,8 +19,6 @@ export class ContextMenu {
         this.editor.tiptap.view.dom.addEventListener('contextmenu', this.onMenu)
     }
 
-    private onScroll = () => this.close()
-
     private onClickOutside = (e: MouseEvent) => {
         if (this.el && !this.el.contains(e.target as Node)) this.close()
     }
@@ -45,7 +43,6 @@ export class ContextMenu {
         this.getAllDocuments().forEach((doc) => {
             doc.addEventListener('mousedown', this.onClickOutside)
             doc.addEventListener('keydown', this.onKeyDown)
-            doc.addEventListener('scroll', this.onScroll, true)
         })
     }
 
@@ -59,19 +56,21 @@ export class ContextMenu {
         this.getAllDocuments().forEach((doc) => {
             doc.removeEventListener('mousedown', this.onClickOutside)
             doc.removeEventListener('keydown', this.onKeyDown)
-            doc.removeEventListener('scroll', this.onScroll, true)
         })
     }
 
     private getAllDocuments(): Document[] {
-        const editorDoc = this.editor.tiptap.view.dom.ownerDocument
-        const docs = [document, editorDoc]
+        const docs = [document, this.editorDoc]
         document.querySelectorAll('iframe').forEach((frame) => {
-            if (frame.contentDocument && frame.contentDocument !== editorDoc) {
+            if (frame.contentDocument && frame.contentDocument !== this.editorDoc) {
                 docs.push(frame.contentDocument)
             }
         })
         return docs
+    }
+
+    private get editorDoc(): Document {
+        return this.editor.tiptap.view.dom.ownerDocument
     }
 
     private isContextActive(context: string): boolean {
@@ -184,11 +183,11 @@ export class ContextMenu {
     private position(e: MouseEvent) {
         if (!this.el) return
         const offset = this.getFrameOffset()
-        const x = e.clientX + offset.x
-        const y = e.clientY + offset.y
+        const x = e.clientX + offset.x + window.scrollX
+        const y = e.clientY + offset.y + window.scrollY
         const rect = this.el.getBoundingClientRect()
-        this.el.style.left = (x + rect.width > window.innerWidth ? x - rect.width : x) + 'px'
-        this.el.style.top = (y + rect.height > window.innerHeight ? y - rect.height : y) + 'px'
+        this.el.style.left = (x + rect.width > window.innerWidth + window.scrollX ? x - rect.width : x) + 'px'
+        this.el.style.top = (y + rect.height > window.innerHeight + window.scrollY ? y - rect.height : y) + 'px'
     }
 
     destroy() {

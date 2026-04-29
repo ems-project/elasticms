@@ -127,6 +127,14 @@ Removed filters in favor of the following replacements:
 - `get_field_by_path` → `emsco_get_field_by_path`
 - `get_revision_id` → `emsco_get_revision_id`
 
+## 6.9.13
+
+* If the `media_lib_file` block of the `media_library` component has been overridden and a file browser dashboard is defined, a `data-json` attribute must be added to the file selection link, as illustrated below:
+
+```twig
+        <a class="btn-file-view" href="{{- mediaFile.urlView -}}" data-id="{{- mediaFile.id -}}" data-json="{{ mediaFile.getDataJson()|e('html_attr') }}">
+```
+
 ## 6.9.2
 
 - Media library: the "nested_path" option for sorting is deprecated, use "parent_field" instead.

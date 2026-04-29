@@ -1,5 +1,13 @@
 # Changelog 6.x
 
+## 6.9.13 (2026-04-29)
+### Features
+* feat(docker): sandbox for 6.9 by @theus77 in https://github.com/ems-project/elasticms/pull/1692
+### Bug Fixes
+* fix(admin/file): add file browser on file fields by @theus77 in https://github.com/ems-project/elasticms/pull/1690
+* fix(admin/revision): isPublish not deleted envs by @Davidmattei in https://github.com/ems-project/elasticms/pull/1691
+* fix(common/asset): do not try to get the ems archive if it is missing by @theus77 in https://github.com/ems-project/elasticms/pull/1675
+
 ## 6.9.12 (2026-04-24)
 ### Features
 * feat(admin/twig): add filter ems_get_file_object and emsco_get_file_object by @theus77 in https://github.com/ems-project/elasticms/pull/1665

@@ -64,7 +64,7 @@
 
 {%- block media_lib_file -%}
     <div style="flex: 4">
-        <a class="btn-file-view" href="{{- mediaFile.urlView -}}" data-id="{{- mediaFile.id -}}">
+        <a class="btn-file-view" href="{{- mediaFile.urlView -}}" data-id="{{- mediaFile.id -}}" data-json="{{ mediaFile.getDataJson()|e('html_attr') }}">
             {{ mediaFile.folder[folder.path|default('')|length + 1:] }}{{- mediaFile.name -}}
         </a>
     </div>

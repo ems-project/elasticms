@@ -63,6 +63,8 @@ docs: ## serve docs
 	@docsify serve ./docs
 status: ## status
 	@$(DOCKER_COMPOSE) ps
+sandbox: ## open a terminal in a development sandbox container
+	@$(DOCKER_COMPOSE) exec sandbox bash
 
 ## —— Symfony server ———————————————————————————————————————————————————————————————————————————————————————————————————
 server-start/%: ## server-start/(admin|web|cli)

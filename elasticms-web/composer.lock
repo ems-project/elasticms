@@ -62,16 +62,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.379.6",
+            "version": "3.379.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "587f0bafd28a7dc3395b0c55f93f2474657767e2"
+                "reference": "856ddf3d241c29132fe1eb946e112351ab043542"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/587f0bafd28a7dc3395b0c55f93f2474657767e2",
-                "reference": "587f0bafd28a7dc3395b0c55f93f2474657767e2",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/856ddf3d241c29132fe1eb946e112351ab043542",
+                "reference": "856ddf3d241c29132fe1eb946e112351ab043542",
                 "shasum": ""
             },
             "require": {
@@ -153,9 +153,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.379.6"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.379.8"
             },
-            "time": "2026-04-23T18:11:11+00:00"
+            "time": "2026-04-27T19:13:21+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -1875,7 +1875,7 @@
         },
         {
             "name": "elasticms/client-helper-bundle",
-            "version": "6.9.12",
+            "version": "6.9.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSClientHelperBundle.git",
@@ -1926,22 +1926,22 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSClientHelperBundle/tree/6.9.12"
+                "source": "https://github.com/ems-project/EMSClientHelperBundle/tree/6.9.13"
             },
             "time": "2026-04-16T15:16:13+00:00"
         },
         {
             "name": "elasticms/common-bundle",
-            "version": "6.9.12",
+            "version": "6.9.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSCommonBundle.git",
-                "reference": "49f464b24eb93a996ac644a04550f04d5ccc77f2"
+                "reference": "6c989237ccf6647c3227c0592e83ad7ab77ceb22"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSCommonBundle/zipball/49f464b24eb93a996ac644a04550f04d5ccc77f2",
-                "reference": "49f464b24eb93a996ac644a04550f04d5ccc77f2",
+                "url": "https://api.github.com/repos/ems-project/EMSCommonBundle/zipball/6c989237ccf6647c3227c0592e83ad7ab77ceb22",
+                "reference": "6c989237ccf6647c3227c0592e83ad7ab77ceb22",
                 "shasum": ""
             },
             "require": {
@@ -2014,13 +2014,13 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSCommonBundle/tree/6.9.12"
+                "source": "https://github.com/ems-project/EMSCommonBundle/tree/6.9.13"
             },
-            "time": "2026-04-23T14:31:57+00:00"
+            "time": "2026-04-24T17:03:17+00:00"
         },
         {
             "name": "elasticms/form-bundle",
-            "version": "6.9.12",
+            "version": "6.9.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSFormBundle.git",
@@ -2063,13 +2063,13 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSFormBundle/tree/6.9.12"
+                "source": "https://github.com/ems-project/EMSFormBundle/tree/6.9.13"
             },
             "time": "2025-10-27T09:30:49+00:00"
         },
         {
             "name": "elasticms/helpers",
-            "version": "6.9.12",
+            "version": "6.9.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/helpers.git",
@@ -2113,13 +2113,13 @@
                 "php"
             ],
             "support": {
-                "source": "https://github.com/ems-project/helpers/tree/6.9.12"
+                "source": "https://github.com/ems-project/helpers/tree/6.9.13"
             },
             "time": "2025-10-27T09:29:21+00:00"
         },
         {
             "name": "elasticms/submission-bundle",
-            "version": "6.9.12",
+            "version": "6.9.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSSubmissionBundle.git",
@@ -2165,7 +2165,7 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSSubmissionBundle/tree/6.9.12"
+                "source": "https://github.com/ems-project/EMSSubmissionBundle/tree/6.9.13"
             },
             "time": "2026-01-27T14:06:38+00:00"
         },
@@ -4433,16 +4433,16 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "3.0.51",
+            "version": "3.0.52",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "d59c94077f9c9915abb51ddb52ce85188ece1748"
+                "reference": "2adaefc83df2ec548558307690f376dd7d4f4fce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/d59c94077f9c9915abb51ddb52ce85188ece1748",
-                "reference": "d59c94077f9c9915abb51ddb52ce85188ece1748",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/2adaefc83df2ec548558307690f376dd7d4f4fce",
+                "reference": "2adaefc83df2ec548558307690f376dd7d4f4fce",
                 "shasum": ""
             },
             "require": {
@@ -4523,7 +4523,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpseclib/phpseclib/issues",
-                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.51"
+                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.52"
             },
             "funding": [
                 {
@@ -4539,7 +4539,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-04-10T01:33:53+00:00"
+            "time": "2026-04-27T07:02:15+00:00"
         },
         {
             "name": "promphp/prometheus_client_php",

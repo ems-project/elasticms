@@ -5,6 +5,9 @@ body.wysiwyg-maximized-active {
         position: static !important;
         overflow: visible !important;
     }
+    .tiptap-context-menu {
+        z-index: 99999;
+    }
 }
 
 .wysiwyg-container {

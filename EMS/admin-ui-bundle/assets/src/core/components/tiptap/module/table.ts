@@ -159,6 +159,234 @@ const CustomTable = Table.extend({
     }
 })
 
+function getTableContext(tiptap: any): { attrs: Record<string, any>; caption: string } {
+    const { $from } = tiptap.state.selection
+    let attrs: Record<string, any> = {}
+    let caption = ''
+
+    for (let d = $from.depth; d > 0; d--) {
+        const node = $from.node(d)
+        if (node.type.name === 'table') {
+            attrs = { ...node.attrs }
+        }
+        if (node.type.name === 'tableFigure') {
+            const first = node.firstChild
+            if (first?.type.name === 'tableCaption') {
+                caption = first.textContent
+            }
+            break
+        }
+    }
+
+    return { attrs, caption }
+}
+
+function updateCaption(tiptap: any, caption: string) {
+    const { $from } = tiptap.state.selection
+
+    let figurePos: number | null = null
+    let figureNode = null
+    let tablePos: number | null = null
+
+    for (let d = $from.depth; d > 0; d--) {
+        const node = $from.node(d)
+        if (node.type.name === 'tableFigure') {
+            figurePos = $from.before(d)
+            figureNode = node
+            break
+        }
+        if (node.type.name === 'table') {
+            tablePos = $from.before(d)
+        }
+    }
+
+    if (figureNode && figurePos !== null) {
+        const firstChild = figureNode.firstChild
+        if (caption) {
+            if (firstChild?.type.name === 'tableCaption') {
+                const from = figurePos + 1
+                const to = from + firstChild.nodeSize
+                tiptap
+                    .chain()
+                    .focus()
+                    .deleteRange({ from, to })
+                    .insertContentAt(from, {
+                        type: 'tableCaption',
+                        content: [{ type: 'text', text: caption }]
+                    })
+                    .run()
+            } else {
+                tiptap
+                    .chain()
+                    .focus()
+                    .insertContentAt(figurePos + 1, {
+                        type: 'tableCaption',
+                        content: [{ type: 'text', text: caption }]
+                    })
+                    .run()
+            }
+        } else if (firstChild?.type.name === 'tableCaption') {
+            const from = figurePos + 1
+            const to = from + firstChild.nodeSize
+            tiptap.chain().focus().deleteRange({ from, to }).run()
+        }
+    } else if (caption && tablePos !== null) {
+        const tableNode = tiptap.state.doc.nodeAt(tablePos)
+        if (!tableNode) return
+        const tableEnd = tablePos + tableNode.nodeSize
+        tiptap
+            .chain()
+            .focus()
+            .deleteRange({ from: tablePos, to: tableEnd })
+            .insertContentAt(tablePos, {
+                type: 'tableFigure',
+                content: [
+                    { type: 'tableCaption', content: [{ type: 'text', text: caption }] },
+                    tableNode.toJSON()
+                ]
+            })
+            .run()
+    }
+}
+
+function openTableDialog(e: { tiptap: any }, mode: 'insert' | 'edit') {
+    const dialog = new Dialog('Table Properties', { draggable: true })
+
+    const current = mode === 'edit' ? getTableContext(e.tiptap) : { attrs: {}, caption: '' }
+    const a = current.attrs
+
+    const esc = (v: any) => (v ?? '').toString().replace(/"/g, '&quot;')
+
+    dialog.setContent(`
+        ${mode === 'insert' ? `
+        <div style="display: flex; gap: 15px;">
+            <div style="flex: 1; margin-bottom: 15px;">
+                <label for="table-cols">Columns</label>
+                <input type="number" id="table-cols" value="2" min="1" max="10">
+            </div>
+            <div style="flex: 1; margin-bottom: 15px;">
+                <label for="table-rows">Rows</label>
+                <input type="number" id="table-rows" value="3" min="1" max="20">
+            </div>
+        </div>` : ''}
+        <div style="margin-bottom: 15px;">
+            <label for="table-caption">Caption</label>
+            <input type="text" id="table-caption" value="${esc(current.caption)}" placeholder="Optional">
+        </div>
+        <div style="margin-bottom: 15px;">
+            <label for="table-summary">Summary</label>
+            <input type="text" id="table-summary" value="${esc(a.summary)}" placeholder="Optional">
+        </div>
+        <div style="margin-bottom: 15px;">
+            <label for="table-style">Style</label>
+            <input type="text" id="table-style" value="${esc(a.dataUserStyle)}" placeholder="Optional">
+        </div>
+        <div style="margin-bottom: 15px;">
+            <label for="table-align">Align</label>
+            <select id="table-align">
+                <option value=""${!a.align ? ' selected' : ''}>Not defined</option>
+                <option value="left"${a.align === 'left' ? ' selected' : ''}>Left</option>
+                <option value="center"${a.align === 'center' ? ' selected' : ''}>Center</option>
+                <option value="right"${a.align === 'right' ? ' selected' : ''}>Right</option>
+            </select>
+        </div>
+        <div style="display: flex; gap: 15px;">
+            <div style="flex: 1; margin-bottom: 15px;">
+                <label for="table-id">ID</label>
+                <input type="text" id="table-id" value="${esc(a.id)}" placeholder="Optional">
+            </div>
+            <div style="flex: 1; margin-bottom: 15px;">
+                <label for="table-class">Class</label>
+                <input type="text" id="table-class" value="${esc(a.class)}" placeholder="Optional">
+            </div>
+        </div>
+    `)
+
+    dialog.addButton({
+        label: 'Apply',
+        variant: 'primary',
+        onClick: (d) => {
+            const caption = (d.getFieldValue('table-caption') || '').trim()
+            const tableId = (d.getFieldValue('table-id') || '').trim()
+            const tableClass = (d.getFieldValue('table-class') || '').trim()
+            const tableSummary = (d.getFieldValue('table-summary') || '').trim()
+            const tableStyle = (d.getFieldValue('table-style') || '').trim()
+            const tableAlign = (d.getFieldValue('table-align') || '').trim()
+
+            const attrs: Record<string, string | null> = {
+                id: tableId || null,
+                class: tableClass || null,
+                summary: tableSummary || null,
+                dataUserStyle: tableStyle || null,
+                align: tableAlign || null
+            }
+
+            if (mode === 'edit') {
+                e.tiptap.chain().focus().updateAttributes('table', attrs).run()
+                updateCaption(e.tiptap, caption)
+            } else {
+                const rows = parseInt(d.getFieldValue('table-rows')) || 3
+                const cols = parseInt(d.getFieldValue('table-cols')) || 2
+
+                const tableRows = Array.from({ length: rows }, () => ({
+                    type: 'tableRow',
+                    content: Array.from({ length: cols }, () => ({
+                        type: 'tableCell',
+                        content: [{ type: 'paragraph' }]
+                    }))
+                }))
+
+                if (caption) {
+                    e.tiptap
+                        .chain()
+                        .focus()
+                        .insertContent({
+                            type: 'tableFigure',
+                            content: [
+                                {
+                                    type: 'tableCaption',
+                                    content: [{ type: 'text', text: caption }]
+                                },
+                                { type: 'table', attrs, content: tableRows }
+                            ]
+                        })
+                        .run()
+                } else {
+                    e.tiptap
+                        .chain()
+                        .focus()
+                        .insertContent({ type: 'table', attrs, content: tableRows })
+                        .run()
+                }
+            }
+            d.close()
+        }
+    })
+
+    dialog.addButton({
+        label: 'Cancel',
+        variant: 'secondary',
+        onClick: (d) => d.close()
+    })
+
+    dialog.open()
+}
+
+function deleteTableOrFigure(e: { tiptap: any }) {
+    const { $from } = e.tiptap.state.selection
+    for (let d = $from.depth; d > 0; d--) {
+        if ($from.node(d).type.name === 'tableFigure') {
+            e.tiptap
+                .chain()
+                .focus()
+                .deleteRange({ from: $from.before(d), to: $from.after(d) })
+                .run()
+            return
+        }
+    }
+    e.tiptap.chain().focus().deleteTable().run()
+}
+
 export const tableModule: TiptapModule[] = [
     {
         name: 'Table',
@@ -171,123 +399,7 @@ export const tableModule: TiptapModule[] = [
             TableCaption
         ],
         htmlTransforms: [tableCaptionTransform, tableCleanupTransform],
-        command: (e) => {
-            const dialog = new Dialog('Table Properties', { draggable: true })
-
-            dialog.setContent(`
-                <div style="display: flex; gap: 15px;">
-                    <div style="flex: 1; margin-bottom: 15px;">
-                        <label for="table-cols">Columns</label>
-                        <input type="number" id="table-cols" value="2" min="1" max="10">
-                    </div>
-                    <div style="flex: 1; margin-bottom: 15px;">
-                        <label for="table-rows">Rows</label>
-                        <input type="number" id="table-rows" value="3" min="1" max="20">
-                    </div>
-                </div>
-                <div style="margin-bottom: 15px;">
-                    <label for="table-caption">Caption</label>
-                    <input type="text" id="table-caption" placeholder="Optional">
-                </div>
-                <div style="margin-bottom: 15px;">
-                    <label for="table-summary">Summary</label>
-                    <input type="text" id="table-summary" placeholder="Optional">
-                </div>
-                <div style="margin-bottom: 15px;">
-                    <label for="table-style">Style</label>
-                    <input type="text" id="table-style" placeholder="Optional">
-                </div>
-                <div style="margin-bottom: 15px;">
-                    <label for="table-align">Align</label>
-                    <select id="table-align">
-                        <option value="">Not defined</option>
-                        <option value="left">Left</option>
-                        <option value="center">Center</option>
-                        <option value="right">Right</option>
-                    </select>
-                </div>
-                <div style="display: flex; gap: 15px;">
-                    <div style="flex: 1; margin-bottom: 15px;">
-                        <label for="table-id">ID</label>
-                        <input type="text" id="table-id" placeholder="Optional">
-                    </div>
-                    <div style="flex: 1; margin-bottom: 15px;">
-                        <label for="table-class">Class</label>
-                        <input type="text" id="table-class" placeholder="Optional">
-                    </div>
-                </div>
-            `)
-
-            dialog.addButton({
-                label: 'Apply',
-                variant: 'primary',
-                onClick: (d) => {
-                    const rows = parseInt(d.getFieldValue('table-rows')) || 3
-                    const cols = parseInt(d.getFieldValue('table-cols')) || 2
-                    const caption = (d.getFieldValue('table-caption') || '').trim()
-                    const tableId = (d.getFieldValue('table-id') || '').trim()
-                    const tableClass = (d.getFieldValue('table-class') || '').trim()
-                    const tableSummary = (d.getFieldValue('table-summary') || '').trim()
-                    const tableStyle = (d.getFieldValue('table-style') || '').trim()
-                    const tableAlign = (d.getFieldValue('table-align') || '').trim()
-
-                    const tableAttrs: Record<string, string> = {}
-                    if (tableId) tableAttrs.id = tableId
-                    if (tableClass) tableAttrs.class = tableClass
-                    if (tableSummary) tableAttrs.summary = tableSummary
-                    if (tableStyle) tableAttrs.dataUserStyle = tableStyle
-                    if (tableAlign) tableAttrs.align = tableAlign
-
-                    const tableRows = Array.from({ length: rows }, () => ({
-                        type: 'tableRow',
-                        content: Array.from({ length: cols }, () => ({
-                            type: 'tableCell',
-                            content: [{ type: 'paragraph' }]
-                        }))
-                    }))
-
-                    if (caption) {
-                        e.tiptap
-                            .chain()
-                            .focus()
-                            .insertContent({
-                                type: 'tableFigure',
-                                content: [
-                                    {
-                                        type: 'tableCaption',
-                                        content: [{ type: 'text', text: caption }]
-                                    },
-                                    {
-                                        type: 'table',
-                                        attrs: tableAttrs,
-                                        content: tableRows
-                                    }
-                                ]
-                            })
-                            .run()
-                    } else {
-                        e.tiptap
-                            .chain()
-                            .focus()
-                            .insertContent({
-                                type: 'table',
-                                attrs: tableAttrs,
-                                content: tableRows
-                            })
-                            .run()
-                    }
-                    d.close()
-                }
-            })
-
-            dialog.addButton({
-                label: 'Cancel',
-                variant: 'secondary',
-                onClick: (d) => d.close()
-            })
-
-            dialog.open()
-        },
+        command: (e) => openTableDialog(e, 'insert'),
         isActive: (e) => e.tiptap.isActive('table') || e.tiptap.isActive('tableFigure'),
         toolbar: {
             group: 'insert',
@@ -318,25 +430,15 @@ export const tableModule: TiptapModule[] = [
             },
             {
                 context: ['table'],
+                label: 'Table properties',
+                order: 98,
+                command: (e) => openTableDialog(e, 'edit')
+            },
+            {
+                context: ['table'],
                 label: 'Delete table',
                 order: 99,
-                command: (e) => {
-                    const { $from } = e.tiptap.state.selection
-                    for (let d = $from.depth; d > 0; d--) {
-                        if ($from.node(d).type.name === 'tableFigure') {
-                            e.tiptap
-                                .chain()
-                                .focus()
-                                .deleteRange({
-                                    from: $from.before(d),
-                                    to: $from.after(d)
-                                })
-                                .run()
-                            return
-                        }
-                    }
-                    e.tiptap.chain().focus().deleteTable().run()
-                }
+                command: (e) => deleteTableOrFigure(e)
             }
         ]
     }

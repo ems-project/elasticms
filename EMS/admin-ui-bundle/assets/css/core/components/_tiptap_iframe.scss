@@ -1,3 +1,76 @@
+.tiptap-context-menu {
+  position: absolute;
+  z-index: 9999;
+  background: #fff;
+  border: 1px solid #d0d0d0;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 4px 0;
+  min-width: 180px;
+  font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 13px;
+
+  &-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 6px 12px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: #333;
+    text-align: left;
+    white-space: nowrap;
+
+    &:hover {
+      background: #f0f0f0;
+    }
+
+    &.has-submenu {
+      justify-content: space-between;
+    }
+  }
+
+  &-icon {
+    display: flex;
+    width: 16px;
+    height: 16px;
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  &-arrow {
+    font-size: 10px;
+    margin-left: auto;
+    opacity: 0.5;
+  }
+
+  &-submenu {
+    position: relative;
+
+    .tiptap-context-menu-panel {
+      display: none;
+      position: absolute;
+      left: 100%;
+      top: 0;
+      background: #fff;
+      border: 1px solid #d0d0d0;
+      border-radius: 6px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      padding: 4px 0;
+      min-width: 160px;
+    }
+
+    &:hover > .tiptap-context-menu-panel {
+      display: block;
+    }
+  }
+}
+
 .ProseMirror {
   outline: none;
   white-space: pre-wrap;

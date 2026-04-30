@@ -1,8 +1,9 @@
-import { Node, mergeAttributes } from '@tiptap/core'
+import { Node, mergeAttributes, Editor } from '@tiptap/core'
 import { Table, TableCell, TableHeader, TableRow } from '@tiptap/extension-table'
 import IconTable from '@tabler/icons/outline/table.svg?raw'
 import { HtmlTransform, ContextMenuItem, TiptapModule } from '../types.ts'
 import { Dialog } from '../../dialog.ts'
+import { TiptapEditor } from '../editor.ts'
 
 export const tableModule: TiptapModule = {
     extensions: getExtensions(),
@@ -212,16 +213,16 @@ function getContextMenuItems(): ContextMenuItem[] {
         {
             label: 'Delete table',
             order: 99,
-            command: (e) => commandDeleteTable(e)
+            command: (e) => commandDeleteTable(e.tiptap)
         }
     ]
 }
 
-function commandDeleteTable(e: { tiptap: any }) {
-    const { $from } = e.tiptap.state.selection
+function commandDeleteTable(tiptap: Editor) {
+    const { $from } = tiptap.state.selection
     for (let d = $from.depth; d > 0; d--) {
         if ($from.node(d).type.name === 'tableFigure') {
-            e.tiptap
+            tiptap
                 .chain()
                 .focus()
                 .deleteRange({ from: $from.before(d), to: $from.after(d) })
@@ -229,10 +230,10 @@ function commandDeleteTable(e: { tiptap: any }) {
             return
         }
     }
-    e.tiptap.chain().focus().deleteTable().run()
+    tiptap.chain().focus().deleteTable().run()
 }
 
-function getTableContext(tiptap: any): { attrs: Record<string, any>; caption: string } {
+function getTableContext(tiptap: Editor): { attrs: Record<string, any>; caption: string } {
     const { $from } = tiptap.state.selection
     let attrs: Record<string, any> = {}
     let caption = ''
@@ -254,7 +255,7 @@ function getTableContext(tiptap: any): { attrs: Record<string, any>; caption: st
     return { attrs, caption }
 }
 
-function updateCaption(tiptap: any, caption: string) {
+function updateCaption(tiptap: Editor, caption: string) {
     const { $from } = tiptap.state.selection
 
     let figurePos: number | null = null
@@ -322,7 +323,7 @@ function updateCaption(tiptap: any, caption: string) {
     }
 }
 
-function openTableDialog(e: { tiptap: any }, mode: 'insert' | 'edit') {
+function openTableDialog(e: TiptapEditor, mode: 'insert' | 'edit') {
     const dialog = new Dialog('Table Properties', { draggable: true })
 
     const current = mode === 'edit' ? getTableContext(e.tiptap) : { attrs: {}, caption: '' }

@@ -56,6 +56,24 @@ export const tableTheadHtmlTransform: HtmlTransform = {
     }
 }
 
+export function isHeaderCell(headers: string, rowIdx: number, colIdx: number): boolean {
+    switch (headers) {
+        case 'both': return rowIdx === 0 || colIdx === 0
+        case 'row': return rowIdx === 0
+        case 'column': return colIdx === 0
+        default: return false
+    }
+}
+
+export function headerScope(headers: string, rowIdx: number): string | null {
+    switch (headers) {
+        case 'row': return 'col'
+        case 'column': return 'row'
+        case 'both': return rowIdx === 0 ? 'col' : 'row'
+        default: return null
+    }
+}
+
 export function applyHeaders(tiptap: Editor, headers: string) {
     const { $from } = tiptap.state.selection
     let tableNode = null
@@ -78,25 +96,9 @@ export function applyHeaders(tiptap: Editor, headers: string) {
     tableNode.forEach((row, _, rowIdx) => {
         let cellOffset = 0
         row.forEach((cell, _, colIdx) => {
-            const shouldBeHeader =
-                headers === 'both'
-                    ? rowIdx === 0 || colIdx === 0
-                    : headers === 'row'
-                      ? rowIdx === 0
-                      : headers === 'column'
-                        ? colIdx === 0
-                        : false
-
+            const shouldBeHeader = isHeaderCell(headers, rowIdx, colIdx)
             const targetType = shouldBeHeader ? headerType : cellType
-            const scope = shouldBeHeader
-                ? headers === 'column'
-                    ? 'row'
-                    : headers === 'row'
-                      ? 'col'
-                      : rowIdx === 0
-                        ? 'col'
-                        : 'row'
-                : null
+            const scope = shouldBeHeader ? headerScope(headers, rowIdx) : null
 
             const pos = tablePos + offset + cellOffset + 1
             if (cell.type !== targetType || cell.attrs.scope !== scope) {

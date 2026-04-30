@@ -13,7 +13,13 @@ import {
 } from '../table/tableCaption.ts'
 
 import { tableCleanHtmlTransform } from '../table/table.ts'
-import { applyHeaders, CustomTableHeader, tableTheadHtmlTransform } from '../table/tableHeader.ts'
+import {
+    applyHeaders,
+    CustomTableHeader,
+    headerScope,
+    isHeaderCell,
+    tableTheadHtmlTransform
+} from '../table/tableHeader.ts'
 
 export const tableModule: TiptapModule = {
     extensions: getExtensions(),
@@ -354,28 +360,10 @@ function openTableDialog(e: TiptapEditor, mode: 'insert' | 'edit') {
                 const tableRows = Array.from({ length: rows }, (_, rowIdx) => ({
                     type: 'tableRow',
                     content: Array.from({ length: cols }, (_, colIdx) => {
-                        const isHeader =
-                            headers === 'both'
-                                ? rowIdx === 0 || colIdx === 0
-                                : headers === 'row'
-                                  ? rowIdx === 0
-                                  : headers === 'column'
-                                    ? colIdx === 0
-                                    : false
-
-                        const scope = isHeader
-                            ? headers === 'column'
-                                ? 'row'
-                                : headers === 'row'
-                                  ? 'col'
-                                  : rowIdx === 0
-                                    ? 'col'
-                                    : 'row'
-                            : null
-
+                        const isHeader = isHeaderCell(headers, rowIdx, colIdx)
                         return {
                             type: isHeader ? 'tableHeader' : 'tableCell',
-                            attrs: scope ? { scope } : {},
+                            attrs: isHeader ? { scope: headerScope(headers, rowIdx) } : {},
                             content: [{ type: 'paragraph' }]
                         }
                     })

@@ -7,7 +7,7 @@ import { TiptapModule } from '../types.ts'
 export const insertModule: TiptapModule[] = [
     {
         extensions: [HorizontalRule],
-        group: 'insert',
+        toolbarGroup: 'insert',
         toolbar: [
             {
                 name: 'HorizontalRule',
@@ -19,7 +19,7 @@ export const insertModule: TiptapModule[] = [
     },
     {
         extensions: [Blockquote],
-        group: 'blocks',
+        toolbarGroup: 'blocks',
         toolbar: [
             {
                 name: 'Blockquote',

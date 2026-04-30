@@ -83,7 +83,7 @@ export default class Tiptap {
 
     private getSourceModule(): TiptapModule {
         return {
-            group: 'mode',
+            toolbarGroup: 'mode',
             toolbar: [
                 {
                     name: 'Source',
@@ -110,7 +110,7 @@ export default class Tiptap {
 
     private getMaximizeModule(): TiptapModule {
         return {
-            group: 'tools',
+            toolbarGroup: 'tools',
             toolbar: [
                 {
                     name: 'Maximize',

@@ -7,7 +7,7 @@ import { TiptapModule } from '../types.ts'
 
 export const listModule: TiptapModule = {
     extensions: [ListItem],
-    group: 'list',
+    toolbarGroup: 'list',
     toolbar: [
         {
             extensions: [OrderedList],

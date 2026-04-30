@@ -12,7 +12,7 @@ import { TiptapModule } from '../types.ts'
 
 export const basicStyleModule: TiptapModule[] = [
     {
-        group: 'basicstyles',
+        toolbarGroup: 'basicstyles',
         toolbar: [
             {
                 name: 'Bold',
@@ -41,9 +41,9 @@ export const basicStyleModule: TiptapModule[] = [
         ]
     },
     {
-        group: 'basicstyles',
         isEnabled: (wysiwygProfile) =>
             wysiwygProfile.config.extraPlugins?.includes('basicstyles') ?? false,
+        toolbarGroup: 'basicstyles',
         toolbar: [
             {
                 extensions: [Subscript],

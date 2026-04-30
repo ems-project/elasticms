@@ -5,7 +5,7 @@ import { TiptapModule } from '../types.ts'
 
 export const historyModule: TiptapModule = {
     extensions: [UndoRedo],
-    group: 'undo',
+    toolbarGroup: 'undo',
     toolbar: [
         {
             name: 'Undo',

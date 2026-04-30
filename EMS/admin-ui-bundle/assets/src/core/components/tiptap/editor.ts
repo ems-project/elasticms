@@ -90,7 +90,7 @@ export class TiptapEditor {
             const groups = entry.groups ?? [entry.name]
             groups.forEach((groupName) => {
                 enabledModules.forEach((mod) => {
-                    if (mod.group !== groupName) return
+                    if (mod.toolbarGroup !== groupName) return
 
                     const validItems = (mod.toolbar ?? []).filter(
                         (item) => !removed.has(item.name)

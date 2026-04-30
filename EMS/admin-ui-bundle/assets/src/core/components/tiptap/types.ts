@@ -49,10 +49,10 @@ export interface ToolbarItem {
 }
 
 export interface TiptapModule {
-    group?: string
     extensions?: (ExtensionType)[]
-    htmlTransforms?: HtmlTransform[]
-    isEnabled?: (profile: WysiwygProfile) => boolean
+    toolbarGroup?: string
     toolbar?: ToolbarItem[]
     menu?: MenuItem[]
+    htmlTransforms?: HtmlTransform[]
+    isEnabled?: (profile: WysiwygProfile) => boolean
 }

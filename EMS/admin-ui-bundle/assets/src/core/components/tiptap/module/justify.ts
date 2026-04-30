@@ -12,7 +12,7 @@ const CustomTextAlign = TextAlign.configure({
 
 export const justifyModule: TiptapModule = {
     extensions: [CustomTextAlign],
-    group: 'align',
+    toolbarGroup: 'align',
     toolbar: [
         {
             name: 'JustifyLeft',

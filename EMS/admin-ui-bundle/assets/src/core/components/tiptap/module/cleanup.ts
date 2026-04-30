@@ -2,7 +2,7 @@ import IconClear from '@tabler/icons/outline/eraser.svg?raw'
 import { TiptapModule } from '../types.ts'
 
 export const cleanupModule: TiptapModule = {
-    group: 'cleanup',
+    toolbarGroup: 'cleanup',
     toolbar: [
         {
             name: 'RemoveFormat',

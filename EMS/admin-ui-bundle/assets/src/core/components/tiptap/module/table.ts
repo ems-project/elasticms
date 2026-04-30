@@ -1,5 +1,5 @@
 import { Node, Editor } from '@tiptap/core'
-import { Table, TableCell, TableHeader, TableRow } from '@tiptap/extension-table'
+import { Table, TableCell, TableRow } from '@tiptap/extension-table'
 import IconTable from '@tabler/icons/outline/table.svg?raw'
 import { ContextMenuItem, TiptapModule } from '../types.ts'
 import { Dialog } from '../../dialog.ts'
@@ -13,10 +13,11 @@ import {
 } from '../table/tableCaption.ts'
 
 import { tableCleanHtmlTransform } from '../table/table.ts'
+import { applyHeaders, CustomTableHeader, tableTheadHtmlTransform } from '../table/tableHeader.ts'
 
 export const tableModule: TiptapModule = {
     extensions: getExtensions(),
-    htmlTransforms: [tableCaptionHtmlTransform, tableCleanHtmlTransform],
+    htmlTransforms: [tableCaptionHtmlTransform, tableCleanHtmlTransform, tableTheadHtmlTransform],
     toolbarGroup: 'insert',
     toolbar: [
         {
@@ -96,7 +97,10 @@ function getExtensions(): Node[] {
                     parseHTML: (el) => {
                         const s = el.getAttribute('data-user-style')
                         if (!s) return null
-                        const cleaned = s.replace(/\b(width|height)\s*:[^;]+;?/gi, '').trim().replace(/;$/, '')
+                        const cleaned = s
+                            .replace(/\b(width|height)\s*:[^;]+;?/gi, '')
+                            .trim()
+                            .replace(/;$/, '')
                         return cleaned || null
                     },
                     renderHTML: (attrs) => {
@@ -118,7 +122,7 @@ function getExtensions(): Node[] {
         CustomTable.configure({ resizable: false, allowTableNodeSelection: true }),
         TableRow,
         TableCell,
-        TableHeader,
+        CustomTableHeader,
         TableFigure,
         TableCaption
     ]
@@ -172,15 +176,47 @@ function commandDeleteTable(tiptap: Editor) {
     tiptap.chain().focus().deleteTable().run()
 }
 
-function getTableContext(tiptap: Editor): { attrs: Record<string, any>; caption: string } {
+function getTableContext(tiptap: Editor): {
+    attrs: Record<string, any>
+    caption: string
+    headers: string
+} {
     const { $from } = tiptap.state.selection
     let attrs: Record<string, any> = {}
     let caption = ''
+    let headers = 'none'
 
     for (let d = $from.depth; d > 0; d--) {
         const node = $from.node(d)
         if (node.type.name === 'table') {
             attrs = { ...node.attrs }
+
+            let firstRowTh = false
+            let firstColTh = false
+            const firstRow = node.firstChild
+            if (firstRow) {
+                firstRowTh = true
+                firstRow.forEach((cell) => {
+                    if (cell.type.name !== 'tableHeader') firstRowTh = false
+                })
+            }
+            node.forEach((row, _, i) => {
+                if (i === 0) return
+                const first = row.firstChild
+                if (!first || first.type.name !== 'tableHeader') firstColTh = false
+            })
+            if (node.childCount > 1) {
+                firstColTh = true
+                node.forEach((row, _, i) => {
+                    if (i === 0) return
+                    const first = row.firstChild
+                    if (!first || first.type.name !== 'tableHeader') firstColTh = false
+                })
+            }
+
+            if (firstRowTh && firstColTh) headers = 'both'
+            else if (firstRowTh) headers = 'row'
+            else if (firstColTh) headers = 'column'
         }
         if (node.type.name === 'tableFigure') {
             const first = node.firstChild
@@ -191,13 +227,14 @@ function getTableContext(tiptap: Editor): { attrs: Record<string, any>; caption:
         }
     }
 
-    return { attrs, caption }
+    return { attrs, caption, headers }
 }
 
 function openTableDialog(e: TiptapEditor, mode: 'insert' | 'edit') {
     const dialog = new Dialog('Table Properties', { draggable: true })
 
-    const current = mode === 'edit' ? getTableContext(e.tiptap) : { attrs: {}, caption: '' }
+    const current =
+        mode === 'edit' ? getTableContext(e.tiptap) : { attrs: {}, caption: '', headers: 'none' }
     const a = current.attrs
 
     const esc = (v: any) => (v ?? '').toString().replace(/"/g, '&quot;')
@@ -227,6 +264,15 @@ function openTableDialog(e: TiptapEditor, mode: 'insert' | 'edit') {
                 <label for="table-height">Height</label>
                 <input type="text" id="table-height" value="${esc(a.height)}" placeholder="e.g. 200px">
             </div>
+        </div>
+        <div style="margin-bottom: 15px;">
+            <label for="table-headers">Headers</label>
+            <select id="table-headers">
+                <option value="none"${current.headers === 'none' ? ' selected' : ''}>None</option>
+                <option value="row"${current.headers === 'row' ? ' selected' : ''}>First row</option>
+                <option value="column"${current.headers === 'column' ? ' selected' : ''}>First column</option>
+                <option value="both"${current.headers === 'both' ? ' selected' : ''}>Both</option>
+            </select>
         </div>
         <div style="display: flex; gap: 15px;">
             <div style="flex: 1; margin-bottom: 15px;">
@@ -280,33 +326,62 @@ function openTableDialog(e: TiptapEditor, mode: 'insert' | 'edit') {
         variant: 'primary',
         onClick: (d) => {
             const caption = (d.getFieldValue('table-caption') || '').trim()
+            const tableId = (d.getFieldValue('table-id') || '').trim()
+            const tableClass = (d.getFieldValue('table-class') || '').trim()
+            const tableSummary = (d.getFieldValue('table-summary') || '').trim()
+            const tableStyle = (d.getFieldValue('table-style') || '').trim()
+            const tableAlign = (d.getFieldValue('table-align') || '').trim()
+            const headers = (d.getFieldValue('table-headers') || 'none').trim()
 
             const attrs: Record<string, string | null> = {
-                id: (d.getFieldValue('table-id') || '').trim() || null,
-                class: (d.getFieldValue('table-class') || '').trim() || null,
-                summary: (d.getFieldValue('table-summary') || '').trim() || null,
-                align: (d.getFieldValue('table-align') || '').trim() || null,
+                id: tableId || null,
+                class: tableClass || null,
+                summary: tableSummary || null,
+                dataUserStyle: tableStyle || null,
+                align: tableAlign || null,
                 border: (d.getFieldValue('table-border') || '').trim() || null,
                 cellpadding: (d.getFieldValue('table-cellpadding') || '').trim() || null,
                 cellspacing: (d.getFieldValue('table-cellspacing') || '').trim() || null,
                 width: (d.getFieldValue('table-width') || '').trim() || null,
-                height: (d.getFieldValue('table-height') || '').trim() || null,
-                dataUserStyle: (d.getFieldValue('table-style') || '').trim() || null,
+                height: (d.getFieldValue('table-height') || '').trim() || null
             }
 
             if (mode === 'edit') {
                 e.tiptap.chain().focus().updateAttributes('table', attrs).run()
                 updateCaption(e.tiptap, caption)
+                applyHeaders(e.tiptap, headers)
             } else {
                 const rows = parseInt(d.getFieldValue('table-rows')) || 3
                 const cols = parseInt(d.getFieldValue('table-cols')) || 2
 
-                const tableRows = Array.from({ length: rows }, () => ({
+                const tableRows = Array.from({ length: rows }, (_, rowIdx) => ({
                     type: 'tableRow',
-                    content: Array.from({ length: cols }, () => ({
-                        type: 'tableCell',
-                        content: [{ type: 'paragraph' }]
-                    }))
+                    content: Array.from({ length: cols }, (_, colIdx) => {
+                        const isHeader =
+                            headers === 'both'
+                                ? rowIdx === 0 || colIdx === 0
+                                : headers === 'row'
+                                  ? rowIdx === 0
+                                  : headers === 'column'
+                                    ? colIdx === 0
+                                    : false
+
+                        const scope = isHeader
+                            ? headers === 'column'
+                                ? 'row'
+                                : headers === 'row'
+                                  ? 'col'
+                                  : rowIdx === 0
+                                    ? 'col'
+                                    : 'row'
+                            : null
+
+                        return {
+                            type: isHeader ? 'tableHeader' : 'tableCell',
+                            attrs: scope ? { scope } : {},
+                            content: [{ type: 'paragraph' }]
+                        }
+                    })
                 }))
 
                 if (caption) {

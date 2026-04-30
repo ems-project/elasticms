@@ -58,19 +58,27 @@ export const tableTheadHtmlTransform: HtmlTransform = {
 
 export function isHeaderCell(headers: string, rowIdx: number, colIdx: number): boolean {
     switch (headers) {
-        case 'both': return rowIdx === 0 || colIdx === 0
-        case 'row': return rowIdx === 0
-        case 'column': return colIdx === 0
-        default: return false
+        case 'both':
+            return rowIdx === 0 || colIdx === 0
+        case 'row':
+            return rowIdx === 0
+        case 'column':
+            return colIdx === 0
+        default:
+            return false
     }
 }
 
 export function headerScope(headers: string, rowIdx: number): string | null {
     switch (headers) {
-        case 'row': return 'col'
-        case 'column': return 'row'
-        case 'both': return rowIdx === 0 ? 'col' : 'row'
-        default: return null
+        case 'row':
+            return 'col'
+        case 'column':
+            return 'row'
+        case 'both':
+            return rowIdx === 0 ? 'col' : 'row'
+        default:
+            return null
     }
 }
 

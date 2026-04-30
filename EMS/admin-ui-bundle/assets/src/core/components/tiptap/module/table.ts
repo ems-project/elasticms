@@ -51,13 +51,23 @@ function getExtensions(): Node[] {
                     parseHTML: (el) => el.getAttribute('summary'),
                     renderHTML: (attrs) => (attrs.summary ? { summary: attrs.summary } : {})
                 },
-                dataUserStyle: {
+                width: {
                     default: null,
-                    parseHTML: (el) => el.getAttribute('data-user-style'),
-                    renderHTML: (attrs) =>
-                        attrs.dataUserStyle
-                            ? { 'data-user-style': attrs.dataUserStyle, style: attrs.dataUserStyle }
-                            : {}
+                    parseHTML: (el) => {
+                        if (el.style.width) return el.style.width
+                        const us = el.getAttribute('data-user-style')
+                        return us?.match(/(?:^|;\s*)width\s*:\s*([^;]+)/i)?.[1]?.trim() || null
+                    },
+                    renderHTML: () => ({})
+                },
+                height: {
+                    default: null,
+                    parseHTML: (el) => {
+                        if (el.style.height) return el.style.height
+                        const us = el.getAttribute('data-user-style')
+                        return us?.match(/(?:^|;\s*)height\s*:\s*([^;]+)/i)?.[1]?.trim() || null
+                    },
+                    renderHTML: () => ({})
                 },
                 align: {
                     default: null,
@@ -80,6 +90,25 @@ function getExtensions(): Node[] {
                     parseHTML: (el) => el.getAttribute('cellspacing'),
                     renderHTML: (attrs) =>
                         attrs.cellspacing ? { cellspacing: attrs.cellspacing } : {}
+                },
+                dataUserStyle: {
+                    default: null,
+                    parseHTML: (el) => {
+                        const s = el.getAttribute('data-user-style')
+                        if (!s) return null
+                        const cleaned = s.replace(/\b(width|height)\s*:[^;]+;?/gi, '').trim().replace(/;$/, '')
+                        return cleaned || null
+                    },
+                    renderHTML: (attrs) => {
+                        const parts: string[] = []
+                        if (attrs.width) parts.push(`width: ${attrs.width}`)
+                        if (attrs.height) parts.push(`height: ${attrs.height}`)
+                        if (attrs.dataUserStyle) parts.push(attrs.dataUserStyle)
+                        const style = parts.join('; ')
+                        return style
+                            ? { 'data-user-style': attrs.dataUserStyle || null, style }
+                            : {}
+                    }
                 }
             }
         }
@@ -191,6 +220,16 @@ function openTableDialog(e: TiptapEditor, mode: 'insert' | 'edit') {
         }
         <div style="display: flex; gap: 15px;">
             <div style="flex: 1; margin-bottom: 15px;">
+                <label for="table-width">Width</label>
+                <input type="text" id="table-width" value="${esc(a.width)}" placeholder="e.g. 50%, 300px">
+            </div>
+            <div style="flex: 1; margin-bottom: 15px;">
+                <label for="table-height">Height</label>
+                <input type="text" id="table-height" value="${esc(a.height)}" placeholder="e.g. 200px">
+            </div>
+        </div>
+        <div style="display: flex; gap: 15px;">
+            <div style="flex: 1; margin-bottom: 15px;">
                 <label for="table-border">Border</label>
                 <input type="number" id="table-border" value="${esc(a.border)}" min="0" placeholder="Optional">
             </div>
@@ -246,11 +285,13 @@ function openTableDialog(e: TiptapEditor, mode: 'insert' | 'edit') {
                 id: (d.getFieldValue('table-id') || '').trim() || null,
                 class: (d.getFieldValue('table-class') || '').trim() || null,
                 summary: (d.getFieldValue('table-summary') || '').trim() || null,
-                dataUserStyle: (d.getFieldValue('table-style') || '').trim() || null,
                 align: (d.getFieldValue('table-align') || '').trim() || null,
                 border: (d.getFieldValue('table-border') || '').trim() || null,
                 cellpadding: (d.getFieldValue('table-cellpadding') || '').trim() || null,
-                cellspacing: (d.getFieldValue('table-cellspacing') || '').trim() || null
+                cellspacing: (d.getFieldValue('table-cellspacing') || '').trim() || null,
+                width: (d.getFieldValue('table-width') || '').trim() || null,
+                height: (d.getFieldValue('table-height') || '').trim() || null,
+                dataUserStyle: (d.getFieldValue('table-style') || '').trim() || null,
             }
 
             if (mode === 'edit') {

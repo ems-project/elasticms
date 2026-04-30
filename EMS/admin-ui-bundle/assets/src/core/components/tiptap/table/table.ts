@@ -13,12 +13,20 @@ export const tableCleanHtmlTransform: HtmlTransform = {
     },
     toOutput(doc) {
         doc.querySelectorAll('table').forEach((table) => {
-            table.removeAttribute('style')
+            const parts: string[] = []
+            if (table.style.width) parts.push(`width: ${table.style.width}`)
+            if (table.style.height) parts.push(`height: ${table.style.height}`)
+
             const userStyle = table.getAttribute('data-user-style')
-            if (userStyle) {
-                table.setAttribute('style', userStyle)
-                table.removeAttribute('data-user-style')
+            if (userStyle) parts.push(userStyle)
+
+            table.removeAttribute('style')
+            table.removeAttribute('data-user-style')
+
+            if (parts.length) {
+                table.setAttribute('style', parts.join('; '))
             }
+
             table.querySelector(':scope > colgroup')?.remove()
             table.querySelectorAll('td, th').forEach((cell) => {
                 const style = cell.getAttribute('style')

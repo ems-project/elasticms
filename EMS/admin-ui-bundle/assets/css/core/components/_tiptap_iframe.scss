@@ -46,6 +46,7 @@
   table[cellspacing] {
     border-collapse: separate;
   }
+
   table:not([cellpadding]) td,
   table:not([cellpadding]) th {
     padding: 3px 5px;
@@ -56,6 +57,18 @@
     width: 100%;
     margin: 0;
     overflow: hidden;
+
+    &[align] {
+      width: auto;
+    }
+
+    &[align="center"] {
+      margin: 0 auto;
+    }
+
+    &[align="right"] {
+      margin: 0 0 0 auto;
+    }
 
     tr {
       border-bottom: 1px solid #ddd;

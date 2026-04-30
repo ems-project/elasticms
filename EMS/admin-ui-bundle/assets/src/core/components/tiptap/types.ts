@@ -30,8 +30,7 @@ export interface HtmlTransform {
     toOutput?: (doc: Document) => void
 }
 
-export interface MenuItem {
-    context: string[]
+export interface ContextMenuItem {
     label: string
     icon?: string
     parent?: string
@@ -50,9 +49,10 @@ export interface ToolbarItem {
 
 export interface TiptapModule {
     extensions?: (ExtensionType)[]
-    toolbarGroup?: string
     toolbar?: ToolbarItem[]
-    menu?: MenuItem[]
+    toolbarGroup?: string
+    contextMenu?: ContextMenuItem[]
+    contextMenuNode?: string
     htmlTransforms?: HtmlTransform[]
     isEnabled?: (profile: WysiwygProfile) => boolean
 }

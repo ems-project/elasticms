@@ -1,7 +1,7 @@
 import { Node, mergeAttributes } from '@tiptap/core'
 import { Table, TableCell, TableHeader, TableRow } from '@tiptap/extension-table'
 import IconTable from '@tabler/icons/outline/table.svg?raw'
-import { HtmlTransform, MenuItem, TiptapModule } from '../types.ts'
+import { HtmlTransform, ContextMenuItem, TiptapModule } from '../types.ts'
 import { Dialog } from '../../dialog.ts'
 
 export const tableModule: TiptapModule = {
@@ -17,7 +17,8 @@ export const tableModule: TiptapModule = {
             isActive: (e) => e.tiptap.isActive('table') || e.tiptap.isActive('tableFigure')
         }
     ],
-    menu: getContextMenuItems()
+    contextMenuNode: 'table',
+    contextMenu: getContextMenuItems()
 }
 
 function getExtensions(): Node[] {
@@ -183,37 +184,32 @@ function getHtmlTransforms(): HtmlTransform[] {
     ]
 }
 
-function getContextMenuItems(): MenuItem[] {
+function getContextMenuItems(): ContextMenuItem[] {
     return [
         {
-            context: ['table'],
             label: 'Insert row above',
             parent: 'Row',
             order: 0,
             command: (e) => e.tiptap.chain().focus().addRowBefore().run()
         },
         {
-            context: ['table'],
             label: 'Insert row below',
             parent: 'Row',
             order: 1,
             command: (e) => e.tiptap.chain().focus().addRowAfter().run()
         },
         {
-            context: ['table'],
             label: 'Delete row',
             parent: 'Row',
             order: 2,
             command: (e) => e.tiptap.chain().focus().deleteRow().run()
         },
         {
-            context: ['table'],
             label: 'Table properties',
             order: 98,
             command: (e) => openTableDialog(e, 'edit')
         },
         {
-            context: ['table'],
             label: 'Delete table',
             order: 99,
             command: (e) => commandDeleteTable(e)

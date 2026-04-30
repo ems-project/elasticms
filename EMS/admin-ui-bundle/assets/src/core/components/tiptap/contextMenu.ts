@@ -1,5 +1,5 @@
 import type { TiptapEditor } from './editor.ts'
-import type { MenuItem } from './types.ts'
+import type { ContextMenuItem } from './types.ts'
 
 const CONTEXT_NODES: Record<string, string[]> = {
     table: ['table'],
@@ -32,7 +32,7 @@ export class ContextMenu {
         this.open(e, items)
     }
 
-    private open(e: MouseEvent, items: MenuItem[]) {
+    private open(e: MouseEvent, items: ContextMenuItem[]) {
         ContextMenu.active?.close()
         ContextMenu.active = this
 
@@ -79,19 +79,19 @@ export class ContextMenu {
             : this.editor.tiptap.isActive(context)
     }
 
-    private getItems(): MenuItem[] {
+    private getItems(): ContextMenuItem[] {
         return this.editor.modules
-            .flatMap((m) => m.menu ?? [])
-            .filter((item) => item.context.some((c) => this.isContextActive(c)))
+            .filter((m) => m.contextMenuNode && this.isContextActive(m.contextMenuNode))
+            .flatMap((m) => m.contextMenu ?? [])
             .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
     }
 
-    private render(items: MenuItem[]): HTMLElement {
+    private render(items: ContextMenuItem[]): HTMLElement {
         const menu = document.createElement('div')
         menu.className = 'tiptap-context-menu'
 
-        const topLevel: MenuItem[] = []
-        const grouped = new Map<string, MenuItem[]>()
+        const topLevel: ContextMenuItem[] = []
+        const grouped = new Map<string, ContextMenuItem[]>()
 
         for (const item of items) {
             if (item.parent) {
@@ -114,7 +114,7 @@ export class ContextMenu {
         return menu
     }
 
-    private renderItem(item: MenuItem): HTMLElement {
+    private renderItem(item: ContextMenuItem): HTMLElement {
         const btn = document.createElement('button')
         btn.type = 'button'
         btn.className = 'tiptap-context-menu-item'
@@ -140,7 +140,7 @@ export class ContextMenu {
         return btn
     }
 
-    private renderSubmenu(label: string, children: MenuItem[]): HTMLElement {
+    private renderSubmenu(label: string, children: ContextMenuItem[]): HTMLElement {
         const wrapper = document.createElement('div')
         wrapper.className = 'tiptap-context-menu-submenu'
 

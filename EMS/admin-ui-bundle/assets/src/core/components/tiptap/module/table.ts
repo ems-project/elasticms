@@ -325,25 +325,22 @@ function openTableDialog(e: TiptapEditor, mode: 'insert' | 'edit') {
         label: 'Apply',
         variant: 'primary',
         onClick: (d) => {
-            const caption = (d.getFieldValue('table-caption') || '').trim()
-            const tableId = (d.getFieldValue('table-id') || '').trim()
-            const tableClass = (d.getFieldValue('table-class') || '').trim()
-            const tableSummary = (d.getFieldValue('table-summary') || '').trim()
-            const tableStyle = (d.getFieldValue('table-style') || '').trim()
-            const tableAlign = (d.getFieldValue('table-align') || '').trim()
-            const headers = (d.getFieldValue('table-headers') || 'none').trim()
+            const field = (name: string) => (d.getFieldValue(`table-${name}`) || '').trim() || null
+
+            const caption = field('caption') ?? ''
+            const headers = field('headers') ?? 'none'
 
             const attrs: Record<string, string | null> = {
-                id: tableId || null,
-                class: tableClass || null,
-                summary: tableSummary || null,
-                dataUserStyle: tableStyle || null,
-                align: tableAlign || null,
-                border: (d.getFieldValue('table-border') || '').trim() || null,
-                cellpadding: (d.getFieldValue('table-cellpadding') || '').trim() || null,
-                cellspacing: (d.getFieldValue('table-cellspacing') || '').trim() || null,
-                width: (d.getFieldValue('table-width') || '').trim() || null,
-                height: (d.getFieldValue('table-height') || '').trim() || null
+                id: field('id'),
+                class: field('class'),
+                summary: field('summary'),
+                dataUserStyle: field('style'),
+                align: field('align'),
+                border: field('border'),
+                cellpadding: field('cellpadding'),
+                cellspacing: field('cellspacing'),
+                width: field('width'),
+                height: field('height')
             }
 
             if (mode === 'edit') {

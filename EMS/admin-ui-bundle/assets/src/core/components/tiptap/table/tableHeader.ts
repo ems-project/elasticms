@@ -45,8 +45,8 @@ export const tableTheadHtmlTransform: HtmlTransform = {
                 thead.appendChild(firstRow)
                 const tbody = doc.createElement('tbody')
                 rows.slice(1).forEach((r) => tbody.appendChild(r))
-                table.prepend(tbody)
-                table.prepend(thead)
+                table.appendChild(thead)
+                table.appendChild(tbody)
             } else {
                 const tbody = doc.createElement('tbody')
                 rows.forEach((r) => tbody.appendChild(r))

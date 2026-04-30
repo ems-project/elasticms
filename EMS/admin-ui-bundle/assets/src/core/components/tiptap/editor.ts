@@ -1,7 +1,7 @@
 import '../../../../css/core/components/_tiptap.scss'
 
-import { Editor, Extension, Mark, Node } from '@tiptap/core'
-import { DEFAULT_EXTENSIONS } from './extensions.ts'
+import { Editor } from '@tiptap/core'
+import { DEFAULT_EXTENSIONS, ExtensionType } from './extensions.ts'
 import { Toolbar } from './toolbar.ts'
 import { ContextMenu } from './contextMenu.ts'
 import { Modules, HtmlTransform, TiptapModule } from './types.ts'
@@ -21,27 +21,25 @@ export class TiptapEditor {
     menu: ContextMenu
     element: HTMLElement
     readonly modules: TiptapModule[]
-    private readonly extensions: (Extension | Mark | Node)[]
     private readonly htmlTransforms: HtmlTransform[]
 
     constructor(options: TiptapEditorOptions) {
         this.element = options.element
+        this.toolbar = new Toolbar(this)
 
         const profile = options.wysiwygProfile ?? new WysiwygProfile()
-        this.modules = [...Modules, ...(options.customModules ?? [])].filter(
-            (m) => !m.isEnabled || m.isEnabled(profile)
+        const { modules, extensions } = this.resolveModules(
+            [...Modules, ...(options.customModules ?? [])],
+            profile
         )
 
-        this.extensions = this.buildExtensions()
-        this.htmlTransforms = this.buildHtmlTransforms()
-
-        this.toolbar = new Toolbar(this.modules, profile)
-        this.toolbar.bind(this)
+        this.modules = modules
+        this.htmlTransforms = modules.flatMap((m) => m.htmlTransforms ?? [])
 
         this.tiptap = new Editor({
             element: { mount: options.element },
-            extensions: [...DEFAULT_EXTENSIONS, ...this.extensions],
-            content: this.transformToEditor(options.content ?? ''),
+            extensions: [...DEFAULT_EXTENSIONS, ...extensions],
+            content: this.transformHtml(options.content ?? '', 'toEditor'),
             onUpdate: () => this.toolbar.update(),
             onSelectionUpdate: () => this.toolbar.update(),
             onTransaction: () => this.toolbar.update()
@@ -52,48 +50,12 @@ export class TiptapEditor {
         if (options.toolbarElement) this.attachToolbar(options.toolbarElement)
     }
 
-    private buildExtensions(): (Extension | Mark | Node)[] {
-        const seen = new Set<string>()
-        return this.modules
-            .flatMap((m) => [
-                ...(m.extensions ?? []),
-                ...(m.toolbar?.flatMap((t) => t.extensions ?? []) ?? [])
-            ])
-            .filter((ext) => {
-                const name = (ext as any).name
-                return name && !seen.has(name) && seen.add(name)
-            })
-    }
-
-    private buildHtmlTransforms(): HtmlTransform[] {
-        const seen = new Set<string>()
-        return this.modules
-            .flatMap((m) => m.htmlTransforms ?? [])
-            .filter((t) => !seen.has(t.name) && seen.add(t.name))
-    }
-
     getHTML(): string {
-        return this.transformToOutput(this.tiptap.getHTML())
+        return this.transformHtml(this.tiptap.getHTML(), 'toOutput')
     }
 
     setContent(html: string) {
-        this.tiptap.commands.setContent(this.transformToEditor(html))
-    }
-
-    private transformToEditor(html: string): string {
-        if (!this.htmlTransforms.length) return html
-        const doc = new DOMParser().parseFromString(`<div>${html}</div>`, 'text/html')
-        const root = doc.body.firstChild as HTMLElement
-        this.htmlTransforms.forEach((t) => t.toEditor?.(doc))
-        return root.innerHTML
-    }
-
-    private transformToOutput(html: string): string {
-        if (!this.htmlTransforms.length) return html
-        const doc = new DOMParser().parseFromString(`<div>${html}</div>`, 'text/html')
-        const root = doc.body.firstChild as HTMLElement
-        this.htmlTransforms.forEach((t) => t.toOutput?.(doc))
-        return root.innerHTML
+        this.tiptap.commands.setContent(this.transformHtml(html, 'toEditor'))
     }
 
     attachToolbar(target: HTMLElement) {
@@ -106,5 +68,54 @@ export class TiptapEditor {
         this.toolbar.destroy()
         this.menu.destroy()
         this.element.innerHTML = ''
+    }
+
+    private resolveModules(allModules: TiptapModule[], profile: WysiwygProfile) {
+        const removed = new Set(profile.config.removeButtons?.split(',') ?? [])
+        const enabledModules = allModules.filter((m) => !m.isEnabled || m.isEnabled(profile))
+
+        const activeModules = new Set<TiptapModule>()
+        const extensionMap = new Map<string, ExtensionType>()
+
+        const registerModule = (mod: TiptapModule) => {
+            if (activeModules.has(mod)) return
+            activeModules.add(mod)
+
+            mod.extensions?.forEach((ext) => extensionMap.set(ext.name, ext))
+        }
+
+        profile.config.toolbarGroups.forEach((entry) => {
+            if (entry === '/') return
+
+            const groups = entry.groups ?? [entry.name]
+            groups.forEach((groupName) => {
+                enabledModules.forEach((mod) => {
+                    const validItems = (mod.toolbar ?? []).filter(
+                        (item) => item.group === groupName && !removed.has(item.name)
+                    )
+
+                    validItems.forEach((item) => {
+                        registerModule(mod)
+                        this.toolbar.addItem(item)
+                        item.extensions?.forEach((ext) => extensionMap.set(ext.name, ext))
+                    })
+                })
+            })
+        })
+
+        enabledModules.filter((m) => m.toolbar?.length === 0).forEach(registerModule)
+
+        return {
+            modules: Array.from(activeModules),
+            extensions: Array.from(extensionMap.values())
+        }
+    }
+
+    private transformHtml(html: string, direction: 'toEditor' | 'toOutput'): string {
+        if (!this.htmlTransforms.length) return html
+        const doc = new DOMParser().parseFromString(`<div>${html}</div>`, 'text/html')
+        const root = doc.body.firstChild as HTMLElement
+        this.htmlTransforms.forEach((t) => t[direction]?.(doc))
+        return root.innerHTML
     }
 }

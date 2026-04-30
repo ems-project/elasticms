@@ -1,67 +1,47 @@
-import { TiptapModule, ToolbarItem } from './types.ts'
+import { ToolbarItem } from './types.ts'
 import { TiptapEditor } from './editor.ts'
-import { WysiwygProfile } from '../wysiwyg/wysiwyg.ts'
 
 export class Toolbar {
-    readonly container: HTMLElement
-    private tiptapEditor!: TiptapEditor
+    private readonly container: HTMLElement
+    private readonly editor: TiptapEditor
     private items: Map<string, ToolbarItem> = new Map()
-    private readonly wysiwygProfile: WysiwygProfile
+    private groups: Map<string, ToolbarItem[]> = new Map()
 
-    constructor(modules: TiptapModule[], wysiwygProfile: WysiwygProfile) {
-        modules.flatMap((m) => m.toolbar ?? []).forEach((item) => this.items.set(item.name, item))
-        this.wysiwygProfile = wysiwygProfile
+    constructor(editor: TiptapEditor) {
+        this.editor = editor
 
         this.container = document.createElement('div')
         this.container.className = 'tiptap-toolbar'
         this.container.onmousedown = (e) => e.preventDefault()
-
-        this.build()
     }
 
-    private build() {
-        const removed = this.wysiwygProfile.config.removeButtons?.split(',') || []
-
-        let currentRow = this.createRow(this.container)
-        for (const item of this.wysiwygProfile.config.toolbarGroups) {
-            if (item === '/') {
-                currentRow = this.createRow(this.container)
-                continue
-            }
-
-            const groups = item.groups ?? [item.name]
-            groups.forEach((groupName) => {
-                const groupDiv = document.createElement('div')
-                groupDiv.className = 'tiptap-toolbar-group'
-
-                this.getItemsByToolbarGroup(groupName).forEach((toolbarItem) => {
-                    if (removed.includes(toolbarItem.name)) return
-                    groupDiv.appendChild(this.createButton(toolbarItem))
-                })
-
-                if (groupDiv.children.length > 0) currentRow.appendChild(groupDiv)
-            })
-        }
-    }
-
-    bind(tiptapEditor: TiptapEditor) {
-        this.tiptapEditor = tiptapEditor
-    }
-
-    private getItemsByToolbarGroup(groupName: string): ToolbarItem[] {
-        return Array.from(this.items.values()).filter((item) => item.group === groupName)
+    addItem(item: ToolbarItem) {
+        this.items.set(item.name, item)
+        if (!this.groups.has(item.group)) this.groups.set(item.group, [])
+        this.groups.get(item.group)!.push(item)
     }
 
     mount(target: HTMLElement) {
+        this.build()
         target.appendChild(this.container)
         this.update()
     }
 
-    private createRow(parent: HTMLElement): HTMLElement {
+    private build() {
+        this.container.innerHTML = ''
         const row = document.createElement('div')
         row.className = 'tiptap-toolbar-row'
-        parent.appendChild(row)
-        return row
+
+        for (const [, items] of this.groups) {
+            const groupDiv = document.createElement('div')
+            groupDiv.className = 'tiptap-toolbar-group'
+
+            items.forEach((item) => groupDiv.appendChild(this.createButton(item)))
+
+            if (groupDiv.children.length > 0) row.appendChild(groupDiv)
+        }
+
+        this.container.appendChild(row)
     }
 
     private createButton(item: ToolbarItem): HTMLButtonElement {
@@ -74,11 +54,15 @@ export class Toolbar {
         btn.onclick = (e) => {
             e.preventDefault()
             e.stopPropagation()
-            item.command(this.tiptapEditor)
+            item.command(this.editor)
             this.update()
         }
 
         return btn
+    }
+
+    getItems(): ToolbarItem[] {
+        return Array.from(this.items.values())
     }
 
     getButton(name: string): HTMLElement | null {
@@ -86,10 +70,9 @@ export class Toolbar {
     }
 
     update() {
-        if (!this.container) return
         this.container.querySelectorAll<HTMLButtonElement>('button[data-action]').forEach((btn) => {
             const item = this.items.get(btn.dataset.action!)
-            if (item) btn.classList.toggle('is-active', item.isActive?.(this.tiptapEditor) ?? false)
+            if (item) btn.classList.toggle('is-active', item.isActive?.(this.editor) ?? false)
         })
     }
 

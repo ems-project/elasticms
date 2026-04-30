@@ -1,4 +1,3 @@
-import { Extension, Mark, Node } from '@tiptap/core'
 import type { TiptapEditor } from './editor.ts'
 
 import { historyModule } from './module/history.ts'
@@ -10,6 +9,7 @@ import { justifyModule } from './module/justify.ts'
 import { insertModule } from './module/insert.ts'
 import { WysiwygProfile } from '../wysiwyg/wysiwyg.ts'
 import { tableModule } from './module/table.ts'
+import { ExtensionType } from './extensions.ts'
 
 export type ContextType = 'table'
 
@@ -44,13 +44,13 @@ export interface ToolbarItem {
     group: string
     icon: string
     tooltip?: string
-    extensions?: (Extension | Mark | Node)[]
+    extensions?: (ExtensionType)[]
     command: (editor: TiptapEditor) => void
     isActive?: (editor: TiptapEditor) => boolean
 }
 
 export interface TiptapModule {
-    extensions?: (Extension | Mark | Node)[]
+    extensions?: (ExtensionType)[]
     htmlTransforms?: HtmlTransform[]
     isEnabled?: (profile: WysiwygProfile) => boolean
     toolbar?: ToolbarItem[]

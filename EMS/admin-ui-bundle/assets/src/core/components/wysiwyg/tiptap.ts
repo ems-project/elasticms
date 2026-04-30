@@ -83,50 +83,54 @@ export default class Tiptap {
 
     private getSourceModule(): TiptapModule {
         return {
-            name: 'Source',
-            command: (tiptapEditor) => {
-                this.isSourceView = !this.isSourceView
-                this.container.classList.toggle('is-source-mode', this.isSourceView)
+            toolbar: [
+                {
+                    name: 'Source',
+                    group: 'mode',
+                    icon: IconSource,
+                    tooltip: 'Source Code',
+                    isActive: () => this.isSourceView,
+                    command: (tiptapEditor) => {
+                        this.isSourceView = !this.isSourceView
+                        this.container.classList.toggle('is-source-mode', this.isSourceView)
 
-                if (this.isSourceView) {
-                    this.textarea.value = tiptapEditor.getHTML()
-                    tiptapEditor.toolbar.setDisabled(true, ['Source', 'Maximize'])
-                } else {
-                    tiptapEditor.setContent(this.textarea.value)
-                    tiptapEditor.toolbar.setDisabled(false, ['Source', 'Maximize'])
+                        if (this.isSourceView) {
+                            this.textarea.value = tiptapEditor.getHTML()
+                            tiptapEditor.toolbar.setDisabled(true, ['Source', 'Maximize'])
+                        } else {
+                            tiptapEditor.setContent(this.textarea.value)
+                            tiptapEditor.toolbar.setDisabled(false, ['Source', 'Maximize'])
+                        }
+                        tiptapEditor.toolbar.update()
+                    }
                 }
-
-                tiptapEditor.toolbar.update()
-            },
-            isActive: () => this.isSourceView,
-            toolbar: {
-                group: 'mode',
-                icon: IconSource,
-                tooltip: 'Source Code'
-            }
+            ]
         }
     }
 
     private getMaximizeModule(): TiptapModule {
         return {
-            name: 'Maximize',
-            command: (tiptapEditor) => {
-                this.isMaximized = !this.isMaximized
+            toolbar: [
+                {
+                    name: 'Maximize',
+                    group: 'tools',
+                    icon: IconMaximize,
+                    tooltip: 'Maximize',
+                    isActive: () => this.isMaximized,
+                    command: (tiptapEditor) => {
+                        this.isMaximized = !this.isMaximized
 
-                document.body.classList.toggle('wysiwyg-maximized-active', this.isMaximized)
-                this.container.classList.toggle('is-maximized', this.isMaximized)
+                        document.body.classList.toggle('wysiwyg-maximized-active', this.isMaximized)
+                        this.container.classList.toggle('is-maximized', this.isMaximized)
 
-                const button = tiptapEditor.toolbar.getButton('Maximize')
-                if (button) button.innerHTML = this.isMaximized ? IconMinimize : IconMaximize
+                        const button = tiptapEditor.toolbar.getButton('Maximize')
+                        if (button)
+                            button.innerHTML = this.isMaximized ? IconMinimize : IconMaximize
 
-                tiptapEditor.toolbar.update()
-            },
-            isActive: () => this.isMaximized,
-            toolbar: {
-                group: 'tools',
-                icon: IconMaximize,
-                tooltip: 'Maximize'
-            }
+                        tiptapEditor.toolbar.update()
+                    }
+                }
+            ]
         }
     }
 }

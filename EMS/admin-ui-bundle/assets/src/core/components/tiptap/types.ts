@@ -17,7 +17,7 @@ export const Modules: TiptapModule[] = [
     historyModule,
     ...basicStyleModule,
     cleanupModule,
-    ...listModule,
+    listModule,
     indentModule,
     justifyModule,
     ...insertModule,
@@ -41,7 +41,6 @@ export interface MenuItem {
 
 export interface ToolbarItem {
     name: string
-    group: string
     icon: string
     tooltip?: string
     extensions?: (ExtensionType)[]
@@ -50,6 +49,7 @@ export interface ToolbarItem {
 }
 
 export interface TiptapModule {
+    group?: string
     extensions?: (ExtensionType)[]
     htmlTransforms?: HtmlTransform[]
     isEnabled?: (profile: WysiwygProfile) => boolean

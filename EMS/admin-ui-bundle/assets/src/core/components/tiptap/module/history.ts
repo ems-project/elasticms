@@ -5,17 +5,16 @@ import { TiptapModule } from '../types.ts'
 
 export const historyModule: TiptapModule = {
     extensions: [UndoRedo],
+    group: 'undo',
     toolbar: [
         {
             name: 'Undo',
-            group: 'undo',
             icon: IconUndo,
             tooltip: 'Undo',
             command: (e) => e.tiptap.chain().focus().undo().run()
         },
         {
             name: 'Redo',
-            group: 'undo',
             icon: IconRedo,
             tooltip: 'Redo',
             command: (e) => e.tiptap.chain().focus().redo().run()

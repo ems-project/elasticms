@@ -7,10 +7,10 @@ import { Dialog } from '../../dialog.ts'
 export const tableModule: TiptapModule = {
     extensions: getExtensions(),
     htmlTransforms: getHtmlTransforms(),
+    group: 'insert',
     toolbar: [
         {
             name: 'Table',
-            group: 'insert',
             icon: IconTable,
             tooltip: 'Insert Table',
             command: (e) => openTableDialog(e, 'insert'),

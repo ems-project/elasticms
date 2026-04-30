@@ -8,17 +8,16 @@ const indentExtension = createIndentExtension()
 
 export const indentModule: TiptapModule = {
     extensions: [indentExtension],
+    group: 'indent',
     toolbar: [
         {
             name: 'Outdent',
-            group: 'indent',
             icon: IconOutdent,
             tooltip: 'Decrease Indent',
             command: changeIndent(-1)
         },
         {
             name: 'Indent',
-            group: 'indent',
             icon: IconIndent,
             tooltip: 'Increase Indent',
             command: changeIndent(1)

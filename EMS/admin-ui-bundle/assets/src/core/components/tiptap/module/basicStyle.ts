@@ -12,10 +12,10 @@ import { TiptapModule } from '../types.ts'
 
 export const basicStyleModule: TiptapModule[] = [
     {
+        group: 'basicstyles',
         toolbar: [
             {
                 name: 'Bold',
-                group: 'basicstyles',
                 icon: IconBold,
                 tooltip: 'Bold',
                 extensions: [Bold],
@@ -24,7 +24,6 @@ export const basicStyleModule: TiptapModule[] = [
             },
             {
                 name: 'Italic',
-                group: 'basicstyles',
                 icon: IconItalic,
                 tooltip: 'Italic',
                 extensions: [Italic],
@@ -33,7 +32,6 @@ export const basicStyleModule: TiptapModule[] = [
             },
             {
                 name: 'Strike',
-                group: 'basicstyles',
                 icon: IconStrike,
                 tooltip: 'Strike Through',
                 extensions: [Strike],
@@ -43,33 +41,26 @@ export const basicStyleModule: TiptapModule[] = [
         ]
     },
     {
-        extensions: [Subscript],
+        group: 'basicstyles',
         isEnabled: (wysiwygProfile) =>
             wysiwygProfile.config.extraPlugins?.includes('basicstyles') ?? false,
         toolbar: [
             {
+                extensions: [Subscript],
                 name: 'Subscript',
-                group: 'basicstyles',
                 icon: IconSubscript,
                 tooltip: 'Subscript',
                 command: (e) => e.tiptap.chain().focus().toggleSubscript().run(),
                 isActive: (e) => e.tiptap.isActive('subscript')
-            }
-        ]
-    },
-    {
-        extensions: [Superscript],
-        isEnabled: (wysiwygProfile) =>
-            wysiwygProfile.config.extraPlugins?.includes('basicstyles') ?? false,
-        toolbar: [
+            },
             {
+                extensions: [Superscript],
                 name: 'Superscript',
-                group: 'basicstyles',
                 icon: IconSuperscript,
                 tooltip: 'Superscript',
                 command: (e) => e.tiptap.chain().focus().toggleSuperscript().run(),
                 isActive: (e) => e.tiptap.isActive('superscript')
             }
         ]
-    }
+    },
 ]

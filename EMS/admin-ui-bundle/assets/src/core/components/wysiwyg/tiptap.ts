@@ -83,10 +83,10 @@ export default class Tiptap {
 
     private getSourceModule(): TiptapModule {
         return {
+            group: 'mode',
             toolbar: [
                 {
                     name: 'Source',
-                    group: 'mode',
                     icon: IconSource,
                     tooltip: 'Source Code',
                     isActive: () => this.isSourceView,
@@ -110,10 +110,10 @@ export default class Tiptap {
 
     private getMaximizeModule(): TiptapModule {
         return {
+            group: 'tools',
             toolbar: [
                 {
                     name: 'Maximize',
-                    group: 'tools',
                     icon: IconMaximize,
                     tooltip: 'Maximize',
                     isActive: () => this.isMaximized,

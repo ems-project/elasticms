@@ -12,10 +12,10 @@ const CustomTextAlign = TextAlign.configure({
 
 export const justifyModule: TiptapModule = {
     extensions: [CustomTextAlign],
+    group: 'align',
     toolbar: [
         {
             name: 'JustifyLeft',
-            group: 'align',
             icon: IconJustifyLeft,
             tooltip: 'Align Left',
             command: (e) => e.tiptap.chain().focus().unsetTextAlign().run(),
@@ -29,7 +29,6 @@ export const justifyModule: TiptapModule = {
         },
         {
             name: 'JustifyCenter',
-            group: 'align',
             icon: IconJustifyCenter,
             tooltip: 'Center',
             command: (e) => e.tiptap.chain().focus().setTextAlign('center').run(),
@@ -37,7 +36,6 @@ export const justifyModule: TiptapModule = {
         },
         {
             name: 'JustifyRight',
-            group: 'align',
             icon: IconJustifyRight,
             tooltip: 'Align Right',
             command: (e) => e.tiptap.chain().focus().setTextAlign('right').run(),
@@ -45,7 +43,6 @@ export const justifyModule: TiptapModule = {
         },
         {
             name: 'JustifyBlock',
-            group: 'align',
             icon: IconJustifyBlock,
             tooltip: 'Justify',
             command: (e) => e.tiptap.chain().focus().setTextAlign('justify').run(),

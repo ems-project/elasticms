@@ -15,10 +15,10 @@ export class Toolbar {
         this.container.onmousedown = (e) => e.preventDefault()
     }
 
-    addItem(item: ToolbarItem) {
+    addItem(group: string, item: ToolbarItem) {
         this.items.set(item.name, item)
-        if (!this.groups.has(item.group)) this.groups.set(item.group, [])
-        this.groups.get(item.group)!.push(item)
+        if (!this.groups.has(group)) this.groups.set(group, [])
+        this.groups.get(group)!.push(item)
     }
 
     mount(target: HTMLElement) {
@@ -59,10 +59,6 @@ export class Toolbar {
         }
 
         return btn
-    }
-
-    getItems(): ToolbarItem[] {
-        return Array.from(this.items.values())
     }
 
     getButton(name: string): HTMLElement | null {

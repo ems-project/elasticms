@@ -16,10 +16,7 @@ import { tableCleanHtmlTransform } from '../table/table.ts'
 
 export const tableModule: TiptapModule = {
     extensions: getExtensions(),
-    htmlTransforms: [
-        tableCaptionHtmlTransform,
-        tableCleanHtmlTransform
-    ],
+    htmlTransforms: [tableCaptionHtmlTransform, tableCleanHtmlTransform],
     toolbarGroup: 'insert',
     toolbar: [
         {
@@ -66,6 +63,23 @@ function getExtensions(): Node[] {
                     default: null,
                     parseHTML: (el) => el.getAttribute('align'),
                     renderHTML: (attrs) => (attrs.align ? { align: attrs.align } : {})
+                },
+                border: {
+                    default: null,
+                    parseHTML: (el) => el.getAttribute('border'),
+                    renderHTML: (attrs) => (attrs.border ? { border: attrs.border } : {})
+                },
+                cellpadding: {
+                    default: null,
+                    parseHTML: (el) => el.getAttribute('cellpadding'),
+                    renderHTML: (attrs) =>
+                        attrs.cellpadding ? { cellpadding: attrs.cellpadding } : {}
+                },
+                cellspacing: {
+                    default: null,
+                    parseHTML: (el) => el.getAttribute('cellspacing'),
+                    renderHTML: (attrs) =>
+                        attrs.cellspacing ? { cellspacing: attrs.cellspacing } : {}
                 }
             }
         }
@@ -175,6 +189,20 @@ function openTableDialog(e: TiptapEditor, mode: 'insert' | 'edit') {
         </div>`
                 : ''
         }
+        <div style="display: flex; gap: 15px;">
+            <div style="flex: 1; margin-bottom: 15px;">
+                <label for="table-border">Border</label>
+                <input type="number" id="table-border" value="${esc(a.border)}" min="0" placeholder="Optional">
+            </div>
+            <div style="flex: 1; margin-bottom: 15px;">
+                <label for="table-cellpadding">Cell padding</label>
+                <input type="number" id="table-cellpadding" value="${esc(a.cellpadding)}" min="0" placeholder="Optional">
+            </div>
+            <div style="flex: 1; margin-bottom: 15px;">
+                <label for="table-cellspacing">Cell spacing</label>
+                <input type="number" id="table-cellspacing" value="${esc(a.cellspacing)}" min="0" placeholder="Optional">
+            </div>
+        </div>
         <div style="margin-bottom: 15px;">
             <label for="table-caption">Caption</label>
             <input type="text" id="table-caption" value="${esc(current.caption)}" placeholder="Optional">
@@ -213,18 +241,16 @@ function openTableDialog(e: TiptapEditor, mode: 'insert' | 'edit') {
         variant: 'primary',
         onClick: (d) => {
             const caption = (d.getFieldValue('table-caption') || '').trim()
-            const tableId = (d.getFieldValue('table-id') || '').trim()
-            const tableClass = (d.getFieldValue('table-class') || '').trim()
-            const tableSummary = (d.getFieldValue('table-summary') || '').trim()
-            const tableStyle = (d.getFieldValue('table-style') || '').trim()
-            const tableAlign = (d.getFieldValue('table-align') || '').trim()
 
             const attrs: Record<string, string | null> = {
-                id: tableId || null,
-                class: tableClass || null,
-                summary: tableSummary || null,
-                dataUserStyle: tableStyle || null,
-                align: tableAlign || null
+                id: (d.getFieldValue('table-id') || '').trim() || null,
+                class: (d.getFieldValue('table-class') || '').trim() || null,
+                summary: (d.getFieldValue('table-summary') || '').trim() || null,
+                dataUserStyle: (d.getFieldValue('table-style') || '').trim() || null,
+                align: (d.getFieldValue('table-align') || '').trim() || null,
+                border: (d.getFieldValue('table-border') || '').trim() || null,
+                cellpadding: (d.getFieldValue('table-cellpadding') || '').trim() || null,
+                cellspacing: (d.getFieldValue('table-cellspacing') || '').trim() || null
             }
 
             if (mode === 'edit') {

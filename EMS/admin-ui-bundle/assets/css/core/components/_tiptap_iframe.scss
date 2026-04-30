@@ -43,8 +43,15 @@
     pointer-events: none;
   }
 
+  table[cellspacing] {
+    border-collapse: separate;
+  }
+  table:not([cellpadding]) td,
+  table:not([cellpadding]) th {
+    padding: 3px 5px;
+  }
+
   table:not([class]) {
-    border-collapse: collapse;
     table-layout: fixed;
     width: 100%;
     margin: 0;
@@ -61,7 +68,6 @@
     td, th {
       min-width: 1em;
       border: 1px solid #ddd;
-      padding: 3px 5px;
       vertical-align: top;
       box-sizing: border-box;
     }

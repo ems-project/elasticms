@@ -42,13 +42,13 @@ export interface ToolbarItem {
     name: string
     icon: string
     tooltip?: string
-    extensions?: (ExtensionType)[]
+    extensions?: ExtensionType[]
     command: (editor: TiptapEditor) => void
     isActive?: (editor: TiptapEditor) => boolean
 }
 
 export interface TiptapModule {
-    extensions?: (ExtensionType)[]
+    extensions?: ExtensionType[]
     toolbar?: ToolbarItem[]
     toolbarGroup?: string
     contextMenu?: ContextMenuItem[]

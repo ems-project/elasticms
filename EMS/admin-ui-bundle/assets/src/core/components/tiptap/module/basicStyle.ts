@@ -62,5 +62,5 @@ export const basicStyleModule: TiptapModule[] = [
                 isActive: (e) => e.tiptap.isActive('superscript')
             }
         ]
-    },
+    }
 ]

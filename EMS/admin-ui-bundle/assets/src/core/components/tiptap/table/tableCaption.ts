@@ -14,7 +14,7 @@ export const TableFigure: Node = Node.create({
     renderHTML({ HTMLAttributes }) {
         return ['figure', mergeAttributes(HTMLAttributes, { 'data-type': 'table' }), 0]
     }
-});
+})
 
 export const TableCaption: Node = Node.create({
     name: 'tableCaption',

@@ -1,3 +1,5 @@
+import '../../../../css/core/components/tiptap/_content_menu.scss'
+
 import type { TiptapEditor } from './editor.ts'
 import type { ContextMenuItem } from './types.ts'
 
@@ -16,6 +18,10 @@ export class ContextMenu {
     constructor(editor: TiptapEditor) {
         this.editor = editor
         this.editor.tiptap.view.dom.addEventListener('contextmenu', this.onMenu)
+    }
+
+    private get editorDoc(): Document {
+        return this.editor.tiptap.view.dom.ownerDocument
     }
 
     private onClickOutside = (e: MouseEvent) => {
@@ -66,10 +72,6 @@ export class ContextMenu {
             }
         })
         return docs
-    }
-
-    private get editorDoc(): Document {
-        return this.editor.tiptap.view.dom.ownerDocument
     }
 
     private isContextActive(context: string): boolean {
@@ -169,7 +171,7 @@ export class ContextMenu {
     }
 
     private getFrameOffset(): { x: number; y: number } {
-        const doc = this.editor.tiptap.view.dom.ownerDocument
+        const doc = this.editorDoc
         if (doc === document) return { x: 0, y: 0 }
         const frame = [...document.querySelectorAll('iframe')].find(
             (f) => f.contentDocument === doc

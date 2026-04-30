@@ -6,28 +6,25 @@ import { TiptapModule } from '../types.ts'
 const INDENTABLE = ['paragraph', 'heading']
 const indentExtension = createIndentExtension()
 
-export const indentModule: TiptapModule[] = [
-    {
-        name: 'Outdent',
-        extensions: [indentExtension],
-        command: changeIndent(-1),
-        toolbar: {
+export const indentModule: TiptapModule = {
+    extensions: [indentExtension],
+    toolbar: [
+        {
+            name: 'Outdent',
             group: 'indent',
             icon: IconOutdent,
-            tooltip: 'Decrease Indent'
-        }
-    },
-    {
-        name: 'Indent',
-        extensions: [indentExtension],
-        command: changeIndent(1),
-        toolbar: {
+            tooltip: 'Decrease Indent',
+            command: changeIndent(-1)
+        },
+        {
+            name: 'Indent',
             group: 'indent',
             icon: IconIndent,
-            tooltip: 'Increase Indent'
+            tooltip: 'Increase Indent',
+            command: changeIndent(1)
         }
-    }
-]
+    ]
+}
 
 function createIndentExtension(): Extension {
     return Extension.create({
@@ -41,7 +38,9 @@ function createIndentExtension(): Extension {
                             default: 0,
                             renderHTML: (attributes: Record<string, unknown>) => {
                                 if (attributes.indent === 0) return {}
-                                return { style: `margin-left: ${(attributes.indent as number) * 20}px` }
+                                return {
+                                    style: `margin-left: ${(attributes.indent as number) * 20}px`
+                                }
                             },
                             parseHTML: (element: HTMLElement) =>
                                 parseInt(element.style.marginLeft) / 20 || 0

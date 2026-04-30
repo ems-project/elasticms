@@ -10,55 +10,46 @@ const CustomTextAlign = TextAlign.configure({
     alignments: ['left', 'center', 'right', 'justify']
 })
 
-export const justifyModule: TiptapModule[] = [
-    {
-        name: 'JustifyLeft',
-        extensions: [CustomTextAlign],
-        command: (e) => e.tiptap.chain().focus().unsetTextAlign().run(),
-        isActive: (e) => {
-            const isCenter = e.tiptap.isActive({ textAlign: 'center' })
-            const isRight = e.tiptap.isActive({ textAlign: 'right' })
-            const isJustify = e.tiptap.isActive({ textAlign: 'justify' })
-
-            return !isCenter && !isRight && !isJustify
-        },
-        toolbar: {
+export const justifyModule: TiptapModule = {
+    extensions: [CustomTextAlign],
+    toolbar: [
+        {
+            name: 'JustifyLeft',
             group: 'align',
             icon: IconJustifyLeft,
-            tooltip: 'Align Left'
-        }
-    },
-    {
-        name: 'JustifyCenter',
-        extensions: [CustomTextAlign],
-        command: (e) => e.tiptap.chain().focus().setTextAlign('center').run(),
-        isActive: (e) => e.tiptap.isActive({ textAlign: 'center' }),
-        toolbar: {
+            tooltip: 'Align Left',
+            command: (e) => e.tiptap.chain().focus().unsetTextAlign().run(),
+            isActive: (e) => {
+                const isCenter = e.tiptap.isActive({ textAlign: 'center' })
+                const isRight = e.tiptap.isActive({ textAlign: 'right' })
+                const isJustify = e.tiptap.isActive({ textAlign: 'justify' })
+
+                return !isCenter && !isRight && !isJustify
+            }
+        },
+        {
+            name: 'JustifyCenter',
             group: 'align',
             icon: IconJustifyCenter,
-            tooltip: 'Center'
-        }
-    },
-    {
-        name: 'JustifyRight',
-        extensions: [CustomTextAlign],
-        command: (e) => e.tiptap.chain().focus().setTextAlign('right').run(),
-        isActive: (e) => e.tiptap.isActive({ textAlign: 'right' }),
-        toolbar: {
+            tooltip: 'Center',
+            command: (e) => e.tiptap.chain().focus().setTextAlign('center').run(),
+            isActive: (e) => e.tiptap.isActive({ textAlign: 'center' })
+        },
+        {
+            name: 'JustifyRight',
             group: 'align',
             icon: IconJustifyRight,
-            tooltip: 'Align Right'
-        }
-    },
-    {
-        name: 'JustifyBlock',
-        extensions: [CustomTextAlign],
-        command: (e) => e.tiptap.chain().focus().setTextAlign('justify').run(),
-        isActive: (e) => e.tiptap.isActive({ textAlign: 'justify' }),
-        toolbar: {
+            tooltip: 'Align Right',
+            command: (e) => e.tiptap.chain().focus().setTextAlign('right').run(),
+            isActive: (e) => e.tiptap.isActive({ textAlign: 'right' })
+        },
+        {
+            name: 'JustifyBlock',
             group: 'align',
             icon: IconJustifyBlock,
-            tooltip: 'Justify'
+            tooltip: 'Justify',
+            command: (e) => e.tiptap.chain().focus().setTextAlign('justify').run(),
+            isActive: (e) => e.tiptap.isActive({ textAlign: 'justify' })
         }
-    }
-]
+    ]
+}

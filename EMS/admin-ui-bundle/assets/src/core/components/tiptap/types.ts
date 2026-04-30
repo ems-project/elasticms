@@ -14,14 +14,14 @@ import { tableModule } from './module/table.ts'
 export type ContextType = 'table'
 
 export const Modules: TiptapModule[] = [
-    ...historyModule,
+    historyModule,
     ...basicStyleModule,
-    ...cleanupModule,
+    cleanupModule,
     ...listModule,
-    ...indentModule,
-    ...justifyModule,
+    indentModule,
+    justifyModule,
     ...insertModule,
-    ...tableModule
+    tableModule
 ]
 
 export interface HtmlTransform {
@@ -39,17 +39,20 @@ export interface MenuItem {
     command: (editor: TiptapEditor) => void
 }
 
-export interface TiptapModule {
+export interface ToolbarItem {
     name: string
+    group: string
+    icon: string
+    tooltip?: string
+    extensions?: (Extension | Mark | Node)[]
+    command: (editor: TiptapEditor) => void
+    isActive?: (editor: TiptapEditor) => boolean
+}
+
+export interface TiptapModule {
     extensions?: (Extension | Mark | Node)[]
     htmlTransforms?: HtmlTransform[]
-    command?: (editor: TiptapEditor) => void
-    isActive?: (editor: TiptapEditor) => boolean
     isEnabled?: (profile: WysiwygProfile) => boolean
-    toolbar?: {
-        group: string
-        icon: string
-        tooltip?: string
-    }
+    toolbar?: ToolbarItem[]
     menu?: MenuItem[]
 }

@@ -4,24 +4,23 @@ import IconTable from '@tabler/icons/outline/table.svg?raw'
 import { HtmlTransform, MenuItem, TiptapModule } from '../types.ts'
 import { Dialog } from '../../dialog.ts'
 
-export const tableModule: TiptapModule[] = [
-    {
-        name: 'Table',
-        extensions: getExtensions(),
-        htmlTransforms: getHtmlTransforms(),
-        command: (e) => openTableDialog(e, 'insert'),
-        isActive: (e) => e.tiptap.isActive('table') || e.tiptap.isActive('tableFigure'),
-        toolbar: {
+export const tableModule: TiptapModule = {
+    extensions: getExtensions(),
+    htmlTransforms: getHtmlTransforms(),
+    toolbar: [
+        {
+            name: 'Table',
             group: 'insert',
             icon: IconTable,
-            tooltip: 'Insert Table'
-        },
-        menu: getContextMenuItems()
-    }
-]
+            tooltip: 'Insert Table',
+            command: (e) => openTableDialog(e, 'insert'),
+            isActive: (e) => e.tiptap.isActive('table') || e.tiptap.isActive('tableFigure')
+        }
+    ],
+    menu: getContextMenuItems()
+}
 
-function getExtensions(): Node[]
-{
+function getExtensions(): Node[] {
     const CustomTable = Table.extend({
         addAttributes() {
             return {
@@ -181,7 +180,7 @@ function getHtmlTransforms(): HtmlTransform[] {
                 })
             }
         }
-    ];
+    ]
 }
 
 function getContextMenuItems(): MenuItem[] {
@@ -336,7 +335,9 @@ function openTableDialog(e: { tiptap: any }, mode: 'insert' | 'edit') {
     const esc = (v: any) => (v ?? '').toString().replace(/"/g, '&quot;')
 
     dialog.setContent(`
-        ${mode === 'insert' ? `
+        ${
+            mode === 'insert'
+                ? `
         <div style="display: flex; gap: 15px;">
             <div style="flex: 1; margin-bottom: 15px;">
                 <label for="table-cols">Columns</label>
@@ -346,7 +347,9 @@ function openTableDialog(e: { tiptap: any }, mode: 'insert' | 'edit') {
                 <label for="table-rows">Rows</label>
                 <input type="number" id="table-rows" value="3" min="1" max="20">
             </div>
-        </div>` : ''}
+        </div>`
+                : ''
+        }
         <div style="margin-bottom: 15px;">
             <label for="table-caption">Caption</label>
             <input type="text" id="table-caption" value="${esc(current.caption)}" placeholder="Optional">

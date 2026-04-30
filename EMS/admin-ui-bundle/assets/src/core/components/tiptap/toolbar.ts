@@ -1,15 +1,15 @@
-import { TiptapModule } from './types.ts'
+import { TiptapModule, ToolbarItem } from './types.ts'
 import { TiptapEditor } from './editor.ts'
 import { WysiwygProfile } from '../wysiwyg/wysiwyg.ts'
 
 export class Toolbar {
     readonly container: HTMLElement
     private tiptapEditor!: TiptapEditor
-    private modules: Map<string, TiptapModule> = new Map()
+    private items: Map<string, ToolbarItem> = new Map()
     private readonly wysiwygProfile: WysiwygProfile
 
     constructor(modules: TiptapModule[], wysiwygProfile: WysiwygProfile) {
-        modules.forEach((m) => this.modules.set(m.name, m))
+        modules.flatMap((m) => m.toolbar ?? []).forEach((item) => this.items.set(item.name, item))
         this.wysiwygProfile = wysiwygProfile
 
         this.container = document.createElement('div')
@@ -34,9 +34,9 @@ export class Toolbar {
                 const groupDiv = document.createElement('div')
                 groupDiv.className = 'tiptap-toolbar-group'
 
-                this.getModulesByToolbarGroup(groupName).forEach((mod) => {
-                    if (removed.includes(mod.name)) return
-                    groupDiv.appendChild(this.createButton(mod))
+                this.getItemsByToolbarGroup(groupName).forEach((toolbarItem) => {
+                    if (removed.includes(toolbarItem.name)) return
+                    groupDiv.appendChild(this.createButton(toolbarItem))
                 })
 
                 if (groupDiv.children.length > 0) currentRow.appendChild(groupDiv)
@@ -48,10 +48,8 @@ export class Toolbar {
         this.tiptapEditor = tiptapEditor
     }
 
-    private getModulesByToolbarGroup(groupName: string): TiptapModule[] {
-        return Array.from(this.modules.values()).filter(
-            (m) => m.toolbar && m.toolbar.group === groupName
-        )
+    private getItemsByToolbarGroup(groupName: string): ToolbarItem[] {
+        return Array.from(this.items.values()).filter((item) => item.group === groupName)
     }
 
     mount(target: HTMLElement) {
@@ -66,17 +64,17 @@ export class Toolbar {
         return row
     }
 
-    private createButton(mod: TiptapModule): HTMLButtonElement {
+    private createButton(item: ToolbarItem): HTMLButtonElement {
         const btn = document.createElement('button')
         btn.type = 'button'
-        btn.innerHTML = mod.toolbar!.icon
-        btn.dataset.action = mod.name
-        if (mod.toolbar!.tooltip) btn.title = mod.toolbar!.tooltip
+        btn.innerHTML = item.icon
+        btn.dataset.action = item.name
+        if (item.tooltip) btn.title = item.tooltip
 
         btn.onclick = (e) => {
             e.preventDefault()
             e.stopPropagation()
-            mod.command?.(this.tiptapEditor)
+            item.command(this.tiptapEditor)
             this.update()
         }
 
@@ -90,8 +88,8 @@ export class Toolbar {
     update() {
         if (!this.container) return
         this.container.querySelectorAll<HTMLButtonElement>('button[data-action]').forEach((btn) => {
-            const mod = this.modules.get(btn.dataset.action!)
-            if (mod) btn.classList.toggle('is-active', mod.isActive?.(this.tiptapEditor) ?? false)
+            const item = this.items.get(btn.dataset.action!)
+            if (item) btn.classList.toggle('is-active', item.isActive?.(this.tiptapEditor) ?? false)
         })
     }
 

@@ -55,7 +55,10 @@ export class TiptapEditor {
     private buildExtensions(): (Extension | Mark | Node)[] {
         const seen = new Set<string>()
         return this.modules
-            .flatMap((m) => m.extensions ?? [])
+            .flatMap((m) => [
+                ...(m.extensions ?? []),
+                ...(m.toolbar?.flatMap((t) => t.extensions ?? []) ?? [])
+            ])
             .filter((ext) => {
                 const name = (ext as any).name
                 return name && !seen.has(name) && seen.add(name)

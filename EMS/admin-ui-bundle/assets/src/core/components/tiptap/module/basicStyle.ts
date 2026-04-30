@@ -12,62 +12,64 @@ import { TiptapModule } from '../types.ts'
 
 export const basicStyleModule: TiptapModule[] = [
     {
-        name: 'Bold',
-        extensions: [Bold],
-        command: (e) => e.tiptap.chain().focus().toggleBold().run(),
-        isActive: (e) => e.tiptap.isActive('bold'),
-        toolbar: {
-            group: 'basicstyles',
-            icon: IconBold,
-            tooltip: 'Bold'
-        }
+        toolbar: [
+            {
+                name: 'Bold',
+                group: 'basicstyles',
+                icon: IconBold,
+                tooltip: 'Bold',
+                extensions: [Bold],
+                command: (e) => e.tiptap.chain().focus().toggleBold().run(),
+                isActive: (e) => e.tiptap.isActive('bold')
+            },
+            {
+                name: 'Italic',
+                group: 'basicstyles',
+                icon: IconItalic,
+                tooltip: 'Italic',
+                extensions: [Italic],
+                command: (e) => e.tiptap.chain().focus().toggleItalic().run(),
+                isActive: (e) => e.tiptap.isActive('italic')
+            },
+            {
+                name: 'Strike',
+                group: 'basicstyles',
+                icon: IconStrike,
+                tooltip: 'Strike Through',
+                extensions: [Strike],
+                command: (e) => e.tiptap.chain().focus().toggleStrike().run(),
+                isActive: (e) => e.tiptap.isActive('strike')
+            }
+        ]
     },
     {
-        name: 'Italic',
-        extensions: [Italic],
-        command: (e) => e.tiptap.chain().focus().toggleItalic().run(),
-        isActive: (e) => e.tiptap.isActive('italic'),
-        toolbar: {
-            group: 'basicstyles',
-            icon: IconItalic,
-            tooltip: 'Italic'
-        }
-    },
-    {
-        name: 'Strike',
-        extensions: [Strike],
-        command: (e) => e.tiptap.chain().focus().toggleStrike().run(),
-        isActive: (e) => e.tiptap.isActive('strike'),
-        toolbar: {
-            group: 'basicstyles',
-            icon: IconStrike,
-            tooltip: 'Strike Through'
-        }
-    },
-    {
-        name: 'Subscript',
         extensions: [Subscript],
-        command: (e) => e.tiptap.chain().focus().toggleSubscript().run(),
-        isActive: (e) => e.tiptap.isActive('subscript'),
         isEnabled: (wysiwygProfile) =>
             wysiwygProfile.config.extraPlugins?.includes('basicstyles') ?? false,
-        toolbar: {
-            group: 'basicstyles',
-            icon: IconSubscript,
-            tooltip: 'Subscript'
-        }
+        toolbar: [
+            {
+                name: 'Subscript',
+                group: 'basicstyles',
+                icon: IconSubscript,
+                tooltip: 'Subscript',
+                command: (e) => e.tiptap.chain().focus().toggleSubscript().run(),
+                isActive: (e) => e.tiptap.isActive('subscript')
+            }
+        ]
     },
     {
-        name: 'Superscript',
         extensions: [Superscript],
-        command: (e) => e.tiptap.chain().focus().toggleSuperscript().run(),
-        isActive: (e) => e.tiptap.isActive('superscript'),
         isEnabled: (wysiwygProfile) =>
             wysiwygProfile.config.extraPlugins?.includes('basicstyles') ?? false,
-        toolbar: {
-            group: 'basicstyles',
-            icon: IconSuperscript,
-            tooltip: 'Superscript'
-        }
+        toolbar: [
+            {
+                name: 'Superscript',
+                group: 'basicstyles',
+                icon: IconSuperscript,
+                tooltip: 'Superscript',
+                command: (e) => e.tiptap.chain().focus().toggleSuperscript().run(),
+                isActive: (e) => e.tiptap.isActive('superscript')
+            }
+        ]
     }
 ]

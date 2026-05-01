@@ -273,8 +273,17 @@ services:
             - |
                 mkdir -p /home/default/.local/bin /home/default/.local/npm/bin /home/default/.config
                 export PATH="/home/default/.local/bin:/home/default/.local/npm/bin:$$PATH"
+                if [ ! -d /home/default/.oh-my-bash ]; then
+                    bash -c "$$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)" "" --unattended
+                fi
+                if command -v zsh >/dev/null 2>&1 && [ ! -d /home/default/.oh-my-zsh ]; then
+                    RUNZSH=no CHSH=no KEEP_ZSHRC=yes sh -c "$$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+                fi
                 grep -qxF 'export PATH="/home/default/.local/bin:/home/default/.local/npm/bin:$$PATH"' /home/default/.bashrc || echo 'export PATH="/home/default/.local/bin:/home/default/.local/npm/bin:$$PATH"' >> /home/default/.bashrc
                 grep -qxF "alias pbc='php bin/console'" /home/default/.bashrc || echo "alias pbc='php bin/console'" >> /home/default/.bashrc
+                touch /home/default/.zshrc
+                grep -qxF 'export PATH="/home/default/.local/bin:/home/default/.local/npm/bin:$$PATH"' /home/default/.zshrc || echo 'export PATH="/home/default/.local/bin:/home/default/.local/npm/bin:$$PATH"' >> /home/default/.zshrc
+                grep -qxF "alias pbc='php bin/console'" /home/default/.zshrc || echo "alias pbc='php bin/console'" >> /home/default/.zshrc
                 npm config set prefix /home/default/.local/npm
                 if ! command -v symfony >/dev/null 2>&1; then
                     curl -sS https://get.symfony.com/cli/installer | bash

@@ -164,4 +164,6 @@ Only update changelogs when the requested work requires release notes. Branch me
 
 ## Sandbox Note
 
+Agents usually run from the Docker sandbox defined by the `sandbox` service in `docker/docker-compose.yml`. The repository is mounted at `/workspace`, while the agent home is mounted from `docker/.sandbox` to `/home/default`.
+
 In some agent environments, sandboxed shell execution may fail before commands run with an error about `bwrap` and unprivileged user namespaces. If that happens, rerun required read-only inspections or validations with the appropriate approval instead of inventing results.

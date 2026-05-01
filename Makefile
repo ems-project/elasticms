@@ -3,7 +3,7 @@
 -include ./docker/.env
 
 PWD					   = $(shell pwd)
-DOCKER_USER    = $(id -u)
+DOCKER_USER    ?= $(shell id -u)
 DOCKER_COMPOSE = docker compose --project-directory=docker
 
 PORT_admin 			= 8881
@@ -20,7 +20,7 @@ RUN_ADMIN_UI_NPM 	= docker run -u ${DOCKER_USER}:0 --rm -p 5173:5173 -it -v ${PW
 OTEL_ENABLED 		?= false
 
 .DEFAULT_GOAL := help
-.PHONY: help demo docs
+.PHONY: help demo docs docker/sandbox.passwd
 
 help: # Show help for each of the Makefile recipes.
 	@echo "EMS Monorepo"
@@ -43,6 +43,7 @@ help: # Show help for each of the Makefile recipes.
 init: ## init mono repo (copy .env)
 	@cp -fp ./docker/.env.dist ./docker/.env
 	@cp -fp ./docker/sandbox.env.dist ./docker/sandbox.env
+	@$(MAKE) -s docker/sandbox.passwd
 	@cp -fp ./elasticms-admin/.env.dist ./elasticms-admin/.env
 	@cp -fp ./elasticms-admin/.env.local.dist ./elasticms-admin/.env.local
 	@cp -fp ./elasticms-web/.env.dist ./elasticms-web/.env
@@ -54,6 +55,8 @@ start: ## start docker, admin server, web server
 	cd elasticms-admin && symfony local:run -d php bin/console messenger:consume async -vvv
 start/%: ## start/(mariadb|keycloak|grafana|redis-commander)
 	@$(DOCKER_COMPOSE) --profile=${*} up -d --force-recreate
+start/sandbox: docker/sandbox.passwd ## start/sandbox
+	@$(DOCKER_COMPOSE) --profile=sandbox up -d --force-recreate
 stop: ## stop docker, admin server, web server
 	@$(MAKE) -s server-stop/admin
 	@$(MAKE) -s server-stop/web
@@ -74,8 +77,33 @@ status: ## status
 	@docker ps --filter="label=elasticMS" --format "table {{.Label \"com.docker.compose.service\"}}\t{{.Status}}\t{{.Ports}}"
 pull: ## Pull service images
 	@$(DOCKER_COMPOSE) pull
-sandbox: ## open a terminal in a development sandbox container
+sandbox: docker/sandbox.passwd ## open a terminal in a development sandbox container
 	@$(DOCKER_COMPOSE) exec sandbox sh -lc 'exec "$${SHELL:-bash}"'
+
+docker/sandbox.passwd:
+	@mkdir -p ./docker
+	@printf '%s\n' \
+		'root:x:0:0:root:/root:/bin/sh' \
+		'bin:x:1:1:bin:/bin:/sbin/nologin' \
+		'daemon:x:2:2:daemon:/sbin:/sbin/nologin' \
+		'lp:x:4:7:lp:/var/spool/lpd:/sbin/nologin' \
+		'sync:x:5:0:sync:/bin:/bin/sync' \
+		'shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown' \
+		'halt:x:7:0:halt:/sbin:/sbin/halt' \
+		'mail:x:8:12:mail:/var/mail:/sbin/nologin' \
+		'news:x:9:13:news:/usr/lib/news:/sbin:/sbin/nologin' \
+		'uucp:x:10:14:uucp:/var/spool/uucppublic:/sbin/nologin' \
+		'cron:x:16:16:cron:/var/spool/cron:/sbin/nologin' \
+		'ftp:x:21:21::/var/lib/ftp:/sbin/nologin' \
+		'sshd:x:22:22:sshd:/dev/null:/sbin/nologin' \
+		'games:x:35:35:games:/usr/games:/sbin/nologin' \
+		'ntp:x:123:123:NTP:/var/empty:/sbin/nologin' \
+		'guest:x:405:100:guest:/dev/null:/sbin/nologin' \
+		'nobody:x:65534:65534:nobody:/:/sbin/nologin' \
+		'www-data:x:82:82::/home/www-data:/sbin/nologin' \
+		'postgres:x:70:70:PostgreSQL user:/var/lib/postgresql:/bin/sh' \
+		'default:x:$(DOCKER_USER):0:default:/home/default:/bin/bash' \
+		> $@
 
 ## —— Symfony server ———————————————————————————————————————————————————————————————————————————————————————————————————
 server-start/%: ## server-start/(admin|web|cli)

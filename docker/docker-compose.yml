@@ -273,6 +273,12 @@ services:
             - |
                 mkdir -p /home/default/.local/bin /home/default/.local/npm/bin /home/default/.config
                 export PATH="/home/default/.local/bin:/home/default/.local/npm/bin:$$PATH"
+                if [ ! -f ~/.gitignore ]; then
+                    echo -e ".idea\nThumbs.db\n.DS_Store\n.vscode\n" > ~/.gitignore
+                    git config --global core.excludesfile ~/.gitignore
+                    git config --global core.autocrlf false
+                    git config --global core.eol lf
+                fi
                 if [ ! -d /home/default/.oh-my-bash ]; then
                     bash -c "$$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)" "" --unattended
                 fi

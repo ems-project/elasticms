@@ -118,7 +118,7 @@ class DeadLinksCommand extends AbstractCommand
         $coreApi = $this->adminHelper->getCoreApi();
         if ($coreApi->isAuthenticated()) {
             $hash = $coreApi->file()->uploadFile($tempFile->path, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', $filename);
-            $this->io->success(\sprintf('%s/data/file/%s?type=%s&name=%s', $coreApi->getBaseUrl(), $hash, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', \urlencode($filename)));
+            $this->io->success(\sprintf('%sdata/file/%s?type=%s&name=%s', $coreApi->getBaseUrl(), $hash, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', \urlencode($filename)));
         } else {
             File::putContents($filename, $tempFile->getContents());
             $this->io->success(\sprintf('The file %s has been saved in the current working directory', $filename));

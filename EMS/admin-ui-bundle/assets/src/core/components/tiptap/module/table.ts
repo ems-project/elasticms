@@ -200,7 +200,7 @@ function getContextMenuItems(): ContextMenuItem[] {
             icon: IconTable,
             order: 99,
             command: (e) => openTableDialog(e, 'edit')
-        },
+        }
     ]
 }
 
@@ -368,7 +368,9 @@ function openTableDialog(e: TiptapEditor, mode: 'insert' | 'edit') {
             <input type="text" id="table-summary" value="${esc(a.summary)}">      
         </div>`
 
-    dialog.setContent(`<div style="display: flex; flex-direction: column; gap: 10px; width: 450px;">${html}</div>`)
+    dialog.setContent(
+        `<div style="display: flex; flex-direction: column; gap: 10px; width: 450px;">${html}</div>`
+    )
 
     dialog.addButton({
         label: 'Apply',

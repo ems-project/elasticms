@@ -19,6 +19,10 @@
     display: flex;
     flex-direction: column;
 
+    table {
+      margin-bottom: 0;
+    }
+
     > figcaption {
       order: 1;
       padding: 5px;
@@ -54,7 +58,6 @@
 
   table:not([class]) {
     table-layout: fixed;
-    width: 100%;
     margin: 0;
     overflow: hidden;
 

@@ -1,4 +1,4 @@
-import { Node, Editor } from '@tiptap/core'
+import { Node, Editor, mergeAttributes } from '@tiptap/core'
 import { Table, TableCell, TableRow } from '@tiptap/extension-table'
 import IconTable from '@tabler/icons/outline/table.svg?raw'
 import IconTableDelete from '@tabler/icons/outline/trash.svg?raw'
@@ -52,84 +52,29 @@ function getExtensions(): Node[] {
         addAttributes() {
             return {
                 ...this.parent?.(),
-                class: {
-                    default: null,
-                    parseHTML: (el) => el.getAttribute('class'),
-                    renderHTML: (attrs) => (attrs.class ? { class: attrs.class } : {})
-                },
-                id: {
-                    default: null,
-                    parseHTML: (el) => el.getAttribute('id'),
-                    renderHTML: (attrs) => (attrs.id ? { id: attrs.id } : {})
-                },
-                summary: {
-                    default: null,
-                    parseHTML: (el) => el.getAttribute('summary'),
-                    renderHTML: (attrs) => (attrs.summary ? { summary: attrs.summary } : {})
-                },
-                width: {
-                    default: null,
-                    parseHTML: (el) => {
-                        if (el.style.width) return el.style.width
-                        const us = el.getAttribute('data-user-style')
-                        return us?.match(/(?:^|;\s*)width\s*:\s*([^;]+)/i)?.[1]?.trim() || null
-                    },
-                    renderHTML: () => ({})
-                },
-                height: {
-                    default: null,
-                    parseHTML: (el) => {
-                        if (el.style.height) return el.style.height
-                        const us = el.getAttribute('data-user-style')
-                        return us?.match(/(?:^|;\s*)height\s*:\s*([^;]+)/i)?.[1]?.trim() || null
-                    },
-                    renderHTML: () => ({})
-                },
-                align: {
-                    default: null,
-                    parseHTML: (el) => el.getAttribute('align'),
-                    renderHTML: (attrs) => (attrs.align ? { align: attrs.align } : {})
-                },
-                border: {
-                    default: null,
-                    parseHTML: (el) => el.getAttribute('border'),
-                    renderHTML: (attrs) => (attrs.border ? { border: attrs.border } : {})
-                },
-                cellpadding: {
-                    default: null,
-                    parseHTML: (el) => el.getAttribute('cellpadding'),
-                    renderHTML: (attrs) =>
-                        attrs.cellpadding ? { cellpadding: attrs.cellpadding } : {}
-                },
-                cellspacing: {
-                    default: null,
-                    parseHTML: (el) => el.getAttribute('cellspacing'),
-                    renderHTML: (attrs) =>
-                        attrs.cellspacing ? { cellspacing: attrs.cellspacing } : {}
-                },
+                class: { default: null },
+                id: { default: null },
+                summary: { default: null },
+                align: { default: null },
+                border: { default: null },
+                cellpadding: { default: null },
+                cellspacing: { default: null },
+                width: { default: null },
+                height: { default: null },
                 dataUserStyle: {
                     default: null,
-                    parseHTML: (el) => {
-                        const s = el.getAttribute('data-user-style')
-                        if (!s) return null
-                        const cleaned = s
-                            .replace(/\b(width|height)\s*:[^;]+;?/gi, '')
-                            .trim()
-                            .replace(/;$/, '')
-                        return cleaned || null
-                    },
-                    renderHTML: (attrs) => {
-                        const parts: string[] = []
-                        if (attrs.width) parts.push(`width: ${attrs.width}`)
-                        if (attrs.height) parts.push(`height: ${attrs.height}`)
-                        if (attrs.dataUserStyle) parts.push(attrs.dataUserStyle)
-                        const style = parts.join('; ')
-                        return style
-                            ? { 'data-user-style': attrs.dataUserStyle || null, style }
-                            : {}
-                    }
+                    parseHTML: (el) => el.getAttribute('data-user-style'),
+                    renderHTML: (attrs) =>
+                        attrs.dataUserStyle ? { 'data-user-style': attrs.dataUserStyle } : {}
                 }
             }
+        },
+        renderHTML({ HTMLAttributes }) {
+            return [
+                'table',
+                mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
+                ['tbody', 0]
+            ]
         }
     })
 

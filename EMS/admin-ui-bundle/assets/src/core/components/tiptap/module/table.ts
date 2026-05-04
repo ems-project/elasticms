@@ -245,87 +245,93 @@ function openTableDialog(e: TiptapEditor, mode: 'insert' | 'edit') {
 
     const esc = (v: any) => (v ?? '').toString().replace(/"/g, '&quot;')
 
-    dialog.setContent(`
-        ${
-            mode === 'insert'
-                ? `
-        <div style="display: flex; gap: 15px;">
-            <div style="flex: 1; margin-bottom: 15px;">
+    let html = ''
+
+    if (mode === 'insert') {
+        html += `
+        <div style="display: flex; gap: 10px;">
+            <div>
                 <label for="table-cols">Columns</label>
-                <input type="number" id="table-cols" value="2" min="1" max="10">
+                <input type="number" id="table-cols" value="2" min="1" max="10" style="width: 60px;">
             </div>
-            <div style="flex: 1; margin-bottom: 15px;">
+            <div>
                 <label for="table-rows">Rows</label>
-                <input type="number" id="table-rows" value="3" min="1" max="20">
+                <input type="number" id="table-rows" value="3" min="1" max="20"  style="width: 60px;">
             </div>
         </div>`
-                : ''
-        }
-        <div style="display: flex; gap: 15px;">
-            <div style="flex: 1; margin-bottom: 15px;">
-                <label for="table-width">Width</label>
-                <input type="text" id="table-width" value="${esc(a.width)}" placeholder="e.g. 50%, 300px">
+    }
+
+    html += `
+        <div style="display: flex; gap: 10px;">
+            <div style="flex: 1">
+                <label for="table-headers">Headers</label>
+                <select id="table-headers">
+                    <option value="none"${current.headers === 'none' ? ' selected' : ''}>None</option>
+                    <option value="row"${current.headers === 'row' ? ' selected' : ''}>First row</option>
+                    <option value="column"${current.headers === 'column' ? ' selected' : ''}>First column</option>
+                    <option value="both"${current.headers === 'both' ? ' selected' : ''}>Both</option>
+                </select>
             </div>
-            <div style="flex: 1; margin-bottom: 15px;">
-                <label for="table-height">Height</label>
-                <input type="text" id="table-height" value="${esc(a.height)}" placeholder="e.g. 200px">
-            </div>
-        </div>
-        <div style="margin-bottom: 15px;">
-            <label for="table-headers">Headers</label>
-            <select id="table-headers">
-                <option value="none"${current.headers === 'none' ? ' selected' : ''}>None</option>
-                <option value="row"${current.headers === 'row' ? ' selected' : ''}>First row</option>
-                <option value="column"${current.headers === 'column' ? ' selected' : ''}>First column</option>
-                <option value="both"${current.headers === 'both' ? ' selected' : ''}>Both</option>
-            </select>
-        </div>
-        <div style="display: flex; gap: 15px;">
-            <div style="flex: 1; margin-bottom: 15px;">
-                <label for="table-border">Border</label>
-                <input type="number" id="table-border" value="${esc(a.border)}" min="0" placeholder="Optional">
-            </div>
-            <div style="flex: 1; margin-bottom: 15px;">
-                <label for="table-cellpadding">Cell padding</label>
-                <input type="number" id="table-cellpadding" value="${esc(a.cellpadding)}" min="0" placeholder="Optional">
-            </div>
-            <div style="flex: 1; margin-bottom: 15px;">
-                <label for="table-cellspacing">Cell spacing</label>
-                <input type="number" id="table-cellspacing" value="${esc(a.cellspacing)}" min="0" placeholder="Optional">
+             <div style="flex: 1; display: flex; gap: 10px;">        
+                <div style="flex: 1">
+                    <label for="table-width">Width</label>
+                    <input type="text" id="table-width" value="${esc(a.width)}" placeholder="50%, 300px">
+                </div>
+                <div style="flex: 1">
+                    <label for="table-height">Height</label>
+                    <input type="text" id="table-height" value="${esc(a.height)}" placeholder="200px">
+                </div>
             </div>
         </div>
-        <div style="margin-bottom: 15px;">
-            <label for="table-caption">Caption</label>
-            <input type="text" id="table-caption" value="${esc(current.caption)}" placeholder="Optional">
-        </div>
-        <div style="margin-bottom: 15px;">
-            <label for="table-summary">Summary</label>
-            <input type="text" id="table-summary" value="${esc(a.summary)}" placeholder="Optional">
-        </div>
-        <div style="margin-bottom: 15px;">
-            <label for="table-style">Style</label>
-            <input type="text" id="table-style" value="${esc(a.dataUserStyle)}" placeholder="Optional">
-        </div>
-        <div style="margin-bottom: 15px;">
-            <label for="table-align">Align</label>
-            <select id="table-align">
-                <option value=""${!a.align ? ' selected' : ''}>Not defined</option>
-                <option value="left"${a.align === 'left' ? ' selected' : ''}>Left</option>
-                <option value="center"${a.align === 'center' ? ' selected' : ''}>Center</option>
-                <option value="right"${a.align === 'right' ? ' selected' : ''}>Right</option>
-            </select>
-        </div>
-        <div style="display: flex; gap: 15px;">
-            <div style="flex: 1; margin-bottom: 15px;">
-                <label for="table-id">ID</label>
-                <input type="text" id="table-id" value="${esc(a.id)}" placeholder="Optional">
+        <div style="display: flex; gap: 10px;">
+            <div style="flex: 1">
+                <label for="table-align">Alignment</label>
+                <select id="table-align">
+                    <option value=""${!a.align ? ' selected' : ''}>Not defined</option>
+                    <option value="left"${a.align === 'left' ? ' selected' : ''}>Left</option>
+                    <option value="center"${a.align === 'center' ? ' selected' : ''}>Center</option>
+                    <option value="right"${a.align === 'right' ? ' selected' : ''}>Right</option>
+                </select>
             </div>
-            <div style="flex: 1; margin-bottom: 15px;">
+            <div style="flex: 1; display: flex; gap: 10px;">            
+                <div style="flex: 1">
+                    <label for="table-border">Border</label>
+                    <input type="number" id="table-border" value="${esc(a.border)}" min="0" placeholder="0">
+                </div>
+                <div style="flex: 1">
+                    <label for="table-cellpadding">Padding</label>
+                    <input type="number" id="table-cellpadding" value="${esc(a.cellpadding)}" min="0" placeholder="0">
+                </div>
+                <div style="flex: 1">
+                    <label for="table-cellspacing">Spacing</label>
+                    <input type="number" id="table-cellspacing" value="${esc(a.cellspacing)}" min="0" placeholder="0">
+                </div>
+            </div>
+        </div>
+        <div style="display: flex; gap: 10px;">
+            <div style="flex: 1">
                 <label for="table-class">Class</label>
-                <input type="text" id="table-class" value="${esc(a.class)}" placeholder="Optional">
+                <input type="text" id="table-class" value="${esc(a.class)}">
+            </div>
+            <div style="flex: 1">
+                <label for="table-id">ID</label>
+                <input type="text" id="table-id" value="${esc(a.id)}">
+            </div>
+            <div style="flex: 1">
+                <label for="table-style">Style</label>
+                <input type="text" id="table-style" value="${esc(a.dataUserStyle)}">
             </div>
         </div>
-    `)
+        <div>
+            <label for="table-caption">Caption</label>
+            <input type="text" id="table-caption" value="${esc(current.caption)}">
+        </div>
+        <div>
+            <label for="table-summary">Summary</label>
+            <input type="text" id="table-summary" value="${esc(a.summary)}">      
+        </div>`
+
+    dialog.setContent(`<div style="display: flex; flex-direction: column; gap: 10px; width: 450px;">${html}</div>`)
 
     dialog.addButton({
         label: 'Apply',

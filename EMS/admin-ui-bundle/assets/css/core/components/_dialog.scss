@@ -73,13 +73,13 @@ dialog.ems-dialog {
       color: var(--dialog-text-color, #212529);
     }
 
-    input[type="text"],
-    input[type="number"],
+    input,
     select,
     textarea {
       padding: 6px 10px;
       font-size: 14px;
       line-height: 1.5;
+      width: 100%;
       color: var(--dialog-input-color, #495057);
       background: var(--dialog-bg, #fff);
       border: 1px solid var(--dialog-input-border, #ced4da);

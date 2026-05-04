@@ -31,6 +31,8 @@ export class ContextMenu {
         if (e.key === 'Escape') this.close()
     }
     private onMenu = (e: MouseEvent) => {
+        if (e.ctrlKey) return
+
         const items = this.getItems()
         if (items.length === 0) return
 

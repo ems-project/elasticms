@@ -105,7 +105,8 @@ export class ContextMenu {
         }
 
         for (const [label, children] of grouped) {
-            menu.appendChild(this.renderSubmenu(label, children))
+            const icon = children.find((c) => c.parentIcon)?.parentIcon
+            menu.appendChild(this.renderSubmenu(label, children, icon))
         }
 
         for (const item of topLevel) {
@@ -142,13 +143,20 @@ export class ContextMenu {
         return btn
     }
 
-    private renderSubmenu(label: string, children: ContextMenuItem[]): HTMLElement {
+    private renderSubmenu(label: string, children: ContextMenuItem[], icon?: string): HTMLElement {
         const wrapper = document.createElement('div')
         wrapper.className = 'tiptap-context-menu-submenu'
 
         const trigger = document.createElement('button')
         trigger.type = 'button'
         trigger.className = 'tiptap-context-menu-item has-submenu'
+
+        if (icon) {
+            const iconEl = document.createElement('span')
+            iconEl.className = 'tiptap-context-menu-icon'
+            iconEl.innerHTML = icon
+            trigger.appendChild(iconEl)
+        }
 
         const text = document.createElement('span')
         text.textContent = label

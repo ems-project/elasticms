@@ -34,6 +34,7 @@ export interface ContextMenuItem {
     label: string
     icon?: string
     parent?: string
+    parentIcon?: string
     order?: number
     command: (editor: TiptapEditor) => void
 }

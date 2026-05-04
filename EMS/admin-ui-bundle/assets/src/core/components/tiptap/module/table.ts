@@ -1,6 +1,15 @@
 import { Node, Editor } from '@tiptap/core'
 import { Table, TableCell, TableRow } from '@tiptap/extension-table'
 import IconTable from '@tabler/icons/outline/table.svg?raw'
+import IconTableDelete from '@tabler/icons/outline/trash.svg?raw'
+import IconRow from '@tabler/icons/outline/table-row.svg?raw'
+import IconRowBefore from '@tabler/icons/outline/row-insert-top.svg?raw'
+import IconRowAfter from '@tabler/icons/outline/row-insert-bottom.svg?raw'
+import IconRowDelete from '@tabler/icons/outline/row-remove.svg?raw'
+import IconColumn from '@tabler/icons/outline/table-column.svg?raw'
+import IconColumnBefore from '@tabler/icons/outline/column-insert-left.svg?raw'
+import IconColumnAfter from '@tabler/icons/outline/column-insert-right.svg?raw'
+import IconColumnDelete from '@tabler/icons/outline/column-remove.svg?raw'
 import { ContextMenuItem, TiptapModule } from '../types.ts'
 import { Dialog } from '../../dialog.ts'
 import { TiptapEditor } from '../editor.ts'
@@ -137,33 +146,61 @@ function getExtensions(): Node[] {
 function getContextMenuItems(): ContextMenuItem[] {
     return [
         {
-            label: 'Insert row above',
+            label: 'Insert row before',
+            icon: IconRowBefore,
+            parentIcon: IconRow,
             parent: 'Row',
             order: 0,
             command: (e) => e.tiptap.chain().focus().addRowBefore().run()
         },
         {
-            label: 'Insert row below',
+            label: 'Insert row after',
+            icon: IconRowAfter,
             parent: 'Row',
             order: 1,
             command: (e) => e.tiptap.chain().focus().addRowAfter().run()
         },
         {
-            label: 'Delete row',
+            label: 'Delete row(s)',
+            icon: IconRowDelete,
             parent: 'Row',
-            order: 2,
+            order: 99,
             command: (e) => e.tiptap.chain().focus().deleteRow().run()
         },
         {
-            label: 'Table properties',
-            order: 98,
-            command: (e) => openTableDialog(e, 'edit')
+            label: 'Insert column before',
+            icon: IconColumnBefore,
+            parent: 'Column',
+            parentIcon: IconColumn,
+            order: 0,
+            command: (e) => e.tiptap.chain().focus().addColumnBefore().run()
+        },
+        {
+            label: 'Insert column after',
+            icon: IconColumnAfter,
+            parent: 'Column',
+            order: 1,
+            command: (e) => e.tiptap.chain().focus().addColumnAfter().run()
+        },
+        {
+            label: 'Delete column(s)',
+            icon: IconColumnDelete,
+            parent: 'Column',
+            order: 99,
+            command: (e) => e.tiptap.chain().focus().deleteColumn().run()
         },
         {
             label: 'Delete table',
-            order: 99,
+            icon: IconTableDelete,
+            order: 98,
             command: (e) => commandDeleteTable(e.tiptap)
-        }
+        },
+        {
+            label: 'Table properties',
+            icon: IconTable,
+            order: 99,
+            command: (e) => openTableDialog(e, 'edit')
+        },
     ]
 }
 

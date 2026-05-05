@@ -207,9 +207,9 @@ function getTableContext(tiptap: Editor): {
             else if (firstColTh) headers = 'column'
         }
         if (node.type.name === 'tableFigure') {
-            const first = node.firstChild
-            if (first?.type.name === 'tableCaption') {
-                caption = first.textContent
+            const last = node.lastChild
+            if (last?.type.name === 'tableCaption') {
+                caption = last.textContent
             }
             break
         }
@@ -341,8 +341,8 @@ function openTableDialog(e: TiptapEditor, mode: 'insert' | 'edit') {
 
             if (mode === 'edit') {
                 e.tiptap.chain().focus().updateAttributes('table', attrs).run()
-                updateCaption(e.tiptap, caption)
                 applyHeaders(e.tiptap, headers)
+                updateCaption(e.tiptap, caption)
             } else {
                 const rows = parseInt(d.getFieldValue('table-rows')) || 3
                 const cols = parseInt(d.getFieldValue('table-cols')) || 2
@@ -366,11 +366,11 @@ function openTableDialog(e: TiptapEditor, mode: 'insert' | 'edit') {
                         .insertContent({
                             type: 'tableFigure',
                             content: [
+                                { type: 'table', attrs, content: tableRows },
                                 {
                                     type: 'tableCaption',
                                     content: [{ type: 'text', text: caption }]
                                 },
-                                { type: 'table', attrs, content: tableRows }
                             ]
                         })
                         .run()

@@ -4,7 +4,7 @@ import { HtmlTransform } from '../types.ts'
 export const TableFigure: Node = Node.create({
     name: 'tableFigure',
     group: 'block',
-    content: 'tableCaption? table',
+    content: 'table tableCaption?',
     isolating: true,
 
     parseHTML() {
@@ -59,8 +59,8 @@ export const tableCaptionHtmlTransform: HtmlTransform = {
             figcaption.innerHTML = caption.innerHTML
             caption.remove()
             table.replaceWith(figure)
-            figure.appendChild(figcaption)
             figure.appendChild(table)
+            figure.appendChild(figcaption)
         })
     },
     toOutput(doc) {
@@ -74,7 +74,7 @@ export const tableCaptionHtmlTransform: HtmlTransform = {
             if (figcaption) {
                 const caption = doc.createElement('caption')
                 caption.innerHTML = figcaption.innerHTML
-                table.insertBefore(caption, table.firstChild)
+                table.appendChild(caption)
             }
             fig.replaceWith(table)
         })
@@ -101,11 +101,16 @@ export function updateCaption(tiptap: Editor, caption: string) {
     }
 
     if (figureNode && figurePos !== null) {
-        const firstChild = figureNode.firstChild
+        const tableChild = figureNode.firstChild
+        if (!tableChild) return
+        const captionStart = figurePos + 1 + tableChild.nodeSize
+        const lastChild = figureNode.lastChild
+        const hasCaption = lastChild?.type.name === 'tableCaption'
+
         if (caption) {
-            if (firstChild?.type.name === 'tableCaption') {
-                const from = figurePos + 1
-                const to = from + firstChild.nodeSize
+            if (hasCaption && lastChild) {
+                const from = captionStart
+                const to = from + lastChild.nodeSize
                 tiptap
                     .chain()
                     .focus()
@@ -119,15 +124,15 @@ export function updateCaption(tiptap: Editor, caption: string) {
                 tiptap
                     .chain()
                     .focus()
-                    .insertContentAt(figurePos + 1, {
+                    .insertContentAt(captionStart, {
                         type: 'tableCaption',
                         content: [{ type: 'text', text: caption }]
                     })
                     .run()
             }
-        } else if (firstChild?.type.name === 'tableCaption') {
-            const from = figurePos + 1
-            const to = from + firstChild.nodeSize
+        } else if (hasCaption && lastChild) {
+            const from = captionStart
+            const to = from + lastChild.nodeSize
             tiptap.chain().focus().deleteRange({ from, to }).run()
         }
     } else if (caption && tablePos !== null) {
@@ -141,8 +146,8 @@ export function updateCaption(tiptap: Editor, caption: string) {
             .insertContentAt(tablePos, {
                 type: 'tableFigure',
                 content: [
-                    { type: 'tableCaption', content: [{ type: 'text', text: caption }] },
-                    tableNode.toJSON()
+                    tableNode.toJSON(),
+                    { type: 'tableCaption', content: [{ type: 'text', text: caption }] }
                 ]
             })
             .run()

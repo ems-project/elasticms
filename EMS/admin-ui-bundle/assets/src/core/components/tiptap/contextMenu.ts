@@ -57,6 +57,7 @@ export class ContextMenu {
 
         this.el = this.render(items)
         this.position(e)
+        this.adjustSubmenus()
 
         this.getAllDocuments().forEach((doc) => {
             doc.addEventListener('mousedown', this.onClickOutside)
@@ -223,6 +224,30 @@ export class ContextMenu {
             (x + rect.width > win.innerWidth + win.scrollX ? x - rect.width : x) + 'px'
         this.el.style.top =
             (y + rect.height > win.innerHeight + win.scrollY ? y - rect.height : y) + 'px'
+    }
+
+    private adjustSubmenus() {
+        if (!this.el) return
+        const win = this.topDoc.defaultView ?? window
+
+        this.el.querySelectorAll<HTMLElement>('.tiptap-context-menu-submenu').forEach((wrapper) => {
+            wrapper.addEventListener('mouseenter', () => {
+                const panel = wrapper.querySelector<HTMLElement>('.tiptap-context-menu-panel')
+                if (!panel) return
+
+                panel.classList.remove('flip-x', 'flip-y')
+
+                const rect = wrapper.getBoundingClientRect()
+                const panelRect = panel.getBoundingClientRect()
+
+                if (rect.right + panelRect.width > win.innerWidth) {
+                    panel.classList.add('flip-x')
+                }
+                if (rect.top + panelRect.height > win.innerHeight) {
+                    panel.classList.add('flip-y')
+                }
+            })
+        })
     }
 
     destroy() {

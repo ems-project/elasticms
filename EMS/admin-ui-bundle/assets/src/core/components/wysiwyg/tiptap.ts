@@ -45,7 +45,8 @@ export default class Tiptap {
             element: iframe.body,
             toolbarElement: toolbar,
             customModules: [this.getSourceModule(), this.getMaximizeModule()],
-            wysiwygProfile: this.wysiwygOptions.inRevision ? getWysiwygProfile() : null
+            wysiwygProfile: this.wysiwygOptions.inRevision ? getWysiwygProfile() : null,
+            wysiwygOptions: this.wysiwygOptions
         })
 
         const toolbarHeight = toolbar.offsetHeight || 0

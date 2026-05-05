@@ -3,7 +3,7 @@ import { DEFAULT_EXTENSIONS, ExtensionType } from './extensions.ts'
 import { Toolbar } from './toolbar.ts'
 import { ContextMenu } from './contextMenu.ts'
 import { Modules, HtmlTransform, TiptapModule } from './types.ts'
-import { WysiwygProfile } from '../wysiwyg/wysiwyg.ts'
+import { WysiwygOptions, WysiwygProfile } from '../wysiwyg/wysiwyg.ts'
 
 interface TiptapEditorOptions {
     content?: string
@@ -11,18 +11,19 @@ interface TiptapEditorOptions {
     customModules?: TiptapModule[]
     toolbarElement?: HTMLElement | null
     wysiwygProfile?: WysiwygProfile | null
+    wysiwygOptions?: WysiwygOptions | null
 }
 
 export class TiptapEditor {
     tiptap: Editor
     toolbar: Toolbar
     menu: ContextMenu
-    element: HTMLElement
     readonly modules: TiptapModule[]
     private readonly htmlTransforms: HtmlTransform[]
+    private readonly options: TiptapEditorOptions
 
     constructor(options: TiptapEditorOptions) {
-        this.element = options.element
+        this.options = options
         this.toolbar = new Toolbar(this)
 
         const profile = options.wysiwygProfile ?? new WysiwygProfile()
@@ -48,6 +49,10 @@ export class TiptapEditor {
         if (options.toolbarElement) this.attachToolbar(options.toolbarElement)
     }
 
+    getDefaultTableClass(): null | string {
+        return this.options.wysiwygOptions?.tableDefaultCss ?? null
+    }
+
     getHTML(): string {
         return this.transformHtml(this.tiptap.getHTML(), 'toOutput')
     }
@@ -65,7 +70,7 @@ export class TiptapEditor {
         this.tiptap.destroy()
         this.toolbar.destroy()
         this.menu.destroy()
-        this.element.innerHTML = ''
+        this.options.element.innerHTML = ''
     }
 
     private resolveModules(allModules: TiptapModule[], profile: WysiwygProfile) {

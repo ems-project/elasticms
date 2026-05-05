@@ -62,7 +62,13 @@ export function openTableDialog(e: TiptapEditor, mode: 'insert' | 'edit') {
     const dialog = new Dialog('Table Properties', { draggable: true })
 
     const current =
-        mode === 'edit' ? getTableContext(e.tiptap) : { attrs: {}, caption: '', headers: 'none' }
+        mode === 'edit'
+            ? getTableContext(e.tiptap)
+            : {
+                  attrs: { class: e.getDefaultTableClass() },
+                  caption: '',
+                  headers: 'none'
+              }
     const a = current.attrs
 
     const esc = (v: any) => (v ?? '').toString().replace(/"/g, '&quot;')

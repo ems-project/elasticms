@@ -5,6 +5,7 @@ import IconTableDelete from '@tabler/icons/outline/trash.svg?raw'
 import IconCell from '@tabler/icons/outline/square.svg?raw'
 import IconCellBefore from '@tabler/icons/outline/square-chevron-left.svg?raw'
 import IconCellAfter from '@tabler/icons/outline/square-chevron-right.svg?raw'
+import IconCellClear from '@tabler/icons/outline/square-off.svg?raw'
 import IconRow from '@tabler/icons/outline/table-row.svg?raw'
 import IconRowBefore from '@tabler/icons/outline/row-insert-top.svg?raw'
 import IconRowAfter from '@tabler/icons/outline/row-insert-bottom.svg?raw'
@@ -31,6 +32,16 @@ export const tableContextMenu: ContextMenuItem[] = [
         parent: 'Cell',
         order: 1,
         command: (e) => cellInsert(e.tiptap, 'after')
+    },
+    {
+        label: 'Clear cell(s)',
+        icon: IconCellClear,
+        parent: 'Cell',
+        order: 99,
+        command: (e) => {
+            e.tiptap.chain().focus().deleteSelection().unsetAllMarks().run()
+            cellClear(e.tiptap)
+        }
     },
     {
         label: 'Insert row before',
@@ -107,7 +118,7 @@ function deleteTable(tiptap: Editor) {
 
 function cellInsert(editor: Editor, direction: 'before' | 'after') {
     const content = cellContent(editor)
-    if (!content) return false
+    if (!content) return
     const json = content.toJSON()
 
     if (direction === 'before') {
@@ -121,7 +132,6 @@ function cellInsert(editor: Editor, direction: 'before' | 'after') {
     }
 
     cellClear(editor)
-    return true
 }
 
 function cellContent(editor: Editor) {

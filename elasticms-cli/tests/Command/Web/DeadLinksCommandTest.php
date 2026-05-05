@@ -354,6 +354,36 @@ final class DeadLinksCommandTest extends TestCase
             'translation' => 'web.audit.permanent-redirect',
         ];
 
+        yield 'Redirect 307 to page error 404 slug' => [
+            'input' => [
+                'level' => 'Warning',
+                'url' => 'https://example.test/blocked',
+                'scheme' => 'https',
+                'status' => 307,
+                'message' => 'Redirection to location',
+                'referer' => 'https://referer.test',
+                'text' => 'Blocked link',
+                'location' => 'https://www.socialsecurity.be/page_error/portail/rp/rp_404.html',
+                'error' => null,
+            ],
+            'translation' => 'web.audit.page-not-found',
+        ];
+
+        yield 'Redirect 302 to page error 500 slug' => [
+            'input' => [
+                'level' => 'Warning',
+                'url' => 'https://example.test/blocked',
+                'scheme' => 'https',
+                'status' => 302,
+                'message' => 'Redirection to location',
+                'referer' => 'https://referer.test',
+                'text' => 'Blocked link',
+                'location' => 'https://www.socialsecurity.be/page_error/portail/rp/rp_500.html',
+                'error' => null,
+            ],
+            'translation' => 'web.audit.page-not-found',
+        ];
+
         yield 'Redirect 307 but http to http' => [
             'input' => [
                 'level' => 'Warning',

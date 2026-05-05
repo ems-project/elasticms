@@ -212,6 +212,20 @@ final class DeadLinksCommandTest extends TestCase
             ],
             'translation' => 'web.audit.permanent-redirect',
         ];
+        yield 'Permanent redirect 303' => [
+            'input' => [
+                'level' => 'Error',
+                'url' => 'https://example.test/missing',
+                'scheme' => 'http',
+                'status' => 303,
+                'message' => 'Broken link',
+                'referer' => 'http://referer.test',
+                'text' => 'Permanent redirect',
+                'location' => 'https://referer.test',
+                'error' => null,
+            ],
+            'translation' => 'web.audit.permanent-redirect',
+        ];
         yield 'Blocked by enterprise policy' => [
             'input' => [
                 'level' => 'Warning',

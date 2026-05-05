@@ -43,7 +43,9 @@ function getExtensions(): Node[] {
                     default: null,
                     parseHTML: (el) => el.getAttribute('data-user-style'),
                     renderHTML: (attrs) =>
-                        attrs.dataUserStyle ? { 'data-user-style': attrs.dataUserStyle } : {}
+                        attrs.dataUserStyle
+                            ? { 'data-user-style': attrs.dataUserStyle, style: attrs.dataUserStyle }
+                            : {}
                 }
             }
         },
@@ -56,10 +58,26 @@ function getExtensions(): Node[] {
         }
     })
 
+    const CustomTableCell = TableCell.extend({
+        addAttributes() {
+            return {
+                ...this.parent?.(),
+                dataUserStyle: {
+                    default: null,
+                    parseHTML: (el) => el.getAttribute('data-user-style'),
+                    renderHTML: (attrs) =>
+                        attrs.dataUserStyle
+                            ? { 'data-user-style': attrs.dataUserStyle, style: attrs.dataUserStyle }
+                            : {}
+                }
+            }
+        }
+    })
+
     return [
         CustomTable.configure({ resizable: false, allowTableNodeSelection: true }),
         TableRow,
-        TableCell,
+        CustomTableCell,
         CustomTableHeader,
         TableFigure,
         TableCaption

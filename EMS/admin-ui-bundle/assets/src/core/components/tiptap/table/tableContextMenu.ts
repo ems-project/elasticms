@@ -18,6 +18,7 @@ import IconColumnAfter from '@tabler/icons/outline/column-insert-right.svg?raw'
 import IconColumnDelete from '@tabler/icons/outline/column-remove.svg?raw'
 import { Editor } from '@tiptap/core'
 import { openTableDialog } from './tableDialog.ts'
+import { openCellDialog } from './tableCellDialog.ts'
 
 export const tableContextMenu: ContextMenuItem[] = [
     {
@@ -60,6 +61,13 @@ export const tableContextMenu: ContextMenuItem[] = [
         order: 3,
         disabled: (e) => !e.tiptap.can().splitCell(),
         command: (e) => e.tiptap.chain().focus().splitCell().run()
+    },
+    {
+        label: 'Cell properties',
+        icon: IconCell,
+        parent: 'Cell',
+        order: 99,
+        command: (e) => openCellDialog(e)
     },
     {
         label: 'Insert row before',

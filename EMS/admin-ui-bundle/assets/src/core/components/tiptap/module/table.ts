@@ -370,7 +370,7 @@ function openTableDialog(e: TiptapEditor, mode: 'insert' | 'edit') {
                                 {
                                     type: 'tableCaption',
                                     content: [{ type: 'text', text: caption }]
-                                },
+                                }
                             ]
                         })
                         .run()

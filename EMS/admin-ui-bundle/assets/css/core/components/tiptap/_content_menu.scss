@@ -28,6 +28,12 @@
       background: #f0f0f0;
     }
 
+    &.is-disabled {
+      opacity: 0.4;
+      cursor: default;
+      pointer-events: none;
+    }
+
     &.has-submenu {
       justify-content: space-between;
     }

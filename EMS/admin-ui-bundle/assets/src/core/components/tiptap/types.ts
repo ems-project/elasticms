@@ -37,6 +37,7 @@ export interface ContextMenuItem {
     parentIcon?: string
     order?: number
     command: (editor: TiptapEditor) => void
+    disabled?: (editor: TiptapEditor) => boolean
 }
 
 export interface ToolbarItem {

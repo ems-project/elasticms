@@ -6,6 +6,8 @@ import IconCell from '@tabler/icons/outline/square.svg?raw'
 import IconCellBefore from '@tabler/icons/outline/square-chevron-left.svg?raw'
 import IconCellAfter from '@tabler/icons/outline/square-chevron-right.svg?raw'
 import IconCellClear from '@tabler/icons/outline/square-off.svg?raw'
+import IconCellMerge from '@tabler/icons/outline/squares.svg?raw'
+import IconCellSplit from '@tabler/icons/outline/squares-diagonal.svg?raw'
 import IconRow from '@tabler/icons/outline/table-row.svg?raw'
 import IconRowBefore from '@tabler/icons/outline/row-insert-top.svg?raw'
 import IconRowAfter from '@tabler/icons/outline/row-insert-bottom.svg?raw'
@@ -42,6 +44,22 @@ export const tableContextMenu: ContextMenuItem[] = [
             e.tiptap.chain().focus().deleteSelection().unsetAllMarks().run()
             cellClear(e.tiptap)
         }
+    },
+    {
+        label: 'Merge cells',
+        icon: IconCellMerge,
+        parent: 'Cell',
+        order: 2,
+        disabled: (e) => !e.tiptap.can().mergeCells(),
+        command: (e) => e.tiptap.chain().focus().mergeCells().run()
+    },
+    {
+        label: 'Split cell',
+        icon: IconCellSplit,
+        parent: 'Cell',
+        order: 3,
+        disabled: (e) => !e.tiptap.can().splitCell(),
+        command: (e) => e.tiptap.chain().focus().splitCell().run()
     },
     {
         label: 'Insert row before',

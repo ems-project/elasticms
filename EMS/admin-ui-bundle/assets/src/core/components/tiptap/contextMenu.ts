@@ -124,6 +124,12 @@ export class ContextMenu {
         btn.type = 'button'
         btn.className = 'tiptap-context-menu-item'
 
+        const isDisabled = item.disabled?.(this.editor) ?? false
+        if (isDisabled) {
+            btn.classList.add('is-disabled')
+            btn.disabled = true
+        }
+
         if (item.icon) {
             const icon = document.createElement('span')
             icon.className = 'tiptap-context-menu-icon'

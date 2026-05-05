@@ -184,5 +184,19 @@ final class DeadLinksCommandTest extends TestCase
             ],
             'translation' => 'web.audit.permanent-redirect',
         ];
+        yield 'Blocked by enterprise policy' => [
+            'input' => [
+                'level' => 'Warning',
+                'url' => 'https://example.test/blocked',
+                'scheme' => 'https',
+                'status' => 302,
+                'message' => 'Redirection to location',
+                'referer' => 'https://referer.test',
+                'text' => 'Blocked link',
+                'location' => 'https://block.sse.cisco.com/swg?server=swg-ngi.example.test&url=https%3A%2F%2Fexample.test%2Fblocked',
+                'error' => null,
+            ],
+            'translation' => 'web.audit.blocked-by-enterprise-policy',
+        ];
     }
 }

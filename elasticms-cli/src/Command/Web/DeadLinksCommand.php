@@ -295,7 +295,9 @@ class DeadLinksCommand extends AbstractCommand
                 return 'web.audit.missing-document';
         }
         if ($status >= 300 && $status < 400 && null !== $location) {
-            
+            if ($this->isBlockedByEnterprisePolicyUrl($location)) {
+                return 'web.audit.blocked-by-enterprise-policy';
+            }
         }
         switch ($status) {
             case 301:
@@ -310,5 +312,17 @@ class DeadLinksCommand extends AbstractCommand
                 return 'web.audit.server-gone';
         }
         return 'web.audit.problem-witout-solution';
+    }
+
+    private function isBlockedByEnterprisePolicyUrl(string $url): bool
+    {
+        $host = \parse_url($url, \PHP_URL_HOST);
+        if (!\is_string($host)) {
+            return false;
+        }
+
+        return \in_array(\strtolower($host), [
+            'block.sse.cisco.com',  
+        ]);
     }
 }

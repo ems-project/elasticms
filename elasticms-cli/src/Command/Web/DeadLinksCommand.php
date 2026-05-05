@@ -309,6 +309,7 @@ class DeadLinksCommand extends AbstractCommand
         }
         switch ($status) {
             case 301:
+            case 308:
                 return t('web.audit.permanent-redirect');
             case 403:
                 return t('web.audit.access-denied');

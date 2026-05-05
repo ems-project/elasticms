@@ -1,6 +1,7 @@
 import '../../../../css/core/components/tiptap/_content_menu.scss'
 
 import type { TiptapEditor } from './editor.ts'
+import { CellSelection } from '@tiptap/pm/tables'
 import type { ContextMenuItem } from './types.ts'
 
 const CONTEXT_NODES: Record<string, string[]> = {
@@ -17,6 +18,7 @@ export class ContextMenu {
 
     constructor(editor: TiptapEditor) {
         this.editor = editor
+        this.editor.tiptap.view.dom.addEventListener('mousedown', this.onMouseDown)
         this.editor.tiptap.view.dom.addEventListener('contextmenu', this.onMenu)
     }
 
@@ -38,6 +40,11 @@ export class ContextMenu {
 
         e.preventDefault()
         this.open(e, items)
+    }
+    private onMouseDown = (e: MouseEvent) => {
+        if (e.button === 2 && this.editor.tiptap.state.selection instanceof CellSelection) {
+            e.preventDefault()
+        }
     }
 
     private open(e: MouseEvent, items: ContextMenuItem[]) {
@@ -213,6 +220,7 @@ export class ContextMenu {
 
     destroy() {
         this.close()
+        this.editor.tiptap.view.dom.removeEventListener('mousedown', this.onMouseDown)
         this.editor.tiptap.view.dom.removeEventListener('contextmenu', this.onMenu)
     }
 }

@@ -50,7 +50,7 @@ final class DeadLinksCommandTest extends TestCase
                 $input['text'],
                 $input['location'],
                 $input['error'],
-            )
+            )->getMessage()
         );
     }
 

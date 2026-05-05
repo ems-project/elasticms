@@ -24,7 +24,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\HeaderUtils;
+use Symfony\Component\Translation\TranslatableMessage;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use function Symfony\Component\Translation\t;
 
 #[AsCommand(
     name: Commands::DEAD_LINKS_REPORT,
@@ -220,7 +222,7 @@ class DeadLinksCommand extends AbstractCommand
     private function log(string $level, string $url, string $scheme, int $status, string $message, string $referer, string $text, ?string $location, ?string $error): void
     {
         $problemDescription = $this->getProblemDescription($level, $url, $scheme, $status, $message, $referer, $text, $location, $error);
-        $problemDescription = $this->translator->trans($problemDescription, [], null, $this->locale);
+        $problemDescription = $this->translator->trans($problemDescription->getMessage(), $problemDescription->getParameters(), $problemDescription->getDomain(), $this->locale);
 
         $this->report[] = [
             $level,
@@ -288,33 +290,33 @@ class DeadLinksCommand extends AbstractCommand
         return $data;
     }
 
-    private function getProblemDescription(string $level, string $url, string $scheme, int $status, string $message, string $referer, string $text, ?string $location, ?string $error): string
+    private function getProblemDescription(string $level, string $url, string $scheme, int $status, string $message, string $referer, string $text, ?string $location, ?string $error): TranslatableMessage
     {
         switch ($scheme) {
             case 'ems':
-                return 'web.audit.missing-document';
+                return t('web.audit.missing-document');
         }
         if (0 === $status && in_array($scheme, ['http', 'https'])) {
-            return 'web.audit.server-gone';
+            return t('web.audit.server-gone');
         }
         if ($status >= 300 && $status < 400 && null !== $location) {
             if ($this->isBlockedByEnterprisePolicyUrl($location)) {
-                return 'web.audit.blocked-by-enterprise-policy';
+                return t('web.audit.blocked-by-enterprise-policy');
             }
         }
         switch ($status) {
             case 301:
-                return 'web.audit.permanent-redirect';
+                return t('web.audit.permanent-redirect');
             case 404:
-                return 'web.audit.page-not-found';
+                return t('web.audit.page-not-found');
             case 500:
-                return 'web.audit.internal-server-error';
+                return t('web.audit.internal-server-error');
             case 502:
             case 503:
             case 504:
-                return 'web.audit.server-gone';
+                return t('web.audit.server-gone');
         }
-        return 'web.audit.problem-witout-solution';
+        return t('web.audit.problem-witout-solution');
     }
 
     private function isBlockedByEnterprisePolicyUrl(string $url): bool

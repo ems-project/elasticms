@@ -10,7 +10,7 @@ function getCellContext(tiptap: Editor) {
             const pos = $from.before(d)
             const node = tiptap.state.doc.nodeAt(pos)
             if (!node) return null
-            return { pos, attrs: { ...node.attrs } }
+            return { pos, node, attrs: { ...node.attrs } }
         }
     }
     return null
@@ -38,7 +38,18 @@ export function openCellDialog(e: TiptapEditor) {
     const hAlign = parseStyle(style, 'text-align')
     const vAlign = parseStyle(style, 'vertical-align')
 
+    const isHeader = cell.node.type.name === 'tableHeader'
+
     const html = `
+        <div style="display: flex; gap: 10px;">
+            <div style="flex: 1">
+                <label for="cell-type">Cell type</label>
+                <select id="cell-type">
+                    <option value="data"${!isHeader ? ' selected' : ''}>Data</option>
+                    <option value="header"${isHeader ? ' selected' : ''}>Header</option>
+                </select>
+            </div>
+        </div>
         <div style="display: flex; gap: 10px;">
             <div style="flex: 1">
                 <label for="cell-colspan">Columns span</label>
@@ -100,6 +111,7 @@ export function openCellDialog(e: TiptapEditor) {
             const field = (name: string) => (d.getFieldValue(`cell-${name}`) || '').trim() || null
 
             const parts: string[] = []
+            const typeVal = field('type')
             const wrapVal = field('wrap')
             const hVal = field('halign')
             const vVal = field('valign')
@@ -120,6 +132,14 @@ export function openCellDialog(e: TiptapEditor) {
 
             e.tiptap.chain().focus().updateAttributes('tableCell', attrs).run()
             e.tiptap.chain().focus().updateAttributes('tableHeader', attrs).run()
+
+            const currentIsHeader = cell.node.type.name === 'tableHeader'
+            const wantHeader = typeVal === 'header'
+
+            if (wantHeader !== currentIsHeader) {
+                e.tiptap.chain().focus().toggleHeaderCell().run()
+            }
+
             d.close()
         }
     })

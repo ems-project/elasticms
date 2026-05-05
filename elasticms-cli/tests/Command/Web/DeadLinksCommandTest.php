@@ -236,5 +236,35 @@ final class DeadLinksCommandTest extends TestCase
             ],
             'translation' => 'web.audit.blocked-by-enterprise-policy',
         ];
+
+        yield 'Domain could be resolved (HTTP)' => [
+            'input' => [
+                'level' => 'Warning',
+                'url' => 'https://example.test/blocked',
+                'scheme' => 'http',
+                'status' => 0,
+                'message' => 'Redirection to location',
+                'referer' => 'https://referer.test',
+                'text' => 'Blocked link',
+                'location' => null,
+                'error' => null,
+            ],
+            'translation' => 'web.audit.server-gone',
+        ];
+
+        yield 'Domain could be resolved (HTTPS)' => [
+            'input' => [
+                'level' => 'Warning',
+                'url' => 'https://example.test/blocked',
+                'scheme' => 'https',
+                'status' => 0,
+                'message' => 'Redirection to location',
+                'referer' => 'https://referer.test',
+                'text' => 'Blocked link',
+                'location' => null,
+                'error' => null,
+            ],
+            'translation' => 'web.audit.server-gone',
+        ];
     }
 }

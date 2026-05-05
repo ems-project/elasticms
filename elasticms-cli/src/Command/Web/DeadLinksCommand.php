@@ -294,6 +294,9 @@ class DeadLinksCommand extends AbstractCommand
             case 'ems':
                 return 'web.audit.missing-document';
         }
+        if (0 === $status && in_array($scheme, ['http', 'https'])) {
+            return 'web.audit.server-gone';
+        }
         if ($status >= 300 && $status < 400 && null !== $location) {
             if ($this->isBlockedByEnterprisePolicyUrl($location)) {
                 return 'web.audit.blocked-by-enterprise-policy';

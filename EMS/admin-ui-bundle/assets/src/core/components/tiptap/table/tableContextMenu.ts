@@ -2,6 +2,9 @@ import { ContextMenuItem } from '../types.ts'
 
 import IconTable from '@tabler/icons/outline/table.svg?raw'
 import IconTableDelete from '@tabler/icons/outline/trash.svg?raw'
+import IconCell from '@tabler/icons/outline/square.svg?raw'
+import IconCellBefore from '@tabler/icons/outline/square-chevron-left.svg?raw'
+import IconCellAfter from '@tabler/icons/outline/square-chevron-right.svg?raw'
 import IconRow from '@tabler/icons/outline/table-row.svg?raw'
 import IconRowBefore from '@tabler/icons/outline/row-insert-top.svg?raw'
 import IconRowAfter from '@tabler/icons/outline/row-insert-bottom.svg?raw'
@@ -14,6 +17,21 @@ import { Editor } from '@tiptap/core'
 import { openTableDialog } from './tableDialog.ts'
 
 export const tableContextMenu: ContextMenuItem[] = [
+    {
+        label: 'Insert cell before',
+        icon: IconCellBefore,
+        parentIcon: IconCell,
+        parent: 'Cell',
+        order: 0,
+        command: (e) => cellInsert(e.tiptap, 'before')
+    },
+    {
+        label: 'Insert cell after',
+        icon: IconCellAfter,
+        parent: 'Cell',
+        order: 1,
+        command: (e) => cellInsert(e.tiptap, 'after')
+    },
     {
         label: 'Insert row before',
         icon: IconRowBefore,
@@ -62,7 +80,7 @@ export const tableContextMenu: ContextMenuItem[] = [
         label: 'Delete table',
         icon: IconTableDelete,
         order: 98,
-        command: (e) => commandDeleteTable(e.tiptap)
+        command: (e) => deleteTable(e.tiptap)
     },
     {
         label: 'Table properties',
@@ -72,7 +90,7 @@ export const tableContextMenu: ContextMenuItem[] = [
     }
 ]
 
-function commandDeleteTable(tiptap: Editor) {
+function deleteTable(tiptap: Editor) {
     const { $from } = tiptap.state.selection
     for (let d = $from.depth; d > 0; d--) {
         if ($from.node(d).type.name === 'tableFigure') {
@@ -85,4 +103,54 @@ function commandDeleteTable(tiptap: Editor) {
         }
     }
     tiptap.chain().focus().deleteTable().run()
+}
+
+function cellInsert(editor: Editor, direction: 'before' | 'after') {
+    const content = cellContent(editor)
+    if (!content) return false
+    const json = content.toJSON()
+
+    if (direction === 'before') {
+        editor.chain().focus().addColumnAfter().goToNextCell().run()
+        editor.chain().focus().insertContent(json).run()
+        editor.chain().focus().goToPreviousCell().run()
+    } else {
+        editor.chain().focus().addColumnBefore().goToPreviousCell().run()
+        editor.chain().focus().insertContent(json).run()
+        editor.chain().focus().goToNextCell().run()
+    }
+
+    cellClear(editor)
+    return true
+}
+
+function cellContent(editor: Editor) {
+    const { $from } = editor.state.selection
+    for (let d = $from.depth; d > 0; d--) {
+        const role = $from.node(d).type.spec.tableRole
+        if (role === 'cell' || role === 'header_cell') {
+            return editor.state.doc.nodeAt($from.before(d))?.content ?? null
+        }
+    }
+    return null
+}
+
+function cellClear(editor: Editor) {
+    const { $from } = editor.state.selection
+    for (let d = $from.depth; d > 0; d--) {
+        const role = $from.node(d).type.spec.tableRole
+        if (role === 'cell' || role === 'header_cell') {
+            const pos = $from.before(d)
+            const cell = editor.state.doc.nodeAt(pos)
+            if (!cell) return
+            editor.view.dispatch(
+                editor.state.tr.replaceWith(
+                    pos + 1,
+                    pos + 1 + cell.content.size,
+                    editor.state.schema.nodes.paragraph.create()
+                )
+            )
+            return
+        }
+    }
 }

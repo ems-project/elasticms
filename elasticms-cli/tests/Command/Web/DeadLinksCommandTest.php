@@ -112,7 +112,7 @@ final class DeadLinksCommandTest extends TestCase
                 'location' => null,
                 'error' => null,
             ],
-            'translation' => 'web.audit.problem-witout-solution',
+            'translation' => 'web.audit.problem-without-solution',
         ];
         yield 'Document missing or not published' => [
             'input' => [
@@ -337,6 +337,96 @@ final class DeadLinksCommandTest extends TestCase
                 'error' => null,
             ],
             'translation' => 'web.audit.access-denied',
+        ];
+
+        yield 'Redirect 307 but http to https' => [
+            'input' => [
+                'level' => 'Warning',
+                'url' => 'http://example.test/blocked',
+                'scheme' => 'http',
+                'status' => 307,
+                'message' => 'Redirection to location',
+                'referer' => 'https://referer.test',
+                'text' => 'Blocked link',
+                'location' => 'https://example.test/blocked',
+                'error' => null,
+            ],
+            'translation' => 'web.audit.permanent-redirect',
+        ];
+
+        yield 'Redirect 307 but http to http' => [
+            'input' => [
+                'level' => 'Warning',
+                'url' => 'http://example.test/blocked',
+                'scheme' => 'http',
+                'status' => 307,
+                'message' => 'Redirection to location',
+                'referer' => 'https://referer.test',
+                'text' => 'Blocked link',
+                'location' => 'http://example.test/blocked',
+                'error' => null,
+            ],
+            'translation' => 'web.audit.temporary-redirect',
+        ];
+
+        yield 'Redirect 307 but https to https' => [
+            'input' => [
+                'level' => 'Warning',
+                'url' => 'https://example.test/blocked',
+                'scheme' => 'https',
+                'status' => 307,
+                'message' => 'Redirection to location',
+                'referer' => 'https://referer.test',
+                'text' => 'Blocked link',
+                'location' => 'https://example.test/blocked',
+                'error' => null,
+            ],
+            'translation' => 'web.audit.temporary-redirect',
+        ];
+
+        yield 'Redirect 302 but http to https' => [
+            'input' => [
+                'level' => 'Warning',
+                'url' => 'http://example.test/blocked',
+                'scheme' => 'http',
+                'status' => 302,
+                'message' => 'Redirection to location',
+                'referer' => 'https://referer.test',
+                'text' => 'Blocked link',
+                'location' => 'https://example.test/blocked',
+                'error' => null,
+            ],
+            'translation' => 'web.audit.permanent-redirect',
+        ];
+
+        yield 'Redirect 302 but http to http' => [
+            'input' => [
+                'level' => 'Warning',
+                'url' => 'http://example.test/blocked',
+                'scheme' => 'http',
+                'status' => 302,
+                'message' => 'Redirection to location',
+                'referer' => 'https://referer.test',
+                'text' => 'Blocked link',
+                'location' => 'http://example.test/blocked',
+                'error' => null,
+            ],
+            'translation' => 'web.audit.temporary-redirect',
+        ];
+
+        yield 'Redirect 302 but https to https' => [
+            'input' => [
+                'level' => 'Warning',
+                'url' => 'https://example.test/blocked',
+                'scheme' => 'https',
+                'status' => 302,
+                'message' => 'Redirection to location',
+                'referer' => 'https://referer.test',
+                'text' => 'Blocked link',
+                'location' => 'https://example.test/blocked',
+                'error' => null,
+            ],
+            'translation' => 'web.audit.temporary-redirect',
         ];
     }
 }

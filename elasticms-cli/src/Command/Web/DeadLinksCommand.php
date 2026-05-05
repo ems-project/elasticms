@@ -306,12 +306,18 @@ class DeadLinksCommand extends AbstractCommand
             if ($this->isBlockedByEnterprisePolicyUrl($location)) {
                 return t('web.audit.blocked-by-enterprise-policy');
             }
+            if (\str_starts_with($location, 'https://') && 'http' === $scheme) {
+                return t('web.audit.permanent-redirect');
+            }
         }
         switch ($status) {
             case 301:
             case 303:
             case 308:
                 return t('web.audit.permanent-redirect');
+            case 302:
+            case 307:
+                return t('web.audit.temporary-redirect');
             case 403:
                 return t('web.audit.access-denied');
             case 404:
@@ -324,7 +330,7 @@ class DeadLinksCommand extends AbstractCommand
             case 504:
                 return t('web.audit.server-gone');
         }
-        return t('web.audit.problem-witout-solution');
+        return t('web.audit.problem-without-solution');
     }
 
     private function isBlockedByEnterprisePolicyUrl(string $url): bool

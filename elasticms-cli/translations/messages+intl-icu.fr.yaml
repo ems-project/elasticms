@@ -3,7 +3,7 @@ web.audit.server-gone: "Le site web n'existe pas/plus. Vérifiez l'URL ou retire
 web.audit.local-file: "Le fichier n'a pas été uploadé dans le CMS, il s'agit d'un lien dans le PC de l'auteur."
 web.audit.blocked-by-enterprise-policy: "Bloqué par les règles de sécurité. Vérifiez l'URL manuellement."
 web.audit.page-not-found: "La page n'existe plus. Vérifiez l'URL ou retirez le lien."
-web.audit.permanent-redirect: "Redirection permanente. Mettez à jour votre lien vers la nouvelle URL."
+web.audit.permanent-redirect: 'Redirection permanente. Mettez à jour votre lien vers la nouvelle URL.'
 web.audit.temporary-redirect: "Redirection temporaire. Pas d'action immédiate nécessaire."
 web.audit.access-denied: "L'accès est refusé (souvent une protection anti-robot ou besoin d'auth)."
 web.audit.internal-server-error: 'Erreur interne du serveur. Réessayez plus tard.'

@@ -86,6 +86,20 @@ final class DeadLinksCommandTest extends TestCase
             ],
             'translation' => 'web.audit.page-not-found',
         ];
+        yield 'Broken link (410)' => [
+            'input' => [
+                'level' => 'Error',
+                'url' => 'https://example.test/missing',
+                'scheme' => 'https',
+                'status' => 410,
+                'message' => 'Broken link',
+                'referer' => 'https://referer.test',
+                'text' => 'Link text',
+                'location' => null,
+                'error' => null,
+            ],
+            'translation' => 'web.audit.page-not-found',
+        ];
         yield 'Problem without solution' => [
             'input' => [
                 'level' => 'Error',
@@ -280,6 +294,21 @@ final class DeadLinksCommandTest extends TestCase
                 'error' => null,
             ],
             'translation' => 'web.audit.local-file',
+        ];
+
+        yield 'Access denied' => [
+            'input' => [
+                'level' => 'Warning',
+                'url' => 'https://example.test/blocked',
+                'scheme' => 'http',
+                'status' => 403,
+                'message' => 'Redirection to location',
+                'referer' => 'https://referer.test',
+                'text' => 'Blocked link',
+                'location' => null,
+                'error' => null,
+            ],
+            'translation' => 'web.audit.access-denied',
         ];
     }
 }

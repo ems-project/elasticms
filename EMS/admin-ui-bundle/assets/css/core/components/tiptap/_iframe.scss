@@ -31,6 +31,8 @@
     position: relative;
   }
 
+  table td > p, table th > p { margin-bottom: 0 }
+
   table td.selectedCell:after,
   table th.selectedCell:after {
     z-index: 2;

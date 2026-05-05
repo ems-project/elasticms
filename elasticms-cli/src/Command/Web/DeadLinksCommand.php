@@ -26,6 +26,7 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\Translation\TranslatableMessage;
 use Symfony\Contracts\Translation\TranslatorInterface;
+
 use function Symfony\Component\Translation\t;
 
 #[AsCommand(
@@ -296,7 +297,7 @@ class DeadLinksCommand extends AbstractCommand
             case 'ems':
                 return t('web.audit.missing-document');
         }
-        if (0 === $status && in_array($scheme, ['http', 'https'])) {
+        if (0 === $status && \in_array($scheme, ['http', 'https'])) {
             return t('web.audit.server-gone');
         }
         if (0 === $status && 'file' === $scheme) {
@@ -333,6 +334,7 @@ class DeadLinksCommand extends AbstractCommand
             case 504:
                 return t('web.audit.server-gone');
         }
+
         return t('web.audit.problem-without-solution');
     }
 

@@ -107,6 +107,8 @@ export class ContextMenu {
         }
 
         for (const [label, children] of grouped) {
+            const allDisabled = children.every((c) => c.disabled?.(this.editor) ?? false)
+            if (allDisabled) continue
             const icon = children.find((c) => c.parentIcon)?.parentIcon
             menu.appendChild(this.renderSubmenu(label, children, icon))
         }

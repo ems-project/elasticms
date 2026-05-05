@@ -27,6 +27,7 @@ export const tableContextMenu: ContextMenuItem[] = [
         parentIcon: IconCell,
         parent: 'Cell',
         order: 0,
+        disabled: (e) => isInCaption(e),
         command: (e) => cellInsert(e.tiptap, 'before')
     },
     {
@@ -34,6 +35,7 @@ export const tableContextMenu: ContextMenuItem[] = [
         icon: IconCellAfter,
         parent: 'Cell',
         order: 1,
+        disabled: (e) => isInCaption(e),
         command: (e) => cellInsert(e.tiptap, 'after')
     },
     {
@@ -41,6 +43,7 @@ export const tableContextMenu: ContextMenuItem[] = [
         icon: IconCellClear,
         parent: 'Cell',
         order: 99,
+        disabled: (e) => isInCaption(e),
         command: (e) => {
             e.tiptap.chain().focus().deleteSelection().unsetAllMarks().run()
             cellClear(e.tiptap)
@@ -51,7 +54,7 @@ export const tableContextMenu: ContextMenuItem[] = [
         icon: IconCellMerge,
         parent: 'Cell',
         order: 2,
-        disabled: (e) => !e.tiptap.can().mergeCells(),
+        disabled: (e) => isInCaption(e) || !e.tiptap.can().mergeCells(),
         command: (e) => e.tiptap.chain().focus().mergeCells().run()
     },
     {
@@ -59,7 +62,7 @@ export const tableContextMenu: ContextMenuItem[] = [
         icon: IconCellSplit,
         parent: 'Cell',
         order: 3,
-        disabled: (e) => !e.tiptap.can().splitCell(),
+        disabled: (e) => isInCaption(e) || !e.tiptap.can().splitCell(),
         command: (e) => e.tiptap.chain().focus().splitCell().run()
     },
     {
@@ -67,6 +70,7 @@ export const tableContextMenu: ContextMenuItem[] = [
         icon: IconCell,
         parent: 'Cell',
         order: 99,
+        disabled: (e) => isInCaption(e),
         command: (e) => openCellDialog(e)
     },
     {
@@ -75,6 +79,7 @@ export const tableContextMenu: ContextMenuItem[] = [
         parentIcon: IconRow,
         parent: 'Row',
         order: 0,
+        disabled: (e) => isInCaption(e),
         command: (e) => e.tiptap.chain().focus().addRowBefore().run()
     },
     {
@@ -82,6 +87,7 @@ export const tableContextMenu: ContextMenuItem[] = [
         icon: IconRowAfter,
         parent: 'Row',
         order: 1,
+        disabled: (e) => isInCaption(e),
         command: (e) => e.tiptap.chain().focus().addRowAfter().run()
     },
     {
@@ -89,6 +95,7 @@ export const tableContextMenu: ContextMenuItem[] = [
         icon: IconRowDelete,
         parent: 'Row',
         order: 99,
+        disabled: (e) => isInCaption(e),
         command: (e) => e.tiptap.chain().focus().deleteRow().run()
     },
     {
@@ -97,6 +104,7 @@ export const tableContextMenu: ContextMenuItem[] = [
         parent: 'Column',
         parentIcon: IconColumn,
         order: 0,
+        disabled: (e) => isInCaption(e),
         command: (e) => e.tiptap.chain().focus().addColumnBefore().run()
     },
     {
@@ -104,6 +112,7 @@ export const tableContextMenu: ContextMenuItem[] = [
         icon: IconColumnAfter,
         parent: 'Column',
         order: 1,
+        disabled: (e) => isInCaption(e),
         command: (e) => e.tiptap.chain().focus().addColumnAfter().run()
     },
     {
@@ -111,6 +120,7 @@ export const tableContextMenu: ContextMenuItem[] = [
         icon: IconColumnDelete,
         parent: 'Column',
         order: 99,
+        disabled: (e) => isInCaption(e),
         command: (e) => e.tiptap.chain().focus().deleteColumn().run()
     },
     {
@@ -126,6 +136,14 @@ export const tableContextMenu: ContextMenuItem[] = [
         command: (e) => openTableDialog(e, 'edit')
     }
 ]
+
+function isInCaption(e: { tiptap: Editor }): boolean {
+    const { $from } = e.tiptap.state.selection
+    for (let d = $from.depth; d > 0; d--) {
+        if ($from.node(d).type.name === 'tableCaption') return true
+    }
+    return false
+}
 
 function deleteTable(tiptap: Editor) {
     const { $from } = tiptap.state.selection

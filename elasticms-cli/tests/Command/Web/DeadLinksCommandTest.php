@@ -266,5 +266,20 @@ final class DeadLinksCommandTest extends TestCase
             ],
             'translation' => 'web.audit.server-gone',
         ];
+
+        yield 'Local file' => [
+            'input' => [
+                'level' => 'Warning',
+                'url' => 'https://example.test/blocked',
+                'scheme' => 'file',
+                'status' => 0,
+                'message' => 'Redirection to location',
+                'referer' => 'https://referer.test',
+                'text' => 'Blocked link',
+                'location' => null,
+                'error' => null,
+            ],
+            'translation' => 'web.audit.local-file',
+        ];
     }
 }

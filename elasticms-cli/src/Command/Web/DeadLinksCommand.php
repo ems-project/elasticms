@@ -299,6 +299,9 @@ class DeadLinksCommand extends AbstractCommand
         if (0 === $status && in_array($scheme, ['http', 'https'])) {
             return t('web.audit.server-gone');
         }
+        if (0 === $status && 'file' === $scheme) {
+            return t('web.audit.local-file');
+        }
         if ($status >= 300 && $status < 400 && null !== $location) {
             if ($this->isBlockedByEnterprisePolicyUrl($location)) {
                 return t('web.audit.blocked-by-enterprise-policy');

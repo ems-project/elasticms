@@ -322,7 +322,13 @@ class DeadLinksCommand extends AbstractCommand
         }
 
         return \in_array(\strtolower($host), [
-            'block.sse.cisco.com',  
-        ]);
+            'block.sse.cisco.com',
+            'block.opendns.com',
+            'malware.opendns.com',
+            'phish.opendns.com',
+            'www1.dlinksearch.com',
+            'bpb.opendns.com',
+            'url.fortinet.net',
+        ], true);
     }
 }

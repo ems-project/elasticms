@@ -198,5 +198,43 @@ final class DeadLinksCommandTest extends TestCase
             ],
             'translation' => 'web.audit.blocked-by-enterprise-policy',
         ];
+
+        foreach ([
+            'block.opendns.com',
+            'malware.opendns.com',
+            'phish.opendns.com',
+            'www1.dlinksearch.com',
+            'bpb.opendns.com',
+        ] as $host) {
+            yield \sprintf('Cisco Umbrella block page %s', $host) => [
+                'input' => [
+                    'level' => 'Warning',
+                    'url' => 'https://example.test/blocked',
+                    'scheme' => 'https',
+                    'status' => 302,
+                    'message' => 'Redirection to location',
+                    'referer' => 'https://referer.test',
+                    'text' => 'Blocked link',
+                    'location' => \sprintf('https://%s/?url=https%%3A%%2F%%2Fexample.test%%2Fblocked', $host),
+                    'error' => null,
+                ],
+                'translation' => 'web.audit.blocked-by-enterprise-policy',
+            ];
+        }
+
+        yield 'FortiGuard block page url.fortinet.net' => [
+            'input' => [
+                'level' => 'Warning',
+                'url' => 'https://example.test/blocked',
+                'scheme' => 'https',
+                'status' => 302,
+                'message' => 'Redirection to location',
+                'referer' => 'https://referer.test',
+                'text' => 'Blocked link',
+                'location' => 'https://url.fortinet.net/rate/submit.php?cat=34&id=49074a1c590f6a297a336925287e3e6d&loc=example.test%2Fblocked&ver=8',
+                'error' => null,
+            ],
+            'translation' => 'web.audit.blocked-by-enterprise-policy',
+        ];
     }
 }

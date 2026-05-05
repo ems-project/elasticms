@@ -306,6 +306,9 @@ class DeadLinksCommand extends AbstractCommand
             if ($this->isBlockedByEnterprisePolicyUrl($location)) {
                 return t('web.audit.blocked-by-enterprise-policy');
             }
+            if ($this->looksBroken($location)) {
+                return t('web.audit.page-not-found');
+            }
             if (\str_starts_with($location, 'https://') && 'http' === $scheme) {
                 return t('web.audit.permanent-redirect');
             }
@@ -349,5 +352,17 @@ class DeadLinksCommand extends AbstractCommand
             'bpb.opendns.com',
             'url.fortinet.net',
         ], true);
+    }
+
+    private function looksBroken(string $location): bool
+    {
+        $path = \parse_url($location, \PHP_URL_PATH);
+        if (!\is_string($path)) {
+            return false;
+        }
+
+        $slug = \basename(\rtrim($path, '/'));
+
+        return 1 === \preg_match('/(?<!\d)(404|500)(?!\d)/', $slug);
     }
 }

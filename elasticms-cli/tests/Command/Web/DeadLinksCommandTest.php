@@ -384,6 +384,36 @@ final class DeadLinksCommandTest extends TestCase
             'translation' => 'web.audit.page-not-found',
         ];
 
+        yield 'Redirect 302 to slug containing 1404 should not look broken' => [
+            'input' => [
+                'level' => 'Warning',
+                'url' => 'https://example.test/blocked',
+                'scheme' => 'https',
+                'status' => 302,
+                'message' => 'Redirection to location',
+                'referer' => 'https://referer.test',
+                'text' => 'Blocked link',
+                'location' => 'https://www.socialsecurity.be/page_error/portail/rp/rp_1404.html',
+                'error' => null,
+            ],
+            'translation' => 'web.audit.temporary-redirect',
+        ];
+
+        yield 'Redirect 302 to slug containing 5001 should not look broken' => [
+            'input' => [
+                'level' => 'Warning',
+                'url' => 'https://example.test/blocked',
+                'scheme' => 'https',
+                'status' => 302,
+                'message' => 'Redirection to location',
+                'referer' => 'https://referer.test',
+                'text' => 'Blocked link',
+                'location' => 'https://www.socialsecurity.be/page_error/portail/rp/rp_5001.html',
+                'error' => null,
+            ],
+            'translation' => 'web.audit.temporary-redirect',
+        ];
+
         yield 'Redirect 307 but http to http' => [
             'input' => [
                 'level' => 'Warning',

@@ -24,6 +24,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\HeaderUtils;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[AsCommand(
     name: Commands::DEAD_LINKS_REPORT,
@@ -37,6 +38,7 @@ class DeadLinksCommand extends AbstractCommand
     private const string OPTION_CACHE_FOLDER = 'cache-folder';
     private const string OPTION_CLEAR_CACHE = 'clear-cache';
     private const string OPTION_IGNORE_SSL = 'ignore-ssl';
+    private const string OPTION_LOCALE = 'locale';
 
     /** @var string[][] */
     private array $report = [];
@@ -46,10 +48,12 @@ class DeadLinksCommand extends AbstractCommand
     private ?string $host = null;
     private bool $skipWarnings;
     private string $requestCacheFolder;
+    private string $locale;
 
     public function __construct(
         private readonly AdminHelper $adminHelper,
         private readonly SpreadsheetGeneratorServiceInterface $spreadsheetGeneratorService,
+        private readonly TranslatorInterface $translator,
     ) {
         parent::__construct();
     }
@@ -62,6 +66,7 @@ class DeadLinksCommand extends AbstractCommand
             ->addOption(self::OPTION_SKIP_WARNING, 's', InputOption::VALUE_NONE, 'Do not log warnings')
             ->addOption(self::OPTION_CLEAR_CACHE, null, InputOption::VALUE_NONE, 'Clear the existing caches')
             ->addOption(self::OPTION_IGNORE_SSL, null, InputOption::VALUE_NONE, 'Ignore SSL certificates')
+            ->addOption(self::OPTION_LOCALE, null, InputOption::VALUE_OPTIONAL, 'Language of the report', 'en')
             ->addOption(self::OPTION_CACHE_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Path to a folder where cache will stored', \implode(DIRECTORY_SEPARATOR, [\getcwd(), 'var']));
     }
 
@@ -72,6 +77,7 @@ class DeadLinksCommand extends AbstractCommand
         $this->folder = $this->getArgumentString(self::ARG_FOLDER);
         $this->skipWarnings = $this->getOptionBool(self::OPTION_SKIP_WARNING);
         $this->cacheFolder = $this->getOptionString(self::OPTION_CACHE_FOLDER);
+        $this->locale = $this->getOptionString(self::OPTION_LOCALE);
         $clearCache = $this->getOptionBool(self::OPTION_CLEAR_CACHE);
         $verify = !$this->getOptionBool(self::OPTION_IGNORE_SSL);
         $this->cacheManager = new CacheManager($this->cacheFolder, false, $verify);
@@ -110,7 +116,7 @@ class DeadLinksCommand extends AbstractCommand
             SpreadsheetGeneratorService::CONTENT_FILENAME => $filename,
             SpreadsheetGeneratorService::WRITER => SpreadsheetGeneratorService::XLSX_WRITER,
             SpreadsheetGeneratorService::SHEETS => [[
-                'rows' => [['Level', 'Status', 'Message', 'Scheme', 'URL', 'Location', 'Referer', 'Text', 'Error'], ...$this->report],
+                'rows' => [['Level', 'Status', 'Message', 'Scheme', 'Problem', 'URL', 'Location', 'Referer', 'Text', 'Error'], ...$this->report],
                 'name' => 'dead-links',
             ]],
         ], $tempFile->path);
@@ -213,11 +219,15 @@ class DeadLinksCommand extends AbstractCommand
 
     private function log(string $level, string $url, string $scheme, int $status, string $message, string $referer, string $text, ?string $location, ?string $error): void
     {
+        $problemDescription = $this->getProblemDescription($level, $url, $scheme, $status, $message, $referer, $text, $location, $error);
+        $problemDescription = $this->translator->trans($problemDescription, [], null, $this->locale);
+
         $this->report[] = [
             $level,
             (string) $status,
             $message,
             $scheme,
+            $problemDescription,
             $url,
             $location ?? '',
             $referer,
@@ -276,5 +286,29 @@ class DeadLinksCommand extends AbstractCommand
         File::putContents($cacheFilename, Json::encode($data));
 
         return $data;
+    }
+
+    private function getProblemDescription(string $level, string $url, string $scheme, int $status, string $message, string $referer, string $text, ?string $location, ?string $error): string
+    {
+        switch ($scheme) {
+            case 'ems':
+                return 'web.audit.missing-document';
+        }
+        if ($status >= 300 && $status < 400 && null !== $location) {
+            
+        }
+        switch ($status) {
+            case 301:
+                return 'web.audit.permanent-redirect';
+            case 404:
+                return 'web.audit.page-not-found';
+            case 500:
+                return 'web.audit.internal-server-error';
+            case 502:
+            case 503:
+            case 504:
+                return 'web.audit.server-gone';
+        }
+        return 'web.audit.problem-witout-solution';
     }
 }

@@ -131,6 +131,10 @@ export class ContextMenu {
             menu.appendChild(this.renderItem(item))
         }
 
+        menu.addEventListener('contextmenu', (e) => {
+            if (!e.ctrlKey) e.preventDefault()
+        })
+
         doc.body.appendChild(menu)
         return menu
     }

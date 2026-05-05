@@ -4,7 +4,7 @@ import type { TiptapEditor } from './editor.ts'
 import type { ContextMenuItem } from './types.ts'
 
 const CONTEXT_NODES: Record<string, string[]> = {
-    table: ['table'],
+    table: ['table', 'tableFigure', 'tableCaption'],
     list: ['bulletList', 'orderedList', 'listItem'],
     link: ['link'],
     image: ['image']

@@ -55,6 +55,7 @@ export class Toolbar {
     private createButton(item: ToolbarItem): HTMLButtonElement {
         const btn = document.createElement('button')
         btn.type = 'button'
+        btn.classList.add('tiptap-toolbar-button')
         btn.innerHTML = item.icon
         btn.dataset.action = item.name
         if (item.tooltip) btn.title = item.tooltip

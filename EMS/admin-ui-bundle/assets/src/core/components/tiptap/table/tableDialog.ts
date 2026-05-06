@@ -65,7 +65,7 @@ export function openTableDialog(e: TiptapEditor, mode: 'insert' | 'edit') {
         mode === 'edit'
             ? getTableContext(e.tiptap)
             : {
-                  attrs: { class: e.getDefaultTableClass() },
+                  attrs: { class: e.getWysiwygOptions()?.tableDefaultCss },
                   caption: '',
                   headers: 'none'
               }

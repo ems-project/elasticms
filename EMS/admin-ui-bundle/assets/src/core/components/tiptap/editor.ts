@@ -18,6 +18,7 @@ export class TiptapEditor {
     tiptap: Editor
     toolbar: Toolbar
     menu: ContextMenu
+    readonly profile: WysiwygProfile
     readonly modules: TiptapModule[]
     private readonly htmlTransforms: HtmlTransform[]
     private readonly options: TiptapEditorOptions
@@ -25,12 +26,12 @@ export class TiptapEditor {
     constructor(options: TiptapEditorOptions) {
         this.options = options
         this.toolbar = new Toolbar(this)
+        this.profile = options.wysiwygProfile ?? new WysiwygProfile()
 
-        const profile = options.wysiwygProfile ?? new WysiwygProfile()
-        const { modules, extensions } = this.resolveModules(
-            [...Modules, ...(options.customModules ?? [])],
-            profile
-        )
+        const { modules, extensions } = this.resolveModules([
+            ...Modules,
+            ...(options.customModules ?? [])
+        ])
 
         this.modules = modules
         this.htmlTransforms = modules.flatMap((m) => m.htmlTransforms ?? [])
@@ -49,8 +50,8 @@ export class TiptapEditor {
         if (options.toolbarElement) this.attachToolbar(options.toolbarElement)
     }
 
-    getDefaultTableClass(): null | string {
-        return this.options.wysiwygOptions?.tableDefaultCss ?? null
+    getWysiwygOptions(): null | WysiwygOptions {
+        return this.options.wysiwygOptions ?? null
     }
 
     getHTML(): string {
@@ -73,9 +74,9 @@ export class TiptapEditor {
         this.options.element.innerHTML = ''
     }
 
-    private resolveModules(allModules: TiptapModule[], profile: WysiwygProfile) {
-        const removed = new Set(profile.config.removeButtons?.split(',') ?? [])
-        const enabledModules = allModules.filter((m) => !m.isEnabled || m.isEnabled(profile))
+    private resolveModules(allModules: TiptapModule[]) {
+        const removed = new Set(this.profile.config.removeButtons?.split(',') ?? [])
+        const enabledModules = allModules.filter((m) => !m.isEnabled || m.isEnabled(this.profile))
 
         const activeModules = new Set<TiptapModule>()
         const extensionMap = new Map<string, ExtensionType>()
@@ -87,7 +88,7 @@ export class TiptapEditor {
             mod.extensions?.forEach((ext) => extensionMap.set(ext.name, ext))
         }
 
-        profile.config.toolbarGroups.forEach((entry) => {
+        this.profile.config.toolbarGroups.forEach((entry) => {
             if (entry === '/') return
 
             const groups = entry.groups ?? [entry.name]

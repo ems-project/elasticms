@@ -1,106 +1,156 @@
 # Data API
 
-The data endpoints allows you to update CMS contents just like the regular UI.
+The Data API lets you read, create and update CMS documents from the Admin application.
 
-The body (JSON format) of those endpoints depend the content type you want to work with. 
-And, by extension, it depends on how the content type is configured in the elasticMS.
+Every request must be authenticated with an API token. See the [Login API](./login.md)
+documentation for token generation and validation.
 
-In the following documentation we'll consider a simple content type `simple_page`:
+In the examples below, the token is available in the `AUTH_TOKEN` environment variable:
 
- * a mandatory `title` field
- * an optional `body` field
+```shell
+export AUTH_TOKEN='nlpUnMR/W8bgSSclYXI2G0dP5REdp5yhvaXfMDV/he+XgQgI7pIRqkuNqsJRJzoYvYM='
+```
 
+The request body depends on the target content type configuration. The following examples use a
+`simple_page` content type with:
 
-Example of body for this content type:
+* a required `title` field;
+* an optional `body` field.
+
+Example JSON body:
 
 ```json
 {
-  "title": "Titre",
-  "body": "Contenu de la page"
+  "title": "Title",
+  "body": "Page content"
 }
 ```
 
-First, you need an `auth-token`. Checks the [Login API](./login.md) documentation.
-In the following documentation we'll consider that an API Auth Token is available iin the `AUTH_TOKEN` environment variable:
+## Get a document
 
-```shell
-export AUTH_TOKEN=nlpUnMR/W8bgSSclYXI2G0dP5REdp5yhvaXfMDV/he+XgQgI7pIRqkuNqsJRJzoYvYM=
+Use `GET /api/data/{contentTypeName}/{ouuid}` to retrieve the newest revision of an existing
+document.
 
-curl -X GET -H "X-Auth-Token: ${AUTH_TOKEN}"  http://localhost:8881/api/test
-```
-If the response returns a `200 OK` and a `success` equal to `true` in the JSON body, you're all good.
-
-## Data get API
-
-This endpoint retrieves you the content of an existing document based on its Object Universal Unique Identifier (aka: `ouuid`).
-
-Get it to the endpoint `/api/data/{name of the content type}/index`.
+The `ouuid` is the document Object Universal Unique Identifier.
 
 Example:
 
 ```shell
 curl -X GET \
      -H "X-Auth-Token: ${AUTH_TOKEN}" \
-     -H "Accept: application/json" \
+     -H 'Accept: application/json' \
      http://localhost:8881/api/data/simple_page/97591e4d-c71a-48ae-8504-67d09df595c2 -w '\n'
 ```
 
-If it's just to ensure that the document exists you can do a `HEAD`:
+Successful response:
 
-```shell
-curl --head \
-     -H "X-Auth-Token: ${AUTH_TOKEN}" \
-     -H "Accept: application/json" \
-     http://localhost:8881/api/data/simple_page/97591e4d-c71a-48ae-8504-67d09df595c2 -w '\n'
+```json
+{
+  "success": true,
+  "revision": {
+    "title": "Title",
+    "body": "Page content"
+  },
+  "ouuid": "97591e4d-c71a-48ae-8504-67d09df595c2",
+  "id": 123
+}
 ```
 
-## Data index API
+## Create or replace a document
 
-This endpoint is inspired by the elasticsearch `index` endpoint. It's the easiest way to create or update a document in the CMS.
+The `index` endpoint creates a document when no existing document is found for the given `ouuid`.
+When the document already exists, the endpoint replaces the document data with the JSON body.
 
-### Create a document with the index API
-
-Send the JSON body to the endpoint `/api/data/{name of the content type}/index`.
+Use `POST /api/data/{contentTypeName}/index` to create a document and let ElasticMS generate the
+`ouuid`.
 
 Example:
 
 ```shell
 curl -X POST \
      -H "X-Auth-Token: ${AUTH_TOKEN}" \
-     -H "Accept: application/json" \
+     -H 'Content-Type: application/json' \
+     -H 'Accept: application/json' \
      http://localhost:8881/api/data/simple_page/index -d \
 '{
-  "title": "Titre",
-  "body": "Contenu de la page"
+  "title": "Title",
+  "body": "Page content"
 }' -w '\n'
 ```
 
-The JSON response contains:
- * `success`: A boolean that is `true` if a document ha been created
- * `ouuid`: the object unique identifier of the document in the CMS (string)
- * `revision_id`: the identifier of the first revision of this document
- * `notice`: an optional array of strings, containing the notices raised by the call
- * `warning`: an optional array of strings, containing the warnings raised by the call
- * `error`: an optional array of strings, containing the errors raised by the call
+Use `POST /api/data/{contentTypeName}/index/{ouuid}` when you already have an identifier, or when
+you want future calls to update the same document.
 
-If you plan to update the document in the futur you have to save the `ouuid` of the response.
-Another option is to generate it on your side, for example a [`UUID`](https://en.wikipedia.org/wiki/Universally_unique_identifier) and call the [index endpoint with a `ouuid`](#create-or-update-a-document-for-a-ouuid-with-the-index-api).
-
-### Create, or update, a document for a ouuid with the index API
-
-Send the JSON body to the endpoint `/api/data/{name of the content type}/index/{ouuid}`.
-
-The ouuid can have been retrieved by another call for an existing document. Or generated up front.
-
-Example: 
+Example:
 
 ```shell
 curl -X POST \
      -H "X-Auth-Token: ${AUTH_TOKEN}" \
-     -H "Accept: application/json" \
+     -H 'Content-Type: application/json' \
+     -H 'Accept: application/json' \
      http://localhost:8881/api/data/simple_page/index/97591e4d-c71a-48ae-8504-67d09df595c2 -d \
 '{
-  "title": "Titre 2",
-  "body": "Nouveau contenu de la page"
+  "title": "Updated title",
+  "body": "Updated page content"
+}' -w '\n'
+```
+
+Successful response:
+
+```json
+{
+  "success": true,
+  "ouuid": "97591e4d-c71a-48ae-8504-67d09df595c2",
+  "type": "simple_page",
+  "revision_id": 124
+}
+```
+
+The response may also contain `notice`, `warning` or `error` arrays when messages are raised during
+the request.
+
+## Partially update a document
+
+Use `POST /api/data/{contentTypeName}/update/{ouuid}` to merge the JSON body with the current
+document data. Fields omitted from the request body keep their current value.
+
+Example:
+
+```shell
+curl -X POST \
+     -H "X-Auth-Token: ${AUTH_TOKEN}" \
+     -H 'Content-Type: application/json' \
+     -H 'Accept: application/json' \
+     http://localhost:8881/api/data/simple_page/update/97591e4d-c71a-48ae-8504-67d09df595c2 -d \
+'{
+  "title": "Updated title"
+}' -w '\n'
+```
+
+Successful response:
+
+```json
+{
+  "success": true,
+  "ouuid": "97591e4d-c71a-48ae-8504-67d09df595c2",
+  "type": "simple_page",
+  "revision_id": 125
+}
+```
+
+## Refresh the default environment
+
+By default, the document is finalized but the default environment is not explicitly refreshed by the
+request. Add `?refresh=true` when the document must be searchable immediately after the API call:
+
+```shell
+curl -X POST \
+     -H "X-Auth-Token: ${AUTH_TOKEN}" \
+     -H 'Content-Type: application/json' \
+     -H 'Accept: application/json' \
+     'http://localhost:8881/api/data/simple_page/index/97591e4d-c71a-48ae-8504-67d09df595c2?refresh=true' -d \
+'{
+  "title": "Updated title",
+  "body": "Updated page content"
 }' -w '\n'
 ```

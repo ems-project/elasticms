@@ -5,8 +5,8 @@ every authenticated API request.
 
 There are two ways to generate a token:
 
-* from the Admin UI, for an existing user;
-* from the `/auth-token` endpoint, with user credentials.
+- from the Admin UI, for an existing user;
+- from the `/auth-token` endpoint, with user credentials.
 
 ## Generate a token from the Admin UI
 
@@ -35,9 +35,9 @@ On success, the response contains the token in the `authToken` field:
 
 ```json
 {
-  "acknowledged": true,
-  "authToken": "EDcTszIHnaaDCpvpi+dJeakj6uOsDqtvSY6rqJyDR3baPpnFA+6u4UAaPcMuJIAfwTs=",
-  "success": true
+    "acknowledged": true,
+    "authToken": "EDcTszIHnaaDCpvpi+dJeakj6uOsDqtvSY6rqJyDR3baPpnFA+6u4UAaPcMuJIAfwTs=",
+    "success": true
 }
 ```
 

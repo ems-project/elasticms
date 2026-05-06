@@ -2,8 +2,8 @@
 
 The Data API lets you read, create and update CMS documents from the Admin application.
 
-Every request must be authenticated with an API token. See the [Login API](./login.md)
-documentation for token generation and validation.
+Every request must be authenticated with an API token. See the [Login API](./login.md) documentation
+for token generation and validation.
 
 In the examples below, the token is available in the `AUTH_TOKEN` environment variable:
 
@@ -14,15 +14,15 @@ export AUTH_TOKEN='nlpUnMR/W8bgSSclYXI2G0dP5REdp5yhvaXfMDV/he+XgQgI7pIRqkuNqsJRJ
 The request body depends on the target content type configuration. The following examples use a
 `simple_page` content type with:
 
-* a required `title` field;
-* an optional `body` field.
+- a required `title` field;
+- an optional `body` field.
 
 Example JSON body:
 
 ```json
 {
-  "title": "Title",
-  "body": "Page content"
+    "title": "Title",
+    "body": "Page content"
 }
 ```
 
@@ -104,10 +104,10 @@ Successful response:
 
 ```json
 {
-  "success": true,
-  "ouuid": "97591e4d-c71a-48ae-8504-67d09df595c2",
-  "type": "simple_page",
-  "revision_id": 124
+    "success": true,
+    "ouuid": "97591e4d-c71a-48ae-8504-67d09df595c2",
+    "type": "simple_page",
+    "revision_id": 124
 }
 ```
 

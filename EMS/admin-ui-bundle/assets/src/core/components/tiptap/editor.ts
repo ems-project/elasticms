@@ -1,41 +1,64 @@
 import { Editor } from '@tiptap/core'
-import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
-import { Toolbar, ToolbarConfig } from './toolbar.ts'
+import { DEFAULT_EXTENSIONS, ExtensionType } from './extensions.ts'
+import { Toolbar } from './toolbar.ts'
+import { ContextMenu } from './contextMenu.ts'
+import { Modules, HtmlTransform, TiptapModule } from './types.ts'
+import { WysiwygOptions, WysiwygProfile } from '../wysiwyg/wysiwyg.ts'
 
 interface TiptapEditorOptions {
-    element: HTMLElement
     content?: string
+    element: HTMLElement
+    customModules?: TiptapModule[]
     toolbarElement?: HTMLElement | null
-    toolbarConfig?: ToolbarConfig
+    wysiwygProfile?: WysiwygProfile | null
+    wysiwygOptions?: WysiwygOptions | null
 }
 
 export class TiptapEditor {
     tiptap: Editor
     toolbar: Toolbar
-    element: HTMLElement
+    menu: ContextMenu
+    readonly modules: TiptapModule[]
+    private readonly htmlTransforms: HtmlTransform[]
+    private readonly options: TiptapEditorOptions
 
     constructor(options: TiptapEditorOptions) {
-        this.element = options.element
+        this.options = options
+        this.toolbar = new Toolbar(this)
 
-        this.toolbar = new Toolbar(options.toolbarConfig ?? {})
-        this.toolbar.bind(this)
+        const profile = options.wysiwygProfile ?? new WysiwygProfile()
+        const { modules, extensions } = this.resolveModules(
+            [...Modules, ...(options.customModules ?? [])],
+            profile
+        )
+
+        this.modules = modules
+        this.htmlTransforms = modules.flatMap((m) => m.htmlTransforms ?? [])
 
         this.tiptap = new Editor({
-            element: {
-                mount: options.element
-            },
-            extensions: [Document, Paragraph, Text, ...this.toolbar.getExtensions()],
-            content: options.content,
+            element: { mount: options.element },
+            extensions: [...DEFAULT_EXTENSIONS, ...extensions],
+            content: this.transformHtml(options.content ?? '', 'toEditor'),
             onUpdate: () => this.toolbar.update(),
             onSelectionUpdate: () => this.toolbar.update(),
             onTransaction: () => this.toolbar.update()
         })
 
-        if (options.toolbarElement) {
-            this.attachToolbar(options.toolbarElement)
-        }
+        this.menu = new ContextMenu(this)
+
+        if (options.toolbarElement) this.attachToolbar(options.toolbarElement)
+    }
+
+    getDefaultTableClass(): null | string {
+        return this.options.wysiwygOptions?.tableDefaultCss ?? null
+    }
+
+    getHTML(): string {
+        return this.transformHtml(this.tiptap.getHTML(), 'toOutput')
+    }
+
+    setContent(html: string) {
+        this.tiptap.commands.setContent(this.transformHtml(html, 'toEditor'))
     }
 
     attachToolbar(target: HTMLElement) {
@@ -46,6 +69,56 @@ export class TiptapEditor {
     destroy() {
         this.tiptap.destroy()
         this.toolbar.destroy()
-        this.element.innerHTML = ''
+        this.menu.destroy()
+        this.options.element.innerHTML = ''
+    }
+
+    private resolveModules(allModules: TiptapModule[], profile: WysiwygProfile) {
+        const removed = new Set(profile.config.removeButtons?.split(',') ?? [])
+        const enabledModules = allModules.filter((m) => !m.isEnabled || m.isEnabled(profile))
+
+        const activeModules = new Set<TiptapModule>()
+        const extensionMap = new Map<string, ExtensionType>()
+
+        const registerModule = (mod: TiptapModule) => {
+            if (activeModules.has(mod)) return
+            activeModules.add(mod)
+
+            mod.extensions?.forEach((ext) => extensionMap.set(ext.name, ext))
+        }
+
+        profile.config.toolbarGroups.forEach((entry) => {
+            if (entry === '/') return
+
+            const groups = entry.groups ?? [entry.name]
+            groups.forEach((groupName) => {
+                enabledModules.forEach((mod) => {
+                    if (mod.toolbarGroup !== groupName) return
+
+                    const validItems = (mod.toolbar ?? []).filter((item) => !removed.has(item.name))
+
+                    validItems.forEach((item) => {
+                        registerModule(mod)
+                        this.toolbar.addItem(groupName, item)
+                        item.extensions?.forEach((ext) => extensionMap.set(ext.name, ext))
+                    })
+                })
+            })
+        })
+
+        enabledModules.filter((m) => !m.toolbar?.length).forEach(registerModule)
+
+        return {
+            modules: Array.from(activeModules),
+            extensions: Array.from(extensionMap.values())
+        }
+    }
+
+    private transformHtml(html: string, direction: 'toEditor' | 'toOutput'): string {
+        if (!this.htmlTransforms.length) return html
+        const doc = new DOMParser().parseFromString(`<div>${html}</div>`, 'text/html')
+        const root = doc.body.firstChild as HTMLElement
+        this.htmlTransforms.forEach((t) => t[direction]?.(doc))
+        return root.innerHTML
     }
 }

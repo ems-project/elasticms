@@ -46,13 +46,18 @@ Successful response:
 
 ```json
 {
-  "success": true,
-  "revision": {
-    "title": "Title",
-    "body": "Page content"
-  },
-  "ouuid": "97591e4d-c71a-48ae-8504-67d09df595c2",
-  "id": 123
+    "acknowledged": true,
+    "success": true,
+    "revision": {
+        "_contenttype": "simple_page",
+        "_finalization_datetime": "2026-05-06T12:15:34+02:00",
+        "_finalized_by": "demo",
+        "body": "Page content",
+        "title": "Title",
+        "_sha1": "5eaddbc63a989e99df658569cf6b9db829a581b1"
+    },
+    "ouuid": "97591e4d-c71a-48ae-8504-67d09df595c2",
+    "id": 263
 }
 ```
 

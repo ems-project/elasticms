@@ -1,31 +1,55 @@
 import { Extension } from '@tiptap/core'
 import IconIndent from '@tabler/icons/outline/indent-increase.svg?raw'
 import IconOutdent from '@tabler/icons/outline/indent-decrease.svg?raw'
-import { ToolbarAction } from '../types.ts'
+import { TiptapModule } from '../types.ts'
 
 const INDENTABLE = ['paragraph', 'heading']
+const indentExtension = createIndentExtension()
 
-const IndentExtension = Extension.create({
-    name: 'indent',
-    addGlobalAttributes() {
-        return [
-            {
-                types: INDENTABLE,
-                attributes: {
-                    indent: {
-                        default: 0,
-                        renderHTML: (attributes: Record<string, unknown>) => {
-                            if (attributes.indent === 0) return {}
-                            return { style: `margin-left: ${(attributes.indent as number) * 20}px` }
-                        },
-                        parseHTML: (element: HTMLElement) =>
-                            parseInt(element.style.marginLeft) / 20 || 0
+export const indentModule: TiptapModule = {
+    extensions: [indentExtension],
+    toolbarGroup: 'indent',
+    toolbar: [
+        {
+            name: 'Outdent',
+            icon: IconOutdent,
+            tooltip: 'Decrease Indent',
+            command: changeIndent(-1)
+        },
+        {
+            name: 'Indent',
+            icon: IconIndent,
+            tooltip: 'Increase Indent',
+            command: changeIndent(1)
+        }
+    ]
+}
+
+function createIndentExtension(): Extension {
+    return Extension.create({
+        name: 'indent',
+        addGlobalAttributes() {
+            return [
+                {
+                    types: INDENTABLE,
+                    attributes: {
+                        indent: {
+                            default: 0,
+                            renderHTML: (attributes: Record<string, unknown>) => {
+                                if (attributes.indent === 0) return {}
+                                return {
+                                    style: `margin-left: ${(attributes.indent as number) * 20}px`
+                                }
+                            },
+                            parseHTML: (element: HTMLElement) =>
+                                parseInt(element.style.marginLeft) / 20 || 0
+                        }
                     }
                 }
-            }
-        ]
-    }
-})
+            ]
+        }
+    })
+}
 
 function isInList(state: any): boolean {
     const { $from } = state.selection
@@ -70,24 +94,3 @@ function changeIndent(delta: number) {
             .run()
     }
 }
-
-export const indentActions: ToolbarAction[] = [
-    {
-        name: 'Outdent',
-        group: 'indent',
-        icon: IconOutdent,
-        tooltip: 'Decrease Indent',
-        extensions: [IndentExtension],
-        command: changeIndent(-1),
-        isActive: () => false
-    },
-    {
-        name: 'Indent',
-        group: 'indent',
-        icon: IconIndent,
-        tooltip: 'Increase Indent',
-        extensions: [IndentExtension],
-        command: changeIndent(1),
-        isActive: () => false
-    }
-]

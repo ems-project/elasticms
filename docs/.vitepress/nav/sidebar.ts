@@ -40,7 +40,15 @@ const sidebar: DefaultTheme.SidebarMulti = {
                 { text: 'Dashboard', link: '/elasticms-admin/dashboard/dashboard' },
                 { text: 'Environment', link: '/elasticms-admin/environment/environment' },
                 { text: 'User', link: '/elasticms-admin/user/user' },
-                { text: 'WYSIWYG', link: '/elasticms-admin/wysiwyg/wysiwyg' },
+                {
+                    text: 'WYSIWYG',
+                    collapsed: true,
+                    items: [
+                        { text: 'Tiptap', link: '/elasticms-admin/wysiwyg/tiptap' },
+                        { text: 'WYSIWYG', link: '/elasticms-admin/wysiwyg/wysiwyg' }
+                    ]
+                },
+
                 { text: 'Async (Messenger, Mercure)', link: '/elasticms-admin/async' },
                 {
                     text: 'API',

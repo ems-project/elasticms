@@ -1,0 +1,96 @@
+.ProseMirror {
+  outline: none;
+  white-space: pre-wrap;
+  box-sizing: border-box;
+  padding: 5px;
+  min-height: 100%;
+
+  li p {
+    margin: 0;
+  }
+
+  li p + p {
+    margin-top: 0.5em;
+  }
+
+  figure[data-type="table"] {
+    margin: 0;
+    padding: 0;
+
+    table {
+      margin-bottom: 0;
+    }
+
+    > figcaption {
+      padding: 5px;
+    }
+  }
+
+  table td,
+  table th {
+    position: relative;
+  }
+
+  table td > p, table th > p { margin-bottom: 0 }
+
+  table td.selectedCell:after,
+  table th.selectedCell:after {
+    z-index: 2;
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(200, 200, 255, 0.4);
+    pointer-events: none;
+  }
+
+  table[cellspacing] {
+    border-collapse: separate;
+  }
+
+  table:not([cellpadding]) td,
+  table:not([cellpadding]) th {
+    padding: 3px 5px;
+  }
+
+  table:not([class]) {
+    table-layout: fixed;
+    margin: 0;
+    overflow: hidden;
+
+    &[align] {
+      width: auto;
+    }
+
+    &[align="center"] {
+      margin: 0 auto;
+    }
+
+    &[align="right"] {
+      margin: 0 0 0 auto;
+    }
+
+    tr {
+      border-bottom: 1px solid #ddd;
+
+      &:last-child {
+        border-bottom: 0;
+      }
+    }
+
+    td, th {
+      min-width: 1em;
+      border: 1px solid #ddd;
+      vertical-align: top;
+      box-sizing: border-box;
+    }
+
+    th {
+      font-weight: bold;
+      text-align: left;
+      background-color: #f8f9fa;
+    }
+  }
+}

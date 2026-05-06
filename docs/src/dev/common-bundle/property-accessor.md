@@ -8,7 +8,7 @@ wildcard iteration, and recursive traversal by ID.
 
 Paths use bracket notation to navigate nested arrays:
 
-```
+```text
 [field1][field2][field3]
 ```
 
@@ -99,7 +99,7 @@ $replacers = ['%locale%' => 'fr'];
 
 A single path segment can match multiple fields using the pipe character:
 
-```
+```text
 [title_nl|title_fr|title_de]
 ```
 

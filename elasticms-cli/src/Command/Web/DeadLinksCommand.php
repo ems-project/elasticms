@@ -24,6 +24,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\HeaderUtils;
+use Symfony\Component\Translation\TranslatableMessage;
+use Symfony\Contracts\Translation\TranslatorInterface;
+
+use function Symfony\Component\Translation\t;
 
 #[AsCommand(
     name: Commands::DEAD_LINKS_REPORT,
@@ -37,6 +41,7 @@ class DeadLinksCommand extends AbstractCommand
     private const string OPTION_CACHE_FOLDER = 'cache-folder';
     private const string OPTION_CLEAR_CACHE = 'clear-cache';
     private const string OPTION_IGNORE_SSL = 'ignore-ssl';
+    private const string OPTION_LOCALE = 'locale';
 
     /** @var string[][] */
     private array $report = [];
@@ -46,10 +51,12 @@ class DeadLinksCommand extends AbstractCommand
     private ?string $host = null;
     private bool $skipWarnings;
     private string $requestCacheFolder;
+    private string $locale;
 
     public function __construct(
         private readonly AdminHelper $adminHelper,
         private readonly SpreadsheetGeneratorServiceInterface $spreadsheetGeneratorService,
+        private readonly TranslatorInterface $translator,
     ) {
         parent::__construct();
     }
@@ -62,6 +69,7 @@ class DeadLinksCommand extends AbstractCommand
             ->addOption(self::OPTION_SKIP_WARNING, 's', InputOption::VALUE_NONE, 'Do not log warnings')
             ->addOption(self::OPTION_CLEAR_CACHE, null, InputOption::VALUE_NONE, 'Clear the existing caches')
             ->addOption(self::OPTION_IGNORE_SSL, null, InputOption::VALUE_NONE, 'Ignore SSL certificates')
+            ->addOption(self::OPTION_LOCALE, null, InputOption::VALUE_OPTIONAL, 'Language of the report', 'en')
             ->addOption(self::OPTION_CACHE_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Path to a folder where cache will stored', \implode(DIRECTORY_SEPARATOR, [\getcwd(), 'var']));
     }
 
@@ -72,6 +80,7 @@ class DeadLinksCommand extends AbstractCommand
         $this->folder = $this->getArgumentString(self::ARG_FOLDER);
         $this->skipWarnings = $this->getOptionBool(self::OPTION_SKIP_WARNING);
         $this->cacheFolder = $this->getOptionString(self::OPTION_CACHE_FOLDER);
+        $this->locale = $this->getOptionString(self::OPTION_LOCALE);
         $clearCache = $this->getOptionBool(self::OPTION_CLEAR_CACHE);
         $verify = !$this->getOptionBool(self::OPTION_IGNORE_SSL);
         $this->cacheManager = new CacheManager($this->cacheFolder, false, $verify);
@@ -110,7 +119,7 @@ class DeadLinksCommand extends AbstractCommand
             SpreadsheetGeneratorService::CONTENT_FILENAME => $filename,
             SpreadsheetGeneratorService::WRITER => SpreadsheetGeneratorService::XLSX_WRITER,
             SpreadsheetGeneratorService::SHEETS => [[
-                'rows' => [['Level', 'Status', 'Message', 'Scheme', 'URL', 'Location', 'Referer', 'Text', 'Error'], ...$this->report],
+                'rows' => [['Level', 'Status', 'Message', 'Scheme', 'Problem', 'URL', 'Location', 'Referer', 'Text', 'Error'], ...$this->report],
                 'name' => 'dead-links',
             ]],
         ], $tempFile->path);
@@ -213,11 +222,15 @@ class DeadLinksCommand extends AbstractCommand
 
     private function log(string $level, string $url, string $scheme, int $status, string $message, string $referer, string $text, ?string $location, ?string $error): void
     {
+        $problemDescription = $this->getProblemDescription($level, $url, $scheme, $status, $message, $referer, $text, $location, $error);
+        $problemDescription = $this->translator->trans($problemDescription->getMessage(), $problemDescription->getParameters(), $problemDescription->getDomain(), $this->locale);
+
         $this->report[] = [
             $level,
             (string) $status,
             $message,
             $scheme,
+            $problemDescription,
             $url,
             $location ?? '',
             $referer,
@@ -276,5 +289,82 @@ class DeadLinksCommand extends AbstractCommand
         File::putContents($cacheFilename, Json::encode($data));
 
         return $data;
+    }
+
+    private function getProblemDescription(string $level, string $url, string $scheme, int $status, string $message, string $referer, string $text, ?string $location, ?string $error): TranslatableMessage
+    {
+        switch ($scheme) {
+            case 'ems':
+                return t('web.audit.missing-document');
+        }
+        if (0 === $status && \in_array($scheme, ['http', 'https'])) {
+            return t('web.audit.server-gone');
+        }
+        if (0 === $status && 'file' === $scheme) {
+            return t('web.audit.local-file');
+        }
+        if ($status >= 300 && $status < 400 && null !== $location) {
+            if ($this->isBlockedByEnterprisePolicyUrl($location)) {
+                return t('web.audit.blocked-by-enterprise-policy');
+            }
+            if ($this->looksBroken($location)) {
+                return t('web.audit.page-not-found');
+            }
+            if (\str_starts_with($location, 'https://') && 'http' === $scheme) {
+                return t('web.audit.permanent-redirect');
+            }
+        }
+        switch ($status) {
+            case 301:
+            case 303:
+            case 308:
+                return t('web.audit.permanent-redirect');
+            case 302:
+            case 307:
+                return t('web.audit.temporary-redirect');
+            case 403:
+                return t('web.audit.access-denied');
+            case 404:
+            case 410:
+                return t('web.audit.page-not-found');
+            case 500:
+                return t('web.audit.internal-server-error');
+            case 502:
+            case 503:
+            case 504:
+                return t('web.audit.server-gone');
+        }
+
+        return t('web.audit.problem-without-solution');
+    }
+
+    private function isBlockedByEnterprisePolicyUrl(string $url): bool
+    {
+        $host = \parse_url($url, \PHP_URL_HOST);
+        if (!\is_string($host)) {
+            return false;
+        }
+
+        return \in_array(\strtolower($host), [
+            'block.sse.cisco.com',
+            'block.opendns.com',
+            'malware.opendns.com',
+            'phish.opendns.com',
+            'www1.dlinksearch.com',
+            'bpb.opendns.com',
+            'url.fortinet.net',
+        ], true);
+    }
+
+    private function looksBroken(string $location): bool
+    {
+        $path = \parse_url($location, \PHP_URL_PATH);
+        if (!\is_string($path)) {
+            return false;
+        }
+
+        $slug = \basename(\rtrim($path, '/'));
+
+        return 1 === \preg_match('/(?<!\d)(404|500)(?!\d)/', $slug);
     }
 }

@@ -1,56 +1,71 @@
 # Search API
 
-Those endpoints bassicly give you access to the elasticsearch content via the API of the CMS. Just like a HTTP proxy.
+The Search API gives authenticated access to Elasticsearch data through the Admin application.
 
-## Search endpoint
+Every request must be authenticated with an API token. See the [Login API](./login.md)
+documentation for token generation and validation.
 
-Do an elasticsearch query in the cluster via the CMS.
-The JSON body should contain a `search` member that contains a serialized JSON encoded [`EMS\CommonBundle\Search`](../../../../EMS/common-bundle/src/Search/Search.php) object.
+In the examples below, the token is available in the `AUTH_TOKEN` environment variable:
+
+```shell
+export AUTH_TOKEN='nlpUnMR/W8bgSSclYXI2G0dP5REdp5yhvaXfMDV/he+XgQgI7pIRqkuNqsJRJzoYvYM='
+```
+
+## Search documents
+
+Use `POST /api/search/search` to run an Elasticsearch query through ElasticMS.
+
+The request body must contain a `search` field. Its value is a JSON string containing a serialized
+[`EMS\CommonBundle\Search`](../../../../EMS/common-bundle/src/Search/Search.php) object. This means
+that the search object is encoded once as JSON, then sent as a string inside the request JSON body.
 
 Minimal example:
 
 ```shell
 curl -X POST \
      -H "X-Auth-Token: ${AUTH_TOKEN}" \
-     -H "Accept: application/json" \
+     -H 'Content-Type: application/json' \
+     -H 'Accept: application/json' \
      http://localhost:8881/api/search/search -d \
 '{
-  "search": "{\"indices\": [\"ems_demo_preview\"]}"
+  "search": "{\"indices\":[\"ems_demo_preview\"],\"query\":{\"match_all\":{}},\"size\":10}"
 }' -w '\n'
 ```
 
-This will returns you a regular elasticsearch response with the 10 first documents in the `ems_demo_preview`index.
+The response is the raw Elasticsearch search response returned by the cluster.
 
-Structure of a `Search` object:
+Common `Search` properties:
 
- * `indices`: The elasticsearch indices to search in (array of string)
- * `sourceIncludes`: The document fields to include in the response (array of string)
- * `sourceExcludes`:  The document fields to exclude in the response (array of string)
- * `contentTypes`:  The content types to search in (array of string)
- * `aggregations`: A [elasticsearch aggregation query](https://www.elastic.co/docs/explore-analyze/query-filter/aggregations) (array)
- * `size`: The number of documents to return (integer)
- * `from`: The first document to return, useful for pagination (integer)
- * `sort`: An [elasticsearch sort search result](https://www.elastic.co/docs/reference/elasticsearch/rest-apis/sort-search-results)
- * `postFilter`: An [elasticsearch filter search results](https://www.elastic.co/docs/reference/elasticsearch/rest-apis/filter-search-results)
- * `suggest`: An [elasticsearch suggest query](https://www.elastic.co/docs/reference/elasticsearch/rest-apis/search-suggesters)
- * `highlight`: An [elasticsearch highlight query](https://www.elastic.co/docs/reference/elasticsearch/rest-apis/highlighting)
- * `regex`: A regex to filter the `indices`
- * `query`: An [elasticsearch search query](https://www.elastic.co/docs/explore-analyze/query-filter/languages/querydsl)
+* `indices`: Elasticsearch indices or aliases to search in.
+* `query`: Elasticsearch query DSL. The native serializer may also output this field as
+  `queryArray`.
+* `sources`: Fields to include in the response. It can be either an array of field names, or an
+  object with `includes` and `excludes`.
+* `contentTypes`: Content types to filter on.
+* `aggs`: Elasticsearch aggregations.
+* `size`: Number of documents to return. Default: `10`.
+* `from`: First document offset, useful for pagination. Default: `0`.
+* `sort`: Elasticsearch sort definition.
+* `highlight`: Elasticsearch highlight definition.
+* `regex`: Regular expression used to filter the configured `indices`.
 
-Example of Search object to get the 3 last finalized simple_pages published in preview:
+Search object example for the last three finalized `simple_page` documents published in preview:
 
 ```json
 {
   "indices": [
     "ems_demo_preview"
   ],
-  "sourceIncludes": [
+  "sources": [
     "title",
     "body"
   ],
   "contentTypes": [
     "simple_page"
   ],
+  "query": {
+    "match_all": {}
+  },
   "size": 3,
   "from": 0,
   "sort": {
@@ -62,16 +77,115 @@ Example of Search object to get the 3 last finalized simple_pages published in p
   }
 }
 ```
-And the call to the CMS.
 
-Notice: The Search is currently twiced encoded.
+The corresponding API call:
 
 ```shell
 curl -X POST \
      -H "X-Auth-Token: ${AUTH_TOKEN}" \
-     -H "Accept: application/json" \
+     -H 'Content-Type: application/json' \
+     -H 'Accept: application/json' \
      http://localhost:8881/api/search/search -d \
 '{
-  "search": "{\"indices\":[\"ems_demo_preview\"],\"sourceIncludes\":[\"title\",\"body\"],\"contentTypes\":[\"simple_page\"],\"size\":3,\"from\":0,\"sort\":{\"_finalization_datetime\":{\"order\":\"desc\",\"missing\":\"_last\",\"unmapped_type\":\"long\"}}}"
+  "search": "{\"indices\":[\"ems_demo_preview\"],\"sources\":[\"title\",\"body\"],\"contentTypes\":[\"simple_page\"],\"query\":{\"match_all\":{}},\"size\":3,\"from\":0,\"sort\":{\"_finalization_datetime\":{\"order\":\"desc\",\"missing\":\"_last\",\"unmapped_type\":\"long\"}}}"
 }' -w '\n'
+```
+
+## Count documents
+
+Use `POST /api/search/count` with the same `search` payload to return only the number of matching
+documents.
+
+```shell
+curl -X POST \
+     -H "X-Auth-Token: ${AUTH_TOKEN}" \
+     -H 'Content-Type: application/json' \
+     -H 'Accept: application/json' \
+     http://localhost:8881/api/search/count -d \
+'{
+  "search": "{\"indices\":[\"ems_demo_preview\"],\"contentTypes\":[\"simple_page\"],\"query\":{\"match_all\":{}}}"
+}' -w '\n'
+```
+
+Successful response:
+
+```json
+{
+  "count": 42
+}
+```
+
+## Get a document from an index
+
+Use `POST /api/search/document` to retrieve one document by index and `ouuid`.
+
+```shell
+curl -X POST \
+     -H "X-Auth-Token: ${AUTH_TOKEN}" \
+     -H 'Content-Type: application/json' \
+     -H 'Accept: application/json' \
+     http://localhost:8881/api/search/document -d \
+'{
+  "index": "ems_demo_preview",
+  "content-type": "simple_page",
+  "ouuid": "97591e4d-c71a-48ae-8504-67d09df595c2",
+  "source-includes": ["title", "body"],
+  "source-excludes": []
+}' -w '\n'
+```
+
+Successful response:
+
+```json
+{
+  "_source": {
+    "title": "Title",
+    "body": "Page content"
+  },
+  "_id": "simple_page:97591e4d-c71a-48ae-8504-67d09df595c2",
+  "_index": "ems_demo_preview"
+}
+```
+
+## Cluster status
+
+Use `GET /api/search/version` to return the Elasticsearch version:
+
+```shell
+curl -X GET \
+     -H "X-Auth-Token: ${AUTH_TOKEN}" \
+     -H 'Accept: application/json' \
+     http://localhost:8881/api/search/version -w '\n'
+```
+
+Use `GET /api/search/health-status` to return the cluster health status:
+
+```shell
+curl -X GET \
+     -H "X-Auth-Token: ${AUTH_TOKEN}" \
+     -H 'Accept: application/json' \
+     http://localhost:8881/api/search/health-status -w '\n'
+```
+
+## Refresh an index
+
+Use `POST /api/search/refresh` to refresh one index or alias:
+
+```shell
+curl -X POST \
+     -H "X-Auth-Token: ${AUTH_TOKEN}" \
+     -H 'Content-Type: application/json' \
+     -H 'Accept: application/json' \
+     http://localhost:8881/api/search/refresh -d \
+'{
+  "index": "ems_demo_preview"
+}' -w '\n'
+```
+
+Successful response:
+
+```json
+{
+  "success": true
+}
 ```

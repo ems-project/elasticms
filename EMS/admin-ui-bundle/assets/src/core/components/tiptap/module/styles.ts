@@ -228,7 +228,15 @@ function createStylesDropdown(editor: TiptapEditor): HTMLElement {
     iframe.className = 'tiptap-styles-iframe'
     panel.appendChild(iframe)
 
+    document.body.appendChild(panel)
+
     let initialized = false
+
+    const positionPanel = () => {
+        const rect = button.getBoundingClientRect()
+        panel.style.top = `${rect.bottom}px`
+        panel.style.left = `${rect.left}px`
+    }
 
     const initIframe = () => {
         if (initialized) return
@@ -253,16 +261,15 @@ function createStylesDropdown(editor: TiptapEditor): HTMLElement {
         e.stopPropagation()
         panel.hidden = !panel.hidden
         if (!panel.hidden) {
+            positionPanel()
             initIframe()
             updateVisibleGroups(editor, iframe.contentDocument!, categories)
             syncActive(editor, iframe, allStyles)
         }
     })
-
     document.addEventListener('click', () => { panel.hidden = true })
 
     wrapper.appendChild(button)
-    wrapper.appendChild(panel)
 
     return wrapper
 }

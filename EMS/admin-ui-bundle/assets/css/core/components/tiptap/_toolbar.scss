@@ -55,8 +55,6 @@
 }
 
 .tiptap-styles-dropdown {
-  position: relative;
-
   .tiptap-styles-btn {
     background: transparent;
     border: 1px solid transparent;
@@ -75,16 +73,14 @@
       background-color: #e9ecef;
     }
   }
+}
 
-  .tiptap-styles-panel {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    z-index: 1000;
-    border: 1px solid #ccc;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
-    background: #fff;
-  }
+.tiptap-styles-panel {
+  position: fixed;
+  z-index: 100000;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
+  background: #fff;
 
   .tiptap-styles-iframe {
     display: block;

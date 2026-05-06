@@ -1,13 +1,13 @@
 import '../../../../css/core/components/tiptap/_toolbar.scss'
 
-import { ToolbarItem } from './types.ts'
+import { ToolbarItem, ToolbarItemCustom } from './types.ts'
 import { TiptapEditor } from './editor.ts'
 
 export class Toolbar {
     private readonly container: HTMLElement
     private readonly editor: TiptapEditor
     private items: Map<string, ToolbarItem> = new Map()
-    private groups: Map<string, ToolbarItem[]> = new Map()
+    private groups: Map<string, (ToolbarItem | ToolbarItemCustom)[]> = new Map()
 
     constructor(editor: TiptapEditor) {
         this.editor = editor
@@ -17,8 +17,8 @@ export class Toolbar {
         this.container.onmousedown = (e) => e.preventDefault()
     }
 
-    addItem(group: string, item: ToolbarItem) {
-        this.items.set(item.name, item)
+    addItem(group: string, item: ToolbarItem | ToolbarItemCustom) {
+        if ('name' in item) this.items.set(item.name, item)
         if (!this.groups.has(group)) this.groups.set(group, [])
         this.groups.get(group)!.push(item)
     }
@@ -38,7 +38,13 @@ export class Toolbar {
             const groupDiv = document.createElement('div')
             groupDiv.className = 'tiptap-toolbar-group'
 
-            items.forEach((item) => groupDiv.appendChild(this.createButton(item)))
+            for (const item of items) {
+                if ('create' in item) {
+                    groupDiv.appendChild(item.create(this.editor))
+                } else {
+                    groupDiv.appendChild(this.createButton(item))
+                }
+            }
 
             if (groupDiv.children.length > 0) row.appendChild(groupDiv)
         }

@@ -89,6 +89,11 @@ export class Toolbar {
     }
 
     destroy() {
+        for (const [, items] of this.groups) {
+            for (const item of items) {
+                if ('destroy' in item && item.destroy) item.destroy(this.editor)
+            }
+        }
         this.container.parentNode?.removeChild(this.container)
     }
 }

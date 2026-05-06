@@ -53,6 +53,7 @@ export interface ToolbarItem {
 
 export interface ToolbarItemCustom {
     create: (editor: TiptapEditor) => HTMLElement
+    destroy?: (editor: TiptapEditor) => void
 }
 
 export interface TiptapModule {

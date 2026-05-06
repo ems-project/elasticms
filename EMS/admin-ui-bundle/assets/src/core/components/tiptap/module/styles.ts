@@ -4,15 +4,19 @@ import { CkeditorStyle } from '../../wysiwyg/ckeditorConfig.ts'
 import { Extension } from '@tiptap/core'
 import { ExtensionType } from './../extensions.ts'
 import Heading from '@tiptap/extension-heading'
-import CodeBlock from '@tiptap/extension-code-block'
-import Blockquote from '@tiptap/extension-blockquote'
+
+const panels = new WeakMap<TiptapEditor, HTMLDivElement>()
 
 export const stylesModule: TiptapModule = {
     extensions: getExtensions(),
     toolbarGroup: 'styles',
     toolbar: [
         {
-            create: (editor: TiptapEditor) => createStylesDropdown(editor)
+            create: (editor: TiptapEditor) => createStylesDropdown(editor),
+            destroy: (editor: TiptapEditor) => {
+                panels.get(editor)?.remove()
+                panels.delete(editor)
+            },
         }
     ]
 }
@@ -20,30 +24,22 @@ export const stylesModule: TiptapModule = {
 function getExtensions(): ExtensionType[] {
     return [
         Heading,
-        Blockquote,
-        CodeBlock,
         Extension.create({
             name: 'styleAttributes',
             addGlobalAttributes() {
-                return [
-                    {
-                        types: ['heading', 'paragraph', 'blockquote'],
-                        attributes: {
-                            htmlStyle: {
-                                default: null,
-                                parseHTML: (el) => el.getAttribute('style') || null,
-                                renderHTML: (attrs) =>
-                                    attrs.htmlStyle ? { style: attrs.htmlStyle } : {}
-                            },
-                            htmlClass: {
-                                default: null,
-                                parseHTML: (el) => el.getAttribute('class') || null,
-                                renderHTML: (attrs) =>
-                                    attrs.htmlClass ? { class: attrs.htmlClass } : {}
-                            }
+                return [{
+                    types: ['heading', 'paragraph'],
+                    attributes: {
+                        htmlStyle: {
+                            default: null,
+                            renderHTML: (attrs) => attrs.htmlStyle ? { style: attrs.htmlStyle } : {}
+                        },
+                        htmlClass: {
+                            default: null,
+                            renderHTML: (attrs) => attrs.htmlClass ? { class: attrs.htmlClass } : {}
                         }
                     }
-                ]
+                }]
             }
         })
     ]
@@ -69,9 +65,7 @@ function isBlock(style: CkeditorStyle): boolean {
 
 function stylesToString(styles?: Record<string, string>): string {
     if (!styles) return ''
-    return Object.entries(styles)
-        .map(([k, v]) => `${k}:${v}`)
-        .join(';')
+    return Object.entries(styles).map(([k, v]) => `${k}:${v}`).join(';')
 }
 
 function categorizeStyles(styles: CkeditorStyle[]): { block: CkeditorStyle[]; inline: CkeditorStyle[]; object: CkeditorStyle[] } {
@@ -125,11 +119,7 @@ function applyStyle(editor: TiptapEditor, style: CkeditorStyle): void {
     }
 }
 
-function syncActive(
-    editor: TiptapEditor,
-    iframe: HTMLIFrameElement,
-    styles: CkeditorStyle[]
-): void {
+function syncActive(editor: TiptapEditor, iframe: HTMLIFrameElement, styles: CkeditorStyle[]): void {
     const doc = iframe.contentDocument
     if (!doc) return
 
@@ -173,13 +163,12 @@ h1,h2,h3,h4,h5,h6,p,div,pre,address,blockquote{margin:0}
 .style-group-label{padding:4px 12px;font-size:11px;font-weight:bold;color:#888;text-transform:uppercase;border-bottom:1px solid #eee}
 .style-group{display:none}
 .style-group.visible{display:block}
-.style-group+.style-group.visible{border-top:1px solid #dee2e6}
+.style-group.visible~.style-group.visible{border-top:1px solid #dee2e6}
 </style></head><body>${html}</body></html>`
 }
 
 function updateVisibleGroups(editor: TiptapEditor, doc: Document, categories: ReturnType<typeof categorizeStyles>): void {
     const activeObjects = getActiveObjectElements(editor)
-    const visibleObjects = categories.object.filter((s) => activeObjects.has(s.element))
 
     doc.querySelectorAll('.style-group').forEach((group) => {
         const label = (group as HTMLElement).dataset.group
@@ -187,7 +176,7 @@ function updateVisibleGroups(editor: TiptapEditor, doc: Document, categories: Re
 
         if (label === 'Block Styles') visible = categories.block.length > 0
         else if (label === 'Inline Styles') visible = categories.inline.length > 0
-        else if (label === 'Object Styles') visible = visibleObjects.length > 0
+        else if (label === 'Object Styles') visible = categories.object.some((s) => activeObjects.has(s.element))
 
         group.classList.toggle('visible', visible)
 
@@ -223,14 +212,16 @@ function createStylesDropdown(editor: TiptapEditor): HTMLElement {
     const panel = document.createElement('div')
     panel.className = 'tiptap-styles-panel'
     panel.hidden = true
+    panels.set(editor, panel)
 
     const iframe = document.createElement('iframe')
     iframe.className = 'tiptap-styles-iframe'
     panel.appendChild(iframe)
-
     document.body.appendChild(panel)
 
     let initialized = false
+
+    const hide = () => { panel.hidden = true }
 
     const positionPanel = () => {
         const rect = button.getBoundingClientRect()
@@ -253,21 +244,34 @@ function createStylesDropdown(editor: TiptapEditor): HTMLElement {
             if (!li) return
             const style = styleMap.get(li.dataset.name!)
             if (style) applyStyle(editor, style)
-            panel.hidden = true
+            hide()
         })
+
+        doc.addEventListener('click', (e) => {
+            if (!(e.target as HTMLElement).closest('li')) hide()
+        })
+    }
+
+    const handleOutsideClick = (e: MouseEvent) => {
+        if (!panel.contains(e.target as Node) && !button.contains(e.target as Node)) hide()
     }
 
     button.addEventListener('click', (e) => {
         e.stopPropagation()
         panel.hidden = !panel.hidden
         if (!panel.hidden) {
+            window.focus()
             positionPanel()
             initIframe()
             updateVisibleGroups(editor, iframe.contentDocument!, categories)
             syncActive(editor, iframe, allStyles)
         }
     })
-    document.addEventListener('click', () => { panel.hidden = true })
+
+    window.addEventListener('blur', hide)
+    document.addEventListener('mousedown', handleOutsideClick)
+    window.addEventListener('resize', hide)
+    window.addEventListener('scroll', hide, true)
 
     wrapper.appendChild(button)
 

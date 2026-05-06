@@ -136,10 +136,14 @@ Successful response:
 
 ```json
 {
-  "success": true,
-  "ouuid": "97591e4d-c71a-48ae-8504-67d09df595c2",
-  "type": "simple_page",
-  "revision_id": 125
+    "notice": [
+        "The document \"97591e4d-c71a-48ae-8504-67d09df595c2\" has been published in preview"
+    ],
+    "acknowledged": true,
+    "success": true,
+    "ouuid": "97591e4d-c71a-48ae-8504-67d09df595c2",
+    "type": "simple_page",
+    "revision_id": 264
 }
 ```
 

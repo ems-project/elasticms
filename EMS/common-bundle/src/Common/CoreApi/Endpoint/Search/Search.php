@@ -32,7 +32,7 @@ class Search implements SearchInterface
     {
         $count = $this->client->post('/api/search/count', ['search' => $search->toPayload()])->getData()['count'] ?? null;
         if (!\is_int($count)) {
-            throw new \RuntimeException('Unexpected: count must be a string');
+            throw new \RuntimeException('Unexpected: count must be an integer');
         }
 
         return $count;

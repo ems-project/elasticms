@@ -68,8 +68,7 @@ class EmsHtmlTest extends TestCase
                 <li><a href="ems://asset:9a323a5b625999e1a13ed88e0b14c86cf0e76edb?name=foobar.txt&type=text/plain">File link</a></li>
             </ul>
             HTML;
-        
-        
+
         $this->assertEquals(
             $html,
             (string) new EmsHtml($html)->removeTag('b')

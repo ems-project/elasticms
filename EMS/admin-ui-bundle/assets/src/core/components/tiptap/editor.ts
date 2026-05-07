@@ -4,6 +4,7 @@ import { Toolbar } from './toolbar.ts'
 import { ContextMenu } from './contextMenu.ts'
 import { Modules, HtmlTransform, TiptapModule } from './types.ts'
 import { WysiwygOptions, WysiwygProfile } from '../wysiwyg/wysiwyg.ts'
+import { CkeditorStyle } from '../wysiwyg/ckeditorConfig.ts'
 
 interface TiptapEditorOptions {
     content?: string
@@ -52,6 +53,11 @@ export class TiptapEditor {
 
     getWysiwygOptions(): null | WysiwygOptions {
         return this.options.wysiwygOptions ?? null
+    }
+
+    getWysiwygStyles(): CkeditorStyle[] {
+        const styleSet = this.options.wysiwygOptions?.styleSet ?? null
+        return this.profile.styles.find((s) => s.name === styleSet)?.config ?? this.profile.config.defaultStyles
     }
 
     getHTML(): string {

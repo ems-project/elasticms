@@ -1,11 +1,11 @@
-import { CkeditorConfig } from './ckeditorConfig'
+import { CkeditorConfig, CkeditorStyle } from './ckeditorConfig'
 import { DEFAULT_CK_VALUES } from './ckeditorConfig.ts'
 
 export class WysiwygProfile {
     editor: string = 'ckeditor4'
     styles: {
         name: string
-        config: object
+        config: CkeditorStyle[]
     }[] = []
     config: {
         emsBrowsers?: {

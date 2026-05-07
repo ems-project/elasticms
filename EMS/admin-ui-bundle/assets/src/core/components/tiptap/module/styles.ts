@@ -503,7 +503,7 @@ function isStyleActive(editor: TiptapEditor, style: CkeditorStyle): boolean {
 }
 
 function createStylesDropdown(editor: TiptapEditor): HTMLElement {
-    const allStyles: CkeditorStyle[] = editor.profile.config.stylesSet ?? []
+    const allStyles = editor.getWysiwygStyles()
     const contentCss = editor.getWysiwygOptions()?.contentCss ?? null
     const categories = categorizeStyles(allStyles)
     const styleMap = new Map(allStyles.map((s) => [s.name, s]))

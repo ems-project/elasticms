@@ -46,7 +46,7 @@ export interface CkeditorConfig {
     removeButtons?: string
     language: string
     toolbarGroups: CkeditorToolbarGroup[]
-    stylesSet?: CkeditorStyle[]
+    defaultStyles: CkeditorStyle[]
 }
 
 export const DEFAULT_CK_VALUES: CkeditorConfig = {
@@ -63,5 +63,5 @@ export const DEFAULT_CK_VALUES: CkeditorConfig = {
         { name: 'styles' },
         { name: 'colors' }
     ],
-    stylesSet: DEFAULT_STYLES
+    defaultStyles: DEFAULT_STYLES
 }

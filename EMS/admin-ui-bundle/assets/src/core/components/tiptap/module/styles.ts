@@ -519,6 +519,7 @@ function createStylesDropdown(editor: TiptapEditor): HTMLElement {
 
     const button = document.createElement('button')
     button.type = 'button'
+    button.dataset.action = 'Styles'
     button.className = 'tiptap-styles-btn'
     button.innerHTML = '<span class="styles-label">Styles</span><span>▾</span>'
 

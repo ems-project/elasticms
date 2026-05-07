@@ -69,6 +69,11 @@
     font-size: 13px;
     white-space: nowrap;
 
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
     &:hover {
       background-color: #e9ecef;
     }

@@ -244,6 +244,7 @@ function applyStyle(editor: TiptapEditor, style: CkeditorStyle): void {
         ;(chain as any)
             .setHeading({ level: parseInt(style.element[1]) })
             .updateAttributes('heading', { htmlStyle, htmlClass })
+            .setMeta('applyStyle', true)
             .run()
     } else if (style.element === 'div') {
         editor.tiptap
@@ -253,14 +254,15 @@ function applyStyle(editor: TiptapEditor, style: CkeditorStyle): void {
             .setMeta('applyStyle', true)
             .run()
     } else if (style.element === 'pre' && 'setCodeBlock' in cmds) {
-        ;(chain as any).setCodeBlock().run()
+        ;(chain as any).setCodeBlock().setMeta('applyStyle', true).run()
     } else if (style.element === 'blockquote' && 'toggleBlockquote' in cmds) {
         ;(chain as any)
             .toggleBlockquote()
             .updateAttributes('blockquote', { htmlStyle, htmlClass })
+            .setMeta('applyStyle', true)
             .run()
     } else if (isBlock(style)) {
-        chain.setParagraph().updateAttributes('paragraph', { htmlStyle, htmlClass }).run()
+        chain.setParagraph().updateAttributes('paragraph', { htmlStyle, htmlClass }).setMeta('applyStyle', true).run()
     }
 }
 

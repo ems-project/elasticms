@@ -9,7 +9,7 @@ for token generation and validation.
 In the examples below, the token is available in the `AUTH_TOKEN` environment variable:
 
 ```shell
-export AUTH_TOKEN='nlpUnMR/W8bgSSclYXI2G0dP5REdp5yhvaXfMDV/he+XgQgI7pIRqkuNqsJRJzoYvYM='
+export AUTH_TOKEN='EDcTszIHnaaDCpvpi+dJeakj6uOsDqtvSY6rqJyDR3baPpnFA+6u4UAaPcMuJIAfwTs='
 ```
 
 ## Main concepts
@@ -33,8 +33,7 @@ The file metadata used in document fields follows this structure:
 }
 ```
 
-Fields without the leading `_` are the public file fields. Fields with the leading `_` are kept for
-compatibility with ElasticMS form and asset processors.
+Fields without the leading `_` are deprecated.
 
 ## Endpoints
 
@@ -91,7 +90,7 @@ Successful response:
 ["cc805347b91457ce0ca10166b0ba73ea182f0dd4"]
 ```
 
-Only hashes found in storage are returned.
+Only hashes **not** found in storage are returned.
 
 For a single file, a `HEAD` request can also be used:
 
@@ -131,8 +130,16 @@ Successful response:
         "_type": "image/png",
         "_algo": "sha1"
     },
-    "first-seen": "2026-05-07T10:15:00+00:00",
-    "last-seen": "2026-05-07T10:15:00+00:00",
+    "first-seen": {
+        "date": "2026-05-05 20:22:36.000000",
+        "timezone_type": 3,
+        "timezone": "Europe\/Brussels"
+    },
+    "last-seen": {
+        "date": "2026-05-05 20:22:36.000000",
+        "timezone_type": 3,
+        "timezone": "Europe\/Brussels"
+    },
     "uploaded-by": "demo",
     "hidden": false,
     "size": 12345,

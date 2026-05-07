@@ -71,12 +71,7 @@ class Search
      */
     public function toPayload(): array
     {
-        $data = self::getSerializer()->normalize($this, null, self::SERIALIZER_CONTEXT);
-        if (!\is_array($data)) {
-            throw new \RuntimeException('Unexpected normalized search data');
-        }
-
-        return $data;
+        return Type::array(self::getSerializer()->normalize($this, null, self::SERIALIZER_CONTEXT));
     }
 
     /**

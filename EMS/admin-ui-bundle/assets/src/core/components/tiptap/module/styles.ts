@@ -16,7 +16,7 @@ export const stylesModule: TiptapModule = {
             destroy: (editor: TiptapEditor) => {
                 panels.get(editor)?.remove()
                 panels.delete(editor)
-            },
+            }
         }
     ]
 }
@@ -27,19 +27,23 @@ function getExtensions(): ExtensionType[] {
         Extension.create({
             name: 'styleAttributes',
             addGlobalAttributes() {
-                return [{
-                    types: ['heading', 'paragraph'],
-                    attributes: {
-                        htmlStyle: {
-                            default: null,
-                            renderHTML: (attrs) => attrs.htmlStyle ? { style: attrs.htmlStyle } : {}
-                        },
-                        htmlClass: {
-                            default: null,
-                            renderHTML: (attrs) => attrs.htmlClass ? { class: attrs.htmlClass } : {}
+                return [
+                    {
+                        types: ['heading', 'paragraph'],
+                        attributes: {
+                            htmlStyle: {
+                                default: null,
+                                renderHTML: (attrs) =>
+                                    attrs.htmlStyle ? { style: attrs.htmlStyle } : {}
+                            },
+                            htmlClass: {
+                                default: null,
+                                renderHTML: (attrs) =>
+                                    attrs.htmlClass ? { class: attrs.htmlClass } : {}
+                            }
                         }
                     }
-                }]
+                ]
             }
         })
     ]
@@ -51,13 +55,20 @@ type StyleGroup = {
 }
 
 const BLOCK_ELEMENTS = new Set([
-    'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
-    'div', 'pre', 'address', 'blockquote',
+    'p',
+    'h1',
+    'h2',
+    'h3',
+    'h4',
+    'h5',
+    'h6',
+    'div',
+    'pre',
+    'address',
+    'blockquote'
 ])
 
-const OBJECT_ELEMENTS = new Set([
-    'table', 'ul', 'ol', 'img',
-])
+const OBJECT_ELEMENTS = new Set(['table', 'ul', 'ol', 'img'])
 
 function isBlock(style: CkeditorStyle): boolean {
     return BLOCK_ELEMENTS.has(style.element)
@@ -65,10 +76,16 @@ function isBlock(style: CkeditorStyle): boolean {
 
 function stylesToString(styles?: Record<string, string>): string {
     if (!styles) return ''
-    return Object.entries(styles).map(([k, v]) => `${k}:${v}`).join(';')
+    return Object.entries(styles)
+        .map(([k, v]) => `${k}:${v}`)
+        .join(';')
 }
 
-function categorizeStyles(styles: CkeditorStyle[]): { block: CkeditorStyle[]; inline: CkeditorStyle[]; object: CkeditorStyle[] } {
+function categorizeStyles(styles: CkeditorStyle[]): {
+    block: CkeditorStyle[]
+    inline: CkeditorStyle[]
+    object: CkeditorStyle[]
+} {
     const block: CkeditorStyle[] = []
     const inline: CkeditorStyle[] = []
     const object: CkeditorStyle[] = []
@@ -119,7 +136,11 @@ function applyStyle(editor: TiptapEditor, style: CkeditorStyle): void {
     }
 }
 
-function syncActive(editor: TiptapEditor, iframe: HTMLIFrameElement, styles: CkeditorStyle[]): void {
+function syncActive(
+    editor: TiptapEditor,
+    iframe: HTMLIFrameElement,
+    styles: CkeditorStyle[]
+): void {
     const doc = iframe.contentDocument
     if (!doc) return
 
@@ -137,21 +158,25 @@ function syncActive(editor: TiptapEditor, iframe: HTMLIFrameElement, styles: Cke
 function buildPreviewHtml(groups: StyleGroup[], contentCss?: string | null): string {
     const cssLink = contentCss ? `<link rel="stylesheet" href="${contentCss}">` : ''
 
-    const html = groups.map((group) => {
-        const items = group.styles.map((s) => {
-            const tag = BLOCK_ELEMENTS.has(s.element) ? s.element : 'span'
-            const cls = s.attributes?.class ? ` class="${s.attributes.class}"` : ''
-            const dir = s.attributes?.dir ? ` dir="${s.attributes.dir}"` : ''
-            const style = stylesToString(s.styles)
-            const styleAttr = style ? ` style="${style}"` : ''
-            return `<li data-name="${s.name}"><${tag}${cls}${dir}${styleAttr}>${s.name}</${tag}></li>`
-        }).join('')
+    const html = groups
+        .map((group) => {
+            const items = group.styles
+                .map((s) => {
+                    const tag = BLOCK_ELEMENTS.has(s.element) ? s.element : 'span'
+                    const cls = s.attributes?.class ? ` class="${s.attributes.class}"` : ''
+                    const dir = s.attributes?.dir ? ` dir="${s.attributes.dir}"` : ''
+                    const style = stylesToString(s.styles)
+                    const styleAttr = style ? ` style="${style}"` : ''
+                    return `<li data-name="${s.name}"><${tag}${cls}${dir}${styleAttr}>${s.name}</${tag}></li>`
+                })
+                .join('')
 
-        return `<div class="style-group" data-group="${group.label}">
+            return `<div class="style-group" data-group="${group.label}">
             <div class="style-group-label">${group.label}</div>
             <ul>${items}</ul>
         </div>`
-    }).join('')
+        })
+        .join('')
 
     return `<!DOCTYPE html><html><head>${cssLink}<style>
 *{box-sizing:border-box}
@@ -167,7 +192,11 @@ h1,h2,h3,h4,h5,h6,p,div,pre,address,blockquote{margin:0}
 </style></head><body>${html}</body></html>`
 }
 
-function updateVisibleGroups(editor: TiptapEditor, doc: Document, categories: ReturnType<typeof categorizeStyles>): void {
+function updateVisibleGroups(
+    editor: TiptapEditor,
+    doc: Document,
+    categories: ReturnType<typeof categorizeStyles>
+): void {
     const activeObjects = getActiveObjectElements(editor)
 
     doc.querySelectorAll('.style-group').forEach((group) => {
@@ -176,14 +205,16 @@ function updateVisibleGroups(editor: TiptapEditor, doc: Document, categories: Re
 
         if (label === 'Block Styles') visible = categories.block.length > 0
         else if (label === 'Inline Styles') visible = categories.inline.length > 0
-        else if (label === 'Object Styles') visible = categories.object.some((s) => activeObjects.has(s.element))
+        else if (label === 'Object Styles')
+            visible = categories.object.some((s) => activeObjects.has(s.element))
 
         group.classList.toggle('visible', visible)
 
         if (label === 'Object Styles') {
             group.querySelectorAll('li').forEach((li) => {
                 const style = categories.object.find((s) => s.name === li.dataset.name)
-                ;(li as HTMLElement).style.display = style && activeObjects.has(style.element) ? '' : 'none'
+                ;(li as HTMLElement).style.display =
+                    style && activeObjects.has(style.element) ? '' : 'none'
             })
         }
     })
@@ -198,7 +229,7 @@ function createStylesDropdown(editor: TiptapEditor): HTMLElement {
     const groups: StyleGroup[] = [
         { label: 'Object Styles', styles: categories.object },
         { label: 'Block Styles', styles: categories.block },
-        { label: 'Inline Styles', styles: categories.inline },
+        { label: 'Inline Styles', styles: categories.inline }
     ].filter((g) => g.styles.length > 0)
 
     const wrapper = document.createElement('div')
@@ -219,9 +250,9 @@ function createStylesDropdown(editor: TiptapEditor): HTMLElement {
     panel.appendChild(iframe)
     document.body.appendChild(panel)
 
-    let initialized = false
-
-    const hide = () => { panel.hidden = true }
+    const hide = () => {
+        panel.hidden = true
+    }
 
     const positionPanel = () => {
         const rect = button.getBoundingClientRect()
@@ -229,26 +260,36 @@ function createStylesDropdown(editor: TiptapEditor): HTMLElement {
         panel.style.left = `${rect.left}px`
     }
 
+    let initialized = false
+    let onOpen: (() => void) | null = null
+
     const initIframe = () => {
         if (initialized) return
         initialized = true
 
-        const doc = iframe.contentDocument!
-        doc.open()
-        doc.write(buildPreviewHtml(groups, contentCss))
-        doc.close()
+        iframe.srcdoc = buildPreviewHtml(groups, contentCss)
+        iframe.addEventListener('load', () => {
+            const doc = iframe.contentDocument!
 
-        doc.addEventListener('mousedown', (e) => {
-            e.preventDefault()
-            const li = (e.target as HTMLElement).closest('li')
-            if (!li) return
-            const style = styleMap.get(li.dataset.name!)
-            if (style) applyStyle(editor, style)
-            hide()
-        })
+            doc.addEventListener('mousedown', (e) => {
+                e.preventDefault()
+                const li = (e.target as HTMLElement).closest('li')
+                if (!li) return
+                const style = styleMap.get(li.dataset.name!)
+                if (style) applyStyle(editor, style)
+                hide()
+            })
 
-        doc.addEventListener('click', (e) => {
-            if (!(e.target as HTMLElement).closest('li')) hide()
+            doc.addEventListener('click', (e) => {
+                if (!(e.target as HTMLElement).closest('li')) hide()
+            })
+
+            onOpen = () => {
+                updateVisibleGroups(editor, doc, categories)
+                syncActive(editor, iframe, allStyles)
+            }
+
+            if (!panel.hidden) onOpen()
         })
     }
 
@@ -263,8 +304,7 @@ function createStylesDropdown(editor: TiptapEditor): HTMLElement {
             window.focus()
             positionPanel()
             initIframe()
-            updateVisibleGroups(editor, iframe.contentDocument!, categories)
-            syncActive(editor, iframe, allStyles)
+            onOpen?.()
         }
     })
 

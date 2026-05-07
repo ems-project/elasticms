@@ -10,7 +10,7 @@ export const listModule: TiptapModule = {
     toolbarGroup: 'list',
     toolbar: [
         {
-            extensions: [OrderedList],
+            extensions: [createCustomOrderedList()],
             name: 'NumberedList',
             icon: IconNumberedList,
             tooltip: 'Insert/Remove Numbered List',
@@ -18,7 +18,7 @@ export const listModule: TiptapModule = {
             isActive: (e) => e.tiptap.isActive('orderedList')
         },
         {
-            extensions: [BulletList],
+            extensions: [createCustomBulletList()],
             name: 'BulletedList',
             icon: IconBulletedList,
             tooltip: 'Insert/Remove Bulleted List',
@@ -26,4 +26,40 @@ export const listModule: TiptapModule = {
             isActive: (e) => e.tiptap.isActive('bulletList')
         }
     ]
+}
+
+function createCustomBulletList() {
+    return BulletList.extend({
+        addAttributes() {
+            return {
+                ...this.parent?.(),
+                dataUserStyle: {
+                    default: null,
+                    parseHTML: (el) => el.getAttribute('data-user-style'),
+                    renderHTML: (attrs) =>
+                        attrs.dataUserStyle
+                            ? { 'data-user-style': attrs.dataUserStyle, style: attrs.dataUserStyle }
+                            : {}
+                }
+            }
+        }
+    })
+}
+
+function createCustomOrderedList() {
+    return OrderedList.extend({
+        addAttributes() {
+            return {
+                ...this.parent?.(),
+                dataUserStyle: {
+                    default: null,
+                    parseHTML: (el) => el.getAttribute('data-user-style'),
+                    renderHTML: (attrs) =>
+                        attrs.dataUserStyle
+                            ? { 'data-user-style': attrs.dataUserStyle, style: attrs.dataUserStyle }
+                            : {}
+                }
+            }
+        }
+    })
 }

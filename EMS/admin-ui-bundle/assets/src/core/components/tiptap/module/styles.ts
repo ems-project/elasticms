@@ -479,15 +479,16 @@ function createStylesDropdown(editor: TiptapEditor): HTMLElement {
             editor.tiptap.isActive(`inlineStyle_${s.element}`)
         )
 
-        if (activeBlock && activeInlines.length > 0) {
-            label.textContent = [activeBlock.name, ...activeInlines.map((s) => s.name)].join(', ')
-        } else if (activeBlock) {
-            label.textContent = activeBlock.name
-        } else if (activeInlines.length > 0) {
-            label.textContent = activeInlines.map((s) => s.name).join(', ')
-        } else {
-            label.textContent = 'Styles'
-        }
+        const text = activeBlock && activeInlines.length > 0
+            ? [activeBlock.name, ...activeInlines.map((s) => s.name)].join(', ')
+            : activeBlock
+                ? activeBlock.name
+                : activeInlines.length > 0
+                    ? activeInlines.map((s) => s.name).join(', ')
+                    : 'Styles'
+
+        label.textContent = text
+        button.title = text !== 'Styles' ? text : ''
     }
 
     editor.tiptap.on('selectionUpdate', updateLabel)

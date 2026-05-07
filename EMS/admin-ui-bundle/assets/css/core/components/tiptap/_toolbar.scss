@@ -72,6 +72,15 @@
     &:hover {
       background-color: #e9ecef;
     }
+
+    .styles-label {
+      display: inline-block;
+      max-width: 100px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      vertical-align: middle;
+    }
   }
 }
 

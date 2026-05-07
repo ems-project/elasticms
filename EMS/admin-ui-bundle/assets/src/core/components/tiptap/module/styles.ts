@@ -230,6 +230,15 @@ function getActiveObjectElements(editor: TiptapEditor): Set<string> {
     return active
 }
 
+function isInsideList(editor: TiptapEditor): boolean {
+    const { $from } = editor.tiptap.state.selection
+    for (let d = $from.depth; d > 0; d--) {
+        const name = $from.node(d).type.name
+        if (name === 'bulletList' || name === 'orderedList') return true
+    }
+    return false
+}
+
 function isObjectStyleActive(editor: TiptapEditor, style: CkeditorStyle): boolean {
     const { $from } = editor.tiptap.state.selection
     for (let d = $from.depth; d > 0; d--) {
@@ -241,7 +250,10 @@ function isObjectStyleActive(editor: TiptapEditor, style: CkeditorStyle): boolea
             (style.element === 'ol' && nodeType === 'orderedList')
         if (matches) {
             const styleStr = stylesToString(style.styles) || null
-            return !!node.attrs.dataUserStyle && normalizeStyle(node.attrs.dataUserStyle) === normalizeStyle(styleStr)
+            return (
+                !!node.attrs.dataUserStyle &&
+                normalizeStyle(node.attrs.dataUserStyle) === normalizeStyle(styleStr)
+            )
         }
     }
     return false
@@ -266,7 +278,9 @@ function applyStyle(editor: TiptapEditor, style: CkeditorStyle): void {
             if (matches) {
                 const pos = $from.before(d)
                 const styleStr = stylesToString(style.styles) || null
-                const isActive = node.attrs.dataUserStyle && normalizeStyle(node.attrs.dataUserStyle) === normalizeStyle(styleStr)
+                const isActive =
+                    node.attrs.dataUserStyle &&
+                    normalizeStyle(node.attrs.dataUserStyle) === normalizeStyle(styleStr)
 
                 if (isActive) {
                     const resetAttrs: Record<string, any> = { ...node.attrs, dataUserStyle: null }
@@ -296,16 +310,22 @@ function applyStyle(editor: TiptapEditor, style: CkeditorStyle): void {
     }
 
     if (isBlock(style) && isStyleActive(editor, style)) {
-        editor.tiptap
-            .chain()
-            .focus()
-            .setParagraph()
-            .updateAttributes('paragraph', {
-                htmlStyle: null,
-                htmlClass: null
-            })
-            .setMeta('applyStyle', true)
-            .run()
+        if (isInsideList(editor)) {
+            editor.tiptap
+                .chain()
+                .focus()
+                .updateAttributes('paragraph', { htmlStyle: null, htmlClass: null })
+                .setMeta('applyStyle', true)
+                .run()
+        } else {
+            editor.tiptap
+                .chain()
+                .focus()
+                .setParagraph()
+                .updateAttributes('paragraph', { htmlStyle: null, htmlClass: null })
+                .setMeta('applyStyle', true)
+                .run()
+        }
         return
     }
 
@@ -323,12 +343,20 @@ function applyStyle(editor: TiptapEditor, style: CkeditorStyle): void {
             .setMeta('applyStyle', true)
             .run()
     } else if (style.element === 'div') {
-        editor.tiptap
-            .chain()
-            .focus()
-            .setNode('div', { htmlStyle, htmlClass })
-            .setMeta('applyStyle', true)
-            .run()
+        const inList = isInsideList(editor)
+        if (inList) {
+            chain
+                .updateAttributes('paragraph', { htmlStyle, htmlClass })
+                .setMeta('applyStyle', true)
+                .run()
+        } else {
+            editor.tiptap
+                .chain()
+                .focus()
+                .setNode('div', { htmlStyle, htmlClass })
+                .setMeta('applyStyle', true)
+                .run()
+        }
     } else if (style.element === 'pre' && 'setCodeBlock' in cmds) {
         ;(chain as any).setCodeBlock().setMeta('applyStyle', true).run()
     } else if (style.element === 'blockquote' && 'toggleBlockquote' in cmds) {
@@ -358,7 +386,7 @@ function syncActive(
         const style = styles.find((s) => s.name === li.dataset.name)
         if (!style) return
 
-        let active = false
+        let active
         if (isBlock(style)) {
             active = isStyleActive(editor, style)
         } else if (OBJECT_ELEMENTS.has(style.element)) {
@@ -455,14 +483,18 @@ function isStyleActive(editor: TiptapEditor, style: CkeditorStyle): boolean {
     const appliedAs = /^h[1-6]$/.test(style.element)
         ? style.element
         : style.element === 'pre'
-            ? 'pre'
-            : style.element === 'blockquote'
-                ? 'blockquote'
-                : style.element === 'div'
-                    ? 'div'
-                    : 'p'
+          ? 'pre'
+          : style.element === 'blockquote'
+            ? 'blockquote'
+            : style.element === 'div'
+              ? 'div'
+              : 'p'
 
-    if (appliedAs !== activeElement) return false
+    const inList = isInsideList(editor)
+    const matches =
+        appliedAs === activeElement || (inList && appliedAs === 'div' && activeElement === 'p')
+
+    if (!matches) return false
     const cls = style.attributes?.class || null
     const st = stylesToString(style.styles) || null
     return (
@@ -572,13 +604,17 @@ function createStylesDropdown(editor: TiptapEditor): HTMLElement {
             const appliedAs = /^h[1-6]$/.test(s.element)
                 ? s.element
                 : s.element === 'pre'
-                    ? 'pre'
-                    : s.element === 'blockquote'
-                        ? 'blockquote'
-                        : s.element === 'div'
-                            ? 'div'
-                            : 'p'
-            if (appliedAs !== activeElement) return false
+                  ? 'pre'
+                  : s.element === 'blockquote'
+                    ? 'blockquote'
+                    : s.element === 'div'
+                      ? 'div'
+                      : 'p'
+            const inList = isInsideList(editor)
+            const matches =
+                appliedAs === activeElement ||
+                (inList && appliedAs === 'div' && activeElement === 'p')
+            if (!matches) return false
             const cls = s.attributes?.class || null
             const style = stylesToString(s.styles) || null
             return (

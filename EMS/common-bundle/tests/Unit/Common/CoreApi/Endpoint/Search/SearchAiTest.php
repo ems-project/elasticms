@@ -33,7 +33,7 @@ class SearchAiTest extends TestCase
 
         $this->client->expects($this->once())
             ->method('post')
-            ->with('/api/search/search', ['search' => $searchObject->serialize()])
+            ->with('/api/search/search', ['search' => $searchObject->toPayload()])
             ->willReturn($this->createMockResult(['data' => 'test']));
 
         $response = $this->search->search($searchObject);
@@ -47,7 +47,7 @@ class SearchAiTest extends TestCase
 
         $this->client->expects($this->once())
             ->method('post')
-            ->with('/api/search/count', ['search' => $searchObject->serialize()])
+            ->with('/api/search/count', ['search' => $searchObject->toPayload()])
             ->willReturn($this->createMockResult(['count' => 5]));
 
         $count = $this->search->count($searchObject);

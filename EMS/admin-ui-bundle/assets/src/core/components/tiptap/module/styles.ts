@@ -39,7 +39,6 @@ function getExtensions(): ExtensionType[] {
         name: 'div',
         group: 'block',
         content: 'inline*',
-        allowGapCursor: true,
         parseHTML() {
             return [{ tag: 'div' }]
         },
@@ -100,6 +99,7 @@ function getExtensions(): ExtensionType[] {
                         key: new PluginKey('clearStyleOnSplit'),
                         appendTransaction(transactions, oldState, newState) {
                             if (!transactions.some((t) => t.docChanged)) return null
+                            if (transactions.some((t) => t.getMeta('applyStyle'))) return null
                             if (newState.doc.childCount <= oldState.doc.childCount) return null
 
                             const { $from } = newState.selection
@@ -246,7 +246,12 @@ function applyStyle(editor: TiptapEditor, style: CkeditorStyle): void {
             .updateAttributes('heading', { htmlStyle, htmlClass })
             .run()
     } else if (style.element === 'div') {
-        chain.setNode('div', { htmlStyle, htmlClass }).run()
+        editor.tiptap
+            .chain()
+            .focus()
+            .setNode('div', { htmlStyle, htmlClass })
+            .setMeta('applyStyle', true)
+            .run()
     } else if (style.element === 'pre' && 'setCodeBlock' in cmds) {
         ;(chain as any).setCodeBlock().run()
     } else if (style.element === 'blockquote' && 'toggleBlockquote' in cmds) {

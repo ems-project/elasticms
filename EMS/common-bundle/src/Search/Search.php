@@ -66,6 +66,32 @@ class Search
         return $data;
     }
 
+    /**
+     * @return mixed[]
+     */
+    public function toPayload(): array
+    {
+        $data = self::getSerializer()->normalize($this, null, self::SERIALIZER_CONTEXT);
+        if (!\is_array($data)) {
+            throw new \RuntimeException('Unexpected normalized search data');
+        }
+
+        return $data;
+    }
+
+    /**
+     * @param mixed[] $data
+     */
+    public static function fromPayload(array $data): self
+    {
+        $search = self::getSerializer()->denormalize($data, self::class, null, self::SERIALIZER_CONTEXT);
+        if (!$search instanceof Search) {
+            throw new \RuntimeException('Unexpected search object');
+        }
+
+        return $search;
+    }
+
     public function hasSources(): bool
     {
         return \count($this->sourceIncludes) > 0 || \count($this->sourceExcludes) > 0;

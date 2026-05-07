@@ -319,6 +319,7 @@ h1,h2,h3,h4,h5,h6,p,div,pre,address,blockquote{margin:0}
 .style-group{display:none}
 .style-group.visible{display:block}
 .style-group.visible~.style-group.visible{border-top:1px solid #dee2e6}
+.marker { background-color: #ffff00;}
 </style></head><body>${html}</body></html>`
 }
 

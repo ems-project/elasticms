@@ -11,6 +11,7 @@ use Elastica\Search as ElasticaSearch;
 use Elastica\Suggest;
 use EMS\CommonBundle\Elasticsearch\Aggregation\ElasticaAggregation;
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
+use EMS\Helpers\Standard\Type;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;

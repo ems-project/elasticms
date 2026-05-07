@@ -292,14 +292,18 @@ function syncActive(
     const doc = iframe.contentDocument
     if (!doc) return
 
-    const node = editor.tiptap.state.selection.$from.node()
-    let activeElement = 'p'
-    if (node.type.name === 'heading') activeElement = `h${node.attrs.level}`
-    else if (node.type.name === 'codeBlock') activeElement = 'pre'
-    else if (node.type.name === 'blockquote') activeElement = 'blockquote'
+    doc.querySelectorAll('li').forEach((li) => {
+        const style = styles.find((s) => s.name === li.dataset.name)
+        if (!style) return
 
-    doc.querySelectorAll('li').forEach((li, i) => {
-        li.classList.toggle('active', styles[i]?.element === activeElement)
+        let active = false
+        if (isBlock(style)) {
+            active = isStyleActive(editor, style)
+        } else if (!OBJECT_ELEMENTS.has(style.element)) {
+            active = editor.tiptap.isActive(`inlineStyle_${style.element}`)
+        }
+
+        li.classList.toggle('active', active)
     })
 }
 

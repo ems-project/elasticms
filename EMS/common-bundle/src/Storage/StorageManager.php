@@ -109,7 +109,7 @@ class StorageManager implements FileManagerInterface
                     $adapter->heads(...$hashes)
                 );
             }
-            yield $keepMissing;
+            yield from \array_values($keepMissing);
         }
     }
 

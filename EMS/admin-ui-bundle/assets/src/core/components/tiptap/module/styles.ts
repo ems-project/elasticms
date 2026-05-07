@@ -1,13 +1,14 @@
 import { TiptapModule } from '../types.ts'
 import { TiptapEditor } from '../editor.ts'
 import { CkeditorStyle } from '../../wysiwyg/ckeditorConfig.ts'
-import { Extension, Node as TiptapNode } from '@tiptap/core'
+import { Extension, Mark, mergeAttributes, Node as TiptapNode } from '@tiptap/core'
 import { ExtensionType } from './../extensions.ts'
 import Heading from '@tiptap/extension-heading'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 
 const panels = new WeakMap<TiptapEditor, HTMLDivElement>()
 const cleanups = new WeakMap<TiptapEditor, () => void>()
+const INLINE_ELEMENTS = ['span', 'small', 'code', 'kbd', 'samp', 'var', 'del', 'ins', 'cite', 'q']
 
 export const stylesModule: TiptapModule = {
     extensions: getExtensions(),
@@ -22,6 +23,14 @@ export const stylesModule: TiptapModule = {
                 cleanups.delete(editor)
             }
         }
+    ],
+    htmlTransforms: [
+        {
+            name: 'trailingParagraph',
+            toOutput(doc) {
+                doc.querySelectorAll('p:last-child:empty').forEach((p) => p.remove())
+            }
+        }
     ]
 }
 
@@ -30,6 +39,7 @@ function getExtensions(): ExtensionType[] {
         name: 'div',
         group: 'block',
         content: 'inline*',
+        allowGapCursor: true,
         parseHTML() {
             return [{ tag: 'div' }]
         },
@@ -41,6 +51,7 @@ function getExtensions(): ExtensionType[] {
     return [
         Heading,
         Div,
+        ...INLINE_ELEMENTS.map(createInlineStyleMark),
         Extension.create({
             name: 'styleAttributes',
             addGlobalAttributes() {
@@ -73,6 +84,19 @@ function getExtensions(): ExtensionType[] {
             addProseMirrorPlugins() {
                 return [
                     new Plugin({
+                        key: new PluginKey('trailingParagraph'),
+                        appendTransaction(_, __, newState) {
+                            const lastChild = newState.doc.lastChild
+                            if (lastChild && lastChild.type.name !== 'paragraph') {
+                                return newState.tr.insert(
+                                    newState.doc.content.size,
+                                    newState.schema.nodes.paragraph.create()
+                                )
+                            }
+                            return null
+                        }
+                    }),
+                    new Plugin({
                         key: new PluginKey('clearStyleOnSplit'),
                         appendTransaction(transactions, oldState, newState) {
                             if (!transactions.some((t) => t.docChanged)) return null
@@ -80,15 +104,31 @@ function getExtensions(): ExtensionType[] {
 
                             const { $from } = newState.selection
                             const node = $from.parent
+                            let tr = null
 
-                            if (!node.attrs.htmlStyle && !node.attrs.htmlClass) return null
+                            if (node.attrs.htmlStyle || node.attrs.htmlClass) {
+                                const pos = $from.before($from.depth)
+                                tr = newState.tr.setNodeMarkup(pos, undefined, {
+                                    ...node.attrs,
+                                    htmlStyle: null,
+                                    htmlClass: null
+                                })
+                            }
 
-                            const pos = $from.before($from.depth)
-                            return newState.tr.setNodeMarkup(pos, undefined, {
-                                ...node.attrs,
-                                htmlStyle: null,
-                                htmlClass: null
-                            })
+                            const storedMarks =
+                                newState.storedMarks ?? newState.selection.$from.marks()
+                            const inlineStyleMarks = storedMarks.filter((m) =>
+                                m.type.name.startsWith('inlineStyle_')
+                            )
+
+                            if (inlineStyleMarks.length > 0) {
+                                tr = tr ?? newState.tr
+                                for (const mark of inlineStyleMarks) {
+                                    tr = tr.removeStoredMark(mark)
+                                }
+                            }
+
+                            return tr
                         }
                     })
                 ]
@@ -120,6 +160,32 @@ const OBJECT_ELEMENTS = new Set(['table', 'ul', 'ol', 'img'])
 
 function isBlock(style: CkeditorStyle): boolean {
     return BLOCK_ELEMENTS.has(style.element)
+}
+
+function createInlineStyleMark(element: string) {
+    return Mark.create({
+        name: `inlineStyle_${element}`,
+        addAttributes() {
+            return {
+                style: {
+                    default: null,
+                    parseHTML: (el) => el.getAttribute('style') || null,
+                    renderHTML: (attrs) => (attrs.style ? { style: attrs.style } : {})
+                },
+                class: {
+                    default: null,
+                    parseHTML: (el) => el.getAttribute('class') || null,
+                    renderHTML: (attrs) => (attrs.class ? { class: attrs.class } : {})
+                }
+            }
+        },
+        parseHTML() {
+            return [{ tag: element }]
+        },
+        renderHTML({ HTMLAttributes }) {
+            return [element, mergeAttributes(HTMLAttributes), 0]
+        }
+    })
 }
 
 function stylesToString(styles?: Record<string, string>): string {
@@ -167,7 +233,14 @@ function applyStyle(editor: TiptapEditor, style: CkeditorStyle): void {
     const htmlStyle = stylesToString(style.styles) || null
     const htmlClass = style.attributes?.class || null
 
-    if (/^h[1-6]$/.test(style.element) && 'setHeading' in cmds) {
+    if (!isBlock(style) && !OBJECT_ELEMENTS.has(style.element)) {
+        const markName = `inlineStyle_${style.element}`
+        const attrs: Record<string, any> = {}
+        if (htmlStyle) attrs.style = htmlStyle
+        if (htmlClass) attrs.class = htmlClass
+        chain.toggleMark(markName, attrs).run()
+        return
+    } else if (/^h[1-6]$/.test(style.element) && 'setHeading' in cmds) {
         ;(chain as any)
             .setHeading({ level: parseInt(style.element[1]) })
             .updateAttributes('heading', { htmlStyle, htmlClass })
@@ -212,7 +285,7 @@ function buildPreviewHtml(groups: StyleGroup[], contentCss?: string | null): str
         .map((group) => {
             const items = group.styles
                 .map((s) => {
-                    const tag = BLOCK_ELEMENTS.has(s.element) ? s.element : 'span'
+                    const tag = s.element
                     const cls = s.attributes?.class ? ` class="${s.attributes.class}"` : ''
                     const dir = s.attributes?.dir ? ` dir="${s.attributes.dir}"` : ''
                     const style = stylesToString(s.styles)
@@ -235,7 +308,7 @@ ul{list-style:none;margin:0;padding:0}
 li{padding:4px 12px;cursor:pointer}
 li:hover,li.active{background:#e9ecef}
 h1,h2,h3,h4,h5,h6,p,div,pre,address,blockquote{margin:0}
-.style-group-label{padding:4px 12px;font-size:11px;font-weight:bold;color:#888;text-transform:uppercase;border-bottom:1px solid #eee}
+.style-group-label{padding:4px 12px;font-size:11px;font-weight:bold;color:#888;text-transform:uppercase;border-bottom:1px solid #eee;cursor: default;}
 .style-group{display:none}
 .style-group.visible{display:block}
 .style-group.visible~.style-group.visible{border-top:1px solid #dee2e6}
@@ -371,12 +444,21 @@ function createStylesDropdown(editor: TiptapEditor): HTMLElement {
         const node = editor.tiptap.state.selection.$from.node()
         let activeElement = 'p'
         if (node.type.name === 'heading') activeElement = `h${node.attrs.level}`
-        else if (node.type.name === 'div') activeElement = 'div'
         else if (node.type.name === 'codeBlock') activeElement = 'pre'
         else if (node.type.name === 'blockquote') activeElement = 'blockquote'
+        else if (node.type.name === 'div') activeElement = 'div'
 
-        const active = categories.block.find((s) => {
-            if (s.element !== activeElement) return false
+        const activeBlock = categories.block.find((s) => {
+            const appliedAs = /^h[1-6]$/.test(s.element)
+                ? s.element
+                : s.element === 'pre'
+                  ? 'pre'
+                  : s.element === 'blockquote'
+                    ? 'blockquote'
+                    : s.element === 'div'
+                      ? 'div'
+                      : 'p'
+            if (appliedAs !== activeElement) return false
             const cls = s.attributes?.class || null
             const style = stylesToString(s.styles) || null
             return (
@@ -385,7 +467,19 @@ function createStylesDropdown(editor: TiptapEditor): HTMLElement {
             )
         })
 
-        label.textContent = active?.name ?? 'Styles'
+        const activeInlines = categories.inline.filter((s) =>
+            editor.tiptap.isActive(`inlineStyle_${s.element}`)
+        )
+
+        if (activeBlock && activeInlines.length > 0) {
+            label.textContent = [activeBlock.name, ...activeInlines.map((s) => s.name)].join(', ')
+        } else if (activeBlock) {
+            label.textContent = activeBlock.name
+        } else if (activeInlines.length > 0) {
+            label.textContent = activeInlines.map((s) => s.name).join(', ')
+        } else {
+            label.textContent = 'Styles'
+        }
     }
 
     editor.tiptap.on('selectionUpdate', updateLabel)

@@ -87,10 +87,10 @@ curl -X POST \
 Successful response:
 
 ```json
-["cc805347b91457ce0ca10166b0ba73ea182f0dd4"]
+["cc805347b91457ce0ca10166b0ba73ea182f0dd4", true]
 ```
 
-Only hashes **not** found in storage are returned.
+Hashes **not** found in storage are returned as strings. Found hashes are returned as `true`.
 
 For a single file, a `HEAD` request can also be used:
 

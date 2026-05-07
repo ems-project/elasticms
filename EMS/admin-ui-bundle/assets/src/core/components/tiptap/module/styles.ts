@@ -180,6 +180,9 @@ function createInlineStyleMark(element: string) {
             }
         },
         parseHTML() {
+            if (element === 'span') {
+                return [{ tag: 'span[class]' }]
+            }
             return [{ tag: element }]
         },
         renderHTML({ HTMLAttributes }) {
@@ -227,11 +230,70 @@ function getActiveObjectElements(editor: TiptapEditor): Set<string> {
     return active
 }
 
+function isObjectStyleActive(editor: TiptapEditor, style: CkeditorStyle): boolean {
+    const { $from } = editor.tiptap.state.selection
+    for (let d = $from.depth; d > 0; d--) {
+        const node = $from.node(d)
+        const nodeType = node.type.name
+        const matches =
+            (style.element === 'table' && nodeType === 'table') ||
+            (style.element === 'ul' && nodeType === 'bulletList') ||
+            (style.element === 'ol' && nodeType === 'orderedList')
+        if (matches) {
+            const styleStr = stylesToString(style.styles) || null
+            return !!node.attrs.dataUserStyle && normalizeStyle(node.attrs.dataUserStyle) === normalizeStyle(styleStr)
+        }
+    }
+    return false
+}
+
 function applyStyle(editor: TiptapEditor, style: CkeditorStyle): void {
     const chain = editor.tiptap.chain().focus()
     const cmds = editor.tiptap.commands
     const htmlStyle = stylesToString(style.styles) || null
     const htmlClass = style.attributes?.class || null
+
+    if (OBJECT_ELEMENTS.has(style.element)) {
+        const { $from } = editor.tiptap.state.selection
+        for (let d = $from.depth; d > 0; d--) {
+            const node = $from.node(d)
+            const nodeType = node.type.name
+            const matches =
+                (style.element === 'table' && nodeType === 'table') ||
+                (style.element === 'ul' && nodeType === 'bulletList') ||
+                (style.element === 'ol' && nodeType === 'orderedList')
+
+            if (matches) {
+                const pos = $from.before(d)
+                const styleStr = stylesToString(style.styles) || null
+                const isActive = node.attrs.dataUserStyle && normalizeStyle(node.attrs.dataUserStyle) === normalizeStyle(styleStr)
+
+                if (isActive) {
+                    const resetAttrs: Record<string, any> = { ...node.attrs, dataUserStyle: null }
+                    if (style.attributes) {
+                        Object.keys(style.attributes).forEach((k) => {
+                            resetAttrs[k] = null
+                        })
+                    }
+                    editor.tiptap.view.dispatch(
+                        editor.tiptap.state.tr.setNodeMarkup(pos, undefined, resetAttrs)
+                    )
+                } else {
+                    const newAttrs: Record<string, any> = { ...node.attrs, dataUserStyle: styleStr }
+                    if (style.attributes) {
+                        Object.entries(style.attributes).forEach(([k, v]) => {
+                            newAttrs[k] = v
+                        })
+                    }
+                    editor.tiptap.view.dispatch(
+                        editor.tiptap.state.tr.setNodeMarkup(pos, undefined, newAttrs)
+                    )
+                }
+                break
+            }
+        }
+        return
+    }
 
     if (isBlock(style) && isStyleActive(editor, style)) {
         editor.tiptap
@@ -299,7 +361,9 @@ function syncActive(
         let active = false
         if (isBlock(style)) {
             active = isStyleActive(editor, style)
-        } else if (!OBJECT_ELEMENTS.has(style.element)) {
+        } else if (OBJECT_ELEMENTS.has(style.element)) {
+            active = isObjectStyleActive(editor, style)
+        } else {
             active = editor.tiptap.isActive(`inlineStyle_${style.element}`)
         }
 
@@ -391,12 +455,12 @@ function isStyleActive(editor: TiptapEditor, style: CkeditorStyle): boolean {
     const appliedAs = /^h[1-6]$/.test(style.element)
         ? style.element
         : style.element === 'pre'
-          ? 'pre'
-          : style.element === 'blockquote'
-            ? 'blockquote'
-            : style.element === 'div'
-              ? 'div'
-              : 'p'
+            ? 'pre'
+            : style.element === 'blockquote'
+                ? 'blockquote'
+                : style.element === 'div'
+                    ? 'div'
+                    : 'p'
 
     if (appliedAs !== activeElement) return false
     const cls = style.attributes?.class || null
@@ -508,12 +572,12 @@ function createStylesDropdown(editor: TiptapEditor): HTMLElement {
             const appliedAs = /^h[1-6]$/.test(s.element)
                 ? s.element
                 : s.element === 'pre'
-                  ? 'pre'
-                  : s.element === 'blockquote'
-                    ? 'blockquote'
-                    : s.element === 'div'
-                      ? 'div'
-                      : 'p'
+                    ? 'pre'
+                    : s.element === 'blockquote'
+                        ? 'blockquote'
+                        : s.element === 'div'
+                            ? 'div'
+                            : 'p'
             if (appliedAs !== activeElement) return false
             const cls = s.attributes?.class || null
             const style = stylesToString(s.styles) || null
@@ -523,19 +587,19 @@ function createStylesDropdown(editor: TiptapEditor): HTMLElement {
             )
         })
 
+        const activeObjects = categories.object.filter((s) => isObjectStyleActive(editor, s))
+
         const activeInlines = categories.inline.filter((s) =>
             editor.tiptap.isActive(`inlineStyle_${s.element}`)
         )
 
-        const text =
-            activeBlock && activeInlines.length > 0
-                ? [activeBlock.name, ...activeInlines.map((s) => s.name)].join(', ')
-                : activeBlock
-                  ? activeBlock.name
-                  : activeInlines.length > 0
-                    ? activeInlines.map((s) => s.name).join(', ')
-                    : 'Styles'
+        const names = [
+            ...(activeBlock ? [activeBlock.name] : []),
+            ...activeObjects.map((s) => s.name),
+            ...activeInlines.map((s) => s.name)
+        ]
 
+        const text = names.length > 0 ? names.join(', ') : 'Styles'
         label.textContent = text
         button.title = text !== 'Styles' ? text : ''
     }

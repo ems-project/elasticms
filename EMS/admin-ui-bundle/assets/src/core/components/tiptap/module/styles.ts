@@ -6,6 +6,7 @@ import { ExtensionType } from './../extensions.ts'
 import Heading from '@tiptap/extension-heading'
 
 const panels = new WeakMap<TiptapEditor, HTMLDivElement>()
+const cleanups = new WeakMap<TiptapEditor, () => void>()
 
 export const stylesModule: TiptapModule = {
     extensions: getExtensions(),
@@ -16,6 +17,8 @@ export const stylesModule: TiptapModule = {
             destroy: (editor: TiptapEditor) => {
                 panels.get(editor)?.remove()
                 panels.delete(editor)
+                cleanups.get(editor)?.()
+                cleanups.delete(editor)
             }
         }
     ]
@@ -308,10 +311,40 @@ function createStylesDropdown(editor: TiptapEditor): HTMLElement {
         }
     })
 
+    const label = button.querySelector('.styles-label')!
+
+    const updateLabel = () => {
+        const node = editor.tiptap.state.selection.$from.node()
+        let activeElement = 'p'
+        if (node.type.name === 'heading') activeElement = `h${node.attrs.level}`
+        else if (node.type.name === 'codeBlock') activeElement = 'pre'
+        else if (node.type.name === 'blockquote') activeElement = 'blockquote'
+
+        const active = categories.block.find((s) => {
+            if (s.element !== activeElement) return false
+            const cls = s.attributes?.class || null
+            const style = stylesToString(s.styles) || null
+            return node.attrs.htmlClass === cls && node.attrs.htmlStyle === style
+        })
+
+        label.textContent = active?.name ?? 'Styles'
+    }
+
+    editor.tiptap.on('selectionUpdate', updateLabel)
+    editor.tiptap.on('transaction', updateLabel)
     window.addEventListener('blur', hide)
     document.addEventListener('mousedown', handleOutsideClick)
     window.addEventListener('resize', hide)
     window.addEventListener('scroll', hide, true)
+
+    cleanups.set(editor, () => {
+        editor.tiptap.off('selectionUpdate', updateLabel)
+        editor.tiptap.off('transaction', updateLabel)
+        window.removeEventListener('blur', hide)
+        document.removeEventListener('mousedown', handleOutsideClick)
+        window.removeEventListener('resize', hide)
+        window.removeEventListener('scroll', hide, true)
+    })
 
     wrapper.appendChild(button)
 

@@ -1,9 +1,10 @@
 import { TiptapModule } from '../types.ts'
 import { TiptapEditor } from '../editor.ts'
 import { CkeditorStyle } from '../../wysiwyg/ckeditorConfig.ts'
-import { Extension } from '@tiptap/core'
+import { Extension, Node as TiptapNode } from '@tiptap/core'
 import { ExtensionType } from './../extensions.ts'
 import Heading from '@tiptap/extension-heading'
+import { Plugin, PluginKey } from '@tiptap/pm/state'
 
 const panels = new WeakMap<TiptapEditor, HTMLDivElement>()
 const cleanups = new WeakMap<TiptapEditor, () => void>()
@@ -25,14 +26,27 @@ export const stylesModule: TiptapModule = {
 }
 
 function getExtensions(): ExtensionType[] {
+    const Div = TiptapNode.create({
+        name: 'div',
+        group: 'block',
+        content: 'inline*',
+        parseHTML() {
+            return [{ tag: 'div' }]
+        },
+        renderHTML({ HTMLAttributes }) {
+            return ['div', HTMLAttributes, 0]
+        }
+    })
+
     return [
         Heading,
+        Div,
         Extension.create({
             name: 'styleAttributes',
             addGlobalAttributes() {
                 return [
                     {
-                        types: ['heading', 'paragraph'],
+                        types: ['heading', 'paragraph', 'div'],
                         attributes: {
                             htmlStyle: {
                                 default: null,
@@ -46,6 +60,29 @@ function getExtensions(): ExtensionType[] {
                             }
                         }
                     }
+                ]
+            },
+            addProseMirrorPlugins() {
+                return [
+                    new Plugin({
+                        key: new PluginKey('clearStyleOnSplit'),
+                        appendTransaction(transactions, oldState, newState) {
+                            if (!transactions.some((t) => t.docChanged)) return null
+                            if (newState.doc.childCount <= oldState.doc.childCount) return null
+
+                            const { $from } = newState.selection
+                            const node = $from.parent
+
+                            if (!node.attrs.htmlStyle && !node.attrs.htmlClass) return null
+
+                            const pos = $from.before($from.depth)
+                            return newState.tr.setNodeMarkup(pos, undefined, {
+                                ...node.attrs,
+                                htmlStyle: null,
+                                htmlClass: null
+                            })
+                        }
+                    })
                 ]
             }
         })
@@ -127,6 +164,8 @@ function applyStyle(editor: TiptapEditor, style: CkeditorStyle): void {
             .setHeading({ level: parseInt(style.element[1]) })
             .updateAttributes('heading', { htmlStyle, htmlClass })
             .run()
+    } else if (style.element === 'div') {
+        chain.setNode('div', { htmlStyle, htmlClass }).run()
     } else if (style.element === 'pre' && 'setCodeBlock' in cmds) {
         ;(chain as any).setCodeBlock().run()
     } else if (style.element === 'blockquote' && 'toggleBlockquote' in cmds) {
@@ -317,6 +356,7 @@ function createStylesDropdown(editor: TiptapEditor): HTMLElement {
         const node = editor.tiptap.state.selection.$from.node()
         let activeElement = 'p'
         if (node.type.name === 'heading') activeElement = `h${node.attrs.level}`
+        else if (node.type.name === 'div') activeElement = 'div'
         else if (node.type.name === 'codeBlock') activeElement = 'pre'
         else if (node.type.name === 'blockquote') activeElement = 'blockquote'
 

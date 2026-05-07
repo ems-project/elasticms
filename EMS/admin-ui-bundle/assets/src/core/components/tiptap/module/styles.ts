@@ -50,11 +50,19 @@ function getExtensions(): ExtensionType[] {
                         attributes: {
                             htmlStyle: {
                                 default: null,
+                                parseHTML: (el) => {
+                                    const style = el.getAttribute('style')
+                                    if (style && BLOCK_ELEMENTS.has(el.tagName.toLowerCase())) {
+                                        el.removeAttribute('style')
+                                    }
+                                    return style || null
+                                },
                                 renderHTML: (attrs) =>
                                     attrs.htmlStyle ? { style: attrs.htmlStyle } : {}
                             },
                             htmlClass: {
                                 default: null,
+                                parseHTML: (el) => el.getAttribute('class') || null,
                                 renderHTML: (attrs) =>
                                     attrs.htmlClass ? { class: attrs.htmlClass } : {}
                             }
@@ -262,6 +270,13 @@ function updateVisibleGroups(
     })
 }
 
+function normalizeStyle(s: string | null): string {
+    if (!s) return ''
+    const el = document.createElement('div')
+    el.style.cssText = s
+    return el.style.cssText
+}
+
 function createStylesDropdown(editor: TiptapEditor): HTMLElement {
     const allStyles: CkeditorStyle[] = editor.profile.config.stylesSet ?? []
     const contentCss = editor.getWysiwygOptions()?.contentCss ?? null
@@ -364,7 +379,10 @@ function createStylesDropdown(editor: TiptapEditor): HTMLElement {
             if (s.element !== activeElement) return false
             const cls = s.attributes?.class || null
             const style = stylesToString(s.styles) || null
-            return node.attrs.htmlClass === cls && node.attrs.htmlStyle === style
+            return (
+                node.attrs.htmlClass === cls &&
+                normalizeStyle(node.attrs.htmlStyle) === normalizeStyle(style)
+            )
         })
 
         label.textContent = active?.name ?? 'Styles'

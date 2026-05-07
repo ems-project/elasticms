@@ -108,6 +108,10 @@ class StorageManager implements FileManagerInterface
                     $keepMissing,
                     $adapter->heads(...$hashes)
                 );
+                $hashes = \array_filter($keepMissing, fn ($v) => \is_string($v));
+                if ([] === $hashes) {
+                    break;
+                }
             }
             yield from \array_values($keepMissing);
         }

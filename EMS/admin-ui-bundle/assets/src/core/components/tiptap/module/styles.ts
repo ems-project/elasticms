@@ -233,6 +233,20 @@ function applyStyle(editor: TiptapEditor, style: CkeditorStyle): void {
     const htmlStyle = stylesToString(style.styles) || null
     const htmlClass = style.attributes?.class || null
 
+    if (isBlock(style) && isStyleActive(editor, style)) {
+        editor.tiptap
+            .chain()
+            .focus()
+            .setParagraph()
+            .updateAttributes('paragraph', {
+                htmlStyle: null,
+                htmlClass: null
+            })
+            .setMeta('applyStyle', true)
+            .run()
+        return
+    }
+
     if (!isBlock(style) && !OBJECT_ELEMENTS.has(style.element)) {
         const markName = `inlineStyle_${style.element}`
         const attrs: Record<string, any> = {}
@@ -262,7 +276,11 @@ function applyStyle(editor: TiptapEditor, style: CkeditorStyle): void {
             .setMeta('applyStyle', true)
             .run()
     } else if (isBlock(style)) {
-        chain.setParagraph().updateAttributes('paragraph', { htmlStyle, htmlClass }).setMeta('applyStyle', true).run()
+        chain
+            .setParagraph()
+            .updateAttributes('paragraph', { htmlStyle, htmlClass })
+            .setMeta('applyStyle', true)
+            .run()
     }
 }
 
@@ -356,6 +374,32 @@ function normalizeStyle(s: string | null): string {
     const el = document.createElement('div')
     el.style.cssText = s
     return el.style.cssText
+}
+
+function isStyleActive(editor: TiptapEditor, style: CkeditorStyle): boolean {
+    const node = editor.tiptap.state.selection.$from.node()
+    let activeElement = 'p'
+    if (node.type.name === 'heading') activeElement = `h${node.attrs.level}`
+    else if (node.type.name === 'codeBlock') activeElement = 'pre'
+    else if (node.type.name === 'blockquote') activeElement = 'blockquote'
+    else if (node.type.name === 'div') activeElement = 'div'
+
+    const appliedAs = /^h[1-6]$/.test(style.element)
+        ? style.element
+        : style.element === 'pre'
+          ? 'pre'
+          : style.element === 'blockquote'
+            ? 'blockquote'
+            : style.element === 'div'
+              ? 'div'
+              : 'p'
+
+    if (appliedAs !== activeElement) return false
+    const cls = style.attributes?.class || null
+    const st = stylesToString(style.styles) || null
+    return (
+        node.attrs.htmlClass === cls && normalizeStyle(node.attrs.htmlStyle) === normalizeStyle(st)
+    )
 }
 
 function createStylesDropdown(editor: TiptapEditor): HTMLElement {
@@ -479,11 +523,12 @@ function createStylesDropdown(editor: TiptapEditor): HTMLElement {
             editor.tiptap.isActive(`inlineStyle_${s.element}`)
         )
 
-        const text = activeBlock && activeInlines.length > 0
-            ? [activeBlock.name, ...activeInlines.map((s) => s.name)].join(', ')
-            : activeBlock
-                ? activeBlock.name
-                : activeInlines.length > 0
+        const text =
+            activeBlock && activeInlines.length > 0
+                ? [activeBlock.name, ...activeInlines.map((s) => s.name)].join(', ')
+                : activeBlock
+                  ? activeBlock.name
+                  : activeInlines.length > 0
                     ? activeInlines.map((s) => s.name).join(', ')
                     : 'Styles'
 

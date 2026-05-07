@@ -101,10 +101,15 @@ class StorageManager implements FileManagerInterface
         $pagedHashes = \array_chunk($uniqueFileHashes, $this->headChunkSize, true);
 
         foreach ($pagedHashes as $hashes) {
+            $keepMissing = $hashes;
             foreach ($this->adapters as $adapter) {
-                yield from $adapter->heads(...$hashes);
-                break;
+                $keepMissing = \array_map(
+                    fn ($v1, $v2) => (\is_string($v1) && $v1 === $v2) ? $v1 : true,
+                    $keepMissing,
+                    $adapter->heads(...$hashes)
+                );
             }
+            yield $keepMissing;
         }
     }
 

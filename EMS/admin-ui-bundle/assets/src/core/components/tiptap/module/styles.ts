@@ -36,7 +36,7 @@ export const stylesModule: TiptapModule = {
         Heading,
         getDivExtension(),
         ...INLINE_ELEMENTS.map(createInlineStyleMark),
-        getStyleExtension(),
+        getStyleExtension()
     ],
     toolbarGroup: 'styles',
     toolbar: [
@@ -71,7 +71,7 @@ function getDivExtension(): ExtensionType {
         renderHTML({ HTMLAttributes }) {
             return ['div', HTMLAttributes, 0]
         }
-    });
+    })
 }
 
 function getStyleExtension(): ExtensionType {
@@ -139,8 +139,7 @@ function getStyleExtension(): ExtensionType {
                             })
                         }
 
-                        const storedMarks =
-                            newState.storedMarks ?? newState.selection.$from.marks()
+                        const storedMarks = newState.storedMarks ?? newState.selection.$from.marks()
                         const inlineStyleMarks = storedMarks.filter((m) =>
                             m.type.name.startsWith('inlineStyle_')
                         )
@@ -501,6 +500,7 @@ function createStylesDropdown(editor: TiptapEditor): HTMLElement {
     const contentCss = editor.getWysiwygOptions()?.contentCss ?? null
     const categories = categorizeStyles(allStyles)
     const styleMap = new Map(allStyles.map((s) => [s.name, s]))
+    const doc = editor.docParent
 
     const groups: StyleGroup[] = [
         { label: 'Object Styles', styles: categories.object },
@@ -508,91 +508,90 @@ function createStylesDropdown(editor: TiptapEditor): HTMLElement {
         { label: 'Inline Styles', styles: categories.inline }
     ].filter((g) => g.styles.length > 0)
 
-    const wrapper = editor.docParent.createElement('div')
+    const wrapper = doc.createElement('div')
     wrapper.className = 'tiptap-styles-dropdown'
 
-    const button = editor.docParent.createElement('button')
+    const button = doc.createElement('button')
     button.type = 'button'
     button.dataset.action = 'Styles'
     button.className = 'tiptap-styles-btn'
     button.innerHTML = '<span class="styles-label">Styles</span><span>▾</span>'
 
-    const panel = editor.docParent.createElement('div')
-    panel.className = 'tiptap-styles-panel'
-    panel.hidden = true
-    panels.set(editor, panel)
+    let panel: HTMLDivElement | null = null
+    let onOpen: (() => void) | null = null
 
-    const iframe = editor.docParent.createElement('iframe')
-    iframe.className = 'tiptap-styles-iframe'
-    panel.appendChild(iframe)
-    editor.docParent.body.appendChild(panel)
+    const initPanel = () => {
+        if (panel) return
 
-    const iframeDoc = iframe.contentDocument!
-    const style = iframeDoc.createElement('style')
-    style.textContent = stylesIframeCss
-    iframeDoc.head.appendChild(style)
+        panel = doc.createElement('div')
+        panel.className = 'tiptap-styles-panel'
+        panels.set(editor, panel)
+        doc.body.appendChild(panel)
 
-    if (contentCss) {
-        const link = iframeDoc.createElement('link')
-        link.rel = 'stylesheet'
-        link.href = contentCss
-        iframeDoc.head.appendChild(link)
+        const iframe = doc.createElement('iframe')
+        iframe.className = 'tiptap-styles-iframe'
+        panel.appendChild(iframe)
+
+        const iframeDoc = iframe.contentDocument!
+
+        if (contentCss) {
+            const link = iframeDoc.createElement('link')
+            link.rel = 'stylesheet'
+            link.href = contentCss
+            iframeDoc.head.appendChild(link)
+        }
+
+        const s = iframeDoc.createElement('style')
+        s.textContent = stylesIframeCss
+        iframeDoc.head.appendChild(s)
+
+        iframeDoc.body.innerHTML = groups.map(buildStyleGroup).join('')
+
+        iframeDoc.addEventListener('mousedown', (e) => {
+            e.preventDefault()
+            const li = (e.target as HTMLElement).closest('li')
+            if (!li) return
+            const matched = styleMap.get(li.dataset.name!)
+            if (matched) applyStyle(editor, matched)
+            hide()
+        })
+
+        iframeDoc.addEventListener('click', (e) => {
+            if (!(e.target as HTMLElement).closest('li')) hide()
+        })
+
+        onOpen = () => {
+            updateVisibleGroups(editor, iframeDoc, categories)
+            syncActive(editor, iframe, allStyles)
+        }
     }
 
     const hide = () => {
-        panel.hidden = true
+        if (panel) panel.hidden = true
     }
 
     const positionPanel = () => {
+        if (!panel) return
         const rect = button.getBoundingClientRect()
         panel.style.top = `${rect.bottom}px`
         panel.style.left = `${rect.left}px`
     }
 
-    let initialized = false
-    let onOpen: (() => void) | null = null
-
-    const initIframe = () => {
-        if (initialized) return
-        initialized = true
-
-        const doc = iframe.contentDocument!
-        doc.body.innerHTML = groups.map(buildStyleGroup).join('')
-
-        doc.addEventListener('mousedown', (e) => {
-            e.preventDefault()
-            const li = (e.target as HTMLElement).closest('li')
-            if (!li) return
-            const style = styleMap.get(li.dataset.name!)
-            if (style) applyStyle(editor, style)
-            hide()
-        })
-
-        doc.addEventListener('click', (e) => {
-            if (!(e.target as HTMLElement).closest('li')) hide()
-        })
-
-        onOpen = () => {
-            updateVisibleGroups(editor, doc, categories)
-            syncActive(editor, iframe, allStyles)
-        }
-
-        if (!panel.hidden) onOpen()
-    }
-
     const handleOutsideClick = (e: MouseEvent) => {
-        if (!panel.contains(e.target as Node) && !button.contains(e.target as Node)) hide()
+        if (panel && !panel.contains(e.target as Node) && !button.contains(e.target as Node)) hide()
     }
 
     button.addEventListener('click', (e) => {
         e.stopPropagation()
-        panel.hidden = !panel.hidden
-        if (!panel.hidden) {
-            window.focus()
-            positionPanel()
-            initIframe()
-            onOpen?.()
+        if (panel && !panel.hidden) {
+            hide()
+            return
         }
+        initPanel()
+        panel!.hidden = false
+        window.focus()
+        positionPanel()
+        onOpen?.()
     })
 
     const label = button.querySelector('.styles-label')!
@@ -648,7 +647,7 @@ function createStylesDropdown(editor: TiptapEditor): HTMLElement {
     editor.tiptap.on('selectionUpdate', updateLabel)
     editor.tiptap.on('transaction', updateLabel)
     window.addEventListener('blur', hide)
-    editor.docParent.addEventListener('mousedown', handleOutsideClick)
+    doc.addEventListener('mousedown', handleOutsideClick)
     window.addEventListener('resize', hide)
     window.addEventListener('scroll', hide, true)
 
@@ -656,7 +655,7 @@ function createStylesDropdown(editor: TiptapEditor): HTMLElement {
         editor.tiptap.off('selectionUpdate', updateLabel)
         editor.tiptap.off('transaction', updateLabel)
         window.removeEventListener('blur', hide)
-        editor.docParent.removeEventListener('mousedown', handleOutsideClick)
+        doc.removeEventListener('mousedown', handleOutsideClick)
         window.removeEventListener('resize', hide)
         window.removeEventListener('scroll', hide, true)
     })

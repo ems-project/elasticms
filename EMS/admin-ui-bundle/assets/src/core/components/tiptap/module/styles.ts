@@ -524,24 +524,24 @@ function createStylesDropdown(editor: TiptapEditor): HTMLElement {
         { label: 'Inline Styles', styles: categories.inline }
     ].filter((g) => g.styles.length > 0)
 
-    const wrapper = document.createElement('div')
+    const wrapper = editor.docParent.createElement('div')
     wrapper.className = 'tiptap-styles-dropdown'
 
-    const button = document.createElement('button')
+    const button = editor.docParent.createElement('button')
     button.type = 'button'
     button.dataset.action = 'Styles'
     button.className = 'tiptap-styles-btn'
     button.innerHTML = '<span class="styles-label">Styles</span><span>▾</span>'
 
-    const panel = document.createElement('div')
+    const panel = editor.docParent.createElement('div')
     panel.className = 'tiptap-styles-panel'
     panel.hidden = true
     panels.set(editor, panel)
 
-    const iframe = document.createElement('iframe')
+    const iframe = editor.docParent.createElement('iframe')
     iframe.className = 'tiptap-styles-iframe'
     panel.appendChild(iframe)
-    document.body.appendChild(panel)
+    editor.docParent.body.appendChild(panel)
 
     const hide = () => {
         panel.hidden = true
@@ -654,7 +654,7 @@ function createStylesDropdown(editor: TiptapEditor): HTMLElement {
     editor.tiptap.on('selectionUpdate', updateLabel)
     editor.tiptap.on('transaction', updateLabel)
     window.addEventListener('blur', hide)
-    document.addEventListener('mousedown', handleOutsideClick)
+    editor.docParent.addEventListener('mousedown', handleOutsideClick)
     window.addEventListener('resize', hide)
     window.addEventListener('scroll', hide, true)
 
@@ -662,7 +662,7 @@ function createStylesDropdown(editor: TiptapEditor): HTMLElement {
         editor.tiptap.off('selectionUpdate', updateLabel)
         editor.tiptap.off('transaction', updateLabel)
         window.removeEventListener('blur', hide)
-        document.removeEventListener('mousedown', handleOutsideClick)
+        editor.docParent.removeEventListener('mousedown', handleOutsideClick)
         window.removeEventListener('resize', hide)
         window.removeEventListener('scroll', hide, true)
     })

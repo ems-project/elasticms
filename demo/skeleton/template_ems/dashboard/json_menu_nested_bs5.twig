@@ -1,0 +1,260 @@
+{% extends '@EMSAdminUI/bootstrap5/components/json_menu_nested/template.twig' %}
+
+{% block build_context %}
+    {% set contentTypeNames = ['page','link'] %}
+    {% set contentTypes = contentTypeNames|map(ct => ct|emsco_get_content_type) %}
+    {% set environments = ['preview', 'live']|map(e => e|emsco_get_environment) %}
+    {% do template.context.append({
+        'environments': environments,
+        'contentTypeNames': contentTypeNames,
+        'contentTypes': contentTypes,
+    }) %}
+    {%- if render is defined and render.loadItems|length > 0 -%}
+        {% set menuIds = render.loadItems|filter((item) => item.type in contentTypeNames)|map((item) => item.id)|keys %}
+        {% set pages = [] %}
+
+        {% for env in environments %}
+            {% set envSearchResult = {
+                "index": env.alias,
+                "size": 5000,
+                "body": {
+                    "_source": ['menu', 'label', ("#{locale}.title")],
+                    "query":  { "bool": { "must": [
+                        { "terms": { "_contenttype": contentTypeNames } },
+                        { "terms": { "menu": (menuIds) } }
+                    ] } }
+                }
+            }|emsco_search_query.hits.hits|map(h => h._source|merge({
+                'id': h._id,
+                'emsId': ("#{h._source._contenttype}:#{h._id}")
+            }))|ems_array_key('id') %}
+
+            {% set pages = pages|merge({ (env.name): (envSearchResult) }) %}
+        {% endfor %}
+        {% do template.context.append({
+            'pages': pages,
+            'contentInfos': pages.preview|map((doc) => doc.emsId)|emsco_documents_info,
+        }) %}
+    {%- endif -%}
+{% endblock build_context %}
+
+{% block jmn_item_row %}
+    {% if item.type in contentTypeNames %}
+        {% set itemPages = pages.preview|filter(p => p.menu == item.id) %}
+        {% set page = itemPages|first %}
+        {% set contentInfo = page ? contentInfos.(page.emsId)|default(false) : false %}
+    {% endif %}
+    {{ parent() }}
+{% endblock %}
+
+{%- block jmn_title -%}
+    <h2 class="h4">{{ sectionLabel }}</h2>
+{%- endblock -%}
+
+{%- block jmn_button_add_menu -%}
+    {{ parent() }}
+    <li>
+        <button class="ems-add-existing-page dropdown-item" data-modal-size="lg" data-jmn-modal-custom="modal_existing_page" data-testid="jmn-btn-add-existing-content">
+            <i class="fa fa-sign-in" aria-hidden="true"></i> Existing content
+        </button>
+    </li>
+{%- endblock jmn_button_add_menu -%}
+
+{%- block jmn_button_item_more -%}
+    {%- set menuMoreItems = menuMoreItems|default([
+        'jmn_button_item_view',
+        'jmn_button_item_edit',
+        'button_detach',
+        'jmn_button_copy',
+        'jmn_button_paste',
+        'jmn_button_item_delete'
+    ]) -%}
+    {{ parent() }}
+{%- endblock jmn_button_item_more -%}
+
+{%- block jmn_button_item_add -%}
+    {%- set buttonLabel = "Create #{addNode.type}" -%}
+    {{ parent() }}
+{%- endblock -%}
+
+{%- block jmn_button_item_edit -%}
+    {%- if node.type|default('') in contentTypeNames -%}{%- set buttonLabel = 'Edit item' -%}{% endif -%}
+    {{ parent() }}
+{%- endblock -%}
+
+{%- block jmn_button_item_view -%}
+    {%- if node.type|default('') in contentTypeNames -%}{%- set buttonLabel = 'View item' -%}{%- endif -%}
+    {{ parent() }}
+{%- endblock -%}
+
+{%- block button_detach -%}
+    {%- if contentInfo is defined and contentInfo -%}
+        <button class="btn-detach-content dropdown-item" data-item-id="{{ item.id }}" data-content-id="{{ contentInfo.id.ouuid }}" data-content-type="{{ item.type }}" data-testid="jmn-btn-detach">Detach content</button>
+    {%- endif -%}
+{%- endblock button_detach -%}
+
+{%- block jmn_button_item_delete -%}
+    {%- if item.children|length == 0 and (item.type not in contentTypeNames or contentInfo == false) -%}
+        {{ parent() }}
+    {%- endif -%}
+{%- endblock -%}
+
+{%- block jmn_item_title -%}
+    {% if item.type in contentTypeNames %}
+        {% if page and contentInfo %}
+            <a href="{{ path('emsco_view_revisions', { 'type': item.type, 'ouuid': page.id })  }}" data-testid="jmn-row-view-revision">
+                {{ item.object.(locale).title|default(item.object.label) }}
+            </a>
+        {% else %}
+            <span class="text-gray">{{ item.object.(locale).title|default('???') }}</span>
+        {% endif %}
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{%- endblock jmn_item_title -%}
+
+{% block jmn_column_content %}Content{% endblock %}
+
+{% block jmn_cell_content %}
+    {% if item.type in contentTypeNames %}
+        {% if itemPages|length == 0 %}
+            <button class="json-post-button btn btn-sm btn-default btn-new-content" data-item="{{ item.data|json_encode|e('html_attr') }}" data-testid="jmn-btn-create-content">
+                <i class="fa fa-plus"></i>&nbsp;
+                Create {{ item.type }}
+            </button>
+        {% elseif itemPages|length == 1 %}
+            {% if contentInfo and (contentInfo.published('preview') or contentInfo.published('live')) and item.object.(locale).title is defined %}
+                <div class="btn-group btn-group-sm">
+                    <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" data-testid="jmn-action-show">
+                        <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;View
+                    </button>
+                    <ul class="dropdown-menu">
+                        {% set path = item.path|map(p => p.object.(locale).title|ems_slug) %}
+                        {% for env in environments|filter(e => contentInfo.published(e.name)) %}
+                            <li>
+                                <a class="dropdown-item" href="/channel/{{ env.name }}/{{ locale }}/{{ path|join('/') }}" target="_blank" data-testid="jmn-action-show-{{ env.name }}-{{ locale }}">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;Show {{ env.name }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+            {% set contentType = contentTypes|filter(ct => ct.name == item.type)|first|default() %}
+            {% if contentType and is_granted(contentType.roles.edit) %}
+                {% set editPath = path('emsco_data_new_draft', {'ouuid': page.id, 'type': contentType.name}) %}
+                <a class="btn btn-sm btn-primary" href="{{ editPath }}" data-testid="jmn-btn-revision-edit">
+                    <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;Edit
+                </a>
+            {% endif %}
+        {% else %}
+            <div class="col-xs-12 text-center">
+                Error: multiple contents are attached to this item
+            </div>
+        {% endif %}
+    {% endif %}
+{% endblock %}
+
+{% block jmn_column_status %}
+    <div>Publication status</div>
+    {% for env in environments %}<div>{{ env.label }}</div>{% endfor %}
+{% endblock %}
+
+{% block jmn_cell_status %}
+    {% if contentInfo is defined and contentInfo %}
+        {% for env in environments %}
+            {% if contentInfo.defaultEnvironment.name == env %}
+                {% if contentInfo.hasDraft %}
+                    <span class="jmn-badge badge bg-warning" data-testid="jmn-cell-status-{{ env }}">Draft</span>
+                {% else %}
+                    <span class="jmn-badge badge bg-success" data-testid="jmn-cell-status-{{ env }}">Published</span>
+                {% endif %}
+            {% else %}
+                {% if contentInfo.aligned(env) %}
+                    <span class="jmn-badge badge bg-success" data-testid="jmn-cell-status-{{ env }}">Published</span>
+                {% elseif contentInfo.published(env) %}
+                    <span class="jmn-badge badge bg-warning" data-testid="jmn-cell-status-{{ env }}">Outdated</span>
+                {% else %}
+                    <span class="jmn-badge badge bg-default" data-testid="jmn-cell-status-{{ env }}">Unavailable</span>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endblock %}
+
+{% block jmn_modal_title %}
+    {% if node.type|default in contentTypeNames and action == 'add' %}{% set modalTitle = "Create #{node.type}" %}{% endif %}
+    {% if node.type|default in contentTypeNames and action == 'edit' %}{% set modalTitle = "Edit #{node.type}" %}{% endif %}
+    {% if node.type|default in contentTypeNames and action == 'view' %}{% set modalTitle = "View #{node.type}" %}{% endif %}
+    {{ parent() }}
+{% endblock jmn_modal_title %}
+
+{% block modal_existing_page_title %}<i class="fa fa-sign-in" aria-hidden="true"></i>&nbsp;Existing content{% endblock modal_existing_page_title %}
+
+{% block modal_existing_page_body %}
+    {% set columns = [
+        { "label": "Select", "template": (block('table_existing_column_select')) },
+        { "label": "Label (Page)", "template": (block('table_existing_column_label')), "orderField": "label.alpha_order" },
+        { "label": "Live", "template": (block('table_existing_column_live')) },
+        { "label": "Last Update", "template": (block('table_existing_column_last_update')), "orderField": "_finalization_datetime" },
+    ] %}
+    {% set rowContext = "{% set docInfo = [line.data.contentType, line.data.id]|join(':')|emsco_document_info %}" %}
+    <div id="jmn-existing-page-table">
+        {{ emsco_datatable(['preview'],contentTypeNames, {
+            'id': 'jmn-table-existing-content',
+            "frontendOptions": { "order": [[3, 'desc']] },
+            'row_context': rowContext,
+            "columns": columns,
+            "empty_query": { "bool": { "must_not": [ { "exists": { "field": "menu" } } ] } },
+            "query": { "bool": {
+                "must_not": [ { "exists": { "field": "menu" } } ],
+                "must": [{
+                    "multi_match": {
+                        "fields": [ "live_search", "live_search._2gram","live_search._3gram"],
+                        "query": "%query%",
+                        "operator": "and",
+                        "type": "bool_prefix"
+                    }
+                }]
+            } },
+        }) }}
+    </div>
+{% endblock modal_existing_page_body %}
+
+{% block modal_existing_page_footer %}
+    <div class="pull-right">
+        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Cancel</button>
+    </div>
+{% endblock modal_existing_page_footer %}
+
+{% block table_existing_column_select %}
+{%- verbatim -%}
+    <div style="width: 120px;">
+        {% if docInfo.hasDraft %}
+            <span class="badge bg-default">In draft</span>
+        {% else %}
+            <button class="btn btn-sm btn-default btn-add-existing-content" data-content-id="{{ data.id }}" data-content-type="{{ data.contentType }}" data-testid="jmn-existing-content-select">Select</button>
+        {% endif %}
+    </div>
+{%- endverbatim -%}
+{% endblock table_existing_column_select %}
+
+{% block table_existing_column_label %}
+{%- verbatim -%}
+    <a href="{{ path('emsco_view_revisions', {ouuid: data.id, type: data.contentType} ) }}">{{ data.source.label }}</a>
+{%- endverbatim -%}
+{% endblock table_existing_column_label %}
+
+{% block table_existing_column_live %}
+{%- verbatim -%}
+    <i style="color: {{ docInfo.published('live') and docInfo.aligned('live') ? 'green' : 'red' }}" class="{{ docInfo.published('live') and docInfo.aligned('live') ? 'fa fa-check' : 'fa fa-eye-slash' }}"></i>
+{%- endverbatim -%}
+{% endblock table_existing_column_live %}
+
+{% block table_existing_column_last_update %}
+{%- verbatim -%}
+    <div style="width: 130px;" data-bs-toggle="tooltip" data-placement="top" aria-hidden="true" title="By {{ data.source._finalized_by|default }}" >
+        {{ data.source._finalization_datetime|default ? data.source._finalization_datetime|date("d/m/Y (H:i)") : "N.A." }}
+    </div>
+{%- endverbatim -%}
+{% endblock table_existing_column_last_update %}

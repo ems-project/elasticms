@@ -11,8 +11,31 @@
     margin: 0;
   }
 
+  a {
+    color: #0782C1;
+  }
+
   li p + p {
     margin-top: 0.5em;
+  }
+
+  a[name]:not([href]) {
+    position: relative;
+    border: 1px dotted;
+    padding-left: 18px;
+    cursor: auto;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 1px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      background-color: #cc0000;
+      mask: url('@tabler-icons/outline/anchor.svg') no-repeat center / contain;
+    }
   }
 
   figure[data-type="table"] {

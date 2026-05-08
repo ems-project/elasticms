@@ -11,10 +11,12 @@ import { WysiwygProfile } from '../wysiwyg/wysiwyg.ts'
 import { tableModule } from './module/table.ts'
 import { ExtensionType } from './extensions.ts'
 import { stylesModule } from './module/styles.ts'
+import { anchorModule } from './module/anchor.ts'
 
 export type ContextType = 'table'
 
 export const Modules: TiptapModule[] = [
+    anchorModule,
     historyModule,
     ...basicStyleModule,
     cleanupModule,

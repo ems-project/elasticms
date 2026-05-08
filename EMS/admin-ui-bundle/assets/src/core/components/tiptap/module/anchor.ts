@@ -4,6 +4,8 @@ import { TiptapModule } from '../types.ts'
 import { Dialog } from '../../dialog.ts'
 import { TiptapEditor } from '../editor.ts'
 
+const FIELD_NAME = 'tiptap-anchor-name';
+
 export const anchorModule: TiptapModule = {
     extensions: getAnchorExtension(),
     toolbarGroup: 'insert',
@@ -52,8 +54,8 @@ function openAnchorDialog(e: TiptapEditor) {
     dialog.setContent(
         `<div style="display: flex; flex-direction: column; gap: 10px; width: 300px;">
             <div>
-                <label for="anchor-name">Anchor Name <span style="color: red">*</span></label>
-                <input type="text" id="anchor-name" value="${(existing ?? '').toString().replace(/"/g, '&quot;')}" required>
+                <label for="${FIELD_NAME}">Anchor Name <span style="color: red">*</span></label>
+                <input type="text" id="${FIELD_NAME}" value="${(existing ?? '').toString().replace(/"/g, '&quot;')}" required>
             </div>
         </div>`
     )
@@ -62,7 +64,7 @@ function openAnchorDialog(e: TiptapEditor) {
         label: 'Apply',
         variant: 'primary',
         onClick: (d) => {
-            const input = document.getElementById('anchor-name') as HTMLInputElement
+            const input = document.getElementById(FIELD_NAME) as HTMLInputElement
             if (!input.reportValidity()) return
             const name = input.value.trim()
             if (isEdit) {
@@ -83,4 +85,10 @@ function openAnchorDialog(e: TiptapEditor) {
     })
 
     dialog.open()
+
+    const input = document.getElementById(FIELD_NAME) as HTMLInputElement
+    if (input) {
+        input.focus()
+        input.select()
+    }
 }

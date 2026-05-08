@@ -29,7 +29,7 @@ const BLOCK_ELEMENTS = new Set([
     'address',
     'blockquote'
 ])
-const OBJECT_ELEMENTS = new Set(['table', 'ul', 'ol', 'img', 'td', 'th'])
+const OBJECT_ELEMENTS = new Set(['table', 'ul', 'ol', 'img', 'td', 'th', 'a'])
 
 export const stylesModule: TiptapModule = {
     extensions: [
@@ -230,6 +230,8 @@ function getActiveObjectElements(editor: TiptapEditor): Set<string> {
         if (node.type.name === 'tableHeader') active.add('th')
     }
 
+    if (editor.tiptap.isActive('link')) active.add('a')
+
     return active
 }
 
@@ -243,6 +245,12 @@ function isInsideList(editor: TiptapEditor): boolean {
 }
 
 function isObjectStyleActive(editor: TiptapEditor, style: CkeditorStyle): boolean {
+    if (style.element === 'a') {
+        const mark = editor.tiptap.getAttributes('link')
+        const cls = style.attributes?.class || null
+        return mark.class === cls
+    }
+
     const { $from } = editor.tiptap.state.selection
     for (let d = $from.depth; d > 0; d--) {
         const node = $from.node(d)
@@ -273,6 +281,13 @@ function applyStyle(editor: TiptapEditor, style: CkeditorStyle): void {
     const cmds = editor.tiptap.commands
     const htmlStyle = stylesToString(style.styles) || null
     const htmlClass = style.attributes?.class || null
+
+    if (style.element === 'a') {
+        const isActive = isObjectStyleActive(editor, style)
+        const cls = isActive ? null : (style.attributes?.class || null)
+        editor.tiptap.chain().focus().extendMarkRange('link').updateAttributes('link', { class: cls }).run()
+        return
+    }
 
     if (OBJECT_ELEMENTS.has(style.element)) {
         const { $from } = editor.tiptap.state.selection

@@ -3,15 +3,41 @@ import { TiptapEditor } from '../editor.ts'
 import { CkeditorStyle } from '../../wysiwyg/ckeditorConfig.ts'
 import { Extension, Mark, mergeAttributes, Node as TiptapNode } from '@tiptap/core'
 import { ExtensionType } from './../extensions.ts'
+import stylesIframeCss from './../../../../../css/core/components/tiptap/_styles_menu.scss?inline'
 import Heading from '@tiptap/extension-heading'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 
 const panels = new WeakMap<TiptapEditor, HTMLDivElement>()
 const cleanups = new WeakMap<TiptapEditor, () => void>()
+
+type StyleGroup = {
+    label: string
+    styles: CkeditorStyle[]
+}
+
 const INLINE_ELEMENTS = ['span', 'small', 'code', 'kbd', 'samp', 'var', 'del', 'ins', 'cite', 'q']
+const BLOCK_ELEMENTS = new Set([
+    'p',
+    'h1',
+    'h2',
+    'h3',
+    'h4',
+    'h5',
+    'h6',
+    'div',
+    'pre',
+    'address',
+    'blockquote'
+])
+const OBJECT_ELEMENTS = new Set(['table', 'ul', 'ol', 'img', 'td', 'th'])
 
 export const stylesModule: TiptapModule = {
-    extensions: getExtensions(),
+    extensions: [
+        Heading,
+        getDivExtension(),
+        ...INLINE_ELEMENTS.map(createInlineStyleMark),
+        getStyleExtension(),
+    ],
     toolbarGroup: 'styles',
     toolbar: [
         {
@@ -34,8 +60,8 @@ export const stylesModule: TiptapModule = {
     ]
 }
 
-function getExtensions(): ExtensionType[] {
-    const Div = TiptapNode.create({
+function getDivExtension(): ExtensionType {
+    return TiptapNode.create({
         name: 'div',
         group: 'block',
         content: 'inline*',
@@ -45,118 +71,94 @@ function getExtensions(): ExtensionType[] {
         renderHTML({ HTMLAttributes }) {
             return ['div', HTMLAttributes, 0]
         }
-    })
+    });
+}
 
-    return [
-        Heading,
-        Div,
-        ...INLINE_ELEMENTS.map(createInlineStyleMark),
-        Extension.create({
-            name: 'styleAttributes',
-            addGlobalAttributes() {
-                return [
-                    {
-                        types: ['heading', 'paragraph', 'div'],
-                        attributes: {
-                            htmlStyle: {
-                                default: null,
-                                parseHTML: (el) => {
-                                    const style = el.getAttribute('style')
-                                    if (style && BLOCK_ELEMENTS.has(el.tagName.toLowerCase())) {
-                                        el.removeAttribute('style')
-                                    }
-                                    return style || null
-                                },
-                                renderHTML: (attrs) =>
-                                    attrs.htmlStyle ? { style: attrs.htmlStyle } : {}
+function getStyleExtension(): ExtensionType {
+    return Extension.create({
+        name: 'styleAttributes',
+        addGlobalAttributes() {
+            return [
+                {
+                    types: ['heading', 'paragraph', 'div'],
+                    attributes: {
+                        htmlStyle: {
+                            default: null,
+                            parseHTML: (el) => {
+                                const style = el.getAttribute('style')
+                                if (style && BLOCK_ELEMENTS.has(el.tagName.toLowerCase())) {
+                                    el.removeAttribute('style')
+                                }
+                                return style || null
                             },
-                            htmlClass: {
-                                default: null,
-                                parseHTML: (el) => el.getAttribute('class') || null,
-                                renderHTML: (attrs) =>
-                                    attrs.htmlClass ? { class: attrs.htmlClass } : {}
-                            }
+                            renderHTML: (attrs) =>
+                                attrs.htmlStyle ? { style: attrs.htmlStyle } : {}
+                        },
+                        htmlClass: {
+                            default: null,
+                            parseHTML: (el) => el.getAttribute('class') || null,
+                            renderHTML: (attrs) =>
+                                attrs.htmlClass ? { class: attrs.htmlClass } : {}
                         }
                     }
-                ]
-            },
-            addProseMirrorPlugins() {
-                return [
-                    new Plugin({
-                        key: new PluginKey('trailingParagraph'),
-                        appendTransaction(_, __, newState) {
-                            const lastChild = newState.doc.lastChild
-                            if (lastChild && lastChild.type.name !== 'paragraph') {
-                                return newState.tr.insert(
-                                    newState.doc.content.size,
-                                    newState.schema.nodes.paragraph.create()
-                                )
-                            }
-                            return null
-                        }
-                    }),
-                    new Plugin({
-                        key: new PluginKey('clearStyleOnSplit'),
-                        appendTransaction(transactions, oldState, newState) {
-                            if (!transactions.some((t) => t.docChanged)) return null
-                            if (transactions.some((t) => t.getMeta('applyStyle'))) return null
-                            if (newState.doc.childCount <= oldState.doc.childCount) return null
-
-                            const { $from } = newState.selection
-                            const node = $from.parent
-                            let tr = null
-
-                            if (node.attrs.htmlStyle || node.attrs.htmlClass) {
-                                const pos = $from.before($from.depth)
-                                tr = newState.tr.setNodeMarkup(pos, undefined, {
-                                    ...node.attrs,
-                                    htmlStyle: null,
-                                    htmlClass: null
-                                })
-                            }
-
-                            const storedMarks =
-                                newState.storedMarks ?? newState.selection.$from.marks()
-                            const inlineStyleMarks = storedMarks.filter((m) =>
-                                m.type.name.startsWith('inlineStyle_')
+                }
+            ]
+        },
+        addProseMirrorPlugins() {
+            return [
+                new Plugin({
+                    key: new PluginKey('trailingParagraph'),
+                    appendTransaction(_, __, newState) {
+                        const lastChild = newState.doc.lastChild
+                        if (lastChild && lastChild.type.name !== 'paragraph') {
+                            return newState.tr.insert(
+                                newState.doc.content.size,
+                                newState.schema.nodes.paragraph.create()
                             )
-
-                            if (inlineStyleMarks.length > 0) {
-                                tr = tr ?? newState.tr
-                                for (const mark of inlineStyleMarks) {
-                                    tr = tr.removeStoredMark(mark)
-                                }
-                            }
-
-                            return tr
                         }
-                    })
-                ]
-            }
-        })
-    ]
+                        return null
+                    }
+                }),
+                new Plugin({
+                    key: new PluginKey('clearStyleOnSplit'),
+                    appendTransaction(transactions, oldState, newState) {
+                        if (!transactions.some((t) => t.docChanged)) return null
+                        if (transactions.some((t) => t.getMeta('applyStyle'))) return null
+                        if (newState.doc.childCount <= oldState.doc.childCount) return null
+
+                        const { $from } = newState.selection
+                        const node = $from.parent
+                        let tr = null
+
+                        if (node.attrs.htmlStyle || node.attrs.htmlClass) {
+                            const pos = $from.before($from.depth)
+                            tr = newState.tr.setNodeMarkup(pos, undefined, {
+                                ...node.attrs,
+                                htmlStyle: null,
+                                htmlClass: null
+                            })
+                        }
+
+                        const storedMarks =
+                            newState.storedMarks ?? newState.selection.$from.marks()
+                        const inlineStyleMarks = storedMarks.filter((m) =>
+                            m.type.name.startsWith('inlineStyle_')
+                        )
+
+                        if (inlineStyleMarks.length > 0) {
+                            tr = tr ?? newState.tr
+                            for (const mark of inlineStyleMarks) {
+                                tr = tr.removeStoredMark(mark)
+                            }
+                        }
+
+                        return tr
+                    }
+                })
+            ]
+        }
+    })
 }
-
-type StyleGroup = {
-    label: string
-    styles: CkeditorStyle[]
-}
-
-const BLOCK_ELEMENTS = new Set([
-    'p',
-    'h1',
-    'h2',
-    'h3',
-    'h4',
-    'h5',
-    'h6',
-    'div',
-    'pre',
-    'address',
-    'blockquote'
-])
-
-const OBJECT_ELEMENTS = new Set(['table', 'ul', 'ol', 'img', 'td', 'th'])
 
 function isBlock(style: CkeditorStyle): boolean {
     return BLOCK_ELEMENTS.has(style.element)
@@ -425,37 +427,8 @@ function buildStyleGroup(group: StyleGroup): string {
     return `
         <div class="style-group" data-group="${group.label}">
             <div class="style-group-label">${group.label}</div>
-            <ul>${items}</ul>
+            <ul class="style-list">${items}</ul>
         </div>`
-}
-
-function buildPreviewHtml(groups: StyleGroup[], contentCss?: string | null): string {
-    const cssLink = contentCss ? `<link rel="stylesheet" href="${contentCss}">` : ''
-    const body = groups.map(buildStyleGroup).join('')
-
-    const previewCss = `
-        * { box-sizing: border-box }
-        body { margin: 0; padding: 0; font-family: sans-serif }
-        ul { list-style: none; margin: 0; padding: 0 }
-        li { padding: 4px 12px; cursor: pointer }
-        li:hover, li.active { background: #e9ecef }
-        h1,h2,h3,h4,h5,h6,p,div,pre,address,blockquote { margin: 0 }
-        .style-group { display: none }
-        .style-group.visible { display: block }
-        .style-group.visible ~ .style-group.visible { border-top: 1px solid #dee2e6 }
-        .style-group-label {
-            padding: 4px 12px;
-            font-size: 11px;
-            font-weight: bold;
-            color: #888;
-            text-transform: uppercase;
-            border-bottom: 1px solid #eee;
-            cursor: default;
-        }
-        .marker { background-color: #ffff00 }
-    `
-
-    return `<!DOCTYPE html><html lang="en"><head>${cssLink}<style>${previewCss}</style></head><body>${body}</body></html>`
 }
 
 function updateVisibleGroups(
@@ -554,6 +527,18 @@ function createStylesDropdown(editor: TiptapEditor): HTMLElement {
     panel.appendChild(iframe)
     editor.docParent.body.appendChild(panel)
 
+    const iframeDoc = iframe.contentDocument!
+    const style = iframeDoc.createElement('style')
+    style.textContent = stylesIframeCss
+    iframeDoc.head.appendChild(style)
+
+    if (contentCss) {
+        const link = iframeDoc.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = contentCss
+        iframeDoc.head.appendChild(link)
+    }
+
     const hide = () => {
         panel.hidden = true
     }
@@ -571,30 +556,28 @@ function createStylesDropdown(editor: TiptapEditor): HTMLElement {
         if (initialized) return
         initialized = true
 
-        iframe.srcdoc = buildPreviewHtml(groups, contentCss)
-        iframe.addEventListener('load', () => {
-            const doc = iframe.contentDocument!
+        const doc = iframe.contentDocument!
+        doc.body.innerHTML = groups.map(buildStyleGroup).join('')
 
-            doc.addEventListener('mousedown', (e) => {
-                e.preventDefault()
-                const li = (e.target as HTMLElement).closest('li')
-                if (!li) return
-                const style = styleMap.get(li.dataset.name!)
-                if (style) applyStyle(editor, style)
-                hide()
-            })
-
-            doc.addEventListener('click', (e) => {
-                if (!(e.target as HTMLElement).closest('li')) hide()
-            })
-
-            onOpen = () => {
-                updateVisibleGroups(editor, doc, categories)
-                syncActive(editor, iframe, allStyles)
-            }
-
-            if (!panel.hidden) onOpen()
+        doc.addEventListener('mousedown', (e) => {
+            e.preventDefault()
+            const li = (e.target as HTMLElement).closest('li')
+            if (!li) return
+            const style = styleMap.get(li.dataset.name!)
+            if (style) applyStyle(editor, style)
+            hide()
         })
+
+        doc.addEventListener('click', (e) => {
+            if (!(e.target as HTMLElement).closest('li')) hide()
+        })
+
+        onOpen = () => {
+            updateVisibleGroups(editor, doc, categories)
+            syncActive(editor, iframe, allStyles)
+        }
+
+        if (!panel.hidden) onOpen()
     }
 
     const handleOutsideClick = (e: MouseEvent) => {

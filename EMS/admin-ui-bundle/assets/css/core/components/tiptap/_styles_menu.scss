@@ -1,0 +1,53 @@
+* {
+  box-sizing: border-box
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6, p, div, pre, address, blockquote {
+  margin: 0
+}
+
+.marker {
+  background-color: #ffff00
+}
+
+.style-group {
+  display: none
+}
+
+.style-group.visible {
+  display: block
+}
+
+.style-group.visible ~ .style-group.visible {
+  border-top: 1px solid #dee2e6
+}
+
+.style-group-label {
+  padding: 4px 12px;
+  font-size: 11px;
+  font-weight: bold;
+  color: #888;
+  text-transform: uppercase;
+  border-bottom: 1px solid #eee;
+  cursor: default;
+}
+
+ul.style-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    padding: 4px 12px;
+    cursor: pointer
+  }
+
+  li:hover, li.active {
+    background: #e9ecef
+  }
+}

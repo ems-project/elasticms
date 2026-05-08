@@ -80,9 +80,10 @@
 
     .styles-label {
       display: inline-block;
-      max-width: 100px;
+      width: 80px;
       overflow: hidden;
       text-overflow: ellipsis;
+      text-align: left;
       white-space: nowrap;
       vertical-align: middle;
     }

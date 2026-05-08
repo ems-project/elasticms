@@ -83,7 +83,7 @@ class Scroll implements \Iterator
     private function initScroll(): void
     {
         $this->currentResponse = Response::fromArray($this->client->post('/api/search/init-scroll', [
-            'search' => $this->search->serialize(),
+            'search' => $this->search->toPayload(),
             'expire-time' => $this->expireTime,
         ])->getData());
         $this->currentPage = 0;

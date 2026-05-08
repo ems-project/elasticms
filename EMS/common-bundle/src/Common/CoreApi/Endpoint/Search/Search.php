@@ -24,15 +24,15 @@ class Search implements SearchInterface
     #[\Override]
     public function search(SearchObject $search): ResponseInterface
     {
-        return Response::fromArray($this->client->post('/api/search/search', ['search' => $search->serialize()])->getData());
+        return Response::fromArray($this->client->post('/api/search/search', ['search' => $search->toPayload()])->getData());
     }
 
     #[\Override]
     public function count(SearchObject $search): int
     {
-        $count = $this->client->post('/api/search/count', ['search' => $search->serialize()])->getData()['count'] ?? null;
+        $count = $this->client->post('/api/search/count', ['search' => $search->toPayload()])->getData()['count'] ?? null;
         if (!\is_int($count)) {
-            throw new \RuntimeException('Unexpected: count must be a string');
+            throw new \RuntimeException('Unexpected: count must be an integer');
         }
 
         return $count;

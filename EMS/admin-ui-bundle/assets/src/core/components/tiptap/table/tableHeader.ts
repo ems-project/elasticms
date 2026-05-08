@@ -7,6 +7,11 @@ export const CustomTableHeader = TableHeader.extend({
     addAttributes() {
         return {
             ...this.parent?.(),
+            class: {
+                default: null,
+                parseHTML: (el) => el.getAttribute('class') || null,
+                renderHTML: (attrs) => attrs.class ? { class: attrs.class } : {}
+            },
             scope: {
                 default: null,
                 parseHTML: (el) => el.getAttribute('scope'),

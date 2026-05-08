@@ -156,7 +156,7 @@ const BLOCK_ELEMENTS = new Set([
     'blockquote'
 ])
 
-const OBJECT_ELEMENTS = new Set(['table', 'ul', 'ol', 'img'])
+const OBJECT_ELEMENTS = new Set(['table', 'ul', 'ol', 'img', 'td', 'th'])
 
 function isBlock(style: CkeditorStyle): boolean {
     return BLOCK_ELEMENTS.has(style.element)
@@ -225,6 +225,8 @@ function getActiveObjectElements(editor: TiptapEditor): Set<string> {
         if (node.type.name === 'table') active.add('table')
         if (node.type.name === 'bulletList') active.add('ul')
         if (node.type.name === 'orderedList') active.add('ol')
+        if (node.type.name === 'tableCell') active.add('td')
+        if (node.type.name === 'tableHeader') active.add('th')
     }
 
     return active
@@ -247,13 +249,16 @@ function isObjectStyleActive(editor: TiptapEditor, style: CkeditorStyle): boolea
         const matches =
             (style.element === 'table' && nodeType === 'table') ||
             (style.element === 'ul' && nodeType === 'bulletList') ||
-            (style.element === 'ol' && nodeType === 'orderedList')
+            (style.element === 'ol' && nodeType === 'orderedList') ||
+            (style.element === 'td' && nodeType === 'tableCell') ||
+            (style.element === 'th' && nodeType === 'tableHeader')
         if (matches) {
             const styleStr = stylesToString(style.styles) || null
-            return (
-                !!node.attrs.dataUserStyle &&
-                normalizeStyle(node.attrs.dataUserStyle) === normalizeStyle(styleStr)
-            )
+            const cls = style.attributes?.class || null
+            if (styleStr) {
+                return !!node.attrs.dataUserStyle && normalizeStyle(node.attrs.dataUserStyle) === normalizeStyle(styleStr)
+            }
+            return node.attrs.class === cls
         }
     }
     return false
@@ -273,22 +278,18 @@ function applyStyle(editor: TiptapEditor, style: CkeditorStyle): void {
             const matches =
                 (style.element === 'table' && nodeType === 'table') ||
                 (style.element === 'ul' && nodeType === 'bulletList') ||
-                (style.element === 'ol' && nodeType === 'orderedList')
+                (style.element === 'ol' && nodeType === 'orderedList') ||
+                (style.element === 'td' && nodeType === 'tableCell') ||
+                (style.element === 'th' && nodeType === 'tableHeader')
 
             if (matches) {
                 const pos = $from.before(d)
                 const styleStr = stylesToString(style.styles) || null
-                const isActive =
-                    node.attrs.dataUserStyle &&
-                    normalizeStyle(node.attrs.dataUserStyle) === normalizeStyle(styleStr)
+
+                const isActive = isObjectStyleActive(editor, style)
 
                 if (isActive) {
-                    const resetAttrs: Record<string, any> = { ...node.attrs, dataUserStyle: null }
-                    if (style.attributes) {
-                        Object.keys(style.attributes).forEach((k) => {
-                            resetAttrs[k] = null
-                        })
-                    }
+                    const resetAttrs: Record<string, any> = { ...node.attrs, dataUserStyle: null, class: null }
                     editor.tiptap.view.dispatch(
                         editor.tiptap.state.tr.setNodeMarkup(pos, undefined, resetAttrs)
                     )
@@ -406,12 +407,14 @@ function buildPreviewHtml(groups: StyleGroup[], contentCss?: string | null): str
         .map((group) => {
             const items = group.styles
                 .map((s) => {
+                    if (OBJECT_ELEMENTS.has(s.element)) {
+                        return `<li data-name="${s.name}"><span>${s.name}</span></li>`
+                    }
                     const tag = s.element
                     const cls = s.attributes?.class ? ` class="${s.attributes.class}"` : ''
-                    const dir = s.attributes?.dir ? ` dir="${s.attributes.dir}"` : ''
                     const style = stylesToString(s.styles)
                     const styleAttr = style ? ` style="${style}"` : ''
-                    return `<li data-name="${s.name}"><${tag}${cls}${dir}${styleAttr}>${s.name}</${tag}></li>`
+                    return `<li data-name="${s.name}"><${tag}${cls}${styleAttr}>${s.name}</${tag}></li>`
                 })
                 .join('')
 

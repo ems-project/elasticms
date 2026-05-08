@@ -46,6 +46,7 @@ function openAnchorDialog(e: TiptapEditor) {
     const dialog = new Dialog('Anchor Properties', { draggable: true })
 
     const { from, to } = e.tiptap.state.selection
+    const isEdit = e.tiptap.isActive('anchor')
     const existing = e.tiptap.getAttributes('anchor')?.id ?? ''
 
     dialog.setContent(
@@ -64,11 +65,12 @@ function openAnchorDialog(e: TiptapEditor) {
             const input = document.getElementById('anchor-name') as HTMLInputElement
             if (!input.reportValidity()) return
             const name = input.value.trim()
-            const chain = e.tiptap.chain().focus().setTextSelection({ from, to })
-            if (from === to) {
-                chain.insertContent({ type: 'text', text: '\u200B', marks: [{ type: 'anchor', attrs: { id: name, name } }] }).run()
+            if (isEdit) {
+                e.tiptap.chain().focus().extendMarkRange('anchor').setMark('anchor', { id: name, name }).run()
+            } else if (from === to) {
+                e.tiptap.chain().focus().setTextSelection({ from, to }).insertContent({ type: 'text', text: '\u200B', marks: [{ type: 'anchor', attrs: { id: name, name } }] }).run()
             } else {
-                chain.setMark('anchor', { id: name, name }).run()
+                e.tiptap.chain().focus().setTextSelection({ from, to }).setMark('anchor', { id: name, name }).run()
             }
             d.close()
         }

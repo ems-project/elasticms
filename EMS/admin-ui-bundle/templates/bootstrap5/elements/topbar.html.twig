@@ -1,6 +1,6 @@
 {%- trans_default_domain 'elements' -%}
 
-<nav class="navbar navbar-expand bg-{{ theme_color }}" {{ theme_color_contrast == 'dark' ? 'data-bs-theme="dark"'}}>
+<nav class="navbar navbar-expand bg-{{ theme_color }}" {{ theme_color_contrast == 'dark' ? 'data-bs-theme="dark"' }}>
     <a class="sidebar-toggle js-sidebar-toggle">
         <i class="hamburger align-self-center"></i>
     </a>
@@ -32,7 +32,7 @@
                         {{ include('@EMSAdminUI/bootstrap5/elements/user-image.html.twig', {
                             class: 'rounded-circle avatar ms-3 img-fluid',
                             width: 37,
-                            height: 37
+                            height: 37,
                         }) }}
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end pt-0">
@@ -41,7 +41,7 @@
                                 {{ include('@EMSAdminUI/bootstrap5/elements/user-image.html.twig', {
                                     class: 'rounded-circle',
                                     width: 60,
-                                    height: 60
+                                    height: 60,
                                 }) }}
                             </div>
 

@@ -96,10 +96,24 @@ nearest matching ancestor using `OBJECT_NODE_MAP`.
 
 ### Insert
 
-Two separate sub-modules:
+Three separate submodules contribute to the insert toolbar group:
 
 - **Horizontal Rule** — inserts an `<hr>` element.
 - **Blockquote** — toggles a block quote with active state tracking.
+- **Anchor** — inserts or edits a named anchor for in-page linking (see below).
+
+### Anchor
+
+Provides named anchors for in-page linking. The module registers a custom `anchor` mark that renders
+as `<a name="..." id="...">` (without `href`, so it does not conflict with the link extension).
+
+The toolbar button opens a dialog where the user enters an anchor name. If text is selected, the
+anchor wraps that text. If no text is selected, a zero-width space is inserted with the anchor mark
+applied, creating an invisible bookmark. When the cursor is already inside an existing anchor,
+clicking the button opens the dialog in edit mode with the current name pre-filled.
+
+A right-click context menu provides "Edit Anchor" and "Remove Anchor" actions. The cleanup module
+excludes anchor marks from the "Remove Format" action so anchors survive formatting resets.
 
 ### Cleanup
 

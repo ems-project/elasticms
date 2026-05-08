@@ -63,14 +63,14 @@ class ScrollAiTest extends TestCase
             ->expects($this->once())
             ->method('post')
             ->with('/api/search/init-scroll', [
-                'search' => '{}',
+                'search' => [],
                 'expire-time' => '3m',
             ])
             ->willReturn($this->createConfiguredMock(Result::class, ['getData' => []]));
 
         $this->search
-            ->method('serialize')
-            ->willReturn('{}');
+            ->method('toPayload')
+            ->willReturn([]);
 
         $scroll = new Scroll($this->client, $this->search);
         $scroll->rewind();

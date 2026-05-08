@@ -1,5 +1,6 @@
 import { Mark, mergeAttributes } from '@tiptap/core'
 import IconAnchor from '@tabler/icons/outline/anchor.svg?raw'
+import IconAnchorOff from '@tabler/icons/outline/anchor-off.svg?raw'
 import { TiptapModule } from '../types.ts'
 import { Dialog } from '../../dialog.ts'
 import { TiptapEditor } from '../editor.ts'
@@ -16,6 +17,21 @@ export const anchorModule: TiptapModule = {
             tooltip: 'Anchor',
             command: (e) => openAnchorDialog(e),
             isActive: (e) => e.tiptap.isActive('anchor')
+        }
+    ],
+    contextMenuNode: 'anchor',
+    contextMenu: [
+        {
+            label: 'Edit Anchor',
+            icon: IconAnchor,
+            order: 0,
+            command: (e) => openAnchorDialog(e)
+        },
+        {
+            label: 'Remove Anchor',
+            icon: IconAnchorOff,
+            order: 1,
+            command: (e) => e.tiptap.chain().focus().extendMarkRange('anchor').unsetMark('anchor').run()
         }
     ]
 }

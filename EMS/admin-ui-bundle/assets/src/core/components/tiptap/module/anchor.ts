@@ -4,7 +4,7 @@ import { TiptapModule } from '../types.ts'
 import { Dialog } from '../../dialog.ts'
 import { TiptapEditor } from '../editor.ts'
 
-const FIELD_NAME = 'tiptap-anchor-name';
+const FIELD_NAME = 'tiptap-anchor-name'
 
 export const anchorModule: TiptapModule = {
     extensions: getAnchorExtension(),
@@ -60,35 +60,39 @@ function openAnchorDialog(e: TiptapEditor) {
         </div>`
     )
 
-    dialog.addButton({
-        label: 'Apply',
-        variant: 'primary',
-        onClick: (d) => {
-            const input = document.getElementById(FIELD_NAME) as HTMLInputElement
-            if (!input.reportValidity()) return
-            const name = input.value.trim()
-            if (isEdit) {
-                e.tiptap.chain().focus().extendMarkRange('anchor').setMark('anchor', { id: name, name }).run()
-            } else if (from === to) {
-                e.tiptap.chain().focus().setTextSelection({ from, to }).insertContent({ type: 'text', text: '\u200B', marks: [{ type: 'anchor', attrs: { id: name, name } }] }).run()
-            } else {
-                e.tiptap.chain().focus().setTextSelection({ from, to }).setMark('anchor', { id: name, name }).run()
-            }
-            d.close()
+    const apply = () => {
+        const input = document.getElementById(FIELD_NAME) as HTMLInputElement
+        if (!input.reportValidity()) return
+        const name = input.value.trim()
+        const chain = e.tiptap.chain().focus()
+        if (isEdit) {
+            chain.extendMarkRange('anchor').setMark('anchor', { id: name, name }).run()
+        } else if (from === to) {
+            chain
+                .insertContent({
+                    type: 'text',
+                    text: '\u200B',
+                    marks: [{ type: 'anchor', attrs: { id: name, name } }]
+                })
+                .run()
+        } else {
+            chain.setTextSelection({ from, to }).setMark('anchor', { id: name, name }).run()
         }
-    })
+        dialog.close()
+    }
 
-    dialog.addButton({
-        label: 'Cancel',
-        variant: 'secondary',
-        onClick: (d) => d.close()
-    })
-
-    dialog.open()
+    dialog
+        .addButton({ label: 'Apply', variant: 'primary', onClick: () => apply() })
+        .addButton({ label: 'Cancel', variant: 'secondary', onClick: (d) => d.close() })
+        .open()
 
     const input = document.getElementById(FIELD_NAME) as HTMLInputElement
     if (input) {
         input.focus()
         input.select()
+
+        input.addEventListener('keydown', (ev) => {
+            if (ev.key === 'Enter') apply()
+        })
     }
 }

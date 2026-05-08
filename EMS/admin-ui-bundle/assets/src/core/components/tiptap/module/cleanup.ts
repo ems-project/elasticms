@@ -8,7 +8,13 @@ export const cleanupModule: TiptapModule = {
             name: 'RemoveFormat',
             icon: IconClear,
             tooltip: 'Remove Format',
-            command: (e) => e.tiptap.chain().focus().unsetAllMarks().run()
+            command: (e) => {
+                const chain = e.tiptap.chain().focus()
+                Object.keys(e.tiptap.schema.marks).forEach((mark) => {
+                    if (mark !== 'anchor') chain.unsetMark(mark)
+                })
+                chain.clearNodes().run()
+            }
         }
     ]
 }

@@ -132,7 +132,8 @@ export class ContextMenu {
     }
 
     private renderItem(item: ContextMenuItem): HTMLElement {
-        const btn = this.editor.docParent.createElement('button')
+        const doc = this.editor.docParent
+        const btn = doc.createElement('button')
         btn.type = 'button'
         btn.className = 'tiptap-context-menu-item'
 
@@ -143,13 +144,13 @@ export class ContextMenu {
         }
 
         if (item.icon) {
-            const icon = this.editor.docParent.createElement('span')
+            const icon = doc.createElement('span')
             icon.className = 'tiptap-context-menu-icon'
             icon.innerHTML = item.icon
             btn.appendChild(icon)
         }
 
-        const label = this.editor.docParent.createElement('span')
+        const label = doc.createElement('span')
         label.textContent = item.label
         btn.appendChild(label)
 
@@ -162,32 +163,32 @@ export class ContextMenu {
 
         return btn
     }
-
     private renderSubmenu(label: string, children: ContextMenuItem[], icon?: string): HTMLElement {
-        const wrapper = this.editor.docParent.createElement('div')
+        const doc = this.editor.docParent
+        const wrapper = doc.createElement('div')
         wrapper.className = 'tiptap-context-menu-submenu'
 
-        const trigger = this.editor.docParent.createElement('button')
+        const trigger = doc.createElement('button')
         trigger.type = 'button'
         trigger.className = 'tiptap-context-menu-item has-submenu'
 
         if (icon) {
-            const iconEl = this.editor.docParent.createElement('span')
+            const iconEl = doc.createElement('span')
             iconEl.className = 'tiptap-context-menu-icon'
             iconEl.innerHTML = icon
             trigger.appendChild(iconEl)
         }
 
-        const text = this.editor.docParent.createElement('span')
+        const text = doc.createElement('span')
         text.textContent = label
         trigger.appendChild(text)
 
-        const arrow = this.editor.docParent.createElement('span')
+        const arrow = doc.createElement('span')
         arrow.className = 'tiptap-context-menu-arrow'
         arrow.textContent = '\u25B6'
         trigger.appendChild(arrow)
 
-        const panel = this.editor.docParent.createElement('div')
+        const panel = doc.createElement('div')
         panel.className = 'tiptap-context-menu-panel'
         for (const child of children) {
             panel.appendChild(this.renderItem(child))

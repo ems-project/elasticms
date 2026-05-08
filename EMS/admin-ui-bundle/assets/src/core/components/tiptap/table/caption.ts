@@ -16,7 +16,7 @@ export const TableFigure: Node = Node.create({
     }
 })
 
-export const TableCaption: Node = Node.create({
+export const Caption: Node = Node.create({
     name: 'tableCaption',
     content: 'inline*',
     defining: true,

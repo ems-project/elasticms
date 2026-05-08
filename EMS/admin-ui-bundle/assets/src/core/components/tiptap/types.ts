@@ -10,6 +10,7 @@ import { insertModule } from './module/insert.ts'
 import { WysiwygProfile } from '../wysiwyg/wysiwyg.ts'
 import { tableModule } from './module/table.ts'
 import { ExtensionType } from './extensions.ts'
+import { stylesModule } from './module/styles.ts'
 
 export type ContextType = 'table'
 
@@ -21,7 +22,8 @@ export const Modules: TiptapModule[] = [
     indentModule,
     justifyModule,
     ...insertModule,
-    tableModule
+    tableModule,
+    stylesModule
 ]
 
 export interface HtmlTransform {
@@ -49,9 +51,14 @@ export interface ToolbarItem {
     isActive?: (editor: TiptapEditor) => boolean
 }
 
+export interface ToolbarItemCustom {
+    create: (editor: TiptapEditor) => HTMLElement
+    destroy?: (editor: TiptapEditor) => void
+}
+
 export interface TiptapModule {
     extensions?: ExtensionType[]
-    toolbar?: ToolbarItem[]
+    toolbar?: (ToolbarItem | ToolbarItemCustom)[]
     toolbarGroup?: string
     contextMenu?: ContextMenuItem[]
     contextMenuNode?: string

@@ -4,9 +4,11 @@ import { Toolbar } from './toolbar.ts'
 import { ContextMenu } from './contextMenu.ts'
 import { Modules, HtmlTransform, TiptapModule } from './types.ts'
 import { WysiwygOptions, WysiwygProfile } from '../wysiwyg/wysiwyg.ts'
+import { CkeditorStyle } from '../wysiwyg/ckeditorConfig.ts'
 
 interface TiptapEditorOptions {
     content?: string
+    parent?: Document
     element: HTMLElement
     customModules?: TiptapModule[]
     toolbarElement?: HTMLElement | null
@@ -18,19 +20,25 @@ export class TiptapEditor {
     tiptap: Editor
     toolbar: Toolbar
     menu: ContextMenu
+    readonly docParent: Document
+    readonly docEditor: Document
+    readonly profile: WysiwygProfile
     readonly modules: TiptapModule[]
     private readonly htmlTransforms: HtmlTransform[]
     private readonly options: TiptapEditorOptions
 
     constructor(options: TiptapEditorOptions) {
         this.options = options
+        this.docEditor = options.element.ownerDocument
+        this.docParent = this.options.parent ?? document
+        this.profile = options.wysiwygProfile ?? new WysiwygProfile()
+
         this.toolbar = new Toolbar(this)
 
-        const profile = options.wysiwygProfile ?? new WysiwygProfile()
-        const { modules, extensions } = this.resolveModules(
-            [...Modules, ...(options.customModules ?? [])],
-            profile
-        )
+        const { modules, extensions } = this.resolveModules([
+            ...Modules,
+            ...(options.customModules ?? [])
+        ])
 
         this.modules = modules
         this.htmlTransforms = modules.flatMap((m) => m.htmlTransforms ?? [])
@@ -49,8 +57,16 @@ export class TiptapEditor {
         if (options.toolbarElement) this.attachToolbar(options.toolbarElement)
     }
 
-    getDefaultTableClass(): null | string {
-        return this.options.wysiwygOptions?.tableDefaultCss ?? null
+    getWysiwygOptions(): null | WysiwygOptions {
+        return this.options.wysiwygOptions ?? null
+    }
+
+    getWysiwygStyles(): CkeditorStyle[] {
+        const styleSet = this.options.wysiwygOptions?.styleSet ?? null
+        return (
+            this.profile.styles.find((s) => s.name === styleSet)?.config ??
+            this.profile.config.defaultStyles
+        )
     }
 
     getHTML(): string {
@@ -73,9 +89,9 @@ export class TiptapEditor {
         this.options.element.innerHTML = ''
     }
 
-    private resolveModules(allModules: TiptapModule[], profile: WysiwygProfile) {
-        const removed = new Set(profile.config.removeButtons?.split(',') ?? [])
-        const enabledModules = allModules.filter((m) => !m.isEnabled || m.isEnabled(profile))
+    private resolveModules(allModules: TiptapModule[]) {
+        const removed = new Set(this.profile.config.removeButtons?.split(',') ?? [])
+        const enabledModules = allModules.filter((m) => !m.isEnabled || m.isEnabled(this.profile))
 
         const activeModules = new Set<TiptapModule>()
         const extensionMap = new Map<string, ExtensionType>()
@@ -87,7 +103,7 @@ export class TiptapEditor {
             mod.extensions?.forEach((ext) => extensionMap.set(ext.name, ext))
         }
 
-        profile.config.toolbarGroups.forEach((entry) => {
+        this.profile.config.toolbarGroups.forEach((entry) => {
             if (entry === '/') return
 
             const groups = entry.groups ?? [entry.name]
@@ -95,12 +111,16 @@ export class TiptapEditor {
                 enabledModules.forEach((mod) => {
                     if (mod.toolbarGroup !== groupName) return
 
-                    const validItems = (mod.toolbar ?? []).filter((item) => !removed.has(item.name))
+                    const validItems = (mod.toolbar ?? []).filter((item) => {
+                        return !('name' in item) || !removed.has(item.name)
+                    })
 
                     validItems.forEach((item) => {
                         registerModule(mod)
                         this.toolbar.addItem(groupName, item)
-                        item.extensions?.forEach((ext) => extensionMap.set(ext.name, ext))
+                        if ('extensions' in item) {
+                            item.extensions?.forEach((ext) => extensionMap.set(ext.name, ext))
+                        }
                     })
                 })
             })

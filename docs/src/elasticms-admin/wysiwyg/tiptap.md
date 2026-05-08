@@ -46,6 +46,54 @@ items instead.
 Left, center, right, and justify alignment using Tiptap's `TextAlign` extension configured for
 headings and paragraphs. The "left" button works by unsetting alignment (since left is the default).
 
+### Styles
+
+The styles module provides a dropdown for applying block, inline, and object styles defined in the
+wysiwyg configuration. It bridges CKEditor-style definitions to Tiptap by mapping them onto headings,
+paragraphs, divs, inline marks, and object nodes like tables and lists.
+
+#### Element Classification
+
+Styles are categorized into three groups based on their target element:
+
+- **Block styles** — target `p`, `h1`–`h6`, `div`, `pre`, `address`, or `blockquote`. Applied by
+  switching the node type and/or setting `htmlClass` and `htmlStyle` attributes.
+- **Inline styles** — target elements like `span`, `small`, `code`, `kbd`, `del`, `ins`, etc.
+  Each inline element is registered as a separate Tiptap mark (`inlineStyle_span`,
+  `inlineStyle_code`, …) with `style` and `class` attributes. Applied via `toggleMark`.
+- **Object styles** — target `table`, `ul`, `ol`, `td`, `th`, or `a`. These operate on the
+  nearest matching ancestor node or link mark, toggling a `dataUserStyle` attribute or CSS class.
+
+#### Extensions
+
+The module registers several extensions:
+
+- **Heading** — Tiptap's built-in heading extension.
+- **Div** — a custom block node for `<div>` elements with inline content.
+- **Inline style marks** — one mark per inline element, supporting `style` and `class` attributes.
+- **styleAttributes** — a global attribute extension that adds `htmlStyle` and `htmlClass` to
+  headings, paragraphs, and divs. Also includes two ProseMirror plugins:
+  - *trailingParagraph* — ensures the document always ends with a paragraph node.
+  - *clearStyleOnSplit* — resets block attributes and inline style marks when splitting a block
+    with Enter, so new paragraphs start clean.
+
+#### Dropdown Behavior
+
+The toolbar renders a "Styles" dropdown button. The dropdown panel is lazily initialized on first
+open and rendered inside an iframe to isolate the content CSS from the toolbar. The panel groups
+styles by category and only shows object styles when the cursor is inside a matching element (e.g.
+table styles only appear when editing a table).
+
+The button label updates on every selection change and transaction to reflect the currently active
+styles. When a style is already active, clicking it again removes it (toggling behavior).
+
+#### Style Resolution
+
+Block style detection uses two lookup maps — `NODE_TO_ELEMENT` and `ELEMENT_TO_APPLIED` — to
+translate between Tiptap node names and HTML elements. This avoids deeply nested conditionals and
+makes it easy to add new block types. Object style detection walks up the node tree to find the
+nearest matching ancestor using `OBJECT_NODE_MAP`.
+
 ### Insert
 
 Two separate sub-modules:
@@ -149,10 +197,16 @@ On output, the `data-user-style` values are merged back into the `style` attribu
 `height` table attributes are folded into the style string, `colgroup` leftovers are cleaned up
 again, and `min-width` values injected by the table editing UI are stripped from cell styles.
 
+### Trailing Paragraph Transform
+
+The styles module registers a lightweight output transform that removes empty trailing `<p>` elements
+from the output HTML. This cleans up the extra paragraph that the `trailingParagraph` ProseMirror
+plugin inserts to keep the editor usable.
+
 ### Transform Pipeline
 
-All three transforms run in sequence through a shared pipeline in `TiptapEditor.transformHtml()`.
-The method parses the HTML into a DOM, calls every registered transform in order, and serializes the
+All transforms run in sequence through a shared pipeline in `TiptapEditor.transformHtml()`. The
+method parses the HTML into a DOM, calls every registered transform in order, and serializes the
 result back to an HTML string. This keeps the transform logic decoupled from the editor core —
 modules simply declare their transforms and the editor handles the rest.
 

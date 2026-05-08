@@ -22,14 +22,6 @@ export class ContextMenu {
         this.editor.tiptap.view.dom.addEventListener('contextmenu', this.onMenu)
     }
 
-    private get topDoc(): Document {
-        return this.editor.tiptap.view.dom.ownerDocument.defaultView?.parent?.document ?? document
-    }
-
-    private get editorDoc(): Document {
-        return this.editor.tiptap.view.dom.ownerDocument
-    }
-
     private onClickOutside = (e: MouseEvent) => {
         if (this.el && !this.el.contains(e.target as Node)) this.close()
     }
@@ -79,10 +71,10 @@ export class ContextMenu {
     }
 
     private getAllDocuments(): Document[] {
-        const top = this.topDoc
-        const docs = [top, this.editorDoc]
+        const top = this.editor.docParent
+        const docs = [top, this.editor.docEditor]
         top.querySelectorAll('iframe').forEach((frame) => {
-            if (frame.contentDocument && frame.contentDocument !== this.editorDoc) {
+            if (frame.contentDocument && frame.contentDocument !== this.editor.docEditor) {
                 docs.push(frame.contentDocument)
             }
         })
@@ -104,7 +96,7 @@ export class ContextMenu {
     }
 
     private render(items: ContextMenuItem[]): HTMLElement {
-        const doc = this.topDoc
+        const doc = this.editor.docParent
         const menu = doc.createElement('div')
         menu.className = 'tiptap-context-menu'
 
@@ -140,7 +132,7 @@ export class ContextMenu {
     }
 
     private renderItem(item: ContextMenuItem): HTMLElement {
-        const btn = this.topDoc.createElement('button')
+        const btn = this.editor.docParent.createElement('button')
         btn.type = 'button'
         btn.className = 'tiptap-context-menu-item'
 
@@ -151,13 +143,13 @@ export class ContextMenu {
         }
 
         if (item.icon) {
-            const icon = this.topDoc.createElement('span')
+            const icon = this.editor.docParent.createElement('span')
             icon.className = 'tiptap-context-menu-icon'
             icon.innerHTML = item.icon
             btn.appendChild(icon)
         }
 
-        const label = this.topDoc.createElement('span')
+        const label = this.editor.docParent.createElement('span')
         label.textContent = item.label
         btn.appendChild(label)
 
@@ -172,30 +164,30 @@ export class ContextMenu {
     }
 
     private renderSubmenu(label: string, children: ContextMenuItem[], icon?: string): HTMLElement {
-        const wrapper = this.topDoc.createElement('div')
+        const wrapper = this.editor.docParent.createElement('div')
         wrapper.className = 'tiptap-context-menu-submenu'
 
-        const trigger = this.topDoc.createElement('button')
+        const trigger = this.editor.docParent.createElement('button')
         trigger.type = 'button'
         trigger.className = 'tiptap-context-menu-item has-submenu'
 
         if (icon) {
-            const iconEl = this.topDoc.createElement('span')
+            const iconEl = this.editor.docParent.createElement('span')
             iconEl.className = 'tiptap-context-menu-icon'
             iconEl.innerHTML = icon
             trigger.appendChild(iconEl)
         }
 
-        const text = this.topDoc.createElement('span')
+        const text = this.editor.docParent.createElement('span')
         text.textContent = label
         trigger.appendChild(text)
 
-        const arrow = this.topDoc.createElement('span')
+        const arrow = this.editor.docParent.createElement('span')
         arrow.className = 'tiptap-context-menu-arrow'
         arrow.textContent = '\u25B6'
         trigger.appendChild(arrow)
 
-        const panel = this.topDoc.createElement('div')
+        const panel = this.editor.docParent.createElement('div')
         panel.className = 'tiptap-context-menu-panel'
         for (const child of children) {
             panel.appendChild(this.renderItem(child))
@@ -207,9 +199,9 @@ export class ContextMenu {
     }
 
     private getFrameOffset(): { x: number; y: number } {
-        const doc = this.editorDoc
+        const doc = this.editor.docEditor
         if (doc === document) return { x: 0, y: 0 }
-        const frame = [...this.topDoc.querySelectorAll('iframe')].find(
+        const frame = [...this.editor.docParent.querySelectorAll('iframe')].find(
             (f) => f.contentDocument === doc
         )
         if (!frame) return { x: 0, y: 0 }
@@ -219,7 +211,7 @@ export class ContextMenu {
 
     private position(e: MouseEvent) {
         if (!this.el) return
-        const win = this.topDoc.defaultView ?? window
+        const win = this.editor.docParent.defaultView ?? window
         const offset = this.getFrameOffset()
         const x = e.clientX + offset.x + win.scrollX
         const y = e.clientY + offset.y + win.scrollY
@@ -232,7 +224,7 @@ export class ContextMenu {
 
     private adjustSubmenus() {
         if (!this.el) return
-        const win = this.topDoc.defaultView ?? window
+        const win = this.editor.docParent.defaultView ?? window
 
         this.el.querySelectorAll<HTMLElement>('.tiptap-context-menu-submenu').forEach((wrapper) => {
             wrapper.addEventListener('mouseenter', () => {

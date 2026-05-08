@@ -8,6 +8,7 @@ import { CkeditorStyle } from '../wysiwyg/ckeditorConfig.ts'
 
 interface TiptapEditorOptions {
     content?: string
+    parent?: Document
     element: HTMLElement
     customModules?: TiptapModule[]
     toolbarElement?: HTMLElement | null
@@ -19,6 +20,8 @@ export class TiptapEditor {
     tiptap: Editor
     toolbar: Toolbar
     menu: ContextMenu
+    readonly docParent: Document
+    readonly docEditor: Document
     readonly profile: WysiwygProfile
     readonly modules: TiptapModule[]
     private readonly htmlTransforms: HtmlTransform[]
@@ -26,8 +29,11 @@ export class TiptapEditor {
 
     constructor(options: TiptapEditorOptions) {
         this.options = options
-        this.toolbar = new Toolbar(this)
+        this.docEditor = options.element.ownerDocument
+        this.docParent = this.options.parent ?? document
         this.profile = options.wysiwygProfile ?? new WysiwygProfile()
+
+        this.toolbar = new Toolbar(this)
 
         const { modules, extensions } = this.resolveModules([
             ...Modules,
@@ -57,7 +63,10 @@ export class TiptapEditor {
 
     getWysiwygStyles(): CkeditorStyle[] {
         const styleSet = this.options.wysiwygOptions?.styleSet ?? null
-        return this.profile.styles.find((s) => s.name === styleSet)?.config ?? this.profile.config.defaultStyles
+        return (
+            this.profile.styles.find((s) => s.name === styleSet)?.config ??
+            this.profile.config.defaultStyles
+        )
     }
 
     getHTML(): string {

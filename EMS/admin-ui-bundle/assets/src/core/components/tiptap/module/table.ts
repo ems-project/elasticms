@@ -65,7 +65,7 @@ function getExtensions(): Node[] {
                 class: {
                     default: null,
                     parseHTML: (el) => el.getAttribute('class') || null,
-                    renderHTML: (attrs) => attrs.class ? { class: attrs.class } : {}
+                    renderHTML: (attrs) => (attrs.class ? { class: attrs.class } : {})
                 },
                 dataUserStyle: {
                     default: null,

@@ -10,7 +10,7 @@ export const CustomTableHeader = TableHeader.extend({
             class: {
                 default: null,
                 parseHTML: (el) => el.getAttribute('class') || null,
-                renderHTML: (attrs) => attrs.class ? { class: attrs.class } : {}
+                renderHTML: (attrs) => (attrs.class ? { class: attrs.class } : {})
             },
             scope: {
                 default: null,

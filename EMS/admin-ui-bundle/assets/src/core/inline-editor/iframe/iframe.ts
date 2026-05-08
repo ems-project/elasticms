@@ -177,6 +177,7 @@ export class Iframe {
     private initTiptap(element: HTMLElement, info: InlineElement) {
         const editor = new TiptapEditor({
             element,
+            parent: window.parent.document,
             content: element.innerHTML,
             wysiwygProfile: getWysiwygProfile(window.parent.document)
         })

@@ -256,7 +256,10 @@ function isObjectStyleActive(editor: TiptapEditor, style: CkeditorStyle): boolea
             const styleStr = stylesToString(style.styles) || null
             const cls = style.attributes?.class || null
             if (styleStr) {
-                return !!node.attrs.dataUserStyle && normalizeStyle(node.attrs.dataUserStyle) === normalizeStyle(styleStr)
+                return (
+                    !!node.attrs.dataUserStyle &&
+                    normalizeStyle(node.attrs.dataUserStyle) === normalizeStyle(styleStr)
+                )
             }
             return node.attrs.class === cls
         }
@@ -289,7 +292,11 @@ function applyStyle(editor: TiptapEditor, style: CkeditorStyle): void {
                 const isActive = isObjectStyleActive(editor, style)
 
                 if (isActive) {
-                    const resetAttrs: Record<string, any> = { ...node.attrs, dataUserStyle: null, class: null }
+                    const resetAttrs: Record<string, any> = {
+                        ...node.attrs,
+                        dataUserStyle: null,
+                        class: null
+                    }
                     editor.tiptap.view.dispatch(
                         editor.tiptap.state.tr.setNodeMarkup(pos, undefined, resetAttrs)
                     )

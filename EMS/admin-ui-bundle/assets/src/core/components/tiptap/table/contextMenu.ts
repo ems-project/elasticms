@@ -17,10 +17,10 @@ import IconColumnBefore from '@tabler/icons/outline/column-insert-left.svg?raw'
 import IconColumnAfter from '@tabler/icons/outline/column-insert-right.svg?raw'
 import IconColumnDelete from '@tabler/icons/outline/column-remove.svg?raw'
 import { Editor } from '@tiptap/core'
-import { openTableDialog } from './tableDialog.ts'
-import { openCellDialog } from './tableCellDialog.ts'
+import { openTableDialog } from './dialogTable.ts'
+import { openCellDialog } from './dialogCell.ts'
 
-export const tableContextMenu: ContextMenuItem[] = [
+export const contextMenu: ContextMenuItem[] = [
     {
         label: 'Insert cell before',
         icon: IconCellBefore,

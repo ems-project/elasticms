@@ -1,5 +1,5 @@
-import { applyHeaders, headerScope, isHeaderCell } from './tableHeader.ts'
-import { updateCaption } from './tableCaption.ts'
+import { applyHeaders, headerScope, isHeaderCell } from './header.ts'
+import { updateCaption } from './caption.ts'
 import { Dialog } from '../../dialog.ts'
 import { TiptapEditor } from '../editor.ts'
 import { Editor } from '@tiptap/core'

@@ -1,33 +1,38 @@
 #!/usr/bin/make -f
 
-PWD					= $(shell pwd)
-DOCKER_USER			?= $(shell id -u)
-DOCKER_COMPOSE		= docker compose --project-directory=docker
+-include ./docker/.env
+
+PWD					   = $(shell pwd)
+DOCKER_USER    ?= $(shell id -u)
+DOCKER_COMPOSE = docker compose --project-directory=docker
 
 PORT_admin 			= 8881
 PORT_web 			= 8882
 PORT_cli 			= 8883
 
 RUN_ADMIN			= php ${PWD}/elasticms-admin/bin/console --no-debug
+RUN_CLI				= php ${PWD}/elasticms-cli/bin/console --no-debug
 RUN_WEB				= php ${PWD}/elasticms-web/bin/console --no-debug
 RUN_POSTGRES		= docker compose --project-directory=docker exec -i -u ${DOCKER_USER}:0 -e PGUSER=postgres -e PGPASSWORD=adminpg postgres
 NPM_CMD          	= "${NPM_EXTRA_CMD} npm $*"
 RUN_DEMO_NPM		= docker run -u ${DOCKER_USER}:0 --rm -it -v ${PWD}/demo:/opt/src --workdir /opt/src elasticms/base-php:8.4-cli-dev sh -c ${NPM_CMD}
 RUN_ADMIN_UI_NPM 	= docker run -u ${DOCKER_USER}:0 --rm -p 5173:5173 -it -v ${PWD}/EMS/admin-ui-bundle:/opt/src --workdir /opt/src/assets elasticms/base-php:8.4-cli-dev sh -c ${NPM_CMD}
+OTEL_ENABLED 		?= false
 
 .DEFAULT_GOAL := help
-.PHONY: help demo docs
+.PHONY: help demo docs docker/sandbox.passwd
 
 help: # Show help for each of the Makefile recipes.
 	@echo "EMS Monorepo"
 	@echo "---------------------------"
 	@echo "DOCKER_USER:   ${DOCKER_USER}"
+	@echo "OTEL enabled:  ${OTEL_ENABLED}"
 	@echo "NPM_EXTRA_CMD: ${NPM_EXTRA_CMD}"
 	@echo "ADMIN:         http://localhost:8881"
 	@echo "WEB:           http://localhost:8882"
 	@echo "KIBANA:        http://kibana.localhost"
 	@echo "MINIO:         http://minio.localhost"
-	@echo "MAIL:          http://mailhog.localhost"
+	@echo "MAIL:          http://mailserver.localhost"
 	@echo "---------------------------"
 	@echo ""
 	@echo "Usage: make [target]"
@@ -37,6 +42,8 @@ help: # Show help for each of the Makefile recipes.
 ## —— Mono —————————————————————————————————————————————————————————————————————————————————————————————————————————————
 init: ## init mono repo (copy .env)
 	@cp -fp ./docker/.env.dist ./docker/.env
+	@cp -fp ./docker/sandbox.env.dist ./docker/sandbox.env
+	@$(MAKE) -s docker/sandbox.passwd
 	@cp -fp ./elasticms-admin/.env.dist ./elasticms-admin/.env
 	@cp -fp ./elasticms-admin/.env.local.dist ./elasticms-admin/.env.local
 	@cp -fp ./elasticms-web/.env.dist ./elasticms-web/.env
@@ -48,6 +55,8 @@ start: ## start docker, admin server, web server
 	cd elasticms-admin && symfony local:run -d php bin/console messenger:consume async -vvv
 start/%: ## start/(mariadb|keycloak|grafana|redis-commander)
 	@$(DOCKER_COMPOSE) --profile=${*} up -d --force-recreate
+start/sandbox: docker/sandbox.passwd ## start/sandbox
+	@$(DOCKER_COMPOSE) --profile=sandbox up -d --force-recreate
 stop: ## stop docker, admin server, web server
 	@$(MAKE) -s server-stop/admin
 	@$(MAKE) -s server-stop/web
@@ -62,13 +71,58 @@ check: ## run all checks
 	@$(MAKE) build-translations
 cache-clear: ## cache clear
 	@$(RUN_ADMIN) c:cl
+	@$(RUN_CLI) c:cl
 	@$(RUN_WEB) c:cl
 status: ## status
 	@docker ps --filter="label=elasticMS" --format "table {{.Label \"com.docker.compose.service\"}}\t{{.Status}}\t{{.Ports}}"
+pull: ## Pull service images
+	@$(DOCKER_COMPOSE) pull
+sandbox: docker/sandbox.passwd ## open a terminal in a development sandbox container
+	@$(DOCKER_COMPOSE) exec sandbox sh -lc 'exec "$${SHELL:-bash}"'
+
+docker/sandbox.passwd:
+	@mkdir -p ./docker
+	@printf '%s\n' \
+		'root:x:0:0:root:/root:/bin/sh' \
+		'bin:x:1:1:bin:/bin:/sbin/nologin' \
+		'daemon:x:2:2:daemon:/sbin:/sbin/nologin' \
+		'lp:x:4:7:lp:/var/spool/lpd:/sbin/nologin' \
+		'sync:x:5:0:sync:/bin:/bin/sync' \
+		'shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown' \
+		'halt:x:7:0:halt:/sbin:/sbin/halt' \
+		'mail:x:8:12:mail:/var/mail:/sbin/nologin' \
+		'news:x:9:13:news:/usr/lib/news:/sbin:/sbin/nologin' \
+		'uucp:x:10:14:uucp:/var/spool/uucppublic:/sbin/nologin' \
+		'cron:x:16:16:cron:/var/spool/cron:/sbin/nologin' \
+		'ftp:x:21:21::/var/lib/ftp:/sbin/nologin' \
+		'sshd:x:22:22:sshd:/dev/null:/sbin/nologin' \
+		'games:x:35:35:games:/usr/games:/sbin/nologin' \
+		'ntp:x:123:123:NTP:/var/empty:/sbin/nologin' \
+		'guest:x:405:100:guest:/dev/null:/sbin/nologin' \
+		'nobody:x:65534:65534:nobody:/:/sbin/nologin' \
+		'www-data:x:82:82::/home/www-data:/sbin/nologin' \
+		'postgres:x:70:70:PostgreSQL user:/var/lib/postgresql:/bin/sh' \
+		'default:x:$(DOCKER_USER):0:default:/home/default:/bin/bash' \
+		> $@
 
 ## —— Symfony server ———————————————————————————————————————————————————————————————————————————————————————————————————
 server-start/%: ## server-start/(admin|web|cli)
-	symfony server:start --dir=elasticms-${*} -d --port=$(PORT_$(*)) --no-tls --allow-all-ip
+	@if [ "$(OTEL_ENABLED)" = "true" ]; then \
+		env \
+		OTEL_PHP_AUTOLOAD_ENABLED=true \
+		OTEL_SERVICE_NAME=demo-ems-$(*) \
+		OTEL_TRACES_EXPORTER=otlp \
+		OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf \
+		OTEL_EXPORTER_OTLP_ENDPOINT=http://apm-server.localhost \
+		OTEL_RESOURCE_ATTRIBUTES=deployment.environment=dev \
+		OTEL_TRACES_SAMPLER=always_on \
+		OTEL_LOG_LEVEL=debug \
+		OTEL_PHP_LOG_DESTINATION=stderr \
+		OTEL_PHP_AUTOLOAD_PATH=$(MAKEFILE_DIR)/vendor/autoload.php \
+		symfony server:start --dir=elasticms-$* -d --port=$(PORT_$(*)) --no-tls --allow-all-ip; \
+	else \
+		symfony server:start --dir=elasticms-$* -d --port=$(PORT_$(*)) --no-tls --allow-all-ip; \
+	fi
 server-stop/%: ## server-stop/(admin|web|cli)
 	symfony server:stop --dir=elasticms-${*}
 server-log/%: ## server-log/(admin|web|cli)
@@ -117,6 +171,10 @@ docs-init: ## init docs
 build-translations: ## build translations
 	@php build/translations en EMSCoreBundle --write --format=yml -d emsco-core
 	@php build/translations en EMSAdminUIBundle --write --format=yml
+	@$(RUN_CLI) translation:extract  fr --force --format=yaml --domain=messages
+	@$(RUN_CLI) translation:extract  nl --force --format=yaml --domain=messages
+	@$(RUN_CLI) translation:extract  de --force --format=yaml --domain=messages
+	@$(RUN_CLI) translation:extract  en --force --format=yaml --domain=messages
 
 ## —— Database —————————————————————————————————————————————————————————————————————————————————————————————————————————
 db-migrate: ## run doctrine migrations

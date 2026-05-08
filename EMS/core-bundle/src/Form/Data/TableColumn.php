@@ -11,7 +11,6 @@ use Symfony\Component\Translation\TranslatableMessage;
 
 class TableColumn
 {
-    private string $attribute;
     private ?string $routeName = null;
     private ?\Closure $routeParametersCallback = null;
     private ?string $routeTarget = null;
@@ -32,9 +31,11 @@ class TableColumn
     private array $transLabelOptions = [];
     private ?SpreadsheetValidation $validation = null;
 
-    public function __construct(private readonly string|TranslatableMessage $titleKey, string $attribute)
-    {
-        $this->orderField = $this->attribute = $attribute;
+    public function __construct(
+        private readonly string|TranslatableMessage $titleKey,
+        private string $attribute
+    ) {
+        $this->orderField = $attribute;
     }
 
     public function addCondition(ConditionInterface $condition): void
@@ -104,7 +105,7 @@ class TableColumn
 
     public function setCellType(string $cellType): TableColumn
     {
-        if (!\in_array($cellType, ['td', 'tr'])) {
+        if (!\in_array($cellType, ['td', 'tr'], true)) {
             throw new \RuntimeException(\sprintf('Unexpected cellType option %s, only td and tr are accepted', $cellType));
         }
         $this->cellType = $cellType;
@@ -162,11 +163,7 @@ class TableColumn
 
     public function setIconClass(string $iconClass): void
     {
-        if (\strlen($iconClass) > 0) {
-            $this->iconClass = $iconClass;
-        } else {
-            $this->iconClass = null;
-        }
+        $this->iconClass = '' !== $iconClass ? $iconClass : null;
     }
 
     public function getIconClass(): ?string

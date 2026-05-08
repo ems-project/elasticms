@@ -1,0 +1,263 @@
+---
+name: Docker Build images
+
+run-name: Docker Build ${{ github.ref_name }} by @${{ github.actor }}
+
+concurrency:
+  cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.ref }}
+
+on:
+  push:
+    tags:
+      - "[0-9]+.[0-9]+.[0-9]+*"
+
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Docker Image Version"
+        required: false
+        type: string
+
+env:
+  DOCKER_IMAGE_NAME: ${{ (github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.version) || startsWith(github.ref, 'refs/tags/') || (github.ref == 'refs/heads/main' && github.event_name != 'pull_request')) && 'elasticms/cli' || 'elasticms/cli-dev' }}
+
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+
+    outputs:
+      # Push if it's a scheduled job, a tag, or if we're committing to the main branch
+      push: ${{ (github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.version) || startsWith(github.ref, 'refs/tags/') || (github.ref == 'refs/heads/main' && github.event_name != 'pull_request')) && true || false }}
+      sbom: ${{ github.event_name != 'pull_request' }}
+      provenance: ${{ github.event_name != 'pull_request' }}
+      ref: ${{ steps.check.outputs.ref || (github.event_name == 'workflow_dispatch' && inputs.version) || '' }}
+      platforms: ${{ steps.matrix.outputs.platforms }}
+      metadata: ${{ steps.matrix.outputs.metadata }}
+      skip: ${{ steps.check.outputs.skip }}
+
+    steps:
+      - name: Checks
+        id: check
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Check if the Docker images must be rebuilt
+          if [[ "${GITHUB_EVENT_NAME}" != "schedule" ]]; then
+              echo skip=false >> "${GITHUB_OUTPUT}"
+              exit 0
+          fi
+
+          {
+            echo ref="$(gh release view --repo ems-project/elasticms-admin --json tagName --jq '.tagName')"
+            echo skip=false
+          } >> "${GITHUB_OUTPUT}"
+
+      - name: Checkout source
+        uses: actions/checkout@v4
+        if: ${{ !fromJson(steps.check.outputs.skip) }}
+        with:
+          ref: ${{ steps.check.outputs.ref }}
+
+      - name: Set up Docker Buildx
+        if: ${{ !fromJson(steps.check.outputs.skip) }}
+        uses: docker/setup-buildx-action@v3
+
+      - name: Create platforms matrix
+        if: ${{ !fromJson(steps.check.outputs.skip) }}
+        id: matrix
+        shell: bash
+        run: |
+          set -e
+          METADATA="$(docker buildx bake --print | jq -c)"
+          {
+            echo metadata="${METADATA}"
+            echo platforms="$(jq -c 'first(.target[]) | .platforms' <<< "${METADATA}")"
+          } >> "${GITHUB_OUTPUT}"
+        env:
+          GIT_HASH: ${{ github.sha }}
+          DOCKER_IMAGE_TAG: ${{ (github.ref_type == 'tag' && github.ref_name) || steps.check.outputs.ref || 'snapshot' }}
+          EMS_VERSION: ${{ (github.ref_type == 'tag' && github.ref_name) || steps.check.outputs.ref || '7.x-snapshot' }}
+
+  build:
+    runs-on: ${{ startsWith(matrix.platform, 'linux/arm') && 'ubuntu-24.04-arm' || 'ubuntu-24.04' }}
+
+    if: ${{ !fromJson(needs.prepare.outputs.skip) }}
+
+    needs:
+      - prepare
+
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: ${{ fromJson(needs.prepare.outputs.platforms) }}
+
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+      attestations: write
+
+    steps:
+      - name: Prepare
+        id: prepare
+        run: |
+          platform=${{ matrix.platform }}
+          echo "sanitized_platform=${platform//\//-}" >> "${GITHUB_OUTPUT}"
+
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.prepare.outputs.ref }}
+          fetch-depth: 0
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          platforms: ${{ matrix.platform }}
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          registry: docker.io
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Composer Cache Dir and Public Keys
+        run: |
+          mkdir -p $HOME/.composer/cache
+          curl -sSL https://composer.github.io/snapshots.pub -o $HOME/.composer/keys.dev.pub
+          curl -sSL https://composer.github.io/releases.pub -o $HOME/.composer/keys.tags.pub
+
+      - name: Composer and NPM 
+        run: |
+          make build-app
+
+      - name: Bake and push image
+        id: build
+        uses: docker/bake-action@v6
+        with:
+          source: .
+          pull: true
+          load: ${{ !fromJson(needs.prepare.outputs.push) }}
+          sbom: ${{ fromJson(needs.prepare.outputs.sbom) }}
+          provenance: ${{ fromJson(needs.prepare.outputs.provenance) }}
+          targets: |
+            prd
+            dev
+          files: |
+            docker-bake.hcl
+          # Remove tags to prevent "can't push tagged ref [...] by digest" error
+          set: |
+            *.tags=
+            *.platform=${{ matrix.platform }}
+            prd.cache-from=type=gha,scope=prd-${{ needs.prepare.outputs.ref || github.ref }}-${{ matrix.platform }}
+            prd.cache-from=type=gha,scope=refs/heads/main-prd-${{ matrix.platform }}
+            prd.cache-to=type=gha,scope=prd-${{ needs.prepare.outputs.ref || github.ref }}-${{ matrix.platform }},ignore-error=true
+            dev.cache-from=type=gha,scope=dev-${{ needs.prepare.outputs.ref || github.ref }}-${{ matrix.platform }}
+            dev.cache-from=type=gha,scope=refs/heads/main-dev-${{ matrix.platform }}
+            dev.cache-to=type=gha,scope=dev-${{ needs.prepare.outputs.ref || github.ref }}-${{ matrix.platform }},ignore-error=true
+            ${{ fromJson(needs.prepare.outputs.push) && format('*.output=type=image,name={0},push-by-digest=true,name-canonical=true,push=true', env.DOCKER_IMAGE_NAME) || '' }}
+        env:
+          GIT_HASH: ${{ github.sha }}
+          EMS_VERSION: ${{ (github.ref_type == 'tag' && github.ref_name) || needs.prepare.outputs.ref || '7.x-snapshot' }}
+          DOCKER_IMAGE_TAG: ${{ (github.ref_type == 'tag' && github.ref_name) || needs.prepare.outputs.ref || 'snapshot' }}
+
+      - # Workaround for https://github.com/actions/runner/pull/2477#issuecomment-1501003600
+        name: Export metadata
+        if: fromJson(needs.prepare.outputs.push)
+        run: |
+          mkdir -p /tmp/metadata/prd /tmp/metadata/dev
+
+          prdDigest=$(jq -r '."prd"."containerimage.digest"' <<< "${METADATA}")
+          touch "/tmp/metadata/prd/${prdDigest#sha256:}"
+
+          devDigest=$(jq -r '."dev"."containerimage.digest"' <<< "${METADATA}")
+          touch "/tmp/metadata/dev/${devDigest#sha256:}"
+        env:
+          METADATA: ${{ steps.build.outputs.metadata }}
+
+      - name: Upload prd metadata
+        id: upload-prd
+        if: fromJson(needs.prepare.outputs.push)
+        uses: actions/upload-artifact@v4
+        with:
+          name: metadata-prd-${{ steps.prepare.outputs.sanitized_platform }}-${{ github.sha }}
+          path: /tmp/metadata/prd/*
+          if-no-files-found: error
+          retention-days: 1
+
+      - name: Upload dev metadata
+        id: upload-dev
+        if: fromJson(needs.prepare.outputs.push)
+        uses: actions/upload-artifact@v4
+        with:
+          name: metadata-dev-${{ steps.prepare.outputs.sanitized_platform }}-${{ github.sha }}
+          path: /tmp/metadata/dev/*
+          if-no-files-found: error
+          retention-days: 1
+
+  # Adapted from https://docs.docker.com/build/ci/github-actions/multi-platform/
+  push:
+    runs-on: ubuntu-24.04
+
+    permissions:
+      id-token: write
+      packages: write
+      contents: read
+      attestations: write
+
+    needs:
+      - prepare
+      - build
+
+    if: fromJson(needs.prepare.outputs.push)
+
+    strategy:
+      fail-fast: false
+      matrix:
+        target: ["prd", "dev"]
+
+    steps:
+      - name: Download metadata
+        uses: actions/download-artifact@v4
+        with:
+          pattern: metadata-${{ matrix.target }}-*
+          path: /tmp/metadata
+          merge-multiple: true
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+        with:
+          registry: docker.io
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Create manifest list and push
+        working-directory: /tmp/metadata
+        run: |
+          set -x
+          # shellcheck disable=SC2046,SC2086
+          docker buildx imagetools create $(jq -cr '.target."${{ matrix.target }}".tags | map("-t " + .) | join(" ")' <<< ${METADATA}) \
+            $(printf "${DOCKER_IMAGE_NAME}@sha256:%s " *)
+        env:
+          METADATA: ${{ needs.prepare.outputs.metadata }}
+
+      - name: Inspect image
+        run: |
+          set -x
+          # shellcheck disable=SC2046,SC2086
+          docker buildx imagetools inspect $(jq -cr '.target."${{ matrix.target }}".tags | first' <<< ${METADATA})
+        env:
+          METADATA: ${{ needs.prepare.outputs.metadata }}

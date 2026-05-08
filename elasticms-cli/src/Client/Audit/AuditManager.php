@@ -30,9 +30,6 @@ class AuditManager
             return $audit;
         }
         $this->addHtmlAudit($audit, $result, $report);
-        if ($alreadyAudited) {
-            return $audit;
-        }
 
         return $audit;
     }
@@ -41,7 +38,7 @@ class AuditManager
     {
         $audit->setErrorMessage($result->getErrorMessage());
         if (0 !== \strcmp(\strtolower($audit->getUrl()->getPath()), $audit->getUrl()->getPath())) {
-            $audit->addWarning('The URL\'s path is case sensitive');
+            $audit->addWarning("The URL's path is case sensitive");
         }
         if (!$result->hasResponse()) {
             $audit->setValid(false);
@@ -76,6 +73,7 @@ class AuditManager
         }
         $audit->setHash(\hash_final($hashContext));
         $audit->setSize($size);
+
         $this->logger->notice(\sprintf('Size: %d', $size));
     }
 
@@ -106,8 +104,8 @@ class AuditManager
                 $report->addWarning($audit->getUrl(), [\sprintf('Meta description is probably too long: %d', \strlen($description))]);
             }
             $audit->setDescription($description);
-        } catch (\Throwable $e) {
-            $this->logger->critical(\sprintf('Crawler audit for %s failed: %s', $audit->getUrl()->getUrl(), $e->getMessage()));
+        } catch (\Throwable $throwable) {
+            $this->logger->critical(\sprintf('Crawler audit for %s failed: %s', $audit->getUrl()->getUrl(), $throwable->getMessage()));
         }
         $this->logger->notice('HTML parsed');
     }

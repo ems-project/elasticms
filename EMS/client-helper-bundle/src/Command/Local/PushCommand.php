@@ -19,7 +19,7 @@ final class PushCommand extends AbstractLocalCommand
     protected function configure(): void
     {
         parent::configure();
-        $this->addOption(self::OPTION_FORCE, null, InputOption::VALUE_NONE, 'Ignore environment\'s up-to --date chacks');
+        $this->addOption(self::OPTION_FORCE, null, InputOption::VALUE_NONE, "Ignore environment's up-to --date chacks");
     }
 
     #[\Override]
@@ -90,7 +90,7 @@ final class PushCommand extends AbstractLocalCommand
 
     private function writeItem(string $type, Item $item, string $id): void
     {
-        $url = \vsprintf('%s - %s/data/revisions/%s:%s', [
+        $url = \vsprintf('%s - %sdata/revisions/%s:%s', [
             $item->getKey(),
             $this->coreApi->getBaseUrl(),
             $item->getContentType(),

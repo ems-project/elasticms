@@ -65,7 +65,7 @@ class ViewController extends AbstractController
         }
 
         return new Page([
-            'datatable' => ['form' => $form->createView()],
+            'datatable' => ['form' => $form->createView(), 'table_id' => 'content-type-views'],
             'icon' => 'fa fa-filter',
             'title' => t(
                 message: 'type.title_overview',
@@ -164,6 +164,7 @@ class ViewController extends AbstractController
     {
         $newView = clone $view;
         $newView->setDefinition(null);
+
         $this->viewManager->update($newView);
 
         return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_VIEW_EDIT, ['view' => $newView->getId()]);

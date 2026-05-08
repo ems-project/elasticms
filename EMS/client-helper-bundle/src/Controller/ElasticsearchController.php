@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Controller;
 
-use Elastica\Exception\ConnectionException;
-use Elastica\Exception\ResponseException;
 use EMS\ClientHelperBundle\Helper\Request\Handler;
 use EMS\CommonBundle\Elasticsearch\Client;
 use EMS\Helpers\Standard\Json;
@@ -32,7 +30,7 @@ class ElasticsearchController
         $query = $request->query->all();
 
         if (null !== $index && !\preg_match('/^(?![_-])[a-z0-9_-]{1,255}$/', (string) $index)) {
-            throw new \InvalidArgumentException("Invalid index name: $index");
+            throw new \InvalidArgumentException('Invalid index name: '.$index);
         }
 
         return $this->request($index.$path, 'GET', $data, $query);
@@ -68,16 +66,8 @@ class ElasticsearchController
      */
     private function request(string $path, string $method, array $data = [], array $query = []): JsonResponse
     {
-        try {
-            $response = $this->client->request($path, $method, $data, $query);
+        $response = $this->client->request($method, $path, $data, $query);
 
-            return new JsonResponse($response->getData());
-        } catch (ResponseException|ConnectionException $e) {
-            if (null === $response = $e->getResponse()) {
-                throw $e;
-            }
-
-            return new JsonResponse($response->getData(), $response->getStatus());
-        }
+        return new JsonResponse($response->getData(), $response->getStatus());
     }
 }

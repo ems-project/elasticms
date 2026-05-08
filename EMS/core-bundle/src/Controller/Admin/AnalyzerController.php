@@ -112,6 +112,7 @@ class AnalyzerController extends AbstractController
     {
         $response = new JsonResponse($analyzer);
         $response->setEncodingOptions(JSON_PRETTY_PRINT);
+
         $disposition = $response->headers->makeDisposition(
             disposition: ResponseHeaderBag::DISPOSITION_ATTACHMENT,
             filename: $analyzer->getName().'.json'
@@ -143,7 +144,7 @@ class AnalyzerController extends AbstractController
         }
 
         return new Page([
-            'datatable' => ['form' => $form->createView()],
+            'datatable' => ['form' => $form->createView(), 'table_id' => 'analyzers'],
             'icon' => 'fa fa-signal',
             'title' => t('type.title_overview', ['type' => 'analyzer'], 'emsco-core'),
             'subTitle' => t('type.title_sub', ['type' => 'analyzer'], 'emsco-core'),

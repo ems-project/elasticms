@@ -6,17 +6,10 @@ namespace Build\Release;
 
 class Config
 {
-    public const REMOTE = 'git@github.com:ems-project/elasticms.git';
-
-    /** @var array<string, string[]> */
-    public const REPOSITORIES = [
-        'applications' => self::APPLICATIONS,
-        'docker' => self::DOCKER,
-        'packages' => self::PACKAGES,
-    ];
+    public const string REMOTE = 'git@github.com:ems-project/elasticms.git';
 
     /** @var string[] */
-    public const APPLICATIONS = [
+    public const array APPLICATIONS = [
         'elasticms-admin',
         'elasticms-web',
         'elasticms-cli',
@@ -24,14 +17,7 @@ class Config
     ];
 
     /** @var string[] */
-    public const DOCKER = [
-        'elasticms-admin-docker',
-        'elasticms-web-docker',
-        'elasticms-cli-docker',
-    ];
-
-    /** @var string[] */
-    public const PACKAGES = [
+    public const array PACKAGES = [
         'EMSAdminUIBundle',
         'EMSClientHelperBundle',
         'EMSCommonBundle',
@@ -43,7 +29,7 @@ class Config
     ];
 
     /** @var array<string, string> */
-    public const COMPOSER_PACKAGES = [
+    public const array COMPOSER_PACKAGES = [
         'EMSAdminUIBundle' => 'elasticms/admin-ui-bundle',
         'EMSClientHelperBundle' => 'elasticms/client-helper-bundle',
         'EMSCommonBundle' => 'elasticms/common-bundle',

@@ -198,6 +198,7 @@ class LoadLinkModalType extends AbstractType
                 'data-ajax-save-url' => $this->router->generate(Routes::WYSIWYG_MODAL_LOAD_LINK, [
                     'anchorTargets' => Json::encode($options[self::ANCHOR_TARGETS]),
                 ]),
+                'data-testid' => 'btn-action-submit',
             ],
         ]);
     }
@@ -222,7 +223,7 @@ class LoadLinkModalType extends AbstractType
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         $data = $options['data'] ?? null;
-        if ($data instanceof LoadLinkModalEntity and null !== $anchor = $data->getAnchor()) {
+        if ($data instanceof LoadLinkModalEntity && null !== $anchor = $data->getAnchor()) {
             $this->anchorLoader->addAnchor($anchor);
         }
         parent::buildView($view, $form, $options);

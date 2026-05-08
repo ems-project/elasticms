@@ -16,21 +16,15 @@ doctrine:
         options:
             2: '%env(int:DB_CONNECTION_TIMEOUT)%' #const PDO:ATTR_TIMEOUT = 2 , minimum value is 2 https://pracucci.com/php-pdo-pgsql-connection-timeout.html
     orm:
-        auto_generate_proxy_classes: true
         auto_mapping: true
-        enable_lazy_ghost_objects: true
-        enable_native_lazy_objects: true
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         validate_xml_mapping: true
-        controller_resolver:
-            auto_mapping: false
         identity_generation_preferences:
             Doctrine\DBAL\Platforms\PostgreSQLPlatform: sequence
 
 when@prod: &doctrine_prod
     doctrine:
         orm:
-            auto_generate_proxy_classes: false
             query_cache_driver:
                 type: pool
                 pool: doctrine.system_cache_pool

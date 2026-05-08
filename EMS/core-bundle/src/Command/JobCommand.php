@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command;
 
-use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Entity\Job;
 use EMS\CoreBundle\Service\JobService;
@@ -15,13 +14,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(
-    name: Commands::JOB_RUN,
-    description: 'Execute the next pending job if exists. If not execute the oldest due scheduled job if exists.',
-    hidden: false,
-    aliases: ['ems:job:run']
-)]
-class JobCommand extends AbstractCommand
+#[AsCommand(name: Commands::JOB_RUN, description: 'Execute the next pending job if exists. If not execute the oldest due scheduled job if exists.', aliases: ['ems:job:run'], hidden: false)]
+class JobCommand extends AbstractCoreCommand
 {
     private const string ARGUMENT_JOB_ID = 'job-id';
     private const string OPTION_DUMP = 'dump';
@@ -46,7 +40,7 @@ class JobCommand extends AbstractCommand
     {
         $this
             ->addArgument(self::ARGUMENT_JOB_ID, InputArgument::OPTIONAL, 'Job ID to execute')
-            ->addOption(self::OPTION_DUMP, null, InputOption::VALUE_NONE, 'Shows the job\'s output at the end of the execution')
+            ->addOption(self::OPTION_DUMP, null, InputOption::VALUE_NONE, "Shows the job's output at the end of the execution")
             ->addOption(self::OPTION_TAG, null, InputOption::VALUE_OPTIONAL, 'Will treat the next scheduled job flagged with the provided tag (do not execute pending jobs)')
         ;
     }
@@ -78,7 +72,7 @@ class JobCommand extends AbstractCommand
     private function processReleases(): bool
     {
         $releases = $this->releaseService->findReadyAndDue();
-        if (0 === \count($releases)) {
+        if ([] === $releases) {
             $this->io->comment('No releases scheduled to treat');
 
             return false;
@@ -143,9 +137,9 @@ class JobCommand extends AbstractCommand
         $start = new \DateTime();
         try {
             $this->jobService->run($job);
-        } catch (\Throwable $e) {
+        } catch (\Throwable $throwable) {
             $this->jobService->finish($job->getId());
-            throw $e;
+            throw $throwable;
         }
 
         $interval = \date_diff($start, new \DateTime());
@@ -169,9 +163,9 @@ class JobCommand extends AbstractCommand
         if (null === $jobLog) {
             $this->io->write('Empty output');
         } else {
-            $this->io->section('Job\'s output:');
+            $this->io->section("Job's output:");
             $this->io->write($jobLog);
-            $this->io->section('End of job\'s output');
+            $this->io->section("End of job's output");
         }
     }
 }

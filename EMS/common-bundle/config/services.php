@@ -15,7 +15,6 @@ use EMS\CommonBundle\Common\CoreApi\CoreApiFactory;
 use EMS\CommonBundle\Common\CoreApi\TokenStore;
 use EMS\CommonBundle\Common\File\FileReader;
 use EMS\CommonBundle\Common\HttpCache\HttpCacheManager;
-use EMS\CommonBundle\Common\HttpCache\HttpCacheRuntime;
 use EMS\CommonBundle\Common\HttpCache\TagCollector;
 use EMS\CommonBundle\Common\Job\JobManager;
 use EMS\CommonBundle\Common\KeyStore;
@@ -28,7 +27,6 @@ use EMS\CommonBundle\DependencyInjection\EnvVarProcessor\UrlEncodeEnvVarProcesso
 use EMS\CommonBundle\Elasticsearch\Client;
 use EMS\CommonBundle\Elasticsearch\ElasticaFactory;
 use EMS\CommonBundle\Elasticsearch\ElasticaLogger;
-use EMS\CommonBundle\Elasticsearch\Factory;
 use EMS\CommonBundle\Elasticsearch\Mapping;
 use EMS\CommonBundle\EventListener\CommandListener;
 use EMS\CommonBundle\EventListener\IpAddressListener;
@@ -41,8 +39,6 @@ use EMS\CommonBundle\Service\ExpressionService;
 use EMS\CommonBundle\Service\Pdf\DomPdfPrinter;
 use EMS\CommonBundle\Service\Pdf\PdfGenerator;
 use EMS\CommonBundle\Service\Pdf\PdfPrinterInterface;
-use EMS\CommonBundle\Twig\SearchRuntime;
-use EMS\CommonBundle\Twig\TextRuntime;
 use Psr\Cache\CacheItemPoolInterface;
 
 return static function (ContainerConfigurator $container) {
@@ -50,13 +46,6 @@ return static function (ContainerConfigurator $container) {
 
     $services->defaults()
         ->private();
-
-    $services->set('ems_common.elasticsearch.elastica_logger', ElasticaLogger::class)
-        ->args([
-            service('logger')->nullOnInvalid(),
-            '%kernel.debug%',
-        ])
-        ->tag('monolog.logger', ['channel' => 'elastica']);
 
     $services->set('ems.vite', ViteService::class)
         ->args([
@@ -94,33 +83,27 @@ return static function (ContainerConfigurator $container) {
             '%ems_common.backend_api_key%',
         ]);
 
-    $services->set('ems_common.elasticsearch.factory', Factory::class)
+    $services->set(ElasticaLogger::class)
         ->args([
-            service('logger'),
-            '%kernel.environment%',
+            service('logger')->nullOnInvalid(),
+            '%kernel.debug%',
         ])
-        ->tag('monolog.logger', ['channel' => 'elasticsearch']);
+        ->tag('monolog.logger', ['channel' => 'elastica']);
 
-    $services->set('ems_common.elastica.factory', ElasticaFactory::class)
+    $services->set(ElasticaFactory::class)
         ->args([
-            service('ems_common.elasticsearch.elastica_logger'),
-            '%kernel.environment%',
-        ])
-        ->tag('monolog.logger', ['channel' => 'elasticsearch']);
+            service(ElasticaLogger::class),
+            service('debug.stopwatch')->nullOnInvalid(),
+        ]);
 
-    $services->alias(Client::class, 'ems_common.elastica.client');
-
-    $services->set('ems_common.elastica.client', Client::class)
-        ->args([
-            '%ems_common.elasticsearch_hosts%',
-            '%ems_common.elasticsearch_connection_pool%',
-        ])
-        ->factory([service('ems_common.elastica.factory'), 'fromConfig']);
+    $services->set(Client::class)
+        ->args(['%ems_common.elasticsearch_hosts%'])
+        ->factory([service(ElasticaFactory::class), 'fromConfig']);
 
     $services->alias(Mapping::class, 'ems_common.service.mapping');
 
     $services->set('ems_common.service.mapping', Mapping::class)
-        ->args([service('ems_common.elastica.client')]);
+        ->args([service(Client::class)]);
 
     $services->set('ems.event_listener.command', CommandListener::class)
         ->tag('kernel.event_subscriber');
@@ -134,11 +117,8 @@ return static function (ContainerConfigurator $container) {
 
     $services->set('ems_common.text.encoder', Encoder::class)
         ->args([
-            '%ems_common.webalize.removable_regex%',
-            '%ems_common.webalize.dashable_regex%',
             '%ems_common.slug_symbol_map%',
-        ])
-        ->tag('twig.runtime');
+        ]);
 
     $services->set('ems_common.helper.cache', Cache::class)
         ->args(['%ems_common.hash_algo%']);
@@ -156,7 +136,7 @@ return static function (ContainerConfigurator $container) {
     $services->set('ems_common.service.elastica', ElasticaService::class)
         ->args([
             service('logger'),
-            service('ems_common.elastica.client'),
+            service(Client::class),
             service('ems.helper.admin_api'),
             service('ems_common.cache.tag_collector'),
             '%ems_common.elasticsearch_proxy_api%',
@@ -168,23 +148,6 @@ return static function (ContainerConfigurator $container) {
             service('ems_common.core_api.token_store'),
             service('logger'),
         ]);
-
-    $services->set('ems_common.twig.runtime.text', TextRuntime::class)
-        ->args([
-            service('ems_common.text.encoder'),
-            service('ems_common.json.decoder'),
-            service('validator'),
-            service('logger'),
-        ])
-        ->tag('twig.runtime');
-
-    $services->set('ems_common.twig.runtime.search', SearchRuntime::class)
-        ->args([service('ems_common.service.elastica')])
-        ->tag('twig.runtime');
-
-    $services->set('ems.common.twig.htp_cache', HttpCacheRuntime::class)
-        ->args([service('ems_common.service.http_cache_manager')])
-        ->tag('twig.runtime');
 
     $services->set('ems.common.twig.template_factory', TemplateFactory::class)
         ->args([service('twig')]);

@@ -7,6 +7,7 @@ namespace EMS\CommonBundle\Tests\Unit\Common\Search;
 use Elastica\Aggregation\Terms;
 use Elastica\Query\MatchAll;
 use Elastica\Suggest;
+use Elastica\Suggest\Term;
 use EMS\CommonBundle\Search\Search;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Serializer\Serializer;
@@ -22,6 +23,24 @@ class SearchAiTest extends TestCase
 
         $this->assertInstanceOf(Search::class, $deserialized);
         $this->assertEquals($search->getIndices(), $deserialized->getIndices());
+    }
+
+    public function testToPayloadAndFromPayload(): void
+    {
+        $search = new Search(['index1'], ['match_all' => new \stdClass()]);
+        $search->setSources(['field1']);
+        $search->setContentTypes(['type1']);
+        $search->setSize(15);
+        $search->setFrom(5);
+        $search->setSort(['field1' => 'asc']);
+        $search->addTermsAggregation('test_aggregation', 'field1', 10);
+        $search->setHighlight(['fields' => ['field1' => new \stdClass()]]);
+        $search->setRegex('test_regex');
+
+        $data = $search->toPayload();
+        $fromArray = Search::fromPayload($data);
+
+        $this->assertEquals($data, $fromArray->toPayload());
     }
 
     public function testHasSources(): void
@@ -120,8 +139,20 @@ class SearchAiTest extends TestCase
     {
         $search = new Search(['index1']);
         $suggest = new Suggest();
+        $term = new Term('suggestTest', 'title');
+        $term->setText('test');
+
+        $suggest->addSuggestion($term);
         $search->setSuggest($suggest);
-        $this->assertEquals($suggest, $search->getSuggest());
+
+        $this->assertEquals([
+            'suggest' => [
+                'suggestTest' => [
+                    'term' => ['field' => 'title'],
+                    'text' => 'test',
+                ],
+            ],
+        ], $search->getSuggest());
     }
 
     public function testSetAndGetHighlight(): void

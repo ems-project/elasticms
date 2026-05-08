@@ -66,10 +66,10 @@ class CalendarController extends AbstractController
             return $this->flashMessageLogger->buildJsonResponse([
                 'success' => true,
             ]);
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             $this->logger->error('log.error', [
-                EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
-                EmsFields::LOG_EXCEPTION_FIELD => $e,
+                EmsFields::LOG_ERROR_MESSAGE_FIELD => $exception->getMessage(),
+                EmsFields::LOG_EXCEPTION_FIELD => $exception,
             ]);
 
             return $this->flashMessageLogger->buildJsonResponse([
@@ -147,7 +147,6 @@ class CalendarController extends AbstractController
 
         $field = $view->getContentType()->getFieldType()->get('ems_'.$view->getOptions()['dateRangeField']);
         $contentType = $view->getContentType();
-        $environment = $view->getContentType()->giveEnvironment();
         $events = [];
         foreach ($this->elasticaService->search($search)->getResponse()->getData()['hits']['hits'] ?? [] as $item) {
             $source = $item['_source'];
@@ -157,7 +156,7 @@ class CalendarController extends AbstractController
             $event = [
                 'id' => $item['id'] ?? null,
                 'title' => $contentType->hasLabelField() && isset($item['_source'][$contentType->giveLabelField()]) ? $item['_source'][$contentType->giveLabelField()] : $item['id'] ?? null,
-                'url' => $this->generateUrl('data.revisions', [
+                'url' => $this->generateUrl('emsco_view_revisions', [
                     'type' => $contentType->getName(),
                     'ouuid' => $item['id'] ?? 'not-found',
                 ]),

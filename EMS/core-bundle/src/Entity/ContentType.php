@@ -505,7 +505,7 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
     public function setDirty($dirty)
     {
         if ($dirty && null !== $this->getEnvironment() && !$this->giveEnvironment()->getManaged()) {
-            throw new \RuntimeException(\sprintf('The referenced content type %s can\'t be set as dirty', $this->name));
+            throw new \RuntimeException(\sprintf("The referenced content type %s can't be set as dirty", $this->name));
         }
         $this->dirty = $dirty;
 
@@ -593,11 +593,6 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
             if ($actionName === $item->getName()) {
                 return $item;
             }
-        }
-        if (\is_numeric($actionName)) {
-            \trigger_error('Using template ID is deprecated, use the action name instead', E_USER_DEPRECATED);
-
-            return $this->getActionById((int) $actionName);
         }
 
         return null;
@@ -953,7 +948,7 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
 
     public function getRoles(): ContentTypeRoles
     {
-        return new ContentTypeRoles($this->roles ?? []);
+        return new ContentTypeRoles($this->roles);
     }
 
     public function setRoles(ContentTypeRoles $roles): void
@@ -968,7 +963,7 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
 
     public function getFields(): ContentTypeFields
     {
-        return new ContentTypeFields($this->fields ?? []);
+        return new ContentTypeFields($this->fields);
     }
 
     public function setFields(ContentTypeFields $fields): void

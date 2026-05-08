@@ -28,7 +28,7 @@ class SortOptionType extends AbstractType
         $builder
         ->add('name', IconTextType::class, [
             'icon' => 'fa fa-tag',
-            'label' => 'Sort Option\'s name',
+            'label' => "Sort Option's name",
         ])
         ->add('field', TextType::class, [
         ])
@@ -41,6 +41,7 @@ class SortOptionType extends AbstractType
         ->add('save', SubmitEmsType::class, [
             'attr' => [
                 'class' => 'btn btn-primary btn-sm ',
+                'data-testid' => 'btn-action-save',
             ],
             'icon' => 'fa fa-save',
         ]);
@@ -49,6 +50,7 @@ class SortOptionType extends AbstractType
             $builder->add('remove', SubmitEmsType::class, [
                 'attr' => [
                     'class' => 'btn btn-primary btn-sm ',
+                    'data-testid' => 'btn-action-remove',
                 ],
                 'icon' => 'fa fa-trash',
             ]);

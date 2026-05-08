@@ -58,9 +58,9 @@ class Synchronizer
         try {
             $response = Json::decode($indexClient->client->request('GET', '')->getContent());
             $indexClient->defined = true;
-        } catch (ClientException $e) {
-            if (404 !== $e->getCode()) {
-                throw $e;
+        } catch (ClientException $clientException) {
+            if (404 !== $clientException->getCode()) {
+                throw $clientException;
             }
             $indexClient->defined = false;
 
@@ -69,7 +69,8 @@ class Synchronizer
         if (1 !== \count($response)) {
             throw new \RuntimeException(\sprintf('SimpleIndexClient does not support multiple indexes alias. This alias contains %d indexes', \count($response)));
         }
-        $indexClient->previousIndex = $indexClient->index = Type::string(\array_key_first($response));
+        $indexClient->previousIndex = Type::string(\array_key_first($response));
+        $indexClient->index = $indexClient->previousIndex;
         $indexClient->mappings = $response[$indexClient->index]['mappings'];
         $indexClient->settings = $response[$indexClient->index]['settings']['index'];
         $indexClient->settings = \array_filter($indexClient->settings, fn ($v, $k) => 'analysis' === $k, ARRAY_FILTER_USE_BOTH);
@@ -128,7 +129,7 @@ class Synchronizer
         ]);
         $sourceMappings['_meta'] = $metas;
         $body = ['mappings' => $sourceMappings];
-        if (\count($settings) > 0) {
+        if ([] !== $settings) {
             $body['settings'] = $settings;
         }
 
@@ -245,11 +246,11 @@ class Synchronizer
                     'scroll_id' => $scrollId,
                 ],
             ]);
-        } catch (ClientExceptionInterface $e) {
-            if (404 === $e->getCode()) {
+        } catch (ClientExceptionInterface $clientException) {
+            if (404 === $clientException->getCode()) {
                 return;
             }
-            throw $e;
+            throw $clientException;
         }
     }
 }

@@ -8,4 +8,4 @@ framework:
             emsadminui:
                 version_strategy: 'emsadminui.helper.asset_version_strategy'
             emsch:
-                version_strategy: 'emsch.twig.runtime.asset_vserion_strategy'
+                version_strategy: 'emsch.asset.version_strategy'

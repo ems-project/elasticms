@@ -12,7 +12,7 @@ final class Version20220508102103 extends AbstractMigration
     #[\Override]
     public function getDescription(): string
     {
-        return 'Scripts to create common bundle\'s entities (AssetStorage and LogMessage)';
+        return "Scripts to create common bundle's entities (AssetStorage and LogMessage)";
     }
 
     public function up(Schema $schema): void

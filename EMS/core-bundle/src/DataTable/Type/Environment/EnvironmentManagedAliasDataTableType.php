@@ -35,7 +35,7 @@ class EnvironmentManagedAliasDataTableType extends AbstractTableType implements 
         $table->addColumnDefinition(new TemplateBlockTableColumn(
             label: t('field.label', [], 'emsco-core'),
             blockName: 'environmentName',
-            template: "@$this->templateNamespace/datatable/template_block_columns.html.twig",
+            template: \sprintf('@%s/datatable/template_block_columns.html.twig', $this->templateNamespace),
             orderField: 'environmentLabel'
         ));
 
@@ -44,7 +44,7 @@ class EnvironmentManagedAliasDataTableType extends AbstractTableType implements 
         $table->addColumnDefinition(new TemplateBlockTableColumn(
             label: t('field.indexes', [], 'emsco-core'),
             blockName: 'environmentIndexesModal',
-            template: "@$this->templateNamespace/datatable/template_block_columns.html.twig",
+            template: \sprintf('@%s/datatable/template_block_columns.html.twig', $this->templateNamespace),
             orderField: 'countIndexes',
         ));
         $table->addColumn(t('field.total', [], 'emsco-core'), 'total');
@@ -58,7 +58,8 @@ class EnvironmentManagedAliasDataTableType extends AbstractTableType implements 
             labelKey: t('action.attach', [], 'emsco-core'),
             icon: 'plus',
             messageKey: t('type.confirm', ['type' => 'attach_alias'], 'emsco-core'),
-            routeParameters: ['name' => 'name']
+            routeParameters: ['name' => 'name'],
+            attributes: ['data-testid' => 'btn-action-attach-alias'],
         )->setButtonType('primary');
 
         $this->addItemDelete($table, 'managed_alias', Routes::ADMIN_MANAGED_ALIAS_DELETE);

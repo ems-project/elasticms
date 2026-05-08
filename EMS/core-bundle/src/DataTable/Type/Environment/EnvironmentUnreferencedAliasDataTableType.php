@@ -33,7 +33,7 @@ class EnvironmentUnreferencedAliasDataTableType extends AbstractTableType implem
         $table->addColumnDefinition(new TemplateBlockTableColumn(
             label: t('field.indexes', [], 'emsco-core'),
             blockName: 'environmentIndexesModal',
-            template: "@$this->templateNamespace/datatable/template_block_columns.html.twig",
+            template: \sprintf('@%s/datatable/template_block_columns.html.twig', $this->templateNamespace),
             orderField: 'countIndexes'
         ));
         $table->addColumn(t('field.total', [], 'emsco-core'), 'total');
@@ -43,7 +43,8 @@ class EnvironmentUnreferencedAliasDataTableType extends AbstractTableType implem
             labelKey: t('action.attach', [], 'emsco-core'),
             icon: 'plus',
             messageKey: t('type.confirm', ['type' => 'attach_alias'], 'emsco-core'),
-            routeParameters: ['name' => 'name']
+            routeParameters: ['name' => 'name'],
+            attributes: ['data-testid' => 'btn-action-attach-alias'],
         )->setButtonType('primary');
 
         $table->addDynamicItemPostAction(
@@ -51,7 +52,8 @@ class EnvironmentUnreferencedAliasDataTableType extends AbstractTableType implem
             labelKey: t('action.delete', [], 'emsco-core'),
             icon: 'trash',
             messageKey: t('type.delete_confirm', ['type' => 'alias'], 'emsco-core'),
-            routeParameters: ['name' => 'name']
+            routeParameters: ['name' => 'name'],
+            attributes: ['data-testid' => 'btn-action-delete'],
         )->setButtonType('outline-danger');
     }
 

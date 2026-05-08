@@ -12,11 +12,6 @@ class FieldTypePickerType extends Select2Type
     /** @var array<string, DataFieldType> */
     private array $dataFieldTypes = [];
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function addDataFieldType(DataFieldType $dataField): void
     {
         $this->dataFieldTypes[$dataField::class] = $dataField;
@@ -37,7 +32,7 @@ class FieldTypePickerType extends Select2Type
                 $icon = $dataFieldType->getIcon();
                 $label = $dataFieldType->getLabel();
 
-                return "<i class=\"$icon\"></i>&nbsp;$label";
+                return \sprintf('<i class="%s"></i>&nbsp;%s', $icon, $label);
             },
             'choice_value' => fn ($value) => $value,
         ]);

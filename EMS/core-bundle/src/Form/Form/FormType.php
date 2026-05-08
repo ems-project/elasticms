@@ -17,10 +17,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 final class FormType extends AbstractType
 {
-    public function __construct()
-    {
-    }
-
     /**
      * @param FormBuilderInterface<mixed> $builder
      * @param array<string, mixed>        $options
@@ -52,6 +48,7 @@ final class FormType extends AbstractType
                 ->add('create', SubmitEmsType::class, [
                     'attr' => [
                         'class' => 'btn btn-primary btn-sm ',
+                        'data-testid' => 'btn-action-create',
                     ],
                     'icon' => 'fa fa-save',
                 ]);
@@ -62,6 +59,7 @@ final class FormType extends AbstractType
             ->add('save', SubmitEmsType::class, [
                 'attr' => [
                     'class' => 'btn btn-primary btn-sm ',
+                    'data-testid' => 'btn-action-save',
                 ],
                 'icon' => 'fa fa-save',
             ]);

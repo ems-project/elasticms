@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use EMS\CommonBundle\Contracts\Spreadsheet\SpreadsheetGeneratorServiceInterface;
-use EMS\CommonBundle\Twig\AssetRuntime;
 use EMS\CoreBundle\Controller\ActionController;
 use EMS\CoreBundle\Controller\Admin\AnalyzerController;
 use EMS\CoreBundle\Controller\Admin\EnvironmentController;
@@ -21,6 +20,7 @@ use EMS\CoreBundle\Controller\Api\Admin\MetaController;
 use EMS\CoreBundle\Controller\Api\AuthTokenLoginController;
 use EMS\CoreBundle\Controller\Api\File\ExtractDataController;
 use EMS\CoreBundle\Controller\Api\Form\VerificationController;
+use EMS\CoreBundle\Controller\Api\JobApiController;
 use EMS\CoreBundle\Controller\Api\WebhookSubscriptionController;
 use EMS\CoreBundle\Controller\ChannelController;
 use EMS\CoreBundle\Controller\Component\JsonMenuNestedController;
@@ -42,6 +42,7 @@ use EMS\CoreBundle\Controller\DefaultController;
 use EMS\CoreBundle\Controller\ElasticsearchController;
 use EMS\CoreBundle\Controller\Form\FormController;
 use EMS\CoreBundle\Controller\Form\SubmissionController;
+use EMS\CoreBundle\Controller\InlineEditorController;
 use EMS\CoreBundle\Controller\Log\LogController;
 use EMS\CoreBundle\Controller\MercureController;
 use EMS\CoreBundle\Controller\NotificationController;
@@ -62,6 +63,7 @@ use EMS\CoreBundle\Controller\UserController;
 use EMS\CoreBundle\Controller\Views\CalendarController;
 use EMS\CoreBundle\Controller\Views\CriteriaController;
 use EMS\CoreBundle\Controller\Views\HierarchicalController;
+use EMS\CoreBundle\Controller\Webhook\WebhookController;
 use EMS\CoreBundle\Controller\Wysiwyg\AjaxPasteController;
 use EMS\CoreBundle\Controller\Wysiwyg\ModalController;
 use EMS\CoreBundle\Controller\Wysiwyg\StylesetController;
@@ -263,6 +265,10 @@ return static function (ContainerConfigurator $container) {
 
     $services->set(AuthTokenLoginController::class);
 
+    $services->set(JobApiController::class)
+        ->args([service('ems.service.job')])
+        ->tag('controller.service_arguments');
+
     $services->set(\EMS\CoreBundle\Controller\Api\UserController::class)
         ->args([service('emsco.manager.user')])
         ->tag('controller.service_arguments');
@@ -307,7 +313,6 @@ return static function (ContainerConfigurator $container) {
         ->public()
         ->args([
             service('ems_common.storage.processor'),
-            service('ems.repository.channel'),
             '%ems_core.asset_config%',
         ])
         ->call('setContainer')
@@ -361,6 +366,8 @@ return static function (ContainerConfigurator $container) {
             service(RevisionRepository::class),
             service('ems.service.action'),
             service('ems_core.core_ui.flash_message_logger'),
+            service('ems.service.publish'),
+            service(ContentTypeService::class),
             '%ems_core.template_namespace%',
         ])
         ->call('setContainer')
@@ -404,7 +411,7 @@ return static function (ContainerConfigurator $container) {
             service('ems.service.asset_extractor'),
             service('emsco.logger'),
             service('ems_core.core_ui.flash_message_logger'),
-            service(AssetRuntime::class),
+            service('ems.twig_extension.asset'),
             '%ems_core.asset_config%',
             '%ems_core.theme_color%',
         ])
@@ -799,6 +806,10 @@ return static function (ContainerConfigurator $container) {
         ->tag('container.service_subscriber')
         ->tag('controller.service_arguments');
 
+    $services->set(InlineEditorController::class)
+        ->public()
+        ->args([service('emsco.core.inline_editor')]);
+
     $services->set(MercureController::class)
         ->public()
         ->args([service('emsco.core_mercure.mercure_service')])
@@ -906,6 +917,17 @@ return static function (ContainerConfigurator $container) {
         ->args([
             service('emsco.service.webhook_subscription'),
             service('event_dispatcher'),
+        ])
+        ->call('setContainer')
+        ->tag('container.service_subscriber')
+        ->tag('controller.service_arguments');
+
+    $services->set(WebhookController::class)
+        ->args([
+            service('emsco.logger'),
+            service('emsco.webhook_subscription.manager'),
+            service('emsco.data_table.factory'),
+            service('emsco.service.webhook'),
         ])
         ->call('setContainer')
         ->tag('container.service_subscriber')

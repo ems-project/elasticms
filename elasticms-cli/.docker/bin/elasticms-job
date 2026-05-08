@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+export DEBUG=${DEBUG:-false}
+export ELASTICMS_CLI_PRE_JOB_PATH="${ELASTICMS_CLI_PRE_JOB_PATH:-/opt/bin/container-entrypoint.d/pre_job.d}"
+export ELASTICMS_CLI_POST_JOB_PATH="${ELASTICMS_CLI_POST_JOB_PATH:-/opt/bin/container-entrypoint.d/post_job.d}"
+
+[[ "${DEBUG}" == "true" ]] && set -x
+
+if [[ -d "${ELASTICMS_CLI_PRE_JOB_PATH}" ]]
+then
+    for FILE in $(find ${ELASTICMS_CLI_PRE_JOB_PATH} -iname \*.sh | sort)
+    do
+        source ${FILE}
+    done
+fi
+
+elasticms-command "$@"
+
+if [[ -d "${ELASTICMS_CLI_POST_JOB_PATH}" ]]
+then
+    for FILE in $(find ${ELASTICMS_CLI_POST_JOB_PATH} -iname \*.sh | sort)
+    do
+        source ${FILE}
+    done
+fi

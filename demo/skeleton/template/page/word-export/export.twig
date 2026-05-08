@@ -9,8 +9,8 @@
     "lang": locale
 } %}
 
-{% set contentType = app.request.get('contentType') %}
-{% set ouuid = app.request.get('ouuid') %}
+{% set contentType = app.request.attributes.get('contentType') %}
+{% set ouuid = app.request.attributes.get('ouuid') %}
 {% set document = [contentType, ouuid]|join(':') %}
 
 {% set structureNode = false %}

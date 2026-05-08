@@ -93,7 +93,7 @@ class RevisionService implements RevisionServiceInterface
         }
 
         if ($revision->giveContentType() === $compareRevision->giveContentType()
-            && $revision->getOuuid() == $compareRevision->getOuuid()) {
+            && $revision->getOuuid() === $compareRevision->getOuuid()) {
             if ($compareRevision->getCreated() <= $revision->getCreated()) {
                 $this->logger->notice('log.data.revision.compare', $logContext);
             } else {
@@ -371,8 +371,8 @@ class RevisionService implements RevisionServiceInterface
 
     public function getDocumentInfo(EMSLink $documentLink): DocumentInfo
     {
-        $publishedRevisions = $this->revisionRepository->findAllPublishedRevision($documentLink);
-        $revisions = $publishedRevisions[$documentLink->getEmsId()] ?? [];
+        $currentRevisions = $this->revisionRepository->findAllCurrentRevisions($documentLink);
+        $revisions = $currentRevisions[$documentLink->getEmsId()] ?? [];
 
         return new DocumentInfo($documentLink, $revisions);
     }
@@ -382,10 +382,10 @@ class RevisionService implements RevisionServiceInterface
      */
     public function getDocumentsInfo(EMSLink ...$documentLinks): array
     {
-        $publishedRevisions = $this->revisionRepository->findAllPublishedRevision(...$documentLinks);
+        $currentRevisions = $this->revisionRepository->findAllCurrentRevisions(...$documentLinks);
 
         $documentsInfo = [];
-        foreach ($publishedRevisions as $emsId => $revisions) {
+        foreach ($currentRevisions as $emsId => $revisions) {
             $documentsInfo[$emsId] = new DocumentInfo(EMSLink::fromText($emsId), $revisions);
         }
 

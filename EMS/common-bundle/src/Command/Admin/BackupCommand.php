@@ -44,7 +44,7 @@ class BackupCommand extends AbstractCommand
     }
 
     #[\Override]
-    public function initialize(InputInterface $input, OutputInterface $output): void
+    protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
         $this->adminHelper->setLogger(new ConsoleLogger($output));
@@ -70,12 +70,12 @@ class BackupCommand extends AbstractCommand
     protected function configure(): void
     {
         parent::configure();
-        $this->addOption(self::EXPORT, null, InputOption::VALUE_NONE, 'Backup elasticMS\'s configs in JSON files (dry run by default)');
+        $this->addOption(self::EXPORT, null, InputOption::VALUE_NONE, "Backup elasticMS's configs in JSON files (dry run by default)");
         $this->addOption(self::EXPORT_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Global export folder (can be overwritten per type of exports)');
         $this->addOption(self::CONFIGS_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Export configs folder');
         $this->addOption(self::DOCUMENTS_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Export documents folder');
-        $this->addOption(self::CONFIGS_OPTION, null, InputOption::VALUE_NONE, 'Export elasticMS\'s configs only');
-        $this->addOption(self::DOCUMENTS_OPTION, null, InputOption::VALUE_NONE, 'Export elasticMS\'s documents only');
+        $this->addOption(self::CONFIGS_OPTION, null, InputOption::VALUE_NONE, "Export elasticMS's configs only");
+        $this->addOption(self::DOCUMENTS_OPTION, null, InputOption::VALUE_NONE, "Export elasticMS's documents only");
     }
 
     #[\Override]
@@ -141,7 +141,7 @@ class BackupCommand extends AbstractCommand
             if (!\is_string($ouuid)) {
                 throw new \RuntimeException('Unexpected name type');
             }
-            if (\in_array($ouuid, $ouuids)) {
+            if (\in_array($ouuid, $ouuids, true)) {
                 continue;
             }
             \unlink($file->getPathname());
@@ -156,7 +156,7 @@ class BackupCommand extends AbstractCommand
         $rows = [];
         $this->io->progressStart(\count($configTypes));
         foreach ($configTypes as $configType) {
-            if (\in_array($configType, ['job'])) {
+            if ('job' == $configType) {
                 continue;
             }
             $rows[] = [$configType, $this->backupConfig($configType)];

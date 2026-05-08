@@ -10,6 +10,8 @@ use EMS\CommonBundle\Storage\Service\StorageInterface;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\Helpers\File\TempDirectory;
 use EMS\Helpers\File\TempFile;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
+use PHPUnit\Framework\MockObject\Stub;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Config\FileLocator;
@@ -21,12 +23,12 @@ class StorageManagerTest extends WebTestCase
     private StorageManager $storageManager;
     private TempFile $tempFile;
     private string $hash;
-    private LoggerInterface $mockLogger;
+    private Stub $mockLogger;
 
     #[\Override]
     protected function setUp(): void
     {
-        $this->mockLogger = $this->createMock(LoggerInterface::class);
+        $this->mockLogger = $this->createStub(LoggerInterface::class);
         $this->storageManager = new StorageManager($this->mockLogger, new FileLocator(), [$this->getFsFactory()], 'sha1', [[
             'type' => 'fs',
             'path' => $this->getFsDir(),
@@ -45,6 +47,7 @@ class StorageManagerTest extends WebTestCase
         $this->hash = \sha1(self::FOO.self::BAR);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testHash(): void
     {
         $this->assertEquals('sha1', $this->storageManager->getHashAlgo());
@@ -52,6 +55,7 @@ class StorageManagerTest extends WebTestCase
         $this->assertEquals($this->hash, $this->storageManager->computeFileHash($this->tempFile->path));
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testHealthStatuses(): void
     {
         foreach ($this->storageManager->getHealthStatuses() as $status) {
@@ -59,6 +63,7 @@ class StorageManagerTest extends WebTestCase
         }
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testFoobarFileByChunkUpload(): void
     {
         $this->assertFalse($this->storageManager->head($this->hash));
@@ -87,6 +92,7 @@ class StorageManagerTest extends WebTestCase
         $this->assertFalse($this->storageManager->head($this->hash));
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testFoobarFileBySingleUpload(): void
     {
         $temp = TempFile::create();
@@ -111,6 +117,7 @@ class StorageManagerTest extends WebTestCase
         $this->assertEquals(3, $this->storageManager->remove($this->hash));
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testSaveConfig(): void
     {
         $data = [
@@ -123,6 +130,7 @@ class StorageManagerTest extends WebTestCase
         $this->assertEquals(3, $this->storageManager->remove($configHash));
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testHotSynchronize(): void
     {
         $fsDirSource = $this->getFsDir();
@@ -159,15 +167,11 @@ class StorageManagerTest extends WebTestCase
 
     protected function getFsDir(): string
     {
-        $fsDir = TempDirectory::create()->path;
-
-        return $fsDir;
+        return TempDirectory::create()->path;
     }
 
     protected function getFsFactory(): FileSystemFactory
     {
-        $fsFactory = new FileSystemFactory($this->mockLogger, $this->getFsDir());
-
-        return $fsFactory;
+        return new FileSystemFactory($this->mockLogger, $this->getFsDir());
     }
 }

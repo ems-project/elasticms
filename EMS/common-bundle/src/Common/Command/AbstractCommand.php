@@ -25,11 +25,6 @@ abstract class AbstractCommand extends Command implements CommandInterface
     protected OutputInterface $output;
     protected ProcessHelper $processHelper;
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     #[\Override]
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
@@ -115,7 +110,7 @@ abstract class AbstractCommand extends Command implements CommandInterface
     protected function getArgumentStringArray(string $name): array
     {
         $arg = $this->input->getArgument($name);
-        if (!\is_array($arg) || empty($arg)) {
+        if (!\is_array($arg) || [] === $arg) {
             throw new \RuntimeException(\sprintf('Missing array argument "%s"', $name));
         }
 
@@ -249,7 +244,7 @@ abstract class AbstractCommand extends Command implements CommandInterface
     protected function getOptionStringArray(string $name, bool $required = true): array
     {
         $option = $this->input->getOption($name);
-        if ($required && (!\is_array($option) || empty($option))) {
+        if ($required && (!\is_array($option) || [] === $option)) {
             throw new \RuntimeException(\sprintf('Missing array option "%s"', $name));
         }
 
@@ -265,14 +260,14 @@ abstract class AbstractCommand extends Command implements CommandInterface
 
     protected function getArgumentEmsLink(string $name): EMSLink
     {
-        $argument = $this->input->getOption($name);
+        $argument = $this->input->getArgument($name);
 
         return EMSLink::fromText(Type::string($argument));
     }
 
     protected function getArgumentEmsLinkNull(string $name): ?EMSLink
     {
-        $argument = $this->input->getOption($name);
+        $argument = $this->input->getArgument($name);
 
         return null === $argument ? null : EMSLink::fromText(Type::string($argument));
     }
@@ -291,6 +286,25 @@ abstract class AbstractCommand extends Command implements CommandInterface
         return null === $option ? null : EMSLink::fromText(Type::string($option));
     }
 
+    protected function getOptionDateTime(string $name): \DateTimeImmutable
+    {
+        return DateTime::create(Type::string($this->input->getOption($name)));
+    }
+
+    protected function getOptionDateTimeNull(string $name): ?\DateTimeImmutable
+    {
+        $option = $this->input->getOption($name);
+
+        return null === $option ? null : DateTime::create(Type::string($option));
+    }
+
+    protected function getArgumentDateTimeNull(string $name): ?\DateTimeImmutable
+    {
+        $option = $this->input->getArgument($name);
+
+        return null === $option ? null : DateTime::create(Type::string($option));
+    }
+
     /**
      * Execute command in real php sub process.
      *
@@ -304,6 +318,7 @@ abstract class AbstractCommand extends Command implements CommandInterface
         $process = new Process($processCommand);
         $process->setTimeout(null);
         $process->setIdleTimeout(null);
+
         $this->io->write(\implode(' ', [$command, ...$args]).': ');
 
         $this->processHelper->run($this->output, $process, 'Something went wrong!', function () {

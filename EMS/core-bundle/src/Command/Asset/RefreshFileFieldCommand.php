@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command\Asset;
 
-use EMS\CommonBundle\Common\Command\AbstractCommand;
-use EMS\CommonBundle\Common\PropertyAccess\PropertyAccessor;
 use EMS\CommonBundle\Common\Standard\Image;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Storage\Processor\Config;
 use EMS\CommonBundle\Storage\Processor\Image as ProcessorImage;
 use EMS\CommonBundle\Storage\StorageManager;
+use EMS\CoreBundle\Command\AbstractCoreCommand;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Entity\User;
 use EMS\CoreBundle\Service\FileService;
 use EMS\CoreBundle\Service\Revision\RevisionService;
 use EMS\Helpers\Html\MimeTypes;
+use EMS\Helpers\PropertyAccess\PropertyAccessor;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -27,10 +27,10 @@ use Symfony\Component\Console\Output\OutputInterface;
     description: 'Refresh file field and regenerate resized images base on the EMSCO_IMAGE_MAX_SIZE environment variable.',
     hidden: false
 )]
-class RefreshFileFieldCommand extends AbstractCommand
+class RefreshFileFieldCommand extends AbstractCoreCommand
 {
-    private const string USER = 'SYSTEM_REFRESH_FILE_FIELDS';
-    private User $fakeUser;
+    private const string DEFAULT_USERNAME = 'SYSTEM_REFRESH_FILE_FIELDS';
+    private User $lockUser;
 
     public function __construct(private readonly RevisionService $revisionService, private readonly StorageManager $storageManager, private readonly FileService $fileService, private readonly int $imageMaxSize)
     {
@@ -41,8 +41,15 @@ class RefreshFileFieldCommand extends AbstractCommand
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
-        $this->fakeUser = new User();
-        $this->fakeUser->setUsername(self::USER);
+        $this->lockUser = new User();
+        $this->lockUser->setUsername($this->getUsername());
+    }
+
+    #[\Override]
+    protected function configure(): void
+    {
+        parent::configure();
+        $this->addUsernameOption(self::DEFAULT_USERNAME);
     }
 
     #[\Override]
@@ -55,7 +62,7 @@ class RefreshFileFieldCommand extends AbstractCommand
             $this->io->progressAdvance();
         }
         $this->io->progressFinish();
-        $this->io->note('All revision\'s file fields have been refreshed');
+        $this->io->note("All revision's file fields have been refreshed");
         $this->io->warning('All environments should be rebuilt');
 
         return self::EXECUTE_SUCCESS;
@@ -66,7 +73,7 @@ class RefreshFileFieldCommand extends AbstractCommand
         $propertyAccessor = PropertyAccessor::createPropertyAccessor();
         $rawData = $revision->getRawData();
         $fieldsFound = false;
-        foreach ($propertyAccessor->fileFields($revision->getRawData()) as $propertyPath => $fileField) {
+        foreach ($propertyAccessor->fieldsWithAttributes($revision->getRawData(), [EmsFields::CONTENT_FILE_HASH_FIELD, EmsFields::CONTENT_FILE_HASH_FIELD_], 1) as $propertyPath => $fileField) {
             $fieldsFound = true;
             $hash = $fileField[EmsFields::CONTENT_FILE_HASH_FIELD] ?? $fileField[EmsFields::CONTENT_FILE_HASH_FIELD_] ?? null;
             $filename = $fileField[EmsFields::CONTENT_FILE_NAME_FIELD] ?? $fileField[EmsFields::CONTENT_FILE_NAME_FIELD_] ?? null;
@@ -95,7 +102,7 @@ class RefreshFileFieldCommand extends AbstractCommand
         if (!$fieldsFound) {
             return;
         }
-        $this->revisionService->lock($revision, $this->fakeUser);
+        $this->revisionService->lock($revision, $this->lockUser);
         $this->revisionService->save($revision, $rawData);
     }
 
@@ -136,7 +143,7 @@ class RefreshFileFieldCommand extends AbstractCommand
             return $resizedFileHash;
         }
         $resizedFilename = \sprintf('%s_%dx%d.%s', $pathInfo['filename'], $resizedImageSize[0], $resizedImageSize[1], $pathInfo['extension'] ?? $extension);
-        $uploadedAsset = $this->fileService->uploadFile($resizedFilename, $type, $resizedImage->getFilename(), self::USER);
+        $uploadedAsset = $this->fileService->uploadFile($resizedFilename, $type, $resizedImage->getFilename(), $this->getUsername());
 
         return $uploadedAsset->getSha1();
     }

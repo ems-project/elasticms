@@ -26,7 +26,7 @@ final class IsBirthDateValidator extends ConstraintValidator
             return;
         }
 
-        if (\in_array($constraint->age, ['now', 'today'])) {
+        if (\in_array($constraint->age, ['now', 'today'], true)) {
             $this->context->buildViolation($constraint->message)->addViolation();
 
             return;

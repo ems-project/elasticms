@@ -75,11 +75,7 @@ final class Route
         }
 
         if (null !== $this->options['prefix']) {
-            if (!\str_starts_with($path, '/')) {
-                $path = $this->options['prefix'].'/'.$path;
-            } else {
-                $path = $this->options['prefix'].$path;
-            }
+            $path = \str_starts_with($path, '/') ? $this->options['prefix'].$path : $this->options['prefix'].'/'.$path;
         }
 
         return new SymfonyRoute(

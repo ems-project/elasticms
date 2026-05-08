@@ -165,15 +165,15 @@ class EmschFormType extends AbstractType
             'notBlank' => new Assert\NotBlank(message: $value['message'] ?? null),
             'email' => new Assert\Email(message: $value['message'] ?? null),
             'length' => new Assert\Length(
-                min: isset($value['min']) ? (int) $value['min'] : null,
-                max: isset($value['max']) ? (int) $value['max'] : null,
+                min: $value['min'] ?? null,
+                max: $value['max'] ?? null,
                 minMessage: $value['minMessage'] ?? null,
                 maxMessage: $value['maxMessage'] ?? null,
             ),
             'range' => new Assert\Range(
                 notInRangeMessage: $value['message'] ?? null,
-                min: isset($value['min']) ? (int) $value['min'] : null,
-                max: isset($value['max']) ? (int) $value['max'] : null,
+                min: $value['min'] ?? null,
+                max: $value['max'] ?? null,
             ),
             'regex' => new Assert\Regex(
                 pattern: $value['pattern'],

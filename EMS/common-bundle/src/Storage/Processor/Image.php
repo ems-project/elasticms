@@ -9,6 +9,8 @@ use EMS\CommonBundle\Storage\File\FileInterface;
 use EMS\CommonBundle\Storage\File\LocalFile;
 use EMS\Helpers\File\TempFile;
 use EMS\Helpers\Image\SmartCrop;
+use EMS\Helpers\Image\WebpXmpWriter;
+use EMS\Helpers\Image\XmpMetadata;
 use EMS\Helpers\Standard\Color;
 use EMS\Helpers\Standard\Type;
 use Psr\Log\LoggerInterface;
@@ -83,6 +85,11 @@ class Image
         } else {
             \imagepng($image, $tempFile->path);
         }
+        try {
+            $tempFile = $this->setMetadata($tempFile);
+        } catch (\Throwable $throwable) {
+            $this->logger?->warning(\sprintf('Unable to set metadata for image: %s', $throwable->getMessage()));
+        }
 
         return LocalFile::fromTempFile($tempFile);
     }
@@ -106,7 +113,7 @@ class Image
 
         if (0 === $width && 0 === $height) {
             // unable to calculate ratio, silently return original size (backward compatibility)
-            return [(int) $originalWidth, (int) $originalHeight];
+            return [$originalWidth, $originalHeight];
         }
 
         if (0 === $width || 0 === $height) {
@@ -117,12 +124,10 @@ class Image
                 // recalculate width
                 $width = \ceil($ratio * (float) $height);
             }
+        } elseif (($originalHeight / $height) > ($originalWidth / $width)) {
+            $width = \ceil($ratio * (float) $height);
         } else {
-            if (($originalHeight / $height) > ($originalWidth / $width)) {
-                $width = \ceil($ratio * (float) $height);
-            } else {
-                $height = \ceil((float) $width / $ratio);
-            }
+            $height = \ceil((float) $width / $ratio);
         }
 
         return [(int) $width, (int) $height];
@@ -372,9 +377,9 @@ class Image
             }
             $image = $this->rotate($image, $angle);
             $this->applyFlips($image, $mirrored, false);
-        } catch (\Throwable $e) {
+        } catch (\Throwable $throwable) {
             if (null !== $this->logger) {
-                $this->logger->warning(\sprintf('Not able to autorotate a file due to: %s', $e->getMessage()));
+                $this->logger->warning(\sprintf('Not able to autorotate a file due to: %s', $throwable->getMessage()));
             }
         }
 
@@ -437,5 +442,30 @@ class Image
                 \imagesetpixel($image, $x, $y, $colors[$alpha]);
             }
         }
+    }
+
+    private function setMetadata(TempFile $tempFile): TempFile
+    {
+        $author = $this->config->getAuthor();
+        $copyright = $this->config->getCopyright();
+        if (null === $author && null == $copyright) {
+            return $tempFile;
+        }
+
+        if (EmsFields::ASSET_CONFIG_WEBP_IMAGE_FORMAT !== $this->config->getImageFormat()) {
+            $this->logger?->warning('Image format not supported for metadata');
+
+            return $tempFile;
+        }
+
+        $metadata = new XmpMetadata(
+            author: $author,
+            copyright: $copyright,
+        );
+        $writer = new WebpXmpWriter();
+        $newFile = TempFile::create();
+        $writer->writeFile($tempFile->path, $newFile->path, $metadata->toXmp());
+
+        return $newFile;
     }
 }

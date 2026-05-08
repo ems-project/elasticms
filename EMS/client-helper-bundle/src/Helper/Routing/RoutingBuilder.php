@@ -30,7 +30,7 @@ final class RoutingBuilder extends AbstractBuilder
             $routes = $this->createRoutes($contentType);
         }
 
-        if (0 === \count($routes)) {
+        if ([] === $routes) {
             return $routeCollection;
         }
 
@@ -76,7 +76,11 @@ final class RoutingBuilder extends AbstractBuilder
 
         $routes = [];
         foreach ($this->searchDocuments($contentType) as $document) {
-            $routes[] = Route::fromData($document->getName(), $document->getRouteData());
+            try {
+                $routes[] = Route::fromData($document->getName(), $document->getRouteData());
+            } catch (\Throwable $e) {
+                $this->logger->error(\sprintf('Error with route %s: %s', $document->getName(), $e->getMessage()));
+            }
         }
 
         $contentType->setCache($routes);
@@ -93,7 +97,11 @@ final class RoutingBuilder extends AbstractBuilder
         $documents = [];
 
         foreach ($this->search($contentType)->getDocuments() as $document) {
-            $documents[] = new RoutingDocument($document);
+            try {
+                $documents[] = new RoutingDocument($document);
+            } catch (\Throwable $e) {
+                $this->logger->error(\sprintf('Error with route %s: %s', $document->getEmsLink(), $e->getMessage()));
+            }
         }
 
         return $documents;

@@ -38,7 +38,7 @@ class FormSubmissionRepository extends ServiceEntityRepository
             ->setMaxResults($size);
         $this->addSearchFilters($qb, $searchValue);
 
-        if (\in_array($orderField, ['id', 'instance', 'name', 'locale', 'created', 'expireDate'])) {
+        if (\in_array($orderField, ['id', 'instance', 'name', 'locale', 'created', 'expireDate'], true)) {
             $qb->orderBy(\sprintf('fs.%s', $orderField), $orderDirection);
         } else {
             $qb->orderBy('fs.created', $orderDirection);
@@ -85,31 +85,73 @@ class FormSubmissionRepository extends ServiceEntityRepository
         return (int) $qb->getQuery()->getSingleScalarResult();
     }
 
-    public function deleteAllExpiredSubmission(): int
+    public function deleteAllExpiredSubmission(int $batchSize = 1000): int
     {
         $now = new \DateTimeImmutable();
+        $totalDeleted = 0;
 
-        return $this->createQueryBuilder('fs')
-            ->delete()
-            ->where('fs.expireDate < :now')
-            ->setParameter('now', $now)
-            ->getQuery()
-            ->execute();
+        do {
+            $ids = $this->createQueryBuilder('fs')
+                ->select('fs.id')
+                ->where('fs.expireDate < :now')
+                ->setParameter('now', $now)
+                ->setMaxResults($batchSize)
+                ->getQuery()
+                ->getSingleColumnResult();
+
+            if ([] === $ids) {
+                break;
+            }
+
+            $deleted = $this->createQueryBuilder('fs')
+                ->delete()
+                ->where('fs.id IN (:ids)')
+                ->setParameter('ids', $ids)
+                ->getQuery()
+                ->execute();
+
+            $totalDeleted += $deleted;
+
+            $this->getEntityManager()->clear();
+        } while (\count($ids) === $batchSize);
+
+        return $totalDeleted;
     }
 
-    public function clearDataOnExpiredSubmissions(): int
+    public function clearDataOnExpiredSubmissions(int $batchSize = 1000): int
     {
         $now = new \DateTimeImmutable();
+        $totalUpdated = 0;
 
-        return $this->createQueryBuilder('fs')
-            ->update()
-            ->set('fs.data', ':nullValue')
-            ->where('fs.expireDate < :now')
-            ->andWhere('fs.data IS NOT NULL')
-            ->setParameter('now', $now)
-            ->setParameter('nullValue', null)
-            ->getQuery()
-            ->execute();
+        do {
+            $ids = $this->createQueryBuilder('fs')
+                ->select('fs.id')
+                ->where('fs.expireDate < :now')
+                ->andWhere('fs.data IS NOT NULL')
+                ->setParameter('now', $now)
+                ->setMaxResults($batchSize)
+                ->getQuery()
+                ->getSingleColumnResult();
+
+            if ([] === $ids) {
+                break;
+            }
+
+            $updated = $this->createQueryBuilder('fs')
+                ->update()
+                ->set('fs.data', ':nullValue')
+                ->where('fs.id IN (:ids)')
+                ->setParameter('now', $now)
+                ->setParameter('ids', $ids)
+                ->getQuery()
+                ->execute();
+
+            $totalUpdated += $updated;
+
+            $this->getEntityManager()->clear();
+        } while (\count($ids) === $batchSize);
+
+        return $totalUpdated;
     }
 
     /**
@@ -155,7 +197,7 @@ class FormSubmissionRepository extends ServiceEntityRepository
     private function addSearchFilters(QueryBuilder $qb, string $searchValue): void
     {
         $qb->andWhere($qb->expr()->isNotNull('fs.data'));
-        if (\strlen($searchValue) > 0) {
+        if ('' !== $searchValue) {
             $or = $qb->expr()->orX(
                 $qb->expr()->like('fs.id', ':term'),
                 $qb->expr()->like('fs.instance', ':term'),

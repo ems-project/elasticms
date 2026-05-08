@@ -44,7 +44,7 @@
           <source xml:lang="nl"> Afhankelijk van de beoogde doelgroep stemt <g id="g21" ctype="x-html-strong">G</g> overeen met één van de volgende forfaits. De vermindering wordt toegekend gedurende een aantal kwartalen, variërend volgens de karakteristieken van de doelgroep. De vermindering bedraagt voor: </source>
           <target xml:lang="de" state="final"> Je nach der Zielgruppe entspricht <g id="g22" ctype="x-html-strong">G</g> einer der folgenden Pauschalen. Die Ermäßigung gilt für einige Quartale und hängt auch von den Merkmalen der Zielgruppe ab. Die Ermäßigung beträgt deshalb für: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu23" resname="/html/body/ul[1]">
+        <group restype="x-html-ul" id="grp23" resname="/html/body/ul[1]">
           <trans-unit restype="listitem" id="tu24" resname="/html/body/ul[1]/li[1]">
             <source xml:lang="nl">G<g id="g25" ctype="x-html-sub">1</g> : 1.000,00 EUR, </source>
             <target xml:lang="de" state="final">G<g id="g26" ctype="x-html-sub">1</g> = 1.000 EUR; </target>
@@ -130,7 +130,7 @@
           <source xml:lang="nl"> Voor volgende doelgroepen bestaan federale doelgroepmaatregelen: </source>
           <target xml:lang="de" state="final"> Für die folgenden Zielgruppen bestehen föderale Zielgruppenmaßnahmen: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu93" resname="/html/body/ul[2]">
+        <group restype="x-html-ul" id="grp93" resname="/html/body/ul[2]">
           <trans-unit restype="listitem" id="tu94" resname="/html/body/ul[2]/li[1]">
             <source xml:lang="nl">Nieuwe werkgevers – eerste aanwervingen </source>
             <target xml:lang="de" state="final">Neue Arbeitgeber – Ersteinstellungen </target>
@@ -139,7 +139,7 @@
             <source xml:lang="nl">Werkgevers die een collectieve arbeidsduurvermindering of een vierdagenweek instellen </source>
             <target xml:lang="de" state="final">Arbeitgeber, die eine kollektive Arbeitszeitverkürzung oder Viertagewoche einführen </target>
           </trans-unit>
-          <group restype="listitem" id="tu96" resname="/html/body/ul[2]/li[3]">
+          <group restype="listitem" id="grp96" resname="/html/body/ul[2]/li[3]">
             <trans-unit restype="x-html-p" id="tu97" resname="/html/body/ul[2]/li[3]/p">
               <source xml:lang="nl"> Tijdelijke collectieve arbeidsduurvermindering - coronamaatregel </source>
               <target xml:lang="de" state="final"> Zeitweilige kollektive Arbeitszeitverkürzung – Corona-Maßnahme </target>
@@ -158,7 +158,7 @@
           <source xml:lang="nl"> Voor volgende doelgroepen bestaan geregionaliseerde doelgroepmaatregelen </source>
           <target xml:lang="de" state="final"> Für die folgenden Zielgruppen bestehen regionale Zielgruppenmaßnahmen: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu101" resname="/html/body/ul[3]">
+        <group restype="x-html-ul" id="grp101" resname="/html/body/ul[3]">
           <trans-unit restype="listitem" id="tu102" resname="/html/body/ul[3]/li[1]">
             <source xml:lang="nl">Oudere werknemers - Brussel </source>
             <target xml:lang="de" state="final">Ältere Arbeitnehmer – Brüssel </target>
@@ -224,7 +224,7 @@
             <target xml:lang="de" state="final">Künstler </target>
           </trans-unit>
         </group>
-        <group restype="x-html-div" id="tu118" resname="/html/body/div">
+        <group restype="x-html-div" id="grp118" resname="/html/body/div">
           <note from="class">alert message</note>
           <trans-unit restype="x-html-p" id="tu119" resname="/html/body/div/p">
             <source xml:lang="nl"> De toepassing van deze doelgroepen hangt af van het correct vermelden van het "identificatienummer van de lokale eenheid (de vestigingseenheid)" op het niveau van de tewerkstellingslijn. </source>

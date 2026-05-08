@@ -25,7 +25,6 @@ final class FormData
      */
     public function __construct(private readonly FormConfig $formConfig, FormInterface $form)
     {
-        /** @var mixed $formData */
         $formData = $form->getData();
         $this->raw = \is_array($formData) ? $formData : [];
     }
@@ -39,14 +38,14 @@ final class FormData
     /** @return FormDataFile[] */
     public function getAllFiles(): array
     {
-        if (!empty($this->allFiles)) {
+        if ([] !== $this->allFiles) {
             return $this->allFiles;
         }
 
         foreach ($this->raw as $formField => $value) {
             $element = $this->formConfig->getElementByName($formField);
 
-            if (null === $element || !\in_array($element->getClassName(), [MultipleFile::class, File::class])) {
+            if (null === $element || !\in_array($element->getClassName(), [MultipleFile::class, File::class], true)) {
                 continue;
             }
 

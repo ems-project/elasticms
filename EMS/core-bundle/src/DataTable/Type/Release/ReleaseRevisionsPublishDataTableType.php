@@ -30,7 +30,7 @@ class ReleaseRevisionsPublishDataTableType extends AbstractQueryTableType
     {
         /** @var Release $release */
         $release = $table->getContext();
-        $template = "@$this->templateNamespace/release/columns/revisions.html.twig";
+        $template = \sprintf('@%s/release/columns/revisions.html.twig', $this->templateNamespace);
 
         $table->setMassAction(true);
         $table->setLabelAttribute('item_labelField');
@@ -52,6 +52,9 @@ class ReleaseRevisionsPublishDataTableType extends AbstractQueryTableType
                 'release' => (string) $release->getId(),
                 'type' => 'publish',
                 'emsLinkToAdd' => 'emsLink',
+            ],
+            attributes: [
+                'data-testid' => 'release-action-add-for-publish',
             ]
         );
     }

@@ -37,7 +37,7 @@ final class RuntimeEnvPlaceholderResolverTest extends TestCase
 
     private function setEnv(string $key, string $value): void
     {
-        \putenv("$key=$value");
+        \putenv(\sprintf('%s=%s', $key, $value));
         $_ENV[$key] = $value;
         $_SERVER[$key] = $value;
     }
@@ -97,7 +97,7 @@ final class RuntimeEnvPlaceholderResolverTest extends TestCase
 
         $out = $resolver->resolve('flag=%env(bool:FLAG)%');
 
-        self::assertSame("flag=$expected", $out);
+        self::assertSame('flag='.$expected, $out);
     }
 
     public static function boolProvider(): array

@@ -27,7 +27,7 @@
                 </a>
             </li>
             {% if app.user %}
-                <li class="nav-item dropdown user-menu">
+                <li class="nav-item dropdown user-menu" data-testid="user-menu">
                     <a class="nav-link dropdown-toggle d-none d-sm-inline-block p-0" href="#" data-bs-toggle="dropdown">
                         {{ include('@EMSAdminUI/bootstrap5/elements/user-image.html.twig', {
                             class: 'rounded-circle avatar ms-3 img-fluid',
@@ -61,11 +61,11 @@
                         </li>
                         {% if is_granted('IS_IMPERSONATOR') %}
                             <li>
-                                <a href="{{ path('emsco_user_index', {_switch_user: '_exit'}) }}" class="dropdown-item">{{ 'user.logout.exit'|trans({}, 'emsco-user') }}</a>
+                                <a href="{{ path('emsco_user_index', {_switch_user: '_exit'}) }}" class="dropdown-item" data-testid="logout">{{ 'user.logout.exit'|trans({}, 'emsco-user') }}</a>
                             </li>
                         {% else %}
                             <li>
-                                <a href="{{ path(routes.USER_LOGOUT) }}" class="dropdown-item">{{ 'user.logout.submit'|trans({}, 'emsco-user') }}</a>
+                                <a href="{{ path(routes.USER_LOGOUT) }}" class="dropdown-item" data-testid="logout">{{ 'user.logout.submit'|trans({}, 'emsco-user') }}</a>
                             </li>
                         {% endif %}
                     </ul>

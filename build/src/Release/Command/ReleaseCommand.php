@@ -76,7 +76,7 @@ class ReleaseCommand extends AbstractCommand
             $this->checkPackagist(...$packageReleases);
 
             $this->io->section('Composer update applications');
-            $this->composerUpdate($deploy, Config::APPLICATIONS, $packageReleases);
+            $this->composerUpdate($deploy, $packageReleases);
 
             $this->io->section('Commit release');
             $sha = $this->commitRelease($deploy);
@@ -90,9 +90,6 @@ class ReleaseCommand extends AbstractCommand
 
             $this->io->section('Release applications');
             $this->release($deploy, Config::APPLICATIONS);
-
-            $this->io->section('Release docker');
-            $this->release($deploy, Config::DOCKER);
 
             return self::SUCCESS;
         } catch (\Throwable $e) {
@@ -182,18 +179,17 @@ class ReleaseCommand extends AbstractCommand
     }
 
     /**
-     * @param string[]                     $applications
      * @param array<string, GithubRelease> $packageReleases
      */
-    private function composerUpdate(Deploy $deploy, array $applications, array $packageReleases): void
+    private function composerUpdate(Deploy $deploy, array $packageReleases): void
     {
-        $command = 'composer update --no-scripts --no-progress --quiet';
+        $command = 'composer update --no-scripts --no-progress --with-dependencies --quiet';
         if ('patch' === $deploy->version->getType()) {
             $command .= ' -- elasticms/*';
         }
         $process = Process::fromShellCommandline($command);
 
-        foreach ($applications as $application) {
+        foreach (Config::APPLICATIONS as $application) {
             if ('elasticms-demo' === $application) {
                 continue;
             }

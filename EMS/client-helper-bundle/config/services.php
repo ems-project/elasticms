@@ -8,7 +8,6 @@ use EMS\ClientHelperBundle\Command\HealthCheckCommand;
 use EMS\ClientHelperBundle\Command\HttpCache\InvalidateCommand;
 use EMS\ClientHelperBundle\Contracts\Elasticsearch\ClientRequestManagerInterface;
 use EMS\ClientHelperBundle\Contracts\Environment\EnvironmentHelperInterface;
-use EMS\ClientHelperBundle\Controller\AssetController;
 use EMS\ClientHelperBundle\Controller\CoreBridgeController;
 use EMS\ClientHelperBundle\Controller\EmbedController;
 use EMS\ClientHelperBundle\Controller\HttpCacheController;
@@ -16,12 +15,10 @@ use EMS\ClientHelperBundle\Controller\SearchController;
 use EMS\ClientHelperBundle\EventListener\CacheListener;
 use EMS\ClientHelperBundle\EventListener\KernelListener;
 use EMS\ClientHelperBundle\EventListener\SecurityListener;
-use EMS\ClientHelperBundle\Helper\Asset\AssetHelperRuntime;
 use EMS\ClientHelperBundle\Helper\Asset\AssetVersionStrategy;
 use EMS\ClientHelperBundle\Helper\Cache\CacheHelper;
 use EMS\ClientHelperBundle\Helper\ContentType\ContentTypeHelper;
 use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequestManager;
-use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequestRuntime;
 use EMS\ClientHelperBundle\Helper\Environment\EnvironmentFactory;
 use EMS\ClientHelperBundle\Helper\Environment\EnvironmentHelper;
 use EMS\ClientHelperBundle\Helper\Form\Extension\EmschFormViewExtension;
@@ -31,12 +28,12 @@ use EMS\ClientHelperBundle\Helper\Request\ExceptionHelper;
 use EMS\ClientHelperBundle\Helper\Request\LocaleHelper;
 use EMS\ClientHelperBundle\Helper\Translation\Translator;
 use EMS\ClientHelperBundle\Helper\Webhook\WebhookHelper;
-use EMS\ClientHelperBundle\Helper\Webhook\WebhookRuntime;
-use EMS\ClientHelperBundle\Twig\AdminMenuRuntime;
+use EMS\ClientHelperBundle\Twig\AdminMenuExtension;
+use EMS\ClientHelperBundle\Twig\AssetExtension;
 use EMS\ClientHelperBundle\Twig\HelperExtension;
+use EMS\ClientHelperBundle\Twig\InlineEditExtension;
 use EMS\CommonBundle\Contracts\Bridge\Core\CoreBridgeInterface;
 use EMS\CommonBundle\Contracts\Elasticsearch\QueryLoggerInterface;
-use EMS\CommonBundle\Twig\AssetRuntime;
 use Psr\Cache\CacheItemPoolInterface;
 
 return static function (ContainerConfigurator $container) {
@@ -111,10 +108,6 @@ return static function (ContainerConfigurator $container) {
             service('ems.common.cache'),
         ]);
 
-    $services->set('emsch.runtime_webhook', WebhookRuntime::class)
-        ->args([service('emsch.helper_webhook')])
-        ->tag('twig.runtime');
-
     $services->set('emsch.form.extension.view', EmschFormViewExtension::class)
         ->tag('form.type_extension', ['priority' => 1]);
 
@@ -149,37 +142,44 @@ return static function (ContainerConfigurator $container) {
         ])
         ->tag('kernel.event_subscriber');
 
-    $services->set('emsch.twig.extension.helper', HelperExtension::class)
-        ->tag('twig.extension');
-
-    $services->set('emsch.twig.runtime.request_helper', AdminMenuRuntime::class)
+    $services->set('emsch.twig_extension.admin_menu', AdminMenuExtension::class)
         ->args([service('emsch.helper_environment')])
+        ->tag('twig.attribute_extension')
         ->tag('twig.runtime');
 
-    $services->set('emsch.twig.runtime.asset', AssetHelperRuntime::class)
+    $services->set('emsch.twig_extension.asset', AssetExtension::class)
         ->args([
             service('ems_common.storage.manager'),
-            service('emsch.manager.client_request'),
-            service('ems_common.twig.runtime.asset'),
+            service('ems.twig_extension.asset'),
             service('ems.vite'),
             '%kernel.project_dir%',
             '%emsch.asset_local_folder%',
         ])
+        ->tag('twig.attribute_extension')
         ->tag('twig.runtime');
 
-    $services->set('emsch.twig.runtime.asset_vserion_strategy', AssetVersionStrategy::class)
-        ->args([service('emsch.twig.runtime.asset')]);
-
-    $services->set('emsch.twig.runtime.client_request', ClientRequestRuntime::class)
+    $services->set('emsch.twig_extension.helper', HelperExtension::class)
         ->args([
             service('emsch.manager.client_request'),
             service('request_stack'),
             service('logger'),
             service('ems_common.service.elastica'),
             service('emsch.search.manager'),
+            service('emsch.helper_webhook'),
         ])
         ->tag('monolog.logger', ['channel' => 'emsch_request'])
+        ->tag('twig.attribute_extension')
         ->tag('twig.runtime');
+
+    $services->set('emsch.twig_extension.inline_edit', InlineEditExtension::class)
+        ->args([
+            service('request_stack'),
+        ])
+        ->tag('twig.attribute_extension')
+        ->tag('twig.runtime');
+
+    $services->set('emsch.asset.version_strategy', AssetVersionStrategy::class)
+        ->args([service('emsch.twig_extension.asset')]);
 
     $services->set(CoreBridgeController::class)
         ->public()
@@ -202,16 +202,6 @@ return static function (ContainerConfigurator $container) {
             service('emsch.manager.client_request'),
             service('emsch.helper_cache'),
             service('twig'),
-        ])
-        ->call('setContainer')
-        ->tag('controller.service_arguments')
-        ->tag('container.service_subscriber');
-
-    $services->set(AssetController::class)
-        ->public()
-        ->args([
-            service(AssetRuntime::class),
-            '%kernel.project_dir%',
         ])
         ->call('setContainer')
         ->tag('controller.service_arguments')

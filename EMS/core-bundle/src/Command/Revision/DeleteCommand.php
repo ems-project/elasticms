@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command\Revision;
 
-use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Service\ElasticaService;
+use EMS\CoreBundle\Command\AbstractCoreCommand;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\PublishService;
@@ -22,7 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
     description: 'Delete all/oldest revisions for content type(s).',
     hidden: false
 )]
-class DeleteCommand extends AbstractCommand
+class DeleteCommand extends AbstractCoreCommand
 {
     private const string ARGUMENT_CONTENT_TYPES = 'content-types';
     private const string OPTION_MODE = 'mode';
@@ -63,7 +63,7 @@ class DeleteCommand extends AbstractCommand
     protected function interact(InputInterface $input, OutputInterface $output): void
     {
         $this->mode = $this->getOptionString(self::OPTION_MODE);
-        if (\in_array($this->mode, [self::MODE_ALL, self::MODE_OLDEST])) {
+        if (\in_array($this->mode, [self::MODE_ALL, self::MODE_OLDEST], true)) {
             $this->choiceArgumentArray(
                 self::ARGUMENT_CONTENT_TYPES,
                 'Select one or more contentType(s)',
@@ -73,7 +73,7 @@ class DeleteCommand extends AbstractCommand
 
         $this->contentTypeNames = $this->getArgumentOptionalStringArray(self::ARGUMENT_CONTENT_TYPES);
 
-        if (!\in_array($this->mode, self::MODES)) {
+        if (!\in_array($this->mode, self::MODES, true)) {
             throw new \RuntimeException(\sprintf('Invalid option "%s"', $this->mode));
         }
     }
@@ -118,7 +118,7 @@ class DeleteCommand extends AbstractCommand
             }
         }
 
-        if ($results) {
+        if ([] !== $results) {
             $this->io->success($results);
         }
 

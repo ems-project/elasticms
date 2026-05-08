@@ -7,6 +7,7 @@ namespace EMS\CommonBundle\Tests\Unit\Common\CoreApi\Endpoint\Form;
 use EMS\CommonBundle\Common\CoreApi\Client;
 use EMS\CommonBundle\Common\CoreApi\Endpoint\Form\Form;
 use EMS\CommonBundle\Common\CoreApi\Result;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 
 class FormAiTest extends TestCase
@@ -21,6 +22,7 @@ class FormAiTest extends TestCase
         $this->form = new Form($this->client);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testCreateVerification(): void
     {
         $resultData = ['code' => '123456'];
@@ -38,6 +40,7 @@ class FormAiTest extends TestCase
         $this->assertEquals('123456', $code);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testGetVerification(): void
     {
         $resultData = ['code' => '654321'];

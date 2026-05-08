@@ -67,7 +67,7 @@ class OpenShift implements RunnerInterface
                     'spec' => [
                         'containers' => [[
                             'name' => 'ems-runner-container',
-                            'image' => null !== $this->imageTag ? "$this->image:$this->imageTag" : $this->image,
+                            'image' => null !== $this->imageTag ? \sprintf('%s:%s', $this->image, $this->imageTag) : $this->image,
                             'command' => $command,
                             'env' => $this->env,
                         ]],
@@ -77,7 +77,7 @@ class OpenShift implements RunnerInterface
             ],
         ], 6);
 
-        $response = $this->httpClient->post("apis/batch/v1/namespaces/$this->namespace/jobs", [
+        $response = $this->httpClient->post(\sprintf('apis/batch/v1/namespaces/%s/jobs', $this->namespace), [
             'body' => $yamlContent,
         ]);
         if (!\in_array($response->getStatusCode(), [200, 201], true)) {
@@ -94,7 +94,7 @@ class OpenShift implements RunnerInterface
 
     public function status(string $id): RunnerStatus
     {
-        $response = $this->httpClient->get("apis/batch/v1/namespaces/$this->namespace/jobs/$id");
+        $response = $this->httpClient->get(\sprintf('apis/batch/v1/namespaces/%s/jobs/%s', $this->namespace, $id));
         $data = Json::decode($response->getBody()->getContents());
         $conditions = $data['status']['conditions'] ?? [];
         $active = $data['status']['active'] ?? 0;
@@ -119,9 +119,9 @@ class OpenShift implements RunnerInterface
 
     public function output(string $id): string
     {
-        $response = $this->httpClient->get("/api/v1/namespaces/$this->namespace/pods", [
+        $response = $this->httpClient->get(\sprintf('/api/v1/namespaces/%s/pods', $this->namespace), [
             'query' => [
-                'selector' => "job-name=$id",
+                'selector' => 'job-name='.$id,
             ],
         ]);
         $podsData = Json::decode($response->getBody()->getContents());
@@ -131,7 +131,7 @@ class OpenShift implements RunnerInterface
             throw new \RuntimeException('No pods available');
         }
         $podName = $pods[0]['metadata']['name'];
-        $logResponse = $this->httpClient->get("/api/v1/namespaces/$this->namespace/pods/$podName/log");
+        $logResponse = $this->httpClient->get(\sprintf('/api/v1/namespaces/%s/pods/%s/log', $this->namespace, $podName));
 
         return $logResponse->getBody()->getContents();
     }

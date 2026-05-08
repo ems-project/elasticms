@@ -12,11 +12,11 @@ use EMS\FormBundle\Service\Endpoint\EndpointManager;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Security\Csrf\CsrfToken;
-use Symfony\Component\Security\Csrf\CsrfTokenManager;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
 final readonly class ConfirmationService
 {
-    public function __construct(private FormConfigFactory $configFactory, private CsrfTokenManager $csrfTokenManager, private LoggerInterface $logger, private EndpointManager $endpointManager)
+    public function __construct(private FormConfigFactory $configFactory, private CsrfTokenManagerInterface $csrfTokenManager, private LoggerInterface $logger, private EndpointManager $endpointManager)
     {
     }
 
@@ -33,8 +33,8 @@ final readonly class ConfirmationService
             }
 
             return $endpointType->getVerificationCode($endpoint, $confirmValue);
-        } catch (\Exception $e) {
-            $this->logger->error($e->getMessage());
+        } catch (\Exception $exception) {
+            $this->logger->error($exception->getMessage());
 
             return null;
         }
@@ -57,8 +57,8 @@ final readonly class ConfirmationService
 
         try {
             return $endpointType->confirm($endpoint, $formConfig, $confirmationRequest->getValue());
-        } catch (\Exception $e) {
-            $this->logger->error($e->getMessage());
+        } catch (\Exception $exception) {
+            $this->logger->error($exception->getMessage());
 
             return false;
         }

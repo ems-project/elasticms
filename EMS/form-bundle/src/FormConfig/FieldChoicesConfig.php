@@ -45,7 +45,7 @@ class FieldChoicesConfig
 
     public function getLabel(string $value): string
     {
-        $index = \array_search($value, $this->values);
+        $index = \array_search($value, $this->values, true);
         if (!\is_string($this->labels[$index] ?? null)) {
             return $value;
         }
@@ -101,7 +101,7 @@ class FieldChoicesConfig
             if (\is_array($choice) && \count($choice) > 1) {
                 $level = \max(
                     $level,
-                    1 + $this->calculateMaxLevel($choice[\array_key_first($choice)])
+                    1 + $this->calculateMaxLevel(\array_first($choice))
                 );
             }
         }
@@ -138,7 +138,7 @@ class FieldChoicesConfig
     private function combineValuesAndLabels(array $values, array $labels, array $choices): array
     {
         foreach ($choices as $choice) {
-            $idx = \array_search($choice, $this->getTopLevel($values));
+            $idx = \array_search($choice, $this->getTopLevel($values), true);
             if (false === $idx) {
                 continue;
             }

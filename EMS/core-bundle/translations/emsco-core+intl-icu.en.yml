@@ -19,6 +19,7 @@ action:
     edit: Edit
     export: Export
     rebuild: Rebuild
+    relaunch: Relaunch
     reorder: Reorder
     save: Save
     save_close: 'Save and Close'
@@ -173,10 +174,14 @@ field:
     definition: Definition
     editor: Editor
     email_content_type: 'Content type (ie: text/html)'
+    enabled: Enabled
+    endpoint_url: Endpoint
     entry_path: 'Default entry path'
     environment_default: 'Default environment'
     environment_external: 'External environment'
     environments: Environments
+    error: 'Error message'
+    events: Events
     extra: Extra
     file:
         disposition: Disposition
@@ -220,13 +225,12 @@ field:
     role_cc: 'Role cc'
     role_to: 'Role to'
     roles: Roles
-    save_dir: 'Save dir'
     search_config: 'Search config'
     severity: Severity
     singular: Singular
     spreadsheet: Spreadsheet
     status: Status
-    table_default_css: 'Default Table class attribute (deprecated)'
+    table_default_css: 'Default Table class attribute'
     tag: Tag
     template_body: 'Template body'
     template_footer: 'Template footer'
@@ -254,7 +258,6 @@ key:
     attachment: Attachment
     channels: Channels
     ckeditor4: 'CK Editor 4'
-    ckeditor5: 'CK Editor 5'
     content_types: 'Content Types'
     dashboards: Dashboards
     details: Details
@@ -269,6 +272,7 @@ key:
     groups: Groups
     i18n: I18N
     inline: Inline
+    inline_editor: 'Inline editor'
     job_logs: 'Jobs logs'
     jobs: Jobs
     landscape: Landscape
@@ -291,12 +295,15 @@ key:
     schedule_tag: 'Used to indentify workers (e.g. CLI) which would remotely execute the job'
     search: Search
     structure: Structure
+    tiptap: Tiptap
     trash: Trash
     unreferenced_aliases: 'Unreferenced aliases'
     uploaded_files: 'Uploaded Files'
     uploaded_files_logs: 'Uploaded Files Logs'
     users: Users
     views: Views
+    webhook_subscriptions: Subscriptions
+    webhooks: Webhooks
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profiles
     wysiwyg_style_sets: 'Style Sets'
@@ -538,3 +545,11 @@ type:
         }
 view:
     title: '{name} of {plural}'
+webhook:
+    enable:
+        action: Enable
+        disabled: 'The subscription {id} has been disabled'
+        re-enabled: 'The subscription {id} has been re-enabled'
+    test:
+        action: Test
+        dispatched: 'A webhook_test event has been sent to the subscription {id}'

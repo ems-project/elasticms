@@ -77,10 +77,10 @@ class AuditCommand extends AbstractCommand
     protected function configure(): void
     {
         $this
-            ->addArgument(self::ARG_URL, InputArgument::REQUIRED, 'Website landing page\'s URL')
+            ->addArgument(self::ARG_URL, InputArgument::REQUIRED, "Website landing page's URL")
             ->addOption(self::OPTION_CONTINUE, null, InputOption::VALUE_NONE, 'Continue import from last know updated document')
-            ->addOption(self::OPTION_DRY_RUN, null, InputOption::VALUE_NONE, 'don\'t update elasticms')
-            ->addOption(self::OPTION_CONTENT_TYPE, null, InputOption::VALUE_OPTIONAL, 'Audit\'s content type', 'audit')
+            ->addOption(self::OPTION_DRY_RUN, null, InputOption::VALUE_NONE, "don't update elasticms")
+            ->addOption(self::OPTION_CONTENT_TYPE, null, InputOption::VALUE_OPTIONAL, "Audit's content type", 'audit')
             ->addOption(self::OPTION_CACHE_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Path to a folder where cache will stored', \implode(DIRECTORY_SEPARATOR, [\getcwd(), 'var']))
             ->addOption(self::OPTION_SAVE_FOLDER, null, InputOption::VALUE_OPTIONAL, 'If defined, the audit document will be also saved as JSON in the specified folder')
             ->addOption(self::OPTION_MAX_UPDATES, null, InputOption::VALUE_OPTIONAL, 'Maximum number of document that can be updated in 1 batch (if the continue option is activated)', 500)
@@ -223,11 +223,14 @@ class AuditCommand extends AbstractCommand
 
         $boolQuery->setMinimumShouldMatch(1);
         $boolQuery->addShould(new Terms('base_url', [$this->baseUrl]));
+
         $boolMustNotBase = new BoolQuery();
         $boolMustNotBase->addMustNot(new Exists('base_url'));
+
         $boolQuery->addShould(new Terms('base_url', [$this->baseUrl]));
         $search = new Search([$alias], $boolQuery->toArray());
         $search->setSources(['url', 'referer', 'referer_label']);
+
         $searchApi = $this->adminHelper->getCoreApi()->search();
 
         $this->io->section('Audit already know URLs');
@@ -253,8 +256,8 @@ class AuditCommand extends AbstractCommand
             $this->logger->notice('Document saved');
 
             return true;
-        } catch (\Throwable $e) {
-            $this->logger->error(\sprintf('Error while saving the report for %s, go sleep for 60s: %s', $url, $e->getMessage()));
+        } catch (\Throwable $throwable) {
+            $this->logger->error(\sprintf('Error while saving the report for %s, go sleep for 60s: %s', $url, $throwable->getMessage()));
             \sleep(60);
 
             return false;
@@ -282,7 +285,7 @@ class AuditCommand extends AbstractCommand
 
             return;
         }
-        if (\in_array($result->getResponse()->getStatusCode(), [301, 302, 303, 307, 308])) {
+        if (\in_array($result->getResponse()->getStatusCode(), [301, 302, 303, 307, 308], true)) {
             $this->logger->notice('Redirect');
             if (!$result->getResponse()->hasHeader('Location')) {
                 $report->addBrokenLink(new UrlReport($url, $result->getResponse()->getStatusCode(), 'Redirect without Location header'));
@@ -322,11 +325,11 @@ class AuditCommand extends AbstractCommand
             $report->addBrokenLink($auditResult->getUrlReport());
             $this->logger->notice('Broken links added');
         }
-        if (\count($auditResult->getSecurityWarnings()) > 0) {
+        if ([] !== $auditResult->getSecurityWarnings()) {
             $report->addSecurityError($url->getUrl(), \count($auditResult->getSecurityWarnings()));
             $this->logger->notice('Security warnings added');
         }
-        if (\count($auditResult->getWarnings()) > 0) {
+        if ([] !== $auditResult->getWarnings()) {
             $report->addWarning($url, $auditResult->getWarnings());
             $this->logger->notice('Warnings added');
         }
@@ -357,6 +360,7 @@ class AuditCommand extends AbstractCommand
         }
         $this->auditCache->setReport($report);
         $this->auditCache->save($this->jsonPath);
+
         $this->logger->notice('Cache saved');
     }
 }

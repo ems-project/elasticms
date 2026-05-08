@@ -56,7 +56,7 @@ class GroupController extends AbstractController
         }
 
         return new Page([
-            'datatable' => ['form' => $form->createView()],
+            'datatable' => ['form' => $form->createView(), 'table_id' => 'group'],
             'title' => t('type.title_overview', ['type' => 'group'], 'emsco-core'),
             'subTitle' => t('type.title_sub', ['type' => 'group'], 'emsco-core'),
             'breadcrumb' => $this->breadcrumb(),
@@ -76,7 +76,7 @@ class GroupController extends AbstractController
             return $this->redirectToRoute(Routes::GROUP_INDEX);
         }
 
-        return $this->render("@$this->templateNamespace/group/create.html.twig", [
+        return $this->render(\sprintf('@%s/group/create.html.twig', $this->templateNamespace), [
             'form' => $form,
             'title' => t('type.title_create', ['type' => 'group'], 'emsco-core'),
             'subTitle' => t('type.title_sub', ['type' => 'group'], 'emsco-core'),
@@ -104,10 +104,10 @@ class GroupController extends AbstractController
             return $this->redirectToRoute(Routes::GROUP_INDEX);
         }
 
-        $userNotInGroupDataTable = $this->usersInGroupDataTable($request, $group, false);
-        $userGroupDataTable = $this->usersInGroupDataTable($request, $group, true);
+        $userNotInGroupDataTable = $this->usersInGroupDataTable($group, false);
+        $userGroupDataTable = $this->usersInGroupDataTable($group, true);
 
-        return $this->render("@$this->templateNamespace/group/edit.html.twig", [
+        return $this->render(\sprintf('@%s/group/edit.html.twig', $this->templateNamespace), [
             'form' => $form,
             'datatableForm' => $userGroupDataTable->createView(),
             'userNotInGroupDataTable' => $userNotInGroupDataTable->createView(),
@@ -133,7 +133,7 @@ class GroupController extends AbstractController
     /**
      * @return FormInterface<UserDataTableType>
      */
-    private function usersInGroupDataTable(Request $request, Group $group, bool $inGroup): FormInterface
+    private function usersInGroupDataTable(Group $group, bool $inGroup): FormInterface
     {
         $table = $this->dataTableFactory->create(UserDataTableType::class, [
             'light' => true,
@@ -141,8 +141,6 @@ class GroupController extends AbstractController
             'group-id' => $group->getId(),
         ]);
 
-        $form = $this->createForm(TableType::class, $table);
-
-        return $form;
+        return $this->createForm(TableType::class, $table);
     }
 }

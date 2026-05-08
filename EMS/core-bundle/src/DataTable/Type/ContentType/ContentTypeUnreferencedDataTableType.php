@@ -36,7 +36,7 @@ class ContentTypeUnreferencedDataTableType extends AbstractTableType implements 
         $table->addColumnDefinition(new TemplateBlockTableColumn(
             label: t('field.environment_external', [], 'emsco-core'),
             blockName: 'environmentName',
-            template: "@$this->templateNamespace/datatable/template_block_columns.html.twig",
+            template: \sprintf('@%s/datatable/template_block_columns.html.twig', $this->templateNamespace),
             orderField: 'environmentLabel'
         ));
 
@@ -47,7 +47,8 @@ class ContentTypeUnreferencedDataTableType extends AbstractTableType implements 
             labelKey: t('action.add_referenced', [], 'emsco-core'),
             icon: 'plus',
             messageKey: t('type.confirm', ['type' => 'content_type_referenced_add'], 'emsco-core'),
-            routeParameters: ['environment' => 'environmentId', 'name' => 'name']
+            routeParameters: ['environment' => 'environmentId', 'name' => 'name'],
+            attributes: ['data-testid' => 'btn-action-add-referenced'],
         )->setButtonType('primary');
     }
 

@@ -91,7 +91,7 @@ class ScheduleRepository extends ServiceEntityRepository
             ->setMaxResults($size);
         $this->addSearchFilters($qb, $searchValue);
 
-        if (\in_array($orderField, ['name', 'cron', 'command', 'previousRun', 'nextRun'])) {
+        if (\in_array($orderField, ['name', 'cron', 'command', 'previousRun', 'nextRun'], true)) {
             $qb->orderBy(\sprintf('schedule.%s', $orderField), $orderDirection);
         } else {
             $qb->orderBy('schedule.orderKey', $orderDirection);
@@ -102,7 +102,7 @@ class ScheduleRepository extends ServiceEntityRepository
 
     private function addSearchFilters(QueryBuilder $qb, string $searchValue): void
     {
-        if (\strlen($searchValue) > 0) {
+        if ('' !== $searchValue) {
             $or = $qb->expr()->orX(
                 $qb->expr()->like('schedule.name', ':term'),
                 $qb->expr()->like('schedule.cron', ':term'),

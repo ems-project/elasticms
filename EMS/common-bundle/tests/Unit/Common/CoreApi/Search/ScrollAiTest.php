@@ -10,6 +10,7 @@ use EMS\CommonBundle\Common\CoreApi\Search\Scroll;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
 use EMS\CommonBundle\Elasticsearch\Response\ResponseInterface;
 use EMS\CommonBundle\Search\Search;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 
 class ScrollAiTest extends TestCase
@@ -24,9 +25,10 @@ class ScrollAiTest extends TestCase
         $this->search = $this->createMock(Search::class);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testCurrent(): void
     {
-        $document = $this->createMock(Document::class);
+        $document = $this->createStub(Document::class);
         $response = $this->createConfiguredMock(ResponseInterface::class, [
             'getDocument' => $document,
             'getTotalDocuments' => 1,
@@ -44,6 +46,7 @@ class ScrollAiTest extends TestCase
         $this->assertSame($document, $scroll->current());
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testKeyInvalidScroll(): void
     {
         $this->expectException(\RuntimeException::class);
@@ -53,20 +56,21 @@ class ScrollAiTest extends TestCase
         $scroll->key();
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testRewind(): void
     {
         $this->client
             ->expects($this->once())
             ->method('post')
             ->with('/api/search/init-scroll', [
-                'search' => '{}',
+                'search' => [],
                 'expire-time' => '3m',
             ])
             ->willReturn($this->createConfiguredMock(Result::class, ['getData' => []]));
 
         $this->search
-            ->method('serialize')
-            ->willReturn('{}');
+            ->method('toPayload')
+            ->willReturn([]);
 
         $scroll = new Scroll($this->client, $this->search);
         $scroll->rewind();

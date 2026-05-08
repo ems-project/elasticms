@@ -36,11 +36,7 @@ class DateFieldType extends DataFieldType
         }
         $dates = [];
         $format = $fieldType->getMappingOption('format', false);
-        if (false !== $format) {
-            $format = DateTime::convertFormat('java', $format);
-        } else {
-            $format = \DateTimeInterface::ATOM;
-        }
+        $format = false !== $format ? DateTime::convertFormat('java', $format) : \DateTimeInterface::ATOM;
         if (\is_string($data)) {
             $dates[] = \DateTime::createFromFormat($format, $data);
 
@@ -67,13 +63,10 @@ class DateFieldType extends DataFieldType
     {
         $data = parent::reverseModelTransform($dataField);
         $format = $dataField->giveFieldType()->getMappingOption('format', false);
-        if (false !== $format) {
-            $format = DateTime::convertFormat('java', $format);
-        } else {
-            $format = \DateTimeInterface::ATOM;
-        }
+        $format = false !== $format ? DateTime::convertFormat('java', $format) : \DateTimeInterface::ATOM;
+
         $out = [];
-        if (\is_iterable($data) && !empty($data)) {
+        if (\is_iterable($data) && [] !== $data) {
             foreach ($data as $item) {
                 if ($item instanceof \DateTime) {
                     $out[] = $item->format($format);
@@ -81,11 +74,11 @@ class DateFieldType extends DataFieldType
             }
         }
         if (!$dataField->giveFieldType()->getDisplayBoolOption('multidate', false)) {
-            if (empty($out)) {
+            if ([] === $out) {
                 return null;
-            } else {
-                return $out[0];
             }
+
+            return $out[0];
         }
 
         return $out;
@@ -97,16 +90,15 @@ class DateFieldType extends DataFieldType
         $data = parent::viewTransform($dataField);
         $out = [];
         $format = DateTime::convertFormat('js', $dataField->giveFieldType()->getDisplayOption('displayFormat', 'dd/mm/yyyy'));
-        if (\is_iterable($data) && !empty($data)) {
+        if (\is_iterable($data) && [] !== $data) {
             foreach ($data as $date) {
                 if ($date) {
                     $out[] = $date->format($format);
                 }
             }
         }
-        $temp = ['value' => \implode(',', $out)];
 
-        return $temp;
+        return ['value' => \implode(',', $out)];
     }
 
     /**
@@ -122,9 +114,8 @@ class DateFieldType extends DataFieldType
                 $dates[] = \DateTime::createFromFormat($format, $date);
             }
         }
-        $dataField = parent::reverseViewTransform($dates, $fieldType);
 
-        return $dataField;
+        return parent::reverseViewTransform($dates, $fieldType);
     }
 
     #[\Override]
@@ -137,7 +128,7 @@ class DateFieldType extends DataFieldType
     public function importData(DataField $dataField, array|string|int|float|bool|null $sourceArray, bool $isMigration): array
     {
         $migrationOptions = $dataField->giveFieldType()->getMigrationOptions();
-        if (!$isMigration || empty($migrationOptions) || !$migrationOptions['protected']) {
+        if (!$isMigration || [] === $migrationOptions || !$migrationOptions['protected']) {
             $format = DateTime::convertFormat('java', $dataField->giveFieldType()->getMappingOption('format'));
 
             if (null == $sourceArray) {
@@ -150,7 +141,7 @@ class DateFieldType extends DataFieldType
                 throw new \RuntimeException('Unexpected non-iterable source array');
             }
             $data = [];
-            foreach ($sourceArray as $idx => $child) {
+            foreach ($sourceArray as $child) {
                 $dateObject = \DateTime::createFromFormat($format, $child);
                 if ($dateObject) {
                     $data[] = $dateObject->format(\DateTimeInterface::ATOM);
@@ -282,7 +273,7 @@ class DateFieldType extends DataFieldType
         ]);
         $optionsForm->get('displayOptions')->add('todayHighlight', CheckboxType::class, [
             'required' => false,
-            'label' => 'Today highlight (deprecated)',
+            'label' => 'Today highlight',
         ]);
         $optionsForm->get('displayOptions')->add('multidate', CheckboxType::class, [
             'required' => false,
@@ -295,7 +286,7 @@ class DateFieldType extends DataFieldType
         ]);
         $optionsForm->get('displayOptions')->add('daysOfWeekHighlighted', TextType::class, [
             'required' => false,
-            'label' => 'Days of week highlighted (deprecated)',
+            'label' => 'Days of week highlighted',
             'attr' => [
                 'placeholder' => 'i.e. 0,6',
             ],

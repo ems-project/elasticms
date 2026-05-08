@@ -93,6 +93,7 @@ class FilterController extends AbstractController
     {
         $response = new JsonResponse($filter);
         $response->setEncodingOptions(JSON_PRETTY_PRINT);
+
         $disposition = $response->headers->makeDisposition(
             disposition: ResponseHeaderBag::DISPOSITION_ATTACHMENT,
             filename: $filter->getName().'.json'
@@ -124,7 +125,7 @@ class FilterController extends AbstractController
         }
 
         return new Page([
-            'datatable' => ['form' => $form->createView()],
+            'datatable' => ['form' => $form->createView(), 'table_id' => 'filters'],
             'icon' => 'fa fa-filter',
             'title' => t('type.title_overview', ['type' => 'filter'], 'emsco-core'),
             'subTitle' => t('type.title_sub', ['type' => 'filter'], 'emsco-core'),

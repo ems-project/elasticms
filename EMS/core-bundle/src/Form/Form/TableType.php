@@ -16,6 +16,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Translation\TranslatableMessage;
 
 use function Symfony\Component\Translation\t;
 
@@ -84,7 +85,7 @@ final class TableType extends AbstractType
                 'entry_options' => [],
                 'data' => $choices,
             ])->add(self::REORDER_ACTION, SubmitEmsType::class, [
-                'attr' => ['class' => 'btn btn-sm btn-default'],
+                'attr' => ['class' => 'btn btn-sm btn-default', 'data-testid' => 'btn-action-reorder'],
                 'icon' => 'fa fa-reorder',
                 'label' => t('action.reorder', [], 'emsco-core'),
             ]);
@@ -134,11 +135,15 @@ final class TableType extends AbstractType
     {
         $submitOptions = ['icon' => $action->getIcon(), 'label' => $action->getLabelKey()];
 
-        if ($confirmationKey = $action->getConfirmationKey()) {
+        if (($confirmationKey = $action->getConfirmationKey()) instanceof TranslatableMessage) {
             $submitOptions['confirm'] = $confirmationKey;
             $submitOptions['confirm_class'] = $action->getCssClass();
         } else {
             $submitOptions['attr'] = ['class' => $action->getCssClass()];
+        }
+
+        if ([] !== $action->getAttributes()) {
+            $submitOptions['attr'] = \array_merge($submitOptions['attr'] ?? [], $action->getAttributes());
         }
 
         $builder->add($action->getName(), SubmitEmsType::class, $submitOptions);

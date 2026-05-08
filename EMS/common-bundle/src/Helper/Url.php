@@ -6,7 +6,6 @@ namespace EMS\CommonBundle\Helper;
 
 use EMS\CommonBundle\Exception\NotParsableUrlException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 use Symfony\Component\PropertyInfo\PropertyInfoExtractor;
 use Symfony\Component\Serializer\Encoder\JsonEncode;
@@ -22,12 +21,12 @@ class Url
     private const array ABSOLUTE_SCHEME = ['mailto', 'javascript', 'tel'];
     private string $scheme;
     private string $host;
-    private ?int $port;
-    private ?string $user;
-    private ?string $password;
+    private ?int $port = null;
+    private ?string $user = null;
+    private ?string $password = null;
     private string $path;
-    private ?string $query;
-    private ?string $fragment;
+    private ?string $query = null;
+    private ?string $fragment = null;
     private readonly ?string $referer;
 
     public function __construct(string $url, ?string $referer = null, private readonly ?string $refererLabel = null)
@@ -49,9 +48,18 @@ class Url
                 throw new NotParsableUrlException($url, $referer, 'unexpected null scheme');
             }
             $this->scheme = (string) $scheme;
-            $host = $parsed['host'] ?? null;
-            if (null === $host) {
-                throw new NotParsableUrlException($url, $referer, 'unexpected null host');
+            if ($this->isAbsoluteScheme()) {
+                $path = $parsed['path'] ?? null;
+                if (!\is_string($path) || '' === $path) {
+                    throw new NotParsableUrlException($url, $referer, 'Absolute scheme without path');
+                }
+                $this->path = $path;
+
+                return;
+            }
+            $host = $parsed['host'] ?? $relativeParsed['host'] ?? null;
+            if (null === $host || !self::isValidHostname($host)) {
+                throw new NotParsableUrlException($url, $referer, \sprintf('unexpected host %s', $host ?? 'null'));
             }
             $this->host = $host;
             $this->user = $parsed['user'] ?? null;
@@ -75,19 +83,25 @@ class Url
         }
         $this->host = (string) $host;
 
-        $this->user = $parsed['user'] ?? (isset($relativeParsed['user']) ? (string) $relativeParsed['user'] : null);
-        $this->password = $parsed['pass'] ?? (isset($relativeParsed['pass']) ? (string) $relativeParsed['pass'] : null);
-        $this->port = $parsed['port'] ?? (isset($relativeParsed['port']) ? (int) $relativeParsed['port'] : null);
+        $this->user = $parsed['user'] ?? ($relativeParsed['user'] ?? null);
+        $this->password = $parsed['pass'] ?? ($relativeParsed['pass'] ?? null);
+        $this->port = $parsed['port'] ?? ($relativeParsed['port'] ?? null);
         $this->query = $parsed['query'] ?? null;
         $this->fragment = $parsed['fragment'] ?? null;
 
-        $relativeTo = isset($relativeParsed['path']) ? (string) $relativeParsed['path'] : '/';
+        $relativeTo = $relativeParsed['path'] ?? '/';
         $this->path = $this->getAbsolutePath($parsed['path'] ?? '/', $relativeTo);
+    }
+
+    public function isAbsoluteScheme(): bool
+    {
+        return \in_array($this->scheme, self::ABSOLUTE_SCHEME, true);
     }
 
     public function serialize(string $format = JsonEncoder::FORMAT): string
     {
         return self::getSerializer()->serialize($this, $format, [AbstractNormalizer::IGNORED_ATTRIBUTES => [
+            'absoluteScheme',
             'query',
             'scheme',
             'host',
@@ -112,24 +126,37 @@ class Url
         return $url;
     }
 
+    public static function isValidHostname(string $host): bool
+    {
+        $host = \idn_to_ascii($host, IDNA_DEFAULT, INTL_IDNA_VARIANT_UTS46);
+        if (!\is_string($host) || \strlen($host) > 253) {
+            return false;
+        }
+        $pattern = '/^(?=.{1,253}$)(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)(?:\.(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?))*$/i';
+
+        return (bool) \preg_match($pattern, $host);
+    }
+
     private static function getSerializer(): Serializer
     {
         $reflectionExtractor = new ReflectionExtractor();
-        $phpDocExtractor = new PhpDocExtractor();
-        $propertyTypeExtractor = new PropertyInfoExtractor([$reflectionExtractor], [$phpDocExtractor, $reflectionExtractor], [$phpDocExtractor], [$reflectionExtractor], [$reflectionExtractor]);
+        $propertyTypeExtractor = new PropertyInfoExtractor(
+            [$reflectionExtractor],
+            [$reflectionExtractor]
+        );
 
         return new Serializer([
             new ArrayDenormalizer(),
             new ObjectNormalizer(null, null, null, $propertyTypeExtractor),
         ], [
             new XmlEncoder(),
-            new JsonEncoder(new JsonEncode([JsonEncode::OPTIONS => JSON_UNESCAPED_SLASHES]), null),
+            new JsonEncoder(new JsonEncode([JsonEncode::OPTIONS => JSON_UNESCAPED_SLASHES])),
         ]);
     }
 
     private function getAbsolutePath(string $path, string $relativeToPath): string
     {
-        if (\in_array($this->getScheme(), self::ABSOLUTE_SCHEME)) {
+        if (\in_array($this->getScheme(), self::ABSOLUTE_SCHEME, true)) {
             return $path;
         }
         if ('/' !== \substr($relativeToPath, \strlen($relativeToPath) - 1)) {
@@ -153,18 +180,14 @@ class Url
         if (null !== $path) {
             return new Url($path, $this->getUrl())->getUrl(null, $withFragment);
         }
-        if (\in_array($this->getScheme(), self::ABSOLUTE_SCHEME)) {
+        if (\in_array($this->getScheme(), self::ABSOLUTE_SCHEME, true)) {
             $url = \sprintf('%s:', $this->scheme);
         } elseif (null !== $this->user && null !== $this->password && $withPassword) {
             $url = \sprintf('%s://%s:%s@%s', $this->scheme, $this->user, $this->password, $this->host);
         } else {
             $url = \sprintf('%s://%s', $this->scheme, $this->host);
         }
-        if (null !== $this->port) {
-            $url = \sprintf('%s:%d%s', $url, $this->port, $this->path);
-        } else {
-            $url = \sprintf('%s%s', $url, $this->path);
-        }
+        $url = null !== $this->port ? \sprintf('%s:%d%s', $url, $this->port, $this->path) : \sprintf('%s%s', $url, $this->path);
         if ($withQuery && null !== $this->query) {
             $url = \sprintf('%s?%s', $url, $this->query);
         }
@@ -233,7 +256,7 @@ class Url
 
     public function isCrawlable(): bool
     {
-        return \in_array($this->getScheme(), ['http', 'https']);
+        return \in_array($this->getScheme(), ['http', 'https'], true);
     }
 
     /**
@@ -243,7 +266,7 @@ class Url
     {
         $enc_url = \preg_replace_callback(
             '%[^:/@?&=#]+%usD',
-            fn ($matches) => \urlencode((string) $matches[0]),
+            fn ($matches) => \urlencode($matches[0]),
             $url
         );
 

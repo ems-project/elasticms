@@ -33,7 +33,7 @@
           <source xml:lang="nl"> Het zijn de werknemers die op het ogenblik van de aanwerving, sedert minstens 6 maanden ofwel: </source>
           <target xml:lang="de" state="final"> Es handelt sich um Arbeitnehmer, die bei der Einstellung seit mindestens sechs Monaten entweder: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu12" resname="/html/body/ul[1]">
+        <group restype="x-html-ul" id="grp12" resname="/html/body/ul[1]">
           <trans-unit restype="listitem" id="tu13" resname="/html/body/ul[1]/li[1]">
             <source xml:lang="nl">uitkeringsgerechtigde volledig werkloze zijn; </source>
             <target xml:lang="de" state="final">entschädigte Vollarbeitsloser sind; </target>
@@ -55,7 +55,7 @@
           <source xml:lang="nl"> Onder <g id="g18" ctype="x-html-strong">huispersoneel</g> verstaat men: </source>
           <target xml:lang="de" state="final"> Mit <g id="g19" ctype="x-html-strong">Hauspersonal</g> sind gemeint: </target>
         </trans-unit>
-        <group restype="x-html-ul" id="tu20" resname="/html/body/ul[2]">
+        <group restype="x-html-ul" id="grp20" resname="/html/body/ul[2]">
           <trans-unit restype="listitem" id="tu21" resname="/html/body/ul[2]/li[1]">
             <source xml:lang="nl">de dienstbode, d.w.z. de werknemer die zich verbindt tegen loon en onder gezag van de werkgever, in hoofdzaak huishoudelijke handarbeid te verrichten in verband met de huishouding van de werkgever of van zijn gezin; </source>
             <target xml:lang="de" state="final">Hausangestellte, d. h. Arbeitnehmer, die sich dazu verpflichten, gegen Entlohnung und unter der Autorität des Arbeitgebers hauptsächlich Handarbeit im Zusammenhang mit dem Haushalt des Arbeitgebers oder seiner Familie auszuführen; </target>
@@ -69,7 +69,7 @@
           <source xml:lang="nl">   </source>
           <target xml:lang="de" state="final">   </target>
         </trans-unit>
-        <group restype="x-html-div" id="tu24" resname="/html/body/div">
+        <group restype="x-html-div" id="grp24" resname="/html/body/div">
           <note from="class">alert message</note>
           <trans-unit restype="x-html-h3" id="tu25" resname="/html/body/div/h3">
             <source xml:lang="nl"> Waals Gewest (zonder de Duitstalige Gemeenschap): </source>

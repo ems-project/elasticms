@@ -42,4 +42,9 @@ final class DateTime
     {
         return DateFormatHelper::convert($type, $format);
     }
+
+    public static function format(?\DateTimeInterface $dateTime, string $format = \DateTimeInterface::ATOM): string
+    {
+        return null !== $dateTime ? $dateTime->format($format) : 'N/A';
+    }
 }

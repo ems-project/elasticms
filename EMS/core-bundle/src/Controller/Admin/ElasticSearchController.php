@@ -56,7 +56,7 @@ class ElasticSearchController extends AbstractController
         }
 
         return new Page([
-            'datatable' => ['form' => $form->createView()],
+            'datatable' => ['form' => $form->createView(), 'table_id' => 'orphan-indexes'],
             'icon' => 'fa fa-chain-broken',
             'title' => t('key.orphan_indexes', [], 'emsco-core'),
             'breadcrumb' => Navigation::admin()->environments()->add(
@@ -73,7 +73,7 @@ class ElasticSearchController extends AbstractController
         $form = $this->createForm(TableType::class, $table);
 
         return new Page([
-            'datatable' => ['form' => $form->createView()],
+            'datatable' => ['form' => $form->createView(), 'table_id' => 'unreferenced-aliases'],
             'icon' => 'fa fa-chain',
             'title' => t('key.unreferenced_aliases', [], 'emsco-core'),
             'breadcrumb' => Navigation::admin()->environments()->add(
@@ -141,16 +141,16 @@ class ElasticSearchController extends AbstractController
     private function deleteOrphanIndexes(string ...$indexes): void
     {
         try {
-            if (0 === \count($indexes)) {
+            if ([] === $indexes) {
                 $this->indexService->deleteOrphanIndexes();
             } else {
                 $this->indexService->deleteIndexes(...$indexes);
             }
 
             $this->logger->messageNotice(t('log.notice.deleted_orphan_indexes', [], 'emsco-core'));
-        } catch (\Throwable $e) {
+        } catch (\Throwable $throwable) {
             $this->logger->messageError(t('log.error.delete_failed', [], 'emsco-core'), [
-                'error' => $e->getMessage(),
+                'error' => $throwable->getMessage(),
             ]);
         }
     }

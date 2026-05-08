@@ -28,11 +28,11 @@
           <target xml:lang="fr" state="new"/>
           <note from="class">title</note>
         </trans-unit>
-        <group restype="table" id="tu7" resname="/html/body/table">
+        <group restype="table" id="grp7" resname="/html/body/table">
           <note from="border">1</note>
           <note from="width">100%</note>
-          <group restype="x-html-tbody" id="tu8" resname="/html/body/table/tbody">
-            <group restype="row" id="tu9" resname="/html/body/table/tbody/tr[1]">
+          <group restype="x-html-tbody" id="grp8" resname="/html/body/table/tbody">
+            <group restype="row" id="grp9" resname="/html/body/table/tbody/tr[1]">
               <trans-unit restype="cell" id="tu10" resname="/html/body/table/tbody/tr[1]/td[1]">
                 <source xml:lang="en"> Text in cell r1-c1 </source>
                 <target xml:lang="fr" state="new"/>
@@ -49,7 +49,7 @@
                 <note from="valign">top</note>
               </trans-unit>
             </group>
-            <group restype="row" id="tu13" resname="/html/body/table/tbody/tr[2]">
+            <group restype="row" id="grp13" resname="/html/body/table/tbody/tr[2]">
               <trans-unit restype="cell" id="tu14" resname="/html/body/table/tbody/tr[2]/td[1]">
                 <source xml:lang="en"> Text in cell r2-c1 </source>
                 <target xml:lang="fr" state="new"/>
@@ -77,11 +77,11 @@
           <target xml:lang="fr" state="new"/>
           <note from="class">title</note>
         </trans-unit>
-        <group restype="table" id="tu20" resname="/html/body/table">
+        <group restype="table" id="grp20" resname="/html/body/table">
           <note from="border">1</note>
           <note from="width">100%</note>
-          <group restype="x-html-tbody" id="tu21" resname="/html/body/table/tbody">
-            <group restype="row" id="tu22" resname="/html/body/table/tbody/tr[1]">
+          <group restype="x-html-tbody" id="grp21" resname="/html/body/table/tbody">
+            <group restype="row" id="grp22" resname="/html/body/table/tbody/tr[1]">
               <trans-unit restype="cell" id="tu23" resname="/html/body/table/tbody/tr[1]/td[1]">
                 <source xml:lang="en"> Text in cell r1-c1 </source>
                 <target xml:lang="fr" state="new"/>
@@ -98,7 +98,7 @@
                 <note from="valign">top</note>
               </trans-unit>
             </group>
-            <group restype="row" id="tu26" resname="/html/body/table/tbody/tr[2]">
+            <group restype="row" id="grp26" resname="/html/body/table/tbody/tr[2]">
               <trans-unit restype="cell" id="tu27" resname="/html/body/table/tbody/tr[2]/td[1]">
                 <source xml:lang="en"> Text in cell r2-c1 </source>
                 <target xml:lang="fr" state="new"/>

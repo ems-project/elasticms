@@ -30,7 +30,7 @@ make start
   hearts of elasticMS
 - [Traefik](http://localhost:8888): The middleware application used to route packages
 - [Kibana](http://kibana.localhost): Power tools for elasticsearch
-- [Mailhog](http://mailhog.localhost): A mail catcher
+- [Mailpit](http://mailserver.localhost): A mail catcher
 - [MinIO](http://minio.localhost): A S3 like service
 - [Tika](http://tika.localhost): Text extraction service
 - [Mercure](http://mercure.localhost/.well-known/mercure): A real-time communication solution
@@ -269,3 +269,50 @@ npm run build
 cd ../../../elasticms-admin/
 php bin/console a:i --symlink
 ```
+
+## Install OpenTelemetry
+
+::: code-group
+
+```bash [Linux (apt)]
+sudo apt-get update
+sudo apt-get install gcc make autoconf
+
+pecl install opentelemetry
+pecl install protobuf
+```
+
+```bash [macOS (homebrew)]
+brew update
+brew install gcc make autoconf
+
+pecl install opentelemetry
+pecl install protobuf
+```
+
+```bash [From soruce]
+git clone https://github.com/open-telemetry/opentelemetry-php-instrumentation.git
+cd opentelemetry-php-instrumentation/ext
+phpize
+./configure
+make
+sudo make install
+```
+
+:::
+
+Add the following to your php.ini
+
+```ini
+[opentelemetry]
+extension=opentelemetry.so
+```
+
+Verify the installation with
+
+```bash
+php -m | grep opentelemetry
+```
+
+> [!NOTE] To enable OpenTelemetry, set the `OTEL_ENABLED` environment variable to true in
+> `docker/.env`. A server restart is required for the change to take effect (make server-restart).

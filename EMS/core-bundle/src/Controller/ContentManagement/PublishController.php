@@ -98,6 +98,7 @@ class PublishController extends AbstractController
         $requestBis = clone $request;
 
         $requestBis->setMethod('GET');
+
         $searchForm->handleRequest($requestBis);
 
         if (1 !== \count($search->getEnvironments())) {
@@ -125,14 +126,17 @@ class PublishController extends AbstractController
         ])->add('publish', SubmitEmsType::class, [
             'attr' => [
                 'class' => 'btn btn-primary btn-md',
+                'data-testid' => 'btn-action-publish',
             ],
             'icon' => 'glyphicon glyphicon-open',
         ]);
 
         $form = $builder->getForm();
         $form->handleRequest($request);
+
         $search->setEnvironments([$environment->getName()]);
         $search->setContentTypes([$contentType->getName()]);
+
         $emsSearch = $this->searchService->generateSearch($search);
         $total = $this->elasticaService->count($emsSearch);
         $query = $emsSearch->getQuery();
@@ -155,12 +159,12 @@ class PublishController extends AbstractController
 
             $job = $this->jobService->createCommand($user, \implode(' ', $command));
 
-            return $this->redirectToRoute('job.status', [
+            return $this->redirectToRoute('emsco_job_status', [
                 'job' => $job->getId(),
             ]);
         }
 
-        return $this->render("@$this->templateNamespace/publish/publish-search-result.html.twig", [
+        return $this->render(\sprintf('@%s/publish/publish-search-result.html.twig', $this->templateNamespace), [
             'form' => $form->createView(),
             'fromEnvironment' => $environment,
             'contentType' => $contentType,

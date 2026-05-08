@@ -51,7 +51,7 @@ class LogController extends AbstractController
         }
 
         return new Page([
-            'datatable' => ['form' => $form->createView()],
+            'datatable' => ['form' => $form->createView(), 'table_id' => 'logs'],
             'icon' => 'fa fa-file-text',
             'title' => t('type.title_overview', ['type' => 'log'], 'emsco-core'),
             'subTitle' => t('type.title_sub', ['type' => 'log'], 'emsco-core'),
@@ -61,7 +61,7 @@ class LogController extends AbstractController
 
     public function view(Log $log): Response
     {
-        return $this->render("@$this->templateNamespace/log/view.html.twig", [
+        return $this->render(\sprintf('@%s/log/view.html.twig', $this->templateNamespace), [
             'log' => $log,
             'subTitle' => t('type.title_sub', ['type' => 'log'], 'emsco-core'),
             'breadcrumb' => $this->breadcrumb()->add(

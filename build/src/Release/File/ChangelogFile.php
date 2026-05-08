@@ -13,7 +13,7 @@ class ChangelogFile
     /** @var array<string, string[]> */
     private array $releases = [];
 
-    public const TYPES = [
+    public const array TYPES = [
         'feat' => 'Features',
         'fix' => 'Bug Fixes',
         'docs' => 'Documentation',

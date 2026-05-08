@@ -7,6 +7,7 @@ namespace EMS\Tests\CommonBundle\Unit\Common\Admin;
 use EMS\CommonBundle\Common\Admin\ConfigHelper;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Admin\ConfigInterface;
 use EMS\Helpers\File\TempDirectory;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 
 class ConfigHelperAiTest extends TestCase
@@ -26,7 +27,7 @@ class ConfigHelperAiTest extends TestCase
     #[\Override]
     protected function tearDown(): void
     {
-        \array_map(unlink(...), \glob("$this->tempDir/*.*"));
+        \array_map(unlink(...), \glob($this->tempDir.'/*.*'));
         \rmdir($this->tempDir);
     }
 
@@ -41,6 +42,7 @@ class ConfigHelperAiTest extends TestCase
         $this->assertFileExists($this->tempDir.DIRECTORY_SEPARATOR.'config2.json');
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testSave(): void
     {
         $configData = ['key' => 'value'];
@@ -50,9 +52,10 @@ class ConfigHelperAiTest extends TestCase
         $this->assertEquals(\json_encode($configData, JSON_PRETTY_PRINT), \file_get_contents($this->tempDir.DIRECTORY_SEPARATOR.'testConfig.json'));
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testLocal(): void
     {
-        \array_map(unlink(...), \glob("$this->tempDir/*.*"));
+        \array_map(unlink(...), \glob($this->tempDir.'/*.*'));
         \touch($this->tempDir.DIRECTORY_SEPARATOR.'config1.json');
         \touch($this->tempDir.DIRECTORY_SEPARATOR.'config2.json');
 

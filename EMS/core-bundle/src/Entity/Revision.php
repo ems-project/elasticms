@@ -104,6 +104,19 @@ class Revision implements EntityInterface, \Stringable
         return RawDataTransformer::transform($this->giveContentType()->getFieldType(), $this->rawData ?? []);
     }
 
+    public function isDraftForUser(string $username): bool
+    {
+        if (!$this->isDraft()) {
+            return false;
+        }
+
+        if ($this->isLockedFor($username)) {
+            return true;
+        }
+
+        return $this->autoSaveBy === $username;
+    }
+
     public function setLazyIndex(bool $lazyIndex): void
     {
         $this->lazyIndex = $lazyIndex;
@@ -138,7 +151,10 @@ class Revision implements EntityInterface, \Stringable
         ];
     }
 
-    public function __construct()
+    /**
+     * @param ?Revision $a
+     */
+    public function __construct(...$a)
     {
         $this->environmentRevisions = new ArrayCollection();
         $this->notifications = new ArrayCollection();
@@ -146,31 +162,26 @@ class Revision implements EntityInterface, \Stringable
         $this->created = new \DateTime();
         $this->modified = new \DateTime();
         $this->startTime = new \DateTime('now');
-
-        $a = \func_get_args();
         $i = \func_num_args();
-        if (1 == $i) {
-            if ($a[0] instanceof Revision) {
-                $ancestor = $a[0];
-                $this->deleted = $ancestor->deleted;
-                $this->draft = true;
-                $this->allFieldsAreThere = $ancestor->allFieldsAreThere;
-                $this->ouuid = $ancestor->ouuid;
-                $this->contentType = $ancestor->contentType;
-                $this->rawData = $ancestor->rawData;
-                $this->circles = $ancestor->circles;
-                $this->dataField = new DataField($ancestor->dataField);
-                $this->taskCurrent = $ancestor->taskCurrent;
-                $this->taskPlannedIds = $ancestor->taskPlannedIds;
-                $this->taskApprovedIds = $ancestor->taskApprovedIds;
-                $this->lazyIndex = $ancestor->lazyIndex;
-
-                if (null !== $versionUuid = $ancestor->getVersionUuid()) {
-                    $this->setVersionId($versionUuid);
-                }
-                if (null !== $versionTag = $ancestor->getVersionTag()) {
-                    $this->setVersionTag($versionTag);
-                }
+        if (1 === $i && $a[0] instanceof Revision) {
+            $ancestor = $a[0];
+            $this->deleted = $ancestor->deleted;
+            $this->draft = true;
+            $this->allFieldsAreThere = $ancestor->allFieldsAreThere;
+            $this->ouuid = $ancestor->ouuid;
+            $this->contentType = $ancestor->contentType;
+            $this->rawData = $ancestor->rawData;
+            $this->circles = $ancestor->circles;
+            $this->dataField = new DataField($ancestor->dataField);
+            $this->taskCurrent = $ancestor->taskCurrent;
+            $this->taskPlannedIds = $ancestor->taskPlannedIds;
+            $this->taskApprovedIds = $ancestor->taskApprovedIds;
+            $this->lazyIndex = $ancestor->lazyIndex;
+            if (null !== $versionUuid = $ancestor->getVersionUuid()) {
+                $this->setVersionId($versionUuid);
+            }
+            if (null !== $versionTag = $ancestor->getVersionTag()) {
+                $this->setVersionTag($versionTag);
             }
         }
         // TODO: Refactoring: Dependency injection of the first Datafield in the Revision.
@@ -191,7 +202,7 @@ class Revision implements EntityInterface, \Stringable
         }
 
         if (null !== $this->contentType && $this->contentType->getLabelField() && $this->rawData && isset($this->rawData[$this->contentType->getLabelField()])) {
-            return $this->rawData[$this->contentType->getLabelField()]." ($out)";
+            return $this->rawData[$this->contentType->getLabelField()].\sprintf(' (%s)', $out);
         }
 
         return $out;
@@ -216,6 +227,7 @@ class Revision implements EntityInterface, \Stringable
     {
         $draft = clone $this;
         $draft->environmentRevisions = new ArrayCollection();
+
         $now = new \DateTime('now');
         $draft->addEnvironment($this->giveContentType()->giveEnvironment(), $username);
         $draft->setStartTime($now);
@@ -590,13 +602,13 @@ class Revision implements EntityInterface, \Stringable
         return $this->environmentRevisions
             ->filter(fn (EnvironmentRevision $er) => null === $er->getDeleted())
             ->map(fn (EnvironmentRevision $er) => $er->getEnvironment())
-            ->matching(Criteria::create()->orderBy(['orderKey' => Order::Ascending]));
+            ->matching(new Criteria(accessRawFieldValues: true)->orderBy(['orderKey' => Order::Ascending]));
     }
 
     public function isPublished(string $environmentName): bool
     {
-        foreach ($this->environmentRevisions as $environmentRevision) {
-            if ($environmentRevision->getEnvironment()->getName() === $environmentName) {
+        foreach ($this->getEnvironments() as $environment) {
+            if ($environment->getName() === $environmentName) {
                 return true;
             }
         }
@@ -902,7 +914,7 @@ class Revision implements EntityInterface, \Stringable
             return;
         }
 
-        if (\count($versioning->getTags()) > 0) {
+        if ([] !== $versioning->getTags()) {
             if (null === $this->getVersionTag()) {
                 $this->setVersionTag($this->rawData[Mapping::VERSION_TAG] ?? $this->getVersionTagDefault());
             }
@@ -925,7 +937,7 @@ class Revision implements EntityInterface, \Stringable
 
     private function getVersionTagDefault(): string
     {
-        $versionTags = $this->contentType ? $this->contentType->getVersioning()->getTags() : [];
+        $versionTags = $this->contentType instanceof ContentType ? $this->contentType->getVersioning()->getTags() : [];
 
         if (!isset($versionTags[0])) {
             throw new \RuntimeException(\sprintf('No version tags found for contentType %s', $this->getContentTypeName()));
@@ -936,7 +948,7 @@ class Revision implements EntityInterface, \Stringable
 
     public function setVersionTag(string $versionTag): void
     {
-        $versionTags = $this->contentType ? $this->contentType->getVersioning()->getTags() : [];
+        $versionTags = $this->contentType instanceof ContentType ? $this->contentType->getVersioning()->getTags() : [];
 
         if (\in_array($versionTag, $versionTags, true)) {
             $this->versionTag = $versionTag;

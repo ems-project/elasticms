@@ -81,6 +81,7 @@ class EnvironmentController extends AbstractController
             'icon' => 'fa fa-plus',
             'attr' => [
                 'class' => 'btn btn-primary pull-right',
+                'data-testid' => 'btn-action-save',
             ],
         ])->getForm();
 
@@ -123,7 +124,7 @@ class EnvironmentController extends AbstractController
             }
         }
 
-        return $this->render("@$this->templateNamespace/environment/add.html.twig", [
+        return $this->render(\sprintf('@%s/environment/add.html.twig', $this->templateNamespace), [
             'form' => $form->createView(),
         ]);
     }
@@ -145,7 +146,7 @@ class EnvironmentController extends AbstractController
             return $this->redirectToRoute(Routes::ADMIN_ENVIRONMENT_INDEX);
         }
 
-        return $this->render("@$this->templateNamespace/environment/edit.html.twig", [
+        return $this->render(\sprintf('@%s/environment/edit.html.twig', $this->templateNamespace), [
             'environment' => $environment,
             'form' => $form->createView(),
         ]);
@@ -155,17 +156,17 @@ class EnvironmentController extends AbstractController
     {
         try {
             $info = $this->mapping->getMapping($environment);
-        } catch (NotFoundException $e) {
+        } catch (NotFoundException $notFoundException) {
             $this->logger->error('log.environment.alias_missing', [
-                EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
-                EmsFields::LOG_EXCEPTION_FIELD => $e,
+                EmsFields::LOG_ERROR_MESSAGE_FIELD => $notFoundException->getMessage(),
+                EmsFields::LOG_EXCEPTION_FIELD => $notFoundException,
                 EmsFields::LOG_ENVIRONMENT_FIELD => $environment->getName(),
                 'alias' => $environment->getAlias(),
             ]);
             $info = false;
         }
 
-        return $this->render("@$this->templateNamespace/environment/view.html.twig", [
+        return $this->render(\sprintf('@%s/environment/view.html.twig', $this->templateNamespace), [
             'environment' => $environment,
             'info' => $info,
         ]);
@@ -191,13 +192,13 @@ class EnvironmentController extends AbstractController
                 case 'newIndex':
                     $job = $this->jobService->createCommand($user, \sprintf('ems:environment:rebuild %s', $environment->getName()));
 
-                    return $this->redirectToRoute('job.status', [
+                    return $this->redirectToRoute('emsco_job_status', [
                         'job' => $job->getId(),
                     ]);
                 case 'sameIndex':
                     $job = $this->jobService->createCommand($user, \sprintf('ems:environment:reindex %s', $environment->getName()));
 
-                    return $this->redirectToRoute('job.status', [
+                    return $this->redirectToRoute('emsco_job_status', [
                         'job' => $job->getId(),
                     ]);
                 default:
@@ -208,7 +209,7 @@ class EnvironmentController extends AbstractController
             }
         }
 
-        return $this->render("@$this->templateNamespace/environment/rebuild.html.twig", [
+        return $this->render(\sprintf('@%s/environment/rebuild.html.twig', $this->templateNamespace), [
             'environment' => $environment,
             'form' => $form->createView(),
         ]);
@@ -228,16 +229,19 @@ class EnvironmentController extends AbstractController
                         'title' => t('key.environments_local', [], 'emsco-core'),
                         'icon' => 'fa fa-database',
                         'form' => $datatableEnvironment->createView(),
+                        'table_id' => 'environments-local',
                     ],
                     [
                         'title' => t('key.environments_external', [], 'emsco-core'),
                         'icon' => 'fa fa-plug',
                         'form' => $this->dataTableExternalEnvironment()->createView(),
+                        'table_id' => 'environments-external',
                     ],
                     [
                         'title' => t('key.managed_aliases', [], 'emsco-core'),
                         'icon' => 'fa fa-code-fork',
                         'form' => $this->dataTableManagedAlias()->createView(),
+                        'table_id' => 'environments-managed-alias',
                     ],
                 ],
                 'breadcrumb' => Navigation::admin()->environments()->add(

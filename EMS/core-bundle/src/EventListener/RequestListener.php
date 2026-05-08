@@ -40,11 +40,35 @@ class RequestListener
     public function onKernelResponse(ResponseEvent $event): void
     {
         $response = $event->getResponse();
-        $redirectUrl = $event->getRequest()->query->get('redirectToUrl');
+        $redirectUrl = $this->getSafeRedirectTarget($event->getRequest()->query->get('redirectToUrl'));
 
-        if ($response instanceof RedirectResponse && \is_string($redirectUrl)) {
+        if ($response instanceof RedirectResponse && null !== $redirectUrl) {
             $response->setTargetUrl($redirectUrl);
         }
+    }
+
+    private function getSafeRedirectTarget(mixed $redirectUrl): ?string
+    {
+        if (!\is_string($redirectUrl) || '' === $redirectUrl) {
+            return null;
+        }
+
+        if (1 !== \preg_match('/^\/(?!\/)/', $redirectUrl) || \str_contains($redirectUrl, '\\') || 1 === \preg_match('/[\x00-\x1F\x7F]/', $redirectUrl)) {
+            return null;
+        }
+
+        $parts = \parse_url($redirectUrl);
+        if (false === $parts) {
+            return null;
+        }
+
+        foreach (['scheme', 'host', 'port', 'user', 'pass'] as $component) {
+            if (isset($parts[$component])) {
+                return null;
+            }
+        }
+
+        return $redirectUrl;
     }
 
     public function onKernelException(ExceptionEvent $event): void
@@ -56,7 +80,7 @@ class RequestListener
             if ($exception instanceof LockedException || $exception instanceof PrivilegeException) {
                 $this->logger->error($exception instanceof LockedException ? 'log.locked_exception_error' : 'log.privilege_exception_error', [...['username' => $exception->getRevision()->getLockBy()], ...LogRevisionContext::read($exception->getRevision())]);
                 if (null == $exception->getRevision()->getOuuid()) {
-                    $response = new RedirectResponse($this->router->generate('data.draft_in_progress', [
+                    $response = new RedirectResponse($this->router->generate('emsco_draft_in_progress', [
                         'contentTypeId' => $exception->getRevision()->giveContentType()->getId(),
                     ], UrlGeneratorInterface::RELATIVE_PATH));
                 } else {

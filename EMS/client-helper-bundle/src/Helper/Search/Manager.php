@@ -58,7 +58,6 @@ final readonly class Manager
             'search' => $searchConfig,
             'query' => $searchConfig->getQueryString(),
             'sort' => $searchConfig->getSortBy(),
-            'facets' => $searchConfig->getQueryFacets(),
             'page' => $searchConfig->getPage(),
             'size' => $searchConfig->getSize(),
         ];

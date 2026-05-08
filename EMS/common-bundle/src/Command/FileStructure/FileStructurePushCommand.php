@@ -86,10 +86,16 @@ class FileStructurePushCommand extends AbstractCommand
         $this->io->newLine();
 
         $this->io->section('Comparing with previous archive');
+
         $previousArchive = null;
         $hashFilename = \implode(DIRECTORY_SEPARATOR, [$this->folderPath, $this->saveHashFilename]);
         if (\file_exists($hashFilename)) {
-            $previousArchive = Archive::fromStructure($this->fileManager->getContents(File::fromFilename($hashFilename)->getContents()), $algo);
+            $archiveHash = File::fromFilename($hashFilename)->getContents();
+            foreach ($this->fileManager->heads($archiveHash) as $exists) {
+                if (true === $exists) {
+                    $previousArchive = Archive::fromStructure($this->fileManager->getContents($archiveHash), $algo);
+                }
+            }
         }
         $diffArchive = $archive->diff($previousArchive);
 

@@ -18,9 +18,9 @@ final class HtmlRemoveNodeTransformer extends BaseHtmlTransformer
     }
 
     #[\Override]
-    public function supports(string $class): bool
+    public function supports(string $fieldTypeClass): bool
     {
-        return WysiwygFieldType::class === $class;
+        return WysiwygFieldType::class === $fieldTypeClass;
     }
 
     #[\Override]
@@ -32,6 +32,7 @@ final class HtmlRemoveNodeTransformer extends BaseHtmlTransformer
 
         $crawler = new Crawler();
         $crawler->addContent($data);
+
         $options = $this->resolveOptions($context->getOptions());
 
         $results = 0;

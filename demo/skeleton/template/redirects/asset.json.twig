@@ -1,6 +1,6 @@
-{%- set hash = app.request.get('hash') -%}
-{%- set filename = app.request.get('filename') -%}
-{%- set config = app.request.get('config') -%}
+{%- set hash = app.request.attributes.get('hash') -%}
+{%- set filename = app.request.attributes.get('filename') -%}
+{%- set config = app.request.attributes.get('config') -%}
 {%- set search = emsch_search([], {
     "query": {
         "match_phrase": {

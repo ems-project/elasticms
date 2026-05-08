@@ -37,14 +37,14 @@ class TreatNotificationsType extends AbstractType
                 'required' => false,
             ])
             ->add('response', TextareaType::class, [
-                'attr' => ['class' => 'ckeditor'],
+                'attr' => ['class' => 'core-wysiwyg'],
             ])
             ->add('accept', SubmitEmsType::class, [
-                'attr' => ['class' => 'btn btn-success btn-md'],
+                'attr' => ['class' => 'btn btn-success btn-md', 'data-testid' => 'btn-action-accept'],
                 'icon' => 'fa fa-check',
             ])
             ->add('reject', SubmitEmsType::class, [
-                'attr' => ['class' => 'btn btn-danger btn-md'],
+                'attr' => ['class' => 'btn btn-danger btn-md', 'data-testid' => 'btn-action-reject'],
                 'icon' => 'fa fa-ban',
             ]);
     }

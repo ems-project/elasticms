@@ -24,7 +24,7 @@ class HttpStorage extends AbstractUrlStorage implements \Stringable
 
     public static function addChunkUrl(string $hash): string
     {
-        return '/api/file/upload-chunk/'.\urlencode($hash);
+        return '/api/file/chunk/'.\urlencode($hash);
     }
 
     /**
@@ -67,7 +67,7 @@ class HttpStorage extends AbstractUrlStorage implements \Stringable
     {
         try {
             $result = $this->getClient()->get('/status.json');
-            if (200 == $result->getStatusCode()) {
+            if (200 === $result->getStatusCode()) {
                 $status = Json::decode($result->getBody()->getContents());
                 if (isset($status['status']) && \in_array($status['status'], ['green', 'yellow'])) {
                     return true;
@@ -135,11 +135,11 @@ class HttpStorage extends AbstractUrlStorage implements \Stringable
     {
         try {
             return Response::HTTP_OK === $this->getClient()->head($this->getUrl.$hash)->getStatusCode();
-        } catch (\Throwable $e) {
-            if (Response::HTTP_NOT_FOUND === $e->getCode()) {
+        } catch (\Throwable $throwable) {
+            if (Response::HTTP_NOT_FOUND === $throwable->getCode()) {
                 return false;
             }
-            throw $e;
+            throw $throwable;
         }
     }
 
@@ -190,7 +190,7 @@ class HttpStorage extends AbstractUrlStorage implements \Stringable
     #[\Override]
     public function __toString(): string
     {
-        return HttpStorage::class." ($this->baseUrl)";
+        return HttpStorage::class.\sprintf(' (%s)', $this->baseUrl);
     }
 
     #[\Override]
@@ -204,11 +204,8 @@ class HttpStorage extends AbstractUrlStorage implements \Stringable
     {
     }
 
-    /**
-     * @return null
-     */
     #[\Override]
-    protected function getContext()
+    protected function getContext(): null
     {
         return null;
     }

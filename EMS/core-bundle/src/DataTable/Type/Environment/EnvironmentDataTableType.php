@@ -43,7 +43,7 @@ class EnvironmentDataTableType extends AbstractEntityTableType
         $table->addColumnDefinition(new TemplateBlockTableColumn(
             label: t('field.label', [], 'emsco-core'),
             blockName: 'environmentName',
-            template: "@$this->templateNamespace/datatable/template_block_columns.html.twig"
+            template: \sprintf('@%s/datatable/template_block_columns.html.twig', $this->templateNamespace)
         ));
 
         $table->addColumn(t('field.name', [], 'emsco-core'), 'name');
@@ -52,7 +52,7 @@ class EnvironmentDataTableType extends AbstractEntityTableType
         $table->addColumnDefinition(new TemplateBlockTableColumn(
             label: t('field.index', [], 'emsco-core'),
             blockName: 'environmentIndex',
-            template: "@$this->templateNamespace/datatable/template_block_columns.html.twig",
+            template: \sprintf('@%s/datatable/template_block_columns.html.twig', $this->templateNamespace),
             orderField: 'label'
         ));
 
@@ -69,14 +69,16 @@ class EnvironmentDataTableType extends AbstractEntityTableType
             $table->addItemGetAction(
                 route: Routes::ADMIN_ENVIRONMENT_REBUILD,
                 labelKey: t('action.rebuild', [], 'emsco-core'),
-                icon: 'recycle'
+                icon: 'recycle',
+                attributes: ['data-testid' => 'btn-action-rebuild'],
             )->setButtonType('primary');
         }
 
         $table->addItemGetAction(
             route: Routes::ADMIN_ENVIRONMENT_VIEW,
             labelKey: t('action.view', [], 'emsco-core'),
-            icon: 'eye'
+            icon: 'eye',
+            attributes: ['data-testid' => 'btn-action-view'],
         );
 
         $deleteType = $managed ? 'environment' : 'environment_external';

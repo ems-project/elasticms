@@ -4,48 +4,29 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Elasticsearch;
 
-use Elasticsearch\ConnectionPool\SimpleConnectionPool;
-use Elasticsearch\ConnectionPool\SniffingConnectionPool;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
 
 class ElasticaFactory
 {
-    public function __construct(private readonly LoggerInterface $logger, private readonly string $env)
-    {
+    public function __construct(
+        private readonly ElasticaLogger $logger,
+        private readonly ?Stopwatch $stopwatch = null,
+    ) {
     }
 
     /**
-     * @param array<string> $hosts
+     * @param mixed[] $config
      */
-    public function fromConfig(array $hosts, ?string $connectionPool = null): Client
+    public function fromConfig(array $config): Client
     {
-        $servers = [];
-        foreach ($hosts as $host) {
-            if (!\is_string($host)) {
-                $servers[] = $host;
-                continue;
-            }
-            if (!\str_ends_with($host, '/')) {
-                $host .= '/';
-            }
-            $servers[] = ['url' => $host];
+        if (isset($config['hosts'])) {
+            $client = new Client($config, $this->logger);
+        } else {
+            $client = new Client(['hosts' => $config], $this->logger);
         }
 
-        if (null === $connectionPool) {
-            $connectionPool = 1 === \count($servers) ? SimpleConnectionPool::class : SniffingConnectionPool::class;
-        }
-
-        $config = [
-            'servers' => $servers,
-            'connectionPool' => $connectionPool,
-        ];
-
-        $client = new Client($config);
-
-        if ('dev' === $this->env && 'cli' !== \php_sapi_name()) {
-            $client->setStopwatch(new Stopwatch());
-            $client->setLogger($this->logger);
+        if ($this->stopwatch instanceof Stopwatch) {
+            $client->setStopwatch($this->stopwatch);
         }
 
         return $client;

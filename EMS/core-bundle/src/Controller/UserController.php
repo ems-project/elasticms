@@ -57,7 +57,7 @@ class UserController extends AbstractController
         $form = $this->createForm(TableType::class, $table);
         $form->handleRequest($request);
 
-        return $this->render("@$this->templateNamespace/user/index.html.twig", [
+        return $this->render(\sprintf('@%s/user/index.html.twig', $this->templateNamespace), [
             'form' => $form->createView(),
         ]);
     }
@@ -111,7 +111,7 @@ class UserController extends AbstractController
             Roles::ROLE_USER_READ,
         ];
 
-        return $this->render("@$this->templateNamespace/user/permissions/permissions.html.twig", [
+        return $this->render(\sprintf('@%s/user/permissions/permissions.html.twig', $this->templateNamespace), [
             'contentTypeCounts' => $contentTypeCounts,
             'roles' => $roles,
             'rolesFunctionality' => $rolesFunctionality,
@@ -125,7 +125,7 @@ class UserController extends AbstractController
 
         $fieldTypesWithMinimumRole = $tree->getChildrenRecursive()->filter(fn (FieldTypeTreeItem $item) => $item->getFieldType()->getRestrictionOption('minimum_role', false));
 
-        return $this->render("@$this->templateNamespace/user/permissions/specific-permissions.html.twig", [
+        return $this->render(\sprintf('@%s/user/permissions/specific-permissions.html.twig', $this->templateNamespace), [
             'contentType' => $contentType,
             'tree' => $tree,
             'children' => $fieldTypesWithMinimumRole,
@@ -136,7 +136,7 @@ class UserController extends AbstractController
     {
         $user = new User();
         $result = $this->wysiwygProfileRepository->findBy([], ['orderKey' => 'asc'], 1);
-        if (\count($result) > 0) {
+        if ([] !== $result) {
             $user->setWysiwygProfile($result[0]);
         }
 
@@ -155,7 +155,7 @@ class UserController extends AbstractController
             }
         }
 
-        return $this->render("@$this->templateNamespace/user/add.html.twig", [
+        return $this->render(\sprintf('@%s/user/add.html.twig', $this->templateNamespace), [
             'form' => $form->createView(),
         ]);
     }
@@ -171,7 +171,7 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->userService->updateUser($user);
+            $this->userManager->update($user);
             $this->logger->notice('log.user.updated', [
                 'username_managed' => $user->getUsername(),
                 'user_display_name' => $user->getDisplayName(),
@@ -181,7 +181,7 @@ class UserController extends AbstractController
             return $this->redirectToRoute(Routes::USER_INDEX);
         }
 
-        return $this->render("@$this->templateNamespace/user/edit.html.twig", [
+        return $this->render(\sprintf('@%s/user/edit.html.twig', $this->templateNamespace), [
             'form' => $form->createView(),
             'user' => $user,
         ]);
@@ -216,7 +216,7 @@ class UserController extends AbstractController
             $user->setEnabled(true);
             $message = 'log.user.enabled';
         }
-        $this->userService->updateUser($user);
+        $this->userManager->update($user);
 
         $this->logger->notice($message, [
             'username_managed' => $user->getUsername(),
@@ -229,7 +229,10 @@ class UserController extends AbstractController
 
     public function apiKey(string $username): Response
     {
-        $user = $this->userService->giveUser($username, false);
+        $user = $this->userManager->getUserByUsername($username);
+        if (null === $user) {
+            throw new \RuntimeException(\sprintf('User %s not found', $username));
+        }
 
         $roles = $user->getRoles();
         if (!\in_array('ROLE_API', $roles)) {
@@ -257,9 +260,10 @@ class UserController extends AbstractController
 
     public function sidebarCollapse(bool $collapsed): Response
     {
-        $user = $this->userService->giveUser($this->userService->getCurrentUser()->getUsername(), false);
+        $user = $this->userManager->getAuthenticatedUser();
         $user->setSidebarCollapse($collapsed);
-        $this->userService->updateUser($user);
+
+        $this->userManager->update($user);
 
         return $this->flashMessageLogger->buildJsonResponse([
             'success' => true,
@@ -300,12 +304,10 @@ class UserController extends AbstractController
         ];
         $messages = ['email' => 'User email already exist!', 'username' => 'Username already exist!'];
         foreach ($exists as $key => $value) {
-            if ($value instanceof User) {
-                if ('add' === $action || ('edit' === $action && $value->getId() !== $user->getId())) {
-                    $this->addFlash('error', $messages[$key]);
+            if ($value instanceof User && ('add' === $action || 'edit' === $action && $value->getId() !== $user->getId())) {
+                $this->addFlash('error', $messages[$key]);
 
-                    return false;
-                }
+                return false;
             }
         }
 
@@ -319,7 +321,7 @@ class UserController extends AbstractController
             throw new \RuntimeException(\sprintf('The user is not in the group "%s".', $groupName));
         }
         $user->setGroup(null);
-        $this->userService->updateUser($user);
+        $this->userManager->update($user);
 
         return $this->redirectToRoute(Routes::GROUP_EDIT, [
             'group' => $groupName,
@@ -334,7 +336,7 @@ class UserController extends AbstractController
         }
 
         $user->setGroup($userGroup);
-        $this->userService->updateUser($user);
+        $this->userManager->update($user);
 
         return $this->redirectToRoute(Routes::GROUP_EDIT, [
             'group' => $userGroup->getId(),

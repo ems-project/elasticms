@@ -10,6 +10,7 @@ const sidebar: DefaultTheme.SidebarMulti = {
                 { text: 'Setup your computer', link: '/getting-started/local-dev' },
                 { text: 'Dev environment', link: '/getting-started/dev-env' },
                 { text: 'Contributing', link: '/getting-started/contributing' },
+                { text: 'Release & Roadmap', link: '/getting-started/roadmap' },
             ]
         },
         {
@@ -39,13 +40,24 @@ const sidebar: DefaultTheme.SidebarMulti = {
                 { text: 'Dashboard', link: '/elasticms-admin/dashboard/dashboard' },
                 { text: 'Environment', link: '/elasticms-admin/environment/environment' },
                 { text: 'User', link: '/elasticms-admin/user/user' },
-                { text: 'WYSIWYG', link: '/elasticms-admin/wysiwyg/wysiwyg' },
+                {
+                    text: 'WYSIWYG',
+                    collapsed: true,
+                    items: [
+                        { text: 'Tiptap', link: '/elasticms-admin/wysiwyg/tiptap' },
+                        { text: 'WYSIWYG', link: '/elasticms-admin/wysiwyg/wysiwyg' }
+                    ]
+                },
+
                 { text: 'Async (Messenger, Mercure)', link: '/elasticms-admin/async' },
                 {
                     text: 'API',
                     collapsed: true,
                     items: [
                         { text: 'Login', link: '/elasticms-admin/api/login' },
+                        { text: 'Data', link: '/elasticms-admin/api/data' },
+                        { text: 'Search', link: '/elasticms-admin/api/search' },
+                        { text: 'File', link: '/elasticms-admin/api/file' },
                         { text: 'Monitoring', link: '/elasticms-admin/api/monitoring' },
                         { text: 'Webhook', link: '/elasticms-admin/api/webhook' },
                     ]
@@ -107,6 +119,7 @@ const sidebar: DefaultTheme.SidebarMulti = {
                         { text: 'JSON Menu', link: '/dev/common-bundle/json-menu' },
                         { text: 'Metrics', link: '/dev/common-bundle/metrics' },
                         { text: 'Processors', link: '/dev/common-bundle/processors' },
+                        { text: 'Property accessor', link: '/dev/common-bundle/property-accessor' },
                         { text: 'Spreadsheet', link: '/dev/common-bundle/spreadsheet' },
                         { text: 'Storages', link: '/dev/common-bundle/storages' },
                     ]

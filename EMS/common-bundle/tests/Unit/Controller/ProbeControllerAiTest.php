@@ -6,6 +6,7 @@ namespace EMS\CommonBundle\Tests\Controller;
 
 use EMS\CommonBundle\Controller\ProbeController;
 use EMS\CommonBundle\Service\ElasticaService;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -34,6 +35,7 @@ final class ProbeControllerAiTest extends TestCase
         $this->assertEquals(['cluster_version' => $version], (array) \json_decode($response->getContent()));
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testLiveness(): void
     {
         $response = $this->controller->liveness();

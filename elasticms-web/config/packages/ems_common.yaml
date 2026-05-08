@@ -1,16 +1,7 @@
 parameters:
-    #Deprecated parameters
-    env(EMSCH_ELASTICSEARCH_CLUSTER): '["http://localhost:9200"]'
-    env(STORAGE_PATH): ''
-    env(EMSCH_BACKEND_URL): ~
-    env(S3_BUCKET): ''
-    env(S3_CREDENTIALS): '[]'
-
-    #Parameters
     env(EMS_HASH_ALGO): 'sha1'
-    env(EMS_ELASTICSEARCH_CONNECTION_POOL): ~
-    env(EMS_ELASTICSEARCH_HOSTS): '%env(string:EMSCH_ELASTICSEARCH_CLUSTER)%'
-    env(EMS_STORAGES): '[{"type":"fs","path":"%env(string:STORAGE_PATH)%"},{"type":"s3","credentials":%env(string:S3_CREDENTIALS)%,"bucket":"%env(string:S3_BUCKET)%"},{"type":"http","base-url":"%env(string:EMSCH_BACKEND_URL)%"}]'
+    env(EMS_ELASTICSEARCH_HOSTS): '[]'
+    env(EMS_STORAGES): '[]'
     env(EMS_HTTP_CACHES): '[]'
     env(EMS_RUNNERS): '[]'
     env(EMS_STORE_DATA_SERVICES): '[]'
@@ -30,8 +21,6 @@ parameters:
     env(EMS_METRIC_ENABLED): false
     env(EMS_METRIC_HOST): ''
     env(EMS_METRIC_PORT): ~
-    env(EMS_WEBALIZE_REMOVABLE_REGEX): '/([^a-zA-Z0-9\_\|\ \-\.])|(\.$)/'
-    env(EMS_WEBALIZE_DASHABLE_REGEX): '/[\/\_\|\ \-]+/'
     env(EMS_EXCLUDED_CONTENT_TYPES): '[]'
     env(EMS_SLUG_SYMBOL_MAP): ~
     env(EMS_TRUSTED_IPS): '[]'
@@ -39,7 +28,6 @@ parameters:
 
 ems_common:
     hash_algo: '%env(string:EMS_HASH_ALGO)%'
-    elasticsearch_connection_pool: '%env(string:EMS_ELASTICSEARCH_CONNECTION_POOL)%'
     elasticsearch_hosts: '%env(json:EMS_ELASTICSEARCH_HOSTS)%'
     http_caches: '%env(json:EMS_HTTP_CACHES)%'
     storages: '%env(json:EMS_STORAGES)%'
@@ -56,9 +44,6 @@ ems_common:
         headers: '%env(json:EMS_CORE_API_HEADERS)%'
         verify: '%env(bool:EMS_BACKEND_API_VERIFY)%'
         timeout: '%env(int:EMS_BACKEND_API_TIMEOUT)%'
-    webalize:
-        removable_regex: '%env(string:EMS_WEBALIZE_REMOVABLE_REGEX)%'
-        dashable_regex: '%env(string:EMS_WEBALIZE_DASHABLE_REGEX)%'
     cache:
         type: '%env(EMS_CACHE)%'
         prefix: '%env(string:EMS_CACHE_PREFIX)%'

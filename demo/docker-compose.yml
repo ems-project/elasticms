@@ -45,6 +45,17 @@ services:
             - "traefik.http.routers.kibana.service=kibana"
             - "traefik.http.services.kibana.loadbalancer.server.port=5601"
 
+    apm-server:
+        extends:
+            file: docker-${ELK_VERSION-elk8}.yml
+            service: apm-server
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.apm-server.rule=Host(`apm-server.localhost`)"
+            - "traefik.http.routers.apm-server.entrypoints=web"
+            - "traefik.http.routers.apm-server.service=apm-server"
+            - "traefik.http.services.apm-server.loadbalancer.server.port=8200"
+
     postgres:
         image: postgres:17
         ports:
@@ -65,7 +76,7 @@ services:
             - "traefik.http.services.tika.loadbalancer.server.port=9998"
 
     minio:
-        image: minio/minio
+        image: minio/minio:RELEASE.2025-09-07T16-13-09Z
         volumes:
             - s3:/data
         environment:
@@ -87,23 +98,21 @@ services:
             - "traefik.http.services.minio.loadbalancer.server.port=9001"
 
     setup_minio:
-        image: minio/mc
+        image: minio/mc:RELEASE.2025-08-13T08-35-41Z
         depends_on:
             minio:
                 condition: service_healthy
         entrypoint: >
             /bin/sh -c '
               echo "Setup minio";
-              /usr/bin/mc config host rm local;
-              /usr/bin/mc config host add local http://minio:9000 accesskey secretkey;
-              /usr/bin/mc mb --ignore-existing local/demo;
-              /usr/bin/mc anonymous set download local/demo;
+              /usr/bin/mc alias set minio http://minio:9000 accesskey secretkey;
+              /usr/bin/mc mb --ignore-existing minio/demo;
               echo "All done!";
               exit 0;
             '
 
     redis:
-        image: centos/redis-5-centos7
+        image: redis:7
         volumes:
             - redis:/var/lib/redis/data
 
@@ -136,18 +145,18 @@ services:
             - "traefik.http.routers.mercure-tls.tls=true"
             - "traefik.http.services.mercure.loadbalancer.server.port=80"
 
-    mailhog:
-        image: mailhog/mailhog
+    mailserver:
+        image: axllent/mailpit
         labels:
             - "traefik.enable=true"
-            - "traefik.http.routers.mailhog.rule=Host(`mailhog.localhost`)"
-            - "traefik.http.routers.mailhog.service=mailhog"
-            - "traefik.http.routers.mailhog.entrypoints=web"
-            - "traefik.http.routers.mailhog-tls.rule=Host(`mailhog.localhost`)"
-            - "traefik.http.routers.mailhog-tls.service=mailhog"
-            - "traefik.http.routers.mailhog-tls.entrypoints=websecure"
-            - "traefik.http.routers.mailhog-tls.tls=true"
-            - "traefik.http.services.mailhog.loadbalancer.server.port=8025"
+            - "traefik.http.routers.mailserver.rule=Host(`mailserver.localhost`)"
+            - "traefik.http.routers.mailserver.service=mailserver"
+            - "traefik.http.routers.mailserver.entrypoints=web"
+            - "traefik.http.routers.mailserver-tls.rule=Host(`mailserver.localhost`)"
+            - "traefik.http.routers.mailserver-tls.service=mailserver"
+            - "traefik.http.routers.mailserver-tls.entrypoints=websecure"
+            - "traefik.http.routers.mailserver-tls.tls=true"
+            - "traefik.http.services.mailserver.loadbalancer.server.port=8025"
 
     admin-local:
         user: ${DOCKER_USER:-1001}:0
@@ -160,12 +169,12 @@ services:
                     - local.ems-demo-admin
                     - local.ems-demo-admin-dev
         labels:
-            - "traefik.enable=true"
-            - "traefik.http.routers.admin-local.rule=HostRegexp(`local.{project:[a-z0-9\\-_\\.]+}-admin.localhost`)"
-            - "traefik.http.routers.admin-local.entrypoints=web"
-            - "traefik.http.routers.admin-local-dev.rule=HostRegexp(`local.{project:[a-z0-9\\-_\\.]+}-admin-dev.localhost`)"
-            - "traefik.http.routers.admin-local-dev.entrypoints=web"
-            - "traefik.http.services.admin-local.loadbalancer.server.port=9000"
+            - traefik.enable=true
+            - 'traefik.http.routers.admin-local.rule=HostRegexp(`^local\.([a-z0-9\-_\.]+)\-admin\.localhost$$`)'
+            - traefik.http.routers.admin-local.entrypoints=web
+            - 'traefik.http.routers.admin-local-dev.rule=HostRegexp(`^local\.([a-z0-9\-_\.]+)\-admin\-dev\.localhost$$`)'
+            - traefik.http.routers.admin-local-dev.entrypoints=web
+            - traefik.http.services.admin-local.loadbalancer.server.port=9000
 
     web-local:
         user: ${DOCKER_USER:-1001}:0
@@ -175,15 +184,15 @@ services:
         environment:
             - TRUSTED_HOSTS=localhost,.*\.localhost
         labels:
-            - "traefik.enable=true"
-            - "traefik.http.routers.varnish.rule=HostRegexp(`local.{project:[a-z0-9\\-_\\.]+}-web.localhost`)"
-            - "traefik.http.routers.varnish.entrypoints=web,websecure"
-            - "traefik.http.routers.varnish.service=varnish"
-            - "traefik.http.services.varnish.loadbalancer.server.port=6081"
-            - "traefik.http.routers.skeleton.rule=HostRegexp(`local.{project:[a-z0-9\\-_\\.]+}-web-nocache.localhost`)"
-            - "traefik.http.routers.skeleton.entrypoints=web,websecure"
-            - "traefik.http.routers.skeleton.service=skeleton"
-            - "traefik.http.services.skeleton.loadbalancer.server.port=9000"
+            - traefik.enable=true
+            - 'traefik.http.routers.varnish.rule=HostRegexp(`^local\.([a-z0-9\-_\.]+)\-web\.localhost$$`)'
+            - 'traefik.http.routers.varnish.entrypoints=web,websecure'
+            - traefik.http.routers.varnish.service=varnish
+            - traefik.http.services.varnish.loadbalancer.server.port=6081
+            - 'traefik.http.routers.skeleton.rule=HostRegexp(`^local\.([a-z0-9\-_\.]+)\-web\-nocache\.localhost$$`)'
+            - 'traefik.http.routers.skeleton.entrypoints=web,websecure'
+            - traefik.http.routers.skeleton.service=skeleton
+            - traefik.http.services.skeleton.loadbalancer.server.port=9000
 
     setup_ems:
         user: ${DOCKER_USER:-1001}:0

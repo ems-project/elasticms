@@ -1,5 +1,71 @@
 # Changelog 6.x
 
+## 6.9.13 (2026-04-29)
+### Features
+* feat(docker): sandbox for 6.9 by @theus77 in https://github.com/ems-project/elasticms/pull/1692
+### Bug Fixes
+* fix(admin/file): add file browser on file fields by @theus77 in https://github.com/ems-project/elasticms/pull/1690
+* fix(admin/revision): isPublish not deleted envs by @Davidmattei in https://github.com/ems-project/elasticms/pull/1691
+* fix(common/asset): do not try to get the ems archive if it is missing by @theus77 in https://github.com/ems-project/elasticms/pull/1675
+
+## 6.9.12 (2026-04-24)
+### Features
+* feat(admin/twig): add filter ems_get_file_object and emsco_get_file_object by @theus77 in https://github.com/ems-project/elasticms/pull/1665
+* feat(common/property-accessor): recursive get/set and iterate by @Davidmattei in https://github.com/ems-project/elasticms/pull/1672
+### Bug Fixes
+* fix(common/json-menu-nested): context may define testId by @theus77 in https://github.com/ems-project/elasticms/pull/1669
+
+## 6.9.11 (2026-04-16)
+### Features
+* feat(admin): add tags data-testid for test by @IsaMic in https://github.com/ems-project/elasticms/pull/1637
+* feat(admin/contenttype): add html unwrap transformer by @Davidmattei in https://github.com/ems-project/elasticms/pull/1656
+* feat(admin/contenttype): add unwrap for html attribute transformer by @Davidmattei in https://github.com/ems-project/elasticms/pull/1652
+* feat(web/search): save emsch search response in cache by @theus77 in https://github.com/ems-project/elasticms/pull/1658
+### Bug Fixes
+* fix(admin): audit table full width by @Davidmattei in https://github.com/ems-project/elasticms/pull/1638
+* fix(admin): data link for archived documents by @Davidmattei in https://github.com/ems-project/elasticms/pull/1649
+* fix(admin/dashboard): add data-skip-click-event attribute by @Davidmattei in https://github.com/ems-project/elasticms/pull/1653
+* fix(admin/form-submissions): add batch size on delete (avoid out of memory) by @theus77 in https://github.com/ems-project/elasticms/pull/1647
+* fix(admin/menu): invalid test id on dashboard menu by @Davidmattei in https://github.com/ems-project/elasticms/pull/1661
+* fix(admin/post-processing): add revision environments in context by @Davidmattei in https://github.com/ems-project/elasticms/pull/1650
+* fix(admin/storage): add getFileObject on storageManager and fileService by @theus77 in https://github.com/ems-project/elasticms/pull/1648
+* fix(common/search): correct serialization suggest by @Davidmattei in https://github.com/ems-project/elasticms/pull/1639
+* fix(common/spreadsheets): generate normalized xlsx files by @theus77 in https://github.com/ems-project/elasticms/pull/1646
+* fix(web/asset): add $skipUnzip flag to use the $saveDir as $publishPath by @theus77 in https://github.com/ems-project/elasticms/pull/1662
+* fix(web/routing): avoid to break everything if one route is broken by @theus77 in https://github.com/ems-project/elasticms/pull/1654
+* fix(web/search): empty suggest in search by @Davidmattei in https://github.com/ems-project/elasticms/pull/1664
+
+## 6.9.10 (2026-04-07)
+### Bug Fixes
+* fix(web): not found page should return a 404 code by @theus77 in https://github.com/ems-project/elasticms/pull/1633
+
+## 6.9.9 (2026-03-23)
+### Features
+* feat(common/archive): new functions add/replace and remove archive by @IsaMic in https://github.com/ems-project/elasticms/pull/1627
+* feat(common/spreadsheet): cell type option 's' for string by @IsaMic in https://github.com/ems-project/elasticms/pull/1626
+* feat(demo): json error template (+add content if 400 bad request) by @theus77 in https://github.com/ems-project/elasticms/pull/1617
+### Bug Fixes
+* fix(web): local push route without query by @theus77 in https://github.com/ems-project/elasticms/pull/1622
+
+## 6.9.8 (2026-02-18)
+### Features
+* feat(web/security): sso oauth2 ping identity by @Davidmattei in https://github.com/ems-project/elasticms/pull/1569
+### Bug Fixes
+* fix(admin/environment): color argument can be null by @Davidmattei in https://github.com/ems-project/elasticms/pull/1545
+* fix(admin/user):  authToken user provider not using group defined roles by @theus77 in https://github.com/ems-project/elasticms/pull/1575
+* fix(common/es): include ems internal fields in _source by @theus77 in https://github.com/ems-project/elasticms/pull/1567
+* fix(common/image): the resolution might be set in the EXIF meta (but not only) by @theus77 in https://github.com/ems-project/elasticms/pull/1553
+* fix(demo): traefik v3 update hostRegex admin and web by @Davidmattei in https://github.com/ems-project/elasticms/pull/1563
+* fix(docker): minio do not use semver by @theus77 in https://github.com/ems-project/elasticms/pull/1578
+* fix(web/routing): routing include only required field by @Davidmattei in https://github.com/ems-project/elasticms/pull/1600
+* fix(web/security): ping identity http basic auth by @Davidmattei in https://github.com/ems-project/elasticms/pull/1585
+* fix(web/security): saml redirect with RelayState by @Davidmattei in https://github.com/ems-project/elasticms/pull/1589
+* fix(web/submission): email handler support priority by @theus77 in https://github.com/ems-project/elasticms/pull/1539
+### Code Refactoring
+* refactor: data-test to data-testid by @theus77 in https://github.com/ems-project/elasticms/pull/1584
+### Tests
+* test(e2e-tests): new data-test attributes by @theus77 in https://github.com/ems-project/elasticms/pull/1581
+
 ## 6.9.7 (2026-01-26)
 ### Features
 * feat(demo): resolve deprecations and update by @Davidmattei in https://github.com/ems-project/elasticms/pull/1529

@@ -104,7 +104,7 @@ final class JsonMenuNestedController extends AbstractController
 
         $rawData = $data['object'] ?? [];
 
-        if ($fieldType) {
+        if ($fieldType instanceof FieldType) {
             $contentType = new ContentType();
             $contentType->setFieldType($fieldType);
             $revision = new Revision();
@@ -173,7 +173,7 @@ final class JsonMenuNestedController extends AbstractController
                 return Json::encode($updateJsonMenuNested->toArrayStructure());
             }
 
-            if ($item = $currentJsonMenuNested->getItemById($updateJsonMenuNested->getId())) {
+            if (($item = $currentJsonMenuNested->getItemById($updateJsonMenuNested->getId())) instanceof JsonMenuNested) {
                 $item->setChildren($updateJsonMenuNested->getChildren());
             }
 
@@ -199,7 +199,7 @@ final class JsonMenuNestedController extends AbstractController
     {
         if ('json' === $request->getContentTypeFormat()) {
             $requestContent = $request->getContent();
-            $decoded = \is_string($requestContent) && \strlen($requestContent) > 0 ? Json::decode($requestContent) : [];
+            $decoded = \is_string($requestContent) && '' !== $requestContent ? Json::decode($requestContent) : [];
 
             $data = $decoded['_data'] ?? [];
         } else {
@@ -211,6 +211,6 @@ final class JsonMenuNestedController extends AbstractController
 
     private function getAjaxModal(): AjaxModal
     {
-        return $this->ajax->newAjaxModel("@$this->templateNamespace".JsonMenuRenderer::NESTED_TEMPLATE);
+        return $this->ajax->newAjaxModel('@'.$this->templateNamespace.JsonMenuRenderer::NESTED_TEMPLATE);
     }
 }

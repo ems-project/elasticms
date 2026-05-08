@@ -6,6 +6,7 @@ namespace EMS\CoreBundle\Service;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
+use EMS\CommonBundle\Common\File\FileInfo;
 use EMS\CommonBundle\Entity\EntityInterface;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Storage\HashMismatchException;
@@ -64,6 +65,19 @@ class FileService implements EntityServiceInterface
         } catch (\Throwable) {
             return null;
         }
+    }
+
+    /**
+     * @return array{sha1: string, _hash: string, filesize: int, _size: int, filename: string, _name: string, mimetype: string, _type: string, _algo: string}
+     */
+    public function getFileObject(string $hash, ?string $filename = null, ?string $type = null): array
+    {
+        $lastUploaded = $this->uploadedAssetRepository->getLastUploadedByHash($hash);
+        if (null === $lastUploaded) {
+            return $this->storageManager->getFileObject($hash, $filename, $type);
+        }
+
+        return $lastUploaded->getFileObject($filename, $type);
     }
 
     public function getStreamResponse(string $hash, string $disposition, Request $request): Response
@@ -175,7 +189,7 @@ class FileService implements EntityServiceInterface
         $hash = $this->storageManager->computeFileHash($filename);
         $size = \filesize($filename);
         if (false === $size) {
-            throw new \RuntimeException(\sprintf('Can\'t get file size of %s', $filename));
+            throw new \RuntimeException(\sprintf("Can't get file size of %s", $filename));
         }
         $uploadedAsset = $this->initUploadFile($hash, $size, $name, $type, $user, $this->storageManager->getHashAlgo());
         if (!$uploadedAsset->getAvailable()) {
@@ -257,13 +271,14 @@ class FileService implements EntityServiceInterface
     public function headIn(UploadedAsset $uploadedAsset): array
     {
         $headIn = $this->storageManager->headIn($uploadedAsset->getSha1());
-        if (0 === \count($headIn)) {
+        if ([] === $headIn) {
             return $headIn;
         }
 
         $uploadedAsset->setHeadIn(\array_unique(\array_merge($headIn, $uploadedAsset->getHeadIn() ?? [])));
         $uploadedAsset->setHeadLast(new \DateTime());
         $uploadedAsset->setAvailable(true);
+
         $this->uploadedAssetRepository->update($uploadedAsset);
 
         return $headIn;
@@ -461,5 +476,34 @@ class FileService implements EntityServiceInterface
     public function getAlgo(): string
     {
         return $this->storageManager->getHashAlgo();
+    }
+
+    public function getFileInfo(string $hash, bool $firstSeen = true): FileInfo
+    {
+        $fileInfo = new FileInfo($hash);
+        $uploadedAsset = $firstSeen ? $this->uploadedAssetRepository->getFirstUploadedByHash($hash) : $this->uploadedAssetRepository->getLastUploadedByHash($hash);
+        $uploadStatistics = $this->uploadedAssetRepository->getStatistics($hash);
+        $fileInfo->setFirstSeen($uploadStatistics['firstUploadedAt']);
+        $fileInfo->setLastUploaded($uploadStatistics['lastUploadedAt']);
+        $fileInfo->setUploads($uploadStatistics['count']);
+        $fileInfo->setHeadCounter($this->storageManager->headCounter($hash));
+        if (null !== $uploadedAsset) {
+            $fileInfo->setFileObject($uploadedAsset->getFileObject());
+            $fileInfo->setName($uploadedAsset->getName());
+            $fileInfo->setType($uploadedAsset->getType());
+            $fileInfo->setSize($uploadedAsset->getSize());
+            $fileInfo->setAlgo($uploadedAsset->getHashAlgo());
+            $fileInfo->setUploadedBy($uploadedAsset->getUser());
+            $fileInfo->setHidden($uploadedAsset->isHidden());
+        } elseif ($fileInfo->getHeadCounter() > 0) {
+            $fileObject = $this->storageManager->getFileObject($hash);
+            $fileInfo->setFileObject($fileObject);
+            $fileInfo->setName($fileObject[EmsFields::CONTENT_FILE_NAME_FIELD_]);
+            $fileInfo->setType($fileObject[EmsFields::CONTENT_MIME_TYPE_FIELD_]);
+            $fileInfo->setSize($fileObject[EmsFields::CONTENT_FILE_SIZE_FIELD_]);
+            $fileInfo->setAlgo($fileObject[EmsFields::CONTENT_FILE_ALGO_FIELD_]);
+        }
+
+        return $fileInfo;
     }
 }

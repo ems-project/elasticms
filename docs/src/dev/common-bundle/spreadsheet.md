@@ -2,15 +2,23 @@
 
 In Twig you can set the spreadsheet options by generating a JSON
 
-Two writer are supported:
+Two `writer` are supported:
 
 - `xlsx`: Generate a Microsoft Excel file
 - `csv`: Generate a CSV file
+
+The `normalized` configuration attribute, when set to true, generates a deterministic Microsoft
+Excel file. This is useful to avoid duplicates in storage services.
+
+The `creator` configuration attribute is used to set the creator metadata field of the Microsoft
+Excel file.
 
 ```twig
 {% set config = {
     "filename": "custom-filename",
     "disposition": "attachment",
+    "creator": "Creator Name",
+    "normalized": false,
     "writer": "xlsx",
     "value_binder": "string",
     "sheets": [
@@ -131,6 +139,27 @@ Define:
                 "type": "date",
                 "format_input": "d/m/Y",
                 "format_display": "dd/mm/yyyy"
+            }
+        ]
+    ]
+}
+```
+
+## String cells
+
+Force text mode on a cell that contains only numbers
+
+Define:
+
+- Type: s
+
+```json
+{
+    "rows": [
+        [
+            {
+                "data": "12345",
+                "type": "s"
             }
         ]
     ]

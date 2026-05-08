@@ -11,6 +11,7 @@ use Elastica\Search as ElasticaSearch;
 use Elastica\Suggest;
 use EMS\CommonBundle\Elasticsearch\Aggregation\ElasticaAggregation;
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
+use EMS\Helpers\Standard\Type;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
@@ -19,6 +20,10 @@ use Symfony\Component\Serializer\Serializer;
 
 class Search
 {
+    private const SERIALIZER_CONTEXT = [
+        AbstractNormalizer::IGNORED_ATTRIBUTES => ['query', 'aggregations', 'suggest'],
+    ];
+
     /** @var string[] */
     private array $sourceIncludes = [];
     /** @var string[] */
@@ -32,7 +37,8 @@ class Search
     /** @var array<mixed>|null */
     private ?array $sort = null;
     private ?AbstractQuery $postFilter = null;
-    private ?Suggest $suggest = null;
+    /** @var array<mixed> */
+    private array $suggest = [];
     /** @var array<mixed>|null */
     private ?array $highlight = null;
 
@@ -48,12 +54,12 @@ class Search
 
     public function serialize(string $format = 'json'): string
     {
-        return self::getSerializer()->serialize($this, $format, [AbstractNormalizer::IGNORED_ATTRIBUTES => ['query', 'aggregations']]);
+        return self::getSerializer()->serialize($this, $format, self::SERIALIZER_CONTEXT);
     }
 
     public static function deserialize(string $data, string $format = 'json'): Search
     {
-        $data = self::getSerializer()->deserialize($data, Search::class, $format);
+        $data = self::getSerializer()->deserialize($data, self::class, $format, self::SERIALIZER_CONTEXT);
         if (!$data instanceof Search) {
             throw new \RuntimeException('Unexpected search object');
         }
@@ -61,9 +67,30 @@ class Search
         return $data;
     }
 
+    /**
+     * @return mixed[]
+     */
+    public function toPayload(): array
+    {
+        return Type::array(self::getSerializer()->normalize($this, null, self::SERIALIZER_CONTEXT));
+    }
+
+    /**
+     * @param mixed[] $data
+     */
+    public static function fromPayload(array $data): self
+    {
+        $search = self::getSerializer()->denormalize($data, self::class, null, self::SERIALIZER_CONTEXT);
+        if (!$search instanceof Search) {
+            throw new \RuntimeException('Unexpected search object');
+        }
+
+        return $search;
+    }
+
     public function hasSources(): bool
     {
-        return \count($this->sourceIncludes) > 0 || \count($this->sourceExcludes) > 0;
+        return [] !== $this->sourceIncludes || [] !== $this->sourceExcludes;
     }
 
     /**
@@ -71,14 +98,19 @@ class Search
      */
     public function getSources(): array
     {
-        if (\count($this->sourceExcludes) > 0) {
+        $includes = [];
+        if ([] !== $this->sourceIncludes) {
+            $includes = \array_values(\array_unique(\array_merge($this->sourceIncludes, EMSSource::REQUIRED_FIELDS)));
+        }
+
+        if ([] !== $this->sourceExcludes) {
             return \array_filter([
-                'includes' => $this->sourceIncludes,
+                'includes' => $includes,
                 'excludes' => $this->sourceExcludes,
             ]);
         }
 
-        return $this->sourceIncludes;
+        return $includes;
     }
 
     /**
@@ -122,7 +154,7 @@ class Search
      */
     public function setSources(array $sources): void
     {
-        if (0 === \count($sources)) {
+        if ([] === $sources) {
             $this->sourceIncludes = [];
 
             return;
@@ -131,11 +163,9 @@ class Search
         if (isset($sources['includes']) || isset($sources['excludes'])) {
             $this->sourceIncludes = $sources['includes'] ?? [];
             $this->sourceExcludes = $sources['excludes'] ?? [];
-
-            return;
+        } else {
+            $this->sourceIncludes = $sources;
         }
-
-        $this->sourceIncludes = \array_merge($sources, EMSSource::REQUIRED_FIELDS);
     }
 
     /**
@@ -287,14 +317,17 @@ class Search
         return $this->postFilter;
     }
 
-    public function getSuggest(): ?Suggest
+    /**
+     * @return array<mixed>
+     */
+    public function getSuggest(): array
     {
         return $this->suggest;
     }
 
     public function setSuggest(?Suggest $suggest): void
     {
-        $this->suggest = $suggest;
+        $this->suggest = $suggest?->toArray() ?? [];
     }
 
     /**
@@ -328,9 +361,7 @@ class Search
         $encoders = [new XmlEncoder(), new JsonEncoder()];
         $normalizers = [new ObjectNormalizer()];
 
-        $serializer = new Serializer($normalizers, $encoders);
-
-        return $serializer;
+        return new Serializer($normalizers, $encoders);
     }
 
     /**

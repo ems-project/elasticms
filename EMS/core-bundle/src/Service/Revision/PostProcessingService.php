@@ -10,6 +10,7 @@ use EMS\CommonBundle\Json\JsonMenuNested;
 use EMS\CoreBundle\Core\Revision\RawDataTransformer;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\DataField;
+use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Entity\FieldType;
 use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Exception\CantBeFinalizedException;
@@ -25,12 +26,12 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
-use Twig\Environment;
+use Twig\Environment as Twig;
 use Twig\Error\SyntaxError;
 
 final readonly class PostProcessingService
 {
-    public function __construct(private Environment $twig, private FormFactoryInterface $formFactory, private LoggerInterface $logger)
+    public function __construct(private Twig $twig, private FormFactoryInterface $formFactory, private LoggerInterface $logger)
     {
     }
 
@@ -64,6 +65,7 @@ final readonly class PostProcessingService
             'path' => $path,
             'form' => $form,
             'revisionId' => $revision?->getId(),
+            'revisionEnvironments' => $revision?->getEnvironments()->map(fn (Environment $e) => $e->getName())->toArray() ?? [],
         ]);
 
         $found = false;
@@ -81,8 +83,8 @@ final readonly class PostProcessingService
         }
         $options = $fieldType->getOptions();
 
-        if (!$dataFieldType::isVirtual(!$options ? [] : $options)) {
-            $path .= ('' == $path ? '' : '.').$form->getConfig()->getName();
+        if (!$dataFieldType::isVirtual($options)) {
+            $path .= ('' === $path ? '' : '.').$form->getConfig()->getName();
         }
 
         if ($migration && JsonMenuNestedEditorFieldType::class === $fieldType->getType()) {
@@ -95,7 +97,7 @@ final readonly class PostProcessingService
                 $out = $this->twig->createTemplate($extraOption['postProcessing'])->render($context);
                 $out = \trim($out);
 
-                if (\strlen($out) > 0) {
+                if ('' !== $out) {
                     try {
                         $json = Json::mixedDecode($out);
                         if (null === $fieldType->getParent()) {
@@ -178,7 +180,7 @@ final readonly class PostProcessingService
                     ]);
                 }
             }
-            if (null !== $out && false !== $out && (!\is_array($out) || !empty($out))) {
+            if (null !== $out && false !== $out && (!\is_array($out) || [] !== $out)) {
                 $objectArray[$fieldType->getName()] = $out;
             } elseif (\array_key_exists($fieldType->getName(), $objectArray)) {
                 unset($objectArray[$fieldType->getName()]);
@@ -200,7 +202,7 @@ final readonly class PostProcessingService
                     foreach ($child->all() as $collectionChild) {
                         if (isset($objectArray[$fieldName])) {
                             foreach ($objectArray[$fieldName] as &$elementsArray) {
-                                $childPath = $path.('' == $path ? '' : '.').$fieldName;
+                                $childPath = $path.('' === $path ? '' : '.').$fieldName;
                                 $found = $this->postProcessing($collectionChild, $contentType, $elementsArray, $context, $parent, $childPath) || $found;
                             }
                         }

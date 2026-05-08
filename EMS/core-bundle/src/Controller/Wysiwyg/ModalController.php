@@ -47,12 +47,12 @@ class ModalController extends AbstractController
                 }
                 $id = $node->nodeValue;
                 if (null !== $id) {
-                    $targets[$id] = "#$id";
+                    $targets[$id] = '#'.$id;
                 }
             }
         }
         $anchorTargets = $request->query->get('anchorTargets');
-        if (empty($targets) && \is_string($anchorTargets)) {
+        if ([] === $targets && \is_string($anchorTargets)) {
             $targets = Json::decode($anchorTargets);
         }
 
@@ -66,8 +66,9 @@ class ModalController extends AbstractController
         ]);
 
         $form->handleRequest($request);
+
         $response = [
-            'body' => $this->twig->render("@$this->templateNamespace/modal/default.html.twig", [
+            'body' => $this->twig->render(\sprintf('@%s/modal/default.html.twig', $this->templateNamespace), [
                 'form' => $form->createView(),
             ]),
         ];
@@ -92,8 +93,9 @@ class ModalController extends AbstractController
         $path = (string) $request->request->get('path', '');
         $form = $this->createForm(EditImageModalType::class, [EditImageModalType::FIELD_IMAGE => $path]);
         $form->handleRequest($request);
+
         $response = [
-            'body' => $this->twig->render("@$this->templateNamespace/modal/default.html.twig", [
+            'body' => $this->twig->render(\sprintf('@%s/modal/default.html.twig', $this->templateNamespace), [
                 'form' => $form->createView(),
             ]),
         ];
@@ -117,7 +119,7 @@ class ModalController extends AbstractController
         ]);
     }
 
-    public function validate(LoadLinkModalEntity $loadLinkModalEntity, ExecutionContextInterface $context): void
+    private function validate(LoadLinkModalEntity $loadLinkModalEntity, ExecutionContextInterface $context): void
     {
         $loadLinkModalEntity->validate($context);
     }

@@ -56,19 +56,19 @@
 
 {% block columnKey %}
 {% verbatim %}
-    <a href="{{ path('data.revisions', {ouuid: data.id, type: data.contentType} ) }}">{{ data.source.key }}</a>
+    <a href="{{ path('emsco_view_revisions', {ouuid: data.id, type: data.contentType} ) }}">{{ data.source.key }}</a>
 {% endverbatim %}
 {% endblock %}
 
 {% block columnDisplay %}
 {% verbatim %}
-    <a href="{{path('data.revisions', {ouuid: data.id, type: data.contentType} ) }}">{{ data|emsco_display }}</a>
+    <a href="{{path('emsco_view_revisions', {ouuid: data.id, type: data.contentType} ) }}">{{ data|emsco_display }}</a>
 {% endverbatim %}
 {% endblock columnDisplay %}
 
 {% block columnName %}
 {% verbatim %}
-    <a href="{{path('data.revisions', {ouuid: data.id, type: data.contentType} ) }}">{{ data.source.name }}</a>
+    <a href="{{path('emsco_view_revisions', {ouuid: data.id, type: data.contentType} ) }}">{{ data.source.name }}</a>
 {% endverbatim %}
 {% endblock %}
 
@@ -123,7 +123,7 @@
 {% block columnActionBS3 %}
 {% verbatim %}
 <div class="btn-group btn-group-sm" style="width: 130px;">
-    <a href="{{ docInfo.draft ? path("ems_revision_edit", {revisionId: revisionId}) : docInfo.aligned("live") ? path("revision.new-draft", {type: data.contentType, ouuid: data.id }) : path("revision.publish_to", {revisionId: revisionId, envId: liveId, redirectToUrl: path("data.customindexview", {viewId: viewId })}) }}" class="btn btn-default" style="width: 100px;">
+    <a href="{{ docInfo.draft ? path("emsco_edit_revision", {revisionId: revisionId}) : docInfo.aligned("live") ? path("emsco_data_new_draft", {type: data.contentType, ouuid: data.id }) : path("revision.publish_to", {revisionId: revisionId, envId: liveId, redirectToUrl: path("emsco_data_private_view", {viewId: viewId })}) }}" class="btn btn-default" style="width: 100px;">
         {{ docInfo.draft ? "Edit draft" : docInfo.aligned("live") ? "Edit" : "Publish in live" }}
     </a>
     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -132,12 +132,12 @@
     </button>
     <ul class="dropdown-menu" role="menu">
         <li>
-            <a href="{{ path("data.revisions", {ouuid: data.id, type: data.contentType} ) }}">Revision</a>
+            <a href="{{ path("emsco_view_revisions", {ouuid: data.id, type: data.contentType} ) }}">Revision</a>
         </li>
         {% if docInfo.draft %}
             <li><a href="{{ path("revision.publish_to", {revisionId: revisionId, envId: previewId}) }}">Publish in preview</a></li>
         {% elseif not docInfo.aligned('live') %}
-            <li><a href="{{ path("revision.new-draft", {type: data.contentType, ouuid: data.id }) }}">Edit</a></li>
+            <li><a href="{{ path("emsco_data_new_draft", {type: data.contentType, ouuid: data.id }) }}">Edit</a></li>
         {% endif %}
     </ul>
 </div>

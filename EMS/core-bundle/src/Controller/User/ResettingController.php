@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Controller\User;
 
 use EMS\CoreBundle\Core\User\UserManager;
+use EMS\CoreBundle\Entity\User;
 use EMS\CoreBundle\Form\User\ResettingRequestType;
 use EMS\CoreBundle\Form\User\ResettingResetType;
 use EMS\CoreBundle\Routes;
@@ -29,14 +30,14 @@ class ResettingController extends AbstractController
             $usernameOrEmail = $form->get('username_email')->getData();
             $user = $this->userManager->requestResetPassword($usernameOrEmail);
 
-            if ($user) {
+            if ($user instanceof User) {
                 return $this->redirectToRoute('emsco_user_resetting_check_email', [
                     'email' => $user->getEmail(),
                 ]);
             }
         }
 
-        return $this->render("@$this->templateNamespace/user/resetting/request.html.twig", [
+        return $this->render(\sprintf('@%s/user/resetting/request.html.twig', $this->templateNamespace), [
             'form' => $form->createView(),
         ]);
     }
@@ -49,7 +50,7 @@ class ResettingController extends AbstractController
             return $this->redirectToRoute('emsco_user_resetting_request');
         }
 
-        return $this->render("@$this->templateNamespace/user/resetting/check_email.html.twig", [
+        return $this->render(\sprintf('@%s/user/resetting/check_email.html.twig', $this->templateNamespace), [
             'tokenLifetime' => UserManager::PASSWORD_RETRY_TTL,
         ]);
     }
@@ -75,7 +76,7 @@ class ResettingController extends AbstractController
             return $this->redirectToRoute(Routes::USER_PROFILE);
         }
 
-        return $this->render("@$this->templateNamespace/user/resetting/reset.html.twig", [
+        return $this->render(\sprintf('@%s/user/resetting/reset.html.twig', $this->templateNamespace), [
             'form' => $form->createView(),
         ]);
     }

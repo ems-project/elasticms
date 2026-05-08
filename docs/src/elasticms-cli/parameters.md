@@ -79,52 +79,17 @@ elasticms.
 
 ## Elasticms Common Bundle variables
 
-### EMS_ELASTICSEARCH_CONNECTION_POOL
-
-Define the [elasticsearch sniffing
-strategy](<https://www.elastic.co/guide/en/elasticsearch/client/php-api/7.17/connection_pool.html>:
-
-- Default value:
-  EMS_ELASTICSEARCH_CONNECTION_POOL='Elasticsearch\\ConnectionPool\\SimpleConnectionPool' if the
-  EMS_ELASTICSEARCH_HOSTS contains one and only one host configuration; in order to avoid sniffing
-  requests on a cluster that is more likely behind a reverse proxy. Else it contains
-  EMS_ELASTICSEARCH_CONNECTION_POOL='Elasticsearch\\ConnectionPool\\SniffingConnectionPool'.
-- Possible values:
-    - EMS_ELASTICSEARCH_CONNECTION_POOL='Elasticsearch\\ConnectionPool\\SimpleConnectionPool'
-    - EMS_ELASTICSEARCH_CONNECTION_POOL='Elasticsearch\\ConnectionPool\\SniffingConnectionPool'
-    - EMS_ELASTICSEARCH_CONNECTION_POOL='Elasticsearch\\ConnectionPool\\StaticConnectionPool'
-    - EMS_ELASTICSEARCH_CONNECTION_POOL='Elasticsearch\\ConnectionPool\\StaticNoPingConnectionPool'
-
 ### EMS_ELASTICSEARCH_HOSTS
 
 Define the elasticsearch cluster as an array (JSON encoded) of hosts:
 
 - Default value: EMS_ELASTICSEARCH_HOSTS='["http://localhost:9200"]'
 
-If needed, this variable can also contain an
-[elastica servers array](https://elastica-docs.readthedocs.io/en/latest/client.html#client-configurations):
+If needed, this variable can also contain an Elastica config array:
 
 ```dotenv
-EMS_ELASTICSEARCH_HOSTS='[{"transport":"Https","host":"elastic:fewl13@localhost","port":9200,"curl":{"64":false}}]'
+EMS_ELASTICSEARCH_HOSTS='{"hosts":["http://localhost:9201"],"username":"elastic","password":"changeme","transport_config":{"http_client_options":{"verify_peer":false}}}'
 ```
-
-In this example the cluster contains only one host accessible via HTTPS on the port 9200. But with
-the CURL option `"64": false` the client doesn't check the validity of the host certificate
-
-```dotenv
-EMS_ELASTICSEARCH_HOSTS='[{"transport":"Https","host":"elastic:fewl13@localhost","port":9200,"curl":{"10065":"/opt/local/cacert.pem"}}]'
-```
-
-Here the client uses the `/opt/local/cacert.pem` to validate the server certificate.
-
-```dotenv
-EMS_ELASTICSEARCH_HOSTS='[{"transport":"Https","host":"localhost","port":9200,"headers":{"Authorization":"Basic ZWxhc3RpYzpmZXdsMTM="},"curl":{"64":false}}]'
-```
-
-Another example with an extra HTTP header.
-
-[All PHP CURL integer identifier can be found on GitHub](https://github.com/JetBrains/phpstorm-stubs/blob/master/curl/curl_d.php).
-More info on [PHP.net](https://www.php.net/manual/en/function.curl-setopt.php).
 
 ### EMS_STORAGES
 

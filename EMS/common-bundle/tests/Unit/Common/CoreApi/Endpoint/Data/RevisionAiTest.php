@@ -6,10 +6,12 @@ namespace EMS\CommonBundle\Tests\Unit\Common\CoreApi\Endpoint\Data;
 
 use EMS\CommonBundle\Common\CoreApi\Endpoint\Data\Revision;
 use EMS\CommonBundle\Common\CoreApi\Result;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 
 class RevisionAiTest extends TestCase
 {
+    #[AllowMockObjectsWithoutExpectations]
     public function testConstructAndGetters(): void
     {
         $resultData = [

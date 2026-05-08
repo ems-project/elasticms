@@ -1,9 +1,9 @@
-import {defineConfig} from 'vitepress'
+import {withMermaid} from 'vitepress-plugin-mermaid'
 
 import sidebar from "./nav/sidebar";
 import navbar from "./nav/navbar";
 
-export default defineConfig({
+export default withMermaid({
     title: "ElasticMS",
     description: "Documentation",
     ignoreDeadLinks: true,
@@ -16,6 +16,11 @@ export default defineConfig({
     vite: {
         build: {
             chunkSizeWarningLimit: 1500
+        },
+        resolve: {
+            alias: {
+                dayjs: "dayjs/",
+            }
         }
     },
     srcDir: './src',
@@ -34,5 +39,13 @@ export default defineConfig({
         search: {
             provider: 'local'
         }
-    }
-})
+    },
+    mermaid: {
+        securityLevel: "loose",
+            theme: "default",
+            flowchart: { htmlLabels: true },
+    },
+    mermaidPlugin: {
+        class: "mermaid my-class",
+    },
+});

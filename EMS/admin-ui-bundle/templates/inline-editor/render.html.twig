@@ -1,0 +1,61 @@
+{%- block actions -%}
+    <button type="button" class="btn btn-sm btn-outline-secondary" data-editor-action="discard">
+        Discard
+    </button>
+    <button type="button" class="btn btn-sm btn-outline-primary" data-editor-action="save">
+        Save
+    </button>
+    <button type="button" class="btn btn-sm btn-primary" data-editor-action="publish">
+        Publish
+    </button>
+{%- endblock actions -%}
+
+{%- block elements -%}
+    {%- if records|length > 0 -%}
+        <div class="list-group list-group-flush border-bottom">
+            {%- for record in records -%}
+                {%- set icon = record.revision.contentType.icon -%}
+                {%- set type = record.revision.contentType.singularName -%}
+                <div class="list-group-item py-3 px-3">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="fw-bold text-dark small">
+                            <i class="{{ icon }} text-muted me-2"></i>{{ type }}: {{ record.label }}
+                        </span>
+                    </div>
+                    <div>
+                        {%- if record.revision.isDraft -%}
+                            <span class="badge bg-warning text-dark">
+                                In draft by {{ record.revision.lockBy|emsco_display_name }}
+                            </span>
+                        {%- endif -%}
+                        {%- for env in environments -%}
+                            {% set publishedStatus = record.info.getPublishedStatus(env) %}
+                            <span class="{{ html_classes('badge', {
+                                'bg-secondary': publishedStatus == 'not_published',
+                                'bg-success': publishedStatus == 'published',
+                                'bg-warning text-dark': publishedStatus == 'outdated'
+                            }) }}">{{ env.name }}</span>
+                        {%- endfor -%}
+                        {% if record.elements|length > 0 %}
+                            <div class="mt-3 p-2 bg-light rounded border-start border-3 border-info">
+                                <p class="x-small fw-bold mb-1 text-uppercase text-muted" style="font-size: 0.7rem;">Elements</p>
+                                <ul class="list-unstyled mb-0 small text-break">
+                                    {%- for element in record.elements -%}
+                                        <li class="text-muted mb-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-tag"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M6.5 7.5a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M3 6v5.172a2 2 0 0 0 .586 1.414l7.71 7.71a2.41 2.41 0 0 0 3.408 0l5.592 -5.592a2.41 2.41 0 0 0 0 -3.408l-7.71 -7.71a2 2 0 0 0 -1.414 -.586h-5.172a3 3 0 0 0 -3 3" /></svg>
+                                            {{ element.path }}
+                                        </li>
+                                    {%- endfor -%}
+                                </ul>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {%- endfor -%}
+        </div>
+    {%- endif -%}
+{%- endblock elements -%}
+
+
+
+

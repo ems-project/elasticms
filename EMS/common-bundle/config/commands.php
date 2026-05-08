@@ -9,6 +9,7 @@ use EMS\CommonBundle\Command\Admin\CommandCommand;
 use EMS\CommonBundle\Command\Admin\CreateCommand;
 use EMS\CommonBundle\Command\Admin\DeleteCommand;
 use EMS\CommonBundle\Command\Admin\GetCommand;
+use EMS\CommonBundle\Command\Admin\GetFileInfoCommand;
 use EMS\CommonBundle\Command\Admin\JobCommand;
 use EMS\CommonBundle\Command\Admin\LoginCommand;
 use EMS\CommonBundle\Command\Admin\NextJobCommand;
@@ -56,7 +57,7 @@ return static function (ContainerConfigurator $container) {
             service('controller_resolver'),
             service('request_stack'),
             service('ems_common.storage.manager'),
-            service('ems_common.twig.runtime.asset'),
+            service('ems.twig_extension.asset'),
         ])
         ->tag('console.command');
 
@@ -211,5 +212,9 @@ return static function (ContainerConfigurator $container) {
 
     $services->set('ems.command.indexes.synchronize', SynchronizeCommand::class)
         ->args([service('http_client')])
+        ->tag('console.command');
+
+    $services->set('ems.command.admin.file-info', GetFileInfoCommand::class)
+        ->args([service('ems.helper.admin_api')])
         ->tag('console.command');
 };

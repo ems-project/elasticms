@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use EMS\ClientHelperBundle\Contracts\Environment\EnvironmentHelperInterface;
+use EMS\CommonBundle\Contracts\Elasticsearch\QueryLoggerInterface;
 use EMS\CommonBundle\Contracts\ExpressionServiceInterface;
 use EMS\CommonBundle\Contracts\Spreadsheet\SpreadsheetGeneratorServiceInterface;
+use EMS\CommonBundle\Elasticsearch\Client;
 use EMS\CommonBundle\Helper\Text\Encoder;
 use EMS\CoreBundle\Core\ContentType\FieldType\FieldTypeService;
 use EMS\CoreBundle\Core\ContentType\Transformer\ContentTransformer;
@@ -14,6 +16,7 @@ use EMS\CoreBundle\Core\ContentType\Transformer\ContentTransformers;
 use EMS\CoreBundle\Core\ContentType\Transformer\HtmlAttributeTransformer;
 use EMS\CoreBundle\Core\ContentType\Transformer\HtmlEmptyTransformer;
 use EMS\CoreBundle\Core\ContentType\Transformer\HtmlRemoveNodeTransformer;
+use EMS\CoreBundle\Core\ContentType\Transformer\HtmlUnwrapTransformer;
 use EMS\CoreBundle\Core\Dashboard\DashboardManager;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\Core\DataTable\TableExporter;
@@ -51,6 +54,7 @@ use EMS\CoreBundle\Core\UI\FlashMessageLogger;
 use EMS\CoreBundle\Core\User\GroupManager;
 use EMS\CoreBundle\Core\User\UserManager;
 use EMS\CoreBundle\Core\View\ViewManager;
+use EMS\CoreBundle\Core\Webhook\WebhookSubscriptionManager;
 use EMS\CoreBundle\Elasticsearch\Bulker;
 use EMS\CoreBundle\Elasticsearch\Indexer;
 use EMS\CoreBundle\Entity\Revision;
@@ -61,6 +65,7 @@ use EMS\CoreBundle\Event\RevisionUnpublishEvent;
 use EMS\CoreBundle\Event\UpdateRevisionReferersEvent;
 use EMS\CoreBundle\EventListener\AccessDeniedListener;
 use EMS\CoreBundle\EventListener\EventsToWebhookSubscribers;
+use EMS\CoreBundle\EventListener\InlineEditListener;
 use EMS\CoreBundle\EventListener\LoginListener;
 use EMS\CoreBundle\EventListener\PageListener;
 use EMS\CoreBundle\EventListener\RequestListener;
@@ -127,6 +132,10 @@ return static function (ContainerConfigurator $container) {
             service('router'),
             '%ems_core.security.firewall.core%',
         ])
+        ->tag('kernel.event_subscriber');
+
+    $services->set('emsco.event_listener.inline_editor', InlineEditListener::class)
+        ->args([service('emsco.core.inline_editor')])
         ->tag('kernel.event_subscriber');
 
     $services->set('ems_core.event_listener.login_listener', LoginListener::class)
@@ -268,6 +277,9 @@ return static function (ContainerConfigurator $container) {
     $services->set('ems_core.core_content_type_transformer.html_remove_node_transformer', HtmlRemoveNodeTransformer::class)
         ->tag('ems_core.content_type.transformer');
 
+    $services->set('ems_core.core_content_type_transformer.html_unwrap_transformer', HtmlUnwrapTransformer::class)
+        ->tag('ems_core.content_type.transformer');
+
     $services->set('emsco.core_mercure.mercure_service', MercureService::class)
         ->args([
             service('mercure.hub.default'),
@@ -369,7 +381,7 @@ return static function (ContainerConfigurator $container) {
         ->args([
             service('twig'),
             service('translator'),
-            service('ems_common.elasticsearch.elastica_logger'),
+            service(QueryLoggerInterface::class),
         ]);
 
     $services->set('ems_core.core_data_table.table_exporter', TableExporter::class)
@@ -407,8 +419,7 @@ return static function (ContainerConfigurator $container) {
             service(ContentTypeRepository::class),
             service('ems.service.revision'),
             '%ems_core.template_namespace%',
-        ])
-        ->tag('twig.runtime');
+        ]);
 
     $services->set('ems.log.manager', LogManager::class)
         ->args([
@@ -441,7 +452,7 @@ return static function (ContainerConfigurator $container) {
     $services->set('ems.service.mapping', Mapping::class)
         ->args([
             service('emsco.logger'),
-            service('ems_common.elastica.client'),
+            service(Client::class),
             service('ems.form.fieldtype.fieldtypetype'),
             service('ems.service.elasticsearch'),
             service('ems_common.service.elastica'),
@@ -459,7 +470,6 @@ return static function (ContainerConfigurator $container) {
             service('ems.service.mapping'),
             '%ems_core.instance_id%',
             service('form.factory'),
-            service('service_container'),
             service('form.registry'),
             service('event_dispatcher'),
             service('ems.service.contenttype'),
@@ -514,7 +524,7 @@ return static function (ContainerConfigurator $container) {
     $services->set('ems.service.alias', AliasService::class)
         ->args([
             service('logger'),
-            service('ems_common.elastica.client'),
+            service(Client::class),
             service(EnvironmentRepository::class),
             service(ManagedAliasRepository::class),
             service('ems_common.service.elastica'),
@@ -524,13 +534,13 @@ return static function (ContainerConfigurator $container) {
     $services->set('ems.service.index', IndexService::class)
         ->args([
             service('ems.service.alias'),
-            service('ems_common.elastica.client'),
+            service(Client::class),
             service('ems.service.contenttype'),
         ]);
 
     $services->set('ems.elasticsearch.bulker', Bulker::class)
         ->args([
-            service('ems_common.elastica.client'),
+            service(Client::class),
             service('logger'),
             service('ems.service.data'),
         ]);
@@ -581,7 +591,6 @@ return static function (ContainerConfigurator $container) {
 
     $services->set('ems.service.user', UserService::class)
         ->args([
-            service('doctrine'),
             service('security.token_storage'),
             service('security.helper'),
             service('ems.repository.user'),
@@ -694,6 +703,7 @@ return static function (ContainerConfigurator $container) {
             service('ems.service.environment'),
             service('ems.service.contenttype'),
             service('ems.repository.search'),
+            service(RevisionRepository::class),
         ]);
 
     $services->set('ems.service.file', FileService::class)
@@ -808,12 +818,17 @@ return static function (ContainerConfigurator $container) {
         ->args([service('security.token_storage')])
         ->tag('messenger.middleware');
 
-    $services->set('ems_core.core_messenger_handler.webhook_subscription_handler', WebhookSubscriptionHandler::class)
+    $services->set('emsco.core_messenger_handler.webhook_subscription_handler', WebhookSubscriptionHandler::class)
         ->args([
             service('ems.repository.webhook_subscription'),
             service('http_client'),
         ])
         ->tag('messenger.message_handler', ['handles' => WebhookSubscriberMessage::class]);
+
+    $services->set('emsco.webhook_subscription.manager', WebhookSubscriptionManager::class)
+        ->args([
+            service('ems.repository.webhook_subscription'),
+        ]);
 
     $services->alias('ems.service.data', DataService::class)
         ->public();

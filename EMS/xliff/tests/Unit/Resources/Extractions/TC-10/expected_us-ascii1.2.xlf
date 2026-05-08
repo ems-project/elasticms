@@ -23,13 +23,13 @@
         <target xml:lang="fr" state="final"/>
       </trans-unit>
       <group resname="[%locale%][body]" id="grp5">
-        <group restype="x-html-ul" id="tu6" resname="/html/body/ul">
-          <group restype="listitem" id="tu7" resname="/html/body/ul/li">
+        <group restype="x-html-ul" id="grp6" resname="/html/body/ul">
+          <group restype="listitem" id="grp7" resname="/html/body/ul/li">
             <trans-unit id="tu8" resname="/html/body/ul/li/text()[1]">
               <source xml:lang="en">Voor elke <g id="g9" ctype="x-html-strong">erg laaggeschoolde jongere</g> die hij in dienst neemt met een startbaanovereenkomst </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
-            <group restype="x-html-ul" id="tu10" resname="/html/body/ul/li/ul">
+            <group restype="x-html-ul" id="grp10" resname="/html/body/ul/li/ul">
               <note from="style">padding-top: 0px; padding-bottom: 0px;</note>
               <trans-unit restype="listitem" id="tu11" resname="/html/body/ul/li/ul/li[1]">
                 <source xml:lang="en"> <g id="g12" ctype="x-html-strong">G<g id="g13" ctype="x-html-sub">1</g></g> voor het kwartaal van indienstneming en de 15 daarop volgende kwartalen </source>
@@ -44,13 +44,13 @@
         </group>
       </group>
       <group resname="[%locale%][body2]" id="grp17">
-        <group restype="x-html-ul" id="tu18" resname="/html/body/ul">
-          <group restype="listitem" id="tu19" resname="/html/body/ul/li">
+        <group restype="x-html-ul" id="grp18" resname="/html/body/ul">
+          <group restype="listitem" id="grp19" resname="/html/body/ul/li">
             <trans-unit id="tu20" resname="/html/body/ul/li/text()[1]">
               <source xml:lang="en">Voor elke <g id="g21" ctype="x-html-strong">erg laaggeschoolde jongere</g> die hij in dienst neemt met een startbaanovereenkomst </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
-            <group restype="x-html-ul" id="tu22" resname="/html/body/ul/li/ul">
+            <group restype="x-html-ul" id="grp22" resname="/html/body/ul/li/ul">
               <note from="style">padding-top: 0px; padding-bottom: 0px;</note>
               <trans-unit restype="listitem" id="tu23" resname="/html/body/ul/li/ul/li[1]">
                 <source xml:lang="en"> <g id="g24" ctype="x-html-strong">G<g id="g25" ctype="x-html-sub">1</g></g> voor het kwartaal van indienstneming en de 15 daarop volgende kwartalen </source>

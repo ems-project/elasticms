@@ -41,6 +41,7 @@ class ReorganizeType extends AbstractType
         ->add('reorder', SubmitEmsType::class, [
             'attr' => [
                 'class' => 'btn btn-primary reorder-button',
+                'data-testid' => 'btn-action-reorder',
             ],
             'icon' => 'fa fa-reorder',
         ]);
@@ -55,23 +56,15 @@ class ReorganizeType extends AbstractType
                     'metadata' => $fieldType,
                     'label' => 'Add item',
                     'required' => false,
-                    'type' => $fieldType->getDisplayOption('type', null),
+                    'type' => $fieldType->getDisplayOption('type'),
                 ]);
 
                 $builder->get('addItem')->addModelTransformer(new CallbackTransformer(
-                    function ($raw) {
-                        $dataField = new DataField();
-
-                        return $dataField;
-                    },
+                    fn ($raw) => new DataField(),
                     fn (DataField $tagsAsString) => null
                 ))->addViewTransformer(new CallbackTransformer(
                     fn (DataField $tagsAsString) => null,
-                    function ($raw) {
-                        $dataField = new DataField();
-
-                        return $dataField;
-                    }
+                    fn ($raw) => new DataField()
                 ));
             }
         }

@@ -1,0 +1,9 @@
+{{- if ne (strings.ToLower .Env.PHP_SQLSRV_ENABLED) "false" -}}
+
+sqlsrv.ClientBufferMaxKBSize = {{ .Env.PHP_SQLSRV_CLIENTBUFFERMAXKBSIZE }}
+sqlsrv.LogSeverity = {{ .Env.PHP_SQLSRV_LOGSEVERITY }}
+sqlsrv.LogSubsystems = {{ .Env.PHP_SQLSRV_LOGSUBSYSTEMS }}
+sqlsrv.SetLocaleInfo = {{ .Env.PHP_SQLSRV_SETLOCALEINFO }}
+sqlsrv.WarningsReturnAsErrors = {{ .Env.PHP_SQLSRV_WARNINGSRETURNASERRORS }}
+
+{{- end -}}

@@ -5,7 +5,7 @@
     "keywords": [
         "elasticms"
     ],
-    "license": "LGPL-3.0",
+    "license": "LGPL-3.0-or-later",
     "authors": [
         {
             "name": "EMS Community",
@@ -14,7 +14,7 @@
     ],
     "require": {
         "php": "^8.5",
-        "elasticms/form-bundle": "7.x-dev",
+        "elasticms/form-bundle": "7.2.*",
         "league/flysystem-memory": "^3.19",
         "league/flysystem-sftp-v3": "^3.22",
         "symfony/console": "7.4.*",

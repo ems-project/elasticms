@@ -41,43 +41,43 @@ class ReleaseOverviewDataTableType extends AbstractEntityTableType
             new TemplateBlockTableColumn(
                 label: t('field.status', [], 'emsco-core'),
                 blockName: 'status',
-                template: "@$this->templateNamespace/release/columns/revisions.html.twig"
+                template: \sprintf('@%s/release/columns/revisions.html.twig', $this->templateNamespace)
             )
         );
-        $table->addColumnDefinition(new TemplateBlockTableColumn('release.index.column.docs_count', 'docs_count', "@$this->templateNamespace/release/columns/revisions.html.twig"))->setCellClass('text-right');
+        $table->addColumnDefinition(new TemplateBlockTableColumn('release.index.column.docs_count', 'docs_count', \sprintf('@%s/release/columns/revisions.html.twig', $this->templateNamespace)))->setCellClass('text-right');
 
         $table->addColumnDefinition(
             new TemplateBlockTableColumn(
                 label: t('field.release_environment_source', [], 'emsco-core'),
                 blockName: 'environmentSource',
-                template: "@$this->templateNamespace/release/columns/revisions.html.twig"
+                template: \sprintf('@%s/release/columns/revisions.html.twig', $this->templateNamespace)
             )
         );
         $table->addColumnDefinition(
             new TemplateBlockTableColumn(
                 label: t('field.release_environment_target', [], 'emsco-core'),
                 blockName: 'environmentTarget',
-                template: "@$this->templateNamespace/release/columns/revisions.html.twig"
+                template: \sprintf('@%s/release/columns/revisions.html.twig', $this->templateNamespace)
             )
         );
-        $table->addItemGetAction(Routes::RELEASE_VIEW, 'release.actions.show', 'eye')
+        $table->addItemGetAction(Routes::RELEASE_VIEW, 'release.actions.show', 'eye', [], ['data-testid' => 'release-action-show'])
             ->addCondition(new Terms('status', [Release::APPLIED_STATUS, Release::SCHEDULED_STATUS, Release::READY_STATUS]));
-        $table->addItemGetAction(Routes::RELEASE_EDIT, 'release.actions.edit', 'pencil')
+        $table->addItemGetAction(Routes::RELEASE_EDIT, 'release.actions.edit', 'pencil', [], ['data-testid' => 'release-action-edit'])
             ->addCondition(new Terms('status', [Release::WIP_STATUS]));
-        $table->addItemGetAction(Routes::RELEASE_ADD_REVISIONS, 'release.actions.add_publish', 'plus', ['type' => 'publish'])
+        $table->addItemGetAction(Routes::RELEASE_ADD_REVISIONS, 'release.actions.add_publish', 'plus', ['type' => 'publish'], ['data-testid' => 'release-action-add-publish'])
             ->addCondition(new Terms('status', [Release::WIP_STATUS]));
-        $table->addItemGetAction(Routes::RELEASE_ADD_REVISIONS, 'release.actions.add_unpublish', 'minus', ['type' => 'unpublish'])
+        $table->addItemGetAction(Routes::RELEASE_ADD_REVISIONS, 'release.actions.add_unpublish', 'minus', ['type' => 'unpublish'], ['data-testid' => 'release-action-add-unpublish'])
             ->addCondition(new Terms('status', [Release::WIP_STATUS]));
-        $table->addItemGetAction(Routes::RELEASE_SET_STATUS, 'release.actions.set_status_ready', 'play', ['status' => Release::READY_STATUS])
+        $table->addItemGetAction(Routes::RELEASE_SET_STATUS, 'release.actions.set_status_ready', 'play', ['status' => Release::READY_STATUS], ['data-testid' => 'release-action-set-status-ready'])
             ->addCondition(new Terms('status', [Release::WIP_STATUS]))
             ->addCondition(new NotEmpty('revisionsOuuids'));
-        $table->addItemGetAction(Routes::RELEASE_SET_STATUS, 'release.actions.set_status_wip', 'rotate-left', ['status' => Release::WIP_STATUS])
+        $table->addItemGetAction(Routes::RELEASE_SET_STATUS, 'release.actions.set_status_wip', 'rotate-left', ['status' => Release::WIP_STATUS], ['data-testid' => 'release-action-set-status-wip'])
             ->addCondition(new Terms('status', [Release::CANCELED_STATUS]));
-        $table->addItemPostAction(Routes::RELEASE_PUBLISH, 'release.actions.publish_release', 'toggle-on', 'release.actions.publish_confirm')
+        $table->addItemPostAction(Routes::RELEASE_PUBLISH, 'release.actions.publish_release', 'toggle-on', 'release.actions.publish_confirm', [], ['data-testid' => 'release-action-publish'])
             ->addCondition(new Terms('status', [Release::READY_STATUS]));
-        $table->addItemGetAction(Routes::RELEASE_SET_STATUS, 'release.actions.set_status_canceled', 'ban', ['status' => Release::CANCELED_STATUS])
+        $table->addItemGetAction(Routes::RELEASE_SET_STATUS, 'release.actions.set_status_canceled', 'ban', ['status' => Release::CANCELED_STATUS], ['data-testid' => 'release-action-set-status-canceled'])
             ->addCondition(new Terms('status', [Release::READY_STATUS]));
-        $table->addItemPostAction(Routes::RELEASE_DELETE, 'release.actions.delete', 'trash', 'release.actions.delete_confirm')
+        $table->addItemPostAction(Routes::RELEASE_DELETE, 'release.actions.delete', 'trash', 'release.actions.delete_confirm', [], ['data-testid' => 'release-action-delete'])
             ->setButtonType('outline-danger');
         $table->addTableAction(TableAbstract::DELETE_ACTION, 'fa fa-trash', 'release.actions.delete_selected', 'release.actions.delete_selected_confirm')->setCssClass('btn btn-outline-danger');
     }

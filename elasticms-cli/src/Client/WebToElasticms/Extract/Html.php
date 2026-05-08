@@ -39,6 +39,7 @@ class Html
     {
         $stream = $result->getResponse()->getBody();
         $stream->rewind();
+
         $crawler = new Crawler($stream->getContents());
         $this->autoDiscoverResources($crawler, $resource);
         foreach ($analyzer->getExtractors() as $extractor) {
@@ -60,7 +61,7 @@ class Html
 
             switch ($extractor->getStrategy()) {
                 case Extractor::FIRST:
-                    if (0 === \count($basket)) {
+                    if ([] === $basket) {
                         $this->rapport->addExtractError($resource, $extractor, $content->count());
                     } else {
                         if (\count($basket) > 1) {
@@ -84,7 +85,7 @@ class Html
                     }
                     break;
                 case Extractor::N:
-                    if (\count($basket) > 0) {
+                    if ([] !== $basket) {
                         $this->assignExtractedProperty($resource, $extractor, $data, $basket);
                     }
                     break;
@@ -100,7 +101,7 @@ class Html
     protected function assignExtractedProperty(WebResource $resource, Extractor $extractor, array &$data, mixed $content): void
     {
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
-        $property = \str_replace(['%locale%'], [$resource->getLocale()], (string) $extractor->getProperty());
+        $property = \str_replace(['%locale%'], [$resource->getLocale()], $extractor->getProperty());
         $propertyAccessor->setValue($data, $property, $content);
     }
 

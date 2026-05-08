@@ -14,6 +14,7 @@ use EMS\CommonBundle\Contracts\Generator\Pdf\PdfGeneratorInterface;
 use EMS\CommonBundle\Contracts\Log\LocalizedLoggerFactoryInterface;
 use EMS\CommonBundle\Contracts\Spreadsheet\SpreadsheetGeneratorServiceInterface;
 use EMS\CommonBundle\Contracts\Twig\TemplateFactoryInterface;
+use EMS\CommonBundle\Elasticsearch\ElasticaLogger;
 
 return static function (ContainerConfigurator $container) {
     $services = $container->services();
@@ -27,7 +28,7 @@ return static function (ContainerConfigurator $container) {
 
     $services->alias(CoreApiFactoryInterface::class, 'ems_common.core_api.factory');
 
-    $services->alias(QueryLoggerInterface::class, 'ems_common.elasticsearch.elastica_logger');
+    $services->alias(QueryLoggerInterface::class, ElasticaLogger::class);
 
     $services->alias(FileReaderInterface::class, 'ems_common.file.reader');
 

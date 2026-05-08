@@ -407,44 +407,55 @@ function syncActive(
     })
 }
 
-function buildPreviewHtml(groups: StyleGroup[], contentCss?: string | null): string {
-    const cssLink = contentCss ? `<link rel="stylesheet" href="${contentCss}">` : ''
+function buildStyleItem(s: CkeditorStyle): string {
+    if (OBJECT_ELEMENTS.has(s.element)) {
+        return `<li data-name="${s.name}"><span>${s.name}</span></li>`
+    }
 
-    const html = groups
-        .map((group) => {
-            const items = group.styles
-                .map((s) => {
-                    if (OBJECT_ELEMENTS.has(s.element)) {
-                        return `<li data-name="${s.name}"><span>${s.name}</span></li>`
-                    }
-                    const tag = s.element
-                    const cls = s.attributes?.class ? ` class="${s.attributes.class}"` : ''
-                    const style = stylesToString(s.styles)
-                    const styleAttr = style ? ` style="${style}"` : ''
-                    return `<li data-name="${s.name}"><${tag}${cls}${styleAttr}>${s.name}</${tag}></li>`
-                })
-                .join('')
+    const cls = s.attributes?.class ? ` class="${s.attributes.class}"` : ''
+    const style = stylesToString(s.styles)
+    const styleAttr = style ? ` style="${style}"` : ''
 
-            return `<div class="style-group" data-group="${group.label}">
+    return `<li data-name="${s.name}"><${s.element}${cls}${styleAttr}>${s.name}</${s.element}></li>`
+}
+
+function buildStyleGroup(group: StyleGroup): string {
+    const items = group.styles.map(buildStyleItem).join('')
+
+    return `
+        <div class="style-group" data-group="${group.label}">
             <div class="style-group-label">${group.label}</div>
             <ul>${items}</ul>
         </div>`
-        })
-        .join('')
+}
 
-    return `<!DOCTYPE html><html><head>${cssLink}<style>
-*{box-sizing:border-box}
-body{margin:0;padding:0;font-family:sans-serif}
-ul{list-style:none;margin:0;padding:0}
-li{padding:4px 12px;cursor:pointer}
-li:hover,li.active{background:#e9ecef}
-h1,h2,h3,h4,h5,h6,p,div,pre,address,blockquote{margin:0}
-.style-group-label{padding:4px 12px;font-size:11px;font-weight:bold;color:#888;text-transform:uppercase;border-bottom:1px solid #eee;cursor: default;}
-.style-group{display:none}
-.style-group.visible{display:block}
-.style-group.visible~.style-group.visible{border-top:1px solid #dee2e6}
-.marker { background-color: #ffff00;}
-</style></head><body>${html}</body></html>`
+function buildPreviewHtml(groups: StyleGroup[], contentCss?: string | null): string {
+    const cssLink = contentCss ? `<link rel="stylesheet" href="${contentCss}">` : ''
+    const body = groups.map(buildStyleGroup).join('')
+
+    const previewCss = `
+        * { box-sizing: border-box }
+        body { margin: 0; padding: 0; font-family: sans-serif }
+        ul { list-style: none; margin: 0; padding: 0 }
+        li { padding: 4px 12px; cursor: pointer }
+        li:hover, li.active { background: #e9ecef }
+        h1,h2,h3,h4,h5,h6,p,div,pre,address,blockquote { margin: 0 }
+        .style-group { display: none }
+        .style-group.visible { display: block }
+        .style-group.visible ~ .style-group.visible { border-top: 1px solid #dee2e6 }
+        .style-group-label {
+            padding: 4px 12px;
+            font-size: 11px;
+            font-weight: bold;
+            color: #888;
+            text-transform: uppercase;
+            border-bottom: 1px solid #eee;
+            cursor: default;
+        }
+        .marker { background-color: #ffff00 }
+    `
+
+    return `<!DOCTYPE html><html lang="en"><head>${cssLink}<style>${previewCss}</style></head><body>${body}</body></html>`
 }
 
 function updateVisibleGroups(

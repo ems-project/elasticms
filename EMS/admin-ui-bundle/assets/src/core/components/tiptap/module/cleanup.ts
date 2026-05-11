@@ -14,6 +14,20 @@ export const cleanupModule: TiptapModule = {
                     if (mark !== 'anchor') chain.unsetMark(mark)
                 })
                 chain.clearNodes().run()
+            },
+            isDisabled: (e) => {
+                const { state } = e.tiptap
+                if (state.selection.empty) return true
+
+                const { from, to } = state.selection
+                let hasFormatting = false
+
+                state.doc.nodesBetween(from, to, (node) => {
+                    if (node.marks.length > 0) hasFormatting = true
+                    if (!node.isText && node.type !== state.schema.nodes['paragraph']) hasFormatting = true
+                })
+
+                return !hasFormatting
             }
         }
     ]

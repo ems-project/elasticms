@@ -78,41 +78,39 @@ interface LinkContext {
     email: string
     subject: string
     body: string
+    phone: string
 }
 
 function getLinkContext(e: TiptapEditor): LinkContext {
     const attrs = e.tiptap.getAttributes('link')
     const href = attrs?.href ?? ''
     const target = attrs?.target ?? ''
+    const empty = { anchor: '', email: '', subject: '', body: '', phone: '' }
 
     if (href.startsWith('mailto:')) {
         const clean = href.replace('mailto:', '')
         const [email, query] = clean.split('?')
         const params = new URLSearchParams(query || '')
         return {
+            ...empty,
             type: 'email',
             href,
             target,
-            anchor: '',
             email: email || '',
             subject: params.get('subject') || '',
             body: params.get('body') || ''
         }
     }
 
-    if (href.startsWith('#')) {
-        return {
-            type: 'anchor',
-            href,
-            target,
-            anchor: href.slice(1),
-            email: '',
-            subject: '',
-            body: ''
-        }
+    if (href.startsWith('tel:')) {
+        return { ...empty, type: 'phone', href, target, phone: href.replace('tel:', '') }
     }
 
-    return { type: 'url', href, target, anchor: '', email: '', subject: '', body: '' }
+    if (href.startsWith('#')) {
+        return { ...empty, type: 'anchor', href, target, anchor: href.slice(1) }
+    }
+
+    return { ...empty, type: 'url', href, target }
 }
 
 function getAnchorsFromDoc(e: TiptapEditor): string[] {
@@ -136,6 +134,7 @@ function buildTypeSection(ctx: LinkContext) {
             <option value="url"${ctx.type === 'url' ? ' selected' : ''}>URL</option>
             <option value="anchor"${ctx.type === 'anchor' ? ' selected' : ''}>Link to anchor in the text</option>
             <option value="email"${ctx.type === 'email' ? ' selected' : ''}>E-mail</option>
+            <option value="phone"${ctx.type === 'phone' ? ' selected' : ''}>Phone</option>
         </select>
     </div>`
 }
@@ -197,6 +196,15 @@ function buildEmailFields(ctx: LinkContext) {
     </div>`
 }
 
+function buildPhoneFields(ctx: LinkContext) {
+    return `<div id="link-fields-phone" style="display: none; flex-direction: column; gap: 10px;">
+        <div>
+            <label for="link-phone">Phone Number <span style="color: red">*</span></label>
+            <input type="tel" id="link-phone" value="${esc(ctx.phone)}" required>
+        </div>
+    </div>`
+}
+
 function buildHref(type: string): { href: string; target: string | null } | null {
     if (type === 'url') {
         const input = document.getElementById('link-url') as HTMLInputElement
@@ -223,11 +231,17 @@ function buildHref(type: string): { href: string; target: string | null } | null
         return { href: `mailto:${input.value.trim()}${qs ? '?' + qs : ''}`, target: null }
     }
 
+    if (type === 'phone') {
+        const input = document.getElementById('link-phone') as HTMLInputElement
+        if (!input.reportValidity()) return null
+        return { href: `tel:${input.value.trim()}`, target: null }
+    }
+
     return null
 }
 
 function showFields(type: string) {
-    ;['url', 'anchor', 'email'].forEach((t) => {
+    ;['url', 'anchor', 'email', 'phone'].forEach((t) => {
         const el = document.getElementById(`link-fields-${t}`)
         if (el) el.style.display = t === type ? 'flex' : 'none'
     })
@@ -247,6 +261,7 @@ function openLinkDialog(e: TiptapEditor) {
             ${buildUrlFields(ctx)}
             ${buildAnchorFields(ctx, anchors)}
             ${buildEmailFields(ctx)}
+            ${buildPhoneFields(ctx)}
         </div>`
     )
 

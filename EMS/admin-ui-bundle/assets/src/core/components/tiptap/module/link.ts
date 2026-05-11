@@ -1,5 +1,6 @@
 import { Mark, mergeAttributes } from '@tiptap/core'
 import IconLink from '@tabler/icons/outline/link.svg?raw'
+import IconLinkOff from '@tabler/icons/outline/link-off.svg?raw'
 import { TiptapModule } from '../types.ts'
 import { Dialog } from '../../dialog.ts'
 import { TiptapEditor } from '../editor.ts'
@@ -15,6 +16,16 @@ export const linkModule: TiptapModule = {
             order: 1,
             command: (e) => openLinkDialog(e),
             isActive: (e) => e.tiptap.isActive('link')
+        },
+        {
+            name: 'Unlink',
+            icon: IconLinkOff,
+            tooltip: 'Unlink',
+            order: 2,
+            command: (e) =>
+                e.tiptap.chain().focus().extendMarkRange('link').unsetMark('link').run(),
+            isActive: () => false,
+            isDisabled: (e) => !e.tiptap.isActive('link')
         }
     ],
     contextMenuNode: 'link',

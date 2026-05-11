@@ -21,7 +21,7 @@ export const anchorModule: TiptapModule = {
         }
     ],
     contextMenuNode: 'anchor',
-    contextMenuSelector: 'a[name]:not([href])',
+    contextMenuSelector: 'a[id]:not([href])',
     contextMenu: [
         {
             label: 'Edit Anchor',
@@ -49,13 +49,12 @@ function getAnchorExtension() {
 
             addAttributes() {
                 return {
-                    id: { default: null },
-                    name: { default: null }
+                    id: { default: null }
                 }
             },
 
             parseHTML() {
-                return [{ tag: 'a[name]:not([href])' }]
+                return [{ tag: 'a[id]:not([href])' }]
             },
 
             renderHTML({ HTMLAttributes }) {
@@ -82,11 +81,7 @@ function openAnchorDialog(e: TiptapEditor, target?: Element | null) {
 
     const el = selectAnchorEl(e, target)
     const isEdit = !!el || e.tiptap.isActive('anchor')
-    const existing =
-        el?.getAttribute('name') ??
-        el?.getAttribute('id') ??
-        e.tiptap.getAttributes('anchor')?.id ??
-        ''
+    const existing = el?.getAttribute('id') ?? e.tiptap.getAttributes('anchor')?.id ?? ''
 
     dialog.setContent(
         `<div style="display: flex; flex-direction: column; gap: 10px; width: 300px;">
@@ -103,17 +98,17 @@ function openAnchorDialog(e: TiptapEditor, target?: Element | null) {
         const name = input.value.trim()
         const chain = e.tiptap.chain().focus()
         if (isEdit) {
-            chain.extendMarkRange('anchor').setMark('anchor', { id: name, name }).run()
+            chain.extendMarkRange('anchor').setMark('anchor', { id: name }).run()
         } else if (from === to) {
             chain
                 .insertContent({
                     type: 'text',
                     text: '\u200B',
-                    marks: [{ type: 'anchor', attrs: { id: name, name } }]
+                    marks: [{ type: 'anchor', attrs: { id: name } }]
                 })
                 .run()
         } else {
-            chain.setTextSelection({ from, to }).setMark('anchor', { id: name, name }).run()
+            chain.setTextSelection({ from, to }).setMark('anchor', { id: name }).run()
         }
         dialog.close()
     }

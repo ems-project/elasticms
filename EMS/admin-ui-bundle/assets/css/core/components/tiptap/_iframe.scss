@@ -19,7 +19,7 @@
     margin-top: 0.5em;
   }
 
-  a[name]:not([href]) {
+  a[id]:not([href]) {
     position: relative;
     border: 1px dotted;
     padding-left: 18px;

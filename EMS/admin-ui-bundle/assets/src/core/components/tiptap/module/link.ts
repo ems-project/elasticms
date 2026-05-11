@@ -119,7 +119,7 @@ function getAnchorsFromDoc(e: TiptapEditor): string[] {
     const anchors: string[] = []
     e.tiptap.state.doc.descendants((node) => {
         node.marks?.forEach((mark) => {
-            if (mark.type.name === 'anchor' && mark.attrs.name) anchors.push(mark.attrs.name)
+            if (mark.type.name === 'anchor' && mark.attrs.id) anchors.push(mark.attrs.id)
         })
     })
     return [...new Set(anchors)]
@@ -257,6 +257,14 @@ function openLinkDialog(e: TiptapEditor) {
         const chain = e.tiptap.chain().focus()
         if (isEdit) {
             chain.extendMarkRange('link').setMark('link', result).run()
+        } else if (from === to) {
+            chain
+                .insertContent({
+                    type: 'text',
+                    text: result.href,
+                    marks: [{ type: 'link', attrs: result }]
+                })
+                .run()
         } else {
             chain.setTextSelection({ from, to }).setMark('link', result).run()
         }

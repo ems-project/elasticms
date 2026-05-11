@@ -5,6 +5,13 @@ import { TiptapModule } from '../types.ts'
 import { Dialog } from '../../dialog.ts'
 import { TiptapEditor } from '../editor.ts'
 
+const URL_TYPE_OPTIONS: { value: string; label: string }[] = [
+    { value: 'url', label: 'URL' },
+    { value: 'anchor', label: 'Link to anchor in the text' },
+    { value: 'email', label: 'E-mail' },
+    { value: 'phone', label: 'Phone' }
+]
+
 export const linkModule: TiptapModule = {
     extensions: getLinkExtension(),
     toolbarGroup: 'links',
@@ -127,15 +134,17 @@ function esc(v: string) {
     return v.replace(/"/g, '&quot;')
 }
 
-function buildTypeSection(ctx: LinkContext) {
+function buildTypeSection(ctx: LinkContext, urlTypes?: string[]) {
+    const options = URL_TYPE_OPTIONS.filter((o) => !urlTypes || urlTypes.includes(o.value))
+        .map(
+            (o) =>
+                `<option value="${o.value}"${ctx.type === o.value ? ' selected' : ''}>${o.label}</option>`
+        )
+        .join('')
+
     return `<div>
         <label for="link-type">Link Type</label>
-        <select id="link-type">
-            <option value="url"${ctx.type === 'url' ? ' selected' : ''}>URL</option>
-            <option value="anchor"${ctx.type === 'anchor' ? ' selected' : ''}>Link to anchor in the text</option>
-            <option value="email"${ctx.type === 'email' ? ' selected' : ''}>E-mail</option>
-            <option value="phone"${ctx.type === 'phone' ? ' selected' : ''}>Phone</option>
-        </select>
+        <select id="link-type">${options}</select>
     </div>`
 }
 
@@ -250,21 +259,24 @@ function showFields(type: string) {
 }
 
 function openLinkDialog(e: TiptapEditor) {
-    const dialog = new Dialog('Link', { draggable: true })
-
+    const urlTypes = e.profile.config.ems?.urlTypes
     const { from, to } = e.tiptap.state.selection
     const isEdit = e.tiptap.isActive('link')
     const ctx = getLinkContext(e)
     const anchors = getAnchorsFromDoc(e)
 
+    const availableTypes = urlTypes ?? URL_TYPE_OPTIONS.map((o) => o.value)
+    if (!availableTypes.includes(ctx.type)) ctx.type = availableTypes[0]
+
+    const dialog = new Dialog('Link', { draggable: true })
     dialog.setContent(
         `<div style="display: flex; flex-direction: column; gap: 10px; width: 400px;">
-            ${buildTypeSection(ctx)}
-            ${buildUrlFields(ctx)}
-            ${buildAnchorFields(ctx, anchors)}
-            ${buildEmailFields(ctx)}
-            ${buildPhoneFields(ctx)}
-        </div>`
+        ${buildTypeSection(ctx, urlTypes)}
+        ${availableTypes.includes('url') ? buildUrlFields(ctx) : ''}
+        ${availableTypes.includes('anchor') ? buildAnchorFields(ctx, anchors) : ''}
+        ${availableTypes.includes('email') ? buildEmailFields(ctx) : ''}
+        ${availableTypes.includes('phone') ? buildPhoneFields(ctx) : ''}
+    </div>`
     )
 
     const apply = () => {

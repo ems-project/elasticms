@@ -37,8 +37,8 @@ export const linkModule: TiptapModule = {
             command: (e) => openLinkDialog(e)
         },
         {
-            label: 'Remove Link',
-            icon: IconLink,
+            label: 'Unlink',
+            icon: IconLinkOff,
             order: 1,
             command: (e) => e.tiptap.chain().focus().extendMarkRange('link').unsetMark('link').run()
         }

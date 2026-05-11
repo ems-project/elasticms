@@ -66,7 +66,7 @@ function getAnchorExtension() {
 
 function selectAnchorEl(e: TiptapEditor, target?: Element | null) {
     const el = (target as HTMLElement | null)?.closest(
-        'a[name]:not([href])'
+        'a[id]:not([href])'
     ) as HTMLAnchorElement | null
     if (!el) return null
     const pos = e.tiptap.view.posAtDOM(el.firstChild ?? el, 0)

@@ -260,6 +260,7 @@ function showFields(type: string) {
 
 function openLinkDialog(e: TiptapEditor) {
     const urlTypes = e.profile.config.ems?.urlTypes
+    const urlTargetDefaultBlank = e.profile.config.ems?.urlTargetDefaultBlank
     const { from, to } = e.tiptap.state.selection
     const isEdit = e.tiptap.isActive('link')
     const ctx = getLinkContext(e)
@@ -267,6 +268,10 @@ function openLinkDialog(e: TiptapEditor) {
 
     const availableTypes = urlTypes ?? URL_TYPE_OPTIONS.map((o) => o.value)
     if (!availableTypes.includes(ctx.type)) ctx.type = availableTypes[0]
+
+    if (!isEdit && !ctx.target && urlTargetDefaultBlank?.includes(ctx.type)) {
+        ctx.target = '_blank'
+    }
 
     const dialog = new Dialog('Link', { draggable: true })
     dialog.setContent(

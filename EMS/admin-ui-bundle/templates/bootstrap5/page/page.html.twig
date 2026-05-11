@@ -19,16 +19,18 @@
     {% if datatable.title is defined %}{% set tableOptions = tableOptions|merge({table_title: datatable.title|trans}) %}{% endif %}
 
     {% form_theme datatable.form '@EMSAdminUI/bootstrap5/form/forms.html.twig' %}
-    {{ form(datatable.form, tableOptions) }}
+    <div class="card">
+        <div class="card-body">
+            {{ form(datatable.form, tableOptions) }}
+        </div>
+    </div>
 {%- endblock render_datatable -%}
 
 {% block render_datatables %}
     <div class="row">
         {% for datatable in datatables %}
             <div class="{{ datatables|length == 2 ? 'col-md-6' : 'col-md-12' }}">
-                <div>
-                    {{ block('render_datatable') }}
-                </div>
+                {{ block('render_datatable') }}
             </div>
         {% endfor %}
     </div>

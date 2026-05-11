@@ -47,9 +47,9 @@
 {% endblock %}
 
 {% block EMS_CoreBundle_Form_DataField_AssetFieldType %}
-    <div class="card card-default">
-        <div class="card-heading">
-            <h3 class="card-title">
+    <div class="card border">
+        <div class="card-header pb-0">
+            <h3 class="card-title mb-0">
                 <i class="{% if dataField.fieldType.displayOptions.icon is defined %}{{ dataField.fieldType.displayOptions.icon }}{% else %}fa fa-file-o{% endif %}"></i>
                 {% if dataField.fieldType.displayOptions.label is defined %}
                     {{ dataField.fieldType.displayOptions.label }}
@@ -82,7 +82,6 @@
         {% endif %}
 
         <div class="card-body row">
-
             {% if showB %}
                 <div class="{% if showA and showB %} col-md-6{% endif %} asset-preview-tab" >
 
@@ -117,7 +116,7 @@
                                 <ins class="diffmod">
                             {% endif %}
                             <a href="{{ ems_asset_path(dataField.rawData) }}" target="_blank">
-                                <img src="{{ path }}" class="img-responsive pad  {{ compareColor }}" alt="Image of the field {{ dataField.fieldType.name }}">
+                                <img src="{{ path }}" class="img-fluid {{ compareColor }}" alt="Image of the field {{ dataField.fieldType.name }}">
                             </a>
                             {% if doCompare %}
                                 </ins>
@@ -148,19 +147,19 @@
             {% endif %}
         </div>
         {% if dataField.rawData and dataField.rawData.sha1 is defined and dataField.rawData.sha1 %}
-            <div class="card-footer" >
+            <div class="card-footer pt-0">
                 {# {% if doCompare and showB %} #}
-                {# <a href="{{ path('ems.file.view', {'sha1':attribute(compareRawData, dataField.fieldType.name).sha1, 'type':attribute(compareRawData, dataField.fieldType.name).mimetype, 'name':attribute(compareRawData, dataField.fieldType.name).filename }) }}" class="btn btn-small btn-default"><i class="fa fa-history"></i>&nbsp;{{'View Previous'|trans}}</a> #}
+                {# <a href="{{ path('ems.file.view', {'sha1':attribute(compareRawData, dataField.fieldType.name).sha1, 'type':attribute(compareRawData, dataField.fieldType.name).mimetype, 'name':attribute(compareRawData, dataField.fieldType.name).filename }) }}" class="btn btn-small btn-light"><i class="fa fa-history"></i>&nbsp;{{'View Previous'|trans}}</a> #}
                 {# {% endif %} #}
 
                 {% set tempId = dataField.fieldType.name ~ '_' ~ random() %}
                 <div class="btn-group">
-                    <button type="button" class="btn btn-small btn-default asset-details" data-bs-toggle="modal" data-bs-target="#indexed-details-revision_{{ tempId }}">
+                    <button type="button" class="btn btn-small btn-light asset-details" data-bs-toggle="modal" data-bs-target="#indexed-details-revision_{{ tempId }}">
                         <i class="fa fa-info"></i>
                         {{ 'Info'|trans }}
                     </button>
-                    <a href="{{ ems_asset_path(dataField.rawData, {_disposition: 'attachment'}) }}" class="btn btn-small btn-default"><i class="fa fa-download"></i>&nbsp;{{ 'Download'|trans }}</a>
-                    {# <a href="{{ path('ems.file.view', {'sha1':dataField.rawData.sha1, 'type':dataField.rawData.mimetype, 'name':dataField.rawData.filename }) }}" class="btn btn-small btn-default"><i class="fa fa-eye"></i>&nbsp;{{'View'|trans}}</a> #}
+                    <a href="{{ ems_asset_path(dataField.rawData, {_disposition: 'attachment'}) }}" class="btn btn-small btn-light"><i class="fa fa-download"></i>&nbsp;{{ 'Download'|trans }}</a>
+                    {# <a href="{{ path('ems.file.view', {'sha1':dataField.rawData.sha1, 'type':dataField.rawData.mimetype, 'name':dataField.rawData.filename }) }}" class="btn btn-small btn-light"><i class="fa fa-eye"></i>&nbsp;{{'View'|trans}}</a> #}
                 </div>
                 <div class="modal" tabindex="-1" role="dialog" id="indexed-details-revision_{{ tempId }}">
                     <div class="modal-dialog" role="document">
@@ -233,7 +232,7 @@
     {% set compareCollectionRawData = (attribute(compareRawData, dataField.fieldType.name) is defined ? attribute(compareRawData, dataField.fieldType.name) : null) %}
     {% set diffCount = dataField.getChildren|length - compareCollectionRawData|length %}
 
-    <div class="card card-default {% if collapsible %}collapsible-collection{% endif %}">
+    <div class="card border {% if collapsible %}collapsible-collection{% endif %}">
         <div class="card-heading">
             <h3 class="card-title">
                 {% if dataField.fieldType.displayOptions.icon is defined %}
@@ -267,7 +266,7 @@
                 {% set child = dataField.getChildren[loop.index0] %}
                 {% set subpath = path|merge([loop.index0]) %}
                 <div class="{% if dataField.fieldType.displayOptions.itemBootstrapClass is defined and dataField.fieldType.displayOptions.itemBootstrapClass %}{{ dataField.fieldType.displayOptions.itemBootstrapClass }}{% else %}col-md-12{% endif %}">
-                    <div class="card card-default">
+                    <div class="card border">
                         <div class="card-heading">
                             <h3 class="card-title">
                                 {% if dataField.fieldType.displayOptions.icon is defined %}
@@ -324,24 +323,21 @@
     {% set parentType = parent ? parent.type : false %}
 
     {% if dataField.fieldType.displayOptions.label is defined and dataField.fieldType.displayOptions.label %}
-        <div class="card card-default">
-            {% if parentType not in ['EMS\\CoreBundle\\Form\\DataField\\TabsFieldType', 'EMS\\CoreBundle\\Form\\DataField\\MultiplexedTabContainerFieldType'] %}
-                <div class="card-heading">
-                    <h3 class="card-title">
-                        {% if dataField.fieldType.displayOptions.icon is defined %}
-                            <i class="{{ dataField.fieldType.displayOptions.icon }}"></i>
-                        {% endif %}
-                        {% if dataField.fieldType.displayOptions.label is defined and dataField.fieldType.displayOptions.label %}
-                            {{ dataField.fieldType.displayOptions.label }}
-                        {% else %}
-                            {{ dataField.fieldType.name }}
-                        {% endif %}
-                    </h3>
-                </div>
-            {% endif %}
-        <div class="card-body container-fluid">
+        {% if parentType not in ['EMS\\CoreBundle\\Form\\DataField\\TabsFieldType', 'EMS\\CoreBundle\\Form\\DataField\\MultiplexedTabContainerFieldType'] %}
+            <div class="card-header">
+                <h3 class="card-title">
+                    {% if dataField.fieldType.displayOptions.icon is defined %}
+                        <i class="{{ dataField.fieldType.displayOptions.icon }}"></i>
+                    {% endif %}
+                    {% if dataField.fieldType.displayOptions.label is defined and dataField.fieldType.displayOptions.label %}
+                        {{ dataField.fieldType.displayOptions.label }}
+                    {% else %}
+                        {{ dataField.fieldType.name }}
+                    {% endif %}
+                </h3>
+            </div>
+        {% endif %}
     {% endif %}
-
     <div class="row">
         {% for child in dataField.getChildren|filter(c => false == c.fieldType.deleted) %}
             {% if child.fieldType.type in ['EMS\\CoreBundle\\Form\\DataField\\FormFieldType'] %}
@@ -356,16 +352,13 @@
             {% endif %}
         {% endfor %}
     </div>
-    {% if dataField.fieldType.displayOptions.label is defined and dataField.fieldType.displayOptions.label %}
-        </div>
-        </div>
-    {% endif %}
+
     {{ _self.messages(dataField) }}
 {% endblock %}
 
 {% block EMS_CoreBundle_Form_DataField_NestedFieldType %}
     {% if dataField.fieldType.displayOptions.label is defined %}
-        <div class="card card-default">
+        <div class="card border">
         <div class="card-heading">
             <h3 class="card-title">
                 {% if dataField.fieldType.displayOptions.icon is defined %}
@@ -403,39 +396,33 @@
 {% endblock %}
 
 {% block EMS_CoreBundle_Form_DataField_MultiplexedTabContainerFieldType %}
-<div class="card card-{{ theme_color }} card-outline card-outline-tabs">
-    <div class="card-header p-0 border-bottom-0">
-        <ul class="nav nav-tabs" role="tablist">
-            {% for key, item in dataField.getChildren %}
-                <li class="nav-item {% if loop.index == 1 %}active{% endif %}">
-                    <a href="#item_{{ path|join('_') ~ '_' ~ loop.index0 }}__tab" data-bs-toggle="pill" class="nav-link{% if loop.index == 1 %} active{% endif %}" id="{{ path|join('_') ~ '_' ~ loop.index0 }}-tab"  data-bs-target="#item_{{ path|join('_') ~ '_' ~ loop.index0 }}__tab" role="tab" aria-selected="{% if loop.index == 1 %}true{% else %}false{% endif %}">
-                        {{ item.formLabel ?? key }}
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
-    <div class="card-body">
-        <div class="tab-content">
-            {% for key, item in dataField.getChildren %}
-                <div class="tab-pane{% if loop.index == 1 %} active{% endif %}" id="item_{{ path|join('_') ~ '_' ~ loop.index0 }}__tab">
-                    {% set childData = source[key]|default([]) %}
-                    {% set childCompareData = compareRawData[key]|default([]) %}
-                    <div class="row">
-                        {% for grandchild in item.getChildren|default([]) %}
-                            <div class="{% if grandchild.fieldType.displayOptions.class is defined and grandchild.fieldType.displayOptions.class %}{{ grandchild.fieldType.displayOptions.class }}{% else %}col-md-12{% endif %}">
-                                {{ _self.renderDataFieldBlock(grandchild, childData, compare, childCompareData, '', path|merge([loop.index0]), locale) }}
-                            </div>
-                            {% if grandchild.fieldType.displayOptions.lastOfRow is defined and grandchild.fieldType.displayOptions.lastOfRow %}
-                                <div class="clearfix"></div>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
+    <ul class="nav nav-tabs" role="tablist">
+        {% for key, item in dataField.getChildren %}
+            <li class="nav-item {% if loop.index == 1 %}active{% endif %}">
+                <a href="#item_{{ path|join('_') ~ '_' ~ loop.index0 }}__tab" data-bs-toggle="pill" class="nav-link{% if loop.index == 1 %} active{% endif %}" id="{{ path|join('_') ~ '_' ~ loop.index0 }}-tab"  data-bs-target="#item_{{ path|join('_') ~ '_' ~ loop.index0 }}__tab" role="tab" aria-selected="{% if loop.index == 1 %}true{% else %}false{% endif %}">
+                    {{ item.formLabel ?? key }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+    <div class="tab-content">
+        {% for key, item in dataField.getChildren %}
+            <div class="tab-pane{% if loop.index == 1 %} active{% endif %}" id="item_{{ path|join('_') ~ '_' ~ loop.index0 }}__tab">
+                {% set childData = source[key]|default([]) %}
+                {% set childCompareData = compareRawData[key]|default([]) %}
+                <div class="row">
+                    {% for grandchild in item.getChildren|default([]) %}
+                        <div class="{% if grandchild.fieldType.displayOptions.class is defined and grandchild.fieldType.displayOptions.class %}{{ grandchild.fieldType.displayOptions.class }}{% else %}col-md-12{% endif %}">
+                            {{ _self.renderDataFieldBlock(grandchild, childData, compare, childCompareData, '', path|merge([loop.index0]), locale) }}
+                        </div>
+                        {% if grandchild.fieldType.displayOptions.lastOfRow is defined and grandchild.fieldType.displayOptions.lastOfRow %}
+                            <div class="clearfix"></div>
+                        {% endif %}
+                    {% endfor %}
                 </div>
-            {% endfor %}
-        </div>
+            </div>
+        {% endfor %}
     </div>
-</div>
 {% endblock %}
 
 {% block tabsfieldtype_widget_tab_label_per_item %}
@@ -450,92 +437,86 @@
 {% endblock tabsfieldtype_widget_tab_label_per_item %}
 
 {% block EMS_CoreBundle_Form_DataField_TabsFieldType %}
-    <div class="card card-{{ theme_color }} card-outline card-outline-tabs">
-        <div class="card-header p-0 border-bottom-0">
-            <ul class="nav nav-tabs">
-                {% set counter = 1 %}
-                {% set tabs = dataField.getChildren|filter(child => not child.fieldType.deleted) %}
-                {% set tabsLocalePreferredFirst = dataField.fieldType.displayOptions.localePreferredFirst|default(false) %}
-                {% if tabsLocalePreferredFirst and app.user.language in tabs|keys %}
-                    {% set tabs = tabs|sort((a, b) => a.fieldType.name == app.user.language ? -1 : b.fieldType.name == app.user.language ? 1 : 0) %}
-                {% endif %}
+    <ul class="nav nav-tabs">
+        {% set counter = 1 %}
+        {% set tabs = dataField.getChildren|filter(child => not child.fieldType.deleted) %}
+        {% set tabsLocalePreferredFirst = dataField.fieldType.displayOptions.localePreferredFirst|default(false) %}
+        {% if tabsLocalePreferredFirst and app.user.language in tabs|keys %}
+            {% set tabs = tabs|sort((a, b) => a.fieldType.name == app.user.language ? -1 : b.fieldType.name == app.user.language ? 1 : 0) %}
+        {% endif %}
 
-                {% for child in tabs %}
-                    {% if 'EMS\\CoreBundle\\Form\\DataField\\MultiplexedTabContainerFieldType' == child.fieldType.type|default(null) %}
-                        {% for key, item in child.getChildren %}
-                            {% with {
-                                child: item,
-                                counter: counter,
-                                label: item.formLabel ?? key,
-                                path: path|merge([counter]),
-                            }
-                            %}
-                                {{ block('tabsfieldtype_widget_tab_label_per_item') }}
-                            {% endwith %}
-                            {% set counter = counter + 1 %}
-                        {% endfor %}
-                    {% else %}
-                        {% with {
-                            child: child,
-                            counter: counter,
-                            label: child.fieldType.displayOptions.label|default(child.fieldType.name),
-                            path: path|merge([counter]),
-                        }
-                        %}
-                            {{ block('tabsfieldtype_widget_tab_label_per_item') }}
-                        {% endwith %}
-                        {% set counter = counter + 1 %}
-                    {% endif %}
+        {% for child in tabs %}
+            {% if 'EMS\\CoreBundle\\Form\\DataField\\MultiplexedTabContainerFieldType' == child.fieldType.type|default(null) %}
+                {% for key, item in child.getChildren %}
+                    {% with {
+                        child: item,
+                        counter: counter,
+                        label: item.formLabel ?? key,
+                        path: path|merge([counter]),
+                    }
+                    %}
+                        {{ block('tabsfieldtype_widget_tab_label_per_item') }}
+                    {% endwith %}
+                    {% set counter = counter + 1 %}
                 {% endfor %}
-            </ul>
-        </div>
-        <div class="card-body">
-            <div class="tab-content">
-                {% set counter = 1 %}
-                {% for child in tabs %}
-                    {% if 'EMS\\CoreBundle\\Form\\DataField\\MultiplexedTabContainerFieldType' == child.fieldType.type|default(null) %}
-                        {% for key, item in child.getChildren %}
-                            {% with {
-                                child: item,
-                                counter: counter,
-                            } %}
-                                <div class="tab-pane fade{% if counter == 1 %} active show{% endif %}" id="item_{{ path|join('_') ~ '_' ~ counter }}__tab" role="tabpanel" aria-labelledby="{{ path|join('_') }}-tab">
-                                    {% set childData = source[key]|default([]) %}
-                                    {% set childCompareData = compareRawData[key]|default([]) %}
-                                    <div class="row">
-                                    {% for grandchild in child.getChildren|default([]) %}
-                                        <div class="{% if grandchild.fieldType.displayOptions.class is defined and grandchild.fieldType.displayOptions.class %}{{ grandchild.fieldType.displayOptions.class }}{% else %}col-md-12{% endif %}">
-                                            {{ _self.renderDataFieldBlock(grandchild, childData, compare, childCompareData, '', path|merge([counter]), locale) }}
-                                        </div>
-                                        {% if grandchild.fieldType.displayOptions.lastOfRow is defined and grandchild.fieldType.displayOptions.lastOfRow %}
-                                            <div class="clearfix"></div>
-                                        {% endif %}
-                                    {% endfor %}
+            {% else %}
+                {% with {
+                    child: child,
+                    counter: counter,
+                    label: child.fieldType.displayOptions.label|default(child.fieldType.name),
+                    path: path|merge([counter]),
+                }
+                %}
+                    {{ block('tabsfieldtype_widget_tab_label_per_item') }}
+                {% endwith %}
+                {% set counter = counter + 1 %}
+            {% endif %}
+        {% endfor %}
+    </ul>
+    <div class="tab-content">
+        {% set counter = 1 %}
+        {% for child in tabs %}
+            {% if 'EMS\\CoreBundle\\Form\\DataField\\MultiplexedTabContainerFieldType' == child.fieldType.type|default(null) %}
+                {% for key, item in child.getChildren %}
+                    {% with {
+                        child: item,
+                        counter: counter,
+                    } %}
+                        <div class="tab-pane fade{% if counter == 1 %} active show{% endif %}" id="item_{{ path|join('_') ~ '_' ~ counter }}__tab" role="tabpanel" aria-labelledby="{{ path|join('_') }}-tab">
+                            {% set childData = source[key]|default([]) %}
+                            {% set childCompareData = compareRawData[key]|default([]) %}
+                            <div class="row">
+                            {% for grandchild in child.getChildren|default([]) %}
+                                <div class="{% if grandchild.fieldType.displayOptions.class is defined and grandchild.fieldType.displayOptions.class %}{{ grandchild.fieldType.displayOptions.class }}{% else %}col-md-12{% endif %}">
+                                    {{ _self.renderDataFieldBlock(grandchild, childData, compare, childCompareData, '', path|merge([counter]), locale) }}
                                 </div>
-                                </div>
-                            {% endwith %}
-                            {% set counter = counter + 1 %}
-                        {% endfor %}
-                    {% elseif 'EMS\\CoreBundle\\Form\\DataField\\ContainerFieldType' == child.fieldType.type|default(null) %}
-                        <div class="tab-pane{% if counter == 1 %} active{% endif %}" id="item_{{ path|join('_') ~ '_' ~ counter }}__tab">
-                            {{ _self.renderDataFieldBlock(child, source, compare, compareRawData, '', [], locale) }}
+                                {% if grandchild.fieldType.displayOptions.lastOfRow is defined and grandchild.fieldType.displayOptions.lastOfRow %}
+                                    <div class="clearfix"></div>
+                                {% endif %}
+                            {% endfor %}
                         </div>
-                        {% set counter = counter + 1 %}
-                    {% else %}
-                        {% with {
-                            child: child,
-                            counter: counter,
-                        }
-                        %}
-                            <div class="tab-pane{% if counter == 1 %} active{% endif %}" id="item_{{ path|join('_') ~ '_' ~ counter }}__tab">
-                                {{ _self.renderDataFieldBlock(child, source, compare, compareRawData, '', path|merge([counter]), locale) }}
-                            </div>
-                        {% endwith %}
-                        {% set counter = counter + 1 %}
-                    {% endif %}
+                        </div>
+                    {% endwith %}
+                    {% set counter = counter + 1 %}
                 {% endfor %}
-            </div>
-        </div>
+            {% elseif 'EMS\\CoreBundle\\Form\\DataField\\ContainerFieldType' == child.fieldType.type|default(null) %}
+                <div class="tab-pane{% if counter == 1 %} active{% endif %}" id="item_{{ path|join('_') ~ '_' ~ counter }}__tab">
+                    {{ _self.renderDataFieldBlock(child, source, compare, compareRawData, '', [], locale) }}
+                </div>
+                {% set counter = counter + 1 %}
+            {% else %}
+                {% with {
+                    child: child,
+                    counter: counter,
+                }
+                %}
+                    <div class="tab-pane{% if counter == 1 %} active{% endif %}" id="item_{{ path|join('_') ~ '_' ~ counter }}__tab">
+                        {{ _self.renderDataFieldBlock(child, source, compare, compareRawData, '', path|merge([counter]), locale) }}
+                    </div>
+                {% endwith %}
+                {% set counter = counter + 1 %}
+            {% endif %}
+        {% endfor %}
     </div>
     {{ _self.messages(dataField) }}
 {% endblock %}
@@ -586,7 +567,7 @@
                     {{ dataField.fieldType.displayOptions.displayTemplate|emsco_generate_from_template({data: dataField.rawData, dataField: dataField})|raw }}
                 {% endif %}
             {% else %}
-                <div class="card card-default">
+                <div class="card border">
                     <div class="card-body {{ color }}">
                         {% if doCompare %}
                             <pre class="ems-code-editor col-md-6" data-language="ace/mode/json" data-theme="ace/theme/chrome">{{ compareRawData|emsco_get_string(dataField.fieldType.name)|emsco_internal_links }}</pre>
@@ -624,7 +605,7 @@
             {% endif %}
         </dt>
         <dd>
-            <div class="card card-default">
+            <div class="card border">
                 <div class="card-body">
                     {{ emsco_diff(dataField.rawData, attribute(compareRawData, dataField.fieldType.name)|default(null), compare, true, false)|nl2br }}
                 </div>
@@ -646,7 +627,7 @@
             {% endif %}
         </dt>
         <dd>
-            <div class="card card-default">
+            <div class="card border">
                 <div class="card-body {{ color }}">
                     {% if doCompare %}
                         <pre class="ems-code-editor col-md-6" data-language="ace/mode/json" data-theme="ace/theme/chrome">{{ compareRawData|emsco_get_string(dataField.fieldType.name)|emsco_internal_links }}</pre>
@@ -679,7 +660,7 @@
             {% endif %}
         </dt>
         <dd>
-            <div class="card card-default">
+            <div class="card border">
                 {% set panelBody = emsco_diff_html(dataField.rawData, compare, dataField.fieldType.name, compareRawData) %}
                 <div class="{{ html_classes('card-body', {
                     ("ems-styleset-#{dataField.fieldType.displayOptions.styles_set|default('default')}"): dataField.fieldType.displayOptions.styles_set_preview|default(false),
@@ -704,7 +685,7 @@
             {% endif %}
         </dt>
         <dd>
-            <div class="card card-default">
+            <div class="card border">
                 <div class="card-body {{ color }}">
                     {% if doCompare %}
                         <pre class="ems-code-editor col-md-6" data-language="{{ dataField.fieldType.displayOptions.language }}" data-theme="{{ dataField.fieldType.displayOptions.theme }}" {% if dataField.fieldType.displayOptions.height %}style="height: {{ dataField.fieldType.displayOptions.height }}px;"{% endif %}>{{ compareRawData|emsco_get_string(dataField.fieldType.name) }}</pre>
@@ -727,7 +708,7 @@
             <div class="nestedSortable">
                 <div class="box-header with-border">
                     {% if item.children|default({})|length > 0 %}
-                        <button href="#" type="button" title="{{ 'field_type.json_menu_editor.collapse_button'|trans }}" aria-expanded="{{ defaultClose ? 'true' : 'false' }}" class="btn btn-default button-collapse"></button>
+                        <button href="#" type="button" title="{{ 'field_type.json_menu_editor.collapse_button'|trans }}" aria-expanded="{{ defaultClose ? 'true' : 'false' }}" class="btn btn-light button-collapse"></button>
                         &nbsp;
                     {% endif %}
                     {% if item.contentType is defined %}<i class="{{ item.contentType|emsco_get_content_type.icon|default('') }}"></i>{% endif %}
@@ -759,7 +740,7 @@
             {% endif %}
         </dt>
         <dd>
-            <div class="card card-default">
+            <div class="card border">
                 <div class="card-body {{ color }}">
                     {% if doCompare %}
                         <pre class="ems-code-editor col-md-6" data-language="ace/mode/json" data-theme="ace/theme/chrome">{{ compareRawData|emsco_get_string(dataField.fieldType.name)|ems_json_decode|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
@@ -797,7 +778,7 @@
             {% endif %}
         </dt>
         <dd>
-            <div class="card card-default">
+            <div class="card border">
                 <div class="card-body {{ color }}">
                     {% if doCompare %}
                         <pre class="ems-code-editor col-md-6" data-language="ace/mode/json" data-theme="ace/theme/chrome">{{ compareRawData|emsco_get_string(dataField.fieldType.name)|default('null')|ems_json_decode|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>

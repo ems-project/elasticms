@@ -55,18 +55,15 @@
 {% endblock holder_field_type_row %}
 
 {% block container_field_type_row %}
-<div id="{{ form.vars.id }}" class="container-fluid">
-    <div class="row">
-        <div class="card card-default">
-            <div class="card-heading with-border">
-                <h3 class="card-title text-">{{- form_label(form) -}}</h3>
-            </div>
-
-              <div class="card-body">
-                  {{- form_widget(form) -}}
-              </div>
-            {{- form_errors(form) -}}
+<div id="{{ form.vars.id }}">
+    <div class="card border">
+        <div class="card-header pb-0">
+            <h3 class="card-title mb-0">{{- form_label(form) -}}</h3>
         </div>
+        <div class="card-body">
+            {{- form_widget(form) -}}
+        </div>
+        {{- form_errors(form) -}}
     </div>
 </div>
 {% endblock container_field_type_row %}
@@ -524,64 +521,58 @@
 {% endblock tabsfieldtype_widget_tab_panel_per_item %}
 
 {% block tabsfieldtype_widget -%}
-    <div class="card card-{{ theme_color }} card-outline card-outline-tabs">
-        <div class="card-header p-0 border-bottom-0">
-            <ul class="nav nav-tabs" role="tablist">
-                {% set counter = 1 %}
-                {% for tab in form.iterator %}
-                    {% if 'EMS\\CoreBundle\\Form\\DataField\\MultiplexedTabContainerFieldType' == tab.vars.data.fieldType.type and form.vars.data.fieldType.type == 'EMS\\CoreBundle\\Form\\DataField\\TabsFieldType' %}
-                        {% for item in tab.iterator %}
-                            {% with {
-                                tab: item,
-                                counter: counter,
-                                }
-                            %}
-                                {{ block('tabsfieldtype_widget_tab_label_per_item') }}
-                            {% endwith %}
-                            {% set counter = counter + 1 %}
-                        {% endfor %}
-                    {% else %}
-                        {% with {
-                              tab: tab,
-                              counter: counter,
-                              }
-                          %}
-                            {{ block('tabsfieldtype_widget_tab_label_per_item') }}
-                        {% endwith %}
-                        {% set counter = counter + 1 %}
-                    {% endif %}
+    <ul class="nav nav-tabs" role="tablist">
+        {% set counter = 1 %}
+        {% for tab in form.iterator %}
+            {% if 'EMS\\CoreBundle\\Form\\DataField\\MultiplexedTabContainerFieldType' == tab.vars.data.fieldType.type and form.vars.data.fieldType.type == 'EMS\\CoreBundle\\Form\\DataField\\TabsFieldType' %}
+                {% for item in tab.iterator %}
+                    {% with {
+                        tab: item,
+                        counter: counter,
+                        }
+                    %}
+                        {{ block('tabsfieldtype_widget_tab_label_per_item') }}
+                    {% endwith %}
+                    {% set counter = counter + 1 %}
                 {% endfor %}
-            </ul>
-        </div>
-        <div class="card-body">
-            <div class="tab-content">
-              {% set counter = 1 %}
-              {% for tab in form.iterator %}
-                  {% if 'EMS\\CoreBundle\\Form\\DataField\\MultiplexedTabContainerFieldType' == tab.vars.data.fieldType.type and form.vars.data.fieldType.type == 'EMS\\CoreBundle\\Form\\DataField\\TabsFieldType' %}
-                      {% for item in tab.iterator %}
-                          {% with {
-                              tab: item,
-                              counter: counter,
-                              }
-                          %}
-                              {{ block('tabsfieldtype_widget_tab_panel_per_item') }}
-                          {% endwith %}
-                          {% set counter = counter + 1 %}
-                      {% endfor %}
-                  {% else %}
-                      {% with {
-                          tab: tab,
-                          counter: counter,
-                          }
-                      %}
-                          {{ block('tabsfieldtype_widget_tab_panel_per_item') }}
-                      {% endwith %}
-                      {% set counter = counter + 1 %}
-                  {% endif %}
-              {% endfor %}
-            </div>
-        </div>
-     </div>
+            {% else %}
+                {% with {
+                        tab: tab,
+                        counter: counter,
+                        }
+                    %}
+                    {{ block('tabsfieldtype_widget_tab_label_per_item') }}
+                {% endwith %}
+                {% set counter = counter + 1 %}
+            {% endif %}
+        {% endfor %}
+    </ul>
+    <div class="tab-content">
+        {% set counter = 1 %}
+        {% for tab in form.iterator %}
+            {% if 'EMS\\CoreBundle\\Form\\DataField\\MultiplexedTabContainerFieldType' == tab.vars.data.fieldType.type and form.vars.data.fieldType.type == 'EMS\\CoreBundle\\Form\\DataField\\TabsFieldType' %}
+                {% for item in tab.iterator %}
+                    {% with {
+                        tab: item,
+                        counter: counter,
+                        }
+                    %}
+                        {{ block('tabsfieldtype_widget_tab_panel_per_item') }}
+                    {% endwith %}
+                    {% set counter = counter + 1 %}
+                {% endfor %}
+            {% else %}
+                {% with {
+                    tab: tab,
+                    counter: counter,
+                    }
+                %}
+                    {{ block('tabsfieldtype_widget_tab_panel_per_item') }}
+                {% endwith %}
+                {% set counter = counter + 1 %}
+            {% endif %}
+        {% endfor %}
+    </div>
 {%- endblock tabsfieldtype_widget %}
 
 {% block collectionfieldtype_widget -%}
@@ -709,7 +700,7 @@
 {% endblock holder_field_type_widget %}
 
 {% block container_field_type_widget %}
-    <div id="{{ form.vars.id }}" class="container-fluid">
+    <div id="{{ form.vars.id }}">
         <div class="{{ html_classes('row', {
             'has-error': form.vars.errors|length > 0,
         }) }}">
@@ -1039,14 +1030,14 @@
         {% endif %}
     {% endset %}
 
-<div class="card card-default file-uploader-row{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}"{% if form.vars.multiple|default(false) %} data-multiple="{{ multipleTemplate|e('html_attr') }}"{% endif %}>
-    <div class="card-heading">
-        <h3 class="card-title m-2">
+<div class="card border file-uploader-row{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}"{% if form.vars.multiple|default(false) %} data-multiple="{{ multipleTemplate|e('html_attr') }}"{% endif %}>
+    <div class="card-header pb-0">
+        <h3 class="card-title mb-0">
             <i class="fa fa-file"></i>
             {{ form_label(form) }}
         </h3>
     </div>
-    <div class="card-body" >
+    <div class="card-body">
         {% if form.children.files is not defined %}
             <div class="modal" tabindex="-1" role="dialog" id="asst-details-{{ form.vars.id }}">
               <div class="modal-dialog" role="document">
@@ -1070,7 +1061,7 @@
             </div>
         {% endif %}
       <!-- Tab panes -->
-      <div class="" id="asset-tabs-{{ form.vars.id }}">
+      <div id="asset-tabs-{{ form.vars.id }}">
         <div class="tab-pane {% if (form.vars.value.sha1 is defined and form.vars.value.sha1) or (form.children.files is defined and form.vars.value|length > 0) %}hidden{% endif %} asset-upload-tab" id="asset-upload-tab-{{ form.vars.id }}">
             {% if not form.vars.disabled %}
                 <p class="text-center asset-preview">
@@ -1096,7 +1087,7 @@
                     {% if form.vars.value.sha1 is defined and form.vars.value.sha1 %}
                         src="{{ emsco_asset_path(form.vars.value, form.vars.data.fieldType.getDisplayOption('imageAssetConfigIdentifier', 'preview')) }}"
                     {% endif %}
-                    class="img-responsive center-block" alt="{{ 'view.form.fields.asset.preview'|trans({'%label%': form_label(form)|striptags}) }}"
+                    class="img-fluid" alt="{{ 'view.form.fields.asset.preview'|trans({'%label%': form_label(form)|striptags}) }}"
                 >
             </div>
         </div>
@@ -1114,7 +1105,7 @@
         {{- form_errors(form) -}}
       </div>
     </div>
-    <div class="card-footer">
+    <div class="card-footer pt-0">
         {% if form.vars.multiple|default(false) %}
             <div class="btn-group">
                 <input type="file" id="file-upload-{{ form.vars.id }}" class="file-uploader-input" {% if form.vars.disabled %}disabled="disabled"{% endif %} multiple="multiple">

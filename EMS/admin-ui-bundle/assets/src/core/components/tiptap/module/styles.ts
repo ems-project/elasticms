@@ -579,8 +579,11 @@ function createStylesDropdown(editor: TiptapEditor): HTMLElement {
     let panel: HTMLDivElement | null = null
     let onOpen: (() => void) | null = null
 
-    const initPanel = () => {
-        if (panel) return
+    const initPanel = (onReady: () => void) => {
+        if (panel) {
+            onReady()
+            return
+        }
 
         panel = doc.createElement('div')
         panel.className = 'tiptap-styles-panel'
@@ -589,40 +592,50 @@ function createStylesDropdown(editor: TiptapEditor): HTMLElement {
 
         const iframe = doc.createElement('iframe')
         iframe.className = 'tiptap-styles-iframe'
+
+        iframe.addEventListener(
+            'load',
+            () => {
+                const iframeDoc = iframe.contentDocument
+                if (!iframeDoc) return
+
+                if (contentCss) {
+                    const link = iframeDoc.createElement('link')
+                    link.rel = 'stylesheet'
+                    link.href = contentCss
+                    iframeDoc.head.appendChild(link)
+                }
+
+                const s = iframeDoc.createElement('style')
+                s.textContent = stylesIframeCss
+                iframeDoc.head.appendChild(s)
+
+                iframeDoc.body.innerHTML = groups.map(buildStyleGroup).join('')
+
+                iframeDoc.addEventListener('mousedown', (e) => {
+                    e.preventDefault()
+                    const li = (e.target as HTMLElement).closest('li')
+                    if (!li) return
+                    const matched = styleMap.get(li.dataset.name!)
+                    if (matched) applyStyle(editor, matched)
+                    hide()
+                })
+
+                iframeDoc.addEventListener('click', (e) => {
+                    if (!(e.target as HTMLElement).closest('li')) hide()
+                })
+
+                onOpen = () => {
+                    updateVisibleGroups(editor, iframeDoc, categories)
+                    syncActive(editor, iframe, allStyles)
+                }
+
+                onReady()
+            },
+            { once: true }
+        )
+
         panel.appendChild(iframe)
-
-        const iframeDoc = iframe.contentDocument!
-
-        if (contentCss) {
-            const link = iframeDoc.createElement('link')
-            link.rel = 'stylesheet'
-            link.href = contentCss
-            iframeDoc.head.appendChild(link)
-        }
-
-        const s = iframeDoc.createElement('style')
-        s.textContent = stylesIframeCss
-        iframeDoc.head.appendChild(s)
-
-        iframeDoc.body.innerHTML = groups.map(buildStyleGroup).join('')
-
-        iframeDoc.addEventListener('mousedown', (e) => {
-            e.preventDefault()
-            const li = (e.target as HTMLElement).closest('li')
-            if (!li) return
-            const matched = styleMap.get(li.dataset.name!)
-            if (matched) applyStyle(editor, matched)
-            hide()
-        })
-
-        iframeDoc.addEventListener('click', (e) => {
-            if (!(e.target as HTMLElement).closest('li')) hide()
-        })
-
-        onOpen = () => {
-            updateVisibleGroups(editor, iframeDoc, categories)
-            syncActive(editor, iframe, allStyles)
-        }
     }
 
     const hide = () => {
@@ -646,11 +659,12 @@ function createStylesDropdown(editor: TiptapEditor): HTMLElement {
             hide()
             return
         }
-        initPanel()
-        panel!.hidden = false
-        window.focus()
-        positionPanel()
-        onOpen?.()
+        initPanel(() => {
+            panel!.hidden = false
+            window.focus()
+            positionPanel()
+            onOpen?.()
+        })
     })
 
     const label = button.querySelector('.styles-label')!

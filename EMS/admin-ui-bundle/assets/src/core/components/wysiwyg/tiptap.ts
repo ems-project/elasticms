@@ -5,8 +5,8 @@ import { TiptapEditor } from '../tiptap/editor.ts'
 import { TiptapModule } from '../tiptap/types.ts'
 import ChangeEvent from '../../events/changeEvent.ts'
 import IconSource from '@tabler/icons/outline/code.svg?raw'
-import IconMaximize from '@tabler/icons/outline/maximize.svg?raw'
-import IconMinimize from '@tabler/icons/outline/minimize.svg?raw'
+import IconMaximize from '@tabler/icons/outline/arrows-maximize.svg?raw'
+import IconMinimize from '@tabler/icons/outline/arrows-minimize.svg?raw'
 import { getWysiwygOptions, getWysiwygProfile, WysiwygOptions } from './wysiwyg.ts'
 
 export default class Tiptap {

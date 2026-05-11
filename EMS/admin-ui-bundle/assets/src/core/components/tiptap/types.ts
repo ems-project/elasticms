@@ -42,7 +42,7 @@ export interface ContextMenuItem {
     parent?: string
     parentIcon?: string
     order?: number
-    command: (editor: TiptapEditor) => void
+    command: (e: TiptapEditor, ctx?: { target?: Element | null }) => void
     disabled?: (editor: TiptapEditor) => boolean
 }
 
@@ -68,6 +68,7 @@ export interface TiptapModule {
     toolbarGroup?: string
     contextMenu?: ContextMenuItem[]
     contextMenuNode?: string
+    contextMenuSelector?: string
     htmlTransforms?: HtmlTransform[]
     isEnabled?: (profile: WysiwygProfile) => boolean
 }

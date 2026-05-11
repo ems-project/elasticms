@@ -21,19 +21,22 @@ export const anchorModule: TiptapModule = {
         }
     ],
     contextMenuNode: 'anchor',
+    contextMenuSelector: 'a[name]:not([href])',
     contextMenu: [
         {
             label: 'Edit Anchor',
             icon: IconAnchor,
             order: 0,
-            command: (e) => openAnchorDialog(e)
+            command: (e, ctx) => openAnchorDialog(e, ctx?.target)
         },
         {
             label: 'Remove Anchor',
             icon: IconAnchorOff,
             order: 1,
-            command: (e) =>
+            command: (e, ctx) => {
+                selectAnchorEl(e, ctx?.target)
                 e.tiptap.chain().focus().extendMarkRange('anchor').unsetMark('anchor').run()
+            }
         }
     ]
 }
@@ -62,12 +65,28 @@ function getAnchorExtension() {
     ]
 }
 
-function openAnchorDialog(e: TiptapEditor) {
-    const dialog = new Dialog('Anchor Properties', { draggable: true })
+function selectAnchorEl(e: TiptapEditor, target?: Element | null) {
+    const el = (target as HTMLElement | null)?.closest(
+        'a[name]:not([href])'
+    ) as HTMLAnchorElement | null
+    if (!el) return null
+    const pos = e.tiptap.view.posAtDOM(el.firstChild ?? el, 0)
+    const size = Math.max(el.textContent?.length ?? 1, 1)
+    e.tiptap.commands.setTextSelection({ from: pos, to: pos + size })
+    return el
+}
 
+function openAnchorDialog(e: TiptapEditor, target?: Element | null) {
+    const dialog = new Dialog('Anchor Properties', { draggable: true })
     const { from, to } = e.tiptap.state.selection
-    const isEdit = e.tiptap.isActive('anchor')
-    const existing = e.tiptap.getAttributes('anchor')?.id ?? ''
+
+    const el = selectAnchorEl(e, target)
+    const isEdit = !!el || e.tiptap.isActive('anchor')
+    const existing =
+        el?.getAttribute('name') ??
+        el?.getAttribute('id') ??
+        e.tiptap.getAttributes('anchor')?.id ??
+        ''
 
     dialog.setContent(
         `<div style="display: flex; flex-direction: column; gap: 10px; width: 300px;">

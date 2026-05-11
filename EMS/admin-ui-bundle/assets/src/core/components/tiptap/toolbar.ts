@@ -20,7 +20,13 @@ export class Toolbar {
     addItem(group: string, item: ToolbarItem | ToolbarItemCustom) {
         if ('name' in item) this.items.set(item.name, item)
         if (!this.groups.has(group)) this.groups.set(group, [])
-        this.groups.get(group)!.push(item)
+        const items = this.groups.get(group)!
+        items.push(item)
+        items.sort(
+            (a, b) =>
+                (('order' in a ? a.order : undefined) ?? 0) -
+                (('order' in b ? b.order : undefined) ?? 0)
+        )
     }
 
     addRowBreak() {

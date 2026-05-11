@@ -12,6 +12,7 @@ export const linkModule: TiptapModule = {
             name: 'Link',
             icon: IconLink,
             tooltip: 'Link',
+            order: 1,
             command: (e) => openLinkDialog(e),
             isActive: (e) => e.tiptap.isActive('link')
         }

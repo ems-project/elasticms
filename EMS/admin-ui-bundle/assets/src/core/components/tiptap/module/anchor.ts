@@ -15,6 +15,7 @@ export const anchorModule: TiptapModule = {
             name: 'Anchor',
             icon: IconAnchor,
             tooltip: 'Anchor',
+            order: 3,
             command: (e) => openAnchorDialog(e),
             isActive: (e) => e.tiptap.isActive('anchor')
         }

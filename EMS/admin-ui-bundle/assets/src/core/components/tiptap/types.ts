@@ -50,6 +50,7 @@ export interface ToolbarItem {
     name: string
     icon: string
     tooltip?: string
+    order?: number
     extensions?: ExtensionType[]
     command: (editor: TiptapEditor) => void
     isActive?: (editor: TiptapEditor) => boolean

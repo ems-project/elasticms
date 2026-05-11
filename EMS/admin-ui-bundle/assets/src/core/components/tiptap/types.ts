@@ -53,6 +53,7 @@ export interface ToolbarItem {
     extensions?: ExtensionType[]
     command: (editor: TiptapEditor) => void
     isActive?: (editor: TiptapEditor) => boolean
+    isDisabled?: (editor: TiptapEditor) => boolean
 }
 
 export interface ToolbarItemCustom {

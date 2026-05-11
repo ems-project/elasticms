@@ -11,13 +11,15 @@ export const historyModule: TiptapModule = {
             name: 'Undo',
             icon: IconUndo,
             tooltip: 'Undo',
-            command: (e) => e.tiptap.chain().focus().undo().run()
+            command: (e) => e.tiptap.chain().focus().undo().run(),
+            isDisabled: (e) => !e.tiptap.can().undo()
         },
         {
             name: 'Redo',
             icon: IconRedo,
             tooltip: 'Redo',
-            command: (e) => e.tiptap.chain().focus().redo().run()
+            command: (e) => e.tiptap.chain().focus().redo().run(),
+            isDisabled: (e) => !e.tiptap.can().redo()
         }
     ]
 }

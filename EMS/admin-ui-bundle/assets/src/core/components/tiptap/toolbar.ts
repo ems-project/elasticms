@@ -77,10 +77,12 @@ export class Toolbar {
     update() {
         this.container.querySelectorAll<HTMLButtonElement>('button[data-action]').forEach((btn) => {
             const item = this.items.get(btn.dataset.action!)
-            if (item) btn.classList.toggle('is-active', item.isActive?.(this.editor) ?? false)
+            if (item) {
+                btn.classList.toggle('is-active', item.isActive?.(this.editor) ?? false)
+                btn.disabled = item.isDisabled?.(this.editor) ?? false
+            }
         })
     }
-
     setDisabled(disabled: boolean, exclude: string[] = []) {
         this.container.querySelectorAll<HTMLButtonElement>('button[data-action]').forEach((btn) => {
             const name = btn.dataset.action

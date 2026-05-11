@@ -143,7 +143,7 @@ function buildUrlFields(ctx: LinkContext) {
     return `<div id="link-fields-url" style="display: flex; flex-direction: column; gap: 10px;">
         <div>
             <label for="link-url">URL <span style="color: red">*</span></label>
-            <input type="url" id="link-url" value="${esc(ctx.type === 'url' ? ctx.href : '')}" required>
+            <input type="text" id="link-url" value="${esc(ctx.type === 'url' ? ctx.href : '')}" required>
         </div>
         <div>
             <label for="link-target">Target</label>
@@ -170,12 +170,14 @@ function buildAnchorFields(ctx: LinkContext, anchors: string[]) {
         )
         .join('')
 
-    return `<div id="link-fields-anchor" style="display: none;">
-        <label for="link-anchor">Select Anchor</label>
-        <select id="link-anchor">
-            <option value="">Select anchor</option>
-            ${options}
-        </select>
+    return `<div id="link-fields-anchor" style="display: none; flex-direction: column; gap: 10px;">
+        <div>
+            <label for="link-anchor">Select Anchor</label>
+            <select id="link-anchor">
+                <option value="">Select anchor</option>
+                ${options}
+            </select>
+        </div>
     </div>`
 }
 

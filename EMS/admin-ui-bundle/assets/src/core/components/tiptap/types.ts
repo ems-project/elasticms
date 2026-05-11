@@ -12,20 +12,22 @@ import { tableModule } from './module/table.ts'
 import { ExtensionType } from './extensions.ts'
 import { stylesModule } from './module/styles.ts'
 import { anchorModule } from './module/anchor.ts'
+import { linkModule } from './module/link.ts'
 
 export type ContextType = 'table'
 
 export const Modules: TiptapModule[] = [
     anchorModule,
-    historyModule,
     ...basicStyleModule,
     cleanupModule,
-    listModule,
+    historyModule,
     indentModule,
-    justifyModule,
     ...insertModule,
-    tableModule,
-    stylesModule
+    justifyModule,
+    linkModule,
+    listModule,
+    stylesModule,
+    tableModule
 ]
 
 export interface HtmlTransform {

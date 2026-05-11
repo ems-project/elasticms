@@ -9,7 +9,7 @@ const FIELD_NAME = 'tiptap-anchor-name'
 
 export const anchorModule: TiptapModule = {
     extensions: getAnchorExtension(),
-    toolbarGroup: 'insert',
+    toolbarGroup: 'links',
     toolbar: [
         {
             name: 'Anchor',
@@ -31,7 +31,8 @@ export const anchorModule: TiptapModule = {
             label: 'Remove Anchor',
             icon: IconAnchorOff,
             order: 1,
-            command: (e) => e.tiptap.chain().focus().extendMarkRange('anchor').unsetMark('anchor').run()
+            command: (e) =>
+                e.tiptap.chain().focus().extendMarkRange('anchor').unsetMark('anchor').run()
         }
     ]
 }

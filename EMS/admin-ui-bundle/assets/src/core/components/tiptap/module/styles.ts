@@ -332,7 +332,12 @@ function findMatchingObjectNode(
 function isObjectStyleActive(editor: TiptapEditor, style: CkeditorStyle): boolean {
     if (style.element === 'a') {
         const mark = editor.tiptap.getAttributes('link')
-        return mark.class === (style.attributes?.class || null)
+        const cls = style.attributes?.class || null
+        const st = stylesToString(style.styles) || null
+        return (
+            (mark.class || null) === cls &&
+            normalizeStyle(mark.style || null) === normalizeStyle(st)
+        )
     }
 
     const match = findMatchingObjectNode(editor, style.element)
@@ -363,11 +368,12 @@ function applyStyle(editor: TiptapEditor, style: CkeditorStyle): void {
 function applyLinkStyle(editor: TiptapEditor, style: CkeditorStyle): void {
     const isActive = isObjectStyleActive(editor, style)
     const cls = isActive ? null : style.attributes?.class || null
+    const st = isActive ? null : stylesToString(style.styles) || null
     editor.tiptap
         .chain()
         .focus()
         .extendMarkRange('link')
-        .updateAttributes('link', { class: cls })
+        .updateAttributes('link', { class: cls, style: st })
         .run()
 }
 

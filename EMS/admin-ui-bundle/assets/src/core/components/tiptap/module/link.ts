@@ -62,7 +62,17 @@ function getLinkExtension() {
             addAttributes() {
                 return {
                     href: { default: null },
-                    target: { default: null }
+                    target: { default: null },
+                    class: {
+                        default: null,
+                        parseHTML: (el) => el.getAttribute('class') || null,
+                        renderHTML: (attrs) => (attrs.class ? { class: attrs.class } : {})
+                    },
+                    style: {
+                        default: null,
+                        parseHTML: (el) => el.getAttribute('style') || null,
+                        renderHTML: (attrs) => (attrs.style ? { style: attrs.style } : {})
+                    }
                 }
             },
 

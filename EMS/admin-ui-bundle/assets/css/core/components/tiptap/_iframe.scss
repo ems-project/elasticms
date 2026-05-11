@@ -20,8 +20,8 @@ html, body {
     margin: 0;
   }
 
-  a {
-    color: #0782C1;
+  a:not([class]) {
+    color: #000000;
   }
 
   li p + p {

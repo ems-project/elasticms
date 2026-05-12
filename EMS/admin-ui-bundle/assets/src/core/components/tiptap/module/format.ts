@@ -1,11 +1,9 @@
 import { TiptapModule } from '../types.ts'
 import { TiptapEditor } from '../editor.ts'
-import { Node as TiptapNode } from '@tiptap/core'
-import { ExtensionType } from './../extensions.ts'
+import { BLOCK_NODES } from './../extensions.ts'
 import { createIframeDropdown, IframeDropdown } from './../ui/iframeDropdown.ts'
 import formatIframeCss from './../../../../../css/core/components/tiptap/_menu_format.scss?inline'
 import Heading from '@tiptap/extension-heading'
-import { getDivExtension } from './div.ts'
 
 const dropdowns = new WeakMap<TiptapEditor, IframeDropdown>()
 const editorCleanups = new WeakMap<TiptapEditor, () => void>()
@@ -17,17 +15,22 @@ const FORMAT_LABELS: Record<string, string> = {
     h1: 'Heading 1',
     h2: 'Heading 2',
     h3: 'Heading 3',
-    pre: 'Formatted'
+    h4: 'Heading 4',
+    h5: 'Heading 5',
+    h6: 'Heading 6',
+    pre: 'Formatted',
+    address: 'Address',
+    div: 'Normal (DIV)'
 }
 
 const NODE_TO_TAG: Record<string, string> = {
-    codeBlock: 'pre',
+    pre: 'pre',
     div: 'div',
     address: 'address'
 }
 
 export const formatModule: TiptapModule = {
-    extensions: [Heading, getDivExtension(), getAddressExtension()],
+    extensions: [Heading, BLOCK_NODES.div, BLOCK_NODES.pre, BLOCK_NODES.address],
     toolbarGroup: 'format',
     toolbar: [
         {
@@ -40,22 +43,6 @@ export const formatModule: TiptapModule = {
             }
         }
     ]
-}
-
-// ─── Extensions ──────────────────────────────────────────────
-
-function getAddressExtension(): ExtensionType {
-    return TiptapNode.create({
-        name: 'address',
-        group: 'block',
-        content: 'inline*',
-        parseHTML() {
-            return [{ tag: 'address' }]
-        },
-        renderHTML({ HTMLAttributes }) {
-            return ['address', HTMLAttributes, 0]
-        }
-    })
 }
 
 // ─── Active format detection ─────────────────────────────────
@@ -74,8 +61,8 @@ function applyFormat(editor: TiptapEditor, tag: string): void {
 
     if (headingMatch && chain.setHeading) {
         chain.setHeading({ level: parseInt(headingMatch[1]) }).run()
-    } else if (tag === 'pre' && chain.setCodeBlock) {
-        chain.setCodeBlock().run()
+    } else if (tag === 'pre') {
+        chain.setNode('pre').run()
     } else if (tag === 'div') {
         chain.setNode('div').run()
     } else if (tag === 'address') {

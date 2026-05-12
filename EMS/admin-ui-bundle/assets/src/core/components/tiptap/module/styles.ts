@@ -2,12 +2,11 @@ import { TiptapModule } from '../types.ts'
 import { TiptapEditor } from '../editor.ts'
 import { CkeditorStyle } from '../../wysiwyg/ckeditorConfig.ts'
 import { Extension, Mark, mergeAttributes } from '@tiptap/core'
-import { ExtensionType } from './../extensions.ts'
+import { BLOCK_NODES, ExtensionType } from './../extensions.ts'
 import { createIframeDropdown, IframeDropdown } from './../ui/iframeDropdown.ts'
 import stylesIframeCss from './../../../../../css/core/components/tiptap/_menu_styles.scss?inline'
 import Heading from '@tiptap/extension-heading'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
-import { getDivExtension } from './div.ts'
 
 const dropdowns = new WeakMap<TiptapEditor, IframeDropdown>()
 const editorCleanups = new WeakMap<TiptapEditor, () => void>()
@@ -43,7 +42,7 @@ const STYLE_ELEMENTS = {
 
 const NODE_TO_ELEMENT: Record<string, string> = {
     heading: 'heading',
-    codeBlock: 'pre',
+    pre: 'pre',
     blockquote: 'blockquote',
     div: 'div'
 }
@@ -65,7 +64,9 @@ const OBJECT_NODE_MAP: Record<string, string> = {
 export const stylesModule: TiptapModule = {
     extensions: [
         Heading,
-        getDivExtension(),
+        BLOCK_NODES.div,
+        BLOCK_NODES.pre,
+        BLOCK_NODES.address,
         ...STYLE_ELEMENTS.inline.map(createInlineStyleMark),
         getStyleExtension()
     ],
@@ -99,7 +100,7 @@ function getStyleExtension(): ExtensionType {
         addGlobalAttributes() {
             return [
                 {
-                    types: ['heading', 'paragraph', 'div'],
+                    types: ['heading', 'paragraph', 'div', 'pre'],
                     attributes: {
                         htmlStyle: {
                             default: null,
@@ -441,8 +442,8 @@ function applyBlockStyle(editor: TiptapEditor, style: CkeditorStyle): void {
             .updateAttributes('heading', attrs)
             .setMeta('applyStyle', true)
             .run()
-    } else if (style.element === 'pre' && chain.setCodeBlock) {
-        chain.setCodeBlock().setMeta('applyStyle', true).run()
+    } else if (style.element === 'pre') {
+        chain.setNode('pre', attrs).setMeta('applyStyle', true).run()
     } else if (style.element === 'blockquote' && chain.toggleBlockquote) {
         chain
             .toggleBlockquote()

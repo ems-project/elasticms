@@ -6,7 +6,7 @@ import IconJustifyBlock from '@tabler/icons/outline/align-justified.svg?raw'
 import { TiptapModule } from '../types.ts'
 
 const CustomTextAlign = TextAlign.configure({
-    types: ['heading', 'paragraph'],
+    types: ['heading', 'paragraph','div'],
     alignments: ['left', 'center', 'right', 'justify']
 })
 

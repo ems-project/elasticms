@@ -6,6 +6,16 @@ modules based on the active wysiwyg profile.
 
 ## Modules
 
+### Basic Styles
+
+Bold, italic, and strikethrough are always available. Subscript and superscript are opt-in via the
+`basicstyles` extra plugin.
+
+### Cleanup
+
+A "Remove Format" button that strips all formatting from the selection. Resets styled blocks back to
+paragraphs. Preserves anchors and links. Disabled when the selection has no removable formatting.
+
 ### Format
 
 A toolbar dropdown for switching block-level formats, equivalent to CKEditor's Format plugin. Works
@@ -17,48 +27,14 @@ shown in the dropdown: Normal, Heading 1–6, Formatted, Address, Normal (DIV).
 
 The dropdown renders inside an iframe so format previews use the editor's content CSS.
 
-### Styles
-
-A toolbar dropdown for applying styles defined in the wysiwyg configuration. Styles are split into
-three categories:
-
-- **Block styles** — change the block type and optionally add a CSS class or inline style.
-  Target elements: `p`, `h1`–`h6`, `div`, `pre`, `address`, `blockquote`.
-- **Inline styles** — wrap selected text in an element with optional class/style.
-  Target elements: `span`, `small`, `code`, `kbd`, `del`, `ins`, and others.
-- **Object styles** — apply a class or style to the nearest matching ancestor.
-  Target elements: `table`, `ul`, `ol`, `td`, `th`, `a`.
-
-The dropdown groups styles by category and only shows object styles when the cursor is inside a
-matching element (e.g. table styles only appear when editing a table). Clicking an active style
-removes it.
-
-The dropdown button label reflects the currently active styles and updates on every selection change.
-
-When pressing Enter on a styled block, the new paragraph starts clean — block styles and inline
-style marks are automatically cleared.
-
-### Basic Styles
-
-Bold, italic, and strikethrough are always available. Subscript and superscript are opt-in via the
-`basicstyles` extra plugin.
-
 ### History
 
 Undo and redo buttons. Greyed out when there is nothing to undo or redo.
-
-### Lists
-
-Ordered (numbered) and unordered (bulleted) lists.
 
 ### Indentation
 
 Indent and outdent for paragraphs and headings. Inside a list, the buttons sink or lift list items
 instead.
-
-### Text Alignment
-
-Left, center, right, and justify. Left works by unsetting alignment since it is the default.
 
 ### Insert
 
@@ -84,10 +60,30 @@ inserts an invisible bookmark when nothing is selected. Right-click provides edi
 
 Anchors and links are preserved by the Remove Format action.
 
-### Cleanup
+### Lists
 
-A "Remove Format" button that strips all formatting from the selection. Resets styled blocks back to
-paragraphs. Preserves anchors and links. Disabled when the selection has no removable formatting.
+Ordered (numbered) and unordered (bulleted) lists.
+
+### Styles
+
+A toolbar dropdown for applying styles defined in the wysiwyg configuration. Styles are split into
+three categories:
+
+- **Block styles** — change the block type and optionally add a CSS class or inline style.
+  Target elements: `p`, `h1`–`h6`, `div`, `pre`, `address`, `blockquote`.
+- **Inline styles** — wrap selected text in an element with optional class/style.
+  Target elements: `span`, `small`, `code`, `kbd`, `del`, `ins`, and others.
+- **Object styles** — apply a class or style to the nearest matching ancestor.
+  Target elements: `table`, `ul`, `ol`, `td`, `th`, `a`.
+
+The dropdown groups styles by category and only shows object styles when the cursor is inside a
+matching element (e.g. table styles only appear when editing a table). Clicking an active style
+removes it.
+
+The dropdown button label reflects the currently active styles and updates on every selection change.
+
+When pressing Enter on a styled block, the new paragraph starts clean — block styles and inline
+style marks are automatically cleared.
 
 ### Tables
 
@@ -97,6 +93,10 @@ right-click context menu with cell, row, column, and table-level operations.
 The table dialog covers headers, dimensions, alignment, border, padding, spacing, class, ID, inline
 style, caption, and summary. The cell dialog covers cell type, spans, dimensions, word wrap, and
 alignment.
+
+### Text Alignment
+
+Left, center, right, and justify. Left works by unsetting alignment since it is the default.
 
 ## HTML Transforms
 

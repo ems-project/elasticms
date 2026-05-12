@@ -1,7 +1,7 @@
-import '../../../../css/core/components/tiptap/_toolbar.scss'
+import '../../../../../css/core/components/tiptap/_toolbar.scss'
 
-import { ToolbarItem, ToolbarItemCustom } from './types.ts'
-import { TiptapEditor } from './editor.ts'
+import { ToolbarItem, ToolbarItemCustom } from './../types.ts'
+import { TiptapEditor } from './../editor.ts'
 
 export class Toolbar {
     private readonly container: HTMLElement

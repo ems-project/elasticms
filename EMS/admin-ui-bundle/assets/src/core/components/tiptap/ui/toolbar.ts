@@ -6,7 +6,7 @@ import { TiptapEditor } from './../editor.ts'
 export class Toolbar {
     private readonly container: HTMLElement
     private readonly editor: TiptapEditor
-    private items: Map<string, ToolbarItem> = new Map()
+    private items: Map<string, ToolbarItem | ToolbarItemCustom> = new Map()
     private groups: Map<string, (ToolbarItem | ToolbarItemCustom)[]> = new Map()
 
     constructor(editor: TiptapEditor) {
@@ -18,7 +18,7 @@ export class Toolbar {
     }
 
     addItem(group: string, item: ToolbarItem | ToolbarItemCustom) {
-        if ('name' in item) this.items.set(item.name, item)
+        this.items.set(item.name, item)
         if (!this.groups.has(group)) this.groups.set(group, [])
         const items = this.groups.get(group)!
         items.push(item)
@@ -95,8 +95,8 @@ export class Toolbar {
         this.container.querySelectorAll<HTMLButtonElement>('button[data-action]').forEach((btn) => {
             const item = this.items.get(btn.dataset.action!)
             if (item) {
-                btn.classList.toggle('is-active', item.isActive?.(this.editor) ?? false)
-                btn.disabled = item.isDisabled?.(this.editor) ?? false
+                btn.classList.toggle('is-active', 'isActive' in item && item.isActive?.(this.editor))
+                btn.disabled = ('isDisabled' in item && item.isDisabled?.(this.editor)) ?? false
             }
         })
     }

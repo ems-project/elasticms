@@ -189,6 +189,7 @@ class JobCommand extends AbstractCommand
 
             return true;
         }
+        $this->io->comment('No runner scheduled to start');
 
         return false;
     }

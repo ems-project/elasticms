@@ -69,29 +69,31 @@ function openSpecialCharDialog(e: TiptapEditor) {
     if (!grid) return
 
     grid.addEventListener('mouseover', (ev) => {
-        const btn = (ev.target as HTMLElement).closest('button[data-label]') as HTMLButtonElement | null
+        const btn = (ev.target as HTMLElement).closest(
+            'button[data-label]'
+        ) as HTMLButtonElement | null
         if (!btn) return
         if (previewLarge) previewLarge.textContent = btn.dataset.label ?? ''
         if (previewLabel) previewLabel.textContent = btn.dataset.label ?? ''
     })
 
     grid.addEventListener('mouseout', (ev) => {
-        const btn = (ev.target as HTMLElement).closest('button[data-label]') as HTMLButtonElement | null
+        const btn = (ev.target as HTMLElement).closest(
+            'button[data-label]'
+        ) as HTMLButtonElement | null
         if (!btn) return
         if (previewLarge) previewLarge.innerHTML = '&nbsp;'
         if (previewLabel) previewLabel.innerHTML = '&nbsp;'
     })
 
     grid.addEventListener('click', (ev) => {
-        const btn = (ev.target as HTMLElement).closest('button[data-label]') as HTMLButtonElement | null
+        const btn = (ev.target as HTMLElement).closest(
+            'button[data-label]'
+        ) as HTMLButtonElement | null
         if (!btn) return
         const char = btn.dataset.label ?? ''
         if (!char) return
-        e.tiptap
-            .chain()
-            .focus()
-            .insertContent({ type: 'text', text: char })
-            .run()
+        e.tiptap.chain().focus().insertContent({ type: 'text', text: char }).run()
         dialog.close()
     })
 }

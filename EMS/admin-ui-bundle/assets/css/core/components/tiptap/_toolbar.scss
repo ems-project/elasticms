@@ -60,50 +60,48 @@
   }
 }
 
-.tiptap-styles-dropdown {
-  .tiptap-styles-btn {
-    background: transparent;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    color: #495057;
-    cursor: pointer;
-    height: 30px;
-    padding: 0 8px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 13px;
+.tiptap-dropdown-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  color: #495057;
+  cursor: pointer;
+  height: 30px;
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  white-space: nowrap;
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+
+  &:hover {
+    background-color: #e9ecef;
+  }
+
+  .tiptap-dropdown-label {
+    display: inline-block;
+    width: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
     white-space: nowrap;
-
-    &:disabled {
-      opacity: 0.4;
-      cursor: default;
-    }
-
-    &:hover {
-      background-color: #e9ecef;
-    }
-
-    .styles-label {
-      display: inline-block;
-      width: 80px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      text-align: left;
-      white-space: nowrap;
-      vertical-align: middle;
-    }
+    vertical-align: middle;
   }
 }
 
-.tiptap-styles-panel {
+.tiptap-dropdown-panel {
   position: fixed;
   z-index: 100000;
   border: 1px solid #ccc;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   background: #fff;
 
-  .tiptap-styles-iframe {
+  .tiptap-dropdown-iframe {
     display: block;
     border: none;
     min-width: 220px;

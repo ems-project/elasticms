@@ -275,7 +275,7 @@ export const DEFAULT_CK_VALUES: CkeditorConfig = {
         { name: 'basicstyles', groups: ['basicstyles', 'cleanup'] },
         { name: 'paragraph', groups: ['list', 'indent', 'blocks'] },
         { name: 'styles' },
-        { name: 'colors' }
+        { name: 'format' }
     ],
     defaultStyles: DEFAULT_STYLES
 }

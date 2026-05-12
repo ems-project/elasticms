@@ -104,7 +104,10 @@ export class TiptapEditor {
         }
 
         this.profile.config.toolbarGroups.forEach((entry) => {
-            if (entry === '/') return
+            if (entry === '/') {
+                this.toolbar.addRowBreak()
+                return
+            }
 
             const groups = entry.groups ?? [entry.name]
             groups.forEach((groupName) => {

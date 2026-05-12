@@ -8,6 +8,11 @@ export class WysiwygProfile {
         config: CkeditorStyle[]
     }[] = []
     config: {
+        ems?: {
+            urlTypes?: string[]
+            urlTargetDefaultBlank?: string[]
+            urlAllContentTypes?: boolean
+        }
         emsBrowsers?: {
             browser_object?: { url: string; label: string }
             browser_file?: { url: string; label: string }
@@ -15,6 +20,7 @@ export class WysiwygProfile {
         }
     } & CkeditorConfig = {
         emsBrowsers: undefined,
+        ems: undefined,
         ...DEFAULT_CK_VALUES
     }
 }

@@ -5,8 +5,8 @@ import { TiptapEditor } from '../tiptap/editor.ts'
 import { TiptapModule } from '../tiptap/types.ts'
 import ChangeEvent from '../../events/changeEvent.ts'
 import IconSource from '@tabler/icons/outline/code.svg?raw'
-import IconMaximize from '@tabler/icons/outline/maximize.svg?raw'
-import IconMinimize from '@tabler/icons/outline/minimize.svg?raw'
+import IconMaximize from '@tabler/icons/outline/arrows-maximize.svg?raw'
+import IconMinimize from '@tabler/icons/outline/arrows-minimize.svg?raw'
 import { getWysiwygOptions, getWysiwygProfile, WysiwygOptions } from './wysiwyg.ts'
 
 export default class Tiptap {
@@ -22,10 +22,10 @@ export default class Tiptap {
         this.container = document.createElement('div')
         this.wysiwygOptions = getWysiwygOptions(element)
 
-        this.init()
+        void this.init()
     }
 
-    private init() {
+    private async init() {
         const height = this.wysiwygOptions?.height ?? this.textarea.offsetHeight
 
         this.container.className = 'wysiwyg-container'
@@ -38,11 +38,11 @@ export default class Tiptap {
         this.container.appendChild(this.textarea)
         this.textarea.classList.add('wysiwyg-source-view')
 
-        const iframe = this.createIframe()
+        const mount = await this.createIframe()
 
         const tiptapEditor = new TiptapEditor({
             content: this.textarea.value,
-            element: iframe.body,
+            element: mount,
             toolbarElement: toolbar,
             customModules: [this.getSourceModule(), this.getMaximizeModule()],
             wysiwygProfile: this.wysiwygOptions.inRevision ? getWysiwygProfile() : null,
@@ -62,24 +62,40 @@ export default class Tiptap {
         })
     }
 
-    private createIframe(): Document {
-        const iframe = document.createElement('iframe')
-        iframe.className = 'wysiwyg-iframe'
-        this.container.appendChild(iframe)
+    private createIframe(): Promise<HTMLElement> {
+        return new Promise((resolve) => {
+            const iframe = document.createElement('iframe')
+            iframe.className = 'wysiwyg-iframe'
 
-        const doc = iframe.contentDocument as Document
-        const style = doc.createElement('style')
-        style.textContent = tiptapIframeCss
-        doc.head.appendChild(style)
+            iframe.addEventListener(
+                'load',
+                () => {
+                    const doc = iframe.contentDocument as Document
 
-        if (this.wysiwygOptions.contentCss) {
-            const linkContentCSS = doc.createElement('link')
-            linkContentCSS.rel = 'stylesheet'
-            linkContentCSS.href = this.wysiwygOptions.contentCss
-            doc.head.appendChild(linkContentCSS)
-        }
+                    const style = doc.createElement('style')
+                    style.textContent = tiptapIframeCss
+                    doc.head.appendChild(style)
 
-        return doc
+                    if (this.wysiwygOptions.contentCss) {
+                        const link = doc.createElement('link')
+                        link.rel = 'stylesheet'
+                        link.href = this.wysiwygOptions.contentCss
+                        doc.head.appendChild(link)
+                    }
+
+                    while (doc.body.firstChild) doc.body.removeChild(doc.body.firstChild)
+
+                    const mount = doc.createElement('div')
+                    mount.className = 'wysiwyg-editor-root'
+                    doc.body.appendChild(mount)
+
+                    resolve(mount)
+                },
+                { once: true }
+            )
+
+            this.container.appendChild(iframe)
+        })
     }
 
     private getSourceModule(): TiptapModule {

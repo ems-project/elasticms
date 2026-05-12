@@ -1,3 +1,12 @@
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+.wysiwyg-editor-root {
+  height: 100%;
+}
+
 .ProseMirror {
   outline: none;
   white-space: pre-wrap;
@@ -11,15 +20,15 @@
     margin: 0;
   }
 
-  a {
-    color: #0782C1;
+  a:not([class]) {
+    color: #000000;
   }
 
   li p + p {
     margin-top: 0.5em;
   }
 
-  a[name]:not([href]) {
+  a[id]:not([href]) {
     position: relative;
     border: 1px dotted;
     padding-left: 18px;

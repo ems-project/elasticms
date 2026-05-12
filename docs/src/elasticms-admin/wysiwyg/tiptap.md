@@ -28,7 +28,8 @@ load when the profile includes the `basicstyles` extra plugin.
 
 ### History (Undo / Redo)
 
-Provides undo and redo buttons backed by Tiptap's built-in `UndoRedo` extension.
+Provides undo and redo buttons backed by Tiptap's built-in `UndoRedo` extension. Each button exposes
+an `isDisabled` state so it greys out when there is nothing to undo or redo.
 
 ### Lists
 
@@ -49,8 +50,8 @@ headings and paragraphs. The "left" button works by unsetting alignment (since l
 ### Styles
 
 The styles module provides a dropdown for applying block, inline, and object styles defined in the
-wysiwyg configuration. It bridges CKEditor-style definitions to Tiptap by mapping them onto headings,
-paragraphs, divs, inline marks, and object nodes like tables and lists.
+wysiwyg configuration. It bridges CKEditor-style definitions to Tiptap by mapping them onto
+headings, paragraphs, divs, inline marks, and object nodes like tables and lists.
 
 #### Element Classification
 
@@ -58,11 +59,13 @@ Styles are categorized into three groups based on their target element:
 
 - **Block styles** — target `p`, `h1`–`h6`, `div`, `pre`, `address`, or `blockquote`. Applied by
   switching the node type and/or setting `htmlClass` and `htmlStyle` attributes.
-- **Inline styles** — target elements like `span`, `small`, `code`, `kbd`, `del`, `ins`, etc.
-  Each inline element is registered as a separate Tiptap mark (`inlineStyle_span`,
-  `inlineStyle_code`, …) with `style` and `class` attributes. Applied via `toggleMark`.
-- **Object styles** — target `table`, `ul`, `ol`, `td`, `th`, or `a`. These operate on the
-  nearest matching ancestor node or link mark, toggling a `dataUserStyle` attribute or CSS class.
+- **Inline styles** — target elements like `span`, `small`, `code`, `kbd`, `del`, `ins`, etc. Each
+  inline element is registered as a separate Tiptap mark (`inlineStyle_span`, `inlineStyle_code`, …)
+  with `style` and `class` attributes. Applied via `toggleMark`.
+- **Object styles** — target `table`, `ul`, `ol`, `td`, `th`, or `a`. For block-level objects
+  (`table`, `ul`, `ol`, `td`, `th`), they toggle a `dataUserStyle` attribute or CSS class on the
+  nearest matching ancestor node. For links (`a`), they toggle `class` and `style` attributes
+  directly on the `link` mark.
 
 #### Extensions
 
@@ -73,9 +76,9 @@ The module registers several extensions:
 - **Inline style marks** — one mark per inline element, supporting `style` and `class` attributes.
 - **styleAttributes** — a global attribute extension that adds `htmlStyle` and `htmlClass` to
   headings, paragraphs, and divs. Also includes two ProseMirror plugins:
-  - *trailingParagraph* — ensures the document always ends with a paragraph node.
-  - *clearStyleOnSplit* — resets block attributes and inline style marks when splitting a block
-    with Enter, so new paragraphs start clean.
+    - _trailingParagraph_ — ensures the document always ends with a paragraph node.
+    - _clearStyleOnSplit_ — resets block attributes and inline style marks when splitting a block
+      with Enter, so new paragraphs start clean.
 
 #### Dropdown Behavior
 
@@ -96,28 +99,70 @@ nearest matching ancestor using `OBJECT_NODE_MAP`.
 
 ### Insert
 
-Three separate submodules contribute to the insert toolbar group:
+Two separate submodules contribute to the insert toolbar group:
 
 - **Horizontal Rule** — inserts an `<hr>` element.
 - **Blockquote** — toggles a block quote with active state tracking.
-- **Anchor** — inserts or edits a named anchor for in-page linking (see below).
 
-### Anchor
+### Links
 
-Provides named anchors for in-page linking. The module registers a custom `anchor` mark that renders
-as `<a name="..." id="...">` (without `href`, so it does not conflict with the link extension).
+The links toolbar group contains three buttons: **Link**, **Unlink**, and **Anchor**. Link and
+anchor are independent modules that share the same group.
+
+#### Link
+
+The link module registers a custom `link` mark with `href`, `target`, `class`, and `style`
+attributes. The mark parses from `a[href]` so it does not conflict with the anchor mark (which has
+no `href`). The `class` and `style` attributes are managed by the styles module when an object style
+targeting `a` is applied.
+
+Clicking the Link button opens a dialog that supports four link types:
+
+- **URL** — a free-form URL with an optional `target` (`_blank`, `_self`, or unset).
+- **Anchor** — a link to a named anchor in the current document. The dropdown is populated by
+  walking the document and collecting every `id` from existing anchor marks. Renders as `#<id>`.
+- **E-mail** — an email address with optional subject and body, serialized as
+  `mailto:<email>?subject=…&body=…`.
+- **Phone** — a phone number, serialized as `tel:<number>`.
+
+The dialog detects the active link type by inspecting the existing `href` (prefixes `mailto:`,
+`tel:`, `#`) and pre-fills the corresponding fields. The link type select switches which field group
+is visible.
+
+The profile can restrict the available types via `profile.config.ems.urlTypes`. If the active link's
+type is not in the allowed list, the dialog falls back to the first available type.
+
+The profile can also pre-select `_blank` as the default target for new links of certain types via
+`profile.config.ems.urlTargetDefaultBlank` (an array of type values, e.g. `['url']`). This only
+applies when creating a new link; existing links keep their stored target.
+
+The Unlink button removes the link mark from the current selection and exposes an `isDisabled` state
+when the cursor is not inside a link.
+
+A right-click context menu on link nodes provides **Edit Link** and **Unlink** actions.
+
+#### Anchor
+
+The anchor module registers a custom `anchor` mark that renders as `<a id="…">` (without `href`, so
+it does not conflict with the link mark). It parses from `a[id]:not([href])`.
 
 The toolbar button opens a dialog where the user enters an anchor name. If text is selected, the
 anchor wraps that text. If no text is selected, a zero-width space is inserted with the anchor mark
 applied, creating an invisible bookmark. When the cursor is already inside an existing anchor,
-clicking the button opens the dialog in edit mode with the current name pre-filled.
+clicking the button opens the dialog in edit mode with the current id pre-filled.
 
-A right-click context menu provides "Edit Anchor" and "Remove Anchor" actions. The cleanup module
-excludes anchor marks from the "Remove Format" action so anchors survive formatting resets.
+A right-click context menu provides "Edit Anchor" and "Remove Anchor" actions, scoped to
+`a[id]:not([href])` elements. The cleanup module excludes anchor and link marks from the "Remove
+Format" action so anchors and links survive formatting resets.
 
 ### Cleanup
 
-A single "Remove Format" button that strips all marks from the selection.
+A single "Remove Format" button that strips all marks from the selection, except for `anchor` and
+`link` marks which are preserved. It also clears non-paragraph block nodes back to paragraphs.
+
+The button exposes an `isDisabled` state: it is disabled when the selection is empty, or when the
+selected range contains no removable formatting (no non-preserved marks and only plain paragraph
+content).
 
 ### Tables
 
@@ -213,9 +258,9 @@ again, and `min-width` values injected by the table editing UI are stripped from
 
 ### Trailing Paragraph Transform
 
-The styles module registers a lightweight output transform that removes empty trailing `<p>` elements
-from the output HTML. This cleans up the extra paragraph that the `trailingParagraph` ProseMirror
-plugin inserts to keep the editor usable.
+The styles module registers a lightweight output transform that removes empty trailing `<p>`
+elements from the output HTML. This cleans up the extra paragraph that the `trailingParagraph`
+ProseMirror plugin inserts to keep the editor usable.
 
 ### Transform Pipeline
 
@@ -232,6 +277,10 @@ The editor adapts to different use cases through a `WysiwygProfile`. The profile
 - **Removed buttons** — individual buttons that should be hidden.
 - **Extra plugins** — opt-in features like subscript/superscript.
 - **Default table class** — a CSS class automatically applied to new tables.
+- **Allowed link types** — via `ems.urlTypes`, restricts which link types (url, anchor, email,
+  phone) the link dialog offers.
+- **Default `_blank` target** — via `ems.urlTargetDefaultBlank`, pre-selects `_blank` as the target
+  for new links of the listed types.
 
 Modules can implement an `isEnabled` check that reads the profile to decide whether they should be
 loaded at all.

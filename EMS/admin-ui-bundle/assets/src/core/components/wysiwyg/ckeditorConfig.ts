@@ -53,13 +53,13 @@ export const DEFAULT_CK_VALUES: CkeditorConfig = {
     language: 'en',
     toolbarGroups: [
         { name: 'undo' },
-        { name: 'insert' },
         { name: 'links' },
+        { name: 'insert' },
         { name: 'tools' },
         { name: 'document', groups: ['mode'] },
         '/',
         { name: 'basicstyles', groups: ['basicstyles', 'cleanup'] },
-        { name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align'] },
+        { name: 'paragraph', groups: ['list', 'indent', 'blocks'] },
         { name: 'styles' },
         { name: 'colors' }
     ],

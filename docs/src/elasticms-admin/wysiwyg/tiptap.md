@@ -99,10 +99,13 @@ nearest matching ancestor using `OBJECT_NODE_MAP`.
 
 ### Insert
 
-Two separate submodules contribute to the insert toolbar group:
+Three separate submodules contribute to the insert toolbar group:
 
 - **Horizontal Rule** — inserts an `<hr>` element.
 - **Blockquote** — toggles a block quote with active state tracking.
+- **Special Characters** — opens a dialog with a grid of characters from the profile's
+  `specialChars` configuration. Hovering a character shows an enlarged preview. Clicking a character
+  inserts it at the cursor position and closes the dialog.
 
 ### Links
 

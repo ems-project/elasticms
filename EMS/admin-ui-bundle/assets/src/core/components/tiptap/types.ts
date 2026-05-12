@@ -13,6 +13,7 @@ import { ExtensionType } from './extensions.ts'
 import { stylesModule } from './module/styles.ts'
 import { anchorModule } from './module/anchor.ts'
 import { linkModule } from './module/link.ts'
+import { specialCharModule } from './module/specialChar.ts'
 
 export type ContextType = 'table'
 
@@ -26,6 +27,7 @@ export const Modules: TiptapModule[] = [
     justifyModule,
     linkModule,
     listModule,
+    specialCharModule,
     stylesModule,
     tableModule
 ]

@@ -11,17 +11,17 @@ interface DialogOptions {
 }
 
 export class Dialog {
-    private readonly dialog: HTMLDialogElement
+    readonly element: HTMLDialogElement
     private body: HTMLElement
     private footer: HTMLElement
     private options: DialogOptions
 
     constructor(title: string, options: DialogOptions = {}) {
         this.options = options
-        this.dialog = document.createElement('dialog')
-        this.dialog.className = 'ems-dialog'
+        this.element = document.createElement('dialog')
+        this.element.className = 'ems-dialog'
 
-        this.dialog.innerHTML = `
+        this.element.innerHTML = `
             <div class="dialog-content">
                 <div class="dialog-header">
                     <h4 class="dialog-title">${title}</h4>
@@ -32,17 +32,17 @@ export class Dialog {
             </div>
         `
 
-        this.body = this.dialog.querySelector('.dialog-body')!
-        this.footer = this.dialog.querySelector('.dialog-footer')!
+        this.body = this.element.querySelector('.dialog-body')!
+        this.footer = this.element.querySelector('.dialog-footer')!
 
-        this.dialog.querySelector('.dialog-close')!.addEventListener('click', () => this.close())
+        this.element.querySelector('.dialog-close')!.addEventListener('click', () => this.close())
 
-        this.dialog.addEventListener('close', () => {
+        this.element.addEventListener('close', () => {
             document.body.classList.remove('dialog-open')
-            this.dialog.remove()
+            this.element.remove()
         })
 
-        this.dialog.addEventListener('cancel', (e) => {
+        this.element.addEventListener('cancel', (e) => {
             e.preventDefault()
             this.close()
         })
@@ -52,18 +52,18 @@ export class Dialog {
         }
 
         const doc = window.top?.document || document
-        doc.body.appendChild(this.dialog)
+        doc.body.appendChild(this.element)
     }
 
     private makeDraggable(): void {
-        const header = this.dialog.querySelector('.dialog-header') as HTMLElement
+        const header = this.element.querySelector('.dialog-header') as HTMLElement
         const doc = window.top?.document || document
         header.classList.add('draggable')
         let offsetX = 0
         let offsetY = 0
 
         const onMouseMove = (e: MouseEvent) => {
-            const content = this.dialog.querySelector('.dialog-content') as HTMLElement
+            const content = this.element.querySelector('.dialog-content') as HTMLElement
             content.style.margin = '0'
             content.style.position = 'fixed'
             content.style.left = `${e.clientX - offsetX}px`
@@ -77,7 +77,7 @@ export class Dialog {
 
         header.addEventListener('mousedown', (e) => {
             if ((e.target as HTMLElement).closest('.dialog-close')) return
-            const content = this.dialog.querySelector('.dialog-content') as HTMLElement
+            const content = this.element.querySelector('.dialog-content') as HTMLElement
             const rect = content.getBoundingClientRect()
             content.style.width = `${rect.width}px`
             offsetX = e.clientX - rect.left
@@ -111,19 +111,19 @@ export class Dialog {
 
     open(): void {
         document.body.classList.add('dialog-open')
-        this.dialog.showModal()
-        const firstInput = this.dialog.querySelector<HTMLElement>('input, select, textarea')
+        this.element.showModal()
+        const firstInput = this.element.querySelector<HTMLElement>('input, select, textarea')
         if (firstInput) {
             firstInput.focus()
         }
     }
 
     close(): void {
-        this.dialog.close()
+        this.element.close()
     }
 
     getFieldValue(id: string): string {
-        const el = this.dialog.querySelector(`#${id}`) as HTMLInputElement
+        const el = this.element.querySelector(`#${id}`) as HTMLInputElement
         return el ? el.value : ''
     }
 }

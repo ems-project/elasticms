@@ -8,7 +8,7 @@ import Heading from '@tiptap/extension-heading'
 const dropdowns = new WeakMap<TiptapEditor, IframeDropdown>()
 const editorCleanups = new WeakMap<TiptapEditor, () => void>()
 
-const DEFAULT_FORMAT_TAGS = 'p;h1;h2;h3;h4;h5;h6;pre;address;div'
+const DEFAULT_FORMAT_TAGS = 'p;h1;h2;h3;pre'
 
 const FORMAT_LABELS: Record<string, string> = {
     p: 'Normal',

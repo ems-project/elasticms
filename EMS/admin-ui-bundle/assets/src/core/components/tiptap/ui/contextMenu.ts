@@ -1,8 +1,8 @@
-import '../../../../css/core/components/tiptap/_content_menu.scss'
+import '../../../../../css/core/components/tiptap/_content_menu.scss'
 
-import type { TiptapEditor } from './editor.ts'
+import type { TiptapEditor } from './../editor.ts'
 import { CellSelection } from '@tiptap/pm/tables'
-import type { ContextMenuItem, TiptapModule } from './types.ts'
+import type { ContextMenuItem, TiptapModule } from './../types.ts'
 
 const CONTEXT_NODES: Record<string, string[]> = {
     table: ['table', 'tableFigure', 'tableCaption'],

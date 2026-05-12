@@ -19,6 +19,24 @@ Every feature is encapsulated in a **module**. A module can provide extensions, 
 context menu items, and HTML transforms. The editor collects all modules, filters them based on the
 active profile, and registers only the relevant extensions and UI elements.
 
+### Shared UI Primitives
+
+Reusable UI components live in the `ui/` folder, separate from feature modules:
+
+- **IframeDropdown** — a generic dropdown rendered inside an iframe to isolate content CSS from the
+  toolbar. Handles lazy panel creation, positioning relative to the trigger button, show/hide
+  toggling, outside click dismissal, and cleanup. Used by the Styles and Format modules. Each
+  consumer provides a config with its own CSS, body builder, item click handler, and open callback.
+- **ContextMenu** — the right-click context menu system.
+- **Toolbar** — toolbar button rendering and state management.
+
+### Shared Block Node Extensions
+
+Common block nodes (`div`, `pre`, `address`) are defined once in `extensions.ts` via a
+`createBlockNode` factory and exported as `BLOCK_NODES`. Modules reference these shared instances
+instead of creating their own, avoiding duplicate extension registration when multiple modules need
+the same node type.
+
 ## Modules & Features
 
 ### Basic Styles
@@ -47,6 +65,28 @@ items instead.
 Left, center, right, and justify alignment using Tiptap's `TextAlign` extension configured for
 headings and paragraphs. The "left" button works by unsetting alignment (since left is the default).
 
+### Format
+
+The format module provides a dropdown for switching between block-level text formats, equivalent to
+CKEditor's Format plugin. It applies formatting at the block level — no text selection is needed.
+
+#### Available Formats
+
+The default format tags are `p;h1;h2;h3;pre`, configurable via `formatTags` in the wysiwyg options.
+Each tag maps to a human-readable label (e.g. `pre` → "Formatted", `h1` → "Heading 1"). The full
+label set covers `p`, `h1`–`h6`, `pre`, `address`, and `div`.
+
+#### Behavior
+
+Selecting a format converts the current block to the corresponding node type via `setHeading`,
+`setNode`, or `setParagraph`. The dropdown button label updates on every selection change to reflect
+the active format. The dropdown panel renders inside an iframe using the shared `IframeDropdown`
+utility, with the content CSS injected so format previews match the editor's styling.
+
+#### Extensions
+
+The module registers Heading and the shared `BLOCK_NODES` (div, pre, address) from `extensions.ts`.
+
 ### Styles
 
 The styles module provides a dropdown for applying block, inline, and object styles defined in the
@@ -72,20 +112,20 @@ Styles are categorized into three groups based on their target element:
 The module registers several extensions:
 
 - **Heading** — Tiptap's built-in heading extension.
-- **Div** — a custom block node for `<div>` elements with inline content.
+- **Shared block nodes** — `div`, `pre`, and `address` from `BLOCK_NODES` in `extensions.ts`.
 - **Inline style marks** — one mark per inline element, supporting `style` and `class` attributes.
 - **styleAttributes** — a global attribute extension that adds `htmlStyle` and `htmlClass` to
-  headings, paragraphs, and divs. Also includes two ProseMirror plugins:
-    - _trailingParagraph_ — ensures the document always ends with a paragraph node.
-    - _clearStyleOnSplit_ — resets block attributes and inline style marks when splitting a block
-      with Enter, so new paragraphs start clean.
+  headings, paragraphs, divs, and pre elements. Also includes two ProseMirror plugins:
+  - _trailingParagraph_ — ensures the document always ends with a paragraph node.
+  - _clearStyleOnSplit_ — resets block attributes and inline style marks when splitting a block
+    with Enter, so new paragraphs start clean.
 
 #### Dropdown Behavior
 
-The toolbar renders a "Styles" dropdown button. The dropdown panel is lazily initialized on first
-open and rendered inside an iframe to isolate the content CSS from the toolbar. The panel groups
-styles by category and only shows object styles when the cursor is inside a matching element (e.g.
-table styles only appear when editing a table).
+The toolbar renders a "Styles" dropdown button using the shared `IframeDropdown` utility. The
+dropdown panel is lazily initialized on first open and rendered inside an iframe to isolate the
+content CSS from the toolbar. The panel groups styles by category and only shows object styles when
+the cursor is inside a matching element (e.g. table styles only appear when editing a table).
 
 The button label updates on every selection change and transaction to reflect the currently active
 styles. When a style is already active, clicking it again removes it (toggling behavior).
@@ -279,6 +319,8 @@ The editor adapts to different use cases through a `WysiwygProfile`. The profile
 - **Toolbar groups** — which groups of buttons appear, and in what order.
 - **Removed buttons** — individual buttons that should be hidden.
 - **Extra plugins** — opt-in features like subscript/superscript.
+- **Format tags** — via `formatTags`, configures which block formats are available in the Format
+  dropdown (default: `p;h1;h2;h3;pre`).
 - **Default table class** — a CSS class automatically applied to new tables.
 - **Allowed link types** — via `ems.urlTypes`, restricts which link types (url, anchor, email,
   phone) the link dialog offers.

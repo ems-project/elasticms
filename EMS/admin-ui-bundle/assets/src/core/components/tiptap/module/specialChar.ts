@@ -31,7 +31,8 @@ function buildDialogContent(chars: string[]): string {
         .join('')
 
     return `<style>
-        .special-char-grid button:hover {
+        .special-char-grid button:hover,
+        .special-char-grid button:focus {
             border-color: #aaa !important;
             background: #f0f0f0 !important;
         }
@@ -96,4 +97,21 @@ function openSpecialCharDialog(e: TiptapEditor) {
         e.tiptap.chain().focus().insertContent({ type: 'text', text: char }).run()
         dialog.close()
     })
+
+    grid.addEventListener('focusin', (ev) => {
+        const btn = (ev.target as HTMLElement).closest(
+            'button[data-label]'
+        ) as HTMLButtonElement | null
+        if (!btn) return
+        if (previewLarge) previewLarge.textContent = btn.dataset.label ?? ''
+        if (previewLabel) previewLabel.textContent = btn.dataset.label ?? ''
+    })
+
+    grid.addEventListener('focusout', () => {
+        if (previewLarge) previewLarge.innerHTML = '&nbsp;'
+        if (previewLabel) previewLabel.innerHTML = '&nbsp;'
+    })
+
+    const firstBtn = grid.querySelector<HTMLElement>('button')
+    if (firstBtn) firstBtn.focus()
 }

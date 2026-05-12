@@ -73,6 +73,7 @@ export const stylesModule: TiptapModule = {
     toolbarGroup: 'styles',
     toolbar: [
         {
+            name: 'Styles',
             create: (editor: TiptapEditor) => createStylesDropdown(editor),
             destroy: (editor: TiptapEditor) => {
                 dropdowns.get(editor)?.destroy()

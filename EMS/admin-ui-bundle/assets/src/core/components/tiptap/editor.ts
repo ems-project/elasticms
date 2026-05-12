@@ -115,7 +115,7 @@ export class TiptapEditor {
                     if (mod.toolbarGroup !== groupName) return
 
                     const validItems = (mod.toolbar ?? []).filter((item) => {
-                        return !('name' in item) || !removed.has(item.name)
+                        return !removed.has(item.name)
                     })
 
                     validItems.forEach((item) => {

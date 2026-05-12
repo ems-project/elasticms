@@ -34,6 +34,7 @@ export const formatModule: TiptapModule = {
     toolbarGroup: 'format',
     toolbar: [
         {
+            name: 'Format',
             create: (editor: TiptapEditor) => createFormatDropdown(editor),
             destroy: (editor: TiptapEditor) => {
                 dropdowns.get(editor)?.destroy()

@@ -15,6 +15,7 @@ import { anchorModule } from './module/anchor.ts'
 import { linkModule } from './module/link.ts'
 import { specialCharModule } from './module/specialChar.ts'
 import { formatModule } from './module/format.ts'
+import { showBlocksModule } from './module/showBlocks.ts'
 
 export type ContextType = 'table'
 
@@ -29,6 +30,7 @@ export const Modules: TiptapModule[] = [
     justifyModule,
     linkModule,
     listModule,
+    showBlocksModule,
     specialCharModule,
     stylesModule,
     tableModule

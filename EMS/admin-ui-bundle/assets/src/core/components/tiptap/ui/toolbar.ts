@@ -8,6 +8,8 @@ export class Toolbar {
     private readonly editor: TiptapEditor
     private items: Map<string, ToolbarItem | ToolbarItemCustom> = new Map()
     private groups: Map<string, (ToolbarItem | ToolbarItemCustom)[]> = new Map()
+    private globalDisabled = false
+    private globalExclude: string[] = []
 
     constructor(editor: TiptapEditor) {
         this.editor = editor
@@ -94,18 +96,24 @@ export class Toolbar {
     update() {
         this.container.querySelectorAll<HTMLButtonElement>('button[data-action]').forEach((btn) => {
             const item = this.items.get(btn.dataset.action!)
-            if (item) {
-                btn.classList.toggle('is-active', 'isActive' in item && item.isActive?.(this.editor))
+            if (!item) return
+
+            const name = btn.dataset.action!
+
+            btn.classList.toggle('is-active', 'isActive' in item && item.isActive?.(this.editor))
+
+            if (this.globalDisabled) {
+                btn.disabled = !this.globalExclude.includes(name)
+            } else {
                 btn.disabled = ('isDisabled' in item && item.isDisabled?.(this.editor)) ?? false
             }
         })
     }
 
     setDisabled(disabled: boolean, exclude: string[] = []) {
-        this.container.querySelectorAll<HTMLButtonElement>('button[data-action]').forEach((btn) => {
-            const name = btn.dataset.action
-            if (name) btn.disabled = disabled && !exclude.includes(name)
-        })
+        this.globalDisabled = disabled
+        this.globalExclude = exclude
+        this.update()
     }
 
     destroy() {

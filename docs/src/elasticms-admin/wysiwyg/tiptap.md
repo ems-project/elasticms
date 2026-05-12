@@ -64,6 +64,26 @@ Anchors and links are preserved by the Remove Format action.
 
 Ordered (numbered) and unordered (bulleted) lists.
 
+### Maximize
+
+A toggle button that expands the editor to fill the entire viewport. The button icon and tooltip
+switch between "Maximize" and "Minimize" depending on the current state. Only available in the
+WYSIWYG editor, not in the inline editor.
+
+### Show Blocks
+
+A toggle button that visualizes block-level elements in the editor with dotted borders and tag name
+labels (p, h1, div, pre, etc.). Purely visual — does not affect the HTML output. Useful for
+inspecting document structure. The button icon and tooltip switch between "Show Blocks" and "Hide
+Blocks" depending on the current state. Opt-in via the `showblocks` extra plugin.
+
+### Source
+
+A toggle button that switches between the visual editor and a raw HTML source view. When entering
+source mode, the current HTML is shown in a textarea and all toolbar buttons are disabled except
+Source and Maximize. When leaving source mode, the edited HTML is loaded back into the editor. Only
+available in the WYSIWYG editor, not in the inline editor.
+
 ### Styles
 
 A toolbar dropdown for applying styles defined in the wysiwyg configuration. Styles are split into
@@ -166,7 +186,7 @@ The editor adapts to different use cases through a `WysiwygProfile`. The profile
 
 - **Toolbar groups** — which groups of buttons appear, and in what order.
 - **Removed buttons** — individual buttons that should be hidden.
-- **Extra plugins** — opt-in features like subscript/superscript.
+- **Extra plugins** — opt-in features like subscript/superscript and show blocks.
 - **Format tags** — via `formatTags`, configures which block formats are available in the Format
   dropdown (default: `p;h1;h2;h3;pre`).
 - **Default table class** — a CSS class automatically applied to new tables.

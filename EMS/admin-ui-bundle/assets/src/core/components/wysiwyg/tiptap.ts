@@ -5,6 +5,7 @@ import { TiptapEditor } from '../tiptap/editor.ts'
 import { TiptapModule } from '../tiptap/types.ts'
 import ChangeEvent from '../../events/changeEvent.ts'
 import IconSource from '@tabler/icons/outline/code.svg?raw'
+import IconSourceOff from '@tabler/icons/outline/code-off.svg?raw'
 import IconMaximize from '@tabler/icons/outline/arrows-maximize.svg?raw'
 import IconMinimize from '@tabler/icons/outline/arrows-minimize.svg?raw'
 import { getWysiwygOptions, getWysiwygProfile, WysiwygOptions } from './wysiwyg.ts'
@@ -111,6 +112,12 @@ export default class Tiptap {
                         this.isSourceView = !this.isSourceView
                         this.container.classList.toggle('is-source-mode', this.isSourceView)
 
+                        const button = tiptapEditor.toolbar.getButton('Source')
+                        if (button) {
+                            button.innerHTML = this.isSourceView ? IconSourceOff : IconSource
+                            button.title = this.isSourceView ? 'Hide Source' : 'Show Source'
+                        }
+
                         if (this.isSourceView) {
                             this.textarea.value = tiptapEditor.getHTML()
                             tiptapEditor.toolbar.setDisabled(true, ['Source', 'Maximize'])
@@ -118,7 +125,6 @@ export default class Tiptap {
                             tiptapEditor.setContent(this.textarea.value)
                             tiptapEditor.toolbar.setDisabled(false, ['Source', 'Maximize'])
                         }
-                        tiptapEditor.toolbar.update()
                     }
                 }
             ]
@@ -141,8 +147,10 @@ export default class Tiptap {
                         this.container.classList.toggle('is-maximized', this.isMaximized)
 
                         const button = tiptapEditor.toolbar.getButton('Maximize')
-                        if (button)
+                        if (button) {
                             button.innerHTML = this.isMaximized ? IconMinimize : IconMaximize
+                            button.title = this.isMaximized ? 'Minimize' : 'Maximize'
+                        }
 
                         tiptapEditor.toolbar.update()
                     }

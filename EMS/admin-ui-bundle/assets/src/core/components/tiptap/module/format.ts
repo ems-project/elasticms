@@ -5,6 +5,7 @@ import { ExtensionType } from './../extensions.ts'
 import { createIframeDropdown, IframeDropdown } from './../ui/iframeDropdown.ts'
 import formatIframeCss from './../../../../../css/core/components/tiptap/_menu_format.scss?inline'
 import Heading from '@tiptap/extension-heading'
+import { getDivExtension } from './div.ts'
 
 const dropdowns = new WeakMap<TiptapEditor, IframeDropdown>()
 const editorCleanups = new WeakMap<TiptapEditor, () => void>()
@@ -16,12 +17,7 @@ const FORMAT_LABELS: Record<string, string> = {
     h1: 'Heading 1',
     h2: 'Heading 2',
     h3: 'Heading 3',
-    h4: 'Heading 4',
-    h5: 'Heading 5',
-    h6: 'Heading 6',
-    pre: 'Formatted',
-    address: 'Address',
-    div: 'Normal (DIV)'
+    pre: 'Formatted'
 }
 
 const NODE_TO_TAG: Record<string, string> = {
@@ -47,20 +43,6 @@ export const formatModule: TiptapModule = {
 }
 
 // ─── Extensions ──────────────────────────────────────────────
-
-function getDivExtension(): ExtensionType {
-    return TiptapNode.create({
-        name: 'div',
-        group: 'block',
-        content: 'inline*',
-        parseHTML() {
-            return [{ tag: 'div' }]
-        },
-        renderHTML({ HTMLAttributes }) {
-            return ['div', HTMLAttributes, 0]
-        }
-    })
-}
 
 function getAddressExtension(): ExtensionType {
     return TiptapNode.create({

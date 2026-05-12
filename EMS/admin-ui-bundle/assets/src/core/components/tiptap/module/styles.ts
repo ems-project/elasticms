@@ -1,12 +1,13 @@
 import { TiptapModule } from '../types.ts'
 import { TiptapEditor } from '../editor.ts'
 import { CkeditorStyle } from '../../wysiwyg/ckeditorConfig.ts'
-import { Extension, Mark, mergeAttributes, Node as TiptapNode } from '@tiptap/core'
+import { Extension, Mark, mergeAttributes } from '@tiptap/core'
 import { ExtensionType } from './../extensions.ts'
 import { createIframeDropdown, IframeDropdown } from './../ui/iframeDropdown.ts'
 import stylesIframeCss from './../../../../../css/core/components/tiptap/_menu_styles.scss?inline'
 import Heading from '@tiptap/extension-heading'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
+import { getDivExtension } from './div.ts'
 
 const dropdowns = new WeakMap<TiptapEditor, IframeDropdown>()
 const editorCleanups = new WeakMap<TiptapEditor, () => void>()
@@ -91,20 +92,6 @@ export const stylesModule: TiptapModule = {
 }
 
 // ─── Extensions ──────────────────────────────────────────────
-
-function getDivExtension(): ExtensionType {
-    return TiptapNode.create({
-        name: 'div',
-        group: 'block',
-        content: 'inline*',
-        parseHTML() {
-            return [{ tag: 'div' }]
-        },
-        renderHTML({ HTMLAttributes }) {
-            return ['div', HTMLAttributes, 0]
-        }
-    })
-}
 
 function getStyleExtension(): ExtensionType {
     return Extension.create({

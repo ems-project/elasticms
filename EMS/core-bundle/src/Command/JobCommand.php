@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Command;
 
 use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\CommonBundle\Runner\RunnerManager;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Entity\Job;
 use EMS\CoreBundle\Service\JobService;
@@ -35,6 +36,7 @@ class JobCommand extends AbstractCommand
     public function __construct(
         private readonly JobService $jobService,
         private readonly ReleaseService $releaseService,
+        private readonly RunnerManager $runnerManager,
         private readonly string $dateFormat,
         private readonly string $cleanJobsTimeString,
     ) {
@@ -65,7 +67,7 @@ class JobCommand extends AbstractCommand
     {
         $this->io->title('EMSCO - Job - Run');
 
-        if ($this->processReleases() || $this->processNextJob() || $this->processNextScheduledJob()) {
+        if ($this->processReleases() || $this->processNextJob() || $this->processNextScheduledJob() || $this->processNextScheduledRunner()) {
             return self::EXECUTE_SUCCESS;
         }
 
@@ -173,5 +175,21 @@ class JobCommand extends AbstractCommand
             $this->io->write($jobLog);
             $this->io->section('End of job\'s output');
         }
+    }
+
+    private function processNextScheduledRunner(): bool
+    {
+        foreach ($this->runnerManager->getTags() as $tag) {
+            $nextScheduledRunner = $this->jobService->nextJobScheduled(self::USER_JOB_COMMAND, $tag);
+            if (null === $nextScheduledRunner) {
+                continue;
+            }
+            $identifier = $this->runnerManager->start($tag, $nextScheduledRunner->getCommandArray());
+            $this->io->writeln(\sprintf('Runner with ID: %d has been initialized', $identifier));
+
+            return true;
+        }
+
+        return false;
     }
 }

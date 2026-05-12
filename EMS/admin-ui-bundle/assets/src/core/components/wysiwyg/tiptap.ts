@@ -118,7 +118,6 @@ export default class Tiptap {
                             tiptapEditor.setContent(this.textarea.value)
                             tiptapEditor.toolbar.setDisabled(false, ['Source', 'Maximize'])
                         }
-                        tiptapEditor.toolbar.update()
                     }
                 }
             ]

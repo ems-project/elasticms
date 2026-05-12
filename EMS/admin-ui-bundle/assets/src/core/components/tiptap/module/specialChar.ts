@@ -90,7 +90,7 @@ function openSpecialCharDialog(e: TiptapEditor) {
         e.tiptap
             .chain()
             .focus()
-            .insertContent({ type: 'text', text: char, marks: [{ type: 'bold' }] })
+            .insertContent({ type: 'text', text: char })
             .run()
         dialog.close()
     })

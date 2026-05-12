@@ -141,8 +141,10 @@ export default class Tiptap {
                         this.container.classList.toggle('is-maximized', this.isMaximized)
 
                         const button = tiptapEditor.toolbar.getButton('Maximize')
-                        if (button)
+                        if (button) {
                             button.innerHTML = this.isMaximized ? IconMinimize : IconMaximize
+                            button.title = this.isMaximized ? 'Minimize' : 'Maximize'
+                        }
 
                         tiptapEditor.toolbar.update()
                     }

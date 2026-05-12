@@ -1,253 +1,102 @@
 # Tiptap Rich Text Editor
 
-This document describes our custom Tiptap-based WYSIWYG editor, its modules, toolbar system, and the
-HTML transforms we built to work around Tiptap's limitations.
+A custom Tiptap-based WYSIWYG editor with a modular architecture. Each feature is a self-contained
+module that can provide toolbar buttons, context menu items, and HTML transforms. The editor loads
+modules based on the active wysiwyg profile.
 
-## Architecture Overview
-
-The editor is built around three core pieces:
-
-- **TiptapEditor** — the main class that wires everything together: initializes the Tiptap instance,
-  resolves which modules to load based on the wysiwyg profile, manages the toolbar and context menu,
-  and handles HTML transforms on input/output.
-- **Toolbar** — renders toolbar buttons grouped by category and keeps their active state in sync
-  with the editor selection.
-- **ContextMenu** — a right-click menu that shows context-sensitive actions (e.g. table operations
-  when clicking inside a table).
-
-Every feature is encapsulated in a **module**. A module can provide extensions, toolbar buttons,
-context menu items, and HTML transforms. The editor collects all modules, filters them based on the
-active profile, and registers only the relevant extensions and UI elements.
-
-### Shared UI Primitives
-
-Reusable UI components live in the `ui/` folder, separate from feature modules:
-
-- **IframeDropdown** — a generic dropdown rendered inside an iframe to isolate content CSS from the
-  toolbar. Handles lazy panel creation, positioning relative to the trigger button, show/hide
-  toggling, outside click dismissal, and cleanup. Used by the Styles and Format modules. Each
-  consumer provides a config with its own CSS, body builder, item click handler, and open callback.
-- **ContextMenu** — the right-click context menu system.
-- **Toolbar** — toolbar button rendering and state management.
-
-### Shared Block Node Extensions
-
-Common block nodes (`div`, `pre`, `address`) are defined once in `extensions.ts` via a
-`createBlockNode` factory and exported as `BLOCK_NODES`. Modules reference these shared instances
-instead of creating their own, avoiding duplicate extension registration when multiple modules need
-the same node type.
-
-## Modules & Features
-
-### Basic Styles
-
-Bold, italic, and strikethrough are always available. Subscript and superscript are opt-in and only
-load when the profile includes the `basicstyles` extra plugin.
-
-### History (Undo / Redo)
-
-Provides undo and redo buttons backed by Tiptap's built-in `UndoRedo` extension. Each button exposes
-an `isDisabled` state so it greys out when there is nothing to undo or redo.
-
-### Lists
-
-Supports ordered (numbered) and unordered (bulleted) lists. Each list type registers its own
-extension and toolbar button.
-
-### Indentation
-
-Handles indentation for paragraphs and headings via a custom `indent` global attribute that renders
-as `margin-left`. When the cursor is inside a list, the indent/outdent buttons sink or lift list
-items instead.
-
-### Text Alignment
-
-Left, center, right, and justify alignment using Tiptap's `TextAlign` extension configured for
-headings and paragraphs. The "left" button works by unsetting alignment (since left is the default).
+## Modules
 
 ### Format
 
-The format module provides a dropdown for switching between block-level text formats, equivalent to
-CKEditor's Format plugin. It applies formatting at the block level — no text selection is needed.
+A toolbar dropdown for switching block-level formats, equivalent to CKEditor's Format plugin. Works
+at the block level — no text selection needed. The dropdown button shows the name of the active
+format.
 
-#### Available Formats
+Available formats are configured via `formatTags` (default: `p;h1;h2;h3;pre`). Each tag has a label
+shown in the dropdown: Normal, Heading 1–6, Formatted, Address, Normal (DIV).
 
-The default format tags are `p;h1;h2;h3;pre`, configurable via `formatTags` in the wysiwyg options.
-Each tag maps to a human-readable label (e.g. `pre` → "Formatted", `h1` → "Heading 1"). The full
-label set covers `p`, `h1`–`h6`, `pre`, `address`, and `div`.
-
-#### Behavior
-
-Selecting a format converts the current block to the corresponding node type via `setHeading`,
-`setNode`, or `setParagraph`. The dropdown button label updates on every selection change to reflect
-the active format. The dropdown panel renders inside an iframe using the shared `IframeDropdown`
-utility, with the content CSS injected so format previews match the editor's styling.
-
-#### Extensions
-
-The module registers Heading and the shared `BLOCK_NODES` (div, pre, address) from `extensions.ts`.
+The dropdown renders inside an iframe so format previews use the editor's content CSS.
 
 ### Styles
 
-The styles module provides a dropdown for applying block, inline, and object styles defined in the
-wysiwyg configuration. It bridges CKEditor-style definitions to Tiptap by mapping them onto
-headings, paragraphs, divs, inline marks, and object nodes like tables and lists.
+A toolbar dropdown for applying styles defined in the wysiwyg configuration. Styles are split into
+three categories:
 
-#### Element Classification
+- **Block styles** — change the block type and optionally add a CSS class or inline style.
+  Target elements: `p`, `h1`–`h6`, `div`, `pre`, `address`, `blockquote`.
+- **Inline styles** — wrap selected text in an element with optional class/style.
+  Target elements: `span`, `small`, `code`, `kbd`, `del`, `ins`, and others.
+- **Object styles** — apply a class or style to the nearest matching ancestor.
+  Target elements: `table`, `ul`, `ol`, `td`, `th`, `a`.
 
-Styles are categorized into three groups based on their target element:
+The dropdown groups styles by category and only shows object styles when the cursor is inside a
+matching element (e.g. table styles only appear when editing a table). Clicking an active style
+removes it.
 
-- **Block styles** — target `p`, `h1`–`h6`, `div`, `pre`, `address`, or `blockquote`. Applied by
-  switching the node type and/or setting `htmlClass` and `htmlStyle` attributes.
-- **Inline styles** — target elements like `span`, `small`, `code`, `kbd`, `del`, `ins`, etc. Each
-  inline element is registered as a separate Tiptap mark (`inlineStyle_span`, `inlineStyle_code`, …)
-  with `style` and `class` attributes. Applied via `toggleMark`.
-- **Object styles** — target `table`, `ul`, `ol`, `td`, `th`, or `a`. For block-level objects
-  (`table`, `ul`, `ol`, `td`, `th`), they toggle a `dataUserStyle` attribute or CSS class on the
-  nearest matching ancestor node. For links (`a`), they toggle `class` and `style` attributes
-  directly on the `link` mark.
+The dropdown button label reflects the currently active styles and updates on every selection change.
 
-#### Extensions
+When pressing Enter on a styled block, the new paragraph starts clean — block styles and inline
+style marks are automatically cleared.
 
-The module registers several extensions:
+### Basic Styles
 
-- **Heading** — Tiptap's built-in heading extension.
-- **Shared block nodes** — `div`, `pre`, and `address` from `BLOCK_NODES` in `extensions.ts`.
-- **Inline style marks** — one mark per inline element, supporting `style` and `class` attributes.
-- **styleAttributes** — a global attribute extension that adds `htmlStyle` and `htmlClass` to
-  headings, paragraphs, divs, and pre elements. Also includes two ProseMirror plugins:
-  - _trailingParagraph_ — ensures the document always ends with a paragraph node.
-  - _clearStyleOnSplit_ — resets block attributes and inline style marks when splitting a block
-    with Enter, so new paragraphs start clean.
+Bold, italic, and strikethrough are always available. Subscript and superscript are opt-in via the
+`basicstyles` extra plugin.
 
-#### Dropdown Behavior
+### History
 
-The toolbar renders a "Styles" dropdown button using the shared `IframeDropdown` utility. The
-dropdown panel is lazily initialized on first open and rendered inside an iframe to isolate the
-content CSS from the toolbar. The panel groups styles by category and only shows object styles when
-the cursor is inside a matching element (e.g. table styles only appear when editing a table).
+Undo and redo buttons. Greyed out when there is nothing to undo or redo.
 
-The button label updates on every selection change and transaction to reflect the currently active
-styles. When a style is already active, clicking it again removes it (toggling behavior).
+### Lists
 
-#### Style Resolution
+Ordered (numbered) and unordered (bulleted) lists.
 
-Block style detection uses two lookup maps — `NODE_TO_ELEMENT` and `ELEMENT_TO_APPLIED` — to
-translate between Tiptap node names and HTML elements. This avoids deeply nested conditionals and
-makes it easy to add new block types. Object style detection walks up the node tree to find the
-nearest matching ancestor using `OBJECT_NODE_MAP`.
+### Indentation
+
+Indent and outdent for paragraphs and headings. Inside a list, the buttons sink or lift list items
+instead.
+
+### Text Alignment
+
+Left, center, right, and justify. Left works by unsetting alignment since it is the default.
 
 ### Insert
 
-Three separate submodules contribute to the insert toolbar group:
-
-- **Horizontal Rule** — inserts an `<hr>` element.
-- **Blockquote** — toggles a block quote with active state tracking.
-- **Special Characters** — opens a dialog with a grid of characters from the profile's
-  `specialChars` configuration. Hovering a character shows an enlarged preview. Clicking a character
-  inserts it at the cursor position and closes the dialog.
+- **Horizontal Rule** — inserts an `<hr>`.
+- **Blockquote** — toggles a block quote.
+- **Special Characters** — opens a character picker dialog. Hovering shows a preview, clicking
+  inserts the character.
 
 ### Links
 
-The links toolbar group contains three buttons: **Link**, **Unlink**, and **Anchor**. Link and
-anchor are independent modules that share the same group.
+Three buttons: Link, Unlink, and Anchor.
 
-#### Link
+**Link** opens a dialog supporting four link types: URL (with optional target), Anchor (link to a
+named anchor in the document), E-mail (with optional subject/body), and Phone. The dialog detects
+the current link type and pre-fills accordingly. Available types can be restricted via
+`ems.urlTypes`. Default `_blank` target for new links can be set per type via
+`ems.urlTargetDefaultBlank`.
 
-The link module registers a custom `link` mark with `href`, `target`, `class`, and `style`
-attributes. The mark parses from `a[href]` so it does not conflict with the anchor mark (which has
-no `href`). The `class` and `style` attributes are managed by the styles module when an object style
-targeting `a` is applied.
+**Anchor** creates a named bookmark (`<a id="…">`) that can be linked to. Works on selected text or
+inserts an invisible bookmark when nothing is selected. Right-click provides edit and remove actions.
 
-Clicking the Link button opens a dialog that supports four link types:
+**Unlink** removes the link from the selection. Disabled when the cursor is not inside a link.
 
-- **URL** — a free-form URL with an optional `target` (`_blank`, `_self`, or unset).
-- **Anchor** — a link to a named anchor in the current document. The dropdown is populated by
-  walking the document and collecting every `id` from existing anchor marks. Renders as `#<id>`.
-- **E-mail** — an email address with optional subject and body, serialized as
-  `mailto:<email>?subject=…&body=…`.
-- **Phone** — a phone number, serialized as `tel:<number>`.
-
-The dialog detects the active link type by inspecting the existing `href` (prefixes `mailto:`,
-`tel:`, `#`) and pre-fills the corresponding fields. The link type select switches which field group
-is visible.
-
-The profile can restrict the available types via `profile.config.ems.urlTypes`. If the active link's
-type is not in the allowed list, the dialog falls back to the first available type.
-
-The profile can also pre-select `_blank` as the default target for new links of certain types via
-`profile.config.ems.urlTargetDefaultBlank` (an array of type values, e.g. `['url']`). This only
-applies when creating a new link; existing links keep their stored target.
-
-The Unlink button removes the link mark from the current selection and exposes an `isDisabled` state
-when the cursor is not inside a link.
-
-A right-click context menu on link nodes provides **Edit Link** and **Unlink** actions.
-
-#### Anchor
-
-The anchor module registers a custom `anchor` mark that renders as `<a id="…">` (without `href`, so
-it does not conflict with the link mark). It parses from `a[id]:not([href])`.
-
-The toolbar button opens a dialog where the user enters an anchor name. If text is selected, the
-anchor wraps that text. If no text is selected, a zero-width space is inserted with the anchor mark
-applied, creating an invisible bookmark. When the cursor is already inside an existing anchor,
-clicking the button opens the dialog in edit mode with the current id pre-filled.
-
-A right-click context menu provides "Edit Anchor" and "Remove Anchor" actions, scoped to
-`a[id]:not([href])` elements. The cleanup module excludes anchor and link marks from the "Remove
-Format" action so anchors and links survive formatting resets.
+Anchors and links are preserved by the Remove Format action.
 
 ### Cleanup
 
-A single "Remove Format" button that strips all marks from the selection, except for `anchor` and
-`link` marks which are preserved. It also clears non-paragraph block nodes back to paragraphs.
-
-The button exposes an `isDisabled` state: it is disabled when the selection is empty, or when the
-selected range contains no removable formatting (no non-preserved marks and only plain paragraph
-content).
+A "Remove Format" button that strips all formatting from the selection. Resets styled blocks back to
+paragraphs. Preserves anchors and links. Disabled when the selection has no removable formatting.
 
 ### Tables
 
-The most complex module. It provides a full table editing experience with insert/edit dialogs, cell
-property dialogs, a context menu with row/column/cell operations, and several HTML transforms. See
-the dedicated section below for details.
+Full table editing: insert and edit tables via a properties dialog, edit cell properties, and a
+right-click context menu with cell, row, column, and table-level operations.
 
-## Table Support in Detail
-
-### Custom Extensions
-
-We extend several default Tiptap table nodes to support extra attributes:
-
-- **CustomTable** — adds `class`, `id`, `summary`, `align`, `border`, `cellpadding`, `cellspacing`,
-  `width`, `height`, and a `dataUserStyle` attribute that preserves inline styles through editing.
-- **CustomTableCell** — adds the same `dataUserStyle` attribute to cells.
-- **CustomTableHeader** — extends the default `TableHeader` with a `scope` attribute (`col`, `row`,
-  or `null`) for accessibility.
-- **TableFigure** and **TableCaption** — two custom nodes for wrapping tables with captions (see
-  below).
-
-### Table Dialog
-
-The table properties dialog allows you to configure headers, dimensions, alignment, border, padding,
-spacing, CSS class, ID, inline style, caption, and summary — both when inserting a new table and
-when editing an existing one.
-
-### Cell Dialog
-
-The cell properties dialog lets you change cell type (data vs header), column/row span, width,
-height, word wrap, and horizontal/vertical alignment.
-
-### Context Menu
-
-Right-clicking inside a table opens a context menu with grouped sub-menus:
-
-- **Cell** — insert cell before/after, clear cells, merge, split, cell properties.
-- **Row** — insert row before/after, delete rows.
-- **Column** — insert column before/after, delete columns.
-- **Table-level** — delete table, table properties.
-
-All cell/row/column actions are disabled when the cursor is inside a caption.
+The table dialog covers headers, dimensions, alignment, border, padding, spacing, class, ID, inline
+style, caption, and summary. The cell dialog covers cell type, spans, dimensions, word wrap, and
+alignment.
 
 ## HTML Transforms
 
@@ -302,17 +151,16 @@ again, and `min-width` values injected by the table editing UI are stripped from
 ### Trailing Paragraph Transform
 
 The styles module registers a lightweight output transform that removes empty trailing `<p>`
-elements from the output HTML. This cleans up the extra paragraph that the `trailingParagraph`
-ProseMirror plugin inserts to keep the editor usable.
+elements from the output HTML. This cleans up the extra paragraph that the editor inserts to keep
+the document editable.
 
 ### Transform Pipeline
 
-All transforms run in sequence through a shared pipeline in `TiptapEditor.transformHtml()`. The
-method parses the HTML into a DOM, calls every registered transform in order, and serializes the
-result back to an HTML string. This keeps the transform logic decoupled from the editor core —
-modules simply declare their transforms and the editor handles the rest.
+All transforms run in sequence through a shared pipeline. The HTML is parsed into a DOM, every
+registered transform runs in order, and the result is serialized back to an HTML string. Modules
+simply declare their transforms and the editor handles the rest.
 
-## Profile-Based Configuration
+## Profile Configuration
 
 The editor adapts to different use cases through a `WysiwygProfile`. The profile controls:
 

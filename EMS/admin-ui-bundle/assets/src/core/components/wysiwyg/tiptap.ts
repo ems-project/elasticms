@@ -5,6 +5,7 @@ import { TiptapEditor } from '../tiptap/editor.ts'
 import { TiptapModule } from '../tiptap/types.ts'
 import ChangeEvent from '../../events/changeEvent.ts'
 import IconSource from '@tabler/icons/outline/code.svg?raw'
+import IconSourceOff from '@tabler/icons/outline/code-off.svg?raw'
 import IconMaximize from '@tabler/icons/outline/arrows-maximize.svg?raw'
 import IconMinimize from '@tabler/icons/outline/arrows-minimize.svg?raw'
 import { getWysiwygOptions, getWysiwygProfile, WysiwygOptions } from './wysiwyg.ts'
@@ -110,6 +111,12 @@ export default class Tiptap {
                     command: (tiptapEditor) => {
                         this.isSourceView = !this.isSourceView
                         this.container.classList.toggle('is-source-mode', this.isSourceView)
+
+                        const button = tiptapEditor.toolbar.getButton('Source')
+                        if (button) {
+                            button.innerHTML = this.isSourceView ? IconSourceOff : IconSource
+                            button.title = this.isSourceView ? 'Hide Source' : 'Show Source'
+                        }
 
                         if (this.isSourceView) {
                             this.textarea.value = tiptapEditor.getHTML()

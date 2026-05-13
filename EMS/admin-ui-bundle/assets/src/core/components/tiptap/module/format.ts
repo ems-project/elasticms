@@ -5,9 +5,6 @@ import { createIframeDropdown, IframeDropdown } from './../ui/iframeDropdown.ts'
 import formatIframeCss from './../../../../../css/core/components/tiptap/_menu_format.scss?inline'
 import Heading from '@tiptap/extension-heading'
 
-const dropdowns = new WeakMap<TiptapEditor, IframeDropdown>()
-const editorCleanups = new WeakMap<TiptapEditor, () => void>()
-
 const DEFAULT_FORMAT_TAGS = 'p;h1;h2;h3;pre'
 
 const FORMAT_LABELS: Record<string, string> = {
@@ -23,11 +20,27 @@ const FORMAT_LABELS: Record<string, string> = {
     div: 'Normal (DIV)'
 }
 
-const NODE_TO_TAG: Record<string, string> = {
-    pre: 'pre',
-    div: 'div',
-    address: 'address'
+const NODE_TAGS = new Set(['pre', 'div', 'address'])
+
+const FORMAT_COMMANDS: Record<string, (chain: any) => any> = {
+    p: (c) => c.setParagraph(),
+    pre: (c) => c.setNode('pre'),
+    div: (c) => c.setNode('div'),
+    address: (c) => c.setNode('address'),
+    h1: (c) => c.setHeading({ level: 1 }),
+    h2: (c) => c.setHeading({ level: 2 }),
+    h3: (c) => c.setHeading({ level: 3 }),
+    h4: (c) => c.setHeading({ level: 4 }),
+    h5: (c) => c.setHeading({ level: 5 }),
+    h6: (c) => c.setHeading({ level: 6 })
 }
+
+type EditorState = {
+    dropdown: IframeDropdown
+    cleanup: () => void
+}
+
+const editorState = new WeakMap<TiptapEditor, EditorState>()
 
 export const formatModule: TiptapModule = {
     extensions: [Heading, BLOCK_NODES.div, BLOCK_NODES.pre, BLOCK_NODES.address],
@@ -37,43 +50,27 @@ export const formatModule: TiptapModule = {
             name: 'Format',
             create: (editor: TiptapEditor) => createFormatDropdown(editor),
             destroy: (editor: TiptapEditor) => {
-                dropdowns.get(editor)?.destroy()
-                dropdowns.delete(editor)
-                editorCleanups.get(editor)?.()
-                editorCleanups.delete(editor)
+                const state = editorState.get(editor)
+                if (!state) return
+                state.dropdown.destroy()
+                state.cleanup()
+                editorState.delete(editor)
             }
         }
     ]
 }
 
-// ─── Active format detection ─────────────────────────────────
-
 function resolveActiveTag(editor: TiptapEditor): string {
     const node = editor.tiptap.state.selection.$from.node()
     if (node.type.name === 'heading') return `h${node.attrs.level}`
-    return NODE_TO_TAG[node.type.name] ?? 'p'
+    return NODE_TAGS.has(node.type.name) ? node.type.name : 'p'
 }
-
-// ─── Format application ──────────────────────────────────────
 
 function applyFormat(editor: TiptapEditor, tag: string): void {
     const chain = editor.tiptap.chain().focus() as any
-    const headingMatch = tag.match(/^h([1-6])$/)
-
-    if (headingMatch && chain.setHeading) {
-        chain.setHeading({ level: parseInt(headingMatch[1]) }).run()
-    } else if (tag === 'pre') {
-        chain.setNode('pre').run()
-    } else if (tag === 'div') {
-        chain.setNode('div').run()
-    } else if (tag === 'address') {
-        chain.setNode('address').run()
-    } else {
-        chain.setParagraph().run()
-    }
+    const command = FORMAT_COMMANDS[tag] ?? FORMAT_COMMANDS.p
+    command(chain).run()
 }
-
-// ─── Panel rendering ─────────────────────────────────────────
 
 function buildFormatItem(tag: string): string {
     const label = FORMAT_LABELS[tag] ?? tag
@@ -81,12 +78,10 @@ function buildFormatItem(tag: string): string {
 }
 
 function syncActive(doc: Document, activeTag: string): void {
-    doc.querySelectorAll('li').forEach((li) => {
+    doc.querySelectorAll<HTMLLIElement>('.format-list li').forEach((li) => {
         li.classList.toggle('active', li.dataset.name === activeTag)
     })
 }
-
-// ─── Dropdown ────────────────────────────────────────────────
 
 function createFormatDropdown(editor: TiptapEditor): HTMLElement {
     const options = editor.getWysiwygOptions()
@@ -99,15 +94,9 @@ function createFormatDropdown(editor: TiptapEditor): HTMLElement {
         contentCss,
         buttonLabel: 'Format',
         buildBody: () => `<ul class="format-list">${formatTags.map(buildFormatItem).join('')}</ul>`,
-        onItemClick(name) {
-            applyFormat(editor, name)
-        },
-        onOpen(iframeDoc) {
-            syncActive(iframeDoc, resolveActiveTag(editor))
-        }
+        onItemClick: (name) => applyFormat(editor, name),
+        onOpen: (iframeDoc) => syncActive(iframeDoc, resolveActiveTag(editor))
     })
-
-    dropdowns.set(editor, dropdown)
 
     const updateLabel = () => {
         const tag = resolveActiveTag(editor)
@@ -118,9 +107,12 @@ function createFormatDropdown(editor: TiptapEditor): HTMLElement {
     editor.tiptap.on('selectionUpdate', updateLabel)
     editor.tiptap.on('transaction', updateLabel)
 
-    editorCleanups.set(editor, () => {
-        editor.tiptap.off('selectionUpdate', updateLabel)
-        editor.tiptap.off('transaction', updateLabel)
+    editorState.set(editor, {
+        dropdown,
+        cleanup: () => {
+            editor.tiptap.off('selectionUpdate', updateLabel)
+            editor.tiptap.off('transaction', updateLabel)
+        }
     })
 
     return dropdown.element

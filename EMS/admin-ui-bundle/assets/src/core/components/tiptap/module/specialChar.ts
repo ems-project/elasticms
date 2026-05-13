@@ -18,100 +18,110 @@ export const specialCharModule: TiptapModule = {
     ]
 }
 
-function buildDialogContent(chars: string[]): string {
+const PLACEHOLDER = '\u00a0'
+
+const STYLES = `
+    <style>
+        .sc-wrap { display: flex; gap: 12px; align-items: flex-start; }
+        .sc-grid {
+            display: flex; flex-wrap: wrap; gap: 2px;
+            width: 390px; max-height: 450px; overflow-y: auto;
+        }
+        .sc-btn {
+            width: 20px; height: 24px; font-size: 12px; line-height: 1;
+            cursor: pointer; border: 1px solid transparent; border-radius: 3px;
+            background: none; padding: 0;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .sc-btn:hover { border-color: #aaa; background: #f0f0f0; }
+        .sc-preview-pane { display: flex; flex-direction: column; gap: 4px; flex-shrink: 0; }
+        .sc-preview-box {
+            border: 1px solid #eee; background: #f9f9f9; box-sizing: border-box;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .sc-preview-box--large { font-size: 28px; height: 50px; width: 70px; }
+        .sc-preview-box--small { font-size: 11px; height: 22px; width: 70px; overflow: hidden; }
+    </style>
+`
+
+function escapeHtml(s: string): string {
+    return s.replace(
+        /[&<>"']/g,
+        (c) =>
+            ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;'
+            })[c]!
+    )
+}
+
+function decodeEntity(s: string): string {
+    const el = document.createElement('textarea')
+    el.innerHTML = s
+    return el.value
+}
+
+function buildContent(chars: string[]): string {
     const buttons = chars
-        .map(
-            (char) =>
-                `<button type="button" title="${char}" data-label="${char}" style="
-                    width: 20px; height: 24px; font-size: 12px; cursor: pointer; line-height: 1;
-                    border: 1px solid transparent; border-radius: 3px; background: none; padding: 0;
-                    display: flex; align-items: center; justify-content: center;
-                ">${char}</button>`
-        )
+        .map((raw) => {
+            const char = decodeEntity(raw)
+            const esc = escapeHtml(char)
+            return `<button type="button" class="sc-btn" data-char="${esc}">${esc}</button>`
+        })
         .join('')
 
-    return `<style>
-        .special-char-grid button:hover,
-        .special-char-grid button:focus {
-            border-color: #aaa !important;
-            background: #f0f0f0 !important;
-        }
-    </style>
-    <div style="display: flex; gap: 12px; align-items: flex-start;">
-        <div class="special-char-grid" style="display: flex; flex-wrap: wrap; gap: 2px; width: 390px; max-height: 450px; overflow-y: auto;">
-            ${buttons}
+    return `
+        ${STYLES}
+        <div class="sc-wrap">
+            <div class="sc-grid">${buttons}</div>
+            <div class="sc-preview-pane">
+                <div class="sc-preview-box sc-preview-box--large">&nbsp;</div>
+                <div class="sc-preview-box sc-preview-box--small">&nbsp;</div>
+            </div>
         </div>
-        <div style="display: flex; flex-direction: column; gap: 4px; flex-shrink: 0;">
-            <div class="special-char-preview-large" style="
-                border: 1px solid #eee; font-size: 28px; height: 50px; width: 70px;
-                display: flex; align-items: center; justify-content: center;
-                background: #f9f9f9; box-sizing: border-box;
-            ">&nbsp;</div>
-            <div class="special-char-preview-label" style="
-                border: 1px solid #eee; font-size: 11px; height: 22px; width: 70px;
-                display: flex; align-items: center; justify-content: center;
-                background: #f9f9f9; box-sizing: border-box;
-                overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
-            ">&nbsp;</div>
-        </div>
-    </div>`
+    `
+}
+
+function getCharFrom(ev: Event): string | null {
+    return (ev.target as HTMLElement).closest<HTMLButtonElement>('.sc-btn')?.dataset.char ?? null
+}
+
+function bindPreview(grid: HTMLElement, large: HTMLElement, small: HTMLElement) {
+    const set = (char: string | null) => {
+        large.textContent = char ?? PLACEHOLDER
+        small.textContent = char ?? PLACEHOLDER
+    }
+    const onEnter = (ev: Event) => {
+        const char = getCharFrom(ev)
+        if (char) set(char)
+    }
+    const onLeave = () => set(null)
+
+    grid.addEventListener('mouseover', onEnter)
+    grid.addEventListener('focusin', onEnter)
+    grid.addEventListener('mouseleave', onLeave)
+    grid.addEventListener('focusout', onLeave)
 }
 
 function openSpecialCharDialog(e: TiptapEditor) {
     const dialog = new Dialog('Special Characters', { draggable: true })
-    dialog.setContent(buildDialogContent(e.profile.config.specialChars))
+    dialog.setContent(buildContent(e.profile.config.specialChars))
     dialog.addButton({ label: 'Close', variant: 'secondary', onClick: (d) => d.close() }).open()
 
     const el = dialog.element
-    const grid = el.querySelector<HTMLElement>('.special-char-grid')
-    const previewLarge = el.querySelector<HTMLElement>('.special-char-preview-large')
-    const previewLabel = el.querySelector<HTMLElement>('.special-char-preview-label')
+    const grid = el.querySelector<HTMLElement>('.sc-grid')!
+    const large = el.querySelector<HTMLElement>('.sc-preview-box--large')!
+    const small = el.querySelector<HTMLElement>('.sc-preview-box--small')!
 
-    if (!grid) return
-
-    grid.addEventListener('mouseover', (ev) => {
-        const btn = (ev.target as HTMLElement).closest(
-            'button[data-label]'
-        ) as HTMLButtonElement | null
-        if (!btn) return
-        if (previewLarge) previewLarge.textContent = btn.dataset.label ?? ''
-        if (previewLabel) previewLabel.textContent = btn.dataset.label ?? ''
-    })
-
-    grid.addEventListener('mouseout', (ev) => {
-        const btn = (ev.target as HTMLElement).closest(
-            'button[data-label]'
-        ) as HTMLButtonElement | null
-        if (!btn) return
-        if (previewLarge) previewLarge.innerHTML = '&nbsp;'
-        if (previewLabel) previewLabel.innerHTML = '&nbsp;'
-    })
+    bindPreview(grid, large, small)
 
     grid.addEventListener('click', (ev) => {
-        const btn = (ev.target as HTMLElement).closest(
-            'button[data-label]'
-        ) as HTMLButtonElement | null
-        if (!btn) return
-        const char = btn.dataset.label ?? ''
+        const char = getCharFrom(ev)
         if (!char) return
         e.tiptap.chain().focus().insertContent({ type: 'text', text: char }).run()
         dialog.close()
     })
-
-    grid.addEventListener('focusin', (ev) => {
-        const btn = (ev.target as HTMLElement).closest(
-            'button[data-label]'
-        ) as HTMLButtonElement | null
-        if (!btn) return
-        if (previewLarge) previewLarge.textContent = btn.dataset.label ?? ''
-        if (previewLabel) previewLabel.textContent = btn.dataset.label ?? ''
-    })
-
-    grid.addEventListener('focusout', () => {
-        if (previewLarge) previewLarge.innerHTML = '&nbsp;'
-        if (previewLabel) previewLabel.innerHTML = '&nbsp;'
-    })
-
-    const firstBtn = grid.querySelector<HTMLElement>('button')
-    if (firstBtn) firstBtn.focus()
 }

@@ -16,7 +16,7 @@ export const tableModule: TiptapModule = {
         {
             name: 'Table',
             icon: IconTable,
-            tooltip: 'Insert Table',
+            tooltip: 'table_insert',
             order: 2,
             command: (e) => openTableDialog(e, 'insert'),
             isActive: (e) => e.tiptap.isActive('table') || e.tiptap.isActive('tableFigure')

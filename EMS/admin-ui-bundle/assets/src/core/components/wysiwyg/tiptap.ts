@@ -106,7 +106,7 @@ export default class Tiptap {
                 {
                     name: 'Source',
                     icon: IconSource,
-                    tooltip: 'Source Code',
+                    tooltip: 'mode_source_code',
                     isActive: () => this.isSourceView,
                     command: (tiptapEditor) => {
                         this.isSourceView = !this.isSourceView
@@ -138,7 +138,7 @@ export default class Tiptap {
                 {
                     name: 'Maximize',
                     icon: IconMaximize,
-                    tooltip: 'Maximize',
+                    tooltip: 'tools_maximize',
                     isActive: () => this.isMaximized,
                     command: (tiptapEditor) => {
                         this.isMaximized = !this.isMaximized

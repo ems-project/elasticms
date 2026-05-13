@@ -11,7 +11,7 @@ export const specialCharModule: TiptapModule = {
         {
             name: 'SpecialChar',
             icon: IconOmega,
-            tooltip: 'Special Characters',
+            tooltip: 'special_characters',
             order: 4,
             command: (e) => openSpecialCharDialog(e),
             isActive: () => false

@@ -13,13 +13,13 @@ export const indentModule: TiptapModule = {
         {
             name: 'Outdent',
             icon: IconOutdent,
-            tooltip: 'Decrease Indent',
+            tooltip: 'indent_decrease',
             command: changeIndent(-1)
         },
         {
             name: 'Indent',
             icon: IconIndent,
-            tooltip: 'Increase Indent',
+            tooltip: 'indent_increase',
             command: changeIndent(1)
         }
     ]

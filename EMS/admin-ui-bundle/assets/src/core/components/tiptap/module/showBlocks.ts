@@ -11,7 +11,7 @@ export const showBlocksModule: TiptapModule = {
         {
             name: 'showBlocks',
             icon: IconRuler,
-            tooltip: 'Show Blocks',
+            tooltip: 'tools_show_Blocks',
             order: 99,
             command: (editor: TiptapEditor) => {
                 editor.tiptap.view.dom.classList.toggle(SHOW_BLOCKS_CLASS)

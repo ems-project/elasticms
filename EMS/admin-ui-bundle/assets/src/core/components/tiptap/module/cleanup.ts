@@ -21,7 +21,7 @@ export const cleanupModule: TiptapModule = {
         {
             name: 'RemoveFormat',
             icon: IconClear,
-            tooltip: 'Remove Format',
+            tooltip: 'format_remove',
             command: (e) => removeFormatting(e),
             isDisabled: (e) => !hasRemovableFormatting(e)
         }

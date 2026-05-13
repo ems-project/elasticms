@@ -12,7 +12,7 @@ export const insertModule: TiptapModule[] = [
             {
                 name: 'HorizontalRule',
                 icon: IconHorizontalRule,
-                tooltip: 'Insert Horizontal Line',
+                tooltip: 'horizontal_line_insert',
                 order: 3,
                 command: (e) => e.tiptap.chain().focus().setHorizontalRule().run()
             }
@@ -25,7 +25,7 @@ export const insertModule: TiptapModule[] = [
             {
                 name: 'Blockquote',
                 icon: IconBlockquote,
-                tooltip: 'Block Quote',
+                tooltip: 'block_quote_insert',
                 command: (e) => e.tiptap.chain().focus().toggleBlockquote().run(),
                 isActive: (e) => e.tiptap.isActive('blockquote')
             }

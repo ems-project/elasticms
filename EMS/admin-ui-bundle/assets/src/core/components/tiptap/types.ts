@@ -17,6 +17,7 @@ import { specialCharModule } from './module/specialChar.ts'
 import { formatModule } from './module/format.ts'
 import { showBlocksModule } from './module/showBlocks.ts'
 import { divModule } from './module/div.ts'
+import { TranslationKey } from './translations.ts'
 
 export type ContextType = 'table'
 
@@ -57,7 +58,7 @@ export interface ContextMenuItem {
 export interface ToolbarItem {
     name: string
     icon: string
-    tooltip?: string
+    tooltip: TranslationKey
     order?: number
     extensions?: ExtensionType[]
     command: (editor: TiptapEditor) => void

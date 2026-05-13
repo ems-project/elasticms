@@ -13,7 +13,7 @@ export const listModule: TiptapModule = {
             extensions: [createCustomOrderedList()],
             name: 'NumberedList',
             icon: IconNumberedList,
-            tooltip: 'Insert/Remove Numbered List',
+            tooltip: 'list_numbered_create',
             command: (e) => e.tiptap.chain().focus().toggleOrderedList().run(),
             isActive: (e) => e.tiptap.isActive('orderedList')
         },
@@ -21,7 +21,7 @@ export const listModule: TiptapModule = {
             extensions: [createCustomBulletList()],
             name: 'BulletedList',
             icon: IconBulletedList,
-            tooltip: 'Insert/Remove Bulleted List',
+            tooltip: 'list_bulleted_create',
             command: (e) => e.tiptap.chain().focus().toggleBulletList().run(),
             isActive: (e) => e.tiptap.isActive('bulletList')
         }

@@ -23,7 +23,7 @@ export const linkModule: TiptapModule = {
         {
             name: 'Link',
             icon: IconLink,
-            tooltip: 'Link',
+            tooltip: 'link',
             order: 1,
             command: (e) => openLinkDialog(e),
             isActive: (e) => e.tiptap.isActive('link')
@@ -31,7 +31,7 @@ export const linkModule: TiptapModule = {
         {
             name: 'Unlink',
             icon: IconLinkOff,
-            tooltip: 'Unlink',
+            tooltip: 'link_unlink',
             order: 2,
             command: (e) =>
                 e.tiptap.chain().focus().extendMarkRange('link').unsetMark('link').run(),

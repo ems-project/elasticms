@@ -17,7 +17,7 @@ export const justifyModule: TiptapModule = {
         {
             name: 'JustifyLeft',
             icon: IconJustifyLeft,
-            tooltip: 'Align Left',
+            tooltip: 'align_left',
             command: (e) => e.tiptap.chain().focus().unsetTextAlign().run(),
             isActive: (e) => {
                 const isCenter = e.tiptap.isActive({ textAlign: 'center' })
@@ -30,21 +30,21 @@ export const justifyModule: TiptapModule = {
         {
             name: 'JustifyCenter',
             icon: IconJustifyCenter,
-            tooltip: 'Center',
+            tooltip: 'align_center',
             command: (e) => e.tiptap.chain().focus().setTextAlign('center').run(),
             isActive: (e) => e.tiptap.isActive({ textAlign: 'center' })
         },
         {
             name: 'JustifyRight',
             icon: IconJustifyRight,
-            tooltip: 'Align Right',
+            tooltip: 'align_right',
             command: (e) => e.tiptap.chain().focus().setTextAlign('right').run(),
             isActive: (e) => e.tiptap.isActive({ textAlign: 'right' })
         },
         {
             name: 'JustifyBlock',
             icon: IconJustifyBlock,
-            tooltip: 'Justify',
+            tooltip: 'align_justify',
             command: (e) => e.tiptap.chain().focus().setTextAlign('justify').run(),
             isActive: (e) => e.tiptap.isActive({ textAlign: 'justify' })
         }

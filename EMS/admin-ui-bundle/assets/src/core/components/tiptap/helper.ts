@@ -1,5 +1,6 @@
-export function escapeHtml(s: string): string {
-    return s.replace(
+export function escapeHtml(s: unknown): string {
+    if (s == null) return ''
+    return String(s).replace(
         /[&<>"']/g,
         (c) =>
             ({

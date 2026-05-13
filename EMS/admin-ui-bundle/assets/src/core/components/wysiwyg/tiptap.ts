@@ -116,7 +116,9 @@ export default class Tiptap {
                         const button = tiptapEditor.toolbar.getButton('Source')
                         if (button) {
                             button.innerHTML = this.isSourceView ? IconSourceOff : IconSource
-                            button.title = tiptapEditor.trans(this.isSourceView ? 'mode_source_code_hide' : 'mode_source_code');
+                            button.title = tiptapEditor.trans(
+                                this.isSourceView ? 'mode_source_code_hide' : 'mode_source_code'
+                            )
                         }
 
                         if (this.isSourceView) {
@@ -150,7 +152,9 @@ export default class Tiptap {
                         const button = tiptapEditor.toolbar.getButton('Maximize')
                         if (button) {
                             button.innerHTML = this.isMaximized ? IconMinimize : IconMaximize
-                            button.title = tiptapEditor.trans(this.isMaximized ? 'tools_minimize' : 'tools_maximize');
+                            button.title = tiptapEditor.trans(
+                                this.isMaximized ? 'tools_minimize' : 'tools_maximize'
+                            )
                         }
 
                         tiptapEditor.toolbar.update()

@@ -35,8 +35,8 @@ export class TiptapEditor {
         this.docParent = this.options.parent ?? document
         this.profile = options.wysiwygProfile ?? new WysiwygProfile()
 
-        const lang = this.options.wysiwygOptions?.lang ?? 'en';
-        this.locale = isTransLocale(lang) ? lang : 'en';
+        const lang = this.options.wysiwygOptions?.lang ?? 'en'
+        this.locale = isTransLocale(lang) ? lang : 'en'
 
         this.toolbar = new Toolbar(this)
 

@@ -1,8 +1,7 @@
 export type Locale = 'en' | 'nl' | 'fr' | 'de'
 const LOCALES: readonly Locale[] = ['en', 'nl', 'fr', 'de']
 
-export const isTransLocale = (v: string): v is Locale =>
-    (LOCALES as readonly string[]).includes(v)
+export const isTransLocale = (v: string): v is Locale => (LOCALES as readonly string[]).includes(v)
 
 export const trans = (locale: Locale, key: TranslationKey): string =>
     translations[locale]?.[key] ?? translations.en[key] ?? key

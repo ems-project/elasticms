@@ -34,6 +34,7 @@
     'data-wysiwyg-type-filters': type_filters|json_encode,
     'data-wysiwyg-info': wysiwygInfo,
     'data-asset-path': asset(''),
+    'data-user-locale': app.user.localePreferred ?? 'en'
 } %}
 {% set theme_color_contrast = theme_color in ['yellow', 'lime', 'white', 'cyan'] ? 'light' : 'dark' %}
 

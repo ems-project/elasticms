@@ -26,13 +26,13 @@ export const anchorModule: TiptapModule = {
     contextMenuSelector: ANCHOR_SELECTOR,
     contextMenu: [
         {
-            label: 'Edit Anchor',
+            label: 'link_anchor_edit',
             icon: IconAnchor,
             order: 0,
             command: (e, ctx) => openAnchorDialog(e, ctx?.target)
         },
         {
-            label: 'Remove Anchor',
+            label: 'link_anchor_remove',
             icon: IconAnchorOff,
             order: 1,
             command: (e, ctx) => {

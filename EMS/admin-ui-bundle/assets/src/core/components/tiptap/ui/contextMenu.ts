@@ -3,6 +3,7 @@ import '../../../../../css/core/components/tiptap/_content_menu.scss'
 import type { TiptapEditor } from './../editor.ts'
 import { CellSelection } from '@tiptap/pm/tables'
 import type { ContextMenuItem, TiptapModule } from './../types.ts'
+import { TranslationKey } from '../translations.ts'
 
 const CONTEXT_NODES: Record<string, string[]> = {
     table: ['table', 'tableFigure', 'tableCaption'],
@@ -112,7 +113,7 @@ export class ContextMenu {
         menu.className = 'tiptap-context-menu'
 
         const topLevel: ContextMenuItem[] = []
-        const grouped = new Map<string, ContextMenuItem[]>()
+        const grouped = new Map<TranslationKey, ContextMenuItem[]>()
 
         for (const item of items) {
             if (item.parent) {
@@ -162,7 +163,7 @@ export class ContextMenu {
         }
 
         const label = doc.createElement('span')
-        label.textContent = item.label
+        label.textContent = this.editor.trans(item.label)
         btn.appendChild(label)
 
         btn.addEventListener('click', (e) => {
@@ -175,7 +176,11 @@ export class ContextMenu {
 
         return btn
     }
-    private renderSubmenu(label: string, children: ContextMenuItem[], icon?: string): HTMLElement {
+    private renderSubmenu(
+        label: TranslationKey,
+        children: ContextMenuItem[],
+        icon?: string
+    ): HTMLElement {
         const doc = this.editor.docParent
         const wrapper = doc.createElement('div')
         wrapper.className = 'tiptap-context-menu-submenu'
@@ -192,7 +197,7 @@ export class ContextMenu {
         }
 
         const text = doc.createElement('span')
-        text.textContent = label
+        text.textContent = this.editor.trans(label)
         trigger.appendChild(text)
 
         const arrow = doc.createElement('span')

@@ -22,26 +22,26 @@ import { openCellDialog } from './dialogCell.ts'
 
 export const contextMenu: ContextMenuItem[] = [
     {
-        label: 'Insert cell before',
+        label: 'table_cell_insert_before',
         icon: IconCellBefore,
         parentIcon: IconCell,
-        parent: 'Cell',
+        parent: 'table_cell',
         order: 0,
         disabled: (e) => isInCaption(e),
         command: (e) => cellInsert(e.tiptap, 'before')
     },
     {
-        label: 'Insert cell after',
+        label: 'table_cell_insert_after',
         icon: IconCellAfter,
-        parent: 'Cell',
+        parent: 'table_cell',
         order: 1,
         disabled: (e) => isInCaption(e),
         command: (e) => cellInsert(e.tiptap, 'after')
     },
     {
-        label: 'Clear cell(s)',
+        label: 'table_cell_clear',
         icon: IconCellClear,
-        parent: 'Cell',
+        parent: 'table_cell',
         order: 99,
         disabled: (e) => isInCaption(e),
         command: (e) => {
@@ -50,87 +50,87 @@ export const contextMenu: ContextMenuItem[] = [
         }
     },
     {
-        label: 'Merge cells',
+        label: 'table_cell_merge',
         icon: IconCellMerge,
-        parent: 'Cell',
+        parent: 'table_cell',
         order: 2,
         disabled: (e) => isInCaption(e) || !e.tiptap.can().mergeCells(),
         command: (e) => e.tiptap.chain().focus().mergeCells().run()
     },
     {
-        label: 'Split cell',
+        label: 'table_cell_split',
         icon: IconCellSplit,
-        parent: 'Cell',
+        parent: 'table_cell',
         order: 3,
         disabled: (e) => isInCaption(e) || !e.tiptap.can().splitCell(),
         command: (e) => e.tiptap.chain().focus().splitCell().run()
     },
     {
-        label: 'Cell properties',
+        label: 'table_cell_properties',
         icon: IconCell,
-        parent: 'Cell',
+        parent: 'table_cell',
         order: 99,
         disabled: (e) => isInCaption(e),
         command: (e) => openCellDialog(e)
     },
     {
-        label: 'Insert row before',
+        label: 'table_row_insert_before',
         icon: IconRowBefore,
         parentIcon: IconRow,
-        parent: 'Row',
+        parent: 'table_row',
         order: 0,
         disabled: (e) => isInCaption(e),
         command: (e) => e.tiptap.chain().focus().addRowBefore().run()
     },
     {
-        label: 'Insert row after',
+        label: 'table_row_insert_after',
         icon: IconRowAfter,
-        parent: 'Row',
+        parent: 'table_row',
         order: 1,
         disabled: (e) => isInCaption(e),
         command: (e) => e.tiptap.chain().focus().addRowAfter().run()
     },
     {
-        label: 'Delete row(s)',
+        label: 'table_row_delete',
         icon: IconRowDelete,
-        parent: 'Row',
+        parent: 'table_row',
         order: 99,
         disabled: (e) => isInCaption(e),
         command: (e) => e.tiptap.chain().focus().deleteRow().run()
     },
     {
-        label: 'Insert column before',
+        label: 'table_column_insert_before',
         icon: IconColumnBefore,
-        parent: 'Column',
+        parent: 'table_column',
         parentIcon: IconColumn,
         order: 0,
         disabled: (e) => isInCaption(e),
         command: (e) => e.tiptap.chain().focus().addColumnBefore().run()
     },
     {
-        label: 'Insert column after',
+        label: 'table_column_insert_after',
         icon: IconColumnAfter,
-        parent: 'Column',
+        parent: 'table_column',
         order: 1,
         disabled: (e) => isInCaption(e),
         command: (e) => e.tiptap.chain().focus().addColumnAfter().run()
     },
     {
-        label: 'Delete column(s)',
+        label: 'table_column_delete',
         icon: IconColumnDelete,
-        parent: 'Column',
+        parent: 'table_column',
         order: 99,
         disabled: (e) => isInCaption(e),
         command: (e) => e.tiptap.chain().focus().deleteColumn().run()
     },
     {
-        label: 'Delete table',
+        label: 'table_delete',
         icon: IconTableDelete,
         order: 98,
         command: (e) => deleteTable(e.tiptap)
     },
     {
-        label: 'Table properties',
+        label: 'table_properties',
         icon: IconTable,
         order: 99,
         command: (e) => openTableDialog(e, 'edit')

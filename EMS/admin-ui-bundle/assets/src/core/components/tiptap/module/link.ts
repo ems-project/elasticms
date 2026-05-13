@@ -42,13 +42,13 @@ export const linkModule: TiptapModule = {
     contextMenuNode: 'link',
     contextMenu: [
         {
-            label: 'Edit Link',
+            label: 'link_edit',
             icon: IconLink,
             order: 0,
             command: (e) => openLinkDialog(e)
         },
         {
-            label: 'Unlink',
+            label: 'link_unlink',
             icon: IconLinkOff,
             order: 1,
             command: (e) => e.tiptap.chain().focus().extendMarkRange('link').unsetMark('link').run()

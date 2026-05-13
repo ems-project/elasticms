@@ -46,9 +46,9 @@ export interface HtmlTransform {
 }
 
 export interface ContextMenuItem {
-    label: string
+    label: TranslationKey
     icon?: string
-    parent?: string
+    parent?: TranslationKey
     parentIcon?: string
     order?: number
     command: (e: TiptapEditor, ctx?: { target?: Element | null }) => void

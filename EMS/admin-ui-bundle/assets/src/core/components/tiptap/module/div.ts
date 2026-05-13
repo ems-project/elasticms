@@ -59,7 +59,7 @@ export const divModule: TiptapModule = {
     contextMenuNode: 'div',
     contextMenu: [
         {
-            label: 'Edit Div',
+            label: 'div_edit',
             icon: IconEdit,
             order: 0,
             command: (e) => {
@@ -68,7 +68,7 @@ export const divModule: TiptapModule = {
             }
         },
         {
-            label: 'Remove Div',
+            label: 'div_remove',
             icon: IconTrash,
             order: 1,
             command: (e) => removeDiv(e)

@@ -16,6 +16,22 @@ Bold, italic, and strikethrough are always available. Subscript and superscript 
 A "Remove Format" button that strips all formatting from the selection. Resets styled blocks back to
 paragraphs. Preserves anchors and links. Disabled when the selection has no removable formatting.
 
+### Div Container
+
+A toolbar button and context menu for wrapping content in `<div>` elements. Opt-in via the `div`
+extra plugin.
+
+The toolbar button always creates a new div around the current block, allowing divs to be nested.
+
+Right-clicking inside a div provides two context menu actions:
+
+- **Edit Div** — opens a dialog to modify the div's attributes.
+- **Remove Div** — unwraps the div while preserving its content.
+
+The dialog covers a style preset dropdown (populated from wysiwyg styles targeting `div`), CSS
+classes, ID, language code, inline style, and advisory title. Selecting a preset fills the classes
+field; the field remains manually editable.
+
 ### Format
 
 A toolbar dropdown for switching block-level formats, equivalent to CKEditor's Format plugin. Works
@@ -33,8 +49,10 @@ Undo and redo buttons. Greyed out when there is nothing to undo or redo.
 
 ### Indentation
 
-Indent and outdent for paragraphs and headings. Inside a list, the buttons sink or lift list items
-instead.
+Indent and outdent for paragraphs, headings, and div containers. Inside a list, the buttons sink or
+lift list items instead. When content is nested (e.g. a paragraph inside a div), indentation is
+applied from the outermost indentable element inward — indent the div first, then the paragraph
+inside it.
 
 ### Insert
 

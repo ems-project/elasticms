@@ -65,9 +65,7 @@
       data-file-view="{{ path('ems.file.view', { sha1: '__file_identifier__', name: '__file_name__' })|e('html_attr') }}"
       data-file-extract="{{ path('ems_file_extract', { sha1: '__file_identifier__', name: '__file_name__' })|e('html_attr') }}"
       data-file-extract-forced="{{ path('ems_file_extract_forced', { sha1: '__file_identifier__', name: '__file_name__' })|e('html_attr') }}"
-      data-image-max-size="{{ image_max_size }}"
-        {% if app.user %}data-user-locale="{{  app.user.localePreferred ?? 'en' }}"{% endif %}
->
+      data-image-max-size="{{ image_max_size }}">
 <div class="wrapper">
 
   <!-- Main Header -->

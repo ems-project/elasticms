@@ -4,7 +4,9 @@ import IconAnchorOff from '@tabler/icons/outline/anchor-off.svg?raw'
 import { TiptapModule } from '../types.ts'
 import { Dialog } from '../../dialog.ts'
 import { TiptapEditor } from '../editor.ts'
+import { escapeHtml } from '../helper.ts'
 
+const ANCHOR_SELECTOR = 'a[id]:not([href])'
 const FIELD_NAME = 'tiptap-anchor-name'
 
 export const anchorModule: TiptapModule = {
@@ -21,7 +23,7 @@ export const anchorModule: TiptapModule = {
         }
     ],
     contextMenuNode: 'anchor',
-    contextMenuSelector: 'a[id]:not([href])',
+    contextMenuSelector: ANCHOR_SELECTOR,
     contextMenu: [
         {
             label: 'Edit Anchor',
@@ -46,17 +48,12 @@ function getAnchorExtension() {
         Mark.create({
             name: 'anchor',
             inclusive: false,
-
             addAttributes() {
-                return {
-                    id: { default: null }
-                }
+                return { id: { default: null } }
             },
-
             parseHTML() {
-                return [{ tag: 'a[id]:not([href])' }]
+                return [{ tag: ANCHOR_SELECTOR }]
             },
-
             renderHTML({ HTMLAttributes }) {
                 return ['a', mergeAttributes(HTMLAttributes), 0]
             }
@@ -65,14 +62,31 @@ function getAnchorExtension() {
 }
 
 function selectAnchorEl(e: TiptapEditor, target?: Element | null) {
-    const el = (target as HTMLElement | null)?.closest(
-        'a[id]:not([href])'
-    ) as HTMLAnchorElement | null
+    const el = (target as HTMLElement | null)?.closest(ANCHOR_SELECTOR) as HTMLAnchorElement | null
     if (!el) return null
     const pos = e.tiptap.view.posAtDOM(el.firstChild ?? el, 0)
     const size = Math.max(el.textContent?.length ?? 1, 1)
     e.tiptap.commands.setTextSelection({ from: pos, to: pos + size })
     return el
+}
+
+function applyAnchor(e: TiptapEditor, name: string, isEdit: boolean, from: number, to: number) {
+    const chain = e.tiptap.chain().focus()
+    if (isEdit) {
+        chain.extendMarkRange('anchor').setMark('anchor', { id: name }).run()
+        return
+    }
+    if (from === to) {
+        chain
+            .insertContent({
+                type: 'text',
+                text: '\u200B',
+                marks: [{ type: 'anchor', attrs: { id: name } }]
+            })
+            .run()
+        return
+    }
+    chain.setTextSelection({ from, to }).setMark('anchor', { id: name }).run()
 }
 
 function openAnchorDialog(e: TiptapEditor, target?: Element | null) {
@@ -87,44 +101,29 @@ function openAnchorDialog(e: TiptapEditor, target?: Element | null) {
         `<div style="display: flex; flex-direction: column; gap: 10px; width: 300px;">
             <div>
                 <label for="${FIELD_NAME}">Anchor Name <span style="color: red">*</span></label>
-                <input type="text" id="${FIELD_NAME}" value="${(existing ?? '').toString().replace(/"/g, '&quot;')}" required>
+                <input type="text" id="${FIELD_NAME}" value="${escapeHtml(existing)}" required>
             </div>
         </div>`
     )
 
+    const getInput = () => dialog.element.querySelector<HTMLInputElement>(`#${FIELD_NAME}`)!
+
     const apply = () => {
-        const input = document.getElementById(FIELD_NAME) as HTMLInputElement
+        const input = getInput()
         if (!input.reportValidity()) return
-        const name = input.value.trim()
-        const chain = e.tiptap.chain().focus()
-        if (isEdit) {
-            chain.extendMarkRange('anchor').setMark('anchor', { id: name }).run()
-        } else if (from === to) {
-            chain
-                .insertContent({
-                    type: 'text',
-                    text: '\u200B',
-                    marks: [{ type: 'anchor', attrs: { id: name } }]
-                })
-                .run()
-        } else {
-            chain.setTextSelection({ from, to }).setMark('anchor', { id: name }).run()
-        }
+        applyAnchor(e, input.value.trim(), isEdit, from, to)
         dialog.close()
     }
 
     dialog
-        .addButton({ label: 'Apply', variant: 'primary', onClick: () => apply() })
+        .addButton({ label: 'Apply', variant: 'primary', onClick: apply })
         .addButton({ label: 'Cancel', variant: 'secondary', onClick: (d) => d.close() })
         .open()
 
-    const input = document.getElementById(FIELD_NAME) as HTMLInputElement
-    if (input) {
-        input.focus()
-        input.select()
-
-        input.addEventListener('keydown', (ev) => {
-            if (ev.key === 'Enter') apply()
-        })
-    }
+    const input = getInput()
+    input.focus()
+    input.select()
+    input.addEventListener('keydown', (ev) => {
+        if (ev.key === 'Enter') apply()
+    })
 }

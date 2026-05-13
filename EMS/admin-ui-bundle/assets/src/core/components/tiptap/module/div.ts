@@ -6,6 +6,33 @@ import { TiptapModule } from '../types.ts'
 import { Dialog } from '../../dialog.ts'
 import { TiptapEditor } from '../editor.ts'
 import { BLOCK_NODES } from '../extensions.ts'
+import { escapeHtml } from '../helper.ts'
+
+const ATTR_MAP: Record<string, string> = {
+    htmlClass: 'class',
+    id: 'id',
+    lang: 'lang',
+    htmlStyle: 'style',
+    title: 'title'
+}
+
+const FIELDS: { label: string; name: keyof typeof ATTR_MAP }[] = [
+    { label: 'Classes', name: 'htmlClass' },
+    { label: 'Id', name: 'id' },
+    { label: 'Language code', name: 'lang' },
+    { label: 'Inline Style', name: 'htmlStyle' },
+    { label: 'Advisory Title', name: 'title' }
+]
+
+type DivAttrs = Record<keyof typeof ATTR_MAP, string | null>
+type DivFormValues = Record<keyof typeof ATTR_MAP, string>
+
+type ExistingDiv = {
+    attrs: Record<string, any>
+    pos: number
+}
+
+type StyleOption = { label: string; value: string }
 
 export const divModule: TiptapModule = {
     isEnabled: (wysiwygProfile) => wysiwygProfile.config.extraPlugins?.includes('div') ?? false,
@@ -14,40 +41,7 @@ export const divModule: TiptapModule = {
         Extension.create({
             name: 'divAttributes',
             addGlobalAttributes() {
-                return [
-                    {
-                        types: ['div'],
-                        attributes: {
-                            htmlClass: {
-                                default: null,
-                                parseHTML: (el) => el.getAttribute('class') || null,
-                                renderHTML: (attrs) =>
-                                    attrs.htmlClass ? { class: attrs.htmlClass } : {}
-                            },
-                            htmlStyle: {
-                                default: null,
-                                parseHTML: (el) => el.getAttribute('style') || null,
-                                renderHTML: (attrs) =>
-                                    attrs.htmlStyle ? { style: attrs.htmlStyle } : {}
-                            },
-                            id: {
-                                default: null,
-                                parseHTML: (el) => el.getAttribute('id') || null,
-                                renderHTML: (attrs) => (attrs.id ? { id: attrs.id } : {})
-                            },
-                            lang: {
-                                default: null,
-                                parseHTML: (el) => el.getAttribute('lang') || null,
-                                renderHTML: (attrs) => (attrs.lang ? { lang: attrs.lang } : {})
-                            },
-                            title: {
-                                default: null,
-                                parseHTML: (el) => el.getAttribute('title') || null,
-                                renderHTML: (attrs) => (attrs.title ? { title: attrs.title } : {})
-                            }
-                        }
-                    }
-                ]
+                return [{ types: ['div'], attributes: buildAttributesConfig() }]
             }
         })
     ],
@@ -58,7 +52,7 @@ export const divModule: TiptapModule = {
             icon: IconDiv,
             tooltip: 'Create Div Container',
             order: 99,
-            command: (e) => openInsertDivDialog(e),
+            command: (e) => openDivDialog(e, null),
             isActive: (e) => e.tiptap.isActive('div')
         }
     ],
@@ -68,7 +62,10 @@ export const divModule: TiptapModule = {
             label: 'Edit Div',
             icon: IconEdit,
             order: 0,
-            command: (e) => openEditDivDialog(e)
+            command: (e) => {
+                const existing = getCurrentDivNode(e)
+                if (existing) openDivDialog(e, existing)
+            }
         },
         {
             label: 'Remove Div',
@@ -79,27 +76,18 @@ export const divModule: TiptapModule = {
     ]
 }
 
-// ─── Types ───────────────────────────────────────────────────
-
-type DivFormValues = {
-    htmlClass: string
-    id: string
-    lang: string
-    htmlStyle: string
-    title: string
+function buildAttributesConfig() {
+    const config: Record<string, any> = {}
+    for (const [name, htmlAttr] of Object.entries(ATTR_MAP)) {
+        config[name] = {
+            default: null,
+            parseHTML: (el: HTMLElement) => el.getAttribute(htmlAttr) || null,
+            renderHTML: (attrs: Record<string, any>) =>
+                attrs[name] ? { [htmlAttr]: attrs[name] } : {}
+        }
+    }
+    return config
 }
-
-type ExistingDiv = {
-    attrs: Record<string, any>
-    pos: number
-}
-
-type StyleOption = {
-    label: string
-    value: string
-}
-
-// ─── Helpers ─────────────────────────────────────────────────
 
 function getCurrentDivNode(editor: TiptapEditor): ExistingDiv | null {
     const { $from } = editor.tiptap.state.selection
@@ -118,20 +106,29 @@ function getDivStyleOptions(editor: TiptapEditor): StyleOption[] {
         .map((s) => ({ label: s.name, value: s.attributes!.class! }))
 }
 
-function toNullable(val: string): string | null {
-    return val.trim() || null
+function getFormValues(el: HTMLElement): DivFormValues {
+    const values = {} as DivFormValues
+    for (const { name } of FIELDS) {
+        values[name] =
+            el.querySelector<HTMLInputElement>(`input[name="${name}"]`)?.value.trim() ?? ''
+    }
+    return values
 }
 
-function getFormValues(el: HTMLElement): DivFormValues {
-    const get = (name: string) =>
-        el.querySelector<HTMLInputElement>(`input[name="${name}"]`)?.value.trim() ?? ''
-    return {
-        htmlClass: get('htmlClass'),
-        id: get('id'),
-        lang: get('lang'),
-        htmlStyle: get('htmlStyle'),
-        title: get('title')
+function toAttrs(values: DivFormValues): DivAttrs {
+    const attrs = {} as DivAttrs
+    for (const { name } of FIELDS) {
+        attrs[name] = values[name] || null
     }
+    return attrs
+}
+
+function readExisting(existing: ExistingDiv | null): DivFormValues {
+    const values = {} as DivFormValues
+    for (const { name } of FIELDS) {
+        values[name] = existing?.attrs[name] ?? ''
+    }
+    return values
 }
 
 function removeDiv(editor: TiptapEditor): void {
@@ -144,25 +141,44 @@ function removeDiv(editor: TiptapEditor): void {
     )
 }
 
-// ─── Dialog ──────────────────────────────────────────────────
+function saveDiv(editor: TiptapEditor, existing: ExistingDiv | null, attrs: DivAttrs): void {
+    if (existing) {
+        editor.tiptap.view.dispatch(
+            editor.tiptap.state.tr.setNodeMarkup(existing.pos, undefined, {
+                ...existing.attrs,
+                ...attrs
+            })
+        )
+        return
+    }
+    editor.tiptap.chain().focus().wrapIn('div', attrs).setMeta('applyStyle', true).run()
+}
 
 function buildDialogContent(styleOptions: StyleOption[], current: DivFormValues): string {
     const presetRow =
-        styleOptions.length > 0
-            ? `<div class="div-form-row">
-                <label>Style</label>
-                <select class="div-class-preset">
-                    <option value="">— Select —</option>
-                    ${styleOptions.map((o) => `<option value="${o.value}"${o.value === current.htmlClass ? ' selected' : ''}>${o.label}</option>`).join('')}
-                </select>
-            </div>`
-            : ''
-
-    const field = (label: string, name: string, value: string) =>
-        `<div class="div-form-row">
-            <label>${label}</label>
-            <input type="text" name="${name}" value="${value}" />
+        styleOptions.length === 0
+            ? ''
+            : `
+        <div class="div-form-row">
+            <label>Style</label>
+            <select class="div-class-preset">
+                <option value="">— Select —</option>
+                ${styleOptions
+                    .map((o) => {
+                        const selected = o.value === current.htmlClass ? ' selected' : ''
+                        return `<option value="${escapeHtml(o.value)}"${selected}>${escapeHtml(o.label)}</option>`
+                    })
+                    .join('')}
+            </select>
         </div>`
+
+    const fieldsHtml = FIELDS.map(
+        ({ label, name }) =>
+            `<div class="div-form-row">
+            <label>${label}</label>
+            <input type="text" name="${name}" value="${escapeHtml(current[name])}" />
+        </div>`
+    ).join('')
 
     return `
         <style>
@@ -174,23 +190,23 @@ function buildDialogContent(styleOptions: StyleOption[], current: DivFormValues)
         </style>
         <div class="div-dialog-form">
             ${presetRow}
-            ${field('Classes', 'htmlClass', current.htmlClass)}
-            ${field('Id', 'id', current.id)}
-            ${field('Language code', 'lang', current.lang)}
-            ${field('Inline Style', 'htmlStyle', current.htmlStyle)}
-            ${field('Advisory Title', 'title', current.title)}
+            ${fieldsHtml}
         </div>`
+}
+
+function bindPresetSync(el: HTMLElement): void {
+    const select = el.querySelector<HTMLSelectElement>('.div-class-preset')
+    const classInput = el.querySelector<HTMLInputElement>('input[name="htmlClass"]')
+    if (!select || !classInput) return
+
+    select.addEventListener('change', () => {
+        if (select.value) classInput.value = select.value
+    })
 }
 
 function openDivDialog(editor: TiptapEditor, existing: ExistingDiv | null): void {
     const styleOptions = getDivStyleOptions(editor)
-    const current: DivFormValues = {
-        htmlClass: existing?.attrs.htmlClass ?? '',
-        id: existing?.attrs.id ?? '',
-        lang: existing?.attrs.lang ?? '',
-        htmlStyle: existing?.attrs.htmlStyle ?? '',
-        title: existing?.attrs.title ?? ''
-    }
+    const current = readExisting(existing)
 
     const dialog = new Dialog(existing ? 'Edit Div Container' : 'Create Div Container', {
         draggable: true
@@ -202,53 +218,12 @@ function openDivDialog(editor: TiptapEditor, existing: ExistingDiv | null): void
             label: existing ? 'Update' : 'Insert',
             variant: 'primary',
             onClick: (d) => {
-                const values = getFormValues(d.element)
-                const attrs = {
-                    htmlClass: toNullable(values.htmlClass),
-                    id: toNullable(values.id),
-                    lang: toNullable(values.lang),
-                    htmlStyle: toNullable(values.htmlStyle),
-                    title: toNullable(values.title)
-                }
-
-                if (existing) {
-                    editor.tiptap.view.dispatch(
-                        editor.tiptap.state.tr.setNodeMarkup(existing.pos, undefined, {
-                            ...existing.attrs,
-                            ...attrs
-                        })
-                    )
-                } else {
-                    editor.tiptap
-                        .chain()
-                        .focus()
-                        .wrapIn('div', attrs)
-                        .setMeta('applyStyle', true)
-                        .run()
-                }
-
+                saveDiv(editor, existing, toAttrs(getFormValues(d.element)))
                 d.close()
             }
         })
         .addButton({ label: 'Cancel', variant: 'secondary', onClick: (d) => d.close() })
         .open()
 
-    const el = dialog.element
-    const select = el.querySelector<HTMLSelectElement>('.div-class-preset')
-    const classInput = el.querySelector<HTMLInputElement>('input[name="htmlClass"]')
-
-    if (select && classInput) {
-        select.addEventListener('change', () => {
-            if (select.value) classInput.value = select.value
-        })
-    }
-}
-
-function openInsertDivDialog(editor: TiptapEditor): void {
-    openDivDialog(editor, null)
-}
-
-function openEditDivDialog(editor: TiptapEditor): void {
-    const existing = getCurrentDivNode(editor)
-    if (existing) openDivDialog(editor, existing)
+    bindPresetSync(dialog.element)
 }

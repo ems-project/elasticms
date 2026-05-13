@@ -3,6 +3,7 @@ import { updateCaption } from './caption.ts'
 import { Dialog } from '../../dialog.ts'
 import { TiptapEditor } from '../editor.ts'
 import { Editor } from '@tiptap/core'
+import { escapeHtml } from '../helper.ts'
 
 function getTableContext(tiptap: Editor): {
     attrs: Record<string, any>
@@ -71,8 +72,6 @@ export function openTableDialog(e: TiptapEditor, mode: 'insert' | 'edit') {
               }
     const a = current.attrs
 
-    const esc = (v: any) => (v ?? '').toString().replace(/"/g, '&quot;')
-
     let html = ''
 
     if (mode === 'insert') {
@@ -103,11 +102,11 @@ export function openTableDialog(e: TiptapEditor, mode: 'insert' | 'edit') {
              <div style="flex: 1; display: flex; gap: 10px;">        
                 <div style="flex: 1">
                     <label for="table-width">Width</label>
-                    <input type="text" id="table-width" value="${esc(a.width)}" placeholder="50%, 300px">
+                    <input type="text" id="table-width" value="${escapeHtml(a.width)}" placeholder="50%, 300px">
                 </div>
                 <div style="flex: 1">
                     <label for="table-height">Height</label>
-                    <input type="text" id="table-height" value="${esc(a.height)}" placeholder="200px">
+                    <input type="text" id="table-height" value="${escapeHtml(a.height)}" placeholder="200px">
                 </div>
             </div>
         </div>
@@ -124,39 +123,39 @@ export function openTableDialog(e: TiptapEditor, mode: 'insert' | 'edit') {
             <div style="flex: 1; display: flex; gap: 10px;">            
                 <div style="flex: 1">
                     <label for="table-border">Border</label>
-                    <input type="number" id="table-border" value="${esc(a.border)}" min="0" placeholder="0">
+                    <input type="number" id="table-border" value="${escapeHtml(a.border)}" min="0" placeholder="0">
                 </div>
                 <div style="flex: 1">
                     <label for="table-cellpadding">Padding</label>
-                    <input type="number" id="table-cellpadding" value="${esc(a.cellpadding)}" min="0" placeholder="0">
+                    <input type="number" id="table-cellpadding" value="${escapeHtml(a.cellpadding)}" min="0" placeholder="0">
                 </div>
                 <div style="flex: 1">
                     <label for="table-cellspacing">Spacing</label>
-                    <input type="number" id="table-cellspacing" value="${esc(a.cellspacing)}" min="0" placeholder="0">
+                    <input type="number" id="table-cellspacing" value="${escapeHtml(a.cellspacing)}" min="0" placeholder="0">
                 </div>
             </div>
         </div>
         <div style="display: flex; gap: 10px;">
             <div style="flex: 1">
                 <label for="table-class">Class</label>
-                <input type="text" id="table-class" value="${esc(a.class)}">
+                <input type="text" id="table-class" value="${escapeHtml(a.class)}">
             </div>
             <div style="flex: 1">
                 <label for="table-id">ID</label>
-                <input type="text" id="table-id" value="${esc(a.id)}">
+                <input type="text" id="table-id" value="${escapeHtml(a.id)}">
             </div>
             <div style="flex: 1">
                 <label for="table-style">Style</label>
-                <input type="text" id="table-style" value="${esc(a.dataUserStyle)}">
+                <input type="text" id="table-style" value="${escapeHtml(a.dataUserStyle)}">
             </div>
         </div>
         <div>
             <label for="table-caption">Caption</label>
-            <input type="text" id="table-caption" value="${esc(current.caption)}">
+            <input type="text" id="table-caption" value="${escapeHtml(current.caption)}">
         </div>
         <div>
             <label for="table-summary">Summary</label>
-            <input type="text" id="table-summary" value="${esc(a.summary)}">      
+            <input type="text" id="table-summary" value="${escapeHtml(a.summary)}">      
         </div>`
 
     dialog.setContent(

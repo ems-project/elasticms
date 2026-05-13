@@ -1,4 +1,3 @@
-import { Dialog } from '../../dialog.ts'
 import { TiptapEditor } from '../editor.ts'
 import { Editor } from '@tiptap/core'
 import { escapeHtml } from '../helper.ts'
@@ -27,7 +26,7 @@ export function openCellDialog(e: TiptapEditor) {
     const cell = getCellContext(e.tiptap)
     if (!cell) return
 
-    const dialog = new Dialog('Cell Properties', { draggable: true })
+    const dialog = e.createDialog('table_cell_properties');
     const a = cell.attrs
     const style = a.style || a.dataUserStyle || ''
 

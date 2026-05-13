@@ -8,6 +8,7 @@ interface DialogButton {
 
 interface DialogOptions {
     draggable?: boolean
+    closeLabel: string
 }
 
 export class Dialog {
@@ -16,7 +17,7 @@ export class Dialog {
     private footer: HTMLElement
     private options: DialogOptions
 
-    constructor(title: string, options: DialogOptions = {}) {
+    constructor(title: string, options: DialogOptions) {
         this.options = options
         this.element = document.createElement('dialog')
         this.element.className = 'ems-dialog'
@@ -25,7 +26,7 @@ export class Dialog {
             <div class="dialog-content">
                 <div class="dialog-header">
                     <h4 class="dialog-title">${title}</h4>
-                    <button type="button" class="dialog-close" aria-label="Close">&times;</button>
+                    <button type="button" class="dialog-close" aria-label="${options.closeLabel}">&times;</button>
                 </div>
                 <div class="dialog-body"></div>
                 <div class="dialog-footer"></div>

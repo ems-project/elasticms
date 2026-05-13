@@ -2,7 +2,6 @@ import { Mark, mergeAttributes } from '@tiptap/core'
 import IconAnchor from '@tabler/icons/outline/anchor.svg?raw'
 import IconAnchorOff from '@tabler/icons/outline/anchor-off.svg?raw'
 import { TiptapModule } from '../types.ts'
-import { Dialog } from '../../dialog.ts'
 import { TiptapEditor } from '../editor.ts'
 import { escapeHtml } from '../helper.ts'
 
@@ -90,7 +89,7 @@ function applyAnchor(e: TiptapEditor, name: string, isEdit: boolean, from: numbe
 }
 
 function openAnchorDialog(e: TiptapEditor, target?: Element | null) {
-    const dialog = new Dialog('Anchor Properties', { draggable: true })
+    const dialog = e.createDialog('link_anchor_properties');
     const { from, to } = e.tiptap.state.selection
 
     const el = selectAnchorEl(e, target)
@@ -100,7 +99,7 @@ function openAnchorDialog(e: TiptapEditor, target?: Element | null) {
     dialog.setContent(
         `<div style="display: flex; flex-direction: column; gap: 10px; width: 300px;">
             <div>
-                <label for="${FIELD_NAME}">Anchor Name <span style="color: red">*</span></label>
+                <label for="${FIELD_NAME}">${e.trans('link_anchor_name')} <span style="color: red">*</span></label>
                 <input type="text" id="${FIELD_NAME}" value="${escapeHtml(existing)}" required>
             </div>
         </div>`
@@ -116,8 +115,8 @@ function openAnchorDialog(e: TiptapEditor, target?: Element | null) {
     }
 
     dialog
-        .addButton({ label: 'Apply', variant: 'primary', onClick: apply })
-        .addButton({ label: 'Cancel', variant: 'secondary', onClick: (d) => d.close() })
+        .addButton({ label: e.trans('button_apply'), variant: 'primary', onClick: apply })
+        .addButton({ label: e.trans('button_cancel'), variant: 'secondary', onClick: (d) => d.close() })
         .open()
 
     const input = getInput()

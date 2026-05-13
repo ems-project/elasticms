@@ -3,7 +3,6 @@ import IconEdit from '@tabler/icons/outline/edit.svg?raw'
 import IconTrash from '@tabler/icons/outline/trash.svg?raw'
 import { Extension } from '@tiptap/core'
 import { TiptapModule } from '../types.ts'
-import { Dialog } from '../../dialog.ts'
 import { TiptapEditor } from '../editor.ts'
 import { BLOCK_NODES } from '../extensions.ts'
 import { escapeHtml } from '../helper.ts'
@@ -50,7 +49,7 @@ export const divModule: TiptapModule = {
         {
             name: 'Div',
             icon: IconDiv,
-            tooltip: 'div_insert',
+            tooltip: 'div_create',
             order: 99,
             command: (e) => openDivDialog(e, null),
             isActive: (e) => e.tiptap.isActive('div')
@@ -208,9 +207,7 @@ function openDivDialog(editor: TiptapEditor, existing: ExistingDiv | null): void
     const styleOptions = getDivStyleOptions(editor)
     const current = readExisting(existing)
 
-    const dialog = new Dialog(existing ? 'Edit Div Container' : 'Create Div Container', {
-        draggable: true
-    })
+    const dialog = editor.createDialog(existing ? 'div_edit' : 'div_create');
     dialog.setContent(buildDialogContent(styleOptions, current))
 
     dialog

@@ -96,8 +96,7 @@ class WysiwygFieldType extends DataFieldType
 
         if (isset($options['language'])) {
             $attr['data-lang'] = Locale::getLanguage($options['language']);
-        }
-        if (isset($options['locale'])) {
+        } elseif (isset($options['locale'])) {
             $attr['data-lang'] = $options['locale'];
         }
 

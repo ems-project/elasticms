@@ -2,7 +2,6 @@ import { Mark, mergeAttributes } from '@tiptap/core'
 import IconLink from '@tabler/icons/outline/link.svg?raw'
 import IconLinkOff from '@tabler/icons/outline/link-off.svg?raw'
 import { TiptapModule } from '../types.ts'
-import { Dialog } from '../../dialog.ts'
 import { TiptapEditor } from '../editor.ts'
 import { escapeHtml } from '../helper.ts'
 
@@ -290,7 +289,7 @@ function openLinkDialog(e: TiptapEditor) {
         ctx.target = '_blank'
     }
 
-    const dialog = new Dialog('Link', { draggable: true })
+    const dialog = e.createDialog('link');
     dialog.setContent(
         `<div style="display: flex; flex-direction: column; gap: 10px; width: 400px;">
             ${buildTypeSection(ctx, urlTypes)}

@@ -6,6 +6,7 @@ import { Modules, HtmlTransform, TiptapModule } from './types.ts'
 import { WysiwygOptions, WysiwygProfile } from '../wysiwyg/wysiwyg.ts'
 import { CkeditorStyle } from '../wysiwyg/ckeditorConfig.ts'
 import { isTransLocale, Locale, trans, TranslationKey } from './translations.ts'
+import { Dialog } from '../dialog.ts'
 
 interface TiptapEditorOptions {
     content?: string
@@ -60,6 +61,11 @@ export class TiptapEditor {
         this.menu = new ContextMenu(this)
 
         if (options.toolbarElement) this.attachToolbar(options.toolbarElement)
+    }
+
+    createDialog(title: TranslationKey): Dialog
+    {
+        return new Dialog(this.trans(title), { draggable: true, closeLabel: this.trans('modal_close') })
     }
 
     trans(key: TranslationKey): string {

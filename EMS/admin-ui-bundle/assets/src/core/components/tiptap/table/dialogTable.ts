@@ -1,6 +1,5 @@
 import { applyHeaders, headerScope, isHeaderCell } from './header.ts'
 import { updateCaption } from './caption.ts'
-import { Dialog } from '../../dialog.ts'
 import { TiptapEditor } from '../editor.ts'
 import { Editor } from '@tiptap/core'
 import { escapeHtml } from '../helper.ts'
@@ -60,7 +59,7 @@ function getTableContext(tiptap: Editor): {
 }
 
 export function openTableDialog(e: TiptapEditor, mode: 'insert' | 'edit') {
-    const dialog = new Dialog('Table Properties', { draggable: true })
+    const dialog = e.createDialog('table_properties');
 
     const current =
         mode === 'edit'

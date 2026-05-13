@@ -2,6 +2,7 @@ import IconOmega from '@tabler/icons/outline/omega.svg?raw'
 import { TiptapModule } from '../types.ts'
 import { Dialog } from '../../dialog.ts'
 import { TiptapEditor } from '../editor.ts'
+import { escapeHtml } from '../helper.ts'
 
 export const specialCharModule: TiptapModule = {
     extensions: [],
@@ -43,20 +44,6 @@ const STYLES = `
         .sc-preview-box--small { font-size: 11px; height: 22px; width: 70px; overflow: hidden; }
     </style>
 `
-
-function escapeHtml(s: string): string {
-    return s.replace(
-        /[&<>"']/g,
-        (c) =>
-            ({
-                '&': '&amp;',
-                '<': '&lt;',
-                '>': '&gt;',
-                '"': '&quot;',
-                "'": '&#39;'
-            })[c]!
-    )
-}
 
 function decodeEntity(s: string): string {
     const el = document.createElement('textarea')

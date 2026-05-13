@@ -4,7 +4,7 @@ import IconAnchorOff from '@tabler/icons/outline/anchor-off.svg?raw'
 import { TiptapModule } from '../types.ts'
 import { Dialog } from '../../dialog.ts'
 import { TiptapEditor } from '../editor.ts'
-import { escapeAttr } from '../helper.ts'
+import { escapeHtml } from '../helper.ts'
 
 const ANCHOR_SELECTOR = 'a[id]:not([href])'
 const FIELD_NAME = 'tiptap-anchor-name'
@@ -101,7 +101,7 @@ function openAnchorDialog(e: TiptapEditor, target?: Element | null) {
         `<div style="display: flex; flex-direction: column; gap: 10px; width: 300px;">
             <div>
                 <label for="${FIELD_NAME}">Anchor Name <span style="color: red">*</span></label>
-                <input type="text" id="${FIELD_NAME}" value="${escapeAttr(existing)}" required>
+                <input type="text" id="${FIELD_NAME}" value="${escapeHtml(existing)}" required>
             </div>
         </div>`
     )

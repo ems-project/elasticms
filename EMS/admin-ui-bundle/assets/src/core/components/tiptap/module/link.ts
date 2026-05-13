@@ -4,7 +4,7 @@ import IconLinkOff from '@tabler/icons/outline/link-off.svg?raw'
 import { TiptapModule } from '../types.ts'
 import { Dialog } from '../../dialog.ts'
 import { TiptapEditor } from '../editor.ts'
-import { escapeAttr } from '../helper.ts'
+import { escapeHtml } from '../helper.ts'
 
 const URL_TYPES = ['url', 'anchor', 'email', 'phone'] as const
 type UrlType = (typeof URL_TYPES)[number]
@@ -158,7 +158,7 @@ function buildUrlFields(ctx: LinkContext) {
     return `<div id="link-fields-url" style="display: flex; flex-direction: column; gap: 10px;">
         <div>
             <label for="link-url">URL <span style="color: red">*</span></label>
-            <input type="text" id="link-url" value="${escapeAttr(url)}" required>
+            <input type="text" id="link-url" value="${escapeHtml(url)}" required>
         </div>
         <div>
             <label for="link-target">Target</label>
@@ -180,7 +180,7 @@ function buildAnchorFields(ctx: LinkContext, anchors: string[]) {
     const options = anchors
         .map(
             (a) =>
-                `<option value="${escapeAttr(a)}"${a === ctx.anchor ? ' selected' : ''}>${escapeAttr(a)}</option>`
+                `<option value="${escapeHtml(a)}"${a === ctx.anchor ? ' selected' : ''}>${escapeHtml(a)}</option>`
         )
         .join('')
     return `<div id="link-fields-anchor" style="display: none; flex-direction: column; gap: 10px;">
@@ -198,15 +198,15 @@ function buildEmailFields(ctx: LinkContext) {
     return `<div id="link-fields-email" style="display: none; flex-direction: column; gap: 10px;">
         <div>
             <label for="link-email">E-Mail Address <span style="color: red">*</span></label>
-            <input type="email" id="link-email" value="${escapeAttr(ctx.email)}" required>
+            <input type="email" id="link-email" value="${escapeHtml(ctx.email)}" required>
         </div>
         <div>
             <label for="link-subject">Message Subject</label>
-            <input type="text" id="link-subject" value="${escapeAttr(ctx.subject)}">
+            <input type="text" id="link-subject" value="${escapeHtml(ctx.subject)}">
         </div>
         <div>
             <label for="link-body">Message Body</label>
-            <textarea id="link-body" rows="3">${escapeAttr(ctx.body)}</textarea>
+            <textarea id="link-body" rows="3">${escapeHtml(ctx.body)}</textarea>
         </div>
     </div>`
 }
@@ -215,7 +215,7 @@ function buildPhoneFields(ctx: LinkContext) {
     return `<div id="link-fields-phone" style="display: none; flex-direction: column; gap: 10px;">
         <div>
             <label for="link-phone">Phone Number <span style="color: red">*</span></label>
-            <input type="tel" id="link-phone" value="${escapeAttr(ctx.phone)}" required>
+            <input type="tel" id="link-phone" value="${escapeHtml(ctx.phone)}" required>
         </div>
     </div>`
 }

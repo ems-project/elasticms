@@ -1,4 +1,4 @@
-export function escapeAttr(s: string): string {
+export function escapeHtml(s: string): string {
     return s.replace(
         /[&<>"']/g,
         (c) =>

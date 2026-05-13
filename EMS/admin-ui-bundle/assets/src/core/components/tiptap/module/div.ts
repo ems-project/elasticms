@@ -6,7 +6,7 @@ import { TiptapModule } from '../types.ts'
 import { Dialog } from '../../dialog.ts'
 import { TiptapEditor } from '../editor.ts'
 import { BLOCK_NODES } from '../extensions.ts'
-import { escapeAttr } from '../helper.ts'
+import { escapeHtml } from '../helper.ts'
 
 const ATTR_MAP: Record<string, string> = {
     htmlClass: 'class',
@@ -166,7 +166,7 @@ function buildDialogContent(styleOptions: StyleOption[], current: DivFormValues)
                 ${styleOptions
                     .map((o) => {
                         const selected = o.value === current.htmlClass ? ' selected' : ''
-                        return `<option value="${escapeAttr(o.value)}"${selected}>${escapeAttr(o.label)}</option>`
+                        return `<option value="${escapeHtml(o.value)}"${selected}>${escapeHtml(o.label)}</option>`
                     })
                     .join('')}
             </select>
@@ -176,7 +176,7 @@ function buildDialogContent(styleOptions: StyleOption[], current: DivFormValues)
         ({ label, name }) =>
             `<div class="div-form-row">
             <label>${label}</label>
-            <input type="text" name="${name}" value="${escapeAttr(current[name])}" />
+            <input type="text" name="${name}" value="${escapeHtml(current[name])}" />
         </div>`
     ).join('')
 

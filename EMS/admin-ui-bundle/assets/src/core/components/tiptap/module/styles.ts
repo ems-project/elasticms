@@ -472,7 +472,7 @@ function applyDivStyle(
         editor.tiptap
             .chain()
             .focus()
-            .setNode('div', { htmlStyle, htmlClass })
+            .wrapIn('div', { htmlStyle, htmlClass })
             .setMeta('applyStyle', true)
             .run()
     }

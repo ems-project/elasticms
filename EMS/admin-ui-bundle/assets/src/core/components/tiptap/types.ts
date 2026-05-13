@@ -16,6 +16,7 @@ import { linkModule } from './module/link.ts'
 import { specialCharModule } from './module/specialChar.ts'
 import { formatModule } from './module/format.ts'
 import { showBlocksModule } from './module/showBlocks.ts'
+import { divModule } from './module/div.ts'
 
 export type ContextType = 'table'
 
@@ -23,6 +24,7 @@ export const Modules: TiptapModule[] = [
     anchorModule,
     ...basicStyleModule,
     cleanupModule,
+    divModule,
     formatModule,
     historyModule,
     indentModule,

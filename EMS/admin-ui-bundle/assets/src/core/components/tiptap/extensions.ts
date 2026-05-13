@@ -9,11 +9,11 @@ export type ExtensionType = Extension | Mark | Node
 
 export const DEFAULT_EXTENSIONS = [Document, Paragraph, Text, Gapcursor, HardBreak]
 
-function createBlockNode(name: string): ExtensionType {
+function createBlockNode(name: string, content = 'block+'): ExtensionType {
     return Node.create({
         name,
         group: 'block',
-        content: 'inline*',
+        content,
         parseHTML() {
             return [{ tag: name }]
         },
@@ -25,6 +25,6 @@ function createBlockNode(name: string): ExtensionType {
 
 export const BLOCK_NODES = {
     div: createBlockNode('div'),
-    pre: createBlockNode('pre'),
-    address: createBlockNode('address')
+    pre: createBlockNode('pre', 'inline*'),
+    address: createBlockNode('address', 'inline*')
 } as const

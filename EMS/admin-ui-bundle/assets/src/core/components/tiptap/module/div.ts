@@ -56,7 +56,8 @@ export const divModule: TiptapModule = {
         {
             name: 'Div',
             icon: IconDiv,
-            tooltip: 'Insert Div',
+            tooltip: 'Create Div Container',
+            order: 99,
             command: (e) => openInsertDivDialog(e),
             isActive: (e) => e.tiptap.isActive('div')
         }

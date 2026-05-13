@@ -8,8 +8,7 @@ import { TiptapEditor } from '../editor.ts'
 import { BLOCK_NODES } from '../extensions.ts'
 
 export const divModule: TiptapModule = {
-    isEnabled: (wysiwygProfile) =>
-        wysiwygProfile.config.extraPlugins?.includes('div') ?? false,
+    isEnabled: (wysiwygProfile) => wysiwygProfile.config.extraPlugins?.includes('div') ?? false,
     extensions: [
         BLOCK_NODES.div,
         Extension.create({
@@ -57,8 +56,9 @@ export const divModule: TiptapModule = {
         {
             name: 'Div',
             icon: IconDiv,
-            tooltip: 'Create Div Container',
-            command: (e) => openInsertDivDialog(e)
+            tooltip: 'Insert Div',
+            command: (e) => openInsertDivDialog(e),
+            isActive: (e) => e.tiptap.isActive('div')
         }
     ],
     contextMenuNode: 'div',
@@ -146,17 +146,13 @@ function removeDiv(editor: TiptapEditor): void {
 // ─── Dialog ──────────────────────────────────────────────────
 
 function buildDialogContent(styleOptions: StyleOption[], current: DivFormValues): string {
-    const options = styleOptions
-        .map((o) => `<option value="${o.value}">${o.label}</option>`)
-        .join('')
-
     const presetRow =
         styleOptions.length > 0
             ? `<div class="div-form-row">
-                <label>Class preset</label>
+                <label>Style</label>
                 <select class="div-class-preset">
                     <option value="">— Select —</option>
-                    ${options}
+                    ${styleOptions.map((o) => `<option value="${o.value}"${o.value === current.htmlClass ? ' selected' : ''}>${o.label}</option>`).join('')}
                 </select>
             </div>`
             : ''
@@ -177,10 +173,10 @@ function buildDialogContent(styleOptions: StyleOption[], current: DivFormValues)
         </style>
         <div class="div-dialog-form">
             ${presetRow}
-            ${field('Class', 'htmlClass', current.htmlClass)}
-            ${field('ID', 'id', current.id)}
-            ${field('Language', 'lang', current.lang)}
-            ${field('Style', 'htmlStyle', current.htmlStyle)}
+            ${field('Classes', 'htmlClass', current.htmlClass)}
+            ${field('Id', 'id', current.id)}
+            ${field('Language code', 'lang', current.lang)}
+            ${field('Inline Style', 'htmlStyle', current.htmlStyle)}
             ${field('Advisory Title', 'title', current.title)}
         </div>`
 }
@@ -195,7 +191,9 @@ function openDivDialog(editor: TiptapEditor, existing: ExistingDiv | null): void
         title: existing?.attrs.title ?? ''
     }
 
-    const dialog = new Dialog(existing ? 'Edit Div' : 'Insert Div', { draggable: true })
+    const dialog = new Dialog(existing ? 'Edit Div Container' : 'Create Div Container', {
+        draggable: true
+    })
     dialog.setContent(buildDialogContent(styleOptions, current))
 
     dialog

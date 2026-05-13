@@ -26,7 +26,7 @@ export class Dialog {
             <div class="dialog-content">
                 <div class="dialog-header">
                     <h4 class="dialog-title">${title}</h4>
-                    <button type="button" class="dialog-close" aria-label="${options.closeLabel}">&times;</button>
+                    <button type="button" class="dialog-close" aria-label="${options.closeLabel}" title="${options.closeLabel}">&times;</button>
                 </div>
                 <div class="dialog-body"></div>
                 <div class="dialog-footer"></div>

@@ -4,15 +4,16 @@ import IconLinkOff from '@tabler/icons/outline/link-off.svg?raw'
 import { TiptapModule } from '../types.ts'
 import { TiptapEditor } from '../editor.ts'
 import { escapeHtml } from '../helper.ts'
+import { TranslationKey } from '../translations.ts'
 
 const URL_TYPES = ['url', 'anchor', 'email', 'phone'] as const
 type UrlType = (typeof URL_TYPES)[number]
 
-const URL_TYPE_OPTIONS: { value: UrlType; label: string }[] = [
-    { value: 'url', label: 'URL' },
-    { value: 'anchor', label: 'Link to anchor in the text' },
-    { value: 'email', label: 'E-mail' },
-    { value: 'phone', label: 'Phone' }
+const URL_TYPE_OPTIONS: { value: UrlType; label: TranslationKey }[] = [
+    { value: 'url', label: 'link_type_url' },
+    { value: 'anchor', label: 'link_type_anchor' },
+    { value: 'email', label: 'link_type_email' },
+    { value: 'phone', label: 'link_type_phone' }
 ]
 
 export const linkModule: TiptapModule = {
@@ -138,7 +139,7 @@ function getAnchorsFromDoc(e: TiptapEditor): string[] {
     return [...new Set(anchors)]
 }
 
-function buildTypeSection(ctx: LinkContext, urlTypes?: string[]) {
+function buildTypeSection(e: TiptapEditor, ctx: LinkContext, urlTypes?: string[]) {
     const options = URL_TYPE_OPTIONS.filter((o) => !urlTypes || urlTypes.includes(o.value))
         .map(
             (o) =>
@@ -147,33 +148,33 @@ function buildTypeSection(ctx: LinkContext, urlTypes?: string[]) {
         .join('')
 
     return `<div>
-        <label for="link-type">Link Type</label>
+        <label for="link-type">${e.trans('link_type')}</label>
         <select id="link-type">${options}</select>
     </div>`
 }
 
-function buildUrlFields(ctx: LinkContext) {
+function buildUrlFields(e: TiptapEditor, ctx: LinkContext) {
     const url = ctx.type === 'url' ? ctx.href : ''
     return `<div id="link-fields-url" style="display: flex; flex-direction: column; gap: 10px;">
         <div>
-            <label for="link-url">URL <span style="color: red">*</span></label>
+            <label for="link-url">${e.trans('link_url')} <span style="color: red">*</span></label>
             <input type="text" id="link-url" value="${escapeHtml(url)}" required>
         </div>
         <div>
-            <label for="link-target">Target</label>
+            <label for="link-target">${e.trans('link_target')}</label>
             <select id="link-target">
-                <option value=""${!ctx.target ? ' selected' : ''}>Not set</option>
-                <option value="_blank"${ctx.target === '_blank' ? ' selected' : ''}>New Window (_blank)</option>
-                <option value="_self"${ctx.target === '_self' ? ' selected' : ''}>Same Window (_self)</option>
+                <option value=""${!ctx.target ? ' selected' : ''}>${e.trans('select')}</option>
+                <option value="_blank"${ctx.target === '_blank' ? ' selected' : ''}>${e.trans('link_target_new_window')}</option>
+                <option value="_self"${ctx.target === '_self' ? ' selected' : ''}>${e.trans("link_target_same_window")}</option>
             </select>
         </div>
     </div>`
 }
 
-function buildAnchorFields(ctx: LinkContext, anchors: string[]) {
+function buildAnchorFields(e: TiptapEditor, ctx: LinkContext, anchors: string[]) {
     if (!anchors.length) {
         return `<div id="link-fields-anchor" style="display: none;">
-            <p style="color: #888; margin: 0;">No anchors available in the document</p>
+            <p style="color: #888; margin: 0;">${e.trans("link_no_anchors")}</p>
         </div>`
     }
     const options = anchors
@@ -184,36 +185,36 @@ function buildAnchorFields(ctx: LinkContext, anchors: string[]) {
         .join('')
     return `<div id="link-fields-anchor" style="display: none; flex-direction: column; gap: 10px;">
         <div>
-            <label for="link-anchor">Select Anchor</label>
+            <label for="link-anchor">${e.trans('link_anchor_select')}</label>
             <select id="link-anchor">
-                <option value="">Select anchor</option>
+                <option value="">${e.trans('select')}</option>
                 ${options}
             </select>
         </div>
     </div>`
 }
 
-function buildEmailFields(ctx: LinkContext) {
+function buildEmailFields(e: TiptapEditor, ctx: LinkContext) {
     return `<div id="link-fields-email" style="display: none; flex-direction: column; gap: 10px;">
         <div>
-            <label for="link-email">E-Mail Address <span style="color: red">*</span></label>
+            <label for="link-email">${e.trans("link_email_address")} <span style="color: red">*</span></label>
             <input type="email" id="link-email" value="${escapeHtml(ctx.email)}" required>
         </div>
         <div>
-            <label for="link-subject">Message Subject</label>
+            <label for="link-subject">${e.trans("link_email_subject")}</label>
             <input type="text" id="link-subject" value="${escapeHtml(ctx.subject)}">
         </div>
         <div>
-            <label for="link-body">Message Body</label>
+            <label for="link-body">${e.trans("link_email_body")}</label>
             <textarea id="link-body" rows="3">${escapeHtml(ctx.body)}</textarea>
         </div>
     </div>`
 }
 
-function buildPhoneFields(ctx: LinkContext) {
+function buildPhoneFields(e: TiptapEditor, ctx: LinkContext) {
     return `<div id="link-fields-phone" style="display: none; flex-direction: column; gap: 10px;">
         <div>
-            <label for="link-phone">Phone Number <span style="color: red">*</span></label>
+            <label for="link-phone">${e.trans("link_phone_number")} <span style="color: red">*</span></label>
             <input type="tel" id="link-phone" value="${escapeHtml(ctx.phone)}" required>
         </div>
     </div>`
@@ -292,11 +293,11 @@ function openLinkDialog(e: TiptapEditor) {
     const dialog = e.createDialog('link');
     dialog.setContent(
         `<div style="display: flex; flex-direction: column; gap: 10px; width: 400px;">
-            ${buildTypeSection(ctx, urlTypes)}
-            ${availableTypes.includes('url') ? buildUrlFields(ctx) : ''}
-            ${availableTypes.includes('anchor') ? buildAnchorFields(ctx, anchors) : ''}
-            ${availableTypes.includes('email') ? buildEmailFields(ctx) : ''}
-            ${availableTypes.includes('phone') ? buildPhoneFields(ctx) : ''}
+            ${buildTypeSection(e, ctx, urlTypes)}
+            ${availableTypes.includes('url') ? buildUrlFields(e, ctx) : ''}
+            ${availableTypes.includes('anchor') ? buildAnchorFields(e, ctx, anchors) : ''}
+            ${availableTypes.includes('email') ? buildEmailFields(e, ctx) : ''}
+            ${availableTypes.includes('phone') ? buildPhoneFields(e, ctx) : ''}
         </div>`
     )
 
@@ -311,8 +312,8 @@ function openLinkDialog(e: TiptapEditor) {
     }
 
     dialog
-        .addButton({ label: 'Apply', variant: 'primary', onClick: apply })
-        .addButton({ label: 'Cancel', variant: 'secondary', onClick: (d) => d.close() })
+        .addButton({ label: e.trans("button_apply"), variant: 'primary', onClick: apply })
+        .addButton({ label: e.trans("button_cancel"), variant: 'secondary', onClick: (d) => d.close() })
         .open()
 
     showFields(root, ctx.type)

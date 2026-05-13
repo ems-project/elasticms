@@ -6,6 +6,7 @@ import { TiptapModule } from '../types.ts'
 import { TiptapEditor } from '../editor.ts'
 import { BLOCK_NODES } from '../extensions.ts'
 import { escapeHtml } from '../helper.ts'
+import { TranslationKey } from '../translations.ts'
 
 const ATTR_MAP: Record<string, string> = {
     htmlClass: 'class',
@@ -15,12 +16,12 @@ const ATTR_MAP: Record<string, string> = {
     title: 'title'
 }
 
-const FIELDS: { label: string; name: keyof typeof ATTR_MAP }[] = [
-    { label: 'Classes', name: 'htmlClass' },
-    { label: 'Id', name: 'id' },
-    { label: 'Language code', name: 'lang' },
-    { label: 'Inline Style', name: 'htmlStyle' },
-    { label: 'Advisory Title', name: 'title' }
+const FIELDS: { label: TranslationKey; name: keyof typeof ATTR_MAP }[] = [
+    { label: 'div_field_classes', name: 'htmlClass' },
+    { label: 'div_field_id', name: 'id' },
+    { label: 'div_field_lang', name: 'lang' },
+    { label: 'div_field_style_inline', name: 'htmlStyle' },
+    { label: 'div_field_title', name: 'title' }
 ]
 
 type DivAttrs = Record<keyof typeof ATTR_MAP, string | null>
@@ -153,31 +154,24 @@ function saveDiv(editor: TiptapEditor, existing: ExistingDiv | null, attrs: DivA
     editor.tiptap.chain().focus().wrapIn('div', attrs).setMeta('applyStyle', true).run()
 }
 
-function buildDialogContent(styleOptions: StyleOption[], current: DivFormValues): string {
-    const presetRow =
-        styleOptions.length === 0
-            ? ''
-            : `
+function buildDialogContent(editor: TiptapEditor, styleOptions: StyleOption[], current: DivFormValues): string {
+    const presetRow = styleOptions.length === 0 ? '' : `
         <div class="div-form-row">
-            <label>Style</label>
+            <label>${editor.trans('div_field_style')}</label>
             <select class="div-class-preset">
-                <option value="">— Select —</option>
-                ${styleOptions
-                    .map((o) => {
-                        const selected = o.value === current.htmlClass ? ' selected' : ''
-                        return `<option value="${escapeHtml(o.value)}"${selected}>${escapeHtml(o.label)}</option>`
-                    })
-                    .join('')}
+                <option value="">${editor.trans('select')}</option>
+                ${styleOptions.map((o) => {
+        const selected = o.value === current.htmlClass ? ' selected' : ''
+        return `<option value="${escapeHtml(o.value)}"${selected}>${escapeHtml(o.label)}</option>`
+    }).join('')}
             </select>
         </div>`
 
-    const fieldsHtml = FIELDS.map(
-        ({ label, name }) =>
-            `<div class="div-form-row">
-            <label>${label}</label>
+    const fieldsHtml = FIELDS.map(({ label, name }) => `
+        <div class="div-form-row">
+            <label>${editor.trans(label)}</label>
             <input type="text" name="${name}" value="${escapeHtml(current[name])}" />
-        </div>`
-    ).join('')
+        </div>`).join('')
 
     return `
         <style>
@@ -208,18 +202,18 @@ function openDivDialog(editor: TiptapEditor, existing: ExistingDiv | null): void
     const current = readExisting(existing)
 
     const dialog = editor.createDialog(existing ? 'div_edit' : 'div_create');
-    dialog.setContent(buildDialogContent(styleOptions, current))
+    dialog.setContent(buildDialogContent(editor, styleOptions, current))
 
     dialog
         .addButton({
-            label: existing ? 'Update' : 'Insert',
+            label: editor.trans(existing ? 'button_update' : 'button_insert'),
             variant: 'primary',
             onClick: (d) => {
                 saveDiv(editor, existing, toAttrs(getFormValues(d.element)))
                 d.close()
             }
         })
-        .addButton({ label: 'Cancel', variant: 'secondary', onClick: (d) => d.close() })
+        .addButton({ label: editor.trans('button_cancel'), variant: 'secondary', onClick: (d) => d.close() })
         .open()
 
     bindPresetSync(dialog.element)

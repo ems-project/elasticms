@@ -5,6 +5,7 @@ import { ContextMenu } from './ui/contextMenu.ts'
 import { Modules, HtmlTransform, TiptapModule } from './types.ts'
 import { WysiwygOptions, WysiwygProfile } from '../wysiwyg/wysiwyg.ts'
 import { CkeditorStyle } from '../wysiwyg/ckeditorConfig.ts'
+import { isTransLocale, Locale, trans, TranslationKey } from './translations.ts'
 
 interface TiptapEditorOptions {
     content?: string
@@ -26,12 +27,16 @@ export class TiptapEditor {
     readonly modules: TiptapModule[]
     private readonly htmlTransforms: HtmlTransform[]
     private readonly options: TiptapEditorOptions
+    readonly locale: Locale
 
     constructor(options: TiptapEditorOptions) {
         this.options = options
         this.docEditor = options.element.ownerDocument
         this.docParent = this.options.parent ?? document
         this.profile = options.wysiwygProfile ?? new WysiwygProfile()
+
+        const lang = this.options.wysiwygOptions?.lang ?? 'en';
+        this.locale = isTransLocale(lang) ? lang : 'en';
 
         this.toolbar = new Toolbar(this)
 
@@ -55,6 +60,10 @@ export class TiptapEditor {
         this.menu = new ContextMenu(this)
 
         if (options.toolbarElement) this.attachToolbar(options.toolbarElement)
+    }
+
+    trans(key: TranslationKey): string {
+        return trans(this.locale, key)
     }
 
     getWysiwygOptions(): null | WysiwygOptions {

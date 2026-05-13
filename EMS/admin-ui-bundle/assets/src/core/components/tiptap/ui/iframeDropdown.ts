@@ -1,10 +1,12 @@
 import { TiptapEditor } from '../editor.ts'
+import { TranslationKey } from '../translations.ts'
 
 export type IframeDropdownConfig = {
     prefix: string
     css: string
     contentCss: string | null
     buttonLabel: string
+    buttonTooltip: TranslationKey
     buildBody(): string
     onItemClick(name: string): void
     onOpen(iframeDoc: Document): void
@@ -31,6 +33,7 @@ export function createIframeDropdown(
     const button = doc.createElement('button')
     button.type = 'button'
     button.dataset.action = config.buttonLabel
+    button.title = editor.trans(config.buttonTooltip)
     button.className = 'tiptap-dropdown-btn'
 
     const label = doc.createElement('span')

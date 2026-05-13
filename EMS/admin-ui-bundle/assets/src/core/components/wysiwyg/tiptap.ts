@@ -72,6 +72,7 @@ export default class Tiptap {
                 'load',
                 () => {
                     const doc = iframe.contentDocument as Document
+                    doc.documentElement.lang = this.wysiwygOptions.lang ?? 'en'
 
                     const style = doc.createElement('style')
                     style.textContent = tiptapIframeCss
@@ -115,7 +116,7 @@ export default class Tiptap {
                         const button = tiptapEditor.toolbar.getButton('Source')
                         if (button) {
                             button.innerHTML = this.isSourceView ? IconSourceOff : IconSource
-                            button.title = this.isSourceView ? 'Hide Source' : 'Show Source'
+                            button.title = tiptapEditor.trans(this.isSourceView ? 'mode_source_code_hide' : 'mode_source_code');
                         }
 
                         if (this.isSourceView) {
@@ -149,7 +150,7 @@ export default class Tiptap {
                         const button = tiptapEditor.toolbar.getButton('Maximize')
                         if (button) {
                             button.innerHTML = this.isMaximized ? IconMinimize : IconMaximize
-                            button.title = this.isMaximized ? 'Minimize' : 'Maximize'
+                            button.title = tiptapEditor.trans(this.isMaximized ? 'tools_minimize' : 'tools_maximize');
                         }
 
                         tiptapEditor.toolbar.update()

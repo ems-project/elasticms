@@ -1,4 +1,11 @@
 export type Locale = 'en' | 'nl' | 'fr' | 'de'
+const LOCALES: readonly Locale[] = ['en', 'nl', 'fr', 'de']
+
+export const isTransLocale = (v: string): v is Locale =>
+    (LOCALES as readonly string[]).includes(v)
+
+export const trans = (locale: Locale, key: TranslationKey): string =>
+    translations[locale]?.[key] ?? translations.en[key] ?? key
 
 const en = {
     align_center: 'Center',
@@ -7,6 +14,7 @@ const en = {
     align_right: 'Align Right',
     block_quote_insert: 'Block Quote',
     div_insert: 'Create Div Container',
+    format_paragraph: 'Paragraph format',
     format_remove: 'Remove Format',
     history_redo: 'Redo',
     history_undo: 'Undo',
@@ -18,8 +26,10 @@ const en = {
     link_unlink: 'Unlink',
     list_bulleted_create: 'Insert/Remove Bulleted List',
     list_numbered_create: 'Insert/Remove Numbered List',
-    mode_source_code: 'Source Code',
+    mode_source_code: 'Show Source',
+    mode_source_code_hide: 'Hide Source',
     special_characters: 'Special Characters',
+    styles_format: 'Formatting styles',
     table_insert: 'Insert table',
     text_bold: 'Bold',
     text_italic: 'Italic',
@@ -27,12 +37,13 @@ const en = {
     text_subscript: 'Subscript',
     text_superscript: 'Superscript',
     tools_maximize: 'Maximize',
+    tools_minimize: 'Minimize',
     tools_show_Blocks: 'Show Blocks'
 } as const
 
 export type TranslationKey = keyof typeof en
 
-export const translations: Record<Locale, Record<TranslationKey, string>> = {
+const translations: Record<Locale, Record<TranslationKey, string>> = {
     en,
     nl: {
         align_center: 'Centreren',
@@ -41,6 +52,7 @@ export const translations: Record<Locale, Record<TranslationKey, string>> = {
         align_right: 'Rechts uitlijnen',
         block_quote_insert: 'Citaatblok',
         div_insert: 'Div-container maken',
+        format_paragraph: 'Paragraafopmaak',
         format_remove: 'Opmaak verwijderen',
         history_redo: 'Opnieuw uitvoeren',
         history_undo: 'Ongedaan maken',
@@ -52,8 +64,10 @@ export const translations: Record<Locale, Record<TranslationKey, string>> = {
         link_unlink: 'Link verwijderen',
         list_bulleted_create: 'Lijst met opsommingstekens invoegen/verwijderen',
         list_numbered_create: 'Genummerde lijst invoegen/verwijderen',
-        mode_source_code: 'Broncode',
+        mode_source_code: 'Broncode tonen',
+        mode_source_code_hide: 'Broncode verbergen',
         special_characters: 'Speciale tekens',
+        styles_format: 'Opmaakstijlen',
         table_insert: 'Tabel invoegen',
         text_bold: 'Vet',
         text_italic: 'Cursief',
@@ -61,7 +75,8 @@ export const translations: Record<Locale, Record<TranslationKey, string>> = {
         text_subscript: 'Subscript',
         text_superscript: 'Superscript',
         tools_maximize: 'Maximaliseren',
-        tools_show_Blocks: 'Show Blocks'
+        tools_minimize: 'Minimaliseren',
+        tools_show_Blocks: 'Blokken tonen'
     },
     fr: {
         align_center: 'Centrer',
@@ -70,6 +85,7 @@ export const translations: Record<Locale, Record<TranslationKey, string>> = {
         align_right: 'Aligner à droite',
         block_quote_insert: 'Bloc de citation',
         div_insert: 'Créer un conteneur Div',
+        format_paragraph: 'Format de paragraphe',
         format_remove: 'Supprimer la mise en forme',
         history_redo: 'Rétablir',
         history_undo: 'Annuler',
@@ -81,8 +97,10 @@ export const translations: Record<Locale, Record<TranslationKey, string>> = {
         link_unlink: 'Supprimer le lien',
         list_bulleted_create: 'Insérer/Supprimer une liste à puces',
         list_numbered_create: 'Insérer/Supprimer une liste numérotée',
-        mode_source_code: 'Code source',
+        mode_source_code: 'Afficher la source',
+        mode_source_code_hide: 'Masquer la source',
         special_characters: 'Caractères spéciaux',
+        styles_format: 'Styles de mise en forme',
         table_insert: 'Insérer un tableau',
         text_bold: 'Gras',
         text_italic: 'Italique',
@@ -90,7 +108,8 @@ export const translations: Record<Locale, Record<TranslationKey, string>> = {
         text_subscript: 'Indice',
         text_superscript: 'Exposant',
         tools_maximize: 'Agrandir',
-        tools_show_Blocks: 'Show Blocks'
+        tools_minimize: 'Réduire',
+        tools_show_Blocks: 'Afficher les blocs'
     },
     de: {
         align_center: 'Zentriert',
@@ -99,19 +118,22 @@ export const translations: Record<Locale, Record<TranslationKey, string>> = {
         align_right: 'Rechtsbündig',
         block_quote_insert: 'Blockzitat',
         div_insert: 'Div-Container erstellen',
+        format_paragraph: 'Absatzformat',
         format_remove: 'Formatierung entfernen',
         history_redo: 'Wiederherstellen',
         history_undo: 'Rückgängig machen',
         horizontal_line_insert: 'Horizontale Linie einfügen',
-        indent_decrease: 'Einzug verkleiner',
+        indent_decrease: 'Einzug verkleinern',
         indent_increase: 'Einzug vergrößern',
         link: 'Link',
         link_anchor: 'Anker',
         link_unlink: 'Link entfernen',
         list_bulleted_create: 'Aufzählungsliste einfügen/entfernen',
         list_numbered_create: 'Nummerierte Liste einfügen/entfernen',
-        mode_source_code: 'Quellcode',
+        mode_source_code: 'Quellcode anzeigen',
+        mode_source_code_hide: 'Quellcode ausblenden',
         special_characters: 'Sonderzeichen',
+        styles_format: 'Formatvorlagen',
         table_insert: 'Tabelle einfügen',
         text_bold: 'Fett',
         text_italic: 'Kursiv',
@@ -119,6 +141,7 @@ export const translations: Record<Locale, Record<TranslationKey, string>> = {
         text_subscript: 'Tiefgestellt',
         text_superscript: 'Hochgestellt',
         tools_maximize: 'Maximieren',
-        tools_show_Blocks: 'Show Blocks'
+        tools_minimize: 'Minimieren',
+        tools_show_Blocks: 'Blöcke anzeigen'
     }
 }

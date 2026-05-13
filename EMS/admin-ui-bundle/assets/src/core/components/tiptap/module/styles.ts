@@ -569,6 +569,7 @@ function createStylesDropdown(editor: TiptapEditor): HTMLElement {
         css: stylesIframeCss,
         contentCss,
         buttonLabel: 'Styles',
+        buttonTooltip: 'styles_format',
         buildBody: () => groups.map(buildStyleGroup).join(''),
         onItemClick(name) {
             const matched = styleMap.get(name)

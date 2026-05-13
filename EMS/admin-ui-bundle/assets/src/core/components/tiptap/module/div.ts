@@ -6,6 +6,7 @@ import { TiptapModule } from '../types.ts'
 import { Dialog } from '../../dialog.ts'
 import { TiptapEditor } from '../editor.ts'
 import { BLOCK_NODES } from '../extensions.ts'
+import { escapeAttr } from '../helper.ts'
 
 const ATTR_MAP: Record<string, string> = {
     htmlClass: 'class',
@@ -86,20 +87,6 @@ function buildAttributesConfig() {
         }
     }
     return config
-}
-
-function escapeAttr(s: string): string {
-    return s.replace(
-        /[&<>"']/g,
-        (c) =>
-            ({
-                '&': '&amp;',
-                '<': '&lt;',
-                '>': '&gt;',
-                '"': '&quot;',
-                "'": '&#39;'
-            })[c]!
-    )
 }
 
 function getCurrentDivNode(editor: TiptapEditor): ExistingDiv | null {

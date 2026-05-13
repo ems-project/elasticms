@@ -4,6 +4,7 @@ import IconLinkOff from '@tabler/icons/outline/link-off.svg?raw'
 import { TiptapModule } from '../types.ts'
 import { Dialog } from '../../dialog.ts'
 import { TiptapEditor } from '../editor.ts'
+import { escapeAttr } from '../helper.ts'
 
 const URL_TYPES = ['url', 'anchor', 'email', 'phone'] as const
 type UrlType = (typeof URL_TYPES)[number]
@@ -99,20 +100,6 @@ interface LinkContext {
 }
 
 type LinkResult = { href: string; target: string | null }
-
-function escapeAttr(s: string): string {
-    return s.replace(
-        /[&<>"']/g,
-        (c) =>
-            ({
-                '&': '&amp;',
-                '<': '&lt;',
-                '>': '&gt;',
-                '"': '&quot;',
-                "'": '&#39;'
-            })[c]!
-    )
-}
 
 function getLinkContext(e: TiptapEditor): LinkContext {
     const attrs = e.tiptap.getAttributes('link')

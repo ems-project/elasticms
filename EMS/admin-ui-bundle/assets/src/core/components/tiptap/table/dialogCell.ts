@@ -1,6 +1,7 @@
 import { Dialog } from '../../dialog.ts'
 import { TiptapEditor } from '../editor.ts'
 import { Editor } from '@tiptap/core'
+import { escapeAttr } from '../helper.ts'
 
 function getCellContext(tiptap: Editor) {
     const { $from } = tiptap.state.selection
@@ -25,8 +26,6 @@ function parseStyle(style: string | null | undefined, prop: string): string {
 export function openCellDialog(e: TiptapEditor) {
     const cell = getCellContext(e.tiptap)
     if (!cell) return
-
-    const esc = (v: any) => (v ?? '').toString().replace(/"/g, '&quot;')
 
     const dialog = new Dialog('Cell Properties', { draggable: true })
     const a = cell.attrs
@@ -63,12 +62,12 @@ export function openCellDialog(e: TiptapEditor) {
         <div style="display: flex; gap: 10px;">
             <div style="flex: 1">
                 <label for="cell-width">Width</label>
-                <input type="text" id="cell-width" value="${esc(width)}" placeholder="100px, 25%">
+                <input type="text" id="cell-width" value="${escapeAttr(width)}" placeholder="100px, 25%">
 
             </div>
             <div style="flex: 1">
                 <label for="cell-height">Height</label>
-                <input type="text" id="cell-height" value="${esc(height)}" placeholder="50px">
+                <input type="text" id="cell-height" value="${escapeAttr(height)}" placeholder="50px">
             </div>
         </div>
         <div style="display: flex; gap: 10px;">

@@ -4,6 +4,7 @@ import IconAnchorOff from '@tabler/icons/outline/anchor-off.svg?raw'
 import { TiptapModule } from '../types.ts'
 import { Dialog } from '../../dialog.ts'
 import { TiptapEditor } from '../editor.ts'
+import { escapeAttr } from '../helper.ts'
 
 const ANCHOR_SELECTOR = 'a[id]:not([href])'
 const FIELD_NAME = 'tiptap-anchor-name'
@@ -58,20 +59,6 @@ function getAnchorExtension() {
             }
         })
     ]
-}
-
-function escapeAttr(s: string): string {
-    return s.replace(
-        /[&<>"']/g,
-        (c) =>
-            ({
-                '&': '&amp;',
-                '<': '&lt;',
-                '>': '&gt;',
-                '"': '&quot;',
-                "'": '&#39;'
-            })[c]!
-    )
 }
 
 function selectAnchorEl(e: TiptapEditor, target?: Element | null) {

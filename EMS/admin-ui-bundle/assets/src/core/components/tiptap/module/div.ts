@@ -1,4 +1,6 @@
 import IconDiv from '@tabler/icons/outline/layout-bottombar.svg?raw'
+import IconEdit from '@tabler/icons/outline/edit.svg?raw'
+import IconTrash from '@tabler/icons/outline/trash.svg?raw'
 import { Extension } from '@tiptap/core'
 import { TiptapModule } from '../types.ts'
 import { Dialog } from '../../dialog.ts'
@@ -6,6 +8,8 @@ import { TiptapEditor } from '../editor.ts'
 import { BLOCK_NODES } from '../extensions.ts'
 
 export const divModule: TiptapModule = {
+    isEnabled: (wysiwygProfile) =>
+        wysiwygProfile.config.extraPlugins?.includes('div') ?? false,
     extensions: [
         BLOCK_NODES.div,
         Extension.create({
@@ -53,9 +57,23 @@ export const divModule: TiptapModule = {
         {
             name: 'Div',
             icon: IconDiv,
-            tooltip: 'Insert/Edit Div',
-            command: (e) => openDivDialog(e),
-            isActive: (e) => e.tiptap.isActive('div')
+            tooltip: 'Create Div Container',
+            command: (e) => openInsertDivDialog(e)
+        }
+    ],
+    contextMenuNode: 'div',
+    contextMenu: [
+        {
+            label: 'Edit Div',
+            icon: IconEdit,
+            order: 0,
+            command: (e) => openEditDivDialog(e)
+        },
+        {
+            label: 'Remove Div',
+            icon: IconTrash,
+            order: 1,
+            command: (e) => removeDiv(e)
         }
     ]
 }
@@ -115,6 +133,16 @@ function getFormValues(el: HTMLElement): DivFormValues {
     }
 }
 
+function removeDiv(editor: TiptapEditor): void {
+    const existing = getCurrentDivNode(editor)
+    if (!existing) return
+    const node = editor.tiptap.state.doc.nodeAt(existing.pos)
+    if (!node) return
+    editor.tiptap.view.dispatch(
+        editor.tiptap.state.tr.replaceWith(existing.pos, existing.pos + node.nodeSize, node.content)
+    )
+}
+
 // ─── Dialog ──────────────────────────────────────────────────
 
 function buildDialogContent(styleOptions: StyleOption[], current: DivFormValues): string {
@@ -157,10 +185,8 @@ function buildDialogContent(styleOptions: StyleOption[], current: DivFormValues)
         </div>`
 }
 
-function openDivDialog(editor: TiptapEditor): void {
-    const existing = getCurrentDivNode(editor)
+function openDivDialog(editor: TiptapEditor, existing: ExistingDiv | null): void {
     const styleOptions = getDivStyleOptions(editor)
-
     const current: DivFormValues = {
         htmlClass: existing?.attrs.htmlClass ?? '',
         id: existing?.attrs.id ?? '',
@@ -217,4 +243,13 @@ function openDivDialog(editor: TiptapEditor): void {
             if (select.value) classInput.value = select.value
         })
     }
+}
+
+function openInsertDivDialog(editor: TiptapEditor): void {
+    openDivDialog(editor, null)
+}
+
+function openEditDivDialog(editor: TiptapEditor): void {
+    const existing = getCurrentDivNode(editor)
+    if (existing) openDivDialog(editor, existing)
 }

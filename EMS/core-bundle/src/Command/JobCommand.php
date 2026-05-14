@@ -111,13 +111,30 @@ class JobCommand extends AbstractCommand
             $nextJob = $this->jobService->nextJob($this->tag);
         }
 
-        if (null === $nextJob) {
-            $this->io->comment('No jobs pending to treat');
+        if (null !== $nextJob) {
+            return $this->executeJob($nextJob);
+        }
+
+        if (null !== $this->tag) {
+            $this->io->comment(\sprintf('No jobs pending to treat for tag %s', $this->tag));
 
             return false;
         }
+        foreach ($this->runnerManager->getTags() as $tag) {
+            $nextJob = $this->jobService->nextJob($tag);
+            if (null === $nextJob) {
+                continue;
+            }
+            $runnerId = $this->runnerManager->delegateJob($tag, (string) $nextJob->getId(), $nextJob->getCommand());
+            $this->io->title(\sprintf('Runner with ID: %d has been initialized', $runnerId));
+            $this->getListing($nextJob);
 
-        return $this->executeJob($nextJob);
+            return true;
+        }
+
+        $this->io->comment('No jobs pending to treat');
+
+        return false;
     }
 
     private function processNextScheduledJob(): bool

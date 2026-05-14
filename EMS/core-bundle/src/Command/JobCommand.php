@@ -184,8 +184,9 @@ class JobCommand extends AbstractCommand
             if (null === $nextScheduledRunner) {
                 continue;
             }
-            $identifier = $this->runnerManager->start($tag, $nextScheduledRunner->getCommandArray());
-            $this->io->writeln(\sprintf('Runner with ID: %d has been initialized', $identifier));
+
+            $runnerId = $this->runnerManager->startJob($tag, (string) $nextScheduledRunner->getId(), $nextScheduledRunner->getCommand());
+            $this->io->writeln(\sprintf('Runner with ID: %d has been initialized', $runnerId));
 
             return true;
         }

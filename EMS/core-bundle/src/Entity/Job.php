@@ -150,12 +150,4 @@ class Job extends JsonDeserializer implements \JsonSerializable, EntityInterface
     {
         $this->tag = $tag;
     }
-
-    /**
-     * @return string[]
-     */
-    public function getCommandArray(): array
-    {
-        return \array_filter(\str_getcsv($this->command ?? ''));
-    }
 }

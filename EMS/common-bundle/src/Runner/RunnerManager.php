@@ -9,6 +9,7 @@ use EMS\CommonBundle\Runner\Factory\RunnerFactoryInterface;
 use EMS\CommonBundle\Runner\Service\RunnerInterface;
 use EMS\Helpers\Env\RuntimeEnvPlaceholderResolver;
 use EMS\Helpers\Standard\Text;
+use EMS\Helpers\Standard\Type;
 use Psr\Log\LoggerInterface;
 
 class RunnerManager
@@ -81,7 +82,7 @@ class RunnerManager
         return $runner->output($id);
     }
 
-    public function startJob(string $tag, string $id, ?string $jobCommand): string
+    public function delegateJob(string $tag, string $id, ?string $jobCommand): string
     {
         $runner = $this->getRunnerFromConfigs($tag);
         $command = $runner->getWorkerCommand();
@@ -95,5 +96,15 @@ class RunnerManager
         $splitCommand = Text::shellWords($resolvedCommand);
 
         return $runner->start($splitCommand);
+    }
+
+    /**
+     * @return iterable<string>
+     */
+    public function getTags(): iterable
+    {
+        foreach ($this->runnerConfigs as $runnerConfig) {
+            yield Type::string($runnerConfig[RunnerFactoryInterface::RUNNER_CONFIG_TAG] ?? null);
+        }
     }
 }

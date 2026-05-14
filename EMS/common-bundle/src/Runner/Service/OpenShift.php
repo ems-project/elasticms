@@ -68,7 +68,7 @@ class OpenShift implements RunnerInterface
                         'containers' => [[
                             'name' => 'ems-runner-container',
                             'image' => null !== $this->imageTag ? \sprintf('%s:%s', $this->image, $this->imageTag) : $this->image,
-                            'command' => $command,
+                            'args' => $command,
                             'env' => $this->env,
                         ]],
                         'restartPolicy' => 'Never',

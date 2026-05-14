@@ -134,7 +134,7 @@ class JobService implements EntityServiceInterface
     {
         $job = new Job();
         $job->setUser($user->getUserIdentifier());
-        $job->setStatus('Job intialized');
+        $job->setStatus('Job initialized');
 
         return $job;
     }

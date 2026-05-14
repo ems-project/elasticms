@@ -180,7 +180,7 @@ class JobCommand extends AbstractCommand
     private function processNextScheduledRunner(): bool
     {
         foreach ($this->runnerManager->getTags() as $tag) {
-            $nextScheduledRunner = $this->jobService->nextJobScheduled(self::USER_JOB_COMMAND, $tag);
+            $nextScheduledRunner = $this->jobService->nextJobScheduled(self::USER_JOB_COMMAND, $tag, false);
             if (null === $nextScheduledRunner) {
                 continue;
             }

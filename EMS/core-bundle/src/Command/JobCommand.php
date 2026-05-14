@@ -135,12 +135,7 @@ class JobCommand extends AbstractCommand
     private function executeJob(Job $job): bool
     {
         $this->io->title('Preparing the job');
-        $this->io->listing([
-            \sprintf('ID: %d', $job->getId()),
-            \sprintf('Command: %s', $job->getCommand()),
-            \sprintf('User: %s', $job->getUser()),
-            \sprintf('Created: %s', $job->getCreated()->format($this->dateFormat)),
-        ]);
+        $this->getListing($job);
 
         $start = new \DateTime();
         try {
@@ -180,18 +175,29 @@ class JobCommand extends AbstractCommand
     private function processNextScheduledRunner(): bool
     {
         foreach ($this->runnerManager->getTags() as $tag) {
-            $nextScheduledRunner = $this->jobService->nextJobScheduled(self::USER_JOB_COMMAND, $tag, false);
-            if (null === $nextScheduledRunner) {
+            $job = $this->jobService->nextJobScheduled(self::USER_JOB_COMMAND, $tag, false);
+            if (null === $job) {
                 continue;
             }
 
-            $runnerId = $this->runnerManager->delegateJob($tag, (string) $nextScheduledRunner->getId(), $nextScheduledRunner->getCommand());
-            $this->io->writeln(\sprintf('Runner with ID: %d has been initialized', $runnerId));
+            $runnerId = $this->runnerManager->delegateJob($tag, (string) $job->getId(), $job->getCommand());
+            $this->io->title(\sprintf('Runner with ID: %d has been initialized', $runnerId));
+            $this->getListing($job);
 
             return true;
         }
         $this->io->comment('No runner scheduled to start');
 
         return false;
+    }
+
+    private function getListing(Job $job): void
+    {
+        $this->io->listing([
+            \sprintf('ID: %d', $job->getId()),
+            \sprintf('Command: %s', $job->getCommand()),
+            \sprintf('User: %s', $job->getUser()),
+            \sprintf('Created: %s', $job->getCreated()->format($this->dateFormat)),
+        ]);
     }
 }

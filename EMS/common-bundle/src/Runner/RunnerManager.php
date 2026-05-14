@@ -82,7 +82,7 @@ class RunnerManager
         return $runner->output($id);
     }
 
-    public function startJob(string $tag, string $id, ?string $jobCommand): string
+    public function delegateJob(string $tag, string $id, ?string $jobCommand): string
     {
         $runner = $this->getRunnerFromConfigs($tag);
         $command = $runner->getWorkerCommand();

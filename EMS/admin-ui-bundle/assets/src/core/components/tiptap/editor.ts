@@ -1,7 +1,7 @@
 import { Editor } from '@tiptap/core'
 import { DEFAULT_EXTENSIONS, ExtensionType } from './extensions.ts'
-import { Toolbar } from './toolbar.ts'
-import { ContextMenu } from './contextMenu.ts'
+import { Toolbar } from './ui/toolbar.ts'
+import { ContextMenu } from './ui/contextMenu.ts'
 import { Modules, HtmlTransform, TiptapModule } from './types.ts'
 import { WysiwygOptions, WysiwygProfile } from '../wysiwyg/wysiwyg.ts'
 import { CkeditorStyle } from '../wysiwyg/ckeditorConfig.ts'
@@ -104,7 +104,10 @@ export class TiptapEditor {
         }
 
         this.profile.config.toolbarGroups.forEach((entry) => {
-            if (entry === '/') return
+            if (entry === '/') {
+                this.toolbar.addRowBreak()
+                return
+            }
 
             const groups = entry.groups ?? [entry.name]
             groups.forEach((groupName) => {
@@ -112,7 +115,7 @@ export class TiptapEditor {
                     if (mod.toolbarGroup !== groupName) return
 
                     const validItems = (mod.toolbar ?? []).filter((item) => {
-                        return !('name' in item) || !removed.has(item.name)
+                        return !removed.has(item.name)
                     })
 
                     validItems.forEach((item) => {

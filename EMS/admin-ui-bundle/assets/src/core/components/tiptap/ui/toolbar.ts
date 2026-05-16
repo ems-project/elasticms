@@ -1,13 +1,15 @@
-import '../../../../css/core/components/tiptap/_toolbar.scss'
+import '../../../../../css/core/components/tiptap/_toolbar.scss'
 
-import { ToolbarItem, ToolbarItemCustom } from './types.ts'
-import { TiptapEditor } from './editor.ts'
+import { ToolbarItem, ToolbarItemCustom } from './../types.ts'
+import { TiptapEditor } from './../editor.ts'
 
 export class Toolbar {
     private readonly container: HTMLElement
     private readonly editor: TiptapEditor
-    private items: Map<string, ToolbarItem> = new Map()
+    private items: Map<string, ToolbarItem | ToolbarItemCustom> = new Map()
     private groups: Map<string, (ToolbarItem | ToolbarItemCustom)[]> = new Map()
+    private globalDisabled = false
+    private globalExclude: string[] = []
 
     constructor(editor: TiptapEditor) {
         this.editor = editor
@@ -18,9 +20,19 @@ export class Toolbar {
     }
 
     addItem(group: string, item: ToolbarItem | ToolbarItemCustom) {
-        if ('name' in item) this.items.set(item.name, item)
+        this.items.set(item.name, item)
         if (!this.groups.has(group)) this.groups.set(group, [])
-        this.groups.get(group)!.push(item)
+        const items = this.groups.get(group)!
+        items.push(item)
+        items.sort(
+            (a, b) =>
+                (('order' in a ? a.order : undefined) ?? 0) -
+                (('order' in b ? b.order : undefined) ?? 0)
+        )
+    }
+
+    addRowBreak() {
+        this.groups.set(`__break_${this.groups.size}`, [])
     }
 
     mount(target: HTMLElement) {
@@ -31,10 +43,17 @@ export class Toolbar {
 
     private build() {
         this.container.innerHTML = ''
-        const row = document.createElement('div')
+        let row = document.createElement('div')
         row.className = 'tiptap-toolbar-row'
 
-        for (const [, items] of this.groups) {
+        for (const [key, items] of this.groups) {
+            if (key.startsWith('__break_')) {
+                if (row.children.length > 0) this.container.appendChild(row)
+                row = document.createElement('div')
+                row.className = 'tiptap-toolbar-row'
+                continue
+            }
+
             const groupDiv = document.createElement('div')
             groupDiv.className = 'tiptap-toolbar-group'
 
@@ -49,7 +68,7 @@ export class Toolbar {
             if (groupDiv.children.length > 0) row.appendChild(groupDiv)
         }
 
-        this.container.appendChild(row)
+        if (row.children.length > 0) this.container.appendChild(row)
     }
 
     private createButton(item: ToolbarItem): HTMLButtonElement {
@@ -77,15 +96,24 @@ export class Toolbar {
     update() {
         this.container.querySelectorAll<HTMLButtonElement>('button[data-action]').forEach((btn) => {
             const item = this.items.get(btn.dataset.action!)
-            if (item) btn.classList.toggle('is-active', item.isActive?.(this.editor) ?? false)
+            if (!item) return
+
+            const name = btn.dataset.action!
+
+            btn.classList.toggle('is-active', 'isActive' in item && item.isActive?.(this.editor))
+
+            if (this.globalDisabled) {
+                btn.disabled = !this.globalExclude.includes(name)
+            } else {
+                btn.disabled = ('isDisabled' in item && item.isDisabled?.(this.editor)) ?? false
+            }
         })
     }
 
     setDisabled(disabled: boolean, exclude: string[] = []) {
-        this.container.querySelectorAll<HTMLButtonElement>('button[data-action]').forEach((btn) => {
-            const name = btn.dataset.action
-            if (name) btn.disabled = disabled && !exclude.includes(name)
-        })
+        this.globalDisabled = disabled
+        this.globalExclude = exclude
+        this.update()
     }
 
     destroy() {

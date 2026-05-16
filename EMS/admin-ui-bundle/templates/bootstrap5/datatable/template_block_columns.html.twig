@@ -11,7 +11,7 @@
 
 {% block environmentIndexesModal %}
     {% set modalId = "modal-environment-#{table.attributeName}-#{data.id|default(data.name)}" %}
-    <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#{{ modalId }}">
+    <button type="button" class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#{{ modalId }}">
         {{ 'core.environment.index_count'|trans({indexes: data.indexes|length}, 'emsco-core') }}
     </button>
     <div class="modal fade" id="{{ modalId }}">
@@ -33,7 +33,7 @@
                     </ul>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default pull-left" data-bs-dismiss="modal">
+                    <button type="button" class="btn btn-light pull-left" data-bs-dismiss="modal">
                         {{ 'action.close'|trans({}, 'emsco-core') }}
                     </button>
                 </div>
@@ -79,7 +79,7 @@
 
 {% block i18nTranslations %}
     {% set modalId = "modal-i18n-#{data.id}" %}
-    <a data-toggle="modal" data-target="#{{ modalId }}" class="btn btn-sm btn-default">
+    <a data-bs-toggle="modal" data-bs-target="#{{ modalId }}" class="btn btn-sm btn-light">
         <i class="fa fa-eye"></i>&nbsp;
         {{ data.content|length }}
     </a>

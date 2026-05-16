@@ -18,6 +18,7 @@ export const basicStyleModule: TiptapModule[] = [
                 name: 'Bold',
                 icon: IconBold,
                 tooltip: 'Bold',
+                order: 1,
                 extensions: [Bold],
                 command: (e) => e.tiptap.chain().focus().toggleBold().run(),
                 isActive: (e) => e.tiptap.isActive('bold')
@@ -26,6 +27,7 @@ export const basicStyleModule: TiptapModule[] = [
                 name: 'Italic',
                 icon: IconItalic,
                 tooltip: 'Italic',
+                order: 2,
                 extensions: [Italic],
                 command: (e) => e.tiptap.chain().focus().toggleItalic().run(),
                 isActive: (e) => e.tiptap.isActive('italic')
@@ -34,6 +36,7 @@ export const basicStyleModule: TiptapModule[] = [
                 name: 'Strike',
                 icon: IconStrike,
                 tooltip: 'Strike Through',
+                order: 3,
                 extensions: [Strike],
                 command: (e) => e.tiptap.chain().focus().toggleStrike().run(),
                 isActive: (e) => e.tiptap.isActive('strike')
@@ -50,6 +53,7 @@ export const basicStyleModule: TiptapModule[] = [
                 name: 'Subscript',
                 icon: IconSubscript,
                 tooltip: 'Subscript',
+                order: 4,
                 command: (e) => e.tiptap.chain().focus().toggleSubscript().run(),
                 isActive: (e) => e.tiptap.isActive('subscript')
             },
@@ -58,6 +62,7 @@ export const basicStyleModule: TiptapModule[] = [
                 name: 'Superscript',
                 icon: IconSuperscript,
                 tooltip: 'Superscript',
+                order: 5,
                 command: (e) => e.tiptap.chain().focus().toggleSuperscript().run(),
                 isActive: (e) => e.tiptap.isActive('superscript')
             }

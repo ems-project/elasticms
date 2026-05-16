@@ -8,3 +8,23 @@ import { HardBreak } from '@tiptap/extension-hard-break'
 export type ExtensionType = Extension | Mark | Node
 
 export const DEFAULT_EXTENSIONS = [Document, Paragraph, Text, Gapcursor, HardBreak]
+
+function createBlockNode(name: string, content = 'block+'): ExtensionType {
+    return Node.create({
+        name,
+        group: 'block',
+        content,
+        parseHTML() {
+            return [{ tag: name }]
+        },
+        renderHTML({ HTMLAttributes }) {
+            return [name, HTMLAttributes, 0]
+        }
+    })
+}
+
+export const BLOCK_NODES = {
+    div: createBlockNode('div'),
+    pre: createBlockNode('pre', 'inline*'),
+    address: createBlockNode('address', 'inline*')
+} as const

@@ -13,6 +13,7 @@ export const insertModule: TiptapModule[] = [
                 name: 'HorizontalRule',
                 icon: IconHorizontalRule,
                 tooltip: 'Insert Horizontal Line',
+                order: 3,
                 command: (e) => e.tiptap.chain().focus().setHorizontalRule().run()
             }
         ]

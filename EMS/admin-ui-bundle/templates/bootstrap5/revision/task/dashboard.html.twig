@@ -10,54 +10,48 @@
 {%- set requestQuery = app.request.query.all -%}
 {%- set routeParams = app.request.attributes.get('_route_params')|merge(requestQuery) -%}
 {%- set showFilters = attribute(requestQuery, 'filters')|default([])|length > 0 -%}
-<div id="task-dashboard" class="card card-{{ theme_color }}">
-    <div class="card-header p-0 border-bottom-0">
-        <ul class="nav nav-tabs" role="tablist">
-            {% for tabName in tabs %}
-                <li class="nav-item">
-                    {% if currentTab == tabName %}
-                        <a href="#{{ currentTab }}" data-bs-target="#{{ currentTab }}" data-bs-toggle="pill" class="nav-link active" role="tab" aria-selected="true">{{ "task.dashboard.tab.#{tabName}"|trans }}</a>
-                    {% else %}
-                        <a href="{{ path(route, routeParams|merge({tab: tabName})) }}" class="nav-link"role="tab" aria-selected="false">
-                            {{ "task.dashboard.tab.#{tabName}"|trans }}
-                        </a>
-                    {% endif %}
-                </li>
-            {% endfor %}
-            {% if filterForm is defined %}
-                <li class="float-end">
-                    <div>
-                        <a class="btn btn-sm btn-primary" role="button" data-bs-toggle="collapse" href="#filters" aria-expanded="{{ showFilters ? 'true' : 'false' }}" aria-controls="filters">
-                            <i class="fa fa-filter" aria-hidden="true"></i> {{ 'task.filters'|trans }}
-                        </a>
-                    </div>
-                </li>
+<div id="task-dashboard">
+    <ul class="nav nav-tabs" role="tablist">
+        {% for tabName in tabs %}
+            <li class="nav-item">
+                {% if currentTab == tabName %}
+                    <a href="#{{ currentTab }}" data-bs-target="#{{ currentTab }}" data-bs-toggle="pill" class="nav-link active" role="tab" aria-selected="true">{{ "task.dashboard.tab.#{tabName}"|trans }}</a>
+                {% else %}
+                    <a href="{{ path(route, routeParams|merge({tab: tabName})) }}" class="nav-link"role="tab" aria-selected="false">
+                        {{ "task.dashboard.tab.#{tabName}"|trans }}
+                    </a>
+                {% endif %}
+            </li>
+        {% endfor %}
+        {% if filterForm is defined %}
+            <li class="nav-item ms-auto">
+                <a class="nav-link bg-primary text-white" role="button" data-bs-toggle="collapse" href="#filters" aria-expanded="{{ showFilters ? 'true' : 'false' }}" aria-controls="filters">
+                    <i class="fa fa-filter me-2" aria-hidden="true"></i> {{ 'task.filters'|trans }}
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane fade active show" id="{{ currentTab }}" role="tabpanel">
+            {{ block('filters') }}
+            {% if table.count > loadMaxRows %}
+                <div class="alert alert-warning" role="alert">{{ 'task.dashboard.search_warning'|trans({'%count%': loadMaxRows}) }}</div>
             {% endif %}
-        </ul>
-    </div>
-    <div class="card-body">
-        <div class="tab-content">
-            <div class="tab-pane fade active show" id="{{ currentTab }}" role="tabpanel">
-                {{ block('filters') }}
-                {% if table.count > loadMaxRows %}
-                    <div class="alert alert-warning" role="alert">{{ 'task.dashboard.search_warning'|trans({'%count%': loadMaxRows}) }}</div>
-                {% endif %}
 
-                {% form_theme formTable '@EMSAdminUI/bootstrap5/form/forms.html.twig' %}
-                {{ form(formTable) }}
-                {% if table.count > 0 %}
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Export <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            {% for exportFormat, exportUrl in table.exportUrls %}
-                            <li><a href="{{ exportUrl }}">{{ exportFormat }}</a></li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                {% endif %}
-            </div>
+            {% form_theme formTable '@EMSAdminUI/bootstrap5/form/forms.html.twig' %}
+            {{ form(formTable) }}
+            {% if table.count > 0 %}
+                <div class="btn-group">
+                    <button type="button" class="btn btn-light btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Export <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        {% for exportFormat, exportUrl in table.exportUrls %}
+                        <li><a href="{{ exportUrl }}">{{ exportFormat }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
         </div>
     </div>
 </div>
@@ -66,29 +60,31 @@
 {% block filters %}
     {% if filterForm is defined %}
         <div class="collapse {{ showFilters ? 'in' }}" id="filters">
-            <div class="well">
-                <div class="row">
-                    {{ form_start(filterForm) }}
-                    {{ form_row(filterForm.status, {row_attr: {class: 'col-md-3'}, label: 'task.filter.status'|trans}) }}
-                    {% if filterForm.assignee is defined %}
-                        {{ form_row(filterForm.assignee, {row_attr: {class: 'col-md-3'}, label: 'task.filter.assignee'|trans}) }}
-                    {% endif %}
-                    {% if filterForm.requester is defined %}
-                        {{ form_row(filterForm.requester, {row_attr: {class: 'col-md-3'}, label: 'task.filter.requester'|trans}) }}
-                    {% endif %}
-                    {% if filterForm.versionNextTag is defined %}
-                        {{ form_row(filterForm.versionNextTag, {row_attr: {class: 'col-md-3'}, label: 'task.filter.version_next_tag'|trans}) }}
-                    {% endif %}
-                    <div class="col-md-12">
-                        <input type="hidden" name="tab" value="{{ currentTab }}" />
-                        <div class="btn-group">
-                            {{ form_widget(filterForm.submit, {attr: {class: 'btn btn-primary'}}) }}
-                            <a href="{{ path(route, app.request.attributes.get('_route_params')|merge({tab: currentTab})) }}"  class="btn btn-default">
-                                <i class="fa fa-remove" aria-hidden="true"></i>  {{ 'task.filter.reset'|trans }}
-                            </a>
-                        </div>
-                    </div>
-                    {{ form_end(filterForm) }}
+            <div class="row">
+                {{ form_start(filterForm) }}
+                {{ form_row(filterForm.status, {row_attr: {class: 'col-12 mb-3'}, label: 'task.filter.status'|trans}) }}
+                {% if filterForm.assignee is defined %}
+                    {{ form_row(filterForm.assignee, {row_attr: {class: 'col-12 mb-3'}, label: 'task.filter.assignee'|trans}) }}
+                {% endif %}
+                {% if filterForm.requester is defined %}
+                    {{ form_row(filterForm.requester, {row_attr: {class: 'col-12 mb-3'}, label: 'task.filter.requester'|trans}) }}
+                {% endif %}
+                {% if filterForm.versionNextTag is defined %}
+                    {{ form_row(filterForm.versionNextTag, {row_attr: {class: 'col-12 mb-3'}, label: 'task.filter.version_next_tag'|trans}) }}
+                {% endif %}
+                {% if filterForm.isOverdue is defined %}
+                    {{ form_row(filterForm.isOverdue, {row_attr: {class: 'col-12 mb-3'}, label: 'task.filter.is_overdue'|trans}) }}
+                {% endif %}
+                <div class="col-12 d-flex justify-content-end">
+                    <input type="hidden" name="tab" value="{{ currentTab }}" />
+                    <a href="{{ path(route, app.request.attributes.get('_route_params')|merge({tab: currentTab})) }}"  class="btn btn-light me-2">
+                        <i class="fa fa-remove" aria-hidden="true"></i>  {{ 'task.filter.reset'|trans }}
+                    </a>
+                    {{ form_widget(filterForm.submit, {attr: {class: 'btn btn-primary'}}) }}
+                </div>
+                {{ form_end(filterForm) }}
+                <div class="col-12">
+                    <hr class="my-4">
                 </div>
             </div>
         </div>

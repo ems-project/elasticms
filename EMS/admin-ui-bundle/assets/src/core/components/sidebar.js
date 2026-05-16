@@ -7,42 +7,37 @@ export default class Sidebar {
 
     activateMenu() {
         let bestMatch = null
-        const menuLinks = document.querySelectorAll('div.sidebar a.nav-link')
+        const menuLinks = document.querySelectorAll('#sidebar a.sidebar-link')
         const pathname = window.location.pathname
 
         for (let i = 0; i < menuLinks.length; ++i) {
+            const href = menuLinks[i].getAttribute('href')
             if (
-                pathname.startsWith(menuLinks[i].attributes.getNamedItem('href').value) &&
-                (bestMatch === null ||
-                    menuLinks[i].attributes.getNamedItem('href').value.length >
-                        bestMatch.attributes.getNamedItem('href').value.length)
+                href &&
+                href !== '#' &&
+                pathname.startsWith(href) &&
+                (bestMatch === null || href.length > bestMatch.getAttribute('href').length)
             ) {
                 bestMatch = menuLinks[i]
             }
         }
+
         if (bestMatch === null) {
             return
         }
-        while (bestMatch) {
-            if (undefined !== bestMatch.classList && bestMatch.classList.contains('nav-item')) {
-                for (let i = 0; i < bestMatch.children.length; ++i) {
-                    if (
-                        undefined !== bestMatch.children[i].classList &&
-                        bestMatch.children[i].classList.contains('nav-treeview')
-                    ) {
-                        bestMatch.classList.add('menu-is-opening')
-                        bestMatch.classList.add('menu-open')
-                        bestMatch.children[i].style.display = 'block'
-                    }
-                    if (
-                        undefined !== bestMatch.children[i].classList &&
-                        bestMatch.children[i].classList.contains('nav-link')
-                    ) {
-                        bestMatch.children[i].classList.add('active')
-                    }
-                }
+
+        let el = bestMatch.closest('.sidebar-item')
+        while (el) {
+            el.classList.add('active')
+            const collapse = el.querySelector(':scope > .sidebar-dropdown.collapse')
+            if (collapse) {
+                collapse.classList.add('show')
             }
-            bestMatch = bestMatch.parentNode
+            const link = el.querySelector(':scope > a.sidebar-link.collapsed')
+            if (link) {
+                link.classList.remove('collapsed')
+            }
+            el = el.parentElement?.closest('.sidebar-item')
         }
     }
 }

@@ -43,7 +43,8 @@ export default defineConfig({
     resolve: {
         extensions: ['.js', '.ts'],
         alias: {
-            '@fonts': resolve('./public/fonts')
+            '@fonts': resolve('./public/fonts'),
+            '@tabler-icons': resolve('./node_modules/@tabler/icons/icons')
         }
     },
     server: {

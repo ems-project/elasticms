@@ -6,12 +6,12 @@
                 <a href="{{ path('emsco_view_revisions', {type: key[0], ouuid: key[1]}) }}" type="button" class="btn btn-primary btn-sm" data-bs-toggle="tooltip" title="" data-original-title="{{ 'Revisions'|trans }}">
                       <i class="fa fa-archive"></i>
                  </a>
-                <a type="button" class="btn btn-default btn-sm remove-item" data-bs-toggle="tooltip" title="" data-original-title="{{ 'Remove' }}">
+                <a type="button" class="btn btn-light btn-sm remove-item" data-bs-toggle="tooltip" title="" data-original-title="{{ 'Remove' }}">
                       <i class="fa fa-trash"></i>
                   </a>
                 {% if contentType.name == view.contentType.name %}
-                    <button type="button" title="collapse" aria-expanded="true" class="btn btn-default btn-sm button-collapse"></button>
-                    <button type="button" title="collapse all" aria-expanded="true" class="btn btn-default btn-sm button-collapse-all"></button>
+                    <button type="button" title="collapse" aria-expanded="true" class="btn btn-light btn-sm button-collapse"></button>
+                    <button type="button" title="collapse all" aria-expanded="true" class="btn btn-light btn-sm button-collapse-all"></button>
                 {% endif %}
             </div>
           </div>

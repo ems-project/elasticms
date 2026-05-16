@@ -11,19 +11,31 @@ import { WysiwygProfile } from '../wysiwyg/wysiwyg.ts'
 import { tableModule } from './module/table.ts'
 import { ExtensionType } from './extensions.ts'
 import { stylesModule } from './module/styles.ts'
+import { anchorModule } from './module/anchor.ts'
+import { linkModule } from './module/link.ts'
+import { specialCharModule } from './module/specialChar.ts'
+import { formatModule } from './module/format.ts'
+import { showBlocksModule } from './module/showBlocks.ts'
+import { divModule } from './module/div.ts'
 
 export type ContextType = 'table'
 
 export const Modules: TiptapModule[] = [
-    historyModule,
+    anchorModule,
     ...basicStyleModule,
     cleanupModule,
-    listModule,
+    divModule,
+    formatModule,
+    historyModule,
     indentModule,
-    justifyModule,
     ...insertModule,
-    tableModule,
-    stylesModule
+    justifyModule,
+    linkModule,
+    listModule,
+    showBlocksModule,
+    specialCharModule,
+    stylesModule,
+    tableModule
 ]
 
 export interface HtmlTransform {
@@ -38,7 +50,7 @@ export interface ContextMenuItem {
     parent?: string
     parentIcon?: string
     order?: number
-    command: (editor: TiptapEditor) => void
+    command: (e: TiptapEditor, ctx?: { target?: Element | null }) => void
     disabled?: (editor: TiptapEditor) => boolean
 }
 
@@ -46,12 +58,15 @@ export interface ToolbarItem {
     name: string
     icon: string
     tooltip?: string
+    order?: number
     extensions?: ExtensionType[]
     command: (editor: TiptapEditor) => void
     isActive?: (editor: TiptapEditor) => boolean
+    isDisabled?: (editor: TiptapEditor) => boolean
 }
 
 export interface ToolbarItemCustom {
+    name: string
     create: (editor: TiptapEditor) => HTMLElement
     destroy?: (editor: TiptapEditor) => void
 }
@@ -62,6 +77,7 @@ export interface TiptapModule {
     toolbarGroup?: string
     contextMenu?: ContextMenuItem[]
     contextMenuNode?: string
+    contextMenuSelector?: string
     htmlTransforms?: HtmlTransform[]
     isEnabled?: (profile: WysiwygProfile) => boolean
 }

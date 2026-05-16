@@ -134,7 +134,10 @@ export default class Ckeditor4 {
             3
         )
 
-        const editor = CKEDITOR.replace(this.element, { ...config, ...this.profile.config })
+        const editor = CKEDITOR.replace(this.element, {
+            ...config,
+            ...this.profile.config
+        } as CKEditorConfig)
         if (!this.element.classList.contains('ignore-ems-update')) {
             editor.on(opt.onChangeEvent ?? 'key', () => {
                 const changeEvent = new ChangeEvent(self.element)

@@ -62,28 +62,26 @@
         {% if preloader|default(false) %}
             {{ include('@EMSAdminUI/bootstrap5/elements/preloader.html.twig') }}
         {% endif %}
-        {{ include('@EMSAdminUI/bootstrap5/elements/topbar.html.twig') }}
         {{ include('@EMSAdminUI/bootstrap5/elements/sidenav.html.twig') }}
-        <div class="content-wrapper">
+        <div class="main">
+            {{ include('@EMSAdminUI/bootstrap5/elements/topbar.html.twig') }}
             {{ include('@EMSAdminUI/bootstrap5/elements/toasts.html.twig') }}
-            <div class="content-header">
-                <div class="container-fluid">
+            <main class="content">
+                <div class="container-fluid p-0">
                     <div class="row mb-3">
                         <div class="col-sm-6">
-                            <h1>{% block pagetitle %}{{ block('title') }}{% endblock %}{% block subtitle %}{% if subTitle is defined %}<small>{{ subTitle|trans }}</small>{% endif %}{% endblock %}</h1>
+                            <h1 class="h3 mb-0">{% block pagetitle %}<strong>{{ block('title') }}</strong>{% endblock %}{% block subtitle %}{% if subTitle is defined %} <small>{{ subTitle|trans }}</small>{% endif %}{% endblock %}</h1>
                         </div>
                         <div class="col-sm-6">
                             {{ block('breadcrumb') }}
                         </div>
                     </div>
-                </div>
-                <section class="content">
                     {% block body %}{% endblock body %}
-                </section>
-            </div>
+                </div>
+            </main>
+            {{ include('@EMSAdminUI/bootstrap5/elements/footer.html.twig') }}
         </div>
 
-        {{ include('@EMSAdminUI/bootstrap5/elements/footer.html.twig') }}
         {{ include('@EMSAdminUI/bootstrap5/elements/control-sidebar.html.twig') }}
     </div>
 {% endblock wrapper %}

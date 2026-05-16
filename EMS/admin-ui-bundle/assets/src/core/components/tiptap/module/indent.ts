@@ -3,7 +3,7 @@ import IconIndent from '@tabler/icons/outline/indent-increase.svg?raw'
 import IconOutdent from '@tabler/icons/outline/indent-decrease.svg?raw'
 import { TiptapModule } from '../types.ts'
 
-const INDENTABLE = ['paragraph', 'heading']
+const INDENTABLE = ['paragraph', 'heading', 'div']
 const indentExtension = createIndentExtension()
 
 export const indentModule: TiptapModule = {
@@ -75,17 +75,14 @@ function changeIndent(delta: number) {
             .focus()
             .command(({ tr, state }: { tr: any; state: any }) => {
                 const { $from } = state.selection
-                for (let d = $from.depth; d > 0; d--) {
+                for (let d = 1; d <= $from.depth; d++) {
                     const node = $from.node(d)
                     if (!INDENTABLE.includes(node.type.name)) continue
                     const pos = $from.before(d)
                     const indent = node.attrs.indent || 0
                     const next = indent + delta
                     if (next >= 0) {
-                        tr.setNodeMarkup(pos, undefined, {
-                            ...node.attrs,
-                            indent: next
-                        })
+                        tr.setNodeMarkup(pos, undefined, { ...node.attrs, indent: next })
                     }
                     break
                 }

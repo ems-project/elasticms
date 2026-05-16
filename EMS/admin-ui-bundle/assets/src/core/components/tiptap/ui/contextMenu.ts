@@ -1,8 +1,8 @@
-import '../../../../css/core/components/tiptap/_content_menu.scss'
+import '../../../../../css/core/components/tiptap/_content_menu.scss'
 
-import type { TiptapEditor } from './editor.ts'
+import type { TiptapEditor } from './../editor.ts'
 import { CellSelection } from '@tiptap/pm/tables'
-import type { ContextMenuItem } from './types.ts'
+import type { ContextMenuItem, TiptapModule } from './../types.ts'
 
 const CONTEXT_NODES: Record<string, string[]> = {
     table: ['table', 'tableFigure', 'tableCaption'],
@@ -15,6 +15,7 @@ export class ContextMenu {
     private el: HTMLElement | null = null
     private readonly editor: TiptapEditor
     private static active: ContextMenu | null = null
+    private contextTarget: Element | null = null
 
     constructor(editor: TiptapEditor) {
         this.editor = editor
@@ -28,15 +29,16 @@ export class ContextMenu {
     private onKeyDown = (e: KeyboardEvent) => {
         if (e.key === 'Escape') this.close()
     }
+
     private onMenu = (e: MouseEvent) => {
         if (e.ctrlKey) return
-
-        const items = this.getItems()
+        this.contextTarget = e.target as Element | null
+        const items = this.getItems(e)
         if (items.length === 0) return
-
         e.preventDefault()
         this.open(e, items)
     }
+
     private onMouseDown = (e: MouseEvent) => {
         if (e.button === 2 && this.editor.tiptap.state.selection instanceof CellSelection) {
             e.preventDefault()
@@ -81,16 +83,25 @@ export class ContextMenu {
         return docs
     }
 
-    private isContextActive(context: string): boolean {
-        const nodes = CONTEXT_NODES[context]
+    private isContextActive(module: TiptapModule, e: MouseEvent): boolean {
+        if (module.contextMenuSelector) {
+            const target = e.target as HTMLElement | null
+            if (target?.closest(module.contextMenuSelector)) return true
+        }
+
+        if (!module.contextMenuNode) return false
+
+        const nodes = CONTEXT_NODES[module.contextMenuNode]
         return nodes
             ? nodes.some((n) => this.editor.tiptap.isActive(n))
-            : this.editor.tiptap.isActive(context)
+            : this.editor.tiptap.isActive(module.contextMenuNode)
     }
 
-    private getItems(): ContextMenuItem[] {
+    private getItems(e: MouseEvent): ContextMenuItem[] {
         return this.editor.modules
-            .filter((m) => m.contextMenuNode && this.isContextActive(m.contextMenuNode))
+            .filter(
+                (m) => (m.contextMenuNode || m.contextMenuSelector) && this.isContextActive(m, e)
+            )
             .flatMap((m) => m.contextMenu ?? [])
             .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
     }
@@ -157,8 +168,9 @@ export class ContextMenu {
         btn.addEventListener('click', (e) => {
             e.preventDefault()
             e.stopPropagation()
+            const target = this.contextTarget
             this.close()
-            item.command(this.editor)
+            item.command(this.editor, { target })
         })
 
         return btn

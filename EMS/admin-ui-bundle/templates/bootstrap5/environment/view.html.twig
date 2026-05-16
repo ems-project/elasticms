@@ -1,18 +1,18 @@
 {% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}{% trans_default_domain 'EMSCoreBundle' %}
 
-{% block title %}View the environment {{ environment.name }}{% endblock %}
-{% block pagetitle %}View the environment {{ environment.name }}{% endblock %}
+{% block title %}{{ 'environment.view.title'|trans({'%name%': environment.name}) }}{% endblock %}
+{% block pagetitle %}{{ 'environment.view.title'|trans({'%name%': environment.name}) }}{% endblock %}
 {% block breadcrumb %}
     <ol class="breadcrumb float-sm-end">
-        <li class="breadcrumb-item"><a href={{ path('emsco_admin_environment_index') }}><i class="fa fa-database"></i> Environments</a></li>
-    <li class="breadcrumb-item active">View environment</li>
+        <li class="breadcrumb-item"><a href={{ path('emsco_admin_environment_index') }}><i class="fa fa-database"></i> {{ 'environment.plural'|trans }}</a></li>
+    <li class="breadcrumb-item active">{{ 'environment.view.short_title'|trans }}</li>
   </ol>
 {% endblock %}
 
 {% block body %}
     <div class="card card-{{ theme_color }} card-outline">
         <div class="card-header">
-            <h3 class="card-title">Elasticsearch information</h3>
+            <h3 class="card-title">{{ 'environment.view.elasticsearch_information'|trans }}</h3>
         </div>
         <!-- /.box-header -->
         <!-- form start -->
@@ -22,7 +22,7 @@
                     <pre class="ems-code-editor" data-language="ace/mode/json"
                          data-theme="ace/theme/chrome" data-max-lines="300">{{ info|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
                 {% else %}
-                    Elasticsearch index is missing !
+                    {{ 'environment.view.elasticsearch_index_missing'|trans }}
                 {% endif %}
             </div>
             <!-- /.box-body -->
@@ -31,12 +31,12 @@
                 <div class="btn-group">
                     {{ include('@EMSAdminUI/bootstrap5/elements/get-button.html.twig', {
                         url: path('emsco_admin_environment_index'),
-                        label: 'Close',
+                        label: 'action.close'|trans({}, 'emsco-core'),
                         icon: 'close',
                     }) }}
                     {{ include('@EMSAdminUI/bootstrap5/elements/get-button.html.twig', {
                         url: path('emsco_admin_environment_edit', {environment: environment.id}),
-                        label: 'Edit',
+                        label: 'action.edit'|trans({}, 'emsco-core'),
                         icon: 'pencil',
                     }) }}
                 </div>

@@ -1,16 +1,16 @@
 {% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}{% trans_default_domain 'EMSCoreBundle' %}
 
-{% block title %}{{ 'Align Environments'|trans }}{% endblock %}
-{% block pagetitle %}{{ 'Align Environments'|trans }}{% endblock %}
+{% block title %}{{ 'environment.align.title'|trans }}{% endblock %}
+{% block pagetitle %}{{ 'environment.align.title'|trans }}{% endblock %}
 {% block breadcrumb %}
     <ol class="breadcrumb float-sm-end">
-        <li class="breadcrumb-item"><i class="fa fa-database"></i> {{ 'Environments'|trans }}</li>
-        <li class="breadcrumb-item active">{{ 'Align Environments'|trans }}</li>
+        <li class="breadcrumb-item"><i class="fa fa-database"></i> {{ 'environment.plural'|trans }}</li>
+        <li class="breadcrumb-item active">{{ 'environment.align.title'|trans }}</li>
     </ol>
 {% endblock %}
 
 {% block subtitle %}
-<small>{{ 'time to align environments?'|trans }}</small>
+<small>{{ 'environment.align.subtitle'|trans }}</small>
 {% endblock %}
 
 {% block body %}
@@ -20,7 +20,7 @@
     <div class="col">
         <div class="card card-{{ theme_color }} card-outline">
             <div class="card-header">
-                <h3 class="card-title">{{ 'Select Environments to compare'|trans }}</h3>
+                <h3 class="card-title">{{ 'environment.align.select_environments'|trans }}</h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->
@@ -37,7 +37,7 @@
             <!-- /.box-body -->
 
             <div class="card-header">
-                <h3 class="card-title">{{ 'Filters'|trans }}</h3>
+                <h3 class="card-title">{{ 'key.filters'|trans }}</h3>
             </div>
             <div class="card-body">
                 <div class="row">
@@ -62,7 +62,7 @@
           {% set fromInMyCircles = environments[environment].circles|emsco_in_my_circles %}
           {% set toInMyCircles = environments[withEnvironment].circles|emsco_in_my_circles %}
 
-        <h3 class="card-title">Compare "{{ environment }}" and "{{ withEnvironment }}"</h3> <small>{{ total }} difference(s)</small>
+        <h3 class="card-title">{{ 'environment.align.compare_title'|trans({'%environment%': environment, '%with_environment%': withEnvironment}) }}</h3> <small>{{ 'environment.align.difference_count'|trans({'%count%': total}) }}</small>
 
           {{ include('@EMSAdminUI/bootstrap5/elements/pagination.html.twig', {
                     lastPage: lastPage,
@@ -88,17 +88,17 @@
                 </div>
             </th>
               {{ include('@EMSAdminUI/bootstrap5/elements/sortable-th.html.twig', {
-                 title: 'Content type'|trans,
+                 title: 'key.content_type'|trans,
                  field: 'contentype',
             }) }}
               {{ include('@EMSAdminUI/bootstrap5/elements/sortable-th.html.twig', {
-                 title: 'Label'|trans,
+                 title: 'key.label'|trans,
                  field: 'label',
             }) }}
 
-            <th><span class="badge bg-{{ environments[environment].color }}" title="Circles:">{{ environment }}</span></th>
-            <th><span class="badge bg-{{ environments[withEnvironment].color }}" title="Circles:">{{ withEnvironment }}</span></th>
-            <th>Actions</th>
+            <th><span class="badge bg-{{ environments[environment].color }}" title="{{ 'environment.align.circles'|trans }}">{{ environment }}</span></th>
+            <th><span class="badge bg-{{ environments[withEnvironment].color }}" title="{{ 'environment.align.circles'|trans }}">{{ withEnvironment }}</span></th>
+            <th>{{ 'key.actions'|trans }}</th>
 
           </tr>
           </thead>
@@ -197,17 +197,17 @@
 
                             {% if defaultEnv and withEnv.id != defaultEnv.id and toInMyCircles %}
                                 {% if minrev[0] == fromEnv.id %}
-                                    <button type="submit" id="{{ minrev[1] }}" name="compare_environment_form[alignWith]" value="{{ minrev[1] }}" class="btn-primary btn-sm btn"><span class="fa fa-chevron-right"></span>&nbsp;Align {{ withEnvironment }} with {{ environment }}</button>
+                                    <button type="submit" id="{{ minrev[1] }}" name="compare_environment_form[alignWith]" value="{{ minrev[1] }}" class="btn-primary btn-sm btn"><span class="fa fa-chevron-right"></span>&nbsp;{{ 'environment.align.align_with'|trans({'%environment%': withEnvironment, '%with_environment%': environment}) }}</button>
                                 {% elseif maxrev[0] == fromEnv.id %}
-                                    <button type="submit" id="{{ maxrev[1] }}" name="compare_environment_form[alignWith]" value="{{ maxrev[1] }}" class="btn-primary btn-sm btn"><span class="fa fa-chevron-right"></span>&nbsp;Align {{ withEnvironment }} with {{ environment }}</button>
+                                    <button type="submit" id="{{ maxrev[1] }}" name="compare_environment_form[alignWith]" value="{{ maxrev[1] }}" class="btn-primary btn-sm btn"><span class="fa fa-chevron-right"></span>&nbsp;{{ 'environment.align.align_with'|trans({'%environment%': withEnvironment, '%with_environment%': environment}) }}</button>
                                 {% endif %}
                             {% endif %}
 
                             {% if defaultEnv and fromEnv.id != defaultEnv.id and fromInMyCircles %}
                                 {% if minrev[0] == withEnv.id %}
-                                    <button type="submit" id="{{ minrev[1] }}" name="compare_environment_form[alignWith]" value="{{ minrev[1] }}" class="btn-danger btn-sm btn"><span class="fa fa-chevron-left"></span>&nbsp;Align {{ environment }} with {{ withEnvironment }}</button>
+                                    <button type="submit" id="{{ minrev[1] }}" name="compare_environment_form[alignWith]" value="{{ minrev[1] }}" class="btn-danger btn-sm btn"><span class="fa fa-chevron-left"></span>&nbsp;{{ 'environment.align.align_with'|trans({'%environment%': environment, '%with_environment%': withEnvironment}) }}</button>
                                 {% elseif maxrev[0] == withEnv.id %}
-                                    <button type="submit" id="{{ maxrev[1] }}" name="compare_environment_form[alignWith]" value="{{ maxrev[1] }}" class="btn-danger btn-sm btn"><span class="fa fa-chevron-left"></span>&nbsp;Align {{ environment }} with {{ withEnvironment }}</button>
+                                    <button type="submit" id="{{ maxrev[1] }}" name="compare_environment_form[alignWith]" value="{{ maxrev[1] }}" class="btn-danger btn-sm btn"><span class="fa fa-chevron-left"></span>&nbsp;{{ 'environment.align.align_with'|trans({'%environment%': environment, '%with_environment%': withEnvironment}) }}</button>
                                 {% endif %}
                             {% endif %}
                     </div>
@@ -221,7 +221,7 @@
                               revisionId: minrev[1] > maxrev[1] ? minrev[1] : maxrev[1],
                               compareId: minrev[1] < maxrev[1] ? minrev[1] : maxrev[1],
                           }),
-                          label: 'Compare',
+                          label: 'environment.align.compare'|trans,
                           icon: 'compress'}) }}
                   {% endif %}
               </td>
@@ -235,10 +235,10 @@
             {% if is_granted('ROLE_ALLOW_ALIGN') %}
                   <div class="btn-group">
                       {% if toInMyCircles %}
-                        <button type="submit" name="compare_environment_form[alignRight]" class="btn-primary btn-md btn"><span class="fa fa-chevron-right"></span>&nbsp;Align {{ withEnvironment }} with {{ environment }}</button>
+                        <button type="submit" name="compare_environment_form[alignRight]" class="btn-primary btn-md btn"><span class="fa fa-chevron-right"></span>&nbsp;{{ 'environment.align.align_with'|trans({'%environment%': withEnvironment, '%with_environment%': environment}) }}</button>
                     {% endif %}
                       {% if fromInMyCircles %}
-                        <button type="submit" name="compare_environment_form[alignLeft]" class="btn-danger btn-md btn"><span class="fa fa-chevron-left"></span>&nbsp;Align {{ environment }} with {{ withEnvironment }}</button>
+                        <button type="submit" name="compare_environment_form[alignLeft]" class="btn-danger btn-md btn"><span class="fa fa-chevron-left"></span>&nbsp;{{ 'environment.align.align_with'|trans({'%environment%': environment, '%with_environment%': withEnvironment}) }}</button>
                       {% endif %}
                   </div>
             {% endif %}

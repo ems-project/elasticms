@@ -14,7 +14,7 @@
         {%- set type_filters = type_filters|merge([[contentType.singularName, contentType.name]]) -%}
     {%- endfor -%}
 {%- endif -%}
-{%- set type_filters = [['All content types'|trans, all_types]]|merge(type_filters) -%}
+{%- set type_filters = [['content_type.all'|trans, all_types]]|merge(type_filters) -%}
 
 {% set body_attr = {
     class: 'hold-transition sidebar-mini sidebar-mini-md layout-fixed layout-navbar-fixed',

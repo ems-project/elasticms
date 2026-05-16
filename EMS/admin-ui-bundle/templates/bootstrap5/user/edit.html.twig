@@ -1,13 +1,13 @@
 {% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}{% trans_default_domain 'EMSCoreBundle' %}
 
-{% block title %}Edit user "{{ user.displayName }}"{% endblock %}
-{% block pagetitle %}Edit user "{{ user.displayName }}"{% endblock %}
-{% block subtitle %}<small>User administration</small>{% endblock %}
+{% block title %}{{ 'user.edit.title'|trans({'%display_name%': user.displayName}) }}{% endblock %}
+{% block pagetitle %}{{ 'user.edit.title'|trans({'%display_name%': user.displayName}) }}{% endblock %}
+{% block subtitle %}<small>{{ 'user.administration'|trans }}</small>{% endblock %}
 
 {% block body %}
     <div class="card card-{{ theme_color }} card-outline">
         <div class="card-header">
-            <h3 class="card-title">Edit user {{ user.username }}</h3>
+            <h3 class="card-title">{{ 'user.edit.card_title'|trans({'%username%': user.username}) }}</h3>
         </div>
         {{ form_start(form, {action: path('emsco_user_edit', {user: user.id})}) }}
         <div class="card-body">

@@ -3,7 +3,7 @@
 {%- block title -%}
     <a href="#" class="task-modal"
        data-url="{{ path('emsco_task_ajax_modal_task', {revisionOuuid: data.revision_ouuid, taskId: data.task_id}) }}"
-       data-title="Task: {{ data.task_title }}">
+       data-title="{{ 'task.modal.title'|trans({'%title%': data.task_title}) }}">
         {{ data.task_title }}
     </a>
 {%- endblock -%}

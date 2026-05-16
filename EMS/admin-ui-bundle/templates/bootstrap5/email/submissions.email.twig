@@ -73,7 +73,7 @@
                 <tr>
                     <td class="email-title"
                         style="color: #3a383a; font-family: Georgia, serif; font-size: 42px; font-weight: bold; line-height: 44px; padding-top: 20px; text-transform: uppercase;">
-                        Submissions
+                        {{ 'email.submissions.title'|trans }}
                     </td>
                 </tr>
                 <tr>
@@ -81,10 +81,10 @@
                         style="color: #3a383a; font-family: Georgia, serif; font-size: 18px; line-height: 27px; padding-top: 5px;">
                         <table border="1">
                             <tr>
-                                <th>ID</th>
-                                <th>Label</th>
-                                <th>Submission Date</th>
-                                <th>Expiry Date</th>
+                                <th>{{ 'email.submissions.id'|trans }}</th>
+                                <th>{{ 'email.submissions.label'|trans }}</th>
+                                <th>{{ 'email.submissions.submission_date'|trans }}</th>
+                                <th>{{ 'email.submissions.expiry_date'|trans }}</th>
                             </tr>
                             {% for submission in submissions %}
                                 <tr>

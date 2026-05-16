@@ -1,14 +1,14 @@
 {% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}{% trans_default_domain 'EMSCoreBundle' %}
 
-{% block title %}Add a user{% endblock %}
-{% block pagetitle %}New user{% endblock %}
+{% block title %}{{ 'user.add.title'|trans }}{% endblock %}
+{% block pagetitle %}{{ 'user.add.page_title'|trans }}{% endblock %}
 
-{% block subtitle %}<small>A new user in town?</small>{% endblock %}
+{% block subtitle %}<small>{{ 'user.add.subtitle'|trans }}</small>{% endblock %}
 
 {% block body %}
     <div class="card card-{{ theme_color }} card-outline">
         <div class="card-header">
-            <h3 class="card-title">Add user</h3>
+            <h3 class="card-title">{{ 'user.add.card_title'|trans }}</h3>
         </div>
         {{ form_start(form, {method: 'post', action: path('emsco_user_add')}) }}
         <div class="card-body">

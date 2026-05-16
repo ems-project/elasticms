@@ -1,9 +1,9 @@
 {% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}{% trans_default_domain 'EMSCoreBundle' %}
 
 {% if new %}
-    {% set title = 'Add managed alias'|trans %}
+    {% set title = 'environment.managed_alias.add.title'|trans %}
 {% else %}
-    {% set title = 'Edit managed alias'|trans %}
+    {% set title = 'environment.managed_alias.edit.title'|trans %}
 {% endif %}
 
 {% block title %}{{ title }}{% endblock %}
@@ -31,7 +31,7 @@
             <div class="col-md-6">
             <div class="card card-{{ theme_color }} card-outline">
                 <div class="card-header">
-                    <h3 class="card-title">Indexes</h3>
+                    <h3 class="card-title">{{ 'environment.managed_alias.indexes'|trans }}</h3>
                 </div>
                 <div class="card-body">
                     {{ form_row(form.align_indexes) }}
@@ -39,8 +39,8 @@
                     <table class="table table-condensed table-striped">
                         <tbody>
                             <tr>
-                                <th>Index</th>
-                                <th>Total</th>
+                                <th>{{ 'environment.managed_alias.index'|trans }}</th>
+                                <th>{{ 'environment.managed_alias.total'|trans }}</th>
                             </tr>
                             {% for checkbox in form.indexes %}
                                 <tr>

@@ -1,8 +1,8 @@
 {% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}{% trans_default_domain 'EMSCoreBundle' %}
 
-{% block title %}Add a new {{ contentType.name }}{% endblock %}
-{% block pagetitle %}Add a new {{ contentType.name }}{% endblock %}
-{% block subtitle %}<small>{{ 'This operation will not index the %object_name%, but initiate a draft only with a specific OUUID'|trans({'%object_name%': contentType.singularName}) }}</small>{% endblock %}
+{% block title %}{{ 'data.add.title'|trans({'%content_type%': contentType.name}) }}{% endblock %}
+{% block pagetitle %}{{ 'data.add.title'|trans({'%content_type%': contentType.name}) }}{% endblock %}
+{% block subtitle %}<small>{{ 'data.add.subtitle'|trans({'%object_name%': contentType.singularName}) }}</small>{% endblock %}
 
 {% block body %}
 
@@ -10,15 +10,15 @@
     <div class="col-md-6">
         <div class="card card-warning card-outline">
             <div class="card-header">
-                <h3 class="card-title"><i class="fa fa-warning"></i> Notice</h3>
+                <h3 class="card-title"><i class="fa fa-warning"></i> {{ 'notice_card.title'|trans }}</h3>
             </div>
             <!-- /.box-header -->
             <div class="card-body">
                 <p>
-                    {{ 'This operation will not index a new object ‘<em>%content_type%</em>’ immediately. It will start a new draft without any previous revision. <strong>This draft will not be visible</strong> in any environment <strong>until it has been finalized for the first time</strong>. This means you will not be able to see it in any list view (such as the index, map, calendar...), but all drafts in progress can be found in the ‘Draft in progress’ section.'|trans({'%content_type%': contentType.name})|raw }}
+                    {{ 'data.add.notice.draft_not_indexed'|trans({'%content_type%': contentType.name})|raw }}
                 </p>
                 <p>
-                    {{ 'About the <strong>object unique identifier</strong>: you are free to specify one (provided it has not been taken yet, of course). If you leave it <strong>empty</strong>, an object unique identifier <strong>will be generated</strong> during the save. It is not possible to update the object unique identifier later.'|trans({})|raw }}
+                    {{ 'data.add.notice.ouuid'|trans|raw }}
                 </p>
             </div>
             <!-- /.box-body -->
@@ -28,7 +28,7 @@
         <!-- general form elements -->
         <div class="card card-{{ theme_color }} card-outline card-outline-tabs">
             <div class="card-header">
-                <h3 class="card-title">New {{ contentType.name }}</h3>
+                <h3 class="card-title">{{ 'data.add.new_title'|trans({'%content_type%': contentType.name}) }}</h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->

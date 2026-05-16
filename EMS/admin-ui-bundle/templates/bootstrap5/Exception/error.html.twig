@@ -1,7 +1,7 @@
 {% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}{% trans_default_domain 'EMSCoreBundle' %}
 
-{% block title %}{{ 'An Error Occurred'|trans }}{% endblock %}
-{% block pagetitle %}{{ 'Oops! An Error Occurred'|trans }}{% endblock %}
+{% block title %}{{ 'exception.error.title'|trans }}{% endblock %}
+{% block pagetitle %}{{ 'exception.error.page_title'|trans }}{% endblock %}
 {% block subtitle %}<small>{{ 'We are so sorry' }}</small>{% endblock %}
 
 {% block breadcrumb %}
@@ -14,11 +14,11 @@
             <div class="box-header with-border bg-danger">
                 <h4 class="box-title">
                         <i class="icon fa fa-danger fa-2x"></i>
-                        {{ 'The server returned a %status_code%'|trans({'%status_code%': status_code}) }}
+                        {{ 'exception.error.server_returned'|trans({'%status_code%': status_code}) }}
                 </h4>
             </div>
             <div class="box-body ">
-                <p>{{ 'With the message "%status_text%".'|trans({'%status_text%': status_text}) }}</p>
+                <p>{{ 'exception.error.message'|trans({'%status_text%': status_text}) }}</p>
             </div>
         </div>
 

@@ -30,7 +30,7 @@
     {%- endfor -%}
 {%- endif -%}
 
-{%- set type_filters = [['All content types'|trans, all_types]]|merge(type_filters) -%}
+{%- set type_filters = [['content_type.all'|trans, all_types]]|merge(type_filters) -%}{% dump(type_filters) %}
 
 <body class="hold-transition skin-{{ theme_color }} {% if app.user %}{% if app.user.layoutBoxed %}layout-boxed{% endif %}{% if app.user.sidebarCollapse %} sidebar-collapse{% endif %}{% if app.user.sidebarMini %} sidebar-mini{% endif %}{% endif %}"
       data-hash-algo="{{ ems_hash_algo|e('html_attr') }}"
@@ -61,7 +61,7 @@
     <nav class="navbar navbar-static-top" role="navigation">
       <!-- Sidebar toggle button-->
       <a href="#" class="sidebar-toggle" data-bs-toggle="push-menu" role="button" id="sidebar-toggle-button">
-        <span class="visually-hidden">Toggle navigation</span>
+        <span class="visually-hidden">{{ 'navigation.toggle'|trans }}</span>
       </a>
       <!-- Navbar Right Menu -->
       <div class="navbar-custom-menu">
@@ -161,14 +161,14 @@
             <div class="modal-content">
               <div class="modal-header">
                 <h4 class="modal-title" id="myModalNotifications">
-                            <strong>Notifications</strong>
+                            <strong>{{ 'notification.plural'|trans }}</strong>
                 </h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'action.close'|trans({}, 'emsco-core') }}"></button>
               </div>
               <div class="modal-body">
               </div>
               <div class="modal-footer">
-                  <button id="modal-notification-close-button" type="button" class="btn btn-primary"><i class="fa fa-close"></i> Close</button>
+                  <button id="modal-notification-close-button" type="button" class="btn btn-primary"><i class="fa fa-close"></i> {{ 'action.close'|trans({}, 'emsco-core') }}</button>
               </div>
             </div>
           </div>
@@ -187,7 +187,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 class="modal-title" id="waitingModalLabel">Loading information</h3>
+        <h3 class="modal-title" id="waitingModalLabel">{{ 'modal.loading_information'|trans }}</h3>
       </div>
       <div class="modal-body">
         <div class="progress progress-striped active" style="margin-bottom:0;"><div class="progress-bar" style="width: 100%"></div></div>

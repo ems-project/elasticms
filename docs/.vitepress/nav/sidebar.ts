@@ -59,6 +59,7 @@ const sidebar: DefaultTheme.SidebarMulti = {
                         { text: 'Search', link: '/elasticms-admin/api/search' },
                         { text: 'File', link: '/elasticms-admin/api/file' },
                         { text: 'User', link: '/elasticms-admin/api/user' },
+                        { text: 'Job', link: '/elasticms-admin/api/job' },
                         { text: 'Monitoring', link: '/elasticms-admin/api/monitoring' },
                         { text: 'Webhook', link: '/elasticms-admin/api/webhook' },
                     ]

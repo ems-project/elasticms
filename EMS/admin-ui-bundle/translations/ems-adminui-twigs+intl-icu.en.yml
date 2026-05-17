@@ -430,7 +430,7 @@ views:
             new-version: 'New version'
             no-linked-document: 'This document does not have any linked document'
             nothing: Nothing
-            'on': on
+            'on': 'on'
             pending: Pending
             previous-revision: 'Previous revision'
             revision: Revision

@@ -242,6 +242,13 @@ release:
     index:
         title: 'Liste des releases'
     menu: Releases
+    release-revision:
+        missing-revision: 'Le document « {label} » n’est plus disponible dans {environment}'
+        no_more_in_target: 'Cette révision a été dépubliée de {target}'
+        not-applicable: 'non applicable'
+        revision: '%date% finalisée par {user}'
+        revision-not-applicable: 'Non applicable'
+        still_in_target: 'Toujours publiée dans {target}'
     revision:
         index:
             publish: 'Liste des documents disponibles pour publication'
@@ -254,6 +261,22 @@ revision:
     finalized_by: '{date} Finalisé par {user}'
     missing: 'aucune révision dans {env}'
     replace_by_revision: 'remplacée par la révision {date}'
+search:
+    filter:
+        add: Ajouter
+        boolean_clause: 'Clause booléenne'
+        boost: Boost
+        field: Champ
+        operator: Opérateur
+        pattern: Motif
+    form: Formulaire
+    query: Requête
+    set_default:
+        confirm: 'Confirmez-vous ?'
+        label: 'Définir comme recherche par défaut'
+    set_default_content_type:
+        confirm: 'Confirmez-vous ?'
+        label: 'Recherche par défaut pour {content_type}'
 search_options:
     aggregate:
         add: 'Ajouter une option d’agrégation'
@@ -338,6 +361,7 @@ task:
         title: 'Tâche : {title}'
     planned:
         title: 'Tâches planifiées'
+    tab_tasks: Tâches
     title: Tâches
     update:
         submit: 'Enregistrer la tâche'
@@ -384,9 +408,54 @@ view:
             title: 'Liste des utilisateurs'
 views:
     data:
+        edit-revision-html:
+            cancel-label: 'Abandonner les modifications non enregistrées'
+            discard-draft-label: 'Supprimer ce brouillon'
+            discard-draft-message: 'Les modifications apportées à ce brouillon seront perdues'
+            new-draft-title: '{content-type} : nouveau brouillon'
+            subtitle: 'Espace de travail'
+            title: 'Modifier {content-type} : {revision} '
         revisions-data-html:
+            all-linked-documents: 'Tous les documents liés'
+            audit: Audit
+            by: Par
+            current-revision: 'Révision actuelle'
+            current-version: 'Version actuelle'
+            draft-in-progress: 'Brouillon en cours'
+            finalized-by: 'Finalisée par'
+            finalized-on: 'Finalisée le'
+            last-update: 'Dernière mise à jour'
+            linked-documents-in: 'Documents liés dans {environment} ({length}/{total})'
+            modified-by: 'Modifiée par'
+            new-version: 'Nouvelle version'
+            no-linked-document: 'Ce document n’a aucun document lié'
+            nothing: Rien
+            'on': le
+            pending: 'En attente'
+            previous-revision: 'Révision précédente'
+            revision: Révision
+            revision-current: 'Vous consultez la dernière révision'
+            revision-draft-in-progress: 'Ceci est un brouillon en cours'
+            revision-previous: 'Ceci est une révision passée'
             revisions: Révisions
+            revisions.th.actions: Actions
+            revisions.th.autosave: 'Sauvegarde automatique'
+            revisions.th.date: Date
+            revisions.th.environments: Environnements
+            revisions.th.finalize: Finaliser
+            revisions.th.id: '#'
+            revisions.th.locked: Verrouillé
+            revisions.th.pendings: 'En attente'
+            status: Statut
+            title: 'Révisions de %content-type% : %title%'
+            until: Jusqu’à
+            version: Version
     elements:
+        object-toolbar-html:
+            edit-draft: 'Modifier le brouillon'
+            new-draft: Modifier
+            view-current-revision: 'Voir la révision actuelle'
+            view-draft-in-progress: 'Voir le brouillon en cours'
         object-views-button:
             action-dropdown-icon-class: 'fa fa-eye'
             action-dropdown-label: 'Actions dans {environment}'
@@ -396,3 +465,25 @@ views:
             published-label: 'Publié dans {environment}'
             raw-view: 'Vue brute'
             raw-view-icon-class: 'fa fa-th'
+        revision-toolbar-html:
+            add-to-release: 'Ajouter à la release'
+            cancel-label: Annuler
+            cancel-last-updates-label: 'Annuler les modifications non enregistrées'
+            cancel-last-updates-message: 'Annuler les modifications non enregistrées'
+            cancel-message: 'Annuler les dernières modifications ?'
+            compare-label: 'Comparer cette révision avec la révision actuelle'
+            discard-draft-label: 'Supprimer ce brouillon'
+            discard-draft-message: 'Les modifications apportées à ce brouillon seront perdues'
+            edit-draft-label: 'Modifier le brouillon'
+            edit-revision-json: 'Édition JSON brute'
+            edit-revision-label: 'Modifier la révision'
+            finalize-draft-label: 'Enregistrer et publier dans %environment%'
+            finalize-draft-message: 'Confirmer l’enregistrement et la publication ?'
+            new-draft-label: Modifier
+            other-environment-actions: 'Autres actions d’environnement'
+            other-revision-actions: 'Autres actions sur cette révision'
+            publish-to-label: 'Publier vers'
+            re-index-label: Réindexer
+            revert-revision-label: 'Revenir à cette révision'
+            unpublish-from-label: 'Dépublier de'
+            view-label: 'Voir cette révision'

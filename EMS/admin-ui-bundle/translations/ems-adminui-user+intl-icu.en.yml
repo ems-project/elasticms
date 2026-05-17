@@ -1,7 +1,7 @@
 user:
     logged_in:
-        member_since: 'Member since %date%'
-        title: 'Logged in as %username%'
+        member_since: 'Member since {date}'
+        title: 'Logged in as {username}'
     login:
         alt_logo: "elasticMS's logo"
         continue: 'Sign in to your account to continue'
@@ -45,7 +45,7 @@ user:
     resetting:
         check_email: |
             An email has been sent. It contains a link you must click to reset your password.
-            Note: You can only request a new password once within %tokenLifetime% hours.
+            Note: You can only request a new password once within {tokenLifetime} hours.
 
             If you don't get an email check your spam folder or try again.
         title: 'Reset password'

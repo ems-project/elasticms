@@ -24,6 +24,7 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Intl\Locales;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use function Symfony\Component\Translation\t;
 
 /**
  * @extends AbstractType<mixed>
@@ -134,7 +135,7 @@ final class UserType extends AbstractType
                 'choice_translation_domain' => false,
             ])
             ->add('userOptions', UserOptionsType::class, [
-                'label' => 'user.option.title',
+                'label' => t('user.option.title', [], 'emsco-core'),
                 'context' => UserOptionsType::CONTEXT_USER_MANAGEMENT,
             ])
         ;

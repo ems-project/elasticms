@@ -21,6 +21,7 @@ use Symfony\Component\Intl\Locales;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use function Symfony\Component\Translation\t;
 
 /**
  * @extends AbstractType<mixed>
@@ -61,7 +62,7 @@ class UserProfileType extends AbstractType
             ->add('sidebarMini', null, ['label' => 'user.sidebar_mini'])
             ->add('sidebarCollapse', null, ['label' => 'user.sidebar_collapse'])
             ->add('userOptions', UserOptionsType::class, [
-                'label' => 'user.option.title',
+                'label' => t('user.option.title', [], 'emsco-core'),
                 'context' => UserOptionsType::CONTEXT_PROFILE,
             ])
             ->add('locale', ChoiceType::class, [

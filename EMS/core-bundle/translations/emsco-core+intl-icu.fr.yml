@@ -551,6 +551,10 @@ type:
             other         {}
         }
 user:
+    option:
+        allowed_configure_wysiwyg: "Autorise l'utilisateur à changer de profile WYSIWYG"
+        simplified_ui: 'Interfaces simplifiées'
+        title: Options
     profile:
         change_password:
             breadcrumb_title: 'Changer votre mot de passe'

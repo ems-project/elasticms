@@ -24,7 +24,7 @@ field_type:
         move_item: 'Move item'
     reorder: Reorder
     textarea:
-        counter: '{count} characters'
+        counter: '%count% characters'
 fields:
     asset:
         browse-server: 'Browse server'

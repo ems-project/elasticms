@@ -252,7 +252,6 @@ form:
     data:
         add:
             ouuid:
-                constraints: 'OUUID has an unauthorized character.'
                 label: OUUID
                 placeholder: 'Auto-generated if left empty'
             save: 'Create {content_type} draft'

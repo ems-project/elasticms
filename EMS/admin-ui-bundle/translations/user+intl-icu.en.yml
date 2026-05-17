@@ -20,7 +20,6 @@ user:
             submit: 'Change password'
             title: 'Change password'
         edit:
-            breadcrumb_title: Edit
             submit: Update
             title: 'Edit your profile'
         show:

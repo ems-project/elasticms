@@ -53,6 +53,7 @@ use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
 use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+
 use function Symfony\Component\Translation\t;
 
 class DataController extends AbstractController

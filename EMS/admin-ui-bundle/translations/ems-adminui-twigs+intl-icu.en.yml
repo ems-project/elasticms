@@ -246,7 +246,7 @@ release:
         missing-revision: 'The document "{label}" is no more available in {environment}'
         no_more_in_target: 'This revision has been unpublished from {target}'
         not-applicable: 'not applicable'
-        revision: '%date% finalized by {user}'
+        revision: '{date} finalized by {user}'
         revision-not-applicable: 'Not applicable'
         still_in_target: 'Still released in {target}'
     revision:
@@ -447,7 +447,7 @@ views:
             revisions.th.locked: Locked
             revisions.th.pendings: Pendings
             status: Status
-            title: 'Revisions of %content-type%: %title%'
+            title: 'Revisions of {content-type}: {title}'
             until: Until
             version: Version
     elements:
@@ -477,7 +477,7 @@ views:
             edit-draft-label: 'Edit draft'
             edit-revision-json: 'JSON raw edit'
             edit-revision-label: 'Edit revision'
-            finalize-draft-label: 'Save and publish in %environment%'
+            finalize-draft-label: 'Save and publish in {environment}'
             finalize-draft-message: 'Confirm save and publish ?'
             new-draft-label: Edit
             other-environment-actions: 'Other environment actions'

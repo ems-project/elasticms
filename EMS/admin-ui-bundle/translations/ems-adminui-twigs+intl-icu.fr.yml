@@ -246,7 +246,7 @@ release:
         missing-revision: 'Le document « {label} » n’est plus disponible dans {environment}'
         no_more_in_target: 'Cette révision a été dépubliée de {target}'
         not-applicable: 'non applicable'
-        revision: '%date% finalisée par {user}'
+        revision: '{date} finalisée par {user}'
         revision-not-applicable: 'Non applicable'
         still_in_target: 'Toujours publiée dans {target}'
     revision:
@@ -447,7 +447,7 @@ views:
             revisions.th.locked: Verrouillé
             revisions.th.pendings: 'En attente'
             status: Statut
-            title: 'Révisions de %content-type% : %title%'
+            title: 'Révisions de {content-type} : {title}'
             until: Jusqu’à
             version: Version
     elements:
@@ -477,7 +477,7 @@ views:
             edit-draft-label: 'Modifier le brouillon'
             edit-revision-json: 'Édition JSON brute'
             edit-revision-label: 'Modifier la révision'
-            finalize-draft-label: 'Enregistrer et publier dans %environment%'
+            finalize-draft-label: 'Enregistrer et publier dans {environment}'
             finalize-draft-message: 'Confirmer l’enregistrement et la publication ?'
             new-draft-label: Modifier
             other-environment-actions: 'Autres actions d’environnement'

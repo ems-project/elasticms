@@ -549,6 +549,12 @@ type:
             view          {Customize the menu}
             other         {}
         }
+user:
+    profile:
+        change_password:
+            breadcrumb_title: 'Change your password'
+        edit:
+            breadcrumb_title: 'Edit'
 view:
     title: '{name} of {plural}'
 webhook:

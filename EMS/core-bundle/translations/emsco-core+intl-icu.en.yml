@@ -252,6 +252,7 @@ form:
     data:
         add:
             ouuid:
+                constraint_message: "OUUID has an unauthorized character: A-Z, a-z, 0-9, caret: '-', underscore: '_' or dot: '.'."
                 label: OUUID
                 placeholder: 'Auto-generated if left empty'
             save: 'Create {content_type} draft'
@@ -554,7 +555,7 @@ user:
         change_password:
             breadcrumb_title: 'Change your password'
         edit:
-            breadcrumb_title: 'Edit'
+            breadcrumb_title: Edit
 view:
     title: '{name} of {plural}'
 webhook:

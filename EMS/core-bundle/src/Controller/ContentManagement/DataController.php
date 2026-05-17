@@ -707,7 +707,7 @@ class DataController extends AbstractController
         $revision = new Revision();
         $form = $this->createFormBuilder($revision)
             ->add('ouuid', IconTextType::class, [
-                'constraints' => [new Regex(pattern: '/^[A-Za-z0-9_\.\-~]*$/', message: t('document.create.ouuid.constraints', [], 'validators')->getMessage(), match: true),
+                'constraints' => [new Regex(pattern: '/^[A-Za-z0-9_\.\-~]*$/', message: t('form.data.add.ouuid.constraint_message', [], 'emsco-core')->getMessage(), match: true),
                 ],
                 'label' => t('form.data.add.ouuid.label', [], 'emsco-core'),
                 'attr' => [

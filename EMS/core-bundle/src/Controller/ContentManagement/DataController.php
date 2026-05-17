@@ -52,6 +52,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use function Symfony\Component\Translation\t;
 
 class DataController extends AbstractController
 {
@@ -706,16 +707,17 @@ class DataController extends AbstractController
         $revision = new Revision();
         $form = $this->createFormBuilder($revision)
             ->add('ouuid', IconTextType::class, [
-                'constraints' => [new Regex(pattern: '/^[A-Za-z0-9_\.\-~]*$/', message: 'Ouuid has an unauthorized character.', match: true),
+                'constraints' => [new Regex(pattern: '/^[A-Za-z0-9_\.\-~]*$/', message: 'form.data.add.ouuid.constraints', match: true),
                 ],
+                'label' => t('form.data.add.ouuid.label', [], 'emsco-core'),
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'Auto-generated if left empty',
+                    'placeholder' => t('form.data.add.ouuid.placeholder', [], 'emsco-core'),
                 ],
                 'required' => false,
             ])
             ->add('save', SubmitType::class, [
-                'label' => 'Create '.$contentType->getName().' draft',
+                'label' => t('form.data.add.save', ['%content_type%' => $contentType->getSingularName()], 'emsco-core'),
                 'attr' => [
                     'class' => 'btn btn-primary pull-right',
                 ],

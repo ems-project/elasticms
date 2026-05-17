@@ -249,6 +249,13 @@ field:
     user_modified: 'Modified by'
     user_uploaded: 'Uploaded by'
 form:
+    data:
+        add:
+            ouuid:
+                constraints: 'OUUID has an unauthorized character.'
+                label: OUUID
+                placeholder: 'Auto-generated if left empty'
+            save: 'Create {content_type} draft'
     reorder:
         title: 'Reorder fields of form: {label}'
 key:

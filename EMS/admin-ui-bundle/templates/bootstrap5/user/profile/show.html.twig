@@ -46,9 +46,13 @@
         {%- endfor %}
     {% endset %}
     {% set roles %}
-        {% for role in user.userRoles|default([]) -%}
-            <span class="badge bg-primary text-nowrap">{{- role|trans({}, 'emsco-forms') -}}</span>
-        {%- endfor %}
+        <div class="d-flex flex-wrap gap-2 mt-2">
+            {% for role in user.userRoles|default([]) %}
+                <span class="badge rounded-pill bg-primary-subtle text-primary border border-primary-subtle px-3 py-2 fw-semibold">
+                  {{ role|trans({}, 'emsco-forms') }}
+              </span>
+            {% endfor %}
+        </div>
     {% endset %}
 
     {% set items = [

@@ -1,7 +1,7 @@
 {% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}{% trans_default_domain 'ems-adminui-twigs' %}
 
-{% block title %}{{ 'data.add.title'|trans({'%content_type%': contentType.name}) }}{% endblock %}
-{% block pagetitle %}{{ 'data.add.title'|trans({'%content_type%': contentType.name}) }}{% endblock %}
+{% block title %}{{ 'data.add.title'|trans({'%content_type%': contentType.singularName}) }}{% endblock %}
+{% block pagetitle %}{{ 'data.add.title'|trans({'%content_type%': contentType.singularName}) }}{% endblock %}
 {% block subtitle %}<small>{{ 'data.add.subtitle'|trans({'%object_name%': contentType.singularName}) }}</small>{% endblock %}
 
 {% block body %}
@@ -15,7 +15,7 @@
             <!-- /.box-header -->
             <div class="card-body">
                 <p>
-                    {{ 'data.add.notice.draft_not_indexed'|trans({'%content_type%': contentType.name})|raw }}
+                    {{ 'data.add.notice.draft_not_indexed'|trans({'%content_type%': contentType.singularName})|raw }}
                 </p>
                 <p>
                     {{ 'data.add.notice.ouuid'|trans|raw }}
@@ -28,7 +28,7 @@
         <!-- general form elements -->
         <div class="card card-{{ theme_color }} card-outline card-outline-tabs">
             <div class="card-header">
-                <h3 class="card-title">{{ 'data.add.new_title'|trans({'%content_type%': contentType.name}) }}</h3>
+                <h3 class="card-title">{{ 'data.add.new_title'|trans({'%content_type%': contentType.singularName}) }}</h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->

@@ -68,7 +68,11 @@ class UserProfileType extends AbstractType
                 'label' => 'user.locale',
                 'translation_domain' => EMSCoreBundle::TRANS_FORM_DOMAIN,
                 'required' => true,
-                'choices' => [Locales::getName('en') => 'en'],
+                'choices' => [
+                    Locales::getName('en') => 'en',
+                    Locales::getName('fr') => 'fr',
+                    Locales::getName('nl') => 'nl',
+                ],
                 'choice_translation_domain' => false,
             ])
             ->add('localePreferred', ChoiceType::class, [

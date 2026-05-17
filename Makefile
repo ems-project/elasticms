@@ -171,8 +171,10 @@ docs-init: ## init docs
 build-translations: ## build translations
 	@php build/translations en EMSCoreBundle --write --format=yml -d emsco-core
 	@php build/translations fr EMSCoreBundle --write --format=yml -d emsco-core
+	@php build/translations nl EMSCoreBundle --write --format=yml -d emsco-core
 	@php build/translations en EMSAdminUIBundle --write --format=yml
 	@php build/translations fr EMSAdminUIBundle --write --format=yml
+	@php build/translations nl EMSAdminUIBundle --write --format=yml
 	@$(RUN_CLI) translation:extract  fr --force --format=yaml --domain=messages
 	@$(RUN_CLI) translation:extract  nl --force --format=yaml --domain=messages
 	@$(RUN_CLI) translation:extract  de --force --format=yaml --domain=messages

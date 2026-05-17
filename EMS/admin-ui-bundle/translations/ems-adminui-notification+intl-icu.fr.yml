@@ -1,0 +1,11 @@
+notification:
+    dashboard:
+        title: Notifications
+    filter:
+        title: Filtres
+    folder:
+        inbox: 'Boîte de réception'
+        outbox: 'Boîte d’envoi'
+        title: Dossiers
+    menu:
+        link_title: Notifications

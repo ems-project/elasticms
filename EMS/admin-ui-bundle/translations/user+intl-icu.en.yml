@@ -1,6 +1,7 @@
 user:
     login:
         alt_logo: "elasticMS's logo"
+        continue: 'Sign in to your account to continue'
         forgot: 'I forgot my password'
         message: 'Sign in to start your session'
         password1_aria_label: Password
@@ -10,6 +11,7 @@ user:
         title: Welcome
         user_aria_label: 'Email or Username'
         user_placeholder: 'Email or Username'
+        welcome_back: 'Welcome back!'
     option:
         simplified_ui: 'Simplified UI'
     profile:
@@ -19,6 +21,7 @@ user:
             title: 'Change password'
         edit:
             breadcrumb_title: Edit
+            submit: Update
             title: 'Edit your profile'
         show:
             action:

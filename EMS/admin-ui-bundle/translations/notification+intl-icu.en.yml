@@ -1,7 +1,11 @@
-Inbox: Inbox
-Outbox: Outbox
 notification:
     dashboard:
         title: Notifications
+    filter:
+        title: Filters
+    folder:
+        inbox: Inbox
+        outbox: Outbox
+        title: Folders
     menu:
         link_title: Notifications

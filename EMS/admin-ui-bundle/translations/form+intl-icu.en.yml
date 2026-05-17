@@ -1,10 +1,3 @@
-Add: Add
-'Asset options': 'Asset options'
-Clear: Clear
-'Extract content': 'Extract content'
-'Hash signature': 'Hash signature'
-Info: Info
-View: View
 edit_image:
     flip:
         group: Flip
@@ -21,33 +14,57 @@ edit_image:
         reset: 'Reset view'
 field_type:
     json_menu_editor:
-        add: field_type.json_menu_editor.add
-        add_item: field_type.json_menu_editor.add_item
-        add_node: field_type.json_menu_editor.add_node
-        collapse_all_button: field_type.json_menu_editor.collapse_all_button
-        collapse_button: field_type.json_menu_editor.collapse_button
-        delete_item: field_type.json_menu_editor.delete_item
-        item_label_placeholder: field_type.json_menu_editor.item_label_placeholder
-        move_item: field_type.json_menu_editor.move_item
-    reorder: field_type.reorder
+        add: Add
+        add_item: 'Add item'
+        add_node: 'Add node'
+        collapse_all_button: 'Collapse all'
+        collapse_button: Collapse
+        delete_item: 'Delete item'
+        item_label_placeholder: 'Item label'
+        move_item: 'Move item'
+    reorder: Reorder
     textarea:
         counter: '%count% characters'
 fields:
     asset:
-        browse-server: fields.asset.browse-server
-        clear-button: fields.asset.clear-button
-        close-modal: fields.asset.close-modal
-        drag-n-drop-file: fields.asset.drag-n-drop-file
-        drag-n-drop-files: fields.asset.drag-n-drop-files
-        file-hash: fields.asset.file-hash
-        file-info: fields.asset.file-info
-        info-modal-button: fields.asset.info-modal-button
-        init-upload: fields.asset.init-upload
-        move-button: fields.asset.move-button
-        remove-button: fields.asset.remove-button
-        upload-file: fields.asset.upload-file
-        upload-files: fields.asset.upload-files
-        view-button: fields.asset.view-button
+        browse-server: 'Browse server'
+        clear-button: Clear
+        close-modal: Close
+        drag-n-drop-file: 'Drag and drop your file here'
+        drag-n-drop-files: 'Drag and drop your files here'
+        file-hash: 'File hash'
+        file-info: 'File information'
+        info-modal-button: Info
+        init-upload: 'Initialize upload'
+        move-button: Move
+        remove-button: Remove
+        upload-file: 'Upload file'
+        upload-files: 'Upload files'
+        view-button: View
+    field: Field
+    file:
+        asset_options: 'Asset options'
+        clear: Clear
+        drag_and_drop: 'Drag and drop your file here'
+        extract_content: 'Extract content'
+        hash_signature: 'Hash signature'
+        info: Info
+        preview_alt: 'Preview of the field %field%'
+        upload: 'Upload file'
+        view: View
+    modal:
+        add_field_to: 'Add a field to <strong>%name%</strong>'
+        add_subfield_to: 'Add a subfield to <strong>%name%</strong>'
+        duplicate: 'Duplicate <strong>%name%</strong>'
+    options:
+        display: Display
+        extra: Extra
+        mapping: Mapping
+        migration: Migration
+        restriction: Restriction
+    subfield: Subfield
+    template:
+        more_info: 'more info'
 form:
     field-type-type:
         root: Structure
@@ -55,4 +72,4 @@ view:
     form:
         fields:
             asset:
-                preview: view.form.fields.asset.preview
+                preview: Preview

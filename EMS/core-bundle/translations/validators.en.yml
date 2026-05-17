@@ -18,10 +18,6 @@ revision:
         version_from_required: 'This Field is not valid! Empty field'
         version_to_greater: 'Should be greater then "%fromField%"'
         version_to_greater_one_day: 'Should be at least 1 day greater then "%fromField%"'
-document:
-    create:
-        ouuid:
-            constraints: "OUUID has an unauthorized character: A-Z, a-z, 0-9, caret: '-', underscore: '_' or dot: '.'."
 user:
     username:
         already_used: 'The username is already used.'

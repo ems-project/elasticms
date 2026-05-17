@@ -19,27 +19,27 @@ core:
         loading: Loading...
 data:
     add:
-        new_title: 'New %content_type%'
+        new_title: 'New {content_type}'
         notice:
-            draft_not_indexed: 'This operation will not index a new object ‘<em>%content_type%</em>’ immediately. It will start a new draft without any previous revision. <strong>This draft will not be visible</strong> in any environment <strong>until it has been finalized for the first time</strong>. This means you will not be able to see it in any list view (such as the index, map, calendar...), but all drafts in progress can be found in the ‘Draft in progress’ section.'
+            draft_not_indexed: 'This operation will not index a new object ‘<em>{content_type}</em>’ immediately. It will start a new draft without any previous revision. <strong>This draft will not be visible</strong> in any environment <strong>until it has been finalized for the first time</strong>. This means you will not be able to see it in any list view (such as the index, map, calendar...), but all drafts in progress can be found in the ‘Draft in progress’ section.'
             ouuid: 'About the <strong>object unique identifier</strong>: you are free to specify one (provided it has not been taken yet, of course). If you leave it <strong>empty</strong>, an object unique identifier <strong>will be generated</strong> during the save. It is not possible to update the object unique identifier later.'
-        subtitle: 'This operation will not index the %object_name%, but initiate a draft only with a specific OUUID'
-        title: 'Add a new %content_type%'
+        subtitle: 'This operation will not index the {object_name}, but initiate a draft only with a specific OUUID'
+        title: 'Add a new {content_type}'
     custom-view:
-        pagetitle: 'View %name% of the %contentType% "%label%" as indexed in %environment%'
+        pagetitle: 'View {name} of the {contentType} "{label}" as indexed in {environment}'
     view:
         recursive:
-            as_indexed_in: 'As indexed in %environment%'
+            as_indexed_in: 'As indexed in {environment}'
             card_title: 'Recursive view'
-            title: 'View %content_type%:%id%'
+            title: 'View {content_type}:{id}'
 documentation:
     api:
         title: Documentation
 entity:
     edit:
-        title: 'Edit %entity_name%'
+        title: 'Edit {entity_name}'
     new:
-        title: 'New %entity_name%'
+        title: 'New {entity_name}'
 environment:
     add:
         notice: 'This operation will create a new elastic search index with an alias pointing to it.'
@@ -50,8 +50,8 @@ environment:
         checkbox-all: 'Select all'
         circles: Circles
         compare: Compare
-        compare_title: 'Compare %environment% with %with_environment%'
-        difference_count: '{0} No difference|{1} One difference|]1,Inf[ %count% differences'
+        compare_title: 'Compare {environment} with {with_environment}'
+        difference_count: '{0} No difference|{1} One difference|]1,Inf[ {count} differences'
         select_environments: 'Select Environments to compare'
         selected: Selected
         subtitle: 'time to align environments?'
@@ -72,17 +72,17 @@ environment:
         options:
             title: 'Select your options'
         short_title: 'Rebuild index'
-        title: 'Rebuild the environment %name%'
+        title: 'Rebuild the environment {name}'
     view:
         elasticsearch_index_missing: 'Elasticsearch index is missing !'
         elasticsearch_information: 'Elasticsearch information'
         short_title: 'View environment'
-        title: 'View the environment %name%'
+        title: 'View the environment {name}'
 exception:
     error:
-        message: 'With the message "%status_text%".'
+        message: 'With the message "{status_text}".'
         page_title: 'Oops! An Error Occurred'
-        server_returned: 'The server returned a %status_code%'
+        server_returned: 'The server returned a {status_code}'
         title: 'An Error Occurred'
 field:
     asset:
@@ -104,7 +104,7 @@ field:
 field_type:
     json_menu_editor:
         add: Add
-        add_item: 'Add a new %singular%'
+        add_item: 'Add a new {singular}'
         collapse_button: Expand/Collapse
         copy: Copy
         copy_all: 'Copy all'
@@ -132,7 +132,7 @@ json_menu_nested:
         delete: Delete
         edit: Edit
         move: Move
-        new: 'New %label%'
+        new: 'New {label}'
         paste: Paste
         save: Save
         view: View
@@ -183,7 +183,6 @@ modal:
     loading_information: 'Loading information...'
 navigation:
     toggle: 'Toggle navigation'
-'no revision in %env%': 'no revision in %env%'
 notice_card:
     title: Notice
 notification:
@@ -217,8 +216,8 @@ notification:
     up_to_date: 'Everything is up to date.'
     warning:
         duplicate: 'At least another notification exists for this object'
-        revision_not_published: 'This revision is not published in %environment% anymore'
-        revision_not_published_and_duplicate: 'This revision is not published in %environment% anymore and another notification exists'
+        revision_not_published: 'This revision is not published in {environment} anymore'
+        revision_not_published_and_duplicate: 'This revision is not published in {environment} anymore and another notification exists'
     warnings: Warnings
 out-of-sync:
     modal:
@@ -227,10 +226,10 @@ out-of-sync:
         something-wrong: 'There is something wrong with this application.'
         title: 'Out of sync'
 pick-a-release:
-    title: 'Pick a release for "%label%"'
+    title: 'Pick a release for "{label}"'
 publish:
     search_result:
-        title: 'Publish %count% %content_type% from %environment%'
+        title: 'Publish {count} {content_type} from {environment}'
 release:
     actions:
         add_publish: 'Add documents for publication'
@@ -250,10 +249,11 @@ release:
         menu: 'Add documents'
         view:
             title: "Release's documents"
-    unpublish_in: 'Unpublish in %env%'
+    unpublish_in: 'Unpublish in {env}'
 'replace by revision %date%': 'replace by revision %date%'
 revision:
-    finalized_by: '%date% Finalized by %user%'
+    finalized_by: '{date} Finalized by {user}'
+    missing: 'no revision in {env}'
 search_options:
     aggregate:
         add: 'Add an Aggregate Option'
@@ -294,8 +294,8 @@ task:
         action:
             edit_revision: 'Edit revision'
             go_revision: Revision
-        search_warning: 'More than %count% tasks, search on document title is impossible.'
-    delay_days: '%number% days'
+        search_warning: 'More than {count} tasks, search on document title is impossible.'
+    delay_days: '{number} days'
     delete:
         submit: 'Delete task'
     field:
@@ -313,29 +313,29 @@ task:
         version_next_tag: 'New versions'
     filters: 'Filtering the tasks'
     finished:
-        hide: 'Hide finished tasks (%number%)'
-        show: 'Show finished tasks (%number%)'
+        hide: 'Hide finished tasks ({number})'
+        show: 'Show finished tasks ({number})'
     info:
         change_order: 'Change order'
         empty: 'No tasks for this document'
-        locked: 'Revision locked by %user% until %time%'
+        locked: 'Revision locked by {user} until {time}'
     mail:
         assignee: Assignee
-        by_role: 'by role %role%'
+        by_role: 'by role {role}'
         comment: Comment
         creator: Creator
         deadline: Deadline
         description: Description
-        from: 'From %sender%'
-        greetings: 'Hello %receiver%,'
+        from: 'From {sender}'
+        greetings: 'Hello {receiver},'
         kind_regards: 'Kind regards,'
         link_to_document: 'Link to document'
         overdue_or_active_list: 'Here is the list of overdue or active tasks.'
         process_urgently: 'Please process them urgently.'
-        task_has_been: 'A task has been %action% %role%.'
+        task_has_been: 'A task has been {action} {role}.'
         title: Title
     modal:
-        title: 'Task: %title%'
+        title: 'Task: {title}'
     planned:
         title: 'Planned tasks'
     title: Tasks
@@ -344,7 +344,7 @@ task:
         tab:
             history: History
             info: Information
-        title: 'Edit task : %title%'
+        title: 'Edit task : {title}'
 user:
     add:
         button: 'Add user'
@@ -354,15 +354,15 @@ user:
         title: 'Add user'
     administration: 'User administration'
     edit:
-        card_title: 'Edit %username%'
-        title: 'Edit %display_name%'
+        card_title: 'Edit {username}'
+        title: 'Edit {display_name}'
     export:
         csv: 'CSV export'
         excel: 'Excel export'
 view:
     contenttype:
         reorder_item:
-            edit_field_button: 'Edit %name%'
+            edit_field_button: 'Edit {name}'
     custom:
         hierarchical:
             reorganise: 'Reorganise:'
@@ -376,8 +376,8 @@ view:
             release: 'fa fa-cube'
     macros:
         data-field-type:
-            collection_added_items: '{0} Nothing has been added.|{1} One item has been added.|]1,Inf[ %count% items have been added.'
-            collection_removed_items: '{0} Nothing has been removed.|{1} One item has been removed.|]1,Inf[ %count% item have been removed.'
+            collection_added_items: '{0} Nothing has been added.|{1} One item has been added.|]1,Inf[ {count} items have been added.'
+            collection_removed_items: '{0} Nothing has been removed.|{1} One item has been removed.|]1,Inf[ {count} item have been removed.'
             menu-option-button: View
     user:
         index:
@@ -389,10 +389,10 @@ views:
     elements:
         object-views-button:
             action-dropdown-icon-class: 'fa fa-eye'
-            action-dropdown-label: 'Actions in %environment%'
-            action-dropdown-sr-only: "Toggle dropdown of %environment%'s actions"
+            action-dropdown-label: 'Actions in {environment}'
+            action-dropdown-sr-only: "Toggle dropdown of {environment}'s actions"
             copy-data: 'Copy data'
             copy-data-icon-class: 'fa fa-copy'
-            published-label: 'Published in %environment%'
+            published-label: 'Published in {environment}'
             raw-view: 'Raw view'
             raw-view-icon-class: 'fa fa-th'

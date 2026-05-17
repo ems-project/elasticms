@@ -120,6 +120,7 @@ final class UserType extends AbstractType
                 'expanded' => true,
                 'multiple' => true,
                 'mapped' => true,
+                'choice_translation_domain' => EMSCoreBundle::TRANS_ROLES_DOMAIN,
             ])
             ->add('locale', ChoiceType::class, [
                 'label' => 'user.locale',

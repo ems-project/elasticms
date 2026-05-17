@@ -19,6 +19,7 @@ class EMSCoreBundle extends AbstractBundle
     final public const string TRANS_COMPONENT = 'emsco-component';
     final public const string TRANS_CORE = 'emsco-core';
     final public const string TRANS_FORM_DOMAIN = 'emsco-forms';
+    final public const string TRANS_ROLES_DOMAIN = 'emsco-roles';
     final public const string TRANS_TWIG_DOMAIN = 'emsco-twigs';
     final public const string TRANS_DOMAIN_VALIDATORS = 'emsco_validators';
     final public const string TRANS_USER_DOMAIN = 'emsco-user';

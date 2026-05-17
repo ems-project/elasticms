@@ -368,6 +368,12 @@ sidebar-menu:
     admin: Admin
     compare-environments: 'Comparer les environnements'
     content-types: 'Types de contenu'
+    content_type:
+        create: 'Nouveau {name}'
+        draft_in_progress: 'Brouillon en cours'
+        search: 'Rechercher dans {plural}'
+        search_in_my_circle: 'Dans mon {name}'
+        trash: Corbeille
     create-job: 'Nouveau job'
     dashboards: Dashboards
     documentation: Documentation

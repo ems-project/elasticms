@@ -1,6 +1,7 @@
 'use strict'
 
 const SIDEBAR_COLLAPSED_STORAGE_KEY = 'ems.sidebar.collapsed'
+const SIDEBAR_TEMPORARY_OPEN_CLASS = 'sidebar-temporary-open'
 
 export default class Sidebar {
     constructor() {
@@ -18,14 +19,54 @@ export default class Sidebar {
 
         const isCollapsed = document.documentElement.classList.contains('sidebar-collapsed')
         sidebar.classList.toggle('collapsed', isCollapsed)
+        this.initTemporaryAccess(sidebar, toggle.getAttribute('aria-label') ?? 'Sidebar menu')
 
         toggle.addEventListener('click', (event) => {
             event.preventDefault()
             event.stopPropagation()
+            this.closeTemporarySidebar()
             const collapsed = sidebar.classList.toggle('collapsed')
             document.documentElement.classList.toggle('sidebar-collapsed', collapsed)
             this.saveCollapsedState(collapsed)
         })
+    }
+
+    initTemporaryAccess(sidebar, label) {
+        const trigger = document.createElement('button')
+        trigger.type = 'button'
+        trigger.className = 'sidebar-temporary-toggle'
+        trigger.setAttribute('aria-label', label)
+
+        const backdrop = document.createElement('button')
+        backdrop.type = 'button'
+        backdrop.className = 'sidebar-temporary-backdrop'
+        backdrop.setAttribute('aria-label', label)
+
+        document.body.append(trigger, backdrop)
+
+        trigger.addEventListener('click', () => {
+            this.openTemporarySidebar(sidebar)
+        })
+        backdrop.addEventListener('click', () => {
+            this.closeTemporarySidebar()
+        })
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                this.closeTemporarySidebar()
+            }
+        })
+    }
+
+    openTemporarySidebar(sidebar) {
+        if (!sidebar.classList.contains('collapsed')) {
+            return
+        }
+
+        document.documentElement.classList.add(SIDEBAR_TEMPORARY_OPEN_CLASS)
+    }
+
+    closeTemporarySidebar() {
+        document.documentElement.classList.remove(SIDEBAR_TEMPORARY_OPEN_CLASS)
     }
 
     saveCollapsedState(collapsed) {

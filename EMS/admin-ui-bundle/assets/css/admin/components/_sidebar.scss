@@ -4,6 +4,16 @@
   transition: $sidebar-transition;
   direction: ltr;
   background: $sidebar-bg;
+
+  html.sidebar-temporary-open & {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: $zindex-modal + 1;
+    margin-left: 0;
+    box-shadow: 0 0.5rem 2rem rgba($black, 0.35);
+  }
 }
 
 .sidebar-content {
@@ -128,6 +138,10 @@ a.sidebar-link {
     margin-left: -$sidebar-width;
   }
 
+  html.sidebar-temporary-open & {
+    margin-left: 0;
+  }
+
   // Workaround for IE bug, more info:
   // https://stackoverflow.com/a/25850649
   @media (min-width: 1px) and (max-width: #{map-get($grid-breakpoints, 'lg') - .02px}) {
@@ -143,11 +157,58 @@ a.sidebar-link {
     html.sidebar-collapsed & {
       margin-left: 0;
     }
+
+    html.sidebar-temporary-open & {
+      margin-left: 0;
+    }
   }
 }
 
 .sidebar-toggle {
   margin-right: $spacer;
+}
+
+html.sidebar-temporary-open body {
+  overflow: hidden;
+}
+
+.sidebar-temporary-toggle {
+  position: fixed;
+  top: 50%;
+  left: 0;
+  z-index: $zindex-fixed;
+  display: none;
+  width: 10px;
+  height: 64px;
+  padding: 0;
+  border: 0;
+  border-radius: 0 4px 4px 0;
+  background: $primary;
+  transform: translateY(-50%);
+
+  @media (min-width: #{map-get($grid-breakpoints, 'lg')}) {
+    html.sidebar-collapsed & {
+      display: block;
+    }
+  }
+
+  html.sidebar-temporary-open & {
+    display: none;
+  }
+}
+
+.sidebar-temporary-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: $zindex-modal;
+  display: none;
+  padding: 0;
+  border: 0;
+  background: rgba($black, .5);
+
+  html.sidebar-temporary-open & {
+    display: block;
+  }
 }
 
 // Sidebar header

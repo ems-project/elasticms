@@ -8,6 +8,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="title" content="{{ block('title') }}" />
         <meta name="author" content="https://github.com/ems-project" />
+        <script>
+            try {
+                if (localStorage.getItem('ems.sidebar.collapsed') === '1') {
+                    document.documentElement.classList.add('sidebar-collapsed')
+                }
+            } catch (e) {}
+        </script>
         {%- if vite.isDevServerRunning is same as(false) -%}
             <link rel="stylesheet" href="{{ asset('src/app.js.css', 'emsadminui') }}">
         {%- endif -%}

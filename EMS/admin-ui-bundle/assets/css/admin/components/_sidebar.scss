@@ -124,6 +124,10 @@ a.sidebar-link {
     margin-left: -$sidebar-width;
   }
 
+  html.sidebar-collapsed & {
+    margin-left: -$sidebar-width;
+  }
+
   // Workaround for IE bug, more info:
   // https://stackoverflow.com/a/25850649
   @media (min-width: 1px) and (max-width: #{map-get($grid-breakpoints, 'lg') - .02px}) {
@@ -133,6 +137,10 @@ a.sidebar-link {
 
     // Sidebar collapsed state (on mobile)
     &.collapsed {
+      margin-left: 0;
+    }
+
+    html.sidebar-collapsed & {
       margin-left: 0;
     }
   }

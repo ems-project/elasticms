@@ -1,5 +1,7 @@
 'use strict'
 
+const SIDEBAR_COLLAPSED_STORAGE_KEY = 'ems.sidebar.collapsed'
+
 export default class Sidebar {
     constructor() {
         this.activateMenu()
@@ -14,10 +16,24 @@ export default class Sidebar {
             return
         }
 
+        const isCollapsed = document.documentElement.classList.contains('sidebar-collapsed')
+        sidebar.classList.toggle('collapsed', isCollapsed)
+
         toggle.addEventListener('click', (event) => {
             event.preventDefault()
-            sidebar.classList.toggle('collapsed')
+            event.stopPropagation()
+            const collapsed = sidebar.classList.toggle('collapsed')
+            document.documentElement.classList.toggle('sidebar-collapsed', collapsed)
+            this.saveCollapsedState(collapsed)
         })
+    }
+
+    saveCollapsedState(collapsed) {
+        try {
+            localStorage.setItem(SIDEBAR_COLLAPSED_STORAGE_KEY, collapsed ? '1' : '0')
+        } catch {
+            return
+        }
     }
 
     activateMenu() {

@@ -47,7 +47,7 @@
     {% endset %}
     {% set roles %}
         {% for role in user.userRoles|default([]) -%}
-            <span class="badge bg-primary text-nowrap">{{- role|trans({}, 'EMSCoreBundle') -}}</span>
+            <span class="badge bg-primary text-nowrap">{{- role|trans({}, 'emsco-forms') -}}</span>
         {%- endfor %}
     {% endset %}
 

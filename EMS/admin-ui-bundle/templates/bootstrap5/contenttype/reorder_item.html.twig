@@ -1,4 +1,4 @@
-{% trans_default_domain 'EMSCoreBundle' %}
+{% trans_default_domain 'ems-adminui-twigs' %}
 {% for child in parent.children|filter(child => not child.deleted) %}
     <li id="{{ child.id }}" data-id="{{ child.id }}">
         <div class="card-header">

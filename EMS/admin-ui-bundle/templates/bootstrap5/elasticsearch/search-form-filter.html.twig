@@ -119,7 +119,7 @@
                             {% endif %}
                             {{ include('@EMSAdminUI/bootstrap5/elements/post-button.html.twig', {
                                 url: path('elasticsearch.search.delete', {id: searchId, search: app.request.query}),
-                                message: 'button.confirm'|trans({}, 'EMSCoreBundle'),
+                                message: 'button.confirm'|trans({}, 'ems-adminui-twigs'),
                                 label: 'action.delete'|trans({}, 'emsco-core'),
                                 icon: 'trash',
                                 class: 'btn',

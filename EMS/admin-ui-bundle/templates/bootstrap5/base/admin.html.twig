@@ -71,7 +71,8 @@
                 <div class="container-fluid p-0">
                     <div class="row mb-3">
                         <div class="col-sm-6">
-                            <h1 class="h3 mb-0">{% block pagetitle %}<strong>{{ block('title') }}</strong>{% endblock %}{% block subtitle %}{% if subTitle is defined %} <small>{{ subTitle|trans }}</small>{% endif %}{% endblock %}</h1>
+                            <h1 class="h3 mb-0">{% block pagetitle %}<strong>{{ block('title') }}</strong>{% endblock %}</h1>
+                            {% block subtitle %}{% if subTitle is defined %} <small>{{ subTitle|trans }}</small>{% endif %}{% endblock %}
                         </div>
                         <div class="col-sm-6">
                             {{ block('breadcrumb') }}

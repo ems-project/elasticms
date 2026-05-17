@@ -13,7 +13,7 @@
     {% elseif maxrev[0] == release.environmentSource.id %}
         {{ 'revision.finalized_by'|trans({'%date%': maxrev[2]|date(date_time_format), '%user%': maxrev[3]}) }}
     {% else %}
-        {{ 'no revision in %env%'|trans({'%env%': release.environmentSource.name}) }}
+        {{ 'revision.missing'|trans({'%env%': release.environmentSource.name}) }}
     {% endif %}
 {% endblock minrevid %}
 
@@ -42,7 +42,7 @@
     {% elseif minrev[0] == release.environmentTarget.id %}
         {{ 'revision.finalized_by'|trans({'%date%': minrev[2]|date(date_time_format), '%user%': minrev[3]}) }}
     {% else %}
-        {{ 'no revision in %env%'|trans({'%env%': release.environmentTarget.name}) }}
+        {{ 'revision.missing'|trans({'%env%': release.environmentTarget.name}) }}
     {% endif %}
 {% endblock maxrevid %}
 
@@ -70,7 +70,7 @@
     {% elseif minrev[0] == release.environmentTarget.id %}
         {{ 'revision.finalized_by'|trans({'%date%': minrev[2]|date(date_time_format), '%user%': minrev[3]}) }}
     {% else %}
-         {{ 'no revision in %env%'|trans({'%env%': release.environmentTarget.name}) }}
+         {{ 'revision.missing'|trans({'%env%': release.environmentTarget.name}) }}
     {% endif %}
     {% if minrev[0] == release.environmentSource.id %}
         {{ 'replace by revision %date%'|trans({'%date%': minrev[2]|date(date_time_format)}) }}

@@ -250,10 +250,10 @@ release:
         view:
             title: "Release's documents"
     unpublish_in: 'Unpublish in {env}'
-'replace by revision %date%': 'replace by revision %date%'
 revision:
     finalized_by: '{date} Finalized by {user}'
     missing: 'no revision in {env}'
+    replace_by_revision: 'replaced by revision {date}'
 search_options:
     aggregate:
         add: 'Add an Aggregate Option'

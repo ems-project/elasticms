@@ -73,8 +73,8 @@
          {{ 'revision.missing'|trans({'%env%': release.environmentTarget.name}) }}
     {% endif %}
     {% if minrev[0] == release.environmentSource.id %}
-        {{ 'replace by revision %date%'|trans({'%date%': minrev[2]|date(date_time_format)}) }}
+        {{ 'revision.replace_by_revision'|trans({'%date%': minrev[2]|date(date_time_format)}) }}
     {% elseif maxrev[0] == release.environmentSource.id %}
-        {{ 'replace by revision %date%'|trans({'%date%': maxrev[2]|date(date_time_format)}) }}
+        {{ 'revision.replace_by_revision'|trans({'%date%': maxrev[2]|date(date_time_format)}) }}
     {% endif %}
 {% endblock maxrevidstatus %}

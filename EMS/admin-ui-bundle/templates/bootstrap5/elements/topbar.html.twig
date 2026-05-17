@@ -51,7 +51,7 @@
 
                                 <small class="d-block">
                                     {% for role in app.user.roles %}
-                                        {{ role|trans({}, 'emsco-forms') }}{% if not loop.last %},{% endif %}
+                                        {{ role|trans({}, 'emsco-roles') }}{% if not loop.last %},{% endif %}
                                     {% endfor %}
                                 </small>
                             </p>

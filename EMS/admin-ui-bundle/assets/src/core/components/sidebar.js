@@ -36,6 +36,7 @@ export default class Sidebar {
         trigger.type = 'button'
         trigger.className = 'sidebar-temporary-toggle'
         trigger.setAttribute('aria-label', label)
+        this.applyThemeColor(trigger)
 
         const backdrop = document.createElement('button')
         backdrop.type = 'button'
@@ -55,6 +56,14 @@ export default class Sidebar {
                 this.closeTemporarySidebar()
             }
         })
+    }
+
+    applyThemeColor(element) {
+        const themeColor = document.body.getAttribute('data-theme-color')
+
+        if (themeColor) {
+            element.classList.add(`bg-${themeColor}`)
+        }
     }
 
     openTemporarySidebar(sidebar) {

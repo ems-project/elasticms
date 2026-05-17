@@ -18,6 +18,7 @@
 
 {% set body_attr = {
     class: 'hold-transition sidebar-mini sidebar-mini-md layout-fixed layout-navbar-fixed',
+    'data-theme-color': theme_color,
     'data-hash-algo': ems_hash_algo,
     'data-status-url': path('elasticsearch.status', {_format: 'json'}),
     'data-search-api': path('elasticsearch.api.search'),

@@ -183,7 +183,7 @@ html.sidebar-temporary-open body {
   padding: 0;
   border: 0;
   border-radius: 0 4px 4px 0;
-  background: $primary;
+  background-color: $primary;
   transform: translateY(-50%);
 
   @media (min-width: #{map-get($grid-breakpoints, 'lg')}) {

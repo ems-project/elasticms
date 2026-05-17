@@ -242,6 +242,13 @@ release:
     index:
         title: 'List of Releases'
     menu: Releases
+    release-revision:
+        missing-revision: 'The document "{label}" is no more available in {environment}'
+        no_more_in_target: 'This revision has been unpublished from {target}'
+        not-applicable: 'not applicable'
+        revision: '%date% finalized by {user}'
+        revision-not-applicable: 'Not applicable'
+        still_in_target: 'Still released in {target}'
     revision:
         index:
             publish: 'List of documents available for publication'
@@ -254,6 +261,22 @@ revision:
     finalized_by: '{date} Finalized by {user}'
     missing: 'no revision in {env}'
     replace_by_revision: 'replaced by revision {date}'
+search:
+    filter:
+        add: Add
+        boolean_clause: 'Boolean clause'
+        boost: Boost
+        field: Field
+        operator: Operator
+        pattern: Pattern
+    form: Form
+    query: Query
+    set_default:
+        confirm: 'Do you confirm ?'
+        label: 'Set as default search'
+    set_default_content_type:
+        confirm: 'Do you confirm ?'
+        label: 'Default search for {content_type}'
 search_options:
     aggregate:
         add: 'Add an Aggregate Option'
@@ -338,6 +361,7 @@ task:
         title: 'Task: {title}'
     planned:
         title: 'Planned tasks'
+    tab_tasks: Tasks
     title: Tasks
     update:
         submit: 'Save task'
@@ -384,9 +408,54 @@ view:
             title: 'User list'
 views:
     data:
+        edit-revision-html:
+            cancel-label: 'Discard non-saved modifications'
+            discard-draft-label: 'Delete this draft'
+            discard-draft-message: 'Modifications made in this draft will be lost'
+            new-draft-title: '{content-type}: new draft'
+            subtitle: 'Working area'
+            title: 'Edit the {content-type}: {revision} '
         revisions-data-html:
+            all-linked-documents: 'All linked documents'
+            audit: Audit
+            by: By
+            current-revision: 'Current revision'
+            current-version: 'Current version'
+            draft-in-progress: 'Draft in progress'
+            finalized-by: 'Finalized by'
+            finalized-on: 'Finalized on'
+            last-update: 'Last update'
+            linked-documents-in: 'Linked documents in {environment} ({length}/{total})'
+            modified-by: 'Modified by'
+            new-version: 'New version'
+            no-linked-document: 'This document does not have any linked document'
+            nothing: Nothing
+            'on': on
+            pending: Pending
+            previous-revision: 'Previous revision'
+            revision: Revision
+            revision-current: 'You are viewing the last revision'
+            revision-draft-in-progress: 'This is a draft in progress'
+            revision-previous: 'This is a revision from the past'
             revisions: Revisions
+            revisions.th.actions: Actions
+            revisions.th.autosave: Autosave
+            revisions.th.date: Date
+            revisions.th.environments: Environments
+            revisions.th.finalize: Finalize
+            revisions.th.id: '#'
+            revisions.th.locked: Locked
+            revisions.th.pendings: Pendings
+            status: Status
+            title: 'Revisions of %content-type%: %title%'
+            until: Until
+            version: Version
     elements:
+        object-toolbar-html:
+            edit-draft: 'Edit draft'
+            new-draft: Edit
+            view-current-revision: 'View current revision'
+            view-draft-in-progress: 'View draft in progress'
         object-views-button:
             action-dropdown-icon-class: 'fa fa-eye'
             action-dropdown-label: 'Actions in {environment}'
@@ -396,3 +465,25 @@ views:
             published-label: 'Published in {environment}'
             raw-view: 'Raw view'
             raw-view-icon-class: 'fa fa-th'
+        revision-toolbar-html:
+            add-to-release: 'Add to release'
+            cancel-label: Cancel
+            cancel-last-updates-label: 'Cancel non-saved modifications'
+            cancel-last-updates-message: 'Cancel non-saved modifications'
+            cancel-message: 'Cancel last modifications ?'
+            compare-label: 'Compare this revision with the current one'
+            discard-draft-label: 'Delete this draft'
+            discard-draft-message: 'Modification made in this draft will be lost'
+            edit-draft-label: 'Edit draft'
+            edit-revision-json: 'JSON raw edit'
+            edit-revision-label: 'Edit revision'
+            finalize-draft-label: 'Save and publish in %environment%'
+            finalize-draft-message: 'Confirm save and publish ?'
+            new-draft-label: Edit
+            other-environment-actions: 'Other environment actions'
+            other-revision-actions: 'Other actions on this revision'
+            publish-to-label: 'Publish to'
+            re-index-label: Re-index
+            revert-revision-label: 'Revert to this revision'
+            unpublish-from-label: 'Unpublish from'
+            view-label: 'View this revision'

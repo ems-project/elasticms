@@ -50,7 +50,7 @@
 
 <ul class="sidebar-nav">
     {% for item in menu|default([])|filter(p => p.hasChildren) %}
-        <li class="sidebar-header">{{ item.title|trans(item.transParameters, 'emsco-twigs') }}</li>
+        <li class="sidebar-header">{{ item.title|trans(item.transParameters, 'ems-adminui-twigs') }}</li>
         {% for menu in item.children %}
             {{ block('sidebarMenu', '@EMSAdminUI/bootstrap5/elements/menu.html.twig') }}
         {% endfor %}

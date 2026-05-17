@@ -368,6 +368,12 @@ sidebar-menu:
     admin: Admin
     compare-environments: 'Compare environments'
     content-types: 'Content types'
+    content_type:
+        create: 'New {name}'
+        draft_in_progress: 'Draft in progress'
+        search: 'Search in {plural}'
+        search_in_my_circle: 'In my {name}'
+        trash: Trash
     create-job: 'New job'
     dashboards: Dashboards
     documentation: Documentation

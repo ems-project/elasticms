@@ -61,9 +61,9 @@ color:
     gray: Gris
     green: Vert
     light-blue: 'Bleu clair'
-    lime: Citron vert
+    lime: 'Citron vert'
     maroon: Marron
-    navy: Bleu marine
+    navy: 'Bleu marine'
     olive: Olive
     orange: Orange
     purple: Violet
@@ -79,7 +79,7 @@ content-type:
         tasks_enabled:
             label: Activé
         tasks_helptexts:
-            label: Textes d’aide
+            label: 'Textes d’aide'
         tasks_titles:
             label: Titres
 core:
@@ -186,7 +186,7 @@ field:
     file:
         disposition: Disposition
         extension: Extension
-        mimetype: Type MIME
+        mimetype: 'Type MIME'
         name: 'Nom du fichier'
         orientation: Orientation
         paper_size: 'Format du papier'
@@ -228,7 +228,7 @@ field:
     search_config: 'Configuration de recherche'
     severity: Sévérité
     singular: Singulier
-    spreadsheet: Feuille de calcul
+    spreadsheet: 'Feuille de calcul'
     status: Statut
     table_default_css: 'Attribut class par défaut du tableau'
     tag: Tag
@@ -262,7 +262,7 @@ key:
     actions: Actions
     admin: Admin
     analyzers: Analyseurs
-    attachment: Pièce jointe
+    attachment: 'Pièce jointe'
     channels: Canaux
     ckeditor4: 'CK Editor 4'
     content_types: 'Types de contenu'
@@ -289,7 +289,7 @@ key:
     none: Aucun
     notice: Notice
     orphan_indexes: 'Indexes orphelins'
-    overview: Vue d’ensemble
+    overview: "Vue d'ensemble"
     portrait: Portrait
     prefix_instance_id: 'Préfixer l’alias avec l’ID de l’instance'
     public_channel: 'Rendre le canal disponible aux utilisateurs non authentifiés ?'

@@ -224,7 +224,7 @@ out-of-sync:
         please-reload: 'Veuillez recharger la page.'
         reload-page: 'Recharger la page'
         something-wrong: 'Un problème est survenu avec cette application.'
-        title: 'Désynchronisé'
+        title: Désynchronisé
 pick-a-release:
     title: 'Choisir une release pour « {label} »'
 publish:

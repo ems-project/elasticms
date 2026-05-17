@@ -11,8 +11,8 @@ edit_image:
         right: 'Tourner à droite'
     zoom:
         group: Zoom
-        minus: 'Zoomer'
-        plus: 'Dézoomer'
+        minus: Zoomer
+        plus: Dézoomer
         reset: 'Réinitialiser la vue'
 field_type:
     json_menu_editor:

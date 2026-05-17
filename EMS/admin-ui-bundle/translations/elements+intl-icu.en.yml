@@ -19,6 +19,8 @@ toats:
 topbar:
     control_sidebar:
         toggle: 'Toggle sidebar'
+    pushmenu:
+        label: 'Push menu'
     search:
         label: Search
         placeholder: Search

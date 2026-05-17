@@ -1,7 +1,7 @@
 {%- trans_default_domain 'elements' -%}
 
 <nav class="navbar navbar-expand bg-{{ theme_color }}" {{ theme_color_contrast == 'dark' ? 'data-bs-theme="dark"' }}>
-    <a class="sidebar-toggle js-sidebar-toggle">
+    <a href="#" class="sidebar-toggle js-sidebar-toggle" data-widget="pushmenu" role="button" aria-label="{{ 'topbar.pushmenu.label'|trans }}">
         <i class="hamburger align-self-center"></i>
     </a>
     <form class="d-none d-sm-inline-block" action="{{ path('ems_quick_search') }}" method="get">

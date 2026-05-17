@@ -1,0 +1,7 @@
+environment:
+    edit:
+        short_title: 'Omgeving bewerken'
+        title: 'Omgeving "{name}" bewerken'
+    index:
+        title: 'Omgevingen weergeven'
+    plural: Omgevingen

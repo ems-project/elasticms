@@ -57,15 +57,15 @@
                             </p>
                         </li>
                         <li class="pt-2">
-                            <a href="{{ path(routes.USER_PROFILE) }}" class="dropdown-item">{{ 'user.profile.title'|trans({}, 'emsco-user') }}</a>
+                            <a href="{{ path(routes.USER_PROFILE) }}" class="dropdown-item"><i class="fa fa-user"></i> {{ 'user.profile.title'|trans({}, 'emsco-user') }}</a>
                         </li>
                         {% if is_granted('IS_IMPERSONATOR') %}
                             <li>
-                                <a href="{{ path('emsco_user_index', {_switch_user: '_exit'}) }}" class="dropdown-item" data-testid="logout">{{ 'user.logout.exit'|trans({}, 'emsco-user') }}</a>
+                                <a href="{{ path('emsco_user_index', {_switch_user: '_exit'}) }}" class="dropdown-item" data-testid="logout"><i class="fa fa-sign-out" aria-hidden="true"></i> {{ 'user.logout.exit'|trans({}, 'emsco-user') }}</a>
                             </li>
                         {% else %}
                             <li>
-                                <a href="{{ path(routes.USER_LOGOUT) }}" class="dropdown-item" data-testid="logout">{{ 'user.logout.submit'|trans({}, 'emsco-user') }}</a>
+                                <a href="{{ path(routes.USER_LOGOUT) }}" class="dropdown-item" data-testid="logout"><i class="fa fa-sign-out" aria-hidden="true"></i> {{ 'user.logout.submit'|trans({}, 'emsco-user') }}</a>
                             </li>
                         {% endif %}
                     </ul>

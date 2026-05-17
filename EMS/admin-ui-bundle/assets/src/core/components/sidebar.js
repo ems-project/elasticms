@@ -3,6 +3,21 @@
 export default class Sidebar {
     constructor() {
         this.activateMenu()
+        this.initToggle()
+    }
+
+    initToggle() {
+        const sidebar = document.getElementById('sidebar')
+        const toggle = document.querySelector('.js-sidebar-toggle')
+
+        if (!sidebar || !toggle) {
+            return
+        }
+
+        toggle.addEventListener('click', (event) => {
+            event.preventDefault()
+            sidebar.classList.toggle('collapsed')
+        })
     }
 
     activateMenu() {

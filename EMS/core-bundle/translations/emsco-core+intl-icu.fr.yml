@@ -258,6 +258,9 @@ form:
             save: 'Créer un brouillon {content_type}'
     reorder:
         title: 'Réordonner les champs du formulaire : {label}'
+form_submissions:
+    overview: Aperçu
+    title: 'Soumissions de formulaires'
 key:
     actions: Actions
     admin: Admin
@@ -331,6 +334,8 @@ log:
         draft_not_found: 'Brouillon introuvable avec l’id « {revisionId} »'
         duplicate_environment: 'L’environnement « {name} » existe déjà !'
         index_not_found: 'Index « {index} » introuvable'
+notification-menu:
+    dashboards: 'Tableaux de bord'
 profile:
     title: 'Votre profil'
     title_sub: 'Tout à propos de vous'
@@ -359,6 +364,23 @@ search:
             =1    {1 document trouvé}
             other {# documents trouvés}
         }
+sidebar-menu:
+    admin: Admin
+    compare-environments: 'Comparer les environnements'
+    content-types: 'Types de contenu'
+    create-job: 'Nouveau job'
+    dashboards: Dashboards
+    documentation: Documentation
+    other: Autre
+    publishers: Publieurs
+    release-admin:
+        index-link: Releases
+    search: Recherche
+    uploaded-files: 'Fichiers uploadés'
+    user-management: 'Gestion des utilisateurs'
+    user:
+        name: '{name}'
+        searches: Recherches
 status:
     title: 'Statut des systèmes'
     title_sub: 'Est-ce que tout fonctionne comme prévu ?'

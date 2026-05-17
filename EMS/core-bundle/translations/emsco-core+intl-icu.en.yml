@@ -258,6 +258,9 @@ form:
             save: 'Create {content_type} draft'
     reorder:
         title: 'Reorder fields of form: {label}'
+form_submissions:
+    overview: Overview
+    title: 'Form Submissions'
 key:
     actions: Actions
     admin: Admin
@@ -331,6 +334,8 @@ log:
         draft_not_found: 'Draft not found with id "{revisionId}"'
         duplicate_environment: 'Environment "{name}" already exists!'
         index_not_found: 'Index "{index}" not found'
+notification-menu:
+    dashboards: Dashboards
 profile:
     title: 'Your profile'
     title_sub: 'All about you'
@@ -359,6 +364,23 @@ search:
             =1    {1 document found}
             other {# documents found}
         }
+sidebar-menu:
+    admin: Admin
+    compare-environments: 'Compare environments'
+    content-types: 'Content types'
+    create-job: 'New job'
+    dashboards: Dashboards
+    documentation: Documentation
+    other: Other
+    publishers: Publishers
+    release-admin:
+        index-link: Releases
+    search: Search
+    uploaded-files: 'Uploaded files'
+    user-management: 'User management'
+    user:
+        name: '{name}'
+        searches: Searches
 status:
     title: "Systems' status"
     title_sub: 'Is everything working as expected?'

@@ -540,7 +540,7 @@ class ContentTypeService implements EntityServiceInterface
 
     public function getContentTypeMenu(): Menu
     {
-        $menu = new Menu('views.elements.sidebar-menu-html.content-types');
+        $menu = new Menu(t('sidebar-menu.content-types', [], 'emsco-core'));
         $token = $this->tokenStorage->getToken();
         if (null === $token) {
             throw new \RuntimeException('Unexpected null token');

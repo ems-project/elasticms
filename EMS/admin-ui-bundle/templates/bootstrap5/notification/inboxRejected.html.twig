@@ -1,19 +1,19 @@
-{% trans_default_domain 'EMSCoreBundle' %}{% if rejectedNotifications|length <= 0 %}
-    <p>{{ 'No result for this filters combinaison'|trans }}: <a href="{{ path('notifications.inbox') }}">{{ 'reset filters' }}</a></p>
+{% trans_default_domain 'ems-adminui-twigs' %}{% if rejectedNotifications|length <= 0 %}
+    <p>{{ 'notification.no_result_for_filters'|trans }}: <a href="{{ path('notifications.inbox') }}">{{ 'notification.reset_filters'|trans }}</a></p>
 {% else %}
     <div class="table-responsive">
         <table class="table table-condensed table-striped">
             <tbody>
                 <tr>
                     <th class="" style="">
-                          Notification
+                          {{ 'notification.label'|trans }}
                     </th>
-                    <th>Rejected by</th>
-                    <th>On</th>
-                    <th>Environment</th>
-                    <th>Message</th>
-                    <th>Revision</th>
-                    <th>Actions</th>
+                    <th>{{ 'notification.rejected_by'|trans }}</th>
+                    <th>{{ 'notification.on'|trans }}</th>
+                    <th>{{ 'notification.environment'|trans }}</th>
+                    <th>{{ 'notification.message'|trans }}</th>
+                    <th>{{ 'notification.revision'|trans }}</th>
+                    <th>{{ 'notification.actions'|trans }}</th>
                 </tr>
             </tbody>
             {% for notification in rejectedNotifications %}
@@ -40,7 +40,7 @@
                           <div class="modal-dialog" role="document">
                             <div class="modal-content">
                               <div class="modal-header">
-                                <h4 class="modal-title" id="showRejectedMessageModal_{{ loop.index }}_Label">Rejected message</h4>
+                                <h4 class="modal-title" id="showRejectedMessageModal_{{ loop.index }}_Label">{{ 'notification.rejected_message'|trans }}</h4>
                                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'action.close'|trans({}, 'emsco-core') }}"></button>
                               </div>
                               <div class="modal-body">
@@ -49,7 +49,7 @@
                               <div class="modal-footer">
                                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">
                                     <i class="fa fa-close"></i>
-                                    Close
+                                    {{ 'action.close'|trans({}, 'emsco-core') }}
                                 </button>
                               </div>
                             </div>
@@ -65,9 +65,9 @@
                         <div class="btn-group">
                             {{ include('@EMSAdminUI/bootstrap5/elements/post-button.html.twig', {
                                 url: path('notification.acknowledge', {notification: notification.id}),
-                                label: 'Acknowledge',
+                                label: 'notification.acknowledge'|trans,
                                 icon: 'check',
-                                message: 'Do you confirm?',
+                                message: 'button.confirm'|trans,
                             }) }}
 
                             {{ include('@EMSAdminUI/bootstrap5/elements/object-views-button.html.twig', {

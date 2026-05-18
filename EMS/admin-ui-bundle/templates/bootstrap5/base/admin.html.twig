@@ -1,5 +1,5 @@
 {% extends '@EMSAdminUI/bootstrap5/base/html5.html.twig' %}
-{%- trans_default_domain 'base' -%}
+{%- trans_default_domain 'ems-adminui-twigs' -%}
 {% set wysiwygInfo = emsco_wysiwyg_info() %}
 
 {%- set type_filters = [] -%}
@@ -14,10 +14,11 @@
         {%- set type_filters = type_filters|merge([[contentType.singularName, contentType.name]]) -%}
     {%- endfor -%}
 {%- endif -%}
-{%- set type_filters = [['All content types'|trans, all_types]]|merge(type_filters) -%}
+{%- set type_filters = [['content_type.all'|trans, all_types]]|merge(type_filters) -%}
 
 {% set body_attr = {
     class: 'hold-transition sidebar-mini sidebar-mini-md layout-fixed layout-navbar-fixed',
+    'data-theme-color': theme_color,
     'data-hash-algo': ems_hash_algo,
     'data-status-url': path('elasticsearch.status', {_format: 'json'}),
     'data-search-api': path('elasticsearch.api.search'),
@@ -70,7 +71,8 @@
                 <div class="container-fluid p-0">
                     <div class="row mb-3">
                         <div class="col-sm-6">
-                            <h1 class="h3 mb-0">{% block pagetitle %}<strong>{{ block('title') }}</strong>{% endblock %}{% block subtitle %}{% if subTitle is defined %} <small>{{ subTitle|trans }}</small>{% endif %}{% endblock %}</h1>
+                            <h1 class="h3 mb-0">{% block pagetitle %}<strong>{{ block('title') }}</strong>{% endblock %}</h1>
+                            {% block subtitle %}{% if subTitle is defined %} <small>{{ subTitle|trans }}</small>{% endif %}{% endblock %}
                         </div>
                         <div class="col-sm-6">
                             {{ block('breadcrumb') }}

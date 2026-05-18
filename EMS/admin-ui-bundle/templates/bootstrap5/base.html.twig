@@ -1,4 +1,4 @@
-{%- trans_default_domain 'EMSCoreBundle' -%}
+{%- trans_default_domain 'ems-adminui-twigs' -%}
 <!DOCTYPE html>
 <html lang="{{ app.request.locale }}">
 <head>
@@ -30,7 +30,7 @@
     {%- endfor -%}
 {%- endif -%}
 
-{%- set type_filters = [['All content types'|trans, all_types]]|merge(type_filters) -%}
+{%- set type_filters = [['content_type.all'|trans, all_types]]|merge(type_filters) -%}
 
 <body class="hold-transition skin-{{ theme_color }} {% if app.user %}{% if app.user.layoutBoxed %}layout-boxed{% endif %}{% if app.user.sidebarCollapse %} sidebar-collapse{% endif %}{% if app.user.sidebarMini %} sidebar-mini{% endif %}{% endif %}"
       data-hash-algo="{{ ems_hash_algo|e('html_attr') }}"
@@ -61,7 +61,7 @@
     <nav class="navbar navbar-static-top" role="navigation">
       <!-- Sidebar toggle button-->
       <a href="#" class="sidebar-toggle" data-bs-toggle="push-menu" role="button" id="sidebar-toggle-button">
-        <span class="visually-hidden">Toggle navigation</span>
+        <span class="visually-hidden">{{ 'navigation.toggle'|trans }}</span>
       </a>
       <!-- Navbar Right Menu -->
       <div class="navbar-custom-menu">
@@ -101,8 +101,8 @@
                 }) }}
 
                 <p>
-                  {{ 'user.logged_in.title'|trans({'%username%': app.user.username}, 'emsco-user') }}
-                  <small>{{ 'user.logged_in.member_since'|trans({'%date%': app.user.created|date(date_time_format)}, 'emsco-user') }}</small>
+                  {{ 'user.logged_in.title'|trans({'%username%': app.user.username}, 'ems-adminui-user') }}
+                  <small>{{ 'user.logged_in.member_since'|trans({'%date%': app.user.created|date(date_time_format)}, 'ems-adminui-user') }}</small>
                   <small>
                       {% for role in app.user.roles %}
                           {{ role|trans }}{% if not loop.last %},{% endif %}
@@ -112,13 +112,13 @@
               </li>
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="{{ path(routes.USER_PROFILE) }}" class="btn btn-light btn-flat">{{ 'user.profile.title'|trans({}, 'emsco-user') }}</a>
+                  <a href="{{ path(routes.USER_PROFILE) }}" class="btn btn-light btn-flat">{{ 'user.profile.title'|trans({}, 'ems-adminui-user') }}</a>
                 </div>
                 <div class="float-end">
                        {% if is_granted('IS_IMPERSONATOR') %}
-                           <a href="{{ path('emsco_user_index', {_switch_user: '_exit'}) }}" class="btn btn-light btn-flat">{{ 'user.logout.exit'|trans({}, 'emsco-user') }}</a>
+                           <a href="{{ path('emsco_user_index', {_switch_user: '_exit'}) }}" class="btn btn-light btn-flat">{{ 'user.logout.exit'|trans({}, 'ems-adminui-user') }}</a>
                        {% else %}
-                           <a href="{{ path(routes.USER_LOGOUT) }}" class="btn btn-light btn-flat">{{ 'user.logout.submit'|trans({}, 'emsco-user') }}</a>
+                           <a href="{{ path(routes.USER_LOGOUT) }}" class="btn btn-light btn-flat">{{ 'user.logout.submit'|trans({}, 'ems-adminui-user') }}</a>
                        {% endif %}
                 </div>
               </li>
@@ -126,7 +126,7 @@
           </li>
           {% else %}
           <li>
-            <a href="{{ path(routes.USER_LOGIN) }}" ><span class="glyphicon glyphicon-lock"></span> {{ 'user.login.submit'|trans({}, 'emsco-user') }}</a>
+            <a href="{{ path(routes.USER_LOGIN) }}" ><span class="glyphicon glyphicon-lock"></span> {{ 'user.login.submit'|trans({}, 'ems-adminui-user') }}</a>
           </li>
           {% endif %}
         </ul>
@@ -161,14 +161,14 @@
             <div class="modal-content">
               <div class="modal-header">
                 <h4 class="modal-title" id="myModalNotifications">
-                            <strong>Notifications</strong>
+                            <strong>{{ 'notification.plural'|trans }}</strong>
                 </h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'action.close'|trans({}, 'emsco-core') }}"></button>
               </div>
               <div class="modal-body">
               </div>
               <div class="modal-footer">
-                  <button id="modal-notification-close-button" type="button" class="btn btn-primary"><i class="fa fa-close"></i> Close</button>
+                  <button id="modal-notification-close-button" type="button" class="btn btn-primary"><i class="fa fa-close"></i> {{ 'action.close'|trans({}, 'emsco-core') }}</button>
               </div>
             </div>
           </div>
@@ -187,7 +187,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 class="modal-title" id="waitingModalLabel">Loading information</h3>
+        <h3 class="modal-title" id="waitingModalLabel">{{ 'modal.loading_information'|trans }}</h3>
       </div>
       <div class="modal-body">
         <div class="progress progress-striped active" style="margin-bottom:0;"><div class="progress-bar" style="width: 100%"></div></div>

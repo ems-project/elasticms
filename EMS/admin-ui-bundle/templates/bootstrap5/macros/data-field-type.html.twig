@@ -1,4 +1,4 @@
-{% trans_default_domain 'EMSCoreBundle' %}
+{% trans_default_domain 'ems-adminui-twigs' %}
 
 {% macro renderDataField(dataField, source, compare, compareRawData, locale = null) %}
     {{ _self.renderDataFieldBlock(dataField, source, compare, compareRawData, '', [], locale) }}
@@ -156,67 +156,67 @@
                 <div class="btn-group">
                     <button type="button" class="btn btn-small btn-light asset-details" data-bs-toggle="modal" data-bs-target="#indexed-details-revision_{{ tempId }}">
                         <i class="fa fa-info"></i>
-                        {{ 'Info'|trans }}
+                        {{ 'field.asset.info'|trans }}
                     </button>
-                    <a href="{{ ems_asset_path(dataField.rawData, {_disposition: 'attachment'}) }}" class="btn btn-small btn-light"><i class="fa fa-download"></i>&nbsp;{{ 'Download'|trans }}</a>
+                    <a href="{{ ems_asset_path(dataField.rawData, {_disposition: 'attachment'}) }}" class="btn btn-small btn-light"><i class="fa fa-download"></i>&nbsp;{{ 'field.asset.download'|trans }}</a>
                     {# <a href="{{ path('ems.file.view', {'sha1':dataField.rawData.sha1, 'type':dataField.rawData.mimetype, 'name':dataField.rawData.filename }) }}" class="btn btn-small btn-light"><i class="fa fa-eye"></i>&nbsp;{{'View'|trans}}</a> #}
                 </div>
                 <div class="modal" tabindex="-1" role="dialog" id="indexed-details-revision_{{ tempId }}">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title" id="myModalLabel">{{ 'Asset details' }}</h4>
-                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                <h4 class="modal-title" id="myModalLabel">{{ 'field.asset.details'|trans }}</h4>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="{{ 'action.close'|trans({}, 'emsco-core') }}"><span aria-hidden="true">×</span></button>
                             </div>
                             <div class="modal-body raw-view">
                                 <ul class="list-group">
                                     <li class="list-group-item leaf-item">
-                                        <strong>{{ 'Hash signature'|trans }}</strong>
+                                        <strong>{{ 'field.asset.hash_signature'|trans }}</strong>
                                         {{ dataField.rawData.sha1 }}
                                     </li>
                                     {% if dataField.rawData._title is defined %}
                                         <li class="list-group-item leaf-item">
-                                            <strong>{{ 'Title : '|trans }}</strong>
+                                            <strong>{{ 'field.asset.title'|trans }}</strong>
                                             {{ dataField.rawData._title }}
                                         </li>
                                     {% endif %}
                                     {% if dataField.rawData.filesize is defined %}
                                         <li class="list-group-item leaf-item">
-                                            <strong>{{ 'Size : '|trans }}</strong>
+                                            <strong>{{ 'field.asset.size'|trans }}</strong>
                                             {{ dataField.rawData.filesize|number_format(0, ',', '.') }} bytes
                                         </li>
                                     {% endif %}
                                     <li class="list-group-item leaf-item">
-                                        <strong>{{ 'MIME Type : '|trans }}</strong>
+                                        <strong>{{ 'field.asset.mime_type'|trans }}</strong>
                                         {{ dataField.rawData.mimetype|default('') }}
                                     </li>
                                     {% if dataField.rawData._date is defined %}
                                         <li class="list-group-item leaf-item">
-                                            <strong>{{ 'Date : '|trans }}</strong>
+                                            <strong>{{ 'field.asset.date'|trans }}</strong>
                                             {{ dataField.rawData._date }}
                                         </li>
                                     {% endif %}
                                     {% if dataField.rawData._author is defined %}
                                         <li class="list-group-item leaf-item">
-                                            <strong>{{ 'Author : '|trans }}</strong>
+                                            <strong>{{ 'field.asset.author'|trans }}</strong>
                                             {{ dataField.rawData._author }}
                                         </li>
                                     {% endif %}
                                     {% if dataField.rawData._language is defined %}
                                         <li class="list-group-item leaf-item">
-                                            <strong>{{ 'Language : '|trans }}</strong>
+                                            <strong>{{ 'field.asset.language'|trans }}</strong>
                                             {{ dataField.rawData._language }}
                                         </li>
                                     {% endif %}
                                     {% if dataField.rawData._content is defined %}
                                         <li class="list-group-item leaf-item">
-                                            <strong>{{ 'Content : '|trans }}</strong><br>
+                                            <strong>{{ 'field.asset.content'|trans }}</strong><br>
                                             {{ dataField.rawData._content|nl2br }}
                                         </li>
                                     {% endif %}
                                 </ul>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ 'action.close'|trans({}, 'emsco-core') }}</button>
                                 </div>
                             </div>
                         </div>
@@ -246,8 +246,8 @@
                 {% if collapsible %}
                     <div class="float-end">
                         <div class="btn-group toggle-group" role="group">
-                            <button type="button" title="collapse" aria-expanded="false" class="btn btn-sm button-collapse"></button>
-                            <button type="button" title="collapse all" aria-expanded="false" class="btn btn-sm button-collapse-all"></button>
+                            <button type="button" title="{{ 'action.collapse'|trans({}, 'emsco-core') }}" aria-expanded="false" class="btn btn-sm button-collapse"></button>
+                            <button type="button" title="{{ 'action.collapse_all'|trans({}, 'emsco-core') }}" aria-expanded="false" class="btn btn-sm button-collapse-all"></button>
                         </div>
                     </div>
                     <div class="clearfix"></div>
@@ -280,7 +280,7 @@
                                 {% if collapsible %}
                                     <div class="float-end">
                                         <div class="btn-group" role="group">
-                                            <button type="button" title="collapse" aria-expanded="false" class="btn btn-sm button-collapse"></button>
+                                            <button type="button" title="{{ 'action.collapse'|trans({}, 'emsco-core') }}" aria-expanded="false" class="btn btn-sm button-collapse"></button>
                                         </div>
                                     </div>
                                     <div class="clearfix"></div>
@@ -1172,19 +1172,19 @@
 
                 {% if dateFrom %}
                     <li>
-                        <b>From </b>
+                        <b>{{ 'field.date_range.from'|trans }} </b>
                         {{ emsco_diff_date(dateFrom, compare, dataField.fieldType.mappingOptions.fromDateMachineName, child, dataField.fieldType.displayOptions.locale.parseFormat|default(dataField.fieldType.displayOptions.locale.format|emsco_convert_javascript_date_range_format), false, constant('DateTimeInterface::ATOM')) }}
                     </li>
                 {% endif %}
                 {% if dateTo %}
                     <li>
-                        <b>To </b>
+                        <b>{{ 'field.date_range.to'|trans }} </b>
                         {{ emsco_diff_date(dateTo, compare, dataField.fieldType.mappingOptions.toDateMachineName, child, dataField.fieldType.displayOptions.locale.parseFormat|default(dataField.fieldType.displayOptions.locale.format|emsco_convert_javascript_date_range_format), false, constant('DateTimeInterface::ATOM')) }}
                     </li>
                 {% endif %}
                 {% if dateFrom and dateTo %}
                     <li>
-                        <b>Duration </b>
+                        <b>{{ 'field.date_range.duration'|trans }} </b>
                         {% if compare %}
                             {% if attribute(child, dataField.fieldType.mappingOptions.fromDateMachineName) is defined and attribute(child, dataField.fieldType.mappingOptions.toDateMachineName) is defined %}
                                 {{ emsco_diff(dateFrom|emsco_date_difference(dateTo, dataField.fieldType.displayOptions.timePicker), attribute(child, dataField.fieldType.mappingOptions.fromDateMachineName)|emsco_date_difference(attribute(child, dataField.fieldType.mappingOptions.toDateMachineName), dataField.fieldType.displayOptions.timePicker), compare, true) }}

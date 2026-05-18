@@ -1,12 +1,7 @@
 {% extends '@EMSAdminUI/bootstrap5/user/profile/show.html.twig' %}
-{%- trans_default_domain 'user' -%}
+{%- trans_default_domain 'ems-adminui-user' -%}
 
 {% block title %}{{ 'user.profile.edit.title'|trans }}{% endblock title %}
-
-{% block breadcrumb %}
-    {% set breadcrumb = {(path('emsco_user_profile_edit')): 'user.profile.edit.breadcrumb_title'|trans}|merge(breadcrumb) %}
-    {{ parent() }}
-{% endblock breadcrumb %}
 
 {% block body %}
     {{ form_start(form, {action: path(routes.USER_PROFILE_EDIT)}) }}
@@ -36,7 +31,7 @@
                 </div>
                 <div class="card-footer">
                     {{ form_row(form._token) }}
-                    <input type="submit" value="Update" class="btn btn-primary"/>
+                    <input type="submit" value="{{ 'user.profile.edit.submit'|trans }}" class="btn btn-primary"/>
                     <a href="{{ path(routes.USER_PROFILE) }}" class="btn float-end btn-light">{{ 'user.profile.show.action.cancel'|trans }}</a>
                 </div>
             </div>

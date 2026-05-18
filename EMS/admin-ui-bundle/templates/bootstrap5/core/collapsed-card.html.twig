@@ -1,4 +1,4 @@
-{%- trans_default_domain 'elements' -%}
+{%- trans_default_domain 'ems-adminui-elements' -%}
 <div class="card collapsed-card">
     <div class="card-header">
         <h3 class="card-title">
@@ -6,7 +6,7 @@
             {% block title %}{% endblock title %}
         </h3>
         <div class="card-tools">
-            <button type="button" class="btn" data-card-widget="collapse" title="Collapse">
+            <button type="button" class="btn" data-card-widget="collapse" title="{{ 'action.collapse'|trans({}, 'emsco-core') }}">
                 <i class="fas fa-plus"></i>
             </button>
         </div>

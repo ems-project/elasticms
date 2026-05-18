@@ -1,6 +1,6 @@
-{% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}{% trans_default_domain 'EMSCoreBundle' %}
+{% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}{% trans_default_domain 'ems-adminui-twigs' %}
 
-{% block title %}Recursive view of the {{ object._source._contenttype }} : {{ object._id }}{% endblock %}
+{% block title %}{{ 'data.view.recursive.title'|trans({'%content_type%': object._source._contenttype, '%id%': object._id}) }}{% endblock %}
 {% block pagetitle %}
     <i class="{% if contentType and contentType.icon %}{{ contentType.icon }} {% else %} fa fa-question {% endif %} "></i>
     {{ object._source._contenttype|humanize }} :
@@ -11,7 +11,7 @@
     {% else %}
         {{ object._id }}
     {% endif %}
-    as indexed in
+    {{ 'data.view.recursive.as_indexed_in'|trans }}
     <span class="badge bg-{{ environment.color|raw }}">{{ environment.label }}</span>
 {% endblock %}
 
@@ -22,7 +22,7 @@
         <div class="col-12">
             <div class="card card-{{ theme_color }} card-outline card-outline-tabs">
                 <div class="card-header">
-                    <h3 class="card-title">Recursif view</h3>
+                    <h3 class="card-title">{{ 'data.view.recursive.card_title'|trans }}</h3>
                 </div>
                 <div class="card-body">
                     <pre class="ems-code-editor" data-language="ace/mode/json"

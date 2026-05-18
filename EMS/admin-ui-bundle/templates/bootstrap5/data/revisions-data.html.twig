@@ -1,4 +1,4 @@
-{% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}{% trans_default_domain 'emsco-twigs' %}
+{% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}{% trans_default_domain 'ems-adminui-twigs' %}
 
 {% import '@EMSAdminUI/bootstrap5/macros/data-field-type.html.twig' as macros %}
 
@@ -147,10 +147,10 @@
 
 {% block revisionTabAboutRevision %}
     {% if revision.giveContentType.versioning.tags|length > 0 %}
-        <strong><i class="fa fa-tags margin-r-5"></i> Version</strong>
+        <strong><i class="fa fa-tags margin-r-5"></i> {{ 'views.data.revisions-data-html.version'|trans }}</strong>
         <p class="text-muted">
             {% if newVersionTag is not null and newVersionTag != 'silent' %}
-                <span class="label label-success">New version {{ newVersionTag }}</span>
+                <span class="label label-success">{{ 'views.data.revisions-data-html.new-version'|trans({'%version%': newVersionTag}) }}</span>
             {% endif %}
             {{ revision.versionTag|default('') }}
         </p>
@@ -231,7 +231,7 @@
     <div class="card mb-4">
         <div class="card-body">
             {% if revision.giveContentType.versioning.tags|length > 0 and newVersionTag is not null and newVersionTag != 'silent' %}
-                <h3 class="card-title">New version <strong>{{ newVersionTag }}</strong></h3>
+                <h3 class="card-title">{{ 'views.data.revisions-data-html.new-version'|trans({'%version%': newVersionTag}) }}</h3>
             {% endif %}
             <h3 class="card-title">
                 {% if revision.draft %}
@@ -251,7 +251,7 @@
                 <div class="box-tools float-end">
                     <a href="{{ path('emsco_view_revisions', {type: latestVersion.contentTypeName, ouuid: latestVersion.ouuid}) }}" class="btn btn-light bg-{{ revision.contentType.color }} btn-sm">
                         <i class="{% if revision.contentType.icon %}{{ revision.contentType.icon }} {% else %} fa fa-question {% endif %}"></i>
-                        current version
+                        {{ 'views.data.revisions-data-html.current-version'|trans }}
                     </a>
                 </div>
             {% endif %}
@@ -264,9 +264,9 @@
 {% block revisionFooterTabs %}
     <ul class="nav nav-tabs" role="tablist">
         <li class="nav-item active"><a href="#tab_referrers" data-bs-target="#tab_referrers" data-bs-toggle="pill" class="nav-link active" role="tab" aria-controls="true">{{ 'views.data.revisions-data-html.linked-documents-in'|trans({'%environment%': revision.contentType.environment.label, '%length%': referrerResponse.documents|length, '%total%': referrerResponse.formattedTotal}) }}</a></li>
-        <li class="nav-item"><a href="#tab_revisions" data-bs-target="#tab_revisions" data-bs-toggle="pill" class="nav-link" role="tab" aria-controls="false">Revisions <small>{{ revisionsSummary|length }}/{{ counter }}</small></a></li>
+        <li class="nav-item"><a href="#tab_revisions" data-bs-target="#tab_revisions" data-bs-toggle="pill" class="nav-link" role="tab" aria-controls="false">{{ 'views.data.revisions-data-html.revisions'|trans }} <small>{{ revisionsSummary|length }}/{{ counter }}</small></a></li>
         {% if auditTable|default(false) %}
-            <li class="nav-item"><a href="#tab_audit" data-bs-target="#tab_audit" data-bs-toggle="pill" class="nav-link" role="tab" aria-controls="false">Audit <small>({{ auditCount }})</small></a></li>
+            <li class="nav-item"><a href="#tab_audit" data-bs-target="#tab_audit" data-bs-toggle="pill" class="nav-link" role="tab" aria-controls="false">{{ 'views.data.revisions-data-html.audit'|trans }} <small>({{ auditCount }})</small></a></li>
         {% endif %}
     </ul>
     <div class="tab-content">
@@ -333,23 +333,23 @@
                             <td>{{ rev.created|date|date(date_time_format) }}</td>
                             <td>
                                 {% if rev.finalizedBy %}
-                                    by {{ rev.finalizedBy|emsco_display_name }} <br>
+                                    {{ 'views.data.revisions-data-html.by'|trans({'%user%': rev.finalizedBy|emsco_display_name}) }} <br>
                                     {% if rev.finalizedDate %}
-                                        on {{ rev.finalizedDate|date(date_time_format) }}
+                                        {{ 'views.data.revisions-data-html.on'|trans({'%date%': rev.finalizedDate|date(date_time_format)}) }}
                                     {% endif %}
                                 {% endif %}
                             </td>
                             {% if emsco_is_super() %}
                                 <td>
                                     {% if rev.lockUntil and rev.lockUntil > date('now') %}
-                                        by {{ rev.lockBy }} <br>
-                                        until  {{ rev.lockUntil|date(date_time_format) }}
+                                        {{ 'views.data.revisions-data-html.by'|trans({'%user%': rev.lockBy}) }} <br>
+                                        {{ 'views.data.revisions-data-html.until'|trans({'%date%': rev.lockUntil|date(date_time_format)}) }}
                                     {% endif %}
                                 </td>
                                 <td>
                                     {% if rev.autoSave %}
-                                        by {{ rev.autoSaveBy|emsco_display_name }} <br>
-                                        on {{ rev.autoSaveAt|date(date_time_format) }}
+                                        {{ 'views.data.revisions-data-html.by'|trans({'%user%': rev.autoSaveBy|emsco_display_name}) }} <br>
+                                        {{ 'views.data.revisions-data-html.on'|trans({'%date%': rev.autoSaveAt|date(date_time_format)}) }}
                                     {% endif %}
                                 </td>
                             {% endif %}
@@ -358,7 +358,7 @@
                                     <span class="badge bg-{{ env.color|raw }}">{{ env.label }}</span>
                                 {% endfor %}
                                 {% if rev.draft %}
-                                    <span class="badge bg-red">Draft in progress</span>
+                                    <span class="badge bg-red">{{ 'views.data.revisions-data-html.draft-in-progress'|trans }}</span>
                                 {% endif %}
                             </td>
                             <td>

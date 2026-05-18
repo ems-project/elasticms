@@ -1,6 +1,10 @@
 user:
+    logged_in:
+        member_since: 'Member since {date}'
+        title: 'Logged in as {username}'
     login:
         alt_logo: "elasticMS's logo"
+        continue: 'Sign in to your account to continue'
         forgot: 'I forgot my password'
         message: 'Sign in to start your session'
         password1_aria_label: Password
@@ -10,6 +14,12 @@ user:
         title: Welcome
         user_aria_label: 'Email or Username'
         user_placeholder: 'Email or Username'
+        welcome_back: 'Welcome back!'
+    logout:
+        exit: Exit
+        submit: 'Sign out'
+    management:
+        title: 'User management'
     option:
         simplified_ui: 'Simplified UI'
     profile:
@@ -18,7 +28,7 @@ user:
             submit: 'Change password'
             title: 'Change password'
         edit:
-            breadcrumb_title: Edit
+            submit: Update
             title: 'Edit your profile'
         show:
             action:
@@ -31,3 +41,11 @@ user:
             locale_preferred: 'Locale preferred'
             username: Username
             wysiwyg: 'WYSIWYG profile'
+        title: 'Your profile'
+    resetting:
+        check_email: |
+            An email has been sent. It contains a link you must click to reset your password.
+            Note: You can only request a new password once within {tokenLifetime} hours.
+
+            If you don't get an email check your spam folder or try again.
+        title: 'Reset password'

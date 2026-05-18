@@ -1,5 +1,5 @@
 {% use 'bootstrap_5_layout.html.twig' %}
-{% trans_default_domain 'form' %}
+{% trans_default_domain 'ems-adminui-form' %}
 
 {# Widgets #}
 {%- block checkbox_widget -%}
@@ -330,7 +330,7 @@
         {%- endif -%}
         <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}</label>
         {% if form.vars.slug %}
-            &nbsp;<a href="http://www.elasticms.eu/en/doc/templates/{{ form.vars.slug }}" class="" target="_blank">more info</a>
+            &nbsp;<a href="http://www.elasticms.eu/en/doc/templates/{{ form.vars.slug }}" class="" target="_blank">{{ 'fields.template.more_info'|trans }}</a>
         {% endif %}
     {%- endif -%}
 {%- endblock code_editor_label -%}
@@ -595,7 +595,7 @@
         <div>
               <div class="btn-group">
                   {% if not form.vars.disabled %}
-                    <a href="#" class="btn btn-primary add-content-button  btn-sm"><i class="fa fa-plus"></i> {{ 'Add'|trans }}</a>
+                    <a href="#" class="btn btn-primary add-content-button  btn-sm"><i class="fa fa-plus"></i> {{ 'action.add'|trans({}, 'emsco-core') }}</a>
                 {% endif %}
             </div>
         </div>
@@ -612,8 +612,8 @@
             {% if collapsible %}
                 <div class="float-end">
                     <div class="btn-group toggle-group" role="group">
-                        <button type="button" title="collapse" aria-expanded="false" class="btn btn-sm button-collapse"></button>
-                        <button type="button" title="collapse all" aria-expanded="false" class="btn btn-sm button-collapse-all"></button>
+                        <button type="button" title="{{ 'action.collapse'|trans({}, 'emsco-core') }}" aria-expanded="false" class="btn btn-sm button-collapse"></button>
+                        <button type="button" title="{{ 'action.collapse_all'|trans({}, 'emsco-core') }}" aria-expanded="false" class="btn btn-sm button-collapse-all"></button>
                     </div>
                 </div>
                 <div class="clearfix"></div>
@@ -637,13 +637,13 @@
             {{ form_label(form) }}
               <div class="btn-group float-end">
                 <button type="button" class="btn btn-danger btn-sm remove-content-button">
-                    <span class="fa fa-trash"></span>&nbsp;Remove
+                    <span class="fa fa-trash"></span>&nbsp;{{ 'action.remove'|trans({}, 'emsco-core') }}
                 </button>
                 {% if collapsible %}
                     <div class="float-end">
                         <div class="btn-group toggle-group" role="group">
-                            <button type="button" title="collapse" aria-expanded="false" class="btn btn-sm button-collapse"></button>
-                            <button type="button" title="collapse all" aria-expanded="false" class="btn btn-sm button-collapse-all"></button>
+                            <button type="button" title="{{ 'action.collapse'|trans({}, 'emsco-core') }}" aria-expanded="false" class="btn btn-sm button-collapse"></button>
+                            <button type="button" title="{{ 'action.collapse_all'|trans({}, 'emsco-core') }}" aria-expanded="false" class="btn btn-sm button-collapse-all"></button>
                         </div>
                     </div>
                     <div class="clearfix"></div>
@@ -1145,12 +1145,12 @@
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel">{{ 'Asset options'|trans }}</h4>
+                <h4 class="modal-title" id="myModalLabel">{{ 'fields.file.asset_options'|trans }}</h4>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'action.close'|trans({}, 'emsco-core') }}"></button>
               </div>
               <div class="modal-body">
                   <div class="form-group">
-                      <label>{{ 'Hash signature'|trans }}</label>
+                      <label>{{ 'fields.file.hash_signature'|trans }}</label>
                       <div class="form-control asset-hash-signature">{% if form.vars.value.sha1 is defined %}{{ form.vars.value.sha1 }}{% endif %}</div>
                   </div>
                 {{- form_widget(form) -}}
@@ -1160,10 +1160,10 @@
                     {% if form.vars.meta_fields %}
                         <button type="button" class="btn btn-small btn-default extract-file-info" >
                             <i class="fa fa-bolt"></i>
-                            {{ 'Extract content'|trans }}
+                            {{ 'fields.file.extract_content'|trans }}
                         </button>
                     {% endif %}
-                    <button type="button" class="btn btn-small btn-default " data-bs-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+                    <button type="button" class="btn btn-small btn-default " data-bs-dismiss="modal"><i class="fa fa-close"></i> {{ 'action.close'|trans({}, 'emsco-core') }}</button>
                 </div>
               </div>
             </div>
@@ -1173,7 +1173,7 @@
       <div class="tab-content" id="asset-tabs-{{ form.vars.id }}">
         <div role="tabpanel" class="tab-pane {% if form.vars.value.sha1 is not defined or not form.vars.value.sha1 %}active{% endif %} asset-upload-tab" id="asset-upload-tab-{{ form.vars.id }}">
             <p class="text-center asset-preview">
-                <strong>{{ 'Drag and drop your file here' }}</strong>
+                <strong>{{ 'fields.file.drag_and_drop'|trans }}</strong>
             </p>
             <div class="progress-group">
                 <span class="progress-text">&nbsp;</span>
@@ -1190,7 +1190,7 @@
                     {% if form.vars.value.sha1 is defined and form.vars.value.sha1 %}
                         src="{{ path('ems_asset_processor', {hash: form.vars.value._image_resized_hash ?? form.vars.value.sha1, processor: 'preview', type: form.vars.value.mimetype, name: form.vars.value.filename}) }}"
                     {% endif %}
-                    class="img-responsive center-block" alt="Preview of the field {{ form_label(form)|striptags }}"
+                    class="img-responsive center-block" alt="{{ 'fields.file.preview_alt'|trans({'%field%': form_label(form)|striptags}) }}"
                 >
             </div>
         </div>
@@ -1198,7 +1198,7 @@
     </div>
     <div class="card-footer">
         <div class="btn-group">
-            <label for="upload-{{ form.vars.id }}" class="btn btn-default"><i class="fa fa-upload"></i> Upload file</label>
+            <label for="upload-{{ form.vars.id }}" class="btn btn-default"><i class="fa fa-upload"></i> {{ 'fields.file.upload'|trans }}</label>
             <input type="file" id="upload-{{ form.vars.id }}" class="file-uploader-input">
             <button type="button" data-href="{{ path('ems_core_uploaded_file_wysiwyg_modal') }}"  class="btn btn-small btn-default file-browse-server">
                 <i class="fa fa-folder-open"></i><span class="visually-hidden">{{ 'fields.asset.browse-server'|trans }}</span>
@@ -1207,10 +1207,10 @@
         <div class="btn-group">
             <button type="button" class="btn btn-small btn-default asset-details" data-bs-toggle="modal" data-bs-target="#asst-details-{{ form.vars.id }}">
               <i class="fa fa-info"></i>
-              {{ 'Info'|trans }}
+              {{ 'fields.file.info'|trans }}
             </button>
-            <a href="#" class="btn btn-small btn-default view-asset-button {% if not form.children.sha1.vars.value %}disabled{% endif %}" target="_blank" alt="{{ 'View'|trans }}"><i class="fa fa-eye"></i>&nbsp;{{ 'View'|trans }}</a>
-            <a href="#" class="btn btn-small btn-default clear-asset-button  {% if not form.children.sha1.vars.value %}disabled{% endif %}" alt="{{ 'Clear'|trans }}"><i class="fa fa-remove"></i>&nbsp;{{ 'Clear'|trans }}</a>
+            <a href="#" class="btn btn-small btn-default view-asset-button {% if not form.children.sha1.vars.value %}disabled{% endif %}" target="_blank" alt="{{ 'fields.file.view'|trans }}"><i class="fa fa-eye"></i>&nbsp;{{ 'fields.file.view'|trans }}</a>
+            <a href="#" class="btn btn-small btn-default clear-asset-button  {% if not form.children.sha1.vars.value %}disabled{% endif %}" alt="{{ 'fields.file.clear'|trans }}"><i class="fa fa-remove"></i>&nbsp;{{ 'fields.file.clear'|trans }}</a>
         </div>
     </div>
 </div>
@@ -1238,7 +1238,7 @@
                         <div class="modal-content">
                           <div class="modal-header">
                             <h4 class="modal-title" id="myModalLabel">
-                                Add a field to <strong>{{ form.vars.data.name }}</strong>
+                                {{ 'fields.modal.add_field_to'|trans({'%name%': form.vars.data.name})|raw }}
                             </h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'action.close'|trans({}, 'emsco-core') }}"></button>
                           </div>
@@ -1249,14 +1249,14 @@
                           <div class="modal-footer">
                             <div class="btn-group">
                                 {{ form_widget(form.add) }}
-                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal"><i class="fa fa-close"></i> {{ 'action.close'|trans({}, 'emsco-core') }}</button>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
                     <button type="button" class="btn btn-primary btn-xs" data-bs-toggle="modal" data-bs-target="#{{ form.vars.id }}_modal_add">
-                        <i class="fa fa-plus"></i> Field
+                        <i class="fa fa-plus"></i> {{ 'fields.field'|trans }}
                     </button>
                 {% endif %}
 
@@ -1266,7 +1266,7 @@
                         <div class="modal-content">
                           <div class="modal-header">
                             <h4 class="modal-title" id="myModalLabel">
-                                Add a subfield to <strong>{{ form.vars.data.name }}</strong>
+                                {{ 'fields.modal.add_subfield_to'|trans({'%name%': form.vars.data.name})|raw }}
                             </h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'action.close'|trans({}, 'emsco-core') }}"></button>
                           </div>
@@ -1276,7 +1276,7 @@
                           <div class="modal-footer">
                             <div class="btn-group">
                                 {{ form_widget(form.subfield) }}
-                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal"><i class="fa fa-close"></i> {{ 'action.close'|trans({}, 'emsco-core') }}</button>
                             </div>
                           </div>
                         </div>
@@ -1287,7 +1287,7 @@
                         <div class="modal-content">
                           <div class="modal-header">
                             <h4 class="modal-title" id="myModalLabel">
-                                Duplicate <strong>{{ form.vars.data.name }}</strong>
+                                {{ 'fields.modal.duplicate'|trans({'%name%': form.vars.data.name})|raw }}
                             </h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'action.close'|trans({}, 'emsco-core') }}"></button>
                           </div>
@@ -1297,7 +1297,7 @@
                           <div class="modal-footer">
                             <div class="btn-group">
                                 {{ form_widget(form.duplicate) }}
-                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal"><i class="fa fa-close"></i> {{ 'action.close'|trans({}, 'emsco-core') }}</button>
                             </div>
                           </div>
                         </div>
@@ -1305,7 +1305,7 @@
                     </div>
                     {% if form.vars.editSubfields %}
                         <button type="button" class="btn btn-primary btn-xs" data-bs-toggle="modal" data-bs-target="#{{ form.vars.id }}_modal_add">
-                            <i class="fa fa-plus"></i> Subfield
+                            <i class="fa fa-plus"></i> {{ 'fields.subfield'|trans }}
                         </button>
                         <button type="button" class="btn btn-primary btn-xs" data-bs-toggle="modal" data-bs-target="#{{ form.vars.id }}_duplicate">
                             <i class="fa fa-paste"></i> Duplicate
@@ -1330,23 +1330,23 @@
                                         <ul class="nav nav-tabs" role="tablist">
                                             {% set active = ' active' %}
                                             {% if form.options.displayOptions is defined %}
-                                                <li class="nav-item{{ active }}"><a href="#tab_display_{{ form.vars.id }}" data-bs-target="#tab_display_{{ form.vars.id }}" class="nav-link{% if active != '' %} active{% endif %}" data-bs-toggle="pill" aria-selected="{% if active != '' %}true{% else %}false{% endif %}">Display</a></li>
+                                                <li class="nav-item{{ active }}"><a href="#tab_display_{{ form.vars.id }}" data-bs-target="#tab_display_{{ form.vars.id }}" class="nav-link{% if active != '' %} active{% endif %}" data-bs-toggle="pill" aria-selected="{% if active != '' %}true{% else %}false{% endif %}">{{ 'fields.options.display'|trans }}</a></li>
                                                 {% set active = '' %}
                                             {% endif %}
                                             {% if form.options.mappingOptions is defined %}
-                                                <li class="nav-item{{ active }}"><a href="#tab_mapping_{{ form.vars.id }}" data-bs-target="#tab_mapping_{{ form.vars.id }}" class="nav-link{% if active != '' %} active{% endif %}" data-bs-toggle="pill" aria-selected="{% if active != '' %}true{% else %}false{% endif %}">Mapping</a></li>
+                                                <li class="nav-item{{ active }}"><a href="#tab_mapping_{{ form.vars.id }}" data-bs-target="#tab_mapping_{{ form.vars.id }}" class="nav-link{% if active != '' %} active{% endif %}" data-bs-toggle="pill" aria-selected="{% if active != '' %}true{% else %}false{% endif %}">{{ 'fields.options.mapping'|trans }}</a></li>
                                                 {% set active = '' %}
                                             {% endif %}
                                             {% if form.options.restrictionOptions is defined %}
-                                              <li class="nav-item{{ active }}"><a href="#tab_restriction_{{ form.vars.id }}" data-bs-target="#tab_restriction_{{ form.vars.id }}" class="nav-link{% if active != '' %} active{% endif %}" data-bs-toggle="pill" aria-selected="{% if active != '' %}true{% else %}false{% endif %}">Restriction</a></li>
+                                              <li class="nav-item{{ active }}"><a href="#tab_restriction_{{ form.vars.id }}" data-bs-target="#tab_restriction_{{ form.vars.id }}" class="nav-link{% if active != '' %} active{% endif %}" data-bs-toggle="pill" aria-selected="{% if active != '' %}true{% else %}false{% endif %}">{{ 'fields.options.restriction'|trans }}</a></li>
                                                 {% set active = '' %}
                                             {% endif %}
                                             {% if form.options.migrationOptions is defined %}
-                                              <li class="nav-item{{ active }}"><a href="#tab_migration_{{ form.vars.id }}" data-bs-target="#tab_migration_{{ form.vars.id }}" class="nav-link{% if active != '' %} active{% endif %}" data-bs-toggle="pill" aria-selected="{% if active != '' %}true{% else %}false{% endif %}">Migration</a></li>
+                                              <li class="nav-item{{ active }}"><a href="#tab_migration_{{ form.vars.id }}" data-bs-target="#tab_migration_{{ form.vars.id }}" class="nav-link{% if active != '' %} active{% endif %}" data-bs-toggle="pill" aria-selected="{% if active != '' %}true{% else %}false{% endif %}">{{ 'fields.options.migration'|trans }}</a></li>
                                                 {% set active = '' %}
                                             {% endif %}
                                             {% if form.options.extraOptions is defined %}
-                                              <li class="nav-item{{ active }}"><a href="#tab_extra_{{ form.vars.id }}" data-bs-target="#tab_extra_{{ form.vars.id }}" class="nav-link{% if active != '' %} active{% endif %}" data-bs-toggle="pill" aria-selected="{% if active != '' %}true{% else %}false{% endif %}">Extra</a></li>
+                                              <li class="nav-item{{ active }}"><a href="#tab_extra_{{ form.vars.id }}" data-bs-target="#tab_extra_{{ form.vars.id }}" class="nav-link{% if active != '' %} active{% endif %}" data-bs-toggle="pill" aria-selected="{% if active != '' %}true{% else %}false{% endif %}">{{ 'fields.options.extra'|trans }}</a></li>
                                                 {% set active = '' %}
                                             {% endif %}
                                         </ul>
@@ -1357,7 +1357,7 @@
                                 </div>
                           </div>
                           <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal"><i class="fa fa-close"></i> {{ 'action.close'|trans({}, 'emsco-core') }}</button>
                           </div>
                         </div>
                       </div>

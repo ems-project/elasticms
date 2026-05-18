@@ -1,0 +1,7 @@
+environment:
+    edit:
+        short_title: 'Edit environment'
+        title: 'Edit the environment "{name}"'
+    index:
+        title: 'List Environments'
+    plural: Environments

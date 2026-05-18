@@ -1,4 +1,4 @@
-{% trans_default_domain 'EMSCoreBundle' %}
+{% trans_default_domain 'ems-adminui-twigs' %}
 
 {% block render %}
     {%- set level = 0 -%}
@@ -242,20 +242,20 @@
 
 {% block modalSaveFooter %}
     <div class="float-end">
-        <button id="ajax-modal-submit" class="btn btn-sm btn-primary"><i class="fa fa-save"></i>&nbsp;Save</button>
-        <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal">Cancel</button>
+        <button id="ajax-modal-submit" class="btn btn-sm btn-primary"><i class="fa fa-save"></i>&nbsp;{{ 'json_menu_nested.action.save'|trans }}</button>
+        <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal">{{ 'json_menu_nested.action.cancel'|trans }}</button>
     </div>
 {% endblock %}
 
 {% block modalFooterClose %}
     <div class="pull-left">
-        <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal">{{ 'action.close'|trans({}, 'emsco-core') }}</button>
     </div>
 {% endblock %}
 
 {% block alertOutOfSync %}
     <div class="alert alert-warning" role="alert">
         <span>{{ 'view.data.json-menu-nested.out_of_sync'|trans }}</span>
-        <button class="btn btn-primary btn-sm float-end" onClick="window.location.reload();">Refresh</button>
+        <button class="btn btn-primary btn-sm float-end" onClick="window.location.reload();">{{ 'action.refresh'|trans({}, 'emsco-core') }}</button>
     </div>
 {% endblock %}

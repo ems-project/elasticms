@@ -1,4 +1,4 @@
-{% trans_default_domain 'EMSCoreBundle' %}
+{% trans_default_domain 'ems-adminui-twigs' %}
 
 {% block tasksTab %}
     <div id="revision-tasks-content">
@@ -26,8 +26,8 @@
                         <div id="revision-tasks-reorder">
                             {% if tasksPlanned|length > 1 %}<a id="btn-tasks-reorder" href="#">{{ 'task.info.change_order'|trans }}</a>{% endif %}
                             <button id="btn-tasks-reorder-save" class="btn btn-xs btn-primary" style="display: none;"
-                                    data-url="{{ path('emsco_task_ajax_reorder', {revisionOuuid: revision.ouuid}) }}">save</button>
-                            <button id="btn-tasks-reorder-cancel" class="btn btn-xs btn-light" style="display: none;">cancel</button>
+                                    data-url="{{ path('emsco_task_ajax_reorder', {revisionOuuid: revision.ouuid}) }}">{{ 'task.action.save'|trans }}</button>
+                            <button id="btn-tasks-reorder-cancel" class="btn btn-xs btn-light" style="display: none;">{{ 'task.action.cancel'|trans }}</button>
                         </div>
                     </div>
                     <ul id="revision-tasks-planned-list" class="list-group revision-tasks">
@@ -69,7 +69,7 @@
     {% set viewUrl = path('emsco_task_ajax_modal_task', {revisionOuuid: revision.ouuid, taskId: taskCurrent.id, fromRevision: true}) %}
     <div id="task-item-active">
         <div class="tasks-item-block">
-            <a href="#" class="tasks-item-view" data-url="{{ viewUrl }}" data-title="Task: {{ taskCurrent.title }}">
+            <a href="#" class="tasks-item-view" data-url="{{ viewUrl }}" data-title="{{ 'task.modal.title'|trans({'%title%': taskCurrent.title}) }}">
                 <div class="tasks-item-info">
                     <i class="task-icon {{ taskCurrent.statusIcon }}"></i>
                     <div>
@@ -129,7 +129,7 @@
     {% set viewUrl = path('emsco_task_ajax_modal_task', {revisionOuuid: revision.ouuid, taskId: task.id, fromRevision: true}) %}
     <li class="list-group-item tasks-item" data-id="{{ task.id }}">
         <div class="tasks-item-block">
-            <a href="#" class="tasks-item-view" data-url="{{ viewUrl }}" data-title="Task: {{ task.title }}">
+            <a href="#" class="tasks-item-view" data-url="{{ viewUrl }}" data-title="{{ 'task.modal.title'|trans({'%title%': task.title}) }}">
                 <div class="tasks-item-info">
                     <i class="task-icon {{ task.statusIcon }}"></i>
                     <div>
@@ -156,7 +156,7 @@
 {% block taskItemApproved %}
     {% set viewUrl = path('emsco_task_ajax_modal_task', {revisionOuuid: revision.ouuid, taskId: task.id, fromRevision: true}) %}
     <li class="list-group-item tasks-item-approved">
-        <a href="#" class="tasks-item-view" data-url="{{ viewUrl }}" data-title="Task: {{ task.title }}">
+        <a href="#" class="tasks-item-view" data-url="{{ viewUrl }}" data-title="{{ 'task.modal.title'|trans({'%title%': task.title}) }}">
             <div class="tasks-item-block">
                 <div class="tasks-item-info">
                     <i class="task-icon {{ task.statusIcon }}"></i>
@@ -201,7 +201,7 @@
 {% block modalCreateFooter %}
     <div class="pull-left">
         <button id="ajax-modal-submit" class="btn btn-sm btn-primary task-icon-create">{{ 'task.create.submit'|trans }}</button>
-        <button type="button" class="btn btn-sm btn-light task-icon-cancel" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-sm btn-light task-icon-cancel" data-bs-dismiss="modal">{{ 'task.action.cancel'|trans }}</button>
     </div>
 {% endblock %}
 
@@ -289,7 +289,7 @@
 {% block modalDeleteFooter %}
     <div class="pull-left">
         <button id="ajax-modal-submit" class="btn btn-sm btn-danger task-icon-delete">{{ 'task.delete.submit'|trans }}</button>
-        <button type="button" class="btn btn-sm btn-light task-icon-cancel" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-sm btn-light task-icon-cancel" data-bs-dismiss="modal">{{ 'task.action.cancel'|trans }}</button>
     </div>
 {% endblock %}
 

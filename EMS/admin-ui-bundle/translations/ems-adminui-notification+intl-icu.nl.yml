@@ -1,0 +1,11 @@
+notification:
+    dashboard:
+        title: Notificaties
+    filter:
+        title: Filters
+    folder:
+        inbox: Inbox
+        outbox: Outbox
+        title: Mappen
+    menu:
+        link_title: Notificaties

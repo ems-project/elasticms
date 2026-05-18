@@ -1,12 +1,8 @@
+control_sidebar:
+    title: 'Control sidebar'
 elements:
     user-image:
         anonymous: 'Anonymous user'
-side-menu:
-    quick-search:
-        label: Search
-        placeholder: Search
-    search:
-        btn: Search
 side_menu:
     anonymous-user: 'Anonymous User'
 sidebar:
@@ -23,11 +19,10 @@ toats:
 topbar:
     control_sidebar:
         toggle: 'Toggle sidebar'
-    fullscreen:
-        toggle: 'Toggle fullscreen'
     pushmenu:
         label: 'Push menu'
+    search:
+        label: Search
+        placeholder: Search
     search_form:
-        close: Close
         show: 'Show search form'
-        submit: Search

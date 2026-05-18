@@ -56,24 +56,27 @@ export const divModule: TiptapModule = {
             isActive: (e) => e.tiptap.isActive('div')
         }
     ],
-    contextMenuNode: 'div',
-    contextMenu: [
-        {
-            label: 'div_edit',
-            icon: IconEdit,
-            order: 0,
-            command: (e) => {
-                const existing = getCurrentDivNode(e)
-                if (existing) openDivDialog(e, existing)
+    contextMenu: {
+        node: 'div',
+        order: 4,
+        items: [
+            {
+                label: 'div_edit',
+                icon: IconEdit,
+                order: 0,
+                command: (e) => {
+                    const existing = getCurrentDivNode(e)
+                    if (existing) openDivDialog(e, existing)
+                }
+            },
+            {
+                label: 'div_remove',
+                icon: IconTrash,
+                order: 1,
+                command: (e) => removeDiv(e)
             }
-        },
-        {
-            label: 'div_remove',
-            icon: IconTrash,
-            order: 1,
-            command: (e) => removeDiv(e)
-        }
-    ]
+        ]
+    }
 }
 
 function buildAttributesConfig() {

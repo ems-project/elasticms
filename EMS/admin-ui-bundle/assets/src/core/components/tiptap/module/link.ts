@@ -39,21 +39,25 @@ export const linkModule: TiptapModule = {
             isDisabled: (e) => !e.tiptap.isActive('link')
         }
     ],
-    contextMenuNode: 'link',
-    contextMenu: [
-        {
-            label: 'link_edit',
-            icon: IconLink,
-            order: 0,
-            command: (e) => openLinkDialog(e)
-        },
-        {
-            label: 'link_unlink',
-            icon: IconLinkOff,
-            order: 1,
-            command: (e) => e.tiptap.chain().focus().extendMarkRange('link').unsetMark('link').run()
-        }
-    ]
+    contextMenu: {
+        node: 'link',
+        order: 2,
+        items: [
+            {
+                label: 'link_edit',
+                icon: IconLink,
+                order: 0,
+                command: (e) => openLinkDialog(e)
+            },
+            {
+                label: 'link_unlink',
+                icon: IconLinkOff,
+                order: 1,
+                command: (e) =>
+                    e.tiptap.chain().focus().extendMarkRange('link').unsetMark('link').run()
+            }
+        ]
+    }
 }
 
 function getLinkExtension() {

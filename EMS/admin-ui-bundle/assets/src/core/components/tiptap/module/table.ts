@@ -22,8 +22,11 @@ export const tableModule: TiptapModule = {
             isActive: (e) => e.tiptap.isActive('table') || e.tiptap.isActive('tableFigure')
         }
     ],
-    contextMenuNode: 'table',
-    contextMenu: contextMenu
+    contextMenu: {
+        node: 'table',
+        items: contextMenu,
+        order: 0
+    }
 }
 
 function getExtensions(): Node[] {

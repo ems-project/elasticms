@@ -10,6 +10,12 @@
   font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 13px;
 
+  hr {
+    border: none;
+    border-top: 1px solid #d0d0d0;
+    margin: 4px 0;
+  }
+
   &-item {
     display: flex;
     align-items: center;

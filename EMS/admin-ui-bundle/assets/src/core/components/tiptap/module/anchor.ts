@@ -21,25 +21,28 @@ export const anchorModule: TiptapModule = {
             isActive: (e) => e.tiptap.isActive('anchor')
         }
     ],
-    contextMenuNode: 'anchor',
-    contextMenuSelector: ANCHOR_SELECTOR,
-    contextMenu: [
-        {
-            label: 'link_anchor_edit',
-            icon: IconAnchor,
-            order: 0,
-            command: (e, ctx) => openAnchorDialog(e, ctx?.target)
-        },
-        {
-            label: 'link_anchor_remove',
-            icon: IconAnchorOff,
-            order: 1,
-            command: (e, ctx) => {
-                selectAnchorEl(e, ctx?.target)
-                e.tiptap.chain().focus().extendMarkRange('anchor').unsetMark('anchor').run()
+    contextMenu: {
+        node: 'anchor',
+        selector: ANCHOR_SELECTOR,
+        order: 3,
+        items: [
+            {
+                label: 'link_anchor_edit',
+                icon: IconAnchor,
+                order: 0,
+                command: (e, ctx) => openAnchorDialog(e, ctx?.target)
+            },
+            {
+                label: 'link_anchor_remove',
+                icon: IconAnchorOff,
+                order: 1,
+                command: (e, ctx) => {
+                    selectAnchorEl(e, ctx?.target)
+                    e.tiptap.chain().focus().extendMarkRange('anchor').unsetMark('anchor').run()
+                }
             }
-        }
-    ]
+        ]
+    }
 }
 
 function getAnchorExtension() {

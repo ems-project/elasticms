@@ -45,6 +45,13 @@ export interface HtmlTransform {
     toOutput?: (doc: Document) => void
 }
 
+export interface ContextMenu {
+    node?: string
+    selector?: string
+    order?: number
+    items: ContextMenuItem[]
+}
+
 export interface ContextMenuItem {
     label: TranslationKey
     icon?: string
@@ -76,9 +83,7 @@ export interface TiptapModule {
     extensions?: ExtensionType[]
     toolbar?: (ToolbarItem | ToolbarItemCustom)[]
     toolbarGroup?: string
-    contextMenu?: ContextMenuItem[]
-    contextMenuNode?: string
-    contextMenuSelector?: string
+    contextMenu?: ContextMenu
     htmlTransforms?: HtmlTransform[]
     isEnabled?: (profile: WysiwygProfile) => boolean
 }

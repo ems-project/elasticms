@@ -18,27 +18,29 @@ const URL_TYPE_OPTIONS: { value: UrlType; label: TranslationKey }[] = [
 
 export const linkModule: TiptapModule = {
     extensions: getLinkExtension(),
-    toolbarGroup: 'links',
-    toolbar: [
-        {
-            name: 'Link',
-            icon: IconLink,
-            tooltip: 'link',
-            order: 1,
-            command: (e) => openLinkDialog(e),
-            isActive: (e) => e.tiptap.isActive('link')
-        },
-        {
-            name: 'Unlink',
-            icon: IconLinkOff,
-            tooltip: 'link_unlink',
-            order: 2,
-            command: (e) =>
-                e.tiptap.chain().focus().extendMarkRange('link').unsetMark('link').run(),
-            isActive: () => false,
-            isDisabled: (e) => !e.tiptap.isActive('link')
-        }
-    ],
+    toolbar: {
+        group: 'links',
+        items: [
+            {
+                name: 'Link',
+                icon: IconLink,
+                tooltip: 'link',
+                order: 1,
+                command: (e) => openLinkDialog(e),
+                isActive: (e) => e.tiptap.isActive('link')
+            },
+            {
+                name: 'Unlink',
+                icon: IconLinkOff,
+                tooltip: 'link_unlink',
+                order: 2,
+                command: (e) =>
+                    e.tiptap.chain().focus().extendMarkRange('link').unsetMark('link').run(),
+                isActive: () => false,
+                isDisabled: (e) => !e.tiptap.isActive('link')
+            }
+        ]
+    },
     contextMenu: {
         node: 'link',
         order: 2,

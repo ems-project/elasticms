@@ -5,17 +5,19 @@ import { escapeHtml } from '../helper.ts'
 
 export const specialCharModule: TiptapModule = {
     extensions: [],
-    toolbarGroup: 'insert',
-    toolbar: [
-        {
-            name: 'SpecialChar',
-            icon: IconOmega,
-            tooltip: 'special_characters',
-            order: 4,
-            command: (e) => openSpecialCharDialog(e),
-            isActive: () => false
-        }
-    ]
+    toolbar: {
+        group: 'insert',
+        items: [
+            {
+                name: 'SpecialChar',
+                icon: IconOmega,
+                tooltip: 'special_characters',
+                order: 4,
+                command: (e) => openSpecialCharDialog(e),
+                isActive: () => false
+            }
+        ]
+    }
 }
 
 const PLACEHOLDER = '\u00a0'

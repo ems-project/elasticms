@@ -7,28 +7,32 @@ import { TiptapModule } from '../types.ts'
 export const insertModule: TiptapModule[] = [
     {
         extensions: [HorizontalRule],
-        toolbarGroup: 'insert',
-        toolbar: [
-            {
-                name: 'HorizontalRule',
-                icon: IconHorizontalRule,
-                tooltip: 'horizontal_line_insert',
-                order: 3,
-                command: (e) => e.tiptap.chain().focus().setHorizontalRule().run()
-            }
-        ]
+        toolbar: {
+            group: 'insert',
+            items: [
+                {
+                    name: 'HorizontalRule',
+                    icon: IconHorizontalRule,
+                    tooltip: 'horizontal_line_insert',
+                    order: 3,
+                    command: (e) => e.tiptap.chain().focus().setHorizontalRule().run()
+                }
+            ]
+        }
     },
     {
         extensions: [Blockquote],
-        toolbarGroup: 'blocks',
-        toolbar: [
-            {
-                name: 'Blockquote',
-                icon: IconBlockquote,
-                tooltip: 'block_quote_insert',
-                command: (e) => e.tiptap.chain().focus().toggleBlockquote().run(),
-                isActive: (e) => e.tiptap.isActive('blockquote')
-            }
-        ]
+        toolbar: {
+            group: 'blocks',
+            items: [
+                {
+                    name: 'Blockquote',
+                    icon: IconBlockquote,
+                    tooltip: 'block_quote_insert',
+                    command: (e) => e.tiptap.chain().focus().toggleBlockquote().run(),
+                    isActive: (e) => e.tiptap.isActive('blockquote')
+                }
+            ]
+        }
     }
 ]

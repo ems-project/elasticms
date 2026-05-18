@@ -16,16 +16,18 @@ const PRESERVED_NODES = new Set([
 ])
 
 export const cleanupModule: TiptapModule = {
-    toolbarGroup: 'cleanup',
-    toolbar: [
-        {
-            name: 'RemoveFormat',
-            icon: IconClear,
-            tooltip: 'format_remove',
-            command: (e) => removeFormatting(e),
-            isDisabled: (e) => !hasRemovableFormatting(e)
-        }
-    ]
+    toolbar: {
+        group: 'cleanup',
+        items: [
+            {
+                name: 'RemoveFormat',
+                icon: IconClear,
+                tooltip: 'format_remove',
+                command: (e) => removeFormatting(e),
+                isDisabled: (e) => !hasRemovableFormatting(e)
+            }
+        ]
+    }
 }
 
 function isRemovableMark(name: string): boolean {

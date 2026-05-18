@@ -10,17 +10,19 @@ const FIELD_NAME = 'tiptap-anchor-name'
 
 export const anchorModule: TiptapModule = {
     extensions: getAnchorExtension(),
-    toolbarGroup: 'links',
-    toolbar: [
-        {
-            name: 'Anchor',
-            icon: IconAnchor,
-            tooltip: 'link_anchor',
-            order: 3,
-            command: (e) => openAnchorDialog(e),
-            isActive: (e) => e.tiptap.isActive('anchor')
-        }
-    ],
+    toolbar: {
+        group: 'links',
+        items: [
+            {
+                name: 'Anchor',
+                icon: IconAnchor,
+                tooltip: 'link_anchor',
+                order: 3,
+                command: (e) => openAnchorDialog(e),
+                isActive: (e) => e.tiptap.isActive('anchor')
+            }
+        ]
+    },
     contextMenu: {
         node: 'anchor',
         selector: ANCHOR_SELECTOR,

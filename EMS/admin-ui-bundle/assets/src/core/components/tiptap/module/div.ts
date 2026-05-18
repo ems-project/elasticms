@@ -45,17 +45,19 @@ export const divModule: TiptapModule = {
             }
         })
     ],
-    toolbarGroup: 'blocks',
-    toolbar: [
-        {
-            name: 'Div',
-            icon: IconDiv,
-            tooltip: 'div_create',
-            order: 99,
-            command: (e) => openDivDialog(e, null),
-            isActive: (e) => e.tiptap.isActive('div')
-        }
-    ],
+    toolbar: {
+        group: 'blocks',
+        items: [
+            {
+                name: 'Div',
+                icon: IconDiv,
+                tooltip: 'div_create',
+                order: 99,
+                command: (e) => openDivDialog(e, null),
+                isActive: (e) => e.tiptap.isActive('div')
+            }
+        ]
+    },
     contextMenu: {
         node: 'div',
         order: 4,

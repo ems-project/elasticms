@@ -45,13 +45,6 @@ export interface HtmlTransform {
     toOutput?: (doc: Document) => void
 }
 
-export interface ContextMenu {
-    node?: string
-    selector?: string
-    order?: number
-    items: ContextMenuItem[]
-}
-
 export interface ContextMenuItem {
     label: TranslationKey
     icon?: string
@@ -60,6 +53,13 @@ export interface ContextMenuItem {
     order?: number
     command: (e: TiptapEditor, ctx?: { target?: Element | null }) => void
     disabled?: (editor: TiptapEditor) => boolean
+}
+
+export interface ContextMenu {
+    node?: string
+    selector?: string
+    order?: number
+    items: ContextMenuItem[]
 }
 
 export interface ToolbarItem {
@@ -79,10 +79,14 @@ export interface ToolbarItemCustom {
     destroy?: (editor: TiptapEditor) => void
 }
 
+export interface Toolbar {
+    group?: string
+    items: (ToolbarItem | ToolbarItemCustom)[]
+}
+
 export interface TiptapModule {
     extensions?: ExtensionType[]
-    toolbar?: (ToolbarItem | ToolbarItemCustom)[]
-    toolbarGroup?: string
+    toolbar?: Toolbar
     contextMenu?: ContextMenu
     htmlTransforms?: HtmlTransform[]
     isEnabled?: (profile: WysiwygProfile) => boolean

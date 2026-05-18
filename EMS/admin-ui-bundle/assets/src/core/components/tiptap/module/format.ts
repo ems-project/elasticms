@@ -44,20 +44,22 @@ const editorState = new WeakMap<TiptapEditor, EditorState>()
 
 export const formatModule: TiptapModule = {
     extensions: [Heading, BLOCK_NODES.div, BLOCK_NODES.pre, BLOCK_NODES.address],
-    toolbarGroup: 'format',
-    toolbar: [
-        {
-            name: 'Format',
-            create: (editor: TiptapEditor) => createFormatDropdown(editor),
-            destroy: (editor: TiptapEditor) => {
-                const state = editorState.get(editor)
-                if (!state) return
-                state.dropdown.destroy()
-                state.cleanup()
-                editorState.delete(editor)
+    toolbar: {
+        group: 'format',
+        items: [
+            {
+                name: 'Format',
+                create: (editor: TiptapEditor) => createFormatDropdown(editor),
+                destroy: (editor: TiptapEditor) => {
+                    const state = editorState.get(editor)
+                    if (!state) return
+                    state.dropdown.destroy()
+                    state.cleanup()
+                    editorState.delete(editor)
+                }
             }
-        }
-    ]
+        ]
+    }
 }
 
 function resolveActiveTag(editor: TiptapEditor): string {

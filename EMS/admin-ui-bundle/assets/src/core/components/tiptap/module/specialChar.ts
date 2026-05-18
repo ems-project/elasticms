@@ -1,22 +1,23 @@
 import IconOmega from '@tabler/icons/outline/omega.svg?raw'
 import { TiptapModule } from '../types.ts'
-import { Dialog } from '../../dialog.ts'
 import { TiptapEditor } from '../editor.ts'
 import { escapeHtml } from '../helper.ts'
 
 export const specialCharModule: TiptapModule = {
     extensions: [],
-    toolbarGroup: 'insert',
-    toolbar: [
-        {
-            name: 'SpecialChar',
-            icon: IconOmega,
-            tooltip: 'Special Characters',
-            order: 4,
-            command: (e) => openSpecialCharDialog(e),
-            isActive: () => false
-        }
-    ]
+    toolbar: {
+        group: 'insert',
+        items: [
+            {
+                name: 'SpecialChar',
+                icon: IconOmega,
+                tooltip: 'special_characters',
+                order: 4,
+                command: (e) => openSpecialCharDialog(e),
+                isActive: () => false
+            }
+        ]
+    }
 }
 
 const PLACEHOLDER = '\u00a0'
@@ -94,9 +95,15 @@ function bindPreview(grid: HTMLElement, large: HTMLElement, small: HTMLElement) 
 }
 
 function openSpecialCharDialog(e: TiptapEditor) {
-    const dialog = new Dialog('Special Characters', { draggable: true })
+    const dialog = e.createDialog('special_characters')
     dialog.setContent(buildContent(e.profile.config.specialChars))
-    dialog.addButton({ label: 'Close', variant: 'secondary', onClick: (d) => d.close() }).open()
+    dialog
+        .addButton({
+            label: e.trans('button_cancel'),
+            variant: 'secondary',
+            onClick: (d) => d.close()
+        })
+        .open()
 
     const el = dialog.element
     const grid = el.querySelector<HTMLElement>('.sc-grid')!

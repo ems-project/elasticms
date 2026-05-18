@@ -3,10 +3,10 @@ import IconEdit from '@tabler/icons/outline/edit.svg?raw'
 import IconTrash from '@tabler/icons/outline/trash.svg?raw'
 import { Extension } from '@tiptap/core'
 import { TiptapModule } from '../types.ts'
-import { Dialog } from '../../dialog.ts'
 import { TiptapEditor } from '../editor.ts'
 import { BLOCK_NODES } from '../extensions.ts'
 import { escapeHtml } from '../helper.ts'
+import { TranslationKey } from '../translations.ts'
 
 const ATTR_MAP: Record<string, string> = {
     htmlClass: 'class',
@@ -16,12 +16,12 @@ const ATTR_MAP: Record<string, string> = {
     title: 'title'
 }
 
-const FIELDS: { label: string; name: keyof typeof ATTR_MAP }[] = [
-    { label: 'Classes', name: 'htmlClass' },
-    { label: 'Id', name: 'id' },
-    { label: 'Language code', name: 'lang' },
-    { label: 'Inline Style', name: 'htmlStyle' },
-    { label: 'Advisory Title', name: 'title' }
+const FIELDS: { label: TranslationKey; name: keyof typeof ATTR_MAP }[] = [
+    { label: 'classes', name: 'htmlClass' },
+    { label: 'id', name: 'id' },
+    { label: 'div_field_lang', name: 'lang' },
+    { label: 'style_inline', name: 'htmlStyle' },
+    { label: 'div_field_title', name: 'title' }
 ]
 
 type DivAttrs = Record<keyof typeof ATTR_MAP, string | null>
@@ -45,35 +45,40 @@ export const divModule: TiptapModule = {
             }
         })
     ],
-    toolbarGroup: 'blocks',
-    toolbar: [
-        {
-            name: 'Div',
-            icon: IconDiv,
-            tooltip: 'Create Div Container',
-            order: 99,
-            command: (e) => openDivDialog(e, null),
-            isActive: (e) => e.tiptap.isActive('div')
-        }
-    ],
-    contextMenuNode: 'div',
-    contextMenu: [
-        {
-            label: 'Edit Div',
-            icon: IconEdit,
-            order: 0,
-            command: (e) => {
-                const existing = getCurrentDivNode(e)
-                if (existing) openDivDialog(e, existing)
+    toolbar: {
+        group: 'blocks',
+        items: [
+            {
+                name: 'Div',
+                icon: IconDiv,
+                tooltip: 'div_create',
+                order: 99,
+                command: (e) => openDivDialog(e, null),
+                isActive: (e) => e.tiptap.isActive('div')
             }
-        },
-        {
-            label: 'Remove Div',
-            icon: IconTrash,
-            order: 1,
-            command: (e) => removeDiv(e)
-        }
-    ]
+        ]
+    },
+    contextMenu: {
+        node: 'div',
+        order: 4,
+        items: [
+            {
+                label: 'div_edit',
+                icon: IconEdit,
+                order: 0,
+                command: (e) => {
+                    const existing = getCurrentDivNode(e)
+                    if (existing) openDivDialog(e, existing)
+                }
+            },
+            {
+                label: 'div_remove',
+                icon: IconTrash,
+                order: 1,
+                command: (e) => removeDiv(e)
+            }
+        ]
+    }
 }
 
 function buildAttributesConfig() {
@@ -154,15 +159,19 @@ function saveDiv(editor: TiptapEditor, existing: ExistingDiv | null, attrs: DivA
     editor.tiptap.chain().focus().wrapIn('div', attrs).setMeta('applyStyle', true).run()
 }
 
-function buildDialogContent(styleOptions: StyleOption[], current: DivFormValues): string {
+function buildDialogContent(
+    editor: TiptapEditor,
+    styleOptions: StyleOption[],
+    current: DivFormValues
+): string {
     const presetRow =
         styleOptions.length === 0
             ? ''
             : `
         <div class="div-form-row">
-            <label>Style</label>
+            <label>${editor.trans('style')}</label>
             <select class="div-class-preset">
-                <option value="">— Select —</option>
+                <option value="">${editor.trans('select')}</option>
                 ${styleOptions
                     .map((o) => {
                         const selected = o.value === current.htmlClass ? ' selected' : ''
@@ -173,9 +182,9 @@ function buildDialogContent(styleOptions: StyleOption[], current: DivFormValues)
         </div>`
 
     const fieldsHtml = FIELDS.map(
-        ({ label, name }) =>
-            `<div class="div-form-row">
-            <label>${label}</label>
+        ({ label, name }) => `
+        <div class="div-form-row">
+            <label>${editor.trans(label)}</label>
             <input type="text" name="${name}" value="${escapeHtml(current[name])}" />
         </div>`
     ).join('')
@@ -208,21 +217,23 @@ function openDivDialog(editor: TiptapEditor, existing: ExistingDiv | null): void
     const styleOptions = getDivStyleOptions(editor)
     const current = readExisting(existing)
 
-    const dialog = new Dialog(existing ? 'Edit Div Container' : 'Create Div Container', {
-        draggable: true
-    })
-    dialog.setContent(buildDialogContent(styleOptions, current))
+    const dialog = editor.createDialog(existing ? 'div_edit' : 'div_create')
+    dialog.setContent(buildDialogContent(editor, styleOptions, current))
 
     dialog
         .addButton({
-            label: existing ? 'Update' : 'Insert',
+            label: editor.trans(existing ? 'button_update' : 'button_insert'),
             variant: 'primary',
             onClick: (d) => {
                 saveDiv(editor, existing, toAttrs(getFormValues(d.element)))
                 d.close()
             }
         })
-        .addButton({ label: 'Cancel', variant: 'secondary', onClick: (d) => d.close() })
+        .addButton({
+            label: editor.trans('button_cancel'),
+            variant: 'secondary',
+            onClick: (d) => d.close()
+        })
         .open()
 
     bindPresetSync(dialog.element)

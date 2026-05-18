@@ -17,6 +17,7 @@ import { specialCharModule } from './module/specialChar.ts'
 import { formatModule } from './module/format.ts'
 import { showBlocksModule } from './module/showBlocks.ts'
 import { divModule } from './module/div.ts'
+import { TranslationKey } from './translations.ts'
 
 export type ContextType = 'table'
 
@@ -45,19 +46,26 @@ export interface HtmlTransform {
 }
 
 export interface ContextMenuItem {
-    label: string
+    label: TranslationKey
     icon?: string
-    parent?: string
+    parent?: TranslationKey
     parentIcon?: string
     order?: number
     command: (e: TiptapEditor, ctx?: { target?: Element | null }) => void
     disabled?: (editor: TiptapEditor) => boolean
 }
 
+export interface ContextMenu {
+    node?: string
+    selector?: string
+    order?: number
+    items: ContextMenuItem[]
+}
+
 export interface ToolbarItem {
     name: string
     icon: string
-    tooltip?: string
+    tooltip: TranslationKey
     order?: number
     extensions?: ExtensionType[]
     command: (editor: TiptapEditor) => void
@@ -71,13 +79,15 @@ export interface ToolbarItemCustom {
     destroy?: (editor: TiptapEditor) => void
 }
 
+export interface Toolbar {
+    group?: string
+    items: (ToolbarItem | ToolbarItemCustom)[]
+}
+
 export interface TiptapModule {
     extensions?: ExtensionType[]
-    toolbar?: (ToolbarItem | ToolbarItemCustom)[]
-    toolbarGroup?: string
-    contextMenu?: ContextMenuItem[]
-    contextMenuNode?: string
-    contextMenuSelector?: string
+    toolbar?: Toolbar
+    contextMenu?: ContextMenu
     htmlTransforms?: HtmlTransform[]
     isEnabled?: (profile: WysiwygProfile) => boolean
 }

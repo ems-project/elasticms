@@ -80,20 +80,22 @@ export const stylesModule: TiptapModule = {
         ...STYLE_ELEMENTS.inline.map(createInlineStyleMark),
         getStyleExtension()
     ],
-    toolbarGroup: 'styles',
-    toolbar: [
-        {
-            name: 'Styles',
-            create: (editor: TiptapEditor) => createStylesDropdown(editor),
-            destroy: (editor: TiptapEditor) => {
-                const state = editorState.get(editor)
-                if (!state) return
-                state.dropdown.destroy()
-                state.cleanup()
-                editorState.delete(editor)
+    toolbar: {
+        group: 'styles',
+        items: [
+            {
+                name: 'Styles',
+                create: (editor: TiptapEditor) => createStylesDropdown(editor),
+                destroy: (editor: TiptapEditor) => {
+                    const state = editorState.get(editor)
+                    if (!state) return
+                    state.dropdown.destroy()
+                    state.cleanup()
+                    editorState.delete(editor)
+                }
             }
-        }
-    ],
+        ]
+    },
     htmlTransforms: [
         {
             name: 'trailingParagraph',
@@ -569,6 +571,7 @@ function createStylesDropdown(editor: TiptapEditor): HTMLElement {
         css: stylesIframeCss,
         contentCss,
         buttonLabel: 'Styles',
+        buttonTooltip: 'styles_format',
         buildBody: () => groups.map(buildStyleGroup).join(''),
         onItemClick(name) {
             const matched = styleMap.get(name)

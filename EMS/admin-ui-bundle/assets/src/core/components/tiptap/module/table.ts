@@ -11,19 +11,24 @@ import { CustomTableHeader, tableTheadHtmlTransform } from '../table/header.ts'
 export const tableModule: TiptapModule = {
     extensions: getExtensions(),
     htmlTransforms: [tableCaptionHtmlTransform, tableCleanHtmlTransform, tableTheadHtmlTransform],
-    toolbarGroup: 'insert',
-    toolbar: [
-        {
-            name: 'Table',
-            icon: IconTable,
-            tooltip: 'Insert Table',
-            order: 2,
-            command: (e) => openTableDialog(e, 'insert'),
-            isActive: (e) => e.tiptap.isActive('table') || e.tiptap.isActive('tableFigure')
-        }
-    ],
-    contextMenuNode: 'table',
-    contextMenu: contextMenu
+    toolbar: {
+        group: 'insert',
+        items: [
+            {
+                name: 'Table',
+                icon: IconTable,
+                tooltip: 'table_insert',
+                order: 2,
+                command: (e) => openTableDialog(e, 'insert'),
+                isActive: (e) => e.tiptap.isActive('table') || e.tiptap.isActive('tableFigure')
+            }
+        ]
+    },
+    contextMenu: {
+        node: 'table',
+        items: contextMenu,
+        order: 0
+    }
 }
 
 function getExtensions(): Node[] {

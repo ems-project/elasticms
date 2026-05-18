@@ -77,7 +77,7 @@ export class Toolbar {
         btn.classList.add('tiptap-toolbar-button')
         btn.innerHTML = item.icon
         btn.dataset.action = item.name
-        if (item.tooltip) btn.title = item.tooltip
+        btn.title = this.editor.trans(item.tooltip)
 
         btn.onclick = (e) => {
             e.preventDefault()

@@ -1,6 +1,5 @@
 import { applyHeaders, headerScope, isHeaderCell } from './header.ts'
 import { updateCaption } from './caption.ts'
-import { Dialog } from '../../dialog.ts'
 import { TiptapEditor } from '../editor.ts'
 import { Editor } from '@tiptap/core'
 import { escapeHtml } from '../helper.ts'
@@ -60,7 +59,7 @@ function getTableContext(tiptap: Editor): {
 }
 
 export function openTableDialog(e: TiptapEditor, mode: 'insert' | 'edit') {
-    const dialog = new Dialog('Table Properties', { draggable: true })
+    const dialog = e.createDialog('table_properties')
 
     const current =
         mode === 'edit'
@@ -78,11 +77,11 @@ export function openTableDialog(e: TiptapEditor, mode: 'insert' | 'edit') {
         html += `
         <div style="display: flex; gap: 10px;">
             <div>
-                <label for="table-cols">Columns</label>
+                <label for="table-cols">${e.trans('table_columns')}</label>
                 <input type="number" id="table-cols" value="2" min="1" max="10" style="width: 60px;">
             </div>
             <div>
-                <label for="table-rows">Rows</label>
+                <label for="table-rows">${e.trans('table_rows')}</label>
                 <input type="number" id="table-rows" value="3" min="1" max="20"  style="width: 60px;">
             </div>
         </div>`
@@ -91,70 +90,70 @@ export function openTableDialog(e: TiptapEditor, mode: 'insert' | 'edit') {
     html += `
         <div style="display: flex; gap: 10px;">
             <div style="flex: 1">
-                <label for="table-headers">Headers</label>
+                <label for="table-headers">${e.trans('table_headers')}</label>
                 <select id="table-headers">
-                    <option value="none"${current.headers === 'none' ? ' selected' : ''}>None</option>
-                    <option value="row"${current.headers === 'row' ? ' selected' : ''}>First row</option>
-                    <option value="column"${current.headers === 'column' ? ' selected' : ''}>First column</option>
-                    <option value="both"${current.headers === 'both' ? ' selected' : ''}>Both</option>
+                    <option value="none"${current.headers === 'none' ? ' selected' : ''}>${e.trans('select')}</option>
+                    <option value="row"${current.headers === 'row' ? ' selected' : ''}>${e.trans('table_headers_first_row')}</option>
+                    <option value="column"${current.headers === 'column' ? ' selected' : ''}>${e.trans('table_headers_first_column')}</option>
+                    <option value="both"${current.headers === 'both' ? ' selected' : ''}>${e.trans('table_headers_both')}</option>
                 </select>
             </div>
              <div style="flex: 1; display: flex; gap: 10px;">        
                 <div style="flex: 1">
-                    <label for="table-width">Width</label>
+                    <label for="table-width">${e.trans('width')}</label>
                     <input type="text" id="table-width" value="${escapeHtml(a.width)}" placeholder="50%, 300px">
                 </div>
                 <div style="flex: 1">
-                    <label for="table-height">Height</label>
+                    <label for="table-height">${e.trans('height')}</label>
                     <input type="text" id="table-height" value="${escapeHtml(a.height)}" placeholder="200px">
                 </div>
             </div>
         </div>
         <div style="display: flex; gap: 10px;">
             <div style="flex: 1">
-                <label for="table-align">Alignment</label>
+                <label for="table-align">${e.trans('alignment')}</label>
                 <select id="table-align">
-                    <option value=""${!a.align ? ' selected' : ''}>Not defined</option>
-                    <option value="left"${a.align === 'left' ? ' selected' : ''}>Left</option>
-                    <option value="center"${a.align === 'center' ? ' selected' : ''}>Center</option>
-                    <option value="right"${a.align === 'right' ? ' selected' : ''}>Right</option>
+                    <option value=""${!a.align ? ' selected' : ''}>${e.trans('select')}</option>
+                    <option value="left"${a.align === 'left' ? ' selected' : ''}>${e.trans('align_left')}</option>
+                    <option value="center"${a.align === 'center' ? ' selected' : ''}>${e.trans('align_center')}</option>
+                    <option value="right"${a.align === 'right' ? ' selected' : ''}>${e.trans('align_right')}</option>
                 </select>
             </div>
             <div style="flex: 1; display: flex; gap: 10px;">            
                 <div style="flex: 1">
-                    <label for="table-border">Border</label>
+                    <label for="table-border">${e.trans('border')}</label>
                     <input type="number" id="table-border" value="${escapeHtml(a.border)}" min="0" placeholder="0">
                 </div>
                 <div style="flex: 1">
-                    <label for="table-cellpadding">Padding</label>
+                    <label for="table-cellpadding">${e.trans('padding')}</label>
                     <input type="number" id="table-cellpadding" value="${escapeHtml(a.cellpadding)}" min="0" placeholder="0">
                 </div>
                 <div style="flex: 1">
-                    <label for="table-cellspacing">Spacing</label>
+                    <label for="table-cellspacing">${e.trans('spacing')}</label>
                     <input type="number" id="table-cellspacing" value="${escapeHtml(a.cellspacing)}" min="0" placeholder="0">
                 </div>
             </div>
         </div>
         <div style="display: flex; gap: 10px;">
             <div style="flex: 1">
-                <label for="table-class">Class</label>
+                <label for="table-class">${e.trans('class')}</label>
                 <input type="text" id="table-class" value="${escapeHtml(a.class)}">
             </div>
             <div style="flex: 1">
-                <label for="table-id">ID</label>
+                <label for="table-id">${e.trans('id')}</label>
                 <input type="text" id="table-id" value="${escapeHtml(a.id)}">
             </div>
             <div style="flex: 1">
-                <label for="table-style">Style</label>
+                <label for="table-style">${e.trans('style')}</label>
                 <input type="text" id="table-style" value="${escapeHtml(a.dataUserStyle)}">
             </div>
         </div>
         <div>
-            <label for="table-caption">Caption</label>
+            <label for="table-caption">${e.trans('caption')}</label>
             <input type="text" id="table-caption" value="${escapeHtml(current.caption)}">
         </div>
         <div>
-            <label for="table-summary">Summary</label>
+            <label for="table-summary">${e.trans('summary')}</label>
             <input type="text" id="table-summary" value="${escapeHtml(a.summary)}">      
         </div>`
 
@@ -163,7 +162,7 @@ export function openTableDialog(e: TiptapEditor, mode: 'insert' | 'edit') {
     )
 
     dialog.addButton({
-        label: 'Apply',
+        label: e.trans('button_apply'),
         variant: 'primary',
         onClick: (d) => {
             const field = (name: string) => (d.getFieldValue(`table-${name}`) || '').trim() || null
@@ -232,7 +231,7 @@ export function openTableDialog(e: TiptapEditor, mode: 'insert' | 'edit') {
     })
 
     dialog.addButton({
-        label: 'Cancel',
+        label: e.trans('button_cancel'),
         variant: 'secondary',
         onClick: (d) => d.close()
     })

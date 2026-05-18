@@ -12,60 +12,64 @@ import { TiptapModule } from '../types.ts'
 
 export const basicStyleModule: TiptapModule[] = [
     {
-        toolbarGroup: 'basicstyles',
-        toolbar: [
-            {
-                name: 'Bold',
-                icon: IconBold,
-                tooltip: 'Bold',
-                order: 1,
-                extensions: [Bold],
-                command: (e) => e.tiptap.chain().focus().toggleBold().run(),
-                isActive: (e) => e.tiptap.isActive('bold')
-            },
-            {
-                name: 'Italic',
-                icon: IconItalic,
-                tooltip: 'Italic',
-                order: 2,
-                extensions: [Italic],
-                command: (e) => e.tiptap.chain().focus().toggleItalic().run(),
-                isActive: (e) => e.tiptap.isActive('italic')
-            },
-            {
-                name: 'Strike',
-                icon: IconStrike,
-                tooltip: 'Strike Through',
-                order: 3,
-                extensions: [Strike],
-                command: (e) => e.tiptap.chain().focus().toggleStrike().run(),
-                isActive: (e) => e.tiptap.isActive('strike')
-            }
-        ]
+        toolbar: {
+            group: 'basicstyles',
+            items: [
+                {
+                    name: 'Bold',
+                    icon: IconBold,
+                    tooltip: 'text_bold',
+                    order: 1,
+                    extensions: [Bold],
+                    command: (e) => e.tiptap.chain().focus().toggleBold().run(),
+                    isActive: (e) => e.tiptap.isActive('bold')
+                },
+                {
+                    name: 'Italic',
+                    icon: IconItalic,
+                    tooltip: 'text_italic',
+                    order: 2,
+                    extensions: [Italic],
+                    command: (e) => e.tiptap.chain().focus().toggleItalic().run(),
+                    isActive: (e) => e.tiptap.isActive('italic')
+                },
+                {
+                    name: 'Strike',
+                    icon: IconStrike,
+                    tooltip: 'text_strike',
+                    order: 3,
+                    extensions: [Strike],
+                    command: (e) => e.tiptap.chain().focus().toggleStrike().run(),
+                    isActive: (e) => e.tiptap.isActive('strike')
+                }
+            ]
+        }
     },
     {
         isEnabled: (wysiwygProfile) =>
             wysiwygProfile.config.extraPlugins?.includes('basicstyles') ?? false,
-        toolbarGroup: 'basicstyles',
-        toolbar: [
-            {
-                extensions: [Subscript],
-                name: 'Subscript',
-                icon: IconSubscript,
-                tooltip: 'Subscript',
-                order: 4,
-                command: (e) => e.tiptap.chain().focus().toggleSubscript().run(),
-                isActive: (e) => e.tiptap.isActive('subscript')
-            },
-            {
-                extensions: [Superscript],
-                name: 'Superscript',
-                icon: IconSuperscript,
-                tooltip: 'Superscript',
-                order: 5,
-                command: (e) => e.tiptap.chain().focus().toggleSuperscript().run(),
-                isActive: (e) => e.tiptap.isActive('superscript')
-            }
-        ]
+        toolbar: {
+            group: 'basicstyles',
+            items: [
+                {
+                    extensions: [Subscript],
+                    name: 'Subscript',
+                    icon: IconSubscript,
+                    tooltip: 'text_subscript',
+                    order: 4,
+                    command: (e) => e.tiptap.chain().focus().toggleSubscript().run(),
+                    isActive: (e) => e.tiptap.isActive('subscript')
+                },
+                {
+                    extensions: [Superscript],
+                    name: 'Superscript',
+                    icon: IconSuperscript,
+                    tooltip: 'text_superscript',
+                    order: 5,
+                    command: (e) => e.tiptap.chain().focus().toggleSuperscript().run(),
+                    isActive: (e) => e.tiptap.isActive('superscript')
+                }
+            ]
+        }
     }
 ]

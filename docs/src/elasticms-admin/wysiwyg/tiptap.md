@@ -4,6 +4,8 @@ A custom Tiptap-based WYSIWYG editor with a modular architecture. Each feature i
 module that can provide toolbar buttons, context menu items, and HTML transforms. The editor loads
 modules based on the active wysiwyg profile.
 
+The editor UI is fully translated into English, Dutch, French, and German.
+
 ## Modules
 
 ### Basic Styles

@@ -5,6 +5,8 @@ import { ContextMenu } from './ui/contextMenu.ts'
 import { Modules, HtmlTransform, TiptapModule } from './types.ts'
 import { WysiwygOptions, WysiwygProfile } from '../wysiwyg/wysiwyg.ts'
 import { CkeditorStyle } from '../wysiwyg/ckeditorConfig.ts'
+import { isTransLocale, Locale, trans, TranslationKey } from './translations.ts'
+import { Dialog } from '../dialog.ts'
 
 interface TiptapEditorOptions {
     content?: string
@@ -26,12 +28,16 @@ export class TiptapEditor {
     readonly modules: TiptapModule[]
     private readonly htmlTransforms: HtmlTransform[]
     private readonly options: TiptapEditorOptions
+    readonly locale: Locale
 
     constructor(options: TiptapEditorOptions) {
         this.options = options
         this.docEditor = options.element.ownerDocument
         this.docParent = this.options.parent ?? document
         this.profile = options.wysiwygProfile ?? new WysiwygProfile()
+
+        const lang = this.options.wysiwygOptions?.lang ?? 'en'
+        this.locale = isTransLocale(lang) ? lang : 'en'
 
         this.toolbar = new Toolbar(this)
 
@@ -55,6 +61,17 @@ export class TiptapEditor {
         this.menu = new ContextMenu(this)
 
         if (options.toolbarElement) this.attachToolbar(options.toolbarElement)
+    }
+
+    createDialog(title: TranslationKey): Dialog {
+        return new Dialog(this.trans(title), {
+            draggable: true,
+            closeLabel: this.trans('modal_close')
+        })
+    }
+
+    trans(key: TranslationKey): string {
+        return trans(this.locale, key)
     }
 
     getWysiwygOptions(): null | WysiwygOptions {
@@ -112,9 +129,9 @@ export class TiptapEditor {
             const groups = entry.groups ?? [entry.name]
             groups.forEach((groupName) => {
                 enabledModules.forEach((mod) => {
-                    if (mod.toolbarGroup !== groupName) return
+                    if (mod.toolbar?.group !== groupName) return
 
-                    const validItems = (mod.toolbar ?? []).filter((item) => {
+                    const validItems = (mod.toolbar.items ?? []).filter((item) => {
                         return !removed.has(item.name)
                     })
 
@@ -129,7 +146,7 @@ export class TiptapEditor {
             })
         })
 
-        enabledModules.filter((m) => !m.toolbar?.length).forEach(registerModule)
+        enabledModules.filter((m) => !m.toolbar?.items?.length).forEach(registerModule)
 
         return {
             modules: Array.from(activeModules),

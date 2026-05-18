@@ -1,4 +1,3 @@
-import { Dialog } from '../../dialog.ts'
 import { TiptapEditor } from '../editor.ts'
 import { Editor } from '@tiptap/core'
 import { escapeHtml } from '../helper.ts'
@@ -27,7 +26,7 @@ export function openCellDialog(e: TiptapEditor) {
     const cell = getCellContext(e.tiptap)
     if (!cell) return
 
-    const dialog = new Dialog('Cell Properties', { draggable: true })
+    const dialog = e.createDialog('table_cell_properties')
     const a = cell.attrs
     const style = a.style || a.dataUserStyle || ''
 
@@ -42,59 +41,59 @@ export function openCellDialog(e: TiptapEditor) {
     const html = `
         <div style="display: flex; gap: 10px;">
             <div style="flex: 1">
-                <label for="cell-type">Cell type</label>
+                <label for="cell-type">${e.trans('table_cell_type')}</label>
                 <select id="cell-type">
-                    <option value="data"${!isHeader ? ' selected' : ''}>Data</option>
-                    <option value="header"${isHeader ? ' selected' : ''}>Header</option>
+                    <option value="data"${!isHeader ? ' selected' : ''}>${e.trans('table_cell_type_data')}</option>
+                    <option value="header"${isHeader ? ' selected' : ''}>${e.trans('table_cell_type_header')}</option>
                 </select>
             </div>
         </div>
         <div style="display: flex; gap: 10px;">
             <div style="flex: 1">
-                <label for="cell-colspan">Columns span</label>
+                <label for="cell-colspan">${e.trans('table_cell_span_columns')}</label>
                 <input type="number" id="cell-colspan" value="${a.colspan || 1}" min="1">
             </div>
             <div style="flex: 1">
-                <label for="cell-rowspan">Rows span</label>
+                <label for="cell-rowspan">${e.trans('table_cell_span_rows')}</label>
                 <input type="number" id="cell-rowspan" value="${a.rowspan || 1}" min="1">
             </div>
         </div>
         <div style="display: flex; gap: 10px;">
             <div style="flex: 1">
-                <label for="cell-width">Width</label>
+                <label for="cell-width">${e.trans('width')}</label>
                 <input type="text" id="cell-width" value="${escapeHtml(width)}" placeholder="100px, 25%">
 
             </div>
             <div style="flex: 1">
-                <label for="cell-height">Height</label>
+                <label for="cell-height">${e.trans('height')}</label>
                 <input type="text" id="cell-height" value="${escapeHtml(height)}" placeholder="50px">
             </div>
         </div>
         <div style="display: flex; gap: 10px;">
             <div style="flex: 1">
-                <label for="cell-wrap">Word wrap</label>
+                <label for="cell-wrap">${e.trans('word_wrap')}</label>
                 <select id="cell-wrap">
-                    <option value="wrap"${wrap === 'wrap' ? ' selected' : ''}>Yes</option>
-                    <option value="nowrap"${wrap === 'nowrap' ? ' selected' : ''}>No</option>
+                    <option value="wrap"${wrap === 'wrap' ? ' selected' : ''}>${e.trans('choice_yes')}</option>
+                    <option value="nowrap"${wrap === 'nowrap' ? ' selected' : ''}>${e.trans('choice_no')}</option>
                 </select>
             </div>
             <div style="flex: 1">
-                <label for="cell-halign">Horizontal alignment</label>
+                <label for="cell-halign">${e.trans('align_horizontal')}</label>
                 <select id="cell-halign">
-                    <option value=""${!hAlign ? ' selected' : ''}>Not defined</option>
-                    <option value="left"${hAlign === 'left' ? ' selected' : ''}>Left</option>
-                    <option value="center"${hAlign === 'center' ? ' selected' : ''}>Center</option>
-                    <option value="right"${hAlign === 'right' ? ' selected' : ''}>Right</option>
-                    <option value="justify"${hAlign === 'justify' ? ' selected' : ''}>Justify</option>
+                    <option value=""${!hAlign ? ' selected' : ''}>${e.trans('select')}</option>
+                    <option value="left"${hAlign === 'left' ? ' selected' : ''}>${e.trans('align_left')}</option>
+                    <option value="center"${hAlign === 'center' ? ' selected' : ''}>${e.trans('align_center')}</option>
+                    <option value="right"${hAlign === 'right' ? ' selected' : ''}>${e.trans('align_right')}</option>
+                    <option value="justify"${hAlign === 'justify' ? ' selected' : ''}>${e.trans('align_justify')}</option>
                 </select>
             </div>
             <div style="flex: 1">
-                <label for="cell-valign">Vertical alignment</label>
+                <label for="cell-valign">${e.trans('align_vertical')}</label>
                 <select id="cell-valign">
-                    <option value=""${!vAlign ? ' selected' : ''}>Not defined</option>
-                    <option value="top"${vAlign === 'top' ? ' selected' : ''}>Top</option>
-                    <option value="middle"${vAlign === 'middle' ? ' selected' : ''}>Middle</option>
-                    <option value="bottom"${vAlign === 'bottom' ? ' selected' : ''}>Bottom</option>
+                    <option value=""${!vAlign ? ' selected' : ''}>${e.trans('select')}</option>
+                    <option value="top"${vAlign === 'top' ? ' selected' : ''}>${e.trans('align_top')}</option>
+                    <option value="middle"${vAlign === 'middle' ? ' selected' : ''}>${e.trans('align_middle')}</option>
+                    <option value="bottom"${vAlign === 'bottom' ? ' selected' : ''}>${e.trans('align_bottom')}</option>
                 </select>
             </div>
         </div>`
@@ -104,7 +103,7 @@ export function openCellDialog(e: TiptapEditor) {
     )
 
     dialog.addButton({
-        label: 'Apply',
+        label: e.trans('button_apply'),
         variant: 'primary',
         onClick: (d) => {
             const field = (name: string) => (d.getFieldValue(`cell-${name}`) || '').trim() || null
@@ -144,7 +143,7 @@ export function openCellDialog(e: TiptapEditor) {
     })
 
     dialog.addButton({
-        label: 'Cancel',
+        label: e.trans('button_cancel'),
         variant: 'secondary',
         onClick: (d) => d.close()
     })

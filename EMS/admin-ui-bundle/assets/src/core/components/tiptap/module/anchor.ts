@@ -2,7 +2,6 @@ import { Mark, mergeAttributes } from '@tiptap/core'
 import IconAnchor from '@tabler/icons/outline/anchor.svg?raw'
 import IconAnchorOff from '@tabler/icons/outline/anchor-off.svg?raw'
 import { TiptapModule } from '../types.ts'
-import { Dialog } from '../../dialog.ts'
 import { TiptapEditor } from '../editor.ts'
 import { escapeHtml } from '../helper.ts'
 
@@ -11,36 +10,41 @@ const FIELD_NAME = 'tiptap-anchor-name'
 
 export const anchorModule: TiptapModule = {
     extensions: getAnchorExtension(),
-    toolbarGroup: 'links',
-    toolbar: [
-        {
-            name: 'Anchor',
-            icon: IconAnchor,
-            tooltip: 'Anchor',
-            order: 3,
-            command: (e) => openAnchorDialog(e),
-            isActive: (e) => e.tiptap.isActive('anchor')
-        }
-    ],
-    contextMenuNode: 'anchor',
-    contextMenuSelector: ANCHOR_SELECTOR,
-    contextMenu: [
-        {
-            label: 'Edit Anchor',
-            icon: IconAnchor,
-            order: 0,
-            command: (e, ctx) => openAnchorDialog(e, ctx?.target)
-        },
-        {
-            label: 'Remove Anchor',
-            icon: IconAnchorOff,
-            order: 1,
-            command: (e, ctx) => {
-                selectAnchorEl(e, ctx?.target)
-                e.tiptap.chain().focus().extendMarkRange('anchor').unsetMark('anchor').run()
+    toolbar: {
+        group: 'links',
+        items: [
+            {
+                name: 'Anchor',
+                icon: IconAnchor,
+                tooltip: 'link_anchor',
+                order: 3,
+                command: (e) => openAnchorDialog(e),
+                isActive: (e) => e.tiptap.isActive('anchor')
             }
-        }
-    ]
+        ]
+    },
+    contextMenu: {
+        node: 'anchor',
+        selector: ANCHOR_SELECTOR,
+        order: 3,
+        items: [
+            {
+                label: 'link_anchor_edit',
+                icon: IconAnchor,
+                order: 0,
+                command: (e, ctx) => openAnchorDialog(e, ctx?.target)
+            },
+            {
+                label: 'link_anchor_remove',
+                icon: IconAnchorOff,
+                order: 1,
+                command: (e, ctx) => {
+                    selectAnchorEl(e, ctx?.target)
+                    e.tiptap.chain().focus().extendMarkRange('anchor').unsetMark('anchor').run()
+                }
+            }
+        ]
+    }
 }
 
 function getAnchorExtension() {
@@ -90,7 +94,7 @@ function applyAnchor(e: TiptapEditor, name: string, isEdit: boolean, from: numbe
 }
 
 function openAnchorDialog(e: TiptapEditor, target?: Element | null) {
-    const dialog = new Dialog('Anchor Properties', { draggable: true })
+    const dialog = e.createDialog('link_anchor_properties')
     const { from, to } = e.tiptap.state.selection
 
     const el = selectAnchorEl(e, target)
@@ -100,7 +104,7 @@ function openAnchorDialog(e: TiptapEditor, target?: Element | null) {
     dialog.setContent(
         `<div style="display: flex; flex-direction: column; gap: 10px; width: 300px;">
             <div>
-                <label for="${FIELD_NAME}">Anchor Name <span style="color: red">*</span></label>
+                <label for="${FIELD_NAME}">${e.trans('link_anchor_name')} <span style="color: red">*</span></label>
                 <input type="text" id="${FIELD_NAME}" value="${escapeHtml(existing)}" required>
             </div>
         </div>`
@@ -116,8 +120,12 @@ function openAnchorDialog(e: TiptapEditor, target?: Element | null) {
     }
 
     dialog
-        .addButton({ label: 'Apply', variant: 'primary', onClick: apply })
-        .addButton({ label: 'Cancel', variant: 'secondary', onClick: (d) => d.close() })
+        .addButton({ label: e.trans('button_apply'), variant: 'primary', onClick: apply })
+        .addButton({
+            label: e.trans('button_cancel'),
+            variant: 'secondary',
+            onClick: (d) => d.close()
+        })
         .open()
 
     const input = getInput()

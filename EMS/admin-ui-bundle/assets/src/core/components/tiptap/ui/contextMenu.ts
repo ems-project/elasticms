@@ -1,8 +1,9 @@
-import '../../../../../css/core/components/tiptap/_content_menu.scss'
+import '../../../../../css/core/components/tiptap/_context_menu.scss'
 
 import type { TiptapEditor } from './../editor.ts'
 import { CellSelection } from '@tiptap/pm/tables'
 import type { ContextMenuItem, TiptapModule } from './../types.ts'
+import { TranslationKey } from '../translations.ts'
 
 const CONTEXT_NODES: Record<string, string[]> = {
     table: ['table', 'tableFigure', 'tableCaption'],
@@ -10,6 +11,8 @@ const CONTEXT_NODES: Record<string, string[]> = {
     link: ['link'],
     image: ['image']
 }
+
+type SeparatorItem = { separator: true }
 
 export class ContextMenu {
     private el: HTMLElement | null = null
@@ -45,7 +48,7 @@ export class ContextMenu {
         }
     }
 
-    private open(e: MouseEvent, items: ContextMenuItem[]) {
+    private open(e: MouseEvent, items: (ContextMenuItem | SeparatorItem)[]) {
         ContextMenu.active?.close()
         ContextMenu.active = this
 
@@ -84,54 +87,62 @@ export class ContextMenu {
     }
 
     private isContextActive(module: TiptapModule, e: MouseEvent): boolean {
-        if (module.contextMenuSelector) {
+        if (module.contextMenu?.selector) {
             const target = e.target as HTMLElement | null
-            if (target?.closest(module.contextMenuSelector)) return true
+            if (target?.closest(module.contextMenu?.selector)) return true
         }
 
-        if (!module.contextMenuNode) return false
+        if (!module.contextMenu?.node) return false
 
-        const nodes = CONTEXT_NODES[module.contextMenuNode]
+        const nodes = CONTEXT_NODES[module.contextMenu.node]
         return nodes
             ? nodes.some((n) => this.editor.tiptap.isActive(n))
-            : this.editor.tiptap.isActive(module.contextMenuNode)
+            : this.editor.tiptap.isActive(module.contextMenu?.node)
     }
 
-    private getItems(e: MouseEvent): ContextMenuItem[] {
-        return this.editor.modules
+    private getItems(e: MouseEvent): (ContextMenuItem | SeparatorItem)[] {
+        const separator: SeparatorItem = { separator: true }
+
+        const groups = this.editor.modules
             .filter(
-                (m) => (m.contextMenuNode || m.contextMenuSelector) && this.isContextActive(m, e)
+                (m) =>
+                    (m.contextMenu?.node || m.contextMenu?.selector) && this.isContextActive(m, e)
             )
-            .flatMap((m) => m.contextMenu ?? [])
-            .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+            .sort((a, b) => (a.contextMenu?.order ?? 0) - (b.contextMenu?.order ?? 0))
+            .map((m) => m.contextMenu!.items.sort((a, b) => (a.order ?? 0) - (b.order ?? 0)))
+            .filter((g) => g.length > 0)
+
+        return groups.flatMap((group, i) => (i === 0 ? group : [separator, ...group]))
     }
 
-    private render(items: ContextMenuItem[]): HTMLElement {
+    private render(items: (ContextMenuItem | SeparatorItem)[]): HTMLElement {
         const doc = this.editor.docParent
         const menu = doc.createElement('div')
         menu.className = 'tiptap-context-menu'
 
-        const topLevel: ContextMenuItem[] = []
-        const grouped = new Map<string, ContextMenuItem[]>()
+        const renderedSubmenus = new Set<TranslationKey>()
 
         for (const item of items) {
-            if (item.parent) {
-                if (!grouped.has(item.parent)) grouped.set(item.parent, [])
-                grouped.get(item.parent)!.push(item)
-            } else {
-                topLevel.push(item)
+            if ('separator' in item) {
+                menu.appendChild(doc.createElement('hr'))
+                continue
             }
-        }
 
-        for (const [label, children] of grouped) {
-            const allDisabled = children.every((c) => c.disabled?.(this.editor) ?? false)
-            if (allDisabled) continue
-            const icon = children.find((c) => c.parentIcon)?.parentIcon
-            menu.appendChild(this.renderSubmenu(label, children, icon))
-        }
+            if (item.parent) {
+                if (renderedSubmenus.has(item.parent)) continue
+                renderedSubmenus.add(item.parent)
 
-        for (const item of topLevel) {
-            menu.appendChild(this.renderItem(item))
+                const siblings = items.filter(
+                    (i): i is ContextMenuItem => !('separator' in i) && i.parent === item.parent
+                )
+                const allDisabled = siblings.every((c) => c.disabled?.(this.editor) ?? false)
+                if (allDisabled) continue
+
+                const icon = siblings.find((c) => c.parentIcon)?.parentIcon
+                menu.appendChild(this.renderSubmenu(item.parent, siblings, icon))
+            } else {
+                menu.appendChild(this.renderItem(item))
+            }
         }
 
         menu.addEventListener('contextmenu', (e) => {
@@ -162,7 +173,7 @@ export class ContextMenu {
         }
 
         const label = doc.createElement('span')
-        label.textContent = item.label
+        label.textContent = this.editor.trans(item.label)
         btn.appendChild(label)
 
         btn.addEventListener('click', (e) => {
@@ -175,7 +186,11 @@ export class ContextMenu {
 
         return btn
     }
-    private renderSubmenu(label: string, children: ContextMenuItem[], icon?: string): HTMLElement {
+    private renderSubmenu(
+        label: TranslationKey,
+        children: ContextMenuItem[],
+        icon?: string
+    ): HTMLElement {
         const doc = this.editor.docParent
         const wrapper = doc.createElement('div')
         wrapper.className = 'tiptap-context-menu-submenu'
@@ -192,7 +207,7 @@ export class ContextMenu {
         }
 
         const text = doc.createElement('span')
-        text.textContent = label
+        text.textContent = this.editor.trans(label)
         trigger.appendChild(text)
 
         const arrow = doc.createElement('span')

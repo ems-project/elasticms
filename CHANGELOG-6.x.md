@@ -1,5 +1,13 @@
 # Changelog 6.x
 
+## 6.9.14 (2026-05-18)
+### Bug Fixes
+* fix(admin/job): ems:job:run should start a runner if one is planned by @theus77 in https://github.com/ems-project/elasticms/pull/1711
+* fix(admin/twig): missing double quotes in media library template by @theus77 in https://github.com/ems-project/elasticms/pull/1706
+* fix(clientHelper): avoid double slash in the displayed url by @theus77 in https://github.com/ems-project/elasticms/pull/1696
+* fix(common/core-api): avoid search attribute to be double json encoded in API calls by @theus77 in https://github.com/ems-project/elasticms/pull/1699
+* fix(common/runner): command bypasses the image entrypoint by @theus77 in https://github.com/ems-project/elasticms/pull/1714
+
 ## 6.9.13 (2026-04-29)
 ### Features
 * feat(docker): sandbox for 6.9 by @theus77 in https://github.com/ems-project/elasticms/pull/1692

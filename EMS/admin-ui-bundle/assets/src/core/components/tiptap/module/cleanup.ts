@@ -60,9 +60,10 @@ function stripMarks(state: EditorState, tr: Transaction): void {
 
 function stripNodes(state: EditorState, tr: Transaction): void {
     const { from, to } = state.selection
+    const paragraphType = state.schema.nodes.paragraph
 
     state.doc.nodesBetween(from, to, (node, pos) => {
-        if (node.isText || PRESERVED_NODES.has(node.type.name)) return
+        if (!isRemovableNode(node, paragraphType)) return
 
         const $from = tr.doc.resolve(tr.mapping.map(pos))
         const $to = tr.doc.resolve(tr.mapping.map(pos + node.nodeSize))

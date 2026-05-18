@@ -63,9 +63,11 @@ export class TiptapEditor {
         if (options.toolbarElement) this.attachToolbar(options.toolbarElement)
     }
 
-    createDialog(title: TranslationKey): Dialog
-    {
-        return new Dialog(this.trans(title), { draggable: true, closeLabel: this.trans('modal_close') })
+    createDialog(title: TranslationKey): Dialog {
+        return new Dialog(this.trans(title), {
+            draggable: true,
+            closeLabel: this.trans('modal_close')
+        })
     }
 
     trans(key: TranslationKey): string {

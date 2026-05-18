@@ -89,7 +89,7 @@ function applyAnchor(e: TiptapEditor, name: string, isEdit: boolean, from: numbe
 }
 
 function openAnchorDialog(e: TiptapEditor, target?: Element | null) {
-    const dialog = e.createDialog('link_anchor_properties');
+    const dialog = e.createDialog('link_anchor_properties')
     const { from, to } = e.tiptap.state.selection
 
     const el = selectAnchorEl(e, target)
@@ -116,7 +116,11 @@ function openAnchorDialog(e: TiptapEditor, target?: Element | null) {
 
     dialog
         .addButton({ label: e.trans('button_apply'), variant: 'primary', onClick: apply })
-        .addButton({ label: e.trans('button_cancel'), variant: 'secondary', onClick: (d) => d.close() })
+        .addButton({
+            label: e.trans('button_cancel'),
+            variant: 'secondary',
+            onClick: (d) => d.close()
+        })
         .open()
 
     const input = getInput()

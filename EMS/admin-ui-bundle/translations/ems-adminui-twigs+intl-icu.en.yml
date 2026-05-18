@@ -112,6 +112,16 @@ field_type:
         edit: Edit
         move_item: Move
         paste: Paste
+inline_editor:
+    action:
+        discard: Discard
+        exit: Exit
+        publish: Publish
+        save: Save
+    elements: Elements
+    status:
+        draft_by: 'In draft by "{user}"'
+    title: 'Inline Editor'
 job:
     command: Command
     completed: Completed

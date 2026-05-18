@@ -112,6 +112,16 @@ field_type:
         edit: Bewerken
         move_item: Verplaatsen
         paste: Plakken
+inline_editor:
+    action:
+        discard: Annuleren
+        exit: Afsluiten
+        publish: Publiceren
+        save: Opslaan
+    elements: Elementen
+    status:
+        draft_by: 'In concept door "{user}"'
+    title: Inline-editor
 job:
     command: Commando
     completed: Voltooid

@@ -15,6 +15,7 @@ class DockerRemote implements RunnerInterface
 
     /**
      * @param string[] $env
+     * @param mixed[]  $hostConfig
      */
     public function __construct(
         private readonly string $tag,
@@ -23,6 +24,7 @@ class DockerRemote implements RunnerInterface
         private readonly string $image,
         private readonly ?string $imageTag = null,
         private readonly array $env = [],
+        private readonly array $hostConfig = [],
         ?string $socketPath = null,
     ) {
         $this->httpClient = HttpClientFactory::create(baseUrl: $baseUrl, socketPath: $socketPath);
@@ -50,6 +52,7 @@ class DockerRemote implements RunnerInterface
                 'Cmd' => $command,
                 'Env' => $this->env,
                 'Tty' => true,
+                'HostConfig' => $this->hostConfig,
             ],
         ]);
         $data = Json::decode($response->getBody()->getContents());

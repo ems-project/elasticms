@@ -139,7 +139,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
         link_target: 'Doel',
         link_target_new_window: 'Nieuw venster (_blank)',
         link_target_same_window: 'Zelfde venster (_self)',
-        link_type: 'Linktype',
+        link_type: 'Link type',
         link_type_anchor: 'Link naar anker in de tekst',
         link_type_email: 'E-mail',
         link_type_phone: 'Telefoon',

@@ -143,7 +143,7 @@ function buildTypeSection(e: TiptapEditor, ctx: LinkContext, urlTypes?: string[]
     const options = URL_TYPE_OPTIONS.filter((o) => !urlTypes || urlTypes.includes(o.value))
         .map(
             (o) =>
-                `<option value="${o.value}"${ctx.type === o.value ? ' selected' : ''}>${o.label}</option>`
+                `<option value="${o.value}"${ctx.type === o.value ? ' selected' : ''}>${e.trans(o.label)}</option>`
         )
         .join('')
 

@@ -95,7 +95,7 @@ function bindPreview(grid: HTMLElement, large: HTMLElement, small: HTMLElement) 
 function openSpecialCharDialog(e: TiptapEditor) {
     const dialog = e.createDialog('special_characters')
     dialog.setContent(buildContent(e.profile.config.specialChars))
-    dialog.addButton({ label: 'Close', variant: 'secondary', onClick: (d) => d.close() }).open()
+    dialog.addButton({ label: e.trans("button_cancel"), variant: 'secondary', onClick: (d) => d.close() }).open()
 
     const el = dialog.element
     const grid = el.querySelector<HTMLElement>('.sc-grid')!

@@ -112,6 +112,16 @@ field_type:
         edit: Modifier
         move_item: Déplacer
         paste: Coller
+inline_editor:
+    action:
+        discard: Abandonner
+        exit: Quitter
+        publish: Publier
+        save: Enregistrer
+    elements: Éléments
+    status:
+        draft_by: 'En brouillon par "{user}"'
+    title: 'Éditeur en ligne'
 job:
     command: Commande
     completed: Terminé

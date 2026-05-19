@@ -422,9 +422,9 @@ views:
             cancel-label: 'Abandonner les modifications non enregistrées'
             discard-draft-label: 'Supprimer ce brouillon'
             discard-draft-message: 'Les modifications apportées à ce brouillon seront perdues'
-            new-draft-title: '{content-type} : nouveau brouillon'
+            new-draft-title: '{contentType} : nouveau brouillon'
             subtitle: 'Espace de travail'
-            title: 'Modifier {content-type} : {revision} '
+            title: 'Modifier {contentType} : {revision} '
         revisions-data-html:
             all-linked-documents: 'Tous les documents liés'
             audit: Audit
@@ -457,7 +457,7 @@ views:
             revisions.th.locked: Verrouillé
             revisions.th.pendings: 'En attente'
             status: Statut
-            title: 'Révisions de {content-type} : {title}'
+            title: 'Révisions de {contentType} : {title}'
             until: Jusqu’à
             version: Version
     elements:

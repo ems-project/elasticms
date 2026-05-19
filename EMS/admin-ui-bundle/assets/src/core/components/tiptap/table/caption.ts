@@ -1,5 +1,32 @@
 import { Node, mergeAttributes, Editor } from '@tiptap/core'
+import { Node as PMNode } from 'prosemirror-model'
+import { Plugin } from 'prosemirror-state'
 import { HtmlTransform } from '../types.ts'
+
+function isTableEmpty(table: PMNode): boolean {
+    let hasContent = false
+    table.descendants((node) => {
+        const role = node.type.spec.tableRole
+        if (role !== 'cell' && role !== 'header_cell') return
+        if (node.childCount > 1) { hasContent = true; return }
+        if (node.firstChild && node.firstChild.childCount > 0) hasContent = true
+    })
+    return !hasContent
+}
+
+function isInsertingFigure(transactions: readonly any[]): boolean {
+    return transactions.some((tr) =>
+        tr.steps.some((step: any) => {
+            const slice = step.slice
+            if (!slice?.content) return false
+            let found = false
+            slice.content.forEach((node: PMNode) => {
+                if (node.type.name === 'tableFigure') found = true
+            })
+            return found
+        })
+    )
+}
 
 export const TableFigure: Node = Node.create({
     name: 'tableFigure',
@@ -13,6 +40,34 @@ export const TableFigure: Node = Node.create({
 
     renderHTML({ HTMLAttributes }) {
         return ['figure', mergeAttributes(HTMLAttributes, { 'data-type': 'table' }), 0]
+    },
+
+    addProseMirrorPlugins() {
+        return [
+            new Plugin({
+                appendTransaction(transactions, _oldState, newState) {
+                    if (!transactions.some((tr) => tr.docChanged)) return null
+                    if (isInsertingFigure(transactions)) return null
+
+                    const deletions: { from: number; to: number }[] = []
+
+                    newState.doc.descendants((node, pos) => {
+                        if (node.type.name !== 'tableFigure') return
+                        const table = node.firstChild
+                        if (!table || !isTableEmpty(table)) return
+                        deletions.push({ from: pos, to: pos + node.nodeSize })
+                    })
+
+                    if (!deletions.length) return null
+
+                    const tr = newState.tr
+                    for (const { from, to } of [...deletions].reverse()) {
+                        tr.delete(from, to)
+                    }
+                    return tr
+                }
+            })
+        ]
     }
 })
 
@@ -87,7 +142,7 @@ export const tableCaptionHtmlTransform: HtmlTransform = {
                 fig.remove()
                 return
             }
-            if (figcaption) {
+            if (figcaption && figcaption.textContent.trim()) {
                 const caption = doc.createElement('caption')
                 caption.innerHTML = figcaption.innerHTML
                 table.appendChild(caption)

@@ -42,6 +42,22 @@ export const Caption: Node = Node.create({
                     .deleteRange({ from: $from.before(), to: $from.after() })
                     .focus()
                     .run()
+            },
+            Enter: () => {
+                const { $from } = this.editor.state.selection
+                if ($from.parent.type.name !== this.name) return false
+
+                for (let d = $from.depth; d > 0; d--) {
+                    if ($from.node(d).type.name === 'tableFigure') {
+                        const after = $from.after(d)
+                        return this.editor
+                            .chain()
+                            .insertContentAt(after, { type: 'paragraph' })
+                            .focus(after + 1)
+                            .run()
+                    }
+                }
+                return false
             }
         }
     }

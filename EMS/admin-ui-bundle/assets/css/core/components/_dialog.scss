@@ -65,6 +65,11 @@ dialog.ems-dialog {
   .dialog-body {
     padding: 16px 20px;
 
+    &.flush-x {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
     label {
       display: block;
       margin-bottom: 4px;

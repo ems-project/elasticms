@@ -9,6 +9,7 @@ interface DialogButton {
 interface DialogOptions {
     draggable?: boolean
     closeLabel: string
+    bodyClass?: string
 }
 
 export class Dialog {
@@ -16,6 +17,8 @@ export class Dialog {
     private body: HTMLElement
     private footer: HTMLElement
     private options: DialogOptions
+
+    private onCloseCallback?: () => void
 
     constructor(title: string, options: DialogOptions) {
         this.options = options
@@ -34,6 +37,11 @@ export class Dialog {
         `
 
         this.body = this.element.querySelector('.dialog-body')!
+
+        if (options.bodyClass) {
+            this.body.classList.add(...options.bodyClass.split(' ').filter(Boolean))
+        }
+
         this.footer = this.element.querySelector('.dialog-footer')!
 
         this.element.querySelector('.dialog-close')!.addEventListener('click', () => this.close())
@@ -41,6 +49,7 @@ export class Dialog {
         this.element.addEventListener('close', () => {
             document.body.classList.remove('dialog-open')
             this.element.remove()
+            this.onCloseCallback?.()
         })
 
         this.element.addEventListener('cancel', (e) => {
@@ -121,6 +130,11 @@ export class Dialog {
 
     close(): void {
         this.element.close()
+    }
+
+    onClose(callback: () => void): this {
+        this.onCloseCallback = callback
+        return this
     }
 
     getFieldValue(id: string): string {

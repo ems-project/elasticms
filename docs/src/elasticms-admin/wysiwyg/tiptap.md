@@ -34,6 +34,35 @@ The dialog covers a style preset dropdown (populated from wysiwyg styles targeti
 classes, ID, language code, inline style, and advisory title. Selecting a preset fills the classes
 field; the field remains manually editable.
 
+### Find & Replace
+
+Two toolbar buttons — Find and Replace — that open the same dialog on a different tab.
+
+**Find tab** — a search field with a Find button. Results are highlighted in the editor as the user
+navigates through them. Each press of the button advances to the next match. When the last match is
+reached, the search wraps back to the first (if wrap around is enabled). The status line below the
+options shows the current position within the total number of matches (e.g. `2 / 5`). Pressing Enter
+in the search field is equivalent to clicking Find.
+
+**Replace tab** — two fields: one for the search term and one for the replacement text. The Replace
+button replaces the current match and automatically advances to the next one. If no match is active
+yet, the first press acts as a find. Replace All replaces every occurrence in one operation and
+reports how many substitutions were made.
+
+Both tabs share the same three search options:
+
+- **Case-sensitive** — when enabled, `Hello` and `hello` are treated as different words. Disabled by default.
+- **Whole word** — when enabled, only matches where the search term appears as a complete word are found. Searching for
+  `cat` will not match `concatenate`. Disabled by default.
+- **Wrap around** — when enabled, reaching the last match continues from the top of the document. When disabled, the
+  search stops at the end and shows a notice. Enabled by default.
+
+Switching between the Find and Replace tabs carries the current search term over so the user does
+not have to retype it. The two tabs are otherwise independent — each has its own match state.
+
+All highlights are cleared when the dialog is closed. Editing the document while the dialog is open
+also clears the highlights, since positions in the document may have shifted.
+
 ### Format
 
 A toolbar dropdown for switching block-level formats, equivalent to CKEditor's Format plugin. Works

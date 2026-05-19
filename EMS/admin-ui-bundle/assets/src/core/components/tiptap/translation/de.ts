@@ -48,7 +48,7 @@ export const de: Record<TranslationKey, string> = {
     id: 'ID',
     indent_decrease: 'Einzug verkleinern',
     indent_increase: 'Einzug vergrößern',
-    link: 'Link',
+    link: 'Link (Ctrl+L)',
     link_anchor: 'Anker',
     link_anchor_edit: 'Anker bearbeiten',
     link_anchor_name: 'Ankername',

@@ -48,7 +48,7 @@ export const fr: Record<TranslationKey, string> = {
     id: 'ID',
     indent_decrease: 'Diminuer le retrait',
     indent_increase: 'Augmenter le retrait',
-    link: 'Lien',
+    link: 'Lien (Ctrl+L)',
     link_anchor: 'Ancre',
     link_anchor_edit: "Modifier l'ancre",
     link_anchor_name: "Nom de l'ancre",

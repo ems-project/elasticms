@@ -87,7 +87,7 @@ export interface Toolbar {
 }
 
 export interface TiptapModule {
-    extensions?: ExtensionType[]
+    extensions?: ExtensionType[] | ((editor: TiptapEditor) => ExtensionType[])
     toolbar?: Toolbar
     contextMenu?: ContextMenu
     htmlTransforms?: HtmlTransform[]

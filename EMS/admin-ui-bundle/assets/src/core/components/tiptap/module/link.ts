@@ -17,7 +17,7 @@ const URL_TYPE_OPTIONS: { value: UrlType; label: TranslationKey }[] = [
 ]
 
 export const linkModule: TiptapModule = {
-    extensions: getLinkExtension(),
+    extensions: (e) => getLinkExtension(e),
     toolbar: {
         group: 'links',
         items: [
@@ -62,7 +62,7 @@ export const linkModule: TiptapModule = {
     }
 }
 
-function getLinkExtension() {
+function getLinkExtension(e: TiptapEditor) {
     return [
         Mark.create({
             name: 'link',
@@ -89,6 +89,14 @@ function getLinkExtension() {
             },
             renderHTML({ HTMLAttributes }) {
                 return ['a', mergeAttributes(HTMLAttributes), 0]
+            },
+            addKeyboardShortcuts() {
+                return {
+                    'Mod-l': () => {
+                        openLinkDialog(e)
+                        return true
+                    }
+                }
             }
         })
     ]

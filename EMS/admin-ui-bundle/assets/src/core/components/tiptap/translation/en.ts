@@ -46,7 +46,7 @@ const en = {
     id: 'ID',
     indent_decrease: 'Decrease Indent',
     indent_increase: 'Increase Indent',
-    link: 'Link',
+    link: 'Link (Ctrl+L)',
     link_anchor: 'Anchor',
     link_anchor_edit: 'Edit Anchor',
     link_anchor_name: 'Anchor Name',

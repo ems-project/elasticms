@@ -118,7 +118,9 @@ export class TiptapEditor {
             if (activeModules.has(mod)) return
             activeModules.add(mod)
 
-            mod.extensions?.forEach((ext) => extensionMap.set(ext.name, ext))
+            const extensions =
+                typeof mod.extensions === 'function' ? mod.extensions(this) : (mod.extensions ?? [])
+            extensions.forEach((ext) => extensionMap.set(ext.name, ext))
         }
 
         this.profile.config.toolbarGroups.forEach((entry) => {

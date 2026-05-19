@@ -91,26 +91,32 @@ function isTableEmpty(table: PMNode): boolean {
     return !hasContent
 }
 
-function sliceContainsType(slice: any, typeName: string): boolean {
-    if (!slice?.content) return false
-    let found = false
-    slice.content.forEach((node: PMNode) => {
-        if (node.type.name === typeName) found = true
-    })
-    return found
-}
-
-function isInsertingFigure(transactions: readonly any[]): boolean {
+function sliceContainsFigure(transactions: readonly any[]): boolean {
     return transactions.some((tr) =>
-        tr.steps.some((step: any) => sliceContainsType(step.slice, 'tableFigure'))
+        tr.steps.some((step: any) => {
+            if (!step.slice?.content) return false
+            let found = false
+            step.slice.content.forEach((node: PMNode) => {
+                if (found) return
+                if (node.type.name === 'tableFigure') {
+                    found = true
+                    return
+                }
+                node.descendants((child: PMNode) => {
+                    if (child.type.name === 'tableFigure') found = true
+                })
+            })
+            return found
+        })
     )
 }
 
 function emptyFigureCleaner(): Plugin {
     return new Plugin({
-        appendTransaction(transactions, _oldState, newState) {
+        appendTransaction(transactions, oldState, newState) {
             if (!transactions.some((tr) => tr.docChanged)) return null
-            if (isInsertingFigure(transactions)) return null
+            if (newState.doc.nodeSize >= oldState.doc.nodeSize) return null
+            if (sliceContainsFigure(transactions)) return null
 
             const deletions: { from: number; to: number }[] = []
             newState.doc.descendants((node, pos) => {

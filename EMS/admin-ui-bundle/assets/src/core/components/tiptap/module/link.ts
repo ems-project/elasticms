@@ -5,6 +5,7 @@ import { TiptapModule } from '../types.ts'
 import { TiptapEditor } from '../editor.ts'
 import { escapeHtml } from '../helper.ts'
 import { TranslationKey } from '../translations.ts'
+import { Plugin, PluginKey } from '@tiptap/pm/state'
 
 const URL_TYPES = ['url', 'anchor', 'email', 'phone'] as const
 type UrlType = (typeof URL_TYPES)[number]
@@ -24,7 +25,7 @@ export const linkModule: TiptapModule = {
             {
                 name: 'Link',
                 icon: IconLink,
-                tooltip: 'link',
+                tooltip: 'link_tooltip',
                 order: 1,
                 command: (e) => openLinkDialog(e),
                 isActive: (e) => e.tiptap.isActive('link')
@@ -97,6 +98,21 @@ function getLinkExtension(e: TiptapEditor) {
                         return true
                     }
                 }
+            },
+            addProseMirrorPlugins() {
+                return [
+                    new Plugin({
+                        key: new PluginKey('linkDoubleClick'),
+                        props: {
+                            handleDoubleClick(view, pos) {
+                                const marks = view.state.doc.resolve(pos).marks()
+                                if (!marks.some((m) => m.type.name === 'link')) return false
+                                openLinkDialog(e)
+                                return true
+                            }
+                        }
+                    })
+                ]
             }
         })
     ]

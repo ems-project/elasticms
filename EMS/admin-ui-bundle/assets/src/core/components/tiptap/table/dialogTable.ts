@@ -58,6 +58,20 @@ function getTableContext(tiptap: Editor): {
     return { attrs, caption, headers }
 }
 
+function parseStyle(style: string, prop: string): string {
+    if (!style) return ''
+    const match = style.match(new RegExp(`${prop}\\s*:\\s*([^;]+)`))
+    return match ? match[1].trim() : ''
+}
+
+function stripStyleProps(style: string, ...props: string[]): string {
+    return style
+        .split(';')
+        .map((s) => s.trim())
+        .filter((s) => s && !props.some((p) => new RegExp(`^${p}\\s*:`, 'i').test(s)))
+        .join('; ')
+}
+
 export function openTableDialog(e: TiptapEditor, mode: 'insert' | 'edit') {
     const dialog = e.createDialog('table_properties')
 
@@ -65,11 +79,16 @@ export function openTableDialog(e: TiptapEditor, mode: 'insert' | 'edit') {
         mode === 'edit'
             ? getTableContext(e.tiptap)
             : {
-                  attrs: { class: e.getWysiwygOptions()?.tableDefaultCss },
-                  caption: '',
-                  headers: 'none'
-              }
+                attrs: { class: e.getWysiwygOptions()?.tableDefaultCss },
+                caption: '',
+                headers: 'none'
+            }
     const a = current.attrs
+
+    const userStyle = a.dataUserStyle || ''
+    const width = parseStyle(userStyle, 'width') || a.width || ''
+    const height = parseStyle(userStyle, 'height') || a.height || ''
+    const displayStyle = stripStyleProps(userStyle, 'width', 'height')
 
     let html = ''
 
@@ -101,11 +120,11 @@ export function openTableDialog(e: TiptapEditor, mode: 'insert' | 'edit') {
              <div style="flex: 1; display: flex; gap: 10px;">        
                 <div style="flex: 1">
                     <label for="table-width">${e.trans('width')}</label>
-                    <input type="text" id="table-width" value="${escapeHtml(a.width)}" placeholder="50%, 300px">
+                    <input type="text" id="table-width" value="${escapeHtml(width)}" placeholder="50%, 300px">
                 </div>
                 <div style="flex: 1">
                     <label for="table-height">${e.trans('height')}</label>
-                    <input type="text" id="table-height" value="${escapeHtml(a.height)}" placeholder="200px">
+                    <input type="text" id="table-height" value="${escapeHtml(height)}" placeholder="200px">
                 </div>
             </div>
         </div>
@@ -145,7 +164,7 @@ export function openTableDialog(e: TiptapEditor, mode: 'insert' | 'edit') {
             </div>
             <div style="flex: 1">
                 <label for="table-style">${e.trans('style')}</label>
-                <input type="text" id="table-style" value="${escapeHtml(a.dataUserStyle)}">
+                <input type="text" id="table-style" value="${escapeHtml(displayStyle)}">
             </div>
         </div>
         <div>
@@ -170,17 +189,26 @@ export function openTableDialog(e: TiptapEditor, mode: 'insert' | 'edit') {
             const caption = field('caption') ?? ''
             const headers = field('headers') ?? 'none'
 
+            const styleBase = stripStyleProps(field('style') || '', 'width', 'height')
+            const w = field('width')
+            const h = field('height')
+            const styleParts = [
+                styleBase,
+                w && `width: ${w}`,
+                h && `height: ${h}`
+            ].filter(Boolean) as string[]
+
             const attrs: Record<string, string | null> = {
                 id: field('id'),
                 class: field('class'),
                 summary: field('summary'),
-                dataUserStyle: field('style'),
+                dataUserStyle: styleParts.length ? styleParts.join('; ') : null,
                 align: field('align'),
                 border: field('border'),
                 cellpadding: field('cellpadding'),
                 cellspacing: field('cellspacing'),
-                width: field('width'),
-                height: field('height')
+                width: null,
+                height: null
             }
 
             if (mode === 'edit') {

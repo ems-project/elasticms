@@ -10,11 +10,19 @@ export const tableCleanHtmlTransform: HtmlTransform = {
                 if (cell.getAttribute('rowspan') === '1') cell.removeAttribute('rowspan')
             })
 
+            const parts: string[] = []
             const style = table.getAttribute('style')
-            if (style) {
-                table.setAttribute('data-user-style', style)
-                table.removeAttribute('style')
-            }
+            if (style) parts.push(style)
+
+            const w = table.getAttribute('width')
+            const h = table.getAttribute('height')
+            if (w && !style?.includes('width')) parts.push(`width: ${w}`)
+            if (h && !style?.includes('height')) parts.push(`height: ${h}`)
+
+            if (parts.length) table.setAttribute('data-user-style', parts.join('; '))
+            table.removeAttribute('style')
+            if (w) table.removeAttribute('width')
+            if (h) table.removeAttribute('height')
         })
 
         doc.querySelectorAll('td, th').forEach((cell) => {
@@ -27,19 +35,8 @@ export const tableCleanHtmlTransform: HtmlTransform = {
     },
     toOutput(doc) {
         doc.querySelectorAll('table').forEach((table) => {
-            const parts: string[] = []
-
             const userStyle = table.getAttribute('data-user-style')
-            if (userStyle) parts.push(userStyle)
-
-            const w = table.getAttribute('width')
-            const h = table.getAttribute('height')
-            if (w && !userStyle?.includes('width')) parts.push(`width: ${w}`)
-            if (h && !userStyle?.includes('height')) parts.push(`height: ${h}`)
-
-            if (parts.length) {
-                table.setAttribute('style', parts.join('; '))
-            }
+            if (userStyle) table.setAttribute('style', userStyle)
 
             table.removeAttribute('data-user-style')
             table.querySelectorAll('colgroup').forEach((cg) => cg.remove())

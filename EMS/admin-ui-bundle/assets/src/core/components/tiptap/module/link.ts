@@ -285,6 +285,14 @@ function showFields(root: HTMLElement, type: UrlType) {
         const el = root.querySelector<HTMLElement>(`#link-fields-${t}`)
         if (el) el.style.display = t === type ? 'flex' : 'none'
     })
+
+    const urlInput = root.querySelector<HTMLInputElement>('#link-url')!
+    urlInput.addEventListener('blur', () => {
+        const val = urlInput.value.trim()
+        if (val && !val.match(/^https?:\/\//i) && !val.startsWith('/') && !val.startsWith('#')) {
+            urlInput.value = `https://${val}`
+        }
+    })
 }
 
 function applyLink(e: TiptapEditor, result: LinkResult, isEdit: boolean, from: number, to: number) {

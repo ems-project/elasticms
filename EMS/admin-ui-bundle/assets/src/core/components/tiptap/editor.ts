@@ -127,7 +127,7 @@ export class TiptapEditor {
                 return
             }
 
-            const groups = entry.groups ?? [entry.name]
+            const groups = [...new Set(entry.groups ? [...entry.groups, entry.name] : [entry.name])]
             groups.forEach((groupName) => {
                 enabledModules.forEach((mod) => {
                     if (mod.toolbar?.group !== groupName) return

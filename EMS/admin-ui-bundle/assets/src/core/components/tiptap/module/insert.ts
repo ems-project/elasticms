@@ -7,6 +7,7 @@ import { TiptapModule } from '../types.ts'
 export const insertModule: TiptapModule[] = [
     {
         extensions: [HorizontalRule],
+        isEnabled: (profile) => profile.hasPlugin('horizontalrule'),
         toolbar: {
             group: 'insert',
             items: [
@@ -22,6 +23,7 @@ export const insertModule: TiptapModule[] = [
     },
     {
         extensions: [Blockquote],
+        isEnabled: (profile) => profile.hasPlugin('blockquote'),
         toolbar: {
             group: 'blocks',
             items: [

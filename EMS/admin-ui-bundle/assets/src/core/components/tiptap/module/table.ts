@@ -9,6 +9,7 @@ import { openTableDialog } from '../table/dialogTable.ts'
 import { CustomTableHeader, tableTheadHtmlTransform } from '../table/header.ts'
 
 export const tableModule: TiptapModule = {
+    isEnabled: (wysiwygProfile) => wysiwygProfile.hasPlugin('table'),
     extensions: getExtensions(),
     htmlTransforms: [tableCaptionHtmlTransform, tableCleanHtmlTransform, tableTheadHtmlTransform],
     toolbar: {

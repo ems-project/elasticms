@@ -254,6 +254,7 @@ const DEFAULT_SPECIAL_CHARS = [
 ]
 
 export interface CkeditorConfig {
+    plugins?: string
     extraPlugins?: string
     removeButtons?: string
     language: string

@@ -4,6 +4,7 @@ import { TiptapEditor } from '../editor.ts'
 import { escapeHtml } from '../helper.ts'
 
 export const specialCharModule: TiptapModule = {
+    isEnabled: (wysiwygProfile) => wysiwygProfile.hasPlugin('specialchar'),
     extensions: [],
     toolbar: {
         group: 'insert',

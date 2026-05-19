@@ -18,7 +18,7 @@ import { formatModule } from './module/format.ts'
 import { showBlocksModule } from './module/showBlocks.ts'
 import { divModule } from './module/div.ts'
 import { TranslationKey } from './translations.ts'
-import {findReplaceModule} from "./module/find.ts";
+import { findReplaceModule } from './module/find.ts'
 
 export type ContextType = 'table'
 

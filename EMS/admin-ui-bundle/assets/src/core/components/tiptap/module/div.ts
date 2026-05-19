@@ -35,7 +35,7 @@ type ExistingDiv = {
 type StyleOption = { label: string; value: string }
 
 export const divModule: TiptapModule = {
-    isEnabled: (wysiwygProfile) => wysiwygProfile.config.extraPlugins?.includes('div') ?? false,
+    isEnabled: (wysiwygProfile) => wysiwygProfile.hasPlugin('div'),
     extensions: [
         BLOCK_NODES.div,
         Extension.create({

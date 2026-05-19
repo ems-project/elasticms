@@ -85,6 +85,7 @@ export const stylesModule: TiptapModule = {
         items: [
             {
                 name: 'Styles',
+                order: 1,
                 create: (editor: TiptapEditor) => createStylesDropdown(editor),
                 destroy: (editor: TiptapEditor) => {
                     const state = editorState.get(editor)

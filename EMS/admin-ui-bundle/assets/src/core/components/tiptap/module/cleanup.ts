@@ -16,6 +16,7 @@ const PRESERVED_NODES = new Set([
 ])
 
 export const cleanupModule: TiptapModule = {
+    isEnabled: (profile) => profile.hasPlugin('removeformat'),
     toolbar: {
         group: 'cleanup',
         items: [

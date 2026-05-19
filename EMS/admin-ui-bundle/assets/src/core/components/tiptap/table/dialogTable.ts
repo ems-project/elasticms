@@ -79,10 +79,10 @@ export function openTableDialog(e: TiptapEditor, mode: 'insert' | 'edit') {
         mode === 'edit'
             ? getTableContext(e.tiptap)
             : {
-                attrs: { class: e.getWysiwygOptions()?.tableDefaultCss },
-                caption: '',
-                headers: 'none'
-            }
+                  attrs: { class: e.getWysiwygOptions()?.tableDefaultCss },
+                  caption: '',
+                  headers: 'none'
+              }
     const a = current.attrs
 
     const userStyle = a.dataUserStyle || ''
@@ -192,11 +192,9 @@ export function openTableDialog(e: TiptapEditor, mode: 'insert' | 'edit') {
             const styleBase = stripStyleProps(field('style') || '', 'width', 'height')
             const w = field('width')
             const h = field('height')
-            const styleParts = [
-                styleBase,
-                w && `width: ${w}`,
-                h && `height: ${h}`
-            ].filter(Boolean) as string[]
+            const styleParts = [styleBase, w && `width: ${w}`, h && `height: ${h}`].filter(
+                Boolean
+            ) as string[]
 
             const attrs: Record<string, string | null> = {
                 id: field('id'),

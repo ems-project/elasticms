@@ -16,6 +16,13 @@ html, body {
 
   .marker { background-color: #ffff00;}
 
+  .findr-match--current {
+    background-color: #bbdefb;
+    color: #000;
+    border-radius: 2px;
+    box-shadow: 0 0 0 1px #1e88e5;
+  }
+
   li p {
     margin: 0;
   }

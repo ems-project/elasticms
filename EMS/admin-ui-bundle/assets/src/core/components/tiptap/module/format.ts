@@ -45,7 +45,7 @@ const editorState = new WeakMap<TiptapEditor, EditorState>()
 export const formatModule: TiptapModule = {
     extensions: [Heading, BLOCK_NODES.div, BLOCK_NODES.pre, BLOCK_NODES.address],
     toolbar: {
-        group: 'format',
+        group: 'styles',
         items: [
             {
                 name: 'Format',

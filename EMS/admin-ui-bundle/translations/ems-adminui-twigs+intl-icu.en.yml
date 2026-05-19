@@ -422,9 +422,9 @@ views:
             cancel-label: 'Discard non-saved modifications'
             discard-draft-label: 'Delete this draft'
             discard-draft-message: 'Modifications made in this draft will be lost'
-            new-draft-title: '{content-type}: new draft'
+            new-draft-title: '{contentType}: new draft'
             subtitle: 'Working area'
-            title: 'Edit the {content-type}: {revision} '
+            title: 'Edit the {contentType}: {revision} '
         revisions-data-html:
             all-linked-documents: 'All linked documents'
             audit: Audit
@@ -457,7 +457,7 @@ views:
             revisions.th.locked: Locked
             revisions.th.pendings: Pendings
             status: Status
-            title: 'Revisions of {content-type}: {title}'
+            title: 'Revisions of {contentType}: {title}'
             until: Until
             version: Version
     elements:

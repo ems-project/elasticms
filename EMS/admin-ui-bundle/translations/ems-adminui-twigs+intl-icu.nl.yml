@@ -422,9 +422,9 @@ views:
             cancel-label: 'Niet-opgeslagen wijzigingen verwerpen'
             discard-draft-label: 'Dit concept verwijderen'
             discard-draft-message: 'Wijzigingen in dit concept gaan verloren'
-            new-draft-title: '{content-type}: nieuw concept'
+            new-draft-title: '{contentType}: nieuw concept'
             subtitle: Werkruimte
-            title: '{content-type} bewerken: {revision} '
+            title: '{contentType} bewerken: {revision} '
         revisions-data-html:
             all-linked-documents: 'Alle gekoppelde documenten'
             audit: Audit
@@ -457,7 +457,7 @@ views:
             revisions.th.locked: Vergrendeld
             revisions.th.pendings: Wachtenden
             status: Status
-            title: 'Revisies van {content-type}: {title}'
+            title: 'Revisies van {contentType}: {title}'
             until: Tot
             version: Versie
     elements:

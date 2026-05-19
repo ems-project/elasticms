@@ -1,1 +1,5 @@
 /.env
+/.sandbox/*
+!/.sandbox/.gitkeep
+/sandbox.env
+/sandbox.passwd

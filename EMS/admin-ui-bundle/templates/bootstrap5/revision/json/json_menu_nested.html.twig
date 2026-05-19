@@ -1,4 +1,4 @@
-{% trans_default_domain 'EMSCoreBundle' %}
+{% trans_default_domain 'ems-adminui-twigs' %}
 
 {% block render %}
     {%- set level = 0 -%}
@@ -87,7 +87,7 @@
     } -%}
     {% set blockRenderContext = {item: item, node: node, buttons: buttons} %}
     <div class="json-menu-nested-item">
-        <button class="btn btn-default btn-sm btn-collapse" role="button" aria-expanded="false"></button>
+        <button class="btn btn-light btn-sm btn-collapse" role="button" aria-expanded="false"></button>
         {%- if node.icon is defined -%}<i class="json-menu-nested-item-icon {{ node.icon }}"></i>{%- endif -%}
         <div class="json-menu-nested-item-label">{{ item.label }}</div>
         <div class="json-menu-nested-item-actions">
@@ -128,7 +128,7 @@
 
 {% block buttonPreview %}
     {% if 'preview' in node.actions %}
-        <button type="button" class="btn btn-sm btn-json-menu-nested-preview btn-default"
+        <button type="button" class="btn btn-sm btn-json-menu-nested-preview btn-light"
                 data-title="{{ item.label }}"
                 data-item-id="{{ item.id }}">
             <span class="fa fa-eye"></span>
@@ -139,7 +139,7 @@
 
 {% block buttonMove %}
     {% if 'move' in node.actions %}
-        <a type="button" class="btn btn-sm btn-default btn-json-menu-nested-move"
+        <a type="button" class="btn btn-sm btn-light btn-json-menu-nested-move"
            title="{{- 'field_type.json_menu_editor.move_item'|trans -}}">
             <i class="fa fa-arrows"></i>
             {{ 'field_type.json_menu_editor.move_item'|trans }}
@@ -161,7 +161,7 @@
     {% set position = position|default('item') %}
     {%- if 'add' in node.actions and node.addNodes|length > 0 and (def.maxDepth == 0 or level < def.maxDepth) -%}
         <div class="btn-group btn-group-sm">
-            <button type="button" class="btn btn-sm btn-default dropdown-toggle json-menu-nested-add-button"
+            <button type="button" class="btn btn-sm btn-light dropdown-toggle json-menu-nested-add-button"
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="fa fa-plus"></span>
                 {{ 'field_type.json_menu_editor.add'|trans }}
@@ -190,7 +190,7 @@
     {%- set position = position|default('item') -%}
     {% if 'copy' in node.actions or 'paste' in node.actions %}
         <div class="btn-group">
-            <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="true">
+            <button type="button" class="btn btn-light btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="true">
                 <span class="fa fa-ellipsis-h"></span>
             </button>
             <ul class="dropdown-menu {{ 'item' == position ? 'float-end' }}">
@@ -242,20 +242,20 @@
 
 {% block modalSaveFooter %}
     <div class="float-end">
-        <button id="ajax-modal-submit" class="btn btn-sm btn-primary"><i class="fa fa-save"></i>&nbsp;Save</button>
-        <button type="button" class="btn btn-sm btn-default" data-bs-dismiss="modal">Cancel</button>
+        <button id="ajax-modal-submit" class="btn btn-sm btn-primary"><i class="fa fa-save"></i>&nbsp;{{ 'json_menu_nested.action.save'|trans }}</button>
+        <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal">{{ 'json_menu_nested.action.cancel'|trans }}</button>
     </div>
 {% endblock %}
 
 {% block modalFooterClose %}
     <div class="pull-left">
-        <button type="button" class="btn btn-sm btn-default" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal">{{ 'action.close'|trans({}, 'emsco-core') }}</button>
     </div>
 {% endblock %}
 
 {% block alertOutOfSync %}
     <div class="alert alert-warning" role="alert">
         <span>{{ 'view.data.json-menu-nested.out_of_sync'|trans }}</span>
-        <button class="btn btn-primary btn-sm float-end" onClick="window.location.reload();">Refresh</button>
+        <button class="btn btn-primary btn-sm float-end" onClick="window.location.reload();">{{ 'action.refresh'|trans({}, 'emsco-core') }}</button>
     </div>
 {% endblock %}

@@ -1,52 +1,58 @@
-{%- trans_default_domain 'elements' -%}
+{%- trans_default_domain 'ems-adminui-elements' -%}
 
-<div class="user-panel mt-3 pb-3 mb-3 d-flex">
+<div class="user-panel my-3 d-flex">
     <div class="image">
         {{ include('@EMSAdminUI/bootstrap5/elements/user-image.html.twig', {
-            class: 'img-circle elevation-2',
+            class: 'rounded-circle avatar ms-3 img-fluid',
+            width: 37,
+            height: 37,
         }) }}
     </div>
-    <div class="info">
+    <div class="info ms-3">
         {% if app.user %}
-            <a href="{{ path(routes.USER_PROFILE) }}" class="d-block">{{ app.user.displayName }}</a>
+            <div class="dropdown user-menu">
+                <a class="dropdown-toggle text-white" href="#" data-bs-toggle="dropdown">
+                    {{ app.user.displayName }}
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li class="dropdown-header">{{ 'user.logged_in.title'|trans({'%username%': app.user.username}, 'ems-adminui-user') }}</li>
+                    <li class="dropdown-divider"></li>
+                    <li>
+                        <a href="{{ path(routes.USER_PROFILE) }}" class="dropdown-item">{{ 'user.profile.title'|trans({}, 'ems-adminui-user') }}</a>
+                    </li>
+                    {% if is_granted('IS_IMPERSONATOR') %}
+                        <li>
+                            <a href="{{ path('emsco_user_index', {_switch_user: '_exit'}) }}" class="dropdown-item">{{ 'user.logout.exit'|trans({}, 'ems-adminui-user') }}</a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a href="{{ path(routes.USER_LOGOUT) }}" class="dropdown-item">{{ 'user.logout.submit'|trans({}, 'ems-adminui-user') }}</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
         {% else %}
-            {{ 'side_menu.anonymous-user'|trans }}
+            <p class="text-white mb-0">{{ 'side_menu.anonymous-user'|trans }}</p>
+        {% endif %}
+        {% if status is defined %}
+            {% set statusTitle = 'cluster.status'|trans({color: status}, 'emsco-core') %}
+            <a href="{{ path('elasticsearch.status') }}" id="status-overview" title="{{ statusTitle }}">
+                {%- with {
+                    title: statusTitle,
+                    status: status,
+                } -%}
+                    {{ block('status', '@EMSAdminUI/bootstrap5/elasticsearch/status.html.twig') }}
+                {%- endwith -%}
+            </a>
         {% endif %}
     </div>
-    {% if status is defined %}
-        {% set statusTitle = 'cluster.status'|trans({color: status}, 'emsco-core') %}
-        <a href="{{ path('elasticsearch.status') }}" id="status-overview" class="position-absolute top-0 end-0" title="{{ statusTitle }}">
-            {%- with {
-                title: statusTitle,
-                status: status,
-            } -%}
-                {{ block('status', '@EMSAdminUI/bootstrap5/elasticsearch/status.html.twig') }}
-            {%- endwith -%}
-        </a>
-    {% endif %}
 </div>
 
-{% if app.user %}
-    <div class="form-inline">
-        <div class="input-group" data-widget="sidebar-search">
-            <input class="form-control form-control-sidebar" type="search" placeholder="{{ 'side-menu.quick-search.placeholder'|trans }}" aria-label="{{ 'side-menu.quick-search.label'|trans }}">
-            <div class="input-group-append">
-                <button class="btn btn-sidebar">
-                    <i class="fas fa-search fa-fw"></i>
-                    <span class="visually-hidden">{{ 'side-menu.search.btn'|trans }}</span>
-                </button>
-            </div>
-        </div>
-    </div>
-{% endif %}
-
-<nav class="mt-2">
-    <ul class="nav nav-pills nav-sidebar nav-child-indent flex-column" data-widget="treeview" role="menu" data-accordion="false">
-        {% for item in menu|default([])|filter(p => p.hasChildren) %}
-            <li class="nav-header">{{ item.title|trans(item.transParameters, 'emsco-twigs') }}</li>
-            {% for menu in item.children %}
-                {{ block('sidebarMenu', '@EMSAdminUI/bootstrap5/elements/menu.html.twig') }}
-            {% endfor %}
+<ul class="sidebar-nav">
+    {% for item in menu|default([])|filter(p => p.hasChildren) %}
+        <li class="sidebar-header">{{ item.title|trans(item.transParameters, 'ems-adminui-twigs') }}</li>
+        {% for menu in item.children %}
+            {{ block('sidebarMenu', '@EMSAdminUI/bootstrap5/elements/menu.html.twig') }}
         {% endfor %}
-    </ul>
-</nav>
+    {% endfor %}
+</ul>

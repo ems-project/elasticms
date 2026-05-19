@@ -21,19 +21,20 @@
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
             {% for l in locales %}
-                <li class="{{ locale == l ? 'active' }}">
+                <li class="{{ locale == l ? 'active' }}" data-testid="structure-nav-link-{{ l }}">
                     <a href="{{ path(route, routeParams|merge({ 'locale': l }) ) }}" class="{{ html_classes('nav-link', { 'active': l == locale }) }}">{{ "locale.#{l}"|emsco_i18n }}</a>
                 </li>
             {% endfor %}
         </ul>
        <div class="tab-content">
-            <div class="tab-pane active" id="tab-{{ locale }}">
+            <div class="tab-pane active" id="tab-{{ locale }}" data-testid="structure-nav-tab-{{ locale }}">
+                {% set templateName = themeNamespace == 'EMSCore' ? 'json_menu_nested' : 'json_menu_nested_bs5' %}
                 {% for section in sections %}
                     {{ component('json_menu_nested', {
                         'id': "section-#{section._id}",
                         'ems_link': "ems://object:#{section._source._contenttype}:#{section._id}",
                         'field_path': '[structure]',
-                        'template': '@EMSCH/template_ems/dashboard/json_menu_nested.twig',
+                        'template': "@EMSCH/template_ems/dashboard/#{templateName}.twig",
                         'context_block': 'build_context',
                         'active_item_id': app.request.query.get('activeItemId')|default(null),
                         'context': {

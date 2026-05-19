@@ -1,4 +1,4 @@
-{% trans_default_domain 'EMSCoreBundle' %}
+{% trans_default_domain 'ems-adminui-twigs' %}
 {%- set ouuid = object.ouuid|default(object._id is defined ? object._id : '') -%}
 {%- set source = object.source|default(object._source is defined ? object._source : []) -%}
 {%- if contentType -%}
@@ -98,12 +98,14 @@
     {% if is_granted('ROLE_COPY_PASTE') %}
         {% set contentTypeActions = contentTypeActions|merge([{
             link: path('emsco_data_copy', {environment: environment.name, type: contentType.name, ouuid: ouuid}),
+            link_attributes: [{name: 'class', value: 'dropdown-item'}],
             icon: 'views.elements.object-views-button.copy-data-icon-class'|trans,
             label: 'views.elements.object-views-button.copy-data'|trans,
         }]) %}
         {% if not contentType.askForOuuid %}
             {% set contentTypeActions = contentTypeActions|merge([{
                 link: path('emsco_duplicate_revision', {environment: environment.name, type: contentType.name, ouuid: ouuid}),
+                link_attributes: [{name: 'class', value: 'dropdown-item'}],
                 icon: 'clone',
                 label: 'Duplicate',
                 post_button: true,
@@ -111,6 +113,7 @@
         {% endif %}
         {% set contentTypeActions = contentTypeActions|merge([{
             link: path('emsco_data_view', {environmentName: environment.name, type: contentType.name, ouuid: ouuid}),
+            link_attributes: [{name: 'class', value: 'dropdown-item'}],
             icon: 'views.elements.object-views-button.raw-view-icon-class'|trans,
             label: 'views.elements.object-views-button.raw-view'|trans,
         }]) %}
@@ -118,7 +121,7 @@
 
     <div class="btn-group">
         {% if contentTypeActions|default([])|length > 0 %}
-            <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <button type="button" class="btn btn-light btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="{{ 'views.elements.object-views-button.action-dropdown-icon-class'|trans }}"></i>
                 {{ 'views.elements.object-views-button.action-dropdown-label'|trans({'%environment%': environment.label}) }}
                 <span class="caret"></span>
@@ -132,7 +135,7 @@
                                 url: a.link,
                                 label: a.label,
                                 icon: a.icon,
-                                btnClass: '',
+                                btnClass: (a.link_attributes|default([])|filter(attr => attr.name == 'class')|first).value|default(''),
                             }) }}
                         {% else %}
                             {% if a.link|default %}
@@ -149,7 +152,7 @@
                 {% endfor %}
             </ul>
         {% else %}
-            <button type="button" class="btn btn-default btn-sm" style="cursor: default">
+            <button type="button" class="btn btn-light btn-sm" style="cursor: default">
                 <i class="{{ 'views.elements.object-views-button.action-dropdown-icon-class'|trans }}"></i>
                 {{ 'views.elements.object-views-button.published-label'|trans({'%environment%': environment.label}) }}
             </button>

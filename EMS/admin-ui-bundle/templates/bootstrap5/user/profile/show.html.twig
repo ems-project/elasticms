@@ -1,5 +1,5 @@
 {% extends '@EMSAdminUI/bootstrap5/template/card.html.twig' %}
-{%- trans_default_domain 'user' -%}
+{%- trans_default_domain 'ems-adminui-user' -%}
 
 {% block body %}
     {% set footer %}
@@ -9,7 +9,7 @@
         </div>
     {% endset %}
     <div class="row justify-content-md-center">
-        <div class="col-md-4">
+        <div class="col-md-6">
             {{ parent() }}
         </div>
     </div>
@@ -18,7 +18,7 @@
 {% block content %}
         <div class="text-center">
             {{ include('@EMSAdminUI/bootstrap5/elements/user-image.html.twig', {
-                class: 'profile-user-img img-responsive img-circle',
+                class: 'profile-user-img img-responsive rounded-circle',
             }) }}
         </div>
 
@@ -46,9 +46,13 @@
         {%- endfor %}
     {% endset %}
     {% set roles %}
-        {% for role in user.userRoles|default([]) -%}
-            <span class="badge bg-primary text-nowrap">{{- role|trans({}, 'EMSCoreBundle') -}}</span>
-        {%- endfor %}
+        <div class="d-flex flex-wrap gap-2 mt-2">
+            {% for role in user.userRoles|default([]) %}
+                <span class="badge rounded-pill bg-primary-subtle text-primary border border-primary-subtle px-3 py-2 fw-semibold">
+                  {{ role|trans({}, 'emsco-roles') }}
+              </span>
+            {% endfor %}
+        </div>
     {% endset %}
 
     {% set items = [

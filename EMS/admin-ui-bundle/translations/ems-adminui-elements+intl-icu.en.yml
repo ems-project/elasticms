@@ -1,0 +1,28 @@
+control_sidebar:
+    title: 'Control sidebar'
+elements:
+    user-image:
+        anonymous: 'Anonymous user'
+side_menu:
+    anonymous-user: 'Anonymous User'
+sidebar:
+    tab:
+        home:
+            label: 'Recent Activities'
+        jobs:
+            label: 'Last commands'
+toats:
+    level:
+        error: Error
+        notice: Notice
+        warning: Warning
+topbar:
+    control_sidebar:
+        toggle: 'Toggle sidebar'
+    pushmenu:
+        label: 'Push menu'
+    search:
+        label: Search
+        placeholder: Search
+    search_form:
+        show: 'Show search form'

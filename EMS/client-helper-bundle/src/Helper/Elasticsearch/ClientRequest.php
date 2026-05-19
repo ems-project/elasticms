@@ -22,6 +22,7 @@ use EMS\CommonBundle\Elasticsearch\Exception\NotFoundException;
 use EMS\CommonBundle\Search\Search;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\Helpers\Standard\Hash;
+use Psr\Cache\CacheItemInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -407,8 +408,21 @@ final class ClientRequest implements ClientRequestInterface
      *
      * @return array<mixed>
      */
-    public function search(string|array|null $type, array $body, int $from = 0, int $size = 10, ?string $regex = null, ?string $index = null)
+    public function search(string|array|null $type, array $body, int $from = 0, int $size = 10, ?string $regex = null, ?string $index = null, bool $cache = false)
     {
+        $cacheItem = null;
+        if ($cache) {
+            $cacheItem = $this->getCacheItem($type, [
+                'body' => $body,
+                'from' => $from,
+                'size' => $size,
+                'regex' => $regex,
+                'index' => $index,
+            ]);
+            if ($cacheItem?->isHit()) {
+                return $cacheItem->get();
+            }
+        }
         if (null === $type) {
             $types = [];
         } elseif (\is_array($type)) {
@@ -436,7 +450,12 @@ final class ClientRequest implements ClientRequestInterface
 
         $resultSet = $this->elasticaService->search($search);
 
-        return $resultSet->getResponse()->getData();
+        $data = $resultSet->getResponse()->getData();
+        if ($cacheItem instanceof CacheItemInterface) {
+            $this->saveCacheItem($cacheItem, $data);
+        }
+
+        return $data;
     }
 
     /**
@@ -703,5 +722,56 @@ final class ClientRequest implements ClientRequestInterface
         }
 
         return new \DateTimeImmutable('Wed, 09 Feb 1977 16:00:00 GMT');
+    }
+
+    /**
+     * @param string|string[]|null $type
+     * @param mixed[]              $context
+     */
+    private function getCacheItem(string|array|null $type, array $context): ?CacheItemInterface
+    {
+        if (null === $type) {
+            $types = $this->getContentTypes();
+        } elseif (\is_string($type)) {
+            $types = [$type];
+        } else {
+            $types = $type;
+        }
+        $lastPublished = null;
+        $docCounter = 0;
+        foreach ($types as $typeName) {
+            $contentType = $this->getContentType($typeName);
+            if (null === $contentType) {
+                continue;
+            }
+            $docCounter += $contentType->getTotal();
+            if (null !== $lastPublished && $lastPublished > $contentType->getLastPublished()) {
+                continue;
+            }
+            $lastPublished = $contentType->getLastPublished();
+        }
+        if (null === $lastPublished) {
+            return null;
+        }
+
+        $cacheKey = Hash::array([
+            'type' => $type,
+            'context' => $context,
+            'doc_counter' => $docCounter,
+            'last_published' => $lastPublished->format('c'),
+        ], 'emsch_search_');
+
+        return $this->cache->getItem($cacheKey);
+    }
+
+    /**
+     * @param mixed[] $data
+     */
+    private function saveCacheItem(CacheItemInterface $cacheItem, array $data): void
+    {
+        $cacheItem->set($data);
+        $cacheItem->expiresAfter(new \DateInterval('P1D'));
+
+        $this->cache->save($cacheItem);
     }
 }

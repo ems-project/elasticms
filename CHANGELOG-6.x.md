@@ -1,5 +1,48 @@
 # Changelog 6.x
 
+## 6.9.14 (2026-05-18)
+### Bug Fixes
+* fix(admin/job): ems:job:run should start a runner if one is planned by @theus77 in https://github.com/ems-project/elasticms/pull/1711
+* fix(admin/twig): missing double quotes in media library template by @theus77 in https://github.com/ems-project/elasticms/pull/1706
+* fix(clientHelper): avoid double slash in the displayed url by @theus77 in https://github.com/ems-project/elasticms/pull/1696
+* fix(common/core-api): avoid search attribute to be double json encoded in API calls by @theus77 in https://github.com/ems-project/elasticms/pull/1699
+* fix(common/runner): command bypasses the image entrypoint by @theus77 in https://github.com/ems-project/elasticms/pull/1714
+
+## 6.9.13 (2026-04-29)
+### Features
+* feat(docker): sandbox for 6.9 by @theus77 in https://github.com/ems-project/elasticms/pull/1692
+### Bug Fixes
+* fix(admin/file): add file browser on file fields by @theus77 in https://github.com/ems-project/elasticms/pull/1690
+* fix(admin/revision): isPublish not deleted envs by @Davidmattei in https://github.com/ems-project/elasticms/pull/1691
+* fix(common/asset): do not try to get the ems archive if it is missing by @theus77 in https://github.com/ems-project/elasticms/pull/1675
+
+## 6.9.12 (2026-04-24)
+### Features
+* feat(admin/twig): add filter ems_get_file_object and emsco_get_file_object by @theus77 in https://github.com/ems-project/elasticms/pull/1665
+* feat(common/property-accessor): recursive get/set and iterate by @Davidmattei in https://github.com/ems-project/elasticms/pull/1672
+### Bug Fixes
+* fix(common/json-menu-nested): context may define testId by @theus77 in https://github.com/ems-project/elasticms/pull/1669
+
+## 6.9.11 (2026-04-16)
+### Features
+* feat(admin): add tags data-testid for test by @IsaMic in https://github.com/ems-project/elasticms/pull/1637
+* feat(admin/contenttype): add html unwrap transformer by @Davidmattei in https://github.com/ems-project/elasticms/pull/1656
+* feat(admin/contenttype): add unwrap for html attribute transformer by @Davidmattei in https://github.com/ems-project/elasticms/pull/1652
+* feat(web/search): save emsch search response in cache by @theus77 in https://github.com/ems-project/elasticms/pull/1658
+### Bug Fixes
+* fix(admin): audit table full width by @Davidmattei in https://github.com/ems-project/elasticms/pull/1638
+* fix(admin): data link for archived documents by @Davidmattei in https://github.com/ems-project/elasticms/pull/1649
+* fix(admin/dashboard): add data-skip-click-event attribute by @Davidmattei in https://github.com/ems-project/elasticms/pull/1653
+* fix(admin/form-submissions): add batch size on delete (avoid out of memory) by @theus77 in https://github.com/ems-project/elasticms/pull/1647
+* fix(admin/menu): invalid test id on dashboard menu by @Davidmattei in https://github.com/ems-project/elasticms/pull/1661
+* fix(admin/post-processing): add revision environments in context by @Davidmattei in https://github.com/ems-project/elasticms/pull/1650
+* fix(admin/storage): add getFileObject on storageManager and fileService by @theus77 in https://github.com/ems-project/elasticms/pull/1648
+* fix(common/search): correct serialization suggest by @Davidmattei in https://github.com/ems-project/elasticms/pull/1639
+* fix(common/spreadsheets): generate normalized xlsx files by @theus77 in https://github.com/ems-project/elasticms/pull/1646
+* fix(web/asset): add $skipUnzip flag to use the $saveDir as $publishPath by @theus77 in https://github.com/ems-project/elasticms/pull/1662
+* fix(web/routing): avoid to break everything if one route is broken by @theus77 in https://github.com/ems-project/elasticms/pull/1654
+* fix(web/search): empty suggest in search by @Davidmattei in https://github.com/ems-project/elasticms/pull/1664
+
 ## 6.9.10 (2026-04-07)
 ### Bug Fixes
 * fix(web): not found page should return a 404 code by @theus77 in https://github.com/ems-project/elasticms/pull/1633

@@ -1,14 +1,14 @@
 {% extends '@EMSAdminUI/bootstrap5/data/abstract-revision.html.twig' %}
-{% trans_default_domain 'emsco-twigs' %}
+{% trans_default_domain 'ems-adminui-twigs' %}
 
-{% block subtitle %}<small>{{ 'views.data.edit-revision-html.subtitle'|trans }}</small>{% endblock %}
+{% block subtitle %}<small class="d-block mt-2">{{ 'views.data.edit-revision-html.subtitle'|trans }}</small>{% endblock %}
 
 {%- block stylesheets %}
     <link rel="stylesheet" href="{{ path('emsco_wysiwyg_styleset_all_prefixed_css') }}">
 {% endblock %}
 
 {% block body %}
-<div class="card card-{{ theme_color }} card-outline card-outline-tabs" id="revision-primary-box"
+<div id="revision-primary-box"
     data-update-mode="
         {%- if not revision.draft -%}
             disabled
@@ -18,16 +18,16 @@
             autoSave
         {%- endif -%}"
     data-ajax-update="{{ path('emsco_data_ajax_update', {revisionId: revision.id})|e('html_attr') }}">
-    <div class="card-header">
-        <h3 class="card-title text-{{ revision.contentType.color }}"><i class="{% if revision.contentType.icon %}{{ revision.contentType.icon }} {% else %} fa fa-question {% endif %} "></i>&nbsp;&nbsp;&nbsp;{{ revision.contentType.singularName }}</h3>
-    </div>
-        {{ form_start(form, {attr: {'data-revision-id': revision.id}}) }}
+    <div class="card mb-4">
         <div class="card-body">
+            {{ form_start(form, {attr: {'data-revision-id': revision.id}}) }}
             {{- form_errors(form) -}}
             {{- form_errors(form.data) -}}
             {{ form_widget(form.data) }}
         </div>
-        <div class="card-footer">
+    </div>
+    <div class="card mt-4">
+        <div class="card-body">
             {% if revision.draft and form.publish is defined %}
                 {{ form_widget(form.publish) }}
             {% endif %}
@@ -74,7 +74,8 @@
                 }) }}
             {% endif %}
         </div>
-        {{ form_end(form) }}
+    </div>
+    {{ form_end(form) }}
 </div>
 
 {% endblock %}

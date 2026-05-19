@@ -93,7 +93,7 @@ class FileController extends AbstractController
                 'extract' => $extract,
                 'indexResource' => $indexResource,
             ]);
-            $response->setStatusCode(404);
+            $response->setStatusCode(Response::HTTP_NOT_FOUND);
 
             return $response;
         } catch (\Throwable $throwable) {

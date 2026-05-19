@@ -86,6 +86,9 @@ To do this, you must specify the following configuration parameters:
   ElasticMS (Default value: `latest`)
 - `env`: Additional environment variables as an array of string (Default value: `[]`)
 - `socket-path`: Allow to use a local docker via the UNIX socket file
+- `host-config`: Additional environment variables as an array (Default value: `[]`). See the
+  [HostConfig](https://docs.docker.com/reference/api/engine/version/v1.54/#tag/Container/operation/ContainerCreate)
+  in the docker documentation.
 
 Warning: this type of runner does not clean up the containers it creates.
 
@@ -112,7 +115,10 @@ Example with a UNIX socket file:
         "image": "busybox",
         "env": ["foo=bar"],
         "base-url": "http://localhost",
-        "socket-path": "/var/run/docker.sock"
+        "socket-path": "/var/run/docker.sock",
+        "host-config": {
+            "ExtraHosts": ["host.docker.internal:host-gateway"]
+        }
     }
 ]
 ```

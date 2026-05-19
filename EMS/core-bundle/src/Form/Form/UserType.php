@@ -25,6 +25,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Intl\Locales;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+use function Symfony\Component\Translation\t;
+
 /**
  * @extends AbstractType<mixed>
  */
@@ -118,6 +120,7 @@ final class UserType extends AbstractType
                 'expanded' => true,
                 'multiple' => true,
                 'mapped' => true,
+                'choice_translation_domain' => EMSCoreBundle::TRANS_ROLES_DOMAIN,
             ])
             ->add('locale', ChoiceType::class, [
                 'label' => 'user.locale',
@@ -134,7 +137,7 @@ final class UserType extends AbstractType
                 'choice_translation_domain' => false,
             ])
             ->add('userOptions', UserOptionsType::class, [
-                'label' => 'user.option.title',
+                'label' => t('user.option.title', [], 'emsco-core'),
                 'context' => UserOptionsType::CONTEXT_USER_MANAGEMENT,
             ])
         ;
@@ -162,7 +165,7 @@ final class UserType extends AbstractType
 
         if (self::MODE_CREATE === $mode) {
             $builder->add('create', SubmitEmsType::class, [
-                'attr' => ['class' => 'btn btn-primary btn-sm'],
+                'attr' => ['class' => 'btn btn-primary btn-sm', 'data-testid' => 'user-create'],
                 'icon' => 'fa fa-plus',
             ]);
         }
@@ -170,6 +173,7 @@ final class UserType extends AbstractType
             $builder->add('update', SubmitEmsType::class, [
                 'attr' => [
                     'class' => 'btn btn-primary btn-sm ',
+                    'data-testid' => 'user-update',
                 ],
                 'icon' => 'fa fa-save',
                 'translation_domain' => EMSCoreBundle::TRANS_DOMAIN,

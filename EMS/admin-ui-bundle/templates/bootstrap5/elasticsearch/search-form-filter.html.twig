@@ -1,4 +1,4 @@
-{% trans_default_domain 'emsco-twigs' %}
+{% trans_default_domain 'ems-adminui-twigs' %}
 {{ form_start(form) }}
     <div class="card card-{{ theme_color }} card-outline">
         <div id="searchFormBoxBody" class="collapse {% if openSearchForm is defined and openSearchForm %}in{% endif %}" aria-expanded="{% if openSearchForm is not defined or not openSearchForm %}false{% else %}true{% endif %}">
@@ -30,28 +30,28 @@
                         <div class="row">
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <label class="control-label">Boolean clause</label>
+                                    <label class="control-label">{{ 'search.filter.boolean_clause'|trans }}</label>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label class="control-label">Field</label>
+                                    <label class="control-label">{{ 'search.filter.field'|trans }}</label>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <label class="control-label">Operator</label>
+                                    <label class="control-label">{{ 'search.filter.operator'|trans }}</label>
                                 </div>
                             </div>
                             <div class="{% if emsco_is_super() %}col-md-3{% else %}col-md-4{% endif %}">
                                 <div class="form-group">
-                                    <label class="control-label">Pattern</label>
+                                    <label class="control-label">{{ 'search.filter.pattern'|trans }}</label>
                                 </div>
                             </div>
                             {% if emsco_is_super() %}
                                 <div class="col-md-1">
                                     <div class="form-group">
-                                        <label class="control-label">Boost</label>
+                                        <label class="control-label">{{ 'search.filter.boost'|trans }}</label>
                                     </div>
                                 </div>
                             {% endif %}
@@ -81,7 +81,7 @@
             <div class="card-footer">
                 <div class="form-group">
                     <div class="btn-group float-end">
-                        <a class="btn btn-primary" href="#" id="add-search-filter-button"><i class="fa fa-plus"></i> Add filter</a>
+                        <a class="btn btn-primary" href="#" id="add-search-filter-button"><i class="fa fa-plus"></i> {{ 'search.filter.add'|trans }}</a>
                         {% if form.search is defined %}
                             {{ form_widget(form.search) }}
                         {% endif %}
@@ -94,8 +94,8 @@
                             {% if is_granted('ROLE_DEFAULT_SEARCH') %}
                                 {{ include('@EMSAdminUI/bootstrap5/elements/post-button.html.twig', {
                                     url: path('ems_search_set_default_search_from', {id: searchId, search: app.request.query}),
-                                    message: 'Set as default search ?',
-                                    label: 'Set default',
+                                    message: 'search.set_default.confirm'|trans,
+                                    label: 'search.set_default.label'|trans,
                                     icon: 'check-square',
                                     class: 'btn',
                                 }) }}
@@ -108,8 +108,8 @@
                                                 search: app.request.query,
                                                 contentType: form.contentTypes.vars.value|first,
                                             }),
-                                            message: 'Set as default ' ~ contentType.singularName ~ ' search ?',
-                                            label: 'Set for ' ~ contentType.singularName,
+                                            message: 'search.set_default_content_type.confirm'|trans({'%content_type%': contentType.singularName}),
+                                            label: 'search.set_default_content_type.label'|trans({'%content_type%': contentType.singularName}),
                                             icon: contentType.icon|default('check-square'),
                                             icon: 'check-square',
                                             class: 'btn',
@@ -119,8 +119,8 @@
                             {% endif %}
                             {{ include('@EMSAdminUI/bootstrap5/elements/post-button.html.twig', {
                                 url: path('elasticsearch.search.delete', {id: searchId, search: app.request.query}),
-                                message: 'Do you confirm ?',
-                                label: 'Delete',
+                                message: 'button.confirm'|trans({}, 'ems-adminui-twigs'),
+                                label: 'action.delete'|trans({}, 'emsco-core'),
                                 icon: 'trash',
                                 class: 'btn',
                             }) }}
@@ -150,11 +150,11 @@
         <div class="card-footer">
             <div class="btn-group">
                 <a class="toggle-button {% if openSearchForm is not defined or not openSearchForm %}collapsed{% endif %} btn btn-primary btn-sm" role="button" data-bs-toggle="collapse" href="#searchFormBoxBody" aria-expanded="{% if openSearchForm is not defined or not openSearchForm %}false{% else %}true{% endif %}" aria-controls="searchFormBoxBody">
-                    <i class="fa fa-search"></i> Search form
+                    <i class="fa fa-search"></i> {{ 'search.form'|trans }}
                 </a>
                 {% if is_granted('ROLE_SUPER_ADMIN') and body is defined %}
                     <a class="toggle-button collapsed btn btn-primary btn-sm" role="button" data-bs-toggle="collapse" href="#queryElasticsearchBoxBody" aria-expanded="false" aria-controls="queryElasticsearchBoxBody">
-                        <i class="fa fa-eye"></i> Query
+                        <i class="fa fa-eye"></i> {{ 'search.query'|trans }}
                     </a>
                 {% endif %}
                 {% if form.exportResults is defined %}

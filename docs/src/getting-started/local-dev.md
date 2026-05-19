@@ -36,11 +36,20 @@ sudo mv ~/.symfony5/bin/symfony /usr/local/bin/symfony
 sudo apt install make
 ```
 
-If you are using a mac with [mac port](https://www.macports.org/):
+If you are using a mac with [brew](https://brew.sh/):
 
 ```bash
-sudo port install php85 php85-curl php85-gd php85-iconv php85-intl php85-ldap php85-mbstring php85-mysql php85-soap php85-tidy php85-zip php85-opentelemetry
-sudo port select php php85
+brew tap shivammathur/php
+brew tap shivammathur/extensions
+brew install shivammathur/php/php@8.5
+brew install shivammathur/extensions/redis@8.5
+brew link --overwrite --force shivammathur/php/php@8.5
+pecl install opentelemetry
+brew install composer
+brew install prettier
+brew install symfony-cli/tap/symfony-cli
+composer install
+brew install make
 ```
 
 ### Switch between multiple PHP versions

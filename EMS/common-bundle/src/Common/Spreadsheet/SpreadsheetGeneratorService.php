@@ -255,6 +255,7 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
         $tempFile = TempFile::create();
         $writer->setPreCalculateFormulas(false);
         $writer->save($tempFile->path);
+
         $normalizer = new DeterministicXlsxNormalizer();
         $normalizer->normalize(
             $tempFile->path,

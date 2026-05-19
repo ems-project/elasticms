@@ -1,0 +1,81 @@
+action:
+    select_all: 'Alles selecteren'
+edit_image:
+    flip:
+        group: Spiegelen
+        horizontal: 'Horizontaal spiegelen'
+        vertical: 'Verticaal spiegelen'
+    rotate:
+        group: Roteren
+        left: 'Linksom draaien'
+        right: 'Rechtsom draaien'
+    zoom:
+        group: Zoom
+        minus: Inzoomen
+        plus: Uitzoomen
+        reset: 'Weergave resetten'
+field_type:
+    json_menu_editor:
+        add: Toevoegen
+        add_item: 'Item toevoegen'
+        add_node: 'Node toevoegen'
+        collapse_all_button: 'Alles inklappen'
+        collapse_button: Inklappen
+        delete_item: 'Item verwijderen'
+        item_label_placeholder: Itemlabel
+        move_item: 'Item verplaatsen'
+    reorder: Hersorteren
+    textarea:
+        counter: '%count% tekens'
+fields:
+    asset:
+        browse-server: 'Server doorzoeken'
+        clear-button: Wissen
+        close-modal: Sluiten
+        drag-n-drop-file: 'Sleep uw bestand hierheen'
+        drag-n-drop-files: 'Sleep uw bestanden hierheen'
+        file-hash: Bestandshash
+        file-info: Bestandsinformatie
+        info-modal-button: Info
+        init-upload: 'Upload initialiseren'
+        move-button: Verplaatsen
+        remove-button: Verwijderen
+        upload-file: 'Bestand uploaden'
+        upload-files: 'Bestanden uploaden'
+        view-button: Bekijken
+    field: Veld
+    file:
+        asset_options: Assetopties
+        clear: Wissen
+        drag_and_drop: 'Sleep uw bestand hierheen'
+        extract_content: 'Inhoud extraheren'
+        hash_signature: Hash-handtekening
+        info: Info
+        preview_alt: 'Voorbeeld van veld {field}'
+        upload: 'Bestand uploaden'
+        view: Bekijken
+    modal:
+        add_field_to: 'Een veld toevoegen aan <strong>{name}</strong>'
+        add_subfield_to: 'Een subveld toevoegen aan <strong>{name}</strong>'
+        duplicate: 'Dupliceren <strong>{name}</strong>'
+    options:
+        display: Weergave
+        extra: Extra
+        mapping: Mapping
+        migration: Migratie
+        restriction: Beperking
+    subfield: Subveld
+    template:
+        more_info: 'meer info'
+form:
+    data:
+        bool_table_column:
+            false_value: Uitvinken
+            true_value: Aanvinken
+    field-type-type:
+        root: Structuur
+view:
+    form:
+        fields:
+            asset:
+                preview: Voorbeeld

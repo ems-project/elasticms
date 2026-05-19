@@ -25,6 +25,24 @@ class SearchAiTest extends TestCase
         $this->assertEquals($search->getIndices(), $deserialized->getIndices());
     }
 
+    public function testToPayloadAndFromPayload(): void
+    {
+        $search = new Search(['index1'], ['match_all' => new \stdClass()]);
+        $search->setSources(['field1']);
+        $search->setContentTypes(['type1']);
+        $search->setSize(15);
+        $search->setFrom(5);
+        $search->setSort(['field1' => 'asc']);
+        $search->addTermsAggregation('test_aggregation', 'field1', 10);
+        $search->setHighlight(['fields' => ['field1' => new \stdClass()]]);
+        $search->setRegex('test_regex');
+
+        $data = $search->toPayload();
+        $fromArray = Search::fromPayload($data);
+
+        $this->assertEquals($data, $fromArray->toPayload());
+    }
+
     public function testHasSources(): void
     {
         $search = new Search(['index1']);
@@ -123,6 +141,7 @@ class SearchAiTest extends TestCase
         $suggest = new Suggest();
         $term = new Term('suggestTest', 'title');
         $term->setText('test');
+
         $suggest->addSuggestion($term);
         $search->setSuggest($suggest);
 

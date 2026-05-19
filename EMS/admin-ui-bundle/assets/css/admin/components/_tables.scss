@@ -1,0 +1,47 @@
+.table {
+	thead, tbody, tfoot, tr, td, th {
+		border-color: $table-border-color;
+	}
+	
+	> :not(:last-child) > :last-child > * {
+		border-color: $table-border-color;
+	}
+}
+
+.table > tbody > tr > td {
+	vertical-align: middle;
+}
+
+
+.tab-content, .card {
+    .json-menu-nested-component {
+        margin-top: 0;
+        margin-bottom: 0;
+
+        .jmn-wrapper {
+            --jmn-border-radius: 0;
+
+            margin-left: -$tab-content-padding-x;
+            margin-right: -$tab-content-padding-x;
+            width: calc(100% + calc($tab-content-padding-x * 2));
+            border: 0;
+        }
+
+        & + .json-menu-nested-component {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--bs-border-color);
+        }
+    }
+
+    .table-responsive:has(.dt-layout-row) {
+        margin-left: -$tab-content-padding-x;
+        margin-right: -$tab-content-padding-x;
+        width: calc(100% + calc($tab-content-padding-x * 2));
+
+        .dt-layout-row:not(.dt-layout-table) {
+            padding-left: $tab-content-padding-x;
+            padding-right: $tab-content-padding-x;
+        }
+    }
+}

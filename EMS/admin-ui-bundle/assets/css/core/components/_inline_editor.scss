@@ -1,5 +1,7 @@
-@import "bootstrap/scss/bootstrap.scss";
-@import "_tiptap_toolbar.scss";
+@import "bootstrap/scss/bootstrap";
+@import "./dialog";
+@import "./tiptap/toolbar";
+@import "./tiptap/_context_menu";
 
 html, body {
   margin: 0;

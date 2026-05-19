@@ -285,7 +285,7 @@ class AuditCommand extends AbstractCommand
 
             return;
         }
-        if (\in_array($result->getResponse()->getStatusCode(), [301, 302, 303, 307, 308])) {
+        if (\in_array($result->getResponse()->getStatusCode(), [301, 302, 303, 307, 308], true)) {
             $this->logger->notice('Redirect');
             if (!$result->getResponse()->hasHeader('Location')) {
                 $report->addBrokenLink(new UrlReport($url, $result->getResponse()->getStatusCode(), 'Redirect without Location header'));

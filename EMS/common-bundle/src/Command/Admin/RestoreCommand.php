@@ -229,7 +229,7 @@ class RestoreCommand extends AbstractCommand
             if (!\is_string($name)) {
                 throw new \RuntimeException('Unexpected name type');
             }
-            if (\in_array($name, $knew)) {
+            if (\in_array($name, $knew, true)) {
                 continue;
             }
             $added[] = $name;

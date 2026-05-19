@@ -11,6 +11,7 @@ use Elastica\Search as ElasticaSearch;
 use Elastica\Suggest;
 use EMS\CommonBundle\Elasticsearch\Aggregation\ElasticaAggregation;
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
+use EMS\Helpers\Standard\Type;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
@@ -19,6 +20,10 @@ use Symfony\Component\Serializer\Serializer;
 
 class Search
 {
+    private const SERIALIZER_CONTEXT = [
+        AbstractNormalizer::IGNORED_ATTRIBUTES => ['query', 'aggregations', 'suggest'],
+    ];
+
     /** @var string[] */
     private array $sourceIncludes = [];
     /** @var string[] */
@@ -49,17 +54,38 @@ class Search
 
     public function serialize(string $format = 'json'): string
     {
-        return self::getSerializer()->serialize($this, $format, [AbstractNormalizer::IGNORED_ATTRIBUTES => ['query', 'aggregations', 'suggest']]);
+        return self::getSerializer()->serialize($this, $format, self::SERIALIZER_CONTEXT);
     }
 
     public static function deserialize(string $data, string $format = 'json'): Search
     {
-        $data = self::getSerializer()->deserialize($data, Search::class, $format);
+        $data = self::getSerializer()->deserialize($data, self::class, $format, self::SERIALIZER_CONTEXT);
         if (!$data instanceof Search) {
             throw new \RuntimeException('Unexpected search object');
         }
 
         return $data;
+    }
+
+    /**
+     * @return mixed[]
+     */
+    public function toPayload(): array
+    {
+        return Type::array(self::getSerializer()->normalize($this, null, self::SERIALIZER_CONTEXT));
+    }
+
+    /**
+     * @param mixed[] $data
+     */
+    public static function fromPayload(array $data): self
+    {
+        $search = self::getSerializer()->denormalize($data, self::class, null, self::SERIALIZER_CONTEXT);
+        if (!$search instanceof Search) {
+            throw new \RuntimeException('Unexpected search object');
+        }
+
+        return $search;
     }
 
     public function hasSources(): bool

@@ -7,9 +7,11 @@ Two `writer` are supported:
 - `xlsx`: Generate a Microsoft Excel file
 - `csv`: Generate a CSV file
 
-The `normalized` configuration attribute, when set to true, generates a deterministic Microsoft Excel file. This is useful to avoid duplicates in storage services.
+The `normalized` configuration attribute, when set to true, generates a deterministic Microsoft
+Excel file. This is useful to avoid duplicates in storage services.
 
-The `creator` configuration attribute is used to set the creator metadata field of the Microsoft Excel file.
+The `creator` configuration attribute is used to set the creator metadata field of the Microsoft
+Excel file.
 
 ```twig
 {% set config = {

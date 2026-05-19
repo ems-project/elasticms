@@ -1,0 +1,81 @@
+action:
+    select_all: 'Select all'
+edit_image:
+    flip:
+        group: Flip
+        horizontal: 'Flip horizontal'
+        vertical: 'Flip vertical'
+    rotate:
+        group: Rotate
+        left: 'Rotate left'
+        right: 'Rotate right'
+    zoom:
+        group: Zoom
+        minus: 'Zoom in'
+        plus: 'Zoom out'
+        reset: 'Reset view'
+field_type:
+    json_menu_editor:
+        add: Add
+        add_item: 'Add item'
+        add_node: 'Add node'
+        collapse_all_button: 'Collapse all'
+        collapse_button: Collapse
+        delete_item: 'Delete item'
+        item_label_placeholder: 'Item label'
+        move_item: 'Move item'
+    reorder: Reorder
+    textarea:
+        counter: '%count% characters'
+fields:
+    asset:
+        browse-server: 'Browse server'
+        clear-button: Clear
+        close-modal: Close
+        drag-n-drop-file: 'Drag and drop your file here'
+        drag-n-drop-files: 'Drag and drop your files here'
+        file-hash: 'File hash'
+        file-info: 'File information'
+        info-modal-button: Info
+        init-upload: 'Initialize upload'
+        move-button: Move
+        remove-button: Remove
+        upload-file: 'Upload file'
+        upload-files: 'Upload files'
+        view-button: View
+    field: Field
+    file:
+        asset_options: 'Asset options'
+        clear: Clear
+        drag_and_drop: 'Drag and drop your file here'
+        extract_content: 'Extract content'
+        hash_signature: 'Hash signature'
+        info: Info
+        preview_alt: 'Preview of the field {field}'
+        upload: 'Upload file'
+        view: View
+    modal:
+        add_field_to: 'Add a field to <strong>{name}</strong>'
+        add_subfield_to: 'Add a subfield to <strong>{name}</strong>'
+        duplicate: 'Duplicate <strong>{name{</strong>'
+    options:
+        display: Display
+        extra: Extra
+        mapping: Mapping
+        migration: Migration
+        restriction: Restriction
+    subfield: Subfield
+    template:
+        more_info: 'more info'
+form:
+    data:
+        bool_table_column:
+            false_value: Uncheck
+            true_value: Check
+    field-type-type:
+        root: Structure
+view:
+    form:
+        fields:
+            asset:
+                preview: Preview

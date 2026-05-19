@@ -1,34 +1,18 @@
-type ToolbarGroup = { name: string; groups?: string[] } | '/'
-interface CkeditorConfig {
-    extraPlugins?: string
-    removeButtons?: string
-    language: string
-    toolbarGroups: ToolbarGroup[]
-}
-
-const DEFAULT_CK_VALUES: CkeditorConfig = {
-    language: 'en',
-    toolbarGroups: [
-        { name: 'undo' },
-        { name: 'insert' },
-        { name: 'links' },
-        { name: 'tools' },
-        { name: 'document', groups: ['mode'] },
-        '/',
-        { name: 'basicstyles', groups: ['basicstyles', 'cleanup'] },
-        { name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align'] },
-        { name: 'styles' },
-        { name: 'colors' }
-    ]
-}
+import { CkeditorConfig, CkeditorStyle } from './ckeditorConfig'
+import { DEFAULT_CK_VALUES } from './ckeditorConfig.ts'
 
 export class WysiwygProfile {
     editor: string = 'ckeditor4'
     styles: {
         name: string
-        config: object
+        config: CkeditorStyle[]
     }[] = []
     config: {
+        ems?: {
+            urlTypes?: string[]
+            urlTargetDefaultBlank?: string[]
+            urlAllContentTypes?: boolean
+        }
         emsBrowsers?: {
             browser_object?: { url: string; label: string }
             browser_file?: { url: string; label: string }
@@ -36,6 +20,7 @@ export class WysiwygProfile {
         }
     } & CkeditorConfig = {
         emsBrowsers: undefined,
+        ems: undefined,
         ...DEFAULT_CK_VALUES
     }
 }

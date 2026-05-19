@@ -1,0 +1,256 @@
+.sidebar {
+  min-width: $sidebar-width;
+  max-width: $sidebar-width;
+  transition: $sidebar-transition;
+  direction: ltr;
+  background: $sidebar-bg;
+
+  html.sidebar-temporary-open & {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: $zindex-modal + 1;
+    margin-left: 0;
+    box-shadow: 0 0.5rem 2rem rgba($black, 0.35);
+  }
+}
+
+.sidebar-content {
+  transition: $sidebar-transition;
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+  background: $sidebar-bg;
+  position: sticky;
+  top: 0;
+}
+
+.sidebar-nav {
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+  flex-grow: 1;
+
+  overflow-y: auto;
+  scrollbar-color: $sidebar-link-color transparent;
+  scrollbar-width: thin;
+}
+
+// Sidebar links
+.sidebar-link,
+a.sidebar-link {
+  display: block;
+  padding: $sidebar-link-padding;
+  font-weight: $sidebar-link-font-weight;
+  transition: background .1s ease-in-out;
+  position: relative;
+  text-decoration: none;
+  cursor: pointer;
+  border-left-width: 0;
+  border-left-style: solid;
+  color: $sidebar-link-color;
+  background: $sidebar-link-bg;
+  border-left-color: $sidebar-link-border-left-color;
+
+  i {
+    color: inherit;
+    width: 20px;
+  }
+}
+
+.sidebar-link:focus {
+  outline: 0;
+}
+
+.sidebar-item.active > .sidebar-link {
+  border-left-width: 3px;
+}
+
+.sidebar-dropdown .sidebar-item.active > .sidebar-link {
+  border-left-width: 0;
+}
+
+.sidebar-item.active > .sidebar-link,
+.sidebar-link:hover {
+  color: $sidebar-link-active-color;
+  background: $sidebar-link-active-bg;
+  border-left-color: $sidebar-link-active-border-left-color;
+}
+
+// Sidebar brand
+.sidebar-brand {
+  font-weight: $sidebar-brand-font-weight;
+  font-size: $sidebar-brand-font-size;
+  padding: 0 $sidebar-brand-padding-x;
+  display: block;
+  color: $sidebar-brand-color;
+  height: 53px;
+  line-height: 53px;
+
+  &:hover {
+    text-decoration: none;
+    color: $sidebar-brand-color;
+  }
+
+  &:focus {
+    outline: 0;
+  }
+
+  b {
+    text-transform: uppercase;
+  }
+
+  @each $name, $color in $theme-colors {
+    &.bg-#{$name} {
+      background-image: linear-gradient(90deg, transparent, darken($color, 10%));
+    }
+  }
+}
+
+// Toggle states
+.sidebar-toggle {
+  position: relative;
+  cursor: pointer;
+  width: 26px;
+  height: 26px;
+  display: flex;
+
+  &:hover::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0rem 0rem 16px 9px rgba(0, 0, 0, 0.25);
+    width: 1px;
+    height: 1px;
+    z-index: 0;
+  }
+}
+
+.sidebar {
+  &.collapsed {
+    margin-left: -$sidebar-width;
+  }
+
+  html.sidebar-collapsed & {
+    margin-left: -$sidebar-width;
+  }
+
+  html.sidebar-temporary-open & {
+    margin-left: 0;
+  }
+
+  // Workaround for IE bug, more info:
+  // https://stackoverflow.com/a/25850649
+  @media (min-width: 1px) and (max-width: #{map-get($grid-breakpoints, 'lg') - .02px}) {
+
+    // Sidebar default state (on mobile)
+    margin-left: -$sidebar-width;
+
+    // Sidebar collapsed state (on mobile)
+    &.collapsed {
+      margin-left: 0;
+    }
+
+    html.sidebar-collapsed & {
+      margin-left: 0;
+    }
+
+    html.sidebar-temporary-open & {
+      margin-left: 0;
+    }
+  }
+}
+
+.sidebar-toggle {
+  margin-right: $spacer;
+}
+
+html.sidebar-temporary-open body {
+  overflow: hidden;
+}
+
+.sidebar-temporary-toggle {
+  position: fixed;
+  top: 50%;
+  left: 0;
+  z-index: $zindex-fixed;
+  display: none;
+  width: 10px;
+  height: 64px;
+  padding: 0;
+  border: 0;
+  border-radius: 0 4px 4px 0;
+  background-color: $primary;
+  transform: translateY(-50%);
+
+  @media (min-width: #{map-get($grid-breakpoints, 'lg')}) {
+    html.sidebar-collapsed & {
+      display: block;
+    }
+  }
+
+  html.sidebar-temporary-open & {
+    display: none;
+  }
+}
+
+.sidebar-temporary-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: $zindex-modal;
+  display: none;
+  padding: 0;
+  border: 0;
+  background: rgba($black, .5);
+
+  html.sidebar-temporary-open & {
+    display: block;
+  }
+}
+
+// Sidebar header
+.sidebar-header {
+  background: transparent;
+  padding: $sidebar-header-padding;
+  font-size: $sidebar-header-font-size;
+  color: $sidebar-header-color;
+}
+
+// Badge
+.sidebar-badge {
+  position: absolute;
+  right: $sidebar-link-padding-x;
+  top: 14px;
+  z-index: 1;
+}
+
+[data-bs-toggle=collapse] .sidebar-badge {
+  right: calc($sidebar-link-padding-x * 2);
+}
+
+.sidebar [data-bs-toggle=collapse]:after {
+  border: solid;
+  border-width: 0 .075rem .075rem 0;
+  content: " ";
+  display: inline-block;
+  padding: 2px;
+  position: absolute;
+  right: $sidebar-brand-padding-x;
+  top: 1.2rem;
+  transform: rotate(45deg);
+  transition: all .2s ease-out
+}
+
+.sidebar [aria-expanded=true]:after, .sidebar [data-bs-toggle=collapse]:not(.collapsed):after {
+  top: 1.4rem;
+  transform: rotate(-135deg);
+}
+
+.sidebar-dropdown .sidebar-link {
+  font-size: 90%;
+  font-weight: 400;
+  padding: $sidebar-link-padding-y $sidebar-link-padding-x $sidebar-link-padding-y calc($sidebar-link-padding-x * 2.5);
+}

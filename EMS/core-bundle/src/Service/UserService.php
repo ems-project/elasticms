@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Service;
 
-use Doctrine\Bundle\DoctrineBundle\Registry;
-use Doctrine\ORM\EntityManagerInterface;
 use EMS\CommonBundle\Entity\EntityInterface;
 use EMS\CoreBundle\Core\UI\Menu;
 use EMS\CoreBundle\Core\User\UserList;
@@ -18,6 +16,8 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
+use function Symfony\Component\Translation\t;
+
 class UserService implements EntityServiceInterface
 {
     private ?UserInterface $currentUser = null;
@@ -28,7 +28,6 @@ class UserService implements EntityServiceInterface
      * @param array<mixed> $securityRoles
      */
     public function __construct(
-        private readonly Registry $doctrine,
         private readonly TokenStorageInterface $tokenStorage,
         private readonly Security $security,
         private readonly UserRepository $userRepository,
@@ -54,35 +53,6 @@ class UserService implements EntityServiceInterface
 
         $user = $this->userRepository->search($search);
         $cache[$search] = $user;
-
-        return $user;
-    }
-
-    public function getUserById(int $id): ?User
-    {
-        return $this->userRepository->findOneBy(['id' => $id]);
-    }
-
-    public function findUserByEmail(string $email): ?User
-    {
-        return $this->userRepository->findOneBy(['email' => $email]);
-    }
-
-    public function updateUser(UserInterface $user): UserInterface
-    {
-        $em = $this->doctrine->getManager();
-        $em->persist($user);
-        $em->flush();
-
-        return $user;
-    }
-
-    public function giveUser(string $username, bool $detachIt = true): UserInterface
-    {
-        $user = $this->getUser($username, $detachIt);
-        if (null === $user) {
-            throw new \RuntimeException('Unexpected null user object');
-        }
 
         return $user;
     }
@@ -168,10 +138,7 @@ class UserService implements EntityServiceInterface
 
     public function deleteUser(UserInterface $user): void
     {
-        /** @var EntityManagerInterface $em */
-        $em = $this->doctrine->getManager();
-        $em->remove($user);
-        $em->flush();
+        $this->userRepository->remove($user);
     }
 
     /**
@@ -270,11 +237,11 @@ class UserService implements EntityServiceInterface
     public function getSidebarMenu(): Menu
     {
         $user = $this->getCurrentUser();
-        $menu = new Menu('view.elements.side-menu.user.name', ['%name%' => $user->getDisplayName()]);
+        $menu = new Menu(t('sidebar-menu.user.name', [], 'emsco-core'), ['%name%' => $user->getDisplayName()]);
 
         $searches = $this->searchRepository->getByUsername($user->getUsername());
         if ([] !== $searches) {
-            $link = $menu->addChild('view.elements.side-menu.user.searches', 'fa fa-search', 'elasticsearch.search');
+            $link = $menu->addChild(t('sidebar-menu.user.searches', [], 'emsco-core'), 'fa fa-search', 'elasticsearch.search');
             $link->setTranslation([]);
             foreach ($searches as $search) {
                 $link->addChild($search->getName(), '', 'elasticsearch.search', ['searchId' => $search->getId()]);

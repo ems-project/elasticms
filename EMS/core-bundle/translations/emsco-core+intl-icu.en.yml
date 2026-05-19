@@ -19,6 +19,7 @@ action:
     edit: Edit
     export: Export
     rebuild: Rebuild
+    relaunch: Relaunch
     reorder: Reorder
     save: Save
     save_close: 'Save and Close'
@@ -229,7 +230,7 @@ field:
     singular: Singular
     spreadsheet: Spreadsheet
     status: Status
-    table_default_css: 'Default Table class attribute (deprecated)'
+    table_default_css: 'Default Table class attribute'
     tag: Tag
     template_body: 'Template body'
     template_footer: 'Template footer'
@@ -248,8 +249,18 @@ field:
     user_modified: 'Modified by'
     user_uploaded: 'Uploaded by'
 form:
+    data:
+        add:
+            ouuid:
+                constraint_message: "OUUID has an unauthorized character: A-Z, a-z, 0-9, caret: '-', underscore: '_' or dot: '.'."
+                label: OUUID
+                placeholder: 'Auto-generated if left empty'
+            save: 'Create {content_type} draft'
     reorder:
         title: 'Reorder fields of form: {label}'
+form_submissions:
+    overview: Overview
+    title: 'Form Submissions'
 key:
     actions: Actions
     admin: Admin
@@ -294,6 +305,7 @@ key:
     schedule_tag: 'Used to indentify workers (e.g. CLI) which would remotely execute the job'
     search: Search
     structure: Structure
+    tiptap: Tiptap
     trash: Trash
     unreferenced_aliases: 'Unreferenced aliases'
     uploaded_files: 'Uploaded Files'
@@ -305,7 +317,6 @@ key:
     wysiwyg: WYSIWYG
     wysiwyg_profiles: Profiles
     wysiwyg_style_sets: 'Style Sets'
-    tiptap: 'Tiptap'
 log:
     error:
         content_type_add_unreferenced: 'Unexpected error while getting unreferenced content type(s) from external environment {environment}: {error}'
@@ -323,6 +334,8 @@ log:
         draft_not_found: 'Draft not found with id "{revisionId}"'
         duplicate_environment: 'Environment "{name}" already exists!'
         index_not_found: 'Index "{index}" not found'
+notification-menu:
+    dashboards: Dashboards
 profile:
     title: 'Your profile'
     title_sub: 'All about you'
@@ -351,6 +364,29 @@ search:
             =1    {1 document found}
             other {# documents found}
         }
+sidebar-menu:
+    admin: Admin
+    compare-environments: 'Compare environments'
+    content-types: 'Content types'
+    content_type:
+        create: 'New {name}'
+        draft_in_progress: 'Draft in progress'
+        search: 'Search in {plural}'
+        search_in_my_circle: 'In my {name}'
+        trash: Trash
+    create-job: 'New job'
+    dashboards: Dashboards
+    documentation: Documentation
+    other: Other
+    publishers: Publishers
+    release-admin:
+        index-link: Releases
+    search: Search
+    uploaded-files: 'Uploaded files'
+    user-management: 'User management'
+    user:
+        name: '{name}'
+        searches: Searches
 status:
     title: "Systems' status"
     title_sub: 'Is everything working as expected?'
@@ -542,6 +578,16 @@ type:
             view          {Customize the menu}
             other         {}
         }
+user:
+    option:
+        allowed_configure_wysiwyg: "Allow user to switch WYSIWYG's profile"
+        simplified_ui: 'Simplified UI'
+        title: Options
+    profile:
+        change_password:
+            breadcrumb_title: 'Change your password'
+        edit:
+            breadcrumb_title: Edit
 view:
     title: '{name} of {plural}'
 webhook:

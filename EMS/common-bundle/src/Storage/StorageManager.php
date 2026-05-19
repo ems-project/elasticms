@@ -89,6 +89,11 @@ class StorageManager implements FileManagerInterface
         return \array_any($this->adapters, fn ($adapter) => $adapter->head($hash));
     }
 
+    public function headCounter(string $hash): int
+    {
+        return \array_reduce($this->adapters, fn ($carry, $adapter) => 0 !== $carry + $adapter->head($hash) ? 1 : 0, 0);
+    }
+
     #[\Override]
     public function heads(string ...$fileHashes): \Traversable
     {
@@ -96,10 +101,19 @@ class StorageManager implements FileManagerInterface
         $pagedHashes = \array_chunk($uniqueFileHashes, $this->headChunkSize, true);
 
         foreach ($pagedHashes as $hashes) {
+            $keepMissing = $hashes;
             foreach ($this->adapters as $adapter) {
-                yield from $adapter->heads(...$hashes);
-                break;
+                $keepMissing = \array_map(
+                    fn ($v1, $v2) => (\is_string($v1) && $v1 === $v2) ? $v1 : true,
+                    $keepMissing,
+                    $adapter->heads(...$hashes)
+                );
+                $hashes = \array_filter($keepMissing, fn ($v) => \is_string($v));
+                if ([] === $hashes) {
+                    break;
+                }
             }
+            yield from \array_values($keepMissing);
         }
     }
 

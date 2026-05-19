@@ -1,25 +1,24 @@
-{%- trans_default_domain 'elements' -%}
+{%- trans_default_domain 'ems-adminui-elements' -%}
 
 <div aria-live="polite" aria-atomic="true" class="">
     <div class="toast-container top-0 end-0 p-3 position-fixed" id="toaster">
         {%- set types = {
             error: {class: 'bg-danger', icon: 'fa-ban', delay: 99999, autohide: false, label: 'toats.level.error'|trans},
             warning: {class: 'bg-warning', icon: 'fa-warning', delay: 10000, autohide: true, label: 'toats.level.warning'|trans},
-            notice: {class: 'bg-info', icon: 'fa-info', delay: 5000, autohide: true, label: 'toats.level.notice'|trans},
+            notice: {class: 'bg-primary', icon: 'fa-info', delay: 5000, autohide: true, label: 'toats.level.notice'|trans},
         } -%}
 
         {%- for type, config in types -%}
             {% set alerts = app.session.flashbag.get(type) %}
             {% if alerts|length > 0 %}
-                <div class="toast {{ config.class }}" role="alert" aria-live="assertive" aria-atomic="true" data-bs-animation="true" data-bs-animation="true" data-bs-autohide="{{ config.autohide ? 'true' : 'false' }}" data-bs-delay="{{ config.delay }}">
-                    <div class="toast-header">
-                        <span class="me-auto"><i class="icon fa {{ config.icon }}"></i>&nbsp;{{ config.label }}</span>
-                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                    </div>
-                    <div class="toast-body">
-                        {% for alert in alerts %}
-                            <p>{{ alert|ems_markdown }}</p>
-                        {% endfor %}
+                <div class="toast align-items-center text-{{ config.class }} border-0" role="alert" aria-live="assertive" aria-atomic="true" data-bs-animation="true" data-bs-autohide="{{ config.autohide ? 'true' : 'false' }}" data-bs-delay="{{ config.delay }}">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            {% for alert in alerts %}
+                                {{ alert|ems_markdown }}
+                            {% endfor %}
+                        </div>
+                        <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="{{ 'action.close'|trans({}, 'emsco-core') }}"></button>
                     </div>
                 </div>
             {% endif %}

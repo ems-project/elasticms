@@ -9,7 +9,6 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\ORM\EntityManager;
-use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Entity\Revision;
@@ -30,9 +29,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 #[AsCommand(name: Commands::REVISIONS_INDEX_FILE_FIELDS, description: 'Migrate an ingested file field from an elasticsearch index.', aliases: ['ems:revisions:index-file-fields'], hidden: false)]
-class IndexFileCommand extends AbstractCommand
+class IndexFileCommand extends AbstractCoreCommand
 {
-    private const string SYSTEM_USERNAME = 'SYSTEM_FILE_INDEXER';
+    private const string DEFAULT_USERNAME = 'SYSTEM_FILE_INDEXER';
     /** @var string */
     protected $databaseName;
     /** @var string */
@@ -46,6 +45,7 @@ class IndexFileCommand extends AbstractCommand
     #[\Override]
     protected function configure(): void
     {
+        parent::configure();
         $this
             ->addArgument(
                 'contentType',
@@ -69,12 +69,13 @@ class IndexFileCommand extends AbstractCommand
                 InputOption::VALUE_NONE,
                 'Will migrated filed only without _content'
             );
+        $this->addUsernameOption(self::DEFAULT_USERNAME);
     }
 
     #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $output->writeln('Please do a backup of your DB first!');
+        $this->io->warning('Please do a backup of your DB first!');
         /** @var QuestionHelper $helper */
         $helper = $this->getHelper('question');
         $question = new ConfirmationQuestion('Continue?', false);
@@ -92,8 +93,8 @@ class IndexFileCommand extends AbstractCommand
             throw new \RuntimeException('Unexpected field name');
         }
 
-        $output->write('DB size before the migration : ');
-        $this->dbSize($output);
+        $this->io->write('DB size before the migration : ');
+        $this->dbSize();
 
         $contentType = $this->contentTypeService->getByName($contentTypeName);
         if (!$contentType) {
@@ -135,7 +136,7 @@ class IndexFileCommand extends AbstractCommand
                 unset($rawData);
 
                 if ($update) {
-                    $revision->setLockBy(self::SYSTEM_USERNAME);
+                    $revision->setLockBy($this->getUsername());
                     $date = new \DateTime();
                     $date->modify('+5 minutes');
                     $revision->setLockUntil($date);
@@ -156,12 +157,12 @@ class IndexFileCommand extends AbstractCommand
         }
 
         $progress->finish();
-        $output->writeln('');
-        $output->writeln('Migration done');
-        $output->writeln('Please rebuild your environments and update your field type');
+        $this->io->newLine();
+        $this->io->success('Migration done');
+        $this->io->text('Please rebuild your environments and update your field type');
 
-        $output->write('DB size after the migration : ');
-        $this->dbSize($output);
+        $this->io->write('DB size after the migration : ');
+        $this->dbSize();
 
         return 0;
     }
@@ -178,7 +179,7 @@ class IndexFileCommand extends AbstractCommand
                 } elseif ($onlyWithIngestedContent && !isset($rawData[$key]['content'])) {
                     // do nothing in this case as a there is no ingested (binary) content
                 } else {
-                    return $this->migrate($rawData[$key], $output);
+                    return $this->migrate($rawData[$key]);
                 }
 
                 return false;
@@ -195,7 +196,7 @@ class IndexFileCommand extends AbstractCommand
     /**
      * @param array<mixed> $rawData
      */
-    private function migrate(array &$rawData, OutputInterface $output): bool
+    private function migrate(array &$rawData): bool
     {
         $updated = false;
         if ([] !== $rawData && isset($rawData['sha1'])) {
@@ -208,8 +209,8 @@ class IndexFileCommand extends AbstractCommand
                     $file = $tempFile->path;
                     File::putContents($file, $fileContent);
                     try {
-                        $this->fileService->uploadFile($rawData[EmsFields::CONTENT_FILE_NAME_FIELD] ?? 'filename.bin', $rawData[EmsFields::CONTENT_MIME_TYPE_FIELD] ?? 'application/bin', $file, self::SYSTEM_USERNAME);
-                        $output->writeln(\sprintf('File restored from DB: %s', $rawData[EmsFields::CONTENT_FILE_HASH_FIELD]));
+                        $this->fileService->uploadFile($rawData[EmsFields::CONTENT_FILE_NAME_FIELD] ?? 'filename.bin', $rawData[EmsFields::CONTENT_MIME_TYPE_FIELD] ?? 'application/bin', $file, $this->getUsername());
+                        $this->io->text(\sprintf('File restored from DB: %s', $rawData[EmsFields::CONTENT_FILE_HASH_FIELD]));
                     } catch (\Throwable) {
                         $file = null;
                     }
@@ -249,28 +250,25 @@ class IndexFileCommand extends AbstractCommand
                     }
                 }
             } else {
-                $output->writeln('File not found:'.$rawData['sha1']);
+                $this->io->warning('File not found:'.$rawData['sha1']);
             }
         }
 
         return $updated;
     }
 
-    private function dbSize(OutputInterface $output): void
+    private function dbSize(): void
     {
         /**
          * @var EntityManager $em
          */
         $em = $this->doctrine->getManager();
-
         $connection = $this->doctrine->getConnection();
         if (!$connection instanceof Connection) {
             throw new \RuntimeException('Unexpected doctrine connection');
         }
         $dbName = $connection->getDatabase();
-
         $platform = $connection->getDatabasePlatform();
-
         if ($platform instanceof PostgreSQLPlatform) {
             $query = \sprintf("SELECT pg_size_pretty(pg_database_size('%s')) AS size", $dbName);
         } elseif ($platform instanceof MySQLPlatform) {
@@ -281,9 +279,7 @@ class IndexFileCommand extends AbstractCommand
         $stmt = $em->getConnection()->prepare($query);
         $result = $stmt->executeQuery();
         $size = $result->fetchAllAssociative();
-
         $row = \is_array($size) && isset($size[0]['size']) ? \sprintf('The database size is %s MB', $size[0]['size']) : 'Undefined';
-
-        $output->writeln($row);
+        $this->io->text($row);
     }
 }

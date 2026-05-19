@@ -16,6 +16,7 @@ use EMS\CoreBundle\Core\ContentType\Transformer\ContentTransformers;
 use EMS\CoreBundle\Core\ContentType\Transformer\HtmlAttributeTransformer;
 use EMS\CoreBundle\Core\ContentType\Transformer\HtmlEmptyTransformer;
 use EMS\CoreBundle\Core\ContentType\Transformer\HtmlRemoveNodeTransformer;
+use EMS\CoreBundle\Core\ContentType\Transformer\HtmlUnwrapTransformer;
 use EMS\CoreBundle\Core\Dashboard\DashboardManager;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\Core\DataTable\TableExporter;
@@ -69,6 +70,7 @@ use EMS\CoreBundle\EventListener\LoginListener;
 use EMS\CoreBundle\EventListener\PageListener;
 use EMS\CoreBundle\EventListener\RequestListener;
 use EMS\CoreBundle\EventListener\RevisionDoctrineListener;
+use EMS\CoreBundle\EventListener\UserLocaleListener;
 use EMS\CoreBundle\Form\Factory\ObjectChoiceListFactory;
 use EMS\CoreBundle\Form\Revision\Task\RevisionTaskFiltersType;
 use EMS\CoreBundle\Form\Revision\Task\RevisionTaskHandleType;
@@ -139,6 +141,13 @@ return static function (ContainerConfigurator $container) {
 
     $services->set('ems_core.event_listener.login_listener', LoginListener::class)
         ->args([service('emsco.manager.user')])
+        ->tag('kernel.event_subscriber');
+
+    $services->set('ems_core.event_listener.user_locale_listener', UserLocaleListener::class)
+        ->args([
+            service('security.token_storage'),
+            service('translation.locale_switcher'),
+        ])
         ->tag('kernel.event_subscriber');
 
     $services->set('ems_core.event_listener.page_listener', PageListener::class)
@@ -274,6 +283,9 @@ return static function (ContainerConfigurator $container) {
         ->tag('ems_core.content_type.transformer');
 
     $services->set('ems_core.core_content_type_transformer.html_remove_node_transformer', HtmlRemoveNodeTransformer::class)
+        ->tag('ems_core.content_type.transformer');
+
+    $services->set('ems_core.core_content_type_transformer.html_unwrap_transformer', HtmlUnwrapTransformer::class)
         ->tag('ems_core.content_type.transformer');
 
     $services->set('emsco.core_mercure.mercure_service', MercureService::class)
@@ -587,7 +599,6 @@ return static function (ContainerConfigurator $container) {
 
     $services->set('ems.service.user', UserService::class)
         ->args([
-            service('doctrine'),
             service('security.token_storage'),
             service('security.helper'),
             service('ems.repository.user'),

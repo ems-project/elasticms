@@ -31,6 +31,10 @@ export const tableCleanHtmlTransform: HtmlTransform = {
                 cell.setAttribute('data-user-style', style)
                 cell.removeAttribute('style')
             }
+
+            cell.querySelectorAll('p').forEach((p) => {
+                if (p.innerHTML.trim() === '&nbsp;') p.innerHTML = ''
+            })
         })
     },
     toOutput(doc) {
@@ -63,6 +67,13 @@ export const tableCleanHtmlTransform: HtmlTransform = {
                 const existing = cell.getAttribute('style')
                 cell.setAttribute('style', existing ? `${existing}; ${userStyle}` : userStyle)
                 cell.removeAttribute('data-user-style')
+            }
+
+            cell.querySelectorAll('p').forEach((p) => {
+                if (!p.textContent?.trim() && !p.children.length) p.innerHTML = '&nbsp;'
+            })
+            if (!cell.childNodes.length || (cell.childNodes.length === 1 && cell.textContent?.trim() === '')) {
+                cell.innerHTML = '&nbsp;'
             }
         })
     }

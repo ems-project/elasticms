@@ -29,6 +29,7 @@ export class TiptapEditor {
     private readonly htmlTransforms: HtmlTransform[]
     private readonly options: TiptapEditorOptions
     readonly locale: Locale
+    readonly mod: string = navigator.userAgent.includes('Mac') ? 'Cmd' : 'Ctrl'
 
     constructor(options: TiptapEditorOptions) {
         this.options = options
@@ -72,7 +73,7 @@ export class TiptapEditor {
     }
 
     trans(key: TranslationKey): string {
-        return trans(this.locale, key)
+        return trans(this.locale, key).replace('{mod}', this.mod)
     }
 
     getWysiwygOptions(): null | WysiwygOptions {

@@ -731,8 +731,7 @@
                                                                                                 "multiple": false,
                                                                                                 "sortable": false,
                                                                                                 "type": null,
-                                                                                                "searchId": null,
-                                                                                                "defaultValue": null
+                                                                                                "searchId": null
                                                                                             },
                                                                                             "mappingOptions": {
                                                                                                 "analyzer": "keyword"
@@ -861,8 +860,7 @@
                                                                                     "multiple": false,
                                                                                     "sortable": false,
                                                                                     "type": null,
-                                                                                    "searchId": null,
-                                                                                    "defaultValue": null
+                                                                                    "searchId": null
                                                                                 },
                                                                                 "mappingOptions": {
                                                                                     "analyzer": "keyword"
@@ -1067,8 +1065,7 @@
                                                                                     "multiple": false,
                                                                                     "sortable": false,
                                                                                     "type": null,
-                                                                                    "searchId": null,
-                                                                                    "defaultValue": null
+                                                                                    "searchId": null
                                                                                 },
                                                                                 "mappingOptions": {
                                                                                     "analyzer": "keyword"

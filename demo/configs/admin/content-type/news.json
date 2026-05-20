@@ -580,8 +580,7 @@
                                                             "multiple": true,
                                                             "sortable": false,
                                                             "type": null,
-                                                            "searchId": null,
-                                                            "defaultValue": null
+                                                            "searchId": null
                                                         },
                                                         "mappingOptions": {
                                                             "analyzer": "keyword",

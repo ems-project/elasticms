@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Storage\Service;
 
 use Aws\CommandPool;
-use Aws\Exception\AwsException;
 use Aws\S3\Exception\S3Exception;
 use Aws\S3\S3Client;
 use EMS\CommonBundle\Common\Cache\Cache;
@@ -409,25 +408,25 @@ class S3Storage extends AbstractUrlStorage implements \Stringable
     public function heads(string ...$hashes): array
     {
         $client = $this->getS3Client();
-        $notFound = [];
+        $notFound = \array_fill(0, \count($hashes), true);
 
         $promiseGenerator = function () use ($hashes, $client, &$notFound) {
-            foreach ($hashes as $hash) {
+            foreach ($hashes as $index => $hash) {
                 yield $client->headObjectAsync([
                     'Bucket' => $this->bucket,
                     'Key' => \implode('/', [\substr($hash, 0, 3), $hash]),
-                ])->then(onFulfilled: function () use (&$notFound) {
-                    $notFound[] = true;
-                }, onRejected: function (AwsException $exception) use (&$notFound, $hash) {
-                    if ('NotFound' === $exception->getAwsErrorCode()) {
-                        $notFound[] = $hash;
-                    }
-                });
+                ])->then(
+                    onFulfilled: function () use (&$notFound, $index) {
+                        $notFound[$index] = true;
+                    },
+                    onRejected: function () use (&$notFound, $hash, $index) {
+                        $notFound[$index] = $hash;
+                    },
+                );
             }
         };
 
-        $promise = Each::ofLimit(iterable: $promiseGenerator(), concurrency: 500);
-        $promise->wait();
+        Each::ofLimit(iterable: $promiseGenerator(), concurrency: 500)->wait();
 
         return $notFound;
     }

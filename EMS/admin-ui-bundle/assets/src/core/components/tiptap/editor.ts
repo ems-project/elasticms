@@ -29,6 +29,7 @@ export class TiptapEditor {
     private readonly htmlTransforms: HtmlTransform[]
     private readonly options: TiptapEditorOptions
     readonly locale: Locale
+    readonly mod: string = navigator.userAgent.includes('Mac') ? 'Cmd' : 'Ctrl'
 
     constructor(options: TiptapEditorOptions) {
         this.options = options
@@ -72,7 +73,7 @@ export class TiptapEditor {
     }
 
     trans(key: TranslationKey): string {
-        return trans(this.locale, key)
+        return trans(this.locale, key).replace('{mod}', this.mod)
     }
 
     getWysiwygOptions(): null | WysiwygOptions {
@@ -118,7 +119,9 @@ export class TiptapEditor {
             if (activeModules.has(mod)) return
             activeModules.add(mod)
 
-            mod.extensions?.forEach((ext) => extensionMap.set(ext.name, ext))
+            const extensions =
+                typeof mod.extensions === 'function' ? mod.extensions(this) : (mod.extensions ?? [])
+            extensions.forEach((ext) => extensionMap.set(ext.name, ext))
         }
 
         this.profile.config.toolbarGroups.forEach((entry) => {
@@ -127,7 +130,7 @@ export class TiptapEditor {
                 return
             }
 
-            const groups = entry.groups ?? [entry.name]
+            const groups = [...new Set(entry.groups ? [...entry.groups, entry.name] : [entry.name])]
             groups.forEach((groupName) => {
                 enabledModules.forEach((mod) => {
                     if (mod.toolbar?.group !== groupName) return

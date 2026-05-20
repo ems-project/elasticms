@@ -85,6 +85,7 @@ export const stylesModule: TiptapModule = {
         items: [
             {
                 name: 'Styles',
+                order: 1,
                 create: (editor: TiptapEditor) => createStylesDropdown(editor),
                 destroy: (editor: TiptapEditor) => {
                     const state = editorState.get(editor)
@@ -150,10 +151,9 @@ function trailingParagraphPlugin() {
         appendTransaction(_, __, newState) {
             const lastChild = newState.doc.lastChild
             if (lastChild && lastChild.type.name !== 'paragraph') {
-                return newState.tr.insert(
-                    newState.doc.content.size,
-                    newState.schema.nodes.paragraph.create()
-                )
+                return newState.tr
+                    .insert(newState.doc.content.size, newState.schema.nodes.paragraph.create())
+                    .setMeta('trailingParagraph', true)
             }
             return null
         }
@@ -166,6 +166,7 @@ function clearStyleOnSplitPlugin() {
         appendTransaction(transactions, oldState, newState) {
             if (!transactions.some((t) => t.docChanged)) return null
             if (transactions.some((t) => t.getMeta('applyStyle'))) return null
+            if (transactions.some((t) => t.getMeta('trailingParagraph'))) return null
             if (newState.doc.childCount <= oldState.doc.childCount) return null
 
             const { $from } = newState.selection

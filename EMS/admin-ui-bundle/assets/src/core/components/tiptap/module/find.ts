@@ -24,7 +24,8 @@ const SearchHighlight = Extension.create({
                     apply(tr, value) {
                         const meta = tr.getMeta(pluginKey)
                         if (meta) return meta
-                        if (tr.docChanged && value.matches.length) return { matches: [], current: -1 }
+                        if (tr.docChanged && value.matches.length)
+                            return { matches: [], current: -1 }
                         return value
                     }
                 },
@@ -36,7 +37,10 @@ const SearchHighlight = Extension.create({
                             state.doc,
                             data.matches.map((m, i) =>
                                 Decoration.inline(m.from, m.to, {
-                                    class: i === data.current ? 'findr-match findr-match--current' : 'findr-match'
+                                    class:
+                                        i === data.current
+                                            ? 'findr-match findr-match--current'
+                                            : 'findr-match'
                                 })
                             )
                         )
@@ -188,7 +192,9 @@ function setupTabs(el: HTMLElement, initial: Tab) {
         tabs.forEach((tab) => tab.classList.toggle('findr-tab--active', tab.dataset.tab === name))
         panels.forEach((p) => p.classList.toggle('findr-panel--active', p.dataset.panel === name))
         if (currentValue) {
-            const next = el.querySelector<HTMLInputElement>(`[data-panel="${name}"] .findr-find-input`)
+            const next = el.querySelector<HTMLInputElement>(
+                `[data-panel="${name}"] .findr-find-input`
+            )
             if (next) next.value = currentValue
         }
     }
@@ -250,7 +256,9 @@ function setupPanel(panel: HTMLElement, e: TiptapEditor) {
             return
         }
         const m = state.matches[state.current]
-        e.tiptap.view.dispatch(e.tiptap.state.tr.insertText(replaceInput?.value ?? '', m.from, m.to))
+        e.tiptap.view.dispatch(
+            e.tiptap.state.tr.insertText(replaceInput?.value ?? '', m.from, m.to)
+        )
         state.lastQuery = ''
         findNext()
     }
@@ -274,9 +282,14 @@ function setupPanel(panel: HTMLElement, e: TiptapEditor) {
         setPluginState(e, [], -1)
     }
 
-    findInput.addEventListener('input', () => { state.lastQuery = '' })
+    findInput.addEventListener('input', () => {
+        state.lastQuery = ''
+    })
     findInput.addEventListener('keydown', (ev) => {
-        if (ev.key === 'Enter') { ev.preventDefault(); findNext() }
+        if (ev.key === 'Enter') {
+            ev.preventDefault()
+            findNext()
+        }
     })
     panel.querySelector('.findr-btn-find')?.addEventListener('click', findNext)
     panel.querySelector('.findr-btn-replace')?.addEventListener('click', replaceCurrent)

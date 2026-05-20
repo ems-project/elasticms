@@ -23,6 +23,17 @@ export class WysiwygProfile {
         ems: undefined,
         ...DEFAULT_CK_VALUES
     }
+
+    hasPlugin(name: string): boolean {
+        const { plugins, extraPlugins } = this.config
+        if (!plugins && !extraPlugins) return true
+        return [plugins, extraPlugins].some((list) =>
+            list
+                ?.split(',')
+                .map((p) => p.trim())
+                .includes(name)
+        )
+    }
 }
 
 let cached: WysiwygProfile | undefined = undefined

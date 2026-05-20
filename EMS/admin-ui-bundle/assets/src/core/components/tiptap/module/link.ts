@@ -5,6 +5,7 @@ import { TiptapModule } from '../types.ts'
 import { TiptapEditor } from '../editor.ts'
 import { escapeHtml } from '../helper.ts'
 import { TranslationKey } from '../translations.ts'
+import { Plugin, PluginKey } from '@tiptap/pm/state'
 
 const URL_TYPES = ['url', 'anchor', 'email', 'phone'] as const
 type UrlType = (typeof URL_TYPES)[number]
@@ -17,14 +18,14 @@ const URL_TYPE_OPTIONS: { value: UrlType; label: TranslationKey }[] = [
 ]
 
 export const linkModule: TiptapModule = {
-    extensions: getLinkExtension(),
+    extensions: (e) => getLinkExtension(e),
     toolbar: {
         group: 'links',
         items: [
             {
                 name: 'Link',
                 icon: IconLink,
-                tooltip: 'link',
+                tooltip: 'link_tooltip',
                 order: 1,
                 command: (e) => openLinkDialog(e),
                 isActive: (e) => e.tiptap.isActive('link')
@@ -62,7 +63,7 @@ export const linkModule: TiptapModule = {
     }
 }
 
-function getLinkExtension() {
+function getLinkExtension(e: TiptapEditor) {
     return [
         Mark.create({
             name: 'link',
@@ -89,6 +90,29 @@ function getLinkExtension() {
             },
             renderHTML({ HTMLAttributes }) {
                 return ['a', mergeAttributes(HTMLAttributes), 0]
+            },
+            addKeyboardShortcuts() {
+                return {
+                    'Mod-l': () => {
+                        openLinkDialog(e)
+                        return true
+                    }
+                }
+            },
+            addProseMirrorPlugins() {
+                return [
+                    new Plugin({
+                        key: new PluginKey('linkDoubleClick'),
+                        props: {
+                            handleDoubleClick(view, pos) {
+                                const marks = view.state.doc.resolve(pos).marks()
+                                if (!marks.some((m) => m.type.name === 'link')) return false
+                                openLinkDialog(e)
+                                return true
+                            }
+                        }
+                    })
+                ]
             }
         })
     ]
@@ -260,6 +284,14 @@ function showFields(root: HTMLElement, type: UrlType) {
     URL_TYPES.forEach((t) => {
         const el = root.querySelector<HTMLElement>(`#link-fields-${t}`)
         if (el) el.style.display = t === type ? 'flex' : 'none'
+    })
+
+    const urlInput = root.querySelector<HTMLInputElement>('#link-url')!
+    urlInput.addEventListener('blur', () => {
+        const val = urlInput.value.trim()
+        if (val && !val.match(/^https?:\/\//i) && !val.startsWith('/') && !val.startsWith('#')) {
+            urlInput.value = `https://${val}`
+        }
     })
 }
 

@@ -102,6 +102,7 @@ export default class Tiptap {
 
     private getSourceModule(): TiptapModule {
         return {
+            isEnabled: (profile) => profile.hasPlugin('sourcearea'),
             toolbar: {
                 group: 'mode',
                 items: [
@@ -138,6 +139,7 @@ export default class Tiptap {
 
     private getMaximizeModule(): TiptapModule {
         return {
+            isEnabled: (profile) => profile.hasPlugin('maximize'),
             toolbar: {
                 group: 'tools',
                 items: [

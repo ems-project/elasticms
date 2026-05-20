@@ -6,6 +6,7 @@ import IconRulerOff from '@tabler/icons/outline/ruler-off.svg?raw'
 const SHOW_BLOCKS_CLASS = 'tiptap-show-blocks'
 
 export const showBlocksModule: TiptapModule = {
+    isEnabled: (wysiwygProfile) => wysiwygProfile.hasPlugin('showblocks'),
     toolbar: {
         group: 'tools',
         items: [
@@ -29,7 +30,5 @@ export const showBlocksModule: TiptapModule = {
                 }
             }
         ]
-    },
-    isEnabled: (wysiwygProfile) =>
-        wysiwygProfile.config.extraPlugins?.includes('showblocks') ?? false
+    }
 }

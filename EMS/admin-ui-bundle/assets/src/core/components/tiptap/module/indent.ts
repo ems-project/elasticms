@@ -2,6 +2,7 @@ import { Extension } from '@tiptap/core'
 import IconIndent from '@tabler/icons/outline/indent-increase.svg?raw'
 import IconOutdent from '@tabler/icons/outline/indent-decrease.svg?raw'
 import { TiptapModule } from '../types.ts'
+import { TiptapEditor } from '../editor.ts'
 
 const INDENTABLE = ['paragraph', 'heading', 'div']
 const indentExtension = createIndentExtension()
@@ -15,16 +16,58 @@ export const indentModule: TiptapModule = {
                 name: 'Outdent',
                 icon: IconOutdent,
                 tooltip: 'indent_decrease',
-                command: changeIndent(-1)
+                command: changeIndent(-1),
+                isDisabled: (e: TiptapEditor) => {
+                    if (isInList(e.tiptap.state)) return false
+                    const { $from } = e.tiptap.state.selection
+                    for (let d = 1; d <= $from.depth; d++) {
+                        const node = $from.node(d)
+                        if (INDENTABLE.includes(node.type.name))
+                            return (node.attrs.indent || 0) === 0
+                    }
+                    return true
+                }
             },
             {
                 name: 'Indent',
                 icon: IconIndent,
                 tooltip: 'indent_increase',
-                command: changeIndent(1)
+                command: changeIndent(1),
+                isActive: (e: TiptapEditor) => {
+                    const { $from } = e.tiptap.state.selection
+                    for (let d = 1; d <= $from.depth; d++) {
+                        const node = $from.node(d)
+                        if (INDENTABLE.includes(node.type.name)) return (node.attrs.indent || 0) > 0
+                    }
+                    return false
+                }
             }
         ]
-    }
+    },
+    htmlTransforms: [
+        {
+            name: 'indent',
+            toEditor(doc) {
+                doc.querySelectorAll('p, h1, h2, h3, h4, h5, h6, div').forEach((el) => {
+                    const htmlEl = el as HTMLElement
+                    const dataIndent = htmlEl.getAttribute('data-indent')
+                    const marginLeft = parseInt(htmlEl.style.marginLeft) || 0
+
+                    if (dataIndent !== null) {
+                        htmlEl.style.removeProperty('margin-left')
+                    } else if (marginLeft > 0 && marginLeft % 20 === 0) {
+                        htmlEl.setAttribute('data-indent', String(marginLeft / 20))
+                        htmlEl.style.removeProperty('margin-left')
+                    }
+                })
+            },
+            toOutput(doc) {
+                doc.querySelectorAll('[data-indent]').forEach((el) =>
+                    el.removeAttribute('data-indent')
+                )
+            }
+        }
+    ]
 }
 
 function createIndentExtension(): Extension {
@@ -40,11 +83,12 @@ function createIndentExtension(): Extension {
                             renderHTML: (attributes: Record<string, unknown>) => {
                                 if (attributes.indent === 0) return {}
                                 return {
+                                    'data-indent': attributes.indent,
                                     style: `margin-left: ${(attributes.indent as number) * 20}px`
                                 }
                             },
                             parseHTML: (element: HTMLElement) =>
-                                parseInt(element.style.marginLeft) / 20 || 0
+                                parseInt(element.getAttribute('data-indent') ?? '0') || 0
                         }
                     }
                 }

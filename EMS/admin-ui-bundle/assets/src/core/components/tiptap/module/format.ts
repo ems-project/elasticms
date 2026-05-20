@@ -49,6 +49,7 @@ export const formatModule: TiptapModule = {
         items: [
             {
                 name: 'Format',
+                order: 2,
                 create: (editor: TiptapEditor) => createFormatDropdown(editor),
                 destroy: (editor: TiptapEditor) => {
                     const state = editorState.get(editor)

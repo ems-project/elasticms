@@ -11,6 +11,7 @@ const CustomTextAlign = TextAlign.configure({
 })
 
 export const justifyModule: TiptapModule = {
+    isEnabled: (wysiwygProfile) => wysiwygProfile.hasPlugin('justify'),
     extensions: [CustomTextAlign],
     toolbar: {
         group: 'align',

@@ -18,7 +18,7 @@ import { formatModule } from './module/format.ts'
 import { showBlocksModule } from './module/showBlocks.ts'
 import { divModule } from './module/div.ts'
 import { TranslationKey } from './translations.ts'
-import {findReplaceModule} from "./module/find.ts";
+import { findReplaceModule } from './module/find.ts'
 
 export type ContextType = 'table'
 
@@ -87,7 +87,7 @@ export interface Toolbar {
 }
 
 export interface TiptapModule {
-    extensions?: ExtensionType[]
+    extensions?: ExtensionType[] | ((editor: TiptapEditor) => ExtensionType[])
     toolbar?: Toolbar
     contextMenu?: ContextMenu
     htmlTransforms?: HtmlTransform[]

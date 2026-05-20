@@ -46,8 +46,7 @@ export const basicStyleModule: TiptapModule[] = [
         }
     },
     {
-        isEnabled: (wysiwygProfile) =>
-            wysiwygProfile.config.extraPlugins?.includes('basicstyles') ?? false,
+        isEnabled: (wysiwygProfile) => wysiwygProfile.hasPlugin('basicstyles'),
         toolbar: {
             group: 'basicstyles',
             items: [

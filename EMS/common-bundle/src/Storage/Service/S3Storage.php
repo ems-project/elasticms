@@ -420,11 +420,9 @@ class S3Storage extends AbstractUrlStorage implements \Stringable
                     onFulfilled: function () use (&$notFound, $index) {
                         $notFound[$index] = true;
                     },
-                    onRejected: function (AwsException $exception) use (&$notFound, $hash, $index) {
-                        if ('NotFound' === $exception->getAwsErrorCode()) {
-                            $notFound[$index] = $hash;
-                        }
-                    }
+                    onRejected: function () use (&$notFound, $hash, $index) {
+                        $notFound[$index] = $hash;
+                    },
                 );
             }
         };

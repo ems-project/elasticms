@@ -10,10 +10,9 @@
         "contentCss": "css/admin.css",
         "contentJs": "js/admin.js",
         "assets": {
-            "sha1": "3dbdc38fb9eeb96c4eb190544503340507608a29",
-            "mimetype": "application/x-zip-compressed",
-            "filename": "bundle.zip",
-            "_image_resized_hash": null
+            "sha1": "04c88c32eb325a0808275cfd793d8836ea3d324c",
+            "mimetype": "application/json",
+            "filename": "bundle.json"
         }
     },
     "replaced": []

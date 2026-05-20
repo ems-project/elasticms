@@ -244,7 +244,7 @@
                                                             "lastOfRow": false,
                                                             "helptext": null,
                                                             "language": null,
-                                                            "styles_set_preview": false
+                                                            "styles_set_preview": true
                                                         },
                                                         "mappingOptions": {
                                                             "index": null,
@@ -451,12 +451,12 @@
                                                                         "class": "col-md-12",
                                                                         "height": 200,
                                                                         "format_tags": null,
-                                                                        "styles_set": null,
+                                                                        "styles_set": "bootstrap",
                                                                         "content_css": null,
                                                                         "lastOfRow": false,
                                                                         "helptext": null,
                                                                         "language": null,
-                                                                        "styles_set_preview": false
+                                                                        "styles_set_preview": true
                                                                     },
                                                                     "mappingOptions": {
                                                                         "index": null,

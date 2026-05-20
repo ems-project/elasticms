@@ -9,7 +9,11 @@
         "tableDefaultCss": "table table-border",
         "contentCss": null,
         "contentJs": null,
-        "assets": null
+        "assets": {
+            "sha1": "04c88c32eb325a0808275cfd793d8836ea3d324c",
+            "mimetype": "application/json",
+            "filename": "bundle.json"
+        }
     },
     "replaced": []
 }

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Storage\Service;
 
 use Aws\CommandPool;
-use Aws\Exception\AwsException;
 use Aws\S3\Exception\S3Exception;
 use Aws\S3\S3Client;
 use EMS\CommonBundle\Common\Cache\Cache;

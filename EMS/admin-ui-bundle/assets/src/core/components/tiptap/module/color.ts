@@ -5,132 +5,147 @@ import { Extension } from '@tiptap/core'
 import { TiptapModule } from '../types.ts'
 import { TiptapEditor } from '../editor.ts'
 import { TranslationKey } from '../translation/en.ts'
+import { createDropdown, Dropdown } from '../ui/dropdown.ts'
+
+const BackgroundColor = Extension.create({
+    name: 'backgroundColor',
+    addGlobalAttributes() {
+        return [
+            {
+                types: ['textStyle'],
+                attributes: {
+                    backgroundColor: {
+                        default: null,
+                        parseHTML: (el) => (el as HTMLElement).style.backgroundColor || null,
+                        renderHTML: (attrs) => {
+                            if (!attrs.backgroundColor) return {}
+                            return { style: `background-color: ${attrs.backgroundColor}` }
+                        }
+                    }
+                }
+            }
+        ]
+    },
+    addCommands() {
+        return {
+            setBackgroundColor:
+                (color: string) =>
+                ({ chain }) =>
+                    chain().setMark('textStyle', { backgroundColor: color }).run(),
+            unsetBackgroundColor:
+                () =>
+                ({ chain }) =>
+                    chain()
+                        .setMark('textStyle', { backgroundColor: null })
+                        .removeEmptyTextStyle()
+                        .run()
+        }
+    }
+})
 
 export const colorModule: TiptapModule = {
-    extensions: [TextStyle, Color],
+    extensions: [TextStyle, Color, BackgroundColor],
     toolbar: {
         group: 'colors',
         items: [
             {
                 name: 'TextColor',
-                icon: IconTextColor,
-                tooltip: 'font_color',
                 order: 10,
-                command: (e) => openColorPanel(e, 'font'),
-                isActive: () => false
+                create: (editor) => createColorDropdown(editor, 'font'),
+                destroy: (editor) => destroyColorDropdown(editor, 'font')
             },
             {
                 name: 'BackgroundColor',
-                extensions: [getBackgroundExtension()],
-                icon: IconHighlight,
-                tooltip: 'background_color',
                 order: 11,
-                command: (e) => openColorPanel(e, 'background'),
-                isActive: () => false
+                create: (editor) => createColorDropdown(editor, 'background'),
+                destroy: (editor) => destroyColorDropdown(editor, 'background')
             }
         ]
     }
 }
 
-function getBackgroundExtension() {
-    return Extension.create({
-        name: 'backgroundColor',
-        addGlobalAttributes() {
-            return [
-                {
-                    types: ['textStyle'],
-                    attributes: {
-                        backgroundColor: {
-                            default: null,
-                            parseHTML: (el) => (el as HTMLElement).style.backgroundColor || null,
-                            renderHTML: (attrs) => {
-                                if (!attrs.backgroundColor) return {}
-                                return { style: `background-color: ${attrs.backgroundColor}` }
-                            }
-                        }
-                    }
-                }
-            ]
-        },
-        addCommands() {
-            return {
-                setBackgroundColor:
-                    (color: string) =>
-                        ({ chain }) =>
-                            chain().setMark('textStyle', { backgroundColor: color }).run(),
-                unsetBackgroundColor:
-                    () =>
-                        ({ chain }) =>
-                            chain().setMark('textStyle', { backgroundColor: null }).removeEmptyTextStyle().run()
-            }
-        }
-    });
-}
-
 type ColorType = 'font' | 'background'
 
-const PANEL_STYLES = `
-<style>
-    .cc-panel {
-        position: absolute; z-index: 9999;
-        background: #fff; border: 1px solid #ccc; border-radius: 4px;
-        box-shadow: 0 4px 12px rgba(0,0,0,.15);
-        padding: 8px; min-width: 170px;
-        display: flex; flex-direction: column; gap: 4px;
-    }
-    .cc-auto-btn {
-        display: flex; align-items: center; gap: 6px;
-        padding: 4px 6px; border: 1px solid transparent; border-radius: 3px;
-        background: none; cursor: pointer; font-size: 12px; width: 100%;
-        text-align: left;
-    }
-    .cc-auto-btn:hover { background: #f0f0f0; border-color: #ddd; }
-    .cc-auto-swatch {
-        width: 16px; height: 16px; border-radius: 2px; flex-shrink: 0;
-        border: 1px solid #bbb; background: linear-gradient(
-            to bottom right, #fff 0%, #fff calc(50% - 1px),
-            #d44 calc(50% - 1px), #d44 calc(50% + 1px),
-            #fff calc(50% + 1px), #fff 100%
-        );
-    }
-    .cc-label { font-size: 10px; color: #888; padding: 2px 2px 0; text-transform: uppercase; letter-spacing: .03em; }
-    .cc-grid { display: flex; flex-wrap: wrap; gap: 2px; padding: 2px 0; }
-    .cc-swatch {
-        width: 24px; height: 24px; border-radius: 2px; cursor: pointer;
-        border: 1px solid rgba(0,0,0,.12); flex-shrink: 0; transition: transform .1s;
-    }
-    .cc-swatch:hover { transform: scale(1.2); border-color: #666; z-index: 1; position: relative; }
-    .cc-divider { height: 1px; background: #eee; margin: 2px 0; }
-    .cc-more-btn {
-        font-size: 12px; background: none; border: 1px solid #ddd;
-        border-radius: 3px; padding: 4px 8px; cursor: pointer; width: 100%;
-        text-align: center; margin-top: 2px;
-    }
-    .cc-more-btn:hover { background: #f0f0f0; }
-</style>
+type ColorDropdownState = {
+    dropdown: Dropdown
+    customColor: string | null
+}
+
+type ColorEditorState = Partial<Record<ColorType, ColorDropdownState>>
+
+const editorState = new WeakMap<TiptapEditor, ColorEditorState>()
+
+const PANEL_CSS = `
+.tiptap-dropdown-content {
+    padding: 6px;
+    font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+.tiptap-dropdown-content * { box-sizing: border-box }
+.tiptap-dropdown-content ul { list-style: none; margin: 0; padding: 0; }
+.cc-auto li, .cc-more li {
+    padding: 4px 8px; cursor: pointer; display: flex; align-items: center; gap: 6px;
+    border-radius: 3px; font-size: 12px;
+}
+.cc-auto li:hover, .cc-more li:hover { background: rgba(0,0,0,.06); }
+.cc-auto-icon {
+    width: 14px; height: 14px; flex-shrink: 0; border: 1px solid #bbb;
+    background: linear-gradient(
+        to bottom right, #fff 0%, #fff calc(50% - 1px),
+        #d44 calc(50% - 1px), #d44 calc(50% + 1px),
+        #fff calc(50% + 1px), #fff 100%
+    );
+}
+.cc-grid { display: flex; flex-wrap: wrap; gap: 3px; padding: 4px 0; }
+.cc-grid li {
+    width: 24px; height: 24px; border-radius: 2px; cursor: pointer;
+    border: 1px solid rgba(0,0,0,.12); transition: transform .1s;
+}
+.cc-grid li:hover { transform: scale(1.2); border-color: #555; z-index: 1; position: relative; }
+.cc-divider { height: 1px; background: #eee; margin: 4px 0; }
+.cc-label { font-size: 10px; color: #888; padding: 2px 4px; text-transform: uppercase; letter-spacing: .03em; }
 `
 
-const panelState: Record<ColorType, { customColor: string | null }> = {
-    font: { customColor: null },
-    background: { customColor: null }
+const titleKeyMap: Record<ColorType, TranslationKey> = {
+    font: 'font_color',
+    background: 'background_color'
 }
 
-let activePanel: HTMLElement | null = null
-let outsideClickHandler: ((ev: MouseEvent) => void) | null = null
+const iconMap: Record<ColorType, string> = {
+    font: IconTextColor,
+    background: IconHighlight
+}
 
-function closeActivePanel() {
-    activePanel?.remove()
-    activePanel = null
-    if (outsideClickHandler) {
-        document.removeEventListener('click', outsideClickHandler, true)
-        outsideClickHandler = null
+const attrMap: Record<ColorType, string> = {
+    font: 'color',
+    background: 'backgroundColor'
+}
+
+const applyMap: Record<
+    ColorType,
+    { set: (e: TiptapEditor, c: string) => void; unset: (e: TiptapEditor) => void }
+> = {
+    font: {
+        set: (e, c) => e.tiptap.chain().focus().setColor(c).run(),
+        unset: (e) => e.tiptap.chain().focus().unsetColor().run()
+    },
+    background: {
+        set: (e, c) => (e.tiptap.chain().focus() as any).setBackgroundColor(c).run(),
+        unset: (e) => (e.tiptap.chain().focus() as any).unsetBackgroundColor().run()
     }
 }
 
-function getDocumentColors(e: TiptapEditor, type: ColorType): string[] {
-    const attr = type === 'font' ? 'color' : 'backgroundColor'
+function applyColor(editor: TiptapEditor, type: ColorType, color: string | null) {
+    if (color) {
+        applyMap[type].set(editor, color)
+    } else {
+        applyMap[type].unset(editor)
+    }
+}
+
+function getDocumentColors(editor: TiptapEditor, type: ColorType): string[] {
+    const attr = attrMap[type]
     const seen = new Set<string>()
-    e.tiptap.state.doc.descendants((node) => {
+    editor.tiptap.state.doc.descendants((node) => {
         node.marks.forEach((mark) => {
             if (mark.type.name === 'textStyle') {
                 const val = mark.attrs[attr]
@@ -141,198 +156,124 @@ function getDocumentColors(e: TiptapEditor, type: ColorType): string[] {
     return [...seen]
 }
 
-function findToolbarAnchor(e: TiptapEditor, name: string): HTMLElement | null {
-    let el: Element | null = e.tiptap.view.dom
-    for (let i = 0; i < 6; i++) {
-        el = el?.parentElement ?? null
-        if (!el) break
-        const found = el.querySelector<HTMLElement>(`[data-item="${name}"]`)
-        if (found) return found
-    }
-    return null
+function buildColorSwatches(colors: string[]): string {
+    return colors
+        .map((c) => `<li data-name="${c}" style="background:${c}" title="${c}"></li>`)
+        .join('')
 }
 
-function buildAutoButton(label: string): HTMLButtonElement {
-    const btn = document.createElement('button')
-    btn.type = 'button'
-    btn.className = 'cc-auto-btn'
-    btn.dataset.auto = '1'
-    btn.innerHTML = `<span class="cc-auto-swatch"></span>${label}`
-    return btn
+function buildBody(editor: TiptapEditor): string {
+    const predefined: string[] = []
+    return `
+        <ul class="cc-auto">
+            <li data-name="auto">
+                <span class="cc-auto-icon"></span>${editor.trans('color_auto')}
+            </li>
+        </ul>
+        ${predefined.length > 0 ? `<ul class="cc-grid">${buildColorSwatches(predefined)}</ul>` : ''}
+        <div id="cc-custom-section"></div>
+        <div id="cc-doc-section"></div>
+        <div class="cc-divider"></div>
+        <ul class="cc-more">
+            <li data-name="more">${editor.trans('color_more')}</li>
+        </ul>
+    `
 }
 
-function buildSwatch(color: string): HTMLButtonElement {
-    const btn = document.createElement('button')
-    btn.type = 'button'
-    btn.className = 'cc-swatch'
-    btn.dataset.color = color
-    btn.title = color
-    btn.style.backgroundColor = color
-    return btn
+function refreshDynamicSections(
+    root: HTMLElement,
+    editor: TiptapEditor,
+    type: ColorType,
+    customColor: string | null
+) {
+    const docColors = getDocumentColors(editor, type)
+
+    const customSection = root.querySelector<HTMLElement>('#cc-custom-section')!
+    customSection.innerHTML = customColor
+        ? `<div class="cc-divider"></div><ul class="cc-grid">${buildColorSwatches([customColor])}</ul>`
+        : ''
+
+    const docSection = root.querySelector<HTMLElement>('#cc-doc-section')!
+    docSection.innerHTML =
+        docColors.length > 0
+            ? `<div class="cc-divider"></div><div class="cc-label">${editor.trans('color_in_doc')}</div><ul class="cc-grid">${buildColorSwatches(docColors)}</ul>`
+            : ''
 }
 
-function buildSwatchGrid(colors: string[]): HTMLElement {
-    const grid = document.createElement('div')
-    grid.className = 'cc-grid'
-    colors.forEach((c) => grid.appendChild(buildSwatch(c)))
-    return grid
-}
+function openMoreColorsDialog(
+    editor: TiptapEditor,
+    type: ColorType,
+    onPick: (color: string) => void
+) {
+    const dialog = editor.createDialog(titleKeyMap[type])
 
-function buildLabel(text: string): HTMLElement {
-    const el = document.createElement('div')
-    el.className = 'cc-label'
-    el.textContent = text
-    return el
-}
-
-function buildDivider(): HTMLElement {
-    const el = document.createElement('div')
-    el.className = 'cc-divider'
-    return el
-}
-
-function buildMoreButton(label: string): HTMLButtonElement {
-    const btn = document.createElement('button')
-    btn.type = 'button'
-    btn.className = 'cc-more-btn'
-    btn.dataset.more = '1'
-    btn.textContent = label
-    return btn
-}
-
-function buildPanel(e: TiptapEditor, type: ColorType): HTMLElement {
-    const panel = document.createElement('div')
-    panel.className = 'cc-panel'
-    panel.innerHTML = PANEL_STYLES
-
-    const predefined: string[] = ['FF0000']
-    const docColors = getDocumentColors(e, type)
-    const { customColor } = panelState[type]
-
-    panel.appendChild(buildAutoButton(e.trans('color_auto')))
-
-    if (predefined.length > 0) {
-        panel.appendChild(buildSwatchGrid(predefined))
-    }
-
-    if (customColor) {
-        panel.appendChild(buildDivider())
-        panel.appendChild(buildSwatchGrid([customColor]))
-    }
-
-    if (docColors.length > 0) {
-        panel.appendChild(buildDivider())
-        panel.appendChild(buildLabel(e.trans('color_in_doc')))
-        panel.appendChild(buildSwatchGrid(docColors))
-    }
-
-    panel.appendChild(buildDivider())
-    panel.appendChild(buildMoreButton(e.trans('color_more')))
-
-    return panel
-}
-
-const applyMap: Record<ColorType, { set: (e: TiptapEditor, c: string) => void; unset: (e: TiptapEditor) => void }> = {
-    font: {
-        set: (e, c) => e.tiptap.chain().focus().setColor(c).run(),
-        unset: (e) => e.tiptap.chain().focus().unsetColor().run()
-    },
-    background: {
-        set: (e, c) => e.tiptap.chain().focus().setBackgroundColor(c).run(),
-        unset: (e) => e.tiptap.chain().focus().unsetBackgroundColor().run()
-    }
-}
-
-function applyColor(e: TiptapEditor, type: ColorType, color: string | null) {
-    if (color) {
-        applyMap[type].set(e, color)
-    } else {
-        applyMap[type].unset(e)
-    }
-}
-
-function openMoreColorsDialog(e: TiptapEditor, type: ColorType) {
-    const titleKey: Record<ColorType, TranslationKey> = { font: 'font_color', background: 'background_color' }
-    const dialog = e.createDialog(titleKey[type])
-
-    const input = document.createElement('input')
+    const input = editor.docParent.createElement('input') as HTMLInputElement
     input.type = 'color'
-    input.value = panelState[type].customColor ?? '#000000'
     input.style.cssText = 'width:100%;height:48px;border:none;cursor:pointer;display:block;'
 
-    const wrap = document.createElement('div')
+    const wrap = editor.docParent.createElement('div')
     wrap.style.cssText = 'padding:8px;min-width:200px;'
     wrap.appendChild(input)
 
     dialog.setContent(wrap)
     dialog
         .addButton({
-            label: e.trans('button_ok'),
+            label: editor.trans('button_ok'),
             variant: 'primary',
             onClick: (d) => {
                 d.close()
-                panelState[type].customColor = input.value
-                openColorPanel(e, type)
+                onPick(input.value)
             }
         })
         .addButton({
-            label: e.trans('button_cancel'),
+            label: editor.trans('button_cancel'),
             variant: 'secondary',
             onClick: (d) => d.close()
         })
         .open()
 }
 
-const anchorNameMap: Record<ColorType, string> = {
-    font: 'FontColor',
-    background: 'BackgroundColor'
-}
-
-function positionPanel(panel: HTMLElement, anchor: HTMLElement) {
-    const rect = anchor.getBoundingClientRect()
-    panel.style.top = `${rect.bottom + window.scrollY + 2}px`
-    panel.style.left = `${rect.left + window.scrollX}px`
-}
-
-function openColorPanel(e: TiptapEditor, type: ColorType) {
-    if (activePanel) {
-        closeActivePanel()
-        return
+function createColorDropdown(editor: TiptapEditor, type: ColorType): HTMLElement {
+    let state = editorState.get(editor)
+    if (!state) {
+        state = {}
+        editorState.set(editor, state)
     }
 
-    const anchor = findToolbarAnchor(e, anchorNameMap[type])
-    const panel = buildPanel(e, type)
-    document.body.appendChild(panel)
-    activePanel = panel
+    let customColor: string | null = null
 
-    if (anchor) positionPanel(panel, anchor)
-
-    panel.addEventListener('click', (ev) => {
-        const target = ev.target as HTMLElement
-
-        if (target.closest('[data-auto]')) {
-            applyColor(e, type, null)
-            closeActivePanel()
-            return
-        }
-
-        const swatch = target.closest<HTMLElement>('[data-color]')
-        if (swatch?.dataset.color) {
-            applyColor(e, type, swatch.dataset.color)
-            closeActivePanel()
-            return
-        }
-
-        if (target.closest('[data-more]')) {
-            closeActivePanel()
-            openMoreColorsDialog(e, type)
+    const dropdown = createDropdown(editor, {
+        prefix: `colors-${type}`,
+        css: PANEL_CSS,
+        buttonLabel: editor.trans(titleKeyMap[type]),
+        buttonTooltip: titleKeyMap[type],
+        icon: iconMap[type],
+        buildBody: () => buildBody(editor),
+        onItemClick(name) {
+            if (name === 'auto') {
+                applyColor(editor, type, null)
+            } else if (name === 'more') {
+                openMoreColorsDialog(editor, type, (color) => {
+                    customColor = color
+                    dropdown.show()
+                })
+            } else {
+                applyColor(editor, type, name)
+            }
+        },
+        onOpen(root) {
+            refreshDynamicSections(root, editor, type, customColor)
         }
     })
 
-    outsideClickHandler = (ev: MouseEvent) => {
-        if (activePanel && !activePanel.contains(ev.target as Node)) {
-            closeActivePanel()
-        }
-    }
-    setTimeout(() => document.addEventListener('click', outsideClickHandler!, true), 0)
+    state[type] = { dropdown, customColor: null }
+
+    return dropdown.element
+}
+
+function destroyColorDropdown(editor: TiptapEditor, type: ColorType) {
+    const state = editorState.get(editor)
+    if (!state) return
+    state[type]?.dropdown.destroy()
+    delete state[type]
 }

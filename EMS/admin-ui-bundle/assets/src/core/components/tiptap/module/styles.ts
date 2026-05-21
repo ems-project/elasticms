@@ -3,7 +3,7 @@ import { TiptapEditor } from '../editor.ts'
 import { CkeditorStyle } from '../../wysiwyg/ckeditorConfig.ts'
 import { Extension, Mark, mergeAttributes } from '@tiptap/core'
 import { BLOCK_NODES, ExtensionType } from './../extensions.ts'
-import { createIframeDropdown, IframeDropdown } from './../ui/iframeDropdown.ts'
+import { createDropdown, Dropdown } from './../ui/dropdown.ts'
 import stylesIframeCss from './../../../../../css/core/components/tiptap/_menu_styles.scss?inline'
 import Heading from '@tiptap/extension-heading'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
@@ -20,7 +20,7 @@ type StyleCategories = {
 }
 
 type EditorState = {
-    dropdown: IframeDropdown
+    dropdown: Dropdown
     cleanup: () => void
 }
 
@@ -517,8 +517,8 @@ function buildStyleGroup(group: StyleGroup): string {
         </div>`
 }
 
-function syncActive(editor: TiptapEditor, doc: Document, styles: CkeditorStyle[]): void {
-    doc.querySelectorAll<HTMLLIElement>('li').forEach((li) => {
+function syncActive(editor: TiptapEditor, root: HTMLElement, styles: CkeditorStyle[]): void {
+    root.querySelectorAll<HTMLLIElement>('li').forEach((li) => {
         const style = styles.find((s) => s.name === li.dataset.name)
         if (!style) return
         li.classList.toggle('active', isAnyStyleActive(editor, style))
@@ -527,12 +527,12 @@ function syncActive(editor: TiptapEditor, doc: Document, styles: CkeditorStyle[]
 
 function updateVisibleGroups(
     editor: TiptapEditor,
-    doc: Document,
+    root: HTMLElement,
     categories: StyleCategories
 ): void {
     const activeObjects = getActiveObjectElements(editor)
 
-    doc.querySelectorAll('.style-group').forEach((group) => {
+    root.querySelectorAll('.style-group').forEach((group) => {
         const label = (group as HTMLElement).dataset.group
         let visible = false
 
@@ -567,10 +567,11 @@ function createStylesDropdown(editor: TiptapEditor): HTMLElement {
         { label: 'Inline Styles', styles: categories.inline }
     ].filter((g) => g.styles.length > 0)
 
-    const dropdown = createIframeDropdown(editor, {
+    const dropdown = createDropdown(editor, {
         prefix: 'styles',
         css: stylesIframeCss,
         contentCss,
+        iframe: true,
         buttonLabel: 'Styles',
         buttonTooltip: 'styles_format',
         buildBody: () => groups.map(buildStyleGroup).join(''),
@@ -578,9 +579,9 @@ function createStylesDropdown(editor: TiptapEditor): HTMLElement {
             const matched = styleMap.get(name)
             if (matched) applyStyle(editor, matched)
         },
-        onOpen(iframeDoc) {
-            updateVisibleGroups(editor, iframeDoc, categories)
-            syncActive(editor, iframeDoc, allStyles)
+        onOpen(root) {
+            updateVisibleGroups(editor, root, categories)
+            syncActive(editor, root, allStyles)
         }
     })
 

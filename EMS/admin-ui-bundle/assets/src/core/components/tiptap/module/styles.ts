@@ -9,6 +9,7 @@ import Heading from '@tiptap/extension-heading'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 
 type StyleGroup = {
+    key: string
     label: string
     styles: CkeditorStyle[]
 }
@@ -515,9 +516,8 @@ function buildStyleItem(s: CkeditorStyle): string {
 
 function buildStyleGroup(group: StyleGroup): string {
     const items = group.styles.map(buildStyleItem).join('')
-
     return `
-        <div class="style-group" data-group="${group.label}">
+        <div class="style-group" data-group="${group.key}">
             <div class="style-group-label">${group.label}</div>
             <ul class="style-list">${items}</ul>
         </div>`
@@ -542,14 +542,14 @@ function updateVisibleGroups(
         const label = (group as HTMLElement).dataset.group
         let visible = false
 
-        if (label === 'Block Styles') visible = categories.block.length > 0
-        else if (label === 'Inline Styles') visible = categories.inline.length > 0
-        else if (label === 'Object Styles')
+        if (label === 'styles_block') visible = categories.block.length > 0
+        else if (label === 'styles_inline') visible = categories.inline.length > 0
+        else if (label === 'styles_object')
             visible = categories.object.some((s) => activeObjects.has(s.element))
 
         group.classList.toggle('visible', visible)
 
-        if (label === 'Object Styles') {
+        if (label === 'styles_object') {
             group.querySelectorAll('li').forEach((li) => {
                 const style = categories.object.find((s) => s.name === li.dataset.name)
                 ;(li as HTMLElement).style.display =
@@ -568,9 +568,9 @@ function createStylesDropdown(editor: TiptapEditor): HTMLElement {
     const styleMap = new Map(allStyles.map((s) => [s.name, s]))
 
     const groups: StyleGroup[] = [
-        { label: 'Object Styles', styles: categories.object },
-        { label: 'Block Styles', styles: categories.block },
-        { label: 'Inline Styles', styles: categories.inline }
+        { key: 'styles_object', label: editor.trans('styles_object'), styles: categories.object },
+        { key: 'styles_block', label: editor.trans('styles_block'), styles: categories.block },
+        { key: 'styles_inline', label: editor.trans('styles_inline'), styles: categories.inline }
     ].filter((g) => g.styles.length > 0)
 
     const dropdown = createDropdown(editor, {

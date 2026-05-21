@@ -500,11 +500,17 @@ function buildStyleItem(s: CkeditorStyle): string {
         return `<li data-name="${s.name}"><span>${s.name}</span></li>`
     }
 
-    const cls = s.attributes?.class ? ` class="${s.attributes.class}"` : ''
-    const style = stylesToString(s.styles)
-    const styleAttr = style ? ` style="${style}"` : ''
+    const attrs = Object.entries(s.attributes ?? {})
+        .filter(([k]) => k !== 'style')
+        .map(([k, v]) => ` ${k}="${v}"`)
+        .join('')
 
-    return `<li data-name="${s.name}"><${s.element}${cls}${styleAttr}>${s.name}</${s.element}></li>`
+    const styleParts = [stylesToString(s.styles), s.attributes?.style ?? '']
+        .filter(Boolean)
+        .join(';')
+    const styleAttr = styleParts ? ` style="${styleParts}"` : ''
+
+    return `<li data-name="${s.name}"><${s.element}${attrs}${styleAttr}>${s.name}</${s.element}></li>`
 }
 
 function buildStyleGroup(group: StyleGroup): string {

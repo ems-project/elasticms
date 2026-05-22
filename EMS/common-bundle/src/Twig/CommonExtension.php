@@ -96,6 +96,7 @@ class CommonExtension extends AbstractExtension
             new TwigFilter('ems_luma', $this->relativeLuminance(...)),
             new TwigFilter('ems_contrast_ratio', $this->contrastRatio(...)),
             new TwigFilter('ems_first_in_array', $this->firstInArray(...)),
+            new TwigFilter('ems_url_decode', [TextRuntime::class, 'urlDecode']),
             new TwigFilter('ems_webalize', [Encoder::class, 'webalizeForUsers'], [
                 'deprecation_info' => new DeprecatedCallableInfo('elasticms/common-bundle', '5.17.1', 'ems_slug'),
             ]),

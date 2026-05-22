@@ -68,4 +68,34 @@ class TextRuntimeTest extends TestCase
         $this->assertEquals('<div class="ms-rtestate-read ms-rte-wpbox"><a href="ems://object:webpart:33cf0d11-13f2-4859-ad4c-b2085a8f6f77"> Van meest recent naar oudst</a>
 <div id="vid_4e2af1bc-a4bc-4079-8549-f774e7ad0225" unselectable="on" style="display:none;"></div></div>', $crawler->filter('body')->html());
     }
+
+    public function testUrlDecode(): void
+    {
+        $textRuntime = new TextRuntime(
+            new Encoder(),
+            new Decoder(),
+            $this->validator,
+            $this->logger
+        );
+
+        $this->assertEquals(
+            'hello world',
+            $textRuntime->urlDecode('hello+world')
+        );
+
+        $this->assertEquals(
+            ['foo' => 'hello world', 'bar' => 'baz qux'],
+            $textRuntime->urlDecode('foo=hello+world&bar=baz+qux')
+        );
+
+        $this->assertEquals(
+            ['foo' => 'bar', 'empty' => ''],
+            $textRuntime->urlDecode('foo=bar&empty')
+        );
+
+        $this->assertEquals(
+            ['encoded key' => 'encoded value'],
+            $textRuntime->urlDecode('encoded+key=encoded+value')
+        );
+    }
 }

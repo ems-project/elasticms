@@ -100,6 +100,9 @@ class TextRuntime implements RuntimeExtensionInterface
         return 0 === \count($violations);
     }
 
+    /**
+     * @return string|string[]
+     */
     public function urlDecode(string $string): string|array
     {
         if (false === \mb_strpos($string, '=')) {

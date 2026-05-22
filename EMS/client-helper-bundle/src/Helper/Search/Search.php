@@ -101,17 +101,18 @@ final class Search
 
     private function bindRequest(Request $request): void
     {
-        $this->queryString = $request->query->get('q', $request->get('q', $this->queryString));
+        $this->queryString = $request->query->get('q', null);
         $requestFacets = $request->query->all()['f'] ?? $request->get('f', null);
 
         if (\is_array($requestFacets)) {
             $this->queryFacets = $requestFacets;
         }
 
-        $this->page = (int) $request->query->get('p', $request->get('p', $this->page));
-        $this->setSize((int) $request->query->get('l', $request->get('l', $this->size)));
-        $this->setSortBy($request->query->get('s', $request->get('s')));
-        $this->setSortOrder($request->query->all()['o'] ?? $request->get('o', $this->sortOrder));
+        $all = [...$request->query->all(), ...$request->attributes->all()];
+        $this->page = isset($all['p']) ? (int) $all['p'] : $this->page;
+        $this->setSize(isset($all['l']) ? (int) $all['l'] : $this->size);
+        $this->setSortBy(isset($all['s']) ? (string) $all['s'] : null);
+        $this->setSortOrder(isset($all['o']) ? (string) $all['o'] : $this->sortOrder);
 
         if (null !== $this->indexRegex) {
             $requestSearchIndex = RequestHelper::replace($request, $this->indexRegex);

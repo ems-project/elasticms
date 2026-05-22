@@ -1,5 +1,9 @@
 # Changelog 5.x
 
+## 5.17.6 (2026-05-22)
+### Bug Fixes
+* fix(web): performance issue with getHierarchy function by @theus77 in https://github.com/ems-project/elasticms/pull/1155
+
 ## 5.17.5 (2024-09-03)
 ### Bug Fixes
 * fix(common/storage): allow config or cache files to not be saved in any storage  by @theus77 in https://github.com/ems-project/elasticms/pull/995

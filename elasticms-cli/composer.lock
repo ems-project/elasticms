@@ -62,16 +62,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.381.6",
+            "version": "3.382.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "9be3422631494111ec76bec677f1ae2dec650573"
+                "reference": "5b4c1958d7ff9e3284b755d257a1aa1926745f6a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/9be3422631494111ec76bec677f1ae2dec650573",
-                "reference": "9be3422631494111ec76bec677f1ae2dec650573",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/5b4c1958d7ff9e3284b755d257a1aa1926745f6a",
+                "reference": "5b4c1958d7ff9e3284b755d257a1aa1926745f6a",
                 "shasum": ""
             },
             "require": {
@@ -153,9 +153,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.381.6"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.382.0"
             },
-            "time": "2026-05-21T20:14:47+00:00"
+            "time": "2026-05-22T18:09:49+00:00"
         },
         {
             "name": "brick/math",
@@ -1630,16 +1630,16 @@
         },
         {
             "name": "elasticms/common-bundle",
-            "version": "6.9.15",
+            "version": "6.9.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSCommonBundle.git",
-                "reference": "2feaddbb5299f284d46af4bbcad09ff6d91a196e"
+                "reference": "8de5dbc7bbeaf28719afcf0cfccda9aa2866bb2a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSCommonBundle/zipball/2feaddbb5299f284d46af4bbcad09ff6d91a196e",
-                "reference": "2feaddbb5299f284d46af4bbcad09ff6d91a196e",
+                "url": "https://api.github.com/repos/ems-project/EMSCommonBundle/zipball/8de5dbc7bbeaf28719afcf0cfccda9aa2866bb2a",
+                "reference": "8de5dbc7bbeaf28719afcf0cfccda9aa2866bb2a",
                 "shasum": ""
             },
             "require": {
@@ -1712,13 +1712,13 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSCommonBundle/tree/6.9.15"
+                "source": "https://github.com/ems-project/EMSCommonBundle/tree/6.9.16"
             },
-            "time": "2026-05-22T07:03:03+00:00"
+            "time": "2026-05-24T06:54:58+00:00"
         },
         {
             "name": "elasticms/helpers",
-            "version": "6.9.15",
+            "version": "6.9.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/helpers.git",
@@ -1762,7 +1762,7 @@
                 "php"
             ],
             "support": {
-                "source": "https://github.com/ems-project/helpers/tree/6.9.15"
+                "source": "https://github.com/ems-project/helpers/tree/6.9.16"
             },
             "time": "2025-10-27T09:29:21+00:00"
         },
@@ -1946,16 +1946,16 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "7.10.3",
+            "version": "7.10.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "47ba23c7a55247e2e1b7407aca90e9bbed0d9d86"
+                "reference": "aec528da477062d3af11f51e6b33402be233b21f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/47ba23c7a55247e2e1b7407aca90e9bbed0d9d86",
-                "reference": "47ba23c7a55247e2e1b7407aca90e9bbed0d9d86",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/aec528da477062d3af11f51e6b33402be233b21f",
+                "reference": "aec528da477062d3af11f51e6b33402be233b21f",
                 "shasum": ""
             },
             "require": {
@@ -2053,7 +2053,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/guzzle/issues",
-                "source": "https://github.com/guzzle/guzzle/tree/7.10.3"
+                "source": "https://github.com/guzzle/guzzle/tree/7.10.4"
             },
             "funding": [
                 {
@@ -2069,7 +2069,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-05-20T22:59:19+00:00"
+            "time": "2026-05-22T19:00:53+00:00"
         },
         {
             "name": "guzzlehttp/promises",

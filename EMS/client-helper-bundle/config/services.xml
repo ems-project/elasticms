@@ -33,7 +33,7 @@
         </service>
 
         <service id="emsch.helper.request.emsch_request_resolver" class="EMS\ClientHelperBundle\Helper\Request\EmschRequestResolver">
-            <tag name="controller.argument_value_resolver" priority="100"/>
+            <tag name="controller.argument_value_resolver" priority="200"/>
         </service>
 
         <service id="emsch.helper_locale" class="EMS\ClientHelperBundle\Helper\Request\LocaleHelper">

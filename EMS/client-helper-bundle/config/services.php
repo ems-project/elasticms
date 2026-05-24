@@ -69,7 +69,7 @@ return static function (ContainerConfigurator $container) {
         ->call('setLocalEnvironmentFactory', [service('emsch.helper.local_environment_factory')->nullOnInvalid()]);
 
     $services->set('emsch.helper.request.emsch_request_resolver', EmschRequestResolver::class)
-        ->tag('controller.argument_value_resolver', ['priority' => 100]);
+        ->tag('controller.argument_value_resolver', ['priority' => 200]);
 
     $services->set('emsch.helper_locale', LocaleHelper::class)
         ->args(['%emsch.locales%']);

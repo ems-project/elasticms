@@ -120,6 +120,7 @@ class TextExtensionTest extends TestCase
         self::assertSame($expected, $this->textExtension->asciiFolding($text));
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testUrlDecode(): void
     {
         $this->assertEquals(

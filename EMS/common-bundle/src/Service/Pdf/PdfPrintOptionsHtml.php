@@ -43,13 +43,13 @@ final class PdfPrintOptionsHtml extends PdfPrintOptions
     private function sanitizeMetaTags(array $metaData): array
     {
         $filtered = \filter_var_array($metaData, [
-            self::FILENAME => null,
+            self::FILENAME => FILTER_DEFAULT,
             self::ATTACHMENT => FILTER_VALIDATE_BOOLEAN,
             self::COMPRESS => FILTER_VALIDATE_BOOLEAN,
             self::HTML5_PARSING => FILTER_VALIDATE_BOOLEAN,
             self::PHP_ENABLED => FILTER_VALIDATE_BOOLEAN,
-            self::ORIENTATION => null,
-            self::SIZE => null,
+            self::ORIENTATION => FILTER_DEFAULT,
+            self::SIZE => FILTER_DEFAULT,
         ], false);
 
         if (!\is_array($filtered)) {

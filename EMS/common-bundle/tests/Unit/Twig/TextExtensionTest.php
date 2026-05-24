@@ -119,4 +119,27 @@ class TextExtensionTest extends TestCase
     {
         self::assertSame($expected, $this->textExtension->asciiFolding($text));
     }
+
+    public function testUrlDecode(): void
+    {
+        $this->assertEquals(
+            'hello world',
+            $this->textExtension->urlDecode('hello+world')
+        );
+
+        $this->assertEquals(
+            ['foo' => 'hello world', 'bar' => 'baz qux'],
+            $this->textExtension->urlDecode('foo=hello+world&bar=baz+qux')
+        );
+
+        $this->assertEquals(
+            ['foo' => 'bar', 'empty' => ''],
+            $this->textExtension->urlDecode('foo=bar&empty')
+        );
+
+        $this->assertEquals(
+            ['encoded key' => 'encoded value'],
+            $this->textExtension->urlDecode('encoded+key=encoded+value')
+        );
+    }
 }

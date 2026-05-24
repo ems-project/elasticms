@@ -1,5 +1,15 @@
 # Changelog 6.x
 
+## 6.9.16 (2026-05-24)
+### Bug Fixes
+* fix(web/routing): resolving emschRequest by @Davidmattei in https://github.com/ems-project/elasticms/pull/1736
+
+## 6.9.15 (2026-05-22)
+### Features
+* feat(common/twig): add new ems_url_decode filter by @Davidmattei in https://github.com/ems-project/elasticms/pull/1734
+### Bug Fixes
+* fix: symfony upgrade by @Davidmattei in https://github.com/ems-project/elasticms/pull/1735
+
 ## 6.9.14 (2026-05-18)
 ### Bug Fixes
 * fix(admin/job): ems:job:run should start a runner if one is planned by @theus77 in https://github.com/ems-project/elasticms/pull/1711

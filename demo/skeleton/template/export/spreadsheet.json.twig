@@ -1,0 +1,10 @@
+{% set config = {
+    "filename": "example",
+    "disposition": "attachment",
+    "writer": "xlsx",
+    "sheets": [
+        { "name": "Sheet 1", "rows": [ ["A1", "A2"], ["B1", "B2"] ] },
+        { "name": "Sheet 2", "rows": [ ["A1", "A2"], ["B1", "B2"] ] },
+    ]
+} %}
+{{- config|json_encode|raw -}}

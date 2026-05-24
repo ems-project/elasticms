@@ -153,4 +153,24 @@ class TextExtension
     {
         return $this->encoder->slug($text, $locale, $separator, $lower, $preserveFileExtension);
     }
+
+    /**
+     * @return string|string[]
+     */
+    #[AsTwigFilter(name: 'ems_url_decode')]
+    public function urlDecode(string $string): string|array
+    {
+        if (false === \mb_strpos($string, '=')) {
+            return \urldecode($string);
+        }
+
+        $params = [];
+
+        foreach (\explode('&', $string) as $chunk) {
+            $param = \explode('=', $chunk, 2);
+            $params[\urldecode($param[0])] = isset($param[1]) ? \urldecode($param[1]) : '';
+        }
+
+        return $params;
+    }
 }

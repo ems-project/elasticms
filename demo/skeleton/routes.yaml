@@ -107,6 +107,22 @@ emsch_news_details:
         path: { fr: '/fr/news/{year}-{month}-{day}/{slug}', nl: '/nl/news/{year}-{month}-{day}/{slug}' }
     query: '{"query":{"bool":{"must":[{"terms":{"_contenttype":["news"]}},{"terms":{"%_locale%.slug":["%slug%"]}}]}},"size":1}'
     template_static: template/news/details.html.twig
+export_pdf:
+    config:
+        path: /export/pdf
+        controller: 'emsch.controller.pdf'
+    template_static: template/export/pdf.html.twig
+export_pdf_cached:
+    config:
+        path: /export/pdf-cached
+        defaults: { _emsch_cache: { key: 'pdf_cached' } }
+        controller: 'emsch.controller.pdf'
+    template_static: template/export/pdf.html.twig
+export_spreadsheet:
+    config:
+        path: /export/spreadsheet
+        controller: 'emsch.controller.spreadsheet'
+    template_static: template/export/spreadsheet.json.twig
 emsch_path:
     config:
         path: { fr: '/fr/{path}', nl: '/nl/{path}' }

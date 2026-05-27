@@ -27,7 +27,7 @@ final readonly class Client
 
     public function getCoreApi(): CoreApiInterface
     {
-        return $this->coreApi->setBaseUrl($this->baseUrl);
+        return $this->coreApi->setBaseUrl($this->baseUrl)->setToken($this->key);
     }
 
     public function getName(): string

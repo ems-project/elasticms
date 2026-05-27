@@ -1,5 +1,9 @@
 # Changelog 6.x
 
+## 6.9.17 (2026-05-27)
+### Bug Fixes
+* fix(web/api): 403 on form submission files by @Davidmattei in https://github.com/ems-project/elasticms/pull/1738
+
 ## 6.9.16 (2026-05-24)
 ### Bug Fixes
 * fix(web/routing): resolving emschRequest by @Davidmattei in https://github.com/ems-project/elasticms/pull/1736

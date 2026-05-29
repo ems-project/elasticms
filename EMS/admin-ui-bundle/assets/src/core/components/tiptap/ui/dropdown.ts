@@ -29,30 +29,29 @@ export function createDropdown(editor: TiptapEditor, config: DropdownConfig): Dr
     let onOpenReady: (() => void) | null = null
 
     const wrapper = doc.createElement('div')
-    wrapper.className = `tiptap-dropdown tiptap-dropdown--${config.prefix}${useIframe ? ' tiptap-dropdown--iframe' : ''}`
+    wrapper.className = `tiptap-toolbar-dropdown tiptap-toolbar-dropdown--${config.prefix}${useIframe ? ' tiptap-toolbar-dropdown-iframe' : ''}`
 
     const button = doc.createElement('button')
     button.type = 'button'
     button.dataset.action = config.buttonLabel
     button.title = editor.trans(config.buttonTooltip)
-    button.className = 'tiptap-dropdown-btn'
+    button.className = 'tiptap-toolbar-dropdown-btn'
 
     const label = doc.createElement('span')
-    label.className = 'tiptap-dropdown-label'
+    label.className = 'tiptap-toolbar-dropdown-label'
     label.textContent = config.buttonLabel
-
-    const arrow = doc.createElement('span')
-    arrow.textContent = '▾'
 
     if (config.icon) {
         button.innerHTML = config.icon
-        button.classList.add('tiptap-dropdown-btn--icon')
         const svg = button.querySelector('svg')
         if (svg) {
             svg.setAttribute('width', '16')
             svg.setAttribute('height', '16')
         }
     } else {
+        const arrow = doc.createElement('span')
+        arrow.textContent = '▾'
+
         button.appendChild(label)
         button.appendChild(arrow)
     }
@@ -88,7 +87,7 @@ export function createDropdown(editor: TiptapEditor, config: DropdownConfig): Dr
         }
 
         panel = doc.createElement('div')
-        panel.className = `tiptap-dropdown-panel tiptap-dropdown-panel--${config.prefix}`
+        panel.className = `tiptap-dropdown tiptap-dropdown--${config.prefix}`
         doc.body.appendChild(panel)
 
         if (useIframe) {

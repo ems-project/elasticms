@@ -1,4 +1,10 @@
 const en = {
+    button_ok: 'Ok',
+    color_more: 'color_more',
+    color_in_doc: 'color_in_doc',
+    color_auto: 'color_auto',
+    background_color: 'background_color',
+    font_color: 'font_color',
     align_bottom: 'Bottom',
     align_center: 'Center',
     align_horizontal: 'Horizontal alignment',

@@ -1,6 +1,12 @@
 import type { TranslationKey } from './en'
 
 export const fr: Record<TranslationKey, string> = {
+    button_ok: 'Ok',
+    color_more: 'color_more',
+    color_in_doc: 'color_in_doc',
+    color_auto: 'color_auto',
+    background_color: 'background_color',
+    font_color: 'font_color',
     align_bottom: 'Bas',
     align_center: 'Centrer',
     align_horizontal: 'Alignement horizontal',

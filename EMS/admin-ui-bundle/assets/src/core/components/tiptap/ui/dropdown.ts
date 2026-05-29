@@ -3,16 +3,16 @@ import { TranslationKey } from '../translations.ts'
 
 export type DropdownConfig = {
     prefix: string
-    css: string
-    contentCss?: string | null
     buttonLabel: string
     buttonTooltip: TranslationKey
     icon?: string
-    iframe?: boolean
     buildBody(): string
     onItemClick(name: string): void
     onOpen(root: HTMLElement): void
-}
+} & (
+    | { iframe: true; css: string; contentCss?: string | null }
+    | { iframe?: false; css?: never; contentCss?: never }
+    )
 
 export type Dropdown = {
     element: HTMLElement
@@ -108,9 +108,12 @@ export function createDropdown(editor: TiptapEditor, config: DropdownConfig): Dr
                         iframeDoc.head.appendChild(link)
                     }
 
-                    const style = iframeDoc.createElement('style')
-                    style.textContent = config.css
-                    iframeDoc.head.appendChild(style)
+                    if (config.css) {
+                        const style = iframeDoc.createElement('style')
+                        style.textContent = config.css
+                        iframeDoc.head.appendChild(style)
+                    }
+
 
                     iframeDoc.body.innerHTML = config.buildBody()
 
@@ -123,10 +126,6 @@ export function createDropdown(editor: TiptapEditor, config: DropdownConfig): Dr
 
             panel.appendChild(iframe)
         } else {
-            const style = doc.createElement('style')
-            style.textContent = config.css
-            panel.appendChild(style)
-
             const content = doc.createElement('div')
             content.className = 'tiptap-dropdown-content'
             content.innerHTML = config.buildBody()

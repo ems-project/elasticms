@@ -117,6 +117,116 @@
   }
 }
 
+.tiptap-dropdown-content {
+  padding: 6px;
+  font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+  * {
+    box-sizing: border-box;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .cc-auto li {
+    padding: 4px 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-radius: 3px;
+    font-size: 12px;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.06);
+    }
+  }
+
+  .cc-auto-icon {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    border: 1px solid #bbb;
+    background: linear-gradient(
+                    to bottom right,
+                    #fff 0%,
+                    #fff calc(50% - 1px),
+                    #d44 calc(50% - 1px),
+                    #d44 calc(50% + 1px),
+                    #fff calc(50% + 1px),
+                    #fff 100%
+    );
+  }
+
+  .cc-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
+    padding: 4px 0;
+
+    li {
+      width: 24px;
+      height: 24px;
+      border-radius: 2px;
+      cursor: pointer;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      transition: transform 0.1s;
+
+      &:hover {
+        transform: scale(1.2);
+        border-color: #555;
+        z-index: 1;
+        position: relative;
+      }
+    }
+  }
+
+  .cc-divider {
+    height: 1px;
+    background: #eee;
+    margin: 4px 0;
+  }
+
+  .cc-label {
+    font-size: 10px;
+    color: #888;
+    padding: 2px 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .cc-more {
+    padding: 4px 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-radius: 3px;
+    font-size: 12px;
+    cursor: pointer;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.06);
+    }
+
+    label {
+      cursor: pointer;
+    }
+  }
+
+  .cc-color-input {
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    border: 1px solid #bbb;
+    border-radius: 2px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+}
+
 
 
 

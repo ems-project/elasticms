@@ -30,15 +30,15 @@ const BackgroundColor = Extension.create({
         return {
             setBackgroundColor:
                 (color: string) =>
-                ({ chain }) =>
-                    chain().setMark('textStyle', { backgroundColor: color }).run(),
+                    ({ chain }) =>
+                        chain().setMark('textStyle', { backgroundColor: color }).run(),
             unsetBackgroundColor:
                 () =>
-                ({ chain }) =>
-                    chain()
-                        .setMark('textStyle', { backgroundColor: null })
-                        .removeEmptyTextStyle()
-                        .run()
+                    ({ chain }) =>
+                        chain()
+                            .setMark('textStyle', { backgroundColor: null })
+                            .removeEmptyTextStyle()
+                            .run()
         }
     }
 })
@@ -68,42 +68,11 @@ type ColorType = 'font' | 'background'
 
 type ColorDropdownState = {
     dropdown: Dropdown
-    customColor: string | null
 }
 
 type ColorEditorState = Partial<Record<ColorType, ColorDropdownState>>
 
 const editorState = new WeakMap<TiptapEditor, ColorEditorState>()
-
-const PANEL_CSS = `
-.tiptap-dropdown-content {
-    padding: 6px;
-    font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-}
-.tiptap-dropdown-content * { box-sizing: border-box }
-.tiptap-dropdown-content ul { list-style: none; margin: 0; padding: 0; }
-.cc-auto li, .cc-more li {
-    padding: 4px 8px; cursor: pointer; display: flex; align-items: center; gap: 6px;
-    border-radius: 3px; font-size: 12px;
-}
-.cc-auto li:hover, .cc-more li:hover { background: rgba(0,0,0,.06); }
-.cc-auto-icon {
-    width: 14px; height: 14px; flex-shrink: 0; border: 1px solid #bbb;
-    background: linear-gradient(
-        to bottom right, #fff 0%, #fff calc(50% - 1px),
-        #d44 calc(50% - 1px), #d44 calc(50% + 1px),
-        #fff calc(50% + 1px), #fff 100%
-    );
-}
-.cc-grid { display: flex; flex-wrap: wrap; gap: 3px; padding: 4px 0; }
-.cc-grid li {
-    width: 24px; height: 24px; border-radius: 2px; cursor: pointer;
-    border: 1px solid rgba(0,0,0,.12); transition: transform .1s;
-}
-.cc-grid li:hover { transform: scale(1.2); border-color: #555; z-index: 1; position: relative; }
-.cc-divider { height: 1px; background: #eee; margin: 4px 0; }
-.cc-label { font-size: 10px; color: #888; padding: 2px 4px; text-transform: uppercase; letter-spacing: .03em; }
-`
 
 const titleKeyMap: Record<ColorType, TranslationKey> = {
     font: 'font_color',
@@ -120,19 +89,18 @@ const attrMap: Record<ColorType, string> = {
     background: 'backgroundColor'
 }
 
-const applyMap: Record<
-    ColorType,
+const applyMap: Record<ColorType,
     { set: (e: TiptapEditor, c: string) => void; unset: (e: TiptapEditor) => void }
-> = {
-    font: {
-        set: (e, c) => e.tiptap.chain().focus().setColor(c).run(),
-        unset: (e) => e.tiptap.chain().focus().unsetColor().run()
-    },
-    background: {
-        set: (e, c) => (e.tiptap.chain().focus() as any).setBackgroundColor(c).run(),
-        unset: (e) => (e.tiptap.chain().focus() as any).unsetBackgroundColor().run()
+    > = {
+        font: {
+            set: (e, c) => e.tiptap.chain().focus().setColor(c).run(),
+            unset: (e) => e.tiptap.chain().focus().unsetColor().run()
+        },
+        background: {
+            set: (e, c) => (e.tiptap.chain().focus() as any).setBackgroundColor(c).run(),
+            unset: (e) => (e.tiptap.chain().focus() as any).unsetBackgroundColor().run()
+        }
     }
-}
 
 function applyColor(editor: TiptapEditor, type: ColorType, color: string | null) {
     if (color) {
@@ -174,9 +142,10 @@ function buildBody(editor: TiptapEditor): string {
         <div id="cc-custom-section"></div>
         <div id="cc-doc-section"></div>
         <div class="cc-divider"></div>
-        <ul class="cc-more">
-            <li data-name="more">${editor.trans('color_more')}</li>
-        </ul>
+        <div class="cc-more">
+            <input type="color" id="cc-color-input" class="cc-color-input">
+            <label for="cc-color-input">${editor.trans('color_more')}</label>
+        </div>
     `
 }
 
@@ -200,39 +169,6 @@ function refreshDynamicSections(
             : ''
 }
 
-function openMoreColorsDialog(
-    editor: TiptapEditor,
-    type: ColorType,
-    onPick: (color: string) => void
-) {
-    const dialog = editor.createDialog(titleKeyMap[type])
-
-    const input = editor.docParent.createElement('input') as HTMLInputElement
-    input.type = 'color'
-    input.style.cssText = 'width:100%;height:48px;border:none;cursor:pointer;display:block;'
-
-    const wrap = editor.docParent.createElement('div')
-    wrap.style.cssText = 'padding:8px;min-width:200px;'
-    wrap.appendChild(input)
-
-    dialog.setContent(wrap)
-    dialog
-        .addButton({
-            label: editor.trans('button_ok'),
-            variant: 'primary',
-            onClick: (d) => {
-                d.close()
-                onPick(input.value)
-            }
-        })
-        .addButton({
-            label: editor.trans('button_cancel'),
-            variant: 'secondary',
-            onClick: (d) => d.close()
-        })
-        .open()
-}
-
 function createColorDropdown(editor: TiptapEditor, type: ColorType): HTMLElement {
     let state = editorState.get(editor)
     if (!state) {
@@ -244,7 +180,6 @@ function createColorDropdown(editor: TiptapEditor, type: ColorType): HTMLElement
 
     const dropdown = createDropdown(editor, {
         prefix: `colors-${type}`,
-        css: PANEL_CSS,
         buttonLabel: editor.trans(titleKeyMap[type]),
         buttonTooltip: titleKeyMap[type],
         icon: iconMap[type],
@@ -252,21 +187,25 @@ function createColorDropdown(editor: TiptapEditor, type: ColorType): HTMLElement
         onItemClick(name) {
             if (name === 'auto') {
                 applyColor(editor, type, null)
-            } else if (name === 'more') {
-                openMoreColorsDialog(editor, type, (color) => {
-                    customColor = color
-                    dropdown.show()
-                })
             } else {
                 applyColor(editor, type, name)
             }
         },
         onOpen(root) {
             refreshDynamicSections(root, editor, type, customColor)
+
+            const input = root.querySelector<HTMLInputElement>('#cc-color-input')
+            if (!input) return
+            if (customColor) input.value = customColor
+            input.addEventListener('input', () => {
+                customColor = input.value
+                applyColor(editor, type, customColor)
+                refreshDynamicSections(root, editor, type, customColor)
+            })
         }
     })
 
-    state[type] = { dropdown, customColor: null }
+    state[type] = { dropdown }
 
     return dropdown.element
 }

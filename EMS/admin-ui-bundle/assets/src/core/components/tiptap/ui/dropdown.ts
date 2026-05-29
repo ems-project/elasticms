@@ -29,7 +29,7 @@ export function createDropdown(editor: TiptapEditor, config: DropdownConfig): Dr
     let onOpenReady: (() => void) | null = null
 
     const wrapper = doc.createElement('div')
-    wrapper.className = `tiptap-dropdown tiptap-dropdown--${config.prefix}`
+    wrapper.className = `tiptap-dropdown tiptap-dropdown--${config.prefix}${useIframe ? ' tiptap-dropdown--iframe' : ''}`
 
     const button = doc.createElement('button')
     button.type = 'button'

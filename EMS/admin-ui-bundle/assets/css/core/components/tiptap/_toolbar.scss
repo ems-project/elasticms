@@ -38,6 +38,7 @@
     &:disabled {
       opacity: 0.4;
       cursor: default;
+      pointer-events: none;
     }
 
     svg {
@@ -66,8 +67,8 @@
   border-radius: 4px;
   color: #495057;
   cursor: pointer;
+  width: 28px;
   height: 30px;
-  padding: 0 8px;
   display: flex;
   align-items: center;
   gap: 4px;
@@ -81,16 +82,6 @@
 
   &:hover {
     background-color: #e9ecef;
-  }
-
-  .tiptap-dropdown-label {
-    display: inline-block;
-    width: 80px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-align: left;
-    white-space: nowrap;
-    vertical-align: middle;
   }
 }
 
@@ -107,6 +98,22 @@
     min-width: 220px;
     min-height: 200px;
     width: 100%;
+  }
+}
+
+.tiptap-dropdown--iframe {
+  .tiptap-dropdown-btn {
+    width: 80px;
+    padding: 0 8px;
+  }
+
+  .tiptap-dropdown-label {
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+    white-space: nowrap;
+    vertical-align: middle;
   }
 }
 

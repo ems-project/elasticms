@@ -30,15 +30,15 @@ const BackgroundColor = Extension.create({
         return {
             setBackgroundColor:
                 (color: string) =>
-                    ({ chain }) =>
-                        chain().setMark('textStyle', { backgroundColor: color }).run(),
+                ({ chain }) =>
+                    chain().setMark('textStyle', { backgroundColor: color }).run(),
             unsetBackgroundColor:
                 () =>
-                    ({ chain }) =>
-                        chain()
-                            .setMark('textStyle', { backgroundColor: null })
-                            .removeEmptyTextStyle()
-                            .run()
+                ({ chain }) =>
+                    chain()
+                        .setMark('textStyle', { backgroundColor: null })
+                        .removeEmptyTextStyle()
+                        .run()
         }
     }
 })
@@ -89,18 +89,19 @@ const attrMap: Record<ColorType, string> = {
     background: 'backgroundColor'
 }
 
-const applyMap: Record<ColorType,
+const applyMap: Record<
+    ColorType,
     { set: (e: TiptapEditor, c: string) => void; unset: (e: TiptapEditor) => void }
-    > = {
-        font: {
-            set: (e, c) => e.tiptap.chain().focus().setColor(c).run(),
-            unset: (e) => e.tiptap.chain().focus().unsetColor().run()
-        },
-        background: {
-            set: (e, c) => (e.tiptap.chain().focus() as any).setBackgroundColor(c).run(),
-            unset: (e) => (e.tiptap.chain().focus() as any).unsetBackgroundColor().run()
-        }
+> = {
+    font: {
+        set: (e, c) => e.tiptap.chain().focus().setColor(c).run(),
+        unset: (e) => e.tiptap.chain().focus().unsetColor().run()
+    },
+    background: {
+        set: (e, c) => (e.tiptap.chain().focus() as any).setBackgroundColor(c).run(),
+        unset: (e) => (e.tiptap.chain().focus() as any).unsetBackgroundColor().run()
     }
+}
 
 function applyColor(editor: TiptapEditor, type: ColorType, color: string | null) {
     if (color) {
@@ -133,7 +134,7 @@ function buildColorSwatches(colors: string[]): string {
 function buildBody(editor: TiptapEditor): string {
     const predefined: string[] = []
     return `
-        <div class="tiptap-color-dropdown">
+        <div class="tiptap-toolbar-dropdown-color">
             <ul class="auto-option">
                 <li data-name="auto">
                     <span class="auto-icon"></span>${editor.trans('color_auto')}
@@ -143,10 +144,10 @@ function buildBody(editor: TiptapEditor): string {
             <div id="custom-section"></div>
             <div id="doc-section"></div>
             <div class="divider"></div>
-            <div class="more-option">
-                <input type="color" id="color-input" class="color-input">
-                <label for="color-input">${editor.trans('color_more')}</label>
-            </div>
+            <label class="more-option">
+                <input type="color" class="color-input">
+                <span>${editor.trans('color_more')}</span>
+            </label>
         </div>
     `
 }
@@ -196,14 +197,17 @@ function createColorDropdown(editor: TiptapEditor, type: ColorType): HTMLElement
         onOpen(root) {
             refreshDynamicSections(root, editor, type, customColor)
 
-            const input = root.querySelector<HTMLInputElement>('#color-input')
+            const input = root.querySelector<HTMLInputElement>('.color-input')
             if (!input) return
             if (customColor) input.value = customColor
-            input.addEventListener('input', () => {
+            input.oninput = () => {
                 customColor = input.value
                 applyColor(editor, type, customColor)
                 refreshDynamicSections(root, editor, type, customColor)
-            })
+            }
+            input.onchange = () => {
+                dropdown.focus()
+            }
         }
     })
 

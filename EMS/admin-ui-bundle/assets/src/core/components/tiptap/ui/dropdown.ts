@@ -12,13 +12,14 @@ export type DropdownConfig = {
 } & (
     | { iframe: true; css: string; contentCss?: string | null }
     | { iframe?: false; css?: never; contentCss?: never }
-    )
+)
 
 export type Dropdown = {
     element: HTMLElement
     hide(): void
     show(): void
     destroy(): void
+    focus(): void
     setLabel(text: string): void
 }
 
@@ -51,7 +52,6 @@ export function createDropdown(editor: TiptapEditor, config: DropdownConfig): Dr
     } else {
         const arrow = doc.createElement('span')
         arrow.textContent = '▾'
-
         button.appendChild(label)
         button.appendChild(arrow)
     }
@@ -67,16 +67,21 @@ export function createDropdown(editor: TiptapEditor, config: DropdownConfig): Dr
         panel.style.left = `${rect.left}px`
     }
 
+    let colorPickerActive = false
+
     const bindItemEvents = (root: HTMLElement) => {
         root.addEventListener('mousedown', (e) => {
-            e.preventDefault()
-            const li = (e.target as HTMLElement).closest('li')
+            const target = e.target as HTMLElement
+            if (target.matches('input[type="color"]')) {
+                colorPickerActive = true
+                return
+            }
+            const li = target.closest('li')
             if (!li?.dataset.name) return
+            if (li.dataset.action === 'keep-open') return
+            e.preventDefault()
             config.onItemClick(li.dataset.name)
             hide()
-        })
-        root.addEventListener('click', (e) => {
-            if (!(e.target as HTMLElement).closest('li')) hide()
         })
     }
 
@@ -113,9 +118,7 @@ export function createDropdown(editor: TiptapEditor, config: DropdownConfig): Dr
                         iframeDoc.head.appendChild(style)
                     }
 
-
                     iframeDoc.body.innerHTML = config.buildBody()
-
                     bindItemEvents(iframeDoc.body)
                     onOpenReady = () => config.onOpen(iframeDoc.body)
                     onReady()
@@ -129,7 +132,6 @@ export function createDropdown(editor: TiptapEditor, config: DropdownConfig): Dr
             content.className = 'tiptap-dropdown-content'
             content.innerHTML = config.buildBody()
             panel.appendChild(content)
-
             bindItemEvents(content)
             onOpenReady = () => config.onOpen(content)
             onReady()
@@ -137,7 +139,10 @@ export function createDropdown(editor: TiptapEditor, config: DropdownConfig): Dr
     }
 
     const handleOutsideClick = (e: MouseEvent) => {
-        if (panel && !panel.contains(e.target as Node) && !button.contains(e.target as Node)) hide()
+        const target = e.target as HTMLElement
+        if (target.matches('input[type="color"]')) return
+        colorPickerActive = false
+        if (panel && !panel.contains(target) && !button.contains(target)) hide()
     }
 
     const open = () => {
@@ -148,6 +153,20 @@ export function createDropdown(editor: TiptapEditor, config: DropdownConfig): Dr
             onOpenReady?.()
         })
     }
+    const onBlur = () => {
+        if (colorPickerActive) return
+        if (panel && !panel.hidden) hide()
+    }
+
+    const onWindowFocus = () => {
+        colorPickerActive = false
+    }
+
+    doc.addEventListener('mousedown', handleOutsideClick)
+    window.addEventListener('blur', onBlur)
+    window.addEventListener('focus', onWindowFocus)
+    window.addEventListener('resize', hide)
+    window.addEventListener('scroll', hide, true)
 
     button.addEventListener('click', (e) => {
         e.stopPropagation()
@@ -157,12 +176,6 @@ export function createDropdown(editor: TiptapEditor, config: DropdownConfig): Dr
         }
         open()
     })
-
-    doc.addEventListener('mousedown', handleOutsideClick)
-    window.addEventListener('blur', hide)
-    window.addEventListener('resize', hide)
-    window.addEventListener('scroll', hide, true)
-
     wrapper.appendChild(button)
 
     return {
@@ -173,12 +186,17 @@ export function createDropdown(editor: TiptapEditor, config: DropdownConfig): Dr
             label.textContent = text
             button.title = text !== config.buttonLabel ? text : ''
         },
+        focus() {
+            window.focus()
+            button.focus()
+        },
         destroy() {
             panel?.remove()
             doc.removeEventListener('mousedown', handleOutsideClick)
-            window.removeEventListener('blur', hide)
             window.removeEventListener('resize', hide)
             window.removeEventListener('scroll', hide, true)
+            window.removeEventListener('blur', onBlur)
+            window.removeEventListener('focus', onWindowFocus)
         }
     }
 }

@@ -26,6 +26,10 @@ class Client
 
     public function getCoreApi(): CoreApiInterface
     {
+        if ($this->key) {
+            $this->coreApi->setToken($this->key);
+        }
+
         return $this->coreApi->setBaseUrl($this->baseUrl);
     }
 

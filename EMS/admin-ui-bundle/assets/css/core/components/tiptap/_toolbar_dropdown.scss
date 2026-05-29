@@ -66,9 +66,8 @@
   }
 }
 
-
 .tiptap-color-dropdown {
-  .auto-option li {
+  .tiptap-color-auto-option li {
     padding: 4px 8px;
     cursor: pointer;
     display: flex;
@@ -82,7 +81,7 @@
     }
   }
 
-  .auto-icon {
+  .tiptap-color-auto-icon {
     width: 14px;
     height: 14px;
     flex-shrink: 0;
@@ -98,7 +97,7 @@
     );
   }
 
-  .color-grid {
+  .tiptap-color-grid {
     display: flex;
     flex-wrap: wrap;
     gap: 3px;
@@ -121,13 +120,13 @@
     }
   }
 
-  .divider {
+  .tiptap-color-divider {
     height: 1px;
     background: #eee;
     margin: 4px 0;
   }
 
-  .color-label {
+  .tiptap-color-label {
     font-size: 10px;
     color: #888;
     padding: 2px 4px;
@@ -135,7 +134,7 @@
     letter-spacing: 0.03em;
   }
 
-  .more-option {
+  .tiptap-color-more-option {
     padding: 4px 8px;
     display: flex;
     align-items: center;
@@ -149,7 +148,7 @@
     }
   }
 
-  .color-input {
+  .tiptap-color-input {
     width: 18px;
     height: 18px;
     padding: 0;

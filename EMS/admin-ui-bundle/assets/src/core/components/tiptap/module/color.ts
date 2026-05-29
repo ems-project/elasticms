@@ -134,18 +134,18 @@ function buildColorSwatches(colors: string[]): string {
 function buildBody(editor: TiptapEditor): string {
     const predefined: string[] = []
     return `
-        <div class="tiptap-toolbar-dropdown-color">
-            <ul class="auto-option">
+        <div class="tiptap-color-dropdown">
+            <ul class="tiptap-color-auto-option">
                 <li data-name="auto">
-                    <span class="auto-icon"></span>${editor.trans('color_auto')}
+                    <span class="tiptap-color-auto-icon"></span>${editor.trans('color_auto')}
                 </li>
             </ul>
-            ${predefined.length > 0 ? `<ul class="color-grid">${buildColorSwatches(predefined)}</ul>` : ''}
-            <div id="custom-section"></div>
-            <div id="doc-section"></div>
-            <div class="divider"></div>
-            <label class="more-option">
-                <input type="color" class="color-input">
+            ${predefined.length > 0 ? `<ul class="tiptap-color-grid">${buildColorSwatches(predefined)}</ul>` : ''}
+            <div class="tiptap-color-custom-section"></div>
+            <div class="tiptap-color-doc-section"></div>
+            <div class="tiptap-color-divider"></div>
+            <label class="tiptap-color-more-option" data-keep-open-on-blur>
+                <input type="color" class="tiptap-color-input" >
                 <span>${editor.trans('color_more')}</span>
             </label>
         </div>
@@ -160,15 +160,15 @@ function refreshDynamicSections(
 ) {
     const docColors = getDocumentColors(editor, type)
 
-    const customSection = root.querySelector<HTMLElement>('#custom-section')!
+    const customSection = root.querySelector<HTMLElement>('.tiptap-color-custom-section')!
     customSection.innerHTML = customColor
-        ? `<div class="divider"></div><ul class="color-grid">${buildColorSwatches([customColor])}</ul>`
+        ? `<div class="tiptap-color-divider"></div><ul class="tiptap-color-grid">${buildColorSwatches([customColor])}</ul>`
         : ''
 
-    const docSection = root.querySelector<HTMLElement>('#doc-section')!
+    const docSection = root.querySelector<HTMLElement>('.tiptap-color-doc-section')!
     docSection.innerHTML =
         docColors.length > 0
-            ? `<div class="divider"></div><div class="color-label">${editor.trans('color_in_doc')}</div><ul class="color-grid">${buildColorSwatches(docColors)}</ul>`
+            ? `<div class="tiptap-color-divider"></div><div class="tiptap-color-label">${editor.trans('color_in_doc')}</div><ul class="tiptap-color-grid">${buildColorSwatches(docColors)}</ul>`
             : ''
 }
 
@@ -197,7 +197,7 @@ function createColorDropdown(editor: TiptapEditor, type: ColorType): HTMLElement
         onOpen(root) {
             refreshDynamicSections(root, editor, type, customColor)
 
-            const input = root.querySelector<HTMLInputElement>('.color-input')
+            const input = root.querySelector<HTMLInputElement>('.tiptap-color-input')
             if (!input) return
             if (customColor) input.value = customColor
             input.oninput = () => {

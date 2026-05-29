@@ -67,18 +67,17 @@ export function createDropdown(editor: TiptapEditor, config: DropdownConfig): Dr
         panel.style.left = `${rect.left}px`
     }
 
-    let colorPickerActive = false
+    let keepOpenOnBlur = false
 
     const bindItemEvents = (root: HTMLElement) => {
         root.addEventListener('mousedown', (e) => {
             const target = e.target as HTMLElement
-            if (target.matches('input[type="color"]')) {
-                colorPickerActive = true
+            if (target.closest('[data-keep-open-on-blur]')) {
+                keepOpenOnBlur = true
                 return
             }
             const li = target.closest('li')
             if (!li?.dataset.name) return
-            if (li.dataset.action === 'keep-open') return
             e.preventDefault()
             config.onItemClick(li.dataset.name)
             hide()
@@ -140,10 +139,25 @@ export function createDropdown(editor: TiptapEditor, config: DropdownConfig): Dr
 
     const handleOutsideClick = (e: MouseEvent) => {
         const target = e.target as HTMLElement
-        if (target.matches('input[type="color"]')) return
-        colorPickerActive = false
+        if (target.closest('[data-keep-open-on-blur]')) return
+        keepOpenOnBlur = false
         if (panel && !panel.contains(target) && !button.contains(target)) hide()
     }
+
+    const onBlur = () => {
+        if (keepOpenOnBlur) return
+        if (panel && !panel.hidden) hide()
+    }
+
+    const onWindowFocus = () => {
+        keepOpenOnBlur = false
+    }
+
+    doc.addEventListener('mousedown', handleOutsideClick)
+    window.addEventListener('blur', onBlur)
+    window.addEventListener('focus', onWindowFocus)
+    window.addEventListener('resize', hide)
+    window.addEventListener('scroll', hide, true)
 
     const open = () => {
         initPanel(() => {
@@ -153,20 +167,6 @@ export function createDropdown(editor: TiptapEditor, config: DropdownConfig): Dr
             onOpenReady?.()
         })
     }
-    const onBlur = () => {
-        if (colorPickerActive) return
-        if (panel && !panel.hidden) hide()
-    }
-
-    const onWindowFocus = () => {
-        colorPickerActive = false
-    }
-
-    doc.addEventListener('mousedown', handleOutsideClick)
-    window.addEventListener('blur', onBlur)
-    window.addEventListener('focus', onWindowFocus)
-    window.addEventListener('resize', hide)
-    window.addEventListener('scroll', hide, true)
 
     button.addEventListener('click', (e) => {
         e.stopPropagation()

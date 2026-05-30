@@ -24,6 +24,7 @@
     "homepage": "https://github.com/ems-projectEMSFormBundle#readme",
     "devDependencies": {
         "@types/jest": "30.0.0",
+        "@typescript-eslint/parser": "8.60.0",
         "blob-polyfill": "9.0.20240710",
         "child-replace-with-polyfill": "1.0.1",
         "clean-webpack-plugin": "4.0.0",

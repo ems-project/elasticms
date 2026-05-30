@@ -8,12 +8,12 @@ PORT_admin 			= 8881
 PORT_web 			= 8882
 PORT_cli 			= 8883
 
-RUN_ADMIN				 = php ${PWD}/elasticms-admin/bin/console --no-debug
-RUN_WEB					 = php ${PWD}/elasticms-web/bin/console --no-debug
-RUN_POSTGRES		 = docker exec -i -u ${DOCKER_USER}:0 -e PGUSER=postgres -e PGPASSWORD=adminpg ems-mono-postgres
-NPM_CMD          = "${NPM_EXTRA_CMD} npm $*"
-RUN_DEMO_NPM		 = docker run -u ${DOCKER_USER}:0 --rm -it -v ${PWD}/demo:/opt/src --workdir /opt/src elasticms/base-php:8.4-cli-dev sh -c ${NPM_CMD}
-RUN_ADMIN_UI_NPM = docker run -u ${DOCKER_USER}:0 --rm -p 5173:5173 -it -v ${PWD}/EMS/admin-ui-bundle:/opt/src --workdir /opt/src/assets elasticms/base-php:8.4-cli-dev sh -c ${NPM_CMD}
+RUN_ADMIN			= php ${PWD}/elasticms-admin/bin/console --no-debug
+RUN_WEB				= php ${PWD}/elasticms-web/bin/console --no-debug
+RUN_POSTGRES		= docker exec -i -u ${DOCKER_USER}:0 -e PGUSER=postgres -e PGPASSWORD=adminpg ems-mono-postgres
+NPM_CMD          	= "${NPM_EXTRA_CMD} npm $* --ignore-scripts"
+RUN_DEMO_NPM		= docker run -u ${DOCKER_USER}:0 --rm -it -v ${PWD}/demo:/opt/src --workdir /opt/src elasticms/base-php:8.4-cli-dev sh -c ${NPM_CMD}
+RUN_ADMIN_UI_NPM 	= docker run -u ${DOCKER_USER}:0 --rm -p 5173:5173 -it -v ${PWD}/EMS/admin-ui-bundle:/opt/src --workdir /opt/src/assets elasticms/base-php:8.4-cli-dev sh -c ${NPM_CMD}
 
 .DEFAULT_GOAL := help
 .PHONY: help demo docs

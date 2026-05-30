@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 module.exports = {
     mode: 'production',
@@ -26,7 +27,8 @@ module.exports = {
         }),
         new webpack.ProvidePlugin({
             Promise: 'core-js-pure/features/promise'
-        })
+        }),
+        new ESLintPlugin({ extensions: ['js'], exclude: 'node_modules' })
     ],
     output: {
         filename: 'js/[name].js',
@@ -51,12 +53,6 @@ module.exports = {
                 use: [
                     { loader: 'url-loader', options: { limit: 10000, name: 'img/[name].[ext]' } }
                 ]
-            },
-            {
-                enforce: 'pre',
-                test: /\.js$/,
-                exclude: /node_modules/,
-                loader: 'eslint-loader',
             },
             {
                 test: /\.js$/,

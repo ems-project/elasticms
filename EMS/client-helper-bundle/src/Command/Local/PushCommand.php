@@ -90,9 +90,9 @@ final class PushCommand extends AbstractLocalCommand
 
     private function writeItem(string $type, Item $item, string $id): void
     {
-        $url = \vsprintf('%s - %sdata/revisions/%s:%s', [
+        $url = \vsprintf('%s - %s/data/revisions/%s:%s', [
             $item->getKey(),
-            $this->coreApi->getBaseUrl(),
+            \rtrim($this->coreApi->getBaseUrl(), '/'),
             $item->getContentType(),
             $id,
         ]);

@@ -55,9 +55,6 @@ final class HttpRequest extends AbstractRequest
             $options[$optionName] = $this->endpoint[$optionName] ?? $default;
         }
 
-        if (!isset($options['headers']) || !\is_array($options['headers'])) {
-            $options['headers'] = [];
-        }
         if (!isset($options['headers']['Content-Length'])) {
             $options['headers']['Content-Length'] = \strlen($this->body);
         }

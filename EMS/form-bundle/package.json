@@ -51,7 +51,6 @@
     "@popperjs/core": "2.11.8",
     "bootstrap": "5.3.8",
     "buffer": "6.0.3",
-    "crypto-browserify": "3.12.1",
     "i18next": "25.7.3",
     "intl-tel-input": "25.14.0",
     "jquery": "3.7.1",

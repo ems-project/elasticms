@@ -41,7 +41,7 @@
         "sortablejs": "1.14.0",
         "stream-browserify": "3.0.0",
         "tty-browserify": "0.0.1",
-        "uuid": "3.4.0"
+        "uuid": "14.0.0"
     },
     "engines": {
         "yarn": ">= 1.0.0"

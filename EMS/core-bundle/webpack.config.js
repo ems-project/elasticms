@@ -2,8 +2,8 @@ const path = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
-const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const {WebpackManifestPlugin} = require('webpack-manifest-plugin');
+const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = (env, argv) => {
@@ -87,18 +87,23 @@ module.exports = (env, argv) => {
             rules: [
                 {
                     test: /\.less$/,
-                    use: [{
-                        loader: MiniCssExtractPlugin.loader,
-                        options: { publicPath: '../' }
-                    }, {
-                        loader: 'css-loader',
-                        options: {
-                            sourceMap: (argv.mode !== 'production'),
-                            url: false
+                    use: [
+                        {
+                            loader: MiniCssExtractPlugin.loader,
+                            options: {publicPath: '../'}
+                        },
+                        {
+                            loader: 'css-loader',
+                            options: {
+                                sourceMap: (argv.mode !== 'production'),
+                                url: false,
+                                import: false
+                            }
+                        },
+                        {
+                            loader: 'less-loader'
                         }
-                    }, {
-                        loader: 'less-loader'
-                    }]
+                    ]
                 },
                 {
                     test: /\.(sa|sc|c)ss$/,

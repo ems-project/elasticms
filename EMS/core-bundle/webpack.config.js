@@ -89,18 +89,15 @@ module.exports = (env, argv) => {
                     test: /\.less$/,
                     use: [{
                         loader: MiniCssExtractPlugin.loader,
+                        options: { publicPath: '../' }
+                    }, {
+                        loader: 'css-loader',
                         options: {
-                            // you can specify a publicPath here
-                            // by default it use publicPath in webpackOptions.output
-                            publicPath: '../'
+                            sourceMap: (argv.mode !== 'production'),
+                            url: false
                         }
                     }, {
-                        loader: 'css-loader', // translates CSS into CommonJS
-                        options: {
-                            sourceMap: (argv.mode !== 'production')
-                        }
-                    }, {
-                        loader: 'less-loader' // compiles Less to CSS
+                        loader: 'less-loader'
                     }]
                 },
                 {

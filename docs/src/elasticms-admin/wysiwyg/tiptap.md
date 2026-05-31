@@ -51,11 +51,12 @@ reports how many substitutions were made.
 
 Both tabs share the same three search options:
 
-- **Case-sensitive** — when enabled, `Hello` and `hello` are treated as different words. Disabled by default.
-- **Whole word** — when enabled, only matches where the search term appears as a complete word are found. Searching for
-  `cat` will not match `concatenate`. Disabled by default.
-- **Wrap around** — when enabled, reaching the last match continues from the top of the document. When disabled, the
-  search stops at the end and shows a notice. Enabled by default.
+- **Case-sensitive** — when enabled, `Hello` and `hello` are treated as different words. Disabled by
+  default.
+- **Whole word** — when enabled, only matches where the search term appears as a complete word are
+  found. Searching for `cat` will not match `concatenate`. Disabled by default.
+- **Wrap around** — when enabled, reaching the last match continues from the top of the document.
+  When disabled, the search stops at the end and shows a notice. Enabled by default.
 
 Switching between the Find and Replace tabs carries the current search term over so the user does
 not have to retype it. The two tabs are otherwise independent — each has its own match state.
@@ -103,7 +104,8 @@ the current link type and pre-fills accordingly. Available types can be restrict
 `ems.urlTargetDefaultBlank`.
 
 **Anchor** creates a named bookmark (`<a id="…">`) that can be linked to. Works on selected text or
-inserts an invisible bookmark when nothing is selected. Right-click provides edit and remove actions.
+inserts an invisible bookmark when nothing is selected. Right-click provides edit and remove
+actions.
 
 **Unlink** removes the link from the selection. Disabled when the cursor is not inside a link.
 
@@ -138,18 +140,19 @@ available in the WYSIWYG editor, not in the inline editor.
 A toolbar dropdown for applying styles defined in the wysiwyg configuration. Styles are split into
 three categories:
 
-- **Block styles** — change the block type and optionally add a CSS class or inline style.
-  Target elements: `p`, `h1`–`h6`, `div`, `pre`, `address`, `blockquote`.
-- **Inline styles** — wrap selected text in an element with optional class/style.
-  Target elements: `span`, `small`, `code`, `kbd`, `del`, `ins`, and others.
-- **Object styles** — apply a class or style to the nearest matching ancestor.
-  Target elements: `table`, `ul`, `ol`, `td`, `th`, `a`.
+- **Block styles** — change the block type and optionally add a CSS class or inline style. Target
+  elements: `p`, `h1`–`h6`, `div`, `pre`, `address`, `blockquote`.
+- **Inline styles** — wrap selected text in an element with optional class/style. Target elements:
+  `span`, `small`, `code`, `kbd`, `del`, `ins`, and others.
+- **Object styles** — apply a class or style to the nearest matching ancestor. Target elements:
+  `table`, `ul`, `ol`, `td`, `th`, `a`.
 
 The dropdown groups styles by category and only shows object styles when the cursor is inside a
 matching element (e.g. table styles only appear when editing a table). Clicking an active style
 removes it.
 
-The dropdown button label reflects the currently active styles and updates on every selection change.
+The dropdown button label reflects the currently active styles and updates on every selection
+change.
 
 When pressing Enter on a styled block, the new paragraph starts clean — block styles and inline
 style marks are automatically cleared.

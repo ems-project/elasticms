@@ -29,13 +29,9 @@ User profile responses use this structure:
     "id": 1,
     "username": "demo",
     "displayName": "Demo User",
-    "roles": [
-        "ROLE_USER"
-    ],
+    "roles": ["ROLE_USER"],
     "email": "demo@example.org",
-    "circles": [
-        "cercle_type:AWNJBOh85f9MtpLT8n-a"
-    ],
+    "circles": ["cercle_type:AWNJBOh85f9MtpLT8n-a"],
     "lastLogin": "2026-05-09T10:15:00+02:00",
     "expirationDate": null,
     "language": "en",

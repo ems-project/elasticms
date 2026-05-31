@@ -1,10 +1,10 @@
 {
   "devDependencies": {
-    "markdownlint-cli2": "^0.18.1",
-    "mermaid": "^11.12.2",
-    "prettier": "^3.6.2",
-    "vitepress": "^1.6.4",
-    "vitepress-plugin-mermaid": "^2.0.17"
+    "markdownlint-cli2": "0.22.1",
+    "mermaid": "11.15.0",
+    "prettier": "3.6.2",
+    "vitepress": "1.6.4",
+    "vitepress-plugin-mermaid": "2.0.17"
   },
   "scripts": {
     "docs:dev": "vitepress dev",

@@ -21,6 +21,7 @@ export type Dropdown = {
     destroy(): void
     focus(): void
     setLabel(text: string): void
+    setKeepOpenOnBlur(value: boolean): void
 }
 
 export function createDropdown(editor: TiptapEditor, config: DropdownConfig): Dropdown {
@@ -152,8 +153,14 @@ export function createDropdown(editor: TiptapEditor, config: DropdownConfig): Dr
     const onWindowFocus = () => {
         keepOpenOnBlur = false
     }
+    const onEscape = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') {
+            hide()
+        }
+    }
 
     doc.addEventListener('mousedown', handleOutsideClick)
+    doc.addEventListener('keydown', onEscape)
     window.addEventListener('blur', onBlur)
     window.addEventListener('focus', onWindowFocus)
     window.addEventListener('resize', hide)
@@ -186,6 +193,9 @@ export function createDropdown(editor: TiptapEditor, config: DropdownConfig): Dr
             label.textContent = text
             button.title = text !== config.buttonLabel ? text : ''
         },
+        setKeepOpenOnBlur(value: boolean) {
+            keepOpenOnBlur = value;
+        },
         focus() {
             window.focus()
             button.focus()
@@ -193,6 +203,7 @@ export function createDropdown(editor: TiptapEditor, config: DropdownConfig): Dr
         destroy() {
             panel?.remove()
             doc.removeEventListener('mousedown', handleOutsideClick)
+            doc.removeEventListener('keydown', onEscape)
             window.removeEventListener('resize', hide)
             window.removeEventListener('scroll', hide, true)
             window.removeEventListener('blur', onBlur)

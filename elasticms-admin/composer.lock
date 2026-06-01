@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fdbf68a6a9a204ea2671ab9efa7e3ee9",
+    "content-hash": "307d2ab72809f9fdcc868e1eca58955b",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -2030,23 +2030,22 @@
         },
         {
             "name": "elasticms/admin-ui-bundle",
-            "version": "7.x-dev",
+            "version": "7.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSAdminUIBundle.git",
-                "reference": "d9ca008b3ee98df35b8c00d8187f6961abd46d43"
+                "reference": "326db4f169303a35e8d8423058b11cb950946496"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSAdminUIBundle/zipball/d9ca008b3ee98df35b8c00d8187f6961abd46d43",
-                "reference": "d9ca008b3ee98df35b8c00d8187f6961abd46d43",
+                "url": "https://api.github.com/repos/ems-project/EMSAdminUIBundle/zipball/326db4f169303a35e8d8423058b11cb950946496",
+                "reference": "326db4f169303a35e8d8423058b11cb950946496",
                 "shasum": ""
             },
             "require": {
-                "elasticms/core-bundle": "7.x-dev",
+                "elasticms/core-bundle": "7.3.*",
                 "php": "^8.5"
             },
-            "default-branch": true,
             "type": "symfony-bundle",
             "autoload": {
                 "psr-4": {
@@ -2070,27 +2069,27 @@
                 "ui"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSAdminUIBundle/tree/7.x"
+                "source": "https://github.com/ems-project/EMSAdminUIBundle/tree/7.3.0"
             },
-            "time": "2026-05-30T13:13:08+00:00"
+            "time": "2026-06-01T06:34:59+00:00"
         },
         {
             "name": "elasticms/client-helper-bundle",
-            "version": "7.x-dev",
+            "version": "7.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSClientHelperBundle.git",
-                "reference": "309136c4f1826aab855dab68a2060bdb87dd9e1f"
+                "reference": "dd24d67c5d6c4f8e1266681ca5688d9e7f28502d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSClientHelperBundle/zipball/309136c4f1826aab855dab68a2060bdb87dd9e1f",
-                "reference": "309136c4f1826aab855dab68a2060bdb87dd9e1f",
+                "url": "https://api.github.com/repos/ems-project/EMSClientHelperBundle/zipball/dd24d67c5d6c4f8e1266681ca5688d9e7f28502d",
+                "reference": "dd24d67c5d6c4f8e1266681ca5688d9e7f28502d",
                 "shasum": ""
             },
             "require": {
                 "composer/ca-bundle": "^1.4",
-                "elasticms/common-bundle": "7.x-dev",
+                "elasticms/common-bundle": "7.3.*",
                 "league/oauth2-client": "^2.8",
                 "onelogin/php-saml": "^4.1",
                 "php": "^8.5",
@@ -2106,7 +2105,6 @@
                 "symfony/yaml": "7.4.*",
                 "thenetworg/oauth2-azure": "^2.2"
             },
-            "default-branch": true,
             "type": "symfony-bundle",
             "autoload": {
                 "psr-4": {
@@ -2128,22 +2126,22 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSClientHelperBundle/tree/7.x"
+                "source": "https://github.com/ems-project/EMSClientHelperBundle/tree/7.3.0"
             },
-            "time": "2026-05-30T13:13:08+00:00"
+            "time": "2026-06-01T06:34:59+00:00"
         },
         {
             "name": "elasticms/common-bundle",
-            "version": "7.x-dev",
+            "version": "7.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSCommonBundle.git",
-                "reference": "844b8312f4c5f2bfdac688aa199f54059c9838c4"
+                "reference": "0ddebdd41c30e0c574f5ca4f5b60dbaaaab72ec4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSCommonBundle/zipball/844b8312f4c5f2bfdac688aa199f54059c9838c4",
-                "reference": "844b8312f4c5f2bfdac688aa199f54059c9838c4",
+                "url": "https://api.github.com/repos/ems-project/EMSCommonBundle/zipball/0ddebdd41c30e0c574f5ca4f5b60dbaaaab72ec4",
+                "reference": "0ddebdd41c30e0c574f5ca4f5b60dbaaaab72ec4",
                 "shasum": ""
             },
             "require": {
@@ -2152,7 +2150,7 @@
                 "doctrine/doctrine-bundle": "^3.2",
                 "doctrine/orm": "^3.3",
                 "dompdf/dompdf": "^v3.1",
-                "elasticms/helpers": "7.x-dev",
+                "elasticms/helpers": "7.3.*",
                 "ext-curl": "*",
                 "ext-dom": "*",
                 "ext-exif": "*",
@@ -2195,7 +2193,6 @@
                 "twig/string-extra": "^3.8",
                 "twig/twig": "^3.8"
             },
-            "default-branch": true,
             "type": "symfony-bundle",
             "autoload": {
                 "psr-4": {
@@ -2217,22 +2214,22 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSCommonBundle/tree/7.x"
+                "source": "https://github.com/ems-project/EMSCommonBundle/tree/7.3.0"
             },
-            "time": "2026-05-30T13:13:08+00:00"
+            "time": "2026-06-01T06:34:59+00:00"
         },
         {
             "name": "elasticms/core-bundle",
-            "version": "7.x-dev",
+            "version": "7.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSCoreBundle.git",
-                "reference": "188c36397718fac3b4e0012b2a263dfc54f01bbf"
+                "reference": "91b7b1f11557ddee02812d631faf9ce82216a370"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSCoreBundle/zipball/188c36397718fac3b4e0012b2a263dfc54f01bbf",
-                "reference": "188c36397718fac3b4e0012b2a263dfc54f01bbf",
+                "url": "https://api.github.com/repos/ems-project/EMSCoreBundle/zipball/91b7b1f11557ddee02812d631faf9ce82216a370",
+                "reference": "91b7b1f11557ddee02812d631faf9ce82216a370",
                 "shasum": ""
             },
             "require": {
@@ -2240,8 +2237,8 @@
                 "doctrine/doctrine-bundle": "^3.2",
                 "doctrine/doctrine-migrations-bundle": "^4.0",
                 "dragonmantank/cron-expression": "^3.3",
-                "elasticms/submission-bundle": "7.x-dev",
-                "elasticms/xliff": "7.x-dev",
+                "elasticms/submission-bundle": "7.3.*",
+                "elasticms/xliff": "7.3.*",
                 "ext-libxml": "*",
                 "ext-openssl": "*",
                 "ext-redis": "*",
@@ -2268,7 +2265,6 @@
                 "symfony/validator": "7.4.*",
                 "symfony/web-link": "7.4.*"
             },
-            "default-branch": true,
             "type": "symfony-bundle",
             "autoload": {
                 "psr-4": {
@@ -2291,26 +2287,26 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSCoreBundle/tree/7.x"
+                "source": "https://github.com/ems-project/EMSCoreBundle/tree/7.3.0"
             },
-            "time": "2026-05-30T13:13:08+00:00"
+            "time": "2026-06-01T06:34:59+00:00"
         },
         {
             "name": "elasticms/form-bundle",
-            "version": "7.x-dev",
+            "version": "7.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSFormBundle.git",
-                "reference": "456ae25bd6fe3e765ecfb0ed009492378de7c3d8"
+                "reference": "6d8e01af1675c4232541d2da650c606cff769776"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSFormBundle/zipball/456ae25bd6fe3e765ecfb0ed009492378de7c3d8",
-                "reference": "456ae25bd6fe3e765ecfb0ed009492378de7c3d8",
+                "url": "https://api.github.com/repos/ems-project/EMSFormBundle/zipball/6d8e01af1675c4232541d2da650c606cff769776",
+                "reference": "6d8e01af1675c4232541d2da650c606cff769776",
                 "shasum": ""
             },
             "require": {
-                "elasticms/client-helper-bundle": "7.x-dev",
+                "elasticms/client-helper-bundle": "7.3.*",
                 "giggsey/libphonenumber-for-php": "^9.0",
                 "php": "^8.5",
                 "symfony/form": "7.4.*",
@@ -2319,7 +2315,6 @@
                 "symfony/twig-bundle": "7.4.*",
                 "symfony/validator": "7.4.*"
             },
-            "default-branch": true,
             "type": "symfony-bundle",
             "autoload": {
                 "psr-4": {
@@ -2341,13 +2336,13 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSFormBundle/tree/7.x"
+                "source": "https://github.com/ems-project/EMSFormBundle/tree/7.3.0"
             },
-            "time": "2026-05-30T13:13:08+00:00"
+            "time": "2026-06-01T06:34:59+00:00"
         },
         {
             "name": "elasticms/helpers",
-            "version": "7.x-dev",
+            "version": "7.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/helpers.git",
@@ -2368,7 +2363,6 @@
                 "symfony/options-resolver": "7.4.*",
                 "symfony/string": "7.4.*"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -2392,26 +2386,26 @@
                 "php"
             ],
             "support": {
-                "source": "https://github.com/ems-project/helpers/tree/7.x"
+                "source": "https://github.com/ems-project/helpers/tree/7.3.0"
             },
             "time": "2026-04-26T06:23:04+00:00"
         },
         {
             "name": "elasticms/submission-bundle",
-            "version": "7.x-dev",
+            "version": "7.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSSubmissionBundle.git",
-                "reference": "6bc962f8652cb8b8a38f2926242a1804ebd777e5"
+                "reference": "5cb8605eccf03307c72148a1a45c77764c5cfe7c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSSubmissionBundle/zipball/6bc962f8652cb8b8a38f2926242a1804ebd777e5",
-                "reference": "6bc962f8652cb8b8a38f2926242a1804ebd777e5",
+                "url": "https://api.github.com/repos/ems-project/EMSSubmissionBundle/zipball/5cb8605eccf03307c72148a1a45c77764c5cfe7c",
+                "reference": "5cb8605eccf03307c72148a1a45c77764c5cfe7c",
                 "shasum": ""
             },
             "require": {
-                "elasticms/form-bundle": "7.x-dev",
+                "elasticms/form-bundle": "7.3.*",
                 "league/flysystem-memory": "^3.19",
                 "league/flysystem-sftp-v3": "^3.22",
                 "php": "^8.5",
@@ -2423,7 +2417,6 @@
                 "symfony/options-resolver": "7.4.*",
                 "symfony/twig-bundle": "7.4.*"
             },
-            "default-branch": true,
             "type": "symfony-bundle",
             "autoload": {
                 "psr-4": {
@@ -2445,32 +2438,31 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSSubmissionBundle/tree/7.x"
+                "source": "https://github.com/ems-project/EMSSubmissionBundle/tree/7.3.0"
             },
-            "time": "2026-05-30T13:13:08+00:00"
+            "time": "2026-06-01T06:34:59+00:00"
         },
         {
             "name": "elasticms/xliff",
-            "version": "7.x-dev",
+            "version": "7.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/xliff.git",
-                "reference": "5c528c29dcb1cdb2d6fc5266740153a9626b8a11"
+                "reference": "016e1f2c24f883f85118f6b520c6b1cbe60258a8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/xliff/zipball/5c528c29dcb1cdb2d6fc5266740153a9626b8a11",
-                "reference": "5c528c29dcb1cdb2d6fc5266740153a9626b8a11",
+                "url": "https://api.github.com/repos/ems-project/xliff/zipball/016e1f2c24f883f85118f6b520c6b1cbe60258a8",
+                "reference": "016e1f2c24f883f85118f6b520c6b1cbe60258a8",
                 "shasum": ""
             },
             "require": {
-                "elasticms/helpers": "7.x-dev",
+                "elasticms/helpers": "7.3.*",
                 "ext-dom": "*",
                 "php": "^8.5",
                 "symfony/dom-crawler": "7.4.*",
                 "symfony/property-access": "7.4.*"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -2493,9 +2485,9 @@
                 "xliff"
             ],
             "support": {
-                "source": "https://github.com/ems-project/xliff/tree/7.x"
+                "source": "https://github.com/ems-project/xliff/tree/7.3.0"
             },
-            "time": "2026-05-30T13:13:08+00:00"
+            "time": "2026-06-01T06:34:59+00:00"
         },
         {
             "name": "elasticsearch/elasticsearch",
@@ -13115,16 +13107,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v3.27.0",
+            "version": "v3.27.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "04ae1bfe9463c816cf72ca0abe7eae2c77a9a9ed"
+                "reference": "ae2071bffb38f04847fc0864d730c94b9cb8ab74"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/04ae1bfe9463c816cf72ca0abe7eae2c77a9a9ed",
-                "reference": "04ae1bfe9463c816cf72ca0abe7eae2c77a9a9ed",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/ae2071bffb38f04847fc0864d730c94b9cb8ab74",
+                "reference": "ae2071bffb38f04847fc0864d730c94b9cb8ab74",
                 "shasum": ""
             },
             "require": {
@@ -13179,7 +13171,7 @@
             ],
             "support": {
                 "issues": "https://github.com/twigphp/Twig/issues",
-                "source": "https://github.com/twigphp/Twig/tree/v3.27.0"
+                "source": "https://github.com/twigphp/Twig/tree/v3.27.1"
             },
             "funding": [
                 {
@@ -13191,7 +13183,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-05-27T13:05:51+00:00"
+            "time": "2026-05-30T17:09:26+00:00"
         }
     ],
     "packages-dev": [
@@ -13363,10 +13355,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "elasticms/admin-ui-bundle": 20,
-        "elasticms/core-bundle": 20
-    },
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

@@ -84,6 +84,9 @@ class Search
         if (!$search instanceof Search) {
             throw new \RuntimeException('Unexpected search object');
         }
+        if (isset($data['query'])) {
+            $search->setQueryArray($data['query']);
+        }
 
         return $search;
     }

@@ -62,16 +62,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.382.1",
+            "version": "3.383.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "d506bdaab8e29b18d31a46be4fe4314af5945432"
+                "reference": "56b7ff3ff9e086eb3945bf31e75c97cde5ab531a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/d506bdaab8e29b18d31a46be4fe4314af5945432",
-                "reference": "d506bdaab8e29b18d31a46be4fe4314af5945432",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/56b7ff3ff9e086eb3945bf31e75c97cde5ab531a",
+                "reference": "56b7ff3ff9e086eb3945bf31e75c97cde5ab531a",
                 "shasum": ""
             },
             "require": {
@@ -153,9 +153,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.382.1"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.383.1"
             },
-            "time": "2026-05-26T18:24:13+00:00"
+            "time": "2026-05-29T18:13:12+00:00"
         },
         {
             "name": "brick/math",
@@ -1894,16 +1894,16 @@
         },
         {
             "name": "elasticms/admin-ui-bundle",
-            "version": "6.9.17",
+            "version": "6.9.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSAdminUIBundle.git",
-                "reference": "0bf463a02116a747303f3b4fd2b428692582e1a6"
+                "reference": "9f8505fd846c958c1de3de67cc6b69bbedbaca4a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSAdminUIBundle/zipball/0bf463a02116a747303f3b4fd2b428692582e1a6",
-                "reference": "0bf463a02116a747303f3b4fd2b428692582e1a6",
+                "url": "https://api.github.com/repos/ems-project/EMSAdminUIBundle/zipball/9f8505fd846c958c1de3de67cc6b69bbedbaca4a",
+                "reference": "9f8505fd846c958c1de3de67cc6b69bbedbaca4a",
                 "shasum": ""
             },
             "require": {
@@ -1933,22 +1933,22 @@
                 "ui"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSAdminUIBundle/tree/6.9.17"
+                "source": "https://github.com/ems-project/EMSAdminUIBundle/tree/6.9.18"
             },
-            "time": "2026-05-11T14:42:23+00:00"
+            "time": "2026-05-30T12:23:39+00:00"
         },
         {
             "name": "elasticms/client-helper-bundle",
-            "version": "6.9.17",
+            "version": "6.9.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSClientHelperBundle.git",
-                "reference": "4067c6cfdcabfa0c6f80aec751b87344953b5706"
+                "reference": "8d7d7f089f30a8f6876f053d7aef1c49470f5c6e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSClientHelperBundle/zipball/4067c6cfdcabfa0c6f80aec751b87344953b5706",
-                "reference": "4067c6cfdcabfa0c6f80aec751b87344953b5706",
+                "url": "https://api.github.com/repos/ems-project/EMSClientHelperBundle/zipball/8d7d7f089f30a8f6876f053d7aef1c49470f5c6e",
+                "reference": "8d7d7f089f30a8f6876f053d7aef1c49470f5c6e",
                 "shasum": ""
             },
             "require": {
@@ -1990,22 +1990,22 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSClientHelperBundle/tree/6.9.17"
+                "source": "https://github.com/ems-project/EMSClientHelperBundle/tree/6.9.18"
             },
-            "time": "2026-05-27T16:39:28+00:00"
+            "time": "2026-05-30T09:02:23+00:00"
         },
         {
             "name": "elasticms/common-bundle",
-            "version": "6.9.17",
+            "version": "6.9.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSCommonBundle.git",
-                "reference": "8de5dbc7bbeaf28719afcf0cfccda9aa2866bb2a"
+                "reference": "26e92092ff5cf3f8908a33791cce9b476c45d237"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSCommonBundle/zipball/8de5dbc7bbeaf28719afcf0cfccda9aa2866bb2a",
-                "reference": "8de5dbc7bbeaf28719afcf0cfccda9aa2866bb2a",
+                "url": "https://api.github.com/repos/ems-project/EMSCommonBundle/zipball/26e92092ff5cf3f8908a33791cce9b476c45d237",
+                "reference": "26e92092ff5cf3f8908a33791cce9b476c45d237",
                 "shasum": ""
             },
             "require": {
@@ -2078,22 +2078,22 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSCommonBundle/tree/6.9.17"
+                "source": "https://github.com/ems-project/EMSCommonBundle/tree/6.9.18"
             },
-            "time": "2026-05-24T06:54:58+00:00"
+            "time": "2026-06-01T11:12:53+00:00"
         },
         {
             "name": "elasticms/core-bundle",
-            "version": "6.9.17",
+            "version": "6.9.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSCoreBundle.git",
-                "reference": "ff219f985736543897e9b0918a1c20ae04ef5178"
+                "reference": "f2b435150b9511acb0b849a76a18fe9add55230f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSCoreBundle/zipball/ff219f985736543897e9b0918a1c20ae04ef5178",
-                "reference": "ff219f985736543897e9b0918a1c20ae04ef5178",
+                "url": "https://api.github.com/repos/ems-project/EMSCoreBundle/zipball/f2b435150b9511acb0b849a76a18fe9add55230f",
+                "reference": "f2b435150b9511acb0b849a76a18fe9add55230f",
                 "shasum": ""
             },
             "require": {
@@ -2151,22 +2151,22 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSCoreBundle/tree/6.9.17"
+                "source": "https://github.com/ems-project/EMSCoreBundle/tree/6.9.18"
             },
-            "time": "2026-05-14T06:55:30+00:00"
+            "time": "2026-05-30T12:23:39+00:00"
         },
         {
             "name": "elasticms/form-bundle",
-            "version": "6.9.17",
+            "version": "6.9.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSFormBundle.git",
-                "reference": "8a0cbcd6f8cf09e91bd8b69a049216061572da64"
+                "reference": "3d523ec4c1b1d7df8ef0760836c8b0defb02844f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSFormBundle/zipball/8a0cbcd6f8cf09e91bd8b69a049216061572da64",
-                "reference": "8a0cbcd6f8cf09e91bd8b69a049216061572da64",
+                "url": "https://api.github.com/repos/ems-project/EMSFormBundle/zipball/3d523ec4c1b1d7df8ef0760836c8b0defb02844f",
+                "reference": "3d523ec4c1b1d7df8ef0760836c8b0defb02844f",
                 "shasum": ""
             },
             "require": {
@@ -2200,13 +2200,13 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSFormBundle/tree/6.9.17"
+                "source": "https://github.com/ems-project/EMSFormBundle/tree/6.9.18"
             },
-            "time": "2025-10-27T09:30:49+00:00"
+            "time": "2026-05-30T12:38:19+00:00"
         },
         {
             "name": "elasticms/helpers",
-            "version": "6.9.17",
+            "version": "6.9.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/helpers.git",
@@ -2250,13 +2250,13 @@
                 "php"
             ],
             "support": {
-                "source": "https://github.com/ems-project/helpers/tree/6.9.17"
+                "source": "https://github.com/ems-project/helpers/tree/6.9.18"
             },
             "time": "2025-10-27T09:29:21+00:00"
         },
         {
             "name": "elasticms/submission-bundle",
-            "version": "6.9.17",
+            "version": "6.9.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSSubmissionBundle.git",
@@ -2302,13 +2302,13 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSSubmissionBundle/tree/6.9.17"
+                "source": "https://github.com/ems-project/EMSSubmissionBundle/tree/6.9.18"
             },
             "time": "2026-01-27T14:06:38+00:00"
         },
         {
             "name": "elasticms/xliff",
-            "version": "6.9.17",
+            "version": "6.9.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/xliff.git",
@@ -2350,7 +2350,7 @@
                 "xliff"
             ],
             "support": {
-                "source": "https://github.com/ems-project/xliff/tree/6.9.17"
+                "source": "https://github.com/ems-project/xliff/tree/6.9.18"
             },
             "time": "2026-01-22T07:21:39+00:00"
         },
@@ -3004,16 +3004,16 @@
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "2.10.3",
+            "version": "2.10.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "7c1472269227dc6f18930bd903d7a88fe6c52130"
+                "reference": "d2a1a094e396da8957e797489fddaf860c340cfc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/7c1472269227dc6f18930bd903d7a88fe6c52130",
-                "reference": "7c1472269227dc6f18930bd903d7a88fe6c52130",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/d2a1a094e396da8957e797489fddaf860c340cfc",
+                "reference": "d2a1a094e396da8957e797489fddaf860c340cfc",
                 "shasum": ""
             },
             "require": {
@@ -3101,7 +3101,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/psr7/issues",
-                "source": "https://github.com/guzzle/psr7/tree/2.10.3"
+                "source": "https://github.com/guzzle/psr7/tree/2.10.4"
             },
             "funding": [
                 {
@@ -3117,7 +3117,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-05-27T11:48:20+00:00"
+            "time": "2026-05-29T12:59:07+00:00"
         },
         {
             "name": "lcobucci/jwt",
@@ -4660,16 +4660,16 @@
         },
         {
             "name": "promphp/prometheus_client_php",
-            "version": "v2.15.0",
+            "version": "v2.15.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PromPHP/prometheus_client_php.git",
-                "reference": "da86f1507b04dc44dc37ffb766d7d3a1d42c3050"
+                "reference": "e153786bda5ca1d07335a2b5f477742c37195c40"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PromPHP/prometheus_client_php/zipball/da86f1507b04dc44dc37ffb766d7d3a1d42c3050",
-                "reference": "da86f1507b04dc44dc37ffb766d7d3a1d42c3050",
+                "url": "https://api.github.com/repos/PromPHP/prometheus_client_php/zipball/e153786bda5ca1d07335a2b5f477742c37195c40",
+                "reference": "e153786bda5ca1d07335a2b5f477742c37195c40",
                 "shasum": ""
             },
             "require": {
@@ -4689,7 +4689,7 @@
                 "phpstan/phpstan-strict-rules": "^1.1.0",
                 "phpunit/phpunit": "^9.4",
                 "predis/predis": "^2.3",
-                "squizlabs/php_codesniffer": "^3.6",
+                "squizlabs/php_codesniffer": "^3.6 || ^4.0",
                 "symfony/polyfill-apcu": "^1.6"
             },
             "suggest": {
@@ -4724,9 +4724,9 @@
             "description": "Prometheus instrumentation library for PHP applications.",
             "support": {
                 "issues": "https://github.com/PromPHP/prometheus_client_php/issues",
-                "source": "https://github.com/PromPHP/prometheus_client_php/tree/v2.15.0"
+                "source": "https://github.com/PromPHP/prometheus_client_php/tree/v2.15.1"
             },
-            "time": "2026-03-24T22:44:50+00:00"
+            "time": "2026-05-28T07:51:04+00:00"
         },
         {
             "name": "psr/cache",
@@ -10876,7 +10876,7 @@
         },
         {
             "name": "symfony/ux-twig-component",
-            "version": "v2.35.0",
+            "version": "v2.36.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ux-twig-component.git",
@@ -10941,7 +10941,7 @@
                 "twig"
             ],
             "support": {
-                "source": "https://github.com/symfony/ux-twig-component/tree/v2.35.0"
+                "source": "https://github.com/symfony/ux-twig-component/tree/v2.36.0"
             },
             "funding": [
                 {
@@ -12205,16 +12205,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v3.27.0",
+            "version": "v3.27.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "04ae1bfe9463c816cf72ca0abe7eae2c77a9a9ed"
+                "reference": "ae2071bffb38f04847fc0864d730c94b9cb8ab74"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/04ae1bfe9463c816cf72ca0abe7eae2c77a9a9ed",
-                "reference": "04ae1bfe9463c816cf72ca0abe7eae2c77a9a9ed",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/ae2071bffb38f04847fc0864d730c94b9cb8ab74",
+                "reference": "ae2071bffb38f04847fc0864d730c94b9cb8ab74",
                 "shasum": ""
             },
             "require": {
@@ -12269,7 +12269,7 @@
             ],
             "support": {
                 "issues": "https://github.com/twigphp/Twig/issues",
-                "source": "https://github.com/twigphp/Twig/tree/v3.27.0"
+                "source": "https://github.com/twigphp/Twig/tree/v3.27.1"
             },
             "funding": [
                 {
@@ -12281,7 +12281,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-05-27T13:05:51+00:00"
+            "time": "2026-05-30T17:09:26+00:00"
         }
     ],
     "packages-dev": [

@@ -1,5 +1,12 @@
 # Changelog 6.x
 
+## 6.9.18 (2026-06-01)
+### Bug Fixes
+* fix(clientHelper): avoid missing root slash by @theus77 in https://github.com/ems-project/elasticms/pull/1739
+* fix(core/api): search payload query not working by @Davidmattei in https://github.com/ems-project/elasticms/pull/1746
+* fix(security): hard lock form bundle npm packages by @Davidmattei in https://github.com/ems-project/elasticms/pull/1741
+* fix(security): hard lock npm dependencies by @Davidmattei in https://github.com/ems-project/elasticms/pull/1740
+
 ## 6.9.17 (2026-05-27)
 ### Bug Fixes
 * fix(web/api): 403 on form submission files by @Davidmattei in https://github.com/ems-project/elasticms/pull/1738

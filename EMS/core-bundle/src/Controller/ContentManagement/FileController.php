@@ -117,12 +117,12 @@ class FileController extends AbstractController
         $name = $params['name'] ?? 'upload.bin';
         $type = $params['type'] ?? 'application/bin';
         $hash = $params['hash'] ?? $sha1;
-        $size = $params['size'] ?? $size;
+        $size = (int) ($params['size'] ?? $size);
         $algo = $params['algo'] ?? 'sha1';
 
         $user = $this->getUsername();
 
-        if (empty($hash) || empty($algo) || (empty($size) && 0 !== $size)) {
+        if (empty($hash) || empty($algo) || 0 === $size) {
             throw new BadRequestHttpException('Bad Request, invalid json parameters');
         }
 

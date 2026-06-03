@@ -3,7 +3,6 @@
 ContentType contain the structure, default environment and information for all related revisions.
 
 <!-- TOC -->
-
 * [ContentType](#contenttype)
     * [Properties](#properties)
     * [Default value](#default-value)
@@ -44,7 +43,6 @@ ContentType contain the structure, default environment and information for all r
     * [Keywords view](#keywords-view)
     * [Report view](#report-view)
     * [Sorter view](#sorter-view)
-
 <!-- TOC -->
 
 ## Properties
@@ -93,17 +91,17 @@ The result should be a valid JSON rendered by Twig template.
 On a content type we can define fields from the elasticsearch mapping.
 These are used for displaying revision information.
 
-| Field       | Description                                                                                          |
-|-------------|------------------------------------------------------------------------------------------------------|
+| Field       | Description                                                                             |
+|-------------|-----------------------------------------------------------------------------------------|
 | display     | Expression for display the revision using [emsco_display](./dev/core-bundle/twig/core#emsco_display) |
-| label       | Display label for the revision                                                                       |
-| color       | Display color for the revision                                                                       |
-| sort        | Default sorting in choice lists (better use querySearch)                                             |
-| tooltip     | Add tooltip on dataLinks                                                                             |
-| circles     | Field containing the revision circles                                                                |
-| business_id | Used in export/import documents                                                                      |
-| category    | Used in criteria view                                                                                |
-| asset       | Used in asset link from WYSIWYG                                                                      |
+| label       | Display label for the revision                                                          |
+| color       | Display color for the revision                                                          |
+| sort        | Default sorting in choice lists (better use querySearch)                                |
+| tooltip     | Add tooltip on dataLinks                                                                |
+| circles     | Field containing the revision circles                                                   |
+| business_id | Used in export/import documents                                                         |
+| category    | Used in criteria view                                                                   |
+| asset       | Used in asset link from WYSIWYG                                                         |
 
 ## Settings
 
@@ -130,18 +128,18 @@ Task admins can also delete tasks, but the requester will receive an email.
 
 On a content type you can define a [user role](../user/user.md#Roles) for permissions.
 
-| Permission       | Description                                                                                                                         |
-|------------------|-------------------------------------------------------------------------------------------------------------------------------------|
-| view             | Display contentType in menu, enable dataLinks                                                                                       |
-| create           | Grant creation of new revisions                                                                                                     |
-| edit             | Grant update revision                                                                                                               |
+| Permission       | Description                                                                                                                                  |
+|------------------|----------------------------------------------------------------------------------------------------------------------------------------------|
+| view             | Display contentType in menu, enable dataLinks                                                                                                |
+| create           | Grant creation of new revisions                                                                                                              |
+| edit             | Grant update revision                                                                                                                        |
 | publish          | Grant publication to other environments, can be overruled by [environment publish role](../environment/environment.md#publish-role) |
-| delete           | Grant delete revision                                                                                                               |
-| trash            | Trash functional enabled (put back deleted revisions)                                                                               |
-| archive          | Grant archive revision (unpublish default environment)                                                                              |
-| owner            | Can be revision owners                                                                                                              |
-| show_link_create | Display creation link in navigation                                                                                                 |
-| show_link_search | Display search link in navigation                                                                                                   |
+| delete           | Grant delete revision                                                                                                                        |
+| trash            | Trash functional enabled (put back deleted revisions)                                                                                        |
+| archive          | Grant archive revision (unpublish default environment)                                                                                       |
+| owner            | Can be revision owners                                                                                                                       |
+| show_link_create | Display creation link in navigation                                                                                                          |
+| show_link_search | Display search link in navigation                                                                                                            |
 
 # Actions
 
@@ -156,12 +154,10 @@ On a content type you can define a [user role](../user/user.md#Roles) for permis
 | [PDF](#pdf)                     | Generate a pdf                       |
 
 ## Embed
-
 The body is used for creating a new page.
 Good for generating overviews or custom reports.
 
 ## Export
-
 Export a generated file.
 
 ### Spreadsheet
@@ -214,7 +210,6 @@ Export the nested object fields `title_nl`, `title_fr`, `date_start`, `date_end`
 ````
 
 ## Import
-
 This actions shows a modal with a file upload field, only allowing *xlsx* or *csv* files.
 On submit the data is parsed and imported in the default environment.
 
@@ -222,7 +217,6 @@ For the moment we only support jsonMenuNested import data.
 Generated by the [export action](#example-export-jsonmenunested) for example.
 
 The body template requires a block name `config` which outputs a valid json and defining the following:
-
 * `type`: jsonMenuNested
 * `field`: target import field name
 * `columns`: required column names
@@ -258,25 +252,20 @@ This is done by defining a block named `row`, which outputs a valid json.
 ```
 
 ## External link
-
 The body is the href attribute for the external link.
 You can also use the raw render option for more flexibility.
 
 ## Raw HTML
-
 Only if the body returns html the output will be visible.
 With the HTML render option you can even overwrite the icon.
 
 ## Notification
-
 Creates a new ems notification
 
 ## Job
-
 Start a new job, the body should be the command with arguments and options.
 
 ## Pdf
-
 Similar to the export render option, but will always generate a pdf.
 
 # Transformers
@@ -318,9 +307,9 @@ unwrapped:
 
 ```json
 {
-    "attribute": "style",
-    "element": "table",
-    "remove": true
+  "attribute": "style",
+  "element": "table",
+  "remove": true
 }
 ```
 
@@ -328,9 +317,9 @@ unwrapped:
 
 ```json
 {
-    "attribute": "cellpadding",
-    "element": "table",
-    "remove": true
+  "attribute": "cellpadding",
+  "element": "table",
+  "remove": true
 }
 ```
 
@@ -338,9 +327,9 @@ unwrapped:
 
 ```json
 {
-    "attribute": "style",
-    "element": "*",
-    "remove_value_prefix": "font-size"
+  "attribute": "style",
+  "element": "*",
+  "remove_value_prefix": "font-size"
 }
 ```
 
@@ -348,9 +337,9 @@ unwrapped:
 
 ```json
 {
-    "attribute": "class",
-    "element": "div",
-    "remove_value_prefix": "font-"
+  "attribute": "class",
+  "element": "div",
+  "remove_value_prefix": "font-"
 }
 ```
 
@@ -361,14 +350,12 @@ Given the config `{"attribute": "class", "remove_value_prefix": "newWord"}`:
 Input:
 
 ```html
-
 <p>Test
-    <ins class="newWord">new word</ins>
+  <ins class="newWord">new word</ins>
 </p>
 ```
 
 Output:
-
 ```html
 <p>Test new word</p>
 ```
@@ -379,19 +366,17 @@ Empty elements are removed together with the blank line they were on. Given
 Input:
 
 ```html
-
 <div class="test">
-    <h1>Test</h1>
-    <span style="background: red;"></span>
+  <h1>Test</h1>
+  <span style="background: red;"></span>
 </div>
 ```
 
 Output:
 
 ```html
-
 <div class="test">
-    <h1>Test</h1>
+  <h1>Test</h1>
 </div>
 ```
 
@@ -411,7 +396,6 @@ Example, transformed to `null`:
 ```
 
 ```html
-
 <html lang="en">
 <body><h1></h1>
 <p>&nbsp; </p></body>
@@ -464,17 +448,24 @@ When removing a node leaves its parent empty, the empty parent is removed too. T
 Input:
 
 ```html
+
 <ul>
-  <li><del class="deletedWord">Remove me</del>Keep me</li>
-  <li><del class="deletedWord">Remove full</del></li>
+    <li>
+        <del class="deletedWord">Remove me</del>
+        Keep me
+    </li>
+    <li>
+        <del class="deletedWord">Remove full</del>
+    </li>
 </ul>
 ```
 
 Output:
 
 ```html
+
 <ul>
-  <li>Keep me</li>
+    <li>Keep me</li>
 </ul>
 ```
 
@@ -512,50 +503,46 @@ Given the config `{"elements": ["div"]}`:
 Input:
 
 ```html
-
 <section>
-    <div>
-        <h1>Title</h1>
-        <p>Paragraph</p>
-    </div>
+  <div>
+    <h1>Title</h1>
+    <p>Paragraph</p>
+  </div>
 </section>
 ```
 
 Output:
 
 ```html
-
 <section>
-    <h1>Title</h1>
-    <p>Paragraph</p>
+  <h1>Title</h1>
+  <p>Paragraph</p>
 </section>
 ```
 
 # Views
 
-| Name                                       | Description                                                                       |
-|--------------------------------------------|-----------------------------------------------------------------------------------|
-| [CalendarViewType](#calendar-view)         | A view where you can schedule your object                                         |
-| [CriteriaViewType](#criteria-view)         | A view where we can massively edit content types having criteria                  | 
-| [DataLinkViewType](#datalink-view)         | Manipulate the choices in a data link of this content type                        | 
-| [ExportViewType](#export-view)             | Perform an elasticsearch query and generate a export with a twig template         |  
-| [GalleryViewType](#gallery-view)           | A view where you can browse images                                                | 
-| [HierarchicalViewType](#hierarchical-view) | Manage a menu structure (based on a ES query)                                     | 
-| [ImporterViewType](#importer-view)         | Form to import a zip file containing JSON files                                   | 
-| [KeywordsViewType](#keywords-view)         | A view where all properties of kind (such as keyword) are listed on a single page |  
-| [ReportViewType](#report-view)             | Perform an elasticsearch query and generate a report with a twig template         |  
-| [SorterViewType](#sorter-view)             | Order a sub set (based on a ES query)                                             |  
+| Name                                        | Description                                                                       |
+|---------------------------------------------|-----------------------------------------------------------------------------------|
+| [CalendarViewType](#calendar-view)          | A view where you can schedule your object                                         |
+| [CriteriaViewType](#criteria-view)          | A view where we can massively edit content types having criteria                  | 
+| [DataLinkViewType](#datalink-view)          | Manipulate the choices in a data link of this content type                        | 
+| [ExportViewType](#export-view)              | Perform an elasticsearch query and generate a export with a twig template         |  
+| [GalleryViewType](#gallery-view)            | A view where you can browse images                                                | 
+| [HierarchicalViewType](#hierarchical-view)  | Manage a menu structure (based on a ES query)                                     | 
+| [ImporterViewType](#importer-view)          | Form to import a zip file containing JSON files                                   | 
+| [KeywordsViewType](#keywords-view)          | A view where all properties of kind (such as keyword) are listed on a single page |  
+| [ReportViewType](#report-view)              | Perform an elasticsearch query and generate a report with a twig template         |  
+| [SorterViewType](#sorter-view)              | Order a sub set (based on a ES query)                                             |  
+
 
 ## Calendar view
-
 A view where you can schedule your object
 
 ## Criteria view
-
 A view where we can massively edit content types having criteria
 
 ## DataLink view
-
 > Manipulate the choices in a data link of this content type.
 
 It is used by the searchApi when creating an internal link inside a WYSIWYG.
@@ -564,15 +551,15 @@ This view will be excluded from the elasticms menu navigation.
 
 ### Twig content template
 
-| Name        | Instance                                                                                                         | 
-|-------------|------------------------------------------------------------------------------------------------------------------|
+| Name        | Instance                                                                                                            | 
+|-------------|---------------------------------------------------------------------------------------------------------------------|
 | view        | [Entity\View](https://github.com/ems-project/EMSCoreBundle/blob/4.x/src/Entity/View.php)                         | 
 | contentType | [Entity\contentType](https://github.com/ems-project/EMSCoreBundle/blob/4.x/src/Entity/ContentType.php)           |
 | environment | [Entity\environment](https://github.com/ems-project/EMSCoreBundle/blob/4.x/src/Entity/Environment.php)           |
 | dataLinks   | [Core\Document\DataLinks](https://github.com/ems-project/EMSCoreBundle/blob/4.x/src/Core/Document/DataLinks.php) |
 
-### Example
 
+### Example
 > A document contains a json menu nested structure, and you want to select a node (id) inside this structure.
 > The WYSIWYG has a language defined and is also passed to the twig context.
 
@@ -614,29 +601,22 @@ This view will be excluded from the elasticms menu navigation.
 ```
 
 ## Export view
-
 Perform an elasticsearch query and generate a export with a twig template
 
 ## Gallery view
-
 A view where you can browse images
 
 ## Hierarchical view
-
 Manage a menu structure (based on a ES query)
 
 ## Importer view
-
 Form to import a zip file containing JSON files
 
 ## Keywords view
-
 A view where all properties of kind (such as keyword) are listed on a single page
 
 ## Report view
-
 Perform an elasticsearch query and generate a report with a twig template
 
 ## Sorter view
-
 Order a sub set (based on a ES query)

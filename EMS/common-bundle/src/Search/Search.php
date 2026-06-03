@@ -75,22 +75,6 @@ class Search
         return Type::array(self::getSerializer()->normalize($this, null, self::SERIALIZER_CONTEXT));
     }
 
-    /**
-     * @param mixed[] $data
-     */
-    public static function fromPayload(array $data): self
-    {
-        $search = self::getSerializer()->denormalize($data, self::class, null, self::SERIALIZER_CONTEXT);
-        if (!$search instanceof Search) {
-            throw new \RuntimeException('Unexpected search object');
-        }
-        if (isset($data['query'])) {
-            $search->setQueryArray($data['query']);
-        }
-
-        return $search;
-    }
-
     public function hasSources(): bool
     {
         return [] !== $this->sourceIncludes || [] !== $this->sourceExcludes;

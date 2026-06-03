@@ -9,6 +9,7 @@ use Elastica\Query\MatchAll;
 use Elastica\Suggest;
 use Elastica\Suggest\Term;
 use EMS\CommonBundle\Search\Search;
+use EMS\Helpers\Standard\Json;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Serializer\Serializer;
 
@@ -38,7 +39,7 @@ class SearchAiTest extends TestCase
         $search->setRegex('test_regex');
 
         $data = $search->toPayload();
-        $fromArray = Search::fromPayload($data);
+        $fromArray = Search::deserialize(Json::encode($data));
 
         $this->assertEquals($data, $fromArray->toPayload());
     }

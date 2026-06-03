@@ -364,6 +364,9 @@ Example, transformed to `null
 
 Only available for WYSIWYG field types. Removes matching html nodes.
 
+When removing a node leaves its parent empty, the empty parent is removed too. This cascades upwards (e.g. an empty
+`<li>`, then its `<ul>`) and stops at the first non-empty ancestor.
+
 ### Config
 
 * **element**: required, which html element to remove.
@@ -381,6 +384,40 @@ Only available for WYSIWYG field types. Removes matching html nodes.
 
 ```json
 { "element": "span", "attribute": "class", "attribute_contains": "delete" }
+```
+
+> Remove `<del>` nodes; emptied list items are cleaned up
+
+```json
+{
+    "element": "del",
+    "attribute": "class",
+    "attribute_contains": "deletedWord"
+}
+```
+
+Input:
+
+```html
+
+<ul>
+    <li>
+        <del class="deletedWord">Remove me</del>
+        Keep me
+    </li>
+    <li>
+        <del class="deletedWord">Remove full</del>
+    </li>
+</ul>
+```
+
+Output:
+
+```html
+
+<ul>
+    <li>Keep me</li>
+</ul>
 ```
 
 ## Html Unwrap Transformer

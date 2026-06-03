@@ -78,7 +78,7 @@ final class HtmlRemoveNodeTransformerTest extends AbstractTransformerTestCase
 
         $output = <<<HTML
             
-        
+
             <p class="other">Keep me</p>
             HTML;
 

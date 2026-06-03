@@ -122,7 +122,7 @@ class FileController extends AbstractController
 
         $user = $this->getUsername();
 
-        if (empty($hash) || empty($algo) || 0 === $size) {
+        if (empty($hash) || empty($algo) || $size < 0) {
             throw new BadRequestHttpException('Bad Request, invalid json parameters');
         }
 

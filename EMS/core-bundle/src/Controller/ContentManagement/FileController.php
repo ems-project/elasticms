@@ -102,7 +102,6 @@ class FileController extends AbstractController
     /**
      * @param int $size
      */
-    #[\Deprecated]
     public function initUploadFile(?string $sha1, $size, bool $apiRoute, Request $request): Response
     {
         if ($sha1 || $size) {

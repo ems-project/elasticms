@@ -62,16 +62,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.384.1",
+            "version": "3.384.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "d8a2701c5616b9c4eb034f7ed834c53350f48af6"
+                "reference": "a6c85b3a1f5f8327076291040329214b3a2caf2b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/d8a2701c5616b9c4eb034f7ed834c53350f48af6",
-                "reference": "d8a2701c5616b9c4eb034f7ed834c53350f48af6",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/a6c85b3a1f5f8327076291040329214b3a2caf2b",
+                "reference": "a6c85b3a1f5f8327076291040329214b3a2caf2b",
                 "shasum": ""
             },
             "require": {
@@ -153,9 +153,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.384.1"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.384.2"
             },
-            "time": "2026-06-03T05:46:25+00:00"
+            "time": "2026-06-03T18:07:33+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -1874,7 +1874,7 @@
         },
         {
             "name": "elasticms/client-helper-bundle",
-            "version": "6.9.19",
+            "version": "6.9.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSClientHelperBundle.git",
@@ -1925,13 +1925,13 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSClientHelperBundle/tree/6.9.19"
+                "source": "https://github.com/ems-project/EMSClientHelperBundle/tree/6.9.20"
             },
             "time": "2026-05-30T09:02:23+00:00"
         },
         {
             "name": "elasticms/common-bundle",
-            "version": "6.9.19",
+            "version": "6.9.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSCommonBundle.git",
@@ -2013,13 +2013,13 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSCommonBundle/tree/6.9.19"
+                "source": "https://github.com/ems-project/EMSCommonBundle/tree/6.9.20"
             },
             "time": "2026-06-03T08:29:14+00:00"
         },
         {
             "name": "elasticms/form-bundle",
-            "version": "6.9.19",
+            "version": "6.9.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSFormBundle.git",
@@ -2062,13 +2062,13 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSFormBundle/tree/6.9.19"
+                "source": "https://github.com/ems-project/EMSFormBundle/tree/6.9.20"
             },
             "time": "2026-05-30T12:38:19+00:00"
         },
         {
             "name": "elasticms/helpers",
-            "version": "6.9.19",
+            "version": "6.9.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/helpers.git",
@@ -2112,13 +2112,13 @@
                 "php"
             ],
             "support": {
-                "source": "https://github.com/ems-project/helpers/tree/6.9.19"
+                "source": "https://github.com/ems-project/helpers/tree/6.9.20"
             },
             "time": "2025-10-27T09:29:21+00:00"
         },
         {
             "name": "elasticms/submission-bundle",
-            "version": "6.9.19",
+            "version": "6.9.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSSubmissionBundle.git",
@@ -2164,7 +2164,7 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSSubmissionBundle/tree/6.9.19"
+                "source": "https://github.com/ems-project/EMSSubmissionBundle/tree/6.9.20"
             },
             "time": "2026-01-27T14:06:38+00:00"
         },

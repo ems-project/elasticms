@@ -1,5 +1,13 @@
 # Changelog 6.x
 
+## 6.9.20 (2026-06-04)
+### Bug Fixes
+* fix(admin/content-type): remove node transformer unwrap empty parent by @Davidmattei in https://github.com/ems-project/elasticms/pull/1748
+
+## 6.9.19 (2026-06-03)
+### Bug Fixes
+* fix(common/api): api search fromPayload issue by @theus77 in https://github.com/ems-project/elasticms/pull/1747
+
 ## 6.9.18 (2026-06-01)
 ### Bug Fixes
 * fix(clientHelper): avoid missing root slash by @theus77 in https://github.com/ems-project/elasticms/pull/1739

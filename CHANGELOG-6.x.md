@@ -1,5 +1,10 @@
 # Changelog 6.x
 
+## 6.9.21 (2026-06-09)
+### Bug Fixes
+* fix(admin/querySearch): load dataLinks from query search environments by @theus77 in https://github.com/ems-project/elasticms/pull/1749
+* fix(admin/xliff): new translation must option by @Davidmattei in https://github.com/ems-project/elasticms/pull/1752
+
 ## 6.9.20 (2026-06-04)
 ### Bug Fixes
 * fix(admin/content-type): remove node transformer unwrap empty parent by @Davidmattei in https://github.com/ems-project/elasticms/pull/1748

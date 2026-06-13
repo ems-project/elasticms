@@ -18,6 +18,7 @@ use EMS\CoreBundle\Controller\Api\Admin\EntitiesController;
 use EMS\CoreBundle\Controller\Api\Admin\InfoController;
 use EMS\CoreBundle\Controller\Api\Admin\MetaController;
 use EMS\CoreBundle\Controller\Api\AuthTokenLoginController;
+use EMS\CoreBundle\Controller\Api\McpController;
 use EMS\CoreBundle\Controller\Api\File\ExtractDataController;
 use EMS\CoreBundle\Controller\Api\Form\VerificationController;
 use EMS\CoreBundle\Controller\Api\JobApiController;
@@ -233,6 +234,17 @@ return static function (ContainerConfigurator $container) {
         ])
         ->call('setContainer')
         ->tag('container.service_subscriber')
+        ->tag('controller.service_arguments');
+
+    $services->set(McpController::class)
+        ->args([
+            service(\Mcp\Server::class),
+            service(\Nyholm\Psr7Server\ServerRequestCreator::class),
+            service(\Nyholm\Psr7\Factory\Psr17Factory::class),
+            service('logger'),
+            service('emsco.logger.audit'),
+            service('ems.service.user'),
+        ])
         ->tag('controller.service_arguments');
 
     $services->set(ExtractDataController::class)

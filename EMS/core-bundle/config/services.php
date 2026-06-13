@@ -117,6 +117,10 @@ use EMS\CoreBundle\Service\WebhookService;
 use EMS\CoreBundle\Service\WebhookSubscriptionService;
 use EMS\CoreBundle\Service\WysiwygProfileService;
 use EMS\CoreBundle\Service\WysiwygStylesSetService;
+use Mcp\Server;
+use Mcp\Server\Session\FileSessionStore;
+use Nyholm\Psr7\Factory\Psr17Factory;
+use Nyholm\Psr7Server\ServerRequestCreator;
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
@@ -127,6 +131,16 @@ return static function (ContainerConfigurator $container) {
 
     $services->defaults()
         ->private();
+
+    $services->set(Psr17Factory::class, Psr17Factory::class);
+
+    $services->set(ServerRequestCreator::class)
+        ->args([
+            service(Psr17Factory::class),
+            service(Psr17Factory::class),
+            service(Psr17Factory::class),
+            service(Psr17Factory::class),
+        ]);
 
     $services->set('emsco.event_listener.access_denied_listener', AccessDeniedListener::class)
         ->args([
@@ -683,6 +697,30 @@ return static function (ContainerConfigurator $container) {
         ->tag('kernel.event_listener', ['event' => RevisionFinalizeDraftEvent::class, 'method' => 'finalizeDraftEvent', 'priority' => 0])
         ->tag('kernel.event_listener', ['event' => RevisionPublishEvent::class, 'method' => 'publishEvent', 'priority' => 0])
         ->tag('kernel.event_listener', ['event' => RevisionUnpublishEvent::class, 'method' => 'unpublishEvent', 'priority' => 0]);
+
+    $services->set(\EMS\CoreBundle\Mcp\ElasticmsMcpToolService::class)
+        ->args([
+            service('ems.service.user'),
+            service(ContentTypeService::class),
+            service('ems.service.revision'),
+            service('ems.service.data'),
+            service('security.authorization_checker'),
+            service('logger'),
+            service('emsco.logger.audit'),
+        ]);
+
+    $services->set(\EMS\CoreBundle\Mcp\ElasticmsMcpServerFactory::class)
+        ->args([
+            service('service_container'),
+            '%kernel.cache_dir%',
+            service('logger'),
+            service(\EMS\CoreBundle\Mcp\ElasticmsMcpToolService::class),
+        ]);
+
+    $services->set('emsco.mcp.server', Server::class)
+        ->factory([service(\EMS\CoreBundle\Mcp\ElasticmsMcpServerFactory::class), 'create']);
+
+    $services->alias(Server::class, 'emsco.mcp.server');
 
     $services->set(I18nService::class, I18nService::class)
         ->args([service('ems.repository.i18n')])

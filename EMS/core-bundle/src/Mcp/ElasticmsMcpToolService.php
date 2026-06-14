@@ -124,7 +124,7 @@ final readonly class ElasticmsMcpToolService
      * @template TResult
      *
      * @param array<string, mixed> $context
-     * @param \Closure(): TResult   $callable
+     * @param \Closure(): TResult  $callable
      *
      * @return TResult
      */

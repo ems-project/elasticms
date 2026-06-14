@@ -74,6 +74,8 @@ use EMS\CoreBundle\EventListener\UserLocaleListener;
 use EMS\CoreBundle\Form\Factory\ObjectChoiceListFactory;
 use EMS\CoreBundle\Form\Revision\Task\RevisionTaskFiltersType;
 use EMS\CoreBundle\Form\Revision\Task\RevisionTaskHandleType;
+use EMS\CoreBundle\Mcp\ElasticmsMcpServerFactory;
+use EMS\CoreBundle\Mcp\ElasticmsMcpToolService;
 use EMS\CoreBundle\Repository\ContentTypeRepository;
 use EMS\CoreBundle\Repository\EnvironmentRepository;
 use EMS\CoreBundle\Repository\JobRepository;
@@ -118,7 +120,6 @@ use EMS\CoreBundle\Service\WebhookSubscriptionService;
 use EMS\CoreBundle\Service\WysiwygProfileService;
 use EMS\CoreBundle\Service\WysiwygStylesSetService;
 use Mcp\Server;
-use Mcp\Server\Session\FileSessionStore;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Nyholm\Psr7Server\ServerRequestCreator;
 use Psr\Cache\CacheItemPoolInterface;
@@ -698,7 +699,7 @@ return static function (ContainerConfigurator $container) {
         ->tag('kernel.event_listener', ['event' => RevisionPublishEvent::class, 'method' => 'publishEvent', 'priority' => 0])
         ->tag('kernel.event_listener', ['event' => RevisionUnpublishEvent::class, 'method' => 'unpublishEvent', 'priority' => 0]);
 
-    $services->set(\EMS\CoreBundle\Mcp\ElasticmsMcpToolService::class)
+    $services->set(ElasticmsMcpToolService::class)
         ->args([
             service('ems.service.user'),
             service(ContentTypeService::class),
@@ -709,16 +710,16 @@ return static function (ContainerConfigurator $container) {
             service('emsco.logger.audit'),
         ]);
 
-    $services->set(\EMS\CoreBundle\Mcp\ElasticmsMcpServerFactory::class)
+    $services->set(ElasticmsMcpServerFactory::class)
         ->args([
             service('service_container'),
             '%kernel.cache_dir%',
             service('logger'),
-            service(\EMS\CoreBundle\Mcp\ElasticmsMcpToolService::class),
+            service(ElasticmsMcpToolService::class),
         ]);
 
     $services->set('emsco.mcp.server', Server::class)
-        ->factory([service(\EMS\CoreBundle\Mcp\ElasticmsMcpServerFactory::class), 'create']);
+        ->factory([service(ElasticmsMcpServerFactory::class), 'create']);
 
     $services->alias(Server::class, 'emsco.mcp.server');
 

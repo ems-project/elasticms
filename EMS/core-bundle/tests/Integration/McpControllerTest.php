@@ -200,7 +200,7 @@ final class McpControllerTest extends WebTestCase
         $user->setPassword('not-used');
         $user->setRoles(['ROLE_API', 'ROLE_AUTHOR']);
 
-        $authToken = (new AuthToken($user))->setValue(self::API_TOKEN);
+        $authToken = new AuthToken($user)->setValue(self::API_TOKEN);
 
         $environment = new Environment();
         $environment->setName('preview');
@@ -208,7 +208,7 @@ final class McpControllerTest extends WebTestCase
         $environment->setManaged(true);
         $environment->setOrderKey(1);
 
-        $contentType = (new ContentType())
+        $contentType = new ContentType()
             ->setName('news')
             ->setSingularName('News')
             ->setPluralName('News')
@@ -220,7 +220,7 @@ final class McpControllerTest extends WebTestCase
             ContentTypeRoles::CREATE => 'ROLE_AUTHOR',
         ]));
 
-        $revision = (new Revision())
+        $revision = new Revision()
             ->setContentType($contentType)
             ->setDeleted(false)
             ->setDraft(false)

@@ -23,18 +23,18 @@ final readonly class ElasticmsMcpServerFactory
     {
         return Server::builder()
             ->setServerInfo(
-                name: 'ElasticMS MCP',
+                name: 'elasticMS MCP',
                 version: '1.0.0',
-                description: 'Minimal ElasticMS MCP server over HTTP using ElasticMS API bearer tokens.',
+                description: 'Minimal elasticMS MCP server over HTTP using elasticMS API bearer tokens.',
             )
-            ->setInstructions('Authenticate with an ElasticMS API bearer token. The server exposes a minimal set of content tools and preserves the authenticated user permissions.')
+            ->setInstructions('Authenticate with an elasticMS API bearer token. The server exposes a minimal set of content tools and preserves the authenticated user permissions.')
             ->setContainer($this->container)
             ->setLogger($this->logger)
             ->setSession(new FileSessionStore($this->cacheDir.'/mcp-sessions'))
             ->addTool(
                 handler: $this->toolService->getCurrentUser(...),
                 name: 'get_current_user',
-                description: 'Return the authenticated ElasticMS user profile.',
+                description: 'Return the authenticated elasticMS user profile.',
                 inputSchema: [
                     'type' => 'object',
                     'additionalProperties' => false,
@@ -43,7 +43,7 @@ final readonly class ElasticmsMcpServerFactory
             ->addTool(
                 handler: $this->toolService->getContent(...),
                 name: 'get_content',
-                description: 'Read the current content revision for a content type and OUUID, subject to ElasticMS permissions.',
+                description: 'Read the current content revision for a content type and OUUID, subject to elasticMS permissions.',
                 inputSchema: [
                     'type' => 'object',
                     'properties' => [

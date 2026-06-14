@@ -57,6 +57,8 @@ start/%: ## start/(mariadb|keycloak|grafana|redis-commander)
 	@$(DOCKER_COMPOSE) --profile=${*} up -d --force-recreate
 start/sandbox: docker/sandbox.passwd ## start/sandbox
 	@$(DOCKER_COMPOSE) --profile=sandbox up -d --force-recreate
+start/mcp: ## start/mcp
+	@$(DOCKER_COMPOSE) --profile=mcp up -d --force-recreate
 stop: ## stop docker, admin server, web server
 	@$(MAKE) -s server-stop/admin
 	@$(MAKE) -s server-stop/web
@@ -139,6 +141,8 @@ server-restart: ## server-restart
 ## —— Docker --------———————————————————————————————————————————————————————————————————————————————————————————————————
 docker-images: ## List images
 	@docker ps --filter="label=elasticMS" --format "table {{.Label \"com.docker.compose.service\"}}\t{{.Image}}"
+docker-logs/%: ## logs by profile
+	@$(DOCKER_COMPOSE) --profile=mcp logs -f
 docker-logs: ## logs
 	@$(DOCKER_COMPOSE) logs -f
 

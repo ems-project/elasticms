@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Controller\Api;
 
 use EMS\CoreBundle\Service\UserService;
+use EMS\Helpers\Html\Headers;
+use EMS\Helpers\Html\MimeTypes;
 use Mcp\Server;
 use Mcp\Server\Transport\StreamableHttpTransport;
 use Mcp\Server\Transport\Http\Middleware\CorsMiddleware;
@@ -97,7 +99,7 @@ final class McpController
             $headers[$name] = 1 === \count($values) ? $values[0] : $values;
         }
 
-        if ('text/event-stream' === $response->getHeaderLine('Content-Type')) {
+        if (MimeTypes::TEXT_EVENT_STREAM->value === $response->getHeaderLine(Headers::CONTENT_TYPE)) {
             return new StreamedResponse(
                 static fn () => print $response->getBody()->getContents(),
                 $response->getStatusCode(),

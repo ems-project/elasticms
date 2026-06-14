@@ -10,6 +10,20 @@
 A headless CMS to manage generic content in order to publish it in several Elasticsearch index
 (based on Symfony, Bootstrap, and AdminLTE).
 
+## API
+
+API documentation:
+
+- [Login API](/elasticms-admin/api/login.md)
+- [User API](/elasticms-admin/api/user.md)
+- [Data API](/elasticms-admin/api/data.md)
+- [File API](/elasticms-admin/api/file.md)
+- [Search API](/elasticms-admin/api/search.md)
+- [Job API](/elasticms-admin/api/job.md)
+- [Monitoring API](/elasticms-admin/api/monitoring.md)
+- [Webhook API](/elasticms-admin/api/webhook.md)
+- [Model Context Protocol](/elasticms-admin/api/mcp.md)
+
 ## Setup
 
 ### Requirements

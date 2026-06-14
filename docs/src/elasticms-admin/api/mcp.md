@@ -1,6 +1,31 @@
 # Model Context Protocol
 
-## Initialise a new session
+The MCP endpoint exposes a minimal HTTP server for ElasticMS Admin at `POST /api/mcp`.
+
+Every request must be authenticated with an API token. Prefer the standard
+`Authorization: Bearer <token>` header. The historical `X-Auth-Token` header is still supported for
+backward compatibility.
+
+In the examples below, the token is available in the `AUTH_TOKEN` environment variable:
+
+```shell
+export AUTH_TOKEN='nlpUnMR/W8bgSSclYXI2G0dP5REdp5yhvaXfMDV/he+XgQgI7pIRqkuNqsJRJzoYvYM='
+```
+
+The current MVP exposes these MCP operations:
+
+- `tools/list`
+- `tools/call`
+
+And these tools:
+
+- `get_current_user`
+- `get_content`
+- `create_news_draft`
+
+Non-`initialize` requests require a valid MCP session id in the `Mcp-Session-Id` header.
+
+## Initialize a new session
 
 ```shell
 curl -i \
@@ -23,16 +48,19 @@ curl -i \
     }' -w '\n'
 ```
 
-Retrieve the session id from the `Mcp-Session-Id` header.
+The response body confirms that the server supports the MCP `tools` capability. The list of
+available tools is retrieved separately with `tools/list`.
 
-In the following example we'll consider that the session id is saved in a `SESSION_ID` environment variable:
+Retrieve the session id from the `Mcp-Session-Id` response header.
+
+In the following examples, the session id is saved in a `SESSION_ID` environment variable:
 
 `export SESSION_ID=8885b2e5-89a6-4716-8a34-a85fc4abd38f`
 
 ## List available tools
 
 ```shell
-  curl \
+curl \
     -X POST \
     http://localhost:8881/api/mcp \
     -H "Authorization: Bearer ${AUTH_TOKEN}" \
@@ -46,10 +74,16 @@ In the following example we'll consider that the session id is saved in a `SESSI
     }' -w '\n'
 ```
 
-## Call example
+Expected tools:
+
+- `get_current_user`
+- `get_content`
+- `create_news_draft`
+
+## Call `get_current_user`
 
 ```shell
-  curl \
+curl \
     -X POST \
     http://localhost:8881/api/mcp \
     -H "Authorization: Bearer ${AUTH_TOKEN}" \
@@ -66,18 +100,70 @@ In the following example we'll consider that the session id is saved in a `SESSI
     }'
 ```
 
+## Call `get_content`
+
+Use `get_content` to read one document by content type and `ouuid` with the permissions of the
+authenticated user.
+
+```shell
+curl \
+    -X POST \
+    http://localhost:8881/api/mcp \
+    -H "Authorization: Bearer ${AUTH_TOKEN}" \
+    -H "Mcp-Session-Id: ${SESSION_ID}" \
+    -H "Content-Type: application/json" \
+    -d '{
+      "jsonrpc":"2.0",
+      "id":4,
+      "method":"tools/call",
+      "params":{
+        "name":"get_content",
+        "arguments":{
+          "contentType":"news",
+          "ouuid":"97591e4d-c71a-48ae-8504-67d09df595c2"
+        }
+      }
+    }' -w '\n'
+```
+
+## Call `create_news_draft`
+
+Use `create_news_draft` to create a draft in the `news` content type. The request is allowed only if
+the authenticated user has the same creation rights as in the Admin API.
+
+```shell
+curl \
+    -X POST \
+    http://localhost:8881/api/mcp \
+    -H "Authorization: Bearer ${AUTH_TOKEN}" \
+    -H "Mcp-Session-Id: ${SESSION_ID}" \
+    -H "Content-Type: application/json" \
+    -d '{
+      "jsonrpc":"2.0",
+      "id":5,
+      "method":"tools/call",
+      "params":{
+        "name":"create_news_draft",
+        "arguments":{
+          "rawData":{
+            "title":"MCP News Draft"
+          }
+        }
+      }
+    }' -w '\n'
+```
+
 ## Configure the MCP inspector
 
 An MCP inspector is available in the monorepo. You can start it with the command: `make start/mcp`.
-The MCP inspector will be available at [http://mcp-inspect.localhost/](http://mcp-inspect.localhost/).
+The MCP inspector will be available at
+[http://mcp-inspect.localhost/](http://mcp-inspect.localhost/).
 
-Choose those options :
+Choose these options:
 
-* Transport Type: `Streamable HTTP`
-* URL: `http://host.docker.internal:8881/api/mcp`
-* Connection Type: `Via Proxy`
-* Custom Headers:
-  * `Authorization`
-  * `Bearer TOKEN`: Replace `TOKEN` by an authentication token
-* Inspector Proxy Address: `http://mcp-inspect-proxy.localhost`
-* Proxy Session Token: Paste the session token that you can see in the log's output: `make docker-logs/mcp`
+- Transport Type: `Streamable HTTP`
+- URL: `http://host.docker.internal:8881/api/mcp`
+- Connection Type: `Via Proxy`
+- Custom Headers: `Authorization: Bearer TOKEN`
+- Inspector Proxy Address: `http://mcp-inspect-proxy.localhost`
+- Proxy Session Token: paste the session token visible in the logs with `make docker-logs/mcp`

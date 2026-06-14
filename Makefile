@@ -142,7 +142,7 @@ server-restart: ## server-restart
 docker-images: ## List images
 	@docker ps --filter="label=elasticMS" --format "table {{.Label \"com.docker.compose.service\"}}\t{{.Image}}"
 docker-logs/%: ## logs by profile
-	@$(DOCKER_COMPOSE) --profile=mcp logs -f
+	@$(DOCKER_COMPOSE) --profile=${*} logs -f
 docker-logs: ## logs
 	@$(DOCKER_COMPOSE) logs -f
 

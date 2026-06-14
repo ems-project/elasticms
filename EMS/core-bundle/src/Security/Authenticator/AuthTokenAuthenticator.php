@@ -66,6 +66,6 @@ final class AuthTokenAuthenticator extends AbstractAuthenticator
             return null;
         }
 
-        return '' !== $matches[1] ? $matches[1] : null;
+        return $matches[1];
     }
 }

@@ -278,13 +278,13 @@ final readonly class ElasticmsMcpToolService
      *
      * @return array<string, mixed>
      */
-    private function buildObjectSchemaFromChildren(array $fieldTypes): array
+    private function buildObjectSchemaFromChildren(array $fieldTypes, bool $filterEditableFields = true, bool $includeRequired = true): array
     {
         $properties = [];
         $required = [];
 
         foreach ($fieldTypes as $fieldType) {
-            $this->appendFieldSchema($fieldType, $properties, $required);
+            $this->appendFieldSchema($fieldType, $properties, $required, $filterEditableFields, $includeRequired);
         }
 
         $schema = [
@@ -293,7 +293,7 @@ final readonly class ElasticmsMcpToolService
             'additionalProperties' => false,
         ];
 
-        if ([] !== $required) {
+        if ($includeRequired && [] !== $required) {
             $schema['required'] = \array_values(\array_unique($required));
         }
 

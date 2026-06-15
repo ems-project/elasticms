@@ -15,7 +15,9 @@ final readonly class ElasticmsMcpServerFactory
         private ContainerInterface $container,
         private string $cacheDir,
         private LoggerInterface $logger,
-        private ElasticmsMcpToolService $toolService,
+        private ElasticmsMcpToolUserService $toolUserService,
+        private ElasticmsMcpToolDataService $toolDataService,
+        private ElasticmsMcpToolAssetService $toolAssetService,
     ) {
     }
 
@@ -32,7 +34,7 @@ final readonly class ElasticmsMcpServerFactory
             ->setLogger($this->logger)
             ->setSession(new FileSessionStore($this->cacheDir.'/mcp-sessions'))
             ->addTool(
-                handler: $this->toolService->getCurrentUser(...),
+                handler: $this->toolUserService->getCurrentUser(...),
                 name: 'get_current_user',
                 description: 'Return the authenticated elasticMS user profile.',
                 inputSchema: [
@@ -75,9 +77,9 @@ final readonly class ElasticmsMcpServerFactory
                     'additionalProperties' => false,
                 ],
             );
-        $this->toolService->addAssetTools($builder);
-        $this->toolService->addGetDocumentTools($builder);
-        $this->toolService->addCreateDocumentTools($builder);
+        $this->toolAssetService->addAssetTools($builder);
+        $this->toolDataService->addGetDocumentTools($builder);
+        $this->toolDataService->addCreateDocumentTools($builder);
 
         return $builder->build();
     }

@@ -75,7 +75,9 @@ use EMS\CoreBundle\Form\Factory\ObjectChoiceListFactory;
 use EMS\CoreBundle\Form\Revision\Task\RevisionTaskFiltersType;
 use EMS\CoreBundle\Form\Revision\Task\RevisionTaskHandleType;
 use EMS\CoreBundle\Mcp\ElasticmsMcpServerFactory;
-use EMS\CoreBundle\Mcp\ElasticmsMcpToolService;
+use EMS\CoreBundle\Mcp\ElasticmsMcpToolAssetService;
+use EMS\CoreBundle\Mcp\ElasticmsMcpToolDataService;
+use EMS\CoreBundle\Mcp\ElasticmsMcpToolUserService;
 use EMS\CoreBundle\Repository\ContentTypeRepository;
 use EMS\CoreBundle\Repository\EnvironmentRepository;
 use EMS\CoreBundle\Repository\JobRepository;
@@ -699,13 +701,27 @@ return static function (ContainerConfigurator $container) {
         ->tag('kernel.event_listener', ['event' => RevisionPublishEvent::class, 'method' => 'publishEvent', 'priority' => 0])
         ->tag('kernel.event_listener', ['event' => RevisionUnpublishEvent::class, 'method' => 'unpublishEvent', 'priority' => 0]);
 
-    $services->set(ElasticmsMcpToolService::class)
+    $services->set(ElasticmsMcpToolUserService::class)
+        ->args([
+            service('ems.service.user'),
+            service('logger'),
+            service('emsco.logger.audit'),
+        ]);
+
+    $services->set(ElasticmsMcpToolAssetService::class)
+        ->args([
+            service('ems.service.user'),
+            service('ems.service.file'),
+            service('logger'),
+            service('emsco.logger.audit'),
+        ]);
+
+    $services->set(ElasticmsMcpToolDataService::class)
         ->args([
             service('ems.service.user'),
             service(ContentTypeService::class),
             service('ems.service.revision'),
             service('ems.service.data'),
-            service('ems.service.file'),
             service('form.registry'),
             service('security.authorization_checker'),
             service('logger'),
@@ -717,7 +733,9 @@ return static function (ContainerConfigurator $container) {
             service('service_container'),
             '%kernel.cache_dir%',
             service('logger'),
-            service(ElasticmsMcpToolService::class),
+            service(ElasticmsMcpToolUserService::class),
+            service(ElasticmsMcpToolDataService::class),
+            service(ElasticmsMcpToolAssetService::class),
         ]);
 
     $services->set('emsco.mcp.server', Server::class)

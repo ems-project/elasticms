@@ -193,6 +193,7 @@ final class McpControllerTest extends WebTestCase
         self::assertSame('news', $structuredContent['contentType'] ?? null);
         self::assertSame($fixtures['revision']->getOuuid(), $structuredContent['ouuid'] ?? null);
         self::assertSame('Published News', $structuredContent['rawData']['title'] ?? null);
+        self::assertSame('Internal only notes', $structuredContent['rawData']['internalNotes'] ?? null);
     }
 
     #[\Override]
@@ -319,6 +320,7 @@ final class McpControllerTest extends WebTestCase
             ->setEndTime(null)
             ->setRawData([
                 'title' => 'Published News',
+                'internalNotes' => 'Internal only notes',
             ])
             ->setLockBy('mcp-user')
             ->setLockUntil(new \DateTime('+1 hour'));

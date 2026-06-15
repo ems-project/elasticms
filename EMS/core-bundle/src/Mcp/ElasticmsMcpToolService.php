@@ -187,6 +187,7 @@ final readonly class ElasticmsMcpToolService
                     'required' => ['ouuid'],
                     'additionalProperties' => false,
                 ],
+                outputSchema: $this->buildGetDocumentOutputSchema($contentType),
             );
         }
     }
@@ -226,6 +227,29 @@ final readonly class ElasticmsMcpToolService
     /**
      * @return array<string, mixed>
      */
+    private function buildGetDocumentOutputSchema(ContentType $contentType): array
+    {
+        return [
+            'type' => 'object',
+            'properties' => [
+                'contentType' => ['type' => 'string'],
+                'ouuid' => ['type' => 'string'],
+                'revisionId' => ['type' => 'integer'],
+                'draft' => ['type' => 'boolean'],
+                'archived' => ['type' => 'boolean'],
+                'label' => [
+                    'type' => ['string', 'null'],
+                ],
+                'rawData' => $this->buildRawDataSchema($contentType->getFieldType(), filterEditableFields: false, includeRequired: false),
+            ],
+            'required' => ['contentType', 'ouuid', 'revisionId', 'draft', 'archived', 'rawData'],
+            'additionalProperties' => false,
+        ];
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
     private function buildCreateDocumentInputSchema(ContentType $contentType): array
     {
         return [
@@ -244,9 +268,9 @@ final readonly class ElasticmsMcpToolService
     /**
      * @return array<string, mixed>
      */
-    private function buildRawDataSchema(FieldType $rootFieldType): array
+    private function buildRawDataSchema(FieldType $rootFieldType, bool $filterEditableFields = true, bool $includeRequired = true): array
     {
-        return $this->buildObjectSchemaFromChildren($rootFieldType->getValidChildren());
+        return $this->buildObjectSchemaFromChildren($rootFieldType->getValidChildren(), $filterEditableFields, $includeRequired);
     }
 
     /**
@@ -280,9 +304,9 @@ final readonly class ElasticmsMcpToolService
      * @param array<string, mixed> $properties
      * @param array<int, string>   $required
      */
-    private function appendFieldSchema(FieldType $fieldType, array &$properties, array &$required): void
+    private function appendFieldSchema(FieldType $fieldType, array &$properties, array &$required, bool $filterEditableFields = true, bool $includeRequired = true): void
     {
-        if ($fieldType->isDeleted() || !$this->authorizationChecker->isGranted($fieldType->getMinimumRole())) {
+        if ($fieldType->isDeleted() || ($filterEditableFields && !$this->authorizationChecker->isGranted($fieldType->getMinimumRole()))) {
             return;
         }
 
@@ -290,15 +314,15 @@ final readonly class ElasticmsMcpToolService
 
         if ($fieldTypeClass::isVirtual($fieldType->getOptions())) {
             foreach ($fieldType->getValidChildren() as $childFieldType) {
-                $this->appendFieldSchema($childFieldType, $properties, $required);
+                $this->appendFieldSchema($childFieldType, $properties, $required, $filterEditableFields, $includeRequired);
             }
 
             return;
         }
 
-        $properties[$fieldType->getName()] = $this->buildFieldSchema($fieldType);
+        $properties[$fieldType->getName()] = $this->buildFieldSchema($fieldType, $filterEditableFields, $includeRequired);
 
-        if ((bool) $fieldType->getRestrictionOption('mandatory', false)) {
+        if ($includeRequired && (bool) $fieldType->getRestrictionOption('mandatory', false)) {
             $required[] = $fieldType->getName();
         }
     }
@@ -306,9 +330,9 @@ final readonly class ElasticmsMcpToolService
     /**
      * @return array<string, mixed>
      */
-    private function buildFieldSchema(FieldType $fieldType): array
+    private function buildFieldSchema(FieldType $fieldType, bool $filterEditableFields = true, bool $includeRequired = true): array
     {
-        $schema = $this->getDataFieldType($fieldType)->generateJsonSchema($fieldType, $this->buildObjectSchemaFromChildren(...));
+        $schema = $this->getDataFieldType($fieldType)->generateJsonSchema($fieldType, fn (array $fieldTypes): array => $this->buildObjectSchemaFromChildren($fieldTypes, $filterEditableFields, $includeRequired));
 
         $schema['title'] ??= (string) $fieldType->getDisplayOption('label', $fieldType->getName());
 

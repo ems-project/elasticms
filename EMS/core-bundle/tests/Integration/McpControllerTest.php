@@ -10,8 +10,13 @@ use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Entity\AuthToken;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Environment;
+use EMS\CoreBundle\Entity\FieldType;
 use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Entity\User;
+use EMS\CoreBundle\Form\DataField\ChoiceFieldType;
+use EMS\CoreBundle\Form\DataField\CollectionFieldType;
+use EMS\CoreBundle\Form\DataField\NestedFieldType;
+use EMS\CoreBundle\Form\DataField\TextStringFieldType;
 use EMS\CoreBundle\Tests\Integration\App\Kernel;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -53,7 +58,7 @@ final class McpControllerTest extends WebTestCase
         self::assertResponseStatusCodeSame(401);
     }
 
-    public function testToolsListExposesMinimalMcpTools(): void
+    public function testToolsListExposesPerContentTypeCreateTools(): void
     {
         $this->createAuthenticatedUserWithNewsContent();
         $sessionId = $this->initializeSession($this->client);
@@ -77,14 +82,24 @@ final class McpControllerTest extends WebTestCase
         $tools = $response['result']['tools'] ?? [];
         $toolNames = \array_map(static fn (array $tool): string => (string) $tool['name'], $tools);
 
-        self::assertSame([
-            'get_current_user',
-            'get_content',
-            'create_news_draft',
-        ], $toolNames);
+        self::assertContains('get_current_user', $toolNames);
+        self::assertContains('get_content', $toolNames);
+        self::assertContains('create_document_news', $toolNames);
+        self::assertNotContains('create_document_secret', $toolNames);
+
+        $createNewsTool = \array_values(\array_filter($tools, static fn (array $tool): bool => 'create_document_news' === ($tool['name'] ?? null)))[0] ?? null;
+
+        self::assertIsArray($createNewsTool);
+        self::assertSame(['title'], $createNewsTool['inputSchema']['properties']['rawData']['required'] ?? null);
+        self::assertSame('string', $createNewsTool['inputSchema']['properties']['rawData']['properties']['title']['type'] ?? null);
+        self::assertSame('object', $createNewsTool['inputSchema']['properties']['rawData']['properties']['body']['type'] ?? null);
+        self::assertSame('string', $createNewsTool['inputSchema']['properties']['rawData']['properties']['body']['properties']['summary']['type'] ?? null);
+        self::assertSame('array', $createNewsTool['inputSchema']['properties']['rawData']['properties']['authors']['type'] ?? null);
+        self::assertSame('string', $createNewsTool['inputSchema']['properties']['rawData']['properties']['authors']['items']['properties']['name']['type'] ?? null);
+        self::assertSame(['draft', 'published'], $createNewsTool['inputSchema']['properties']['rawData']['properties']['status']['enum'] ?? null);
     }
 
-    public function testToolsCallCanReturnCurrentUserAndCreateDraft(): void
+    public function testToolsCallCanReturnCurrentUserAndCreateContentTypeDraft(): void
     {
         $this->createAuthenticatedUserWithNewsContent();
         $sessionId = $this->initializeSession($this->client);
@@ -118,7 +133,7 @@ final class McpControllerTest extends WebTestCase
             'id' => 4,
             'method' => 'tools/call',
             'params' => [
-                'name' => 'create_news_draft',
+                'name' => 'create_document_news',
                 'arguments' => [
                     'rawData' => [
                         'title' => 'MCP News Draft',
@@ -219,6 +234,82 @@ final class McpControllerTest extends WebTestCase
             ContentTypeRoles::VIEW => 'ROLE_AUTHOR',
             ContentTypeRoles::CREATE => 'ROLE_AUTHOR',
         ]));
+        $contentType->getFieldType()->addChild(
+            new FieldType()
+                ->setName('title')
+                ->setType(TextStringFieldType::class)
+                ->setOptions([
+                    'displayOptions' => [
+                        'label' => 'Title',
+                    ],
+                    'restrictionOptions' => [
+                        'mandatory' => true,
+                    ],
+                ])
+        );
+        $contentType->getFieldType()->addChild(
+            new FieldType()
+                ->setName('body')
+                ->setType(NestedFieldType::class)
+                ->setOptions([
+                    'displayOptions' => [
+                        'label' => 'Body',
+                    ],
+                ])
+                ->addChild(
+                    new FieldType()
+                        ->setName('summary')
+                        ->setType(TextStringFieldType::class)
+                        ->setOptions([
+                            'displayOptions' => [
+                                'label' => 'Summary',
+                            ],
+                        ])
+                )
+        );
+        $contentType->getFieldType()->addChild(
+            new FieldType()
+                ->setName('authors')
+                ->setType(CollectionFieldType::class)
+                ->setOptions([
+                    'displayOptions' => [
+                        'label' => 'Authors',
+                    ],
+                ])
+                ->addChild(
+                    new FieldType()
+                        ->setName('name')
+                        ->setType(TextStringFieldType::class)
+                        ->setOptions([
+                            'displayOptions' => [
+                                'label' => 'Name',
+                            ],
+                        ])
+                )
+        );
+        $contentType->getFieldType()->addChild(
+            new FieldType()
+                ->setName('status')
+                ->setType(ChoiceFieldType::class)
+                ->setOptions([
+                    'displayOptions' => [
+                        'label' => 'Status',
+                        'choices' => "draft\npublished",
+                    ],
+                ])
+        );
+
+        $restrictedContentType = new ContentType()
+            ->setName('secret')
+            ->setSingularName('Secret')
+            ->setPluralName('Secrets')
+            ->setActive(true)
+            ->setOrderKey(2)
+            ->setEnvironment($environment);
+        $restrictedContentType->setRoles(new ContentTypeRoles([
+            ContentTypeRoles::VIEW => 'ROLE_AUTHOR',
+            ContentTypeRoles::CREATE => 'ROLE_ADMIN',
+        ]));
 
         $revision = new Revision()
             ->setContentType($contentType)
@@ -235,6 +326,7 @@ final class McpControllerTest extends WebTestCase
         $this->entityManager->persist($user);
         $this->entityManager->persist($environment);
         $this->entityManager->persist($contentType);
+        $this->entityManager->persist($restrictedContentType);
         $this->entityManager->persist($revision);
         $this->entityManager->persist($authToken);
         $this->entityManager->flush();

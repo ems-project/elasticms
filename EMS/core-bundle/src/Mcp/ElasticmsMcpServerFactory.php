@@ -21,7 +21,7 @@ final readonly class ElasticmsMcpServerFactory
 
     public function create(): Server
     {
-        return Server::builder()
+        $builder = Server::builder()
             ->setServerInfo(
                 name: 'elasticMS MCP',
                 version: '1.0.0',
@@ -53,21 +53,9 @@ final readonly class ElasticmsMcpServerFactory
                     'required' => ['contentType', 'ouuid'],
                     'additionalProperties' => false,
                 ],
-            )
-            ->addTool(
-                handler: $this->toolService->createNewsDraft(...),
-                name: 'create_news_draft',
-                description: 'Create a new draft in the news content type, optionally overriding the content type name for deployments using a different identifier.',
-                inputSchema: [
-                    'type' => 'object',
-                    'properties' => [
-                        'rawData' => ['type' => 'object'],
-                        'ouuid' => ['type' => 'string'],
-                        'contentType' => ['type' => 'string'],
-                    ],
-                    'additionalProperties' => false,
-                ],
-            )
-            ->build();
+            );
+        $this->toolService->addCreateDocumentTools($builder);
+
+        return $builder->build();
     }
 }

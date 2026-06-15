@@ -5,24 +5,28 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Mcp;
 
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
+use EMS\CoreBundle\Entity\ContentType;
+use EMS\CoreBundle\Entity\FieldType;
 use EMS\CoreBundle\Entity\Revision;
+use EMS\CoreBundle\Form\DataField\DataFieldType;
 use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\DataService;
 use EMS\CoreBundle\Service\Revision\RevisionService;
 use EMS\CoreBundle\Service\UserService;
 use Mcp\Exception\ToolCallException;
+use Mcp\Server\Builder;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Form\FormRegistryInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 final readonly class ElasticmsMcpToolService
 {
-    private const string DEFAULT_NEWS_CONTENT_TYPE = 'news';
-
     public function __construct(
         private UserService $userService,
         private ContentTypeService $contentTypeService,
         private RevisionService $revisionService,
         private DataService $dataService,
+        private FormRegistryInterface $formRegistry,
         private AuthorizationCheckerInterface $authorizationChecker,
         private LoggerInterface $logger,
         private LoggerInterface $auditLogger,
@@ -79,18 +83,18 @@ final readonly class ElasticmsMcpToolService
      *
      * @return array{contentType: string, ouuid: ?string, revisionId: int, draft: true, rawData: array<mixed>}
      */
-    public function createNewsDraft(array $rawData = [], ?string $ouuid = null, ?string $contentType = null): array
+    public function createDocument(string $contentType, array $rawData = [], ?string $ouuid = null): array
     {
-        $targetContentType = $contentType ?? self::DEFAULT_NEWS_CONTENT_TYPE;
+        $toolName = \sprintf('create_document_%s', $contentType);
 
-        return $this->wrapToolCall('create_news_draft', [
-            'content_type' => $targetContentType,
+        return $this->wrapToolCall($toolName, [
+            'content_type' => $contentType,
             'ouuid' => $ouuid,
             'raw_data_keys' => \array_map('strval', \array_keys($rawData)),
-        ], function () use ($rawData, $ouuid, $targetContentType): array {
-            $resolvedContentType = $this->contentTypeService->getByName($targetContentType);
+        ], function () use ($rawData, $ouuid, $contentType): array {
+            $resolvedContentType = $this->contentTypeService->getByName($contentType);
             if (false === $resolvedContentType) {
-                throw new ToolCallException(\sprintf('News content type "%s" was not found.', $targetContentType));
+                throw new ToolCallException(\sprintf('Content type "%s" was not found.', $contentType));
             }
 
             try {
@@ -100,7 +104,7 @@ final readonly class ElasticmsMcpToolService
             }
 
             if (!$this->authorizationChecker->isGranted($resolvedContentType->role(ContentTypeRoles::CREATE))) {
-                throw new ToolCallException(\sprintf('Create access is not granted for content type "%s".', $targetContentType));
+                throw new ToolCallException(\sprintf('Create access is not granted for content type "%s".', $contentType));
             }
 
             try {
@@ -158,5 +162,137 @@ final readonly class ElasticmsMcpToolService
 
             throw new ToolCallException($exception->getMessage(), 0, $exception);
         }
+    }
+
+    public function addCreateDocumentTools(Builder $builder): void
+    {
+        foreach ($this->contentTypeService->getAll() as $contentType) {
+            if (!$this->isCreatableContentType($contentType)) {
+                continue;
+            }
+
+            $contentTypeName = $contentType->getName();
+
+            $builder->addTool(
+                handler: fn (array $rawData = [], ?string $ouuid = null): array => $this->createDocument($contentTypeName, $rawData, $ouuid),
+                name: \sprintf('create_document_%s', $contentTypeName),
+                description: \sprintf('Create a new document in the %s content type indexed in the %s environment.', $contentTypeName, $contentType->giveEnvironment()->getName()),
+                inputSchema: $this->buildCreateDocumentInputSchema($contentType),
+            );
+        }
+    }
+
+    private function isCreatableContentType(ContentType $contentType): bool
+    {
+        return $contentType->giveEnvironment()->getManaged()
+            && $contentType->isActive()
+            && $this->authorizationChecker->isGranted($contentType->role(ContentTypeRoles::CREATE));
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function buildCreateDocumentInputSchema(ContentType $contentType): array
+    {
+        return [
+            'type' => 'object',
+            'properties' => [
+                'rawData' => $this->buildRawDataSchema($contentType->getFieldType()),
+                'ouuid' => [
+                    'type' => 'string',
+                    'description' => 'Optional OUUID. When omitted, ElasticMS will generate one.',
+                ],
+            ],
+            'additionalProperties' => false,
+        ];
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function buildRawDataSchema(FieldType $rootFieldType): array
+    {
+        return $this->buildObjectSchemaFromChildren($rootFieldType->getValidChildren());
+    }
+
+    /**
+     * @param FieldType[] $fieldTypes
+     *
+     * @return array<string, mixed>
+     */
+    private function buildObjectSchemaFromChildren(array $fieldTypes): array
+    {
+        $properties = [];
+        $required = [];
+
+        foreach ($fieldTypes as $fieldType) {
+            $this->appendFieldSchema($fieldType, $properties, $required);
+        }
+
+        $schema = [
+            'type' => 'object',
+            'properties' => $properties,
+            'additionalProperties' => false,
+        ];
+
+        if ([] !== $required) {
+            $schema['required'] = \array_values(\array_unique($required));
+        }
+
+        return $schema;
+    }
+
+    /**
+     * @param array<string, mixed> $properties
+     * @param array<int, string>   $required
+     */
+    private function appendFieldSchema(FieldType $fieldType, array &$properties, array &$required): void
+    {
+        if ($fieldType->isDeleted() || !$this->authorizationChecker->isGranted($fieldType->getMinimumRole())) {
+            return;
+        }
+
+        $fieldTypeClass = $fieldType->getType();
+
+        if ($fieldTypeClass::isVirtual($fieldType->getOptions())) {
+            foreach ($fieldType->getValidChildren() as $childFieldType) {
+                $this->appendFieldSchema($childFieldType, $properties, $required);
+            }
+
+            return;
+        }
+
+        $properties[$fieldType->getName()] = $this->buildFieldSchema($fieldType);
+
+        if ((bool) $fieldType->getRestrictionOption('mandatory', false)) {
+            $required[] = $fieldType->getName();
+        }
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function buildFieldSchema(FieldType $fieldType): array
+    {
+        $schema = $this->getDataFieldType($fieldType)->generateJsonSchema($fieldType, $this->buildObjectSchemaFromChildren(...));
+
+        $schema['title'] ??= (string) $fieldType->getDisplayOption('label', $fieldType->getName());
+
+        if (\is_string($description = $fieldType->getDescription()) && '' !== $description) {
+            $schema['description'] = $description;
+        }
+
+        return $schema;
+    }
+
+    private function getDataFieldType(FieldType $fieldType): DataFieldType
+    {
+        $innerType = $this->formRegistry->getType($fieldType->getType())->getInnerType();
+
+        if (!$innerType instanceof DataFieldType) {
+            throw new \RuntimeException(\sprintf('Unexpected form type "%s" for field "%s".', $fieldType->getType(), $fieldType->getName()));
+        }
+
+        return $innerType;
     }
 }

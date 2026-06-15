@@ -83,6 +83,10 @@ final class McpControllerTest extends WebTestCase
         $toolNames = \array_map(static fn (array $tool): string => (string) $tool['name'], $tools);
 
         self::assertContains('get_current_user', $toolNames);
+        self::assertContains('init_asset_upload', $toolNames);
+        self::assertContains('upload_asset_chunk', $toolNames);
+        self::assertContains('download_asset_chunk', $toolNames);
+        self::assertContains('get_asset_info', $toolNames);
         self::assertContains('get_document_news', $toolNames);
         self::assertContains('create_document_news', $toolNames);
         self::assertContains('get_document_secret', $toolNames);
@@ -165,6 +169,133 @@ final class McpControllerTest extends WebTestCase
         self::assertTrue($structuredDraft['draft'] ?? false);
         self::assertSame('MCP News Draft', $structuredDraft['rawData']['title'] ?? null);
         self::assertNotNull($structuredDraft['revisionId'] ?? null);
+    }
+
+    public function testAssetToolsCanUploadAndDownloadChunkedFile(): void
+    {
+        $this->createAuthenticatedUserWithNewsContent();
+        $sessionId = $this->initializeSession($this->client);
+
+        $content = 'first-chunk-'.\bin2hex(\random_bytes(8)).'-second-chunk';
+        $firstChunk = \substr($content, 0, 12);
+        $secondChunk = \substr($content, 12);
+        $hash = \sha1($content);
+
+        $initPayload = [
+            'jsonrpc' => '2.0',
+            'id' => 5,
+            'method' => 'tools/call',
+            'params' => [
+                'name' => 'init_asset_upload',
+                'arguments' => [
+                    'hash' => $hash,
+                    'size' => \strlen($content),
+                    'name' => 'mcp-upload.txt',
+                    'type' => 'text/plain',
+                    'algo' => 'sha1',
+                ],
+            ],
+        ];
+
+        $this->client->request(
+            'POST',
+            '/api/mcp',
+            server: $this->mcpHeaders($sessionId),
+            content: $this->jsonEncode($initPayload)
+        );
+
+        self::assertResponseIsSuccessful();
+        $initResponse = $this->decodeResponse($this->client);
+        $initStructuredContent = $initResponse['result']['structuredContent'] ?? null;
+        self::assertIsArray($initStructuredContent);
+        self::assertSame($hash, $initStructuredContent['hash'] ?? null);
+        self::assertFalse($initStructuredContent['available'] ?? true);
+
+        foreach ([$firstChunk, $secondChunk] as $index => $chunk) {
+            $uploadPayload = [
+                'jsonrpc' => '2.0',
+                'id' => 6 + $index,
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'upload_asset_chunk',
+                    'arguments' => [
+                        'hash' => $hash,
+                        'chunkBase64' => \base64_encode($chunk),
+                    ],
+                ],
+            ];
+
+            $this->client->request(
+                'POST',
+                '/api/mcp',
+                server: $this->mcpHeaders($sessionId),
+                content: $this->jsonEncode($uploadPayload)
+            );
+
+            self::assertResponseIsSuccessful();
+        }
+
+        $uploadResponse = $this->decodeResponse($this->client);
+        $uploadStructuredContent = $uploadResponse['result']['structuredContent'] ?? null;
+        self::assertIsArray($uploadStructuredContent);
+        self::assertTrue($uploadStructuredContent['available'] ?? false);
+        self::assertSame(\strlen($content), $uploadStructuredContent['uploaded'] ?? null);
+
+        $infoPayload = [
+            'jsonrpc' => '2.0',
+            'id' => 8,
+            'method' => 'tools/call',
+            'params' => [
+                'name' => 'get_asset_info',
+                'arguments' => [
+                    'hash' => $hash,
+                ],
+            ],
+        ];
+
+        $this->client->request(
+            'POST',
+            '/api/mcp',
+            server: $this->mcpHeaders($sessionId),
+            content: $this->jsonEncode($infoPayload)
+        );
+
+        self::assertResponseIsSuccessful();
+        $infoResponse = $this->decodeResponse($this->client);
+        $infoStructuredContent = $infoResponse['result']['structuredContent'] ?? null;
+        self::assertIsArray($infoStructuredContent);
+        self::assertSame('mcp-upload.txt', $infoStructuredContent['name'] ?? null);
+        self::assertSame('text/plain', $infoStructuredContent['type'] ?? null);
+
+        $downloadPayload = [
+            'jsonrpc' => '2.0',
+            'id' => 9,
+            'method' => 'tools/call',
+            'params' => [
+                'name' => 'download_asset_chunk',
+                'arguments' => [
+                    'hash' => $hash,
+                    'offset' => 0,
+                    'length' => \strlen($content),
+                ],
+            ],
+        ];
+
+        $this->client->request(
+            'POST',
+            '/api/mcp',
+            server: $this->mcpHeaders($sessionId),
+            content: $this->jsonEncode($downloadPayload)
+        );
+
+        self::assertResponseIsSuccessful();
+        $downloadResponse = $this->decodeResponse($this->client);
+        $downloadStructuredContent = $downloadResponse['result']['structuredContent'] ?? null;
+        self::assertIsArray($downloadStructuredContent);
+        self::assertSame($hash, $downloadStructuredContent['hash'] ?? null);
+        self::assertSame(\strlen($content), $downloadStructuredContent['bytesRead'] ?? null);
+        self::assertTrue($downloadStructuredContent['eof'] ?? false);
+        self::assertSame($content, \base64_decode((string) ($downloadStructuredContent['chunkBase64'] ?? ''), true));
     }
 
     public function testGetDocumentUsesAuthenticatedUserPermissions(): void

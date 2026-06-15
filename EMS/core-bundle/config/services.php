@@ -705,6 +705,7 @@ return static function (ContainerConfigurator $container) {
             service(ContentTypeService::class),
             service('ems.service.revision'),
             service('ems.service.data'),
+            service('ems.service.file'),
             service('form.registry'),
             service('security.authorization_checker'),
             service('logger'),

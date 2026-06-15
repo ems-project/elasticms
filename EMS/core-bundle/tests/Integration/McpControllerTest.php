@@ -88,6 +88,12 @@ final class McpControllerTest extends WebTestCase
         self::assertContains('get_document_secret', $toolNames);
         self::assertNotContains('create_document_secret', $toolNames);
 
+        $currentUserTool = \array_values(\array_filter($tools, static fn (array $tool): bool => 'get_current_user' === ($tool['name'] ?? null)))[0] ?? null;
+        self::assertIsArray($currentUserTool);
+        self::assertSame('object', $currentUserTool['outputSchema']['type'] ?? null);
+        self::assertSame('object', $currentUserTool['outputSchema']['properties']['user']['type'] ?? null);
+        self::assertSame('string', $currentUserTool['outputSchema']['properties']['user']['properties']['username']['type'] ?? null);
+
         $createNewsTool = \array_values(\array_filter($tools, static fn (array $tool): bool => 'create_document_news' === ($tool['name'] ?? null)))[0] ?? null;
 
         self::assertIsArray($createNewsTool);

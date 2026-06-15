@@ -39,6 +39,41 @@ final readonly class ElasticmsMcpServerFactory
                     'type' => 'object',
                     'additionalProperties' => false,
                 ],
+                outputSchema: [
+                    'type' => 'object',
+                    'properties' => [
+                        'user' => [
+                            'type' => 'object',
+                            'properties' => [
+                                'id' => ['type' => ['integer', 'null']],
+                                'username' => ['type' => 'string'],
+                                'displayName' => ['type' => 'string'],
+                                'roles' => [
+                                    'type' => 'array',
+                                    'items' => ['type' => 'string'],
+                                ],
+                                'email' => ['type' => 'string'],
+                                'circles' => [
+                                    'type' => 'array',
+                                    'items' => ['type' => 'string'],
+                                ],
+                                'lastLogin' => ['type' => ['string', 'null']],
+                                'expirationDate' => ['type' => ['string', 'null']],
+                                'language' => ['type' => 'string'],
+                                'locale' => ['type' => 'string'],
+                                'localePreferred' => ['type' => ['string', 'null']],
+                                'userOptions' => [
+                                    'type' => 'object',
+                                    'additionalProperties' => true,
+                                ],
+                            ],
+                            'required' => ['id', 'username', 'displayName', 'roles', 'email', 'circles', 'lastLogin', 'expirationDate', 'language', 'locale', 'localePreferred', 'userOptions'],
+                            'additionalProperties' => false,
+                        ],
+                    ],
+                    'required' => ['user'],
+                    'additionalProperties' => false,
+                ],
             );
         $this->toolService->addGetDocumentTools($builder);
         $this->toolService->addCreateDocumentTools($builder);

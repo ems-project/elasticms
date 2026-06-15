@@ -21,7 +21,7 @@ And these tools:
 
 - `get_current_user`
 - `get_content`
-- `create_news_draft`
+- `create_document_<contentType>`
 
 Non-`initialize` requests require a valid MCP session id in the `Mcp-Session-Id` header.
 
@@ -78,7 +78,8 @@ Expected tools:
 
 - `get_current_user`
 - `get_content`
-- `create_news_draft`
+- one `create_document_<contentType>` tool for each content type that the authenticated user is
+  allowed to create
 
 ## Call `get_current_user`
 
@@ -126,10 +127,13 @@ curl \
     }' -w '\n'
 ```
 
-## Call `create_news_draft`
+## Call `create_document_news`
 
-Use `create_news_draft` to create a draft in the `news` content type. The request is allowed only if
-the authenticated user has the same creation rights as in the Admin API.
+Use `create_document_news` to create a draft in the `news` content type. The request is allowed
+only if the authenticated user has the same creation rights as in the Admin API.
+
+The `rawData` schema is generated from the target ElasticMS content type, so different content types
+can expose different payload structures.
 
 ```shell
 curl \
@@ -143,7 +147,7 @@ curl \
       "id":5,
       "method":"tools/call",
       "params":{
-        "name":"create_news_draft",
+        "name":"create_document_news",
         "arguments":{
           "rawData":{
             "title":"MCP News Draft"

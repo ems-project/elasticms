@@ -46,9 +46,11 @@ final readonly class ElasticmsMcpToolService
     /**
      * @return array{contentType: string, ouuid: string, revisionId: int, draft: bool, archived: bool, label: ?string, rawData: array<mixed>}
      */
-    public function getContent(string $contentType, string $ouuid): array
+    public function getDocument(string $contentType, string $ouuid): array
     {
-        return $this->wrapToolCall('get_content', [
+        $toolName = \sprintf('get_document_%s', $contentType);
+
+        return $this->wrapToolCall($toolName, [
             'content_type' => $contentType,
             'ouuid' => $ouuid,
         ], function () use ($contentType, $ouuid): array {
@@ -164,6 +166,31 @@ final readonly class ElasticmsMcpToolService
         }
     }
 
+    public function addGetDocumentTools(Builder $builder): void
+    {
+        foreach ($this->contentTypeService->getAll() as $contentType) {
+            if (!$this->isViewableContentType($contentType)) {
+                continue;
+            }
+
+            $contentTypeName = $contentType->getName();
+
+            $builder->addTool(
+                handler: fn (string $ouuid): array => $this->getDocument($contentTypeName, $ouuid),
+                name: \sprintf('get_document_%s', $contentTypeName),
+                description: \sprintf('Read the current content revision for the %s content type indexed in the %s environment.', $contentTypeName, $contentType->giveEnvironment()->getName()),
+                inputSchema: [
+                    'type' => 'object',
+                    'properties' => [
+                        'ouuid' => ['type' => 'string'],
+                    ],
+                    'required' => ['ouuid'],
+                    'additionalProperties' => false,
+                ],
+            );
+        }
+    }
+
     public function addCreateDocumentTools(Builder $builder): void
     {
         foreach ($this->contentTypeService->getAll() as $contentType) {
@@ -180,6 +207,13 @@ final readonly class ElasticmsMcpToolService
                 inputSchema: $this->buildCreateDocumentInputSchema($contentType),
             );
         }
+    }
+
+    private function isViewableContentType(ContentType $contentType): bool
+    {
+        return $contentType->giveEnvironment()->getManaged()
+            && $contentType->isActive()
+            && $this->authorizationChecker->isGranted($contentType->role(ContentTypeRoles::VIEW));
     }
 
     private function isCreatableContentType(ContentType $contentType): bool

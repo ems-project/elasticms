@@ -20,7 +20,7 @@ The current MVP exposes these MCP operations:
 And these tools:
 
 - `get_current_user`
-- `get_content`
+- `get_document_<contentType>`
 - `create_document_<contentType>`
 
 Non-`initialize` requests require a valid MCP session id in the `Mcp-Session-Id` header.
@@ -77,7 +77,8 @@ curl \
 Expected tools:
 
 - `get_current_user`
-- `get_content`
+- one `get_document_<contentType>` tool for each content type that the authenticated user is
+  allowed to view
 - one `create_document_<contentType>` tool for each content type that the authenticated user is
   allowed to create
 
@@ -101,10 +102,12 @@ curl \
     }'
 ```
 
-## Call `get_content`
+## Call `get_document_news`
 
-Use `get_content` to read one document by content type and `ouuid` with the permissions of the
-authenticated user.
+Use `get_document_news` to read one document in the `news` content type by `ouuid`, with the
+permissions of the authenticated user.
+
+Each readable content type exposes its own `get_document_<contentType>` tool.
 
 ```shell
 curl \
@@ -118,9 +121,8 @@ curl \
       "id":4,
       "method":"tools/call",
       "params":{
-        "name":"get_content",
+        "name":"get_document_news",
         "arguments":{
-          "contentType":"news",
           "ouuid":"97591e4d-c71a-48ae-8504-67d09df595c2"
         }
       }
@@ -132,8 +134,9 @@ curl \
 Use `create_document_news` to create a draft in the `news` content type. The request is allowed
 only if the authenticated user has the same creation rights as in the Admin API.
 
-The `rawData` schema is generated from the target ElasticMS content type, so different content types
-can expose different payload structures.
+The `rawData` schema is generated recursively from the target ElasticMS content type, so different
+content types can expose different payload structures for nested objects, collections, and scalar
+fields.
 
 ```shell
 curl \

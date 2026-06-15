@@ -39,21 +39,8 @@ final readonly class ElasticmsMcpServerFactory
                     'type' => 'object',
                     'additionalProperties' => false,
                 ],
-            )
-            ->addTool(
-                handler: $this->toolService->getContent(...),
-                name: 'get_content',
-                description: 'Read the current content revision for a content type and OUUID, subject to elasticMS permissions.',
-                inputSchema: [
-                    'type' => 'object',
-                    'properties' => [
-                        'contentType' => ['type' => 'string'],
-                        'ouuid' => ['type' => 'string'],
-                    ],
-                    'required' => ['contentType', 'ouuid'],
-                    'additionalProperties' => false,
-                ],
             );
+        $this->toolService->addGetDocumentTools($builder);
         $this->toolService->addCreateDocumentTools($builder);
 
         return $builder->build();

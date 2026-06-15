@@ -83,8 +83,9 @@ final class McpControllerTest extends WebTestCase
         $toolNames = \array_map(static fn (array $tool): string => (string) $tool['name'], $tools);
 
         self::assertContains('get_current_user', $toolNames);
-        self::assertContains('get_content', $toolNames);
+        self::assertContains('get_document_news', $toolNames);
         self::assertContains('create_document_news', $toolNames);
+        self::assertContains('get_document_secret', $toolNames);
         self::assertNotContains('create_document_secret', $toolNames);
 
         $createNewsTool = \array_values(\array_filter($tools, static fn (array $tool): bool => 'create_document_news' === ($tool['name'] ?? null)))[0] ?? null;
@@ -160,7 +161,7 @@ final class McpControllerTest extends WebTestCase
         self::assertNotNull($structuredDraft['revisionId'] ?? null);
     }
 
-    public function testGetContentUsesAuthenticatedUserPermissions(): void
+    public function testGetDocumentUsesAuthenticatedUserPermissions(): void
     {
         $fixtures = $this->createAuthenticatedUserWithNewsContent();
         $sessionId = $this->initializeSession($this->client);
@@ -170,9 +171,8 @@ final class McpControllerTest extends WebTestCase
             'id' => 5,
             'method' => 'tools/call',
             'params' => [
-                'name' => 'get_content',
+                'name' => 'get_document_news',
                 'arguments' => [
-                    'contentType' => 'news',
                     'ouuid' => $fixtures['revision']->getOuuid(),
                 ],
             ],

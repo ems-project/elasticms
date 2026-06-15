@@ -14,6 +14,12 @@ use Symfony\Component\Form\FormBuilderInterface;
 class SubfieldType extends DataFieldType
 {
     #[\Override]
+    public function generateJsonSchema(FieldType $fieldType, callable $buildObjectSchema): array
+    {
+        return $this->generateUnsupportedJsonSchema();
+    }
+
+    #[\Override]
     public function getLabel(): string
     {
         return 'Virtual subfield (used to define alternatives analyzers)';

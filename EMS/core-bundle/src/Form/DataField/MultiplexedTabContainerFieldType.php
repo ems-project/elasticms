@@ -42,6 +42,12 @@ class MultiplexedTabContainerFieldType extends DataFieldType
     }
 
     #[\Override]
+    public function generateJsonSchema(FieldType $fieldType, callable $buildObjectSchema): array
+    {
+        return $buildObjectSchema($fieldType->getValidChildren());
+    }
+
+    #[\Override]
     public function getLabel(): string
     {
         return 'Multiplexed Tab Container';

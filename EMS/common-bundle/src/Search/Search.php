@@ -21,7 +21,7 @@ use Symfony\Component\Serializer\Serializer;
 class Search
 {
     private const SERIALIZER_CONTEXT = [
-        AbstractNormalizer::IGNORED_ATTRIBUTES => ['query', 'aggregations', 'suggest'],
+        AbstractNormalizer::IGNORED_ATTRIBUTES => ['aggregations', 'suggest'],
     ];
 
     /** @var string[] */
@@ -114,6 +114,14 @@ class Search
     public function getQuery()
     {
         return $this->query;
+    }
+
+    /**
+     * @param array<mixed>|AbstractQuery|null $query
+     */
+    public function setQuery(array|AbstractQuery|null $query): void
+    {
+        $this->query = $query;
     }
 
     /**

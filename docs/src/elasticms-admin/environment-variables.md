@@ -537,6 +537,18 @@ Another example with an extra HTTP header.
 [All PHP CURL integer identifier can be found on GitHub](https://github.com/JetBrains/phpstorm-stubs/blob/master/curl/curl_d.php).
 More info on [PHP.net](https://www.php.net/manual/en/function.curl-setopt.php).
 
+### EMS_ELASTICSEARCH_ROUND_ROBIN
+
+Enable or disable the Elasticsearch round-robin connection strategy when multiple hosts are configured.
+
+EMS_ELASTICSEARCH_ROUND_ROBIN='true'
+
+Default value:
+
+EMS_ELASTICSEARCH_ROUND_ROBIN='false'
+
+When enabled, requests are distributed across the configured Elasticsearch hosts instead of always using the same host first.
+
 ### EMS_STORAGES
 
 Used to define storage services. Elasticms supports

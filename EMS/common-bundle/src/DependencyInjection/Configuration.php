@@ -37,6 +37,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('elasticsearch_proxy_api')->defaultValue(false)->end()
                 ->scalarNode('elasticsearch_connection_pool')->defaultValue(null)->end()
                 ->variableNode('elasticsearch_hosts')->defaultValue(self::ELASTICSEARCH_DEFAULT_HOSTS)->end()
+                ->scalarNode('elasticsearch_round_robin')->defaultValue(false)->end()
                 ->integerNode('log_level')->defaultValue(self::LOG_LEVEL)->end()
                 ->variableNode('excluded_content_types')->defaultValue([])->end()
                 ->variableNode('slug_symbol_map')->defaultValue(null)->end()

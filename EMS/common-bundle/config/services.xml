@@ -65,6 +65,7 @@
             <factory service="ems_common.elastica.factory" method="fromConfig"/>
             <argument>%ems_common.elasticsearch_hosts%</argument>
             <argument>%ems_common.elasticsearch_connection_pool%</argument>
+            <argument>%ems_common.elasticsearch_round_robin%</argument>
         </service>
 
         <service id="EMS\CommonBundle\Elasticsearch\Mapping" alias="ems_common.service.mapping"/>

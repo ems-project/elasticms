@@ -18,7 +18,7 @@ class ElasticaFactory
     /**
      * @param array<string> $hosts
      */
-    public function fromConfig(array $hosts, ?string $connectionPool = null): Client
+    public function fromConfig(array $hosts, ?string $connectionPool = null, bool $roundRobin = false): Client
     {
         $servers = [];
         foreach ($hosts as $host) {
@@ -39,6 +39,7 @@ class ElasticaFactory
         $config = [
             'servers' => $servers,
             'connectionPool' => $connectionPool,
+            'roundRobin' => $roundRobin,
         ];
 
         $client = new Client($config);

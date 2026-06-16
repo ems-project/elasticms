@@ -1,7 +1,7 @@
 import { TiptapModule } from '../types.ts'
 import { TiptapEditor } from '../editor.ts'
 import { BLOCK_NODES } from './../extensions.ts'
-import { createIframeDropdown, IframeDropdown } from './../ui/iframeDropdown.ts'
+import { createDropdown, Dropdown } from './../ui/dropdown.ts'
 import formatIframeCss from './../../../../../css/core/components/tiptap/_menu_format.scss?inline'
 import Heading from '@tiptap/extension-heading'
 
@@ -36,7 +36,7 @@ const FORMAT_COMMANDS: Record<string, (chain: any) => any> = {
 }
 
 type EditorState = {
-    dropdown: IframeDropdown
+    dropdown: Dropdown
     cleanup: () => void
 }
 
@@ -80,8 +80,8 @@ function buildFormatItem(tag: string): string {
     return `<li data-name="${tag}"><${tag}>${label}</${tag}></li>`
 }
 
-function syncActive(doc: Document, activeTag: string): void {
-    doc.querySelectorAll<HTMLLIElement>('.format-list li').forEach((li) => {
+function syncActive(root: HTMLElement, activeTag: string): void {
+    root.querySelectorAll<HTMLLIElement>('.format-list li').forEach((li) => {
         li.classList.toggle('active', li.dataset.name === activeTag)
     })
 }
@@ -91,15 +91,16 @@ function createFormatDropdown(editor: TiptapEditor): HTMLElement {
     const contentCss = options?.contentCss ?? null
     const formatTags = (options?.formatTags ?? DEFAULT_FORMAT_TAGS).split(';').filter(Boolean)
 
-    const dropdown = createIframeDropdown(editor, {
+    const dropdown = createDropdown(editor, {
         prefix: 'format',
         css: formatIframeCss,
         contentCss,
+        iframe: true,
         buttonLabel: 'Format',
         buttonTooltip: 'format_paragraph',
         buildBody: () => `<ul class="format-list">${formatTags.map(buildFormatItem).join('')}</ul>`,
         onItemClick: (name) => applyFormat(editor, name),
-        onOpen: (iframeDoc) => syncActive(iframeDoc, resolveActiveTag(editor))
+        onOpen: (root) => syncActive(root, resolveActiveTag(editor))
     })
 
     const updateLabel = () => {

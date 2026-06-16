@@ -1,0 +1,228 @@
+.tiptap-toolbar-dropdown-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  color: #495057;
+  cursor: pointer;
+  width: 28px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  white-space: nowrap;
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+
+  &:hover {
+    background-color: #e9ecef;
+  }
+}
+
+.tiptap-toolbar-dropdown-iframe {
+  .tiptap-toolbar-dropdown-btn {
+    width: 80px;
+    padding: 0 8px;
+  }
+  .tiptap-toolbar-dropdown-label {
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+}
+
+.tiptap-dropdown {
+  position: fixed;
+  z-index: 100000;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  background: #fff;
+
+  .tiptap-dropdown-iframe {
+    display: block;
+    border: none;
+    min-width: 220px;
+    min-height: 200px;
+    width: 100%;
+  }
+
+  .tiptap-dropdown-content {
+    padding: 6px;
+    * {
+      box-sizing: border-box;
+    }
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+  }
+}
+
+.tiptap-color-dropdown {
+  .tiptap-color-auto-option li {
+    padding: 4px 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-radius: 3px;
+    font-size: 12px;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.06);
+    }
+  }
+
+  .tiptap-color-auto-icon {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    border: 1px solid #bbb;
+    background: linear-gradient(
+                    to bottom right,
+                    #fff 0%,
+                    #fff calc(50% - 1px),
+                    #d44 calc(50% - 1px),
+                    #d44 calc(50% + 1px),
+                    #fff calc(50% + 1px),
+                    #fff 100%
+    );
+  }
+
+  .tiptap-color-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
+    padding: 4px 0;
+
+    li {
+      width: 24px;
+      height: 24px;
+      border-radius: 2px;
+      cursor: pointer;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      transition: transform 0.1s;
+
+      &:hover {
+        transform: scale(1.2);
+        border-color: #555;
+        z-index: 1;
+        position: relative;
+      }
+    }
+  }
+
+  .tiptap-color-divider {
+    height: 1px;
+    background: #eee;
+    margin: 4px 0;
+  }
+
+  .tiptap-color-label {
+    font-size: 10px;
+    color: #888;
+    padding: 2px 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .tiptap-color-more-option {
+    padding: 4px 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-radius: 3px;
+    font-size: 12px;
+    cursor: pointer;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.06);
+    }
+  }
+
+  .tiptap-color-input {
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    border: 1px solid #bbb;
+    border-radius: 2px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+}
+
+.tiptap-color-picker {
+  width: 320px;
+}
+
+.tiptap-color-preview {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.tiptap-color-preview-box {
+  width: 100%;
+  height: 40px;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  flex: 1;
+}
+
+.tiptap-color-preview-hex {
+  font-family: monospace;
+  font-size: 13px;
+  min-width: 60px;
+  color: var(--tiptap-color-text);
+}
+
+.tiptap-color-grid-picker {
+  display: grid;
+  grid-template-columns: repeat(18, 1fr);
+  gap: 1px;
+  margin-bottom: 10px;
+}
+
+.tiptap-color-swatch {
+  display: block;
+  aspect-ratio: 1;
+  cursor: pointer;
+  border: 1px solid transparent;
+
+  &:hover,
+  &.is-selected {
+    border-color: rgba(0, 0, 0, 0.5);
+    transform: scale(1.2);
+    z-index: 1;
+    position: relative;
+  }
+}
+
+.tiptap-color-hex-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  label {
+    font-size: 13px;
+    color: var(--tiptap-color-text-muted);
+  }
+}
+
+.tiptap-color-hex-input {
+  flex: 1;
+  font-family: monospace;
+  font-size: 13px;
+  padding: 4px 8px;
+  border: 1px solid var(--tiptap-border-color);
+  border-radius: 4px;
+}

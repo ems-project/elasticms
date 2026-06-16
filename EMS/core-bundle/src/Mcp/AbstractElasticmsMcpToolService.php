@@ -25,7 +25,7 @@ abstract readonly class AbstractElasticmsMcpToolService
      *
      * @return TResult
      */
-    private function wrapToolCall(string $toolName, array $context, \Closure $callable): mixed
+    protected function wrapToolCall(string $toolName, array $context, \Closure $callable): mixed
     {
         $logContext = [
             'tool' => $toolName,

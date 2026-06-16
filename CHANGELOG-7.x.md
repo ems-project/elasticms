@@ -1,5 +1,60 @@
 # Changelog 7.x
 
+## 7.3.0 (2026-06-01)
+### Features
+* feat(admin): bootstrap5 + translations by @theus77 in https://github.com/ems-project/elasticms/pull/1718
+* feat(admin/tiptap): add anchor module by @Davidmattei in https://github.com/ems-project/elasticms/pull/1705
+* feat(admin/tiptap): add div module by @Davidmattei in https://github.com/ems-project/elasticms/pull/1712
+* feat(admin/tiptap): add format module by @Davidmattei in https://github.com/ems-project/elasticms/pull/1709
+* feat(admin/tiptap): add link/unlink by @Davidmattei in https://github.com/ems-project/elasticms/pull/1707
+* feat(admin/tiptap): add show blocks module by @Davidmattei in https://github.com/ems-project/elasticms/pull/1710
+* feat(admin/tiptap): add special char module by @Davidmattei in https://github.com/ems-project/elasticms/pull/1708
+* feat(admin/tiptap): add translations by @Davidmattei in https://github.com/ems-project/elasticms/pull/1719
+* feat(admin/tiptap): find and replace module by @Davidmattei in https://github.com/ems-project/elasticms/pull/1726
+* feat(admin/tiptap): implement table feature by @Davidmattei in https://github.com/ems-project/elasticms/pull/1677
+* feat(admin/tiptap): styles module by @Davidmattei in https://github.com/ems-project/elasticms/pull/1701
+* feat(cli): improved dead link reports by @theus77 in https://github.com/ems-project/elasticms/pull/1695
+* feat(common/runner): docker runner host config by @theus77 in https://github.com/ems-project/elasticms/pull/1716
+* feat(common/twig): add new ems_url_decode filter by @Davidmattei in https://github.com/ems-project/elasticms/pull/1732
+* feat(common/twig): add new ems_url_decode filter by @Davidmattei in https://github.com/ems-project/elasticms/pull/1734
+* feat(docker): ho my shells by @theus77 in https://github.com/ems-project/elasticms/pull/1693
+* feat(docker): sandbox for 6.9 by @theus77 in https://github.com/ems-project/elasticms/pull/1692
+### Bug Fixes
+* fix(admin): translation key issues by @Davidmattei in https://github.com/ems-project/elasticms/pull/1725
+* fix(admin/file): add file browser on file fields by @theus77 in https://github.com/ems-project/elasticms/pull/1690
+* fix(admin/inline-editor): add translation keys by @Davidmattei in https://github.com/ems-project/elasticms/pull/1721
+* fix(admin/job): ems:job:run should start a runner if one is planned by @theus77 in https://github.com/ems-project/elasticms/pull/1711
+* fix(admin/revision): isPublish not deleted envs by @Davidmattei in https://github.com/ems-project/elasticms/pull/1691
+* fix(admin/tiptap): resolve issues by @Davidmattei in https://github.com/ems-project/elasticms/pull/1729
+* fix(admin/translation): channel not set user locale by @Davidmattei in https://github.com/ems-project/elasticms/pull/1720
+* fix(admin/twig): missing double quotes in media library template by @theus77 in https://github.com/ems-project/elasticms/pull/1706
+* fix(api): coreApi->getBaseUrl() always ends with a slash (/) by @theus77 in https://github.com/ems-project/elasticms/pull/1694
+* fix(clientHelper): avoid double slash in the displayed url by @theus77 in https://github.com/ems-project/elasticms/pull/1696
+* fix(clientHelper): avoid missing root slash by @theus77 in https://github.com/ems-project/elasticms/pull/1739
+* fix(common/core-api): avoid search attribute to be double json encoded in API calls by @theus77 in https://github.com/ems-project/elasticms/pull/1699
+* fix(common/runner): command bypasses the image entrypoint by @theus77 in https://github.com/ems-project/elasticms/pull/1714
+* fix(common/storage): heads when multiple storages by @theus77 in https://github.com/ems-project/elasticms/pull/1703
+* fix(common/storage): preserve input order in S3 adapter heads() by @Davidmattei in https://github.com/ems-project/elasticms/pull/1731
+* fix(security): composer update, npm audit demo, adminUI and form by @Davidmattei in https://github.com/ems-project/elasticms/pull/1742
+* fix(security): hard lock form bundle npm packages by @Davidmattei in https://github.com/ems-project/elasticms/pull/1741
+* fix(security): hard lock npm dependencies by @Davidmattei in https://github.com/ems-project/elasticms/pull/1740
+* fix(security): resolve legacy coreBundle vulnerabilities  by @Davidmattei in https://github.com/ems-project/elasticms/pull/1743
+* fix(security): vulnerabilties admin (cypress) and docs by @Davidmattei in https://github.com/ems-project/elasticms/pull/1744
+* fix(web/api): 403 on form submission files by @Davidmattei in https://github.com/ems-project/elasticms/pull/1738
+* fix(web/routing): resolving emschRequest by @Davidmattei in https://github.com/ems-project/elasticms/pull/1736
+* fix: symfony upgrade by @Davidmattei in https://github.com/ems-project/elasticms/pull/1735
+* fix: upgrade symfony 6.4.40 by @Davidmattei in https://github.com/ems-project/elasticms/pull/1733
+### Documentation
+* docs: data api by @theus77 in https://github.com/ems-project/elasticms/pull/1698
+* docs: file api by @theus77 in https://github.com/ems-project/elasticms/pull/1702
+* docs: job and user apis by @theus77 in https://github.com/ems-project/elasticms/pull/1715
+### Code Refactoring
+* refactor(admin): complete overhaul of the admin interface by @michaeldk in https://github.com/ems-project/elasticms/pull/1559
+* refactor(admin/form): remove defaultValue from DataLinkFieldType by @theus77 in https://github.com/ems-project/elasticms/pull/1717
+* refactor(admin/tiptap): improve complex modules by @Davidmattei in https://github.com/ems-project/elasticms/pull/1713
+### Tests
+* test(common/html): ensure that EmsHtml corrupts the ems links by @theus77 in https://github.com/ems-project/elasticms/pull/1700
+
 ## 7.2.0 (2026-04-27)
 ### Features
 * feat (media-library): emscli media library update file links by @YanisGroffier in https://github.com/ems-project/elasticms/pull/1572

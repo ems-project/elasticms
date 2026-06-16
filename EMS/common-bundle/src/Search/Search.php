@@ -21,7 +21,7 @@ use Symfony\Component\Serializer\Serializer;
 class Search
 {
     private const SERIALIZER_CONTEXT = [
-        AbstractNormalizer::IGNORED_ATTRIBUTES => ['query', 'aggregations', 'suggest'],
+        AbstractNormalizer::IGNORED_ATTRIBUTES => ['aggregations', 'suggest'],
     ];
 
     /** @var string[] */
@@ -75,19 +75,6 @@ class Search
         return Type::array(self::getSerializer()->normalize($this, null, self::SERIALIZER_CONTEXT));
     }
 
-    /**
-     * @param mixed[] $data
-     */
-    public static function fromPayload(array $data): self
-    {
-        $search = self::getSerializer()->denormalize($data, self::class, null, self::SERIALIZER_CONTEXT);
-        if (!$search instanceof Search) {
-            throw new \RuntimeException('Unexpected search object');
-        }
-
-        return $search;
-    }
-
     public function hasSources(): bool
     {
         return [] !== $this->sourceIncludes || [] !== $this->sourceExcludes;
@@ -127,6 +114,14 @@ class Search
     public function getQuery()
     {
         return $this->query;
+    }
+
+    /**
+     * @param array<mixed>|AbstractQuery|null $query
+     */
+    public function setQuery(array|AbstractQuery|null $query): void
+    {
+        $this->query = $query;
     }
 
     /**

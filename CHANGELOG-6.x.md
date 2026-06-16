@@ -1,5 +1,32 @@
 # Changelog 6.x
 
+## 6.9.22 (2026-06-16)
+### Features
+* feat(common/elastica): round robin option by @theus77 in https://github.com/ems-project/elasticms/pull/1754
+### Bug Fixes
+* fix(admin/fields): improved invalid date format error message by @theus77 in https://github.com/ems-project/elasticms/pull/1755
+* fix(common/api): search correct deserialize query by @Davidmattei in https://github.com/ems-project/elasticms/pull/1756
+
+## 6.9.21 (2026-06-09)
+### Bug Fixes
+* fix(admin/querySearch): load dataLinks from query search environments by @theus77 in https://github.com/ems-project/elasticms/pull/1749
+* fix(admin/xliff): new translation must option by @Davidmattei in https://github.com/ems-project/elasticms/pull/1752
+
+## 6.9.20 (2026-06-04)
+### Bug Fixes
+* fix(admin/content-type): remove node transformer unwrap empty parent by @Davidmattei in https://github.com/ems-project/elasticms/pull/1748
+
+## 6.9.19 (2026-06-03)
+### Bug Fixes
+* fix(common/api): api search fromPayload issue by @theus77 in https://github.com/ems-project/elasticms/pull/1747
+
+## 6.9.18 (2026-06-01)
+### Bug Fixes
+* fix(clientHelper): avoid missing root slash by @theus77 in https://github.com/ems-project/elasticms/pull/1739
+* fix(core/api): search payload query not working by @Davidmattei in https://github.com/ems-project/elasticms/pull/1746
+* fix(security): hard lock form bundle npm packages by @Davidmattei in https://github.com/ems-project/elasticms/pull/1741
+* fix(security): hard lock npm dependencies by @Davidmattei in https://github.com/ems-project/elasticms/pull/1740
+
 ## 6.9.17 (2026-05-27)
 ### Bug Fixes
 * fix(web/api): 403 on form submission files by @Davidmattei in https://github.com/ems-project/elasticms/pull/1738

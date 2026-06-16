@@ -1,20 +1,18 @@
 {
-  "compilerOptions": {
-    "noEmit": true,
-    "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "node",
-    "outDir": "public",
-    "removeComments": true,
-    "strict": true,
-    "noEmitOnError": true,
-    "lib": ["esnext", "webworker", "dom", "dom.iterable", "scripthost"]
-  },
-  "include": [
-    "tests/js/**/*.ts",
-    "tests/js/**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+    "compilerOptions": {
+        "noEmit": true,
+        "target": "ESNext",
+        "module": "ESNext",
+        "moduleResolution": "bundler",
+        "outDir": "public",
+        "removeComments": true,
+        "strict": true,
+        "noEmitOnError": true,
+        "esModuleInterop": true,
+        "allowJs": true,
+        "lib": ["esnext", "webworker", "dom", "dom.iterable", "scripthost"]
+    },
+    "include": ["tests/js/**/*.ts", "tests/js/**/*.tsx"],
+    "exclude": ["node_modules"],
+    "typeRoots": ["./tests/js/types", "./node_modules/@types"]
 }

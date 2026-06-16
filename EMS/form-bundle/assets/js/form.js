@@ -4,8 +4,8 @@ window.emsForm = emsForm
 document.addEventListener('DOMContentLoaded', defaultLoad)
 
 export function defaultLoad() {
-  if (defaultCheck()) {
-    let form = new emsForm()
-    form.init()
-  }
+    if (defaultCheck()) {
+        let form = new emsForm()
+        form.init()
+    }
 }

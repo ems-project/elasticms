@@ -157,6 +157,18 @@ final readonly class ElasticmsMcpToolDataService extends AbstractElasticmsMcpToo
                 name: \sprintf('create_document_%s', $contentTypeName),
                 description: \sprintf('Create a new document in the %s content type indexed in the %s environment.', $contentTypeName, $contentType->giveEnvironment()->getName()),
                 inputSchema: $this->buildCreateDocumentInputSchema($contentType),
+                outputSchema: [
+                    'type' => 'object',
+                    'properties' => [
+                        'contentType' => ['type' => 'string'],
+                        'ouuid' => ['type' => 'string'],
+                        'revisionId' => ['type' => 'integer'],
+                        'draft' => ['type' => 'boolean'],
+                        'rawData' => ['type' => 'object', 'additionalProperties' => true],
+                    ],
+                    'required' => ['contentType', 'ouuid', 'revisionId', 'draft', 'rawData'],
+                    'additionalProperties' => false,
+                ],
             );
         }
     }
@@ -180,6 +192,9 @@ final readonly class ElasticmsMcpToolDataService extends AbstractElasticmsMcpToo
      */
     private function buildGetDocumentOutputSchema(ContentType $contentType): array
     {
+        $rawDataSchema = $this->buildRawDataSchema($contentType->getFieldType(), filterEditableFields: false, includeRequired: false);
+        $rawDataSchema['additionalProperties'] = true;
+
         return [
             'type' => 'object',
             'properties' => [
@@ -191,7 +206,7 @@ final readonly class ElasticmsMcpToolDataService extends AbstractElasticmsMcpToo
                 'label' => [
                     'type' => ['string', 'null'],
                 ],
-                'rawData' => $this->buildRawDataSchema($contentType->getFieldType(), filterEditableFields: false, includeRequired: false),
+                'rawData' => $rawDataSchema,
             ],
             'required' => ['contentType', 'ouuid', 'revisionId', 'draft', 'archived', 'rawData'],
             'additionalProperties' => false,
@@ -206,13 +221,14 @@ final readonly class ElasticmsMcpToolDataService extends AbstractElasticmsMcpToo
         return [
             'type' => 'object',
             'properties' => [
-                'rawData' => $this->buildRawDataSchema($contentType->getFieldType()),
+                'rawData' => ['type' => 'object'],
                 'ouuid' => [
                     'type' => 'string',
-                    'description' => 'Optional OUUID. When omitted, ElasticMS will generate one.',
+                    'description' => 'Optional OUUID. When omitted, elasticMS will generate one.',
                 ],
             ],
             'additionalProperties' => false,
+            'required' => [],
         ];
     }
 

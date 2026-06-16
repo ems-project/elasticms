@@ -175,6 +175,8 @@ final readonly class ElasticmsMcpToolAssetService extends AbstractElasticmsMcpTo
                 description: 'Return the currently configured storage hash algorithm for assets.',
                 inputSchema: [
                     'type' => 'object',
+                    'properties' => new \stdClass(),
+                    'required' => [],
                     'additionalProperties' => false,
                 ],
                 outputSchema: $this->buildCurrentStorageAlgorithmSchema(),

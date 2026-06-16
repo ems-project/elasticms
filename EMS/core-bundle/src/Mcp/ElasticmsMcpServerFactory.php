@@ -39,6 +39,8 @@ final readonly class ElasticmsMcpServerFactory
                 description: 'Return the authenticated elasticMS user profile.',
                 inputSchema: [
                     'type' => 'object',
+                    'properties' => new \stdClass(),
+                    'required' => [],
                     'additionalProperties' => false,
                 ],
                 outputSchema: [

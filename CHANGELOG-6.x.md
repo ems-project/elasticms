@@ -1,5 +1,12 @@
 # Changelog 6.x
 
+## 6.9.22 (2026-06-16)
+### Features
+* feat(common/elastica): round robin option by @theus77 in https://github.com/ems-project/elasticms/pull/1754
+### Bug Fixes
+* fix(admin/fields): improved invalid date format error message by @theus77 in https://github.com/ems-project/elasticms/pull/1755
+* fix(common/api): search correct deserialize query by @Davidmattei in https://github.com/ems-project/elasticms/pull/1756
+
 ## 6.9.21 (2026-06-09)
 ### Bug Fixes
 * fix(admin/querySearch): load dataLinks from query search environments by @theus77 in https://github.com/ems-project/elasticms/pull/1749

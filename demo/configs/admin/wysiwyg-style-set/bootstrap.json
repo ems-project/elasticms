@@ -3,16 +3,16 @@
     "arguments": [],
     "properties": {
         "name": "bootstrap",
-        "config": "[\r\n  {\r\n    \"name\": \"Lead\",\r\n    \"element\": \"p\",\r\n    \"attributes\": {\r\n      \"class\": \"lead\"\r\n    }\r\n  },{\r\n    \"name\": \"Outline link\",\r\n    \"element\": \"a\",\r\n    \"attributes\": {\r\n      \"class\": \"btn btn-outline-primary text-uppercase\"\r\n    }\r\n  }\r\n]",
+        "config": "[\r\n  {\r\n    \"name\": \"H4\",\r\n    \"element\": \"h4\"\r\n  },\r\n  {\r\n    \"name\": \"H5\",\r\n    \"element\": \"h5\"\r\n  },\r\n  {\r\n    \"name\": \"H6\",\r\n    \"element\": \"h6\"\r\n  },\r\n  {\r\n    \"name\": \"Normal\",\r\n    \"element\": \"p\"\r\n  },\r\n  {\r\n    \"name\": \"Call-To-Action\",\r\n    \"element\": \"a\",\r\n    \"attributes\": {\r\n      \"class\": \"btn btn-primary\"\r\n    }\r\n  },\r\n  {\r\n    \"name\": \"Attention\",\r\n    \"element\": \"div\",\r\n    \"attributes\": {\r\n      \"class\": \"attention\"\r\n    }\r\n  },\r\n  {\r\n    \"name\": \"Question\",\r\n    \"element\": \"div\",\r\n    \"attributes\": {\r\n      \"class\": \"question\"\r\n    }\r\n  },\r\n  {\r\n    \"name\": \"Response\",\r\n    \"element\": \"div\",\r\n    \"attributes\": {\r\n      \"class\": \"response\"\r\n    }\r\n  },\r\n  {\r\n    \"name\": \"Read More Content\",\r\n    \"element\": \"div\",\r\n    \"attributes\": {\r\n      \"class\": \"readMoreContent\"\r\n    }\r\n  },\r\n  {\r\n    \"name\": \"Modified Paragraphs\",\r\n    \"element\": \"div\",\r\n    \"attributes\": {\r\n      \"class\": \"modifiedParagraphs\"\r\n    }\r\n  },\r\n  {\r\n    \"name\": \"FAQ\",\r\n    \"element\": \"div\",\r\n    \"attributes\": {\r\n      \"class\": \"faq\"\r\n    }\r\n  },\r\n  {\r\n    \"name\": \"Example\",\r\n    \"element\": \"div\",\r\n    \"attributes\": {\r\n      \"class\": \"example\"\r\n    }\r\n  },\r\n  {\r\n    \"name\": \"Title TD\",\r\n    \"element\": \"td\",\r\n    \"attributes\": {\r\n      \"class\": \"title\"\r\n    }\r\n  },\r\n  {\r\n    \"name\": \"Title TH\",\r\n    \"element\": \"th\",\r\n    \"attributes\": {\r\n      \"class\": \"title\"\r\n    }\r\n  },\r\n  {\r\n    \"name\": \"Subtitle TD\",\r\n    \"element\": \"td\",\r\n    \"attributes\": {\r\n      \"class\": \"subtitle\"\r\n    }\r\n  },\r\n  {\r\n    \"name\": \"Subtitle TH\",\r\n    \"element\": \"th\",\r\n    \"attributes\": {\r\n      \"class\": \"subtitle\"\r\n    }\r\n  },\r\n  {\r\n    \"name\": \"Modified Words\",\r\n    \"element\": \"span\",\r\n    \"attributes\": {\r\n      \"class\": \"modifiedWords\"\r\n    }\r\n  },\r\n  {\r\n    \"name\": \"Highlight\",\r\n    \"element\": \"span\",\r\n    \"attributes\": {\r\n      \"class\": \"highlight\"\r\n    }\r\n  },\r\n\r\n\r\n  {\r\n    \"name\": \"Lead\",\r\n    \"element\": \"p\",\r\n    \"attributes\": {\r\n      \"class\": \"lead\"\r\n    }\r\n  },\r\n  {\r\n    \"name\": \"Outline link\",\r\n    \"element\": \"a\",\r\n    \"attributes\": {\r\n      \"class\": \"btn btn-outline-primary text-uppercase\"\r\n    }\r\n  },\r\n  {\r\n    \"name\": \"Alert info\",\r\n    \"element\": \"div\",\r\n    \"attributes\": {\r\n      \"class\": \"alert alert-info\"\r\n    }\r\n  },\r\n  {\r\n    \"name\": \"Alert warning\",\r\n    \"element\": \"div\",\r\n    \"attributes\": {\r\n      \"class\": \"alert alert-warning\"\r\n    }\r\n  },\r\n  {\r\n    \"name\": \"Alert danger\",\r\n    \"element\": \"div\",\r\n    \"attributes\": {\r\n      \"class\": \"alert alert-danger\"\r\n    }\r\n  },\r\n  {\r\n    \"name\": \"Table striped rows\",\r\n    \"element\": \"table\",\r\n    \"attributes\": {\r\n      \"class\": \"table table-striped\"\r\n    }\r\n  }\r\n]",
         "orderKey": 1,
-        "formatTags": "h2;h3;h4",
+        "formatTags": "h2;h3;h4;pre",
         "tableDefaultCss": "table table-bordered",
         "contentCss": "css/admin.css",
         "contentJs": "js/admin.js",
         "assets": {
-            "sha1": "3dbdc38fb9eeb96c4eb190544503340507608a29",
-            "mimetype": "application/x-zip-compressed",
-            "filename": "bundle.zip"
+            "sha1": "04c88c32eb325a0808275cfd793d8836ea3d324c",
+            "mimetype": "application/json",
+            "filename": "bundle.json"
         }
     },
     "replaced": []

@@ -24,6 +24,18 @@ final readonly class ElasticmsMcpToolAssetService
     }
 
     /**
+     * @return array{algorithm:string}
+     */
+    public function currentStorageAlgorithm(): array
+    {
+        $toolName = 'current_storage_algorithm';
+
+        return $this->wrapToolCall($toolName, [], fn (): array => [
+            'algorithm' => $this->fileService->getAlgo(),
+        ]);
+    }
+
+    /**
      * @return array{hash:string, name:string, type:string, size:int, algo:string, available:bool, uploaded:int, status:?string, user:string, chunkSize:int}
      */
     public function initAssetUpload(string $hash, int $size, string $name, string $type, ?string $algo = null): array
@@ -197,6 +209,16 @@ final readonly class ElasticmsMcpToolAssetService
     {
         $builder
             ->addTool(
+                handler: $this->currentStorageAlgorithm(...),
+                name: 'current_storage_algorithm',
+                description: 'Return the currently configured storage hash algorithm for assets.',
+                inputSchema: [
+                    'type' => 'object',
+                    'additionalProperties' => false,
+                ],
+                outputSchema: $this->buildCurrentStorageAlgorithmSchema(),
+            )
+            ->addTool(
                 handler: $this->initAssetUpload(...),
                 name: 'init_asset_upload',
                 description: \sprintf('Initialize or resume a chunked asset upload. Chunks must not exceed %d bytes and the hash must use the current storage algorithm.', File::DEFAULT_CHUNK_SIZE),
@@ -304,6 +326,21 @@ final readonly class ElasticmsMcpToolAssetService
                 'chunkSize' => ['type' => 'integer'],
             ],
             'required' => ['hash', 'name', 'type', 'size', 'algo', 'available', 'uploaded', 'status', 'user', 'chunkSize'],
+            'additionalProperties' => false,
+        ];
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function buildCurrentStorageAlgorithmSchema(): array
+    {
+        return [
+            'type' => 'object',
+            'properties' => [
+                'algorithm' => ['type' => 'string'],
+            ],
+            'required' => ['algorithm'],
             'additionalProperties' => false,
         ];
     }

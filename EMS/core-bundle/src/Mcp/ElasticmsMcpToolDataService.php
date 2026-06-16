@@ -19,18 +19,19 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormRegistryInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-final readonly class ElasticmsMcpToolDataService
+final readonly class ElasticmsMcpToolDataService extends AbstractElasticmsMcpToolService
 {
     public function __construct(
-        private UserService $userService,
+        UserService $userService,
         private ContentTypeService $contentTypeService,
         private RevisionService $revisionService,
         private DataService $dataService,
         private FormRegistryInterface $formRegistry,
         private AuthorizationCheckerInterface $authorizationChecker,
-        private LoggerInterface $logger,
-        private LoggerInterface $auditLogger,
+        LoggerInterface $logger,
+        LoggerInterface $auditLogger,
     ) {
+        parent::__construct($userService, $logger, $auditLogger);
     }
 
     /**
@@ -114,46 +115,6 @@ final readonly class ElasticmsMcpToolDataService
                 'rawData' => $revision->getRawData(),
             ];
         });
-    }
-
-    /**
-     * @template TResult
-     *
-     * @param array<string, mixed> $context
-     * @param \Closure(): TResult  $callable
-     *
-     * @return TResult
-     */
-    private function wrapToolCall(string $toolName, array $context, \Closure $callable): mixed
-    {
-        $logContext = [
-            'tool' => $toolName,
-            'username' => $this->userService->getCurrentUser()->getUsername(),
-            ...$context,
-        ];
-
-        $this->logger->info('mcp.tool.called', $logContext);
-        $this->auditLogger->info('mcp.tool.called', $logContext);
-
-        try {
-            $result = $callable();
-
-            $this->logger->info('mcp.tool.succeeded', $logContext);
-            $this->auditLogger->info('mcp.tool.succeeded', $logContext);
-
-            return $result;
-        } catch (\Throwable $exception) {
-            $errorContext = [...$logContext, 'error_message' => $exception->getMessage()];
-
-            $this->logger->error('mcp.tool.failed', [...$errorContext, 'exception' => $exception]);
-            $this->auditLogger->error('mcp.tool.failed', $errorContext);
-
-            if ($exception instanceof ToolCallException) {
-                throw $exception;
-            }
-
-            throw new ToolCallException($exception->getMessage(), 0, $exception);
-        }
     }
 
     public function addGetDocumentTools(Builder $builder): void

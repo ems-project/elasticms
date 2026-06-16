@@ -24,8 +24,9 @@
 
 .tiptap-toolbar-dropdown-iframe {
   .tiptap-toolbar-dropdown-btn {
-    width: 80px;
+    width: 100px;
     padding: 0 8px;
+    justify-content: space-between;
   }
   .tiptap-toolbar-dropdown-label {
     display: inline-block;

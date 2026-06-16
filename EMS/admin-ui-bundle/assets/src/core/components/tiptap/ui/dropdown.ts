@@ -1,10 +1,10 @@
 import { TiptapEditor } from '../editor.ts'
-import { TranslationKey } from '../translations.ts'
 
 export type DropdownConfig = {
     prefix: string
-    buttonLabel: string
-    buttonTooltip: TranslationKey
+    action: string
+    buttonLabel?: string
+    buttonTooltip: string
     icon?: string
     buildBody(): string
     onItemClick(name: string): void
@@ -34,13 +34,11 @@ export function createDropdown(editor: TiptapEditor, config: DropdownConfig): Dr
 
     const button = doc.createElement('button')
     button.type = 'button'
-    button.dataset.action = config.buttonLabel
-    button.title = editor.trans(config.buttonTooltip)
+    button.dataset.action = config.action
+    button.title = config.buttonTooltip
     button.className = 'tiptap-toolbar-dropdown-btn'
 
     const label = doc.createElement('span')
-    label.className = 'tiptap-toolbar-dropdown-label'
-    label.textContent = config.buttonLabel
 
     if (config.icon) {
         button.innerHTML = config.icon
@@ -49,7 +47,10 @@ export function createDropdown(editor: TiptapEditor, config: DropdownConfig): Dr
             svg.setAttribute('width', '16')
             svg.setAttribute('height', '16')
         }
-    } else {
+    } else if (config.buttonLabel) {
+        label.className = 'tiptap-toolbar-dropdown-label'
+        label.textContent = config.buttonLabel
+
         const arrow = doc.createElement('span')
         arrow.textContent = '▾'
         button.appendChild(label)

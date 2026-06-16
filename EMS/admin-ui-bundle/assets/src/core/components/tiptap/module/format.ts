@@ -96,8 +96,9 @@ function createFormatDropdown(editor: TiptapEditor): HTMLElement {
         css: formatIframeCss,
         contentCss,
         iframe: true,
-        buttonLabel: 'Format',
-        buttonTooltip: 'format_paragraph',
+        action: 'Format',
+        buttonLabel: editor.trans('format'),
+        buttonTooltip: editor.trans('format_paragraph'),
         buildBody: () => `<ul class="format-list">${formatTags.map(buildFormatItem).join('')}</ul>`,
         onItemClick: (name) => applyFormat(editor, name),
         onOpen: (root) => syncActive(root, resolveActiveTag(editor))

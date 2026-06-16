@@ -284,20 +284,31 @@ function isInsideList(editor: TiptapEditor): boolean {
 // ─── Active state detection ──────────────────────────────────
 
 function isStyleActive(editor: TiptapEditor, style: CkeditorStyle): boolean {
-    const node = editor.tiptap.state.selection.$from.node()
+    const { $from } = editor.tiptap.state.selection
+
+    if (style.element === 'div') {
+        for (let d = $from.depth; d > 0; d--) {
+            const node = $from.node(d)
+            if (node.type.name !== 'div') continue
+            const cls = style.attributes?.class || null
+            const st = stylesToString(style.styles) || null
+            if (node.attrs.htmlClass === cls && normalizeStyle(node.attrs.htmlStyle) === normalizeStyle(st)) {
+                return true
+            }
+        }
+        return false
+    }
+
+    const node = $from.node()
     const activeElement = resolveActiveElement(editor)
     const appliedAs = resolveAppliedAs(style.element)
     const inList = isInsideList(editor)
-    const matches =
-        appliedAs === activeElement || (inList && appliedAs === 'div' && activeElement === 'p')
-
+    const matches = appliedAs === activeElement || (inList && appliedAs === 'div' && activeElement === 'p')
     if (!matches) return false
 
     const cls = style.attributes?.class || null
     const st = stylesToString(style.styles) || null
-    return (
-        node.attrs.htmlClass === cls && normalizeStyle(node.attrs.htmlStyle) === normalizeStyle(st)
-    )
+    return node.attrs.htmlClass === cls && normalizeStyle(node.attrs.htmlStyle) === normalizeStyle(st)
 }
 
 function getActiveObjectElements(editor: TiptapEditor): Set<string> {
@@ -484,14 +495,29 @@ function applyDivStyle(
             .updateAttributes('paragraph', { htmlStyle, htmlClass })
             .setMeta('applyStyle', true)
             .run()
-    } else {
-        editor.tiptap
-            .chain()
-            .focus()
-            .wrapIn('div', { htmlStyle, htmlClass })
-            .setMeta('applyStyle', true)
-            .run()
+        return
     }
+
+    const { $from } = editor.tiptap.state.selection
+    for (let d = $from.depth; d > 0; d--) {
+        if ($from.node(d).type.name === 'div') {
+            editor.tiptap.view.dispatch(
+                editor.tiptap.state.tr.setNodeMarkup($from.before(d), undefined, {
+                    ...$from.node(d).attrs,
+                    htmlStyle,
+                    htmlClass
+                }).setMeta('applyStyle', true)
+            )
+            return
+        }
+    }
+
+    editor.tiptap
+        .chain()
+        .focus()
+        .wrapIn('div', { htmlStyle, htmlClass })
+        .setMeta('applyStyle', true)
+        .run()
 }
 
 // ─── Panel rendering ─────────────────────────────────────────
@@ -578,8 +604,9 @@ function createStylesDropdown(editor: TiptapEditor): HTMLElement {
         css: stylesIframeCss,
         contentCss,
         iframe: true,
-        buttonLabel: 'Styles',
-        buttonTooltip: 'styles_format',
+        action: 'Styles',
+        buttonLabel: editor.trans('style'),
+        buttonTooltip: editor.trans('styles_format'),
         buildBody: () => groups.map(buildStyleGroup).join(''),
         onItemClick(name) {
             const matched = styleMap.get(name)
@@ -611,14 +638,18 @@ function createStylesDropdown(editor: TiptapEditor): HTMLElement {
 }
 
 function getActiveStyleNames(editor: TiptapEditor, categories: StyleCategories): string[] {
-    const activeBlock = categories.block.find((s) => isStyleActive(editor, s))
+    const activeBlocks = categories.block.filter((s) => isStyleActive(editor, s))
+    const activeDivStyles = activeBlocks.filter((s) => s.element === 'div')
+    const filteredBlocks = activeDivStyles.length > 0
+        ? activeBlocks.filter((s) => s.element !== 'p')
+        : activeBlocks
     const activeObjects = categories.object.filter((s) => isObjectStyleActive(editor, s))
     const activeInlines = categories.inline.filter((s) =>
         editor.tiptap.isActive(inlineMarkName(s.element))
     )
 
     return [
-        ...(activeBlock ? [activeBlock.name] : []),
+        ...filteredBlocks.map((s) => s.name),
         ...activeObjects.map((s) => s.name),
         ...activeInlines.map((s) => s.name)
     ]

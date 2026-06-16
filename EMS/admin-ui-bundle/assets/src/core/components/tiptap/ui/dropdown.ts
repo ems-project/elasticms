@@ -21,7 +21,6 @@ export type Dropdown = {
     destroy(): void
     focus(): void
     setLabel(text: string): void
-    setKeepOpenOnBlur(value: boolean): void
 }
 
 export function createDropdown(editor: TiptapEditor, config: DropdownConfig): Dropdown {
@@ -68,15 +67,9 @@ export function createDropdown(editor: TiptapEditor, config: DropdownConfig): Dr
         panel.style.left = `${rect.left}px`
     }
 
-    let keepOpenOnBlur = false
-
     const bindItemEvents = (root: HTMLElement) => {
         root.addEventListener('mousedown', (e) => {
             const target = e.target as HTMLElement
-            if (target.closest('[data-keep-open-on-blur]')) {
-                keepOpenOnBlur = true
-                return
-            }
             const li = target.closest('li')
             if (!li?.dataset.name) return
             e.preventDefault()
@@ -141,18 +134,13 @@ export function createDropdown(editor: TiptapEditor, config: DropdownConfig): Dr
     const handleOutsideClick = (e: MouseEvent) => {
         const target = e.target as HTMLElement
         if (target.closest('[data-keep-open-on-blur]')) return
-        keepOpenOnBlur = false
         if (panel && !panel.contains(target) && !button.contains(target)) hide()
     }
 
     const onBlur = () => {
-        if (keepOpenOnBlur) return
         if (panel && !panel.hidden) hide()
     }
 
-    const onWindowFocus = () => {
-        keepOpenOnBlur = false
-    }
     const onEscape = (e: KeyboardEvent) => {
         if (e.key === 'Escape') {
             hide()
@@ -162,7 +150,6 @@ export function createDropdown(editor: TiptapEditor, config: DropdownConfig): Dr
     doc.addEventListener('mousedown', handleOutsideClick)
     doc.addEventListener('keydown', onEscape)
     window.addEventListener('blur', onBlur)
-    window.addEventListener('focus', onWindowFocus)
     window.addEventListener('resize', hide)
     window.addEventListener('scroll', hide, true)
 
@@ -193,9 +180,6 @@ export function createDropdown(editor: TiptapEditor, config: DropdownConfig): Dr
             label.textContent = text
             button.title = text !== config.buttonLabel ? text : ''
         },
-        setKeepOpenOnBlur(value: boolean) {
-            keepOpenOnBlur = value;
-        },
         focus() {
             window.focus()
             button.focus()
@@ -207,7 +191,6 @@ export function createDropdown(editor: TiptapEditor, config: DropdownConfig): Dr
             window.removeEventListener('resize', hide)
             window.removeEventListener('scroll', hide, true)
             window.removeEventListener('blur', onBlur)
-            window.removeEventListener('focus', onWindowFocus)
         }
     }
 }

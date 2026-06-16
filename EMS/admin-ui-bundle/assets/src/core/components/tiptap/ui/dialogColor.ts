@@ -1,5 +1,6 @@
 import { Dialog } from './../../dialog'
 import '../../../../../css/core/components/tiptap/_dialog_color.scss'
+import { TiptapEditor } from '../editor.ts'
 
 interface PaletteColor {
     hex: string
@@ -40,8 +41,7 @@ function getWebSafePalette(): PaletteColor[] {
 }
 
 interface DialogColorOptions {
-    title: string
-    closeLabel: string
+    editor: TiptapEditor
     initial?: string | null
     onSelect: (color: string) => void
 }
@@ -49,8 +49,8 @@ interface DialogColorOptions {
 export class DialogColor {
     private dialog: Dialog
 
-    constructor({ title, closeLabel, initial, onSelect }: DialogColorOptions) {
-        this.dialog = new Dialog(title, { closeLabel, draggable: true, bodyClass: 'tiptap-dialog-color' })
+    constructor({ editor, initial, onSelect }: DialogColorOptions) {
+        this.dialog = editor.createDialog('color_select', 'tiptap-dialog-color')
 
         const grid = document.createElement('div')
         grid.className = 'tiptap-dialog-color-grid'
@@ -60,14 +60,14 @@ export class DialogColor {
 
         const activeLabel = document.createElement('span')
         activeLabel.className = 'tiptap-dialog-color-label'
-        activeLabel.textContent = 'Actief'
+        activeLabel.textContent = editor.trans('color_active')
 
         const activeBox = document.createElement('div')
         activeBox.className = 'tiptap-dialog-color-active-box'
 
         const selectedLabel = document.createElement('span')
         selectedLabel.className = 'tiptap-dialog-color-label'
-        selectedLabel.textContent = 'Geselecteerde kleur'
+        selectedLabel.textContent = editor.trans('color_selected')
 
         const selectedBox = document.createElement('div')
         selectedBox.className = 'tiptap-dialog-color-selected-box'
@@ -81,7 +81,7 @@ export class DialogColor {
         const clearBtn = document.createElement('button')
         clearBtn.type = 'button'
         clearBtn.className = 'tiptap-dialog-color-clear-btn'
-        clearBtn.textContent = 'Wissen'
+        clearBtn.textContent = editor.trans('button_erase')
 
         const activeHex = document.createElement('span')
         activeHex.className = 'tiptap-dialog-color-label'
@@ -132,17 +132,17 @@ export class DialogColor {
         this.dialog.body.append(grid, sidebar)
         this.dialog
             .addButton({
-                label: closeLabel,
-                variant: 'secondary',
-                onClick: (d) => d.close(),
-            })
-            .addButton({
-                label: 'OK',
+                label: editor.trans('button_apply'),
                 variant: 'primary',
                 onClick: (d) => {
                     if (selected) onSelect(selected)
                     d.close()
                 },
+            })
+            .addButton({
+                label: editor.trans('button_close'),
+                variant: 'secondary',
+                onClick: (d) => d.close(),
             })
     }
 

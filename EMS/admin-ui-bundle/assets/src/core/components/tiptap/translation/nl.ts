@@ -1,6 +1,14 @@
 import type { TranslationKey } from './en'
 
 export const nl: Record<TranslationKey, string> = {
+    color_font: 'Tekstkleur',
+    color_background: 'Achtergrondkleur',
+    color_more: 'Meer kleuren...',
+    color_auto: 'Automatisch',
+    color_active: 'Actief',
+    color_selected: 'Geselecteerde kleur',
+    color_select: 'Kleur selecteren',
+    button_erase: 'Wissen',
     align_bottom: 'Onderaan',
     align_center: 'Centreren',
     align_horizontal: 'Horizontale uitlijning',
@@ -39,6 +47,7 @@ export const nl: Record<TranslationKey, string> = {
     find_replace: 'Zoeken en vervangen',
     find_replaced: 'Vervangen',
     find_what: 'Zoeken naar',
+    format: 'Opmaak',
     format_paragraph: 'Paragraafopmaak',
     format_remove: 'Opmaak verwijderen',
     height: 'Hoogte',

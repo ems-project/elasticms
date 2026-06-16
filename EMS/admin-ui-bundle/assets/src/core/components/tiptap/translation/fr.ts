@@ -1,6 +1,14 @@
 import type { TranslationKey } from './en'
 
 export const fr: Record<TranslationKey, string> = {
+    color_font: 'Couleur du texte',
+    color_background: 'Couleur d\'arrière-plan',
+    color_more: 'Plus de couleurs...',
+    color_auto: 'Automatique',
+    color_active: 'Actif',
+    color_selected: 'Couleur sélectionnée',
+    color_select: 'Sélectionner une couleur',
+    button_erase: 'Effacer',
     align_bottom: 'Bas',
     align_center: 'Centrer',
     align_horizontal: 'Alignement horizontal',
@@ -39,6 +47,7 @@ export const fr: Record<TranslationKey, string> = {
     find_replace: 'Rechercher et remplacer',
     find_replaced: 'Remplacé',
     find_what: 'Rechercher',
+    format: 'Format',
     format_paragraph: 'Format de paragraphe',
     format_remove: 'Supprimer la mise en forme',
     height: 'Hauteur',

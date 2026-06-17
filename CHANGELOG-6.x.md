@@ -1,5 +1,9 @@
 # Changelog 6.x
 
+## 6.9.23 (2026-06-17)
+### Bug Fixes
+* fix(admin/xliff): update new option current-revision-force by @Davidmattei in https://github.com/ems-project/elasticms/pull/1758
+
 ## 6.9.22 (2026-06-16)
 ### Features
 * feat(common/elastica): round robin option by @theus77 in https://github.com/ems-project/elasticms/pull/1754

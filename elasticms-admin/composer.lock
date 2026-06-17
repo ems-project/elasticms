@@ -62,16 +62,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.384.10",
+            "version": "3.385.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "a43566ffe0176f55441b1b9a39dc5951c5b68675"
+                "reference": "994e3408fb963ead9e1ba8ff1a751aa039bfbdf1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/a43566ffe0176f55441b1b9a39dc5951c5b68675",
-                "reference": "a43566ffe0176f55441b1b9a39dc5951c5b68675",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/994e3408fb963ead9e1ba8ff1a751aa039bfbdf1",
+                "reference": "994e3408fb963ead9e1ba8ff1a751aa039bfbdf1",
                 "shasum": ""
             },
             "require": {
@@ -153,9 +153,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.384.10"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.385.0"
             },
-            "time": "2026-06-15T19:06:48+00:00"
+            "time": "2026-06-16T23:06:51+00:00"
         },
         {
             "name": "brick/math",
@@ -1891,7 +1891,7 @@
         },
         {
             "name": "elasticms/admin-ui-bundle",
-            "version": "6.9.22",
+            "version": "6.9.23",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSAdminUIBundle.git",
@@ -1930,13 +1930,13 @@
                 "ui"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSAdminUIBundle/tree/6.9.22"
+                "source": "https://github.com/ems-project/EMSAdminUIBundle/tree/6.9.23"
             },
             "time": "2026-05-30T12:23:39+00:00"
         },
         {
             "name": "elasticms/client-helper-bundle",
-            "version": "6.9.22",
+            "version": "6.9.23",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSClientHelperBundle.git",
@@ -1987,13 +1987,13 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSClientHelperBundle/tree/6.9.22"
+                "source": "https://github.com/ems-project/EMSClientHelperBundle/tree/6.9.23"
             },
             "time": "2026-05-30T09:02:23+00:00"
         },
         {
             "name": "elasticms/common-bundle",
-            "version": "6.9.22",
+            "version": "6.9.23",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSCommonBundle.git",
@@ -2075,22 +2075,22 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSCommonBundle/tree/6.9.22"
+                "source": "https://github.com/ems-project/EMSCommonBundle/tree/6.9.23"
             },
             "time": "2026-06-16T05:13:07+00:00"
         },
         {
             "name": "elasticms/core-bundle",
-            "version": "6.9.22",
+            "version": "6.9.23",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSCoreBundle.git",
-                "reference": "b3605b26092b7eee3d4480109a88b410c676c30b"
+                "reference": "ae72fc4b4d34b007dd6e4acc5fae5a1f1d4ab083"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSCoreBundle/zipball/b3605b26092b7eee3d4480109a88b410c676c30b",
-                "reference": "b3605b26092b7eee3d4480109a88b410c676c30b",
+                "url": "https://api.github.com/repos/ems-project/EMSCoreBundle/zipball/ae72fc4b4d34b007dd6e4acc5fae5a1f1d4ab083",
+                "reference": "ae72fc4b4d34b007dd6e4acc5fae5a1f1d4ab083",
                 "shasum": ""
             },
             "require": {
@@ -2148,13 +2148,13 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSCoreBundle/tree/6.9.22"
+                "source": "https://github.com/ems-project/EMSCoreBundle/tree/6.9.23"
             },
-            "time": "2026-06-16T05:12:05+00:00"
+            "time": "2026-06-17T11:55:19+00:00"
         },
         {
             "name": "elasticms/form-bundle",
-            "version": "6.9.22",
+            "version": "6.9.23",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSFormBundle.git",
@@ -2197,13 +2197,13 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSFormBundle/tree/6.9.22"
+                "source": "https://github.com/ems-project/EMSFormBundle/tree/6.9.23"
             },
             "time": "2026-05-30T12:38:19+00:00"
         },
         {
             "name": "elasticms/helpers",
-            "version": "6.9.22",
+            "version": "6.9.23",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/helpers.git",
@@ -2247,13 +2247,13 @@
                 "php"
             ],
             "support": {
-                "source": "https://github.com/ems-project/helpers/tree/6.9.22"
+                "source": "https://github.com/ems-project/helpers/tree/6.9.23"
             },
             "time": "2025-10-27T09:29:21+00:00"
         },
         {
             "name": "elasticms/submission-bundle",
-            "version": "6.9.22",
+            "version": "6.9.23",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSSubmissionBundle.git",
@@ -2299,13 +2299,13 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSSubmissionBundle/tree/6.9.22"
+                "source": "https://github.com/ems-project/EMSSubmissionBundle/tree/6.9.23"
             },
             "time": "2026-01-27T14:06:38+00:00"
         },
         {
             "name": "elasticms/xliff",
-            "version": "6.9.22",
+            "version": "6.9.23",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/xliff.git",
@@ -2347,7 +2347,7 @@
                 "xliff"
             ],
             "support": {
-                "source": "https://github.com/ems-project/xliff/tree/6.9.22"
+                "source": "https://github.com/ems-project/xliff/tree/6.9.23"
             },
             "time": "2026-01-22T07:21:39+00:00"
         },
@@ -2793,22 +2793,22 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "7.11.1",
+            "version": "7.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "5af96f374e0ab4ebd747b8310888c99d3adb0a8c"
+                "reference": "eaa81598031cf57a9e36258c8546defffc994cba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/5af96f374e0ab4ebd747b8310888c99d3adb0a8c",
-                "reference": "5af96f374e0ab4ebd747b8310888c99d3adb0a8c",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/eaa81598031cf57a9e36258c8546defffc994cba",
+                "reference": "eaa81598031cf57a9e36258c8546defffc994cba",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "guzzlehttp/promises": "^2.5",
-                "guzzlehttp/psr7": "^2.11",
+                "guzzlehttp/psr7": "^2.12",
                 "php": "^7.2.5 || ^8.0",
                 "psr/http-client": "^1.0",
                 "symfony/deprecation-contracts": "^2.5 || ^3.0",
@@ -2901,7 +2901,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/guzzle/issues",
-                "source": "https://github.com/guzzle/guzzle/tree/7.11.1"
+                "source": "https://github.com/guzzle/guzzle/tree/7.12.0"
             },
             "funding": [
                 {
@@ -2917,7 +2917,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-06-07T22:54:06+00:00"
+            "time": "2026-06-16T22:11:48+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -3005,16 +3005,16 @@
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "2.11.0",
+            "version": "2.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "bbb5e61349fa5cb822b3e87842b951088b76b81f"
+                "reference": "9b38012e7b54f594707e6db52c684dc0a74b3a43"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/bbb5e61349fa5cb822b3e87842b951088b76b81f",
-                "reference": "bbb5e61349fa5cb822b3e87842b951088b76b81f",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/9b38012e7b54f594707e6db52c684dc0a74b3a43",
+                "reference": "9b38012e7b54f594707e6db52c684dc0a74b3a43",
                 "shasum": ""
             },
             "require": {
@@ -3104,7 +3104,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/psr7/issues",
-                "source": "https://github.com/guzzle/psr7/tree/2.11.0"
+                "source": "https://github.com/guzzle/psr7/tree/2.12.0"
             },
             "funding": [
                 {
@@ -3120,7 +3120,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-06-02T12:30:48+00:00"
+            "time": "2026-06-16T21:50:11+00:00"
         },
         {
             "name": "lcobucci/jwt",

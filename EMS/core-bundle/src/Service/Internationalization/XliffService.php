@@ -100,7 +100,7 @@ class XliffService
             throw new XliffException($insertionRevision, 'The source revision is not more the current revision of the document');
         }
         if ($currentRevisionForce && !$revision->isCurrent()) {
-            $revision = $this->revisionService->getCurrentRevisionByOuuidAndContentType($revision->getOuuid(), $revision->getContentType()->getName());
+            $revision = $this->revisionService->give($revision->giveOuuid(), $revision->giveContentType()->getName());
         }
         $targetLocale = $insertionRevision->getTargetLocale();
         if (null !== $translationField && null !== $localeField) {

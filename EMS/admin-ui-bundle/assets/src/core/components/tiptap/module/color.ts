@@ -219,12 +219,19 @@ function createColorDropdown(
         buildBody: () => buildBody(editor),
         onItemClick(name) {
             const color = name === 'auto' ? null : name
-            if (color === getActiveColor(editor, type)) return
             applyColor(editor, type, color)
         },
         onOpen(root) {
             customColor = getActiveColor(editor, type)
             refreshDynamicSections(root, editor, type, customColor)
+
+            const autoBtn = root.querySelector<HTMLButtonElement>('[data-name="auto"]')
+            if (autoBtn) {
+                autoBtn.onclick = () => {
+                    dropdown.hide()
+                    applyColor(editor, type, null)
+                }
+            }
 
             const moreBtn = root.querySelector<HTMLButtonElement>('.tiptap-color-more-btn')
             if (moreBtn) {

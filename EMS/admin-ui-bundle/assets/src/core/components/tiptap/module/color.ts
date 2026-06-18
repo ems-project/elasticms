@@ -197,14 +197,24 @@ function buildBody(editor: TiptapEditor): string {
     `
 }
 
+function getPredefinedColors(editor: TiptapEditor): string[] {
+    const config = editor.profile.config.colorButton_colors
+    if (!config) return PREDEFINED_COLORS
+    if (Array.isArray(config)) return config
+    return config.split(',').map((c) => {
+        const trimmed = c.trim()
+        return trimmed.startsWith('#') ? trimmed : `#${trimmed}`
+    })
+}
+
 function refreshDynamicSections(root: HTMLElement, editor: TiptapEditor, type: ColorType) {
+    const predefinedColors = getPredefinedColors(editor)
+    root.querySelector('.tiptap-color-predefined-section')!.innerHTML =
+        `<ul class="tiptap-color-grid">${buildColorSwatches(predefinedColors, editor)}</ul>`
+
     const docColors = getDocumentColors(editor, type)
     const recent = getRecentColors(editor, type)
     const activeColors = [...new Set([...recent, ...docColors])]
-
-    root.querySelector('.tiptap-color-predefined-section')!.innerHTML =
-        `<ul class="tiptap-color-grid">${buildColorSwatches(PREDEFINED_COLORS, editor)}</ul>`
-
     const activeSection = root.querySelector('.tiptap-color-active-section')!
     activeSection.innerHTML =
         activeColors.length > 0

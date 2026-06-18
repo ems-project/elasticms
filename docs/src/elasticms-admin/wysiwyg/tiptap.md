@@ -18,6 +18,22 @@ Bold, italic, and strikethrough are always available. Subscript and superscript 
 A "Remove Format" button that strips all formatting from the selection. Resets styled blocks back to
 paragraphs. Preserves anchors and links. Disabled when the selection has no removable formatting.
 
+### Colors
+
+Two toolbar buttons: **Text Color** and **Background Color**.
+
+Each button opens a dropdown with:
+
+- An **Automatic** option that removes the active color.
+- A grid of **predefined colors**. Configurable via `colorButton_colors` in the wysiwyg profile — either a
+  comma-separated string of hex values (with or without `#`) or an array of hex strings. Falls back to a built-in
+  palette of 24 colors when not configured.
+- A grid of **active colors** — colors currently used in the document combined with colors previously selected in this
+  session. Hidden when empty.
+- A **More colors** button that opens a color picker dialog with a web-safe palette and a native color input.
+
+Color names are fully translated into English, Dutch, French and German for all predefined colors.
+
 ### Div Container
 
 A toolbar button and context menu for wrapping content in `<div>` elements. Opt-in via the `div`

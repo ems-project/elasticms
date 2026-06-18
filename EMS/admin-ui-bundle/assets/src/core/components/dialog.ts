@@ -14,8 +14,8 @@ interface DialogOptions {
 
 export class Dialog {
     readonly element: HTMLDialogElement
-    private body: HTMLElement
-    private footer: HTMLElement
+    body: HTMLElement
+    footer: HTMLElement
     private options: DialogOptions
 
     private onCloseCallback?: () => void

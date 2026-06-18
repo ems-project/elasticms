@@ -292,7 +292,10 @@ function isStyleActive(editor: TiptapEditor, style: CkeditorStyle): boolean {
             if (node.type.name !== 'div') continue
             const cls = style.attributes?.class || null
             const st = stylesToString(style.styles) || null
-            if (node.attrs.htmlClass === cls && normalizeStyle(node.attrs.htmlStyle) === normalizeStyle(st)) {
+            if (
+                node.attrs.htmlClass === cls &&
+                normalizeStyle(node.attrs.htmlStyle) === normalizeStyle(st)
+            ) {
                 return true
             }
         }
@@ -303,12 +306,15 @@ function isStyleActive(editor: TiptapEditor, style: CkeditorStyle): boolean {
     const activeElement = resolveActiveElement(editor)
     const appliedAs = resolveAppliedAs(style.element)
     const inList = isInsideList(editor)
-    const matches = appliedAs === activeElement || (inList && appliedAs === 'div' && activeElement === 'p')
+    const matches =
+        appliedAs === activeElement || (inList && appliedAs === 'div' && activeElement === 'p')
     if (!matches) return false
 
     const cls = style.attributes?.class || null
     const st = stylesToString(style.styles) || null
-    return node.attrs.htmlClass === cls && normalizeStyle(node.attrs.htmlStyle) === normalizeStyle(st)
+    return (
+        node.attrs.htmlClass === cls && normalizeStyle(node.attrs.htmlStyle) === normalizeStyle(st)
+    )
 }
 
 function getActiveObjectElements(editor: TiptapEditor): Set<string> {
@@ -502,11 +508,13 @@ function applyDivStyle(
     for (let d = $from.depth; d > 0; d--) {
         if ($from.node(d).type.name === 'div') {
             editor.tiptap.view.dispatch(
-                editor.tiptap.state.tr.setNodeMarkup($from.before(d), undefined, {
-                    ...$from.node(d).attrs,
-                    htmlStyle,
-                    htmlClass
-                }).setMeta('applyStyle', true)
+                editor.tiptap.state.tr
+                    .setNodeMarkup($from.before(d), undefined, {
+                        ...$from.node(d).attrs,
+                        htmlStyle,
+                        htmlClass
+                    })
+                    .setMeta('applyStyle', true)
             )
             return
         }
@@ -640,9 +648,8 @@ function createStylesDropdown(editor: TiptapEditor): HTMLElement {
 function getActiveStyleNames(editor: TiptapEditor, categories: StyleCategories): string[] {
     const activeBlocks = categories.block.filter((s) => isStyleActive(editor, s))
     const activeDivStyles = activeBlocks.filter((s) => s.element === 'div')
-    const filteredBlocks = activeDivStyles.length > 0
-        ? activeBlocks.filter((s) => s.element !== 'p')
-        : activeBlocks
+    const filteredBlocks =
+        activeDivStyles.length > 0 ? activeBlocks.filter((s) => s.element !== 'p') : activeBlocks
     const activeObjects = categories.object.filter((s) => isObjectStyleActive(editor, s))
     const activeInlines = categories.inline.filter((s) =>
         editor.tiptap.isActive(inlineMarkName(s.element))

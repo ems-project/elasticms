@@ -6,6 +6,7 @@ import { TiptapModule } from '../types.ts'
 import { TiptapEditor } from '../editor.ts'
 import { createDropdown, Dropdown } from '../ui/dropdown.ts'
 import { DialogColor } from '../ui/dialogColor.ts'
+import { TranslationKey } from '../translation/en.ts'
 
 const BackgroundColor = Extension.create({
     name: 'backgroundColor',
@@ -30,15 +31,15 @@ const BackgroundColor = Extension.create({
         return {
             setBackgroundColor:
                 (color: string) =>
-                    ({ chain }) =>
-                        chain().setMark('textStyle', { backgroundColor: color }).run(),
+                ({ chain }) =>
+                    chain().setMark('textStyle', { backgroundColor: color }).run(),
             unsetBackgroundColor:
                 () =>
-                    ({ chain }) =>
-                        chain()
-                            .setMark('textStyle', { backgroundColor: null })
-                            .removeEmptyTextStyle()
-                            .run()
+                ({ chain }) =>
+                    chain()
+                        .setMark('textStyle', { backgroundColor: null })
+                        .removeEmptyTextStyle()
+                        .run()
         }
     }
 })
@@ -51,13 +52,20 @@ export const colorModule: TiptapModule = {
             {
                 name: 'TextColor',
                 order: 10,
-                create: (editor) => createColorDropdown(editor, 'font', editor.trans('color_font'), IconTextColor),
+                create: (editor) =>
+                    createColorDropdown(editor, 'font', editor.trans('color_font'), IconTextColor),
                 destroy: (editor) => destroyColorDropdown(editor, 'font')
             },
             {
                 name: 'BackgroundColor',
                 order: 11,
-                create: (editor) => createColorDropdown(editor, 'background', editor.trans('color_background'), IconHighlight),
+                create: (editor) =>
+                    createColorDropdown(
+                        editor,
+                        'background',
+                        editor.trans('color_background'),
+                        IconHighlight
+                    ),
                 destroy: (editor) => destroyColorDropdown(editor, 'background')
             }
         ]
@@ -66,6 +74,59 @@ export const colorModule: TiptapModule = {
 
 type ColorType = 'font' | 'background'
 const dropdowns = new WeakMap<TiptapEditor, Partial<Record<ColorType, Dropdown>>>()
+
+const PREDEFINED_COLORS = [
+    '#1ABC9C',
+    '#2ECC71',
+    '#3498DB',
+    '#9B59B6',
+    '#4E5F70',
+    '#F1C40F',
+    '#16A085',
+    '#27AE60',
+    '#2980B9',
+    '#8E44AD',
+    '#2C3E50',
+    '#F39C12',
+    '#E67E22',
+    '#E74C3C',
+    '#ECF0F1',
+    '#95A5A6',
+    '#DDDDDD',
+    '#FFFFFF',
+    '#D35400',
+    '#C0392B',
+    '#BDC3C7',
+    '#7F8C8D',
+    '#999999',
+    '#000000'
+]
+const PREDEFINED_COLOR_KEYS: Record<string, TranslationKey> = {
+    '#1ABC9C': 'color_strong_cyan',
+    '#2ECC71': 'color_emerald',
+    '#3498DB': 'color_bright_blue',
+    '#9B59B6': 'color_amethyst',
+    '#4E5F70': 'color_grayish_blue',
+    '#F1C40F': 'color_vivid_yellow',
+    '#16A085': 'color_dark_cyan',
+    '#27AE60': 'color_dark_emerald',
+    '#2980B9': 'color_strong_blue',
+    '#8E44AD': 'color_dark_violet',
+    '#2C3E50': 'color_desaturated_blue',
+    '#F39C12': 'color_orange',
+    '#E67E22': 'color_carrot',
+    '#E74C3C': 'color_pale_red',
+    '#ECF0F1': 'color_bright_silver',
+    '#95A5A6': 'color_light_grayish_cyan',
+    '#DDDDDD': 'color_light_gray',
+    '#FFFFFF': 'color_white',
+    '#D35400': 'color_pumpkin',
+    '#C0392B': 'color_strong_red',
+    '#BDC3C7': 'color_silver',
+    '#7F8C8D': 'color_grayish_cyan',
+    '#999999': 'color_dark_gray',
+    '#000000': 'color_black'
+}
 
 function applyColor(editor: TiptapEditor, type: ColorType, color: string | null) {
     if (type === 'font') {
@@ -98,24 +159,27 @@ function getDocumentColors(editor: TiptapEditor, type: ColorType): string[] {
     return [...seen]
 }
 
-function buildColorSwatches(colors: string[]): string {
+function buildColorSwatches(colors: string[], editor: TiptapEditor): string {
     return colors
-        .map((c) => `<li data-name="${c}" style="background:${c}" title="${c}"></li>`)
+        .map((c) => {
+            const key = PREDEFINED_COLOR_KEYS[c.toUpperCase()]
+            const label = key ? editor.trans(key) : c
+            return `<li data-name="${c}" style="background:${c}" title="${label}"></li>`
+        })
         .join('')
 }
 
 function buildBody(editor: TiptapEditor): string {
     return `
         <div class="tiptap-color-dropdown">
-            <ul class="tiptap-color-auto-option">
-                <li data-name="auto">
-                    <span class="tiptap-color-auto-icon"></span>${editor.trans('color_auto')}
-                </li>
-            </ul>
-            <div class="tiptap-color-custom-section"></div>
-            <div class="tiptap-color-doc-section"></div>
+            <button type="button" class="tiptap-color-row-btn" data-name="auto">
+                <span class="tiptap-color-auto-icon"></span>
+                <span>${editor.trans('color_auto')}</span>
+            </button>
+            <div class="tiptap-color-predefined-section"></div>
             <div class="tiptap-color-divider"></div>
-            <button type="button" class="tiptap-color-more-btn" data-keep-open-on-blur>${editor.trans('color_more')}</button>
+            <div class="tiptap-color-extra-section"></div>
+            <button type="button" class="tiptap-color-row-btn tiptap-color-more-btn">${editor.trans('color_more')}</button>
         </div>
     `
 }
@@ -127,16 +191,15 @@ function refreshDynamicSections(
     customColor: string | null
 ) {
     const docColors = getDocumentColors(editor, type)
+    const extraColors = [...new Set([...docColors, ...(customColor ? [customColor] : [])])]
 
-    const customSection = root.querySelector<HTMLElement>('.tiptap-color-custom-section')!
-    customSection.innerHTML = customColor
-        ? `<div class="tiptap-color-divider"></div><ul class="tiptap-color-grid">${buildColorSwatches([customColor])}</ul>`
-        : ''
+    root.querySelector('.tiptap-color-predefined-section')!.innerHTML =
+        `<ul class="tiptap-color-grid">${buildColorSwatches(PREDEFINED_COLORS, editor)}</ul>`
 
-    const docSection = root.querySelector<HTMLElement>('.tiptap-color-doc-section')!
-    docSection.innerHTML =
-        docColors.length > 0
-            ? `<div class="tiptap-color-divider"></div><ul class="tiptap-color-grid">${buildColorSwatches(docColors)}</ul>`
+    const extraSection = root.querySelector('.tiptap-color-extra-section')!
+    extraSection.innerHTML =
+        extraColors.length > 0
+            ? `<ul class="tiptap-color-grid">${buildColorSwatches(extraColors, editor)}</ul>`
             : ''
 }
 
@@ -173,7 +236,7 @@ function createColorDropdown(
                         onSelect: (color) => {
                             customColor = color
                             applyColor(editor, type, color)
-                        },
+                        }
                     }).open()
                 }
             }

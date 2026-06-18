@@ -10,7 +10,10 @@ interface PaletteColor {
 function getWebSafePalette(): PaletteColor[] {
     const steps = ['00', '33', '66', '99', 'cc', 'ff']
     const list: PaletteColor[] = []
-    const redBlocks = [['00', '33', '66'], ['99', 'cc', 'ff']]
+    const redBlocks = [
+        ['00', '33', '66'],
+        ['99', 'cc', 'ff']
+    ]
 
     redBlocks.forEach((redSet) => {
         steps.forEach((blue) => {
@@ -21,19 +24,38 @@ function getWebSafePalette(): PaletteColor[] {
                     const b = parseInt(blue, 16)
                     list.push({
                         hex: `#${red}${green}${blue}`,
-                        isLight: r * 0.299 + g * 0.587 + b * 0.114 > 128,
+                        isLight: r * 0.299 + g * 0.587 + b * 0.114 > 128
                     })
                 })
             })
         })
     })
 
-    const graySteps = ['00', '00', '11', '22', '33', '44', '55', '66', '77', '88', '99', 'aa', 'bb', 'cc', 'dd', 'ee', 'ff', 'ff']
+    const graySteps = [
+        '00',
+        '00',
+        '11',
+        '22',
+        '33',
+        '44',
+        '55',
+        '66',
+        '77',
+        '88',
+        '99',
+        'aa',
+        'bb',
+        'cc',
+        'dd',
+        'ee',
+        'ff',
+        'ff'
+    ]
     graySteps.forEach((step) => {
         const value = parseInt(step, 16)
         list.push({
             hex: `#${step}${step}${step}`,
-            isLight: value > 128,
+            isLight: value > 128
         })
     })
 
@@ -87,7 +109,15 @@ export class DialogColor {
         activeHex.className = 'tiptap-dialog-color-label'
         if (initial) activeHex.textContent = initial.toUpperCase()
 
-        sidebar.append(activeLabel, activeBox, activeHex, selectedLabel, selectedBox, hexInput, clearBtn)
+        sidebar.append(
+            activeLabel,
+            activeBox,
+            activeHex,
+            selectedLabel,
+            selectedBox,
+            hexInput,
+            clearBtn
+        )
 
         let selected: string | null = initial ?? null
 
@@ -123,7 +153,8 @@ export class DialogColor {
         })
 
         hexInput.addEventListener('input', () => {
-            if (!hexInput.value.startsWith('#')) hexInput.value = '#' + hexInput.value.replace('#', '')
+            if (!hexInput.value.startsWith('#'))
+                hexInput.value = '#' + hexInput.value.replace('#', '')
             if (/^#[0-9a-fA-F]{6}$/.test(hexInput.value)) setSelected(hexInput.value)
         })
 
@@ -137,18 +168,20 @@ export class DialogColor {
                 onClick: (d) => {
                     if (selected) onSelect(selected)
                     d.close()
-                },
+                }
             })
             .addButton({
                 label: editor.trans('button_close'),
                 variant: 'secondary',
-                onClick: (d) => d.close(),
+                onClick: (d) => d.close()
             })
     }
 
     open(): void {
         this.dialog.open()
-        const firstSwatch = this.dialog.element.querySelector<HTMLElement>('.tiptap-dialog-color-swatch')
+        const firstSwatch = this.dialog.element.querySelector<HTMLElement>(
+            '.tiptap-dialog-color-swatch'
+        )
         firstSwatch?.focus()
     }
 

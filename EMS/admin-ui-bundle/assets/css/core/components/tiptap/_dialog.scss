@@ -82,25 +82,9 @@ dialog.ems-dialog .tiptap-dialog-color {
   }
 }
 
-dialog.ems-dialog .tiptap-dialog-bulletlist {
+dialog.ems-dialog .dialog-body.tiptap-dialog-list {
   display: flex;
+  flex-direction: row;
+  gap: 8px;
   justify-content: center;
-  padding: 8px;
-
-  &-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-
-    label {
-      font-size: 13px;
-      white-space: nowrap;
-    }
-
-    select {
-      width: 120px;
-      padding: 4px 6px;
-      font-size: 13px;
-    }
-  }
 }

@@ -5,7 +5,17 @@ import IconJustifyRight from '@tabler/icons/outline/align-right.svg?raw'
 import IconJustifyBlock from '@tabler/icons/outline/align-justified.svg?raw'
 import { TiptapModule } from '../types.ts'
 
-const CustomTextAlign = TextAlign.configure({
+const CustomTextAlign = TextAlign.extend({
+    addGlobalAttributes() {
+        return this.parent!().map((entry) => {
+            const textAlign = entry.attributes?.textAlign
+            if (!textAlign) return entry
+            textAlign.parseHTML = (element: HTMLElement) =>
+                element.getAttribute('data-text-align') || element.style.textAlign || null
+            return entry
+        })
+    }
+}).configure({
     types: ['heading', 'paragraph', 'div'],
     alignments: ['left', 'center', 'right', 'justify']
 })
@@ -51,5 +61,31 @@ export const justifyModule: TiptapModule = {
                 isActive: (e) => e.tiptap.isActive({ textAlign: 'justify' })
             }
         ]
-    }
+    },
+    htmlTransforms: [
+        {
+            name: 'textAlign',
+            toEditor(doc) {
+                doc.querySelectorAll('p, h1, h2, h3, h4, h5, h6, div').forEach((el) => {
+                    const htmlEl = el as HTMLElement
+                    const dataAlign = htmlEl.getAttribute('data-text-align')
+                    const styleAlign = htmlEl.style.textAlign
+
+                    if (dataAlign) {
+                        htmlEl.style.removeProperty('text-align')
+                    } else if (styleAlign) {
+                        htmlEl.setAttribute('data-text-align', styleAlign)
+                        htmlEl.style.removeProperty('text-align')
+                    }
+                })
+            },
+            toOutput(doc) {
+                doc.querySelectorAll('[data-text-align]').forEach((el) => {
+                    const htmlEl = el as HTMLElement
+                    htmlEl.style.textAlign = htmlEl.getAttribute('data-text-align') ?? ''
+                    htmlEl.removeAttribute('data-text-align')
+                })
+            }
+        }
+    ]
 }

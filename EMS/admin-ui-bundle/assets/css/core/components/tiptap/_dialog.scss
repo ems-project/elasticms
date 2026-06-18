@@ -81,3 +81,10 @@ dialog.ems-dialog .tiptap-dialog-color {
     }
   }
 }
+
+dialog.ems-dialog .dialog-body.tiptap-dialog-list {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  justify-content: center;
+}

@@ -34,7 +34,7 @@ export const Modules: TiptapModule[] = [
     ...insertModule,
     justifyModule,
     linkModule,
-    listModule,
+    ...listModule,
     showBlocksModule,
     specialCharModule,
     stylesModule,

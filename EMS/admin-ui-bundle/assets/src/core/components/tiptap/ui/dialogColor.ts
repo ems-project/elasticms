@@ -1,5 +1,5 @@
 import { Dialog } from './../../dialog'
-import '../../../../../css/core/components/tiptap/_dialog_color.scss'
+import '../../../../../css/core/components/tiptap/_dialog.scss'
 import { TiptapEditor } from '../editor.ts'
 
 interface PaletteColor {

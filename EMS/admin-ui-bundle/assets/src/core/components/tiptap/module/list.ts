@@ -7,6 +7,7 @@ import { TiptapModule } from '../types.ts'
 import { TiptapEditor } from '../editor.ts'
 import { TranslationKey } from '../translation/en.ts'
 import { escapeHtml } from '../helper.ts'
+import '../../../../../css/core/components/tiptap/_dialog.scss'
 
 type BulletListType = 'circle' | 'disc' | 'square'
 
@@ -71,18 +72,12 @@ function buildDialogContent(editor: TiptapEditor, currentStyle: string): string 
     }).join('')
 
     return `
-        <style>
-            .bulletlist-form { display: flex; flex-direction: column; gap: 8px; min-width: 260px; }
-            .bulletlist-form-row { display: flex; align-items: center; gap: 8px; }
-            .bulletlist-form-row label { width: 110px; flex-shrink: 0; font-size: 13px; }
-            .bulletlist-form-row select { flex: 1; padding: 4px 6px; font-size: 13px; border: 1px solid #ccc; border-radius: 3px; }
-        </style>
-        <div class="bulletlist-form">
-            <div class="bulletlist-form-row">
-                <label>${editor.trans('list_bulleted_type')}</label>
-                <select name="listType">${options}</select>
-            </div>
-        </div>`
+    <div class="tiptap-dialog-bulletlist">
+        <div class="tiptap-dialog-bulletlist-row">
+            <label for="listType">${editor.trans('list_bulleted_type')}</label>
+            <select id="listType" name="listType">${options}</select>
+        </div>
+    </div>`
 }
 
 function openBulletListDialog(editor: TiptapEditor): void {
@@ -128,7 +123,10 @@ function createCustomBulletList() {
                     parseHTML: (el) => el.getAttribute('data-user-style') || null,
                     renderHTML: (attrs) =>
                         attrs.dataUserStyle
-                            ? { 'data-user-style': attrs.dataUserStyle, style: `list-style-type: ${attrs.dataUserStyle}` }
+                            ? {
+                                  'data-user-style': attrs.dataUserStyle,
+                                  style: `list-style-type: ${attrs.dataUserStyle}`
+                              }
                             : {}
                 }
             }

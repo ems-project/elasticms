@@ -72,7 +72,10 @@ html, body {
     position: relative;
   }
 
-  table td > p, table th > p { margin-bottom: 0 }
+  table td > p, table th > p {
+    margin: 0;
+    line-height: inherit;
+  }
 
   table td.selectedCell:after,
   table th.selectedCell:after {
@@ -85,15 +88,6 @@ html, body {
     bottom: 0;
     background: rgba(200, 200, 255, 0.4);
     pointer-events: none;
-  }
-
-  table[cellspacing] {
-    border-collapse: separate;
-  }
-
-  table:not([cellpadding]) td,
-  table:not([cellpadding]) th {
-    padding: 3px 5px;
   }
 
   table:not([class]) {
@@ -111,6 +105,15 @@ html, body {
 
     &[align="right"] {
       margin: 0 0 0 auto;
+    }
+
+    &[cellspacing] {
+      border-collapse: separate;
+    }
+
+    &:not([cellpadding]) td,
+    &:not([cellpadding]) th {
+      padding: 3px 5px;
     }
 
     tr {

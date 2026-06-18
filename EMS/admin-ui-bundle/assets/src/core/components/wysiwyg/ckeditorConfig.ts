@@ -261,6 +261,7 @@ export interface CkeditorConfig {
     specialChars: string[]
     toolbarGroups: CkeditorToolbarGroup[]
     defaultStyles: CkeditorStyle[]
+    colorButton_colors?: string[] | string
 }
 
 export const DEFAULT_CK_VALUES: CkeditorConfig = {

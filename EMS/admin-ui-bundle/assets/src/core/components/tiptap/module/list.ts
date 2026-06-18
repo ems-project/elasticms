@@ -127,7 +127,9 @@ function openBulletListDialog(editor: TiptapEditor): void {
             label: editor.trans('button_update'),
             variant: 'primary',
             onClick: (d) => {
-                const value = d.element.querySelector<HTMLSelectElement>('select[name="listType"]')?.value ?? ''
+                const value =
+                    d.element.querySelector<HTMLSelectElement>('select[name="listType"]')?.value ??
+                    ''
                 editor.tiptap.view.dispatch(
                     editor.tiptap.state.tr.setNodeMarkup(existing.pos, undefined, {
                         ...existing.attrs,
@@ -170,8 +172,14 @@ function openNumberedListDialog(editor: TiptapEditor): void {
             label: editor.trans('button_update'),
             variant: 'primary',
             onClick: (d) => {
-                const value = d.element.querySelector<HTMLSelectElement>('select[name="listType"]')?.value ?? ''
-                const start = parseInt(d.element.querySelector<HTMLInputElement>('input[name="listStart"]')?.value ?? '1', 10)
+                const value =
+                    d.element.querySelector<HTMLSelectElement>('select[name="listType"]')?.value ??
+                    ''
+                const start = parseInt(
+                    d.element.querySelector<HTMLInputElement>('input[name="listStart"]')?.value ??
+                        '1',
+                    10
+                )
                 editor.tiptap.view.dispatch(
                     editor.tiptap.state.tr.setNodeMarkup(existing.pos, undefined, {
                         ...existing.attrs,
@@ -200,7 +208,10 @@ function createCustomBulletList() {
                     parseHTML: (el) => el.getAttribute('data-user-style') || null,
                     renderHTML: (attrs) =>
                         attrs.dataUserStyle
-                            ? { 'data-user-style': attrs.dataUserStyle, style: `list-style-type: ${attrs.dataUserStyle}` }
+                            ? {
+                                  'data-user-style': attrs.dataUserStyle,
+                                  style: `list-style-type: ${attrs.dataUserStyle}`
+                              }
                             : {}
                 }
             }
@@ -218,7 +229,10 @@ function createCustomOrderedList() {
                     parseHTML: (el) => el.getAttribute('data-user-style') || null,
                     renderHTML: (attrs) =>
                         attrs.dataUserStyle
-                            ? { 'data-user-style': attrs.dataUserStyle, style: `list-style-type: ${attrs.dataUserStyle}` }
+                            ? {
+                                  'data-user-style': attrs.dataUserStyle,
+                                  style: `list-style-type: ${attrs.dataUserStyle}`
+                              }
                             : {}
                 }
             }

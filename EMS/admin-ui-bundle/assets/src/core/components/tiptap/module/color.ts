@@ -74,6 +74,7 @@ export const colorModule: TiptapModule = {
 
 type ColorType = 'font' | 'background'
 const dropdowns = new WeakMap<TiptapEditor, Partial<Record<ColorType, Dropdown>>>()
+const recentColors = new WeakMap<TiptapEditor, Partial<Record<ColorType, string[]>>>()
 
 const PREDEFINED_COLORS = [
     '#1ABC9C',
@@ -128,7 +129,19 @@ const PREDEFINED_COLOR_KEYS: Record<string, TranslationKey> = {
     '#000000': 'color_black'
 }
 
+function addRecentColor(editor: TiptapEditor, type: ColorType, color: string) {
+    const state = recentColors.get(editor) ?? {}
+    const list = state[type] ?? []
+    state[type] = [color, ...list.filter((c) => c !== color)].slice(0, 12)
+    recentColors.set(editor, state)
+}
+
+function getRecentColors(editor: TiptapEditor, type: ColorType): string[] {
+    return recentColors.get(editor)?.[type] ?? []
+}
+
 function applyColor(editor: TiptapEditor, type: ColorType, color: string | null) {
+    if (color) addRecentColor(editor, type, color)
     if (type === 'font') {
         color
             ? editor.tiptap.chain().focus().setColor(color).run()
@@ -178,28 +191,24 @@ function buildBody(editor: TiptapEditor): string {
             </button>
             <div class="tiptap-color-predefined-section"></div>
             <div class="tiptap-color-divider"></div>
-            <div class="tiptap-color-extra-section"></div>
+            <div class="tiptap-color-active-section"></div>
             <button type="button" class="tiptap-color-row-btn tiptap-color-more-btn">${editor.trans('color_more')}</button>
         </div>
     `
 }
 
-function refreshDynamicSections(
-    root: HTMLElement,
-    editor: TiptapEditor,
-    type: ColorType,
-    customColor: string | null
-) {
+function refreshDynamicSections(root: HTMLElement, editor: TiptapEditor, type: ColorType) {
     const docColors = getDocumentColors(editor, type)
-    const extraColors = [...new Set([...docColors, ...(customColor ? [customColor] : [])])]
+    const recent = getRecentColors(editor, type)
+    const activeColors = [...new Set([...recent, ...docColors])]
 
     root.querySelector('.tiptap-color-predefined-section')!.innerHTML =
         `<ul class="tiptap-color-grid">${buildColorSwatches(PREDEFINED_COLORS, editor)}</ul>`
 
-    const extraSection = root.querySelector('.tiptap-color-extra-section')!
-    extraSection.innerHTML =
-        extraColors.length > 0
-            ? `<ul class="tiptap-color-grid">${buildColorSwatches(extraColors, editor)}</ul>`
+    const activeSection = root.querySelector('.tiptap-color-active-section')!
+    activeSection.innerHTML =
+        activeColors.length > 0
+            ? `<ul class="tiptap-color-grid">${buildColorSwatches(activeColors, editor)}</ul>`
             : ''
 }
 
@@ -209,7 +218,7 @@ function createColorDropdown(
     tooltip: string,
     icon: string
 ): HTMLElement {
-    let customColor: string | null = null
+    let activeColor: string | null = null
 
     const dropdown = createDropdown(editor, {
         prefix: `colors-${type}`,
@@ -222,8 +231,8 @@ function createColorDropdown(
             applyColor(editor, type, color)
         },
         onOpen(root) {
-            customColor = getActiveColor(editor, type)
-            refreshDynamicSections(root, editor, type, customColor)
+            activeColor = getActiveColor(editor, type)
+            refreshDynamicSections(root, editor, type)
 
             const autoBtn = root.querySelector<HTMLButtonElement>('[data-name="auto"]')
             if (autoBtn) {
@@ -239,9 +248,8 @@ function createColorDropdown(
                     dropdown.hide()
                     new DialogColor({
                         editor: editor,
-                        initial: customColor,
+                        initial: activeColor,
                         onSelect: (color) => {
-                            customColor = color
                             applyColor(editor, type, color)
                         }
                     }).open()

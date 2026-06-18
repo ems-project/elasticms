@@ -268,6 +268,20 @@ The editor adapts to different use cases through a `WysiwygProfile`. The profile
   phone) the link dialog offers.
 - **Default `_blank` target** — via `ems.urlTargetDefaultBlank`, pre-selects `_blank` as the target
   for new links of the listed types.
+- **Ajax paste endpoint** — via `ems.paste`, intercepts pasted HTML and sends it to the configured
+  URL for sanitization and/or formatting before inserting it into the editor.
 
 Modules can implement an `isEnabled` check that reads the profile to decide whether they should be
 loaded at all.
+
+### Ajax Paste
+
+When `ems.paste` is configured in the wysiwyg profile, pasted HTML is intercepted and sent to
+that endpoint before being inserted into the editor. The endpoint sanitizes and/or pretty-prints the
+HTML content.
+
+On paste, the raw clipboard HTML is posted as JSON (`{ content: string }`) to the configured URL.
+The endpoint is expected to return JSON with a `content` field containing the cleaned HTML. The
+response is then parsed by ProseMirror and inserted at the current selection.
+
+If `ems.paste` is not set, paste behaviour is unchanged.

@@ -260,7 +260,7 @@ export interface CkeditorConfig {
     language: string
     specialChars: string[]
     toolbarGroups: CkeditorToolbarGroup[]
-    defaultStyles: CkeditorStyle[],
+    defaultStyles: CkeditorStyle[]
     colorButton_colors?: string[] | string
 }
 

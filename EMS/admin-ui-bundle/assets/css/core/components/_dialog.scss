@@ -25,6 +25,7 @@ dialog.ems-dialog {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 16px;
     padding: 16px;
     border-bottom: 1px solid var(--dialog-border-color, #dee2e6);
 
@@ -40,13 +41,18 @@ dialog.ems-dialog {
 
   .dialog-title {
     margin: 0;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 500;
     line-height: 1.5;
     color: var(--dialog-text-color, #212529);
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .dialog-close {
+    flex-shrink: 0;
     background: none;
     border: none;
     font-size: 24px;

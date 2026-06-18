@@ -131,6 +131,12 @@ Anchors and links are preserved by the Remove Format action.
 
 Ordered (numbered) and unordered (bulleted) lists.
 
+Right-clicking a bulleted list opens a properties dialog to configure the list marker type: circle, disc, or square.
+
+Right-clicking a numbered list opens a properties dialog to configure the start number and list type: numbers (1, 2, 3),
+lowercase letters (a, b, c), uppercase letters (A, B, C), lowercase Roman numerals (i, ii, iii), or uppercase Roman
+numerals (I, II, III).
+
 ### Maximize
 
 A toggle button that expands the editor to fill the entire viewport. The button icon and tooltip

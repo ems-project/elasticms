@@ -88,3 +88,22 @@ dialog.ems-dialog .dialog-body.tiptap-dialog-list {
   gap: 8px;
   justify-content: center;
 }
+
+dialog.ems-dialog .dialog-body.tiptap-dialog-dom-inserter {
+  min-width: 420px;
+
+  .tiptap-dom-inserter-input {
+    width: 100%;
+    min-height: 100px;
+    font-family: monospace;
+    font-size: 12px;
+    resize: vertical;
+    box-sizing: border-box;
+  }
+
+  .tiptap-dom-inserter-error {
+    color: var(--danger, #dc3545);
+    font-size: 12px;
+    margin: 4px 0 0;
+  }
+}

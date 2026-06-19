@@ -53,6 +53,8 @@ export default class Tiptap {
         const toolbarHeight = toolbar.offsetHeight || 0
         this.container.style.height = `${height + toolbarHeight}px`
 
+        this.initResizeHandle()
+
         tiptapEditor.tiptap.on('update', () => {
             this.textarea.value = tiptapEditor.getHTML()
 
@@ -60,6 +62,37 @@ export default class Tiptap {
                 const changeEvent = new ChangeEvent(this.textarea)
                 changeEvent.dispatch()
             }
+        })
+    }
+
+    private initResizeHandle() {
+        const handle = document.createElement('div')
+        handle.className = 'wysiwyg-resize-handle'
+        this.container.appendChild(handle)
+
+        let startY = 0
+        let startHeight = 0
+
+        const onMouseMove = (e: MouseEvent) => {
+            const delta = e.clientY - startY
+            const newHeight = Math.max(150, startHeight + delta)
+            this.container.style.height = `${newHeight}px`
+        }
+
+        const onMouseUp = () => {
+            document.removeEventListener('mousemove', onMouseMove)
+            document.removeEventListener('mouseup', onMouseUp)
+            document.body.classList.remove('wysiwyg-resizing')
+        }
+
+        handle.addEventListener('mousedown', (e) => {
+            if (this.isMaximized) return
+            e.preventDefault()
+            startY = e.clientY
+            startHeight = this.container.getBoundingClientRect().height
+            document.body.classList.add('wysiwyg-resizing')
+            document.addEventListener('mousemove', onMouseMove)
+            document.addEventListener('mouseup', onMouseUp)
         })
     }
 

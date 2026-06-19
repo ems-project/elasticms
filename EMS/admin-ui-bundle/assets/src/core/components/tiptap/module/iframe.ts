@@ -35,7 +35,8 @@ export const iframeModule: TiptapModule = {
 function createIframeNode() {
     return Node.create({
         name: 'iframe',
-        group: 'block',
+        group: 'inline',
+        inline: true,
         atom: true,
 
         addAttributes() {
@@ -64,7 +65,7 @@ function createIframeNode() {
             }
             return ['iframe', attrs]
         },
-    });
+    })
 }
 
 function parseEmbedCode(html: string): Record<string, string | boolean> | null {

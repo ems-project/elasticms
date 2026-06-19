@@ -35,11 +35,11 @@ body.wysiwyg-resizing {
     }
 
     &.is-source-mode {
-        .wysiwyg-iframe {
+        .wysiwyg-iframe,
+        .wysiwyg-source-view {
             display: none;
         }
-
-        .wysiwyg-source-view {
+        .wysiwyg-source-container {
             display: block;
         }
     }
@@ -70,6 +70,16 @@ body.wysiwyg-resizing {
         display: block;
         outline: none;
     }
+    .wysiwyg-source-container {
+        display: none;
+        height: 100%;
+
+        .ems-code-editor,
+        .ace_editor {
+            height: 100% !important;
+            width: 100%;
+        }
+    }
 
     .wysiwyg-source-view {
         display: none;
@@ -98,4 +108,14 @@ body.wysiwyg-resizing {
             border-bottom: 2px solid #adb5bd;
         }
     }
+}
+
+.wysiwyg-source-container {
+    display: none;
+}
+.is-source-mode .wysiwyg-source-container {
+    display: block;
+}
+.is-source-mode .wysiwyg-iframe {
+    display: none;
 }

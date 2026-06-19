@@ -176,9 +176,10 @@ extra plugin.
 ### Source
 
 A toggle button that switches between the visual editor and a raw HTML source view. When entering
-source mode, the current HTML is shown in a textarea and all toolbar buttons are disabled except
-Source and Maximize. When leaving source mode, the edited HTML is loaded back into the editor. Only
-available in the WYSIWYG editor, not in the inline editor.
+source mode, the current HTML is formatted and shown in an Ace-based code editor (reusing the
+shared `CodeEditor` component), and all toolbar buttons are disabled except Source and Maximize.
+When leaving source mode, the edited HTML is loaded back into the editor. Only available in the
+WYSIWYG editor, not in the inline editor.
 
 ### Styles
 

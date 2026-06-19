@@ -1,5 +1,5 @@
 import IconMovie from '@tabler/icons/outline/movie.svg?raw'
-import { Node } from '@tiptap/core'
+import { Node, mergeAttributes } from '@tiptap/core'
 import { TiptapModule } from '../types.ts'
 import { TiptapEditor } from '../editor.ts'
 
@@ -32,6 +32,16 @@ export const iframeModule: TiptapModule = {
     },
 }
 
+function stripFalsy(attrs: Record<string, unknown>): Record<string, string> {
+    const result: Record<string, string> = {}
+    for (const [k, v] of Object.entries(attrs)) {
+        if (v !== null && v !== false && v !== '') {
+            result[k] = v === true ? k : String(v)
+        }
+    }
+    return result
+}
+
 function createIframeNode() {
     return Node.create({
         name: 'iframe',
@@ -57,13 +67,19 @@ function createIframeNode() {
         },
 
         renderHTML({ HTMLAttributes }) {
-            const attrs: Record<string, string> = {}
-            for (const [k, v] of Object.entries(HTMLAttributes)) {
-                if (v !== null && v !== false && v !== '') {
-                    attrs[k] = v === true ? k : String(v)
-                }
+            return ['iframe', mergeAttributes(stripFalsy(HTMLAttributes))]
+        },
+
+        addNodeView() {
+            return ({ node }) => {
+                const dom = document.createElement('span')
+                dom.className = 'tiptap-iframe-placeholder'
+                dom.contentEditable = 'false'
+                dom.style.width = (node.attrs.width || 300) + 'px'
+                dom.style.height = (node.attrs.height || 150) + 'px'
+                dom.innerHTML = `<span class="tiptap-iframe-placeholder-icon">🎬</span><span>${node.attrs.title || node.attrs.src || 'Embed'}</span>`
+                return { dom }
             }
-            return ['iframe', attrs]
         },
     })
 }

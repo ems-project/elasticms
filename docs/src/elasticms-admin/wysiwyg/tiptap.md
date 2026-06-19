@@ -109,6 +109,28 @@ inside it.
 - **Special Characters** — opens a character picker dialog. Hovering shows a preview, clicking
   inserts the character.
 
+### Iframe
+
+A toolbar button that lets the user embed external content (e.g. a YouTube video) by pasting an
+`<iframe>` embed code into a dialog. Opt-in via the `iframe` extra plugin.
+
+The dialog contains a textarea where the user pastes the embed snippet. On confirm, the pasted HTML
+is parsed and the `src`, `width`, `height`, `allow`, `title`, `frameborder`, `allowfullscreen`, and
+`referrerpolicy` attributes are extracted and stored on the node. Invalid input (no `<iframe>` with a
+`src`) shows an inline error instead of closing the dialog.
+
+The iframe is an inline node, so it can sit inside a paragraph and inherits the paragraph's text
+alignment (left, center, right). In the editor it is rendered as a non-interactive placeholder —
+sized to match the configured width/height — instead of a live embed, both to avoid loading external
+content while editing and to keep the node properly selectable. The real `<iframe>` is only output
+in the saved HTML.
+
+Right-clicking an existing iframe placeholder reopens the same dialog, pre-filled, to edit it.
+
+The placeholder participates in the editor's normal node selection (click to select) and is also
+highlighted when included in a wider text selection (e.g. select-all), and is labeled when Show
+Blocks is active.
+
 ### Links
 
 Three buttons: Link, Unlink, and Anchor.
@@ -146,9 +168,10 @@ WYSIWYG editor, not in the inline editor.
 ### Show Blocks
 
 A toggle button that visualizes block-level elements in the editor with dotted borders and tag name
-labels (p, h1, div, pre, etc.). Purely visual — does not affect the HTML output. Useful for
-inspecting document structure. The button icon and tooltip switch between "Show Blocks" and "Hide
-Blocks" depending on the current state. Opt-in via the `showblocks` extra plugin.
+labels (p, h1, div, pre, etc.). Also labels the iframe placeholder. Purely visual — does not affect
+the HTML output. Useful for inspecting document structure. The button icon and tooltip switch
+between "Show Blocks" and "Hide Blocks" depending on the current state. Opt-in via the `showblocks`
+extra plugin.
 
 ### Source
 

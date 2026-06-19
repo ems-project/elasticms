@@ -168,11 +168,6 @@ function openIframeDialog(editor: TiptapEditor): void {
 
     dialog
         .addButton({
-            label: editor.trans('button_cancel'),
-            variant: 'secondary',
-            onClick: (d) => d.close()
-        })
-        .addButton({
             label: editor.trans('button_insert'),
             variant: 'primary',
             onClick: (d) => {
@@ -193,6 +188,11 @@ function openIframeDialog(editor: TiptapEditor): void {
                 }
                 d.close()
             }
+        })
+        .addButton({
+            label: editor.trans('button_cancel'),
+            variant: 'secondary',
+            onClick: (d) => d.close()
         })
         .open()
 }

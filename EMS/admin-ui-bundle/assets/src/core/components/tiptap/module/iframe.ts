@@ -79,7 +79,7 @@ function createIframeNode() {
                 dom.contentEditable = 'false'
                 dom.style.width = (node.attrs.width || 300) + 'px'
                 dom.style.height = (node.attrs.height || 150) + 'px'
-                dom.innerHTML = `<span class="tiptap-iframe-placeholder-icon">🎬</span><span>${node.attrs.title || node.attrs.src || 'Embed'}</span>`
+                dom.innerHTML = `<span class="tiptap-iframe-placeholder-icon">${IconMovie}</span><span>${node.attrs.title || node.attrs.src || 'Embed'}</span>`
                 return { dom }
             }
         },

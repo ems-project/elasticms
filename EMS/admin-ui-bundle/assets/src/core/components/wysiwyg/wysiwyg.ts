@@ -19,6 +19,7 @@ export class WysiwygProfile {
             browser_file?: { url: string; label: string }
             browser_image?: { url: string; label: string }
         }
+        translations?: Record<string, Record<string, string>>
     } & CkeditorConfig = {
         emsBrowsers: undefined,
         ems: undefined,

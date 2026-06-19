@@ -1,5 +1,7 @@
 import IconMovie from '@tabler/icons/outline/movie.svg?raw'
 import { Node, mergeAttributes } from '@tiptap/core'
+import { Plugin, PluginKey } from '@tiptap/pm/state'
+import { Decoration, DecorationSet } from '@tiptap/pm/view'
 import { TiptapModule } from '../types.ts'
 import { TiptapEditor } from '../editor.ts'
 
@@ -80,6 +82,33 @@ function createIframeNode() {
                 dom.innerHTML = `<span class="tiptap-iframe-placeholder-icon">🎬</span><span>${node.attrs.title || node.attrs.src || 'Embed'}</span>`
                 return { dom }
             }
+        },
+
+        addProseMirrorPlugins() {
+            const key = new PluginKey('iframeSelectionHighlight')
+            return [
+                new Plugin({
+                    key,
+                    props: {
+                        decorations: (state) => {
+                            const { from, to, empty } = state.selection
+                            if (empty) return null
+
+                            const decorations: Decoration[] = []
+                            state.doc.nodesBetween(from, to, (node, pos) => {
+                                if (node.type.name === 'iframe') {
+                                    decorations.push(
+                                        Decoration.node(pos, pos + node.nodeSize, {
+                                            class: 'is-in-selection'
+                                        })
+                                    )
+                                }
+                            })
+                            return DecorationSet.create(state.doc, decorations)
+                        }
+                    }
+                })
+            ]
         }
     })
 }

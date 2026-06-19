@@ -71,10 +71,10 @@ export function createDropdown(editor: TiptapEditor, config: DropdownConfig): Dr
     const bindItemEvents = (root: HTMLElement) => {
         root.addEventListener('mousedown', (e) => {
             const target = e.target as HTMLElement
-            const li = target.closest('li')
-            if (!li?.dataset.name) return
+            const item = target.closest<HTMLElement>('[data-name]')
+            if (!item?.dataset.name) return
             e.preventDefault()
-            config.onItemClick(li.dataset.name)
+            config.onItemClick(item.dataset.name)
             hide()
         })
     }
@@ -134,8 +134,9 @@ export function createDropdown(editor: TiptapEditor, config: DropdownConfig): Dr
 
     const handleOutsideClick = (e: MouseEvent) => {
         const target = e.target as HTMLElement
-        if (target.closest('[data-keep-open-on-blur]')) return
-        if (panel && !panel.contains(target) && !button.contains(target)) hide()
+        if (!panel || panel.hidden) return
+        if (panel.contains(target) || button.contains(target)) return
+        hide()
     }
 
     const onBlur = () => {

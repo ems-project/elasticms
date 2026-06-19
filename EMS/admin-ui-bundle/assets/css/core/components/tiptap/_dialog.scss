@@ -17,8 +17,10 @@ dialog.ems-dialog .tiptap-dialog-color {
     cursor: pointer;
     box-sizing: border-box;
     border: 1px solid transparent;
+    outline: none;
 
-    &:hover {
+    &:hover,
+    &:focus-visible {
       border-color: #000;
       outline: 1px solid #fff;
       outline-offset: -2px;

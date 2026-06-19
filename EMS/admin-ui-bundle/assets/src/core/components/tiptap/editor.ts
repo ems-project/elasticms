@@ -37,7 +37,7 @@ export class TiptapEditor {
         this.docParent = this.options.parent ?? document
         this.profile = options.wysiwygProfile ?? new WysiwygProfile()
 
-        options.element.classList = 'wysiwyg-content';
+        options.element.classList = 'wysiwyg-content'
 
         const lang = this.options.wysiwygOptions?.lang ?? 'en'
         this.locale = isTransLocale(lang) ? lang : 'en'
@@ -74,7 +74,8 @@ export class TiptapEditor {
         return new Dialog(this.trans(title), {
             draggable: true,
             closeLabel: this.trans('modal_close'),
-            bodyClass
+            bodyClass,
+            doc: this.docParent
         })
     }
 

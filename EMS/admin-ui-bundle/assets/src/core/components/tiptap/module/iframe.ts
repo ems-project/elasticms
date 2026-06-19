@@ -3,17 +3,18 @@ import { Node } from '@tiptap/core'
 import { TiptapModule } from '../types.ts'
 import { TiptapEditor } from '../editor.ts'
 
-export const domInserterModule: TiptapModule = {
+export const iframeModule: TiptapModule = {
     extensions: [createIframeNode()],
+    isEnabled: (wysiwygProfile) => wysiwygProfile.hasPlugin('iframe'),
     toolbar: {
         group: 'insert',
         items: [
             {
-                name: 'DomInserter',
+                name: 'Iframe',
                 icon: IconMovie,
-                tooltip: 'dom_inserter_insert',
+                tooltip: 'iframe_insert',
                 order: 5,
-                command: (editor: TiptapEditor) => openDomInserterDialog(editor),
+                command: (editor: TiptapEditor) => openIframeDialog(editor),
                 isActive: (editor: TiptapEditor) => editor.tiptap.isActive('iframe'),
             },
         ],
@@ -22,10 +23,10 @@ export const domInserterModule: TiptapModule = {
         node: 'iframe',
         items: [
             {
-                label: 'dom_inserter_edit',
+                label: 'iframe_edit',
                 icon: IconMovie,
                 order: 0,
-                command: (editor: TiptapEditor) => openDomInserterDialog(editor),
+                command: (editor: TiptapEditor) => openIframeDialog(editor),
             },
         ],
     },
@@ -83,18 +84,18 @@ function parseEmbedCode(html: string): Record<string, string | boolean> | null {
     return result
 }
 
-function openDomInserterDialog(editor: TiptapEditor): void {
+function openIframeDialog(editor: TiptapEditor): void {
     const existing = editor.tiptap.getAttributes('iframe')
     const isEdit = !!existing.src
 
     const dialog = editor.createDialog(
-        isEdit ? 'dom_inserter_edit' : 'dom_inserter_insert',
-        'tiptap-dialog-dom-inserter'
+        isEdit ? 'iframe_edit' : 'iframe_insert',
+        'tiptap-dialog-iframe'
     )
 
     const textarea = document.createElement('textarea')
-    textarea.className = 'tiptap-dom-inserter-input'
-    textarea.placeholder = editor.trans('dom_inserter_placeholder')
+    textarea.className = 'tiptap-iframe-input'
+    textarea.placeholder = editor.trans('iframe_placeholder')
     textarea.rows = 5
 
     if (isEdit) {
@@ -111,9 +112,9 @@ function openDomInserterDialog(editor: TiptapEditor): void {
     }
 
     const error = document.createElement('p')
-    error.className = 'tiptap-dom-inserter-error'
+    error.className = 'tiptap-iframe-error'
     error.hidden = true
-    error.textContent = editor.trans('dom_inserter_invalid')
+    error.textContent = editor.trans('iframe_invalid')
 
     dialog.body.appendChild(textarea)
     dialog.body.appendChild(error)

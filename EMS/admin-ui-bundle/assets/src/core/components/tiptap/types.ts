@@ -20,7 +20,7 @@ import { divModule } from './module/div.ts'
 import { TranslationKey } from './translations.ts'
 import { findReplaceModule } from './module/find.ts'
 import { colorModule } from './module/color.ts'
-import { domInserterModule } from './module/domInserter.ts'
+import { iframeModule } from './module/iframe.ts'
 
 export const Modules: TiptapModule[] = [
     anchorModule,
@@ -28,7 +28,7 @@ export const Modules: TiptapModule[] = [
     cleanupModule,
     colorModule,
     divModule,
-    domInserterModule,
+    iframeModule,
     findReplaceModule,
     formatModule,
     historyModule,

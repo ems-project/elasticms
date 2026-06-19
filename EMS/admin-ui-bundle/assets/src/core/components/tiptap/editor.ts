@@ -109,9 +109,9 @@ export class TiptapEditor {
     }
 
     destroy() {
-        this.tiptap.destroy()
-        this.toolbar.destroy()
         this.menu.destroy()
+        this.toolbar.destroy()
+        this.tiptap.destroy()
         this.options.element.innerHTML = ''
     }
 

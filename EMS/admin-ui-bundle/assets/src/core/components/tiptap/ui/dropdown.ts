@@ -149,6 +149,7 @@ export function createDropdown(editor: TiptapEditor, config: DropdownConfig): Dr
     }
 
     doc.addEventListener('mousedown', handleOutsideClick)
+    editor.docEditor.addEventListener('mousedown', handleOutsideClick)
     doc.addEventListener('keydown', onEscape)
     window.addEventListener('blur', onBlur)
     window.addEventListener('resize', hide)
@@ -188,6 +189,7 @@ export function createDropdown(editor: TiptapEditor, config: DropdownConfig): Dr
         destroy() {
             panel?.remove()
             doc.removeEventListener('mousedown', handleOutsideClick)
+            editor.docEditor.removeEventListener('mousedown', handleOutsideClick)
             doc.removeEventListener('keydown', onEscape)
             window.removeEventListener('resize', hide)
             window.removeEventListener('scroll', hide, true)

@@ -36,7 +36,7 @@ export class Toolbar {
     }
 
     mount(target: HTMLElement) {
-        this.build()
+        if (!this.container.children.length) this.build()
         target.appendChild(this.container)
         this.update()
     }

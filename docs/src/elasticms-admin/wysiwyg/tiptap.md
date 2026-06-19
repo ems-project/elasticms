@@ -297,6 +297,8 @@ The editor adapts to different use cases through a `WysiwygProfile`. The profile
 - **Translation overrides** — via `translations`, overrides specific UI translation keys per locale
   (e.g. `{ nl: { button_apply: 'Toepassen' } }`). Unknown keys are silently ignored; falls back to
   the built-in translation when no override is set.
+- **Custom CSS** — content styling is applied by targeting the `.wysiwyg-content` class. This works
+  consistently across the preview, the Tiptap iframe editor, and the Tiptap inline editor.
 
 Modules can implement an `isEnabled` check that reads the profile to decide whether they should be
 loaded at all.

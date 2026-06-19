@@ -15,9 +15,9 @@ export const iframeModule: TiptapModule = {
                 tooltip: 'iframe_insert',
                 order: 5,
                 command: (editor: TiptapEditor) => openIframeDialog(editor),
-                isActive: (editor: TiptapEditor) => editor.tiptap.isActive('iframe'),
-            },
-        ],
+                isActive: (editor: TiptapEditor) => editor.tiptap.isActive('iframe')
+            }
+        ]
     },
     contextMenu: {
         node: 'iframe',
@@ -26,10 +26,10 @@ export const iframeModule: TiptapModule = {
                 label: 'iframe_edit',
                 icon: IconMovie,
                 order: 0,
-                command: (editor: TiptapEditor) => openIframeDialog(editor),
-            },
-        ],
-    },
+                command: (editor: TiptapEditor) => openIframeDialog(editor)
+            }
+        ]
+    }
 }
 
 function stripFalsy(attrs: Record<string, unknown>): Record<string, string> {
@@ -58,7 +58,7 @@ function createIframeNode() {
                 allowfullscreen: { default: false },
                 title: { default: null },
                 frameborder: { default: null },
-                referrerpolicy: { default: null },
+                referrerpolicy: { default: null }
             }
         },
 
@@ -80,7 +80,7 @@ function createIframeNode() {
                 dom.innerHTML = `<span class="tiptap-iframe-placeholder-icon">🎬</span><span>${node.attrs.title || node.attrs.src || 'Embed'}</span>`
                 return { dom }
             }
-        },
+        }
     })
 }
 
@@ -95,7 +95,8 @@ function parseEmbedCode(html: string): Record<string, string | boolean> | null {
     if (iframe.getAttribute('allow')) result.allow = iframe.getAttribute('allow')!
     if (iframe.getAttribute('title')) result.title = iframe.getAttribute('title')!
     if (iframe.getAttribute('frameborder')) result.frameborder = iframe.getAttribute('frameborder')!
-    if (iframe.getAttribute('referrerpolicy')) result.referrerpolicy = iframe.getAttribute('referrerpolicy')!
+    if (iframe.getAttribute('referrerpolicy'))
+        result.referrerpolicy = iframe.getAttribute('referrerpolicy')!
     result.allowfullscreen = iframe.hasAttribute('allowfullscreen')
 
     return result
@@ -140,7 +141,7 @@ function openIframeDialog(editor: TiptapEditor): void {
         .addButton({
             label: editor.trans('button_cancel'),
             variant: 'secondary',
-            onClick: (d) => d.close(),
+            onClick: (d) => d.close()
         })
         .addButton({
             label: editor.trans('button_insert'),
@@ -155,10 +156,14 @@ function openIframeDialog(editor: TiptapEditor): void {
                 if (isEdit) {
                     editor.tiptap.chain().focus().updateAttributes('iframe', parsed).run()
                 } else {
-                    editor.tiptap.chain().focus().insertContent({ type: 'iframe', attrs: parsed }).run()
+                    editor.tiptap
+                        .chain()
+                        .focus()
+                        .insertContent({ type: 'iframe', attrs: parsed })
+                        .run()
                 }
                 d.close()
-            },
+            }
         })
         .open()
 }

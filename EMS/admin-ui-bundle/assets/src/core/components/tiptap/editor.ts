@@ -77,7 +77,7 @@ export class TiptapEditor {
     }
 
     trans(key: TranslationKey): string {
-        return trans(this.locale, key).replace('{mod}', this.mod)
+        return trans(this.locale, key, this.profile.config.translations).replace('{mod}', this.mod)
     }
 
     getWysiwygOptions(): null | WysiwygOptions {

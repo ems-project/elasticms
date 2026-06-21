@@ -264,8 +264,8 @@ final readonly class ElasticmsMcpToolDataService extends AbstractElasticmsMcpToo
     }
 
     /**
-     * @param array<string, mixed> $properties
-     * @param array<int, string>   $required
+     * @param array<mixed>       $properties
+     * @param array<int, string> $required
      */
     private function appendFieldSchema(FieldType $fieldType, array &$properties, array &$required, bool $filterEditableFields = true, bool $includeRequired = true): void
     {

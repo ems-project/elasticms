@@ -10,15 +10,23 @@ body.wysiwyg-maximized-active {
     }
 }
 
+body.wysiwyg-resizing {
+    user-select: none;
+
+    .wysiwyg-iframe {
+        pointer-events: none;
+    }
+}
+
 .wysiwyg-container {
     display: flex;
     flex-direction: column;
     border: 1px solid #ced4da;
     border-radius: 4px;
     background: #fff;
-    resize: vertical;
     overflow: hidden;
     min-height: 150px;
+    position: relative;
 
     .wysiwyg-toolbar {
         background-color: #f8f9fa;
@@ -27,11 +35,11 @@ body.wysiwyg-maximized-active {
     }
 
     &.is-source-mode {
-        .wysiwyg-iframe {
+        .wysiwyg-iframe,
+        .wysiwyg-source-view {
             display: none;
         }
-
-        .wysiwyg-source-view {
+        .wysiwyg-source-container {
             display: block;
         }
     }
@@ -44,8 +52,11 @@ body.wysiwyg-maximized-active {
         height: 100vh !important;
         z-index: 99999;
         border-radius: 0;
-        resize: none;
         overflow: hidden;
+
+        .wysiwyg-resize-handle {
+            display: none;
+        }
     }
 
     .wysiwyg-iframe,
@@ -59,6 +70,16 @@ body.wysiwyg-maximized-active {
         display: block;
         outline: none;
     }
+    .wysiwyg-source-container {
+        display: none;
+        height: 100%;
+
+        .ems-code-editor,
+        .ace_editor {
+            height: 100% !important;
+            width: 100%;
+        }
+    }
 
     .wysiwyg-source-view {
         display: none;
@@ -66,4 +87,35 @@ body.wysiwyg-maximized-active {
         font-family: 'Courier New', monospace;
         box-sizing: border-box;
     }
+
+    .wysiwyg-resize-handle {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 16px;
+        height: 16px;
+        cursor: ns-resize;
+        z-index: 10;
+
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: 3px;
+            right: 3px;
+            width: 8px;
+            height: 8px;
+            border-right: 2px solid #adb5bd;
+            border-bottom: 2px solid #adb5bd;
+        }
+    }
+}
+
+.wysiwyg-source-container {
+    display: none;
+}
+.is-source-mode .wysiwyg-source-container {
+    display: block;
+}
+.is-source-mode .wysiwyg-iframe {
+    display: none;
 }

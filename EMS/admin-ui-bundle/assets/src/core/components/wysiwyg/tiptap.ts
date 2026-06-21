@@ -9,6 +9,9 @@ import IconSourceOff from '@tabler/icons/outline/code-off.svg?raw'
 import IconMaximize from '@tabler/icons/outline/arrows-maximize.svg?raw'
 import IconMinimize from '@tabler/icons/outline/arrows-minimize.svg?raw'
 import { getWysiwygOptions, getWysiwygProfile, WysiwygOptions } from './wysiwyg.ts'
+import CodeEditor from '../../plugins/codeEditor.ts'
+import { escapeHtml } from '../tiptap/helper.ts'
+import { html as beautifyHtml } from 'js-beautify'
 
 export default class Tiptap {
     textarea: HTMLTextAreaElement
@@ -17,6 +20,9 @@ export default class Tiptap {
     isMaximized: boolean = false
     container: HTMLDivElement
     wysiwygOptions: WysiwygOptions
+
+    private codeEditor = new CodeEditor()
+    private sourceContainer: HTMLDivElement = document.createElement('div')
 
     constructor(element: HTMLTextAreaElement) {
         this.textarea = element
@@ -39,6 +45,9 @@ export default class Tiptap {
         this.container.appendChild(this.textarea)
         this.textarea.classList.add('wysiwyg-source-view')
 
+        this.sourceContainer.className = 'wysiwyg-source-container'
+        this.container.appendChild(this.sourceContainer)
+
         const mount = await this.createIframe()
 
         const tiptapEditor = new TiptapEditor({
@@ -53,6 +62,8 @@ export default class Tiptap {
         const toolbarHeight = toolbar.offsetHeight || 0
         this.container.style.height = `${height + toolbarHeight}px`
 
+        this.initResizeHandle()
+
         tiptapEditor.tiptap.on('update', () => {
             this.textarea.value = tiptapEditor.getHTML()
 
@@ -60,6 +71,37 @@ export default class Tiptap {
                 const changeEvent = new ChangeEvent(this.textarea)
                 changeEvent.dispatch()
             }
+        })
+    }
+
+    private initResizeHandle() {
+        const handle = document.createElement('div')
+        handle.className = 'wysiwyg-resize-handle'
+        this.container.appendChild(handle)
+
+        let startY = 0
+        let startHeight = 0
+
+        const onMouseMove = (e: MouseEvent) => {
+            const delta = e.clientY - startY
+            const newHeight = Math.max(150, startHeight + delta)
+            this.container.style.height = `${newHeight}px`
+        }
+
+        const onMouseUp = () => {
+            document.removeEventListener('mousemove', onMouseMove)
+            document.removeEventListener('mouseup', onMouseUp)
+            document.body.classList.remove('wysiwyg-resizing')
+        }
+
+        handle.addEventListener('mousedown', (e) => {
+            if (this.isMaximized) return
+            e.preventDefault()
+            startY = e.clientY
+            startHeight = this.container.getBoundingClientRect().height
+            document.body.classList.add('wysiwyg-resizing')
+            document.addEventListener('mousemove', onMouseMove)
+            document.addEventListener('mouseup', onMouseUp)
         })
     }
 
@@ -124,10 +166,21 @@ export default class Tiptap {
                             }
 
                             if (this.isSourceView) {
-                                this.textarea.value = tiptapEditor.getHTML()
+                                const html = beautifyHtml(tiptapEditor.getHTML(), {
+                                    indent_size: 2
+                                })
+                                this.sourceContainer.innerHTML = `
+        <div class="ems-code-editor" data-language="ace/mode/html" data-max-lines="100000" data-min-lines="1">
+            <input type="hidden" value="${escapeHtml(html)}" />
+            <pre>${escapeHtml(html)}</pre>
+        </div>
+    `
+                                void this.codeEditor.load(this.sourceContainer)
                                 tiptapEditor.toolbar.setDisabled(true, ['Source', 'Maximize'])
                             } else {
-                                tiptapEditor.setContent(this.textarea.value)
+                                const hiddenInput = this.sourceContainer.querySelector('input')
+                                tiptapEditor.setContent(hiddenInput?.value ?? '')
+                                this.sourceContainer.innerHTML = ''
                                 tiptapEditor.toolbar.setDisabled(false, ['Source', 'Maximize'])
                             }
                         }

@@ -239,7 +239,7 @@ demo: ## make new demo
 	@$(RUN_ADMIN) emsco:user:add-group demo admins
 	@$(RUN_ADMIN) emsch:local:login demo demo
 	@$(RUN_ADMIN) emsch:local:push --force
-	@$(RUN_ADMIN) emsch:local:upload --filename=./demo/skeleton/template/asset_hash.twig
+	@$(RUN_ADMIN) emsch:local:upload --filename=./demo/skeleton/template/asset_hash.twig --as-style-set-assets
 	@$(RUN_ADMIN) emsch:local:folder-upload ./demo/configs/admin/assets
 	@$(RUN_ADMIN) ems:admin:restore --documents-folder=./demo/configs/document --documents --force
 	@$(RUN_ADMIN) ems:environment:align preview live --force --no-debug

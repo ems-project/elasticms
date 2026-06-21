@@ -72,7 +72,10 @@ html, body {
     position: relative;
   }
 
-  table td > p, table th > p { margin-bottom: 0 }
+  table td > p, table th > p {
+    margin: 0;
+    line-height: inherit;
+  }
 
   table td.selectedCell:after,
   table th.selectedCell:after {
@@ -85,15 +88,6 @@ html, body {
     bottom: 0;
     background: rgba(200, 200, 255, 0.4);
     pointer-events: none;
-  }
-
-  table[cellspacing] {
-    border-collapse: separate;
-  }
-
-  table:not([cellpadding]) td,
-  table:not([cellpadding]) th {
-    padding: 3px 5px;
   }
 
   table:not([class]) {
@@ -111,6 +105,15 @@ html, body {
 
     &[align="right"] {
       margin: 0 0 0 auto;
+    }
+
+    &[cellspacing] {
+      border-collapse: separate;
+    }
+
+    &:not([cellpadding]) td,
+    &:not([cellpadding]) th {
+      padding: 3px 5px;
     }
 
     tr {
@@ -134,6 +137,35 @@ html, body {
       background-color: #f8f9fa;
     }
   }
+}
+
+.tiptap-iframe-placeholder {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px dashed var(--tiptap-border-color, #ccc);
+  border-radius: 4px;
+  background: var(--tiptap-bg-subtle, #f5f5f5);
+  cursor: default;
+  user-select: none;
+  box-sizing: border-box;
+  vertical-align: top;
+
+  &.ProseMirror-selectednode {
+    outline: 2px solid var(--tiptap-accent, #228be6);
+    outline-offset: 2px;
+  }
+
+  &.is-in-selection {
+    outline: 2px solid var(--tiptap-accent, #228be6);
+    outline-offset: 2px;
+    background: rgba(34, 139, 230, 0.15);
+  }
+}
+
+.tiptap-iframe-placeholder-icon {
+  font-size: 14px;
 }
 
 .tiptap-show-blocks {
@@ -180,4 +212,24 @@ html, body {
   pre::before { content: 'pre'; }
   address::before { content: 'address'; }
   blockquote::before { content: 'blockquote'; }
+
+  .tiptap-iframe-placeholder {
+    position: relative;
+    border: 1px dotted #ccc;
+
+    &::before {
+      content: 'iframe';
+      position: absolute;
+      top: 0;
+      left: 0;
+      font-size: 10px;
+      font-family: monospace;
+      line-height: 1;
+      padding: 1px 4px;
+      background: #e9ecef;
+      color: #666;
+      border-bottom: 1px dotted #ccc;
+      border-right: 1px dotted #ccc;
+    }
+  }
 }

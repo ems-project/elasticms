@@ -1,0 +1,16 @@
+.ProseMirror {
+  td, th {
+    line-height: var(--bs-body-line-height);
+  }
+
+  figure[data-type="table"] {
+    margin-bottom: 2rem;
+
+    > figcaption {
+      padding-top: .5rem;
+      padding-bottom: .5rem;
+      color: var(--bs-secondary-color);
+      text-align: left
+    }
+  }
+}

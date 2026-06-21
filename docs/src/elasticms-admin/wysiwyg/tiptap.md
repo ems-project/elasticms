@@ -18,6 +18,22 @@ Bold, italic, and strikethrough are always available. Subscript and superscript 
 A "Remove Format" button that strips all formatting from the selection. Resets styled blocks back to
 paragraphs. Preserves anchors and links. Disabled when the selection has no removable formatting.
 
+### Colors
+
+Two toolbar buttons: **Text Color** and **Background Color**.
+
+Each button opens a dropdown with:
+
+- An **Automatic** option that removes the active color.
+- A grid of **predefined colors**. Configurable via `colorButton_colors` in the wysiwyg profile — either a
+  comma-separated string of hex values (with or without `#`) or an array of hex strings. Falls back to a built-in
+  palette of 24 colors when not configured.
+- A grid of **active colors** — colors currently used in the document combined with colors previously selected in this
+  session. Hidden when empty.
+- A **More colors** button that opens a color picker dialog with a web-safe palette and a native color input.
+
+Color names are fully translated into English, Dutch, French and German for all predefined colors.
+
 ### Div Container
 
 A toolbar button and context menu for wrapping content in `<div>` elements. Opt-in via the `div`
@@ -93,6 +109,28 @@ inside it.
 - **Special Characters** — opens a character picker dialog. Hovering shows a preview, clicking
   inserts the character.
 
+### Iframe
+
+A toolbar button that lets the user embed external content (e.g. a YouTube video) by pasting an
+`<iframe>` embed code into a dialog. Opt-in via the `iframe` extra plugin.
+
+The dialog contains a textarea where the user pastes the embed snippet. On confirm, the pasted HTML
+is parsed and the `src`, `width`, `height`, `allow`, `title`, `frameborder`, `allowfullscreen`, and
+`referrerpolicy` attributes are extracted and stored on the node. Invalid input (no `<iframe>` with a
+`src`) shows an inline error instead of closing the dialog.
+
+The iframe is an inline node, so it can sit inside a paragraph and inherits the paragraph's text
+alignment (left, center, right). In the editor it is rendered as a non-interactive placeholder —
+sized to match the configured width/height — instead of a live embed, both to avoid loading external
+content while editing and to keep the node properly selectable. The real `<iframe>` is only output
+in the saved HTML.
+
+Right-clicking an existing iframe placeholder reopens the same dialog, pre-filled, to edit it.
+
+The placeholder participates in the editor's normal node selection (click to select) and is also
+highlighted when included in a wider text selection (e.g. select-all), and is labeled when Show
+Blocks is active.
+
 ### Links
 
 Three buttons: Link, Unlink, and Anchor.
@@ -115,6 +153,12 @@ Anchors and links are preserved by the Remove Format action.
 
 Ordered (numbered) and unordered (bulleted) lists.
 
+Right-clicking a bulleted list opens a properties dialog to configure the list marker type: circle, disc, or square.
+
+Right-clicking a numbered list opens a properties dialog to configure the start number and list type: numbers (1, 2, 3),
+lowercase letters (a, b, c), uppercase letters (A, B, C), lowercase Roman numerals (i, ii, iii), or uppercase Roman
+numerals (I, II, III).
+
 ### Maximize
 
 A toggle button that expands the editor to fill the entire viewport. The button icon and tooltip
@@ -124,16 +168,18 @@ WYSIWYG editor, not in the inline editor.
 ### Show Blocks
 
 A toggle button that visualizes block-level elements in the editor with dotted borders and tag name
-labels (p, h1, div, pre, etc.). Purely visual — does not affect the HTML output. Useful for
-inspecting document structure. The button icon and tooltip switch between "Show Blocks" and "Hide
-Blocks" depending on the current state. Opt-in via the `showblocks` extra plugin.
+labels (p, h1, div, pre, etc.). Also labels the iframe placeholder. Purely visual — does not affect
+the HTML output. Useful for inspecting document structure. The button icon and tooltip switch
+between "Show Blocks" and "Hide Blocks" depending on the current state. Opt-in via the `showblocks`
+extra plugin.
 
 ### Source
 
 A toggle button that switches between the visual editor and a raw HTML source view. When entering
-source mode, the current HTML is shown in a textarea and all toolbar buttons are disabled except
-Source and Maximize. When leaving source mode, the edited HTML is loaded back into the editor. Only
-available in the WYSIWYG editor, not in the inline editor.
+source mode, the current HTML is formatted and shown in an Ace-based code editor (reusing the
+shared `CodeEditor` component), and all toolbar buttons are disabled except Source and Maximize.
+When leaving source mode, the edited HTML is loaded back into the editor. Only available in the
+WYSIWYG editor, not in the inline editor.
 
 ### Styles
 
@@ -246,6 +292,20 @@ The editor adapts to different use cases through a `WysiwygProfile`. The profile
   phone) the link dialog offers.
 - **Default `_blank` target** — via `ems.urlTargetDefaultBlank`, pre-selects `_blank` as the target
   for new links of the listed types.
+- **Ajax paste endpoint** — via `ems.paste`, intercepts pasted HTML and sends it to the configured
+  URL for sanitization and/or formatting before inserting it into the editor.
 
 Modules can implement an `isEnabled` check that reads the profile to decide whether they should be
 loaded at all.
+
+### Ajax Paste
+
+When `ems.paste` is configured in the wysiwyg profile, pasted HTML is intercepted and sent to
+that endpoint before being inserted into the editor. The endpoint sanitizes and/or pretty-prints the
+HTML content.
+
+On paste, the raw clipboard HTML is posted as JSON (`{ content: string }`) to the configured URL.
+The endpoint is expected to return JSON with a `content` field containing the cleaned HTML. The
+response is then parsed by ProseMirror and inserted at the current selection.
+
+If `ems.paste` is not set, paste behaviour is unchanged.

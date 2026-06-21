@@ -3,12 +3,13 @@ import { TiptapEditor } from '../editor.ts'
 import { CkeditorStyle } from '../../wysiwyg/ckeditorConfig.ts'
 import { Extension, Mark, mergeAttributes } from '@tiptap/core'
 import { BLOCK_NODES, ExtensionType } from './../extensions.ts'
-import { createIframeDropdown, IframeDropdown } from './../ui/iframeDropdown.ts'
+import { createDropdown, Dropdown } from './../ui/dropdown.ts'
 import stylesIframeCss from './../../../../../css/core/components/tiptap/_menu_styles.scss?inline'
 import Heading from '@tiptap/extension-heading'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 
 type StyleGroup = {
+    key: string
     label: string
     styles: CkeditorStyle[]
 }
@@ -20,7 +21,7 @@ type StyleCategories = {
 }
 
 type EditorState = {
-    dropdown: IframeDropdown
+    dropdown: Dropdown
     cleanup: () => void
 }
 
@@ -283,13 +284,30 @@ function isInsideList(editor: TiptapEditor): boolean {
 // ─── Active state detection ──────────────────────────────────
 
 function isStyleActive(editor: TiptapEditor, style: CkeditorStyle): boolean {
-    const node = editor.tiptap.state.selection.$from.node()
+    const { $from } = editor.tiptap.state.selection
+
+    if (style.element === 'div') {
+        for (let d = $from.depth; d > 0; d--) {
+            const node = $from.node(d)
+            if (node.type.name !== 'div') continue
+            const cls = style.attributes?.class || null
+            const st = stylesToString(style.styles) || null
+            if (
+                node.attrs.htmlClass === cls &&
+                normalizeStyle(node.attrs.htmlStyle) === normalizeStyle(st)
+            ) {
+                return true
+            }
+        }
+        return false
+    }
+
+    const node = $from.node()
     const activeElement = resolveActiveElement(editor)
     const appliedAs = resolveAppliedAs(style.element)
     const inList = isInsideList(editor)
     const matches =
         appliedAs === activeElement || (inList && appliedAs === 'div' && activeElement === 'p')
-
     if (!matches) return false
 
     const cls = style.attributes?.class || null
@@ -483,14 +501,31 @@ function applyDivStyle(
             .updateAttributes('paragraph', { htmlStyle, htmlClass })
             .setMeta('applyStyle', true)
             .run()
-    } else {
-        editor.tiptap
-            .chain()
-            .focus()
-            .wrapIn('div', { htmlStyle, htmlClass })
-            .setMeta('applyStyle', true)
-            .run()
+        return
     }
+
+    const { $from } = editor.tiptap.state.selection
+    for (let d = $from.depth; d > 0; d--) {
+        if ($from.node(d).type.name === 'div') {
+            editor.tiptap.view.dispatch(
+                editor.tiptap.state.tr
+                    .setNodeMarkup($from.before(d), undefined, {
+                        ...$from.node(d).attrs,
+                        htmlStyle,
+                        htmlClass
+                    })
+                    .setMeta('applyStyle', true)
+            )
+            return
+        }
+    }
+
+    editor.tiptap
+        .chain()
+        .focus()
+        .wrapIn('div', { htmlStyle, htmlClass })
+        .setMeta('applyStyle', true)
+        .run()
 }
 
 // ─── Panel rendering ─────────────────────────────────────────
@@ -500,25 +535,30 @@ function buildStyleItem(s: CkeditorStyle): string {
         return `<li data-name="${s.name}"><span>${s.name}</span></li>`
     }
 
-    const cls = s.attributes?.class ? ` class="${s.attributes.class}"` : ''
-    const style = stylesToString(s.styles)
-    const styleAttr = style ? ` style="${style}"` : ''
+    const attrs = Object.entries(s.attributes ?? {})
+        .filter(([k]) => k !== 'style')
+        .map(([k, v]) => ` ${k}="${v}"`)
+        .join('')
 
-    return `<li data-name="${s.name}"><${s.element}${cls}${styleAttr}>${s.name}</${s.element}></li>`
+    const styleParts = [stylesToString(s.styles), s.attributes?.style ?? '']
+        .filter(Boolean)
+        .join(';')
+    const styleAttr = styleParts ? ` style="${styleParts}"` : ''
+
+    return `<li data-name="${s.name}"><${s.element}${attrs}${styleAttr}>${s.name}</${s.element}></li>`
 }
 
 function buildStyleGroup(group: StyleGroup): string {
     const items = group.styles.map(buildStyleItem).join('')
-
     return `
-        <div class="style-group" data-group="${group.label}">
+        <div class="style-group" data-group="${group.key}">
             <div class="style-group-label">${group.label}</div>
             <ul class="style-list">${items}</ul>
         </div>`
 }
 
-function syncActive(editor: TiptapEditor, doc: Document, styles: CkeditorStyle[]): void {
-    doc.querySelectorAll<HTMLLIElement>('li').forEach((li) => {
+function syncActive(editor: TiptapEditor, root: HTMLElement, styles: CkeditorStyle[]): void {
+    root.querySelectorAll<HTMLLIElement>('li').forEach((li) => {
         const style = styles.find((s) => s.name === li.dataset.name)
         if (!style) return
         li.classList.toggle('active', isAnyStyleActive(editor, style))
@@ -527,23 +567,23 @@ function syncActive(editor: TiptapEditor, doc: Document, styles: CkeditorStyle[]
 
 function updateVisibleGroups(
     editor: TiptapEditor,
-    doc: Document,
+    root: HTMLElement,
     categories: StyleCategories
 ): void {
     const activeObjects = getActiveObjectElements(editor)
 
-    doc.querySelectorAll('.style-group').forEach((group) => {
+    root.querySelectorAll('.style-group').forEach((group) => {
         const label = (group as HTMLElement).dataset.group
         let visible = false
 
-        if (label === 'Block Styles') visible = categories.block.length > 0
-        else if (label === 'Inline Styles') visible = categories.inline.length > 0
-        else if (label === 'Object Styles')
+        if (label === 'styles_block') visible = categories.block.length > 0
+        else if (label === 'styles_inline') visible = categories.inline.length > 0
+        else if (label === 'styles_object')
             visible = categories.object.some((s) => activeObjects.has(s.element))
 
         group.classList.toggle('visible', visible)
 
-        if (label === 'Object Styles') {
+        if (label === 'styles_object') {
             group.querySelectorAll('li').forEach((li) => {
                 const style = categories.object.find((s) => s.name === li.dataset.name)
                 ;(li as HTMLElement).style.display =
@@ -562,25 +602,27 @@ function createStylesDropdown(editor: TiptapEditor): HTMLElement {
     const styleMap = new Map(allStyles.map((s) => [s.name, s]))
 
     const groups: StyleGroup[] = [
-        { label: 'Object Styles', styles: categories.object },
-        { label: 'Block Styles', styles: categories.block },
-        { label: 'Inline Styles', styles: categories.inline }
+        { key: 'styles_object', label: editor.trans('styles_object'), styles: categories.object },
+        { key: 'styles_block', label: editor.trans('styles_block'), styles: categories.block },
+        { key: 'styles_inline', label: editor.trans('styles_inline'), styles: categories.inline }
     ].filter((g) => g.styles.length > 0)
 
-    const dropdown = createIframeDropdown(editor, {
+    const dropdown = createDropdown(editor, {
         prefix: 'styles',
         css: stylesIframeCss,
         contentCss,
-        buttonLabel: 'Styles',
-        buttonTooltip: 'styles_format',
+        iframe: true,
+        action: 'Styles',
+        buttonLabel: editor.trans('style'),
+        buttonTooltip: editor.trans('styles_format'),
         buildBody: () => groups.map(buildStyleGroup).join(''),
         onItemClick(name) {
             const matched = styleMap.get(name)
             if (matched) applyStyle(editor, matched)
         },
-        onOpen(iframeDoc) {
-            updateVisibleGroups(editor, iframeDoc, categories)
-            syncActive(editor, iframeDoc, allStyles)
+        onOpen(root) {
+            updateVisibleGroups(editor, root, categories)
+            syncActive(editor, root, allStyles)
         }
     })
 
@@ -604,14 +646,17 @@ function createStylesDropdown(editor: TiptapEditor): HTMLElement {
 }
 
 function getActiveStyleNames(editor: TiptapEditor, categories: StyleCategories): string[] {
-    const activeBlock = categories.block.find((s) => isStyleActive(editor, s))
+    const activeBlocks = categories.block.filter((s) => isStyleActive(editor, s))
+    const activeDivStyles = activeBlocks.filter((s) => s.element === 'div')
+    const filteredBlocks =
+        activeDivStyles.length > 0 ? activeBlocks.filter((s) => s.element !== 'p') : activeBlocks
     const activeObjects = categories.object.filter((s) => isObjectStyleActive(editor, s))
     const activeInlines = categories.inline.filter((s) =>
         editor.tiptap.isActive(inlineMarkName(s.element))
     )
 
     return [
-        ...(activeBlock ? [activeBlock.name] : []),
+        ...filteredBlocks.map((s) => s.name),
         ...activeObjects.map((s) => s.name),
         ...activeInlines.map((s) => s.name)
     ]

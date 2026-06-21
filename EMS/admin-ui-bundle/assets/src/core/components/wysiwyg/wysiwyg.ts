@@ -8,6 +8,7 @@ export class WysiwygProfile {
         config: CkeditorStyle[]
     }[] = []
     config: {
+        emsAjaxPaste?: string
         ems?: {
             urlTypes?: string[]
             urlTargetDefaultBlank?: string[]

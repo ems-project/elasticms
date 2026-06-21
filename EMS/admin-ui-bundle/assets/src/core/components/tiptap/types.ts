@@ -19,14 +19,16 @@ import { showBlocksModule } from './module/showBlocks.ts'
 import { divModule } from './module/div.ts'
 import { TranslationKey } from './translations.ts'
 import { findReplaceModule } from './module/find.ts'
-
-export type ContextType = 'table'
+import { colorModule } from './module/color.ts'
+import { iframeModule } from './module/iframe.ts'
 
 export const Modules: TiptapModule[] = [
     anchorModule,
     ...basicStyleModule,
     cleanupModule,
+    colorModule,
     divModule,
+    iframeModule,
     findReplaceModule,
     formatModule,
     historyModule,
@@ -34,7 +36,7 @@ export const Modules: TiptapModule[] = [
     ...insertModule,
     justifyModule,
     linkModule,
-    listModule,
+    ...listModule,
     showBlocksModule,
     specialCharModule,
     stylesModule,

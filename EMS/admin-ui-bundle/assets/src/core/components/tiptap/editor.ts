@@ -1,5 +1,5 @@
 import { Editor } from '@tiptap/core'
-import { DEFAULT_EXTENSIONS, ExtensionType } from './extensions.ts'
+import { AjaxPaste, DEFAULT_EXTENSIONS, ExtensionType } from './extensions.ts'
 import { Toolbar } from './ui/toolbar.ts'
 import { ContextMenu } from './ui/contextMenu.ts'
 import { Modules, HtmlTransform, TiptapModule } from './types.ts'
@@ -52,7 +52,11 @@ export class TiptapEditor {
 
         this.tiptap = new Editor({
             element: { mount: options.element },
-            extensions: [...DEFAULT_EXTENSIONS, ...extensions],
+            extensions: [
+                ...DEFAULT_EXTENSIONS,
+                ...extensions,
+                AjaxPaste.configure({ ajaxUrl: this.profile.config.emsAjaxPaste ?? null })
+            ],
             content: this.transformHtml(options.content ?? '', 'toEditor'),
             onUpdate: () => this.toolbar.update(),
             onSelectionUpdate: () => this.toolbar.update(),

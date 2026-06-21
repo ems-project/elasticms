@@ -71,13 +71,15 @@ export class Toolbar {
         if (row.children.length > 0) this.container.appendChild(row)
     }
 
-    private createButton(item: ToolbarItem): HTMLButtonElement {
+    private createButton(item: ToolbarItem): HTMLSpanElement {
+        const wrapper = document.createElement('span')
+        wrapper.title = this.editor.trans(item.tooltip)
+
         const btn = document.createElement('button')
         btn.type = 'button'
         btn.classList.add('tiptap-toolbar-button')
         btn.innerHTML = item.icon
         btn.dataset.action = item.name
-        btn.title = this.editor.trans(item.tooltip)
 
         btn.onclick = (e) => {
             e.preventDefault()
@@ -86,7 +88,8 @@ export class Toolbar {
             this.update()
         }
 
-        return btn
+        wrapper.appendChild(btn)
+        return wrapper
     }
 
     getButton(name: string): HTMLElement | null {

@@ -76,7 +76,7 @@ final readonly class ElasticmsMcpToolDataService extends AbstractElasticmsMcpToo
      *
      * @return array{contentType: string, ouuid: ?string, revisionId: int, draft: true, rawData: array<mixed>}
      */
-    public function createDocument(string $contentType, array $rawData = [], ?string $ouuid = null): array
+    public function createDocument(string $contentType, array $rawData = [], ?string $ouuid = null, bool $finalize = false): array
     {
         $toolName = \sprintf('create_document_%s', $contentType);
 
@@ -84,7 +84,7 @@ final readonly class ElasticmsMcpToolDataService extends AbstractElasticmsMcpToo
             'content_type' => $contentType,
             'ouuid' => $ouuid,
             'raw_data_keys' => \array_map('strval', \array_keys($rawData)),
-        ], function () use ($rawData, $ouuid, $contentType): array {
+        ], function () use ($rawData, $ouuid, $contentType, $finalize): array {
             $resolvedContentType = $this->contentTypeService->getByName($contentType);
             if (false === $resolvedContentType) {
                 throw new ToolCallException(\sprintf('Content type "%s" was not found.', $contentType));
@@ -153,7 +153,7 @@ final readonly class ElasticmsMcpToolDataService extends AbstractElasticmsMcpToo
             $contentTypeName = $contentType->getName();
 
             $builder->addTool(
-                handler: fn (array $rawData = [], ?string $ouuid = null): array => $this->createDocument($contentTypeName, $rawData, $ouuid),
+                handler: fn (array $rawData = [], ?string $ouuid = null, bool $finalize = false): array => $this->createDocument($contentTypeName, $rawData, $ouuid, $finalize),
                 name: \sprintf('create_document_%s', $contentTypeName),
                 description: \sprintf('Create a new document in the %s content type indexed in the %s environment.', $contentTypeName, $contentType->giveEnvironment()->getName()),
                 inputSchema: $this->buildCreateDocumentInputSchema($contentType),
@@ -211,7 +211,12 @@ final readonly class ElasticmsMcpToolDataService extends AbstractElasticmsMcpToo
                     'type' => 'string',
                     'description' => 'Optional OUUID. When omitted, ElasticMS will generate one.',
                 ],
+                'finalize' => [
+                    'type' => 'boolean',
+                    'description' => 'If set to true, the document will be finalized directly in the content type default environment. If set to false or omitted, the document will remain a draft in progress.',
+                ],
             ],
+            'required' => ['rawData'],
             'additionalProperties' => false,
         ];
     }

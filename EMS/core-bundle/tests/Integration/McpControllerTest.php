@@ -15,6 +15,7 @@ use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Entity\User;
 use EMS\CoreBundle\Form\DataField\ChoiceFieldType;
 use EMS\CoreBundle\Form\DataField\CollectionFieldType;
+use EMS\CoreBundle\Form\DataField\MultiplexedTabContainerFieldType;
 use EMS\CoreBundle\Form\DataField\NestedFieldType;
 use EMS\CoreBundle\Form\DataField\TextStringFieldType;
 use EMS\CoreBundle\Tests\Integration\App\Kernel;
@@ -106,6 +107,12 @@ final class McpControllerTest extends WebTestCase
         self::assertSame('string', $createNewsTool['inputSchema']['properties']['rawData']['properties']['title']['type'] ?? null);
         self::assertSame('object', $createNewsTool['inputSchema']['properties']['rawData']['properties']['body']['type'] ?? null);
         self::assertSame('string', $createNewsTool['inputSchema']['properties']['rawData']['properties']['body']['properties']['summary']['type'] ?? null);
+        self::assertArrayNotHasKey('translations', $createNewsTool['inputSchema']['properties']['rawData']['properties'] ?? []);
+        self::assertSame('Nederlands', $createNewsTool['inputSchema']['properties']['rawData']['properties']['nl']['title'] ?? null);
+        self::assertSame('object', $createNewsTool['inputSchema']['properties']['rawData']['properties']['nl']['type'] ?? null);
+        self::assertSame(['title', 'summary', 'body'], $createNewsTool['inputSchema']['properties']['rawData']['properties']['nl']['required'] ?? null);
+        self::assertSame('string', $createNewsTool['inputSchema']['properties']['rawData']['properties']['nl']['properties']['body']['type'] ?? null);
+        self::assertSame('Français', $createNewsTool['inputSchema']['properties']['rawData']['properties']['fr']['title'] ?? null);
         self::assertSame('array', $createNewsTool['inputSchema']['properties']['rawData']['properties']['authors']['type'] ?? null);
         self::assertSame('string', $createNewsTool['inputSchema']['properties']['rawData']['properties']['authors']['items']['properties']['name']['type'] ?? null);
         self::assertSame(['draft', 'published'], $createNewsTool['inputSchema']['properties']['rawData']['properties']['status']['enum'] ?? null);
@@ -474,6 +481,57 @@ final class McpControllerTest extends WebTestCase
                         ->setOptions([
                             'displayOptions' => [
                                 'label' => 'Summary',
+                            ],
+                        ])
+                )
+        );
+        $contentType->getFieldType()->addChild(
+            new FieldType()
+                ->setName('translations')
+                ->setType(MultiplexedTabContainerFieldType::class)
+                ->setOptions([
+                    'displayOptions' => [
+                        'label' => 'Translations',
+                        'values' => "nl\nfr",
+                        'labels' => "Nederlands\nFrançais",
+                    ],
+                ])
+                ->addChild(
+                    new FieldType()
+                        ->setName('title')
+                        ->setType(TextStringFieldType::class)
+                        ->setOptions([
+                            'displayOptions' => [
+                                'label' => 'Title',
+                            ],
+                            'restrictionOptions' => [
+                                'mandatory' => true,
+                            ],
+                        ])
+                )
+                ->addChild(
+                    new FieldType()
+                        ->setName('summary')
+                        ->setType(TextStringFieldType::class)
+                        ->setOptions([
+                            'displayOptions' => [
+                                'label' => 'Summary',
+                            ],
+                            'restrictionOptions' => [
+                                'mandatory' => true,
+                            ],
+                        ])
+                )
+                ->addChild(
+                    new FieldType()
+                        ->setName('body')
+                        ->setType(TextStringFieldType::class)
+                        ->setOptions([
+                            'displayOptions' => [
+                                'label' => 'Body',
+                            ],
+                            'restrictionOptions' => [
+                                'mandatory' => true,
                             ],
                         ])
                 )

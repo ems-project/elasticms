@@ -9,6 +9,7 @@ use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\FieldType;
 use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Form\DataField\DataFieldType;
+use EMS\CoreBundle\Form\DataField\MultiplexedTabContainerFieldType;
 use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\DataService;
 use EMS\CoreBundle\Service\Revision\RevisionService;
@@ -275,6 +276,15 @@ final readonly class ElasticmsMcpToolDataService extends AbstractElasticmsMcpToo
         $fieldTypeClass = $fieldType->getType();
 
         if ($fieldTypeClass::isVirtual($fieldType->getOptions())) {
+            if (MultiplexedTabContainerFieldType::class === $fieldTypeClass) {
+                $schema = $this->buildFieldSchema($fieldType, $filterEditableFields, $includeRequired);
+                foreach ($schema['properties'] ?? [] as $propertyName => $propertySchema) {
+                    $properties[$propertyName] = $propertySchema;
+                }
+
+                return;
+            }
+
             foreach ($fieldType->getValidChildren() as $childFieldType) {
                 $this->appendFieldSchema($childFieldType, $properties, $required, $filterEditableFields, $includeRequired);
             }

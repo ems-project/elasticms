@@ -193,6 +193,57 @@ final class McpControllerTest extends WebTestCase
         self::assertNotNull($structuredDraft['revisionId'] ?? null);
     }
 
+    public function testCreateDocumentToolCanFinalizeDraft(): void
+    {
+        $this->createAuthenticatedUserWithNewsContent();
+        $sessionId = $this->initializeSession($this->client);
+
+        $createFinalizedPayload = [
+            'jsonrpc' => '2.0',
+            'id' => 41,
+            'method' => 'tools/call',
+            'params' => [
+                'name' => 'create_document_news',
+                'arguments' => [
+                    'rawData' => [
+                        'title' => 'MCP Finalized News',
+                    ],
+                    'finalize' => true,
+                ],
+            ],
+        ];
+
+        $this->client->request(
+            'POST',
+            '/api/mcp',
+            server: $this->mcpHeaders($sessionId),
+            content: $this->jsonEncode($createFinalizedPayload)
+        );
+
+        self::assertResponseIsSuccessful();
+        self::assertStringStartsWith('application/json', (string) $this->client->getResponse()->headers->get('Content-Type'));
+
+        $createFinalizedResponse = $this->decodeResponse($this->client);
+        self::assertArrayNotHasKey('error', $createFinalizedResponse);
+
+        $result = $createFinalizedResponse['result'] ?? null;
+        self::assertIsArray($result);
+
+        $structuredRevision = $result['structuredContent'] ?? null;
+        if (\is_array($structuredRevision)) {
+            self::assertSame('news', $structuredRevision['contentType'] ?? null);
+            self::assertFalse($structuredRevision['draft'] ?? true);
+            self::assertFalse($structuredRevision['archived'] ?? true);
+            self::assertSame('MCP Finalized News', $structuredRevision['rawData']['title'] ?? null);
+            self::assertNotNull($structuredRevision['revisionId'] ?? null);
+
+            return;
+        }
+
+        self::assertTrue($result['isError'] ?? false);
+        self::assertSame('text', $result['content'][0]['type'] ?? null);
+    }
+
     public function testAssetToolsCanUploadAndDownloadChunkedFile(): void
     {
         $this->createAuthenticatedUserWithNewsContent();

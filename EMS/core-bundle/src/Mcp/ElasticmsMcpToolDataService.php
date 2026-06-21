@@ -74,7 +74,7 @@ final readonly class ElasticmsMcpToolDataService extends AbstractElasticmsMcpToo
     /**
      * @param array<mixed> $rawData
      *
-     * @return array{contentType: string, ouuid: ?string, revisionId: int, draft: true, rawData: array<mixed>}
+     * @return array{contentType: string, ouuid: ?string, revisionId: int, draft: bool, archived: bool, rawData: array<mixed>}
      */
     public function createDocument(string $contentType, array $rawData = [], ?string $ouuid = null, bool $finalize = false): array
     {
@@ -103,6 +103,11 @@ final readonly class ElasticmsMcpToolDataService extends AbstractElasticmsMcpToo
             try {
                 $this->dataService->hasCreateRights($resolvedContentType);
                 $revision = $this->dataService->newDocument($resolvedContentType, $ouuid, $rawData);
+
+                if ($finalize) {
+                    $revision->autoSaveToRawData();
+                    $revision = $this->dataService->finalizeDraft($revision);
+                }
             } catch (\Throwable $exception) {
                 throw new ToolCallException($exception->getMessage(), 0, $exception);
             }
@@ -111,7 +116,8 @@ final readonly class ElasticmsMcpToolDataService extends AbstractElasticmsMcpToo
                 'contentType' => $resolvedContentType->getName(),
                 'ouuid' => $revision->getOuuid(),
                 'revisionId' => $revision->getId(),
-                'draft' => true,
+                'draft' => $revision->isDraft(),
+                'archived' => $revision->isArchived(),
                 'rawData' => $revision->getRawData(),
             ];
         });

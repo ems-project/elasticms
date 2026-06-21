@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Mcp;
 
+use EMS\CommonBundle\Search\Search;
+use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\FieldType;
@@ -13,6 +15,7 @@ use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\DataService;
 use EMS\CoreBundle\Service\Revision\RevisionService;
 use EMS\CoreBundle\Service\UserService;
+use EMS\Helpers\Standard\Json;
 use Mcp\Exception\ToolCallException;
 use Mcp\Server\Builder;
 use Psr\Log\LoggerInterface;
@@ -28,6 +31,7 @@ final readonly class ElasticmsMcpToolDataService extends AbstractElasticmsMcpToo
         private DataService $dataService,
         private FormRegistryInterface $formRegistry,
         private AuthorizationCheckerInterface $authorizationChecker,
+        private ElasticaService $elasticaService,
         LoggerInterface $logger,
         LoggerInterface $auditLogger,
     ) {
@@ -171,6 +175,58 @@ final readonly class ElasticmsMcpToolDataService extends AbstractElasticmsMcpToo
                 ],
             );
         }
+    }
+
+    /**
+     * @param array<mixed>|string $search
+     *
+     * @return array<mixed>
+     */
+    public function search(array|string $search): array
+    {
+        return $this->wrapToolCall('search', [], function () use ($search): array {
+            if (\is_array($search)) {
+                $search = Json::encode($search);
+            }
+
+            $searchObject = Search::deserialize($search);
+            $resultSet = $this->elasticaService->search($searchObject);
+
+            return $resultSet->getResponse()->getData();
+        });
+    }
+
+    public function addSearchTool(Builder $builder): void
+    {
+        $builder->addTool(
+            handler: fn (array|string $search): array => $this->search($search),
+            name: 'search',
+            description: 'Execute an Elasticsearch search query against the elasticMS indices. Accepts the same search payload as the elasticMS REST API (/api/search).',
+            inputSchema: [
+                'type' => 'object',
+                'properties' => [
+                    'search' => [
+                        'oneOf' => [
+                            [
+                                'type' => 'object',
+                                'description' => 'The serialized Search object as a JSON object (indices, query, size, from, sort, contentTypes, etc.).',
+                                'additionalProperties' => true,
+                            ],
+                            [
+                                'type' => 'string',
+                                'description' => 'The serialized Search object as a JSON string.',
+                            ],
+                        ],
+                    ],
+                ],
+                'required' => ['search'],
+                'additionalProperties' => false,
+            ],
+            outputSchema: [
+                'type' => 'object',
+                'additionalProperties' => true,
+            ],
+        );
     }
 
     private function isViewableContentType(ContentType $contentType): bool

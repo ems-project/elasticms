@@ -10,6 +10,7 @@ use EMS\CommonBundle\Contracts\ExpressionServiceInterface;
 use EMS\CommonBundle\Contracts\Spreadsheet\SpreadsheetGeneratorServiceInterface;
 use EMS\CommonBundle\Elasticsearch\Client;
 use EMS\CommonBundle\Helper\Text\Encoder;
+use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CoreBundle\Core\ContentType\FieldType\FieldTypeService;
 use EMS\CoreBundle\Core\ContentType\Transformer\ContentTransformer;
 use EMS\CoreBundle\Core\ContentType\Transformer\ContentTransformers;
@@ -724,6 +725,7 @@ return static function (ContainerConfigurator $container) {
             service('ems.service.data'),
             service('form.registry'),
             service('security.authorization_checker'),
+            service(ElasticaService::class),
             service('logger'),
             service('emsco.logger.audit'),
         ]);

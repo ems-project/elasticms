@@ -43,6 +43,7 @@ class SubfieldType extends DataFieldType
         parent::buildOptionsForm($builder, $options);
         $optionsForm = $builder->get('options');
         $optionsForm->remove('displayOptions')->remove('migrationOptions')->remove('restrictionOptions');
+        $optionsForm->get('extraOptions')->remove('description');
 
         if ($optionsForm->has('mappingOptions')) {
             $optionsForm->get('mappingOptions')

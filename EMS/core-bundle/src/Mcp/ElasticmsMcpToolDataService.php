@@ -297,8 +297,9 @@ final readonly class ElasticmsMcpToolDataService extends AbstractElasticmsMcpToo
         $schema = $this->getDataFieldType($fieldType)->generateJsonSchema($fieldType, fn (array $fieldTypes): array => $this->buildObjectSchemaFromChildren($fieldTypes, $filterEditableFields, $includeRequired));
 
         $schema['title'] ??= (string) $fieldType->getDisplayOption('label', $fieldType->getName());
+        $description = $fieldType->getExtraOption('description', $fieldType->getDescription());
 
-        if (\is_string($description = $fieldType->getDescription()) && '' !== $description) {
+        if (\is_string($description) && '' !== \trim($description)) {
             $schema['description'] = $description;
         }
 

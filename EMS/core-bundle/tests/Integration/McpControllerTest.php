@@ -214,6 +214,16 @@ final class McpControllerTest extends WebTestCase
                 'arguments' => [
                     'rawData' => [
                         'title' => 'MCP Finalized News',
+                        'nl' => [
+                            'title' => 'Titel NL',
+                            'summary' => 'Samenvatting NL',
+                            'body' => 'Body NL',
+                        ],
+                        'fr' => [
+                            'title' => 'Titre FR',
+                            'summary' => 'Resume FR',
+                            'body' => 'Corps FR',
+                        ],
                     ],
                     'finalize' => true,
                 ],

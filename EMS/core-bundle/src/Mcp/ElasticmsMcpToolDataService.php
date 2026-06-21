@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Mcp;
 
+use EMS\CommonBundle\Search\Search;
+use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\FieldType;
@@ -14,6 +16,7 @@ use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\DataService;
 use EMS\CoreBundle\Service\Revision\RevisionService;
 use EMS\CoreBundle\Service\UserService;
+use EMS\Helpers\Standard\Json;
 use Mcp\Exception\ToolCallException;
 use Mcp\Server\Builder;
 use Psr\Log\LoggerInterface;
@@ -29,6 +32,7 @@ final readonly class ElasticmsMcpToolDataService extends AbstractElasticmsMcpToo
         private DataService $dataService,
         private FormRegistryInterface $formRegistry,
         private AuthorizationCheckerInterface $authorizationChecker,
+        private ElasticaService $elasticaService,
         LoggerInterface $logger,
         LoggerInterface $auditLogger,
     ) {
@@ -164,8 +168,72 @@ final readonly class ElasticmsMcpToolDataService extends AbstractElasticmsMcpToo
                 name: \sprintf('create_document_%s', $contentTypeName),
                 description: \sprintf('Create a new document in the %s content type indexed in the %s environment.', $contentTypeName, $contentType->giveEnvironment()->getName()),
                 inputSchema: $this->buildCreateDocumentInputSchema($contentType),
+                outputSchema: [
+                    'type' => 'object',
+                    'properties' => [
+                        'contentType' => ['type' => 'string'],
+                        'ouuid' => ['type' => 'string'],
+                        'revisionId' => ['type' => 'integer'],
+                        'draft' => ['type' => 'boolean'],
+                        'rawData' => ['type' => 'object', 'additionalProperties' => true],
+                    ],
+                    'required' => ['contentType', 'ouuid', 'revisionId', 'draft', 'rawData'],
+                    'additionalProperties' => false,
+                ],
             );
         }
+    }
+
+    /**
+     * @param array<mixed>|string $search
+     *
+     * @return array<mixed>
+     */
+    public function search(array|string $search): array
+    {
+        return $this->wrapToolCall('search', [], function () use ($search): array {
+            if (\is_array($search)) {
+                $search = Json::encode($search);
+            }
+
+            $searchObject = Search::deserialize($search);
+            $resultSet = $this->elasticaService->search($searchObject);
+
+            return $resultSet->getResponse()->getData();
+        });
+    }
+
+    public function addSearchTool(Builder $builder): void
+    {
+        $builder->addTool(
+            handler: fn (array|string $search): array => $this->search($search),
+            name: 'search',
+            description: 'Execute an Elasticsearch search query against the elasticMS indices. Accepts the same search payload as the elasticMS REST API (/api/search).',
+            inputSchema: [
+                'type' => 'object',
+                'properties' => [
+                    'search' => [
+                        'oneOf' => [
+                            [
+                                'type' => 'object',
+                                'description' => 'The serialized Search object as a JSON object (indices, query, size, from, sort, contentTypes, etc.).',
+                                'additionalProperties' => true,
+                            ],
+                            [
+                                'type' => 'string',
+                                'description' => 'The serialized Search object as a JSON string.',
+                            ],
+                        ],
+                    ],
+                ],
+                'required' => ['search'],
+                'additionalProperties' => false,
+            ],
+            outputSchema: [
+                'type' => 'object',
+                'additionalProperties' => true,
+            ],
+        );
     }
 
     private function isViewableContentType(ContentType $contentType): bool
@@ -187,6 +255,9 @@ final readonly class ElasticmsMcpToolDataService extends AbstractElasticmsMcpToo
      */
     private function buildGetDocumentOutputSchema(ContentType $contentType): array
     {
+        $rawDataSchema = $this->buildRawDataSchema($contentType->getFieldType(), filterEditableFields: false, includeRequired: false);
+        $rawDataSchema['additionalProperties'] = true;
+
         return [
             'type' => 'object',
             'properties' => [
@@ -198,7 +269,7 @@ final readonly class ElasticmsMcpToolDataService extends AbstractElasticmsMcpToo
                 'label' => [
                     'type' => ['string', 'null'],
                 ],
-                'rawData' => $this->buildRawDataSchema($contentType->getFieldType(), filterEditableFields: false, includeRequired: false),
+                'rawData' => $rawDataSchema,
             ],
             'required' => ['contentType', 'ouuid', 'revisionId', 'draft', 'archived', 'rawData'],
             'additionalProperties' => false,
@@ -213,10 +284,10 @@ final readonly class ElasticmsMcpToolDataService extends AbstractElasticmsMcpToo
         return [
             'type' => 'object',
             'properties' => [
-                'rawData' => $this->buildRawDataSchema($contentType->getFieldType()),
+                'rawData' => ['type' => 'object'],
                 'ouuid' => [
                     'type' => 'string',
-                    'description' => 'Optional OUUID. When omitted, ElasticMS will generate one.',
+                    'description' => 'Optional OUUID. When omitted, elasticMS will generate one.',
                 ],
                 'finalize' => [
                     'type' => 'boolean',
@@ -225,6 +296,7 @@ final readonly class ElasticmsMcpToolDataService extends AbstractElasticmsMcpToo
             ],
             'required' => ['rawData'],
             'additionalProperties' => false,
+            'required' => [],
         ];
     }
 

@@ -52,7 +52,10 @@ class ReleaseCommand extends AbstractCommand
             $branch = $this->github->getBranch($this->version->getBranchName());
             $deploy = $this->makeDeploy($this->version, $branch);
 
-            $this->git->isBranch($branch)->isRemote(Config::REMOTE);
+            $this->git->isBranch($branch)->isRemote(Config::REMOTE, Config::REMOTE_SSH);
+
+            $this->io->section('Validating composer requirements');
+            $this->ensureComposerRequirements($branch);
 
             $changes = $this->getChanges($deploy);
             $this->io->section('Changelog');
@@ -79,12 +82,11 @@ class ReleaseCommand extends AbstractCommand
             $this->composerUpdate($deploy, $packageReleases);
 
             $this->io->section('Commit release');
-            $sha = $this->commitRelease($deploy);
+            $sha = $this->commit(\sprintf('build: %s', $this->version->getTag()), $branch);
 
             $this->io->section('Release mono repo');
             $this->releaseMonoRepo($deploy, $sha);
 
-            $this->io->newLine();
             $this->io->comment('Waiting for completed split...');
             $this->github->splitsIsCompleted($sha);
 
@@ -97,6 +99,31 @@ class ReleaseCommand extends AbstractCommand
 
             return self::FAILURE;
         }
+    }
+
+    private function ensureComposerRequirements(string $branch): void
+    {
+        $issues = $this->validateComposerRequirements($this->version);
+
+        if ([] === $issues) {
+            $this->io->comment('All composer requirements are correct.');
+
+            return;
+        }
+
+        $table = $this->io->createTable();
+        $table->setHeaders(['file', 'package', 'expected', 'actual']);
+        $table->setRows(\array_map(static fn (array $i) => [$i['file'], $i['package'], $i['expected'], $i['actual']], $issues));
+        $table->render();
+
+        $this->fixComposerRequirements($issues);
+        $this->io->comment(\sprintf('Fixed %d requirement(s).', \count($issues)));
+
+        $requireConstraint = \sprintf('%d.%d.*', $this->version->major, $this->version->minor);
+        $sha = $this->commit(\sprintf('release: require %s', $requireConstraint), $branch);
+
+        $this->io->comment('Waiting for completed split after requirements fix...');
+        $this->github->splitsIsCompleted($sha);
     }
 
     /**
@@ -224,19 +251,18 @@ class ReleaseCommand extends AbstractCommand
         }
     }
 
-    private function commitRelease(Deploy $deploy): string
+    private function commit(string $message, string $branch): string
     {
-        $this->processHelper->run($this->output, Process::fromShellCommandline('git add .'));
-
+        $this->runProcess(Process::fromShellCommandline('git add .'));
         $this->runProcess(Process::fromShellCommandline('git status -s'));
-        if (!$this->confirm('Commit release?')) {
+        if (!$this->confirm(\sprintf('Commit "%s"?', $message))) {
             throw new \RuntimeException('Release aborted');
         }
 
-        $this->runProcess(Process::fromShellCommandline(\sprintf('git commit -m "build: %s"', $deploy->version->getTag())));
+        $this->runProcess(Process::fromShellCommandline(\sprintf('git commit -m "%s"', $message)));
         $this->runProcess(Process::fromShellCommandline('git push'));
 
-        return $this->git->getLatestSha($deploy->branch);
+        return $this->git->getLatestSha($branch);
     }
 
     private function releaseMonoRepo(Deploy $deploy, string $expectedSha): void
@@ -251,6 +277,73 @@ class ReleaseCommand extends AbstractCommand
 
         if ($release->sha !== $expectedSha) {
             throw new \RuntimeException('The mono repo not correctly released!');
+        }
+    }
+
+    /**
+     * @return array<array{file: string, fullPath: string, package: string, expected: string, actual: string}>
+     */
+    private function validateComposerRequirements(Version $version): array
+    {
+        $expected = \sprintf('%d.%d.*', $version->major, $version->minor);
+        $root = \dirname(__DIR__, 4);
+        $issues = [];
+
+        $composerFiles = [];
+        foreach (Config::COMPOSER_PACKAGES as $composerPackage) {
+            $packageDir = \substr($composerPackage, \strlen('elasticms/'));
+            $composerFiles[] = $root.'/EMS/'.$packageDir.'/composer.json';
+        }
+        foreach (['elasticms-admin', 'elasticms-web', 'elasticms-cli'] as $app) {
+            $composerFiles[] = $root.'/'.$app.'/composer.json';
+        }
+
+        foreach ($composerFiles as $file) {
+            if (!\file_exists($file)) {
+                continue;
+            }
+
+            /** @var array{require?: array<string, string>} $data */
+            $data = \json_decode((string) \file_get_contents($file), true);
+            foreach ($data['require'] ?? [] as $package => $constraint) {
+                if (!\str_starts_with($package, 'elasticms/')) {
+                    continue;
+                }
+                if ($constraint !== $expected) {
+                    $issues[] = [
+                        'file' => \str_replace($root.'/', '', $file),
+                        'fullPath' => $file,
+                        'package' => $package,
+                        'expected' => $expected,
+                        'actual' => $constraint,
+                    ];
+                }
+            }
+        }
+
+        return $issues;
+    }
+
+    /**
+     * @param array<array{file: string, fullPath: string, package: string, expected: string, actual: string}> $issues
+     */
+    private function fixComposerRequirements(array $issues): void
+    {
+        $byFile = [];
+        foreach ($issues as $issue) {
+            $byFile[$issue['fullPath']][$issue['package']] = $issue['expected'];
+        }
+
+        foreach ($byFile as $fullPath => $packages) {
+            $content = (string) \file_get_contents($fullPath);
+            foreach ($packages as $package => $expected) {
+                $content = (string) \preg_replace(
+                    '/"'.\preg_quote($package, '/').'"\s*:\s*"[^"]*"/',
+                    \sprintf('"%s": "%s"', $package, $expected),
+                    $content
+                );
+            }
+            \file_put_contents($fullPath, $content);
         }
     }
 }

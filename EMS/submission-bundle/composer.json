@@ -14,7 +14,7 @@
     ],
     "require": {
         "php": "^8.5",
-        "elasticms/form-bundle": "7.x-dev",
+        "elasticms/form-bundle": "7.3.*",
         "league/flysystem-memory": "^3.19",
         "league/flysystem-sftp-v3": "^3.22",
         "symfony/console": "7.4.*",

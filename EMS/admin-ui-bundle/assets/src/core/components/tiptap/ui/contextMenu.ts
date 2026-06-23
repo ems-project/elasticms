@@ -227,11 +227,8 @@ export class ContextMenu {
     }
 
     private getFrameOffset(): { x: number; y: number } {
-        const doc = this.editor.docEditor
-        if (doc === document) return { x: 0, y: 0 }
-        const frame = [...this.editor.docParent.querySelectorAll('iframe')].find(
-            (f) => f.contentDocument === doc
-        )
+        const win = this.editor.docEditor.defaultView
+        const frame = win?.frameElement as HTMLIFrameElement | null
         if (!frame) return { x: 0, y: 0 }
         const rect = frame.getBoundingClientRect()
         return { x: rect.left, y: rect.top }

@@ -29,13 +29,13 @@ class GitService
         return $this;
     }
 
-    public function isRemote(string $expectedRemote): self
+    public function isRemote(string ...$expectedRemotes): self
     {
         $process = Process::fromShellCommandline("git remote get-url $(git for-each-ref --format='%(upstream:short)' $(git symbolic-ref -q HEAD)|cut -d/ -f1)");
         $remote = \trim($this->execute($process));
 
-        if ($remote !== $expectedRemote) {
-            throw new \RuntimeException('The remote is expected to be "'.$expectedRemote.'".');
+        if (!\in_array($remote, $expectedRemotes, true)) {
+            throw new \RuntimeException('The remote is expected to be one of: "'.\implode('", "', $expectedRemotes).'".');
         }
 
         return $this;

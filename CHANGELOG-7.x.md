@@ -1,5 +1,27 @@
 # Changelog 7.x
 
+## 7.3.2 (2026-06-23)
+### Features
+* feat(admin/tiptap): ace code editor for source view by @Davidmattei in https://github.com/ems-project/elasticms/pull/1763
+* feat(admin/tiptap): add colors module by @Davidmattei in https://github.com/ems-project/elasticms/pull/1759
+* feat(admin/tiptap): iframe dom inserter by @Davidmattei in https://github.com/ems-project/elasticms/pull/1762
+* feat(admin/tiptap): improve inline editor support by @Davidmattei in https://github.com/ems-project/elasticms/pull/1765
+* feat(admin/tiptap): overwrite tiptap translation in profile by @Davidmattei in https://github.com/ems-project/elasticms/pull/1764
+* feat(admin/tiptap): support ajax paste by @Davidmattei in https://github.com/ems-project/elasticms/pull/1761
+* feat(common/elastica): round robin option by @theus77 in https://github.com/ems-project/elasticms/pull/1754
+### Bug Fixes
+* fix(admin/content-type): remove node transformer unwrap empty parent by @Davidmattei in https://github.com/ems-project/elasticms/pull/1748
+* fix(admin/fields): improved invalid date format error message by @theus77 in https://github.com/ems-project/elasticms/pull/1755
+* fix(admin/querySearch): load dataLinks from query search environments by @theus77 in https://github.com/ems-project/elasticms/pull/1749
+* fix(admin/tiptap): list properties & alignment by @Davidmattei in https://github.com/ems-project/elasticms/pull/1760
+* fix(admin/xliff): new translation must option by @Davidmattei in https://github.com/ems-project/elasticms/pull/1752
+* fix(admin/xliff): update new option current-revision-force by @Davidmattei in https://github.com/ems-project/elasticms/pull/1758
+* fix(build): check composer and remote ssh/http by @Davidmattei in https://github.com/ems-project/elasticms/pull/1766
+* fix(common/api): api search fromPayload issue by @theus77 in https://github.com/ems-project/elasticms/pull/1747
+* fix(common/api): search correct deserialize query by @Davidmattei in https://github.com/ems-project/elasticms/pull/1756
+* fix(core/api): search payload query not working by @Davidmattei in https://github.com/ems-project/elasticms/pull/1746
+* fix(demo): improve profile and style sets (tiptap support) by @Davidmattei in https://github.com/ems-project/elasticms/pull/1757
+
 ## 7.3.0 (2026-06-01)
 ### Features
 * feat(admin): bootstrap5 + translations by @theus77 in https://github.com/ems-project/elasticms/pull/1718

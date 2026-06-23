@@ -10,6 +10,7 @@ interface DialogOptions {
     draggable?: boolean
     closeLabel: string
     bodyClass?: string
+    doc?: Document
 }
 
 export class Dialog {
@@ -17,12 +18,14 @@ export class Dialog {
     body: HTMLElement
     footer: HTMLElement
     private options: DialogOptions
+    private readonly doc: Document
 
     private onCloseCallback?: () => void
 
     constructor(title: string, options: DialogOptions) {
         this.options = options
-        this.element = document.createElement('dialog')
+        this.doc = options.doc ?? document
+        this.element = this.doc.createElement('dialog')
         this.element.className = 'ems-dialog'
 
         this.element.innerHTML = `
@@ -47,7 +50,7 @@ export class Dialog {
         this.element.querySelector('.dialog-close')!.addEventListener('click', () => this.close())
 
         this.element.addEventListener('close', () => {
-            document.body.classList.remove('dialog-open')
+            this.doc.body.classList.remove('dialog-open')
             this.element.remove()
             this.onCloseCallback?.()
         })
@@ -61,13 +64,12 @@ export class Dialog {
             this.makeDraggable()
         }
 
-        const doc = window.top?.document || document
-        doc.body.appendChild(this.element)
+        this.doc.body.appendChild(this.element)
     }
 
     private makeDraggable(): void {
         const header = this.element.querySelector('.dialog-header') as HTMLElement
-        const doc = window.top?.document || document
+        const doc = this.doc
         header.classList.add('draggable')
         let offsetX = 0
         let offsetY = 0
@@ -107,7 +109,7 @@ export class Dialog {
     }
 
     addButton({ label, variant = 'default', onClick }: DialogButton): this {
-        const btn = document.createElement('button')
+        const btn = this.doc.createElement('button')
         btn.innerText = label
         btn.type = 'button'
         btn.dataset.variant = variant
@@ -120,7 +122,7 @@ export class Dialog {
     }
 
     open(): void {
-        document.body.classList.add('dialog-open')
+        this.doc.body.classList.add('dialog-open')
         this.element.showModal()
         const firstInput = this.element.querySelector<HTMLElement>('input, select, textarea')
         if (firstInput) {

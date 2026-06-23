@@ -109,13 +109,3 @@ body.wysiwyg-resizing {
         }
     }
 }
-
-.wysiwyg-source-container {
-    display: none;
-}
-.is-source-mode .wysiwyg-source-container {
-    display: block;
-}
-.is-source-mode .wysiwyg-iframe {
-    display: none;
-}

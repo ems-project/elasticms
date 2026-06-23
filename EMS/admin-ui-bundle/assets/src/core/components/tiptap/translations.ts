@@ -16,5 +16,12 @@ export type Locale = keyof typeof translations
 
 export const isTransLocale = (v: string): v is Locale => v in translations
 
-export const trans = (locale: Locale, key: TranslationKey): string =>
-    translations[locale][key] ?? translations.en[key] ?? key
+export const trans = (
+    locale: Locale,
+    key: TranslationKey,
+    overrides?: Record<string, Record<string, string>>
+): string => {
+    const override = overrides?.[locale]?.[key]
+
+    return override ?? translations[locale][key] ?? translations.en[key] ?? key
+}

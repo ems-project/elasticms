@@ -192,7 +192,7 @@ function buildBody(editor: TiptapEditor): string {
             <div class="tiptap-color-predefined-section"></div>
             <div class="tiptap-color-divider"></div>
             <div class="tiptap-color-active-section"></div>
-            <button type="button" class="tiptap-color-row-btn tiptap-color-more-btn">${editor.trans('color_more')}</button>
+            <button type="button" class="tiptap-color-row-btn tiptap-color-more-btn" data-name="more">${editor.trans('color_more')}</button>
         </div>
     `
 }
@@ -237,34 +237,22 @@ function createColorDropdown(
         icon,
         buildBody: () => buildBody(editor),
         onItemClick(name) {
+            if (name === 'more') {
+                new DialogColor({
+                    editor: editor,
+                    initial: activeColor,
+                    onSelect: (color) => {
+                        applyColor(editor, type, color)
+                    }
+                }).open()
+                return
+            }
             const color = name === 'auto' ? null : name
             applyColor(editor, type, color)
         },
         onOpen(root) {
             activeColor = getActiveColor(editor, type)
             refreshDynamicSections(root, editor, type)
-
-            const autoBtn = root.querySelector<HTMLButtonElement>('[data-name="auto"]')
-            if (autoBtn) {
-                autoBtn.onclick = () => {
-                    dropdown.hide()
-                    applyColor(editor, type, null)
-                }
-            }
-
-            const moreBtn = root.querySelector<HTMLButtonElement>('.tiptap-color-more-btn')
-            if (moreBtn) {
-                moreBtn.onclick = () => {
-                    dropdown.hide()
-                    new DialogColor({
-                        editor: editor,
-                        initial: activeColor,
-                        onSelect: (color) => {
-                            applyColor(editor, type, color)
-                        }
-                    }).open()
-                }
-            }
         }
     })
 

@@ -6,15 +6,17 @@ import { TiptapEditor } from '../editor.ts'
 import { escapeHtml } from '../helper.ts'
 import { TranslationKey } from '../translations.ts'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
+import { createSearchInput, SearchInput } from '../ui/searchInput.ts'
 
-const URL_TYPES = ['url', 'anchor', 'email', 'phone'] as const
+const URL_TYPES = ['url', 'anchor', 'email', 'phone', 'localPage'] as const
 type UrlType = (typeof URL_TYPES)[number]
 
 const URL_TYPE_OPTIONS: { value: UrlType; label: TranslationKey }[] = [
     { value: 'url', label: 'link_type_url' },
     { value: 'anchor', label: 'link_type_anchor' },
     { value: 'email', label: 'link_type_email' },
-    { value: 'phone', label: 'link_type_phone' }
+    { value: 'phone', label: 'link_type_phone' },
+    { value: 'localPage', label: 'link_type_localpage' }
 ]
 
 export const linkModule: TiptapModule = {
@@ -127,6 +129,7 @@ interface LinkContext {
     subject: string
     body: string
     phone: string
+    localPageId: string
 }
 
 type LinkResult = { href: string; target: string | null }
@@ -135,7 +138,7 @@ function getLinkContext(e: TiptapEditor): LinkContext {
     const attrs = e.tiptap.getAttributes('link')
     const href = attrs?.href ?? ''
     const target = attrs?.target ?? ''
-    const empty = { anchor: '', email: '', subject: '', body: '', phone: '' }
+    const empty = { anchor: '', email: '', subject: '', body: '', phone: '', localPageId: '' }
 
     if (href.startsWith('mailto:')) {
         const [email, query] = href.replace('mailto:', '').split('?')
@@ -155,6 +158,9 @@ function getLinkContext(e: TiptapEditor): LinkContext {
     }
     if (href.startsWith('#')) {
         return { ...empty, type: 'anchor', href, target, anchor: href.slice(1) }
+    }
+    if (href.startsWith('ems://object:')) {
+        return { ...empty, type: 'localPage', href, target, localPageId: href.replace('ems://object:', '') }
     }
     return { ...empty, type: 'url', href, target }
 }
@@ -250,6 +256,33 @@ function buildPhoneFields(e: TiptapEditor, ctx: LinkContext) {
     </div>`
 }
 
+function buildLocalPageWrapper(e: TiptapEditor, ctx: LinkContext): { html: string; mount: (root: HTMLElement) => SearchInput } {
+    const searchApiUrl = e.docParent.body.dataset.searchApi ?? ''
+    let filters: [string, string][] = []
+    try {
+        const raw = e.docParent.body.dataset.wysiwygTypeFilters
+        if (raw) filters = JSON.parse(raw)
+    } catch { /* empty */ }
+
+    return {
+        html: `<div id="link-fields-localPage" style="display: none; flex-direction: column; gap: 10px;"></div>`,
+        mount(root: HTMLElement): SearchInput {
+            const wrapper = root.querySelector<HTMLElement>('#link-fields-localPage')!
+            const input = createSearchInput({
+                searchUrl: searchApiUrl,
+                filters,
+                filterLabel: e.trans('link_localpage_content_type'),
+                searchLabel: e.trans('link_localpage_search'),
+                noResultsLabel: e.trans('link_localpage_no_results'),
+                initialId: ctx.localPageId,
+                initialLabel: '',
+            })
+            wrapper.appendChild(input.element)
+            return input
+        }
+    }
+}
+
 const HREF_BUILDERS: Record<UrlType, (root: HTMLElement) => LinkResult | null> = {
     url: (root) => {
         const input = root.querySelector<HTMLInputElement>('#link-url')!
@@ -277,7 +310,8 @@ const HREF_BUILDERS: Record<UrlType, (root: HTMLElement) => LinkResult | null> =
         const input = root.querySelector<HTMLInputElement>('#link-phone')!
         if (!input.reportValidity()) return null
         return { href: `tel:${input.value.trim()}`, target: null }
-    }
+    },
+    localPage: () => null
 }
 
 function showFields(root: HTMLElement, type: UrlType) {
@@ -286,13 +320,15 @@ function showFields(root: HTMLElement, type: UrlType) {
         if (el) el.style.display = t === type ? 'flex' : 'none'
     })
 
-    const urlInput = root.querySelector<HTMLInputElement>('#link-url')!
-    urlInput.addEventListener('blur', () => {
-        const val = urlInput.value.trim()
-        if (val && !val.match(/^https?:\/\//i) && !val.startsWith('/') && !val.startsWith('#')) {
-            urlInput.value = `https://${val}`
-        }
-    })
+    const urlInput = root.querySelector<HTMLInputElement>('#link-url')
+    if (urlInput) {
+        urlInput.addEventListener('blur', () => {
+            const val = urlInput.value.trim()
+            if (val && !val.match(/^https?:\/\//i) && !val.startsWith('/') && !val.startsWith('#')) {
+                urlInput.value = `https://${val}`
+            }
+        })
+    }
 }
 
 function applyLink(e: TiptapEditor, result: LinkResult, isEdit: boolean, from: number, to: number) {
@@ -328,6 +364,8 @@ function openLinkDialog(e: TiptapEditor) {
         ctx.target = '_blank'
     }
 
+    const localPageWrapper = availableTypes.includes('localPage') ? buildLocalPageWrapper(e, ctx) : null
+
     const dialog = e.createDialog('link')
     dialog.setContent(
         `<div style="display: flex; flex-direction: column; gap: 10px; width: 400px;">
@@ -336,14 +374,23 @@ function openLinkDialog(e: TiptapEditor) {
             ${availableTypes.includes('anchor') ? buildAnchorFields(e, ctx, anchors) : ''}
             ${availableTypes.includes('email') ? buildEmailFields(e, ctx) : ''}
             ${availableTypes.includes('phone') ? buildPhoneFields(e, ctx) : ''}
+            ${localPageWrapper ? localPageWrapper.html : ''}
         </div>`
     )
 
     const root = dialog.element
+    const localPageSearch = localPageWrapper ? localPageWrapper.mount(root) : null
 
     const apply = () => {
         const type = root.querySelector<HTMLSelectElement>('#link-type')!.value as UrlType
-        const result = HREF_BUILDERS[type]?.(root)
+        let result: LinkResult | null = null
+        if (type === 'localPage') {
+            const id = localPageSearch?.getValue() ?? null
+            if (!id) return
+            result = { href: `ems://object:${id}`, target: null }
+        } else {
+            result = HREF_BUILDERS[type]?.(root)
+        }
         if (!result) return
         applyLink(e, result, isEdit, from, to)
         dialog.close()

@@ -185,10 +185,6 @@ services:
             - TRUSTED_HOSTS=localhost,.*\.localhost
         labels:
             - traefik.enable=true
-            - 'traefik.http.routers.varnish.rule=HostRegexp(`^local\.([a-z0-9\-_\.]+)\-web\.localhost$$`)'
-            - 'traefik.http.routers.varnish.entrypoints=web,websecure'
-            - traefik.http.routers.varnish.service=varnish
-            - traefik.http.services.varnish.loadbalancer.server.port=6081
             - 'traefik.http.routers.skeleton.rule=HostRegexp(`^local\.([a-z0-9\-_\.]+)\-web\-nocache\.localhost$$`)'
             - 'traefik.http.routers.skeleton.entrypoints=web,websecure'
             - traefik.http.routers.skeleton.service=skeleton

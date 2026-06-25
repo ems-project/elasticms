@@ -20,7 +20,6 @@ jobs:
         with:
           php-version: ${{ env.PHP_VERSION }}
           coverage: none
-          extensions: opentelemetry
 
       - name: "Get Composer Info"
         id: composer
@@ -53,9 +52,6 @@ jobs:
           --config=./config/php-cs-fixer.php
 
       - name: "Run PHPUnit"
-        env:
-          OTEL_PHP_AUTOLOAD_ENABLED: false
-          OTEL_PHP_FIBERS_ENABLED: false
         run: vendor/bin/phpunit -c config/phpunit.xml.dist --stop-on-defect
 
       - name: "Save cache results"

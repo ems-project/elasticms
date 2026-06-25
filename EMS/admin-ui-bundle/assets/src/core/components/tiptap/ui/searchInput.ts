@@ -63,16 +63,12 @@ export function createSearchInput(config: SearchInputConfig): SearchInput {
 
     const typeSelect = container.querySelector<HTMLSelectElement>('#search-input-type')
 
-    const renderResults = (items: { id: string; text: string }[]) => {
-        results.innerHTML = ''
-        if (!items.length) {
-            const empty = document.createElement('div')
-            empty.style.cssText = 'padding: 8px; color: #888;'
-            empty.textContent = config.noResultsLabel
-            results.appendChild(empty)
-            results.style.display = 'block'
-            return
-        }
+    let currentQuery = ''
+    let currentPage = 1
+    let hasMore = false
+    let loading = false
+
+    const appendItems = (items: { id: string; text: string }[]) => {
         items.forEach((item) => {
             const el = document.createElement('div')
             el.style.cssText = 'padding: 8px; cursor: pointer;'
@@ -87,21 +83,47 @@ export function createSearchInput(config: SearchInputConfig): SearchInput {
             })
             results.appendChild(el)
         })
-        results.style.display = 'block'
     }
 
-    const search = async (q: string) => {
+    const search = async (q: string, page: number) => {
+        if (loading) return
+        loading = true
         const url = new URL(config.searchUrl, location.href)
         url.searchParams.set('q', q)
+        url.searchParams.set('page', String(page))
         if (typeSelect?.value) url.searchParams.set('type', typeSelect.value)
         try {
             const res = await fetch(url.toString(), { headers: { Accept: 'application/json' } })
             const data = await res.json()
-            renderResults(data.items ?? [])
+            const items: { id: string; text: string }[] = data.items ?? []
+            hasMore = data.incomplete_results === true
+            if (page === 1) {
+                results.innerHTML = ''
+                if (!items.length) {
+                    const empty = document.createElement('div')
+                    empty.style.cssText = 'padding: 8px; color: #888;'
+                    empty.textContent = config.noResultsLabel
+                    results.appendChild(empty)
+                    results.style.display = 'block'
+                    return
+                }
+            }
+            appendItems(items)
+            results.style.display = 'block'
         } catch {
             results.style.display = 'none'
+        } finally {
+            loading = false
         }
     }
+
+    results.addEventListener('scroll', () => {
+        if (!hasMore || loading) return
+        if (results.scrollTop + results.clientHeight >= results.scrollHeight - 20) {
+            currentPage++
+            void search(currentQuery, currentPage)
+        }
+    })
 
     let timer: ReturnType<typeof setTimeout>
 
@@ -114,12 +136,21 @@ export function createSearchInput(config: SearchInputConfig): SearchInput {
             results.style.display = 'none'
             return
         }
-        timer = setTimeout(() => search(q), 300)
+        timer = setTimeout(() => {
+            currentQuery = q
+            currentPage = 1
+            hasMore = false
+            void search(q, 1)
+        }, 300)
     })
 
     if (typeSelect) {
         typeSelect.addEventListener('change', () => {
-            if (searchInput.value.trim()) search(searchInput.value.trim())
+            if (currentQuery) {
+                currentPage = 1
+                hasMore = false
+                void search(currentQuery, 1)
+            }
         })
     }
 

@@ -112,6 +112,7 @@ server-start/%: ## server-start/(admin|web|cli)
 	@if [ "$(OTEL_ENABLED)" = "true" ]; then \
 		env \
 		OTEL_PHP_AUTOLOAD_ENABLED=true \
+		OTEL_PHP_FIBERS_ENABLED=true \
 		OTEL_SERVICE_NAME=demo-ems-$(*) \
 		OTEL_TRACES_EXPORTER=otlp \
 		OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf \

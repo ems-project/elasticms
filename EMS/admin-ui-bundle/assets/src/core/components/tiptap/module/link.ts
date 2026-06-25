@@ -384,9 +384,9 @@ function openLinkDialog(e: TiptapEditor) {
         ? buildLocalPageWrapper(e, ctx)
         : null
 
-    const dialog = e.createDialog('link')
+    const dialog = e.createDialog('link', { resizable: true })
     dialog.setContent(
-        `<div style="display: flex; flex-direction: column; gap: 10px; width: 400px;">
+        `<div style="display: flex; flex-direction: column; gap: 10px; min-width: 400px;">
             ${buildTypeSection(e, ctx, urlTypes)}
             ${availableTypes.includes('url') ? buildUrlFields(e, ctx) : ''}
             ${availableTypes.includes('anchor') ? buildAnchorFields(e, ctx, anchors) : ''}

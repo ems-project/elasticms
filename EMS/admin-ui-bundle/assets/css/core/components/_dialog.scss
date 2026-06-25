@@ -19,6 +19,22 @@ dialog.ems-dialog {
     border-radius: 4px;
     display: flex;
     flex-direction: column;
+
+    &.resizable {
+      resize: horizontal;
+      overflow: hidden;
+
+      .dialog-body {
+        flex: 1;
+        overflow-y: auto;
+        min-height: 0;
+
+        > * {
+          width: 100%;
+          box-sizing: border-box;
+        }
+      }
+    }
   }
 
   .dialog-header {

@@ -135,10 +135,9 @@ function openIframeDialog(editor: TiptapEditor): void {
     const existing = editor.tiptap.getAttributes('iframe')
     const isEdit = !!existing.src
 
-    const dialog = editor.createDialog(
-        isEdit ? 'iframe_edit' : 'iframe_insert',
-        'tiptap-dialog-iframe'
-    )
+    const dialog = editor.createDialog(isEdit ? 'iframe_edit' : 'iframe_insert', {
+        bodyClass: 'tiptap-dialog-iframe'
+    })
 
     const textarea = document.createElement('textarea')
     textarea.className = 'tiptap-iframe-input'

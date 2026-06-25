@@ -8,6 +8,7 @@ interface DialogButton {
 
 interface DialogOptions {
     draggable?: boolean
+    resizable?: boolean
     closeLabel: string
     bodyClass?: string
     doc?: Document
@@ -62,6 +63,11 @@ export class Dialog {
 
         if (this.options.draggable) {
             this.makeDraggable()
+        }
+
+        if (this.options.resizable) {
+            const content = this.element.querySelector('.dialog-content') as HTMLElement
+            content.classList.add('resizable')
         }
 
         this.doc.body.appendChild(this.element)

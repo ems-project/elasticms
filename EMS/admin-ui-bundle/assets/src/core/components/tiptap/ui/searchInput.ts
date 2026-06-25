@@ -48,7 +48,7 @@ export function createSearchInput(config: SearchInputConfig): SearchInput {
 
     const results = document.createElement('div')
     results.style.cssText =
-        'max-height: 200px; overflow-y: auto; border: 1px solid #ccc; display: none;'
+        'max-height: 200px; overflow-y: auto; border: 1px solid #ccc; display: none; box-sizing: border-box; width: 100%;'
     container.appendChild(results)
 
     const hiddenId = document.createElement('input')

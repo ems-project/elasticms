@@ -281,10 +281,13 @@ final readonly class ElasticmsMcpToolDataService extends AbstractElasticmsMcpToo
      */
     private function buildCreateDocumentInputSchema(ContentType $contentType): array
     {
+        $rawDataSchema = $this->buildRawDataSchema($contentType->getFieldType(), filterEditableFields: true, includeRequired: true);
+        $rawDataSchema['additionalProperties'] = true;
+
         return [
             'type' => 'object',
             'properties' => [
-                'rawData' => ['type' => 'object'],
+                'rawData' => $rawDataSchema,
                 'ouuid' => [
                     'type' => 'string',
                     'description' => 'Optional OUUID. When omitted, elasticMS will generate one.',

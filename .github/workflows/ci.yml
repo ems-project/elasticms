@@ -6,6 +6,7 @@ on:
 
 env:
   PHP_VERSION: 8.5
+  OTEL_PHP_AUTOLOAD_ENABLED: false
 
 jobs:
   code-quality:

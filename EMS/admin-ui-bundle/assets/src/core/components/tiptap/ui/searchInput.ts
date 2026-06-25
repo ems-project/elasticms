@@ -1,3 +1,5 @@
+import '../../../../../css/core/components/tiptap/_search_input.scss'
+
 export type SearchInputConfig = {
     searchUrl: string
     filters?: [string, string][]
@@ -18,7 +20,7 @@ export type SearchInput = {
 
 export function createSearchInput(config: SearchInputConfig): SearchInput {
     const container = document.createElement('div')
-    container.style.cssText = 'display: flex; flex-direction: column; gap: 10px;'
+    container.className = 'search-input'
 
     if (config.filters && config.filters.length > 1) {
         const filterWrapper = document.createElement('div')
@@ -48,9 +50,7 @@ export function createSearchInput(config: SearchInputConfig): SearchInput {
     searchWrapper.appendChild(searchInput)
 
     const results = document.createElement('div')
-    results.className = 'search-input-results'
-    results.style.cssText =
-        'max-height: 200px; overflow-y: auto; border: 1px solid #ccc; box-sizing: border-box; width: 100%; display: none;'
+    results.className = 'search-input__results'
 
     searchWrapper.appendChild(results)
     container.appendChild(searchWrapper)
@@ -59,14 +59,12 @@ export function createSearchInput(config: SearchInputConfig): SearchInput {
     const selectedLabel = document.createElement('label')
     selectedLabel.textContent = config.selectedLabel
     const selected = document.createElement('div')
-    selected.style.cssText =
-        'padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 34px;'
+    selected.className = 'search-input__selected'
     const selectedContent = document.createElement('span')
     const clearBtn = document.createElement('button')
     clearBtn.type = 'button'
     clearBtn.textContent = '×'
-    clearBtn.style.cssText =
-        'background: none; border: none; cursor: pointer; font-size: 16px; line-height: 1; padding: 0; color: #888; flex-shrink: 0; display: none;'
+    clearBtn.className = 'search-input__clear'
     selected.appendChild(selectedContent)
     selected.appendChild(clearBtn)
     selectedWrapper.appendChild(selectedLabel)
@@ -92,14 +90,14 @@ export function createSearchInput(config: SearchInputConfig): SearchInput {
     const setNoSelection = () => {
         selectedContent.innerHTML = ''
         selectedContent.textContent = config.noSelectionLabel
-        selectedContent.style.color = '#888'
+        selectedContent.classList.add('search-input__selected--placeholder')
         clearBtn.style.display = 'none'
     }
 
     const setSelected = (html: string, label: string) => {
         hiddenLabel.value = label
         selectedContent.innerHTML = html
-        selectedContent.style.color = ''
+        selectedContent.classList.remove('search-input__selected--placeholder')
         clearBtn.style.display = 'block'
     }
 
@@ -115,13 +113,9 @@ export function createSearchInput(config: SearchInputConfig): SearchInput {
     const appendItems = (items: { id: string; text: string }[]) => {
         items.forEach((item) => {
             const el = document.createElement('div')
-            el.style.cssText = 'padding: 8px; cursor: pointer;'
+            el.className = 'search-input__results--item'
             el.tabIndex = 0
             el.innerHTML = item.text
-            el.addEventListener('mouseenter', () => (el.style.background = '#f0f0f0'))
-            el.addEventListener('mouseleave', () => (el.style.background = ''))
-            el.addEventListener('focus', () => (el.style.background = '#f0f0f0'))
-            el.addEventListener('blur', () => (el.style.background = ''))
             const select = () => {
                 hiddenId.value = item.id
                 searchInput.value = ''
@@ -155,7 +149,7 @@ export function createSearchInput(config: SearchInputConfig): SearchInput {
                 results.innerHTML = ''
                 if (!items.length) {
                     const empty = document.createElement('div')
-                    empty.style.cssText = 'padding: 8px; color: #888;'
+                    empty.className = 'search-input__results--empty'
                     empty.textContent = config.noResultsLabel
                     results.appendChild(empty)
                     return
@@ -181,7 +175,9 @@ export function createSearchInput(config: SearchInputConfig): SearchInput {
             } else {
                 setNoSelection()
             }
-        } catch { /* empty */ }
+        } catch {
+            /* empty */
+        }
         void search('*', 1)
     }
 

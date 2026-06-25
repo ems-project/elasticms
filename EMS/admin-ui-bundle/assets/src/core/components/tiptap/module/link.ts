@@ -288,7 +288,7 @@ function buildLocalPageWrapper(
                 searchPlaceholder: e.trans('link_internal_search_placeholder'),
                 noSelectionLabel: e.trans('link_internal_no_selection'),
                 noResultsLabel: e.trans('link_internal_no_results'),
-                initialId: ctx.localPageId || undefined,
+                initialId: ctx.localPageId || undefined
             })
             wrapper.appendChild(input.element)
             return input

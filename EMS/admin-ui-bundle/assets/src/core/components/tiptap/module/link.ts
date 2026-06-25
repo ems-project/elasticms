@@ -106,7 +106,7 @@ function getLinkExtension(e: TiptapEditor) {
                     new Plugin({
                         key: new PluginKey('linkDoubleClick'),
                         props: {
-                            handleDoubleClick(view, pos) {
+                            ['handleDoubleClick']: (view, pos) => {
                                 const marks = view.state.doc.resolve(pos).marks()
                                 if (!marks.some((m) => m.type.name === 'link')) return false
                                 openLinkDialog(e)

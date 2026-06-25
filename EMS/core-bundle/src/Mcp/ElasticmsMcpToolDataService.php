@@ -299,7 +299,6 @@ final readonly class ElasticmsMcpToolDataService extends AbstractElasticmsMcpToo
             ],
             'required' => ['rawData'],
             'additionalProperties' => false,
-            'required' => [],
         ];
     }
 

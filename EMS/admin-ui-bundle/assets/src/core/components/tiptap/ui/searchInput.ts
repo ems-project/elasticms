@@ -47,7 +47,8 @@ export function createSearchInput(config: SearchInputConfig): SearchInput {
     container.appendChild(searchWrapper)
 
     const results = document.createElement('div')
-    results.style.cssText = 'max-height: 200px; overflow-y: auto; border: 1px solid #ccc; display: none;'
+    results.style.cssText =
+        'max-height: 200px; overflow-y: auto; border: 1px solid #ccc; display: none;'
     container.appendChild(results)
 
     const hiddenId = document.createElement('input')
@@ -125,6 +126,6 @@ export function createSearchInput(config: SearchInputConfig): SearchInput {
     return {
         element: container,
         getValue: () => hiddenId.value.trim() || null,
-        getLabel: () => hiddenLabel.value,
+        getLabel: () => hiddenLabel.value
     }
 }

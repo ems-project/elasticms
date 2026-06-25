@@ -8,6 +8,7 @@ use EMS\CoreBundle\Core\Dashboard\DashboardManager;
 use EMS\CoreBundle\Core\User\UserManager;
 use EMS\CoreBundle\Entity\Dashboard;
 use EMS\CoreBundle\Entity\WysiwygProfile;
+use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\WysiwygStylesSetService;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -20,6 +21,7 @@ readonly class WysiwygExtension
         private UserManager $userManager,
         private UrlGeneratorInterface $urlGenerator,
         private DashboardManager $dashboardManager,
+        private ContentTypeService $contentTypeService,
     ) {
     }
 
@@ -30,6 +32,7 @@ readonly class WysiwygExtension
             'config' => \array_merge_recursive($this->getDefaultConfig(), $this->getConfig()),
             'styles' => $this->getStyles(),
             'editor' => $this->getEditor(),
+            'linkTypes' => $this->contentTypeService->getLinkTypes(),
         ]);
     }
 

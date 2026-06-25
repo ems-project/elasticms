@@ -368,9 +368,8 @@ Example, transformed to `null`:
 
 Only available for WYSIWYG field types. Removes matching html nodes.
 
-Config:
-When removing a node leaves its parent empty, the empty parent is removed too. This cascades upwards (e.g. an empty
-`<li>`, then its `<ul>`) and stops at the first non-empty ancestor.
+Config: When removing a node leaves its parent empty, the empty parent is removed too. This cascades
+upwards (e.g. an empty `<li>`, then its `<ul>`) and stops at the first non-empty ancestor.
 
 Config:
 
@@ -405,7 +404,6 @@ Examples:
 Input:
 
 ```html
-
 <ul>
     <li>
         <del class="deletedWord">Remove me</del>
@@ -420,7 +418,6 @@ Input:
 Output:
 
 ```html
-
 <ul>
     <li>Keep me</li>
 </ul>

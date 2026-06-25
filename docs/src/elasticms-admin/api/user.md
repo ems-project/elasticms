@@ -6,6 +6,9 @@ elasticMS Admin integrations.
 Every request must be authenticated with an API token. See the [Login API](./login.md) documentation
 for token generation and validation.
 
+Prefer the standard `Authorization: Bearer <token>` header. The historical `X-Auth-Token` header
+remains supported for backward compatibility.
+
 In the examples below, the token is available in the `AUTH_TOKEN` environment variable:
 
 ```shell
@@ -55,7 +58,7 @@ token.
 
 ```shell
 curl -X GET \
-     -H "X-Auth-Token: ${AUTH_TOKEN}" \
+     -H "Authorization: Bearer ${AUTH_TOKEN}" \
      -H 'Accept: application/json' \
      http://localhost:8881/api/user-profile -w '\n'
 ```
@@ -107,7 +110,7 @@ The authenticated user must have one of these roles:
 
 ```shell
 curl -X GET \
-     -H "X-Auth-Token: ${AUTH_TOKEN}" \
+     -H "Authorization: Bearer ${AUTH_TOKEN}" \
      -H 'Accept: application/json' \
      http://localhost:8881/api/user-profiles -w '\n'
 ```
@@ -158,7 +161,7 @@ Example:
 
 ```shell
 curl -X POST \
-     -H "X-Auth-Token: ${AUTH_TOKEN}" \
+     -H "Authorization: Bearer ${AUTH_TOKEN}" \
      -H 'Content-Type: application/json' \
      -H 'Accept: application/json' \
      http://localhost:8881/api/user/proxy-authenticate -d \
@@ -177,7 +180,13 @@ Successful response:
 }
 ```
 
-The returned token can be used as an `X-Auth-Token` value for subsequent API calls.
+The returned token can be used as a bearer token for subsequent API calls:
+
+```shell
+-H "Authorization: Bearer ${AUTH_TOKEN}"
+```
+
+`X-Auth-Token` is still accepted for backward compatibility.
 
 This endpoint fails when:
 
@@ -190,7 +199,7 @@ This endpoint fails when:
 
 | Symptom                                   | Check                                                                                |
 | ----------------------------------------- | ------------------------------------------------------------------------------------ |
-| `401 Unauthorized`                        | The `X-Auth-Token` header is missing or invalid.                                     |
+| `401 Unauthorized`                        | The authentication token header is missing or invalid.                               |
 | `403 Forbidden`                           | The authenticated user does not have the role required by the endpoint.              |
 | `400 Bad Request` on proxy authentication | The JSON body must contain both `username` and `email`.                              |
 | Target user not found                     | Verify the username, email and whether the user exists in Admin.                     |

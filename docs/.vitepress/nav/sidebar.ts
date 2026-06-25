@@ -62,6 +62,7 @@ const sidebar: DefaultTheme.SidebarMulti = {
                         { text: 'Job', link: '/elasticms-admin/api/job' },
                         { text: 'Monitoring', link: '/elasticms-admin/api/monitoring' },
                         { text: 'Webhook', link: '/elasticms-admin/api/webhook' },
+                        { text: 'Model Context Protocol', link: '/elasticms-admin/api/mcp' },
                     ]
                 },
             ]

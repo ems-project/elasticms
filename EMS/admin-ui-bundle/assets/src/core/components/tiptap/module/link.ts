@@ -283,10 +283,12 @@ function buildLocalPageWrapper(
                 searchUrl: searchApiUrl,
                 filters,
                 filterLabel: e.trans('link_internal_content_type'),
+                selectedLabel: e.trans('link_internal_selected'),
                 searchLabel: e.trans('link_internal_search'),
+                searchPlaceholder: e.trans('link_internal_search_placeholder'),
+                noSelectionLabel: e.trans('link_internal_no_selection'),
                 noResultsLabel: e.trans('link_internal_no_results'),
-                initialId: ctx.localPageId,
-                initialLabel: ''
+                initialId: ctx.localPageId || undefined,
             })
             wrapper.appendChild(input.element)
             return input
@@ -384,9 +386,9 @@ function openLinkDialog(e: TiptapEditor) {
         ? buildLocalPageWrapper(e, ctx)
         : null
 
-    const dialog = e.createDialog('link', { resizable: true })
+    const dialog = e.createDialog('link', { resizable: true, minWidth: 400 })
     dialog.setContent(
-        `<div style="display: flex; flex-direction: column; gap: 10px; min-width: 400px;">
+        `<div style="display: flex; flex-direction: column; gap: 10px;">
             ${buildTypeSection(e, ctx, urlTypes)}
             ${availableTypes.includes('url') ? buildUrlFields(e, ctx) : ''}
             ${availableTypes.includes('anchor') ? buildAnchorFields(e, ctx, anchors) : ''}

@@ -72,13 +72,13 @@ export function createSearchInput(config: SearchInputConfig): SearchInput {
         items.forEach((item) => {
             const el = document.createElement('div')
             el.style.cssText = 'padding: 8px; cursor: pointer;'
-            el.textContent = item.text
+            el.innerHTML = item.text
             el.addEventListener('mouseenter', () => (el.style.background = '#f0f0f0'))
             el.addEventListener('mouseleave', () => (el.style.background = ''))
             el.addEventListener('click', () => {
                 hiddenId.value = item.id
-                hiddenLabel.value = item.text
-                searchInput.value = item.text
+                hiddenLabel.value = el.innerText
+                searchInput.value = el.innerText
                 results.style.display = 'none'
             })
             results.appendChild(el)

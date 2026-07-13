@@ -89,13 +89,14 @@ class Admin implements AdminInterface
     }
 
     #[\Override]
-    public function runCommand(string $command, ?OutputInterface $output = null): string
+    public function runCommand(string $command, ?OutputInterface $output = null, ?string $tag = null): string
     {
         $job = [
             'class' => 'EMS\CoreBundle\Entity\Job',
             'arguments' => [],
             'properties' => [
                 'command' => $command,
+                'tag' => $tag,
             ],
         ];
         $jobId = $this->getConfig('job')->create($job);

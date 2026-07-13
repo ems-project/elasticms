@@ -40,7 +40,7 @@ interface AdminInterface
 
     public function writeJobOutput(string $jobId, OutputInterface $output): void;
 
-    public function runCommand(string $command, ?OutputInterface $output = null): string;
+    public function runCommand(string $command, ?OutputInterface $output = null, ?string $tag = null): string;
 
     public function getNextJob(string $tag, ?string $jobId): ?Job;
 

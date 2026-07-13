@@ -73,9 +73,6 @@ services:
             - TRUSTED_HOSTS=localhost,*.localhost
             - EMSCH_ASSET_LOCAL_FOLDER=skeleton
             - PHP_OPENTELEMETRY_ENABLED=true
-            - VARNISH_ENABLED=true
-            - VARNISH_STORAGE_FILE_ENABLED=true
-            - VARNISH_STORAGE_FILE_SIZE=128M
             - METRICS_ENABLED=true
             - MESSENGER_ENABLED=false
             - APP_LOG_DIR=/app/var/log/elasticms

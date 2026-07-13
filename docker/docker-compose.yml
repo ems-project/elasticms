@@ -173,6 +173,30 @@ services:
             - "traefik.http.routers.varnish.entrypoints=web"
             - "traefik.http.services.varnish.loadbalancer.server.port=80"
 
+    mcp_inspect:
+        profiles: [ "all","mcp" ]
+        image: ghcr.io/modelcontextprotocol/inspector:latest
+        environment:
+            HOST: 0.0.0.0
+            SERVER_HOST: 0.0.0.0
+            CLIENT_PORT: 6274
+            SERVER_PORT: 6277
+            MCP_AUTO_OPEN_ENABLED: false
+            ALLOWED_ORIGINS: "http://mcp-inspect.localhost,http://mcp-inspect-proxy.localhost"
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+        labels:
+            - "elasticMS"
+            - "traefik.enable=true"
+            - "traefik.http.routers.mcp_inspect.rule=Host(`mcp-inspect.localhost`)"
+            - "traefik.http.routers.mcp_inspect.service=mcp_inspect"
+            - "traefik.http.routers.mcp_inspect.entrypoints=web"
+            - "traefik.http.services.mcp_inspect.loadbalancer.server.port=6274"
+            - "traefik.http.routers.mcp_inspect_proxy.rule=Host(`mcp-inspect-proxy.localhost`)"
+            - "traefik.http.routers.mcp_inspect_proxy.service=mcp_inspect_proxy"
+            - "traefik.http.routers.mcp_inspect_proxy.entrypoints=web"
+            - "traefik.http.services.mcp_inspect_proxy.loadbalancer.server.port=6277"
+
     keycloak:
         profiles: [ "all","keycloak" ]
         image: quay.io/keycloak/keycloak:24.0
@@ -258,6 +282,8 @@ services:
     sandbox:
         profiles: [ "all","sandbox" ]
         image: docker.io/smalswebtech/base-php:8.5-cli-dev
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
         user: ${DOCKER_USER-1000}
         env_file:
             -   ./sandbox.env

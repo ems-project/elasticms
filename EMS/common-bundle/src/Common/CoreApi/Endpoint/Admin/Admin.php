@@ -91,17 +91,17 @@ class Admin implements AdminInterface
     }
 
     #[\Override]
-    public function runCommand(string $command, ?OutputInterface $output = null): string
+    public function runCommand(string $command, ?OutputInterface $output = null, ?string $tag = null): string
     {
         $create = $this->client->post('/api/admin/job/create', [
             'command' => $command,
-        ])->getData();
+        'tag' => $tag,
+            ])->getData();
 
         $jobId = $create['jobId'] ?? null;
         if (null === $jobId) {
             throw new \RuntimeException('Could not create job');
         }
-
         $this->startJob($jobId);
         if (null !== $output) {
             $this->writeJobOutput($jobId, $output);

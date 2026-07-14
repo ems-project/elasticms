@@ -50,7 +50,7 @@ class ReleaseCommand extends AbstractCommand
             $branch = $this->github->getBranch($this->version->getBranchName());
             $deploy = $this->makeDeploy($this->version, $branch);
 
-            $this->git->isBranch($branch)->isRemote(Config::REMOTE);
+            $this->git->isBranch($branch)->isRemote(Config::REMOTE, Config::REMOTE_SSH);
 
             $changes = $this->getChanges($deploy);
             $this->io->section('Changelog');

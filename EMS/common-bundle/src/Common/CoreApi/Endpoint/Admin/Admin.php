@@ -95,8 +95,8 @@ class Admin implements AdminInterface
     {
         $create = $this->client->post('/api/admin/job/create', [
             'command' => $command,
-        'tag' => $tag,
-            ])->getData();
+            'tag' => $tag,
+        ])->getData();
 
         $jobId = $create['jobId'] ?? null;
         if (null === $jobId) {

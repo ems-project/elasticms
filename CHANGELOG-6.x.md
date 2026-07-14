@@ -1,5 +1,9 @@
 # Changelog 6.x
 
+## 6.9.24 (2026-07-14)
+### Bug Fixes
+* fix(common/api): create job with tag by @Davidmattei in https://github.com/ems-project/elasticms/pull/1773
+
 ## 6.9.23 (2026-06-17)
 ### Bug Fixes
 * fix(admin/xliff): update new option current-revision-force by @Davidmattei in https://github.com/ems-project/elasticms/pull/1758

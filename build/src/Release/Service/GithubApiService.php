@@ -98,17 +98,6 @@ class GithubApiService
     public function getPreviousVersion(Version $version): Version
     {
         $tags = $this->getTags();
-
-        if ('patch' === $version->getType()) {
-            $previousVersion = new Version($version->major, $version->minor, $version->patch - 1);
-
-            if (!\in_array($previousVersion->getTag(), $tags, true)) {
-                throw new \RuntimeException('Previous version not found!');
-            }
-
-            return $previousVersion;
-        }
-
         $versionTag = $version->getTag();
 
         if (!\in_array($versionTag, $tags, true)) {
@@ -117,6 +106,10 @@ class GithubApiService
 
         \usort($tags, static fn (string $a, string $b): int => \version_compare($b, $a));
         $versionIndex = \array_search($versionTag, $tags, true);
+
+        if (!\is_int($versionIndex)) {
+            throw new \RuntimeException('Invalid version index');
+        }
 
         $previousVersion = $tags[++$versionIndex] ?? null;
         if (null === $previousVersion) {

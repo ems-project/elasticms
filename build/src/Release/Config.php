@@ -6,7 +6,8 @@ namespace Build\Release;
 
 class Config
 {
-    public const REMOTE = 'git@github.com:ems-project/elasticms.git';
+    public const string REMOTE = 'https://github.com/ems-project/elasticms.git';
+    public const string REMOTE_SSH = 'git@github.com:ems-project/elasticms.git';
 
     /** @var array<string, string[]> */
     public const REPOSITORIES = [

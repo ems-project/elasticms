@@ -25,15 +25,23 @@ readonly class WysiwygExtension
     ) {
     }
 
+    /**
+     * @return array{
+     *     config: array<mixed>,
+     *     styles: array<mixed>,
+     *     editor: string,
+     *     linkTypes: array<int, string[]>
+     * }
+     */
     #[AsTwigFunction(name: 'emsco_wysiwyg_info')]
-    public function getInfo(): string
+    public function getInfo(): array
     {
-        return Json::encode([
+        return [
             'config' => \array_merge_recursive($this->getDefaultConfig(), $this->getConfig()),
             'styles' => $this->getStyles(),
             'editor' => $this->getEditor(),
             'linkTypes' => $this->contentTypeService->getLinkTypes(),
-        ]);
+        ];
     }
 
     /**

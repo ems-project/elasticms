@@ -85,6 +85,7 @@ readonly class WysiwygExtension
             'imageUploadUrl' => $this->urlGenerator->generate('ems_image_upload_url'),
             'imageBrowser_listUrl' => $this->urlGenerator->generate('ems_images_index'),
             'ems_filesUrl' => $this->urlGenerator->generate('ems_core_uploaded_file_wysiwyg_index'),
+            'searchUrl' => $this->urlGenerator->generate('elasticsearch.api.search'),
         ];
 
         foreach (Dashboard::DASHBOARD_BROWSERS as $definition) {

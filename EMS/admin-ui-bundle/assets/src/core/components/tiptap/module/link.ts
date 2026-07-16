@@ -7,9 +7,7 @@ import { escapeHtml } from '../helper.ts'
 import { TranslationKey } from '../translations.ts'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { createSearchInput, SearchInput } from '../ui/searchInput.ts'
-
-const URL_TYPES = ['url', 'anchor', 'email', 'phone', 'localPage'] as const
-type UrlType = (typeof URL_TYPES)[number]
+import { UrlType } from '../../wysiwyg/wysiwyg.ts'
 
 const URL_TYPE_OPTIONS: { value: UrlType; label: TranslationKey }[] = [
     { value: 'url', label: 'link_type_url' },
@@ -181,8 +179,9 @@ function getAnchorsFromDoc(e: TiptapEditor): string[] {
     return [...new Set(anchors)]
 }
 
-function buildTypeSection(e: TiptapEditor, ctx: LinkContext, urlTypes?: string[]) {
-    const options = URL_TYPE_OPTIONS.filter((o) => !urlTypes || urlTypes.includes(o.value))
+function buildTypeSection(e: TiptapEditor, ctx: LinkContext, urlTypes: UrlType[]) {
+    const options = urlTypes
+        .map((t) => URL_TYPE_OPTIONS.find((o) => o.value === t)!)
         .map(
             (o) =>
                 `<option value="${o.value}"${ctx.type === o.value ? ' selected' : ''}>${e.trans(o.label)}</option>`
@@ -266,22 +265,13 @@ function buildLocalPageWrapper(
     e: TiptapEditor,
     ctx: LinkContext
 ): { html: string; mount: (root: HTMLElement) => SearchInput } {
-    const searchApiUrl = e.docParent.body.dataset.searchApi ?? ''
-    let filters: [string, string][] = []
-    try {
-        const raw = e.docParent.body.dataset.wysiwygTypeFilters
-        if (raw) filters = JSON.parse(raw)
-    } catch {
-        /* empty */
-    }
-
     return {
         html: `<div id="link-fields-localPage" style="display: none; flex-direction: column; gap: 10px;"></div>`,
         mount(root: HTMLElement): SearchInput {
             const wrapper = root.querySelector<HTMLElement>('#link-fields-localPage')!
             const input = createSearchInput({
-                searchUrl: searchApiUrl,
-                filters,
+                searchUrl: e.profile.config.searchUrl ?? '',
+                filters: e.profile.linkTypes,
                 filterLabel: e.trans('link_internal_content_type'),
                 selectedLabel: e.trans('link_internal_selected'),
                 searchLabel: e.trans('link_internal_search'),
@@ -327,8 +317,8 @@ const HREF_BUILDERS: Record<UrlType, (root: HTMLElement) => LinkResult | null> =
     localPage: () => null
 }
 
-function showFields(root: HTMLElement, type: UrlType) {
-    URL_TYPES.forEach((t) => {
+function showFields(root: HTMLElement, urlTypes: UrlType[], type: UrlType) {
+    urlTypes.forEach((t) => {
         const el = root.querySelector<HTMLElement>(`#link-fields-${t}`)
         if (el) el.style.display = t === type ? 'flex' : 'none'
     })
@@ -369,32 +359,34 @@ function applyLink(e: TiptapEditor, result: LinkResult, isEdit: boolean, from: n
 }
 
 function openLinkDialog(e: TiptapEditor) {
-    const urlTypes = e.profile.config.ems?.urlTypes as UrlType[] | undefined
-    const urlTargetDefaultBlank = e.profile.config.ems?.urlTargetDefaultBlank
     const { from, to } = e.tiptap.state.selection
     const isEdit = e.tiptap.isActive('link')
     const ctx = getLinkContext(e)
     const anchors = getAnchorsFromDoc(e)
 
-    const availableTypes = urlTypes ?? [...URL_TYPES]
-    if (!availableTypes.includes(ctx.type)) ctx.type = availableTypes[0]
-    if (!isEdit && !ctx.target && urlTargetDefaultBlank?.includes(ctx.type)) {
+    const urlTypes = e.profile.urlTypes
+    if (!isEdit || !urlTypes.includes(ctx.type)) {
+        ctx.type = urlTypes[0]
+    }
+    if (!isEdit && !ctx.target && e.profile.isUrlTargetDefaultBlank(ctx.type)) {
         ctx.target = '_blank'
     }
 
-    const localPageWrapper = availableTypes.includes('localPage')
-        ? buildLocalPageWrapper(e, ctx)
-        : null
+    const localPageWrapper = urlTypes.includes('localPage') ? buildLocalPageWrapper(e, ctx) : null
+
+    const FIELD_BUILDERS: Record<UrlType, () => string> = {
+        url: () => buildUrlFields(e, ctx),
+        anchor: () => buildAnchorFields(e, ctx, anchors),
+        email: () => buildEmailFields(e, ctx),
+        phone: () => buildPhoneFields(e, ctx),
+        localPage: () => localPageWrapper?.html ?? ''
+    }
 
     const dialog = e.createDialog('link', { resizable: true, minWidth: 400 })
     dialog.setContent(
         `<div style="display: flex; flex-direction: column; gap: 10px;">
             ${buildTypeSection(e, ctx, urlTypes)}
-            ${availableTypes.includes('url') ? buildUrlFields(e, ctx) : ''}
-            ${availableTypes.includes('anchor') ? buildAnchorFields(e, ctx, anchors) : ''}
-            ${availableTypes.includes('email') ? buildEmailFields(e, ctx) : ''}
-            ${availableTypes.includes('phone') ? buildPhoneFields(e, ctx) : ''}
-            ${localPageWrapper ? localPageWrapper.html : ''}
+            ${urlTypes.map((t) => FIELD_BUILDERS[t]()).join('')}
         </div>`
     )
 
@@ -425,8 +417,10 @@ function openLinkDialog(e: TiptapEditor) {
         })
         .open()
 
-    showFields(root, ctx.type)
+    showFields(root, urlTypes, ctx.type)
 
     const typeSelect = root.querySelector<HTMLSelectElement>('#link-type')!
-    typeSelect.addEventListener('change', () => showFields(root, typeSelect.value as UrlType))
+    typeSelect.addEventListener('change', () =>
+        showFields(root, urlTypes, typeSelect.value as UrlType)
+    )
 }

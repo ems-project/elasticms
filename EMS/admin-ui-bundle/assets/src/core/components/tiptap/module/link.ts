@@ -6,7 +6,7 @@ import { TiptapEditor } from '../editor.ts'
 import { escapeHtml } from '../helper.ts'
 import { TranslationKey } from '../translations.ts'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
-import { createSearchInput, SearchInput } from '../ui/searchInput.ts'
+import { createSearchInput } from '../ui/searchInput.ts'
 import { UrlType } from '../../wysiwyg/wysiwyg.ts'
 
 const URL_TYPE_OPTIONS: { value: UrlType; label: TranslationKey }[] = [
@@ -264,24 +264,56 @@ function buildPhoneFields(e: TiptapEditor, ctx: LinkContext) {
 function buildLocalPageWrapper(
     e: TiptapEditor,
     ctx: LinkContext
-): { html: string; mount: (root: HTMLElement) => SearchInput } {
+): { html: string; mount: (root: HTMLElement) => { getId: () => string | null } } {
+    const typeOptions = e.profile.linkTypes
+        .map(([label, value]) => `<option value="${value}">${label}</option>`)
+        .join('')
+
     return {
-        html: `<div id="link-fields-localPage" style="display: none; flex-direction: column; gap: 10px;"></div>`,
-        mount(root: HTMLElement): SearchInput {
-            const wrapper = root.querySelector<HTMLElement>('#link-fields-localPage')!
-            const input = createSearchInput({
+        html: `<div id="link-fields-localPage" style="display: none; flex-direction: column; gap: 10px;">
+            ${
+            e.profile.linkTypes.length > 1
+                ? `<div>
+                        <label for="link-localPage-type">${e.trans('link_internal_content_type')}</label>
+                        <select id="link-localPage-type">${typeOptions}</select>
+                    </div>`
+                : ''
+        }
+            <div id="link-localPage-search"></div>
+            <div>
+                <label for="link-target-localPage">${e.trans('link_target')}</label>
+                <select id="link-target-localPage">
+                    <option value=""${!ctx.target ? ' selected' : ''}>${e.trans('select')}</option>
+                    <option value="_blank"${ctx.target === '_blank' ? ' selected' : ''}>${e.trans('link_target_new_window')}</option>
+                    <option value="_self"${ctx.target === '_self' ? ' selected' : ''}>${e.trans('link_target_same_window')}</option>
+                </select>
+            </div>
+        </div>`,
+        mount(root: HTMLElement) {
+            const wrapper = root.querySelector<HTMLElement>('#link-localPage-search')!
+            const typeSelect = root.querySelector<HTMLSelectElement>('#link-localPage-type')
+            const targetSelect = root.querySelector<HTMLSelectElement>('#link-target-localPage')!
+            let selectedId: string | null = ctx.localPageId || null
+
+            const search = createSearchInput<{ type: string }>({
                 searchUrl: e.profile.config.searchUrl ?? '',
-                filters: e.profile.linkTypes,
-                filterLabel: e.trans('link_internal_content_type'),
-                selectedLabel: e.trans('link_internal_selected'),
                 searchLabel: e.trans('link_internal_search'),
                 searchPlaceholder: e.trans('link_internal_search_placeholder'),
-                noSelectionLabel: e.trans('link_internal_no_selection'),
                 noResultsLabel: e.trans('link_internal_no_results'),
-                initialId: ctx.localPageId || undefined
+                initialId: ctx.localPageId || undefined,
+                onChange: (value) => {
+                    selectedId = value?.id ?? null
+                }
             })
-            wrapper.appendChild(input.element)
-            return input
+            wrapper.appendChild(search.element)
+
+            typeSelect?.addEventListener('change', () => {
+                targetSelect.value = e.profile.isUrlTargetDefaultBlank(typeSelect.value) ? '_blank' : ''
+                search.setExtraParams(typeSelect.value ? { type: typeSelect.value } : {})
+                search.clear()
+            })
+
+            return { getId: () => selectedId }
         }
     }
 }
@@ -397,9 +429,10 @@ function openLinkDialog(e: TiptapEditor) {
         const type = root.querySelector<HTMLSelectElement>('#link-type')!.value as UrlType
         let result: LinkResult | null
         if (type === 'localPage') {
-            const id = localPageSearch?.getValue() ?? null
+            const id = localPageSearch?.getId() ?? null
             if (!id) return
-            result = { href: `ems://object:${id}`, target: null }
+            const target = root.querySelector<HTMLSelectElement>('#link-target-localPage')!.value || null
+            result = { href: `ems://object:${id}`, target }
         } else {
             result = HREF_BUILDERS[type]?.(root) ?? null
         }

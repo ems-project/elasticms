@@ -38,7 +38,7 @@ export class WysiwygProfile {
         return configured.filter((t): t is UrlType => (URL_TYPES as readonly string[]).includes(t))
     }
 
-    isUrlTargetDefaultBlank(type: UrlType): boolean {
+    isUrlTargetDefaultBlank(type: string): boolean {
         return this.config.ems?.urlTargetDefaultBlank?.includes(type) ?? false
     }
 

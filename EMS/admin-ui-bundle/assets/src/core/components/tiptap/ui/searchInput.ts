@@ -1,132 +1,107 @@
 import '../../../../../css/core/components/tiptap/_search_input.scss'
 
-export type SearchInputConfig = {
+export type SearchInputItem<T = unknown> = { id: string; text: string; data?: T }
+export type SearchInputValue<T = unknown> = { id: string; label: string; data: T | null } | null
+
+export type SearchInputConfig<T = unknown> = {
     searchUrl: string
-    filters?: [string, string][]
-    filterLabel: string
-    selectedLabel: string
     searchLabel: string
     searchPlaceholder: string
-    noSelectionLabel: string
     noResultsLabel: string
     initialId?: string
+    extraParams?: Record<string, string>
+    onChange: (value: SearchInputValue<T>) => void
 }
 
 export type SearchInput = {
     element: HTMLElement
-    getValue(): string | null
-    getLabel(): string
+    setExtraParams: (params: Record<string, string>) => void
+    clear: () => void
 }
 
-export function createSearchInput(config: SearchInputConfig): SearchInput {
+export function createSearchInput<T = unknown>(config: SearchInputConfig<T>): SearchInput {
     const container = document.createElement('div')
     container.className = 'search-input'
 
-    if (config.filters && config.filters.length > 1) {
-        const filterWrapper = document.createElement('div')
-        const filterLabel = document.createElement('label')
-        filterLabel.textContent = config.filterLabel
-        const filterSelect = document.createElement('select')
-        filterSelect.id = 'search-input-type'
-        config.filters.forEach(([label, value]) => {
-            const opt = document.createElement('option')
-            opt.value = value
-            opt.textContent = label
-            filterSelect.appendChild(opt)
-        })
-        filterWrapper.appendChild(filterLabel)
-        filterWrapper.appendChild(filterSelect)
-        container.appendChild(filterWrapper)
-    }
+    const label = document.createElement('label')
+    label.textContent = config.searchLabel
+    container.appendChild(label)
 
-    const searchWrapper = document.createElement('div')
-    const searchLabel = document.createElement('label')
-    searchLabel.textContent = config.searchLabel
-    const searchInput = document.createElement('input')
-    searchInput.type = 'text'
-    searchInput.autocomplete = 'off'
-    searchInput.placeholder = config.searchPlaceholder
-    searchWrapper.appendChild(searchLabel)
-    searchWrapper.appendChild(searchInput)
+    const inputWrapper = document.createElement('div')
+    inputWrapper.className = 'search-input__wrapper'
 
-    const results = document.createElement('div')
-    results.className = 'search-input__results'
+    const input = document.createElement('input')
+    input.type = 'text'
+    input.autocomplete = 'off'
+    input.placeholder = config.searchPlaceholder
 
-    searchWrapper.appendChild(results)
-    container.appendChild(searchWrapper)
+    const display = document.createElement('div')
+    display.className = 'search-input__display'
 
-    const selectedWrapper = document.createElement('div')
-    const selectedLabel = document.createElement('label')
-    selectedLabel.textContent = config.selectedLabel
-    const selected = document.createElement('div')
-    selected.className = 'search-input__selected'
-    const selectedContent = document.createElement('span')
     const clearBtn = document.createElement('button')
     clearBtn.type = 'button'
     clearBtn.textContent = '×'
     clearBtn.className = 'search-input__clear'
-    selected.appendChild(selectedContent)
-    selected.appendChild(clearBtn)
-    selectedWrapper.appendChild(selectedLabel)
-    selectedWrapper.appendChild(selected)
-    container.appendChild(selectedWrapper)
+    clearBtn.style.display = 'none'
 
-    const hiddenId = document.createElement('input')
-    hiddenId.type = 'hidden'
-    hiddenId.value = config.initialId ?? ''
-    container.appendChild(hiddenId)
+    inputWrapper.appendChild(input)
+    inputWrapper.appendChild(display)
+    inputWrapper.appendChild(clearBtn)
+    container.appendChild(inputWrapper)
 
-    const hiddenLabel = document.createElement('input')
-    hiddenLabel.type = 'hidden'
-    container.appendChild(hiddenLabel)
-
-    const typeSelect = container.querySelector<HTMLSelectElement>('#search-input-type')
+    const results = document.createElement('div')
+    results.className = 'search-input__results'
+    container.appendChild(results)
 
     let currentQuery = '*'
     let currentPage = 1
+    let extraParams = config.extraParams ?? {}
     let hasMore = false
     let loading = false
+    let hasSelection = false
+    let currentSelection: { label: string; html: string } | null = null
 
-    const setNoSelection = () => {
-        selectedContent.innerHTML = ''
-        selectedContent.textContent = config.noSelectionLabel
-        selectedContent.classList.add('search-input__selected--placeholder')
-        clearBtn.style.display = 'none'
-    }
-
-    const setSelected = (html: string, label: string) => {
-        hiddenLabel.value = label
-        selectedContent.innerHTML = html
-        selectedContent.classList.remove('search-input__selected--placeholder')
+    const selectItem = (id: string, label: string, html: string, data: T | null) => {
+        hasSelection = true
+        currentSelection = { label, html }
+        input.value = label
+        display.innerHTML = html
+        display.style.display = 'flex'
         clearBtn.style.display = 'block'
+        results.style.display = 'none'
+        config.onChange({ id, label, data })
     }
 
     const clearSelection = () => {
-        hiddenId.value = ''
-        hiddenLabel.value = ''
-        setNoSelection()
+        hasSelection = false
+        currentSelection = null
+        input.value = ''
+        display.innerHTML = ''
+        display.style.display = 'none'
+        clearBtn.style.display = 'none'
+        config.onChange(null)
+        input.focus()
+        currentQuery = '*'
+        currentPage = 1
+        hasMore = false
         void search('*', 1)
+        results.style.display = 'block'
     }
 
     clearBtn.addEventListener('click', clearSelection)
 
-    const appendItems = (items: { id: string; text: string }[]) => {
+    const appendItems = (items: SearchInputItem<T>[]) => {
         items.forEach((item) => {
             const el = document.createElement('div')
             el.className = 'search-input__results--item'
             el.tabIndex = 0
             el.innerHTML = item.text
-            const select = () => {
-                hiddenId.value = item.id
-                searchInput.value = ''
-                results.style.display = 'none'
-                setSelected(item.text, el.innerText)
-            }
-            el.addEventListener('click', select)
+            const pick = () => selectItem(item.id, el.innerText, item.text, item.data ?? null)
+            el.addEventListener('click', pick)
             el.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault()
-                    select()
+                    pick()
                 }
             })
             results.appendChild(el)
@@ -139,11 +114,11 @@ export function createSearchInput(config: SearchInputConfig): SearchInput {
         const url = new URL(config.searchUrl, location.href)
         url.searchParams.set('q', q)
         url.searchParams.set('page', String(page))
-        if (typeSelect?.value) url.searchParams.set('type', typeSelect.value)
+        Object.entries(extraParams).forEach(([k, v]) => url.searchParams.set(k, v))
         try {
             const res = await fetch(url.toString(), { headers: { Accept: 'application/json' } })
             const data = await res.json()
-            const items: { id: string; text: string }[] = data.items ?? []
+            const items: SearchInputItem<T>[] = data.items ?? []
             hasMore = data.incomplete_results === true
             if (page === 1) {
                 results.innerHTML = ''
@@ -169,16 +144,11 @@ export function createSearchInput(config: SearchInputConfig): SearchInput {
         try {
             const res = await fetch(url.toString(), { headers: { Accept: 'application/json' } })
             const data = await res.json()
-            const item = data.items?.[0]
-            if (item) {
-                setSelected(item.text, item.title ?? item.text)
-            } else {
-                setNoSelection()
-            }
+            const item: (SearchInputItem<T> & { title?: string }) | undefined = data.items?.[0]
+            if (item) selectItem(item.id, item.title ?? item.text, item.text, item.data ?? null)
         } catch {
-            /* empty */
+            console.error('Failed to fetch initial search-input item')
         }
-        void search('*', 1)
     }
 
     results.addEventListener('scroll', () => {
@@ -191,7 +161,7 @@ export function createSearchInput(config: SearchInputConfig): SearchInput {
 
     let timer: ReturnType<typeof setTimeout>
 
-    searchInput.addEventListener('keydown', (e) => {
+    input.addEventListener('keydown', (e) => {
         if (e.key === 'ArrowDown') {
             e.preventDefault()
             const first = results.querySelector<HTMLElement>('[tabindex="0"]')
@@ -199,20 +169,37 @@ export function createSearchInput(config: SearchInputConfig): SearchInput {
         }
     })
 
-    searchInput.addEventListener('focus', () => {
-        if (!searchInput.value.trim()) {
-            currentQuery = '*'
-            currentPage = 1
-            hasMore = false
-            void search('*', 1)
-        }
+    display.addEventListener('click', () => {
+        input.focus()
+    })
+
+    input.addEventListener('focus', () => {
+        display.style.display = 'none'
+        clearBtn.style.display = 'none'
+        input.value = ''
+        currentQuery = '*'
+        currentPage = 1
+        hasMore = false
+        void search('*', 1)
         results.style.display = 'block'
     })
 
-    searchInput.addEventListener('input', () => {
+    input.addEventListener('blur', () => {
+        setTimeout(() => {
+            results.style.display = 'none'
+            if (hasSelection && currentSelection) {
+                input.value = currentSelection.label
+                display.innerHTML = currentSelection.html
+                display.style.display = 'flex'
+                clearBtn.style.display = 'block'
+            }
+        }, 150)
+    })
+
+    input.addEventListener('input', () => {
         clearTimeout(timer)
         results.style.display = 'block'
-        const q = searchInput.value.trim()
+        const q = input.value.trim()
         const query = q.length < 1 ? '*' : q
         timer = setTimeout(() => {
             currentQuery = query
@@ -222,24 +209,16 @@ export function createSearchInput(config: SearchInputConfig): SearchInput {
         }, 300)
     })
 
-    if (typeSelect) {
-        typeSelect.addEventListener('change', () => {
-            currentPage = 1
-            hasMore = false
-            void search(currentQuery, 1)
-        })
-    }
-
-    if (config.initialId) {
-        void fetchInitial(config.initialId)
-    } else {
-        setNoSelection()
-        void search('*', 1)
-    }
+    if (config.initialId) void fetchInitial(config.initialId)
 
     return {
         element: container,
-        getValue: () => hiddenId.value.trim() || null,
-        getLabel: () => hiddenLabel.value
+        setExtraParams: (params) => {
+            extraParams = params
+            currentPage = 1
+            hasMore = false
+            void search(currentQuery, 1)
+        },
+        clear: clearSelection
     }
 }

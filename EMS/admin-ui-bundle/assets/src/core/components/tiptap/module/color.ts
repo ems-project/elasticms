@@ -53,7 +53,13 @@ export const colorModule: TiptapModule = {
                 name: 'TextColor',
                 order: 10,
                 create: (editor) =>
-                    createColorDropdown(editor, 'font', 'TextColor', editor.trans('color_font'), IconTextColor),
+                    createColorDropdown(
+                        editor,
+                        'font',
+                        'TextColor',
+                        editor.trans('color_font'),
+                        IconTextColor
+                    ),
                 destroy: (editor) => destroyColorDropdown(editor, 'font')
             },
             {

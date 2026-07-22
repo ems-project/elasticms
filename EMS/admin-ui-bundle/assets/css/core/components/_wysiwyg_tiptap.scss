@@ -72,7 +72,9 @@ body.wysiwyg-resizing {
     }
     .wysiwyg-source-container {
         display: none;
-        height: 100%;
+        flex: 1;
+        min-height: 0;
+        overflow: hidden;
 
         .ems-code-editor,
         .ace_editor {

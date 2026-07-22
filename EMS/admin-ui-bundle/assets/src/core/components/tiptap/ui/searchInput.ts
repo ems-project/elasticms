@@ -28,7 +28,7 @@ export function createSearchInput<T = unknown>(config: SearchInputConfig<T>): Se
     container.appendChild(label)
 
     const inputWrapper = document.createElement('div')
-    inputWrapper.className = 'search-input__wrapper'
+    inputWrapper.className = 'search-wrapper'
 
     const input = document.createElement('input')
     input.type = 'text'
@@ -36,12 +36,12 @@ export function createSearchInput<T = unknown>(config: SearchInputConfig<T>): Se
     input.placeholder = config.searchPlaceholder
 
     const display = document.createElement('div')
-    display.className = 'search-input__display'
+    display.className = 'search-display'
 
     const clearBtn = document.createElement('button')
     clearBtn.type = 'button'
     clearBtn.textContent = '×'
-    clearBtn.className = 'search-input__clear'
+    clearBtn.className = 'search-clear'
     clearBtn.style.display = 'none'
 
     inputWrapper.appendChild(input)
@@ -50,7 +50,7 @@ export function createSearchInput<T = unknown>(config: SearchInputConfig<T>): Se
     container.appendChild(inputWrapper)
 
     const results = document.createElement('div')
-    results.className = 'search-input__results'
+    results.className = 'search-results'
     container.appendChild(results)
 
     let currentQuery = '*'
@@ -95,7 +95,7 @@ export function createSearchInput<T = unknown>(config: SearchInputConfig<T>): Se
     const appendItems = (items: SearchInputItem<T>[]) => {
         items.forEach((item) => {
             const el = document.createElement('div')
-            el.className = 'search-input__results--item'
+            el.className = 'search-item'
             el.tabIndex = 0
             el.innerHTML = item.text
             const pick = () => selectItem(item.id, el.innerText, item.text, item.data ?? null)
@@ -126,7 +126,7 @@ export function createSearchInput<T = unknown>(config: SearchInputConfig<T>): Se
                 results.innerHTML = ''
                 if (!items.length) {
                     const empty = document.createElement('div')
-                    empty.className = 'search-input__results--empty'
+                    empty.className = 'search-empty'
                     empty.textContent = config.noResultsLabel
                     results.appendChild(empty)
                     return

@@ -170,10 +170,6 @@ export class Dialog {
             }
             content.style.width = `${content.getBoundingClientRect().width}px`
         }
-        if (this.options.minHeight) {
-            this.element.querySelector<HTMLElement>('.dialog-content')!.style.minHeight =
-                `${this.options.minHeight}px`
-        }
         const firstInput = this.element.querySelector<HTMLElement>('input, select, textarea')
         if (firstInput) {
             firstInput.focus()

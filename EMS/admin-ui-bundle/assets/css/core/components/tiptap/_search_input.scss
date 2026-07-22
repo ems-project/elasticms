@@ -16,19 +16,17 @@
   }
 
   &__display {
-    position: absolute;
-    inset: 0;
+    width: 100%;
+    box-sizing: border-box;
     padding: 8px 28px 8px 8px;
     display: none;
     align-items: center;
-    gap: 4px;
+    gap: 10px;
     background: #fff;
     border: 1px solid #ccc;
     border-radius: 4px;
     cursor: text;
     overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
   }
 
   &__results {

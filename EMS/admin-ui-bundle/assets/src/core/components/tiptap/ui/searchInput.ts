@@ -65,6 +65,7 @@ export function createSearchInput<T = unknown>(config: SearchInputConfig<T>): Se
         hasSelection = true
         currentSelection = { label, html }
         input.value = label
+        input.style.display = 'none'
         display.innerHTML = html
         display.style.display = 'flex'
         clearBtn.style.display = 'block'
@@ -76,6 +77,7 @@ export function createSearchInput<T = unknown>(config: SearchInputConfig<T>): Se
         hasSelection = false
         currentSelection = null
         input.value = ''
+        input.style.display = 'block'
         display.innerHTML = ''
         display.style.display = 'none'
         clearBtn.style.display = 'none'
@@ -170,6 +172,7 @@ export function createSearchInput<T = unknown>(config: SearchInputConfig<T>): Se
     })
 
     display.addEventListener('click', () => {
+        input.style.display = 'block'
         input.focus()
     })
 
@@ -189,6 +192,7 @@ export function createSearchInput<T = unknown>(config: SearchInputConfig<T>): Se
             results.style.display = 'none'
             if (hasSelection && currentSelection) {
                 input.value = currentSelection.label
+                input.style.display = 'none'
                 display.innerHTML = currentSelection.html
                 display.style.display = 'flex'
                 clearBtn.style.display = 'block'

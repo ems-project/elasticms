@@ -1,4 +1,4 @@
-import { Mark, mergeAttributes, markPasteRule } from '@tiptap/core'
+import { Mark, mergeAttributes, markPasteRule, InputRule } from '@tiptap/core'
 import IconLink from '@tabler/icons/outline/link.svg?raw'
 import IconLinkOff from '@tabler/icons/outline/link-off.svg?raw'
 import { TiptapModule } from '../types.ts'
@@ -105,11 +105,32 @@ function getLinkExtension(e: TiptapEditor) {
                     })
                 ]
             },
+            addInputRules() {
+                return [
+                    new InputRule({
+                        find: /(https?:\/\/[^\s]+|www\.[^\s]+)\s$/,
+                        handler: ({ state, range, match }) => {
+                            const captured = match[1]
+                            const start = range.from
+                            const end = start + captured.length
+                            const href = captured.startsWith('www.')
+                                ? `https://${captured}`
+                                : captured
+                            const tr = state.tr.addMark(start, end, this.type.create({ href }))
+                            tr.removeStoredMark(this.type)
+                        }
+                    })
+                ]
+            },
             addKeyboardShortcuts() {
                 return {
                     'Mod-l': () => {
                         openLinkDialog(e)
                         return true
+                    },
+                    Enter: () => {
+                        autoLinkBeforeCursor(e)
+                        return false
                     }
                 }
             },
@@ -130,6 +151,31 @@ function getLinkExtension(e: TiptapEditor) {
             }
         })
     ]
+}
+
+function autoLinkBeforeCursor(e: TiptapEditor) {
+    const { state, view } = e.tiptap
+    const { $from } = state.selection
+    const textBefore = $from.parent.textBetween(
+        Math.max(0, $from.parentOffset - 500),
+        $from.parentOffset,
+        undefined,
+        '\ufffc'
+    )
+    const match = /(?:^|\s)((?:https?:\/\/|www\.)[^\s]+)$/.exec(textBefore)
+    if (!match) return
+
+    const linkType = state.schema.marks.link
+    if (!linkType) return
+
+    const captured = match[1]
+    const end = $from.pos
+    const start = end - captured.length
+    const href = captured.startsWith('www.') ? `https://${captured}` : captured
+
+    const tr = state.tr.addMark(start, end, linkType.create({ href }))
+    tr.removeStoredMark(linkType)
+    view.dispatch(tr)
 }
 
 interface LinkContext {

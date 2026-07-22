@@ -9,6 +9,8 @@ dialog.ems-dialog {
   background: transparent;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
   font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  max-height: 90vh;
+  overflow: hidden;
 
   &::backdrop {
     background: rgba(0, 0, 0, 0.5);
@@ -19,6 +21,8 @@ dialog.ems-dialog {
     border-radius: 4px;
     display: flex;
     flex-direction: column;
+    position: relative;
+    max-height: 90vh;
   }
 
   .dialog-header {
@@ -66,10 +70,19 @@ dialog.ems-dialog {
     &:hover {
       opacity: 0.75;
     }
+
+    &:focus-visible {
+      outline: 0;
+      box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+      border-radius: 3px;
+    }
   }
 
   .dialog-body {
     padding: 16px 20px;
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
 
     &.flush-x {
       padding-left: 0;
@@ -106,6 +119,19 @@ dialog.ems-dialog {
     }
   }
 
+  .dialog-resize-handle {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 6px;
+    cursor: ew-resize;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.08);
+    }
+  }
+
   .dialog-footer {
     display: flex;
     justify-content: flex-end;
@@ -121,6 +147,11 @@ dialog.ems-dialog {
       border: 1px solid transparent;
       cursor: pointer;
       transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+
+      &:focus-visible {
+        outline: 0;
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+      }
 
       &[data-variant="primary"] {
         color: #fff;

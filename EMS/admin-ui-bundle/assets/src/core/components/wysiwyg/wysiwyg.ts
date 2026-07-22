@@ -1,13 +1,18 @@
 import { CkeditorConfig, CkeditorStyle } from './ckeditorConfig'
 import { DEFAULT_CK_VALUES } from './ckeditorConfig.ts'
 
+export const URL_TYPES = ['url', 'anchor', 'email', 'phone', 'localPage'] as const
+export type UrlType = (typeof URL_TYPES)[number]
+
 export class WysiwygProfile {
     editor: string = 'ckeditor4'
     styles: {
         name: string
         config: CkeditorStyle[]
     }[] = []
+    linkTypes: [string, string][] = []
     config: {
+        searchUrl: string | null
         emsAjaxPaste?: string
         ems?: {
             urlTypes?: string[]
@@ -23,7 +28,18 @@ export class WysiwygProfile {
     } & CkeditorConfig = {
         emsBrowsers: undefined,
         ems: undefined,
+        searchUrl: null,
         ...DEFAULT_CK_VALUES
+    }
+
+    get urlTypes(): UrlType[] {
+        const configured = this.config.ems?.urlTypes as string[] | undefined
+        if (!configured) return [...URL_TYPES]
+        return configured.filter((t): t is UrlType => (URL_TYPES as readonly string[]).includes(t))
+    }
+
+    isUrlTargetDefaultBlank(type: string): boolean {
+        return this.config.ems?.urlTargetDefaultBlank?.includes(type) ?? false
     }
 
     hasPlugin(name: string): boolean {

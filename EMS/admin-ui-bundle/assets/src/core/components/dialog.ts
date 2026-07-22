@@ -8,6 +8,8 @@ interface DialogButton {
 
 interface DialogOptions {
     draggable?: boolean
+    resizable?: boolean
+    minWidth?: number
     closeLabel: string
     bodyClass?: string
     doc?: Document
@@ -64,7 +66,44 @@ export class Dialog {
             this.makeDraggable()
         }
 
+        if (this.options.resizable) {
+            const content = this.element.querySelector('.dialog-content') as HTMLElement
+            this.makeResizable(content)
+        }
+
         this.doc.body.appendChild(this.element)
+    }
+
+    private makeResizable(content: HTMLElement): void {
+        const handle = this.doc.createElement('div')
+        handle.className = 'dialog-resize-handle'
+        content.style.overflow = 'hidden'
+        content.appendChild(handle)
+
+        const doc = this.doc
+        let startX = 0
+        let startWidth = 0
+        const minWidth = this.options.minWidth ?? 200
+
+        const onMouseMove = (e: MouseEvent) => {
+            const newWidth = Math.max(minWidth, startWidth + (e.clientX - startX))
+            content.style.width = `${newWidth}px`
+        }
+
+        const onMouseUp = () => {
+            doc.removeEventListener('mousemove', onMouseMove)
+            doc.removeEventListener('mouseup', onMouseUp)
+            doc.body.style.userSelect = ''
+        }
+
+        handle.addEventListener('mousedown', (e) => {
+            e.preventDefault()
+            startX = e.clientX
+            startWidth = content.getBoundingClientRect().width
+            doc.body.style.userSelect = 'none'
+            doc.addEventListener('mousemove', onMouseMove)
+            doc.addEventListener('mouseup', onMouseUp)
+        })
     }
 
     private makeDraggable(): void {
@@ -124,6 +163,17 @@ export class Dialog {
     open(): void {
         this.doc.body.classList.add('dialog-open')
         this.element.showModal()
+        if (this.options.resizable) {
+            const content = this.element.querySelector<HTMLElement>('.dialog-content')!
+            if (this.options.minWidth) {
+                content.style.minWidth = `${this.options.minWidth}px`
+            }
+            content.style.width = `${content.getBoundingClientRect().width}px`
+        }
+        if (this.options.minHeight) {
+            this.element.querySelector<HTMLElement>('.dialog-content')!.style.minHeight =
+                `${this.options.minHeight}px`
+        }
         const firstInput = this.element.querySelector<HTMLElement>('input, select, textarea')
         if (firstInput) {
             firstInput.focus()

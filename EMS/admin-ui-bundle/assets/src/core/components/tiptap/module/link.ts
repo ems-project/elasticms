@@ -1,4 +1,4 @@
-import { Mark, mergeAttributes } from '@tiptap/core'
+import { Mark, mergeAttributes, markPasteRule, InputRule } from '@tiptap/core'
 import IconLink from '@tabler/icons/outline/link.svg?raw'
 import IconLinkOff from '@tabler/icons/outline/link-off.svg?raw'
 import { TiptapModule } from '../types.ts'
@@ -6,15 +6,15 @@ import { TiptapEditor } from '../editor.ts'
 import { escapeHtml } from '../helper.ts'
 import { TranslationKey } from '../translations.ts'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
-
-const URL_TYPES = ['url', 'anchor', 'email', 'phone'] as const
-type UrlType = (typeof URL_TYPES)[number]
+import { createSearchLink } from '../ui/searchLink.ts'
+import { UrlType } from '../../wysiwyg/wysiwyg.ts'
 
 const URL_TYPE_OPTIONS: { value: UrlType; label: TranslationKey }[] = [
     { value: 'url', label: 'link_type_url' },
     { value: 'anchor', label: 'link_type_anchor' },
     { value: 'email', label: 'link_type_email' },
-    { value: 'phone', label: 'link_type_phone' }
+    { value: 'phone', label: 'link_type_phone' },
+    { value: 'localPage', label: 'link_type_internal' }
 ]
 
 export const linkModule: TiptapModule = {
@@ -91,11 +91,46 @@ function getLinkExtension(e: TiptapEditor) {
             renderHTML({ HTMLAttributes }) {
                 return ['a', mergeAttributes(HTMLAttributes), 0]
             },
+            addPasteRules() {
+                return [
+                    markPasteRule({
+                        find: /https?:\/\/[^\s]+/g,
+                        type: this.type,
+                        getAttributes: (match) => ({ href: match[0] })
+                    }),
+                    markPasteRule({
+                        find: /(?<![:/])\bwww\.[^\s]+/g,
+                        type: this.type,
+                        getAttributes: (match) => ({ href: `https://${match[0]}` })
+                    })
+                ]
+            },
+            addInputRules() {
+                return [
+                    new InputRule({
+                        find: /(https?:\/\/[^\s]+|www\.[^\s]+)\s$/,
+                        handler: ({ state, range, match }) => {
+                            const captured = match[1]
+                            const start = range.from
+                            const end = start + captured.length
+                            const href = captured.startsWith('www.')
+                                ? `https://${captured}`
+                                : captured
+                            const tr = state.tr.addMark(start, end, this.type.create({ href }))
+                            tr.removeStoredMark(this.type)
+                        }
+                    })
+                ]
+            },
             addKeyboardShortcuts() {
                 return {
                     'Mod-l': () => {
                         openLinkDialog(e)
                         return true
+                    },
+                    Enter: () => {
+                        autoLinkBeforeCursor(e)
+                        return false
                     }
                 }
             },
@@ -104,7 +139,7 @@ function getLinkExtension(e: TiptapEditor) {
                     new Plugin({
                         key: new PluginKey('linkDoubleClick'),
                         props: {
-                            handleDoubleClick(view, pos) {
+                            ['handleDoubleClick']: (view, pos) => {
                                 const marks = view.state.doc.resolve(pos).marks()
                                 if (!marks.some((m) => m.type.name === 'link')) return false
                                 openLinkDialog(e)
@@ -118,6 +153,31 @@ function getLinkExtension(e: TiptapEditor) {
     ]
 }
 
+function autoLinkBeforeCursor(e: TiptapEditor) {
+    const { state, view } = e.tiptap
+    const { $from } = state.selection
+    const textBefore = $from.parent.textBetween(
+        Math.max(0, $from.parentOffset - 500),
+        $from.parentOffset,
+        undefined,
+        '\ufffc'
+    )
+    const match = /(?:^|\s)((?:https?:\/\/|www\.)[^\s]+)$/.exec(textBefore)
+    if (!match) return
+
+    const linkType = state.schema.marks.link
+    if (!linkType) return
+
+    const captured = match[1]
+    const end = $from.pos
+    const start = end - captured.length
+    const href = captured.startsWith('www.') ? `https://${captured}` : captured
+
+    const tr = state.tr.addMark(start, end, linkType.create({ href }))
+    tr.removeStoredMark(linkType)
+    view.dispatch(tr)
+}
+
 interface LinkContext {
     type: UrlType
     href: string
@@ -127,15 +187,16 @@ interface LinkContext {
     subject: string
     body: string
     phone: string
+    localPageId: string
 }
 
-type LinkResult = { href: string; target: string | null }
+type LinkResult = { href: string; target: string | null; text?: string }
 
 function getLinkContext(e: TiptapEditor): LinkContext {
     const attrs = e.tiptap.getAttributes('link')
     const href = attrs?.href ?? ''
     const target = attrs?.target ?? ''
-    const empty = { anchor: '', email: '', subject: '', body: '', phone: '' }
+    const empty = { anchor: '', email: '', subject: '', body: '', phone: '', localPageId: '' }
 
     if (href.startsWith('mailto:')) {
         const [email, query] = href.replace('mailto:', '').split('?')
@@ -156,6 +217,15 @@ function getLinkContext(e: TiptapEditor): LinkContext {
     if (href.startsWith('#')) {
         return { ...empty, type: 'anchor', href, target, anchor: href.slice(1) }
     }
+    if (href.startsWith('ems://object:')) {
+        return {
+            ...empty,
+            type: 'localPage',
+            href,
+            target,
+            localPageId: href.replace('ems://object:', '')
+        }
+    }
     return { ...empty, type: 'url', href, target }
 }
 
@@ -169,8 +239,9 @@ function getAnchorsFromDoc(e: TiptapEditor): string[] {
     return [...new Set(anchors)]
 }
 
-function buildTypeSection(e: TiptapEditor, ctx: LinkContext, urlTypes?: string[]) {
-    const options = URL_TYPE_OPTIONS.filter((o) => !urlTypes || urlTypes.includes(o.value))
+function buildTypeSection(e: TiptapEditor, ctx: LinkContext, urlTypes: UrlType[]) {
+    const options = urlTypes
+        .map((t) => URL_TYPE_OPTIONS.find((o) => o.value === t)!)
         .map(
             (o) =>
                 `<option value="${o.value}"${ctx.type === o.value ? ' selected' : ''}>${e.trans(o.label)}</option>`
@@ -250,6 +321,78 @@ function buildPhoneFields(e: TiptapEditor, ctx: LinkContext) {
     </div>`
 }
 
+function buildLocalPageWrapper(
+    e: TiptapEditor,
+    ctx: LinkContext
+): {
+    html: string
+    mount: (root: HTMLElement) => {
+        getId: () => string | null
+        getLabel: () => string | null
+    }
+} {
+    const currentType = ctx.localPageId.split(':')[0]
+    const typeOptions = e.profile.linkTypes
+        .map(
+            ([label, value]) =>
+                `<option value="${value}"${value === currentType ? ' selected' : ''}>${label}</option>`
+        )
+        .join('')
+
+    return {
+        html: `<div id="link-fields-localPage" style="display: none; flex-direction: column; gap: 10px;">
+            ${
+                e.profile.linkTypes.length > 1
+                    ? `<div>
+                        <label for="link-localPage-type">${e.trans('link_internal_content_type')}</label>
+                        <select id="link-localPage-type">${typeOptions}</select>
+                    </div>`
+                    : ''
+            }
+            <div id="link-localPage-search"></div>
+            <div>
+                <label for="link-target-localPage">${e.trans('link_target')}</label>
+                <select id="link-target-localPage">
+                    <option value=""${!ctx.target ? ' selected' : ''}>${e.trans('select')}</option>
+                    <option value="_blank"${ctx.target === '_blank' ? ' selected' : ''}>${e.trans('link_target_new_window')}</option>
+                    <option value="_self"${ctx.target === '_self' ? ' selected' : ''}>${e.trans('link_target_same_window')}</option>
+                </select>
+            </div>
+        </div>`,
+        mount(root: HTMLElement) {
+            const wrapper = root.querySelector<HTMLElement>('#link-localPage-search')!
+            const typeSelect = root.querySelector<HTMLSelectElement>('#link-localPage-type')
+            const targetSelect = root.querySelector<HTMLSelectElement>('#link-target-localPage')!
+            let selectedId: string | null = ctx.localPageId || null
+            let selectedLabel: string | null = null
+
+            const search = createSearchLink<{ type: string }>({
+                searchUrl: e.profile.config.searchUrl ?? '',
+                searchLabel: e.trans('link_internal_search'),
+                searchPlaceholder: e.trans('link_internal_search_placeholder'),
+                noResultsLabel: e.trans('link_internal_no_results'),
+                initialId: ctx.localPageId || undefined,
+                extraParams: currentType ? { type: currentType } : {},
+                onChange: (value) => {
+                    selectedId = value?.id ?? null
+                    selectedLabel = value?.title ?? null
+                }
+            })
+            wrapper.appendChild(search.element)
+
+            typeSelect?.addEventListener('change', () => {
+                targetSelect.value = e.profile.isUrlTargetDefaultBlank(typeSelect.value)
+                    ? '_blank'
+                    : ''
+                search.setExtraParams(typeSelect.value ? { type: typeSelect.value } : {})
+                search.clear()
+            })
+
+            return { getId: () => selectedId, getLabel: () => selectedLabel }
+        }
+    }
+}
+
 const HREF_BUILDERS: Record<UrlType, (root: HTMLElement) => LinkResult | null> = {
     url: (root) => {
         const input = root.querySelector<HTMLInputElement>('#link-url')!
@@ -277,22 +420,30 @@ const HREF_BUILDERS: Record<UrlType, (root: HTMLElement) => LinkResult | null> =
         const input = root.querySelector<HTMLInputElement>('#link-phone')!
         if (!input.reportValidity()) return null
         return { href: `tel:${input.value.trim()}`, target: null }
-    }
+    },
+    localPage: () => null
 }
 
-function showFields(root: HTMLElement, type: UrlType) {
-    URL_TYPES.forEach((t) => {
+function showFields(root: HTMLElement, urlTypes: UrlType[], type: UrlType) {
+    urlTypes.forEach((t) => {
         const el = root.querySelector<HTMLElement>(`#link-fields-${t}`)
         if (el) el.style.display = t === type ? 'flex' : 'none'
     })
 
-    const urlInput = root.querySelector<HTMLInputElement>('#link-url')!
-    urlInput.addEventListener('blur', () => {
-        const val = urlInput.value.trim()
-        if (val && !val.match(/^https?:\/\//i) && !val.startsWith('/') && !val.startsWith('#')) {
-            urlInput.value = `https://${val}`
-        }
-    })
+    const urlInput = root.querySelector<HTMLInputElement>('#link-url')
+    if (urlInput) {
+        urlInput.addEventListener('blur', () => {
+            const val = urlInput.value.trim()
+            if (
+                val &&
+                !val.match(/^https?:\/\//i) &&
+                !val.startsWith('/') &&
+                !val.startsWith('#')
+            ) {
+                urlInput.value = `https://${val}`
+            }
+        })
+    }
 }
 
 function applyLink(e: TiptapEditor, result: LinkResult, isEdit: boolean, from: number, to: number) {
@@ -305,8 +456,8 @@ function applyLink(e: TiptapEditor, result: LinkResult, isEdit: boolean, from: n
         chain
             .insertContent({
                 type: 'text',
-                text: result.href,
-                marks: [{ type: 'link', attrs: result }]
+                text: result.text ?? result.href,
+                marks: [{ type: 'link', attrs: { href: result.href, target: result.target } }]
             })
             .run()
         return
@@ -315,35 +466,56 @@ function applyLink(e: TiptapEditor, result: LinkResult, isEdit: boolean, from: n
 }
 
 function openLinkDialog(e: TiptapEditor) {
-    const urlTypes = e.profile.config.ems?.urlTypes as UrlType[] | undefined
-    const urlTargetDefaultBlank = e.profile.config.ems?.urlTargetDefaultBlank
     const { from, to } = e.tiptap.state.selection
     const isEdit = e.tiptap.isActive('link')
     const ctx = getLinkContext(e)
     const anchors = getAnchorsFromDoc(e)
 
-    const availableTypes = urlTypes ?? [...URL_TYPES]
-    if (!availableTypes.includes(ctx.type)) ctx.type = availableTypes[0]
-    if (!isEdit && !ctx.target && urlTargetDefaultBlank?.includes(ctx.type)) {
+    const urlTypes = e.profile.urlTypes
+    if (!isEdit || !urlTypes.includes(ctx.type)) {
+        ctx.type = urlTypes[0]
+    }
+    if (!isEdit && !ctx.target && e.profile.isUrlTargetDefaultBlank(ctx.type)) {
         ctx.target = '_blank'
     }
 
-    const dialog = e.createDialog('link')
+    const localPageWrapper = urlTypes.includes('localPage') ? buildLocalPageWrapper(e, ctx) : null
+
+    const FIELD_BUILDERS: Record<UrlType, () => string> = {
+        url: () => buildUrlFields(e, ctx),
+        anchor: () => buildAnchorFields(e, ctx, anchors),
+        email: () => buildEmailFields(e, ctx),
+        phone: () => buildPhoneFields(e, ctx),
+        localPage: () => localPageWrapper?.html ?? ''
+    }
+
+    const dialog = e.createDialog('link', { resizable: true, minWidth: 400 })
     dialog.setContent(
-        `<div style="display: flex; flex-direction: column; gap: 10px; width: 400px;">
+        `<div style="display: flex; flex-direction: column; gap: 10px;">
             ${buildTypeSection(e, ctx, urlTypes)}
-            ${availableTypes.includes('url') ? buildUrlFields(e, ctx) : ''}
-            ${availableTypes.includes('anchor') ? buildAnchorFields(e, ctx, anchors) : ''}
-            ${availableTypes.includes('email') ? buildEmailFields(e, ctx) : ''}
-            ${availableTypes.includes('phone') ? buildPhoneFields(e, ctx) : ''}
+            ${urlTypes.map((t) => FIELD_BUILDERS[t]()).join('')}
         </div>`
     )
 
     const root = dialog.element
+    const localPageSearch = localPageWrapper ? localPageWrapper.mount(root) : null
 
     const apply = () => {
         const type = root.querySelector<HTMLSelectElement>('#link-type')!.value as UrlType
-        const result = HREF_BUILDERS[type]?.(root)
+        let result: LinkResult | null
+        if (type === 'localPage') {
+            const id = localPageSearch?.getId() ?? null
+            if (!id) return
+            const target =
+                root.querySelector<HTMLSelectElement>('#link-target-localPage')!.value || null
+            result = {
+                href: `ems://object:${id}`,
+                target,
+                text: localPageSearch?.getLabel() ?? undefined
+            }
+        } else {
+            result = HREF_BUILDERS[type]?.(root) ?? null
+        }
         if (!result) return
         applyLink(e, result, isEdit, from, to)
         dialog.close()
@@ -358,8 +530,10 @@ function openLinkDialog(e: TiptapEditor) {
         })
         .open()
 
-    showFields(root, ctx.type)
+    showFields(root, urlTypes, ctx.type)
 
     const typeSelect = root.querySelector<HTMLSelectElement>('#link-type')!
-    typeSelect.addEventListener('change', () => showFields(root, typeSelect.value as UrlType))
+    typeSelect.addEventListener('change', () =>
+        showFields(root, urlTypes, typeSelect.value as UrlType)
+    )
 }

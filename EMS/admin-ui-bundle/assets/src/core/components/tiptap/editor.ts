@@ -70,11 +70,16 @@ export class TiptapEditor {
         if (options.toolbarElement) this.attachToolbar(options.toolbarElement)
     }
 
-    createDialog(title: TranslationKey, bodyClass?: string): Dialog {
+    createDialog(
+        title: TranslationKey,
+        options: { bodyClass?: string; resizable?: boolean; minWidth?: number } = {}
+    ): Dialog {
         return new Dialog(this.trans(title), {
             draggable: true,
+            resizable: options.resizable,
+            minWidth: options.minWidth,
             closeLabel: this.trans('modal_close'),
-            bodyClass,
+            bodyClass: options.bodyClass,
             doc: this.docParent
         })
     }

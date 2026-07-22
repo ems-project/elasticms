@@ -1,34 +1,34 @@
-import '../../../../../css/core/components/tiptap/_search_input.scss'
+import '../../../../../css/core/components/tiptap/_search_link.scss'
 
-export type SearchInputItem<T = unknown> = { id: string; text: string; data?: T }
-export type SearchInputValue<T = unknown> = { id: string; label: string; data: T | null } | null
+export type SearchLinkItem<T = unknown> = { id: string; title: string; text: string; data?: T }
+export type SearchLinkValue<T = unknown> = { id: string; title: string; data: T | null } | null
 
-export type SearchInputConfig<T = unknown> = {
+export type SearchLinkConfig<T = unknown> = {
     searchUrl: string
     searchLabel: string
     searchPlaceholder: string
     noResultsLabel: string
     initialId?: string
     extraParams?: Record<string, string>
-    onChange: (value: SearchInputValue<T>) => void
+    onChange: (value: SearchLinkValue<T>) => void
 }
 
-export type SearchInput = {
+export type SearchLink = {
     element: HTMLElement
     setExtraParams: (params: Record<string, string>) => void
     clear: () => void
 }
 
-export function createSearchInput<T = unknown>(config: SearchInputConfig<T>): SearchInput {
+export function createSearchLink<T = unknown>(config: SearchLinkConfig<T>): SearchLink {
     const container = document.createElement('div')
-    container.className = 'search-input'
+    container.className = 'search-link'
 
     const label = document.createElement('label')
     label.textContent = config.searchLabel
     container.appendChild(label)
 
     const inputWrapper = document.createElement('div')
-    inputWrapper.className = 'search-wrapper'
+    inputWrapper.className = 'search-link-wrapper'
 
     const input = document.createElement('input')
     input.type = 'text'
@@ -36,12 +36,12 @@ export function createSearchInput<T = unknown>(config: SearchInputConfig<T>): Se
     input.placeholder = config.searchPlaceholder
 
     const display = document.createElement('div')
-    display.className = 'search-display'
+    display.className = 'search-link-display'
 
     const clearBtn = document.createElement('button')
     clearBtn.type = 'button'
     clearBtn.textContent = '×'
-    clearBtn.className = 'search-clear'
+    clearBtn.className = 'search-link-clear'
     clearBtn.style.display = 'none'
 
     inputWrapper.appendChild(input)
@@ -50,7 +50,7 @@ export function createSearchInput<T = unknown>(config: SearchInputConfig<T>): Se
     container.appendChild(inputWrapper)
 
     const results = document.createElement('div')
-    results.className = 'search-results'
+    results.className = 'search-link-results'
     container.appendChild(results)
 
     let currentQuery = '*'
@@ -59,18 +59,18 @@ export function createSearchInput<T = unknown>(config: SearchInputConfig<T>): Se
     let hasMore = false
     let loading = false
     let hasSelection = false
-    let currentSelection: { label: string; html: string } | null = null
+    let currentSelection: { title: string; html: string } | null = null
 
-    const selectItem = (id: string, label: string, html: string, data: T | null) => {
+    const selectItem = (id: string, title: string, html: string, data: T | null) => {
         hasSelection = true
-        currentSelection = { label, html }
-        input.value = label
+        currentSelection = { title, html }
+        input.value = title
         input.style.display = 'none'
         display.innerHTML = html
         display.style.display = 'flex'
         clearBtn.style.display = 'block'
         results.style.display = 'none'
-        config.onChange({ id, label, data })
+        config.onChange({ id, title, data })
     }
 
     const clearSelection = () => {
@@ -92,13 +92,13 @@ export function createSearchInput<T = unknown>(config: SearchInputConfig<T>): Se
 
     clearBtn.addEventListener('click', clearSelection)
 
-    const appendItems = (items: SearchInputItem<T>[]) => {
+    const appendItems = (items: SearchLinkItem<T>[]) => {
         items.forEach((item) => {
             const el = document.createElement('div')
-            el.className = 'search-item'
+            el.className = 'search-link-item'
             el.tabIndex = 0
             el.innerHTML = item.text
-            const pick = () => selectItem(item.id, el.innerText, item.text, item.data ?? null)
+            const pick = () => selectItem(item.id, item.title, item.text, item.data ?? null)
             el.addEventListener('click', pick)
             el.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
@@ -120,13 +120,13 @@ export function createSearchInput<T = unknown>(config: SearchInputConfig<T>): Se
         try {
             const res = await fetch(url.toString(), { headers: { Accept: 'application/json' } })
             const data = await res.json()
-            const items: SearchInputItem<T>[] = data.items ?? []
+            const items: SearchLinkItem<T>[] = data.items ?? []
             hasMore = data.incomplete_results === true
             if (page === 1) {
                 results.innerHTML = ''
                 if (!items.length) {
                     const empty = document.createElement('div')
-                    empty.className = 'search-empty'
+                    empty.className = 'search-link-empty'
                     empty.textContent = config.noResultsLabel
                     results.appendChild(empty)
                     return
@@ -146,10 +146,10 @@ export function createSearchInput<T = unknown>(config: SearchInputConfig<T>): Se
         try {
             const res = await fetch(url.toString(), { headers: { Accept: 'application/json' } })
             const data = await res.json()
-            const item: (SearchInputItem<T> & { title?: string }) | undefined = data.items?.[0]
-            if (item) selectItem(item.id, item.title ?? item.text, item.text, item.data ?? null)
+            const item: SearchLinkItem<T> | undefined = data.items?.[0]
+            if (item) selectItem(item.id, item.title, item.text, item.data ?? null)
         } catch {
-            console.error('Failed to fetch initial search-input item')
+            console.error('Failed to fetch initial search-link item')
         }
     }
 
@@ -191,7 +191,7 @@ export function createSearchInput<T = unknown>(config: SearchInputConfig<T>): Se
         setTimeout(() => {
             results.style.display = 'none'
             if (hasSelection && currentSelection) {
-                input.value = currentSelection.label
+                input.value = currentSelection.title
                 input.style.display = 'none'
                 display.innerHTML = currentSelection.html
                 display.style.display = 'flex'

@@ -135,19 +135,29 @@ Blocks is active.
 
 Three buttons: Link, Unlink, and Anchor.
 
-**Link** opens a dialog supporting four link types: URL (with optional target), Anchor (link to a
-named anchor in the document), E-mail (with optional subject/body), and Phone. The dialog detects
-the current link type and pre-fills accordingly. Available types can be restricted via
-`ems.urlTypes`. Default `_blank` target for new links can be set per type via
-`ems.urlTargetDefaultBlank`.
+**Link** opens a dialog supporting five link types: URL (with optional target), Anchor (link to a
+named anchor in the document), E-mail (with optional subject/body), Phone, and Internal (link to
+another content item within the system). The dialog detects the current link type and pre-fills
+accordingly. Available types can be restricted via `ems.urlTypes`. Default `_blank` target for new
+links can be set per type via `ems.urlTargetDefaultBlank`.
 
 **Anchor** creates a named bookmark (`<a id="…">`) that can be linked to. Works on selected text or
 inserts an invisible bookmark when nothing is selected. Right-click provides edit and remove
 actions.
 
+**Internal** links point to another content item rather than a URL. A search field looks up content
+by title as the user types, showing a paginated list of matches. When multiple content types are
+linkable, a type dropdown filters the search and narrows results accordingly. Selecting a result
+shows it as a compact chip in place of the search field, with an option to clear the selection and
+search again. Internal links store a stable reference to the target content rather than a plain
+URL.
+
 **Unlink** removes the link from the selection. Disabled when the cursor is not inside a link.
 
 Anchors and links are preserved by the Remove Format action.
+
+**Auto-linking** — URLs are automatically converted into links, whether typed (followed by a space
+or Enter) or pasted as plain text. Recognizes `http://`, `https://`, and bare `www.` addresses.
 
 ### Lists
 
@@ -314,3 +324,6 @@ The endpoint is expected to return JSON with a `content` field containing the cl
 response is then parsed by ProseMirror and inserted at the current selection.
 
 If `ems.paste` is not set, paste behaviour is unchanged.
+
+Auto-linking of URLs also applies to content returned by the paste endpoint, so pasted HTML that
+contains plain-text URLs still gets converted into links after sanitization.

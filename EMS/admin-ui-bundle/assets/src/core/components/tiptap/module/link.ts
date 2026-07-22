@@ -6,7 +6,7 @@ import { TiptapEditor } from '../editor.ts'
 import { escapeHtml } from '../helper.ts'
 import { TranslationKey } from '../translations.ts'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
-import { createSearchLink  } from '../ui/searchLink.ts'
+import { createSearchLink } from '../ui/searchLink.ts'
 import { UrlType } from '../../wysiwyg/wysiwyg.ts'
 
 const URL_TYPE_OPTIONS: { value: UrlType; label: TranslationKey }[] = [
@@ -265,25 +265,30 @@ function buildLocalPageWrapper(
     e: TiptapEditor,
     ctx: LinkContext
 ): {
-    html: string;
+    html: string
     mount: (root: HTMLElement) => {
-        getId: () => string | null;
-        getLabel: () => string | null }
+        getId: () => string | null
+        getLabel: () => string | null
+    }
 } {
+    const currentType = ctx.localPageId.split(':')[0]
     const typeOptions = e.profile.linkTypes
-        .map(([label, value]) => `<option value="${value}">${label}</option>`)
+        .map(
+            ([label, value]) =>
+                `<option value="${value}"${value === currentType ? ' selected' : ''}>${label}</option>`
+        )
         .join('')
 
     return {
         html: `<div id="link-fields-localPage" style="display: none; flex-direction: column; gap: 10px;">
             ${
-            e.profile.linkTypes.length > 1
-                ? `<div>
+                e.profile.linkTypes.length > 1
+                    ? `<div>
                         <label for="link-localPage-type">${e.trans('link_internal_content_type')}</label>
                         <select id="link-localPage-type">${typeOptions}</select>
                     </div>`
-                : ''
-        }
+                    : ''
+            }
             <div id="link-localPage-search"></div>
             <div>
                 <label for="link-target-localPage">${e.trans('link_target')}</label>
@@ -307,6 +312,7 @@ function buildLocalPageWrapper(
                 searchPlaceholder: e.trans('link_internal_search_placeholder'),
                 noResultsLabel: e.trans('link_internal_no_results'),
                 initialId: ctx.localPageId || undefined,
+                extraParams: currentType ? { type: currentType } : {},
                 onChange: (value) => {
                     selectedId = value?.id ?? null
                     selectedLabel = value?.title ?? null
@@ -315,7 +321,9 @@ function buildLocalPageWrapper(
             wrapper.appendChild(search.element)
 
             typeSelect?.addEventListener('change', () => {
-                targetSelect.value = e.profile.isUrlTargetDefaultBlank(typeSelect.value) ? '_blank' : ''
+                targetSelect.value = e.profile.isUrlTargetDefaultBlank(typeSelect.value)
+                    ? '_blank'
+                    : ''
                 search.setExtraParams(typeSelect.value ? { type: typeSelect.value } : {})
                 search.clear()
             })
@@ -438,8 +446,13 @@ function openLinkDialog(e: TiptapEditor) {
         if (type === 'localPage') {
             const id = localPageSearch?.getId() ?? null
             if (!id) return
-            const target = root.querySelector<HTMLSelectElement>('#link-target-localPage')!.value || null
-            result = { href: `ems://object:${id}`, target, text: localPageSearch?.getLabel() ?? undefined }
+            const target =
+                root.querySelector<HTMLSelectElement>('#link-target-localPage')!.value || null
+            result = {
+                href: `ems://object:${id}`,
+                target,
+                text: localPageSearch?.getLabel() ?? undefined
+            }
         } else {
             result = HREF_BUILDERS[type]?.(root) ?? null
         }

@@ -99,7 +99,10 @@ export function createSearchLink<T = unknown>(config: SearchLinkConfig<T>): Sear
             el.tabIndex = 0
             el.innerHTML = item.text
             const pick = () => selectItem(item.id, item.title, item.text, item.data ?? null)
-            el.addEventListener('click', pick)
+            el.addEventListener('mousedown', (e) => {
+                e.preventDefault()
+                pick()
+            })
             el.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault()
@@ -187,17 +190,17 @@ export function createSearchLink<T = unknown>(config: SearchLinkConfig<T>): Sear
         results.style.display = 'block'
     })
 
-    input.addEventListener('blur', () => {
-        setTimeout(() => {
-            results.style.display = 'none'
-            if (hasSelection && currentSelection) {
-                input.value = currentSelection.title
-                input.style.display = 'none'
-                display.innerHTML = currentSelection.html
-                display.style.display = 'flex'
-                clearBtn.style.display = 'block'
-            }
-        }, 150)
+    container.addEventListener('focusout', (e) => {
+        const related = e.relatedTarget as HTMLElement | null
+        if (related && container.contains(related)) return
+        results.style.display = 'none'
+        if (hasSelection && currentSelection) {
+            input.value = currentSelection.title
+            input.style.display = 'none'
+            display.innerHTML = currentSelection.html
+            display.style.display = 'flex'
+            clearBtn.style.display = 'block'
+        }
     })
 
     input.addEventListener('input', () => {

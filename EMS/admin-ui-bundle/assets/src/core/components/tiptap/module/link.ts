@@ -272,13 +272,13 @@ function buildLocalPageWrapper(
     return {
         html: `<div id="link-fields-localPage" style="display: none; flex-direction: column; gap: 10px;">
             ${
-            e.profile.linkTypes.length > 1
-                ? `<div>
+                e.profile.linkTypes.length > 1
+                    ? `<div>
                         <label for="link-localPage-type">${e.trans('link_internal_content_type')}</label>
                         <select id="link-localPage-type">${typeOptions}</select>
                     </div>`
-                : ''
-        }
+                    : ''
+            }
             <div id="link-localPage-search"></div>
             <div>
                 <label for="link-target-localPage">${e.trans('link_target')}</label>
@@ -308,7 +308,9 @@ function buildLocalPageWrapper(
             wrapper.appendChild(search.element)
 
             typeSelect?.addEventListener('change', () => {
-                targetSelect.value = e.profile.isUrlTargetDefaultBlank(typeSelect.value) ? '_blank' : ''
+                targetSelect.value = e.profile.isUrlTargetDefaultBlank(typeSelect.value)
+                    ? '_blank'
+                    : ''
                 search.setExtraParams(typeSelect.value ? { type: typeSelect.value } : {})
                 search.clear()
             })
@@ -431,7 +433,8 @@ function openLinkDialog(e: TiptapEditor) {
         if (type === 'localPage') {
             const id = localPageSearch?.getId() ?? null
             if (!id) return
-            const target = root.querySelector<HTMLSelectElement>('#link-target-localPage')!.value || null
+            const target =
+                root.querySelector<HTMLSelectElement>('#link-target-localPage')!.value || null
             result = { href: `ems://object:${id}`, target }
         } else {
             result = HREF_BUILDERS[type]?.(root) ?? null

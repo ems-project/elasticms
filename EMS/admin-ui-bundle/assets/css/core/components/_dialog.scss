@@ -9,6 +9,8 @@ dialog.ems-dialog {
   background: transparent;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
   font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  max-height: 90vh;
+  overflow: hidden;
 
   &::backdrop {
     background: rgba(0, 0, 0, 0.5);
@@ -20,6 +22,7 @@ dialog.ems-dialog {
     display: flex;
     flex-direction: column;
     position: relative;
+    max-height: 90vh;
   }
 
   .dialog-header {
@@ -77,6 +80,9 @@ dialog.ems-dialog {
 
   .dialog-body {
     padding: 16px 20px;
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
 
     &.flush-x {
       padding-left: 0;

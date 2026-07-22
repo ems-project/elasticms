@@ -1,4 +1,4 @@
-import { Mark, mergeAttributes } from '@tiptap/core'
+import { Mark, mergeAttributes, markPasteRule } from '@tiptap/core'
 import IconLink from '@tabler/icons/outline/link.svg?raw'
 import IconLinkOff from '@tabler/icons/outline/link-off.svg?raw'
 import { TiptapModule } from '../types.ts'
@@ -90,6 +90,20 @@ function getLinkExtension(e: TiptapEditor) {
             },
             renderHTML({ HTMLAttributes }) {
                 return ['a', mergeAttributes(HTMLAttributes), 0]
+            },
+            addPasteRules() {
+                return [
+                    markPasteRule({
+                        find: /https?:\/\/[^\s]+/g,
+                        type: this.type,
+                        getAttributes: (match) => ({ href: match[0] })
+                    }),
+                    markPasteRule({
+                        find: /(?<![:/])\bwww\.[^\s]+/g,
+                        type: this.type,
+                        getAttributes: (match) => ({ href: `https://${match[0]}` })
+                    })
+                ]
             },
             addKeyboardShortcuts() {
                 return {

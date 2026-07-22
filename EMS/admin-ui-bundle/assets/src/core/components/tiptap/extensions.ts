@@ -5,7 +5,7 @@ import Text from '@tiptap/extension-text'
 import { Gapcursor } from '@tiptap/extension-gapcursor'
 import { HardBreak } from '@tiptap/extension-hard-break'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
-import { DOMParser } from '@tiptap/pm/model'
+import { DOMParser, Fragment, Node as PMNode, Schema, Slice } from '@tiptap/pm/model'
 
 export type ExtensionType = Extension | Mark | Node
 
@@ -30,6 +30,42 @@ export const BLOCK_NODES = {
     pre: createBlockNode('pre', 'inline*'),
     address: createBlockNode('address', 'inline*')
 } as const
+
+const URL_REGEX = /https?:\/\/[^\s]+|(?<![:/])\bwww\.[^\s]+/g
+
+function autoLinkFragment(fragment: Fragment, schema: Schema): Fragment {
+    const linkType = schema.marks.link
+    if (!linkType) return fragment
+
+    const nodes: PMNode[] = []
+
+    fragment.forEach((node) => {
+        if (node.isText && node.text && !linkType.isInSet(node.marks)) {
+            let lastIndex = 0
+            let match: RegExpExecArray | null
+            URL_REGEX.lastIndex = 0
+            while ((match = URL_REGEX.exec(node.text))) {
+                if (match.index > lastIndex) {
+                    nodes.push(schema.text(node.text.slice(lastIndex, match.index), node.marks))
+                }
+                const href = match[0].startsWith('www.') ? `https://${match[0]}` : match[0]
+                nodes.push(schema.text(match[0], [...node.marks, linkType.create({ href })]))
+                lastIndex = match.index + match[0].length
+            }
+            if (lastIndex === 0) {
+                nodes.push(node)
+            } else if (lastIndex < node.text.length) {
+                nodes.push(schema.text(node.text.slice(lastIndex), node.marks))
+            }
+        } else if (node.content.size) {
+            nodes.push(node.copy(autoLinkFragment(node.content, schema)))
+        } else {
+            nodes.push(node)
+        }
+    })
+
+    return Fragment.fromArray(nodes)
+}
 
 export const AjaxPaste = Extension.create({
     name: 'ajaxPaste',
@@ -73,7 +109,10 @@ export const AjaxPaste = Extension.create({
                                     const slice = parser.parseSlice(dom, {
                                         preserveWhitespace: false
                                     })
-                                    const tr = state.tr.replaceSelection(slice)
+                                    const content = autoLinkFragment(slice.content, state.schema)
+                                    const tr = state.tr.replaceSelection(
+                                        new Slice(content, slice.openStart, slice.openEnd)
+                                    )
                                     dispatch(tr)
                                 })
                                 .catch(() => console.error('error pasting'))

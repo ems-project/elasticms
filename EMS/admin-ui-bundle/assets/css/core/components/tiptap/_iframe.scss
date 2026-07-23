@@ -67,6 +67,17 @@ html, body {
     }
   }
 
+  figure[data-type="image"] {
+    margin: 0 0 1em;
+    text-align: center;
+
+    > figcaption {
+      padding: 5px;
+      font-size: 0.9em;
+      color: var(--tiptap-text-muted, #666);
+    }
+  }
+
   table td,
   table th {
     position: relative;

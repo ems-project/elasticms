@@ -156,6 +156,11 @@ with its current settings, and includes a "Remove image" option. Right-clicking 
 Selected images are highlighted the same way as other special content blocks (like embeds), so it's
 always clear what you're about to edit or delete.
 
+**Captions** — the same dialog lets you add a caption, a short line of text shown right under the
+image. Just fill in the caption field when inserting or editing an image. Leave it empty and no
+caption is shown; fill it in later and one appears automatically. Clear it again and the image goes
+back to being a plain image with no extra space around it.
+
 ### Links
 
 Three buttons: Link, Unlink, and Anchor.

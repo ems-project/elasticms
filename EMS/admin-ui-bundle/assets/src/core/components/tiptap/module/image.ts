@@ -13,6 +13,13 @@ import '../../../../../css/core/components/tiptap/_image.scss'
 import { TiptapModule } from '../types.ts'
 import { TiptapEditor } from '../editor.ts'
 import { escapeHtml } from '../helper.ts'
+import {
+    ImageCaption,
+    ImageFigure,
+    getImageCaption,
+    removeImage,
+    updateImageCaption
+} from './imageCaption.ts'
 
 interface FileUploaderOptions {
     file: File
@@ -32,7 +39,13 @@ interface ImageAttrs {
 }
 
 export const imageModule: TiptapModule = {
-    extensions: (e) => [createImageNode(e), createImageUploadExtension(e)],
+    extensions: (e) => [
+        createImageNode(e),
+        createImageBlockNode(e),
+        ImageFigure,
+        ImageCaption,
+        createImageUploadExtension(e)
+    ],
     isEnabled: (profile) => profile.hasPlugin('image2'),
     toolbar: {
         group: 'insert',
@@ -43,7 +56,8 @@ export const imageModule: TiptapModule = {
                 tooltip: 'image_insert',
                 order: 1,
                 command: (editor: TiptapEditor) => openImageDialog(editor),
-                isActive: (editor: TiptapEditor) => editor.tiptap.isActive('image')
+                isActive: (editor: TiptapEditor) =>
+                    editor.tiptap.isActive('image') || editor.tiptap.isActive('imageBlock')
             }
         ]
     },
@@ -60,8 +74,7 @@ export const imageModule: TiptapModule = {
                 label: 'image_remove',
                 icon: IconTrash,
                 order: 1,
-                command: (editor: TiptapEditor) =>
-                    editor.tiptap.chain().focus().deleteSelection().run()
+                command: (editor: TiptapEditor) => removeImage(editor.tiptap)
             }
         ]
     }
@@ -77,6 +90,49 @@ function stripFalsy(attrs: Record<string, unknown>): Record<string, string> {
     return result
 }
 
+function imageAttributes() {
+    return {
+        src: { default: null },
+        alt: { default: null },
+        width: { default: null },
+        height: { default: null }
+    }
+}
+
+function createImageNodeView(editor: TiptapEditor, typeName: string) {
+    return ({ node, getPos }: { node: { attrs: unknown }; getPos: () => number | undefined }) => {
+        const img = document.createElement('img')
+        img.className = 'tiptap-image'
+
+        const sync = (attrs: ImageAttrs) => {
+            img.src = attrs.src ?? ''
+            if (attrs.alt) img.setAttribute('alt', attrs.alt)
+            else img.removeAttribute('alt')
+            if (attrs.width) img.setAttribute('width', attrs.width)
+            else img.removeAttribute('width')
+            if (attrs.height) img.setAttribute('height', attrs.height)
+            else img.removeAttribute('height')
+        }
+        sync(node.attrs as ImageAttrs)
+
+        img.addEventListener('dblclick', () => {
+            const pos = getPos()
+            if (typeof pos !== 'number') return
+            editor.tiptap.chain().setNodeSelection(pos).run()
+            openImageDialog(editor)
+        })
+
+        return {
+            dom: img,
+            update: (updatedNode: { type: { name: string }; attrs: unknown }) => {
+                if (updatedNode.type.name !== typeName) return false
+                sync(updatedNode.attrs as ImageAttrs)
+                return true
+            }
+        }
+    }
+}
+
 function createImageNode(editor: TiptapEditor) {
     return Node.create({
         name: 'image',
@@ -86,12 +142,7 @@ function createImageNode(editor: TiptapEditor) {
         draggable: true,
 
         addAttributes() {
-            return {
-                src: { default: null },
-                alt: { default: null },
-                width: { default: null },
-                height: { default: null }
-            }
+            return imageAttributes()
         },
 
         parseHTML() {
@@ -103,37 +154,7 @@ function createImageNode(editor: TiptapEditor) {
         },
 
         addNodeView() {
-            return ({ node, getPos }) => {
-                const img = document.createElement('img')
-                img.className = 'tiptap-image'
-
-                const sync = (attrs: ImageAttrs) => {
-                    img.src = attrs.src ?? ''
-                    if (attrs.alt) img.setAttribute('alt', attrs.alt)
-                    else img.removeAttribute('alt')
-                    if (attrs.width) img.setAttribute('width', attrs.width)
-                    else img.removeAttribute('width')
-                    if (attrs.height) img.setAttribute('height', attrs.height)
-                    else img.removeAttribute('height')
-                }
-                sync(node.attrs as ImageAttrs)
-
-                img.addEventListener('dblclick', () => {
-                    const pos = getPos()
-                    if (typeof pos !== 'number') return
-                    editor.tiptap.chain().setNodeSelection(pos).run()
-                    openImageDialog(editor)
-                })
-
-                return {
-                    dom: img,
-                    update: (updatedNode) => {
-                        if (updatedNode.type.name !== 'image') return false
-                        sync(updatedNode.attrs as ImageAttrs)
-                        return true
-                    }
-                }
-            }
+            return createImageNodeView(editor, 'image')
         },
 
         addProseMirrorPlugins() {
@@ -148,7 +169,7 @@ function createImageNode(editor: TiptapEditor) {
 
                             const decorations: Decoration[] = []
                             state.doc.nodesBetween(from, to, (node, pos) => {
-                                if (node.type.name === 'image') {
+                                if (node.type.name === 'image' || node.type.name === 'imageBlock') {
                                     decorations.push(
                                         Decoration.node(pos, pos + node.nodeSize, {
                                             class: 'is-in-selection'
@@ -161,6 +182,32 @@ function createImageNode(editor: TiptapEditor) {
                     }
                 })
             ]
+        }
+    })
+}
+
+function createImageBlockNode(editor: TiptapEditor) {
+    return Node.create({
+        name: 'imageBlock',
+        group: 'block',
+        inline: false,
+        atom: true,
+        draggable: true,
+
+        addAttributes() {
+            return imageAttributes()
+        },
+
+        parseHTML() {
+            return [{ tag: 'figure[data-type="image"] > img[src]', priority: 60 }]
+        },
+
+        renderHTML({ HTMLAttributes }) {
+            return ['img', mergeAttributes(stripFalsy(HTMLAttributes))]
+        },
+
+        addNodeView() {
+            return createImageNodeView(editor, 'imageBlock')
         }
     })
 }
@@ -451,8 +498,11 @@ function renderImageBrowser(
 // --- Insert / edit dialog ----------------------------------------------------
 
 function openImageDialog(editor: TiptapEditor): void {
-    const isEdit = editor.tiptap.isActive('image')
-    const existing = (isEdit ? editor.tiptap.getAttributes('image') : {}) as Partial<ImageAttrs>
+    const isImageBlockActive = editor.tiptap.isActive('imageBlock')
+    const isEdit = isImageBlockActive || editor.tiptap.isActive('image')
+    const activeType = isImageBlockActive ? 'imageBlock' : 'image'
+    const existing = (isEdit ? editor.tiptap.getAttributes(activeType) : {}) as Partial<ImageAttrs>
+    const existingCaption = isEdit ? getImageCaption(editor.tiptap.state) : ''
 
     const dialog = editor.createDialog(isEdit ? 'image_edit' : 'image_insert', {
         bodyClass: 'tiptap-dialog-image',
@@ -530,6 +580,16 @@ function openImageDialog(editor: TiptapEditor): void {
     altField.innerHTML = `<label for="image-alt">${editor.trans('image_alt')}</label>`
     altField.appendChild(altInput)
 
+    const captionInput = document.createElement('input')
+    captionInput.type = 'text'
+    captionInput.id = 'image-caption'
+    captionInput.value = existingCaption
+
+    const captionField = document.createElement('div')
+    captionField.className = 'tiptap-image-field'
+    captionField.innerHTML = `<label for="image-caption">${editor.trans('caption')}</label>`
+    captionField.appendChild(captionInput)
+
     const widthInput = document.createElement('input')
     widthInput.type = 'number'
     widthInput.id = 'image-width'
@@ -596,7 +656,7 @@ function openImageDialog(editor: TiptapEditor): void {
     error.hidden = true
     error.textContent = editor.trans('image_url_required')
 
-    dialog.body.append(preview, urlField, altField, dimensionsInner, error)
+    dialog.body.append(preview, urlField, altField, captionField, dimensionsInner, error)
 
     dialog
         .addButton({
@@ -614,9 +674,29 @@ function openImageDialog(editor: TiptapEditor): void {
                     width: widthInput.value.trim() || null,
                     height: heightInput.value.trim() || null
                 }
+                const caption = captionInput.value.trim()
 
                 if (isEdit) {
-                    editor.tiptap.chain().focus().updateAttributes('image', attrs).run()
+                    const pos = editor.tiptap.state.selection.from
+                    editor.tiptap
+                        .chain()
+                        .focus()
+                        .updateAttributes(activeType, attrs)
+                        .setNodeSelection(pos)
+                        .run()
+                    updateImageCaption(editor.tiptap, caption)
+                } else if (caption) {
+                    editor.tiptap
+                        .chain()
+                        .focus()
+                        .insertContent({
+                            type: 'imageFigure',
+                            content: [
+                                { type: 'imageBlock', attrs },
+                                { type: 'imageCaption', content: [{ type: 'text', text: caption }] }
+                            ]
+                        })
+                        .run()
                 } else {
                     editor.tiptap.chain().focus().insertContent({ type: 'image', attrs }).run()
                 }
@@ -635,7 +715,7 @@ function openImageDialog(editor: TiptapEditor): void {
             variant: 'danger',
             align: 'left',
             onClick: (d) => {
-                editor.tiptap.chain().focus().deleteSelection().run()
+                removeImage(editor.tiptap)
                 d.close()
             }
         })

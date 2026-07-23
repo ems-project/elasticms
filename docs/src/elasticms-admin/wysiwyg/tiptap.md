@@ -158,6 +158,7 @@ Anchors and links are preserved by the Remove Format action.
 
 **Auto-linking** — URLs are automatically converted into links, whether typed (followed by a space
 or Enter) or pasted as plain text. Recognizes `http://`, `https://`, and bare `www.` addresses.
+Pasting a URL over a text selection turns that selection into a link instead of replacing it.
 
 ### Lists
 

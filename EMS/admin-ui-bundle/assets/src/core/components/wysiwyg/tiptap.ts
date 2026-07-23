@@ -24,6 +24,11 @@ export default class Tiptap {
     private codeEditor = new CodeEditor()
     private sourceContainer: HTMLDivElement = document.createElement('div')
 
+    private resizeObserver = new ResizeObserver(() => {
+        const pre = this.sourceContainer.querySelector('pre') as any
+        pre?._aceEditor?.resize(true)
+    })
+
     constructor(element: HTMLTextAreaElement) {
         this.textarea = element
         this.container = document.createElement('div')
@@ -62,6 +67,7 @@ export default class Tiptap {
         const toolbarHeight = toolbar.offsetHeight || 0
         this.container.style.height = `${height + toolbarHeight}px`
 
+        this.resizeObserver.observe(this.container)
         this.initResizeHandle()
 
         tiptapEditor.tiptap.on('update', () => {
@@ -170,11 +176,11 @@ export default class Tiptap {
                                     indent_size: 2
                                 })
                                 this.sourceContainer.innerHTML = `
-        <div class="ems-code-editor" data-language="ace/mode/html" data-max-lines="100000" data-min-lines="1">
-            <input type="hidden" value="${escapeHtml(html)}" />
-            <pre>${escapeHtml(html)}</pre>
-        </div>
-    `
+                                    <div class="ems-code-editor" data-language="ace/mode/html" data-min-lines="1">
+                                        <input type="hidden" value="${escapeHtml(html)}" />
+                                        <pre>${escapeHtml(html)}</pre>
+                                    </div>
+                                `
                                 void this.codeEditor.load(this.sourceContainer)
                                 tiptapEditor.toolbar.setDisabled(true, ['Source', 'Maximize'])
                             } else {

@@ -6,7 +6,7 @@ import { TiptapModule } from '../types.ts'
 import { TiptapEditor } from '../editor.ts'
 
 export const iframeModule: TiptapModule = {
-    extensions: [createIframeNode()],
+    extensions: (e) => [createIframeNode(e)],
     isEnabled: (wysiwygProfile) => wysiwygProfile.hasPlugin('iframe'),
     toolbar: {
         group: 'insert',
@@ -44,7 +44,7 @@ function stripFalsy(attrs: Record<string, unknown>): Record<string, string> {
     return result
 }
 
-function createIframeNode() {
+function createIframeNode(editor: TiptapEditor) {
     return Node.create({
         name: 'iframe',
         group: 'inline',
@@ -73,13 +73,19 @@ function createIframeNode() {
         },
 
         addNodeView() {
-            return ({ node }) => {
+            return ({ node, getPos }) => {
                 const dom = document.createElement('span')
                 dom.className = 'tiptap-iframe-placeholder'
                 dom.contentEditable = 'false'
                 dom.style.width = (node.attrs.width || 300) + 'px'
                 dom.style.height = (node.attrs.height || 150) + 'px'
                 dom.innerHTML = `<span class="tiptap-iframe-placeholder-icon">${IconMovie}</span><span>${node.attrs.title || node.attrs.src || 'Embed'}</span>`
+                dom.addEventListener('dblclick', () => {
+                    const pos = getPos()
+                    if (typeof pos !== 'number') return
+                    editor.tiptap.chain().setNodeSelection(pos).run()
+                    openIframeDialog(editor)
+                })
                 return { dom }
             }
         },
@@ -167,7 +173,7 @@ function openIframeDialog(editor: TiptapEditor): void {
 
     dialog
         .addButton({
-            label: editor.trans('button_insert'),
+            label: editor.trans(existing ? 'button_update' : 'button_insert'),
             variant: 'primary',
             onClick: (d) => {
                 const parsed = parseEmbedCode(textarea.value)

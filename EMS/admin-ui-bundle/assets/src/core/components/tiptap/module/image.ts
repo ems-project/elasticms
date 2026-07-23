@@ -477,10 +477,16 @@ function openImageDialog(editor: TiptapEditor): void {
     const urlInput = document.createElement('input')
     urlInput.type = 'text'
     urlInput.id = 'image-url'
-    urlInput.readOnly = true
     urlInput.required = true
     urlInput.value = existing.src ?? ''
     urlInput.placeholder = editor.trans('image_url')
+    urlInput.addEventListener('change', () => {
+        const url = urlInput.value.trim()
+        widthInput.value = ''
+        heightInput.value = ''
+        previewImg.src = url
+        if (url) error.hidden = true
+    })
 
     const browseBtn = document.createElement('button')
     browseBtn.type = 'button'

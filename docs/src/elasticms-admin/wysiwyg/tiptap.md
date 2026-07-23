@@ -141,13 +141,13 @@ Each image shows a loading placeholder while it uploads, so you always know an u
 progress, and images only appear once they're fully uploaded. If an upload fails, the placeholder
 disappears and a short notice explains that the upload didn't succeed.
 
-**Toolbar button** — click "Image" to insert a new one. This opens a dialog where you can either
-paste an image URL or click "Browse server" to pick an image you've already uploaded before, browsable
-by folder with thumbnails. As soon as the image is chosen, its actual width and height are filled in
-automatically, so you always start from its real size. You can also set alternative text (for
-accessibility) and adjust the width and height. A lock icon next to the dimensions keeps width and
-height proportional when you change one of them — click it to unlock and resize freely. A reset
-icon next to it restores the original width and height at any time.
+**Toolbar button** — click "Image" to insert a new one. This opens a dialog where you can type or
+paste an image URL directly, or click "Browse server" to pick an image you've already uploaded
+before, browsable by folder with thumbnails. Either way, as soon as the image is set, its actual
+width and height are filled in automatically, so you always start from its real size. You can also
+set alternative text (for accessibility) and adjust the width and height. A lock icon next to the
+dimensions keeps width and height proportional when you change one of them — click it to unlock and
+resize freely. A reset icon next to it restores the original width and height at any time.
 
 To edit an existing image, right-click or double-click it. This reopens the same dialog, pre-filled
 with its current settings, and adds a "Remove image" option.

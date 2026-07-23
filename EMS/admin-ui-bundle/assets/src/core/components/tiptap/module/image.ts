@@ -3,6 +3,7 @@ import IconFolderOpen from '@tabler/icons/outline/folder-open.svg?raw'
 import IconLink from '@tabler/icons/outline/link.svg?raw'
 import IconLinkOff from '@tabler/icons/outline/link-off.svg?raw'
 import IconRefresh from '@tabler/icons/outline/refresh.svg?raw'
+import IconTrash from '@tabler/icons/outline/trash.svg?raw'
 // @ts-expect-error - @elasticms/file-uploader ships without type declarations
 import FileUploaderImpl from '@elasticms/file-uploader'
 import { Extension, Node, mergeAttributes } from '@tiptap/core'
@@ -54,6 +55,13 @@ export const imageModule: TiptapModule = {
                 icon: IconPhoto,
                 order: 0,
                 command: (editor: TiptapEditor) => openImageDialog(editor)
+            },
+            {
+                label: 'image_remove',
+                icon: IconTrash,
+                order: 1,
+                command: (editor: TiptapEditor) =>
+                    editor.tiptap.chain().focus().deleteSelection().run()
             }
         ]
     }
@@ -625,6 +633,7 @@ function openImageDialog(editor: TiptapEditor): void {
         dialog.addButton({
             label: editor.trans('image_remove'),
             variant: 'danger',
+            align: 'left',
             onClick: (d) => {
                 editor.tiptap.chain().focus().deleteSelection().run()
                 d.close()

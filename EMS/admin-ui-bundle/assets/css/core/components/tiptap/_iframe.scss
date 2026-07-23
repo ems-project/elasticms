@@ -173,7 +173,8 @@ html, body {
   vertical-align: top;
 
   &.ProseMirror-selectednode {
-    border: 2px solid var(--tiptap-accent, #228be6);
+    outline: 2px solid var(--tiptap-accent, #228be6);
+    outline-offset: 2px;
   }
 }
 

@@ -150,7 +150,8 @@ dimensions keeps width and height proportional when you change one of them — c
 resize freely. A reset icon next to it restores the original width and height at any time.
 
 To edit an existing image, right-click or double-click it. This reopens the same dialog, pre-filled
-with its current settings, and adds a "Remove image" option.
+with its current settings, and includes a "Remove image" option. Right-clicking also offers a
+"Remove image" option directly in the menu, without needing to open the dialog.
 
 Selected images are highlighted the same way as other special content blocks (like embeds), so it's
 always clear what you're about to edit or delete.

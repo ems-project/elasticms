@@ -21,6 +21,7 @@ import { TranslationKey } from './translations.ts'
 import { findReplaceModule } from './module/find.ts'
 import { colorModule } from './module/color.ts'
 import { iframeModule } from './module/iframe.ts'
+import { imageModule } from './module/image.ts'
 
 export const Modules: TiptapModule[] = [
     anchorModule,
@@ -32,6 +33,7 @@ export const Modules: TiptapModule[] = [
     findReplaceModule,
     formatModule,
     historyModule,
+    imageModule,
     indentModule,
     ...insertModule,
     justifyModule,

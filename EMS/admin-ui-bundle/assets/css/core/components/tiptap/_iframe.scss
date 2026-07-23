@@ -168,6 +168,46 @@ html, body {
   font-size: 14px;
 }
 
+.tiptap-image {
+  max-width: 100%;
+  height: auto;
+  vertical-align: top;
+
+  &.ProseMirror-selectednode {
+    outline: 2px solid var(--tiptap-accent, #228be6);
+    outline-offset: 2px;
+  }
+}
+
+.tiptap-image-placeholder {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 90px;
+  border: 1px dashed var(--tiptap-border-color, #ccc);
+  border-radius: 4px;
+  background: var(--tiptap-bg-subtle, #f5f5f5);
+  vertical-align: top;
+  box-sizing: border-box;
+
+  &::after {
+    content: '';
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid var(--tiptap-border-color, #ccc);
+    border-top-color: var(--tiptap-accent, #228be6);
+    animation: tiptap-image-spin 0.8s linear infinite;
+  }
+}
+
+@keyframes tiptap-image-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .tiptap-show-blocks {
   p, h1, h2, h3, h4, h5, h6, div, pre, address, blockquote {
     position: relative;
@@ -231,5 +271,11 @@ html, body {
       border-bottom: 1px dotted #ccc;
       border-right: 1px dotted #ccc;
     }
+  }
+
+  .tiptap-image {
+    position: relative;
+    outline: 1px dotted #ccc;
+    outline-offset: -1px;
   }
 }

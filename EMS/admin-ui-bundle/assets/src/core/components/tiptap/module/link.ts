@@ -146,6 +146,33 @@ function getLinkExtension(e: TiptapEditor) {
                                 return true
                             }
                         }
+                    }),
+                    new Plugin({
+                        key: new PluginKey('linkPasteOverSelection'),
+                        props: {
+                            handleDOMEvents: {
+                                paste: (view, event) => {
+                                    const { selection } = view.state
+                                    if (selection.empty) return false
+                                    const text = event.clipboardData?.getData('text/plain')?.trim()
+                                    if (!text) return false
+                                    const match = /^(https?:\/\/[^\s]+|www\.[^\s]+)$/.exec(text)
+                                    if (!match) return false
+                                    event.preventDefault()
+                                    const href = match[1].startsWith('www.')
+                                        ? `https://${match[1]}`
+                                        : match[1]
+                                    view.dispatch(
+                                        view.state.tr.addMark(
+                                            selection.from,
+                                            selection.to,
+                                            this.type.create({ href })
+                                        )
+                                    )
+                                    return true
+                                }
+                            }
+                        }
                     })
                 ]
             }

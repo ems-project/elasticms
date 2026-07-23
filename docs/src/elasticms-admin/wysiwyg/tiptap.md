@@ -131,6 +131,28 @@ The placeholder participates in the editor's normal node selection (click to sel
 highlighted when included in a wider text selection (e.g. select-all), and is labeled when Show
 Blocks is active.
 
+### Images
+
+Insert images either by dragging and dropping files onto the editor, or through the toolbar's
+Image button.
+
+**Drag & drop** — drop one or more image files anywhere in the editor to upload and insert them.
+Each image shows a loading placeholder while it uploads, so you always know an upload is in
+progress, and images only appear once they're fully uploaded. If an upload fails, the placeholder
+disappears and a short notice explains that the upload didn't succeed.
+
+**Toolbar button** — click "Image" to insert a new one. This opens a dialog where you can either
+paste an image URL or click "Browse server" to pick an image you've already uploaded before, browsable
+by folder with thumbnails. You can also set alternative text (for accessibility) and adjust the
+width and height. A lock icon next to the dimensions keeps width and height proportional when you
+change one of them — click it to unlock and resize freely.
+
+To edit an existing image, right-click or double-click it. This reopens the same dialog, pre-filled
+with its current settings, and adds a "Remove image" option.
+
+Selected images are highlighted the same way as other special content blocks (like embeds), so it's
+always clear what you're about to edit or delete.
+
 ### Links
 
 Three buttons: Link, Unlink, and Anchor.

@@ -94,6 +94,7 @@ export const fr: Record<TranslationKey, string> = {
     image_insert: 'Insérer une image',
     image_lock_ratio: "Verrouiller le rapport d'aspect",
     image_remove: "Supprimer l'image",
+    image_reset_size: "Réinitialiser à la taille d'origine",
     image_upload_error: "Échec de l'envoi de {file}",
     image_url: 'URL',
     image_url_required: 'Veuillez sélectionner ou envoyer une image.',

@@ -94,6 +94,7 @@ export const de: Record<TranslationKey, string> = {
     image_insert: 'Bild einfügen',
     image_lock_ratio: 'Seitenverhältnis sperren',
     image_remove: 'Bild entfernen',
+    image_reset_size: 'Auf Originalgröße zurücksetzen',
     image_upload_error: 'Hochladen von {file} fehlgeschlagen',
     image_url: 'URL',
     image_url_required: 'Bitte wählen oder laden Sie ein Bild hoch.',

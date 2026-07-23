@@ -2,6 +2,7 @@ import IconPhoto from '@tabler/icons/outline/photo.svg?raw'
 import IconFolderOpen from '@tabler/icons/outline/folder-open.svg?raw'
 import IconLink from '@tabler/icons/outline/link.svg?raw'
 import IconLinkOff from '@tabler/icons/outline/link-off.svg?raw'
+import IconRefresh from '@tabler/icons/outline/refresh.svg?raw'
 // @ts-expect-error - @elasticms/file-uploader ships without type declarations
 import FileUploaderImpl from '@elasticms/file-uploader'
 import { Extension, Node, mergeAttributes } from '@tiptap/core'
@@ -458,9 +459,18 @@ function openImageDialog(editor: TiptapEditor): void {
     preview.appendChild(previewImg)
 
     let ratio: number | null = null
+    let naturalWidth: number | null = null
+    let naturalHeight: number | null = null
     previewImg.addEventListener('load', () => {
         if (previewImg.naturalWidth && previewImg.naturalHeight) {
-            ratio = previewImg.naturalHeight / previewImg.naturalWidth
+            naturalWidth = previewImg.naturalWidth
+            naturalHeight = previewImg.naturalHeight
+            ratio = naturalHeight / naturalWidth
+
+            if (!widthInput.value && !heightInput.value) {
+                widthInput.value = String(naturalWidth)
+                heightInput.value = String(naturalHeight)
+            }
         }
     })
 
@@ -480,6 +490,8 @@ function openImageDialog(editor: TiptapEditor): void {
     browseBtn.addEventListener('click', () => {
         openImageBrowser(editor, (url) => {
             urlInput.value = url
+            widthInput.value = ''
+            heightInput.value = ''
             previewImg.src = url
             error.hidden = true
         })
@@ -538,6 +550,17 @@ function openImageDialog(editor: TiptapEditor): void {
         lockBtn.innerHTML = locked ? IconLink : IconLinkOff
     })
 
+    const resetBtn = document.createElement('button')
+    resetBtn.type = 'button'
+    resetBtn.className = 'tiptap-image-reset-btn'
+    resetBtn.title = editor.trans('image_reset_size')
+    resetBtn.innerHTML = IconRefresh
+    resetBtn.addEventListener('click', () => {
+        if (!naturalWidth || !naturalHeight) return
+        widthInput.value = String(naturalWidth)
+        heightInput.value = String(naturalHeight)
+    })
+
     widthInput.addEventListener('input', () => {
         if (!locked || !ratio || !widthInput.value) return
         heightInput.value = String(Math.round(Number(widthInput.value) * ratio))
@@ -552,7 +575,7 @@ function openImageDialog(editor: TiptapEditor): void {
     dimensionsRow.innerHTML = `<label>${editor.trans('image_dimensions')}</label>`
     const dimensionsInner = document.createElement('div')
     dimensionsInner.className = 'tiptap-image-dimensions-row'
-    dimensionsInner.append(widthField, lockBtn, heightField)
+    dimensionsInner.append(widthField, lockBtn, heightField, resetBtn)
 
     const error = document.createElement('p')
     error.className = 'tiptap-image-error'

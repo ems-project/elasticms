@@ -94,6 +94,7 @@ export const nl: Record<TranslationKey, string> = {
     image_insert: 'Afbeelding invoegen',
     image_lock_ratio: 'Verhouding vergrendelen',
     image_remove: 'Afbeelding verwijderen',
+    image_reset_size: 'Terugzetten naar originele grootte',
     image_upload_error: 'Uploaden van {file} is mislukt',
     image_url: 'URL',
     image_url_required: 'Selecteer of upload een afbeelding.',

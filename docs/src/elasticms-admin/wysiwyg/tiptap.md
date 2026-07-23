@@ -143,9 +143,11 @@ disappears and a short notice explains that the upload didn't succeed.
 
 **Toolbar button** — click "Image" to insert a new one. This opens a dialog where you can either
 paste an image URL or click "Browse server" to pick an image you've already uploaded before, browsable
-by folder with thumbnails. You can also set alternative text (for accessibility) and adjust the
-width and height. A lock icon next to the dimensions keeps width and height proportional when you
-change one of them — click it to unlock and resize freely.
+by folder with thumbnails. As soon as the image is chosen, its actual width and height are filled in
+automatically, so you always start from its real size. You can also set alternative text (for
+accessibility) and adjust the width and height. A lock icon next to the dimensions keeps width and
+height proportional when you change one of them — click it to unlock and resize freely. A reset
+icon next to it restores the original width and height at any time.
 
 To edit an existing image, right-click or double-click it. This reopens the same dialog, pre-filled
 with its current settings, and adds a "Remove image" option.

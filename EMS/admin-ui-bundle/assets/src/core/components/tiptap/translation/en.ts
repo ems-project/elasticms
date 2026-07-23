@@ -92,6 +92,7 @@ const en = {
     image_insert: 'Insert image',
     image_lock_ratio: 'Lock aspect ratio',
     image_remove: 'Remove image',
+    image_reset_size: 'Reset to original size',
     image_upload_error: 'Failed to upload {file}',
     image_url: 'URL',
     image_url_required: 'Please select or upload an image.',

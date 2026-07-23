@@ -170,12 +170,10 @@ html, body {
 
 .tiptap-image {
   max-width: 100%;
-  height: auto;
   vertical-align: top;
 
   &.ProseMirror-selectednode {
-    outline: 2px solid var(--tiptap-accent, #228be6);
-    outline-offset: 2px;
+    border: 2px solid var(--tiptap-accent, #228be6);
   }
 }
 

@@ -47,5 +47,31 @@ export const imageModule: TiptapModule = {
                 command: (editor: TiptapEditor) => removeImage(editor.tiptap)
             }
         ]
-    }
+    },
+    htmlTransforms: [
+        {
+            name: 'imageFloat',
+            toEditor(doc) {
+                doc.querySelectorAll('figure[data-type="image"], img').forEach((el) => {
+                    const htmlEl = el as HTMLElement
+                    const dataFloat = htmlEl.getAttribute('data-float')
+                    const styleFloat = htmlEl.style.float
+
+                    if (dataFloat) {
+                        htmlEl.style.removeProperty('float')
+                    } else if (styleFloat === 'left' || styleFloat === 'right') {
+                        htmlEl.setAttribute('data-float', styleFloat)
+                        htmlEl.style.removeProperty('float')
+                    }
+                })
+            },
+            toOutput(doc) {
+                doc.querySelectorAll('[data-float]').forEach((el) => {
+                    const htmlEl = el as HTMLElement
+                    htmlEl.style.float = htmlEl.getAttribute('data-float') ?? ''
+                    htmlEl.removeAttribute('data-float')
+                })
+            }
+        }
+    ]
 }

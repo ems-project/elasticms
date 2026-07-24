@@ -8,6 +8,17 @@ export const ImageFigure: Node = Node.create({
     content: 'imageBlock imageCaption?',
     isolating: true,
 
+    addAttributes() {
+        return {
+            float: {
+                default: null,
+                parseHTML: (el: HTMLElement) => el.getAttribute('data-float') || null,
+                renderHTML: (attrs: Record<string, any>) =>
+                    attrs.float ? { 'data-float': attrs.float } : {}
+            }
+        }
+    },
+
     parseHTML() {
         return [{ tag: 'figure[data-type="image"]' }]
     },
@@ -152,14 +163,21 @@ function unwrapImageFigure(editor: Editor, figureNode: PMNode, figurePos: number
     const blockImage = figureNode.firstChild
     if (!blockImage) return
 
-    const inlineImage = editor.schema.nodes.image.create(blockImage.attrs)
+    const inlineImage = editor.schema.nodes.image.create({
+        ...blockImage.attrs,
+        float: figureNode.attrs.float ?? null
+    })
 
     const tr = editor.state.tr
     tr.replaceWith(
         figurePos,
         figurePos + figureNode.nodeSize,
-        editor.schema.nodes.paragraph.create(null, inlineImage)
+        editor.schema.nodes.paragraph.create(
+            { textAlign: figureNode.attrs.textAlign ?? null },
+            inlineImage
+        )
     )
+    tr.setSelection(NodeSelection.create(tr.doc, figurePos + 1))
     editor.view.dispatch(tr)
     editor.commands.focus()
 }
@@ -176,19 +194,22 @@ function wrapImageInFigure(editor: Editor, caption: string) {
     const soleContent = parent.childCount === 1
 
     const blockImage = editor.schema.nodes.imageBlock.create(imageNode.attrs)
-    const figureNode = editor.schema.nodes.imageFigure.create(null, [
-        blockImage,
-        captionContent(editor, caption)
-    ])
+    const figureNode = editor.schema.nodes.imageFigure.create(
+        { float: imageNode.attrs.float ?? null, textAlign: parent.attrs.textAlign ?? null },
+        [blockImage, captionContent(editor, caption)]
+    )
 
     const tr = editor.state.tr
+    let figurePos: number
     if (soleContent) {
         tr.replaceWith(parentPos, parentEnd, figureNode)
+        figurePos = parentPos
     } else {
         tr.delete(imagePos, imagePos + imageNode.nodeSize)
-        const insertPos = tr.mapping.map(parentEnd)
-        tr.insert(insertPos, figureNode)
+        figurePos = tr.mapping.map(parentPos)
+        tr.insert(figurePos, figureNode)
     }
+    tr.setSelection(NodeSelection.create(tr.doc, figurePos + 1))
     editor.view.dispatch(tr)
     editor.commands.focus()
 }

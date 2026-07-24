@@ -9,6 +9,7 @@ export interface ImageAttrs {
     alt: string | null
     width: string | null
     height: string | null
+    float?: string | null
 }
 
 function stripFalsy(attrs: Record<string, unknown>): Record<string, string> {
@@ -26,7 +27,13 @@ function imageAttributes() {
         src: { default: null },
         alt: { default: null },
         width: { default: null },
-        height: { default: null }
+        height: { default: null },
+        float: {
+            default: null,
+            parseHTML: (el: HTMLElement) => el.getAttribute('data-float') || null,
+            renderHTML: (attrs: Record<string, any>) =>
+                attrs.float ? { 'data-float': attrs.float } : {}
+        }
     }
 }
 
@@ -61,6 +68,8 @@ function createImageNodeView(editor: TiptapEditor, typeName: string) {
                 img.removeAttribute('height')
                 img.style.removeProperty('height')
             }
+            wrapper.classList.toggle('tiptap-image-float-left', attrs.float === 'left')
+            wrapper.classList.toggle('tiptap-image-float-right', attrs.float === 'right')
         }
         sync(node.attrs as ImageAttrs)
 

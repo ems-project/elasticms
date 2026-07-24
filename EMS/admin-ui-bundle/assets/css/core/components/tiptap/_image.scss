@@ -164,6 +164,13 @@ dialog.ems-dialog .dialog-body.tiptap-dialog-image {
         }
     }
 
+    .tiptap-image-align-btn-text {
+        width: auto;
+        height: auto;
+        padding: 4px 10px;
+        font-size: 12px;
+    }
+
     .tiptap-image-error {
         color: var(--danger, #dc3545);
         font-size: 12px;

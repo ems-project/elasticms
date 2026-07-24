@@ -98,6 +98,16 @@ html, body {
       margin-inline-end: auto;
     }
 
+    &[data-float="left"] {
+      float: left;
+      margin: 0 1em 0.5em 0;
+    }
+
+    &[data-float="right"] {
+      float: right;
+      margin: 0 0 0.5em 1em;
+    }
+
     > figcaption {
       padding: 5px;
       font-size: 0.9em;
@@ -210,6 +220,8 @@ html, body {
 .tiptap-image {
   position: relative;
   display: inline-block;
+  max-width: 100%;
+  min-width: auto;
   line-height: 0;
   vertical-align: top;
 
@@ -246,6 +258,16 @@ html, body {
 
 .tiptap-image.ProseMirror-selectednode .tiptap-image-resize-handle {
   display: block;
+}
+
+.tiptap-image-float-left {
+  float: left;
+  margin: 0 1em 0.5em 0;
+}
+
+.tiptap-image-float-right {
+  float: right;
+  margin: 0 0 0.5em 1em;
 }
 
 .tiptap-image-placeholder {

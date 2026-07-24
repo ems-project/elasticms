@@ -14,16 +14,28 @@ import { findImageFigure, getImageCaption, removeImage, updateImageCaption } fro
 function applyAlignment(editor: TiptapEditor, align: string | null): void {
     const figure = findImageFigure(editor.tiptap.state)
     if (figure) {
-        editor.tiptap
-            .chain()
-            .focus()
-            .setNodeSelection(figure.pos + 1)
-            .run()
+        editor.tiptap.chain().focus().setNodeSelection(figure.pos + 1).run()
     }
     if (align) {
         editor.tiptap.chain().focus().setTextAlign(align).run()
     } else {
         editor.tiptap.chain().focus().unsetTextAlign().run()
+    }
+}
+
+function applyFloat(editor: TiptapEditor, float: string | null): void {
+    const figure = findImageFigure(editor.tiptap.state)
+    if (figure) {
+        editor.tiptap
+            .chain()
+            .focus()
+            .setNodeSelection(figure.pos + 1)
+            .updateAttributes('imageFigure', { float })
+            .run()
+        return
+    }
+    if (editor.tiptap.isActive('image')) {
+        editor.tiptap.chain().focus().updateAttributes('image', { float }).run()
     }
 }
 
@@ -35,18 +47,17 @@ export function openImageDialog(editor: TiptapEditor): void {
     const isEdit = isImageBlockActive || editor.tiptap.isActive('image')
     const activeType = isImageBlockActive ? 'imageBlock' : 'image'
     const imagePos = figure ? figure.pos + 1 : editor.tiptap.state.selection.from
-    const existing = (
-        isEdit
-            ? figure
-                ? (figure.node.firstChild?.attrs ?? {})
-                : editor.tiptap.getAttributes(activeType)
-            : {}
-    ) as Partial<ImageAttrs>
+    const existing = (isEdit
+        ? figure
+            ? (figure.node.firstChild?.attrs ?? {})
+            : editor.tiptap.getAttributes(activeType)
+        : {}) as Partial<ImageAttrs>
     const existingCaption = isEdit ? getImageCaption(editor.tiptap.state) : ''
     const existingAlign: string | null =
-        (figure
-            ? figure.node.attrs.textAlign
-            : editor.tiptap.getAttributes('paragraph').textAlign) ?? null
+        (figure ? figure.node.attrs.textAlign : editor.tiptap.getAttributes('paragraph').textAlign) ??
+        null
+    const existingFloat: string | null =
+        (figure ? figure.node.attrs.float : editor.tiptap.getAttributes('image').float) ?? null
 
     const dialog = editor.createDialog(isEdit ? 'image_edit' : 'image_insert', {
         bodyClass: 'tiptap-dialog-image',
@@ -200,11 +211,7 @@ export function openImageDialog(editor: TiptapEditor): void {
     dimensionsInner.append(widthField, lockBtn, heightField, resetBtn)
 
     let align: string | null = existingAlign
-    const alignOptions: {
-        value: string | null
-        icon: string
-        label: 'align_left' | 'align_center' | 'align_right'
-    }[] = [
+    const alignOptions: { value: string | null; icon: string; label: 'align_left' | 'align_center' | 'align_right' }[] = [
         { value: null, icon: IconJustifyLeft, label: 'align_left' },
         { value: 'center', icon: IconJustifyCenter, label: 'align_center' },
         { value: 'right', icon: IconJustifyRight, label: 'align_right' }
@@ -235,6 +242,37 @@ export function openImageDialog(editor: TiptapEditor): void {
     alignField.innerHTML = `<label>${editor.trans('image_alignment')}</label>`
     alignField.appendChild(alignRow)
 
+    let float: string | null = existingFloat
+    const floatOptions: { value: string | null; label: 'image_wrap_none' | 'image_wrap_left' | 'image_wrap_right' }[] = [
+        { value: null, label: 'image_wrap_none' },
+        { value: 'left', label: 'image_wrap_left' },
+        { value: 'right', label: 'image_wrap_right' }
+    ]
+
+    const floatRow = document.createElement('div')
+    floatRow.className = 'tiptap-image-align-row'
+
+    const floatBtnEls = floatOptions.map(({ value, label }) => {
+        const btn = document.createElement('button')
+        btn.type = 'button'
+        btn.className = 'tiptap-image-align-btn tiptap-image-align-btn-text'
+        btn.textContent = editor.trans(label)
+        btn.classList.toggle('is-active', float === value)
+        btn.addEventListener('click', () => {
+            float = value
+            floatBtnEls.forEach((el, i) =>
+                el.classList.toggle('is-active', floatOptions[i].value === value)
+            )
+        })
+        floatRow.appendChild(btn)
+        return btn
+    })
+
+    const floatField = document.createElement('div')
+    floatField.className = 'tiptap-image-field'
+    floatField.innerHTML = `<label>${editor.trans('image_wrap')}</label>`
+    floatField.appendChild(floatRow)
+
     const error = document.createElement('p')
     error.className = 'tiptap-image-error'
     error.hidden = true
@@ -245,6 +283,7 @@ export function openImageDialog(editor: TiptapEditor): void {
         urlField,
         dimensionsInner,
         alignField,
+        floatField,
         altField,
         captionField,
         error
@@ -278,13 +317,14 @@ export function openImageDialog(editor: TiptapEditor): void {
                         .run()
                     updateImageCaption(editor.tiptap, caption)
                     applyAlignment(editor, align)
+                    applyFloat(editor, float)
                 } else if (caption) {
                     editor.tiptap
                         .chain()
                         .focus()
                         .insertContent({
                             type: 'imageFigure',
-                            attrs: { textAlign: align },
+                            attrs: { textAlign: align, float },
                             content: [
                                 { type: 'imageBlock', attrs },
                                 { type: 'imageCaption', content: [{ type: 'text', text: caption }] }
@@ -292,7 +332,11 @@ export function openImageDialog(editor: TiptapEditor): void {
                         })
                         .run()
                 } else {
-                    editor.tiptap.chain().focus().insertContent({ type: 'image', attrs }).run()
+                    editor.tiptap
+                        .chain()
+                        .focus()
+                        .insertContent({ type: 'image', attrs: { ...attrs, float } })
+                        .run()
                     applyAlignment(editor, align)
                 }
                 d.close()

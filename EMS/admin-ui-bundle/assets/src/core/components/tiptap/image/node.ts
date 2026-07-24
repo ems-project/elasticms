@@ -80,11 +80,9 @@ function createImageNodeView(editor: TiptapEditor, typeName: string) {
             e.stopPropagation()
             handle.setPointerCapture(e.pointerId)
             startX = e.clientX
-            startWidth = img.getBoundingClientRect().width
-            ratio =
-                img.naturalWidth && img.naturalHeight
-                    ? img.naturalHeight / img.naturalWidth
-                    : (img.getBoundingClientRect().height || startWidth) / startWidth
+            const rect = img.getBoundingClientRect()
+            startWidth = rect.width
+            ratio = rect.width && rect.height ? rect.height / rect.width : 1
         })
 
         handle.addEventListener('pointermove', (e: PointerEvent) => {

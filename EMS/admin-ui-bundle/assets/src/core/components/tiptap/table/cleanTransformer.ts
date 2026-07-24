@@ -87,6 +87,7 @@ function fillEmptyParagraphs(cell: Element): void {
 }
 
 function isEmptyCell(cell: Element): boolean {
+    if (cell.querySelector('img, iframe, table, hr, video, svg')) return false
     return (
         !cell.childNodes.length || (cell.childNodes.length === 1 && cell.textContent?.trim() === '')
     )

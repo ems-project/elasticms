@@ -64,11 +64,10 @@ export function openImageDialog(editor: TiptapEditor): void {
         (figureForLayout
             ? figureForLayout.node.attrs.textAlign
             : editor.tiptap.getAttributes('paragraph').textAlign) ?? null
-    const existingFloat: string | null = isEdit
-        ? ((figureForLayout
-              ? figureForLayout.node.attrs.float
-              : editor.tiptap.getAttributes('image').float) ?? null)
-        : 'left'
+    const existingFloat: string | null =
+        (figureForLayout
+            ? figureForLayout.node.attrs.float
+            : editor.tiptap.getAttributes('image').float) ?? null
 
     const dialog = editor.createDialog(isEdit ? 'image_edit' : 'image_insert', {
         bodyClass: 'tiptap-dialog-image',

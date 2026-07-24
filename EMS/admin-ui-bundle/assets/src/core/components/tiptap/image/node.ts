@@ -46,10 +46,13 @@ function createImageNodeView(editor: TiptapEditor, typeName: string) {
         const img = document.createElement('img')
         img.className = 'tiptap-image-el'
 
-        const handle = document.createElement('span')
-        handle.className = 'tiptap-image-resize-handle'
+        const handleRight = document.createElement('span')
+        handleRight.className = 'tiptap-image-resize-handle tiptap-image-resize-handle-right'
 
-        wrapper.append(img, handle)
+        const handleLeft = document.createElement('span')
+        handleLeft.className = 'tiptap-image-resize-handle tiptap-image-resize-handle-left'
+
+        wrapper.append(img, handleLeft, handleRight)
 
         const sync = (attrs: ImageAttrs) => {
             img.src = attrs.src ?? ''
@@ -85,40 +88,45 @@ function createImageNodeView(editor: TiptapEditor, typeName: string) {
         let startWidth = 0
         let ratio = 1
 
-        handle.addEventListener('pointerdown', (e: PointerEvent) => {
-            e.preventDefault()
-            e.stopPropagation()
-            handle.setPointerCapture(e.pointerId)
-            startX = e.clientX
-            const rect = img.getBoundingClientRect()
-            startWidth = rect.width
-            ratio = rect.width && rect.height ? rect.height / rect.width : 1
-        })
+        const bindResizeHandle = (handle: HTMLElement, sign: 1 | -1) => {
+            handle.addEventListener('pointerdown', (e: PointerEvent) => {
+                e.preventDefault()
+                e.stopPropagation()
+                handle.setPointerCapture(e.pointerId)
+                startX = e.clientX
+                const rect = img.getBoundingClientRect()
+                startWidth = rect.width
+                ratio = rect.width && rect.height ? rect.height / rect.width : 1
+            })
 
-        handle.addEventListener('pointermove', (e: PointerEvent) => {
-            if (!handle.hasPointerCapture(e.pointerId)) return
-            const newWidth = Math.max(20, Math.round(startWidth + (e.clientX - startX)))
-            const newHeight = Math.round(newWidth * ratio)
-            img.setAttribute('width', String(newWidth))
-            img.setAttribute('height', String(newHeight))
-            img.style.setProperty('width', `${newWidth}px`, 'important')
-            img.style.setProperty('height', `${newHeight}px`, 'important')
-        })
+            handle.addEventListener('pointermove', (e: PointerEvent) => {
+                if (!handle.hasPointerCapture(e.pointerId)) return
+                const newWidth = Math.max(20, Math.round(startWidth + sign * (e.clientX - startX)))
+                const newHeight = Math.round(newWidth * ratio)
+                img.setAttribute('width', String(newWidth))
+                img.setAttribute('height', String(newHeight))
+                img.style.setProperty('width', `${newWidth}px`, 'important')
+                img.style.setProperty('height', `${newHeight}px`, 'important')
+            })
 
-        handle.addEventListener('pointerup', (e: PointerEvent) => {
-            if (!handle.hasPointerCapture(e.pointerId)) return
-            handle.releasePointerCapture(e.pointerId)
-            const pos = getPos()
-            if (typeof pos !== 'number') return
-            editor.tiptap
-                .chain()
-                .setNodeSelection(pos)
-                .updateAttributes(typeName, {
-                    width: img.getAttribute('width'),
-                    height: img.getAttribute('height')
-                })
-                .run()
-        })
+            handle.addEventListener('pointerup', (e: PointerEvent) => {
+                if (!handle.hasPointerCapture(e.pointerId)) return
+                handle.releasePointerCapture(e.pointerId)
+                const pos = getPos()
+                if (typeof pos !== 'number') return
+                editor.tiptap
+                    .chain()
+                    .setNodeSelection(pos)
+                    .updateAttributes(typeName, {
+                        width: img.getAttribute('width'),
+                        height: img.getAttribute('height')
+                    })
+                    .run()
+            })
+        }
+
+        bindResizeHandle(handleRight, 1)
+        bindResizeHandle(handleLeft, -1)
 
         return {
             dom: wrapper,

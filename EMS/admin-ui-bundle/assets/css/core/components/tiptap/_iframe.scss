@@ -244,16 +244,24 @@ html, body {
 
 .tiptap-image-resize-handle {
   position: absolute;
-  right: -5px;
   bottom: -5px;
   width: 10px;
   height: 10px;
   border-radius: 50%;
   background: var(--tiptap-accent, #228be6);
   border: 1px solid #fff;
-  cursor: nwse-resize;
   display: none;
   touch-action: none;
+}
+
+.tiptap-image-resize-handle-right {
+  right: -5px;
+  cursor: nwse-resize;
+}
+
+.tiptap-image-resize-handle-left {
+  left: -5px;
+  cursor: nesw-resize;
 }
 
 .tiptap-image.ProseMirror-selectednode .tiptap-image-resize-handle {

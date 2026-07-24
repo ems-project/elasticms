@@ -35,6 +35,13 @@ html, body {
     margin-top: 0.5em;
   }
 
+  p, h1, h2, h3, h4, h5, h6, div {
+    &[data-text-align="left"] { text-align: left; }
+    &[data-text-align="center"] { text-align: center; }
+    &[data-text-align="right"] { text-align: right; }
+    &[data-text-align="justify"] { text-align: justify; }
+  }
+
   a[id]:not([href]) {
     position: relative;
     border: 1px dotted;

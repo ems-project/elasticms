@@ -68,17 +68,34 @@ html, body {
   }
 
   figure[data-type="image"] {
-    margin: 0;
-    padding: 0;
-    text-align: center;
+    margin: 0 0 1em;
     width: fit-content;
     max-width: 100%;
-    min-width: auto;
+
+    &[data-text-align="center"] {
+      margin-inline: auto;
+
+      > figcaption {
+        text-align: center;
+      }
+    }
+
+    &[data-text-align="right"] {
+      margin-inline-start: auto;
+      margin-inline-end: 0;
+    }
+
+    &[data-text-align="left"],
+    &[data-text-align="justify"] {
+      margin-inline-start: 0;
+      margin-inline-end: auto;
+    }
 
     > figcaption {
       padding: 5px;
       font-size: 0.9em;
       color: var(--tiptap-text-muted, #666);
+      text-align: left;
     }
   }
 
@@ -185,7 +202,6 @@ html, body {
 
 .tiptap-image {
   max-width: 100%;
-  min-width: auto;
   vertical-align: top;
 
   &.ProseMirror-selectednode {

@@ -12,11 +12,15 @@ const CustomTextAlign = TextAlign.extend({
             if (!textAlign) return entry
             textAlign.parseHTML = (element: HTMLElement) =>
                 element.getAttribute('data-text-align') || element.style.textAlign || null
+            textAlign.renderHTML = (attributes: Record<string, any>) => {
+                if (!attributes.textAlign) return {}
+                return { 'data-text-align': attributes.textAlign }
+            }
             return entry
         })
     }
 }).configure({
-    types: ['heading', 'paragraph', 'div'],
+    types: ['heading', 'paragraph', 'div', 'imageFigure'],
     alignments: ['left', 'center', 'right', 'justify']
 })
 
@@ -66,7 +70,7 @@ export const justifyModule: TiptapModule = {
         {
             name: 'textAlign',
             toEditor(doc) {
-                doc.querySelectorAll('p, h1, h2, h3, h4, h5, h6, div').forEach((el) => {
+                doc.querySelectorAll('p, h1, h2, h3, h4, h5, h6, div, figure[data-type="image"]').forEach((el) => {
                     const htmlEl = el as HTMLElement
                     const dataAlign = htmlEl.getAttribute('data-text-align')
                     const styleAlign = htmlEl.style.textAlign

@@ -32,6 +32,11 @@ dialog.ems-dialog .dialog-body.tiptap-dialog-image {
         display: flex;
         flex-direction: column;
         gap: 4px;
+
+        textarea {
+            resize: vertical;
+            font: inherit;
+        }
     }
 
     .tiptap-image-url-row {
@@ -130,6 +135,7 @@ dialog.ems-dialog .dialog-body.tiptap-dialog-image {
     .tiptap-image-align-row {
         display: flex;
         gap: 6px;
+        align-items: center;
     }
 
     .tiptap-image-align-btn {

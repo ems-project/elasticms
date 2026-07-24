@@ -46,7 +46,14 @@ export function getImageCaption(state: EditorState): string {
     const figure = findAncestor(state, 'imageFigure')
     if (!figure) return ''
     const last = figure.node.lastChild
-    return last?.type.name === 'imageCaption' ? last.textContent : ''
+    if (last?.type.name !== 'imageCaption') return ''
+
+    let text = ''
+    last.forEach((child) => {
+        if (child.isText) text += child.text ?? ''
+        else if (child.type.name === 'hardBreak') text += '\n'
+    })
+    return text
 }
 
 export function updateImageCaption(editor: Editor, caption: string): void {
@@ -104,7 +111,14 @@ function getSelectedImage(state: EditorState): { node: PMNode; pos: number } | n
 }
 
 function captionContent(editor: Editor, text: string): PMNode {
-    return editor.schema.nodes.imageCaption.create(null, editor.schema.text(text))
+    const hardBreak = editor.schema.nodes.hardBreak
+    const lines = text.split('\n')
+    const content: PMNode[] = []
+    lines.forEach((line, i) => {
+        if (line) content.push(editor.schema.text(line))
+        if (i < lines.length - 1 && hardBreak) content.push(hardBreak.create())
+    })
+    return editor.schema.nodes.imageCaption.create(null, content)
 }
 
 function setCaptionInFigure(

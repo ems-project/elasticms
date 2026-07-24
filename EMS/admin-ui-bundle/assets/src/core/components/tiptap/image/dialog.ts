@@ -14,7 +14,11 @@ import { findImageFigure, getImageCaption, removeImage, updateImageCaption } fro
 function applyAlignment(editor: TiptapEditor, align: string | null): void {
     const figure = findImageFigure(editor.tiptap.state)
     if (figure) {
-        editor.tiptap.chain().focus().setNodeSelection(figure.pos + 1).run()
+        editor.tiptap
+            .chain()
+            .focus()
+            .setNodeSelection(figure.pos + 1)
+            .run()
     }
     if (align) {
         editor.tiptap.chain().focus().setTextAlign(align).run()
@@ -31,15 +35,18 @@ export function openImageDialog(editor: TiptapEditor): void {
     const isEdit = isImageBlockActive || editor.tiptap.isActive('image')
     const activeType = isImageBlockActive ? 'imageBlock' : 'image'
     const imagePos = figure ? figure.pos + 1 : editor.tiptap.state.selection.from
-    const existing = (isEdit
-        ? figure
-            ? (figure.node.firstChild?.attrs ?? {})
-            : editor.tiptap.getAttributes(activeType)
-        : {}) as Partial<ImageAttrs>
+    const existing = (
+        isEdit
+            ? figure
+                ? (figure.node.firstChild?.attrs ?? {})
+                : editor.tiptap.getAttributes(activeType)
+            : {}
+    ) as Partial<ImageAttrs>
     const existingCaption = isEdit ? getImageCaption(editor.tiptap.state) : ''
     const existingAlign: string | null =
-        (figure ? figure.node.attrs.textAlign : editor.tiptap.getAttributes('paragraph').textAlign) ??
-        null
+        (figure
+            ? figure.node.attrs.textAlign
+            : editor.tiptap.getAttributes('paragraph').textAlign) ?? null
 
     const dialog = editor.createDialog(isEdit ? 'image_edit' : 'image_insert', {
         bodyClass: 'tiptap-dialog-image',
@@ -118,9 +125,9 @@ export function openImageDialog(editor: TiptapEditor): void {
     altField.innerHTML = `<label for="image-alt">${editor.trans('image_alt')}</label>`
     altField.appendChild(altInput)
 
-    const captionInput = document.createElement('input')
-    captionInput.type = 'text'
+    const captionInput = document.createElement('textarea')
     captionInput.id = 'image-caption'
+    captionInput.rows = 3
     captionInput.value = existingCaption
 
     const captionField = document.createElement('div')
@@ -193,7 +200,11 @@ export function openImageDialog(editor: TiptapEditor): void {
     dimensionsInner.append(widthField, lockBtn, heightField, resetBtn)
 
     let align: string | null = existingAlign
-    const alignOptions: { value: string | null; icon: string; label: 'align_left' | 'align_center' | 'align_right' }[] = [
+    const alignOptions: {
+        value: string | null
+        icon: string
+        label: 'align_left' | 'align_center' | 'align_right'
+    }[] = [
         { value: null, icon: IconJustifyLeft, label: 'align_left' },
         { value: 'center', icon: IconJustifyCenter, label: 'align_center' },
         { value: 'right', icon: IconJustifyRight, label: 'align_right' }
@@ -229,7 +240,15 @@ export function openImageDialog(editor: TiptapEditor): void {
     error.hidden = true
     error.textContent = editor.trans('image_url_required')
 
-    dialog.body.append(preview, urlField, altField, captionField, dimensionsInner, alignField, error)
+    dialog.body.append(
+        preview,
+        urlField,
+        dimensionsInner,
+        alignField,
+        altField,
+        captionField,
+        error
+    )
 
     dialog
         .addButton({

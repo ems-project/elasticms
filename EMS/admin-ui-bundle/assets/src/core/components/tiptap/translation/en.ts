@@ -81,6 +81,7 @@ const en = {
     iframe_insert: 'Insert embed',
     iframe_invalid: 'Invalid embed code. Paste a valid <iframe> tag.',
     iframe_placeholder: 'Paste embed code here...',
+    image_alignment: 'Alignment',
     image_alt: 'Alternative text',
     image_browse: 'Browse server',
     image_browse_empty: 'No images found.',

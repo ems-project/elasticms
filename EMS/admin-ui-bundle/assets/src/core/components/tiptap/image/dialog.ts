@@ -2,11 +2,26 @@ import IconFolderOpen from '@tabler/icons/outline/folder-open.svg?raw'
 import IconLink from '@tabler/icons/outline/link.svg?raw'
 import IconLinkOff from '@tabler/icons/outline/link-off.svg?raw'
 import IconRefresh from '@tabler/icons/outline/refresh.svg?raw'
+import IconJustifyLeft from '@tabler/icons/outline/align-left.svg?raw'
+import IconJustifyCenter from '@tabler/icons/outline/align-center.svg?raw'
+import IconJustifyRight from '@tabler/icons/outline/align-right.svg?raw'
 import { TiptapEditor } from '../editor.ts'
 import { escapeHtml } from '../helper.ts'
 import type { ImageAttrs } from './node.ts'
 import { getImageBrowserListUrl, openImageBrowser } from './browser.ts'
 import { findImageFigure, getImageCaption, removeImage, updateImageCaption } from './caption.ts'
+
+function applyAlignment(editor: TiptapEditor, align: string | null): void {
+    const figure = findImageFigure(editor.tiptap.state)
+    if (figure) {
+        editor.tiptap.chain().focus().setNodeSelection(figure.pos + 1).run()
+    }
+    if (align) {
+        editor.tiptap.chain().focus().setTextAlign(align).run()
+    } else {
+        editor.tiptap.chain().focus().unsetTextAlign().run()
+    }
+}
 
 export function openImageDialog(editor: TiptapEditor): void {
     const figure = editor.tiptap.isActive('imageBlock')
@@ -16,14 +31,15 @@ export function openImageDialog(editor: TiptapEditor): void {
     const isEdit = isImageBlockActive || editor.tiptap.isActive('image')
     const activeType = isImageBlockActive ? 'imageBlock' : 'image'
     const imagePos = figure ? figure.pos + 1 : editor.tiptap.state.selection.from
-    const existing = (
-        isEdit
-            ? figure
-                ? (figure.node.firstChild?.attrs ?? {})
-                : editor.tiptap.getAttributes(activeType)
-            : {}
-    ) as Partial<ImageAttrs>
+    const existing = (isEdit
+        ? figure
+            ? (figure.node.firstChild?.attrs ?? {})
+            : editor.tiptap.getAttributes(activeType)
+        : {}) as Partial<ImageAttrs>
     const existingCaption = isEdit ? getImageCaption(editor.tiptap.state) : ''
+    const existingAlign: string | null =
+        (figure ? figure.node.attrs.textAlign : editor.tiptap.getAttributes('paragraph').textAlign) ??
+        null
 
     const dialog = editor.createDialog(isEdit ? 'image_edit' : 'image_insert', {
         bodyClass: 'tiptap-dialog-image',
@@ -176,12 +192,44 @@ export function openImageDialog(editor: TiptapEditor): void {
     dimensionsInner.className = 'tiptap-image-dimensions-row'
     dimensionsInner.append(widthField, lockBtn, heightField, resetBtn)
 
+    let align: string | null = existingAlign
+    const alignOptions: { value: string | null; icon: string; label: 'align_left' | 'align_center' | 'align_right' }[] = [
+        { value: null, icon: IconJustifyLeft, label: 'align_left' },
+        { value: 'center', icon: IconJustifyCenter, label: 'align_center' },
+        { value: 'right', icon: IconJustifyRight, label: 'align_right' }
+    ]
+
+    const alignRow = document.createElement('div')
+    alignRow.className = 'tiptap-image-align-row'
+
+    const alignBtnEls = alignOptions.map(({ value, icon, label }) => {
+        const btn = document.createElement('button')
+        btn.type = 'button'
+        btn.className = 'tiptap-image-align-btn'
+        btn.title = editor.trans(label)
+        btn.innerHTML = icon
+        btn.classList.toggle('is-active', align === value)
+        btn.addEventListener('click', () => {
+            align = value
+            alignBtnEls.forEach((el, i) =>
+                el.classList.toggle('is-active', alignOptions[i].value === value)
+            )
+        })
+        alignRow.appendChild(btn)
+        return btn
+    })
+
+    const alignField = document.createElement('div')
+    alignField.className = 'tiptap-image-field'
+    alignField.innerHTML = `<label>${editor.trans('image_alignment')}</label>`
+    alignField.appendChild(alignRow)
+
     const error = document.createElement('p')
     error.className = 'tiptap-image-error'
     error.hidden = true
     error.textContent = editor.trans('image_url_required')
 
-    dialog.body.append(preview, urlField, altField, captionField, dimensionsInner, error)
+    dialog.body.append(preview, urlField, altField, captionField, dimensionsInner, alignField, error)
 
     dialog
         .addButton({
@@ -210,12 +258,14 @@ export function openImageDialog(editor: TiptapEditor): void {
                         .setNodeSelection(imagePos)
                         .run()
                     updateImageCaption(editor.tiptap, caption)
+                    applyAlignment(editor, align)
                 } else if (caption) {
                     editor.tiptap
                         .chain()
                         .focus()
                         .insertContent({
                             type: 'imageFigure',
+                            attrs: { textAlign: align },
                             content: [
                                 { type: 'imageBlock', attrs },
                                 { type: 'imageCaption', content: [{ type: 'text', text: caption }] }
@@ -224,6 +274,7 @@ export function openImageDialog(editor: TiptapEditor): void {
                         .run()
                 } else {
                     editor.tiptap.chain().focus().insertContent({ type: 'image', attrs }).run()
+                    applyAlignment(editor, align)
                 }
                 d.close()
             }

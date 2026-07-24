@@ -83,6 +83,7 @@ export const de: Record<TranslationKey, string> = {
     iframe_insert: 'Einbettung einfügen',
     iframe_invalid: 'Ungültiger Einbettungscode. Fügen Sie ein gültiges <iframe>-Tag ein.',
     iframe_placeholder: 'Einbettungscode hier einfügen...',
+    image_alignment: 'Ausrichtung',
     image_alt: 'Alternativtext',
     image_browse: 'Server durchsuchen',
     image_browse_empty: 'Keine Bilder gefunden.',

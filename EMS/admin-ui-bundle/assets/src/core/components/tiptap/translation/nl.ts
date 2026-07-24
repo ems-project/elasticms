@@ -83,6 +83,7 @@ export const nl: Record<TranslationKey, string> = {
     iframe_insert: 'Insluiting invoegen',
     iframe_invalid: 'Ongeldige insluitcode. Plak een geldige <iframe>-tag.',
     iframe_placeholder: 'Plak hier de insluitcode...',
+    image_alignment: 'Uitlijning',
     image_alt: 'Alternatieve tekst',
     image_browse: 'Bladeren op server',
     image_browse_empty: 'Geen afbeeldingen gevonden.',

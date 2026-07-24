@@ -127,6 +127,37 @@ dialog.ems-dialog .dialog-body.tiptap-dialog-image {
         }
     }
 
+    .tiptap-image-align-row {
+        display: flex;
+        gap: 6px;
+    }
+
+    .tiptap-image-align-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        border: 1px solid #ccc;
+        background: #f5f5f5;
+        cursor: pointer;
+        border-radius: 4px;
+
+        svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        &.is-active {
+            background: #e3f0fc;
+            border-color: #4a90d9;
+        }
+
+        &:hover {
+            background: #e8e8e8;
+        }
+    }
+
     .tiptap-image-error {
         color: var(--danger, #dc3545);
         font-size: 12px;

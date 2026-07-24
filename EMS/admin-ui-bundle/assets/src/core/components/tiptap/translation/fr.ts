@@ -83,6 +83,7 @@ export const fr: Record<TranslationKey, string> = {
     iframe_insert: 'Insérer une intégration',
     iframe_invalid: "Code d'intégration invalide. Collez une balise <iframe> valide.",
     iframe_placeholder: "Collez le code d'intégration ici...",
+    image_alignment: 'Alignement',
     image_alt: 'Texte alternatif',
     image_browse: 'Parcourir le serveur',
     image_browse_empty: 'Aucune image trouvée.',

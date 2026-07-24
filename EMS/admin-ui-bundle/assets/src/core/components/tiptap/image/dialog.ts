@@ -14,7 +14,11 @@ import { findImageFigure, getImageCaption, removeImage, updateImageCaption } fro
 function applyAlignment(editor: TiptapEditor, align: string | null): void {
     const figure = findImageFigure(editor.tiptap.state)
     if (figure) {
-        editor.tiptap.chain().focus().setNodeSelection(figure.pos + 1).run()
+        editor.tiptap
+            .chain()
+            .focus()
+            .setNodeSelection(figure.pos + 1)
+            .run()
     }
     if (align) {
         editor.tiptap.chain().focus().setTextAlign(align).run()
@@ -47,11 +51,13 @@ export function openImageDialog(editor: TiptapEditor): void {
     const isEdit = isImageBlockActive || editor.tiptap.isActive('image')
     const activeType = isImageBlockActive ? 'imageBlock' : 'image'
     const imagePos = figure ? figure.pos + 1 : editor.tiptap.state.selection.from
-    const existing = (isEdit
-        ? figure
-            ? (figure.node.firstChild?.attrs ?? {})
-            : editor.tiptap.getAttributes(activeType)
-        : {}) as Partial<ImageAttrs>
+    const existing = (
+        isEdit
+            ? figure
+                ? (figure.node.firstChild?.attrs ?? {})
+                : editor.tiptap.getAttributes(activeType)
+            : {}
+    ) as Partial<ImageAttrs>
     const existingCaption = isEdit ? getImageCaption(editor.tiptap.state) : ''
     const figureForLayout = figure ?? findImageFigure(editor.tiptap.state)
     const existingAlign: string | null =
@@ -60,8 +66,8 @@ export function openImageDialog(editor: TiptapEditor): void {
             : editor.tiptap.getAttributes('paragraph').textAlign) ?? null
     const existingFloat: string | null = isEdit
         ? ((figureForLayout
-            ? figureForLayout.node.attrs.float
-            : editor.tiptap.getAttributes('image').float) ?? null)
+              ? figureForLayout.node.attrs.float
+              : editor.tiptap.getAttributes('image').float) ?? null)
         : 'left'
 
     const dialog = editor.createDialog(isEdit ? 'image_edit' : 'image_insert', {
@@ -216,7 +222,11 @@ export function openImageDialog(editor: TiptapEditor): void {
     dimensionsInner.append(widthField, lockBtn, heightField, resetBtn)
 
     let align: string | null = existingAlign
-    const alignOptions: { value: string | null; icon: string; label: 'align_left' | 'align_center' | 'align_right' }[] = [
+    const alignOptions: {
+        value: string | null
+        icon: string
+        label: 'align_left' | 'align_center' | 'align_right'
+    }[] = [
         { value: null, icon: IconJustifyLeft, label: 'align_left' },
         { value: 'center', icon: IconJustifyCenter, label: 'align_center' },
         { value: 'right', icon: IconJustifyRight, label: 'align_right' }
@@ -248,7 +258,10 @@ export function openImageDialog(editor: TiptapEditor): void {
     alignField.appendChild(alignRow)
 
     let float: string | null = existingFloat
-    const floatOptions: { value: string | null; label: 'image_wrap_none' | 'image_wrap_left' | 'image_wrap_right' }[] = [
+    const floatOptions: {
+        value: string | null
+        label: 'image_wrap_none' | 'image_wrap_left' | 'image_wrap_right'
+    }[] = [
         { value: null, label: 'image_wrap_none' },
         { value: 'left', label: 'image_wrap_left' },
         { value: 'right', label: 'image_wrap_right' }

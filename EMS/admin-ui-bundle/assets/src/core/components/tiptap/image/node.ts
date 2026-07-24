@@ -47,10 +47,20 @@ function createImageNodeView(editor: TiptapEditor, typeName: string) {
             img.src = attrs.src ?? ''
             if (attrs.alt) img.setAttribute('alt', attrs.alt)
             else img.removeAttribute('alt')
-            if (attrs.width) img.setAttribute('width', attrs.width)
-            else img.removeAttribute('width')
-            if (attrs.height) img.setAttribute('height', attrs.height)
-            else img.removeAttribute('height')
+            if (attrs.width) {
+                img.setAttribute('width', attrs.width)
+                img.style.setProperty('width', `${attrs.width}px`, 'important')
+            } else {
+                img.removeAttribute('width')
+                img.style.removeProperty('width')
+            }
+            if (attrs.height) {
+                img.setAttribute('height', attrs.height)
+                img.style.setProperty('height', `${attrs.height}px`, 'important')
+            } else {
+                img.removeAttribute('height')
+                img.style.removeProperty('height')
+            }
         }
         sync(node.attrs as ImageAttrs)
 
@@ -80,8 +90,11 @@ function createImageNodeView(editor: TiptapEditor, typeName: string) {
         handle.addEventListener('pointermove', (e: PointerEvent) => {
             if (!handle.hasPointerCapture(e.pointerId)) return
             const newWidth = Math.max(20, Math.round(startWidth + (e.clientX - startX)))
+            const newHeight = Math.round(newWidth * ratio)
             img.setAttribute('width', String(newWidth))
-            img.setAttribute('height', String(Math.round(newWidth * ratio)))
+            img.setAttribute('height', String(newHeight))
+            img.style.setProperty('width', `${newWidth}px`, 'important')
+            img.style.setProperty('height', `${newHeight}px`, 'important')
         })
 
         handle.addEventListener('pointerup', (e: PointerEvent) => {

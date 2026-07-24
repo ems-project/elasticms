@@ -32,8 +32,16 @@ function imageAttributes() {
 
 function createImageNodeView(editor: TiptapEditor, typeName: string) {
     return ({ node, getPos }: { node: { attrs: unknown }; getPos: () => number | undefined }) => {
+        const wrapper = document.createElement('span')
+        wrapper.className = 'tiptap-image'
+
         const img = document.createElement('img')
-        img.className = 'tiptap-image'
+        img.className = 'tiptap-image-el'
+
+        const handle = document.createElement('span')
+        handle.className = 'tiptap-image-resize-handle'
+
+        wrapper.append(img, handle)
 
         const sync = (attrs: ImageAttrs) => {
             img.src = attrs.src ?? ''
@@ -53,8 +61,46 @@ function createImageNodeView(editor: TiptapEditor, typeName: string) {
             openImageDialog(editor)
         })
 
+        let startX = 0
+        let startWidth = 0
+        let ratio = 1
+
+        handle.addEventListener('pointerdown', (e: PointerEvent) => {
+            e.preventDefault()
+            e.stopPropagation()
+            handle.setPointerCapture(e.pointerId)
+            startX = e.clientX
+            startWidth = img.getBoundingClientRect().width
+            ratio =
+                img.naturalWidth && img.naturalHeight
+                    ? img.naturalHeight / img.naturalWidth
+                    : (img.getBoundingClientRect().height || startWidth) / startWidth
+        })
+
+        handle.addEventListener('pointermove', (e: PointerEvent) => {
+            if (!handle.hasPointerCapture(e.pointerId)) return
+            const newWidth = Math.max(20, Math.round(startWidth + (e.clientX - startX)))
+            img.setAttribute('width', String(newWidth))
+            img.setAttribute('height', String(Math.round(newWidth * ratio)))
+        })
+
+        handle.addEventListener('pointerup', (e: PointerEvent) => {
+            if (!handle.hasPointerCapture(e.pointerId)) return
+            handle.releasePointerCapture(e.pointerId)
+            const pos = getPos()
+            if (typeof pos !== 'number') return
+            editor.tiptap
+                .chain()
+                .setNodeSelection(pos)
+                .updateAttributes(typeName, {
+                    width: img.getAttribute('width'),
+                    height: img.getAttribute('height')
+                })
+                .run()
+        })
+
         return {
-            dom: img,
+            dom: wrapper,
             update: (updatedNode: { type: { name: string }; attrs: unknown }) => {
                 if (updatedNode.type.name !== typeName) return false
                 sync(updatedNode.attrs as ImageAttrs)

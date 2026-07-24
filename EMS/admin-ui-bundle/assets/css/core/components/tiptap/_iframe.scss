@@ -208,9 +208,17 @@ html, body {
 }
 
 .tiptap-image {
+  position: relative;
+  display: inline-block;
   max-width: 100%;
   min-width: auto;
+  line-height: 0;
   vertical-align: top;
+
+  .tiptap-image-el {
+    display: block;
+    max-width: 100%;
+  }
 
   &.ProseMirror-selectednode {
     outline: 2px solid var(--tiptap-accent, #228be6);
@@ -222,6 +230,24 @@ html, body {
     outline-offset: 2px;
     background: rgba(34, 139, 230, 0.15);
   }
+}
+
+.tiptap-image-resize-handle {
+  position: absolute;
+  right: -5px;
+  bottom: -5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--tiptap-accent, #228be6);
+  border: 1px solid #fff;
+  cursor: nwse-resize;
+  display: none;
+  touch-action: none;
+}
+
+.tiptap-image.ProseMirror-selectednode .tiptap-image-resize-handle {
+  display: block;
 }
 
 .tiptap-image-placeholder {

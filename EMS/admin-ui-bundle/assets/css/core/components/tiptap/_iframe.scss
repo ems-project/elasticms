@@ -209,11 +209,18 @@ html, body {
 
 .tiptap-image {
   max-width: 100%;
+  min-width: auto;
   vertical-align: top;
 
   &.ProseMirror-selectednode {
     outline: 2px solid var(--tiptap-accent, #228be6);
     outline-offset: 2px;
+  }
+
+  &.is-in-selection {
+    outline: 2px solid var(--tiptap-accent, #228be6);
+    outline-offset: 2px;
+    background: rgba(34, 139, 230, 0.15);
   }
 }
 

@@ -78,6 +78,10 @@ export function removeImage(editor: Editor): void {
     editor.chain().focus().deleteSelection().run()
 }
 
+export function findImageFigure(state: EditorState): Ancestor | null {
+    return findAncestor(state, 'imageFigure')
+}
+
 type Ancestor = { node: PMNode; pos: number; depth: number }
 
 function findAncestor(state: EditorState, typeName: string): Ancestor | null {

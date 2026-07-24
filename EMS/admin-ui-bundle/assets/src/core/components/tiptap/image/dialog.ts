@@ -6,13 +6,23 @@ import { TiptapEditor } from '../editor.ts'
 import { escapeHtml } from '../helper.ts'
 import type { ImageAttrs } from './node.ts'
 import { getImageBrowserListUrl, openImageBrowser } from './browser.ts'
-import { getImageCaption, removeImage, updateImageCaption } from './caption.ts'
+import { findImageFigure, getImageCaption, removeImage, updateImageCaption } from './caption.ts'
 
 export function openImageDialog(editor: TiptapEditor): void {
-    const isImageBlockActive = editor.tiptap.isActive('imageBlock')
+    const figure = editor.tiptap.isActive('imageBlock')
+        ? null
+        : findImageFigure(editor.tiptap.state)
+    const isImageBlockActive = editor.tiptap.isActive('imageBlock') || Boolean(figure)
     const isEdit = isImageBlockActive || editor.tiptap.isActive('image')
     const activeType = isImageBlockActive ? 'imageBlock' : 'image'
-    const existing = (isEdit ? editor.tiptap.getAttributes(activeType) : {}) as Partial<ImageAttrs>
+    const imagePos = figure ? figure.pos + 1 : editor.tiptap.state.selection.from
+    const existing = (
+        isEdit
+            ? figure
+                ? (figure.node.firstChild?.attrs ?? {})
+                : editor.tiptap.getAttributes(activeType)
+            : {}
+    ) as Partial<ImageAttrs>
     const existingCaption = isEdit ? getImageCaption(editor.tiptap.state) : ''
 
     const dialog = editor.createDialog(isEdit ? 'image_edit' : 'image_insert', {
@@ -30,6 +40,7 @@ export function openImageDialog(editor: TiptapEditor): void {
     let ratio: number | null = null
     let naturalWidth: number | null = null
     let naturalHeight: number | null = null
+    let sizeSetByUser = Boolean(existing.width || existing.height)
     previewImg.addEventListener('load', () => {
         if (previewImg.naturalWidth && previewImg.naturalHeight) {
             naturalWidth = previewImg.naturalWidth
@@ -144,13 +155,16 @@ export function openImageDialog(editor: TiptapEditor): void {
         if (!naturalWidth || !naturalHeight) return
         widthInput.value = String(naturalWidth)
         heightInput.value = String(naturalHeight)
+        sizeSetByUser = true
     })
 
     widthInput.addEventListener('input', () => {
+        sizeSetByUser = true
         if (!locked || !ratio || !widthInput.value) return
         heightInput.value = String(Math.round(Number(widthInput.value) * ratio))
     })
     heightInput.addEventListener('input', () => {
+        sizeSetByUser = true
         if (!locked || !ratio || !heightInput.value) return
         widthInput.value = String(Math.round(Number(heightInput.value) / ratio))
     })
@@ -182,18 +196,18 @@ export function openImageDialog(editor: TiptapEditor): void {
                 const attrs: ImageAttrs = {
                     src,
                     alt: altInput.value.trim() || null,
-                    width: widthInput.value.trim() || null,
-                    height: heightInput.value.trim() || null
+                    width: sizeSetByUser ? widthInput.value.trim() || null : null,
+                    height: sizeSetByUser ? heightInput.value.trim() || null : null
                 }
                 const caption = captionInput.value.trim()
 
                 if (isEdit) {
-                    const pos = editor.tiptap.state.selection.from
                     editor.tiptap
                         .chain()
                         .focus()
+                        .setNodeSelection(imagePos)
                         .updateAttributes(activeType, attrs)
-                        .setNodeSelection(pos)
+                        .setNodeSelection(imagePos)
                         .run()
                     updateImageCaption(editor.tiptap, caption)
                 } else if (caption) {

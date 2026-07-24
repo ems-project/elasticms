@@ -145,21 +145,34 @@ disappears and a short notice explains that the upload didn't succeed.
 paste an image URL directly, or click "Browse server" to pick an image you've already uploaded
 before, browsable by folder with thumbnails. Either way, as soon as the image is set, its actual
 width and height are filled in automatically, so you always start from its real size. You can also
-set alternative text (for accessibility) and adjust the width and height. A lock icon next to the
-dimensions keeps width and height proportional when you change one of them — click it to unlock and
-resize freely. A reset icon next to it restores the original width and height at any time.
+set alternative text (for accessibility), adjust the width and height, choose an alignment, and
+choose whether text should wrap around the image.
+
+A lock icon next to the dimensions keeps width and height proportional when you change one of them —
+click it to unlock and resize freely. A reset icon next to it restores the original width and
+height at any time. You don't have to open the dialog to resize, either: click an image to select
+it and a small handle appears in each bottom corner — drag either one to resize on the fly, right
+in the page, while keeping its proportions.
+
+**Alignment and text wrap** — an image can be aligned left, center, or right on its own line, or set
+to wrap left or right so surrounding paragraph text flows naturally around it. Both are set from the
+same dialog, right next to each other.
 
 To edit an existing image, right-click or double-click it. This reopens the same dialog, pre-filled
-with its current settings, and includes a "Remove image" option. Right-clicking also offers a
-"Remove image" option directly in the menu, without needing to open the dialog.
+with its current settings — including its current alignment or wrap choice — and includes a "Remove
+image" option. Right-clicking also offers a "Remove image" option directly in the menu, without
+needing to open the dialog. Selecting an image and pressing Delete or Backspace removes it the same
+way.
 
 Selected images are highlighted the same way as other special content blocks (like embeds), so it's
 always clear what you're about to edit or delete.
 
 **Captions** — the same dialog lets you add a caption, a short line of text shown right under the
-image. Just fill in the caption field when inserting or editing an image. Leave it empty and no
-caption is shown; fill it in later and one appears automatically. Clear it again and the image goes
-back to being a plain image with no extra space around it.
+image. The caption field accepts multiple lines, so longer captions can wrap onto a second line
+exactly where you want them to. Just fill in the caption field when inserting or editing an image.
+Leave it empty and no caption is shown; fill it in later and one appears automatically. Clear it
+again and the image goes back to being a plain image with no extra space around it, and removing the
+image removes its caption along with it.
 
 ### Links
 
@@ -255,7 +268,9 @@ alignment.
 
 ### Text Alignment
 
-Left, center, right, and justify. Left works by unsetting alignment since it is the default.
+Left, center, right, and justify. Left works by unsetting alignment since it is the default. Images
+share the same left/center/right alignment options, available directly from the image dialog rather
+than the main toolbar.
 
 ## HTML Transforms
 

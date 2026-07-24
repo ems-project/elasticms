@@ -3,6 +3,7 @@ import { Decoration, DecorationSet } from '@tiptap/pm/view'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { TiptapEditor } from '../editor.ts'
 import { openImageDialog } from './dialog.ts'
+import { removeImage } from './caption.ts'
 
 export interface ImageAttrs {
     src: string | null
@@ -205,6 +206,19 @@ export function createImageBlockNode(editor: TiptapEditor) {
 
         addNodeView() {
             return createImageNodeView(editor, 'imageBlock')
+        },
+
+        addKeyboardShortcuts() {
+            const removeSelectedFigure = () => {
+                if (!this.editor.isActive('imageBlock')) return false
+                removeImage(this.editor)
+                return true
+            }
+
+            return {
+                Backspace: removeSelectedFigure,
+                Delete: removeSelectedFigure
+            }
         }
     })
 }

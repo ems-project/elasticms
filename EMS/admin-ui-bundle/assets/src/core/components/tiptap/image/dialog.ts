@@ -53,11 +53,16 @@ export function openImageDialog(editor: TiptapEditor): void {
             : editor.tiptap.getAttributes(activeType)
         : {}) as Partial<ImageAttrs>
     const existingCaption = isEdit ? getImageCaption(editor.tiptap.state) : ''
+    const figureForLayout = figure ?? findImageFigure(editor.tiptap.state)
     const existingAlign: string | null =
-        (figure ? figure.node.attrs.textAlign : editor.tiptap.getAttributes('paragraph').textAlign) ??
-        null
-    const existingFloat: string | null =
-        (figure ? figure.node.attrs.float : editor.tiptap.getAttributes('image').float) ?? null
+        (figureForLayout
+            ? figureForLayout.node.attrs.textAlign
+            : editor.tiptap.getAttributes('paragraph').textAlign) ?? null
+    const existingFloat: string | null = isEdit
+        ? ((figureForLayout
+            ? figureForLayout.node.attrs.float
+            : editor.tiptap.getAttributes('image').float) ?? null)
+        : 'left'
 
     const dialog = editor.createDialog(isEdit ? 'image_edit' : 'image_insert', {
         bodyClass: 'tiptap-dialog-image',
@@ -273,21 +278,16 @@ export function openImageDialog(editor: TiptapEditor): void {
     floatField.innerHTML = `<label>${editor.trans('image_wrap')}</label>`
     floatField.appendChild(floatRow)
 
+    const layoutRow = document.createElement('div')
+    layoutRow.className = 'tiptap-image-dimensions-row'
+    layoutRow.append(alignField, floatField)
+
     const error = document.createElement('p')
     error.className = 'tiptap-image-error'
     error.hidden = true
     error.textContent = editor.trans('image_url_required')
 
-    dialog.body.append(
-        preview,
-        urlField,
-        dimensionsInner,
-        alignField,
-        floatField,
-        altField,
-        captionField,
-        error
-    )
+    dialog.body.append(preview, urlField, dimensionsInner, layoutRow, altField, captionField, error)
 
     dialog
         .addButton({

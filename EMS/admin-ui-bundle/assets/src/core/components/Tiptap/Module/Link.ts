@@ -3,7 +3,7 @@ import { Plugin, PluginKey } from '@tiptap/pm/state'
 import IconLink from '@tabler/icons/outline/link.svg?raw'
 import IconLinkOff from '@tabler/icons/outline/link-off.svg?raw'
 import { TiptapModule } from '../Types.ts'
-import { openLinkDialog } from './Link/Dialog.ts'
+import { linkDialog } from './Link/Dialog.ts'
 import { TiptapEditor } from '../Editor.ts'
 
 export const LinkModule: TiptapModule = {
@@ -85,12 +85,15 @@ function getLinkExtension(e: TiptapEditor) {
                     markPasteRule({
                         find: /https?:\/\/[^\s]+/g,
                         type: this.type,
-                        getAttributes: (match) => ({ href: match[0] })
+                        getAttributes: (match) => ({ href: match[0], target: getDefaultTarget(e) })
                     }),
                     markPasteRule({
                         find: /(?<![:/])\bwww\.[^\s]+/g,
                         type: this.type,
-                        getAttributes: (match) => ({ href: `https://${match[0]}` })
+                        getAttributes: (match) => ({
+                            href: `https://${match[0]}`,
+                            target: getDefaultTarget(e)
+                        })
                     })
                 ]
             },
@@ -105,7 +108,11 @@ function getLinkExtension(e: TiptapEditor) {
                             const href = captured.startsWith('www.')
                                 ? `https://${captured}`
                                 : captured
-                            const tr = state.tr.addMark(start, end, this.type.create({ href }))
+                            const tr = state.tr.addMark(
+                                start,
+                                end,
+                                this.type.create({ href, target: getDefaultTarget(e) })
+                            )
                             tr.removeStoredMark(this.type)
                         }
                     })
@@ -155,7 +162,7 @@ function getLinkExtension(e: TiptapEditor) {
                                         view.state.tr.addMark(
                                             selection.from,
                                             selection.to,
-                                            this.type.create({ href })
+                                            this.type.create({ href, target: getDefaultTarget(e) })
                                         )
                                     )
                                     return true
@@ -189,7 +196,15 @@ function autoLinkBeforeCursor(e: TiptapEditor) {
     const start = end - captured.length
     const href = captured.startsWith('www.') ? `https://${captured}` : captured
 
-    const tr = state.tr.addMark(start, end, linkType.create({ href }))
+    const tr = state.tr.addMark(start, end, linkType.create({ href, target: getDefaultTarget(e) }))
     tr.removeStoredMark(linkType)
     view.dispatch(tr)
+}
+
+function openLinkDialog(e: TiptapEditor) {
+    linkDialog(e, getDefaultTarget(e))
+}
+
+function getDefaultTarget(e: TiptapEditor): string | null {
+    return e.profile.isUrlTargetDefaultBlank('url') ? '_blank' : null
 }

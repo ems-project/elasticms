@@ -4,7 +4,7 @@ import { TranslationKey } from '../../Translations.ts'
 import { createSearch } from './Search.ts'
 import { UrlType } from '../../../Wysiwyg/Wysiwyg.ts'
 
-export function openLinkDialog(e: TiptapEditor) {
+export function linkDialog(e: TiptapEditor, defaultTarget: string | null = null) {
     const { from, to } = e.tiptap.state.selection
     const isEdit = e.tiptap.isActive('link')
     const ctx = getLinkContext(e)
@@ -14,8 +14,8 @@ export function openLinkDialog(e: TiptapEditor) {
     if (!isEdit || !urlTypes.includes(ctx.type)) {
         ctx.type = urlTypes[0]
     }
-    if (!isEdit && !ctx.target && e.profile.isUrlTargetDefaultBlank(ctx.type)) {
-        ctx.target = '_blank'
+    if (!isEdit && !ctx.target && defaultTarget) {
+        ctx.target = defaultTarget
     }
 
     const localPageWrapper = urlTypes.includes('localPage') ? buildLocalPageWrapper(e, ctx) : null

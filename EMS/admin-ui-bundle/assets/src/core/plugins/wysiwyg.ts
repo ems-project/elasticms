@@ -1,4 +1,4 @@
-import { getWysiwygProfile } from '../components/wysiwyg/wysiwyg.ts'
+import { getWysiwygProfile } from '../components/Wysiwyg/Wysiwyg.ts'
 
 export default class WYSIWYG {
     editors: any[] = []
@@ -22,7 +22,11 @@ export default class WYSIWYG {
         element.setAttribute('data-wysiwyg-initialized', 'true')
 
         const editorName = getWysiwygProfile().editor
-        const Editor = await import(`../components/wysiwyg/${editorName}.ts`)
+        const Editor =
+            editorName === 'tiptap'
+                ? await import(`../components/Wysiwyg/Tiptap.ts`)
+                : await import(`../components/Wysiwyg/CKEditor4.ts`)
+
         this.editors.push(new Editor.default(element))
     }
 }

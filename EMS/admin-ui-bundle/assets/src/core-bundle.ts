@@ -1,7 +1,7 @@
 import '../css/core/_core_bundle.scss'
 
 import WYSIWYG from './core/plugins/wysiwyg.ts'
-import { getWysiwygProfile } from './core/components/wysiwyg/wysiwyg.ts'
+import { getWysiwygProfile } from './core/components/Wysiwyg/Wysiwyg.ts'
 
 window.addEventListener('emsReady', async function () {
     if ('tiptap' !== getWysiwygProfile().editor) return

@@ -9,7 +9,7 @@ const CONTEXT_NODES: Record<string, string[]> = {
     table: ['table', 'tableFigure', 'tableCaption'],
     list: ['bulletList', 'orderedList', 'listItem'],
     link: ['link'],
-    image: ['image']
+    image: ['image', 'imageBlock', 'imageFigure', 'imageCaption']
 }
 
 type SeparatorItem = { separator: true }

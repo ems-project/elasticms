@@ -3,6 +3,7 @@ import '../../../css/core/components/_dialog.scss'
 interface DialogButton {
     label: string
     variant?: 'primary' | 'secondary' | 'danger' | 'default'
+    align?: 'left' | 'right'
     onClick: (dialog: Dialog) => void
 }
 
@@ -147,11 +148,12 @@ export class Dialog {
         return this
     }
 
-    addButton({ label, variant = 'default', onClick }: DialogButton): this {
+    addButton({ label, variant = 'default', align = 'right', onClick }: DialogButton): this {
         const btn = this.doc.createElement('button')
         btn.innerText = label
         btn.type = 'button'
         btn.dataset.variant = variant
+        btn.dataset.align = align
         btn.onclick = (e) => {
             e.preventDefault()
             onClick(this)

@@ -148,6 +148,11 @@ dialog.ems-dialog {
       cursor: pointer;
       transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
 
+      &[data-align="left"] {
+        margin-right: auto;
+        order: -1;
+      }
+
       &:focus-visible {
         outline: 0;
         box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
@@ -165,13 +170,14 @@ dialog.ems-dialog {
       }
 
       &[data-variant="danger"] {
-        color: #fff;
-        background-color: var(--dialog-btn-danger-bg, #dc3545);
-        border-color: var(--dialog-btn-danger-bg, #dc3545);
+        color: var(--dialog-btn-danger-color, #bb2d3b);
+        background-color: var(--dialog-btn-secondary-bg, #fff);
+        border-color: var(--dialog-btn-danger-border, #bb2d3b);
 
         &:hover {
-          background-color: var(--dialog-btn-danger-hover-bg, #bb2d3b);
-          border-color: var(--dialog-btn-danger-hover-bg, #bb2d3b);
+          color: var(--dialog-btn-danger-hover-color, #dc3545);
+          background-color: var(--dialog-btn-secondary-hover-bg, #e9ecef);
+          border-color: var(--dialog-btn-danger-hover-border, #dc3545);
         }
       }
 

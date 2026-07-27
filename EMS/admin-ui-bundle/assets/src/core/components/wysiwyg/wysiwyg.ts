@@ -14,6 +14,7 @@ export class WysiwygProfile {
     config: {
         searchUrl: string | null
         emsAjaxPaste?: string
+        imageBrowser_listUrl?: string
         ems?: {
             urlTypes?: string[]
             urlTargetDefaultBlank?: string[]

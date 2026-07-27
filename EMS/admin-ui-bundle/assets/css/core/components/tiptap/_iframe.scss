@@ -35,6 +35,13 @@ html, body {
     margin-top: 0.5em;
   }
 
+  p, h1, h2, h3, h4, h5, h6, div {
+    &[data-text-align="left"] { text-align: left; }
+    &[data-text-align="center"] { text-align: center; }
+    &[data-text-align="right"] { text-align: right; }
+    &[data-text-align="justify"] { text-align: justify; }
+  }
+
   a[id]:not([href]) {
     position: relative;
     border: 1px dotted;
@@ -64,6 +71,48 @@ html, body {
 
     > figcaption {
       padding: 5px;
+    }
+  }
+
+  figure[data-type="image"] {
+    margin: 0 0 1em;
+    width: fit-content;
+    max-width: 100%;
+
+    &[data-text-align="center"] {
+      margin-inline: auto;
+
+      > figcaption {
+        text-align: center;
+      }
+    }
+
+    &[data-text-align="right"] {
+      margin-inline-start: auto;
+      margin-inline-end: 0;
+    }
+
+    &[data-text-align="left"],
+    &[data-text-align="justify"] {
+      margin-inline-start: 0;
+      margin-inline-end: auto;
+    }
+
+    &[data-float="left"] {
+      float: left;
+      margin: 0 1em 0.5em 0;
+    }
+
+    &[data-float="right"] {
+      float: right;
+      margin: 0 0 0.5em 1em;
+    }
+
+    > figcaption {
+      padding: 5px;
+      font-size: 0.9em;
+      color: var(--tiptap-text-muted, #666);
+      text-align: left;
     }
   }
 
@@ -168,6 +217,96 @@ html, body {
   font-size: 14px;
 }
 
+.tiptap-image {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  min-width: auto;
+  line-height: 0;
+  vertical-align: top;
+
+  .tiptap-image-el {
+    display: block;
+    max-width: 100%;
+  }
+
+  &.ProseMirror-selectednode {
+    outline: 2px solid var(--tiptap-accent, #228be6);
+    outline-offset: 2px;
+  }
+
+  &.is-in-selection {
+    outline: 2px solid var(--tiptap-accent, #228be6);
+    outline-offset: 2px;
+    background: rgba(34, 139, 230, 0.15);
+  }
+}
+
+.tiptap-image-resize-handle {
+  position: absolute;
+  bottom: -5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--tiptap-accent, #228be6);
+  border: 1px solid #fff;
+  display: none;
+  touch-action: none;
+}
+
+.tiptap-image-resize-handle-right {
+  right: -5px;
+  cursor: nwse-resize;
+}
+
+.tiptap-image-resize-handle-left {
+  left: -5px;
+  cursor: nesw-resize;
+}
+
+.tiptap-image.ProseMirror-selectednode .tiptap-image-resize-handle {
+  display: block;
+}
+
+.tiptap-image-float-left {
+  float: left;
+  margin: 0 1em 0.5em 0;
+}
+
+.tiptap-image-float-right {
+  float: right;
+  margin: 0 0 0.5em 1em;
+}
+
+.tiptap-image-placeholder {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 90px;
+  border: 1px dashed var(--tiptap-border-color, #ccc);
+  border-radius: 4px;
+  background: var(--tiptap-bg-subtle, #f5f5f5);
+  vertical-align: top;
+  box-sizing: border-box;
+
+  &::after {
+    content: '';
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid var(--tiptap-border-color, #ccc);
+    border-top-color: var(--tiptap-accent, #228be6);
+    animation: tiptap-image-spin 0.8s linear infinite;
+  }
+}
+
+@keyframes tiptap-image-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .tiptap-show-blocks {
   p, h1, h2, h3, h4, h5, h6, div, pre, address, blockquote {
     position: relative;
@@ -231,5 +370,11 @@ html, body {
       border-bottom: 1px dotted #ccc;
       border-right: 1px dotted #ccc;
     }
+  }
+
+  .tiptap-image {
+    position: relative;
+    outline: 1px dotted #ccc;
+    outline-offset: -1px;
   }
 }

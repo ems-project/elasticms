@@ -1,4 +1,4 @@
-import { getWysiwygProfile } from '../components/wysiwyg/wysiwyg.ts'
+import { getWysiwygProfile } from '../components/Wysiwyg/Wysiwyg.ts'
 
 export default class WYSIWYG {
     editors: any[] = []

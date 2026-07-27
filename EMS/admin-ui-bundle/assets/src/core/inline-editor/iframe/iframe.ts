@@ -2,7 +2,7 @@ import { EditorEditMessage, InlineCollection, InlineElement } from '../types'
 import { Messenger } from '../iframe/messenger'
 import { NavigationObserver } from './navigation'
 import { TiptapEditor } from '../../components/Tiptap/Editor.ts'
-import { getWysiwygProfile } from '../../components/wysiwyg/wysiwyg.ts'
+import { getWysiwygProfile } from '../../components/Wysiwyg/Wysiwyg.ts'
 
 interface IframeOptions {
     prefix: string

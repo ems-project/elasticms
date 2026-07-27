@@ -1,5 +1,5 @@
-import ChangeEvent from '../../events/changeEvent.ts'
-import { getWysiwygProfile, getWysiwygOptions, WysiwygProfile, WysiwygOptions } from './wysiwyg.ts'
+import ChangeEvent from '../../events/ChangeEvent.ts'
+import { getWysiwygProfile, getWysiwygOptions, WysiwygProfile, WysiwygOptions } from './Wysiwyg.ts'
 
 declare let CKEDITOR: {
     replace: (
@@ -65,7 +65,7 @@ export class CKEditorConfig {
           } = undefined
 }
 
-export default class Ckeditor4 {
+export default class CKEditor4 {
     private readonly element: HTMLElement
     private profile: WysiwygProfile
 
@@ -216,11 +216,11 @@ export default class Ckeditor4 {
     }
 
     private getDefaultConfig(): CKEditorConfig {
-        if (null !== Ckeditor4.config) {
-            return Ckeditor4.config
+        if (null !== CKEditor4.config) {
+            return CKEditor4.config
         }
 
-        Ckeditor4.config = new CKEditorConfig()
+        CKEditor4.config = new CKEditorConfig()
         const assetPath = document.body.dataset.assetPath
         if (undefined === assetPath) {
             throw new Error('Attribute data-asset-path not defined')
@@ -247,7 +247,7 @@ export default class Ckeditor4 {
 
         this.addEmsBrowser()
 
-        return Ckeditor4.config
+        return CKEditor4.config
     }
 
     private addEmsBrowser() {

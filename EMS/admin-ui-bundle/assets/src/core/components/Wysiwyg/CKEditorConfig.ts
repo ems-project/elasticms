@@ -253,7 +253,7 @@ const DEFAULT_SPECIAL_CHARS = [
     '&asymp;'
 ]
 
-export interface CkeditorConfig {
+export interface CKEditorConfig {
     plugins?: string
     extraPlugins?: string
     removeButtons?: string
@@ -264,7 +264,7 @@ export interface CkeditorConfig {
     colorButton_colors?: string[] | string
 }
 
-export const DEFAULT_CK_VALUES: CkeditorConfig = {
+export const DEFAULT_CK_VALUES: CKEditorConfig = {
     language: 'en',
     specialChars: DEFAULT_SPECIAL_CHARS,
     toolbarGroups: [

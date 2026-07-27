@@ -7,7 +7,7 @@ import { escapeHtml } from '../Helper.ts'
 import { TranslationKey } from '../Translations.ts'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { createSearchLink } from '../UI/SearchLink.ts'
-import { UrlType } from '../../wysiwyg/wysiwyg.ts'
+import { UrlType } from '../../Wysiwyg/Wysiwyg.ts'
 
 const URL_TYPE_OPTIONS: { value: UrlType; label: TranslationKey }[] = [
     { value: 'url', label: 'link_type_url' },

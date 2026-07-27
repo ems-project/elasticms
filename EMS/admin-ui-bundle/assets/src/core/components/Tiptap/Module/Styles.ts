@@ -1,6 +1,6 @@
 import { TiptapModule } from '../Types.ts'
 import { TiptapEditor } from '../Editor.ts'
-import { CkeditorStyle } from '../../wysiwyg/ckeditorConfig.ts'
+import { CkeditorStyle } from '../../Wysiwyg/CKEditorConfig.ts'
 import { Extension, Mark, mergeAttributes } from '@tiptap/core'
 import { BLOCK_NODES, ExtensionType } from './../Extensions.ts'
 import { createDropdown, Dropdown } from './../UI/Dropdown.ts'

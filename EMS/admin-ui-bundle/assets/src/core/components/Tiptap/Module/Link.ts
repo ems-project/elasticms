@@ -105,6 +105,7 @@ function getLinkExtension(e: TiptapEditor) {
                             const captured = match[1]
                             const start = range.from
                             const end = start + captured.length
+                            if (state.doc.rangeHasMark(start, end, this.type)) return
                             const href = captured.startsWith('www.')
                                 ? `https://${captured}`
                                 : captured
@@ -123,10 +124,6 @@ function getLinkExtension(e: TiptapEditor) {
                     'Mod-l': () => {
                         openLinkDialog(e)
                         return true
-                    },
-                    Enter: () => {
-                        autoLinkBeforeCursor(e)
-                        return false
                     }
                 }
             },
@@ -174,31 +171,6 @@ function getLinkExtension(e: TiptapEditor) {
             }
         })
     ]
-}
-
-function autoLinkBeforeCursor(e: TiptapEditor) {
-    const { state, view } = e.tiptap
-    const { $from } = state.selection
-    const textBefore = $from.parent.textBetween(
-        Math.max(0, $from.parentOffset - 500),
-        $from.parentOffset,
-        undefined,
-        '\ufffc'
-    )
-    const match = /(?:^|\s)((?:https?:\/\/|www\.)[^\s]+)$/.exec(textBefore)
-    if (!match) return
-
-    const linkType = state.schema.marks.link
-    if (!linkType) return
-
-    const captured = match[1]
-    const end = $from.pos
-    const start = end - captured.length
-    const href = captured.startsWith('www.') ? `https://${captured}` : captured
-
-    const tr = state.tr.addMark(start, end, linkType.create({ href, target: getDefaultTarget(e) }))
-    tr.removeStoredMark(linkType)
-    view.dispatch(tr)
 }
 
 function openLinkDialog(e: TiptapEditor) {

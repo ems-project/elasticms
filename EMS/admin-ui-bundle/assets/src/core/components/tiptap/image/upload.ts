@@ -1,19 +1,8 @@
-// @ts-expect-error - @elasticms/file-uploader ships without type declarations
-import FileUploaderImpl from '@elasticms/file-uploader'
 import { Extension } from '@tiptap/core'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { Decoration, DecorationSet, EditorView } from '@tiptap/pm/view'
 import { TiptapEditor } from '../editor.ts'
-
-interface FileUploaderOptions {
-    file: File
-    algo?: string
-    initUrl: string
-    onUploaded?: (assetUrl: string, previewUrl: string) => void
-    onError?: (message: string, code?: number) => void
-}
-
-const FileUploader = FileUploaderImpl as unknown as new (options: FileUploaderOptions) => void
+import { FileUploader } from '../../FileUploader.ts'
 
 interface PlaceholderMeta {
     add?: { id: string; pos: number }

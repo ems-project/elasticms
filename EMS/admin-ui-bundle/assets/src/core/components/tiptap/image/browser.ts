@@ -1,9 +1,5 @@
 import { TiptapEditor } from '../editor.ts'
 
-// Self-contained: fetches the images list JSON directly and renders the picker
-// in our own dialog. No dependency on the legacy CKEditor4 image-browser popup
-// (core-bundle's cke-plugins/imagebrowser), since that plugin is going away.
-
 interface BrowsableImage {
     image: string
     thumb: string

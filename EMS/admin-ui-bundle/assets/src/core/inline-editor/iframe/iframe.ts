@@ -1,7 +1,7 @@
 import { EditorEditMessage, InlineCollection, InlineElement } from '../types'
 import { Messenger } from '../iframe/messenger'
 import { NavigationObserver } from './navigation'
-import { TiptapEditor } from '../../components/tiptap/editor.ts'
+import { TiptapEditor } from '../../components/Tiptap/Editor.ts'
 import { getWysiwygProfile } from '../../components/wysiwyg/wysiwyg.ts'
 
 interface IframeOptions {

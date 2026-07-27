@@ -1,8 +1,8 @@
 import './../../../../css/core/components/_wysiwyg_tiptap.scss'
 import tiptapIframeCss from './../../../../css/core/components/_wysiwyg_tiptap_iframe.scss?inline'
 
-import { TiptapEditor } from '../tiptap/editor.ts'
-import { TiptapModule } from '../tiptap/types.ts'
+import { TiptapEditor } from '../Tiptap/Editor.ts'
+import { TiptapModule } from '../Tiptap/Types.ts'
 import ChangeEvent from '../../events/changeEvent.ts'
 import IconSource from '@tabler/icons/outline/code.svg?raw'
 import IconSourceOff from '@tabler/icons/outline/code-off.svg?raw'
@@ -10,7 +10,7 @@ import IconMaximize from '@tabler/icons/outline/arrows-maximize.svg?raw'
 import IconMinimize from '@tabler/icons/outline/arrows-minimize.svg?raw'
 import { getWysiwygOptions, getWysiwygProfile, WysiwygOptions } from './wysiwyg.ts'
 import CodeEditor from '../../plugins/codeEditor.ts'
-import { escapeHtml } from '../tiptap/helper.ts'
+import { escapeHtml } from '../Tiptap/Helper.ts'
 import { html as beautifyHtml } from 'js-beautify'
 
 export default class Tiptap {

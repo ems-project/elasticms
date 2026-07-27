@@ -3,7 +3,7 @@ import tiptapIframeCss from './../../../../css/core/components/_wysiwyg_tiptap_i
 
 import { TiptapEditor } from '../Tiptap/Editor.ts'
 import { TiptapModule } from '../Tiptap/Types.ts'
-import ChangeEvent from '../../events/changeEvent.ts'
+import ChangeEvent from '../../events/ChangeEvent.ts'
 import IconSource from '@tabler/icons/outline/code.svg?raw'
 import IconSourceOff from '@tabler/icons/outline/code-off.svg?raw'
 import IconMaximize from '@tabler/icons/outline/arrows-maximize.svg?raw'

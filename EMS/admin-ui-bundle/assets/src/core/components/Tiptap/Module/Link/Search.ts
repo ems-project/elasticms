@@ -1,9 +1,9 @@
-import '../../../../../css/core/components/tiptap/_search_link.scss'
+import '../../../../../../css/core/components/tiptap/_link_search.scss'
 
 export type SearchLinkItem<T = unknown> = { id: string; title: string; text: string; data?: T }
 export type SearchLinkValue<T = unknown> = { id: string; title: string; data: T | null } | null
 
-export type SearchLinkConfig<T = unknown> = {
+export type SearchConfig<T = unknown> = {
     searchUrl: string
     searchLabel: string
     searchPlaceholder: string
@@ -13,22 +13,22 @@ export type SearchLinkConfig<T = unknown> = {
     onChange: (value: SearchLinkValue<T>) => void
 }
 
-export type SearchLink = {
+export type Search = {
     element: HTMLElement
     setExtraParams: (params: Record<string, string>) => void
     clear: () => void
 }
 
-export function createSearchLink<T = unknown>(config: SearchLinkConfig<T>): SearchLink {
+export function createSearch<T = unknown>(config: SearchConfig<T>): Search {
     const container = document.createElement('div')
-    container.className = 'search-link'
+    container.className = 'link-search'
 
     const label = document.createElement('label')
     label.textContent = config.searchLabel
     container.appendChild(label)
 
     const inputWrapper = document.createElement('div')
-    inputWrapper.className = 'search-link-wrapper'
+    inputWrapper.className = 'link-search-wrapper'
 
     const input = document.createElement('input')
     input.type = 'text'
@@ -36,12 +36,12 @@ export function createSearchLink<T = unknown>(config: SearchLinkConfig<T>): Sear
     input.placeholder = config.searchPlaceholder
 
     const display = document.createElement('div')
-    display.className = 'search-link-display'
+    display.className = 'link-search-display'
 
     const clearBtn = document.createElement('button')
     clearBtn.type = 'button'
     clearBtn.textContent = '×'
-    clearBtn.className = 'search-link-clear'
+    clearBtn.className = 'link-search-clear'
     clearBtn.style.display = 'none'
 
     inputWrapper.appendChild(input)
@@ -50,7 +50,7 @@ export function createSearchLink<T = unknown>(config: SearchLinkConfig<T>): Sear
     container.appendChild(inputWrapper)
 
     const results = document.createElement('div')
-    results.className = 'search-link-results'
+    results.className = 'link-search-results'
     container.appendChild(results)
 
     let currentQuery = '*'
@@ -95,7 +95,7 @@ export function createSearchLink<T = unknown>(config: SearchLinkConfig<T>): Sear
     const appendItems = (items: SearchLinkItem<T>[]) => {
         items.forEach((item) => {
             const el = document.createElement('div')
-            el.className = 'search-link-item'
+            el.className = 'link-search-item'
             el.tabIndex = 0
             el.innerHTML = item.text
             const pick = () => selectItem(item.id, item.title, item.text, item.data ?? null)
@@ -129,7 +129,7 @@ export function createSearchLink<T = unknown>(config: SearchLinkConfig<T>): Sear
                 results.innerHTML = ''
                 if (!items.length) {
                     const empty = document.createElement('div')
-                    empty.className = 'search-link-empty'
+                    empty.className = 'link-search-empty'
                     empty.textContent = config.noResultsLabel
                     results.appendChild(empty)
                     return
@@ -152,7 +152,7 @@ export function createSearchLink<T = unknown>(config: SearchLinkConfig<T>): Sear
             const item: SearchLinkItem<T> | undefined = data.items?.[0]
             if (item) selectItem(item.id, item.title, item.text, item.data ?? null)
         } catch {
-            console.error('Failed to fetch initial search-link item')
+            console.error('Failed to fetch initial link-search item')
         }
     }
 

@@ -1,8 +1,8 @@
-.search-link {
+.link-search {
   display: flex;
   flex-direction: column;
 
-  .search-link-wrapper {
+  .link-search-wrapper {
     position: relative;
     width: 100%;
 
@@ -15,7 +15,7 @@
     }
   }
 
-  .search-link-display {
+  .link-search-display {
     width: 100%;
     box-sizing: border-box;
     padding: 8px 28px 8px 8px;
@@ -29,7 +29,7 @@
     overflow: hidden;
   }
 
-  .search-link-results {
+  .link-search-results {
     max-height: 200px;
     overflow-y: auto;
     border: 1px solid #ccc;
@@ -37,7 +37,7 @@
     width: 100%;
     display: none;
 
-    .search-link-item {
+    .link-search-item {
       padding: 8px;
       cursor: pointer;
 
@@ -53,13 +53,13 @@
       }
     }
 
-    .search-link-empty {
+    .link-search-empty {
       padding: 8px;
       color: #888;
     }
   }
 
-  .search-link-clear {
+  .link-search-clear {
     position: absolute;
     top: 50%;
     right: 6px;

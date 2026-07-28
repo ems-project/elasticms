@@ -116,7 +116,7 @@ function uploadImageFile(editor: TiptapEditor, view: EditorView, file: File, pos
 
     const fail = () => {
         removePlaceholder()
-        showUploadNotice(editor, editor.trans('image_upload_error').replace('{file}', file.name))
+        editor.showNotice(editor.trans('image_upload_error').replace('{file}', file.name), 'error')
     }
 
     if (!initUrl) {
@@ -139,19 +139,12 @@ function uploadImageFile(editor: TiptapEditor, view: EditorView, file: File, pos
                     attrs: { src: assetUrl, alt: file.name.replace(/\.[^.]+$/, '') }
                 })
                 .run()
+
+            editor.showNotice(
+                editor.trans('file_upload_success').replace('{file}', file.name),
+                'success'
+            )
         },
         onError: () => fail()
     })
-}
-
-function showUploadNotice(editor: TiptapEditor, message: string): void {
-    const doc = editor.docParent
-    const notice = doc.createElement('div')
-    notice.className = 'tiptap-image-upload-error'
-    notice.textContent = message
-    notice.style.cssText =
-        'position:fixed;top:16px;right:16px;z-index:100000;background:#f8d7da;color:#842029;' +
-        'border:1px solid #f5c2c7;border-radius:4px;padding:8px 14px;font-size:13px;box-shadow:0 2px 8px rgba(0,0,0,.15);'
-    doc.body.appendChild(notice)
-    setTimeout(() => notice.remove(), 5000)
 }

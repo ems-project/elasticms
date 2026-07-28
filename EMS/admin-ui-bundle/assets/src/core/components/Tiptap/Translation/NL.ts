@@ -62,6 +62,7 @@ export const NL: Record<TranslationKey, string> = {
     div_remove: 'Div verwijderen',
     div_update: 'Div-container aanpassen',
     file_upload_error: 'Upload van bestand {file} is mislukt',
+    file_upload_success: 'Bestand {file} succesvol geüpload',
     find: 'Zoeken',
     find_end_reached: 'Einde bereikt',
     find_match_case: 'Hoofdlettergevoelig',

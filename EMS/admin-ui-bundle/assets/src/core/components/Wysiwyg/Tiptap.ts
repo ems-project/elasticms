@@ -23,6 +23,7 @@ export default class Tiptap {
 
     private codeEditor = new CodeEditor()
     private sourceContainer: HTMLDivElement = document.createElement('div')
+    private iframeWrapper: HTMLDivElement = document.createElement('div')
 
     private resizeObserver = new ResizeObserver(() => {
         const pre = this.sourceContainer.querySelector('pre') as any
@@ -58,6 +59,7 @@ export default class Tiptap {
         const tiptapEditor = new TiptapEditor({
             content: this.textarea.value,
             element: mount,
+            noticeElement: this.iframeWrapper,
             toolbarElement: toolbar,
             customModules: [this.getSourceModule(), this.getMaximizeModule()],
             wysiwygProfile: this.wysiwygOptions.inRevision ? getWysiwygProfile() : null,
@@ -113,6 +115,9 @@ export default class Tiptap {
 
     private createIframe(): Promise<HTMLElement> {
         return new Promise((resolve) => {
+            this.iframeWrapper.className = 'wysiwyg-iframe-wrapper'
+            this.container.appendChild(this.iframeWrapper)
+
             const iframe = document.createElement('iframe')
             iframe.className = 'wysiwyg-iframe'
 
@@ -144,7 +149,7 @@ export default class Tiptap {
                 { once: true }
             )
 
-            this.container.appendChild(iframe)
+            this.iframeWrapper.appendChild(iframe)
         })
     }
 

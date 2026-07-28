@@ -333,6 +333,14 @@ function buildFileFields(e: TiptapEditor, ctx: LinkContext, linkText: string) {
             <label for="link-file-text">${e.trans('link_file_text')} <span style="color: red">*</span></label>
             <input type="text" id="link-file-text" value="${escapeHtml(linkText || existingName)}" required>
         </div>
+        <div>
+            <label for="link-target-fileLink">${e.trans('link_target')}</label>
+            <select id="link-target-fileLink">
+                <option value=""${!ctx.target ? ' selected' : ''}>${e.trans('select')}</option>
+                <option value="_blank"${ctx.target === '_blank' ? ' selected' : ''}>${e.trans('link_target_new_window')}</option>
+                <option value="_self"${ctx.target === '_self' ? ' selected' : ''}>${e.trans('link_target_same_window')}</option>
+            </select>
+        </div>
     </div>`
 }
 
@@ -411,9 +419,10 @@ const HREF_BUILDERS: Record<UrlType, (root: HTMLElement) => LinkResult | null> =
         const hrefInput = root.querySelector<HTMLInputElement>('#link-file-href')!
         const textInput = root.querySelector<HTMLInputElement>('#link-file-text')!
         if (!hrefInput.value || !textInput.reportValidity()) return null
+        const target = root.querySelector<HTMLSelectElement>('#link-target-fileLink')!.value || null
         return {
             href: hrefInput.value,
-            target: '_blank',
+            target,
             text: textInput.value.trim(),
             class: 'ems-link-file'
         }

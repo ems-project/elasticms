@@ -4,12 +4,20 @@ import { TranslationKey } from '../../Translations.ts'
 import { createSearch } from './Search.ts'
 import { UrlType } from '../../../Wysiwyg/Wysiwyg.ts'
 import { FileUploader } from '../../../FileUploader.ts'
+import { getMarkRange } from '@tiptap/core'
 
 export function linkDialog(e: TiptapEditor, defaultTarget: string | null = null) {
-    const { from, to } = e.tiptap.state.selection
     const isEdit = e.tiptap.isActive('link')
     const ctx = getLinkContext(e)
     const anchors = getAnchorsFromDoc(e)
+
+    const selection = e.tiptap.state.selection
+    const range = isEdit
+        ? (getMarkRange(selection.$from, e.tiptap.schema.marks.link) ?? selection)
+        : selection
+    const from = range.from
+    const to = range.to
+    const linkText = isEdit ? e.tiptap.state.doc.textBetween(from, to) : ''
 
     const urlTypes = e.profile.urlTypes
     if (!isEdit || !urlTypes.includes(ctx.type)) {
@@ -27,7 +35,7 @@ export function linkDialog(e: TiptapEditor, defaultTarget: string | null = null)
         email: () => buildEmailFields(e, ctx),
         phone: () => buildPhoneFields(e, ctx),
         localPage: () => localPageWrapper?.html ?? '',
-        fileLink: () => buildFileFields(e, ctx)
+        fileLink: () => buildFileFields(e, ctx, linkText)
     }
 
     const dialog = e.createDialog('link', { resizable: true, minWidth: 400 })
@@ -308,7 +316,7 @@ function buildLocalPageWrapper(
     }
 }
 
-function buildFileFields(e: TiptapEditor, ctx: LinkContext) {
+function buildFileFields(e: TiptapEditor, ctx: LinkContext, linkText: string) {
     const existingName =
         ctx.type === 'fileLink' ? decodeURIComponent(ctx.href.split('/').pop() ?? '') : ''
     return `<div id="link-fields-fileLink" style="display: none; flex-direction: column; gap: 10px;">
@@ -319,7 +327,11 @@ function buildFileFields(e: TiptapEditor, ctx: LinkContext) {
                 <span id="link-file-name">${escapeHtml(existingName)}</span>
             </div>
             <input type="file" id="link-file-input" style="display: none;">
-            <input type="hidden" id="link-file-href" value="${escapeHtml(ctx.type === 'fileLink' ? ctx.href : '')}" data-name="${escapeHtml(existingName)}">
+            <input type="hidden" id="link-file-href" value="${escapeHtml(ctx.type === 'fileLink' ? ctx.href : '')}">
+        </div>
+        <div>
+            <label for="link-file-text">${e.trans('link_file_text')} <span style="color: red">*</span></label>
+            <input type="text" id="link-file-text" value="${escapeHtml(linkText || existingName)}" required>
         </div>
     </div>`
 }
@@ -329,7 +341,8 @@ function wireFileField(e: TiptapEditor, root: HTMLElement) {
     const fileInput = root.querySelector<HTMLInputElement>('#link-file-input')
     const hrefInput = root.querySelector<HTMLInputElement>('#link-file-href')
     const nameLabel = root.querySelector<HTMLElement>('#link-file-name')
-    if (!browseBtn || !fileInput || !hrefInput || !nameLabel) return
+    const textInput = root.querySelector<HTMLInputElement>('#link-file-text')
+    if (!browseBtn || !fileInput || !hrefInput || !nameLabel || !textInput) return
 
     browseBtn.addEventListener('click', () => fileInput.click())
     fileInput.addEventListener('change', () => {
@@ -352,8 +365,8 @@ function wireFileField(e: TiptapEditor, root: HTMLElement) {
             initUrl,
             onUploaded: (assetUrl: string) => {
                 hrefInput.value = assetUrl
-                hrefInput.dataset.name = file.name
                 nameLabel.textContent = file.name
+                textInput.value = file.name
                 browseBtn.disabled = false
             },
             onError: () => {
@@ -396,11 +409,12 @@ const HREF_BUILDERS: Record<UrlType, (root: HTMLElement) => LinkResult | null> =
     localPage: () => null,
     fileLink: (root) => {
         const hrefInput = root.querySelector<HTMLInputElement>('#link-file-href')!
-        if (!hrefInput.value) return null
+        const textInput = root.querySelector<HTMLInputElement>('#link-file-text')!
+        if (!hrefInput.value || !textInput.reportValidity()) return null
         return {
             href: hrefInput.value,
             target: '_blank',
-            text: hrefInput.dataset.name,
+            text: textInput.value.trim(),
             class: 'ems-link-file'
         }
     }
@@ -431,6 +445,26 @@ function showFields(root: HTMLElement, urlTypes: UrlType[], type: UrlType) {
 function applyLink(e: TiptapEditor, result: LinkResult, isEdit: boolean, from: number, to: number) {
     const chain = e.tiptap.chain().focus()
     if (isEdit) {
+        if (result.text !== undefined) {
+            chain
+                .setTextSelection({ from, to })
+                .insertContent({
+                    type: 'text',
+                    text: result.text,
+                    marks: [
+                        {
+                            type: 'link',
+                            attrs: {
+                                href: result.href,
+                                target: result.target,
+                                class: result.class ?? null
+                            }
+                        }
+                    ]
+                })
+                .run()
+            return
+        }
         chain.extendMarkRange('link').setMark('link', result).run()
         return
     }

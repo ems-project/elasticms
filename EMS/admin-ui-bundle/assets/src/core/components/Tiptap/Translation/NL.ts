@@ -121,6 +121,7 @@ export const NL: Record<TranslationKey, string> = {
     link_email_subject: 'Onderwerp',
     link_file: 'Bestand',
     link_file_browse: 'Bladeren...',
+    link_file_text: 'Linktekst',
     link_file_uploading: 'Uploaden...',
     link_no_anchors: 'Geen ankers beschikbaar in het document',
     link_phone_number: 'Telefoonnummer',

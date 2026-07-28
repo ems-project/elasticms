@@ -139,7 +139,7 @@ Image button.
 **Drag & drop** — drop one or more image files anywhere in the editor to upload and insert them.
 Each image shows a loading placeholder while it uploads, so you always know an upload is in
 progress, and images only appear once they're fully uploaded. If an upload fails, the placeholder
-disappears and a short notice explains that the upload didn't succeed.
+disappears and a brief notice explains that the upload didn't succeed.
 
 **Toolbar button** — click "Image" to insert a new one. This opens a dialog where you can type or
 paste an image URL directly, or click "Browse server" to pick an image you've already uploaded
@@ -178,11 +178,12 @@ image removes its caption along with it.
 
 Three buttons: Link, Unlink, and Anchor.
 
-**Link** opens a dialog supporting five link types: URL (with optional target), Anchor (link to a
-named anchor in the document), E-mail (with optional subject/body), Phone, and Internal (link to
-another content item within the system). The dialog detects the current link type and pre-fills
-accordingly. Available types can be restricted via `ems.urlTypes`. Default `_blank` target for new
-links can be set per type via `ems.urlTargetDefaultBlank`.
+**Link** opens a dialog supporting six link types: URL (with optional target), Anchor (link to a
+named anchor in the document), E-mail (with optional subject/body), Phone, Internal (link to
+another content item within the system), and File (link to an uploaded file). The dialog detects
+the current link type and pre-fills accordingly. Available types can be restricted via
+`ems.urlTypes`. Default `_blank` target for new links can be set per type via
+`ems.urlTargetDefaultBlank`.
 
 **Anchor** creates a named bookmark (`<a id="…">`) that can be linked to. Works on selected text or
 inserts an invisible bookmark when nothing is selected. Right-click provides edit and remove
@@ -194,6 +195,18 @@ linkable, a type dropdown filters the search and narrows results accordingly. Se
 shows it as a compact chip in place of the search field, with an option to clear the selection and
 search again. Internal links store a stable reference to the target content rather than a plain
 URL.
+
+**File** links point to an uploaded file (PDF, document, etc.) rather than a typed URL. You can
+create one two ways:
+
+- **Drag & drop** — drop any non-image file anywhere in the editor. It uploads automatically and a
+  link to the file, labeled with its filename, is inserted at the drop position. A loading
+  placeholder shows while the upload is in progress.
+- **Toolbar dialog** — choose the File type in the Link dialog and click "Browse..." to pick a file
+  from your device. Once uploaded, the link text field is filled in with the file's name, which you
+  can edit freely before applying — this text becomes the visible content of the link.
+
+Both routes show a brief notice on success or failure of the upload.
 
 **Unlink** removes the link from the selection. Disabled when the cursor is not inside a link.
 

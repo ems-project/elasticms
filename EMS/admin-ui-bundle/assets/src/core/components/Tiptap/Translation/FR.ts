@@ -61,6 +61,7 @@ export const FR: Record<TranslationKey, string> = {
     div_field_title: 'Titre informatif',
     div_remove: 'Supprimer la Div',
     div_update: 'Modifier le conteneur Div',
+    file_upload_error: 'Échec du téléversement du fichier {file}',
     find: 'Rechercher',
     find_end_reached: 'Fin atteinte',
     find_match_case: 'Respecter la casse',

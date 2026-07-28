@@ -59,6 +59,7 @@ const EN = {
     div_field_title: 'Advisory Title',
     div_remove: 'Remove Div',
     div_update: 'Edit Div Container',
+    file_upload_error: 'Failed to upload file {file}',
     find: 'Find',
     find_end_reached: 'End reached',
     find_match_case: 'Match case',

@@ -61,6 +61,7 @@ export const DE: Record<TranslationKey, string> = {
     div_field_title: 'Beratender Titel',
     div_remove: 'Div entfernen',
     div_update: 'Div-Container bearbeiten',
+    file_upload_error: 'Datei {file} konnte nicht hochgeladen werden',
     find: 'Suchen',
     find_end_reached: 'Ende erreicht',
     find_match_case: 'Groß-/Kleinschreibung beachten',

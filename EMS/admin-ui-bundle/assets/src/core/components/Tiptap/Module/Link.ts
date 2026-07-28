@@ -5,6 +5,7 @@ import IconLinkOff from '@tabler/icons/outline/link-off.svg?raw'
 import { TiptapModule } from '../Types.ts'
 import { linkDialog } from './Link/Dialog.ts'
 import { TiptapEditor } from '../Editor.ts'
+import { createLinkUploadPlugin } from './Link/Upload.ts'
 
 export const LinkModule: TiptapModule = {
     extensions: (e) => getLinkExtension(e),
@@ -129,6 +130,7 @@ function getLinkExtension(e: TiptapEditor) {
             },
             addProseMirrorPlugins() {
                 return [
+                    createLinkUploadPlugin(e),
                     new Plugin({
                         key: new PluginKey('linkDoubleClick'),
                         props: {

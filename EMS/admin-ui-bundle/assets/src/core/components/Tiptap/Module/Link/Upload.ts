@@ -131,7 +131,12 @@ function uploadLinkFile(editor: TiptapEditor, view: EditorView, file: File, pos:
                 .insertContentAt(placeholderPos, {
                     type: 'text',
                     text: file.name,
-                    marks: [{ type: 'link', attrs: { href: assetUrl, target: '_blank' } }]
+                    marks: [
+                        {
+                            type: 'link',
+                            attrs: { href: assetUrl, target: '_blank', class: 'ems-link-file' }
+                        }
+                    ]
                 })
                 .run()
 

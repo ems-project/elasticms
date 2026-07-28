@@ -3,6 +3,7 @@ import { escapeHtml } from '../../Helper.ts'
 import { TranslationKey } from '../../Translations.ts'
 import { createSearch } from './Search.ts'
 import { UrlType } from '../../../Wysiwyg/Wysiwyg.ts'
+import { FileUploader } from '../../../FileUploader.ts'
 
 export function linkDialog(e: TiptapEditor, defaultTarget: string | null = null) {
     const { from, to } = e.tiptap.state.selection
@@ -25,7 +26,8 @@ export function linkDialog(e: TiptapEditor, defaultTarget: string | null = null)
         anchor: () => buildAnchorFields(e, ctx, anchors),
         email: () => buildEmailFields(e, ctx),
         phone: () => buildPhoneFields(e, ctx),
-        localPage: () => localPageWrapper?.html ?? ''
+        localPage: () => localPageWrapper?.html ?? '',
+        fileLink: () => buildFileFields(e, ctx)
     }
 
     const dialog = e.createDialog('link', { resizable: true, minWidth: 400 })
@@ -70,6 +72,7 @@ export function linkDialog(e: TiptapEditor, defaultTarget: string | null = null)
         .open()
 
     showFields(root, urlTypes, ctx.type)
+    if (urlTypes.includes('fileLink')) wireFileField(e, root)
 
     const typeSelect = root.querySelector<HTMLSelectElement>('#link-type')!
     typeSelect.addEventListener('change', () =>
@@ -82,7 +85,8 @@ const URL_TYPE_OPTIONS: { value: UrlType; label: TranslationKey }[] = [
     { value: 'anchor', label: 'link_type_anchor' },
     { value: 'email', label: 'link_type_email' },
     { value: 'phone', label: 'link_type_phone' },
-    { value: 'localPage', label: 'link_type_internal' }
+    { value: 'localPage', label: 'link_type_internal' },
+    { value: 'fileLink', label: 'link_type_file' }
 ]
 
 interface LinkContext {
@@ -97,12 +101,13 @@ interface LinkContext {
     localPageId: string
 }
 
-type LinkResult = { href: string; target: string | null; text?: string }
+type LinkResult = { href: string; target: string | null; text?: string; class?: string | null }
 
 function getLinkContext(e: TiptapEditor): LinkContext {
     const attrs = e.tiptap.getAttributes('link')
     const href = attrs?.href ?? ''
     const target = attrs?.target ?? ''
+    const cls = (attrs?.class ?? '').split(' ')
     const empty = { anchor: '', email: '', subject: '', body: '', phone: '', localPageId: '' }
 
     if (href.startsWith('mailto:')) {
@@ -132,6 +137,9 @@ function getLinkContext(e: TiptapEditor): LinkContext {
             target,
             localPageId: href.replace('ems://object:', '')
         }
+    }
+    if (cls.includes('ems-link-file')) {
+        return { ...empty, type: 'fileLink', href, target }
     }
     return { ...empty, type: 'url', href, target }
 }
@@ -300,6 +308,63 @@ function buildLocalPageWrapper(
     }
 }
 
+function buildFileFields(e: TiptapEditor, ctx: LinkContext) {
+    const existingName =
+        ctx.type === 'fileLink' ? decodeURIComponent(ctx.href.split('/').pop() ?? '') : ''
+    return `<div id="link-fields-fileLink" style="display: none; flex-direction: column; gap: 10px;">
+        <div>
+            <label>${e.trans('link_file')} <span style="color: red">*</span></label>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <button type="button" id="link-file-browse">${e.trans('link_file_browse')}</button>
+                <span id="link-file-name">${escapeHtml(existingName)}</span>
+            </div>
+            <input type="file" id="link-file-input" style="display: none;">
+            <input type="hidden" id="link-file-href" value="${escapeHtml(ctx.type === 'fileLink' ? ctx.href : '')}" data-name="${escapeHtml(existingName)}">
+        </div>
+    </div>`
+}
+
+function wireFileField(e: TiptapEditor, root: HTMLElement) {
+    const browseBtn = root.querySelector<HTMLButtonElement>('#link-file-browse')
+    const fileInput = root.querySelector<HTMLInputElement>('#link-file-input')
+    const hrefInput = root.querySelector<HTMLInputElement>('#link-file-href')
+    const nameLabel = root.querySelector<HTMLElement>('#link-file-name')
+    if (!browseBtn || !fileInput || !hrefInput || !nameLabel) return
+
+    browseBtn.addEventListener('click', () => fileInput.click())
+    fileInput.addEventListener('change', () => {
+        const file = fileInput.files?.[0]
+        if (!file) return
+
+        const initUrl = e.docParent.body.dataset.initUpload
+        const hashAlgo = e.docParent.body.dataset.hashAlgo
+        if (!initUrl) {
+            e.showNotice(e.trans('file_upload_error').replace('{file}', file.name), 'error')
+            return
+        }
+
+        browseBtn.disabled = true
+        nameLabel.textContent = e.trans('link_file_uploading')
+
+        new FileUploader({
+            file,
+            algo: hashAlgo,
+            initUrl,
+            onUploaded: (assetUrl: string) => {
+                hrefInput.value = assetUrl
+                hrefInput.dataset.name = file.name
+                nameLabel.textContent = file.name
+                browseBtn.disabled = false
+            },
+            onError: () => {
+                nameLabel.textContent = ''
+                browseBtn.disabled = false
+                e.showNotice(e.trans('file_upload_error').replace('{file}', file.name), 'error')
+            }
+        })
+    })
+}
+
 const HREF_BUILDERS: Record<UrlType, (root: HTMLElement) => LinkResult | null> = {
     url: (root) => {
         const input = root.querySelector<HTMLInputElement>('#link-url')!
@@ -328,7 +393,17 @@ const HREF_BUILDERS: Record<UrlType, (root: HTMLElement) => LinkResult | null> =
         if (!input.reportValidity()) return null
         return { href: `tel:${input.value.trim()}`, target: null }
     },
-    localPage: () => null
+    localPage: () => null,
+    fileLink: (root) => {
+        const hrefInput = root.querySelector<HTMLInputElement>('#link-file-href')!
+        if (!hrefInput.value) return null
+        return {
+            href: hrefInput.value,
+            target: '_blank',
+            text: hrefInput.dataset.name,
+            class: 'ems-link-file'
+        }
+    }
 }
 
 function showFields(root: HTMLElement, urlTypes: UrlType[], type: UrlType) {
@@ -364,7 +439,16 @@ function applyLink(e: TiptapEditor, result: LinkResult, isEdit: boolean, from: n
             .insertContent({
                 type: 'text',
                 text: result.text ?? result.href,
-                marks: [{ type: 'link', attrs: { href: result.href, target: result.target } }]
+                marks: [
+                    {
+                        type: 'link',
+                        attrs: {
+                            href: result.href,
+                            target: result.target,
+                            class: result.class ?? null
+                        }
+                    }
+                ]
             })
             .run()
         return

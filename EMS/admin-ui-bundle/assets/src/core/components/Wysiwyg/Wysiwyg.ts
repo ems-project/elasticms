@@ -1,7 +1,7 @@
 import { CKEditorConfig, CkeditorStyle } from './CKEditorConfig.ts'
 import { DEFAULT_CK_VALUES } from './CKEditorConfig.ts'
 
-export const URL_TYPES = ['url', 'anchor', 'email', 'phone', 'localPage'] as const
+export const URL_TYPES = ['url', 'fileLink', 'anchor', 'email', 'phone', 'localPage'] as const
 export type UrlType = (typeof URL_TYPES)[number]
 
 export class WysiwygProfile {

@@ -14,7 +14,9 @@
     </head>
     <body data-base-url="{{ baseUrl }}"
           data-search-api="{{ path('emsco_ajax_query_search')|e('html_attr') }}"
-          data-wysiwyg-info="{{ emsco_wysiwyg_info()|e('html_attr') }}">
+          data-init-upload="{{ path('emsco_file_data_init_upload') }}"
+          data-hash-algo="{{ ems_hash_algo }}"
+          data-wysiwyg-info="{{ emsco_wysiwyg_info()|json_encode|e('html_attr') }}">
         <div class="editor">
             <header class="editor-topbar d-flex align-items-center justify-content-between px-3">
                 <div class="editor-title fw-bold">{{ 'inline_editor.title'|trans }}</div>

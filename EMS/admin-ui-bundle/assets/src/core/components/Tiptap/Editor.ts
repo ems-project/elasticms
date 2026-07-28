@@ -7,11 +7,13 @@ import { WysiwygOptions, WysiwygProfile } from '../Wysiwyg/Wysiwyg.ts'
 import { CkeditorStyle } from '../Wysiwyg/CKEditorConfig.ts'
 import { isTransLocale, Locale, trans, TranslationKey } from './Translations.ts'
 import { Dialog } from '../Dialog.ts'
+import { renderNotice } from './UI/Notice.ts'
 
 interface TiptapEditorOptions {
     content?: string
     parent?: Document
     element: HTMLElement
+    noticeElement?: HTMLElement | null
     customModules?: TiptapModule[]
     toolbarElement?: HTMLElement | null
     wysiwygProfile?: WysiwygProfile | null
@@ -82,6 +84,10 @@ export class TiptapEditor {
             bodyClass: options.bodyClass,
             doc: this.docParent
         })
+    }
+
+    showNotice(message: string, type: 'error' | 'success' = 'error'): void {
+        renderNotice(this.docParent, message, type, this.options.noticeElement)
     }
 
     trans(key: TranslationKey): string {

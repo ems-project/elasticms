@@ -34,6 +34,17 @@
   }
 }
 
+dialog.ems-dialog .tiptap-dialog-link {
+  .file-browse-actions {
+    display: flex;
+    gap: 10px;
+
+    button {
+      flex: 1;
+    }
+  }
+}
+
 dialog.ems-dialog .tiptap-dialog-color {
   display: flex;
   gap: 12px;

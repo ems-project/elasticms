@@ -28,5 +28,5 @@ window.addEventListener('emsReady', async function () {
 })
 
 document.addEventListener('emsAddedDomEvent', function (e) {
-    new window.EmsListeners(e.detail.target);
+    new window.EmsListeners(e.detail.target)
 })

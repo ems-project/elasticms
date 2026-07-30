@@ -16,15 +16,15 @@ class BrowseController
 {
     public function __construct(
         private readonly DataTableFactory $dataTableFactory,
-        private readonly FormFactory      $formFactory,
-        private readonly Environment      $twig,
-        private readonly string           $templateNamespace,
-    )
-    {}
+        private readonly FormFactory $formFactory,
+        private readonly Environment $twig,
+        private readonly string $templateNamespace,
+    ) {
+    }
 
     public function modalUploadedFiles(): JsonResponse
     {
-        $template = $this->twig->load(sprintf('@%s/modal/browse.twig', $this->templateNamespace));
+        $template = $this->twig->load(\sprintf('@%s/modal/browse.twig', $this->templateNamespace));
 
         $table = $this->dataTableFactory->create(UploadedAssetDataTableType::class, [
             'location' => UploadedAssetDataTableType::LOCATION_FILE_MODAL,
@@ -33,8 +33,7 @@ class BrowseController
         $form = $this->formFactory->create(TableType::class, $table);
 
         return new JsonResponse([
-            'content' => $template->renderBlock('uploadedFiles', ['form' => $form->createView()])
+            'content' => $template->renderBlock('uploadedFiles', ['form' => $form->createView()]),
         ]);
     }
-
 }

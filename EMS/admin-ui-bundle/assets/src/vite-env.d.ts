@@ -8,6 +8,6 @@ declare global {
         EmsListeners: typeof EmsListeners
     }
     interface DocumentEventMap {
-        emsAddedDomEvent: CustomEvent<{ target: HTMLElement }>;
+        emsAddedDomEvent: CustomEvent<{ target: HTMLElement }>
     }
 }

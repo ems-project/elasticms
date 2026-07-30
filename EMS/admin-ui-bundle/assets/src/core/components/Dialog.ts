@@ -98,7 +98,7 @@ export class Dialog {
             this.body.innerHTML = '<div class="dialog-error"></div>'
         }
 
-        new AddedDomEvent(this.element).dispatch();
+        new AddedDomEvent(this.element).dispatch()
     }
 
     private makeResizable(content: HTMLElement): void {

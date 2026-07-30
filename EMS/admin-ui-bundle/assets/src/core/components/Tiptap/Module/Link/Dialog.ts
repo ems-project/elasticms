@@ -389,7 +389,11 @@ function wireFileField(e: TiptapEditor, root: HTMLElement) {
 
     const browseServerBtn = root.querySelector<HTMLButtonElement>('#link-file-browse-server')
     browseServerBtn?.addEventListener('click', async () => {
-        const dialog = e.createDialog('link_file_browse_server', { resizable: true, minWidth: 800, tiptapModal: false })
+        const dialog = e.createDialog('link_file_browse_server', {
+            resizable: true,
+            minWidth: 800,
+            tiptapModal: false
+        })
         dialog.open()
         await dialog.loadUrl('/browse/uploaded-files')
 

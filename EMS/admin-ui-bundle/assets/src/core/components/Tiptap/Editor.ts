@@ -74,17 +74,22 @@ export class TiptapEditor {
 
     createDialog(
         title: TranslationKey,
-        options: { bodyClass?: string; resizable?: boolean; minWidth?: number; tiptapModal?: boolean } = {}
+        options: {
+            bodyClass?: string
+            resizable?: boolean
+            minWidth?: number
+            tiptapModal?: boolean
+        } = {}
     ): Dialog {
-        const tiptapModal = options.tiptapModal ?? true;
-        const bodyClasses = [];
+        const tiptapModal = options.tiptapModal ?? true
+        const bodyClasses = []
 
         if (options.bodyClass) {
-            bodyClasses.push(options.bodyClass);
+            bodyClasses.push(options.bodyClass)
         }
 
         if (tiptapModal) {
-            bodyClasses.push('tiptap-dialog');
+            bodyClasses.push('tiptap-dialog')
         }
 
         return new Dialog(this.trans(title), {

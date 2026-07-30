@@ -38,7 +38,11 @@ export function linkDialog(e: TiptapEditor, defaultTarget: string | null = null)
         fileLink: () => buildFileFields(e, ctx, linkText)
     }
 
-    const dialog = e.createDialog('link', { resizable: true, minWidth: 400 })
+    const dialog = e.createDialog('link', {
+        resizable: true,
+        minWidth: 600,
+        bodyClass: 'tiptap-dialog-link'
+    })
     dialog.setContent(
         `<div style="display: flex; flex-direction: column; gap: 10px;">
             ${buildTypeSection(e, ctx, urlTypes)}
@@ -317,12 +321,14 @@ function buildLocalPageWrapper(
 }
 
 function buildFileFields(e: TiptapEditor, ctx: LinkContext, linkText: string) {
+    const dashboardFile = e.profile.config.emsBrowsers?.browser_file
     const existingName = ctx.type === 'fileLink' ? getFileNameFromHref(ctx.href) : ''
     return `<div id="link-fields-fileLink" style="display: none; flex-direction: column; gap: 10px;">
         <div>
-            <div style="display: flex; gap: 10px;">
+            <div class="file-browse-actions">
                 <button type="button" class="ems-btn" id="link-file-browse">${e.trans('link_file_browse')}</button>
                 <button type="button" class="ems-btn" id="link-file-browse-server">${e.trans('link_file_browse_server')}</button>
+                 ${dashboardFile ? `<button type="button" class="ems-btn" id="link-file-browse-dashboard">${escapeHtml(dashboardFile.label)}</button>` : ''}
             </div>
             <input type="file" id="link-file-input" style="display: none;">
             <input type="hidden" id="link-file-href" value="${escapeHtml(ctx.type === 'fileLink' ? ctx.href : '')}">
@@ -408,6 +414,40 @@ function wireFileField(e: TiptapEditor, root: HTMLElement) {
             const text = target.textContent?.trim() ?? fileUrl
 
             hrefInput.value = fileUrl
+            nameLabel.textContent = text
+            textInput.value = text
+            dialog.close()
+        })
+    })
+
+    const dashboardFile = e.profile.config.emsBrowsers?.browser_file
+    const dashboardBtn = root.querySelector<HTMLButtonElement>('#link-file-browse-dashboard')
+    dashboardBtn?.addEventListener('click', async () => {
+        if (!dashboardFile) return
+        const dialog = e.createDialog('link_file_browse_dashboard', {
+            resizable: true,
+            minWidth: 800,
+            tiptapModal: false
+        })
+        dialog.open()
+        await dialog.loadUrl(dashboardFile.urlModal)
+
+        dialog.body.addEventListener('click', (ev) => {
+            const target = ev.target as HTMLElement
+            if (
+                target.tagName.toLowerCase() !== 'a' ||
+                target.hasAttribute('data-skip-click-event')
+            )
+                return
+
+            ev.preventDefault()
+            ev.stopPropagation()
+
+            const anchor = target as HTMLAnchorElement
+            const url = new URL(anchor.href)
+            const text = anchor.innerText
+
+            hrefInput.value = url.toString()
             nameLabel.textContent = text
             textInput.value = text
             dialog.close()

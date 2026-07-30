@@ -121,6 +121,7 @@ export const DE: Record<TranslationKey, string> = {
     link_email_subject: 'Betreff',
     link_file: 'Datei',
     link_file_browse: 'Durchsuchen...',
+    link_file_browse_dashboard: 'Mediathek durchsuchen',
     link_file_browse_server: 'Server durchsuchen',
     link_file_text: 'Linktext',
     link_file_uploading: 'Wird hochgeladen...',

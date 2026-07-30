@@ -94,11 +94,11 @@ export class Dialog {
             if (data.footer) {
                 this.footer.innerHTML = data.footer
             }
+
+            new AddedDomEvent(this.element).dispatch()
         } catch {
             this.body.innerHTML = '<div class="dialog-error"></div>'
         }
-
-        new AddedDomEvent(this.element).dispatch()
     }
 
     private makeResizable(content: HTMLElement): void {

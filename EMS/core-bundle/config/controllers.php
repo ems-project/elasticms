@@ -96,6 +96,7 @@ return static function (ContainerConfigurator $container) {
             service('emsco.data_table.factory'),
             service('form.factory'),
             service('twig'),
+            service('ems.dashboard.manager'),
             '%ems_core.template_namespace%',
         ])
         ->public()

@@ -21,9 +21,9 @@ export class WysiwygProfile {
             urlAllContentTypes?: boolean
         }
         emsBrowsers: {
-            browser_object?: { url: string; label: string }
-            browser_file?: { url: string; label: string }
-            browser_image?: { url: string; label: string }
+            browser_object?: { url: string; label: string; urlModal: string }
+            browser_file?: { url: string; label: string; urlModal: string }
+            browser_image?: { url: string; label: string; urlModal: string }
         }
         translations?: Record<string, Record<string, string>>
         url: {

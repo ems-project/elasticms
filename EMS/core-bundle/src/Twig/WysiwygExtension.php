@@ -88,8 +88,8 @@ readonly class WysiwygExtension
             'ems_filesUrl' => $this->urlGenerator->generate('ems_core_uploaded_file_wysiwyg_index'),
             'searchUrl' => $this->urlGenerator->generate('elasticsearch.api.search'),
             'url' => [
-                'browseUploadedFiles' => $this->urlGenerator->generate(Routes::BROWSE_UPLOADED_FILES)
-            ]
+                'browseUploadedFiles' => $this->urlGenerator->generate(Routes::BROWSE_UPLOADED_FILES),
+            ],
         ];
 
         foreach (Dashboard::DASHBOARD_BROWSERS as $definition) {
@@ -97,6 +97,9 @@ readonly class WysiwygExtension
                 $config['emsBrowsers'][$definition] = [
                     'label' => $dashboard->getLabel(),
                     'url' => $this->urlGenerator->generate('emsco_dashboard_browse', [
+                        'dashboardName' => $dashboard->getName(),
+                    ]),
+                    'urlModal' => $this->urlGenerator->generate(Routes::BROWSE_DASHBOARD, [
                         'dashboardName' => $dashboard->getName(),
                     ]),
                 ];

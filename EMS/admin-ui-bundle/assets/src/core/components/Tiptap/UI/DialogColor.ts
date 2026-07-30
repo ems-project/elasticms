@@ -102,7 +102,7 @@ export class DialogColor {
 
         const clearBtn = document.createElement('button')
         clearBtn.type = 'button'
-        clearBtn.className = 'tiptap-dialog-color-clear-btn'
+        clearBtn.classList.add('tiptap-dialog-color-clear-btn', 'ems-btn')
         clearBtn.textContent = editor.trans('button_erase')
 
         const activeHex = document.createElement('span')

@@ -317,17 +317,19 @@ function buildLocalPageWrapper(
 }
 
 function buildFileFields(e: TiptapEditor, ctx: LinkContext, linkText: string) {
-    const existingName =
-        ctx.type === 'fileLink' ? decodeURIComponent(ctx.href.split('/').pop() ?? '') : ''
+    const existingName = ctx.type === 'fileLink' ? getFileNameFromHref(ctx.href) : ''
     return `<div id="link-fields-fileLink" style="display: none; flex-direction: column; gap: 10px;">
         <div>
-            <label>${e.trans('link_file')} <span style="color: red">*</span></label>
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <button type="button" id="link-file-browse">${e.trans('link_file_browse')}</button>
-                <span id="link-file-name">${escapeHtml(existingName)}</span>
+            <div style="display: flex; gap: 10px;">
+                <button type="button" class="ems-btn" id="link-file-browse">${e.trans('link_file_browse')}</button>
+                <button type="button" class="ems-btn" id="link-file-browse-server">${e.trans('link_file_browse_server')}</button>
             </div>
             <input type="file" id="link-file-input" style="display: none;">
             <input type="hidden" id="link-file-href" value="${escapeHtml(ctx.type === 'fileLink' ? ctx.href : '')}">
+        </div>
+        <div>
+            <label>${e.trans('link_file')}</label>
+            <span id="link-file-name">${escapeHtml(existingName)}</span>
         </div>
         <div>
             <label for="link-file-text">${e.trans('link_file_text')} <span style="color: red">*</span></label>
@@ -384,6 +386,35 @@ function wireFileField(e: TiptapEditor, root: HTMLElement) {
             }
         })
     })
+
+    const browseServerBtn = root.querySelector<HTMLButtonElement>('#link-file-browse-server')
+    browseServerBtn?.addEventListener('click', async () => {
+        const dialog = e.createDialog('link_file_browse_server', { resizable: true, minWidth: 800, tiptapModal: false })
+        dialog.open()
+        await dialog.loadUrl('/browse/uploaded-files')
+
+        dialog.body.addEventListener('click', (ev) => {
+            const target = (ev.target as HTMLElement).closest<HTMLAnchorElement>('td a')
+            if (!target) return
+            ev.preventDefault()
+
+            const wrapper = target.closest<HTMLElement>('div[data-url]')
+            const fileUrl = wrapper?.dataset.url
+            if (!fileUrl) return
+            const text = target.textContent?.trim() ?? fileUrl
+
+            hrefInput.value = fileUrl
+            nameLabel.textContent = text
+            textInput.value = text
+            dialog.close()
+        })
+    })
+}
+
+function getFileNameFromHref(href: string): string {
+    const query = href.split('?')[1]
+    if (!query) return decodeURIComponent(href.split('/').pop() ?? '')
+    return new URLSearchParams(query).get('name') ?? ''
 }
 
 const HREF_BUILDERS: Record<UrlType, (root: HTMLElement) => LinkResult | null> = {

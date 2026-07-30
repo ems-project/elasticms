@@ -119,6 +119,7 @@ const EN = {
     link_email_subject: 'Message Subject',
     link_file: 'File',
     link_file_browse: 'Browse...',
+    link_file_browse_server: 'Browse server',
     link_file_text: 'Link text',
     link_file_uploading: 'Uploading...',
     link_no_anchors: 'No anchors available in the document',

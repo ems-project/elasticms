@@ -5,5 +5,9 @@ import JsonMenuNestedComponent from './core/components/jsonMenuNestedComponent.t
 declare global {
     interface Window {
         jsonMenuNestedComponents: { [key: string]: JsonMenuNestedComponent }
+        EmsListeners: typeof EmsListeners
+    }
+    interface DocumentEventMap {
+        emsAddedDomEvent: CustomEvent<{ target: HTMLElement }>;
     }
 }

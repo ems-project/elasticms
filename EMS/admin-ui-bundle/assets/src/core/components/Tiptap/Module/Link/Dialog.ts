@@ -395,7 +395,7 @@ function wireFileField(e: TiptapEditor, root: HTMLElement) {
             tiptapModal: false
         })
         dialog.open()
-        await dialog.loadUrl('/browse/uploaded-files')
+        await dialog.loadUrl(e.profile.config.url.browseUploadedFiles)
 
         dialog.body.addEventListener('click', (ev) => {
             const target = (ev.target as HTMLElement).closest<HTMLAnchorElement>('td a')

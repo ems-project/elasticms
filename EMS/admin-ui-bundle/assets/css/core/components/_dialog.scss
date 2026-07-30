@@ -85,6 +85,29 @@ dialog.ems-dialog {
     overflow-y: auto;
     flex: 1;
     min-height: 0;
+
+    .dialog-loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100px;
+
+      &::after {
+        content: '';
+        width: 32px;
+        height: 32px;
+        border: 3px solid var(--dialog-border-color, #dee2e6);
+        border-top-color: var(--dialog-btn-primary-bg, #0d6efd);
+        border-radius: 50%;
+        animation: dialog-spin 0.7s linear infinite;
+      }
+    }
+  }
+
+  @keyframes dialog-spin {
+    to {
+      transform: rotate(360deg);
+    }
   }
 
   .dialog-resize-handle {

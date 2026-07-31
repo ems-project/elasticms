@@ -7,7 +7,6 @@ import FileUploader from "@elasticms/file-uploader";
 import Datatables from "./module/datatables";
 import {tooltipDataLinks} from "./helper/tooltip";
 import {resizeImage} from "./helper/resizeImage";
-import MediaLibrary from "./component/mediaLibrary";
 
 
 export default class EmsListeners {
@@ -44,21 +43,7 @@ export default class EmsListeners {
         this.addDisabledButtonTreatListeners();
         this.addDateRangeListeners();
         this.addCkeditor4();
-        this.addMediaLibrary();
         tooltipDataLinks(this.target);
-    }
-
-    addMediaLibrary() {
-        let elements = this.target.getElementsByClassName('media-lib');
-        let bodyData = document.querySelector('body').dataset;
-
-        [].forEach.call(elements, function (el) {
-            new MediaLibrary(el, {
-                urlMediaLib: '/component/media-lib',
-                urlInitUpload: bodyData.initUpload,
-                hashAlgo: bodyData.hashAlgo,
-            });
-        });
     }
 
     addFieldsToDisplayByValue() {

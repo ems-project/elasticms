@@ -31,7 +31,10 @@ class FormController extends AbstractFormController
 
     public function iframe(Request $request, string $ouuid): Response
     {
-        $form = $this->formFactory->create(Form::class, [], ['ouuid' => $ouuid, 'locale' => $request->getLocale()]);
+        $form = $this->formFactory->create(Form::class, [], [
+            'ouuid' => $ouuid,
+            'locale' => $request->getLocale(),
+        ]);
 
         return new Response($this->twig->render('@EMSForm/iframe.html.twig', [
             'config' => $this->getFormConfig($form, $request),
@@ -47,7 +50,7 @@ class FormController extends AbstractFormController
         $form = $this->formFactory->create(Form::class, [], ['ouuid' => $ouuid, 'locale' => $request->getLocale()]);
         $form->handleRequest($request);
 
-        $this->csrfTokenManager->removeToken('form');
+        $this->csrfTokenManager->removeToken('ems_form_'.$ouuid);
 
         if ($form->isSubmitted() && $form->isValid()) {
             return new JsonResponse($this->client->submit($form, $ouuid));

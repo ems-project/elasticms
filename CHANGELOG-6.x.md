@@ -1,5 +1,10 @@
 # Changelog 6.x
 
+## 6.9.25 (2026-07-31)
+### Bug Fixes
+* fix(admin/user): update email canonical by @Davidmattei in https://github.com/ems-project/elasticms/pull/1780
+* fix(form): support multiple forms by @Davidmattei in https://github.com/ems-project/elasticms/pull/1782
+
 ## 6.9.24 (2026-07-14)
 ### Bug Fixes
 * fix(common/api): create job with tag by @Davidmattei in https://github.com/ems-project/elasticms/pull/1773

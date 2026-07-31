@@ -1,11 +1,16 @@
-const path = require('path');
-const webpack = require('webpack');
-const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
-const ESLintPlugin = require("eslint-webpack-plugin");
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
+import { CleanWebpackPlugin } from 'clean-webpack-plugin';
+import TerserPlugin from 'terser-webpack-plugin';
+import ESLintPlugin from 'eslint-webpack-plugin';
+import { createRequire } from 'module';
 
-module.exports = {
+const require = createRequire(import.meta.url);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+export default {
     mode: 'production',
     entry: {
         'form': './assets/js/form.js',
@@ -22,8 +27,8 @@ module.exports = {
     },
     plugins: [
         new ESLintPlugin({
-          extensions: ["js", "ts"],
-          emitWarning: true, // optionnel
+            extensions: ["js", "ts"],
+            emitWarning: true,
         }),
         new WebpackManifestPlugin({'publicPath': 'bundles/emsform/'}),
         new CleanWebpackPlugin({

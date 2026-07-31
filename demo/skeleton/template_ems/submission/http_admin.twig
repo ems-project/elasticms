@@ -1,5 +1,5 @@
 {%- block endpoint -%}
-    {%- set url = app.request.getSchemeAndHttpHost() -%}
+    {%- set url = app.request.server.all['EMS_BACKEND_URL'] -%}
     {%- set token = app.request.server.all['EMSF_AUTHKEY'] -%}
     {%- set config = {
         "method": "POST",

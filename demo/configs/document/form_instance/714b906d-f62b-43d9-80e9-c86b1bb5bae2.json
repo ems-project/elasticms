@@ -1,0 +1,7 @@
+{
+    "form": "[{\"id\":\"e7846f73-bdf6-4458-8291-f5fc45dc5b5d\",\"label\":\"email\",\"type\":\"form_structure_field\",\"object\":{\"name\":\"email\",\"classname\":\"EMS\\\\FormBundle\\\\Components\\\\Field\\\\Email\",\"fr\":{\"label\":\"email\"},\"nl\":{\"label\":\"email\"},\"label\":\"email\"},\"children\":[]},{\"id\":\"a05d1143-abdf-440e-8ca0-46c7bce778d5\",\"label\":\"subscribe\",\"type\":\"form_structure_field\",\"object\":{\"label\":\"subscribe\",\"name\":\"subscribe\",\"classname\":\"EMS\\\\FormBundle\\\\Components\\\\Field\\\\Submit\",\"class\":\"btn-primary\",\"fr\":{\"label\":\"S'inscrire\"},\"nl\":{\"label\":\"Inschrijven\"}},\"children\":[]}]",
+    "form_template": "@EMSCH/template/form/bootstrap_4_with_visibility.html.twig",
+    "label": "Newsletter",
+    "name": "newsletter",
+    "submissions": "[{\"id\":\"fe0e5205-9023-4d9f-b8e6-2410d6e1b4df\",\"label\":\"admin form submission (HttpHandler)\",\"type\":\"submission\",\"object\":{\"name\":\"admin form submission\",\"type\":\"EMS\\\\SubmissionBundle\\\\Handler\\\\HttpHandler\",\"endpoint\":\"{{- block('endpoint', '@EMSCH/template_ems/submission/http_admin.twig') -}}\",\"message\":\"{%- block requestBody -%}\\r\\n    {%- set submissionLabel = 'Newsletter' -%}\\r\\n    {{- block('body', '@EMSCH/template_ems/submission/http_admin.twig') -}}\\r\\n{%- endblock -%}\\r\\n\\r\\n{%- block handleResponseExtra -%}\\r\\n    {{- block('response_extra', '@EMSCH/template_ems/submission/http_admin.twig') -}}\\r\\n{%- endblock -%}\",\"label\":\"admin form submission (HttpHandler)\"},\"children\":[]}]"
+}

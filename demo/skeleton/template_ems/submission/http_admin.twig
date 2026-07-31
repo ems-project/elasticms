@@ -1,0 +1,42 @@
+{%- block endpoint -%}
+    {%- set url = app.request.getSchemeAndHttpHost() -%}
+    {%- set token = app.request.server.all['EMSF_AUTHKEY'] -%}
+    {%- set config = {
+        "method": "POST",
+        "url": ("#{url}/api/forms/submissions"),
+        "headers": {
+            "Content-Type": "application/json",
+            "X-Auth-Token": ("#{token}")
+        },
+        "timeout": 30
+    } -%}
+    {{- config|json_encode|raw -}}
+{%- endblock endpoint -%}
+
+{%- block body -%}
+    {%- set files = formData.allFiles|default([])|map(v => v.toArray|merge({ 'base64': v.base64() }) )|map(f => {
+        'filename': ('attachment '~f.filename)|ems_slug,
+        'mimeType': f.mimeType,
+        'size': f.size,
+        'form_field': f.form_field,
+        'base64': f.base64
+    })|filter(v => v.size > 0) -%}
+
+    {%- set message = {
+        'form_name': config.name,
+        'instance': config.translationDomain,
+        'locale': config.locale,
+        'data': formData.raw|filter((v, k) => k != 'files'),
+        'files': files,
+        'label': (submissionLabel),
+        'expire_date': '+1 month'|date('Y-m-d')
+    } -%}
+    {{- message|json_encode|raw -}}
+{%- endblock body -%}
+
+{%- block response_extra -%}
+    {%- set extra = {
+        'uid': (response.getHttpResponseContentJSON.submission_id)
+    } -%}
+    {{- extra|json_encode|raw -}}
+{%- endblock response_extra -%}

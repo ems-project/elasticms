@@ -28,7 +28,7 @@ class FormController extends AbstractFormController
     {
         $form = $this->formFactory->create(Form::class, [], [
             'ouuid' => $ouuid,
-            'locale' => $request->getLocale()
+            'locale' => $request->getLocale(),
         ]);
 
         return new Response($this->twig->render('@EMSForm/iframe.html.twig', [

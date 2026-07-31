@@ -1,3 +1,5 @@
+@import "./button";
+
 body.dialog-open {
   overflow: hidden;
 }
@@ -84,38 +86,27 @@ dialog.ems-dialog {
     flex: 1;
     min-height: 0;
 
-    &.flush-x {
-      padding-left: 0;
-      padding-right: 0;
-    }
+    .dialog-loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100px;
 
-    label {
-      display: block;
-      margin-bottom: 4px;
-      font-weight: 600;
-      font-size: 13px;
-      color: var(--dialog-text-color, #212529);
-    }
-
-    input,
-    select,
-    textarea {
-      padding: 6px 10px;
-      font-size: 14px;
-      line-height: 1.5;
-      width: 100%;
-      color: var(--dialog-input-color, #495057);
-      background: var(--dialog-bg, #fff);
-      border: 1px solid var(--dialog-input-border, #ced4da);
-      border-radius: 4px;
-      box-sizing: border-box;
-      transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-
-      &:focus {
-        border-color: var(--dialog-focus-color, #80bdff);
-        outline: 0;
-        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+      &::after {
+        content: '';
+        width: 32px;
+        height: 32px;
+        border: 3px solid var(--dialog-border-color, #dee2e6);
+        border-top-color: var(--dialog-btn-primary-bg, #0d6efd);
+        border-radius: 50%;
+        animation: dialog-spin 0.7s linear infinite;
       }
+    }
+  }
+
+  @keyframes dialog-spin {
+    to {
+      transform: rotate(360deg);
     }
   }
 
@@ -139,69 +130,13 @@ dialog.ems-dialog {
     padding: 16px;
     border-top: 1px solid var(--dialog-border-color, #dee2e6);
 
-    button {
-      padding: 4px 8px;
-      font-size: 13px;
-      line-height: 1.5;
-      border-radius: 3px;
-      border: 1px solid transparent;
-      cursor: pointer;
-      transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+    &:empty {
+      display: none;
+    }
 
-      &[data-align="left"] {
-        margin-right: auto;
-        order: -1;
-      }
-
-      &:focus-visible {
-        outline: 0;
-        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
-      }
-
-      &[data-variant="primary"] {
-        color: #fff;
-        background-color: var(--dialog-btn-primary-bg, #0d6efd);
-        border-color: var(--dialog-btn-primary-bg, #0d6efd);
-
-        &:hover {
-          background-color: var(--dialog-btn-primary-hover-bg, #0b5ed7);
-          border-color: var(--dialog-btn-primary-hover-bg, #0b5ed7);
-        }
-      }
-
-      &[data-variant="danger"] {
-        color: var(--dialog-btn-danger-color, #bb2d3b);
-        background-color: var(--dialog-btn-secondary-bg, #fff);
-        border-color: var(--dialog-btn-danger-border, #bb2d3b);
-
-        &:hover {
-          color: var(--dialog-btn-danger-hover-color, #dc3545);
-          background-color: var(--dialog-btn-secondary-hover-bg, #e9ecef);
-          border-color: var(--dialog-btn-danger-hover-border, #dc3545);
-        }
-      }
-
-      &[data-variant="secondary"] {
-        color: var(--dialog-btn-secondary-color, #212529);
-        background-color: var(--dialog-btn-secondary-bg, #fff);
-        border-color: var(--dialog-btn-secondary-border, #ced4da);
-
-        &:hover {
-          background-color: var(--dialog-btn-secondary-hover-bg, #e9ecef);
-          border-color: var(--dialog-btn-secondary-hover-border, #ced4da);
-        }
-      }
-
-      &[data-variant="default"] {
-        color: var(--dialog-text-color, #212529);
-        background-color: var(--dialog-bg, #fff);
-        border-color: var(--dialog-input-border, #ced4da);
-
-        &:hover {
-          background-color: var(--dialog-btn-secondary-hover-bg, #e9ecef);
-          border-color: var(--dialog-btn-secondary-hover-border, #ced4da);
-        }
-      }
+    button[data-align="left"] {
+      margin-right: auto;
+      order: -1;
     }
   }
 }

@@ -121,6 +121,8 @@ export const FR: Record<TranslationKey, string> = {
     link_email_subject: 'Objet du message',
     link_file: 'Fichier',
     link_file_browse: 'Parcourir...',
+    link_file_browse_dashboard: 'Parcourir la bibliothèque de médias',
+    link_file_browse_server: 'Parcourir le serveur',
     link_file_text: 'Texte du lien',
     link_file_uploading: 'Téléversement...',
     link_no_anchors: 'Aucune ancre disponible dans le document',

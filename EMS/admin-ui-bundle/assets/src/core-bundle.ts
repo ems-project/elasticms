@@ -26,3 +26,7 @@ window.addEventListener('emsReady', async function () {
 
     observer.observe(document.body, { childList: true, subtree: true })
 })
+
+document.addEventListener('emsAddedDomEvent', function (e) {
+    new window.EmsListeners(e.detail.target)
+})

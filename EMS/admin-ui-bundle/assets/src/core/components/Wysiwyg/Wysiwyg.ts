@@ -20,18 +20,18 @@ export class WysiwygProfile {
             urlTargetDefaultBlank?: string[]
             urlAllContentTypes?: boolean
         }
-        emsBrowsers?: {
-            browser_object?: { url: string; label: string }
-            browser_file?: { url: string; label: string }
-            browser_image?: { url: string; label: string }
+        emsBrowsers: {
+            browser_object?: { url: string; label: string; urlModal: string }
+            browser_file?: { url: string; label: string; urlModal: string }
+            browser_image?: { url: string; label: string; urlModal: string }
         }
         translations?: Record<string, Record<string, string>>
+        url: {
+            browseUploadedFiles: string
+        }
     } & CKEditorConfig = {
-        emsBrowsers: undefined,
-        ems: undefined,
-        searchUrl: null,
         ...DEFAULT_CK_VALUES
-    }
+    } as WysiwygProfile['config']
 
     get urlTypes(): UrlType[] {
         const configured = this.config.ems?.urlTypes as string[] | undefined

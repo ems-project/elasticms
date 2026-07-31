@@ -1,4 +1,5 @@
 import '../../../css/core/components/_dialog.scss'
+import AddedDomEvent from '../events/addedDomEvent'
 
 interface DialogButton {
     label: string
@@ -12,8 +13,14 @@ interface DialogOptions {
     resizable?: boolean
     minWidth?: number
     closeLabel: string
-    bodyClass?: string
+    bodyClasses?: string[]
     doc?: Document
+}
+
+interface DialogAjaxResponse {
+    title?: string
+    content: string
+    footer?: string
 }
 
 export class Dialog {
@@ -44,8 +51,8 @@ export class Dialog {
 
         this.body = this.element.querySelector('.dialog-body')!
 
-        if (options.bodyClass) {
-            this.body.classList.add(...options.bodyClass.split(' ').filter(Boolean))
+        if (options.bodyClasses) {
+            this.body.classList.add(...options.bodyClasses)
         }
 
         this.footer = this.element.querySelector('.dialog-footer')!
@@ -73,6 +80,25 @@ export class Dialog {
         }
 
         this.doc.body.appendChild(this.element)
+    }
+
+    async loadUrl(url: string): Promise<void> {
+        this.body.innerHTML = '<div class="dialog-loading"></div>'
+        try {
+            const res = await fetch(url)
+            const data: DialogAjaxResponse = await res.json()
+            if (data.title) {
+                this.element.querySelector('.dialog-title')!.textContent = data.title
+            }
+            this.body.innerHTML = data.content
+            if (data.footer) {
+                this.footer.innerHTML = data.footer
+            }
+
+            new AddedDomEvent(this.element).dispatch()
+        } catch {
+            this.body.innerHTML = '<div class="dialog-error"></div>'
+        }
     }
 
     private makeResizable(content: HTMLElement): void {
@@ -152,6 +178,7 @@ export class Dialog {
         const btn = this.doc.createElement('button')
         btn.innerText = label
         btn.type = 'button'
+        btn.className = 'ems-btn'
         btn.dataset.variant = variant
         btn.dataset.align = align
         btn.onclick = (e) => {

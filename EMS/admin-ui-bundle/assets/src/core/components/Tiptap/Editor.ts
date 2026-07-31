@@ -74,14 +74,30 @@ export class TiptapEditor {
 
     createDialog(
         title: TranslationKey,
-        options: { bodyClass?: string; resizable?: boolean; minWidth?: number } = {}
+        options: {
+            bodyClass?: string
+            resizable?: boolean
+            minWidth?: number
+            tiptapModal?: boolean
+        } = {}
     ): Dialog {
+        const tiptapModal = options.tiptapModal ?? true
+        const bodyClasses = []
+
+        if (options.bodyClass) {
+            bodyClasses.push(options.bodyClass)
+        }
+
+        if (tiptapModal) {
+            bodyClasses.push('tiptap-dialog')
+        }
+
         return new Dialog(this.trans(title), {
             draggable: true,
             resizable: options.resizable,
             minWidth: options.minWidth,
             closeLabel: this.trans('modal_close'),
-            bodyClass: options.bodyClass,
+            bodyClasses: bodyClasses,
             doc: this.docParent
         })
     }

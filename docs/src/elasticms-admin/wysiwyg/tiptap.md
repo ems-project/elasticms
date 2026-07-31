@@ -131,12 +131,56 @@ The placeholder participates in the editor's normal node selection (click to sel
 highlighted when included in a wider text selection (e.g. select-all), and is labeled when Show
 Blocks is active.
 
+### Images
+
+Insert images either by dragging and dropping files onto the editor, or through the toolbar's
+Image button.
+
+**Drag & drop** — drop one or more image files anywhere in the editor to upload and insert them.
+Each image shows a loading placeholder while it uploads, so you always know an upload is in
+progress, and images only appear once they're fully uploaded. If an upload fails, the placeholder
+disappears and a brief notice explains that the upload didn't succeed.
+
+**Toolbar button** — click "Image" to insert a new one. This opens a dialog where you can type or
+paste an image URL directly, or click "Browse server" to pick an image you've already uploaded
+before, browsable by folder with thumbnails. Either way, as soon as the image is set, its actual
+width and height are filled in automatically, so you always start from its real size. You can also
+set alternative text (for accessibility), adjust the width and height, choose an alignment, and
+choose whether text should wrap around the image.
+
+A lock icon next to the dimensions keeps width and height proportional when you change one of them —
+click it to unlock and resize freely. A reset icon next to it restores the original width and
+height at any time. You don't have to open the dialog to resize, either: click an image to select
+it and a small handle appears in each bottom corner — drag either one to resize on the fly, right
+in the page, while keeping its proportions.
+
+**Alignment and text wrap** — an image can be aligned left, center, or right on its own line, or set
+to wrap left or right so surrounding paragraph text flows naturally around it. Both are set from the
+same dialog, right next to each other.
+
+To edit an existing image, right-click or double-click it. This reopens the same dialog, pre-filled
+with its current settings — including its current alignment or wrap choice — and includes a "Remove
+image" option. Right-clicking also offers a "Remove image" option directly in the menu, without
+needing to open the dialog. Selecting an image and pressing Delete or Backspace removes it the same
+way.
+
+Selected images are highlighted the same way as other special content blocks (like embeds), so it's
+always clear what you're about to edit or delete.
+
+**Captions** — the same dialog lets you add a caption, a short line of text shown right under the
+image. The caption field accepts multiple lines, so longer captions can wrap onto a second line
+exactly where you want them to. Just fill in the caption field when inserting or editing an image.
+Leave it empty and no caption is shown; fill it in later and one appears automatically. Clear it
+again and the image goes back to being a plain image with no extra space around it, and removing the
+image removes its caption along with it.
+
 ### Links
 
 Three buttons: Link, Unlink, and Anchor.
 
-**Link** opens a dialog supporting four link types: URL (with optional target), Anchor (link to a
-named anchor in the document), E-mail (with optional subject/body), and Phone. The dialog detects
+**Link** opens a dialog supporting six link types: URL (with optional target), Anchor (link to a
+named anchor in the document), E-mail (with optional subject/body), Phone, Internal (link to
+another content item within the system), and File (link to an uploaded file). The dialog detects
 the current link type and pre-fills accordingly. Available types can be restricted via
 `ems.urlTypes`. Default `_blank` target for new links can be set per type via
 `ems.urlTargetDefaultBlank`.
@@ -145,9 +189,32 @@ the current link type and pre-fills accordingly. Available types can be restrict
 inserts an invisible bookmark when nothing is selected. Right-click provides edit and remove
 actions.
 
+**Internal** links point to another content item rather than a URL. A search field looks up content
+by title as the user types, showing a paginated list of matches. When multiple content types are
+linkable, a type dropdown filters the search and narrows results accordingly. Selecting a result
+shows it as a compact chip in place of the search field, with an option to clear the selection and
+search again. Internal links store a stable reference to the target content rather than a plain
+URL.
+
+**File** links point to an uploaded file (PDF, document, etc.) rather than a typed URL. You can
+create one two ways:
+
+- **Drag & drop** — drop any non-image file anywhere in the editor. It uploads automatically and a
+  link to the file, labeled with its filename, is inserted at the drop position. A loading
+  placeholder shows while the upload is in progress.
+- **Toolbar dialog** — choose the File type in the Link dialog and click "Browse..." to pick a file
+  from your device. Once uploaded, the link text field is filled in with the file's name, which you
+  can edit freely before applying — this text becomes the visible content of the link.
+
+Both routes show a brief notice on success or failure of the upload.
+
 **Unlink** removes the link from the selection. Disabled when the cursor is not inside a link.
 
 Anchors and links are preserved by the Remove Format action.
+
+**Auto-linking** — URLs are automatically converted into links, whether typed (followed by a space
+or Enter) or pasted as plain text. Recognizes `http://`, `https://`, and bare `www.` addresses.
+Pasting a URL over a text selection turns that selection into a link instead of replacing it.
 
 ### Lists
 
@@ -214,7 +281,9 @@ alignment.
 
 ### Text Alignment
 
-Left, center, right, and justify. Left works by unsetting alignment since it is the default.
+Left, center, right, and justify. Left works by unsetting alignment since it is the default. Images
+share the same left/center/right alignment options, available directly from the image dialog rather
+than the main toolbar.
 
 ## HTML Transforms
 
@@ -314,3 +383,6 @@ The endpoint is expected to return JSON with a `content` field containing the cl
 response is then parsed by ProseMirror and inserted at the current selection.
 
 If `ems.paste` is not set, paste behaviour is unchanged.
+
+Auto-linking of URLs also applies to content returned by the paste endpoint, so pasted HTML that
+contains plain-text URLs still gets converted into links after sanitization.

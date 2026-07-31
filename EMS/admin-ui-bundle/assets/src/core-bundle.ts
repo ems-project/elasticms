@@ -1,7 +1,7 @@
 import '../css/core/_core_bundle.scss'
 
 import WYSIWYG from './core/plugins/wysiwyg.ts'
-import { getWysiwygProfile } from './core/components/wysiwyg/wysiwyg.ts'
+import { getWysiwygProfile } from './core/components/Wysiwyg/Wysiwyg.ts'
 
 window.addEventListener('emsReady', async function () {
     if ('tiptap' !== getWysiwygProfile().editor) return
@@ -25,4 +25,8 @@ window.addEventListener('emsReady', async function () {
     })
 
     observer.observe(document.body, { childList: true, subtree: true })
+})
+
+document.addEventListener('emsAddedDomEvent', function (e) {
+    new window.EmsListeners(e.detail.target)
 })

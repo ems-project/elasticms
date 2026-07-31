@@ -1,3 +1,50 @@
+.tiptap-dialog {
+  &.flush-x {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 4px;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--dialog-text-color, #212529);
+  }
+
+  input,
+  select,
+  textarea {
+    padding: 6px 10px;
+    font-size: 14px;
+    line-height: 1.5;
+    width: 100%;
+    color: var(--dialog-input-color, #495057);
+    background: var(--dialog-bg, #fff);
+    border: 1px solid var(--dialog-input-border, #ced4da);
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+    &:focus {
+      border-color: var(--dialog-focus-color, #80bdff);
+      outline: 0;
+      box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+    }
+  }
+}
+
+dialog.ems-dialog .tiptap-dialog-link {
+  .file-browse-actions {
+    display: flex;
+    gap: 10px;
+
+    button {
+      flex: 1;
+    }
+  }
+}
+
 dialog.ems-dialog .tiptap-dialog-color {
   display: flex;
   gap: 12px;
@@ -71,16 +118,7 @@ dialog.ems-dialog .tiptap-dialog-color {
 
   &-clear-btn {
     font-size: 12px;
-    padding: 2px 6px;
-    border: 1px solid #ccc;
-    background: #f5f5f5;
-    cursor: pointer;
     width: 76px;
-    box-sizing: border-box;
-
-    &:hover {
-      background: #e8e8e8;
-    }
   }
 }
 
@@ -109,3 +147,4 @@ dialog.ems-dialog .dialog-body.tiptap-dialog-iframe {
     margin: 4px 0 0;
   }
 }
+

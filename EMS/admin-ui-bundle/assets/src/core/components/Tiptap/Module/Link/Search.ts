@@ -1,0 +1,231 @@
+import '../../../../../../css/core/components/tiptap/_link_search.scss'
+
+export type SearchLinkItem<T = unknown> = { id: string; title: string; text: string; data?: T }
+export type SearchLinkValue<T = unknown> = { id: string; title: string; data: T | null } | null
+
+export type SearchConfig<T = unknown> = {
+    searchUrl: string
+    searchLabel: string
+    searchPlaceholder: string
+    noResultsLabel: string
+    initialId?: string
+    extraParams?: Record<string, string>
+    onChange: (value: SearchLinkValue<T>) => void
+}
+
+export type Search = {
+    element: HTMLElement
+    setExtraParams: (params: Record<string, string>) => void
+    clear: () => void
+}
+
+export function createSearch<T = unknown>(config: SearchConfig<T>): Search {
+    const container = document.createElement('div')
+    container.className = 'link-search'
+
+    const label = document.createElement('label')
+    label.textContent = config.searchLabel
+    container.appendChild(label)
+
+    const inputWrapper = document.createElement('div')
+    inputWrapper.className = 'link-search-wrapper'
+
+    const input = document.createElement('input')
+    input.type = 'text'
+    input.autocomplete = 'off'
+    input.placeholder = config.searchPlaceholder
+
+    const display = document.createElement('div')
+    display.className = 'link-search-display'
+
+    const clearBtn = document.createElement('button')
+    clearBtn.type = 'button'
+    clearBtn.textContent = '×'
+    clearBtn.className = 'link-search-clear'
+    clearBtn.style.display = 'none'
+
+    inputWrapper.appendChild(input)
+    inputWrapper.appendChild(display)
+    inputWrapper.appendChild(clearBtn)
+    container.appendChild(inputWrapper)
+
+    const results = document.createElement('div')
+    results.className = 'link-search-results'
+    container.appendChild(results)
+
+    let currentQuery = '*'
+    let currentPage = 1
+    let extraParams = config.extraParams ?? {}
+    let hasMore = false
+    let loading = false
+    let hasSelection = false
+    let currentSelection: { title: string; html: string } | null = null
+
+    const selectItem = (id: string, title: string, html: string, data: T | null) => {
+        hasSelection = true
+        currentSelection = { title, html }
+        input.value = title
+        input.style.display = 'none'
+        display.innerHTML = html
+        display.style.display = 'flex'
+        clearBtn.style.display = 'block'
+        results.style.display = 'none'
+        config.onChange({ id, title, data })
+    }
+
+    const clearSelection = () => {
+        hasSelection = false
+        currentSelection = null
+        input.value = ''
+        input.style.display = 'block'
+        display.innerHTML = ''
+        display.style.display = 'none'
+        clearBtn.style.display = 'none'
+        config.onChange(null)
+        input.focus()
+        currentQuery = '*'
+        currentPage = 1
+        hasMore = false
+        void search('*', 1)
+        results.style.display = 'block'
+    }
+
+    clearBtn.addEventListener('click', clearSelection)
+
+    const appendItems = (items: SearchLinkItem<T>[]) => {
+        items.forEach((item) => {
+            const el = document.createElement('div')
+            el.className = 'link-search-item'
+            el.tabIndex = 0
+            el.innerHTML = item.text
+            const pick = () => selectItem(item.id, item.title, item.text, item.data ?? null)
+            el.addEventListener('mousedown', (e) => {
+                e.preventDefault()
+                pick()
+            })
+            el.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    pick()
+                }
+            })
+            results.appendChild(el)
+        })
+    }
+
+    const search = async (q: string, page: number) => {
+        if (loading) return
+        loading = true
+        const url = new URL(config.searchUrl, location.href)
+        url.searchParams.set('q', q)
+        url.searchParams.set('page', String(page))
+        Object.entries(extraParams).forEach(([k, v]) => url.searchParams.set(k, v))
+        try {
+            const res = await fetch(url.toString(), { headers: { Accept: 'application/json' } })
+            const data = await res.json()
+            const items: SearchLinkItem<T>[] = data.items ?? []
+            hasMore = data.incomplete_results === true
+            if (page === 1) {
+                results.innerHTML = ''
+                if (!items.length) {
+                    const empty = document.createElement('div')
+                    empty.className = 'link-search-empty'
+                    empty.textContent = config.noResultsLabel
+                    results.appendChild(empty)
+                    return
+                }
+            }
+            appendItems(items)
+        } catch {
+            results.innerHTML = ''
+        } finally {
+            loading = false
+        }
+    }
+
+    const fetchInitial = async (id: string) => {
+        const url = new URL(config.searchUrl, location.href)
+        url.searchParams.set('dataLink', id)
+        try {
+            const res = await fetch(url.toString(), { headers: { Accept: 'application/json' } })
+            const data = await res.json()
+            const item: SearchLinkItem<T> | undefined = data.items?.[0]
+            if (item) selectItem(item.id, item.title, item.text, item.data ?? null)
+        } catch {
+            console.error('Failed to fetch initial link-search item')
+        }
+    }
+
+    results.addEventListener('scroll', () => {
+        if (!hasMore || loading) return
+        if (results.scrollTop + results.clientHeight >= results.scrollHeight - 20) {
+            currentPage++
+            void search(currentQuery, currentPage)
+        }
+    })
+
+    let timer: ReturnType<typeof setTimeout>
+
+    input.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowDown') {
+            e.preventDefault()
+            const first = results.querySelector<HTMLElement>('[tabindex="0"]')
+            first?.focus()
+        }
+    })
+
+    display.addEventListener('click', () => {
+        input.style.display = 'block'
+        input.focus()
+    })
+
+    input.addEventListener('focus', () => {
+        display.style.display = 'none'
+        clearBtn.style.display = 'none'
+        input.value = ''
+        currentQuery = '*'
+        currentPage = 1
+        hasMore = false
+        void search('*', 1)
+        results.style.display = 'block'
+    })
+
+    container.addEventListener('focusout', (e) => {
+        const related = e.relatedTarget as HTMLElement | null
+        if (related && container.contains(related)) return
+        results.style.display = 'none'
+        if (hasSelection && currentSelection) {
+            input.value = currentSelection.title
+            input.style.display = 'none'
+            display.innerHTML = currentSelection.html
+            display.style.display = 'flex'
+            clearBtn.style.display = 'block'
+        }
+    })
+
+    input.addEventListener('input', () => {
+        clearTimeout(timer)
+        results.style.display = 'block'
+        const q = input.value.trim()
+        const query = q.length < 1 ? '*' : q
+        timer = setTimeout(() => {
+            currentQuery = query
+            currentPage = 1
+            hasMore = false
+            void search(query, 1)
+        }, 300)
+    })
+
+    if (config.initialId) void fetchInitial(config.initialId)
+
+    return {
+        element: container,
+        setExtraParams: (params) => {
+            extraParams = params
+            currentPage = 1
+            hasMore = false
+            void search(currentQuery, 1)
+        },
+        clear: clearSelection
+    }
+}

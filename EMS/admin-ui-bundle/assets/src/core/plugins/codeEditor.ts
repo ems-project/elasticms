@@ -528,7 +528,6 @@ export default class CodeEditor {
             const language = container.getAttribute('data-language') || 'ace/mode/twig'
             const theme = container.getAttribute('data-theme') || 'ace/theme/chrome'
             const maxLines = Number.parseInt(container.getAttribute('data-max-lines') || '15')
-            const minLines = Number.parseInt(container.getAttribute('data-min-lines') || '1')
 
             const ace = await import('ace-builds')
 
@@ -542,14 +541,19 @@ export default class CodeEditor {
             ace.config.setModuleUrl(theme, themeUrl)
             ace.config.setModuleUrl('ace/ext/keybinding_menu', keybindingMenuUrl)
 
+            const maxLinesAttr = container.getAttribute('data-max-lines')
+            const minLinesAttr = container.getAttribute('data-min-lines')
+
             const editor = ace.edit(pre, {
                 mode: language,
                 readOnly: disabled,
-                maxLines,
-                minLines,
+                ...(maxLinesAttr ? { maxLines: Number.parseInt(maxLinesAttr) } : {}),
+                ...(minLinesAttr ? { minLines: Number.parseInt(minLinesAttr) } : {}),
                 theme,
                 useWorker: false
             })
+
+            ;(pre as any)._aceEditor = editor
 
             editor.on('change', function () {
                 if (null === inputField) {

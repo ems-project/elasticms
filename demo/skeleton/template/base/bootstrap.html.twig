@@ -61,6 +61,21 @@
                 })) }}
             </ul>
 
+            {%- set newsLetterFormOuuid = '714b906d-f62b-43d9-80e9-c86b1bb5bae2' -%}
+            {%- set newsLetterForm = "form_instance:#{newsLetterFormOuuid}"|emsch_get -%}
+            {%- if newsLetterForm -%}
+                <div id="ems-form-{{ newsLetterForm.id }}" class="mb-5">
+                    <p>{{ 'ems_form.loading'|trans|raw }}</p>
+                </div>
+                <div id="ems-message-{{ newsLetterForm.id  }}"></div>
+                <iframe id="ems-form-iframe-{{ newsLetterForm.id }}"
+                        src="{{ absolute_url(path('emsf_iframe', { ouuid: newsLetterFormOuuid, _locale: locale })) }}"
+                        style="display:none;" 
+                        title="{{ 'ems_form.ignore_iframe'|trans }}" 
+                        data-form-id="ems-form-{{ newsLetterForm.id }}" 
+                        data-message-id="ems-message-{{ newsLetterForm.id }}"></iframe>
+            {%- endif -%}
+
             <div class="copyright mt-5">
                 {{ 'site.copy'|trans({ '%year%': 'now'|date('Y') }) }}
                 &nbsp;

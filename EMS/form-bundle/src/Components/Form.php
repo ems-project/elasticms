@@ -67,7 +67,11 @@ class Form extends AbstractType
 
         $resolver
             ->setRequired(['ouuid', 'locale'])
-            ->setDefaults(['config' => null, 'use_cache' => true])
+            ->setDefaults([
+                'config' => null,
+                'use_cache' => true,
+                'csrf_token_id' => fn (Options $options) => 'ems_form_'.$options['ouuid'],
+            ])
             ->setNormalizer('config', fn (Options $options, $value) => $value ?: $this->configFactory->create(
                 ouuid: $options['ouuid'],
                 locale: $options['locale'],

@@ -2,6 +2,7 @@ import defaultAjaxModal from '../../helpers/ajaxModal'
 import ProgressBar from '../../helpers/progressBar'
 import { FileUploader } from '../FileUploader.ts'
 import { resizeImage } from '../../helpers/resizeImage'
+import { Dialog } from '../Dialog.ts'
 
 /**
  * The media library component is used both by the bootstrap5 admin-ui-bundle theme and by
@@ -515,13 +516,15 @@ export default class MediaLibrary {
 
     _onClickButtonFolderAdd() {
         const path = this.#activeFolderId ? `/add-folder/${this.#activeFolderId}` : '/add-folder'
-
-        this.#ajaxModal.load({ url: this.#pathPrefix + path, size: 'sm' }, (json) => {
-            if (Object.hasOwn(json, 'success') && json.success === true) {
+        new Dialog({
+            url: this.#pathPrefix + path,
+            ajaxModal: true,
+            onAjaxModalResponse: (json) => {
+                if (!json.success) return
                 this.loading(true)
-                this._getFolders(json.path).then(() => this.loading(false))
+                this._getFolders(json.path as string).then(() => this.loading(false))
             }
-        })
+        }).open()
     }
 
     _onClickButtonFolderDelete(button: HTMLElement) {

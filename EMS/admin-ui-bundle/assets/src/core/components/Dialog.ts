@@ -15,21 +15,26 @@ export interface DialogOptions {
     minWidth?: number
     closeLabel?: string
     bodyClasses?: string[]
-    doc?: Document,
-    url?: string,
+    doc?: Document
+    url?: string
     ajaxModal?: boolean
+    onAjaxModalResponse?: (data: DialogAjaxModalResponse, dialog: Dialog) => void
 }
 
 interface DialogAjaxResponse {
     title?: string
-    content: string
+    content?: string
     footer?: string
 }
+
 interface DialogAjaxModalResponse {
-    modalMessages: string[],
-    modalTitle?: string,
-    modalBody?: string,
-    modalFooter?: string,
+    modalMessages?: string[]
+    modalTitle?: string
+    modalBody?: string
+    modalFooter?: string
+    modalClose?: boolean
+    success?: boolean
+    [key: string]: unknown
 }
 
 export class Dialog {
@@ -39,6 +44,7 @@ export class Dialog {
     footer: HTMLElement
     private options: DialogOptions
     private readonly doc: Document
+    private currentUrl?: string
 
     private onCloseCallback?: () => void
 
@@ -92,35 +98,102 @@ export class Dialog {
 
         this.doc.body.appendChild(this.element)
 
+        if (options.ajaxModal) {
+            this.element.addEventListener('keydown', this.onKeyDown)
+        }
+
         if (options.url) {
-            void this.loadUrl(options.url, options.ajaxModal ?? false)
+            void this.loadUrl(options.url)
         }
     }
 
-    private async loadUrl(url: string, ajaxModal: boolean): Promise<void> {
+    private async loadUrl(url: string): Promise<void> {
+        this.currentUrl = url
         this.body.innerHTML = '<div class="dialog-loading"></div>'
         try {
             const res = await fetch(url)
-            const data = await res.json()
-            const { title, body, footer } = this.normalizeResponse(data, ajaxModal)
-
-            if (title) this.setTitle(title)
-            if (body) this.setBody(body)
-            if (footer) this.setFooter(footer)
-
-            new AddedDomEvent(this.element).dispatch()
+            this.applyResponse(await res.json())
         } catch {
             this.body.innerHTML = '<div class="dialog-error"></div>'
         }
     }
 
-    private normalizeResponse(data: DialogAjaxResponse | DialogAjaxModalResponse, ajaxModal: boolean) {
-        if (ajaxModal) {
+    private async submitForm(form: HTMLFormElement): Promise<void> {
+        if (!this.currentUrl) return
+        this.body.innerHTML = '<div class="dialog-loading"></div>'
+        try {
+            const res = await fetch(this.currentUrl, { method: 'POST', body: new FormData(form) })
+            this.applyResponse(await res.json())
+        } catch {
+            this.body.innerHTML = '<div class="dialog-error"></div>'
+        }
+    }
+
+    private applyResponse(data: DialogAjaxResponse | DialogAjaxModalResponse): void {
+        const { title, body, footer, close } = this.normalizeResponse(data)
+
+        if (title) this.setTitle(title)
+        if (body) this.setBody(body)
+        if (footer) this.setFooter(footer)
+
+        if (this.options.ajaxModal) {
+            this.options.onAjaxModalResponse?.(data as DialogAjaxModalResponse, this)
+        }
+
+        if (close) {
+            this.close()
+        } else {
+            this.bindForm()
+            new AddedDomEvent(this.element).dispatch()
+        }
+    }
+
+    private normalizeResponse(data: DialogAjaxResponse | DialogAjaxModalResponse) {
+        if (this.options.ajaxModal) {
             const d = data as DialogAjaxModalResponse
-            return { title: d.modalTitle, body: d.modalBody, footer: d.modalFooter, messages: d.modalMessages }
+            return {
+                title: d.modalTitle,
+                body: d.modalBody,
+                footer: d.modalFooter,
+                messages: d.modalMessages,
+                close: d.modalClose ?? false
+            }
         }
         const d = data as DialogAjaxResponse
-        return { title: d.title, body: d.content, footer: d.footer, messages: undefined }
+        return {
+            title: d.title,
+            body: d.content,
+            footer: d.footer,
+            messages: undefined,
+            close: false
+        }
+    }
+
+    private bindForm(): void {
+        const form = this.body.querySelector('form')
+        if (!form) return
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault()
+            void this.submitForm(form)
+        })
+
+        this.element
+            .querySelector<HTMLButtonElement>('#ajax-modal-submit')
+            ?.addEventListener('click', () => {
+                void this.submitForm(form)
+            })
+    }
+
+    private readonly onKeyDown = (e: KeyboardEvent): void => {
+        if (e.key !== 'Enter' || e.shiftKey) return
+        if ((e.target as HTMLElement).nodeName.toLowerCase() === 'textarea') return
+
+        const submitBtn = this.element.querySelector<HTMLButtonElement>('#ajax-modal-submit')
+        if (submitBtn) {
+            e.preventDefault()
+            submitBtn.click()
+        }
     }
 
     private makeResizable(content: HTMLElement): void {
@@ -132,7 +205,7 @@ export class Dialog {
         const doc = this.doc
         let startX = 0
         let startWidth = 0
-        const minWidth = this.options.minWidth ?? 200
+        const minWidth = this.options.minWidth ?? 300
 
         const onMouseMove = (e: MouseEvent) => {
             const newWidth = Math.max(minWidth, startWidth + (e.clientX - startX))
@@ -191,7 +264,7 @@ export class Dialog {
         this.title.textContent = title
     }
     private setBody(body: string) {
-        this.body.innerHTML = body;
+        this.body.innerHTML = body
     }
     private setFooter(footer: string) {
         this.footer.innerHTML = footer

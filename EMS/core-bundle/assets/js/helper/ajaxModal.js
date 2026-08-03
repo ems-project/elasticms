@@ -257,10 +257,6 @@ class AjaxModal {
 const ajaxModal = new AjaxModal('#ajax-modal');
 const pickFileModal = new AjaxModal('#pick-file-server-modal');
 
-// exposed globally so components loaded through admin-ui-bundle's core-bundle.ts
-// (e.g. MediaLibrary) can reuse this bootstrap3 compatible ajaxModal singleton
-window.ajaxModal = ajaxModal;
-
 export default ajaxModal;
 export {pickFileModal};
 

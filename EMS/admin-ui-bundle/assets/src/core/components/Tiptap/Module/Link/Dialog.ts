@@ -399,7 +399,7 @@ function wireFileField(e: TiptapEditor, root: HTMLElement) {
             resizable: true,
             minWidth: 800,
             url: e.profile.config.url.browseUploadedFiles,
-            tiptapModal: false,
+            tiptapModal: false
         })
         dialog.body.addEventListener('click', (ev) => {
             const target = (ev.target as HTMLElement).closest<HTMLAnchorElement>('td a')
@@ -416,7 +416,7 @@ function wireFileField(e: TiptapEditor, root: HTMLElement) {
             textInput.value = text
             dialog.close()
         })
-        dialog.open();
+        dialog.open()
     })
 
     const dashboardFile = e.profile.config.emsBrowsers?.browser_file
@@ -427,7 +427,7 @@ function wireFileField(e: TiptapEditor, root: HTMLElement) {
             resizable: true,
             minWidth: 800,
             url: dashboardFile.urlModal,
-            tiptapModal: false,
+            tiptapModal: false
         })
         dialog.body.addEventListener('click', (ev) => {
             const target = ev.target as HTMLElement

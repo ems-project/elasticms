@@ -83,12 +83,12 @@ export class TiptapEditor {
             options.bodyClasses.push('tiptap-dialog')
         }
 
-        options.closeLabel = this.trans('modal_close');
+        options.closeLabel = this.trans('modal_close')
         options.doc = this.docParent
         options.draggable = true
         options.title = this.trans(title)
 
-        return new Dialog(options);
+        return new Dialog(options)
     }
 
     showNotice(message: string, type: 'error' | 'success' = 'error'): void {

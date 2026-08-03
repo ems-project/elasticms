@@ -6,7 +6,7 @@ import { Modules, HtmlTransform, TiptapModule } from './Types.ts'
 import { WysiwygOptions, WysiwygProfile } from '../Wysiwyg/Wysiwyg.ts'
 import { CkeditorStyle } from '../Wysiwyg/CKEditorConfig.ts'
 import { isTransLocale, Locale, trans, TranslationKey } from './Translations.ts'
-import { Dialog } from '../Dialog.ts'
+import { Dialog, DialogOptions } from '../Dialog.ts'
 import { renderNotice } from './UI/Notice.ts'
 
 interface TiptapEditorOptions {
@@ -74,32 +74,21 @@ export class TiptapEditor {
 
     createDialog(
         title: TranslationKey,
-        options: {
-            bodyClass?: string
-            resizable?: boolean
-            minWidth?: number
-            tiptapModal?: boolean
-        } = {}
+        options: DialogOptions & { tiptapModal?: boolean } = {}
     ): Dialog {
         const tiptapModal = options.tiptapModal ?? true
-        const bodyClasses = []
 
-        if (options.bodyClass) {
-            bodyClasses.push(options.bodyClass)
-        }
-
+        options.bodyClasses ??= []
         if (tiptapModal) {
-            bodyClasses.push('tiptap-dialog')
+            options.bodyClasses.push('tiptap-dialog')
         }
 
-        return new Dialog(this.trans(title), {
-            draggable: true,
-            resizable: options.resizable,
-            minWidth: options.minWidth,
-            closeLabel: this.trans('modal_close'),
-            bodyClasses: bodyClasses,
-            doc: this.docParent
-        })
+        options.closeLabel = this.trans('modal_close');
+        options.doc = this.docParent
+        options.draggable = true
+        options.title = this.trans(title)
+
+        return new Dialog(options);
     }
 
     showNotice(message: string, type: 'error' | 'success' = 'error'): void {

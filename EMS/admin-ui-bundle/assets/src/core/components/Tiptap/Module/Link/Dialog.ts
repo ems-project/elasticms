@@ -41,7 +41,7 @@ export function linkDialog(e: TiptapEditor, defaultTarget: string | null = null)
     const dialog = e.createDialog('link', {
         resizable: true,
         minWidth: 600,
-        bodyClass: 'tiptap-dialog-link'
+        bodyClasses: ['tiptap-dialog-link']
     })
     dialog.setContent(
         `<div style="display: flex; flex-direction: column; gap: 10px;">
@@ -398,11 +398,9 @@ function wireFileField(e: TiptapEditor, root: HTMLElement) {
         const dialog = e.createDialog('link_file_browse_server', {
             resizable: true,
             minWidth: 800,
-            tiptapModal: false
+            url: e.profile.config.url.browseUploadedFiles,
+            tiptapModal: false,
         })
-        dialog.open()
-        await dialog.loadUrl(e.profile.config.url.browseUploadedFiles)
-
         dialog.body.addEventListener('click', (ev) => {
             const target = (ev.target as HTMLElement).closest<HTMLAnchorElement>('td a')
             if (!target) return
@@ -418,6 +416,7 @@ function wireFileField(e: TiptapEditor, root: HTMLElement) {
             textInput.value = text
             dialog.close()
         })
+        dialog.open();
     })
 
     const dashboardFile = e.profile.config.emsBrowsers?.browser_file
@@ -427,11 +426,9 @@ function wireFileField(e: TiptapEditor, root: HTMLElement) {
         const dialog = e.createDialog('link_file_browse_dashboard', {
             resizable: true,
             minWidth: 800,
-            tiptapModal: false
+            url: dashboardFile.urlModal,
+            tiptapModal: false,
         })
-        dialog.open()
-        await dialog.loadUrl(dashboardFile.urlModal)
-
         dialog.body.addEventListener('click', (ev) => {
             const target = ev.target as HTMLElement
             if (
@@ -452,6 +449,7 @@ function wireFileField(e: TiptapEditor, root: HTMLElement) {
             textInput.value = text
             dialog.close()
         })
+        dialog.open()
     })
 }
 

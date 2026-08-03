@@ -72,7 +72,7 @@ export class DialogColor {
     private dialog: Dialog
 
     constructor({ editor, initial, onSelect }: DialogColorOptions) {
-        this.dialog = editor.createDialog('color_select', { bodyClass: 'tiptap-dialog-color' })
+        this.dialog = editor.createDialog('color_select', { bodyClasses: ['tiptap-dialog-color'] })
 
         const grid = document.createElement('div')
         grid.className = 'tiptap-dialog-color-grid'

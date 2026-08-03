@@ -114,7 +114,7 @@ function openBulletListDialog(editor: TiptapEditor): void {
 
     const currentStyle = existing.attrs.dataUserStyle ?? ''
     const dialog = editor.createDialog('list_bulleted_properties', {
-        bodyClass: 'tiptap-dialog-list'
+        bodyClasses: ['tiptap-dialog-list']
     })
 
     dialog.setContent(`
@@ -157,7 +157,7 @@ function openNumberedListDialog(editor: TiptapEditor): void {
     const currentStart = existing.attrs.start ?? 1
 
     const dialog = editor.createDialog('list_numbered_properties', {
-        bodyClass: 'tiptap-dialog-list'
+        bodyClasses: ['tiptap-dialog-list']
     })
 
     dialog.setContent(`

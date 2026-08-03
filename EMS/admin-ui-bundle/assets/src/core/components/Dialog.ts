@@ -8,13 +8,16 @@ interface DialogButton {
     onClick: (dialog: Dialog) => void
 }
 
-interface DialogOptions {
+export interface DialogOptions {
+    title?: string
     draggable?: boolean
     resizable?: boolean
     minWidth?: number
-    closeLabel: string
+    closeLabel?: string
     bodyClasses?: string[]
-    doc?: Document
+    doc?: Document,
+    url?: string,
+    ajaxModal?: boolean
 }
 
 interface DialogAjaxResponse {
@@ -22,9 +25,16 @@ interface DialogAjaxResponse {
     content: string
     footer?: string
 }
+interface DialogAjaxModalResponse {
+    modalMessages: string[],
+    modalTitle?: string,
+    modalBody?: string,
+    modalFooter?: string,
+}
 
 export class Dialog {
     readonly element: HTMLDialogElement
+    title: HTMLElement
     body: HTMLElement
     footer: HTMLElement
     private options: DialogOptions
@@ -32,7 +42,7 @@ export class Dialog {
 
     private onCloseCallback?: () => void
 
-    constructor(title: string, options: DialogOptions) {
+    constructor(options: DialogOptions) {
         this.options = options
         this.doc = options.doc ?? document
         this.element = this.doc.createElement('dialog')
@@ -41,8 +51,8 @@ export class Dialog {
         this.element.innerHTML = `
             <div class="dialog-content">
                 <div class="dialog-header">
-                    <h4 class="dialog-title">${title}</h4>
-                    <button type="button" class="dialog-close" aria-label="${options.closeLabel}" title="${options.closeLabel}">&times;</button>
+                    <h4 class="dialog-title">${options.title ?? ''}</h4>
+                    <button type="button" class="dialog-close" aria-label="${options.closeLabel ?? 'Close'}" title="${options.closeLabel ?? 'Close'}">&times;</button>
                 </div>
                 <div class="dialog-body"></div>
                 <div class="dialog-footer"></div>
@@ -55,6 +65,7 @@ export class Dialog {
             this.body.classList.add(...options.bodyClasses)
         }
 
+        this.title = this.element.querySelector('.dialog-title')!
         this.footer = this.element.querySelector('.dialog-footer')!
 
         this.element.querySelector('.dialog-close')!.addEventListener('click', () => this.close())
@@ -80,25 +91,36 @@ export class Dialog {
         }
 
         this.doc.body.appendChild(this.element)
+
+        if (options.url) {
+            void this.loadUrl(options.url, options.ajaxModal ?? false)
+        }
     }
 
-    async loadUrl(url: string): Promise<void> {
+    private async loadUrl(url: string, ajaxModal: boolean): Promise<void> {
         this.body.innerHTML = '<div class="dialog-loading"></div>'
         try {
             const res = await fetch(url)
-            const data: DialogAjaxResponse = await res.json()
-            if (data.title) {
-                this.element.querySelector('.dialog-title')!.textContent = data.title
-            }
-            this.body.innerHTML = data.content
-            if (data.footer) {
-                this.footer.innerHTML = data.footer
-            }
+            const data = await res.json()
+            const { title, body, footer } = this.normalizeResponse(data, ajaxModal)
+
+            if (title) this.setTitle(title)
+            if (body) this.setBody(body)
+            if (footer) this.setFooter(footer)
 
             new AddedDomEvent(this.element).dispatch()
         } catch {
             this.body.innerHTML = '<div class="dialog-error"></div>'
         }
+    }
+
+    private normalizeResponse(data: DialogAjaxResponse | DialogAjaxModalResponse, ajaxModal: boolean) {
+        if (ajaxModal) {
+            const d = data as DialogAjaxModalResponse
+            return { title: d.modalTitle, body: d.modalBody, footer: d.modalFooter, messages: d.modalMessages }
+        }
+        const d = data as DialogAjaxResponse
+        return { title: d.title, body: d.content, footer: d.footer, messages: undefined }
     }
 
     private makeResizable(content: HTMLElement): void {
@@ -163,6 +185,16 @@ export class Dialog {
             doc.addEventListener('mousemove', onMouseMove)
             doc.addEventListener('mouseup', onMouseUp)
         })
+    }
+
+    private setTitle(title: string) {
+        this.title.textContent = title
+    }
+    private setBody(body: string) {
+        this.body.innerHTML = body;
+    }
+    private setFooter(footer: string) {
+        this.footer.innerHTML = footer
     }
 
     setContent(html: string | HTMLElement): this {

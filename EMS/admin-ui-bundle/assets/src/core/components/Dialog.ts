@@ -1,6 +1,24 @@
 import '../../../css/core/components/_dialog.scss'
 import AddedDomEvent from '../events/addedDomEvent'
 
+export type DialogSize = 'xs' | 'sm' | 'md' | 'lg'
+
+const DIALOG_SIZE_WIDTHS: Record<DialogSize, number> = {
+    xs: 300,
+    sm: 480,
+    md: 720,
+    lg: 960
+}
+
+type DialogMessageType = 'success' | 'info' | 'warning' | 'error'
+
+const DIALOG_MESSAGE_CLASSES: Record<DialogMessageType, string> = {
+    success: 'alert-success',
+    info: 'alert-info',
+    warning: 'alert-warning',
+    error: 'alert-danger'
+}
+
 interface DialogButton {
     label: string
     variant?: 'primary' | 'secondary' | 'danger' | 'default'
@@ -10,6 +28,7 @@ interface DialogButton {
 
 export interface DialogOptions {
     title?: string
+    size?: DialogSize
     draggable?: boolean
     resizable?: boolean
     minWidth?: number
@@ -28,7 +47,7 @@ interface DialogAjaxResponse {
 }
 
 interface DialogAjaxModalResponse {
-    modalMessages?: string[]
+    modalMessages?: Partial<Record<DialogMessageType, string>>[]
     modalTitle?: string
     modalBody?: string
     modalFooter?: string
@@ -45,55 +64,29 @@ export class Dialog {
     private options: DialogOptions
     private readonly doc: Document
     private currentUrl?: string
-
+    private isBusy = false
     private onCloseCallback?: () => void
 
     constructor(options: DialogOptions) {
         this.options = options
         this.doc = options.doc ?? document
-        this.element = this.doc.createElement('dialog')
-        this.element.className = 'ems-dialog'
-
-        this.element.innerHTML = `
-            <div class="dialog-content">
-                <div class="dialog-header">
-                    <h4 class="dialog-title">${options.title ?? ''}</h4>
-                    <button type="button" class="dialog-close" aria-label="${options.closeLabel ?? 'Close'}" title="${options.closeLabel ?? 'Close'}">&times;</button>
-                </div>
-                <div class="dialog-body"></div>
-                <div class="dialog-footer"></div>
-            </div>
-        `
-
+        this.element = this.buildElement(options)
         this.body = this.element.querySelector('.dialog-body')!
+        this.title = this.element.querySelector('.dialog-title')!
+        this.footer = this.element.querySelector('.dialog-footer')!
 
         if (options.bodyClasses) {
             this.body.classList.add(...options.bodyClasses)
         }
 
-        this.title = this.element.querySelector('.dialog-title')!
-        this.footer = this.element.querySelector('.dialog-footer')!
+        this.bindLifecycleEvents()
 
-        this.element.querySelector('.dialog-close')!.addEventListener('click', () => this.close())
-
-        this.element.addEventListener('close', () => {
-            this.doc.body.classList.remove('dialog-open')
-            this.element.remove()
-            this.onCloseCallback?.()
-        })
-
-        this.element.addEventListener('cancel', (e) => {
-            e.preventDefault()
-            this.close()
-        })
-
-        if (this.options.draggable) {
+        if (options.draggable) {
             this.makeDraggable()
         }
 
-        if (this.options.resizable) {
-            const content = this.element.querySelector('.dialog-content') as HTMLElement
-            this.makeResizable(content)
+        if (options.resizable) {
+            this.makeResizable(this.element.querySelector('.dialog-content')!)
         }
 
         this.doc.body.appendChild(this.element)
@@ -107,7 +100,97 @@ export class Dialog {
         }
     }
 
+    open(): void {
+        this.doc.body.classList.add('dialog-open')
+        this.element.showModal()
+        if (this.options.resizable) {
+            const content = this.element.querySelector<HTMLElement>('.dialog-content')!
+            if (this.options.minWidth) {
+                content.style.minWidth = `${this.options.minWidth}px`
+            }
+            content.style.width = `${content.getBoundingClientRect().width}px`
+        }
+        this.element.querySelector<HTMLElement>('input, select, textarea')?.focus()
+    }
+
+    close(): void {
+        this.element.close()
+    }
+
+    onClose(callback: () => void): this {
+        this.onCloseCallback = callback
+        return this
+    }
+
+    setContent(html: string | HTMLElement): this {
+        if (typeof html === 'string') {
+            this.body.innerHTML = html
+        } else {
+            this.body.appendChild(html)
+        }
+        return this
+    }
+
+    addButton({ label, variant = 'default', align = 'right', onClick }: DialogButton): this {
+        const btn = this.doc.createElement('button')
+        btn.innerText = label
+        btn.type = 'button'
+        btn.className = 'ems-btn'
+        btn.dataset.variant = variant
+        btn.dataset.align = align
+        btn.onclick = (e) => {
+            e.preventDefault()
+            onClick(this)
+        }
+        this.footer.appendChild(btn)
+        return this
+    }
+
+    getFieldValue(id: string): string {
+        const el = this.element.querySelector(`#${id}`) as HTMLInputElement
+        return el ? el.value : ''
+    }
+
+    private buildElement(options: DialogOptions): HTMLDialogElement {
+        const element = this.doc.createElement('dialog')
+        element.className = 'ems-dialog'
+        element.innerHTML = `
+            <div class="dialog-content">
+                <div class="dialog-header">
+                    <h4 class="dialog-title">${options.title ?? ''}</h4>
+                    <button type="button" class="dialog-close" aria-label="${options.closeLabel ?? 'Close'}" title="${options.closeLabel ?? 'Close'}">&times;</button>
+                </div>
+                <div class="dialog-body"></div>
+                <div class="dialog-footer"></div>
+            </div>
+        `
+
+        if (options.size) {
+            const content = element.querySelector<HTMLElement>('.dialog-content')!
+            content.style.width = `${DIALOG_SIZE_WIDTHS[options.size]}px`
+        }
+
+        return element
+    }
+
+    private bindLifecycleEvents(): void {
+        this.element.querySelector('.dialog-close')!.addEventListener('click', () => this.close())
+
+        this.element.addEventListener('close', () => {
+            this.doc.body.classList.remove('dialog-open')
+            this.element.remove()
+            this.onCloseCallback?.()
+        })
+
+        this.element.addEventListener('cancel', (e) => {
+            e.preventDefault()
+            this.close()
+        })
+    }
+
     private async loadUrl(url: string): Promise<void> {
+        if (this.isBusy) return
+        this.isBusy = true
         this.currentUrl = url
         this.body.innerHTML = '<div class="dialog-loading"></div>'
         try {
@@ -115,26 +198,62 @@ export class Dialog {
             this.applyResponse(await res.json())
         } catch {
             this.body.innerHTML = '<div class="dialog-error"></div>'
+        } finally {
+            this.isBusy = false
         }
     }
 
     private async submitForm(form: HTMLFormElement): Promise<void> {
-        if (!this.currentUrl) return
-        this.body.innerHTML = '<div class="dialog-loading"></div>'
+        if (this.isBusy || !this.currentUrl) return
+        this.isBusy = true
+        const formData = new FormData(form)
+        this.setFormDisabled(form, true)
         try {
-            const res = await fetch(this.currentUrl, { method: 'POST', body: new FormData(form) })
+            const res = await fetch(this.currentUrl, { method: 'POST', body: formData })
             this.applyResponse(await res.json())
         } catch {
             this.body.innerHTML = '<div class="dialog-error"></div>'
+            this.setFormDisabled(form, false)
+        } finally {
+            this.isBusy = false
         }
     }
 
+    private setFormDisabled(form: HTMLFormElement, disabled: boolean): void {
+        form.querySelectorAll<
+            HTMLInputElement | HTMLButtonElement | HTMLSelectElement | HTMLTextAreaElement
+        >('input, button, select, textarea').forEach((el) => {
+            el.disabled = disabled
+        })
+        this.element
+            .querySelector<HTMLButtonElement>('#ajax-modal-submit')
+            ?.toggleAttribute('disabled', disabled)
+    }
+
     private applyResponse(data: DialogAjaxResponse | DialogAjaxModalResponse): void {
-        const { title, body, footer, close } = this.normalizeResponse(data)
+        this.body.querySelector('.dialog-loading')?.remove()
+
+        const { title, body, footer, messages, close } = this.normalizeResponse(data)
 
         if (title) this.setTitle(title)
-        if (body) this.setBody(body)
-        if (footer) this.setFooter(footer)
+
+        if (body && body.length > 0) {
+            this.setBody(body)
+        } else if (this.options.ajaxModal) {
+            this.setBody('')
+        }
+
+        if (messages) this.setMessages(messages)
+
+        if (footer) {
+            this.setFooter(footer)
+        } else if (this.options.ajaxModal) {
+            this.setFooter('')
+            this.addButton({
+                label: this.options.closeLabel ?? 'Close',
+                onClick: (dialog) => dialog.close()
+            })
+        }
 
         if (this.options.ajaxModal) {
             this.options.onAjaxModalResponse?.(data as DialogAjaxModalResponse, this)
@@ -194,6 +313,33 @@ export class Dialog {
             e.preventDefault()
             submitBtn.click()
         }
+    }
+
+    private setTitle(title: string): void {
+        this.title.textContent = title
+    }
+
+    private setBody(body: string): void {
+        this.body.innerHTML = body
+    }
+
+    private setFooter(footer: string): void {
+        this.footer.innerHTML = footer
+    }
+
+    private setMessages(messages: Partial<Record<DialogMessageType, string>>[]): void {
+        messages.forEach((m) => {
+            const type = Object.keys(m)[0] as DialogMessageType
+            this.printMessage(type, m[type]!)
+        })
+    }
+
+    private printMessage(type: DialogMessageType, message: string): void {
+        const cls = DIALOG_MESSAGE_CLASSES[type] ?? DIALOG_MESSAGE_CLASSES.success
+        this.body.insertAdjacentHTML(
+            'afterbegin',
+            `<div class="alert ${cls}" role="alert">${message.replace(/\n/g, '<br>')}</div>`
+        )
     }
 
     private makeResizable(content: HTMLElement): void {
@@ -258,69 +404,5 @@ export class Dialog {
             doc.addEventListener('mousemove', onMouseMove)
             doc.addEventListener('mouseup', onMouseUp)
         })
-    }
-
-    private setTitle(title: string) {
-        this.title.textContent = title
-    }
-    private setBody(body: string) {
-        this.body.innerHTML = body
-    }
-    private setFooter(footer: string) {
-        this.footer.innerHTML = footer
-    }
-
-    setContent(html: string | HTMLElement): this {
-        if (typeof html === 'string') {
-            this.body.innerHTML = html
-        } else {
-            this.body.appendChild(html)
-        }
-        return this
-    }
-
-    addButton({ label, variant = 'default', align = 'right', onClick }: DialogButton): this {
-        const btn = this.doc.createElement('button')
-        btn.innerText = label
-        btn.type = 'button'
-        btn.className = 'ems-btn'
-        btn.dataset.variant = variant
-        btn.dataset.align = align
-        btn.onclick = (e) => {
-            e.preventDefault()
-            onClick(this)
-        }
-        this.footer.appendChild(btn)
-        return this
-    }
-
-    open(): void {
-        this.doc.body.classList.add('dialog-open')
-        this.element.showModal()
-        if (this.options.resizable) {
-            const content = this.element.querySelector<HTMLElement>('.dialog-content')!
-            if (this.options.minWidth) {
-                content.style.minWidth = `${this.options.minWidth}px`
-            }
-            content.style.width = `${content.getBoundingClientRect().width}px`
-        }
-        const firstInput = this.element.querySelector<HTMLElement>('input, select, textarea')
-        if (firstInput) {
-            firstInput.focus()
-        }
-    }
-
-    close(): void {
-        this.element.close()
-    }
-
-    onClose(callback: () => void): this {
-        this.onCloseCallback = callback
-        return this
-    }
-
-    getFieldValue(id: string): string {
-        const el = this.element.querySelector(`#${id}`) as HTMLInputElement
-        return el ? el.value : ''
     }
 }

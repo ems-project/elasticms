@@ -2,7 +2,7 @@ import defaultAjaxModal from '../../helpers/ajaxModal'
 import ProgressBar from '../../helpers/progressBar'
 import { FileUploader } from '../FileUploader.ts'
 import { resizeImage } from '../../helpers/resizeImage'
-import { Dialog } from '../Dialog.ts'
+import { Dialog, DialogSize } from '../Dialog.ts'
 
 /**
  * The media library component is used both by the bootstrap5 admin-ui-bundle theme and by
@@ -531,66 +531,58 @@ export default class MediaLibrary {
         const folderId = button.dataset.id
         const modalSize = button.dataset.modalSize ?? 'sm'
 
-        this.#ajaxModal.load(
-            {
-                url: `${this.#pathPrefix}/folder/${folderId}/delete`,
-                size: modalSize
-            },
-            (json) => {
-                if (
-                    !Object.hasOwn(json, 'jobId') ||
-                    !Object.hasOwn(json, 'success') ||
-                    json.success === false
-                )
-                    return
+        new Dialog({
+            url: `${this.#pathPrefix}/folder/${folderId}/delete`,
+            size: modalSize as DialogSize,
+            ajaxModal: true,
+            onAjaxModalResponse: (json, dialog) => {
+                if (!json.jobId || !json.success) return
 
-                if (Object.hasOwn(json, 'async') && json.async === true) {
+                if (json.async === true) {
                     Promise.allSettled([new Promise((resolve) => setTimeout(resolve, 3500))])
-                        .then(() => this.#ajaxModal.close())
+                        .then(() => dialog.close())
                         .then(() => location.reload())
                     return
                 }
 
-                const { jobId } = json
-
+                const jobId = json.jobId as string
                 const jobProgressBar = new ProgressBar('progress-' + jobId, {
                     label: 'Deleting folder',
                     value: 100,
                     showPercentage: false
                 })
 
-                this.#ajaxModal.getBodyElement().append(jobProgressBar.element())
+                dialog.body.append(jobProgressBar.element())
                 this.loading(true)
 
                 Promise.allSettled([this._startJob(jobId), this._jobPolling(jobId, jobProgressBar)])
                     .then(() => this._onClickButtonHome())
                     .then(() => this._getFolders())
                     .then(() => new Promise((resolve) => setTimeout(resolve, 2000)))
-                    .then(() => this.#ajaxModal.close())
+                    .then(() => dialog.close())
             }
-        )
+        }).open()
     }
 
     _onClickButtonFolderRename(button: HTMLElement) {
         const folderId = button.dataset.id
 
-        this.#ajaxModal.load(
-            {
-                url: `${this.#pathPrefix}/folder/${folderId}/rename`,
-                size: 'sm'
-            },
-            (json) => {
-                if (!Object.hasOwn(json, 'success') || json.success === false) return
-                if (!Object.hasOwn(json, 'jobId') || !Object.hasOwn(json, 'path')) return
+        new Dialog({
+            url: `${this.#pathPrefix}/folder/${folderId}/rename`,
+            size: 'sm',
+            ajaxModal: true,
+            onAjaxModalResponse: (json, dialog) => {
+                if (!json.success || !json.jobId || !json.path) return
 
-                if (Object.hasOwn(json, 'async') && json.async === true) {
+                if (json.async === true) {
                     Promise.allSettled([new Promise((resolve) => setTimeout(resolve, 3500))])
-                        .then(() => this.#ajaxModal.close())
+                        .then(() => dialog.close())
                         .then(() => location.reload())
                     return
                 }
 
-                const { jobId } = json
+                const jobId = json.jobId as string
+                const path = json.path as string
 
                 const jobProgressBar = new ProgressBar('progress-' + jobId, {
                     label: 'Renaming',
@@ -598,15 +590,15 @@ export default class MediaLibrary {
                     showPercentage: false
                 })
 
-                this.#ajaxModal.getBodyElement().append(jobProgressBar.element())
+                dialog.body.append(jobProgressBar.element())
                 this.loading(true)
 
                 Promise.allSettled([this._startJob(jobId), this._jobPolling(jobId, jobProgressBar)])
-                    .then(() => this._getFolders(json.path))
+                    .then(() => this._getFolders(path))
                     .then(() => new Promise((resolve) => setTimeout(resolve, 2000)))
-                    .then(() => this.#ajaxModal.close())
+                    .then(() => dialog.close())
             }
-        )
+        }).open()
     }
 
     _onClickButtonFolderMove(button: HTMLElement, targetId: string | null = null) {

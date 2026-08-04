@@ -96,7 +96,7 @@ export class Dialog {
         }
 
         if (options.url) {
-            void this.loadUrl(options.url)
+            void this.load(options.url)
         }
     }
 
@@ -120,6 +120,21 @@ export class Dialog {
     onClose(callback: () => void): this {
         this.onCloseCallback = callback
         return this
+    }
+
+    async load(url: string): Promise<void> {
+        if (this.isBusy) return
+        this.isBusy = true
+        this.currentUrl = url
+        this.body.innerHTML = '<div class="dialog-loading"></div>'
+        try {
+            const res = await fetch(url)
+            this.applyResponse(await res.json())
+        } catch {
+            this.body.innerHTML = '<div class="dialog-error"></div>'
+        } finally {
+            this.isBusy = false
+        }
     }
 
     setContent(html: string | HTMLElement): this {
@@ -186,21 +201,6 @@ export class Dialog {
             e.preventDefault()
             this.close()
         })
-    }
-
-    private async loadUrl(url: string): Promise<void> {
-        if (this.isBusy) return
-        this.isBusy = true
-        this.currentUrl = url
-        this.body.innerHTML = '<div class="dialog-loading"></div>'
-        try {
-            const res = await fetch(url)
-            this.applyResponse(await res.json())
-        } catch {
-            this.body.innerHTML = '<div class="dialog-error"></div>'
-        } finally {
-            this.isBusy = false
-        }
     }
 
     private async submitForm(form: HTMLFormElement): Promise<void> {

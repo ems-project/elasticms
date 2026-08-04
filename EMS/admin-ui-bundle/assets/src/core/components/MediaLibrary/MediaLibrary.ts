@@ -231,6 +231,7 @@ export default class MediaLibrary {
 
     _onClickButtonFileView(button: HTMLElement, event: MouseEvent) {
         event.preventDefault()
+
         const getSiblingFile = (
             fileId: string,
             sibling: 'previousSibling' | 'nextSibling'
@@ -242,19 +243,21 @@ export default class MediaLibrary {
             return rowSibling ? rowSibling.querySelector('.media-lib-file') : null
         }
 
-        const navigation = (
-            action: 'next' | 'prev',
-            sibling: 'previousSibling' | 'nextSibling',
-            fileId: string
-        ) => {
-            const button = this.#ajaxModal.modal.querySelector(`.btn-preview-${action}`)
-            if (!button || getSiblingFile(fileId, sibling) === null) return
+        let currentFileId = button.dataset.id as string
 
-            const buttonElement = button as HTMLElement
+        const navigation = (
+            dialog: Dialog,
+            action: 'next' | 'prev',
+            sibling: 'previousSibling' | 'nextSibling'
+        ) => {
+            const navButton = dialog.element.querySelector(`.btn-preview-${action}`)
+            if (!navButton || getSiblingFile(currentFileId, sibling) === null) return
+
+            const buttonElement = navButton as HTMLElement
             buttonElement.style.display = 'inline-block'
             buttonElement.classList.remove('disabled')
             buttonElement.addEventListener('click', () => {
-                const file = getSiblingFile(fileId, sibling)
+                const file = getSiblingFile(currentFileId, sibling)
                 if (!file) return
 
                 const header = this.#elements.files.querySelector('.media-lib-file-header')
@@ -264,9 +267,20 @@ export default class MediaLibrary {
                 this._selectFile(file)
                 this.#elements.files.scrollTop =
                     file.offsetTop - this.#elements.files.offsetTop - headerHeight
-                openModal(file.dataset.id as string)
+
+                currentFileId = file.dataset.id as string
+                void dialog.load(`${this.#pathPrefix}/file/${currentFileId}/view`)
             })
         }
+
+        const dialog = new Dialog({
+            url: `${this.#pathPrefix}/file/${currentFileId}/view`,
+            ajaxModal: true,
+            onAjaxModalResponse: (_, dialog) => {
+                navigation(dialog, 'prev', 'previousSibling')
+                navigation(dialog, 'next', 'nextSibling')
+            }
+        })
 
         const onKeydown = (e: KeyboardEvent) => {
             const actions: { [key: string]: 'next' | 'prev' } = {
@@ -276,36 +290,19 @@ export default class MediaLibrary {
             const action = actions[e.key] || false
             if (!action) return
 
-            const button = this.#ajaxModal.modal.querySelector(
-                `.btn-preview-${action}`
-            ) as HTMLElement | null
-            if (button) button.click()
+            const navButton = dialog.element.querySelector(`.btn-preview-${action}`) as HTMLElement | null
+            if (navButton) navButton.click()
         }
 
-        const openModal = (fileId: string) => {
-            const onClose = () => {
-                this.#ajaxModal.modal.removeEventListener('ajax-modal-close', onClose)
-                document.removeEventListener('keydown', onKeydown)
-                const selectionFile = this.getSelectionFile()
-                if (selectionFile) selectionFile.click()
-            }
-            this.#ajaxModal.modal.addEventListener('ajax-modal-close', onClose)
+        document.addEventListener('keydown', onKeydown)
 
-            this.#ajaxModal.load(
-                {
-                    url: `${this.#pathPrefix}/file/${fileId}/view`,
-                    size: 'auto-size',
-                    noLoading: true
-                },
-                () => {
-                    navigation('prev', 'previousSibling', fileId)
-                    navigation('next', 'nextSibling', fileId)
-                    document.addEventListener('keydown', onKeydown)
-                }
-            )
-        }
+        dialog.onClose(() => {
+            document.removeEventListener('keydown', onKeydown)
+            const selectionFile = this.getSelectionFile()
+            if (selectionFile) selectionFile.click()
+        })
 
-        openModal(button.dataset.id as string)
+        dialog.open()
     }
 
     _onClickButtonFileRename(button: HTMLElement) {

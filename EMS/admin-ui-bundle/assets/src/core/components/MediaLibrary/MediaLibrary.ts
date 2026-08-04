@@ -2,10 +2,9 @@ import ApiClient from './ApiClient.ts'
 import JobPoller from './JobPoller.ts'
 import SelectionManager from './SelectionManager.ts'
 import DragDropController from './DragDropController.ts'
+import UploadManager from './UploadManager.ts'
 
 import ProgressBar from '../../helpers/progressBar'
-import { FileUploader } from '../FileUploader.ts'
-import { resizeImage } from '../../helpers/resizeImage'
 import { Dialog, DialogSize } from '../Dialog.ts'
 
 export interface MediaLibraryOptions {
@@ -34,8 +33,9 @@ export default class MediaLibrary {
     readonly #jobPoller: JobPoller
     readonly #selection: SelectionManager
     readonly #dragDrop: DragDropController
+    readonly #uploads: UploadManager
 
-    #options: MediaLibraryOptions
+
     #elements: MediaLibraryElements
     #activeFolderId: string | null = null
     #activeFolderHeader = ''
@@ -53,7 +53,6 @@ export default class MediaLibrary {
         this.element = element
         this.#api = new ApiClient(`${options.urlMediaLib}/${element.dataset.hash}`, () => this.loading(true))
         this.#jobPoller = new JobPoller()
-        this.#options = options
         this.#searchType = element.dataset.searchType ?? 'term'
 
         this.#elements = {
@@ -69,6 +68,14 @@ export default class MediaLibrary {
             listFolders: element.querySelector('ul.media-lib-list-folders') as HTMLElement,
             listUploads: element.querySelector('ul.media-lib-list-uploads') as HTMLElement
         }
+
+        this.#uploads = new UploadManager({
+            container: this.#elements.listUploads,
+            api: this.#api,
+            hashAlgo: options.hashAlgo,
+            urlInitUpload: options.urlInitUpload,
+            getActiveFolderId: () => this.#activeFolderId
+        })
 
         this.#dragDrop = new DragDropController({
             filesContainer: this.#elements.files,
@@ -788,133 +795,9 @@ export default class MediaLibrary {
     _uploadFiles(files: File[]) {
         this.loading(true)
 
-        Promise.allSettled(files.map((file) => this._uploadFile(file))).then(() =>
+        this.#uploads.uploadAll(files).then(() =>
             this._getFiles().then(() => this.loading(false))
         )
-    }
-
-    _uploadFile(file: File) {
-        return new Promise<void>((resolve, reject) => {
-            const id = Date.now()
-            let liUpload: HTMLLIElement | false = document.createElement('li')
-            liUpload.id = `upload-${id}`
-
-            const uploadDiv = document.createElement('div')
-            uploadDiv.className = 'upload-file'
-
-            const closeButton = document.createElement('button')
-            closeButton.type = 'button'
-            closeButton.className = 'close-button'
-            closeButton.addEventListener('click', () => {
-                if (liUpload) this.#elements.listUploads.removeChild(liUpload)
-                liUpload = false
-                reject(new Error())
-            })
-
-            const closeIcon = document.createElement('i')
-            closeIcon.className = 'fa fa-times'
-            closeIcon.setAttribute('aria-hidden', 'true')
-            closeButton.appendChild(closeIcon)
-
-            const progressBar = new ProgressBar(`progress-${id}`, {
-                label: file.name,
-                value: 5
-            })
-
-            uploadDiv.append(progressBar.style('success').element())
-            uploadDiv.append(closeButton)
-
-            liUpload.appendChild(uploadDiv)
-            this.#elements.listUploads.appendChild(liUpload)
-
-            this._getFileHash(file, progressBar)
-                .then((fileHash) => {
-                    progressBar.status('Resizing')
-                    return this._resizeImage(file, fileHash)
-                })
-                .then(() => {
-                    progressBar.status('Finished')
-                    setTimeout(() => {
-                        if (liUpload) this.#elements.listUploads.removeChild(liUpload)
-                        resolve()
-                    }, 1000)
-                })
-                .catch((error) => {
-                    uploadDiv.classList.add('upload-error')
-                    progressBar.status(error.message).style('danger').progress(100)
-                    setTimeout(() => {
-                        if (liUpload === false) return
-                        this.#elements.listUploads.removeChild(liUpload)
-                        reject(new Error())
-                    }, 3000)
-                })
-        })
-    }
-
-    async _resizeImage(file: File, fileHash: string): Promise<void> {
-        return await resizeImage(this.#options.hashAlgo, this.#options.urlInitUpload, file)
-            .then((response: { hash: string } | null) => {
-                if (response === null) {
-                    return this._createFile(file, fileHash)
-                } else {
-                    return this._createFile(file, fileHash, response.hash)
-                }
-            })
-            .catch(() => {
-                return this._createFile(file, fileHash)
-            })
-    }
-
-    async _createFile(file: File, fileHash: string, resizedHash: string | null = null) {
-        const formData = new FormData()
-        formData.append('name', file.name)
-        formData.append('filesize', file.size.toString())
-        formData.append('fileMimetype', file.type)
-        formData.append('fileHash', fileHash)
-        formData.append('fileResizedHash', resizedHash ?? '')
-
-        const path = this.#activeFolderId ? `/add-file/${this.#activeFolderId}` : '/add-file'
-        await this.#api.post(path, formData, true).catch((response) =>
-            response.json().then((json: { error: string }) => {
-                throw new Error(json.error)
-            })
-        )
-    }
-
-    async _getFileHash(file: File, progressBar: ProgressBar): Promise<string> {
-        const hash = await new Promise((resolve, reject) => {
-            let fileHash: string | null = null
-            const fileUpload = () =>
-                new FileUploader({
-                    file,
-                    algo: this.#options.hashAlgo,
-                    initUrl: this.#options.urlInitUpload,
-                    onHashAvailable: function (hash: string) {
-                        progressBar.status('Hash available').progress(0)
-                        fileHash = hash
-                    },
-                    onProgress: function (status: string, progress: number, remaining: string) {
-                        if (status === 'Computing hash') {
-                            progressBar.status('Calculating ...').progress(Number(remaining))
-                        }
-                        if (status === 'Uploading') {
-                            progressBar
-                                .status('Uploading: ' + remaining)
-                                .progress(Math.round(progress * 100))
-                        }
-                    },
-                    onUploaded: function () {
-                        progressBar.status('Uploaded').progress(100)
-                        resolve(fileHash)
-                    },
-                    onError: (message: string) => reject(message)
-                })
-            fileUpload()
-        })
-
-        if (typeof hash !== 'string') throw new Error('Invalid hash')
-
-        return hash
     }
 
     _initInfiniteScrollFiles(scrollArea: HTMLElement, divLoadMore: HTMLElement) {

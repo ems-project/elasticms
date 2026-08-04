@@ -314,23 +314,25 @@ export default class MediaLibrary {
             `.media-lib-file[data-id='${fileId}']`
         ) as HTMLElement
 
-        this.#ajaxModal.load(
-            { url: `${this.#pathPrefix}/file/${fileId}/rename`, size: 'sm' },
-            (json) => {
-                if (!Object.hasOwn(json, 'success') || json.success === false) return
+        new Dialog({
+            url: `${this.#pathPrefix}/file/${fileId}/rename`,
+            size: 'sm',
+            ajaxModal: true,
+            onAjaxModalResponse: (json, dialog) => {
+                if (!json.success) return
 
-                const { fileRow = '' } = json
+                const fileRow = (json.fileRow as string) ?? ''
                 if (fileRow.length > 0) {
                     const li = rowElement.closest('li')
                     if (li) li.innerHTML = fileRow
                 }
 
                 this._getLayout().then(() => {
-                    this.#ajaxModal.close()
+                    dialog.close()
                     this.loading(false)
                 })
             }
-        )
+        }).open()
     }
 
     _onClickButtonFileDelete(button: HTMLElement) {

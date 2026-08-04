@@ -236,13 +236,7 @@ export class Dialog {
         const { title, body, footer, messages, close } = this.normalizeResponse(data)
 
         if (title) this.setTitle(title)
-
-        if (body && body.length > 0) {
-            this.setBody(body)
-        } else if (this.options.ajaxModal) {
-            this.setBody('')
-        }
-
+        if (body)  this.setBody(body)
         if (messages) this.setMessages(messages)
 
         if (footer) {
